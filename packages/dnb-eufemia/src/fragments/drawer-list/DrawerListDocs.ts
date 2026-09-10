@@ -151,6 +151,11 @@ export const DrawerListProperties: PropertiesTableProps = {
     type: 'function',
     status: 'optional',
   },
+  listDriver: {
+    doc: 'Opt in to a custom list renderer. Use `createDrawerListVirtualization` from `@dnb/eufemia/fragments/drawer-list/Virtualization` to render large data sets without mounting every option. Install the optional `@tanstack/react-virtual` peer dependency when using this driver. Cannot be combined with `optionsRender`.',
+    type: 'DrawerListDriver',
+    status: 'optional',
+  },
   '[Space](/uilib/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],

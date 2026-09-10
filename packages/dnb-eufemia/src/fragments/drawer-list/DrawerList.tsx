@@ -12,6 +12,7 @@ import type {
   ReactElement,
   ReactNode,
   Ref,
+  RefObject,
   SyntheticEvent,
 } from 'react'
 import useMountEffect from '../../shared/helpers/useMountEffect'
@@ -46,6 +47,7 @@ const propsToFilterOut: Record<string, null> = {
   onSelect: null,
   onKeyDown: null,
   optionsRender: null,
+  listDriver: null,
   wrapperElement: null,
   onItemMouseEnter: null,
 }
@@ -111,6 +113,40 @@ export type DrawerListOptionsRender = ({
   Items: () => ReactNode
   Item: ComponentType<DrawerListItemProps>
 }) => ReactNode
+
+export type DrawerListDriverRow = {
+  key: string
+  type: 'group' | 'option'
+  itemId?: number
+  keepMounted?: boolean
+  render: (props?: DrawerListDriverRowProps) => ReactNode
+}
+
+export type DrawerListDriverRowProps = {
+  ref?: Ref<HTMLLIElement>
+  className?: string
+  style?: CSSProperties
+  'data-index'?: number
+  'aria-describedby'?: string
+  'aria-posinset'?: number
+  'aria-setsize'?: number
+}
+
+export type DrawerListDriverProps = {
+  rows: DrawerListDriverRow[]
+  activeIndex: number
+  selectedIndex: number
+  open: boolean
+  listRef: RefObject<HTMLUListElement>
+  registerListDriver: (driver: {
+    itemIds: number[]
+    scrollToItem: (itemId: number, smooth: boolean) => void
+  }) => () => void
+}
+
+export type DrawerListDriver = {
+  Renderer: ComponentType<DrawerListDriverProps>
+}
 export type DrawerListValue = string | number
 export type DrawerListData =
   | string
@@ -205,6 +241,10 @@ export type DrawerListProps = {
    * Has to be a function, returning the items again. See [example](/uilib/components/fragments/drawer-list#example-usage-of-optionsRender). This can be used to add additional options above the actual rendered list.
    */
   optionsRender?: DrawerListOptionsRender
+  /**
+   * Opt in to a custom list renderer. Use `createDrawerListVirtualization` from `@dnb/eufemia/fragments/drawer-list/Virtualization` to render large data sets without mounting every option. Install the optional `@tanstack/react-virtual` peer dependency when using this driver. Cannot be combined with `optionsRender`.
+   */
+  listDriver?: DrawerListDriver
   /**
    * Has to be an HTML Element, or a selector for one, ideally a parent element, used to calculate sizes and distances. Also used for the 'click outside' detection. Clicking on the `wrapperElement` will not trigger an outside click.
    */
@@ -355,6 +395,12 @@ const DrawerListComponent = memo(function DrawerListComponent(
 
   // Send along event handlers to the provider state on mount
   useMountEffect(() => {
+    if (propsWithDefaults.listDriver && propsWithDefaults.optionsRender) {
+      warn(
+        'DrawerList: `listDriver` cannot be combined with `optionsRender`. The default list renderer will be used.'
+      )
+    }
+
     const eventHandlerState = Object.keys(propsToFilterOut).reduce<
       Record<string, unknown>
     >((acc, key) => {
@@ -434,6 +480,7 @@ const DrawerListComponent = memo(function DrawerListComponent(
     listClass,
     ignoreEvents,
     optionsRender,
+    listDriver,
     className,
     arrowPosition: _arrowPosition,
     cacheHash: _cacheHash,
@@ -468,6 +515,7 @@ const DrawerListComponent = memo(function DrawerListComponent(
   } = propsWithDefaults as DrawerListAllProps & {
     onKeyDown?: (e: KeyboardEvent) => void
   }
+  const activeListDriver = optionsRender ? undefined : listDriver
 
   function noNullNumbers({
     selectedItem,
@@ -573,61 +621,69 @@ const DrawerListComponent = memo(function DrawerListComponent(
 
   const ignoreEventsBoolean = ignoreEvents
 
+  const renderItem = (
+    dataItem: DrawerListInternalItem,
+    i: number,
+    j: number,
+    data: DrawerListInternalData,
+    itemProps: DrawerListDriverRowProps = {}
+  ) => {
+    const { __id, ignoreEvents, className, disabled, style } = dataItem
+    const hash = `option-${id}-${__id}-${i}`
+    const tagId = `option-${id}-${__id}`
+    const liParams = {
+      ...itemProps,
+      role: role === 'menu' ? 'menuitem' : 'option',
+      'data-item': __id,
+      id: tagId,
+      hash,
+      className: clsx(
+        j === 0 && i === 0 && 'first-item',
+        j === renderData.length - 1 &&
+          i === data.length - 1 &&
+          'last-item',
+        i === 0 && 'first-of-type',
+        i === data.length - 1 && 'last-of-type',
+        (ignoreEventsBoolean || ignoreEvents) && 'ignore-events',
+        className,
+        itemProps.className
+      ),
+      active: __id === activeItem,
+      selected: !ignoreEvents && __id === selectedItem,
+      onClick: selectItemHandler,
+      onKeyDown: preventTab,
+      onMouseEnter: onItemMouseEnterHandler
+        ? (e: MouseEvent<HTMLLIElement>) =>
+            onItemMouseEnterHandler(__id, e)
+        : undefined,
+      disabled,
+      style: { ...style, ...itemProps.style },
+    }
+    if (ignoreEventsBoolean) {
+      liParams.active = null
+      liParams.selected = null
+      liParams.onClick = null
+      liParams.onKeyDown = null
+      liParams.onMouseEnter = null
+      liParams.className = clsx(
+        liParams.className,
+        'dnb-drawer-list__option--ignore'
+      )
+    }
+
+    return (
+      <DrawerList.Item key={hash} {...liParams}>
+        {dataItem}
+      </DrawerList.Item>
+    )
+  }
+
   const GroupItems = () =>
     renderData
       .filter(Boolean) // filter out empty groups
       .map(({ groupTitle, groupData: data, hideTitle }, j) => {
         const Items = () =>
-          data.map((dataItem, i) => {
-            const { __id, ignoreEvents, className, disabled, style } =
-              dataItem
-            const hash = `option-${id}-${__id}-${i}`
-            const tagId = `option-${id}-${__id}`
-            const liParams = {
-              role: role === 'menu' ? 'menuitem' : 'option',
-              'data-item': __id,
-              id: tagId,
-              hash,
-              className: clsx(
-                // helper classes
-                j === 0 && i === 0 && 'first-item',
-                j === renderData.length - 1 &&
-                  i === data.length - 1 &&
-                  'last-item',
-                i === 0 && 'first-of-type', // Different from css pseudo-class in case of injected items
-                i === data.length - 1 && 'last-of-type', // Different from css pseudo-class in case of injected items
-                (ignoreEventsBoolean || ignoreEvents) && 'ignore-events',
-                className
-              ),
-              active: __id === activeItem,
-              selected: !ignoreEvents && __id === selectedItem,
-              onClick: selectItemHandler,
-              onKeyDown: preventTab,
-              onMouseEnter: onItemMouseEnterHandler
-                ? (e: MouseEvent<HTMLLIElement>) =>
-                    onItemMouseEnterHandler(__id, e)
-                : undefined,
-              disabled: disabled,
-              style: style,
-            }
-            if (ignoreEventsBoolean) {
-              liParams.active = null
-              liParams.selected = null
-              liParams.onClick = null
-              liParams.onKeyDown = null
-              liParams.onMouseEnter = null
-              liParams.className = clsx(
-                liParams.className,
-                'dnb-drawer-list__option--ignore'
-              )
-            }
-
-            return (
-              <DrawerList.Item key={hash} {...liParams}>
-                {dataItem}
-              </DrawerList.Item>
-            )
-          })
+          data.map((dataItem, i) => renderItem(dataItem, i, j, data))
         const ItemsRendered = () =>
           typeof optionsRender === 'function' ? (
             optionsRender({ data, Items, Item: DrawerList.Item })
@@ -665,13 +721,67 @@ const DrawerListComponent = memo(function DrawerListComponent(
         }
       })
 
+  let optionPosition = 0
+  const driverRows: DrawerListDriverRow[] = activeListDriver
+    ? renderData.filter(Boolean).flatMap((group, j) => {
+        const groupId = `${id}-group-title-${j}`
+        const groupRows: DrawerListDriverRow[] = []
+
+        if (hasGroups) {
+          groupRows.push({
+            key: groupId,
+            type: 'group',
+            render: (props = {}) => (
+              <li
+                {...props}
+                id={groupId}
+                role="presentation"
+                className={clsx(
+                  'dnb-drawer-list__group-title',
+                  group.hideTitle && 'dnb-sr-only',
+                  props.className
+                )}
+              >
+                {group.groupTitle}
+              </li>
+            ),
+          })
+        }
+
+        group.groupData.forEach((dataItem, i) => {
+          optionPosition += 1
+          const ariaPosition = optionPosition
+          groupRows.push({
+            key: `option-${id}-${dataItem.__id}`,
+            type: 'option',
+            itemId: dataItem.__id,
+            keepMounted: Boolean(dataItem.showAll),
+            render: (props = {}) =>
+              renderItem(dataItem, i, j, group.groupData, {
+                ...props,
+                'aria-describedby': hasGroups ? groupId : undefined,
+                'aria-posinset': ariaPosition,
+                'aria-setsize': data.length,
+              }),
+          })
+        })
+
+        return groupRows
+      })
+    : []
+  const activeIndex = driverRows.findIndex(
+    ({ itemId }) => itemId === activeItem
+  )
+  const selectedIndex = driverRows.findIndex(
+    ({ itemId }) => itemId === selectedItem
+  )
+
   const mainList = (
     <span {...mainParams} ref={_refShell}>
       <span {...listParams}>
         {hidden === false && renderData.length > 0 ? (
           <>
             <DrawerList.Options
-              hasGroups={hasGroups}
               cacheHash={
                 cacheHash +
                 activeItem +
@@ -680,8 +790,23 @@ const DrawerListComponent = memo(function DrawerListComponent(
                 maxHeight
               }
               {...ulParams}
+              renderDriver={activeListDriver}
+              hasGroups={activeListDriver ? false : hasGroups}
             >
-              <GroupItems />
+              {activeListDriver ? (
+                <activeListDriver.Renderer
+                  rows={driverRows}
+                  activeIndex={activeIndex}
+                  selectedIndex={selectedIndex}
+                  open={Boolean(open)}
+                  listRef={_refUl}
+                  registerListDriver={
+                    context.drawerList.registerListDriver
+                  }
+                />
+              ) : (
+                <GroupItems />
+              )}
             </DrawerList.Options>
             <OnMounted
               addObservers={addObservers}
@@ -777,6 +902,7 @@ export type DrawerListOptionsProps = HTMLProps<HTMLUListElement> & {
   children: ReactNode
   cacheHash?: string
   hasGroups?: boolean
+  renderDriver?: DrawerListDriver
 }
 // DrawerList List
 DrawerList.Options = memo(
@@ -785,6 +911,7 @@ DrawerList.Options = memo(
     className,
     cacheHash,
     hasGroups = false,
+    renderDriver: _renderDriver,
     ref,
     ...rest
   }: DrawerListOptionsProps & {
@@ -806,7 +933,10 @@ DrawerList.Options = memo(
     if (!prevProps.cacheHash) {
       return false
     }
-    return prevProps.cacheHash === nextProps.cacheHash
+    return (
+      prevProps.cacheHash === nextProps.cacheHash &&
+      prevProps.renderDriver === nextProps.renderDriver
+    )
   }
 )
 

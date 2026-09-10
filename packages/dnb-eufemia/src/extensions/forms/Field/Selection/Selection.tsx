@@ -35,6 +35,7 @@ import type { AutocompleteAllProps } from '../../../../components/Autocomplete'
 import type { DropdownAllProps } from '../../../../components/Dropdown'
 import type { HelpProps } from '../../../../components/help-button/HelpButtonInline'
 import type {
+  DrawerListDriver,
   DrawerListDataArrayObjectStrict,
   DrawerListProps,
 } from '../../../../fragments/DrawerList'
@@ -78,9 +79,14 @@ type DrawerListVisibilityParams = {
 
 export type FieldSelectionProps = FieldProps<IOption['value']> & {
   /**
-   * Choice of UI feature. Can be: `dropdown`, `autocomplete`, `button`, `radio`.
+   * Choice of UI feature. Defaults to `dropdown`.
    */
-  variant?: 'dropdown' | 'autocomplete' | 'radio' | 'button'
+  variant?:
+    | 'dropdown'
+    | 'autocomplete'
+    | 'radio'
+    | 'button'
+    | 'radio-button'
 
   /**
    * `small`, `medium` or `large` for predefined standard widths, `stretch` for fill available width.
@@ -111,6 +117,10 @@ export type FieldSelectionProps = FieldProps<IOption['value']> & {
    * An array of group titles for the list items. Only the first group can be `undefined`.
    */
   groups?: ReactNode[]
+  /**
+   * Opt in to a custom list renderer for the Dropdown and Autocomplete variants. Use `createDrawerListVirtualization` from `@dnb/eufemia/fragments/drawer-list/Virtualization` for large data sets. Install the optional `@tanstack/react-virtual` peer dependency when using this driver.
+   */
+  listDriver?: DrawerListDriver
   /**
    * Forward any additional properties to the [Autocomplete](/uilib/components/autocomplete/) component. `onType` will additionally provide the `value` parameter with `emptyValue` support in addition to the internal `dataContext`.
    */
@@ -162,6 +172,7 @@ function Selection(props: FieldSelectionProps) {
     transformSelection,
     data,
     groups,
+    listDriver,
     dataPath,
     children,
     additionalArgs,
@@ -269,7 +280,8 @@ function Selection(props: FieldSelectionProps) {
 
   switch (variant) {
     case 'radio':
-    case 'button': {
+    case 'button':
+    case 'radio-button': {
       const Component = (
         variant === 'radio' ? Radio : ToggleButton
       ) as typeof Radio & typeof ToggleButton
@@ -351,6 +363,7 @@ function Selection(props: FieldSelectionProps) {
         ...htmlAttributes,
         data,
         groups,
+        listDriver,
         size,
         onChange: handleDrawerListChange,
         onOpen: handleShow,
@@ -462,8 +475,9 @@ function renderRadioItems({
       <Component
         id={optionsCount === 1 ? id : undefined}
         key={`option-${i}-${id}`}
+        variant={variant === 'radio-button' ? 'radio' : undefined}
         label={variant === 'radio' ? label : undefined}
-        text={variant === 'button' ? label : undefined}
+        text={variant !== 'radio' ? label : undefined}
         role="radio"
         value={String(value ?? valueProp) || undefined}
         status={

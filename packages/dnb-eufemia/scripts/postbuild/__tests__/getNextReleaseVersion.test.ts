@@ -183,27 +183,15 @@ describe('getNextReleaseVersion', () => {
     warn.mockRestore()
   })
 
-  it('explains why when the version cannot be resolved', async () => {
+  it('throws with the reason when the version cannot be resolved', async () => {
     const { cwd, commit } = createRepository({
       configuredBranches: [{ name: 'release', prerelease: '@@' }],
     })
     commit('feat: add a component')
 
-    const warn = vi
-      .spyOn(console, 'warn')
-      .mockImplementation(() => undefined)
-
-    expect(await getNextReleaseVersion({ cwd })).toBeNull()
-    expect(warn).toHaveBeenCalledWith(
-      expect.stringContaining(
-        'Could not determine the next release version'
-      )
+    await expect(getNextReleaseVersion({ cwd })).rejects.toThrow(
+      'semantic-release'
     )
-    expect(warn).toHaveBeenCalledWith(
-      expect.stringContaining('semantic-release')
-    )
-
-    warn.mockRestore()
   })
 
   it('resolves when a renamed branch left a colliding remote ref behind', async () => {

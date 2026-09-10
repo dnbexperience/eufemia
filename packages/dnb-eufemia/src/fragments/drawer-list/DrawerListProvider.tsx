@@ -81,6 +81,7 @@ export type DrawerListProviderChainable = {
   selectItem: DrawerListProviderProps['selectItem']
   selectItemAndClose: DrawerListProviderProps['selectItemAndClose']
   scrollToItem: DrawerListProviderProps['scrollToItem']
+  registerListDriver: DrawerListProviderProps['registerListDriver']
   setActiveItemAndScrollToIt: DrawerListProviderProps['setActiveItemAndScrollToIt']
   addObservers: () => void
   removeObservers: () => void
@@ -148,6 +149,10 @@ export type DrawerListProviderProps = Omit<DrawerListProps, 'children'> &
         element?: HTMLElement
       }
     ) => void
+    registerListDriver?: (driver: {
+      itemIds: number[]
+      scrollToItem: (itemId: number, smooth: boolean) => void
+    }) => () => void
     setActiveItemAndScrollToIt?: (
       activeItem: string | number,
       args?: {
@@ -242,6 +247,10 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
   const showTimeoutRef = useRef<NodeJS.Timeout>(null)
   const hideTimeoutRef = useRef<NodeJS.Timeout>(null)
   const scrollTimeoutRef = useRef<NodeJS.Timeout>(undefined)
+  const listDriverRef = useRef<{
+    itemIds: number[]
+    scrollToItem: (itemId: number, smooth: boolean) => void
+  } | null>(null)
   const directionTimeoutRef = useRef<NodeJS.Timeout>(null)
 
   const bodyLockEnabledRef = useRef(false)
@@ -581,15 +590,29 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
 
   const getCurrentSelectedItem = useCallback(() => {
     const elem = getSelectedElement()
-    return getItemData(elem)
+    return (
+      getItemData(elem) ??
+      (listDriverRef.current ? stateRef.current.selectedItem : undefined)
+    )
   }, [getSelectedElement, getItemData])
 
   const getCurrentActiveItem = useCallback(() => {
     const elem = getActiveElement()
-    return getItemData(elem)
+    return (
+      getItemData(elem) ??
+      (listDriverRef.current ? stateRef.current.activeItem : undefined)
+    )
   }, [getActiveElement, getItemData])
 
   const getNextActiveItem = useCallback(() => {
+    if (listDriverRef.current) {
+      const { itemIds } = listDriverRef.current
+      const currentIndex = itemIds.indexOf(
+        Number(stateRef.current.activeItem)
+      )
+      return itemIds[currentIndex + 1]
+    }
+
     const activeElement = getActiveElement()
 
     const elem =
@@ -604,6 +627,14 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
   }, [getActiveElement, getElementGroup, getItemData])
 
   const getPrevActiveItem = useCallback(() => {
+    if (listDriverRef.current) {
+      const { itemIds } = listDriverRef.current
+      const currentIndex = itemIds.indexOf(
+        Number(stateRef.current.activeItem)
+      )
+      return itemIds[currentIndex - 1]
+    }
+
     const activeElement = getActiveElement()
 
     const elem =
@@ -621,6 +652,10 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
   }, [getActiveElement, getElementGroup, getItemData])
 
   const getFirstItem = useCallback(() => {
+    if (listDriverRef.current) {
+      return listDriverRef.current.itemIds[0]
+    }
+
     const elem = _refUl.current?.querySelector<HTMLLIElement>(
       'li.dnb-drawer-list__option.first-item'
     )
@@ -628,11 +663,30 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
   }, [getItemData])
 
   const getLastItem = useCallback(() => {
+    if (listDriverRef.current) {
+      return listDriverRef.current.itemIds.slice(-1)[0]
+    }
+
     const elem = _refUl.current?.querySelector<HTMLLIElement>(
       'li.dnb-drawer-list__option.last-item'
     )
     return getItemData(elem)
   }, [getItemData])
+
+  const registerListDriver = useCallback(
+    (driver: {
+      itemIds: number[]
+      scrollToItem: (itemId: number, smooth: boolean) => void
+    }) => {
+      listDriverRef.current = driver
+      return () => {
+        if (listDriverRef.current === driver) {
+          listDriverRef.current = null
+        }
+      }
+    },
+    []
+  )
 
   /**
    * Returns the first anchor element within the given element, or null if none found.
@@ -678,6 +732,14 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
         scrollTimeoutRef.current = setTimeout(() => {
           if (_refUl.current && parseFloat(activeItem as string) > -1) {
             try {
+              if (listDriverRef.current) {
+                listDriverRef.current.scrollToItem(
+                  Number(activeItem),
+                  scrollTo !== false
+                )
+                return
+              }
+
               const ulElement = _refUl.current
               const liElement =
                 element || getActiveElement() || getSelectedElement()
@@ -1292,7 +1354,9 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
             return // stop here
           }
 
-          activeItem = getCurrentActiveItem() ?? getCurrentSelectedItem()
+          activeItem = Number(
+            getCurrentActiveItem() ?? getCurrentSelectedItem()
+          )
 
           if (
             propsRef.current.skipKeysearch
@@ -1500,6 +1564,7 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
     selectItem,
     selectItemAndClose,
     scrollToItem,
+    registerListDriver,
     setActiveItemAndScrollToIt,
     addObservers,
     removeObservers,
@@ -1527,6 +1592,7 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
           selectItem,
           selectItemAndClose,
           scrollToItem,
+          registerListDriver,
           setActiveItemAndScrollToIt,
           ...stateRef.current,
         },

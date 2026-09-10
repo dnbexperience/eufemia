@@ -5635,6 +5635,12 @@ describe('useFieldProps', () => {
 
         expect(document.querySelector('.dnb-form-status')).toBeNull()
 
+        // The field is disabled while the async validator runs, so wait for
+        // it before changing the value again
+        await waitFor(() => {
+          expect(input).not.toBeDisabled()
+        })
+
         await userEvent.type(input, '4')
         fireEvent.blur(input)
 
@@ -5644,6 +5650,10 @@ describe('useFieldProps', () => {
           expect(
             document.querySelector('.dnb-form-status')
           ).toHaveTextContent('Error message')
+        })
+
+        await waitFor(() => {
+          expect(input).not.toBeDisabled()
         })
 
         await userEvent.type(input, '{Backspace}4')

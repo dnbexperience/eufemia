@@ -71,6 +71,52 @@ Set `fill` on an `Icon` to fill its SVG paths with `currentColor`:
 
 See the [Icon Library](/icons#filled-icons) for icons that are known to look good when filled.
 
+### Animated Icons
+
+Animated icons are an opt-in enhancement. Use them to reinforce nearby feedback, such as a bell moving once when a new notification arrives. Motion must not be the only indication that something changed.
+
+Read the [Animation Principles](/quickguide-designer/animation-principles/) for where, why, and when to use motion, and [Motion](/quickguide-designer/motion/) for visual examples and implementation guidance.
+
+See the [animated icon demos](#animated-icon-demos) for one-time, replayed, and looping examples.
+
+Animated icons can be used in buttons when the trigger matches the purpose:
+
+- Animate once on hover to invite or preview an action.
+- Animate after a click only to acknowledge the interaction itself.
+- Animate after a state change to confirm the actual outcome, such as showing an animated check after saving succeeds.
+- Loop only while the icon represents genuine ongoing activity.
+
+Animated icons intentionally support direct default imports only. They are not available as named imports from `@dnb/eufemia/icons`. The direct import is the bundle boundary that keeps each icon's animation styles out of applications that do not use it. The icon remains static unless `animate` is enabled.
+
+```jsx
+import bell from '@dnb/eufemia/icons/animated/bell'
+import arrowRight from '@dnb/eufemia/icons/animated/arrow_right'
+
+<Icon icon={bell} />
+<Icon icon={bell} animate />
+```
+
+Do not import animated icons from a shared barrel:
+
+```jsx
+// Not supported
+import { bell } from '@dnb/eufemia/icons/animated'
+```
+
+Import `bell_medium` when the icon is displayed at medium size or larger.
+
+Use `animate="loop"` only for genuine ongoing activity, and stop the loop when the activity ends. Change `animationKey` to replay a one-time animation after a new event.
+
+```jsx
+<Icon icon={bell} animate animationKey={notificationId} />
+<Icon icon={bell} animate={isActive ? 'loop' : false} />
+<Icon icon={arrowRight} animateWhen="hover" />
+```
+
+The animation is disabled automatically when the user prefers reduced motion.
+
+Use `animateWhen="hover"` to animate an icon when the icon itself, or an interactive parent such as a button or link, is hovered.
+
 ### Custom project Icons
 
 For decorative or functional icons (not illustrations), use `SVG` as it gives the user responsiveness and better accessibility. It also gives you more control, so you can change the color and size inherited by the parent HTML element.

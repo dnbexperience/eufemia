@@ -108,6 +108,27 @@ describe('Icon.transition', () => {
     expect(style).toContain('var(--icon-transition-down)')
   })
 
+  it('aligns reordered subpaths for transitions between every state', () => {
+    const icon = Icon.transition({
+      down: arrow_down,
+      up: arrow_up,
+      left: arrow_left,
+      right: arrow_right,
+    })
+
+    render(<Icon icon={icon} transitionState="down" />)
+
+    const wrapper = document.querySelector('.dnb-icon') as HTMLElement
+    const style = wrapper.getAttribute('style')
+
+    expect(style).toContain(
+      "--icon-transition-left: path('M6 13 L1 8 L6 3 M14.5 8 L1 8')"
+    )
+    expect(style).toContain(
+      "--icon-transition-right: path('M10 3 L15 8 L10 13 M1.5 8 L15 8')"
+    )
+  })
+
   it('defaults to the first state', () => {
     const icon = Icon.transition({
       left: arrow_left,

@@ -206,6 +206,23 @@ exports[`DrawerList scss > has to match style dependencies css 1`] = `
 .dnb-drawer-list__group.first-of-type .dnb-drawer-list__group-title {
   margin-top: calc(var(--drawer-list-padding) * -1);
 }
+.dnb-drawer-list__virtual-content, .dnb-drawer-list__virtual-content > ul {
+  position: relative;
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.dnb-drawer-list__virtual-content {
+  flex: none;
+}
+.dnb-drawer-list__virtual-content > ul {
+  height: 100%;
+}
+.dnb-drawer-list__virtual-row {
+  position: absolute;
+}
 .dnb-drawer-list__option {
   position: relative;
   z-index: 0;
@@ -779,6 +796,23 @@ exports[`DrawerList scss > have to match default theme snapshot 1`] = `
 }
 .dnb-drawer-list__group.first-of-type .dnb-drawer-list__group-title {
   margin-top: calc(var(--drawer-list-padding) * -1);
+}
+.dnb-drawer-list__virtual-content, .dnb-drawer-list__virtual-content > ul {
+  position: relative;
+  display: block;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.dnb-drawer-list__virtual-content {
+  flex: none;
+}
+.dnb-drawer-list__virtual-content > ul {
+  height: 100%;
+}
+.dnb-drawer-list__virtual-row {
+  position: absolute;
 }
 .dnb-drawer-list__option {
   position: relative;

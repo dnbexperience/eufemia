@@ -50,7 +50,7 @@
     --token-color-background-action-disabled
   );
   --checkbox-color-border-off--disabled: var(
-    --token-color-stroke-action-disabled
+    --token-color-stroke-neutral-subtle
   );
   --checkbox-color-gfx__indeterminate--disabled: var(
     --token-color-background-action-disabled
@@ -123,6 +123,14 @@
 
   // Bounding box
   --checkbox-bounding--medium: 1.75, 1.75;
+
+  &--surface-dark {
+    --checkbox-color-border-off--disabled: color-mix(
+      in srgb,
+      var(--token-color-stroke-neutral-ondark) 50%,
+      transparent
+    );
+  }
 
   display: inline-flex;
   flex-direction: column;

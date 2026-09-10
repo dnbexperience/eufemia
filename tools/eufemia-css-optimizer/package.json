@@ -18,7 +18,7 @@
     "generate": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types src/cli.ts"
   },
   "devDependencies": {
-    "vitest": "4.1.10"
+    "vitest": "4.1.11"
   },
   "volta": {
     "extends": "../../package.json"

@@ -1,40 +1,39 @@
 # Eufemia Analytics (AWS Lambda)
 
-Minimal service to store and retrieve analytics records in AWS, deployed as an AWS Lambda function behind API Gateway.
+Minimal service to ingest anonymous portal analytics into AWS and serve it to the dashboard, deployed as AWS Lambda functions behind API Gateway.
 
 ## Architecture
 
 ```
-POST /records → API Gateway HTTP API → Lambda (Node.js 22) → S3 (records/dt=YYYY-MM-DD/<id>.json)
-GET  /records → API Gateway HTTP API → Lambda (Node.js 22) → Athena (Glue table w/ partition projection) → S3
+POST /collect-portal-views → API Gateway HTTP API → Lambda (Node.js 22) → S3 (portal-views/dt=YYYY-MM-DD/*.json)
+GET  /data (dashboard API) → read-only Lambda → S3 snapshot ← hourly generator → Athena (Glue table w/ partition projection)
 ```
 
-Records are written to S3 as one JSON object per record, partitioned by date. A Glue table with partition projection lets Athena query them without `MSCK`/`ADD PARTITION`. The Lambda is stateless.
+Portal views are written to S3 as newline-delimited JSON (one event per line), partitioned by date. A Glue table with partition projection lets Athena query them without `MSCK`/`ADD PARTITION`. The Lambdas are stateless.
 
 ## HTTP API
 
-| Route           | Auth   | Description                                             |
-| --------------- | ------ | ------------------------------------------------------- |
-| `GET /healthz`  | edge   | Liveness probe                                          |
-| `POST /records` | bearer | Store a record: `{ "id", "name", "value" }`             |
-| `GET /records`  | bearer | Retrieve records; optional `?id=` and `?limit=` filters |
+| Route                        | Auth | Description                                |
+| ---------------------------- | ---- | ------------------------------------------ |
+| `GET /healthz`               | edge | Liveness probe                             |
+| `POST /collect-portal-views` | edge | Ingest anonymous portal page views (batch) |
 
-Auth is a bearer token compared against the `API_TOKEN` environment variable, and the origin additionally requires the Akamai `X-Edge-Auth` header.
+Every ingest route is gated by the Akamai `X-Edge-Auth` origin header; there is no bearer token, so the browser never holds a secret. First-party producers (MCP, Nucleus) write their own S3 prefix directly via IAM rather than through an HTTP route. The dashboard's read API (`GET /data`) is a separate HTTP API gated by an Entra JWT authorizer.
 
 ### Record shape
 
-`id`, `name` and `value` are supplied by the caller; `createdAt` is stamped by the service.
+A portal view carries only a `path` and an optional `timestamp` and `env`; the service stamps `createdat` and defaults `env` to `unknown`. No identifiers or personal data are stored.
 
 ```json
 {
-  "id": "abc-1",
-  "name": "Widget",
-  "value": 42,
-  "createdAt": "2026-08-07T09:00:00.000Z"
+  "path": "/uilib/components/button",
+  "env": "prod",
+  "timestamp": "2026-08-07T09:00:00.000Z",
+  "createdat": "2026-08-07T09:00:00.000Z"
 }
 ```
 
-`id` must match `^[A-Za-z0-9._-]{1,128}$`, `name` is at most 256 characters, and `value` must be a finite number.
+`path` must start with `/` and be at most 2048 characters, and a batch may contain at most 50 events.
 
 ## Prerequisites
 
@@ -59,7 +58,7 @@ yarn deploy:plan  # build + terraform plan
 yarn deploy       # build + terraform apply
 ```
 
-Copy `infra/terraform.tfvars.example` to `infra/terraform.tfvars` and fill in `cost_allocation` (and `api_token` to enable auth). `terraform.tfvars` is gitignored.
+Copy `infra/terraform.tfvars.example` to `infra/terraform.tfvars` and fill in `cost_allocation`. `terraform.tfvars` is gitignored.
 
 ## CI/CD deploy (two-repo flow)
 
@@ -92,19 +91,19 @@ For the same reason, an admin must pre-create the read-only dashboard-read execu
 
 `infra/` provisions:
 
-- **S3 bucket** (versioned, SSE-S3, public access blocked) holding both records (`records/`) and Athena output (`athena-results/`, expired after 7 days).
+- **S3 bucket** (versioned, SSE-S3, public access blocked) holding portal-view records (`portal-views/`), the dashboard snapshot (`records/dashboard-snapshot.json`), and Athena output (`athena-results/`, expired after 7 days).
 - **Glue database + table** with JSON SerDe and partition projection on `dt`.
 - **Athena workgroup** for the retrieve queries.
 - **Lambda function** (`nodejs22.x`) — its execution role is pre-created out-of-band, because the OIDC deploy role's permissions boundary forbids `iam:CreateRole` (ADR 0004); it is only referenced here.
 - **Dashboard-read Lambda** (`nodejs22.x`) serving `GET /data` under the read-only `eufemia-<env>-dashboard-role`, plus a **scheduled snapshot generator** Lambda (hourly EventBridge rule) that runs under `eufemia-<env>-analytics-role` and refreshes `records/dashboard-snapshot.json` off the request path. Three CloudWatch alarms flag a failed generator run (`Errors`), a generator that has stopped firing (missing `Invocations`), and a run that succeeds but writes an empty snapshot (the `SnapshotRecordCount` EMF metric stays below 1). The empty-snapshot metric is emitted as an Embedded Metric Format log line, so it needs no extra role permissions.
-- **API Gateway HTTP API** with the two `/records` routes and throttling.
+- **API Gateway HTTP API** with the `/collect-portal-views` ingest route (plus `/healthz`) and throttling.
 
 The dashboard is hosted separately as a static site:
 
 - **Dashboard bucket** (private, versioned, SSE-S3, public access blocked) holding the static UI, read only by CloudFront via an Origin Access Control.
-- **CloudFront distribution** serving the dashboard on its default `*.cloudfront.net` domain. The shell holds no data or secrets — access is gated entirely by the Entra sign-in and the token-protected `/data` API — so no Lambda@Edge, edge auth or extra IAM role is needed. The deploy job generates `dashboard/config.json` (non-secret public identifiers: `clientId`/`tenantId` from `ENTRA_CLIENT_ID`/`ENTRA_TENANT_ID`, `redirectUri` set to the CloudFront URL, `apiBaseUrl` from the dashboard API endpoint, and `apiScope` = `api://<clientId>/Dashboard.Read`), syncs the files to the bucket and invalidates the cache.
+- **CloudFront distribution** serving the dashboard on its default `*.cloudfront.net` domain. The shell holds no data or secrets — access is gated entirely by the Entra sign-in and the token-protected `/data` API — so no Lambda@Edge, edge auth or extra IAM role is needed. A custom response-headers policy applies HSTS, `X-Content-Type-Options`, `X-Frame-Options: DENY`, `Referrer-Policy` and a Content-Security-Policy (`script-src`/`connect-src` locked to same-origin, Entra sign-in and the dashboard API). The deploy job generates `dashboard/config.json` (non-secret public identifiers: `clientId`/`tenantId` from `ENTRA_CLIENT_ID`/`ENTRA_TENANT_ID`, `redirectUri` set to the canonical dashboard URL (`DASHBOARD_PUBLIC_URL`), `apiBaseUrl` from the dashboard API endpoint, and `apiScope` = `api://<clientId>/Dashboard.Read`), syncs the files to the bucket and invalidates the cache.
 
-The CloudFront origin is added to the dashboard API's CORS automatically (the distribution domain is concatenated onto `DASHBOARD_ORIGINS`), so no second deploy is needed for cross-origin `/data` calls; `DASHBOARD_ORIGINS` only needs any extra origins such as a local-dev URL. After the first deploy, add the CloudFront URL as a redirect URI on the app registration.
+The dashboard API's CORS allows the dashboard's canonical origin (`DASHBOARD_PUBLIC_URL`, the custom domain) plus any extra origins from the optional `dashboard_origins` Terraform variable, such as a local-dev URL. The raw `*.cloudfront.net` origin is intentionally not allow-listed, since the dashboard is served via the custom domain (Akamai + WAF); the distribution still serves publicly on `*.cloudfront.net`, and hard-blocking direct access is a separate follow-up. After the first deploy, add the dashboard URL as a redirect URI on the app registration.
 
 Prerequisites for sign-in and data to work end to end: the app registration must expose a `Dashboard.Read` scope under App ID URI `api://<clientId>` and issue v2 access tokens (`requestedAccessTokenVersion = 2`). The deploy role's CloudFront and S3 permissions are provisioned in the OIDC federation repo, alongside the Lambda execution role.
 

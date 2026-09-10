@@ -1,54 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest'
-import { isAuthorized, isEdgeAuthorized } from '../src/lambda/http.js'
-
-describe('isAuthorized', () => {
-  const original = process.env.API_TOKEN
-
-  beforeEach(() => {
-    delete process.env.API_TOKEN
-  })
-
-  afterEach(() => {
-    if (original === undefined) {
-      delete process.env.API_TOKEN
-    } else {
-      process.env.API_TOKEN = original
-    }
-  })
-
-  it('rejects any request when API_TOKEN is not set (fail-closed)', () => {
-    expect(isAuthorized(undefined)).toBe(false)
-    expect(isAuthorized({})).toBe(false)
-  })
-
-  it('accepts a matching bearer token', () => {
-    process.env.API_TOKEN = 'secret-token'
-
-    expect(isAuthorized({ authorization: 'Bearer secret-token' })).toBe(
-      true
-    )
-    expect(isAuthorized({ Authorization: 'Bearer secret-token' })).toBe(
-      true
-    )
-  })
-
-  it('rejects a wrong token', () => {
-    process.env.API_TOKEN = 'secret-token'
-
-    expect(isAuthorized({ authorization: 'Bearer nope' })).toBe(false)
-  })
-
-  it('rejects a missing or malformed header', () => {
-    process.env.API_TOKEN = 'secret-token'
-
-    expect(isAuthorized(undefined)).toBe(false)
-    expect(isAuthorized({})).toBe(false)
-    expect(isAuthorized({ authorization: 'secret-token' })).toBe(false)
-    expect(isAuthorized({ authorization: 'Basic secret-token' })).toBe(
-      false
-    )
-  })
-})
+import { isEdgeAuthorized } from '../src/lambda/http.js'
 
 describe('isEdgeAuthorized', () => {
   const original = process.env.EDGE_AUTH_SECRET

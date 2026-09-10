@@ -40,31 +40,6 @@ export function json(
 }
 
 /**
- * Bearer-token check against the `API_TOKEN` environment variable.
- * Returns `true` when the request carries a matching bearer token.
- */
-export function isAuthorized(
-  headers: Record<string, string | undefined> | undefined
-): boolean {
-  const expected = process.env.API_TOKEN
-
-  if (!expected) {
-    // Fail closed: reject all requests when the token is not configured.
-    warnOnce('[eufemia] API_TOKEN is not set — rejecting request')
-    return false
-  }
-
-  const header = headers?.authorization ?? headers?.Authorization ?? ''
-  const [scheme, token] = header.split(' ')
-
-  return (
-    scheme === 'Bearer' &&
-    token !== undefined &&
-    safeEqual(token, expected)
-  )
-}
-
-/**
  * Origin lock: verifies the `X-Edge-Auth` header (injected by Akamai) against
  * `EDGE_AUTH_SECRET`, so only the edge can reach the origin directly.
  */

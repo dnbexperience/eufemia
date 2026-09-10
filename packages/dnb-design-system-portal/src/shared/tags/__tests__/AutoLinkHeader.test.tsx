@@ -12,6 +12,22 @@ vi.mock('../AutoLinkHeader.module.scss', () => ({
   headingContentStyle: 'headingContentStyle',
 }))
 
+const mockCopyToClipboard = vi.hoisted(() =>
+  vi.fn().mockResolvedValue(true)
+)
+
+vi.mock('@dnb/eufemia/src/shared/helpers', async (importOriginal) => {
+  const actual =
+    await importOriginal<
+      typeof import('@dnb/eufemia/src/shared/helpers')
+    >()
+
+  return {
+    ...actual,
+    copyToClipboard: mockCopyToClipboard,
+  }
+})
+
 import AutoLinkHeader from '../AutoLinkHeader'
 
 afterEach(cleanup)
@@ -60,7 +76,7 @@ describe('AutoLinkHeader', () => {
     expect(document.activeElement).toBe(anchor)
   })
 
-  it('updates the hash without native navigation or highlighting the heading', async () => {
+  it('copies the URL and updates the hash without native navigation or highlighting the heading', async () => {
     renderHeader()
 
     const anchor =
@@ -78,7 +94,26 @@ describe('AutoLinkHeader', () => {
     expect(window.location.hash).toBe('#my-heading')
     expect(headingContent?.classList).not.toContain('focus')
     await waitFor(() => {
+      expect(mockCopyToClipboard).toHaveBeenCalledWith(
+        window.location.href
+      )
       expect(document.body.textContent).toContain('Copied')
     })
+  })
+
+  it('does not report success when copying fails', async () => {
+    mockCopyToClipboard.mockResolvedValueOnce(false)
+    renderHeader()
+
+    const anchor =
+      document.querySelector<HTMLAnchorElement>('.anchor-hash')
+
+    fireEvent.mouseEnter(anchor)
+    fireEvent.click(anchor)
+
+    await waitFor(() => {
+      expect(mockCopyToClipboard).toHaveBeenCalled()
+    })
+    expect(document.body.textContent).not.toContain('Copied')
   })
 })

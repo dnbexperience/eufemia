@@ -2,7 +2,7 @@ import { act, useEffect, useLayoutEffect, useRef } from 'react'
 import type { RefObject } from 'react'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import { isCI } from 'repo-utils'
-import { Form, Wizard } from '../../..'
+import { Field, Form, Wizard } from '../../..'
 import { Button, Dialog } from '../../../../../components'
 import type { ConfirmParams } from '../SubmitConfirmation'
 import userEvent from '@testing-library/user-event'
@@ -87,6 +87,37 @@ describe('Form.SubmitConfirmation', { retry: isCI ? 5 : 0 }, () => {
           )
         ).toBeFalsy()
       })
+    })
+
+    it('should keep fields enabled inside renderWithState', async () => {
+      render(
+        <Form.Handler onSubmit={vi.fn()}>
+          <Form.SubmitConfirmation
+            preventSubmitWhen={() => true}
+            renderWithState={() => (
+              <Field.String path="/confirmation" disabled={false} />
+            )}
+          >
+            <Form.SubmitButton />
+          </Form.SubmitConfirmation>
+        </Form.Handler>
+      )
+
+      const input = document.querySelector('input')
+      expect(input).not.toBeDisabled()
+
+      await userEvent.click(
+        document.querySelector('.dnb-forms-submit-button')
+      )
+
+      await waitFor(() => {
+        expect(
+          document.querySelector(
+            '.dnb-forms-submit-indicator--state-pending'
+          )
+        ).toBeTruthy()
+      })
+      expect(input).not.toBeDisabled()
     })
 
     it('should keep pending state when confirmationState is "readyToBeSubmitted" and onSubmit is async', async () => {

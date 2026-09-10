@@ -52,13 +52,28 @@ export function applyTextScale(): (() => void) | undefined {
     }
 
     const appleScale = readAppleTextScale()
+    let originalRootFontSize: string | undefined
+
+    const restoreRootFontSize = () => {
+      if (originalRootFontSize === undefined) {
+        return
+      }
+
+      root.style.fontSize = originalRootFontSize
+      originalRootFontSize = undefined
+    }
 
     const apply = (scale: number) => {
       if (!scale) {
         return
       }
 
-      root.style.fontSize = `${16 * scale}px`
+      if (scale === 1) {
+        restoreRootFontSize()
+      } else {
+        originalRootFontSize ??= root.style.fontSize
+        root.style.fontSize = `${16 * scale}px`
+      }
       root.setAttribute(attribute, 'apple')
     }
 
@@ -99,6 +114,7 @@ export function applyTextScale(): (() => void) | undefined {
     }
 
     const cleanup = () => {
+      restoreRootFontSize()
       observer?.disconnect()
       removeProbe(probe)
       document.removeEventListener('DOMContentLoaded', observe)

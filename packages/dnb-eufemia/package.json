@@ -78,7 +78,7 @@
     "test:e2e": "playwright test --config=./playwright.config.e2e.ts",
     "test:e2e:ci": "PLAYWRIGHT_BASE_URL=http://localhost:8001 start-server-and-test 'yarn workspace dnb-design-system-portal serve:8001' http://localhost:8001 test:e2e",
     "test:e2e:watch": "playwright test --config=./playwright.config.e2e.ts --ui",
-    "test:postbuild": "vitest run --config vitest.config.postbuild.ts scripts/postbuild/__tests__/postbuild.test.ts scripts/postbuild/__tests__/validatePackageContents.test.ts scripts/postbuild/__tests__/writeReleaseConfig.test.ts scripts/postbuild/__tests__/getNextReleaseVersion.test.ts",
+    "test:postbuild": "vitest run --config vitest.config.postbuild.ts scripts/postbuild/__tests__/postbuild.test.ts scripts/postbuild/__tests__/validatePackageContents.test.ts scripts/postbuild/__tests__/writeReleaseConfig.test.ts scripts/postbuild/__tests__/getNextReleaseVersion.test.ts scripts/postbuild/__tests__/verifyReleaseVersion.test.ts",
     "test:postbuild:publish": "vitest run --config vitest.config.postbuild.ts scripts/postbuild/__tests__/prepareForRelease.test.ts",
     "test:prepare": "yarn build:style-manifest",
     "test:screenshots": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types ./scripts/tools/vitest/runScreenshotVitest.ts",
@@ -126,6 +126,7 @@
     "zod": "4.4.3"
   },
   "peerDependencies": {
+    "@tanstack/react-virtual": "^3.14.10",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "purgecss": "^8.0.0",
@@ -133,6 +134,9 @@
     "react-dom": "^19"
   },
   "peerDependenciesMeta": {
+    "@tanstack/react-virtual": {
+      "optional": true
+    },
     "@types/react": {
       "optional": true
     },
@@ -174,6 +178,7 @@
     "@semantic-release/release-notes-generator": "14.1.1",
     "@svgr/core": "6.5.1",
     "@svgr/plugin-jsx": "6.5.1",
+    "@tanstack/react-virtual": "3.14.10",
     "@testing-library/dom": "10.4.1",
     "@testing-library/jest-dom": "6.7.0",
     "@testing-library/react": "16.3.2",
@@ -210,7 +215,7 @@
     "fs-extra": "10.0.0",
     "globals": "17.6.0",
     "globby": "11.0.4",
-    "hono": "4.12.34",
+    "hono": "4.13.5",
     "jest-axe": "11.0.0",
     "jsdom": "29.1.1",
     "lebab": "3.2.7",
@@ -237,14 +242,14 @@
     "stylelint": "16.26.1",
     "stylelint-config-recommended": "15.0.0",
     "stylelint-config-standard-scss": "15.0.1",
-    "svgo": "3.3.4",
+    "svgo": "3.3.5",
     "tar": "7.5.21",
     "traverse": "0.6.6",
     "tsdown": "0.14.2",
     "typescript": "5.9.3",
     "vd-tool": "4.0.2",
     "vite": "8.0.16",
-    "vitest": "4.1.10"
+    "vitest": "4.1.11"
   },
   "keywords": [
     "Accessibility",

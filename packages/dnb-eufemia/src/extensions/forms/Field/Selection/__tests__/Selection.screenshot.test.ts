@@ -157,4 +157,19 @@ describe('Selection', () => {
       })
     })
   })
+
+  describe('radio-button', () => {
+    it('have to match radio-button-vertical', async () => {
+      await makeScreenshot({
+        selector: '[data-visual-test="selection-radio-button-vertical"]',
+      })
+    })
+
+    it('have to match radio-button-options-horizontal', async () => {
+      await makeScreenshot({
+        selector:
+          '[data-visual-test="selection-radio-button-options-horizontal"]',
+      })
+    })
+  })
 })

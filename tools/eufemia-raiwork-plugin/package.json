@@ -21,7 +21,7 @@
     "@types/pngjs": "6.0.5",
     "prettier": "3.8.1",
     "typescript": "5.9.3",
-    "vitest": "4.1.10"
+    "vitest": "4.1.11"
   },
   "volta": {
     "extends": "../../package.json"

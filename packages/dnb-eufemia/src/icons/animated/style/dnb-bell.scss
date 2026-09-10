@@ -1,0 +1,75 @@
+@use '../../../style/core/utilities.scss' as utilities;
+
+.dnb-icon--animated-bell.dnb-icon--animate svg,
+:where(button, a, [role='button'], [data-icon-animation-trigger]):hover
+  .dnb-icon--animated-bell.dnb-icon--animate-when-hover
+  svg,
+.dnb-icon--animated-bell.dnb-icon--animate-when-hover:hover svg {
+  transform-origin: 50% 12.5%;
+  transform-box: view-box;
+  animation-name: dnb-icon-animated-bell;
+  animation-duration: 700ms;
+  animation-timing-function: var(--easing-default);
+  animation-fill-mode: both;
+
+  @include utilities.reducedMotion() {
+    animation: none;
+  }
+}
+
+.dnb-icon--animated-bell.dnb-icon--animate-loop svg {
+  animation-name: dnb-icon-animated-bell-loop;
+  animation-duration: 3s;
+  animation-iteration-count: infinite;
+
+  @include utilities.reducedMotion() {
+    animation: none;
+  }
+}
+
+@keyframes dnb-icon-animated-bell {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+
+  20% {
+    transform: rotate(-16deg);
+  }
+
+  40% {
+    transform: rotate(14deg);
+  }
+
+  60% {
+    transform: rotate(-8deg);
+  }
+
+  80% {
+    transform: rotate(4deg);
+  }
+}
+
+@keyframes dnb-icon-animated-bell-loop {
+  0%,
+  24%,
+  100% {
+    transform: rotate(0deg);
+  }
+
+  5% {
+    transform: rotate(-16deg);
+  }
+
+  10% {
+    transform: rotate(14deg);
+  }
+
+  15% {
+    transform: rotate(-8deg);
+  }
+
+  20% {
+    transform: rotate(4deg);
+  }
+}

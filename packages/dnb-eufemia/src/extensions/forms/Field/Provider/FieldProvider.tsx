@@ -42,6 +42,9 @@ export type FieldProviderProps = FieldProps & {
   }
 
   /** For internal use only */
+  forceDisabled?: boolean
+
+  /** For internal use only */
   formElement?: ContextProps['formElement']
 
   /** For internal use only */

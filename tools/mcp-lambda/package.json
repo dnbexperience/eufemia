@@ -1,5 +1,5 @@
 {
-  "name": "@dnb/eufemia-mcp",
+  "name": "eufemia-mcp-lambda",
   "version": "1.0.0",
   "description": "Eufemia MCP server for AWS Lambda",
   "main": "dist/lambda-handler.mjs",
@@ -24,6 +24,6 @@
     "esbuild": "0.25.5",
     "tsx": "4.22.4",
     "typescript": "5.9.3",
-    "vitest": "4.1.10"
+    "vitest": "4.1.11"
   }
 }

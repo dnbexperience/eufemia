@@ -37,6 +37,7 @@ export type ToggleProps = {
     | 'radio'
     | 'switch'
     | 'checkbox-button'
+    | 'radio-button'
     | 'button'
     | 'buttons'
   textOn?: string
@@ -225,6 +226,7 @@ function Toggle(props: FieldToggleProps) {
         </FieldBlock>
       )
     case 'buttons':
+    case 'radio-button':
       return (
         <FieldBlock
           {...fieldBlockProps}
@@ -243,12 +245,18 @@ function Toggle(props: FieldToggleProps) {
                 }}
               >
                 <ToggleButton
+                  variant={
+                    variant === 'radio-button' ? 'radio' : undefined
+                  }
                   text={textOn ?? translations.yes}
                   value="on"
                   role="radio"
                   {...htmlAttributes}
                 />
                 <ToggleButton
+                  variant={
+                    variant === 'radio-button' ? 'radio' : undefined
+                  }
                   text={textOff ?? translations.no}
                   value="off"
                   role="radio"

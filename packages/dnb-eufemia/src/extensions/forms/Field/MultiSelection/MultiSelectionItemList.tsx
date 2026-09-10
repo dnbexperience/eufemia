@@ -1,4 +1,4 @@
-import { Fragment, useCallback } from 'react'
+import { Fragment, useCallback, useMemo, useRef } from 'react'
 import type { ReactNode, MouseEvent } from 'react'
 import { clsx } from 'clsx'
 import { Checkbox } from '../../../../components'
@@ -7,6 +7,10 @@ import { P } from '../../../../elements'
 import { useHighlightText } from '../../../../shared/helpers/highlightText'
 import type {
   FieldMultiSelectionProps,
+  MultiSelectionListDriver,
+  MultiSelectionListDriverProps,
+  MultiSelectionListDriverRow,
+  MultiSelectionListDriverRowProps,
   MultiSelectionItem,
 } from './MultiSelection'
 
@@ -39,6 +43,9 @@ export type MultiSelectionItemListProps = {
   allFilteredSelected: boolean
   someFilteredSelected: boolean
   maxHeight?: string | number
+  listDriver?: MultiSelectionListDriver
+  open: boolean
+  registerListDriver: MultiSelectionListDriverProps['registerListDriver']
 }
 
 export function MultiSelectionItemList({
@@ -57,7 +64,12 @@ export function MultiSelectionItemList({
   allFilteredSelected,
   someFilteredSelected,
   maxHeight,
+  listDriver,
+  open,
+  registerListDriver,
 }: MultiSelectionItemListProps) {
+  const scrollRef = useRef<HTMLDivElement>(null)
+  const selectedValueSet = useMemo(() => new Set(tempValue), [tempValue])
   const highlight = useHighlightText({
     search: searchValue,
     className: 'dnb-forms-field-multi-selection__highlighting',
@@ -92,6 +104,60 @@ export function MultiSelectionItemList({
     [disabled, onToggleItem, onToggleParent]
   )
 
+  const renderItem = (
+    item: MultiSelectionItemInternal,
+    depth: number,
+    itemProps: MultiSelectionListDriverRowProps = {}
+  ) => (
+    // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions, jsx-a11y/click-events-have-key-events
+    <li
+      {...itemProps}
+      className={clsx(
+        'dnb-forms-field-multi-selection__item',
+        item.children && 'dnb-forms-field-multi-selection__item--parent',
+        selectedValueSet.has(item.value) &&
+          'dnb-forms-field-multi-selection__item--selected',
+        item.disabled && 'dnb-forms-field-multi-selection__item--disabled',
+        depth > 0 &&
+          `dnb-forms-field-multi-selection__item--level-${depth}`,
+        itemProps.className
+      )}
+      onClick={(event) => handleItemClick(event, item)}
+    >
+      <Checkbox
+        checked={
+          item.children
+            ? getParentState(item).checked
+            : selectedValueSet.has(item.value)
+        }
+        indeterminate={
+          item.children ? getParentState(item).indeterminate : false
+        }
+        onChange={() =>
+          item.children ? onToggleParent(item) : onToggleItem(item.value)
+        }
+        disabled={disabled || item.disabled}
+        label={highlight(item.title)}
+        className="dnb-forms-field-multi-selection__checkbox"
+        {...htmlAttributes}
+      />
+      {(item.text || item.description) && (
+        <div className="dnb-forms-field-multi-selection__item-details">
+          {item.text && (
+            <span className="dnb-t__size--small dnb-forms-field-multi-selection__item-text">
+              {highlight(item.text)}
+            </span>
+          )}
+          {item.description && (
+            <span className="dnb-t__size--small dnb-forms-field-multi-selection__item-description">
+              {highlight(item.description)}
+            </span>
+          )}
+        </div>
+      )}
+    </li>
+  )
+
   const renderItems = (
     items: MultiSelectionItem[],
     depth = 0,
@@ -102,55 +168,7 @@ export function MultiSelectionItemList({
 
       return (
         <Fragment key={item.value}>
-          {/* eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions, jsx-a11y/click-events-have-key-events */}
-          <li
-            className={clsx(
-              'dnb-forms-field-multi-selection__item',
-              item.children &&
-                'dnb-forms-field-multi-selection__item--parent',
-              tempValue.includes(item.value) &&
-                'dnb-forms-field-multi-selection__item--selected',
-              item.disabled &&
-                'dnb-forms-field-multi-selection__item--disabled',
-              depth > 0 &&
-                `dnb-forms-field-multi-selection__item--level-${depth}`
-            )}
-            onClick={(event) => handleItemClick(event, item)}
-          >
-            <Checkbox
-              checked={
-                item.children
-                  ? getParentState(item).checked
-                  : tempValue.includes(item.value)
-              }
-              indeterminate={
-                item.children ? getParentState(item).indeterminate : false
-              }
-              onChange={() =>
-                item.children
-                  ? onToggleParent(item)
-                  : onToggleItem(item.value)
-              }
-              disabled={disabled || item.disabled}
-              label={highlight(item.title)}
-              className="dnb-forms-field-multi-selection__checkbox"
-              {...htmlAttributes}
-            />
-            {(item.text || item.description) && (
-              <div className="dnb-forms-field-multi-selection__item-details">
-                {item.text && (
-                  <span className="dnb-t__size--small dnb-forms-field-multi-selection__item-text">
-                    {highlight(item.text)}
-                  </span>
-                )}
-                {item.description && (
-                  <span className="dnb-t__size--small dnb-forms-field-multi-selection__item-description">
-                    {highlight(item.description)}
-                  </span>
-                )}
-              </div>
-            )}
-          </li>
+          {renderItem(item, depth)}
           {item.children && item.children.length > 0 && (
             <ul className="dnb-forms-field-multi-selection__nested-items">
               {renderItems(item.children, depth + 1, itemPath)}
@@ -161,9 +179,71 @@ export function MultiSelectionItemList({
     })
   }
 
+  const renderSelectAll = (
+    itemProps: MultiSelectionListDriverRowProps = {}
+  ) => (
+    <li
+      {...itemProps}
+      className={clsx(
+        'dnb-forms-field-multi-selection__item',
+        'dnb-forms-field-multi-selection__item--select-all',
+        itemProps.className
+      )}
+    >
+      <Checkbox
+        checked={allFilteredSelected}
+        indeterminate={someFilteredSelected}
+        onChange={onToggleSelectAll}
+        disabled={disabled}
+        label={translation.selectAll}
+        className="dnb-forms-field-multi-selection__checkbox"
+      />
+    </li>
+  )
+
+  const driverRows = (() => {
+    let index = 0
+    const rows: MultiSelectionListDriverRow[] = []
+
+    if (showSelectAll && selectableFilteredFlat.length > 0) {
+      const itemIndex = index++
+      rows.push({
+        key: 'select-all',
+        disabled,
+        render: (props = {}) =>
+          renderSelectAll({
+            ...props,
+            'data-multi-selection-index': itemIndex,
+          }),
+      })
+    }
+
+    const addItems = (items: MultiSelectionItem[], depth = 0) => {
+      items.forEach((item: MultiSelectionItemInternal) => {
+        const itemIndex = index++
+        rows.push({
+          key: String(item.value),
+          disabled: disabled || item.disabled,
+          render: (props = {}) =>
+            renderItem(item, depth, {
+              ...props,
+              'data-multi-selection-index': itemIndex,
+            }),
+        })
+        if (item.children) {
+          addItems(item.children, depth + 1)
+        }
+      })
+    }
+
+    addItems(filteredItems)
+    return rows
+  })()
+
   return (
     <ScrollView
       className={clsx('dnb-forms-field-multi-selection__items')}
+      ref={scrollRef}
       interactive={maxHeight === undefined ? undefined : 'auto'}
       style={
         maxHeight === undefined
@@ -177,18 +257,10 @@ export function MultiSelectionItemList({
       }
     >
       <ul className="dnb-forms-field-multi-selection__list">
-        {showSelectAll && selectableFilteredFlat.length > 0 && (
-          <li className="dnb-forms-field-multi-selection__item dnb-forms-field-multi-selection__item--select-all">
-            <Checkbox
-              checked={allFilteredSelected}
-              indeterminate={someFilteredSelected}
-              onChange={onToggleSelectAll}
-              disabled={disabled}
-              label={translation.selectAll}
-              className="dnb-forms-field-multi-selection__checkbox"
-            />
-          </li>
-        )}
+        {!listDriver &&
+          showSelectAll &&
+          selectableFilteredFlat.length > 0 &&
+          renderSelectAll()}
 
         {filteredItems.length === 0 && searchValue ? (
           <li className="dnb-forms-field-multi-selection__no-options">
@@ -196,6 +268,13 @@ export function MultiSelectionItemList({
               {translation.noOptions}
             </P>
           </li>
+        ) : listDriver ? (
+          <listDriver.Renderer
+            rows={driverRows}
+            open={open}
+            scrollRef={scrollRef}
+            registerListDriver={registerListDriver}
+          />
         ) : (
           renderItems(filteredItems)
         )}

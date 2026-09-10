@@ -236,6 +236,84 @@ export const CheckboxButtonError = () => {
   )
 }
 
+export const RadioButtonTrue = () => {
+  return (
+    <ComponentBox>
+      <Field.Boolean
+        variant="radio-button"
+        label="Label text"
+        value={true}
+        onChange={(value) => console.log('onChange', value)}
+      />
+    </ComponentBox>
+  )
+}
+
+export const RadioButtonFalse = () => {
+  return (
+    <ComponentBox>
+      <Field.Boolean
+        variant="radio-button"
+        label="Label text"
+        value={false}
+        onChange={(value) => console.log('onChange', value)}
+      />
+    </ComponentBox>
+  )
+}
+
+export const RadioButtonUndefined = () => {
+  return (
+    <ComponentBox>
+      <Field.Boolean
+        variant="radio-button"
+        label="Label text"
+        onChange={(value) => console.log('onChange', value)}
+      />
+    </ComponentBox>
+  )
+}
+
+export const RadioButtonRequired = () => {
+  return (
+    <ComponentBox>
+      <Field.Boolean
+        variant="radio-button"
+        label="Set to be required initially"
+        onChange={(value) => console.log('onChange', value)}
+        validateInitially
+        required
+      />
+    </ComponentBox>
+  )
+}
+
+export const RadioButtonDisabled = () => {
+  return (
+    <ComponentBox>
+      <Field.Boolean
+        variant="radio-button"
+        label="I am disabled"
+        onChange={(value) => console.log('onChange', value)}
+        disabled
+      />
+    </ComponentBox>
+  )
+}
+
+export const RadioButtonError = () => {
+  return (
+    <ComponentBox>
+      <Field.Boolean
+        variant="radio-button"
+        label="Label text"
+        onChange={(value) => console.log('onChange', value)}
+        error={new Error('This is what is wrong...')}
+      />
+    </ComponentBox>
+  )
+}
+
 export const ButtonsTrue = () => {
   return (
     <ComponentBox>

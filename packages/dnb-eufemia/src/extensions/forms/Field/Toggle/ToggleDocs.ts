@@ -27,8 +27,16 @@ export const ToggleProperties: PropertiesTableProps = {
     status: 'optional',
   },
   variant: {
-    doc: 'Choice of input feature. Can be: `checkbox`, `button`, `checkbox-button` or `buttons`.',
-    type: 'string',
+    doc: 'Choice of input feature. Defaults to `checkbox`.',
+    type: [
+      '"checkbox"',
+      '"radio"',
+      '"switch"',
+      '"checkbox-button"',
+      '"radio-button"',
+      '"button"',
+      '"buttons"',
+    ],
     status: 'optional',
   },
 }

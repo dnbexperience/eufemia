@@ -6,7 +6,7 @@ showTabs: true
 
 ```tsx
 import { Flex } from '@dnb/eufemia'
-render(<Flex.Container />)
+render(<Flex.Container layoutEngine="css" />)
 ```
 
 ## Description
@@ -26,27 +26,25 @@ You can also use [Flex.Item](/uilib/layout/flex/item) or [Card](/uilib/component
 import { Flex, Card } from '@dnb/eufemia'
 
 render(
-  <Flex.Container>
+  <Flex.Container layoutEngine="css">
     <Flex.Item>content</Flex.Item>
     <Card>content</Card>
   </Flex.Container>
 )
 ```
 
-But you can use it with what ever element too. It will wrap it in an `Flex.Item` to ensure the spacing is applied:
+You can also use it with any element. With the CSS engine, each rendered element participates in the layout directly:
 
 ```jsx
 import { Flex } from '@dnb/eufemia'
 
 render(
-  <Flex.Container>
+  <Flex.Container layoutEngine="css">
     <div>content</div>
     <div>content</div>
   </Flex.Container>
 )
 ```
-
-During render, the items within the "Wrapper" container are wrapped with the same properties. This ensures that all the items have the same appearance.
 
 ### Align vs Justify
 
@@ -71,7 +69,7 @@ For shortening the usage of `direction="..."`, you can use:
 - `<Flex.Vertical>` instead of `<Flex.Container direction="vertical">`
 
 ```jsx
-<Flex.Vertical>
+<Flex.Vertical layoutEngine="css">
   <Flex.Item>part of vertical alignment</Flex.Item>
   <Flex.Item>part of vertical alignment</Flex.Item>
 </Flex.Vertical>
@@ -80,7 +78,7 @@ For shortening the usage of `direction="..."`, you can use:
 - `<Flex.Horizontal>` instead of `<Flex.Container direction="horizontal">`
 
 ```jsx
-<Flex.Horizontal>
+<Flex.Horizontal layoutEngine="css">
   <Flex.Item>part of horizontal alignment</Flex.Item>
   <Flex.Item>part of horizontal alignment</Flex.Item>
 </Flex.Horizontal>
@@ -127,7 +125,7 @@ In CSS mode, `divider="line"` and `divider="line-framed"` are painted visual lin
 The existing React child-inspection engine remains the default, so applications do not need to annotate every established layout:
 
 ```tsx
-<Flex.Container>...</Flex.Container>
+<Flex.Container layoutEngine="legacy">...</Flex.Container>
 ```
 
 Use `layoutEngine="css"` when migrating a layout to native gaps. The explicit `layoutEngine="legacy"` value is still supported when an integration needs to document that dependency.

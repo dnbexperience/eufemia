@@ -30,6 +30,8 @@ import secondary from './graphics/secondary'
 import primary from './graphics/primary'
 import elements from './graphics/elements'
 import OverviewIcon from './graphics/OverviewIcon'
+import AnimationPrinciplesIcon from './graphics/AnimationPrinciplesIcon'
+import MotionIcon from './graphics/MotionIcon'
 
 const SidebarGraphics = {
   aboutTheLib,
@@ -59,6 +61,8 @@ const SidebarGraphics = {
   primary,
   elements,
   OverviewIcon,
+  AnimationPrinciplesIcon,
+  MotionIcon,
 }
 
 export default SidebarGraphics

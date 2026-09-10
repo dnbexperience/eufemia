@@ -309,6 +309,23 @@ describe('Switch component', () => {
 })
 
 describe('Switch scss', () => {
+  it('uses the subtle stroke for disabled switches', () => {
+    const css = loadScss(require.resolve('../style/dnb-switch.scss'))
+
+    expect(css).toMatch(
+      /--switch-disabled-border: var\(\s*--token-color-stroke-neutral-subtle\s*\)/
+    )
+    expect(css).toMatch(
+      /--switch-disabled-border: color-mix\(\s*in srgb,\s*var\(--token-color-stroke-neutral-ondark\) 50%,\s*transparent\s*\)/
+    )
+    expect(css).toMatch(
+      /--switch-disabled-button-background: var\(\s*--token-color-background-neutral-static\s*\)/
+    )
+    expect(css).toMatch(
+      /--switch-disabled-checked-background: var\(\s*--token-color-background-action-disabled\s*\)/
+    )
+  })
+
   it('should match style dependencies css', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
     expect(css).toMatchSnapshot()

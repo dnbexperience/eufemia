@@ -2,10 +2,9 @@ import type {
   APIGatewayProxyEventV2,
   APIGatewayProxyResultV2,
 } from 'aws-lambda'
-import { isAuthorized, isEdgeAuthorized, json } from './http.js'
-import { storePageViews, storeRecord } from './store.js'
-import { InvalidQueryError, retrieveRecords } from './retrieve.js'
-import { validatePageViewBatch, validateRecordInput } from '../types.js'
+import { isEdgeAuthorized, json } from './http.js'
+import { storePortalViews } from './store.js'
+import { validatePortalViews } from '../records/portal-view.js'
 
 function parseBody(event: APIGatewayProxyEventV2): unknown {
   if (!event.body) {
@@ -19,7 +18,7 @@ function parseBody(event: APIGatewayProxyEventV2): unknown {
   return JSON.parse(raw)
 }
 
-async function handleStore(
+async function handlePortalViews(
   event: APIGatewayProxyEventV2
 ): Promise<APIGatewayProxyResultV2> {
   let payload: unknown
@@ -29,7 +28,7 @@ async function handleStore(
     return json(400, { error: 'Body must be valid JSON' })
   }
 
-  const validation = validateRecordInput(payload)
+  const validation = validatePortalViews(payload)
   if (!validation.ok) {
     return json(400, {
       error: 'Validation failed',
@@ -37,68 +36,21 @@ async function handleStore(
     })
   }
 
-  const record = await storeRecord(validation.value)
-
-  return json(201, record)
-}
-
-async function handleCollect(
-  event: APIGatewayProxyEventV2
-): Promise<APIGatewayProxyResultV2> {
-  let payload: unknown
-  try {
-    payload = parseBody(event)
-  } catch {
-    return json(400, { error: 'Body must be valid JSON' })
-  }
-
-  const validation = validatePageViewBatch(payload)
-  if (!validation.ok) {
-    return json(400, {
-      error: 'Validation failed',
-      details: validation.errors,
-    })
-  }
-
-  const accepted = await storePageViews(validation.value)
+  const accepted = await storePortalViews(validation.value)
 
   return json(202, { accepted })
 }
 
-async function handleRetrieve(
-  event: APIGatewayProxyEventV2
-): Promise<APIGatewayProxyResultV2> {
-  const params = event.queryStringParameters ?? {}
-
-  let limit: number | undefined
-  if (params.limit !== undefined) {
-    limit = Number(params.limit)
-    if (!Number.isFinite(limit)) {
-      return json(400, { error: '"limit" must be a number' })
-    }
-  }
-
-  try {
-    const records = await retrieveRecords({ id: params.id, limit })
-
-    return json(200, { records })
-  } catch (error) {
-    if (error instanceof InvalidQueryError) {
-      return json(400, { error: error.message })
-    }
-
-    throw error
-  }
-}
-
 /**
- * HTTP API entry point.
+ * HTTP API entry point (edge-locked ingest).
  *
  * Routes:
- * - `GET  /healthz`  liveness probe (no bearer token)
- * - `POST /collect`  store anonymous page views in S3 (edge lock, no bearer)
- * - `POST /records`  store a record in S3
- * - `GET  /records`  retrieve records via Athena (optional `id`, `limit`)
+ * - `GET  /healthz`               liveness probe
+ * - `POST /collect-portal-views`  store anonymous portal page views in S3
+ *
+ * Every route is gated by the Akamai X-Edge-Auth origin lock; there is no
+ * bearer token. First-party producers (MCP, Nucleus) write their own S3 prefix
+ * directly via IAM rather than through an HTTP route.
  */
 export async function handler(
   event: APIGatewayProxyEventV2
@@ -114,22 +66,10 @@ export async function handler(
     return json(200, { status: 'ok' })
   }
 
-  // Public ingest: relies on the edge lock above, not the bearer token, so the
-  // browser never has to hold a secret.
-  if (method === 'POST' && path === '/collect') {
-    return handleCollect(event)
-  }
-
-  if (!isAuthorized(event.headers)) {
-    return json(401, { error: 'Unauthorized' })
-  }
-
-  if (method === 'POST' && path === '/records') {
-    return handleStore(event)
-  }
-
-  if (method === 'GET' && path === '/records') {
-    return handleRetrieve(event)
+  // Public ingest: relies on the edge lock above, so the browser never holds a
+  // secret.
+  if (method === 'POST' && path === '/collect-portal-views') {
+    return handlePortalViews(event)
   }
 
   return json(404, { error: 'Not found' })

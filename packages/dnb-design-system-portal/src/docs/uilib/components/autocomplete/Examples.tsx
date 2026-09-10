@@ -19,6 +19,7 @@ import {
   NumberFormat,
   List,
 } from '@dnb/eufemia/src'
+import { createDrawerListVirtualization } from '@dnb/eufemia/src/fragments/drawer-list/Virtualization'
 
 const Wrapper = styled.div`
   [data-visual-test] {
@@ -37,6 +38,25 @@ export const AutocompleteDefaultExample = () => (
   <Wrapper>
     <ComponentBox scope={{ topMovies }}>
       <Autocomplete data={topMovies} label="Label" />
+    </ComponentBox>
+  </Wrapper>
+)
+
+const virtualizedList = createDrawerListVirtualization()
+const virtualizedItems = Array.from({ length: 10000 }, (_, index) => ({
+  selectedKey: String(index),
+  content: `Item ${index + 1}`,
+}))
+
+export const AutocompleteVirtualizedExample = () => (
+  <Wrapper>
+    <ComponentBox scope={{ virtualizedItems, virtualizedList }}>
+      <Autocomplete
+        label="Search 10,000 items"
+        data={virtualizedItems}
+        listDriver={virtualizedList}
+        showSubmitButton
+      />
     </ComponentBox>
   </Wrapper>
 )

@@ -1,0 +1,95 @@
+---
+title: 'Animation Principles'
+icon: 'AnimationPrinciplesIcon'
+order: 2
+redirect_from:
+  - /quickguide-designer/principles/animations
+---
+
+import MotionCharacter from './motion/MotionCharacter'
+
+# Animation Principles
+
+## Introduction
+
+Animations play a crucial role in enhancing user experience by providing engaging and intuitive interactions. The Eufemia Animation Principles serve as a guide to ensure consistency and effectiveness in animation design across DNB applications.
+
+## Purpose
+
+The Eufemia Animation Principles aim to:
+
+1. Establish consistency in animation experiences.
+1. Offer insights into the rationale behind animations.
+1. Assist designers and developers in creating user-centric animations.
+1. Improve the overall user experience, including accessibility considerations.
+
+Animations serve multiple purposes in our user interfaces, ranging from guiding users' attention to providing feedback on interactions. They play a significant role in enhancing the overall user experience by making interfaces more intuitive and engaging.
+
+## Micro-Interactions
+
+Micro-interactions are subtle yet impactful animations that respond to user actions, providing feedback and enhancing usability. These interactions focus on specific user tasks and contribute to a seamless and intuitive user experience.
+
+Therefore, these animation principles will focus on so-called "micro" interactions. Still, they are animations.
+
+> A microinteraction is a contained product moment that revolves around a single use case — a tiny piece of functionality that only does one thing.
+>
+> — Dan Saffer, _Microinteractions: Designing with Details_ (O'Reilly, 2013)
+
+Micro-interactions appeal to a user's desire to see the result of their action. This is how users can better understand the essential functions of the application. So, micro-interactions will:
+
+- Enhance user control and understanding.
+- Provide immediate feedback on user actions.
+- Communicate changes or outcomes effectively.
+
+## Creating User-Centric Animations
+
+Animations ask the user for attention. They may delight the user and create a moment that is engaging. But not necessarily in a positive way. People will always experience animations differently. It is therefore all the more important to keep animations consistent DNB-wide.
+
+The user's desire to use an app is often proportional to the design of the app. Animations will therefore either contribute to or detract from the overall experience.
+
+Animations can give users feelings and a certain state of mind. Therefore we should make them with care and follow the best practices described in these principles.
+
+In certain situations, animations can help users understand the flow or hierarchy of an interface. Here, subtle animations move elements smoothly, providing users with a seamless experience without overwhelming them with aggressive movements.
+
+## How motion should feel
+
+Motion should help people complete their task and feel in control, rather than ask for attention.
+
+### Purpose at the core
+
+Every motion needs purpose. Add guidance when it helps, and delight only as a finishing touch.
+
+<MotionCharacter />
+
+## Dos and Don'ts
+
+Animations in DNB applications should:
+
+- Help the user understand the content.
+- Help to focus on the underlying action.
+- Give the user a feeling of control.
+- Be barely noticeable.
+- Be too short rather than too long.
+- Use easing that matches the interaction.
+- Respect the user's [reduced motion preference](/uilib/usage/accessibility/about-accessibility#reduced-motion-support).
+
+Animations should not:
+
+- Draw attention to themselves.
+- Exist to make the application look cool or feel impressive.
+- Happen off-content.
+- Start without a user action or meaningful state change.
+- Use a spring or bounce effect for large or repeated movements.
+- Make the user wait for them to finish.
+
+## Consistency in the experience of animations
+
+To achieve a consistent experience of animations, we should use the tools provided and follow the guidelines.
+
+To give the user the experience of something sliding in, the element does not need to animate from the very start to the very end. It is often enough to show just the last part of the animation.
+
+## Motion examples
+
+See [Motion](/quickguide-designer/motion/) for visual examples, component references, and implementation guidance.
+
+For motion in icons, see the [animated Icon guidance](/uilib/components/icon/#animated-icons).

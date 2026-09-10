@@ -32,8 +32,16 @@ export default function IconPrimary(localProps: IconAllProps) {
     context.IconPrimary
   )
 
-  const { icon, size, wrapperParams, iconParams, alt, transitionState } =
-    prepareIcon(props, context)
+  const {
+    icon,
+    size,
+    wrapperParams,
+    iconParams,
+    alt,
+    transitionState,
+    animationMode,
+  } = prepareIcon(props, context)
+  const { animationKey } = props
 
   const spacingProps = useSpacing(props, {
     className: wrapperParams.className,
@@ -85,7 +93,10 @@ export default function IconPrimary(localProps: IconAllProps) {
 
   return (
     <span {...restWrapperParams} ref={combinedRef} {...spacingProps}>
-      <IconContainer {...iconParams} />
+      <IconContainer
+        key={animationMode ? animationKey : undefined}
+        {...iconParams}
+      />
     </span>
   )
 }

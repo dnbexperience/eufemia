@@ -1,4 +1,4 @@
-import { render, fireEvent } from '@testing-library/react'
+import { act, render, fireEvent } from '@testing-library/react'
 import FieldBoundaryContext from '../../../../DataContext/FieldBoundary/FieldBoundaryContext'
 import SectionContainerContext from '../../containers/SectionContainerContext'
 import Toolbar from '../../Toolbar'
@@ -9,6 +9,43 @@ import ToolbarContext from '../../Toolbar/ToolbarContext'
 const nb = nbNO['nb-NO'].SectionEditContainer
 
 describe('DoneButton', () => {
+  it('should ignore a pending operation after unmount', async () => {
+    let resolveOnDone!: () => void
+    const switchContainerMode = vi.fn()
+    const setIsPending = vi.fn()
+    const onDone = () =>
+      new Promise<void>((resolve) => {
+        resolveOnDone = resolve
+      })
+
+    const { unmount } = render(
+      <SectionContainerContext value={{ switchContainerMode }}>
+        <ToolbarContext
+          value={{
+            setShowError: vi.fn(),
+            setIsPending,
+            onDone,
+          }}
+        >
+          <DoneButton />
+        </ToolbarContext>
+      </SectionContainerContext>
+    )
+
+    fireEvent.click(document.querySelector('button'))
+    expect(setIsPending).toHaveBeenCalledTimes(1)
+    expect(setIsPending).toHaveBeenCalledWith(true)
+
+    unmount()
+
+    await act(async () => {
+      resolveOnDone()
+    })
+
+    expect(setIsPending).toHaveBeenCalledTimes(1)
+    expect(switchContainerMode).not.toHaveBeenCalled()
+  })
+
   it('calls "switchContainerMode"', () => {
     const switchContainerMode = vi.fn()
 

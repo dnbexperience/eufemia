@@ -8,8 +8,7 @@ import {
 import type { ReactNode } from 'react'
 import DataContext from '../../DataContext/Context'
 import useEventListener from '../../DataContext/Provider/useEventListener'
-import SharedProvider from '../../../../shared/Provider'
-import type { ContextProps } from '../../../../shared/Context'
+import FieldPropsProvider from '../../Field/Provider'
 import { HeightAnimation } from '../../../../components'
 import type {
   DialogContentProps,
@@ -203,21 +202,18 @@ function SubmitConfirmation(props: ConfirmProps) {
     setFocusOnButton,
   ])
 
-  const sharedProviderParams: ContextProps = {
-    formElement: {
-      disabled: false,
-    },
-  }
-
   return (
     <>
       {children}
 
-      <SharedProvider {...sharedProviderParams}>
+      <FieldPropsProvider
+        forceDisabled={false}
+        formElement={{ disabled: false }}
+      >
         <HeightAnimation>
           {renderWithState?.(getParamsRef.current())}
         </HeightAnimation>
-      </SharedProvider>
+      </FieldPropsProvider>
     </>
   )
 }

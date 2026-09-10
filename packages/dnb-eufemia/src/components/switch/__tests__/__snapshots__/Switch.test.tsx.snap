@@ -254,7 +254,7 @@ button .dnb-form-status__text {
   );
   --switch-focus-icon: var(--token-color-icon-neutral-ondark);
   --switch-disabled-background: var(--token-color-background-neutral);
-  --switch-disabled-border: var(--token-color-stroke-action-disabled);
+  --switch-disabled-border: var(--token-color-stroke-neutral-subtle);
   --switch-disabled-button-background: var(
     --token-color-background-action-disabled
   );
@@ -560,17 +560,19 @@ html[data-whatinput=keyboard] .dnb-switch__input:checked:not([disabled]):focus ~
     --token-color-background-action-pressed-ondark
   );
   --switch-disabled-background: transparent;
-  --switch-disabled-border: var(
-    --token-color-stroke-action-disabled-ondark
+  --switch-disabled-border: color-mix(
+    in srgb,
+    var(--token-color-stroke-neutral-ondark) 50%,
+    transparent
   );
   --switch-disabled-button-background: var(
-    --token-color-background-action-disabled-ondark
+    --token-color-background-neutral-static
   );
   --switch-disabled-checked-background: var(
-    --token-color-background-action-disabled-ondark
+    --token-color-background-action-disabled
   );
   --switch-disabled-checked-button-background: var(
-    --token-color-component-switch-action-disabled-ondark
+    --token-color-background-neutral-static
   );
   --switch-disabled-checked-icon: var(
     --token-color-icon-action-disabled-ondark

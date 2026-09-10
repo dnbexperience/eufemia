@@ -1,7 +1,7 @@
 locals {
   function_name = "eufemia-${var.environment}-analytics"
   database_name = "eufemia_${var.environment}_analytics"
-  table_name    = "records"
+  table_name    = "portal_views"
 
   tags = {
     CostAllocation = var.cost_allocation
@@ -15,8 +15,9 @@ data "aws_caller_identity" "current" {}
 # Storage
 # ---------------------------------------------------------------------------
 
-# Single bucket holds both the stored records (records/) and the Athena query
-# output (athena-results/). Account id keeps the name globally unique.
+# Single bucket holds the stored portal-view records (portal-views/) and the
+# Athena query output (athena-results/). Account id keeps the name globally
+# unique.
 resource "aws_s3_bucket" "data" {
   bucket = "${local.function_name}-${data.aws_caller_identity.current.account_id}"
   tags   = local.tags
@@ -75,7 +76,7 @@ resource "aws_glue_catalog_database" "analytics" {
   name = local.database_name
 }
 
-resource "aws_glue_catalog_table" "records" {
+resource "aws_glue_catalog_table" "portal_views" {
   name          = local.table_name
   database_name = aws_glue_catalog_database.analytics.name
   table_type    = "EXTERNAL_TABLE"
@@ -92,7 +93,7 @@ resource "aws_glue_catalog_table" "records" {
     "projection.dt.format"        = "yyyy-MM-dd"
     "projection.dt.interval"      = "1"
     "projection.dt.interval.unit" = "DAYS"
-    "storage.location.template"   = "s3://${aws_s3_bucket.data.id}/records/dt=$${dt}/"
+    "storage.location.template"   = "s3://${aws_s3_bucket.data.id}/portal-views/dt=$${dt}/"
   }
 
   partition_keys {
@@ -101,7 +102,7 @@ resource "aws_glue_catalog_table" "records" {
   }
 
   storage_descriptor {
-    location      = "s3://${aws_s3_bucket.data.id}/records/"
+    location      = "s3://${aws_s3_bucket.data.id}/portal-views/"
     input_format  = "org.apache.hadoop.mapred.TextInputFormat"
     output_format = "org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat"
 
@@ -111,33 +112,6 @@ resource "aws_glue_catalog_table" "records" {
       parameters = {
         "case.insensitive" = "true"
       }
-    }
-
-    columns {
-      name = "id"
-      type = "string"
-    }
-
-    columns {
-      name = "name"
-      type = "string"
-    }
-
-    columns {
-      name = "value"
-      type = "double"
-    }
-
-    columns {
-      name = "createdat"
-      type = "string"
-    }
-
-    # Page-view columns. The JSON SerDe reads schema-on-read, so record rows
-    # read NULL for these and page-view rows read NULL for id/name/value.
-    columns {
-      name = "type"
-      type = "string"
     }
 
     columns {
@@ -152,6 +126,11 @@ resource "aws_glue_catalog_table" "records" {
 
     columns {
       name = "timestamp"
+      type = "string"
+    }
+
+    columns {
+      name = "createdat"
       type = "string"
     }
   }
@@ -188,7 +167,9 @@ resource "aws_athena_workgroup" "analytics" {
 # (trust policy + AWSLambdaBasicExecutionRole) and it is only referenced here.
 #
 # The role additionally needs an inline/attached policy granting:
-#   - s3:GetObject, s3:PutObject, s3:ListBucket on the data bucket (records/*)
+#   - s3:GetObject, s3:PutObject, s3:ListBucket on the data bucket (portal-views/*)
+#   - s3:PutObject on the data bucket (records/dashboard-snapshot.json) — the
+#     scheduled snapshot generator reuses this role to refresh the snapshot
 #   - s3:GetObject, s3:PutObject on the data bucket (athena-results/*)
 #   - athena:StartQueryExecution, athena:GetQueryExecution,
 #     athena:GetQueryResults on the analytics workgroup
@@ -230,9 +211,8 @@ resource "aws_lambda_function" "analytics" {
       NODE_OPTIONS     = "--enable-source-maps"
       DATA_BUCKET      = aws_s3_bucket.data.id
       GLUE_DATABASE    = aws_glue_catalog_database.analytics.name
-      GLUE_TABLE       = aws_glue_catalog_table.records.name
+      GLUE_TABLE       = aws_glue_catalog_table.portal_views.name
       ATHENA_WORKGROUP = aws_athena_workgroup.analytics.name
-      API_TOKEN        = var.api_token
 
       # Shared secret for the X-Edge-Auth origin check (injected by Akamai).
       EDGE_AUTH_SECRET = var.edge_auth_secret
@@ -272,27 +252,15 @@ resource "aws_apigatewayv2_integration" "analytics" {
   payload_format_version = "2.0"
 }
 
-resource "aws_apigatewayv2_route" "store" {
-  api_id    = aws_apigatewayv2_api.analytics.id
-  route_key = "POST /records"
-  target    = "integrations/${aws_apigatewayv2_integration.analytics.id}"
-}
-
-resource "aws_apigatewayv2_route" "retrieve" {
-  api_id    = aws_apigatewayv2_api.analytics.id
-  route_key = "GET /records"
-  target    = "integrations/${aws_apigatewayv2_integration.analytics.id}"
-}
-
 resource "aws_apigatewayv2_route" "health" {
   api_id    = aws_apigatewayv2_api.analytics.id
   route_key = "GET /healthz"
   target    = "integrations/${aws_apigatewayv2_integration.analytics.id}"
 }
 
-resource "aws_apigatewayv2_route" "collect" {
+resource "aws_apigatewayv2_route" "collect_portal_views" {
   api_id    = aws_apigatewayv2_api.analytics.id
-  route_key = "POST /collect"
+  route_key = "POST /collect-portal-views"
   target    = "integrations/${aws_apigatewayv2_integration.analytics.id}"
 }
 
@@ -317,17 +285,13 @@ resource "aws_apigatewayv2_api" "dashboard" {
   tags          = local.tags
 
   cors_configuration {
-    # Always include the live dashboard origin so CORS works on the first deploy
-    # (no chicken-and-egg); dashboard_origins adds any extra, e.g. local dev.
-    # dashboard_public_url adds the custom domain once it is configured; compact
-    # drops it while it is still empty, distinct dedupes an overlap with
-    # dashboard_origins.
+    # The dashboard is served from its canonical origin (dashboard_public_url,
+    # the custom domain) plus any extra dashboard_origins (e.g. local dev). The
+    # raw *.cloudfront.net origin is intentionally not allowed here (see README).
+    # distinct/compact dedupe and drop any blank entries.
     allow_origins = distinct(compact(concat(
       var.dashboard_origins,
-      [
-        "https://${aws_cloudfront_distribution.dashboard.domain_name}",
-        var.dashboard_public_url,
-      ],
+      [var.dashboard_public_url],
     )))
     allow_methods = ["GET"]
     allow_headers = ["authorization"]
@@ -449,7 +413,7 @@ resource "aws_lambda_function" "snapshot" {
       NODE_OPTIONS     = "--enable-source-maps"
       DATA_BUCKET      = aws_s3_bucket.data.id
       GLUE_DATABASE    = aws_glue_catalog_database.analytics.name
-      GLUE_TABLE       = aws_glue_catalog_table.records.name
+      GLUE_TABLE       = aws_glue_catalog_table.portal_views.name
       ATHENA_WORKGROUP = aws_athena_workgroup.analytics.name
     }
   }
@@ -658,6 +622,54 @@ resource "aws_cloudfront_origin_access_control" "dashboard" {
   signing_protocol                  = "sigv4"
 }
 
+# Custom response-headers policy. The AWS-managed SecurityHeadersPolicy cannot
+# carry a Content-Security-Policy, and the dashboard holds an Entra access token
+# in sessionStorage, so a strict CSP is worth the extra policy. script-src is
+# locked to 'self'; connect-src allows only same-origin, Entra sign-in, and the
+# dashboard data API. style-src keeps 'unsafe-inline' because the bar charts set
+# inline widths — inline styles cannot exfiltrate the token, unlike scripts.
+resource "aws_cloudfront_response_headers_policy" "dashboard" {
+  name = "${local.function_name}-dashboard"
+
+  security_headers_config {
+    strict_transport_security {
+      access_control_max_age_sec = 31536000
+      include_subdomains         = true
+      override                   = true
+    }
+
+    content_type_options {
+      override = true
+    }
+
+    frame_options {
+      frame_option = "DENY"
+      override     = true
+    }
+
+    referrer_policy {
+      referrer_policy = "strict-origin-when-cross-origin"
+      override        = true
+    }
+
+    content_security_policy {
+      override = true
+      content_security_policy = join("; ", [
+        "default-src 'none'",
+        "script-src 'self'",
+        "style-src 'self' 'unsafe-inline'",
+        "img-src 'self' data:",
+        "font-src 'self'",
+        "connect-src 'self' https://login.microsoftonline.com ${aws_apigatewayv2_api.dashboard.api_endpoint}",
+        "base-uri 'none'",
+        "form-action 'none'",
+        "frame-ancestors 'none'",
+        "object-src 'none'",
+      ])
+    }
+  }
+}
+
 resource "aws_cloudfront_distribution" "dashboard" {
   enabled             = true
   is_ipv6_enabled     = true
@@ -682,9 +694,9 @@ resource "aws_cloudfront_distribution" "dashboard" {
     # AWS managed "CachingOptimized" policy.
     cache_policy_id = "658327ea-f89d-4fab-a63d-7e88639e58f6"
 
-    # AWS managed "SecurityHeadersPolicy": adds HSTS, X-Content-Type-Options,
-    # X-Frame-Options, Referrer-Policy. Managed id needs no extra deploy-role IAM.
-    response_headers_policy_id = "67f7725c-6f97-4210-82d7-5512b31e9d03"
+    # Custom response-headers policy: managed security headers (HSTS,
+    # X-Content-Type-Options, X-Frame-Options, Referrer-Policy) plus a CSP.
+    response_headers_policy_id = aws_cloudfront_response_headers_policy.dashboard.id
   }
 
   restrictions {

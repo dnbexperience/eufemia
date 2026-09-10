@@ -88,6 +88,55 @@ describe('Tabs component', () => {
     ).toBe(tablistData.find(({ key }) => key === startupSelectedKey).title)
   })
 
+  it('moves the selection underline to the active tab', () => {
+    vi.spyOn(
+      HTMLElement.prototype,
+      'getBoundingClientRect'
+    ).mockImplementation(function (this: HTMLElement) {
+      if (this.classList.contains('dnb-tabs__tabs__tablist')) {
+        return { left: 10 } as DOMRect
+      }
+
+      if (this.getAttribute('data-tab-key') === 'first') {
+        return { left: 10, width: 40 } as DOMRect
+      }
+
+      if (this.getAttribute('data-tab-key') === 'second') {
+        return { left: 70, width: 60 } as DOMRect
+      }
+
+      return { left: 0, width: 0 } as DOMRect
+    })
+
+    render(
+      <Tabs {...props} data={tablistData}>
+        {contentWrapperData}
+      </Tabs>
+    )
+
+    const underline = document.querySelector<HTMLElement>(
+      '.dnb-tabs__selection'
+    )
+
+    expect(underline.style.getPropertyValue('--tabs-selection-x')).toBe(
+      '0px'
+    )
+    expect(
+      underline.style.getPropertyValue('--tabs-selection-width')
+    ).toBe('40px')
+    expect(underline).not.toHaveClass('dnb-tabs__selection--animated')
+
+    fireEvent.click(document.querySelector('[data-tab-key="second"]'))
+
+    expect(underline.style.getPropertyValue('--tabs-selection-x')).toBe(
+      '60px'
+    )
+    expect(
+      underline.style.getPropertyValue('--tabs-selection-width')
+    ).toBe('60px')
+    expect(underline).toHaveClass('dnb-tabs__selection--animated')
+  })
+
   it('has working "onChange" and "onClick" event handler', () => {
     let preventChange = false
     const onChange = vi.fn((e) => {

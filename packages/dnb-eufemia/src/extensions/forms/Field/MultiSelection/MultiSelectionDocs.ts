@@ -44,6 +44,11 @@ export const MultiSelectionProperties: PropertiesTableProps = {
     type: ['string', 'number'],
     status: 'optional',
   },
+  listDriver: {
+    doc: 'Opt in to a custom item-list renderer. Use `createMultiSelectionVirtualization` from `@dnb/eufemia/extensions/forms/Field/MultiSelection/Virtualization` for large data sets. Install the optional `@tanstack/react-virtual` peer dependency when using this driver. The inline variant defaults to a `32rem` maximum height when virtualized; use `maxHeight` to override it.',
+    type: 'MultiSelectionListDriver',
+    status: 'optional',
+  },
   showConfirmButton: {
     doc: 'Show confirm and cancel buttons at the bottom of the popover. Selections are only applied when the user confirms.',
     type: ['boolean'],
