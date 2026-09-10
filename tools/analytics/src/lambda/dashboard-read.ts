@@ -3,10 +3,15 @@ import { json } from './http.js'
 import {
   readSnapshot,
   requireEnv,
+  EMPTY_MCP_USAGE,
   type Snapshot,
 } from './snapshot-store.js'
 
-const EMPTY: Snapshot = { generatedAt: '', portalViews: [] }
+const EMPTY: Snapshot = {
+  generatedAt: '',
+  portalViews: [],
+  mcpUsage: EMPTY_MCP_USAGE,
+}
 
 /**
  * Browser-facing dashboard read endpoint (`GET /data`). Access is gated by the

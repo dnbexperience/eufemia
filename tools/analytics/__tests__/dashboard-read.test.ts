@@ -91,6 +91,13 @@ describe('dashboard-read handler', () => {
     expect(JSON.parse(res.body)).toEqual({
       generatedAt: '',
       portalViews: [],
+      mcpUsage: {
+        total: 0,
+        perTool: [],
+        perComponent: [],
+        perPath: [],
+        daily: [],
+      },
     })
     expect(putCalls()).toHaveLength(0)
   })
