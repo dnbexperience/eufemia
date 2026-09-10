@@ -32,7 +32,11 @@ const getCurrentBranchName = async (repo = null) => {
 
 const getRepo = async () => {
   const pathToRepo = path.resolve(__dirname, '../../../../')
-  const repo = simpleGit(pathToRepo)
+  const repo = simpleGit(pathToRepo, {
+    unsafe: {
+      allowUnsafeConfigEnvCount: true,
+    },
+  })
 
   // Authenticate via http.extraheader instead of embedding the PAT in
   // the remote URL — keeps the token out of .git/config and error output.
