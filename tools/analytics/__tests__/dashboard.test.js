@@ -163,7 +163,7 @@ describe('loadDashboardData', () => {
       return {
         status: 200,
         ok: true,
-        json: async () => ({ records: [{ id: 1 }] }),
+        json: async () => ({ portalViews: [{ id: 1 }] }),
       }
     }
 
@@ -173,7 +173,7 @@ describe('loadDashboardData', () => {
     expect(captured.options.headers.Authorization).toBe('Bearer token-abc')
     expect(result).toEqual({
       kind: 'data',
-      payload: { records: [{ id: 1 }] },
+      payload: { portalViews: [{ id: 1 }] },
     })
   })
 
