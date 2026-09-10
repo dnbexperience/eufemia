@@ -25,6 +25,13 @@ export type TableOfContentsItem = {
  * index signature that would turn picked fields into required ones.
  */
 export type KnownFrontmatter = {
+  /**
+   * Set to include page in the menu. Text is used in browser tab, the page
+   * heading (H1), menu, and to alphabetically order the pages in the menu.
+   *
+   * If not set, the page inherits the heading (H1) and browser title of
+   * its nearest parent (but is not included in the menu).
+   */
   title?: string
   description?: string
   /**
@@ -43,10 +50,19 @@ export type KnownFrontmatter = {
   draft?: boolean
 
   /**
-   * Hide the page from the menu.
+   * Hide the page from the menu, even if it has a `title` set.
    */
   hideInMenu?: boolean
+
+  /** Set to override `title` as the text used in the menu. */
   menuTitle?: string
+
+  /**
+   * Render the page heading inside a tab bar.
+   *
+   * Special case: If the first tab is named `info.mdx` and has
+   * no `title` page redirects to its parent.
+   */
   showTabs?: boolean
   hideTabs?: Array<{ title: string }>
   tabs?: Array<{ title: string; key: string }>
