@@ -573,7 +573,7 @@ describeDocsBuild('docs build', () => {
     expect(markdown).toContain('## `Breadcrumb.Item` events')
     expect(markdown).toMatch(/```json[\s\S]*```/)
     expect(markdown).toMatch(/```tsx[\s\S]*render\(/)
-    expect(nonUilibMarkdown).toContain('# Tools')
+    expect(nonUilibMarkdown).toContain("title: 'Design Tools'")
   })
 
   it('does not write markdown copies for docs excluded by robots', () => {
