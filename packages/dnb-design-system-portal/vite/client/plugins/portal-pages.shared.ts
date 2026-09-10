@@ -81,6 +81,10 @@ export type KnownFrontmatter = {
   accordion?: boolean
   search?: string
   redirect_from?: string[]
+  /** Hides the table of contents for the page. */
+  hideToc?: boolean
+  /** How many heading levels the table of contents should include, counting from the highest level on the page (excluding h1). Default is `2`. */
+  tocDepth?: number
 }
 
 /**
