@@ -172,7 +172,7 @@ describe('portal page main headings', () => {
     expect(mdxPages.length).toBeGreaterThan(50)
   })
 
-  it('every published, non-tab page starts with a main heading (H1)', () => {
+  it('every published, non-tab page without a title starts with a main heading (H1)', () => {
     const offenders: string[] = []
 
     for (const page of mdxPages) {
@@ -182,6 +182,7 @@ describe('portal page main headings', () => {
       if (frontmatter.showTabs === true) continue
       if (frontmatter.draft === true) continue
       if (frontmatter.fullscreen === true) continue
+      if (frontmatter.title !== undefined) continue
 
       // Partials are rendered inside a parent page that provides the H1.
       if (importedSet.has(path.normalize(page.filePath))) continue
@@ -219,6 +220,33 @@ describe('portal page main headings', () => {
         offenders.join('\n') +
         `\n\nAdd a "# Title" as the first content, or use showTabs with a ` +
         `frontmatter title. See vite/__tests__/page-headings.test.ts for the rules.`
+    ).toEqual([])
+  })
+
+  it('no page with a title starts with a main heading (H1) of its own', () => {
+    const offenders: string[] = []
+
+    for (const page of mdxPages) {
+      const frontmatter = page.frontmatter as Record<string, unknown>
+
+      if (frontmatter.draft === true) continue
+      if (frontmatter.title === undefined) continue
+
+      const body = matter(fs.readFileSync(page.filePath, 'utf-8')).content
+      const { firstHeadingLevel } = analyzeBody(body)
+
+      if (firstHeadingLevel === 1) {
+        offenders.push(`/${page.slug}`)
+      }
+    }
+
+    expect(
+      offenders,
+      `These pages render two main headings, as the H1 is already generated ` +
+        `from their frontmatter title:\n` +
+        offenders.join('\n') +
+        `\n\nRemove the "# Title" heading, or remove the frontmatter title. ` +
+        `See vite/__tests__/page-headings.test.ts for the rules.`
     ).toEqual([])
   })
 })

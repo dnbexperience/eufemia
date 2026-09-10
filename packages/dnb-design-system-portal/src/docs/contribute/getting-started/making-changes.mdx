@@ -3,9 +3,7 @@ title: 'Making changes'
 order: 3
 ---
 
-# Making changes
-
-## Check out a new branch
+### Check out a new branch
 
 Make a new working branch and name it e.g. `fix/my-branch-name` or `feat/my-feature-name`. Check out [Git convention](/contribute/style-guides/git) for naming.
 
@@ -14,13 +12,13 @@ Make a new working branch and name it e.g. `fix/my-branch-name` or `feat/my-feat
 $ git checkout -b feat/my-feature
 ```
 
-## Add changes
+### Add changes
 
 Inside `./packages/dnb-eufemia`, you will find the directory `/src/components` or `/src/extensions`. There you can place a new directory with all the necessary subfolders. As a reference, take a look at Component folder section in [Before getting started](/contribute/first-contribution/before-started#component-folder).
 
 Run the Eufemia Portal with `yarn start`. Make sure you follow the [Code guide](/contribute/style-guides/coding) during development.
 
-## How a component should be structured
+### How a component should be structured
 
 A component should be structured as follows:
 
@@ -39,7 +37,7 @@ export function helperFunction(children: React.ReactNode) {
 export default MyComponent
 ```
 
-## Styling, CSS and SCSS of components
+### Styling, CSS and SCSS of components
 
 Each component has two or three SCSS files.
 
@@ -47,19 +45,19 @@ All layout and position-related styles go here:
 
 - `./packages/dnb-eufemia/src/components/button/style/dnb-button.scss`
 
-### CSS packages
+#### CSS packages
 
 SCSS file names starting with `dnb-` can later be imported as individual packages:
 
 - `./packages/dnb-eufemia/src/components/button/style/dnb-button.scss`
 
-### Style dependencies
+#### Style dependencies
 
 In order to test related style dependencies of components, we add style imports in the `deps.scss` file, which is then used in Jest tests to perform a snapshot comparison:
 
 - `./packages/dnb-eufemia/src/components/button/style/deps.scss`
 
-### SCSS Theming
+#### SCSS Theming
 
 Styles that belong to a "theming footprint" – like colors or individual variants – can be put inside the `/themes` directory:
 
@@ -67,13 +65,13 @@ Styles that belong to a "theming footprint" – like colors or individual varian
 
 Theming file names ending with `-ui` will be packed into the global theming package during release. More details in the [theming section](/uilib/usage/customisation/theming).
 
-### SCSS utilities
+#### SCSS utilities
 
 Use the same SCSS setup as all the other components. You may reuse all the [helper classes](/uilib/helpers/classes):
 
 - `./packages/dnb-eufemia/src/style/core/utilities.scss`
 
-## Create a local build
+### Create a local build
 
 Next, we need to create a local build (prebuild) by using `yarn build` again.
 
@@ -85,9 +83,9 @@ $ yarn build
 
 You can find the output in the `./packages/dnb-eufemia/build` folder.
 
-## Additional component support
+### Additional component support
 
-### Locale support
+#### Locale support
 
 Put your translation inside: `./packages/dnb-eufemia/src/shared/locales/nb-NO.js` as well as in the `en-GB.js` file:
 
@@ -136,7 +134,7 @@ function MyComponent(props: ComponentAllProps) {
 
 The function `getTranslation` will, along with the properties, support both `locale` and the HTML `lang` attribute. This way, these properties can be set on a per-component basis and a per-context basis.
 
-### Provider support
+#### Provider support
 
 ```tsx
 import { Context } from '../../shared'
@@ -169,7 +167,7 @@ function MyComponent(props: ComponentAllProps) {
 }
 ```
 
-### "Form element" components
+#### "Form element" components
 
 Form elements, like input, checkbox, slider etc. should include some extra functionality in order to be used in various situations.
 
@@ -189,7 +187,7 @@ This helps e.g. to detect automated determination of label vs fieldset/legend.
 
 Form elements should support spacing properties on their rendered root by using `useSpacing`, as described in [Spacing support](#spacing-support) below. Flex uses rendered DOM and CSS gap, so components should not assign `_supportsSpacingProps`.
 
-#### Usage of `pickFormElementProps`
+##### Usage of `pickFormElementProps`
 
 In order to support form element properties, such as `vertical` or `labelDirection`, you can use `pickFormElementProps`, so only valid properties will affect the component.
 
@@ -216,7 +214,7 @@ function FormComponent(props: Types) {
 }
 ```
 
-### Spacing support
+#### Spacing support
 
 How you make [spacing](/uilib/layout/space) support available varies from case to case. But you may always allow the developer to pass in the spacing properties to the very root element of your component.
 
@@ -262,7 +260,7 @@ function MyComponent(props: ComponentAllProps) {
 }
 ```
 
-### Skeleton support
+#### Skeleton support
 
 How you make skeleton support available varies from case to case. There is also more info on how to create a [custom skeleton](/uilib/components/skeleton#create-custom-skeleton). But in case your component supports the `skeleton` boolean property, then you may ensure it both can be set locally on the component, and it reacts on the global Context.
 
@@ -313,7 +311,7 @@ function MyComponent(props: ComponentAllProps) {
 }
 ```
 
-### TypeScript types
+#### TypeScript types
 
 ```tsx
 import React from 'react'
@@ -328,7 +326,7 @@ export type ComponentAllProps = ComponentProps &
 function MyComponent(props: ComponentAllProps) {}
 ```
 
-## Write documentation
+### Write documentation
 
 All components have their own directory inside:
 
