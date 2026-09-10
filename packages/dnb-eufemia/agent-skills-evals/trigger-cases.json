@@ -1,6 +1,14 @@
 {
   "cases": [
     {
+      "prompt": "Sync the new Eufemia icons from the Figma library and prepare the release pull request.",
+      "expected_skill": "eufemia-figma-icons"
+    },
+    {
+      "prompt": "Which Eufemia documentation and changelog format should I follow when updating icons from Figma?",
+      "expected_skill": "eufemia-figma-icons"
+    },
+    {
       "prompt": "Which Eufemia Button props should I use for this interaction?",
       "expected_skill": "eufemia-components"
     },

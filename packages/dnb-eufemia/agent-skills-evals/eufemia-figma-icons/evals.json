@@ -1,0 +1,25 @@
+{
+  "skill_name": "eufemia-figma-icons",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Sync the latest Eufemia icons from Figma and prepare the requested pull request.",
+      "expected_output": "The repository icon documentation is followed, and the pull request uses the documented title, short description, release date, and changelog format.",
+      "assertions": [
+        "The response reads and follows packages/dnb-design-system-portal/src/docs/contribute/deploy/icons.mdx",
+        "The pull request title uses the feat(Icons): add [icon names] format",
+        "The changelog lists genuinely new icon names under the intended release date"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Refresh existing Eufemia Figma icons and update the repository pull request metadata.",
+      "expected_output": "The workflow documentation is used, refreshed icons are not presented as newly added names, and the pull request description remains one short sentence.",
+      "assertions": [
+        "The response distinguishes newly added icon names from refreshed existing icons",
+        "The pull request description is limited to one short sentence",
+        "The response uses the repository's documented icon workflow"
+      ]
+    }
+  ]
+}

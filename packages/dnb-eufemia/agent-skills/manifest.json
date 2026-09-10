@@ -4,6 +4,12 @@
   "optionalTools": [],
   "skills": [
     {
+      "name": "eufemia-figma-icons",
+      "description": "Use the Eufemia repository documentation when syncing icons from Figma.",
+      "path": "eufemia-figma-icons/SKILL.md",
+      "requiredTools": []
+    },
+    {
       "name": "eufemia-components",
       "description": "Find and apply current Eufemia component APIs. Use when choosing a component or implementing Eufemia props, events, forms, layout primitives, or examples.",
       "path": "eufemia-components/SKILL.md",
