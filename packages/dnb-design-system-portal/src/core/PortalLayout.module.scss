@@ -1,0 +1,66 @@
+@use '@dnb/eufemia/src/style/core/utilities.scss' as utilities;
+
+.content-grid {
+  --content-sidebar-width: 10rem;
+  --content-gutter-size: 2rem;
+  --content-sidebar-gap: 10rem;
+  /* stylelint-disable-next-line eufemia/no-undefined-custom-property */
+  --content-sidebar-top: calc(var(--portal-sidebar-top, 3.5rem) + 1rem);
+
+  @include utilities.allAbove(large) {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) var(--content-sidebar-width);
+    column-gap: var(--content-sidebar-gap);
+    align-items: start;
+
+    :global(.fullscreen-page) &,
+    &.content-grid--without-toc {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+}
+
+.content-grid__header {
+  @include utilities.allAbove(large) {
+    grid-column: 1;
+    grid-row: 1;
+    min-width: 0;
+  }
+}
+
+.content-grid__sidebar {
+  margin: 1rem 0 1.5rem;
+
+  :global(.fullscreen-page) & {
+    display: none;
+  }
+
+  @include utilities.allAbove(large) {
+    grid-column: 2;
+    grid-row: 1;
+    grid-row: 1 / span 2;
+    align-self: stretch;
+    margin: 0;
+    padding-top: var(--content-sidebar-top);
+
+    position: sticky;
+    top: 1rem;
+    max-height: calc(100vh - var(--content-sidebar-top));
+
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.content-grid__content {
+  @include utilities.allAbove(large) {
+    grid-column: 1;
+    grid-row: 2;
+    min-width: 0;
+
+    margin-left: calc(var(--content-gutter-size) * -1);
+    margin-right: calc(var(--content-gutter-size) * -1);
+    padding: 0 var(--content-gutter-size);
+    overflow: hidden;
+  }
+}

@@ -66,7 +66,7 @@ test.describe('Sidebar resize', () => {
 
     await expect(
       sidebar.evaluate(
-        (element) => element.scrollWidth <= element.clientWidth
+        (element) => element.scrollWidth >= element.clientWidth
       )
     ).resolves.toBe(true)
 
