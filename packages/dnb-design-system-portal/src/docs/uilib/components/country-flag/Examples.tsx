@@ -134,23 +134,26 @@ export const InComponents = () => (
         <Icon icon={<CountryFlag iso="NO" />} size="medium" />
       </Flex.Horizontal>
 
-      <Flex.Vertical>
-        <Heading level="1">
-          H1 heading <CountryFlag iso="NO" />
-        </Heading>
-        <Heading level="2">
-          H2 heading <CountryFlag iso="NO" />
-        </Heading>
-        <Heading level="3">
-          H3 heading <CountryFlag iso="NO" />
-        </Heading>
-        <P style={{ maxWidth: '20rem' }}>
-          <CountryFlag iso="NO" /> Paragraph Eiusmod id cillum Lorem nulla
-          non consectetur pariatur mollit Lorem non do nulla reprehenderit
-          {' '}
-          <CountryFlag iso="NO" />
-        </P>
-      </Flex.Vertical>
+      <Heading.Level reset={1}>
+        <Flex.Vertical>
+          <Heading level="1">
+            H1 heading <CountryFlag iso="NO" />
+          </Heading>
+          <Heading level="2">
+            H2 heading <CountryFlag iso="NO" />
+          </Heading>
+          <Heading level="3">
+            H3 heading <CountryFlag iso="NO" />
+          </Heading>
+          <P style={{ maxWidth: '20rem' }}>
+            <CountryFlag iso="NO" /> Paragraph Eiusmod id cillum Lorem
+            nulla non consectetur pariatur mollit Lorem non do nulla
+            reprehenderit
+            {' '}
+            <CountryFlag iso="NO" />
+          </P>
+        </Flex.Vertical>
+      </Heading.Level>
     </Flex.Vertical>
   </ComponentBox>
 )
