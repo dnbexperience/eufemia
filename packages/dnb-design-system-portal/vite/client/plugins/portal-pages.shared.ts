@@ -106,6 +106,10 @@ export type KnownFrontmatter = {
   accordion?: boolean
   search?: string
   redirect_from?: string[]
+  /** Hides the table of contents for the page. */
+  hideToc?: boolean
+  /** Number of visible section heading levels below H1. Defaults to 2. */
+  tocDepth?: number
 }
 
 /**
