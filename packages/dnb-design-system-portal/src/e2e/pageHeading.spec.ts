@@ -13,23 +13,23 @@ test.describe('Page Heading', () => {
     const h1Count = await page.$$eval('h1', (elements) => elements.length)
     expect(h1Count).toBe(1)
 
-    const firstElementTagName = await page.$eval(
+    const firstHeadingElementTagName = await page.$eval(
+      '#content-grid-header > *',
+      (element) => element.tagName
+    )
+    expect(firstHeadingElementTagName).toBe('H1')
+
+    const firstContentElementTagName = await page.$eval(
       '#tab-bar-content > *',
       (element) => element.tagName
     )
-    expect(firstElementTagName).toBe('H1')
+    expect(firstContentElementTagName).toBe('P')
 
     const secondElementTagName = await page.$eval(
-      '#tab-bar-content > h1 ~ p ~ *',
+      '#tab-bar-content > p ~ *',
       (element) => element.tagName
     )
     expect(secondElementTagName).toBe('H2')
-
-    const thirdElementTagName = await page.$eval(
-      '#tab-bar-content > h1 ~ p ~ *',
-      (element) => element.tagName
-    )
-    expect(thirdElementTagName).toBe('H2')
 
     // App should re-render
     await page.click(
