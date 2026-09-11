@@ -11,6 +11,7 @@
 ![NPM version](https://img.shields.io/npm/v/@dnb/eufemia?style=flat-square)
 ![Last commit](https://img.shields.io/github/last-commit/dnbexperience/eufemia?style=flat-square)
 [![Verify](https://github.com/dnbexperience/eufemia/actions/workflows/verify.yml/badge.svg)](https://github.com/dnbexperience/eufemia/actions/workflows/verify.yml)
+[![Dependency audit](https://github.com/dnbexperience/eufemia/actions/workflows/dependency-audit.yml/badge.svg)](https://github.com/dnbexperience/eufemia/actions/workflows/dependency-audit.yml)
 [![CodeQL](https://github.com/dnbexperience/eufemia/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/dnbexperience/eufemia/actions/workflows/codeql-analysis.yml)
 
 </div>
