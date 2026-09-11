@@ -736,7 +736,9 @@ export function createDocsTools(
       return nodeSourcePromise
     }
     source = {
-      label: `node:${docsRoot}`,
+      get label() {
+        return `node:${docsRoot}`
+      },
       listMarkdown: () => getNodeSource().then((s) => s.listMarkdown()),
       read: (relPath) => getNodeSource().then((s) => s.read(relPath)),
       stat: (relPath) => getNodeSource().then((s) => s.stat(relPath)),

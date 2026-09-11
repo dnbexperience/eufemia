@@ -912,3 +912,25 @@ describe('MCP dependency configuration', () => {
     expect(fs.existsSync(scriptPath)).toBe(true)
   })
 })
+
+describe('MCP shipped source constraints', () => {
+  // babel-plugin-fully-specified only rewrites static import/export, not
+  // dynamic import(). A relative dynamic import therefore ships without a
+  // file extension and cannot be resolved by Node ESM, which crashes the
+  // server on startup. Bare `node:*` specifiers are fine.
+  it('does not use relative dynamic imports in shipped source', () => {
+    const mcpDir = path.join(__dirname, '..')
+    const files = fs
+      .readdirSync(mcpDir)
+      .filter((name) => name.endsWith('.ts') && !name.endsWith('.d.ts'))
+
+    const relativeDynamicImport = /import\(\s*['"]\.\.?\//
+    const offenders = files.filter((name) =>
+      relativeDynamicImport.test(
+        fs.readFileSync(path.join(mcpDir, name), 'utf8')
+      )
+    )
+
+    expect(offenders).toEqual([])
+  })
+})
