@@ -5,6 +5,7 @@ import fs from 'fs'
 import os from 'os'
 import path from 'path'
 import {
+  createDocsServer,
   createDocsTools,
   DocsSearchInput,
   MAX_SEARCH_QUERY_LENGTH,
@@ -183,6 +184,31 @@ describe('docs_entry', () => {
     const tools = createDocsTools({ docsRoot })
     const result = await tools.docsEntry({})
     expect(getText(result)).toContain('Eufemia Docs')
+  })
+})
+
+describe('createDocsServer (Node fallback)', () => {
+  it('resolves docsRoot lazily instead of leaving it as <pending>', async () => {
+    const fixture = createDocsFixture()
+    const previous = process.env.EUFEMIA_DOCS_ROOT
+    process.env.EUFEMIA_DOCS_ROOT = fixture.docsRoot
+
+    try {
+      const { tools } = await createDocsServer()
+
+      expect(tools.docsRoot).not.toBe('<pending>')
+      expect(tools.docsRoot).toBe(path.resolve(fixture.docsRoot))
+
+      const result = await tools.docsEntry({})
+      expect(getText(result)).toContain('Eufemia Docs')
+    } finally {
+      if (previous === undefined) {
+        delete process.env.EUFEMIA_DOCS_ROOT
+      } else {
+        process.env.EUFEMIA_DOCS_ROOT = previous
+      }
+      fixture.cleanup()
+    }
   })
 })
 
@@ -884,5 +910,27 @@ describe('MCP dependency configuration', () => {
   it('has run-mcp-server.sh script file at expected location', () => {
     const scriptPath = path.join(__dirname, '../run-mcp-server.sh')
     expect(fs.existsSync(scriptPath)).toBe(true)
+  })
+})
+
+describe('MCP shipped source constraints', () => {
+  // babel-plugin-fully-specified only rewrites static import/export, not
+  // dynamic import(). A relative dynamic import therefore ships without a
+  // file extension and cannot be resolved by Node ESM, which crashes the
+  // server on startup. Bare `node:*` specifiers are fine.
+  it('does not use relative dynamic imports in shipped source', () => {
+    const mcpDir = path.join(__dirname, '..')
+    const files = fs
+      .readdirSync(mcpDir)
+      .filter((name) => name.endsWith('.ts') && !name.endsWith('.d.ts'))
+
+    const relativeDynamicImport = /import\(\s*['"]\.\.?\//
+    const offenders = files.filter((name) =>
+      relativeDynamicImport.test(
+        fs.readFileSync(path.join(mcpDir, name), 'utf8')
+      )
+    )
+
+    expect(offenders).toEqual([])
   })
 })

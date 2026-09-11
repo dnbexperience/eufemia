@@ -3,7 +3,7 @@
  *
  * This module deliberately avoids importing any Node built-ins so that the
  * shared core stays runtime-agnostic and importable in non-Node runtimes.
- * The Node-only stdio entry point lives in `./mcp-stdio.ts` and the local
+ * The Node-only stdio entry point lives in `./mcp-server.ts` and the local
  * Express HTTP server lives in `./mcp-http-server.ts`.
  */
 
@@ -14,7 +14,11 @@ import {
   type CallToolResult,
 } from '@modelcontextprotocol/server'
 
-import { type DocsSource, normalizeDocsPath } from './docs-source'
+import {
+  createNodeDocsSource,
+  type DocsSource,
+  normalizeDocsPath,
+} from './docs-source'
 import reviewRules from '../plugins/review-rules.js'
 
 type ToolResult = CallToolResult
@@ -135,7 +139,6 @@ export async function validateDocsRoot(
     throw new Error(`Eufemia docs root is not a directory: ${docsRootAbs}`)
   }
 
-  const { createNodeDocsSource } = await import('./docs-source')
   const source = await createNodeDocsSource(docsRootAbs)
   await validateDocsSource(source)
 }
@@ -727,14 +730,15 @@ export function createDocsTools(
           const root = await docsRootPromise
           resolvedDocsRoot = root
           docsRoot = root
-          const { createNodeDocsSource } = await import('./docs-source')
           return createNodeDocsSource(root)
         })()
       }
       return nodeSourcePromise
     }
     source = {
-      label: `node:${docsRoot}`,
+      get label() {
+        return `node:${docsRoot}`
+      },
       listMarkdown: () => getNodeSource().then((s) => s.listMarkdown()),
       read: (relPath) => getNodeSource().then((s) => s.read(relPath)),
       stat: (relPath) => getNodeSource().then((s) => s.stat(relPath)),
@@ -998,7 +1002,9 @@ export function createDocsTools(
     componentApi,
     componentProps,
     source,
-    docsRoot,
+    get docsRoot() {
+      return docsRoot
+    },
   }
 }
 
@@ -1188,5 +1194,5 @@ export async function createDocsServer(
   return { server, tools }
 }
 
-// The Node-only stdio entry lives in `./mcp-stdio.ts`. Keeping it out of
+// The Node-only stdio entry lives in `./mcp-server.ts`. Keeping it out of
 // this module ensures the shared core stays runtime-agnostic.

@@ -17,4 +17,4 @@ cd "$PACKAGE_ROOT"
 export EUFEMIA_DOCS_ROOT="${EUFEMIA_DOCS_ROOT:-$PACKAGE_ROOT/build/docs}"
 
 # Run with yarn to ensure babel-node is found
-exec yarn babel-node --extensions .js,.ts,.tsx src/mcp/mcp-stdio.ts
+exec yarn babel-node --extensions .js,.ts,.tsx src/mcp/mcp-server.ts
