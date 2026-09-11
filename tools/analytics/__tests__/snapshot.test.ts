@@ -65,8 +65,10 @@ describe('snapshot generator handler', () => {
     expect(putCalls()).toHaveLength(1)
 
     const put = putCalls()[0][0] as Command
-    expect(put.input.Key).toBe('records/dashboard-snapshot.json')
-    expect(JSON.parse(put.input.Body as string).records).toEqual(records)
+    expect(put.input.Key).toBe('snapshots/dashboard.json')
+    expect(JSON.parse(put.input.Body as string).portalViews).toEqual(
+      records
+    )
     expect(result.count).toBe(1)
     expect(result.generatedAt).toEqual(expect.any(String))
   })

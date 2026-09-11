@@ -58,15 +58,15 @@ export async function handler(): Promise<{
 
   const snapshot: Snapshot = {
     generatedAt: new Date().toISOString(),
-    records: await retrievePortalViews({ limit: SNAPSHOT_LIMIT }),
+    portalViews: await retrievePortalViews({ limit: SNAPSHOT_LIMIT }),
   }
 
   await writeSnapshot(bucket, snapshot)
 
-  emitRecordCountMetric(snapshot.records.length)
+  emitRecordCountMetric(snapshot.portalViews.length)
 
   return {
     generatedAt: snapshot.generatedAt,
-    count: snapshot.records.length,
+    count: snapshot.portalViews.length,
   }
 }

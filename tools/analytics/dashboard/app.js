@@ -27,8 +27,8 @@ function toRecords(payload) {
     return payload
   }
 
-  if (payload && Array.isArray(payload.records)) {
-    return payload.records
+  if (payload && Array.isArray(payload.portalViews)) {
+    return payload.portalViews
   }
 
   return []
