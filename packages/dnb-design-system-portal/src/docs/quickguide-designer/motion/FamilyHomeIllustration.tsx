@@ -17,13 +17,13 @@ export default function FamilyHomeIllustration() {
       fill="none"
     >
       <Greenery side="left" />
-      <g className="dnb-motion-scene__illustration-body" data-motion="">
+      <g className="dnb-motion-scene__illustration-body">
         <path
           d="M66.0293 104.303L164.854 16.7002L271.413 104.303V248.76H66.0293V104.303Z"
           fill="#A5E1D2"
         />
       </g>
-      <g className="dnb-motion-scene__illustration-details" data-motion="">
+      <g className="dnb-motion-scene__illustration-details">
         <path
           d="M270.805 248.76L408.351 246.968V130.922L270.805 104.303V248.76Z"
           fill="#A0D8CB"
@@ -37,10 +37,7 @@ export default function FamilyHomeIllustration() {
           d="M269.621 248.76L443.098 248.216L444.394 103.967H269.621V248.76Z"
           fill="#008484"
         />
-        <g
-          className="dnb-motion-scene__illustration-windows dnb-motion-scene__illustration-windows--side"
-          data-motion=""
-        >
+        <g className="dnb-motion-scene__illustration-windows dnb-motion-scene__illustration-windows--side">
           <g>
             <mask
               id={`${id}-window-1`}
@@ -165,10 +162,7 @@ export default function FamilyHomeIllustration() {
             </g>
           </g>
         </g>
-        <g
-          className="dnb-motion-scene__illustration-windows dnb-motion-scene__illustration-windows--front"
-          data-motion=""
-        >
+        <g className="dnb-motion-scene__illustration-windows dnb-motion-scene__illustration-windows--front">
           <g>
             <mask
               id={`${id}-window-4`}
@@ -302,7 +296,7 @@ export default function FamilyHomeIllustration() {
           />
         </g>
       </g>
-      <g className="dnb-motion-scene__illustration-roof" data-motion="">
+      <g className="dnb-motion-scene__illustration-roof">
         <path
           d="M164.805 16.7002L341.69 17.4841L444.394 103.967L268.997 104.303L164.805 16.7002Z"
           fill="#C1F8EA"
@@ -354,7 +348,6 @@ export default function FamilyHomeIllustration() {
       <g
         className="dnb-motion-scene__garage"
         clipPath={`url(#${id}-garage)`}
-        data-motion=""
       >
         <rect
           x="105.921"
@@ -400,7 +393,6 @@ function Greenery({ side }: { side: 'left' | 'right' }) {
     <g transform={`translate(${side === 'right' ? 399 : 0} 0)`}>
       <path
         className={`dnb-motion-scene__illustration-greenery dnb-motion-scene__illustration-greenery--${side}`}
-        data-motion=""
         fillRule="evenodd"
         clipRule="evenodd"
         d="M121.81 248H0.592879C0.250578 246.593 0.0482497 245.15 0.00756007 243.693C-0.172685 237.255 2.8806 230.736 8.03796 227.229C13.1944 223.723 20.3154 223.517 25.4846 227.005C26.6032 227.76 27.6475 228.704 28.325 229.892C29.7479 227.22 31.9127 225.182 34.4778 224.239C34.9632 216.964 40.5626 211.223 47.4037 211.223C48.4979 211.223 49.5594 211.371 50.5739 211.648C52.9678 209.386 56.1787 208 59.7093 208C64.4455 208 68.6047 210.491 70.9886 214.248C72.5773 213.49 74.3372 213.065 76.1904 213.065C80.038 213.065 83.4853 214.885 85.8221 217.758C88.553 215.686 91.9984 214.446 95.7474 214.446C103.982 214.446 110.763 220.413 111.68 228.095C112.351 227.903 113.048 227.799 113.765 227.799C118.984 227.799 123.214 233.158 123.214 239.769C123.214 242.047 122.69 245.65 121.81 248Z"
