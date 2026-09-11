@@ -1,12 +1,14 @@
 /**
  * Anonymous page-view tracking for the docs portal.
  *
- * Only the pathname is sent (no query, hash, identifiers, cookies or device
- * storage). Events are buffered in memory and flushed with `sendBeacon` when
- * the page is hidden or unloaded, or eagerly once the buffer reaches the
- * collector's batch limit, so navigation is never blocked and nothing is
- * retried across reloads. Consecutive views of the same path (e.g. a re-mount)
- * are recorded once.
+ * The in-app path (pathname, query and hash) is sent; the collector minimises
+ * it to a safe shape — dropping docs search terms and other incidental query
+ * values — before storing, so nothing incidental is persisted. No identifiers,
+ * cookies or device storage are used. Events are buffered in memory and flushed
+ * with `sendBeacon` when the page is hidden or unloaded, or eagerly once the
+ * buffer reaches the collector's batch limit, so navigation is never blocked
+ * and nothing is retried across reloads. Consecutive views of the same path
+ * (e.g. a re-mount) are recorded once.
  */
 
 // The collector URL and the single on/off switch: tracking is OFF unless a
@@ -28,6 +30,22 @@ function analyticsEnv(): string {
 }
 
 type PageViewEvent = { path: string; timestamp: string; env: string }
+
+/**
+ * The in-app path to record for a location: its pathname, query and hash.
+ *
+ * Sent raw on purpose: minimisation is centralised in the collector's
+ * `normalizeTrackedPath`, which drops search terms and other incidental query
+ * values at ingest. Do not strip here — that would only duplicate, and risk
+ * drifting from, the authoritative server-side allow-list.
+ */
+export function buildTrackedPath(location: {
+  pathname: string
+  search: string
+  hash: string
+}): string {
+  return location.pathname + location.search + location.hash
+}
 
 // Flush once the buffer reaches the collector's batch limit, so a long session
 // cannot grow the buffer unbounded or exceed the sendBeacon payload cap.
@@ -82,7 +100,7 @@ function registerFlush(): void {
   })
 }
 
-/** Record a single anonymous page view for the given pathname. */
+/** Record a single anonymous page view for the given in-app path. */
 export function trackPageView(path: string): void {
   if (!canTrack()) {
     return

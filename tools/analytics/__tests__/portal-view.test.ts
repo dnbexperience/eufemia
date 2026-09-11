@@ -2,6 +2,7 @@ import { describe, it, expect } from 'vitest'
 import {
   validatePortalViews,
   buildPortalViewRecord,
+  normalizeTrackedPath,
 } from '../src/records/portal-view.js'
 
 describe('validatePortalViews', () => {
@@ -106,13 +107,13 @@ describe('validatePortalViews', () => {
 describe('buildPortalViewRecord', () => {
   const createdAt = '2026-09-07T12:00:00.000Z'
 
-  it('strips the query string and fragment from the path', () => {
+  it('minimises the path when building the record', () => {
     const record = buildPortalViewRecord(
-      { path: '/a?q=secret#frag' },
+      { path: '/a?q=secret&fullscreen#example' },
       createdAt
     )
 
-    expect(record.path).toBe('/a')
+    expect(record.path).toBe('/a?fullscreen#example')
   })
 
   it('defaults env to "unknown" and timestamp to the receive time', () => {
@@ -149,5 +150,56 @@ describe('buildPortalViewRecord', () => {
       'path',
       'timestamp',
     ])
+  })
+})
+
+describe('normalizeTrackedPath', () => {
+  it('keeps the pathname and an anchor fragment', () => {
+    expect(normalizeTrackedPath('/uilib/components/button#events')).toBe(
+      '/uilib/components/button#events'
+    )
+  })
+
+  it('keeps allow-listed render params', () => {
+    expect(normalizeTrackedPath('/a?fullscreen')).toBe('/a?fullscreen')
+    expect(normalizeTrackedPath('/?eufemia-theme=sbanken')).toBe(
+      '/?eufemia-theme=sbanken'
+    )
+  })
+
+  it('drops query params that are not allow-listed', () => {
+    expect(normalizeTrackedPath('/uilib?q=some+search+term')).toBe(
+      '/uilib'
+    )
+  })
+
+  it('reduces a flag to its key, dropping any crafted value', () => {
+    expect(normalizeTrackedPath('/a?fullscreen=personal+data')).toBe(
+      '/a?fullscreen'
+    )
+    expect(normalizeTrackedPath('/a?focusmode=my-block')).toBe(
+      '/a?focusmode'
+    )
+  })
+
+  it('drops a value param whose value is not a safe token', () => {
+    expect(normalizeTrackedPath('/?eufemia-theme=personal+data')).toBe('/')
+  })
+
+  it('does not match a param that merely ends with an allow-listed key', () => {
+    expect(normalizeTrackedPath('/?x-eufemia-theme=sbanken')).toBe('/')
+  })
+
+  it('emits allow-listed params in canonical order', () => {
+    expect(normalizeTrackedPath('/a?fullscreen&eufemia-theme=ui')).toBe(
+      '/a?eufemia-theme=ui&fullscreen'
+    )
+    expect(normalizeTrackedPath('/a?eufemia-theme=ui&fullscreen')).toBe(
+      '/a?eufemia-theme=ui&fullscreen'
+    )
+  })
+
+  it('drops a fragment that is not anchor-shaped', () => {
+    expect(normalizeTrackedPath('/a#not a slug')).toBe('/a')
   })
 })

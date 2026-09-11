@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
-import { trackPageView } from '../client/track-page-view'
+import { trackPageView, buildTrackedPath } from '../client/track-page-view'
 
 function setBeacon(fn: unknown) {
   Object.defineProperty(navigator, 'sendBeacon', {
@@ -140,5 +140,27 @@ describe('trackPageView', () => {
     flush()
 
     expect(beacon).toHaveBeenCalledTimes(2)
+  })
+})
+
+describe('buildTrackedPath', () => {
+  const location = (pathname: string, search = '', hash = '') => ({
+    pathname,
+    search,
+    hash,
+  })
+
+  it('returns the full in-app path (pathname, query and hash)', () => {
+    expect(
+      buildTrackedPath(
+        location('/uilib/components/button', '?fullscreen', '#events')
+      )
+    ).toBe('/uilib/components/button?fullscreen#events')
+  })
+
+  it('sends the raw query as-is; the collector minimises it on ingest', () => {
+    expect(
+      buildTrackedPath(location('/uilib', '?q=some+search+term'))
+    ).toBe('/uilib?q=some+search+term')
   })
 })
