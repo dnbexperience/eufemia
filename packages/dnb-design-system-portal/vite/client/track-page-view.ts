@@ -4,10 +4,11 @@
  * The in-app path (pathname, query and hash) is sent; the collector minimises
  * it to a safe shape — dropping docs search terms and other incidental query
  * values — before storing, so nothing incidental is persisted. Each view also
- * carries its dimensions: the source environment, status, and the active
- * component language (locale) and theme (brand). No identifiers or cookies are
- * used; the locale and theme are read from the portal's existing preferences,
- * never written, so tracking creates no device storage of its own. Events are
+ * carries its dimensions: the source environment, status, the active component
+ * language (locale) and theme (brand), and the resolved color scheme (light or
+ * dark). No identifiers or cookies are used; the locale, theme and color scheme
+ * are read from the portal's existing preferences, never written, so tracking
+ * creates no device storage of its own. Events are
  * buffered in memory and flushed with `sendBeacon` when the page is hidden or
  * unloaded, or eagerly once the buffer reaches the collector's batch limit, so
  * navigation is never blocked and nothing is retried across reloads.
@@ -59,9 +60,28 @@ function analyticsTheme(): string {
   return getTheme().brand
 }
 
+// The resolved color scheme the page was viewed in. `auto` and an unset
+// preference are resolved through the system setting, matching how the theme
+// handler applies the scheme, so the stored value is what the user actually saw.
+function analyticsColorScheme(): ColorScheme {
+  const scheme = getTheme().colorScheme
+  if (scheme === 'light' || scheme === 'dark') {
+    return scheme
+  }
+  try {
+    return window.matchMedia('(prefers-color-scheme: dark)').matches
+      ? 'dark'
+      : 'light'
+  } catch {
+    return 'light'
+  }
+}
+
 // How the portal classified the view: a normal page, an unknown path that fell
 // through to the 404 page, or a render error caught by the error boundary.
 export type PageViewStatus = 'ok' | 'not_found' | 'error'
+
+type ColorScheme = 'light' | 'dark'
 
 type PageViewEvent = {
   path: string
@@ -70,6 +90,7 @@ type PageViewEvent = {
   status: PageViewStatus
   locale: string
   theme: string
+  colorScheme: ColorScheme
 }
 
 /**
@@ -169,6 +190,7 @@ export function trackPageView(
       status,
       locale: analyticsLocale(),
       theme: analyticsTheme(),
+      colorScheme: analyticsColorScheme(),
     })
 
     if (buffer.length >= MAX_BUFFER) {
