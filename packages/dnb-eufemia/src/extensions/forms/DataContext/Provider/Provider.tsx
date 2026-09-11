@@ -52,6 +52,7 @@ import type { ContextProps } from '../../../../shared/Context'
 import SharedContext from '../../../../shared/Context'
 import useTranslation from '../../hooks/useTranslation'
 import { appendPath } from '../../hooks/usePath'
+import { DEFAULT_ASYNC_SUBMIT_TIMEOUT } from '../../defaults'
 import type {
   ContextState,
   EventListenerCall,
@@ -2160,7 +2161,7 @@ function useFormStatusBuffer(props: FormStatusBufferProps) {
         clear()
         setState(undefined)
         onTimeout?.()
-      }, asyncSubmitTimeout ?? 30000)
+      }, asyncSubmitTimeout ?? DEFAULT_ASYNC_SUBMIT_TIMEOUT)
     }
 
     return clear

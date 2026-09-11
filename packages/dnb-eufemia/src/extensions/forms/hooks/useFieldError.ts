@@ -9,6 +9,7 @@ import type { RefObject } from 'react'
 import type { ValidateFunction } from 'ajv/dist/2020.js'
 import { errorChanged, FormError } from '../utils'
 import { extendErrorMessagesWithTranslationMessages } from '../utils/errors'
+import { DEFAULT_ASYNC_SUBMIT_TIMEOUT } from '../defaults'
 import type {
   FieldPropsGeneric,
   SubmitState,
@@ -554,7 +555,7 @@ export default function useFieldError<Value>({
         pendingTimeoutRef.current = setTimeout(() => {
           applyFieldState(undefined, { cancelPendingSubmit: true })
           forceUpdate()
-        }, asyncSubmitTimeout ?? 30000)
+        }, asyncSubmitTimeout ?? DEFAULT_ASYNC_SUBMIT_TIMEOUT)
       }
 
       if (!validateInitially) {
