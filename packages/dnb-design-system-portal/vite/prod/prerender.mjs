@@ -22,6 +22,7 @@ import os from 'node:os'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { Worker } from 'node:worker_threads'
+import { getSidebarScrollScript } from './sidebar-scroll-script.mjs'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const viteRoot = path.resolve(__dirname, '..')
@@ -490,12 +491,11 @@ function injectHtml(
     return normalized ? `style="${normalized};"` : 'style=""'
   })
 
-  // Restore sidebar scroll position before first paint.
-  const scrollRestoreScript = `(function(){try{var el=document.getElementById('portal-sidebar-menu');if(el){var s=parseFloat(sessionStorage.getItem('scroll-#portal-sidebar-menu')||'0');if(s){el.style.scrollBehavior='auto';el.scrollTop=s;el.style.scrollBehavior=''}}}catch(e){}})()`
+  const sidebarScrollScript = getSidebarScrollScript()
 
   let html = template.replace(
     '<div id="root"></div>',
-    `<div id="root">${appHtml}</div>\n\t<script>${contentScript};${scrollRestoreScript}</script>`
+    `<div id="root">${appHtml}</div>\n\t<script>${contentScript};${sidebarScrollScript}</script>`
   )
 
   // Inject <link> tags for ALL brand theme CSS chunks.
