@@ -1,0 +1,135 @@
+name: Automation - MCP health
+
+on:
+  schedule:
+    - cron: '17 5 * * *'
+  workflow_dispatch:
+
+permissions:
+  actions: read # Download the failure context in the reusable workflow.
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: true
+
+jobs:
+  prepare:
+    name: Check MCP contract
+    if: >-
+      vars.AUTOMATIONS_ENABLED == 'true' &&
+      github.repository == 'dnbexperience/eufemia'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    outputs:
+      artifact-name: ${{ steps.health.outputs.artifact-name }}
+      healthy: ${{ steps.health.outputs.healthy }}
+
+    steps:
+      - name: Check out default branch
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Check health and tools
+        id: health
+        run: |
+          context_dir="$RUNNER_TEMP/mcp-health-context"
+          mkdir -p "$context_dir"
+          cp .github/automations/mcp-contract.json "$context_dir/contract.json"
+          cp "$GITHUB_EVENT_PATH" "$context_dir/event.json"
+
+          health_endpoint=$(jq --raw-output '.healthEndpoint' "$context_dir/contract.json")
+          mcp_endpoint=$(jq --raw-output '.endpoint' "$context_dir/contract.json")
+
+          health_status=$(curl --silent --show-error --output "$context_dir/health.json" \
+            --write-out '%{http_code}' "$health_endpoint" || true)
+          curl --silent --show-error --request POST \
+            --header 'Content-Type: application/json' \
+            --header 'Accept: application/json, text/event-stream' \
+            --header 'mcp-protocol-version: 2026-07-28' \
+            --header 'mcp-method: tools/list' \
+            --data '{"jsonrpc":"2.0","id":1,"method":"tools/list","params":{"_meta":{"io.modelcontextprotocol/protocolVersion":"2026-07-28","io.modelcontextprotocol/clientInfo":{"name":"eufemia-health-monitor","version":"1.0.0"},"io.modelcontextprotocol/clientCapabilities":{}}}}' \
+            "$mcp_endpoint" > "$context_dir/tools.json" 2> "$context_dir/tools-error.log" || true
+
+          healthy=true
+          if [ "$health_status" != 200 ]; then
+            healthy=false
+          fi
+          while IFS= read -r tool; do
+            if ! jq --exit-status --arg tool "$tool" \
+              'any(.result.tools[]?; .name == $tool)' \
+              "$context_dir/tools.json" > /dev/null 2>&1; then
+              healthy=false
+            fi
+          done < <(jq --raw-output '.requiredTools[]' "$context_dir/contract.json")
+
+          jq --null-input \
+            --argjson healthy "$healthy" \
+            --arg healthStatus "$health_status" \
+            '{healthy: $healthy, healthStatus: $healthStatus}' \
+            > "$context_dir/result.json"
+
+          artifact_name="mcp-health-context-$GITHUB_RUN_ID"
+          {
+            echo "artifact-name=$artifact_name"
+            echo "healthy=$healthy"
+          } >> "$GITHUB_OUTPUT"
+
+          if [ "$healthy" = true ]; then
+            {
+              echo "## MCP health"
+              echo
+              echo "The health endpoint and required tool contract passed."
+            } >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Upload failure context
+        if: steps.health.outputs.healthy != 'true'
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: ${{ steps.health.outputs.artifact-name }}
+          path: ${{ runner.temp }}/mcp-health-context
+          retention-days: 14
+
+  diagnose:
+    name: Diagnose MCP failure
+    needs: prepare
+    if: needs.prepare.outputs.healthy != 'true'
+    uses: ./.github/workflows/automation-run.yml
+    with:
+      context-artifact: ${{ needs.prepare.outputs.artifact-name }}
+      prompt-file: mcp-failure-diagnosis.md
+      report-name: mcp-health-diagnosis-${{ github.run_id }}
+      require-mcp: false
+
+  notify:
+    name: Update MCP health issue
+    needs: diagnose
+    if: needs.diagnose.outputs.report != ''
+    permissions:
+      contents: read
+      issues: write # Update the MCP health tracking issue.
+    uses: ./.github/workflows/automation-notify.yml
+    with:
+      marker: eufemia-automation:mcp-health
+      report: ${{ needs.diagnose.outputs.report }}
+      target: mcp-health
+      target-kind: issue
+      title: 'Automation report: MCP health'
+
+  clear-notification:
+    name: Close resolved MCP health issue
+    needs: prepare
+    if: needs.prepare.outputs.healthy == 'true'
+    permissions:
+      contents: read
+      issues: write # Close the MCP health tracking issue.
+    uses: ./.github/workflows/automation-notify.yml
+    with:
+      marker: eufemia-automation:mcp-health
+      report: '{"title":"MCP health","summary":"The health endpoint and required tool contract passed.","status":"ok","findings":[],"metrics":[]}'
+      target: mcp-health
+      target-kind: issue
+      title: 'Automation report: MCP health'
