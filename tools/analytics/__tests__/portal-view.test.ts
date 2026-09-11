@@ -121,7 +121,14 @@ describe('validatePortalViews', () => {
   })
 
   it('rejects an invalid locale', () => {
-    for (const locale of ['nb', 'NB-no', 'en_GB', 'english', 42]) {
+    for (const locale of [
+      'nb',
+      'NB-no',
+      'en_GB',
+      'english',
+      'de-DE',
+      42,
+    ]) {
       const result = validatePortalViews({ path: '/a', locale })
 
       expect(result.ok).toBe(false)
@@ -140,7 +147,13 @@ describe('validatePortalViews', () => {
   })
 
   it('rejects an invalid theme', () => {
-    for (const theme of ['UI', 'the brand', 'a'.repeat(33), 42]) {
+    for (const theme of [
+      'UI',
+      'the brand',
+      'customer-123',
+      'a'.repeat(33),
+      42,
+    ]) {
       const result = validatePortalViews({ path: '/a', theme })
 
       expect(result.ok).toBe(false)

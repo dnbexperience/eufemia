@@ -16,6 +16,7 @@
  */
 
 import { getTheme } from './shims/theme-handler'
+import { supportedTranslationsKey } from '../../src/core/portalRuntimeUtils'
 
 // The collector URL and the single on/off switch: tracking is OFF unless a
 // build sets VITE_ANALYTICS_ENDPOINT. Prod sets the collector URL; locally use
@@ -39,15 +40,10 @@ function analyticsEnv(): string {
 // dimensions of the view, read fresh per call from the portal's existing
 // preferences (never written) so the stored value matches what the user saw.
 
-// Must match the collector's LOCALE_PATTERN so a stale or tampered `locale`
-// value falls back to the default here rather than failing the whole batch at
-// ingest (mirrors how getTheme() defaults an unknown brand).
-const LOCALE_PATTERN = /^[a-z]{2,3}-[A-Z]{2}$/
-
 function analyticsLocale(): string {
   try {
     const stored = window.localStorage.getItem('locale')
-    if (stored && LOCALE_PATTERN.test(stored)) {
+    if (stored && supportedTranslationsKey.includes(stored)) {
       return stored
     }
   } catch {

@@ -20,6 +20,32 @@ const PORTAL_VIEW_STATUSES: readonly PortalViewStatus[] = [
   'error',
 ]
 
+/** The component language the page was viewed in. */
+export type PortalViewLocale =
+  | 'nb-NO'
+  | 'en-GB'
+  | 'sv-SE'
+  | 'da-DK'
+  | 'en-US'
+
+const PORTAL_VIEW_LOCALES: readonly PortalViewLocale[] = [
+  'nb-NO',
+  'en-GB',
+  'sv-SE',
+  'da-DK',
+  'en-US',
+]
+
+/** The theme (brand) the page was viewed in. */
+export type PortalViewTheme = 'ui' | 'sbanken' | 'eiendom' | 'carnegie'
+
+const PORTAL_VIEW_THEMES: readonly PortalViewTheme[] = [
+  'ui',
+  'sbanken',
+  'eiendom',
+  'carnegie',
+]
+
 /** The resolved color scheme the page was viewed in. */
 export type PortalViewColorScheme = 'light' | 'dark'
 
@@ -34,8 +60,8 @@ export type PortalViewInput = {
   timestamp?: string
   env?: string
   status?: PortalViewStatus
-  locale?: string
-  theme?: string
+  locale?: PortalViewLocale
+  theme?: PortalViewTheme
   colorScheme?: PortalViewColorScheme
 }
 
@@ -62,12 +88,6 @@ const MAX_PATH_LENGTH = 2048
 
 /** A short lowercase environment token, e.g. `prod`, `dev`. */
 const ENV_PATTERN = /^[a-z][a-z0-9-]{0,31}$/
-
-/** A BCP-47-style locale tag, e.g. `nb-NO`, `en-GB`. */
-const LOCALE_PATTERN = /^[a-z]{2,3}-[A-Z]{2}$/
-
-/** A short lowercase theme (brand) token, e.g. `ui`, `sbanken`. */
-const THEME_PATTERN = /^[a-z][a-z0-9-]{0,31}$/
 
 // Query params worth keeping because they change how the portal renders. Flags
 // are stored key-only; value params only for a safe token. Everything else is
@@ -214,16 +234,28 @@ export function validatePortalViews(
     }
 
     if (locale !== undefined) {
-      if (typeof locale !== 'string' || !LOCALE_PATTERN.test(locale)) {
-        errors.push(`Event ${index}: "locale" must be a BCP-47 locale tag`)
+      if (
+        typeof locale !== 'string' ||
+        !PORTAL_VIEW_LOCALES.includes(locale as PortalViewLocale)
+      ) {
+        errors.push(
+          `Event ${index}: "locale" must be one of ${PORTAL_VIEW_LOCALES.join(
+            ', '
+          )}`
+        )
         valid = false
       }
     }
 
     if (theme !== undefined) {
-      if (typeof theme !== 'string' || !THEME_PATTERN.test(theme)) {
+      if (
+        typeof theme !== 'string' ||
+        !PORTAL_VIEW_THEMES.includes(theme as PortalViewTheme)
+      ) {
         errors.push(
-          `Event ${index}: "theme" must be a short lowercase token`
+          `Event ${index}: "theme" must be one of ${PORTAL_VIEW_THEMES.join(
+            ', '
+          )}`
         )
         valid = false
       }
@@ -253,8 +285,12 @@ export function validatePortalViews(
         ...(typeof status === 'string'
           ? { status: status as PortalViewStatus }
           : {}),
-        ...(typeof locale === 'string' ? { locale } : {}),
-        ...(typeof theme === 'string' ? { theme } : {}),
+        ...(typeof locale === 'string'
+          ? { locale: locale as PortalViewLocale }
+          : {}),
+        ...(typeof theme === 'string'
+          ? { theme: theme as PortalViewTheme }
+          : {}),
         ...(typeof colorScheme === 'string'
           ? { colorScheme: colorScheme as PortalViewColorScheme }
           : {}),
