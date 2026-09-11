@@ -8,11 +8,24 @@
  * module under `src/records/`, so its shape and validation live in one place.
  */
 
+/**
+ * How the portal classified the view: a normal page, an unknown path that fell
+ * through to the 404 page, or a render error caught by the error boundary.
+ */
+export type PortalViewStatus = 'ok' | 'not_found' | 'error'
+
+const PORTAL_VIEW_STATUSES: readonly PortalViewStatus[] = [
+  'ok',
+  'not_found',
+  'error',
+]
+
 /** A single anonymous portal page view sent by the docs portal. */
 export type PortalViewInput = {
   path: string
   timestamp?: string
   env?: string
+  status?: PortalViewStatus
 }
 
 /** The stored portal-view record (one row in the portal_views Glue table). */
@@ -20,6 +33,7 @@ export type PortalViewRecord = {
   path: string
   env: string
   timestamp: string
+  status: PortalViewStatus
   createdat: string
 }
 
@@ -94,9 +108,9 @@ function isIsoTimestamp(value: string): boolean {
  * Validate an untrusted ingest payload into a batch of portal views.
  *
  * Accepts either a single event object or an array of them. Portal views carry
- * no identifiers or personal data — only a `path` and an optional timestamp and
- * environment label. Only the allow-listed keys are returned here, and the path
- * is minimised to a safe shape when the record is built (see
+ * no identifiers or personal data — only a `path` and an optional timestamp,
+ * environment label and status. Only the allow-listed keys are returned here,
+ * and the path is minimised to a safe shape when the record is built (see
  * {@link buildPortalViewRecord} and {@link normalizeTrackedPath}), so nothing
  * incidental in the request can reach storage.
  */
@@ -129,7 +143,10 @@ export function validatePortalViews(
       return
     }
 
-    const { path, timestamp, env } = event as Record<string, unknown>
+    const { path, timestamp, env, status } = event as Record<
+      string,
+      unknown
+    >
     let valid = true
 
     if (typeof path !== 'string' || !path.startsWith('/')) {
@@ -162,11 +179,28 @@ export function validatePortalViews(
       }
     }
 
+    if (status !== undefined) {
+      if (
+        typeof status !== 'string' ||
+        !PORTAL_VIEW_STATUSES.includes(status as PortalViewStatus)
+      ) {
+        errors.push(
+          `Event ${index}: "status" must be one of ${PORTAL_VIEW_STATUSES.join(
+            ', '
+          )}`
+        )
+        valid = false
+      }
+    }
+
     if (valid) {
       value.push({
         path: path as string,
         ...(typeof timestamp === 'string' ? { timestamp } : {}),
         ...(typeof env === 'string' ? { env } : {}),
+        ...(typeof status === 'string'
+          ? { status: status as PortalViewStatus }
+          : {}),
       })
     }
   })
@@ -191,6 +225,7 @@ export function buildPortalViewRecord(
     path: normalizeTrackedPath(input.path),
     env: input.env ?? 'unknown',
     timestamp: input.timestamp ?? createdAt,
+    status: input.status ?? 'ok',
     createdat: createdAt,
   }
 }

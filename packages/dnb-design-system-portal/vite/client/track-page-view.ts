@@ -29,7 +29,16 @@ function analyticsEnv(): string {
   )
 }
 
-type PageViewEvent = { path: string; timestamp: string; env: string }
+// How the portal classified the view: a normal page, an unknown path that fell
+// through to the 404 page, or a render error caught by the error boundary.
+export type PageViewStatus = 'ok' | 'not_found' | 'error'
+
+type PageViewEvent = {
+  path: string
+  timestamp: string
+  env: string
+  status: PageViewStatus
+}
 
 /**
  * The in-app path to record for a location: its pathname, query and hash.
@@ -53,7 +62,7 @@ const MAX_BUFFER = 50
 
 const buffer: PageViewEvent[] = []
 let flushRegistered = false
-let lastTrackedPath: string | null = null
+let lastTrackedKey: string | null = null
 
 function canTrack(): boolean {
   return (
@@ -101,24 +110,31 @@ function registerFlush(): void {
 }
 
 /** Record a single anonymous page view for the given in-app path. */
-export function trackPageView(path: string): void {
+export function trackPageView(
+  path: string,
+  status: PageViewStatus = 'ok'
+): void {
   if (!canTrack()) {
     return
   }
 
-  // Skip an immediate repeat of the same path (a re-mount or dev StrictMode
-  // double-invoke); a genuine navigation back to it later still counts.
-  if (path === lastTrackedPath) {
+  // Skip an immediate repeat of the same path and status (a re-mount or dev
+  // StrictMode double-invoke); a genuine navigation back to it later still
+  // counts, and a status change on the current path (e.g. a render error) is
+  // always recorded.
+  const key = `${status} ${path}`
+  if (key === lastTrackedKey) {
     return
   }
 
   try {
     registerFlush()
-    lastTrackedPath = path
+    lastTrackedKey = key
     buffer.push({
       path,
       timestamp: new Date().toISOString(),
       env: analyticsEnv(),
+      status,
     })
 
     if (buffer.length >= MAX_BUFFER) {

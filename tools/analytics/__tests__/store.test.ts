@@ -99,6 +99,7 @@ describe('storePortalViews', () => {
       'createdat',
       'env',
       'path',
+      'status',
       'timestamp',
     ])
   })
