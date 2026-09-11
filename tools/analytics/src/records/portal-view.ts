@@ -20,12 +20,49 @@ const PORTAL_VIEW_STATUSES: readonly PortalViewStatus[] = [
   'error',
 ]
 
+/** The component language the page was viewed in. */
+export type PortalViewLocale =
+  | 'nb-NO'
+  | 'en-GB'
+  | 'sv-SE'
+  | 'da-DK'
+  | 'en-US'
+
+const PORTAL_VIEW_LOCALES: readonly PortalViewLocale[] = [
+  'nb-NO',
+  'en-GB',
+  'sv-SE',
+  'da-DK',
+  'en-US',
+]
+
+/** The theme (brand) the page was viewed in. */
+export type PortalViewTheme = 'ui' | 'sbanken' | 'eiendom' | 'carnegie'
+
+const PORTAL_VIEW_THEMES: readonly PortalViewTheme[] = [
+  'ui',
+  'sbanken',
+  'eiendom',
+  'carnegie',
+]
+
+/** The resolved color scheme the page was viewed in. */
+export type PortalViewColorScheme = 'light' | 'dark'
+
+const PORTAL_VIEW_COLOR_SCHEMES: readonly PortalViewColorScheme[] = [
+  'light',
+  'dark',
+]
+
 /** A single anonymous portal page view sent by the docs portal. */
 export type PortalViewInput = {
   path: string
   timestamp?: string
   env?: string
   status?: PortalViewStatus
+  locale?: PortalViewLocale
+  theme?: PortalViewTheme
+  colorScheme?: PortalViewColorScheme
 }
 
 /** The stored portal-view record (one row in the portal_views Glue table). */
@@ -34,6 +71,9 @@ export type PortalViewRecord = {
   env: string
   timestamp: string
   status: PortalViewStatus
+  locale: string
+  theme: string
+  colorScheme: string
   createdat: string
 }
 
@@ -109,7 +149,9 @@ function isIsoTimestamp(value: string): boolean {
  *
  * Accepts either a single event object or an array of them. Portal views carry
  * no identifiers or personal data — only a `path` and an optional timestamp,
- * environment label and status. Only the allow-listed keys are returned here,
+ * environment label, status, locale, theme and color scheme. Only the
+ * allow-listed keys are
+ * returned here,
  * and the path is minimised to a safe shape when the record is built (see
  * {@link buildPortalViewRecord} and {@link normalizeTrackedPath}), so nothing
  * incidental in the request can reach storage.
@@ -143,10 +185,8 @@ export function validatePortalViews(
       return
     }
 
-    const { path, timestamp, env, status } = event as Record<
-      string,
-      unknown
-    >
+    const { path, timestamp, env, status, locale, theme, colorScheme } =
+      event as Record<string, unknown>
     let valid = true
 
     if (typeof path !== 'string' || !path.startsWith('/')) {
@@ -193,6 +233,50 @@ export function validatePortalViews(
       }
     }
 
+    if (locale !== undefined) {
+      if (
+        typeof locale !== 'string' ||
+        !PORTAL_VIEW_LOCALES.includes(locale as PortalViewLocale)
+      ) {
+        errors.push(
+          `Event ${index}: "locale" must be one of ${PORTAL_VIEW_LOCALES.join(
+            ', '
+          )}`
+        )
+        valid = false
+      }
+    }
+
+    if (theme !== undefined) {
+      if (
+        typeof theme !== 'string' ||
+        !PORTAL_VIEW_THEMES.includes(theme as PortalViewTheme)
+      ) {
+        errors.push(
+          `Event ${index}: "theme" must be one of ${PORTAL_VIEW_THEMES.join(
+            ', '
+          )}`
+        )
+        valid = false
+      }
+    }
+
+    if (colorScheme !== undefined) {
+      if (
+        typeof colorScheme !== 'string' ||
+        !PORTAL_VIEW_COLOR_SCHEMES.includes(
+          colorScheme as PortalViewColorScheme
+        )
+      ) {
+        errors.push(
+          `Event ${index}: "colorScheme" must be one of ${PORTAL_VIEW_COLOR_SCHEMES.join(
+            ', '
+          )}`
+        )
+        valid = false
+      }
+    }
+
     if (valid) {
       value.push({
         path: path as string,
@@ -200,6 +284,15 @@ export function validatePortalViews(
         ...(typeof env === 'string' ? { env } : {}),
         ...(typeof status === 'string'
           ? { status: status as PortalViewStatus }
+          : {}),
+        ...(typeof locale === 'string'
+          ? { locale: locale as PortalViewLocale }
+          : {}),
+        ...(typeof theme === 'string'
+          ? { theme: theme as PortalViewTheme }
+          : {}),
+        ...(typeof colorScheme === 'string'
+          ? { colorScheme: colorScheme as PortalViewColorScheme }
           : {}),
       })
     }
@@ -226,6 +319,9 @@ export function buildPortalViewRecord(
     env: input.env ?? 'unknown',
     timestamp: input.timestamp ?? createdAt,
     status: input.status ?? 'ok',
+    locale: input.locale ?? 'unknown',
+    theme: input.theme ?? 'unknown',
+    colorScheme: input.colorScheme ?? 'unknown',
     createdat: createdAt,
   }
 }

@@ -3,13 +3,20 @@
  *
  * The in-app path (pathname, query and hash) is sent; the collector minimises
  * it to a safe shape — dropping docs search terms and other incidental query
- * values — before storing, so nothing incidental is persisted. No identifiers,
- * cookies or device storage are used. Events are buffered in memory and flushed
- * with `sendBeacon` when the page is hidden or unloaded, or eagerly once the
- * buffer reaches the collector's batch limit, so navigation is never blocked
- * and nothing is retried across reloads. Consecutive views of the same path
- * (e.g. a re-mount) are recorded once.
+ * values — before storing, so nothing incidental is persisted. Each view also
+ * carries its dimensions: the source environment, status, the active component
+ * language (locale) and theme (brand), and the resolved color scheme (light or
+ * dark). No identifiers or cookies are used; the locale, theme and color scheme
+ * are read from the portal's existing preferences, never written, so tracking
+ * creates no device storage of its own. Events are
+ * buffered in memory and flushed with `sendBeacon` when the page is hidden or
+ * unloaded, or eagerly once the buffer reaches the collector's batch limit, so
+ * navigation is never blocked and nothing is retried across reloads.
+ * Consecutive views of the same path (e.g. a re-mount) are recorded once.
  */
+
+import { getTheme } from './shims/theme-handler'
+import { supportedTranslationsKey } from '../../src/core/portalRuntimeUtils'
 
 // The collector URL and the single on/off switch: tracking is OFF unless a
 // build sets VITE_ANALYTICS_ENDPOINT. Prod sets the collector URL; locally use
@@ -29,15 +36,57 @@ function analyticsEnv(): string {
   )
 }
 
+// The active component language and theme (brand) when the page was viewed —
+// dimensions of the view, read fresh per call from the portal's existing
+// preferences (never written) so the stored value matches what the user saw.
+
+function analyticsLocale(): string {
+  try {
+    const stored = window.localStorage.getItem('locale')
+    if (stored && supportedTranslationsKey.includes(stored)) {
+      return stored
+    }
+  } catch {
+    // stop here
+  }
+  return 'nb-NO'
+}
+
+function analyticsTheme(): string {
+  return getTheme().brand
+}
+
+// The resolved color scheme the page was viewed in. `auto` and an unset
+// preference are resolved through the system setting, matching how the theme
+// handler applies the scheme, so the stored value is what the user actually saw.
+function analyticsColorScheme(): ColorScheme {
+  const scheme = getTheme().colorScheme
+  if (scheme === 'light' || scheme === 'dark') {
+    return scheme
+  }
+  try {
+    return window.matchMedia('(prefers-color-scheme: dark)').matches
+      ? 'dark'
+      : 'light'
+  } catch {
+    return 'light'
+  }
+}
+
 // How the portal classified the view: a normal page, an unknown path that fell
 // through to the 404 page, or a render error caught by the error boundary.
 export type PageViewStatus = 'ok' | 'not_found' | 'error'
+
+type ColorScheme = 'light' | 'dark'
 
 type PageViewEvent = {
   path: string
   timestamp: string
   env: string
   status: PageViewStatus
+  locale: string
+  theme: string
+  colorScheme: ColorScheme
 }
 
 /**
@@ -135,6 +184,9 @@ export function trackPageView(
       timestamp: new Date().toISOString(),
       env: analyticsEnv(),
       status,
+      locale: analyticsLocale(),
+      theme: analyticsTheme(),
+      colorScheme: analyticsColorScheme(),
     })
 
     if (buffer.length >= MAX_BUFFER) {

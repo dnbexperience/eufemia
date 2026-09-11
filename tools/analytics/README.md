@@ -22,18 +22,22 @@ Every ingest route is gated by the Akamai `X-Edge-Auth` origin header; there is 
 
 ### Record shape
 
-A portal view carries only a `path` and an optional `timestamp` and `env`; the service stamps `createdat` and defaults `env` to `unknown`. No identifiers or personal data are stored.
+A portal view carries a `path` and optional `timestamp`, `env`, `status`, `locale`, `theme`, and `colorScheme` dimensions. The service stamps `createdat`; an absent `timestamp` defaults to that receive time, `status` defaults to `ok`, and the remaining absent dimensions default to `unknown`. Locale, theme, and color scheme are restricted to the portal's supported values. No identifiers or personal data are stored.
 
 ```json
 {
   "path": "/uilib/components/button",
   "env": "prod",
   "timestamp": "2026-08-07T09:00:00.000Z",
+  "status": "ok",
+  "locale": "nb-NO",
+  "theme": "ui",
+  "colorScheme": "light",
   "createdat": "2026-08-07T09:00:00.000Z"
 }
 ```
 
-`path` must start with `/` and be at most 2048 characters, and a batch may contain at most 50 events.
+`path` must start with `/` and be at most 2048 characters, and a batch may contain at most 50 events. Supported dimensions are `status`: `ok`, `not_found`, or `error`; `locale`: `nb-NO`, `en-GB`, `sv-SE`, `da-DK`, or `en-US`; `theme`: `ui`, `sbanken`, `eiendom`, or `carnegie`; and `colorScheme`: `light` or `dark`.
 
 ## Prerequisites
 
