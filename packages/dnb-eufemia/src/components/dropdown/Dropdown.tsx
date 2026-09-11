@@ -471,6 +471,7 @@ const DropdownComponent = memo(function DropdownComponent({
     onFocus: _onFocus,
     onChange: _onChange,
     onSelect: _onSelect,
+    onItemMouseEnter: _onItemMouseEnter,
     onOpenFocus: _onOpenFocus,
     onCloseFocus: _onCloseFocus,
 
@@ -681,6 +682,7 @@ const DropdownComponent = memo(function DropdownComponent({
               listDriver={listDriver}
               onChange={onChangeHandler}
               onSelect={onSelectHandler}
+              onItemMouseEnter={_onItemMouseEnter}
               onClose={onCloseHandler}
             />
           </span>
