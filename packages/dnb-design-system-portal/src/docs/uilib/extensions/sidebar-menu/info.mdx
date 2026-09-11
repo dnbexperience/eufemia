@@ -1,13 +1,11 @@
 ---
 showTabs: true
-redirect_from:
-  - /uilib/components/sidebar-menu/info
 ---
 
 ## Import
 
 ```tsx
-import SidebarMenu from '@dnb/eufemia/extensions/sidebar-menu'
+import * as SidebarMenu from '@dnb/eufemia/extensions/sidebar-menu'
 import '@dnb/eufemia/extensions/sidebar-menu/style'
 ```
 
@@ -15,7 +13,9 @@ import '@dnb/eufemia/extensions/sidebar-menu/style'
 
 `SidebarMenu` provides persistent navigation with expandable groups and optional top-level sections. Its compound API is tree-shakeable: `SidebarMenu` itself is a namespace, while only the subcomponents you use are included.
 
-Compose a menu declaratively with `SidebarMenu.Container`, `SidebarMenu.Item`, `SidebarMenu.Accordion`, `SidebarMenu.Group`, `SidebarMenu.Section`, `SidebarMenu.Header`, and `SidebarMenu.Divider`. Alternatively, pass recursive `data` or `sections` objects to the container.
+Compose a menu declaratively with `SidebarMenu.Root`, `SidebarMenu.Item`, `SidebarMenu.Accordion`, `SidebarMenu.Group`, `SidebarMenu.Section`, `SidebarMenu.Header`, and `SidebarMenu.Divider`. Use `SidebarMenu.Data` when the menu is generated from recursive `data` or `sections` objects. The declarative API keeps unused parts outside the bundle, while `Data` includes all parts needed to render arbitrary object trees.
+
+Fragments and memoized SidebarMenu parts are supported. Arbitrary wrapper components are opaque to Root's selected-route discovery; pass generated structures through `SidebarMenu.Data` instead.
 
 ## Key behaviors
 
@@ -29,7 +29,7 @@ Compose a menu declaratively with `SidebarMenu.Container`, `SidebarMenu.Item`, `
 
 Accordion groups support deep nesting, but keep the hierarchy as shallow as possible. Use `SidebarMenu.Group` for a titled category whose items should always remain visible, or set `collapsible={false}` on an accordion. Groups can optionally navigate using `href` or `to`; in the data API, use `type: 'group'`.
 
-Set `dividerBefore: true` on a data item to render a separator, or place `SidebarMenu.Divider` between declarative items. Set `openOnFind={false}` on the container when collapsed content should not use `hidden="until-found"`.
+Set `dividerBefore: true` on a data item to render a separator, or place `SidebarMenu.Divider` between declarative items. Set `openOnFind={false}` on Root or Data when collapsed content should not use `hidden="until-found"`.
 
 When an accordion also represents a page, provide `href` or `to`. The accordion becomes a navigation link that also controls expansion.
 
@@ -45,7 +45,7 @@ The selected destination is positioned within the visible browser or nearest `Sc
 
 Use `openItemsStorageKey` to preserve manually opened and closed groups. When the menu is inside a `ScrollView`, use `scrollPositionStorageKey` to restore its vertical position. A stored value takes precedence over the defaults, including an empty array. Use local storage only when the state should survive browser restarts; otherwise keep the default session storage.
 
-Prerendered applications can read the storage metadata rendered by the container and restore the position before hydration. This avoids briefly showing the top of a long menu before moving to the selected item.
+Prerendered applications can read the storage metadata rendered by Root or Data and restore the position before hydration. This avoids briefly showing the top of a long menu before moving to the selected item.
 
 ## Relevant links
 
@@ -54,7 +54,7 @@ Prerendered applications can read the storage metadata rendered by the container
 
 ## Accessibility
 
-- The container renders a `nav` landmark. Give each menu a distinct `aria-label` or `aria-labelledby` value.
+- Root and Data render a `nav` landmark. Give each menu a distinct `aria-label` or `aria-labelledby` value.
 - Navigation levels use semantic nested lists.
 - Items render as native links when `href` or `to` is supplied, and native buttons otherwise.
 - Accordion triggers use `aria-expanded` and `aria-controls`. They are native buttons unless `href` or `to` makes the trigger a link.

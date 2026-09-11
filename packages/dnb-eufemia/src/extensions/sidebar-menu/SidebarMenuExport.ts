@@ -1,4 +1,5 @@
-export { default as Container } from './SidebarMenuContainer'
+export { default as Root } from './SidebarMenuRoot'
+export { default as Data } from './SidebarMenuData'
 export { default as Item } from './SidebarMenuItem'
 export { default as Accordion } from './SidebarMenuAccordion'
 export { default as Section } from './SidebarMenuSection'

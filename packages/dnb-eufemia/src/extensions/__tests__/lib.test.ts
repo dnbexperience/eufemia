@@ -17,7 +17,7 @@ describe('Library', () => {
   })
 
   it('has to have a SidebarMenu extension', () => {
-    expect(typeof SidebarMenu.Container).toBe('function')
+    expect(typeof SidebarMenu.Root).toBe('function')
     expect(getExtensions().SidebarMenu).toBe(SidebarMenu)
   })
 })

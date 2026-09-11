@@ -4,6 +4,7 @@ import SidebarMenuBadge from './SidebarMenuBadge'
 import SidebarMenuItemContent from './SidebarMenuItemContent'
 import { useSidebarMenuContext } from './SidebarMenuContext'
 import type { SidebarMenuItemProps } from './types'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export default function SidebarMenuItem(props: SidebarMenuItemProps) {
   const {
@@ -107,3 +108,5 @@ export default function SidebarMenuItem(props: SidebarMenuItemProps) {
     </li>
   )
 }
+
+withComponentMarkers(SidebarMenuItem, { _sidebarMenuRole: 'item' })

@@ -1,19 +1,9 @@
 import type { PropertiesTableProps } from '../../shared/types'
 
-export const SidebarMenuContainerProperties: PropertiesTableProps = {
+export const SidebarMenuRootProperties: PropertiesTableProps = {
   children: {
-    doc: 'Declarative menu content composed with SidebarMenu.Item, SidebarMenu.Accordion, SidebarMenu.Group, SidebarMenu.Section, SidebarMenu.Header, and SidebarMenu.Divider. Use instead of data or sections.',
+    doc: 'Declarative menu content composed with SidebarMenu.Item, SidebarMenu.Accordion, SidebarMenu.Group, SidebarMenu.Section, SidebarMenu.Header, and SidebarMenu.Divider.',
     type: 'React.ReactNode',
-    status: 'optional',
-  },
-  data: {
-    doc: 'Recursive items used to render a menu from data. Use instead of children or sections.',
-    type: 'Array<SidebarMenuItemData>',
-    status: 'optional',
-  },
-  sections: {
-    doc: 'Top-level switchable sections and their recursive items.',
-    type: 'Array<SidebarMenuSectionData>',
     status: 'optional',
   },
   openItems: {
@@ -93,7 +83,25 @@ export const SidebarMenuContainerProperties: PropertiesTableProps = {
   },
 }
 
-export const SidebarMenuContainerEvents: PropertiesTableProps = {
+export const SidebarMenuDataProperties: PropertiesTableProps = {
+  data: {
+    doc: 'Recursive items used to render a menu from data.',
+    type: 'Array<SidebarMenuItemData>',
+    status: 'optional',
+  },
+  sections: {
+    doc: 'Top-level switchable sections and their recursive items.',
+    type: 'Array<SidebarMenuSectionData>',
+    status: 'optional',
+  },
+  ...Object.fromEntries(
+    Object.entries(SidebarMenuRootProperties).filter(
+      ([name]) => name !== 'children'
+    )
+  ),
+}
+
+export const SidebarMenuRootEvents: PropertiesTableProps = {
   onOpenItemsChange: {
     doc: 'Called whenever an accordion opens or closes with all open accordion ids.',
     type: '(openItems: string[]) => void',
@@ -175,7 +183,7 @@ export const SidebarMenuItemProperties: PropertiesTableProps = {
     status: 'optional',
   },
   active: {
-    doc: 'Marks the item as the current page without managing container selection state.',
+    doc: 'Marks the item as the current page without managing Root selection state.',
     type: 'boolean',
     defaultValue: 'false',
     status: 'optional',
@@ -184,7 +192,7 @@ export const SidebarMenuItemProperties: PropertiesTableProps = {
 
 export const SidebarMenuItemEvents: PropertiesTableProps = {
   onClick: {
-    doc: 'Called when the item is activated after the container selection state is updated.',
+    doc: 'Called when the item is activated after the Root selection state is updated.',
     type: '(event: React.MouseEvent<HTMLElement>) => void',
     status: 'optional',
   },
@@ -300,9 +308,9 @@ export const SidebarMenuSectionProperties: PropertiesTableProps = {
 
 export const SidebarMenuGroupProperties: PropertiesTableProps = {
   id: {
-    doc: 'Unique id used to associate the title with the nested list.',
+    doc: 'Unique id used for selection. Required for linked groups and generated for non-linked groups when omitted.',
     type: 'string',
-    status: 'required',
+    status: 'optional',
   },
   text: {
     doc: 'Visible group title.',

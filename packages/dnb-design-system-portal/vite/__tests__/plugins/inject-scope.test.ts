@@ -210,7 +210,7 @@ describe('injectScope babel plugin', () => {
       export function Demo() {
         return (
           <ComponentBox>
-            <SidebarMenu.Container />
+            <SidebarMenu.Root />
           </ComponentBox>
         )
       }
@@ -219,6 +219,7 @@ describe('injectScope babel plugin', () => {
     const output = await transformWithFullPipeline(input)
 
     expect(output).toContain('__scope_SidebarMenu')
+    expect(output).toContain('import * as __scope_SidebarMenu')
     expect(output).toContain(
       '@dnb/eufemia/src/extensions/sidebar-menu/SidebarMenu'
     )

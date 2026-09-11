@@ -14,6 +14,7 @@ import SidebarMenuBadge from './SidebarMenuBadge'
 import SidebarMenuItemContent from './SidebarMenuItemContent'
 import type { SidebarMenuAccordionProps } from './types'
 import useTranslation from '../../shared/useTranslation'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 const accordionIcon = Icon.transition({
   collapsed: chevron_down,
@@ -44,6 +45,9 @@ export default function SidebarMenuAccordion(
     defaultOpen = false,
     collapsible = true,
     onOpenChange,
+    'aria-label': ariaLabel,
+    'aria-labelledby': ariaLabelledBy,
+    title,
     ...rest
   } = props
   const translation = useTranslation().SidebarMenu
@@ -192,12 +196,15 @@ export default function SidebarMenuAccordion(
           target={target}
           rel={rel}
           aria-current={isSelected ? 'page' : undefined}
+          aria-label={ariaLabel}
+          aria-labelledby={ariaLabelledBy}
           aria-disabled={disabled || undefined}
           aria-expanded={collapsible ? isOpen : undefined}
           aria-controls={controlsContent ? `${id}-content` : undefined}
           tabIndex={disabled ? -1 : undefined}
           onClick={handleLinkClick}
           onKeyDown={handleLinkKeyDown}
+          title={title}
           style={itemStyle}
         >
           {content}
@@ -222,9 +229,12 @@ export default function SidebarMenuAccordion(
           type="button"
           className="dnb-sidebar-menu__item__action dnb-sidebar-menu__accordion__trigger"
           aria-expanded={isOpen}
+          aria-label={ariaLabel}
+          aria-labelledby={ariaLabelledBy}
           aria-controls={controlsContent ? `${id}-content` : undefined}
           disabled={disabled}
           onClick={() => setOpen(!requestedOpen)}
+          title={title}
           style={itemStyle}
         >
           {content}
@@ -255,3 +265,7 @@ export default function SidebarMenuAccordion(
     </li>
   )
 }
+
+withComponentMarkers(SidebarMenuAccordion, {
+  _sidebarMenuRole: 'accordion',
+})

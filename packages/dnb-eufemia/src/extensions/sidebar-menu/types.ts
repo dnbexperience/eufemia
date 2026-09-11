@@ -58,26 +58,18 @@ export type SidebarMenuSectionData = {
   /** Icon shown before the section label. */
   icon?: IconIcon
   /** Marks this section as initially active. */
-  active?: boolean
+  defaultActive?: boolean
   /** Recursive menu content for the section. */
   items: SidebarMenuItemData[]
 }
 
-export type SidebarMenuContainerProps = {
+export type SidebarMenuRootProps = {
   /**
    * Declarative menu content composed with SidebarMenu.Item, SidebarMenu.Accordion,
    * SidebarMenu.Group, SidebarMenu.Section, SidebarMenu.Header, and
-   * SidebarMenu.Divider. Use instead of data or sections.
+   * SidebarMenu.Divider.
    */
   children?: ReactNode
-  /**
-   * Recursive items used to render a menu from data. Use instead of children or sections.
-   */
-  data?: SidebarMenuItemData[]
-  /**
-   * Top-level switchable sections and their recursive items.
-   */
-  sections?: SidebarMenuSectionData[]
   /** Controlled array of open accordion ids. Selected ancestors are only opened automatically when this property is not provided. */
   openItems?: string[]
   /**
@@ -136,6 +128,14 @@ export type SidebarMenuContainerProps = {
 } & SpacingProps &
   Omit<HTMLAttributes<HTMLElement>, 'children'>
 
+export type SidebarMenuDataProps = Omit<
+  SidebarMenuRootProps,
+  'children'
+> & {
+  data?: SidebarMenuItemData[]
+  sections?: SidebarMenuSectionData[]
+}
+
 export type SidebarMenuItemProps = {
   /**
    * Unique item id used for selection state.
@@ -168,7 +168,7 @@ export type SidebarMenuItemProps = {
    */
   disabled?: boolean
   /**
-   * Marks the item as the current page without managing container selection state.
+   * Marks the item as the current page without managing Root selection state.
    * Default: `false`
    */
   active?: boolean
@@ -228,7 +228,7 @@ export type SidebarMenuAccordionProps = {
    * Called whenever this accordion opens or closes.
    */
   onOpenChange?: (open: boolean) => void
-} & Omit<HTMLAttributes<HTMLLIElement>, 'title' | 'children' | 'onClick'>
+} & Omit<HTMLAttributes<HTMLLIElement>, 'children' | 'onClick'>
 
 export type SidebarMenuSectionProps = {
   id: string
@@ -238,11 +238,11 @@ export type SidebarMenuSectionProps = {
   children?: ReactNode
 }
 
-export type SidebarMenuGroupProps = {
-  /** Unique id used to associate the title with the nested list. */
-  id: string
+type SidebarMenuGroupBaseProps = {
+  /** Unique id used for selection. Generated for non-linked groups when omitted. */
+  id?: string
   /** Visible group title. */
-  text: ReactNode
+  text?: ReactNode
   /** Icon shown before a linked group title. */
   icon?: IconIcon
   /** Badge content displayed on the right side of a linked group title. */
@@ -268,7 +268,14 @@ export type SidebarMenuGroupProps = {
    * Default: `false`
    */
   disabled?: boolean
-} & Omit<HTMLAttributes<HTMLLIElement>, 'title' | 'children' | 'onClick'>
+} & Omit<HTMLAttributes<HTMLLIElement>, 'children' | 'onClick'>
+
+export type SidebarMenuGroupProps = SidebarMenuGroupBaseProps &
+  (
+    | { id: string; href: string; to?: string }
+    | { id: string; to: string; href?: string }
+    | { id?: string; href?: undefined; to?: undefined }
+  )
 
 export type SidebarMenuHeaderProps = {
   children?: ReactNode

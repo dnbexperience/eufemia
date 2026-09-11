@@ -7,6 +7,8 @@ import {
   useSidebarMenuContext,
 } from './SidebarMenuContext'
 import type { SidebarMenuGroupProps } from './types'
+import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
+import useId from '../../shared/helpers/useId'
 
 export default function SidebarMenuGroup(props: SidebarMenuGroupProps) {
   const {
@@ -26,27 +28,31 @@ export default function SidebarMenuGroup(props: SidebarMenuGroupProps) {
     rel,
     onClick,
     disabled = false,
+    'aria-label': ariaLabel,
+    'aria-labelledby': ariaLabelledBy,
+    title,
     ...rest
   } = props
   const context = useSidebarMenuContext()
-  const titleId = `${id}-title`
+  const resolvedId = useId(id)
+  const titleId = `${resolvedId}-title`
   const hasLink = Boolean(href || to)
-  const isSelected = context.selectedItem === id
+  const isSelected = context.selectedItem === resolvedId
   const handleClick: React.MouseEventHandler<HTMLElement> = (event) => {
     if (disabled) {
       event.preventDefault()
       return
     }
 
-    context.selectItem(id)
+    context.selectItem(resolvedId)
     onClick?.(event)
   }
 
   return (
     <li
       {...rest}
-      data-sidebar-menu-id={hasLink ? id : undefined}
-      data-sidebar-menu-group-id={id}
+      data-sidebar-menu-id={hasLink ? resolvedId : undefined}
+      data-sidebar-menu-group-id={resolvedId}
       className={clsx(
         'dnb-sidebar-menu__group',
         hasLink && 'dnb-sidebar-menu__item',
@@ -72,9 +78,12 @@ export default function SidebarMenuGroup(props: SidebarMenuGroupProps) {
           target={target}
           rel={rel}
           aria-current={isSelected ? 'page' : undefined}
+          aria-label={ariaLabel}
+          aria-labelledby={ariaLabelledBy}
           aria-disabled={disabled || undefined}
           tabIndex={disabled ? -1 : undefined}
           onClick={handleClick}
+          title={title}
         >
           <span className="dnb-sidebar-menu__item__content">
             <SidebarMenuItemContent icon={icon} text={text} />
@@ -82,17 +91,17 @@ export default function SidebarMenuGroup(props: SidebarMenuGroupProps) {
           {suffix}
           <SidebarMenuBadge badge={badge} badgeProps={badgeProps} />
         </Anchor>
-      ) : (
+      ) : text ? (
         <div id={titleId} className="dnb-sidebar-menu__group__title">
           {text}
         </div>
-      )}
+      ) : null}
       <SidebarMenuContext
         value={{ ...context, indent: context.indent + 1 }}
       >
         <ul
           className="dnb-sidebar-menu__list dnb-sidebar-menu__group__list"
-          aria-labelledby={titleId}
+          aria-labelledby={text ? titleId : undefined}
         >
           {children}
         </ul>
@@ -100,3 +109,5 @@ export default function SidebarMenuGroup(props: SidebarMenuGroupProps) {
     </li>
   )
 }
+
+withComponentMarkers(SidebarMenuGroup, { _sidebarMenuRole: 'group' })

@@ -1,5 +1,5 @@
 import ComponentBox from '../../../../shared/tags/ComponentBox'
-import SidebarMenu from '@dnb/eufemia/src/extensions/sidebar-menu'
+import * as SidebarMenu from '@dnb/eufemia/src/extensions/sidebar-menu'
 import '@dnb/eufemia/src/extensions/sidebar-menu/style'
 import { ScrollView } from '@dnb/eufemia/src/fragments'
 import {
@@ -27,7 +27,7 @@ export function SidebarMenuDeclarative() {
         person,
       }}
     >
-      <SidebarMenu.Container
+      <SidebarMenu.Root
         aria-label="Personal and business navigation"
         defaultActiveSection="personal"
         defaultOpenItems={['products']}
@@ -133,7 +133,7 @@ export function SidebarMenuDeclarative() {
             </SidebarMenu.Accordion>
           </SidebarMenu.Accordion>
         </SidebarMenu.Section>
-      </SidebarMenu.Container>
+      </SidebarMenu.Root>
     </ComponentBox>
   )
 }
@@ -159,7 +159,7 @@ export function SidebarMenuData() {
         scrollbarGutter="stable"
         style={{ maxHeight: 'min(18rem, calc(100vh - 8rem))' }}
       >
-        <SidebarMenu.Container
+        <SidebarMenu.Data
           aria-label="Data-driven navigation"
           defaultSelectedItem="data-credit-card"
           scrollSelectedItemIntoView={false}
@@ -170,7 +170,7 @@ export function SidebarMenuData() {
               id: 'personal-data',
               text: 'Personal',
               icon: person,
-              active: true,
+              defaultActive: true,
               items: [
                 {
                   id: 'data-home',

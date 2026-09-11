@@ -1,5 +1,6 @@
 import {
   Children,
+  Fragment,
   isValidElement,
   useCallback,
   useEffect,
@@ -9,35 +10,20 @@ import {
 } from 'react'
 import type { ReactElement, ReactNode } from 'react'
 import { clsx } from 'clsx'
-import Dropdown from '../../components/Dropdown'
-import Icon from '../../components/icon/Icon'
-import { chevron_down, chevron_up } from '../../icons'
 import Space from '../../components/space/Space'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../shared/helpers/useIsomorphicLayoutEffect'
 import { SidebarMenuContext } from './SidebarMenuContext'
-import SidebarMenuAccordion from './SidebarMenuAccordion'
-import SidebarMenuItem from './SidebarMenuItem'
-import SidebarMenuGroup from './SidebarMenuGroup'
-import SidebarMenuSection from './SidebarMenuSection'
-import renderSidebarMenuItems from './renderSidebarMenuItems'
 import useTranslation from '../../shared/useTranslation'
 import type {
-  SidebarMenuContainerProps,
+  SidebarMenuRootProps,
   SidebarMenuSectionProps,
 } from './types'
 
-const sectionIcon = Icon.transition({
-  closed: chevron_down,
-  open: chevron_up,
-})
-
-function SidebarMenuContainer(props: SidebarMenuContainerProps) {
+function SidebarMenuRoot(props: SidebarMenuRootProps) {
   const {
     className,
     children,
-    data,
-    sections: dataSections,
     openItems,
     defaultOpenItems = [],
     openItemsStorageKey,
@@ -65,16 +51,10 @@ function SidebarMenuContainer(props: SidebarMenuContainerProps) {
     : undefined
   const [initialState] = useState(() => {
     const selected =
-      defaultSelectedItem ??
-      findActiveDataItem(
-        dataSections?.flatMap(({ items }) => items) ?? data
-      ) ??
-      findActiveDeclarativeItem(children)
+      defaultSelectedItem ?? findActiveDeclarativeItem(children)
     const selection = findSelection({
       id: selectedItem ?? selected,
       children,
-      data,
-      sections: dataSections,
     })
 
     return {
@@ -90,25 +70,24 @@ function SidebarMenuContainer(props: SidebarMenuContainerProps) {
       : defaultOpenItems)
   const [internalOpenItems, setInternalOpenItems] =
     useState(initialOpenItems)
-  const [animate, setAnimate] = useState(!openItemsStorageKey)
+  const [animate, setAnimate] = useState(
+    openItems !== undefined || !openItemsStorageKey
+  )
+  const [hoveredSection, setHoveredSection] = useState<string>()
   const loadedOpenItemsStorageIdRef = useRef<string | undefined>(undefined)
   const skipOpenItemsPersistRef = useRef(false)
   const [internalActiveSection, setInternalActiveSection] = useState(
-    () =>
-      defaultActiveSection ??
-      dataSections?.find((section) => section.active)?.id ??
-      initialState.sectionId
+    () => defaultActiveSection ?? initialState.sectionId
   )
   const [internalSelectedItem, setInternalSelectedItem] = useState(
     initialState.selectedItem
   )
   const resolvedSelectedItem = selectedItem ?? internalSelectedItem
+  const activeItem = findActiveDeclarativeItem(children)
   const positionedSelectedItemRef = useRef<string>(undefined)
   const selection = findSelection({
     id: resolvedSelectedItem,
     children,
-    data,
-    sections: dataSections,
   })
   const selectionAncestorIds = selection?.ancestorIds ?? []
   const selectionAncestorIdsKey = selectionAncestorIds.join(',')
@@ -268,17 +247,17 @@ function SidebarMenuContainer(props: SidebarMenuContainerProps) {
     }
   }, [scrollPositionStorage, scrollPositionStorageKey])
 
-  const declarativeSections = Children.toArray(children).filter(
-    (child): child is ReactElement<SidebarMenuSectionProps> =>
-      isValidElement(child) && child.type === SidebarMenuSection
-  )
-  const hasSections = Boolean(
-    dataSections?.length || declarativeSections.length
-  )
-  const firstSectionId =
-    dataSections?.[0]?.id ?? declarativeSections[0]?.props.id
+  const declarativeSections = findDeclarativeSections(children)
+  const hasSections = Boolean(declarativeSections.length)
+  const firstSectionId = declarativeSections[0]?.props.id
   const resolvedActiveSection =
     activeSection ?? internalActiveSection ?? firstSectionId
+
+  useEffect(() => {
+    if (selectedItem === undefined && activeItem) {
+      setInternalSelectedItem(activeItem)
+    }
+  }, [activeItem, selectedItem])
 
   useEffect(() => {
     if (
@@ -513,31 +492,11 @@ function SidebarMenuContainer(props: SidebarMenuContainerProps) {
     [activeSection, onActiveSectionChange]
   )
 
-  let sectionContent = children
-  let sectionButtons: Array<{
-    id: string
-    text: React.ReactNode
-    icon?: SidebarMenuSectionProps['icon']
-  }> = []
-
-  if (dataSections?.length) {
-    sectionButtons = dataSections
-    const section = dataSections.find(
-      ({ id }) => id === resolvedActiveSection
-    )
-    sectionContent = section ? renderSidebarMenuItems(section.items) : null
-  } else if (declarativeSections.length) {
-    sectionButtons = declarativeSections.map(({ props }) => ({
-      id: props.id,
-      text: props.text,
-      icon: props.icon,
-    }))
-    sectionContent = declarativeSections.find(
-      ({ props }) => props.id === resolvedActiveSection
-    )?.props.children
-  } else if (data) {
-    sectionContent = renderSidebarMenuItems(data)
-  }
+  const sectionContent = declarativeSections.length
+    ? declarativeSections.find(
+        ({ props }) => props.id === resolvedActiveSection
+      )?.props.children
+    : children
 
   return (
     <Space
@@ -548,42 +507,25 @@ function SidebarMenuContainer(props: SidebarMenuContainerProps) {
       data-scroll-position-storage-key={scrollPositionStorageKey}
       data-scroll-position-storage={scrollPositionStorage}
     >
-      {hasSections && (
-        <Dropdown
-          className="dnb-sidebar-menu__sections"
-          portalClass="dnb-sidebar-menu__sections-portal"
-          value={resolvedActiveSection}
-          label={resolvedSectionLabel}
-          labelSrOnly
-          data={sectionButtons.map((section) => {
-            const content = section.icon ? (
-              <Dropdown.HorizontalItem className="dnb-sidebar-menu__section-label">
-                <Icon icon={section.icon} />
-                {section.text}
-              </Dropdown.HorizontalItem>
-            ) : (
-              section.text
-            )
-
-            return {
-              selectedKey: section.id,
-              selectedValue: content,
-              content,
-            }
-          })}
-          onChange={({ data }) => {
-            if (typeof data?.selectedKey === 'string') {
-              selectSection(data.selectedKey)
-            }
-          }}
-          size="medium"
-          icon={sectionIcon}
-          stretch
-        />
-      )}
+      {hasSections &&
+        renderSectionSelector(declarativeSections, {
+          activeSection: resolvedActiveSection,
+          sectionLabel: resolvedSectionLabel,
+          selectSection,
+          setHoveredSection,
+        })}
 
       <SidebarMenuContext value={contextValue}>
-        <ul className="dnb-sidebar-menu__list">{sectionContent}</ul>
+        <ul
+          className={clsx(
+            'dnb-sidebar-menu__list',
+            hoveredSection &&
+              hoveredSection !== resolvedActiveSection &&
+              'dnb-sidebar-menu__list--dimmed'
+          )}
+        >
+          {sectionContent}
+        </ul>
       </SidebarMenuContext>
     </Space>
   )
@@ -608,9 +550,9 @@ function scrollInstantly(element: HTMLElement, top: number) {
   )
 }
 
-withComponentMarkers(SidebarMenuContainer, { _supportsSpacingProps: true })
+withComponentMarkers(SidebarMenuRoot, { _supportsSpacingProps: true })
 
-export default SidebarMenuContainer
+export default SidebarMenuRoot
 
 type Selection = {
   ancestorIds: string[]
@@ -621,64 +563,15 @@ type Selection = {
 function findSelection({
   id,
   children,
-  data,
-  sections,
 }: {
   id?: string
   children?: ReactNode
-  data?: SidebarMenuContainerProps['data']
-  sections?: SidebarMenuContainerProps['sections']
 }): Selection | undefined {
   if (!id) {
     return undefined
   }
 
-  if (sections) {
-    for (const section of sections) {
-      const selection = findDataSelection(section.items, id)
-      if (selection) {
-        return { ...selection, sectionId: section.id }
-      }
-    }
-  }
-
-  const dataSelection = data && findDataSelection(data, id)
-  if (dataSelection) {
-    return dataSelection
-  }
-
   return findDeclarativeSelection(children, id)
-}
-
-function findDataSelection(
-  items: NonNullable<SidebarMenuContainerProps['data']>,
-  id: string,
-  ancestorIds: string[] = []
-): Selection | undefined {
-  for (const item of items) {
-    if (item.id === id) {
-      return {
-        ancestorIds,
-        selectedAccordionId:
-          item.items && item.type !== 'group' && item.collapsible !== false
-            ? item.id
-            : undefined,
-      }
-    }
-
-    if (item.items) {
-      const selection = findDataSelection(
-        item.items,
-        id,
-        item.type === 'group' ? ancestorIds : [...ancestorIds, item.id]
-      )
-      if (selection) {
-        return selection
-      }
-    }
-  }
-
-  return undefined
 }
 
 function findDeclarativeSelection(
@@ -697,20 +590,17 @@ function findDeclarativeSelection(
       children?: ReactNode
       collapsible?: boolean
     }>
-    const nextSectionId =
-      child.type === SidebarMenuSection ? element.props.id : sectionId
+    const role = getSidebarMenuRole(child.type)
+    const nextSectionId = role === 'section' ? element.props.id : sectionId
 
     if (
-      (child.type === SidebarMenuItem ||
-        child.type === SidebarMenuAccordion ||
-        child.type === SidebarMenuGroup) &&
+      (role === 'item' || role === 'accordion' || role === 'group') &&
       element.props.id === id
     ) {
       return {
         ancestorIds,
         selectedAccordionId:
-          child.type === SidebarMenuAccordion &&
-          element.props.collapsible !== false
+          role === 'accordion' && element.props.collapsible !== false
             ? element.props.id
             : undefined,
         sectionId: nextSectionId,
@@ -718,7 +608,7 @@ function findDeclarativeSelection(
     }
 
     const nextAncestorIds =
-      child.type === SidebarMenuAccordion && element.props.id
+      role === 'accordion' && element.props.id
         ? [...ancestorIds, element.props.id]
         : ancestorIds
     const selection = findDeclarativeSelection(
@@ -739,21 +629,56 @@ function addOpenItem(items: string[], id?: string) {
   return id && !items.includes(id) ? [...items, id] : items
 }
 
-function findActiveDataItem(
-  items?: NonNullable<SidebarMenuContainerProps['data']>
-): string | undefined {
-  for (const item of items ?? []) {
-    if (item.active) {
-      return item.id
-    }
-
-    const activeItem = findActiveDataItem(item.items)
-    if (activeItem) {
-      return activeItem
-    }
+function getSidebarMenuRole(type: React.ElementType | string | object) {
+  const component = type as {
+    _sidebarMenuRole?: string
+    type?: React.ElementType | object
   }
 
-  return undefined
+  return (
+    component._sidebarMenuRole ??
+    (component.type ? getSidebarMenuRole(component.type) : undefined)
+  )
+}
+
+function findDeclarativeSections(
+  children: ReactNode
+): ReactElement<SidebarMenuSectionProps>[] {
+  return Children.toArray(children).flatMap((child) => {
+    if (!isValidElement(child)) {
+      return []
+    }
+    if (child.type === Fragment) {
+      return findDeclarativeSections(
+        (child.props as { children?: ReactNode }).children
+      )
+    }
+
+    return getSidebarMenuRole(child.type) === 'section'
+      ? [child as ReactElement<SidebarMenuSectionProps>]
+      : []
+  })
+}
+
+type SectionSelectorProps = {
+  activeSection?: string
+  sectionLabel?: ReactNode
+  selectSection: (id: string) => void
+  setHoveredSection: (id?: string) => void
+}
+
+function renderSectionSelector(
+  sections: ReactElement<SidebarMenuSectionProps>[],
+  props: SectionSelectorProps
+) {
+  const Section = sections[0].type as React.ElementType & {
+    _renderSelector?: (
+      sections: ReactElement<SidebarMenuSectionProps>[],
+      props: SectionSelectorProps
+    ) => ReactNode
+  }
+
+  return Section._renderSelector?.(sections, props)
 }
 
 function findActiveDeclarativeItem(

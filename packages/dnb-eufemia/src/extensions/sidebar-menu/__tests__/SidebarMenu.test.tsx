@@ -1,10 +1,11 @@
 import { act, fireEvent, render, waitFor } from '@testing-library/react'
 import { hydrateRoot } from 'react-dom/client'
 import { renderToString } from 'react-dom/server'
+import { memo } from 'react'
 import ScrollView from '../../../fragments/scroll-view/ScrollView'
 import { axeComponent } from '../../../core/test-utils/testSetup'
 import SidebarMenu from '../SidebarMenu'
-import { SidebarMenuContainerProperties } from '../SidebarMenuDocs'
+import { SidebarMenuRootProperties } from '../SidebarMenuDocs'
 import { office_buildings, person } from '../../../icons'
 import Provider from '../../../shared/Provider'
 
@@ -12,13 +13,13 @@ describe('SidebarMenu', () => {
   it('localizes screen-reader labels', () => {
     render(
       <Provider locale="nb-NO">
-        <SidebarMenu.Container selectedItem="cards">
+        <SidebarMenu.Root selectedItem="cards">
           <SidebarMenu.Section id="web" text="Web">
             <SidebarMenu.Accordion id="products" text="Products">
               <SidebarMenu.Item id="cards" text="Cards" />
             </SidebarMenu.Accordion>
           </SidebarMenu.Section>
-        </SidebarMenu.Container>
+        </SidebarMenu.Root>
       </Provider>
     )
 
@@ -38,7 +39,7 @@ describe('SidebarMenu', () => {
   })
 
   it('documents the supported declarative children', () => {
-    expect(SidebarMenuContainerProperties.children.doc).toContain(
+    expect(SidebarMenuRootProperties.children.doc).toContain(
       'SidebarMenu.Item, SidebarMenu.Accordion, SidebarMenu.Group, SidebarMenu.Section, SidebarMenu.Header, and SidebarMenu.Divider'
     )
   })
@@ -47,39 +48,40 @@ describe('SidebarMenu', () => {
     expect(Object.keys(SidebarMenu).sort()).toEqual(
       [
         'Accordion',
-        'Container',
+        'Data',
         'Divider',
         'Group',
         'Header',
         'Item',
+        'Root',
         'Section',
       ].sort()
     )
   })
 
-  it('supports spacing props on the container', () => {
+  it('supports spacing props on Root', () => {
     render(
-      <SidebarMenu.Container top="large" left>
+      <SidebarMenu.Root top="large" left>
         <SidebarMenu.Item id="overview" text="Overview" />
-      </SidebarMenu.Container>
+      </SidebarMenu.Root>
     )
 
     const navigation = document.querySelector('.dnb-sidebar-menu')
 
     expect(navigation).toHaveClass('dnb-space__top--large')
     expect(navigation).toHaveClass('dnb-space__left--small')
-    expect(SidebarMenu.Container['_supportsSpacingProps']).toBe(true)
+    expect(SidebarMenu.Root['_supportsSpacingProps']).toBe(true)
   })
 
   it('renders declarative items and nested accordions', () => {
     render(
-      <SidebarMenu.Container aria-label="Main navigation">
+      <SidebarMenu.Root aria-label="Main navigation">
         <SidebarMenu.Header>Menu</SidebarMenu.Header>
         <SidebarMenu.Item id="home" text="Home" href="/home" />
         <SidebarMenu.Accordion id="products" text="Products">
           <SidebarMenu.Item id="cards" text="Cards" href="/cards" />
         </SidebarMenu.Accordion>
-      </SidebarMenu.Container>
+      </SidebarMenu.Root>
     )
 
     const navigation = document.querySelector('nav')
@@ -113,7 +115,7 @@ describe('SidebarMenu', () => {
 
   it('gives icon-only item actions an accessible name', () => {
     render(
-      <SidebarMenu.Container>
+      <SidebarMenu.Root>
         <SidebarMenu.Item
           id="profile"
           icon={person}
@@ -121,7 +123,7 @@ describe('SidebarMenu', () => {
           aria-label="Profile"
           title="Open profile"
         />
-      </SidebarMenu.Container>
+      </SidebarMenu.Root>
     )
 
     const item = document.querySelector('[data-sidebar-menu-id="profile"]')
@@ -132,11 +134,66 @@ describe('SidebarMenu', () => {
     expect(link).toHaveAttribute('title', 'Open profile')
   })
 
+  it('gives icon-only accordion and group actions an accessible name', () => {
+    render(
+      <SidebarMenu.Root>
+        <SidebarMenu.Accordion
+          id="products"
+          icon={person}
+          aria-label="Products"
+          title="Open products"
+        >
+          <SidebarMenu.Item id="cards" text="Cards" />
+        </SidebarMenu.Accordion>
+        <SidebarMenu.Accordion
+          id="accounts"
+          icon={person}
+          href="/accounts"
+          aria-label="Accounts"
+        />
+        <SidebarMenu.Group
+          id="profile"
+          icon={person}
+          href="/profile"
+          aria-labelledby="profile-label"
+          title="Open profile"
+        >
+          <span id="profile-label">Profile</span>
+        </SidebarMenu.Group>
+      </SidebarMenu.Root>
+    )
+
+    const products = document.querySelector(
+      '[data-sidebar-menu-id="products"]'
+    )
+    const accounts = document.querySelector(
+      '[data-sidebar-menu-id="accounts"]'
+    )
+    const profile = document.querySelector(
+      '[data-sidebar-menu-id="profile"]'
+    )
+
+    expect(products).not.toHaveAttribute('aria-label')
+    expect(products.querySelector('button')).toHaveAccessibleName(
+      'Products'
+    )
+    expect(products.querySelector('button')).toHaveAttribute(
+      'title',
+      'Open products'
+    )
+    expect(accounts.querySelector('a')).toHaveAccessibleName('Accounts')
+    expect(profile.querySelector('a')).toHaveAccessibleName('Profile')
+    expect(profile.querySelector('a')).toHaveAttribute(
+      'title',
+      'Open profile'
+    )
+  })
+
   it('renders Header with heading semantics', () => {
     render(
-      <SidebarMenu.Container>
+      <SidebarMenu.Root>
         <SidebarMenu.Header headingLevel={3}>Accounts</SidebarMenu.Header>
-      </SidebarMenu.Container>
+      </SidebarMenu.Root>
     )
 
     expect(
@@ -148,14 +205,14 @@ describe('SidebarMenu', () => {
 
   it('renders declarative static groups without accordion semantics', () => {
     render(
-      <SidebarMenu.Container>
+      <SidebarMenu.Root>
         <SidebarMenu.Group id="actions" text="Actions">
           <SidebarMenu.Item id="button" text="Button" />
           <SidebarMenu.Accordion id="menus" text="Menus">
             <SidebarMenu.Item id="sidebar-menu" text="Sidebar menu" />
           </SidebarMenu.Accordion>
         </SidebarMenu.Group>
-      </SidebarMenu.Container>
+      </SidebarMenu.Root>
     )
 
     const group = document.querySelector(
@@ -173,9 +230,26 @@ describe('SidebarMenu', () => {
     expect(item).toHaveStyle({ '--sidebar-menu-indent': '1rem' })
   })
 
+  it('does not label an untitled group with an empty element', () => {
+    render(
+      <SidebarMenu.Root>
+        <SidebarMenu.Group>
+          <SidebarMenu.Item id="button" text="Button" />
+        </SidebarMenu.Group>
+      </SidebarMenu.Root>
+    )
+
+    expect(
+      document.querySelector('.dnb-sidebar-menu__group__title')
+    ).not.toBeInTheDocument()
+    expect(
+      document.querySelector('.dnb-sidebar-menu__group__list')
+    ).not.toHaveAttribute('aria-labelledby')
+  })
+
   it('renders static groups from data', () => {
     render(
-      <SidebarMenu.Container
+      <SidebarMenu.Data
         data={[
           {
             id: 'actions',
@@ -200,7 +274,7 @@ describe('SidebarMenu', () => {
 
   it('renders a divider before a data item', () => {
     render(
-      <SidebarMenu.Container
+      <SidebarMenu.Data
         data={[
           {
             id: 'overview',
@@ -225,7 +299,7 @@ describe('SidebarMenu', () => {
 
   it('renders custom data content after its divider', () => {
     render(
-      <SidebarMenu.Container
+      <SidebarMenu.Data
         data={[
           {
             id: 'platform',
@@ -251,7 +325,7 @@ describe('SidebarMenu', () => {
 
   it('passes presentation props to data accordions', () => {
     render(
-      <SidebarMenu.Container
+      <SidebarMenu.Data
         data={[
           {
             id: 'products',
@@ -276,7 +350,7 @@ describe('SidebarMenu', () => {
     const onSelectedItemChange = vi.fn()
 
     render(
-      <SidebarMenu.Container
+      <SidebarMenu.Root
         selectedItem="typography"
         onSelectedItemChange={onSelectedItemChange}
       >
@@ -288,7 +362,7 @@ describe('SidebarMenu', () => {
         >
           <SidebarMenu.Item id="font-size" text="Font size" />
         </SidebarMenu.Group>
-      </SidebarMenu.Container>
+      </SidebarMenu.Root>
     )
 
     const link = document.querySelector(
@@ -315,11 +389,11 @@ describe('SidebarMenu', () => {
 
   it('keeps non-linked group titles styled as headings', () => {
     render(
-      <SidebarMenu.Container>
+      <SidebarMenu.Root>
         <SidebarMenu.Group id="actions" text="Actions">
           <SidebarMenu.Item id="button" text="Button" />
         </SidebarMenu.Group>
-      </SidebarMenu.Container>
+      </SidebarMenu.Root>
     )
 
     const title = document.querySelector('.dnb-sidebar-menu__group__title')
@@ -332,11 +406,11 @@ describe('SidebarMenu', () => {
 
   it('opens a collapsed accordion when hidden content is found', () => {
     render(
-      <SidebarMenu.Container>
+      <SidebarMenu.Root>
         <SidebarMenu.Accordion id="products" text="Products">
           <SidebarMenu.Item id="cards" text="Cards" />
         </SidebarMenu.Accordion>
-      </SidebarMenu.Container>
+      </SidebarMenu.Root>
     )
 
     const content = document.querySelector('.dnb-height-animation')
@@ -356,13 +430,13 @@ describe('SidebarMenu', () => {
     globalThis.animationDuration = -1
 
     render(
-      <SidebarMenu.Container>
+      <SidebarMenu.Root>
         <SidebarMenu.Accordion id="products" text="Products">
           <SidebarMenu.Accordion id="cards" text="Cards">
             <SidebarMenu.Item id="debit-card" text="Debit card" />
           </SidebarMenu.Accordion>
         </SidebarMenu.Accordion>
-      </SidebarMenu.Container>
+      </SidebarMenu.Root>
     )
 
     const triggers = document.querySelectorAll(
@@ -396,11 +470,11 @@ describe('SidebarMenu', () => {
 
   it('can disable hidden until found behavior', () => {
     render(
-      <SidebarMenu.Container openOnFind={false}>
+      <SidebarMenu.Root openOnFind={false}>
         <SidebarMenu.Accordion id="products" text="Products">
           <SidebarMenu.Item id="cards" text="Cards" />
         </SidebarMenu.Accordion>
-      </SidebarMenu.Container>
+      </SidebarMenu.Root>
     )
 
     expect(
@@ -416,9 +490,9 @@ describe('SidebarMenu', () => {
 
   it('wraps labels between words without splitting characters', () => {
     render(
-      <SidebarMenu.Container>
+      <SidebarMenu.Root>
         <SidebarMenu.Item id="payments" text="Incoming payments" />
-      </SidebarMenu.Container>
+      </SidebarMenu.Root>
     )
 
     const text = document.querySelector('.dnb-sidebar-menu__item__text')
@@ -429,7 +503,7 @@ describe('SidebarMenu', () => {
 
   it('renders trailing content before a badge', () => {
     render(
-      <SidebarMenu.Container
+      <SidebarMenu.Data
         data={[
           {
             id: 'updates',
@@ -457,7 +531,7 @@ describe('SidebarMenu', () => {
 
   it('renders an arbitrarily nested menu from data', () => {
     render(
-      <SidebarMenu.Container
+      <SidebarMenu.Data
         data={[
           {
             id: 'products',
@@ -496,14 +570,14 @@ describe('SidebarMenu', () => {
     const onOpenItemsChange = vi.fn()
 
     const { rerender } = render(
-      <SidebarMenu.Container
+      <SidebarMenu.Root
         openItems={[]}
         onOpenItemsChange={onOpenItemsChange}
       >
         <SidebarMenu.Accordion id="products" text="Products">
           <SidebarMenu.Item id="cards" text="Cards" />
         </SidebarMenu.Accordion>
-      </SidebarMenu.Container>
+      </SidebarMenu.Root>
     )
 
     const trigger = document.querySelector(
@@ -515,11 +589,11 @@ describe('SidebarMenu', () => {
     expect(trigger).toHaveAttribute('aria-expanded', 'false')
 
     rerender(
-      <SidebarMenu.Container openItems={['products']}>
+      <SidebarMenu.Root openItems={['products']}>
         <SidebarMenu.Accordion id="products" text="Products">
           <SidebarMenu.Item id="cards" text="Cards" />
         </SidebarMenu.Accordion>
-      </SidebarMenu.Container>
+      </SidebarMenu.Root>
     )
 
     expect(trigger).toHaveAttribute('aria-expanded', 'true')
@@ -529,7 +603,7 @@ describe('SidebarMenu', () => {
     const onOpenItemsChange = vi.fn()
 
     render(
-      <SidebarMenu.Container
+      <SidebarMenu.Root
         openItems={[]}
         selectedItem="cards"
         onOpenItemsChange={onOpenItemsChange}
@@ -537,7 +611,7 @@ describe('SidebarMenu', () => {
         <SidebarMenu.Accordion id="products" text="Products">
           <SidebarMenu.Item id="cards" text="Cards" />
         </SidebarMenu.Accordion>
-      </SidebarMenu.Container>
+      </SidebarMenu.Root>
     )
 
     const trigger = document.querySelector(
@@ -554,7 +628,7 @@ describe('SidebarMenu', () => {
     const onActiveSectionChange = vi.fn()
 
     render(
-      <SidebarMenu.Container
+      <SidebarMenu.Root
         defaultActiveSection="personal"
         onActiveSectionChange={onActiveSectionChange}
       >
@@ -568,7 +642,7 @@ describe('SidebarMenu', () => {
         >
           <SidebarMenu.Item id="invoices" text="Invoices" />
         </SidebarMenu.Section>
-      </SidebarMenu.Container>
+      </SidebarMenu.Root>
     )
 
     expect(document.body).toHaveTextContent('Overview')
@@ -611,15 +685,119 @@ describe('SidebarMenu', () => {
     ).toBeInTheDocument()
   })
 
+  it('supports sections wrapped in a fragment', () => {
+    render(
+      <SidebarMenu.Root>
+        <>
+          <SidebarMenu.Section id="personal" text="Personal">
+            <SidebarMenu.Item id="overview" text="Overview" />
+          </SidebarMenu.Section>
+          <SidebarMenu.Section id="business" text="Business">
+            <SidebarMenu.Item id="invoices" text="Invoices" />
+          </SidebarMenu.Section>
+        </>
+      </SidebarMenu.Root>
+    )
+
+    expect(
+      document.querySelector('.dnb-dropdown__trigger')
+    ).toBeInTheDocument()
+    expect(document.body).toHaveTextContent('Overview')
+  })
+
+  it('finds memoized compound parts', () => {
+    const Item = memo(SidebarMenu.Item)
+
+    render(
+      <SidebarMenu.Root selectedItem="invoices">
+        <SidebarMenu.Section id="personal" text="Personal">
+          <SidebarMenu.Item id="overview" text="Overview" />
+        </SidebarMenu.Section>
+        <SidebarMenu.Section id="business" text="Business">
+          <Item id="invoices" text="Invoices" />
+        </SidebarMenu.Section>
+      </SidebarMenu.Root>
+    )
+
+    expect(document.body).toHaveTextContent('Invoices')
+  })
+
+  it('dims the active section while hovering another section', () => {
+    render(
+      <SidebarMenu.Root defaultActiveSection="personal">
+        <SidebarMenu.Section id="personal" text="Personal">
+          <SidebarMenu.Item id="overview" text="Overview" />
+        </SidebarMenu.Section>
+        <SidebarMenu.Section id="business" text="Business">
+          <SidebarMenu.Item id="invoices" text="Invoices" />
+        </SidebarMenu.Section>
+      </SidebarMenu.Root>
+    )
+
+    fireEvent.click(document.querySelector('.dnb-dropdown__trigger'))
+
+    const list = document.querySelector('.dnb-sidebar-menu__list')
+    const getOption = (text: string) =>
+      Array.from(
+        document.querySelectorAll<HTMLElement>('[role="option"]')
+      ).find((element) => element.textContent === text)
+
+    fireEvent.mouseEnter(getOption('Business'))
+    expect(list).toHaveClass('dnb-sidebar-menu__list--dimmed')
+
+    fireEvent.mouseLeave(getOption('Business'))
+    expect(list).toHaveClass('dnb-sidebar-menu__list--dimmed')
+
+    fireEvent.mouseEnter(getOption('Personal'))
+    expect(list).not.toHaveClass('dnb-sidebar-menu__list--dimmed')
+
+    fireEvent.mouseEnter(getOption('Business'))
+    expect(list).toHaveClass('dnb-sidebar-menu__list--dimmed')
+
+    fireEvent.mouseLeave(document.querySelector('.dnb-drawer-list'))
+    expect(list).not.toHaveClass('dnb-sidebar-menu__list--dimmed')
+  })
+
+  it('does not dim a newly selected section when it is hovered', () => {
+    render(
+      <SidebarMenu.Root defaultActiveSection="personal">
+        <SidebarMenu.Section id="personal" text="Personal">
+          <SidebarMenu.Item id="overview" text="Overview" />
+        </SidebarMenu.Section>
+        <SidebarMenu.Section id="business" text="Business">
+          <SidebarMenu.Item id="invoices" text="Invoices" />
+        </SidebarMenu.Section>
+      </SidebarMenu.Root>
+    )
+
+    const trigger = document.querySelector('.dnb-dropdown__trigger')
+    fireEvent.click(trigger)
+    fireEvent.click(
+      Array.from(document.querySelectorAll('[role="option"]')).find(
+        (element) => element.textContent === 'Business'
+      )
+    )
+    fireEvent.click(trigger)
+    fireEvent.mouseEnter(
+      Array.from(document.querySelectorAll('[role="option"]')).find(
+        (element) => element.textContent === 'Business'
+      )
+    )
+
+    expect(
+      document.querySelector('.dnb-sidebar-menu__list')
+    ).not.toHaveClass('dnb-sidebar-menu__list--dimmed')
+  })
+
   it('renders and switches sections supplied as data', () => {
     render(
-      <SidebarMenu.Container
+      <SidebarMenu.Data
         sections={[
           {
             id: 'personal',
             text: 'Personal',
             icon: person,
-            active: true,
+            defaultActive: true,
             items: [{ id: 'home', text: 'Home' }],
           },
           {
@@ -657,6 +835,31 @@ describe('SidebarMenu', () => {
     ).toBeInTheDocument()
   })
 
+  it('opens active data that arrives after the first render', () => {
+    const { rerender } = render(<SidebarMenu.Data data={[]} />)
+
+    rerender(
+      <SidebarMenu.Data
+        data={[
+          {
+            id: 'products',
+            text: 'Products',
+            items: [{ id: 'cards', text: 'Cards', active: true }],
+          },
+        ]}
+      />
+    )
+
+    expect(
+      document.querySelector('.dnb-sidebar-menu__accordion__trigger')
+    ).toHaveAttribute('aria-expanded', 'true')
+    expect(
+      document.querySelector(
+        '[data-sidebar-menu-id="cards"] [aria-current="page"]'
+      )
+    ).toBeInTheDocument()
+  })
+
   it('activates the section containing the selected route', () => {
     const sections = [
       {
@@ -671,13 +874,13 @@ describe('SidebarMenu', () => {
       },
     ]
     const { rerender } = render(
-      <SidebarMenu.Container selectedItem="home" sections={sections} />
+      <SidebarMenu.Data selectedItem="home" sections={sections} />
     )
 
     expect(document.body).toHaveTextContent('Home')
 
     rerender(
-      <SidebarMenu.Container selectedItem="payments" sections={sections} />
+      <SidebarMenu.Data selectedItem="payments" sections={sections} />
     )
 
     expect(document.body).toHaveTextContent('Payments')
@@ -691,10 +894,10 @@ describe('SidebarMenu', () => {
     const onSelectedItemChange = vi.fn()
 
     render(
-      <SidebarMenu.Container onSelectedItemChange={onSelectedItemChange}>
+      <SidebarMenu.Root onSelectedItemChange={onSelectedItemChange}>
         <SidebarMenu.Item id="overview" text="Overview" />
         <SidebarMenu.Item id="payments" text="Payments" icon="card" />
-      </SidebarMenu.Container>
+      </SidebarMenu.Root>
     )
 
     const payments = document.querySelector(
@@ -729,10 +932,10 @@ describe('SidebarMenu', () => {
 
   it('supports controlled selected item state', () => {
     const { rerender } = render(
-      <SidebarMenu.Container selectedItem="overview">
+      <SidebarMenu.Root selectedItem="overview">
         <SidebarMenu.Item id="overview" text="Overview" />
         <SidebarMenu.Item id="payments" text="Payments" />
-      </SidebarMenu.Container>
+      </SidebarMenu.Root>
     )
 
     fireEvent.click(
@@ -743,10 +946,10 @@ describe('SidebarMenu', () => {
     ).toHaveClass('dnb-sidebar-menu__item--selected')
 
     rerender(
-      <SidebarMenu.Container selectedItem="payments">
+      <SidebarMenu.Root selectedItem="payments">
         <SidebarMenu.Item id="overview" text="Overview" />
         <SidebarMenu.Item id="payments" text="Payments" />
-      </SidebarMenu.Container>
+      </SidebarMenu.Root>
     )
 
     expect(
@@ -756,7 +959,7 @@ describe('SidebarMenu', () => {
 
   it('renders badges on the right side of items and accordions', () => {
     render(
-      <SidebarMenu.Container>
+      <SidebarMenu.Root>
         <SidebarMenu.Item
           id="inbox"
           text="Inbox"
@@ -771,7 +974,7 @@ describe('SidebarMenu', () => {
         >
           <SidebarMenu.Item id="cards" text="Cards" />
         </SidebarMenu.Accordion>
-      </SidebarMenu.Container>
+      </SidebarMenu.Root>
     )
 
     const itemBadge = document.querySelector(
@@ -794,7 +997,7 @@ describe('SidebarMenu', () => {
     const onSelectedItemChange = vi.fn()
 
     render(
-      <SidebarMenu.Container onSelectedItemChange={onSelectedItemChange}>
+      <SidebarMenu.Root onSelectedItemChange={onSelectedItemChange}>
         <SidebarMenu.Accordion
           id="components"
           text="Components"
@@ -804,7 +1007,7 @@ describe('SidebarMenu', () => {
         >
           <SidebarMenu.Item id="buttons" text="Buttons" />
         </SidebarMenu.Accordion>
-      </SidebarMenu.Container>
+      </SidebarMenu.Root>
     )
 
     const link = document.querySelector('[href="/components"]')
@@ -853,7 +1056,7 @@ describe('SidebarMenu', () => {
     const storageKey = 'sidebar-menu-delayed-page'
 
     const component = render(
-      <SidebarMenu.Container openItemsStorageKey={storageKey}>
+      <SidebarMenu.Root openItemsStorageKey={storageKey}>
         <SidebarMenu.Accordion
           id="components"
           text="Components"
@@ -862,7 +1065,7 @@ describe('SidebarMenu', () => {
         >
           <SidebarMenu.Item id="buttons" text="Buttons" />
         </SidebarMenu.Accordion>
-      </SidebarMenu.Container>
+      </SidebarMenu.Root>
     )
 
     fireEvent.click(document.querySelector('[href="/components"]'))
@@ -873,7 +1076,7 @@ describe('SidebarMenu', () => {
 
     component.unmount()
     render(
-      <SidebarMenu.Container openItemsStorageKey={storageKey}>
+      <SidebarMenu.Root openItemsStorageKey={storageKey}>
         <SidebarMenu.Accordion
           id="components"
           text="Components"
@@ -881,7 +1084,7 @@ describe('SidebarMenu', () => {
         >
           <SidebarMenu.Item id="buttons" text="Buttons" />
         </SidebarMenu.Accordion>
-      </SidebarMenu.Container>
+      </SidebarMenu.Root>
     )
 
     expect(document.querySelector('[href="/components"]')).toHaveAttribute(
@@ -895,7 +1098,7 @@ describe('SidebarMenu', () => {
 
   it('keeps an open page accordion open when it is first selected', () => {
     render(
-      <SidebarMenu.Container>
+      <SidebarMenu.Root>
         <SidebarMenu.Accordion
           id="components"
           text="Components"
@@ -905,7 +1108,7 @@ describe('SidebarMenu', () => {
         >
           <SidebarMenu.Item id="buttons" text="Buttons" />
         </SidebarMenu.Accordion>
-      </SidebarMenu.Container>
+      </SidebarMenu.Root>
     )
 
     const link = document.querySelector('[href="/components"]')
@@ -922,7 +1125,7 @@ describe('SidebarMenu', () => {
     const onOpenChange = vi.fn()
 
     render(
-      <SidebarMenu.Container
+      <SidebarMenu.Root
         selectedItem="components"
         onSelectedItemChange={onSelectedItemChange}
       >
@@ -936,7 +1139,7 @@ describe('SidebarMenu', () => {
         >
           <SidebarMenu.Item id="buttons" text="Buttons" />
         </SidebarMenu.Accordion>
-      </SidebarMenu.Container>
+      </SidebarMenu.Root>
     )
 
     const link = document.querySelector('[href="/components"]')
@@ -953,7 +1156,7 @@ describe('SidebarMenu', () => {
     const onOpenChange = vi.fn()
 
     render(
-      <SidebarMenu.Container
+      <SidebarMenu.Root
         selectedItem="debit-card"
         onSelectedItemChange={onSelectedItemChange}
       >
@@ -966,7 +1169,7 @@ describe('SidebarMenu', () => {
         >
           <SidebarMenu.Item id="debit-card" text="Debit card" />
         </SidebarMenu.Accordion>
-      </SidebarMenu.Container>
+      </SidebarMenu.Root>
     )
 
     const link = document.querySelector('[href="/products"]')
@@ -985,7 +1188,7 @@ describe('SidebarMenu', () => {
     const onOpenChange = vi.fn()
 
     render(
-      <SidebarMenu.Container onSelectedItemChange={onSelectedItemChange}>
+      <SidebarMenu.Root onSelectedItemChange={onSelectedItemChange}>
         <SidebarMenu.Accordion
           id="components"
           text="Components"
@@ -994,7 +1197,7 @@ describe('SidebarMenu', () => {
         >
           <SidebarMenu.Item id="buttons" text="Buttons" />
         </SidebarMenu.Accordion>
-      </SidebarMenu.Container>
+      </SidebarMenu.Root>
     )
 
     const link = document.querySelector('[href="/components"]')
@@ -1017,7 +1220,7 @@ describe('SidebarMenu', () => {
     const onSelectedItemChange = vi.fn()
 
     render(
-      <SidebarMenu.Container onSelectedItemChange={onSelectedItemChange}>
+      <SidebarMenu.Root onSelectedItemChange={onSelectedItemChange}>
         <SidebarMenu.Accordion
           id="components"
           text="Components"
@@ -1026,7 +1229,7 @@ describe('SidebarMenu', () => {
         >
           <SidebarMenu.Item id="buttons" text="Buttons" />
         </SidebarMenu.Accordion>
-      </SidebarMenu.Container>
+      </SidebarMenu.Root>
     )
 
     const link = document.querySelector('[href="/components"]')
@@ -1042,7 +1245,7 @@ describe('SidebarMenu', () => {
     const onOpenChange = vi.fn()
 
     render(
-      <SidebarMenu.Container>
+      <SidebarMenu.Root>
         <SidebarMenu.Accordion
           id="components"
           text="Components"
@@ -1053,7 +1256,7 @@ describe('SidebarMenu', () => {
         >
           <SidebarMenu.Item id="buttons" text="Buttons" />
         </SidebarMenu.Accordion>
-      </SidebarMenu.Container>
+      </SidebarMenu.Root>
     )
 
     const link = document.querySelector(
@@ -1088,7 +1291,7 @@ describe('SidebarMenu', () => {
     }
 
     render(
-      <SidebarMenu.Container>
+      <SidebarMenu.Root>
         <SidebarMenu.Item
           id="disabled"
           text="Disabled"
@@ -1096,7 +1299,7 @@ describe('SidebarMenu', () => {
           element={CustomLink as React.ElementType}
           disabled
         />
-      </SidebarMenu.Container>
+      </SidebarMenu.Root>
     )
 
     const link = document.querySelector('a')
@@ -1112,7 +1315,7 @@ describe('SidebarMenu', () => {
 
   it('supports page accordions in the data API', () => {
     render(
-      <SidebarMenu.Container
+      <SidebarMenu.Data
         data={[
           {
             id: 'components',
@@ -1136,7 +1339,7 @@ describe('SidebarMenu', () => {
 
   it('renders non-collapsible data groups expanded without a toggle', () => {
     render(
-      <SidebarMenu.Container
+      <SidebarMenu.Data
         data={[
           {
             id: 'base-fields',
@@ -1162,7 +1365,7 @@ describe('SidebarMenu', () => {
 
   it('marks only the selected page accordion in nested structures', () => {
     render(
-      <SidebarMenu.Container
+      <SidebarMenu.Root
         selectedItem="products"
         defaultOpenItems={['products']}
       >
@@ -1179,7 +1382,7 @@ describe('SidebarMenu', () => {
             <SidebarMenu.Item id="credit-card" text="Credit card" />
           </SidebarMenu.Accordion>
         </SidebarMenu.Accordion>
-      </SidebarMenu.Container>
+      </SidebarMenu.Root>
     )
 
     expect(
@@ -1196,7 +1399,7 @@ describe('SidebarMenu', () => {
 
   it('opens the structure containing the selected route', () => {
     const { rerender } = render(
-      <SidebarMenu.Container
+      <SidebarMenu.Data
         selectedItem="overview"
         data={[
           { id: 'overview', text: 'Overview' },
@@ -1226,7 +1429,7 @@ describe('SidebarMenu', () => {
     ).toHaveLength(0)
 
     rerender(
-      <SidebarMenu.Container
+      <SidebarMenu.Data
         selectedItem="credit-card"
         data={[
           { id: 'overview', text: 'Overview' },
@@ -1264,11 +1467,11 @@ describe('SidebarMenu', () => {
 
   it('allows collapsing an accordion containing the selected route', () => {
     render(
-      <SidebarMenu.Container selectedItem="credit-card">
+      <SidebarMenu.Root selectedItem="credit-card">
         <SidebarMenu.Accordion id="products" text="Products">
           <SidebarMenu.Item id="credit-card" text="Credit card" />
         </SidebarMenu.Accordion>
-      </SidebarMenu.Container>
+      </SidebarMenu.Root>
     )
 
     const trigger = document.querySelector(
@@ -1318,10 +1521,10 @@ describe('SidebarMenu', () => {
       },
     ]
     const { rerender } = render(
-      <SidebarMenu.Container selectedItem="credit-card" data={data} />
+      <SidebarMenu.Data selectedItem="credit-card" data={data} />
     )
 
-    rerender(<SidebarMenu.Container selectedItem="loans" data={data} />)
+    rerender(<SidebarMenu.Data selectedItem="loans" data={data} />)
 
     expect(
       document.querySelectorAll('[aria-expanded="true"]')
@@ -1333,11 +1536,11 @@ describe('SidebarMenu', () => {
 
     render(
       <ScrollView>
-        <SidebarMenu.Container selectedItem="credit-card">
+        <SidebarMenu.Root selectedItem="credit-card">
           <SidebarMenu.Accordion id="products" text="Products">
             <SidebarMenu.Item id="credit-card" text="Credit card" />
           </SidebarMenu.Accordion>
-        </SidebarMenu.Container>
+        </SidebarMenu.Root>
       </ScrollView>
     )
 
@@ -1379,12 +1582,12 @@ describe('SidebarMenu', () => {
 
     render(
       <ScrollView>
-        <SidebarMenu.Container
+        <SidebarMenu.Root
           selectedItem="credit-card"
           scrollSelectedItemIntoView={false}
         >
           <SidebarMenu.Item id="credit-card" text="Credit card" />
-        </SidebarMenu.Container>
+        </SidebarMenu.Root>
       </ScrollView>
     )
 
@@ -1420,10 +1623,10 @@ describe('SidebarMenu', () => {
 
     const { rerender } = render(
       <ScrollView>
-        <SidebarMenu.Container selectedItem="overview">
+        <SidebarMenu.Root selectedItem="overview">
           <SidebarMenu.Item id="overview" text="Overview" />
           <SidebarMenu.Item id="payments" text="Payments" />
-        </SidebarMenu.Container>
+        </SidebarMenu.Root>
       </ScrollView>
     )
 
@@ -1453,10 +1656,10 @@ describe('SidebarMenu', () => {
     scrollTo.mockClear()
     rerender(
       <ScrollView>
-        <SidebarMenu.Container selectedItem="payments">
+        <SidebarMenu.Root selectedItem="payments">
           <SidebarMenu.Item id="overview" text="Overview" />
           <SidebarMenu.Item id="payments" text="Payments" />
-        </SidebarMenu.Container>
+        </SidebarMenu.Root>
       </ScrollView>
     )
     vi.spyOn(
@@ -1482,10 +1685,10 @@ describe('SidebarMenu', () => {
 
     const { rerender } = render(
       <ScrollView>
-        <SidebarMenu.Container selectedItem="overview">
+        <SidebarMenu.Root selectedItem="overview">
           <SidebarMenu.Item id="overview" text="Overview" />
           <SidebarMenu.Item id="payments" text="Payments" />
-        </SidebarMenu.Container>
+        </SidebarMenu.Root>
       </ScrollView>
     )
     const scrollView = document.querySelector(
@@ -1506,10 +1709,10 @@ describe('SidebarMenu', () => {
     scrollTo.mockClear()
     rerender(
       <ScrollView>
-        <SidebarMenu.Container selectedItem="payments">
+        <SidebarMenu.Root selectedItem="payments">
           <SidebarMenu.Item id="overview" text="Overview" />
           <SidebarMenu.Item id="payments" text="Payments" />
-        </SidebarMenu.Container>
+        </SidebarMenu.Root>
       </ScrollView>
     )
     vi.spyOn(
@@ -1534,12 +1737,12 @@ describe('SidebarMenu', () => {
 
     const { rerender } = render(
       <ScrollView>
-        <SidebarMenu.Container selectedItem="overview">
+        <SidebarMenu.Root selectedItem="overview">
           <SidebarMenu.Item id="overview" text="Overview" />
           <SidebarMenu.Accordion id="components" text="Components">
             <SidebarMenu.Item id="accordion" text="Accordion" />
           </SidebarMenu.Accordion>
-        </SidebarMenu.Container>
+        </SidebarMenu.Root>
       </ScrollView>
     )
 
@@ -1562,12 +1765,12 @@ describe('SidebarMenu', () => {
 
     rerender(
       <ScrollView>
-        <SidebarMenu.Container selectedItem="accordion">
+        <SidebarMenu.Root selectedItem="accordion">
           <SidebarMenu.Item id="overview" text="Overview" />
           <SidebarMenu.Accordion id="components" text="Components">
             <SidebarMenu.Item id="accordion" text="Accordion" />
           </SidebarMenu.Accordion>
-        </SidebarMenu.Container>
+        </SidebarMenu.Root>
       </ScrollView>
     )
 
@@ -1616,9 +1819,9 @@ describe('SidebarMenu', () => {
 
     render(
       <ScrollView>
-        <SidebarMenu.Container selectedItem="payments">
+        <SidebarMenu.Root selectedItem="payments">
           <SidebarMenu.Item id="payments" text="Payments" />
-        </SidebarMenu.Container>
+        </SidebarMenu.Root>
       </ScrollView>
     )
 
@@ -1653,9 +1856,9 @@ describe('SidebarMenu', () => {
     vi.useFakeTimers()
 
     render(
-      <SidebarMenu.Container selectedItem="payments">
+      <SidebarMenu.Root selectedItem="payments">
         <SidebarMenu.Item id="payments" text="Payments" />
-      </SidebarMenu.Container>
+      </SidebarMenu.Root>
     )
 
     const selectedItem = document.querySelector(
@@ -1687,9 +1890,9 @@ describe('SidebarMenu', () => {
     vi.useFakeTimers()
 
     render(
-      <SidebarMenu.Container selectedItem="payments">
+      <SidebarMenu.Root selectedItem="payments">
         <SidebarMenu.Item id="payments" text="Payments" />
-      </SidebarMenu.Container>
+      </SidebarMenu.Root>
     )
 
     const selectedItem = document.querySelector(
@@ -1719,12 +1922,12 @@ describe('SidebarMenu', () => {
 
     const component = render(
       <ScrollView>
-        <SidebarMenu.Container
+        <SidebarMenu.Root
           selectedItem="payments"
           scrollPositionStorageKey={storageKey}
         >
           <SidebarMenu.Item id="payments" text="Payments" />
-        </SidebarMenu.Container>
+        </SidebarMenu.Root>
       </ScrollView>
     )
 
@@ -1748,12 +1951,12 @@ describe('SidebarMenu', () => {
 
     render(
       <ScrollView>
-        <SidebarMenu.Container
+        <SidebarMenu.Root
           selectedItem="payments"
           scrollPositionStorageKey={storageKey}
         >
           <SidebarMenu.Item id="payments" text="Payments" />
-        </SidebarMenu.Container>
+        </SidebarMenu.Root>
       </ScrollView>
     )
 
@@ -1795,12 +1998,12 @@ describe('SidebarMenu', () => {
 
     render(
       <ScrollView>
-        <SidebarMenu.Container
+        <SidebarMenu.Root
           selectedItem="payments"
           scrollPositionStorageKey={storageKey}
         >
           <SidebarMenu.Item id="payments" text="Payments" />
-        </SidebarMenu.Container>
+        </SidebarMenu.Root>
       </ScrollView>
     )
 
@@ -1843,11 +2046,11 @@ describe('SidebarMenu', () => {
     sessionStorage.removeItem(storageKey)
 
     const component = render(
-      <SidebarMenu.Container openItemsStorageKey={storageKey}>
+      <SidebarMenu.Root openItemsStorageKey={storageKey}>
         <SidebarMenu.Accordion id="personal-products" text="Products">
           <SidebarMenu.Item id="cards" text="Cards" />
         </SidebarMenu.Accordion>
-      </SidebarMenu.Container>
+      </SidebarMenu.Root>
     )
 
     fireEvent.click(
@@ -1861,11 +2064,11 @@ describe('SidebarMenu', () => {
 
     component.unmount()
     render(
-      <SidebarMenu.Container openItemsStorageKey={storageKey}>
+      <SidebarMenu.Root openItemsStorageKey={storageKey}>
         <SidebarMenu.Accordion id="personal-products" text="Products">
           <SidebarMenu.Item id="cards" text="Cards" />
         </SidebarMenu.Accordion>
-      </SidebarMenu.Container>
+      </SidebarMenu.Root>
     )
 
     expect(
@@ -1886,14 +2089,14 @@ describe('SidebarMenu', () => {
 
     const renderMenu = () =>
       render(
-        <SidebarMenu.Container
+        <SidebarMenu.Root
           selectedItem="credit-card"
           openItemsStorageKey={storageKey}
         >
           <SidebarMenu.Accordion id="products" text="Products">
             <SidebarMenu.Item id="credit-card" text="Credit card" />
           </SidebarMenu.Accordion>
-        </SidebarMenu.Container>
+        </SidebarMenu.Root>
       )
 
     const component = renderMenu()
@@ -1926,7 +2129,7 @@ describe('SidebarMenu', () => {
 
     const renderMenu = () =>
       render(
-        <SidebarMenu.Container
+        <SidebarMenu.Root
           selectedItem="products"
           openItemsStorageKey={storageKey}
         >
@@ -1937,7 +2140,7 @@ describe('SidebarMenu', () => {
           >
             <SidebarMenu.Item id="cards" text="Cards" />
           </SidebarMenu.Accordion>
-        </SidebarMenu.Container>
+        </SidebarMenu.Root>
       )
 
     const component = renderMenu()
@@ -1963,14 +2166,14 @@ describe('SidebarMenu', () => {
     sessionStorage.setItem(storageKey, JSON.stringify([]))
 
     render(
-      <SidebarMenu.Container
+      <SidebarMenu.Root
         openItemsStorageKey={storageKey}
         defaultOpenItems={['products']}
       >
         <SidebarMenu.Accordion id="products" text="Products">
           <SidebarMenu.Item id="cards" text="Cards" />
         </SidebarMenu.Accordion>
-      </SidebarMenu.Container>
+      </SidebarMenu.Root>
     )
 
     expect(
@@ -1985,14 +2188,14 @@ describe('SidebarMenu', () => {
     sessionStorage.setItem(storageKey, JSON.stringify([]))
 
     render(
-      <SidebarMenu.Container
+      <SidebarMenu.Root
         openItemsStorageKey={storageKey}
         defaultOpenItems={['products']}
       >
         <SidebarMenu.Accordion id="products" text="Products">
           <SidebarMenu.Item id="cards" text="Cards" />
         </SidebarMenu.Accordion>
-      </SidebarMenu.Container>
+      </SidebarMenu.Root>
     )
 
     expect(
@@ -2005,16 +2208,33 @@ describe('SidebarMenu', () => {
     sessionStorage.removeItem(storageKey)
   })
 
+  it('keeps animations enabled when open state is controlled with storage', () => {
+    render(
+      <SidebarMenu.Root
+        openItems={[]}
+        openItemsStorageKey="controlled-menu"
+      >
+        <SidebarMenu.Accordion id="products" text="Products">
+          <SidebarMenu.Item id="cards" text="Cards" />
+        </SidebarMenu.Accordion>
+      </SidebarMenu.Root>
+    )
+
+    expect(
+      document.querySelector('.dnb-height-animation')
+    ).not.toHaveClass('dnb-height-animation--no-animation')
+  })
+
   it('loads open state when the storage key changes', () => {
     sessionStorage.setItem('menu-a', JSON.stringify(['products']))
     sessionStorage.setItem('menu-b', JSON.stringify([]))
 
     const { rerender } = render(
-      <SidebarMenu.Container openItemsStorageKey="menu-a">
+      <SidebarMenu.Root openItemsStorageKey="menu-a">
         <SidebarMenu.Accordion id="products" text="Products">
           <SidebarMenu.Item id="cards" text="Cards" />
         </SidebarMenu.Accordion>
-      </SidebarMenu.Container>
+      </SidebarMenu.Root>
     )
 
     expect(
@@ -2022,11 +2242,11 @@ describe('SidebarMenu', () => {
     ).toHaveAttribute('aria-expanded', 'true')
 
     rerender(
-      <SidebarMenu.Container openItemsStorageKey="menu-b">
+      <SidebarMenu.Root openItemsStorageKey="menu-b">
         <SidebarMenu.Accordion id="products" text="Products">
           <SidebarMenu.Item id="cards" text="Cards" />
         </SidebarMenu.Accordion>
-      </SidebarMenu.Container>
+      </SidebarMenu.Root>
     )
 
     expect(
@@ -2043,7 +2263,7 @@ describe('SidebarMenu', () => {
     localStorage.removeItem(storageKey)
 
     render(
-      <SidebarMenu.Container
+      <SidebarMenu.Root
         openItemsStorageKey={storageKey}
         openItemsStorage="local"
         defaultOpenItems={['business-services']}
@@ -2051,7 +2271,7 @@ describe('SidebarMenu', () => {
         <SidebarMenu.Accordion id="business-services" text="Services">
           <SidebarMenu.Item id="payments" text="Payments" />
         </SidebarMenu.Accordion>
-      </SidebarMenu.Container>
+      </SidebarMenu.Root>
     )
 
     expect(JSON.parse(localStorage.getItem(storageKey))).toEqual([
@@ -2066,14 +2286,14 @@ describe('SidebarMenu', () => {
     sessionStorage.setItem(storageKey, '{invalid')
 
     render(
-      <SidebarMenu.Container
+      <SidebarMenu.Root
         openItemsStorageKey={storageKey}
         defaultOpenItems={['products']}
       >
         <SidebarMenu.Accordion id="products" text="Products">
           <SidebarMenu.Item id="cards" text="Cards" />
         </SidebarMenu.Accordion>
-      </SidebarMenu.Container>
+      </SidebarMenu.Root>
     )
 
     expect(
@@ -2091,14 +2311,14 @@ describe('SidebarMenu', () => {
     sessionStorage.removeItem(storageKey)
 
     render(
-      <SidebarMenu.Container
+      <SidebarMenu.Root
         openItems={['products']}
         openItemsStorageKey={storageKey}
       >
         <SidebarMenu.Accordion id="products" text="Products">
           <SidebarMenu.Item id="cards" text="Cards" />
         </SidebarMenu.Accordion>
-      </SidebarMenu.Container>
+      </SidebarMenu.Root>
     )
 
     expect(sessionStorage.getItem(storageKey)).toBeNull()
@@ -2114,14 +2334,14 @@ describe('SidebarMenu', () => {
     expect(() =>
       render(
         <ScrollView>
-          <SidebarMenu.Container
+          <SidebarMenu.Root
             openItemsStorageKey="menu"
             scrollPositionStorageKey="menu-scroll"
           >
             <SidebarMenu.Accordion id="products" text="Products">
               <SidebarMenu.Item id="cards" text="Cards" />
             </SidebarMenu.Accordion>
-          </SidebarMenu.Container>
+          </SidebarMenu.Root>
         </ScrollView>
       )
     ).not.toThrow()
@@ -2135,11 +2355,11 @@ describe('SidebarMenu', () => {
   it('hydrates before loading stored open state', async () => {
     const storageKey = 'sidebar-menu-hydration'
     const element = (
-      <SidebarMenu.Container openItemsStorageKey={storageKey}>
+      <SidebarMenu.Root openItemsStorageKey={storageKey}>
         <SidebarMenu.Accordion id="products" text="Products">
           <SidebarMenu.Item id="cards" text="Cards" />
         </SidebarMenu.Accordion>
-      </SidebarMenu.Container>
+      </SidebarMenu.Root>
     )
     const container = document.createElement('div')
     container.innerHTML = renderToString(element)
@@ -2166,10 +2386,7 @@ describe('SidebarMenu', () => {
 
   it('has no automated accessibility violations', async () => {
     const component = render(
-      <SidebarMenu.Container
-        aria-label="Main navigation"
-        selectedItem="cards"
-      >
+      <SidebarMenu.Root aria-label="Main navigation" selectedItem="cards">
         <SidebarMenu.Section id="personal" text="Personal">
           <SidebarMenu.Header>Products</SidebarMenu.Header>
           <SidebarMenu.Group id="accounts" text="Accounts">
@@ -2184,7 +2401,7 @@ describe('SidebarMenu', () => {
           <SidebarMenu.Divider />
           <SidebarMenu.Item id="disabled" text="Disabled" disabled />
         </SidebarMenu.Section>
-      </SidebarMenu.Container>
+      </SidebarMenu.Root>
     )
 
     expect(await axeComponent(component)).toHaveNoViolations()

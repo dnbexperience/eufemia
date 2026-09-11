@@ -18,6 +18,6 @@ describe('UMD Web Extensions package', () => {
   })
 
   it('has to have a SidebarMenu extension', () => {
-    expect(typeof dnbExtensions.SidebarMenu.Container).toBe('function')
+    expect(typeof dnbExtensions.SidebarMenu.Root).toBe('function')
   })
 })
