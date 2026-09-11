@@ -1249,23 +1249,10 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       Promise.resolve().then(() => {
         const isMounted =
           mountedFields?.get?.(identifier)?.isMounted === true
-        const sharedAttachments = dataContext?.id
-          ? createSharedState<{
-              fieldConnectionsRef?: ContextState['fieldConnectionsRef']
-            }>(createReferenceKey(dataContext.id, 'attachments')).get?.()
-          : undefined
-        const hasFieldConnection = Boolean(
-          sharedAttachments?.fieldConnectionsRef?.current?.[identifier]
-        )
 
         if (!isMounted) {
-          // A shared field connection can preserve form-level status across
-          // remounts, but the unmounted field no longer belongs to this boundary.
           setFieldErrorBoundary?.(identifier, undefined)
-
-          if (!hasFieldConnection) {
-            setFieldErrorDataContext?.(identifier, undefined)
-          }
+          setFieldErrorDataContext?.(identifier, undefined)
         }
       })
 

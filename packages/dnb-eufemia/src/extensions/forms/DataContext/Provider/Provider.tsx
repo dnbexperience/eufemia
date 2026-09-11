@@ -438,6 +438,7 @@ export default function Provider<Data extends JsonObject>(
 
   // - States (e.g. error) reported by fields, based on their direct validation rules
   const fieldErrorRef = useRef<Record<Path, Error>>({})
+  const fieldStatusRef = useRef<Record<Path, EventStateObject>>({})
   const fieldStateRef = useRef<Record<Path, SubmitState>>({})
   const onSubmitContinueRef = useRef<(() => void) | null>(null)
   const submitContinuationCancelledRef = useRef(false)
@@ -670,7 +671,12 @@ export default function Provider<Data extends JsonObject>(
       if (error) {
         fieldErrorRef.current[path] = error
       } else {
-        delete fieldErrorRef.current[path]
+        const sharedError = fieldStatusRef.current[path]?.error
+        if (sharedError) {
+          fieldErrorRef.current[path] = sharedError
+        } else {
+          delete fieldErrorRef.current[path]
+        }
       }
 
       bumpValidationVersionRef.current()
@@ -909,7 +915,6 @@ export default function Provider<Data extends JsonObject>(
   const fieldConnectionsRef = useRef<
     Record<Path, Record<string, unknown>>
   >({})
-  const fieldStatusRef = useRef<Record<Path, EventStateObject>>({})
   const setFieldConnection = useCallback(
     (path: Path, connections: Record<string, unknown>) => {
       fieldConnectionsRef.current[path] = connections
@@ -1014,10 +1019,14 @@ export default function Provider<Data extends JsonObject>(
 
   if (!hasHydratedFieldErrorRef.current) {
     const sharedFieldErrorRef = sharedAttachments?.data?.fieldErrorRef
+    const sharedFieldStatusRef = sharedAttachments?.data?.fieldStatusRef
     if (sharedFieldErrorRef?.current) {
       fieldErrorRef.current = sharedFieldErrorRef.current
-      hasHydratedFieldErrorRef.current = true
     }
+    if (sharedFieldStatusRef?.current) {
+      fieldStatusRef.current = sharedFieldStatusRef.current
+    }
+    hasHydratedFieldErrorRef.current = true
   }
 
   const cacheRef = useRef({
