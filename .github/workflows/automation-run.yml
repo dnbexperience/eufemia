@@ -1,0 +1,161 @@
+name: Automation runner
+
+on:
+  workflow_call:
+    outputs:
+      report:
+        description: Validated structured automation report
+        value: ${{ jobs.analyze.outputs.report }}
+    inputs:
+      context-artifact:
+        description: Artifact containing event context
+        required: true
+        type: string
+      prompt-file:
+        description: Prompt filename under .github/automations/prompts
+        required: true
+        type: string
+      require-mcp:
+        description: Require Eufemia MCP during analysis
+        required: false
+        default: true
+        type: boolean
+      report-name:
+        description: Artifact and report identifier
+        required: true
+        type: string
+
+permissions:
+  actions: read # Download context produced by the caller workflow.
+  contents: read
+
+jobs:
+  analyze:
+    name: Analyze event
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    environment: automation
+    outputs:
+      report: ${{ steps.codex.outputs.final-message }}
+
+    steps:
+      - name: Check out trusted automation
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Prepare trusted automation files
+        env:
+          CODEX_HOME: ${{ runner.temp }}/automation-codex-home
+          PROMPT_FILE: ${{ inputs.prompt-file }}
+          REQUIRE_MCP: ${{ inputs.require-mcp }}
+          TRUSTED_DIR: ${{ runner.temp }}/automation-trusted
+        run: |
+          mkdir -p "$CODEX_HOME" "$TRUSTED_DIR"
+          if [ "$REQUIRE_MCP" = true ]; then
+            cp .github/automations/config.toml "$CODEX_HOME/config.toml"
+          else
+            cp .github/automations/config-no-mcp.toml "$CODEX_HOME/config.toml"
+          fi
+          cp .github/automations/guardrails.json "$TRUSTED_DIR/guardrails.json"
+          cp .github/automations/mcp-contract.json "$TRUSTED_DIR/mcp-contract.json"
+          cp .github/automations/report.schema.json "$TRUSTED_DIR/report.schema.json"
+          cp .github/automations/scripts/check-mcp-tools.sh "$TRUSTED_DIR/check-mcp-tools.sh"
+          cp .github/automations/scripts/validate-context.mjs "$TRUSTED_DIR/validate-context.mjs"
+          cp .github/automations/scripts/validate-runtime-config.sh "$TRUSTED_DIR/validate-runtime-config.sh"
+          cp ".github/automations/prompts/$PROMPT_FILE" "$TRUSTED_DIR/prompt.md"
+          cp AGENTS.md "$TRUSTED_DIR/AGENTS.md"
+
+      - name: Download event context
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+        with:
+          name: ${{ inputs.context-artifact }}
+          path: ${{ runner.temp }}/automation-context
+
+      - name: Prepare inspected context
+        run: |
+          node "$RUNNER_TEMP/automation-trusted/validate-context.mjs" \
+            "$RUNNER_TEMP/automation-context" \
+            "$RUNNER_TEMP/automation-trusted/guardrails.json"
+          rm -rf .agents .claude .codex .github/skills .automation-context AGENTS.md
+          find . \( -type f -o -type l \) \
+            \( -name AGENTS.md -o -name AGENTS.override.md \) -delete
+          cp "$RUNNER_TEMP/automation-trusted/AGENTS.md" AGENTS.md
+          cp -R "$RUNNER_TEMP/automation-context" .automation-context
+
+      - name: Enforce runtime guardrails
+        env:
+          API_GATEWAY: ${{ vars.API_GATEWAY }}
+          MODEL: ${{ vars.MODEL }}
+        run: |
+          bash "$RUNNER_TEMP/automation-trusted/validate-runtime-config.sh" \
+            "$API_GATEWAY" \
+            "$MODEL" \
+            "$RUNNER_TEMP/automation-trusted/guardrails.json"
+
+      - name: Verify Eufemia MCP tools
+        if: inputs.require-mcp
+        run: |
+          mapfile -t required_tools < <(
+            jq --raw-output '.requiredTools[]' \
+              "$RUNNER_TEMP/automation-trusted/mcp-contract.json"
+          )
+          bash "$RUNNER_TEMP/automation-trusted/check-mcp-tools.sh" \
+            https://server.eufemia.dnb.no/mcp/web \
+            "${required_tools[@]}"
+
+      - name: Run analysis
+        id: codex
+        uses: openai/codex-action@86365089eb2b84e0a8fb0717b304f8bdcb13b20e # v1
+        with:
+          codex-home: ${{ runner.temp }}/automation-codex-home
+          codex-version: 0.149.1
+          codex-args: '["--ephemeral"]'
+          effort: medium
+          model: ${{ vars.MODEL }}
+          openai-api-key: ${{ secrets.SECRET_API_KEY }}
+          allow-bots: true
+          output-schema-file: ${{ runner.temp }}/automation-trusted/report.schema.json
+          permission-profile: automation-read-only
+          prompt-file: ${{ runner.temp }}/automation-trusted/prompt.md
+          responses-api-endpoint: ${{ vars.API_GATEWAY }}
+          safety-strategy: drop-sudo
+
+  publish:
+    name: Publish advisory report
+    needs: analyze
+    if: needs.analyze.outputs.report != ''
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+
+    steps:
+      - name: Check out report tooling
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Validate and render report
+        env:
+          REPORT: ${{ needs.analyze.outputs.report }}
+        run: |
+          mkdir -p "$RUNNER_TEMP/automation-report"
+          printf '%s' "$REPORT" > "$RUNNER_TEMP/automation-report/report.json"
+          node .github/automations/scripts/validate-report.mjs \
+            "$RUNNER_TEMP/automation-report/report.json" \
+            .github/automations/guardrails.json
+          node .github/automations/scripts/render-report.mjs \
+            "$RUNNER_TEMP/automation-report/report.json" \
+            >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload report
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: ${{ inputs.report-name }}
+          path: ${{ runner.temp }}/automation-report/report.json
+          retention-days: 30

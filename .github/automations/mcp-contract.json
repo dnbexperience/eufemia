@@ -1,0 +1,12 @@
+{
+  "endpoint": "https://server.eufemia.dnb.no/mcp/web",
+  "healthEndpoint": "https://server.eufemia.dnb.no/healthz",
+  "requiredTools": [
+    "docs_entry",
+    "docs_search",
+    "docs_read",
+    "component_find",
+    "component_props",
+    "component_doc"
+  ]
+}

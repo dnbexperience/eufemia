@@ -1,0 +1,59 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "title": {
+      "type": "string",
+      "maxLength": 160
+    },
+    "summary": {
+      "type": "string",
+      "maxLength": 4000
+    },
+    "status": {
+      "type": "string",
+      "enum": ["ok", "attention", "blocked"]
+    },
+    "findings": {
+      "type": "array",
+      "maxItems": 20,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "severity": {
+            "type": "string",
+            "enum": ["P1", "P2", "P3"]
+          },
+          "title": {
+            "type": "string",
+            "maxLength": 200
+          },
+          "evidence": {
+            "type": "string",
+            "maxLength": 2000
+          },
+          "recommendation": {
+            "type": "string",
+            "maxLength": 2000
+          }
+        },
+        "required": ["severity", "title", "evidence", "recommendation"]
+      }
+    },
+    "metrics": {
+      "type": "array",
+      "maxItems": 20,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "name": { "type": "string", "maxLength": 100 },
+          "value": { "type": "string", "maxLength": 200 }
+        },
+        "required": ["name", "value"]
+      }
+    }
+  },
+  "required": ["title", "summary", "status", "findings", "metrics"]
+}
