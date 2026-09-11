@@ -83,7 +83,7 @@ resource "aws_s3_bucket_lifecycle_configuration" "data" {
     }
 
     noncurrent_version_expiration {
-      noncurrent_days = 395
+      noncurrent_days = 1
     }
   }
 }
@@ -554,7 +554,7 @@ resource "aws_lambda_function" "snapshot" {
   role          = data.aws_iam_role.lambda.arn
   handler       = "index.snapshot"
   runtime       = "nodejs22.x"
-  timeout       = 60
+  timeout       = 90
   memory_size   = 256
 
   filename         = "${path.module}/../dist/lambda.zip"
