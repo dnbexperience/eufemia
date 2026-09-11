@@ -34,13 +34,18 @@ const shouldRun = (() => {
   const entryPath = process.argv[1] ? path.resolve(process.argv[1]) : ''
   const entryName = entryPath ? path.basename(entryPath) : ''
   const allowed = new Set([
+    'mcp-server.js',
+    'mcp-server.mjs',
+    'mcp-server.cjs',
+    'mcp-server.ts',
+    'mcp-server.mts',
+    // Backwards-compat for historical entry filenames (`mcp-stdio.*` and the
+    // even older `mcp-docs-server.*`) so existing MCP configs keep working.
     'mcp-stdio.js',
     'mcp-stdio.mjs',
     'mcp-stdio.cjs',
     'mcp-stdio.ts',
     'mcp-stdio.mts',
-    // Backwards-compat for the historical filename used by the wrapper script
-    // `run-mcp-server.sh` which still points at `mcp-docs-server.ts`.
     'mcp-docs-server.js',
     'mcp-docs-server.mjs',
     'mcp-docs-server.cjs',

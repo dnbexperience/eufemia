@@ -3,7 +3,7 @@
  *
  * This module deliberately avoids importing any Node built-ins so that the
  * shared core stays runtime-agnostic and importable in non-Node runtimes.
- * The Node-only stdio entry point lives in `./mcp-stdio.ts` and the local
+ * The Node-only stdio entry point lives in `./mcp-server.ts` and the local
  * Express HTTP server lives in `./mcp-http-server.ts`.
  */
 
@@ -1194,5 +1194,5 @@ export async function createDocsServer(
   return { server, tools }
 }
 
-// The Node-only stdio entry lives in `./mcp-stdio.ts`. Keeping it out of
+// The Node-only stdio entry lives in `./mcp-server.ts`. Keeping it out of
 // this module ensures the shared core stays runtime-agnostic.
