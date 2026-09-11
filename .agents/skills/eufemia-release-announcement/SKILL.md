@@ -13,8 +13,14 @@ Create a concise, self-contained announcement that developers can copy into Slac
 - Link each item to the most specific public Eufemia documentation section. Verify the URL and exact hash. Omit the link when no relevant documentation exists.
 - Return only copy-ready text. Do not publish it.
 
-Format feature entries like this:
+Use this format:
 
 ```markdown
+🚀 **Eufemia vX.Y.Z is out!**
+
 - **Feature name:** Practical benefit ([docs](https://eufemia.dnb.no/path#exact-anchor)).
+
+The release also includes ...
+
+[See the full release notes →](https://github.com/dnbexperience/eufemia/releases/tag/vX.Y.Z)
 ```
