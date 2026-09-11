@@ -16,6 +16,19 @@ describe('analytics infrastructure', () => {
     )?.[0]
 
     expect(rawUsageRule).toContain('expiration {')
-    expect(rawUsageRule).toContain('noncurrent_version_expiration {')
+    expect(rawUsageRule).toMatch(
+      /noncurrent_version_expiration \{\s+noncurrent_days = 1\s+\}/
+    )
+  })
+
+  it('allows the snapshot generator to complete three Athena queries', () => {
+    const snapshotLambda = terraform.match(
+      /resource \"aws_lambda_function\" \"snapshot\" \{[\s\S]*?^\}/m
+    )?.[0]
+    const timeout = Number(
+      snapshotLambda?.match(/timeout\s+=\s+(\d+)/)?.[1]
+    )
+
+    expect(timeout).toBeGreaterThanOrEqual(90)
   })
 })
