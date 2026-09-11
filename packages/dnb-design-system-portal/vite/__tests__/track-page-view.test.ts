@@ -124,6 +124,18 @@ describe('trackPageView', () => {
     expect(payload[0].locale).toBe('nb-NO')
   })
 
+  it('falls back to the default locale when the stored value is unsupported', async () => {
+    window.localStorage.setItem('locale', 'de-DE')
+
+    trackPageView('/unsupported-locale')
+    flush()
+
+    const payload = JSON.parse(
+      await (beacon.mock.calls[0][1] as Blob).text()
+    )
+    expect(payload[0].locale).toBe('nb-NO')
+  })
+
   it('records the selected color scheme', async () => {
     window.localStorage.setItem(
       'eufemia-theme',
