@@ -35,7 +35,7 @@ export function FocusModeCodeProvider({
   >(null)
   const savedScrollY = useRef(0)
 
-  // Read URL param on mount
+  // Read the URL param on mount and on every navigation
   useEffect(() => {
     if (typeof window === 'undefined') {
       return // stop here
