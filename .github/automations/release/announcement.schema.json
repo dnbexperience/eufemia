@@ -1,0 +1,11 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "body": {
+      "type": "string",
+      "maxLength": 12000
+    }
+  },
+  "required": ["body"]
+}
