@@ -108,10 +108,10 @@ describe('postalCode', () => {
         '.dnb-input__input'
       )
       const postalCodeIndicator = postalCodeBlock.querySelector(
-        '.dnb-forms-submit-indicator'
+        '.dnb-forms-submit-indicator-glow__status'
       )
       const cityIndicator = cityBlock.querySelector(
-        '.dnb-forms-submit-indicator'
+        '.dnb-forms-submit-indicator-glow__status'
       )
 
       for (const value of ['1', '13', '139']) {
@@ -119,10 +119,10 @@ describe('postalCode', () => {
 
         expect(globalThis.fetch).not.toHaveBeenCalled()
         expect(postalCodeIndicator).not.toHaveClass(
-          'dnb-forms-submit-indicator--state-pending'
+          'dnb-forms-submit-indicator-glow__status--state-pending'
         )
         expect(cityIndicator).not.toHaveClass(
-          'dnb-forms-submit-indicator--state-pending'
+          'dnb-forms-submit-indicator-glow__status--state-pending'
         )
       }
 
@@ -131,18 +131,18 @@ describe('postalCode', () => {
       await waitFor(() => {
         expect(globalThis.fetch).toHaveBeenCalledTimes(1)
         expect(postalCodeIndicator).toHaveClass(
-          'dnb-forms-submit-indicator--state-pending'
+          'dnb-forms-submit-indicator-glow__status--state-pending'
         )
       })
       expect(cityIndicator).not.toHaveClass(
-        'dnb-forms-submit-indicator--state-pending'
+        'dnb-forms-submit-indicator-glow__status--state-pending'
       )
 
       resolveFetch()
 
       await waitFor(() => {
         expect(postalCodeIndicator).not.toHaveClass(
-          'dnb-forms-submit-indicator--state-pending'
+          'dnb-forms-submit-indicator-glow__status--state-pending'
         )
       })
     })
@@ -172,7 +172,7 @@ describe('postalCode', () => {
         '.dnb-input__input'
       )
       const postalCodeIndicator = postalCodeBlock.querySelector(
-        '.dnb-forms-submit-indicator'
+        '.dnb-forms-submit-indicator-glow__status'
       )
 
       fireEvent.change(postalCodeInput, { target: { value: '1234' } })
@@ -180,7 +180,7 @@ describe('postalCode', () => {
       await waitFor(() => {
         expect(globalThis.fetch).toHaveBeenCalledTimes(1)
         expect(postalCodeIndicator).toHaveClass(
-          'dnb-forms-submit-indicator--state-pending'
+          'dnb-forms-submit-indicator-glow__status--state-pending'
         )
       })
 
@@ -192,7 +192,7 @@ describe('postalCode', () => {
         ).toHaveTextContent(nb.PostalCode.errorPattern)
 
         expect(postalCodeIndicator).not.toHaveClass(
-          'dnb-forms-submit-indicator--state-pending'
+          'dnb-forms-submit-indicator-glow__status--state-pending'
         )
       })
 
@@ -200,10 +200,10 @@ describe('postalCode', () => {
 
       await waitFor(() => {
         expect(postalCodeIndicator).toHaveClass(
-          'dnb-forms-submit-indicator--state-error'
+          'dnb-forms-submit-indicator-glow__status--state-error'
         )
         expect(postalCodeIndicator).not.toHaveClass(
-          'dnb-forms-submit-indicator--state-pending'
+          'dnb-forms-submit-indicator-glow__status--state-pending'
         )
       })
     })
@@ -247,7 +247,7 @@ describe('postalCode', () => {
         '.dnb-input__input'
       )
       const postalCodeIndicator = postalCodeBlock.querySelector(
-        '.dnb-forms-submit-indicator'
+        '.dnb-forms-submit-indicator-glow__status'
       )
       const cityInput = document.querySelector(
         '.dnb-forms-field-postal-code-and-city__city .dnb-input__input'
@@ -258,7 +258,7 @@ describe('postalCode', () => {
       await waitFor(() => {
         expect(globalThis.fetch).toHaveBeenCalledTimes(1)
         expect(postalCodeIndicator).toHaveClass(
-          'dnb-forms-submit-indicator--state-pending'
+          'dnb-forms-submit-indicator-glow__status--state-pending'
         )
       })
 
@@ -269,7 +269,7 @@ describe('postalCode', () => {
       })
       expect(cityInput).toHaveValue('')
       expect(postalCodeIndicator).toHaveClass(
-        'dnb-forms-submit-indicator--state-pending'
+        'dnb-forms-submit-indicator-glow__status--state-pending'
       )
 
       resolveAutofill()
@@ -277,7 +277,7 @@ describe('postalCode', () => {
       await waitFor(() => {
         expect(cityInput).toHaveValue('Vollen')
         expect(postalCodeIndicator).not.toHaveClass(
-          'dnb-forms-submit-indicator--state-pending'
+          'dnb-forms-submit-indicator-glow__status--state-pending'
         )
       })
     })
@@ -308,7 +308,7 @@ describe('postalCode', () => {
         '.dnb-input__input'
       )
       const postalCodeIndicator = postalCodeBlock.querySelector(
-        '.dnb-forms-submit-indicator'
+        '.dnb-forms-submit-indicator-glow__status'
       )
       const cityInput = document.querySelector(
         '.dnb-forms-field-postal-code-and-city__city .dnb-input__input'
@@ -319,7 +319,7 @@ describe('postalCode', () => {
       await waitFor(() => {
         expect(cityInput).toHaveValue('Vollen')
         expect(postalCodeIndicator).not.toHaveClass(
-          'dnb-forms-submit-indicator--state-pending'
+          'dnb-forms-submit-indicator-glow__status--state-pending'
         )
       })
 
@@ -328,7 +328,7 @@ describe('postalCode', () => {
       await waitFor(() => {
         expect(onSubmit).toHaveBeenCalledTimes(1)
         expect(postalCodeIndicator).not.toHaveClass(
-          'dnb-forms-submit-indicator--state-pending'
+          'dnb-forms-submit-indicator-glow__status--state-pending'
         )
       })
     })

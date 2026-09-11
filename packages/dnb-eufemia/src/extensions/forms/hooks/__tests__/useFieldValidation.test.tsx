@@ -179,7 +179,7 @@ describe('validator returning a Promise without being declared async', () => {
     await waitFor(() => {
       expect(
         document.querySelector(
-          '.dnb-forms-submit-indicator--state-pending'
+          '.dnb-forms-submit-indicator-glow__status--state-pending'
         )
       ).toBeInTheDocument()
       expect(input).toBeDisabled()
@@ -190,7 +190,7 @@ describe('validator returning a Promise without being declared async', () => {
     await waitFor(() => {
       expect(
         document.querySelector(
-          '.dnb-forms-submit-indicator--state-pending'
+          '.dnb-forms-submit-indicator-glow__status--state-pending'
         )
       ).toBeNull()
     })

@@ -786,7 +786,7 @@ describe('Field.String', () => {
 
       const input = document.querySelector('input')
       const indicator = document.querySelector(
-        '.dnb-forms-submit-indicator'
+        '.dnb-forms-submit-indicator-glow__status'
       )
 
       // Use fireEvent over userEvent to avoid async related delays
@@ -795,13 +795,13 @@ describe('Field.String', () => {
       await waitFor(() => {
         expect(input).not.toBeDisabled()
         expect(indicator).toHaveClass(
-          'dnb-forms-submit-indicator--state-pending'
+          'dnb-forms-submit-indicator-glow__status--state-pending'
         )
       })
       await waitFor(() => {
         expect(input).not.toBeDisabled()
         expect(indicator).toHaveClass(
-          'dnb-forms-submit-indicator--state-complete'
+          'dnb-forms-submit-indicator-glow__status--state-complete'
         )
       })
     })
