@@ -132,6 +132,61 @@ describe('SidebarMenu', () => {
     expect(link).toHaveAttribute('title', 'Open profile')
   })
 
+  it('gives icon-only accordion and group actions an accessible name', () => {
+    render(
+      <SidebarMenu.Container>
+        <SidebarMenu.Accordion
+          id="products"
+          icon={person}
+          aria-label="Products"
+          title="Open products"
+        >
+          <SidebarMenu.Item id="cards" text="Cards" />
+        </SidebarMenu.Accordion>
+        <SidebarMenu.Accordion
+          id="accounts"
+          icon={person}
+          href="/accounts"
+          aria-label="Accounts"
+        />
+        <SidebarMenu.Group
+          id="profile"
+          icon={person}
+          href="/profile"
+          aria-labelledby="profile-label"
+          title="Open profile"
+        >
+          <span id="profile-label">Profile</span>
+        </SidebarMenu.Group>
+      </SidebarMenu.Container>
+    )
+
+    const products = document.querySelector(
+      '[data-sidebar-menu-id="products"]'
+    )
+    const accounts = document.querySelector(
+      '[data-sidebar-menu-id="accounts"]'
+    )
+    const profile = document.querySelector(
+      '[data-sidebar-menu-id="profile"]'
+    )
+
+    expect(products).not.toHaveAttribute('aria-label')
+    expect(products.querySelector('button')).toHaveAccessibleName(
+      'Products'
+    )
+    expect(products.querySelector('button')).toHaveAttribute(
+      'title',
+      'Open products'
+    )
+    expect(accounts.querySelector('a')).toHaveAccessibleName('Accounts')
+    expect(profile.querySelector('a')).toHaveAccessibleName('Profile')
+    expect(profile.querySelector('a')).toHaveAttribute(
+      'title',
+      'Open profile'
+    )
+  })
+
   it('renders Header with heading semantics', () => {
     render(
       <SidebarMenu.Container>
@@ -609,6 +664,42 @@ describe('SidebarMenu', () => {
     expect(
       trigger.querySelector('[data-testid="office buildings icon"]')
     ).toBeInTheDocument()
+  })
+
+  it('dims the active section while hovering another section', () => {
+    render(
+      <SidebarMenu.Container defaultActiveSection="personal">
+        <SidebarMenu.Section id="personal" text="Personal">
+          <SidebarMenu.Item id="overview" text="Overview" />
+        </SidebarMenu.Section>
+        <SidebarMenu.Section id="business" text="Business">
+          <SidebarMenu.Item id="invoices" text="Invoices" />
+        </SidebarMenu.Section>
+      </SidebarMenu.Container>
+    )
+
+    fireEvent.click(document.querySelector('.dnb-dropdown__trigger'))
+
+    const list = document.querySelector('.dnb-sidebar-menu__list')
+    const getOption = (text: string) =>
+      Array.from(
+        document.querySelectorAll<HTMLElement>('[role="option"]')
+      ).find((element) => element.textContent === text)
+
+    fireEvent.mouseEnter(getOption('Business'))
+    expect(list).toHaveClass('dnb-sidebar-menu__list--dimmed')
+
+    fireEvent.mouseLeave(getOption('Business'))
+    expect(list).toHaveClass('dnb-sidebar-menu__list--dimmed')
+
+    fireEvent.mouseEnter(getOption('Personal'))
+    expect(list).not.toHaveClass('dnb-sidebar-menu__list--dimmed')
+
+    fireEvent.mouseEnter(getOption('Business'))
+    expect(list).toHaveClass('dnb-sidebar-menu__list--dimmed')
+
+    fireEvent.mouseLeave(document.querySelector('.dnb-drawer-list'))
+    expect(list).not.toHaveClass('dnb-sidebar-menu__list--dimmed')
   })
 
   it('renders and switches sections supplied as data', () => {
@@ -2003,6 +2094,23 @@ describe('SidebarMenu', () => {
     ).not.toHaveClass('dnb-height-animation--animating')
 
     sessionStorage.removeItem(storageKey)
+  })
+
+  it('keeps animations enabled when open state is controlled with storage', () => {
+    render(
+      <SidebarMenu.Container
+        openItems={[]}
+        openItemsStorageKey="controlled-menu"
+      >
+        <SidebarMenu.Accordion id="products" text="Products">
+          <SidebarMenu.Item id="cards" text="Cards" />
+        </SidebarMenu.Accordion>
+      </SidebarMenu.Container>
+    )
+
+    expect(
+      document.querySelector('.dnb-height-animation')
+    ).not.toHaveClass('dnb-height-animation--no-animation')
   })
 
   it('loads open state when the storage key changes', () => {

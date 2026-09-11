@@ -26,6 +26,9 @@ export default function SidebarMenuGroup(props: SidebarMenuGroupProps) {
     rel,
     onClick,
     disabled = false,
+    'aria-label': ariaLabel,
+    'aria-labelledby': ariaLabelledBy,
+    title,
     ...rest
   } = props
   const context = useSidebarMenuContext()
@@ -72,9 +75,12 @@ export default function SidebarMenuGroup(props: SidebarMenuGroupProps) {
           target={target}
           rel={rel}
           aria-current={isSelected ? 'page' : undefined}
+          aria-label={ariaLabel}
+          aria-labelledby={ariaLabelledBy}
           aria-disabled={disabled || undefined}
           tabIndex={disabled ? -1 : undefined}
           onClick={handleClick}
+          title={title}
         >
           <span className="dnb-sidebar-menu__item__content">
             <SidebarMenuItemContent icon={icon} text={text} />

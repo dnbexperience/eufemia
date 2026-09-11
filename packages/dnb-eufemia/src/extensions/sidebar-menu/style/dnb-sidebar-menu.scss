@@ -78,6 +78,12 @@
     padding: var(--sidebar-menu-content-padding);
 
     list-style: none;
+
+    transition: opacity 200ms var(--easing-default);
+
+    &--dimmed {
+      opacity: 0.5;
+    }
   }
 
   &__badge {

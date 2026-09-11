@@ -228,7 +228,7 @@ export type SidebarMenuAccordionProps = {
    * Called whenever this accordion opens or closes.
    */
   onOpenChange?: (open: boolean) => void
-} & Omit<HTMLAttributes<HTMLLIElement>, 'title' | 'children' | 'onClick'>
+} & Omit<HTMLAttributes<HTMLLIElement>, 'children' | 'onClick'>
 
 export type SidebarMenuSectionProps = {
   id: string
@@ -242,7 +242,7 @@ export type SidebarMenuGroupProps = {
   /** Unique id used to associate the title with the nested list. */
   id: string
   /** Visible group title. */
-  text: ReactNode
+  text?: ReactNode
   /** Icon shown before a linked group title. */
   icon?: IconIcon
   /** Badge content displayed on the right side of a linked group title. */
@@ -268,7 +268,7 @@ export type SidebarMenuGroupProps = {
    * Default: `false`
    */
   disabled?: boolean
-} & Omit<HTMLAttributes<HTMLLIElement>, 'title' | 'children' | 'onClick'>
+} & Omit<HTMLAttributes<HTMLLIElement>, 'children' | 'onClick'>
 
 export type SidebarMenuHeaderProps = {
   children?: ReactNode

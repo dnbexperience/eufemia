@@ -90,7 +90,10 @@ function SidebarMenuContainer(props: SidebarMenuContainerProps) {
       : defaultOpenItems)
   const [internalOpenItems, setInternalOpenItems] =
     useState(initialOpenItems)
-  const [animate, setAnimate] = useState(!openItemsStorageKey)
+  const [animate, setAnimate] = useState(
+    openItems !== undefined || !openItemsStorageKey
+  )
+  const [hoveredSection, setHoveredSection] = useState<string>()
   const loadedOpenItemsStorageIdRef = useRef<string | undefined>(undefined)
   const skipOpenItemsPersistRef = useRef(false)
   const [internalActiveSection, setInternalActiveSection] = useState(
@@ -571,7 +574,28 @@ function SidebarMenuContainer(props: SidebarMenuContainerProps) {
               content,
             }
           })}
+          onItemMouseEnter={({ data, event }) => {
+            setHoveredSection(
+              event.currentTarget.classList.contains(
+                'dnb-drawer-list__option--selected'
+              )
+                ? resolvedActiveSection
+                : typeof data === 'object' &&
+                    typeof data?.selectedKey === 'string'
+                  ? data.selectedKey
+                  : undefined
+            )
+            event.currentTarget
+              .closest('.dnb-drawer-list')
+              ?.addEventListener(
+                'mouseleave',
+                () => setHoveredSection(undefined),
+                { once: true }
+              )
+          }}
+          onClose={() => setHoveredSection(undefined)}
           onChange={({ data }) => {
+            setHoveredSection(undefined)
             if (typeof data?.selectedKey === 'string') {
               selectSection(data.selectedKey)
             }
@@ -583,7 +607,16 @@ function SidebarMenuContainer(props: SidebarMenuContainerProps) {
       )}
 
       <SidebarMenuContext value={contextValue}>
-        <ul className="dnb-sidebar-menu__list">{sectionContent}</ul>
+        <ul
+          className={clsx(
+            'dnb-sidebar-menu__list',
+            hoveredSection &&
+              hoveredSection !== resolvedActiveSection &&
+              'dnb-sidebar-menu__list--dimmed'
+          )}
+        >
+          {sectionContent}
+        </ul>
       </SidebarMenuContext>
     </Space>
   )
