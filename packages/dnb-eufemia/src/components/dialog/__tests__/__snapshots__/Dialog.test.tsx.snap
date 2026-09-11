@@ -496,7 +496,7 @@ html:not([data-whatintent=touch]) .dnb-button--tertiary:active:not([disabled]) .
   --button-border-width--default: 0.0625rem;
   --button-border-width--hover: 0.125rem;
   --button-border-width--focus: var(--focus-ring-width);
-  --button-border-radius: var(--token-radius-xl);
+  --button-border-radius: var(--token-radius-full);
   --button-border-radius--control-button: var(--token-radius-sm);
   --button-padding-left: 0;
   --button-padding-right: 0;
