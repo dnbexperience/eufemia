@@ -7,7 +7,7 @@ export default function SidebarMenuBadge({
 }: {
   badge?: BadgeProps['content']
   badgeProps?: Omit<BadgeProps, 'content' | 'children'>
-}) {
+} = {}) {
   if (badge === undefined || badge === null) {
     return null
   }
