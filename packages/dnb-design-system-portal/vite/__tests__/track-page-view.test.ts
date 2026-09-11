@@ -31,6 +31,7 @@ describe('trackPageView', () => {
     flush()
     vi.restoreAllMocks()
     window.localStorage.clear()
+    delete (window as { matchMedia?: unknown }).matchMedia
   })
 
   it('sends nothing when the endpoint is empty', () => {
@@ -91,6 +92,7 @@ describe('trackPageView', () => {
     )
     expect(payload[0].locale).toBe('nb-NO')
     expect(payload[0].theme).toBe('ui')
+    expect(payload[0].colorScheme).toBe('light')
   })
 
   it('records the selected locale and theme', async () => {
@@ -120,6 +122,41 @@ describe('trackPageView', () => {
       await (beacon.mock.calls[0][1] as Blob).text()
     )
     expect(payload[0].locale).toBe('nb-NO')
+  })
+
+  it('records the selected color scheme', async () => {
+    window.localStorage.setItem(
+      'eufemia-theme',
+      JSON.stringify({ brand: 'ui', colorScheme: 'dark' })
+    )
+
+    trackPageView('/dark-scheme')
+    flush()
+
+    const payload = JSON.parse(
+      await (beacon.mock.calls[0][1] as Blob).text()
+    )
+    expect(payload[0].colorScheme).toBe('dark')
+  })
+
+  it('resolves an "auto" color scheme via the system setting', async () => {
+    window.localStorage.setItem(
+      'eufemia-theme',
+      JSON.stringify({ brand: 'ui', colorScheme: 'auto' })
+    )
+    Object.defineProperty(window, 'matchMedia', {
+      value: vi.fn().mockReturnValue({ matches: true }),
+      configurable: true,
+      writable: true,
+    })
+
+    trackPageView('/auto-scheme')
+    flush()
+
+    const payload = JSON.parse(
+      await (beacon.mock.calls[0][1] as Blob).text()
+    )
+    expect(payload[0].colorScheme).toBe('dark')
   })
 
   it('flushes multiple buffered views in a single beacon', async () => {

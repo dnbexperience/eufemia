@@ -147,6 +147,25 @@ describe('validatePortalViews', () => {
     }
   })
 
+  it('accepts a valid colorScheme', () => {
+    for (const colorScheme of ['light', 'dark']) {
+      const result = validatePortalViews({ path: '/a', colorScheme })
+
+      expect(result).toEqual({
+        ok: true,
+        value: [{ path: '/a', colorScheme }],
+      })
+    }
+  })
+
+  it('rejects an invalid colorScheme', () => {
+    for (const colorScheme of ['auto', 'Light', 'dark mode', 42]) {
+      const result = validatePortalViews({ path: '/a', colorScheme })
+
+      expect(result.ok).toBe(false)
+    }
+  })
+
   it('drops any field that is not an allow-listed key', () => {
     const result = validatePortalViews({
       path: '/a',
@@ -183,6 +202,7 @@ describe('buildPortalViewRecord', () => {
       status: 'ok',
       locale: 'unknown',
       theme: 'unknown',
+      colorScheme: 'unknown',
       createdat: createdAt,
     })
   })
@@ -200,6 +220,7 @@ describe('buildPortalViewRecord', () => {
       status: 'ok',
       locale: 'unknown',
       theme: 'unknown',
+      colorScheme: 'unknown',
       createdat: createdAt,
     })
   })
@@ -230,10 +251,22 @@ describe('buildPortalViewRecord', () => {
     ).toMatchObject({ locale: 'sv-SE', theme: 'sbanken' })
   })
 
+  it('defaults colorScheme to "unknown" and keeps a supplied value', () => {
+    expect(
+      buildPortalViewRecord({ path: '/a' }, createdAt).colorScheme
+    ).toBe('unknown')
+
+    expect(
+      buildPortalViewRecord({ path: '/a', colorScheme: 'dark' }, createdAt)
+        .colorScheme
+    ).toBe('dark')
+  })
+
   it('never carries identifiers or personal data', () => {
     const record = buildPortalViewRecord({ path: '/a' }, createdAt)
 
     expect(Object.keys(record).sort()).toEqual([
+      'colorScheme',
       'createdat',
       'env',
       'locale',
