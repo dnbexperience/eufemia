@@ -15,7 +15,7 @@ const file_medium = (props?: IconSVGProps) => (
       strokeLinecap="round"
       strokeLinejoin="round"
       strokeWidth={1.5}
-      d="M7 5h5.5M7 8h8.5M7 19h7.5m6-11.134V22a1 1 0 0 1-1 1h-15a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h10.036a1 1 0 0 1 .764.354l4.963 5.866a1 1 0 0 1 .237.646Z"
+      d="M7 5h5.5M7 8h8.5M7 19h7.5m6-11.134V22a1 1 0 0 1-1 1h-15a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h10.036a1 1 0 0 1 .764.354l4.963 5.866a1 1 0 0 1 .237.646"
     />
   </svg>
 )

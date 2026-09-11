@@ -359,8 +359,8 @@ jobs:
           # Generated from the source workspace: the CycloneDX plugin needs a
           # Yarn project, and direct runtime deps are identical to the published
           # package. Generator version pinned for reproducibility — bump
-          # deliberately and keep it in sync with verify.yml, as yarn dlx is not
-          # covered by Dependabot.
+          # deliberately and keep it in sync with dependency-audit.yml, as yarn
+          # dlx is not covered by Dependabot.
           yarn dlx -q @cyclonedx/yarn-plugin-cyclonedx@3.3.3 \
             --output-format JSON --spec-version 1.6 \
             --production --mc-type library --output-file sbom.cdx.json

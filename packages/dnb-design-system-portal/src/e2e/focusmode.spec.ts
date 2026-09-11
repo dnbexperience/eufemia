@@ -119,16 +119,20 @@ test.describe('Focus mode', () => {
   test('should restore scroll position after exiting focusmode', async ({
     page,
   }) => {
-    // Scroll down
-    await page.evaluate(() => window.scrollTo({ top: 500 }))
-    await page.waitForTimeout(200)
+    const focusModeButton = page
+      .locator('button[aria-label="Focus mode"]')
+      .last()
+
+    // Scroll down while keeping the button in view. Otherwise Playwright
+    // scrolls back to the button while clicking and changes the position
+    // this test is meant to restore.
+    await focusModeButton.scrollIntoViewIfNeeded()
 
     const scrollBefore = await page.evaluate(() => window.scrollY)
     expect(scrollBefore).toBeGreaterThan(0)
 
     // Enter focusmode
-    const buttons = page.locator('button[aria-label="Focus mode"]')
-    await buttons.first().click()
+    await focusModeButton.click()
     await expect(page).toHaveURL(/focusmode=/)
 
     // Should scroll to top in focusmode

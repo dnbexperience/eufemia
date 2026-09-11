@@ -929,6 +929,41 @@ describe('Wizard.Container', () => {
     expect(onSubmit).toHaveBeenCalledTimes(1)
   })
 
+  it('should submit after correcting a checkbox error following step navigation', async () => {
+    const onSubmit: OnSubmit = vi.fn()
+
+    render(
+      <Form.Handler id="wizard-checkbox-error" onSubmit={onSubmit}>
+        <Wizard.Container>
+          <Wizard.Step title="Step 1">
+            <Wizard.Buttons />
+          </Wizard.Step>
+          <Wizard.Step title="Step 2">
+            <Field.Boolean
+              path="/test"
+              variant="checkbox"
+              onChangeValidator={(value) =>
+                value === true ? undefined : Error('test error')
+              }
+            />
+            <Wizard.Buttons />
+            <Form.SubmitButton />
+          </Wizard.Step>
+        </Wizard.Container>
+      </Form.Handler>
+    )
+
+    await userEvent.click(nextButton())
+    await userEvent.click(document.querySelector('input'))
+    await userEvent.click(document.querySelector('input'))
+    await userEvent.click(previousButton())
+    await userEvent.click(nextButton())
+    await userEvent.click(document.querySelector('input'))
+    await userEvent.click(submitButton())
+
+    expect(onSubmit).toHaveBeenCalledTimes(1)
+  })
+
   it('should keep current step on rerender', async () => {
     const onStepChange = vi.fn()
 

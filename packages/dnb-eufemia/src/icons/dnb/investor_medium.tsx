@@ -16,7 +16,7 @@ const investor_medium = (props?: IconSVGProps) => (
         strokeLinecap="round"
         strokeLinejoin="round"
         strokeWidth={1.5}
-        d="M13 14.5h9a1.5 1.5 0 0 0 1.5-1.5V2.5A1.5 1.5 0 0 0 22 1H11.5m.75 8.25L14.5 5.5l3 3 3-4.5m-15 3a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm2.25 16.5L8.5 16H10v-3a4.5 4.5 0 1 0-9 0v3h1.5l.75 7.5h4.5Z"
+        d="M13 14.5h9a1.5 1.5 0 0 0 1.5-1.5V2.5A1.5 1.5 0 0 0 22 1H11.5m.75 8.25L14.5 5.5l3 3 3-4.5m-15 3a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2.25 16.5L8.5 16H10v-3a4.5 4.5 0 1 0-9 0v3h1.5l.75 7.5z"
       />
     </g>
     <defs>

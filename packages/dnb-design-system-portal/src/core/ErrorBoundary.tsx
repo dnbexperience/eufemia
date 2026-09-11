@@ -5,6 +5,7 @@ import { Code, CopyOnClick, P } from '@dnb/eufemia/src'
 
 type ErrorBoundaryProps = {
   children: ReactNode
+  onError?: (error: Error) => void
 }
 
 type ErrorBoundaryState = {
@@ -19,6 +20,10 @@ export default class ErrorBoundary extends Component<
 
   static getDerivedStateFromError(error: Error): ErrorBoundaryState {
     return { error }
+  }
+
+  componentDidCatch(error: Error): void {
+    this.props.onError?.(error)
   }
 
   render() {

@@ -199,14 +199,14 @@ raicode mcp add --transport http eufemia https://server.eufemia.dnb.no/mcp/web
 
 Run the local MCP server when you want the docs the AI sees to match the exact `@dnb/eufemia` version you have installed — for example to avoid suggestions that reference components or props from a newer release than your project consumes — or when the hosted server is unreachable (offline / air-gapped environments).
 
-But first, make sure you have installed `@dnb/eufemia` and `@modelcontextprotocol/sdk` in your project:
+But first, make sure you have installed `@dnb/eufemia` and `@modelcontextprotocol/server` in your project:
 
 ```bash
-npm install @dnb/eufemia @modelcontextprotocol/sdk
+npm install @dnb/eufemia @modelcontextprotocol/server
 # or
-yarn add @dnb/eufemia @modelcontextprotocol/sdk
+yarn add @dnb/eufemia @modelcontextprotocol/server
 # or
-pnpm add @dnb/eufemia @modelcontextprotocol/sdk
+pnpm add @dnb/eufemia @modelcontextprotocol/server
 ```
 
 Run the server from your project (where `@dnb/eufemia` is installed):
@@ -219,7 +219,7 @@ Run the server from your project (where `@dnb/eufemia` is installed):
     "eufemia": {
       "command": "node",
       "args": [
-        "${workspaceFolder}/node_modules/@dnb/eufemia/mcp/mcp-docs-server.js"
+        "${workspaceFolder}/node_modules/@dnb/eufemia/mcp/mcp-server.js"
       ]
     }
   }
@@ -229,13 +229,13 @@ Run the server from your project (where `@dnb/eufemia` is installed):
 ### Using Claude CLI with MCP:
 
 ```bash
-claude mcp add --transport stdio eufemia -- node node_modules/@dnb/eufemia/mcp/mcp-docs-server.js
+claude mcp add --transport stdio eufemia -- node node_modules/@dnb/eufemia/mcp/mcp-server.js
 ```
 
 ### Using raicode CLI with MCP (using Claude):
 
 ```bash
-raicode mcp add --transport stdio eufemia -- node node_modules/@dnb/eufemia/mcp/mcp-docs-server.js
+raicode mcp add --transport stdio eufemia -- node node_modules/@dnb/eufemia/mcp/mcp-server.js
 ```
 
 ### How to use
@@ -243,7 +243,7 @@ raicode mcp add --transport stdio eufemia -- node node_modules/@dnb/eufemia/mcp/
 - The MCP server helps AI apply Eufemia patterns more accurately in code, but results can still be imperfect. So always review the output carefully!
 - The MCP server provides documentation context only; it does not execute code or access the network.
 - Ask your AI tool to search or summarize Eufemia docs, e.g. "Find the spacing system rules in Eufemia."
-- If the server fails to start, confirm `@dnb/eufemia` is installed and the path points to `node_modules/@dnb/eufemia/mcp/mcp-docs-server.js`.
+- If the server fails to start, confirm `@dnb/eufemia` is installed and the path points to `node_modules/@dnb/eufemia/mcp/mcp-server.js`.
 
 ## Build AI tools on Eufemia
 

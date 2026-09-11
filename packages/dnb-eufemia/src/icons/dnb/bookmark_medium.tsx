@@ -15,7 +15,7 @@ const bookmark_medium = (props?: IconSVGProps) => (
       strokeLinecap="round"
       strokeLinejoin="round"
       strokeWidth={1.5}
-      d="M18.32 22.77 12 18.344 5.68 22.77a.75.75 0 0 1-1.18-.614V2.595a1.5 1.5 0 0 1 1.5-1.5h12a1.5 1.5 0 0 1 1.5 1.5v19.56a.75.75 0 0 1-1.18.614Z"
+      d="M18.32 22.77 12 18.344 5.68 22.77a.75.75 0 0 1-1.18-.614V2.595a1.5 1.5 0 0 1 1.5-1.5h12a1.5 1.5 0 0 1 1.5 1.5v19.56a.75.75 0 0 1-1.18.614"
       clipRule="evenodd"
     />
   </svg>

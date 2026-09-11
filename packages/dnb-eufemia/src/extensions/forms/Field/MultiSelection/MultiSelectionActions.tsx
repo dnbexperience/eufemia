@@ -2,6 +2,7 @@ import { Button } from '../../../../components'
 import { close } from '../../../../icons'
 
 export type MultiSelectionActionsProps = {
+  id: string
   show: boolean
   disabled?: boolean
   tempValueLength: number
@@ -18,6 +19,7 @@ export type MultiSelectionActionsProps = {
 }
 
 export function MultiSelectionActions({
+  id,
   show,
   disabled,
   tempValueLength,
@@ -33,6 +35,7 @@ export function MultiSelectionActions({
   return (
     <div className="dnb-forms-field-multi-selection__actions">
       <Button
+        id={id}
         variant="primary"
         onClick={onConfirm}
         disabled={disabled}

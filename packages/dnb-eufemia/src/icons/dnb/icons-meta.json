@@ -4225,5 +4225,33 @@
     "name": "stop_square",
     "variant": "secondary",
     "category": "actions"
+  },
+  "add_reaction_medium": {
+    "tags": [],
+    "created": 1789047295054,
+    "name": "add_reaction",
+    "variant": "secondary",
+    "category": "actions"
+  },
+  "add_reaction": {
+    "tags": [],
+    "created": 1789047295159,
+    "name": "add_reaction",
+    "variant": "secondary",
+    "category": "actions"
+  },
+  "solve_medium": {
+    "tags": ["aino"],
+    "created": 1789047331469,
+    "name": "solve",
+    "variant": "secondary",
+    "category": "objects"
+  },
+  "solve": {
+    "tags": ["aino"],
+    "created": 1789047331573,
+    "name": "solve",
+    "variant": "secondary",
+    "category": "objects"
   }
 }

@@ -50,7 +50,7 @@ The MCP server can be exposed in two ways:
 
 Used by editor integrations like Cursor and the VSCode/Claude Code MCP config. The server reads JSON-RPC from `stdin` and writes responses to `stdout`:
 
-- Entry: `src/mcp/mcp-docs-server.ts`
+- Entry: `src/mcp/mcp-server.ts`
 - Wrapper: `src/mcp/run-mcp-server.sh`
 
 ### 2. HTTP (SSE + Streamable HTTP)

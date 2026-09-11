@@ -7,6 +7,7 @@ import {
   useState,
 } from 'react'
 import type { ReactNode } from 'react'
+import { useLocation, useNavigate } from 'react-router'
 
 const FOCUS_MODE_CODE_PARAM = 'focusmode'
 
@@ -27,18 +28,20 @@ export function FocusModeCodeProvider({
 }: {
   children: ReactNode
 }) {
+  const location = useLocation()
+  const navigate = useNavigate()
   const [focusModeCodeId, setFocusModeCodeIdState] = useState<
     string | null
   >(null)
   const savedScrollY = useRef(0)
 
-  // Read URL param on mount
+  // Read the URL param on mount and on every navigation
   useEffect(() => {
     if (typeof window === 'undefined') {
       return // stop here
     }
 
-    const params = new URLSearchParams(window.location.search)
+    const params = new URLSearchParams(location.search)
     const value = params.get(FOCUS_MODE_CODE_PARAM)
 
     if (value) {
@@ -64,34 +67,47 @@ export function FocusModeCodeProvider({
         const elementExists = document.getElementById(value)
 
         if (!elementExists) {
-          const url = new URL(window.location.href)
-          url.searchParams.delete(FOCUS_MODE_CODE_PARAM)
-          window.history.replaceState(null, '', url.toString())
+          const params = new URLSearchParams(location.search)
+          params.delete(FOCUS_MODE_CODE_PARAM)
+          navigate(
+            {
+              pathname: location.pathname,
+              search: params.toString(),
+              hash: location.hash,
+            },
+            { replace: true }
+          )
           setFocusModeCodeIdState(null)
         }
       }, 500)
 
       return () => clearTimeout(timeoutId)
     }
-  }, [])
+  }, [location, navigate])
 
-  const setFocusModeCodeId = useCallback((id: string | null) => {
-    setFocusModeCodeIdState(id)
+  const setFocusModeCodeId = useCallback(
+    (id: string | null) => {
+      setFocusModeCodeIdState(id)
 
-    if (typeof window === 'undefined') {
-      return // stop here
-    }
+      const params = new URLSearchParams(location.search)
 
-    const url = new URL(window.location.href)
+      if (id) {
+        params.set(FOCUS_MODE_CODE_PARAM, id)
+      } else {
+        params.delete(FOCUS_MODE_CODE_PARAM)
+      }
 
-    if (id) {
-      url.searchParams.set(FOCUS_MODE_CODE_PARAM, id)
-    } else {
-      url.searchParams.delete(FOCUS_MODE_CODE_PARAM)
-    }
-
-    window.history.replaceState(null, '', url.toString())
-  }, [])
+      navigate(
+        {
+          pathname: location.pathname,
+          search: params.toString(),
+          hash: location.hash,
+        },
+        { replace: true }
+      )
+    },
+    [location, navigate]
+  )
 
   return (
     <FocusModeCodeContext.Provider

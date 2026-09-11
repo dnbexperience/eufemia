@@ -14,7 +14,7 @@ const exclamation_circled = (props?: IconSVGProps) => (
       stroke="#000"
       strokeLinecap="round"
       strokeMiterlimit={10}
-      strokeWidth={1.5}
+      strokeWidth={1.593}
       d="M8.5 9.527V4.563M8.5 12h.024m7.68-3.5a7.703 7.703 0 1 1-15.407 0 7.703 7.703 0 0 1 15.406 0Z"
     />
   </svg>
