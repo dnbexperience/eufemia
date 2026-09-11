@@ -1,0 +1,146 @@
+name: Automation - Visual regression triage
+
+on:
+  # zizmor: ignore[dangerous-triggers] This trusted observer parses bounded images and never executes PR code.
+  workflow_run:
+    workflows: [Visual Regression Tests]
+    types: [completed]
+
+permissions:
+  actions: read # Download the failed visual report artifact.
+  contents: read
+  pull-requests: read # Read the associated pull request diff.
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.workflow_run.id }}
+  cancel-in-progress: true
+
+jobs:
+  prepare:
+    name: Collect visual failure context
+    if: >-
+      vars.AUTOMATIONS_ENABLED == 'true' &&
+      github.event.workflow_run.conclusion == 'failure' &&
+      github.event.workflow_run.head_repository.full_name == github.repository
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    outputs:
+      artifact-name: ${{ steps.context.outputs.artifact-name }}
+      pull-number: ${{ steps.context.outputs.pull-number }}
+
+    steps:
+      - name: Collect context
+        id: context
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RUN_ID: ${{ github.event.workflow_run.id }}
+        run: |
+          context_dir="$RUNNER_TEMP/visual-regression-context"
+          download_dir="$RUNNER_TEMP/visual-regression-download"
+          mkdir -p "$context_dir" "$download_dir"
+
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/$RUN_ID" > "$context_dir/run.json"
+          gh run view "$RUN_ID" --log-failed > "$context_dir/full-failed.log" 2>&1 || true
+          head -c 100000 "$context_dir/full-failed.log" > "$context_dir/failed.log"
+          rm "$context_dir/full-failed.log"
+
+          if gh run download "$RUN_ID" --name visual-test-artifact --dir "$download_dir"; then
+            report_path=$(find "$download_dir" -type f -name report.json -print -quit)
+            if [ -n "$report_path" ]; then
+              report_dir=$(dirname "$report_path")
+              jq '{failures: (.failures // [])[:5]}' "$report_path" > "$context_dir/visual-context.json"
+
+              while IFS= read -r image_path; do
+                case "$image_path" in
+                  images/*.png)
+                    if [[ "$image_path" == *'..'* || "$image_path" == /* ]]; then
+                      continue
+                    fi
+                    if [ -f "$report_dir/$image_path" ]; then
+                      mkdir -p "$context_dir/$(dirname "$image_path")"
+                      cp "$report_dir/$image_path" "$context_dir/$image_path"
+                    fi
+                    ;;
+                esac
+              done < <(
+                jq --raw-output \
+                  '.failures[]?.images | [.expected, .actual, .diff][] | select(type == "string")' \
+                  "$context_dir/visual-context.json"
+              )
+            else
+              printf '%s\n' '{"failures":[],"artifactError":"report.json was not found"}' \
+                > "$context_dir/visual-context.json"
+            fi
+          else
+            printf '%s\n' '{"failures":[],"artifactError":"visual-test-artifact was unavailable"}' \
+              > "$context_dir/visual-context.json"
+          fi
+
+          pr_number=$(jq --raw-output '.pull_requests[0].number // empty' "$context_dir/run.json")
+          if [ -n "$pr_number" ]; then
+            gh pr diff "$pr_number" --repo "$GITHUB_REPOSITORY" --patch \
+              > "$context_dir/full-change.patch"
+          else
+            head_sha=$(jq --raw-output '.head_sha' "$context_dir/run.json")
+            gh api "repos/$GITHUB_REPOSITORY/commits/$head_sha" \
+              --header 'Accept: application/vnd.github.patch' \
+              > "$context_dir/full-change.patch" || true
+          fi
+          head -c 200000 "$context_dir/full-change.patch" > "$context_dir/change.patch"
+          rm "$context_dir/full-change.patch"
+
+          artifact_name="visual-regression-context-$RUN_ID"
+          {
+            echo "artifact-name=$artifact_name"
+            echo "pull-number=$pr_number"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Upload context
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: ${{ steps.context.outputs.artifact-name }}
+          path: ${{ runner.temp }}/visual-regression-context
+          retention-days: 7
+
+  analyze:
+    name: Analyze visual failure
+    needs: prepare
+    uses: ./.github/workflows/automation-run.yml
+    with:
+      context-artifact: ${{ needs.prepare.outputs.artifact-name }}
+      prompt-file: visual-regression-triage.md
+      report-name: visual-regression-triage-${{ github.event.workflow_run.id }}
+
+  notify:
+    name: Notify pull request
+    needs: [prepare, analyze]
+    if: >-
+      needs.prepare.outputs.pull-number != '' &&
+      needs.analyze.outputs.report != ''
+    permissions:
+      contents: read
+      issues: write # Update the visual triage comment on the affected PR.
+    uses: ./.github/workflows/automation-notify.yml
+    with:
+      marker: eufemia-automation:visual-regression-triage:pr-${{ needs.prepare.outputs.pull-number }}
+      report: ${{ needs.analyze.outputs.report }}
+      target: ${{ needs.prepare.outputs.pull-number }}
+      target-kind: pr
+      title: Visual regression triage
+
+  notify-tracking:
+    name: Update visual regression tracking issue
+    needs: [prepare, analyze]
+    if: >-
+      needs.prepare.outputs.pull-number == '' &&
+      needs.analyze.outputs.report != ''
+    permissions:
+      contents: read
+      issues: write # Update the visual regression tracking issue.
+    uses: ./.github/workflows/automation-notify.yml
+    with:
+      marker: eufemia-automation:visual-regression-triage
+      report: ${{ needs.analyze.outputs.report }}
+      target: visual-regression-triage
+      target-kind: issue
+      title: 'Automation report: visual regression triage'
