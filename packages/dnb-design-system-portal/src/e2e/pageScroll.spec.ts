@@ -17,7 +17,7 @@ test.describe('Page Scroll', () => {
   test('click on a table of content anchor should scroll the page to element', async ({
     page,
   }) => {
-    const anchors = await page.locator('main .dnb-ul li a').all()
+    const anchors = await page.locator('#content-grid-sidebar li a').all()
     const anchorIndex = 0
 
     if (anchors.length <= anchorIndex) {
@@ -45,7 +45,7 @@ test.describe('Page Scroll', () => {
 
     // Find an anchor link that has a hash
     const anchors = await page
-      .locator('main .dnb-ul li a[href*="#"]')
+      .locator('#content-grid-sidebar li a[href*="#"]')
       .all()
     if (anchors.length === 0) {
       return // no hash anchors, skip
