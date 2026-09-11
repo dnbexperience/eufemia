@@ -745,6 +745,13 @@ describe('Drawer triggerProps', () => {
 })
 
 describe('Drawer scss', () => {
+  it('uses the dynamic viewport height while keeping a viewport fallback', () => {
+    const css = loadScss(require.resolve('../style/deps.scss'))
+
+    expect(css).toContain('max-height: 100vh')
+    expect(css).toContain('max-height: 100dvh')
+  })
+
   it('should match style dependencies css', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
     expect(css).toMatchSnapshot()
