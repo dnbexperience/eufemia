@@ -588,6 +588,33 @@ describe('portal-pages plugin', () => {
       expect(extractTableOfContents('Just text')).toBeUndefined()
     })
 
+    it('lists h3 headings as top-level items when the file has no h2', () => {
+      const content = '### First\n\nSome text\n\n### Second\n'
+      const toc = extractTableOfContents(content)
+
+      expect(toc).toEqual({
+        items: [
+          { url: '#first', title: 'First' },
+          { url: '#second', title: 'Second' },
+        ],
+      })
+    })
+
+    it('skips an h3 that appears before the first h2', () => {
+      const content = '### Orphan\n\n## Parent\n\n### Child\n'
+      const toc = extractTableOfContents(content)
+
+      expect(toc).toEqual({
+        items: [
+          {
+            url: '#parent',
+            title: 'Parent',
+            items: [{ url: '#child', title: 'Child' }],
+          },
+        ],
+      })
+    })
+
     it('ignores h1 headings', () => {
       const content = '# Title\n\n## Section\n'
       const toc = extractTableOfContents(content)

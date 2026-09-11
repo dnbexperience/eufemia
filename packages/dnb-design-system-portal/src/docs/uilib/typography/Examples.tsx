@@ -205,44 +205,46 @@ export const ResponsiveTypographyFullExample = () => (
       data-visual-test="typography-responsive"
     >
       <Typography.Context responsive>
-        <H1>H1</H1>
-        <H2>H2</H2>
-        <H3>H3</H3>
-        <H4>H4</H4>
-        <H5>H5</H5>
-        <H6>H6</H6>
+        <Heading.Level reset={1}>
+          <H1>H1</H1>
+          <H2>H2</H2>
+          <H3>H3</H3>
+          <H4>H4</H4>
+          <H5>H5</H5>
+          <H6>H6</H6>
 
-        <Heading level="1">Heading 1</Heading>
-        <Heading level="2">Heading 2</Heading>
-        <Heading level="3">Heading 3</Heading>
-        <Heading level="4">Heading 4</Heading>
-        <Heading level="5">Heading 5</Heading>
-        <Heading level="6">Heading 6</Heading>
+          <Heading level="1">Heading 1</Heading>
+          <Heading level="2">Heading 2</Heading>
+          <Heading level="3">Heading 3</Heading>
+          <Heading level="4">Heading 4</Heading>
+          <Heading level="5">Heading 5</Heading>
+          <Heading level="6">Heading 6</Heading>
 
-        <Span>Span default</Span>
-        <br />
-        <Span size="x-small">Span x-small</Span>
-        <br />
-        <Span size="small">Span small</Span>
-        <br />
-        <Span size="basis">Span basis</Span>
-        <br />
-        <Span size="medium">Span medium</Span>
-        <br />
-        <Span size="large">Span large</Span>
-        <br />
-        <Span size="x-large">Span x-large</Span>
-        <br />
-        <Span size="xx-large">Span xx-large</Span>
+          <Span>Span default</Span>
+          <br />
+          <Span size="x-small">Span x-small</Span>
+          <br />
+          <Span size="small">Span small</Span>
+          <br />
+          <Span size="basis">Span basis</Span>
+          <br />
+          <Span size="medium">Span medium</Span>
+          <br />
+          <Span size="large">Span large</Span>
+          <br />
+          <Span size="x-large">Span x-large</Span>
+          <br />
+          <Span size="xx-large">Span xx-large</Span>
 
-        <P>P default</P>
-        <P size="x-small">P x-small</P>
-        <P size="small">P small</P>
-        <P size="basis">P basis</P>
-        <P size="medium">P medium</P>
-        <P size="large">P large</P>
-        <P size="x-large">P x-large</P>
-        <P size="xx-large">P xx-large</P>
+          <P>P default</P>
+          <P size="x-small">P x-small</P>
+          <P size="small">P small</P>
+          <P size="basis">P basis</P>
+          <P size="medium">P medium</P>
+          <P size="large">P large</P>
+          <P size="x-large">P x-large</P>
+          <P size="xx-large">P xx-large</P>
+        </Heading.Level>
       </Typography.Context>
     </ComponentBox>
   </MarginReset>
