@@ -1,19 +1,9 @@
 /**
  * Algolia record helpers for the portal search index.
  *
- * Shared between push-algolia.mjs and the existing portal search
- * code. Kept as plain JS so Node can import it directly without
- * a TypeScript build step.
+ * Kept as plain JS so Node can import it directly without a TypeScript
+ * build step.
  */
-
-import GHSlugger from 'github-slugger'
-
-const slugger = new GHSlugger()
-
-export function makeSlug(value) {
-  slugger.reset()
-  return slugger.slug(String(value))
-}
 
 export const excludedSlugPartials = [
   'uilib/about-the-lib/releases/',
@@ -33,26 +23,15 @@ export function shouldIncludeInAlgolia({ slug, draft = undefined }) {
   )
 }
 
-function normalizeHeadings(headings = []) {
-  if (!Array.isArray(headings)) {
-    return []
-  }
-
-  return headings.map((item) => ({
-    ...item,
-    slug: item.slug || makeSlug(item.value),
-  }))
-}
-
 export function buildAlgoliaRecord({
   siblings = [],
   fields: { slug },
   frontmatter,
-  headings,
+  recordHeadings,
   ...rest
 }) {
   let nextFrontmatter = { ...frontmatter }
-  let nextHeadings = normalizeHeadings(headings)
+  let nextHeadings = recordHeadings
 
   if (!hasTitle(nextFrontmatter)) {
     if (hasSearch(nextFrontmatter)) {

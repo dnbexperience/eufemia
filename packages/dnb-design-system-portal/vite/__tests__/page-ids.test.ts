@@ -3,7 +3,11 @@ import fs from 'node:fs'
 import path from 'node:path'
 import matter from 'gray-matter'
 import { scanPageFiles } from '../client/plugins/portal-pages'
-import { makeSlug } from '../../src/uilib/utils/slug'
+import {
+  getSlugFromText,
+  getSlugFromMdxHeading,
+} from '../../src/uilib/utils/slug.mjs'
+
 import { themeNames } from '@dnb/eufemia/src/style/themes/capabilities'
 import type { ThemeName } from '@dnb/eufemia/src/style/themes/capabilities'
 import {
@@ -21,9 +25,9 @@ import {
  *
  * How ids are produced (see shared/tags/AutoLinkHeader.tsx + tags/index.tsx):
  * - Every markdown heading is rendered as an `AutoLinkHeader`, which adds an
- *   anchor with `id={makeSlug(children)}`. Two headings with the same text
- *   therefore produce the same id, since `makeSlug` resets its slugger and
- *   does not add a uniqueness counter.
+ *   anchor with `id={getSlugFromReactHeading(children)}`. Two headings with
+ *   the same text therefore produce the same id, since the slugger is reset
+ *   per call and does not add a uniqueness counter.
  * - Tab pages (`showTabs: true`) get an extra H1 from the frontmatter `title`,
  *   rendered by the TabBar with the same slug logic.
  * - MDX may also set `id="..."` explicitly on any element.
@@ -42,12 +46,9 @@ import {
 const MARKDOWN_HEADING_LINE = /^(#{1,6})\s+(\S.*?)\s*$/
 const CODE_FENCE_LINE = /^\s*(```+|~~~+)/
 const INLINE_CODE_SPAN = /`[^`]*`/g
-const INLINE_LINK = /\[([^\]]*)\]\([^)]*\)/g
-const INLINE_EMPHASIS = /(\*\*|~~|`)/g
 const LITERAL_ID_ATTRIBUTE = /\bid=["']([^"'{}\s]+)["']/g
 const IMPORT_STATEMENT = /import\s+([\s\S]*?)\s+from\s+['"]([^'"]+)['"]/g
 const DEFAULT_IMPORT_NAME = /^([A-Za-z_$][\w$]*)/
-const ESCAPED_PUNCTUATION = /\\([!-/:-@[-`{-~])/g
 const VISIBILITY_BY_THEME_TAG =
   /<(\/?)VisibilityByTheme(?!\.)([^>]*?)(\/?)>/
 const VISIBLE_FOR_THEMES = /\bvisible=("[^"]*"|\{[\s\S]*\})/
@@ -160,15 +161,7 @@ function collectIdsInMarkdown(
   for (const line of markdown.split('\n')) {
     const heading = MARKDOWN_HEADING_LINE.exec(line)
     if (heading) {
-      // `makeSlug` receives the rendered children, so inline markdown is
-      // already resolved to plain text. MDX also resolves escapes, so
-      // `\{#custom-id\}` has to become `{#custom-id}` to slug the same way.
-      const id = makeSlug(
-        heading[2]
-          .replace(INLINE_LINK, '$1')
-          .replace(INLINE_EMPHASIS, '')
-          .replace(ESCAPED_PUNCTUATION, '$1')
-      )
+      const id = getSlugFromMdxHeading(line)
       if (id) {
         renderedIds.push({ id, sourceFile })
       }
@@ -330,7 +323,7 @@ describe('portal page ids', () => {
 
         // The TabBar renders an H1 with an anchor made from the title.
         if (frontmatter.showTabs === true && frontmatter.title) {
-          const id = makeSlug(String(frontmatter.title))
+          const id = getSlugFromText(String(frontmatter.title))
           if (id) {
             renderedIds.unshift({ id, sourceFile: 'frontmatter title' })
           }

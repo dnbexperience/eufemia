@@ -11,6 +11,7 @@ import { type Plugin } from 'vite'
 import fs from 'node:fs'
 import path from 'node:path'
 import matter from 'gray-matter'
+import { getSlugFromMdxHeading } from '../../../src/uilib/utils/slug.mjs'
 
 const VIRTUAL_MODULE_ID = 'virtual:portal-pages'
 const RESOLVED_VIRTUAL_MODULE_ID = '\0' + VIRTUAL_MODULE_ID
@@ -52,18 +53,6 @@ export function shouldIgnore(filePath: string): boolean {
 }
 
 /**
- * Convert a heading title to a URL-friendly slug.
- */
-export function slugify(text: string): string {
-  return text
-    .toLowerCase()
-    .replace(/[^\w\s-]/g, '')
-    .replace(/\s+/g, '-')
-    .replace(/-+/g, '-')
-    .replace(/^-|-$/g, '')
-}
-
-/**
  * Extract a table-of-contents tree from MDX content by parsing
  * markdown headings (## and ###).
  */
@@ -77,7 +66,7 @@ export function extractTableOfContents(
   while ((match = headingRegex.exec(mdxContent)) !== null) {
     const depth = match[1].length
     const title = match[2].trim()
-    const url = `#${slugify(title)}`
+    const url = `#${getSlugFromMdxHeading(match[0])}`
 
     if (depth === 2) {
       items.push({ url, title })

@@ -27,11 +27,11 @@ import { toString as nodeToString } from 'mdast-util-to-string'
 import matter from 'gray-matter'
 import algoliasearch from 'algoliasearch'
 import {
-  makeSlug,
   shouldIncludeInAlgolia,
   buildAlgoliaRecord,
   findAncestorPages,
 } from './algolia-helpers.mjs'
+import { getSlugFromMdastHeading } from '../../src/uilib/utils/slug.mjs'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const portalRoot = path.resolve(__dirname, '../..')
@@ -45,9 +45,9 @@ try {
 }
 
 /**
- * Extract headings from an MDX file.
+ * Read the headings of an MDX file in the shape an Algolia record needs.
  */
-function extractHeadings(filePath) {
+function extractRecordHeadings(filePath) {
   try {
     const content = fs.readFileSync(filePath, 'utf-8')
     // Strip frontmatter
@@ -60,7 +60,7 @@ function extractHeadings(filePath) {
       headings.push({
         value: nodeToString(node),
         depth: node.depth,
-        slug: makeSlug(nodeToString(node)),
+        slug: getSlugFromMdastHeading(node),
       })
     })
 
@@ -171,12 +171,14 @@ async function pushAlgolia() {
       path.resolve(docsDir, `${slug}/index.mdx`),
     ]
     const sourceFile = candidates.find((f) => fs.existsSync(f))
-    const headings = sourceFile ? extractHeadings(sourceFile) : []
+    const recordHeadings = sourceFile
+      ? extractRecordHeadings(sourceFile)
+      : []
     const siblings = findAncestorPages(slug, allMdxNodes)
     const record = buildAlgoliaRecord({
       ...node,
       frontmatter,
-      headings,
+      recordHeadings,
       siblings,
     })
 

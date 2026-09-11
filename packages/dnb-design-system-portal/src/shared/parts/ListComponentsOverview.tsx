@@ -4,7 +4,7 @@ import ReactMarkdown from 'react-markdown'
 import Anchor from '../tags/Anchor'
 import AutoLinkHeader from '../tags/AutoLinkHeader'
 import { basicComponents } from '../../shared/tags'
-import { makeSlug } from '../../uilib/utils/slug'
+import { getSlugFromText } from '../../uilib/utils/slug.mjs'
 import { cardItemStyle } from '../menu/MainMenu.module.scss'
 import {
   categoryOrder,
@@ -155,7 +155,7 @@ function CategoriesTableOfContents({
             center="when-small"
             className={cardItemStyle}
           >
-            <Card.Action href={`#${makeSlug(title, id)}`} stack dropShadow>
+            <Card.Action href={`#${getSlugFromText(id)}`} stack dropShadow>
               <Span size="x-large">{title}</Span>
 
               <P top="small">{description}</P>

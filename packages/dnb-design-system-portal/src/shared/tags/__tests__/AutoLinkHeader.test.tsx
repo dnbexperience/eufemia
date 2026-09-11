@@ -60,6 +60,62 @@ describe('AutoLinkHeader', () => {
     expect(document.activeElement).toBe(anchor)
   })
 
+  it('derives the id from a heading carrying inline markup', () => {
+    render(
+      <MemoryRouter>
+        <AutoLinkHeader level={2}>
+          Default <code>font-size</code> <strong>rem</strong> table
+        </AutoLinkHeader>
+      </MemoryRouter>
+    )
+
+    const anchor =
+      document.querySelector<HTMLAnchorElement>('.anchor-hash')
+
+    expect(anchor?.getAttribute('id')).toBe('default-font-size-rem-table')
+  })
+
+  it('uses the id it is given instead of deriving one', () => {
+    renderHeader({ useSlug: 'v11.13.0' })
+
+    const anchor =
+      document.querySelector<HTMLAnchorElement>('.anchor-hash')
+
+    expect(anchor?.getAttribute('id')).toBe('v11130')
+  })
+
+  it('honours a custom id without rendering the marker', () => {
+    render(
+      <MemoryRouter>
+        <AutoLinkHeader level={2}>
+          <strong>200%</strong> in <code>font-size</code> {'{#font-size}'}
+        </AutoLinkHeader>
+      </MemoryRouter>
+    )
+
+    const anchor =
+      document.querySelector<HTMLAnchorElement>('.anchor-hash')
+
+    expect(anchor?.getAttribute('id')).toBe('font-size')
+    expect(document.body.textContent).not.toContain('{#')
+  })
+
+  it('slugifies a custom id, so an author cannot declare an unusable one', () => {
+    render(
+      <MemoryRouter>
+        <AutoLinkHeader level={2}>
+          {'A Heading {#My Custom ID}'}
+        </AutoLinkHeader>
+      </MemoryRouter>
+    )
+
+    const anchor =
+      document.querySelector<HTMLAnchorElement>('.anchor-hash')
+
+    expect(anchor?.getAttribute('id')).toBe('my-custom-id')
+    expect(anchor?.getAttribute('href')).toBe('#my-custom-id')
+  })
+
   it('updates the hash without native navigation or highlighting the heading', async () => {
     renderHeader()
 

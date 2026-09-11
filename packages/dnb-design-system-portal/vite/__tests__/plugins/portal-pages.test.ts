@@ -8,9 +8,9 @@ import portalPagesPlugin, {
   readPageFileInfo,
   shouldIgnore,
   scanPageFiles,
-  slugify,
   extractTableOfContents,
 } from '../../client/plugins/portal-pages'
+import { headingIdCases } from '../../../src/uilib/utils/__tests__/headingIdCases'
 
 describe('portal-pages plugin', () => {
   describe('shouldIgnore', () => {
@@ -533,24 +533,6 @@ describe('portal-pages plugin', () => {
     })
   })
 
-  describe('slugify', () => {
-    it('converts text to lowercase kebab-case', () => {
-      expect(slugify('Hello World')).toBe('hello-world')
-    })
-
-    it('strips special characters', () => {
-      expect(slugify("What's new?")).toBe('whats-new')
-    })
-
-    it('collapses multiple dashes', () => {
-      expect(slugify('foo -- bar')).toBe('foo-bar')
-    })
-
-    it('trims leading and trailing dashes', () => {
-      expect(slugify(' -Hello- ')).toBe('hello')
-    })
-  })
-
   describe('extractTableOfContents', () => {
     it('extracts h2 headings as top-level items', () => {
       const content = '## First\n\nSome text\n\n## Second\n'
@@ -605,6 +587,15 @@ describe('portal-pages plugin', () => {
         items: [{ url: '#section', title: 'Section' }],
       })
     })
+
+    it.each(headingIdCases)(
+      'links $name to the id the page renders',
+      ({ markdown, id }) => {
+        const toc = extractTableOfContents(`## ${markdown}\n`)
+
+        expect(toc?.items[0].url).toBe(`#${id}`)
+      }
+    )
   })
 
   describe('scanPageFiles tableOfContents', () => {
