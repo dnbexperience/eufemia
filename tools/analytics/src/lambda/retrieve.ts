@@ -4,6 +4,7 @@ import {
   GetQueryResultsCommand,
   StartQueryExecutionCommand,
 } from '@aws-sdk/client-athena'
+import type { McpUsageDaily } from './snapshot-store.js'
 
 const athena = new AthenaClient({})
 
@@ -151,4 +152,56 @@ export async function retrievePortalViews(
     env: env ?? '',
     timestamp: timestamp ?? '',
   }))
+}
+
+// A YYYY-MM-DD partition token is derived from the server clock, never user
+// input, so interpolating it into the query carries no injection risk.
+const DT_PATTERN = /^\d{4}-\d{2}-\d{2}$/
+
+function toDailyRow([dt, tool, component, path, count]: Array<
+  string | undefined
+>): McpUsageDaily {
+  return {
+    dt: dt ?? '',
+    tool: tool ?? '',
+    component: component ?? '',
+    path: path ?? '',
+    count: Number(count ?? 0),
+  }
+}
+
+/**
+ * Aggregate raw MCP usage rows on or after `sinceDt` into per-day counts, grouped
+ * by tool/component/path. Used to recompute the recent tail of the durable daily
+ * rollup on each generator run.
+ */
+export async function aggregateMcpUsageRaw(
+  sinceDt: string
+): Promise<McpUsageDaily[]> {
+  if (!DT_PATTERN.test(sinceDt)) {
+    throw new Error(`sinceDt must be a YYYY-MM-DD date, got: ${sinceDt}`)
+  }
+
+  const database = requireEnv('GLUE_DATABASE')
+  const table = requireEnv('GLUE_TABLE_MCP_USAGE')
+  const workgroup = requireEnv('ATHENA_WORKGROUP')
+
+  const query = `SELECT dt, tool, component, path, count(*) AS cnt FROM "${database}"."${table}" WHERE dt >= '${sinceDt}' GROUP BY dt, tool, component, path`
+  const queryExecutionId = await startQuery(query, workgroup)
+  await waitForQuery(queryExecutionId)
+
+  return readResults(queryExecutionId, toDailyRow)
+}
+
+/** Read the full durable daily MCP usage rollup for the dashboard section. */
+export async function retrieveMcpUsageDaily(): Promise<McpUsageDaily[]> {
+  const database = requireEnv('GLUE_DATABASE')
+  const table = requireEnv('GLUE_TABLE_MCP_USAGE_DAILY')
+  const workgroup = requireEnv('ATHENA_WORKGROUP')
+
+  const query = `SELECT dt, tool, component, path, count FROM "${database}"."${table}"`
+  const queryExecutionId = await startQuery(query, workgroup)
+  await waitForQuery(queryExecutionId)
+
+  return readResults(queryExecutionId, toDailyRow)
 }

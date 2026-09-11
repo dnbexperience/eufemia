@@ -1,5 +1,8 @@
 import { describe, it, expect } from 'vitest'
-import { clampLimit } from '../src/lambda/retrieve.js'
+import {
+  aggregateMcpUsageRaw,
+  clampLimit,
+} from '../src/lambda/retrieve.js'
 
 describe('clampLimit', () => {
   it('defaults when no limit is given', () => {
@@ -26,5 +29,13 @@ describe('clampLimit', () => {
 
   it('passes through an in-range value', () => {
     expect(clampLimit(42)).toBe(42)
+  })
+})
+
+describe('aggregateMcpUsageRaw', () => {
+  it('rejects a non-date sinceDt before running any query', async () => {
+    await expect(aggregateMcpUsageRaw("2026'; DROP")).rejects.toThrow(
+      'YYYY-MM-DD'
+    )
   })
 })

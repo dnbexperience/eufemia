@@ -66,6 +66,26 @@ resource "aws_s3_bucket_lifecycle_configuration" "data" {
       days = 7
     }
   }
+
+  # Raw MCP usage events. The trailing slash is load-bearing: it matches only
+  # mcp-usage/ and NOT mcp-usage-daily/, so the durable daily rollup is never
+  # expired by this rule.
+  rule {
+    id     = "expire-mcp-usage-raw"
+    status = "Enabled"
+
+    filter {
+      prefix = "mcp-usage/"
+    }
+
+    expiration {
+      days = 395
+    }
+
+    noncurrent_version_expiration {
+      noncurrent_days = 1
+    }
+  }
 }
 
 # ---------------------------------------------------------------------------
@@ -132,6 +152,138 @@ resource "aws_glue_catalog_table" "portal_views" {
     columns {
       name = "createdat"
       type = "string"
+    }
+  }
+}
+
+# Raw MCP usage events (one row per validated tool call), written directly to S3
+# by the MCP Lambda. Anonymous: tool + optional allow-listed component/path only.
+resource "aws_glue_catalog_table" "mcp_usage" {
+  name          = "mcp_usage"
+  database_name = aws_glue_catalog_database.analytics.name
+  table_type    = "EXTERNAL_TABLE"
+
+  parameters = {
+    classification     = "json"
+    has_encrypted_data = "true"
+
+    "projection.enabled"          = "true"
+    "projection.dt.type"          = "date"
+    "projection.dt.range"         = "2024-01-01,NOW"
+    "projection.dt.format"        = "yyyy-MM-dd"
+    "projection.dt.interval"      = "1"
+    "projection.dt.interval.unit" = "DAYS"
+    "storage.location.template"   = "s3://${aws_s3_bucket.data.id}/mcp-usage/dt=$${dt}/"
+  }
+
+  partition_keys {
+    name = "dt"
+    type = "string"
+  }
+
+  storage_descriptor {
+    location      = "s3://${aws_s3_bucket.data.id}/mcp-usage/"
+    input_format  = "org.apache.hadoop.mapred.TextInputFormat"
+    output_format = "org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat"
+
+    ser_de_info {
+      serialization_library = "org.openx.data.jsonserde.JsonSerDe"
+
+      parameters = {
+        "case.insensitive" = "true"
+      }
+    }
+
+    columns {
+      name = "tool"
+      type = "string"
+    }
+
+    columns {
+      name = "component"
+      type = "string"
+    }
+
+    columns {
+      name = "path"
+      type = "string"
+    }
+
+    columns {
+      name = "env"
+      type = "string"
+    }
+
+    columns {
+      name = "timestamp"
+      type = "string"
+    }
+
+    columns {
+      name = "createdat"
+      type = "string"
+    }
+  }
+}
+
+# Durable daily MCP usage rollup. The snapshot generator recomputes the recent
+# tail from mcp_usage each run and writes one object per day here. This prefix
+# has NO lifecycle expiry, so aggregates outlive the raw rows and keep long-range
+# (year-over-year) comparison available.
+resource "aws_glue_catalog_table" "mcp_usage_daily" {
+  name          = "mcp_usage_daily"
+  database_name = aws_glue_catalog_database.analytics.name
+  table_type    = "EXTERNAL_TABLE"
+
+  parameters = {
+    classification     = "json"
+    has_encrypted_data = "true"
+
+    "projection.enabled"          = "true"
+    "projection.dt.type"          = "date"
+    "projection.dt.range"         = "2024-01-01,NOW"
+    "projection.dt.format"        = "yyyy-MM-dd"
+    "projection.dt.interval"      = "1"
+    "projection.dt.interval.unit" = "DAYS"
+    "storage.location.template"   = "s3://${aws_s3_bucket.data.id}/mcp-usage-daily/dt=$${dt}/"
+  }
+
+  partition_keys {
+    name = "dt"
+    type = "string"
+  }
+
+  storage_descriptor {
+    location      = "s3://${aws_s3_bucket.data.id}/mcp-usage-daily/"
+    input_format  = "org.apache.hadoop.mapred.TextInputFormat"
+    output_format = "org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat"
+
+    ser_de_info {
+      serialization_library = "org.openx.data.jsonserde.JsonSerDe"
+
+      parameters = {
+        "case.insensitive" = "true"
+      }
+    }
+
+    columns {
+      name = "tool"
+      type = "string"
+    }
+
+    columns {
+      name = "component"
+      type = "string"
+    }
+
+    columns {
+      name = "path"
+      type = "string"
+    }
+
+    columns {
+      name = "count"
+      type = "bigint"
     }
   }
 }
@@ -402,7 +554,7 @@ resource "aws_lambda_function" "snapshot" {
   role          = data.aws_iam_role.lambda.arn
   handler       = "index.snapshot"
   runtime       = "nodejs22.x"
-  timeout       = 60
+  timeout       = 90
   memory_size   = 256
 
   filename         = "${path.module}/../dist/lambda.zip"
@@ -410,11 +562,13 @@ resource "aws_lambda_function" "snapshot" {
 
   environment {
     variables = {
-      NODE_OPTIONS     = "--enable-source-maps"
-      DATA_BUCKET      = aws_s3_bucket.data.id
-      GLUE_DATABASE    = aws_glue_catalog_database.analytics.name
-      GLUE_TABLE       = aws_glue_catalog_table.portal_views.name
-      ATHENA_WORKGROUP = aws_athena_workgroup.analytics.name
+      NODE_OPTIONS               = "--enable-source-maps"
+      DATA_BUCKET                = aws_s3_bucket.data.id
+      GLUE_DATABASE              = aws_glue_catalog_database.analytics.name
+      GLUE_TABLE                 = aws_glue_catalog_table.portal_views.name
+      GLUE_TABLE_MCP_USAGE       = aws_glue_catalog_table.mcp_usage.name
+      GLUE_TABLE_MCP_USAGE_DAILY = aws_glue_catalog_table.mcp_usage_daily.name
+      ATHENA_WORKGROUP           = aws_athena_workgroup.analytics.name
     }
   }
 
