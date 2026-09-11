@@ -5,6 +5,7 @@ import fs from 'fs'
 import os from 'os'
 import path from 'path'
 import {
+  createDocsServer,
   createDocsTools,
   DocsSearchInput,
   MAX_SEARCH_QUERY_LENGTH,
@@ -183,6 +184,31 @@ describe('docs_entry', () => {
     const tools = createDocsTools({ docsRoot })
     const result = await tools.docsEntry({})
     expect(getText(result)).toContain('Eufemia Docs')
+  })
+})
+
+describe('createDocsServer (Node fallback)', () => {
+  it('resolves docsRoot lazily instead of leaving it as <pending>', async () => {
+    const fixture = createDocsFixture()
+    const previous = process.env.EUFEMIA_DOCS_ROOT
+    process.env.EUFEMIA_DOCS_ROOT = fixture.docsRoot
+
+    try {
+      const { tools } = await createDocsServer()
+
+      expect(tools.docsRoot).not.toBe('<pending>')
+      expect(tools.docsRoot).toBe(path.resolve(fixture.docsRoot))
+
+      const result = await tools.docsEntry({})
+      expect(getText(result)).toContain('Eufemia Docs')
+    } finally {
+      if (previous === undefined) {
+        delete process.env.EUFEMIA_DOCS_ROOT
+      } else {
+        process.env.EUFEMIA_DOCS_ROOT = previous
+      }
+      fixture.cleanup()
+    }
   })
 })
 

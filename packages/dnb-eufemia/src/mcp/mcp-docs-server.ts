@@ -14,7 +14,11 @@ import {
   type CallToolResult,
 } from '@modelcontextprotocol/server'
 
-import { type DocsSource, normalizeDocsPath } from './docs-source'
+import {
+  createNodeDocsSource,
+  type DocsSource,
+  normalizeDocsPath,
+} from './docs-source'
 import reviewRules from '../plugins/review-rules.js'
 
 type ToolResult = CallToolResult
@@ -135,7 +139,6 @@ export async function validateDocsRoot(
     throw new Error(`Eufemia docs root is not a directory: ${docsRootAbs}`)
   }
 
-  const { createNodeDocsSource } = await import('./docs-source')
   const source = await createNodeDocsSource(docsRootAbs)
   await validateDocsSource(source)
 }
@@ -727,7 +730,6 @@ export function createDocsTools(
           const root = await docsRootPromise
           resolvedDocsRoot = root
           docsRoot = root
-          const { createNodeDocsSource } = await import('./docs-source')
           return createNodeDocsSource(root)
         })()
       }
@@ -998,7 +1000,9 @@ export function createDocsTools(
     componentApi,
     componentProps,
     source,
-    docsRoot,
+    get docsRoot() {
+      return docsRoot
+    },
   }
 }
 
