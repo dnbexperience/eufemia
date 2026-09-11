@@ -37,12 +37,22 @@ function analyticsEnv(): string {
 // The active component language and theme (brand) when the page was viewed —
 // dimensions of the view, read fresh per call from the portal's existing
 // preferences (never written) so the stored value matches what the user saw.
+
+// Must match the collector's LOCALE_PATTERN so a stale or tampered `locale`
+// value falls back to the default here rather than failing the whole batch at
+// ingest (mirrors how getTheme() defaults an unknown brand).
+const LOCALE_PATTERN = /^[a-z]{2,3}-[A-Z]{2}$/
+
 function analyticsLocale(): string {
   try {
-    return window.localStorage.getItem('locale') || 'nb-NO'
+    const stored = window.localStorage.getItem('locale')
+    if (stored && LOCALE_PATTERN.test(stored)) {
+      return stored
+    }
   } catch {
-    return 'nb-NO'
+    // stop here
   }
+  return 'nb-NO'
 }
 
 function analyticsTheme(): string {
