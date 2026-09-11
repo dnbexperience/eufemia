@@ -9929,6 +9929,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "eufemia-mcp-lambda@workspace:tools/mcp-lambda"
   dependencies:
+    "@aws-sdk/client-s3": "npm:3.1075.0"
     "@dnb/eufemia": "workspace:*"
     "@modelcontextprotocol/client": "npm:2.0.0"
     "@modelcontextprotocol/server": "npm:2.0.0"
