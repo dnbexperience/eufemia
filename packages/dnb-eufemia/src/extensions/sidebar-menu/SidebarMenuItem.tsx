@@ -23,6 +23,9 @@ export default function SidebarMenuItem(props: SidebarMenuItemProps) {
     disabled = false,
     active = false,
     onClick,
+    'aria-label': ariaLabel,
+    'aria-labelledby': ariaLabelledBy,
+    title,
     ...rest
   } = props
   const context = useSidebarMenuContext()
@@ -79,6 +82,9 @@ export default function SidebarMenuItem(props: SidebarMenuItemProps) {
           rel={rel}
           aria-current={isSelected || active ? 'page' : undefined}
           aria-disabled={disabled || undefined}
+          aria-label={ariaLabel}
+          aria-labelledby={ariaLabelledBy}
+          title={title}
           tabIndex={disabled ? -1 : undefined}
           onClick={handleClick}
         >
@@ -90,6 +96,9 @@ export default function SidebarMenuItem(props: SidebarMenuItemProps) {
           type="button"
           disabled={disabled}
           aria-current={isSelected || active ? 'page' : undefined}
+          aria-label={ariaLabel}
+          aria-labelledby={ariaLabelledBy}
+          title={title}
           onClick={handleClick}
         >
           {content}

@@ -17,7 +17,7 @@ export const SidebarMenuContainerProperties: PropertiesTableProps = {
     status: 'optional',
   },
   openItems: {
-    doc: 'Controlled array of open accordion ids.',
+    doc: 'Controlled array of open accordion ids. Selected ancestors are only opened automatically when this property is not provided.',
     type: 'Array<string>',
     status: 'optional',
   },
@@ -55,10 +55,10 @@ export const SidebarMenuContainerProperties: PropertiesTableProps = {
     defaultValue: 'true',
     status: 'optional',
   },
-  disableUntilFound: {
-    doc: "Disables keeping collapsed accordion content searchable with the browser's find-in-page functionality.",
+  openOnFind: {
+    doc: "Keeps collapsed accordion content searchable and opens it when matched by the browser's find-in-page functionality.",
     type: 'boolean',
-    defaultValue: 'false',
+    defaultValue: 'true',
     status: 'optional',
   },
   activeSection: {
@@ -366,6 +366,12 @@ export const SidebarMenuHeaderProperties: PropertiesTableProps = {
   children: {
     doc: 'Alternative to text.',
     type: 'React.ReactNode',
+    status: 'optional',
+  },
+  headingLevel: {
+    doc: 'Semantic heading level.',
+    type: 'number',
+    defaultValue: '2',
     status: 'optional',
   },
 }
