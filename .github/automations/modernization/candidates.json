@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "candidates": [
+    {
+      "id": "structured-clone-polyfill",
+      "title": "Remove the structuredClone polyfill",
+      "compatKey": "api.structuredClone",
+      "files": [
+        "packages/dnb-eufemia/src/shared/helpers/structuredClone.ts",
+        "packages/dnb-eufemia/package.json"
+      ],
+      "evidencePatterns": [
+        "@ungap/structured-clone",
+        "structuredClonePolyfill"
+      ],
+      "reason": "Native structuredClone could remove a runtime dependency and compatibility branch once every supported browser provides it."
+    },
+    {
+      "id": "import-map-shim",
+      "title": "Replace import-map examples with native import maps",
+      "compatKey": "html.elements.script.type.importmap",
+      "files": [
+        "packages/dnb-design-system-portal/src/docs/uilib/usage/first-steps/bundles.mdx"
+      ],
+      "evidencePatterns": [
+        "es-module-shims",
+        "type=\"importmap-shim\"",
+        "type=\"module-shim\""
+      ],
+      "reason": "Native import maps could simplify the documented standalone bundle setup and remove its external shim."
+    },
+    {
+      "id": "where-selector-fallback",
+      "title": "Remove the :where() selector fallback",
+      "compatKey": "css.selectors.where",
+      "files": [
+        "packages/dnb-eufemia/src/components/anchor/style/anchor-mixins.scss"
+      ],
+      "evidencePatterns": ["@supports not (selector(*:where(*)))"],
+      "reason": "Native :where() support could remove duplicate fallback selectors and generated CSS."
+    },
+    {
+      "id": "hidden-until-found-guard",
+      "title": "Remove hidden=until-found compatibility guards",
+      "compatKey": "html.global_attributes.hidden.until-found",
+      "files": [
+        "packages/dnb-eufemia/src/components/height-animation/HeightAnimation.tsx"
+      ],
+      "evidencePatterns": ["supportsOpenOnFind", "onbeforematch"],
+      "reason": "Universal hidden=until-found support could simplify find-in-page behavior, but accessibility and state synchronization still require human review."
+    }
+  ]
+}

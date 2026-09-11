@@ -23,6 +23,9 @@ jobs:
         with:
           persist-credentials: false
 
+      - name: Setup dependencies
+        uses: ./.github/actions/setup
+
       - name: Run automation tests
         run: |
           bash .github/automations/scripts/__tests__/check-mcp-tools.test.sh
@@ -31,6 +34,7 @@ jobs:
           node .github/automations/scripts/__tests__/configuration.test.mjs
           node .github/automations/scripts/__tests__/notification.test.mjs
           node .github/automations/scripts/__tests__/validate-context.test.mjs
+          node .github/automations/modernization/scripts/__tests__/collect-candidates.test.mjs
           node .github/automations/release/scripts/__tests__/release-utils.test.mjs
 
   check-pr-title:
