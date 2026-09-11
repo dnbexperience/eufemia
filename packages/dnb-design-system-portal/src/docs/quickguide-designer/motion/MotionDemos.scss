@@ -304,43 +304,9 @@
     animation-timing-function: linear;
   }
 
-  &__illustration-artwork [data-motion] {
-    animation-timing-function: ease-out;
-  }
-
-  &__illustration-greenery {
-    --motion-greenery-offset: -16px;
-
-    animation-name: dnb-motion-illustration-greenery;
-
-    &--right {
-      --motion-greenery-offset: 16px;
-    }
-  }
-
-  &__illustration-body {
-    animation-name: dnb-motion-illustration-body;
-  }
-
-  &__illustration-roof {
-    animation-name: dnb-motion-illustration-roof;
-  }
-
-  &__illustration-details,
-  &__garage {
-    animation-name: dnb-motion-illustration-details;
-  }
-
-  &__illustration-windows {
-    animation-name: dnb-motion-illustration-windows;
-
-    &--side {
-      animation-delay: 150ms;
-    }
-  }
-
   &__garage-door {
     animation-name: dnb-motion-garage-door;
+    animation-timing-function: ease-in-out;
   }
 
   &__icon[data-motion] {
@@ -688,85 +654,16 @@
   }
 }
 
-@keyframes dnb-motion-illustration-body {
-  0%,
-  2.5%,
-  95%,
-  100% {
-    opacity: 0;
-  }
-  7.5%,
-  87.5% {
-    opacity: 1;
-  }
-}
-
-@keyframes dnb-motion-illustration-roof {
-  0%,
-  7.5%,
-  87.5%,
-  100% {
-    opacity: 0;
-    transform: translateY(-16px);
-  }
-  17.5%,
-  80% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes dnb-motion-illustration-details {
-  0%,
-  10%,
-  82.5%,
-  100% {
-    opacity: 0;
-  }
-  25%,
-  75% {
-    opacity: 1;
-  }
-}
-
-// The details group controls exit; reset the windows after it is hidden.
-@keyframes dnb-motion-illustration-windows {
-  0%,
-  17.5%,
-  100% {
-    opacity: 0;
-  }
-  27.5%,
-  82.5% {
-    opacity: 1;
-  }
-}
-
 @keyframes dnb-motion-garage-door {
   0%,
-  27.5%,
-  72.5%,
+  25%,
+  75%,
   100% {
     transform: translateY(0);
   }
   40%,
   60% {
     transform: translateY(-52px);
-  }
-}
-
-@keyframes dnb-motion-illustration-greenery {
-  0%,
-  7.5%,
-  75%,
-  100% {
-    opacity: 0;
-    transform: translateX(var(--motion-greenery-offset));
-  }
-  25%,
-  65% {
-    opacity: 1;
-    transform: translateX(0);
   }
 }
 
