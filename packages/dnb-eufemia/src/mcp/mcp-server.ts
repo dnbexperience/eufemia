@@ -33,24 +33,14 @@ async function main() {
 const shouldRun = (() => {
   const entryPath = process.argv[1] ? path.resolve(process.argv[1]) : ''
   const entryName = entryPath ? path.basename(entryPath) : ''
+  // Only auto-start when Node ran this file directly (published as
+  // mcp-server.js); stay a no-op when the module is merely imported.
   const allowed = new Set([
     'mcp-server.js',
     'mcp-server.mjs',
     'mcp-server.cjs',
     'mcp-server.ts',
     'mcp-server.mts',
-    // Backwards-compat for historical entry filenames (`mcp-stdio.*` and the
-    // even older `mcp-docs-server.*`) so existing MCP configs keep working.
-    'mcp-stdio.js',
-    'mcp-stdio.mjs',
-    'mcp-stdio.cjs',
-    'mcp-stdio.ts',
-    'mcp-stdio.mts',
-    'mcp-docs-server.js',
-    'mcp-docs-server.mjs',
-    'mcp-docs-server.cjs',
-    'mcp-docs-server.ts',
-    'mcp-docs-server.mts',
   ])
   return entryName ? allowed.has(entryName) : false
 })()
