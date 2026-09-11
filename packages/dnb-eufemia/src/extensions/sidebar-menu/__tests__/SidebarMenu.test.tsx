@@ -1,9 +1,10 @@
-import { act, fireEvent, render } from '@testing-library/react'
+import { act, fireEvent, render, waitFor } from '@testing-library/react'
+import { hydrateRoot } from 'react-dom/client'
+import { renderToString } from 'react-dom/server'
 import ScrollView from '../../../fragments/scroll-view/ScrollView'
 import { axeComponent } from '../../../core/test-utils/testSetup'
 import SidebarMenu from '../SidebarMenu'
 import { SidebarMenuContainerProperties } from '../SidebarMenuDocs'
-import HeightAnimationInstance from '../../../components/height-animation/HeightAnimationInstance'
 import { office_buildings, person } from '../../../icons'
 import Provider from '../../../shared/Provider'
 
@@ -108,6 +109,41 @@ describe('SidebarMenu', () => {
     expect(
       document.querySelector('.dnb-height-animation')
     ).not.toHaveAttribute('hidden')
+  })
+
+  it('gives icon-only item actions an accessible name', () => {
+    render(
+      <SidebarMenu.Container>
+        <SidebarMenu.Item
+          id="profile"
+          icon={person}
+          href="/profile"
+          aria-label="Profile"
+          title="Open profile"
+        />
+      </SidebarMenu.Container>
+    )
+
+    const item = document.querySelector('[data-sidebar-menu-id="profile"]')
+    const link = item.querySelector('a')
+
+    expect(item).not.toHaveAttribute('aria-label')
+    expect(link).toHaveAccessibleName('Profile')
+    expect(link).toHaveAttribute('title', 'Open profile')
+  })
+
+  it('renders Header with heading semantics', () => {
+    render(
+      <SidebarMenu.Container>
+        <SidebarMenu.Header headingLevel={3}>Accounts</SidebarMenu.Header>
+      </SidebarMenu.Container>
+    )
+
+    expect(
+      document.querySelector(
+        '.dnb-sidebar-menu__header [role="heading"][aria-level="3"]'
+      )
+    ).toHaveTextContent('Accounts')
   })
 
   it('renders declarative static groups without accordion semantics', () => {
@@ -360,7 +396,7 @@ describe('SidebarMenu', () => {
 
   it('can disable hidden until found behavior', () => {
     render(
-      <SidebarMenu.Container disableUntilFound>
+      <SidebarMenu.Container openOnFind={false}>
         <SidebarMenu.Accordion id="products" text="Products">
           <SidebarMenu.Item id="cards" text="Cards" />
         </SidebarMenu.Accordion>
@@ -373,6 +409,9 @@ describe('SidebarMenu', () => {
     expect(
       document.querySelector('.dnb-height-animation')
     ).not.toBeInTheDocument()
+    expect(
+      document.querySelector('.dnb-sidebar-menu__accordion__trigger')
+    ).not.toHaveAttribute('aria-controls')
   })
 
   it('wraps labels between words without splitting characters', () => {
@@ -484,6 +523,31 @@ describe('SidebarMenu', () => {
     )
 
     expect(trigger).toHaveAttribute('aria-expanded', 'true')
+  })
+
+  it('keeps controlled open state authoritative for selected descendants', () => {
+    const onOpenItemsChange = vi.fn()
+
+    render(
+      <SidebarMenu.Container
+        openItems={[]}
+        selectedItem="cards"
+        onOpenItemsChange={onOpenItemsChange}
+      >
+        <SidebarMenu.Accordion id="products" text="Products">
+          <SidebarMenu.Item id="cards" text="Cards" />
+        </SidebarMenu.Accordion>
+      </SidebarMenu.Container>
+    )
+
+    const trigger = document.querySelector(
+      '.dnb-sidebar-menu__accordion__trigger'
+    )
+
+    expect(trigger).toHaveAttribute('aria-expanded', 'false')
+    fireEvent.click(trigger)
+    expect(onOpenItemsChange).toHaveBeenCalledWith(['products'])
+    expect(trigger).toHaveAttribute('aria-expanded', 'false')
   })
 
   it('switches between declarative sections with a dropdown', () => {
@@ -1411,6 +1475,57 @@ describe('SidebarMenu', () => {
     vi.useRealTimers()
   })
 
+  it('does not animate selected-route scrolling with reduced motion', () => {
+    vi.useFakeTimers()
+    const originalMatchMedia = window.matchMedia
+    window.matchMedia = vi.fn(() => ({ matches: true }) as MediaQueryList)
+
+    const { rerender } = render(
+      <ScrollView>
+        <SidebarMenu.Container selectedItem="overview">
+          <SidebarMenu.Item id="overview" text="Overview" />
+          <SidebarMenu.Item id="payments" text="Payments" />
+        </SidebarMenu.Container>
+      </ScrollView>
+    )
+    const scrollView = document.querySelector(
+      '.dnb-scroll-view'
+    ) as HTMLElement
+    const scrollTo = vi.fn()
+    Object.defineProperty(scrollView, 'scrollTo', {
+      configurable: true,
+      value: scrollTo,
+    })
+    vi.spyOn(scrollView, 'getBoundingClientRect').mockReturnValue({
+      top: 0,
+      bottom: 200,
+      height: 200,
+    } as DOMRect)
+
+    act(() => vi.runAllTimers())
+    scrollTo.mockClear()
+    rerender(
+      <ScrollView>
+        <SidebarMenu.Container selectedItem="payments">
+          <SidebarMenu.Item id="overview" text="Overview" />
+          <SidebarMenu.Item id="payments" text="Payments" />
+        </SidebarMenu.Container>
+      </ScrollView>
+    )
+    vi.spyOn(
+      document.querySelector(
+        '[data-sidebar-menu-id="payments"] [aria-current="page"]'
+      ),
+      'getBoundingClientRect'
+    ).mockReturnValue({ top: 300, bottom: 340, height: 40 } as DOMRect)
+
+    act(() => vi.runAllTimers())
+    expect(scrollTo).toHaveBeenCalledWith({ top: 220, behavior: 'auto' })
+
+    window.matchMedia = originalMatchMedia
+    vi.useRealTimers()
+  })
+
   it('waits for a selected route accordion to open before scrolling', async () => {
     vi.useFakeTimers()
     globalThis.IS_TEST = false
@@ -1868,7 +1983,6 @@ describe('SidebarMenu', () => {
   it('does not animate from defaults to stored state on mount', () => {
     const storageKey = 'sidebar-menu-stored-initial-state'
     sessionStorage.setItem(storageKey, JSON.stringify([]))
-    const close = vi.spyOn(HeightAnimationInstance.prototype, 'close')
 
     render(
       <SidebarMenu.Container
@@ -1884,9 +1998,10 @@ describe('SidebarMenu', () => {
     expect(
       document.querySelector('[data-sidebar-menu-id="products"] button')
     ).toHaveAttribute('aria-expanded', 'false')
-    expect(close).not.toHaveBeenCalled()
+    expect(
+      document.querySelector('.dnb-height-animation')
+    ).not.toHaveClass('dnb-height-animation--animating')
 
-    close.mockRestore()
     sessionStorage.removeItem(storageKey)
   })
 
@@ -1989,15 +2104,86 @@ describe('SidebarMenu', () => {
     expect(sessionStorage.getItem(storageKey)).toBeNull()
   })
 
-  it('has no automated accessibility violations', async () => {
-    const component = render(
-      <SidebarMenu.Container aria-label="Main navigation">
-        <SidebarMenu.Item id="overview" text="Overview" />
+  it('does not throw when storage writes fail', () => {
+    const setItem = vi
+      .spyOn(Storage.prototype, 'setItem')
+      .mockImplementation(() => {
+        throw new DOMException('Quota exceeded', 'QuotaExceededError')
+      })
+
+    expect(() =>
+      render(
+        <ScrollView>
+          <SidebarMenu.Container
+            openItemsStorageKey="menu"
+            scrollPositionStorageKey="menu-scroll"
+          >
+            <SidebarMenu.Accordion id="products" text="Products">
+              <SidebarMenu.Item id="cards" text="Cards" />
+            </SidebarMenu.Accordion>
+          </SidebarMenu.Container>
+        </ScrollView>
+      )
+    ).not.toThrow()
+
+    expect(() =>
+      fireEvent.scroll(document.querySelector('.dnb-scroll-view'))
+    ).not.toThrow()
+    setItem.mockRestore()
+  })
+
+  it('hydrates before loading stored open state', async () => {
+    const storageKey = 'sidebar-menu-hydration'
+    const element = (
+      <SidebarMenu.Container openItemsStorageKey={storageKey}>
         <SidebarMenu.Accordion id="products" text="Products">
           <SidebarMenu.Item id="cards" text="Cards" />
         </SidebarMenu.Accordion>
-        <SidebarMenu.Divider />
-        <SidebarMenu.Item id="disabled" text="Disabled" disabled />
+      </SidebarMenu.Container>
+    )
+    const container = document.createElement('div')
+    container.innerHTML = renderToString(element)
+    document.body.appendChild(container)
+    sessionStorage.setItem(storageKey, JSON.stringify(['products']))
+    const consoleError = vi
+      .spyOn(console, 'error')
+      .mockImplementation(() => undefined)
+
+    const root = hydrateRoot(container, element)
+
+    await waitFor(() =>
+      expect(
+        container.querySelector('.dnb-sidebar-menu__accordion__trigger')
+      ).toHaveAttribute('aria-expanded', 'true')
+    )
+    expect(consoleError).not.toHaveBeenCalled()
+
+    root.unmount()
+    consoleError.mockRestore()
+    sessionStorage.removeItem(storageKey)
+    container.remove()
+  })
+
+  it('has no automated accessibility violations', async () => {
+    const component = render(
+      <SidebarMenu.Container
+        aria-label="Main navigation"
+        selectedItem="cards"
+      >
+        <SidebarMenu.Section id="personal" text="Personal">
+          <SidebarMenu.Header>Products</SidebarMenu.Header>
+          <SidebarMenu.Group id="accounts" text="Accounts">
+            <SidebarMenu.Accordion
+              id="products"
+              text="Products"
+              href="/products"
+            >
+              <SidebarMenu.Item id="cards" text="Cards" />
+            </SidebarMenu.Accordion>
+          </SidebarMenu.Group>
+          <SidebarMenu.Divider />
+          <SidebarMenu.Item id="disabled" text="Disabled" disabled />
+        </SidebarMenu.Section>
       </SidebarMenu.Container>
     )
 

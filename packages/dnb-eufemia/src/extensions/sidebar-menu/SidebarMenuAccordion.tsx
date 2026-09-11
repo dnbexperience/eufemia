@@ -64,7 +64,8 @@ export default function SidebarMenuAccordion(
   const isSelected = context.selectedItem === id
   const containsSelectedItem = context.selectedItemAncestorIds.includes(id)
   const hasLink = Boolean(href || to)
-  const useUntilFound = context.untilFound && collapsible
+  const useOpenOnFind = context.openOnFind && collapsible
+  const controlsContent = collapsible && (isOpen || useOpenOnFind)
   const clearPendingOpen = useCallback(() => {
     clearTimeout(pendingOpenTimer.current)
     pendingOpenTimer.current = undefined
@@ -193,7 +194,7 @@ export default function SidebarMenuAccordion(
           aria-current={isSelected ? 'page' : undefined}
           aria-disabled={disabled || undefined}
           aria-expanded={collapsible ? isOpen : undefined}
-          aria-controls={collapsible ? `${id}-content` : undefined}
+          aria-controls={controlsContent ? `${id}-content` : undefined}
           tabIndex={disabled ? -1 : undefined}
           onClick={handleLinkClick}
           onKeyDown={handleLinkKeyDown}
@@ -221,7 +222,7 @@ export default function SidebarMenuAccordion(
           type="button"
           className="dnb-sidebar-menu__item__action dnb-sidebar-menu__accordion__trigger"
           aria-expanded={isOpen}
-          aria-controls={`${id}-content`}
+          aria-controls={controlsContent ? `${id}-content` : undefined}
           disabled={disabled}
           onClick={() => setOpen(!requestedOpen)}
           style={itemStyle}
@@ -238,7 +239,8 @@ export default function SidebarMenuAccordion(
 
       <HeightAnimation
         open={isOpen}
-        untilFound={useUntilFound}
+        animate={context.animate}
+        openOnFind={useOpenOnFind}
         onBeforeMatch={() => setOpen(true)}
         compensateForGap="auto"
       >

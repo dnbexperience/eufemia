@@ -45,7 +45,7 @@ function SidebarMenuContainer(props: SidebarMenuContainerProps) {
     scrollPositionStorageKey,
     scrollPositionStorage = 'session',
     scrollSelectedItemIntoView = true,
-    disableUntilFound = false,
+    openOnFind = true,
     onOpenItemsChange,
     activeSection,
     defaultActiveSection,
@@ -63,48 +63,44 @@ function SidebarMenuContainer(props: SidebarMenuContainerProps) {
   const openItemsStorageId = openItemsStorageKey
     ? `${openItemsStorage}:${openItemsStorageKey}`
     : undefined
-  const initialSelectedItem =
-    defaultSelectedItem ??
-    findActiveDataItem(
-      dataSections?.flatMap(({ items }) => items) ?? data
-    ) ??
-    findActiveDeclarativeItem(children)
-  const initialSelection = findSelection({
-    id: selectedItem ?? initialSelectedItem,
-    children,
-    data,
-    sections: dataSections,
+  const [initialState] = useState(() => {
+    const selected =
+      defaultSelectedItem ??
+      findActiveDataItem(
+        dataSections?.flatMap(({ items }) => items) ?? data
+      ) ??
+      findActiveDeclarativeItem(children)
+    const selection = findSelection({
+      id: selectedItem ?? selected,
+      children,
+      data,
+      sections: dataSections,
+    })
+
+    return {
+      selectedItem: selected,
+      selectedAccordionId: selection?.selectedAccordionId,
+      sectionId: selection?.sectionId,
+    }
   })
-  const initialOpenState = readStoredOpenState({
-    key: openItemsStorageKey,
-    storage: openItemsStorage,
-    fallback: defaultOpenItems,
-  })
-  const initialClosedSelectionPath = {
-    selectedItem:
-      initialOpenState.selectedItem ?? selectedItem ?? initialSelectedItem,
-    ids: initialOpenState.closedItems,
-  }
   const initialOpenItems =
     openItems ??
-    addOpenItem(
-      initialOpenState.openItems,
-      initialSelection?.selectedAccordionId
-    )
+    (selectedItem === undefined
+      ? addOpenItem(defaultOpenItems, initialState.selectedAccordionId)
+      : defaultOpenItems)
   const [internalOpenItems, setInternalOpenItems] =
     useState(initialOpenItems)
-  const loadedOpenItemsStorageIdRef = useRef<string | undefined>(
-    openItemsStorageId
-  )
+  const [animate, setAnimate] = useState(!openItemsStorageKey)
+  const loadedOpenItemsStorageIdRef = useRef<string | undefined>(undefined)
   const skipOpenItemsPersistRef = useRef(false)
   const [internalActiveSection, setInternalActiveSection] = useState(
     () =>
       defaultActiveSection ??
       dataSections?.find((section) => section.active)?.id ??
-      initialSelection?.sectionId
+      initialState.sectionId
   )
   const [internalSelectedItem, setInternalSelectedItem] = useState(
-    initialSelectedItem
+    initialState.selectedItem
   )
   const resolvedSelectedItem = selectedItem ?? internalSelectedItem
   const positionedSelectedItemRef = useRef<string>(undefined)
@@ -124,23 +120,25 @@ function SidebarMenuContainer(props: SidebarMenuContainerProps) {
   const [closedSelectionPath, setClosedSelectionPath] = useState<{
     selectedItem?: string
     ids: string[]
-  }>(initialClosedSelectionPath)
+  }>({ selectedItem: selectedItem ?? initialState.selectedItem, ids: [] })
   const closedSelectionAncestorIds =
     closedSelectionPath.selectedItem === resolvedSelectedItem
       ? closedSelectionPath.ids
       : []
   const closedSelectionAncestorIdsKey =
     closedSelectionAncestorIds.join(',')
-  const resolvedOpenItems = Array.from(
-    new Set([
-      ...(openItems ?? internalOpenItems).filter(
-        (id) => !closedSelectionAncestorIds.includes(id)
-      ),
-      ...selectionAncestorIds.filter(
-        (id) => !closedSelectionAncestorIds.includes(id)
-      ),
-    ])
-  )
+  const resolvedOpenItems =
+    openItems ??
+    Array.from(
+      new Set([
+        ...internalOpenItems.filter(
+          (id) => !closedSelectionAncestorIds.includes(id)
+        ),
+        ...selectionAncestorIds.filter(
+          (id) => !closedSelectionAncestorIds.includes(id)
+        ),
+      ])
+    )
   const resolvedOpenItemsKey = resolvedOpenItems.join(',')
 
   useEffect(() => {
@@ -168,10 +166,10 @@ function SidebarMenuContainer(props: SidebarMenuContainerProps) {
 
   useLayoutEffect(() => {
     if (openItems !== undefined) {
-      return
+      return undefined
     }
     if (loadedOpenItemsStorageIdRef.current === openItemsStorageId) {
-      return
+      return undefined
     }
 
     const storedOpenState = readStoredOpenState({
@@ -188,6 +186,9 @@ function SidebarMenuContainer(props: SidebarMenuContainerProps) {
       selectedItem: storedOpenState.selectedItem ?? resolvedSelectedItem,
       ids: storedOpenState.closedItems,
     })
+    const frame = requestAnimationFrame(() => setAnimate(true))
+
+    return () => cancelAnimationFrame(frame)
   }, [
     defaultOpenItemsKey,
     openItems,
@@ -247,10 +248,14 @@ function SidebarMenuContainer(props: SidebarMenuContainerProps) {
     }
 
     const persistPosition = () => {
-      storage?.setItem(
-        scrollPositionStorageKey,
-        String(scrollView.scrollTop)
-      )
+      try {
+        storage?.setItem(
+          scrollPositionStorageKey,
+          String(scrollView.scrollTop)
+        )
+      } catch {
+        // Storage can be unavailable even after it was resolved.
+      }
     }
 
     scrollView.addEventListener('scroll', persistPosition, {
@@ -342,6 +347,8 @@ function SidebarMenuContainer(props: SidebarMenuContainerProps) {
 
       const isInitialPosition =
         positionedSelectedItemRef.current === undefined
+      const scrollBehavior =
+        isInitialPosition || prefersReducedMotion() ? 'auto' : 'smooth'
       positionedSelectedItemRef.current = resolvedSelectedItem
 
       const scrollView = target.closest<HTMLElement>('.dnb-scroll-view')
@@ -363,7 +370,7 @@ function SidebarMenuContainer(props: SidebarMenuContainerProps) {
           boundary.top -
           (boundary.height - targetRect.height) / 2
 
-        if (isInitialPosition) {
+        if (scrollBehavior === 'auto') {
           scrollInstantly(scrollView, top)
         } else {
           scrollView.scrollTo({ top, behavior: 'smooth' })
@@ -381,17 +388,18 @@ function SidebarMenuContainer(props: SidebarMenuContainerProps) {
         targetRect.bottom > boundary.bottom
       ) {
         const scrollingElement = document.documentElement
-        const scrollBehavior = scrollingElement.style.scrollBehavior
-        if (isInitialPosition) {
+        const originalScrollBehavior =
+          scrollingElement.style.scrollBehavior
+        if (scrollBehavior === 'auto') {
           scrollingElement.style.scrollBehavior = 'auto'
         }
         target.scrollIntoView({
           block: 'center',
           inline: 'nearest',
-          behavior: isInitialPosition ? 'auto' : 'smooth',
+          behavior: scrollBehavior,
         })
-        if (isInitialPosition) {
-          scrollingElement.style.scrollBehavior = scrollBehavior
+        if (scrollBehavior === 'auto') {
+          scrollingElement.style.scrollBehavior = originalScrollBehavior
         }
       }
     }
@@ -410,7 +418,7 @@ function SidebarMenuContainer(props: SidebarMenuContainerProps) {
 
   const toggleItem = useCallback(
     (id: string, nextOpen: boolean) => {
-      if (selectionAncestorIds.includes(id)) {
+      if (openItems === undefined && selectionAncestorIds.includes(id)) {
         setClosedSelectionPath((current) => {
           const ids =
             current.selectedItem === resolvedSelectedItem
@@ -479,11 +487,13 @@ function SidebarMenuContainer(props: SidebarMenuContainerProps) {
         }
         onSelectedItemChange?.(itemId)
       },
-      untilFound: !disableUntilFound,
+      openOnFind,
+      animate,
     }),
     [
       onSelectedItemChange,
-      disableUntilFound,
+      openOnFind,
+      animate,
       openItems,
       resolvedOpenItems,
       resolvedSelectedItem,
@@ -843,7 +853,18 @@ function writeStoredOpenState({
       } satisfies StoredOpenState)
     : openItems
 
-  getStorage(storage)?.setItem(key, JSON.stringify(value))
+  try {
+    getStorage(storage)?.setItem(key, JSON.stringify(value))
+  } catch {
+    // Storage can be unavailable even after it was resolved.
+  }
+}
+
+function prefersReducedMotion() {
+  return (
+    typeof window !== 'undefined' &&
+    window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
+  )
 }
 
 function isStringArray(value: unknown): value is string[] {

@@ -78,7 +78,7 @@ export type SidebarMenuContainerProps = {
    * Top-level switchable sections and their recursive items.
    */
   sections?: SidebarMenuSectionData[]
-  /** Controlled array of open accordion ids. */
+  /** Controlled array of open accordion ids. Selected ancestors are only opened automatically when this property is not provided. */
   openItems?: string[]
   /**
    * Accordion ids that are initially open.
@@ -105,10 +105,10 @@ export type SidebarMenuContainerProps = {
    */
   scrollSelectedItemIntoView?: boolean
   /**
-   * Disables keeping collapsed accordion content searchable with the browser's find-in-page functionality.
-   * Default: `false`
+   * Keeps collapsed accordion content searchable and opens it when matched by the browser's find-in-page functionality.
+   * Default: `true`
    */
-  disableUntilFound?: boolean
+  openOnFind?: boolean
   /**
    * Called whenever an accordion opens or closes with all open accordion ids.
    */
@@ -173,7 +173,7 @@ export type SidebarMenuItemProps = {
    */
   active?: boolean
   onClick?: MouseEventHandler<HTMLElement>
-} & Omit<HTMLAttributes<HTMLElement>, 'title' | 'onClick' | 'children'>
+} & Omit<HTMLAttributes<HTMLElement>, 'onClick' | 'children'>
 
 export type SidebarMenuAccordionProps = {
   /**
@@ -273,6 +273,8 @@ export type SidebarMenuGroupProps = {
 export type SidebarMenuHeaderProps = {
   children?: ReactNode
   text?: ReactNode
+  /** Semantic heading level. Default: `2` */
+  headingLevel?: number
 } & Omit<HTMLAttributes<HTMLLIElement>, 'title' | 'children'>
 
 export type SidebarMenuDividerProps = HTMLAttributes<HTMLLIElement>

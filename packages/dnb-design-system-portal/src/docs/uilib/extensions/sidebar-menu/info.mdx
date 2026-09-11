@@ -29,7 +29,7 @@ Compose a menu declaratively with `SidebarMenu.Container`, `SidebarMenu.Item`, `
 
 Accordion groups support deep nesting, but keep the hierarchy as shallow as possible. Use `SidebarMenu.Group` for a titled category whose items should always remain visible, or set `collapsible={false}` on an accordion. Groups can optionally navigate using `href` or `to`; in the data API, use `type: 'group'`.
 
-Set `dividerBefore: true` on a data item to render a separator, or place `SidebarMenu.Divider` between declarative items. Set `disableUntilFound` on the container when collapsed content should not use `hidden="until-found"`.
+Set `dividerBefore: true` on a data item to render a separator, or place `SidebarMenu.Divider` between declarative items. Set `openOnFind={false}` on the container when collapsed content should not use `hidden="until-found"`.
 
 When an accordion also represents a page, provide `href` or `to`. The accordion becomes a navigation link that also controls expansion.
 
