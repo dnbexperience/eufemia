@@ -1,0 +1,9 @@
+.cardItemStyle {
+  @media screen and (min-width: 40em) {
+    flex-basis: calc(50% - 1rem);
+  }
+
+  @media screen and (min-width: 60em) {
+    flex-basis: calc(33.333333% - 1rem);
+  }
+}

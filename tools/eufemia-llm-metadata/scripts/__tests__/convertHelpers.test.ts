@@ -1024,6 +1024,35 @@ describe('convertMdxToMd', () => {
     expect(output).not.toContain('Card.List')
   })
 
+  it('renders the portal Home as navigation links', async () => {
+    const tmpRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'mdx-home-'))
+    const docsRoot = path.join(tmpRoot, 'docs')
+    fs.mkdirSync(docsRoot, { recursive: true })
+
+    fs.writeFileSync(
+      path.join(docsRoot, 'index.mdx'),
+      [
+        "import Home from 'dnb-design-system-portal/src/shared/home/Home'",
+        '',
+        '<Home />',
+      ].join('\n')
+    )
+    const output = await convertMdxToMd({
+      inputPath: path.join(docsRoot, 'index.mdx'),
+      docsRoot,
+      docsBaseRoot: docsRoot,
+      prettierConfig: {},
+      includeFrontmatter: false,
+      state: { mdxCache: new Map(), inProgress: new Set() },
+    })
+
+    expect(output).toContain(
+      '- [Develop](/uilib/getting-started) – Get started with installation guides'
+    )
+    expect(output).toContain('## Resources')
+    expect(output).not.toContain('<Home')
+  })
+
   it('renders RelatedComponents into a related markdown list', async () => {
     const tmpRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'mdx-related-'))
     const docsRoot = path.join(tmpRoot, 'docs')
