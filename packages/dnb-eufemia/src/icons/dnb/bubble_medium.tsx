@@ -15,7 +15,7 @@ const bubble_medium = (props?: IconSVGProps) => (
       strokeLinecap="round"
       strokeLinejoin="round"
       strokeWidth={1.5}
-      d="M12.75.75a10.485 10.485 0 0 0-8.916 16.025L.75 23.25l6.474-3.083A10.5 10.5 0 1 0 12.75.75v0Z"
+      d="M12.75.75a10.485 10.485 0 0 0-8.916 16.025L.75 23.25l6.474-3.083A10.5 10.5 0 1 0 12.75.75"
     />
   </svg>
 )

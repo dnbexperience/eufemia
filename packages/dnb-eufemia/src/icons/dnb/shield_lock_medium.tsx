@@ -15,7 +15,7 @@ const shield_lock_medium = (props?: IconSVGProps) => (
       strokeLinecap="round"
       strokeLinejoin="round"
       strokeWidth={1.5}
-      d="M3 4.91v6.979c0 4.516 2.781 8.566 6.996 10.187l.954.366a2.75 2.75 0 0 0 1.975 0l.954-.366a10.915 10.915 0 0 0 6.996-10.187v-6.98a1.363 1.363 0 0 0-.796-1.248A19.892 19.892 0 0 0 11.937 2c-2.8-.026-5.574.54-8.141 1.66-.488.223-.8.712-.796 1.248Z"
+      d="M3 4.91v6.979c0 4.516 2.781 8.566 6.996 10.187l.954.366a2.75 2.75 0 0 0 1.975 0l.954-.366a10.915 10.915 0 0 0 6.996-10.187v-6.98a1.36 1.36 0 0 0-.796-1.248A19.9 19.9 0 0 0 11.937 2c-2.8-.026-5.574.54-8.141 1.66-.488.223-.8.712-.796 1.248"
       clipRule="evenodd"
     />
     <path
@@ -23,7 +23,7 @@ const shield_lock_medium = (props?: IconSVGProps) => (
       strokeLinecap="round"
       strokeLinejoin="round"
       strokeWidth={1.5}
-      d="M7.813 11.75a1.5 1.5 0 0 1 1.5-1.5h5.25a1.5 1.5 0 0 1 1.5 1.5v3.876a1.5 1.5 0 0 1-1.5 1.5h-5.25a1.5 1.5 0 0 1-1.5-1.5V11.75Z"
+      d="M7.813 11.75a1.5 1.5 0 0 1 1.5-1.5h5.25a1.5 1.5 0 0 1 1.5 1.5v3.876a1.5 1.5 0 0 1-1.5 1.5h-5.25a1.5 1.5 0 0 1-1.5-1.5z"
       clipRule="evenodd"
     />
     <path
@@ -31,7 +31,7 @@ const shield_lock_medium = (props?: IconSVGProps) => (
       strokeLinecap="round"
       strokeLinejoin="round"
       strokeWidth={1.5}
-      d="M11.938 6.126a2.75 2.75 0 0 0-2.75 2.75v1.375h5.5V8.876a2.75 2.75 0 0 0-2.75-2.75Z"
+      d="M11.938 6.126a2.75 2.75 0 0 0-2.75 2.75v1.375h5.5V8.876a2.75 2.75 0 0 0-2.75-2.75"
       clipRule="evenodd"
     />
   </svg>

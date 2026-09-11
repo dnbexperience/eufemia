@@ -15,7 +15,7 @@ const trash = (props?: IconSVGProps) => (
       strokeLinecap="round"
       strokeLinejoin="round"
       strokeWidth={1.5}
-      d="M9.5 11.5v-5m-3 5v-5M1 3h14m-2.423 11.083a1 1 0 0 1-.997.917H4.42a1 1 0 0 1-.996-.917L2.5 3h11l-.923 11.083ZM9.5 1h-3a1 1 0 0 0-1 1v1h5V2a1 1 0 0 0-1-1Z"
+      d="M9.5 11.5v-5m-3 5v-5M1 3h14m-2.423 11.083a1 1 0 0 1-.997.917H4.42a1 1 0 0 1-.996-.917L2.5 3h11zM9.5 1h-3a1 1 0 0 0-1 1v1h5V2a1 1 0 0 0-1-1"
     />
   </svg>
 )
