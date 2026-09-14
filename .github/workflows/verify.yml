@@ -71,6 +71,7 @@ jobs:
         run: |
           yarn workspace @dnb/eufemia lint:ci
           yarn workspace @dnb/eufemia-mcp-legacy-proxy lint
+          yarn workspace eufemia-mcp-lambda lint
           yarn workspace eufemia-raiwork-plugin lint
           yarn workspace eufemia-analytics lint
 
@@ -144,6 +145,7 @@ jobs:
           yarn workspace eufemia-llm-metadata test:types
           yarn workspace eufemia-raiwork-plugin test:types
           yarn workspace @dnb/eufemia-mcp-legacy-proxy typecheck
+          yarn workspace eufemia-mcp-lambda typecheck
           yarn workspace eufemia-analytics test:types
 
   test:
@@ -172,6 +174,11 @@ jobs:
           cache-version: ${{ secrets.CACHE_VERSION }}
 
       - name: Run tests
+        # Every workspace with unit tests runs here — keep this list complete
+        # when adding one. No other workflow runs them on a pull request, so a
+        # workspace missing from this list has its tests first execute at
+        # release or deploy time.
+        #
         # dnb-eufemia runs only the unit tests affected by the branch's changes
         # (full suite on protected branches, or when shared test infra changes).
         env:
@@ -184,7 +191,9 @@ jobs:
           yarn workspace eufemia-llm-metadata test
           yarn workspace eufemia-raiwork-plugin test
           yarn workspace @dnb/eufemia-mcp-legacy-proxy test
+          yarn workspace eufemia-mcp-lambda test
           yarn workspace eufemia-analytics test
+          yarn workspace repo-utils test:ci
 
   deps:
     name: Run dependency checks
