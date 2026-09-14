@@ -580,6 +580,11 @@ describe('portal SidebarMenu data', () => {
               "text": "Layout & spacing",
               "to": "uilib/layout",
             },
+            {
+              "id": "helpers",
+              "text": "Helpers",
+              "to": "uilib/helpers",
+            },
           ],
           "text": "Foundations",
         },
@@ -797,6 +802,7 @@ describe('portal SidebarMenu data', () => {
       'Icons',
       'Theming & brands',
       'Layout & spacing',
+      'Helpers',
     ])
     expect(structured[3].subheadings?.[3].subheadings).toEqual([
       expect.objectContaining({ path: 'icons/details' }),
@@ -990,6 +996,55 @@ describe('portal SidebarMenu data', () => {
         },
       ])
     ).toThrow('Sidebar menu parent not found: missing')
+  })
+
+  it('places Helpers and its children in Foundations', () => {
+    const structured = createUilibSidebarStructure([
+      {
+        id: 'uilib',
+        path: 'uilib',
+        title: 'UI library',
+        sidebarMenu: {
+          root: true,
+          path: 'uilib/foundations-menu',
+          includePageAs: 'UI library',
+          pageParent: 'uilib/about-the-lib',
+        },
+      },
+      {
+        id: 'about',
+        path: 'uilib/about-the-lib',
+        title: 'About',
+        sidebarMenu: { root: true },
+      },
+      {
+        id: 'helpers',
+        path: 'uilib/helpers',
+        title: 'Helpers',
+        sidebarMenu: { parent: 'uilib/foundations-menu' },
+        subheadings: [
+          {
+            id: 'functions',
+            path: 'uilib/helpers/functions',
+            title: 'Functions',
+          },
+        ],
+      },
+    ])
+
+    expect(structured).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          id: 'uilib',
+          subheadings: [
+            expect.objectContaining({
+              id: 'helpers',
+              subheadings: [expect.objectContaining({ id: 'functions' })],
+            }),
+          ],
+        }),
+      ])
+    )
   })
 
   it('selects a root page placed inside a configured group', () => {
