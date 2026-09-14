@@ -1,6 +1,6 @@
 # This workflow runs in the GitHub Enterprise deploy repo.
 # It is triggered when the public GitHub workflow pushes a built
-# lambda.zip + Terraform config to the `deploy` branch.
+# Lambda artifacts + Terraform config to the `deploy` branch.
 #
 # The public workflow (.github/workflows/mcp-lambda.yml) copies this file
 # to .github/workflows/deploy.yml on the `deploy` branch automatically, so

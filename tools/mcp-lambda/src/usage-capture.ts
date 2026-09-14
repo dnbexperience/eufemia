@@ -1,18 +1,20 @@
+import { SendMessageCommand, SQSClient } from '@aws-sdk/client-sqs'
 import type { APIGatewayProxyEventV2 } from 'aws-lambda'
 import { usageRecordsFromRequestBody } from './records/mcp-usage.js'
-import { storeMcpUsage } from './usage-store.js'
+
+const sqs = new SQSClient({})
+const ENQUEUE_TIMEOUT_MS = 1_000
 
 /**
- * Record anonymous MCP usage (which tool, plus an allow-listed component or doc
- * path) from the request body. Best-effort and fully isolated: any failure is
- * logged and swallowed so usage capture never affects the MCP response. A no-op
- * when DATA_BUCKET is unset.
+ * Queue anonymous MCP usage (which tool, plus an allow-listed component or doc
+ * path) from the request body. Best-effort and bounded: any failure is logged
+ * and swallowed so usage capture cannot consume the Lambda's full timeout.
  */
 export async function captureUsage(
   event: APIGatewayProxyEventV2
 ): Promise<void> {
-  const bucket = process.env.DATA_BUCKET
-  if (!bucket || event.body == null) {
+  const queueUrl = process.env.USAGE_QUEUE_URL
+  if (!queueUrl || event.body == null) {
     return
   }
 
@@ -24,9 +26,19 @@ export async function captureUsage(
     const records = usageRecordsFromRequestBody(body, {
       env: process.env.USAGE_ENV ?? 'unknown',
     })
-    await storeMcpUsage(bucket, records)
+    if (records.length === 0) {
+      return
+    }
+
+    await sqs.send(
+      new SendMessageCommand({
+        QueueUrl: queueUrl,
+        MessageBody: JSON.stringify(records),
+      }),
+      { abortSignal: AbortSignal.timeout(ENQUEUE_TIMEOUT_MS) }
+    )
   } catch (error) {
     // eslint-disable-next-line no-console -- server-side logging to CloudWatch
-    console.error('[eufemia] MCP usage capture failed:', error)
+    console.error('[eufemia] MCP usage enqueue failed:', error)
   }
 }

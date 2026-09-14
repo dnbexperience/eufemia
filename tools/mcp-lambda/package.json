@@ -4,7 +4,7 @@
   "description": "Eufemia MCP server for AWS Lambda",
   "main": "dist/lambda-handler.mjs",
   "scripts": {
-    "build": "rm -rf dist && yarn workspace @dnb/eufemia build:docs && esbuild src/transports/lambda-handler.ts --bundle --platform=node --target=node22 --format=esm --outfile=dist/lambda-handler.mjs '--external:@aws-sdk/*' && mkdir -p dist/docs && cp -R ../../packages/dnb-eufemia/build/docs/. dist/docs && cd dist && zip -rq lambda.zip lambda-handler.mjs docs",
+    "build": "rm -rf dist && yarn workspace @dnb/eufemia build:docs && esbuild src/transports/lambda-handler.ts --bundle --platform=node --target=node22 --format=esm --outfile=dist/lambda-handler.mjs '--external:@aws-sdk/*' && esbuild src/usage-consumer.ts --bundle --platform=node --target=node22 --format=esm --outfile=dist/usage-consumer.mjs '--external:@aws-sdk/*' && mkdir -p dist/docs && cp -R ../../packages/dnb-eufemia/build/docs/. dist/docs && cd dist && zip -rq lambda.zip lambda-handler.mjs docs && zip -q usage-consumer.zip usage-consumer.mjs",
     "dev": "tsx src/transports/stdio.ts",
     "test": "vitest run",
     "audit:ci": "yarn npm audit --recursive --environment production --severity high",
@@ -16,6 +16,7 @@
   "type": "module",
   "dependencies": {
     "@aws-sdk/client-s3": "3.1075.0",
+    "@aws-sdk/client-sqs": "3.1075.0",
     "@dnb/eufemia": "workspace:*",
     "@modelcontextprotocol/server": "2.0.0"
   },

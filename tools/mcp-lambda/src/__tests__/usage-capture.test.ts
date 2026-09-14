@@ -2,11 +2,11 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 
 const { send } = vi.hoisted(() => ({ send: vi.fn() }))
 
-vi.mock('@aws-sdk/client-s3', () => ({
-  S3Client: class {
+vi.mock('@aws-sdk/client-sqs', () => ({
+  SQSClient: class {
     send = send
   },
-  PutObjectCommand: class {
+  SendMessageCommand: class {
     input: unknown
     constructor(input: unknown) {
       this.input = input
@@ -39,8 +39,8 @@ describe('captureUsage', () => {
 
   beforeEach(() => {
     send.mockReset()
-    send.mockResolvedValue({})
-    process.env.DATA_BUCKET = 'my-bucket'
+    send.mockResolvedValue({ Failed: [] })
+    process.env.USAGE_QUEUE_URL = 'https://sqs.example/usage'
     process.env.USAGE_ENV = 'dev'
     errorSpy = vi
       .spyOn(console, 'error')
@@ -48,25 +48,26 @@ describe('captureUsage', () => {
   })
 
   afterEach(() => {
-    delete process.env.DATA_BUCKET
+    delete process.env.USAGE_QUEUE_URL
     delete process.env.USAGE_ENV
     errorSpy.mockRestore()
   })
 
-  it('writes a usage record for a tools/call request', async () => {
+  it('queues a usage record for a tools/call request', async () => {
     await captureUsage(event())
 
     expect(send).toHaveBeenCalledTimes(1)
 
-    const cmd = send.mock.calls[0]?.[0] as
-      | { input: { Key: string; Body: string } }
+    const command = send.mock.calls[0]?.[0] as
+      | { input: { QueueUrl: string; MessageBody: string } }
       | undefined
-    if (!cmd) {
-      throw new Error('expected a PutObjectCommand')
-    }
-    const input = cmd.input
-    expect(input.Key).toMatch(/^mcp-usage\/dt=\d{4}-\d{2}-\d{2}\//)
-    expect(JSON.parse(input.Body).component).toBe('Button')
+    expect(command?.input.QueueUrl).toBe('https://sqs.example/usage')
+    expect(
+      JSON.parse(command?.input.MessageBody ?? '[]')[0].component
+    ).toBe('Button')
+    expect(send.mock.calls[0]?.[1]?.abortSignal).toBeInstanceOf(
+      AbortSignal
+    )
   })
 
   it('decodes a base64-encoded body', async () => {
@@ -80,14 +81,14 @@ describe('captureUsage', () => {
     expect(send).toHaveBeenCalledTimes(1)
   })
 
-  it('does nothing when DATA_BUCKET is unset', async () => {
-    delete process.env.DATA_BUCKET
+  it('does nothing when USAGE_QUEUE_URL is unset', async () => {
+    delete process.env.USAGE_QUEUE_URL
 
     await expect(captureUsage(event())).resolves.toBeUndefined()
     expect(send).not.toHaveBeenCalled()
   })
 
-  it('writes nothing when the body carries no known tool call', async () => {
+  it('queues nothing when the body carries no known tool call', async () => {
     await captureUsage(
       event({
         body: JSON.stringify({ jsonrpc: '2.0', method: 'initialize' }),
@@ -97,8 +98,8 @@ describe('captureUsage', () => {
     expect(send).not.toHaveBeenCalled()
   })
 
-  it('swallows a storage failure so the MCP response is unaffected', async () => {
-    send.mockRejectedValue(new Error('s3 down'))
+  it('swallows a queue failure so the MCP response is unaffected', async () => {
+    send.mockRejectedValue(new Error('sqs down'))
 
     await expect(captureUsage(event())).resolves.toBeUndefined()
     expect(errorSpy).toHaveBeenCalled()

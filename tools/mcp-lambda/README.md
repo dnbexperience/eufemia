@@ -6,6 +6,7 @@ MCP server that exposes the Eufemia documentation to AI tools, deployed as an AW
 
 ```
 POST /mcp/web → API Gateway HTTP API → Lambda (Node.js 22) → MCP SDK → Docs on disk
+                                                   └→ SQS → consumer Lambda → analytics S3
 ```
 
 The server is stateless and serves both the MCP 2025 and `2026-07-28`
@@ -64,23 +65,23 @@ EUFEMIA_DOCS_ROOT=/path/to/docs yarn dev
 
 ## Scripts
 
-| Script             | Description                                     |
-| ------------------ | ----------------------------------------------- |
-| `yarn dev`         | Run locally via stdio transport                 |
-| `yarn test`        | Run tests                                       |
-| `yarn typecheck`   | Type-check without emitting                     |
-| `yarn build`       | Build docs, bundle handler, create `lambda.zip` |
-| `yarn deploy:plan` | Build and run `terraform plan`                  |
-| `yarn deploy`      | Build and run `terraform apply`                 |
+| Script             | Description                            |
+| ------------------ | -------------------------------------- |
+| `yarn dev`         | Run locally via stdio transport        |
+| `yarn test`        | Run tests                              |
+| `yarn typecheck`   | Type-check without emitting            |
+| `yarn build`       | Build docs and create both Lambda ZIPs |
+| `yarn deploy:plan` | Build and run `terraform plan`         |
+| `yarn deploy`      | Build and run `terraform apply`        |
 
 ## Build
 
 The build script does the following:
 
 1. Builds Eufemia docs (`yarn workspace @dnb/eufemia build:docs`)
-2. Bundles `lambda-handler.ts` with esbuild into a single ESM file
+2. Bundles the MCP and usage-consumer handlers into separate ESM files
 3. Copies the built docs into `dist/docs/`
-4. Zips everything into `dist/lambda.zip`
+4. Creates `dist/lambda.zip` and `dist/usage-consumer.zip`
 
 ```bash
 yarn build
@@ -102,7 +103,7 @@ Terraform state is stored in S3 (`eufemia-mcp-terraform-state`) with the S3 nati
 
 Deployment is a two-stage pipeline that spans public GitHub and GitHub Enterprise:
 
-1. **Build & push** — [`.github/workflows/mcp-lambda.yml`](../../.github/workflows/mcp-lambda.yml) runs on public GitHub. It tests, builds `lambda.zip`, and force-pushes the artifact + `infra/` + the deploy workflow to the `deploy` branch of the GHE repo (`eufemia/eufemia-mcp`). It only pushes when the `GHE_DEPLOY_PAT` secret is set (skips on forks).
+1. **Build & push** — [`.github/workflows/mcp-lambda.yml`](../../.github/workflows/mcp-lambda.yml) runs on public GitHub. It tests, builds both Lambda artifacts, and force-pushes them with `infra/` and the deploy workflow to the `deploy` branch of the GHE repo (`eufemia/eufemia-mcp`). It only pushes when the `GHE_DEPLOY_PAT` secret is set (skips on forks).
 2. **Deploy** — `ghe-deploy-workflow.yml` (shipped as `.github/workflows/deploy.yml` on the GHE `deploy` branch) runs on push to `deploy`. It authenticates to AWS via OIDC and runs `terraform apply`.
 
 The build & push workflow triggers on:
@@ -116,17 +117,23 @@ The build & push workflow triggers on:
 
 Deploy credentials and configuration are provided via repository secrets and variables (managed in the repository settings), not stored in this repo.
 
+The MCP execution role needs `sqs:SendMessage` on the usage queue. The
+pre-created `eufemia-<env>-mcp-usage-consumer-role` needs basic Lambda logging,
+`sqs:ReceiveMessage`/`DeleteMessage`/`GetQueueAttributes` on that queue, and
+`s3:PutObject` on the analytics bucket's `mcp-usage/*` prefix.
+
 ### Infrastructure
 
 Managed via Terraform in `infra/`:
 
-| Resource    | Configuration                                      |
-| ----------- | -------------------------------------------------- |
-| Lambda      | Node.js 22, 512 MB, 30s timeout, 30 max concurrent |
-| API Gateway | HTTP API, `POST /mcp/web` + `GET /healthz`         |
-| Throttling  | 200 burst / 400 requests per second                |
-| CloudWatch  | 30-day log retention                               |
-| Region      | eu-north-1                                         |
+| Resource       | Configuration                                      |
+| -------------- | -------------------------------------------------- |
+| MCP Lambda     | Node.js 22, 512 MB, 30s timeout, 30 max concurrent |
+| Usage pipeline | Encrypted SQS, batched consumer, retry queue + DLQ |
+| API Gateway    | HTTP API, `POST /mcp/web` + `GET /healthz`         |
+| Throttling     | 200 burst / 400 requests per second                |
+| CloudWatch     | 30-day log retention                               |
+| Region         | eu-north-1                                         |
 
 ### Emergency stop
 

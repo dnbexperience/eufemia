@@ -9,6 +9,39 @@ locals {
 
 data "aws_caller_identity" "current" {}
 
+# Usage events leave the request path through SQS. The consumer batches them
+# into S3 objects for Athena, while the dead-letter queue retains messages that
+# still fail after retries.
+resource "aws_sqs_queue" "mcp_usage_dead_letter" {
+  name                      = "${local.function_name}-usage-dlq"
+  message_retention_seconds = 1209600
+  sqs_managed_sse_enabled   = true
+  tags                      = local.tags
+}
+
+resource "aws_sqs_queue" "mcp_usage" {
+  name                       = "${local.function_name}-usage"
+  message_retention_seconds  = 345600
+  visibility_timeout_seconds = 240
+  sqs_managed_sse_enabled    = true
+
+  redrive_policy = jsonencode({
+    deadLetterTargetArn = aws_sqs_queue.mcp_usage_dead_letter.arn
+    maxReceiveCount     = 5
+  })
+
+  tags = local.tags
+}
+
+resource "aws_sqs_queue_redrive_allow_policy" "mcp_usage" {
+  queue_url = aws_sqs_queue.mcp_usage_dead_letter.id
+
+  redrive_allow_policy = jsonencode({
+    redrivePermission = "byQueue"
+    sourceQueueArns   = [aws_sqs_queue.mcp_usage.arn]
+  })
+}
+
 # Lambda function
 resource "aws_lambda_function" "mcp" {
   function_name = local.function_name
@@ -34,11 +67,9 @@ resource "aws_lambda_function" "mcp" {
       # Shared secret for the X-Edge-Auth origin check (injected by Akamai).
       EDGE_AUTH_SECRET = var.edge_auth_secret
 
-      # Anonymous MCP usage capture. The analytics data bucket (same account,
-      # owned by the analytics stack) and the environment label stored on each
-      # record. The bucket name is deterministic, so no cross-stack reference.
-      DATA_BUCKET = "eufemia-${var.environment}-analytics-${data.aws_caller_identity.current.account_id}"
-      USAGE_ENV   = var.environment
+      # Anonymous MCP usage is queued so S3 storage stays off the request path.
+      USAGE_QUEUE_URL = aws_sqs_queue.mcp_usage.url
+      USAGE_ENV       = var.environment
     }
   }
 
@@ -62,6 +93,82 @@ resource "aws_cloudwatch_log_group" "lambda" {
 # and only referenced here.
 data "aws_iam_role" "lambda" {
   name = "${local.function_name}-role"
+}
+
+# The MCP role needs only SendMessage on the source queue. The consumer uses a
+# separate pre-created role with basic logging, SQS read/delete permissions on
+# the source queue, and PutObject on the analytics bucket's mcp-usage/* prefix.
+data "aws_iam_role" "usage_consumer" {
+  name = "${local.function_name}-usage-consumer-role"
+}
+
+resource "aws_cloudwatch_log_group" "usage_consumer" {
+  name              = "/aws/lambda/${local.function_name}-usage-consumer"
+  retention_in_days = 30
+  tags              = local.tags
+}
+
+resource "aws_lambda_function" "usage_consumer" {
+  function_name = "${local.function_name}-usage-consumer"
+  role          = data.aws_iam_role.usage_consumer.arn
+  handler       = "usage-consumer.handler"
+  runtime       = "nodejs22.x"
+  timeout       = 30
+  memory_size   = 256
+
+  reserved_concurrent_executions = 2
+
+  filename         = "${path.module}/../dist/usage-consumer.zip"
+  source_code_hash = filebase64sha256("${path.module}/../dist/usage-consumer.zip")
+
+  environment {
+    variables = {
+      NODE_OPTIONS = "--enable-source-maps"
+      DATA_BUCKET  = "eufemia-${var.environment}-analytics-${data.aws_caller_identity.current.account_id}"
+    }
+  }
+
+  depends_on = [aws_cloudwatch_log_group.usage_consumer]
+  tags       = local.tags
+}
+
+resource "aws_lambda_event_source_mapping" "mcp_usage" {
+  event_source_arn                   = aws_sqs_queue.mcp_usage.arn
+  function_name                      = aws_lambda_function.usage_consumer.arn
+  batch_size                         = 100
+  maximum_batching_window_in_seconds = 60
+
+  scaling_config {
+    maximum_concurrency = 2
+  }
+}
+
+resource "aws_cloudwatch_metric_alarm" "mcp_usage_queue_age" {
+  alarm_name          = "${local.function_name}-usage-queue-age"
+  alarm_description   = "MCP usage messages are not reaching the S3 consumer"
+  namespace           = "AWS/SQS"
+  metric_name         = "ApproximateAgeOfOldestMessage"
+  dimensions          = { QueueName = aws_sqs_queue.mcp_usage.name }
+  statistic           = "Maximum"
+  period              = 300
+  evaluation_periods  = 2
+  threshold           = 600
+  comparison_operator = "GreaterThanOrEqualToThreshold"
+  treat_missing_data  = "notBreaching"
+}
+
+resource "aws_cloudwatch_metric_alarm" "mcp_usage_dead_letter" {
+  alarm_name          = "${local.function_name}-usage-dead-letter"
+  alarm_description   = "MCP usage messages exhausted their storage retries"
+  namespace           = "AWS/SQS"
+  metric_name         = "ApproximateNumberOfMessagesVisible"
+  dimensions          = { QueueName = aws_sqs_queue.mcp_usage_dead_letter.name }
+  statistic           = "Maximum"
+  period              = 300
+  evaluation_periods  = 1
+  threshold           = 1
+  comparison_operator = "GreaterThanOrEqualToThreshold"
+  treat_missing_data  = "notBreaching"
 }
 
 # API Gateway HTTP API

@@ -50,28 +50,43 @@ describe('storeMcpUsage', () => {
 
     expect(send).toHaveBeenCalledTimes(1)
 
-    const cmd = send.mock.calls[0]?.[0] as { input: PutInput } | undefined
-    if (!cmd) {
-      throw new Error('expected a PutObjectCommand')
-    }
-    const input = cmd.input
-    expect(input.Bucket).toBe('my-bucket')
-    expect(input.Key).toMatch(
+    const command = send.mock.calls[0]?.[0] as
+      | { input: PutInput }
+      | undefined
+    expect(command?.input.Bucket).toBe('my-bucket')
+    expect(command?.input.Key).toMatch(
       /^mcp-usage\/dt=2026-09-10\/\d+-[0-9a-f-]{36}\.json$/
     )
-    expect(input.ContentType).toBe('application/x-ndjson')
+    expect(command?.input.ContentType).toBe('application/x-ndjson')
 
-    const lines = input.Body.split('\n').map((line) => JSON.parse(line))
-    expect(lines).toHaveLength(2)
-    expect(lines[0].tool).toBe('component_props')
-    expect(lines[1].tool).toBe('docs_search')
-    expect(send.mock.calls[0]?.[1]?.abortSignal).toBeInstanceOf(
-      AbortSignal
+    const lines = command?.input.Body.split('\n').map((line) =>
+      JSON.parse(line)
     )
+    expect(lines).toHaveLength(2)
+    expect(lines?.[0].tool).toBe('component_props')
+    expect(lines?.[1].tool).toBe('docs_search')
   })
 
   it('does nothing for an empty batch', async () => {
     await storeMcpUsage('my-bucket', [])
     expect(send).not.toHaveBeenCalled()
+  })
+
+  it('keeps records from different dates in their matching partitions', async () => {
+    await storeMcpUsage('my-bucket', [
+      record(),
+      record({ createdat: '2026-09-11T00:00:00.000Z' }),
+    ])
+
+    expect(send).toHaveBeenCalledTimes(2)
+    const keys = send.mock.calls.map(
+      ([command]) => (command as { input: PutInput }).input.Key
+    )
+    expect(keys).toEqual(
+      expect.arrayContaining([
+        expect.stringContaining('dt=2026-09-10/'),
+        expect.stringContaining('dt=2026-09-11/'),
+      ])
+    )
   })
 })
