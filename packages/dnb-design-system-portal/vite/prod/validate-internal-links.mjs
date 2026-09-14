@@ -27,6 +27,14 @@ for (const filePath of outputFiles) {
   renderedPages.push({ url, ...extractPageLinks(html) })
 }
 
+// An empty output would otherwise pass silently, which would turn a mislaid
+// build or a restored artifact into a permanent false green.
+if (renderedPages.length === 0) {
+  throw new Error(
+    `No prerendered pages found in ${outDir}. Build the portal first.`
+  )
+}
+
 const notFoundPath = path.resolve(outDir, '404.html')
 if (fs.existsSync(notFoundPath)) {
   renderedPages.push({
