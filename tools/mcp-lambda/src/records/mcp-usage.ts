@@ -7,6 +7,9 @@
  * Validation is structural (closed character sets, bounded length, no traversal),
  * so nothing incidental in an argument can reach storage. It is not an
  * existence check: an unknown-but-well-formed component name is still recorded.
+ * Component names and doc paths are stored in the form the docs server resolves
+ * them to, so one component or document groups under one key however the caller
+ * spelled it.
  */
 
 /** The stored MCP usage record (one row in the mcp_usage Glue table). */
@@ -57,6 +60,24 @@ const COMPONENT_SEGMENT = /^[A-Za-z][A-Za-z0-9-]*$/
 // An absolute docs path with a restricted character set.
 const PATH_PATTERN = /^\/[A-Za-z0-9/_.-]*$/
 
+/**
+ * Reduce a docs path to the shape the docs server resolves it to: a single
+ * leading slash and no empty, `.` or trailing segments. This mirrors
+ * `normalizeDocsPath` in docs-source.ts, which accepts a path with or without a
+ * leading slash and collapses those segments before reading the file — so
+ * `/uilib/button.md`, `uilib/button.md` and `/uilib/./button.md` all name the
+ * same document and must be stored under one key. Parity with the real
+ * normaliser is pinned by test rather than by importing it, so this module stays
+ * free of dependencies.
+ */
+function canonicalDocsPath(value: string): string {
+  const segments = value
+    .split('/')
+    .filter((segment) => segment !== '' && segment !== '.')
+
+  return segments.length === 0 ? '' : `/${segments.join('/')}`
+}
+
 // Mirror the docs server's normalizeName (trim + lowercase) so the stored value
 // is the form a successful lookup resolves against. Without this, a resolving
 // call for a hyphenated component ("date-picker") would be dropped while a
@@ -85,13 +106,17 @@ function validPath(value: unknown): string {
   }
 
   // Drop any query string or fragment so no incidental data is stored.
-  const path = value.split(/[?#]/)[0] ?? ''
+  const raw = value.split(/[?#]/)[0] ?? ''
 
-  return path.length <= MAX_PATH_LENGTH &&
-    PATH_PATTERN.test(path) &&
-    !path.includes('..')
-    ? path
-    : ''
+  // Bound and reject traversal on the raw value, before collapsing segments, so
+  // canonicalisation cannot mask a `..` the check would otherwise catch.
+  if (raw.length > MAX_PATH_LENGTH || raw.includes('..')) {
+    return ''
+  }
+
+  const path = canonicalDocsPath(raw)
+
+  return PATH_PATTERN.test(path) ? path : ''
 }
 
 type JsonRpcMessage = {

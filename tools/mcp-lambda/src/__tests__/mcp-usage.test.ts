@@ -1,4 +1,5 @@
 import { describe, it, expect } from 'vitest'
+import { normalizeDocsPath } from '@dnb/eufemia/src/mcp/docs-source.js'
 import {
   usageRecordsFromRequestBody,
   KNOWN_TOOLS,
@@ -80,7 +81,50 @@ describe('usageRecordsFromRequestBody', () => {
 
     expect(read?.path).toBe('/uilib/components/button.md')
     expect(read?.component).toBe('')
-    expect(list?.path).toBe('/uilib/components/')
+    expect(list?.path).toBe('/uilib/components')
+  })
+
+  // The docs server accepts a path with or without a leading slash and collapses
+  // empty and `.` segments before reading the file, so all of these name the same
+  // document. Storing them verbatim would drop the relative form entirely and
+  // split the rest across separate rows.
+  it.each([
+    ['/uilib/components/button.md', '/uilib/components/button.md'],
+    ['uilib/components/button.md', '/uilib/components/button.md'],
+    ['/uilib//components/./button.md', '/uilib/components/button.md'],
+    ['/uilib/components/button.md/', '/uilib/components/button.md'],
+    ['//uilib/components/button.md', '/uilib/components/button.md'],
+  ])('stores the path %s as %s', (path, expected) => {
+    const [record] = usageRecordsFromRequestBody(
+      body(toolCall('docs_read', { path })),
+      { env: 'dev', now: NOW }
+    )
+
+    expect(record?.path).toBe(expected)
+  })
+
+  it.each([
+    ['a prefix without a leading slash', 'uilib/components'],
+    ['a prefix with a trailing slash', '/uilib/components/'],
+  ])('stores %s under one key', (_label, prefix) => {
+    const [record] = usageRecordsFromRequestBody(
+      body(toolCall('docs_list', { prefix })),
+      { env: 'dev', now: NOW }
+    )
+
+    expect(record?.path).toBe('/uilib/components')
+  })
+
+  it('stores an empty path when there is nothing to record', () => {
+    const paths = ['', '/', '///', '/./'].map(
+      (path) =>
+        usageRecordsFromRequestBody(
+          body(toolCall('docs_read', { path })),
+          { env: 'dev', now: NOW }
+        )[0]?.path
+    )
+
+    expect(paths).toEqual(['', '', '', ''])
   })
 
   it('records docs_search as the tool only, never the query', () => {
@@ -177,5 +221,24 @@ describe('usageRecordsFromRequestBody', () => {
 
   it('registers exactly the twelve docs-server tools', () => {
     expect(KNOWN_TOOLS.size).toBe(12)
+  })
+
+  // `canonicalDocsPath` reimplements the server's own path normalisation rather
+  // than importing it, so this pins the two together: if `normalizeDocsPath`
+  // changes how it collapses a path, this fails instead of silently splitting
+  // one document across several stored keys.
+  it.each([
+    '/uilib/components/button.md',
+    'uilib/components/button.md',
+    '/uilib//components/./button.md',
+    '/uilib/components/button.md/',
+    '//uilib/components/./button.md//',
+  ])('stores %s exactly as the docs server normalises it', (path) => {
+    const [record] = usageRecordsFromRequestBody(
+      body(toolCall('docs_read', { path })),
+      { env: 'dev', now: NOW }
+    )
+
+    expect(record?.path).toBe(`/${normalizeDocsPath(path)}`)
   })
 })

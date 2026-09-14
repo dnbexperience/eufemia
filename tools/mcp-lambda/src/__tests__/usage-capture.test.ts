@@ -64,7 +64,7 @@ describe('captureUsage', () => {
     expect(command?.input.QueueUrl).toBe('https://sqs.example/usage')
     expect(
       JSON.parse(command?.input.MessageBody ?? '[]')[0].component
-    ).toBe('Button')
+    ).toBe('button')
     expect(send.mock.calls[0]?.[1]?.abortSignal).toBeInstanceOf(
       AbortSignal
     )
