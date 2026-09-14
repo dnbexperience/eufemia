@@ -208,6 +208,7 @@
   justify-content: flex-start;
 
   width: 100%;
+  min-width: 0;
   min-height: calc(100vh - 4rem); /* height of StickyMenuBar */
 
   margin-left: 30vw; /* fallback */
