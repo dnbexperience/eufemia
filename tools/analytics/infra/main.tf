@@ -69,7 +69,9 @@ resource "aws_s3_bucket_lifecycle_configuration" "data" {
 
   # Raw MCP usage events. The trailing slash is load-bearing: it matches only
   # mcp-usage/ and NOT mcp-usage-daily/, so the durable daily rollup is never
-  # expired by this rule.
+  # expired by this rule. These keys are unique (never overwritten), so they
+  # produce no noncurrent versions — the noncurrent cleanup is handled bucket-
+  # wide below.
   rule {
     id     = "expire-mcp-usage-raw"
     status = "Enabled"
@@ -81,9 +83,22 @@ resource "aws_s3_bucket_lifecycle_configuration" "data" {
     expiration {
       days = 395
     }
+  }
+
+  # Bucket-wide noncurrent-version cleanup. Only the overwritten fixed-key
+  # objects (snapshots/dashboard.json, refreshed hourly, and
+  # mcp-usage-daily/<dt>/agg.json, recomputed each run) accumulate old versions
+  # under bucket versioning; the write-once prefixes (mcp-usage/, portal-views/)
+  # never create noncurrent versions, so this is a no-op there. Scoping it to the
+  # whole bucket means new overwritten prefixes are covered automatically.
+  rule {
+    id     = "expire-noncurrent-versions"
+    status = "Enabled"
+
+    filter {}
 
     noncurrent_version_expiration {
-      noncurrent_days = 1
+      noncurrent_days = 7
     }
   }
 }
