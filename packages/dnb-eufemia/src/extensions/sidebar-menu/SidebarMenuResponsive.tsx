@@ -25,10 +25,13 @@ type SidebarMenuResponsiveContextValue = {
   drawerScrollElement: HTMLElement | null
   setDrawerScrollElement: (element: HTMLElement | null) => void
   isHydrated: boolean
+  inlineCollapsed: boolean
   isSmallScreen: boolean
   open: boolean
   setOpen: (open: boolean) => void
   toggle: () => void
+  collapseInline: () => void
+  restoreInline: () => void
   triggerRef: RefObject<HTMLElement | null>
   isSmallScreenRef: RefObject<boolean>
 }
@@ -39,7 +42,14 @@ const ResponsiveContext = createContext<
 
 export type SidebarMenuResponsiveValue = Pick<
   SidebarMenuResponsiveContextValue,
-  'close' | 'isSmallScreen' | 'open' | 'setOpen' | 'toggle'
+  | 'close'
+  | 'collapseInline'
+  | 'inlineCollapsed'
+  | 'isSmallScreen'
+  | 'open'
+  | 'restoreInline'
+  | 'setOpen'
+  | 'toggle'
 >
 
 export type SidebarMenuResponsiveProviderProps = {
@@ -52,6 +62,12 @@ export type SidebarMenuResponsiveProviderProps = {
   defaultOpen?: boolean
   /** Called whenever the responsive Drawer opens or closes. */
   onOpenChange?: (open: boolean) => void
+  /** Controlled desktop inline navigation state. */
+  inlineCollapsed?: boolean
+  /** Initial uncontrolled desktop inline navigation state. */
+  defaultInlineCollapsed?: boolean
+  /** Called whenever the desktop inline navigation collapses or restores. */
+  onInlineCollapsedChange?: (collapsed: boolean) => void
 }
 
 export function SidebarMenuResponsiveProvider({
@@ -60,13 +76,20 @@ export function SidebarMenuResponsiveProvider({
   open,
   defaultOpen = false,
   onOpenChange,
+  inlineCollapsed,
+  defaultInlineCollapsed = false,
+  onInlineCollapsedChange,
 }: SidebarMenuResponsiveProviderProps) {
   const isSmallScreen = useMediaQuery({ when: { max: breakpoint } })
   const [isHydrated, setHydrated] = useState(false)
   const [internalOpen, setInternalOpen] = useState(defaultOpen)
+  const [internalInlineCollapsed, setInternalInlineCollapsed] = useState(
+    defaultInlineCollapsed
+  )
   const isSmallScreenRef = useRef(isSmallScreen)
   const triggerRef = useRef<HTMLElement>(null)
   const onOpenChangeRef = useRef(onOpenChange)
+  const onInlineCollapsedChangeRef = useRef(onInlineCollapsedChange)
   const [drawerScrollElement, setDrawerScrollElementState] =
     useState<HTMLElement | null>(null)
   const setDrawerScrollElement = useCallback(
@@ -74,6 +97,8 @@ export function SidebarMenuResponsiveProvider({
     []
   )
   const resolvedOpen = open ?? internalOpen
+  const resolvedInlineCollapsed =
+    inlineCollapsed ?? internalInlineCollapsed
 
   useIsomorphicLayoutEffect(() => {
     isSmallScreenRef.current = isSmallScreen
@@ -82,6 +107,10 @@ export function SidebarMenuResponsiveProvider({
   useIsomorphicLayoutEffect(() => {
     onOpenChangeRef.current = onOpenChange
   }, [onOpenChange])
+
+  useIsomorphicLayoutEffect(() => {
+    onInlineCollapsedChangeRef.current = onInlineCollapsedChange
+  }, [onInlineCollapsedChange])
 
   useIsomorphicLayoutEffect(() => {
     setHydrated(true)
@@ -97,6 +126,23 @@ export function SidebarMenuResponsiveProvider({
     [open]
   )
   const close = useCallback(() => setOpen(false), [setOpen])
+  const setInlineCollapsed = useCallback(
+    (collapsed: boolean) => {
+      if (inlineCollapsed === undefined) {
+        setInternalInlineCollapsed(collapsed)
+      }
+      onInlineCollapsedChangeRef.current?.(collapsed)
+    },
+    [inlineCollapsed]
+  )
+  const collapseInline = useCallback(
+    () => setInlineCollapsed(true),
+    [setInlineCollapsed]
+  )
+  const restoreInline = useCallback(
+    () => setInlineCollapsed(false),
+    [setInlineCollapsed]
+  )
   const toggle = useCallback(
     () => setOpen(!resolvedOpen),
     [resolvedOpen, setOpen]
@@ -111,25 +157,31 @@ export function SidebarMenuResponsiveProvider({
   const value = useMemo(
     () => ({
       close,
+      collapseInline,
       drawerScrollElement,
       isHydrated,
+      inlineCollapsed: resolvedInlineCollapsed,
       isSmallScreen,
       isSmallScreenRef,
       open: resolvedOpen,
       setOpen,
       setDrawerScrollElement,
       toggle,
+      restoreInline,
       triggerRef,
     }),
     [
       close,
+      collapseInline,
       drawerScrollElement,
       isHydrated,
+      resolvedInlineCollapsed,
       isSmallScreen,
       resolvedOpen,
       setDrawerScrollElement,
       setOpen,
       toggle,
+      restoreInline,
     ]
   )
 
@@ -138,11 +190,38 @@ export function SidebarMenuResponsiveProvider({
 
 export function useSidebarMenuResponsive(): SidebarMenuResponsiveValue {
   const context = useResponsiveContext()
-  const { close, isSmallScreen, open, setOpen, toggle } = context
+  const {
+    close,
+    collapseInline,
+    inlineCollapsed,
+    isSmallScreen,
+    open,
+    restoreInline,
+    setOpen,
+    toggle,
+  } = context
 
   return useMemo(
-    () => ({ close, isSmallScreen, open, setOpen, toggle }),
-    [close, isSmallScreen, open, setOpen, toggle]
+    () => ({
+      close,
+      collapseInline,
+      inlineCollapsed,
+      isSmallScreen,
+      open,
+      restoreInline,
+      setOpen,
+      toggle,
+    }),
+    [
+      close,
+      collapseInline,
+      inlineCollapsed,
+      isSmallScreen,
+      open,
+      restoreInline,
+      setOpen,
+      toggle,
+    ]
   )
 }
 
@@ -166,10 +245,13 @@ export type SidebarMenuResponsiveTriggerProps = Omit<
 > & {
   /** Id of the responsive Drawer controlled by this button. */
   controls?: string
+  /** Id of the desktop inline navigation restored by this button. */
+  inlineControls?: string
 }
 
 export function SidebarMenuResponsiveTrigger({
   controls = 'sidebar-menu-responsive-drawer',
+  inlineControls,
   icon,
   ref,
   variant = 'tertiary',
@@ -177,8 +259,15 @@ export function SidebarMenuResponsiveTrigger({
   onClick,
   ...props
 }: SidebarMenuResponsiveTriggerProps) {
-  const { isHydrated, isSmallScreen, open, toggle, triggerRef } =
-    useResponsiveContext()
+  const {
+    inlineCollapsed,
+    isHydrated,
+    isSmallScreen,
+    open,
+    restoreInline,
+    toggle,
+    triggerRef,
+  } = useResponsiveContext()
   const translation = useTranslation().SidebarMenu
   const combinedRef = useCombinedRef(ref, triggerRef)
 
@@ -191,20 +280,30 @@ export function SidebarMenuResponsiveTrigger({
         props.className
       )}
       data-sidebar-menu-responsive-visible={
-        isHydrated ? String(isSmallScreen) : undefined
+        isHydrated ? String(isSmallScreen || inlineCollapsed) : undefined
       }
       icon={icon ?? hamburger}
       variant={variant}
       title={
         title ?? (open ? translation.closeMenu : translation.openMenu)
       }
-      aria-haspopup="dialog"
-      aria-controls={controls}
-      aria-expanded={open}
+      aria-haspopup={!isHydrated || isSmallScreen ? 'dialog' : undefined}
+      aria-controls={
+        !isHydrated || isSmallScreen
+          ? controls
+          : (inlineControls ?? controls)
+      }
+      aria-expanded={
+        !isHydrated || isSmallScreen ? open : !inlineCollapsed
+      }
       onClick={(event) => {
         onClick?.(event)
         if (!event.event?.defaultPrevented) {
-          toggle()
+          if (isSmallScreen) {
+            toggle()
+          } else {
+            restoreInline()
+          }
         }
       }}
     />
@@ -216,7 +315,8 @@ export function SidebarMenuResponsiveInline({
 }: {
   children: ReactNode
 }) {
-  const { isHydrated, isSmallScreen } = useResponsiveContext()
+  const { inlineCollapsed, isHydrated, isSmallScreen } =
+    useResponsiveContext()
   if (isHydrated && isSmallScreen) {
     return null
   }
@@ -225,8 +325,9 @@ export function SidebarMenuResponsiveInline({
     <div
       className="dnb-sidebar-menu-responsive-inline"
       data-sidebar-menu-responsive-visible={
-        isHydrated ? String(!isSmallScreen) : undefined
+        isHydrated ? String(!isSmallScreen && !inlineCollapsed) : undefined
       }
+      hidden={isHydrated && inlineCollapsed}
     >
       {children}
     </div>

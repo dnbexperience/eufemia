@@ -162,6 +162,37 @@ describe('SidebarMenuResizeHandle', () => {
     expect(handle).toHaveAttribute('aria-valuenow', '336')
   })
 
+  it('collapses after dragging past half the minimum width', () => {
+    const onCollapse = vi.fn()
+    const targetRef = createRef<HTMLElement>()
+    render(
+      <>
+        <aside
+          ref={(element) => {
+            targetRef.current = element
+            if (element) {
+              element.getBoundingClientRect = () =>
+                ({ width: 320 }) as DOMRect
+            }
+          }}
+        />
+        <SidebarMenu.ResizeHandle
+          targetRef={targetRef}
+          onCollapse={onCollapse}
+        />
+      </>
+    )
+    const handle = document.querySelector('button')
+
+    fireEvent.pointerDown(handle, { button: 0, clientX: 320 })
+    fireEvent.pointerMove(window, { clientX: 119 })
+
+    expect(onCollapse).toHaveBeenCalledTimes(1)
+    expect(document.documentElement).not.toHaveClass(
+      'dnb-sidebar-menu-resize-handle--resizing'
+    )
+  })
+
   it('positions itself from the target without a shared root', () => {
     const targetRef = createRef<HTMLElement>()
     const { rerender } = render(

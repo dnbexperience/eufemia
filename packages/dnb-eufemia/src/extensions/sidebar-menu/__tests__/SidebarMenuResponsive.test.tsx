@@ -48,10 +48,63 @@ describe('SidebarMenu responsive parts', () => {
     ).toHaveAttribute('data-sidebar-menu-responsive-visible', 'true')
   })
 
+  it('restores a collapsed inline menu from the desktop trigger', () => {
+    setMedia({ width: '70em' })
+
+    function CollapseButton() {
+      const { collapseInline } = SidebarMenu.useResponsive()
+      return <button onClick={collapseInline}>Collapse</button>
+    }
+
+    render(
+      <SidebarMenu.ResponsiveProvider>
+        <SidebarMenu.ResponsiveTrigger
+          controls="mobile-menu"
+          inlineControls="inline-menu"
+        />
+        <CollapseButton />
+        <SidebarMenu.ResponsiveInline>
+          <nav id="inline-menu">Inline menu</nav>
+        </SidebarMenu.ResponsiveInline>
+      </SidebarMenu.ResponsiveProvider>
+    )
+
+    const trigger = document.querySelector(
+      '.dnb-sidebar-menu-responsive-trigger'
+    ) as HTMLButtonElement
+    fireEvent.click(document.querySelector('button:not(.dnb-button)'))
+
+    expect(
+      document.querySelector('.dnb-sidebar-menu-responsive-inline')
+    ).toHaveAttribute('hidden')
+    expect(trigger).toHaveAttribute(
+      'data-sidebar-menu-responsive-visible',
+      'true'
+    )
+    expect(trigger).toHaveAttribute('aria-controls', 'inline-menu')
+    expect(trigger).not.toHaveAttribute('aria-haspopup')
+    expect(trigger).toHaveAttribute('aria-expanded', 'false')
+
+    fireEvent.click(trigger)
+
+    expect(document.body).toHaveTextContent('Inline menu')
+    expect(
+      document.querySelector('.dnb-sidebar-menu-responsive-inline')
+    ).not.toHaveAttribute('hidden')
+    expect(trigger).toHaveAttribute(
+      'data-sidebar-menu-responsive-visible',
+      'false'
+    )
+    expect(trigger).toHaveAttribute('aria-expanded', 'true')
+  })
+
   it('renders the trigger in server markup', () => {
     const html = renderToString(
       <SidebarMenu.ResponsiveProvider>
-        <SidebarMenu.ResponsiveTrigger />
+        <SidebarMenu.ResponsiveTrigger
+          controls="mobile-menu"
+          inlineControls="inline-menu"
+        />
         <SidebarMenu.ResponsiveInline>
           Inline menu
         </SidebarMenu.ResponsiveInline>
@@ -61,6 +114,9 @@ describe('SidebarMenu responsive parts', () => {
     expect(html).toContain('dnb-sidebar-menu-responsive-trigger')
     expect(html).toContain('dnb-sidebar-menu-responsive-inline')
     expect(html).toContain('aria-label="Åpne meny"')
+    expect(html).toContain('aria-controls="mobile-menu"')
+    expect(html).toContain('aria-haspopup="dialog"')
+    expect(html).not.toContain('aria-controls="inline-menu"')
     expect(html).not.toContain('data-sidebar-menu-responsive-visible')
   })
 

@@ -148,6 +148,16 @@ export const SidebarMenuResizeHandleProperties: PropertiesTableProps = {
     defaultValue: '560',
     status: 'optional',
   },
+  collapseThreshold: {
+    doc: 'Width in pixels at which continued pointer dragging calls onCollapse. Defaults to half of minWidth.',
+    type: 'number',
+    status: 'optional',
+  },
+  onCollapse: {
+    doc: 'Called when pointer dragging reaches collapseThreshold.',
+    type: '() => void',
+    status: 'optional',
+  },
   step: {
     doc: 'Number of pixels added or removed when pressing ArrowRight or ArrowLeft.',
     type: 'number',
@@ -186,12 +196,28 @@ export const SidebarMenuResponsiveProviderProperties: PropertiesTableProps =
       defaultValue: 'false',
       status: 'optional',
     },
+    inlineCollapsed: {
+      doc: 'Controlled desktop inline navigation state.',
+      type: 'boolean',
+      status: 'optional',
+    },
+    defaultInlineCollapsed: {
+      doc: 'Initial uncontrolled desktop inline navigation state.',
+      type: 'boolean',
+      defaultValue: 'false',
+      status: 'optional',
+    },
   }
 
 export const SidebarMenuResponsiveProviderEvents: PropertiesTableProps = {
   onOpenChange: {
     doc: 'Called whenever the responsive Drawer opens or closes.',
     type: '(open: boolean) => void',
+    status: 'optional',
+  },
+  onInlineCollapsedChange: {
+    doc: 'Called whenever the desktop inline navigation collapses or restores.',
+    type: '(collapsed: boolean) => void',
     status: 'optional',
   },
 }
@@ -202,6 +228,11 @@ export const SidebarMenuResponsiveTriggerProperties: PropertiesTableProps =
       doc: 'Id of the responsive Drawer controlled by the trigger.',
       type: 'string',
       defaultValue: '"sidebar-menu-responsive-drawer"',
+      status: 'optional',
+    },
+    inlineControls: {
+      doc: 'Id of the desktop inline navigation restored by the trigger.',
+      type: 'string',
       status: 'optional',
     },
     '[Button properties]': {

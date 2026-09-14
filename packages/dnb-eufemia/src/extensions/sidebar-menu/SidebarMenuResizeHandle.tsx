@@ -25,6 +25,10 @@ export type SidebarMenuResizeHandleProps = Omit<
   minWidth?: number
   /** Largest allowed width in pixels. Default: 560. */
   maxWidth?: number
+  /** Width in pixels at which continued pointer dragging collapses the sidebar. Default: half of minWidth. */
+  collapseThreshold?: number
+  /** Called when pointer dragging reaches collapseThreshold. */
+  onCollapse?: () => void
   /** Keyboard resize step in pixels. Default: 16. */
   step?: number
   /** Keyboard resize step in pixels when Shift is pressed. Default: 48. */
@@ -37,6 +41,8 @@ export default function SidebarMenuResizeHandle({
   scopeSelector,
   minWidth = 240,
   maxWidth = 560,
+  collapseThreshold = minWidth / 2,
+  onCollapse,
   step = 16,
   largeStep = 48,
   className,
@@ -172,7 +178,14 @@ export default function SidebarMenuResizeHandle({
       document.documentElement.classList.add(
         'dnb-sidebar-menu-resize-handle--resizing'
       )
-      setWidth(event.clientX - pointerOffset)
+      const width = event.clientX - pointerOffset
+      if (onCollapse && width <= collapseThreshold) {
+        setWidth(minWidth)
+        cleanup()
+        onCollapse()
+        return
+      }
+      setWidth(width)
     }
     let removeListeners = () => undefined
     const cleanup = () => {
