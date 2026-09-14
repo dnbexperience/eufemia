@@ -183,16 +183,6 @@ async function prerender() {
     force: true,
   })
 
-  // E2E and visual builds intentionally render only selected routes. Validate
-  // the complete output used by previews and releases instead.
-  if (process.env.IS_E2E !== '1' && process.env.IS_VISUAL_TEST !== '1') {
-    console.log('\nValidating internal links...')
-    execSync('node vite/prod/validate-internal-links.mjs', {
-      cwd: portalRoot,
-      stdio: 'inherit',
-    })
-  }
-
   const elapsed = ((Date.now() - startTime) / 1000).toFixed(1)
   console.log(
     `\n✓ Prerendered ${rendered} pages in ${elapsed}s` +
@@ -223,6 +213,18 @@ async function prerender() {
   const fontsDest = path.resolve(outDir, 'fonts')
   fs.cpSync(fontsSource, fontsDest, { recursive: true })
   console.log(`\n✓ Copied fonts to ${fontsDest}`)
+
+  // Runs last so it sees the finished output, including the markdown copies
+  // and fonts written above. E2E and visual builds intentionally render only
+  // selected routes, so only the complete build used by previews and
+  // releases is validated.
+  if (process.env.IS_E2E !== '1' && process.env.IS_VISUAL_TEST !== '1') {
+    console.log('\nValidating internal links...')
+    execSync('node vite/prod/validate-internal-links.mjs', {
+      cwd: portalRoot,
+      stdio: 'inherit',
+    })
+  }
 
   /**
    * Write HTML to the correct path in the output directory.
