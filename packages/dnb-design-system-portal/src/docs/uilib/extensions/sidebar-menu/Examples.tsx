@@ -53,8 +53,6 @@ export function SidebarMenuDeclarative() {
             text="Products"
             badge={3}
             badgeProps={{ label: 'Product groups:' }}
-            href="#products"
-            onClick={(event) => event.preventDefault()}
           >
             <SidebarMenu.Item
               id="accounts"
@@ -184,8 +182,6 @@ export function SidebarMenuData() {
                   text: 'Products',
                   badge: 3,
                   badgeProps: { label: 'Product groups:' },
-                  href: '#data-products',
-                  onClick: (event) => event.preventDefault(),
                   items: [
                     {
                       id: 'data-cards',

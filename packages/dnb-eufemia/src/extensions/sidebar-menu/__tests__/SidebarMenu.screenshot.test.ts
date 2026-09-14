@@ -66,13 +66,13 @@ describe.each(['ui', 'sbanken'])('SidebarMenu for %s', (themeName) => {
     })
   })
 
-  it('matches a focused linked accordion action', async () => {
+  it('matches a focused accordion action', async () => {
     await makeScreenshot({
       selector: '[data-visual-test="sidebar-menu-declarative"]',
       style: { width: '24rem' },
       simulate: 'focus',
       simulateSelector:
-        '[data-visual-test="sidebar-menu-declarative"] [data-sidebar-menu-id="products"] .dnb-sidebar-menu__accordion__link',
+        '[data-visual-test="sidebar-menu-declarative"] [data-sidebar-menu-id="products"] button',
     })
   })
 
@@ -96,13 +96,24 @@ describe.each(['ui', 'sbanken'])('SidebarMenu for %s', (themeName) => {
     })
   })
 
-  it('matches a selected linked accordion with nested content', async () => {
+  it('closes the declarative Products accordion with one click', async () => {
     await makeScreenshot({
       selector: '[data-visual-test="sidebar-menu-declarative"]',
       style: { width: '24rem' },
       simulate: 'click',
       simulateSelector:
-        '[data-visual-test="sidebar-menu-declarative"] a[href="#products"]',
+        '[data-visual-test="sidebar-menu-declarative"] [data-sidebar-menu-id="products"] button',
+      recalculateHeightAfterSimulate: true,
+    })
+  })
+
+  it('closes the data Products accordion with one click', async () => {
+    await makeScreenshot({
+      selector: '[data-visual-test="sidebar-menu-data"]',
+      style: { width: '24rem' },
+      simulate: 'click',
+      simulateSelector:
+        '[data-visual-test="sidebar-menu-data"] [data-sidebar-menu-id="data-products"] button',
       recalculateHeightAfterSimulate: true,
     })
   })
