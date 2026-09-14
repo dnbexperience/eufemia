@@ -144,6 +144,8 @@ jobs:
           restore-keys: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-tsbuildinfo-
 
       - name: Run type checks
+        # Every workspace with a type-check script runs here — keep this list
+        # complete when adding one.
         run: |
           yarn workspace @dnb/eufemia test:types
           yarn workspace dnb-design-system-portal test:types
