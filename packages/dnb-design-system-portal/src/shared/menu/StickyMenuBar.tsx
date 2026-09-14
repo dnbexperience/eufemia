@@ -22,7 +22,7 @@ import FigmaLogo from '../../docs/contribute/assets/figma-logo'
 import { useHasScrolled } from '@dnb/eufemia/src/shared'
 
 export default function StickyMenuBar() {
-  const { open } = SidebarMenu.useResponsive()
+  const { inlineCollapsed, open } = SidebarMenu.useResponsive()
   const hasScrolled = useHasScrolled()
 
   return (
@@ -31,12 +31,16 @@ export default function StickyMenuBar() {
       data-scrolled={hasScrolled ? 'true' : undefined}
     >
       <div className={portalHeaderWrapperStyle}>
-        <span className={leadingStyle}>
+        <span
+          className={leadingStyle}
+          data-inline-collapsed={inlineCollapsed || undefined}
+        >
           <SidebarMenu.ResponsiveTrigger
             id="toggle-sidebar-menu"
             size="default"
             iconSize="default"
             controls="portal-sidebar-menu-drawer"
+            inlineControls="portal-sidebar-menu"
             title={
               open
                 ? 'Hide section content menu'

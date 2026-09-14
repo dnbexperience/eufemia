@@ -355,9 +355,46 @@ test.describe('Sidebar resize', () => {
       }
     })
 
-    await expect(sidebar).toHaveCSS('width', '320px')
+    await expect(sidebar).toHaveCSS('width', '240px')
     expect(overflow.overflowX).toBe('auto')
     expect(overflow.scrollWidth).toBe(overflow.clientWidth)
+  })
+
+  test('should collapse and restore the desktop sidebar', async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1280, height: 900 })
+    await gotoAndWait(page)
+
+    const sidebar = page.locator('#portal-sidebar-menu')
+    const resizeHandle = page.getByRole('separator', {
+      name: 'Endre størrelse på sidemeny',
+    })
+    const trigger = page.locator('#toggle-sidebar-menu')
+
+    await dragSidebarToWidth(page, resizeHandle, 119)
+
+    await expect(sidebar).toBeHidden()
+    await expect(trigger).toBeVisible()
+    await expect(trigger).toHaveAttribute(
+      'aria-controls',
+      'portal-sidebar-menu'
+    )
+    await expect(trigger).not.toHaveAttribute('aria-haspopup')
+
+    await page.setViewportSize({ width: 600, height: 900 })
+    await expect(trigger).toHaveAttribute(
+      'aria-controls',
+      'portal-sidebar-menu-drawer'
+    )
+    await expect(trigger).toHaveAttribute('aria-haspopup', 'dialog')
+    await page.setViewportSize({ width: 1280, height: 900 })
+
+    await trigger.click()
+
+    await expect(sidebar).toBeVisible()
+    await expect(sidebar).toHaveCSS('width', '240px')
+    await expect(trigger).not.toBeVisible()
   })
 })
 
