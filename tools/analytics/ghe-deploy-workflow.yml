@@ -61,6 +61,27 @@ jobs:
           terraform init -input=false
           terraform apply -auto-approve -input=false
 
+      - name: Seed snapshot
+        # Invoke the generator once so the dashboard has a snapshot immediately
+        # instead of a cold-start gap until the first scheduled run. Also acts as
+        # a smoke test: a generator failure fails the deploy here rather than
+        # surfacing later as a silently unavailable dashboard.
+        run: |
+          set -euo pipefail
+          cd infra
+          FN=$(terraform output -raw snapshot_function_name)
+          RESULT=$(aws lambda invoke \
+            --function-name "$FN" \
+            --cli-binary-format raw-in-base64-out \
+            --payload '{}' \
+            /tmp/snapshot-seed.json)
+          echo "$RESULT"
+          if echo "$RESULT" | grep -q FunctionError; then
+            echo "Snapshot generator returned an error:" >&2
+            cat /tmp/snapshot-seed.json >&2
+            exit 1
+          fi
+
       - name: Publish dashboard
         env:
           ENTRA_CLIENT_ID: ${{ vars.ENTRA_CLIENT_ID }}
