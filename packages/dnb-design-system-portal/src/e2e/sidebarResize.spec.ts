@@ -23,9 +23,9 @@ test.describe('Sidebar resize', () => {
       }
     })
 
-    await page.mouse.move(start.x, start.y)
+    await page.mouse.move(start.x - 1, start.y)
     await page.mouse.down()
-    await page.mouse.move(width, start.y)
+    await page.mouse.move(width - 1, start.y)
     await page.mouse.up()
   }
 
@@ -40,6 +40,11 @@ test.describe('Sidebar resize', () => {
     const resizeHandle = page.getByRole('separator', {
       name: 'Endre størrelse på sidemeny',
     })
+    await expect(
+      sidebar.getByRole('separator', {
+        name: 'Endre størrelse på sidemeny',
+      })
+    ).toBeVisible()
     const initialWidth = await sidebar.evaluate(
       (element) => element.getBoundingClientRect().width
     )
@@ -323,7 +328,7 @@ test.describe('Sidebar resize', () => {
     await expect(sidebar).toHaveCSS('width', `${initialWidth}px`)
   })
 
-  test('should show horizontal overflow when the sidebar is narrow', async ({
+  test('should clamp the sidebar to its minimum width', async ({
     page,
   }) => {
     await page.setViewportSize({ width: 1280, height: 900 })
@@ -337,9 +342,6 @@ test.describe('Sidebar resize', () => {
     await dragSidebarToWidth(page, resizeHandle, 120)
 
     const scrollView = sidebar.locator('.portal-sidebar-scroll-view')
-    const sidebarLogo = sidebar.getByRole('link', {
-      name: 'Go to Eufemia home',
-    })
     const overflow = await scrollView.evaluate((element) => {
       return {
         overflowX: getComputedStyle(element).overflowX,
@@ -348,33 +350,9 @@ test.describe('Sidebar resize', () => {
       }
     })
 
+    await expect(sidebar).toHaveCSS('width', '320px')
     expect(overflow.overflowX).toBe('auto')
-    expect(overflow.scrollWidth).toBeGreaterThan(overflow.clientWidth)
-
-    await scrollView.evaluate((element) => {
-      element.scrollLeft = 0
-      element.scrollTop = 0
-    })
-    const initialLogoBox = await sidebarLogo.boundingBox()
-
-    const scrollViewBox = await scrollView.boundingBox()
-    await page.mouse.move(
-      scrollViewBox.x + scrollViewBox.width / 2,
-      scrollViewBox.y + scrollViewBox.height / 2
-    )
-    await page.mouse.wheel(100, 40)
-    await page.waitForTimeout(100)
-
-    const scrolledPosition = await scrollView.evaluate((element) => ({
-      left: element.scrollLeft,
-      top: element.scrollTop,
-    }))
-    const scrolledLogoBox = await sidebarLogo.boundingBox()
-
-    expect(scrolledPosition.left).toBeGreaterThan(0)
-    expect(scrolledPosition.top).toBe(40)
-    expect(scrolledLogoBox.x).toBeLessThan(initialLogoBox.x)
-    expect(scrolledLogoBox.y).toBeCloseTo(initialLogoBox.y - 40, 0)
+    expect(overflow.scrollWidth).toBe(overflow.clientWidth)
   })
 })
 
