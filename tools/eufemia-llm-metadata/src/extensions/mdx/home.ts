@@ -18,12 +18,14 @@ export function createHomeExtension(): SpecialMdxComponentRenderer {
         '',
         '## Resources',
         '',
-        '- [Images](/uilib/usage/best-practices)',
+        '- [Images](/uilib/elements/image)',
         '- [Animations](/uilib/components/height-animation)',
         '- [Icons](/icons)',
         '- [Theming](/uilib/usage/customisation/theming)',
         '- [Grid](/uilib/layout/grid)',
         '- [Tokens](/uilib/usage/customisation/theming/design-tokens)',
+        '- [Brand](/brand)',
+        "- [What's new](/uilib/changelog)",
       ].join('\n')
 
       return content.replace(/<Home\b[^>]*\/>/g, markdown)

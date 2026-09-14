@@ -1050,6 +1050,9 @@ describe('convertMdxToMd', () => {
       '- [Develop](/uilib/getting-started) – Get started with installation guides'
     )
     expect(output).toContain('## Resources')
+    expect(output).toContain('- [Images](/uilib/elements/image)')
+    expect(output).toContain('- [Brand](/brand)')
+    expect(output).toContain("- [What's new](/uilib/changelog)")
     expect(output).not.toContain('<Home')
   })
 
