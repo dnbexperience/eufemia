@@ -220,6 +220,21 @@ describe('mcp usage section', () => {
       daily: [],
     })
     expect(errorSpy).toHaveBeenCalled()
+
+    const failureMetric = logSpy.mock.calls
+      .map((call: unknown[]) => call[0])
+      .map((line: unknown) => {
+        try {
+          return JSON.parse(line as string) as Record<string, unknown>
+        } catch {
+          return null
+        }
+      })
+      .find(
+        (entry: Record<string, unknown> | null) =>
+          entry?.McpUsageBuildFailure === 1
+      )
+    expect(failureMetric).toBeDefined()
   })
 })
 

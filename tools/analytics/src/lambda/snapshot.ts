@@ -52,6 +52,34 @@ function emitRecordCountMetric(count: number): void {
   )
 }
 
+/**
+ * Emit an MCP-build failure as an EMF metric. A caught buildMcpUsage error does
+ * not increment Lambda Errors and SnapshotRecordCount tracks portal views only,
+ * so without this a broken MCP section would be invisible to monitoring. Kept in
+ * sync with the `snapshot_mcp_build_failed` alarm in infra/main.tf.
+ */
+function emitMcpBuildFailureMetric(): void {
+  const functionName = process.env.AWS_LAMBDA_FUNCTION_NAME ?? 'unknown'
+
+  // eslint-disable-next-line no-console -- EMF metric emission to CloudWatch Logs
+  console.log(
+    JSON.stringify({
+      _aws: {
+        Timestamp: Date.now(),
+        CloudWatchMetrics: [
+          {
+            Namespace: METRIC_NAMESPACE,
+            Dimensions: [['FunctionName']],
+            Metrics: [{ Name: 'McpUsageBuildFailure', Unit: 'Count' }],
+          },
+        ],
+      },
+      FunctionName: functionName,
+      McpUsageBuildFailure: 1,
+    })
+  )
+}
+
 // The number of recent days recomputed into the durable daily rollup on each
 // run. Wider than the hourly cadence so a short generator outage cannot leave a
 // day permanently un-aggregated (raw rows live far longer, so re-runs backfill).
@@ -141,6 +169,7 @@ export async function handler(): Promise<{
   } catch (error) {
     // eslint-disable-next-line no-console -- surface the failure in CloudWatch Logs
     console.error('Failed to build MCP usage section', error)
+    emitMcpBuildFailureMetric()
     mcpUsage = EMPTY_MCP_USAGE
   }
 
