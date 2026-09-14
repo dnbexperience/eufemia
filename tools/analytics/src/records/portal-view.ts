@@ -20,7 +20,14 @@ const PORTAL_VIEW_STATUSES: readonly PortalViewStatus[] = [
   'error',
 ]
 
-/** The component language the page was viewed in. */
+/**
+ * The component language the page was viewed in.
+ *
+ * Keep in sync with the portal's supported locales (`supportedTranslationsKey`
+ * in packages/dnb-design-system-portal/src/core/portalRuntimeUtils.ts), which
+ * gates what the client sends. If that set grows without this one, the new
+ * value passes the client but is rejected here, dropping the whole beacon batch.
+ */
 export type PortalViewLocale =
   | 'nb-NO'
   | 'en-GB'
@@ -36,7 +43,13 @@ const PORTAL_VIEW_LOCALES: readonly PortalViewLocale[] = [
   'en-US',
 ]
 
-/** The theme (brand) the page was viewed in. */
+/**
+ * The theme (brand) the page was viewed in.
+ *
+ * Keep in sync with the portal's theme brands (`availableThemes` in
+ * packages/dnb-design-system-portal/vite/client/shims/theme-handler.ts). A brand
+ * the client sends but this omits is rejected here, dropping the whole batch.
+ */
 export type PortalViewTheme = 'ui' | 'sbanken' | 'eiendom' | 'carnegie'
 
 const PORTAL_VIEW_THEMES: readonly PortalViewTheme[] = [

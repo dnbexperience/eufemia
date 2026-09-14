@@ -39,6 +39,12 @@ function analyticsEnv(): string {
 // The active component language and theme (brand) when the page was viewed —
 // dimensions of the view, read fresh per call from the portal's existing
 // preferences (never written) so the stored value matches what the user saw.
+//
+// The emitted locale/theme/colorScheme must stay within the collector's
+// allow-lists (PORTAL_VIEW_LOCALES / PORTAL_VIEW_THEMES / PORTAL_VIEW_COLOR_SCHEMES
+// in tools/analytics/src/records/portal-view.ts); a value it does not accept
+// rejects the whole beacon batch. Only supported values are emitted below, so
+// this holds today — keep the two sides in sync if either set changes.
 
 function analyticsLocale(): string {
   try {
