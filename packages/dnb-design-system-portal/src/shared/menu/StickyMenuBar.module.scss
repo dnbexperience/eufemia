@@ -106,6 +106,12 @@
 .leadingStyle {
   display: none;
 
+  &[data-inline-collapsed='true'] {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
   @include utilities.allBelow(medium) {
     position: relative;
     isolation: isolate;
