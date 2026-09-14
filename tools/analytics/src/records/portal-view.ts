@@ -75,7 +75,7 @@ export type PortalViewInput = {
   status?: PortalViewStatus
   locale?: PortalViewLocale
   theme?: PortalViewTheme
-  colorScheme?: PortalViewColorScheme
+  color_scheme?: PortalViewColorScheme
 }
 
 /** The stored portal-view record (one row in the portal_views Glue table). */
@@ -86,7 +86,7 @@ export type PortalViewRecord = {
   status: PortalViewStatus
   locale: string
   theme: string
-  colorScheme: string
+  color_scheme: string
   createdat: string
 }
 
@@ -198,8 +198,15 @@ export function validatePortalViews(
       return
     }
 
-    const { path, timestamp, env, status, locale, theme, colorScheme } =
-      event as Record<string, unknown>
+    const {
+      path,
+      timestamp,
+      env,
+      status,
+      locale,
+      theme,
+      color_scheme: colorScheme,
+    } = event as Record<string, unknown>
     let valid = true
 
     if (typeof path !== 'string' || !path.startsWith('/')) {
@@ -282,7 +289,7 @@ export function validatePortalViews(
         )
       ) {
         errors.push(
-          `Event ${index}: "colorScheme" must be one of ${PORTAL_VIEW_COLOR_SCHEMES.join(
+          `Event ${index}: "color_scheme" must be one of ${PORTAL_VIEW_COLOR_SCHEMES.join(
             ', '
           )}`
         )
@@ -305,7 +312,7 @@ export function validatePortalViews(
           ? { theme: theme as PortalViewTheme }
           : {}),
         ...(typeof colorScheme === 'string'
-          ? { colorScheme: colorScheme as PortalViewColorScheme }
+          ? { color_scheme: colorScheme as PortalViewColorScheme }
           : {}),
       })
     }
@@ -334,7 +341,7 @@ export function buildPortalViewRecord(
     status: input.status ?? 'ok',
     locale: input.locale ?? 'unknown',
     theme: input.theme ?? 'unknown',
-    colorScheme: input.colorScheme ?? 'unknown',
+    color_scheme: input.color_scheme ?? 'unknown',
     createdat: createdAt,
   }
 }

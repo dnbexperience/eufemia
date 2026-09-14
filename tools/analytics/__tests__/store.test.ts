@@ -103,15 +103,15 @@ describe('storePortalViews', () => {
 
   it('stores the color scheme, defaulting to "unknown" when absent', async () => {
     await storePortalViews([
-      { path: '/a', colorScheme: 'dark' },
+      { path: '/a', color_scheme: 'dark' },
       { path: '/b' },
     ])
 
     const input = send.mock.calls[0][0].input as PutInput
     const lines = input.Body.split('\n').map((line) => JSON.parse(line))
 
-    expect(lines[0].colorScheme).toBe('dark')
-    expect(lines[1].colorScheme).toBe('unknown')
+    expect(lines[0].color_scheme).toBe('dark')
+    expect(lines[1].color_scheme).toBe('unknown')
   })
 
   it('never stores identifiers or personal data', async () => {
@@ -122,7 +122,7 @@ describe('storePortalViews', () => {
 
     expect(line).not.toHaveProperty('id')
     expect(Object.keys(line).sort()).toEqual([
-      'colorScheme',
+      'color_scheme',
       'createdat',
       'env',
       'locale',

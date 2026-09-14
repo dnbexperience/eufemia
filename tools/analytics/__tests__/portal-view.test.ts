@@ -160,20 +160,26 @@ describe('validatePortalViews', () => {
     }
   })
 
-  it('accepts a valid colorScheme', () => {
-    for (const colorScheme of ['light', 'dark']) {
-      const result = validatePortalViews({ path: '/a', colorScheme })
+  it('accepts a valid color_scheme', () => {
+    for (const scheme of ['light', 'dark']) {
+      const result = validatePortalViews({
+        path: '/a',
+        color_scheme: scheme,
+      })
 
       expect(result).toEqual({
         ok: true,
-        value: [{ path: '/a', colorScheme }],
+        value: [{ path: '/a', color_scheme: scheme }],
       })
     }
   })
 
-  it('rejects an invalid colorScheme', () => {
-    for (const colorScheme of ['auto', 'Light', 'dark mode', 42]) {
-      const result = validatePortalViews({ path: '/a', colorScheme })
+  it('rejects an invalid color_scheme', () => {
+    for (const scheme of ['auto', 'Light', 'dark mode', 42]) {
+      const result = validatePortalViews({
+        path: '/a',
+        color_scheme: scheme,
+      })
 
       expect(result.ok).toBe(false)
     }
@@ -215,7 +221,7 @@ describe('buildPortalViewRecord', () => {
       status: 'ok',
       locale: 'unknown',
       theme: 'unknown',
-      colorScheme: 'unknown',
+      color_scheme: 'unknown',
       createdat: createdAt,
     })
   })
@@ -233,7 +239,7 @@ describe('buildPortalViewRecord', () => {
       status: 'ok',
       locale: 'unknown',
       theme: 'unknown',
-      colorScheme: 'unknown',
+      color_scheme: 'unknown',
       createdat: createdAt,
     })
   })
@@ -264,14 +270,16 @@ describe('buildPortalViewRecord', () => {
     ).toMatchObject({ locale: 'sv-SE', theme: 'sbanken' })
   })
 
-  it('defaults colorScheme to "unknown" and keeps a supplied value', () => {
+  it('defaults color_scheme to "unknown" and keeps a supplied value', () => {
     expect(
-      buildPortalViewRecord({ path: '/a' }, createdAt).colorScheme
+      buildPortalViewRecord({ path: '/a' }, createdAt).color_scheme
     ).toBe('unknown')
 
     expect(
-      buildPortalViewRecord({ path: '/a', colorScheme: 'dark' }, createdAt)
-        .colorScheme
+      buildPortalViewRecord(
+        { path: '/a', color_scheme: 'dark' },
+        createdAt
+      ).color_scheme
     ).toBe('dark')
   })
 
@@ -279,7 +287,7 @@ describe('buildPortalViewRecord', () => {
     const record = buildPortalViewRecord({ path: '/a' }, createdAt)
 
     expect(Object.keys(record).sort()).toEqual([
-      'colorScheme',
+      'color_scheme',
       'createdat',
       'env',
       'locale',

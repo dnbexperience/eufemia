@@ -40,7 +40,7 @@ function analyticsEnv(): string {
 // dimensions of the view, read fresh per call from the portal's existing
 // preferences (never written) so the stored value matches what the user saw.
 //
-// The emitted locale/theme/colorScheme must stay within the collector's
+// The emitted locale/theme/color_scheme must stay within the collector's
 // allow-lists (PORTAL_VIEW_LOCALES / PORTAL_VIEW_THEMES / PORTAL_VIEW_COLOR_SCHEMES
 // in tools/analytics/src/records/portal-view.ts); a value it does not accept
 // rejects the whole beacon batch. Only supported values are emitted below, so
@@ -92,7 +92,7 @@ type PageViewEvent = {
   status: PageViewStatus
   locale: string
   theme: string
-  colorScheme: ColorScheme
+  color_scheme: ColorScheme
 }
 
 /**
@@ -192,7 +192,7 @@ export function trackPageView(
       status,
       locale: analyticsLocale(),
       theme: analyticsTheme(),
-      colorScheme: analyticsColorScheme(),
+      color_scheme: analyticsColorScheme(),
     })
 
     if (buffer.length >= MAX_BUFFER) {

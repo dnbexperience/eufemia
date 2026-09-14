@@ -92,7 +92,7 @@ describe('trackPageView', () => {
     )
     expect(payload[0].locale).toBe('nb-NO')
     expect(payload[0].theme).toBe('ui')
-    expect(payload[0].colorScheme).toBe('light')
+    expect(payload[0].color_scheme).toBe('light')
   })
 
   it('records the selected locale and theme', async () => {
@@ -148,7 +148,7 @@ describe('trackPageView', () => {
     const payload = JSON.parse(
       await (beacon.mock.calls[0][1] as Blob).text()
     )
-    expect(payload[0].colorScheme).toBe('dark')
+    expect(payload[0].color_scheme).toBe('dark')
   })
 
   it('resolves an "auto" color scheme via the system setting', async () => {
@@ -168,7 +168,7 @@ describe('trackPageView', () => {
     const payload = JSON.parse(
       await (beacon.mock.calls[0][1] as Blob).text()
     )
-    expect(payload[0].colorScheme).toBe('dark')
+    expect(payload[0].color_scheme).toBe('dark')
   })
 
   it('flushes multiple buffered views in a single beacon', async () => {
