@@ -445,9 +445,11 @@ function LiveCode(props: LiveCodeProps) {
         <LivePreview
           className={clsx('dnb-live-preview')}
           data-visual-test={visualTest}
+          data-link-check="ignore"
         />
       ) : (
         <div
+          data-link-check="ignore"
           className={clsx(
             'example-box',
             exampleBoxStyle,
