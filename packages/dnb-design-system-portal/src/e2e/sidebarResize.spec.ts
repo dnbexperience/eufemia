@@ -138,6 +138,11 @@ test.describe('Sidebar resize', () => {
       `${resizedWidth}px`
     )
 
+    await page.setViewportSize({ width: 600, height: 900 })
+    await expect(sidebar).toHaveCount(0)
+    await page.setViewportSize({ width: 1280, height: 900 })
+    await expect(sidebar).toHaveCSS('width', `${resizedWidth}px`)
+
     await page.reload()
     await waitForApp(page)
 
