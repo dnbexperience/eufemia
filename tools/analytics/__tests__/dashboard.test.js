@@ -10,6 +10,7 @@ import {
   loadDashboardData,
   normalise,
   snapshotMeta,
+  dataErrorMessage,
 } from '../dashboard/app.js'
 
 class MemoryStorage {
@@ -32,7 +33,6 @@ describe('scopes', () => {
   it('returns the base scope when no API scope is configured', () => {
     expect(scopes({})).toBe('openid profile email')
   })
-
   it('appends the API scope when configured', () => {
     expect(scopes({ apiScope: 'api://app-id/Dashboard.Read' })).toBe(
       'openid profile email api://app-id/Dashboard.Read'
@@ -301,5 +301,20 @@ describe('normalise', () => {
     const record = { path: '/a', timestamp: '2026-09-03T10:00:00.000Z' }
 
     expect(normalise(record).day).toBe('2026-09-03')
+  })
+})
+
+describe('dataErrorMessage', () => {
+  it('gives a deploy-aware message for a 503, without the raw status', () => {
+    const message = dataErrorMessage(503)
+
+    expect(message).toMatch(/being prepared/i)
+    expect(message).toMatch(/deploy/i)
+    expect(message).not.toContain('503')
+  })
+
+  it('gives a generic message including the status for other errors', () => {
+    expect(dataErrorMessage(500)).toContain('500')
+    expect(dataErrorMessage(502)).toContain('502')
   })
 })

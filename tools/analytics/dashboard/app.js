@@ -53,6 +53,19 @@ export function snapshotMeta(payload, count) {
 }
 
 /**
+ * User-facing message for a non-ok data API response. A 503 is the expected
+ * just-after-deploy state (the snapshot is not generated yet), so it gets
+ * softer, actionable copy; other statuses keep the generic error text.
+ */
+export function dataErrorMessage(status) {
+  if (status === 503) {
+    return 'The dashboard data is being prepared — this can happen right after a deploy. Please refresh in a moment. If it persists, contact the dashboard owner.'
+  }
+
+  return `The data API returned an error (${status}). Please try again later, or contact the dashboard owner if it persists.`
+}
+
+/**
  * Fetch dashboard records from the protected API. Returns a discriminated
  * result so the caller owns DOM and navigation; this function only manages the
  * sign-in retry marker:
@@ -278,9 +291,7 @@ async function main() {
   }
 
   if (result.kind === 'error') {
-    showError(
-      `The data API returned an error (${result.status}). Please try again later, or contact the dashboard owner if it persists.`
-    )
+    showError(dataErrorMessage(result.status))
 
     return
   }
