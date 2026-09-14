@@ -65,6 +65,9 @@ describe('storeMcpUsage', () => {
     expect(lines).toHaveLength(2)
     expect(lines[0].tool).toBe('component_props')
     expect(lines[1].tool).toBe('docs_search')
+    expect(send.mock.calls[0]?.[1]?.abortSignal).toBeInstanceOf(
+      AbortSignal
+    )
   })
 
   it('does nothing for an empty batch', async () => {

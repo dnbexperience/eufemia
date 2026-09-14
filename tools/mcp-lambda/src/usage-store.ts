@@ -3,6 +3,7 @@ import { randomUUID } from 'node:crypto'
 import type { McpUsageRecord } from './records/mcp-usage.js'
 
 const s3 = new S3Client({})
+const STORE_TIMEOUT_MS = 1_000
 
 /**
  * Write anonymous MCP usage records to S3 as newline-delimited JSON under the
@@ -29,6 +30,7 @@ export async function storeMcpUsage(
       Key: key,
       Body: body,
       ContentType: 'application/x-ndjson',
-    })
+    }),
+    { abortSignal: AbortSignal.timeout(STORE_TIMEOUT_MS) }
   )
 }

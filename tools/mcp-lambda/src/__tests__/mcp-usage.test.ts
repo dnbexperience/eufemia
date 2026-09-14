@@ -74,6 +74,15 @@ describe('usageRecordsFromRequestBody', () => {
     expect(JSON.stringify(record)).not.toContain('DatePicker')
   })
 
+  it('captures the Portal content workflow tool', () => {
+    const [record] = usageRecordsFromRequestBody(
+      body(toolCall('portal_content_workflow')),
+      { env: 'dev', now: NOW }
+    )
+
+    expect(record?.tool).toBe('portal_content_workflow')
+  })
+
   it('drops a component argument that is not a well-formed name', () => {
     const [record] = usageRecordsFromRequestBody(
       body(toolCall('component_props', { name: 'Button; DROP TABLE' })),
@@ -143,7 +152,7 @@ describe('usageRecordsFromRequestBody', () => {
     ])
   })
 
-  it('registers exactly the eleven docs-server tools', () => {
-    expect(KNOWN_TOOLS.size).toBe(11)
+  it('registers exactly the twelve docs-server tools', () => {
+    expect(KNOWN_TOOLS.size).toBe(12)
   })
 })

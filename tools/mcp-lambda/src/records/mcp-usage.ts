@@ -24,6 +24,7 @@ export type McpUsageRecord = {
 export const KNOWN_TOOLS: ReadonlySet<string> = new Set([
   'docs_entry',
   'docs_meta',
+  'portal_content_workflow',
   'review_rules',
   'docs_index',
   'docs_list',
