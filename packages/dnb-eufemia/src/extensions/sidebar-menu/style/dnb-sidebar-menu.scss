@@ -304,11 +304,13 @@
   }
 
   &__header {
-    padding: var(--sidebar-menu-action-padding-block)
-      var(--sidebar-menu-action-padding-inline);
+    padding-block: var(--sidebar-menu-action-padding-block);
+    padding-inline-start: var(--sidebar-menu-action-padding-inline);
 
+    color: var(--token-color-text-neutral-alternative);
     font-size: var(--font-size-small);
     font-weight: var(--font-weight-medium);
+    line-height: var(--line-height-small);
 
     list-style: none;
   }
