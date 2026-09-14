@@ -4,6 +4,7 @@ import {
   retrievePortalViews,
 } from './retrieve.js'
 import {
+  EMPTY_MCP_USAGE,
   requireEnv,
   storeMcpUsageDaily,
   writeSnapshot,
@@ -129,10 +130,24 @@ export async function handler(): Promise<{
 }> {
   const bucket = requireEnv('DATA_BUCKET')
 
+  const portalViews = await retrievePortalViews({ limit: SNAPSHOT_LIMIT })
+
+  // The MCP section is additive; a failure here (e.g. a missing Glue grant or a
+  // slow query) must not discard the portal views that were just fetched. Fall
+  // back to the empty section so the rest of the dashboard keeps updating.
+  let mcpUsage: McpUsageSection
+  try {
+    mcpUsage = await buildMcpUsage(bucket)
+  } catch (error) {
+    // eslint-disable-next-line no-console -- surface the failure in CloudWatch Logs
+    console.error('Failed to build MCP usage section', error)
+    mcpUsage = EMPTY_MCP_USAGE
+  }
+
   const snapshot: Snapshot = {
     generatedAt: new Date().toISOString(),
-    portalViews: await retrievePortalViews({ limit: SNAPSHOT_LIMIT }),
-    mcpUsage: await buildMcpUsage(bucket),
+    portalViews,
+    mcpUsage,
   }
 
   await writeSnapshot(bucket, snapshot)

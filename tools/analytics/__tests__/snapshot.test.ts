@@ -51,6 +51,7 @@ function putCalls() {
 // Silence and capture the EMF metric line the handler logs, so it neither spams
 // test output nor needs a per-suite spy; assertions read logSpy.mock.calls.
 let logSpy: ReturnType<typeof vi.spyOn>
+let errorSpy: ReturnType<typeof vi.spyOn>
 
 beforeEach(() => {
   send.mockReset()
@@ -62,11 +63,13 @@ beforeEach(() => {
   retrieveMcpUsageDaily.mockResolvedValue([])
   process.env.DATA_BUCKET = 'my-bucket'
   logSpy = vi.spyOn(console, 'log').mockImplementation(() => undefined)
+  errorSpy = vi.spyOn(console, 'error').mockImplementation(() => undefined)
 })
 
 afterEach(() => {
   delete process.env.DATA_BUCKET
   logSpy.mockRestore()
+  errorSpy.mockRestore()
 })
 
 describe('snapshot generator handler', () => {
@@ -190,6 +193,33 @@ describe('mcp usage section', () => {
     expect((dailyPut![0] as Command).input.Key).toBe(
       'mcp-usage-daily/dt=2026-09-10/agg.json'
     )
+  })
+
+  it('still writes the snapshot with an empty MCP section when the MCP query fails', async () => {
+    const records = [{ path: '/', env: 'prod', timestamp: 't' }]
+    retrievePortalViews.mockResolvedValue(records)
+    retrieveMcpUsageDaily.mockRejectedValue(new Error('glue denied'))
+
+    await handler()
+
+    const snapshotPut = putCalls().find(
+      (call) =>
+        (call[0] as Command).input.Key === 'snapshots/dashboard.json'
+    )
+    expect(snapshotPut).toBeDefined()
+
+    const body = JSON.parse(
+      (snapshotPut![0] as Command).input.Body as string
+    )
+    expect(body.portalViews).toEqual(records)
+    expect(body.mcpUsage).toEqual({
+      total: 0,
+      perTool: [],
+      perComponent: [],
+      perPath: [],
+      daily: [],
+    })
+    expect(errorSpy).toHaveBeenCalled()
   })
 })
 
