@@ -184,7 +184,7 @@
   }
 }
 
-.actionStyle:is(:hover, :focus-visible) {
+.actionStyle:hover {
   .designArtworkStyle {
     transform: rotate(6deg);
 

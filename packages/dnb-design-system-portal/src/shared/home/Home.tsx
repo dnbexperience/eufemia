@@ -2,7 +2,7 @@
  * Portal home
  */
 
-import Anchor from '../tags/Anchor'
+import Anchor, { Link } from '../tags/Anchor'
 import { Card, H1, H2, P, Span } from '@dnb/eufemia/src'
 import {
   actionArtworkStyle,
@@ -21,7 +21,7 @@ import {
 } from './Home.module.scss'
 
 const resources = [
-  { title: 'Images', url: '/uilib/usage/best-practices' },
+  { title: 'Images', url: '/uilib/elements/image' },
   { title: 'Animations', url: '/uilib/components/height-animation' },
   { title: 'Icons', url: '/icons' },
   { title: 'Theming', url: '/uilib/usage/customisation/theming' },
@@ -30,6 +30,8 @@ const resources = [
     title: 'Tokens',
     url: '/uilib/usage/customisation/theming/design-tokens',
   },
+  { title: 'Brand', url: '/brand' },
+  { title: "What's new", url: '/uilib/changelog' },
 ]
 
 export default function Home() {
@@ -56,7 +58,7 @@ export default function Home() {
           <Card.ListItem>
             <Card.Action
               href="/quickguide-designer"
-              rel="external"
+              element={Link}
               className={actionStyle}
               responsive={false}
               stack
@@ -88,8 +90,8 @@ export default function Home() {
 
           <Card.ListItem>
             <Card.Action
-              href="/uilib/getting-started"
-              rel="external"
+              href="/uilib/getting-started/"
+              element={Link}
               className={actionStyle}
               responsive={false}
               stack

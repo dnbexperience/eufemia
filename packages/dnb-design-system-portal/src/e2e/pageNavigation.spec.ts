@@ -142,6 +142,33 @@ test.describe('Page Navigation', () => {
       await waitForApp(page)
     })
 
+    test('uses client-side navigation for the home action cards', async ({
+      page,
+    }) => {
+      for (const { name, path } of [
+        { name: /Design/, path: '/quickguide-designer' },
+        { name: /Develop/, path: '/uilib/getting-started/' },
+      ]) {
+        await page.goto('/')
+        await waitForApp(page)
+        await page.evaluate(() => {
+          ;(
+            window as Window & { portalNavigationMarker?: boolean }
+          ).portalNavigationMarker = true
+        })
+
+        await page.getByRole('link', { name }).click()
+        await expect(page).toHaveURL(path)
+        expect(
+          await page.evaluate(
+            () =>
+              (window as Window & { portalNavigationMarker?: boolean })
+                .portalNavigationMarker
+          )
+        ).toBe(true)
+      }
+    })
+
     test('prerendered content should stay visible during JS hydration', async ({
       page,
     }) => {
