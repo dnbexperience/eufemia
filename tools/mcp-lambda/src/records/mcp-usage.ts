@@ -47,23 +47,35 @@ const COMPONENT_TOOLS: ReadonlySet<string> = new Set([
 const MAX_COMPONENT_LENGTH = 64
 const MAX_PATH_LENGTH = 512
 
-// A single PascalCase segment; a component name is one or more of these joined
-// by dots (Button, Field.Address). Validating per segment keeps matching linear
-// and avoids a nested-quantifier regex.
-const COMPONENT_SEGMENT = /^[A-Z][A-Za-z0-9]*$/
+// A component name is one or more dot-separated segments. Each segment starts
+// with a letter and may contain letters, digits, and hyphens, so both the
+// PascalCase form ("DatePicker", "Field.Address") and the hyphenated doc-file
+// form ("date-picker") validate. A single character class keeps matching linear
+// (no nested-quantifier ReDoS).
+const COMPONENT_SEGMENT = /^[A-Za-z][A-Za-z0-9-]*$/
 
 // An absolute docs path with a restricted character set.
 const PATH_PATTERN = /^\/[A-Za-z0-9/_.-]*$/
+
+// Mirror the docs server's normalizeName (trim + lowercase) so the stored value
+// is the form a successful lookup resolves against. Without this, a resolving
+// call for a hyphenated component ("date-picker") would be dropped while a
+// non-resolving PascalCase name ("DatePicker") would be the one stored; it also
+// folds casing variants of the same component into a single aggregate.
+function normalizeComponent(value: string): string {
+  return value.trim().toLowerCase()
+}
 
 function validComponent(value: unknown): string {
   if (typeof value !== 'string' || value.length > MAX_COMPONENT_LENGTH) {
     return ''
   }
 
-  return value
-    .split('.')
-    .every((segment) => COMPONENT_SEGMENT.test(segment))
-    ? value
+  const trimmed = value.trim()
+
+  return trimmed.length > 0 &&
+    trimmed.split('.').every((segment) => COMPONENT_SEGMENT.test(segment))
+    ? normalizeComponent(trimmed)
     : ''
 }
 

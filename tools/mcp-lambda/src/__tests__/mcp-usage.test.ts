@@ -28,12 +28,35 @@ describe('usageRecordsFromRequestBody', () => {
 
     expect(record).toEqual({
       tool: 'component_props',
-      component: 'Button',
+      component: 'button',
       path: '',
       env: 'dev',
       timestamp: NOW,
       createdat: NOW,
     })
+  })
+
+  it('captures a hyphenated multi-word component name', () => {
+    const [record] = usageRecordsFromRequestBody(
+      body(toolCall('component_doc', { name: 'date-picker' })),
+      { env: 'dev', now: NOW }
+    )
+
+    expect(record?.component).toBe('date-picker')
+  })
+
+  it('normalises component casing so variants aggregate together', () => {
+    const upper = usageRecordsFromRequestBody(
+      body(toolCall('component_props', { name: 'Button' })),
+      { env: 'dev', now: NOW }
+    )[0]
+    const lower = usageRecordsFromRequestBody(
+      body(toolCall('component_props', { name: 'button' })),
+      { env: 'dev', now: NOW }
+    )[0]
+
+    expect(upper?.component).toBe('button')
+    expect(lower?.component).toBe('button')
   })
 
   it('accepts a dotted compound component name', () => {
@@ -42,7 +65,7 @@ describe('usageRecordsFromRequestBody', () => {
       { env: 'dev', now: NOW }
     )
 
-    expect(record?.component).toBe('Field.Address')
+    expect(record?.component).toBe('field.address')
   })
 
   it('captures the path for docs_read and the prefix for docs_list', () => {
