@@ -92,6 +92,66 @@ describe('internal link validation', () => {
     expect(result.manifest.pages['/']).toEqual([])
   })
 
+  it('validates page links whose last segment looks like a file name', () => {
+    const result = buildInternalLinkMap([
+      {
+        url: '/releases/',
+        html: `
+          <a href="/releases/v4.10-info/">Existing</a>
+          <a href="/releases/v4.11-info/">Typo</a>
+        `,
+      },
+      { url: '/releases/v4.10-info/', html: '' },
+    ])
+
+    expect(result.errors).toEqual([
+      {
+        type: 'missing-page',
+        source: '/releases/',
+        href: '/releases/v4.11-info/',
+        target: '/releases/v4.11-info/',
+      },
+    ])
+  })
+
+  it('accepts links to emitted files and reports the missing ones', () => {
+    const result = buildInternalLinkMap(
+      [
+        {
+          url: '/',
+          html: `
+            <a href="/favicon-32x32.png">Icon</a>
+            <a href="/dnb/logo%20mark.svg">Encoded name</a>
+            <a href="/missing-icon.png">Gone</a>
+            <a href="/mailto:someone@example.com">Mangled scheme</a>
+          `,
+        },
+      ],
+      {
+        emittedFiles: new Set([
+          '/favicon-32x32.png',
+          '/dnb/logo mark.svg',
+          '/index.html',
+        ]),
+      }
+    )
+
+    expect(result.errors).toEqual([
+      {
+        type: 'missing-page',
+        source: '/',
+        href: '/missing-icon.png',
+        target: '/missing-icon.png/',
+      },
+      {
+        type: 'missing-page',
+        source: '/',
+        href: '/mailto:someone@example.com',
+        target: '/mailto:someone@example.com/',
+      },
+    ])
+  })
+
   it('reports redirects that point to missing pages or loop', () => {
     const result = buildInternalLinkMap([
       { url: '/', html: '<a href="/old/">Old</a>' },

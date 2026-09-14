@@ -2,7 +2,10 @@ import { parse } from 'parse5'
 
 const siteOrigin = 'https://eufemia.dnb.no'
 
-export function buildInternalLinkMap(renderedPages) {
+export function buildInternalLinkMap(
+  renderedPages,
+  { emittedFiles } = {}
+) {
   const pages = new Map()
   const redirects = new Map()
   const links = []
@@ -32,7 +35,9 @@ export function buildInternalLinkMap(renderedPages) {
 
     for (const href of pageLinks) {
       const target = resolveInternalUrl(href, source)
-      if (target && shouldValidatePath(target.path)) {
+      // Assets emitted by the build (favicons, downloads) have no page of
+      // their own, so their presence in the output is the whole check.
+      if (target && !emittedFiles?.has(target.pathname)) {
         links.push({ source, href, ...target })
       }
     }
@@ -207,7 +212,10 @@ function resolveInternalUrl(href, source) {
   }
 
   return {
+    // `path` addresses a page, `pathname` is kept as written so it can be
+    // matched against the files the build emitted.
     path: normalizePagePath(url.pathname),
+    pathname: decodePath(url.pathname),
     anchor: decodeFragment(url.hash),
   }
 }
@@ -226,14 +234,13 @@ function decodeFragment(hash) {
     return ''
   }
 
-  try {
-    return decodeURIComponent(hash.slice(1))
-  } catch {
-    return hash.slice(1)
-  }
+  return decodePath(hash.slice(1))
 }
 
-function shouldValidatePath(pathname) {
-  const lastSegment = pathname.split('/').filter(Boolean).at(-1)
-  return !lastSegment?.includes('.')
+function decodePath(value) {
+  try {
+    return decodeURIComponent(value)
+  } catch {
+    return value
+  }
 }

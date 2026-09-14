@@ -10,9 +10,15 @@ import {
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const portalRoot = path.resolve(__dirname, '../..')
 const outDir = path.resolve(portalRoot, 'public')
+const outputFiles = findOutputFiles(outDir)
+const emittedFiles = new Set(outputFiles.map(toUrlPath))
 const renderedPages = []
 
-for (const filePath of findIndexFiles(outDir)) {
+for (const filePath of outputFiles) {
+  if (path.basename(filePath) !== 'index.html') {
+    continue
+  }
+
   const html = fs.readFileSync(filePath, 'utf8')
   const relativeDir = path.relative(outDir, path.dirname(filePath))
   const url = relativeDir
@@ -29,7 +35,9 @@ if (fs.existsSync(notFoundPath)) {
   })
 }
 
-const { manifest, errors } = buildInternalLinkMap(renderedPages)
+const { manifest, errors } = buildInternalLinkMap(renderedPages, {
+  emittedFiles,
+})
 fs.writeFileSync(
   path.resolve(outDir, 'internal-link-map.json'),
   JSON.stringify(manifest, null, 2) + '\n'
@@ -43,7 +51,7 @@ process.stdout.write(
   `✓ Validated internal links across ${renderedPages.length} pages\n`
 )
 
-function findIndexFiles(directory) {
+function findOutputFiles(directory) {
   const files = []
 
   for (const entry of fs.readdirSync(directory, { withFileTypes: true })) {
@@ -53,11 +61,15 @@ function findIndexFiles(directory) {
 
     const entryPath = path.resolve(directory, entry.name)
     if (entry.isDirectory()) {
-      files.push(...findIndexFiles(entryPath))
-    } else if (entry.name === 'index.html') {
+      files.push(...findOutputFiles(entryPath))
+    } else {
       files.push(entryPath)
     }
   }
 
   return files.sort()
+}
+
+function toUrlPath(filePath) {
+  return `/${path.relative(outDir, filePath).split(path.sep).join('/')}`
 }
