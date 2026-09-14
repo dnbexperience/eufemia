@@ -238,7 +238,7 @@ export type DrawerListProps = {
    */
   noDivider?: boolean
   /**
-   * Has to be a function, returning the items again. See [example](/uilib/components/fragments/drawer-list#example-usage-of-optionsRender). This can be used to add additional options above the actual rendered list.
+   * Has to be a function, returning the items again. See [example](/uilib/components/fragments/drawer-list#example-usage-of-optionsrender). This can be used to add additional options above the actual rendered list.
    */
   optionsRender?: DrawerListOptionsRender
   /**
