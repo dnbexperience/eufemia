@@ -36,6 +36,7 @@ type LayoutProps = {
 
 function Layout(props: LayoutProps) {
   const mainRef = useRef<HTMLElement>(undefined)
+  const portalRef = useRef<HTMLDivElement>(null)
 
   const { fullscreen, location, hideSidebar, children } = props
 
@@ -127,6 +128,7 @@ function Layout(props: LayoutProps) {
 
   return (
     <div
+      ref={portalRef}
       className={clsx(
         portalStyle,
         fs && fullscreenStyle,
@@ -142,7 +144,14 @@ function Layout(props: LayoutProps) {
         Skip to content
       </a>
 
-      <EufemiaSidebarMenu.ResponsiveProvider>
+      <EufemiaSidebarMenu.ResponsiveProvider
+        onInlineCollapsedChange={(collapsed) => {
+          portalRef.current?.style.setProperty(
+            '--aside-width',
+            collapsed ? '0px' : '240px'
+          )
+        }}
+      >
         {!fs && <StickyMenuBar />}
 
         <div className={wrapperStyle}>

@@ -47,7 +47,11 @@ export default function SidebarLayout({
   location,
   showAll,
 }: SidebarLayoutProps) {
-  const { close: closeMenu, isSmallScreen } = SidebarMenu.useResponsive()
+  const {
+    close: closeMenu,
+    collapseInline,
+    isSmallScreen,
+  } = SidebarMenu.useResponsive()
   const scrollRef = useRef<HTMLElement>(null)
 
   const {
@@ -191,7 +195,7 @@ export default function SidebarLayout({
           targetRef={scrollRef}
           scopeSelector=".eufemia-scope--portal"
           cssProperty="--aside-width"
-          minWidth={320}
+          onCollapse={collapseInline}
           aria-controls="portal-sidebar-menu"
         />
       )}
