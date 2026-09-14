@@ -2,9 +2,9 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import {
-  buildInternalLinkMap,
   extractPageLinks,
   formatInternalLinkErrors,
+  validateInternalLinks,
 } from './internal-links.mjs'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
@@ -35,13 +35,7 @@ if (fs.existsSync(notFoundPath)) {
   })
 }
 
-const { manifest, errors } = buildInternalLinkMap(renderedPages, {
-  emittedFiles,
-})
-fs.writeFileSync(
-  path.resolve(outDir, 'internal-link-map.json'),
-  JSON.stringify(manifest, null, 2) + '\n'
-)
+const { errors } = validateInternalLinks(renderedPages, { emittedFiles })
 
 if (errors.length > 0) {
   throw new Error(formatInternalLinkErrors(errors))
