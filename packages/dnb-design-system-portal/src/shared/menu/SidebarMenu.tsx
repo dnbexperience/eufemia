@@ -142,7 +142,11 @@ export default function SidebarLayout({
   const selectedItem = findActiveSidebarItemId(groupedNavItems)
   const currentTheme = useTheme()?.name
   const storageKey = getSidebarMenuStorageKey(groupedNavItems)
-  const menu = (className?: string, withSpace = true) => (
+  const menu = (
+    className?: string,
+    withSpace = true,
+    withResizeHandle = false
+  ) => (
     <aside
       id="portal-sidebar-menu"
       className={clsx(navStyle, className)}
@@ -181,6 +185,16 @@ export default function SidebarLayout({
           />
         </div>
       </ScrollView>
+
+      {withResizeHandle && (
+        <SidebarMenu.ResizeHandle
+          targetRef={scrollRef}
+          scopeSelector=".eufemia-scope--portal"
+          cssProperty="--aside-width"
+          minWidth={320}
+          aria-controls="portal-sidebar-menu"
+        />
+      )}
     </aside>
   )
 
@@ -204,17 +218,8 @@ export default function SidebarLayout({
       </SidebarMenu.ResponsiveDrawer>
 
       <SidebarMenu.ResponsiveInline>
-        {menu(desktopNavStyle)}
+        {menu(desktopNavStyle, true, !isSmallScreen)}
       </SidebarMenu.ResponsiveInline>
-
-      {!isSmallScreen && (
-        <SidebarMenu.ResizeHandle
-          targetRef={scrollRef}
-          scopeSelector=".eufemia-scope--portal"
-          cssProperty="--aside-width"
-          aria-controls="portal-sidebar-menu"
-        />
-      )}
     </>
   )
 }

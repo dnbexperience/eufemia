@@ -26,11 +26,6 @@
       font-weight: normal;
       white-space: nowrap;
     }
-
-    &--carnegie {
-      background-image: url('/images/carnegie_badge.png');
-      background-size: contain;
-    }
   }
 
   .portal-sidebar-menu__item--active {
@@ -55,7 +50,6 @@
 
   display: flex;
   flex-direction: column;
-  overflow: hidden;
 
   width: var(--aside-width);
   height: 100vh;
@@ -127,10 +121,6 @@
 .scrollContentStyle {
   width: 100%;
   min-width: 0;
-}
-
-.desktopNavStyle .scrollContentStyle {
-  min-width: 20rem;
 }
 
 .sidebarLogoStyle {
