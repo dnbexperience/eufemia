@@ -71,6 +71,7 @@ Use `SidebarMenu.ResizeHandle` when people should be able to resize a sidebar. T
 - `minWidth` and `maxWidth` define the allowed resize range. They default to 240px and 560px and are also constrained by the viewport and the target's CSS `max-width`.
 
 The handle supports pointer dragging, arrow-key resizing, Shift for larger keyboard steps, and Enter or double-click to reset.
+When `onCollapse` is provided, continued pointer dragging below `collapseThreshold` calls it. The threshold defaults to half of `minWidth`. Pair it with `useResponsive().collapseInline()` to dismiss desktop inline navigation and let `ResponsiveTrigger` restore it.
 
 The resize handle is optional and its styles are included with the SidebarMenu extension stylesheet. It does not persist width. The CSS-defined initial width is therefore used after a reload, and no script is needed before React renders.
 
@@ -112,7 +113,8 @@ const sidebarRef = useRef<HTMLElement>(null)
 Use the responsive compound parts when the same navigation should be inline on larger screens and available through a hamburger-triggered Drawer on smaller screens:
 
 - `ResponsiveProvider` owns the breakpoint and Drawer state.
-- `ResponsiveTrigger` renders a hamburger button only below the breakpoint.
+- `ResponsiveProvider` can also own a collapsible desktop inline state.
+- `ResponsiveTrigger` renders a hamburger button below the breakpoint or while the desktop inline navigation is collapsed. On desktop it restores the inline navigation instead of opening a Drawer.
 - `ResponsiveInline` renders its children only above the breakpoint.
 - `ResponsiveDrawer` renders a left-side Drawer only below the breakpoint. Its close button is placed on the left.
 - `useResponsive().close()` closes the Drawer after mobile navigation.
