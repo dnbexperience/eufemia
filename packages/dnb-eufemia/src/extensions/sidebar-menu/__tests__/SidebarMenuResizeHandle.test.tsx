@@ -150,6 +150,18 @@ describe('SidebarMenuResizeHandle', () => {
     })
   })
 
+  it('preserves its width while the target is hidden', () => {
+    const { handle, root } = renderHandle()
+    fireEvent.keyDown(handle, { key: 'ArrowRight' })
+
+    const target = document.querySelector('aside')
+    target.getBoundingClientRect = () => ({ width: 0 }) as DOMRect
+    fireEvent(window, new Event('resize'))
+
+    expect(root.style.getPropertyValue('--aside-width')).toBe('336px')
+    expect(handle).toHaveAttribute('aria-valuenow', '336')
+  })
+
   it('positions itself from the target without a shared root', () => {
     const targetRef = createRef<HTMLElement>()
     const { rerender } = render(

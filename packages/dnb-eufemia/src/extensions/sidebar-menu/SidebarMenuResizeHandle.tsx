@@ -116,6 +116,10 @@ export default function SidebarMenuResizeHandle({
   })
 
   function setWidth(width: number) {
+    if (getTargetWidth() <= 0) {
+      return
+    }
+
     const nextWidth = Math.round(
       Math.min(Math.max(width, minWidth), getMaximumWidth())
     )
