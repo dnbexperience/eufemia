@@ -5,10 +5,13 @@
  * it to a safe shape — dropping docs search terms and other incidental query
  * values — before storing, so nothing incidental is persisted. Each view also
  * carries its dimensions: the source environment, status, the active component
- * language (locale) and theme (brand), and the resolved color scheme (light or
- * dark). No identifiers or cookies are used; the locale, theme and color scheme
- * are read from the portal's existing preferences, never written, so tracking
- * creates no device storage of its own. Events are
+ * language (locale) and theme (brand), the resolved color scheme (light or
+ * dark), and how the visit arrived (referrer category on the first view, then
+ * `internal` for later in-app navigations). No identifiers or
+ * cookies are used; the locale, theme and color scheme are read from the
+ * portal's existing preferences, never written, so tracking creates no device
+ * storage of its own. Only a coarse referrer category is derived — never the
+ * referrer URL or host — so no browsing history is stored. Events are
  * buffered in memory and flushed with `sendBeacon` when the page is hidden or
  * unloaded, or eagerly once the buffer reaches the collector's batch limit, so
  * navigation is never blocked and nothing is retried across reloads.
@@ -78,11 +81,67 @@ function analyticsColorScheme(): ColorScheme {
   }
 }
 
+// Exact referrer hosts (apex or `www.`) for the web-search engines we bucket as
+// `search`. Matched exactly rather than by suffix so non-search subdomains
+// (e.g. mail/docs/translate.google.com) are not miscounted as search. A
+// cross-origin referrer is origin-only under the default Referrer-Policy, so
+// only the host is ever inspected — never the path or query.
+const SEARCH_ENGINE_HOSTS = [
+  'google.com',
+  'bing.com',
+  'duckduckgo.com',
+  'search.yahoo.com',
+  'ecosia.org',
+  'startpage.com',
+  'search.brave.com',
+]
+
+function isSearchEngineHost(host: string): boolean {
+  return SEARCH_ENGINE_HOSTS.some(
+    (engine) => host === engine || host === `www.${engine}`
+  )
+}
+
+// The category of the referrer that led to this document — a coarse label only,
+// never the referrer URL or host. `direct` (no referrer), `internal` (same
+// origin), `search` (a known search engine) or `external` (any other origin).
+function analyticsReferrerCategory(): ReferrerCategory {
+  const referrer = document.referrer
+  if (!referrer) {
+    return 'direct'
+  }
+  try {
+    const url = new URL(referrer)
+    if (url.origin === window.location.origin) {
+      return 'internal'
+    }
+    return isSearchEngineHost(url.hostname) ? 'search' : 'external'
+  } catch {
+    return 'external'
+  }
+}
+
+// `document.referrer` describes how the document was loaded, not each in-app
+// navigation, so it stays fixed for the tab's life. Attribute it to the arrival
+// view only; every later client-side navigation is `internal` by definition, so
+// the category counts where a visit started rather than how much was read.
+let arrivalReferrerRecorded = false
+
+function referrerForView(): ReferrerCategory {
+  if (arrivalReferrerRecorded) {
+    return 'internal'
+  }
+  arrivalReferrerRecorded = true
+  return analyticsReferrerCategory()
+}
+
 // How the portal classified the view: a normal page, an unknown path that fell
 // through to the 404 page, or a render error caught by the error boundary.
 export type PageViewStatus = 'ok' | 'not_found' | 'error'
 
 type ColorScheme = 'light' | 'dark'
+
+type ReferrerCategory = 'search' | 'internal' | 'direct' | 'external'
 
 type PageViewEvent = {
   path: string
@@ -92,6 +151,7 @@ type PageViewEvent = {
   locale: string
   theme: string
   color_scheme: ColorScheme
+  referrer: ReferrerCategory
 }
 
 /**
@@ -192,6 +252,7 @@ export function trackPageView(
       locale: analyticsLocale(),
       theme: analyticsTheme(),
       color_scheme: analyticsColorScheme(),
+      referrer: referrerForView(),
     })
 
     if (buffer.length >= MAX_BUFFER) {

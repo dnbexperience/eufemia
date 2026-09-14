@@ -13,6 +13,13 @@ function flush() {
   window.dispatchEvent(new Event('pagehide'))
 }
 
+function setReferrer(value: string) {
+  Object.defineProperty(document, 'referrer', {
+    value,
+    configurable: true,
+  })
+}
+
 describe('trackPageView', () => {
   let beacon: ReturnType<typeof vi.fn>
   let trackPageView: typeof import('../client/track-page-view').trackPageView
@@ -32,6 +39,7 @@ describe('trackPageView', () => {
     vi.restoreAllMocks()
     window.localStorage.clear()
     delete (window as { matchMedia?: unknown }).matchMedia
+    setReferrer('')
   })
 
   it('sends nothing when the endpoint is empty', () => {
@@ -93,6 +101,7 @@ describe('trackPageView', () => {
     expect(payload[0].locale).toBe('nb-NO')
     expect(payload[0].theme).toBe('ui')
     expect(payload[0].color_scheme).toBe('light')
+    expect(payload[0].referrer).toBe('direct')
   })
 
   it('records the selected locale and theme', async () => {
@@ -169,6 +178,92 @@ describe('trackPageView', () => {
       await (beacon.mock.calls[0][1] as Blob).text()
     )
     expect(payload[0].color_scheme).toBe('dark')
+  })
+
+  it('categorises an empty referrer as "direct"', async () => {
+    setReferrer('')
+
+    trackPageView('/direct')
+    flush()
+
+    const payload = JSON.parse(
+      await (beacon.mock.calls[0][1] as Blob).text()
+    )
+    expect(payload[0].referrer).toBe('direct')
+  })
+
+  it('categorises a same-origin referrer as "internal"', async () => {
+    setReferrer(`${window.location.origin}/uilib/components/button`)
+
+    trackPageView('/internal')
+    flush()
+
+    const payload = JSON.parse(
+      await (beacon.mock.calls[0][1] as Blob).text()
+    )
+    expect(payload[0].referrer).toBe('internal')
+  })
+
+  it('categorises a search-engine referrer as "search"', async () => {
+    for (const origin of [
+      'https://www.google.com',
+      'https://duckduckgo.com',
+      'https://search.yahoo.com',
+    ]) {
+      vi.resetModules()
+      ;({ trackPageView } = await import('../client/track-page-view'))
+      beacon = vi.fn().mockReturnValue(true)
+      setBeacon(beacon)
+      setReferrer(`${origin}/`)
+
+      trackPageView('/from-search')
+      flush()
+
+      const payload = JSON.parse(
+        await (beacon.mock.calls[0][1] as Blob).text()
+      )
+      expect(payload[0].referrer).toBe('search')
+    }
+  })
+
+  it('categorises any other cross-origin referrer as "external"', async () => {
+    setReferrer('https://example.com/some/article')
+
+    trackPageView('/from-external')
+    flush()
+
+    const payload = JSON.parse(
+      await (beacon.mock.calls[0][1] as Blob).text()
+    )
+    expect(payload[0].referrer).toBe('external')
+  })
+
+  it('does not treat non-search engine subdomains as "search"', async () => {
+    setReferrer('https://mail.google.com/mail/u/0/')
+
+    trackPageView('/from-gmail')
+    flush()
+
+    const payload = JSON.parse(
+      await (beacon.mock.calls[0][1] as Blob).text()
+    )
+    expect(payload[0].referrer).toBe('external')
+  })
+
+  it('attributes the referrer to the arrival only, then "internal"', async () => {
+    setReferrer('https://www.google.com/')
+
+    trackPageView('/from-search')
+    trackPageView('/second-page')
+    trackPageView('/third-page')
+    flush()
+
+    const payload = JSON.parse(
+      await (beacon.mock.calls[0][1] as Blob).text()
+    )
+    expect(
+      payload.map((event: { referrer: string }) => event.referrer)
+    ).toEqual(['search', 'internal', 'internal'])
   })
 
   it('flushes multiple buffered views in a single beacon', async () => {

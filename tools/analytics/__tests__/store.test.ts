@@ -114,6 +114,19 @@ describe('storePortalViews', () => {
     expect(lines[1].color_scheme).toBe('unknown')
   })
 
+  it('stores the referrer category, defaulting to "unknown" when absent', async () => {
+    await storePortalViews([
+      { path: '/a', referrer: 'search' },
+      { path: '/b' },
+    ])
+
+    const input = send.mock.calls[0][0].input as PutInput
+    const lines = input.Body.split('\n').map((line) => JSON.parse(line))
+
+    expect(lines[0].referrer).toBe('search')
+    expect(lines[1].referrer).toBe('unknown')
+  })
+
   it('never stores identifiers or personal data', async () => {
     await storePortalViews([{ path: '/a' }])
 
@@ -127,6 +140,7 @@ describe('storePortalViews', () => {
       'env',
       'locale',
       'path',
+      'referrer',
       'status',
       'theme',
       'timestamp',
