@@ -132,49 +132,6 @@ export function getPageMeta(
 }
 
 /**
- * Resolve the markdown alternate link path for a URL.
- *
- * The LLM metadata generator creates .md files for "entry" MDX files
- * (those with a title in frontmatter), not for tab sub-pages. For tab
- * pages, we walk up the slug path to find the nearest entry parent.
- */
-export function getMdPath(
-  url: string,
-  allMdxNodes: MdxNode[]
-): string | null {
-  const slug = url.replace(/^\/|\/$/g, '')
-
-  if (!slug) {
-    return null
-  }
-
-  // Build a set of entry slugs — pages that get their own .md file
-  // from the LLM metadata generator. Entry pages have a title in
-  // their frontmatter; tab sub-pages only have showTabs.
-  const entrySlugs = new Set<string>()
-  for (const node of allMdxNodes) {
-    const s = node.fields.slug
-    if (node.frontmatter.title) {
-      entrySlugs.add(s)
-    }
-  }
-
-  if (entrySlugs.has(slug)) {
-    return '/' + slug + '.md'
-  }
-
-  const parts = slug.split('/')
-  for (let i = parts.length - 1; i >= 1; i--) {
-    const parentSlug = parts.slice(0, i).join('/')
-    if (entrySlugs.has(parentSlug)) {
-      return '/' + parentSlug + '.md'
-    }
-  }
-
-  return null
-}
-
-/**
  * Map a URL to its per-route preload assets from the SSR manifest.
  * Returns JS files for modulepreload and CSS files for stylesheet links.
  *

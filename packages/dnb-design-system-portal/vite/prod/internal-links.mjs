@@ -73,7 +73,12 @@ export function extractPageLinks(html) {
         anchors.push(anchor)
       }
 
-      if (node.tagName === 'a' && attributes.href) {
+      // <link> carries references too: the canonical URL, the stylesheets and
+      // preloads, and the markdown copy each page advertises for LLMs.
+      if (
+        (node.tagName === 'a' || node.tagName === 'link') &&
+        attributes.href
+      ) {
         links.push(attributes.href)
       }
 

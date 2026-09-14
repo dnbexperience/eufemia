@@ -22,6 +22,7 @@ import os from 'node:os'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { Worker } from 'node:worker_threads'
+import { collectMarkdownPaths, getMdPath } from './md-paths.mts'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const viteRoot = path.resolve(__dirname, '..')
@@ -32,7 +33,7 @@ async function prerender() {
   const startTime = Date.now()
 
   // Step 1: Build client bundle with SSR manifest for chunk tracking
-  console.log('Step 1/3: Building client bundle...')
+  console.log('Step 1/4: Building client bundle...')
   await build({
     configFile: path.resolve(portalRoot, 'vite.config.ts'),
     build: {
@@ -43,7 +44,7 @@ async function prerender() {
   })
 
   // Step 2: Build SSR bundle
-  console.log('Step 2/3: Building SSR bundle...')
+  console.log('Step 2/4: Building SSR bundle...')
   await build({
     configFile: path.resolve(portalRoot, 'vite.config.ts'),
     build: {
@@ -52,8 +53,29 @@ async function prerender() {
     },
   })
 
-  // Step 3: Prerender each route
-  console.log('Step 3/3: Prerendering pages...')
+  // Step 3: Generate LLM metadata (llms.txt + markdown copies)
+  // Runs before the pages so each page can advertise the markdown copy that
+  // was actually written, instead of predicting which ones the generator
+  // selects.
+  if (process.env.IS_VISUAL_TEST === '1') {
+    // Visual-test builds only need rendered pages for screenshots.
+    console.log('Step 3/4: Skipping LLM metadata (visual test)')
+  } else {
+    console.log('Step 3/4: Generating LLM metadata...')
+    try {
+      execSync('node vite/prod/generate-llm-metadata.mts', {
+        cwd: portalRoot,
+        stdio: 'inherit',
+      })
+    } catch {
+      console.warn('Warning: LLM metadata generation failed (non-fatal)')
+    }
+  }
+
+  const mdPaths = collectMarkdownPaths(outDir)
+
+  // Step 4: Prerender each route
+  console.log('Step 4/4: Prerendering pages...')
 
   // Prism languages (prismjs/components/*) expect globalThis.Prism to
   // exist at load time. Set it up before importing the SSR module.
@@ -146,7 +168,7 @@ async function prerender() {
     } else {
       const preloads = getRoutePreloads(url, ssrManifest, clientManifest)
       const meta = getPageMeta(url, allMdxNodes)
-      const mdPath = getMdPath(url, allMdxNodes)
+      const mdPath = getMdPath(url, mdPaths)
       const html = injectHtml(
         template,
         result.html,
@@ -190,20 +212,6 @@ async function prerender() {
   )
   console.log(`  Output: ${outDir}`)
 
-  // Step: Generate LLM metadata (llms.txt + markdown copies)
-  // Skip for visual-test builds — they only need rendered pages for screenshots.
-  if (process.env.IS_VISUAL_TEST !== '1') {
-    try {
-      console.log('\nGenerating LLM metadata...')
-      execSync('node vite/prod/generate-llm-metadata.mts', {
-        cwd: portalRoot,
-        stdio: 'inherit',
-      })
-    } catch {
-      console.warn('Warning: LLM metadata generation failed (non-fatal)')
-    }
-  }
-
   // Step: Copy fonts to dist/fonts/ (serves as CDN for all Eufemia consumers)
   const require = createRequire(import.meta.url)
   const eufemiaRoot = path.dirname(
@@ -232,7 +240,10 @@ prerender().catch((err) => {
 
 // ---------------------------------------------------------------------------
 // Inline utility functions (mirrored from prerender-utils.ts for testing).
-// Keep these in sync — the .ts versions are the source of truth.
+// Keep these in sync — the .ts versions are the source of truth. A helper that
+// needs no Vite-resolved imports belongs in its own .mts module instead, as
+// md-paths.mts does: imported both here and by the tests, so there is only one
+// copy that can be wrong.
 // ---------------------------------------------------------------------------
 
 function collectUrls(routes) {
@@ -308,54 +319,6 @@ function getPageMeta(url, allMdxNodes) {
   }
 
   return { title, description }
-}
-
-/**
- * Resolve the markdown alternate link path for a URL.
- *
- * Only /uilib/ pages get markdown links. The LLM metadata generator
- * creates .md files for "entry" MDX files (those with a title in
- * frontmatter), not for tab sub-pages. For tab pages, we walk up
- * the slug path to find the nearest entry parent.
- *
- * Returns the .md path, or null if no link should be emitted.
- */
-function getMdPath(url, allMdxNodes) {
-  // Must match LLM_DOCS_SLUG_PREFIX from eufemia-llm-metadata
-  const prefix = 'uilib'
-
-  if (!url.startsWith(`/${prefix}/`)) {
-    return null
-  }
-
-  const slug = url.replace(/^\/|\/$/g, '')
-
-  // Build a set of entry slugs — pages that get their own .md file
-  // from the LLM metadata generator. Entry pages have a title in
-  // their frontmatter; tab sub-pages only have showTabs.
-  const entrySlugs = new Set()
-  for (const node of allMdxNodes) {
-    const s = node.fields.slug
-    if (s.startsWith(`${prefix}/`) && node.frontmatter.title) {
-      entrySlugs.add(s)
-    }
-  }
-
-  // If this slug is an entry, use it directly
-  if (entrySlugs.has(slug)) {
-    return '/' + slug + '.md'
-  }
-
-  // Walk up the path to find the nearest entry parent
-  const parts = slug.split('/')
-  for (let i = parts.length - 1; i >= 1; i--) {
-    const parentSlug = parts.slice(0, i).join('/')
-    if (entrySlugs.has(parentSlug)) {
-      return '/' + parentSlug + '.md'
-    }
-  }
-
-  return null
 }
 
 function getRoutePreloads(url, ssrManifest, clientManifest) {
