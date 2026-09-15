@@ -210,7 +210,7 @@ test.describe('Portal SidebarMenu', () => {
     await expect(menuAfterNavigation).toBeVisible()
     await expect(
       menuAfterNavigation.getByRole('link', { name: 'Home' })
-    ).toHaveCount(0)
+    ).toBeVisible()
   })
 
   test('keeps the sidebar visible throughout the intro', async ({
