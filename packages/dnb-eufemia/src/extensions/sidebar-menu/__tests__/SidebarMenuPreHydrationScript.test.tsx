@@ -1,5 +1,5 @@
 import { render } from '@testing-library/react'
-import { describe, expect, it } from 'vitest'
+import { afterEach, describe, expect, it } from 'vitest'
 import {
   SidebarMenuPreHydrationScript,
   getPreHydrationScript,
@@ -7,6 +7,13 @@ import {
 import SidebarMenu from '../SidebarMenu'
 
 describe('SidebarMenuPreHydrationScript', () => {
+  afterEach(() => {
+    document
+      .querySelectorAll('[data-sidebar-menu-pre-hydration]')
+      .forEach((element) => element.remove())
+    sessionStorage.clear()
+  })
+
   it('renders a blocking script with a CSP nonce', () => {
     render(<SidebarMenuPreHydrationScript nonce="nonce-value" />)
 
@@ -48,8 +55,28 @@ describe('SidebarMenuPreHydrationScript', () => {
       'margin-top:var(--sidebar-menu-accordion-gap,.5rem)'
     )
     expect(css).toContain('height:0')
+  })
 
-    sessionStorage.removeItem('navigation')
+  it('makes stored open content visible before hydration', () => {
+    sessionStorage.setItem(
+      'navigation',
+      JSON.stringify({ openItems: ['about'], closedItems: [] })
+    )
+    document.body.innerHTML = `
+      <nav data-open-items-storage-key="navigation" data-open-items-storage="session">
+        <li data-sidebar-menu-id="about">
+          <button class="dnb-sidebar-menu__accordion__trigger"></button>
+          <div class="dnb-height-animation dnb-height-animation--hidden"></div>
+        </li>
+      </nav>
+    `
+
+    Function(getPreHydrationScript())()
+
+    expect(
+      document.querySelector('[data-sidebar-menu-pre-hydration]')
+        .textContent
+    ).toContain('display:block')
   })
 
   it('removes its temporary styles when the matching menu hydrates', () => {
