@@ -61,17 +61,18 @@ const COMPONENT_SEGMENT = /^[A-Za-z][A-Za-z0-9-]*$/
 const PATH_PATTERN = /^\/[A-Za-z0-9/_.-]*$/
 
 /**
- * Reduce a docs path to the shape the docs server resolves it to: a single
- * leading slash and no empty, `.` or trailing segments. This mirrors
- * `normalizeDocsPath` in docs-source.ts, which accepts a path with or without a
- * leading slash and collapses those segments before reading the file — so
- * `/uilib/button.md`, `uilib/button.md` and `/uilib/./button.md` all name the
- * same document and must be stored under one key. Parity with the real
- * normaliser is pinned by test rather than by importing it, so this module stays
- * free of dependencies.
+ * Reduce a docs path to the shape the docs server resolves it to: forward
+ * slashes, a single leading slash, and no empty, `.` or trailing segments. This
+ * mirrors `normalizeDocsPath` in docs-source.ts, which converts back-slashes,
+ * accepts a path with or without a leading slash, and collapses those segments
+ * before reading the file — so `/uilib/button.md`, `uilib/button.md`,
+ * `/uilib/./button.md` and `\uilib\button.md` all name the same document and
+ * must be stored under one key. Parity with the real normaliser is pinned by
+ * test rather than by importing it, so this module stays free of dependencies.
  */
 function canonicalDocsPath(value: string): string {
   const segments = value
+    .replaceAll('\\', '/')
     .split('/')
     .filter((segment) => segment !== '' && segment !== '.')
 

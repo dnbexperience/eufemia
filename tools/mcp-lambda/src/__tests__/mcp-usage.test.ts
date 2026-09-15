@@ -84,16 +84,19 @@ describe('usageRecordsFromRequestBody', () => {
     expect(list?.path).toBe('/uilib/components')
   })
 
-  // The docs server accepts a path with or without a leading slash and collapses
-  // empty and `.` segments before reading the file, so all of these name the same
-  // document. Storing them verbatim would drop the relative form entirely and
-  // split the rest across separate rows.
+  // The docs server accepts a path with or without a leading slash, converts
+  // back-slashes, and collapses empty and `.` segments before reading the file,
+  // so all of these name the same document. Storing them verbatim would drop the
+  // relative and back-slashed forms entirely and split the rest across separate
+  // rows.
   it.each([
     ['/uilib/components/button.md', '/uilib/components/button.md'],
     ['uilib/components/button.md', '/uilib/components/button.md'],
     ['/uilib//components/./button.md', '/uilib/components/button.md'],
     ['/uilib/components/button.md/', '/uilib/components/button.md'],
     ['//uilib/components/button.md', '/uilib/components/button.md'],
+    ['\\uilib\\components\\button.md', '/uilib/components/button.md'],
+    ['/uilib\\components/button.md', '/uilib/components/button.md'],
   ])('stores the path %s as %s', (path, expected) => {
     const [record] = usageRecordsFromRequestBody(
       body(toolCall('docs_read', { path })),
@@ -106,6 +109,7 @@ describe('usageRecordsFromRequestBody', () => {
   it.each([
     ['a prefix without a leading slash', 'uilib/components'],
     ['a prefix with a trailing slash', '/uilib/components/'],
+    ['a back-slashed prefix', '\\uilib\\components'],
   ])('stores %s under one key', (_label, prefix) => {
     const [record] = usageRecordsFromRequestBody(
       body(toolCall('docs_list', { prefix })),
@@ -226,13 +230,19 @@ describe('usageRecordsFromRequestBody', () => {
   // `canonicalDocsPath` reimplements the server's own path normalisation rather
   // than importing it, so this pins the two together: if `normalizeDocsPath`
   // changes how it collapses a path, this fails instead of silently splitting
-  // one document across several stored keys.
+  // one document across several stored keys. Cover every shape the normaliser
+  // treats as significant — leading slash, repeated and `.` segments, trailing
+  // slash and back-slashes — since a list of forward-slash examples would let a
+  // divergence like the back-slashed form through.
   it.each([
     '/uilib/components/button.md',
     'uilib/components/button.md',
     '/uilib//components/./button.md',
     '/uilib/components/button.md/',
     '//uilib/components/./button.md//',
+    '\\uilib\\components\\button.md',
+    'uilib\\components\\button.md',
+    '/uilib\\components/./button.md\\',
   ])('stores %s exactly as the docs server normalises it', (path) => {
     const [record] = usageRecordsFromRequestBody(
       body(toolCall('docs_read', { path })),
