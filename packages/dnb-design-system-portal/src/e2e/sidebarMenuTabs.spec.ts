@@ -234,4 +234,29 @@ test.describe('Portal SidebarMenu', () => {
       menu.getByRole('button', { name: 'Components', exact: true })
     ).toBeVisible()
   })
+
+  test('keeps Drawer scroll position across repeated opens', async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 390, height: 844 })
+    await page.goto('/uilib/extensions/sidebar-menu/demos/')
+    await waitForApp(page)
+
+    const trigger = page.locator('#toggle-sidebar-menu')
+    const positions: number[] = []
+
+    for (let index = 0; index < 4; index += 1) {
+      await trigger.click()
+      const drawer = page.locator('.dnb-sidebar-menu-responsive-drawer')
+      await drawer.waitFor({ state: 'visible' })
+      await expect
+        .poll(() => drawer.evaluate((el) => el.scrollTop))
+        .toBeGreaterThan(0)
+      positions.push(await drawer.evaluate((el) => el.scrollTop))
+      await page.keyboard.press('Escape')
+      await trigger.waitFor({ state: 'visible' })
+    }
+
+    expect(new Set(positions).size).toBe(1)
+  })
 })
