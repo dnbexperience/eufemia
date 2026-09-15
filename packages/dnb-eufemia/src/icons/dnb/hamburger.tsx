@@ -10,9 +10,24 @@ const hamburger = (props?: IconSVGProps) => (
     viewBox="0 0 16 16"
     {...props}
   >
-    <path stroke="#000" strokeLinecap="round" strokeWidth={1.5} d="M1 2h14" />
-    <path stroke="#000" strokeLinecap="round" strokeWidth={1.5} d="M1 8h14" />
-    <path stroke="#000" strokeLinecap="round" strokeWidth={1.5} d="M1 14h14" />
+    <path
+      stroke="#000"
+      strokeLinecap="round"
+      strokeWidth={1.5}
+      d="M1 2h14"
+    />
+    <path
+      stroke="#000"
+      strokeLinecap="round"
+      strokeWidth={1.5}
+      d="M1 8h14"
+    />
+    <path
+      stroke="#000"
+      strokeLinecap="round"
+      strokeWidth={1.5}
+      d="M1 14h14"
+    />
   </svg>
 )
 export default hamburger
