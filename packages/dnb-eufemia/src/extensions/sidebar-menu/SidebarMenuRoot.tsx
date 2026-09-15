@@ -80,6 +80,8 @@ function SidebarMenuRoot(props: SidebarMenuRootProps) {
   const [hoveredSection, setHoveredSection] = useState<string>()
   const sectionSelectorOpenRef = useRef(false)
   const loadedOpenItemsStorageIdRef = useRef<string | undefined>(undefined)
+  const [renderedOpenItemsStorageId, setRenderedOpenItemsStorageId] =
+    useState<string>()
   const skipOpenItemsPersistRef = useRef(false)
   const [internalActiveSection, setInternalActiveSection] = useState(
     () => defaultActiveSection ?? initialState.sectionId
@@ -90,6 +92,7 @@ function SidebarMenuRoot(props: SidebarMenuRootProps) {
   const resolvedSelectedItem = selectedItem ?? internalSelectedItem
   const activeItem = findActiveDeclarativeItem(children)
   const positionedSelectedItemRef = useRef<string>(undefined)
+  const restoredScrollPositionRef = useRef(false)
   const selection = findSelection({
     id: resolvedSelectedItem,
     children,
@@ -170,6 +173,7 @@ function SidebarMenuRoot(props: SidebarMenuRootProps) {
       selectedItem: storedOpenState.selectedItem ?? resolvedSelectedItem,
       ids: storedOpenState.closedItems,
     })
+    setRenderedOpenItemsStorageId(openItemsStorageId)
     const frame = requestAnimationFrame(() => setAnimate(true))
 
     return () => cancelAnimationFrame(frame)
@@ -228,6 +232,9 @@ function SidebarMenuRoot(props: SidebarMenuRootProps) {
   useLayoutEffect(() => {
     if (
       !scrollPositionStorageKey ||
+      (openItems === undefined &&
+        openItemsStorageKey &&
+        renderedOpenItemsStorageId !== openItemsStorageId) ||
       (responsive?.isSmallScreen && !responsive.open)
     ) {
       return undefined
@@ -241,10 +248,15 @@ function SidebarMenuRoot(props: SidebarMenuRootProps) {
     }
 
     const storage = getStorage(scrollPositionStorage)
-    const storedPosition = Number(
-      storage?.getItem(scrollPositionStorageKey)
-    )
-    if (Number.isFinite(storedPosition) && storedPosition > 0) {
+    const storedValue = storage?.getItem(scrollPositionStorageKey)
+    const storedPosition = Number(storedValue)
+    if (
+      storedValue !== null &&
+      storedValue !== undefined &&
+      Number.isFinite(storedPosition) &&
+      storedPosition >= 0
+    ) {
+      restoredScrollPositionRef.current = true
       scrollInstantly(scrollView, storedPosition)
     }
 
@@ -278,6 +290,10 @@ function SidebarMenuRoot(props: SidebarMenuRootProps) {
     responsive?.drawerScrollElement,
     responsive?.isSmallScreen,
     responsive?.open,
+    openItems,
+    openItemsStorageId,
+    openItemsStorageKey,
+    renderedOpenItemsStorageId,
     scrollPositionStorage,
     scrollPositionStorageKey,
   ])
@@ -313,6 +329,15 @@ function SidebarMenuRoot(props: SidebarMenuRootProps) {
       !resolvedSelectedItem ||
       positionedSelectedItemRef.current === resolvedSelectedItem
     ) {
+      return undefined
+    }
+
+    if (
+      positionedSelectedItemRef.current === undefined &&
+      restoredScrollPositionRef.current
+    ) {
+      positionedSelectedItemRef.current = resolvedSelectedItem
+      restoredScrollPositionRef.current = false
       return undefined
     }
 

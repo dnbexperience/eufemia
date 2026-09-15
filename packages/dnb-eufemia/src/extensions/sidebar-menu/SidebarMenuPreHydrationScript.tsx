@@ -118,20 +118,23 @@ function applyPreHydrationState() {
             menu.getAttribute('data-scroll-position-storage') === 'local'
               ? localStorage
               : sessionStorage
-          const stored = Number(storage.getItem(key))
+          const storedValue = storage.getItem(key)
+          const stored = Number(storedValue)
+          const hasStoredPosition =
+            storedValue !== null && Number.isFinite(stored) && stored >= 0
           const behavior = view.style.getPropertyValue('scroll-behavior')
           const priority =
             view.style.getPropertyPriority('scroll-behavior')
 
           view.style.setProperty('scroll-behavior', 'auto', 'important')
-          if (Number.isFinite(stored) && stored > 0) {
+          if (hasStoredPosition) {
             view.scrollTop = stored
           }
 
           const active = menu.querySelector<HTMLElement>(
             '[aria-current="page"]'
           )
-          if (active) {
+          if (active && !hasStoredPosition) {
             const viewRect = view.getBoundingClientRect()
             const activeRect = active.getBoundingClientRect()
             if (
