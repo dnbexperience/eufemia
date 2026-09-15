@@ -23,11 +23,13 @@ import useTranslation from '../../shared/useTranslation'
 type SidebarMenuResponsiveContextValue = {
   close: () => void
   drawerScrollElement: HTMLElement | null
+  drawerOpeningRef: RefObject<boolean>
   setDrawerScrollElement: (element: HTMLElement | null) => void
   isHydrated: boolean
   inlineCollapsed: boolean
   isSmallScreen: boolean
   open: boolean
+  openRef: RefObject<boolean>
   setOpen: (open: boolean) => void
   toggle: () => void
   collapseInline: () => void
@@ -97,6 +99,8 @@ export function SidebarMenuResponsiveProvider({
     []
   )
   const resolvedOpen = open ?? internalOpen
+  const openRef = useRef(resolvedOpen)
+  const drawerOpeningRef = useRef(false)
   const resolvedInlineCollapsed =
     inlineCollapsed ?? internalInlineCollapsed
 
@@ -109,6 +113,10 @@ export function SidebarMenuResponsiveProvider({
   }, [onOpenChange])
 
   useIsomorphicLayoutEffect(() => {
+    openRef.current = resolvedOpen
+  }, [resolvedOpen])
+
+  useIsomorphicLayoutEffect(() => {
     onInlineCollapsedChangeRef.current = onInlineCollapsedChange
   }, [onInlineCollapsedChange])
 
@@ -118,6 +126,8 @@ export function SidebarMenuResponsiveProvider({
 
   const setOpen = useCallback(
     (nextOpen: boolean) => {
+      openRef.current = nextOpen
+      drawerOpeningRef.current = nextOpen
       if (open === undefined) {
         setInternalOpen(nextOpen)
       }
@@ -159,11 +169,13 @@ export function SidebarMenuResponsiveProvider({
       close,
       collapseInline,
       drawerScrollElement,
+      drawerOpeningRef,
       isHydrated,
       inlineCollapsed: resolvedInlineCollapsed,
       isSmallScreen,
       isSmallScreenRef,
       open: resolvedOpen,
+      openRef,
       setOpen,
       setDrawerScrollElement,
       toggle,
@@ -353,12 +365,14 @@ export function SidebarMenuResponsiveDrawer({
   scrollbarGutter = 'stable',
   scrollRef,
   className,
+  onOpen,
   onClose,
   ...props
 }: SidebarMenuResponsiveDrawerProps) {
   const translation = useTranslation().SidebarMenu
   const {
     close,
+    drawerOpeningRef,
     isSmallScreen,
     isSmallScreenRef,
     open,
@@ -392,6 +406,10 @@ export function SidebarMenuResponsiveDrawer({
       contentId={id}
       dialogTitle={dialogTitle ?? translation.menu}
       open={open}
+      onOpen={(event) => {
+        drawerOpeningRef.current = false
+        onOpen?.(event)
+      }}
       onClose={(event) => {
         if (isSmallScreenRef.current) {
           close()
