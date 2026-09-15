@@ -211,7 +211,10 @@ function SidebarMenuRoot(props: SidebarMenuRootProps) {
   ])
 
   useLayoutEffect(() => {
-    if (!scrollPositionStorageKey) {
+    if (
+      !scrollPositionStorageKey ||
+      (responsive?.isSmallScreen && !responsive.open)
+    ) {
       return undefined
     }
 
@@ -231,6 +234,13 @@ function SidebarMenuRoot(props: SidebarMenuRootProps) {
     }
 
     const persistPosition = () => {
+      if (
+        responsive?.isSmallScreen &&
+        (!responsive.openRef.current ||
+          responsive.drawerOpeningRef.current)
+      ) {
+        return
+      }
       try {
         storage?.setItem(
           scrollPositionStorageKey,
@@ -246,12 +256,12 @@ function SidebarMenuRoot(props: SidebarMenuRootProps) {
     })
 
     return () => {
-      persistPosition()
       scrollView.removeEventListener('scroll', persistPosition)
     }
   }, [
     responsive?.drawerScrollElement,
     responsive?.isSmallScreen,
+    responsive?.open,
     scrollPositionStorage,
     scrollPositionStorageKey,
   ])

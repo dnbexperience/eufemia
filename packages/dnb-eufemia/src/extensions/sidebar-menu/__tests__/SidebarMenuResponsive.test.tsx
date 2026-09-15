@@ -362,7 +362,10 @@ describe('SidebarMenu responsive parts', () => {
     expect(sessionStorage.getItem(storageKey)).toBe('240')
 
     fireEvent.click(trigger)
+    drawer.scrollTop = 0
+    fireEvent.scroll(drawer)
     await waitFor(() => expect(drawer).not.toBeInTheDocument())
+    expect(sessionStorage.getItem(storageKey)).toBe('240')
     fireEvent.click(trigger)
 
     await waitFor(() =>
