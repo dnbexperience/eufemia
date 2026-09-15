@@ -182,6 +182,9 @@ export default function SidebarMenuResizeHandle({
   ) {
     cleanupResizeRef.current?.()
     const rootElement = getRootElement()
+    rootElement.classList.add(
+      'dnb-sidebar-menu-resize-handle--transition-ready'
+    )
     rootElement.classList.add('dnb-sidebar-menu-resize-handle--dragging')
     const pointerOffset = clientX - getTargetWidth()
     let rubberBandActive = false

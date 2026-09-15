@@ -271,6 +271,9 @@ describe('SidebarMenuResizeHandle', () => {
       'dnb-sidebar-menu-resize-handle--resizing'
     )
     expect(root).toHaveClass('dnb-sidebar-menu-resize-handle--dragging')
+    expect(root).toHaveClass(
+      'dnb-sidebar-menu-resize-handle--transition-ready'
+    )
 
     fireEvent.pointerMove(window, { clientX: 400 })
 
