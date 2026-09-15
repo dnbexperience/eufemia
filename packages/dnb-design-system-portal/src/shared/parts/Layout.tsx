@@ -146,10 +146,11 @@ function Layout(props: LayoutProps) {
 
       <EufemiaSidebarMenu.ResponsiveProvider
         onInlineCollapsedChange={(collapsed) => {
-          portalRef.current?.style.setProperty(
-            '--aside-width',
-            collapsed ? '0px' : '240px'
-          )
+          if (collapsed) {
+            portalRef.current?.style.setProperty('--aside-width', '0px')
+          } else {
+            portalRef.current?.style.removeProperty('--aside-width')
+          }
         }}
       >
         {!fs && <StickyMenuBar />}

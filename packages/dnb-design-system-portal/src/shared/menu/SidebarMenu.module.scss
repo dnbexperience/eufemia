@@ -57,6 +57,21 @@
 
   background-color: var(--token-color-background-neutral);
   border-right: 1px solid var(--token-color-stroke-neutral-subtle);
+
+  transition: width 300ms var(--easing-default);
+
+  :global(.dnb-sidebar-menu-resize-handle--dragging) & {
+    transition: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+.collapsedNavStyle {
+  overflow: hidden;
+  border-right-width: 0;
 }
 
 .desktopNavStyle {
