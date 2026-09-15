@@ -105,7 +105,7 @@ export type PortalViewRecord = {
   theme: string
   color_scheme: string
   referrer: string
-  createdat: string
+  created_at: string
 }
 
 type ValidationFailure = { ok: false; errors: string[] }
@@ -345,6 +345,6 @@ export function buildPortalViewRecord(
     theme: input.theme ?? 'unknown',
     color_scheme: input.color_scheme ?? 'unknown',
     referrer: input.referrer ?? 'unknown',
-    createdat: createdAt,
+    created_at: createdAt,
   }
 }
