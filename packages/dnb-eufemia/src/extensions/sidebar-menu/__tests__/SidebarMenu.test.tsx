@@ -2759,6 +2759,19 @@ describe('SidebarMenu', () => {
     )
   })
 
+  it('does not render storage metadata for controlled open state', () => {
+    render(
+      <SidebarMenu.Root openItems={[]} openItemsStorageKey="navigation" />
+    )
+
+    expect(
+      document.querySelector('.dnb-sidebar-menu')
+    ).not.toHaveAttribute('data-open-items-storage-key')
+    expect(
+      document.querySelector('.dnb-sidebar-menu')
+    ).not.toHaveAttribute('data-open-items-storage')
+  })
+
   it('does not throw when storage writes fail', () => {
     const setItem = vi
       .spyOn(Storage.prototype, 'setItem')

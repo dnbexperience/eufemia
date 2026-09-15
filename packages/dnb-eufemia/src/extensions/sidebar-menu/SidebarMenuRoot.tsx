@@ -51,6 +51,8 @@ function SidebarMenuRoot(props: SidebarMenuRootProps) {
   const openItemsStorageId = openItemsStorageKey
     ? `${openItemsStorage}:${openItemsStorageKey}`
     : undefined
+  const persistedOpenItemsStorageKey =
+    openItems === undefined ? openItemsStorageKey : undefined
   const [initialState] = useState(() => {
     const selected =
       defaultSelectedItem ?? findActiveDeclarativeItem(children)
@@ -187,12 +189,12 @@ function SidebarMenuRoot(props: SidebarMenuRootProps) {
       .forEach((element) => {
         if (
           element.getAttribute('data-sidebar-menu-pre-hydration') ===
-          openItemsStorageKey
+          persistedOpenItemsStorageKey
         ) {
           element.remove()
         }
       })
-  }, [openItemsStorageKey])
+  }, [persistedOpenItemsStorageKey])
 
   useLayoutEffect(() => {
     if (
@@ -546,8 +548,10 @@ function SidebarMenuRoot(props: SidebarMenuRootProps) {
       element="nav"
       ref={menuRef}
       className={clsx('dnb-sidebar-menu', className)}
-      data-open-items-storage-key={openItemsStorageKey}
-      data-open-items-storage={openItemsStorage}
+      data-open-items-storage-key={persistedOpenItemsStorageKey}
+      data-open-items-storage={
+        persistedOpenItemsStorageKey ? openItemsStorage : undefined
+      }
       data-scroll-position-storage-key={scrollPositionStorageKey}
       data-scroll-position-storage={scrollPositionStorage}
     >
