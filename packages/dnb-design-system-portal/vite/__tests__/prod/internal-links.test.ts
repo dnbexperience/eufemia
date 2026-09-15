@@ -1,10 +1,52 @@
 import { describe, expect, it } from 'vitest'
 import {
+  extractPageLinks,
   formatInternalLinkErrors,
   validateInternalLinks,
 } from '../../prod/internal-links.mjs'
 
 describe('internal link validation', () => {
+  it('collects references from <link> as well as <a>', () => {
+    const { links } = extractPageLinks(`
+      <head>
+        <link rel="canonical" href="https://eufemia.dnb.no/uilib/">
+        <link rel="alternate" type="text/markdown" href="/uilib/components/button.md">
+        <link rel="stylesheet" href="/assets/main.css">
+        <link rel="preconnect" href="https://fonts.example.com">
+      </head>
+      <body><a href="/uilib/">Docs</a></body>
+    `)
+
+    expect(links).toEqual([
+      'https://eufemia.dnb.no/uilib/',
+      '/uilib/components/button.md',
+      '/assets/main.css',
+      'https://fonts.example.com',
+      '/uilib/',
+    ])
+  })
+
+  it('reports a markdown copy that was never generated', () => {
+    const result = validateInternalLinks(
+      [
+        {
+          url: '/uilib/components/button/',
+          html: '<link rel="alternate" type="text/markdown" href="/uilib/components/button.md">',
+        },
+      ],
+      { emittedFiles: new Set(['/uilib/components/button/index.html']) }
+    )
+
+    expect(result.errors).toEqual([
+      {
+        type: 'missing-page',
+        source: '/uilib/components/button/',
+        href: '/uilib/components/button.md',
+        target: '/uilib/components/button.md/',
+      },
+    ])
+  })
+
   it('resolves normalized page, hash and redirected links', () => {
     const result = validateInternalLinks([
       {

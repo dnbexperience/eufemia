@@ -6,7 +6,6 @@ import {
   collectUrls,
   getRoutePreloads,
   getPageMeta,
-  getMdPath,
   injectHtml,
   buildRedirectHtml,
   getOutputPath,
@@ -643,86 +642,6 @@ describe('prerender-utils', () => {
 
       expect(result).not.toContain('__staticRouterHydrationData')
       expect(result).toContain('<div id="root"><h1>Hello</h1></div>')
-    })
-  })
-
-  describe('getMdPath', () => {
-    const allMdxNodes = [
-      {
-        fields: { slug: 'uilib/components/button' },
-        frontmatter: { title: 'Button', showTabs: true },
-      },
-      {
-        fields: { slug: 'uilib/components/button/demos' },
-        frontmatter: { showTabs: true },
-      },
-      {
-        fields: { slug: 'uilib/components/button/properties' },
-        frontmatter: { showTabs: true },
-      },
-      {
-        fields: { slug: 'uilib/components/button/events' },
-        frontmatter: { showTabs: true },
-      },
-      {
-        fields: { slug: 'uilib/components/slider' },
-        frontmatter: { title: 'Slider', showTabs: true },
-      },
-      {
-        fields: { slug: 'uilib/components/slider/custom-tab' },
-        frontmatter: { showTabs: true },
-      },
-      {
-        fields: { slug: 'uilib/layout' },
-        frontmatter: { title: 'Layout' },
-      },
-      {
-        fields: { slug: 'quickguide-designer' },
-        frontmatter: { title: 'Designer' },
-      },
-    ]
-
-    it('returns .md path for entry pages', () => {
-      expect(getMdPath('/uilib/components/button/', allMdxNodes)).toBe(
-        '/uilib/components/button.md'
-      )
-    })
-
-    it('resolves tab pages to their parent entry .md', () => {
-      expect(
-        getMdPath('/uilib/components/button/demos/', allMdxNodes)
-      ).toBe('/uilib/components/button.md')
-      expect(
-        getMdPath('/uilib/components/button/properties/', allMdxNodes)
-      ).toBe('/uilib/components/button.md')
-    })
-
-    it('resolves custom tab names to parent entry .md', () => {
-      expect(
-        getMdPath('/uilib/components/slider/custom-tab/', allMdxNodes)
-      ).toBe('/uilib/components/slider.md')
-    })
-
-    it('returns .md path for non-uilib entry pages', () => {
-      expect(getMdPath('/quickguide-designer/', allMdxNodes)).toBe(
-        '/quickguide-designer.md'
-      )
-    })
-
-    it('returns null for uilib pages without a matching entry', () => {
-      expect(getMdPath('/uilib/unknown/page/', allMdxNodes)).toBeNull()
-    })
-
-    it('handles URLs without trailing slashes', () => {
-      expect(getMdPath('/uilib/components/button', allMdxNodes)).toBe(
-        '/uilib/components/button.md'
-      )
-    })
-
-    it('handles top-level uilib entries', () => {
-      expect(getMdPath('/uilib/layout/', allMdxNodes)).toBe(
-        '/uilib/layout.md'
-      )
     })
   })
 
