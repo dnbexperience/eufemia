@@ -10,9 +10,18 @@ import fs from 'node:fs'
 import path from 'node:path'
 
 /**
- * Tab pages have no markdown copy of their own — their content is part of the
- * entry one level up. These are the names findEntryMdxFiles in
- * eufemia-llm-metadata excludes when it picks entries.
+ * Tab pages have no markdown copy of their own — their content is part of
+ * the entry one level up. These are exactly the names findEntryMdxFiles in
+ * eufemia-llm-metadata excludes when it picks entries, which is what makes
+ * the list complete: a page may declare any tab names it likes through its
+ * `tabs` frontmatter, but any other name is treated as an entry, so such a
+ * page advertises its own copy when one was written and nothing when it was
+ * not. Either way it needs no fallback to its parent.
+ *
+ * Keep the two in sync. A name added here that the generator still treats
+ * as an entry would make those pages advertise their parent's document
+ * instead of their own — a link that resolves, so the build's link check
+ * cannot catch it.
  */
 const TAB_SEGMENTS = new Set(['info', 'demos', 'properties', 'events'])
 

@@ -538,8 +538,8 @@ function injectHtml(
     }
 
     // Add markdown alternate link when the caller provides an mdPath.
-    // This is computed by the prerender loop using allMdxNodes to
-    // resolve tab pages to their parent entry's .md file.
+    // The prerender loop derives it from the copies present in the output,
+    // so a page can only advertise one that exists.
     if (meta.mdPath) {
       ogTags.push(
         `<link rel="alternate" type="text/markdown" title="Markdown documentation" href="${meta.mdPath}">`
