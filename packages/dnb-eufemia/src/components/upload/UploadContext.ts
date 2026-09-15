@@ -14,7 +14,7 @@ export const uploadDefaultProps: Partial<UploadContextValue> = {
   filesAmountLimit: 100,
   download: false,
   variant: 'default',
-  asyncFileOperationTimeout: DEFAULT_ASYNC_FILE_OPERATION_TIMEOUT,
+  _asyncFileOperationTimeout: DEFAULT_ASYNC_FILE_OPERATION_TIMEOUT,
 }
 
 export const UploadContext = createContext<UploadContextValue>(null)

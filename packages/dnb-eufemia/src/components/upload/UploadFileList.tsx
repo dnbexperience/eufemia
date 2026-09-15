@@ -21,7 +21,7 @@ function UploadFileList() {
     allowDuplicates,
     loadingText,
     errorDeleteFailed,
-    asyncFileOperationTimeout,
+    _asyncFileOperationTimeout,
     errorDeleteTimeout,
     onFileDelete,
     onFileClick,
@@ -112,7 +112,7 @@ function UploadFileList() {
       if (claimOperation()) {
         handlers.onTimeout()
       }
-    }, asyncFileOperationTimeout)
+    }, _asyncFileOperationTimeout)
 
     void result.then(
       () => {
