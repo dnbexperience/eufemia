@@ -113,12 +113,3 @@ html[show-dev-grid] .dev-grid {
   // Ensure themed body has a token color for page backgrounds
   background-color: var(--token-color-background-neutral);
 }
-
-// Make the home => pages animation
-.home-background ul {
-  view-transition-name: home;
-}
-
-#portal-sidebar-menu {
-  view-transition-name: home;
-}

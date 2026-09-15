@@ -5,7 +5,7 @@ import Anchor from '../tags/Anchor'
 import AutoLinkHeader from '../tags/AutoLinkHeader'
 import { basicComponents } from '../../shared/tags'
 import { makeSlug } from '../../uilib/utils/slug'
-import { cardItemStyle } from '../menu/MainMenu.module.scss'
+import { cardItemStyle } from './ListComponentsOverview.module.scss'
 import {
   categoryOrder,
   excludedSlugs,

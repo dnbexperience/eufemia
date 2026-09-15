@@ -110,6 +110,33 @@ test.describe('Page Navigation', () => {
       await waitForApp(page)
     })
 
+    test('uses client-side navigation for the home action cards', async ({
+      page,
+    }) => {
+      for (const { name, path } of [
+        { name: /Design/, path: '/quickguide-designer' },
+        { name: /Develop/, path: '/uilib/getting-started/' },
+      ]) {
+        await page.goto('/')
+        await waitForApp(page)
+        await page.evaluate(() => {
+          ;(
+            window as Window & { portalNavigationMarker?: boolean }
+          ).portalNavigationMarker = true
+        })
+
+        await page.getByRole('link', { name }).click()
+        await expect(page).toHaveURL(path)
+        expect(
+          await page.evaluate(
+            () =>
+              (window as Window & { portalNavigationMarker?: boolean })
+                .portalNavigationMarker
+          )
+        ).toBe(true)
+      }
+    })
+
     test('prerendered content should stay visible during JS hydration', async ({
       page,
     }) => {
@@ -131,6 +158,19 @@ test.describe('Page Navigation', () => {
       expect(title).toContain('Button | Eufemia')
     })
 
+    test('home page should show the sidebar menu', async ({ page }) => {
+      const sidebar = page.getByRole('navigation', {
+        name: 'Section Content Menu',
+      })
+
+      await expect(
+        sidebar.getByRole('link', { name: 'Home' })
+      ).toBeVisible()
+      await expect(
+        sidebar.getByRole('button', { name: 'Foundations' })
+      ).toBeVisible()
+    })
+
     test('should contain a Suggest an edit link', async ({ page }) => {
       await page.goto('/uilib/components/button/')
       await waitForApp(page)
@@ -143,22 +183,18 @@ test.describe('Page Navigation', () => {
       )
     })
 
-    test('click on first main menu card should open /design-system', async ({
+    test('click on Design should open the designer guide', async ({
       page,
     }) => {
       const titleBeforeClick = await page.title()
       expect(titleBeforeClick).toContain('DNB Design System | Eufemia')
 
-      await page.click('main nav a')
-      await page.waitForURL('**/design-system/')
+      await page.getByRole('link', { name: /Design/ }).click()
+      await expect(page).toHaveURL('/quickguide-designer')
       await waitForApp(page)
-
-      await page.waitForFunction(
-        () => !document.title.includes('DNB Design System')
-      )
-
-      const titleAfterClick = await page.title()
-      expect(titleAfterClick).toContain('About Eufemia | Eufemia')
+      await expect(
+        page.getByRole('heading', { name: 'Quick Guide - Designers' })
+      ).toBeVisible()
     })
 
     test('click on button page should open /uilib/components/button', async ({

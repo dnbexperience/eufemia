@@ -267,6 +267,23 @@ describe('test-page-filter plugin', () => {
       expect(urls).toEqual(new Set(['/old-page', '/nested/old-page']))
     })
 
+    it('extracts routes reached by client-side navigation', () => {
+      const filePath = writeTsFile(
+        'navigation.e2e.spec.ts',
+        `
+        test('navigation works', async ({ page }) => {
+          await page.goto('/')
+          await page.getByRole('link', { name: 'Design' }).click()
+          await expect(page).toHaveURL('/quickguide-designer')
+        })
+        `
+      )
+
+      const urls = extractPageGotoUrls(filePath)
+      expect(urls.has('/')).toBe(true)
+      expect(urls.has('/quickguide-designer')).toBe(true)
+    })
+
     it('extracts multiple URLs from a single file', () => {
       const filePath = writeTsFile(
         'multi.e2e.spec.ts',
