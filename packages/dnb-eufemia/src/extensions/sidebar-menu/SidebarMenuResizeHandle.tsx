@@ -11,6 +11,8 @@ import { clsx } from 'clsx'
 import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../shared/helpers/useIsomorphicLayoutEffect'
 import useTranslation from '../../shared/useTranslation'
 
+const collapseRubberBandRatio = 0.1
+
 export type SidebarMenuResizeHandleProps = Omit<
   ButtonHTMLAttributes<HTMLButtonElement>,
   'onDoubleClick' | 'onKeyDown' | 'onMouseDown' | 'onPointerDown'
@@ -131,16 +133,22 @@ export default function SidebarMenuResizeHandle({
     )
     const value = String(nextWidth) + 'px'
     getRootElement().style.setProperty(cssProperty, value)
-    const renderedWidth = Math.round(getTargetWidth())
-    if (renderedWidth < nextWidth) {
-      getRootElement().style.setProperty(
-        cssProperty,
-        String(renderedWidth) + 'px'
-      )
-    }
-    writtenWidthRef.current = renderedWidth
+    writtenWidthRef.current = nextWidth
     setResolvedMaxWidth(getMaximumWidth())
-    setHandlePosition(renderedWidth)
+    setHandlePosition(nextWidth)
+  }
+
+  function setRubberBandWidth(width: number) {
+    const distance = minWidth - width
+    const nextWidth = Math.round(
+      minWidth - distance * collapseRubberBandRatio
+    )
+    getRootElement().style.setProperty(
+      cssProperty,
+      String(nextWidth) + 'px'
+    )
+    writtenWidthRef.current = minWidth
+    setHandlePosition(nextWidth)
   }
 
   function setHandlePosition(width: number) {
@@ -173,18 +181,31 @@ export default function SidebarMenuResizeHandle({
     ) => () => void
   ) {
     cleanupResizeRef.current?.()
+    const rootElement = getRootElement()
+    rootElement.classList.add('dnb-sidebar-menu-resize-handle--dragging')
     const pointerOffset = clientX - getTargetWidth()
+    let rubberBandActive = false
     const handleMove = (event: MouseEvent | PointerEvent) => {
       document.documentElement.classList.add(
         'dnb-sidebar-menu-resize-handle--resizing'
       )
       const width = event.clientX - pointerOffset
       if (onCollapse && width <= collapseThreshold) {
-        setWidth(minWidth)
+        rubberBandActive = false
+        const minimumWidth = String(minWidth) + 'px'
+        getRootElement().style.setProperty(cssProperty, minimumWidth)
+        writtenWidthRef.current = minWidth
+        setHandlePosition(minWidth)
         cleanup()
         onCollapse()
         return
       }
+      if (onCollapse && width < minWidth) {
+        rubberBandActive = true
+        setRubberBandWidth(width)
+        return
+      }
+      rubberBandActive = false
       setWidth(width)
     }
     let removeListeners = () => undefined
@@ -193,6 +214,13 @@ export default function SidebarMenuResizeHandle({
       document.documentElement.classList.remove(
         'dnb-sidebar-menu-resize-handle--resizing'
       )
+      rootElement.classList.remove(
+        'dnb-sidebar-menu-resize-handle--dragging'
+      )
+      if (rubberBandActive) {
+        rubberBandActive = false
+        setWidth(minWidth)
+      }
       cleanupResizeRef.current = undefined
     }
 

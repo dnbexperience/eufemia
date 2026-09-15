@@ -76,7 +76,10 @@ describe('SidebarMenu responsive parts', () => {
 
     expect(
       document.querySelector('.dnb-sidebar-menu-responsive-inline')
-    ).toHaveAttribute('hidden')
+    ).toHaveAttribute('inert')
+    expect(
+      document.querySelector('.dnb-sidebar-menu-responsive-inline')
+    ).toHaveAttribute('aria-hidden', 'true')
     expect(trigger).toHaveAttribute(
       'data-sidebar-menu-responsive-visible',
       'true'
@@ -90,7 +93,10 @@ describe('SidebarMenu responsive parts', () => {
     expect(document.body).toHaveTextContent('Inline menu')
     expect(
       document.querySelector('.dnb-sidebar-menu-responsive-inline')
-    ).not.toHaveAttribute('hidden')
+    ).not.toHaveAttribute('inert')
+    expect(
+      document.querySelector('.dnb-sidebar-menu-responsive-inline')
+    ).not.toHaveAttribute('aria-hidden')
     expect(trigger).toHaveAttribute(
       'data-sidebar-menu-responsive-visible',
       'false'

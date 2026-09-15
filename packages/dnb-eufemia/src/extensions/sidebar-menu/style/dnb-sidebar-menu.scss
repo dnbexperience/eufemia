@@ -607,7 +607,7 @@ html.dnb-sidebar-menu-resize-handle--resizing
   }
 
   &[data-sidebar-menu-responsive-visible='false'] {
-    display: none;
+    display: contents;
   }
 }
 

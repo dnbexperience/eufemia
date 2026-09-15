@@ -327,7 +327,8 @@ export function SidebarMenuResponsiveInline({
       data-sidebar-menu-responsive-visible={
         isHydrated ? String(!isSmallScreen && !inlineCollapsed) : undefined
       }
-      hidden={isHydrated && inlineCollapsed}
+      inert={isHydrated && inlineCollapsed}
+      aria-hidden={isHydrated && inlineCollapsed ? 'true' : undefined}
     >
       {children}
     </div>

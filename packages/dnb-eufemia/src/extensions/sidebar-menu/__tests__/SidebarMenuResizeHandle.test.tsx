@@ -188,9 +188,41 @@ describe('SidebarMenuResizeHandle', () => {
     fireEvent.pointerMove(window, { clientX: 119 })
 
     expect(onCollapse).toHaveBeenCalledTimes(1)
+    expect(
+      handle.style.getPropertyValue(
+        '--sidebar-menu-resize-handle-position'
+      )
+    ).toBe('240px')
     expect(document.documentElement).not.toHaveClass(
       'dnb-sidebar-menu-resize-handle--resizing'
     )
+  })
+
+  it('resists dragging below the minimum width', () => {
+    const onCollapse = vi.fn()
+    const { handle, root } = renderHandle()
+
+    render(
+      <SidebarMenu.ResizeHandle
+        targetRef={{ current: document.querySelector('aside') }}
+        scopeSelector=".layout"
+        cssProperty="--aside-width"
+        onCollapse={onCollapse}
+      />
+    )
+    const rubberBandHandle = document.querySelectorAll('button')[1]
+    fireEvent.pointerDown(rubberBandHandle, {
+      button: 0,
+      clientX: 320,
+    })
+    fireEvent.pointerMove(window, { clientX: 220 })
+
+    expect(root.style.getPropertyValue('--aside-width')).toBe('238px')
+    expect(onCollapse).not.toHaveBeenCalled()
+
+    fireEvent.pointerUp(window)
+    expect(root.style.getPropertyValue('--aside-width')).toBe('240px')
+    expect(handle).toBeInTheDocument()
   })
 
   it('positions itself from the target without a shared root', () => {
@@ -238,6 +270,7 @@ describe('SidebarMenuResizeHandle', () => {
     expect(document.documentElement).not.toHaveClass(
       'dnb-sidebar-menu-resize-handle--resizing'
     )
+    expect(root).toHaveClass('dnb-sidebar-menu-resize-handle--dragging')
 
     fireEvent.pointerMove(window, { clientX: 400 })
 
@@ -249,6 +282,9 @@ describe('SidebarMenuResizeHandle', () => {
     fireEvent.pointerUp(window)
     expect(document.documentElement).not.toHaveClass(
       'dnb-sidebar-menu-resize-handle--resizing'
+    )
+    expect(root).not.toHaveClass(
+      'dnb-sidebar-menu-resize-handle--dragging'
     )
   })
 

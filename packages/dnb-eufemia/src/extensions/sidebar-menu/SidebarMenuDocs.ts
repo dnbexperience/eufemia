@@ -151,11 +151,7 @@ export const SidebarMenuResizeHandleProperties: PropertiesTableProps = {
   collapseThreshold: {
     doc: 'Width in pixels at which continued pointer dragging calls onCollapse. Defaults to half of minWidth.',
     type: 'number',
-    status: 'optional',
-  },
-  onCollapse: {
-    doc: 'Called when pointer dragging reaches collapseThreshold.',
-    type: '() => void',
+    defaultValue: 'minWidth / 2',
     status: 'optional',
   },
   step: {
@@ -173,6 +169,14 @@ export const SidebarMenuResizeHandleProperties: PropertiesTableProps = {
   '[button attributes]': {
     doc: 'Standard button attributes are supported. Set `aria-controls` to the id of the resized sidebar. The default accessible label is "Resize sidebar".',
     type: 'Various',
+    status: 'optional',
+  },
+}
+
+export const SidebarMenuResizeHandleEvents: PropertiesTableProps = {
+  onCollapse: {
+    doc: 'Called when pointer dragging reaches collapseThreshold. Below minWidth, the handle applies resistance to communicate that continued dragging can collapse the sidebar.',
+    type: '() => void',
     status: 'optional',
   },
 }
