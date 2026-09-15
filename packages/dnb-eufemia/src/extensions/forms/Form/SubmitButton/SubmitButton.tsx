@@ -5,7 +5,7 @@ import type { ComponentProps } from '../../types'
 import DataContext from '../../DataContext/Context'
 import type { ButtonProps } from '../../../../components/button/Button'
 import Button from '../../../../components/button/Button'
-import SubmitIndicator from '../SubmitIndicator'
+import SubmitIndicatorGlow from '../SubmitIndicator/SubmitIndicatorGlow'
 import useTranslation from '../../hooks/useTranslation'
 import { send } from '../../../../icons'
 import useId from '../../../../shared/helpers/useId'
@@ -68,7 +68,14 @@ function SubmitButton(props: FormSubmitButtonProps) {
 
   return (
     <Button
-      className={clsx('dnb-forms-submit-button', className)}
+      className={clsx(
+        'dnb-forms-submit-button',
+        'dnb-indicator-border-glow',
+        'dnb-indicator-border-glow--button',
+        indicatorState === 'pending' &&
+          'dnb-indicator-border-glow--active',
+        className
+      )}
       onClick={onClickHandler}
       type={isolate ? 'button' : 'submit'}
       variant={variant === 'secondary' ? 'secondary' : undefined}
@@ -78,7 +85,7 @@ function SubmitButton(props: FormSubmitButtonProps) {
     >
       {content}
 
-      <SubmitIndicator state={indicatorState} />
+      <SubmitIndicatorGlow state={indicatorState} />
     </Button>
   )
 }

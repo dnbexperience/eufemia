@@ -176,7 +176,7 @@ describe('Field.PostalCodeAndCity', () => {
       '.dnb-forms-field-postal-code-and-city__postal-code'
     )
     const postalCodeIndicator = postalCodeBlock.querySelector(
-      '.dnb-forms-submit-indicator'
+      '.dnb-forms-submit-indicator-glow__status'
     )
     const postalCodeInput = postalCodeBlock.querySelector(
       '.dnb-input__input'
@@ -186,13 +186,13 @@ describe('Field.PostalCodeAndCity', () => {
 
     await waitFor(() => {
       expect(postalCodeIndicator).toHaveClass(
-        'dnb-forms-submit-indicator--state-pending'
+        'dnb-forms-submit-indicator-glow__status--state-pending'
       )
     })
 
     expect(
       document.querySelectorAll(
-        '.dnb-forms-submit-indicator--state-pending'
+        '.dnb-forms-submit-indicator-glow__status--state-pending'
       )
     ).toHaveLength(1)
   })

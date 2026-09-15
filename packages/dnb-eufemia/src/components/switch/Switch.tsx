@@ -334,7 +334,7 @@ function Switch(props: SwitchProps) {
           <span className="dnb-switch__shell">
             {(labelPosition === 'right' || !labelPosition) && labelComp}
 
-            <span className="dnb-switch__row">
+            <span className="dnb-switch__row dnb-indicator-border-glow__target dnb-indicator-border-glow__target--round">
               <input
                 id={id}
                 name={id}
