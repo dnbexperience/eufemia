@@ -6,7 +6,11 @@ import {
   clearSession,
   readSession,
 } from '../dashboard/auth.js'
-import { loadDashboardData, snapshotMeta } from '../dashboard/app.js'
+import {
+  loadDashboardData,
+  normalise,
+  snapshotMeta,
+} from '../dashboard/app.js'
 
 class MemoryStorage {
   store = new Map()
@@ -283,5 +287,19 @@ describe('snapshotMeta', () => {
 
   it('returns nothing when records exist but no snapshot time is present', () => {
     expect(snapshotMeta({}, 5)).toBe('')
+  })
+})
+
+describe('normalise', () => {
+  it('derives the day from the stored created_at field', () => {
+    const record = { path: '/a', created_at: '2026-09-02T10:00:00.000Z' }
+
+    expect(normalise(record).day).toBe('2026-09-02')
+  })
+
+  it('falls back to timestamp when created_at is absent', () => {
+    const record = { path: '/a', timestamp: '2026-09-03T10:00:00.000Z' }
+
+    expect(normalise(record).day).toBe('2026-09-03')
   })
 })
