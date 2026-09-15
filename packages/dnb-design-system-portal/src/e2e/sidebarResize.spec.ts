@@ -394,6 +394,19 @@ test.describe('Sidebar resize', () => {
       'true'
     )
     await expect(trigger).toBeVisible()
+    await expect(trigger.locator('.dnb-icon path')).toHaveCount(3)
+    await expect(trigger.locator('.dnb-icon path').nth(0)).toHaveCSS(
+      'animation-delay',
+      '0.2s'
+    )
+    await expect(trigger.locator('.dnb-icon path').nth(1)).toHaveCSS(
+      'animation-delay',
+      '0.27s'
+    )
+    await expect(trigger.locator('.dnb-icon path').nth(2)).toHaveCSS(
+      'animation-delay',
+      '0.34s'
+    )
     await expect(trigger).toHaveAttribute(
       'aria-controls',
       'portal-sidebar-menu'
