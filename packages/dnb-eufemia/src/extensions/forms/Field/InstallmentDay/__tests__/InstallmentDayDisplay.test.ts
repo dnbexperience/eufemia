@@ -70,7 +70,7 @@ describe('getInstallmentDayDisplayValue', () => {
     expect(
       getInstallmentDayDisplayValue(1, {
         dayDisplay: '{day} day of the month',
-        lastDayLabel: 'Last day of month',
+        lastDayLabel: 'Last day of the month',
         locale: 'en-GB',
       })
     ).toBe('1st day of the month')
