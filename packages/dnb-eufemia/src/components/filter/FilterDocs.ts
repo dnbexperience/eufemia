@@ -470,7 +470,7 @@ export const UseFilterAsyncReturn: PropertiesTableProps = {
     status: 'required',
   },
   loading: {
-    doc: '`true` while a fetch is in progress.',
+    doc: '`true` while a fetch is in progress. Also cleared when the deadline passes, even though the fetch itself is not aborted.',
     type: 'boolean',
     status: 'required',
   },
