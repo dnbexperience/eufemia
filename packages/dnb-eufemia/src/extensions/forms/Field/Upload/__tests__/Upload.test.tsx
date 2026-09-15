@@ -1015,6 +1015,72 @@ describe('Field.Upload', () => {
     })
   })
 
+  describe('concurrent fileHandler calls', () => {
+    it('should stop the loading state of both files when two settle in the same tick', async () => {
+      const resolvers: Array<() => void> = []
+      const fileHandler = vi.fn(
+        (newFiles: UploadValue) =>
+          new Promise<UploadValue>((resolve) => {
+            resolvers.push(() => resolve(newFiles))
+          })
+      )
+
+      render(
+        <Form.Handler>
+          <Field.Upload path="/files" fileHandler={fileHandler} />
+        </Form.Handler>
+      )
+
+      const inputElement = document.querySelector(
+        '.dnb-upload__file-input'
+      )
+
+      fireEvent.change(inputElement, {
+        target: {
+          files: [createMockFile('fileName-1.png', 100, 'image/png')],
+        },
+      })
+      await waitFor(() => {
+        expect(fileHandler).toHaveBeenCalledTimes(1)
+      })
+
+      fireEvent.change(inputElement, {
+        target: {
+          files: [createMockFile('fileName-2.png', 100, 'image/png')],
+        },
+      })
+      await waitFor(() => {
+        expect(fileHandler).toHaveBeenCalledTimes(2)
+      })
+
+      expect(
+        document.querySelectorAll('.dnb-progress-indicator')
+      ).toHaveLength(2)
+
+      // Both handlers settle in the same tick. The second must not compute
+      // from a list that still shows the first as loading, or it undoes that
+      // resolution — and because both handlers succeeded, both deadlines are
+      // cleared and nothing is left to recover the file.
+      resolvers.forEach((resolve) => resolve())
+
+      await waitFor(() => {
+        expect(
+          document.querySelectorAll('.dnb-progress-indicator')
+        ).toHaveLength(0)
+      })
+
+      expect(
+        document.querySelectorAll('.dnb-upload__file-cell')
+      ).toHaveLength(2)
+
+      document
+        .querySelectorAll('.dnb-upload__file-cell button')
+        .forEach((button) => {
+          expect(button).not.toBeDisabled()
+        })
+    })
+  })
+
   describe('never settling fileHandler', () => {
     it('should re-enable the file without resuming a deferred submit after asyncSubmitTimeout', async () => {
       const fileHandler = vi.fn(() => {

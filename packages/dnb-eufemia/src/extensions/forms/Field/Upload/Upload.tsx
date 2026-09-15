@@ -174,11 +174,22 @@ function UploadComponent(props: FieldUploadProps) {
 
   const { files, setFiles, clearFiles } = useUpload(id)
 
-  const filesRef = useRef<Array<UploadFile> | undefined>(undefined)
+  const filesRef = useRef<UploadValue | undefined>(undefined)
 
   useMemo(() => {
     filesRef.current = files
   }, [files])
+
+  // Keep the ref in step synchronously. It is otherwise only refreshed on
+  // render, so two file handlers settling in the same tick would both compute
+  // from the same stale list, and the second would undo the first.
+  const updateFiles = useCallback(
+    (updatedFiles: UploadValue) => {
+      filesRef.current = updatedFiles
+      setFiles(updatedFiles)
+    },
+    [setFiles]
+  )
 
   // A file that waits for the fileHandler keeps its loading state, which
   // disables its delete button, and keeps the field pending, which blocks the
@@ -282,8 +293,8 @@ function UploadComponent(props: FieldUploadProps) {
       )
     })
 
-    setFiles([...mergedExternalFiles, ...filesToPreserve])
-  }, [isPendingOrErrorFile, setFiles, value])
+    updateFiles([...mergedExternalFiles, ...filesToPreserve])
+  }, [isPendingOrErrorFile, updateFiles, value])
 
   const handleChangeAsync = useCallback(
     async (files: UploadValue) => {
@@ -318,7 +329,7 @@ function UploadComponent(props: FieldUploadProps) {
             ...file,
             isLoading: !file.errorMessage,
           }))
-          setFiles([...filesRef.current, ...newFilesLoading])
+          updateFiles([...filesRef.current, ...newFilesLoading])
 
           const loadingFiles = newFilesLoading.filter(
             (file) => file.isLoading
@@ -328,7 +339,7 @@ function UploadComponent(props: FieldUploadProps) {
             completeFileHandlerOperation(operation, {
               cancelPendingSubmit: true,
             })
-            setFiles(
+            updateFiles(
               filesRef.current?.map((file) => {
                 return loadingFiles.some((loadingFile) =>
                   isSameFile(loadingFile, file)
@@ -345,7 +356,7 @@ function UploadComponent(props: FieldUploadProps) {
           }
 
           if (!incomingFiles) {
-            setFiles(existingFiles)
+            updateFiles(existingFiles)
             handleChange(existingFiles)
           } else {
             // merge incoming files into existing order of newFiles.
@@ -398,7 +409,7 @@ function UploadComponent(props: FieldUploadProps) {
                 indexOfFirstNewFile + newFilesLoading.length
               ),
             ]
-            setFiles(updatedFiles)
+            updateFiles(updatedFiles)
             handleChange(updatedFiles)
           }
         } finally {
@@ -416,7 +427,7 @@ function UploadComponent(props: FieldUploadProps) {
       handleChange,
       setFieldInternals,
       setFieldState,
-      setFiles,
+      updateFiles,
       completeFileHandlerOperation,
     ]
   )
