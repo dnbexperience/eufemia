@@ -17,26 +17,13 @@ import { setPortalHeadData, usePortalHead } from './PortalHead'
 import { Breadcrumb, Button } from '@dnb/eufemia/src'
 import { resolveEditSourcePath } from './editSourcePath'
 import { getSuggestEditUrl } from './suggestEdit'
+import type { KnownFrontmatter } from '../../vite/client/plugins/portal-pages.shared'
 
 const ContentWrapper = TabBar.ContentWrapper
 
-type Frontmatter = {
-  title?: string
-  showTabs?: boolean
-  fullscreen?: boolean
-  hideEditLink?: boolean
-}
-type Fields = {
-  slug: string
-  sourcePath: string
-}
-type PortalLayoutNode = {
-  frontmatter: Frontmatter
-  fields: Fields
-}
 export type PortalLayoutProps = {
   location: Location
-  pageContext: { frontmatter: Frontmatter; fullscreen?: boolean }
+  pageContext: { frontmatter: KnownFrontmatter; fullscreen?: boolean }
   children: ReactNode
 }
 
@@ -103,15 +90,14 @@ export default function PortalLayout(props: PortalLayoutProps) {
 
   const slug = location.pathname.replace(/^\/|\/$/g, '')
   const mdxEdges = data.allMdx.edges
-  const mdx =
-    useMemo(() => {
-      return mdxEdges.find(({ node }) => {
-        return slug === node.fields.slug
-      })
-    }, [mdxEdges, slug])?.node || {}
+  const mdx = useMemo(() => {
+    return mdxEdges.find(({ node }) => {
+      return slug === node.fields.slug
+    })
+  }, [mdxEdges, slug])?.node
 
-  const { siblings } = mdx
-  const category = siblings?.[0] as PortalLayoutNode
+  const siblings = mdx?.siblings
+  const category = siblings?.[0]
   const categoryFm = category?.frontmatter || {}
   const currentFm = mdx?.frontmatter || {}
   const fmData = Object.entries(categoryFm).reduce(
@@ -125,7 +111,10 @@ export default function PortalLayout(props: PortalLayoutProps) {
   )
 
   // For tab pages without their own title, construct a title like "ComponentName → TabName"
-  const headData = { ...fmData }
+  const headData = {
+    title: fmData.title,
+    description: fmData.description,
+  }
   if (!currentFm.title && currentFm.showTabs && categoryFm.title) {
     const tabs = fmData.tabs || defaultTabsValue
     const currentTabKey = '/' + slug.split('/').pop()

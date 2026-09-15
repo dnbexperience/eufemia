@@ -11,6 +11,12 @@ import { type Plugin } from 'vite'
 import fs from 'node:fs'
 import path from 'node:path'
 import matter from 'gray-matter'
+import type {
+  MdxFrontmatter,
+  MdxNode,
+  PageFileInfo,
+  TableOfContentsItem,
+} from './portal-pages.shared'
 
 const VIRTUAL_MODULE_ID = 'virtual:portal-pages'
 const RESOLVED_VIRTUAL_MODULE_ID = '\0' + VIRTUAL_MODULE_ID
@@ -27,21 +33,15 @@ const IGNORE_PATTERNS = [
   /\/__utils__\//,
   /\/_[^/]+\.[^/]+$/, // underscore-prefixed files (e.g. _helpers.tsx)
 ]
-
-export type TableOfContentsItem = {
-  url: string
-  title: string
-  items?: TableOfContentsItem[]
-}
-
-export type PageFileInfo = {
-  filePath: string
-  sourcePath: string
-  slug: string
-  frontmatter: Record<string, unknown>
-  tableOfContents?: { items: TableOfContentsItem[] }
-  type: 'mdx' | 'tsx'
-}
+// The page shape lives in a types-only file, so app code can import it
+// without reaching into this module's build-time dependencies.
+export type {
+  TableOfContentsItem,
+  KnownFrontmatter,
+  MdxFrontmatter,
+  MdxNode,
+  PageFileInfo,
+} from './portal-pages.shared'
 
 export type PortalPagesPluginOptions = {
   docsDir?: string
@@ -128,7 +128,7 @@ export function scanPageFiles(docsDir: string): PageFileInfo[] {
         .replace(/(^|\/)index$/, '$1')
         .replace(/\/$/, '')
 
-      let frontmatter: Record<string, unknown> = {}
+      let frontmatter: MdxFrontmatter = {}
       let tableOfContents: { items: TableOfContentsItem[] } | undefined
       if (isMdx) {
         try {
@@ -186,7 +186,7 @@ export function readPageFileInfo(
     .replace(/(^|\/)index$/, '$1')
     .replace(/\/$/, '')
 
-  let frontmatter: Record<string, unknown> = {}
+  let frontmatter: MdxFrontmatter = {}
   let tableOfContents: { items: TableOfContentsItem[] } | undefined
 
   if (isMdx) {
@@ -300,7 +300,7 @@ export default function portalPagesPlugin(
           // Only MDX files contribute to the allMdxNodes data structure
           // (TSX pages like index.tsx, 404.tsx don't have frontmatter for the sidebar)
           if (file.type === 'mdx') {
-            const nodeData: Record<string, unknown> = {
+            const nodeData: MdxNode = {
               fields: { slug: file.slug, sourcePath: file.sourcePath },
               frontmatter: file.frontmatter,
             }

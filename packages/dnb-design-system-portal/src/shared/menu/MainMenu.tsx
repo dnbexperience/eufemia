@@ -4,6 +4,7 @@
  */
 
 import { useStaticQuery, graphql } from 'portal-query'
+import type { StaticQueryConnection } from 'portal-query'
 import Card from './Card'
 import {
   UilibSvg,
@@ -26,39 +27,41 @@ import {
 } from './MainMenu.module.scss'
 
 function MainMenu() {
-  const data = useStaticQuery(graphql`
-    query {
-      categories: allMdx(
-        filter: {
-          fields: {
-            slug: {
-              in: [
-                "uilib"
-                "quickguide-designer"
-                "icons"
-                "design-system"
-                "brand"
-                "principles"
-                "contribute"
-              ]
+  const data = useStaticQuery<{ categories: StaticQueryConnection }>(
+    graphql`
+      query {
+        categories: allMdx(
+          filter: {
+            fields: {
+              slug: {
+                in: [
+                  "uilib"
+                  "quickguide-designer"
+                  "icons"
+                  "design-system"
+                  "brand"
+                  "principles"
+                  "contribute"
+                ]
+              }
             }
           }
-        }
-      ) {
-        edges {
-          node {
-            fields {
-              slug
-            }
-            frontmatter {
-              title
-              description
+        ) {
+          edges {
+            node {
+              fields {
+                slug
+              }
+              frontmatter {
+                title
+                description
+              }
             }
           }
         }
       }
-    }
-  `)
+    `
+  )
 
   const {
     categories: { edges },
