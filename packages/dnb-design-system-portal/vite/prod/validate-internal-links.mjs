@@ -10,7 +10,9 @@ import {
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const portalRoot = path.resolve(__dirname, '../..')
 const outDir = path.resolve(portalRoot, 'public')
-const outputFiles = findOutputFiles(outDir)
+// Absent before the first build, present but empty if the output was mislaid.
+// Both are routed into the guard below rather than crashing in readdirSync.
+const outputFiles = fs.existsSync(outDir) ? findOutputFiles(outDir) : []
 const emittedFiles = new Set(outputFiles.map(toUrlPath))
 const renderedPages = []
 
