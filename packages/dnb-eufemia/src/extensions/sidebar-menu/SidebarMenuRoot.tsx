@@ -236,7 +236,8 @@ function SidebarMenuRoot(props: SidebarMenuRootProps) {
     const persistPosition = () => {
       if (
         responsive?.isSmallScreen &&
-        (!responsive.openRef.current ||
+        (scrollView.classList.contains('dnb-drawer--hide') ||
+          !responsive.openRef.current ||
           responsive.drawerOpeningRef.current)
       ) {
         return

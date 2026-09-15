@@ -361,6 +361,12 @@ describe('SidebarMenu responsive parts', () => {
     fireEvent.scroll(drawer)
     expect(sessionStorage.getItem(storageKey)).toBe('240')
 
+    drawer.classList.add('dnb-drawer--hide')
+    drawer.scrollTop = 0
+    fireEvent.scroll(drawer)
+    expect(sessionStorage.getItem(storageKey)).toBe('240')
+    drawer.classList.remove('dnb-drawer--hide')
+
     fireEvent.click(trigger)
     drawer.scrollTop = 0
     fireEvent.scroll(drawer)
