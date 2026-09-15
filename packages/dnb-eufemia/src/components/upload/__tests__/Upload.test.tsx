@@ -19,6 +19,7 @@ import type { UploadAllProps } from '../types'
 import useUpload from '../useUpload'
 import Provider from '../../../shared/Provider'
 import IconPrimary from '../../IconPrimary'
+import { Form } from '../../../extensions/forms'
 
 const nb = nbNO['nb-NO'].Upload
 const en = enGB['en-GB'].Upload
@@ -2486,6 +2487,60 @@ describe('Upload', () => {
           expect(
             document.querySelector('.dnb-progress-indicator')
           ).not.toBeInTheDocument()
+        })
+      })
+
+      // Only Field.Upload and Value.Upload read the form's asyncSubmitTimeout.
+      // The base component cannot, because components/ must not depend on
+      // extensions/forms. The properties table says so, and this pins it, so
+      // the claim cannot silently become false again.
+      it('will use its own asyncFileOperationTimeout inside a Form.Handler, not the form asyncSubmitTimeout', async () => {
+        const onFileDelete = vi.fn(async () => {
+          await new Promise<void>(() => undefined)
+        })
+
+        render(
+          <Form.Handler asyncSubmitTimeout={50}>
+            <Upload
+              {...defaultProps}
+              id="asyncFileOperationTimeout-in-form"
+              asyncFileOperationTimeout={600}
+              onFileDelete={onFileDelete}
+            />
+          </Form.Handler>
+        )
+
+        fireEvent.change(
+          document.querySelector('.dnb-upload__file-input'),
+          {
+            target: {
+              files: [createMockFile('fileName-1.png', 100, 'image/png')],
+            },
+          }
+        )
+
+        fireEvent.click(
+          screen.queryByRole('button', { name: nb.deleteButton })
+        )
+
+        await waitFor(() => {
+          expect(
+            document.querySelector('.dnb-progress-indicator')
+          ).toBeInTheDocument()
+        })
+
+        // Well past the form's deadline, but well before the component's own
+        await wait(300)
+
+        expect(
+          document.querySelector('.dnb-progress-indicator')
+        ).toBeInTheDocument()
+
+        // The component's own deadline is what recovers the file
+        await waitFor(() => {
+          expect(
+            screen.queryByText(nb.errorDeleteTimeout)
+          ).toBeInTheDocument()
         })
       })
     })
