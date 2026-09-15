@@ -411,7 +411,8 @@ test.describe('Sidebar resize', () => {
     await trigger.click()
 
     await expect(sidebar).toBeVisible()
-    await expect(sidebar).toHaveCSS('width', '240px')
+    await expect(sidebar).toHaveCSS('width', '384px')
+    await expect(resizeHandle).toHaveAttribute('aria-valuenow', '384')
     await expect(trigger).not.toBeVisible()
 
     await dragSidebarToWidth(page, resizeHandle, 400)
