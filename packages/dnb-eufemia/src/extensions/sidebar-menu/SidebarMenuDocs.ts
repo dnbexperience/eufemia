@@ -184,9 +184,14 @@ export const SidebarMenuResizeHandleEvents: PropertiesTableProps = {
 export const SidebarMenuResponsiveProviderProperties: PropertiesTableProps =
   {
     breakpoint: {
-      doc: 'Maximum viewport width at which the mobile navigation is used.',
-      type: ['MediaQuerySizes', 'number', 'string'],
+      doc: 'Maximum viewport width at which the mobile navigation is used. Use an Eufemia breakpoint name or an explicit em value.',
+      type: ['MediaQuerySizes', '`${number}em`'],
       defaultValue: '"medium"',
+      status: 'optional',
+    },
+    styleNonce: {
+      doc: 'CSP nonce forwarded to first-paint CSS generated for a custom breakpoint.',
+      type: 'string',
       status: 'optional',
     },
     open: {

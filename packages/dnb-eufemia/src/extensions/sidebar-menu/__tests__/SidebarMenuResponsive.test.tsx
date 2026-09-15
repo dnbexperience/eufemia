@@ -1,9 +1,11 @@
 import { fireEvent, render, waitFor } from '@testing-library/react'
+import { hydrateRoot } from 'react-dom/client'
 import { renderToString } from 'react-dom/server'
 import { setMedia } from 'mock-match-media'
 import '../../../core/vitest/mockMatchMediaSetup'
 import SidebarMenu from '../SidebarMenu'
 import ScrollView from '../../../components/scroll-view/ScrollView'
+import Provider from '../../../shared/Provider'
 
 describe('SidebarMenu responsive parts', () => {
   it('localizes its accessible labels', () => {
@@ -124,6 +126,147 @@ describe('SidebarMenu responsive parts', () => {
     expect(html).toContain('aria-haspopup="dialog"')
     expect(html).not.toContain('aria-controls="inline-menu"')
     expect(html).not.toContain('data-sidebar-menu-responsive-visible')
+  })
+
+  it('renders scoped first-paint CSS for a custom breakpoint', () => {
+    const html = renderToString(
+      <SidebarMenu.ResponsiveProvider
+        breakpoint="50em"
+        styleNonce="nonce-value"
+      >
+        <SidebarMenu.ResponsiveTrigger />
+        <SidebarMenu.ResponsiveInline>
+          Inline menu
+        </SidebarMenu.ResponsiveInline>
+      </SidebarMenu.ResponsiveProvider>
+    )
+
+    expect(html).toContain('@media (max-width: 50em)')
+    expect(html).toContain('@media (min-width: 50.00625em)')
+    expect(html).toContain('data-sidebar-menu-responsive-scope')
+    expect(html).toContain('nonce="nonce-value"')
+    expect(html).toContain(':not([data-sidebar-menu-responsive-visible])')
+    expect(html).toContain('{display:inline-flex}')
+    expect(html).toContain('{display:none}')
+    expect(html).toContain('{display:contents}')
+  })
+
+  it('resolves named custom breakpoints for the first paint', () => {
+    const html = renderToString(
+      <SidebarMenu.ResponsiveProvider breakpoint="small">
+        <SidebarMenu.ResponsiveTrigger />
+      </SidebarMenu.ResponsiveProvider>
+    )
+
+    expect(html).toContain('@media (max-width: 40em)')
+  })
+
+  it('resolves Provider breakpoint overrides for the first paint', () => {
+    const html = renderToString(
+      <Provider breakpoints={{ medium: '50em' }}>
+        <SidebarMenu.ResponsiveProvider>
+          <SidebarMenu.ResponsiveTrigger />
+        </SidebarMenu.ResponsiveProvider>
+      </Provider>
+    )
+
+    expect(html).toContain('@media (max-width: 50em)')
+  })
+
+  it('uses the bundled medium first-paint CSS by default', () => {
+    const html = renderToString(
+      <SidebarMenu.ResponsiveProvider>
+        <SidebarMenu.ResponsiveTrigger />
+      </SidebarMenu.ResponsiveProvider>
+    )
+
+    expect(html).not.toContain('@media (max-width: 60em)')
+  })
+
+  it('falls back to medium for unsupported runtime values', () => {
+    const html = renderToString(
+      <SidebarMenu.ResponsiveProvider breakpoint={'800px' as '50em'}>
+        <SidebarMenu.ResponsiveTrigger />
+      </SidebarMenu.ResponsiveProvider>
+    )
+
+    expect(html).not.toContain('@media (max-width: 800px)')
+  })
+
+  it('uses a custom breakpoint after hydration', () => {
+    setMedia({ width: '53.125em' })
+
+    const { rerender } = render(
+      <SidebarMenu.ResponsiveProvider breakpoint="50em">
+        <SidebarMenu.ResponsiveTrigger />
+        <SidebarMenu.ResponsiveInline>
+          Inline menu
+        </SidebarMenu.ResponsiveInline>
+      </SidebarMenu.ResponsiveProvider>
+    )
+
+    expect(
+      document.querySelector('.dnb-sidebar-menu-responsive-trigger')
+    ).toHaveAttribute('data-sidebar-menu-responsive-visible', 'false')
+    expect(
+      document.querySelector('.dnb-sidebar-menu-responsive-inline')
+    ).toHaveAttribute('data-sidebar-menu-responsive-visible', 'true')
+
+    setMedia({ width: '43.75em' })
+    rerender(
+      <SidebarMenu.ResponsiveProvider breakpoint="50em">
+        <SidebarMenu.ResponsiveTrigger />
+        <SidebarMenu.ResponsiveInline>
+          Inline menu
+        </SidebarMenu.ResponsiveInline>
+      </SidebarMenu.ResponsiveProvider>
+    )
+
+    expect(
+      document.querySelector('.dnb-sidebar-menu-responsive-trigger')
+    ).toHaveAttribute('data-sidebar-menu-responsive-visible', 'true')
+    expect(
+      document.querySelector('.dnb-sidebar-menu-responsive-inline')
+    ).not.toBeInTheDocument()
+  })
+
+  it('hydrates custom breakpoint markup with a stable scope', async () => {
+    setMedia({ width: '53.125em' })
+    const element = (
+      <SidebarMenu.ResponsiveProvider breakpoint="50em">
+        <SidebarMenu.ResponsiveTrigger />
+        <SidebarMenu.ResponsiveInline>
+          Inline menu
+        </SidebarMenu.ResponsiveInline>
+      </SidebarMenu.ResponsiveProvider>
+    )
+    const container = document.createElement('div')
+    container.innerHTML = renderToString(element)
+    document.body.appendChild(container)
+    const scope = container
+      .querySelector('[data-sidebar-menu-responsive-scope]')
+      .getAttribute('data-sidebar-menu-responsive-scope')
+    const consoleError = vi
+      .spyOn(console, 'error')
+      .mockImplementation(() => undefined)
+
+    const root = hydrateRoot(container, element)
+
+    await waitFor(() =>
+      expect(
+        container.querySelector('.dnb-sidebar-menu-responsive-inline')
+      ).toHaveAttribute('data-sidebar-menu-responsive-visible', 'true')
+    )
+    expect(
+      container
+        .querySelector('[data-sidebar-menu-responsive-scope]')
+        .getAttribute('data-sidebar-menu-responsive-scope')
+    ).toBe(scope)
+    expect(consoleError).not.toHaveBeenCalled()
+
+    root.unmount()
+    consoleError.mockRestore()
+    container.remove()
   })
 
   it('returns focus to the trigger when the Drawer closes with Escape', async () => {

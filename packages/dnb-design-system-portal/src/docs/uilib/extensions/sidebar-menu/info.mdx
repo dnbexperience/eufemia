@@ -37,6 +37,7 @@ Fragments and memoized SidebarMenu parts are supported. Arbitrary wrapper compon
 - Collapsed content remains available to browser find-in-page through `hidden="until-found"`.
 - A notification badge on a nested item is summarized by a red dot on collapsible ancestor accordions. The dot remains visible when the accordion expands and takes priority over an informational badge on the same menu point. An explicit notification badge remains visible instead of the dot. Automatic detection follows direct SidebarMenu children and cannot inspect items hidden inside another React component.
 - Sections do not automatically summarize nested notifications. Set `badge` for the dropdown option and `triggerBadge` for the selected trigger when a section needs a notification count.
+- Section hover previews dim the current content only on devices with a fine pointer and hover support. Touch selection happens on the first tap without dimming.
 
 ## Composition
 
@@ -107,7 +108,11 @@ const sidebarRef = useRef<HTMLElement>(null)
 }
 
 .sidebar {
+  position: fixed;
+  inset-block: 0;
+  inset-inline-start: 0;
   width: var(--sidebar-width);
+  overflow: hidden auto;
 }
 ```
 
@@ -124,7 +129,7 @@ Use the responsive compound parts when the same navigation should be inline on l
 
 The trigger and Drawer do not need to be siblings. Place both under the same provider, for example with the trigger in an application header and the Drawer beside the desktop navigation.
 
-Before hydration, the default `medium` breakpoint controls the CSS visibility needed for stable server-rendered markup. A custom `breakpoint` takes over after hydration. Add the matching application CSS when a custom breakpoint must also apply before JavaScript runs.
+The default `medium` breakpoint uses the bundled responsive CSS. A custom Eufemia breakpoint name or explicit `em` value adds scoped first-paint CSS, so server-rendered visibility uses the same breakpoint before and after hydration. Pass `styleNonce` when your content security policy requires a nonce for inline styles.
 
 Use `inlineCollapsed` with `onInlineCollapsedChange` when application state controls desktop dismissal, or `defaultInlineCollapsed` for an uncontrolled initial state. `useResponsive()` exposes `inlineCollapsed`, `collapseInline()`, and `restoreInline()` to compound children.
 
@@ -249,7 +254,7 @@ function AppNavigation() {
 }
 ```
 
-The desktop trigger controls the hidden inline navigation and restores it at `minWidth`, after which the handle can resize it again. Keep the trigger and brand together at the start of the header so they replace the dismissed sidebar's leading content. Below the responsive breakpoint, the same trigger controls the Drawer instead. A desktop-dismissed state can remain while crossing the breakpoint; returning to desktop shows the restore trigger again. The inline tree stays mounted but inert and `aria-hidden` while dismissed so the width can animate without leaving hidden navigation interactive.
+The desktop trigger controls the hidden inline navigation and restores it at `minWidth`, after which the handle can resize it again. This recipe fixes the sidebar to the viewport, clips horizontal overflow while preserving vertical scrolling, and reserves the same width beside it for page content. The sidebar must own clipping because `ResponsiveInline` uses `display: contents` to preserve the consumer's layout; `inert` and `aria-hidden` prevent interaction but do not hide painted overflow. Keep the trigger and brand together at the start of the header so they replace the dismissed sidebar's leading content. Below the responsive breakpoint, the same trigger controls the Drawer instead. A desktop-dismissed state can remain while crossing the breakpoint; returning to desktop shows the restore trigger again. The inline tree stays mounted but inert and `aria-hidden` while dismissed so the width can animate without leaving hidden navigation interactive.
 
 ## Relevant links
 
