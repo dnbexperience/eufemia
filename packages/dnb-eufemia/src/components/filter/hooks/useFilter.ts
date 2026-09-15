@@ -7,6 +7,7 @@ import {
 } from 'react'
 import { useSharedState } from '../../../shared/helpers/useSharedState'
 import { debounceAsync } from '../../../shared/helpers/debounce'
+import { DEFAULT_ASYNC_SUBMIT_TIMEOUT } from '../../../shared/defaults'
 import type { FilterState, FilterValue } from '../FilterContext'
 import { FilterContext } from '../FilterContext'
 
@@ -79,17 +80,7 @@ export type FilterAsyncOptions<T> = {
   initialData?: T
   /** Delay in milliseconds before executing the fetcher after a state change. Useful for reducing API calls while the user is typing. */
   debounce?: number
-  /** Deadline in milliseconds for the fetcher, measured from the change that triggered it, so it also covers `debounce`. When it is reached, the loading state is cleared, `error` is set to an `Error` with `name` `'TimeoutError'`, and a later settle from that fetch is ignored. The fetch itself is not aborted. Defaults to `30000` (30 seconds). */
-  timeout?: number
 }
-
-/**
- * The fetcher is what clears `resultLoading`, which shows a skeleton on
- * Filter.Content and hides the result count. Nothing else clears it, so a
- * Promise that never settles would leave the filter loading forever. Use the
- * same deadline Form.Handler applies to its own async submit.
- */
-const DEFAULT_FILTER_ASYNC_TIMEOUT = 30000
 
 /**
  * Hook for async data fetching linked to a Filter.Root.
@@ -122,7 +113,6 @@ export function useFilterAsync<T>(
   initialDataRef.current = options?.initialData
 
   const debounceMs = options?.debounce ?? 0
-  const timeoutMs = options?.timeout ?? DEFAULT_FILTER_ASYNC_TIMEOUT
 
   type FetcherParams = {
     filters: Record<string, FilterValue>
@@ -176,10 +166,15 @@ export function useFilterAsync<T>(
       return true
     }
 
+    // The fetcher is what clears `resultLoading`, which shows a skeleton on
+    // Filter.Content and hides the result count. Nothing else clears it, so a
+    // Promise that never settles would leave the filter loading forever. The
+    // deadline runs from the change that triggered the fetch, because that is
+    // also when the loading state starts, so it covers `debounce` too.
     const timeoutId = setTimeout(() => {
       if (claimRequest()) {
         const error = new Error(
-          `Filter.useFilterAsync(): the fetcher did not settle within ${timeoutMs}ms.`
+          `Filter.useFilterAsync(): the fetcher did not settle within ${DEFAULT_ASYNC_SUBMIT_TIMEOUT}ms.`
         )
         // Named so consumers can tell a deadline apart from a rejection the
         // fetcher itself produced, and localize their own message for it
@@ -187,7 +182,7 @@ export function useFilterAsync<T>(
         setError(error)
         extend({ resultLoading: false })
       }
-    }, timeoutMs)
+    }, DEFAULT_ASYNC_SUBMIT_TIMEOUT)
 
     fetchFn({ filters, search })
       .then((data) => {
@@ -215,7 +210,7 @@ export function useFilterAsync<T>(
         debouncedFetcherRef.current?.cancel()
       }
     }
-  }, [filtersKey, search, extend, debounceMs, timeoutMs])
+  }, [filtersKey, search, extend, debounceMs])
 
   return {
     data: result,
