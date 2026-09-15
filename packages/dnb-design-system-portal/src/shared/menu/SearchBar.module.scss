@@ -1,16 +1,22 @@
 @use '@dnb/eufemia/src/style/core/utilities.scss' as utilities;
 
 .autocompleteStyle {
-  :global {
-    .dnb-autocomplete__shell {
-      &,
-      input {
-        width: 40vw;
+  width: min(40vw, 17.5rem);
+  min-width: 0;
 
-        @include utilities.allBelow(small) {
-          width: 50vw;
-        }
-      }
+  @include utilities.allBelow(small) {
+    width: min(38vw, 17.5rem);
+  }
+
+  :global {
+    .dnb-autocomplete__inner,
+    .dnb-autocomplete__shell {
+      width: 100%;
+      min-width: 0;
+    }
+
+    .dnb-autocomplete__shell input {
+      width: 100%;
     }
   }
 }
@@ -34,6 +40,10 @@
 
   opacity: 0.6;
   pointer-events: none;
+
+  @include utilities.allBelow(small) {
+    display: none;
+  }
 }
 
 .portalClassStyle {

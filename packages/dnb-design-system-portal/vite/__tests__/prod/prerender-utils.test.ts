@@ -11,6 +11,7 @@ import {
   getOutputPath,
 } from '../../prod/prerender-utils'
 import { getContentScript } from '@dnb/eufemia/src/shared/ColorSchemeScript'
+import { getPreHydrationScript } from '@dnb/eufemia/src/extensions/sidebar-menu/SidebarMenuPreHydrationScript'
 import type {
   RouteEntry,
   SSRManifest,
@@ -434,6 +435,38 @@ describe('prerender-utils', () => {
       const rootEnd = result.indexOf('</div>')
       const scriptPos = result.indexOf('__eufemiaColorScheme')
       expect(scriptPos).toBeGreaterThan(rootEnd)
+    })
+
+    it('positions a persisted SidebarMenu before the first paint', () => {
+      const result = injectHtml(
+        template,
+        '<div class="dnb-scroll-view"><nav data-scroll-position-storage-key="portal-menu-scroll" data-scroll-position-storage="session"><a aria-current="page">Current</a></nav></div>',
+        { js: [], css: [] }
+      )
+
+      expect(result).toContain('[data-scroll-position-storage-key]')
+      expect(result).toContain(getPreHydrationScript())
+      expect(result).toContain('localStorage')
+      expect(result).toContain('sessionStorage')
+      expect(result).toContain('storage.getItem')
+      expect(result).toContain('aria-current')
+      expect(result).toContain('scroll-behavior')
+      expect(result).toContain('important')
+    })
+
+    it('restores persisted SidebarMenu open state before hydration', () => {
+      const result = injectHtml(
+        template,
+        '<nav data-open-items-storage-key="portal-menu" data-open-items-storage="session"></nav>',
+        { js: [], css: [] }
+      )
+
+      expect(result).toContain('[data-open-items-storage-key]')
+      expect(result).toContain('data-sidebar-menu-pre-hydration')
+      expect(result).toContain('closedItems')
+      expect(result).toContain('--sidebar-menu-accordion-gap')
+      expect(result).toContain('margin-top')
+      expect(result).not.toContain('data-portal-ready')
     })
 
     it('does not add preload tags when lists are empty', () => {
