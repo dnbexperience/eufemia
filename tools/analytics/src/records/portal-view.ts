@@ -26,7 +26,8 @@ const PORTAL_VIEW_STATUSES: readonly PortalViewStatus[] = [
  * Keep in sync with the portal's supported locales (`supportedTranslationsKey`
  * in packages/dnb-design-system-portal/src/core/portalRuntimeUtils.ts), which
  * gates what the client sends. If that set grows without this one, the new
- * value passes the client but is rejected here, dropping the whole beacon batch.
+ * value is stored as `unknown` here rather than dropping the batch, so a
+ * drift costs only this one dimension.
  */
 export type PortalViewLocale =
   | 'nb-NO'
@@ -48,7 +49,8 @@ const PORTAL_VIEW_LOCALES: readonly PortalViewLocale[] = [
  *
  * Keep in sync with the portal's theme brands (`availableThemes` in
  * packages/dnb-design-system-portal/vite/client/shims/theme-handler.ts). A brand
- * the client sends but this omits is rejected here, dropping the whole batch.
+ * this list omits is stored as `unknown` rather than rejected, so a drift costs
+ * only this one dimension, not the batch.
  */
 export type PortalViewTheme = 'ui' | 'sbanken' | 'eiendom' | 'carnegie'
 
@@ -101,6 +103,36 @@ const MAX_PATH_LENGTH = 2048
 
 /** A short lowercase environment token, e.g. `prod`, `dev`. */
 const ENV_PATTERN = /^[a-z][a-z0-9-]{0,31}$/
+
+// An unrecognised value for these optional dimensions is coerced to `unknown`
+// when the record is built (the field is dropped here), rather than rejecting
+// the whole batch — a stale or drifted value costs one dimension, not the view.
+function isValidEnv(value: unknown): value is string {
+  return typeof value === 'string' && ENV_PATTERN.test(value)
+}
+
+function isValidLocale(value: unknown): value is PortalViewLocale {
+  return (
+    typeof value === 'string' &&
+    PORTAL_VIEW_LOCALES.includes(value as PortalViewLocale)
+  )
+}
+
+function isValidTheme(value: unknown): value is PortalViewTheme {
+  return (
+    typeof value === 'string' &&
+    PORTAL_VIEW_THEMES.includes(value as PortalViewTheme)
+  )
+}
+
+function isValidColorScheme(
+  value: unknown
+): value is PortalViewColorScheme {
+  return (
+    typeof value === 'string' &&
+    PORTAL_VIEW_COLOR_SCHEMES.includes(value as PortalViewColorScheme)
+  )
+}
 
 // Query params worth keeping because they change how the portal renders. Flags
 // are stored key-only; value params only for a safe token. Everything else is
@@ -163,11 +195,12 @@ function isIsoTimestamp(value: string): boolean {
  * Accepts either a single event object or an array of them. Portal views carry
  * no identifiers or personal data — only a `path` and an optional timestamp,
  * environment label, status, locale, theme and color scheme. Only the
- * allow-listed keys are
- * returned here,
- * and the path is minimised to a safe shape when the record is built (see
- * {@link buildPortalViewRecord} and {@link normalizeTrackedPath}), so nothing
- * incidental in the request can reach storage.
+ * allow-listed keys are returned here, and the path is minimised to a safe
+ * shape when the record is built (see {@link buildPortalViewRecord} and
+ * {@link normalizeTrackedPath}), so nothing incidental in the request can reach
+ * storage. An unrecognised `env`, `locale`, `theme` or `color_scheme` is
+ * dropped so the built record defaults it to `unknown`, rather than failing the
+ * whole batch; `path`, `timestamp` and `status` still reject.
  */
 export function validatePortalViews(
   input: unknown
@@ -230,15 +263,6 @@ export function validatePortalViews(
       }
     }
 
-    if (env !== undefined) {
-      if (typeof env !== 'string' || !ENV_PATTERN.test(env)) {
-        errors.push(
-          `Event ${index}: "env" must be a short lowercase token`
-        )
-        valid = false
-      }
-    }
-
     if (status !== undefined) {
       if (
         typeof status !== 'string' ||
@@ -253,66 +277,18 @@ export function validatePortalViews(
       }
     }
 
-    if (locale !== undefined) {
-      if (
-        typeof locale !== 'string' ||
-        !PORTAL_VIEW_LOCALES.includes(locale as PortalViewLocale)
-      ) {
-        errors.push(
-          `Event ${index}: "locale" must be one of ${PORTAL_VIEW_LOCALES.join(
-            ', '
-          )}`
-        )
-        valid = false
-      }
-    }
-
-    if (theme !== undefined) {
-      if (
-        typeof theme !== 'string' ||
-        !PORTAL_VIEW_THEMES.includes(theme as PortalViewTheme)
-      ) {
-        errors.push(
-          `Event ${index}: "theme" must be one of ${PORTAL_VIEW_THEMES.join(
-            ', '
-          )}`
-        )
-        valid = false
-      }
-    }
-
-    if (colorScheme !== undefined) {
-      if (
-        typeof colorScheme !== 'string' ||
-        !PORTAL_VIEW_COLOR_SCHEMES.includes(
-          colorScheme as PortalViewColorScheme
-        )
-      ) {
-        errors.push(
-          `Event ${index}: "color_scheme" must be one of ${PORTAL_VIEW_COLOR_SCHEMES.join(
-            ', '
-          )}`
-        )
-        valid = false
-      }
-    }
-
     if (valid) {
       value.push({
         path: path as string,
         ...(typeof timestamp === 'string' ? { timestamp } : {}),
-        ...(typeof env === 'string' ? { env } : {}),
+        ...(isValidEnv(env) ? { env } : {}),
         ...(typeof status === 'string'
           ? { status: status as PortalViewStatus }
           : {}),
-        ...(typeof locale === 'string'
-          ? { locale: locale as PortalViewLocale }
-          : {}),
-        ...(typeof theme === 'string'
-          ? { theme: theme as PortalViewTheme }
-          : {}),
-        ...(typeof colorScheme === 'string'
-          ? { color_scheme: colorScheme as PortalViewColorScheme }
+        ...(isValidLocale(locale) ? { locale } : {}),
+        ...(isValidTheme(theme) ? { theme } : {}),
+        ...(isValidColorScheme(colorScheme)
+          ? { color_scheme: colorScheme }
           : {}),
       })
     }

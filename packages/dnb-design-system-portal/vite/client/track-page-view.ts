@@ -40,11 +40,10 @@ function analyticsEnv(): string {
 // dimensions of the view, read fresh per call from the portal's existing
 // preferences (never written) so the stored value matches what the user saw.
 //
-// The emitted locale/theme/color_scheme must stay within the collector's
-// allow-lists (PORTAL_VIEW_LOCALES / PORTAL_VIEW_THEMES / PORTAL_VIEW_COLOR_SCHEMES
-// in tools/analytics/src/records/portal-view.ts); a value it does not accept
-// rejects the whole beacon batch. Only supported values are emitted below, so
-// this holds today — keep the two sides in sync if either set changes.
+// locale/theme/color_scheme are emitted from the portal's own supported values.
+// The collector coerces any unrecognised value to `unknown` (it no longer
+// rejects the batch), so a drift between the two sides costs one dimension at
+// most — but keep them in sync so real values aren't silently bucketed.
 
 function analyticsLocale(): string {
   try {

@@ -82,11 +82,11 @@ describe('validatePortalViews', () => {
     })
   })
 
-  it('rejects an invalid env label', () => {
+  it('coerces an unrecognised env to unknown instead of rejecting', () => {
     for (const env of ['Prod', 'a'.repeat(33), '1prod', 'pr od', 42]) {
       const result = validatePortalViews({ path: '/a', env })
 
-      expect(result.ok).toBe(false)
+      expect(result).toEqual({ ok: true, value: [{ path: '/a' }] })
     }
   })
 
@@ -120,7 +120,7 @@ describe('validatePortalViews', () => {
     }
   })
 
-  it('rejects an invalid locale', () => {
+  it('coerces an unrecognised locale to unknown instead of rejecting', () => {
     for (const locale of [
       'nb',
       'NB-no',
@@ -131,7 +131,7 @@ describe('validatePortalViews', () => {
     ]) {
       const result = validatePortalViews({ path: '/a', locale })
 
-      expect(result.ok).toBe(false)
+      expect(result).toEqual({ ok: true, value: [{ path: '/a' }] })
     }
   })
 
@@ -146,7 +146,7 @@ describe('validatePortalViews', () => {
     }
   })
 
-  it('rejects an invalid theme', () => {
+  it('coerces an unrecognised theme to unknown instead of rejecting', () => {
     for (const theme of [
       'UI',
       'the brand',
@@ -156,7 +156,7 @@ describe('validatePortalViews', () => {
     ]) {
       const result = validatePortalViews({ path: '/a', theme })
 
-      expect(result.ok).toBe(false)
+      expect(result).toEqual({ ok: true, value: [{ path: '/a' }] })
     }
   })
 
@@ -174,14 +174,14 @@ describe('validatePortalViews', () => {
     }
   })
 
-  it('rejects an invalid color_scheme', () => {
+  it('coerces an unrecognised color_scheme to unknown instead of rejecting', () => {
     for (const scheme of ['auto', 'Light', 'dark mode', 42]) {
       const result = validatePortalViews({
         path: '/a',
         color_scheme: scheme,
       })
 
-      expect(result.ok).toBe(false)
+      expect(result).toEqual({ ok: true, value: [{ path: '/a' }] })
     }
   })
 

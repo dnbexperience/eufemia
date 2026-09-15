@@ -22,7 +22,7 @@ Every ingest route is gated by the Akamai `X-Edge-Auth` origin header; there is 
 
 ### Record shape
 
-A portal view carries a `path` and optional `timestamp`, `env`, `status`, `locale`, `theme`, and `color_scheme` dimensions. The service stamps `createdat`; an absent `timestamp` defaults to that receive time, `status` defaults to `ok`, and the remaining absent dimensions default to `unknown`. Locale, theme, and color scheme are restricted to the portal's supported values. No identifiers or personal data are stored.
+A portal view carries a `path` and optional `timestamp`, `env`, `status`, `locale`, `theme`, and `color_scheme` dimensions. The service stamps `createdat`; an absent `timestamp` defaults to that receive time, `status` defaults to `ok`, and the remaining absent dimensions default to `unknown`. An unrecognised `env`, `locale`, `theme`, or `color_scheme` is coerced to `unknown` rather than rejected, so a stale value never drops a batch. No identifiers or personal data are stored.
 
 ```json
 {
