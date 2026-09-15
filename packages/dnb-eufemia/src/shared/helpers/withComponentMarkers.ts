@@ -13,6 +13,8 @@
 export type SpacingPropsVariant = boolean | 'children' | 'passthrough'
 
 export type ComponentMarkers = {
+  /** Identifies a SidebarMenu compound part without importing it in Root. */
+  _sidebarMenuRole?: 'item' | 'accordion' | 'group' | 'section'
   /**
    * Marks the component as a form element.
    * Used by `FieldBlock` to auto-detect whether to render as `<fieldset>`

@@ -204,6 +204,27 @@ describe('injectScope babel plugin', () => {
     expect(output).toContain('@dnb/eufemia/src/extensions/forms')
   })
 
+  it('handles extension imports', async () => {
+    const input = `
+      import ComponentBox from '../../shared/tags/ComponentBox'
+      export function Demo() {
+        return (
+          <ComponentBox>
+            <SidebarMenu.Root />
+          </ComponentBox>
+        )
+      }
+    `
+
+    const output = await transformWithFullPipeline(input)
+
+    expect(output).toContain('__scope_SidebarMenu')
+    expect(output).toContain('import * as __scope_SidebarMenu')
+    expect(output).toContain(
+      '@dnb/eufemia/src/extensions/sidebar-menu/SidebarMenu'
+    )
+  })
+
   it('handles shared imports (Provider, Theme)', async () => {
     const input = `
       import ComponentBox from '../../shared/tags/ComponentBox'
