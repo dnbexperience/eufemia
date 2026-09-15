@@ -12,6 +12,7 @@ import { ScrollView } from '@dnb/eufemia/src/fragments'
 import { setPageFocusElement } from '@dnb/eufemia/src/shared/helpers'
 import {
   navStyle,
+  collapsedNavStyle,
   desktopNavStyle,
   mobileDrawerStyle,
   mobileDrawerLogoStyle,
@@ -50,6 +51,7 @@ export default function SidebarLayout({
   const {
     close: closeMenu,
     collapseInline,
+    inlineCollapsed,
     isSmallScreen,
   } = SidebarMenu.useResponsive()
   const scrollRef = useRef<HTMLElement>(null)
@@ -153,7 +155,11 @@ export default function SidebarLayout({
   ) => (
     <aside
       id="portal-sidebar-menu"
-      className={clsx(navStyle, className)}
+      className={clsx(
+        navStyle,
+        inlineCollapsed && collapsedNavStyle,
+        className
+      )}
       ref={scrollRef}
     >
       <ScrollView
