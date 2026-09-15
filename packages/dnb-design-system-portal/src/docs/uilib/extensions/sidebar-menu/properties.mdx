@@ -49,6 +49,14 @@ import {
 
 Supports standard `HTMLAttributes<HTMLLIElement>`.
 
+## SidebarMenu.PreHydrationScript
+
+Renders the blocking script that restores persisted SidebarMenu state before hydration. It supports standard `ScriptHTMLAttributes<HTMLScriptElement>` except `children` and `dangerouslySetInnerHTML`. Place it after the prerendered menu markup and before the application hydration script.
+
+## SidebarMenu.getPreHydrationScript
+
+Returns the same standalone script as a string for HTML templates assembled outside React.
+
 ## SidebarMenu.ResizeHandle
 
 <PropertiesTable props={SidebarMenuResizeHandleProperties} />

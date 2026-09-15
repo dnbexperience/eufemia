@@ -61,7 +61,32 @@ The selected destination is positioned within the visible browser or nearest `Sc
 
 Use `openItemsStorageKey` to preserve manually opened and closed groups. When the menu is inside a `ScrollView`, use `scrollPositionStorageKey` to restore its vertical position. A stored value takes precedence over the defaults, including an empty array. Use local storage only when the state should survive browser restarts; otherwise keep the default session storage.
 
-Prerendered applications can read the storage metadata rendered by Root or Data and restore the position before hydration. This avoids briefly showing the top of a long menu before moving to the selected item.
+### SSR and SSG without layout shift
+
+`Root` and `Data` render storage metadata when `openItemsStorageKey` or `scrollPositionStorageKey` is set. Add `PreHydrationScript` after the prerendered menu markup and before the application hydration script to make persisted state visible on the first paint:
+
+```tsx
+import * as SidebarMenu from '@dnb/eufemia/extensions/sidebar-menu'
+
+function Document({ children, nonce }) {
+  return (
+    <html>
+      <body>
+        <div id="app">{children}</div>
+        <SidebarMenu.PreHydrationScript nonce={nonce} />
+        <script src="/client.js" nonce={nonce} />
+      </body>
+    </html>
+  )
+}
+```
+
+The script reads the configured session or local storage, applies the persisted open and closed accordion state, and restores the nearest `ScrollView`. An exact stored scroll position, including the top position, takes priority over initially centering the selected item. Without a stored position, the selected item is kept visible. `Root` removes the temporary CSS during its layout effect after React has applied the same state. The script and generated style inherit the supplied CSP nonce.
+Render the script once per document; it handles every SidebarMenu with persistence metadata. Controlled `openItems` does not use storage and therefore does not emit open-state metadata.
+
+Use `getPreHydrationScript()` when the HTML template is assembled outside React. Insert its return value in a blocking script at the same location: after the menu markup and before the hydration bundle.
+
+A layout effect alone cannot prevent this shift in an SSG page. The browser can paint the static HTML before it downloads the application bundle and starts hydration. The blocking script runs while the HTML is parsed, so the first paint already matches storage. It is only needed when persisted state must affect the prerendered result.
 
 ## Resizable layouts
 
