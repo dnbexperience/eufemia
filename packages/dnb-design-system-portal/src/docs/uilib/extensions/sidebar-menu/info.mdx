@@ -25,6 +25,7 @@ Fragments and memoized SidebarMenu parts are supported. Arbitrary wrapper compon
 - Support both declarative composition and recursive `data` or `sections` objects with the same behavior.
 - Allow controlled, uncontrolled, and persisted state for routing, accordions, sections, selection, and scroll position.
 - Adapt to different application structures through nested groups, custom router links, responsive inline and Drawer layouts, resizing, badges, and custom content.
+- Allow resizable desktop navigation to be temporarily dismissed and restored without changing the small-screen Drawer behavior.
 - Preserve browser-native behavior, including find-in-page through collapsed content.
 
 ## Key behaviors
@@ -71,7 +72,9 @@ Use `SidebarMenu.ResizeHandle` when people should be able to resize a sidebar. T
 - `minWidth` and `maxWidth` define the allowed resize range. They default to 240px and 560px and are also constrained by the viewport and the target's CSS `max-width`.
 
 The handle supports pointer dragging, arrow-key resizing, Shift for larger keyboard steps, and Enter or double-click to reset.
-When `onCollapse` is provided, continued pointer dragging below `collapseThreshold` calls it. The threshold defaults to half of `minWidth`. Pair it with `useResponsive().collapseInline()` to dismiss desktop inline navigation and let `ResponsiveTrigger` restore it.
+When `onCollapse` is provided, dragging below `minWidth` adds resistance to communicate that the sidebar can continue towards dismissal. Releasing returns it to `minWidth`. Reaching `collapseThreshold` calls `onCollapse`; the threshold defaults to half of `minWidth`. Pair it with `useResponsive().collapseInline()` to dismiss desktop inline navigation and let `ResponsiveTrigger` restore it.
+
+The resistance moves the sidebar by 10% of the cursor distance below `minWidth`. For example, dragging 100px further moves the visible edge about 10px. Pointer resizing above the minimum stays immediate. Width easing belongs to the surrounding layout and should be disabled while the handle adds its `dnb-sidebar-menu-resize-handle--dragging` class to the element matched by `scopeSelector`.
 
 The resize handle is optional and its styles are included with the SidebarMenu extension stylesheet. It does not persist width. The CSS-defined initial width is therefore used after a reload, and no script is needed before React renders.
 
@@ -123,6 +126,122 @@ The trigger and Drawer do not need to be siblings. Place both under the same pro
 
 Before hydration, the default `medium` breakpoint controls the CSS visibility needed for stable server-rendered markup. A custom `breakpoint` takes over after hydration. Add the matching application CSS when a custom breakpoint must also apply before JavaScript runs.
 
+Use `inlineCollapsed` with `onInlineCollapsedChange` when application state controls desktop dismissal, or `defaultInlineCollapsed` for an uncontrolled initial state. `useResponsive()` exposes `inlineCollapsed`, `collapseInline()`, and `restoreInline()` to compound children.
+
+### Dismissible desktop navigation
+
+Combine `ResizeHandle`, the responsive parts, and one shared width property to let people temporarily dismiss a desktop sidebar:
+
+```tsx
+function Navigation() {
+  const sidebarRef = useRef<HTMLElement>(null)
+  const { collapseInline } = SidebarMenu.useResponsive()
+
+  return (
+    <>
+      <header className="header">
+        <span className="header-leading">
+          <SidebarMenu.ResponsiveTrigger
+            controls="mobile-navigation"
+            inlineControls="desktop-navigation"
+          />
+          <a href="/">Brand</a>
+        </span>
+      </header>
+      <SidebarMenu.ResponsiveInline>
+        <aside
+          id="desktop-navigation"
+          ref={sidebarRef}
+          className="sidebar"
+        >
+          <SidebarMenu.Root aria-label="Main navigation" />
+          <SidebarMenu.ResizeHandle
+            targetRef={sidebarRef}
+            scopeSelector=".layout"
+            cssProperty="--sidebar-restored-width"
+            onCollapse={collapseInline}
+            aria-controls="desktop-navigation"
+          />
+        </aside>
+      </SidebarMenu.ResponsiveInline>
+      <SidebarMenu.ResponsiveDrawer id="mobile-navigation">
+        <SidebarMenu.Root aria-label="Main navigation" />
+      </SidebarMenu.ResponsiveDrawer>
+    </>
+  )
+}
+
+function AppNavigation() {
+  const layoutRef = useRef<HTMLDivElement>(null)
+
+  return (
+    <div ref={layoutRef} className="layout">
+      <SidebarMenu.ResponsiveProvider
+        onInlineCollapsedChange={(collapsed) => {
+          layoutRef.current?.toggleAttribute(
+            'data-sidebar-collapsed',
+            collapsed
+          )
+        }}
+      >
+        <Navigation />
+      </SidebarMenu.ResponsiveProvider>
+      <main className="content">Page content</main>
+    </div>
+  )
+}
+```
+
+```css
+.layout {
+  --sidebar-restored-width: 20rem;
+  --sidebar-width: var(--sidebar-restored-width);
+}
+
+.layout[data-sidebar-collapsed] {
+  --sidebar-width: 0px;
+}
+
+.sidebar {
+  width: var(--sidebar-width);
+  transition: width 300ms var(--easing-default);
+}
+
+.content {
+  margin-inline-start: var(--sidebar-width);
+  transition: margin-inline-start 300ms var(--easing-default);
+}
+
+.header {
+  inset-inline-start: var(--sidebar-width);
+  width: calc(100% - var(--sidebar-width));
+  transition:
+    inset-inline-start 300ms var(--easing-default),
+    width 300ms var(--easing-default);
+}
+
+.header-leading {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.layout.dnb-sidebar-menu-resize-handle--dragging
+  :is(.sidebar, .content, .header) {
+  transition: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sidebar,
+  .content,
+  .header {
+    transition: none;
+  }
+}
+```
+
+The desktop trigger controls the hidden inline navigation and restores it at `minWidth`, after which the handle can resize it again. Keep the trigger and brand together at the start of the header so they replace the dismissed sidebar's leading content. Below the responsive breakpoint, the same trigger controls the Drawer instead. A desktop-dismissed state can remain while crossing the breakpoint; returning to desktop shows the restore trigger again. The inline tree stays mounted but inert and `aria-hidden` while dismissed so the width can animate without leaving hidden navigation interactive.
+
 ## Relevant links
 
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/sidebar-menu)
@@ -138,7 +257,7 @@ Before hydration, the default `medium` breakpoint controls the CSS visibility ne
 - Disabled button items use the native `disabled` attribute. Disabled links use `aria-disabled`, have no destination, and are removed from the tab order.
 - Sections are selected through a labeled dropdown.
 - **Tab/Shift+Tab** moves through interactive elements. **Enter/Space** activates buttons and accordion triggers.
-- Expansion animations respect `prefers-reduced-motion`.
+- Expansion and dismiss/restore animations respect `prefers-reduced-motion`.
 
 The component has automated axe coverage. Always test the finished navigation with the screen readers supported by your product because labels and hierarchy depend on application content.
 
