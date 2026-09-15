@@ -57,7 +57,7 @@ describe('storePortalViews', () => {
       path: '/a',
       timestamp: '2026-08-20T10:00:00.000Z',
     })
-    expect(lines[0].createdat).toMatch(/^\d{4}-\d{2}-\d{2}T/)
+    expect(lines[0].created_at).toMatch(/^\d{4}-\d{2}-\d{2}T/)
   })
 
   it('falls back to the receive time when no timestamp is given', async () => {
@@ -66,7 +66,7 @@ describe('storePortalViews', () => {
     const input = send.mock.calls[0][0].input as PutInput
     const line = JSON.parse(input.Body)
 
-    expect(line.timestamp).toBe(line.createdat)
+    expect(line.timestamp).toBe(line.created_at)
   })
 
   it('minimises the stored path', async () => {
@@ -136,7 +136,7 @@ describe('storePortalViews', () => {
     expect(line).not.toHaveProperty('id')
     expect(Object.keys(line).sort()).toEqual([
       'color_scheme',
-      'createdat',
+      'created_at',
       'env',
       'locale',
       'path',

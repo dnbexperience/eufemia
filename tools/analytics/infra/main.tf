@@ -155,7 +155,7 @@ resource "aws_glue_catalog_table" "portal_views" {
     }
 
     columns {
-      name = "createdat"
+      name = "created_at"
       type = "string"
     }
   }

@@ -247,7 +247,7 @@ describe('buildPortalViewRecord', () => {
       theme: 'unknown',
       color_scheme: 'unknown',
       referrer: 'unknown',
-      createdat: createdAt,
+      created_at: createdAt,
     })
   })
 
@@ -266,7 +266,7 @@ describe('buildPortalViewRecord', () => {
       theme: 'unknown',
       color_scheme: 'unknown',
       referrer: 'unknown',
-      createdat: createdAt,
+      created_at: createdAt,
     })
   })
 
@@ -349,7 +349,7 @@ describe('buildPortalViewRecord', () => {
 
     expect(Object.keys(record).sort()).toEqual([
       'color_scheme',
-      'createdat',
+      'created_at',
       'env',
       'locale',
       'path',
