@@ -5,7 +5,11 @@
 import { LOCALE } from '../../../shared/defaults'
 import { warn, escapeRegexChars } from '../../../shared/component-helper'
 import { IS_MAC } from '../../../shared/helpers'
-import { ABSENT_VALUE_FORMAT, NUMBER_MINUS } from './constants'
+import {
+  ABSENT_VALUE_FORMAT,
+  NUMBER_MINUS,
+  NUMBER_MINUS_SIGN,
+} from './constants'
 import { getFallbackCurrencyDisplay } from './currencyDisplay'
 import type {
   NumberFormatValue,
@@ -98,6 +102,14 @@ function alignParts(
   })
 }
 
+function normalizeMinusSign(parts: FormatPartItem[]): FormatPartItem[] {
+  return parts.map((item) =>
+    item.type === 'minusSign'
+      ? { ...item, value: NUMBER_MINUS_SIGN }
+      : item
+  )
+}
+
 /**
  * Aligns the currency symbol in the output based on the currency display option.
  * "norske kroner" ("Norwegian kroner") will be changed to "kroner" if the
@@ -125,6 +137,10 @@ export const prepareMinus = (
   display: string,
   locale: string | null
 ): string => {
+  if (display.startsWith(ABSENT_VALUE_FORMAT)) {
+    return display
+  }
+
   if (!(locale && /(no|nb|nn)$/i.test(locale))) {
     return display
   }
@@ -142,12 +158,18 @@ export const prepareMinus = (
 
   if (new RegExp(reg).test(first)) {
     // if second is number
-    if (parseFloat(second) > 0) {
+    if (!Number.isNaN(parseFloat(second))) {
       // then do not swap
-      display = display.replace(new RegExp(reg + '(.*)'), '-$2')
+      display = display.replace(
+        new RegExp(reg + '(.*)'),
+        `${NUMBER_MINUS_SIGN}$2`
+      )
     } else {
       // then first has to be currency
-      display = display.replace(new RegExp(reg + '([^0-9]+)(.*)'), '$2-$3')
+      display = display.replace(
+        new RegExp(reg + '([^0-9]+)(.*)'),
+        `$2${NUMBER_MINUS_SIGN}$3`
+      )
     }
   }
 
@@ -169,9 +191,9 @@ export function prepareMinusParts(
     if (
       part.type === 'minusSign' &&
       display.startsWith(part.value) &&
-      number.startsWith('-')
+      number.startsWith(NUMBER_MINUS_SIGN)
     ) {
-      return { ...part, value: '-' }
+      return { ...part, value: NUMBER_MINUS_SIGN }
     }
 
     return part
@@ -249,11 +271,13 @@ export const formatNumberCoreParts = (
     // remove unsupported decimals
     delete options.decimals
 
-    parts = getFormatParts({
-      number: formatter ? Number(number) : parseFloat(String(number)),
-      locale,
-      options,
-    }).map((item) => (formatter ? formatter(item) : item))
+    parts = normalizeMinusSign(
+      getFormatParts({
+        number: formatter ? Number(number) : parseFloat(String(number)),
+        locale,
+        options,
+      })
+    ).map((item) => (formatter ? formatter(item) : item))
     parts = alignParts(parts, options.currencyDisplay)
     number = joinParts(parts)
 

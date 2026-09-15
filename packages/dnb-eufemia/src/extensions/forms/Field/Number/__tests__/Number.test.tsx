@@ -2546,7 +2546,7 @@ describe('Field.Number', () => {
       expect(statusElement).toBeInTheDocument()
       const expectedText = nb.NumberField.errorMinimum.replace(
         '{minimum}',
-        '-9\u00A0007\u00A0199\u00A0254\u00A0740\u00A0991'
+        '−9\u00A0007\u00A0199\u00A0254\u00A0740\u00A0991'
       )
       expect(statusElement.textContent).toContain(expectedText)
     })
