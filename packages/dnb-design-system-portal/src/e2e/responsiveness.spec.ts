@@ -80,6 +80,10 @@ test.describe('Responsiveness', () => {
       Math.abs(layout.logoCenter - layout.sidebarCenter)
     ).toBeLessThan(1)
     await expect(sidebar).toHaveCSS('border-right-width', '1px')
+    await expect(page.locator('.dnb-app-content')).toHaveCSS(
+      'box-shadow',
+      'none'
+    )
     await expect(header).toHaveCSS('position', 'fixed')
     await expect(header).toHaveCSS('border-bottom-width', '0px')
     await expect(sidebarLogo).toBeVisible()
