@@ -196,17 +196,17 @@
       }
     }
 
-    &__item {
+    .dnb-sidebar-menu__item {
       display: flex;
       justify-content: space-between;
     }
 
-    &__expand-button {
+    .dnb-sidebar-menu__expand-button {
       align-self: center;
       margin-right: 1rem;
     }
 
-    &--accordion {
+    &.dnb-sidebar-menu--accordion {
       &.dnb-sidebar-menu--expanded {
         border-right: 0.25rem solid var(--token-color-stroke-action-focus);
 
