@@ -333,7 +333,7 @@ test.describe('Sidebar resize', () => {
     await expect(sidebar).toHaveCSS('width', `${initialWidth}px`)
   })
 
-  test('should clamp the sidebar to its minimum width', async ({
+  test('should resist below its minimum width and spring back', async ({
     page,
   }) => {
     await page.setViewportSize({ width: 1280, height: 900 })
@@ -344,7 +344,20 @@ test.describe('Sidebar resize', () => {
       name: 'Endre størrelse på sidemeny',
     })
 
-    await dragSidebarToWidth(page, resizeHandle, 120)
+    const start = await resizeHandle.evaluate((element) => {
+      const rect = element.getBoundingClientRect()
+      return {
+        x:
+          rect.left +
+          parseFloat(getComputedStyle(element, '::before').left),
+        y: rect.top + rect.height / 2,
+      }
+    })
+    await page.mouse.move(start.x - 1, start.y)
+    await page.mouse.down()
+    await page.mouse.move(219, start.y)
+    await expect(sidebar).toHaveCSS('width', '238px')
+    await page.mouse.up()
 
     const scrollView = sidebar.locator('.portal-sidebar-scroll-view')
     const overflow = await scrollView.evaluate((element) => {
