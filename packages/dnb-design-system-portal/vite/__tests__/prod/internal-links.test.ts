@@ -1,19 +1,20 @@
 import { describe, expect, it } from 'vitest'
 import {
-  buildInternalLinkMap,
   formatInternalLinkErrors,
+  validateInternalLinks,
 } from '../../prod/internal-links.mjs'
 
 describe('internal link validation', () => {
-  it('maps pages and validates normalized page and hash links', () => {
-    const result = buildInternalLinkMap([
+  it('resolves normalized page, hash and redirected links', () => {
+    const result = validateInternalLinks([
       {
         url: '/guide/',
         html: `
           <main id="content">
             <a href="#intro">Intro</a>
+            <a href="#content">Wrapper</a>
             <a href="../components/button?theme=ui#events">Events</a>
-            <a href="https://eufemia.dnb.no/old-button/">Old URL</a>
+            <a href="https://eufemia.dnb.no/old-button/#events">Old URL</a>
             <a href="https://example.com/missing">External</a>
           </main>
           <h2 id="intro">Introduction</h2>
@@ -30,24 +31,22 @@ describe('internal link validation', () => {
       },
     ])
 
-    expect(result.manifest).toEqual({
-      version: 1,
-      pages: {
-        '/components/button/': ['events'],
-        '/guide/': ['content', 'intro'],
-      },
-      redirects: { '/old-button/': '/components/button/' },
-    })
     expect(result.errors).toEqual([])
   })
 
   it('reports missing pages and anchors', () => {
-    const result = buildInternalLinkMap([
+    // The `#local` link matters beyond the error it reports: `local` is
+    // defined on /guide/ but linked on /target/, so it is the only case that
+    // pins anchors to the page defining them. Without it, ids could leak
+    // across pages and every other assertion in this file would still pass.
+    const result = validateInternalLinks([
       {
         url: '/guide/',
         html: `
           <a href="/missing/">Missing page</a>
           <a href="/target/#missing">Missing anchor</a>
+          <h2 id="local">Local</h2>
+          <a href="/target/#local">Anchor that only exists here</a>
         `,
       },
       { url: '/target/', html: '<h2 id="present">Present</h2>' },
@@ -67,33 +66,68 @@ describe('internal link validation', () => {
         target: '/target/',
         anchor: 'missing',
       },
+      {
+        type: 'missing-anchor',
+        source: '/guide/',
+        href: '/target/#local',
+        target: '/target/',
+        anchor: 'local',
+      },
     ])
     expect(formatInternalLinkErrors(result.errors)).toContain(
       '/guide/ -> /target/#missing (missing anchor: missing)'
     )
   })
 
+  it('reports anchors missing from the page a redirect resolves to', () => {
+    const result = validateInternalLinks([
+      { url: '/', html: '<a href="/old/#gone">Old</a>' },
+      { url: '/old/', html: '', redirect: '/new/' },
+      { url: '/new/', html: '<h2 id="here">Here</h2>' },
+    ])
+
+    expect(result.errors).toEqual([
+      {
+        type: 'missing-anchor',
+        source: '/',
+        href: '/old/#gone',
+        target: '/new/',
+        anchor: 'gone',
+      },
+    ])
+  })
+
   it('ignores links and ids only inside explicit exclusion boundaries', () => {
-    const result = buildInternalLinkMap([
+    const result = validateInternalLinks([
       {
         url: '/',
         html: `
           <a href="/valid/">Valid</a>
+          <a href="#example-id">Into the example</a>
           <div data-link-check="ignore">
             <a href="/example-only/">Example</a>
-            <div id="example-id"></div><div id="example-id"></div>
+            <div id="example-id"></div>
           </div>
         `,
       },
       { url: '/valid/', html: '' },
     ])
 
-    expect(result.errors).toEqual([])
-    expect(result.manifest.pages['/']).toEqual([])
+    // The example link is not reported, but its id was never registered
+    // either, so linking to it from outside the boundary still fails.
+    expect(result.errors).toEqual([
+      {
+        type: 'missing-anchor',
+        source: '/',
+        href: '#example-id',
+        target: '/',
+        anchor: 'example-id',
+      },
+    ])
   })
 
   it('validates page links whose last segment looks like a file name', () => {
-    const result = buildInternalLinkMap([
+    const result = validateInternalLinks([
       {
         url: '/releases/',
         html: `
@@ -115,7 +149,7 @@ describe('internal link validation', () => {
   })
 
   it('accepts links to emitted files and reports the missing ones', () => {
-    const result = buildInternalLinkMap(
+    const result = validateInternalLinks(
       [
         {
           url: '/',
@@ -153,7 +187,7 @@ describe('internal link validation', () => {
   })
 
   it('reports redirects that point to missing pages or loop', () => {
-    const result = buildInternalLinkMap([
+    const result = validateInternalLinks([
       { url: '/', html: '<a href="/old/">Old</a>' },
       { url: '/old/', html: '', redirect: '/older/' },
       { url: '/older/', html: '', redirect: '/old/' },

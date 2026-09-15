@@ -2,7 +2,7 @@ import { parse } from 'parse5'
 
 const siteOrigin = 'https://eufemia.dnb.no'
 
-export function buildInternalLinkMap(
+export function validateInternalLinks(
   renderedPages,
   { emittedFiles } = {}
 ) {
@@ -46,20 +46,7 @@ export function buildInternalLinkMap(
   const redirectErrors = validateRedirects(pages, redirects)
   const linkErrors = validateLinks(links, pages, redirects)
 
-  return {
-    manifest: {
-      version: 1,
-      pages: Object.fromEntries(
-        [...pages]
-          .sort(([a], [b]) => a.localeCompare(b))
-          .map(([page, anchors]) => [page, [...anchors].sort()])
-      ),
-      redirects: Object.fromEntries(
-        [...redirects].sort(([a], [b]) => a.localeCompare(b))
-      ),
-    },
-    errors: [...redirectErrors, ...linkErrors],
-  }
+  return { errors: [...redirectErrors, ...linkErrors] }
 }
 
 export function extractPageLinks(html) {
