@@ -59,7 +59,7 @@ export function snapshotMeta(payload, count) {
  */
 export function dataErrorMessage(status) {
   if (status === 503) {
-    return 'The dashboard data is being prepared — this can happen right after a deploy. Please refresh in a moment. If it persists, contact the dashboard owner.'
+    return 'The dashboard data is being prepared. This can happen right after a deploy. Please refresh in a moment. If it persists, contact the dashboard owner.'
   }
 
   return `The data API returned an error (${status}). Please try again later, or contact the dashboard owner if it persists.`

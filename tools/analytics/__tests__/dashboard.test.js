@@ -33,6 +33,7 @@ describe('scopes', () => {
   it('returns the base scope when no API scope is configured', () => {
     expect(scopes({})).toBe('openid profile email')
   })
+
   it('appends the API scope when configured', () => {
     expect(scopes({ apiScope: 'api://app-id/Dashboard.Read' })).toBe(
       'openid profile email api://app-id/Dashboard.Read'
