@@ -283,6 +283,28 @@ describe('buildPortalViewRecord', () => {
     ).toBe('dark')
   })
 
+  it('coerces unrecognised dimensions to "unknown" in the stored record', () => {
+    const result = validatePortalViews({
+      path: '/a',
+      env: 'Prod',
+      locale: 'de-DE',
+      theme: 'customer-123',
+      color_scheme: 'auto',
+    })
+
+    expect(result.ok).toBe(true)
+    if (result.ok) {
+      const record = buildPortalViewRecord(result.value[0], createdAt)
+      expect(record).toMatchObject({
+        path: '/a',
+        env: 'unknown',
+        locale: 'unknown',
+        theme: 'unknown',
+        color_scheme: 'unknown',
+      })
+    }
+  })
+
   it('never carries identifiers or personal data', () => {
     const record = buildPortalViewRecord({ path: '/a' }, createdAt)
 
