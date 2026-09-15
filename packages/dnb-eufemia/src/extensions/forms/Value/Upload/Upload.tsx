@@ -13,6 +13,7 @@ import type { FieldUploadProps as FieldUploadProps } from '../../Field/Upload/Up
 import { transformFiles } from '../../Field/Upload/Upload'
 import { formatNumber } from '../../../../components/number-format/NumberUtils'
 import { UploadFileLink } from '../../../../components/upload/UploadFileListLink'
+import { DEFAULT_ASYNC_SUBMIT_TIMEOUT } from '../../defaults'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 type PendingOperation = {
@@ -131,7 +132,7 @@ function UploadFileItem(
   // Promise that never settles would leave it spinning with no way out. Give
   // it the same deadline Form.Handler applies to its own async submit.
   const asyncSubmitTimeout =
-    dataContext?.props?.asyncSubmitTimeout ?? 30000
+    dataContext?.props?.asyncSubmitTimeout ?? DEFAULT_ASYNC_SUBMIT_TIMEOUT
   const pendingOperationRef = useRef<PendingOperation>(null)
 
   useEffect(
