@@ -165,7 +165,7 @@ test.describe('Page Navigation', () => {
 
       await expect(
         sidebar.getByRole('link', { name: 'Home' })
-      ).toHaveCount(0)
+      ).toBeVisible()
       await expect(
         sidebar.getByRole('button', { name: 'Foundations' })
       ).toBeVisible()
