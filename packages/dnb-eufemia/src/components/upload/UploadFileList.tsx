@@ -35,17 +35,11 @@ function UploadFileList() {
     filesRef.current = files
   }, [files])
 
-  // Pending operations are tracked so their deadline can be cleared when the
-  // list unmounts, and so a Promise settling afterwards is ignored.
+  // Tracks in-flight operations so that exactly one outcome acts on a file.
+  // Deliberately not cleared on unmount: the file list lives in a store that
+  // outlives this component, so abandoning an operation would leave the file
+  // loading with nothing left to recover it.
   const operationsRef = useRef<Set<FileOperation>>(new Set())
-
-  useEffect(() => {
-    const operations = operationsRef.current
-    return () => {
-      operations.forEach(({ timeout }) => clearTimeout(timeout))
-      operations.clear()
-    }
-  }, [])
 
   if (files === null || files.length < 1) {
     return null
