@@ -2720,6 +2720,24 @@ describe('SidebarMenu', () => {
     expect(sessionStorage.getItem(storageKey)).toBeNull()
   })
 
+  it('renders open-state storage metadata for SSG bootstraps', () => {
+    render(
+      <SidebarMenu.Root
+        openItemsStorageKey="navigation"
+        openItemsStorage="local"
+      />
+    )
+
+    expect(document.querySelector('.dnb-sidebar-menu')).toHaveAttribute(
+      'data-open-items-storage-key',
+      'navigation'
+    )
+    expect(document.querySelector('.dnb-sidebar-menu')).toHaveAttribute(
+      'data-open-items-storage',
+      'local'
+    )
+  })
+
   it('does not throw when storage writes fail', () => {
     const setItem = vi
       .spyOn(Storage.prototype, 'setItem')
