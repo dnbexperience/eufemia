@@ -222,6 +222,68 @@ test.describe('Portal SidebarMenu', () => {
     ).toHaveAttribute('aria-expanded', 'true')
   })
 
+  test('keeps the exact sidebar scroll position after reload', async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1280, height: 900 })
+    await page.goto('/uilib/about-the-lib/')
+    await waitForApp(page)
+
+    const menu = page.getByRole('navigation', {
+      name: 'Section Content Menu',
+    })
+    const guides = menu.getByRole('button', {
+      name: 'Guides',
+      exact: true,
+    })
+    await guides.click()
+    await expect(guides).toHaveAttribute('aria-expanded', 'true')
+    await expect(
+      menu.locator(
+        '[data-sidebar-menu-id="uilib-guides-menu"] > .dnb-height-animation'
+      )
+    ).not.toHaveClass(/dnb-height-animation--animating/)
+
+    const scrollView = page.locator(
+      '#portal-sidebar-menu .portal-sidebar-scroll-view'
+    )
+    const storageKey = await menu.getAttribute(
+      'data-scroll-position-storage-key'
+    )
+    if (!storageKey) {
+      throw new Error('SidebarMenu scroll storage key is missing')
+    }
+    await scrollView.evaluate((element) => {
+      element.scrollTop = 89
+      element.dispatchEvent(new Event('scroll'))
+    })
+    await expect
+      .poll(() =>
+        page.evaluate((key) => sessionStorage.getItem(key), storageKey)
+      )
+      .toBe('89')
+
+    await page.reload()
+    await waitForApp(page)
+
+    const reloadedMenu = page.getByRole('navigation', {
+      name: 'Section Content Menu',
+    })
+    const reloadedGuides = reloadedMenu.getByRole('button', {
+      name: 'Guides',
+      exact: true,
+    })
+    await expect(reloadedGuides).toHaveAttribute('aria-expanded', 'true')
+    await expect(
+      reloadedMenu.locator(
+        '[data-sidebar-menu-id="uilib-guides-menu"] > .dnb-height-animation'
+      )
+    ).not.toHaveClass(/dnb-height-animation--animating/)
+    await expect
+      .poll(() => scrollView.evaluate((element) => element.scrollTop))
+      .toBe(89)
+  })
+
   test('omits the platform selector without other platforms', async ({
     page,
   }) => {
