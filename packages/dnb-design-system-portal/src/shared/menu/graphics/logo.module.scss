@@ -1,14 +1,16 @@
 .logo {
+  overflow: visible;
   perspective: 6rem;
 
   .i {
     transform-box: fill-box;
     transform-origin: center;
-    transition: transform 600ms var(--easing-default);
+    transition: transform 700ms var(--easing-fast-bounce);
   }
 
   &:hover .i {
-    transform: rotateY(180deg);
+    transform: rotateY(165deg) scale(1.2);
+    transition-duration: 450ms;
   }
 }
 
