@@ -516,7 +516,7 @@ function UploadComponent(props: FieldUploadProps) {
         onChange={changeHandler}
         onFileDelete={onFileDelete}
         onFileClick={onFileClick}
-        asyncFileOperationTimeout={asyncSubmitTimeout}
+        _asyncFileOperationTimeout={asyncSubmitTimeout}
         title={
           help && labelDescription === false ? (
             <LabelWithHelpButton
