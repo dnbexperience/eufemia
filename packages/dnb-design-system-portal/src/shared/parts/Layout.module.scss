@@ -223,7 +223,9 @@
 
   background-color: var(--token-color-background-neutral);
 
-  transition: margin-left 300ms var(--easing-default);
+  :global(.dnb-sidebar-menu-resize-handle--transition-ready) & {
+    transition: margin-left 300ms var(--easing-default);
+  }
 
   :global(.dnb-sidebar-menu-resize-handle--dragging) & {
     transition: none;

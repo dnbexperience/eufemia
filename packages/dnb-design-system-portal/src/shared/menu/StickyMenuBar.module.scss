@@ -46,9 +46,11 @@
 
   white-space: nowrap;
 
-  transition:
-    left 300ms var(--easing-default),
-    width 300ms var(--easing-default);
+  :global(.dnb-sidebar-menu-resize-handle--transition-ready) & {
+    transition:
+      left 300ms var(--easing-default),
+      width 300ms var(--easing-default);
+  }
 
   :global(.dnb-sidebar-menu-resize-handle--dragging) & {
     transition: none;
