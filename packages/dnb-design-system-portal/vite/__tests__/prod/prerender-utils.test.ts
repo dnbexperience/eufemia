@@ -8,10 +8,12 @@ import {
   getPageMeta,
   injectHtml,
   getSidebarScrollScript,
+  getSidebarOpenStateScript,
   buildRedirectHtml,
   getOutputPath,
 } from '../../prod/prerender-utils'
 import { getSidebarScrollScript as getSharedSidebarScrollScript } from '../../prod/sidebar-scroll-script.mjs'
+import { getSidebarOpenStateScript as getSharedSidebarOpenStateScript } from '../../prod/sidebar-open-state-script.mjs'
 import { getContentScript } from '@dnb/eufemia/src/shared/ColorSchemeScript'
 import type {
   RouteEntry,
@@ -22,6 +24,12 @@ import type {
 describe('prerender-utils', () => {
   it('uses the shared sidebar scroll script', () => {
     expect(getSidebarScrollScript()).toBe(getSharedSidebarScrollScript())
+  })
+
+  it('uses the shared sidebar open-state script', () => {
+    expect(getSidebarOpenStateScript()).toBe(
+      getSharedSidebarOpenStateScript()
+    )
   })
 
   describe('collectUrls', () => {
@@ -456,6 +464,19 @@ describe('prerender-utils', () => {
       expect(result).toContain('storage.getItem')
       expect(result).toContain('[aria-current="page"]')
       expect(result).toContain("'scroll-behavior','auto','important'")
+    })
+
+    it('restores persisted SidebarMenu open state before hydration', () => {
+      const result = injectHtml(
+        template,
+        '<nav data-open-items-storage-key="portal-menu" data-open-items-storage="session"></nav>',
+        { js: [], css: [] }
+      )
+
+      expect(result).toContain('[data-open-items-storage-key]')
+      expect(result).toContain('data-sidebar-open-state-bootstrap')
+      expect(result).toContain('closedItems')
+      expect(result).toContain('data-portal-ready')
     })
 
     it('does not add preload tags when lists are empty', () => {
