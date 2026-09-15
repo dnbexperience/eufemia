@@ -285,6 +285,51 @@ describe('Field.InstallmentDay', () => {
     expect(options[2]).toHaveTextContent('15')
   })
 
+  it('should keep the given order of a custom days array', () => {
+    render(
+      <Field.InstallmentDay
+        days={[15, 1, 28]}
+        showLastDay={false}
+        value={15}
+      />
+    )
+
+    const button = document.querySelector(
+      '.dnb-dropdown__trigger'
+    ) as HTMLElement
+    fireEvent.click(button)
+
+    const options = document.querySelectorAll('.dnb-drawer-list__option')
+    expect(options).toHaveLength(3)
+    expect(options[0]).toHaveTextContent('15')
+    expect(options[1]).toHaveTextContent('1')
+    expect(options[2]).toHaveTextContent('28')
+  })
+
+  it('should keep the given order of a custom days array when injecting an out-of-range value', () => {
+    // Guards against re-sorting the whole list when the extra day is added,
+    // which would make the option order depend on the current value.
+    render(
+      <Field.InstallmentDay
+        days={[15, 1, 28]}
+        showLastDay={false}
+        value={20}
+      />
+    )
+
+    const button = document.querySelector(
+      '.dnb-dropdown__trigger'
+    ) as HTMLElement
+    fireEvent.click(button)
+
+    const options = document.querySelectorAll('.dnb-drawer-list__option')
+    expect(options).toHaveLength(4)
+    expect(options[0]).toHaveTextContent('15')
+    expect(options[1]).toHaveTextContent('1')
+    expect(options[2]).toHaveTextContent('20')
+    expect(options[3]).toHaveTextContent('28')
+  })
+
   it('should pass htmlAttributes to the dropdown', () => {
     render(<Field.InstallmentDay aria-label="Pick a day" value={10} />)
 
