@@ -57,7 +57,7 @@ const Upload = (localProps: UploadAllProps) => {
     acceptedFileTypes,
     filesAmountLimit,
     fileMaxSize,
-    asyncFileOperationTimeout,
+    _asyncFileOperationTimeout,
     onChange,
     onFileDelete,
     onFileClick,

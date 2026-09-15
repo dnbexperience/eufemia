@@ -48,9 +48,10 @@ export type UploadProps = {
   fileMaxSize?: number | false
 
   /**
-   * Deadline in milliseconds for an `onFileDelete` or `onFileClick` that returns a Promise. When the Promise does not settle within it, the file stops showing its loading state and a later settle is ignored, so a Promise that never settles does not leave the file stuck. A timed out deletion keeps the file listed and shows the `errorDeleteTimeout` message. [Field.Upload](/uilib/extensions/forms/base-fields/Upload) and [Value.Upload](/uilib/extensions/forms/Value/Upload) do not take this prop; they use the `asyncSubmitTimeout` of their [Form.Handler](/uilib/extensions/forms/Form/Handler/properties) instead. Defaults to `30000` (30 seconds).
+   * Deadline in milliseconds for an `onFileDelete` or `onFileClick` that returns a Promise, defaulting to 30 seconds. Field.Upload sets it to the `asyncSubmitTimeout` of its Form.Handler, so a file operation and the form submit it can block share one deadline. Kept out of the public API until a consumer needs to change it.
+   * @internal
    */
-  asyncFileOperationTimeout?: number
+  _asyncFileOperationTimeout?: number
 
   /**
    * Will be called on `files` changes made by the user. Access the files with `{ files }` (containing each a `fileItem`).
