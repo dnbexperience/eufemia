@@ -74,7 +74,7 @@ Use `SidebarMenu.ResizeHandle` when people should be able to resize a sidebar. T
 The handle supports pointer dragging, arrow-key resizing, Shift for larger keyboard steps, and Enter or double-click to reset.
 When `onCollapse` is provided, dragging below `minWidth` adds resistance to communicate that the sidebar can continue towards dismissal. Releasing returns it to `minWidth`. Reaching `collapseThreshold` calls `onCollapse`; the threshold defaults to half of `minWidth`. Pair it with `useResponsive().collapseInline()` to dismiss desktop inline navigation and let `ResponsiveTrigger` restore it.
 
-The resistance moves the sidebar by 10% of the cursor distance below `minWidth`. For example, dragging 100px further moves the visible edge about 10px. Pointer resizing above the minimum stays immediate. Width easing belongs to the surrounding layout and should be disabled while the handle adds its `dnb-sidebar-menu-resize-handle--dragging` class to the element matched by `scopeSelector`.
+The resistance moves the sidebar by 10% of the cursor distance below `minWidth`. For example, dragging 100px further moves the visible edge about 10px. Pointer resizing above the minimum stays immediate. Width easing belongs to the surrounding layout. Enable it after the handle adds `dnb-sidebar-menu-resize-handle--transition-ready`, and disable it while `dnb-sidebar-menu-resize-handle--dragging` is present. Both classes are added to the element matched by `scopeSelector`.
 
 The resize handle is optional and its styles are included with the SidebarMenu extension stylesheet. It does not persist width. The CSS-defined initial width is therefore used after a reload, and no script is needed before React renders.
 
@@ -204,17 +204,26 @@ function AppNavigation() {
 
 .sidebar {
   width: var(--sidebar-width);
+}
+
+.layout.dnb-sidebar-menu-resize-handle--transition-ready .sidebar {
   transition: width 300ms var(--easing-default);
 }
 
 .content {
   margin-inline-start: var(--sidebar-width);
+}
+
+.layout.dnb-sidebar-menu-resize-handle--transition-ready .content {
   transition: margin-inline-start 300ms var(--easing-default);
 }
 
 .header {
   inset-inline-start: var(--sidebar-width);
   width: calc(100% - var(--sidebar-width));
+}
+
+.layout.dnb-sidebar-menu-resize-handle--transition-ready .header {
   transition:
     inset-inline-start 300ms var(--easing-default),
     width 300ms var(--easing-default);
