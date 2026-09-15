@@ -29,8 +29,17 @@ declare module 'virtual:portal-pages' {
 
   /**
    * Every MDX page, unfiltered and unsorted.
+   *
+   * Prefer importing from `src/core/portalPages`, which exposes this data
+   * together with its types.
    */
   export const allMdxNodes: Array<MdxNode>
+
+  /**
+   * Pages that are published and listable: they have a title and are not
+   * drafts, ordered by `order`, with pages that have no `order` last.
+   */
+  export const regularMdxNodes: Array<MdxNode>
 }
 
 declare module 'virtual:prefetch-on-hover' {

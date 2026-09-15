@@ -1,43 +1,12 @@
-import { useStaticQuery, graphql } from 'portal-query'
 import ListSummaryFromEdges from '../../../../../shared/parts/ListSummaryFromEdges'
+import { regularMdxNodes } from 'virtual:portal-pages'
 
 export default function ListFormComponents(props) {
-  const {
-    allMdx: { edges },
-  } = useStaticQuery(graphql`
-    {
-      allMdx(
-        filter: {
-          frontmatter: {
-            title: { ne: null }
-            draft: { ne: true }
-            componentType: { ne: "docs" }
-          }
-          internal: {
-            contentFilePath: {
-              glob: "**/uilib/extensions/forms/Form/**/*"
-            }
-          }
-        }
-        sort: [
-          { frontmatter: { order: ASC } }
-          { frontmatter: { title: ASC } }
-        ]
-      ) {
-        edges {
-          node {
-            fields {
-              slug
-            }
-            frontmatter {
-              title
-              description
-            }
-          }
-        }
-      }
-    }
-  `)
+  const edges = regularMdxNodes.filter(
+    ({ fields, frontmatter }) =>
+      fields.slug.startsWith('uilib/extensions/forms/Form/') &&
+      frontmatter.componentType !== 'docs'
+  )
 
   return <ListSummaryFromEdges edges={edges} {...props} />
 }

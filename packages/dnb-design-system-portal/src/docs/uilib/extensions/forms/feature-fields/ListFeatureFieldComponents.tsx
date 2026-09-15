@@ -1,43 +1,14 @@
-import { useStaticQuery, graphql } from 'portal-query'
 import ListSummaryFromEdges from '../../../../../shared/parts/ListSummaryFromEdges'
+import { regularMdxNodes } from 'virtual:portal-pages'
 
 export default function ListFeatureFieldComponents(props) {
-  const {
-    allMdx: { edges },
-  } = useStaticQuery(graphql`
-    {
-      allMdx(
-        filter: {
-          frontmatter: {
-            showTabs: { ne: null }
-            title: { ne: null }
-            draft: { ne: true }
-          }
-          internal: {
-            contentFilePath: {
-              glob: "**/uilib/extensions/forms/feature-fields/*"
-            }
-          }
-        }
-        sort: [
-          { frontmatter: { order: ASC } }
-          { frontmatter: { title: ASC } }
-        ]
-      ) {
-        edges {
-          node {
-            fields {
-              slug
-            }
-            frontmatter {
-              title
-              description
-            }
-          }
-        }
-      }
-    }
-  `)
+  const edges = regularMdxNodes.filter(({ fields, frontmatter }) => {
+    const parentPath = fields.slug.split('/').slice(0, -1).join('/')
 
+    return (
+      parentPath === 'uilib/extensions/forms/feature-fields' &&
+      frontmatter.showTabs
+    )
+  })
   return <ListSummaryFromEdges edges={edges} {...props} />
 }
