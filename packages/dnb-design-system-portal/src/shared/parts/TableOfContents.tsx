@@ -12,7 +12,7 @@ type TableOfContentsProps = StaticQueryConnection
 
 const TableOfContents = ({ edges }: TableOfContentsProps) => {
   const orderedContents = [...edges]
-    // Order by `order`, with pages that have no `order` last.
+    // Same ordering as `regularMdxNodes`
     .sort(({ node: a }, { node: b }) => {
       const orderA = a.frontmatter.order
       const orderB = b.frontmatter.order

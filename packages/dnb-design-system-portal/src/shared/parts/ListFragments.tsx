@@ -1,43 +1,15 @@
-import { useStaticQuery, graphql } from 'portal-query'
-import ListSummaryFromEdges, {
-  type ListEdges,
-} from './ListSummaryFromEdges'
+import ListSummaryFromEdges from './ListSummaryFromEdges'
+import { regularMdxNodes } from 'virtual:portal-pages'
 
 export default function ListFragments() {
-  const {
-    allMdx: { edges },
-  } = useStaticQuery(graphql`
-    {
-      allMdx(
-        filter: {
-          frontmatter: {
-            title: { ne: "" }
-            draft: { ne: true }
-            hideInMenu: { ne: true }
-          }
-          internal: {
-            contentFilePath: { glob: "**/uilib/components/fragments/*" }
-          }
-        }
-        sort: [
-          { frontmatter: { order: ASC } }
-          { frontmatter: { title: ASC } }
-        ]
-      ) {
-        edges {
-          node {
-            fields {
-              slug
-            }
-            frontmatter {
-              title
-              description
-            }
-          }
-        }
-      }
-    }
-  `)
+  const edges = regularMdxNodes.filter(({ fields, frontmatter }) => {
+    const parentPath = fields.slug.split('/').slice(0, -1).join('/')
 
-  return <ListSummaryFromEdges edges={edges as ListEdges} />
+    return (
+      parentPath === 'uilib/components/fragments' &&
+      frontmatter.hideInMenu !== true
+    )
+  })
+
+  return <ListSummaryFromEdges edges={edges} />
 }

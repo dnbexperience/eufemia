@@ -260,6 +260,7 @@ export default function portalPagesPlugin(
         // Generate lazy import statements and route definitions
         const routeDefs: string[] = []
         const nodeEntries: string[] = []
+        const nodeEntriesRaw: MdxNode[] = []
         const redirectDefs: string[] = []
 
         files.forEach((file) => {
@@ -308,6 +309,7 @@ export default function portalPagesPlugin(
               nodeData.tableOfContents = file.tableOfContents
             }
             nodeEntries.push(`  ${JSON.stringify(nodeData)},`)
+            nodeEntriesRaw.push(nodeData)
 
             // Collect redirect_from frontmatter for redirect routes
             const redirectFrom = file.frontmatter.redirect_from
@@ -334,6 +336,28 @@ export default function portalPagesPlugin(
           `  { path: '*', lazy: () => import('${notFoundPath}').then(m => ({ Component: () => React.createElement(WithLocationProps, { Component: m.default }) })) },`
         )
 
+        const regularMdxNodes = nodeEntriesRaw
+          .filter(
+            (node) =>
+              node.frontmatter?.title && node.frontmatter?.draft !== true
+          )
+          .sort((a, b) => {
+            return String(a.frontmatter.title).localeCompare(
+              String(b.frontmatter.title)
+            )
+          })
+          .sort(
+            (
+              { frontmatter: { order: a } },
+              { frontmatter: { order: b } }
+            ) => {
+              if (a === b) return 0
+              if (a === undefined) return 1
+              if (b === undefined) return -1
+              return (a as number) - (b as number)
+            }
+          )
+
         return `
 import React from 'react';
 import { redirect, useLocation } from 'react-router';
@@ -357,6 +381,10 @@ ${routeDefs.join('\n')}
 
 export const allMdxNodes = [
 ${nodeEntries.join('\n')}
+];
+
+export const regularMdxNodes = [
+${regularMdxNodes.map((node) => `  ${JSON.stringify(node)},`).join('\n')}
 ];
 `
       }

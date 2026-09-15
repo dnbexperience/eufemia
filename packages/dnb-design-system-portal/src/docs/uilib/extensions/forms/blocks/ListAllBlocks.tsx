@@ -1,37 +1,12 @@
-import { useStaticQuery, graphql } from 'portal-query'
 import ListSummaryFromEdges from '../../../../../shared/parts/ListSummaryFromEdges'
+import { regularMdxNodes } from 'virtual:portal-pages'
 
 export default function ListAllBlocks(props) {
-  const {
-    allMdx: { edges },
-  } = useStaticQuery(graphql`
-    {
-      allMdx(
-        filter: {
-          frontmatter: { title: { ne: null }, draft: { ne: true } }
-          internal: {
-            contentFilePath: { glob: "**/uilib/extensions/forms/blocks/*" }
-          }
-        }
-        sort: [
-          { frontmatter: { order: ASC } }
-          { frontmatter: { title: ASC } }
-        ]
-      ) {
-        edges {
-          node {
-            fields {
-              slug
-            }
-            frontmatter {
-              title
-              description
-            }
-          }
-        }
-      }
-    }
-  `)
+  const edges = regularMdxNodes.filter(({ fields }) => {
+    const parentPath = fields.slug.split('/').slice(0, -1).join('/')
+
+    return parentPath === 'uilib/extensions/forms/blocks'
+  })
 
   return <ListSummaryFromEdges edges={edges} {...props} />
 }

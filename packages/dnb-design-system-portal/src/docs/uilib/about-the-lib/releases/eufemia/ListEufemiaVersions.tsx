@@ -1,39 +1,10 @@
-import { useStaticQuery, graphql } from 'portal-query'
 import ListSummaryFromEdges from '../../../../../shared/parts/ListSummaryFromEdges'
+import { regularMdxNodes } from 'virtual:portal-pages'
 
 export default function ListEufemiaVersions(props) {
-  const {
-    allMdx: { edges },
-  } = useStaticQuery(graphql`
-    {
-      allMdx(
-        filter: {
-          frontmatter: { title: { ne: null }, draft: { ne: true } }
-          internal: {
-            contentFilePath: {
-              glob: "**/uilib/about-the-lib/releases/eufemia/**/*"
-            }
-          }
-        }
-        sort: [
-          { frontmatter: { order: ASC } }
-          { frontmatter: { title: DESC } }
-        ]
-      ) {
-        edges {
-          node {
-            fields {
-              slug
-            }
-            frontmatter {
-              title
-              description
-            }
-          }
-        }
-      }
-    }
-  `)
+  const edges = regularMdxNodes.filter(({ fields }) =>
+    fields.slug.startsWith('uilib/about-the-lib/releases/eufemia/')
+  )
 
   return <ListSummaryFromEdges edges={edges} {...props} />
 }
