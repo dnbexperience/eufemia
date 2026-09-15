@@ -53,6 +53,7 @@ describe('SidebarMenu', () => {
         'Group',
         'Header',
         'Item',
+        'PreHydrationScript',
         'Root',
         'Section',
         'ResizeHandle',
@@ -61,6 +62,7 @@ describe('SidebarMenu', () => {
         'ResponsiveProvider',
         'ResponsiveTrigger',
         'useResponsive',
+        'getPreHydrationScript',
       ].sort()
     )
   })

@@ -26,6 +26,7 @@
   );
   --sidebar-menu-divider-color: var(--token-color-stroke-neutral-subtle);
   --sidebar-menu-content-padding: 0.25rem;
+  --sidebar-menu-accordion-gap: 0.5rem;
 
   width: auto;
 
@@ -226,7 +227,7 @@
   &__accordion {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: var(--sidebar-menu-accordion-gap);
 
     list-style: none;
 

@@ -182,6 +182,19 @@ function SidebarMenuRoot(props: SidebarMenuRootProps) {
   ])
 
   useLayoutEffect(() => {
+    document
+      .querySelectorAll('[data-sidebar-menu-pre-hydration]')
+      .forEach((element) => {
+        if (
+          element.getAttribute('data-sidebar-menu-pre-hydration') ===
+          openItemsStorageKey
+        ) {
+          element.remove()
+        }
+      })
+  }, [openItemsStorageKey])
+
+  useLayoutEffect(() => {
     if (
       openItems !== undefined ||
       !openItemsStorageKey ||
