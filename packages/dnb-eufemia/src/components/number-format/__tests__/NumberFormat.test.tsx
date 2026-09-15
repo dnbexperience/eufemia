@@ -18,7 +18,7 @@ import NumberFormatBase from '../NumberFormatBase'
 import NumberFormat from '../NumberFormat'
 import * as TooltipModule from '../../tooltip/Tooltip'
 import type { NumberFormatReturnValue } from '../NumberUtils'
-import { formatCurrency } from '../NumberUtils'
+import { formatCurrency, formatNumber } from '../NumberUtils'
 import enGB from '../../../shared/locales/en-GB'
 
 const en = enGB['en-GB'].NumberFormat
@@ -74,6 +74,16 @@ describe('NumberFormat component', () => {
     )
   })
 
+  it('should preserve a formatted negative value when cleaning it', () => {
+    const formatted = formatNumber(-1234.5, { locale: 'nb-NO' })
+
+    render(<NumberFormat.Number clean>{formatted}</NumberFormat.Number>)
+
+    expect(document.querySelector(displaySelector).textContent).toBe(
+      '−1 234,5'
+    )
+  })
+
   it('should support inline styling', () => {
     render(<Component style={{ color: 'red' }} value="12345" />)
 
@@ -86,12 +96,12 @@ describe('NumberFormat component', () => {
     const { rerender } = render(<Component value={-value} currency />)
 
     expect(document.querySelector(displaySelector).textContent).toBe(
-      '-12 345 678,99 kr'
+      '−12 345 678,99 kr'
     )
 
     expect(
       document.querySelector(ariaSelector).getAttribute('data-text')
-    ).toBe('-12 345 678,99 kroner')
+    ).toBe('−12 345 678,99 kroner')
 
     // also check the formatting with one digit less
     rerender(<Component currency decimals={0} value={12345} />)
@@ -127,12 +137,12 @@ describe('NumberFormat component', () => {
     )
 
     expect(document.querySelector(displaySelector).textContent).toBe(
-      '-NOK 12,345,678.99'
+      '−NOK 12,345,678.99'
     )
 
     expect(
       document.querySelector(ariaSelector).getAttribute('data-text')
-    ).toBe('-12,345,678.99 kroner')
+    ).toBe('−12,345,678.99 kroner')
 
     // also check the formatting with one digit less
     rerender(<Component currency locale="en" decimals={0} value={12345} />)
@@ -281,12 +291,12 @@ describe('NumberFormat component', () => {
     )
 
     expect(document.querySelector(displaySelector).textContent).toBe(
-      '-12 345 678,99 kr'
+      '−12 345 678,99 kr'
     )
 
     expect(
       document.querySelector(ariaSelector).getAttribute('data-text')
-    ).toBe('-12 345 678,99 kroner')
+    ).toBe('−12 345 678,99 kroner')
 
     rerender(
       <Component
@@ -298,12 +308,12 @@ describe('NumberFormat component', () => {
     )
 
     expect(document.querySelector(displaySelector).textContent).toBe(
-      '-12,345,678.99 NOK'
+      '−12,345,678.99 NOK'
     )
 
     expect(
       document.querySelector(ariaSelector).getAttribute('data-text')
-    ).toBe('-12,345,678.99 kroner')
+    ).toBe('−12,345,678.99 kroner')
 
     rerender(
       <Component
@@ -316,7 +326,7 @@ describe('NumberFormat component', () => {
     )
 
     expect(document.querySelector(displaySelector).textContent).toBe(
-      '-12,345,678.99 NOK'
+      '−12,345,678.99 NOK'
     )
 
     rerender(
@@ -330,7 +340,7 @@ describe('NumberFormat component', () => {
     )
 
     expect(document.querySelector(displaySelector).textContent).toBe(
-      'NOK -12 345 678,99'
+      'NOK −12 345 678,99'
     )
   })
 
@@ -340,12 +350,12 @@ describe('NumberFormat component', () => {
     )
 
     expect(document.querySelector(displaySelector).textContent).toBe(
-      'kr -12 345 678,99'
+      'kr −12 345 678,99'
     )
 
     expect(
       document.querySelector(ariaSelector).getAttribute('data-text')
-    ).toBe('-12 345 678,99 kroner')
+    ).toBe('−12 345 678,99 kroner')
 
     rerender(
       <Component
@@ -357,12 +367,12 @@ describe('NumberFormat component', () => {
     )
 
     expect(document.querySelector(displaySelector).textContent).toBe(
-      '-NOK\u00A012,345,678.99'
+      '−NOK\u00A012,345,678.99'
     )
 
     expect(
       document.querySelector(ariaSelector).getAttribute('data-text')
-    ).toBe('-12,345,678.99 kroner')
+    ).toBe('−12,345,678.99 kroner')
 
     rerender(
       <Component
@@ -374,7 +384,7 @@ describe('NumberFormat component', () => {
     )
 
     expect(document.querySelector(displaySelector).textContent).toBe(
-      '-NOK\u00A012,345,678.99'
+      '−NOK\u00A012,345,678.99'
     )
 
     rerender(
@@ -388,7 +398,7 @@ describe('NumberFormat component', () => {
     )
 
     expect(document.querySelector(displaySelector).textContent).toBe(
-      '-12 345 678,99 NOK'
+      '−12 345 678,99 NOK'
     )
   })
 
@@ -396,24 +406,24 @@ describe('NumberFormat component', () => {
     render(<Component value={-12345.95} currency />)
 
     expect(document.querySelector(displaySelector).textContent).toBe(
-      '-12 345,95 kr'
+      '−12 345,95 kr'
     )
 
     expect(
       document.querySelector(ariaSelector).getAttribute('data-text')
-    ).toBe('-12345,95 kroner')
+    ).toBe('−12345,95 kroner')
   })
 
   it('have to match currency with no decimals', () => {
     render(<Component value={-12345.99} currency decimals={0} />)
 
     expect(document.querySelector(displaySelector).textContent).toBe(
-      '-12 346 kr'
+      '−12 346 kr'
     )
 
     expect(
       document.querySelector(ariaSelector).getAttribute('data-text')
-    ).toBe('-12346 kroner')
+    ).toBe('−12346 kroner')
   })
 
   it('should yield strict zero when value gets rounded to zero because of decimals=0', () => {
@@ -440,7 +450,7 @@ describe('NumberFormat component', () => {
       />
     )
     expect(document.querySelector('.dnb-number-format').textContent).toBe(
-      '-SEK\u00A00'
+      '−SEK\u00A00'
     )
   })
 
@@ -605,10 +615,10 @@ describe('NumberFormat component', () => {
     render(<Component value={-value} currency srLabel="Total:" />)
     expect(
       document.querySelector(ariaSelector).getAttribute('data-text')
-    ).toBe('Total: -12 345 678,99 kroner')
+    ).toBe('Total: −12 345 678,99 kroner')
     expect(
       document.querySelector('.dnb-number-format').textContent
-    ).toContain('-12 345 678,99 kr')
+    ).toContain('−12 345 678,99 kr')
   })
 
   it('will support "srLabel" given in a jsx element', () => {
@@ -617,10 +627,10 @@ describe('NumberFormat component', () => {
     )
     expect(
       document.querySelector(ariaSelector).getAttribute('data-text')
-    ).toBe('Total: -12 345 678,99 kroner')
+    ).toBe('Total: −12 345 678,99 kroner')
     expect(
       document.querySelector('.dnb-number-format').textContent
-    ).toContain('-12 345 678,99 kr')
+    ).toContain('−12 345 678,99 kr')
   })
 
   it('will have aria-hidden on the visual element', () => {
@@ -831,7 +841,7 @@ describe('NumberFormat component', () => {
     const { rerender } = render(<Component currency>invalid</Component>)
 
     expect(document.querySelector(displaySelector).textContent).toBe(
-      '- kr'
+      '– kr'
     )
     expect(
       document.querySelector(ariaSelector).getAttribute('data-text')
@@ -1118,7 +1128,7 @@ describe('NumberFormat component', () => {
       rerender(<NumberFormatBase value={-1234} />)
       expect(
         document.querySelector('.dnb-number-format').textContent
-      ).toBe('-1\u00A0234')
+      ).toBe('−1\u00A0234')
     })
 
     it('should support "always"', () => {
@@ -1132,7 +1142,7 @@ describe('NumberFormat component', () => {
       rerender(<NumberFormatBase signDisplay="always" value={-1234} />)
       expect(
         document.querySelector('.dnb-number-format').textContent
-      ).toBe('-1\u00A0234')
+      ).toBe('−1\u00A0234')
 
       rerender(<NumberFormatBase signDisplay="always" value={0} />)
       expect(
@@ -1151,7 +1161,7 @@ describe('NumberFormat component', () => {
       rerender(<NumberFormatBase signDisplay="exceptZero" value={-1234} />)
       expect(
         document.querySelector('.dnb-number-format').textContent
-      ).toBe('-1\u00A0234')
+      ).toBe('−1\u00A0234')
 
       rerender(<NumberFormatBase signDisplay="exceptZero" value={0} />)
       expect(
@@ -1320,32 +1330,32 @@ describe('NumberFormat component', () => {
     it('when currency', () => {
       const { rerender } = render(<Component value={''} currency />)
       expect(document.querySelector(displaySelector).textContent).toBe(
-        '- kr'
+        '– kr'
       )
 
       rerender(<Component value={null} currency />)
       expect(document.querySelector(displaySelector).textContent).toBe(
-        '- kr'
+        '– kr'
       )
 
       rerender(<Component value={undefined} currency />)
       expect(document.querySelector(displaySelector).textContent).toBe(
-        '- kr'
+        '– kr'
       )
 
       rerender(<Component currency>{''}</Component>)
       expect(document.querySelector(displaySelector).textContent).toBe(
-        '- kr'
+        '– kr'
       )
 
       rerender(<Component currency>{null}</Component>)
       expect(document.querySelector(displaySelector).textContent).toBe(
-        '- kr'
+        '– kr'
       )
 
       rerender(<Component currency>{undefined}</Component>)
       expect(document.querySelector(displaySelector).textContent).toBe(
-        '- kr'
+        '– kr'
       )
     })
 
@@ -1354,21 +1364,21 @@ describe('NumberFormat component', () => {
         <Component value={''} currency currencyPosition="after" />
       )
       expect(document.querySelector(displaySelector).textContent).toBe(
-        '- kr'
+        '– kr'
       )
 
       rerender(
         <Component value={null} currency currencyPosition="after" />
       )
       expect(document.querySelector(displaySelector).textContent).toBe(
-        '- kr'
+        '– kr'
       )
 
       rerender(
         <Component value={undefined} currency currencyPosition="after" />
       )
       expect(document.querySelector(displaySelector).textContent).toBe(
-        '- kr'
+        '– kr'
       )
 
       rerender(
@@ -1377,7 +1387,7 @@ describe('NumberFormat component', () => {
         </Component>
       )
       expect(document.querySelector(displaySelector).textContent).toBe(
-        '- kr'
+        '– kr'
       )
 
       rerender(
@@ -1386,7 +1396,7 @@ describe('NumberFormat component', () => {
         </Component>
       )
       expect(document.querySelector(displaySelector).textContent).toBe(
-        '- kr'
+        '– kr'
       )
 
       rerender(
@@ -1395,7 +1405,7 @@ describe('NumberFormat component', () => {
         </Component>
       )
       expect(document.querySelector(displaySelector).textContent).toBe(
-        '- kr'
+        '– kr'
       )
     })
 
@@ -1404,19 +1414,19 @@ describe('NumberFormat component', () => {
         <Component value={''} currency currencyDisplay="code" />
       )
       expect(document.querySelector(displaySelector).textContent).toBe(
-        'NOK -'
+        'NOK –'
       )
 
       rerender(<Component value={null} currency currencyDisplay="code" />)
       expect(document.querySelector(displaySelector).textContent).toBe(
-        'NOK -'
+        'NOK –'
       )
 
       rerender(
         <Component value={undefined} currency currencyDisplay="code" />
       )
       expect(document.querySelector(displaySelector).textContent).toBe(
-        'NOK -'
+        'NOK –'
       )
 
       rerender(
@@ -1425,7 +1435,7 @@ describe('NumberFormat component', () => {
         </Component>
       )
       expect(document.querySelector(displaySelector).textContent).toBe(
-        'NOK -'
+        'NOK –'
       )
 
       rerender(
@@ -1434,7 +1444,7 @@ describe('NumberFormat component', () => {
         </Component>
       )
       expect(document.querySelector(displaySelector).textContent).toBe(
-        'NOK -'
+        'NOK –'
       )
 
       rerender(
@@ -1443,7 +1453,7 @@ describe('NumberFormat component', () => {
         </Component>
       )
       expect(document.querySelector(displaySelector).textContent).toBe(
-        'NOK -'
+        'NOK –'
       )
     })
 
@@ -1633,41 +1643,41 @@ describe('NumberFormat compact', () => {
   it('have to match default compact number', () => {
     render(<Component value={-value} compact decimals={1} />)
     expect(document.querySelector(displaySelector).textContent).toBe(
-      '-12,3 mill.'
+      '−12,3 mill.'
     )
     expect(
       document.querySelector(ariaSelector).getAttribute('data-text')
-    ).toBe('-12,3 millioner')
+    ).toBe('−12,3 millioner')
   })
 
   it('have to match short compact number', () => {
     render(<Component value={-12345} compact="short" decimals={3} />)
     expect(document.querySelector(displaySelector).textContent).toBe(
-      '-12,345k'
+      '−12,345k'
     )
     expect(
       document.querySelector(ariaSelector).getAttribute('data-text')
-    ).toBe('-12,345 tusen')
+    ).toBe('−12,345 tusen')
   })
 
   it('have to match long compact number', () => {
     render(<Component value={-value} compact="long" decimals={3} />)
     expect(document.querySelector(displaySelector).textContent).toBe(
-      '-12,346 millioner'
+      '−12,346 millioner'
     )
     expect(
       document.querySelector(ariaSelector).getAttribute('data-text')
-    ).toBe('-12,346 millioner')
+    ).toBe('−12,346 millioner')
   })
 
   it('have to match currency based compact number', () => {
     render(<Component value={-value} compact currency decimals={2} />)
     expect(document.querySelector(displaySelector).textContent).toBe(
-      '-12,35 mill. kr'
+      '−12,35 mill. kr'
     )
     expect(
       document.querySelector(ariaSelector).getAttribute('data-text')
-    ).toBe('-12,35 millioner kroner')
+    ).toBe('−12,35 millioner kroner')
   })
 
   it('have to match currency based compact number with custom currencyDisplay', () => {
@@ -1681,11 +1691,11 @@ describe('NumberFormat compact', () => {
       />
     )
     expect(document.querySelector(displaySelector).textContent).toBe(
-      '-12,346 millioner kroner'
+      '−12,346 millioner kroner'
     )
     expect(
       document.querySelector(ariaSelector).getAttribute('data-text')
-    ).toBe('-12,346 millioner kroner')
+    ).toBe('−12,346 millioner kroner')
   })
 
   it('have to hide currency code on falsy currencyDisplay', () => {
@@ -1694,16 +1704,16 @@ describe('NumberFormat compact', () => {
     )
 
     expect(document.querySelector(displaySelector).textContent).toBe(
-      '-1 234,00'
+      '−1 234,00'
     )
     expect(
       document.querySelector(ariaSelector).getAttribute('data-text')
-    ).toBe('-1234,00 kroner')
+    ).toBe('−1234,00 kroner')
 
     rerender(<Component currency currencyDisplay="" value={-1234567} />)
 
     expect(document.querySelector(displaySelector).textContent).toBe(
-      '-1 234 567,00'
+      '−1 234 567,00'
     )
 
     const element = document.querySelector('.dnb-number-format')
@@ -1717,11 +1727,11 @@ describe('NumberFormat compact', () => {
   it('have to match compact number with custom decimals', () => {
     render(<Component value={-value} compact currency decimals={4} />)
     expect(document.querySelector(displaySelector).textContent).toBe(
-      '-12,3457 mill. kr'
+      '−12,3457 mill. kr'
     )
     expect(
       document.querySelector(ariaSelector).getAttribute('data-text')
-    ).toBe('-12,3457 millioner kroner')
+    ).toBe('−12,3457 millioner kroner')
   })
 
   describe('en-GB', () => {
@@ -1730,11 +1740,11 @@ describe('NumberFormat compact', () => {
         <Component value={-value} compact locale="en-GB" decimals="2" />
       )
       expect(document.querySelector(displaySelector).textContent).toBe(
-        '-12.35m'
+        '−12.35m'
       )
       expect(
         document.querySelector(ariaSelector).getAttribute('data-text')
-      ).toBe('-12.35 million')
+      ).toBe('−12.35 million')
     })
 
     it('have to match long compact number', () => {
@@ -1747,11 +1757,11 @@ describe('NumberFormat compact', () => {
         />
       )
       expect(document.querySelector(displaySelector).textContent).toBe(
-        '-12.35 million'
+        '−12.35 million'
       )
       expect(
         document.querySelector(ariaSelector).getAttribute('data-text')
-      ).toBe('-12.35 million')
+      ).toBe('−12.35 million')
     })
 
     it('have to match currency based compact number', () => {
@@ -1765,79 +1775,79 @@ describe('NumberFormat compact', () => {
         />
       )
       expect(document.querySelector(displaySelector).textContent).toBe(
-        '-NOK\u00A012.35m'
+        '−NOK\u00A012.35m'
       )
       expect(
         document.querySelector(ariaSelector).getAttribute('data-text')
-      ).toBe('-12.35 million kroner')
+      ).toBe('−12.35 million kroner')
     })
   })
 
   const numbersDecimals = [
     {
       value: -123,
-      display: '-123,0',
-      aria: '-123,0',
+      display: '−123,0',
+      aria: '−123,0',
     },
     {
       value: -1234,
-      display: '-1,2 tusen',
-      aria: '-1,2 tusen',
+      display: '−1,2 tusen',
+      aria: '−1,2 tusen',
     },
     {
       value: -12345,
-      display: '-12,3 tusen',
-      aria: '-12,3 tusen',
+      display: '−12,3 tusen',
+      aria: '−12,3 tusen',
     },
     {
       value: -123456,
-      display: '-123,5 tusen',
-      aria: '-123,5 tusen',
+      display: '−123,5 tusen',
+      aria: '−123,5 tusen',
     },
     {
       value: -1234567,
-      display: '-1,2 mill.',
-      aria: '-1,2 millioner',
+      display: '−1,2 mill.',
+      aria: '−1,2 millioner',
     },
     {
       value: -12345678,
-      display: '-12,3 mill.',
-      aria: '-12,3 millioner',
+      display: '−12,3 mill.',
+      aria: '−12,3 millioner',
     },
     {
       value: -123456789,
-      display: '-123,5 mill.',
-      aria: '-123,5 millioner',
+      display: '−123,5 mill.',
+      aria: '−123,5 millioner',
     },
     {
       value: -1234567891,
-      display: '-1,2 mrd.',
-      aria: '-1,2 milliarder',
+      display: '−1,2 mrd.',
+      aria: '−1,2 milliarder',
     },
     {
       value: -12345678912,
-      display: '-12,3 mrd.',
-      aria: '-12,3 milliarder',
+      display: '−12,3 mrd.',
+      aria: '−12,3 milliarder',
     },
     {
       value: -123456789123,
-      display: '-123,5 mrd.',
-      aria: '-123,5 milliarder',
+      display: '−123,5 mrd.',
+      aria: '−123,5 milliarder',
     },
     {
       value: -1234567891234,
-      display: '-1,2 bill.',
-      aria: '-1,2 billioner',
+      display: '−1,2 bill.',
+      aria: '−1,2 billioner',
     },
     {
       value: -12345678912345,
-      display: '-12,3 bill.',
-      aria: '-12,3 billioner',
+      display: '−12,3 bill.',
+      aria: '−12,3 billioner',
     },
     {
       value: -123456789123456,
-      display: '-123,5 bill.',
-      aria: '-123,5 billioner',
+      display: '−123,5 bill.',
+      aria: '−123,5 billioner',
     },
   ]
 

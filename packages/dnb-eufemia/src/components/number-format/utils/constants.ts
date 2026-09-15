@@ -7,6 +7,7 @@ export const NUMBER_CHARS = '\\-0-9,.'
 // check also for hyphen ‐
 // check also for dashes ‒  –  —  ―
 export const NUMBER_MINUS = '-|−|‐|‒|–|—|―'
+export const NUMBER_MINUS_SIGN = '−'
 
 // this is used to format a number that is not absent
 export const ABSENT_VALUE_FORMAT = '–'

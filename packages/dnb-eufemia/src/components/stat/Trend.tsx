@@ -7,6 +7,7 @@ import type { SkeletonShow } from '../skeleton/Skeleton'
 import StatValueContext from './StatValueContext'
 import { TextInternal as Text } from './Text'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
+import { NUMBER_MINUS_SIGN } from '../number-format/utils/constants'
 
 const trendContextValue = {
   useBasisSize: true,
@@ -58,7 +59,7 @@ function Trend(props: TrendProps) {
     displayValue,
   }: {
     tone: 'positive' | 'negative' | 'neutral'
-    sign: '+' | '-' | null
+    sign: '+' | typeof NUMBER_MINUS_SIGN | null
     displayValue: string
   } = resolveTrendValue(rawValue)
 
@@ -139,7 +140,11 @@ function getValueFromChildren(children: ReactNode): number | string {
   return text || '0'
 }
 
-function resolveTrendValue(value: number | string) {
+function resolveTrendValue(value: number | string): {
+  tone: 'positive' | 'negative' | 'neutral'
+  sign: '+' | typeof NUMBER_MINUS_SIGN | null
+  displayValue: string
+} {
   if (typeof value === 'number') {
     if (!Number.isFinite(value)) {
       return {
@@ -160,7 +165,7 @@ function resolveTrendValue(value: number | string) {
     if (value < 0) {
       return {
         tone: 'negative' as const,
-        sign: '-' as const,
+        sign: NUMBER_MINUS_SIGN,
         displayValue: String(Math.abs(value)),
       }
     }
@@ -202,7 +207,7 @@ function resolveTrendValue(value: number | string) {
 
   return {
     tone: 'negative' as const,
-    sign: '-' as const,
+    sign: NUMBER_MINUS_SIGN,
     displayValue: match[2],
   }
 }
