@@ -332,8 +332,8 @@ describe('field pending state with asyncSubmitTimeout', () => {
       expect(onBlurValidator).toHaveBeenCalledTimes(1)
     })
 
-    // The documentation states this value in prose ("30 seconds by default"),
-    // so those texts need to be updated when the default changes.
+    // Pinned because the documentation states this value in prose;
+    // `defaults.ts` explains what needs updating.
     expect(DEFAULT_ASYNC_SUBMIT_TIMEOUT).toBe(30000)
 
     expect(
