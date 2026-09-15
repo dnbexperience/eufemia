@@ -2490,6 +2490,93 @@ describe('Upload', () => {
         })
       })
 
+      // The files outlive this component: they live in a shared store, so a
+      // file left loading when the list unmounts stays loading in the store
+      // with nothing running to recover it. Both directions are pinned below.
+      it('will complete a deletion that settles after the file list unmounts', async () => {
+        const id = 'onFileDelete-settles-after-unmount'
+        let resolveDelete!: () => void
+        const onFileDelete = vi.fn(async () => {
+          await new Promise<void>((resolve) => {
+            resolveDelete = resolve
+          })
+        })
+
+        const { result } = renderHook(useUpload, { initialProps: id })
+        const { unmount } = render(
+          <Upload {...defaultProps} id={id} onFileDelete={onFileDelete} />
+        )
+
+        fireEvent.change(
+          document.querySelector('.dnb-upload__file-input'),
+          {
+            target: {
+              files: [createMockFile('fileName-1.png', 100, 'image/png')],
+            },
+          }
+        )
+
+        fireEvent.click(
+          screen.queryByRole('button', { name: nb.deleteButton })
+        )
+
+        await waitFor(() => {
+          expect(result.current.files[0].isLoading).toBe(true)
+        })
+
+        unmount()
+
+        resolveDelete()
+
+        // The consumer confirmed the deletion, so it still takes effect
+        await waitFor(() => {
+          expect(result.current.files).toHaveLength(0)
+        })
+      })
+
+      it('will recover a file whose deletion never settles after the file list unmounts', async () => {
+        const id = 'onFileDelete-never-settles-after-unmount'
+        const onFileDelete = vi.fn(async () => {
+          await new Promise<void>(() => undefined)
+        })
+
+        const { result } = renderHook(useUpload, { initialProps: id })
+        const { unmount } = render(
+          <Upload
+            {...defaultProps}
+            id={id}
+            _asyncFileOperationTimeout={300}
+            onFileDelete={onFileDelete}
+          />
+        )
+
+        fireEvent.change(
+          document.querySelector('.dnb-upload__file-input'),
+          {
+            target: {
+              files: [createMockFile('fileName-1.png', 100, 'image/png')],
+            },
+          }
+        )
+
+        fireEvent.click(
+          screen.queryByRole('button', { name: nb.deleteButton })
+        )
+
+        await waitFor(() => {
+          expect(result.current.files[0].isLoading).toBe(true)
+        })
+
+        unmount()
+
+        // The deadline outlives the unmount, so the file is not left loading
+        // for a remount to inherit
+        await waitFor(() => {
+          expect(result.current.files[0].isLoading).toBe(false)
+        })
+        expect(result.current.files).toHaveLength(1)
+      })
+
       // Only Field.Upload and Value.Upload read the form's asyncSubmitTimeout.
       // The base component cannot, because components/ must not depend on
       // extensions/forms — Field.Upload passes the value down instead. This
