@@ -7,14 +7,11 @@ import {
   getRoutePreloads,
   getPageMeta,
   injectHtml,
-  getSidebarScrollScript,
-  getSidebarOpenStateScript,
   buildRedirectHtml,
   getOutputPath,
 } from '../../prod/prerender-utils'
-import { getSidebarScrollScript as getSharedSidebarScrollScript } from '../../prod/sidebar-scroll-script.mjs'
-import { getSidebarOpenStateScript as getSharedSidebarOpenStateScript } from '../../prod/sidebar-open-state-script.mjs'
 import { getContentScript } from '@dnb/eufemia/src/shared/ColorSchemeScript'
+import { getPreHydrationScript } from '@dnb/eufemia/src/extensions/sidebar-menu/SidebarMenuPreHydrationScript'
 import type {
   RouteEntry,
   SSRManifest,
@@ -22,16 +19,6 @@ import type {
 } from '../../prod/prerender-utils'
 
 describe('prerender-utils', () => {
-  it('uses the shared sidebar scroll script', () => {
-    expect(getSidebarScrollScript()).toBe(getSharedSidebarScrollScript())
-  })
-
-  it('uses the shared sidebar open-state script', () => {
-    expect(getSidebarOpenStateScript()).toBe(
-      getSharedSidebarOpenStateScript()
-    )
-  })
-
   describe('collectUrls', () => {
     it('always includes root /', () => {
       const urls = collectUrls([])
@@ -458,6 +445,7 @@ describe('prerender-utils', () => {
       )
 
       expect(result).toContain('[data-scroll-position-storage-key]')
+      expect(result).toContain(getPreHydrationScript())
       expect(result).toContain(
         "type==='local'?localStorage:sessionStorage"
       )
@@ -474,9 +462,11 @@ describe('prerender-utils', () => {
       )
 
       expect(result).toContain('[data-open-items-storage-key]')
-      expect(result).toContain('data-sidebar-open-state-bootstrap')
+      expect(result).toContain('data-sidebar-menu-pre-hydration')
       expect(result).toContain('closedItems')
-      expect(result).toContain('data-portal-ready')
+      expect(result).toContain('--sidebar-menu-accordion-gap')
+      expect(result).toContain('margin-top')
+      expect(result).not.toContain('data-portal-ready')
     })
 
     it('does not add preload tags when lists are empty', () => {
