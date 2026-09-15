@@ -98,11 +98,10 @@ export default function DoneEditButton() {
           return true
         }
 
-        // Recover the pending state if the Promise never settles, mirroring
-        // the `asyncSubmitTimeout` safety net Form.Handler's `onSubmit` uses.
-        // Without it, a Promise that never resolves or rejects would leave
-        // the section disabled with no way out. The section stays in edit
-        // mode so the user can try again.
+        // Recover the pending state if the Promise never settles. Without
+        // it, a Promise that never resolves or rejects would leave the
+        // section disabled with no way out. The section stays in edit mode
+        // so the user can try again.
         operation.timeout = setTimeout(() => {
           if (!finishOperation()) {
             return
