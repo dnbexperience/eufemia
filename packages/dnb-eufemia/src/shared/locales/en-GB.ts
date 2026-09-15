@@ -182,6 +182,8 @@ export default {
         'There is a limit to how many files you can upload (%amount).',
       errorUnsupportedFile:
         'The file you are trying to upload is not supported.',
+      errorDeleteTimeout:
+        'The file could not be deleted. Please try again.',
       deleteButton: 'Delete',
       listAriaLabel: 'uploaded files',
     },
