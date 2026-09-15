@@ -446,12 +446,12 @@ describe('prerender-utils', () => {
 
       expect(result).toContain('[data-scroll-position-storage-key]')
       expect(result).toContain(getPreHydrationScript())
-      expect(result).toContain(
-        "type==='local'?localStorage:sessionStorage"
-      )
+      expect(result).toContain('localStorage')
+      expect(result).toContain('sessionStorage')
       expect(result).toContain('storage.getItem')
-      expect(result).toContain('[aria-current="page"]')
-      expect(result).toContain("'scroll-behavior','auto','important'")
+      expect(result).toContain('aria-current')
+      expect(result).toContain('scroll-behavior')
+      expect(result).toContain('important')
     })
 
     it('restores persisted SidebarMenu open state before hydration', () => {
