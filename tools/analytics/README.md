@@ -22,7 +22,7 @@ Every ingest route is gated by the Akamai `X-Edge-Auth` origin header; there is 
 
 ### Record shape
 
-A portal view carries a `path` and optional `timestamp`, `env`, `status`, `locale`, `theme`, and `color_scheme` dimensions. The service stamps `createdat`; an absent `timestamp` defaults to that receive time, `status` defaults to `ok`, and the remaining absent dimensions default to `unknown`. An unrecognised `env`, `locale`, `theme`, or `color_scheme` is coerced to `unknown` rather than rejected, so a stale value never drops a batch. No identifiers or personal data are stored.
+A portal view carries a `path` and optional `timestamp`, `env`, `status`, `locale`, `theme`, `color_scheme`, and `referrer` dimensions. The service stamps `createdat`; an absent `timestamp` defaults to that receive time, `status` defaults to `ok`, and the remaining absent dimensions default to `unknown`. An unrecognised `env`, `locale`, `theme`, `color_scheme`, or `referrer` is coerced to `unknown` rather than rejected, so a stale value never drops a batch. No identifiers or personal data are stored.
 
 ```json
 {
@@ -33,11 +33,12 @@ A portal view carries a `path` and optional `timestamp`, `env`, `status`, `local
   "locale": "nb-NO",
   "theme": "ui",
   "color_scheme": "light",
+  "referrer": "search",
   "createdat": "2026-08-07T09:00:00.000Z"
 }
 ```
 
-`path` must start with `/` and be at most 2048 characters, and a batch may contain at most 50 events. Supported dimensions are `status`: `ok`, `not_found`, or `error`; `locale`: `nb-NO`, `en-GB`, `sv-SE`, `da-DK`, or `en-US`; `theme`: `ui`, `sbanken`, `eiendom`, or `carnegie`; and `color_scheme`: `light` or `dark`.
+`path` must start with `/` and be at most 2048 characters, and a batch may contain at most 50 events. Supported dimensions are `status`: `ok`, `not_found`, or `error`; `locale`: `nb-NO`, `en-GB`, `sv-SE`, `da-DK`, or `en-US`; `theme`: `ui`, `sbanken`, `eiendom`, or `carnegie`; `color_scheme`: `light` or `dark`; and `referrer`: `search`, `internal`, `direct`, or `external`.
 
 ## Prerequisites
 

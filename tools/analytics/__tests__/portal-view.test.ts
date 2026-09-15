@@ -185,11 +185,35 @@ describe('validatePortalViews', () => {
     }
   })
 
+  it('accepts a valid referrer', () => {
+    for (const referrer of ['search', 'internal', 'direct', 'external']) {
+      const result = validatePortalViews({ path: '/a', referrer })
+
+      expect(result).toEqual({
+        ok: true,
+        value: [{ path: '/a', referrer }],
+      })
+    }
+  })
+
+  it('coerces an unrecognised referrer to unknown instead of rejecting', () => {
+    for (const referrer of [
+      'https://example.com',
+      'Search',
+      'social',
+      42,
+    ]) {
+      const result = validatePortalViews({ path: '/a', referrer })
+
+      expect(result).toEqual({ ok: true, value: [{ path: '/a' }] })
+    }
+  })
+
   it('drops any field that is not an allow-listed key', () => {
     const result = validatePortalViews({
       path: '/a',
       id: 'nope',
-      referrer: 'https://example.com',
+      sessionId: 'also-nope',
     })
 
     expect(result.ok).toBe(true)
@@ -222,6 +246,7 @@ describe('buildPortalViewRecord', () => {
       locale: 'unknown',
       theme: 'unknown',
       color_scheme: 'unknown',
+      referrer: 'unknown',
       createdat: createdAt,
     })
   })
@@ -240,6 +265,7 @@ describe('buildPortalViewRecord', () => {
       locale: 'unknown',
       theme: 'unknown',
       color_scheme: 'unknown',
+      referrer: 'unknown',
       createdat: createdAt,
     })
   })
@@ -290,6 +316,7 @@ describe('buildPortalViewRecord', () => {
       locale: 'de-DE',
       theme: 'customer-123',
       color_scheme: 'auto',
+      referrer: 'social',
     })
 
     expect(result.ok).toBe(true)
@@ -301,8 +328,20 @@ describe('buildPortalViewRecord', () => {
         locale: 'unknown',
         theme: 'unknown',
         color_scheme: 'unknown',
+        referrer: 'unknown',
       })
     }
+  })
+
+  it('defaults referrer to "unknown" and keeps a supplied value', () => {
+    expect(buildPortalViewRecord({ path: '/a' }, createdAt).referrer).toBe(
+      'unknown'
+    )
+
+    expect(
+      buildPortalViewRecord({ path: '/a', referrer: 'search' }, createdAt)
+        .referrer
+    ).toBe('search')
   })
 
   it('never carries identifiers or personal data', () => {
@@ -314,6 +353,7 @@ describe('buildPortalViewRecord', () => {
       'env',
       'locale',
       'path',
+      'referrer',
       'status',
       'theme',
       'timestamp',
