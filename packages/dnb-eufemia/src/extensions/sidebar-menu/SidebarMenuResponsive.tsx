@@ -39,6 +39,7 @@ type SidebarMenuResponsiveContextValue = {
   restoreInline: () => void
   triggerRef: RefObject<HTMLElement | null>
   isSmallScreenRef: RefObject<boolean>
+  registerInlineReset: (reset: () => void) => () => void
   scopeId: string
 }
 
@@ -112,6 +113,7 @@ export function SidebarMenuResponsiveProvider({
   const triggerRef = useRef<HTMLElement>(null)
   const onOpenChangeRef = useRef(onOpenChange)
   const onInlineCollapsedChangeRef = useRef(onInlineCollapsedChange)
+  const inlineResetRef = useRef<() => void>(undefined)
   const [drawerScrollElement, setDrawerScrollElementState] =
     useState<HTMLElement | null>(null)
   const setDrawerScrollElement = useCallback(
@@ -169,10 +171,18 @@ export function SidebarMenuResponsiveProvider({
     () => setInlineCollapsed(true),
     [setInlineCollapsed]
   )
-  const restoreInline = useCallback(
-    () => setInlineCollapsed(false),
-    [setInlineCollapsed]
-  )
+  const registerInlineReset = useCallback((reset: () => void) => {
+    inlineResetRef.current = reset
+    return () => {
+      if (inlineResetRef.current === reset) {
+        inlineResetRef.current = undefined
+      }
+    }
+  }, [])
+  const restoreInline = useCallback(() => {
+    inlineResetRef.current?.()
+    setInlineCollapsed(false)
+  }, [setInlineCollapsed])
   const toggle = useCallback(
     () => setOpen(!resolvedOpen),
     [resolvedOpen, setOpen]
@@ -196,6 +206,7 @@ export function SidebarMenuResponsiveProvider({
       isSmallScreenRef,
       open: resolvedOpen,
       openRef,
+      registerInlineReset,
       setOpen,
       setDrawerScrollElement,
       toggle,
@@ -211,6 +222,7 @@ export function SidebarMenuResponsiveProvider({
       resolvedInlineCollapsed,
       isSmallScreen,
       resolvedOpen,
+      registerInlineReset,
       setDrawerScrollElement,
       setOpen,
       toggle,

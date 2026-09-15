@@ -10,6 +10,7 @@ import type {
 import { clsx } from 'clsx'
 import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../shared/helpers/useIsomorphicLayoutEffect'
 import useTranslation from '../../shared/useTranslation'
+import { useOptionalSidebarMenuResponsive } from './SidebarMenuResponsive'
 
 const collapseRubberBandRatio = 0.1
 
@@ -54,6 +55,7 @@ export default function SidebarMenuResizeHandle({
 }: SidebarMenuResizeHandleProps) {
   const translation = useTranslation().SidebarMenu
   const cleanupResizeRef = useRef<() => void>(undefined)
+  const resetFrameRef = useRef<number>(undefined)
   const handleRef = useRef<HTMLButtonElement>(null)
   const writtenWidthRef = useRef<number>(undefined)
   const [currentWidth, setCurrentWidth] = useState(minWidth)
@@ -64,8 +66,15 @@ export default function SidebarMenuResizeHandle({
     ...style,
     '--sidebar-menu-resize-handle-position': 'var(' + cssProperty + ')',
   } as CSSProperties
+  const responsive = useOptionalSidebarMenuResponsive()
 
-  useEffect(() => () => cleanupResizeRef.current?.(), [])
+  useEffect(
+    () => () => {
+      cleanupResizeRef.current?.()
+      cancelAnimationFrame(resetFrameRef.current)
+    },
+    []
+  )
 
   function getTargetWidth() {
     return targetRef.current?.getBoundingClientRect().width || 0
@@ -162,16 +171,35 @@ export default function SidebarMenuResizeHandle({
   function resetWidth() {
     getRootElement().style.removeProperty(cssProperty)
     writtenWidthRef.current = undefined
+    handleRef.current?.style.setProperty(
+      '--sidebar-menu-resize-handle-position',
+      'var(' + cssProperty + ')'
+    )
+
+    const updatePosition = () => {
+      const targetWidth = getTargetWidth()
+      if (targetWidth > 0) {
+        setCurrentWidth(Math.round(targetWidth))
+        setResolvedMaxWidth(getMaximumWidth())
+      }
+    }
+
+    cancelAnimationFrame(resetFrameRef.current)
     if (scopeSelector) {
-      setCurrentWidth(Math.round(getTargetWidth()))
-      handleRef.current?.style.setProperty(
-        '--sidebar-menu-resize-handle-position',
-        'var(' + cssProperty + ')'
-      )
+      updatePosition()
+      if (getTargetWidth() <= 0) {
+        resetFrameRef.current = requestAnimationFrame(updatePosition)
+      }
     } else {
       setHandlePosition(getTargetWidth())
     }
   }
+  const resetWidthRef = useRef(resetWidth)
+  resetWidthRef.current = resetWidth
+
+  useLayoutEffect(() => {
+    return responsive?.registerInlineReset(() => resetWidthRef.current())
+  }, [responsive?.registerInlineReset])
 
   function startResize(
     clientX: number,

@@ -1,4 +1,5 @@
 import { fireEvent, render, waitFor } from '@testing-library/react'
+import { createRef } from 'react'
 import { hydrateRoot } from 'react-dom/client'
 import { renderToString } from 'react-dom/server'
 import { setMedia } from 'mock-match-media'
@@ -104,6 +105,82 @@ describe('SidebarMenu responsive parts', () => {
       'false'
     )
     expect(trigger).toHaveAttribute('aria-expanded', 'true')
+  })
+
+  it('restores a dragged-away inline menu at its default width', async () => {
+    setMedia({ width: '70em' })
+    const layoutRef = createRef<HTMLDivElement>()
+    const targetRef = createRef<HTMLElement>()
+    function ResizeHandle() {
+      const { collapseInline } = SidebarMenu.useResponsive()
+      return (
+        <SidebarMenu.ResizeHandle
+          targetRef={targetRef}
+          scopeSelector=".layout"
+          cssProperty="--sidebar-width"
+          onCollapse={collapseInline}
+        />
+      )
+    }
+
+    render(
+      <div ref={layoutRef} className="layout">
+        <SidebarMenu.ResponsiveProvider
+          onInlineCollapsedChange={(collapsed) => {
+            layoutRef.current?.toggleAttribute('data-collapsed', collapsed)
+          }}
+        >
+          <SidebarMenu.ResponsiveTrigger inlineControls="inline-menu" />
+          <SidebarMenu.ResponsiveInline>
+            <aside
+              id="inline-menu"
+              ref={(element) => {
+                targetRef.current = element
+                if (element) {
+                  element.getBoundingClientRect = () => {
+                    const writtenWidth = Number.parseFloat(
+                      layoutRef.current.style.getPropertyValue(
+                        '--sidebar-width'
+                      )
+                    )
+                    return {
+                      width: layoutRef.current.hasAttribute(
+                        'data-collapsed'
+                      )
+                        ? 0
+                        : writtenWidth || 320,
+                    } as DOMRect
+                  }
+                }
+              }}
+            >
+              Inline menu
+              <ResizeHandle />
+            </aside>
+          </SidebarMenu.ResponsiveInline>
+        </SidebarMenu.ResponsiveProvider>
+      </div>
+    )
+
+    const handle = document.querySelector(
+      '.dnb-sidebar-menu-resize-handle'
+    )
+    fireEvent.pointerDown(handle, { button: 0, clientX: 320 })
+    fireEvent.pointerMove(window, { clientX: 119 })
+
+    const trigger = document.querySelector(
+      '.dnb-sidebar-menu-responsive-trigger'
+    )
+    fireEvent.click(trigger)
+
+    await waitFor(() =>
+      expect(
+        layoutRef.current.style.getPropertyValue('--sidebar-width')
+      ).toBe('')
+    )
+    await waitFor(() =>
+      expect(handle).toHaveAttribute('aria-valuenow', '320')
+    )
   })
 
   it('renders the trigger in server markup', () => {
