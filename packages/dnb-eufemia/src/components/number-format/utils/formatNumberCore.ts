@@ -5,7 +5,11 @@
 import { LOCALE } from '../../../shared/defaults'
 import { warn, escapeRegexChars } from '../../../shared/component-helper'
 import { IS_MAC } from '../../../shared/helpers'
-import { ABSENT_VALUE_FORMAT, NUMBER_MINUS } from './constants'
+import {
+  ABSENT_VALUE_FORMAT,
+  NORMALIZED_MINUS,
+  NUMBER_MINUS,
+} from './constants'
 import { getFallbackCurrencyDisplay } from './currencyDisplay'
 import type {
   NumberFormatValue,
@@ -118,18 +122,13 @@ export function alignCurrencySymbol(
  * this function transforms the minus to be moved before the number
  * instead of the symbol.
  *
- * It only cleans if locale is Norwegian.
- * Form `-NOK 1 234` to `NOK -1 234`.
+ * It preserves Norwegian currency sign placement while normalizing the
+ * displayed minus sign to U+2212.
  */
 export const prepareMinus = (
   display: string,
   locale: string | null
 ): string => {
-  if (!(locale && /(no|nb|nn)$/i.test(locale))) {
-    return display
-  }
-
-  // check for first and second char
   const first = display.charAt(0)
   const second = display.charAt(1)
 
@@ -140,18 +139,30 @@ export const prepareMinus = (
 
   const reg = `^(${NUMBER_MINUS})`
 
-  if (new RegExp(reg).test(first)) {
-    // if second is number
-    if (parseFloat(second) > 0) {
-      // then do not swap
-      display = display.replace(new RegExp(reg + '(.*)'), '-$2')
-    } else {
-      // then first has to be currency
-      display = display.replace(new RegExp(reg + '([^0-9]+)(.*)'), '$2-$3')
-    }
+  if (!new RegExp(reg).test(first)) {
+    return display
   }
 
-  return display
+  if (first === ABSENT_VALUE_FORMAT) {
+    if (
+      locale &&
+      /(no|nb|nn)$/i.test(locale) &&
+      !(parseFloat(second) > 0)
+    ) {
+      return display.replace(new RegExp(reg + '([^0-9]+)(.*)'), '$2-$3')
+    }
+
+    return display
+  }
+
+  if (locale && /(no|nb|nn)$/i.test(locale) && !(parseFloat(second) > 0)) {
+    return display.replace(
+      new RegExp(reg + '([^0-9]+)(.*)'),
+      `$2${NORMALIZED_MINUS}$3`
+    )
+  }
+
+  return display.replace(new RegExp(reg), NORMALIZED_MINUS)
 }
 
 export function prepareMinusParts(
@@ -169,9 +180,9 @@ export function prepareMinusParts(
     if (
       part.type === 'minusSign' &&
       display.startsWith(part.value) &&
-      number.startsWith('-')
+      number.startsWith(NORMALIZED_MINUS)
     ) {
-      return { ...part, value: '-' }
+      return { ...part, value: NORMALIZED_MINUS }
     }
 
     return part

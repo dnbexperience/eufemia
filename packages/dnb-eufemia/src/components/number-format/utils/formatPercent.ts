@@ -20,8 +20,10 @@ import {
   cleanNumber,
   formatDecimals,
   formatNumberCoreParts,
+  prepareMinusParts,
   prepareFormatOptions,
   resolveLocale,
+  enhanceSR,
 } from './formatCore'
 import { countDecimals } from './decimals'
 
@@ -71,12 +73,17 @@ export function formatPercent(
     opts.style = 'percent'
   }
 
-  const { number: display, parts } = formatNumberCoreParts(
+  const formatted = formatNumberCoreParts(
     Number(value) / 100,
     locale,
     opts
   )
-  const aria = display
+  const { number: display, parts } = prepareMinusParts(
+    formatted.number,
+    formatted.parts,
+    locale
+  )
+  const aria = enhanceSR(value, formatted.number, locale)
 
   if (!returnAria) {
     return display
