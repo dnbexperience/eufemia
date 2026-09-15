@@ -80,6 +80,11 @@ export default {
     SidebarMenu: {
       sectionLabel: 'Menu section',
       containsCurrentPage: 'Contains current page',
+      containsNotifications: 'Contains notifications',
+      openMenu: 'Open menu',
+      closeMenu: 'Close menu',
+      menu: 'Menu',
+      resizeSidebar: 'Resize sidebar',
     },
     Dropdown: {
       title: 'Select',

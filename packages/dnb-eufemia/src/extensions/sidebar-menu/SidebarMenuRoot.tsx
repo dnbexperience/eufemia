@@ -19,6 +19,7 @@ import type {
   SidebarMenuRootProps,
   SidebarMenuSectionProps,
 } from './types'
+import { useOptionalSidebarMenuResponsive } from './SidebarMenuResponsive'
 
 function SidebarMenuRoot(props: SidebarMenuRootProps) {
   const {
@@ -43,12 +44,15 @@ function SidebarMenuRoot(props: SidebarMenuRootProps) {
     ...rest
   } = props
   const translation = useTranslation().SidebarMenu
+  const responsive = useOptionalSidebarMenuResponsive()
   const resolvedSectionLabel = sectionLabel ?? translation.sectionLabel
   const menuRef = useRef<HTMLElement>(null)
   const defaultOpenItemsKey = defaultOpenItems.join(',')
   const openItemsStorageId = openItemsStorageKey
     ? `${openItemsStorage}:${openItemsStorageKey}`
     : undefined
+  const persistedOpenItemsStorageKey =
+    openItems === undefined ? openItemsStorageKey : undefined
   const [initialState] = useState(() => {
     const selected =
       defaultSelectedItem ?? findActiveDeclarativeItem(children)
@@ -76,6 +80,8 @@ function SidebarMenuRoot(props: SidebarMenuRootProps) {
   const [hoveredSection, setHoveredSection] = useState<string>()
   const sectionSelectorOpenRef = useRef(false)
   const loadedOpenItemsStorageIdRef = useRef<string | undefined>(undefined)
+  const [renderedOpenItemsStorageId, setRenderedOpenItemsStorageId] =
+    useState<string>()
   const skipOpenItemsPersistRef = useRef(false)
   const [internalActiveSection, setInternalActiveSection] = useState(
     () => defaultActiveSection ?? initialState.sectionId
@@ -86,6 +92,7 @@ function SidebarMenuRoot(props: SidebarMenuRootProps) {
   const resolvedSelectedItem = selectedItem ?? internalSelectedItem
   const activeItem = findActiveDeclarativeItem(children)
   const positionedSelectedItemRef = useRef<string>(undefined)
+  const restoredScrollPositionRef = useRef(false)
   const selection = findSelection({
     id: resolvedSelectedItem,
     children,
@@ -166,6 +173,7 @@ function SidebarMenuRoot(props: SidebarMenuRootProps) {
       selectedItem: storedOpenState.selectedItem ?? resolvedSelectedItem,
       ids: storedOpenState.closedItems,
     })
+    setRenderedOpenItemsStorageId(openItemsStorageId)
     const frame = requestAnimationFrame(() => setAnimate(true))
 
     return () => cancelAnimationFrame(frame)
@@ -178,6 +186,19 @@ function SidebarMenuRoot(props: SidebarMenuRootProps) {
     resolvedSelectedItem,
     selectedAccordionId,
   ])
+
+  useLayoutEffect(() => {
+    document
+      .querySelectorAll('[data-sidebar-menu-pre-hydration]')
+      .forEach((element) => {
+        if (
+          element.getAttribute('data-sidebar-menu-pre-hydration') ===
+          persistedOpenItemsStorageKey
+        ) {
+          element.remove()
+        }
+      })
+  }, [persistedOpenItemsStorageKey])
 
   useLayoutEffect(() => {
     if (
@@ -209,25 +230,45 @@ function SidebarMenuRoot(props: SidebarMenuRootProps) {
   ])
 
   useLayoutEffect(() => {
-    if (!scrollPositionStorageKey) {
+    if (
+      !scrollPositionStorageKey ||
+      (openItems === undefined &&
+        openItemsStorageKey &&
+        renderedOpenItemsStorageId !== openItemsStorageId) ||
+      (responsive?.isSmallScreen && !responsive.open)
+    ) {
       return undefined
     }
 
-    const scrollView =
-      menuRef.current?.closest<HTMLElement>('.dnb-scroll-view')
+    const scrollView = responsive?.isSmallScreen
+      ? responsive.drawerScrollElement
+      : menuRef.current?.closest<HTMLElement>('.dnb-scroll-view')
     if (!scrollView) {
       return undefined
     }
 
     const storage = getStorage(scrollPositionStorage)
-    const storedPosition = Number(
-      storage?.getItem(scrollPositionStorageKey)
-    )
-    if (Number.isFinite(storedPosition) && storedPosition > 0) {
+    const storedValue = storage?.getItem(scrollPositionStorageKey)
+    const storedPosition = Number(storedValue)
+    if (
+      storedValue !== null &&
+      storedValue !== undefined &&
+      Number.isFinite(storedPosition) &&
+      storedPosition >= 0
+    ) {
+      restoredScrollPositionRef.current = true
       scrollInstantly(scrollView, storedPosition)
     }
 
     const persistPosition = () => {
+      if (
+        responsive?.isSmallScreen &&
+        (scrollView.classList.contains('dnb-drawer--hide') ||
+          !responsive.openRef.current ||
+          responsive.drawerOpeningRef.current)
+      ) {
+        return
+      }
       try {
         storage?.setItem(
           scrollPositionStorageKey,
@@ -243,10 +284,19 @@ function SidebarMenuRoot(props: SidebarMenuRootProps) {
     })
 
     return () => {
-      persistPosition()
       scrollView.removeEventListener('scroll', persistPosition)
     }
-  }, [scrollPositionStorage, scrollPositionStorageKey])
+  }, [
+    responsive?.drawerScrollElement,
+    responsive?.isSmallScreen,
+    responsive?.open,
+    openItems,
+    openItemsStorageId,
+    openItemsStorageKey,
+    renderedOpenItemsStorageId,
+    scrollPositionStorage,
+    scrollPositionStorageKey,
+  ])
 
   const declarativeSections = findDeclarativeSections(children)
   const hasSections = Boolean(declarativeSections.length)
@@ -279,6 +329,15 @@ function SidebarMenuRoot(props: SidebarMenuRootProps) {
       !resolvedSelectedItem ||
       positionedSelectedItemRef.current === resolvedSelectedItem
     ) {
+      return undefined
+    }
+
+    if (
+      positionedSelectedItemRef.current === undefined &&
+      restoredScrollPositionRef.current
+    ) {
+      positionedSelectedItemRef.current = resolvedSelectedItem
+      restoredScrollPositionRef.current = false
       return undefined
     }
 
@@ -335,7 +394,9 @@ function SidebarMenuRoot(props: SidebarMenuRootProps) {
         isInitialPosition || prefersReducedMotion() ? 'auto' : 'smooth'
       positionedSelectedItemRef.current = resolvedSelectedItem
 
-      const scrollView = target.closest<HTMLElement>('.dnb-scroll-view')
+      const scrollView = responsive?.isSmallScreen
+        ? responsive.drawerScrollElement
+        : target.closest<HTMLElement>('.dnb-scroll-view')
       const targetRect = target.getBoundingClientRect()
 
       if (scrollView) {
@@ -397,6 +458,8 @@ function SidebarMenuRoot(props: SidebarMenuRootProps) {
     resolvedActiveSection,
     resolvedOpenItemsKey,
     resolvedSelectedItem,
+    responsive?.drawerScrollElement,
+    responsive?.isSmallScreen,
     scrollSelectedItemIntoView,
   ])
 
@@ -460,6 +523,7 @@ function SidebarMenuRoot(props: SidebarMenuRootProps) {
   const contextValue = useMemo(
     () => ({
       indent: 0,
+      accordionLevel: 0,
       openItems: resolvedOpenItems,
       openItemsControlled: openItems !== undefined,
       toggleItem,
@@ -509,6 +573,10 @@ function SidebarMenuRoot(props: SidebarMenuRootProps) {
       element="nav"
       ref={menuRef}
       className={clsx('dnb-sidebar-menu', className)}
+      data-open-items-storage-key={persistedOpenItemsStorageKey}
+      data-open-items-storage={
+        persistedOpenItemsStorageKey ? openItemsStorage : undefined
+      }
       data-scroll-position-storage-key={scrollPositionStorageKey}
       data-scroll-position-storage={scrollPositionStorage}
     >
