@@ -34,7 +34,7 @@ export type FieldInstallmentDayProps = Omit<
   size?: DropdownAllProps['size']
 
   /**
-   * Constrains which days are available for selection. When not provided, days 1–28 are shown. If the current `value` is not among them, it is still shown and added to the list.
+   * Constrains which days are available for selection. When not provided, days 1–28 are shown. The given order is kept. If the current `value` is not among them, it is still shown and added to the list.
    */
   days?: number[]
 
@@ -109,13 +109,20 @@ function InstallmentDay(props: FieldInstallmentDayProps) {
   const includeLastDay = showLastDay || value === 'last'
 
   const data = useMemo(() => {
-    // Inject the out-of-range value in sorted order so it always renders in
-    // the trigger and as a selectable option, instead of falling back to the
-    // placeholder while a value is actually set.
-    const numericDays =
-      extraDay != null
-        ? [...dayList, extraDay].sort((a, b) => a - b)
-        : dayList
+    // Inject the out-of-range value so it always renders in the trigger and
+    // as a selectable option, instead of falling back to the placeholder
+    // while a value is actually set. It is placed at its ascending position
+    // without reordering the given days, so a custom `days` order is kept.
+    let numericDays = dayList
+    if (extraDay != null) {
+      const index = dayList.findIndex((day) => day > extraDay)
+      numericDays = [...dayList]
+      numericDays.splice(
+        index === -1 ? dayList.length : index,
+        0,
+        extraDay
+      )
+    }
 
     const items = numericDays.map((day) => ({
       selectedKey: String(day),
