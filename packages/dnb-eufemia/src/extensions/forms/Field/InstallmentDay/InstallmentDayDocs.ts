@@ -12,7 +12,7 @@ export const InstallmentDayProperties: PropertiesTableProps = {
     status: 'optional',
   },
   days: {
-    doc: 'Constrains which days are available for selection. When not provided, days 1\u201328 are shown. If the current `value` is not among them, it is still shown and added to the list.',
+    doc: 'Constrains which days are available for selection. When not provided, days 1\u201328 are shown. The given order is kept. If the current `value` is not among them, it is still shown and added to the list.',
     type: 'Array<number>',
     status: 'optional',
   },
