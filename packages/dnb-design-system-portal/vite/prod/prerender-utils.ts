@@ -10,7 +10,9 @@
 import path from 'node:path'
 import { getContentScript } from '@dnb/eufemia/src/shared/ColorSchemeScript'
 import { getSidebarScrollScript } from './sidebar-scroll-script.mjs'
+import { getSidebarOpenStateScript } from './sidebar-open-state-script.mjs'
 export { getSidebarScrollScript } from './sidebar-scroll-script.mjs'
+export { getSidebarOpenStateScript } from './sidebar-open-state-script.mjs'
 
 export type RouteEntry = {
   path?: string
@@ -291,10 +293,11 @@ export function injectHtml(
   // before the browser paints — preventing a dark-mode FOUC.
   const contentScript = getContentScript()
   const sidebarScrollScript = getSidebarScrollScript()
+  const sidebarOpenStateScript = getSidebarOpenStateScript()
 
   let html = template.replace(
     '<div id="root"></div>',
-    `<div id="root">${appHtml}</div>\n\t<script>${contentScript};${sidebarScrollScript}</script>`
+    `<div id="root">${appHtml}</div>\n\t<script>${contentScript};${sidebarOpenStateScript};${sidebarScrollScript}</script>`
   )
 
   // Inject <link> tags for ALL brand theme CSS chunks.
