@@ -1,6 +1,5 @@
 .logo {
   overflow: visible;
-  perspective: 6rem;
 
   .i {
     transform-box: fill-box;
@@ -9,7 +8,7 @@
   }
 
   &:hover .i {
-    transform: rotateY(165deg) scale(1.2);
+    transform: rotateY(165deg) scale(1.05);
     transition-duration: 450ms;
   }
 }
