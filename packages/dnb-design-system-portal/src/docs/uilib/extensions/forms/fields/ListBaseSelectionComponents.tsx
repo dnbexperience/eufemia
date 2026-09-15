@@ -1,15 +1,12 @@
 import ListSummaryFromEdges from '../../../../../shared/parts/ListSummaryFromEdges'
-import { regularMdxNodes } from 'virtual:portal-pages'
+import { regularMdxNodes, globPath } from 'virtual:portal-pages'
 
 export default function ListBaseSelectionComponents() {
-  const edges = regularMdxNodes.filter(({ fields, frontmatter }) => {
-    const parentPath = fields.slug.split('/').slice(0, -1).join('/')
-
-    return (
-      parentPath === 'uilib/extensions/forms/base-fields' &&
-      frontmatter.componentType === 'base-selection'
-    )
-  })
+  const edges = regularMdxNodes.filter(
+    (node) =>
+      globPath(node, 'uilib/extensions/forms/base-fields/*') &&
+      node.frontmatter.componentType === 'base-selection'
+  )
 
   return (
     <ListSummaryFromEdges

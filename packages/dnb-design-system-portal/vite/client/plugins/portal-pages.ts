@@ -328,6 +328,12 @@ export default function portalPagesPlugin(
           }
         })
 
+        // Path matching helper, re-exported so page lists can select pages
+        // with the same globs the content queries used.
+        const globModulePath = path
+          .join(__dirname, 'portal-pages.shared')
+          .replace(/\\/g, '/')
+
         // Add catch-all 404 route — wraps the 404 page component to inject location prop
         const notFoundPath = path
           .join(docsDir, '404.tsx')
@@ -386,6 +392,8 @@ ${nodeEntries.join('\n')}
 export const regularMdxNodes = [
 ${regularMdxNodes.map((node) => `  ${JSON.stringify(node)},`).join('\n')}
 ];
+
+export { globPath } from '${globModulePath}';
 `
       }
     },
