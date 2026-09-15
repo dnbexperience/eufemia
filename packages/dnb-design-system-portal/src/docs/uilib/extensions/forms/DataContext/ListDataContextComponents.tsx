@@ -1,9 +1,9 @@
 import ListSummaryFromEdges from '../../../../../shared/parts/ListSummaryFromEdges'
-import { regularMdxNodes } from 'virtual:portal-pages'
+import { regularMdxNodes, globPath } from 'virtual:portal-pages'
 
 export default function ListDataContextComponents(props) {
-  const edges = regularMdxNodes.filter(({ fields }) =>
-    fields.slug.startsWith('uilib/extensions/forms/DataContext/')
+  const edges = regularMdxNodes.filter((node) =>
+    globPath(node, 'uilib/extensions/forms/DataContext/**/*')
   )
 
   return <ListSummaryFromEdges edges={edges} {...props} />
