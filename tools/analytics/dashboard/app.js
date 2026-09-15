@@ -192,6 +192,34 @@ function render(rows) {
   })
 }
 
+// Render the MCP usage section. Independent of portal views, so it shows even
+// when there are no page views (and vice versa).
+function renderMcpUsage(usage) {
+  const mcp = usage ?? {}
+  const total = mcp.total ?? 0
+
+  const totalEl = document.getElementById('mcp-total')
+  if (totalEl) {
+    totalEl.textContent =
+      total > 0
+        ? `${total.toLocaleString()} MCP requests`
+        : 'No MCP usage yet.'
+  }
+
+  const toCounts = (items) =>
+    new Map((items ?? []).map((item) => [item.name, item.count]))
+
+  renderBars('mcp-tools', toCounts(mcp.perTool), { sort: 'desc' })
+  renderBars('mcp-components', toCounts(mcp.perComponent), {
+    sort: 'desc',
+    limit: 15,
+  })
+  renderBars('mcp-paths', toCounts(mcp.perPath), {
+    sort: 'desc',
+    limit: 15,
+  })
+}
+
 function populateEnvFilter(rows, onChange) {
   const select = document.getElementById('env')
   const envs = [...new Set(rows.map((r) => r.env).filter(Boolean))].sort()
@@ -288,10 +316,13 @@ async function main() {
   const payload = result.kind === 'data' ? result.payload : null
   const all = toRecords(payload).map(normalise)
 
+  const mcpTotal = payload?.mcpUsage?.total ?? 0
   document.getElementById('meta').textContent = snapshotMeta(
     payload,
-    all.length
+    all.length + mcpTotal
   )
+
+  renderMcpUsage(payload?.mcpUsage)
 
   if (all.length === 0) {
     return
