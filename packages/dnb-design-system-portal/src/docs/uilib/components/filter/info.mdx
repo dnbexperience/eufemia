@@ -71,7 +71,7 @@ The Filter component can be used in two layout patterns:
 ### Hooks
 
 - **`Filter.useFilter(id)`** — Reads filter state from anywhere — does not need to be inside `Filter.Root`. Returns `{ filters, search, hasActiveFilters, resetFilters, removeFilter }`.
-- **`Filter.useFilterAsync(id, fetcher, options?)`** — Async data fetching linked to a filter. Handles loading state, race conditions, and syncs `resultLoading`/`resultCount` to shared state. Options: `initialData` for immediate rendering, `debounce` (ms) to delay fetcher calls while the user is typing. Returns `{ data, loading, error }`.
+- **`Filter.useFilterAsync(id, fetcher, options?)`** — Async data fetching linked to a filter. Handles loading state, race conditions, and syncs `resultLoading`/`resultCount` to shared state. Gives the fetcher a 30 second deadline so a Promise that never settles cannot leave the filter loading forever. Options: `initialData` for immediate rendering, `debounce` (ms) to delay fetcher calls while the user is typing. Returns `{ data, loading, error }`.
 - **`Filter.useFilterContext()`** — Accesses the full filter context from inside `Filter.Root`. Use this to build custom filter types. Returns `{ setFilter, getFilter, removeFilter, resetFilters, commitFilters, revertFilters, filters, search, hasActiveFilters }`.
 
 ### URL sync hooks
@@ -256,6 +256,32 @@ const { data } = Filter.useFilterAsync('my-filter', fetcher, {
   debounce: 300,
 })
 ```
+
+### Fetcher deadline
+
+The fetcher is what clears the loading state, so a Promise that never settles would leave `Filter.Content` showing a skeleton forever.
+
+The hook gives it 30 seconds, the same deadline `Form.Handler` applies to its own async submit. The deadline runs from the filter change that triggered the fetch, so it covers `debounce` as well as the fetch itself. When it is reached, the loading state is cleared and `error` is set to an `Error` with `name` `'TimeoutError'`, and a result arriving later from that fetch is ignored.
+
+The fetch itself is not aborted — the fetcher receives no `AbortSignal`.
+
+Because the error carries a name, you can tell a deadline apart from a rejection your own fetcher produced, and show your own message for each:
+
+```tsx
+const { data, error } = Filter.useFilterAsync('my-filter', fetcher)
+
+if (error) {
+  return (
+    <p>
+      {error.name === 'TimeoutError'
+        ? 'Søket tok for lang tid.'
+        : 'Noe gikk galt.'}
+    </p>
+  )
+}
+```
+
+The hook fetches when the filter state changes, so there is no separate retry call, and re-applying a filter it already holds does not start a new fetch. Recovering from a deadline means changing the filter or the search string.
 
 ## Accessibility
 
