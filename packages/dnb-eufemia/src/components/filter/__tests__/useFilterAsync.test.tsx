@@ -499,8 +499,8 @@ describe('useFilterAsync timeout', () => {
       document.querySelector('[data-testid="loading"]').textContent
     ).toBe('true')
 
-    // The documentation states this value in prose ("30 seconds"), so those
-    // texts need to be updated when the default changes
+    // Pinned because the documentation states this value in prose;
+    // `shared/defaults.ts` explains what needs updating.
     expect(DEFAULT_ASYNC_SUBMIT_TIMEOUT).toBe(30000)
 
     // Just short of the deadline, nothing has recovered the loading state yet
@@ -637,6 +637,59 @@ describe('useFilterAsync timeout', () => {
     expect(
       document.querySelector('[data-testid="error"]').textContent
     ).toBe('none')
+  })
+
+  it('spends the deadline on the debounce as well as the fetch', async () => {
+    const debounce = 5000
+    const fetcher = vi.fn().mockReturnValue(new Promise(() => {}))
+
+    function Consumer() {
+      const { error } = useFilterAsync(
+        'async-timeout-debounce-test',
+        fetcher,
+        { debounce }
+      )
+      return <span data-testid="error">{error?.name ?? 'none'}</span>
+    }
+
+    render(
+      <FilterRoot id="async-timeout-debounce-test">
+        <FilterSearch label="Søk" />
+        <Consumer />
+      </FilterRoot>
+    )
+
+    await act(async () => {})
+    expect(fetcher).toHaveBeenCalledTimes(1)
+
+    fireEvent.change(document.querySelector('.dnb-filter__search input'), {
+      target: { value: 'hello' },
+    })
+
+    // The loading state starts at the change, so the deadline does too, even
+    // though the fetcher has not been invoked yet
+    expect(fetcher).toHaveBeenCalledTimes(1)
+
+    await act(async () => {
+      vi.advanceTimersByTime(debounce)
+    })
+    expect(fetcher).toHaveBeenCalledTimes(2)
+
+    // The debounce has already spent part of the deadline, so it lands that
+    // much earlier — not a full deadline after the fetcher was finally invoked
+    await act(async () => {
+      vi.advanceTimersByTime(DEFAULT_ASYNC_SUBMIT_TIMEOUT - debounce - 1)
+    })
+    expect(
+      document.querySelector('[data-testid="error"]').textContent
+    ).toBe('none')
+
+    await act(async () => {
+      vi.advanceTimersByTime(1)
+    })
+    expect(
+      document.querySelector('[data-testid="error"]').textContent
+    ).toBe('TimeoutError')
   })
 })
 
