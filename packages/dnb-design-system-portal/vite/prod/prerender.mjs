@@ -240,10 +240,17 @@ prerender().catch((err) => {
 
 // ---------------------------------------------------------------------------
 // Inline utility functions (mirrored from prerender-utils.ts for testing).
-// Keep these in sync — the .ts versions are the source of truth. A helper that
-// needs no Vite-resolved imports belongs in its own .mts module instead, as
-// md-paths.mts does: imported both here and by the tests, so there is only one
-// copy that can be wrong.
+// Keep the behaviour in sync — the .ts versions are the source of truth. A
+// helper that needs no Vite-resolved imports belongs in its own .mts module
+// instead, as md-paths.mts does: imported both here and by the tests, so there
+// is only one copy that can be wrong.
+//
+// Signatures cannot always match, so do not "fix" them to line up. injectHtml
+// is the case: prerender-utils.ts imports getContentScript from
+// @dnb/eufemia/src/shared/ColorSchemeScript, a path only Vite resolves, while
+// this script takes the script as a parameter because it can only read it from
+// the built SSR bundle. That is also why injectHtml cannot move into its own
+// .mts module the way md-paths.mts did.
 // ---------------------------------------------------------------------------
 
 function collectUrls(routes) {
