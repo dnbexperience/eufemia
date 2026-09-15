@@ -30,7 +30,10 @@ export default function StickyMenuBar() {
       className={clsx(headerStyle, 'sticky-menu', 'dev-grid')}
       data-scrolled={hasScrolled ? 'true' : undefined}
     >
-      <div className={portalHeaderWrapperStyle}>
+      <div
+        className={portalHeaderWrapperStyle}
+        data-inline-collapsed={inlineCollapsed || undefined}
+      >
         <span
           className={leadingStyle}
           data-inline-collapsed={inlineCollapsed || undefined}
