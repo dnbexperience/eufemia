@@ -1,13 +1,13 @@
 @use '../../../style/core/utilities.scss' as utilities;
 
 .dnb-icon--animated-arrow-right.dnb-icon--animate svg,
+.dnb-icon--animated-arrow-right svg.dnb-icon--animation-active,
 :where(button, a, [role='button'], [data-icon-animation-trigger]):hover
   .dnb-icon--animated-arrow-right.dnb-icon--animate-when-hover
   svg,
 .dnb-icon--animated-arrow-right.dnb-icon--animate-when-hover:hover svg {
   transform-origin: right center;
-  animation: dnb-icon-animated-arrow-right 650ms var(--easing-default)
-    both;
+  animation: dnb-icon-animated-arrow-right 650ms var(--easing-default) both;
 
   @include utilities.reducedMotion() {
     animation: none;
