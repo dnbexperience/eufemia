@@ -370,7 +370,7 @@ test.describe('Sidebar resize', () => {
 
     await expect(sidebar).toHaveCSS('width', '240px')
     expect(overflow.overflowX).toBe('auto')
-    expect(overflow.scrollWidth).toBe(overflow.clientWidth)
+    expect(overflow.scrollWidth).toBeGreaterThan(overflow.clientWidth)
   })
 
   test('should collapse and restore the desktop sidebar', async ({
