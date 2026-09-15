@@ -514,7 +514,7 @@ function UploadComponent(props: FieldUploadProps) {
         disabled={disabled}
         fileMaxSize={fileMaxSize}
         skeleton={skeleton}
-        asyncFileOperationTimeout={asyncSubmitTimeout}
+        _asyncFileOperationTimeout={asyncSubmitTimeout}
         title={
           help && labelDescription === false ? (
             <LabelWithHelpButton

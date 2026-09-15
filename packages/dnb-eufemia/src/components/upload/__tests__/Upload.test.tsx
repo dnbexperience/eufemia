@@ -2230,7 +2230,7 @@ describe('Upload', () => {
           <Upload
             {...defaultProps}
             id={id}
-            asyncFileOperationTimeout={300}
+            _asyncFileOperationTimeout={300}
             onFileDelete={onFileDelete}
           />
         )
@@ -2291,7 +2291,7 @@ describe('Upload', () => {
           <Upload
             {...defaultProps}
             id={id}
-            asyncFileOperationTimeout={300}
+            _asyncFileOperationTimeout={300}
             onFileDelete={onFileDelete}
           />
         )
@@ -2433,7 +2433,7 @@ describe('Upload', () => {
           <Upload
             {...defaultProps}
             id={id}
-            asyncFileOperationTimeout={300}
+            _asyncFileOperationTimeout={300}
             onFileClick={onFileClick}
           />
         )
@@ -2514,9 +2514,10 @@ describe('Upload', () => {
 
       // Only Field.Upload and Value.Upload read the form's asyncSubmitTimeout.
       // The base component cannot, because components/ must not depend on
-      // extensions/forms. The properties table says so, and this pins it, so
-      // the claim cannot silently become false again.
-      it('will use its own asyncFileOperationTimeout inside a Form.Handler, not the form asyncSubmitTimeout', async () => {
+      // extensions/forms — Field.Upload passes the value down instead. This
+      // pins that boundary, so the base deadline cannot silently start
+      // following a surrounding form.
+      it('will use its own deadline inside a Form.Handler, not the form asyncSubmitTimeout', async () => {
         const onFileDelete = vi.fn(async () => {
           await new Promise<void>(() => undefined)
         })
@@ -2525,8 +2526,8 @@ describe('Upload', () => {
           <Form.Handler asyncSubmitTimeout={50}>
             <Upload
               {...defaultProps}
-              id="asyncFileOperationTimeout-in-form"
-              asyncFileOperationTimeout={600}
+              id="internal-file-operation-timeout-in-form"
+              _asyncFileOperationTimeout={600}
               onFileDelete={onFileDelete}
             />
           </Form.Handler>
