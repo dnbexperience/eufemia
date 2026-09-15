@@ -27,7 +27,7 @@ function applyPreHydrationState() {
             return
           }
 
-          const parsed = JSON.parse(value)
+          const parsed = globalThis['JSON']['parse'](value)
           const openItems = Array.isArray(parsed)
             ? parsed
             : Array.isArray(parsed?.openItems)
@@ -51,40 +51,44 @@ function applyPreHydrationState() {
             const trigger =
               root + ' > .dnb-sidebar-menu__accordion__trigger'
 
-            rules.push(
+            rules[rules.length] =
               animation +
-                '{margin-top:calc(var(--sidebar-menu-accordion-gap,.5rem)*-1)!important}',
+              '{margin-top:calc(var(--sidebar-menu-accordion-gap,.5rem)*-1)!important}'
+            rules[rules.length] =
               inner +
-                '{margin-top:var(--sidebar-menu-accordion-gap,.5rem)!important}'
-            )
+              '{margin-top:var(--sidebar-menu-accordion-gap,.5rem)!important}'
 
             if (open) {
-              rules.push(
+              rules[rules.length] =
                 animation +
-                  '{display:block!important;height:auto!important;overflow-y:visible!important;visibility:visible!important}',
+                '{display:block!important;height:auto!important;overflow-y:visible!important;visibility:visible!important}'
+              rules[rules.length] =
                 trigger +
-                  ' .dnb-icon--transition-fallback{--icon-transition:var(--icon-transition-expanded)!important}',
+                ' .dnb-icon--transition-fallback{--icon-transition:var(--icon-transition-expanded)!important}'
+              rules[rules.length] =
                 trigger +
-                  ' svg[data-icon-state="collapsed"]{opacity:0!important;transform:scale(.5)!important}',
+                ' svg[data-icon-state="collapsed"]{opacity:0!important;transform:scale(.5)!important}'
+              rules[rules.length] =
                 trigger +
-                  ' svg[data-icon-state="expanded"]{opacity:1!important;transform:scale(1)!important}'
-              )
+                ' svg[data-icon-state="expanded"]{opacity:1!important;transform:scale(1)!important}'
             } else {
-              rules.push(
+              rules[rules.length] =
                 animation +
-                  '{height:0!important;overflow-y:clip!important;visibility:hidden!important}',
+                '{height:0!important;overflow-y:clip!important;visibility:hidden!important}'
+              rules[rules.length] =
                 trigger +
-                  ' .dnb-icon--transition-fallback{--icon-transition:var(--icon-transition-collapsed)!important}',
+                ' .dnb-icon--transition-fallback{--icon-transition:var(--icon-transition-collapsed)!important}'
+              rules[rules.length] =
                 trigger +
-                  ' svg[data-icon-state="collapsed"]{opacity:1!important;transform:scale(1)!important}',
+                ' svg[data-icon-state="collapsed"]{opacity:1!important;transform:scale(1)!important}'
+              rules[rules.length] =
                 trigger +
-                  ' svg[data-icon-state="expanded"]{opacity:0!important;transform:scale(.5)!important}'
-              )
+                ' svg[data-icon-state="expanded"]{opacity:0!important;transform:scale(.5)!important}'
             }
           }
 
           openItems.forEach((id) => {
-            if (!closedItems.includes(id)) {
+            if (closedItems.indexOf(id) === -1) {
               add(id, true)
             }
           })
