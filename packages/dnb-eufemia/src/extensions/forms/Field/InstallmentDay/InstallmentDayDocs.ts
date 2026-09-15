@@ -17,7 +17,7 @@ export const InstallmentDayProperties: PropertiesTableProps = {
     status: 'optional',
   },
   showLastDay: {
-    doc: 'If set to `true`, a "Last day of month" option is appended to the list. Defaults to `true`.',
+    doc: 'Set to `false` to remove the "Last day of the month" option from the list. Defaults to `true`. The option is still shown when the current `value` is `\'last\'`.',
     type: 'boolean',
     status: 'optional',
   },
