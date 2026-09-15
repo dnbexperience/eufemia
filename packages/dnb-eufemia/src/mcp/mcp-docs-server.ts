@@ -298,12 +298,9 @@ function compareSemverStrings(a: string, b: string): number {
   if (!pb) {
     return -1
   }
-  for (let i = 0; i < 3; i++) {
-    if (pa[i] !== pb[i]) {
-      return pa[i] - pb[i]
-    }
-  }
-  return 0
+  const [aMajor, aMinor, aPatch] = pa
+  const [bMajor, bMinor, bPatch] = pb
+  return aMajor - bMajor || aMinor - bMinor || aPatch - bPatch
 }
 
 /** True when `version` falls within the optional [from, to] semver window. */
