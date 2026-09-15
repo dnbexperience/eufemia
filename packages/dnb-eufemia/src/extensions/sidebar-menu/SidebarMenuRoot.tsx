@@ -522,6 +522,8 @@ function SidebarMenuRoot(props: SidebarMenuRootProps) {
       element="nav"
       ref={menuRef}
       className={clsx('dnb-sidebar-menu', className)}
+      data-open-items-storage-key={openItemsStorageKey}
+      data-open-items-storage={openItemsStorage}
       data-scroll-position-storage-key={scrollPositionStorageKey}
       data-scroll-position-storage={scrollPositionStorage}
     >
