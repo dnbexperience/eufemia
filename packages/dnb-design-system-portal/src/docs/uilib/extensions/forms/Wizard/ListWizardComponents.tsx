@@ -1,39 +1,10 @@
-import { useStaticQuery, graphql } from 'portal-query'
 import ListSummaryFromEdges from '../../../../../shared/parts/ListSummaryFromEdges'
+import { regularMdxNodes } from 'virtual:portal-pages'
 
 export default function ListWizardComponents(props) {
-  const {
-    allMdx: { edges },
-  } = useStaticQuery(graphql`
-    {
-      allMdx(
-        filter: {
-          frontmatter: { title: { ne: null }, draft: { ne: true } }
-          internal: {
-            contentFilePath: {
-              glob: "**/uilib/extensions/forms/Wizard/**/*"
-            }
-          }
-        }
-        sort: [
-          { frontmatter: { order: ASC } }
-          { frontmatter: { title: ASC } }
-        ]
-      ) {
-        edges {
-          node {
-            fields {
-              slug
-            }
-            frontmatter {
-              title
-              description
-            }
-          }
-        }
-      }
-    }
-  `)
+  const edges = regularMdxNodes.filter(({ fields }) =>
+    fields.slug.startsWith('uilib/extensions/forms/Wizard/')
+  )
 
   return <ListSummaryFromEdges edges={edges} {...props} />
 }

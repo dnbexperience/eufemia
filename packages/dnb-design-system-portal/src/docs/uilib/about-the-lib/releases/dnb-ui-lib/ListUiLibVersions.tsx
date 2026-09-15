@@ -1,39 +1,10 @@
-import { useStaticQuery, graphql } from 'portal-query'
 import ListSummaryFromEdges from '../../../../../shared/parts/ListSummaryFromEdges'
+import { regularMdxNodes } from 'virtual:portal-pages'
 
 export default function ListUiLibVersions(props) {
-  const {
-    allMdx: { edges },
-  } = useStaticQuery(graphql`
-    {
-      allMdx(
-        filter: {
-          frontmatter: { title: { ne: null }, draft: { ne: true } }
-          internal: {
-            contentFilePath: {
-              glob: "**/uilib/about-the-lib/releases/dnb-ui-lib/**/*"
-            }
-          }
-        }
-        sort: [
-          { frontmatter: { order: ASC } }
-          { frontmatter: { title: DESC } }
-        ]
-      ) {
-        edges {
-          node {
-            fields {
-              slug
-            }
-            frontmatter {
-              title
-              description
-            }
-          }
-        }
-      }
-    }
-  `)
+  const edges = regularMdxNodes.filter(({ fields }) =>
+    fields.slug.startsWith('uilib/about-the-lib/releases/dnb-ui-lib/')
+  )
 
   return <ListSummaryFromEdges edges={edges} {...props} />
 }
