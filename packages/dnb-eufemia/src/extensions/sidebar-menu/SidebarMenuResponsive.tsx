@@ -3,6 +3,7 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useId,
   useMemo,
   useRef,
   useState,
@@ -13,6 +14,8 @@ import type { ButtonProps } from '../../components/button/Button'
 import Drawer from '../../components/drawer/Drawer'
 import type { DrawerAllProps } from '../../components/drawer/Drawer'
 import useMediaQuery from '../../shared/useMediaQuery'
+import Context from '../../shared/Context'
+import { defaultBreakpoints } from '../../shared/MediaQueryUtils'
 import type { MediaQuerySizes } from '../../shared/MediaQueryUtils'
 import { hamburger } from '../../icons'
 import { clsx } from 'clsx'
@@ -36,6 +39,7 @@ type SidebarMenuResponsiveContextValue = {
   restoreInline: () => void
   triggerRef: RefObject<HTMLElement | null>
   isSmallScreenRef: RefObject<boolean>
+  scopeId: string
 }
 
 const ResponsiveContext = createContext<
@@ -57,7 +61,9 @@ export type SidebarMenuResponsiveValue = Pick<
 export type SidebarMenuResponsiveProviderProps = {
   children: ReactNode
   /** Maximum viewport width at which the mobile navigation is used. */
-  breakpoint?: MediaQuerySizes | number | string
+  breakpoint?: MediaQuerySizes | `${number}em`
+  /** CSP nonce forwarded to custom first-paint breakpoint CSS. */
+  styleNonce?: string
   /** Controlled Drawer state. */
   open?: boolean
   /** Initial uncontrolled Drawer state. */
@@ -75,6 +81,7 @@ export type SidebarMenuResponsiveProviderProps = {
 export function SidebarMenuResponsiveProvider({
   children,
   breakpoint = 'medium',
+  styleNonce,
   open,
   defaultOpen = false,
   onOpenChange,
@@ -82,7 +89,20 @@ export function SidebarMenuResponsiveProvider({
   defaultInlineCollapsed = false,
   onInlineCollapsedChange,
 }: SidebarMenuResponsiveProviderProps) {
-  const isSmallScreen = useMediaQuery({ when: { max: breakpoint } })
+  const { breakpoints } = useContext(Context)
+  const configuredBreakpoint =
+    breakpoints?.[breakpoint] ??
+    defaultBreakpoints[breakpoint as MediaQuerySizes] ??
+    breakpoint
+  const resolvedBreakpoint = /^\d+(?:\.\d+)?em$/.test(
+    String(configuredBreakpoint)
+  )
+    ? String(configuredBreakpoint)
+    : (defaultBreakpoints.medium ?? '60em')
+  const isSmallScreen = useMediaQuery({
+    when: { max: resolvedBreakpoint },
+  })
+  const scopeId = `sidebar-menu-${useId().replace(/:/g, '')}`
   const [isHydrated, setHydrated] = useState(false)
   const [internalOpen, setInternalOpen] = useState(defaultOpen)
   const [internalInlineCollapsed, setInternalInlineCollapsed] = useState(
@@ -180,6 +200,7 @@ export function SidebarMenuResponsiveProvider({
       setDrawerScrollElement,
       toggle,
       restoreInline,
+      scopeId,
       triggerRef,
     }),
     [
@@ -194,10 +215,18 @@ export function SidebarMenuResponsiveProvider({
       setOpen,
       toggle,
       restoreInline,
+      scopeId,
     ]
   )
 
-  return <ResponsiveContext value={value}>{children}</ResponsiveContext>
+  const firstPaintCss = getFirstPaintCss(scopeId, resolvedBreakpoint)
+
+  return (
+    <ResponsiveContext value={value}>
+      {firstPaintCss && <style nonce={styleNonce}>{firstPaintCss}</style>}
+      {children}
+    </ResponsiveContext>
+  )
 }
 
 export function useSidebarMenuResponsive(): SidebarMenuResponsiveValue {
@@ -279,6 +308,7 @@ export function SidebarMenuResponsiveTrigger({
     restoreInline,
     toggle,
     triggerRef,
+    scopeId,
   } = useResponsiveContext()
   const translation = useTranslation().SidebarMenu
   const combinedRef = useCombinedRef(ref, triggerRef)
@@ -294,6 +324,7 @@ export function SidebarMenuResponsiveTrigger({
       data-sidebar-menu-responsive-visible={
         isHydrated ? String(isSmallScreen || inlineCollapsed) : undefined
       }
+      data-sidebar-menu-responsive-scope={scopeId}
       icon={icon ?? hamburger}
       variant={variant}
       title={
@@ -327,7 +358,7 @@ export function SidebarMenuResponsiveInline({
 }: {
   children: ReactNode
 }) {
-  const { inlineCollapsed, isHydrated, isSmallScreen } =
+  const { inlineCollapsed, isHydrated, isSmallScreen, scopeId } =
     useResponsiveContext()
   if (isHydrated && isSmallScreen) {
     return null
@@ -339,12 +370,30 @@ export function SidebarMenuResponsiveInline({
       data-sidebar-menu-responsive-visible={
         isHydrated ? String(!isSmallScreen && !inlineCollapsed) : undefined
       }
+      data-sidebar-menu-responsive-scope={scopeId}
       inert={isHydrated && inlineCollapsed}
       aria-hidden={isHydrated && inlineCollapsed ? 'true' : undefined}
     >
       {children}
     </div>
   )
+}
+
+function getFirstPaintCss(scopeId: string, breakpoint: string) {
+  if (breakpoint === defaultBreakpoints.medium) {
+    return undefined
+  }
+
+  const em = Number.parseFloat(breakpoint)
+  if (!/^\d+(?:\.\d+)?em$/.test(breakpoint) || !Number.isFinite(em)) {
+    return undefined
+  }
+
+  const minWidth = `${Number((em + 0.00625).toFixed(5))}em`
+  const scope = `[data-sidebar-menu-responsive-scope="${scopeId}"]`
+  const unresolved = ':not([data-sidebar-menu-responsive-visible])'
+
+  return `@media (max-width: ${breakpoint}){${scope}.dnb-sidebar-menu-responsive-trigger${unresolved}{display:inline-flex}${scope}.dnb-sidebar-menu-responsive-inline${unresolved}{display:none}}@media (min-width: ${minWidth}){${scope}.dnb-sidebar-menu-responsive-trigger${unresolved}{display:none}${scope}.dnb-sidebar-menu-responsive-inline${unresolved}{display:contents}}`
 }
 
 export type SidebarMenuResponsiveDrawerProps = Omit<
