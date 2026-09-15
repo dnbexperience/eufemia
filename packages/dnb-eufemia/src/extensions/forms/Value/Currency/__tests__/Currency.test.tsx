@@ -28,7 +28,7 @@ describe('Value.Currency', () => {
 
       expect(
         document.querySelector('.dnb-forms-value-number')
-      ).toHaveTextContent('- kr')
+      ).toHaveTextContent('– kr')
 
       rerender(<Value.Currency showEmpty locale="en-GB" />)
 
@@ -57,7 +57,7 @@ describe('Value.Currency', () => {
 
       expect(
         document.querySelector('.dnb-forms-value-number')
-      ).toHaveTextContent('-12 345 678,00 kr')
+      ).toHaveTextContent('−12 345 678,00 kr')
     })
 
     it('renders gets value based on path', () => {
@@ -99,7 +99,7 @@ describe('Value.Currency', () => {
 
       expect(
         document.querySelector('.dnb-forms-value-number')
-      ).toHaveTextContent('NOK -12 345,68')
+      ).toHaveTextContent('NOK −12 345,68')
     })
 
     it('formats currency with aria version', () => {
@@ -115,7 +115,7 @@ describe('Value.Currency', () => {
         document
           .querySelector('.dnb-number-format .dnb-sr-only')
           .getAttribute('data-text')
-      ).toBe('-12 345,68 kroner')
+      ).toBe('−12 345,68 kroner')
     })
 
     it('formats with different locale', () => {
@@ -132,12 +132,12 @@ describe('Value.Currency', () => {
 
       expect(
         document.querySelector('.dnb-forms-value-number')
-      ).toHaveTextContent('kroner -12,345.68')
+      ).toHaveTextContent('kroner −12,345.68')
       expect(
         document
           .querySelector('.dnb-number-format .dnb-sr-only')
           .getAttribute('data-text')
-      ).toBe('-12,345.68 kroner')
+      ).toBe('−12,345.68 kroner')
     })
 
     it('hides the currency sign when currencyDisplay is false', () => {

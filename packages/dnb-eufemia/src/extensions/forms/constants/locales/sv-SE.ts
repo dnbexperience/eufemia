@@ -116,6 +116,7 @@ export default {
       selectAll: 'Välj alla',
       searchPlaceholder: 'Sök...',
       noOptions: 'Inga alternativ',
+      skipToActions: 'Hoppa över alternativ och gå till åtgärder',
       confirmButton: 'Bekräfta ({count} valda)',
       cancelButton: 'Avbryt',
       selectionCount: '{count} av {total} valda',

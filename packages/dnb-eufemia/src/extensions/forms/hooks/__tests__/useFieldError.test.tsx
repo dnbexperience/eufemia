@@ -1,6 +1,7 @@
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Field, Form } from '../../Forms'
+import { DEFAULT_ASYNC_SUBMIT_TIMEOUT } from '../../defaults'
 
 describe('field pending state with asyncSubmitTimeout', () => {
   it('should re-enable the field after asyncSubmitTimeout when an onBlurValidator never settles', async () => {
@@ -331,8 +332,14 @@ describe('field pending state with asyncSubmitTimeout', () => {
       expect(onBlurValidator).toHaveBeenCalledTimes(1)
     })
 
+    // Pinned because the documentation states this value in prose;
+    // `defaults.ts` explains what needs updating.
+    expect(DEFAULT_ASYNC_SUBMIT_TIMEOUT).toBe(30000)
+
     expect(
-      setTimeoutSpy.mock.calls.some(([, delay]) => delay === 30000)
+      setTimeoutSpy.mock.calls.some(
+        ([, delay]) => delay === DEFAULT_ASYNC_SUBMIT_TIMEOUT
+      )
     ).toBe(true)
 
     unmount()

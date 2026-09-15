@@ -10,13 +10,20 @@ const volume_on = (props?: IconSVGProps) => (
     viewBox="0 0 16 16"
     {...props}
   >
-    <path
-      stroke="#000"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth={1.5}
-      d="M14.316 10.504a4.44 4.44 0 0 0 0-4.736m-1.935 3.863a2.352 2.352 0 0 0 0-2.938M9.452 3.105a1.017 1.017 0 0 0-1.048.095L4.002 6.002H2a1.01 1.01 0 0 0-1.001 1v2.001c0 .545.456 1 1 1h2.002l4.402 2.802c.297.223.715.261 1.048.095.332-.166.553-.523.553-.895V4.001c0-.372-.22-.73-.553-.896Z"
-    />
+    <g clipPath="url(#volume_on_svg__a)">
+      <path
+        stroke="#000"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={1.5}
+        d="M14.316 10.504a4.44 4.44 0 0 0 0-4.736m-1.935 3.863a2.35 2.35 0 0 0 0-2.938M9.452 3.105a1.02 1.02 0 0 0-1.048.095L4.002 6.002H2a1.01 1.01 0 0 0-1.001 1v2.001c0 .545.456 1 1 1h2.002l4.402 2.802c.297.223.715.261 1.048.095.332-.166.553-.523.553-.895V4.001c0-.372-.22-.73-.553-.896"
+      />
+    </g>
+    <defs>
+      <clipPath id="volume_on_svg__a">
+        <path fill="#fff" d="M0 0h16v16H0z" />
+      </clipPath>
+    </defs>
   </svg>
 )
 export default volume_on

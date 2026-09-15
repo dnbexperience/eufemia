@@ -2,6 +2,7 @@ import { describe, it, expect } from 'vitest'
 import {
   validatePortalViews,
   buildPortalViewRecord,
+  normalizeTrackedPath,
 } from '../src/records/portal-view.js'
 
 describe('validatePortalViews', () => {
@@ -81,11 +82,130 @@ describe('validatePortalViews', () => {
     })
   })
 
-  it('rejects an invalid env label', () => {
+  it('coerces an unrecognised env to unknown instead of rejecting', () => {
     for (const env of ['Prod', 'a'.repeat(33), '1prod', 'pr od', 42]) {
       const result = validatePortalViews({ path: '/a', env })
 
+      expect(result).toEqual({ ok: true, value: [{ path: '/a' }] })
+    }
+  })
+
+  it('accepts a valid status', () => {
+    for (const status of ['ok', 'not_found', 'error']) {
+      const result = validatePortalViews({ path: '/a', status })
+
+      expect(result).toEqual({
+        ok: true,
+        value: [{ path: '/a', status }],
+      })
+    }
+  })
+
+  it('rejects an invalid status', () => {
+    for (const status of ['OK', '404', 'notfound', 'redirect', 42]) {
+      const result = validatePortalViews({ path: '/a', status })
+
       expect(result.ok).toBe(false)
+    }
+  })
+
+  it('accepts a valid locale', () => {
+    for (const locale of ['nb-NO', 'en-GB', 'sv-SE', 'da-DK', 'en-US']) {
+      const result = validatePortalViews({ path: '/a', locale })
+
+      expect(result).toEqual({
+        ok: true,
+        value: [{ path: '/a', locale }],
+      })
+    }
+  })
+
+  it('coerces an unrecognised locale to unknown instead of rejecting', () => {
+    for (const locale of [
+      'nb',
+      'NB-no',
+      'en_GB',
+      'english',
+      'de-DE',
+      42,
+    ]) {
+      const result = validatePortalViews({ path: '/a', locale })
+
+      expect(result).toEqual({ ok: true, value: [{ path: '/a' }] })
+    }
+  })
+
+  it('accepts a valid theme', () => {
+    for (const theme of ['ui', 'sbanken', 'eiendom', 'carnegie']) {
+      const result = validatePortalViews({ path: '/a', theme })
+
+      expect(result).toEqual({
+        ok: true,
+        value: [{ path: '/a', theme }],
+      })
+    }
+  })
+
+  it('coerces an unrecognised theme to unknown instead of rejecting', () => {
+    for (const theme of [
+      'UI',
+      'the brand',
+      'customer-123',
+      'a'.repeat(33),
+      42,
+    ]) {
+      const result = validatePortalViews({ path: '/a', theme })
+
+      expect(result).toEqual({ ok: true, value: [{ path: '/a' }] })
+    }
+  })
+
+  it('accepts a valid color_scheme', () => {
+    for (const scheme of ['light', 'dark']) {
+      const result = validatePortalViews({
+        path: '/a',
+        color_scheme: scheme,
+      })
+
+      expect(result).toEqual({
+        ok: true,
+        value: [{ path: '/a', color_scheme: scheme }],
+      })
+    }
+  })
+
+  it('coerces an unrecognised color_scheme to unknown instead of rejecting', () => {
+    for (const scheme of ['auto', 'Light', 'dark mode', 42]) {
+      const result = validatePortalViews({
+        path: '/a',
+        color_scheme: scheme,
+      })
+
+      expect(result).toEqual({ ok: true, value: [{ path: '/a' }] })
+    }
+  })
+
+  it('accepts a valid referrer', () => {
+    for (const referrer of ['search', 'internal', 'direct', 'external']) {
+      const result = validatePortalViews({ path: '/a', referrer })
+
+      expect(result).toEqual({
+        ok: true,
+        value: [{ path: '/a', referrer }],
+      })
+    }
+  })
+
+  it('coerces an unrecognised referrer to unknown instead of rejecting', () => {
+    for (const referrer of [
+      'https://example.com',
+      'Search',
+      'social',
+      42,
+    ]) {
+      const result = validatePortalViews({ path: '/a', referrer })
+
+      expect(result).toEqual({ ok: true, value: [{ path: '/a' }] })
     }
   })
 
@@ -93,7 +213,7 @@ describe('validatePortalViews', () => {
     const result = validatePortalViews({
       path: '/a',
       id: 'nope',
-      referrer: 'https://example.com',
+      sessionId: 'also-nope',
     })
 
     expect(result.ok).toBe(true)
@@ -106,13 +226,13 @@ describe('validatePortalViews', () => {
 describe('buildPortalViewRecord', () => {
   const createdAt = '2026-09-07T12:00:00.000Z'
 
-  it('strips the query string and fragment from the path', () => {
+  it('minimises the path when building the record', () => {
     const record = buildPortalViewRecord(
-      { path: '/a?q=secret#frag' },
+      { path: '/a?q=secret&fullscreen#example' },
       createdAt
     )
 
-    expect(record.path).toBe('/a')
+    expect(record.path).toBe('/a?fullscreen#example')
   })
 
   it('defaults env to "unknown" and timestamp to the receive time', () => {
@@ -122,7 +242,12 @@ describe('buildPortalViewRecord', () => {
       path: '/a',
       env: 'unknown',
       timestamp: createdAt,
-      createdat: createdAt,
+      status: 'ok',
+      locale: 'unknown',
+      theme: 'unknown',
+      color_scheme: 'unknown',
+      referrer: 'unknown',
+      created_at: createdAt,
     })
   })
 
@@ -136,18 +261,153 @@ describe('buildPortalViewRecord', () => {
       path: '/a',
       env: 'prod',
       timestamp: '2026-08-20T10:00:00.000Z',
-      createdat: createdAt,
+      status: 'ok',
+      locale: 'unknown',
+      theme: 'unknown',
+      color_scheme: 'unknown',
+      referrer: 'unknown',
+      created_at: createdAt,
     })
+  })
+
+  it('defaults status to "ok" and keeps a supplied status', () => {
+    expect(buildPortalViewRecord({ path: '/a' }, createdAt).status).toBe(
+      'ok'
+    )
+
+    expect(
+      buildPortalViewRecord(
+        { path: '/missing', status: 'not_found' },
+        createdAt
+      ).status
+    ).toBe('not_found')
+  })
+
+  it('defaults locale and theme to "unknown" and keeps supplied values', () => {
+    expect(buildPortalViewRecord({ path: '/a' }, createdAt)).toMatchObject(
+      { locale: 'unknown', theme: 'unknown' }
+    )
+
+    expect(
+      buildPortalViewRecord(
+        { path: '/a', locale: 'sv-SE', theme: 'sbanken' },
+        createdAt
+      )
+    ).toMatchObject({ locale: 'sv-SE', theme: 'sbanken' })
+  })
+
+  it('defaults color_scheme to "unknown" and keeps a supplied value', () => {
+    expect(
+      buildPortalViewRecord({ path: '/a' }, createdAt).color_scheme
+    ).toBe('unknown')
+
+    expect(
+      buildPortalViewRecord(
+        { path: '/a', color_scheme: 'dark' },
+        createdAt
+      ).color_scheme
+    ).toBe('dark')
+  })
+
+  it('coerces unrecognised dimensions to "unknown" in the stored record', () => {
+    const result = validatePortalViews({
+      path: '/a',
+      env: 'Prod',
+      locale: 'de-DE',
+      theme: 'customer-123',
+      color_scheme: 'auto',
+      referrer: 'social',
+    })
+
+    expect(result.ok).toBe(true)
+    if (result.ok) {
+      const record = buildPortalViewRecord(result.value[0], createdAt)
+      expect(record).toMatchObject({
+        path: '/a',
+        env: 'unknown',
+        locale: 'unknown',
+        theme: 'unknown',
+        color_scheme: 'unknown',
+        referrer: 'unknown',
+      })
+    }
+  })
+
+  it('defaults referrer to "unknown" and keeps a supplied value', () => {
+    expect(buildPortalViewRecord({ path: '/a' }, createdAt).referrer).toBe(
+      'unknown'
+    )
+
+    expect(
+      buildPortalViewRecord({ path: '/a', referrer: 'search' }, createdAt)
+        .referrer
+    ).toBe('search')
   })
 
   it('never carries identifiers or personal data', () => {
     const record = buildPortalViewRecord({ path: '/a' }, createdAt)
 
     expect(Object.keys(record).sort()).toEqual([
-      'createdat',
+      'color_scheme',
+      'created_at',
       'env',
+      'locale',
       'path',
+      'referrer',
+      'status',
+      'theme',
       'timestamp',
     ])
+  })
+})
+
+describe('normalizeTrackedPath', () => {
+  it('keeps the pathname and an anchor fragment', () => {
+    expect(normalizeTrackedPath('/uilib/components/button#events')).toBe(
+      '/uilib/components/button#events'
+    )
+  })
+
+  it('keeps allow-listed render params', () => {
+    expect(normalizeTrackedPath('/a?fullscreen')).toBe('/a?fullscreen')
+    expect(normalizeTrackedPath('/?eufemia-theme=sbanken')).toBe(
+      '/?eufemia-theme=sbanken'
+    )
+  })
+
+  it('drops query params that are not allow-listed', () => {
+    expect(normalizeTrackedPath('/uilib?q=some+search+term')).toBe(
+      '/uilib'
+    )
+  })
+
+  it('reduces a flag to its key, dropping any crafted value', () => {
+    expect(normalizeTrackedPath('/a?fullscreen=personal+data')).toBe(
+      '/a?fullscreen'
+    )
+    expect(normalizeTrackedPath('/a?focusmode=my-block')).toBe(
+      '/a?focusmode'
+    )
+  })
+
+  it('drops a value param whose value is not a safe token', () => {
+    expect(normalizeTrackedPath('/?eufemia-theme=personal+data')).toBe('/')
+  })
+
+  it('does not match a param that merely ends with an allow-listed key', () => {
+    expect(normalizeTrackedPath('/?x-eufemia-theme=sbanken')).toBe('/')
+  })
+
+  it('emits allow-listed params in canonical order', () => {
+    expect(normalizeTrackedPath('/a?fullscreen&eufemia-theme=ui')).toBe(
+      '/a?eufemia-theme=ui&fullscreen'
+    )
+    expect(normalizeTrackedPath('/a?eufemia-theme=ui&fullscreen')).toBe(
+      '/a?eufemia-theme=ui&fullscreen'
+    )
+  })
+
+  it('drops a fragment that is not anchor-shaped', () => {
+    expect(normalizeTrackedPath('/a#not a slug')).toBe('/a')
   })
 })

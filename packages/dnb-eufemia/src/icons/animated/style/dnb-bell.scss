@@ -1,6 +1,7 @@
 @use '../../../style/core/utilities.scss' as utilities;
 
 .dnb-icon--animated-bell.dnb-icon--animate svg,
+.dnb-icon--animated-bell svg.dnb-icon--animation-active,
 :where(button, a, [role='button'], [data-icon-animation-trigger]):hover
   .dnb-icon--animated-bell.dnb-icon--animate-when-hover
   svg,

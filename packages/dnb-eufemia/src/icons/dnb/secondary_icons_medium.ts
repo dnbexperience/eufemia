@@ -9,6 +9,7 @@ import account_out_medium from './account_out_medium'
 import account_percent_medium from './account_percent_medium'
 import accounting_medium from './accounting_medium'
 import add_circled_medium from './add_circled_medium'
+import add_reaction_medium from './add_reaction_medium'
 import ai_medium from './ai_medium'
 import aino_medium from './aino_medium'
 import ainvoice_medium from './ainvoice_medium'
@@ -234,6 +235,7 @@ import shield_medium from './shield_medium'
 import shopping_cart_medium from './shopping_cart_medium'
 import show_pin_medium from './show_pin_medium'
 import snowmobile_medium from './snowmobile_medium'
+import solve_medium from './solve_medium'
 import sort_medium from './sort_medium'
 import speedometer_medium from './speedometer_medium'
 import split_medium from './split_medium'
@@ -284,6 +286,7 @@ export {
   account_percent_medium,
   accounting_medium,
   add_circled_medium,
+  add_reaction_medium,
   ai_medium,
   aino_medium,
   ainvoice_medium,
@@ -509,6 +512,7 @@ export {
   shopping_cart_medium,
   show_pin_medium,
   snowmobile_medium,
+  solve_medium,
   sort_medium,
   speedometer_medium,
   split_medium,

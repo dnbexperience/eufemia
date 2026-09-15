@@ -114,6 +114,7 @@ export default {
       selectAll: 'Select all',
       searchPlaceholder: 'Search...',
       noOptions: 'No options',
+      skipToActions: 'Skip options and go to actions',
       confirmButton: 'Confirm ({count} selected)',
       cancelButton: 'Cancel',
       selectionCount: '{count} of {total} selected',

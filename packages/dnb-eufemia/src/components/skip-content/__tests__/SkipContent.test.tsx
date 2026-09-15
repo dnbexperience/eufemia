@@ -103,9 +103,14 @@ describe('SkipContent', () => {
       key: 'Tab',
     })
 
-    expect(
-      element.querySelector('button.dnb-sr-only')
-    ).not.toBeInTheDocument()
+    expect(element.querySelector('button.dnb-sr-only')).toHaveAttribute(
+      'tabindex',
+      '-1'
+    )
+    expect(element.querySelector('button.dnb-sr-only')).toHaveAttribute(
+      'aria-hidden',
+      'true'
+    )
 
     // 2. make focus action
     fireEvent.click(element.querySelector('.dnb-button'))
@@ -115,6 +120,30 @@ describe('SkipContent', () => {
     })
     expect(element.querySelector('.dnb-button')).not.toBeInTheDocument()
     expect(document.activeElement.classList).toContain(
+      'dnb-skip-content__focus'
+    )
+  })
+
+  it('should not add a supplemental focus ring to interactive targets', async () => {
+    render(
+      <>
+        <SkipContent selector="#unique-id" focusDelay={0}>
+          Aria
+        </SkipContent>
+        <button id="unique-id">content</button>
+      </>
+    )
+
+    const element = document.querySelector('.dnb-skip-content')
+    fireEvent.keyUp(element.querySelector('button.dnb-sr-only'), {
+      key: 'Tab',
+    })
+    fireEvent.click(element.querySelector('.dnb-button'))
+
+    await waitFor(() => {
+      expect(document.activeElement).toHaveAttribute('id', 'unique-id')
+    })
+    expect(document.activeElement).not.toHaveClass(
       'dnb-skip-content__focus'
     )
   })
@@ -228,9 +257,14 @@ describe('SkipContent.Return', { retry: 3 }, () => {
       key: 'Tab',
     })
 
-    expect(
-      element.querySelector('button.dnb-sr-only')
-    ).not.toBeInTheDocument()
+    expect(element.querySelector('button.dnb-sr-only')).toHaveAttribute(
+      'tabindex',
+      '-1'
+    )
+    expect(element.querySelector('button.dnb-sr-only')).toHaveAttribute(
+      'aria-hidden',
+      'true'
+    )
 
     // 2. make focus action
     fireEvent.click(element.querySelector('.dnb-button'))
@@ -250,9 +284,14 @@ describe('SkipContent.Return', { retry: 3 }, () => {
       key: 'Tab',
     })
 
-    expect(
-      section.querySelector('button.dnb-sr-only')
-    ).not.toBeInTheDocument()
+    expect(section.querySelector('button.dnb-sr-only')).toHaveAttribute(
+      'tabindex',
+      '-1'
+    )
+    expect(section.querySelector('button.dnb-sr-only')).toHaveAttribute(
+      'aria-hidden',
+      'true'
+    )
 
     // 4. make focus action
     fireEvent.click(section.querySelector('.dnb-button'))

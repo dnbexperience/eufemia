@@ -209,10 +209,6 @@
     &:focus {
       outline: none;
     }
-    &:focus-visible {
-      outline: var(--focus-ring-width) solid
-        var(--token-color-stroke-action-focus);
-    }
   }
 
   &__nested-items {

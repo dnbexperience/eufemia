@@ -66,6 +66,41 @@ resource "aws_s3_bucket_lifecycle_configuration" "data" {
       days = 7
     }
   }
+
+  # Raw MCP usage events. The trailing slash is load-bearing: it matches only
+  # mcp-usage/ and NOT mcp-usage-daily/, so the durable daily rollup is never
+  # expired by this rule. These keys are unique (never overwritten), so they
+  # produce no noncurrent versions — the noncurrent cleanup is handled bucket-
+  # wide below.
+  rule {
+    id     = "expire-mcp-usage-raw"
+    status = "Enabled"
+
+    filter {
+      prefix = "mcp-usage/"
+    }
+
+    expiration {
+      days = 395
+    }
+  }
+
+  # Bucket-wide noncurrent-version cleanup. Only the overwritten fixed-key
+  # objects (snapshots/dashboard.json, refreshed hourly, and
+  # mcp-usage-daily/<dt>/agg.json, recomputed each run) accumulate old versions
+  # under bucket versioning; the write-once prefixes (mcp-usage/, portal-views/)
+  # never create noncurrent versions, so this is a no-op there. Scoping it to the
+  # whole bucket means new overwritten prefixes are covered automatically.
+  rule {
+    id     = "expire-noncurrent-versions"
+    status = "Enabled"
+
+    filter {}
+
+    noncurrent_version_expiration {
+      noncurrent_days = 7
+    }
+  }
 }
 
 # ---------------------------------------------------------------------------
@@ -130,8 +165,165 @@ resource "aws_glue_catalog_table" "portal_views" {
     }
 
     columns {
+      name = "status"
+      type = "string"
+    }
+
+    columns {
+      name = "locale"
+      type = "string"
+    }
+
+    columns {
+      name = "theme"
+      type = "string"
+    }
+
+    columns {
+      name = "color_scheme"
+      type = "string"
+    }
+
+    columns {
+      name = "referrer"
+      type = "string"
+    }
+
+    columns {
+      name = "created_at"
+      type = "string"
+    }
+  }
+}
+
+# Raw MCP usage events (one row per validated tool call), written directly to S3
+# by the MCP Lambda. Anonymous: tool + optional allow-listed component/path only.
+resource "aws_glue_catalog_table" "mcp_usage" {
+  name          = "mcp_usage"
+  database_name = aws_glue_catalog_database.analytics.name
+  table_type    = "EXTERNAL_TABLE"
+
+  parameters = {
+    classification     = "json"
+    has_encrypted_data = "true"
+
+    "projection.enabled"          = "true"
+    "projection.dt.type"          = "date"
+    "projection.dt.range"         = "2024-01-01,NOW"
+    "projection.dt.format"        = "yyyy-MM-dd"
+    "projection.dt.interval"      = "1"
+    "projection.dt.interval.unit" = "DAYS"
+    "storage.location.template"   = "s3://${aws_s3_bucket.data.id}/mcp-usage/dt=$${dt}/"
+  }
+
+  partition_keys {
+    name = "dt"
+    type = "string"
+  }
+
+  storage_descriptor {
+    location      = "s3://${aws_s3_bucket.data.id}/mcp-usage/"
+    input_format  = "org.apache.hadoop.mapred.TextInputFormat"
+    output_format = "org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat"
+
+    ser_de_info {
+      serialization_library = "org.openx.data.jsonserde.JsonSerDe"
+
+      parameters = {
+        "case.insensitive" = "true"
+      }
+    }
+
+    columns {
+      name = "tool"
+      type = "string"
+    }
+
+    columns {
+      name = "component"
+      type = "string"
+    }
+
+    columns {
+      name = "path"
+      type = "string"
+    }
+
+    columns {
+      name = "env"
+      type = "string"
+    }
+
+    columns {
+      name = "timestamp"
+      type = "string"
+    }
+
+    columns {
       name = "createdat"
       type = "string"
+    }
+  }
+}
+
+# Durable daily MCP usage rollup. The snapshot generator recomputes the recent
+# tail from mcp_usage each run and writes one object per day here. This prefix
+# has NO lifecycle expiry, so aggregates outlive the raw rows and keep long-range
+# (year-over-year) comparison available.
+resource "aws_glue_catalog_table" "mcp_usage_daily" {
+  name          = "mcp_usage_daily"
+  database_name = aws_glue_catalog_database.analytics.name
+  table_type    = "EXTERNAL_TABLE"
+
+  parameters = {
+    classification     = "json"
+    has_encrypted_data = "true"
+
+    "projection.enabled"          = "true"
+    "projection.dt.type"          = "date"
+    "projection.dt.range"         = "2024-01-01,NOW"
+    "projection.dt.format"        = "yyyy-MM-dd"
+    "projection.dt.interval"      = "1"
+    "projection.dt.interval.unit" = "DAYS"
+    "storage.location.template"   = "s3://${aws_s3_bucket.data.id}/mcp-usage-daily/dt=$${dt}/"
+  }
+
+  partition_keys {
+    name = "dt"
+    type = "string"
+  }
+
+  storage_descriptor {
+    location      = "s3://${aws_s3_bucket.data.id}/mcp-usage-daily/"
+    input_format  = "org.apache.hadoop.mapred.TextInputFormat"
+    output_format = "org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat"
+
+    ser_de_info {
+      serialization_library = "org.openx.data.jsonserde.JsonSerDe"
+
+      parameters = {
+        "case.insensitive" = "true"
+      }
+    }
+
+    columns {
+      name = "tool"
+      type = "string"
+    }
+
+    columns {
+      name = "component"
+      type = "string"
+    }
+
+    columns {
+      name = "path"
+      type = "string"
+    }
+
+    columns {
+      name = "count"
+      type = "bigint"
     }
   }
 }
@@ -168,7 +360,7 @@ resource "aws_athena_workgroup" "analytics" {
 #
 # The role additionally needs an inline/attached policy granting:
 #   - s3:GetObject, s3:PutObject, s3:ListBucket on the data bucket (portal-views/*)
-#   - s3:PutObject on the data bucket (records/dashboard-snapshot.json) — the
+#   - s3:PutObject on the data bucket (snapshots/dashboard.json) — the
 #     scheduled snapshot generator reuses this role to refresh the snapshot
 #   - s3:GetObject, s3:PutObject on the data bucket (athena-results/*)
 #   - athena:StartQueryExecution, athena:GetQueryExecution,
@@ -182,7 +374,7 @@ data "aws_iam_role" "lambda" {
 # Pre-created out-of-band for the same reason as above (iam:CreateRole is
 # forbidden by the deploy role's boundary, ADR 0004) and only referenced here.
 # Its inline policy grants a single permission:
-#   - s3:GetObject on the snapshot object (records/dashboard-snapshot.json)
+#   - s3:GetObject on the snapshot prefix (snapshots/*)
 # so the internet-facing read surface has no write or Athena access. See the
 # "One-time bootstrap" section in README.md for the exact policy document.
 data "aws_iam_role" "dashboard" {
@@ -402,7 +594,7 @@ resource "aws_lambda_function" "snapshot" {
   role          = data.aws_iam_role.lambda.arn
   handler       = "index.snapshot"
   runtime       = "nodejs22.x"
-  timeout       = 60
+  timeout       = 90
   memory_size   = 256
 
   filename         = "${path.module}/../dist/lambda.zip"
@@ -410,11 +602,13 @@ resource "aws_lambda_function" "snapshot" {
 
   environment {
     variables = {
-      NODE_OPTIONS     = "--enable-source-maps"
-      DATA_BUCKET      = aws_s3_bucket.data.id
-      GLUE_DATABASE    = aws_glue_catalog_database.analytics.name
-      GLUE_TABLE       = aws_glue_catalog_table.portal_views.name
-      ATHENA_WORKGROUP = aws_athena_workgroup.analytics.name
+      NODE_OPTIONS               = "--enable-source-maps"
+      DATA_BUCKET                = aws_s3_bucket.data.id
+      GLUE_DATABASE              = aws_glue_catalog_database.analytics.name
+      GLUE_TABLE                 = aws_glue_catalog_table.portal_views.name
+      GLUE_TABLE_MCP_USAGE       = aws_glue_catalog_table.mcp_usage.name
+      GLUE_TABLE_MCP_USAGE_DAILY = aws_glue_catalog_table.mcp_usage_daily.name
+      ATHENA_WORKGROUP           = aws_athena_workgroup.analytics.name
     }
   }
 
@@ -497,6 +691,28 @@ resource "aws_cloudwatch_metric_alarm" "snapshot_empty" {
   evaluation_periods  = 6
   threshold           = 1
   comparison_operator = "LessThanThreshold"
+  treat_missing_data  = "notBreaching"
+}
+
+# The MCP usage section is built best-effort: a failure (e.g. the mcp_usage Glue
+# grant missing after a deploy) is caught, logged, and the section falls back to
+# empty so portal views still publish. That fallback is invisible to the Lambda
+# Errors/Invocations and SnapshotRecordCount alarms, so the generator emits a
+# McpUsageBuildFailure EMF metric on the catch path and this alarm surfaces it.
+# The namespace/metric/dimension must match those emitted in src/lambda/snapshot.ts.
+# No alarm actions yet (state is visible in CloudWatch); wire a target here when
+# one exists.
+resource "aws_cloudwatch_metric_alarm" "snapshot_mcp_build_failed" {
+  alarm_name          = "eufemia-${var.environment}-analytics-snapshot-mcp-build-failed"
+  alarm_description   = "Dashboard snapshot generator failed to build the MCP usage section (fell back to empty)"
+  namespace           = "Eufemia/Analytics"
+  metric_name         = "McpUsageBuildFailure"
+  dimensions          = { FunctionName = aws_lambda_function.snapshot.function_name }
+  statistic           = "Sum"
+  period              = 3600
+  evaluation_periods  = 1
+  threshold           = 1
+  comparison_operator = "GreaterThanOrEqualToThreshold"
   treat_missing_data  = "notBreaching"
 }
 

@@ -1,0 +1,264 @@
+import { describe, expect, it } from 'vitest'
+import {
+  extractPageLinks,
+  formatInternalLinkErrors,
+  validateInternalLinks,
+} from '../../prod/internal-links.mjs'
+
+describe('internal link validation', () => {
+  it('collects references from <link> as well as <a>', () => {
+    const { links } = extractPageLinks(`
+      <head>
+        <link rel="canonical" href="https://eufemia.dnb.no/uilib/">
+        <link rel="alternate" type="text/markdown" href="/uilib/components/button.md">
+        <link rel="stylesheet" href="/assets/main.css">
+        <link rel="preconnect" href="https://fonts.example.com">
+      </head>
+      <body><a href="/uilib/">Docs</a></body>
+    `)
+
+    expect(links).toEqual([
+      'https://eufemia.dnb.no/uilib/',
+      '/uilib/components/button.md',
+      '/assets/main.css',
+      'https://fonts.example.com',
+      '/uilib/',
+    ])
+  })
+
+  it('reports a markdown copy that was never generated', () => {
+    const result = validateInternalLinks(
+      [
+        {
+          url: '/uilib/components/button/',
+          html: '<link rel="alternate" type="text/markdown" href="/uilib/components/button.md">',
+        },
+      ],
+      { emittedFiles: new Set(['/uilib/components/button/index.html']) }
+    )
+
+    expect(result.errors).toEqual([
+      {
+        type: 'missing-page',
+        source: '/uilib/components/button/',
+        href: '/uilib/components/button.md',
+        target: '/uilib/components/button.md/',
+      },
+    ])
+  })
+
+  it('resolves normalized page, hash and redirected links', () => {
+    const result = validateInternalLinks([
+      {
+        url: '/guide/',
+        html: `
+          <main id="content">
+            <a href="#intro">Intro</a>
+            <a href="#content">Wrapper</a>
+            <a href="../components/button?theme=ui#events">Events</a>
+            <a href="https://eufemia.dnb.no/old-button/#events">Old URL</a>
+            <a href="https://example.com/missing">External</a>
+          </main>
+          <h2 id="intro">Introduction</h2>
+        `,
+      },
+      {
+        url: '/components/button/',
+        html: '<h2 id="events">Events</h2>',
+      },
+      {
+        url: '/old-button/',
+        html: '',
+        redirect: '/components/button/',
+      },
+    ])
+
+    expect(result.errors).toEqual([])
+  })
+
+  it('reports missing pages and anchors', () => {
+    // The `#local` link matters beyond the error it reports: `local` is
+    // defined on /guide/ but linked on /target/, so it is the only case that
+    // pins anchors to the page defining them. Without it, ids could leak
+    // across pages and every other assertion in this file would still pass.
+    const result = validateInternalLinks([
+      {
+        url: '/guide/',
+        html: `
+          <a href="/missing/">Missing page</a>
+          <a href="/target/#missing">Missing anchor</a>
+          <h2 id="local">Local</h2>
+          <a href="/target/#local">Anchor that only exists here</a>
+        `,
+      },
+      { url: '/target/', html: '<h2 id="present">Present</h2>' },
+    ])
+
+    expect(result.errors).toEqual([
+      {
+        type: 'missing-page',
+        source: '/guide/',
+        href: '/missing/',
+        target: '/missing/',
+      },
+      {
+        type: 'missing-anchor',
+        source: '/guide/',
+        href: '/target/#missing',
+        target: '/target/',
+        anchor: 'missing',
+      },
+      {
+        type: 'missing-anchor',
+        source: '/guide/',
+        href: '/target/#local',
+        target: '/target/',
+        anchor: 'local',
+      },
+    ])
+    expect(formatInternalLinkErrors(result.errors)).toContain(
+      '/guide/ -> /target/#missing (missing anchor: missing)'
+    )
+  })
+
+  it('reports anchors missing from the page a redirect resolves to', () => {
+    const result = validateInternalLinks([
+      { url: '/', html: '<a href="/old/#gone">Old</a>' },
+      { url: '/old/', html: '', redirect: '/new/' },
+      { url: '/new/', html: '<h2 id="here">Here</h2>' },
+    ])
+
+    expect(result.errors).toEqual([
+      {
+        type: 'missing-anchor',
+        source: '/',
+        href: '/old/#gone',
+        target: '/new/',
+        anchor: 'gone',
+      },
+    ])
+  })
+
+  it('ignores links and ids only inside explicit exclusion boundaries', () => {
+    const result = validateInternalLinks([
+      {
+        url: '/',
+        html: `
+          <a href="/valid/">Valid</a>
+          <a href="#example-id">Into the example</a>
+          <div data-link-check="ignore">
+            <a href="/example-only/">Example</a>
+            <div id="example-id"></div>
+          </div>
+        `,
+      },
+      { url: '/valid/', html: '' },
+    ])
+
+    // The example link is not reported, but its id was never registered
+    // either, so linking to it from outside the boundary still fails.
+    expect(result.errors).toEqual([
+      {
+        type: 'missing-anchor',
+        source: '/',
+        href: '#example-id',
+        target: '/',
+        anchor: 'example-id',
+      },
+    ])
+  })
+
+  it('validates page links whose last segment looks like a file name', () => {
+    const result = validateInternalLinks([
+      {
+        url: '/releases/',
+        html: `
+          <a href="/releases/v4.10-info/">Existing</a>
+          <a href="/releases/v4.11-info/">Typo</a>
+        `,
+      },
+      { url: '/releases/v4.10-info/', html: '' },
+    ])
+
+    expect(result.errors).toEqual([
+      {
+        type: 'missing-page',
+        source: '/releases/',
+        href: '/releases/v4.11-info/',
+        target: '/releases/v4.11-info/',
+      },
+    ])
+  })
+
+  it('accepts links to emitted files and reports the missing ones', () => {
+    const result = validateInternalLinks(
+      [
+        {
+          url: '/',
+          html: `
+            <a href="/favicon-32x32.png">Icon</a>
+            <a href="/dnb/logo%20mark.svg">Encoded name</a>
+            <a href="/missing-icon.png">Gone</a>
+            <a href="/mailto:someone@example.com">Mangled scheme</a>
+          `,
+        },
+      ],
+      {
+        emittedFiles: new Set([
+          '/favicon-32x32.png',
+          '/dnb/logo mark.svg',
+          '/index.html',
+        ]),
+      }
+    )
+
+    expect(result.errors).toEqual([
+      {
+        type: 'missing-page',
+        source: '/',
+        href: '/missing-icon.png',
+        target: '/missing-icon.png/',
+      },
+      {
+        type: 'missing-page',
+        source: '/',
+        href: '/mailto:someone@example.com',
+        target: '/mailto:someone@example.com/',
+      },
+    ])
+  })
+
+  it('reports redirects that point to missing pages or loop', () => {
+    const result = validateInternalLinks([
+      { url: '/', html: '<a href="/old/">Old</a>' },
+      { url: '/old/', html: '', redirect: '/older/' },
+      { url: '/older/', html: '', redirect: '/old/' },
+      { url: '/gone/', html: '', redirect: '/missing/' },
+    ])
+
+    expect(result.errors).toContainEqual({
+      type: 'redirect-loop',
+      source: '/old/',
+      target: '/older/',
+    })
+    expect(result.errors).toContainEqual({
+      type: 'missing-redirect-target',
+      source: '/gone/',
+      target: '/missing/',
+    })
+  })
+
+  it('keeps CI output bounded for site-wide navigation failures', () => {
+    const errors = Array.from({ length: 101 }, (_, index) => ({
+      type: 'missing-page',
+      source: `/page-${index}/`,
+      href: '/missing/',
+      target: '/missing/',
+    }))
+
+    const output = formatInternalLinkErrors(errors)
+
+    expect(output).toContain('... and 1 more broken links')
+    expect(output).not.toContain('/page-100/ ->')
+  })
+})

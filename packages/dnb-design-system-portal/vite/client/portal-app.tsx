@@ -11,6 +11,7 @@ import {
   RouterProvider,
   Outlet,
   useLocation,
+  useMatches,
   type RouteObject,
 } from 'react-router'
 import { CacheProvider } from '@emotion/react'
@@ -18,7 +19,7 @@ import createEmotionCache from '@emotion/cache'
 import { Provider, Context, Theme } from '@dnb/eufemia/src/shared'
 import IsolatedStyleScope from '@dnb/eufemia/src/shared/IsolatedStyleScope'
 import { applyRouteFocus } from './route-focus'
-import { trackPageView } from './track-page-view'
+import { trackPageView, buildTrackedPath } from './track-page-view'
 import { MDXProvider } from '@mdx-js/react'
 import { usePrefetchOnHover } from 'virtual:prefetch-on-hover'
 import { useCatchLinks } from 'virtual:catch-links'
@@ -73,7 +74,7 @@ function RootLayout() {
           >
             <SkeletonEnabled>
               <Theme colorScheme={colorScheme || 'auto'} {...theme}>
-                <ErrorBoundary>
+                <ErrorBoundary onError={trackRenderError}>
                   <MDXProvider components={tags}>
                     <PageWrapper />
                   </MDXProvider>
@@ -169,12 +170,29 @@ function RouteFocusEffect() {
 /** Records an anonymous page view on initial load and each navigation. */
 function TrackPageView() {
   const location = useLocation()
+  const matches = useMatches()
+
+  // The catch-all 404 route is the only splat route, so a `*` param on the
+  // matched leaf marks a path that fell through to the not-found page.
+  const leaf = matches[matches.length - 1]
+  const notFound = Boolean(leaf) && '*' in (leaf.params ?? {})
 
   useEffect(() => {
-    trackPageView(location.pathname)
-  }, [location.pathname])
+    trackPageView(
+      buildTrackedPath(location),
+      notFound ? 'not_found' : 'ok'
+    )
+  }, [location.pathname, location.search, location.hash, notFound])
 
   return null
+}
+
+// Record a render error caught by the boundary against the path the user was on
+// when it happened.
+function trackRenderError() {
+  if (typeof window !== 'undefined') {
+    trackPageView(buildTrackedPath(window.location), 'error')
+  }
 }
 
 type PortalAppProps = {

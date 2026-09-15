@@ -20,6 +20,8 @@ import add from './add'
 import add_circled from './add_circled'
 import add_circled_medium from './add_circled_medium'
 import add_medium from './add_medium'
+import add_reaction from './add_reaction'
+import add_reaction_medium from './add_reaction_medium'
 import ai from './ai'
 import ai_medium from './ai_medium'
 import aino from './aino'
@@ -510,6 +512,8 @@ import show_pin from './show_pin'
 import show_pin_medium from './show_pin_medium'
 import snowmobile from './snowmobile'
 import snowmobile_medium from './snowmobile_medium'
+import solve from './solve'
+import solve_medium from './solve_medium'
 import sort from './sort'
 import sort_medium from './sort_medium'
 import speedometer from './speedometer'
@@ -612,6 +616,8 @@ export {
   add_circled,
   add_circled_medium,
   add_medium,
+  add_reaction,
+  add_reaction_medium,
   ai,
   ai_medium,
   aino,
@@ -1102,6 +1108,8 @@ export {
   show_pin_medium,
   snowmobile,
   snowmobile_medium,
+  solve,
+  solve_medium,
   sort,
   sort_medium,
   speedometer,

@@ -653,7 +653,7 @@ describe('Field.Currency', () => {
       expect(minStatusElement).toBeInTheDocument()
       const expectedMinText = nb.NumberField.errorMinimum.replace(
         '{minimum}',
-        '-9\u00A0007\u00A0199\u00A0254\u00A0740\u00A0991'
+        '−9\u00A0007\u00A0199\u00A0254\u00A0740\u00A0991'
       )
       expect(minStatusElement.textContent).toContain(expectedMinText)
     })

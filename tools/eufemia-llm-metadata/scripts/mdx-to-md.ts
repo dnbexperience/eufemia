@@ -382,7 +382,7 @@ function resolveImportPath({
   inputDir: string
   docsRoot: string
 }) {
-  let candidate: string | null = null
+  let candidate: string
   if (source.startsWith('Docs/')) {
     candidate = path.join(docsRoot, source.replace(/^Docs\//, ''))
   } else if (source.startsWith('.')) {

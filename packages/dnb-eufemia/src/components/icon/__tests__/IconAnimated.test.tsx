@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react'
+import { fireEvent, render } from '@testing-library/react'
 import Icon from '../Icon'
 import IconPrimary from '../../icon-primary/IconPrimary'
 import bell from '../../../icons/dnb/bell'
@@ -66,6 +66,41 @@ describe('animated Icon', () => {
     )
     expect(element).not.toHaveClass('dnb-icon--animate')
     expect(element).not.toHaveAttribute('animateWhen')
+  })
+
+  it('continues the animation across a quick hover re-entry', () => {
+    render(
+      <button>
+        <Icon icon={animatedArrowRight} animateWhen="hover" />
+      </button>
+    )
+
+    const button = document.querySelector('button')
+    const element = document.querySelector('.dnb-icon')
+    const svg = element.querySelector('svg')
+
+    svg.dispatchEvent(new Event('webkitAnimationStart', { bubbles: true }))
+    fireEvent.mouseLeave(button)
+    fireEvent.mouseEnter(button)
+
+    expect(svg).toHaveClass('dnb-icon--animation-active')
+
+    svg.dispatchEvent(new Event('webkitAnimationEnd', { bubbles: true }))
+
+    expect(svg).not.toHaveClass('dnb-icon--animation-active')
+  })
+
+  it('ignores animation events from nested SVG elements', () => {
+    render(<Icon icon={animatedCheck} animateWhen="hover" />)
+
+    const svg = document.querySelector('.dnb-icon svg')
+    const path = svg.querySelector('path')
+
+    path.dispatchEvent(
+      new Event('webkitAnimationStart', { bubbles: true })
+    )
+
+    expect(svg).not.toHaveClass('dnb-icon--animation-active')
   })
 
   it('does not animate a regular icon', () => {

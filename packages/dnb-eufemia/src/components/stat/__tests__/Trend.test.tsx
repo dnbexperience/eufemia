@@ -30,10 +30,10 @@ describe('Stat.Trend', () => {
     const sr = document.querySelector('.dnb-stat .dnb-sr-only')
 
     expect(trend.classList).toContain('dnb-stat__trend--negative')
-    expect(sign.textContent).toBe('-')
+    expect(sign.textContent).toBe('−')
     expect(value.textContent).toBe('2.1%')
     expect(sr.getAttribute('data-text')).toContain('Change:')
-    expect(sr.getAttribute('data-text')).toContain('-2.1%')
+    expect(sr.getAttribute('data-text')).toContain('−2.1%')
   })
 
   it('renders neutral tone for zero without sign', () => {
@@ -177,8 +177,16 @@ describe('Stat.Trend', () => {
     const value = document.querySelector('.dnb-stat__trend-value')
 
     expect(trend.classList).toContain('dnb-stat__trend--negative')
-    expect(sign.textContent).toBe('-')
+    expect(sign.textContent).toBe('−')
     expect(value.textContent).toBe('5.2%')
+  })
+
+  it('renders numeric negative values with a minus sign', () => {
+    render(<Stat.Trend value={-2.1} />)
+
+    expect(
+      document.querySelector('.dnb-stat__trend-sign').textContent
+    ).toBe('−')
   })
 
   it('renders string with plus sign as positive', () => {

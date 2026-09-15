@@ -3,6 +3,7 @@ import SectionContainerContext from '../containers/SectionContainerContext'
 import ToolbarContext from '../Toolbar/ToolbarContext'
 import DataContext from '../../../DataContext/Context'
 import { useTranslation } from '../../../hooks'
+import { DEFAULT_ASYNC_SUBMIT_TIMEOUT } from '../../../defaults'
 import { Button } from '../../../../../components'
 import { check } from '../../../../../icons'
 import FieldBoundaryContext from '../../../DataContext/FieldBoundary/FieldBoundaryContext'
@@ -22,7 +23,7 @@ export default function DoneEditButton() {
     useContext(FieldBoundaryContext) || {}
   const dataContext = useContext(DataContext)
   const asyncSubmitTimeout =
-    dataContext?.props?.asyncSubmitTimeout ?? 30000
+    dataContext?.props?.asyncSubmitTimeout ?? DEFAULT_ASYNC_SUBMIT_TIMEOUT
   const translation = useTranslation().SectionEditContainer
   const buttonRef = useRef<HTMLElement>(null)
   const restoreFocusRef = useRef(false)
@@ -97,11 +98,10 @@ export default function DoneEditButton() {
           return true
         }
 
-        // Recover the pending state if the Promise never settles, mirroring
-        // the `asyncSubmitTimeout` safety net Form.Handler's `onSubmit` uses.
-        // Without it, a Promise that never resolves or rejects would leave
-        // the section disabled with no way out. The section stays in edit
-        // mode so the user can try again.
+        // Recover the pending state if the Promise never settles. Without
+        // it, a Promise that never resolves or rejects would leave the
+        // section disabled with no way out. The section stays in edit mode
+        // so the user can try again.
         operation.timeout = setTimeout(() => {
           if (!finishOperation()) {
             return

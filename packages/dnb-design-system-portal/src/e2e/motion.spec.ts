@@ -153,11 +153,17 @@ for (const width of [320, 1280]) {
       await expect
         .poll(() =>
           page.locator(`#${id}`).evaluate((element) => {
-            const offset = Math.max(
-              100,
-              parseFloat(getComputedStyle(element).scrollMarginTop)
+            const scrollPadding = parseFloat(
+              getComputedStyle(document.documentElement).scrollPaddingTop
             )
-            return Math.abs(element.getBoundingClientRect().top - offset)
+            const scrollMargin = parseFloat(
+              getComputedStyle(element).scrollMarginTop
+            )
+
+            return Math.abs(
+              element.getBoundingClientRect().top -
+                (scrollPadding + scrollMargin)
+            )
           })
         )
         .toBeLessThan(1)
@@ -572,7 +578,7 @@ test('TextCounter changes its message immediately and makes room for the warning
   })
 })
 
-test('the DNB house stays still while greenery slides a short distance from both sides', async ({
+test('the complete DNB house remains visible and stationary', async ({
   page,
 }) => {
   const artwork = page.locator(
@@ -595,242 +601,26 @@ test('the DNB house stays still while greenery slides a short distance from both
     natural: [523, 250],
     rendered: [261.5, 125],
   })
+
+  for (const selector of [
+    '.dnb-motion-scene__illustration-body',
+    '.dnb-motion-scene__illustration-details',
+    '.dnb-motion-scene__illustration-roof',
+    '.dnb-motion-scene__garage',
+  ]) {
+    await expect(artwork.locator(selector)).toHaveCount(1)
+  }
+  await expect(
+    artwork.locator('.dnb-motion-scene__illustration-windows')
+  ).toHaveCount(2)
   await expect(
     artwork.locator('.dnb-motion-scene__illustration-greenery')
   ).toHaveCount(2)
-  await expect(artwork.locator('[data-motion]')).toHaveCount(9)
-  expect(
-    await artwork.evaluate((element) => element.getAnimations().length)
-  ).toBe(0)
-  const stage = await artwork.evaluate((element) => {
-    const { x, y, width, height } = element
-      .closest('.dnb-motion-demo__stage')
-      .getBoundingClientRect()
-    return { x, y, width, height }
-  })
-  const frames = (
-    await artwork.evaluate(sampleMotionStyles, {
-      times: [300, 650, 1000, 2400, 2800, 3200],
-      selectors: {
-        artwork: ':scope',
-        house: '.dnb-motion-scene__illustration-body',
-        left: '.dnb-motion-scene__illustration-greenery--left',
-        right: '.dnb-motion-scene__illustration-greenery--right',
-      },
-    })
-  ).map(({ artwork, house, left, right }) => ({
-    greenery: [left, right],
-    opacity: artwork.opacity,
-    house: house.bounds,
-  }))
-  expect(frames[0].greenery.map(({ x }) => x)).toEqual([-16, 16])
-  for (const index of [1, 4]) {
-    expect(frames[index].greenery[0].x).toBeGreaterThan(-16)
-    expect(frames[index].greenery[0].x).toBeLessThan(0)
-    expect(frames[index].greenery[1].x).toBeLessThan(16)
-    expect(frames[index].greenery[1].x).toBeGreaterThan(0)
-    frames[index].greenery.forEach(({ opacity }) => {
-      expect(opacity).toBeGreaterThan(0)
-      expect(opacity).toBeLessThan(1)
-    })
-  }
-  for (const index of [2, 3]) {
-    frames[index].greenery.forEach(({ x, opacity }) => {
-      expect(x).toBeCloseTo(0)
-      expect(opacity).toBeCloseTo(1)
-    })
-  }
-  expect(frames[5]).toEqual(frames[0])
-  frames.forEach(({ opacity, house, greenery }) => {
-    expect(opacity).toBe(1)
-    expect(house).toEqual(frames[0].house)
-    greenery.forEach(({ y, scaleX, bounds }) => {
-      expect(y).toBe(0)
-      expect(scaleX).toBe(1)
-      expect(bounds.x).toBeGreaterThanOrEqual(stage.x)
-      expect(bounds.y).toBeGreaterThanOrEqual(stage.y)
-      expect(bounds.x + bounds.width).toBeLessThanOrEqual(
-        stage.x + stage.width
-      )
-      expect(bounds.y + bounds.height).toBeLessThanOrEqual(
-        stage.y + stage.height
-      )
-    })
-  })
-})
-
-test('windows wait for the roof to settle and leave with the details', async ({
-  page,
-}) => {
-  const artwork = page.locator('.dnb-motion-scene__illustration-artwork')
-  const windows = artwork.locator(
-    '.dnb-motion-scene__illustration-details > .dnb-motion-scene__illustration-windows'
+  await expect(artwork.locator('[data-motion]')).toHaveCount(1)
+  await expect(artwork.locator('[data-motion]')).toHaveClass(
+    /dnb-motion-scene__garage-door/
   )
-  await expect(windows).toHaveCount(2)
-  await expect(windows.locator('mask')).toHaveCount(6)
-  const frames = await artwork.evaluate(sampleMotionStyles, {
-    times: [400, 600, 700, 900, 1100, 3000, 3150, 3300, 4000],
-    selectors: {
-      windows: '.dnb-motion-scene__illustration-windows--front',
-      details: '.dnb-motion-scene__illustration-details',
-      roof: '.dnb-motion-scene__illustration-roof',
-      door: '.dnb-motion-scene__garage-door',
-    },
-  })
-  for (const index of [0, 1, 2, 8]) {
-    expect(frames[index].windows.opacity).toBeCloseTo(0, 10)
-  }
-  expect(frames[2].roof.opacity).toBe(1)
-  expect(frames[2].details.opacity).toBeGreaterThan(0)
-  expect(frames[3].windows.opacity).toBeGreaterThan(0)
-  expect(frames[3].windows.opacity).toBeLessThan(1)
-  expect(frames[4].windows.opacity).toBe(1)
-  expect(frames[4].door.y).toBeCloseTo(0)
-  for (const index of [5, 6, 7]) {
-    expect(frames[index].windows.opacity).toBe(1)
-  }
-  expect(frames[5].details.opacity).toBe(1)
-  expect(frames[6].details.opacity).toBeGreaterThan(0)
-  expect(frames[6].details.opacity).toBeLessThan(1)
-  expect(frames[7].details.opacity).toBeCloseTo(0, 10)
-})
 
-test('side windows follow the front windows by 150ms on every loop', async ({
-  page,
-}) => {
-  const artwork = page.locator('.dnb-motion-scene__illustration-artwork')
-  const side = artwork.locator(
-    '.dnb-motion-scene__illustration-windows--side'
-  )
-  await expect(side.locator('mask')).toHaveCount(3)
-  await expect(side).toHaveCSS('animation-delay', '0.15s')
-  for (const loop of [0, 4000]) {
-    const [
-      frontEntering,
-      sideEntering,
-      frontSettled,
-      bothSettled,
-      leaving,
-    ] = await artwork.evaluate(sampleMotionStyles, {
-      times: [800, 950, 1100, 1250, 3300].map((time) => time + loop),
-      selectors: {
-        front: '.dnb-motion-scene__illustration-windows--front',
-        side: '.dnb-motion-scene__illustration-windows--side',
-        details: '.dnb-motion-scene__illustration-details',
-      },
-    })
-    expect(frontEntering.front.opacity).toBeGreaterThan(0)
-    expect(frontEntering.side.opacity).toBeCloseTo(0, 10)
-    expect(sideEntering.side.opacity).toBeGreaterThan(0)
-    expect(sideEntering.side.opacity).toBeLessThan(
-      sideEntering.front.opacity
-    )
-    expect(frontSettled.front.opacity).toBe(1)
-    expect(frontSettled.side.opacity).toBeGreaterThan(0)
-    expect(frontSettled.side.opacity).toBeLessThan(1)
-    expect(bothSettled.front.opacity).toBe(1)
-    expect(bothSettled.side.opacity).toBe(1)
-    expect(leaving.front.opacity).toBe(1)
-    expect(leaving.side.opacity).toBe(1)
-    expect(leaving.details.opacity).toBeCloseTo(0, 10)
-  }
-})
-
-test('the front wall fades in first and disappears last', async ({
-  page,
-}) => {
-  const artwork = page.locator('.dnb-motion-scene__illustration-artwork')
-  await expect(
-    artwork.locator('.dnb-motion-scene__illustration-body')
-  ).toHaveCount(1)
-  const frames = (
-    await artwork.evaluate(sampleMotionStyles, {
-      times: [0, 200, 300, 1800, 3500, 3650, 3800, 4000],
-      selectors: {
-        body: '.dnb-motion-scene__illustration-body',
-        roof: '.dnb-motion-scene__illustration-roof',
-        details: '.dnb-motion-scene__illustration-details',
-        garage: '.dnb-motion-scene__garage',
-        left: '.dnb-motion-scene__illustration-greenery--left',
-        right: '.dnb-motion-scene__illustration-greenery--right',
-      },
-    })
-  ).map(({ body, ...otherParts }) => ({
-    body: body.opacity,
-    otherParts: Object.values(otherParts).map(({ opacity }) => opacity),
-  }))
-  for (const index of [0, 6, 7]) {
-    expect(frames[index].body).toBeCloseTo(0)
-  }
-  for (const index of [1, 5]) {
-    expect(frames[index].body).toBeGreaterThan(0)
-    expect(frames[index].body).toBeLessThan(1)
-  }
-  for (const index of [2, 3, 4]) {
-    expect(frames[index].body).toBeCloseTo(1)
-  }
-  frames.forEach(({ otherParts }, index) => {
-    otherParts.forEach((opacity) =>
-      expect(opacity).toBeCloseTo(index === 3 ? 1 : 0)
-    )
-  })
-})
-
-test('house assembly starts quickly and decelerates into its final pose', async ({
-  page,
-}) => {
-  for (const [part, start, duration] of [
-    ['illustration-roof', 300, 400],
-    ['illustration-greenery--left', 300, 700],
-    ['illustration-greenery--right', 300, 700],
-  ] as const) {
-    const frames = (
-      await page
-        .locator(`.dnb-motion-scene__${part}`)
-        .evaluate(sampleMotionStyles, {
-          times: [0, 0.25, 0.5, 0.75, 1].map(
-            (progress) => start + duration * progress
-          ),
-        })
-    ).map(({ target }) => 16 - Math.hypot(target.x, target.y))
-    expect(frames[0]).toBeCloseTo(0)
-    expect(frames[4]).toBeCloseTo(16)
-    const distances = frames
-      .slice(1)
-      .map((position, index) => position - frames[index])
-    distances.forEach((distance, index) => {
-      expect(distance).toBeGreaterThan(0)
-      if (index > 0) {
-        expect(distance).toBeLessThan(distances[index - 1])
-      }
-    })
-    expect(distances[0]).toBeGreaterThan(distances[3] * 2)
-  }
-})
-
-test('the illustration reveals its details before opening the garage and reverses the sequence', async ({
-  page,
-}) => {
-  const artwork = page.locator('.dnb-motion-scene__illustration-artwork')
-  for (const name of ['body', 'roof', 'details']) {
-    const layer = artwork.locator(
-      `g.dnb-motion-scene__illustration-${name}`
-    )
-    await expect(layer).toHaveCount(1)
-    await expect(layer.locator('path').first()).toBeAttached()
-    if (name !== 'roof') {
-      await expect(layer).toHaveCSS('transform', 'none')
-    }
-  }
-  const details = artwork.locator(
-    '.dnb-motion-scene__illustration-details'
-  )
-  await expect(details.locator('path[d^="M269.621 248.76"]')).toHaveCount(
-    2
-  )
-  await expect(
-    details.locator('mask rect[x="308"][y="184"][width="33"][height="64"]')
-  ).toHaveCount(1)
   const masks = await artwork.evaluate((element) =>
     Array.from(element.querySelectorAll('g[mask]')).map((group) => {
       const id = group.getAttribute('mask').slice(5, -1)
@@ -848,6 +638,7 @@ test('the illustration reveals its details before opening the garage and reverse
   masks.forEach((mask) =>
     expect(mask).toEqual({ unique: true, local: true, type: 'alpha' })
   )
+
   const clipId = await artwork.locator('clipPath').getAttribute('id')
   await expect(
     artwork.locator('.dnb-motion-scene__garage')
@@ -861,70 +652,77 @@ test('the illustration reveals its details before opening the garage and reverse
         )
       )
   ).toEqual(['105.921', '183.7', '112', '65'])
+
   const frames = (
     await artwork.evaluate(sampleMotionStyles, {
-      times: [
-        300, 400, 800, 1000, 1100, 1350, 1600, 2400, 2650, 2900, 3100,
-        3350, 3600,
-      ],
+      times: [0, 1300, 2000, 2700, 4000],
       selectors: {
+        artwork: ':scope',
+        body: '.dnb-motion-scene__illustration-body',
         roof: '.dnb-motion-scene__illustration-roof',
         details: '.dnb-motion-scene__illustration-details',
-        garage: '.dnb-motion-scene__garage',
-        door: '.dnb-motion-scene__garage-door',
+        left: '.dnb-motion-scene__illustration-greenery--left',
+        right: '.dnb-motion-scene__illustration-greenery--right',
       },
     })
-  ).map(({ roof, details, garage, door }) => ({
-    roof: roof.opacity,
-    roofY: roof.y,
-    roofScale: roof.scaleY,
-    details: details.opacity,
-    garage: garage.opacity,
-    doorY: door.y,
-    doorScale: door.scaleY,
+  ).map((frame) =>
+    Object.values(frame).map(
+      ({ opacity, x, y, scaleX, scaleY, bounds }) => ({
+        opacity,
+        x,
+        y,
+        scaleX,
+        scaleY,
+        bounds,
+      })
+    )
+  )
+  frames.forEach((frame) => {
+    expect(frame).toEqual(frames[0])
+    frame.forEach(({ opacity }) => {
+      expect(opacity).toBe(1)
+    })
+  })
+})
+
+test('the garage door opens, closes, and repeats over four seconds', async ({
+  page,
+}) => {
+  const door = page.locator('.dnb-motion-scene__garage-door')
+  await expect(door).toHaveCount(1)
+  await expect(door).toHaveCSS('animation-duration', '4s')
+  await expect(door).toHaveCSS('animation-iteration-count', 'infinite')
+
+  const frames = (
+    await door.evaluate(sampleMotionStyles, {
+      times: [0, 1000, 1300, 1600, 2400, 2700, 3000, 4000, 5600],
+    })
+  ).map(({ target }) => ({
+    opacity: target.opacity,
+    x: target.x,
+    y: target.y,
+    scaleX: target.scaleX,
+    scaleY: target.scaleY,
   }))
-  expect(frames[0]).toEqual({
-    roof: 0,
-    roofY: -16,
-    roofScale: 1,
-    details: 0,
-    garage: 0,
-    doorY: 0,
-    doorScale: 1,
+
+  for (const index of [0, 1, 6, 7]) {
+    expect(frames[index].y).toBeCloseTo(0)
+  }
+  for (const index of [3, 4, 8]) {
+    expect(frames[index].y).toBeCloseTo(-52)
+  }
+  for (const index of [2, 5]) {
+    expect(frames[index].y).toBeGreaterThan(-52)
+    expect(frames[index].y).toBeLessThan(0)
+  }
+  frames.forEach(({ opacity, x, scaleX, scaleY }) => {
+    expect(opacity).toBe(1)
+    expect(x).toBe(0)
+    expect(scaleX).toBe(1)
+    expect(scaleY).toBe(1)
   })
-  expect(frames[1].roof).toBeGreaterThan(0)
-  expect(frames[1].roof).toBeLessThan(1)
-  for (const index of [1, 11]) {
-    expect(frames[index].roofY).toBeGreaterThan(-16)
-    expect(frames[index].roofY).toBeLessThan(0)
-  }
-  expect(frames[1].details).toBeCloseTo(0)
-  expect(frames[2].roof).toBe(1)
-  expect(frames[2].roofY).toBeCloseTo(0)
-  expect(frames[2].details).toBeGreaterThan(0)
-  expect(frames[2].details).toBeLessThan(1)
-  expect(frames[3].details).toBeCloseTo(1)
-  expect(frames[4].doorY).toBeCloseTo(0)
-  for (const index of [5, 8]) {
-    expect(frames[index].doorY).toBeGreaterThan(-52)
-    expect(frames[index].doorY).toBeLessThan(0)
-  }
-  for (const index of [6, 7]) {
-    expect(frames[index].doorY).toBeCloseTo(-52)
-  }
-  expect(frames[9].doorY).toBeCloseTo(0)
-  expect(frames[10].details).toBeGreaterThan(0)
-  expect(frames[10].details).toBeLessThan(1)
-  expect(frames[10].roof).toBe(1)
-  expect(frames[11].details).toBe(0)
-  expect(frames[11].roof).toBeGreaterThan(0)
-  expect(frames[11].roof).toBeLessThan(1)
-  expect(frames[12]).toEqual(frames[0])
-  frames.forEach(({ doorScale, garage, details, roofScale }) => {
-    expect(doorScale).toBe(1)
-    expect(roofScale).toBe(1)
-    expect(garage).toBeCloseTo(details)
-  })
+  expect(frames[7]).toEqual(frames[0])
+  expect(frames[8]).toEqual(frames[3])
 })
 
 test('the Eufemia bell rings with diminishing swings inside a stationary circle', async ({

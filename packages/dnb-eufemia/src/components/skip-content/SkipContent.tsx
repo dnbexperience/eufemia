@@ -43,6 +43,7 @@ const SkipContent = (localProps: SkipContentAllProps) => {
   useEffect(
     () => () => {
       clearTimeout(timeout.current)
+      clearTimeout(blurTimeout.current)
     },
     []
   )
@@ -51,6 +52,7 @@ const SkipContent = (localProps: SkipContentAllProps) => {
   const [keepReturnActive, setKeepReturnActive] = useState(false)
   const ref = useRef<HTMLElement>(undefined)
   const timeout = useRef<NodeJS.Timeout>(undefined)
+  const blurTimeout = useRef<NodeJS.Timeout>(undefined)
 
   const classes = clsx(
     'dnb-skip-content',
@@ -62,38 +64,42 @@ const SkipContent = (localProps: SkipContentAllProps) => {
   const returnId = `${returnSelector}--alias`
 
   const handleBlur = useCallback(() => {
-    setVisible(false)
+    blurTimeout.current = setTimeout(() => setVisible(false), 0)
+  }, [])
+
+  const handleButtonRef = useCallback((element: HTMLElement | null) => {
+    element?.focus()
   }, [])
 
   const handleClick = useCallback(() => {
-    setVisible(false)
-
     // Scroll to the element at first
-    const element = document.querySelector(selector)
+    const element = document.querySelector<HTMLElement>(selector)
     element?.scrollIntoView?.({ behavior: 'smooth' })
-    element?.classList.add('dnb-skip-content__focus')
 
-    // Delay the focus, so the UX is smoother
-    timeout.current = setTimeout(() => {
+    if (element && !isInteractive(element)) {
+      element.classList.add('dnb-skip-content__focus')
+    }
+
+    const focusTarget = () => {
       applyPageFocus(selector)
 
       // Tell the linked return component, it should stay active (if it gets focused as well)
       document
         .querySelector(`#${returnSelector}--alias--alias`)
         ?.classList.add('dnb-skip-content__return--active')
-    }, focusDelay)
-  }, [selector, focusDelay])
+    }
+
+    if (focusDelay === 0) {
+      focusTarget()
+    } else {
+      setVisible(false)
+      // Delay the focus, so the UX is smoother
+      timeout.current = setTimeout(focusTarget, focusDelay)
+    }
+  }, [focusDelay, returnSelector, selector])
 
   const setFocus = useCallback(() => {
     setVisible(true)
-
-    // Wait one frame, so ref is set
-    window.requestAnimationFrame(() => {
-      const element = ref.current?.querySelector(
-        '.dnb-button'
-      ) as HTMLElement
-      element?.focus()
-    })
 
     // Ensure the __return button stays active
     if (ref.current?.getAttribute('class').includes('__return--active')) {
@@ -114,6 +120,9 @@ const SkipContent = (localProps: SkipContentAllProps) => {
     (e: KeyboardEvent) => {
       if (e.key === 'Tab') {
         setFocus()
+        requestAnimationFrame(() => {
+          ref.current?.querySelector<HTMLElement>('.dnb-button')?.focus()
+        })
       }
     },
     [setFocus]
@@ -127,17 +136,18 @@ const SkipContent = (localProps: SkipContentAllProps) => {
       id={returnId}
     >
       <>
-        {!visible && (
-          <button
-            className="dnb-sr-only"
-            type="button"
-            onKeyUp={handleKeyUp}
-          >
-            {text || children}
-          </button>
-        )}
+        <button
+          className="dnb-sr-only"
+          type="button"
+          tabIndex={visible ? -1 : undefined}
+          aria-hidden={visible || undefined}
+          onKeyUp={handleKeyUp}
+        >
+          {text || children}
+        </button>
         <HeightAnimation open={visible} aria-live="polite">
           <Button
+            ref={handleButtonRef}
             wrap
             variant="secondary"
             onClick={handleClick}
@@ -149,6 +159,21 @@ const SkipContent = (localProps: SkipContentAllProps) => {
         </HeightAnimation>
       </>
     </span>
+  )
+}
+
+function isInteractive(element: HTMLElement) {
+  return (
+    element.matches('a, button, input, textarea, select, label, menu') ||
+    [
+      'a',
+      'button',
+      'input',
+      'textarea',
+      'select',
+      'label',
+      'menu',
+    ].includes(element.getAttribute('role') || '')
   )
 }
 
