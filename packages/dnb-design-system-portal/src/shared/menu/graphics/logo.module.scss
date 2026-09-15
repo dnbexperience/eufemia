@@ -1,0 +1,19 @@
+.logo {
+  perspective: 6rem;
+
+  .i {
+    transform-box: fill-box;
+    transform-origin: center;
+    transition: transform 600ms var(--easing-default);
+  }
+
+  &:hover .i {
+    transform: rotateY(180deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .logo .i {
+    transition: none;
+  }
+}
