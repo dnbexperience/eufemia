@@ -75,6 +75,20 @@ describe('Field.InstallmentDay', () => {
     expect(text).toHaveTextContent('1st day of the month')
   })
 
+  it('should use the Form.Handler locale for the ordinal phrase', () => {
+    // The ordinal is formatted from the shared context locale, which
+    // Form.Handler provides through Field.Provider. Pins that path, since
+    // apps usually set the locale on Form.Handler rather than on Provider.
+    render(
+      <Form.Handler locale="en-GB">
+        <Field.InstallmentDay value={3} />
+      </Form.Handler>
+    )
+
+    const text = document.querySelector('.dnb-dropdown__text__inner')
+    expect(text).toHaveTextContent('3rd day of the month')
+  })
+
   it('should keep the dropdown options as bare numbers (not the phrase)', () => {
     render(<Field.InstallmentDay />)
 
