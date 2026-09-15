@@ -55,6 +55,16 @@ merged **under** author annotations during the docs build and are marked with
 already present in the file's first tracked commit, so its true origin may be
 earlier (structured `*Docs.ts` files only go back to `v10.21.0`).
 
+#### When to regenerate
+
+Regenerate after each release. Entries whose introducing commit was not yet
+released are stored as `pending` with `since: null`, and an un-annotated prop
+that is missing from the file gets no version at all — in both cases the entry
+is silently omitted from `migration_index`, so a stale file makes the most
+recent releases look empty rather than merely imprecise. Check `latestTag` in
+`version-metadata.json` against the newest release tag to see whether it is
+behind.
+
 ### Consuming
 
 - Author-annotated fields appear inline in each component's props/events JSON

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-08-31T12:14:22.081Z",
-  "latestTag": "v11.11.0",
+  "generatedAt": "2026-09-15T08:48:23.514Z",
+  "latestTag": "v11.13.0",
   "note": "Inferred from git history of *Docs.ts files. Author annotations in *Docs.ts always take precedence at build time. `since` reflects the first release the entry appears in the structured docs; `sinceFloor` marks values that are \"at or before\" (present in the first tracked commit).",
   "components": {
     "components/accordion": {
@@ -139,9 +139,7 @@
           "removedIn": "11.0.0"
         },
         "openOnFind": {
-          "since": null,
-          "pending": true,
-          "sinceFloor": true
+          "since": "11.12.0"
         },
         "prerender": {
           "since": "10.37.0",
@@ -358,13 +356,16 @@
           "removedIn": "11.5.0"
         },
         "disableFilter": {
-          "since": "11.0.0"
+          "since": "11.0.0",
+          "deprecatedIn": "11.12.0"
         },
         "disableHighlighting": {
-          "since": "11.0.0"
+          "since": "11.0.0",
+          "deprecatedIn": "11.12.0"
         },
         "disableReorder": {
-          "since": "11.0.0"
+          "since": "11.0.0",
+          "deprecatedIn": "11.12.0"
         },
         "disable_filter": {
           "since": "10.25.0",
@@ -542,18 +543,19 @@
           "removedIn": "11.0.0"
         },
         "search": {
-          "since": null,
-          "pending": true,
-          "sinceFloor": true
+          "since": "11.12.0"
         },
         "searchInWordIndex": {
-          "since": "11.0.0"
+          "since": "11.0.0",
+          "deprecatedIn": "11.12.0"
         },
         "searchMatch": {
-          "since": "10.94.0"
+          "since": "10.94.0",
+          "deprecatedIn": "11.12.0"
         },
         "searchNumbers": {
-          "since": "11.0.0"
+          "since": "11.0.0",
+          "deprecatedIn": "11.12.0"
         },
         "search_in_word_index": {
           "since": "10.25.0",
@@ -941,9 +943,7 @@
           "since": "11.0.0"
         },
         "openOnFind": {
-          "since": null,
-          "pending": true,
-          "sinceFloor": true
+          "since": "11.12.0"
         },
         "skeleton": {
           "since": "10.70.0",
@@ -1455,6 +1455,9 @@
         "globalStatus": {
           "since": "10.56.0",
           "sinceFloor": true
+        },
+        "hideAdjacentMonthDates": {
+          "since": "11.12.0"
         },
         "hideDays": {
           "since": "10.56.0",
@@ -2146,9 +2149,7 @@
           "sinceFloor": true
         },
         "openOnFind": {
-          "since": null,
-          "pending": true,
-          "sinceFloor": true
+          "since": "11.12.0"
         },
         "placeholder": {
           "since": "11.6.0",
@@ -2891,6 +2892,15 @@
         "alt": {
           "since": "10.70.0",
           "sinceFloor": true
+        },
+        "animate": {
+          "since": "11.13.0"
+        },
+        "animateWhen": {
+          "since": "11.13.0"
+        },
+        "animationKey": {
+          "since": "11.13.0"
         },
         "border": {
           "since": "10.70.0",
@@ -3674,9 +3684,7 @@
           "sinceFloor": true
         },
         "openOnFind": {
-          "since": null,
-          "pending": true,
-          "sinceFloor": true
+          "since": "11.12.0"
         },
         "pending": {
           "since": "10.96.0",
@@ -3826,9 +3834,7 @@
           "sinceFloor": true
         },
         "openOnFind": {
-          "since": null,
-          "pending": true,
-          "sinceFloor": true
+          "since": "11.12.0"
         },
         "placement": {
           "since": "11.0.0",
@@ -5431,9 +5437,7 @@
           "removedIn": "11.0.0"
         },
         "openOnFind": {
-          "since": null,
-          "pending": true,
-          "sinceFloor": true
+          "since": "11.12.0"
         },
         "outset": {
           "since": "10.72.0",
@@ -5676,9 +5680,7 @@
           "removedIn": "11.0.0"
         },
         "openOnFind": {
-          "since": null,
-          "pending": true,
-          "sinceFloor": true
+          "since": "11.12.0"
         },
         "outline": {
           "since": "10.36.0",
@@ -5798,9 +5800,7 @@
           "removedIn": "11.0.0"
         },
         "openOnFind": {
-          "since": null,
-          "pending": true,
-          "sinceFloor": true
+          "since": "11.12.0"
         },
         "prerender": {
           "since": "10.27.0",
@@ -6619,11 +6619,19 @@
         },
         "element": {
           "since": "10.50.0",
-          "sinceFloor": true
+          "sinceFloor": true,
+          "deprecatedIn": "11.12.0"
+        },
+        "figureProps": {
+          "since": "11.12.0"
+        },
+        "imageClassName": {
+          "since": "11.12.0"
         },
         "imgClass": {
           "since": "10.50.0",
-          "sinceFloor": true
+          "sinceFloor": true,
+          "deprecatedIn": "11.12.0"
         },
         "loading": {
           "since": "10.50.0",
@@ -7129,6 +7137,9 @@
           "since": "11.3.0",
           "sinceFloor": true
         },
+        "listDriver": {
+          "since": "11.13.0"
+        },
         "maxHeight": {
           "since": "11.11.0"
         },
@@ -7141,14 +7152,10 @@
           "sinceFloor": true
         },
         "openOnFind": {
-          "since": null,
-          "pending": true,
-          "sinceFloor": true
+          "since": "11.12.0"
         },
         "search": {
-          "since": null,
-          "pending": true,
-          "sinceFloor": true
+          "since": "11.12.0"
         },
         "selectedItemsCollapsibleThreshold": {
           "since": "11.3.0",
@@ -7407,6 +7414,9 @@
         "labelSrOnly": {
           "since": "10.89.0"
         },
+        "listDriver": {
+          "since": "11.13.0"
+        },
         "numberFieldClassName": {
           "since": "10.50.0"
         },
@@ -7504,6 +7514,9 @@
         "filterCountries": {
           "since": "10.50.0"
         },
+        "listDriver": {
+          "since": "11.13.0"
+        },
         "size": {
           "since": "10.65.0"
         }
@@ -7519,6 +7532,9 @@
         "filterCurrencies": {
           "since": "10.69.0",
           "sinceFloor": true
+        },
+        "listDriver": {
+          "since": "11.13.0"
         },
         "size": {
           "since": "10.69.0",
@@ -7554,6 +7570,9 @@
           "since": "10.29.0",
           "sinceFloor": true,
           "removedIn": "10.56.0"
+        },
+        "listDriver": {
+          "since": "11.13.0"
         },
         "optionsLayout": {
           "since": "10.29.0",
@@ -9589,6 +9608,9 @@
         "listClass": {
           "since": "11.0.0"
         },
+        "listDriver": {
+          "since": "11.13.0"
+        },
         "list_class": {
           "since": "10.25.0",
           "sinceFloor": true,
@@ -9793,6 +9815,9 @@
     },
     "shared": {
       "props": {
+        "brand": {
+          "since": "11.12.0"
+        },
         "children": {
           "since": "10.70.0",
           "sinceFloor": true
@@ -9809,13 +9834,17 @@
           "sinceFloor": true,
           "removedIn": "11.0.0"
         },
+        "density": {
+          "since": "11.12.0"
+        },
         "matchOnSSR": {
           "since": "10.70.0",
           "sinceFloor": true
         },
         "name": {
           "since": "10.70.0",
-          "sinceFloor": true
+          "sinceFloor": true,
+          "deprecatedIn": "11.12.0"
         },
         "not": {
           "since": "10.70.0",
@@ -9832,7 +9861,8 @@
         },
         "size": {
           "since": "10.70.0",
-          "sinceFloor": true
+          "sinceFloor": true,
+          "deprecatedIn": "11.12.0"
         },
         "surface": {
           "since": "11.0.0"
