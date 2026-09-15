@@ -7,8 +7,9 @@ import type { UploadContextValue } from './types'
  * Promise that never settles would leave the file permanently stuck.
  *
  * Deliberately mirrors `DEFAULT_ASYNC_SUBMIT_TIMEOUT` in the forms
- * extension. `components/` cannot import from `extensions/forms`, so the two
- * cannot be shared and have to be kept in step by hand.
+ * extension. Sharing it would make this component import from
+ * `extensions/forms`, which this layer otherwise does not do, so the two are
+ * kept in step by hand instead.
  */
 const DEFAULT_ASYNC_FILE_OPERATION_TIMEOUT = 30000
 
