@@ -31,11 +31,6 @@ export const UploadProperties: PropertiesTableProps = {
     type: ['number', 'false'],
     status: 'optional',
   },
-  asyncFileOperationTimeout: {
-    doc: 'Deadline in milliseconds for an `onFileDelete` or `onFileClick` that returns a Promise. When the Promise does not settle within it, the file stops showing its loading state and a later settle is ignored, so a Promise that never settles does not leave the file stuck. A timed out deletion keeps the file listed and shows the `errorDeleteTimeout` message. [Field.Upload](/uilib/extensions/forms/base-fields/Upload) and [Value.Upload](/uilib/extensions/forms/Value/Upload) do not take this prop; they use the `asyncSubmitTimeout` of their [Form.Handler](/uilib/extensions/forms/Form/Handler/properties) instead. Defaults to `30000` (30 seconds).',
-    type: 'number',
-    status: 'optional',
-  },
   title: {
     doc: 'Custom text property. Replaces the default title. Can be disabled using `false`.',
     type: 'string',
