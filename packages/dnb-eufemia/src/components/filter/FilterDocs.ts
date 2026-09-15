@@ -461,11 +461,6 @@ export const UseFilterAsyncParams: PropertiesTableProps = {
     type: 'number',
     status: 'optional',
   },
-  'options.timeout': {
-    doc: "Deadline in milliseconds for the fetcher, measured from the change that triggered it, so it also covers `debounce`. When it is reached, the loading state is cleared, `error` is set to an `Error` with `name` `'TimeoutError'`, and a later settle from that fetch is ignored. The fetch itself is not aborted. Defaults to `30000` (30 seconds).",
-    type: 'number',
-    status: 'optional',
-  },
 }
 
 export const UseFilterAsyncReturn: PropertiesTableProps = {
@@ -480,7 +475,7 @@ export const UseFilterAsyncReturn: PropertiesTableProps = {
     status: 'required',
   },
   error: {
-    doc: "The error thrown by the fetcher, if any, or an `Error` with `name` `'TimeoutError'` when the fetcher did not settle within `options.timeout`. Reset to `undefined` on each new fetch.",
+    doc: "The error thrown by the fetcher, if any, or an `Error` with `name` `'TimeoutError'` when the fetcher did not settle within 30 seconds. Reset to `undefined` on each new fetch.",
     type: ['Error', 'undefined'],
     status: 'required',
   },

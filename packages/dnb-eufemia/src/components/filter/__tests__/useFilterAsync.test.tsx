@@ -1,5 +1,4 @@
 import { render, fireEvent, waitFor, act } from '@testing-library/react'
-import { wait } from '../../../core/test-utils/testSetup'
 import FilterRoot from '../FilterRoot'
 import FilterContent from '../FilterContent'
 import FilterNoResults from '../FilterNoResults'
@@ -10,6 +9,7 @@ import FilterResultCount from '../FilterResultCount'
 import FilterSearch from '../FilterSearch'
 import FilterSelection from '../FilterSelection'
 import { useFilterAsync } from '../hooks/useFilter'
+import { DEFAULT_ASYNC_SUBMIT_TIMEOUT } from '../../../shared/defaults'
 
 describe('useFilterAsync', () => {
   it('calls fetcher and returns data', async () => {
@@ -461,14 +461,21 @@ describe('useFilterAsync error handling', () => {
 })
 
 describe('useFilterAsync timeout', () => {
+  beforeEach(() => {
+    vi.useFakeTimers()
+  })
+
+  afterEach(() => {
+    vi.useRealTimers()
+  })
+
   it('clears the loading state and sets an error when the fetcher never settles', async () => {
     const fetcher = vi.fn().mockReturnValue(new Promise(() => {}))
 
     function Consumer() {
       const { error, loading } = useFilterAsync(
         'async-timeout-test',
-        fetcher,
-        { timeout: 300 }
+        fetcher
       )
       return (
         <>
@@ -486,24 +493,41 @@ describe('useFilterAsync timeout', () => {
       </>
     )
 
-    await waitFor(() => {
-      expect(
-        document.querySelector('[data-testid="loading"]').textContent
-      ).toBe('true')
-    })
+    await act(async () => {})
 
-    // The fetcher is what clears the loading state, so a Promise that never
-    // settles has to be recovered by the deadline
-    await waitFor(() => {
-      expect(
-        document.querySelector('[data-testid="loading"]').textContent
-      ).toBe('false')
+    expect(
+      document.querySelector('[data-testid="loading"]').textContent
+    ).toBe('true')
+
+    // The documentation states this value in prose ("30 seconds"), so those
+    // texts need to be updated when the default changes
+    expect(DEFAULT_ASYNC_SUBMIT_TIMEOUT).toBe(30000)
+
+    // Just short of the deadline, nothing has recovered the loading state yet
+    await act(async () => {
+      vi.advanceTimersByTime(DEFAULT_ASYNC_SUBMIT_TIMEOUT - 1)
     })
 
     expect(
+      document.querySelector('[data-testid="loading"]').textContent
+    ).toBe('true')
+    expect(
+      document.querySelector('[data-testid="error"]').textContent
+    ).toBe('none')
+
+    // The fetcher is what clears the loading state, so a Promise that never
+    // settles has to be recovered by the deadline
+    await act(async () => {
+      vi.advanceTimersByTime(1)
+    })
+
+    expect(
+      document.querySelector('[data-testid="loading"]').textContent
+    ).toBe('false')
+    expect(
       document.querySelector('[data-testid="error"]').textContent
     ).toBe(
-      'Filter.useFilterAsync(): the fetcher did not settle within 300ms.'
+      'Filter.useFilterAsync(): the fetcher did not settle within 30000ms.'
     )
 
     // Named, so a deadline can be told apart from a fetcher rejection
@@ -523,8 +547,7 @@ describe('useFilterAsync timeout', () => {
     function Consumer() {
       const { data, error, loading } = useFilterAsync(
         'async-late-settle-test',
-        fetcher,
-        { timeout: 300 }
+        fetcher
       )
       return (
         <>
@@ -542,16 +565,17 @@ describe('useFilterAsync timeout', () => {
       </>
     )
 
-    await waitFor(() => {
-      expect(
-        document.querySelector('[data-testid="error"]').textContent
-      ).toContain('did not settle')
+    await act(async () => {
+      vi.advanceTimersByTime(DEFAULT_ASYNC_SUBMIT_TIMEOUT)
     })
+
+    expect(
+      document.querySelector('[data-testid="error"]').textContent
+    ).toContain('did not settle')
 
     // The filter has moved on, so a late result must not replace what is shown
     await act(async () => {
       resolveFetch(['late'])
-      await wait(50)
     })
 
     expect(
@@ -574,11 +598,7 @@ describe('useFilterAsync timeout', () => {
     )
 
     function Consumer() {
-      const { data, error } = useFilterAsync(
-        'async-in-time-test',
-        fetcher,
-        { timeout: 10000 }
-      )
+      const { data, error } = useFilterAsync('async-in-time-test', fetcher)
       return (
         <>
           <span data-testid="data">{JSON.stringify(data)}</span>
@@ -594,17 +614,26 @@ describe('useFilterAsync timeout', () => {
       </>
     )
 
-    await waitFor(() => {
-      expect(fetcher).toHaveBeenCalledTimes(1)
+    await act(async () => {})
+    expect(fetcher).toHaveBeenCalledTimes(1)
+
+    await act(async () => {
+      resolveFetch(['in-time'])
     })
 
-    resolveFetch(['in-time'])
+    expect(
+      document.querySelector('[data-testid="data"]').textContent
+    ).toBe('["in-time"]')
 
-    await waitFor(() => {
-      expect(
-        document.querySelector('[data-testid="data"]').textContent
-      ).toBe('["in-time"]')
+    // A result that arrived in time must survive the deadline passing, which
+    // the claim guard covers even though the timer is also cleared on settle
+    await act(async () => {
+      vi.advanceTimersByTime(DEFAULT_ASYNC_SUBMIT_TIMEOUT)
     })
+
+    expect(
+      document.querySelector('[data-testid="data"]').textContent
+    ).toBe('["in-time"]')
     expect(
       document.querySelector('[data-testid="error"]').textContent
     ).toBe('none')
