@@ -10,10 +10,7 @@
 import path from 'node:path'
 import { getContentScript } from '@dnb/eufemia/src/shared/ColorSchemeScript'
 import type { MdxNode as PortalMdxNode } from '../client/plugins/portal-pages.shared'
-import { getSidebarScrollScript } from './sidebar-scroll-script.mjs'
-import { getSidebarOpenStateScript } from './sidebar-open-state-script.mjs'
-export { getSidebarScrollScript } from './sidebar-scroll-script.mjs'
-export { getSidebarOpenStateScript } from './sidebar-open-state-script.mjs'
+import { getPreHydrationScript } from '@dnb/eufemia/src/extensions/sidebar-menu/SidebarMenuPreHydrationScript'
 
 export type RouteEntry = {
   path?: string
@@ -293,12 +290,11 @@ export function injectHtml(
   // blocking script that swaps color-scheme classes on Theme elements
   // before the browser paints — preventing a dark-mode FOUC.
   const contentScript = getContentScript()
-  const sidebarScrollScript = getSidebarScrollScript()
-  const sidebarOpenStateScript = getSidebarOpenStateScript()
+  const sidebarPreHydrationScript = getPreHydrationScript()
 
   let html = template.replace(
     '<div id="root"></div>',
-    `<div id="root">${appHtml}</div>\n\t<script>${contentScript};${sidebarOpenStateScript};${sidebarScrollScript}</script>`
+    `<div id="root">${appHtml}</div>\n\t<script>${contentScript};${sidebarPreHydrationScript}</script>`
   )
 
   // Inject <link> tags for ALL brand theme CSS chunks.
