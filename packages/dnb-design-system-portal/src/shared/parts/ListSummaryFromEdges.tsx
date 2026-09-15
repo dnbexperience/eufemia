@@ -11,20 +11,9 @@ import {
 import ReactMarkdown from 'react-markdown'
 import { basicComponents } from '../../shared/tags'
 import type { SpacingProps } from '@dnb/eufemia/src/shared/types'
+import type { MdxNode } from '../../../vite/client/plugins/portal-pages.shared'
 
-type ListEdge = {
-  node: {
-    frontmatter: {
-      title: string
-      description?: string
-      order?: number
-    }
-    fields: {
-      slug: string
-    }
-  }
-}
-export type ListEdges = Array<ListEdge>
+export type ListEdges = Array<{ node: MdxNode }>
 type ListSummaryFromEdgesProps = {
   edges: ListEdges
   level?: HeadingLevel

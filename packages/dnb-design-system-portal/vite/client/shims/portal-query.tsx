@@ -7,6 +7,30 @@
 
 import { useNavigate, type To } from 'react-router'
 import { allMdxNodes } from 'virtual:portal-pages'
+import type { MdxNode } from '../plugins/portal-pages.shared'
+
+export type StaticQueryConnection = {
+  edges: Array<{
+    node: MdxNode
+  }>
+}
+
+type StaticQueryConnections = Record<string, StaticQueryConnection>
+
+type SiteData = {
+  pathPrefix: string
+  siteMetadata: {
+    title: string
+    name: string
+    description: string
+    repoUrl: string
+  }
+}
+
+type StaticQueryResultFull<T extends StaticQueryConnections = {}> = {
+  site: SiteData
+  allMdx?: StaticQueryConnection
+} & T
 
 // graphql tag — preserves the query string so useStaticQuery can
 // extract content path filters from it.
@@ -22,16 +46,17 @@ const staticQueryCache = new Map<string, unknown>()
 // Gatsby's GraphQL layer filters (e.g. title != null, draft != true) –
 // replicate the most common filters here so portal code that relies on
 // them (SidebarMenu, ListComponents) doesn't crash on missing titles.
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function useStaticQuery(query: unknown): any {
+export function useStaticQuery<
+  T extends StaticQueryConnections = { allMdx: StaticQueryConnection },
+>(query: unknown): StaticQueryResultFull<T> {
   const queryStr = typeof query === 'string' ? query : ''
 
   const cached = staticQueryCache.get(queryStr)
   if (cached) {
-    return cached
+    return cached as StaticQueryResultFull<T>
   }
 
-  const siteData = {
+  const siteData: StaticQueryResultFull['site'] = {
     pathPrefix: '/',
     siteMetadata: {
       title: 'DNB Design System',
@@ -56,8 +81,9 @@ export function useStaticQuery(query: unknown): any {
     })
   }
 
-  const result: Record<string, unknown> = { site: siteData }
-
+  const result: StaticQueryResultFull = {
+    site: siteData,
+  }
   // If no allMdx queries found, still return allMdx for backwards compat
   if (allMdxQueries.length === 0) {
     result.allMdx = { edges: buildFilteredEdges(queryStr) }
@@ -68,15 +94,14 @@ export function useStaticQuery(query: unknown): any {
   }
 
   staticQueryCache.set(queryStr, result)
-
-  return result
+  return result as StaticQueryResultFull<T>
 }
 
 function buildFilteredEdges(
   queryStr: string,
   filterStr = ''
-): Array<{ node: Record<string, unknown> }> {
-  let filtered = (allMdxNodes as Record<string, unknown>[]).slice()
+): StaticQueryConnection['edges'] {
+  let filtered = allMdxNodes.slice()
 
   // Apply title != null and draft != true by default for most queries
   // (unless the query is specifically about slug-based filtering only)
@@ -92,7 +117,7 @@ function buildFilteredEdges(
 
   if (!slugInMatch && (hasTitleFilter || hasDraftFilter)) {
     filtered = filtered.filter((node) => {
-      const fm = node.frontmatter as Record<string, unknown> | undefined
+      const fm = node.frontmatter
       if (hasTitleFilter && !fm?.title) return false
       if (hasDraftFilter && fm?.draft === true) return false
       return true
@@ -107,7 +132,7 @@ function buildFilteredEdges(
       .map((s) => s.trim())
       .filter(Boolean)
     filtered = filtered.filter((node) => {
-      const slug = (node.fields as Record<string, unknown>)?.slug as string
+      const slug = node.fields?.slug
       return slug && slugValues.includes(slug)
     })
   }
@@ -126,8 +151,7 @@ function buildFilteredEdges(
       const rawPattern = regexMatch[1].replace(/^\/|\/$/g, '')
       const re = new RegExp(rawPattern)
       filtered = filtered.filter((node) => {
-        const slug = (node.fields as Record<string, unknown>)
-          ?.slug as string
+        const slug = node.fields?.slug
         return slug && re.test(slug)
       })
     } catch {
@@ -142,7 +166,7 @@ function buildFilteredEdges(
       .replace(/\/\*\*\/\*$/, '')
       .replace(/\/\*$/, '')
     filtered = filtered.filter((node) => {
-      const slug = (node.fields as Record<string, unknown>)?.slug as string
+      const slug = node.fields?.slug
       return slug && slug.startsWith(prefix + '/')
     })
   }
@@ -154,15 +178,15 @@ function buildFilteredEdges(
     queryStr.includes('hideInMenu: {')
   ) {
     filtered = filtered.filter((node) => {
-      const fm = node.frontmatter as Record<string, unknown> | undefined
+      const fm = node.frontmatter
       return fm?.hideInMenu !== true
     })
   }
 
   if (queryStr.includes('order: ASC')) {
     filtered = [...filtered].sort((a, b) => {
-      const aFm = a.frontmatter as Record<string, unknown>
-      const bFm = b.frontmatter as Record<string, unknown>
+      const aFm = a.frontmatter
+      const bFm = b.frontmatter
       const aOrder = (aFm?.order as number) ?? 999
       const bOrder = (bFm?.order as number) ?? 999
       if (aOrder !== bOrder) return aOrder - bOrder
@@ -174,13 +198,13 @@ function buildFilteredEdges(
 
   // Compute siblings (parent pages) for each node, matching the
   // siblings resolver behavior that traverses up the slug path.
-  const allNodes = allMdxNodes as Record<string, unknown>[]
+  const allNodes = allMdxNodes
   if (queryStr.includes('siblings')) {
     for (const node of filtered) {
-      const slug = (node.fields as Record<string, unknown>)?.slug as string
+      const slug = node.fields?.slug
       if (typeof slug === 'string') {
         const parts = slug.split('/')
-        const parents: Record<string, unknown>[] = []
+        const parents: Array<MdxNode> = []
 
         for (let i = 0; i < parts.length; i++) {
           const parentSlug = parts.slice(0, -(i + 1)).join('/')
@@ -189,8 +213,7 @@ function buildFilteredEdges(
           }
 
           const parent = allNodes.find(
-            (n) =>
-              (n.fields as Record<string, unknown>)?.slug === parentSlug
+            (n) => n.fields?.slug === parentSlug
           )
           if (parent) {
             parents.push(parent)
