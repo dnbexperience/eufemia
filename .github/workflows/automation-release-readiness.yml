@@ -1,0 +1,118 @@
+name: Automation - Release readiness
+
+on:
+  # zizmor: ignore[dangerous-triggers] This trusted observer reads bounded metadata and never executes PR code.
+  workflow_run:
+    workflows: [Verify]
+    types: [completed]
+
+permissions:
+  actions: read # Read the completed Verify run.
+  checks: read # Include the release commit's check conclusions.
+  contents: read
+  pull-requests: read # Read release pull request metadata and changed files.
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.workflow_run.head_sha }}
+  cancel-in-progress: true
+
+jobs:
+  prepare:
+    name: Collect release context
+    if: >-
+      vars.AUTOMATIONS_ENABLED == 'true' &&
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.head_repository.full_name == github.repository
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    outputs:
+      artifact-name: ${{ steps.context.outputs.artifact-name }}
+      pull-number: ${{ steps.context.outputs.pull-number }}
+      should-run: ${{ steps.context.outputs.should-run }}
+
+    steps:
+      - name: Collect context
+        id: context
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RUN_ID: ${{ github.event.workflow_run.id }}
+        run: |
+          context_dir="$RUNNER_TEMP/release-readiness-context"
+          mkdir -p "$context_dir"
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/$RUN_ID" > "$context_dir/run.json"
+
+          pr_number=$(jq --raw-output '.pull_requests[0].number // empty' "$context_dir/run.json")
+          if [ -z "$pr_number" ]; then
+            echo "should-run=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          gh api "repos/$GITHUB_REPOSITORY/pulls/$pr_number" > "$context_dir/pull-request.json"
+          title=$(jq --raw-output '.title' "$context_dir/pull-request.json")
+          case "$title" in
+            release\ of\ *) ;;
+            *)
+              echo "should-run=false" >> "$GITHUB_OUTPUT"
+              exit 0
+              ;;
+          esac
+
+          gh api --paginate --slurp \
+            "repos/$GITHUB_REPOSITORY/pulls/$pr_number/files?per_page=100" \
+            > "$context_dir/file-pages.json"
+          jq '[.[][] | {filename, status, additions, deletions}]' \
+            "$context_dir/file-pages.json" > "$context_dir/changed-files.json"
+          gh api --paginate --slurp \
+            "repos/$GITHUB_REPOSITORY/pulls/$pr_number/commits?per_page=100" \
+            > "$context_dir/commit-pages.json"
+          jq '[.[][] | {sha, message: .commit.message}]' \
+            "$context_dir/commit-pages.json" > "$context_dir/commits.json"
+          rm "$context_dir/file-pages.json" "$context_dir/commit-pages.json"
+          head_sha=$(jq --raw-output '.head.sha' "$context_dir/pull-request.json")
+          gh api "repos/$GITHUB_REPOSITORY/commits/$head_sha/check-runs" \
+            --jq '[.check_runs[] | {name, status, conclusion, html_url}]' \
+            > "$context_dir/check-runs.json"
+          gh pr diff "$pr_number" --repo "$GITHUB_REPOSITORY" --patch \
+            > "$context_dir/full-change.patch"
+          head -c 250000 "$context_dir/full-change.patch" > "$context_dir/change.patch"
+          rm "$context_dir/full-change.patch"
+
+          artifact_name="release-readiness-context-$pr_number"
+          {
+            echo "artifact-name=$artifact_name"
+            echo "pull-number=$pr_number"
+            echo "should-run=true"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Upload context
+        if: steps.context.outputs.should-run == 'true'
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: ${{ steps.context.outputs.artifact-name }}
+          path: ${{ runner.temp }}/release-readiness-context
+          retention-days: 14
+
+  analyze:
+    name: Audit release readiness
+    needs: prepare
+    if: needs.prepare.outputs.should-run == 'true'
+    uses: ./.github/workflows/automation-run.yml
+    with:
+      context-artifact: ${{ needs.prepare.outputs.artifact-name }}
+      prompt-file: release-readiness.md
+      report-name: release-readiness-${{ github.event.workflow_run.id }}
+
+  notify:
+    name: Notify release pull request
+    needs: [prepare, analyze]
+    if: needs.analyze.outputs.report != ''
+    permissions:
+      contents: read
+      issues: write # Update the readiness comment on the release PR.
+    uses: ./.github/workflows/automation-notify.yml
+    with:
+      marker: eufemia-automation:release-readiness:pr-${{ needs.prepare.outputs.pull-number }}
+      report: ${{ needs.analyze.outputs.report }}
+      target: ${{ needs.prepare.outputs.pull-number }}
+      target-kind: pr
+      title: Release readiness
