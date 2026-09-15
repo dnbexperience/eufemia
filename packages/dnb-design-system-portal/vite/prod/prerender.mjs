@@ -25,6 +25,7 @@ import { Worker } from 'node:worker_threads'
 import { collectMarkdownPaths, getMdPath } from './md-paths.mts'
 import { escapeHtml } from './html-escape.mts'
 import { getSidebarScrollScript } from './sidebar-scroll-script.mjs'
+import { getSidebarOpenStateScript } from './sidebar-open-state-script.mjs'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const viteRoot = path.resolve(__dirname, '..')
@@ -463,10 +464,11 @@ function injectHtml(
   })
 
   const sidebarScrollScript = getSidebarScrollScript()
+  const sidebarOpenStateScript = getSidebarOpenStateScript()
 
   let html = template.replace(
     '<div id="root"></div>',
-    `<div id="root">${appHtml}</div>\n\t<script>${contentScript};${sidebarScrollScript}</script>`
+    `<div id="root">${appHtml}</div>\n\t<script>${contentScript};${sidebarOpenStateScript};${sidebarScrollScript}</script>`
   )
 
   // Inject <link> tags for ALL brand theme CSS chunks.
