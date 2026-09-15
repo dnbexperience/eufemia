@@ -374,7 +374,12 @@ test.describe('Sidebar resize', () => {
 
     await dragSidebarToWidth(page, resizeHandle, 119)
 
-    await expect(sidebar).toBeHidden()
+    await expect(sidebar).toHaveCSS('width', '0px')
+    await expect(sidebar.locator('..')).toHaveAttribute('inert')
+    await expect(sidebar.locator('..')).toHaveAttribute(
+      'aria-hidden',
+      'true'
+    )
     await expect(trigger).toBeVisible()
     await expect(trigger).toHaveAttribute(
       'aria-controls',
@@ -395,6 +400,9 @@ test.describe('Sidebar resize', () => {
     await expect(sidebar).toBeVisible()
     await expect(sidebar).toHaveCSS('width', '240px')
     await expect(trigger).not.toBeVisible()
+
+    await dragSidebarToWidth(page, resizeHandle, 400)
+    await expect(sidebar).toHaveCSS('width', '400px')
   })
 })
 

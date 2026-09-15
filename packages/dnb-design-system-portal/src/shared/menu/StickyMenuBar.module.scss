@@ -46,6 +46,18 @@
 
   white-space: nowrap;
 
+  transition:
+    left 300ms var(--easing-default),
+    width 300ms var(--easing-default);
+
+  :global(.dnb-sidebar-menu-resize-handle--dragging) & {
+    transition: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+
   @include utilities.allBelow(medium) {
     &[data-scrolled='true'] .leadingStyle::before {
       opacity: 1;
@@ -89,6 +101,10 @@
 
   /* make sure we are on 64px instead of 65px */
   padding: 0.5rem 2rem;
+
+  &[data-inline-collapsed='true'] {
+    justify-content: space-between;
+  }
 
   @include utilities.allBelow(medium) {
     justify-content: space-between;
