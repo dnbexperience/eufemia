@@ -46,6 +46,14 @@ jobs:
           VITE_GITHUB_EDIT_REF: ${{ github.event.pull_request.head.ref }}
           VITE_GITHUB_COMMIT_SHA: ${{ github.event.pull_request.head.sha }}
 
+      # The gate that keeps broken links out of main. It runs here, on the
+      # complete build every PR produces, rather than inside the build script:
+      # the other pipelines that build the portal (icons, e2e, visual) have no
+      # business failing over a documentation link, and the release must not
+      # either. Those decide for themselves by not running this step.
+      - name: Validate internal links
+        run: yarn workspace dnb-design-system-portal validate:links
+
       # Cloudflare credentials are not exposed to Dependabot-triggered runs or
       # forked PRs. Detect their absence and skip the deploy instead of failing,
       # so those PRs still go green. Only the presence of the token is checked,

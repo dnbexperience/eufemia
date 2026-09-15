@@ -147,10 +147,54 @@ jobs:
       - name: Next.js consumer smoke test
         run: node smoke/run-smoke.mjs nextjs --tarball "${{ steps.smoke-pack.outputs.tarball }}"
 
+  # A broken documentation link is a docs problem, so it reports here instead of
+  # inside the build job. There it would fail before the package is prepared,
+  # and `action` (`needs: build`) would never publish — a mistyped heading
+  # anchor would hold back an npm release. Nothing needs this job: it goes red
+  # on the release run while the publish and the portal deploy carry on, and
+  # every PR already blocks on the same check in the preview build.
+  validate-portal-links:
+    name: Validate portal links
+    needs: build
+    if: github.ref == 'refs/heads/release'
+
+    runs-on: ubuntu-latest
+
+    # The check itself measured 9s over 1075 pages; the rest is checkout,
+    # dependencies and unpacking the artifact.
+    timeout-minutes: 15
+
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+
+      - name: Setup dependencies
+        uses: ./.github/actions/setup
+        with:
+          cache-version: ${{ secrets.CACHE_VERSION }}
+
+      - name: Download the portal artifact
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: github-pages
+          path: ${{ runner.temp }}/portal-artifact
+
+      # upload-pages-artifact packs the site into a single uncompressed
+      # artifact.tar, so this restores the exact output the deploy publishes.
+      - name: Unpack the prerendered output
+        run: |
+          mkdir -p packages/dnb-design-system-portal/public
+          tar -xf "$RUNNER_TEMP/portal-artifact/artifact.tar" \
+            -C packages/dnb-design-system-portal/public
+
+      - name: Validate internal links
+        run: yarn workspace dnb-design-system-portal validate:links
+
   action:
     name: Publish release
     needs: build
-
     runs-on: ubuntu-latest
 
     # Same reasoning as the build job: keep a stuck publish from holding the

@@ -10,7 +10,9 @@ import {
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const portalRoot = path.resolve(__dirname, '../..')
 const outDir = path.resolve(portalRoot, 'public')
-const outputFiles = findOutputFiles(outDir)
+// Absent before the first build, present but empty if the output was mislaid.
+// Both are routed into the guard below rather than crashing in readdirSync.
+const outputFiles = fs.existsSync(outDir) ? findOutputFiles(outDir) : []
 const emittedFiles = new Set(outputFiles.map(toUrlPath))
 const renderedPages = []
 
@@ -25,6 +27,14 @@ for (const filePath of outputFiles) {
     ? `/${relativeDir.split(path.sep).join('/')}/`
     : '/'
   renderedPages.push({ url, ...extractPageLinks(html) })
+}
+
+// An empty output would otherwise pass silently, which would turn a mislaid
+// build or a restored artifact into a permanent false green.
+if (renderedPages.length === 0) {
+  throw new Error(
+    `No prerendered pages found in ${outDir}. Build the portal first.`
+  )
 }
 
 const notFoundPath = path.resolve(outDir, '404.html')
