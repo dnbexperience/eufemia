@@ -1,4 +1,4 @@
-import type { ReactElement, ReactNode } from 'react'
+import type { ReactElement, ReactNode, RefObject } from 'react'
 import Dropdown from '../../components/Dropdown'
 import Icon from '../../components/icon/Icon'
 import { chevron_down, chevron_up } from '../../icons'
@@ -16,16 +16,25 @@ const sectionIcon = Icon.transition({
   open: chevron_up,
 })
 
+function supportsHover() {
+  return (
+    !window.matchMedia ||
+    window.matchMedia('(hover: hover) and (pointer: fine)').matches
+  )
+}
+
 function renderSelector(
   sections: ReactElement<SidebarMenuSectionProps>[],
   {
     activeSection,
     sectionLabel,
+    sectionSelectorOpenRef,
     selectSection,
     setHoveredSection,
   }: {
     activeSection?: string
     sectionLabel?: ReactNode
+    sectionSelectorOpenRef: RefObject<boolean>
     selectSection: (id: string) => void
     setHoveredSection: (id?: string) => void
   }
@@ -50,6 +59,10 @@ function renderSelector(
         return { selectedKey: props.id, selectedValue: content, content }
       })}
       onItemMouseEnter={({ item, event }) => {
+        if (!supportsHover() || !sectionSelectorOpenRef.current) {
+          return
+        }
+
         setHoveredSection(sections[item]?.props.id)
         event.currentTarget
           .closest('.dnb-drawer-list')
@@ -59,8 +72,15 @@ function renderSelector(
             { once: true }
           )
       }}
-      onClose={() => setHoveredSection(undefined)}
+      onOpen={() => {
+        sectionSelectorOpenRef.current = true
+      }}
+      onClose={() => {
+        sectionSelectorOpenRef.current = false
+        setHoveredSection(undefined)
+      }}
       onChange={({ data }) => {
+        sectionSelectorOpenRef.current = false
         setHoveredSection(undefined)
         if (typeof data?.selectedKey === 'string') {
           selectSection(data.selectedKey)

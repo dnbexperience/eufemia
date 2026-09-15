@@ -42,7 +42,7 @@ export type SidebarMenuItemData = {
   onClick?: MouseEventHandler<HTMLElement>
   /** Disables activation. */
   disabled?: boolean
-  /** Marks a leaf item as the current page, or a section as initially active. */
+  /** Marks a leaf item as the current page. */
   active?: boolean
   /** Nested items turn this data item into an accordion. */
   items?: SidebarMenuItemData[]
@@ -108,7 +108,7 @@ export type SidebarMenuRootProps = {
   /** Controlled id of the visible section. */
   activeSection?: string
   /**
-   * Id of the initially visible section. Defaults to the section marked active, then the first section.
+   * Id of the initially visible section. Defaults to the section marked defaultActive, then the first section.
    */
   defaultActiveSection?: string
   /**
@@ -128,13 +128,12 @@ export type SidebarMenuRootProps = {
 } & SpacingProps &
   Omit<HTMLAttributes<HTMLElement>, 'children'>
 
-export type SidebarMenuDataProps = Omit<
-  SidebarMenuRootProps,
-  'children'
-> & {
-  data?: SidebarMenuItemData[]
-  sections?: SidebarMenuSectionData[]
-}
+export type SidebarMenuDataProps = Omit<SidebarMenuRootProps, 'children'> &
+  (
+    | { data: SidebarMenuItemData[]; sections?: never }
+    | { sections: SidebarMenuSectionData[]; data?: never }
+    | { data?: never; sections?: never }
+  )
 
 export type SidebarMenuItemProps = {
   /**

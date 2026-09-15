@@ -3,7 +3,7 @@
  *
  */
 
-import { Fragment, useContext } from 'react'
+import { Fragment, useContext, useState } from 'react'
 import type { RefObject } from 'react'
 import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
 import {
@@ -149,6 +149,33 @@ describe('DrawerList component', () => {
     expect(
       document.querySelector('.dnb-drawer-list--open')
     ).toBeInTheDocument()
+  })
+
+  it('keeps option nodes mounted when hover causes a rerender', () => {
+    function DrawerListWithHoverState() {
+      const [, setHovered] = useState<number>()
+      return (
+        <DrawerList
+          {...props}
+          data={mockData.map((item) =>
+            typeof item === 'object' && !Array.isArray(item)
+              ? { ...item }
+              : item
+          )}
+          onItemMouseEnter={({ item }) => setHovered(item)}
+        />
+      )
+    }
+
+    render(<DrawerListWithHoverState />)
+
+    const option = document.querySelector<HTMLElement>(
+      '.dnb-drawer-list__option'
+    )
+    fireEvent.mouseEnter(option)
+
+    expect(option).toBeInTheDocument()
+    expect(document.querySelector('.dnb-drawer-list__option')).toBe(option)
   })
 
   it('keeps dialog open when Escape is pressed inside the drawer list', async () => {

@@ -97,6 +97,16 @@ export default function SidebarMenuAccordion(
         return
       }
 
+      if (
+        event.metaKey ||
+        event.ctrlKey ||
+        event.shiftKey ||
+        event.altKey
+      ) {
+        onClick?.(event)
+        return
+      }
+
       if (isSelected && collapsible) {
         event.preventDefault()
         setOpen(!requestedOpen)

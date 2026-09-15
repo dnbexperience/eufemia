@@ -57,7 +57,7 @@ export const SidebarMenuRootProperties: PropertiesTableProps = {
     status: 'optional',
   },
   defaultActiveSection: {
-    doc: 'Id of the initially visible section. Defaults to the section marked active, then the first section.',
+    doc: 'Id of the initially visible section. Defaults to the section marked defaultActive, then the first section.',
     type: 'string',
     status: 'optional',
   },
@@ -152,7 +152,7 @@ export const SidebarMenuItemProperties: PropertiesTableProps = {
   },
   badgeProps: {
     doc: 'Additional properties passed to the Badge component.',
-    type: ['Omit<BadgeProps, "content"', '"children">'],
+    type: 'Omit<BadgeProps, "content" | "children">',
     status: 'optional',
   },
   href: {
@@ -226,7 +226,7 @@ export const SidebarMenuAccordionProperties: PropertiesTableProps = {
   },
   badgeProps: {
     doc: 'Additional properties passed to the Badge component.',
-    type: ['Omit<BadgeProps, "content"', '"children">'],
+    type: 'Omit<BadgeProps, "content" | "children">',
     status: 'optional',
   },
   href: {
@@ -315,7 +315,7 @@ export const SidebarMenuGroupProperties: PropertiesTableProps = {
   text: {
     doc: 'Visible group title.',
     type: 'React.ReactNode',
-    status: 'required',
+    status: 'optional',
   },
   icon: {
     doc: 'Icon shown before a linked group title.',
@@ -334,7 +334,7 @@ export const SidebarMenuGroupProperties: PropertiesTableProps = {
   },
   badgeProps: {
     doc: 'Additional properties passed to the Badge component.',
-    type: ['Omit<BadgeProps, "content"', '"children">'],
+    type: 'Omit<BadgeProps, "content" | "children">',
     status: 'optional',
   },
   children: {

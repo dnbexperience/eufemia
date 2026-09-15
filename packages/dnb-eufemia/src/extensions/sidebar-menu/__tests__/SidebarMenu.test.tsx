@@ -789,6 +789,102 @@ describe('SidebarMenu', () => {
     ).not.toHaveClass('dnb-sidebar-menu__list--dimmed')
   })
 
+  it('does not reapply dimming while the section selector closes', () => {
+    render(
+      <SidebarMenu.Root defaultActiveSection="personal">
+        <SidebarMenu.Section id="personal" text="Personal">
+          <SidebarMenu.Item id="overview" text="Overview" />
+        </SidebarMenu.Section>
+        <SidebarMenu.Section id="business" text="Business">
+          <SidebarMenu.Item id="invoices" text="Invoices" />
+        </SidebarMenu.Section>
+      </SidebarMenu.Root>
+    )
+
+    const trigger = document.querySelector('.dnb-dropdown__trigger')
+    fireEvent.click(trigger)
+    const business = Array.from(
+      document.querySelectorAll<HTMLElement>('[role="option"]')
+    ).find((element) => element.textContent === 'Business')
+    fireEvent.mouseEnter(business)
+    expect(document.querySelector('.dnb-sidebar-menu__list')).toHaveClass(
+      'dnb-sidebar-menu__list--dimmed'
+    )
+
+    fireEvent.click(business)
+    fireEvent.mouseEnter(business)
+
+    expect(
+      document.querySelector('.dnb-sidebar-menu__list')
+    ).not.toHaveClass('dnb-sidebar-menu__list--dimmed')
+  })
+
+  it('keeps section option nodes mounted while previewing both directions', () => {
+    render(
+      <SidebarMenu.Root defaultActiveSection="personal">
+        <SidebarMenu.Section id="personal" text="Personal">
+          <SidebarMenu.Item id="overview" text="Overview" />
+        </SidebarMenu.Section>
+        <SidebarMenu.Section id="business" text="Business">
+          <SidebarMenu.Item id="invoices" text="Invoices" />
+        </SidebarMenu.Section>
+      </SidebarMenu.Root>
+    )
+
+    const trigger = document.querySelector('.dnb-dropdown__trigger')
+    const preview = (text: string) => {
+      const option = Array.from(
+        document.querySelectorAll<HTMLElement>('[role="option"]')
+      ).find((element) => element.textContent === text)
+      fireEvent.mouseEnter(option)
+      expect(option).toBeInTheDocument()
+      expect(
+        Array.from(
+          document.querySelectorAll<HTMLElement>('[role="option"]')
+        ).find((element) => element.textContent === text)
+      ).toBe(option)
+      return option
+    }
+
+    fireEvent.click(trigger)
+    fireEvent.click(preview('Business'))
+    fireEvent.click(trigger)
+    preview('Personal')
+  })
+
+  it('selects a section on the first touch interaction', () => {
+    const matchMedia = window.matchMedia
+    window.matchMedia = vi.fn(() => ({ matches: false }) as MediaQueryList)
+
+    try {
+      render(
+        <SidebarMenu.Root defaultActiveSection="personal">
+          <SidebarMenu.Section id="personal" text="Personal">
+            <SidebarMenu.Item id="overview" text="Overview" />
+          </SidebarMenu.Section>
+          <SidebarMenu.Section id="business" text="Business">
+            <SidebarMenu.Item id="invoices" text="Invoices" />
+          </SidebarMenu.Section>
+        </SidebarMenu.Root>
+      )
+
+      fireEvent.click(document.querySelector('.dnb-dropdown__trigger'))
+      const business = Array.from(
+        document.querySelectorAll<HTMLElement>('[role="option"]')
+      ).find((element) => element.textContent === 'Business')
+
+      fireEvent.mouseEnter(business)
+      expect(
+        document.querySelector('.dnb-sidebar-menu__list')
+      ).not.toHaveClass('dnb-sidebar-menu__list--dimmed')
+
+      fireEvent.click(business)
+      expect(document.body).toHaveTextContent('Invoices')
+    } finally {
+      window.matchMedia = matchMedia
+    }
+  })
+
   it('renders and switches sections supplied as data', () => {
     render(
       <SidebarMenu.Data
@@ -858,6 +954,28 @@ describe('SidebarMenu', () => {
         '[data-sidebar-menu-id="cards"] [aria-current="page"]'
       )
     ).toBeInTheDocument()
+  })
+
+  it('keeps defaultSelectedItem authoritative over active data', () => {
+    render(
+      <SidebarMenu.Data
+        defaultSelectedItem="overview"
+        data={[
+          { id: 'overview', text: 'Overview' },
+          { id: 'payments', text: 'Payments', active: true },
+        ]}
+      />
+    )
+
+    expect(
+      document.querySelector('[data-sidebar-menu-id="overview"]')
+    ).toHaveClass('dnb-sidebar-menu__item--selected')
+    expect(
+      document.querySelector('[data-sidebar-menu-id="payments"]')
+    ).toHaveClass('dnb-sidebar-menu__item--active')
+    expect(
+      document.querySelector('[data-sidebar-menu-id="payments"]')
+    ).not.toHaveClass('dnb-sidebar-menu__item--selected')
   })
 
   it('activates the section containing the selected route', () => {
@@ -1149,6 +1267,31 @@ describe('SidebarMenu', () => {
     expect(onClick).not.toHaveBeenCalled()
     expect(onSelectedItemChange).not.toHaveBeenCalled()
   })
+
+  it.each(['metaKey', 'ctrlKey', 'shiftKey'])(
+    'preserves native %s activation on a selected page accordion',
+    (modifier) => {
+      const onClick = vi.fn()
+      render(
+        <SidebarMenu.Root selectedItem="components">
+          <SidebarMenu.Accordion
+            id="components"
+            text="Components"
+            href="/components"
+            defaultOpen
+            onClick={onClick}
+          >
+            <SidebarMenu.Item id="buttons" text="Buttons" />
+          </SidebarMenu.Accordion>
+        </SidebarMenu.Root>
+      )
+
+      const link = document.querySelector('[href="/components"]')
+      expect(fireEvent.click(link, { [modifier]: true })).toBe(true)
+      expect(link).toHaveAttribute('aria-expanded', 'true')
+      expect(onClick).toHaveBeenCalledTimes(1)
+    }
+  )
 
   it('collapses a linked accordion containing the selected route', () => {
     const onClick = vi.fn((event) => event.preventDefault())

@@ -189,6 +189,12 @@ export const warningValidCases = [
         render: {
           type: '({ close, open, toggle, id }) => React.ReactNode',
         },
+        badgeProps: {
+          type: 'Omit<BadgeProps, "content" | "children">',
+        },
+        selection: {
+          type: 'Record<string, Alpha | Beta>',
+        },
       }
     `,
     filename: 'ButtonDocs.ts',

@@ -8,7 +8,7 @@ import {
   useRef,
   useState,
 } from 'react'
-import type { ReactElement, ReactNode } from 'react'
+import type { ReactElement, ReactNode, RefObject } from 'react'
 import { clsx } from 'clsx'
 import Space from '../../components/space/Space'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
@@ -74,6 +74,7 @@ function SidebarMenuRoot(props: SidebarMenuRootProps) {
     openItems !== undefined || !openItemsStorageKey
   )
   const [hoveredSection, setHoveredSection] = useState<string>()
+  const sectionSelectorOpenRef = useRef(false)
   const loadedOpenItemsStorageIdRef = useRef<string | undefined>(undefined)
   const skipOpenItemsPersistRef = useRef(false)
   const [internalActiveSection, setInternalActiveSection] = useState(
@@ -254,10 +255,14 @@ function SidebarMenuRoot(props: SidebarMenuRootProps) {
     activeSection ?? internalActiveSection ?? firstSectionId
 
   useEffect(() => {
-    if (selectedItem === undefined && activeItem) {
+    if (
+      selectedItem === undefined &&
+      defaultSelectedItem === undefined &&
+      activeItem
+    ) {
       setInternalSelectedItem(activeItem)
     }
-  }, [activeItem, selectedItem])
+  }, [activeItem, defaultSelectedItem, selectedItem])
 
   useEffect(() => {
     if (
@@ -511,6 +516,7 @@ function SidebarMenuRoot(props: SidebarMenuRootProps) {
         renderSectionSelector(declarativeSections, {
           activeSection: resolvedActiveSection,
           sectionLabel: resolvedSectionLabel,
+          sectionSelectorOpenRef,
           selectSection,
           setHoveredSection,
         })}
@@ -663,6 +669,7 @@ function findDeclarativeSections(
 type SectionSelectorProps = {
   activeSection?: string
   sectionLabel?: ReactNode
+  sectionSelectorOpenRef: RefObject<boolean>
   selectSection: (id: string) => void
   setHoveredSection: (id?: string) => void
 }

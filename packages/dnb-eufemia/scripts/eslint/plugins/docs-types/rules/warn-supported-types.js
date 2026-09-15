@@ -49,10 +49,6 @@ function getStringNodeValue(node) {
 }
 
 function isSimpleUnionType(value) {
-  if (!value.includes('|')) {
-    return false
-  }
-
   if (
     value.startsWith('(') ||
     value.startsWith('{') ||
@@ -61,7 +57,28 @@ function isSimpleUnionType(value) {
     return false
   }
 
-  return !/^Array<[^>]*\|[^>]*>$/.test(value)
+  return splitTopLevelUnion(value).length > 1
+}
+
+function splitTopLevelUnion(value) {
+  const parts = []
+  let start = 0
+  let depth = 0
+
+  for (let index = 0; index < value.length; index += 1) {
+    const character = value[index]
+    if ('<([{'.includes(character)) {
+      depth += 1
+    } else if ('>)]}'.includes(character)) {
+      depth = Math.max(0, depth - 1)
+    } else if (character === '|' && depth === 0) {
+      parts.push(value.slice(start, index).trim())
+      start = index + 1
+    }
+  }
+
+  parts.push(value.slice(start).trim())
+  return parts.filter(Boolean)
 }
 
 function isUnknownType(value) {
@@ -86,6 +103,10 @@ function isUnknownType(value) {
   }
 
   if (/^Array<.+>$/.test(value)) {
+    return false
+  }
+
+  if (/^[A-Z][A-Za-z0-9_.]*<.+>$/.test(value)) {
     return false
   }
 
@@ -153,10 +174,7 @@ module.exports = {
           }
 
           if (isSimpleUnionType(trimmedValue)) {
-            const options = trimmedValue
-              .split('|')
-              .map((part) => part.trim())
-              .filter(Boolean)
+            const options = splitTopLevelUnion(trimmedValue)
 
             context.report({
               node: typeNode,
