@@ -56,6 +56,7 @@ export default function SidebarMenuResizeHandle({
   const translation = useTranslation().SidebarMenu
   const cleanupResizeRef = useRef<() => void>(undefined)
   const resetFrameRef = useRef<number>(undefined)
+  const resetTransitionCleanupRef = useRef<() => void>(undefined)
   const handleRef = useRef<HTMLButtonElement>(null)
   const writtenWidthRef = useRef<number>(undefined)
   const [currentWidth, setCurrentWidth] = useState(minWidth)
@@ -72,6 +73,7 @@ export default function SidebarMenuResizeHandle({
     () => () => {
       cleanupResizeRef.current?.()
       cancelAnimationFrame(resetFrameRef.current)
+      resetTransitionCleanupRef.current?.()
     },
     []
   )
@@ -185,6 +187,24 @@ export default function SidebarMenuResizeHandle({
     }
 
     cancelAnimationFrame(resetFrameRef.current)
+    resetTransitionCleanupRef.current?.()
+    const target = targetRef.current
+    if (target) {
+      const handleTransitionEnd = (event: TransitionEvent) => {
+        if (event.propertyName === 'width') {
+          resetTransitionCleanupRef.current?.()
+          updatePosition()
+        }
+      }
+      target.addEventListener('transitionend', handleTransitionEnd)
+      target.addEventListener('transitioncancel', handleTransitionEnd)
+      resetTransitionCleanupRef.current = () => {
+        target.removeEventListener('transitionend', handleTransitionEnd)
+        target.removeEventListener('transitioncancel', handleTransitionEnd)
+        resetTransitionCleanupRef.current = undefined
+      }
+    }
+
     if (scopeSelector) {
       updatePosition()
       if (getTargetWidth() <= 0) {
@@ -209,6 +229,8 @@ export default function SidebarMenuResizeHandle({
     ) => () => void
   ) {
     cleanupResizeRef.current?.()
+    cancelAnimationFrame(resetFrameRef.current)
+    resetTransitionCleanupRef.current?.()
     const rootElement = getRootElement()
     rootElement.classList.add(
       'dnb-sidebar-menu-resize-handle--transition-ready'
