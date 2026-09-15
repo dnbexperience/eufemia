@@ -3,9 +3,12 @@ import type { UploadContextValue } from './types'
 
 /**
  * A file waiting for an async `onFileDelete` or `onFileClick` keeps its
- * loading state, which disables its delete button. Give both the same
- * deadline Form.Handler applies to its own async submit, so a Promise that
- * never settles cannot leave the file permanently stuck.
+ * loading state, which disables its delete button, so without a deadline a
+ * Promise that never settles would leave the file permanently stuck.
+ *
+ * Deliberately mirrors `DEFAULT_ASYNC_SUBMIT_TIMEOUT` in the forms
+ * extension. `components/` cannot import from `extensions/forms`, so the two
+ * cannot be shared and have to be kept in step by hand.
  */
 const DEFAULT_ASYNC_FILE_OPERATION_TIMEOUT = 30000
 

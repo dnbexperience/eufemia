@@ -6,7 +6,8 @@
 /**
  * The deadline in milliseconds for an async operation when no
  * `asyncSubmitTimeout` is given: how long a pending submit, a field's
- * async `onChange` or validator, or a `Form.Section`'s `onDone` may stay
+ * async `onChange` or validator, an `onFileDelete` or `onFileClick` in
+ * `Field.Upload` or `Value.Upload`, or a `Form.Section`'s `onDone` may stay
  * unsettled before the form stops waiting and recovers.
  *
  * The documentation states this value in prose ("30 seconds by default"),
