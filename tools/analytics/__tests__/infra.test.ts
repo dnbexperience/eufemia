@@ -10,14 +10,22 @@ const terraform = readFileSync(
 )
 
 describe('analytics infrastructure', () => {
-  it('expires current and noncurrent raw MCP usage objects', () => {
+  it('expires raw MCP usage objects and cleans noncurrent versions bucket-wide', () => {
     const rawUsageRule = terraform.match(
-      /rule \{[\s\S]*?id\s+= \"expire-mcp-usage-raw\"[\s\S]*?^  \}/m
+      /rule \{[\s\S]*?id\s+= "expire-mcp-usage-raw"[\s\S]*?^  \}/m
     )?.[0]
 
+    // Raw usage keys are unique (write-once), so this rule only expires current
+    // versions; noncurrent cleanup is handled by the bucket-wide rule below.
     expect(rawUsageRule).toContain('expiration {')
-    expect(rawUsageRule).toMatch(
-      /noncurrent_version_expiration \{\s+noncurrent_days = 1\s+\}/
+    expect(rawUsageRule).not.toContain('noncurrent_version_expiration')
+
+    const noncurrentRule = terraform.match(
+      /rule \{[\s\S]*?id\s+= "expire-noncurrent-versions"[\s\S]*?^  \}/m
+    )?.[0]
+
+    expect(noncurrentRule).toMatch(
+      /filter \{\}\s+noncurrent_version_expiration \{\s+noncurrent_days = \d+\s+\}/
     )
   })
 
