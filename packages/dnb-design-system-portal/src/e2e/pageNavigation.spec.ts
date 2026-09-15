@@ -190,7 +190,7 @@ test.describe('Page Navigation', () => {
       expect(titleBeforeClick).toContain('DNB Design System | Eufemia')
 
       await page.getByRole('link', { name: /Design/ }).click()
-      await expect(page).toHaveURL('/quickguide-designer/')
+      await expect(page).toHaveURL('/quickguide-designer')
       await waitForApp(page)
       await expect(
         page.getByRole('heading', { name: 'Quick Guide - Designers' })
