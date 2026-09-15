@@ -166,6 +166,69 @@ describe('applyVersionMetadata', () => {
     expect(props.inferredOnly.sinceInferred).toBe(true)
     expect(props.inferredOnly.sinceFloor).toBe(true)
   })
+
+  it('never infers `removedIn` for an entry that is currently documented', () => {
+    // `locale` is in the extracted map, so it exists in today's docs. The
+    // inferred history says it was removed only because the static parse
+    // could not see it (its table is composed with a spread). Stamping that
+    // removal would tell agents a live prop is gone.
+    const props = { locale: { doc: 'a' } } as any
+    const events = { onChange: { doc: 'b' } } as any
+
+    applyVersionMetadata(props, events, {
+      props: { locale: { since: '10.21.0', removedIn: '11.0.0' } },
+      events: { onChange: { since: '10.21.0', removedIn: '11.0.0' } },
+    })
+
+    expect(props.locale.removedIn).toBeUndefined()
+    expect(events.onChange.removedIn).toBeUndefined()
+    // The rest of the inference still applies.
+    expect(props.locale.since).toBe('10.21.0')
+  })
+
+  it('keeps an author-set `removedIn` on a documented entry', () => {
+    const props = { legacy: { doc: 'a', removedIn: '11.6.0' } } as any
+
+    applyVersionMetadata(props, {} as any, {
+      props: { legacy: { since: '10.0.0', removedIn: '11.0.0' } },
+      events: {},
+    })
+
+    expect(props.legacy.removedIn).toBe('11.6.0')
+  })
+
+  it('keeps the original `since` for a member moved between the tables', () => {
+    // `onClick` was a documented prop from 11.4.0 and moved to the events
+    // table in 11.11.0. It is one prop either way, so 11.4.0 is its `since`.
+    const events = { onClick: { doc: 'a' } } as any
+
+    applyVersionMetadata({} as any, events, {
+      props: { onClick: { since: '11.4.0', removedIn: '11.11.0' } },
+      events: { onClick: { since: '11.11.0' } },
+    })
+
+    expect(events.onClick.since).toBe('11.4.0')
+    expect(events.onClick.sinceInferred).toBe(true)
+    expect(events.onClick.removedIn).toBeUndefined()
+  })
+
+  it('carries `sinceFloor` from whichever table holds the earliest since', () => {
+    const events = { onSubmitResult: { doc: 'a' } } as any
+
+    applyVersionMetadata({} as any, events, {
+      props: {
+        onSubmitResult: {
+          since: '10.51.0',
+          sinceFloor: true,
+          removedIn: '10.67.0',
+        },
+      },
+      events: { onSubmitResult: { since: '10.67.0' } },
+    })
+
+    expect(events.onSubmitResult.since).toBe('10.51.0')
+    expect(events.onSubmitResult.sinceFloor).toBe(true)
+  })
 })
 
 describe('buildMigrationsIndex', () => {
@@ -211,6 +274,97 @@ describe('buildMigrationsIndex', () => {
     )
     expect(index.versions['11.6.0'].removed[0].name).toBe('legacy')
   })
+
+  it('skips doc-table rows that are not API members', () => {
+    const components = [
+      {
+        id: 'uilib/elements/ingress',
+        name: 'Ingress',
+        props: [
+          { name: 'size', since: '10.50.0' },
+          // Cross-reference rows in the rendered properties table.
+          {
+            name: '[Space](/uilib/layout/space/properties)',
+            since: '10.50.0',
+            removedIn: '10.57.0',
+          },
+          { name: 'Card properties', since: '10.50.0' },
+        ],
+        events: [],
+      },
+    ]
+
+    const index = buildMigrationsIndex(components, {
+      eufemiaVersion: '11.11.0',
+      generatedAt: '2026-08-31T00:00:00.000Z',
+    })
+
+    expect(index.versions['10.57.0']).toBeUndefined()
+    expect(
+      index.versions['10.50.0'].added
+        .filter((c) => c.kind === 'prop')
+        .map((c) => c.name)
+    ).toEqual(['size'])
+    // The rows are still documented members of the page, so they must keep
+    // counting towards the component's own "added" release.
+    expect(
+      index.versions['10.50.0'].added.find((c) => c.kind === 'component')
+        ?.name
+    ).toBe('Ingress')
+    // Hyphenated and underscored names are real members and must survive.
+    const withRealNames = buildMigrationsIndex(
+      [
+        {
+          id: 'x',
+          name: 'X',
+          props: [
+            { name: 'aria-label', since: '11.0.0' },
+            { name: 'icon_position', since: '11.0.0' },
+          ],
+          events: [],
+        },
+      ],
+      {
+        eufemiaVersion: '11.11.0',
+        generatedAt: '2026-08-31T00:00:00.000Z',
+      }
+    )
+    expect(
+      withRealNames.versions['11.0.0'].added
+        .filter((c) => c.kind === 'prop')
+        .map((c) => c.name)
+        .sort()
+    ).toEqual(['aria-label', 'icon_position'])
+  })
+
+  it('keeps the component-level entry when only a doc-table row carries a since', () => {
+    // Wizard.Buttons documents nothing but a `[ButtonRow](…)` reference row.
+    // Skipping that row for member changes must not erase the component.
+    const index = buildMigrationsIndex(
+      [
+        {
+          id: 'uilib/extensions/forms/Wizard/Buttons',
+          name: 'Wizard.Buttons',
+          props: [
+            {
+              name: '[ButtonRow](/uilib/extensions/forms/Form/ButtonRow/properties/)',
+              since: '10.70.1',
+              sinceInferred: true,
+            },
+          ],
+          events: [],
+        },
+      ],
+      {
+        eufemiaVersion: '11.11.0',
+        generatedAt: '2026-08-31T00:00:00.000Z',
+      }
+    )
+
+    const added = index.versions['10.70.1'].added
+    expect(added.map((c) => c.kind)).toEqual(['component'])
+    expect(added[0].name).toBe('Wizard.Buttons')
+  })
 })
 
 describe('buildMigrationComponent', () => {
@@ -255,6 +409,22 @@ describe('buildMigrationComponent', () => {
     })
     expect(result.props).toHaveLength(1)
   })
+
+  it('does not report a removal for an entry now documented as an event', () => {
+    // `onClick` was declared in the properties table and later moved to the
+    // events table. It is still a prop of the component — not a removal.
+    const meta = {
+      id: 'uilib/components/card',
+      name: 'Card',
+      props: [],
+      events: [{ name: 'onClick', since: '11.11.0' }],
+    }
+    const result = buildMigrationComponent(meta, {
+      props: { onClick: { since: '10.0.0', removedIn: '11.11.0' } },
+      events: {},
+    })
+    expect(result.props).toHaveLength(0)
+  })
 })
 
 describe('extractReplacementNote', () => {
@@ -266,6 +436,35 @@ describe('extractReplacementNote', () => {
       'Use `size` instead.'
     )
     expect(extractReplacementNote('No hint here')).toBeUndefined()
+  })
+
+  it('ignores ordinary usage prose that names a value, not a replacement', () => {
+    // These are real doc strings. A loose `use \`X\`` match turns each of them
+    // into "Use `X` instead.", which is wrong in every case.
+    expect(
+      extractReplacementNote(
+        'Use `false` to disable the auto copy feature. Defaults to `true`.'
+      )
+    ).toBeUndefined()
+    expect(
+      extractReplacementNote(
+        'Use `tel` (default) or `sms` to enable a clickable / touchable anchor link.'
+      )
+    ).toBeUndefined()
+    expect(
+      extractReplacementNote(
+        'Use `auto` to detect the locale from the browser (`navigator.language`).'
+      )
+    ).toBeUndefined()
+  })
+
+  it('does not invert a dependency into a replacement', () => {
+    // `rememberState` requires `id`; it does not replace it.
+    expect(
+      extractReplacementNote(
+        'If you use `rememberState`, an id is required to keep the state.'
+      )
+    ).toBeUndefined()
   })
 })
 

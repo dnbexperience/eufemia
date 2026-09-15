@@ -1066,3 +1066,116 @@ describe('migration_index', () => {
     expect(data.error).toBe('ENOENT')
   })
 })
+
+describe('migration_index component matching', () => {
+  let docsRoot: string
+  let cleanup: () => void
+
+  const change = (
+    component: string,
+    componentName: string,
+    name: string
+  ) => ({ component, componentName, kind: 'prop', name })
+
+  const migrations = {
+    schemaVersion: 1,
+    eufemiaVersion: '11.11.0',
+    generatedAt: '2026-08-31T00:00:00.000Z',
+    versions: {
+      '11.4.0': {
+        deprecated: [
+          change('uilib/components/button', 'Button', 'buttonProp'),
+          change(
+            'uilib/components/toggle-button',
+            'ToggleButton',
+            'toggleProp'
+          ),
+          change('uilib/components/help-button', 'HelpButton', 'helpProp'),
+          change(
+            'uilib/extensions/forms/Form/SubmitButton',
+            'Form.SubmitButton',
+            'submitProp'
+          ),
+        ],
+      },
+    },
+  }
+
+  beforeEach(() => {
+    const fixture = createDocsFixture()
+    docsRoot = fixture.docsRoot
+    cleanup = fixture.cleanup
+    fs.writeFileSync(
+      path.join(docsRoot, 'migrations.json'),
+      JSON.stringify(migrations, null, 2)
+    )
+  })
+
+  afterEach(() => {
+    cleanup()
+  })
+
+  const names = (data: any) =>
+    (data.versions['11.4.0']?.deprecated ?? [])
+      .map((c: { componentName: string }) => c.componentName)
+      .sort()
+
+  it('returns only the exact component when the name matches one', async () => {
+    const tools = createDocsTools({ docsRoot })
+    const result = await tools.migrationIndex({ component: 'Button' })
+    const data = JSON.parse(getText(result))
+    // Not ToggleButton, HelpButton or Form.SubmitButton.
+    expect(names(data)).toEqual(['Button'])
+  })
+
+  it('matches a dotted component name exactly', async () => {
+    const tools = createDocsTools({ docsRoot })
+    const result = await tools.migrationIndex({
+      component: 'Form.SubmitButton',
+    })
+    const data = JSON.parse(getText(result))
+    expect(names(data)).toEqual(['Form.SubmitButton'])
+  })
+
+  it('still falls back to substring matching when nothing matches exactly', async () => {
+    const tools = createDocsTools({ docsRoot })
+    const result = await tools.migrationIndex({ component: 'butto' })
+    const data = JSON.parse(getText(result))
+    expect(names(data)).toEqual([
+      'Button',
+      'Form.SubmitButton',
+      'HelpButton',
+      'ToggleButton',
+    ])
+  })
+
+  it('applies one matching mode across all versions, not per bucket', async () => {
+    // 11.5.0 holds no Button change at all. Deciding exact-vs-substring per
+    // bucket would let the fallback fire there and leak ToggleButton into a
+    // query for Button.
+    fs.writeFileSync(
+      path.join(docsRoot, 'migrations.json'),
+      JSON.stringify({
+        ...migrations,
+        versions: {
+          ...migrations.versions,
+          '11.5.0': {
+            deprecated: [
+              change(
+                'uilib/components/toggle-button',
+                'ToggleButton',
+                'other'
+              ),
+            ],
+          },
+        },
+      })
+    )
+
+    const tools = createDocsTools({ docsRoot })
+    const result = await tools.migrationIndex({ component: 'Button' })
+    const data = JSON.parse(getText(result))
+    expect(Object.keys(data.versions)).toEqual(['11.4.0'])
+    expect(names(data)).toEqual(['Button'])
+  })
+})

@@ -318,7 +318,23 @@ function versionInRange(
   return true
 }
 
-/** Match a migration change against a component query (lenient). */
+/** True when a change's component name or doc-id last segment equals `q`. */
+function migrationComponentMatchesExactly(
+  change: MigrationChangeShape,
+  q: string
+): boolean {
+  const name = String(change.componentName ?? '').toLowerCase()
+  const id = String(change.component ?? '').toLowerCase()
+  const qLast = q.split('.').pop() ?? q
+  return (
+    name === q ||
+    name.replace(/\s+/g, '') === q.replace(/\s+/g, '') ||
+    id.split('/').pop() === q ||
+    id.split('/').pop() === qLast
+  )
+}
+
+/** Match a migration change against a component query (lenient substring). */
 function migrationComponentMatches(
   change: MigrationChangeShape,
   query: string
@@ -327,17 +343,41 @@ function migrationComponentMatches(
   if (!q) {
     return true
   }
-  const name = String(change.componentName ?? '').toLowerCase()
   const id = String(change.component ?? '').toLowerCase()
   const qLast = q.split('.').pop() ?? q
   return (
-    name === q ||
-    name.replace(/\s+/g, '') === q.replace(/\s+/g, '') ||
+    migrationComponentMatchesExactly(change, q) ||
     id.includes(q) ||
-    id.split('/').pop() === q ||
-    id.endsWith(`/${qLast}`) ||
-    id.split('/').pop() === qLast
+    id.endsWith(`/${qLast}`)
   )
+}
+
+/**
+ * Pick the component matcher for one query: exact when the query names a real
+ * component anywhere in the (already version-filtered) index, lenient
+ * otherwise.
+ *
+ * `Button` would otherwise also return ToggleButton, HelpButton and every
+ * Form/Wizard/Iterate *Button — an agent reading that attributes another
+ * component's deprecations to the one it asked about. When nothing matches
+ * exactly the lenient substring behaviour still applies, so partial queries
+ * and doc-id fragments keep working.
+ *
+ * The choice is made once per request rather than per version bucket, so a
+ * single query cannot mix exact and substring results across releases.
+ */
+function chooseComponentMatcher(
+  changes: MigrationChangeShape[],
+  component: string
+): (change: MigrationChangeShape) => boolean {
+  const q = component.trim().toLowerCase()
+  if (!q) {
+    return () => true
+  }
+  if (changes.some((c) => migrationComponentMatchesExactly(c, q))) {
+    return (c) => migrationComponentMatchesExactly(c, q)
+  }
+  return (c) => migrationComponentMatches(c, component)
 }
 
 /**
@@ -361,21 +401,29 @@ function filterMigrations(
   const versionsIn = data.versions ?? {}
   const outVersions: Record<string, MigrationVersionBucketShape> = {}
 
-  for (const version of Object.keys(versionsIn).sort(
-    compareSemverStrings
-  )) {
-    if (!versionInRange(version, fromVersion, toVersion)) {
-      continue
-    }
+  const inRangeVersions = Object.keys(versionsIn)
+    .sort(compareSemverStrings)
+    .filter((version) => versionInRange(version, fromVersion, toVersion))
 
+  // Decide exact-vs-lenient once, across every in-range bucket.
+  const matchesComponent = component
+    ? chooseComponentMatcher(
+        inRangeVersions.flatMap((version) =>
+          kinds.flatMap((kind) => (versionsIn[version] ?? {})[kind] ?? [])
+        ),
+        component
+      )
+    : null
+
+  for (const version of inRangeVersions) {
     const bucketIn = versionsIn[version] ?? {}
     const bucketOut: MigrationVersionBucketShape = {}
     let hasAny = false
 
     for (const kind of kinds) {
       const list = bucketIn[kind] ?? []
-      const filtered = component
-        ? list.filter((c) => migrationComponentMatches(c, component))
+      const filtered = matchesComponent
+        ? list.filter(matchesComponent)
         : list
       if (filtered.length > 0) {
         bucketOut[kind] = filtered
@@ -886,7 +934,7 @@ const MigrationIndexInput = z.object({
     .string()
     .optional()
     .describe(
-      "Filter to a single component by name (e.g. 'Button', 'Field.Address') or a doc-id substring."
+      "Filter to a single component by name (e.g. 'Button', 'Field.Address'). An exact component name returns only that component; otherwise the value is treated as a doc-id substring."
     ),
   fromVersion: z
     .string()

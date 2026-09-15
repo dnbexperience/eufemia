@@ -165,6 +165,14 @@ https://server.eufemia.dnb.no/mcp/web
 It supports the modern Streamable HTTP transport, and serves the same documentation tools (`docs_entry`, `docs_search`, `component_find`, etc.) as the local server below. A health endpoint is available at `https://server.eufemia.dnb.no/healthz`.
 It also provides `portal_content_workflow`, which gives an agent the complete
 workflow for editing Portal content and delivering a focused pull request.
+And `migration_index`, which answers version questions — when a property,
+event, or component was added, deprecated, or removed — so an agent can tell
+whether something exists in the version you use, and what replaced it. Narrow
+it with a `component` (for example `Button`), a `fromVersion`/`toVersion`
+range, and optionally a `changeType`; a call with no filter returns per-version
+counts only, because the full index is large. Values marked `sinceInferred` or
+`sinceFloor` come from git history rather than an author (`sinceFloor` meaning
+"at or before"), so treat them as approximate.
 
 #### Version behavior
 

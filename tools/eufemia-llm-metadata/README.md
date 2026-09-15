@@ -28,15 +28,26 @@ export const BreadcrumbProperties: PropertiesTableProps = {
     doc: 'No longer supported after the Breadcrumb redesign.',
     type: 'Various',
     status: 'deprecated',
-    since: '11.0.0', // released in this version
+    since: '11.0.0', // optional — overrides the inferred value
     deprecatedIn: '11.4.0', // status became 'deprecated' here
     // removedIn: '12.0.0', // set when the prop is removed
   },
 }
 ```
 
-When you add a new prop, set `since` to the upcoming release version. When you
-deprecate one, set `deprecatedIn` (alongside `status: 'deprecated'`).
+When you deprecate a prop, set `deprecatedIn` (alongside `status: 'deprecated'`)
+— you know that version at authoring time, because it is the release your
+change goes into next. Do the same with `removedIn` when you remove one.
+
+For a **new** prop, prefer to leave `since` out. Under semantic-release the
+version is not known while you are authoring (the package sits at
+`0.0.0-development`, and the actual number depends on what else lands in the
+release), so a guessed value is easy to get wrong — and because author
+annotations always win, a wrong one permanently shadows the correct value.
+Inference resolves a new prop's `since` on its own once the release is out and
+`version-metadata.json` is regenerated. Annotate `since` when you want to
+_correct_ or override inference — for example when a prop existed before
+structured `*Docs.ts` files did, and inference can only floor it.
 
 ### Inferred backfill
 
@@ -54,6 +65,13 @@ merged **under** author annotations during the docs build and are marked with
 `sinceInferred: true`. `sinceFloor: true` means "at or before" — the entry was
 already present in the file's first tracked commit, so its true origin may be
 earlier (structured `*Docs.ts` files only go back to `v10.21.0`).
+
+The history walk parses each `*Docs.ts` snapshot statically, and it cannot
+resolve tables composed with a spread (`...sharedProps`). So the snapshot may
+list fewer entries than the file really documents, and **absence in the history
+is not evidence that an entry was removed**. An inferred `removedIn` is
+therefore only trusted for entries that no longer appear in today's extracted
+docs; entries that still exist never get one.
 
 #### When to regenerate
 
@@ -75,4 +93,6 @@ behind.
   `build/docs/migrations.json`, exposed by the `migration_index` MCP tool with
   optional `component`, `fromVersion`, `toVersion`, and `changeType` filters. A
   call with no narrowing filter returns per-version counts only (the full index
-  is large); pass a component or version range to get full entries.
+  is large); pass a component or version range to get full entries. An exact
+  component name returns just that component — `Button` does not pull in
+  `ToggleButton` — while anything else is matched as a doc-id substring.

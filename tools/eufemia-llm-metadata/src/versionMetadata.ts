@@ -31,7 +31,11 @@ export type PropVersionInfo = {
   deprecatedIn?: string
   /** Release the entry disappeared from the current file's history. */
   removedIn?: string
-  /** True when `since` could not be mapped to a release (unreleased commit). */
+  /**
+   * True when `since` could not be mapped to a release (unreleased commit).
+   * A marker for readers of `version-metadata.json` and for judging whether
+   * the artefact is stale — the build-time merge keys off `since` alone.
+   */
   pending?: boolean
 }
 
@@ -52,9 +56,12 @@ const EXPORT_PROPERTIES = 'Properties'
 
 /**
  * Parse a `*Docs.ts` source string and return the literal prop/event keys
- * grouped by export kind. Spread elements and computed keys are skipped
- * (they cannot be resolved statically) — this yields missing entries, never
- * wrong ones. Parsing failures return empty maps rather than throwing.
+ * grouped by export kind. Spread elements and computed keys are skipped (they
+ * cannot be resolved statically), so the result *under-reports* what a file
+ * documents: a table composed entirely of spreads parses to nothing at all.
+ * Absence is therefore not evidence that an entry does not exist — only
+ * presence is reliable. Parsing failures return empty maps rather than
+ * throwing.
  */
 export function parseDocsExports(source: string): ParsedDocsFile {
   const result: ParsedDocsFile = { props: {}, events: {} }
@@ -174,7 +181,11 @@ function readObjectMember(
  *   predate structured docs) or when that commit is unreleased.
  * - `deprecatedIn` = release the key's status first became `deprecated`.
  * - `removedIn` = release the key disappeared and stayed absent through the
- *   latest entry (a prop removed from a still-existing component).
+ *   latest entry (a prop removed from a still-existing component). Because
+ *   {@link parseDocsExports} under-reports (see its note on spreads), an
+ *   inferred `removedIn` must always be cross-checked against the currently
+ *   documented entries before it is trusted — `appendRemoved` does exactly
+ *   that, and `applyKind` never infers this field at all.
  */
 export function deriveFileVersions(
   history: HistoryEntry[]
@@ -304,6 +315,11 @@ function mergeKind(
  * Merge inferred version metadata into extracted doc entries. Author
  * annotations always win; inferred values only fill gaps and are marked with
  * `sinceInferred` / `sinceFloor` so consumers can tell them apart.
+ *
+ * Props and events are one namespace (`onClick` is passed like any other
+ * prop), and the docs move members between the two tables. Both inferred maps
+ * are therefore consulted for every entry, so a member that moved keeps its
+ * original `since` instead of appearing to be new in the release that moved it.
  */
 export function applyVersionMetadata(
   props: DocEntryMap,
@@ -313,46 +329,66 @@ export function applyVersionMetadata(
   if (!componentMeta) {
     return
   }
-  applyKind(props, componentMeta.props)
-  applyKind(events, componentMeta.events)
+  applyKind(props, componentMeta.props, componentMeta.events)
+  applyKind(events, componentMeta.events, componentMeta.props)
 }
 
 function applyKind(
   map: DocEntryMap,
-  inferred: Record<string, PropVersionInfo>
+  inferred: Record<string, PropVersionInfo>,
+  inferredOtherKind: Record<string, PropVersionInfo>
 ): void {
   for (const [name, entry] of Object.entries(map)) {
     const info = inferred[name]
-    if (!info) {
+    const other = inferredOtherKind[name]
+    if (!info && !other) {
       continue
     }
 
-    // `since`: author annotation wins; otherwise use the inferred value.
+    // `since`: author annotation wins; otherwise the earliest inferred value
+    // across both tables.
+    const sinceSource = earliestSince(info, other)
     if (
       (entry.since === undefined || entry.since === null) &&
-      info.since
+      sinceSource?.since
     ) {
-      entry.since = info.since
+      entry.since = sinceSource.since
       entry.sinceInferred = true
-      if (info.sinceFloor) {
+      if (sinceSource.sinceFloor) {
         entry.sinceFloor = true
       }
     }
 
+    const deprecatedIn = info?.deprecatedIn ?? other?.deprecatedIn
     if (
       (entry.deprecatedIn === undefined || entry.deprecatedIn === null) &&
-      info.deprecatedIn
+      deprecatedIn
     ) {
-      entry.deprecatedIn = info.deprecatedIn
+      entry.deprecatedIn = deprecatedIn
     }
 
-    if (
-      (entry.removedIn === undefined || entry.removedIn === null) &&
-      info.removedIn
-    ) {
-      entry.removedIn = info.removedIn
-    }
+    // `removedIn` is deliberately *not* inferred here. Every entry in `map` is
+    // currently documented, so an inferred removal would always be wrong — it
+    // only ever comes from the static parse failing to see the entry (e.g. a
+    // props table composed with a spread), or from the entry having moved
+    // between the properties and events tables. Author-set values are already
+    // on the entry and are left untouched. Genuine removals — entries that no
+    // longer exist in the docs — are folded in by `appendRemoved` below.
   }
+}
+
+/** The candidate with the earliest resolvable `since` (null sorts last). */
+function earliestSince(
+  a: PropVersionInfo | undefined,
+  b: PropVersionInfo | undefined
+): PropVersionInfo | undefined {
+  if (!a) {
+    return b
+  }
+  if (!b) {
+    return a
+  }
+  return compareSemverSafe(a.since, b.since) <= 0 ? a : b
 }
 
 // --- Migration index ---------------------------------------------------------
@@ -410,8 +446,17 @@ export function buildMigrationComponent(
   const events = [...(meta.events || [])]
 
   if (componentMeta) {
-    appendRemoved(props, meta.props || [], componentMeta.props)
-    appendRemoved(events, meta.events || [], componentMeta.events)
+    // Presence is checked across both tables. Events *are* props (`onClick` is
+    // passed like any other), and the docs regularly move an entry from the
+    // properties table to the events table — that is not a removal, so an
+    // entry documented in either table must not be folded back in.
+    const documented = new Set(
+      [...(meta.props || []), ...(meta.events || [])].map((e) =>
+        String(e.name)
+      )
+    )
+    appendRemoved(props, documented, componentMeta.props)
+    appendRemoved(events, documented, componentMeta.events)
   }
 
   return { id: meta.id, name: meta.name, props, events }
@@ -419,12 +464,11 @@ export function buildMigrationComponent(
 
 function appendRemoved(
   target: Array<Record<string, any>>,
-  current: Array<Record<string, any>>,
+  documented: Set<string>,
   inferred: Record<string, PropVersionInfo>
 ): void {
-  const present = new Set(current.map((e) => String(e.name)))
   for (const [name, info] of Object.entries(inferred)) {
-    if (info.removedIn && !present.has(name)) {
+    if (info.removedIn && !documented.has(name)) {
       target.push({
         name,
         since: info.since ?? undefined,
@@ -467,6 +511,10 @@ export function buildMigrationsIndex(
     ) => {
       for (const entry of list || []) {
         const name = String(entry.name)
+        // Cross-reference rows are not API members, so they get no change
+        // entries of their own — but they are documented, so they still count
+        // towards the component's own "added" release below.
+        const isMember = isApiMemberName(name)
         const base: MigrationChange = {
           component: component.id,
           componentName: component.name,
@@ -475,17 +523,23 @@ export function buildMigrationsIndex(
         }
 
         if (entry.since) {
-          bucket(entry.since).added.push({
-            ...base,
-            since: entry.since,
-            sinceInferred: entry.sinceInferred || undefined,
-            sinceFloor: entry.sinceFloor || undefined,
-          })
+          if (isMember) {
+            bucket(entry.since).added.push({
+              ...base,
+              since: entry.since,
+              sinceInferred: entry.sinceInferred || undefined,
+              sinceFloor: entry.sinceFloor || undefined,
+            })
+          }
           componentSinceCandidates.push({
             since: entry.since,
             inferred: entry.sinceInferred,
             floor: entry.sinceFloor,
           })
+        }
+
+        if (!isMember) {
+          continue
         }
 
         if (entry.deprecatedIn) {
@@ -551,9 +605,27 @@ function compareChange(a: MigrationChange, b: MigrationChange): number {
 }
 
 /**
+ * True when a documented key is a real prop/event name rather than a table row
+ * used for cross-referencing, e.g. `[Space](/uilib/layout/space/properties)` or
+ * `Card properties`. Those rows are legitimate in the rendered properties
+ * table, but they are not API members: in a migration index they only produce
+ * noise, and — because they move between files as the docs are reorganised —
+ * bogus "added"/"removed" pairs.
+ */
+function isApiMemberName(name: string): boolean {
+  return /^[A-Za-z_$][\w$-]*$/.test(name)
+}
+
+/**
  * Best-effort extraction of a replacement hint from a doc string, e.g.
  * "use `newProp` instead" or "replaced by `newProp`". Returns undefined when
  * no obvious hint is found.
+ *
+ * Both patterns are anchored on wording that only makes sense for a
+ * replacement. A looser `use \`X\`` match would also fire on ordinary usage
+ * prose — "Use `false` to disable the auto copy feature", "Use `auto` to
+ * detect the locale" — and turn a value into a phantom replacement property.
+ * Prefer returning nothing over returning a wrong migration hint.
  */
 export function extractReplacementNote(
   doc: string | null | undefined
@@ -564,8 +636,6 @@ export function extractReplacementNote(
   const patterns = [
     /use\s+`([^`]+)`\s+instead/i,
     /replaced\s+by\s+`([^`]+)`/i,
-    /use\s+`([^`]+)`/i,
-    /deprecated[^.]*use\s+`([^`]+)`/i,
   ]
   for (const re of patterns) {
     const m = re.exec(doc)
