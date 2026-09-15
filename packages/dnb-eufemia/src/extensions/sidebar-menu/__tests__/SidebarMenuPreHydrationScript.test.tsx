@@ -20,8 +20,8 @@ describe('SidebarMenuPreHydrationScript', () => {
     const script = document.querySelector('script')
     expect(script).toHaveAttribute('nonce', 'nonce-value')
     expect(script.textContent).toBe(getPreHydrationScript())
-    expect(script.textContent).toContain('document.currentScript.nonce')
-    expect(script.textContent).toContain('style.nonce=nonce')
+    expect(script.textContent).toContain('document.currentScript?.nonce')
+    expect(script.textContent).toContain('style.nonce = nonce')
   })
 
   it('matches the hydrated accordion gap while restoring closed state', () => {
