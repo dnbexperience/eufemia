@@ -1064,7 +1064,7 @@ function appendLlmsHeaderTemplate(
 
 async function formatLlmsText(content: string, siteDir: string) {
   const prettierConfigPath = path.join(siteDir, '.prettierrc')
-  let prettierConfig: PrettierConfig = {}
+  let prettierConfig: PrettierConfig
 
   try {
     const rawConfig = await fs.readFile(prettierConfigPath, 'utf-8')
@@ -1387,7 +1387,7 @@ export async function createMarkdownCopies({
   >
 }) {
   const prettierConfigPath = path.join(siteDir, '.prettierrc')
-  let prettierConfig: PrettierConfig = {}
+  let prettierConfig: PrettierConfig
 
   try {
     const rawConfig = await fs.readFile(prettierConfigPath, 'utf-8')
@@ -2683,7 +2683,7 @@ function resolveImportPath({
   docsRoot: string
   docsBaseRoot: string
 }) {
-  let candidate: string | null = null
+  let candidate: string
 
   if (source.startsWith('Docs/')) {
     candidate = path.join(docsRoot, source.replace(/^Docs\//, ''))

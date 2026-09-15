@@ -68,12 +68,18 @@ jobs:
           restore-keys: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-eslint-eufemia-
 
       - name: Run lint
+        # Every workspace with a lint script runs here, except the Portal which
+        # has its own job below — keep this list complete when adding one.
         run: |
           yarn workspace @dnb/eufemia lint:ci
           yarn workspace @dnb/eufemia-mcp-legacy-proxy lint
           yarn workspace eufemia-mcp-lambda lint
           yarn workspace eufemia-raiwork-plugin lint
           yarn workspace eufemia-analytics lint
+          yarn workspace eufemia-css-optimizer lint
+          yarn workspace eufemia-llm-metadata lint
+          yarn workspace markdown-tables-utils lint
+          yarn workspace eufemia-starter lint
 
   lint-portal:
     name: Run portal lint
@@ -138,6 +144,8 @@ jobs:
           restore-keys: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-tsbuildinfo-
 
       - name: Run type checks
+        # Every workspace with a type-check script runs here — keep this list
+        # complete when adding one.
         run: |
           yarn workspace @dnb/eufemia test:types
           yarn workspace dnb-design-system-portal test:types
