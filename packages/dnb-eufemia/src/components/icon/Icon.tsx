@@ -174,6 +174,7 @@ export default function Icon(localProps: IconAllProps) {
     children,
     transitionState,
     animationMode,
+    animationTrigger,
     animationKey,
   } = usePrepareIcon(props, context)
   const icon = iconProp ?? children
@@ -217,6 +218,14 @@ export default function Icon(localProps: IconAllProps) {
       <IconContainer
         key={animationMode ? animationKey : undefined}
         {...iconParams}
+        {...(animationTrigger === 'hover' && {
+          onAnimationStart: ({ currentTarget, target }) =>
+            target === currentTarget &&
+            currentTarget.classList.add('dnb-icon--animation-active'),
+          onAnimationEnd: ({ currentTarget, target }) =>
+            target === currentTarget &&
+            currentTarget.classList.remove('dnb-icon--animation-active'),
+        })}
       />
     </span>
   )
@@ -526,6 +535,7 @@ export function prepareIcon(
     iconParams,
     wrapperParams,
     animationMode,
+    animationTrigger,
   }
 }
 

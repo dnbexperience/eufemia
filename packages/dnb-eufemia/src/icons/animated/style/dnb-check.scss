@@ -1,14 +1,15 @@
 @use '../../../style/core/utilities.scss' as utilities;
 
 .dnb-icon--animated-check.dnb-icon--animate svg,
+.dnb-icon--animated-check svg.dnb-icon--animation-active,
 :where(button, a, [role='button'], [data-icon-animation-trigger]):hover
   .dnb-icon--animated-check.dnb-icon--animate-when-hover
   svg,
 .dnb-icon--animated-check.dnb-icon--animate-when-hover:hover svg {
   transform-origin: center;
   transform-box: fill-box;
-  animation: dnb-icon-animated-check-settle 650ms
-    var(--easing-default) both;
+  animation: dnb-icon-animated-check-settle 650ms var(--easing-default)
+    both;
 
   @include utilities.reducedMotion() {
     animation: none;
@@ -16,12 +17,12 @@
 }
 
 .dnb-icon--animated-check.dnb-icon--animate path,
+.dnb-icon--animated-check svg.dnb-icon--animation-active path,
 :where(button, a, [role='button'], [data-icon-animation-trigger]):hover
   .dnb-icon--animated-check.dnb-icon--animate-when-hover
   path,
 .dnb-icon--animated-check.dnb-icon--animate-when-hover:hover path {
-  animation: dnb-icon-animated-check-draw 650ms var(--easing-default)
-    both;
+  animation: dnb-icon-animated-check-draw 650ms var(--easing-default) both;
 
   @include utilities.reducedMotion() {
     animation: none;
