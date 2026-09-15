@@ -79,6 +79,24 @@ describe('internal link validation', () => {
     )
   })
 
+  it('reports anchors missing from the page a redirect resolves to', () => {
+    const result = validateInternalLinks([
+      { url: '/', html: '<a href="/old/#gone">Old</a>' },
+      { url: '/old/', html: '', redirect: '/new/' },
+      { url: '/new/', html: '<h2 id="here">Here</h2>' },
+    ])
+
+    expect(result.errors).toEqual([
+      {
+        type: 'missing-anchor',
+        source: '/',
+        href: '/old/#gone',
+        target: '/new/',
+        anchor: 'gone',
+      },
+    ])
+  })
+
   it('ignores links and ids only inside explicit exclusion boundaries', () => {
     const result = validateInternalLinks([
       {
