@@ -40,6 +40,16 @@ declare module 'virtual:portal-pages' {
    * drafts, ordered by `order`, with pages that have no `order` last.
    */
   export const regularMdxNodes: Array<MdxNode>
+
+  /**
+   * Does a page's slug match the glob pattern?
+   *
+   * `*` matches within one path segment, `**` matches any number of them:
+   *
+   *   globPath(node, 'uilib/elements/*')       direct children
+   *   globPath(node, 'uilib/elements/**')      any depth
+   */
+  export function globPath(node: MdxNode, pattern: string): boolean
 }
 
 declare module 'virtual:prefetch-on-hover' {
