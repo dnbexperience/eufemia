@@ -79,6 +79,35 @@ describe('SidebarMenuPreHydrationScript', () => {
     ).toContain('display:block')
   })
 
+  it('preserves an exact stored scroll position before hydration', () => {
+    sessionStorage.setItem('navigation-scroll', '120')
+    document.body.innerHTML = `
+      <div class="dnb-scroll-view">
+        <nav data-scroll-position-storage-key="navigation-scroll" data-scroll-position-storage="session">
+          <a aria-current="page">Current</a>
+        </nav>
+      </div>
+    `
+    const view = document.querySelector<HTMLElement>('.dnb-scroll-view')
+    const active = document.querySelector<HTMLElement>(
+      '[aria-current="page"]'
+    )
+    vi.spyOn(view, 'getBoundingClientRect').mockReturnValue({
+      top: 0,
+      bottom: 200,
+      height: 200,
+    } as DOMRect)
+    vi.spyOn(active, 'getBoundingClientRect').mockReturnValue({
+      top: 300,
+      bottom: 340,
+      height: 40,
+    } as DOMRect)
+
+    Function(getPreHydrationScript())()
+
+    expect(view.scrollTop).toBe(120)
+  })
+
   it('removes its temporary styles when the matching menu hydrates', () => {
     const style = document.createElement('style')
     style.setAttribute('data-sidebar-menu-pre-hydration', 'navigation')

@@ -2389,7 +2389,7 @@ describe('SidebarMenu', () => {
     sessionStorage.removeItem(storageKey)
   })
 
-  it('scrolls to an initially selected item outside the restored view', () => {
+  it('preserves a restored position when the selected item is outside it', () => {
     vi.useFakeTimers()
     const storageKey = 'sidebar-menu-restored-off-screen-position'
     sessionStorage.setItem(storageKey, '120')
@@ -2429,10 +2429,8 @@ describe('SidebarMenu', () => {
 
     act(() => vi.runAllTimers())
 
-    expect(scrollTo).toHaveBeenCalledWith({
-      top: 340,
-      behavior: 'auto',
-    })
+    expect(scrollView.scrollTop).toBe(120)
+    expect(scrollTo).not.toHaveBeenCalled()
     expect(scrollView.style.scrollBehavior).toBe('')
 
     vi.useRealTimers()
