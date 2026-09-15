@@ -243,18 +243,20 @@ test.describe('Portal SidebarMenu', () => {
     await waitForApp(page)
 
     const trigger = page.locator('#toggle-sidebar-menu')
+    const drawer = page.locator('.dnb-sidebar-menu-responsive-drawer')
     const positions: number[] = []
 
     for (let index = 0; index < 4; index += 1) {
       await trigger.click()
-      const drawer = page.locator('.dnb-sidebar-menu-responsive-drawer')
       await drawer.waitFor({ state: 'visible' })
       await expect
         .poll(() => drawer.evaluate((el) => el.scrollTop))
         .toBeGreaterThan(0)
+      await page.waitForTimeout(400)
       positions.push(await drawer.evaluate((el) => el.scrollTop))
-      await page.keyboard.press('Escape')
-      await trigger.waitFor({ state: 'visible' })
+      await drawer.locator('.dnb-modal__close-button').click()
+      await expect(trigger).toHaveAttribute('aria-expanded', 'false')
+      await drawer.waitFor({ state: 'hidden' })
     }
 
     expect(new Set(positions).size).toBe(1)
