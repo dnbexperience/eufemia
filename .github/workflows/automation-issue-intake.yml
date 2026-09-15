@@ -1,0 +1,125 @@
+name: Automation - Issue intake
+
+on:
+  schedule:
+    - cron: '41 */6 * * *'
+  workflow_dispatch:
+
+permissions:
+  actions: read # Download the context artifact in the reusable workflow.
+  contents: read
+  issues: read # Read recently opened issues and possible duplicates.
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: true
+
+jobs:
+  prepare:
+    name: Collect issue context
+    if: >-
+      vars.AUTOMATIONS_ENABLED == 'true' &&
+      github.repository == 'dnbexperience/eufemia'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    outputs:
+      artifact-name: ${{ steps.context.outputs.artifact-name }}
+      should-run: ${{ steps.context.outputs.should-run }}
+
+    steps:
+      - name: Check out default branch
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Collect context
+        id: context
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          context_dir="$RUNNER_TEMP/issue-intake-context"
+          mkdir -p "$context_dir"
+          cutoff=$(date -u -d '7 hours ago' '+%Y-%m-%dT%H:%M:%SZ')
+
+          gh api --paginate --slurp \
+            "repos/$GITHUB_REPOSITORY/issues?state=all&since=$cutoff&per_page=100" \
+            > "$context_dir/issue-pages.json"
+          jq --arg cutoff "$cutoff" \
+            '[.[][] | select(.pull_request == null and .user.login != "github-actions[bot]" and .created_at >= $cutoff) | {number, title, body, user: .user.login, author_association, labels: [.labels[].name], created_at, html_url}][:20]' \
+            "$context_dir/issue-pages.json" \
+            > "$context_dir/new-issues.json"
+          rm "$context_dir/issue-pages.json"
+          gh issue list --repo "$GITHUB_REPOSITORY" --state all --limit 100 \
+            --json number,title,state,labels,createdAt,url \
+            > "$context_dir/recent-issues-all.json"
+          jq --slurpfile new "$context_dir/new-issues.json" \
+            'map(.number as $number | select(($new[0] | map(.number) | index($number)) == null))' \
+            "$context_dir/recent-issues-all.json" \
+            > "$context_dir/recent-issues.json"
+          rm "$context_dir/recent-issues-all.json"
+
+          issue_count=$(jq 'length' "$context_dir/new-issues.json")
+          if [ "$issue_count" = 0 ]; then
+            {
+              echo "## Issue intake"
+              echo
+              echo "No new issues in the collection window."
+            } >> "$GITHUB_STEP_SUMMARY"
+            echo "should-run=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          artifact_name="issue-intake-context-$GITHUB_RUN_ID"
+          {
+            echo "artifact-name=$artifact_name"
+            echo "should-run=true"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Upload context
+        if: steps.context.outputs.should-run == 'true'
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: ${{ steps.context.outputs.artifact-name }}
+          path: ${{ runner.temp }}/issue-intake-context
+          retention-days: 14
+
+  analyze:
+    name: Triage issues
+    needs: prepare
+    if: needs.prepare.outputs.should-run == 'true'
+    uses: ./.github/workflows/automation-run.yml
+    with:
+      context-artifact: ${{ needs.prepare.outputs.artifact-name }}
+      prompt-file: issue-intake.md
+      report-name: issue-intake-${{ github.run_id }}
+
+  notify:
+    name: Update issue intake summary
+    needs: analyze
+    if: needs.analyze.outputs.report != ''
+    permissions:
+      contents: read
+      issues: write # Update the issue intake tracking issue.
+    uses: ./.github/workflows/automation-notify.yml
+    with:
+      marker: eufemia-automation:issue-intake
+      report: ${{ needs.analyze.outputs.report }}
+      target: issue-intake
+      target-kind: issue
+      title: 'Automation report: issue intake'
+
+  clear-notification:
+    name: Close resolved issue intake summary
+    needs: prepare
+    if: needs.prepare.outputs.should-run == 'false'
+    permissions:
+      contents: read
+      issues: write # Close the issue intake tracking issue.
+    uses: ./.github/workflows/automation-notify.yml
+    with:
+      marker: eufemia-automation:issue-intake
+      report: '{"title":"Issue intake","summary":"No new issues were found in the collection window.","status":"ok","findings":[],"metrics":[]}'
+      target: issue-intake
+      target-kind: issue
+      title: 'Automation report: issue intake'
