@@ -1,0 +1,75 @@
+name: Automation notifier
+
+on:
+  workflow_call:
+    inputs:
+      marker:
+        description: Stable hidden marker used to update the notification
+        required: true
+        type: string
+      report:
+        description: Validated structured automation report
+        required: true
+        type: string
+      target:
+        description: Pull request number or tracking issue identifier
+        required: true
+        type: string
+      target-kind:
+        description: Notification target, either pr or issue
+        required: true
+        type: string
+      title:
+        description: Human-readable notification title
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    name: Publish human notification
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      issues: write # Update a PR conversation comment or tracking issue.
+
+    steps:
+      - name: Check out trusted notification tooling
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Validate and publish notification
+        env:
+          GH_TOKEN: ${{ github.token }}
+          MARKER: ${{ inputs.marker }}
+          REPORT: ${{ inputs.report }}
+          TARGET: ${{ inputs.target }}
+          TARGET_KIND: ${{ inputs.target-kind }}
+          TITLE: ${{ inputs.title }}
+        run: |
+          printf '%s' "$REPORT" > "$RUNNER_TEMP/report.json"
+          node .github/automations/scripts/validate-report.mjs \
+            "$RUNNER_TEMP/report.json" \
+            .github/automations/guardrails.json
+          node .github/automations/scripts/render-notification.mjs \
+            "$RUNNER_TEMP/report.json" \
+            "$MARKER" \
+            "$GITHUB_REPOSITORY" \
+            "$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID" \
+            "$TITLE" \
+            "$RUNNER_TEMP/notification.md"
+          status=$(jq --raw-output '.status' "$RUNNER_TEMP/report.json")
+          node .github/automations/scripts/publish-notification.mjs \
+            "$GITHUB_REPOSITORY" \
+            "$TARGET_KIND" \
+            "$TARGET" \
+            "$MARKER" \
+            "$TITLE" \
+            "$status" \
+            "$RUNNER_TEMP/notification.md"
