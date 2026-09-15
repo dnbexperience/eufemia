@@ -2,12 +2,24 @@
 showTabs: true
 ---
 
+import TranslationsTable from 'dnb-design-system-portal/src/shared/parts/TranslationsTable'
 import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
 import { ValueProperties } from '@dnb/eufemia/src/extensions/forms/Value/ValueDocs'
 
-## General properties
+## Properties
 
 <PropertiesTable
   props={ValueProperties}
-  omit={['value', '[Space](/uilib/layout/space/properties)']}
+  valueType={['number', "'last'"]}
+  omit={['[Space](/uilib/layout/space/properties)']}
+/>
+
+## Translations
+
+<TranslationsTable
+  localeKey={[
+    'InstallmentDay.label',
+    'InstallmentDay.lastDayLabel',
+    'InstallmentDay.dayDisplay',
+  ]}
 />
