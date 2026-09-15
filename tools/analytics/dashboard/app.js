@@ -12,10 +12,10 @@ import {
 } from './auth.js'
 
 /** Normalise the stored shape to a common view model. */
-function normalise(record) {
+export function normalise(record) {
   const label =
     record.name ?? record.path ?? record.type ?? record.id ?? '—'
-  const when = record.createdAt ?? record.timestamp ?? ''
+  const when = record.created_at ?? record.timestamp ?? ''
   const day = typeof when === 'string' ? when.slice(0, 10) : ''
   const env = record.env ?? ''
 
