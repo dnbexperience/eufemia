@@ -20,12 +20,64 @@ const PORTAL_VIEW_STATUSES: readonly PortalViewStatus[] = [
   'error',
 ]
 
+/**
+ * The component language the page was viewed in.
+ *
+ * Keep in sync with the portal's supported locales (`supportedTranslationsKey`
+ * in packages/dnb-design-system-portal/src/core/portalRuntimeUtils.ts), which
+ * gates what the client sends. If that set grows without this one, the new
+ * value is stored as `unknown` here rather than dropping the batch, so a
+ * drift costs only this one dimension.
+ */
+export type PortalViewLocale =
+  | 'nb-NO'
+  | 'en-GB'
+  | 'sv-SE'
+  | 'da-DK'
+  | 'en-US'
+
+const PORTAL_VIEW_LOCALES: readonly PortalViewLocale[] = [
+  'nb-NO',
+  'en-GB',
+  'sv-SE',
+  'da-DK',
+  'en-US',
+]
+
+/**
+ * The theme (brand) the page was viewed in.
+ *
+ * Keep in sync with the portal's theme brands (`availableThemes` in
+ * packages/dnb-design-system-portal/vite/client/shims/theme-handler.ts). A brand
+ * this list omits is stored as `unknown` rather than rejected, so a drift costs
+ * only this one dimension, not the batch.
+ */
+export type PortalViewTheme = 'ui' | 'sbanken' | 'eiendom' | 'carnegie'
+
+const PORTAL_VIEW_THEMES: readonly PortalViewTheme[] = [
+  'ui',
+  'sbanken',
+  'eiendom',
+  'carnegie',
+]
+
+/** The resolved color scheme the page was viewed in. */
+export type PortalViewColorScheme = 'light' | 'dark'
+
+const PORTAL_VIEW_COLOR_SCHEMES: readonly PortalViewColorScheme[] = [
+  'light',
+  'dark',
+]
+
 /** A single anonymous portal page view sent by the docs portal. */
 export type PortalViewInput = {
   path: string
   timestamp?: string
   env?: string
   status?: PortalViewStatus
+  locale?: PortalViewLocale
+  theme?: PortalViewTheme
+  color_scheme?: PortalViewColorScheme
 }
 
 /** The stored portal-view record (one row in the portal_views Glue table). */
@@ -34,6 +86,9 @@ export type PortalViewRecord = {
   env: string
   timestamp: string
   status: PortalViewStatus
+  locale: string
+  theme: string
+  color_scheme: string
   createdat: string
 }
 
@@ -48,6 +103,36 @@ const MAX_PATH_LENGTH = 2048
 
 /** A short lowercase environment token, e.g. `prod`, `dev`. */
 const ENV_PATTERN = /^[a-z][a-z0-9-]{0,31}$/
+
+// An unrecognised value for these optional dimensions is coerced to `unknown`
+// when the record is built (the field is dropped here), rather than rejecting
+// the whole batch — a stale or drifted value costs one dimension, not the view.
+function isValidEnv(value: unknown): value is string {
+  return typeof value === 'string' && ENV_PATTERN.test(value)
+}
+
+function isValidLocale(value: unknown): value is PortalViewLocale {
+  return (
+    typeof value === 'string' &&
+    PORTAL_VIEW_LOCALES.includes(value as PortalViewLocale)
+  )
+}
+
+function isValidTheme(value: unknown): value is PortalViewTheme {
+  return (
+    typeof value === 'string' &&
+    PORTAL_VIEW_THEMES.includes(value as PortalViewTheme)
+  )
+}
+
+function isValidColorScheme(
+  value: unknown
+): value is PortalViewColorScheme {
+  return (
+    typeof value === 'string' &&
+    PORTAL_VIEW_COLOR_SCHEMES.includes(value as PortalViewColorScheme)
+  )
+}
 
 // Query params worth keeping because they change how the portal renders. Flags
 // are stored key-only; value params only for a safe token. Everything else is
@@ -109,10 +194,13 @@ function isIsoTimestamp(value: string): boolean {
  *
  * Accepts either a single event object or an array of them. Portal views carry
  * no identifiers or personal data — only a `path` and an optional timestamp,
- * environment label and status. Only the allow-listed keys are returned here,
- * and the path is minimised to a safe shape when the record is built (see
- * {@link buildPortalViewRecord} and {@link normalizeTrackedPath}), so nothing
- * incidental in the request can reach storage.
+ * environment label, status, locale, theme and color scheme. Only the
+ * allow-listed keys are returned here, and the path is minimised to a safe
+ * shape when the record is built (see {@link buildPortalViewRecord} and
+ * {@link normalizeTrackedPath}), so nothing incidental in the request can reach
+ * storage. An unrecognised `env`, `locale`, `theme` or `color_scheme` is
+ * dropped so the built record defaults it to `unknown`, rather than failing the
+ * whole batch; `path`, `timestamp` and `status` still reject.
  */
 export function validatePortalViews(
   input: unknown
@@ -143,10 +231,15 @@ export function validatePortalViews(
       return
     }
 
-    const { path, timestamp, env, status } = event as Record<
-      string,
-      unknown
-    >
+    const {
+      path,
+      timestamp,
+      env,
+      status,
+      locale,
+      theme,
+      color_scheme: colorScheme,
+    } = event as Record<string, unknown>
     let valid = true
 
     if (typeof path !== 'string' || !path.startsWith('/')) {
@@ -170,15 +263,6 @@ export function validatePortalViews(
       }
     }
 
-    if (env !== undefined) {
-      if (typeof env !== 'string' || !ENV_PATTERN.test(env)) {
-        errors.push(
-          `Event ${index}: "env" must be a short lowercase token`
-        )
-        valid = false
-      }
-    }
-
     if (status !== undefined) {
       if (
         typeof status !== 'string' ||
@@ -197,9 +281,14 @@ export function validatePortalViews(
       value.push({
         path: path as string,
         ...(typeof timestamp === 'string' ? { timestamp } : {}),
-        ...(typeof env === 'string' ? { env } : {}),
+        ...(isValidEnv(env) ? { env } : {}),
         ...(typeof status === 'string'
           ? { status: status as PortalViewStatus }
+          : {}),
+        ...(isValidLocale(locale) ? { locale } : {}),
+        ...(isValidTheme(theme) ? { theme } : {}),
+        ...(isValidColorScheme(colorScheme)
+          ? { color_scheme: colorScheme }
           : {}),
       })
     }
@@ -226,6 +315,9 @@ export function buildPortalViewRecord(
     env: input.env ?? 'unknown',
     timestamp: input.timestamp ?? createdAt,
     status: input.status ?? 'ok',
+    locale: input.locale ?? 'unknown',
+    theme: input.theme ?? 'unknown',
+    color_scheme: input.color_scheme ?? 'unknown',
     createdat: createdAt,
   }
 }

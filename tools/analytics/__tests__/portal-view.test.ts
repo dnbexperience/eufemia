@@ -82,11 +82,11 @@ describe('validatePortalViews', () => {
     })
   })
 
-  it('rejects an invalid env label', () => {
+  it('coerces an unrecognised env to unknown instead of rejecting', () => {
     for (const env of ['Prod', 'a'.repeat(33), '1prod', 'pr od', 42]) {
       const result = validatePortalViews({ path: '/a', env })
 
-      expect(result.ok).toBe(false)
+      expect(result).toEqual({ ok: true, value: [{ path: '/a' }] })
     }
   })
 
@@ -106,6 +106,82 @@ describe('validatePortalViews', () => {
       const result = validatePortalViews({ path: '/a', status })
 
       expect(result.ok).toBe(false)
+    }
+  })
+
+  it('accepts a valid locale', () => {
+    for (const locale of ['nb-NO', 'en-GB', 'sv-SE', 'da-DK', 'en-US']) {
+      const result = validatePortalViews({ path: '/a', locale })
+
+      expect(result).toEqual({
+        ok: true,
+        value: [{ path: '/a', locale }],
+      })
+    }
+  })
+
+  it('coerces an unrecognised locale to unknown instead of rejecting', () => {
+    for (const locale of [
+      'nb',
+      'NB-no',
+      'en_GB',
+      'english',
+      'de-DE',
+      42,
+    ]) {
+      const result = validatePortalViews({ path: '/a', locale })
+
+      expect(result).toEqual({ ok: true, value: [{ path: '/a' }] })
+    }
+  })
+
+  it('accepts a valid theme', () => {
+    for (const theme of ['ui', 'sbanken', 'eiendom', 'carnegie']) {
+      const result = validatePortalViews({ path: '/a', theme })
+
+      expect(result).toEqual({
+        ok: true,
+        value: [{ path: '/a', theme }],
+      })
+    }
+  })
+
+  it('coerces an unrecognised theme to unknown instead of rejecting', () => {
+    for (const theme of [
+      'UI',
+      'the brand',
+      'customer-123',
+      'a'.repeat(33),
+      42,
+    ]) {
+      const result = validatePortalViews({ path: '/a', theme })
+
+      expect(result).toEqual({ ok: true, value: [{ path: '/a' }] })
+    }
+  })
+
+  it('accepts a valid color_scheme', () => {
+    for (const scheme of ['light', 'dark']) {
+      const result = validatePortalViews({
+        path: '/a',
+        color_scheme: scheme,
+      })
+
+      expect(result).toEqual({
+        ok: true,
+        value: [{ path: '/a', color_scheme: scheme }],
+      })
+    }
+  })
+
+  it('coerces an unrecognised color_scheme to unknown instead of rejecting', () => {
+    for (const scheme of ['auto', 'Light', 'dark mode', 42]) {
+      const result = validatePortalViews({
+        path: '/a',
+        color_scheme: scheme,
+      })
+
+      expect(result).toEqual({ ok: true, value: [{ path: '/a' }] })
     }
   })
 
@@ -143,6 +219,9 @@ describe('buildPortalViewRecord', () => {
       env: 'unknown',
       timestamp: createdAt,
       status: 'ok',
+      locale: 'unknown',
+      theme: 'unknown',
+      color_scheme: 'unknown',
       createdat: createdAt,
     })
   })
@@ -158,6 +237,9 @@ describe('buildPortalViewRecord', () => {
       env: 'prod',
       timestamp: '2026-08-20T10:00:00.000Z',
       status: 'ok',
+      locale: 'unknown',
+      theme: 'unknown',
+      color_scheme: 'unknown',
       createdat: createdAt,
     })
   })
@@ -175,14 +257,65 @@ describe('buildPortalViewRecord', () => {
     ).toBe('not_found')
   })
 
+  it('defaults locale and theme to "unknown" and keeps supplied values', () => {
+    expect(buildPortalViewRecord({ path: '/a' }, createdAt)).toMatchObject(
+      { locale: 'unknown', theme: 'unknown' }
+    )
+
+    expect(
+      buildPortalViewRecord(
+        { path: '/a', locale: 'sv-SE', theme: 'sbanken' },
+        createdAt
+      )
+    ).toMatchObject({ locale: 'sv-SE', theme: 'sbanken' })
+  })
+
+  it('defaults color_scheme to "unknown" and keeps a supplied value', () => {
+    expect(
+      buildPortalViewRecord({ path: '/a' }, createdAt).color_scheme
+    ).toBe('unknown')
+
+    expect(
+      buildPortalViewRecord(
+        { path: '/a', color_scheme: 'dark' },
+        createdAt
+      ).color_scheme
+    ).toBe('dark')
+  })
+
+  it('coerces unrecognised dimensions to "unknown" in the stored record', () => {
+    const result = validatePortalViews({
+      path: '/a',
+      env: 'Prod',
+      locale: 'de-DE',
+      theme: 'customer-123',
+      color_scheme: 'auto',
+    })
+
+    expect(result.ok).toBe(true)
+    if (result.ok) {
+      const record = buildPortalViewRecord(result.value[0], createdAt)
+      expect(record).toMatchObject({
+        path: '/a',
+        env: 'unknown',
+        locale: 'unknown',
+        theme: 'unknown',
+        color_scheme: 'unknown',
+      })
+    }
+  })
+
   it('never carries identifiers or personal data', () => {
     const record = buildPortalViewRecord({ path: '/a' }, createdAt)
 
     expect(Object.keys(record).sort()).toEqual([
+      'color_scheme',
       'createdat',
       'env',
+      'locale',
       'path',
       'status',
+      'theme',
       'timestamp',
     ])
   })

@@ -135,6 +135,21 @@ resource "aws_glue_catalog_table" "portal_views" {
     }
 
     columns {
+      name = "locale"
+      type = "string"
+    }
+
+    columns {
+      name = "theme"
+      type = "string"
+    }
+
+    columns {
+      name = "color_scheme"
+      type = "string"
+    }
+
+    columns {
       name = "createdat"
       type = "string"
     }
