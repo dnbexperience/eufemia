@@ -35,12 +35,18 @@ describe('internal link validation', () => {
   })
 
   it('reports missing pages and anchors', () => {
+    // The `#local` link matters beyond the error it reports: `local` is
+    // defined on /guide/ but linked on /target/, so it is the only case that
+    // pins anchors to the page defining them. Without it, ids could leak
+    // across pages and every other assertion in this file would still pass.
     const result = validateInternalLinks([
       {
         url: '/guide/',
         html: `
           <a href="/missing/">Missing page</a>
           <a href="/target/#missing">Missing anchor</a>
+          <h2 id="local">Local</h2>
+          <a href="/target/#local">Anchor that only exists here</a>
         `,
       },
       { url: '/target/', html: '<h2 id="present">Present</h2>' },
@@ -59,6 +65,13 @@ describe('internal link validation', () => {
         href: '/target/#missing',
         target: '/target/',
         anchor: 'missing',
+      },
+      {
+        type: 'missing-anchor',
+        source: '/guide/',
+        href: '/target/#local',
+        target: '/target/',
+        anchor: 'local',
       },
     ])
     expect(formatInternalLinkErrors(result.errors)).toContain(
