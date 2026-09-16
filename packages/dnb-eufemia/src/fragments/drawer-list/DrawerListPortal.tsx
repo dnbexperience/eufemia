@@ -48,7 +48,6 @@ function DrawerListPortal({
   const positionTimeout = useRef<NodeJS.Timeout>(undefined)
   const customElem = useRef<Element | Window>(undefined)
   const resizeObserver = useRef<ResizeObserver>(undefined)
-  const transitionFrame = useRef<number>(undefined)
 
   const init = useCallback(() => {
     setIsMounted(true)
@@ -91,17 +90,22 @@ function DrawerListPortal({
   }, [init, removePositionObserver])
 
   useEffect(() => {
-    cancelAnimationFrame(transitionFrame.current)
     if (!open) {
       setCanTransitionPosition(false)
-      return undefined
+      return undefined // stop here
     }
 
-    transitionFrame.current = requestAnimationFrame(() => {
+    if (typeof window.requestAnimationFrame !== 'function') {
+      setCanTransitionPosition(true)
+      return undefined // stop here
+    }
+
+    // Wait one frame, so the initial position is committed without animating
+    const frame = window.requestAnimationFrame(() => {
       setCanTransitionPosition(true)
     })
 
-    return () => cancelAnimationFrame(transitionFrame.current)
+    return () => window.cancelAnimationFrame(frame)
   }, [open])
 
   const makeStyle = useCallback(() => {
@@ -236,8 +240,8 @@ function DrawerListPortal({
           <span
             className={clsx(
               'dnb-drawer-list__portal__style',
-              canTransitionPosition &&
-                'dnb-drawer-list__portal__style--can-transition',
+              !(open && canTransitionPosition) &&
+                'dnb-drawer-list__portal__style--no-transition',
               fixedPosition && 'dnb-drawer-list__portal__style--fixed',
               className
             )}
