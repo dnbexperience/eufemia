@@ -157,7 +157,7 @@
     &::before {
       position: absolute;
       z-index: -1;
-      inset: -0.25rem -1rem -0.25rem -0.25rem;
+      inset: 0 -1rem -0.25rem -0.25rem;
       pointer-events: none;
 
       border: 0.0625rem solid var(--token-color-stroke-neutral-subtle);
