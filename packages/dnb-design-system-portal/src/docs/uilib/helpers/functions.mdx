@@ -258,21 +258,15 @@ In order to use `this.addCancelEvent`, you need to use a `function()` and not an
 In TypeScript, type the `this` context with the exported `DebounceHelpers` type:
 
 ```ts
-import {
-  debounceAsync,
-  type DebounceHelpers,
-} from '@dnb/eufemia/shared/helpers'
+import { type DebounceHelpers } from '@dnb/eufemia/shared/helpers'
 
 async function debounceFunc(
   this: DebounceHelpers,
   { foo }: { foo: string }
 ) {
   const wasCanceled = this.addCancelEvent(myCancelMethod)
-
-  await wait(1000) // Do something async
+  // ...
 }
-
-const debounced = debounceAsync(debounceFunc)
 ```
 
 ### isModifiedClickEvent
