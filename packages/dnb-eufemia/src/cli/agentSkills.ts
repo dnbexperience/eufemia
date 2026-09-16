@@ -268,6 +268,7 @@ export async function readAgentSkillsManifest(
       throw new Error('Invalid Eufemia agent skill manifest entry')
     }
 
+    // eslint-disable-next-line security/detect-unsafe-regex -- the repeated group starts with '-', which the preceding character class cannot match, so the quantifiers cannot overlap (no ReDoS)
     if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(entry.name)) {
       throw new Error(`Invalid agent skill name: ${entry.name}`)
     }

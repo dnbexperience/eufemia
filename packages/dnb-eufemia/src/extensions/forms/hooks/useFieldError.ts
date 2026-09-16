@@ -28,6 +28,7 @@ import { convertJsxToString } from '../../../shared/component-helper'
 import useId from '../../../shared/helpers/useId'
 import type { FieldBlockContextProps } from '../FieldBlock/FieldBlockContext'
 
+// eslint-disable-next-line security/detect-unsafe-regex -- the repeated group starts with '.', which the preceding character class cannot match, so the quantifiers cannot overlap (no ReDoS)
 const translationKeyPattern = /^[A-Za-z0-9_]+(?:\.[A-Za-z0-9_]+)+$/
 const messagePlaceholderPattern = /{\w+}/
 
