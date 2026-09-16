@@ -34,11 +34,28 @@ describe('Circular ProgressIndicator component', () => {
     )
   })
 
-  it('has role of alert or progressbar depending if progress has a value', () => {
+  it('should expose determinate progress to assistive technology', () => {
+    render(<ProgressIndicator type="circular" progress={50} />)
+
+    expect(document.querySelector('[role="progressbar"]')).toHaveAttribute(
+      'aria-valuenow',
+      '50'
+    )
+  })
+
+  it('should expose indeterminate progress as a named progressbar', () => {
+    render(<ProgressIndicator type="circular" />)
+
+    const indicator = document.querySelector('[role="progressbar"]')
+    expect(indicator).toHaveAccessibleName('Vennligst vent ...')
+    expect(indicator).not.toHaveAttribute('aria-valuenow')
+  })
+
+  it('has role of progressbar with and without a progress value', () => {
     const { rerender } = render(
       <ProgressIndicator {...props} type="circular" progress={undefined} />
     )
-    expect(screen.queryByRole('alert')).toBeInTheDocument()
+    expect(screen.queryByRole('progressbar')).toBeInTheDocument()
 
     rerender(
       <ProgressIndicator {...props} type="circular" progress={80} />
@@ -75,7 +92,7 @@ describe('Circular ProgressIndicator component', () => {
     )
   })
 
-  it('does not have aria-label when progress, and title is both null', () => {
+  it('has a default aria-label when progress and title are both null', () => {
     render(
       <ProgressIndicator
         {...props}
@@ -85,11 +102,11 @@ describe('Circular ProgressIndicator component', () => {
       />
     )
 
-    const indicator = screen.getByRole('alert')
-    expect(indicator.getAttribute('aria-label')).not.toBeInTheDocument()
+    const indicator = screen.getByRole('progressbar')
+    expect(indicator).toHaveAccessibleName('Vennligst vent ...')
   })
 
-  it('does not have title when progress, and title is both null', () => {
+  it('does not have title when progress and title are both null', () => {
     render(
       <ProgressIndicator
         {...props}
@@ -99,8 +116,8 @@ describe('Circular ProgressIndicator component', () => {
       />
     )
 
-    const indicator = screen.getByRole('alert')
-    expect(indicator.getAttribute('title')).not.toBeInTheDocument()
+    const indicator = screen.getByRole('progressbar')
+    expect(indicator).not.toHaveAttribute('title')
   })
 
   it('has aria-label set to the value of title property', () => {
@@ -295,6 +312,23 @@ describe('Linear ProgressIndicator component', () => {
     )
   })
 
+  it('should expose determinate progress to assistive technology', () => {
+    render(<ProgressIndicator type="linear" progress={50} />)
+
+    expect(document.querySelector('[role="progressbar"]')).toHaveAttribute(
+      'aria-valuenow',
+      '50'
+    )
+  })
+
+  it('should expose indeterminate progress as a named progressbar', () => {
+    render(<ProgressIndicator type="linear" />)
+
+    const indicator = document.querySelector('[role="progressbar"]')
+    expect(indicator).toHaveAccessibleName('Vennligst vent ...')
+    expect(indicator).not.toHaveAttribute('aria-valuenow')
+  })
+
   it('should have a title with a 50% value', () => {
     render(<ProgressIndicator {...props} type="linear" progress={50} />)
 
@@ -304,11 +338,11 @@ describe('Linear ProgressIndicator component', () => {
     )
   })
 
-  it('has role of alert or progressbar depending if progress has a value', () => {
+  it('has role of progressbar with and without a progress value', () => {
     const { rerender } = render(
       <ProgressIndicator {...props} type="linear" progress={undefined} />
     )
-    expect(screen.queryByRole('alert')).toBeInTheDocument()
+    expect(screen.queryByRole('progressbar')).toBeInTheDocument()
 
     rerender(<ProgressIndicator {...props} type="linear" progress={80} />)
     expect(screen.queryByRole('progressbar')).toBeInTheDocument()
@@ -343,7 +377,7 @@ describe('Linear ProgressIndicator component', () => {
     )
   })
 
-  it('does not have aria-label when progress, and title is both null', () => {
+  it('has a default aria-label when progress and title are both null', () => {
     render(
       <ProgressIndicator
         {...props}
@@ -353,11 +387,11 @@ describe('Linear ProgressIndicator component', () => {
       />
     )
 
-    const indicator = screen.getByRole('alert')
-    expect(indicator.getAttribute('aria-label')).not.toBeInTheDocument()
+    const indicator = screen.getByRole('progressbar')
+    expect(indicator).toHaveAccessibleName('Vennligst vent ...')
   })
 
-  it('does not have title when progress, and title is both null', () => {
+  it('does not have title when progress and title are both null', () => {
     render(
       <ProgressIndicator
         {...props}
@@ -367,8 +401,8 @@ describe('Linear ProgressIndicator component', () => {
       />
     )
 
-    const indicator = screen.getByRole('alert')
-    expect(indicator.getAttribute('title')).not.toBeInTheDocument()
+    const indicator = screen.getByRole('progressbar')
+    expect(indicator).not.toHaveAttribute('title')
   })
 
   it('has aria-label set to the value of title property', () => {
@@ -498,6 +532,32 @@ describe('Linear ProgressIndicator component', () => {
 })
 
 describe('ProgressIndicator ARIA', () => {
+  it.each(['circular', 'linear'] as const)(
+    'should forward aria-label to the %s progressbar',
+    (type) => {
+      render(
+        <ProgressIndicator
+          type={type}
+          progress={50}
+          aria-label="Loading account details"
+        />
+      )
+
+      const indicator = document.querySelector('[role="progressbar"]')
+      expect(indicator).toHaveAccessibleName('Loading account details')
+      expect(indicator.parentElement).not.toHaveAttribute('aria-label')
+    }
+  )
+
+  it.each(['circular', 'linear'] as const)(
+    'should validate indeterminate %s markup with ARIA rules',
+    async (type) => {
+      const result = render(<ProgressIndicator type={type} />)
+
+      expect(await axeComponent(result)).toHaveNoViolations()
+    }
+  )
+
   it('should validate with ARIA rules on type circular', async () => {
     const Comp = render(
       <ProgressIndicator

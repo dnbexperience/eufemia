@@ -33,8 +33,8 @@ Use the `show` prop to control when the indicator appears and disappears. When `
 
 ## Accessibility
 
-- The component uses `role="progressbar"` with `aria-valuenow` for determinate states, giving screen readers the current progress.
-- For indeterminate states, `role="alert"` is used to announce that loading is in progress.
+- The component uses `role="progressbar"` for both determinate and indeterminate states.
+- Determinate states expose the current progress through `aria-valuenow`. Indeterminate states omit this attribute so screen readers announce an unknown progress value.
 - Use the `title` prop to provide a descriptive accessible label (e.g. `"Loading account details"`).
 - The `showDefaultLabel` prop adds a visible "In progress..." label, which also helps screen reader users understand the context.
 
