@@ -1,18 +1,18 @@
 import { clsx } from 'clsx'
 import Flex from '../flex/Flex'
-import type { StackProps } from '../flex/Stack'
+import type { FlexStackProps } from '../flex/Stack'
 import Theme from '../../shared/Theme'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
-export type CardOverlayProps = Omit<StackProps, 'gap' | 'layoutEngine'> & {
+export type CardOverlayProps = Omit<FlexStackProps, 'gap' | 'layoutEngine'> & {
   /**
    * How much space between child items. Use `false` for no spacing. In vertical direction, `rowGap` is used instead when both are set. Defaults to `small`.
    */
-  gap?: StackProps['gap']
+  gap?: FlexStackProps['gap']
   /**
    * Select the internal Flex layout engine. Defaults to `css`.
    */
-  layoutEngine?: StackProps['layoutEngine']
+  layoutEngine?: FlexStackProps['layoutEngine']
   /** Add a transparent-to-dark gradient behind the content. Defaults to true. */
   gradient?: boolean
   /** Add progressive backdrop blur behind the content. Defaults to true. */

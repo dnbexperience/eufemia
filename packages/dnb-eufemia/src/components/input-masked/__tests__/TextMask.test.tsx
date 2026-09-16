@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react'
 import TextMask, { cleanNumericValue } from '../TextMask'
-import type { TextMaskMask } from '../TextMask'
+import type { InputMaskedTextMaskMask } from '../TextMask'
 import { maskitoTransform, maskitoUpdateElement } from '@maskito/core'
 import { useMaskito } from '@maskito/react'
 
@@ -118,7 +118,7 @@ describe('TextMask', () => {
       ({
         instanceOf: 'createNumberMask',
         maskParams: { decimalLimit: 2 },
-      }) as unknown as TextMaskMask
+      }) as unknown as InputMaskedTextMaskMask
     const { rerender } = render(<TextMask mask={createMask()} />)
     const firstOptions = vi.mocked(useMaskito).mock.lastCall[0].options
 
@@ -153,7 +153,7 @@ describe('TextMask', () => {
 describe('cleanNumericValue', () => {
   const numericMask = {
     maskParams: { suffix: ' kroner' },
-  } as unknown as TextMaskMask
+  } as unknown as InputMaskedTextMaskMask
 
   it('drops a mismatched dynamic suffix', () => {
     expect(cleanNumericValue('1 krone', numericMask)).toBe('1')

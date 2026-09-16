@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react'
 
-export type UseHandleSortStateOptions = {
+export type TableHandleSortStateOptions = {
   /**
    * Defines the sortable column as the currently sorted column.
    * Default: `false`
@@ -11,58 +11,58 @@ export type UseHandleSortStateOptions = {
    * Define the sorting direction. Can be `asc`, `desc` or `off`.
    * Defaults to `off`.
    */
-  direction?: UseHandleSortStateDirection
+  direction?: TableHandleSortStateDirection
 
   /**
    * Define the possible modes, in the order they are cycled through.
    * Defaults to `["asc", "desc", "off"]`.
    */
-  modes?: Array<UseHandleSortStateMode>
+  modes?: Array<TableHandleSortStateMode>
 }
-export type UseHandleSortStateDirection = 'asc' | 'desc' | 'off'
-export type UseHandleSortStateMode = 'asc' | 'desc' | 'off'
-export type UseHandleSortStateName = string
-export type UseHandleSortStateConfig = Record<
-  UseHandleSortStateName,
-  UseHandleSortStateOptions
+export type TableHandleSortStateDirection = 'asc' | 'desc' | 'off'
+export type TableHandleSortStateMode = 'asc' | 'desc' | 'off'
+export type TableHandleSortStateName = string
+export type TableHandleSortStateConfig = Record<
+  TableHandleSortStateName,
+  TableHandleSortStateOptions
 >
 export type TableSortState = Record<
-  UseHandleSortStateName,
+  TableHandleSortStateName,
   {
     active: boolean
     reversed: boolean
-    direction: UseHandleSortStateDirection | 'off'
+    direction: TableHandleSortStateDirection | 'off'
     sortedBefore?: boolean
   }
 >
 export type TableSortEventHandler = () => void
 export type TableSortHandler = Record<
-  UseHandleSortStateName,
+  TableHandleSortStateName,
   TableSortEventHandler
 >
 
 type SortStateInternalStateOptions = Omit<
-  UseHandleSortStateOptions,
+  TableHandleSortStateOptions,
   'direction'
-> & { direction: UseHandleSortStateDirection | 'off' }
+> & { direction: TableHandleSortStateDirection | 'off' }
 type SortStateInternalState = SortStateInternalStateOptions & {
   reversed: boolean
-  lastDirection: UseHandleSortStateDirection
+  lastDirection: TableHandleSortStateDirection
   sortedBefore?: boolean
 }
 type SortStateInternalEntry = Record<
-  UseHandleSortStateName,
+  TableHandleSortStateName,
   SortStateInternalStateOptions
 >
 
-const defaultOptions: UseHandleSortStateOptions = {
+const defaultOptions: TableHandleSortStateOptions = {
   direction: 'off',
   modes: ['asc', 'desc', 'off'],
 }
 
 export function useHandleSortState(
-  config: UseHandleSortStateConfig,
-  defaults?: UseHandleSortStateOptions
+  config: TableHandleSortStateConfig,
+  defaults?: TableHandleSortStateOptions
 ) {
   const initialState = useMemo(() => {
     return Object.entries(config).reduce((acc, [name, opts]) => {
@@ -142,8 +142,8 @@ export function useHandleSortState(
 }
 
 function getNextMode(
-  direction: UseHandleSortStateDirection,
-  modes: Array<UseHandleSortStateMode>
+  direction: TableHandleSortStateDirection,
+  modes: Array<TableHandleSortStateMode>
 ) {
   const index = modes.indexOf(direction)
 

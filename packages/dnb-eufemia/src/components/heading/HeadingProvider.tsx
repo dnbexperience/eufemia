@@ -19,7 +19,7 @@ import {
 } from './HeadingHelpers'
 import type { HeadingCounter } from './HeadingCounter'
 import { initCounter } from './HeadingCounter'
-import type { InternalHeadingLevel, HeadingProps } from './Heading'
+import type { HeadingInternalLevel, HeadingProps } from './Heading'
 
 import { createHeadingOrder } from './useHeadingOrder'
 import useIsomorphicLayoutEffect from '../../shared/helpers/useIsomorphicLayoutEffect'
@@ -50,7 +50,7 @@ export default function HeadingProvider(props: HeadingProviderAllProps) {
   })
 
   type State = {
-    level?: InternalHeadingLevel
+    level?: HeadingInternalLevel
     counter?: HeadingCounter
     contextRevision?: number
     notifyParentRevision?: number

@@ -18,15 +18,15 @@ export type LogoWidth = string
 
 export type LogoHeight = string
 
-export type SvgComponent =
+export type LogoSvgComponentType =
   | ComponentType<SVGProps<SVGSVGElement>>
   | ReactElement<SVGProps<SVGSVGElement>>
 
-export type CustomLogoSvg = LogoSvgComponent | SvgComponent
+export type LogoCustomSvg = LogoSvgComponent | LogoSvgComponentType
 
-export type Svg =
-  | CustomLogoSvg
-  | ((theme: UseThemeReturn) => CustomLogoSvg)
+export type LogoSvgInput =
+  | LogoCustomSvg
+  | ((theme: UseThemeReturn) => LogoCustomSvg)
 
 export type LogoProps = {
   /**
@@ -52,6 +52,6 @@ export type LogoProps = {
   /**
    * Provide a custom SVG to render instead of the built-in logos. Accepts a React SVG component, element, or a function that receives the theme and returns an SVG component. Width, height and color properties still apply. If not provided, defaults to DNB logo. Import SVGs from `@dnb/eufemia/components/Logo` (e.g., `DnbDefault`, `SbankenDefault`, `SbankenCompact`, `SbankenHorizontal`, `CarnegieDefault`, `EiendomDefault`). When using a function, it receives the theme context (useTheme return value) allowing theme-aware logo selection.
    */
-  svg?: Svg
+  svg?: LogoSvgInput
 } & SpacingProps &
   Omit<HTMLProps<HTMLElement>, 'ref' | 'size'>

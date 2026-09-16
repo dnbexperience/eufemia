@@ -5,11 +5,11 @@ import StringField from '../String'
 import useTranslation from '../../hooks/useTranslation'
 import type { Validator, ValidatorWithCustomValidators } from '../../types'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
-import type { BankAccountType } from '../../../../components/number-format/utils/formatBankAccountNumber'
+import type { NumberFormatBankAccountType } from '../../../../components/number-format/utils/formatBankAccountNumber'
 import { norwegianBbanValidator } from './validators'
 import { getMask, getInputMode, getWidth, hasVariableMask } from './masks'
 
-export type { BankAccountType } from '../../../../components/number-format/utils/formatBankAccountNumber'
+export type { NumberFormatBankAccountType } from '../../../../components/number-format/utils/formatBankAccountNumber'
 
 export type BankAccountNumberValidator = ValidatorWithCustomValidators<
   string,
@@ -29,7 +29,7 @@ export type FieldBankAccountNumberProps = Omit<
   /**
    * The type of bank account number, used for input mask, label, and formatting. Can be `norwegianBban`, `swedishBban`, `swedishBankgiro`, `swedishPlusgiro`, or `iban`. Validation is currently only supported for `norwegianBban`. Defaults to `norwegianBban`.
    */
-  bankAccountType?: BankAccountType
+  bankAccountType?: NumberFormatBankAccountType
 }
 
 function BankAccountNumber(props: FieldBankAccountNumberProps) {

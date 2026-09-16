@@ -1,7 +1,7 @@
 import { clsx } from 'clsx'
 import type { ListVariant } from './ListContext'
 import { ListContext } from './ListContext'
-import type { ItemContentProps } from './ItemContent'
+import type { ListItemContentProps } from './ItemContent'
 import ItemContent from './ItemContent'
 import { useCallback, useContext, useRef } from 'react'
 import type {
@@ -23,9 +23,9 @@ import FlexItem from '../flex/Item'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import Context from '../../shared/Context'
 
-export type ItemActionIconPosition = 'left' | 'right'
+export type ListItemActionIconPosition = 'left' | 'right'
 
-export type ItemActionProps<E extends ElementType = 'a'> = {
+export type ListItemActionProps<E extends ElementType = 'a'> = {
   id?: string
   variant?: ListVariant
   selected?: boolean
@@ -34,7 +34,7 @@ export type ItemActionProps<E extends ElementType = 'a'> = {
    * Placement of the chevron icon. Defaults to `right`. Use `left` to show the chevron on the left side.
    * Default: `"right"`
    */
-  chevronPosition?: ItemActionIconPosition
+  chevronPosition?: ListItemActionIconPosition
   icon?: IconIcon
   title?: ReactNode
   /**
@@ -56,10 +56,10 @@ export type ItemActionProps<E extends ElementType = 'a'> = {
   >
   target?: string
   rel?: string
-} & Omit<ItemContentProps, 'title' | 'element'>
+} & Omit<ListItemContentProps, 'title' | 'element'>
 
 function ItemAction<E extends ElementType = 'a'>(
-  props: ItemActionProps<E>
+  props: ListItemActionProps<E>
 ) {
   const {
     className,

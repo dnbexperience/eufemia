@@ -123,7 +123,7 @@ export type FormStatusProps = {
 > &
   SpacingProps
 
-export type ErrorIconProps = SVGProps<SVGSVGElement> & {
+export type FormStatusErrorIconProps = SVGProps<SVGSVGElement> & {
   /**
    * The `title` attribute in the status.
    */
@@ -131,7 +131,7 @@ export type ErrorIconProps = SVGProps<SVGSVGElement> & {
   state?: FormStatusState
 }
 
-export type WarnIconProps = SVGProps<SVGSVGElement> & {
+export type FormStatusWarnIconProps = SVGProps<SVGSVGElement> & {
   /**
    * The `title` attribute in the status.
    */
@@ -139,7 +139,7 @@ export type WarnIconProps = SVGProps<SVGSVGElement> & {
   state?: FormStatusState
 }
 
-export type InfoIconProps = SVGProps<SVGSVGElement> & {
+export type FormStatusInfoIconProps = SVGProps<SVGSVGElement> & {
   /**
    * The `title` attribute in the status.
    */
@@ -147,7 +147,7 @@ export type InfoIconProps = SVGProps<SVGSVGElement> & {
   state?: FormStatusState
 }
 
-export type SuccessIconProps = SVGProps<SVGSVGElement> & {
+export type FormStatusSuccessIconProps = SVGProps<SVGSVGElement> & {
   /**
    * The `title` attribute in the status.
    */
@@ -155,7 +155,7 @@ export type SuccessIconProps = SVGProps<SVGSVGElement> & {
   state?: FormStatusState
 }
 
-export type MarketingIconProps = SVGProps<SVGSVGElement> & {
+export type FormStatusMarketingIconProps = SVGProps<SVGSVGElement> & {
   /**
    * The `title` attribute in the status.
    */

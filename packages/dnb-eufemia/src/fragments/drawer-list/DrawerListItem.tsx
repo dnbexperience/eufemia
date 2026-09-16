@@ -6,7 +6,7 @@ export type DrawerListItemProps = Omit<
   HTMLProps<HTMLLIElement>,
   'children' | 'onClick'
 > & {
-  children: ItemContentChildren
+  children: DrawerListItemContentChildren
   active?: boolean
   hash?: string
   selected?: boolean
@@ -89,14 +89,19 @@ export function DrawerListItem(
   )
 }
 
-export type ItemContentChildren = ReactNode | DrawerListDataArrayObject
+export type DrawerListItemContentChildren =
+  | ReactNode
+  | DrawerListDataArrayObject
 
-export type ItemContentProps = {
+export type DrawerListItemContentProps = {
   hash?: string
-  children?: ItemContentChildren
+  children?: DrawerListItemContentChildren
 }
 
-export function ItemContent({ hash = '', children }: ItemContentProps) {
+export function ItemContent({
+  hash = '',
+  children,
+}: DrawerListItemContentProps) {
   let renderedContent = undefined
   const isDataObject =
     typeof children === 'object' && 'content' in children

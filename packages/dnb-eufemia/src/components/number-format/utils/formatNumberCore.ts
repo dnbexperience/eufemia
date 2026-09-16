@@ -13,9 +13,9 @@ import {
 import { getFallbackCurrencyDisplay } from './currencyDisplay'
 import type {
   NumberFormatValue,
-  FormatPartItem,
-  PartFormatter,
-  InternalNumberFormatOptions,
+  NumberFormatPartItem,
+  NumberFormatPartFormatter,
+  NumberFormatInternalOptions,
 } from './types'
 
 /**
@@ -25,7 +25,7 @@ import type {
 function toIntlOptions({
   decimals: _decimals,
   ...rest
-}: InternalNumberFormatOptions): Intl.NumberFormatOptions {
+}: NumberFormatInternalOptions): Intl.NumberFormatOptions {
   return rest
 }
 
@@ -66,8 +66,8 @@ function getFormatParts({
 }: {
   number: NumberFormatValue
   locale?: string | null
-  options?: InternalNumberFormatOptions | null
-}): FormatPartItem[] {
+  options?: NumberFormatInternalOptions | null
+}): NumberFormatPartItem[] {
   if (
     typeof Intl !== 'undefined' &&
     typeof Intl.NumberFormat === 'function'
@@ -93,8 +93,8 @@ function getFormatParts({
 export function formatToParts(args: {
   number: NumberFormatValue
   locale?: string | null
-  options?: InternalNumberFormatOptions | null
-}): FormatPartItem[] {
+  options?: NumberFormatInternalOptions | null
+}): NumberFormatPartItem[] {
   try {
     return getFormatParts(args)
   } catch (e) {
@@ -107,19 +107,19 @@ export function formatToParts(args: {
   return [{ value: String(args.number), type: 'unknown' }]
 }
 
-export type FormatNumberCoreResult = {
+export type NumberFormatCoreResult = {
   number: string
-  parts: FormatPartItem[]
+  parts: NumberFormatPartItem[]
 }
 
-function joinParts(parts: FormatPartItem[]): string {
+function joinParts(parts: NumberFormatPartItem[]): string {
   return parts.reduce((acc, { value }) => acc + value, '')
 }
 
 function alignParts(
-  parts: FormatPartItem[],
-  currencyDisplay: InternalNumberFormatOptions['currencyDisplay']
-): FormatPartItem[] {
+  parts: NumberFormatPartItem[],
+  currencyDisplay: NumberFormatInternalOptions['currencyDisplay']
+): NumberFormatPartItem[] {
   return parts.map((item) => {
     if (item.type === 'currency') {
       return {
@@ -132,7 +132,9 @@ function alignParts(
   })
 }
 
-function normalizeMinusSign(parts: FormatPartItem[]): FormatPartItem[] {
+function normalizeMinusSign(
+  parts: NumberFormatPartItem[]
+): NumberFormatPartItem[] {
   return parts.map((item) =>
     item.type === 'minusSign'
       ? { ...item, value: NUMBER_MINUS_SIGN }
@@ -226,9 +228,9 @@ export const prepareMinus = (
 
 export function prepareMinusParts(
   display: string,
-  parts: FormatPartItem[] | undefined,
+  parts: NumberFormatPartItem[] | undefined,
   locale: string | null
-): FormatNumberCoreResult {
+): NumberFormatCoreResult {
   const number = prepareMinus(display, locale)
 
   if (!parts || number === display) {
@@ -294,8 +296,8 @@ function replaceNaNWithDash(number: string | number): string {
 export const formatNumberCore = (
   number: NumberFormatValue,
   locale: string | null,
-  options: InternalNumberFormatOptions = {},
-  formatter: PartFormatter | null = null
+  options: NumberFormatInternalOptions = {},
+  formatter: NumberFormatPartFormatter | null = null
 ): string => {
   return formatNumberCoreParts(number, locale, options, formatter).number
 }
@@ -303,10 +305,10 @@ export const formatNumberCore = (
 export const formatNumberCoreParts = (
   number: NumberFormatValue,
   locale: string | null,
-  options: InternalNumberFormatOptions = {},
-  formatter: PartFormatter | null = null
-): FormatNumberCoreResult => {
-  let parts: FormatPartItem[] = []
+  options: NumberFormatInternalOptions = {},
+  formatter: NumberFormatPartFormatter | null = null
+): NumberFormatCoreResult => {
+  let parts: NumberFormatPartItem[] = []
 
   try {
     if (options.currencyDisplay) {

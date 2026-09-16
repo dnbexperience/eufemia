@@ -1,9 +1,9 @@
-export type CheckIconProps = {
+export type CheckboxCheckIconProps = {
   size: 'default' | 'medium' | 'large'
 }
 
 // The new checkbox has too low contrast, as it is too thin on web
-function CheckIcon({ size }: CheckIconProps) {
+function CheckIcon({ size }: CheckboxCheckIconProps) {
   let vB = 16
   if (size === 'large') {
     vB = 24

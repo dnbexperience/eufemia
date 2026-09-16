@@ -81,7 +81,7 @@ export type DatePickerEventAttributes = {
 // Takes the return object from DatePickerProvider and extends it with the event
 export type DatePickerEvent<T> = DatePickerReturnObject<T>
 
-export type DisplayPickerEvent = (
+export type DatePickerDisplayEvent = (
   | MouseEvent<HTMLButtonElement | HTMLAnchorElement | HTMLElement>
   | MouseEvent
   | KeyboardEvent
@@ -318,11 +318,11 @@ export type DatePickerProps = {
   /**
    * Will be called once date-picker is visible.
    */
-  onOpen?: (event: DatePickerEvent<DisplayPickerEvent>) => void
+  onOpen?: (event: DatePickerEvent<DatePickerDisplayEvent>) => void
   /**
    * Will be called once date-picker is hidden.
    */
-  onClose?: (event: DatePickerEvent<DisplayPickerEvent>) => void
+  onClose?: (event: DatePickerEvent<DatePickerDisplayEvent>) => void
   /**
    * Will be called once a user presses the submit button.
    */
@@ -478,7 +478,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
   }
 
   const hidePicker = useCallback(
-    (args?: DisplayPickerEvent, force = false) => {
+    (args?: DatePickerDisplayEvent, force = false) => {
       if (preventClose && !force) {
         return // stop here
       }
@@ -499,7 +499,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
   )
 
   const showPicker = useCallback(
-    (event?: DisplayPickerEvent) => {
+    (event?: DatePickerDisplayEvent) => {
       if (disabled) {
         return
       }
