@@ -81,31 +81,34 @@ describe('type definitions', () => {
         )
       ).toBe(true)
 
-      // To ensure babel did not compile the d.ts file
-      expect(
-        fs.readFileSync(
-          path.resolve(
-            PKG_ROOT,
-            `build${stage}/components/input/Input.d.ts`
-          ),
-          'utf-8'
-        )
-      ).toMatch(/export (type|interface)/g)
-
-      // Test the output of js files
+      // The types live in a sibling types.ts and are re-exported from the
+      // component file, so both need to be emitted for consumers to resolve
+      // them from the component path.
       const file = path.resolve(
         PKG_ROOT,
         `build${stage}/components/input/Input.d.ts`
       )
+      const typesFile = path.resolve(
+        PKG_ROOT,
+        `build${stage}/components/input/types.d.ts`
+      )
 
       expect(fs.existsSync(file)).toBe(true)
+      expect(fs.existsSync(typesFile)).toBe(true)
 
       const content = fs.readFileSync(file, 'utf-8')
-      expect(content).toMatch(/export (type|interface) InputProps/)
-      expect(content).toMatch(
+      const typesContent = fs.readFileSync(typesFile, 'utf-8')
+
+      expect(content).toMatch(/export \* from ['"]\.\/types['"]/)
+
+      // To ensure babel did not compile the d.ts file
+      expect(typesContent).toMatch(/export (type|interface)/g)
+
+      expect(typesContent).toMatch(/export (type|interface) InputProps/)
+      expect(typesContent).toMatch(
         /Omit<(?:React\.)?[A-Za-z]+<HTMLInputElement>, ['"]ref['"]/
       )
-      expect(content).toContain('SpacingProps')
+      expect(typesContent).toContain('SpacingProps')
     }
   )
 
