@@ -123,6 +123,7 @@ function folderOf(filePath: string): string {
 }
 
 function parseImports(src: string): string[] {
+  // eslint-disable-next-line security/detect-unsafe-regex -- the lazy `[\s\S]*?` is bounded by the required quote, so matching stays linear
   const re = /import\s+(?:[\s\S]*?\s+from\s+)?['"]([^'"]+)['"]/g
   const out: string[] = []
   let m: RegExpExecArray | null

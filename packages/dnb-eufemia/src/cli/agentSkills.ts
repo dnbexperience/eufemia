@@ -268,6 +268,7 @@ export async function readAgentSkillsManifest(
       throw new Error('Invalid Eufemia agent skill manifest entry')
     }
 
+    // eslint-disable-next-line security/detect-unsafe-regex -- the separator is excluded from the character class, so the split is deterministic and matching stays linear
     if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(entry.name)) {
       throw new Error(`Invalid agent skill name: ${entry.name}`)
     }

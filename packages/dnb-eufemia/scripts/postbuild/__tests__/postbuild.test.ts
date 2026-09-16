@@ -712,6 +712,7 @@ describe('tsdown build', () => {
               path.resolve(PKG_ROOT, `build${stage}/dnb-ui-lib.min.mjs`),
               'utf-8'
             )
+            // eslint-disable-next-line security/detect-unsafe-regex -- `.*` is bounded by the required `}from"react";` literal, so matching stays linear
             expect(content).toMatch(/import\s*(?:\w+,)?\{.*\}from"react";/)
             expect(content).toContain('}from"react-dom";')
             expect(content).toMatch(
@@ -826,10 +827,10 @@ describe('style build', () => {
         'utf-8'
       )
       expect(content).toMatch(
-        /\.dnb-core-style {([\r\n][^}]*)+font-family: var\(--font-family-default\);/
+        /\.dnb-core-style {[\r\n][^}]*font-family: var\(--font-family-default\);/
       )
       expect(content).toMatch(
-        /html {([\r\n][^}]*)+line-height: var\(--line-height-basis\);/
+        /html {[\r\n][^}]*line-height: var\(--line-height-basis\);/
       )
     }
 
@@ -839,10 +840,10 @@ describe('style build', () => {
         'utf-8'
       )
       expect(content).toMatch(
-        /\.dnb-core-style {([\r\n][^}]*)+font-family: var\(--font-family-default\);/
+        /\.dnb-core-style {[\r\n][^}]*font-family: var\(--font-family-default\);/
       )
       expect(content).not.toMatch(
-        /html {([\r\n][^}]*)+line-height: var\(--line-height-basis\);/
+        /html {[\r\n][^}]*line-height: var\(--line-height-basis\);/
       )
     }
 

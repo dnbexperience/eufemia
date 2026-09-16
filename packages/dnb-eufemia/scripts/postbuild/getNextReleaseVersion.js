@@ -43,6 +43,7 @@ function isReleaseBranch(branchName, { cwd = eufemiaRoot } = {}) {
 }
 
 function getReleaseConfig(cwd) {
+  // eslint-disable-next-line security/detect-non-literal-require -- `cwd` is the package root resolved by this build script, never external input
   return require(path.resolve(cwd, 'package.json')).release
 }
 

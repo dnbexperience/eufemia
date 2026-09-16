@@ -8,9 +8,12 @@ import type { GitHubRelease } from '../../../../vite/client/plugins/github-relea
 
 const pageSize = 10
 
+// eslint-disable-next-line security/detect-unsafe-regex -- worst case is quadratic, and the release notes are fetched from this repository at build time
+const releaseHeading = /^##\s+.*(?:\r?\n)+/
+
 export function prepareReleaseNotes(body: string) {
   return body
-    .replace(/^##\s+.*(?:\r?\n)+/, '')
+    .replace(releaseHeading, '')
     .replace(/^###\s+:[^:\n]+:\s*/gm, '### ')
 }
 

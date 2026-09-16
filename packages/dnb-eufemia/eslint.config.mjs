@@ -36,8 +36,14 @@ const ignorePatterns = [
 ]
 
 const tsConfigFiles = ['**/*.ts', '**/*.tsx']
-const securityRecommendedRules =
-  securityPlugin.configs.recommended.rules || {}
+
+// The lint script runs with `--quiet`, which reports errors only. The security
+// rules ship as warnings, so they are raised to errors to stay enforced.
+const securityRecommendedRules = Object.fromEntries(
+  Object.keys(securityPlugin.configs.recommended.rules || {}).map(
+    (rule) => [rule, 'error']
+  )
+)
 const nodeGlobals = globals.node || {}
 const browserGlobals = globals.browser || {}
 const esGlobals = globals.es2021 || {}

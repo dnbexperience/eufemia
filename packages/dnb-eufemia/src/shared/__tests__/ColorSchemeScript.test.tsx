@@ -1,3 +1,4 @@
+/* eslint-disable security/detect-eval-with-expression -- these tests execute the inline scripts this module itself generates, which is the only way to assert their runtime behavior */
 import { render } from '@testing-library/react'
 import {
   getHeadScript,

@@ -652,6 +652,7 @@ const cleanTokens = (tokens) => {
 Prism.languages.insertBefore('jsx', 'template-string', {
   'styled-template-string': {
     pattern:
+      // eslint-disable-next-line security/detect-unsafe-regex -- upstream Prism grammar, measured linear against deeply chained `styled` calls
       /(styled(\.\w+|\([^)]*\))(\.\w+(\([^)]*\))*)*|css|injectGlobal|keyframes|css={)`(?:\$\{[^}]+\}|\\\\|\\?[^\\])*?`/,
     lookbehind: true,
     greedy: true,

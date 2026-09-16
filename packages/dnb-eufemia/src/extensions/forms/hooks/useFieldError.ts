@@ -28,6 +28,7 @@ import { convertJsxToString } from '../../../shared/component-helper'
 import useId from '../../../shared/helpers/useId'
 import type { FieldBlockContextProps } from '../FieldBlock/FieldBlockContext'
 
+// eslint-disable-next-line security/detect-unsafe-regex -- the separator is excluded from the character class, so the split is deterministic and matching stays linear
 const translationKeyPattern = /^[A-Za-z0-9_]+(?:\.[A-Za-z0-9_]+)+$/
 const messagePlaceholderPattern = /{\w+}/
 
