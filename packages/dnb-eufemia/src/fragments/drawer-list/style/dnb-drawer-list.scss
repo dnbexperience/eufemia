@@ -84,10 +84,13 @@
 
   &__portal__style {
     position: absolute;
-    transition:
-      top 300ms var(--easing-default),
-      left 300ms var(--easing-default),
-      width 300ms var(--easing-default);
+
+    &--can-transition {
+      transition:
+        top 300ms var(--easing-default),
+        left 300ms var(--easing-default),
+        width 300ms var(--easing-default);
+    }
 
     // higher than modal --modal-z-index:
     z-index: calc(var(--modal-z-index, 3200) + 300);

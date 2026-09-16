@@ -1719,6 +1719,32 @@ describe('DrawerList portal', () => {
     )
   })
 
+  it('enables portal position transitions after the initial position', async () => {
+    let runAnimationFrame: FrameRequestCallback
+    vi.spyOn(window, 'requestAnimationFrame').mockImplementation(
+      (callback) => {
+        runAnimationFrame = callback
+        return 1
+      }
+    )
+
+    render(<DrawerList open noAnimation />)
+
+    const portal = document.querySelector(
+      '.dnb-drawer-list__portal__style'
+    )
+    await waitFor(() => expect(portal).toHaveAttribute('style'))
+    expect(portal).not.toHaveClass(
+      'dnb-drawer-list__portal__style--can-transition'
+    )
+
+    act(() => runAnimationFrame(0))
+
+    expect(portal).toHaveClass(
+      'dnb-drawer-list__portal__style--can-transition'
+    )
+  })
+
   it('will set correct width when independentWidth is set and isolated style scope is used', async () => {
     const style = {
       getPropertyValue: () => 20,

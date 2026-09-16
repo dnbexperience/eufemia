@@ -37,6 +37,7 @@ function DrawerListPortal({
   children,
 }: DrawerListPortalProps) {
   const [isMounted, setIsMounted] = useState(false)
+  const [canTransitionPosition, setCanTransitionPosition] = useState(false)
   const [, setForceRerender] = useState<number>()
 
   const localRef = useRef<HTMLSpanElement>(null)
@@ -47,6 +48,7 @@ function DrawerListPortal({
   const positionTimeout = useRef<NodeJS.Timeout>(undefined)
   const customElem = useRef<Element | Window>(undefined)
   const resizeObserver = useRef<ResizeObserver>(undefined)
+  const transitionFrame = useRef<number>(undefined)
 
   const init = useCallback(() => {
     setIsMounted(true)
@@ -87,6 +89,20 @@ function DrawerListPortal({
       removePositionObserver()
     }
   }, [init, removePositionObserver])
+
+  useEffect(() => {
+    cancelAnimationFrame(transitionFrame.current)
+    if (!open) {
+      setCanTransitionPosition(false)
+      return undefined
+    }
+
+    transitionFrame.current = requestAnimationFrame(() => {
+      setCanTransitionPosition(true)
+    })
+
+    return () => cancelAnimationFrame(transitionFrame.current)
+  }, [open])
 
   const makeStyle = useCallback(() => {
     if (typeof window === 'undefined' || !isMounted) {
@@ -220,6 +236,8 @@ function DrawerListPortal({
           <span
             className={clsx(
               'dnb-drawer-list__portal__style',
+              canTransitionPosition &&
+                'dnb-drawer-list__portal__style--can-transition',
               fixedPosition && 'dnb-drawer-list__portal__style--fixed',
               className
             )}
