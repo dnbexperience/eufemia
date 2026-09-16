@@ -3,6 +3,35 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [11.14.0](https://github.com/dnbexperience/eufemia/compare/v11.13.0...v11.14.0) (2026-09-16)
+
+### :sparkles: Features
+
+* **Icons:** refactor paths and add `add_reaction` and solve `icons` ([#9328](https://github.com/dnbexperience/eufemia/issues/9328)) ([e926424](https://github.com/dnbexperience/eufemia/commit/e92642436ceaae919a612c2779f79cae8a4fdd18))
+* **SidebarMenu:** add new menu component as an Eufemia Extension ([#8986](https://github.com/dnbexperience/eufemia/issues/8986)) ([6778f07](https://github.com/dnbexperience/eufemia/commit/6778f07da582b70e25f590e9ab76338884f333a4))
+
+### :bug: Bug Fixes
+
+* **analytics:** read created_at in the dashboard view model ([#9355](https://github.com/dnbexperience/eufemia/issues/9355)) ([80c512e](https://github.com/dnbexperience/eufemia/commit/80c512e36e3c0538b0af2b69e5a3bbb466cdea02)), closes [#9351](https://github.com/dnbexperience/eufemia/issues/9351) [#9351](https://github.com/dnbexperience/eufemia/issues/9351)
+* **Drawer:** respect the dynamic viewport height ([#9336](https://github.com/dnbexperience/eufemia/issues/9336)) ([8e7a91c](https://github.com/dnbexperience/eufemia/commit/8e7a91c34fb97927bccc41031b0f4b1c90ff151c))
+* **Element:** keep the base class when className ends with it ([#9364](https://github.com/dnbexperience/eufemia/issues/9364)) ([38e5403](https://github.com/dnbexperience/eufemia/commit/38e5403233c69216f00e2bb7368a8d55ee4d54ba))
+* **Field.MultiSelection:** hide popover wrapper outline on keyboard navigation ([#9318](https://github.com/dnbexperience/eufemia/issues/9318)) ([098db07](https://github.com/dnbexperience/eufemia/commit/098db073c4100acfb9a43532c48873f2450084c6))
+* **Forms:** clear stale field errors after Wizard navigation ([#9341](https://github.com/dnbexperience/eufemia/issues/9341)) ([083ddce](https://github.com/dnbexperience/eufemia/commit/083ddce04e494742f551ac2d3d3b7ede3b647df2))
+* **Icon:** let hover animations finish ([#9359](https://github.com/dnbexperience/eufemia/issues/9359)) ([e34670b](https://github.com/dnbexperience/eufemia/commit/e34670b123888018805c53e0f0a45fce982c2d92))
+* **MCP:** make the local docs server start and rename its entry to mcp-server ([#9339](https://github.com/dnbexperience/eufemia/issues/9339)) ([29f4c9d](https://github.com/dnbexperience/eufemia/commit/29f4c9d1d710649819f2d129b9e62379a69e43d1)), closes [#9337](https://github.com/dnbexperience/eufemia/issues/9337)
+* **NumberFormat:** normalize minus signs across locales ([#9352](https://github.com/dnbexperience/eufemia/issues/9352)) ([ca81286](https://github.com/dnbexperience/eufemia/commit/ca812868a2e11f82be4cb7656a6b1a8a00d1e9e1))
+* **Translation:** insert formatMessage values literally ([#9363](https://github.com/dnbexperience/eufemia/issues/9363)) ([bb10cff](https://github.com/dnbexperience/eufemia/commit/bb10cff72ae08bfcdaa0b0d15f5f3abae5923cfb))
+
+### :memo: Documentation
+
+* **AI:** explain Agent Skills updates and MCP role ([#9361](https://github.com/dnbexperience/eufemia/issues/9361)) ([f649d7f](https://github.com/dnbexperience/eufemia/commit/f649d7f70e00693c63222e0021b6ae0a9177d068))
+* animate the Portal logo on hover ([#9358](https://github.com/dnbexperience/eufemia/issues/9358)) ([0179813](https://github.com/dnbexperience/eufemia/commit/0179813b8a84ceacc74a6545766db0a4200a977d))
+* **Portal:** fix local MCP docs server setup instructions ([#9337](https://github.com/dnbexperience/eufemia/issues/9337)) ([8c96bc8](https://github.com/dnbexperience/eufemia/commit/8c96bc8cb3b2a105c1a03d07b70b3aa02ec026e9))
+
+### :barber: Style Changes
+
+* **Button:** update DNB Carnegie button radius ([#9327](https://github.com/dnbexperience/eufemia/issues/9327)) ([11f6d20](https://github.com/dnbexperience/eufemia/commit/11f6d20805c5e3be046aaa1a9fc62aafa6b67b2e))
+
 ## [11.13.0](https://github.com/dnbexperience/eufemia/compare/v11.12.1...v11.13.0) (2026-09-10)
 
 ### :sparkles: Features
