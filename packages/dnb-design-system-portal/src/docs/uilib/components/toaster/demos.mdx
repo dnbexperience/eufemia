@@ -1,0 +1,43 @@
+---
+showTabs: true
+---
+
+import {
+  ToasterNotification,
+  ToasterNotificationWithAction,
+  ToasterVariants,
+  ToasterSensitiveMessage,
+  ToasterStandaloneList,
+} from 'Docs/uilib/components/toaster/Examples'
+
+## Demos
+
+### Notification center
+
+A notification center with a trigger button and popup panel. Click _Switch to floating_ to move the button to a fixed position in the viewport corner.
+
+<ToasterNotification />
+
+### Notification with action
+
+A notification with an action button that lets the user navigate or respond.
+
+<ToasterNotificationWithAction />
+
+### Message variants
+
+All four visual variants: info, success, warning, and error.
+
+<ToasterVariants />
+
+### Sensitive message
+
+A message with privacy controls. When dismissed, the content is replaced with a fallback text.
+
+<ToasterSensitiveMessage />
+
+### Inline notification list
+
+Use `Toaster.NotificationCenterList` to render messages inline in the document flow. This is useful for building a custom notification center.
+
+<ToasterStandaloneList />
