@@ -26,7 +26,7 @@ export const HeadingProperties: PropertiesTableProps = {
   },
   level: {
     doc: 'Overwrite the automated level handling to use a specific value to ensure correct level hierarchy.',
-    type: ['1', '2', '3', '4', '5', '6'],
+    type: ['"1"', '"2"', '"3"', '"4"', '"5"', '"6"'],
     status: 'optional',
   },
   increase: {

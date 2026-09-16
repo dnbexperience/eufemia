@@ -193,6 +193,22 @@ export const warningValidCases = [
     `,
     filename: 'ButtonDocs.ts',
   },
+  {
+    code: `
+      const FilterDocs = {
+        filters: {
+          type: 'Record<string, FilterValue>',
+        },
+        errorMessages: {
+          type: 'Record<string, React.ReactNode>',
+        },
+        htmlAttributes: {
+          type: 'AriaAttributes & DataAttributes',
+        },
+      }
+    `,
+    filename: 'FilterDocs.ts',
+  },
 ]
 
 export const warningInvalidCases = [

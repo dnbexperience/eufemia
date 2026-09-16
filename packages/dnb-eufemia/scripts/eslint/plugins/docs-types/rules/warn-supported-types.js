@@ -18,7 +18,9 @@ const PRIMITIVE_TYPES = new Set([
 ])
 
 const LOWERCASE_LITERAL_PATTERN = /^[a-z][a-z0-9-]*$/
-const CAPITALIZED_TYPE_PATTERN = /^[A-Z][A-Za-z0-9_.<>()[\]/ -]*$/
+// Allows generic arguments (`Record<string, Value>`) and intersections
+// (`AriaAttributes & DataAttributes`), which are valid docs type values.
+const CAPITALIZED_TYPE_PATTERN = /^[A-Z][A-Za-z0-9_.,&<>()[\]/ -]*$/
 
 function getTypePropertyName(node) {
   if (node.key?.type === 'Identifier') {

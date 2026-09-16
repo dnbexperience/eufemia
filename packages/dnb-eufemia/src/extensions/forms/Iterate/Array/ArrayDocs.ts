@@ -4,7 +4,7 @@ import { DataValueWritePropsProperties } from '../../hooks/DataValueWritePropsDo
 export const ArrayProperties: PropertiesTableProps = {
   layoutEngine: {
     doc: 'Select the internal Flex layout engine. Defaults to `css`. Use `legacy` as a temporary compatibility fallback for custom integrations that depend on the previous wrapper-based layout.',
-    type: [`'css'`, `'legacy'`],
+    type: ['"css"', '"legacy"'],
     defaultValue: `'css'`,
     status: 'optional',
   },
