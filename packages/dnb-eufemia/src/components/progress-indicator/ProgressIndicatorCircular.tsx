@@ -50,6 +50,7 @@ function ProgressIndicatorCircular(
         clearTimeout(_startupTimeout.current)
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- starts the animation once per mount, so re-running on prop changes would restart it
   }, [])
 
   useEffect(() => {

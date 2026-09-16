@@ -130,6 +130,10 @@ export default [
       'react-hooks/unsupported-syntax': 'off',
       'react-hooks/config': 'off',
       'react-hooks/gating': 'off',
+
+      // The lint script runs with `--quiet`, which reports errors only. The
+      // rule ships as a warning, so it is raised to stay enforced.
+      'react-hooks/exhaustive-deps': 'error',
       'no-unused-vars': [
         'error',
         {
@@ -373,6 +377,10 @@ export default [
       'vitest/no-conditional-expect': 'warn',
       'no-console': 'off',
       'compat/compat': 'off',
+
+      // Test components drive state from mount-only effects on purpose, and a
+      // stale closure there fails the test it belongs to rather than shipping.
+      'react-hooks/exhaustive-deps': 'off',
       '@typescript-eslint/no-require-imports': 'off',
       'no-restricted-imports': [
         'error',

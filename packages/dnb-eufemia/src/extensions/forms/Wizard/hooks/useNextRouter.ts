@@ -75,6 +75,7 @@ export default function useNextRouter(
 
   useLayoutEffect(() => {
     return () => {
+      // eslint-disable-next-line react-hooks/exhaustive-deps -- the set is owned by the data context, so unregistering must read it at unmount rather than a copy taken when the effect ran
       onStepChangeEventsRef?.current?.delete(onStepChange)
     }
   }, [onStepChange, onStepChangeEventsRef])

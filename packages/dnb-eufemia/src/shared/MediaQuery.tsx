@@ -89,6 +89,7 @@ function MediaQuery(props: MediaQueryProps) {
         listenerRef.current = null
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- the individual props are listed instead of the object, which would change identity on every render
   }, [
     props.query,
     props.when,

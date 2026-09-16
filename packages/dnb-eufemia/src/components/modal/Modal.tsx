@@ -170,6 +170,7 @@ function ModalComponent(ownProps: ModalAllProps) {
     } catch (e) {
       warn('Modal: Error on remove "data-dnb-modal-active"', e)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- `setActiveState` is declared below, so listing it here would read it before initialization
   }, [])
 
   const setActiveState = useCallback((modalId: string) => {
@@ -322,13 +323,7 @@ function ModalComponent(ownProps: ModalAllProps) {
         waitBeforeOpen()
       }
     },
-    [
-      animationDuration,
-      noAnimation,
-      openDelay,
-      openModal,
-      handleSideEffects,
-    ]
+    [animationDuration, noAnimation, openDelay, openModal]
   )
 
   // Keep the ref in sync

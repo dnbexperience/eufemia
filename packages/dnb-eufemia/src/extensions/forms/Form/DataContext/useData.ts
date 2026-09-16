@@ -317,6 +317,7 @@ export function useDataReturn<Data = JsonObject>({
 
       return getDataContext()?.visibleDataHandler?.(data, options)
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- `contextDataDependency` is listed on purpose, so the handler is renewed when the context data changes
     [contextDataDependency, getDataContext, id, sharedAttachmentsRef]
   )
 
@@ -331,6 +332,7 @@ export function useDataReturn<Data = JsonObject>({
 
       return getDataContext()?.filterDataHandler?.(data, filter)
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- `contextDataDependency` is listed on purpose, so the handler is renewed when the context data changes
     [
       contextDataDependency,
       getCurrentData,

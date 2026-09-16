@@ -100,7 +100,7 @@ export default function ListAllProps<Data extends JsonObject = JsonObject>(
     }, {})
 
     return { propsOfFields, propsOfValues } as ListAllPropsReturn<Data>
-  }, [fieldInternalsRef, filterData, valueInternalsRef])
+  }, [fieldInternalsRef, filterData, log, valueInternalsRef])
 
   if (hasContext) {
     if (log) {

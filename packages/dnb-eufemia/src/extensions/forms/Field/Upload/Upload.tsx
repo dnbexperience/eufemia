@@ -407,6 +407,7 @@ function UploadComponent(props: FieldUploadProps) {
         handleChange(files)
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- `onValidationError` is not read here, but is kept so this callback is renewed when the consumer swaps the handler
     [
       identifier,
       asyncSubmitTimeout,

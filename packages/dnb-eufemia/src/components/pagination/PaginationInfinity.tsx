@@ -78,6 +78,7 @@ export default function InfinityScroller({
     return () => {
       clearTimeout(startupTimeoutRef.current)
       clearTimeout(bufferTimeoutRef.current)
+      // eslint-disable-next-line react-hooks/exhaustive-deps -- the callbacks are collected while mounted, so unmount must read the list as it is then
       callOnUnmountRef.current.forEach(
         (f) => typeof f === 'function' && f()
       )
