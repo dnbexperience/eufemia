@@ -117,6 +117,18 @@ function isLoopbackOrigin(origin: string): boolean {
   }
 }
 
+/**
+ * Canonical `scheme://host[:port]` form, so a configured origin carrying a
+ * trailing slash or a default port still matches what a browser sends.
+ */
+function toOrigin(value: string): string | null {
+  try {
+    return new URL(value).origin.toLowerCase()
+  } catch {
+    return null
+  }
+}
+
 function parseAllowedOrigins(): string[] | undefined {
   const raw = process.env.MCP_ALLOWED_ORIGINS
   if (!raw || raw.trim() === '') {
@@ -210,9 +222,27 @@ function originAllowlistMiddleware(
   if (allowed?.includes('*')) {
     return (_req, _res, next) => next()
   }
-  const set = allowed
-    ? new Set(allowed.map((o) => o.toLowerCase()))
-    : undefined
+
+  let set: Set<string> | undefined
+  if (allowed) {
+    set = new Set<string>()
+    const invalid: string[] = []
+
+    for (const entry of allowed) {
+      const normalized = toOrigin(entry)
+      if (normalized) {
+        set.add(normalized)
+      } else {
+        invalid.push(entry)
+      }
+    }
+
+    if (invalid.length > 0) {
+      logErr(
+        `[eufemia] skipping MCP_ALLOWED_ORIGINS entries that are not an origin: ${invalid.join(', ')}`
+      )
+    }
+  }
 
   return (req, res, next) => {
     const origin = String(req.headers['origin'] ?? '')
@@ -222,7 +252,7 @@ function originAllowlistMiddleware(
       return
     }
 
-    if (set ? set.has(origin.toLowerCase()) : isLoopbackOrigin(origin)) {
+    if (set ? set.has(toOrigin(origin) ?? '') : isLoopbackOrigin(origin)) {
       next()
       return
     }

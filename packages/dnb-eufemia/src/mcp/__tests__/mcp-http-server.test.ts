@@ -516,6 +516,82 @@ describe('mcp-http-server with an explicit origin allowlist', () => {
   })
 })
 
+describe('mcp-http-server origin allowlist normalization', () => {
+  let cleanup: () => void
+  let server: RunningHttpServer
+
+  beforeAll(async () => {
+    const fixture = createDocsFixture()
+    cleanup = fixture.cleanup
+
+    server = await startHttpServer({
+      docsRoot: fixture.docsRoot,
+      port: 0,
+      host: '127.0.0.1',
+      // A trailing slash, a default port and mixed case all describe the
+      // same origin a browser sends.
+      allowedOrigins: [
+        'https://eufemia.dnb.no/',
+        'HTTPS://Docs.DNB.no:443',
+        'not-an-origin',
+      ],
+      silent: true,
+    })
+  }, 15000)
+
+  afterAll(async () => {
+    await server.close()
+    cleanup()
+  })
+
+  it('matches an entry written with a trailing slash', async () => {
+    const res = await fetch(`${server.url}/healthz`, {
+      headers: { Origin: 'https://eufemia.dnb.no' },
+    })
+    expect(res.status).toBe(200)
+  })
+
+  it('matches an entry written with a default port and mixed case', async () => {
+    const res = await fetch(`${server.url}/healthz`, {
+      headers: { Origin: 'https://docs.dnb.no' },
+    })
+    expect(res.status).toBe(200)
+  })
+
+  it('still rejects an origin that is not allowlisted', async () => {
+    const res = await fetch(`${server.url}/healthz`, {
+      headers: { Origin: 'https://attacker.example' },
+    })
+    expect(res.status).toBe(403)
+  })
+
+  it('reports an allowlist entry that is not an origin', async () => {
+    const log = vi
+      .spyOn(console, 'error')
+      .mockImplementation(() => undefined)
+    const fixture = createDocsFixture()
+
+    const running = await startHttpServer({
+      docsRoot: fixture.docsRoot,
+      port: 0,
+      host: '127.0.0.1',
+      allowedOrigins: ['https://eufemia.dnb.no', 'not-an-origin'],
+    })
+
+    try {
+      expect(log).toHaveBeenCalledWith(
+        expect.stringContaining(
+          'skipping MCP_ALLOWED_ORIGINS entries that are not an origin: not-an-origin'
+        )
+      )
+    } finally {
+      await running.close()
+      fixture.cleanup()
+      log.mockRestore()
+    }
+  }, 15000)
+})
+
 describe('mcp-http-server default bind host', () => {
   it('binds to loopback by default', async () => {
     const fixture = createDocsFixture()

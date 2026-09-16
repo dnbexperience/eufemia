@@ -84,6 +84,14 @@ The HTTP server is configured via environment variables:
 
 Requests without an `Origin` header are unaffected by `MCP_ALLOWED_ORIGINS`,
 which exists to stop a browser page on another site from reaching the server.
+It is a DNS-rebinding guard rather than a standalone access control, so an
+exposed host still needs `MCP_AUTH_TOKEN` and `MCP_ALLOWED_HOSTS`.
+
+Setting `MCP_ALLOWED_ORIGINS` replaces the loopback default, so list the local
+origins too when a browser on `localhost` should keep working. Entries are
+compared as canonical origins, meaning a trailing slash, a default port or
+mixed case still match; anything that is not a valid origin is skipped and
+logged at startup.
 
 When hosting the server on a public URL, set `HOST=0.0.0.0` together with
 `MCP_AUTH_TOKEN`, `MCP_ALLOWED_HOSTS` and `MCP_ALLOWED_ORIGINS`.
