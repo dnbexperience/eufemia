@@ -21,6 +21,10 @@ const LOWERCASE_LITERAL_PATTERN = /^[a-z][a-z0-9-]*$/
 // Allows generic arguments (`Record<string, Value>`) and intersections
 // (`AriaAttributes & DataAttributes`), which are valid docs type values.
 const CAPITALIZED_TYPE_PATTERN = /^[A-Z][A-Za-z0-9_.,&<>()[\]/ -]*$/
+// Indexed access types, such as `BadgeProps["content"]`.
+const INDEXED_ACCESS_PATTERN = /^[A-Z][A-Za-z0-9_.]*(?:<.+>)?\[".+"\]$/
+// Template literal types, such as `` `${number}em` ``.
+const TEMPLATE_LITERAL_TYPE_PATTERN = /^`[^`]*\$\{.+\}[^`]*`$/
 
 function getTypePropertyName(node) {
   if (node.key?.type === 'Identifier') {
@@ -105,6 +109,14 @@ function isUnknownType(value) {
   }
 
   if (/^Array<.+>$/.test(value)) {
+    return false
+  }
+
+  if (INDEXED_ACCESS_PATTERN.test(value)) {
+    return false
+  }
+
+  if (TEMPLATE_LITERAL_TYPE_PATTERN.test(value)) {
     return false
   }
 
