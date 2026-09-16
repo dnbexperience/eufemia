@@ -1,2 +1,2 @@
 export { default } from '../Number'
-export type { NumberProps } from '../Number'
+export type { StatNumberProps } from '../Number'

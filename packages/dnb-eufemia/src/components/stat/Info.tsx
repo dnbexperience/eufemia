@@ -20,14 +20,14 @@ type InfoOwnProps = {
   skeleton?: SkeletonShow
 }
 
-export type InfoProps = Omit<
+export type StatInfoProps = Omit<
   HTMLProps<HTMLElement>,
   keyof InfoOwnProps | 'ref'
 > &
   InfoOwnProps &
   SpacingProps
 
-function Info(props: InfoProps) {
+function Info(props: StatInfoProps) {
   const { inRoot } = useContext(StatRootContext)
 
   const {

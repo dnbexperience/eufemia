@@ -4,7 +4,7 @@ import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import FlexLayoutContext from './FlexLayoutContext'
 import FlexLayoutChildren from './FlexLayoutChildren'
 
-export type WithChildrenProps = {
+export type FlexWithChildrenProps = {
   children?: ReactNode
 }
 
@@ -12,7 +12,7 @@ export type WithChildrenProps = {
  * @deprecated Custom components participate in Flex through their rendered DOM.
  * Use only as a temporary adapter while migrating wrapper components.
  */
-function withChildren<T extends WithChildrenProps>(
+function withChildren<T extends FlexWithChildrenProps>(
   Component: ComponentType<T>
 ): ComponentType<T> {
   function WithChildren(props: T) {

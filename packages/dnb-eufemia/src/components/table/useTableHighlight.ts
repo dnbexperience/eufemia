@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef } from 'react'
 import { warn } from '../../shared/component-helper'
 
-export type UseTableHighlightOptions = {
+export type TableHighlightOptions = {
   /**
    * Whether column highlighting is enabled.
    * Default: `true`
@@ -172,7 +172,7 @@ function applyHighlight(table: HTMLTableElement) {
  */
 export function useTableHighlight({
   enabled = true,
-}: UseTableHighlightOptions = {}) {
+}: TableHighlightOptions = {}) {
   const ref = useRef<HTMLElement>(null)
 
   const getTable = useCallback((): HTMLTableElement | null => {

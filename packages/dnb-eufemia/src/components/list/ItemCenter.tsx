@@ -9,7 +9,7 @@ import type { DynamicElement } from '../../shared/types'
 import Context from '../../shared/Context'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
-export type ItemCenterProps = FlexItemProps & {
+export type ListItemCenterProps = FlexItemProps & {
   /**
    * Font size of the center content. Defaults to `basis`. Use `small` for smaller text.
    * Default: `"basis"`
@@ -38,7 +38,7 @@ function ItemCenter({
   skeleton,
   children,
   ...rest
-}: ItemCenterProps) {
+}: ListItemCenterProps) {
   const context = useContext(Context)
   const inheritedSkeleton = useContext(ListContext)?.skeleton
   const appliedSkeleton = skeleton ?? inheritedSkeleton

@@ -1,2 +1,2 @@
 export { default } from '../Inline'
-export type { InlineProps } from '../Inline'
+export type { StatInlineProps } from '../Inline'

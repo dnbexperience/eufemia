@@ -1,10 +1,10 @@
 import { clsx } from 'clsx'
 import Flex from '../flex/Flex'
-import type { StackProps } from '../flex/Stack'
+import type { FlexStackProps } from '../flex/Stack'
 import Theme from '../../shared/Theme'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
-export type CardOverlayProps = StackProps & {
+export type CardOverlayProps = FlexStackProps & {
   /** Add a transparent-to-dark gradient behind the content. Defaults to true. */
   gradient?: boolean
   /** Add progressive backdrop blur behind the content. Defaults to true. */

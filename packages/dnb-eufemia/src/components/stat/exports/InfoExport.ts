@@ -1,2 +1,2 @@
 export { default } from '../Info'
-export type { InfoProps } from '../Info'
+export type { StatInfoProps } from '../Info'

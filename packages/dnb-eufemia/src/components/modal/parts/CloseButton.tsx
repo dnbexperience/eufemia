@@ -10,14 +10,14 @@ import Button from '../../button/Button'
 import Context from '../../../shared/Context'
 import type { ButtonProps } from '../../button/Button'
 
-export type CloseButtonProps = {
+export type ModalCloseButtonProps = {
   /**
    * The title of the close button. Defaults to `Close` or `Lukk`.
    */
   closeTitle?: string
 } & Partial<ButtonProps>
 
-function CloseButton(props: CloseButtonProps) {
+function CloseButton(props: ModalCloseButtonProps) {
   const context = useContext(Context)
 
   // use only the props from context, who are available here anyway

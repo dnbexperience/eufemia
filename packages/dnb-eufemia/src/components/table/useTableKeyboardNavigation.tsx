@@ -3,7 +3,7 @@ import { useCallback, useEffect, useRef } from 'react'
 const FOCUSABLE_SELECTOR =
   'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
 
-export type UseTableKeyboardNavigationOptions = {
+export type TableKeyboardNavigationOptions = {
   /**
    * Whether keyboard navigation is enabled.
    * Default: `true`
@@ -249,7 +249,7 @@ function handleKeyDown(event: KeyboardEvent, table: HTMLTableElement) {
  */
 export function useTableKeyboardNavigation({
   enabled = true,
-}: UseTableKeyboardNavigationOptions = {}) {
+}: TableKeyboardNavigationOptions = {}) {
   const ref = useRef<HTMLElement>(null)
 
   const getTable = useCallback((): HTMLTableElement | null => {
