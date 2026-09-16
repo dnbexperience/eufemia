@@ -478,9 +478,23 @@ export default [
     },
     rules: {
       'component-types/require-component-prefix': [
-        'warn',
+        'error',
         {
-          allowlist: [],
+          // The spacing infrastructure (see AGENTS.md) intentionally uses the
+          // canonical "Spacing"/"InnerSpace" domain prefix rather than the
+          // "space" directory name. These types are foundational and widely
+          // consumed (e.g. SpacingProps is re-exported from shared/types and
+          // used across the library), so they keep their established names.
+          allowlist: [
+            'SpacingProps',
+            'SpacingUnknownProps',
+            'SpacingElementProps',
+            'InnerSpacingElementProps',
+            'InnerSpaceType',
+            'InnerSpaceTypeMedia',
+            'SpacingReturn',
+            'ApplySpacingTarget',
+          ],
         },
       ],
       'component-types/no-inline-type-exports': [

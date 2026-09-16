@@ -45,7 +45,7 @@ import type {
   UseFieldProps,
 } from '../types'
 import type { FormLabelAllProps } from '../../../components/FormLabel'
-import type { HelpProps } from '../../../components/help-button/HelpButtonInline'
+import type { HelpButtonHelpProps } from '../../../components/help-button/HelpButtonInline'
 import HelpButtonInline, {
   HelpButtonInlineContent,
 } from '../../../components/help-button/HelpButtonInline'
@@ -133,7 +133,7 @@ export type SharedFieldBlockProps = {
   /**
    * Provide help content for the field using `title` and `content` as a string or `React.ReactNode`. Additionally, you can set `open` to `true` to display the inline help, set the `breakout` property to `false` to disable the breakout of the inline help content, set `outset` to `false` to display the help text inline (inset) instead of the default outset behavior, or use `renderAs` set to `dialog` to render the content in a [Dialog](/uilib/components/dialog/) (recommended for larger amounts of content).
    */
-  help?: HelpProps
+  help?: HelpButtonHelpProps
   /**
    * Set `true` when you render the inline help button outside the label (e.g. inside a checkbox suffix) so FieldBlock skips drawing the default label help button.
    */

@@ -8,7 +8,7 @@ import { useContext, useMemo } from 'react'
 import InputMaskedContext from '../InputMaskedContext'
 import { isRequestingNumberMask } from '../InputMaskedUtils'
 import { useNumberMaskParams } from './useNumberMaskParams'
-import type { MaskParams } from '../text-mask/types'
+import type { InputMaskedMaskParams } from '../text-mask/types'
 
 export const useNumberMask = () => {
   const mP = useNumberMaskParams()
@@ -41,6 +41,6 @@ export const useNumberMask = () => {
   return mask
 }
 
-export function createNumberMask(maskParams: MaskParams = {}) {
+export function createNumberMask(maskParams: InputMaskedMaskParams = {}) {
   return { instanceOf: 'createNumberMask', maskParams }
 }

@@ -4,7 +4,7 @@ import type {
   RefObject,
   SyntheticEvent,
 } from 'react'
-import type { CloseButtonProps } from './parts/CloseButton'
+import type { ModalCloseButtonProps } from './parts/CloseButton'
 import type { ButtonProps } from '../button/Button'
 import type { ModalRootProps } from './ModalRoot'
 
@@ -217,12 +217,12 @@ export type ModalContentProps = {
   /**
    * Props forwarded to the close button.
    */
-  closeButtonProps?: CloseButtonProps
+  closeButtonProps?: ModalCloseButtonProps
 
   /**
    * @deprecated Use `closeButtonProps` instead.
    */
-  closeButtonAttributes?: CloseButtonProps
+  closeButtonAttributes?: ModalCloseButtonProps
 
   /**
    * If set to `false` then the modal content will be shown without any spacing. Defaults to `true`.

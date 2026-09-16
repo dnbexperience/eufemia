@@ -13,7 +13,7 @@ import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
  * Props for List.Cell.Start (ItemStart).
  * Extends Flex.Item; supports spacing props.
  */
-export type ItemStartProps = FlexItemProps & {
+export type ListItemStartProps = FlexItemProps & {
   /**
    * Font size of the start content. Defaults to `basis`. Use `small` for smaller text.
    * Default: `"basis"`
@@ -42,7 +42,7 @@ function ItemStart({
   skeleton,
   children,
   ...rest
-}: ItemStartProps) {
+}: ListItemStartProps) {
   const context = useContext(Context)
   const inheritedSkeleton = useContext(ListContext)?.skeleton
   const appliedSkeleton = skeleton ?? inheritedSkeleton

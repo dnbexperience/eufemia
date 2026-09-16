@@ -12,7 +12,7 @@ import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
  * Props for List.Cell.Title.Overline (ItemOverline).
  * Secondary line above the main row; pairs with List.Cell.Title.Subline (below title).
  */
-export type ItemOverlineProps = FlexItemProps & {
+export type ListItemOverlineProps = FlexItemProps & {
   /**
    * Font size of the overline content. Defaults to `x-small`.
    * Default: `"x-small"`
@@ -36,7 +36,7 @@ function ItemOverline({
   skeleton,
   children,
   ...rest
-}: ItemOverlineProps) {
+}: ListItemOverlineProps) {
   const context = useContext(Context)
   const inheritedSkeleton = useContext(ListContext)?.skeleton
   const appliedSkeleton = skeleton ?? inheritedSkeleton

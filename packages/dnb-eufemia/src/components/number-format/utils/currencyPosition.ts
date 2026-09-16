@@ -1,6 +1,6 @@
 import type {
-  FormatPartItem,
-  PartFormatter,
+  NumberFormatPartItem,
+  NumberFormatPartFormatter,
   NumberFormatCurrencyPosition,
 } from './types'
 
@@ -9,14 +9,14 @@ import type {
  * For Norway, the position defaults to "after".
  */
 export const currencyPositionFormatter = (
-  existingFormatter: PartFormatter | null | undefined,
-  callback: (item: FormatPartItem) => string,
+  existingFormatter: NumberFormatPartFormatter | null | undefined,
+  callback: (item: NumberFormatPartItem) => string,
   position: NumberFormatCurrencyPosition | null = null
-): PartFormatter => {
+): NumberFormatPartFormatter => {
   let count = 0
   let countCurrency = -1
 
-  return (item: FormatPartItem): FormatPartItem => {
+  return (item: NumberFormatPartItem): NumberFormatPartItem => {
     // Ensure we do not overwrite a given formatter, but run it as well
     if (typeof existingFormatter === 'function') {
       item = existingFormatter(item)

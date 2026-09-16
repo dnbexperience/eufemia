@@ -19,14 +19,14 @@ type RatingOwnProps = {
   skeleton?: SkeletonShow
 }
 
-export type RatingProps = Omit<
+export type StatRatingProps = Omit<
   HTMLProps<HTMLElement>,
   keyof RatingOwnProps | 'ref'
 > &
   RatingOwnProps &
   SpacingProps
 
-function Rating(props: RatingProps) {
+function Rating(props: StatRatingProps) {
   const {
     value = 0,
     max = null,

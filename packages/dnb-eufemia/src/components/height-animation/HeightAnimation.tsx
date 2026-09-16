@@ -2,7 +2,7 @@ import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import { useContext, useEffect, useRef, useState } from 'react'
 import type { HTMLProps, RefObject } from 'react'
 import { clsx } from 'clsx'
-import type { UseHeightAnimationOptions } from './useHeightAnimation'
+import type { HeightAnimationOptions } from './useHeightAnimation'
 import { useHeightAnimation } from './useHeightAnimation'
 import Space from '../space/Space'
 
@@ -59,7 +59,7 @@ export type HeightAnimationProps = {
    * Send along a custom `React.Ref`.
    */
   ref?: RefObject<HTMLElement>
-} & UseHeightAnimationOptions
+} & HeightAnimationOptions
 
 export type HeightAnimationAllProps = HeightAnimationProps &
   SpacingProps &
@@ -104,14 +104,14 @@ function HeightAnimation({
   const canOpenOnFind = shouldOpenOnFind && supportsOpenOnFind()
   const resolvedOpen = open || (canOpenOnFind && isOpenedByFind)
 
-  const handleAnimationStart: UseHeightAnimationOptions['onAnimationStart'] =
+  const handleAnimationStart: HeightAnimationOptions['onAnimationStart'] =
     (state) => {
       if (canOpenOnFind && state === 'opening') {
         targetRef.current?.removeAttribute('hidden')
       }
       onAnimationStart?.(state)
     }
-  const handleAnimationEnd: UseHeightAnimationOptions['onAnimationEnd'] = (
+  const handleAnimationEnd: HeightAnimationOptions['onAnimationEnd'] = (
     state
   ) => {
     if (canOpenOnFind) {

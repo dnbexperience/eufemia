@@ -15,7 +15,7 @@ import { clsx } from 'clsx'
 import useId from '../../shared/helpers/useId'
 import type { ListVariant } from './ListContext'
 import { ListContext } from './ListContext'
-import type { ItemContentProps } from './ItemContent'
+import type { ListItemContentProps } from './ItemContent'
 import ItemContent from './ItemContent'
 import FlexItem from '../flex/Item'
 import type { IconIcon } from '../icon/Icon'
@@ -31,9 +31,9 @@ import { warn } from '../../shared/component-helper'
 import Context from '../../shared/Context'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
-export type ItemAccordionIconPosition = 'left' | 'right'
+export type ListItemAccordionIconPosition = 'left' | 'right'
 
-export type ItemAccordionProps = {
+export type ListItemAccordionProps = {
   variant?: ListVariant
   open?: boolean
   /**
@@ -54,11 +54,11 @@ export type ItemAccordionProps = {
    * Called when the accordion open state changes. Receives an object with the `expanded` state.
    */
   onChange?: (args: { expanded: boolean }) => void
-  chevronPosition?: ItemAccordionIconPosition
+  chevronPosition?: ListItemAccordionIconPosition
   icon?: IconIcon
   title?: ReactNode
   id?: string
-} & Omit<ItemContentProps, 'title' | 'onChange'>
+} & Omit<ListItemContentProps, 'title' | 'onChange'>
 
 const ItemAccordionContext = createContext<{
   openState: boolean
@@ -66,7 +66,7 @@ const ItemAccordionContext = createContext<{
   disabled?: boolean
   keepInDOM?: boolean
   openOnFind?: boolean
-  chevronPosition?: ItemAccordionIconPosition
+  chevronPosition?: ListItemAccordionIconPosition
   accordionId: string
   icon?: IconIcon
   title?: ReactNode
@@ -76,7 +76,7 @@ const ItemAccordionContext = createContext<{
   handleBeforeMatch: () => void
 }>(undefined)
 
-function ItemAccordion(props: ItemAccordionProps) {
+function ItemAccordion(props: ListItemAccordionProps) {
   const {
     className,
     onClick,
@@ -167,11 +167,11 @@ withComponentMarkers(ItemAccordion, {
   _supportsSpacingProps: true,
 })
 
-export type AccordionHeaderProps = {
+export type ListAccordionHeaderProps = {
   onClick?: (event: ReactMouseEvent<HTMLDivElement, MouseEvent>) => void
-} & ItemContentProps
+} & ListItemContentProps
 
-function AccordionHeader(props: AccordionHeaderProps) {
+function AccordionHeader(props: ListAccordionHeaderProps) {
   const { className, children, ...rest } = props
   const accordionContext = useContext(ItemAccordionContext)
   const context = useContext(Context)
@@ -252,7 +252,7 @@ withComponentMarkers(AccordionHeader, {
   _supportsSpacingProps: true,
 })
 
-function AccordionContent(props: ItemContentProps) {
+function AccordionContent(props: ListItemContentProps) {
   const { className, children, ...rest } = props
   const context = useContext(Context)
   const accordionContext = useContext(ItemAccordionContext)

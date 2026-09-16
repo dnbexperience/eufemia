@@ -39,7 +39,7 @@ export {
   formatBankAccountNumber,
   formatBankAccountNumberByType,
 } from './formatBankAccountNumber'
-export type { BankAccountType } from './formatBankAccountNumber'
+export type { NumberFormatBankAccountType } from './formatBankAccountNumber'
 export { formatNationalIdentityNumber } from './formatNationalIdentityNumber'
 export { formatOrganizationNumber } from './formatOrganizationNumber'
 

@@ -4,7 +4,7 @@ import HeightAnimationInstance from './HeightAnimationInstance'
 
 import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../shared/helpers/useIsomorphicLayoutEffect'
 
-export type UseHeightAnimationOptions = {
+export type HeightAnimationOptions = {
   /**
    * Set to `true` on second re-render when the view should animate from 0px to auto. Defaults to `true`.
    */
@@ -61,7 +61,7 @@ export function useHeightAnimation(
     onOpen = null,
     onAnimationStart = null,
     onAnimationEnd = null,
-  }: UseHeightAnimationOptions = {}
+  }: HeightAnimationOptions = {}
 ) {
   const instRef = useRef<HeightAnimationInstance | null>(null)
   const isInitialRenderRef = useRef(

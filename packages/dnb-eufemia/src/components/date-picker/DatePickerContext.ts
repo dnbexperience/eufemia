@@ -4,11 +4,14 @@ import { createContext } from 'react'
  *
  */
 
-import type { DatePickerAllProps, DisplayPickerEvent } from './DatePicker'
+import type {
+  DatePickerAllProps,
+  DatePickerDisplayEvent,
+} from './DatePicker'
 import type { ContextProps } from '../../shared/Context'
 import type {
   DatePickerChangeEvent,
-  GetReturnObjectParams,
+  DatePickerGetReturnObjectParams,
   DatePickerReturnObject,
 } from './DatePickerProvider'
 import type {
@@ -41,9 +44,9 @@ export type DatePickerContextValue = ContextProps &
     submittedDates: DatePickerSubmittedDates
     setSubmittedDates: (dates: DatePickerSubmittedDates) => void
     callOnChangeHandler: <E>(event: DatePickerChangeEvent<E>) => void
-    hidePicker: (event: DisplayPickerEvent) => void
+    hidePicker: (event: DatePickerDisplayEvent) => void
     getReturnObject: <E>(
-      params: GetReturnObjectParams<E>
+      params: DatePickerGetReturnObjectParams<E>
     ) => DatePickerReturnObject<E>
   }
 

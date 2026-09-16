@@ -26,7 +26,7 @@ import { useSpacing } from '../space/SpacingUtils'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import { isModifiedClickEvent } from '../../shared/helpers'
 
-export type NavigationItemProps = {
+export type PaginationNavigationItemProps = {
   className: string
   'aria-label': string
   'aria-current'?: 'page'
@@ -83,7 +83,7 @@ type PaginationBarContext = {
   disabled: boolean
   transformNavigationItem?: (
     pageNumber: number,
-    navigationItemProps: NavigationItemProps
+    navigationItemProps: PaginationNavigationItemProps
   ) => ReactNode
   onPageUpdate: (cb: () => void) => void
   setState: (state: { currentPageInternal: number }) => void

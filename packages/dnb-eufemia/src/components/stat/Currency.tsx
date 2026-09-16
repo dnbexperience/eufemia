@@ -1,11 +1,11 @@
-import { AmountBase, type AmountProps } from './Amount'
+import { AmountBase, type StatAmountProps } from './Amount'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
-export type CurrencyProps = Omit<AmountProps, 'percent'> & {
+export type StatCurrencyProps = Omit<StatAmountProps, 'percent'> & {
   percent?: never
 }
 
-function Currency(props: CurrencyProps) {
+function Currency(props: StatCurrencyProps) {
   const { currency = true } = props
 
   return <AmountBase {...props} currency={currency} />

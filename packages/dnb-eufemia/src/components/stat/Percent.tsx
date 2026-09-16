@@ -1,12 +1,12 @@
-import { AmountBase, type AmountProps } from './Amount'
+import { AmountBase, type StatAmountProps } from './Amount'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
-export type PercentProps = Omit<
-  AmountProps,
+export type StatPercentProps = Omit<
+  StatAmountProps,
   'currency' | 'currencyDisplay' | 'currencyPosition'
 >
 
-function Percent(props: PercentProps) {
+function Percent(props: StatPercentProps) {
   return <AmountBase {...props} percent />
 }
 
