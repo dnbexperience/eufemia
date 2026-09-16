@@ -4,9 +4,9 @@ import type { FormStatusState, FormStatusText } from '../../FormStatus'
 import type { SpacingProps } from '../../../shared/types'
 import type { FormElementProps } from '../../../shared/helpers/filterValidProps'
 
-export type OverwriteMode = 'shift' | 'replace'
+export type InputMaskedOverwriteMode = 'shift' | 'replace'
 
-export type SegmentedFieldSpinButton = {
+export type InputMaskedSegmentedFieldSpinButton = {
   min: number
   max: number
   step?: number
@@ -16,34 +16,36 @@ export type SegmentedFieldSpinButton = {
   parseValue?: (value: string) => number | undefined
 }
 
-export type SegmentedFieldItem<T extends string> = {
+export type InputMaskedSegmentedFieldItem<T extends string> = {
   id: T
   label: ReactNode
   mask: RegExp[]
-  spinButton?: SegmentedFieldSpinButton
+  spinButton?: InputMaskedSegmentedFieldSpinButton
 } & Omit<HTMLProps<HTMLInputElement>, 'onChange' | 'ref'>
 
-export type SegmentedFieldValue<T extends string> = {
+export type InputMaskedSegmentedFieldValue<T extends string> = {
   [_K in T]: string
 }
 
-export type SegmentedFieldProps<T extends string> = {
+export type InputMaskedSegmentedFieldProps<T extends string> = {
   label?: ReactNode
   labelDirection?: FormElementProps['labelDirection']
-  inputs: SegmentedFieldItem<T>[]
-  values?: SegmentedFieldValue<T>
-  overwriteMode?: OverwriteMode
+  inputs: InputMaskedSegmentedFieldItem<T>[]
+  values?: InputMaskedSegmentedFieldValue<T>
+  overwriteMode?: InputMaskedOverwriteMode
   delimiter?: string
-  onChange?: (values: SegmentedFieldValue<T>) => void
-  onFocus?: (values: SegmentedFieldValue<T>) => void
-  onBlur?: (values: SegmentedFieldValue<T>) => void
+  onChange?: (values: InputMaskedSegmentedFieldValue<T>) => void
+  onFocus?: (values: InputMaskedSegmentedFieldValue<T>) => void
+  onBlur?: (values: InputMaskedSegmentedFieldValue<T>) => void
   status?: FormStatusText
   statusState?: FormStatusState
   stretch?: boolean
   suffix?: ReactNode
   _omitInputShellClass?: boolean
   scopeRef?: RefObject<HTMLElement | null>
-  optionsEnhancer?: (options: { overwriteMode?: OverwriteMode }) => unknown
+  optionsEnhancer?: (options: {
+    overwriteMode?: InputMaskedOverwriteMode
+  }) => unknown
 } & Omit<
   HTMLProps<HTMLInputElement>,
   | 'onChange'
@@ -60,28 +62,33 @@ export type SegmentedFieldProps<T extends string> = {
   SpacingProps &
   Pick<InputProps, 'size'>
 
-export type SectionSelectionMode = 'all' | 'caret'
+export type InputMaskedSectionSelectionMode = 'all' | 'caret'
 
-export type SegmentedFieldInputConfig = {
+export type InputMaskedSegmentedFieldInputConfig = {
   id: string
   mask: RegExp[]
 }
 
-export type SegmentedFieldSectionProps = {
+export type InputMaskedSegmentedFieldSectionProps = {
   groupId: string
   inputId: string
-  itemProps: Omit<SegmentedFieldItem<string>, 'id' | 'mask' | 'label'>
+  itemProps: Omit<
+    InputMaskedSegmentedFieldItem<string>,
+    'id' | 'mask' | 'label'
+  >
   value: string
-  overwriteMode: OverwriteMode
+  overwriteMode: InputMaskedOverwriteMode
   delimiter?: string
   groupDelimiter?: string
   disabled: boolean
   valuesRef: RefObject<Record<string, string>>
-  inputs: SegmentedFieldInputConfig[]
+  inputs: InputMaskedSegmentedFieldInputConfig[]
   scopeRef: RefObject<HTMLElement | null>
   sectionRefs: RefObject<Record<string, HTMLSpanElement | null>>
   caretPositionsRef: RefObject<Record<string, number>>
-  sectionSelectionModeRef: RefObject<Record<string, SectionSelectionMode>>
+  sectionSelectionModeRef: RefObject<
+    Record<string, InputMaskedSectionSelectionMode>
+  >
   wholeGroupSelectionUi: boolean
   clearGroupSelection: () => void
   clearSectionSelection: () => void

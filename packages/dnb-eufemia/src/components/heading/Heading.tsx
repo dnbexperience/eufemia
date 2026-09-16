@@ -34,8 +34,8 @@ import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import { useTypography } from '../../elements/typography/Typography'
 import type {
   HeadingAllProps,
+  HeadingInternalLevel,
   HeadingProps,
-  InternalHeadingLevel,
 } from './types'
 
 export type * from './types'
@@ -67,14 +67,14 @@ export default function Heading(props: HeadingAllProps) {
   } = useTypography(props)
 
   type State = {
-    level: InternalHeadingLevel
+    level: HeadingInternalLevel
     counter: HeadingCounter
     context: HeadingContextValue
     contextRevision?: number
     headingContext?: HeadingContextValue
     id: string
     notifyScopeRevision?: number
-    prevLevel?: InternalHeadingLevel
+    prevLevel?: HeadingInternalLevel
     recalculate?: () => void
     ref: HeadingAllProps
   }
@@ -131,7 +131,7 @@ export default function Heading(props: HeadingAllProps) {
   const level = parseFloat(String(props.level))
   const contextRevision = headingContext.heading?.revision
 
-  const recalculateLevel = (level: InternalHeadingLevel) => {
+  const recalculateLevel = (level: HeadingInternalLevel) => {
     state.counter.restart()
     const { level: newLevel } = correctInternalHeadingLevel({
       counter: state.counter,

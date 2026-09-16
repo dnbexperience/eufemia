@@ -12,7 +12,7 @@ import { formatNumber } from './utils'
  * Shape of a variant formatter (`formatPhoneNumber`, `formatCurrency`,
  * `formatPercent`, `formatNumber`, …).
  */
-export type NumberFormatter = {
+export type NumberFormatFormatter = {
   (
     value: NumberFormatValue | null,
     options: NumberFormatOptionParams & { returnAria: true }
@@ -35,17 +35,17 @@ export type NumberFormatter = {
  */
 function useNumberFormat(
   value: NumberFormatValue,
-  formatter: NumberFormatter,
+  formatter: NumberFormatFormatter,
   options: NumberFormatOptionParams & { returnAria: true }
 ): NumberFormatReturnValue
 function useNumberFormat(
   value: NumberFormatValue,
-  formatter?: NumberFormatter,
+  formatter?: NumberFormatFormatter,
   options?: NumberFormatOptionParams
 ): string
 function useNumberFormat(
   value: NumberFormatValue,
-  formatter: NumberFormatter = formatNumber,
+  formatter: NumberFormatFormatter = formatNumber,
   options: NumberFormatOptionParams = {}
 ): NumberFormatReturnValue | string {
   const context = useContext(Context)

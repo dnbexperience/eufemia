@@ -4,7 +4,7 @@
 
 import type {
   NumberFormatValue,
-  InternalNumberFormatOptions,
+  NumberFormatInternalOptions,
 } from './types'
 
 /**
@@ -22,7 +22,7 @@ export function handleCompactBeforeDisplay({
   locale: string | null
   compact: boolean | 'short' | 'long' | null
   decimals?: number | string | null
-  opts: InternalNumberFormatOptions
+  opts: NumberFormatInternalOptions
 }) {
   if (!canHandleCompact({ value, compact })) {
     return // stop here
@@ -69,7 +69,7 @@ export function handleCompactBeforeAria({
 }: {
   value: NumberFormatValue
   compact: boolean | 'short' | 'long' | null
-  opts: InternalNumberFormatOptions
+  opts: NumberFormatInternalOptions
 }) {
   if (!canHandleCompact({ value, compact })) {
     return // stop here

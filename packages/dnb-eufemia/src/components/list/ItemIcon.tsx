@@ -8,7 +8,7 @@ import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 import type { SkeletonShow } from '../Skeleton'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
-export type ItemIconProps = Omit<FlexItemProps, 'children'> & {
+export type ListItemIconProps = Omit<FlexItemProps, 'children'> & {
   children: IconIcon
   /**
    * When `true`, applies skeleton font styling to all child items inside the scroll view. Propagated via context so nested `List.Container` and items inherit it.
@@ -21,7 +21,7 @@ function ItemIcon({
   className,
   skeleton,
   ...rest
-}: ItemIconProps) {
+}: ListItemIconProps) {
   const inheritedSkeleton = useContext(ListContext)?.skeleton
   const appliedSkeleton = skeleton ?? inheritedSkeleton
 

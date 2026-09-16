@@ -24,14 +24,14 @@ type LabelOwnProps = {
   skeleton?: SkeletonShow
 }
 
-export type LabelProps = Omit<
+export type StatLabelProps = Omit<
   HTMLProps<HTMLElement>,
   keyof LabelOwnProps | 'ref'
 > &
   LabelOwnProps &
   SpacingProps
 
-function Label(props: LabelProps) {
+function Label(props: StatLabelProps) {
   const { inRoot, skeleton: rootSkeleton } = useContext(StatRootContext)
 
   const {

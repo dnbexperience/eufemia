@@ -1,4 +1,4 @@
-import type { BankAccountType } from '../../../../components/number-format/utils/formatBankAccountNumber'
+import type { NumberFormatBankAccountType } from '../../../../components/number-format/utils/formatBankAccountNumber'
 import type { FieldBlockWidth } from '../../FieldBlock/FieldBlock'
 
 type MaskEntry = Array<RegExp | string>
@@ -141,7 +141,7 @@ const ibanMaskNoFormat: MaskEntry = Array.from(
 )
 
 export function getMask(
-  bankAccountType: BankAccountType,
+  bankAccountType: NumberFormatBankAccountType,
   omitMask: boolean,
   value?: string
 ): MaskEntry {
@@ -177,7 +177,7 @@ export function getMask(
 }
 
 export function getInputMode(
-  bankAccountType: BankAccountType
+  bankAccountType: NumberFormatBankAccountType
 ): 'numeric' | 'text' {
   if (bankAccountType === 'iban') {
     return 'text'
@@ -186,7 +186,7 @@ export function getInputMode(
 }
 
 export function getWidth(
-  bankAccountType: BankAccountType
+  bankAccountType: NumberFormatBankAccountType
 ): FieldBlockWidth {
   switch (bankAccountType) {
     case 'iban':
@@ -197,7 +197,7 @@ export function getWidth(
 }
 
 export function hasVariableMask(
-  bankAccountType: BankAccountType
+  bankAccountType: NumberFormatBankAccountType
 ): boolean {
   return (
     bankAccountType === 'swedishBankgiro' ||

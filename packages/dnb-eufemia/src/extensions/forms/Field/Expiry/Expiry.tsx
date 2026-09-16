@@ -10,8 +10,8 @@ import { clsx } from 'clsx'
 import type { FieldBlockProps } from '../../FieldBlock'
 import FieldBlock from '../../FieldBlock'
 import type {
-  SegmentedFieldProps,
-  SegmentedFieldValue,
+  InputMaskedSegmentedFieldProps,
+  InputMaskedSegmentedFieldValue,
 } from '../../../../components/input-masked/segmented-field/SegmentedField'
 import SegmentedField from '../../../../components/input-masked/segmented-field/SegmentedField'
 import { useTranslation as useSharedTranslation } from '../../../../shared'
@@ -19,7 +19,7 @@ import useTranslation from '../../hooks/useTranslation'
 import { FormError } from '../../utils'
 import type { Translation } from '../../../../shared/Context'
 
-type ExpiryValue = SegmentedFieldValue<'month' | 'year'>
+type ExpiryValue = InputMaskedSegmentedFieldValue<'month' | 'year'>
 
 export type ExpiryValidator = ValidatorWithCustomValidators<
   string,
@@ -35,7 +35,7 @@ export type ExpiryProps = Omit<
   /**
    * The size of the component.
    */
-  size?: SegmentedFieldProps<'month' | 'year'>['size']
+  size?: InputMaskedSegmentedFieldProps<'month' | 'year'>['size']
 }
 
 function Expiry(props: ExpiryProps = {}) {

@@ -15,32 +15,34 @@ declare global {
 }
 
 /** A single part returned by `Intl.NumberFormat.formatToParts()`. */
-export type FormatPartItem = {
+export type NumberFormatPartItem = {
   type: string
   value: string
 }
 
 /** Formatter callback that transforms individual format parts. */
-export type PartFormatter = (item: FormatPartItem) => FormatPartItem
+export type NumberFormatPartFormatter = (
+  item: NumberFormatPartItem
+) => NumberFormatPartItem
 
 /** Valid values for the Intl currencyDisplay option. */
-export type CurrencyDisplayValue =
+export type NumberFormatCurrencyDisplayValue =
   | 'code'
   | 'name'
   | 'symbol'
   | 'narrowSymbol'
 
 /** Internal format options passed to `Intl.NumberFormat`. */
-export type InternalNumberFormatOptions = Omit<
+export type NumberFormatInternalOptions = Omit<
   Intl.NumberFormatOptions,
   'currencyDisplay'
 > & {
   decimals?: number
-  currencyDisplay?: CurrencyDisplayValue
+  currencyDisplay?: NumberFormatCurrencyDisplayValue
 }
 
 /** Return value of inline part-formatters (phone, BAN, NIN, etc.). */
-export type FormattedParts = {
+export type NumberFormatFormattedParts = {
   number: string
   aria: string
 }

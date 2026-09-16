@@ -1,2 +1,2 @@
 export { default } from '../Root'
-export type { RootProps } from '../Root'
+export type { StatRootProps } from '../Root'

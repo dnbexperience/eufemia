@@ -14,7 +14,7 @@ export type {
   NumberFormatOptions,
   NumberFormatOptionParams,
   NumberFormatFunction,
-  BankAccountType,
+  NumberFormatBankAccountType,
 } from './utils'
 
 export {

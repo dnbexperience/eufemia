@@ -22,7 +22,7 @@ import {
 } from '../../../../components/upload/uploadFileUtils'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import mergeProps from '../../../../shared/helpers/mergeProps'
-import type { HelpProps } from '../../../../components/help-button/HelpButtonInline'
+import type { HelpButtonHelpProps } from '../../../../components/help-button/HelpButtonInline'
 import HelpButtonInline, {
   HelpButtonInlineContent,
 } from '../../../../components/help-button/HelpButtonInline'
@@ -541,7 +541,7 @@ function UploadComponent(props: FieldUploadProps) {
 function LabelWithHelpButton(props: {
   label: ReactNode
   id: string
-  help?: HelpProps
+  help?: HelpButtonHelpProps
 }) {
   const { label, id, help } = props
   return (

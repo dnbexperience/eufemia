@@ -7,7 +7,7 @@ import type { HTMLProps } from 'react'
 import type { FormStatusIcon } from '../FormStatus'
 import type { SkeletonShow } from '../Skeleton'
 import type { SpacingProps } from '../../shared/types'
-import type { ValidIconNumericSize, ValidIconType } from './sizes'
+import type { IconValidNumericSize, IconValidType } from './sizes'
 import type { IconFunction, IconType } from './value-types'
 
 export type { IconSVGProps, IconFunction } from './value-types'
@@ -20,9 +20,9 @@ export type IconColor =
   | { [key: string]: string | number }
 
 export type IconSize =
-  | ValidIconNumericSize
-  | `${ValidIconNumericSize | number}`
-  | ValidIconType
+  | IconValidNumericSize
+  | `${IconValidNumericSize | number}`
+  | IconValidType
   | 'auto'
   | 'basis'
 

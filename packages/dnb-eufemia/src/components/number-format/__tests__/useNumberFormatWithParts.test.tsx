@@ -12,7 +12,7 @@ import type {
   NumberFormatReturnValue,
   NumberFormatValue,
 } from '../NumberUtils'
-import type { NumberFormatter } from '../useNumberFormat'
+import type { NumberFormatFormatter } from '../useNumberFormat'
 import Provider from '../../../shared/Provider'
 
 const joinParts = (parts: Array<{ value: string }>) =>
@@ -217,7 +217,7 @@ describe('useNumberFormatWithParts', () => {
           aria: '1,3 million kroner',
           locale: options.locale ?? 'nb-NO',
           type: 'currency',
-        })) as NumberFormatter
+        })) as NumberFormatFormatter
 
         const { result } = renderHook(() =>
           useNumberFormatWithParts(1300000, formatCustomCurrency, {
@@ -263,8 +263,10 @@ describe('useNumberFormatWithParts', () => {
       })
 
       it('will include compact suffix when formatter wraps formatNumber', () => {
-        const formatWrappedNumber: NumberFormatter = ((value, options) =>
-          formatNumber(value, options)) as NumberFormatter
+        const formatWrappedNumber: NumberFormatFormatter = ((
+          value,
+          options
+        ) => formatNumber(value, options)) as NumberFormatFormatter
 
         const { result } = renderHook(() =>
           useNumberFormatWithParts(1300000, formatWrappedNumber, {

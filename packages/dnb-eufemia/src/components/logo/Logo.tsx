@@ -15,7 +15,11 @@ import { DnbDefault } from './LogoSvg'
 import useTheme, { type UseThemeReturn } from '../../shared/useTheme'
 
 import type { LogoSvgComponent } from './LogoSvg'
-import type { CustomLogoSvg, LogoProps, SvgComponent } from './types'
+import type {
+  LogoCustomSvg,
+  LogoProps,
+  LogoSvgComponentType,
+} from './types'
 
 export type * from './types'
 
@@ -73,9 +77,9 @@ function Logo(localProps: LogoProps) {
       return svgProp as LogoSvgComponent
     }
     if (theme && typeof svgProp === 'function' && svgProp.length === 1) {
-      return (svgProp as (theme: UseThemeReturn) => CustomLogoSvg)(theme)
+      return (svgProp as (theme: UseThemeReturn) => LogoCustomSvg)(theme)
     }
-    return svgProp as SvgComponent
+    return svgProp as LogoSvgComponentType
   }, [svgProp, theme])
 
   // Alt text for the logo does not need to be translated. DNB alt will be the same in English.

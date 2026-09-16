@@ -11,7 +11,7 @@ import type { HTMLAttributes } from 'react'
 import { clsx } from 'clsx'
 import type { ListVariant } from './ListContext'
 import { ListContext } from './ListContext'
-import type { StackProps as FlexProps } from '../flex/Stack'
+import type { FlexStackProps as FlexProps } from '../flex/Stack'
 import FlexContainer from '../flex/Stack'
 import type { SkeletonShow } from '../Skeleton'
 import HeightAnimation, {
