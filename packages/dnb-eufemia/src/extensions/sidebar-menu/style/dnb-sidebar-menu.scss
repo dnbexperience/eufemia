@@ -227,7 +227,6 @@
   &__accordion {
     display: flex;
     flex-direction: column;
-    gap: var(--sidebar-menu-accordion-gap);
 
     list-style: none;
 
@@ -289,10 +288,7 @@
     .dnb-sidebar-menu__list {
       gap: 0.5rem;
       padding: 0;
-    }
-
-    .dnb-height-animation--hidden[hidden='until-found'] {
-      margin-block-start: -0.5rem;
+      padding-block-start: var(--sidebar-menu-accordion-gap);
     }
   }
 

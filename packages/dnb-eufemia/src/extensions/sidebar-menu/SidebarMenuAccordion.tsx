@@ -305,6 +305,7 @@ export default function SidebarMenuAccordion(
       )}
 
       <HeightAnimation
+        className="dnb-sidebar-menu__accordion__content"
         open={isOpen}
         animate={
           context.animate && (context.ancestorsOpen || startsAnimating)
@@ -321,7 +322,6 @@ export default function SidebarMenuAccordion(
             setDescendantsReady(true)
           }
         }}
-        compensateForGap="auto"
       >
         <SidebarMenuContext
           value={{

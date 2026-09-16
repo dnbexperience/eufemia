@@ -46,17 +46,8 @@ function applyPreHydrationState() {
               CSS.escape(String(id)) +
               '"]'
             const animation = root + ' > .dnb-height-animation'
-            const inner =
-              animation + ' > .dnb-height-animation__compensate-for-gap'
             const trigger =
               root + ' > .dnb-sidebar-menu__accordion__trigger'
-
-            rules[rules.length] =
-              animation +
-              '{margin-top:calc(var(--sidebar-menu-accordion-gap,.5rem)*-1)!important}'
-            rules[rules.length] =
-              inner +
-              '{margin-top:var(--sidebar-menu-accordion-gap,.5rem)!important}'
 
             if (open) {
               rules[rules.length] =

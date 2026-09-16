@@ -33,9 +33,7 @@ describe('SidebarMenuPreHydrationScript', () => {
       <nav data-open-items-storage-key="navigation" data-open-items-storage="session">
         <li data-sidebar-menu-id="about">
           <button class="dnb-sidebar-menu__accordion__trigger"></button>
-          <div class="dnb-height-animation">
-            <div class="dnb-height-animation__compensate-for-gap"></div>
-          </div>
+          <div class="dnb-height-animation"></div>
         </li>
       </nav>
     `
@@ -48,12 +46,6 @@ describe('SidebarMenuPreHydrationScript', () => {
     expect(
       document.querySelector('[data-sidebar-menu-pre-hydration]')
     ).toHaveAttribute('data-sidebar-menu-pre-hydration', 'navigation')
-    expect(css).toContain(
-      'margin-top:calc(var(--sidebar-menu-accordion-gap,.5rem)*-1)'
-    )
-    expect(css).toContain(
-      'margin-top:var(--sidebar-menu-accordion-gap,.5rem)'
-    )
     expect(css).toContain('height:0')
   })
 
