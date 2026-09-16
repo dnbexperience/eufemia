@@ -9,7 +9,7 @@ import type {
 } from './Context'
 import Context from './Context'
 import defaultLocales from './locales'
-import { isObject, warn } from './component-helper'
+import { escapeRegexChars, isObject, warn } from './component-helper'
 import type { ICUFormatMessage } from './icuFormatMessage'
 import { LOCALE } from './defaults'
 
@@ -395,8 +395,10 @@ export function formatMessage(
       }
 
       const value = typeof args[t] === 'function' ? args[t]() : args[t]
-      const regex = new RegExp(`{${t}}`, 'g')
-      str = str.replace(regex, value)
+      const regex = new RegExp(`{${escapeRegexChars(t)}}`, 'g')
+      // A replacer function inserts the value as-is, so `$&` and friends
+      // in the value are not treated as replacement patterns.
+      str = str.replace(regex, () => String(value))
     }
 
     // Warn about unreplaced placeholders (e.g. missing variables).
