@@ -2,9 +2,9 @@ import Container from './Container'
 import type { FlexContainerAllProps } from './Container'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
-export type VerticalProps = Omit<FlexContainerAllProps, 'direction'>
+export type FlexVerticalProps = Omit<FlexContainerAllProps, 'direction'>
 
-function Vertical({ children, ...props }: VerticalProps) {
+function Vertical({ children, ...props }: FlexVerticalProps) {
   return (
     <Container {...props} direction="vertical">
       {children}

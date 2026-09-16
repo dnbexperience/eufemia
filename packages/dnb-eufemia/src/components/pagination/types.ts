@@ -10,7 +10,7 @@ import type {
   ReactNode,
   SyntheticEvent,
 } from 'react'
-import type { NavigationItemProps } from './PaginationBar'
+import type { PaginationNavigationItemProps } from './PaginationBar'
 import type { SkeletonShow } from '../Skeleton'
 import type { SpacingProps, SpaceTypeAll } from '../../shared/types'
 import type { ButtonIconPosition } from '../Button'
@@ -224,7 +224,7 @@ export type PaginationProps = {
    */
   transformNavigationItem?: (
     pageNumber: number,
-    navigationItemProps: NavigationItemProps
+    navigationItemProps: PaginationNavigationItemProps
   ) => ReactNode
   className?: string
   /**

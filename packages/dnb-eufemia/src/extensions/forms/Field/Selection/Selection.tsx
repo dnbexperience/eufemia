@@ -34,7 +34,7 @@ import type { FieldProps, Path } from '../../types'
 import type { FormStatusText } from '../../../../components/FormStatus'
 import type { AutocompleteAllProps } from '../../../../components/Autocomplete'
 import type { DropdownAllProps } from '../../../../components/Dropdown'
-import type { HelpProps } from '../../../../components/help-button/HelpButtonInline'
+import type { HelpButtonHelpProps } from '../../../../components/help-button/HelpButtonInline'
 import type {
   DrawerListDriver,
   DrawerListDataArrayObjectStrict,
@@ -424,7 +424,7 @@ type OptionProps = ComponentProps<
   (props: {
     value: FieldSelectionProps['value']
     error: Error | FormError | undefined
-    help: HelpProps
+    help: HelpButtonHelpProps
     title: ReactNode
     children: ReactNode
     size?: ToggleButtonProps['size'] | RadioProps['size']

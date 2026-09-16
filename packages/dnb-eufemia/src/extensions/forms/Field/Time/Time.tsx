@@ -10,14 +10,16 @@ import { clsx } from 'clsx'
 import type { FieldBlockProps } from '../../FieldBlock'
 import FieldBlock from '../../FieldBlock'
 import type {
-  SegmentedFieldProps,
-  SegmentedFieldValue,
+  InputMaskedSegmentedFieldProps,
+  InputMaskedSegmentedFieldValue,
 } from '../../../../components/input-masked/segmented-field/SegmentedField'
 import SegmentedField from '../../../../components/input-masked/segmented-field/SegmentedField'
 import useTranslation from '../../hooks/useTranslation'
 import { FormError } from '../../utils'
 
-type TimeValue = SegmentedFieldValue<'hours' | 'minutes' | 'seconds'>
+type TimeValue = InputMaskedSegmentedFieldValue<
+  'hours' | 'minutes' | 'seconds'
+>
 
 export type TimeValidator = ValidatorWithCustomValidators<
   string,
@@ -33,7 +35,9 @@ export type TimeProps = Omit<
   /**
    * The size of the component.
    */
-  size?: SegmentedFieldProps<'hours' | 'minutes' | 'seconds'>['size']
+  size?: InputMaskedSegmentedFieldProps<
+    'hours' | 'minutes' | 'seconds'
+  >['size']
 
   /**
    * If set to `true`, a seconds input is shown in addition to hours and minutes.

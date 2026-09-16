@@ -32,12 +32,12 @@ import ui from '../../style/themes/ui/properties'
 import sbanken from '../../style/themes/sbanken/properties'
 import type { GlobalStatusConfigObject } from '../GlobalStatus'
 import type {
-  ErrorIconProps,
+  FormStatusErrorIconProps,
   FormStatusProps,
   FormStatusState,
-  InfoIconProps,
-  MarketingIconProps,
-  WarnIconProps,
+  FormStatusInfoIconProps,
+  FormStatusMarketingIconProps,
+  FormStatusWarnIconProps,
 } from './types'
 
 export type * from './types'
@@ -440,7 +440,7 @@ withComponentMarkers(FormStatus, { _supportsSpacingProps: true })
 
 export default FormStatus
 
-export const ErrorIcon = (props: ErrorIconProps) => {
+export const ErrorIcon = (props: FormStatusErrorIconProps) => {
   const { title = 'error' } = props || {}
   const isSbankenTheme = useTheme()?.isSbanken
   const fill = isSbankenTheme
@@ -472,7 +472,7 @@ export const ErrorIcon = (props: ErrorIconProps) => {
   )
 }
 
-export const WarnIcon = (props: WarnIconProps) => {
+export const WarnIcon = (props: FormStatusWarnIconProps) => {
   const { title = 'error' } = props || {}
   const isSbankenTheme = useTheme()?.isSbanken
   const fill = isSbankenTheme
@@ -504,7 +504,7 @@ export const WarnIcon = (props: WarnIconProps) => {
   )
 }
 
-export const InfoIcon = (props: InfoIconProps) => {
+export const InfoIcon = (props: FormStatusInfoIconProps) => {
   const { title = 'information' } = props || {}
   const isSbankenTheme = useTheme()?.isSbanken
   let fill = isSbankenTheme
@@ -541,7 +541,7 @@ export const InfoIcon = (props: InfoIconProps) => {
   )
 }
 
-export const MarketingIcon = (props: MarketingIconProps) => {
+export const MarketingIcon = (props: FormStatusMarketingIconProps) => {
   const { title = 'marketing' } = props || {}
   const isSbankenTheme = useTheme()?.isSbanken
   const fill = isSbankenTheme

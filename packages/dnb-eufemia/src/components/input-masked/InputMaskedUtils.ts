@@ -13,7 +13,7 @@ import type { NumberFormatValue } from '../number-format/NumberUtils'
 import { warn } from '../../shared/component-helper'
 import { IS_IOS } from '../../shared/helpers'
 import { safeSetSelection } from './text-mask/safeSetSelection'
-import type { MaskParams } from './text-mask/types'
+import type { InputMaskedMaskParams } from './text-mask/types'
 import type { InputMaskedProps } from './InputMasked'
 
 const enableLocaleSupportWhen = [
@@ -75,7 +75,7 @@ export const isRequestingNumberMask = (
  * @property {object} maskParams predefined mask parameters
  * @returns String Value
  */
-export type InputMaskParams = {
+export type InputMaskedInputMaskParams = {
   showMask?: boolean
   allowDecimal?: boolean
   decimalLimit?: number
@@ -91,7 +91,7 @@ export type InputMaskParams = {
  * Options accepted by the number/currency mask handlers.
  * Extends the internal number-mask parameters with currency-specific fields.
  */
-export type InputMaskedMaskHandlerOptions = MaskParams & {
+export type InputMaskedMaskHandlerOptions = InputMaskedMaskParams & {
   showMask?: boolean
   currency?: string
   currencyDisplay?: string | false
@@ -106,7 +106,7 @@ export const correctNumberValue = ({
   localValue?: string | null
   props: Record<string, any>
   locale: string
-  maskParams: InputMaskParams
+  maskParams: InputMaskedInputMaskParams
 }): string => {
   let value =
     props.value === null
@@ -341,7 +341,7 @@ export const handlePercentMask = ({
 }: {
   props: InputMaskedProps
   locale: string
-  maskParams: InputMaskParams
+  maskParams: InputMaskedInputMaskParams
 }) => {
   const value = formatPercent(props.value as NumberFormatValue, { locale })
   const m = String(value).match(/((\s|)%)$/g)
@@ -365,12 +365,12 @@ export const handleCurrencyMask = ({
 }: {
   maskOptions: InputMaskedMaskHandlerOptions
   currencyMask: string | InputMaskedMaskHandlerOptions
-}): InputMaskParams => {
+}): InputMaskedInputMaskParams => {
   const givenParams =
     typeof currencyMask === 'string'
       ? { ...maskOptions, 0: String(currencyMask) }
       : { ...maskOptions, ...currencyMask }
-  const paramsWithDefaults: InputMaskParams = {
+  const paramsWithDefaults: InputMaskedInputMaskParams = {
     showMask: true,
     allowDecimal: true,
     decimalLimit: 2,
@@ -426,8 +426,8 @@ export const handleNumberMask = ({
 }: {
   maskOptions: InputMaskedMaskHandlerOptions
   numberMask: InputMaskedMaskHandlerOptions
-}): InputMaskParams => {
-  const maskParams: InputMaskParams = {
+}): InputMaskedInputMaskParams => {
+  const maskParams: InputMaskedInputMaskParams = {
     decimalSymbol: ',',
     ...maskOptions,
     ...numberMask,

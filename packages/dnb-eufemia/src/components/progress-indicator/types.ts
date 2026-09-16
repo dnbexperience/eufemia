@@ -4,12 +4,12 @@ import type { SpacingProps } from '../../shared/types'
 
 const validSizes = ['default', 'small', 'medium', 'large', 'huge'] as const
 
-export type ValidSizes = (typeof validSizes)[number]
+export type ProgressIndicatorValidSizes = (typeof validSizes)[number]
 export type ProgressIndicatorCustomSize = CSS.Property.Width
 
 export function isValidSize(
   size: ProgressIndicatorProps['size']
-): size is ValidSizes {
+): size is ProgressIndicatorValidSizes {
   return validSizes.some((validSize) => validSize === size)
 }
 
@@ -33,7 +33,7 @@ export type ProgressIndicatorProps = {
    * Defines the size.
    * Default: `"default"`
    */
-  size?: ValidSizes | ProgressIndicatorCustomSize
+  size?: ProgressIndicatorValidSizes | ProgressIndicatorCustomSize
   /**
    * A number between 0-100, if not supplied a continuous loading-type animation will be used.
    * Default: `undefined`
@@ -110,7 +110,7 @@ export type ProgressIndicatorAnimationProps = Pick<
   | 'customColors'
   | 'customCircleWidth'
 > & {
-  size?: ValidSizes | 'custom-size'
+  size?: ProgressIndicatorValidSizes | 'custom-size'
   progress?: number
   /**
    * Callback when animation ends because `show` is set to false

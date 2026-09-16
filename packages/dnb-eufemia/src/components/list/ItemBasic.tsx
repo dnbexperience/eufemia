@@ -1,18 +1,18 @@
 import type { ReactNode } from 'react'
-import type { ItemContentProps } from './ItemContent'
+import type { ListItemContentProps } from './ItemContent'
 import ItemContent from './ItemContent'
 import ItemIcon from './ItemIcon'
 import ItemTitle from './ItemTitle'
 import type { IconIcon } from '../icon/Icon'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
-export type ItemBasicProps = {
+export type ListItemBasicProps = {
   id?: string
   icon?: IconIcon
   title?: ReactNode
-} & Omit<ItemContentProps, 'title'>
+} & Omit<ListItemContentProps, 'title'>
 
-function ItemBasic(props: ItemBasicProps) {
+function ItemBasic(props: ListItemBasicProps) {
   const { icon, title, children, element, ...rest } = props
 
   // The auto-rendered icon and title must be valid inside the row element.

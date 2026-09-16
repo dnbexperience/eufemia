@@ -21,6 +21,7 @@ draft: true
     - [Img](#img)
     - [Popover](#popover)
     - [ScrollView](#scrollview)
+  - [TypeScript type exports](#typescript-type-exports)
 
 > **Note:** There is no `v12` release. The version `v12` was accidentally published to NPM and has since been removed. Because a published version number cannot be safely reused, `v12` has been skipped entirely, and these breaking changes are released as `v13` instead.
 
@@ -312,3 +313,31 @@ Note that the `disable*` props invert, so a disabled feature becomes `false`:
 -import { ScrollView } from '@dnb/eufemia/fragments'
 +import { ScrollView } from '@dnb/eufemia'
 ```
+
+## TypeScript type exports
+
+Several exported type names now carry their component prefix, to make them consistent and unambiguous across the library. These are type-only renames — the runtime API (components, hooks and constants) is unchanged. Update `import type` statements and type references as follows:
+
+```diff
+-import type { DisplayPickerEvent } from '@dnb/eufemia/components/DatePicker'
++import type { DatePickerDisplayEvent } from '@dnb/eufemia/components/DatePicker'
+```
+
+| Component    | Before                 | After                          |
+| ------------ | ---------------------- | ------------------------------ |
+| DatePicker   | `DisplayPickerEvent`   | `DatePickerDisplayEvent`       |
+| FormStatus   | `ErrorIconProps`       | `FormStatusErrorIconProps`     |
+| FormStatus   | `WarnIconProps`        | `FormStatusWarnIconProps`      |
+| FormStatus   | `InfoIconProps`        | `FormStatusInfoIconProps`      |
+| FormStatus   | `MarketingIconProps`   | `FormStatusMarketingIconProps` |
+| Heading      | `InternalHeadingLevel` | `HeadingInternalLevel`         |
+| Icon         | `DefaultIconSizes`     | `IconDefaultSizes`             |
+| Icon         | `ValidIconType`        | `IconValidType`                |
+| Icon         | `ValidIconNumericSize` | `IconValidNumericSize`         |
+| Logo         | `Svg`                  | `LogoSvgInput`                 |
+| Logo         | `SvgComponent`         | `LogoSvgComponentType`         |
+| Logo         | `CustomLogoSvg`        | `LogoCustomSvg`                |
+| NumberFormat | `NumberFormatter`      | `NumberFormatFormatter`        |
+| NumberFormat | `BankAccountType`      | `NumberFormatBankAccountType`  |
+
+The `Icon` renames affect only the types. The `ValidIconType` and `DefaultIconSizes` runtime constants keep their names.

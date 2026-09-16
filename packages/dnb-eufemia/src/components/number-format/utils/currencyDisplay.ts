@@ -7,14 +7,19 @@ import {
   CURRENCY_DISPLAY,
   CURRENCY_FALLBACK_DISPLAY,
 } from '../../../shared/defaults'
-import type { CurrencyDisplayValue } from './types'
+import type { NumberFormatCurrencyDisplayValue } from './types'
 
 const validCurrencyDisplayValues: ReadonlySet<string> =
-  new Set<CurrencyDisplayValue>(['code', 'name', 'symbol', 'narrowSymbol'])
+  new Set<NumberFormatCurrencyDisplayValue>([
+    'code',
+    'name',
+    'symbol',
+    'narrowSymbol',
+  ])
 
 function isCurrencyDisplayValue(
   value: string
-): value is CurrencyDisplayValue {
+): value is NumberFormatCurrencyDisplayValue {
   return validCurrencyDisplayValues.has(value)
 }
 
@@ -24,7 +29,7 @@ function isCurrencyDisplayValue(
 export function getFallbackCurrencyDisplay(
   locale: string | null = null,
   currencyDisplay: string | boolean | null = null
-): CurrencyDisplayValue {
+): NumberFormatCurrencyDisplayValue {
   // If currencyDisplay is not defined and locale is "no", use narrowSymbol
   if (!currencyDisplay && (!locale || /(no|nb|nn)$/i.test(locale))) {
     currencyDisplay = CURRENCY_DISPLAY
