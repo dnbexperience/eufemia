@@ -168,13 +168,13 @@ class SSRErrorBoundary extends Component<
   { children: ReactNode },
   { hasError: boolean }
 > {
-  state = { hasError: false }
+  override state = { hasError: false }
 
   static getDerivedStateFromError() {
     return { hasError: true }
   }
 
-  render() {
+  override render() {
     if (this.state.hasError) {
       return null
     }

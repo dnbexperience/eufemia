@@ -203,7 +203,8 @@ export const WithAsyncFileHandler = () => {
             } catch (error) {
               updatedFiles.push({
                 ...file,
-                errorMessage: error.message,
+                errorMessage:
+                  error instanceof Error ? error.message : String(error),
                 removeLink: true,
               })
             }
@@ -577,7 +578,8 @@ export const WithIterateArray = () => {
             } catch (error) {
               updatedFiles.push({
                 ...file,
-                errorMessage: error.message,
+                errorMessage:
+                  error instanceof Error ? error.message : String(error),
               })
             }
           }
