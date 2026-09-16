@@ -215,6 +215,19 @@ export const warningValidCases = [
     `,
     filename: 'FilterDocs.ts',
   },
+  {
+    code: `
+      const SidebarMenuDocs = {
+        badge: {
+          type: 'BadgeProps["content"]',
+        },
+        breakpoint: {
+          type: ['MediaQuerySizes', '\`\${number}em\`'],
+        },
+      }
+    `,
+    filename: 'SidebarMenuDocs.ts',
+  },
 ]
 
 export const warningInvalidCases = [
