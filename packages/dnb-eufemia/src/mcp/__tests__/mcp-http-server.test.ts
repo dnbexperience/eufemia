@@ -463,6 +463,20 @@ describe('mcp-http-server origin validation', () => {
     )
     expect(res.status).toBe(403)
   })
+
+  it('rejects a cross-site Origin before parsing the body', async () => {
+    const res = await fetch(`${server.url}/mcp`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Origin: 'https://attacker.example',
+      },
+      body: '{ not json',
+    })
+
+    // A 400 would mean the body parser ran first.
+    expect(res.status).toBe(403)
+  })
 })
 
 describe('mcp-http-server with an explicit origin allowlist', () => {

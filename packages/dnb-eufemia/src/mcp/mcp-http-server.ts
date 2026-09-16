@@ -275,9 +275,11 @@ export async function startHttpServer(
 
   const app = express()
   app.disable('x-powered-by')
-  app.use(express.json({ limit: '4mb' }))
+  // Header-only guards run before the body parser, so a rejected request
+  // never costs a 4mb parse.
   app.use(hostAllowlistMiddleware(allowedHosts, logErr))
   app.use(originAllowlistMiddleware(allowedOrigins, logErr))
+  app.use(express.json({ limit: '4mb' }))
 
   app.get('/healthz', (_req: ExpressRequest, res: ExpressResponse) => {
     res.json({
