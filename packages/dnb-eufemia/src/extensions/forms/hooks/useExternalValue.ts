@@ -125,7 +125,6 @@ export default function useExternalValue<Value>(
     data,
     dataValue,
     getDataValue,
-    getValueSnapshot,
     emptyValue,
     inIterate,
     itemPath,

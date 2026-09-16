@@ -166,6 +166,40 @@ describe('ListFormat', () => {
     expect(valueBlock).toHaveTextContent('123, 456 og 789')
   })
 
+  it('updates className and rest props when only they change', () => {
+    const values = [123, 456, 789]
+    const { container, rerender } = render(
+      <ListFormat
+        variant="ol"
+        value={values}
+        className="first"
+        id="first-id"
+      />
+    )
+
+    const ol = container.querySelector('.dnb-ol') as HTMLOListElement
+    expect(ol).toHaveClass('first')
+    expect(ol).toHaveAttribute('id', 'first-id')
+
+    // Only className and the rest props change – value, variant and
+    // listType stay the same, so the memoized output must still update.
+    rerender(
+      <ListFormat
+        variant="ol"
+        value={values}
+        className="second"
+        id="second-id"
+      />
+    )
+
+    const updatedOl = container.querySelector(
+      '.dnb-ol'
+    ) as HTMLOListElement
+    expect(updatedOl).toHaveClass('second')
+    expect(updatedOl).not.toHaveClass('first')
+    expect(updatedOl).toHaveAttribute('id', 'second-id')
+  })
+
   it('should render different `listTypes` using value', () => {
     const values = [123, 456, 789]
     const { container, rerender } = render(

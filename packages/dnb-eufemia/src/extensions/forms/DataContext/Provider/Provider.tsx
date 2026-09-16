@@ -1901,7 +1901,6 @@ export default function Provider<Data extends JsonObject>(
     setSubmitState,
     updateDataValue,
     visibleDataHandler,
-    showAllErrorsRef.current,
   ])
 
   const { bufferedFormState: formState } = useFormStatusBuffer({
