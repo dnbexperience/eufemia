@@ -190,6 +190,11 @@ resource "aws_glue_catalog_table" "portal_views" {
     }
 
     columns {
+      name = "via_search"
+      type = "string"
+    }
+
+    columns {
       name = "created_at"
       type = "string"
     }

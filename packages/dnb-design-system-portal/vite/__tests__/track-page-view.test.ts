@@ -23,11 +23,13 @@ function setReferrer(value: string) {
 describe('trackPageView', () => {
   let beacon: ReturnType<typeof vi.fn>
   let trackPageView: typeof import('../client/track-page-view').trackPageView
+  let markNextViewFromSearch: typeof import('../client/track-page-view').markNextViewFromSearch
 
   beforeEach(async () => {
     // Re-import so the module-level dedup and buffer start fresh each test.
     vi.resetModules()
-    ;({ trackPageView } = await import('../client/track-page-view'))
+    ;({ trackPageView, markNextViewFromSearch } =
+      await import('../client/track-page-view'))
     beacon = vi.fn().mockReturnValue(true)
     setBeacon(beacon)
     vi.stubEnv('VITE_ANALYTICS_ENDPOINT', '/collect')
@@ -102,6 +104,7 @@ describe('trackPageView', () => {
     expect(payload[0].theme).toBe('ui')
     expect(payload[0].color_scheme).toBe('light')
     expect(payload[0].referrer).toBe('direct')
+    expect(payload[0].via_search).toBe('no')
   })
 
   it('records the selected locale and theme', async () => {
@@ -264,6 +267,49 @@ describe('trackPageView', () => {
     expect(
       payload.map((event: { referrer: string }) => event.referrer)
     ).toEqual(['search', 'internal', 'internal'])
+  })
+
+  it('marks a view reached via the search box as via_search "yes"', async () => {
+    markNextViewFromSearch()
+    trackPageView('/search-result')
+    flush()
+
+    const payload = JSON.parse(
+      await (beacon.mock.calls[0][1] as Blob).text()
+    )
+    expect(payload[0].via_search).toBe('yes')
+  })
+
+  it('only attributes the search marker to the next recorded view', async () => {
+    markNextViewFromSearch()
+    trackPageView('/search-result')
+    trackPageView('/next-page')
+    flush()
+
+    const payload = JSON.parse(
+      await (beacon.mock.calls[0][1] as Blob).text()
+    )
+    expect(
+      payload.map((event: { via_search: string }) => event.via_search)
+    ).toEqual(['yes', 'no'])
+  })
+
+  it('does not leak the search marker past a deduped view', async () => {
+    trackPageView('/a')
+    markNextViewFromSearch()
+    trackPageView('/a')
+    trackPageView('/b')
+    flush()
+
+    const payload = JSON.parse(
+      await (beacon.mock.calls[0][1] as Blob).text()
+    )
+    expect(
+      payload.map(
+        (event: { path: string; via_search: string }) =>
+          `${event.path} ${event.via_search}`
+      )
+    ).toEqual(['/a no', '/b no'])
   })
 
   it('flushes multiple buffered views in a single beacon', async () => {

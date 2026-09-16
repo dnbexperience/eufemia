@@ -6,8 +6,9 @@
  * values — before storing, so nothing incidental is persisted. Each view also
  * carries its dimensions: the source environment, status, the active component
  * language (locale) and theme (brand), the resolved color scheme (light or
- * dark), and how the visit arrived (referrer category on the first view, then
- * `internal` for later in-app navigations). No identifiers or
+ * dark), how the visit arrived (referrer category on the first view, then
+ * `internal` for later in-app navigations), and whether the view was reached
+ * via the in-app search box. No identifiers or
  * cookies are used; the locale, theme and color scheme are read from the
  * portal's existing preferences, never written, so tracking creates no device
  * storage of its own. Only a coarse referrer category is derived — never the
@@ -135,6 +136,24 @@ function referrerForView(): ReferrerCategory {
   return analyticsReferrerCategory()
 }
 
+// Whether the next recorded view is being navigated to from the in-app search
+// box, so it can be attributed to search rather than ordinary browsing. The
+// search box sets this just before it navigates; the following view consumes it
+// once. A fresh document load can never be reached this way, so the arrival
+// view is always `no`.
+let nextViewFromSearch = false
+
+/** Mark the next recorded page view as reached via the in-app search box. */
+export function markNextViewFromSearch(): void {
+  nextViewFromSearch = true
+}
+
+function viaSearchForView(): ViaSearch {
+  const fromSearch = nextViewFromSearch
+  nextViewFromSearch = false
+  return fromSearch ? 'yes' : 'no'
+}
+
 // How the portal classified the view: a normal page, an unknown path that fell
 // through to the 404 page, or a render error caught by the error boundary.
 export type PageViewStatus = 'ok' | 'not_found' | 'error'
@@ -142,6 +161,8 @@ export type PageViewStatus = 'ok' | 'not_found' | 'error'
 type ColorScheme = 'light' | 'dark'
 
 type ReferrerCategory = 'search' | 'internal' | 'direct' | 'external'
+
+type ViaSearch = 'yes' | 'no'
 
 type PageViewEvent = {
   path: string
@@ -152,6 +173,7 @@ type PageViewEvent = {
   theme: string
   color_scheme: ColorScheme
   referrer: ReferrerCategory
+  via_search: ViaSearch
 }
 
 /**
@@ -232,6 +254,11 @@ export function trackPageView(
     return
   }
 
+  // Consume the search-navigation marker before the dedup check so it can never
+  // leak onto a later, unrelated view (e.g. searching to the current path is
+  // deduped and simply drops the signal with the skipped view).
+  const viaSearch = viaSearchForView()
+
   // Skip an immediate repeat of the same path and status (a re-mount or dev
   // StrictMode double-invoke); a genuine navigation back to it later still
   // counts, and a status change on the current path (e.g. a render error) is
@@ -253,6 +280,7 @@ export function trackPageView(
       theme: analyticsTheme(),
       color_scheme: analyticsColorScheme(),
       referrer: referrerForView(),
+      via_search: viaSearch,
     })
 
     if (buffer.length >= MAX_BUFFER) {
