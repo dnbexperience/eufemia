@@ -464,8 +464,8 @@ describe('prerender-utils', () => {
       expect(result).toContain('[data-open-items-storage-key]')
       expect(result).toContain('data-sidebar-menu-pre-hydration')
       expect(result).toContain('closedItems')
-      expect(result).toContain('--sidebar-menu-accordion-gap')
-      expect(result).toContain('margin-top')
+      expect(result).toContain('display:block!important;height:auto')
+      expect(result).toContain('height:0!important')
       expect(result).not.toContain('data-portal-ready')
     })
 
