@@ -206,6 +206,32 @@ describe('Element', () => {
     )
   })
 
+  it('should handle an internalClass with several class names', () => {
+    render(
+      <>
+        <Element
+          id="a"
+          as="img"
+          internalClass="dnb-img dnb-img--error"
+          className="dnb-img dnb-img--error"
+        />
+        <Element
+          id="b"
+          as="img"
+          internalClass="dnb-img dnb-img--error"
+          className="dnb-img"
+        />
+      </>
+    )
+
+    expect(sortClassNames(document.querySelector('#a').className)).toEqual(
+      sortClassNames('dnb-img dnb-img--error')
+    )
+    expect(sortClassNames(document.querySelector('#b').className)).toEqual(
+      sortClassNames('dnb-img dnb-img--error')
+    )
+  })
+
   it('should replace tag class with prop internalClass', () => {
     render(
       <Element as="span" internalClass="replacement-class">
