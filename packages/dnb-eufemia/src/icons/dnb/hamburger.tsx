@@ -14,7 +14,19 @@ const hamburger = (props?: IconSVGProps) => (
       stroke="#000"
       strokeLinecap="round"
       strokeWidth={1.5}
-      d="M1 14h14M1 8h14M1 2h14"
+      d="M1 2h14"
+    />
+    <path
+      stroke="#000"
+      strokeLinecap="round"
+      strokeWidth={1.5}
+      d="M1 8h14"
+    />
+    <path
+      stroke="#000"
+      strokeLinecap="round"
+      strokeWidth={1.5}
+      d="M1 14h14"
     />
   </svg>
 )
