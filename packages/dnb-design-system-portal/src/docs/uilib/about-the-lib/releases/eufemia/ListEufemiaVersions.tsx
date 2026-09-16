@@ -1,10 +1,12 @@
 import ListSummaryFromEdges from '../../../../../shared/parts/ListSummaryFromEdges'
-import { regularMdxNodes, globPath } from 'virtual:portal-pages'
+import { regularMdxNodes } from 'virtual:portal-pages'
+import { getEufemiaVersions } from '../../../../../shared/parts/listEdges'
 
 export default function ListEufemiaVersions(props) {
-  const edges = regularMdxNodes.filter((node) =>
-    globPath(node, 'uilib/about-the-lib/releases/eufemia/**/*')
+  return (
+    <ListSummaryFromEdges
+      edges={getEufemiaVersions(regularMdxNodes)}
+      {...props}
+    />
   )
-
-  return <ListSummaryFromEdges edges={edges} {...props} />
 }

@@ -1,12 +1,12 @@
 import ListSummaryFromEdges from '../../../../../shared/parts/ListSummaryFromEdges'
-import { regularMdxNodes, globPath } from 'virtual:portal-pages'
+import { regularMdxNodes } from 'virtual:portal-pages'
+import { getFeatureValueComponents } from '../../../../../shared/parts/listEdges'
 
 export default function ListFeatureValueComponents(props) {
-  const edges = regularMdxNodes.filter(
-    (node) =>
-      globPath(node, 'uilib/extensions/forms/Value/**/*') &&
-      node.frontmatter.componentType?.includes('feature')
+  return (
+    <ListSummaryFromEdges
+      edges={getFeatureValueComponents(regularMdxNodes)}
+      {...props}
+    />
   )
-
-  return <ListSummaryFromEdges edges={edges} {...props} />
 }

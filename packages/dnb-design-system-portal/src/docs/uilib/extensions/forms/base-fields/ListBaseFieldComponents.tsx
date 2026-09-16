@@ -1,12 +1,12 @@
-import { regularMdxNodes, globPath } from 'virtual:portal-pages'
+import { regularMdxNodes } from 'virtual:portal-pages'
+import { getBaseFieldComponents } from '../../../../../shared/parts/listEdges'
 import ListSummaryFromEdges from '../../../../../shared/parts/ListSummaryFromEdges'
 
 export default function ListBaseFieldComponents(props) {
-  const edges = regularMdxNodes.filter(
-    (node) =>
-      globPath(node, 'uilib/extensions/forms/base-fields/*') &&
-      node.frontmatter.componentType?.includes('base')
+  return (
+    <ListSummaryFromEdges
+      edges={getBaseFieldComponents(regularMdxNodes)}
+      {...props}
+    />
   )
-
-  return <ListSummaryFromEdges edges={edges} {...props} />
 }

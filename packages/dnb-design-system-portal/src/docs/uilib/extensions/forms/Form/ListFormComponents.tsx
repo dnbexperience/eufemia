@@ -1,12 +1,12 @@
 import ListSummaryFromEdges from '../../../../../shared/parts/ListSummaryFromEdges'
-import { regularMdxNodes, globPath } from 'virtual:portal-pages'
+import { regularMdxNodes } from 'virtual:portal-pages'
+import { getFormComponents } from '../../../../../shared/parts/listEdges'
 
 export default function ListFormComponents(props) {
-  const edges = regularMdxNodes.filter(
-    (node) =>
-      globPath(node, 'uilib/extensions/forms/Form/**/*') &&
-      node.frontmatter.componentType !== 'docs'
+  return (
+    <ListSummaryFromEdges
+      edges={getFormComponents(regularMdxNodes)}
+      {...props}
+    />
   )
-
-  return <ListSummaryFromEdges edges={edges} {...props} />
 }
