@@ -397,7 +397,7 @@ function PhoneNumber(props: FieldPhoneNumberProps = {}) {
         eventValues
       )
     },
-    [prepareEventValues, handleChange]
+    [prepareEventValues, handleChange, toEvent]
   )
 
   const callOnBlurOrFocus = useCallback(

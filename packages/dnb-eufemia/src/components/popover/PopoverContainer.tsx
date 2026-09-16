@@ -837,6 +837,7 @@ function PopoverContainer(props: PopoverContainerProps) {
   }, [
     alignOnTarget,
     autoAlignMode,
+    autoAlignViewportThreshold,
     arrowPosition,
     horizontalOffset,
     arrowEdgeOffset,
