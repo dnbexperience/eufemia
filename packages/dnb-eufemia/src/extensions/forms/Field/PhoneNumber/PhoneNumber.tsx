@@ -397,6 +397,7 @@ function PhoneNumber(props: FieldPhoneNumberProps = {}) {
         eventValues
       )
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- `toEvent` only reshapes its arguments, so a re-created one behaves the same
     [prepareEventValues, handleChange]
   )
 

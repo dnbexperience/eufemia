@@ -970,11 +970,11 @@ function StateChanges({
 
   useEffect(() => {
     setState({ showHeading3, showHeading4: state.showHeading4 })
-  }, [showHeading3]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [showHeading3])
 
   useEffect(() => {
     setState({ showHeading4, showHeading3: state.showHeading3 })
-  }, [showHeading4]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [showHeading4])
 
   return (
     <Heading.Level group="A" debug={warn} reset={1}>

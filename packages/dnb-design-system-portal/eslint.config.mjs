@@ -45,6 +45,15 @@ export default [
     },
   },
 
+  {
+    // Documentation demos seed their state from mount-only effects. They are
+    // also read as copy-paste samples, so keep lint directives out of them.
+    files: ['src/docs/**/Examples.tsx', 'src/docs/**/visual-tests.tsx'],
+    rules: {
+      'react-hooks/exhaustive-deps': 'off',
+    },
+  },
+
   // MDX linting — parse and lint .mdx files
   {
     ...mdxPlugin.flat,

@@ -456,6 +456,7 @@ export default function useFieldValidation<Value>({
         }
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- `forceUpdate` comes from useReducer and keeps a stable identity, so listing it would only add noise
     [
       asyncBehaviorIsEnabled,
       validateContinuously,
@@ -804,6 +805,7 @@ export default function useFieldValidation<Value>({
     }
 
     validatorCacheRef.current.onBlurValidator = result || null
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- `revealErrorRef` is a ref, which keeps a stable identity, so listing it would only add noise
   }, [
     callOnBlurValidator,
     clearErrorState,
@@ -970,6 +972,7 @@ export default function useFieldValidation<Value>({
         }
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- adding the remaining values would re-create the validator on every render and restart validation
     [
       clearErrorState,
       disabled,

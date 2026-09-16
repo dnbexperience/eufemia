@@ -540,6 +540,47 @@ describe('ListFormat', () => {
 
     expect(element.classList).toContain('dnb-space__top--large')
   })
+
+  it('should re-render when className changes', () => {
+    // A stable `value` keeps the internal list memo from recomputing, which is
+    // what exposes props the render memo forgets to depend on.
+    const value = ['Foo', 'Bar']
+
+    const { rerender } = render(
+      <ListFormat value={value} variant="ul" className="first" />
+    )
+
+    expect(document.querySelector('.dnb-list-format').classList).toContain(
+      'first'
+    )
+
+    rerender(<ListFormat value={value} variant="ul" className="second" />)
+
+    const element = document.querySelector('.dnb-list-format')
+
+    expect(element.classList).toContain('second')
+    expect(element.classList).not.toContain('first')
+  })
+
+  it('should re-render when listType changes', () => {
+    const value = ['Foo', 'Bar']
+
+    const { rerender } = render(
+      <ListFormat value={value} variant="ol" listType="a" />
+    )
+
+    expect(document.querySelector('.dnb-list-format')).toHaveAttribute(
+      'type',
+      'a'
+    )
+
+    rerender(<ListFormat value={value} variant="ol" listType="i" />)
+
+    expect(document.querySelector('.dnb-list-format')).toHaveAttribute(
+      'type',
+      'i'
+    )
+  })
 })
 
 describe('ListFormat aria', () => {

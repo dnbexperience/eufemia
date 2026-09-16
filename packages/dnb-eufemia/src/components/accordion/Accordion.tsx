@@ -255,6 +255,7 @@ function AccordionDefault({
         window?.['__dnbAccordion'][group]?.removeInstance(thisInstance)
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- registers this instance in the group store once per mount, so re-running on prop changes would add duplicates
   }, [])
 
   // Sync expanded state from context

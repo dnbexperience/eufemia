@@ -393,6 +393,7 @@ export default function Provider<Data extends JsonObject>(
 
       return errorsRef.current
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- `getAjvInstance` caches the instance in a ref on first call, so a re-created one still resolves to the same instance
     []
   )
   const revealError = useCallback((path: Path, hasError: boolean) => {
@@ -614,6 +615,7 @@ export default function Provider<Data extends JsonObject>(
 
     errorsRef.current = undefined
     return undefined // stop here
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- `getAjvInstance` caches the instance in a ref on first call, so a re-created one still resolves to the same instance
   }, [])
   const validateData = useCallback(() => {
     const previousErrors = errorsRef.current
@@ -1654,6 +1656,7 @@ export default function Provider<Data extends JsonObject>(
 
       return result
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- `setSubmitState` is created with an empty dependency list, so it keeps a stable identity
     [
       applySubmitState,
       clearData,
@@ -1889,6 +1892,7 @@ export default function Provider<Data extends JsonObject>(
         { preventSyncOfSameInstance: true }
       )
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- `showAllErrorsRef.current` is read during render and listed on purpose, so the sync re-runs when the flag flips
   }, [
     clearData,
     extendAttachment,

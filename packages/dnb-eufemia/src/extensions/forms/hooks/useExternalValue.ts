@@ -121,6 +121,7 @@ export default function useExternalValue<Value>(
     }
 
     return emptyValue
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- `getValueSnapshot` is listed on purpose, so the value is recomputed when the snapshot source changes
   }, [
     data,
     dataValue,

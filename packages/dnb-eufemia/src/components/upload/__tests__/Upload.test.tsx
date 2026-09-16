@@ -946,6 +946,31 @@ describe('Upload', () => {
     ])
   })
 
+  it('will react to allowDuplicates changing between uploads', async () => {
+    const id = 'toggle-allow-duplicates'
+
+    const { result } = renderHook(useUpload, { initialProps: id })
+
+    const { rerender } = render(<Upload {...defaultProps} id={id} />)
+
+    const getRootElement = () => document.querySelector('.dnb-upload')
+    const file = createMockFile('fileName-1.png', 100, 'image/png')
+
+    fireEvent.drop(getRootElement(), {
+      dataTransfer: { files: [file] },
+    })
+
+    expect(result.current.files.length).toBe(1)
+
+    rerender(<Upload {...defaultProps} id={id} allowDuplicates />)
+
+    fireEvent.drop(getRootElement(), {
+      dataTransfer: { files: [file] },
+    })
+
+    expect(result.current.files.length).toBe(2)
+  })
+
   it('will not highlight same file when allowDuplicates', async () => {
     const id = 'not-highlight-duplicates'
 

@@ -300,6 +300,7 @@ export default function useFieldError<Value>({
         ? ensureErrorMessageObject(message)
         : message
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- the remaining values are refs, which keep a stable identity, so listing them would only add noise
     [getFieldByPath, getValueByPath, ensureErrorMessageObject]
   )
 
@@ -369,6 +370,7 @@ export default function useFieldError<Value>({
     }
 
     return extendedErrorMessages
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- `translationRef` is a ref, which keeps a stable identity, so listing it would only add noise
   }, [contextErrorMessages, errorMessages, identifier, locale])
 
   // -- prepareError --
@@ -738,6 +740,7 @@ export default function useFieldError<Value>({
     } else {
       hideError()
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- `hasFocusRef` is a ref, which keeps a stable identity, so listing it would only add noise
   }, [validateContinuously, hideError, revealError])
 
   return {

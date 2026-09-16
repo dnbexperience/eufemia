@@ -262,6 +262,7 @@ function DateComponent(props: DateProps): ReactElement {
       valueOnOpenRef.current = internalValue
       datePickerProps.onOpen?.(event)
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- only the handler is listed, because `datePickerProps` is rebuilt on every render
     [internalValue, datePickerProps.onOpen]
   )
 
@@ -281,6 +282,7 @@ function DateComponent(props: DateProps): ReactElement {
 
       datePickerProps.onCancel?.(event)
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- only the handler is listed, because `datePickerProps` is rebuilt on every render
     [handleChange, range, datePickerProps.onCancel]
   )
 
@@ -289,6 +291,7 @@ function DateComponent(props: DateProps): ReactElement {
       valueOnOpenRef.current = internalValue
       datePickerProps.onSubmit?.(event)
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- only the handler is listed, because `datePickerProps` is rebuilt on every render
     [internalValue, datePickerProps.onSubmit]
   )
 
