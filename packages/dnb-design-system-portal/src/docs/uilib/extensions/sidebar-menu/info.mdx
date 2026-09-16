@@ -1,0 +1,303 @@
+---
+showTabs: true
+---
+
+## Import
+
+```tsx
+import * as SidebarMenu from '@dnb/eufemia/extensions/sidebar-menu'
+import '@dnb/eufemia/extensions/sidebar-menu/style'
+```
+
+## Description
+
+`SidebarMenu` provides persistent navigation with expandable groups and optional top-level sections. Its compound API is tree-shakeable: `SidebarMenu` itself is a namespace, while only the subcomponents you use are included.
+
+Compose a menu declaratively with `SidebarMenu.Root`, `SidebarMenu.Item`, `SidebarMenu.Accordion`, `SidebarMenu.Group`, `SidebarMenu.Section`, `SidebarMenu.Header`, and `SidebarMenu.Divider`. Use `SidebarMenu.Data` when the menu is generated from recursive `data` or `sections` objects. The declarative API keeps unused parts outside the bundle, while `Data` includes all parts needed to render arbitrary object trees.
+
+Fragments and memoized SidebarMenu parts are supported. Arbitrary wrapper components are opaque to Root's selected-route discovery; pass generated structures through `SidebarMenu.Data` instead.
+
+## Design goals
+
+- Work with SSR and SSG. Stable prerendered markup, storage metadata, and CSS-driven responsive visibility avoid layout shifts during hydration.
+- Provide accessible navigation defaults through landmarks, semantic lists, native links and buttons, keyboard support, focus restoration, and reduced-motion handling.
+- Stay modular and tree-shakeable through compound exports, so applications include only the parts they use.
+- Support both declarative composition and recursive `data` or `sections` objects with the same behavior.
+- Allow controlled, uncontrolled, and persisted state for routing, accordions, sections, selection, and scroll position.
+- Adapt to different application structures through nested groups, custom router links, responsive inline and Drawer layouts, resizing, badges, and custom content.
+- Allow resizable desktop navigation to be temporarily dismissed and restored without changing the small-screen Drawer behavior.
+- Preserve browser-native behavior, including find-in-page through collapsed content.
+
+## Key behaviors
+
+- Setting `selectedItem` reveals its ancestors and section. An active branch can still be collapsed; its label then uses medium font weight to indicate that it contains the current page.
+- An off-screen selected item is brought into view. Initial positioning and restored scroll positions happen without a visible animated jump.
+- `openItemsStorageKey` and `scrollPositionStorageKey` preserve navigation context between route changes. Session storage is used by default.
+- A linked accordion uses one action for navigation and expansion.
+- Collapsed content remains available to browser find-in-page through `hidden="until-found"`.
+- A notification badge on a nested item is summarized by a red dot on collapsible ancestor accordions. The dot remains visible when the accordion expands and takes priority over an informational badge on the same menu point. An explicit notification badge remains visible instead of the dot. Automatic detection follows direct SidebarMenu children and cannot inspect items hidden inside another React component.
+- Sections do not automatically summarize nested notifications. Set `badge` for the dropdown option and `triggerBadge` for the selected trigger when a section needs a notification count.
+- Section hover previews dim the current content only on devices with a fine pointer and hover support. Touch selection happens on the first tap without dimming.
+
+## Composition
+
+Accordion groups support deep nesting, but keep the hierarchy as shallow as possible. Use `SidebarMenu.Group` for a titled category whose items should always remain visible, or set `collapsible={false}` on an accordion. Groups can optionally navigate using `href` or `to`; in the data API, use `type: 'group'`.
+
+Menu point rows have a minimum height of 44px. Top-level rows have 16px between them, while nested rows have 8px. The first accordion level is indented by 48px and each deeper accordion level adds 16px.
+
+Set `dividerBefore: true` on a data item to render a separator, or place `SidebarMenu.Divider` between declarative items. Set `openOnFind={false}` on Root or Data when collapsed content should not use `hidden="until-found"`.
+
+When an accordion also represents a page, provide `href` or `to`. The accordion becomes a navigation link that also controls expansion.
+
+## State and scrolling
+
+Use controlled properties when application routing or external state owns the menu:
+
+- `selectedItem` and `onSelectedItemChange` for the current destination.
+- `openItems` and `onOpenItemsChange` for expanded groups.
+- `activeSection` and `onActiveSectionChange` for the visible section.
+
+The selected destination is positioned within the visible browser or nearest `ScrollView`. Wrap the menu in `ScrollView` and set a fixed or viewport-based `maxHeight` when it needs its own scrolling region.
+
+Use `openItemsStorageKey` to preserve manually opened and closed groups. When the menu is inside a `ScrollView`, use `scrollPositionStorageKey` to restore its vertical position. A stored value takes precedence over the defaults, including an empty array. Use local storage only when the state should survive browser restarts; otherwise keep the default session storage.
+
+### SSR and SSG without layout shift
+
+`Root` and `Data` render storage metadata when `openItemsStorageKey` or `scrollPositionStorageKey` is set. Add `PreHydrationScript` after the prerendered menu markup and before the application hydration script to make persisted state visible on the first paint:
+
+```tsx
+import * as SidebarMenu from '@dnb/eufemia/extensions/sidebar-menu'
+
+function Document({ children, nonce }) {
+  return (
+    <html>
+      <body>
+        <div id="app">{children}</div>
+        <SidebarMenu.PreHydrationScript nonce={nonce} />
+        <script src="/client.js" nonce={nonce} />
+      </body>
+    </html>
+  )
+}
+```
+
+The script reads the configured session or local storage, applies the persisted open and closed accordion state, and restores the nearest `ScrollView`. An exact stored scroll position, including the top position, takes priority over initially centering the selected item. Without a stored position, the selected item is kept visible. `Root` removes the temporary CSS during its layout effect after React has applied the same state. The script and generated style inherit the supplied CSP nonce.
+Render the script once per document; it handles every SidebarMenu with persistence metadata. Controlled `openItems` does not use storage and therefore does not emit open-state metadata.
+
+Use `getPreHydrationScript()` when the HTML template is assembled outside React. Insert its return value in a blocking script at the same location: after the menu markup and before the hydration bundle.
+
+A layout effect alone cannot prevent this shift in an SSG page. The browser can paint the static HTML before it downloads the application bundle and starts hydration. The blocking script runs while the HTML is parsed, so the first paint already matches storage. It is only needed when persisted state must affect the prerendered result.
+
+## Resizable layouts
+
+Use `SidebarMenu.ResizeHandle` when people should be able to resize a sidebar. These properties connect the handle to the layout:
+
+- `targetRef` points to the element being resized. Its rendered width is the starting value.
+- `cssProperty` receives the new width in pixels. The sidebar CSS must use the same custom property.
+- `scopeSelector` selects the closest shared layout ancestor on which the custom property is set. Use it when adjacent content also needs to respond to the sidebar width. Omit it when only the sidebar needs the value.
+- `minWidth` and `maxWidth` define the allowed resize range. They default to 240px and 560px and are also constrained by the viewport and the target's CSS `max-width`.
+
+The handle supports pointer dragging, arrow-key resizing, Shift for larger keyboard steps, and Enter or double-click to reset.
+When `onCollapse` is provided, dragging below `minWidth` adds resistance to communicate that the sidebar can continue towards dismissal. Releasing returns it to `minWidth`. Reaching `collapseThreshold` calls `onCollapse`; the threshold defaults to half of `minWidth`. Pair it with `useResponsive().collapseInline()` to dismiss desktop inline navigation and let `ResponsiveTrigger` restore it.
+
+The resistance moves the sidebar by 10% of the cursor distance below `minWidth`. For example, dragging 100px further moves the visible edge about 10px. Pointer resizing above the minimum stays immediate. Width easing belongs to the surrounding layout. Enable it after the handle adds `dnb-sidebar-menu-resize-handle--transition-ready`, and disable it while `dnb-sidebar-menu-resize-handle--dragging` is present. Both classes are added to the element matched by `scopeSelector`.
+
+The resize handle is optional and its styles are included with the SidebarMenu extension stylesheet. It does not persist width. The CSS-defined initial width is therefore used after a reload, and no script is needed before React renders.
+
+```tsx
+const sidebarRef = useRef<HTMLElement>(null)
+
+<div className="layout">
+  <aside
+    id="sidebar"
+    ref={sidebarRef}
+    className="sidebar"
+  >
+    <SidebarMenu.Root aria-label="Main navigation" />
+  </aside>
+  <SidebarMenu.ResizeHandle
+    targetRef={sidebarRef}
+    scopeSelector=".layout"
+    cssProperty="--sidebar-width"
+    aria-controls="sidebar"
+  />
+</div>
+```
+
+```css
+.layout {
+  --sidebar-width: 20rem;
+
+  display: grid;
+  grid-template-columns: var(--sidebar-width) 1fr;
+}
+
+.sidebar {
+  position: fixed;
+  inset-block: 0;
+  inset-inline-start: 0;
+  width: var(--sidebar-width);
+  overflow: hidden auto;
+}
+```
+
+## Responsive navigation
+
+Use the responsive compound parts when the same navigation should be inline on larger screens and available through a hamburger-triggered Drawer on smaller screens:
+
+- `ResponsiveProvider` owns the breakpoint and Drawer state.
+- `ResponsiveProvider` can also own a collapsible desktop inline state.
+- `ResponsiveTrigger` renders a hamburger button below the breakpoint or while the desktop inline navigation is collapsed. On desktop it restores the inline navigation instead of opening a Drawer.
+- `ResponsiveInline` renders its children only above the breakpoint.
+- `ResponsiveDrawer` renders a left-side Drawer only below the breakpoint. Its close button is placed on the left.
+- `useResponsive().close()` closes the Drawer after mobile navigation.
+
+The trigger and Drawer do not need to be siblings. Place both under the same provider, for example with the trigger in an application header and the Drawer beside the desktop navigation.
+
+The default `medium` breakpoint uses the bundled responsive CSS. A custom Eufemia breakpoint name or explicit `em` value adds scoped first-paint CSS, so server-rendered visibility uses the same breakpoint before and after hydration. Pass `styleNonce` when your content security policy requires a nonce for inline styles.
+
+Use `inlineCollapsed` with `onInlineCollapsedChange` when application state controls desktop dismissal, or `defaultInlineCollapsed` for an uncontrolled initial state. `useResponsive()` exposes `inlineCollapsed`, `collapseInline()`, and `restoreInline()` to compound children.
+
+### Dismissible desktop navigation
+
+Combine `ResizeHandle`, the responsive parts, and one shared width property to let people temporarily dismiss a desktop sidebar:
+
+```tsx
+function Navigation() {
+  const sidebarRef = useRef<HTMLElement>(null)
+  const { collapseInline } = SidebarMenu.useResponsive()
+
+  return (
+    <>
+      <header className="header">
+        <span className="header-leading">
+          <SidebarMenu.ResponsiveTrigger
+            controls="mobile-navigation"
+            inlineControls="desktop-navigation"
+          />
+          <a href="/">Brand</a>
+        </span>
+      </header>
+      <SidebarMenu.ResponsiveInline>
+        <aside
+          id="desktop-navigation"
+          ref={sidebarRef}
+          className="sidebar"
+        >
+          <SidebarMenu.Root aria-label="Main navigation" />
+          <SidebarMenu.ResizeHandle
+            targetRef={sidebarRef}
+            scopeSelector=".layout"
+            cssProperty="--sidebar-restored-width"
+            onCollapse={collapseInline}
+            aria-controls="desktop-navigation"
+          />
+        </aside>
+      </SidebarMenu.ResponsiveInline>
+      <SidebarMenu.ResponsiveDrawer id="mobile-navigation">
+        <SidebarMenu.Root aria-label="Main navigation" />
+      </SidebarMenu.ResponsiveDrawer>
+    </>
+  )
+}
+
+function AppNavigation() {
+  const layoutRef = useRef<HTMLDivElement>(null)
+
+  return (
+    <div ref={layoutRef} className="layout">
+      <SidebarMenu.ResponsiveProvider
+        onInlineCollapsedChange={(collapsed) => {
+          layoutRef.current?.toggleAttribute(
+            'data-sidebar-collapsed',
+            collapsed
+          )
+        }}
+      >
+        <Navigation />
+      </SidebarMenu.ResponsiveProvider>
+      <main className="content">Page content</main>
+    </div>
+  )
+}
+```
+
+```css
+.layout {
+  --sidebar-restored-width: 20rem;
+  --sidebar-width: var(--sidebar-restored-width);
+}
+
+.layout[data-sidebar-collapsed] {
+  --sidebar-width: 0px;
+}
+
+.sidebar {
+  width: var(--sidebar-width);
+}
+
+.layout.dnb-sidebar-menu-resize-handle--transition-ready .sidebar {
+  transition: width 300ms var(--easing-default);
+}
+
+.content {
+  margin-inline-start: var(--sidebar-width);
+}
+
+.layout.dnb-sidebar-menu-resize-handle--transition-ready .content {
+  transition: margin-inline-start 300ms var(--easing-default);
+}
+
+.header {
+  inset-inline-start: var(--sidebar-width);
+  width: calc(100% - var(--sidebar-width));
+}
+
+.layout.dnb-sidebar-menu-resize-handle--transition-ready .header {
+  transition:
+    inset-inline-start 300ms var(--easing-default),
+    width 300ms var(--easing-default);
+}
+
+.header-leading {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.layout.dnb-sidebar-menu-resize-handle--dragging
+  :is(.sidebar, .content, .header) {
+  transition: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sidebar,
+  .content,
+  .header {
+    transition: none;
+  }
+}
+```
+
+The desktop trigger controls the hidden inline navigation and restores it at the CSS default width, like Enter or double-click on `ResizeHandle`, after which the handle can resize it again. This recipe fixes the sidebar to the viewport, clips horizontal overflow while preserving vertical scrolling, and reserves the same width beside it for page content. The sidebar must own clipping because `ResponsiveInline` uses `display: contents` to preserve the consumer's layout; `inert` and `aria-hidden` prevent interaction but do not hide painted overflow. Keep the trigger and brand together at the start of the header so they replace the dismissed sidebar's leading content. Below the responsive breakpoint, the same trigger controls the Drawer instead. A desktop-dismissed state can remain while crossing the breakpoint; returning to desktop shows the restore trigger again. The inline tree stays mounted but inert and `aria-hidden` while dismissed so the width can animate without leaving hidden navigation interactive.
+
+## Relevant links
+
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/sidebar-menu)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/extensions/sidebar-menu)
+
+## Accessibility
+
+- Root and Data render a `nav` landmark. Give each menu a distinct `aria-label` or `aria-labelledby` value.
+- Navigation levels use semantic nested lists.
+- Items render as native links when `href` or `to` is supplied, and native buttons otherwise.
+- Accordion triggers use `aria-expanded` and `aria-controls`. They are native buttons unless `href` or `to` makes the trigger a link.
+- Selected destinations use `aria-current="page"`.
+- Disabled button items use the native `disabled` attribute. Disabled links use `aria-disabled`, have no destination, and are removed from the tab order.
+- Sections are selected through a labeled dropdown.
+- **Tab/Shift+Tab** moves through interactive elements. **Enter/Space** activates buttons and accordion triggers.
+- Expansion and dismiss/restore animations respect `prefers-reduced-motion`.
+
+The component has automated axe coverage. Always test the finished navigation with the screen readers supported by your product because labels and hierarchy depend on application content.
+
+<RelatedComponents />

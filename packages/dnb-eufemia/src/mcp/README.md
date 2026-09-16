@@ -50,7 +50,7 @@ The MCP server can be exposed in two ways:
 
 Used by editor integrations like Cursor and the VSCode/Claude Code MCP config. The server reads JSON-RPC from `stdin` and writes responses to `stdout`:
 
-- Entry: `src/mcp/mcp-docs-server.ts`
+- Entry: `src/mcp/mcp-server.ts`
 - Wrapper: `src/mcp/run-mcp-server.sh`
 
 ### 2. HTTP (SSE + Streamable HTTP)
@@ -73,13 +73,28 @@ The HTTP server exposes:
 
 The HTTP server is configured via environment variables:
 
-| Variable            | Default        | Description                                                                                       |
-| ------------------- | -------------- | ------------------------------------------------------------------------------------------------- |
-| `PORT`              | `8787`         | HTTP port to listen on.                                                                           |
-| `HOST`              | `0.0.0.0`      | Bind host.                                                                                        |
-| `EUFEMIA_DOCS_ROOT` | `./build/docs` | Path to the Eufemia docs directory.                                                               |
-| `MCP_AUTH_TOKEN`    | _(unset)_      | If set, every request must send `Authorization: Bearer <token>`.                                  |
-| `MCP_ALLOWED_HOSTS` | _(unset)_      | Comma-separated `Host` header allowlist for DNS-rebinding protection (e.g. `eufemia-mcp.dnb.no`). |
+| Variable              | Default        | Description                                                                                       |
+| --------------------- | -------------- | ------------------------------------------------------------------------------------------------- |
+| `PORT`                | `8787`         | HTTP port to listen on.                                                                           |
+| `HOST`                | `127.0.0.1`    | Bind host. Set to `0.0.0.0` to expose the server beyond the local machine.                        |
+| `EUFEMIA_DOCS_ROOT`   | `./build/docs` | Path to the Eufemia docs directory.                                                               |
+| `MCP_AUTH_TOKEN`      | _(unset)_      | If set, every request must send `Authorization: Bearer <token>`.                                  |
+| `MCP_ALLOWED_HOSTS`   | _(unset)_      | Comma-separated `Host` header allowlist for DNS-rebinding protection (e.g. `eufemia-mcp.dnb.no`). |
+| `MCP_ALLOWED_ORIGINS` | _(loopback)_   | Comma-separated `Origin` header allowlist. Use `*` to accept any browser origin.                  |
+
+Requests without an `Origin` header are unaffected by `MCP_ALLOWED_ORIGINS`,
+which exists to stop a browser page on another site from reaching the server.
+It is a DNS-rebinding guard rather than a standalone access control, so an
+exposed host still needs `MCP_AUTH_TOKEN` and `MCP_ALLOWED_HOSTS`.
+
+Setting `MCP_ALLOWED_ORIGINS` replaces the loopback default, so list the local
+origins too when a browser on `localhost` should keep working. Entries are
+compared as canonical origins, meaning a trailing slash, a default port or
+mixed case still match; anything that is not a valid origin is skipped and
+logged at startup.
+
+When hosting the server on a public URL, set `HOST=0.0.0.0` together with
+`MCP_AUTH_TOKEN`, `MCP_ALLOWED_HOSTS` and `MCP_ALLOWED_ORIGINS`.
 
 #### Run locally
 

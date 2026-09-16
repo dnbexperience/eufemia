@@ -5,7 +5,11 @@
 
 import { LOCALE } from '../../../shared/defaults'
 import { warn } from '../../../shared/component-helper'
-import { ABSENT_VALUE_FORMAT, isAbsent } from './constants'
+import {
+  ABSENT_VALUE_FORMAT,
+  NUMBER_MINUS_SIGN,
+  isAbsent,
+} from './constants'
 import { cleanNumber } from './cleanNumber'
 import { formatDecimals } from './decimals'
 import {
@@ -130,6 +134,9 @@ export function buildReturn({
           case 'percentSign':
             item.value = ''
             return item
+          case 'minusSign':
+            item.value = '-'
+            return item
           default:
             return item
         }
@@ -141,6 +148,7 @@ export function buildReturn({
       new RegExp(`${thousandsSeparator}(?=\\d{3})`, 'g'),
       ''
     )
+    cleanedValue = cleanedValue.replace(NUMBER_MINUS_SIGN, '-')
   }
 
   if (value === 'invalid') {

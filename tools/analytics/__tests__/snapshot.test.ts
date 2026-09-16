@@ -1,8 +1,15 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 
-const { send, retrievePortalViews } = vi.hoisted(() => ({
+const {
+  send,
+  retrievePortalViews,
+  aggregateMcpUsageRaw,
+  retrieveMcpUsageDaily,
+} = vi.hoisted(() => ({
   send: vi.fn(),
   retrievePortalViews: vi.fn(),
+  aggregateMcpUsageRaw: vi.fn(),
+  retrieveMcpUsageDaily: vi.fn(),
 }))
 
 vi.mock('@aws-sdk/client-s3', () => ({
@@ -25,7 +32,11 @@ vi.mock('@aws-sdk/client-s3', () => ({
   },
 }))
 
-vi.mock('../src/lambda/retrieve.js', () => ({ retrievePortalViews }))
+vi.mock('../src/lambda/retrieve.js', () => ({
+  retrievePortalViews,
+  aggregateMcpUsageRaw,
+  retrieveMcpUsageDaily,
+}))
 
 import { handler } from '../src/lambda/snapshot.js'
 
@@ -40,18 +51,25 @@ function putCalls() {
 // Silence and capture the EMF metric line the handler logs, so it neither spams
 // test output nor needs a per-suite spy; assertions read logSpy.mock.calls.
 let logSpy: ReturnType<typeof vi.spyOn>
+let errorSpy: ReturnType<typeof vi.spyOn>
 
 beforeEach(() => {
   send.mockReset()
   retrievePortalViews.mockReset()
+  aggregateMcpUsageRaw.mockReset()
+  retrieveMcpUsageDaily.mockReset()
   send.mockResolvedValue({})
+  aggregateMcpUsageRaw.mockResolvedValue([])
+  retrieveMcpUsageDaily.mockResolvedValue([])
   process.env.DATA_BUCKET = 'my-bucket'
   logSpy = vi.spyOn(console, 'log').mockImplementation(() => undefined)
+  errorSpy = vi.spyOn(console, 'error').mockImplementation(() => undefined)
 })
 
 afterEach(() => {
   delete process.env.DATA_BUCKET
   logSpy.mockRestore()
+  errorSpy.mockRestore()
 })
 
 describe('snapshot generator handler', () => {
@@ -65,8 +83,10 @@ describe('snapshot generator handler', () => {
     expect(putCalls()).toHaveLength(1)
 
     const put = putCalls()[0][0] as Command
-    expect(put.input.Key).toBe('records/dashboard-snapshot.json')
-    expect(JSON.parse(put.input.Body as string).records).toEqual(records)
+    expect(put.input.Key).toBe('snapshots/dashboard.json')
+    expect(JSON.parse(put.input.Body as string).portalViews).toEqual(
+      records
+    )
     expect(result.count).toBe(1)
     expect(result.generatedAt).toEqual(expect.any(String))
   })
@@ -83,6 +103,138 @@ describe('snapshot generator handler', () => {
 
     await expect(handler()).rejects.toThrow('DATA_BUCKET')
     expect(retrievePortalViews).not.toHaveBeenCalled()
+  })
+})
+
+describe('mcp usage section', () => {
+  it('recomputes the recent rollup and builds the section from the daily table', async () => {
+    retrievePortalViews.mockResolvedValue([])
+    aggregateMcpUsageRaw.mockResolvedValue([
+      {
+        dt: '2026-09-10',
+        tool: 'docs_search',
+        component: '',
+        path: '',
+        count: 3,
+      },
+    ])
+    retrieveMcpUsageDaily.mockResolvedValue([
+      {
+        dt: '2026-09-09',
+        tool: 'component_props',
+        component: 'Button',
+        path: '',
+        count: 5,
+      },
+      {
+        dt: '2026-09-10',
+        tool: 'docs_search',
+        component: '',
+        path: '',
+        count: 3,
+      },
+      {
+        dt: '2026-09-10',
+        tool: 'docs_read',
+        component: '',
+        path: '/uilib/components/button.md',
+        count: 2,
+      },
+    ])
+
+    await handler()
+
+    expect(aggregateMcpUsageRaw).toHaveBeenCalledWith(
+      expect.stringMatching(/^\d{4}-\d{2}-\d{2}$/)
+    )
+
+    const snapshotPut = putCalls().find(
+      (call) =>
+        (call[0] as Command).input.Key === 'snapshots/dashboard.json'
+    )
+    const mcp = JSON.parse(
+      (snapshotPut![0] as Command).input.Body as string
+    ).mcpUsage
+
+    expect(mcp.total).toBe(10)
+    expect(mcp.perTool).toContainEqual({
+      name: 'component_props',
+      count: 5,
+    })
+    expect(mcp.perComponent).toEqual([{ name: 'Button', count: 5 }])
+    expect(mcp.perPath).toEqual([
+      { name: '/uilib/components/button.md', count: 2 },
+    ])
+    expect(mcp.daily).toEqual([
+      { date: '2026-09-09', count: 5 },
+      { date: '2026-09-10', count: 5 },
+    ])
+  })
+
+  it('writes the recomputed aggregates to the durable daily rollup prefix', async () => {
+    retrievePortalViews.mockResolvedValue([])
+    aggregateMcpUsageRaw.mockResolvedValue([
+      {
+        dt: '2026-09-10',
+        tool: 'docs_search',
+        component: '',
+        path: '',
+        count: 3,
+      },
+    ])
+    retrieveMcpUsageDaily.mockResolvedValue([])
+
+    await handler()
+
+    const dailyPut = putCalls().find((call) =>
+      String((call[0] as Command).input.Key).startsWith('mcp-usage-daily/')
+    )
+    expect(dailyPut).toBeDefined()
+    expect((dailyPut![0] as Command).input.Key).toBe(
+      'mcp-usage-daily/dt=2026-09-10/agg.json'
+    )
+  })
+
+  it('still writes the snapshot with an empty MCP section when the MCP query fails', async () => {
+    const records = [{ path: '/', env: 'prod', timestamp: 't' }]
+    retrievePortalViews.mockResolvedValue(records)
+    retrieveMcpUsageDaily.mockRejectedValue(new Error('glue denied'))
+
+    await handler()
+
+    const snapshotPut = putCalls().find(
+      (call) =>
+        (call[0] as Command).input.Key === 'snapshots/dashboard.json'
+    )
+    expect(snapshotPut).toBeDefined()
+
+    const body = JSON.parse(
+      (snapshotPut![0] as Command).input.Body as string
+    )
+    expect(body.portalViews).toEqual(records)
+    expect(body.mcpUsage).toEqual({
+      total: 0,
+      perTool: [],
+      perComponent: [],
+      perPath: [],
+      daily: [],
+    })
+    expect(errorSpy).toHaveBeenCalled()
+
+    const failureMetric = logSpy.mock.calls
+      .map((call: unknown[]) => call[0])
+      .map((line: unknown) => {
+        try {
+          return JSON.parse(line as string) as Record<string, unknown>
+        } catch {
+          return null
+        }
+      })
+      .find(
+        (entry: Record<string, unknown> | null) =>
+          entry?.McpUsageBuildFailure === 1
+      )
+    expect(failureMetric).toBeDefined()
   })
 })
 

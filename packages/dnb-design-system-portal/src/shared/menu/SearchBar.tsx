@@ -24,6 +24,7 @@ import {
   isModifiedClickEvent,
 } from '@dnb/eufemia/src/shared/helpers'
 import { formatSearchResultMarkdown } from './SearchBarMarkdown'
+import { markNextViewFromSearch } from '../../../vite/client/track-page-view'
 
 const searchInputId = 'portal-search'
 const subscribeToPlatform = () => () => undefined
@@ -116,7 +117,7 @@ export const SearchBarInput = () => {
         emptyData,
       })
     } catch (e) {
-      setStatus(e.message)
+      setStatus(e instanceof Error ? e.message : String(e))
     }
   }
 
@@ -291,6 +292,7 @@ const handleSearchResultNavigation = ({
   event?.preventDefault?.()
   setHidden?.()
   emptyData?.()
+  markNextViewFromSearch()
   navigate(url)
   scrollToAnimation()
   applyPageFocus('content')

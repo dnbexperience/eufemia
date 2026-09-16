@@ -77,6 +77,15 @@ export default {
       missingGroup: 'Grupp',
       noGroupSR: 'Andra val',
     },
+    SidebarMenu: {
+      sectionLabel: 'Menysektion',
+      containsCurrentPage: 'Innehåller aktuell sida',
+      containsNotifications: 'Innehåller aviseringar',
+      openMenu: 'Öppna meny',
+      closeMenu: 'Stäng meny',
+      menu: 'Meny',
+      resizeSidebar: 'Ändra storlek på sidomeny',
+    },
     Dropdown: {
       title: 'Välj',
     },

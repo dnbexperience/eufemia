@@ -78,8 +78,14 @@ function Element(localProps: ElementAllProps) {
       : (internalClass === true ? undefined : internalClass) ||
         (typeof Tag === 'string' ? `dnb-${Tag}` : '')
 
+  // `internalClass` may hold several class names, so compare them one by one
+  const existingClasses = String(className ?? '').split(/\s+/)
+  const missingTagClasses = tagClass
+    .split(/\s+/)
+    .filter((name) => name && !existingClasses.includes(name))
+
   const internalClassName = clsx(
-    !new RegExp(`${tagClass}(\\s|$)`).test(String(className)) && tagClass,
+    missingTagClasses,
     className,
     createSkeletonClass(skeletonMethod, skeleton, context)
   )

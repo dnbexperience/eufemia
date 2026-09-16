@@ -4,7 +4,7 @@
  */
 
 import { escapeRegexChars } from '../../../shared/component-helper'
-import { NUMBER_CHARS } from './constants'
+import { NUMBER_CHARS, NUMBER_MINUS_SIGN } from './constants'
 import type { NumberFormatValue } from './types'
 
 export function cleanNumber(
@@ -30,6 +30,7 @@ export function cleanNumber(
   }
 
   num = String(num).trim()
+  num = num.replace(NUMBER_MINUS_SIGN, '-')
 
   if (typeof prefix === 'string' && num.startsWith(prefix)) {
     num = num.substring(prefix.length, num.length)

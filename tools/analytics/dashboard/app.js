@@ -12,10 +12,10 @@ import {
 } from './auth.js'
 
 /** Normalise the stored shape to a common view model. */
-function normalise(record) {
+export function normalise(record) {
   const label =
     record.name ?? record.path ?? record.type ?? record.id ?? '—'
-  const when = record.createdAt ?? record.timestamp ?? ''
+  const when = record.created_at ?? record.timestamp ?? ''
   const day = typeof when === 'string' ? when.slice(0, 10) : ''
   const env = record.env ?? ''
 
@@ -27,8 +27,8 @@ function toRecords(payload) {
     return payload
   }
 
-  if (payload && Array.isArray(payload.records)) {
-    return payload.records
+  if (payload && Array.isArray(payload.portalViews)) {
+    return payload.portalViews
   }
 
   return []
@@ -50,6 +50,19 @@ export function snapshotMeta(payload, count) {
   }
 
   return when ? `Snapshot generated ${when}` : ''
+}
+
+/**
+ * User-facing message for a non-ok data API response. A 503 is the expected
+ * just-after-deploy state (the snapshot is not generated yet), so it gets
+ * softer, actionable copy; other statuses keep the generic error text.
+ */
+export function dataErrorMessage(status) {
+  if (status === 503) {
+    return 'The dashboard data is being prepared. This can happen right after a deploy. Please refresh in a moment. If it persists, contact the dashboard owner.'
+  }
+
+  return `The data API returned an error (${status}). Please try again later, or contact the dashboard owner if it persists.`
 }
 
 /**
@@ -192,6 +205,34 @@ function render(rows) {
   })
 }
 
+// Render the MCP usage section. Independent of portal views, so it shows even
+// when there are no page views (and vice versa).
+function renderMcpUsage(usage) {
+  const mcp = usage ?? {}
+  const total = mcp.total ?? 0
+
+  const totalEl = document.getElementById('mcp-total')
+  if (totalEl) {
+    totalEl.textContent =
+      total > 0
+        ? `${total.toLocaleString()} MCP requests`
+        : 'No MCP usage yet.'
+  }
+
+  const toCounts = (items) =>
+    new Map((items ?? []).map((item) => [item.name, item.count]))
+
+  renderBars('mcp-tools', toCounts(mcp.perTool), { sort: 'desc' })
+  renderBars('mcp-components', toCounts(mcp.perComponent), {
+    sort: 'desc',
+    limit: 15,
+  })
+  renderBars('mcp-paths', toCounts(mcp.perPath), {
+    sort: 'desc',
+    limit: 15,
+  })
+}
+
 function populateEnvFilter(rows, onChange) {
   const select = document.getElementById('env')
   const envs = [...new Set(rows.map((r) => r.env).filter(Boolean))].sort()
@@ -278,9 +319,7 @@ async function main() {
   }
 
   if (result.kind === 'error') {
-    showError(
-      `The data API returned an error (${result.status}). Please try again later, or contact the dashboard owner if it persists.`
-    )
+    showError(dataErrorMessage(result.status))
 
     return
   }
@@ -288,10 +327,13 @@ async function main() {
   const payload = result.kind === 'data' ? result.payload : null
   const all = toRecords(payload).map(normalise)
 
+  const mcpTotal = payload?.mcpUsage?.total ?? 0
   document.getElementById('meta').textContent = snapshotMeta(
     payload,
-    all.length
+    all.length + mcpTotal
   )
+
+  renderMcpUsage(payload?.mcpUsage)
 
   if (all.length === 0) {
     return

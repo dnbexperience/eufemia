@@ -46,8 +46,8 @@ describe('useNumberFormatWithParts', () => {
     expect(result.current).toEqual(
       expect.objectContaining({
         parts: expect.objectContaining({
-          sign: '-',
-          signedNumber: '-1\u00A0234,00',
+          sign: '−',
+          signedNumber: '−1\u00A0234,00',
           number: '1\u00A0234,00',
           currency: 'kr',
           currencyPosition: 'after',
@@ -67,7 +67,7 @@ describe('useNumberFormatWithParts', () => {
     expect(joinParts(parts)).toBe(formatted.number)
     expect(parts).toEqual(
       expect.arrayContaining([
-        expect.objectContaining({ type: 'minusSign', value: '-' }),
+        expect.objectContaining({ type: 'minusSign', value: '−' }),
         expect.objectContaining({ type: 'currency', value: 'kr' }),
       ])
     )
@@ -84,7 +84,7 @@ describe('useNumberFormatWithParts', () => {
     expect(joinParts(parts)).toBe(formatted.number)
     expect(parts).toEqual(
       expect.arrayContaining([
-        expect.objectContaining({ type: 'minusSign', value: '-' }),
+        expect.objectContaining({ type: 'minusSign', value: '−' }),
       ])
     )
   })
@@ -98,10 +98,10 @@ describe('useNumberFormatWithParts', () => {
 
     expect(result.current).toEqual(
       expect.objectContaining({
-        number: '-1\u00A0234',
+        number: '−1\u00A0234',
         parts: expect.objectContaining({
-          sign: '-',
-          signedNumber: '-1\u00A0234',
+          sign: '−',
+          signedNumber: '−1\u00A0234',
           number: '1\u00A0234',
           currency: null,
           currencyPosition: null,
@@ -341,10 +341,10 @@ describe('useNumberFormatWithParts', () => {
 
     expect(result.current).toEqual(
       expect.objectContaining({
-        number: "CHF-123'456'789.50",
+        number: "CHF−123'456'789.50",
         parts: expect.objectContaining({
-          sign: '-',
-          signedNumber: "-123'456'789.50",
+          sign: '−',
+          signedNumber: "−123'456'789.50",
           number: "123'456'789.50",
           currency: 'CHF',
           currencyPosition: 'before',

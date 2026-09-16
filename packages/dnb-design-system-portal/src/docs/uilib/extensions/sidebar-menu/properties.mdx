@@ -1,0 +1,82 @@
+---
+showTabs: true
+---
+
+import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
+import {
+  SidebarMenuRootProperties,
+  SidebarMenuDataProperties,
+  SidebarMenuItemProperties,
+  SidebarMenuAccordionProperties,
+  SidebarMenuSectionProperties,
+  SidebarMenuGroupProperties,
+  SidebarMenuHeaderProperties,
+  SidebarMenuResizeHandleProperties,
+  SidebarMenuResponsiveProviderProperties,
+  SidebarMenuResponsiveTriggerProperties,
+  SidebarMenuResponsiveDrawerProperties,
+} from '@dnb/eufemia/src/extensions/sidebar-menu/SidebarMenuDocs'
+
+## SidebarMenu.Root
+
+<PropertiesTable props={SidebarMenuRootProperties} />
+
+## SidebarMenu.Data
+
+<PropertiesTable props={SidebarMenuDataProperties} />
+
+## SidebarMenu.Item
+
+<PropertiesTable props={SidebarMenuItemProperties} />
+
+## SidebarMenu.Accordion
+
+<PropertiesTable props={SidebarMenuAccordionProperties} />
+
+## SidebarMenu.Section
+
+<PropertiesTable props={SidebarMenuSectionProperties} />
+
+## SidebarMenu.Group
+
+<PropertiesTable props={SidebarMenuGroupProperties} />
+
+## SidebarMenu.Header
+
+<PropertiesTable props={SidebarMenuHeaderProperties} />
+
+## SidebarMenu.Divider
+
+Supports standard `HTMLAttributes<HTMLLIElement>`.
+
+## SidebarMenu.PreHydrationScript
+
+Renders the blocking script that restores persisted SidebarMenu state before hydration. It supports standard `ScriptHTMLAttributes<HTMLScriptElement>` except `children` and `dangerouslySetInnerHTML`. Place it after the prerendered menu markup and before the application hydration script.
+
+## SidebarMenu.getPreHydrationScript
+
+Returns the same standalone script as a string for HTML templates assembled outside React.
+
+## SidebarMenu.ResizeHandle
+
+<PropertiesTable props={SidebarMenuResizeHandleProperties} />
+
+## SidebarMenu.ResponsiveProvider
+
+<PropertiesTable props={SidebarMenuResponsiveProviderProperties} />
+
+## SidebarMenu.ResponsiveTrigger
+
+<PropertiesTable props={SidebarMenuResponsiveTriggerProperties} />
+
+## SidebarMenu.ResponsiveDrawer
+
+<PropertiesTable props={SidebarMenuResponsiveDrawerProperties} />
+
+## SidebarMenu.useResponsive
+
+Returns `SidebarMenuResponsiveValue` with:
+
+- `open`, `setOpen`, `toggle`, and `close` for the small-screen Drawer.
+- `isSmallScreen` for the active responsive mode.
+- `inlineCollapsed`, `collapseInline`, and `restoreInline` for dismissible desktop navigation.

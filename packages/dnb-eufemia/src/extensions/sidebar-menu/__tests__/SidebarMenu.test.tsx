@@ -1,0 +1,2892 @@
+import { act, fireEvent, render, waitFor } from '@testing-library/react'
+import { hydrateRoot } from 'react-dom/client'
+import { renderToString } from 'react-dom/server'
+import { memo } from 'react'
+import ScrollView from '../../../fragments/scroll-view/ScrollView'
+import { axeComponent } from '../../../core/test-utils/testSetup'
+import SidebarMenu from '../SidebarMenu'
+import { SidebarMenuRootProperties } from '../SidebarMenuDocs'
+import { office_buildings, person } from '../../../icons'
+import Provider from '../../../shared/Provider'
+
+describe('SidebarMenu', () => {
+  it('localizes screen-reader labels', () => {
+    render(
+      <Provider locale="nb-NO">
+        <SidebarMenu.Root selectedItem="cards">
+          <SidebarMenu.Section id="web" text="Web">
+            <SidebarMenu.Accordion id="products" text="Products">
+              <SidebarMenu.Item id="cards" text="Cards" />
+            </SidebarMenu.Accordion>
+          </SidebarMenu.Section>
+        </SidebarMenu.Root>
+      </Provider>
+    )
+
+    expect(
+      document.querySelector('.dnb-dropdown__trigger')
+    ).toHaveAccessibleName('Menyseksjon')
+
+    fireEvent.click(
+      document.querySelector('.dnb-sidebar-menu__accordion__trigger')
+    )
+
+    expect(
+      document.querySelector(
+        '.dnb-sidebar-menu__accordion__trigger .dnb-sr-only'
+      )
+    ).toHaveTextContent('Inneholder gjeldende side')
+  })
+
+  it('documents the supported declarative children', () => {
+    expect(SidebarMenuRootProperties.children.doc).toContain(
+      'SidebarMenu.Item, SidebarMenu.Accordion, SidebarMenu.Group, SidebarMenu.Section, SidebarMenu.Header, and SidebarMenu.Divider'
+    )
+  })
+
+  it('exposes only compound components from the placeholder export', () => {
+    expect(Object.keys(SidebarMenu).sort()).toEqual(
+      [
+        'Accordion',
+        'Data',
+        'Divider',
+        'Group',
+        'Header',
+        'Item',
+        'PreHydrationScript',
+        'Root',
+        'Section',
+        'ResizeHandle',
+        'ResponsiveInline',
+        'ResponsiveDrawer',
+        'ResponsiveProvider',
+        'ResponsiveTrigger',
+        'useResponsive',
+        'getPreHydrationScript',
+      ].sort()
+    )
+  })
+
+  it('supports spacing props on Root', () => {
+    render(
+      <SidebarMenu.Root top="large" left>
+        <SidebarMenu.Item id="overview" text="Overview" />
+      </SidebarMenu.Root>
+    )
+
+    const navigation = document.querySelector('.dnb-sidebar-menu')
+
+    expect(navigation).toHaveClass('dnb-space__top--large')
+    expect(navigation).toHaveClass('dnb-space__left--small')
+    expect(SidebarMenu.Root['_supportsSpacingProps']).toBe(true)
+  })
+
+  it('renders declarative items and nested accordions', () => {
+    render(
+      <SidebarMenu.Root aria-label="Main navigation">
+        <SidebarMenu.Header>Menu</SidebarMenu.Header>
+        <SidebarMenu.Item id="home" text="Home" href="/home" />
+        <SidebarMenu.Accordion id="products" text="Products">
+          <SidebarMenu.Item id="cards" text="Cards" href="/cards" />
+        </SidebarMenu.Accordion>
+      </SidebarMenu.Root>
+    )
+
+    const navigation = document.querySelector('nav')
+    const trigger = document.querySelector(
+      '.dnb-sidebar-menu__accordion__trigger'
+    )
+
+    expect(navigation).toHaveAttribute('aria-label', 'Main navigation')
+    expect(document.querySelector('[href="/home"]')).toBeInTheDocument()
+    expect(trigger).toHaveAttribute('aria-expanded', 'false')
+    expect(
+      trigger.querySelector('.dnb-sidebar-menu__item__icon')
+    ).not.toBeInTheDocument()
+    expect(document.querySelector('[href="/cards"]')).toBeInTheDocument()
+    expect(
+      document.querySelector('.dnb-height-animation')
+    ).toHaveAttribute('hidden', 'until-found')
+    expect(document.getElementById('home')).not.toBeInTheDocument()
+    expect(
+      document.querySelector('[data-sidebar-menu-id="home"]')
+    ).toBeInTheDocument()
+
+    fireEvent.click(trigger)
+
+    expect(trigger).toHaveAttribute('aria-expanded', 'true')
+    expect(document.querySelector('[href="/cards"]')).toBeInTheDocument()
+    expect(
+      document.querySelector('.dnb-height-animation')
+    ).not.toHaveAttribute('hidden')
+  })
+
+  it('gives icon-only item actions an accessible name', () => {
+    render(
+      <SidebarMenu.Root>
+        <SidebarMenu.Item
+          id="profile"
+          icon={person}
+          href="/profile"
+          aria-label="Profile"
+          title="Open profile"
+        />
+      </SidebarMenu.Root>
+    )
+
+    const item = document.querySelector('[data-sidebar-menu-id="profile"]')
+    const link = item.querySelector('a')
+
+    expect(item).not.toHaveAttribute('aria-label')
+    expect(link).toHaveAccessibleName('Profile')
+    expect(link).toHaveAttribute('title', 'Open profile')
+  })
+
+  it('gives icon-only accordion and group actions an accessible name', () => {
+    render(
+      <SidebarMenu.Root>
+        <SidebarMenu.Accordion
+          id="products"
+          icon={person}
+          aria-label="Products"
+          title="Open products"
+        >
+          <SidebarMenu.Item id="cards" text="Cards" />
+        </SidebarMenu.Accordion>
+        <SidebarMenu.Accordion
+          id="accounts"
+          icon={person}
+          href="/accounts"
+          aria-label="Accounts"
+        />
+        <SidebarMenu.Group
+          id="profile"
+          icon={person}
+          href="/profile"
+          aria-labelledby="profile-label"
+          title="Open profile"
+        >
+          <span id="profile-label">Profile</span>
+        </SidebarMenu.Group>
+      </SidebarMenu.Root>
+    )
+
+    const products = document.querySelector(
+      '[data-sidebar-menu-id="products"]'
+    )
+    const accounts = document.querySelector(
+      '[data-sidebar-menu-id="accounts"]'
+    )
+    const profile = document.querySelector(
+      '[data-sidebar-menu-id="profile"]'
+    )
+
+    expect(products).not.toHaveAttribute('aria-label')
+    expect(products.querySelector('button')).toHaveAccessibleName(
+      'Products'
+    )
+    expect(products.querySelector('button')).toHaveAttribute(
+      'title',
+      'Open products'
+    )
+    expect(accounts.querySelector('a')).toHaveAccessibleName('Accounts')
+    expect(profile.querySelector('a')).toHaveAccessibleName('Profile')
+    expect(profile.querySelector('a')).toHaveAttribute(
+      'title',
+      'Open profile'
+    )
+  })
+
+  it('renders Header with heading semantics', () => {
+    render(
+      <SidebarMenu.Root>
+        <SidebarMenu.Header headingLevel={3}>Accounts</SidebarMenu.Header>
+      </SidebarMenu.Root>
+    )
+
+    expect(
+      document.querySelector(
+        '.dnb-sidebar-menu__header [role="heading"][aria-level="3"]'
+      )
+    ).toHaveTextContent('Accounts')
+  })
+
+  it('renders dedicated icon containers for menu point geometry', () => {
+    render(
+      <SidebarMenu.Root>
+        <SidebarMenu.Header>Menu</SidebarMenu.Header>
+        <SidebarMenu.Accordion id="products" text="Products" icon={person}>
+          <SidebarMenu.Item id="cards" text="Cards" />
+        </SidebarMenu.Accordion>
+      </SidebarMenu.Root>
+    )
+
+    const icon = document.querySelector('.dnb-sidebar-menu__item__icon')
+    const expandIcon = document.querySelector(
+      '.dnb-sidebar-menu__accordion__expand-icon'
+    )
+
+    expect(icon.querySelector('.dnb-icon')).toBeInTheDocument()
+    expect(expandIcon.querySelector('.dnb-icon')).toBeInTheDocument()
+  })
+
+  it('renders declarative static groups without accordion semantics', () => {
+    render(
+      <SidebarMenu.Root>
+        <SidebarMenu.Group id="actions" text="Actions">
+          <SidebarMenu.Item id="button" text="Button" />
+          <SidebarMenu.Accordion id="menus" text="Menus">
+            <SidebarMenu.Item id="sidebar-menu" text="Sidebar menu" />
+          </SidebarMenu.Accordion>
+        </SidebarMenu.Group>
+      </SidebarMenu.Root>
+    )
+
+    const group = document.querySelector(
+      '[data-sidebar-menu-group-id="actions"]'
+    )
+    const title = group.querySelector('.dnb-sidebar-menu__group__title')
+    const list = group.querySelector('.dnb-sidebar-menu__group__list')
+    const item = document.querySelector('[data-sidebar-menu-id="button"]')
+
+    expect(title).toHaveTextContent('Actions')
+    expect(title.querySelector('button, a')).not.toBeInTheDocument()
+    expect(list).toHaveAttribute('aria-labelledby', 'actions-title')
+    expect(group.querySelector('[aria-expanded]')).toBeInTheDocument()
+    expect(title).not.toHaveAttribute('aria-expanded')
+    expect(item).toHaveStyle({ '--sidebar-menu-indent': '1rem' })
+  })
+
+  it('does not label an untitled group with an empty element', () => {
+    render(
+      <SidebarMenu.Root>
+        <SidebarMenu.Group>
+          <SidebarMenu.Item id="button" text="Button" />
+        </SidebarMenu.Group>
+      </SidebarMenu.Root>
+    )
+
+    expect(
+      document.querySelector('.dnb-sidebar-menu__group__title')
+    ).not.toBeInTheDocument()
+    expect(
+      document.querySelector('.dnb-sidebar-menu__group__list')
+    ).not.toHaveAttribute('aria-labelledby')
+  })
+
+  it('renders static groups from data', () => {
+    render(
+      <SidebarMenu.Data
+        data={[
+          {
+            id: 'actions',
+            type: 'group',
+            text: 'Actions',
+            items: [{ id: 'button', text: 'Button' }],
+          },
+        ]}
+      />
+    )
+
+    expect(
+      document.querySelector('.dnb-sidebar-menu__group__title')
+    ).toHaveTextContent('Actions')
+    expect(
+      document.querySelector('[aria-expanded]')
+    ).not.toBeInTheDocument()
+    expect(
+      document.querySelector('[data-sidebar-menu-id="button"]')
+    ).toBeInTheDocument()
+  })
+
+  it('renders a divider before a data item', () => {
+    render(
+      <SidebarMenu.Data
+        data={[
+          {
+            id: 'overview',
+            text: 'Overview',
+            dividerBefore: true,
+          },
+        ]}
+      />
+    )
+
+    const list = document.querySelector('.dnb-sidebar-menu__list')
+
+    expect(list.children[0]).toHaveClass('dnb-sidebar-menu__divider-item')
+    expect(list.children[1]).toHaveAttribute(
+      'data-sidebar-menu-id',
+      'overview'
+    )
+    expect(
+      list.children[0].querySelector('[role="separator"]')
+    ).toBeInTheDocument()
+  })
+
+  it('renders custom data content after its divider', () => {
+    render(
+      <SidebarMenu.Data
+        data={[
+          {
+            id: 'platform',
+            type: 'custom',
+            content: <button type="button">Web</button>,
+            dividerBefore: true,
+          },
+          { id: 'overview', text: 'Overview' },
+        ]}
+      />
+    )
+
+    const list = document.querySelector('.dnb-sidebar-menu__list')
+
+    expect(list.children[0]).toHaveClass('dnb-sidebar-menu__divider-item')
+    expect(list.children[1]).toHaveClass('dnb-sidebar-menu__custom')
+    expect(list.children[1]).toHaveTextContent('Web')
+    expect(list.children[2]).toHaveAttribute(
+      'data-sidebar-menu-id',
+      'overview'
+    )
+  })
+
+  it('passes presentation props to data accordions', () => {
+    render(
+      <SidebarMenu.Data
+        data={[
+          {
+            id: 'products',
+            text: 'Products',
+            className: 'animated-item',
+            style: { animationDelay: '50ms' },
+            items: [{ id: 'cards', text: 'Cards' }],
+          },
+        ]}
+      />
+    )
+
+    const accordion = document.querySelector(
+      '[data-sidebar-menu-id="products"]'
+    )
+
+    expect(accordion).toHaveClass('animated-item')
+    expect(accordion).toHaveStyle({ animationDelay: '50ms' })
+  })
+
+  it('supports a linked static group title', () => {
+    const onSelectedItemChange = vi.fn()
+
+    render(
+      <SidebarMenu.Root
+        selectedItem="typography"
+        onSelectedItemChange={onSelectedItemChange}
+      >
+        <SidebarMenu.Group
+          id="typography"
+          text="Typography"
+          icon="card"
+          href="/typography"
+        >
+          <SidebarMenu.Item id="font-size" text="Font size" />
+        </SidebarMenu.Group>
+      </SidebarMenu.Root>
+    )
+
+    const link = document.querySelector(
+      '.dnb-sidebar-menu__group__link[href="/typography"]'
+    )
+
+    expect(link).toHaveAttribute('aria-current', 'page')
+    expect(link).not.toHaveAttribute('aria-expanded')
+    expect(link).toHaveClass('dnb-sidebar-menu__item__action')
+    expect(link.closest('li')).toHaveClass(
+      'dnb-sidebar-menu__item--selected'
+    )
+    expect(
+      link.querySelector('.dnb-sidebar-menu__item__icon')
+    ).toBeInTheDocument()
+    expect(
+      link.querySelector('.dnb-sidebar-menu__item__selection-icon')
+    ).not.toBeInTheDocument()
+
+    fireEvent.click(link)
+
+    expect(onSelectedItemChange).toHaveBeenCalledWith('typography')
+  })
+
+  it('keeps non-linked group titles styled as headings', () => {
+    render(
+      <SidebarMenu.Root>
+        <SidebarMenu.Group id="actions" text="Actions">
+          <SidebarMenu.Item id="button" text="Button" />
+        </SidebarMenu.Group>
+      </SidebarMenu.Root>
+    )
+
+    const title = document.querySelector('.dnb-sidebar-menu__group__title')
+
+    expect(title).not.toHaveClass('dnb-sidebar-menu__item__action')
+    expect(
+      document.querySelector('.dnb-sidebar-menu__group__link')
+    ).not.toBeInTheDocument()
+  })
+
+  it('opens a collapsed accordion when hidden content is found', () => {
+    render(
+      <SidebarMenu.Root>
+        <SidebarMenu.Accordion id="products" text="Products">
+          <SidebarMenu.Item id="cards" text="Cards" />
+        </SidebarMenu.Accordion>
+      </SidebarMenu.Root>
+    )
+
+    const content = document.querySelector('.dnb-height-animation')
+    const trigger = document.querySelector(
+      '.dnb-sidebar-menu__accordion__trigger'
+    )
+
+    fireEvent(content, new Event('beforematch'))
+
+    expect(trigger).toHaveAttribute('aria-expanded', 'true')
+    expect(content).not.toHaveAttribute('hidden')
+  })
+
+  it('opens nested accordions and keeps closing content visible during animation', () => {
+    globalThis.IS_TEST = false
+    globalThis.bypassTime = -1
+    globalThis.animationDuration = -1
+
+    render(
+      <SidebarMenu.Root>
+        <SidebarMenu.Accordion id="products" text="Products">
+          <SidebarMenu.Accordion id="cards" text="Cards">
+            <SidebarMenu.Item id="debit-card" text="Debit card" />
+          </SidebarMenu.Accordion>
+        </SidebarMenu.Accordion>
+      </SidebarMenu.Root>
+    )
+
+    const triggers = document.querySelectorAll(
+      '.dnb-sidebar-menu__accordion__trigger'
+    )
+    const animations = document.querySelectorAll('.dnb-height-animation')
+
+    fireEvent.click(triggers[0])
+    fireEvent.click(triggers[1])
+
+    expect(triggers[0]).toHaveAttribute('aria-expanded', 'true')
+    expect(triggers[1]).toHaveAttribute('aria-expanded', 'true')
+    expect(animations[1]).not.toHaveAttribute('hidden')
+
+    fireEvent.click(triggers[1])
+
+    expect(triggers[1]).toHaveAttribute('aria-expanded', 'false')
+    expect(animations[1]).toHaveClass('dnb-height-animation--animating')
+    expect(animations[1]).not.toHaveAttribute('hidden')
+
+    act(() => {
+      animations[1].dispatchEvent(new Event('transitionend'))
+    })
+
+    expect(animations[1]).toHaveAttribute('hidden', 'until-found')
+
+    globalThis.IS_TEST = undefined
+    globalThis.bypassTime = undefined
+    globalThis.animationDuration = undefined
+  })
+
+  it('animates only the outer accordion when open descendants return', () => {
+    globalThis.IS_TEST = false
+    globalThis.bypassTime = -1
+    globalThis.animationDuration = -1
+
+    render(
+      <SidebarMenu.Root>
+        <SidebarMenu.Accordion id="products" text="Products">
+          <SidebarMenu.Accordion id="cards" text="Cards">
+            <SidebarMenu.Item id="debit-card" text="Debit card" />
+          </SidebarMenu.Accordion>
+        </SidebarMenu.Accordion>
+      </SidebarMenu.Root>
+    )
+
+    const triggers = document.querySelectorAll(
+      '.dnb-sidebar-menu__accordion__trigger'
+    )
+    const animations = document.querySelectorAll('.dnb-height-animation')
+
+    fireEvent.click(triggers[0])
+    fireEvent(animations[0], new Event('transitionend'))
+    fireEvent.click(triggers[1])
+    fireEvent(animations[1], new Event('transitionend'))
+    fireEvent.click(triggers[0])
+    fireEvent(animations[0], new Event('transitionend'))
+    fireEvent.click(triggers[0])
+
+    expect(animations[0]).toHaveClass('dnb-height-animation--animating')
+    expect(animations[1]).not.toHaveClass('dnb-height-animation--parallax')
+    expect(triggers[1]).toHaveAttribute('aria-expanded', 'true')
+
+    globalThis.IS_TEST = undefined
+    globalThis.bypassTime = undefined
+    globalThis.animationDuration = undefined
+  })
+
+  it('can disable hidden until found behavior', () => {
+    render(
+      <SidebarMenu.Root openOnFind={false}>
+        <SidebarMenu.Accordion id="products" text="Products">
+          <SidebarMenu.Item id="cards" text="Cards" />
+        </SidebarMenu.Accordion>
+      </SidebarMenu.Root>
+    )
+
+    expect(
+      document.querySelector('[data-sidebar-menu-id="cards"]')
+    ).not.toBeInTheDocument()
+    expect(
+      document.querySelector('.dnb-height-animation')
+    ).not.toBeInTheDocument()
+    expect(
+      document.querySelector('.dnb-sidebar-menu__accordion__trigger')
+    ).not.toHaveAttribute('aria-controls')
+  })
+
+  it('wraps labels between words without splitting characters', () => {
+    render(
+      <SidebarMenu.Root>
+        <SidebarMenu.Item id="payments" text="Incoming payments" />
+      </SidebarMenu.Root>
+    )
+
+    const text = document.querySelector('.dnb-sidebar-menu__item__text')
+
+    expect(getComputedStyle(text).wordBreak).toBe('normal')
+    expect(getComputedStyle(text).overflowWrap).toBe('normal')
+  })
+
+  it('renders trailing content before a badge', () => {
+    render(
+      <SidebarMenu.Data
+        data={[
+          {
+            id: 'updates',
+            text: 'Updates',
+            suffix: <span data-testid="suffix">Theme</span>,
+            badge: 'New',
+          },
+        ]}
+      />
+    )
+
+    const action = document.querySelector(
+      '.dnb-sidebar-menu__item__action'
+    )
+    const suffix = action.querySelector('[data-testid="suffix"]')
+    const badge = action.querySelector('.dnb-sidebar-menu__badge')
+
+    expect(suffix).toBeInTheDocument()
+    expect(badge).toBeInTheDocument()
+    expect(
+      suffix.compareDocumentPosition(badge) &
+        Node.DOCUMENT_POSITION_FOLLOWING
+    ).toBeTruthy()
+  })
+
+  it('renders an arbitrarily nested menu from data', () => {
+    render(
+      <SidebarMenu.Data
+        data={[
+          {
+            id: 'products',
+            text: 'Products',
+            items: [
+              {
+                id: 'cards',
+                text: 'Cards',
+                items: [
+                  {
+                    id: 'settings',
+                    text: 'Settings',
+                    items: [
+                      {
+                        id: 'debit-card',
+                        text: 'Debit card',
+                        href: '/cards/debit',
+                        active: true,
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+        ]}
+      />
+    )
+
+    const activeItem = document.querySelector('[href="/cards/debit"]')
+    const nestedAccordion = document.querySelector(
+      '[data-sidebar-menu-id="cards"] > .dnb-sidebar-menu__accordion__trigger'
+    )
+    const deeplyNestedAccordion = document.querySelector(
+      '[data-sidebar-menu-id="settings"] > .dnb-sidebar-menu__accordion__trigger'
+    )
+
+    expect(
+      document.querySelectorAll('[aria-expanded="true"]')
+    ).toHaveLength(3)
+    expect(nestedAccordion).toHaveStyle({
+      '--sidebar-menu-indent': '3rem',
+    })
+    expect(deeplyNestedAccordion).toHaveStyle({
+      '--sidebar-menu-indent': '4rem',
+    })
+    expect(activeItem).toHaveStyle({
+      '--sidebar-menu-indent': '5rem',
+    })
+    expect(activeItem).toHaveAttribute('aria-current', 'page')
+    expect(
+      document.querySelector('[data-sidebar-menu-id="debit-card"]')
+    ).toHaveClass('dnb-sidebar-menu__item--selected')
+  })
+
+  it('supports controlled open state', () => {
+    const onOpenItemsChange = vi.fn()
+
+    const { rerender } = render(
+      <SidebarMenu.Root
+        openItems={[]}
+        onOpenItemsChange={onOpenItemsChange}
+      >
+        <SidebarMenu.Accordion id="products" text="Products">
+          <SidebarMenu.Item id="cards" text="Cards" />
+        </SidebarMenu.Accordion>
+      </SidebarMenu.Root>
+    )
+
+    const trigger = document.querySelector(
+      '.dnb-sidebar-menu__accordion__trigger'
+    )
+    fireEvent.click(trigger)
+
+    expect(onOpenItemsChange).toHaveBeenCalledWith(['products'])
+    expect(trigger).toHaveAttribute('aria-expanded', 'false')
+
+    rerender(
+      <SidebarMenu.Root openItems={['products']}>
+        <SidebarMenu.Accordion id="products" text="Products">
+          <SidebarMenu.Item id="cards" text="Cards" />
+        </SidebarMenu.Accordion>
+      </SidebarMenu.Root>
+    )
+
+    expect(trigger).toHaveAttribute('aria-expanded', 'true')
+  })
+
+  it('keeps controlled open state authoritative for selected descendants', () => {
+    const onOpenItemsChange = vi.fn()
+
+    render(
+      <SidebarMenu.Root
+        openItems={[]}
+        selectedItem="cards"
+        onOpenItemsChange={onOpenItemsChange}
+      >
+        <SidebarMenu.Accordion id="products" text="Products">
+          <SidebarMenu.Item id="cards" text="Cards" />
+        </SidebarMenu.Accordion>
+      </SidebarMenu.Root>
+    )
+
+    const trigger = document.querySelector(
+      '.dnb-sidebar-menu__accordion__trigger'
+    )
+
+    expect(trigger).toHaveAttribute('aria-expanded', 'false')
+    fireEvent.click(trigger)
+    expect(onOpenItemsChange).toHaveBeenCalledWith(['products'])
+    expect(trigger).toHaveAttribute('aria-expanded', 'false')
+  })
+
+  it('switches between declarative sections with a dropdown', () => {
+    const onActiveSectionChange = vi.fn()
+
+    render(
+      <SidebarMenu.Root
+        defaultActiveSection="personal"
+        onActiveSectionChange={onActiveSectionChange}
+      >
+        <SidebarMenu.Section
+          id="personal"
+          text="Personal"
+          icon={person}
+          triggerBadge={2}
+        >
+          <SidebarMenu.Item id="overview" text="Overview" />
+        </SidebarMenu.Section>
+        <SidebarMenu.Section
+          id="business"
+          text="Business"
+          icon={office_buildings}
+          badge={9}
+        >
+          <SidebarMenu.Item id="invoices" text="Invoices" />
+        </SidebarMenu.Section>
+      </SidebarMenu.Root>
+    )
+
+    expect(document.body).toHaveTextContent('Overview')
+    expect(document.body).not.toHaveTextContent('Invoices')
+    expect(document.querySelector('.dnb-form-label')).toHaveClass(
+      'dnb-sr-only'
+    )
+
+    const trigger = document.querySelector('.dnb-dropdown__trigger')
+
+    expect(trigger).toHaveClass('dnb-button--size-medium')
+    expect(
+      trigger.querySelector('[data-testid="person icon"]')
+    ).toBeInTheDocument()
+    expect(trigger).toHaveTextContent('2')
+    expect(trigger.querySelector('.dnb-badge')).toHaveClass(
+      'dnb-badge--variant-notification'
+    )
+
+    fireEvent.click(trigger)
+
+    const portal = document.querySelector(
+      '.dnb-sidebar-menu__sections-portal'
+    )
+    expect(portal).toBeInTheDocument()
+    expect(portal.querySelector('.dnb-drawer-list')).toHaveClass(
+      'dnb-drawer-list--no-divider'
+    )
+    expect(
+      portal.querySelector('[data-testid="person icon"]')
+    ).toBeInTheDocument()
+    expect(
+      portal.querySelector('[data-testid="office buildings icon"]')
+    ).toBeInTheDocument()
+    const options = Array.from(
+      portal.querySelectorAll<HTMLElement>('[role="option"]')
+    )
+    expect(
+      options.find((element) => element.textContent.includes('Personal'))
+    ).not.toHaveTextContent('2')
+    expect(
+      options.find((element) => element.textContent.includes('Business'))
+    ).toHaveTextContent('9')
+    expect(
+      options
+        .find((element) => element.textContent.includes('Business'))
+        .querySelector('.dnb-badge')
+    ).toHaveClass('dnb-badge--variant-notification')
+
+    fireEvent.click(
+      Array.from(document.querySelectorAll('[role="option"]')).find(
+        (element) => element.textContent.includes('Business')
+      )
+    )
+
+    expect(onActiveSectionChange).toHaveBeenCalledWith('business')
+    expect(document.body).not.toHaveTextContent('Overview')
+    expect(document.body).toHaveTextContent('Invoices')
+    expect(
+      trigger.querySelector('[data-testid="office buildings icon"]')
+    ).toBeInTheDocument()
+  })
+
+  it('renders section options without divider lines', () => {
+    render(
+      <SidebarMenu.Root>
+        <SidebarMenu.Section id="personal" text="Personal" />
+        <SidebarMenu.Section id="business" text="Business" />
+      </SidebarMenu.Root>
+    )
+
+    fireEvent.click(document.querySelector('.dnb-dropdown__trigger'))
+
+    expect(document.querySelector('.dnb-drawer-list')).toHaveClass(
+      'dnb-drawer-list--no-divider'
+    )
+  })
+
+  it('supports sections wrapped in a fragment', () => {
+    render(
+      <SidebarMenu.Root>
+        <>
+          <SidebarMenu.Section id="personal" text="Personal">
+            <SidebarMenu.Item id="overview" text="Overview" />
+          </SidebarMenu.Section>
+          <SidebarMenu.Section id="business" text="Business">
+            <SidebarMenu.Item id="invoices" text="Invoices" />
+          </SidebarMenu.Section>
+        </>
+      </SidebarMenu.Root>
+    )
+
+    expect(
+      document.querySelector('.dnb-dropdown__trigger')
+    ).toBeInTheDocument()
+    expect(document.body).toHaveTextContent('Overview')
+  })
+
+  it('finds memoized compound parts', () => {
+    const Item = memo(SidebarMenu.Item)
+
+    render(
+      <SidebarMenu.Root selectedItem="invoices">
+        <SidebarMenu.Section id="personal" text="Personal">
+          <SidebarMenu.Item id="overview" text="Overview" />
+        </SidebarMenu.Section>
+        <SidebarMenu.Section id="business" text="Business">
+          <Item id="invoices" text="Invoices" />
+        </SidebarMenu.Section>
+      </SidebarMenu.Root>
+    )
+
+    expect(document.body).toHaveTextContent('Invoices')
+  })
+
+  it('dims the active section while hovering another section', () => {
+    render(
+      <SidebarMenu.Root defaultActiveSection="personal">
+        <SidebarMenu.Section id="personal" text="Personal">
+          <SidebarMenu.Item id="overview" text="Overview" />
+        </SidebarMenu.Section>
+        <SidebarMenu.Section id="business" text="Business">
+          <SidebarMenu.Item id="invoices" text="Invoices" />
+        </SidebarMenu.Section>
+      </SidebarMenu.Root>
+    )
+
+    fireEvent.click(document.querySelector('.dnb-dropdown__trigger'))
+
+    const list = document.querySelector('.dnb-sidebar-menu__list')
+    const getOption = (text: string) =>
+      Array.from(
+        document.querySelectorAll<HTMLElement>('[role="option"]')
+      ).find((element) => element.textContent === text)
+
+    fireEvent.mouseEnter(getOption('Business'))
+    expect(list).toHaveClass('dnb-sidebar-menu__list--dimmed')
+
+    fireEvent.mouseLeave(getOption('Business'))
+    expect(list).toHaveClass('dnb-sidebar-menu__list--dimmed')
+
+    fireEvent.mouseEnter(getOption('Personal'))
+    expect(list).not.toHaveClass('dnb-sidebar-menu__list--dimmed')
+
+    fireEvent.mouseEnter(getOption('Business'))
+    expect(list).toHaveClass('dnb-sidebar-menu__list--dimmed')
+
+    fireEvent.mouseLeave(document.querySelector('.dnb-drawer-list'))
+    expect(list).not.toHaveClass('dnb-sidebar-menu__list--dimmed')
+  })
+
+  it('does not dim a newly selected section when it is hovered', () => {
+    render(
+      <SidebarMenu.Root defaultActiveSection="personal">
+        <SidebarMenu.Section id="personal" text="Personal">
+          <SidebarMenu.Item id="overview" text="Overview" />
+        </SidebarMenu.Section>
+        <SidebarMenu.Section id="business" text="Business">
+          <SidebarMenu.Item id="invoices" text="Invoices" />
+        </SidebarMenu.Section>
+      </SidebarMenu.Root>
+    )
+
+    const trigger = document.querySelector('.dnb-dropdown__trigger')
+    fireEvent.click(trigger)
+    fireEvent.click(
+      Array.from(document.querySelectorAll('[role="option"]')).find(
+        (element) => element.textContent === 'Business'
+      )
+    )
+    fireEvent.click(trigger)
+    fireEvent.mouseEnter(
+      Array.from(document.querySelectorAll('[role="option"]')).find(
+        (element) => element.textContent === 'Business'
+      )
+    )
+
+    expect(
+      document.querySelector('.dnb-sidebar-menu__list')
+    ).not.toHaveClass('dnb-sidebar-menu__list--dimmed')
+  })
+
+  it('does not reapply dimming while the section selector closes', () => {
+    render(
+      <SidebarMenu.Root defaultActiveSection="personal">
+        <SidebarMenu.Section id="personal" text="Personal">
+          <SidebarMenu.Item id="overview" text="Overview" />
+        </SidebarMenu.Section>
+        <SidebarMenu.Section id="business" text="Business">
+          <SidebarMenu.Item id="invoices" text="Invoices" />
+        </SidebarMenu.Section>
+      </SidebarMenu.Root>
+    )
+
+    const trigger = document.querySelector('.dnb-dropdown__trigger')
+    fireEvent.click(trigger)
+    const business = Array.from(
+      document.querySelectorAll<HTMLElement>('[role="option"]')
+    ).find((element) => element.textContent === 'Business')
+    fireEvent.mouseEnter(business)
+    expect(document.querySelector('.dnb-sidebar-menu__list')).toHaveClass(
+      'dnb-sidebar-menu__list--dimmed'
+    )
+
+    fireEvent.click(business)
+    fireEvent.mouseEnter(
+      Array.from(
+        document.querySelectorAll<HTMLElement>('[role="option"]')
+      ).find((element) => element.textContent === 'Personal')
+    )
+
+    expect(
+      document.querySelector('.dnb-sidebar-menu__list')
+    ).not.toHaveClass('dnb-sidebar-menu__list--dimmed')
+  })
+
+  it('keeps section option nodes mounted while previewing both directions', () => {
+    render(
+      <SidebarMenu.Root defaultActiveSection="personal">
+        <SidebarMenu.Section id="personal" text="Personal">
+          <SidebarMenu.Item id="overview" text="Overview" />
+        </SidebarMenu.Section>
+        <SidebarMenu.Section id="business" text="Business">
+          <SidebarMenu.Item id="invoices" text="Invoices" />
+        </SidebarMenu.Section>
+      </SidebarMenu.Root>
+    )
+
+    const trigger = document.querySelector('.dnb-dropdown__trigger')
+    const preview = (text: string) => {
+      const option = Array.from(
+        document.querySelectorAll<HTMLElement>('[role="option"]')
+      ).find((element) => element.textContent === text)
+      fireEvent.mouseEnter(option)
+      expect(option).toBeInTheDocument()
+      expect(
+        Array.from(
+          document.querySelectorAll<HTMLElement>('[role="option"]')
+        ).find((element) => element.textContent === text)
+      ).toBe(option)
+      return option
+    }
+
+    fireEvent.click(trigger)
+    fireEvent.click(preview('Business'))
+    fireEvent.click(trigger)
+    preview('Personal')
+  })
+
+  it('selects a section on the first touch interaction', () => {
+    const matchMedia = window.matchMedia
+    window.matchMedia = vi.fn(() => ({ matches: false }) as MediaQueryList)
+
+    try {
+      render(
+        <SidebarMenu.Root defaultActiveSection="personal">
+          <SidebarMenu.Section id="personal" text="Personal">
+            <SidebarMenu.Item id="overview" text="Overview" />
+          </SidebarMenu.Section>
+          <SidebarMenu.Section id="business" text="Business">
+            <SidebarMenu.Item id="invoices" text="Invoices" />
+          </SidebarMenu.Section>
+        </SidebarMenu.Root>
+      )
+
+      fireEvent.click(document.querySelector('.dnb-dropdown__trigger'))
+      const business = Array.from(
+        document.querySelectorAll<HTMLElement>('[role="option"]')
+      ).find((element) => element.textContent === 'Business')
+
+      fireEvent.mouseEnter(business)
+      expect(
+        document.querySelector('.dnb-sidebar-menu__list')
+      ).not.toHaveClass('dnb-sidebar-menu__list--dimmed')
+
+      fireEvent.click(business)
+      expect(document.body).toHaveTextContent('Invoices')
+    } finally {
+      window.matchMedia = matchMedia
+    }
+  })
+
+  it('renders and switches sections supplied as data', () => {
+    render(
+      <SidebarMenu.Data
+        sections={[
+          {
+            id: 'personal',
+            text: 'Personal',
+            icon: person,
+            defaultActive: true,
+            triggerBadge: 2,
+            items: [{ id: 'home', text: 'Home' }],
+          },
+          {
+            id: 'business',
+            text: 'Business',
+            icon: office_buildings,
+            badge: 9,
+            items: [{ id: 'payments', text: 'Payments' }],
+          },
+        ]}
+      />
+    )
+
+    fireEvent.click(document.querySelector('.dnb-dropdown__trigger'))
+
+    const options = Array.from(
+      document.querySelectorAll('[role="option"]')
+    )
+    expect(
+      options[0].querySelector('[data-testid="person icon"]')
+    ).toBeInTheDocument()
+    expect(
+      options[1].querySelector('[data-testid="office buildings icon"]')
+    ).toBeInTheDocument()
+    expect(
+      document.querySelector('.dnb-dropdown__trigger')
+    ).toHaveTextContent('2')
+    expect(options[0]).not.toHaveTextContent('2')
+    expect(options[1]).toHaveTextContent('9')
+
+    fireEvent.click(
+      options.find((element) => element.textContent.includes('Business'))
+    )
+
+    expect(document.body).toHaveTextContent('Payments')
+    expect(document.body).not.toHaveTextContent('Home')
+    expect(
+      document
+        .querySelector('.dnb-dropdown__trigger')
+        .querySelector('[data-testid="office buildings icon"]')
+    ).toBeInTheDocument()
+  })
+
+  it('opens active data that arrives after the first render', () => {
+    const { rerender } = render(<SidebarMenu.Data data={[]} />)
+
+    rerender(
+      <SidebarMenu.Data
+        data={[
+          {
+            id: 'products',
+            text: 'Products',
+            items: [{ id: 'cards', text: 'Cards', active: true }],
+          },
+        ]}
+      />
+    )
+
+    expect(
+      document.querySelector('.dnb-sidebar-menu__accordion__trigger')
+    ).toHaveAttribute('aria-expanded', 'true')
+    expect(
+      document.querySelector(
+        '[data-sidebar-menu-id="cards"] [aria-current="page"]'
+      )
+    ).toBeInTheDocument()
+  })
+
+  it('keeps defaultSelectedItem authoritative over active data', () => {
+    render(
+      <SidebarMenu.Data
+        defaultSelectedItem="overview"
+        data={[
+          { id: 'overview', text: 'Overview' },
+          { id: 'payments', text: 'Payments', active: true },
+        ]}
+      />
+    )
+
+    expect(
+      document.querySelector('[data-sidebar-menu-id="overview"]')
+    ).toHaveClass('dnb-sidebar-menu__item--selected')
+    expect(
+      document.querySelector('[data-sidebar-menu-id="payments"]')
+    ).toHaveClass('dnb-sidebar-menu__item--active')
+    expect(
+      document.querySelector('[data-sidebar-menu-id="payments"]')
+    ).not.toHaveClass('dnb-sidebar-menu__item--selected')
+  })
+
+  it('activates the section containing the selected route', () => {
+    const sections = [
+      {
+        id: 'personal',
+        text: 'Personal',
+        items: [{ id: 'home', text: 'Home' }],
+      },
+      {
+        id: 'business',
+        text: 'Business',
+        items: [{ id: 'payments', text: 'Payments' }],
+      },
+    ]
+    const { rerender } = render(
+      <SidebarMenu.Data selectedItem="home" sections={sections} />
+    )
+
+    expect(document.body).toHaveTextContent('Home')
+
+    rerender(
+      <SidebarMenu.Data selectedItem="payments" sections={sections} />
+    )
+
+    expect(document.body).toHaveTextContent('Payments')
+    expect(document.body).not.toHaveTextContent('Home')
+    expect(
+      document.querySelector('.dnb-dropdown__trigger')
+    ).toHaveTextContent('Business')
+  })
+
+  it('selects a clicked item and retains its original icon', () => {
+    const onSelectedItemChange = vi.fn()
+
+    render(
+      <SidebarMenu.Root onSelectedItemChange={onSelectedItemChange}>
+        <SidebarMenu.Item id="overview" text="Overview" />
+        <SidebarMenu.Item id="payments" text="Payments" icon="card" />
+      </SidebarMenu.Root>
+    )
+
+    const payments = document.querySelector(
+      '[data-sidebar-menu-id="payments"] button'
+    )
+    fireEvent.click(payments)
+
+    expect(onSelectedItemChange).toHaveBeenCalledWith('payments')
+    expect(
+      document.querySelector('[data-sidebar-menu-id="payments"]')
+    ).toHaveClass('dnb-sidebar-menu__item--selected')
+    expect(
+      document.querySelector(
+        '[data-sidebar-menu-id="payments"] .dnb-sidebar-menu__item__icon'
+      )
+    ).toBeInTheDocument()
+    expect(
+      document.querySelector(
+        '[data-sidebar-menu-id="payments"] .dnb-sidebar-menu__item__selection-icon'
+      )
+    ).not.toBeInTheDocument()
+    expect(getComputedStyle(payments).borderStyle).toBe('none')
+    expect(
+      document.querySelector(
+        '[data-sidebar-menu-id="overview"] .dnb-sidebar-menu__item__selection-icon'
+      )
+    ).not.toBeInTheDocument()
+    expect(
+      document.querySelector('[data-sidebar-menu-id="overview"]')
+    ).not.toHaveClass('dnb-sidebar-menu__item--selected')
+  })
+
+  it('supports controlled selected item state', () => {
+    const { rerender } = render(
+      <SidebarMenu.Root selectedItem="overview">
+        <SidebarMenu.Item id="overview" text="Overview" />
+        <SidebarMenu.Item id="payments" text="Payments" />
+      </SidebarMenu.Root>
+    )
+
+    fireEvent.click(
+      document.querySelector('[data-sidebar-menu-id="payments"] button')
+    )
+    expect(
+      document.querySelector('[data-sidebar-menu-id="overview"]')
+    ).toHaveClass('dnb-sidebar-menu__item--selected')
+
+    rerender(
+      <SidebarMenu.Root selectedItem="payments">
+        <SidebarMenu.Item id="overview" text="Overview" />
+        <SidebarMenu.Item id="payments" text="Payments" />
+      </SidebarMenu.Root>
+    )
+
+    expect(
+      document.querySelector('[data-sidebar-menu-id="payments"]')
+    ).toHaveClass('dnb-sidebar-menu__item--selected')
+  })
+
+  it('renders badges on the right side of items and accordions', () => {
+    render(
+      <SidebarMenu.Root>
+        <SidebarMenu.Item
+          id="inbox"
+          text="Inbox"
+          badge="New"
+          badgeProps={{ status: 'positive' }}
+        />
+        <SidebarMenu.Accordion
+          id="products"
+          text="Products"
+          badge={3}
+          badgeProps={{ label: 'Product groups:' }}
+        >
+          <SidebarMenu.Item id="cards" text="Cards" />
+        </SidebarMenu.Accordion>
+      </SidebarMenu.Root>
+    )
+
+    const itemBadge = document.querySelector(
+      '[data-sidebar-menu-id="inbox"] .dnb-sidebar-menu__badge'
+    )
+    const accordionBadge = document.querySelector(
+      '.dnb-sidebar-menu__accordion__trigger .dnb-sidebar-menu__badge'
+    )
+
+    expect(itemBadge).toHaveTextContent('New')
+    expect(itemBadge.querySelector('.dnb-badge')).toHaveClass(
+      'dnb-badge--status-positive'
+    )
+    expect(accordionBadge).toHaveTextContent('3')
+    expect(accordionBadge).toHaveTextContent('Product groups:')
+  })
+
+  it('prioritizes nested notifications over information badges', () => {
+    render(
+      <Provider locale="nb-NO">
+        <SidebarMenu.Data
+          data={[
+            {
+              id: 'products',
+              text: 'Products',
+              badge: 3,
+              items: [
+                {
+                  id: 'cards',
+                  text: 'Cards',
+                  items: [
+                    {
+                      id: 'credit-card',
+                      text: 'Credit card',
+                      badge: 2,
+                      badgeProps: {
+                        variant: 'notification',
+                        label: 'Notifications:',
+                      },
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              id: 'messages',
+              text: 'Messages',
+              badge: 4,
+              badgeProps: {
+                variant: 'notification',
+                label: 'Notifications:',
+              },
+              items: [
+                {
+                  id: 'inbox',
+                  text: 'Inbox',
+                  badge: 1,
+                  badgeProps: {
+                    variant: 'notification',
+                    label: 'Notifications:',
+                  },
+                },
+              ],
+            },
+          ]}
+        />
+      </Provider>
+    )
+
+    const products = document.querySelector(
+      '[data-sidebar-menu-id="products"]'
+    )
+    const productsTrigger = products.querySelector(
+      ':scope > .dnb-sidebar-menu__accordion__trigger'
+    )
+    const productsIndicator = productsTrigger.querySelector(
+      '.dnb-sidebar-menu__accordion__indicator'
+    )
+    const productsNotification = productsTrigger.querySelector(
+      '.dnb-sidebar-menu__accordion__notification-indicator'
+    )
+    const productsBadge = productsTrigger.querySelector(
+      ':scope > .dnb-sidebar-menu__badge'
+    )
+    const productsIcon = productsIndicator.querySelector('.dnb-icon')
+
+    expect(productsNotification).toBeInTheDocument()
+    expect(productsNotification).toHaveAttribute(
+      'aria-label',
+      'Inneholder varsler'
+    )
+    expect(productsBadge).not.toBeInTheDocument()
+    expect(
+      productsNotification.compareDocumentPosition(productsIcon) &
+        Node.DOCUMENT_POSITION_FOLLOWING
+    ).toBeTruthy()
+
+    fireEvent.click(productsTrigger)
+
+    expect(
+      productsTrigger.querySelector(
+        '.dnb-sidebar-menu__accordion__notification-indicator'
+      )
+    ).toBeInTheDocument()
+
+    const cards = document.querySelector('[data-sidebar-menu-id="cards"]')
+    const cardsTrigger = cards.querySelector(
+      ':scope > .dnb-sidebar-menu__accordion__trigger'
+    )
+    const cardsIndicator = cardsTrigger.querySelector(
+      '.dnb-sidebar-menu__accordion__indicator'
+    )
+    const cardsNotification = cardsIndicator.querySelector(
+      '.dnb-sidebar-menu__accordion__notification-indicator'
+    )
+    const cardsIcon = cardsIndicator.querySelector('.dnb-icon')
+
+    expect(cardsNotification).toBeInTheDocument()
+    expect(
+      cardsNotification.compareDocumentPosition(cardsIcon) &
+        Node.DOCUMENT_POSITION_FOLLOWING
+    ).toBeTruthy()
+
+    fireEvent.click(cardsTrigger)
+
+    expect(
+      cardsTrigger.querySelector(
+        '.dnb-sidebar-menu__accordion__notification-indicator'
+      )
+    ).toBeInTheDocument()
+    expect(
+      document.querySelector(
+        '[data-sidebar-menu-id="credit-card"] .dnb-badge'
+      )
+    ).toHaveClass('dnb-badge--variant-notification')
+
+    const messagesTrigger = document.querySelector(
+      '[data-sidebar-menu-id="messages"] > .dnb-sidebar-menu__accordion__trigger'
+    )
+    expect(
+      messagesTrigger.querySelector(
+        '.dnb-sidebar-menu__accordion__notification-indicator'
+      )
+    ).not.toBeInTheDocument()
+    expect(messagesTrigger.querySelector('.dnb-badge')).toHaveClass(
+      'dnb-badge--variant-notification'
+    )
+  })
+
+  it('keeps its badge when a non-collapsible accordion contains notifications', () => {
+    render(
+      <SidebarMenu.Root>
+        <SidebarMenu.Accordion
+          id="products"
+          text="Products"
+          badge={3}
+          collapsible={false}
+        >
+          <SidebarMenu.Item
+            id="cards"
+            text="Cards"
+            badge={1}
+            badgeProps={{ variant: 'notification' }}
+          />
+        </SidebarMenu.Accordion>
+      </SidebarMenu.Root>
+    )
+
+    const products = document.querySelector(
+      '[data-sidebar-menu-id="products"]'
+    )
+
+    expect(
+      products.querySelector(
+        ':scope > .dnb-sidebar-menu__accordion__trigger .dnb-sidebar-menu__badge'
+      )
+    ).toHaveTextContent('3')
+    expect(
+      products.querySelector(
+        ':scope > .dnb-sidebar-menu__accordion__trigger .dnb-sidebar-menu__accordion__notification-indicator'
+      )
+    ).not.toBeInTheDocument()
+  })
+
+  it('navigates and toggles expansion when a page accordion is activated', () => {
+    vi.useFakeTimers()
+    const onSelectedItemChange = vi.fn()
+
+    render(
+      <SidebarMenu.Root onSelectedItemChange={onSelectedItemChange}>
+        <SidebarMenu.Accordion
+          id="components"
+          text="Components"
+          icon="card"
+          href="/components"
+          onClick={(event) => event.preventDefault()}
+        >
+          <SidebarMenu.Item id="buttons" text="Buttons" />
+        </SidebarMenu.Accordion>
+      </SidebarMenu.Root>
+    )
+
+    const link = document.querySelector('[href="/components"]')
+    expect(link).toBeInTheDocument()
+    expect(link).toHaveAttribute('aria-expanded', 'false')
+    expect(link).toHaveAttribute('aria-controls', 'components-content')
+    expect(
+      link.querySelector(
+        '.dnb-sidebar-menu__accordion__indicator .dnb-icon'
+      )
+    ).toBeInTheDocument()
+    expect(
+      document.querySelector(
+        '[data-sidebar-menu-id="components"] > .dnb-sidebar-menu__accordion__trigger'
+      )
+    ).toBe(link)
+    expect(link.querySelectorAll('a, button')).toHaveLength(0)
+
+    fireEvent.click(link)
+
+    expect(onSelectedItemChange).toHaveBeenCalledWith('components')
+    expect(link).toHaveAttribute('aria-expanded', 'false')
+    expect(link).toHaveAttribute('aria-current', 'page')
+
+    act(() => vi.advanceTimersByTime(249))
+    expect(link).toHaveAttribute('aria-expanded', 'false')
+
+    act(() => vi.advanceTimersByTime(1))
+    expect(link).toHaveAttribute('aria-expanded', 'true')
+    expect(
+      link.querySelector('.dnb-sidebar-menu__item__icon')
+    ).toBeInTheDocument()
+    expect(
+      link.querySelector('.dnb-sidebar-menu__item__selection-icon')
+    ).not.toBeInTheDocument()
+
+    fireEvent.click(link)
+
+    expect(link).toHaveAttribute('aria-expanded', 'false')
+
+    vi.useRealTimers()
+  })
+
+  it('persists linked accordion opening before its delayed reveal', () => {
+    vi.useFakeTimers()
+    const storageKey = 'sidebar-menu-delayed-page'
+
+    const component = render(
+      <SidebarMenu.Root openItemsStorageKey={storageKey}>
+        <SidebarMenu.Accordion
+          id="components"
+          text="Components"
+          href="/components"
+          onClick={(event) => event.preventDefault()}
+        >
+          <SidebarMenu.Item id="buttons" text="Buttons" />
+        </SidebarMenu.Accordion>
+      </SidebarMenu.Root>
+    )
+
+    fireEvent.click(document.querySelector('[href="/components"]'))
+
+    expect(JSON.parse(sessionStorage.getItem(storageKey))).toEqual([
+      'components',
+    ])
+
+    component.unmount()
+    render(
+      <SidebarMenu.Root openItemsStorageKey={storageKey}>
+        <SidebarMenu.Accordion
+          id="components"
+          text="Components"
+          href="/components"
+        >
+          <SidebarMenu.Item id="buttons" text="Buttons" />
+        </SidebarMenu.Accordion>
+      </SidebarMenu.Root>
+    )
+
+    expect(document.querySelector('[href="/components"]')).toHaveAttribute(
+      'aria-expanded',
+      'true'
+    )
+
+    vi.useRealTimers()
+    sessionStorage.removeItem(storageKey)
+  })
+
+  it('keeps an open page accordion open when it is first selected', () => {
+    render(
+      <SidebarMenu.Root>
+        <SidebarMenu.Accordion
+          id="components"
+          text="Components"
+          href="/components"
+          defaultOpen
+          onClick={(event) => event.preventDefault()}
+        >
+          <SidebarMenu.Item id="buttons" text="Buttons" />
+        </SidebarMenu.Accordion>
+      </SidebarMenu.Root>
+    )
+
+    const link = document.querySelector('[href="/components"]')
+    fireEvent.click(link)
+    expect(link).toHaveAttribute('aria-expanded', 'true')
+
+    fireEvent.click(link)
+    expect(link).toHaveAttribute('aria-expanded', 'false')
+  })
+
+  it('toggles a selected page accordion without navigating again', () => {
+    const onClick = vi.fn()
+    const onSelectedItemChange = vi.fn()
+    const onOpenChange = vi.fn()
+
+    render(
+      <SidebarMenu.Root
+        selectedItem="components"
+        onSelectedItemChange={onSelectedItemChange}
+      >
+        <SidebarMenu.Accordion
+          id="components"
+          text="Components"
+          href="/components"
+          defaultOpen
+          onClick={onClick}
+          onOpenChange={onOpenChange}
+        >
+          <SidebarMenu.Item id="buttons" text="Buttons" />
+        </SidebarMenu.Accordion>
+      </SidebarMenu.Root>
+    )
+
+    const link = document.querySelector('[href="/components"]')
+    expect(fireEvent.click(link)).toBe(false)
+    expect(link).toHaveAttribute('aria-expanded', 'false')
+    expect(onOpenChange).toHaveBeenCalledWith(false)
+    expect(onClick).not.toHaveBeenCalled()
+    expect(onSelectedItemChange).not.toHaveBeenCalled()
+  })
+
+  it.each(['metaKey', 'ctrlKey', 'shiftKey'])(
+    'preserves native %s activation on a selected page accordion',
+    (modifier) => {
+      const onClick = vi.fn()
+      render(
+        <SidebarMenu.Root selectedItem="components">
+          <SidebarMenu.Accordion
+            id="components"
+            text="Components"
+            href="/components"
+            defaultOpen
+            onClick={onClick}
+          >
+            <SidebarMenu.Item id="buttons" text="Buttons" />
+          </SidebarMenu.Accordion>
+        </SidebarMenu.Root>
+      )
+
+      const link = document.querySelector('[href="/components"]')
+      expect(fireEvent.click(link, { [modifier]: true })).toBe(true)
+      expect(link).toHaveAttribute('aria-expanded', 'true')
+      expect(onClick).toHaveBeenCalledTimes(1)
+    }
+  )
+
+  it('collapses a linked accordion containing the selected route', () => {
+    const onClick = vi.fn((event) => event.preventDefault())
+    const onSelectedItemChange = vi.fn()
+    const onOpenChange = vi.fn()
+
+    render(
+      <SidebarMenu.Root
+        selectedItem="debit-card"
+        onSelectedItemChange={onSelectedItemChange}
+      >
+        <SidebarMenu.Accordion
+          id="products"
+          text="Products"
+          href="/products"
+          onClick={onClick}
+          onOpenChange={onOpenChange}
+        >
+          <SidebarMenu.Item id="debit-card" text="Debit card" />
+        </SidebarMenu.Accordion>
+      </SidebarMenu.Root>
+    )
+
+    const link = document.querySelector('[href="/products"]')
+    expect(link).toHaveAttribute('aria-expanded', 'true')
+
+    fireEvent.click(link)
+
+    expect(link).toHaveAttribute('aria-expanded', 'false')
+    expect(onOpenChange).toHaveBeenCalledWith(false)
+    expect(onClick).toHaveBeenCalledTimes(1)
+    expect(onSelectedItemChange).toHaveBeenCalledWith('products')
+  })
+
+  it('uses one action for linked accordion navigation and expansion', () => {
+    const onSelectedItemChange = vi.fn()
+    const onOpenChange = vi.fn()
+
+    render(
+      <SidebarMenu.Root onSelectedItemChange={onSelectedItemChange}>
+        <SidebarMenu.Accordion
+          id="components"
+          text="Components"
+          href="/components"
+          onOpenChange={onOpenChange}
+        >
+          <SidebarMenu.Item id="buttons" text="Buttons" />
+        </SidebarMenu.Accordion>
+      </SidebarMenu.Root>
+    )
+
+    const link = document.querySelector('[href="/components"]')
+    const action = document.querySelector(
+      '[data-sidebar-menu-id="components"] > .dnb-sidebar-menu__accordion__trigger'
+    )
+
+    expect(action).toBe(link)
+    expect(action.querySelectorAll('a, button')).toHaveLength(0)
+
+    fireEvent.click(link)
+
+    expect(link).toHaveAttribute('aria-expanded', 'false')
+    expect(onOpenChange).toHaveBeenCalledWith(true)
+    expect(onSelectedItemChange).toHaveBeenCalledWith('components')
+    expect(link).toHaveAttribute('aria-current', 'page')
+  })
+
+  it('activates a linked accordion with Space', () => {
+    const onSelectedItemChange = vi.fn()
+
+    render(
+      <SidebarMenu.Root onSelectedItemChange={onSelectedItemChange}>
+        <SidebarMenu.Accordion
+          id="components"
+          text="Components"
+          href="/components"
+          onClick={(event) => event.preventDefault()}
+        >
+          <SidebarMenu.Item id="buttons" text="Buttons" />
+        </SidebarMenu.Accordion>
+      </SidebarMenu.Root>
+    )
+
+    const link = document.querySelector('[href="/components"]')
+
+    fireEvent.keyDown(link, { key: ' ' })
+
+    expect(onSelectedItemChange).toHaveBeenCalledWith('components')
+    expect(link).toHaveAttribute('aria-current', 'page')
+  })
+
+  it('disables a linked accordion action', () => {
+    const onClick = vi.fn()
+    const onOpenChange = vi.fn()
+
+    render(
+      <SidebarMenu.Root>
+        <SidebarMenu.Accordion
+          id="components"
+          text="Components"
+          href="/components"
+          disabled
+          onClick={onClick}
+          onOpenChange={onOpenChange}
+        >
+          <SidebarMenu.Item id="buttons" text="Buttons" />
+        </SidebarMenu.Accordion>
+      </SidebarMenu.Root>
+    )
+
+    const link = document.querySelector(
+      '.dnb-sidebar-menu__accordion__link'
+    )
+    expect(link).not.toHaveAttribute('href')
+    expect(link).toHaveAttribute('aria-disabled', 'true')
+    expect(link).toHaveAttribute('tabindex', '-1')
+    expect(link).toHaveAttribute('aria-expanded', 'false')
+    expect(
+      document.querySelector('.dnb-sidebar-menu__accordion__toggle')
+    ).not.toBeInTheDocument()
+
+    fireEvent.click(link)
+
+    expect(onClick).not.toHaveBeenCalled()
+    expect(onOpenChange).not.toHaveBeenCalled()
+  })
+
+  it('prevents custom link navigation for disabled items', () => {
+    function CustomLink(
+      props: React.AnchorHTMLAttributes<HTMLAnchorElement> & {
+        to: string
+      }
+    ) {
+      const { children, ...rest } = props
+      return (
+        <a href="/fallback" {...rest}>
+          {children}
+        </a>
+      )
+    }
+
+    render(
+      <SidebarMenu.Root>
+        <SidebarMenu.Item
+          id="disabled"
+          text="Disabled"
+          to="/disabled"
+          element={CustomLink as React.ElementType}
+          disabled
+        />
+      </SidebarMenu.Root>
+    )
+
+    const link = document.querySelector('a')
+    const event = new MouseEvent('click', {
+      bubbles: true,
+      cancelable: true,
+    })
+
+    link.dispatchEvent(event)
+
+    expect(event.defaultPrevented).toBe(true)
+  })
+
+  it('supports page accordions in the data API', () => {
+    render(
+      <SidebarMenu.Data
+        data={[
+          {
+            id: 'components',
+            text: 'Components',
+            href: '/components',
+            items: [{ id: 'buttons', text: 'Buttons' }],
+          },
+        ]}
+      />
+    )
+
+    const link = document.querySelector('[href="/components"]')
+
+    expect(link).toHaveAttribute('aria-expanded', 'false')
+    expect(
+      link.querySelector(
+        '.dnb-sidebar-menu__accordion__indicator .dnb-icon'
+      )
+    ).toBeInTheDocument()
+  })
+
+  it('renders non-collapsible data groups expanded without a toggle', () => {
+    render(
+      <SidebarMenu.Data
+        data={[
+          {
+            id: 'base-fields',
+            text: 'Base fields',
+            href: '/base-fields',
+            collapsible: false,
+            items: [{ id: 'string', text: 'String' }],
+          },
+        ]}
+      />
+    )
+
+    expect(
+      document.querySelector('[href="/base-fields"]')
+    ).toBeInTheDocument()
+    expect(
+      document.querySelector('[data-sidebar-menu-id="string"]')
+    ).toBeInTheDocument()
+    expect(
+      document.querySelector('[aria-expanded]')
+    ).not.toBeInTheDocument()
+  })
+
+  it('marks only the selected page accordion in nested structures', () => {
+    render(
+      <SidebarMenu.Root
+        selectedItem="products"
+        defaultOpenItems={['products']}
+      >
+        <SidebarMenu.Accordion
+          id="products"
+          text="Products"
+          href="/products"
+        >
+          <SidebarMenu.Accordion
+            id="cards"
+            text="Cards"
+            href="/products/cards"
+          >
+            <SidebarMenu.Item id="credit-card" text="Credit card" />
+          </SidebarMenu.Accordion>
+        </SidebarMenu.Accordion>
+      </SidebarMenu.Root>
+    )
+
+    expect(
+      document.querySelectorAll('.dnb-sidebar-menu__accordion--selected')
+    ).toHaveLength(1)
+    expect(document.querySelector('[href="/products"]')).toHaveAttribute(
+      'aria-current',
+      'page'
+    )
+    expect(
+      document.querySelector('[href="/products/cards"]')
+    ).not.toHaveAttribute('aria-current')
+  })
+
+  it('opens the structure containing the selected route', () => {
+    const { rerender } = render(
+      <SidebarMenu.Data
+        selectedItem="overview"
+        data={[
+          { id: 'overview', text: 'Overview' },
+          {
+            id: 'products',
+            text: 'Products',
+            items: [
+              {
+                id: 'cards',
+                text: 'Cards',
+                items: [
+                  {
+                    id: 'credit-card',
+                    text: 'Credit card',
+                    href: '/cards/credit',
+                  },
+                ],
+              },
+            ],
+          },
+        ]}
+      />
+    )
+
+    expect(
+      document.querySelectorAll('[aria-expanded="true"]')
+    ).toHaveLength(0)
+
+    rerender(
+      <SidebarMenu.Data
+        selectedItem="credit-card"
+        data={[
+          { id: 'overview', text: 'Overview' },
+          {
+            id: 'products',
+            text: 'Products',
+            items: [
+              {
+                id: 'cards',
+                text: 'Cards',
+                items: [
+                  {
+                    id: 'credit-card',
+                    text: 'Credit card',
+                    href: '/cards/credit',
+                  },
+                ],
+              },
+            ],
+          },
+        ]}
+      />
+    )
+
+    expect(
+      document.querySelectorAll('[aria-expanded="true"]')
+    ).toHaveLength(2)
+    expect(
+      document.querySelector('[href="/cards/credit"]')
+    ).toHaveAttribute('aria-current', 'page')
+    expect(
+      document.querySelector('[data-sidebar-menu-id="credit-card"]')
+    ).toHaveClass('dnb-sidebar-menu__item--selected')
+  })
+
+  it('allows collapsing an accordion containing the selected route', () => {
+    render(
+      <SidebarMenu.Root selectedItem="credit-card">
+        <SidebarMenu.Accordion id="products" text="Products">
+          <SidebarMenu.Item id="credit-card" text="Credit card" />
+        </SidebarMenu.Accordion>
+      </SidebarMenu.Root>
+    )
+
+    const trigger = document.querySelector(
+      '.dnb-sidebar-menu__accordion__trigger'
+    )
+    const accordion = document.querySelector(
+      '.dnb-sidebar-menu__accordion'
+    )
+    const text = trigger.querySelector('.dnb-sidebar-menu__item__text')
+
+    expect(trigger).toHaveAttribute('aria-expanded', 'true')
+    expect(accordion).not.toHaveClass(
+      'dnb-sidebar-menu__accordion--contains-selected'
+    )
+
+    fireEvent.click(trigger)
+
+    expect(trigger).toHaveAttribute('aria-expanded', 'false')
+    expect(accordion).toHaveClass(
+      'dnb-sidebar-menu__accordion--contains-selected'
+    )
+    expect(text.querySelector('.dnb-sr-only')).toHaveTextContent(
+      'Inneholder gjeldende side'
+    )
+    expect(
+      text.querySelector('.dnb-sidebar-menu__accordion__current-indicator')
+    ).not.toBeInTheDocument()
+  })
+
+  it('keeps previously opened route structures open while navigating', () => {
+    const data = [
+      {
+        id: 'products',
+        text: 'Products',
+        items: [
+          {
+            id: 'cards',
+            text: 'Cards',
+            items: [{ id: 'credit-card', text: 'Credit card' }],
+          },
+        ],
+      },
+      {
+        id: 'services',
+        text: 'Services',
+        items: [
+          {
+            id: 'financing',
+            text: 'Financing',
+            items: [{ id: 'loans', text: 'Loans' }],
+          },
+        ],
+      },
+    ]
+    const { rerender } = render(
+      <SidebarMenu.Data selectedItem="credit-card" data={data} />
+    )
+
+    rerender(<SidebarMenu.Data selectedItem="loans" data={data} />)
+
+    expect(
+      document.querySelectorAll('[aria-expanded="true"]')
+    ).toHaveLength(4)
+  })
+
+  it('scrolls a selected route into view within a ScrollView', () => {
+    vi.useFakeTimers()
+
+    render(
+      <ScrollView>
+        <SidebarMenu.Root selectedItem="credit-card">
+          <SidebarMenu.Accordion id="products" text="Products">
+            <SidebarMenu.Item id="credit-card" text="Credit card" />
+          </SidebarMenu.Accordion>
+        </SidebarMenu.Root>
+      </ScrollView>
+    )
+
+    const scrollView = document.querySelector(
+      '.dnb-scroll-view'
+    ) as HTMLElement
+    const selectedItem = document.querySelector(
+      '[data-sidebar-menu-id="credit-card"] [aria-current="page"]'
+    )
+    const scrollTo = vi.fn()
+    Object.defineProperty(scrollView, 'scrollTo', {
+      configurable: true,
+      value: scrollTo,
+    })
+    vi.spyOn(scrollView, 'getBoundingClientRect').mockReturnValue({
+      top: 0,
+      bottom: 200,
+      height: 200,
+    } as DOMRect)
+    vi.spyOn(selectedItem, 'getBoundingClientRect').mockReturnValue({
+      top: 300,
+      bottom: 340,
+      height: 40,
+    } as DOMRect)
+
+    act(() => vi.runAllTimers())
+
+    expect(scrollTo).toHaveBeenCalledWith({
+      top: 220,
+      behavior: 'auto',
+    })
+    expect(scrollView.style.scrollBehavior).toBe('')
+
+    vi.useRealTimers()
+  })
+
+  it('does not scroll the selected route when positioning is disabled', () => {
+    vi.useFakeTimers()
+
+    render(
+      <ScrollView>
+        <SidebarMenu.Root
+          selectedItem="credit-card"
+          scrollSelectedItemIntoView={false}
+        >
+          <SidebarMenu.Item id="credit-card" text="Credit card" />
+        </SidebarMenu.Root>
+      </ScrollView>
+    )
+
+    const scrollView = document.querySelector(
+      '.dnb-scroll-view'
+    ) as HTMLElement
+    const scrollTo = vi.fn()
+    Object.defineProperty(scrollView, 'scrollTo', {
+      configurable: true,
+      value: scrollTo,
+    })
+    vi.spyOn(scrollView, 'getBoundingClientRect').mockReturnValue({
+      top: 0,
+      bottom: 200,
+      height: 200,
+    } as DOMRect)
+    vi.spyOn(
+      document.querySelector(
+        '[data-sidebar-menu-id="credit-card"] [aria-current="page"]'
+      ),
+      'getBoundingClientRect'
+    ).mockReturnValue({ top: 300, bottom: 340, height: 40 } as DOMRect)
+
+    act(() => vi.runAllTimers())
+
+    expect(scrollTo).not.toHaveBeenCalled()
+
+    vi.useRealTimers()
+  })
+
+  it('scrolls an off-screen selected route after navigation', () => {
+    vi.useFakeTimers()
+
+    const { rerender } = render(
+      <ScrollView>
+        <SidebarMenu.Root selectedItem="overview">
+          <SidebarMenu.Item id="overview" text="Overview" />
+          <SidebarMenu.Item id="payments" text="Payments" />
+        </SidebarMenu.Root>
+      </ScrollView>
+    )
+
+    const scrollView = document.querySelector(
+      '.dnb-scroll-view'
+    ) as HTMLElement
+    const scrollTo = vi.fn()
+    Object.defineProperty(scrollView, 'scrollTo', {
+      configurable: true,
+      value: scrollTo,
+    })
+    vi.spyOn(scrollView, 'getBoundingClientRect').mockReturnValue({
+      top: 0,
+      bottom: 200,
+      height: 200,
+    } as DOMRect)
+    vi.spyOn(
+      document.querySelector(
+        '[data-sidebar-menu-id="overview"] [aria-current="page"]'
+      ),
+      'getBoundingClientRect'
+    ).mockReturnValue({ top: 300, bottom: 340, height: 40 } as DOMRect)
+
+    act(() => vi.runAllTimers())
+    expect(scrollTo).toHaveBeenCalledTimes(1)
+
+    scrollTo.mockClear()
+    rerender(
+      <ScrollView>
+        <SidebarMenu.Root selectedItem="payments">
+          <SidebarMenu.Item id="overview" text="Overview" />
+          <SidebarMenu.Item id="payments" text="Payments" />
+        </SidebarMenu.Root>
+      </ScrollView>
+    )
+    vi.spyOn(
+      document.querySelector(
+        '[data-sidebar-menu-id="payments"] [aria-current="page"]'
+      ),
+      'getBoundingClientRect'
+    ).mockReturnValue({ top: 300, bottom: 340, height: 40 } as DOMRect)
+
+    act(() => vi.runAllTimers())
+    expect(scrollTo).toHaveBeenCalledWith({
+      top: 220,
+      behavior: 'smooth',
+    })
+
+    vi.useRealTimers()
+  })
+
+  it('does not animate selected-route scrolling with reduced motion', () => {
+    vi.useFakeTimers()
+    const originalMatchMedia = window.matchMedia
+    window.matchMedia = vi.fn(() => ({ matches: true }) as MediaQueryList)
+
+    const { rerender } = render(
+      <ScrollView>
+        <SidebarMenu.Root selectedItem="overview">
+          <SidebarMenu.Item id="overview" text="Overview" />
+          <SidebarMenu.Item id="payments" text="Payments" />
+        </SidebarMenu.Root>
+      </ScrollView>
+    )
+    const scrollView = document.querySelector(
+      '.dnb-scroll-view'
+    ) as HTMLElement
+    const scrollTo = vi.fn()
+    Object.defineProperty(scrollView, 'scrollTo', {
+      configurable: true,
+      value: scrollTo,
+    })
+    vi.spyOn(scrollView, 'getBoundingClientRect').mockReturnValue({
+      top: 0,
+      bottom: 200,
+      height: 200,
+    } as DOMRect)
+
+    act(() => vi.runAllTimers())
+    scrollTo.mockClear()
+    rerender(
+      <ScrollView>
+        <SidebarMenu.Root selectedItem="payments">
+          <SidebarMenu.Item id="overview" text="Overview" />
+          <SidebarMenu.Item id="payments" text="Payments" />
+        </SidebarMenu.Root>
+      </ScrollView>
+    )
+    vi.spyOn(
+      document.querySelector(
+        '[data-sidebar-menu-id="payments"] [aria-current="page"]'
+      ),
+      'getBoundingClientRect'
+    ).mockReturnValue({ top: 300, bottom: 340, height: 40 } as DOMRect)
+
+    act(() => vi.runAllTimers())
+    expect(scrollTo).toHaveBeenCalledWith({ top: 220, behavior: 'auto' })
+
+    window.matchMedia = originalMatchMedia
+    vi.useRealTimers()
+  })
+
+  it('waits for a selected route accordion to open before scrolling', async () => {
+    vi.useFakeTimers()
+    globalThis.IS_TEST = false
+    globalThis.bypassTime = -1
+    globalThis.animationDuration = -1
+
+    const { rerender } = render(
+      <ScrollView>
+        <SidebarMenu.Root selectedItem="overview">
+          <SidebarMenu.Item id="overview" text="Overview" />
+          <SidebarMenu.Accordion id="components" text="Components">
+            <SidebarMenu.Item id="accordion" text="Accordion" />
+          </SidebarMenu.Accordion>
+        </SidebarMenu.Root>
+      </ScrollView>
+    )
+
+    const scrollView = document.querySelector(
+      '.dnb-scroll-view'
+    ) as HTMLElement
+    const scrollTo = vi.fn()
+    Object.defineProperty(scrollView, 'scrollTo', {
+      configurable: true,
+      value: scrollTo,
+    })
+    vi.spyOn(scrollView, 'getBoundingClientRect').mockReturnValue({
+      top: 0,
+      bottom: 200,
+      height: 200,
+    } as DOMRect)
+
+    act(() => vi.runAllTimers())
+    scrollTo.mockClear()
+
+    rerender(
+      <ScrollView>
+        <SidebarMenu.Root selectedItem="accordion">
+          <SidebarMenu.Item id="overview" text="Overview" />
+          <SidebarMenu.Accordion id="components" text="Components">
+            <SidebarMenu.Item id="accordion" text="Accordion" />
+          </SidebarMenu.Accordion>
+        </SidebarMenu.Root>
+      </ScrollView>
+    )
+
+    const selectedItem = document.querySelector(
+      '[data-sidebar-menu-id="accordion"] [aria-current="page"]'
+    )
+    const animation = selectedItem.closest('.dnb-height-animation')
+    vi.spyOn(selectedItem, 'getBoundingClientRect').mockReturnValue({
+      top: 300,
+      bottom: 340,
+      height: 40,
+    } as DOMRect)
+
+    act(() => vi.runAllTimers())
+
+    expect(animation).toHaveClass('dnb-height-animation--animating')
+    expect(scrollTo).not.toHaveBeenCalled()
+
+    act(() => {
+      animation.dispatchEvent(new Event('transitionend'))
+    })
+    animation.classList.add('dnb-height-animation--animating')
+    expect(scrollTo).not.toHaveBeenCalled()
+
+    await act(async () => {
+      animation.classList.remove('dnb-height-animation--animating')
+      await Promise.resolve()
+    })
+    act(() => {
+      vi.runAllTimers()
+    })
+
+    expect(scrollTo).toHaveBeenCalledWith({
+      top: 220,
+      behavior: 'smooth',
+    })
+
+    globalThis.IS_TEST = undefined
+    globalThis.bypassTime = undefined
+    globalThis.animationDuration = undefined
+    vi.useRealTimers()
+  })
+
+  it('positions the initially selected route without a delay', () => {
+    vi.useFakeTimers()
+
+    render(
+      <ScrollView>
+        <SidebarMenu.Root selectedItem="payments">
+          <SidebarMenu.Item id="payments" text="Payments" />
+        </SidebarMenu.Root>
+      </ScrollView>
+    )
+
+    const scrollView = document.querySelector('.dnb-scroll-view')
+    const selectedItem = document.querySelector(
+      '[data-sidebar-menu-id="payments"] [aria-current="page"]'
+    )
+    const scrollTo = vi.fn()
+    Object.defineProperty(scrollView, 'scrollTo', {
+      configurable: true,
+      value: scrollTo,
+    })
+    vi.spyOn(scrollView, 'getBoundingClientRect').mockReturnValue({
+      top: 0,
+      bottom: 200,
+      height: 200,
+    } as DOMRect)
+    vi.spyOn(selectedItem, 'getBoundingClientRect').mockReturnValue({
+      top: 300,
+      bottom: 340,
+      height: 40,
+    } as DOMRect)
+
+    act(() => vi.advanceTimersToNextTimer())
+
+    expect(scrollTo).toHaveBeenCalled()
+
+    vi.useRealTimers()
+  })
+
+  it('scrolls an off-screen selected route within the browser window', () => {
+    vi.useFakeTimers()
+
+    render(
+      <SidebarMenu.Root selectedItem="payments">
+        <SidebarMenu.Item id="payments" text="Payments" />
+      </SidebarMenu.Root>
+    )
+
+    const selectedItem = document.querySelector(
+      '[data-sidebar-menu-id="payments"] [aria-current="page"]'
+    )
+    const scrollIntoView = vi.fn()
+    Object.defineProperty(selectedItem, 'scrollIntoView', {
+      configurable: true,
+      value: scrollIntoView,
+    })
+    vi.spyOn(selectedItem, 'getBoundingClientRect').mockReturnValue({
+      top: 1200,
+      bottom: 1240,
+      height: 40,
+    } as DOMRect)
+
+    act(() => vi.runAllTimers())
+
+    expect(scrollIntoView).toHaveBeenCalledWith({
+      block: 'center',
+      inline: 'nearest',
+      behavior: 'auto',
+    })
+
+    vi.useRealTimers()
+  })
+
+  it('does not scroll a selected route already visible in the window', () => {
+    vi.useFakeTimers()
+
+    render(
+      <SidebarMenu.Root selectedItem="payments">
+        <SidebarMenu.Item id="payments" text="Payments" />
+      </SidebarMenu.Root>
+    )
+
+    const selectedItem = document.querySelector(
+      '[data-sidebar-menu-id="payments"] [aria-current="page"]'
+    )
+    const scrollIntoView = vi.fn()
+    Object.defineProperty(selectedItem, 'scrollIntoView', {
+      configurable: true,
+      value: scrollIntoView,
+    })
+    vi.spyOn(selectedItem, 'getBoundingClientRect').mockReturnValue({
+      top: 100,
+      bottom: 140,
+      height: 40,
+    } as DOMRect)
+
+    act(() => vi.runAllTimers())
+
+    expect(scrollIntoView).not.toHaveBeenCalled()
+
+    vi.useRealTimers()
+  })
+
+  it('persists and restores its ScrollView position', () => {
+    const storageKey = 'sidebar-menu-scroll-position'
+    sessionStorage.setItem(storageKey, '120')
+
+    const component = render(
+      <ScrollView>
+        <SidebarMenu.Root
+          selectedItem="payments"
+          scrollPositionStorageKey={storageKey}
+        >
+          <SidebarMenu.Item id="payments" text="Payments" />
+        </SidebarMenu.Root>
+      </ScrollView>
+    )
+
+    const scrollView = document.querySelector(
+      '.dnb-scroll-view'
+    ) as HTMLElement
+    expect(scrollView.scrollTop).toBe(120)
+
+    scrollView.scrollTop = 240
+    fireEvent.scroll(scrollView)
+    expect(sessionStorage.getItem(storageKey)).toBe('240')
+
+    component.unmount()
+    sessionStorage.removeItem(storageKey)
+  })
+
+  it('does not center the selected item over a restored position', () => {
+    vi.useFakeTimers()
+    const storageKey = 'sidebar-menu-restored-scroll-position'
+    sessionStorage.setItem(storageKey, '120')
+
+    render(
+      <ScrollView>
+        <SidebarMenu.Root
+          selectedItem="payments"
+          scrollPositionStorageKey={storageKey}
+        >
+          <SidebarMenu.Item id="payments" text="Payments" />
+        </SidebarMenu.Root>
+      </ScrollView>
+    )
+
+    const scrollView = document.querySelector(
+      '.dnb-scroll-view'
+    ) as HTMLElement
+    const scrollTo = vi.fn(() => {
+      expect(scrollView.style.scrollBehavior).toBe('auto')
+    })
+    Object.defineProperty(scrollView, 'scrollTo', {
+      configurable: true,
+      value: scrollTo,
+    })
+    vi.spyOn(scrollView, 'getBoundingClientRect').mockReturnValue({
+      top: 0,
+      bottom: 200,
+      height: 200,
+    } as DOMRect)
+    vi.spyOn(
+      document.querySelector(
+        '[data-sidebar-menu-id="payments"] [aria-current="page"]'
+      ),
+      'getBoundingClientRect'
+    ).mockReturnValue({ top: 80, bottom: 120, height: 40 } as DOMRect)
+
+    act(() => vi.runAllTimers())
+
+    expect(scrollView.scrollTop).toBe(120)
+    expect(scrollTo).not.toHaveBeenCalled()
+
+    vi.useRealTimers()
+    sessionStorage.removeItem(storageKey)
+  })
+
+  it('preserves a restored position when the selected item is outside it', () => {
+    vi.useFakeTimers()
+    const storageKey = 'sidebar-menu-restored-off-screen-position'
+    sessionStorage.setItem(storageKey, '120')
+
+    render(
+      <ScrollView>
+        <SidebarMenu.Root
+          selectedItem="payments"
+          scrollPositionStorageKey={storageKey}
+        >
+          <SidebarMenu.Item id="payments" text="Payments" />
+        </SidebarMenu.Root>
+      </ScrollView>
+    )
+
+    const scrollView = document.querySelector(
+      '.dnb-scroll-view'
+    ) as HTMLElement
+    const selectedItem = document.querySelector(
+      '[data-sidebar-menu-id="payments"] [aria-current="page"]'
+    )
+    const scrollTo = vi.fn()
+    Object.defineProperty(scrollView, 'scrollTo', {
+      configurable: true,
+      value: scrollTo,
+    })
+    vi.spyOn(scrollView, 'getBoundingClientRect').mockReturnValue({
+      top: 0,
+      bottom: 200,
+      height: 200,
+    } as DOMRect)
+    vi.spyOn(selectedItem, 'getBoundingClientRect').mockReturnValue({
+      top: 300,
+      bottom: 340,
+      height: 40,
+    } as DOMRect)
+
+    act(() => vi.runAllTimers())
+
+    expect(scrollView.scrollTop).toBe(120)
+    expect(scrollTo).not.toHaveBeenCalled()
+    expect(scrollView.style.scrollBehavior).toBe('')
+
+    vi.useRealTimers()
+    sessionStorage.removeItem(storageKey)
+  })
+
+  it('restores open items from session storage across navigation remounts', () => {
+    const storageKey = 'sidebar-menu-test'
+    sessionStorage.removeItem(storageKey)
+
+    const component = render(
+      <SidebarMenu.Root openItemsStorageKey={storageKey}>
+        <SidebarMenu.Accordion id="personal-products" text="Products">
+          <SidebarMenu.Item id="cards" text="Cards" />
+        </SidebarMenu.Accordion>
+      </SidebarMenu.Root>
+    )
+
+    fireEvent.click(
+      document.querySelector('[aria-label="Expand Products"]') ??
+        document.querySelector('.dnb-sidebar-menu__accordion__trigger')
+    )
+
+    expect(JSON.parse(sessionStorage.getItem(storageKey))).toEqual([
+      'personal-products',
+    ])
+
+    component.unmount()
+    render(
+      <SidebarMenu.Root openItemsStorageKey={storageKey}>
+        <SidebarMenu.Accordion id="personal-products" text="Products">
+          <SidebarMenu.Item id="cards" text="Cards" />
+        </SidebarMenu.Accordion>
+      </SidebarMenu.Root>
+    )
+
+    expect(
+      document.querySelector('.dnb-sidebar-menu__accordion__trigger')
+    ).toHaveAttribute('aria-expanded', 'true')
+
+    fireEvent.click(
+      document.querySelector('.dnb-sidebar-menu__accordion__trigger')
+    )
+    expect(JSON.parse(sessionStorage.getItem(storageKey))).toEqual([])
+
+    sessionStorage.removeItem(storageKey)
+  })
+
+  it('restores a collapsed selected ancestor across remounts', () => {
+    const storageKey = 'sidebar-menu-collapsed-selection'
+    sessionStorage.removeItem(storageKey)
+
+    const renderMenu = () =>
+      render(
+        <SidebarMenu.Root
+          selectedItem="credit-card"
+          openItemsStorageKey={storageKey}
+        >
+          <SidebarMenu.Accordion id="products" text="Products">
+            <SidebarMenu.Item id="credit-card" text="Credit card" />
+          </SidebarMenu.Accordion>
+        </SidebarMenu.Root>
+      )
+
+    const component = renderMenu()
+    const trigger = document.querySelector(
+      '.dnb-sidebar-menu__accordion__trigger'
+    )
+
+    expect(trigger).toHaveAttribute('aria-expanded', 'true')
+    fireEvent.click(trigger)
+    expect(trigger).toHaveAttribute('aria-expanded', 'false')
+    expect(JSON.parse(sessionStorage.getItem(storageKey))).toEqual({
+      openItems: [],
+      closedItems: ['products'],
+      selectedItem: 'credit-card',
+    })
+
+    component.unmount()
+    renderMenu()
+
+    expect(
+      document.querySelector('.dnb-sidebar-menu__accordion__trigger')
+    ).toHaveAttribute('aria-expanded', 'false')
+
+    sessionStorage.removeItem(storageKey)
+  })
+
+  it('reopens a selected page accordion across remounts', () => {
+    const storageKey = 'sidebar-menu-selected-page'
+    sessionStorage.setItem(storageKey, JSON.stringify([]))
+
+    const renderMenu = () =>
+      render(
+        <SidebarMenu.Root
+          selectedItem="products"
+          openItemsStorageKey={storageKey}
+        >
+          <SidebarMenu.Accordion
+            id="products"
+            text="Products"
+            href="/products"
+          >
+            <SidebarMenu.Item id="cards" text="Cards" />
+          </SidebarMenu.Accordion>
+        </SidebarMenu.Root>
+      )
+
+    const component = renderMenu()
+    const link = document.querySelector('[href="/products"]')
+
+    expect(link).toHaveAttribute('aria-expanded', 'true')
+    fireEvent.click(link)
+    expect(link).toHaveAttribute('aria-expanded', 'false')
+
+    component.unmount()
+    renderMenu()
+
+    expect(document.querySelector('[href="/products"]')).toHaveAttribute(
+      'aria-expanded',
+      'true'
+    )
+
+    sessionStorage.removeItem(storageKey)
+  })
+
+  it('preserves a stored closed state over default open items', () => {
+    const storageKey = 'sidebar-menu-closed-default'
+    sessionStorage.setItem(storageKey, JSON.stringify([]))
+
+    render(
+      <SidebarMenu.Root
+        openItemsStorageKey={storageKey}
+        defaultOpenItems={['products']}
+      >
+        <SidebarMenu.Accordion id="products" text="Products">
+          <SidebarMenu.Item id="cards" text="Cards" />
+        </SidebarMenu.Accordion>
+      </SidebarMenu.Root>
+    )
+
+    expect(
+      document.querySelector('[data-sidebar-menu-id="products"] button')
+    ).toHaveAttribute('aria-expanded', 'false')
+
+    sessionStorage.removeItem(storageKey)
+  })
+
+  it('does not animate from defaults to stored state on mount', () => {
+    const storageKey = 'sidebar-menu-stored-initial-state'
+    sessionStorage.setItem(storageKey, JSON.stringify([]))
+
+    render(
+      <SidebarMenu.Root
+        openItemsStorageKey={storageKey}
+        defaultOpenItems={['products']}
+      >
+        <SidebarMenu.Accordion id="products" text="Products">
+          <SidebarMenu.Item id="cards" text="Cards" />
+        </SidebarMenu.Accordion>
+      </SidebarMenu.Root>
+    )
+
+    expect(
+      document.querySelector('[data-sidebar-menu-id="products"] button')
+    ).toHaveAttribute('aria-expanded', 'false')
+    expect(
+      document.querySelector('.dnb-height-animation')
+    ).not.toHaveClass('dnb-height-animation--animating')
+
+    sessionStorage.removeItem(storageKey)
+  })
+
+  it('keeps animations enabled when open state is controlled with storage', () => {
+    render(
+      <SidebarMenu.Root
+        openItems={[]}
+        openItemsStorageKey="controlled-menu"
+      >
+        <SidebarMenu.Accordion id="products" text="Products">
+          <SidebarMenu.Item id="cards" text="Cards" />
+        </SidebarMenu.Accordion>
+      </SidebarMenu.Root>
+    )
+
+    expect(
+      document.querySelector('.dnb-height-animation')
+    ).not.toHaveClass('dnb-height-animation--no-animation')
+  })
+
+  it('loads open state when the storage key changes', () => {
+    sessionStorage.setItem('menu-a', JSON.stringify(['products']))
+    sessionStorage.setItem('menu-b', JSON.stringify([]))
+
+    const { rerender } = render(
+      <SidebarMenu.Root openItemsStorageKey="menu-a">
+        <SidebarMenu.Accordion id="products" text="Products">
+          <SidebarMenu.Item id="cards" text="Cards" />
+        </SidebarMenu.Accordion>
+      </SidebarMenu.Root>
+    )
+
+    expect(
+      document.querySelector('[data-sidebar-menu-id="products"] button')
+    ).toHaveAttribute('aria-expanded', 'true')
+
+    rerender(
+      <SidebarMenu.Root openItemsStorageKey="menu-b">
+        <SidebarMenu.Accordion id="products" text="Products">
+          <SidebarMenu.Item id="cards" text="Cards" />
+        </SidebarMenu.Accordion>
+      </SidebarMenu.Root>
+    )
+
+    expect(
+      document.querySelector('[data-sidebar-menu-id="products"] button')
+    ).toHaveAttribute('aria-expanded', 'false')
+    expect(JSON.parse(sessionStorage.getItem('menu-b'))).toEqual([])
+
+    sessionStorage.removeItem('menu-a')
+    sessionStorage.removeItem('menu-b')
+  })
+
+  it('can persist open items in local storage', () => {
+    const storageKey = 'sidebar-menu-local-test'
+    localStorage.removeItem(storageKey)
+
+    render(
+      <SidebarMenu.Root
+        openItemsStorageKey={storageKey}
+        openItemsStorage="local"
+        defaultOpenItems={['business-services']}
+      >
+        <SidebarMenu.Accordion id="business-services" text="Services">
+          <SidebarMenu.Item id="payments" text="Payments" />
+        </SidebarMenu.Accordion>
+      </SidebarMenu.Root>
+    )
+
+    expect(JSON.parse(localStorage.getItem(storageKey))).toEqual([
+      'business-services',
+    ])
+
+    localStorage.removeItem(storageKey)
+  })
+
+  it('falls back to default open items for malformed stored state', () => {
+    const storageKey = 'sidebar-menu-malformed-test'
+    sessionStorage.setItem(storageKey, '{invalid')
+
+    render(
+      <SidebarMenu.Root
+        openItemsStorageKey={storageKey}
+        defaultOpenItems={['products']}
+      >
+        <SidebarMenu.Accordion id="products" text="Products">
+          <SidebarMenu.Item id="cards" text="Cards" />
+        </SidebarMenu.Accordion>
+      </SidebarMenu.Root>
+    )
+
+    expect(
+      document.querySelector('.dnb-sidebar-menu__accordion__trigger')
+    ).toHaveAttribute('aria-expanded', 'true')
+    expect(JSON.parse(sessionStorage.getItem(storageKey))).toEqual([
+      'products',
+    ])
+
+    sessionStorage.removeItem(storageKey)
+  })
+
+  it('does not persist controlled open state', () => {
+    const storageKey = 'sidebar-menu-controlled-test'
+    sessionStorage.removeItem(storageKey)
+
+    render(
+      <SidebarMenu.Root
+        openItems={['products']}
+        openItemsStorageKey={storageKey}
+      >
+        <SidebarMenu.Accordion id="products" text="Products">
+          <SidebarMenu.Item id="cards" text="Cards" />
+        </SidebarMenu.Accordion>
+      </SidebarMenu.Root>
+    )
+
+    expect(sessionStorage.getItem(storageKey)).toBeNull()
+  })
+
+  it('renders open-state storage metadata for SSG bootstraps', () => {
+    render(
+      <SidebarMenu.Root
+        openItemsStorageKey="navigation"
+        openItemsStorage="local"
+      />
+    )
+
+    expect(document.querySelector('.dnb-sidebar-menu')).toHaveAttribute(
+      'data-open-items-storage-key',
+      'navigation'
+    )
+    expect(document.querySelector('.dnb-sidebar-menu')).toHaveAttribute(
+      'data-open-items-storage',
+      'local'
+    )
+  })
+
+  it('does not render storage metadata for controlled open state', () => {
+    render(
+      <SidebarMenu.Root openItems={[]} openItemsStorageKey="navigation" />
+    )
+
+    expect(
+      document.querySelector('.dnb-sidebar-menu')
+    ).not.toHaveAttribute('data-open-items-storage-key')
+    expect(
+      document.querySelector('.dnb-sidebar-menu')
+    ).not.toHaveAttribute('data-open-items-storage')
+  })
+
+  it('does not throw when storage writes fail', () => {
+    const setItem = vi
+      .spyOn(Storage.prototype, 'setItem')
+      .mockImplementation(() => {
+        throw new DOMException('Quota exceeded', 'QuotaExceededError')
+      })
+
+    expect(() =>
+      render(
+        <ScrollView>
+          <SidebarMenu.Root
+            openItemsStorageKey="menu"
+            scrollPositionStorageKey="menu-scroll"
+          >
+            <SidebarMenu.Accordion id="products" text="Products">
+              <SidebarMenu.Item id="cards" text="Cards" />
+            </SidebarMenu.Accordion>
+          </SidebarMenu.Root>
+        </ScrollView>
+      )
+    ).not.toThrow()
+
+    expect(() =>
+      fireEvent.scroll(document.querySelector('.dnb-scroll-view'))
+    ).not.toThrow()
+    setItem.mockRestore()
+  })
+
+  it('hydrates before loading stored open state', async () => {
+    const storageKey = 'sidebar-menu-hydration'
+    const element = (
+      <SidebarMenu.Root openItemsStorageKey={storageKey}>
+        <SidebarMenu.Accordion id="products" text="Products">
+          <SidebarMenu.Item id="cards" text="Cards" />
+        </SidebarMenu.Accordion>
+      </SidebarMenu.Root>
+    )
+    const container = document.createElement('div')
+    container.innerHTML = renderToString(element)
+    document.body.appendChild(container)
+    sessionStorage.setItem(storageKey, JSON.stringify(['products']))
+    const consoleError = vi
+      .spyOn(console, 'error')
+      .mockImplementation(() => undefined)
+
+    const root = hydrateRoot(container, element)
+
+    await waitFor(() =>
+      expect(
+        container.querySelector('.dnb-sidebar-menu__accordion__trigger')
+      ).toHaveAttribute('aria-expanded', 'true')
+    )
+    expect(consoleError).not.toHaveBeenCalled()
+
+    root.unmount()
+    consoleError.mockRestore()
+    sessionStorage.removeItem(storageKey)
+    container.remove()
+  })
+
+  it('has no automated accessibility violations', async () => {
+    const component = render(
+      <SidebarMenu.Root aria-label="Main navigation" selectedItem="cards">
+        <SidebarMenu.Section id="personal" text="Personal">
+          <SidebarMenu.Header>Products</SidebarMenu.Header>
+          <SidebarMenu.Group id="accounts" text="Accounts">
+            <SidebarMenu.Accordion
+              id="products"
+              text="Products"
+              href="/products"
+            >
+              <SidebarMenu.Item id="cards" text="Cards" />
+            </SidebarMenu.Accordion>
+          </SidebarMenu.Group>
+          <SidebarMenu.Divider />
+          <SidebarMenu.Item id="disabled" text="Disabled" disabled />
+        </SidebarMenu.Section>
+      </SidebarMenu.Root>
+    )
+
+    expect(await axeComponent(component)).toHaveNoViolations()
+  })
+})

@@ -9,6 +9,7 @@ import account_out from './account_out'
 import account_percent from './account_percent'
 import accounting from './accounting'
 import add_circled from './add_circled'
+import add_reaction from './add_reaction'
 import ai from './ai'
 import aino from './aino'
 import ainvoice from './ainvoice'
@@ -234,6 +235,7 @@ import shield_lock from './shield_lock'
 import shopping_cart from './shopping_cart'
 import show_pin from './show_pin'
 import snowmobile from './snowmobile'
+import solve from './solve'
 import sort from './sort'
 import speedometer from './speedometer'
 import split from './split'
@@ -284,6 +286,7 @@ export {
   account_percent,
   accounting,
   add_circled,
+  add_reaction,
   ai,
   aino,
   ainvoice,
@@ -509,6 +512,7 @@ export {
   shopping_cart,
   show_pin,
   snowmobile,
+  solve,
   sort,
   speedometer,
   split,

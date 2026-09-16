@@ -16,6 +16,7 @@ import path from 'node:path'
 export type ScopeImportInfo = {
   source: string
   isDefault: boolean
+  isNamespace?: boolean
 }
 
 /**
@@ -98,6 +99,17 @@ for (const { name, relativePath } of parseDefaultImports(
   importInfoMap.set(name, {
     source: `@dnb/eufemia/src/elements/${relativePath}`,
     isDefault: true,
+  })
+  allNames.push(name)
+}
+
+for (const { name, relativePath } of parseDefaultImports(
+  path.join(eufemiaSrc, 'extensions/lib.ts')
+)) {
+  importInfoMap.set(name, {
+    source: `@dnb/eufemia/src/extensions/${relativePath}`,
+    isDefault: false,
+    isNamespace: true,
   })
   allNames.push(name)
 }

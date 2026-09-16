@@ -38,16 +38,19 @@ export default function Anchor({ href, to = null, ...rest }: AnchorProps) {
 
   const isAbsoluteUrl = href?.startsWith('http')
   const isHash = href?.startsWith('#')
+  // mailto:, tel: and sms: are not routes. Leaving the scheme untouched keeps
+  // them out of the router, which would otherwise resolve them as a path.
+  const hasScheme = /^[a-z][a-z\d+\-.]*:/i.test(href)
 
   if (isAbsoluteUrl) {
     rest.target = '_blank'
     rest.rel = 'noreferrer'
-  } else if (!/^(\/|#)/.test(href)) {
+  } else if (!hasScheme && !/^(\/|#)/.test(href)) {
     href = `/${href}`
   }
 
   const element = (
-    isAbsoluteUrl || isHash ? 'a' : PortalLink
+    isAbsoluteUrl || hasScheme || isHash ? 'a' : PortalLink
   ) as Props['element']
 
   return <EufemiaAnchor href={href} element={element} {...rest} />

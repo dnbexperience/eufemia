@@ -57,7 +57,7 @@ describe('storePortalViews', () => {
       path: '/a',
       timestamp: '2026-08-20T10:00:00.000Z',
     })
-    expect(lines[0].createdat).toMatch(/^\d{4}-\d{2}-\d{2}T/)
+    expect(lines[0].created_at).toMatch(/^\d{4}-\d{2}-\d{2}T/)
   })
 
   it('falls back to the receive time when no timestamp is given', async () => {
@@ -66,16 +66,16 @@ describe('storePortalViews', () => {
     const input = send.mock.calls[0][0].input as PutInput
     const line = JSON.parse(input.Body)
 
-    expect(line.timestamp).toBe(line.createdat)
+    expect(line.timestamp).toBe(line.created_at)
   })
 
-  it('strips the query string and fragment from the path', async () => {
-    await storePortalViews([{ path: '/a?q=secret#frag' }])
+  it('minimises the stored path', async () => {
+    await storePortalViews([{ path: '/a?q=secret&fullscreen#example' }])
 
     const input = send.mock.calls[0][0].input as PutInput
     const line = JSON.parse(input.Body)
 
-    expect(line.path).toBe('/a')
+    expect(line.path).toBe('/a?fullscreen#example')
   })
 
   it('stores the env label, defaulting to "unknown" when absent', async () => {
@@ -88,6 +88,58 @@ describe('storePortalViews', () => {
     expect(lines[1].env).toBe('unknown')
   })
 
+  it('stores locale and theme, defaulting to "unknown" when absent', async () => {
+    await storePortalViews([
+      { path: '/a', locale: 'sv-SE', theme: 'sbanken' },
+      { path: '/b' },
+    ])
+
+    const input = send.mock.calls[0][0].input as PutInput
+    const lines = input.Body.split('\n').map((line) => JSON.parse(line))
+
+    expect(lines[0]).toMatchObject({ locale: 'sv-SE', theme: 'sbanken' })
+    expect(lines[1]).toMatchObject({ locale: 'unknown', theme: 'unknown' })
+  })
+
+  it('stores the color scheme, defaulting to "unknown" when absent', async () => {
+    await storePortalViews([
+      { path: '/a', color_scheme: 'dark' },
+      { path: '/b' },
+    ])
+
+    const input = send.mock.calls[0][0].input as PutInput
+    const lines = input.Body.split('\n').map((line) => JSON.parse(line))
+
+    expect(lines[0].color_scheme).toBe('dark')
+    expect(lines[1].color_scheme).toBe('unknown')
+  })
+
+  it('stores the referrer category, defaulting to "unknown" when absent', async () => {
+    await storePortalViews([
+      { path: '/a', referrer: 'search' },
+      { path: '/b' },
+    ])
+
+    const input = send.mock.calls[0][0].input as PutInput
+    const lines = input.Body.split('\n').map((line) => JSON.parse(line))
+
+    expect(lines[0].referrer).toBe('search')
+    expect(lines[1].referrer).toBe('unknown')
+  })
+
+  it('stores whether the view came via search, defaulting to "unknown" when absent', async () => {
+    await storePortalViews([
+      { path: '/a', via_search: 'yes' },
+      { path: '/b' },
+    ])
+
+    const input = send.mock.calls[0][0].input as PutInput
+    const lines = input.Body.split('\n').map((line) => JSON.parse(line))
+
+    expect(lines[0].via_search).toBe('yes')
+    expect(lines[1].via_search).toBe('unknown')
+  })
+
   it('never stores identifiers or personal data', async () => {
     await storePortalViews([{ path: '/a' }])
 
@@ -96,10 +148,16 @@ describe('storePortalViews', () => {
 
     expect(line).not.toHaveProperty('id')
     expect(Object.keys(line).sort()).toEqual([
-      'createdat',
+      'color_scheme',
+      'created_at',
       'env',
+      'locale',
       'path',
+      'referrer',
+      'status',
+      'theme',
       'timestamp',
+      'via_search',
     ])
   })
 

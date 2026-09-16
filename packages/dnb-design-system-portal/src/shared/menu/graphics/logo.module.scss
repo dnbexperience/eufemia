@@ -1,0 +1,20 @@
+.logo {
+  overflow: visible;
+
+  .i {
+    transform-box: fill-box;
+    transform-origin: center;
+    transition: transform 700ms var(--easing-fast-bounce);
+  }
+
+  &:hover .i {
+    transform: rotateY(165deg) scale(1.05);
+    transition-duration: 450ms;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .logo .i {
+    transition: none;
+  }
+}

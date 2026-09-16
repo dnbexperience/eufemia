@@ -3,7 +3,7 @@ import type { PropertiesTableProps } from '../../shared/types'
 export const ContainerProperties: PropertiesTableProps = {
   layoutEngine: {
     doc: 'Select the internal Flex layout engine. Defaults to `css`. Use `legacy` only as a temporary compatibility fallback while migrating an existing custom list integration.',
-    type: [`'css'`, `'legacy'`],
+    type: ['"css"', '"legacy"'],
     defaultValue: `'css'`,
     status: 'optional',
   },

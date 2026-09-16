@@ -55,7 +55,7 @@ When the currency format is set to `currencyDisplay="name"`, the currency will b
 
 #### Not available
 
-When a number should be displayed but is not available to the frontend application, the NumberFormat component will display a single **em dash** (–), and a screen reader will receive the text "Ikke tilgjengelig" / "Not available".
+When a number should be displayed but is not available to the frontend application, the NumberFormat component will display a single **en dash** (–), and a screen reader will receive the text "Ikke tilgjengelig" / "Not available".
 
 Example: <NumberFormat.Currency value="invalid" />
 
@@ -254,6 +254,19 @@ formatBankAccountNumberByType('NO9386011117947', 'iban') // { number: 'NO93 8601
 The number component is style-independent, so it has no visual styles. By default, a `<span>` is used (with [speak-as: numbers](https://developer.mozilla.org/en-US/docs/Web/CSS/@counter-style/speak-as), even though the support is very low). However, you can easily change the element type by providing a different value to the `element="div"` property.
 
 ## Accessibility
+
+### Minus signs
+
+Use the Unicode minus sign (`U+2212`, −) when displaying negative values. It is the semantically correct mathematical sign. The hyphen-minus (`U+002D`, -) is intended for keyboard input and compatibility, not as the preferred display character.
+
+NumberFormat ensures consistent output independently of the locale data provided by `Intl.NumberFormat`:
+
+- Minus-sign parts returned by `Intl.NumberFormat` are normalized to `U+2212` for visual and screen-reader output. This applies to numbers, currencies and percentages, including Stat components.
+- `cleanNumber` accepts formatted values containing `U+2212` and converts the sign to `U+002D` before parsing, so formatting and cleaning a negative value cannot make it positive.
+- Editable number fields and copied values use `U+002D`, so keyboard input and pasting into applications such as Excel remain compatible.
+- Missing values use an en dash (`U+2013`, –). It is kept separate from the minus sign and is never parsed as a negative value.
+
+Pass negative values as numbers or with the keyboard-compatible `U+002D`, for example `-123`. NumberFormat will use the correct character for each output. If you render a negative value manually without NumberFormat, use `U+2212`.
 
 **NVDA** also has [issues](https://github.com/nvaccess/nvda/issues/8874) reconciling the `lang` attribute, which makes it hard to have a solid and good solution for reading numbers. VoiceOver on desktop does a perfect job with this.
 

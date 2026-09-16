@@ -858,7 +858,7 @@ describe('Slider component', () => {
         />
       )
 
-      expect(getTooltipElements(0).textContent).toBe('-40,0 kr')
+      expect(getTooltipElements(0).textContent).toBe('−40,0 kr')
       expect(getThumbElements(0).getAttribute('style')).toBe(
         'z-index: 3; left: 0%;'
       )
@@ -870,28 +870,28 @@ describe('Slider component', () => {
 
       simulateMouseMove({ pageX: 10, width: 100, height: 10 })
 
-      expect(getTooltipElements(0).textContent).toBe('-26,0 kr')
+      expect(getTooltipElements(0).textContent).toBe('−26,0 kr')
       expect(getThumbElements(0).getAttribute('style')).toBe(
         'z-index: 4; left: 10%;'
       )
 
       simulateMouseMove({ pageX: 0, width: 100, height: 10 })
 
-      expect(getTooltipElements(0).textContent).toBe('-40,0 kr')
+      expect(getTooltipElements(0).textContent).toBe('−40,0 kr')
       expect(getThumbElements(0).getAttribute('style')).toBe(
         'z-index: 4; left: 0%;'
       )
 
       simulateMouseMove({ pageX: -10, width: 100, height: 10 })
 
-      expect(getTooltipElements(0).textContent).toBe('-40,0 kr')
+      expect(getTooltipElements(0).textContent).toBe('−40,0 kr')
       expect(getThumbElements(0).getAttribute('style')).toBe(
         'z-index: 4; left: 0%;'
       )
 
       simulateMouseMove({ pageX: 20, width: 100, height: 10 })
 
-      expect(getTooltipElements(0).textContent).toBe('-12,0 kr')
+      expect(getTooltipElements(0).textContent).toBe('−12,0 kr')
       expect(getThumbElements(0).getAttribute('style')).toBe(
         'z-index: 4; left: 20%;'
       )

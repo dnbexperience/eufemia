@@ -14,7 +14,7 @@ const bankid = (props?: IconSVGProps) => (
       stroke="#000"
       strokeLinecap="round"
       strokeWidth={1.5}
-      d="M1 3.667h3m-3 8.666h3m-3-3h3m8-5.667h3m-3 8.667h3m-3-6h3m-8.5 0h3m-3 3h3"
+      d="M1 3.666h3m-3 8.667h3m-3-3h3m8-5.667h3m-3 8.667h3m-3-6h3m-8.5 0h3m-3 3h3"
     />
   </svg>
 )

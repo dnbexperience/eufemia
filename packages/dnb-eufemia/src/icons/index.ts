@@ -20,6 +20,8 @@ import add from './dnb/add'
 import add_circled from './dnb/add_circled'
 import add_circled_medium from './dnb/add_circled_medium'
 import add_medium from './dnb/add_medium'
+import add_reaction from './dnb/add_reaction'
+import add_reaction_medium from './dnb/add_reaction_medium'
 import ai from './dnb/ai'
 import ai_medium from './dnb/ai_medium'
 import aino from './dnb/aino'
@@ -510,6 +512,8 @@ import show_pin from './dnb/show_pin'
 import show_pin_medium from './dnb/show_pin_medium'
 import snowmobile from './dnb/snowmobile'
 import snowmobile_medium from './dnb/snowmobile_medium'
+import solve from './dnb/solve'
+import solve_medium from './dnb/solve_medium'
 import sort from './dnb/sort'
 import sort_medium from './dnb/sort_medium'
 import speedometer from './dnb/speedometer'
@@ -612,6 +616,8 @@ export {
   add_circled,
   add_circled_medium,
   add_medium,
+  add_reaction,
+  add_reaction_medium,
   ai,
   ai_medium,
   aino,
@@ -1102,6 +1108,8 @@ export {
   show_pin_medium,
   snowmobile,
   snowmobile_medium,
+  solve,
+  solve_medium,
   sort,
   sort_medium,
   speedometer,

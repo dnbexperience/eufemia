@@ -574,6 +574,58 @@ describe('MultiSelection', () => {
   })
 
   describe('showConfirmButton', () => {
+    it('offers to skip more than 20 options and focuses the confirm button', async () => {
+      const data = Array.from({ length: 21 }, (_, index) => ({
+        value: 'option' + (index + 1),
+        title: 'Option ' + (index + 1),
+      }))
+
+      render(
+        <Provider locale="en-GB">
+          <Field.MultiSelection data={data} showConfirmButton />
+        </Provider>
+      )
+
+      fireEvent.click(document.querySelector('.dnb-dropdown__trigger'))
+
+      const skipContent = await screen.findByText(
+        'Skip options and go to actions'
+      )
+      fireEvent.keyUp(skipContent, { key: 'Tab' })
+      fireEvent.click(
+        await screen.findByRole('button', {
+          name: 'Skip options and go to actions',
+        })
+      )
+
+      await waitFor(() => {
+        expect(document.activeElement?.textContent).toBe(
+          'Confirm (0 selected)'
+        )
+      })
+    })
+
+    it('does not offer to skip 20 or fewer enabled options', async () => {
+      const data = Array.from({ length: 21 }, (_, index) => ({
+        value: 'option' + (index + 1),
+        title: 'Option ' + (index + 1),
+        disabled: index === 0,
+      }))
+
+      render(
+        <Provider locale="en-GB">
+          <Field.MultiSelection data={data} showConfirmButton />
+        </Provider>
+      )
+
+      fireEvent.click(document.querySelector('.dnb-dropdown__trigger'))
+
+      await screen.findByText('Confirm (0 selected)')
+      expect(
+        screen.queryByText('Skip options and go to actions')
+      ).toBeNull()
+    })
+
     it('shows confirm and cancel buttons in popover when showSearchField is true', async () => {
       const data = [{ value: 'option1', title: 'Option 1' }]
 

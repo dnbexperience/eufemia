@@ -8,6 +8,7 @@
 
 import fs from 'fs-extra'
 import path from 'path'
+import { pathToFileURL } from 'node:url'
 import { getCommittedFiles } from '../../tools/cliTools'
 import { rebaseAssetUrls } from '../copyStyles'
 import { themeCapabilities } from '../../../src/style/themes/capabilities'
@@ -134,6 +135,85 @@ describe('type definitions', () => {
 
 describe('babel build', () => {
   const buildStages = getBuildStages(['/es', '/esm', '/cjs'])
+
+  it.each(buildStages)(
+    'ships a standalone SidebarMenu pre-hydration script on stage %s',
+    async (stage) => {
+      stage = makeStagePathException(stage)
+
+      const moduleUrl = pathToFileURL(
+        path.resolve(
+          PKG_ROOT,
+          `build${stage}/extensions/sidebar-menu/SidebarMenuPreHydrationScript.js`
+        )
+      ).href
+      const { getPreHydrationScript } = await import(moduleUrl)
+      const styles: Array<{ textContent: string }> = []
+      const openItemsMenu = {
+        getAttribute: (name: string) =>
+          ({
+            'data-open-items-storage-key': 'navigation',
+            'data-open-items-storage': 'session',
+          })[name],
+      }
+      const view = {
+        scrollTop: 0,
+        style: {
+          getPropertyValue: () => '',
+          getPropertyPriority: () => '',
+          setProperty: () => undefined,
+        },
+      }
+      const scrollMenu = {
+        closest: () => view,
+        getAttribute: (name: string) =>
+          ({
+            'data-scroll-position-storage-key': 'navigation-scroll',
+            'data-scroll-position-storage': 'session',
+          })[name],
+        querySelector: () => null,
+      }
+      const document = {
+        currentScript: null,
+        querySelectorAll: (selector: string) => {
+          if (selector === '[data-open-items-storage-key]') {
+            return [openItemsMenu]
+          }
+          if (selector === '[data-scroll-position-storage-key]') {
+            return [scrollMenu]
+          }
+          return []
+        },
+        createElement: () => ({
+          setAttribute: () => undefined,
+          textContent: '',
+        }),
+        head: {
+          appendChild: (style: { textContent: string }) => {
+            styles.push(style)
+          },
+        },
+      }
+      const sessionStorage = {
+        getItem: (key: string) =>
+          key === 'navigation-scroll'
+            ? '120'
+            : JSON.stringify({ openItems: ['about'], closedItems: [] }),
+      }
+
+      Function(
+        'document',
+        'sessionStorage',
+        'localStorage',
+        'CSS',
+        getPreHydrationScript()
+      )(document, sessionStorage, sessionStorage, { escape: String })
+
+      expect(styles).toHaveLength(1)
+      expect(styles[0].textContent).toContain('display:block')
+      expect(view.scrollTop).toBe(120)
+    }
+  )
 
   it('should not contain any .cjs or .mjs files', () => {
     const buildDir = path.resolve(PKG_ROOT, 'build')

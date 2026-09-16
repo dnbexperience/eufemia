@@ -6,7 +6,12 @@ import {
   clearSession,
   readSession,
 } from '../dashboard/auth.js'
-import { loadDashboardData, snapshotMeta } from '../dashboard/app.js'
+import {
+  loadDashboardData,
+  normalise,
+  snapshotMeta,
+  dataErrorMessage,
+} from '../dashboard/app.js'
 
 class MemoryStorage {
   store = new Map()
@@ -163,7 +168,7 @@ describe('loadDashboardData', () => {
       return {
         status: 200,
         ok: true,
-        json: async () => ({ records: [{ id: 1 }] }),
+        json: async () => ({ portalViews: [{ id: 1 }] }),
       }
     }
 
@@ -173,7 +178,7 @@ describe('loadDashboardData', () => {
     expect(captured.options.headers.Authorization).toBe('Bearer token-abc')
     expect(result).toEqual({
       kind: 'data',
-      payload: { records: [{ id: 1 }] },
+      payload: { portalViews: [{ id: 1 }] },
     })
   })
 
@@ -283,5 +288,34 @@ describe('snapshotMeta', () => {
 
   it('returns nothing when records exist but no snapshot time is present', () => {
     expect(snapshotMeta({}, 5)).toBe('')
+  })
+})
+
+describe('normalise', () => {
+  it('derives the day from the stored created_at field', () => {
+    const record = { path: '/a', created_at: '2026-09-02T10:00:00.000Z' }
+
+    expect(normalise(record).day).toBe('2026-09-02')
+  })
+
+  it('falls back to timestamp when created_at is absent', () => {
+    const record = { path: '/a', timestamp: '2026-09-03T10:00:00.000Z' }
+
+    expect(normalise(record).day).toBe('2026-09-03')
+  })
+})
+
+describe('dataErrorMessage', () => {
+  it('gives a deploy-aware message for a 503, without the raw status', () => {
+    const message = dataErrorMessage(503)
+
+    expect(message).toMatch(/being prepared/i)
+    expect(message).toMatch(/deploy/i)
+    expect(message).not.toContain('503')
+  })
+
+  it('gives a generic message including the status for other errors', () => {
+    expect(dataErrorMessage(500)).toContain('500')
+    expect(dataErrorMessage(502)).toContain('502')
   })
 })

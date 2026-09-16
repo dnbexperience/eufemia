@@ -9,6 +9,7 @@ import type { RefObject } from 'react'
 import type { ValidateFunction } from 'ajv/dist/2020.js'
 import { errorChanged, FormError } from '../utils'
 import { extendErrorMessagesWithTranslationMessages } from '../utils/errors'
+import { DEFAULT_ASYNC_SUBMIT_TIMEOUT } from '../defaults'
 import type {
   FieldPropsGeneric,
   SubmitState,
@@ -27,6 +28,7 @@ import { convertJsxToString } from '../../../shared/component-helper'
 import useId from '../../../shared/helpers/useId'
 import type { FieldBlockContextProps } from '../FieldBlock/FieldBlockContext'
 
+// eslint-disable-next-line security/detect-unsafe-regex -- the repeated group starts with '.', which the preceding character class cannot match, so the quantifiers cannot overlap (no ReDoS)
 const translationKeyPattern = /^[A-Za-z0-9_]+(?:\.[A-Za-z0-9_]+)+$/
 const messagePlaceholderPattern = /{\w+}/
 
@@ -554,7 +556,7 @@ export default function useFieldError<Value>({
         pendingTimeoutRef.current = setTimeout(() => {
           applyFieldState(undefined, { cancelPendingSubmit: true })
           forceUpdate()
-        }, asyncSubmitTimeout ?? 30000)
+        }, asyncSubmitTimeout ?? DEFAULT_ASYNC_SUBMIT_TIMEOUT)
       }
 
       if (!validateInitially) {

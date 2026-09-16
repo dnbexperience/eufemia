@@ -65,20 +65,20 @@ describe('Decimals format', () => {
   const num = -12345.6789
 
   it('should return default formatted number', () => {
-    expect(formatNumber(num)).toBe('-12 345,6789')
+    expect(formatNumber(num)).toBe('−12 345,6789')
     expect(formatNumber(num, { returnAria: true })).toMatchObject({
-      aria: '-12345,6789',
+      aria: '−12345,6789',
       cleanedValue: '-12345,6789',
       locale: 'nb-NO',
-      number: '-12 345,6789',
+      number: '−12 345,6789',
       type: 'number',
       value: num,
     })
     expect(formatNumber(String(num), { returnAria: true })).toMatchObject({
-      aria: '-12345,6789',
+      aria: '−12345,6789',
       cleanedValue: '-12345,6789',
       locale: 'nb-NO',
-      number: '-12 345,6789',
+      number: '−12 345,6789',
       type: 'number',
       value: String(num),
     })
@@ -123,28 +123,28 @@ describe('Decimals format', () => {
   it('should handle unusual cases', () => {
     global.console.log = vi.fn()
 
-    expect(formatNumber(num, { decimals: 0 })).toBe('-12 346')
-    expect(formatNumber(num, { decimals: 1 })).toBe('-12 345,7')
-    expect(formatNumber(num, { decimals: 2 })).toBe('-12 345,68')
-    expect(formatNumber(num, { decimals: 3 })).toBe('-12 345,679')
-    expect(formatNumber(num, { decimals: 4 })).toBe('-12 345,6789')
-    expect(formatNumber(num, { decimals: 5 })).toBe('-12 345,67890')
-    expect(formatNumber(num, { decimals: 6 })).toBe('-12 345,678900')
+    expect(formatNumber(num, { decimals: 0 })).toBe('−12 346')
+    expect(formatNumber(num, { decimals: 1 })).toBe('−12 345,7')
+    expect(formatNumber(num, { decimals: 2 })).toBe('−12 345,68')
+    expect(formatNumber(num, { decimals: 3 })).toBe('−12 345,679')
+    expect(formatNumber(num, { decimals: 4 })).toBe('−12 345,6789')
+    expect(formatNumber(num, { decimals: 5 })).toBe('−12 345,67890')
+    expect(formatNumber(num, { decimals: 6 })).toBe('−12 345,678900')
 
-    expect(formatCurrency(num, { decimals: 0 })).toBe('-12 346 kr')
-    expect(formatCurrency(num, { decimals: 1 })).toBe('-12 345,7 kr')
-    expect(formatCurrency(num, { decimals: 2 })).toBe('-12 345,68 kr')
-    expect(formatCurrency(num, { decimals: 3 })).toBe('-12 345,679 kr')
-    expect(formatCurrency(num, { decimals: 4 })).toBe('-12 345,6789 kr')
+    expect(formatCurrency(num, { decimals: 0 })).toBe('−12 346 kr')
+    expect(formatCurrency(num, { decimals: 1 })).toBe('−12 345,7 kr')
+    expect(formatCurrency(num, { decimals: 2 })).toBe('−12 345,68 kr')
+    expect(formatCurrency(num, { decimals: 3 })).toBe('−12 345,679 kr')
+    expect(formatCurrency(num, { decimals: 4 })).toBe('−12 345,6789 kr')
     expect(formatCurrency(String(num), { decimals: 4 })).toBe(
-      '-12 345,6789 kr'
+      '−12 345,6789 kr'
     )
     expect(
       // more than 20 numbers
       formatNumber('-1.123456789123456789', {
         decimals: undefined,
       })
-    ).toBe('-1,1234567891234568')
+    ).toBe('−1,1234567891234568')
     expect(formatCurrency(null, { currency: 'non-valid value' })).toBe('–')
     expect(
       formatCurrency(undefined, { currency: 'non-valid value' })
@@ -189,25 +189,25 @@ describe('Decimals format', () => {
   describe('rounding', () => {
     it('omit', () => {
       expect(formatCurrency(num, { decimals: 0, rounding: 'omit' })).toBe(
-        '-12 345 kr'
+        '−12 345 kr'
       )
       expect(formatCurrency(num, { decimals: 1, rounding: 'omit' })).toBe(
-        '-12 345,6 kr'
+        '−12 345,6 kr'
       )
       expect(formatCurrency(num, { decimals: 2, rounding: 'omit' })).toBe(
-        '-12 345,67 kr'
+        '−12 345,67 kr'
       )
       expect(formatCurrency(num, { decimals: 3, rounding: 'omit' })).toBe(
-        '-12 345,678 kr'
+        '−12 345,678 kr'
       )
       expect(formatCurrency(num, { decimals: 4, rounding: 'omit' })).toBe(
-        '-12 345,6789 kr'
+        '−12 345,6789 kr'
       )
       expect(formatCurrency(num, { decimals: 5, rounding: 'omit' })).toBe(
-        '-12 345,67890 kr'
+        '−12 345,67890 kr'
       )
       expect(formatCurrency(num, { decimals: 6, rounding: 'omit' })).toBe(
-        '-12 345,678900 kr'
+        '−12 345,678900 kr'
       )
     })
 
@@ -231,11 +231,11 @@ describe('Decimals format', () => {
           decimals: 2,
           rounding: 'half-even',
         })
-      ).toBe('-1 000,42')
+      ).toBe('−1 000,42')
 
       expect(
         formatCurrency(-100.435, { decimals: 2, rounding: 'half-even' })
-      ).toBe('-100,44 kr')
+      ).toBe('−100,44 kr')
 
       expect(
         formatPercent(-90.435, { decimals: 2, rounding: 'half-even' })
@@ -254,7 +254,7 @@ describe('Decimals format', () => {
           decimals: 0,
           rounding: 'half-up',
         })
-      ).toBe('-3')
+      ).toBe('−3')
       expect(
         formatNumber(2.434, {
           decimals: 2,
@@ -279,7 +279,7 @@ describe('Decimals format', () => {
   describe('signDisplay', () => {
     it('auto (default)', () => {
       expect(formatNumber(1234)).toBe('1\u00A0234')
-      expect(formatNumber(-1234)).toBe('-1\u00A0234')
+      expect(formatNumber(-1234)).toBe('−1\u00A0234')
       expect(formatNumber(0)).toBe('0')
     })
 
@@ -288,7 +288,7 @@ describe('Decimals format', () => {
         '+1\u00A0234'
       )
       expect(formatNumber(-1234, { signDisplay: 'always' })).toBe(
-        '-1\u00A0234'
+        '−1\u00A0234'
       )
       expect(formatNumber(0, { signDisplay: 'always' })).toBe('+0')
     })
@@ -298,7 +298,7 @@ describe('Decimals format', () => {
         '+1\u00A0234'
       )
       expect(formatNumber(-1234, { signDisplay: 'exceptZero' })).toBe(
-        '-1\u00A0234'
+        '−1\u00A0234'
       )
       expect(formatNumber(0, { signDisplay: 'exceptZero' })).toBe('0')
     })
@@ -318,7 +318,7 @@ describe('Decimals format', () => {
         '+1\u00A0234,00 kr'
       )
       expect(formatCurrency(-1234, { signDisplay: 'always' })).toBe(
-        '-1\u00A0234,00 kr'
+        '−1\u00A0234,00 kr'
       )
     })
 
@@ -337,39 +337,39 @@ describe('Decimals format', () => {
       ).toBe('+1\u00A0234,56')
       expect(
         formatNumber(-1234.56, { decimals: 2, signDisplay: 'always' })
-      ).toBe('-1\u00A0234,56')
+      ).toBe('−1\u00A0234,56')
     })
   })
 
   it('should handle omit currency sign', () => {
     expect(formatCurrency(num, { omitCurrencySign: true })).toBe(
-      '-12 345,68'
+      '−12 345,68'
     )
     expect(
       formatCurrency(num, {
         currencyPosition: 'before',
         omitCurrencySign: true,
       })
-    ).toBe('-12 345,68')
+    ).toBe('−12 345,68')
     expect(
       formatCurrency(num, {
         currencyPosition: 'after',
         omitCurrencySign: true,
       })
-    ).toBe('-12 345,68')
+    ).toBe('−12 345,68')
     expect(
       formatCurrency(num, {
         currencyDisplay: 'code',
         omitCurrencySign: true,
       })
-    ).toBe('-12 345,68')
+    ).toBe('−12 345,68')
     expect(formatCurrency(num, { currencyDisplay: false })).toBe(
-      '-12 345,68'
+      '−12 345,68'
     )
-    expect(formatCurrency(num, { currencyDisplay: '' })).toBe('-12 345,68')
+    expect(formatCurrency(num, { currencyDisplay: '' })).toBe('−12 345,68')
     expect(
       formatCurrency(num, { locale: 'en', omitCurrencySign: true })
-    ).toBe('-12,345.68')
+    ).toBe('−12,345.68')
     expect(
       formatCurrency(num, {
         locale: 'en-US',
@@ -377,27 +377,27 @@ describe('Decimals format', () => {
         currencyDisplay: 'symbol',
         omitCurrencySign: true,
       })
-    ).toBe('-12,345.68')
+    ).toBe('−12,345.68')
   })
 })
 
 describe('Currency format with dirty number', () => {
   it('should treat a dot as decimal', () => {
     expect(formatCurrency(-12345.67, { clean: true })).toBe(
-      '-12 345,67 kr'
+      '−12 345,67 kr'
     )
     expect(formatCurrency('prefix -123.45 suffix', { clean: true })).toBe(
-      '-123,45 kr'
+      '−123,45 kr'
     )
   })
 
   it('should treat danish/german style', () => {
     expect(formatCurrency('prefix -12.345 suffix', { clean: true })).toBe(
-      '-12 345,00 kr'
+      '−12 345,00 kr'
     )
     expect(
       formatCurrency('prefix -12.345,678 suffix', { clean: true })
-    ).toBe('-12 345,68 kr')
+    ).toBe('−12 345,68 kr')
   })
 
   it('should treat usa style', () => {
@@ -405,83 +405,83 @@ describe('Currency format with dirty number', () => {
       formatCurrency('prefix -1,234,567.891 suffix', {
         clean: true,
       })
-    ).toBe('-1 234 567,89 kr')
+    ).toBe('−1 234 567,89 kr')
   })
 
   it('should treat Norwegian style (SI style (French version))', () => {
     expect(
       formatCurrency('prefix -12.345,678 suffix', { clean: true })
-    ).toBe('-12 345,68 kr')
+    ).toBe('−12 345,68 kr')
     expect(
       formatCurrency('prefix -1 234 567,891 suffix', {
         clean: true,
       })
-    ).toBe('-1 234 567,89 kr')
+    ).toBe('−1 234 567,89 kr')
   })
 
   it('should treat English style (SI style (English version))', () => {
     expect(
       formatCurrency('prefix -1 234 567.891 suffix', { clean: true })
-    ).toBe('-1 234 567,89 kr')
+    ).toBe('−1 234 567,89 kr')
   })
 
   it('should treat swiss style', () => {
     expect(
       formatCurrency("prefix -1'234'567.891 suffix", { clean: true })
-    ).toBe('-1 234 567,89 kr')
+    ).toBe('−1 234 567,89 kr')
   })
 
   it('should treat ireland style', () => {
     expect(
       formatCurrency('prefix -12.345·678 suffix', { clean: true })
-    ).toBe('-12 345,68 kr')
+    ).toBe('−12 345,68 kr')
     expect(
       formatCurrency('prefix -1,234,567·891 suffix', {
         clean: true,
       })
-    ).toBe('-1 234 567,89 kr')
+    ).toBe('−1 234 567,89 kr')
   })
 
   it('should treat spain style', () => {
     expect(
       formatCurrency("prefix -12.345'678 suffix", { clean: true })
-    ).toBe('-12 345,68 kr')
+    ).toBe('−12 345,68 kr')
     expect(
       formatCurrency("prefix -1.234.567'891 suffix", { clean: true })
-    ).toBe('-1 234 567,89 kr')
+    ).toBe('−1 234 567,89 kr')
   })
 
   it('return correct aria', () => {
     const number = -123456789.56
     expect(formatCurrency(number, { returnAria: true })).toMatchObject({
-      aria: '-123 456 789,56 kroner',
+      aria: '−123 456 789,56 kroner',
       cleanedValue: '-123456789,56 kr',
       locale: 'nb-NO',
-      number: '-123 456 789,56 kr',
+      number: '−123 456 789,56 kr',
       type: 'currency',
       value: number,
     })
     expect(formatCurrency('', { returnAria: true })).toMatchObject({
-      aria: ' kroner-',
-      cleanedValue: '- kr',
+      aria: '– kroner',
+      cleanedValue: '– kr',
       locale: 'nb-NO',
-      number: '- kr',
+      number: '– kr',
       type: 'currency',
       value: '–',
     })
     expect(formatCurrency(null, { returnAria: true })).toMatchObject({
-      aria: ' kroner-',
-      cleanedValue: '- kr',
+      aria: '– kroner',
+      cleanedValue: '– kr',
       locale: 'nb-NO',
-      number: '- kr',
+      number: '– kr',
       type: 'currency',
       value: '–',
     })
     expect(formatCurrency(undefined, { returnAria: true })).toMatchObject({
-      aria: ' kroner-',
-      cleanedValue: '- kr',
+      aria: '– kroner',
+      cleanedValue: '– kr',
       locale: 'nb-NO',
-      number: '- kr',
+      number: '– kr',
       type: 'currency',
       value: '–',
     })
@@ -492,10 +492,10 @@ describe('Currency format with dirty number', () => {
     expect(
       formatCurrency(number, { returnAria: true, cleanCopyValue: true })
     ).toMatchObject({
-      aria: '-123 456 789,56 kroner',
-      cleanedValue: '−123456789,56',
+      aria: '−123 456 789,56 kroner',
+      cleanedValue: '-123456789,56',
       locale: 'nb-NO',
-      number: '-123 456 789,56 kr',
+      number: '−123 456 789,56 kr',
       type: 'currency',
       value: number,
     })
@@ -503,10 +503,10 @@ describe('Currency format with dirty number', () => {
     expect(
       formatCurrency('', { returnAria: true, cleanCopyValue: true })
     ).toMatchObject({
-      aria: ' kroner-',
+      aria: '– kroner',
       cleanedValue: '–',
       locale: 'nb-NO',
-      number: '- kr',
+      number: '– kr',
       type: 'currency',
       value: '–',
     })
@@ -514,10 +514,10 @@ describe('Currency format with dirty number', () => {
     expect(
       formatCurrency(null, { returnAria: true, cleanCopyValue: true })
     ).toMatchObject({
-      aria: ' kroner-',
+      aria: '– kroner',
       cleanedValue: '–',
       locale: 'nb-NO',
-      number: '- kr',
+      number: '– kr',
       type: 'currency',
       value: '–',
     })
@@ -525,10 +525,10 @@ describe('Currency format with dirty number', () => {
     expect(
       formatCurrency(undefined, { returnAria: true, cleanCopyValue: true })
     ).toMatchObject({
-      aria: ' kroner-',
+      aria: '– kroner',
       cleanedValue: '–',
       locale: 'nb-NO',
-      number: '- kr',
+      number: '– kr',
       type: 'currency',
       value: '–',
     })
@@ -538,52 +538,52 @@ describe('Currency format with dirty number', () => {
     const number = -123456789.5
     expect(
       formatCurrency(number, { currencyPosition: 'after', locale: 'no' })
-    ).toBe('-123 456 789,50 kr')
+    ).toBe('−123 456 789,50 kr')
     expect(
       formatCurrency(number, { currencyPosition: 'before', locale: 'no' })
-    ).toBe('kr -123 456 789,50')
+    ).toBe('kr −123 456 789,50')
     expect(
       formatCurrency(number, {
         currencyPosition: 'after',
         locale: 'en-GB',
       })
-    ).toBe('-123,456,789.50 NOK')
+    ).toBe('−123,456,789.50 NOK')
     expect(
       formatCurrency(number, {
         currencyPosition: 'after',
         locale: 'en-US',
       })
-    ).toBe('-123,456,789.50 NOK')
+    ).toBe('−123,456,789.50 NOK')
     expect(
       formatCurrency(number, {
         currencyPosition: 'before',
         locale: 'en-GB',
       })
-    ).toBe('-NOK\u00A0123,456,789.50')
+    ).toBe('−NOK\u00A0123,456,789.50')
     expect(
       formatCurrency(number, {
         currencyPosition: 'before',
         locale: 'en-US',
       })
-    ).toBe('-NOK\u00A0123,456,789.50')
+    ).toBe('−NOK\u00A0123,456,789.50')
     expect(
       formatCurrency(-0, { currencyPosition: 'after', locale: 'en-GB' })
-    ).toBe('-0.00 NOK')
+    ).toBe('−0.00 NOK')
     expect(
       formatCurrency(-0, { currencyPosition: 'after', locale: 'en-US' })
-    ).toBe('-0.00 NOK')
+    ).toBe('−0.00 NOK')
     expect(
       formatCurrency('-0', { currencyPosition: 'after', locale: 'en-GB' })
-    ).toBe('-0.00 NOK')
+    ).toBe('−0.00 NOK')
     expect(
       formatCurrency('-0', { currencyPosition: 'after', locale: 'en-US' })
-    ).toBe('-0.00 NOK')
+    ).toBe('−0.00 NOK')
     expect(
       formatCurrency('-0', { currencyPosition: 'before', locale: 'en-GB' })
-    ).toBe('-NOK\u00A00.00')
+    ).toBe('−NOK\u00A00.00')
     expect(
       formatCurrency('-0', { currencyPosition: 'before', locale: 'en-US' })
-    ).toBe('-NOK\u00A00.00')
+    ).toBe('−NOK\u00A00.00')
     expect(
       formatCurrency('something 1234 something', {
         clean: true,
@@ -595,33 +595,33 @@ describe('Currency format with dirty number', () => {
         currency: 'CHF',
         locale: 'de-CH',
       })
-    ).toBe("CHF-123'456'789.50")
+    ).toBe("CHF−123'456'789.50")
     expect(
       formatCurrency(number, {
         currency: 'CHF',
         currencyPosition: 'before',
         locale: 'de-CH',
       })
-    ).toBe("CHF-123'456'789.50")
+    ).toBe("CHF−123'456'789.50")
     expect(
       formatCurrency(number, {
         currency: 'CHF',
         currencyPosition: 'after',
         locale: 'de-CH',
       })
-    ).toBe("-123'456'789.50 CHF")
+    ).toBe("−123'456'789.50 CHF")
     expect(
       formatCurrency(number, {
         currencyPosition: 'before',
         currencyDisplay: 'name',
       })
-    ).toBe('kroner -123 456 789,50')
+    ).toBe('kroner −123 456 789,50')
     expect(
       formatCurrency(number, {
         currencyPosition: 'after',
         currencyDisplay: 'name',
       })
-    ).toBe('-123 456 789,50 kroner')
+    ).toBe('−123 456 789,50 kroner')
   })
 })
 
@@ -647,19 +647,19 @@ describe('NumberFormat percentage', () => {
       '−123 456 789,56 %'
     )
     expect(formatPercent(number, { locale: 'en-GB' })).toBe(
-      '-123,456,789.56%'
+      '−123,456,789.56%'
     )
     expect(formatPercent(number, { locale: 'en-US' })).toBe(
-      '-123,456,789.56%'
+      '−123,456,789.56%'
     )
     expect(formatPercent(number, { decimals: 1, locale: 'no' })).toBe(
       '−123 456 789,6 %'
     )
     expect(formatPercent(number, { decimals: 1, locale: 'en-GB' })).toBe(
-      '-123,456,789.6%'
+      '−123,456,789.6%'
     )
     expect(formatPercent(number, { decimals: 1, locale: 'en-US' })).toBe(
-      '-123,456,789.6%'
+      '−123,456,789.6%'
     )
   })
 
@@ -671,10 +671,10 @@ describe('NumberFormat percentage', () => {
         returnAria: true,
       })
     ).toMatchObject({
-      aria: '-123,456,789.6%',
+      aria: '−123,456,789.6%',
       cleanedValue: '-123456789.6%',
       locale: 'en-US',
-      number: '-123,456,789.6%',
+      number: '−123,456,789.6%',
       type: 'number',
       value: number,
     })
@@ -729,12 +729,85 @@ describe('NumberFormat percentage', () => {
   })
 })
 
+describe('NumberFormat minus sign', () => {
+  it.each([
+    ['number', formatNumber],
+    ['currency', formatCurrency],
+    ['percent', formatPercent],
+  ])(
+    'should use the same minus sign for Norwegian and English %s values',
+    (_, formatter) => {
+      expect(formatter(-0.9, { locale: 'nb-NO' }).charAt(0)).toBe('−')
+      expect(formatter(-0.9, { locale: 'en-GB' }).charAt(0)).toBe('−')
+    }
+  )
+
+  it('should preserve normalized percent parts and ARIA output', () => {
+    const result = formatPercent(-0.9, {
+      locale: 'nb-NO',
+      returnAria: true,
+    })
+
+    expect(result).toMatchObject({
+      number: '−0,9 %',
+      aria: '−0,9 %',
+    })
+  })
+
+  it.each([
+    ['number', formatNumber],
+    ['currency', formatCurrency],
+    ['percent', formatPercent],
+  ])('should normalize copied %s values', (_, formatter) => {
+    for (const locale of ['nb-NO', 'en-GB']) {
+      for (const cleanCopyValue of [false, true]) {
+        const result = formatter(-0.9, {
+          locale,
+          returnAria: true,
+          cleanCopyValue,
+        })
+
+        expect(result.cleanedValue.charAt(0)).toBe('-')
+      }
+    }
+  })
+
+  it.each([false, true])(
+    'should normalize copied currency-before-sign values with cleanCopyValue=%s',
+    (cleanCopyValue) => {
+      const result = formatCurrency(-1234.5, {
+        currency: 'CHF',
+        locale: 'de-CH',
+        returnAria: true,
+        cleanCopyValue,
+      })
+
+      expect(result.cleanedValue).toContain('-')
+      expect(result.cleanedValue).not.toContain('−')
+    }
+  )
+})
+
 describe('NumberFormat cleanNumber', () => {
   it('should not clean up', () => {
     expect(cleanNumber(-12345.67)).toBe(-12345.67)
     expect(cleanNumber('prefix -123.00 suffix')).toBe('-123.00')
     expect(cleanNumber(undefined)).toBe(undefined)
     expect(cleanNumber(null)).toBe(null)
+  })
+
+  it.each([
+    ['number', formatNumber(-1234.5, { locale: 'nb-NO' })],
+    [
+      'currency',
+      formatCurrency(-1234.5, {
+        currency: 'CHF',
+        locale: 'de-CH',
+      }),
+    ],
+    ['percent', formatPercent(-1234.5, { locale: 'en-GB' })],
+  ])('should preserve the sign of formatted %s values', (_, formatted) => {
+    expect(String(cleanNumber(formatted)).charAt(0)).toBe('-')
   })
 
   it('should not clean up if only a dot is given', () => {

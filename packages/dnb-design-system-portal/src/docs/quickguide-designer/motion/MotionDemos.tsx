@@ -95,7 +95,7 @@ export default function MotionDemos({
         <MotionStudy
           id="animate-an-illustration"
           title="Animate an illustration"
-          description="Make the subject recognisable quickly, then let it settle. Coordinate related movements so the illustration supports the message without competing with the task."
+          description="Keep the subject recognisable and animate only the part that supports the message. Here, the house stays still while the garage opens and closes."
         >
           <FamilyHomeIllustration />
         </MotionStudy>

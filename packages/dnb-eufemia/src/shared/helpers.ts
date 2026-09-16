@@ -5,6 +5,7 @@
 
 // For backward compatibility
 export { debounce, debounceAsync } from './helpers/debounce'
+export type { DebounceHelpers } from './helpers/debounce'
 
 export const PLATFORM_MAC = 'Mac|iPad|iPhone|iPod'
 export const PLATFORM_WIN = 'Win'
@@ -173,6 +174,7 @@ export function scrollToLocationHashId({
   offset = 0,
   delay = null as number | null,
   onCompletion = null as ((elem: HTMLElement) => void) | null,
+  useScrollIntoView = false,
 } = {}) {
   if (
     typeof document !== 'undefined' &&
@@ -185,14 +187,6 @@ export function scrollToLocationHashId({
       if (id.length > 0) {
         const handleScroll = () => {
           const runScroll = () => {
-            const totalOffset = getOffsetTop(elem)
-
-            if (totalOffset <= 0) {
-              return undefined // stop here
-            }
-
-            const top = totalOffset - offset
-
             try {
               if (typeof IntersectionObserver !== 'undefined') {
                 const intersectionObserver = new IntersectionObserver(
@@ -210,10 +204,22 @@ export function scrollToLocationHashId({
                 intersectionObserver.observe(elem)
               }
 
-              window.scrollTo({
-                top,
-                behavior: 'smooth',
-              })
+              if (useScrollIntoView) {
+                elem.scrollIntoView()
+              } else {
+                const totalOffset = getOffsetTop(elem)
+
+                if (totalOffset <= 0) {
+                  return undefined // stop here
+                }
+
+                const top = totalOffset - offset
+
+                window.scrollTo({
+                  top,
+                  behavior: 'smooth',
+                })
+              }
             } catch (e) {
               warn('Error on scrollToLocationHashId:', e)
             }

@@ -52,6 +52,7 @@ export const Virtualized = () => (
       listDriver={virtualizedMultiSelection}
       showSearchField
       showSelectAll
+      showConfirmButton
     />
   </ComponentBox>
 )

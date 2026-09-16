@@ -2,7 +2,13 @@
  * Web List Component
  */
 
-import { isValidElement, memo, useCallback, useContext } from 'react'
+import {
+  Fragment,
+  isValidElement,
+  memo,
+  useCallback,
+  useContext,
+} from 'react'
 import type {
   CSSProperties,
   ComponentType,
@@ -238,7 +244,7 @@ export type DrawerListProps = {
    */
   noDivider?: boolean
   /**
-   * Has to be a function, returning the items again. See [example](/uilib/components/fragments/drawer-list#example-usage-of-optionsRender). This can be used to add additional options above the actual rendered list.
+   * Has to be a function, returning the items again. See [example](/uilib/components/fragments/drawer-list#example-usage-of-optionsrender). This can be used to add additional options above the actual rendered list.
    */
   optionsRender?: DrawerListOptionsRender
   /**
@@ -678,48 +684,44 @@ const DrawerListComponent = memo(function DrawerListComponent(
     )
   }
 
-  const GroupItems = () =>
-    renderData
-      .filter(Boolean) // filter out empty groups
-      .map(({ groupTitle, groupData: data, hideTitle }, j) => {
-        const Items = () =>
-          data.map((dataItem, i) => renderItem(dataItem, i, j, data))
-        const ItemsRendered = () =>
-          typeof optionsRender === 'function' ? (
-            optionsRender({ data, Items, Item: DrawerList.Item })
-          ) : (
-            <Items />
-          )
-        if (hasGroups) {
-          const groupdId = `${id}-group-title-${j}`
-          return (
-            <ul
-              key={j}
-              role="group"
-              aria-labelledby={groupdId}
+  const groupItems = renderData
+    .filter(Boolean) // filter out empty groups
+    .map(({ groupTitle, groupData: data, hideTitle }, j) => {
+      const Items = () =>
+        data.map((dataItem, i) => renderItem(dataItem, i, j, data))
+      const itemsRendered =
+        typeof optionsRender === 'function'
+          ? optionsRender({ data, Items, Item: DrawerList.Item })
+          : data.map((dataItem, i) => renderItem(dataItem, i, j, data))
+      if (hasGroups) {
+        const groupdId = `${id}-group-title-${j}`
+        return (
+          <ul
+            key={j}
+            role="group"
+            aria-labelledby={groupdId}
+            className={clsx(
+              'dnb-drawer-list__group',
+              j === 0 && 'first-of-type',
+              j === renderData.length - 1 && 'last-of-type'
+            )}
+          >
+            <li
+              id={groupdId}
+              role="presentation"
               className={clsx(
-                'dnb-drawer-list__group',
-                j === 0 && 'first-of-type',
-                j === renderData.length - 1 && 'last-of-type'
+                'dnb-drawer-list__group-title',
+                hideTitle && 'dnb-sr-only'
               )}
             >
-              <li
-                id={groupdId}
-                role="presentation"
-                className={clsx(
-                  'dnb-drawer-list__group-title',
-                  hideTitle && 'dnb-sr-only'
-                )}
-              >
-                {groupTitle}
-              </li>
-              <ItemsRendered />
-            </ul>
-          )
-        } else {
-          return <ItemsRendered key={j} />
-        }
-      })
+              {groupTitle}
+            </li>
+            {itemsRendered}
+          </ul>
+        )
+      }
+      return <Fragment key={j}>{itemsRendered}</Fragment>
+    })
 
   let optionPosition = 0
   const driverRows: DrawerListDriverRow[] = activeListDriver
@@ -805,7 +807,7 @@ const DrawerListComponent = memo(function DrawerListComponent(
                   }
                 />
               ) : (
-                <GroupItems />
+                groupItems
               )}
             </DrawerList.Options>
             <OnMounted

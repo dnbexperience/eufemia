@@ -15,7 +15,7 @@ import type {
 } from 'react'
 import * as z from 'zod'
 import { clsx } from 'clsx'
-import { AriaLive, Popover } from '../../../../components'
+import { AriaLive, Popover, SkipContent } from '../../../../components'
 import type { FieldBlockProps, FieldBlockWidth } from '../../FieldBlock'
 import FieldBlock from '../../FieldBlock'
 import { useFieldProps } from '../../hooks'
@@ -734,6 +734,9 @@ function MultiSelection(props: FieldMultiSelectionProps) {
   const someFilteredSelected =
     !allFilteredSelected &&
     selectableFilteredFlat.some((item) => selectedValueSet.has(item.value))
+  const confirmButtonId = `${id}-confirm-button`
+  const showSkipToActions =
+    showConfirmButton && selectableFilteredFlat.length > 20
 
   const getCheckboxes = useCallback(
     () =>
@@ -1053,9 +1056,18 @@ function MultiSelection(props: FieldMultiSelectionProps) {
 
             {searchContent}
 
+            {showSkipToActions && (
+              <SkipContent
+                selector={`#${confirmButtonId}`}
+                text={translation.skipToActions}
+                focusDelay={0}
+              />
+            )}
+
             {itemListContent}
 
             <MultiSelectionActions
+              id={confirmButtonId}
               show={showConfirmButton}
               disabled={disabled}
               tempValueLength={tempValue.length}

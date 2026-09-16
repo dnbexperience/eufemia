@@ -362,6 +362,38 @@ describe('useTranslation without an ID', () => {
         })
       ).toBe('Second string dynamic-value')
     })
+
+    describe('placeholder substitution', () => {
+      it('should insert values containing "$" patterns verbatim', () => {
+        const { result } = renderHook(useTranslation)
+        const { formatMessage } = result.current
+
+        expect(formatMessage('Total: {amount}', { amount: 'a$&b' })).toBe(
+          'Total: a$&b'
+        )
+        expect(formatMessage('Ref {code}', { code: 'A$$B' })).toBe(
+          'Ref A$$B'
+        )
+        expect(formatMessage('Name {name}', { name: "x$'y$`z" })).toBe(
+          "Name x$'y$`z"
+        )
+        expect(formatMessage('Group {ref}', { ref: '$1' })).toBe(
+          'Group $1'
+        )
+      })
+
+      it('should treat regex characters in placeholder names literally', () => {
+        const { result } = renderHook(useTranslation)
+        const { formatMessage } = result.current
+
+        expect(
+          formatMessage('Hi {user_name}', { 'user.name': 'Ada' })
+        ).toBe('Hi {user_name}')
+        expect(
+          formatMessage('Hi {user.name}', { 'user.name': 'Ada' })
+        ).toBe('Hi Ada')
+      })
+    })
   })
 
   it('should support typing for flat translations', () => {

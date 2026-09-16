@@ -1,10 +1,13 @@
 import { isAsync } from './isAsync'
 
-type ReturnHelpers = {
+/**
+ * The `this` context a debounced function is called with.
+ */
+export type DebounceHelpers = {
   cancel: () => void
   addCancelEvent: (fn: () => void) => () => boolean
 }
-type DebounceInstance = Partial<ReturnHelpers>
+type DebounceInstance = Partial<DebounceHelpers>
 type DebouncedFunction<T extends any[], R> = (...args: T) => R
 type DebouncedOptions = {
   /**
@@ -30,7 +33,7 @@ export function debounceAsync<T extends any[], R>(
   debouncedFunction: DebouncedFunction<T, R>,
   wait = 500,
   opts: Omit<DebouncedOptions, 'async'> = null
-): DebouncedFunction<T, R> & ReturnHelpers {
+): DebouncedFunction<T, R> & DebounceHelpers {
   return debounce<T, R>(debouncedFunction, wait, { ...opts, async: true })
 }
 
@@ -45,7 +48,7 @@ export function debounce<T extends any[], R>(
     instance = null,
     async = false,
   }: DebouncedOptions = {}
-): DebouncedFunction<T, R> & ReturnHelpers {
+): DebouncedFunction<T, R> & DebounceHelpers {
   let timeout: ReturnType<typeof setTimeout>
   let recall
   let resolvePromise
@@ -131,7 +134,7 @@ export function debounce<T extends any[], R>(
   asyncFunction.addCancelEvent = addCancelEvent
 
   if (isAsync(debouncedFunction)) {
-    return asyncFunction as DebouncedFunction<T, R> & ReturnHelpers
+    return asyncFunction as DebouncedFunction<T, R> & DebounceHelpers
   }
 
   return syncFunction

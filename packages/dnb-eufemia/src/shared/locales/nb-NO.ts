@@ -76,6 +76,15 @@ export default {
       missingGroup: 'Gruppe',
       noGroupSR: 'Andre valg',
     },
+    SidebarMenu: {
+      sectionLabel: 'Menyseksjon',
+      containsCurrentPage: 'Inneholder gjeldende side',
+      containsNotifications: 'Inneholder varsler',
+      openMenu: 'Åpne meny',
+      closeMenu: 'Lukk meny',
+      menu: 'Meny',
+      resizeSidebar: 'Endre størrelse på sidemeny',
+    },
     Dropdown: {
       title: 'Velg',
     },

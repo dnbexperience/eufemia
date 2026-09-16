@@ -189,9 +189,44 @@ export const warningValidCases = [
         render: {
           type: '({ close, open, toggle, id }) => React.ReactNode',
         },
+        badgeProps: {
+          type: 'Omit<BadgeProps, "content" | "children">',
+        },
+        selection: {
+          type: 'Record<string, Alpha | Beta>',
+        },
       }
     `,
     filename: 'ButtonDocs.ts',
+  },
+  {
+    code: `
+      const FilterDocs = {
+        filters: {
+          type: 'Record<string, FilterValue>',
+        },
+        errorMessages: {
+          type: 'Record<string, React.ReactNode>',
+        },
+        htmlAttributes: {
+          type: 'AriaAttributes & DataAttributes',
+        },
+      }
+    `,
+    filename: 'FilterDocs.ts',
+  },
+  {
+    code: `
+      const SidebarMenuDocs = {
+        badge: {
+          type: 'BadgeProps["content"]',
+        },
+        breakpoint: {
+          type: ['MediaQuerySizes', '\`\${number}em\`'],
+        },
+      }
+    `,
+    filename: 'SidebarMenuDocs.ts',
   },
 ]
 

@@ -50,7 +50,8 @@
     "test:types": "tsc --noEmit --incremental --tsBuildInfoFile tsconfig.tsbuildinfo",
     "test:types:watch": "tsc --noEmit --watch",
     "test:update": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types ./scripts/runVitest.ts --update=true",
-    "test:watch": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types ./scripts/runVitest.ts --watch"
+    "test:watch": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types ./scripts/runVitest.ts --watch",
+    "validate:links": "node vite/prod/validate-internal-links.mjs"
   },
   "dependencies": {
     "@dnb/eufemia": "workspace:*",
@@ -60,8 +61,8 @@
     "@mdx-js/react": "3.1.0",
     "algoliasearch": "4.12.0",
     "clsx": "2.1.1",
-    "react": "19.2.5",
-    "react-dom": "19.2.5"
+    "react": "19.2.8",
+    "react-dom": "19.2.8"
   },
   "devDependencies": {
     "@babel/core": "7.29.7",
@@ -88,6 +89,7 @@
     "jsdom": "29.1.1",
     "mdast-util-to-string": "4.0.0",
     "micromatch": "4.0.8",
+    "parse5": "8.0.1",
     "prettier": "3.8.1",
     "prettier-package-json": "2.8.0",
     "prism-react-renderer": "2.4.1",

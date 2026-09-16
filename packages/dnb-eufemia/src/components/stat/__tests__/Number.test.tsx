@@ -55,7 +55,7 @@ describe('Stat.Number', () => {
     const currency = document.querySelector('.dnb-stat__currency')
     const sr = document.querySelector('.dnb-stat .dnb-sr-only')
 
-    expect(amount.textContent).toBe('-12,346')
+    expect(amount.textContent).toBe('−12,346')
     expect(currency.textContent).toBe('NOK')
     expect(content.children[0]).toBe(currency)
     expect(sr.getAttribute('data-text')).toContain('kroner')
@@ -341,9 +341,9 @@ describe('Stat.Number', () => {
     const amount = document.querySelector('.dnb-stat__amount')
     const content = document.querySelector('.dnb-stat__content')
 
-    expect(sign.textContent).toBe('-')
+    expect(sign.textContent).toBe('−')
     expect(amount.textContent).toBe('12,346')
-    expect(content.textContent).toBe('- 12,346')
+    expect(content.textContent).toBe('− 12,346')
   })
 
   it('does not render sign for zero when signDisplay is exceptZero', () => {

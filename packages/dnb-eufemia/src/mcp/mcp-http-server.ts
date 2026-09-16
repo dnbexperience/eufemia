@@ -14,10 +14,12 @@
  *
  * Environment variables:
  * - `PORT`               HTTP port (default: 8787)
- * - `HOST`               Bind host (default: 0.0.0.0)
+ * - `HOST`               Bind host (default: 127.0.0.1)
  * - `EUFEMIA_DOCS_ROOT`  Path to the Eufemia docs root (default: ./docs).
  * - `MCP_ALLOWED_HOSTS`  Comma-separated allowlist for the `Host` header
  *                        (DNS-rebinding protection). Defaults to off.
+ * - `MCP_ALLOWED_ORIGINS` Comma-separated allowlist for the `Origin` header.
+ *                        Defaults to loopback origins only.
  * - `MCP_AUTH_TOKEN`     If set, every request must send
  *                        `Authorization: Bearer <token>`.
  */
@@ -99,6 +101,45 @@ function parseAllowedHosts(): string[] | undefined {
     .filter(Boolean)
 }
 
+function isLoopbackHost(host: string): boolean {
+  return ['127.0.0.1', 'localhost', '::1', '[::1]'].includes(host)
+}
+
+function isLoopbackOrigin(origin: string): boolean {
+  try {
+    const { protocol, hostname } = new URL(origin)
+    return (
+      (protocol === 'http:' || protocol === 'https:') &&
+      isLoopbackHost(hostname)
+    )
+  } catch {
+    return false
+  }
+}
+
+/**
+ * Canonical `scheme://host[:port]` form, so a configured origin carrying a
+ * trailing slash or a default port still matches what a browser sends.
+ */
+function toOrigin(value: string): string | null {
+  try {
+    return new URL(value).origin.toLowerCase()
+  } catch {
+    return null
+  }
+}
+
+function parseAllowedOrigins(): string[] | undefined {
+  const raw = process.env.MCP_ALLOWED_ORIGINS
+  if (!raw || raw.trim() === '') {
+    return undefined
+  }
+  return raw
+    .split(',')
+    .map((s) => s.trim())
+    .filter(Boolean)
+}
+
 function buildMcpServer(
   options: DocsToolsOptions & {
     serverInfo: { name: string; version: string }
@@ -172,10 +213,67 @@ function hostAllowlistMiddleware(
   }
 }
 
+// Guards against DNS rebinding: a browser page on another site cannot reach
+// this server unless its origin is allowlisted. Defaults to loopback origins.
+function originAllowlistMiddleware(
+  allowed: string[] | undefined,
+  logErr: (...args: unknown[]) => void
+): Middleware {
+  if (allowed?.includes('*')) {
+    return (_req, _res, next) => next()
+  }
+
+  let set: Set<string> | undefined
+  if (allowed) {
+    set = new Set<string>()
+    const invalid: string[] = []
+
+    for (const entry of allowed) {
+      const normalized = toOrigin(entry)
+      if (normalized) {
+        set.add(normalized)
+      } else {
+        invalid.push(entry)
+      }
+    }
+
+    if (invalid.length > 0) {
+      logErr(
+        `[eufemia] skipping MCP_ALLOWED_ORIGINS entries that are not an origin: ${invalid.join(', ')}`
+      )
+    }
+  }
+
+  return (req, res, next) => {
+    const origin = String(req.headers['origin'] ?? '')
+    // The `Origin` header is set by browsers, and is validated whenever present.
+    if (origin === '') {
+      next()
+      return
+    }
+
+    if (set ? set.has(toOrigin(origin) ?? '') : isLoopbackOrigin(origin)) {
+      next()
+      return
+    }
+
+    // Strip CR/LF so a crafted Origin header cannot forge log lines.
+    logErr(
+      `[eufemia] rejected Origin header: ${origin.replace(/[\r\n]+/g, '')}`
+    )
+    res.status(403).json({
+      jsonrpc: '2.0',
+      error: { code: -32003, message: 'Origin not allowed' },
+      id: null,
+    })
+  }
+}
+
 export type HttpServerOptions = DocsToolsOptions & {
   port?: number
   host?: string
   allowedHosts?: string[]
+  allowedOrigins?: string[]
   authToken?: string
   /** Suppress console output (useful for tests). */
   silent?: boolean
@@ -193,8 +291,9 @@ export async function startHttpServer(
   options: HttpServerOptions = {}
 ): Promise<RunningHttpServer> {
   const port = options.port ?? Number(process.env.PORT ?? 8787)
-  const host = options.host ?? process.env.HOST ?? '0.0.0.0'
+  const host = options.host ?? process.env.HOST ?? '127.0.0.1'
   const allowedHosts = options.allowedHosts ?? parseAllowedHosts()
+  const allowedOrigins = options.allowedOrigins ?? parseAllowedOrigins()
   const authToken = options.authToken ?? process.env.MCP_AUTH_TOKEN
   const logErr = createLogger(options.silent ?? false)
 
@@ -206,8 +305,11 @@ export async function startHttpServer(
 
   const app = express()
   app.disable('x-powered-by')
-  app.use(express.json({ limit: '4mb' }))
+  // Header-only guards run before the body parser, so a rejected request
+  // never costs a 4mb parse.
   app.use(hostAllowlistMiddleware(allowedHosts, logErr))
+  app.use(originAllowlistMiddleware(allowedOrigins, logErr))
+  app.use(express.json({ limit: '4mb' }))
 
   app.get('/healthz', (_req: ExpressRequest, res: ExpressResponse) => {
     res.json({
@@ -408,6 +510,12 @@ export async function startHttpServer(
     `[eufemia] http listening on ${url} (streamable: /mcp, sse: /sse, post: /messages)`
   )
   logErr(`[eufemia] docsRoot: ${docsRootAbs}`)
+
+  if (!isLoopbackHost(host) && !authToken) {
+    logErr(
+      `[eufemia] bound to ${host} without MCP_AUTH_TOKEN — set a token, or bind HOST to 127.0.0.1`
+    )
+  }
 
   return {
     url,

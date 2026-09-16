@@ -28,7 +28,9 @@ export async function getNextReleaseVersion() {
     return (await resolveVersion()) || '0.0.0-development'
   } catch (error) {
     console.warn(
-      `Could not determine the next release version:\n${error.message}`
+      `Could not determine the next release version:\n${
+        error instanceof Error ? error.message : String(error)
+      }`
     )
 
     return '0.0.0-development'

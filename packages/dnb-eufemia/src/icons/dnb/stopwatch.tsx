@@ -15,7 +15,7 @@ const stopwatch = (props?: IconSVGProps) => (
       strokeLinecap="round"
       strokeLinejoin="round"
       strokeWidth={1.5}
-      d="M8 3.8A5.6 5.6 0 1 1 8 15 5.6 5.6 0 0 1 8 3.8Zm0 0V1m3.733 4.2L12.9 4.033m-.233-.233.466.467M9.4 1H6.6M8 9.867 6.133 7.8"
+      d="M8 3.8A5.6 5.6 0 1 1 8 15 5.6 5.6 0 0 1 8 3.8m0 0V1m3.733 4.2L12.9 4.033m-.233-.233.466.467M9.4 1H6.6M8 9.867 6.133 7.8"
     />
   </svg>
 )
