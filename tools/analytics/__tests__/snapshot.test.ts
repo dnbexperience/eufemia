@@ -5,11 +5,13 @@ const {
   retrievePortalViews,
   aggregateMcpUsageRaw,
   retrieveMcpUsageDaily,
+  aggregateComponentUsage,
 } = vi.hoisted(() => ({
   send: vi.fn(),
   retrievePortalViews: vi.fn(),
   aggregateMcpUsageRaw: vi.fn(),
   retrieveMcpUsageDaily: vi.fn(),
+  aggregateComponentUsage: vi.fn(),
 }))
 
 vi.mock('@aws-sdk/client-s3', () => ({
@@ -36,6 +38,7 @@ vi.mock('../src/lambda/retrieve.js', () => ({
   retrievePortalViews,
   aggregateMcpUsageRaw,
   retrieveMcpUsageDaily,
+  aggregateComponentUsage,
 }))
 
 import { handler } from '../src/lambda/snapshot.js'
@@ -58,9 +61,11 @@ beforeEach(() => {
   retrievePortalViews.mockReset()
   aggregateMcpUsageRaw.mockReset()
   retrieveMcpUsageDaily.mockReset()
+  aggregateComponentUsage.mockReset()
   send.mockResolvedValue({})
   aggregateMcpUsageRaw.mockResolvedValue([])
   retrieveMcpUsageDaily.mockResolvedValue([])
+  aggregateComponentUsage.mockResolvedValue([])
   process.env.DATA_BUCKET = 'my-bucket'
   logSpy = vi.spyOn(console, 'log').mockImplementation(() => undefined)
   errorSpy = vi.spyOn(console, 'error').mockImplementation(() => undefined)
@@ -233,6 +238,80 @@ describe('mcp usage section', () => {
       .find(
         (entry: Record<string, unknown> | null) =>
           entry?.McpUsageBuildFailure === 1
+      )
+    expect(failureMetric).toBeDefined()
+  })
+})
+
+describe('component usage section', () => {
+  it('aggregates raw rows into ranked component/app/version breakdowns', async () => {
+    retrievePortalViews.mockResolvedValue([])
+    aggregateComponentUsage.mockResolvedValue([
+      { component: 'button', app: 'app-a', version: '10.72.0', count: 4 },
+      { component: 'button', app: 'app-b', version: '10.71.0', count: 2 },
+      { component: 'input', app: 'app-a', version: '10.72.0', count: 3 },
+    ])
+
+    await handler()
+
+    const snapshotPut = putCalls().find(
+      (call) =>
+        (call[0] as Command).input.Key === 'snapshots/dashboard.json'
+    )
+    const componentUsage = JSON.parse(
+      (snapshotPut![0] as Command).input.Body as string
+    ).componentUsage
+
+    expect(componentUsage.total).toBe(9)
+    expect(componentUsage.perComponent).toEqual([
+      { name: 'button', count: 6 },
+      { name: 'input', count: 3 },
+    ])
+    expect(componentUsage.perApp).toEqual([
+      { name: 'app-a', count: 7 },
+      { name: 'app-b', count: 2 },
+    ])
+    expect(componentUsage.perVersion).toEqual([
+      { name: '10.72.0', count: 7 },
+      { name: '10.71.0', count: 2 },
+    ])
+  })
+
+  it('still writes the snapshot with an empty component section when its query fails', async () => {
+    const records = [{ path: '/', env: 'prod', timestamp: 't' }]
+    retrievePortalViews.mockResolvedValue(records)
+    aggregateComponentUsage.mockRejectedValue(new Error('glue denied'))
+
+    await handler()
+
+    const snapshotPut = putCalls().find(
+      (call) =>
+        (call[0] as Command).input.Key === 'snapshots/dashboard.json'
+    )
+    const body = JSON.parse(
+      (snapshotPut![0] as Command).input.Body as string
+    )
+    expect(body.portalViews).toEqual(records)
+    expect(body.componentUsage).toEqual({
+      total: 0,
+      perComponent: [],
+      perApp: [],
+      perVersion: [],
+    })
+    expect(errorSpy).toHaveBeenCalled()
+
+    const failureMetric = logSpy.mock.calls
+      .map((call: unknown[]) => call[0])
+      .map((line: unknown) => {
+        try {
+          return JSON.parse(line as string) as Record<string, unknown>
+        } catch {
+          return null
+        }
+      })
+      .find(
+        (entry: Record<string, unknown> | null) =>
+          entry?.ComponentUsageBuildFailure === 1
       )
     expect(failureMetric).toBeDefined()
   })

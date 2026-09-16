@@ -39,4 +39,23 @@ describe('analytics infrastructure', () => {
 
     expect(timeout).toBeGreaterThanOrEqual(90)
   })
+
+  it('expires raw component-usage objects on the component-usage/ prefix', () => {
+    const rawUsageRule = terraform.match(
+      /rule \{[\s\S]*?id\s+= "expire-component-usage-raw"[\s\S]*?^  \}/m
+    )?.[0]
+
+    expect(rawUsageRule).toContain('prefix = "component-usage/"')
+    expect(rawUsageRule).toContain('expiration {')
+    expect(rawUsageRule).not.toContain('noncurrent_version_expiration')
+  })
+
+  it('defines the component_usage Glue table and wires it into the generator', () => {
+    expect(terraform).toContain(
+      'resource "aws_glue_catalog_table" "component_usage"'
+    )
+    expect(terraform).toContain(
+      'GLUE_TABLE_COMPONENT_USAGE = aws_glue_catalog_table.component_usage.name'
+    )
+  })
 })

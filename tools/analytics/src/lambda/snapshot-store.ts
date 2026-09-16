@@ -16,6 +16,7 @@ export type Snapshot = {
   generatedAt: string
   portalViews: unknown[]
   mcpUsage: McpUsageSection
+  componentUsage: ComponentUsageSection
 }
 
 // A daily MCP usage aggregate row (one per tool+component+path per day), read
@@ -47,6 +48,25 @@ export const EMPTY_MCP_USAGE: McpUsageSection = {
   perComponent: [],
   perPath: [],
   daily: [],
+}
+
+// The component usage dashboard section: overall total plus ranked breakdowns by
+// component, consuming app, and resolved Eufemia version. Populated once the
+// Nucleus bundler plugin (the producer) lands; empty until then.
+export type ComponentUsageCount = { name: string; count: number }
+
+export type ComponentUsageSection = {
+  total: number
+  perComponent: ComponentUsageCount[]
+  perApp: ComponentUsageCount[]
+  perVersion: ComponentUsageCount[]
+}
+
+export const EMPTY_COMPONENT_USAGE: ComponentUsageSection = {
+  total: 0,
+  perComponent: [],
+  perApp: [],
+  perVersion: [],
 }
 
 export function requireEnv(name: string): string {

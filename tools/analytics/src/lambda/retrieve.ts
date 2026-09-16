@@ -205,3 +205,43 @@ export async function retrieveMcpUsageDaily(): Promise<McpUsageDaily[]> {
 
   return readResults(queryExecutionId, toDailyRow)
 }
+
+/** A component-usage aggregate row: one count per app+component+version. */
+export type ComponentUsageRow = {
+  component: string
+  app: string
+  version: string
+  count: number
+}
+
+function toComponentUsageRow([component, app, version, count]: Array<
+  string | undefined
+>): ComponentUsageRow {
+  return {
+    component: component ?? '',
+    app: app ?? '',
+    version: version ?? '',
+    count: Number(count ?? 0),
+  }
+}
+
+/**
+ * Aggregate raw component-usage rows into per-app/component/version counts.
+ *
+ * Nucleus emits one row per bundled component per app build, so a straight
+ * GROUP BY over the raw table is enough for the dashboard section — no separate
+ * durable rollup (unlike MCP usage) while volumes stay build-cadence low.
+ */
+export async function aggregateComponentUsage(): Promise<
+  ComponentUsageRow[]
+> {
+  const database = requireEnv('GLUE_DATABASE')
+  const table = requireEnv('GLUE_TABLE_COMPONENT_USAGE')
+  const workgroup = requireEnv('ATHENA_WORKGROUP')
+
+  const query = `SELECT component, app, version, count(*) AS cnt FROM "${database}"."${table}" GROUP BY component, app, version`
+  const queryExecutionId = await startQuery(query, workgroup)
+  await waitForQuery(queryExecutionId)
+
+  return readResults(queryExecutionId, toComponentUsageRow)
+}

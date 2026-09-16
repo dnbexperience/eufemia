@@ -85,6 +85,22 @@ resource "aws_s3_bucket_lifecycle_configuration" "data" {
     }
   }
 
+  # Raw component-usage events emitted by the Nucleus bundler plugin. Write-once
+  # keys, so this only expires current versions. Kept in line with the raw MCP
+  # retention window.
+  rule {
+    id     = "expire-component-usage-raw"
+    status = "Enabled"
+
+    filter {
+      prefix = "component-usage/"
+    }
+
+    expiration {
+      days = 395
+    }
+  }
+
   # Bucket-wide noncurrent-version cleanup. Only the overwritten fixed-key
   # objects (snapshots/dashboard.json, refreshed hourly, and
   # mcp-usage-daily/<dt>/agg.json, recomputed each run) accumulate old versions
@@ -333,10 +349,80 @@ resource "aws_glue_catalog_table" "mcp_usage_daily" {
   }
 }
 
+# Raw component-usage events (one row per bundled Eufemia component per app
+# build), written directly to S3 by the Nucleus bundler plugin via a CI/OIDC
+# role. Anonymous: consuming app name, component, resolved version, env only.
+resource "aws_glue_catalog_table" "component_usage" {
+  name          = "component_usage"
+  database_name = aws_glue_catalog_database.analytics.name
+  table_type    = "EXTERNAL_TABLE"
+
+  parameters = {
+    classification     = "json"
+    has_encrypted_data = "true"
+
+    "projection.enabled"          = "true"
+    "projection.dt.type"          = "date"
+    "projection.dt.range"         = "2024-01-01,NOW"
+    "projection.dt.format"        = "yyyy-MM-dd"
+    "projection.dt.interval"      = "1"
+    "projection.dt.interval.unit" = "DAYS"
+    "storage.location.template"   = "s3://${aws_s3_bucket.data.id}/component-usage/dt=$${dt}/"
+  }
+
+  partition_keys {
+    name = "dt"
+    type = "string"
+  }
+
+  storage_descriptor {
+    location      = "s3://${aws_s3_bucket.data.id}/component-usage/"
+    input_format  = "org.apache.hadoop.mapred.TextInputFormat"
+    output_format = "org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat"
+
+    ser_de_info {
+      serialization_library = "org.openx.data.jsonserde.JsonSerDe"
+
+      parameters = {
+        "case.insensitive" = "true"
+      }
+    }
+
+    columns {
+      name = "app"
+      type = "string"
+    }
+
+    columns {
+      name = "component"
+      type = "string"
+    }
+
+    columns {
+      name = "version"
+      type = "string"
+    }
+
+    columns {
+      name = "env"
+      type = "string"
+    }
+
+    columns {
+      name = "timestamp"
+      type = "string"
+    }
+
+    columns {
+      name = "created_at"
+      type = "string"
+    }
+  }
+}
+
 # ---------------------------------------------------------------------------
 # Athena
 # ---------------------------------------------------------------------------
-
 resource "aws_athena_workgroup" "analytics" {
   name = local.function_name
   tags = local.tags
@@ -613,6 +699,7 @@ resource "aws_lambda_function" "snapshot" {
       GLUE_TABLE                 = aws_glue_catalog_table.portal_views.name
       GLUE_TABLE_MCP_USAGE       = aws_glue_catalog_table.mcp_usage.name
       GLUE_TABLE_MCP_USAGE_DAILY = aws_glue_catalog_table.mcp_usage_daily.name
+      GLUE_TABLE_COMPONENT_USAGE = aws_glue_catalog_table.component_usage.name
       ATHENA_WORKGROUP           = aws_athena_workgroup.analytics.name
     }
   }
@@ -712,6 +799,25 @@ resource "aws_cloudwatch_metric_alarm" "snapshot_mcp_build_failed" {
   alarm_description   = "Dashboard snapshot generator failed to build the MCP usage section (fell back to empty)"
   namespace           = "Eufemia/Analytics"
   metric_name         = "McpUsageBuildFailure"
+  dimensions          = { FunctionName = aws_lambda_function.snapshot.function_name }
+  statistic           = "Sum"
+  period              = 3600
+  evaluation_periods  = 1
+  threshold           = 1
+  comparison_operator = "GreaterThanOrEqualToThreshold"
+  treat_missing_data  = "notBreaching"
+}
+
+# The component-usage section is built best-effort too (same rationale as the MCP
+# section above): a caught failure falls back to empty and is invisible to the
+# Lambda/SnapshotRecordCount alarms, so the generator emits a
+# ComponentUsageBuildFailure EMF metric and this alarm surfaces it. The
+# namespace/metric/dimension must match those emitted in src/lambda/snapshot.ts.
+resource "aws_cloudwatch_metric_alarm" "snapshot_component_usage_build_failed" {
+  alarm_name          = "eufemia-${var.environment}-analytics-snapshot-component-usage-build-failed"
+  alarm_description   = "Dashboard snapshot generator failed to build the component usage section (fell back to empty)"
+  namespace           = "Eufemia/Analytics"
+  metric_name         = "ComponentUsageBuildFailure"
   dimensions          = { FunctionName = aws_lambda_function.snapshot.function_name }
   statistic           = "Sum"
   period              = 3600

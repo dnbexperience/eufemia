@@ -233,6 +233,37 @@ function renderMcpUsage(usage) {
   })
 }
 
+// Render the component-usage section (Nucleus bundler plugin). Independent of the
+// other sections, so it shows its own empty state until the producer lands.
+function renderComponentUsage(usage) {
+  const component = usage ?? {}
+  const total = component.total ?? 0
+
+  const totalEl = document.getElementById('component-total')
+  if (totalEl) {
+    totalEl.textContent =
+      total > 0
+        ? `${total.toLocaleString()} component usages`
+        : 'No component usage yet.'
+  }
+
+  const toCounts = (items) =>
+    new Map((items ?? []).map((item) => [item.name, item.count]))
+
+  renderBars('component-components', toCounts(component.perComponent), {
+    sort: 'desc',
+    limit: 15,
+  })
+  renderBars('component-apps', toCounts(component.perApp), {
+    sort: 'desc',
+    limit: 15,
+  })
+  renderBars('component-versions', toCounts(component.perVersion), {
+    sort: 'desc',
+    limit: 15,
+  })
+}
+
 function populateEnvFilter(rows, onChange) {
   const select = document.getElementById('env')
   const envs = [...new Set(rows.map((r) => r.env).filter(Boolean))].sort()
@@ -328,12 +359,15 @@ async function main() {
   const all = toRecords(payload).map(normalise)
 
   const mcpTotal = payload?.mcpUsage?.total ?? 0
+  const componentTotal = payload?.componentUsage?.total ?? 0
   document.getElementById('meta').textContent = snapshotMeta(
     payload,
-    all.length + mcpTotal
+    all.length + mcpTotal + componentTotal
   )
 
   renderMcpUsage(payload?.mcpUsage)
+
+  renderComponentUsage(payload?.componentUsage)
 
   if (all.length === 0) {
     return

@@ -1,13 +1,18 @@
 import {
+  aggregateComponentUsage,
   aggregateMcpUsageRaw,
   retrieveMcpUsageDaily,
   retrievePortalViews,
+  type ComponentUsageRow,
 } from './retrieve.js'
 import {
+  EMPTY_COMPONENT_USAGE,
   EMPTY_MCP_USAGE,
   requireEnv,
   storeMcpUsageDaily,
   writeSnapshot,
+  type ComponentUsageCount,
+  type ComponentUsageSection,
   type McpUsageCount,
   type McpUsageDaily,
   type McpUsageSection,
@@ -80,6 +85,36 @@ function emitMcpBuildFailureMetric(): void {
   )
 }
 
+/**
+ * Emit a component-usage build failure as an EMF metric. Mirrors the MCP metric:
+ * a caught buildComponentUsage error does not increment Lambda Errors, so without
+ * this a broken component-usage section would be invisible. Kept in sync with the
+ * `snapshot_component_usage_build_failed` alarm in infra/main.tf.
+ */
+function emitComponentUsageBuildFailureMetric(): void {
+  const functionName = process.env.AWS_LAMBDA_FUNCTION_NAME ?? 'unknown'
+
+  // eslint-disable-next-line no-console -- EMF metric emission to CloudWatch Logs
+  console.log(
+    JSON.stringify({
+      _aws: {
+        Timestamp: Date.now(),
+        CloudWatchMetrics: [
+          {
+            Namespace: METRIC_NAMESPACE,
+            Dimensions: [['FunctionName']],
+            Metrics: [
+              { Name: 'ComponentUsageBuildFailure', Unit: 'Count' },
+            ],
+          },
+        ],
+      },
+      FunctionName: functionName,
+      ComponentUsageBuildFailure: 1,
+    })
+  )
+}
+
 // The number of recent days recomputed into the durable daily rollup on each
 // run. Wider than the hourly cadence so a short generator outage cannot leave a
 // day permanently un-aggregated (raw rows live far longer, so re-runs backfill).
@@ -145,6 +180,51 @@ async function buildMcpUsage(bucket: string): Promise<McpUsageSection> {
   }
 }
 
+const COMPONENT_TOP_LIMIT = 50
+
+function sumComponentUsageBy(
+  rows: ComponentUsageRow[],
+  key: 'component' | 'app' | 'version'
+): ComponentUsageCount[] {
+  const counts = new Map<string, number>()
+
+  for (const row of rows) {
+    const name = row[key]
+    if (!name) {
+      continue
+    }
+
+    counts.set(name, (counts.get(name) ?? 0) + row.count)
+  }
+
+  return [...counts.entries()]
+    .map(([name, count]) => ({ name, count }))
+    .sort((a, b) => b.count - a.count)
+}
+
+/**
+ * Build the component-usage dashboard section from the raw component_usage table.
+ * Empty until the Nucleus bundler plugin starts emitting rows.
+ */
+async function buildComponentUsage(): Promise<ComponentUsageSection> {
+  const rows = await aggregateComponentUsage()
+
+  const total = rows.reduce((sum, row) => sum + row.count, 0)
+
+  return {
+    total,
+    perComponent: sumComponentUsageBy(rows, 'component').slice(
+      0,
+      COMPONENT_TOP_LIMIT
+    ),
+    perApp: sumComponentUsageBy(rows, 'app').slice(0, COMPONENT_TOP_LIMIT),
+    perVersion: sumComponentUsageBy(rows, 'version').slice(
+      0,
+      COMPONENT_TOP_LIMIT
+    ),
+  }
+}
+
 /**
  * Scheduled dashboard snapshot generator (EventBridge, off the request path).
  *
@@ -173,10 +253,23 @@ export async function handler(): Promise<{
     mcpUsage = EMPTY_MCP_USAGE
   }
 
+  // The component-usage section is additive too; a failure here must not discard
+  // the portal views or MCP section already built. Fall back to empty.
+  let componentUsage: ComponentUsageSection
+  try {
+    componentUsage = await buildComponentUsage()
+  } catch (error) {
+    // eslint-disable-next-line no-console -- surface the failure in CloudWatch Logs
+    console.error('Failed to build component usage section', error)
+    emitComponentUsageBuildFailureMetric()
+    componentUsage = EMPTY_COMPONENT_USAGE
+  }
+
   const snapshot: Snapshot = {
     generatedAt: new Date().toISOString(),
     portalViews,
     mcpUsage,
+    componentUsage,
   }
 
   await writeSnapshot(bucket, snapshot)
