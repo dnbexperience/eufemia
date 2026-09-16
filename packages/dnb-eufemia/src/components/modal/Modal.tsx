@@ -323,14 +323,7 @@ function ModalComponent(ownProps: ModalAllProps) {
         waitBeforeOpen()
       }
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- `handleSideEffects` is listed on purpose, so the effects reading this callback re-run when it changes
-    [
-      animationDuration,
-      noAnimation,
-      openDelay,
-      openModal,
-      handleSideEffects,
-    ]
+    [animationDuration, noAnimation, openDelay, openModal]
   )
 
   // Keep the ref in sync
