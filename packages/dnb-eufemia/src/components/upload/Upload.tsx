@@ -132,6 +132,7 @@ const Upload = (localProps: UploadAllProps) => {
     },
     [
       acceptedFileTypes,
+      allowDuplicates,
       errorLargeFile,
       errorUnsupportedFile,
       fileMaxSize,
