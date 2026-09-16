@@ -116,7 +116,6 @@ function renderSelector(
       icon={sectionIcon}
       noDivider
       stretch
-      noDivider
     />
   )
 }
