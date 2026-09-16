@@ -8,7 +8,10 @@ import {
 } from '@dnb/eufemia/src/extensions/forms'
 import { stop as stopIcon } from '@dnb/eufemia/src/icons'
 import { Button, Flex } from '@dnb/eufemia/src'
-import { debounceAsync } from '@dnb/eufemia/src/shared/helpers/debounce'
+import {
+  debounceAsync,
+  type DebounceHelpers,
+} from '@dnb/eufemia/src/shared/helpers/debounce'
 import { createRequest } from '../SubmitIndicator/Examples'
 
 export const RequiredAndOptionalFields = () => {
@@ -127,6 +130,7 @@ export const AsyncChangeAndValidation = () => {
     <ComponentBox scope={{ debounceAsync, createRequest, stopIcon }}>
       {() => {
         const validator = debounceAsync(async function secondValidator(
+          this: DebounceHelpers,
           value: string
         ) {
           try {
@@ -138,7 +142,9 @@ export const AsyncChangeAndValidation = () => {
               throw new Error('Validation request canceled')
             }
           } catch (error) {
-            return error
+            return error instanceof Error
+              ? error
+              : new Error(String(error))
           }
 
           if (value !== 'valid') {

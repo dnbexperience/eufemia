@@ -747,7 +747,7 @@ describe('CodeBlock', () => {
       vi.spyOn(document, 'createElement').mockImplementation(
         (tagName: string) => {
           const element = originalCreateElement(tagName)
-          if (tagName === 'form') {
+          if (element instanceof HTMLFormElement) {
             element.submit = vi.fn(() => {
               capturedFormAction = element.action
             })
@@ -787,7 +787,7 @@ describe('CodeBlock', () => {
       vi.spyOn(document, 'createElement').mockImplementation(
         (tagName: string) => {
           const element = originalCreateElement(tagName)
-          if (tagName === 'form') {
+          if (element instanceof HTMLFormElement) {
             element.submit = vi.fn(() => {
               const inputs = element.querySelectorAll('input')
               inputs.forEach((input: HTMLInputElement) => {
@@ -833,7 +833,7 @@ describe('CodeBlock', () => {
       vi.spyOn(document, 'createElement').mockImplementation(
         (tagName: string) => {
           const element = originalCreateElement(tagName)
-          if (tagName === 'form') {
+          if (element instanceof HTMLFormElement) {
             element.submit = vi.fn(() => {
               // Capture form data
               const inputs = element.querySelectorAll('input')
@@ -881,7 +881,7 @@ describe('CodeBlock', () => {
       vi.spyOn(document, 'createElement').mockImplementation(
         (tagName: string) => {
           const element = originalCreateElement(tagName)
-          if (tagName === 'form') {
+          if (element instanceof HTMLFormElement) {
             element.submit = vi.fn(() => {
               const inputs = element.querySelectorAll('input')
               inputs.forEach((input: HTMLInputElement) => {

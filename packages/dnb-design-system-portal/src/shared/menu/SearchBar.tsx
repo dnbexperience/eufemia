@@ -117,7 +117,7 @@ export const SearchBarInput = () => {
         emptyData,
       })
     } catch (e) {
-      setStatus(e.message)
+      setStatus(e instanceof Error ? e.message : String(e))
     }
   }
 
