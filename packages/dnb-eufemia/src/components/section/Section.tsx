@@ -15,7 +15,7 @@ import { getColor } from '../../shared/helpers'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import type { SectionAllProps, SectionReturnParams } from './types'
 
-export * from './types'
+export type * from './types'
 
 const sectionDefaultProps: Partial<SectionAllProps> = {
   element: 'section',

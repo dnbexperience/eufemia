@@ -42,7 +42,7 @@ import type {
   DrawerListRenderData,
 } from './types'
 
-export * from './types'
+export type * from './types'
 
 const propsToFilterOut: Record<string, null> = {
   onOpen: null,

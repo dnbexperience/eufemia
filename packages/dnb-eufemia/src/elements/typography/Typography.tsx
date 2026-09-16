@@ -18,7 +18,7 @@ import type {
   TypographyUseProps,
 } from './types'
 
-export * from './types'
+export type * from './types'
 
 export const TypographyContext = createContext<TypographyContextType>({
   proseMaxWidth: undefined,

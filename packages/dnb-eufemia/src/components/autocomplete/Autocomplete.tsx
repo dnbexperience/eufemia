@@ -82,7 +82,7 @@ import type {
   AutocompleteMode,
 } from './types'
 
-export * from './types'
+export type * from './types'
 
 const autocompleteChevron = Icon.transition({
   closed: chevron_down,

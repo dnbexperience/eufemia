@@ -39,7 +39,7 @@ import type {
   AccordionHeaderTitleProps,
 } from './types'
 
-export * from './types'
+export type * from './types'
 
 const defaultAccordionIcon = Icon.transition({
   collapsed: chevron_down,

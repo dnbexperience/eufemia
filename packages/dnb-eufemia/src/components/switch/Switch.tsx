@@ -31,7 +31,7 @@ import useId from '../../shared/helpers/useId'
 import { check as CheckIcon } from '../../icons'
 import type { SwitchProps } from './types'
 
-export * from './types'
+export type * from './types'
 
 const switchDefaultProps: Partial<SwitchProps> = {
   statusState: 'error',

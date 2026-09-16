@@ -38,7 +38,7 @@ import type {
   InternalHeadingLevel,
 } from './types'
 
-export * from './types'
+export type * from './types'
 
 export default function Heading(props: HeadingAllProps) {
   const context = useContext(Context)

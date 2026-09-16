@@ -33,7 +33,7 @@ import Tooltip from '../tooltip/Tooltip'
 import ButtonContent from './internal/ButtonContent'
 import type { ButtonProps } from './types'
 
-export * from './types'
+export type * from './types'
 
 // Local type for react-router-dom link with only the necessary props.
 

@@ -99,7 +99,7 @@ describe('type definitions', () => {
       const content = fs.readFileSync(file, 'utf-8')
       const typesContent = fs.readFileSync(typesFile, 'utf-8')
 
-      expect(content).toMatch(/export \* from ['"]\.\/types['"]/)
+      expect(content).toMatch(/export type \* from ['"]\.\/types['"]/)
 
       // To ensure babel did not compile the d.ts file
       expect(typesContent).toMatch(/export (type|interface)/g)

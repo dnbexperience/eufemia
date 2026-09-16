@@ -33,9 +33,7 @@ import {
 } from './types'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
-export * from './types'
-
-export type { AccordionGroupProps, AccordionInstance } from './types'
+export type * from './types'
 export { accordionDefaultProps } from './types'
 
 function Accordion({

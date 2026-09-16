@@ -20,7 +20,7 @@ export { default as useNumberFormat } from './useNumberFormat'
 export { default as useNumberFormatWithParts } from './useNumberFormatWithParts'
 
 // Re-export the public TypeScript types
-export * from './types'
+export type * from './types'
 
 export { COPY_TOOLTIP_TIMEOUT } from './NumberFormatBase'
 

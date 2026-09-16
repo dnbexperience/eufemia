@@ -60,7 +60,7 @@ import type {
   GlobalStatusProps,
 } from './types'
 
-export * from './types'
+export type * from './types'
 
 const globalStatusDefaultProps: Record<string, unknown> = {
   id: 'main',

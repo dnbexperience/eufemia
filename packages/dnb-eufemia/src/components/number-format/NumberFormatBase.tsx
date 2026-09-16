@@ -39,7 +39,7 @@ import { runIOSSelectionFix, formatNumber, formatCurrency } from './utils'
 import type { NumberFormatOptionParams, NumberFormatValue } from './utils'
 import type { NumberFormatAllProps } from './types'
 
-export * from './types'
+export type * from './types'
 
 // TypeScript types
 export type { NumberFormatOptions } from './utils'

@@ -17,7 +17,7 @@ import useTheme, { type UseThemeReturn } from '../../shared/useTheme'
 import type { LogoSvgComponent } from './LogoSvg'
 import type { CustomLogoSvg, LogoProps, SvgComponent } from './types'
 
-export * from './types'
+export type * from './types'
 
 // Re-export SVG components and alt texts for convenience
 export * from './LogoSvg'

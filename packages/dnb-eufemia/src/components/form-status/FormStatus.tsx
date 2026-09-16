@@ -40,7 +40,7 @@ import type {
   WarnIconProps,
 } from './types'
 
-export * from './types'
+export type * from './types'
 
 const properties = { ui, sbanken }
 

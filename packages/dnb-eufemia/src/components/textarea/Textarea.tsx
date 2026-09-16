@@ -42,7 +42,7 @@ import Context from '../../shared/Context'
 import Suffix from '../../shared/helpers/Suffix'
 import type { TextareaElement, TextareaProps } from './types'
 
-export * from './types'
+export type * from './types'
 
 const textareaDefaultProps = {
   value: 'initval',

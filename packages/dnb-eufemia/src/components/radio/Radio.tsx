@@ -38,7 +38,7 @@ import Suffix from '../../shared/helpers/Suffix'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 import type { RadioProps } from './types'
 
-export * from './types'
+export type * from './types'
 
 const radioDefaultProps: Partial<RadioProps> = {
   label: null,

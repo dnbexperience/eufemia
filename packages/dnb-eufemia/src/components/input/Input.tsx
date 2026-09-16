@@ -61,7 +61,7 @@ import type {
   InputSubmitButtonProps,
 } from './types'
 
-export * from './types'
+export type * from './types'
 
 export const inputDefaultProps: Partial<InputProps> = {
   type: 'text',

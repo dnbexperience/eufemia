@@ -30,7 +30,7 @@ import type {
   ToggleButtonGroupValue,
 } from './types'
 
-export * from './types'
+export type * from './types'
 
 const toggleButtonGroupDefaultProps: Partial<ToggleButtonGroupProps> = {
   label: null,

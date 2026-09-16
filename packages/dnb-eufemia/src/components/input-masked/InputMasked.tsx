@@ -11,7 +11,7 @@ import { inputDefaultProps } from '../input/Input'
 import Context from '../../shared/Context'
 import type { InputMaskedProps } from './types'
 
-export * from './types'
+export type * from './types'
 
 function InputMasked({ ref, ...restProps }: InputMaskedProps) {
   const context = useContext(Context)

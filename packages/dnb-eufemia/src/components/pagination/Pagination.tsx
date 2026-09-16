@@ -22,7 +22,7 @@ import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import type { ComponentMarkers } from '../../shared/helpers/withComponentMarkers'
 import type { PaginationCreateReturn, PaginationProps } from './types'
 
-export * from './types'
+export type * from './types'
 
 const paginationDefaultProps: Partial<PaginationProps> = {
   mode: 'pagination',

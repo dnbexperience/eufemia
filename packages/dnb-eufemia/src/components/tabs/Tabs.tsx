@@ -54,7 +54,7 @@ import {
 } from '../../shared/helpers/useSharedState'
 import type { TabsContent, TabsProps, TabsSelectedKey } from './types'
 
-export * from './types'
+export type * from './types'
 
 type TabDataItem = {
   title: string | ReactNode | (() => ReactNode)

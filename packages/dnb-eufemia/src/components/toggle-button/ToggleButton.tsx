@@ -45,7 +45,7 @@ import Context from '../../shared/Context'
 import Suffix from '../../shared/helpers/Suffix'
 import type { ToggleButtonComponent, ToggleButtonProps } from './types'
 
-export * from './types'
+export type * from './types'
 
 const toggleButtonDefaultProps: Partial<ToggleButtonProps> = {
   text: null,

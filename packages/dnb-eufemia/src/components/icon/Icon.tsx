@@ -33,7 +33,7 @@ import {
 import type { ValidIconNumericSize } from './sizes'
 
 export * from './sizes'
-export * from './types'
+export type * from './types'
 
 /** For internal usage */
 
