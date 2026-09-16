@@ -160,6 +160,52 @@ describe('Element', () => {
     expect(elementA).toHaveClass('dnb-a', { exact: true })
   })
 
+  it('should not duplicate the tag class when className already contains it', () => {
+    render(
+      <>
+        <Element id="a" as="span" className="dnb-span">
+          text
+        </Element>
+        <Element id="b" as="span" className="foo dnb-span bar">
+          text
+        </Element>
+      </>
+    )
+
+    expect(sortClassNames(document.querySelector('#a').className)).toEqual(
+      sortClassNames('dnb-span')
+    )
+    expect(sortClassNames(document.querySelector('#b').className)).toEqual(
+      sortClassNames('dnb-span foo bar')
+    )
+  })
+
+  it('should add the tag class when className only contains it as a substring', () => {
+    render(
+      <>
+        <Element id="a" as="span" className="x-dnb-span">
+          text
+        </Element>
+        <Element id="b" as="span" className="dnb-spanner">
+          text
+        </Element>
+        <Element id="c" as="ul" className="a b custom-dnb-ul">
+          text
+        </Element>
+      </>
+    )
+
+    expect(sortClassNames(document.querySelector('#a').className)).toEqual(
+      sortClassNames('dnb-span x-dnb-span')
+    )
+    expect(sortClassNames(document.querySelector('#b').className)).toEqual(
+      sortClassNames('dnb-span dnb-spanner')
+    )
+    expect(sortClassNames(document.querySelector('#c').className)).toEqual(
+      sortClassNames('dnb-ul a b custom-dnb-ul')
+    )
+  })
+
   it('should replace tag class with prop internalClass', () => {
     render(
       <Element as="span" internalClass="replacement-class">

@@ -78,8 +78,12 @@ function Element(localProps: ElementAllProps) {
       : (internalClass === true ? undefined : internalClass) ||
         (typeof Tag === 'string' ? `dnb-${Tag}` : '')
 
+  const hasTagClass = String(className ?? '')
+    .split(/\s+/)
+    .includes(tagClass)
+
   const internalClassName = clsx(
-    !new RegExp(`${tagClass}(\\s|$)`).test(String(className)) && tagClass,
+    !hasTagClass && tagClass,
     className,
     createSkeletonClass(skeletonMethod, skeleton, context)
   )
