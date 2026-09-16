@@ -149,17 +149,41 @@ describe('babel build', () => {
       ).href
       const { getPreHydrationScript } = await import(moduleUrl)
       const styles: Array<{ textContent: string }> = []
-      const menu = {
+      const openItemsMenu = {
         getAttribute: (name: string) =>
           ({
             'data-open-items-storage-key': 'navigation',
             'data-open-items-storage': 'session',
           })[name],
       }
+      const view = {
+        scrollTop: 0,
+        style: {
+          getPropertyValue: () => '',
+          getPropertyPriority: () => '',
+          setProperty: () => undefined,
+        },
+      }
+      const scrollMenu = {
+        closest: () => view,
+        getAttribute: (name: string) =>
+          ({
+            'data-scroll-position-storage-key': 'navigation-scroll',
+            'data-scroll-position-storage': 'session',
+          })[name],
+        querySelector: () => null,
+      }
       const document = {
         currentScript: null,
-        querySelectorAll: (selector: string) =>
-          selector === '[data-open-items-storage-key]' ? [menu] : [],
+        querySelectorAll: (selector: string) => {
+          if (selector === '[data-open-items-storage-key]') {
+            return [openItemsMenu]
+          }
+          if (selector === '[data-scroll-position-storage-key]') {
+            return [scrollMenu]
+          }
+          return []
+        },
         createElement: () => ({
           setAttribute: () => undefined,
           textContent: '',
@@ -171,8 +195,10 @@ describe('babel build', () => {
         },
       }
       const sessionStorage = {
-        getItem: () =>
-          JSON.stringify({ openItems: ['about'], closedItems: [] }),
+        getItem: (key: string) =>
+          key === 'navigation-scroll'
+            ? '120'
+            : JSON.stringify({ openItems: ['about'], closedItems: [] }),
       }
 
       Function(
@@ -185,6 +211,7 @@ describe('babel build', () => {
 
       expect(styles).toHaveLength(1)
       expect(styles[0].textContent).toContain('display:block')
+      expect(view.scrollTop).toBe(120)
     }
   )
 
