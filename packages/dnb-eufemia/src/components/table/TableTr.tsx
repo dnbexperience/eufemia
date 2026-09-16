@@ -124,7 +124,7 @@ export default function Tr(
   const tableContext = useContext(TableContext)
   const trContext = highlight ? { highlight } : null
 
-  if (tableContext?.allProps?.mode == 'accordion') {
+  if (tableContext?.allProps?.mode === 'accordion') {
     return (
       <TableTrContext value={trContext}>
         <TableAccordionHead
