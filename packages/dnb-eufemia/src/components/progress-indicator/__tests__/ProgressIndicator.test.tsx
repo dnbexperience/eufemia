@@ -26,6 +26,17 @@ describe('Circular ProgressIndicator component', () => {
     ).toBe(`stroke-dashoffset: ${Math.PI * 50}%;`)
   })
 
+  it('should not repeat a class name on the main line', () => {
+    render(<ProgressIndicator {...props} type="circular" progress={50} />)
+
+    const classNames = document
+      .querySelector(mainLineSelector)
+      .getAttribute('class')
+      .split(/\s+/)
+
+    expect(classNames).toEqual([...new Set(classNames)])
+  })
+
   it('should have a aria-label with a 50% value', () => {
     render(<ProgressIndicator {...props} type="circular" progress={50} />)
     const indicator = screen.getByRole('progressbar')

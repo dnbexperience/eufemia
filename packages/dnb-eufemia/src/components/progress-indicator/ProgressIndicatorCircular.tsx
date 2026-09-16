@@ -165,7 +165,6 @@ function ProgressIndicatorCircular(
       <Circle
         className={clsx(
           'dark',
-          'dark',
           progressIsControlled || useAnimationFrame ? 'paused' : null
         )}
         style={
