@@ -458,7 +458,7 @@ export const SidebarMenuSectionProperties: PropertiesTableProps = {
   },
   badgeProps: {
     doc: 'Additional properties passed to the dropdown option Badge component. The variant defaults to "notification".',
-    type: ['Omit<BadgeProps, "content"', '"children">'],
+    type: 'Omit<BadgeProps, "content" | "children">',
     status: 'optional',
   },
   triggerBadge: {
@@ -468,7 +468,7 @@ export const SidebarMenuSectionProperties: PropertiesTableProps = {
   },
   triggerBadgeProps: {
     doc: 'Additional properties passed to the selected dropdown trigger Badge component. The variant defaults to "notification".',
-    type: ['Omit<BadgeProps, "content"', '"children">'],
+    type: 'Omit<BadgeProps, "content" | "children">',
     status: 'optional',
   },
   children: {
