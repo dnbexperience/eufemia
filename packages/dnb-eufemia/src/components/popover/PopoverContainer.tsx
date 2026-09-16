@@ -834,10 +834,10 @@ function PopoverContainer(props: PopoverContainerProps) {
 
     setStyle(computedStyle)
     setArrowStyle(arrowStyle)
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- `autoAlignViewportThreshold` is read when the position is recalculated, so it does not need to trigger one on its own
   }, [
     alignOnTarget,
     autoAlignMode,
+    autoAlignViewportThreshold,
     arrowPosition,
     horizontalOffset,
     arrowEdgeOffset,

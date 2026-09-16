@@ -100,8 +100,7 @@ export default function ListAllProps<Data extends JsonObject = JsonObject>(
     }, {})
 
     return { propsOfFields, propsOfValues } as ListAllPropsReturn<Data>
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- `log` is a debugging switch that is not expected to change after mount
-  }, [fieldInternalsRef, filterData, valueInternalsRef])
+  }, [fieldInternalsRef, filterData, log, valueInternalsRef])
 
   if (hasContext) {
     if (log) {

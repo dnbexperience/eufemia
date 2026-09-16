@@ -46,8 +46,9 @@ export default [
   },
 
   {
-    // Documentation demos seed their state from mount-only effects. They are
-    // also read as copy-paste samples, so keep lint directives out of them.
+    // These demos seed their state from mount-only effects, and their source is
+    // rendered into the docs by ComponentBox, so a suppression comment would be
+    // published as part of the sample.
     files: ['src/docs/**/Examples.tsx', 'src/docs/**/visual-tests.tsx'],
     rules: {
       'react-hooks/exhaustive-deps': 'off',

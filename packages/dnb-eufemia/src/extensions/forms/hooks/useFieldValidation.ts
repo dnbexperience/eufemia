@@ -972,7 +972,7 @@ export default function useFieldValidation<Value>({
         }
       }
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- adding the remaining values would re-create the validator on every render and restart validation
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- the remaining values are a ref and callbacks with stable identities, so listing them would only add noise
     [
       clearErrorState,
       disabled,
