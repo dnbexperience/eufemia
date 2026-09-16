@@ -1,11 +1,5 @@
 import { isValidElement, useContext, useMemo, useRef } from 'react'
-import type {
-  ComponentType,
-  HTMLProps,
-  JSX,
-  ReactElement,
-  SVGProps,
-} from 'react'
+import type { ComponentType } from 'react'
 import { clsx } from 'clsx'
 import {
   warn,
@@ -18,141 +12,32 @@ import Context from '../../shared/Context'
 import { useSpacing } from '../space/SpacingUtils'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 import { iconCase } from './IconHelpers'
-import type { SpacingProps } from '../../shared/types'
-import type { SkeletonShow } from '../Skeleton'
-import type { FormStatusIcon } from '../FormStatus'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import useCombinedRef from '../../shared/helpers/useCombinedRef'
 import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../shared/helpers/useIsomorphicLayoutEffect'
 import { transition, suppressTransitions } from './IconTransition'
+import type {
+  IconFunction,
+  IconIcon,
+  IconSVGProps,
+  IconType,
+  IconAllProps,
+  IconProps,
+} from './types'
+import {
+  DefaultIconSize,
+  DefaultIconSizes,
+  ListDefaultIconSizes,
+  ValidIconType,
+} from './sizes'
+import type { ValidIconNumericSize } from './sizes'
 
-export const DefaultIconSize = 16
-export const DefaultIconSizes = {
-  default: 16,
-  medium: 24,
-} as const
-export const ListDefaultIconSizes: Array<
-  [ValidIconType, ValidIconNumericSize]
-> = [
-  ['default', 16],
-  ['medium', 24],
-]
-export const ValidIconType = [
-  'small', // 12px 0.75rem
-  'default', // 16px 1rem
-  'medium', // 24px 1.5rem
-  'large', // 32px 2rem
-  'x-large', // 40px 2.5rem
-  'xx-large', // 48px 3rem
-] as const
-
-export type DefaultIconSizes = typeof DefaultIconSizes
-export type ValidIconType = (typeof ValidIconType)[number]
-export type ValidIconNumericSize = DefaultIconSizes[keyof DefaultIconSizes]
-
-export type IconSVGProps = SVGProps<SVGSVGElement> & {
-  title?: string
-}
-
-export type IconFunction = ((props?: IconSVGProps) => JSX.Element) & {
-  __iconTransitionStyle?: Record<string, string>
-  __iconTransitionFallback?: boolean
-  __iconAnimation?: string
-}
+export * from './sizes'
+export * from './types'
 
 /** For internal usage */
-type IconType = string | ReactElement<SVGElement> | IconFunction | false
 
 /** For external usage */
-export type IconIcon = IconType | FormStatusIcon | IconFunction
-
-export type IconSize =
-  | ValidIconNumericSize
-  | `${ValidIconNumericSize | number}`
-  | ValidIconType
-  | 'auto'
-  | 'basis'
-
-export type IconColor =
-  | string
-  | number
-  | { [key: string]: string | number }
-
-export type IconProps = {
-  /**
-   * A React SVG Component.
-   */
-  icon?: IconIcon
-
-  /**
-   * The dimension of the icon. This will be the `viewBox` and represent `width` and `height`. Defaults to `16`. You can use `small`, `medium`, `large` or `auto`. Auto will enable that the icon size gets inherited by the parent HTML element if it provides a `font-size`.
-   */
-  size?: IconSize
-
-  /**
-   * The color can be any valid color property, such as Hex, RGB or preferable – any CSS variable from the [colors table](/uilib/usage/customisation/colors), e.g. `var(--color-ocean-green)`. Defaults to no color, which means `--color-black-80`.
-   */
-  color?: IconColor
-
-  /**
-   * Defaults to `true`. Set to `false` if you do not want to inherit the color by `currentColor`.
-   */
-  inheritColor?: boolean
-
-  /**
-   * The alternative label (text version) of the icon. Defaults to the imported icon name.
-   */
-  alt?: string
-
-  /**
-   * Use a title to provide extra information about the icon used.
-   */
-  title?: string
-
-  /**
-   * If set to `true`, an overlaying skeleton with animation will be shown.
-   */
-  skeleton?: SkeletonShow
-
-  /**
-   * Modifier class to define. Will result in: `dnb-icon--${modifier}`.
-   */
-  modifier?: string
-
-  /**
-   * If set to `true`, the icon paths will be filled with `currentColor`.
-   */
-  fill?: boolean
-
-  /**
-   * Plays motion provided by an explicitly imported animated icon. Use `true` or `once` to play once, or `loop` to repeat the animation.
-   */
-  animate?: boolean | 'once' | 'loop'
-
-  /**
-   * Plays an animated icon when the icon itself, or an interactive parent such as a button or link, is hovered.
-   */
-  animateWhen?: 'hover'
-
-  /**
-   * Change this value to replay an animated icon while `animate` remains enabled.
-   */
-  animationKey?: string | number
-
-  border?: boolean
-  width?: `${IconSize}` | `${number}%` | number
-  height?: `${IconSize}` | `${number}%` | number
-  children?: IconIcon
-
-  /**
-   * Activates a named Icon.transition() state on the icon element.
-   */
-  transitionState?: string
-}
-
-export type IconAllProps = IconProps &
-  SpacingProps &
-  Omit<HTMLProps<HTMLElement>, 'size' | 'children'>
 
 export default function Icon(localProps: IconAllProps) {
   const context = useContext(Context)

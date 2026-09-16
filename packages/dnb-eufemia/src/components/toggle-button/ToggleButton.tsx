@@ -12,7 +12,6 @@ import {
   useState,
 } from 'react'
 import type {
-  HTMLProps,
   KeyboardEvent,
   ReactElement,
   ReactNode,
@@ -30,7 +29,6 @@ import {
   removeUndefinedProps,
 } from '../../shared/component-helper'
 import AlignmentHelper from '../../shared/AlignmentHelper'
-import type { FormElementProps } from '../../shared/helpers/filterValidProps'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 import { useSpacing } from '../space/SpacingUtils'
 
@@ -45,6 +43,9 @@ import ToggleButtonGroupContext, {
 } from './ToggleButtonGroupContext'
 import Context from '../../shared/Context'
 import Suffix from '../../shared/helpers/Suffix'
+import type { ToggleButtonComponent, ToggleButtonProps } from './types'
+
+export * from './types'
 
 const toggleButtonDefaultProps: Partial<ToggleButtonProps> = {
   text: null,
@@ -474,104 +475,5 @@ withComponentMarkers(MemoizedToggleButton, {
 export default MemoizedToggleButton as unknown as ToggleButtonComponent
 
 // Type definitions
-import type {
-  ButtonIconPosition,
-  ButtonSize,
-  ButtonTooltip,
-} from '../Button'
-import type { IconIcon, IconSize } from '../Icon'
-import type { FormStatusBaseProps } from '../FormStatus'
-import type { SkeletonShow } from '../Skeleton'
-import type { SpacingProps, SpaceType } from '../space/types'
-
-export type ToggleButtonVariant = 'default' | 'checkbox' | 'radio'
-export type ToggleButtonSuffix = string | (() => ReactNode) | ReactNode
-export type ToggleButtonValue =
-  | string
-  | number
-  | Record<string, unknown>
-  | unknown[]
-export type ToggleButtonChildren = string | (() => ReactNode)
-
-export type ToggleButtonChangeEvent = {
-  checked: boolean
-  value: ToggleButtonValue
-  event: SyntheticEvent
-}
-
-export type ToggleButtonProps = Omit<
-  HTMLProps<HTMLButtonElement>,
-  'ref' | 'label' | 'value' | 'children' | 'onChange' | 'size'
-> &
-  Omit<SpacingProps, 'top' | 'right' | 'bottom' | 'left'> &
-  FormStatusBaseProps & {
-    /**
-     * The text shown in the ToggleButton.
-     */
-    text?: ReactNode
-    /**
-     * Use either the `label` property or provide a custom one.
-     */
-    label?: string | ReactNode
-    labelDirection?: FormElementProps['labelDirection']
-    labelSrOnly?: boolean
-    /**
-     * The `title` of the input - describing it a bit further for accessibility reasons.
-     */
-    title?: string
-    /**
-     * Determine whether the ToggleButton is checked or not. The default will be `false`.
-     */
-    checked?: boolean
-    variant?: ToggleButtonVariant
-    leftComponent?: ReactNode
-    disabled?: boolean
-    /**
-     * If set to `true`, an overlaying skeleton with animation will be shown.
-     */
-    skeleton?: SkeletonShow
-    id?: string
-    /**
-     * Text describing the content of the ToggleButton more than the label. You can also send in a React component, so it gets wrapped inside the ToggleButton component.
-     */
-    suffix?: ToggleButtonSuffix
-    /**
-     * Provide a string or a React Element to be shown as the tooltip content.
-     */
-    tooltip?: ButtonTooltip
-    /**
-     * Defines the `value`. Use it to get the value during the `onChange` event listener callback in the **ToggleButtonGroup**.
-     */
-    value?: ToggleButtonValue
-    /**
-     * The size of the button. For now there are `small`, `medium`, `default` and `large`.
-     */
-    size?: ButtonSize
-    /**
-     * Icon to be included in the toggle button.
-     */
-    icon?: IconIcon
-    /**
-     * Position of the icon inside the toggle button. Set to `left` or `right`. Defaults to `right` if not set.
-     */
-    iconPosition?: ButtonIconPosition
-    /**
-     * Define icon width and height. Defaults to `16px`.
-     */
-    iconSize?: IconSize
-    readOnly?: boolean
-    className?: string
-    children?: ToggleButtonChildren
-    onChange?: (event: ToggleButtonChangeEvent) => void
-    // Additional properties that are used in tests
-    top?: SpaceType
-    right?: SpaceType
-    bottom?: SpaceType
-    left?: SpaceType
-  }
 
 // Type for the component with static properties
-export type ToggleButtonComponent = {
-  (props: ToggleButtonProps): ReactElement
-  Group: typeof ToggleButtonGroup
-}
