@@ -85,6 +85,7 @@ test.describe('Responsiveness', () => {
       'none'
     )
     await expect(header).toHaveCSS('position', 'fixed')
+    await expect(header).toHaveCSS('background-color', 'rgba(0, 0, 0, 0)')
     await expect(header).toHaveCSS('border-bottom-width', '0px')
     await expect(sidebarLogo).toBeVisible()
 

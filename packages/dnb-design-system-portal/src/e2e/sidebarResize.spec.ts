@@ -223,6 +223,20 @@ test.describe('Sidebar resize', () => {
         (element) => element.getBoundingClientRect().y
       )
     ).toBe(initialTriggerY)
+    await expect
+      .poll(() =>
+        trigger.evaluate((element) => {
+          const leading = element.parentElement
+          if (!leading) {
+            throw new Error(
+              'Expected the trigger to have a parent element'
+            )
+          }
+
+          return getComputedStyle(leading, '::before').opacity
+        })
+      )
+      .toBe('1')
     expect(
       await trigger.evaluate((element) => {
         const leading = element.parentElement
@@ -233,6 +247,25 @@ test.describe('Sidebar resize', () => {
         return -parseFloat(getComputedStyle(leading, '::before').right)
       })
     ).toBe(16)
+    expect(
+      await trigger.evaluate((element) => {
+        const leading = element.parentElement
+        if (!leading) {
+          throw new Error('Expected the trigger to have a parent element')
+        }
+
+        const style = getComputedStyle(leading, '::before')
+        return {
+          backgroundColor: style.backgroundColor,
+          borderRadius: style.borderRadius,
+          opacity: style.opacity,
+        }
+      })
+    ).toEqual({
+      backgroundColor: 'rgb(255, 255, 255)',
+      borderRadius: '32px',
+      opacity: '1',
+    })
 
     await trigger.click()
 
