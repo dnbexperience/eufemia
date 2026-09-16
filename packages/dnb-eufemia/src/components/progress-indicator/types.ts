@@ -112,6 +112,7 @@ export type ProgressIndicatorAnimationProps = Pick<
 > & {
   size?: ValidSizes | 'custom-size'
   progress?: number
+  ariaLabel?: string
   /**
    * Callback when animation ends because `show` is set to false
    */

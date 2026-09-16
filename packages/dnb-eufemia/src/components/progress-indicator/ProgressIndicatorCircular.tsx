@@ -19,6 +19,7 @@ function ProgressIndicatorCircular(
     progress,
     onComplete,
     callOnCompleteHandler,
+    ariaLabel,
     title,
     customColors,
     customCircleWidth,
@@ -128,13 +129,12 @@ function ProgressIndicatorCircular(
 
   const progressIsControlled = progress > -1
 
+  rest.role = 'progressbar'
+  rest['aria-label'] = ariaLabel
+  rest['title'] = title
+
   if (progressIsControlled) {
-    rest.role = 'progressbar'
-    rest['aria-label'] = title
-    rest['title'] = title
-  } else {
-    rest.role = 'alert'
-    rest['aria-busy'] = true
+    rest['aria-valuenow'] = progress
   }
 
   const remainingDOMAttributes = validateDOMAttributes(props, { ...rest })

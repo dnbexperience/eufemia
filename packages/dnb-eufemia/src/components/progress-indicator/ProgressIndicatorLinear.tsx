@@ -24,6 +24,7 @@ function ProgressIndicatorLine(props: ProgressIndicatorLinearAllProps) {
     show,
     onComplete,
     callOnCompleteHandler,
+    ariaLabel,
     customColors,
     style,
     ...rest
@@ -43,13 +44,12 @@ function ProgressIndicatorLine(props: ProgressIndicatorLinearAllProps) {
 
   const transform = `translateX(${(progress || 0) - 100}%)`
 
+  rest.role = 'progressbar'
+  rest['aria-label'] = ariaLabel
+  rest['title'] = title
+
   if (hasProgressValue) {
-    rest.role = 'progressbar'
-    rest['aria-label'] = title
-    rest['title'] = title
-  } else {
-    rest.role = 'alert'
-    rest['aria-busy'] = true
+    rest['aria-valuenow'] = progress
   }
 
   const remainingDOMAttributes = validateDOMAttributes(props, { ...rest })

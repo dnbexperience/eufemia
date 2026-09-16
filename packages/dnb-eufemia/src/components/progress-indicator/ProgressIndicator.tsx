@@ -74,6 +74,7 @@ function ProgressIndicator(props: ProgressIndicatorAllProps) {
 
   const usedIndicatorLabel = label || (showDefaultLabel && indicatorLabel)
   const progressTitle = title || formatProgress(progressNumber)
+  const progressAriaLabel = progressTitle || indicatorLabel
 
   useEffect(() => {
     return () => {
@@ -128,6 +129,7 @@ function ProgressIndicator(props: ProgressIndicatorAllProps) {
           show={show}
           onComplete={onComplete}
           callOnCompleteHandler={callOnCompleteHandler}
+          ariaLabel={progressAriaLabel?.toString()}
           title={progressTitle?.toString()}
           customColors={customColors}
           customCircleWidth={customCircleWidth}
@@ -141,6 +143,7 @@ function ProgressIndicator(props: ProgressIndicatorAllProps) {
           show={show}
           onComplete={onComplete}
           callOnCompleteHandler={callOnCompleteHandler}
+          ariaLabel={progressAriaLabel?.toString()}
           title={progressTitle?.toString()}
           customColors={customColors}
         />
