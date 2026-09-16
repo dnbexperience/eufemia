@@ -51,6 +51,7 @@ function ProgressIndicator(props: ProgressIndicatorAllProps) {
     customColors,
     customCircleWidth,
     style,
+    'aria-label': ariaLabel,
     ...rest
   } = allProps
 
@@ -74,7 +75,7 @@ function ProgressIndicator(props: ProgressIndicatorAllProps) {
 
   const usedIndicatorLabel = label || (showDefaultLabel && indicatorLabel)
   const progressTitle = title || formatProgress(progressNumber)
-  const progressAriaLabel = progressTitle || indicatorLabel
+  const progressAriaLabel = ariaLabel || progressTitle || indicatorLabel
 
   useEffect(() => {
     return () => {

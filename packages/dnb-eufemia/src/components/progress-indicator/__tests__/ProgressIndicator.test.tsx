@@ -532,6 +532,32 @@ describe('Linear ProgressIndicator component', () => {
 })
 
 describe('ProgressIndicator ARIA', () => {
+  it.each(['circular', 'linear'] as const)(
+    'should forward aria-label to the %s progressbar',
+    (type) => {
+      render(
+        <ProgressIndicator
+          type={type}
+          progress={50}
+          aria-label="Loading account details"
+        />
+      )
+
+      const indicator = document.querySelector('[role="progressbar"]')
+      expect(indicator).toHaveAccessibleName('Loading account details')
+      expect(indicator.parentElement).not.toHaveAttribute('aria-label')
+    }
+  )
+
+  it.each(['circular', 'linear'] as const)(
+    'should validate indeterminate %s markup with ARIA rules',
+    async (type) => {
+      const result = render(<ProgressIndicator type={type} />)
+
+      expect(await axeComponent(result)).toHaveNoViolations()
+    }
+  )
+
   it('should validate with ARIA rules on type circular', async () => {
     const Comp = render(
       <ProgressIndicator
