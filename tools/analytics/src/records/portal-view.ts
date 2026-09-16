@@ -83,6 +83,14 @@ const PORTAL_VIEW_REFERRERS: readonly PortalViewReferrer[] = [
   'external',
 ]
 
+/** Whether the view was reached via the in-app search box. */
+export type PortalViewViaSearch = 'yes' | 'no'
+
+const PORTAL_VIEW_VIA_SEARCH: readonly PortalViewViaSearch[] = [
+  'yes',
+  'no',
+]
+
 /** A single anonymous portal page view sent by the docs portal. */
 export type PortalViewInput = {
   path: string
@@ -93,6 +101,7 @@ export type PortalViewInput = {
   theme?: PortalViewTheme
   color_scheme?: PortalViewColorScheme
   referrer?: PortalViewReferrer
+  via_search?: PortalViewViaSearch
 }
 
 /** The stored portal-view record (one row in the portal_views Glue table). */
@@ -105,6 +114,7 @@ export type PortalViewRecord = {
   theme: string
   color_scheme: string
   referrer: string
+  via_search: string
   created_at: string
 }
 
@@ -154,6 +164,13 @@ function isValidReferrer(value: unknown): value is PortalViewReferrer {
   return (
     typeof value === 'string' &&
     PORTAL_VIEW_REFERRERS.includes(value as PortalViewReferrer)
+  )
+}
+
+function isValidViaSearch(value: unknown): value is PortalViewViaSearch {
+  return (
+    typeof value === 'string' &&
+    PORTAL_VIEW_VIA_SEARCH.includes(value as PortalViewViaSearch)
   )
 }
 
@@ -217,14 +234,14 @@ function isIsoTimestamp(value: string): boolean {
  *
  * Accepts either a single event object or an array of them. Portal views carry
  * no identifiers or personal data — only a `path` and an optional timestamp,
- * environment label, status, locale, theme, color scheme and referrer
- * category. Only the allow-listed keys are returned here, and the path is
- * minimised to a safe shape when the record is built (see
- * {@link buildPortalViewRecord} and {@link normalizeTrackedPath}), so nothing
- * incidental in the request can reach storage. An unrecognised `env`, `locale`,
- * `theme`, `color_scheme` or `referrer` is dropped so the built record defaults
- * it to `unknown`, rather than failing the whole batch; `path`, `timestamp` and
- * `status` still reject.
+ * environment label, status, locale, theme, color scheme, referrer category and
+ * whether it was reached via the in-app search box. Only the allow-listed keys
+ * are returned here, and the path is minimised to a safe shape when the record
+ * is built (see {@link buildPortalViewRecord} and {@link normalizeTrackedPath}),
+ * so nothing incidental in the request can reach storage. An unrecognised
+ * `env`, `locale`, `theme`, `color_scheme`, `referrer` or `via_search` is
+ * dropped so the built record defaults it to `unknown`, rather than failing the
+ * whole batch; `path`, `timestamp` and `status` still reject.
  */
 export function validatePortalViews(
   input: unknown
@@ -264,6 +281,7 @@ export function validatePortalViews(
       theme,
       color_scheme: colorScheme,
       referrer,
+      via_search: viaSearch,
     } = event as Record<string, unknown>
     let valid = true
 
@@ -316,6 +334,7 @@ export function validatePortalViews(
           ? { color_scheme: colorScheme }
           : {}),
         ...(isValidReferrer(referrer) ? { referrer } : {}),
+        ...(isValidViaSearch(viaSearch) ? { via_search: viaSearch } : {}),
       })
     }
   })
@@ -345,6 +364,7 @@ export function buildPortalViewRecord(
     theme: input.theme ?? 'unknown',
     color_scheme: input.color_scheme ?? 'unknown',
     referrer: input.referrer ?? 'unknown',
+    via_search: input.via_search ?? 'unknown',
     created_at: createdAt,
   }
 }

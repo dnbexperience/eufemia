@@ -209,6 +209,25 @@ describe('validatePortalViews', () => {
     }
   })
 
+  it('accepts a valid via_search', () => {
+    for (const via_search of ['yes', 'no']) {
+      const result = validatePortalViews({ path: '/a', via_search })
+
+      expect(result).toEqual({
+        ok: true,
+        value: [{ path: '/a', via_search }],
+      })
+    }
+  })
+
+  it('coerces an unrecognised via_search to unknown instead of rejecting', () => {
+    for (const via_search of ['Yes', 'true', true, 1]) {
+      const result = validatePortalViews({ path: '/a', via_search })
+
+      expect(result).toEqual({ ok: true, value: [{ path: '/a' }] })
+    }
+  })
+
   it('drops any field that is not an allow-listed key', () => {
     const result = validatePortalViews({
       path: '/a',
@@ -247,6 +266,7 @@ describe('buildPortalViewRecord', () => {
       theme: 'unknown',
       color_scheme: 'unknown',
       referrer: 'unknown',
+      via_search: 'unknown',
       created_at: createdAt,
     })
   })
@@ -266,6 +286,7 @@ describe('buildPortalViewRecord', () => {
       theme: 'unknown',
       color_scheme: 'unknown',
       referrer: 'unknown',
+      via_search: 'unknown',
       created_at: createdAt,
     })
   })
@@ -317,6 +338,7 @@ describe('buildPortalViewRecord', () => {
       theme: 'customer-123',
       color_scheme: 'auto',
       referrer: 'social',
+      via_search: 'maybe',
     })
 
     expect(result.ok).toBe(true)
@@ -329,6 +351,7 @@ describe('buildPortalViewRecord', () => {
         theme: 'unknown',
         color_scheme: 'unknown',
         referrer: 'unknown',
+        via_search: 'unknown',
       })
     }
   })
@@ -344,6 +367,17 @@ describe('buildPortalViewRecord', () => {
     ).toBe('search')
   })
 
+  it('defaults via_search to "unknown" and keeps a supplied value', () => {
+    expect(
+      buildPortalViewRecord({ path: '/a' }, createdAt).via_search
+    ).toBe('unknown')
+
+    expect(
+      buildPortalViewRecord({ path: '/a', via_search: 'yes' }, createdAt)
+        .via_search
+    ).toBe('yes')
+  })
+
   it('never carries identifiers or personal data', () => {
     const record = buildPortalViewRecord({ path: '/a' }, createdAt)
 
@@ -357,6 +391,7 @@ describe('buildPortalViewRecord', () => {
       'status',
       'theme',
       'timestamp',
+      'via_search',
     ])
   })
 })
