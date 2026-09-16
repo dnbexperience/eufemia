@@ -39,7 +39,18 @@ export function SidebarMenuDeclarative() {
           console.log('selectedItem', itemId)
         }}
       >
-        <SidebarMenu.Section id="personal" text="Personal" icon={person}>
+        <SidebarMenu.Section
+          id="personal"
+          text="Personal"
+          icon={person}
+          badge={2}
+          badgeProps={{
+            variant: 'notification',
+            label: 'Notifications:',
+          }}
+          triggerBadge={2}
+          triggerBadgeProps={{ label: 'Notifications:' }}
+        >
           <SidebarMenu.Header text="Everyday banking" />
           <SidebarMenu.Item
             id="overview"
@@ -79,6 +90,11 @@ export function SidebarMenuDeclarative() {
               <SidebarMenu.Item
                 id="online-shopping"
                 text="Online shopping"
+                badge={2}
+                badgeProps={{
+                  variant: 'notification',
+                  label: 'Notifications:',
+                }}
               />
             </SidebarMenu.Accordion>
           </SidebarMenu.Accordion>
@@ -90,6 +106,8 @@ export function SidebarMenuDeclarative() {
           id="business"
           text="Business"
           icon={office_buildings}
+          badge={9}
+          badgeProps={{ label: 'Notifications:' }}
         >
           <SidebarMenu.Header text="Company" />
           <SidebarMenu.Item
@@ -169,6 +187,10 @@ export function SidebarMenuData() {
               text: 'Personal',
               icon: person,
               defaultActive: true,
+              triggerBadge: 2,
+              triggerBadgeProps: {
+                label: 'Notifications:',
+              },
               items: [
                 {
                   id: 'data-home',
@@ -218,6 +240,11 @@ export function SidebarMenuData() {
                         {
                           id: 'data-online-shopping',
                           text: 'Online shopping',
+                          badge: 2,
+                          badgeProps: {
+                            variant: 'notification',
+                            label: 'Notifications:',
+                          },
                         },
                       ],
                     },
@@ -229,6 +256,8 @@ export function SidebarMenuData() {
               id: 'business-data',
               text: 'Business',
               icon: office_buildings,
+              badge: 9,
+              badgeProps: { label: 'Notifications:' },
               items: [
                 { id: 'data-business-home', text: 'Overview', icon: home },
                 { id: 'data-payments', text: 'Payments', icon: pay_from },
@@ -271,6 +300,67 @@ export function SidebarMenuData() {
           ]}
         />
       </ScrollView>
+    </ComponentBox>
+  )
+}
+
+export function SidebarMenuResponsiveDrawer() {
+  return (
+    <ComponentBox hideCode>
+      {() => {
+        const ResponsiveMenu = () => {
+          const items = [
+            { id: 'home', text: 'Home', href: '#home' },
+            {
+              id: 'products',
+              text: 'Products',
+              items: [
+                { id: 'accounts', text: 'Accounts', href: '#accounts' },
+                { id: 'cards', text: 'Cards', href: '#cards' },
+              ],
+            },
+          ]
+          const { close } = SidebarMenu.useResponsive()
+          const menuItems = items.map((item) => ({
+            ...item,
+            onClick: item.href ? close : undefined,
+            items: item.items?.map((item) => ({
+              ...item,
+              onClick: close,
+            })),
+          }))
+
+          return (
+            <>
+              <SidebarMenu.ResponsiveTrigger
+                controls="responsive-menu-drawer"
+                text="Menu"
+              />
+              <SidebarMenu.ResponsiveInline>
+                <SidebarMenu.Data
+                  aria-label="Main navigation"
+                  data={menuItems}
+                />
+              </SidebarMenu.ResponsiveInline>
+              <SidebarMenu.ResponsiveDrawer
+                id="responsive-menu-drawer"
+                dialogTitle="Menu"
+              >
+                <SidebarMenu.Data
+                  aria-label="Main navigation"
+                  data={menuItems}
+                />
+              </SidebarMenu.ResponsiveDrawer>
+            </>
+          )
+        }
+
+        return (
+          <SidebarMenu.ResponsiveProvider breakpoint="medium">
+            <ResponsiveMenu />
+          </SidebarMenu.ResponsiveProvider>
+        )
+      }}
     </ComponentBox>
   )
 }
