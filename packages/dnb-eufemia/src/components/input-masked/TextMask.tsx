@@ -30,25 +30,25 @@ import {
   maskitoNumberOptionsGenerator,
 } from '@maskito/kit'
 import InputModeNumber from './text-mask/InputModeNumber'
-import type { MaskParams } from './text-mask/types'
+import type { InputMaskedMaskParams } from './text-mask/types'
 import type { createNumberMask } from './hooks/useNumberMask'
-export type TextMaskMask =
+export type InputMaskedTextMaskMask =
   | RegExp
   | Array<RegExp | string>
   | false
   | typeof createNumberMask
-export type TextMaskInputElement = ReactElement<any>
-export type TextMaskValue = string | number
-export type TextMaskProps = Omit<
+export type InputMaskedTextMaskInputElement = ReactElement<any>
+export type InputMaskedTextMaskValue = string | number
+export type InputMaskedTextMaskProps = Omit<
   InputHTMLAttributes<HTMLInputElement>,
   'onChange' | 'value' | 'size'
 > & {
-  mask: TextMaskMask
+  mask: InputMaskedTextMaskMask
   inputRef?: Ref<HTMLInputElement> &
     MutableRefObject<HTMLInputElement | null>
-  inputElement?: TextMaskInputElement
+  inputElement?: InputMaskedTextMaskInputElement
   onChange?: ChangeEventHandler<HTMLInputElement>
-  value?: TextMaskValue
+  value?: InputMaskedTextMaskValue
   size?: number
   showMask?: boolean
   // Advanced: allow parent to enhance Maskito options without TextMask importing extras
@@ -61,7 +61,9 @@ export type TextMaskProps = Omit<
   overwriteMode?: MaskitoOptions['overwriteMode']
 }
 
-export default function TextMask(props: TextMaskProps): JSX.Element {
+export default function TextMask(
+  props: InputMaskedTextMaskProps
+): JSX.Element {
   const {
     inputElement,
     inputRef,
@@ -91,7 +93,7 @@ export default function TextMask(props: TextMaskProps): JSX.Element {
     typeof rawMask === 'object' &&
     rawMask !== null &&
     'maskParams' in rawMask
-      ? (rawMask.maskParams as MaskParams | undefined)
+      ? (rawMask.maskParams as InputMaskedMaskParams | undefined)
       : undefined
 
   const separatorTokens = useMemo(
@@ -109,7 +111,7 @@ export default function TextMask(props: TextMaskProps): JSX.Element {
       rawMask.instanceOf === 'createNumberMask' &&
       rawMask.maskParams
     ) {
-      const mp = rawMask.maskParams as MaskParams
+      const mp = rawMask.maskParams as InputMaskedMaskParams
       return createMaskitoNumberOptions(mp)
     }
 
@@ -257,7 +259,9 @@ export default function TextMask(props: TextMaskProps): JSX.Element {
   }, [rest, enhancedOptions, stripValue])
 
   // Track previous value so we can detect transitions to null/undefined
-  const prevValueRef = useRef<TextMaskValue | undefined | null>(undefined)
+  const prevValueRef = useRef<InputMaskedTextMaskValue | undefined | null>(
+    undefined
+  )
 
   // Conform initial value on mount/options change
   useEffect(() => {
@@ -316,7 +320,7 @@ export default function TextMask(props: TextMaskProps): JSX.Element {
         rawMask !== null &&
         'maskParams' in rawMask
       ) {
-        const mp = rawMask.maskParams as MaskParams
+        const mp = rawMask.maskParams as InputMaskedMaskParams
         const prefix = mp.prefix ?? ''
         const suffix = mp.suffix ?? ''
 
@@ -435,7 +439,7 @@ function countUserSlots(maskExpression: MaskitoMaskExpression) {
   }, 0)
 }
 
-function getSeparatorTokens(maskExpression: TextMaskMask) {
+function getSeparatorTokens(maskExpression: InputMaskedTextMaskMask) {
   if (!Array.isArray(maskExpression)) {
     return []
   }
@@ -471,7 +475,9 @@ function escapeRegExp(input: string) {
   return input.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 }
 
-function normalizeMask(maskProp: TextMaskMask): MaskitoMask | null {
+function normalizeMask(
+  maskProp: InputMaskedTextMaskMask
+): MaskitoMask | null {
   // Handle combined object shape { mask }
   if (
     maskProp &&
@@ -479,7 +485,9 @@ function normalizeMask(maskProp: TextMaskMask): MaskitoMask | null {
     'mask' in maskProp &&
     !Array.isArray(maskProp)
   ) {
-    return normalizeMask((maskProp as { mask?: TextMaskMask }).mask)
+    return normalizeMask(
+      (maskProp as { mask?: InputMaskedTextMaskMask }).mask
+    )
   }
 
   // Support disabling mask with false
@@ -501,7 +509,10 @@ function normalizeMask(maskProp: TextMaskMask): MaskitoMask | null {
   return /^.*$/
 }
 
-function areMasksEqual(a: TextMaskMask, b: TextMaskMask): boolean {
+function areMasksEqual(
+  a: InputMaskedTextMaskMask,
+  b: InputMaskedTextMaskMask
+): boolean {
   if (Object.is(a, b)) {
     return true
   }
@@ -543,8 +554,10 @@ function areMaskTokensEqual(
 }
 
 function isNumberMask(
-  mask: TextMaskMask
-): mask is TextMaskMask & { maskParams: Record<string, unknown> } {
+  mask: InputMaskedTextMaskMask
+): mask is InputMaskedTextMaskMask & {
+  maskParams: Record<string, unknown>
+} {
   return (
     typeof mask === 'object' &&
     mask !== null &&
@@ -586,14 +599,14 @@ function stripAffixes(
  */
 export function cleanNumericValue(
   value: string,
-  rawMask: TextMaskMask
+  rawMask: InputMaskedTextMaskMask
 ): string {
   if (
     typeof rawMask === 'object' &&
     rawMask !== null &&
     'maskParams' in rawMask
   ) {
-    const mp = rawMask.maskParams as MaskParams
+    const mp = rawMask.maskParams as InputMaskedMaskParams
     const result = stripAffixes(value, mp.prefix ?? '', mp.suffix ?? '')
 
     // A dynamic suffix (e.g. currency name "krone" vs "kroner") won't match the
@@ -615,7 +628,9 @@ export function cleanNumericValue(
   return value
 }
 
-function createMaskitoNumberOptions(mp: MaskParams): MaskitoOptions {
+function createMaskitoNumberOptions(
+  mp: InputMaskedMaskParams
+): MaskitoOptions {
   // Use Maskito number kit as base to format numbers and grouping
   const decimal = mp.decimalSymbol ?? ','
   const thousand = mp.thousandsSeparatorSymbol ?? ' '

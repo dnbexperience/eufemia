@@ -30,7 +30,7 @@ import {
   ListDefaultIconSizes,
   ValidIconType,
 } from './sizes'
-import type { ValidIconNumericSize } from './sizes'
+import type { IconValidNumericSize, IconValidType } from './sizes'
 
 export * from './sizes'
 export type * from './types'
@@ -145,7 +145,7 @@ export function calcSize(props: IconProps) {
     'icon'
   > & { icon: IconType }
 
-  let sizeAsInt: ValidIconNumericSize | -1 = null
+  let sizeAsInt: IconValidNumericSize | -1 = null
   let sizeAsString = null
 
   // if there is no size, check if we can find the actual size in the name
@@ -158,7 +158,7 @@ export function calcSize(props: IconProps) {
 
     const nameParts = String(name || '').split('_')
 
-    const lastPartOfIconName = nameParts.at(-1) as ValidIconType
+    const lastPartOfIconName = nameParts.at(-1) as IconValidType
 
     if (ValidIconType.includes(lastPartOfIconName)) {
       const potentialSize = ListDefaultIconSizes.filter(
@@ -206,7 +206,7 @@ export function calcSize(props: IconProps) {
       ListDefaultIconSizes.filter(([key]) => key === size)?.[0]?.[1] ?? -1
 
     // or if the size is a default size defined as a string
-    if (ValidIconType.includes(size as ValidIconType)) {
+    if (ValidIconType.includes(size as IconValidType)) {
       sizeAsString = size
     }
   }
@@ -220,7 +220,7 @@ export function calcSize(props: IconProps) {
 
     // has custom size
     if (sizeAsInt === -1) {
-      sizeAsInt = parseFloat(String(size)) as ValidIconNumericSize
+      sizeAsInt = parseFloat(String(size)) as IconValidNumericSize
       sizeAsString = 'custom-size'
     }
   }
@@ -276,8 +276,8 @@ function prepareIconParams({
   sizeAsString,
   ...rest
 }: Omit<IconProps, 'icon'> & {
-  sizeAsString?: ValidIconType | 'custom-size'
-  sizeAsInt?: ValidIconNumericSize | -1
+  sizeAsString?: IconValidType | 'custom-size'
+  sizeAsInt?: IconValidNumericSize | -1
 }) {
   const { size, width, height, sizeAsInt } = rest
   const params: {
@@ -512,7 +512,7 @@ export function prerenderIcon(
       size !== 'basis' &&
       size !== 'default' &&
       !(parseFloat(String(size)) > 0) &&
-      !icon.includes(size as ValidIconType)
+      !icon.includes(size as IconValidType)
     ) {
       icon = `${icon}_${size}`
     }

@@ -40,7 +40,7 @@ export type HeadingLevel =
   | 5
   | 6
 
-export type InternalHeadingLevel = number
+export type HeadingInternalLevel = number
 
 export type HeadingProps = {
   id?: string

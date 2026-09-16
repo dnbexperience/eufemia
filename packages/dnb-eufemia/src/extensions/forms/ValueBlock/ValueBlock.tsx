@@ -24,7 +24,7 @@ import { replaceItemNo } from '../Iterate/ItemNo'
 import { convertJsxToString } from '../../../shared/component-helper'
 import VisibilityContext from '../Form/Visibility/VisibilityContext'
 import Visibility from '../Form/Visibility/Visibility'
-import type { HelpProps } from '../../../components/help-button/HelpButtonInline'
+import type { HelpButtonHelpProps } from '../../../components/help-button/HelpButtonInline'
 import HelpButtonInline, {
   HelpButtonInlineContent,
 } from '../../../components/help-button/HelpButtonInline'
@@ -44,7 +44,7 @@ export type ValueBlockProps = Omit<ValueProps<any>, 'value'> & {
   /**
    * Provide help content for the value.
    */
-  help?: HelpProps
+  help?: HelpButtonHelpProps
 
   /**
    * The layout of the value block.

@@ -172,7 +172,7 @@ export function DatePickerCalendarNav({
 
 type CalendarNavButtonType = 'prev' | 'next'
 
-export type CalendarNavButtonProps = {
+export type DatePickerCalendarNavButtonProps = {
   dateType: CalendarNavigationDateType
   type: CalendarNavButtonType
   nr: number
@@ -189,7 +189,7 @@ export type CalendarNavButtonProps = {
     type,
   }: {
     nr: number
-    type: CalendarNavButtonProps['type']
+    type: DatePickerCalendarNavButtonProps['type']
   }) => void
   onKeyDown?: (event: KeyboardEvent<HTMLButtonElement>) => void
 }
@@ -205,7 +205,7 @@ function CalendarNavButton({
   locale,
   onClick,
   onKeyDown,
-}: CalendarNavButtonProps) {
+}: DatePickerCalendarNavButtonProps) {
   const translations = useTranslation().DatePicker
 
   const translationKey = `${type}${capitalizeFirstLetter(dateType)}`

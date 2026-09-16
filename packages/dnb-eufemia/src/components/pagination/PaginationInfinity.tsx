@@ -27,7 +27,7 @@ import {
 } from './PaginationHelpers'
 import PaginationContext from './PaginationContext'
 
-export type InfinityScrollerProps = {
+export type PaginationInfinityScrollerProps = {
   children?: ReactNode
 }
 
@@ -59,7 +59,7 @@ type GetNewContentProps = {
 
 export default function InfinityScroller({
   children = null,
-}: InfinityScrollerProps) {
+}: PaginationInfinityScrollerProps) {
   const { pagination } = useContext(PaginationContext)
 
   const hideIndicator = pagination.hideProgressIndicator

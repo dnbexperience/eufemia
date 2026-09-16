@@ -30,13 +30,13 @@ import {
 } from '../../shared/helpers/filterValidProps'
 import type { GlobalStatusConfigObject } from '../GlobalStatus'
 import type {
-  ErrorIconProps,
+  FormStatusErrorIconProps,
   FormStatusProps,
   FormStatusState,
-  InfoIconProps,
-  MarketingIconProps,
-  SuccessIconProps,
-  WarnIconProps,
+  FormStatusInfoIconProps,
+  FormStatusMarketingIconProps,
+  FormStatusSuccessIconProps,
+  FormStatusWarnIconProps,
 } from './types'
 
 export type * from './types'
@@ -464,7 +464,7 @@ const iconPaint = (
   ),
 })
 
-export const ErrorIcon = (props: ErrorIconProps) => {
+export const ErrorIcon = (props: FormStatusErrorIconProps) => {
   const { title = 'error' } = props || {}
 
   return (
@@ -489,7 +489,7 @@ export const ErrorIcon = (props: ErrorIconProps) => {
   )
 }
 
-export const WarnIcon = (props: WarnIconProps) => {
+export const WarnIcon = (props: FormStatusWarnIconProps) => {
   const { title = 'error' } = props || {}
 
   return (
@@ -514,7 +514,7 @@ export const WarnIcon = (props: WarnIconProps) => {
   )
 }
 
-export const InfoIcon = (props: InfoIconProps) => {
+export const InfoIcon = (props: FormStatusInfoIconProps) => {
   const { title = 'information' } = props || {}
   const isSuccess = props?.state === 'success'
 
@@ -549,7 +549,7 @@ export const InfoIcon = (props: InfoIconProps) => {
   )
 }
 
-export const SuccessIcon = (props: SuccessIconProps) => {
+export const SuccessIcon = (props: FormStatusSuccessIconProps) => {
   const { title = 'success' } = props || {}
 
   return (
@@ -572,7 +572,7 @@ export const SuccessIcon = (props: SuccessIconProps) => {
   )
 }
 
-export const MarketingIcon = (props: MarketingIconProps) => {
+export const MarketingIcon = (props: FormStatusMarketingIconProps) => {
   const { title = 'marketing' } = props || {}
 
   return (

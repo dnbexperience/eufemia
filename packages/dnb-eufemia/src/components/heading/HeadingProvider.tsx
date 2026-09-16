@@ -18,7 +18,7 @@ import {
 } from './HeadingHelpers'
 import type { HeadingCounter } from './HeadingCounter'
 import { initCounter } from './HeadingCounter'
-import type { InternalHeadingLevel, HeadingProps } from './Heading'
+import type { HeadingInternalLevel, HeadingProps } from './Heading'
 
 export type HeadingProviderProps = HeadingProps
 export type HeadingProviderAllProps = HeadingProviderProps &
@@ -37,12 +37,12 @@ export default function HeadingProvider(props: HeadingProviderAllProps) {
   )
 
   type State = {
-    level?: InternalHeadingLevel
+    level?: HeadingInternalLevel
     counter?: HeadingCounter
     contextRevision?: number
     notifyParentRevision?: number
     preserveLevels: boolean
-    prevLevel?: InternalHeadingLevel
+    prevLevel?: HeadingInternalLevel
     recalculate?: () => void
     revision: number
     scopeRevision: number

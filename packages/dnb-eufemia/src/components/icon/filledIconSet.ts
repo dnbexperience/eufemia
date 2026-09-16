@@ -28,7 +28,7 @@ const filledIconNames = [
   // 'boat',
 ] as const
 
-export type FilledIconName = (typeof filledIconNames)[number]
+export type IconFilledName = (typeof filledIconNames)[number]
 
 const filledIconSet: ReadonlySet<string> = new Set(
   filledIconNames.flatMap((name) => [name, `${name}_medium`])
