@@ -442,7 +442,7 @@ export default [
       'docs-types': docsTypesPlugin,
     },
     rules: {
-      'docs-types/warn-supported-types': 'warn',
+      'docs-types/warn-supported-types': 'error',
       'docs-types/validate-supported-types': 'error',
       'docs-types/doc-trailing-period': 'error',
       'docs-types/defaultvalue-inner-quotes': 'warn',
