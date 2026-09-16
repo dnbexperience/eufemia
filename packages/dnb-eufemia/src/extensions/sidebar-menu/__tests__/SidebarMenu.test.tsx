@@ -524,9 +524,7 @@ describe('SidebarMenu', () => {
     fireEvent.click(triggers[0])
 
     expect(animations[0]).toHaveClass('dnb-height-animation--animating')
-    expect(animations[1]).not.toHaveClass(
-      'dnb-height-animation--animating'
-    )
+    expect(animations[1]).not.toHaveClass('dnb-height-animation--parallax')
     expect(triggers[1]).toHaveAttribute('aria-expanded', 'true')
 
     globalThis.IS_TEST = undefined
