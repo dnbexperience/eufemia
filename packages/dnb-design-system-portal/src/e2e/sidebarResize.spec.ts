@@ -257,14 +257,18 @@ test.describe('Sidebar resize', () => {
         const style = getComputedStyle(leading, '::before')
         return {
           backgroundColor: style.backgroundColor,
+          bottom: style.bottom,
           borderRadius: style.borderRadius,
           opacity: style.opacity,
+          top: style.top,
         }
       })
     ).toEqual({
       backgroundColor: 'rgb(255, 255, 255)',
+      bottom: '-4px',
       borderRadius: '32px',
       opacity: '1',
+      top: '0px',
     })
 
     await trigger.click()
