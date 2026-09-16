@@ -1901,6 +1901,9 @@ export default function Provider<Data extends JsonObject>(
     setSubmitState,
     updateDataValue,
     visibleDataHandler,
+    // Re-syncs the shared state when the error visibility flips, even though
+    // mutating the ref does not itself trigger a render.
+    showAllErrorsRef.current,
   ])
 
   const { bufferedFormState: formState } = useFormStatusBuffer({
