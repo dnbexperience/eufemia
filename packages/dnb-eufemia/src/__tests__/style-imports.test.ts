@@ -123,6 +123,7 @@ function folderOf(filePath: string): string {
 }
 
 function parseImports(src: string): string[] {
+  // eslint-disable-next-line security/detect-unsafe-regex -- test-only import parser over controlled fixture input, not exposed to untrusted data
   const re = /import\s+(?:[\s\S]*?\s+from\s+)?['"]([^'"]+)['"]/g
   const out: string[] = []
   let m: RegExpExecArray | null

@@ -9,6 +9,7 @@ const detectOS = (ua?: string) => {
   ua = ua || navigator.userAgent
   const ipad = /(iPad).*OS\s([\d_]+)/.test(ua)
   const iphone = !ipad && /(iPhone\sOS)\s([\d_]+)/.test(ua)
+  // eslint-disable-next-line security/detect-unsafe-regex -- linear user-agent match; the quantified segments use disjoint character classes, no catastrophic backtracking
   const android = /(Android);?[\s/]+([\d.]+)?/.test(ua)
   const ios = iphone || ipad
   return { ios, android }

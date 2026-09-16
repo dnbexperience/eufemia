@@ -392,6 +392,7 @@ function getTimeUnit(msDifference: number): DateFormatRelativeTimeUnit {
 // ISO 8601 duration regex pattern (defined once)
 // Supports: P(optional: Y years, M months, W weeks, D days)T(optional: H hours, M minutes, S seconds)
 const DURATION_PATTERN =
+  // eslint-disable-next-line security/detect-unsafe-regex -- each optional group is terminated by a distinct literal (Y/M/W/D/H/S), so the quantifiers cannot overlap (no ReDoS)
   /^P(?:(\d+)Y)?(?:(\d+)M)?(?:(\d+)W)?(?:(\d+)D)?(?:T(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?)?$/
 
 /**
