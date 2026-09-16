@@ -1,20 +1,15 @@
 import ListSummaryFromEdges from '../../../../../shared/parts/ListSummaryFromEdges'
-import { regularMdxNodes, globPath } from 'virtual:portal-pages'
+import { regularMdxNodes } from 'virtual:portal-pages'
+import { getBaseInputComponents } from '../../../../../shared/parts/listEdges'
 
 export default function ListBaseInputComponents() {
-  const edges = regularMdxNodes.filter(
-    (node) =>
-      globPath(node, 'uilib/extensions/forms/base-fields/*') &&
-      node.frontmatter.componentType === 'base-input'
-  )
-
   return (
     <ListSummaryFromEdges
       space={{ top: 'x-small' }}
       level={3}
       size="medium"
       description=""
-      edges={edges}
+      edges={getBaseInputComponents(regularMdxNodes)}
     />
   )
 }

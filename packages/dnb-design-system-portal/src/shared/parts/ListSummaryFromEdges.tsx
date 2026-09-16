@@ -15,9 +15,15 @@ import type { MdxNode } from '../../../vite/client/plugins/portal-pages.shared'
 
 type ListSummaryFromEdgesProps = {
   /**
-   * Accepts either a page from `src/core/portalPages`, or the legacy
-   * `{ node }` shape from `useStaticQuery`, so lists can be migrated one at a
-   * time.
+   * The pages to list.
+   *
+   * Lists keep their page selection in `listEdges.ts` and pass the result
+   * here. Those are plain functions taking the pages as an argument, so the
+   * markdown generator for the LLM docs can import and call them instead of
+   * re-deriving the selection from the component source — one definition of
+   * what each list contains.
+   *
+   * Also accepts the legacy `{ node }` shape from `useStaticQuery`.
    */
   edges: Array<MdxNode | { node: MdxNode }>
   level?: HeadingLevel

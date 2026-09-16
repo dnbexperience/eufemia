@@ -1,12 +1,12 @@
 import ListSummaryFromEdges from './ListSummaryFromEdges'
-import { regularMdxNodes, globPath } from 'virtual:portal-pages'
+import { regularMdxNodes } from 'virtual:portal-pages'
+import { getExtensions } from './listEdges'
 
 export default function ListExtensions(props) {
-  const edges = regularMdxNodes.filter(
-    (node) =>
-      globPath(node, 'uilib/extensions/*') &&
-      node.frontmatter.hideInMenu !== true
+  return (
+    <ListSummaryFromEdges
+      edges={getExtensions(regularMdxNodes)}
+      {...props}
+    />
   )
-
-  return <ListSummaryFromEdges edges={edges} {...props} />
 }
