@@ -685,6 +685,21 @@ describe('SidebarMenu', () => {
     ).toBeInTheDocument()
   })
 
+  it('renders section options without divider lines', () => {
+    render(
+      <SidebarMenu.Root>
+        <SidebarMenu.Section id="personal" text="Personal" />
+        <SidebarMenu.Section id="business" text="Business" />
+      </SidebarMenu.Root>
+    )
+
+    fireEvent.click(document.querySelector('.dnb-dropdown__trigger'))
+
+    expect(document.querySelector('.dnb-drawer-list')).toHaveClass(
+      'dnb-drawer-list--no-divider'
+    )
+  })
+
   it('supports sections wrapped in a fragment', () => {
     render(
       <SidebarMenu.Root>

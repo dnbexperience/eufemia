@@ -88,6 +88,7 @@ function renderSelector(
       }}
       size="medium"
       icon={sectionIcon}
+      noDivider
       stretch
     />
   )
