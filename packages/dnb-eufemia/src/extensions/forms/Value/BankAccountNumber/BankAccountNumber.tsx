@@ -3,19 +3,19 @@ import type { ValueStringProps as StringValueProps } from '../String'
 import StringValue from '../String'
 import {
   formatBankAccountNumberByType,
-  type BankAccountType,
+  type NumberFormatBankAccountType,
 } from '../../../../components/number-format/utils/formatBankAccountNumber'
 import useTranslation from '../../hooks/useTranslation'
 import { isValueEmpty } from '../../ValueBlock'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
-export type { BankAccountType } from '../../../../components/number-format/utils/formatBankAccountNumber'
+export type { NumberFormatBankAccountType } from '../../../../components/number-format/utils/formatBankAccountNumber'
 
 export type ValueBankAccountNumberProps = StringValueProps & {
   /**
    * The type of bank account number, used for label and formatting. Can be `norwegianBban`, `swedishBban`, `swedishBankgiro`, `swedishPlusgiro`, or `iban`. Defaults to `norwegianBban`.
    */
-  bankAccountType?: BankAccountType
+  bankAccountType?: NumberFormatBankAccountType
 }
 
 function BankAccountNumber(props: ValueBankAccountNumberProps) {

@@ -9,8 +9,8 @@ import type {
 import { cleanNumber, formatNumber } from './utils'
 import { canHandleCompact } from './utils/compact'
 import { getReturnValueParts } from './utils/formatCore'
-import type { FormatPartItem } from './utils/types'
-import type { NumberFormatter } from './useNumberFormat'
+import type { NumberFormatPartItem } from './utils/types'
+import type { NumberFormatFormatter } from './useNumberFormat'
 
 export type NumberFormatParts = {
   sign: string | null
@@ -40,17 +40,17 @@ export type NumberFormatReturnWithParts = NumberFormatReturnValue & {
  */
 function useNumberFormatWithParts(
   value: NumberFormatValue,
-  formatter: NumberFormatter,
+  formatter: NumberFormatFormatter,
   options: NumberFormatOptionParams & { returnAria: false }
 ): string
 function useNumberFormatWithParts(
   value: NumberFormatValue,
-  formatter?: NumberFormatter,
+  formatter?: NumberFormatFormatter,
   options?: NumberFormatOptionParams
 ): NumberFormatReturnWithParts
 function useNumberFormatWithParts(
   value: NumberFormatValue,
-  formatter: NumberFormatter = formatNumber,
+  formatter: NumberFormatFormatter = formatNumber,
   options: NumberFormatOptionParams = {}
 ): NumberFormatReturnWithParts | string {
   const context = useContext(Context)
@@ -102,7 +102,7 @@ function isSpacingLiteral(value: string): boolean {
 }
 
 function parseFormatParts(
-  parts: FormatPartItem[] | undefined,
+  parts: NumberFormatPartItem[] | undefined,
   type: NumberFormatReturnValue['type'] = 'number'
 ): NumberFormatParts | null {
   if (!parts?.length) {

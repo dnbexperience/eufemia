@@ -30,7 +30,7 @@ const helpButtonIcon = transition({
   close: CloseIcon,
 })
 
-export type HelpProps = {
+export type HelpButtonHelpProps = {
   title?: ReactNode
   content?: ReactNode
   renderAs?: 'inline' | 'dialog'
@@ -52,7 +52,7 @@ export type HelpProps = {
 
 export type HelpButtonInlineProps = HelpButtonProps & {
   contentId?: string
-  help?: HelpProps
+  help?: HelpButtonHelpProps
 
   /**
    * If set to `true`, the content will get focus when the help content is opened.
@@ -183,7 +183,7 @@ export type HelpButtonInlineContentProps = SpacingProps & {
   className?: string
   element?: ElementType
   children?: ReactNode
-  help?: HelpProps
+  help?: HelpButtonHelpProps
   breakout?: boolean
   outset?: boolean
   roundedCorner?: boolean

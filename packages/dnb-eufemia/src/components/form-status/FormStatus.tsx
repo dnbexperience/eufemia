@@ -159,28 +159,28 @@ export type FormStatusProps = {
 > &
   SpacingProps
 
-export type ErrorIconProps = SVGProps<SVGSVGElement> & {
+export type FormStatusErrorIconProps = SVGProps<SVGSVGElement> & {
   /**
    * The `title` attribute in the status.
    */
   title?: string
   state?: FormStatusState
 }
-export type WarnIconProps = SVGProps<SVGSVGElement> & {
+export type FormStatusWarnIconProps = SVGProps<SVGSVGElement> & {
   /**
    * The `title` attribute in the status.
    */
   title?: string
   state?: FormStatusState
 }
-export type InfoIconProps = SVGProps<SVGSVGElement> & {
+export type FormStatusInfoIconProps = SVGProps<SVGSVGElement> & {
   /**
    * The `title` attribute in the status.
    */
   title?: string
   state?: FormStatusState
 }
-export type MarketingIconProps = SVGProps<SVGSVGElement> & {
+export type FormStatusMarketingIconProps = SVGProps<SVGSVGElement> & {
   /**
    * The `title` attribute in the status.
    */
@@ -580,7 +580,7 @@ withComponentMarkers(FormStatus, { _supportsSpacingProps: true })
 
 export default FormStatus
 
-export const ErrorIcon = (props: ErrorIconProps) => {
+export const ErrorIcon = (props: FormStatusErrorIconProps) => {
   const { title = 'error' } = props || {}
   const isSbankenTheme = useTheme()?.isSbanken
   const fill = isSbankenTheme
@@ -612,7 +612,7 @@ export const ErrorIcon = (props: ErrorIconProps) => {
   )
 }
 
-export const WarnIcon = (props: WarnIconProps) => {
+export const WarnIcon = (props: FormStatusWarnIconProps) => {
   const { title = 'error' } = props || {}
   const isSbankenTheme = useTheme()?.isSbanken
   const fill = isSbankenTheme
@@ -644,7 +644,7 @@ export const WarnIcon = (props: WarnIconProps) => {
   )
 }
 
-export const InfoIcon = (props: InfoIconProps) => {
+export const InfoIcon = (props: FormStatusInfoIconProps) => {
   const { title = 'information' } = props || {}
   const isSbankenTheme = useTheme()?.isSbanken
   let fill = isSbankenTheme
@@ -681,7 +681,7 @@ export const InfoIcon = (props: InfoIconProps) => {
   )
 }
 
-export const MarketingIcon = (props: MarketingIconProps) => {
+export const MarketingIcon = (props: FormStatusMarketingIconProps) => {
   const { title = 'marketing' } = props || {}
   const isSbankenTheme = useTheme()?.isSbanken
   const fill = isSbankenTheme

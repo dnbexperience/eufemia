@@ -66,7 +66,7 @@ export type HeadingLevel =
   | 4
   | 5
   | 6
-export type InternalHeadingLevel = number
+export type HeadingInternalLevel = number
 
 export type HeadingProps = {
   id?: string
@@ -168,14 +168,14 @@ export default function Heading(props: HeadingAllProps) {
   } = useTypography(props)
 
   type State = {
-    level: InternalHeadingLevel
+    level: HeadingInternalLevel
     counter: HeadingCounter
     context: HeadingContextValue
     contextRevision?: number
     headingContext?: HeadingContextValue
     id: string
     notifyScopeRevision?: number
-    prevLevel?: InternalHeadingLevel
+    prevLevel?: HeadingInternalLevel
     recalculate?: () => void
     ref: HeadingAllProps
   }
@@ -232,7 +232,7 @@ export default function Heading(props: HeadingAllProps) {
   const level = parseFloat(String(props.level))
   const contextRevision = headingContext.heading?.revision
 
-  const recalculateLevel = (level: InternalHeadingLevel) => {
+  const recalculateLevel = (level: HeadingInternalLevel) => {
     state.counter.restart()
     const { level: newLevel } = correctInternalHeadingLevel({
       counter: state.counter,

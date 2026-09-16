@@ -15,7 +15,7 @@ import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
  * Props for List.Cell.Title (ItemTitle).
  * Extends Flex.Item; supports spacing props.
  */
-export type ItemTitleProps = FlexItemProps & {
+export type ListItemTitleProps = FlexItemProps & {
   /**
    * Font size of the title content. Defaults to `basis`. Use `small` for smaller text.
    * Default: `"basis"`
@@ -44,7 +44,7 @@ function ItemTitleBase({
   skeleton,
   children,
   ...rest
-}: ItemTitleProps) {
+}: ListItemTitleProps) {
   const context = useContext(Context)
   const inheritedSkeleton = useContext(ListContext)?.skeleton
   const appliedSkeleton = skeleton ?? inheritedSkeleton

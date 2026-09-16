@@ -7,9 +7,12 @@
 
 import { ABSENT_VALUE_FORMAT, isAbsent } from './constants'
 import { formatWith } from './formatCore'
-import type { NumberFormatValue, FormattedParts } from './types'
+import type {
+  NumberFormatValue,
+  NumberFormatFormattedParts,
+} from './types'
 
-export type BankAccountType =
+export type NumberFormatBankAccountType =
   | 'norwegianBban'
   | 'swedishBban'
   | 'swedishBankgiro'
@@ -37,8 +40,8 @@ const pairwiseAria = (digits: string) =>
  */
 export const formatBankAccountNumberByType = (
   number: NumberFormatValue,
-  bankAccountType: BankAccountType = 'norwegianBban'
-): FormattedParts => {
+  bankAccountType: NumberFormatBankAccountType = 'norwegianBban'
+): NumberFormatFormattedParts => {
   if (isAbsent(number)) {
     return { number: ABSENT_VALUE_FORMAT, aria: ABSENT_VALUE_FORMAT }
   }
@@ -110,7 +113,8 @@ export const formatBankAccountNumberByType = (
 const norwegianBbanParts = (
   value: NumberFormatValue,
   _locale: string | null = null
-): FormattedParts => formatBankAccountNumberByType(value, 'norwegianBban')
+): NumberFormatFormattedParts =>
+  formatBankAccountNumberByType(value, 'norwegianBban')
 
 export const formatBankAccountNumber = formatWith(
   'ban',

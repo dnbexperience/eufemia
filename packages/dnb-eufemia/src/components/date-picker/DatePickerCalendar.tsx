@@ -44,7 +44,7 @@ import type { InternalLocale } from '../../shared/Context'
 import useIsomorphicLayoutEffect from '../../shared/helpers/useIsomorphicLayoutEffect'
 import type { DatePickerChangeEvent } from './DatePickerProvider'
 import type { DatePickerDates } from './hooks/useDates'
-import type { CalendarNavButtonProps } from './DatePickerCalendarNavigator'
+import type { DatePickerCalendarNavButtonProps } from './DatePickerCalendarNavigator'
 import { DatePickerCalendarNav } from './DatePickerCalendarNavigator'
 import { formatDate } from '../date-format/DateFormatUtils'
 
@@ -65,7 +65,7 @@ export type DatePickerCalendarDay = {
 
 export type DatePickerCalendarNavigationEvent = {
   nr: number
-  type?: CalendarNavButtonProps['type']
+  type?: DatePickerCalendarNavButtonProps['type']
 }
 
 export type DatePickerCalendarProps = Omit<

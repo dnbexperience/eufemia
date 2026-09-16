@@ -43,7 +43,7 @@ export type {
   NumberFormatReturnType,
   NumberFormatType,
 } from './utils'
-export type { NumberFormatter } from './useNumberFormat'
+export type { NumberFormatFormatter } from './useNumberFormat'
 export type {
   NumberFormatParts,
   NumberFormatReturnWithParts,

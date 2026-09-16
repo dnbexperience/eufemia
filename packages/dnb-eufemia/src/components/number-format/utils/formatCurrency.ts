@@ -2,8 +2,8 @@ import type {
   NumberFormatOptionParams,
   NumberFormatReturnValue,
   NumberFormatValue,
-  FormatPartItem,
-  PartFormatter,
+  NumberFormatPartItem,
+  NumberFormatPartFormatter,
 } from './types'
 /**
  * Formatter for currency numbers.
@@ -28,11 +28,13 @@ import { currencyPositionFormatter } from './currencyPosition'
 import { getFallbackCurrencyDisplay, CURRENCY } from './currencyDisplay'
 import { alignCurrencySymbol } from './formatNumberCore'
 
-function joinParts(parts: FormatPartItem[]): string {
+function joinParts(parts: NumberFormatPartItem[]): string {
   return parts.reduce((acc, { value }) => acc + value, '')
 }
 
-function trimBoundaryLiterals(parts: FormatPartItem[]): FormatPartItem[] {
+function trimBoundaryLiterals(
+  parts: NumberFormatPartItem[]
+): NumberFormatPartItem[] {
   const nextParts = parts.filter((item) => item.value)
 
   while (
@@ -130,10 +132,10 @@ export function formatCurrency(
     opts.minimumFractionDigits = 0 // to enforce Norwegian style
   }
 
-  let formatter: PartFormatter | null = null
+  let formatter: NumberFormatPartFormatter | null = null
 
   if (omitCurrencySign) {
-    formatter = (item: FormatPartItem) => {
+    formatter = (item: NumberFormatPartItem) => {
       switch (item.type) {
         case 'literal':
           item.value = item.value === ' ' ? '' : item.value
@@ -161,7 +163,7 @@ export function formatCurrency(
   if (resolvedPosition) {
     formatter = currencyPositionFormatter(
       formatter,
-      ({ value: currencyValue }: FormatPartItem) => {
+      ({ value: currencyValue }: NumberFormatPartItem) => {
         return (currencySuffix = alignCurrencySymbol(
           currencyValue.trim(),
           currencyDisplay

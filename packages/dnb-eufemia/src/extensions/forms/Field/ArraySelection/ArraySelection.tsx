@@ -10,7 +10,7 @@ import { checkForError } from '../../hooks/useFieldProps'
 import type { DefaultErrorMessages, FieldProps, Path } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import ToggleButtonGroupContext from '../../../../components/toggle-button/ToggleButtonGroupContext'
-import type { HelpProps } from '../../../../components/help-button/HelpButtonInline'
+import type { HelpButtonHelpProps } from '../../../../components/help-button/HelpButtonInline'
 import type { Data } from '../Selection'
 import { countOptions, mapOptions } from '../Selection'
 import DataContext from '../../DataContext/Context'
@@ -25,7 +25,7 @@ type OptionProps = ComponentProps<
     value: number | string
     error: Error | FormError | undefined
     title: ReactNode
-    help: HelpProps
+    help: HelpButtonHelpProps
     className: string
     children: ReactNode
     handleSelect: () => void

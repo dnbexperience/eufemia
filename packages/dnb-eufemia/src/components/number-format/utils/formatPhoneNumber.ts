@@ -4,13 +4,16 @@
 
 import { ABSENT_VALUE_FORMAT, isAbsent } from './constants'
 import { formatWith } from './formatCore'
-import type { NumberFormatValue, FormattedParts } from './types'
+import type {
+  NumberFormatValue,
+  NumberFormatFormattedParts,
+} from './types'
 import detectCountryCode from '../../../shared/detectCountryCode'
 
 const formatPhoneNumberParts = (
   number: NumberFormatValue,
   locale: string | null = null
-): FormattedParts => {
+): NumberFormatFormattedParts => {
   if (isAbsent(number)) {
     return { number: ABSENT_VALUE_FORMAT, aria: ABSENT_VALUE_FORMAT }
   }

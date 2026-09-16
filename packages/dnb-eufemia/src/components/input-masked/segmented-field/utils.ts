@@ -1,8 +1,8 @@
 import type { RefObject } from 'react'
 import type {
-  OverwriteMode,
-  SectionSelectionMode,
-  SegmentedFieldInputConfig,
+  InputMaskedOverwriteMode,
+  InputMaskedSectionSelectionMode,
+  InputMaskedSegmentedFieldInputConfig,
 } from './types'
 
 export function getDisplayValue({
@@ -37,7 +37,7 @@ export function insertChar(
   {
     overwriteMode,
     maxLength,
-  }: { overwriteMode: OverwriteMode; maxLength: number }
+  }: { overwriteMode: InputMaskedOverwriteMode; maxLength: number }
 ) {
   const chars = Array.from(value)
 
@@ -99,7 +99,7 @@ export function distributeValueFromStart({
   existingValues,
 }: {
   value: string
-  inputs: SegmentedFieldInputConfig[]
+  inputs: InputMaskedSegmentedFieldInputConfig[]
   existingValues: Record<string, string>
 }) {
   const nextValues = { ...existingValues }
@@ -137,11 +137,13 @@ export function insertCharIntoSection({
 }: {
   char: string
   inputId: string
-  overwriteMode: OverwriteMode
+  overwriteMode: InputMaskedOverwriteMode
   valuesRef: RefObject<Record<string, string>>
-  inputs: SegmentedFieldInputConfig[]
+  inputs: InputMaskedSegmentedFieldInputConfig[]
   caretPositionsRef: RefObject<Record<string, number>>
-  sectionSelectionModeRef: RefObject<Record<string, SectionSelectionMode>>
+  sectionSelectionModeRef: RefObject<
+    Record<string, InputMaskedSectionSelectionMode>
+  >
   onChange: (inputId: string, value: string) => void
   focusSection: (inputId: string, mode: 'all' | 'start' | 'end') => void
   setSectionCaret: (inputId: string, position: number) => void
