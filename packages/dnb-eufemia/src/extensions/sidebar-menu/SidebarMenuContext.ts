@@ -11,6 +11,7 @@ export type SidebarMenuContextValue = {
   selectItem: (id: string) => void
   openOnFind: boolean
   animate: boolean
+  ancestorsOpen: boolean
 }
 
 export const SidebarMenuContext = createContext<SidebarMenuContextValue>({
@@ -23,6 +24,7 @@ export const SidebarMenuContext = createContext<SidebarMenuContextValue>({
   selectItem: () => undefined,
   openOnFind: true,
   animate: true,
+  ancestorsOpen: true,
 })
 
 export function useSidebarMenuContext() {

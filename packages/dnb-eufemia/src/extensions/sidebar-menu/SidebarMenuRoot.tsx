@@ -537,6 +537,7 @@ function SidebarMenuRoot(props: SidebarMenuRootProps) {
       },
       openOnFind,
       animate,
+      ancestorsOpen: true,
     }),
     [
       onSelectedItemChange,

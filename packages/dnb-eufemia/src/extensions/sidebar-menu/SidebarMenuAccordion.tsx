@@ -28,6 +28,7 @@ import SidebarMenuItemContent from './SidebarMenuItemContent'
 import type { SidebarMenuAccordionProps } from './types'
 import useTranslation from '../../shared/useTranslation'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
+import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../shared/helpers/useIsomorphicLayoutEffect'
 
 const accordionIcon = Icon.transition({
   collapsed: chevron_down,
@@ -78,6 +79,9 @@ export default function SidebarMenuAccordion(
         ? contextControlsOpen
         : contextControlsOpen || internalOpen)
   const isOpen = requestedOpen && !delayOpen
+  const previousIsOpenRef = useRef(isOpen)
+  const startsAnimating = isOpen !== previousIsOpenRef.current
+  const [descendantsReady, setDescendantsReady] = useState(isOpen)
   const isSelected = context.selectedItem === id
   const containsSelectedItem = context.selectedItemAncestorIds.includes(id)
   const containsNotification = hasNotificationBadge(children)
@@ -110,6 +114,9 @@ export default function SidebarMenuAccordion(
   )
 
   useEffect(() => clearPendingOpen, [clearPendingOpen])
+  useLayoutEffect(() => {
+    previousIsOpenRef.current = isOpen
+  }, [isOpen])
 
   const handleLinkClick = useCallback(
     (event: MouseEvent<HTMLElement>) => {
@@ -299,9 +306,21 @@ export default function SidebarMenuAccordion(
 
       <HeightAnimation
         open={isOpen}
-        animate={context.animate}
+        animate={
+          context.animate && (context.ancestorsOpen || startsAnimating)
+        }
         openOnFind={useOpenOnFind}
         onBeforeMatch={() => setOpen(true)}
+        onAnimationStart={(state) => {
+          if (state === 'opening' || state === 'closing') {
+            setDescendantsReady(false)
+          }
+        }}
+        onAnimationEnd={(state) => {
+          if (state === 'opened') {
+            setDescendantsReady(true)
+          }
+        }}
         compensateForGap="auto"
       >
         <SidebarMenuContext
@@ -310,6 +329,8 @@ export default function SidebarMenuAccordion(
             indent:
               context.indent + (context.accordionLevel === 0 ? 3 : 1),
             accordionLevel: context.accordionLevel + 1,
+            ancestorsOpen:
+              context.ancestorsOpen && isOpen && descendantsReady,
           }}
         >
           <ul id={`${id}-content`} className="dnb-sidebar-menu__list">

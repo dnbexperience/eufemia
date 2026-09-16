@@ -495,6 +495,45 @@ describe('SidebarMenu', () => {
     globalThis.animationDuration = undefined
   })
 
+  it('animates only the outer accordion when open descendants return', () => {
+    globalThis.IS_TEST = false
+    globalThis.bypassTime = -1
+    globalThis.animationDuration = -1
+
+    render(
+      <SidebarMenu.Root>
+        <SidebarMenu.Accordion id="products" text="Products">
+          <SidebarMenu.Accordion id="cards" text="Cards">
+            <SidebarMenu.Item id="debit-card" text="Debit card" />
+          </SidebarMenu.Accordion>
+        </SidebarMenu.Accordion>
+      </SidebarMenu.Root>
+    )
+
+    const triggers = document.querySelectorAll(
+      '.dnb-sidebar-menu__accordion__trigger'
+    )
+    const animations = document.querySelectorAll('.dnb-height-animation')
+
+    fireEvent.click(triggers[0])
+    fireEvent(animations[0], new Event('transitionend'))
+    fireEvent.click(triggers[1])
+    fireEvent(animations[1], new Event('transitionend'))
+    fireEvent.click(triggers[0])
+    fireEvent(animations[0], new Event('transitionend'))
+    fireEvent.click(triggers[0])
+
+    expect(animations[0]).toHaveClass('dnb-height-animation--animating')
+    expect(animations[1]).not.toHaveClass(
+      'dnb-height-animation--animating'
+    )
+    expect(triggers[1]).toHaveAttribute('aria-expanded', 'true')
+
+    globalThis.IS_TEST = undefined
+    globalThis.bypassTime = undefined
+    globalThis.animationDuration = undefined
+  })
+
   it('can disable hidden until found behavior', () => {
     render(
       <SidebarMenu.Root openOnFind={false}>
