@@ -827,7 +827,11 @@ describe('SidebarMenu', () => {
     )
 
     fireEvent.click(business)
-    fireEvent.mouseEnter(business)
+    fireEvent.mouseEnter(
+      Array.from(
+        document.querySelectorAll<HTMLElement>('[role="option"]')
+      ).find((element) => element.textContent === 'Personal')
+    )
 
     expect(
       document.querySelector('.dnb-sidebar-menu__list')
