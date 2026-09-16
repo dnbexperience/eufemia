@@ -5,7 +5,7 @@ import Anchor from '../tags/Anchor'
 import {
   type HeadingSize,
   type HeadingLevel,
-  type InternalHeadingLevel,
+  type HeadingInternalLevel,
   resetLevels,
 } from '@dnb/eufemia/src/components/Heading'
 import ReactMarkdown from 'react-markdown'
@@ -44,7 +44,7 @@ export default function ListSummaryFromEdges({
   const ListWrapper = returnListItems ? Ul : Fragment
   const ItemWrapper = returnListItems ? Li : Fragment
 
-  resetLevels((level || 2) as InternalHeadingLevel)
+  resetLevels((level || 2) as HeadingInternalLevel)
 
   const jsx = edges.map(
     (
