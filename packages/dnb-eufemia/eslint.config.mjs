@@ -40,8 +40,11 @@ const tsConfigFiles = ['**/*.ts', '**/*.tsx']
 // The lint script runs with `--quiet`, which reports errors only. The security
 // rules ship as warnings, so they are raised to errors to stay enforced.
 const securityRecommendedRules = Object.fromEntries(
-  Object.keys(securityPlugin.configs.recommended.rules || {}).map(
-    (rule) => [rule, 'error']
+  Object.entries(securityPlugin.configs.recommended.rules || {}).map(
+    ([rule, entry]) => [
+      rule,
+      Array.isArray(entry) ? ['error', ...entry.slice(1)] : 'error',
+    ]
   )
 )
 const nodeGlobals = globals.node || {}

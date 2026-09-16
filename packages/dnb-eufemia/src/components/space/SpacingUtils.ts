@@ -201,7 +201,7 @@ function getSpacingCSSValue(value: SpaceType): string | null {
     value === false ||
     value === 0 ||
     value === 'zero' ||
-    // eslint-disable-next-line security/detect-unsafe-regex -- anchored with a single nested quantifier over one literal, so matching stays linear
+    // eslint-disable-next-line security/detect-unsafe-regex -- anchored, and the optional groups are entered at most once, so matching stays linear
     /^0(?:\.0+)?(?:rem|px)?$/.test(String(value))
   ) {
     return '0'

@@ -1664,7 +1664,7 @@ describe('DateFormat', () => {
       // The output depends on the current date and locale, so we'll check for a relative time pattern
       // This should match patterns like "in X days", "for X uker siden", "om X dager", etc.
       expect(dateFormat.textContent).toMatch(
-        // eslint-disable-next-line security/detect-unsafe-regex -- the alternatives are disjoint literals, so matching stays linear
+        // eslint-disable-next-line security/detect-unsafe-regex -- the alternation is not repeated, so backtracking is bounded even where the alternatives overlap
         /^(?:in |for |om )?\d+ (?:days?|dager?|dag|uker?|uke|weeks?|months?|måned(er)?|years?|år)(?:\s+(?:siden|ago))?$/
       )
     })
