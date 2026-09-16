@@ -109,6 +109,7 @@ export function injectScope(babel: { types: typeof BabelTypes }) {
             importedName: string
             localName: string
             isDefault: boolean
+            isNamespace?: boolean
           }>
         >()
 
@@ -130,6 +131,7 @@ export function injectScope(babel: { types: typeof BabelTypes }) {
             importedName: name,
             localName,
             isDefault: info.isDefault,
+            isNamespace: info.isNamespace,
           })
           importsBySource.set(info.source, group)
         })
@@ -137,7 +139,10 @@ export function injectScope(babel: { types: typeof BabelTypes }) {
         // Generate import declarations (grouped by source)
         importsBySource.forEach((specs, source) => {
           const specifiers = specs.map(
-            ({ importedName, localName, isDefault }) => {
+            ({ importedName, localName, isDefault, isNamespace }) => {
+              if (isNamespace) {
+                return t.importNamespaceSpecifier(t.identifier(localName))
+              }
               if (isDefault) {
                 return t.importDefaultSpecifier(t.identifier(localName))
               }
