@@ -1,17 +1,19 @@
 import {
-  aggregateComponentUsage,
+  aggregateComponentUsageRaw,
   aggregateMcpUsageRaw,
+  retrieveComponentUsageDaily,
   retrieveMcpUsageDaily,
   retrievePortalViews,
-  type ComponentUsageRow,
 } from './retrieve.js'
 import {
   EMPTY_COMPONENT_USAGE,
   EMPTY_MCP_USAGE,
   requireEnv,
+  storeComponentUsageDaily,
   storeMcpUsageDaily,
   writeSnapshot,
   type ComponentUsageCount,
+  type ComponentUsageDaily,
   type ComponentUsageSection,
   type McpUsageCount,
   type McpUsageDaily,
@@ -182,8 +184,13 @@ async function buildMcpUsage(bucket: string): Promise<McpUsageSection> {
 
 const COMPONENT_TOP_LIMIT = 50
 
+// Like MCP_ROLLUP_DAYS: recompute a recent tail wider than the hourly cadence so
+// a short generator outage cannot leave a day permanently un-aggregated (raw
+// rows live far longer, so re-runs backfill).
+const COMPONENT_ROLLUP_DAYS = 7
+
 function sumComponentUsageBy(
-  rows: ComponentUsageRow[],
+  rows: ComponentUsageDaily[],
   key: 'component' | 'app' | 'version'
 ): ComponentUsageCount[] {
   const counts = new Map<string, number>()
@@ -203,27 +210,41 @@ function sumComponentUsageBy(
 }
 
 /**
- * Build the component-usage dashboard section from the raw component_usage table.
- * Empty until the Nucleus bundler plugin starts emitting rows.
+ * Build the component-usage dashboard section. First recomputes the recent tail
+ * of raw usage into the durable daily rollup (idempotent overwrite), then reads
+ * the full daily table. The rollup outlives the raw rows' expiry, so long-range
+ * adoption history stays available without holding raw events forever.
  *
  * Counts are `count(*)` over raw build-event rows, so they are build-weighted: an
  * app that builds often contributes more than one that rarely builds. For a true
  * "how many apps use this component" figure, switch to COUNT(DISTINCT app) once
  * the record schema is settled (EDS-843).
  */
-async function buildComponentUsage(): Promise<ComponentUsageSection> {
-  const rows = await aggregateComponentUsage()
+async function buildComponentUsage(
+  bucket: string
+): Promise<ComponentUsageSection> {
+  const since = new Date()
+  since.setUTCDate(since.getUTCDate() - (COMPONENT_ROLLUP_DAYS - 1))
+  await storeComponentUsageDaily(
+    bucket,
+    await aggregateComponentUsageRaw(dayString(since))
+  )
 
-  const total = rows.reduce((sum, row) => sum + row.count, 0)
+  const daily = await retrieveComponentUsageDaily()
+
+  const total = daily.reduce((sum, row) => sum + row.count, 0)
 
   return {
     total,
-    perComponent: sumComponentUsageBy(rows, 'component').slice(
+    perComponent: sumComponentUsageBy(daily, 'component').slice(
       0,
       COMPONENT_TOP_LIMIT
     ),
-    perApp: sumComponentUsageBy(rows, 'app').slice(0, COMPONENT_TOP_LIMIT),
-    perVersion: sumComponentUsageBy(rows, 'version').slice(
+    perApp: sumComponentUsageBy(daily, 'app').slice(
+      0,
+      COMPONENT_TOP_LIMIT
+    ),
+    perVersion: sumComponentUsageBy(daily, 'version').slice(
       0,
       COMPONENT_TOP_LIMIT
     ),
@@ -262,7 +283,7 @@ export async function handler(): Promise<{
   // the portal views or MCP section already built. Fall back to empty.
   let componentUsage: ComponentUsageSection
   try {
-    componentUsage = await buildComponentUsage()
+    componentUsage = await buildComponentUsage(bucket)
   } catch (error) {
     // eslint-disable-next-line no-console -- surface the failure in CloudWatch Logs
     console.error('Failed to build component usage section', error)

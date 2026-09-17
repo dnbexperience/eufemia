@@ -85,9 +85,10 @@ resource "aws_s3_bucket_lifecycle_configuration" "data" {
     }
   }
 
-  # Raw component-usage events emitted by the Nucleus bundler plugin. Write-once
-  # keys, so this only expires current versions. Kept in line with the raw MCP
-  # retention window.
+  # Raw component-usage events emitted by the Nucleus bundler plugin. The
+  # trailing slash is load-bearing: it matches only component-usage/ and NOT
+  # component-usage-daily/, so the durable daily rollup is never expired by this
+  # rule. Write-once keys, so this only expires current versions.
   rule {
     id     = "expire-component-usage-raw"
     status = "Enabled"
@@ -102,11 +103,12 @@ resource "aws_s3_bucket_lifecycle_configuration" "data" {
   }
 
   # Bucket-wide noncurrent-version cleanup. Only the overwritten fixed-key
-  # objects (snapshots/dashboard.json, refreshed hourly, and
-  # mcp-usage-daily/<dt>/agg.json, recomputed each run) accumulate old versions
-  # under bucket versioning; the write-once prefixes (mcp-usage/, portal-views/)
-  # never create noncurrent versions, so this is a no-op there. Scoping it to the
-  # whole bucket means new overwritten prefixes are covered automatically.
+  # objects (snapshots/dashboard.json, refreshed hourly, and the
+  # <type>-daily/<dt>/agg.json rollups, recomputed each run) accumulate old
+  # versions under bucket versioning; the write-once prefixes (mcp-usage/,
+  # component-usage/, portal-views/) never create noncurrent versions, so this is
+  # a no-op there. Scoping it to the whole bucket means new overwritten prefixes
+  # are covered automatically.
   rule {
     id     = "expire-noncurrent-versions"
     status = "Enabled"
@@ -420,6 +422,68 @@ resource "aws_glue_catalog_table" "component_usage" {
   }
 }
 
+# Durable daily component-usage rollup. The snapshot generator recomputes the
+# recent tail from component_usage each run and writes one object per day here.
+# This prefix has NO lifecycle expiry, so aggregates outlive the raw rows and
+# keep long-range (year-over-year) adoption history available.
+resource "aws_glue_catalog_table" "component_usage_daily" {
+  name          = "component_usage_daily"
+  database_name = aws_glue_catalog_database.analytics.name
+  table_type    = "EXTERNAL_TABLE"
+
+  parameters = {
+    classification     = "json"
+    has_encrypted_data = "true"
+
+    "projection.enabled"          = "true"
+    "projection.dt.type"          = "date"
+    "projection.dt.range"         = "2024-01-01,NOW"
+    "projection.dt.format"        = "yyyy-MM-dd"
+    "projection.dt.interval"      = "1"
+    "projection.dt.interval.unit" = "DAYS"
+    "storage.location.template"   = "s3://${aws_s3_bucket.data.id}/component-usage-daily/dt=$${dt}/"
+  }
+
+  partition_keys {
+    name = "dt"
+    type = "string"
+  }
+
+  storage_descriptor {
+    location      = "s3://${aws_s3_bucket.data.id}/component-usage-daily/"
+    input_format  = "org.apache.hadoop.mapred.TextInputFormat"
+    output_format = "org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat"
+
+    ser_de_info {
+      serialization_library = "org.openx.data.jsonserde.JsonSerDe"
+
+      parameters = {
+        "case.insensitive" = "true"
+      }
+    }
+
+    columns {
+      name = "app"
+      type = "string"
+    }
+
+    columns {
+      name = "component"
+      type = "string"
+    }
+
+    columns {
+      name = "version"
+      type = "string"
+    }
+
+    columns {
+      name = "count"
+      type = "bigint"
+    }
+  }
+}
+
 # ---------------------------------------------------------------------------
 # Athena
 # ---------------------------------------------------------------------------
@@ -693,14 +757,15 @@ resource "aws_lambda_function" "snapshot" {
 
   environment {
     variables = {
-      NODE_OPTIONS               = "--enable-source-maps"
-      DATA_BUCKET                = aws_s3_bucket.data.id
-      GLUE_DATABASE              = aws_glue_catalog_database.analytics.name
-      GLUE_TABLE                 = aws_glue_catalog_table.portal_views.name
-      GLUE_TABLE_MCP_USAGE       = aws_glue_catalog_table.mcp_usage.name
-      GLUE_TABLE_MCP_USAGE_DAILY = aws_glue_catalog_table.mcp_usage_daily.name
-      GLUE_TABLE_COMPONENT_USAGE = aws_glue_catalog_table.component_usage.name
-      ATHENA_WORKGROUP           = aws_athena_workgroup.analytics.name
+      NODE_OPTIONS                     = "--enable-source-maps"
+      DATA_BUCKET                      = aws_s3_bucket.data.id
+      GLUE_DATABASE                    = aws_glue_catalog_database.analytics.name
+      GLUE_TABLE                       = aws_glue_catalog_table.portal_views.name
+      GLUE_TABLE_MCP_USAGE             = aws_glue_catalog_table.mcp_usage.name
+      GLUE_TABLE_MCP_USAGE_DAILY       = aws_glue_catalog_table.mcp_usage_daily.name
+      GLUE_TABLE_COMPONENT_USAGE       = aws_glue_catalog_table.component_usage.name
+      GLUE_TABLE_COMPONENT_USAGE_DAILY = aws_glue_catalog_table.component_usage_daily.name
+      ATHENA_WORKGROUP                 = aws_athena_workgroup.analytics.name
     }
   }
 

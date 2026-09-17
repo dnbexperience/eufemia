@@ -54,8 +54,21 @@ describe('analytics infrastructure', () => {
     expect(terraform).toContain(
       'resource "aws_glue_catalog_table" "component_usage"'
     )
-    expect(terraform).toContain(
-      'GLUE_TABLE_COMPONENT_USAGE = aws_glue_catalog_table.component_usage.name'
+    expect(terraform).toMatch(
+      /GLUE_TABLE_COMPONENT_USAGE\s+= aws_glue_catalog_table\.component_usage\.name/
     )
+  })
+
+  it('defines a durable component_usage_daily rollup with no expiry rule', () => {
+    expect(terraform).toContain(
+      'resource "aws_glue_catalog_table" "component_usage_daily"'
+    )
+    expect(terraform).toMatch(
+      /GLUE_TABLE_COMPONENT_USAGE_DAILY\s+= aws_glue_catalog_table\.component_usage_daily\.name/
+    )
+
+    // The durable rollup must NOT have its own expiration rule, or history would
+    // be lost the same way the raw prefix is trimmed.
+    expect(terraform).not.toContain('prefix = "component-usage-daily/"')
   })
 })

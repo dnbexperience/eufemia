@@ -55,6 +55,16 @@ export const EMPTY_MCP_USAGE: McpUsageSection = {
 // Nucleus bundler plugin (the producer) lands; empty until then.
 export type ComponentUsageCount = { name: string; count: number }
 
+// A daily component-usage aggregate row (one per app+component+version per day),
+// read from and written to the durable component_usage_daily rollup.
+export type ComponentUsageDaily = {
+  dt: string
+  app: string
+  component: string
+  version: string
+  count: number
+}
+
 export type ComponentUsageSection = {
   total: number
   perComponent: ComponentUsageCount[]
@@ -162,6 +172,45 @@ export async function storeMcpUsageDaily(
       new PutObjectCommand({
         Bucket: bucket,
         Key: `mcp-usage-daily/dt=${dt}/agg.json`,
+        Body: body,
+        ContentType: 'application/x-ndjson',
+      })
+    )
+  }
+}
+
+// Persist recomputed daily component-usage aggregates, one object per day
+// (overwrite). The component-usage-daily/ prefix has no lifecycle rule, so these
+// survive the raw rows' expiry and keep long-range (year-over-year) adoption
+// history available.
+export async function storeComponentUsageDaily(
+  bucket: string,
+  rows: ComponentUsageDaily[]
+): Promise<void> {
+  const byDt = new Map<string, ComponentUsageDaily[]>()
+
+  for (const row of rows) {
+    const list = byDt.get(row.dt) ?? []
+    list.push(row)
+    byDt.set(row.dt, list)
+  }
+
+  for (const [dt, dtRows] of byDt) {
+    const body = dtRows
+      .map((r) =>
+        JSON.stringify({
+          app: r.app,
+          component: r.component,
+          version: r.version,
+          count: r.count,
+        })
+      )
+      .join('\n')
+
+    await s3.send(
+      new PutObjectCommand({
+        Bucket: bucket,
+        Key: `component-usage-daily/dt=${dt}/agg.json`,
         Body: body,
         ContentType: 'application/x-ndjson',
       })

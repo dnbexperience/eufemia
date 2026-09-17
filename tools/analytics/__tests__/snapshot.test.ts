@@ -5,13 +5,15 @@ const {
   retrievePortalViews,
   aggregateMcpUsageRaw,
   retrieveMcpUsageDaily,
-  aggregateComponentUsage,
+  aggregateComponentUsageRaw,
+  retrieveComponentUsageDaily,
 } = vi.hoisted(() => ({
   send: vi.fn(),
   retrievePortalViews: vi.fn(),
   aggregateMcpUsageRaw: vi.fn(),
   retrieveMcpUsageDaily: vi.fn(),
-  aggregateComponentUsage: vi.fn(),
+  aggregateComponentUsageRaw: vi.fn(),
+  retrieveComponentUsageDaily: vi.fn(),
 }))
 
 vi.mock('@aws-sdk/client-s3', () => ({
@@ -38,7 +40,8 @@ vi.mock('../src/lambda/retrieve.js', () => ({
   retrievePortalViews,
   aggregateMcpUsageRaw,
   retrieveMcpUsageDaily,
-  aggregateComponentUsage,
+  aggregateComponentUsageRaw,
+  retrieveComponentUsageDaily,
 }))
 
 import { handler } from '../src/lambda/snapshot.js'
@@ -61,11 +64,13 @@ beforeEach(() => {
   retrievePortalViews.mockReset()
   aggregateMcpUsageRaw.mockReset()
   retrieveMcpUsageDaily.mockReset()
-  aggregateComponentUsage.mockReset()
+  aggregateComponentUsageRaw.mockReset()
+  retrieveComponentUsageDaily.mockReset()
   send.mockResolvedValue({})
   aggregateMcpUsageRaw.mockResolvedValue([])
   retrieveMcpUsageDaily.mockResolvedValue([])
-  aggregateComponentUsage.mockResolvedValue([])
+  aggregateComponentUsageRaw.mockResolvedValue([])
+  retrieveComponentUsageDaily.mockResolvedValue([])
   process.env.DATA_BUCKET = 'my-bucket'
   logSpy = vi.spyOn(console, 'log').mockImplementation(() => undefined)
   errorSpy = vi.spyOn(console, 'error').mockImplementation(() => undefined)
@@ -244,15 +249,46 @@ describe('mcp usage section', () => {
 })
 
 describe('component usage section', () => {
-  it('aggregates raw rows into ranked component/app/version breakdowns', async () => {
+  it('recomputes the recent tail and builds the section from the daily rollup', async () => {
     retrievePortalViews.mockResolvedValue([])
-    aggregateComponentUsage.mockResolvedValue([
-      { component: 'button', app: 'app-a', version: '10.72.0', count: 4 },
-      { component: 'button', app: 'app-b', version: '10.71.0', count: 2 },
-      { component: 'input', app: 'app-a', version: '10.72.0', count: 3 },
+    aggregateComponentUsageRaw.mockResolvedValue([
+      {
+        dt: '2026-09-16',
+        app: 'app-a',
+        component: 'button',
+        version: '10.72.0',
+        count: 4,
+      },
+    ])
+    retrieveComponentUsageDaily.mockResolvedValue([
+      {
+        dt: '2026-09-15',
+        app: 'app-a',
+        component: 'button',
+        version: '10.72.0',
+        count: 2,
+      },
+      {
+        dt: '2026-09-16',
+        app: 'app-a',
+        component: 'button',
+        version: '10.72.0',
+        count: 4,
+      },
+      {
+        dt: '2026-09-16',
+        app: 'app-b',
+        component: 'input',
+        version: '10.71.0',
+        count: 3,
+      },
     ])
 
     await handler()
+
+    expect(aggregateComponentUsageRaw).toHaveBeenCalledWith(
+      expect.stringMatching(/^\d{4}-\d{2}-\d{2}$/)
+    )
 
     const snapshotPut = putCalls().find(
       (call) =>
@@ -268,19 +304,45 @@ describe('component usage section', () => {
       { name: 'input', count: 3 },
     ])
     expect(componentUsage.perApp).toEqual([
-      { name: 'app-a', count: 7 },
-      { name: 'app-b', count: 2 },
+      { name: 'app-a', count: 6 },
+      { name: 'app-b', count: 3 },
     ])
     expect(componentUsage.perVersion).toEqual([
-      { name: '10.72.0', count: 7 },
-      { name: '10.71.0', count: 2 },
+      { name: '10.72.0', count: 6 },
+      { name: '10.71.0', count: 3 },
     ])
+  })
+
+  it('writes the recomputed aggregates to the durable daily rollup prefix', async () => {
+    retrievePortalViews.mockResolvedValue([])
+    aggregateComponentUsageRaw.mockResolvedValue([
+      {
+        dt: '2026-09-16',
+        app: 'app-a',
+        component: 'button',
+        version: '10.72.0',
+        count: 4,
+      },
+    ])
+    retrieveComponentUsageDaily.mockResolvedValue([])
+
+    await handler()
+
+    const dailyPut = putCalls().find((call) =>
+      String((call[0] as Command).input.Key).startsWith(
+        'component-usage-daily/'
+      )
+    )
+    expect(dailyPut).toBeDefined()
+    expect((dailyPut![0] as Command).input.Key).toBe(
+      'component-usage-daily/dt=2026-09-16/agg.json'
+    )
   })
 
   it('still writes the snapshot with an empty component section when its query fails', async () => {
     const records = [{ path: '/', env: 'prod', timestamp: 't' }]
     retrievePortalViews.mockResolvedValue(records)
-    aggregateComponentUsage.mockRejectedValue(new Error('glue denied'))
+    retrieveComponentUsageDaily.mockRejectedValue(new Error('glue denied'))
 
     await handler()
 
