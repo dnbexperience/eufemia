@@ -5,7 +5,7 @@
 }
 
 .dashboard__meta {
-  color: var(--color-black-55);
+  color: var(--token-color-text-neutral-alternative);
 }
 
 // Key figures
@@ -22,7 +22,7 @@
 }
 
 .dashboard-kpi__label {
-  color: var(--color-black-55);
+  color: var(--token-color-text-neutral-alternative);
 }
 
 // Ranked bar list
@@ -50,7 +50,7 @@
   display: block;
   height: 0.75rem;
   border-radius: 0.25rem;
-  background: var(--color-black-8);
+  background: var(--token-color-background-neutral-base);
   overflow: hidden;
 }
 
@@ -59,16 +59,16 @@
   height: 100%;
   min-width: 0.125rem;
   border-radius: 0.25rem;
-  background: var(--color-sea-green);
+  background: var(--token-color-decorative-first-base);
 }
 
 .dashboard-bar-list__count {
   font-variant-numeric: tabular-nums;
-  color: var(--color-black-80);
+  color: var(--token-color-text-neutral);
 }
 
 .dashboard-bar-list__empty {
-  color: var(--color-black-55);
+  color: var(--token-color-text-neutral-alternative);
 }
 
 // Ranked table (bar cell)
@@ -80,7 +80,7 @@
   display: block;
   height: 0.75rem;
   border-radius: 0.25rem;
-  background: var(--color-black-8);
+  background: var(--token-color-background-neutral-base);
   overflow: hidden;
 }
 
@@ -89,9 +89,9 @@
   height: 100%;
   min-width: 0.125rem;
   border-radius: 0.25rem;
-  background: var(--color-sea-green);
+  background: var(--token-color-decorative-first-base);
 }
 
 .dashboard-ranked__empty {
-  color: var(--color-black-55);
+  color: var(--token-color-text-neutral-alternative);
 }
