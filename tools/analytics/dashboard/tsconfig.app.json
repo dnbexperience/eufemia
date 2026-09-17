@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "downlevelIteration": true,
+    "jsx": "react-jsx",
+    "allowJs": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "isolatedModules": true,
+    "module": "es2022",
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "noEmit": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "strictFunctionTypes": true,
+    "lib": ["es2022", "dom", "dom.iterable"],
+    "types": [
+      "vite/client",
+      "vitest/globals",
+      "node",
+      "react",
+      "react-dom"
+    ]
+  },
+  "include": ["src"]
+}

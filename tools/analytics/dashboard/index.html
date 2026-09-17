@@ -5,57 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="robots" content="noindex, nofollow" />
     <title>Eufemia Analytics</title>
-    <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
-    <p id="status" class="status" role="status">Checking sign-in…</p>
-
-    <main id="dashboard" hidden>
-      <header class="header">
-        <h1>Eufemia Analytics</h1>
-        <div class="controls">
-          <label for="env">Environment</label>
-          <select id="env" aria-label="Filter by environment">
-            <option value="">All</option>
-          </select>
-          <span id="user" class="user" hidden></span>
-        </div>
-      </header>
-
-      <p id="meta" class="meta"></p>
-
-      <section class="kpis" id="kpis" aria-label="Key figures"></section>
-
-      <section class="panel">
-        <h2>Records per day</h2>
-        <div id="per-day" class="chart"></div>
-      </section>
-
-      <section class="panel">
-        <h2>Top pages</h2>
-        <div id="top-names" class="chart"></div>
-      </section>
-
-      <p id="mcp-total" class="meta"></p>
-
-      <section class="panel">
-        <h2>MCP tools</h2>
-        <div id="mcp-tools" class="chart"></div>
-      </section>
-
-      <section class="panel">
-        <h2>MCP components</h2>
-        <div id="mcp-components" class="chart"></div>
-      </section>
-
-      <section class="panel">
-        <h2>MCP doc paths</h2>
-        <div id="mcp-paths" class="chart"></div>
-      </section>
-    </main>
-
-    <p id="error" class="error" hidden></p>
-
-    <script type="module" src="./app.js"></script>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
