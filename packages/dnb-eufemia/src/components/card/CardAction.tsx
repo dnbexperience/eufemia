@@ -5,15 +5,16 @@ import Card from './CardInner'
 import { warn } from '../../shared/component-helper'
 import useCombinedRef from '../../shared/helpers/useCombinedRef'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
+import { isDangerousHref } from '../../shared/helpers/isDangerousHref'
 
 export type CardActionProps = Omit<CardProps, 'onClick' | 'element'> & {
   /**
-   * The URL to navigate to. When set, renders an anchor element.
+   * The URL to navigate to. When set, renders an anchor element. Values using a script-executing protocol (`javascript:` or `vbscript:`) are removed.
    */
   href?: string
 
   /**
-   * Route path for use with a router Link component (e.g. react-router). Pass a custom `element` that accepts `to`.
+   * Route path for use with a router Link component (e.g. react-router). Pass a custom `element` that accepts `to`. Values using a script-executing protocol (`javascript:` or `vbscript:`) are removed.
    */
   to?: string
 
@@ -61,6 +62,11 @@ function CardAction(props: CardActionProps) {
   } = props
 
   const isLink = Boolean(href || to)
+
+  // Security: drop script-executing protocols, like the Anchor does. The
+  // element keeps its shape and only loses the link target.
+  const safeHref = isDangerousHref(href) ? undefined : href
+  const safeTo = isDangerousHref(to) ? undefined : to
 
   const internalRef = useRef<HTMLElement>(null)
   const combinedRef = useCombinedRef(ref, internalRef)
@@ -112,7 +118,7 @@ function CardAction(props: CardActionProps) {
           onClick={onClick}
           target={target}
           rel={rel}
-          to={(to || href) as string}
+          to={(safeTo || safeHref) as string}
         >
           {card}
         </AnchorElement>
@@ -126,7 +132,7 @@ function CardAction(props: CardActionProps) {
         onClick={onClick}
         target={target}
         rel={rel}
-        href={href || to}
+        href={safeHref || safeTo}
       >
         {card}
       </a>
