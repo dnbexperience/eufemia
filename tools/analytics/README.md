@@ -99,6 +99,9 @@ For the same reason, an admin must pre-create the read-only dashboard-read execu
 
 - **S3 bucket** (versioned, SSE-S3, public access blocked) holding portal-view records (`portal-views/`), MCP usage (`mcp-usage/`, `mcp-usage-daily/`), component usage (`component-usage/`, `component-usage-daily/`), the dashboard snapshot (`snapshots/dashboard.json`), and Athena output (`athena-results/`, expired after 7 days).
 - **Glue database + tables** with JSON SerDe and partition projection on `dt` (`portal_views`, `mcp_usage`, `mcp_usage_daily`, `component_usage`, `component_usage_daily`).
+
+> **Note:** the `component_usage*` tables and `component-usage*` prefixes are scaffold for a future Nucleus component-usage producer. There is no producer yet, so the snapshot generator does **not** query them (to avoid running Athena against empty tables) and the section ships empty. Re-wiring is a small change in `buildComponentUsage`'s caller — see the guidance in `src/lambda/snapshot.ts`.
+
 - **Athena workgroup** for the retrieve queries.
 - **Lambda function** (`nodejs22.x`) — its execution role is pre-created out-of-band, because the OIDC deploy role's permissions boundary forbids `iam:CreateRole` (ADR 0004); it is only referenced here.
 - **Dashboard-read Lambda** (`nodejs22.x`) serving `GET /data` under the read-only `eufemia-<env>-dashboard-role`, plus a **scheduled snapshot generator** Lambda (hourly EventBridge rule) that runs under `eufemia-<env>-analytics-role` and refreshes `snapshots/dashboard.json` off the request path. Three CloudWatch alarms flag a failed generator run (`Errors`), a generator that has stopped firing (missing `Invocations`), and a run that succeeds but writes an empty snapshot (the `SnapshotRecordCount` EMF metric stays below 1). The empty-snapshot metric is emitted as an Embedded Metric Format log line, so it needs no extra role permissions.
