@@ -26,13 +26,14 @@ import type { IconIcon, IconSize } from '../Icon'
 import type { SkeletonShow } from '../Skeleton'
 import type { SpacingProps } from '../../shared/types'
 import type { SearchOptions } from '../../shared/search'
-import type { AutocompleteMode } from './internal-types'
 
 export type AutocompleteOnClearParams = {
   value: string
   previousValue: string | number | null
   event: SyntheticEvent | Event
 }
+
+type AutocompleteMode = 'sync' | 'async'
 
 type AutocompleteAlign = 'left' | 'right'
 

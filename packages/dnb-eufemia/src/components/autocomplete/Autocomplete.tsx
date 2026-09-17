@@ -80,9 +80,10 @@ import type {
   AutocompleteAllProps,
   AutocompleteEventMethods,
 } from './types'
-import type { AutocompleteMode } from './internal-types'
 
 export type * from './types'
+
+type AutocompleteMode = NonNullable<AutocompleteAllProps['mode']>
 
 const autocompleteChevron = Icon.transition({
   closed: chevron_down,
