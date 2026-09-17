@@ -9,6 +9,7 @@
 
 import path from 'node:path'
 import { getContentScript } from '@dnb/eufemia/src/shared/ColorSchemeScript'
+import type { MdxNode as PortalMdxNode } from '../client/plugins/portal-pages.shared'
 
 export type RouteEntry = {
   path?: string
@@ -30,8 +31,8 @@ export type ClientManifestEntry = {
 export type ClientManifest = Record<string, ClientManifestEntry>
 
 export type MdxNode = {
-  fields: { slug: string }
-  frontmatter: Record<string, unknown>
+  fields: Pick<PortalMdxNode['fields'], 'slug'>
+  frontmatter: PortalMdxNode['frontmatter']
 }
 
 export type PageMeta = {

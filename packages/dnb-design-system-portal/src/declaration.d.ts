@@ -20,14 +20,17 @@ declare module '*.module.scss' {
 }
 
 declare module 'virtual:portal-pages' {
+  import type { MdxNode } from '../vite/client/plugins/portal-pages.shared'
+
   export const routes: Array<{
     path: string
     lazy: () => Promise<{ Component: React.ComponentType }>
   }>
-  export const allMdxNodes: Array<{
-    fields: { slug: string; sourcePath: string }
-    frontmatter: Record<string, unknown>
-  }>
+
+  /**
+   * Every MDX page, unfiltered and unsorted.
+   */
+  export const allMdxNodes: Array<MdxNode>
 }
 
 declare module 'virtual:prefetch-on-hover' {
