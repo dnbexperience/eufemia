@@ -1,6 +1,6 @@
 import { Card, Flex, P } from '@dnb/eufemia/src'
 
-export type Kpi = { value: number; label: string }
+import type { Kpi } from '../data'
 
 export default function Kpis({ items }: { items: Kpi[] }) {
   return (
