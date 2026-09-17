@@ -1,3 +1,8 @@
+/**
+ * Types for Radio
+ *
+ */
+
 import type {
   CSSProperties,
   ChangeEvent,
@@ -17,10 +22,6 @@ import type {
 } from '../FormStatus'
 import type { FormElementProps } from '../../shared/helpers/filterValidProps'
 import type { SpacingProps } from '../../shared/types'
-/**
- * Types for Radio
- *
- */
 
 export type RadioLabel = string | ReactNode
 

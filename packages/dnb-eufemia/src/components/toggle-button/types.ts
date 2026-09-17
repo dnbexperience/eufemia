@@ -1,3 +1,8 @@
+/**
+ * Types for ToggleButton
+ *
+ */
+
 import type {
   HTMLProps,
   ReactElement,
@@ -14,11 +19,6 @@ import type { IconIcon, IconSize } from '../Icon'
 import type { FormStatusBaseProps } from '../FormStatus'
 import type { SkeletonShow } from '../Skeleton'
 import type { SpaceType, SpacingProps } from '../../shared/types'
-/**
- * Types for ToggleButton
- *
- */
-
 import type ToggleButtonGroup from './ToggleButtonGroup'
 
 export type ToggleButtonVariant = 'default' | 'checkbox' | 'radio'
