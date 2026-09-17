@@ -177,3 +177,43 @@ export function rank(
 
   return ranked.map(([name, count]) => ({ name, count }))
 }
+
+export type Kpi = { value: number; label: string }
+
+export type DashboardView = {
+  allRows: ViewRow[]
+  rows: ViewRow[]
+  envs: string[]
+  kpis: Kpi[]
+}
+
+/**
+ * Derive the portal-view model the dashboard renders: the normalised rows, the
+ * distinct environments for the filter, the rows scoped to the selected
+ * environment, and the key figures for that scope. Kept pure so the filter and
+ * gating behaviour can be tested without rendering.
+ */
+export function dashboardView(
+  payload: DashboardPayload | null,
+  env: string
+): DashboardView {
+  const allRows = toRecords(payload).map(normalise)
+  const envs = [
+    ...new Set(allRows.map((r) => r.env).filter(Boolean)),
+  ].sort()
+  const rows = env ? allRows.filter((r) => r.env === env) : allRows
+
+  const kpis: Kpi[] = [
+    { value: rows.length, label: 'Records' },
+    {
+      value: new Set(rows.map((r) => r.label).filter(Boolean)).size,
+      label: 'Unique pages',
+    },
+    {
+      value: new Set(rows.map((r) => r.day).filter(Boolean)).size,
+      label: 'Days with data',
+    },
+  ]
+
+  return { allRows, rows, envs, kpis }
+}

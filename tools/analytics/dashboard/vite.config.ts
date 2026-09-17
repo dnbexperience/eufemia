@@ -16,12 +16,10 @@ export default defineConfig({
     },
   },
 
-  // Expose Eufemia's static assets (fonts) at "/assets/..." so the built site
-  // serves its own fonts instead of reaching out to a CDN.
-  publicDir: new URL(
-    '../../../packages/dnb-eufemia/assets',
-    import.meta.url
-  ).pathname,
+  // No static public dir: Vite bundles the Eufemia fonts referenced by the CSS
+  // into assets/ (hashed), so copying the whole @dnb/eufemia/assets folder would
+  // only ship unreferenced fonts/icons/flags to the bucket.
+  publicDir: false,
 
   build: {
     // The dashboard is served under a strict CSP (script-src 'self'). Vite's

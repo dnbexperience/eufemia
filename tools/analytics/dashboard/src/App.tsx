@@ -19,12 +19,11 @@ import {
 } from './auth'
 import {
   countBy,
+  dashboardView,
   dataErrorMessage,
   loadDashboardData,
-  normalise,
   rank,
   snapshotMeta,
-  toRecords,
   type DashboardPayload,
 } from './data'
 import Kpis from './components/Kpis'
@@ -63,7 +62,22 @@ export default function App() {
         return
       }
 
-      const result = await loadDashboardData(session, getApiBaseUrl())
+      const apiBaseUrl = getApiBaseUrl()
+
+      // Dev-only: with no API configured, show sample data so `yarn dev`
+      // renders a populated dashboard. Dead-code-eliminated from the build.
+      if (import.meta.env.DEV && !apiBaseUrl) {
+        const { demoPayload } = await import('./demo')
+        if (!active) {
+          return
+        }
+
+        setState({ status: 'ready', session, payload: demoPayload })
+
+        return
+      }
+
+      const result = await loadDashboardData(session, apiBaseUrl)
       if (!active) {
         return
       }
@@ -144,36 +158,14 @@ function Dashboard({
   env: string
   onEnvChange: (env: string) => void
 }) {
-  const allRows = useMemo(
-    () => toRecords(payload).map(normalise),
-    [payload]
-  )
-
-  const envs = useMemo(
-    () => [...new Set(allRows.map((r) => r.env).filter(Boolean))].sort(),
-    [allRows]
-  )
-
-  const rows = useMemo(
-    () => (env ? allRows.filter((r) => r.env === env) : allRows),
-    [allRows, env]
+  const { allRows, rows, envs, kpis } = useMemo(
+    () => dashboardView(payload, env),
+    [payload, env]
   )
 
   const mcp = payload?.mcpUsage
   const mcpTotal = mcp?.total ?? 0
   const meta = snapshotMeta(payload, allRows.length + mcpTotal)
-
-  const kpis = [
-    { value: rows.length, label: 'Records' },
-    {
-      value: new Set(rows.map((r) => r.label).filter(Boolean)).size,
-      label: 'Unique pages',
-    },
-    {
-      value: new Set(rows.map((r) => r.day).filter(Boolean)).size,
-      label: 'Days with data',
-    },
-  ]
 
   return (
     <Flex.Stack className="dashboard" space="large">

@@ -2,6 +2,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import {
   countBy,
+  dashboardView,
   dataErrorMessage,
   loadDashboardData,
   normalise,
@@ -98,6 +99,50 @@ describe('countBy + rank', () => {
   it('sorts by key and respects a limit', () => {
     const ranked = rank(countBy(rows, 'day'), { sort: 'key', limit: 1 })
     expect(ranked).toEqual([{ name: '2026-09-15', count: 1 }])
+  })
+})
+
+describe('dashboardView', () => {
+  const payload: DashboardPayload = {
+    portalViews: [
+      { path: '/a', env: 'prod', created_at: '2026-09-16T00:00:00Z' },
+      { path: '/a', env: 'prod', created_at: '2026-09-16T01:00:00Z' },
+      { path: '/b', env: 'test', created_at: '2026-09-15T00:00:00Z' },
+    ],
+  }
+
+  it('returns empty rows, envs and zeroed kpis for no payload', () => {
+    const view = dashboardView(null, '')
+
+    expect(view.allRows).toEqual([])
+    expect(view.rows).toEqual([])
+    expect(view.envs).toEqual([])
+    expect(view.kpis.map((k) => k.value)).toEqual([0, 0, 0])
+  })
+
+  it('derives distinct sorted envs and key figures across all rows', () => {
+    const view = dashboardView(payload, '')
+
+    expect(view.envs).toEqual(['prod', 'test'])
+    expect(view.rows).toHaveLength(3)
+    expect(view.kpis).toEqual([
+      { value: 3, label: 'Records' },
+      { value: 2, label: 'Unique pages' },
+      { value: 2, label: 'Days with data' },
+    ])
+  })
+
+  it('filters rows by the selected environment but keeps the full env list', () => {
+    const view = dashboardView(payload, 'prod')
+
+    expect(view.envs).toEqual(['prod', 'test'])
+    expect(view.rows).toHaveLength(2)
+    expect(view.rows.every((r) => r.env === 'prod')).toBe(true)
+    expect(view.kpis).toEqual([
+      { value: 2, label: 'Records' },
+      { value: 1, label: 'Unique pages' },
+      { value: 1, label: 'Days with data' },
+    ])
   })
 })
 

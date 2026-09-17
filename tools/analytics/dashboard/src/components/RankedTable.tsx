@@ -33,7 +33,9 @@ export default function RankedTable({
         <thead>
           <Tr>
             <Th>{nameHeader}</Th>
-            <Th aria-hidden="true" />
+            <Th>
+              <span className="dnb-sr-only">Relative {countHeader}</span>
+            </Th>
             <Th align="right">{countHeader}</Th>
           </Tr>
         </thead>
