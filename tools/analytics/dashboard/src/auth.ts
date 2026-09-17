@@ -8,7 +8,21 @@
 // protect a publicly served data file — real data protection requires the host
 // to enforce auth on the files, or serving data from a token-protected API.
 
-let config = {}
+export type DashboardConfig = {
+  clientId?: string
+  tenantId?: string
+  redirectUri?: string
+  apiBaseUrl?: string
+  apiScope?: string
+}
+
+export type Session = {
+  name: string
+  accessToken: string
+  expiresAt: number
+}
+
+let config: DashboardConfig = {}
 const BASE_SCOPE = 'openid profile email'
 const SESSION_KEY = 'eufemia-analytics-session'
 const FLOW_KEY = 'eufemia-analytics-flow'
@@ -20,11 +34,11 @@ function authority() {
 
 // Request the API scope alongside sign-in so the token endpoint returns an
 // access token the dashboard API accepts.
-export function scopes(cfg = config) {
+export function scopes(cfg: DashboardConfig = config) {
   return cfg.apiScope ? `${BASE_SCOPE} ${cfg.apiScope}` : BASE_SCOPE
 }
 
-async function loadConfig() {
+async function loadConfig(): Promise<DashboardConfig> {
   try {
     const response = await fetch('./config.json', { cache: 'no-store' })
     if (response.ok) {
@@ -37,7 +51,7 @@ async function loadConfig() {
   return {}
 }
 
-function base64Url(bytes) {
+function base64Url(bytes: ArrayBuffer) {
   let binary = ''
   for (const byte of new Uint8Array(bytes)) {
     binary += String.fromCharCode(byte)
@@ -52,10 +66,10 @@ function base64Url(bytes) {
 function randomString(length = 64) {
   const bytes = crypto.getRandomValues(new Uint8Array(length))
 
-  return base64Url(bytes).slice(0, length)
+  return base64Url(bytes.buffer).slice(0, length)
 }
 
-async function challengeFrom(verifier) {
+async function challengeFrom(verifier: string) {
   const digest = await crypto.subtle.digest(
     'SHA-256',
     new TextEncoder().encode(verifier)
@@ -64,7 +78,7 @@ async function challengeFrom(verifier) {
   return base64Url(digest)
 }
 
-function decodeJwt(token) {
+function decodeJwt(token: string): Record<string, unknown> {
   try {
     let payload = token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/')
     payload = payload.padEnd(Math.ceil(payload.length / 4) * 4, '=')
@@ -80,9 +94,9 @@ function decodeJwt(token) {
   }
 }
 
-export function readSession() {
+export function readSession(): Session | null {
   try {
-    const session = JSON.parse(
+    const session: Session | null = JSON.parse(
       sessionStorage.getItem(SESSION_KEY) || 'null'
     )
     // Require an access token as well: a session persisted by an older build
@@ -106,9 +120,9 @@ async function redirectToLogin() {
   sessionStorage.setItem(FLOW_KEY, JSON.stringify({ verifier, state }))
 
   const params = new URLSearchParams({
-    client_id: config.clientId,
+    client_id: config.clientId ?? '',
     response_type: 'code',
-    redirect_uri: config.redirectUri,
+    redirect_uri: config.redirectUri ?? '',
     scope: scopes(),
     code_challenge: await challengeFrom(verifier),
     code_challenge_method: 'S256',
@@ -118,7 +132,10 @@ async function redirectToLogin() {
   window.location.assign(`${authority()}/oauth2/v2.0/authorize?${params}`)
 }
 
-async function exchangeCode(code, returnedState) {
+async function exchangeCode(
+  code: string,
+  returnedState: string | null
+): Promise<Session> {
   const flow = JSON.parse(sessionStorage.getItem(FLOW_KEY) || 'null')
   sessionStorage.removeItem(FLOW_KEY)
 
@@ -130,10 +147,10 @@ async function exchangeCode(code, returnedState) {
     method: 'POST',
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
     body: new URLSearchParams({
-      client_id: config.clientId,
+      client_id: config.clientId ?? '',
       grant_type: 'authorization_code',
       code,
-      redirect_uri: config.redirectUri,
+      redirect_uri: config.redirectUri ?? '',
       code_verifier: flow.verifier,
     }),
   })
@@ -145,8 +162,11 @@ async function exchangeCode(code, returnedState) {
   const tokens = await response.json()
   const claims = decodeJwt(tokens.id_token)
 
-  const session = {
-    name: claims.name || claims.preferred_username || 'Signed in',
+  const session: Session = {
+    name:
+      (claims.name as string) ||
+      (claims.preferred_username as string) ||
+      'Signed in',
     accessToken: tokens.access_token,
     expiresAt:
       Date.now() + (Number(tokens.expires_in) || 3600) * 1000 - 60000,
@@ -158,7 +178,7 @@ async function exchangeCode(code, returnedState) {
 
 // Complete an in-progress sign-in redirect. Callback params are processed only
 // when we started the flow, so stray URL params are ignored.
-async function completeRedirect() {
+async function completeRedirect(): Promise<Session | null> {
   if (!sessionStorage.getItem(FLOW_KEY)) {
     return null
   }
@@ -192,7 +212,7 @@ async function completeRedirect() {
  * Resolve the current session, running the redirect flow when needed.
  * Returns null when sign-in is not configured (local scaffold preview).
  */
-export async function ensureSignedIn() {
+export async function ensureSignedIn(): Promise<Session | null> {
   config = await loadConfig()
 
   if (!config.clientId || !config.tenantId) {
@@ -209,7 +229,7 @@ export async function ensureSignedIn() {
   await redirectToLogin()
 
   // The redirect navigates away, so nothing after this resolves.
-  return new Promise(() => {})
+  return new Promise<Session>(() => {})
 }
 
 export function signOut() {

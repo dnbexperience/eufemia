@@ -1,21 +1,23 @@
 # Eufemia Analytics dashboard
 
-A dependency-free dashboard UI for the analytics records — key figures and
-simple bar charts. It renders whatever data it is given and shows an empty state
-until a data source is wired up.
+A dashboard UI for the analytics records — key figures and ranked bar lists,
+built with React, Vite and [`@dnb/eufemia`](https://eufemia.dnb.no/uilib/)
+components. It renders whatever data it is given and shows an empty state until a
+data source is wired up.
 
-## Preview locally
-
-Any static file server works, for example:
+## Develop locally
 
 ```bash
-cd tools/analytics/dashboard
-python3 -m http.server 4173
-# open http://localhost:4173
+yarn workspace eufemia-analytics-dashboard dev
+# open the URL Vite prints (default http://localhost:5173)
 ```
 
-With no data source configured the page shows an empty state. Use the port that
-matches a redirect URI registered on the app registration when testing sign-in.
+Other scripts: `build` (production build to `dist/`), `preview` (serve the built
+output), `test`, `test:types`, and `lint`.
+
+With no `config.json` present the page renders without sign-in for local preview,
+so the data API is not called. Use `preview` when testing sign-in, so the port
+matches a redirect URI registered on the app registration.
 
 ## Sign-in
 
@@ -28,7 +30,7 @@ Configure it per host: copy `config.example.json` to `config.json` (gitignored)
 and fill in the `clientId`, `tenantId`, a `redirectUri` that exactly matches one
 registered on the app (SPA platform), the `apiBaseUrl` of the dashboard data API
 and the `apiScope` (`api://<client-id>/Dashboard.Read`) it requests a token for.
-Without a `config.json`, the page renders without sign-in for local preview.
+The page fetches `config.json` at runtime, so it is not bundled into the build.
 
 ## Data and access
 
@@ -41,3 +43,12 @@ The API also requires the `Dashboard.Read` scope, so the app registration must
 issue v2 access tokens (`requestedAccessTokenVersion = 2`) that carry a `scp`
 claim. Confirm end to end after a deploy: sign in, then check the `/data` call
 returns 200 (a 401/403 usually means the token is v1 or is missing the scope).
+
+## Build and deploy
+
+The production build (`yarn workspace eufemia-analytics-dashboard build`) emits a
+static site to `dist/`, including Eufemia's fonts and icons. The analytics deploy
+workflow builds `dist/`, ships it to the GitHub Enterprise deploy branch, then
+generates `config.json` from the deploy variables and syncs everything to the S3
+bucket behind CloudFront. The site is served under a strict Content-Security
+Policy (`script-src 'self'`), so the build avoids inline scripts.
