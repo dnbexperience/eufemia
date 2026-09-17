@@ -140,6 +140,119 @@ describe('Card.Action', () => {
     })
   })
 
+  describe('dangerous link protocols', () => {
+    it('should remove a javascript: href to prevent script execution', () => {
+      render(
+        <Card.Action href="javascript:alert('XSS')">
+          <P>Link card</P>
+        </Card.Action>
+      )
+
+      const action = document.querySelector('.dnb-card-action')
+      expect(action.tagName).toBe('A')
+      expect(action).not.toHaveAttribute('href')
+    })
+
+    it('should remove a vbscript: href to prevent script execution', () => {
+      render(
+        <Card.Action href="vbscript:msgbox(1)">
+          <P>Link card</P>
+        </Card.Action>
+      )
+
+      expect(
+        document.querySelector('.dnb-card-action')
+      ).not.toHaveAttribute('href')
+    })
+
+    it('should remove an obfuscated javascript: href with control characters', () => {
+      render(
+        <Card.Action href={'  java\tscript:alert(1)'}>
+          <P>Link card</P>
+        </Card.Action>
+      )
+
+      expect(
+        document.querySelector('.dnb-card-action')
+      ).not.toHaveAttribute('href')
+    })
+
+    it('should remove an uppercase JavaScript: href', () => {
+      render(
+        <Card.Action href="JavaScript:alert(1)">
+          <P>Link card</P>
+        </Card.Action>
+      )
+
+      expect(
+        document.querySelector('.dnb-card-action')
+      ).not.toHaveAttribute('href')
+    })
+
+    it('should remove a dangerous to prop', () => {
+      render(
+        <Card.Action to="javascript:alert('XSS')">
+          <P>Link card</P>
+        </Card.Action>
+      )
+
+      const action = document.querySelector('.dnb-card-action')
+      expect(action).not.toHaveAttribute('href')
+      expect(action).not.toHaveAttribute('to')
+    })
+
+    it('should remove a dangerous to prop on a custom element', () => {
+      function CustomLink(
+        props: React.AnchorHTMLAttributes<HTMLAnchorElement> & {
+          to?: string
+        }
+      ) {
+        const { to, children, ...rest } = props
+        return (
+          <a {...rest} data-to={to}>
+            {children}
+          </a>
+        )
+      }
+
+      render(
+        <Card.Action to="javascript:alert('XSS')" element={CustomLink}>
+          <P>Link card</P>
+        </Card.Action>
+      )
+
+      expect(
+        document.querySelector('.dnb-card-action')
+      ).not.toHaveAttribute('data-to')
+    })
+
+    it('should fall back to a safe to prop when href is dangerous', () => {
+      render(
+        <Card.Action href="javascript:alert('XSS')" to="/page">
+          <P>Link card</P>
+        </Card.Action>
+      )
+
+      expect(document.querySelector('.dnb-card-action')).toHaveAttribute(
+        'href',
+        '/page'
+      )
+    })
+
+    it('should keep a safe href untouched', () => {
+      render(
+        <Card.Action href="https://www.dnb.no">
+          <P>Link card</P>
+        </Card.Action>
+      )
+
+      expect(document.querySelector('.dnb-card-action')).toHaveAttribute(
+        'href',
+        'https://www.dnb.no'
+      )
+    })
+  })
+
   describe('as button (onClick)', () => {
     it('should render a div with role="button"', () => {
       render(
