@@ -4,7 +4,7 @@
  */
 
 import { useContext, useRef } from 'react'
-import type { CSSProperties } from 'react'
+import type { CSSProperties, ReactNode, RefObject } from 'react'
 import { clsx } from 'clsx'
 import Context from '../../shared/Context'
 import { extendPropsWithContext } from '../../shared/component-helper'
@@ -13,9 +13,16 @@ import Space from '../space/Space'
 import Theme from '../../shared/Theme'
 import { getColor } from '../../shared/helpers'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
-import type { SectionAllProps, SectionReturnParams } from './types'
+import type { SectionAllProps } from './types'
 
 export type * from './types'
+
+type SectionReturnParams = Record<string, unknown> & {
+  className: string
+  ref: RefObject<HTMLElement>
+  children: ReactNode
+  style: CSSProperties
+}
 
 const sectionDefaultProps: Partial<SectionAllProps> = {
   element: 'section',

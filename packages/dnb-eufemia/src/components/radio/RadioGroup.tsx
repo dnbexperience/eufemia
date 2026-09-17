@@ -25,9 +25,9 @@ import Context from '../../shared/Context'
 import Suffix from '../../shared/helpers/Suffix'
 import RadioGroupContext from './RadioGroupContext'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
-import type { RadioGroupProps } from './types'
+import type { RadioGroupProps } from './group-types'
 
-export type * from './types'
+export type * from './group-types'
 
 const radioGroupDefaultProps: Partial<RadioGroupProps> = {
   label: null,

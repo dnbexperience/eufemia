@@ -79,8 +79,8 @@ import {
 import type {
   AutocompleteAllProps,
   AutocompleteEventMethods,
-  AutocompleteMode,
 } from './types'
+import type { AutocompleteMode } from './internal-types'
 
 export type * from './types'
 

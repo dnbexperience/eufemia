@@ -109,17 +109,6 @@ export type NumberFormatAllProps = NumberFormatProps &
   NumberFormatInternalProps
 
 // Public types re-exported from the surrounding modules,
-// so NumberFormat can expose them from a single place.
+// so NumberFormatBase can expose them from a single place.
 export type { NumberFormatOptions } from './NumberUtils'
-export type {
-  NumberFormatValue,
-  NumberFormatReturnValue,
-  NumberFormatOptionParams,
-  NumberFormatReturnType,
-  NumberFormatType,
-} from './utils'
-export type { NumberFormatter } from './useNumberFormat'
-export type {
-  NumberFormatParts,
-  NumberFormatReturnWithParts,
-} from './useNumberFormatWithParts'
+export type { NumberFormatValue } from './utils'

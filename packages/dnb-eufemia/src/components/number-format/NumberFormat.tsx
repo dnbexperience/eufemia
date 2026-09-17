@@ -21,6 +21,7 @@ export { default as useNumberFormatWithParts } from './useNumberFormatWithParts'
 
 // Re-export the public TypeScript types
 export type * from './types'
+export type * from './namespace-types'
 
 export { COPY_TOOLTIP_TIMEOUT } from './NumberFormatBase'
 

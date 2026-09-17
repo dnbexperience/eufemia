@@ -28,9 +28,9 @@ import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 import type {
   ToggleButtonGroupProps,
   ToggleButtonGroupValue,
-} from './types'
+} from './group-types'
 
-export type * from './types'
+export type * from './group-types'
 
 const toggleButtonGroupDefaultProps: Partial<ToggleButtonGroupProps> = {
   label: null,

@@ -26,6 +26,7 @@ import type { IconIcon, IconSize } from '../Icon'
 import type { SkeletonShow } from '../Skeleton'
 import type { SpacingProps } from '../../shared/types'
 import type { SearchOptions } from '../../shared/search'
+import type { AutocompleteMode } from './internal-types'
 
 export type AutocompleteOnClearParams = {
   value: string
@@ -33,38 +34,33 @@ export type AutocompleteOnClearParams = {
   event: SyntheticEvent | Event
 }
 
-export type AutocompleteMode = 'sync' | 'async'
+type AutocompleteAlign = 'left' | 'right'
 
-export type AutocompleteAlign = 'left' | 'right'
+type FormLabelLabelDirection = 'horizontal' | 'vertical'
 
-export type FormLabelLabelDirection = 'horizontal' | 'vertical'
+type AutocompleteTitle = string | ReactNode
 
-export type AutocompleteTitle = string | ReactNode
+type AutocompletePlaceholder = string | ReactNode
 
-export type AutocompletePlaceholder = string | ReactNode
+type AutocompleteNoOptions = ReactNode
 
-export type AutocompleteNoOptions = ReactNode
+type AutocompleteShowAll = string | ReactNode
 
-export type AutocompleteShowAll = string | ReactNode
+type AutocompleteAriaLiveOptions = string | ReactNode
 
-export type AutocompleteAriaLiveOptions = string | ReactNode
+type AutocompleteIndicatorLabel = string | ReactNode
 
-export type AutocompleteIndicatorLabel = string | ReactNode
+type AutocompleteSubmitButtonIcon = string | ReactNode | (() => ReactNode)
 
-export type AutocompleteSubmitButtonIcon =
-  | string
-  | ReactNode
-  | (() => ReactNode)
-
-export type AutocompleteInputRef =
+type AutocompleteInputRef =
   | ((element: HTMLInputElement | null) => void)
   | RefObject<HTMLInputElement | undefined>
 
-export type AutocompleteInputElement = ElementType | ReactNode
+type AutocompleteInputElement = ElementType | ReactNode
 
-export type AutocompleteSearchInWordIndex = string | number
+type AutocompleteSearchInWordIndex = string | number
 
-export type AutocompleteSearchMatch = 'word' | 'starts-with'
+type AutocompleteSearchMatch = 'word' | 'starts-with'
 
 export type AutocompleteData = DrawerListData
 

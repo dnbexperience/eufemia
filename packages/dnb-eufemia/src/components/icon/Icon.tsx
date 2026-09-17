@@ -20,10 +20,10 @@ import type {
   IconFunction,
   IconIcon,
   IconSVGProps,
-  IconType,
   IconAllProps,
   IconProps,
 } from './types'
+import type { IconType } from './value-types'
 import {
   DefaultIconSize,
   DefaultIconSizes,

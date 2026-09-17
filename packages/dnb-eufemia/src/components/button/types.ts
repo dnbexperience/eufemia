@@ -51,7 +51,7 @@ export type ButtonSkeleton = SkeletonShow
 
 export type ButtonChildren = string | (() => ReactNode) | ReactNode
 
-export type ReactRouterLink = Omit<
+type ReactRouterLink = Omit<
   AnchorHTMLAttributes<HTMLAnchorElement>,
   'href'
 > & {

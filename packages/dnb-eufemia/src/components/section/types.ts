@@ -1,4 +1,4 @@
-import type { CSSProperties, HTMLProps, ReactNode, RefObject } from 'react'
+import type { HTMLProps, RefObject } from 'react'
 import type {
   DynamicElement,
   InnerSpaceType,
@@ -88,17 +88,10 @@ export type SectionProps = {
   ref?: RefObject<HTMLElement>
 }
 
-export type SectionSpacingProps = Omit<SpacingProps, 'innerSpace'> & {
+type SectionSpacingProps = Omit<SpacingProps, 'innerSpace'> & {
   innerSpace?: InnerSpaceType
 }
 
 export type SectionAllProps = SectionProps &
   SectionSpacingProps &
   Omit<HTMLProps<HTMLElement>, 'ref'>
-
-export type SectionReturnParams = Record<string, unknown> & {
-  className: string
-  ref: RefObject<HTMLElement>
-  children: ReactNode
-  style: CSSProperties
-}

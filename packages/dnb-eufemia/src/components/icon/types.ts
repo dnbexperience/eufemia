@@ -3,27 +3,14 @@
  *
  */
 
-import type { HTMLProps, JSX, ReactElement, SVGProps } from 'react'
+import type { HTMLProps } from 'react'
 import type { FormStatusIcon } from '../FormStatus'
 import type { SkeletonShow } from '../Skeleton'
 import type { SpacingProps } from '../../shared/types'
 import type { ValidIconNumericSize, ValidIconType } from './sizes'
+import type { IconFunction, IconType } from './value-types'
 
-export type IconSVGProps = SVGProps<SVGSVGElement> & {
-  title?: string
-}
-
-export type IconFunction = ((props?: IconSVGProps) => JSX.Element) & {
-  __iconTransitionStyle?: Record<string, string>
-  __iconTransitionFallback?: boolean
-  __iconAnimation?: string
-}
-
-export type IconType =
-  | string
-  | ReactElement<SVGElement>
-  | IconFunction
-  | false
+export type { IconSVGProps, IconFunction } from './value-types'
 
 export type IconIcon = IconType | FormStatusIcon | IconFunction
 
