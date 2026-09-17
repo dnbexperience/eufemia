@@ -1,7 +1,9 @@
 /**
  * Internal types for NumberFormatBase
  *
- * Kept out of `types.ts` so they stay off the public `NumberFormat` entry.
+ * Kept out of `types.ts` so they stay off the public `NumberFormat` entry, and
+ * out of `NumberFormatBase.tsx` because `types.ts` needs them for
+ * `NumberFormatAllProps` while that file already imports from `types.ts`.
  */
 
 import type {
