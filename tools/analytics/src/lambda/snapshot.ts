@@ -205,6 +205,11 @@ function sumComponentUsageBy(
 /**
  * Build the component-usage dashboard section from the raw component_usage table.
  * Empty until the Nucleus bundler plugin starts emitting rows.
+ *
+ * Counts are `count(*)` over raw build-event rows, so they are build-weighted: an
+ * app that builds often contributes more than one that rarely builds. For a true
+ * "how many apps use this component" figure, switch to COUNT(DISTINCT app) once
+ * the record schema is settled (EDS-843).
  */
 async function buildComponentUsage(): Promise<ComponentUsageSection> {
   const rows = await aggregateComponentUsage()

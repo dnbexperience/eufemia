@@ -59,6 +59,19 @@ function isValidEnv(value: unknown): value is string {
   return typeof value === 'string' && ENV_PATTERN.test(value)
 }
 
+// A clean ISO-8601 instant, e.g. `2026-09-16T12:00:00.000Z`. Validated with a
+// parse plus a tiny date-time shape check (no unbounded quantifiers) so the
+// stored `timestamp` column stays queryable rather than holding a free-form
+// string, and to reject values Date.parse would loosely accept (e.g. a bare
+// `2026-09-16` or `yesterday`).
+function isValidTimestamp(value: unknown): value is string {
+  return (
+    typeof value === 'string' &&
+    /\dT\d\d:\d\d:\d\d/.test(value) &&
+    !Number.isNaN(Date.parse(value))
+  )
+}
+
 /**
  * Canonical component name for stable rollups. Mirrors the docs resolver's
  * lowercase convention (see the MCP usage track, #9344) so different import
@@ -145,8 +158,9 @@ export function validateComponentUsage(
 
 /**
  * Build the stored record from one validated fact. Component names are
- * canonicalised; an unrecognised `env` degrades to `unknown` so a drifted
- * producer value costs one dimension, not the row.
+ * canonicalised; an unrecognised `env` degrades to `unknown` and a non-ISO
+ * `timestamp` degrades to the write time, so a drifted producer value costs one
+ * dimension, not the row.
  */
 export function buildComponentUsageRecord(
   input: ComponentUsageInput,
@@ -159,7 +173,9 @@ export function buildComponentUsageRecord(
     component: normalizeComponentName(input.component),
     version: input.version.trim(),
     env: isValidEnv(input.env) ? input.env : 'unknown',
-    timestamp: input.timestamp ?? createdAt,
+    timestamp: isValidTimestamp(input.timestamp)
+      ? input.timestamp
+      : createdAt,
     created_at: createdAt,
   }
 }

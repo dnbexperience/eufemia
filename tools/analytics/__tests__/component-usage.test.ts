@@ -67,6 +67,29 @@ describe('validateComponentUsage', () => {
       expect(result.value[0].env).toBeUndefined()
     }
   })
+
+  it('accepts a full batch at the limit but rejects one over it', () => {
+    const one = { app: 'app-a', component: 'Button', version: '1.0.0' }
+
+    expect(validateComponentUsage(Array(5000).fill(one)).ok).toBe(true)
+
+    const tooMany = validateComponentUsage(Array(5001).fill(one))
+    expect(tooMany.ok).toBe(false)
+    if (!tooMany.ok) {
+      expect(tooMany.errors[0]).toMatch(/exceed/)
+    }
+  })
+
+  it('rejects a field longer than the max field length', () => {
+    const result = validateComponentUsage([
+      { app: 'a'.repeat(257), component: 'Button', version: '1.0.0' },
+    ])
+
+    expect(result.ok).toBe(false)
+    if (!result.ok) {
+      expect(result.errors[0]).toMatch(/app/)
+    }
+  })
 })
 
 describe('buildComponentUsageRecord', () => {
@@ -112,6 +135,20 @@ describe('buildComponentUsageRecord', () => {
     )
 
     expect(record.env).toBe('unknown')
+  })
+
+  it('degrades a non-ISO timestamp to the write time', () => {
+    const record = buildComponentUsageRecord(
+      {
+        app: 'app-a',
+        component: 'Button',
+        version: '1.0.0',
+        timestamp: 'yesterday',
+      },
+      now
+    )
+
+    expect(record.timestamp).toBe('2026-09-16T12:00:00.000Z')
   })
 })
 
