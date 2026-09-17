@@ -5,11 +5,15 @@ const {
   retrievePortalViews,
   aggregateMcpUsageRaw,
   retrieveMcpUsageDaily,
+  aggregateComponentUsageRaw,
+  retrieveComponentUsageDaily,
 } = vi.hoisted(() => ({
   send: vi.fn(),
   retrievePortalViews: vi.fn(),
   aggregateMcpUsageRaw: vi.fn(),
   retrieveMcpUsageDaily: vi.fn(),
+  aggregateComponentUsageRaw: vi.fn(),
+  retrieveComponentUsageDaily: vi.fn(),
 }))
 
 vi.mock('@aws-sdk/client-s3', () => ({
@@ -36,9 +40,11 @@ vi.mock('../src/lambda/retrieve.js', () => ({
   retrievePortalViews,
   aggregateMcpUsageRaw,
   retrieveMcpUsageDaily,
+  aggregateComponentUsageRaw,
+  retrieveComponentUsageDaily,
 }))
 
-import { handler } from '../src/lambda/snapshot.js'
+import { buildComponentUsage, handler } from '../src/lambda/snapshot.js'
 
 type Command = { kind: 'get' | 'put'; input: Record<string, unknown> }
 
@@ -58,9 +64,13 @@ beforeEach(() => {
   retrievePortalViews.mockReset()
   aggregateMcpUsageRaw.mockReset()
   retrieveMcpUsageDaily.mockReset()
+  aggregateComponentUsageRaw.mockReset()
+  retrieveComponentUsageDaily.mockReset()
   send.mockResolvedValue({})
   aggregateMcpUsageRaw.mockResolvedValue([])
   retrieveMcpUsageDaily.mockResolvedValue([])
+  aggregateComponentUsageRaw.mockResolvedValue([])
+  retrieveComponentUsageDaily.mockResolvedValue([])
   process.env.DATA_BUCKET = 'my-bucket'
   logSpy = vi.spyOn(console, 'log').mockImplementation(() => undefined)
   errorSpy = vi.spyOn(console, 'error').mockImplementation(() => undefined)
@@ -235,6 +245,157 @@ describe('mcp usage section', () => {
           entry?.McpUsageBuildFailure === 1
       )
     expect(failureMetric).toBeDefined()
+  })
+})
+
+describe('buildComponentUsage', () => {
+  it('recomputes the recent tail and builds the section from the daily rollup', async () => {
+    aggregateComponentUsageRaw.mockResolvedValue([
+      {
+        dt: '2026-09-16',
+        app: 'app-a',
+        component: 'button',
+        version: '10.72.0',
+        count: 4,
+      },
+    ])
+    retrieveComponentUsageDaily.mockResolvedValue([
+      {
+        app: 'app-a',
+        component: 'button',
+        version: '10.72.0',
+        count: 6,
+      },
+      {
+        app: 'app-b',
+        component: 'input',
+        version: '10.71.0',
+        count: 3,
+      },
+    ])
+
+    const componentUsage = await buildComponentUsage('my-bucket')
+
+    expect(aggregateComponentUsageRaw).toHaveBeenCalledWith(
+      expect.stringMatching(/^\d{4}-\d{2}-\d{2}$/)
+    )
+    expect(componentUsage.total).toBe(9)
+    expect(componentUsage.perComponent).toEqual([
+      { name: 'button', count: 6 },
+      { name: 'input', count: 3 },
+    ])
+    expect(componentUsage.perApp).toEqual([
+      { name: 'app-a', count: 6 },
+      { name: 'app-b', count: 3 },
+    ])
+    expect(componentUsage.perVersion).toEqual([
+      { name: '10.72.0', count: 6 },
+      { name: '10.71.0', count: 3 },
+    ])
+  })
+
+  it('writes the recomputed aggregates to the durable daily rollup prefix', async () => {
+    aggregateComponentUsageRaw.mockResolvedValue([
+      {
+        dt: '2026-09-16',
+        app: 'app-a',
+        component: 'button',
+        version: '10.72.0',
+        count: 4,
+      },
+    ])
+    retrieveComponentUsageDaily.mockResolvedValue([])
+
+    await buildComponentUsage('my-bucket')
+
+    const dailyPut = putCalls().find((call) =>
+      String((call[0] as Command).input.Key).startsWith(
+        'component-usage-daily/'
+      )
+    )
+    expect(dailyPut).toBeDefined()
+    expect((dailyPut![0] as Command).input.Key).toBe(
+      'component-usage-daily/dt=2026-09-16/agg.json'
+    )
+  })
+
+  it('serves existing daily history when the tail recompute fails', async () => {
+    aggregateComponentUsageRaw.mockRejectedValue(new Error('athena blip'))
+    retrieveComponentUsageDaily.mockResolvedValue([
+      {
+        app: 'app-a',
+        component: 'button',
+        version: '10.72.0',
+        count: 2,
+      },
+    ])
+
+    const componentUsage = await buildComponentUsage('my-bucket')
+
+    // A transient recompute failure must NOT blank the section: the durable
+    // history is still read and shown.
+    expect(componentUsage.total).toBe(2)
+    expect(componentUsage.perComponent).toEqual([
+      { name: 'button', count: 2 },
+    ])
+    expect(errorSpy).toHaveBeenCalled()
+
+    const failureMetric = logSpy.mock.calls
+      .map((call: unknown[]) => call[0])
+      .map((line: unknown) => {
+        try {
+          return JSON.parse(line as string) as Record<string, unknown>
+        } catch {
+          return null
+        }
+      })
+      .find(
+        (entry: Record<string, unknown> | null) =>
+          entry?.ComponentUsageBuildFailure === 1
+      )
+    expect(failureMetric).toBeDefined()
+  })
+
+  it('propagates a durable-read failure so the caller can fall back to empty', async () => {
+    retrieveComponentUsageDaily.mockRejectedValue(new Error('glue denied'))
+
+    await expect(buildComponentUsage('my-bucket')).rejects.toThrow(
+      'glue denied'
+    )
+  })
+})
+
+describe('component usage section (currently unwired)', () => {
+  it('ships an empty section without querying component usage', async () => {
+    retrievePortalViews.mockResolvedValue([])
+
+    await handler()
+
+    const snapshotPut = putCalls().find(
+      (call) =>
+        (call[0] as Command).input.Key === 'snapshots/dashboard.json'
+    )
+    const body = JSON.parse(
+      (snapshotPut![0] as Command).input.Body as string
+    )
+
+    expect(body.componentUsage).toEqual({
+      total: 0,
+      perComponent: [],
+      perApp: [],
+      perVersion: [],
+    })
+
+    // No producer yet: the generator must not query the empty component tables.
+    expect(aggregateComponentUsageRaw).not.toHaveBeenCalled()
+    expect(retrieveComponentUsageDaily).not.toHaveBeenCalled()
+
+    const dailyPut = putCalls().find((call) =>
+      String((call[0] as Command).input.Key).startsWith(
+        'component-usage-daily/'
+      )
+    )
+    expect(dailyPut).toBeUndefined()
   })
 })
 

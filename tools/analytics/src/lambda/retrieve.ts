@@ -4,7 +4,11 @@ import {
   GetQueryResultsCommand,
   StartQueryExecutionCommand,
 } from '@aws-sdk/client-athena'
-import type { McpUsageDaily } from './snapshot-store.js'
+import type {
+  ComponentUsageAggregate,
+  ComponentUsageDaily,
+  McpUsageDaily,
+} from './snapshot-store.js'
 
 const athena = new AthenaClient({})
 
@@ -204,4 +208,78 @@ export async function retrieveMcpUsageDaily(): Promise<McpUsageDaily[]> {
   await waitForQuery(queryExecutionId)
 
   return readResults(queryExecutionId, toDailyRow)
+}
+
+function toComponentUsageDailyRow([
+  dt,
+  app,
+  component,
+  version,
+  count,
+]: Array<string | undefined>): ComponentUsageDaily {
+  return {
+    dt: dt ?? '',
+    app: app ?? '',
+    component: component ?? '',
+    version: version ?? '',
+    count: Number(count ?? 0),
+  }
+}
+
+function toComponentUsageAggregateRow([
+  app,
+  component,
+  version,
+  count,
+]: Array<string | undefined>): ComponentUsageAggregate {
+  return {
+    app: app ?? '',
+    component: component ?? '',
+    version: version ?? '',
+    count: Number(count ?? 0),
+  }
+}
+
+/**
+ * Aggregate raw component-usage rows on or after `sinceDt` into per-day counts,
+ * grouped by app/component/version. Used to recompute the recent tail of the
+ * durable daily rollup on each generator run.
+ */
+export async function aggregateComponentUsageRaw(
+  sinceDt: string
+): Promise<ComponentUsageDaily[]> {
+  if (!DT_PATTERN.test(sinceDt)) {
+    throw new Error(`sinceDt must be a YYYY-MM-DD date, got: ${sinceDt}`)
+  }
+
+  const database = requireEnv('GLUE_DATABASE')
+  const table = requireEnv('GLUE_TABLE_COMPONENT_USAGE')
+  const workgroup = requireEnv('ATHENA_WORKGROUP')
+
+  const query = `SELECT dt, app, component, version, count(*) AS cnt FROM "${database}"."${table}" WHERE dt >= '${sinceDt}' GROUP BY dt, app, component, version`
+  const queryExecutionId = await startQuery(query, workgroup)
+  await waitForQuery(queryExecutionId)
+
+  return readResults(queryExecutionId, toComponentUsageDailyRow)
+}
+
+/**
+ * Read the durable component-usage rollup for the dashboard section, summed by
+ * app/component/version across all days. Athena does the aggregation so the
+ * result stays bounded (~one row per distinct app+component+version) no matter
+ * how many days of raw rollup have accrued, instead of paging every daily row
+ * into the Lambda and summing in JS.
+ */
+export async function retrieveComponentUsageDaily(): Promise<
+  ComponentUsageAggregate[]
+> {
+  const database = requireEnv('GLUE_DATABASE')
+  const table = requireEnv('GLUE_TABLE_COMPONENT_USAGE_DAILY')
+  const workgroup = requireEnv('ATHENA_WORKGROUP')
+
+  const query = `SELECT app, component, version, sum(count) AS cnt FROM "${database}"."${table}" GROUP BY app, component, version`
+  const queryExecutionId = await startQuery(query, workgroup)
+  await waitForQuery(queryExecutionId)
+
+  return readResults(queryExecutionId, toComponentUsageAggregateRow)
 }

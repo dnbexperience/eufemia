@@ -89,7 +89,7 @@ Deploy credentials and configuration are provided via repository secrets and var
 
 ### One-time bootstrap (admin, out-of-band)
 
-Because the OIDC deploy role's permissions boundary forbids `iam:CreateRole` (ADR 0004), an admin must pre-create the Lambda execution role `eufemia-<env>-analytics-role` (trust policy for Lambda + `AWSLambdaBasicExecutionRole`) with an attached policy granting: `s3:GetObject`/`PutObject`/`ListBucket` on the data bucket (bucket-wide, so it covers every analytics prefix — `portal-views/`, `mcp-usage/`, `mcp-usage-daily/`, `snapshots/`, `athena-results/`), `athena:StartQueryExecution`/`GetQueryExecution`/`GetQueryResults` on the workgroup, and `glue:GetTable`/`GetDatabase`/`GetPartitions` on the analytics database and its tables. The GHE deploy repo and its OIDC role/federation entry must also be provisioned, as with the MCP pipeline.
+Because the OIDC deploy role's permissions boundary forbids `iam:CreateRole` (ADR 0004), an admin must pre-create the Lambda execution role `eufemia-<env>-analytics-role` (trust policy for Lambda + `AWSLambdaBasicExecutionRole`) with an attached policy granting: `s3:GetObject`/`PutObject`/`ListBucket` on the data bucket (bucket-wide, so it covers every analytics prefix — `portal-views/`, `mcp-usage/`, `mcp-usage-daily/`, `component-usage/`, `component-usage-daily/`, `snapshots/`, `athena-results/`), `athena:StartQueryExecution`/`GetQueryExecution`/`GetQueryResults` on the workgroup, and `glue:GetTable`/`GetDatabase`/`GetPartitions` on the analytics database and its tables. The GHE deploy repo and its OIDC role/federation entry must also be provisioned, as with the MCP pipeline.
 
 For the same reason, an admin must pre-create the read-only dashboard-read execution role `eufemia-<env>-dashboard-role` (trust policy for Lambda + `AWSLambdaBasicExecutionRole`) with an inline policy granting exactly one permission — `s3:GetObject` on the snapshot prefix `arn:aws:s3:::eufemia-<env>-analytics-<account-id>/snapshots/*` — and nothing else, so the browser-facing read Lambda has no write or Athena access. The snapshot generator Lambda reuses `eufemia-<env>-analytics-role` (it needs the same Athena + S3 access), so it requires no additional role.
 
@@ -97,8 +97,11 @@ For the same reason, an admin must pre-create the read-only dashboard-read execu
 
 `infra/` provisions:
 
-- **S3 bucket** (versioned, SSE-S3, public access blocked) holding portal-view records (`portal-views/`), the dashboard snapshot (`snapshots/dashboard.json`), and Athena output (`athena-results/`, expired after 7 days).
-- **Glue database + table** with JSON SerDe and partition projection on `dt`.
+- **S3 bucket** (versioned, SSE-S3, public access blocked) holding portal-view records (`portal-views/`), MCP usage (`mcp-usage/`, `mcp-usage-daily/`), component usage (`component-usage/`, `component-usage-daily/`), the dashboard snapshot (`snapshots/dashboard.json`), and Athena output (`athena-results/`, expired after 7 days).
+- **Glue database + tables** with JSON SerDe and partition projection on `dt` (`portal_views`, `mcp_usage`, `mcp_usage_daily`, `component_usage`, `component_usage_daily`).
+
+> **Note:** the `component_usage*` tables and `component-usage*` prefixes are scaffold for a future Nucleus component-usage producer. There is no producer yet, so the snapshot generator does **not** query them (to avoid running Athena against empty tables) and the section ships empty. Re-wiring is a small change in `buildComponentUsage`'s caller — see the guidance in `src/lambda/snapshot.ts`.
+
 - **Athena workgroup** for the retrieve queries.
 - **Lambda function** (`nodejs22.x`) — its execution role is pre-created out-of-band, because the OIDC deploy role's permissions boundary forbids `iam:CreateRole` (ADR 0004); it is only referenced here.
 - **Dashboard-read Lambda** (`nodejs22.x`) serving `GET /data` under the read-only `eufemia-<env>-dashboard-role`, plus a **scheduled snapshot generator** Lambda (hourly EventBridge rule) that runs under `eufemia-<env>-analytics-role` and refreshes `snapshots/dashboard.json` off the request path. Three CloudWatch alarms flag a failed generator run (`Errors`), a generator that has stopped firing (missing `Invocations`), and a run that succeeds but writes an empty snapshot (the `SnapshotRecordCount` EMF metric stays below 1). The empty-snapshot metric is emitted as an Embedded Metric Format log line, so it needs no extra role permissions.
