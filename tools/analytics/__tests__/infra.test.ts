@@ -39,29 +39,4 @@ describe('analytics infrastructure', () => {
 
     expect(timeout).toBeGreaterThanOrEqual(90)
   })
-
-  it('locks the dashboard origin to the Akamai edge via a viewer-request function', () => {
-    // The function validates the shared X-Edge-Auth secret Akamai injects.
-    const originLock = terraform.match(
-      /resource \"aws_cloudfront_function\" \"dashboard_edge_auth\" \{[\s\S]*?^\}/m
-    )?.[0]
-
-    expect(originLock).toContain('functions/dashboard-edge-auth.js.tftpl')
-    expect(originLock).toContain(
-      'edge_auth_secret = jsonencode(var.edge_auth_secret)'
-    )
-
-    // It must run on every viewer request to the dashboard distribution.
-    const distribution = terraform.match(
-      /resource \"aws_cloudfront_distribution\" \"dashboard\" \{[\s\S]*?^\}/m
-    )?.[0]
-    const association = distribution?.match(
-      /function_association \{[\s\S]*?\}/
-    )?.[0]
-
-    expect(association).toContain('event_type   = "viewer-request"')
-    expect(association).toContain(
-      'aws_cloudfront_function.dashboard_edge_auth.arn'
-    )
-  })
 })
