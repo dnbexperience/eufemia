@@ -7,10 +7,9 @@ import type { CSSProperties, HTMLProps, ReactNode } from 'react'
 import type {
   NumberFormatCurrencyPosition as NumberFormatCurrencyPositionBase,
   NumberFormatOptions,
-  NumberFormatOptionParams,
-  NumberFormatReturnValue,
   NumberFormatValue,
 } from './utils'
+import type { NumberFormatInternalProps } from './internal-types'
 import type { SpacingProps } from '../../shared/types'
 import type { SkeletonShow } from '../Skeleton'
 
@@ -101,16 +100,6 @@ export type NumberFormatProps = {
   lang?: string
 }
 
-export type NumberFormatInternalFormatter = (
-  value: NumberFormatValue | null,
-  options: NumberFormatOptionParams & { returnAria: true }
-) => NumberFormatReturnValue
-
-export type NumberFormatInternalProps = {
-  /** @internal */
-  __format?: NumberFormatInternalFormatter
-}
-
 export type NumberFormatAllProps = NumberFormatProps &
   Omit<
     HTMLProps<HTMLElement>,
@@ -123,6 +112,7 @@ export type NumberFormatAllProps = NumberFormatProps &
 // so NumberFormat can expose them from a single place.
 export type { NumberFormatOptions } from './NumberUtils'
 export type {
+  NumberFormatValue,
   NumberFormatReturnValue,
   NumberFormatOptionParams,
   NumberFormatReturnType,

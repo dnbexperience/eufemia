@@ -43,20 +43,10 @@ export type * from './types'
 
 // TypeScript types
 export type { NumberFormatOptions } from './utils'
-export type { NumberFormatValue } from './utils'
-/**
- * Private formatter injection used by the `NumberFormat.*` variant wrappers
- * to pick the minimal formatter needed and enable tree shaking.
- *
- * Not part of the public API – variants set it via the
- * `NumberFormat.withFormatter(Component, formatter)` helper below.
- */
-/**
- * Contract used by `__format` – the formatter is always invoked with
- * `returnAria: true`, so it always returns the full `NumberFormatReturnValue`.
- * This is a strict sub-type of the public `NumberFormatFunction` (which also
- * supports the non-aria, string-returning overload).
- */
+export type {
+  NumberFormatInternalFormatter,
+  NumberFormatInternalProps,
+} from './internal-types'
 
 export const COPY_TOOLTIP_TIMEOUT = 3000
 
