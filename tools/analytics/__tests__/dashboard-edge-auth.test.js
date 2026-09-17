@@ -25,20 +25,20 @@ const requestWith = (headers) => ({ request: { headers } })
 describe('dashboard edge-auth CloudFront function', () => {
   const handler = loadHandler('s3cr3t')
 
-  it('returns 403 when the X-Edge-Auth header is missing', () => {
+  it('returns 403 when the X-Origin-Verify header is missing', () => {
     expect(handler(requestWith({})).statusCode).toBe(403)
   })
 
   it('returns 403 when the secret does not match', () => {
     const response = handler(
-      requestWith({ 'x-edge-auth': { value: 'wrong' } })
+      requestWith({ 'x-origin-verify': { value: 'wrong' } })
     )
 
     expect(response.statusCode).toBe(403)
   })
 
   it('passes the request through when the secret matches', () => {
-    const request = { headers: { 'x-edge-auth': { value: 's3cr3t' } } }
+    const request = { headers: { 'x-origin-verify': { value: 's3cr3t' } } }
 
     expect(handler({ request })).toBe(request)
   })

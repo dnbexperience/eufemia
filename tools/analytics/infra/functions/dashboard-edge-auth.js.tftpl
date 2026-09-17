@@ -1,5 +1,5 @@
 // CloudFront viewer-request function: locks the dashboard origin to the Akamai
-// edge. Akamai injects the shared X-Edge-Auth header on every request it
+// edge. Akamai injects the shared X-Origin-Verify header on every request it
 // forwards; a request that reaches CloudFront without the matching secret did
 // not come through the edge, so it is rejected with 403.
 //
@@ -8,7 +8,7 @@
 // posture of the Lambda EDGE_AUTH_SECRET env var.
 function handler(event) {
   var request = event.request
-  var header = request.headers['x-edge-auth']
+  var header = request.headers['x-origin-verify']
   var provided = header ? header.value : ''
 
   if (provided !== ${edge_auth_secret}) {
