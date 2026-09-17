@@ -1,4 +1,8 @@
-import { useStaticQuery, graphql } from 'portal-query'
+import {
+  useStaticQuery,
+  graphql,
+  type StaticQueryConnection,
+} from 'portal-query'
 import { Card, Hr, Li, P, Span, Ul } from '@dnb/eufemia/src'
 import ReactMarkdown from 'react-markdown'
 import Anchor from '../tags/Anchor'
@@ -12,7 +16,6 @@ import {
   getCategoryId,
   type CategoryDefinition,
   type CategoryId,
-  type CategoryValue,
 } from './componentCategories'
 
 type Entry = {
@@ -22,31 +25,14 @@ type Entry = {
   category: CategoryId
 }
 
-type QueryEdge = {
-  node: {
-    fields: {
-      slug: string
-    }
-    frontmatter: {
-      title: string
-      description?: string | undefined
-      category: CategoryValue
-    }
-  }
-}
-
-type QueryData = {
-  components: {
-    edges: QueryEdge[]
-  }
-}
-
 type Category = CategoryDefinition & {
   entries: Entry[]
 }
 
 export default function ListComponentsOverview() {
-  const data = useStaticQuery(graphql`
+  const data = useStaticQuery<{
+    components: StaticQueryConnection
+  }>(graphql`
     {
       components: allMdx(
         filter: {
@@ -78,7 +64,7 @@ export default function ListComponentsOverview() {
         }
       }
     }
-  `) as QueryData
+  `)
 
   const items = data.components.edges.reduce<Entry[]>(
     (items, { node }) => {
