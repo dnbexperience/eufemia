@@ -873,14 +873,15 @@ resource "aws_cloudwatch_metric_alarm" "snapshot_mcp_build_failed" {
   treat_missing_data  = "notBreaching"
 }
 
-# The component-usage section is built best-effort too (same rationale as the MCP
-# section above): a caught failure falls back to empty and is invisible to the
-# Lambda/SnapshotRecordCount alarms, so the generator emits a
-# ComponentUsageBuildFailure EMF metric and this alarm surfaces it. The
-# namespace/metric/dimension must match those emitted in src/lambda/snapshot.ts.
+# The component-usage section emits a ComponentUsageBuildFailure EMF metric when
+# the durable daily rollup cannot be refreshed (a transient tail recompute still
+# serves existing history) or the section cannot be built at all (falls back to
+# empty). Both are invisible to the Lambda/SnapshotRecordCount alarms, so this
+# alarm surfaces them. The namespace/metric/dimension must match those emitted in
+# src/lambda/snapshot.ts.
 resource "aws_cloudwatch_metric_alarm" "snapshot_component_usage_build_failed" {
   alarm_name          = "eufemia-${var.environment}-analytics-snapshot-component-usage-build-failed"
-  alarm_description   = "Dashboard snapshot generator failed to build the component usage section (fell back to empty)"
+  alarm_description   = "Dashboard snapshot generator failed to refresh or build the component usage section"
   namespace           = "Eufemia/Analytics"
   metric_name         = "ComponentUsageBuildFailure"
   dimensions          = { FunctionName = aws_lambda_function.snapshot.function_name }

@@ -88,9 +88,10 @@ function emitMcpBuildFailureMetric(): void {
 }
 
 /**
- * Emit a component-usage build failure as an EMF metric. Mirrors the MCP metric:
- * a caught buildComponentUsage error does not increment Lambda Errors, so without
- * this a broken component-usage section would be invisible. Kept in sync with the
+ * Emit a component-usage build failure as an EMF metric. Emitted both when the
+ * durable rollup cannot be refreshed (history still served) and when the section
+ * cannot be built at all (empty fallback); neither increments Lambda Errors, so
+ * without this the degradation would be invisible. Kept in sync with the
  * `snapshot_component_usage_build_failed` alarm in infra/main.tf.
  */
 function emitComponentUsageBuildFailureMetric(): void {
@@ -211,9 +212,14 @@ function sumComponentUsageBy(
 
 /**
  * Build the component-usage dashboard section. First recomputes the recent tail
- * of raw usage into the durable daily rollup (idempotent overwrite), then reads
- * the full daily table. The rollup outlives the raw rows' expiry, so long-range
- * adoption history stays available without holding raw events forever.
+ * of raw usage into the durable daily rollup, then reads the full daily table.
+ * The rollup outlives the raw rows' expiry, so long-range adoption history stays
+ * available without holding raw events forever.
+ *
+ * The tail recompute is best-effort: a transient Athena/S3 failure there is
+ * logged and flagged (the rollup misses the newest tail until the next run) but
+ * does NOT blank the section — the durable history is still read and shown. Only
+ * a failure of the durable read itself propagates to the empty fallback.
  *
  * Counts are `count(*)` over raw build-event rows, so they are build-weighted: an
  * app that builds often contributes more than one that rarely builds. For a true
@@ -225,10 +231,20 @@ async function buildComponentUsage(
 ): Promise<ComponentUsageSection> {
   const since = new Date()
   since.setUTCDate(since.getUTCDate() - (COMPONENT_ROLLUP_DAYS - 1))
-  await storeComponentUsageDaily(
-    bucket,
-    await aggregateComponentUsageRaw(dayString(since))
-  )
+
+  try {
+    await storeComponentUsageDaily(
+      bucket,
+      await aggregateComponentUsageRaw(dayString(since))
+    )
+  } catch (error) {
+    // eslint-disable-next-line no-console -- surface the failure in CloudWatch Logs
+    console.error(
+      'Failed to refresh the component usage daily rollup; serving existing history',
+      error
+    )
+    emitComponentUsageBuildFailureMetric()
+  }
 
   const daily = await retrieveComponentUsageDaily()
 

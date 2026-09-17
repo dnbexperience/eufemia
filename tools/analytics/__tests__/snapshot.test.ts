@@ -339,6 +339,53 @@ describe('component usage section', () => {
     )
   })
 
+  it('serves existing daily history when the tail recompute fails', async () => {
+    retrievePortalViews.mockResolvedValue([])
+    aggregateComponentUsageRaw.mockRejectedValue(new Error('athena blip'))
+    retrieveComponentUsageDaily.mockResolvedValue([
+      {
+        dt: '2026-09-15',
+        app: 'app-a',
+        component: 'button',
+        version: '10.72.0',
+        count: 2,
+      },
+    ])
+
+    await handler()
+
+    const snapshotPut = putCalls().find(
+      (call) =>
+        (call[0] as Command).input.Key === 'snapshots/dashboard.json'
+    )
+    const componentUsage = JSON.parse(
+      (snapshotPut![0] as Command).input.Body as string
+    ).componentUsage
+
+    // A transient recompute failure must NOT blank the section: the durable
+    // history is still read and shown.
+    expect(componentUsage.total).toBe(2)
+    expect(componentUsage.perComponent).toEqual([
+      { name: 'button', count: 2 },
+    ])
+    expect(errorSpy).toHaveBeenCalled()
+
+    const failureMetric = logSpy.mock.calls
+      .map((call: unknown[]) => call[0])
+      .map((line: unknown) => {
+        try {
+          return JSON.parse(line as string) as Record<string, unknown>
+        } catch {
+          return null
+        }
+      })
+      .find(
+        (entry: Record<string, unknown> | null) =>
+          entry?.ComponentUsageBuildFailure === 1
+      )
+    expect(failureMetric).toBeDefined()
+  })
+
   it('still writes the snapshot with an empty component section when its query fails', async () => {
     const records = [{ path: '/', env: 'prod', timestamp: 't' }]
     retrievePortalViews.mockResolvedValue(records)
