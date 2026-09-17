@@ -643,6 +643,148 @@ describe('prerender-utils', () => {
       expect(result).not.toContain('__staticRouterHydrationData')
       expect(result).toContain('<div id="root"><h1>Hello</h1></div>')
     })
+
+    describe('escaping of page metadata', () => {
+      it('escapes a title that would close the title element', () => {
+        const result = injectHtml(
+          template,
+          '<h1>Hi</h1>',
+          { js: [], css: [] },
+          '',
+          {
+            url: '/page/',
+            title: 'Foo</title><script>alert(1)</script>',
+            description: '',
+          }
+        )
+
+        expect(result).not.toContain('<script>alert(1)</script>')
+        expect(result).toContain(
+          '<title id="head-title">Foo&lt;/title&gt;&lt;script&gt;alert(1)&lt;/script&gt; | Eufemia</title>'
+        )
+      })
+
+      it('escapes a title that would break out of the og:title attribute', () => {
+        const result = injectHtml(
+          template,
+          '<h1>Hi</h1>',
+          { js: [], css: [] },
+          '',
+          {
+            url: '/page/',
+            title: 'Foo" data-injected="yes',
+            description: '',
+          }
+        )
+
+        expect(result).not.toContain('data-injected="yes"')
+        expect(result).toContain(
+          '<meta property="og:title" content="Foo&quot; data-injected=&quot;yes | Eufemia">'
+        )
+      })
+
+      it('escapes a description that would break out of the content attribute', () => {
+        const result = injectHtml(
+          template,
+          '<h1>Hi</h1>',
+          { js: [], css: [] },
+          '',
+          {
+            url: '/page/',
+            title: 'Page',
+            description:
+              'Foo"><meta http-equiv="refresh" content="0;url=/x/',
+          }
+        )
+
+        expect(result).not.toContain('http-equiv="refresh"')
+        expect(result).toContain('&quot;&gt;&lt;meta http-equiv=')
+      })
+
+      it('escapes an ampersand without double-escaping it', () => {
+        const result = injectHtml(
+          template,
+          '<h1>Hi</h1>',
+          { js: [], css: [] },
+          '',
+          {
+            url: '/page/',
+            title: 'Cards & Lists',
+            description: '',
+          }
+        )
+
+        expect(result).toContain(
+          '<title id="head-title">Cards &amp; Lists | Eufemia</title>'
+        )
+        expect(result).not.toContain('&amp;amp;')
+      })
+
+      it('escapes the markdown alternate href', () => {
+        const result = injectHtml(
+          template,
+          '<h1>Hi</h1>',
+          { js: [], css: [] },
+          '',
+          {
+            url: '/page/',
+            title: 'Page',
+            description: '',
+            mdPath: '/page.md" data-injected="yes',
+          }
+        )
+
+        expect(result).not.toContain('data-injected="yes"')
+      })
+
+      it('inserts a dollar sign verbatim instead of as a replacement pattern', () => {
+        const result = injectHtml(
+          template,
+          '<h1>Hi</h1>',
+          { js: [], css: [] },
+          '',
+          {
+            url: '/page/',
+            title: "Price $& $` $' $1",
+            description: '',
+          }
+        )
+
+        expect(result).toContain(
+          '<title id="head-title">Price $&amp; $` $&#39; $1 | Eufemia</title>'
+        )
+      })
+
+      it('inserts app HTML containing a dollar sign verbatim', () => {
+        const result = injectHtml(template, '<h1>100 $&</h1>', {
+          js: [],
+          css: [],
+        })
+
+        expect(result).toContain('<div id="root"><h1>100 $&</h1></div>')
+      })
+
+      it('leaves a safe title untouched', () => {
+        const result = injectHtml(
+          template,
+          '<h1>Hi</h1>',
+          { js: [], css: [] },
+          '',
+          {
+            url: '/uilib/components/button/',
+            title: 'Button',
+            description: 'A button',
+          }
+        )
+
+        expect(result).toContain(
+          '<title id="head-title">Button | Eufemia</title>'
+        )
+        expect(result).toContain(
+          '<meta property="og:description" content="A button">'
+        )
+      })
+    })
   })
 
   describe('buildRedirectHtml', () => {
@@ -670,6 +812,15 @@ describe('prerender-utils', () => {
       const html = buildRedirectHtml('https://example.com/')
       expect(html).toContain('content="0;url=https://example.com/"')
       expect(html).toContain('href="https://example.com/"')
+    })
+
+    it('escapes a URL that would break out of the attribute', () => {
+      const html = buildRedirectHtml('/x/" data-injected="yes')
+
+      expect(html).not.toContain('data-injected="yes"')
+      expect(html).toContain(
+        'content="0;url=/x/&quot; data-injected=&quot;yes"'
+      )
     })
   })
 

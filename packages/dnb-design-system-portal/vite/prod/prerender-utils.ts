@@ -9,6 +9,7 @@
 
 import path from 'node:path'
 import { getContentScript } from '@dnb/eufemia/src/shared/ColorSchemeScript'
+import { escapeHtml } from './html-escape.mts'
 import type { MdxNode as PortalMdxNode } from '../client/plugins/portal-pages.shared'
 
 export type RouteEntry = {
@@ -296,7 +297,8 @@ export function injectHtml(
 
   let html = template.replace(
     '<div id="root"></div>',
-    `<div id="root">${appHtml}</div>\n\t<script>${contentScript};${scrollRestoreScript}</script>`
+    () =>
+      `<div id="root">${appHtml}</div>\n\t<script>${contentScript};${scrollRestoreScript}</script>`
   )
 
   // Inject <link> tags for ALL brand theme CSS chunks.
@@ -341,20 +343,21 @@ export function injectHtml(
     const defaultDescription =
       'Eufemia Design System is the go-to place for all who has to design, develop and make digital WEB applications for DNB.'
     const formattedTitle = meta.title
-      ? `${meta.title} | Eufemia`
+      ? `${escapeHtml(meta.title)} | Eufemia`
       : 'Eufemia'
-    const desc = meta.description || defaultDescription
-    const fullUrl = `${siteUrl}${meta.url}`
+    const desc = escapeHtml(meta.description || defaultDescription)
+    const fullUrl = escapeHtml(`${siteUrl}${meta.url}`)
     const ogImage = `${siteUrl}/dnb/og-image.png`
 
     // Replace existing title and meta description from the template
     html = html.replace(
       /<title id="head-title">[^<]*<\/title>/,
-      `<title id="head-title">${formattedTitle}</title>`
+      () => `<title id="head-title">${formattedTitle}</title>`
     )
     html = html.replace(
       /<meta id="head-description"[^>]*\/?\s*>/,
-      `<meta id="head-description" name="description" content="${desc}" />`
+      () =>
+        `<meta id="head-description" name="description" content="${desc}" />`
     )
 
     const ogTags = [
@@ -380,13 +383,15 @@ export function injectHtml(
     // so a page can only advertise one that exists.
     if (meta.mdPath) {
       ogTags.push(
-        `<link rel="alternate" type="text/markdown" title="Markdown documentation" href="${meta.mdPath}">`
+        `<link rel="alternate" type="text/markdown" title="Markdown documentation" href="${escapeHtml(
+          meta.mdPath
+        )}">`
       )
     }
 
     html = html.replace(
       '</head>',
-      `    ${ogTags.join('\n    ')}\n  </head>`
+      () => `    ${ogTags.join('\n    ')}\n  </head>`
     )
   }
 
@@ -429,11 +434,13 @@ export function injectHtml(
  * so search engines follow the redirect correctly.
  */
 export function buildRedirectHtml(redirectUrl: string): string {
+  const url = escapeHtml(redirectUrl)
+
   return [
     '<!DOCTYPE html>',
     '<html><head>',
-    `<meta http-equiv="refresh" content="0;url=${redirectUrl}">`,
-    `<link rel="canonical" href="${redirectUrl}">`,
+    `<meta http-equiv="refresh" content="0;url=${url}">`,
+    `<link rel="canonical" href="${url}">`,
     '</head><body></body></html>',
   ].join('')
 }
