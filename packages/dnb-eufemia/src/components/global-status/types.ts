@@ -4,7 +4,7 @@
  */
 
 import type { HTMLProps, ReactNode } from 'react'
-import { type GlobalStatusResult } from './GlobalStatusProvider'
+import type { GlobalStatusResult } from './GlobalStatusProvider'
 import type { FormStatusText } from '../FormStatus'
 import type { IconIcon, IconSize } from '../Icon'
 import type { SkeletonShow } from '../Skeleton'

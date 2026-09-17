@@ -9,7 +9,7 @@ import type {
   ReactElement,
   SVGProps,
 } from 'react'
-import { type UseThemeReturn } from '../../shared/useTheme'
+import type { UseThemeReturn } from '../../shared/useTheme'
 import type { IconColor } from '../Icon'
 import type { SpacingProps } from '../../shared/types'
 import type { LogoSvgComponent } from './LogoSvg'
