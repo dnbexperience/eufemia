@@ -799,7 +799,7 @@ resource "aws_route53_record" "analytics" {
 # Entra-authenticated /data API, so data access is gated entirely by the Entra
 # sign-in plus the /data API's JWT authorizer. As defense-in-depth for the shell
 # itself, a viewer-request CloudFront function (below) rejects requests that do
-# not carry the shared X-Edge-Auth header Akamai injects, so the origin is
+# not carry the shared X-Origin-Verify header Akamai injects, so the origin is
 # reachable only through the edge. There is no Lambda@Edge. The bucket stays
 # private; CloudFront reads it through an Origin Access Control.
 
@@ -894,14 +894,14 @@ resource "aws_cloudfront_response_headers_policy" "dashboard" {
 }
 
 # Locks the CloudFront origin to the Akamai edge: Akamai injects the shared
-# X-Edge-Auth header, and this viewer-request function rejects any request that
+# X-Origin-Verify header, and this viewer-request function rejects any request that
 # reaches CloudFront without the matching secret (i.e. direct *.cloudfront.net
 # access) with a 403. The Entra JWT authorizer on /data remains the real data
 # control; this hardens the static-shell delivery path.
 resource "aws_cloudfront_function" "dashboard_edge_auth" {
   name    = "${local.function_name}-dashboard-edge-auth"
   runtime = "cloudfront-js-2.0"
-  comment = "Reject dashboard requests that do not carry the Akamai X-Edge-Auth secret"
+  comment = "Reject dashboard requests that do not carry the Akamai X-Origin-Verify secret"
   publish = true
   code = templatefile("${path.module}/functions/dashboard-edge-auth.js.tftpl", {
     edge_auth_secret = jsonencode(var.edge_auth_secret)
@@ -937,7 +937,7 @@ resource "aws_cloudfront_distribution" "dashboard" {
     response_headers_policy_id = aws_cloudfront_response_headers_policy.dashboard.id
 
     # Reject direct *.cloudfront.net access; only the Akamai edge (which adds
-    # the X-Edge-Auth secret) gets through.
+    # the X-Origin-Verify secret) gets through.
     function_association {
       event_type   = "viewer-request"
       function_arn = aws_cloudfront_function.dashboard_edge_auth.arn
