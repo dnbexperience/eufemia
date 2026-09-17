@@ -891,6 +891,21 @@ resource "aws_cloudfront_response_headers_policy" "dashboard" {
   }
 }
 
+# Locks the CloudFront origin to the Akamai edge: Akamai injects the shared
+# X-Edge-Auth header, and this viewer-request function rejects any request that
+# reaches CloudFront without the matching secret (i.e. direct *.cloudfront.net
+# access) with a 403. The Entra JWT authorizer on /data remains the real data
+# control; this hardens the static-shell delivery path.
+resource "aws_cloudfront_function" "dashboard_edge_auth" {
+  name    = "${local.function_name}-dashboard-edge-auth"
+  runtime = "cloudfront-js-2.0"
+  comment = "Reject dashboard requests that do not carry the Akamai X-Edge-Auth secret"
+  publish = true
+  code = templatefile("${path.module}/functions/dashboard-edge-auth.js.tftpl", {
+    edge_auth_secret = jsonencode(var.edge_auth_secret)
+  })
+}
+
 resource "aws_cloudfront_distribution" "dashboard" {
   enabled             = true
   is_ipv6_enabled     = true
@@ -918,6 +933,13 @@ resource "aws_cloudfront_distribution" "dashboard" {
     # Custom response-headers policy: managed security headers (HSTS,
     # X-Content-Type-Options, X-Frame-Options, Referrer-Policy) plus a CSP.
     response_headers_policy_id = aws_cloudfront_response_headers_policy.dashboard.id
+
+    # Reject direct *.cloudfront.net access; only the Akamai edge (which adds
+    # the X-Edge-Auth secret) gets through.
+    function_association {
+      event_type   = "viewer-request"
+      function_arn = aws_cloudfront_function.dashboard_edge_auth.arn
+    }
   }
 
   restrictions {
