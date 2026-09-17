@@ -1,14 +1,16 @@
 /**
- * The shape of the portal's MDX page data.
+ * The portal's MDX page data: its shape, and the helpers that go with it.
  *
- * One definition for the whole portal: the plugin that generates the data,
+ * One definition for the whole portal — the plugin that generates the data,
  * the `virtual:portal-pages` declaration, and every consumer all refer back
  * to this file.
  *
- * It deliberately contains types only and imports nothing, so app code can
- * read it without any risk of pulling build-time dependencies such as
- * `node:fs` into the browser bundle.
+ * It is kept apart from the plugin because the plugin reads the file system.
+ * Nothing here may depend on `node:*`, or importing it from the app would
+ * pull build-time code into the browser bundle.
  */
+
+import picomatch from 'picomatch'
 
 export type TableOfContentsItem = {
   url: string
@@ -75,4 +77,24 @@ export type PageFileInfo = {
   frontmatter: MdxFrontmatter
   tableOfContents?: { items: TableOfContentsItem[] }
   type: 'mdx' | 'tsx'
+}
+
+const matchers = new Map<string, (slug: string) => boolean>()
+
+/**
+ * Does a page's slug match the glob pattern?
+ *
+ * `*` stays within one path segment and `**` spans any number of them, so
+ * `uilib/elements/*` selects direct children while `uilib/elements/**\/*`
+ * selects pages at any depth below.
+ */
+export function globPath(node: MdxNode, pattern: string) {
+  let isMatch = matchers.get(pattern)
+
+  if (!isMatch) {
+    isMatch = picomatch(pattern)
+    matchers.set(pattern, isMatch)
+  }
+
+  return isMatch(node.fields.slug)
 }

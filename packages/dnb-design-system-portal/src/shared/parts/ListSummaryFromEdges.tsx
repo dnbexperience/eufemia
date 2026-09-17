@@ -13,9 +13,19 @@ import { basicComponents } from '../../shared/tags'
 import type { SpacingProps } from '@dnb/eufemia/src/shared/types'
 import type { MdxNode } from '../../../vite/client/plugins/portal-pages.shared'
 
-export type ListEdges = Array<{ node: MdxNode }>
 type ListSummaryFromEdgesProps = {
-  edges: ListEdges
+  /**
+   * The pages to list.
+   *
+   * Lists keep their page selection in `listEdges.ts` and pass the result
+   * here. Those are plain functions taking the pages as an argument, so the
+   * markdown generator for the LLM docs can import and call them instead of
+   * re-deriving the selection from the component source — one definition of
+   * what each list contains.
+   *
+   * Also accepts the legacy `{ node }` shape from `useStaticQuery`.
+   */
+  edges: Array<MdxNode | { node: MdxNode }>
   level?: HeadingLevel
   size?: HeadingSize
   description?: string
@@ -35,76 +45,71 @@ export default function ListSummaryFromEdges({
 
   resetLevels((level || 2) as InternalHeadingLevel)
 
-  const jsx = edges.map(
-    (
-      {
-        node: {
-          frontmatter: { title, description: fmDescription },
-          fields: { slug },
-        },
-      },
-      i
-    ) => {
+  const jsx = edges.map((edge, i) => {
+    const {
+      frontmatter: { title, description: fmDescription },
+      fields: { slug },
+    } = 'node' in edge ? edge.node : edge
+
+    return (
+      <ItemWrapper key={i}>
+        <Title />
+        <Description />
+      </ItemWrapper>
+    )
+
+    function Title() {
+      const titleLink = <Anchor href={'/' + slug}>{title}</Anchor>
+
+      if (returnListItems) {
+        return titleLink
+      }
+
       return (
-        <ItemWrapper key={i}>
-          <Title />
-          <Description />
-        </ItemWrapper>
+        <AutoLinkHeader
+          level={level || 2}
+          size={size}
+          useSlug={'/' + slug}
+          title={title}
+          {...props}
+        >
+          {titleLink}
+        </AutoLinkHeader>
       )
+    }
 
-      function Title() {
-        const titleLink = <Anchor href={'/' + slug}>{title}</Anchor>
+    function Description() {
+      const rawDescription =
+        description !== null ? description : fmDescription
 
+      if (rawDescription) {
         if (returnListItems) {
-          return titleLink
+          return (
+            <>
+              :{' '}
+              <ReactMarkdown
+                // @ts-expect-error -- strictFunctionTypes
+                components={basicComponents}
+                disallowedElements={['p']}
+                unwrapDisallowed={true}
+              >
+                {rawDescription}
+              </ReactMarkdown>
+            </>
+          )
         }
 
         return (
-          <AutoLinkHeader
-            level={level || 2}
-            size={size}
-            useSlug={'/' + slug}
-            title={title}
-            {...props}
+          <ReactMarkdown
+            // @ts-expect-error -- strictFunctionTypes
+            components={basicComponents}
           >
-            {titleLink}
-          </AutoLinkHeader>
+            {rawDescription}
+          </ReactMarkdown>
         )
       }
-
-      function Description() {
-        const rawDescription =
-          description !== null ? description : fmDescription
-
-        if (rawDescription) {
-          if (returnListItems) {
-            return (
-              <>
-                :{' '}
-                <ReactMarkdown
-                  // @ts-expect-error -- strictFunctionTypes
-                  components={basicComponents}
-                  disallowedElements={['p']}
-                  unwrapDisallowed={true}
-                >
-                  {rawDescription}
-                </ReactMarkdown>
-              </>
-            )
-          }
-
-          return (
-            <ReactMarkdown
-              // @ts-expect-error -- strictFunctionTypes
-              components={basicComponents}
-            >
-              {rawDescription}
-            </ReactMarkdown>
-          )
-        }
-      }
     }
-  )
+  })
 
   return <ListWrapper>{jsx}</ListWrapper>
 }
