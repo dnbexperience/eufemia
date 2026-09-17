@@ -1,0 +1,26 @@
+// CloudFront viewer-request function: locks the dashboard origin to the Akamai
+// edge. Akamai injects the shared X-Edge-Auth header on every request it
+// forwards; a request that reaches CloudFront without the matching secret did
+// not come through the edge, so it is rejected with 403.
+//
+// The secret is templated in at deploy time (jsonencode -> a safe JS string
+// literal). CloudFront function code is not publicly readable, matching the
+// posture of the Lambda EDGE_AUTH_SECRET env var.
+function handler(event) {
+  var request = event.request
+  var header = request.headers['x-edge-auth']
+  var provided = header ? header.value : ''
+
+  if (provided !== ${edge_auth_secret}) {
+    return {
+      statusCode: 403,
+      statusDescription: 'Forbidden',
+      headers: {
+        'content-type': { value: 'text/plain' },
+      },
+      body: 'Forbidden',
+    }
+  }
+
+  return request
+}
