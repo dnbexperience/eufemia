@@ -878,7 +878,9 @@ resource "aws_cloudwatch_metric_alarm" "snapshot_mcp_build_failed" {
 # serves existing history) or the section cannot be built at all (falls back to
 # empty). Both are invisible to the Lambda/SnapshotRecordCount alarms, so this
 # alarm surfaces them. The namespace/metric/dimension must match those emitted in
-# src/lambda/snapshot.ts.
+# src/lambda/snapshot.ts. DORMANT until buildComponentUsage is wired into the
+# generator (no producer yet), so the metric is not emitted and the alarm stays
+# at INSUFFICIENT_DATA/OK; kept so re-wiring needs no infra change.
 resource "aws_cloudwatch_metric_alarm" "snapshot_component_usage_build_failed" {
   alarm_name          = "eufemia-${var.environment}-analytics-snapshot-component-usage-build-failed"
   alarm_description   = "Dashboard snapshot generator failed to refresh or build the component usage section"

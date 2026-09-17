@@ -216,17 +216,22 @@ function sumComponentUsageBy(
  * The rollup outlives the raw rows' expiry, so long-range adoption history stays
  * available without holding raw events forever.
  *
+ * NOT currently called by the generator — the section ships empty until a
+ * producer (the Nucleus bundler plugin) exists, to avoid querying empty tables.
+ * Exported and tested so re-wiring is a one-line change in the handler. The
+ * caller must handle a thrown durable read (fall back to the empty section).
+ *
  * The tail recompute is best-effort: a transient Athena/S3 failure there is
  * logged and flagged (the rollup misses the newest tail until the next run) but
  * does NOT blank the section — the durable history is still read and shown. Only
- * a failure of the durable read itself propagates to the empty fallback.
+ * a failure of the durable read itself propagates to the caller.
  *
  * Counts are `count(*)` over raw build-event rows, so they are build-weighted: an
  * app that builds often contributes more than one that rarely builds. For a true
  * "how many apps use this component" figure, switch to COUNT(DISTINCT app) once
  * the record schema is settled (EDS-843).
  */
-async function buildComponentUsage(
+export async function buildComponentUsage(
   bucket: string
 ): Promise<ComponentUsageSection> {
   const since = new Date()
@@ -295,17 +300,14 @@ export async function handler(): Promise<{
     mcpUsage = EMPTY_MCP_USAGE
   }
 
-  // The component-usage section is additive too; a failure here must not discard
-  // the portal views or MCP section already built. Fall back to empty.
-  let componentUsage: ComponentUsageSection
-  try {
-    componentUsage = await buildComponentUsage(bucket)
-  } catch (error) {
-    // eslint-disable-next-line no-console -- surface the failure in CloudWatch Logs
-    console.error('Failed to build component usage section', error)
-    emitComponentUsageBuildFailureMetric()
-    componentUsage = EMPTY_COMPONENT_USAGE
-  }
+  // The component-usage section is deliberately NOT wired to Athena yet: there
+  // is no producer (the Nucleus bundler plugin) writing to component-usage/, so
+  // querying the empty tables every run would only add Athena cost and an empty
+  // section. Ship the empty section until a producer exists; re-enable by
+  // replacing this with `await buildComponentUsage(bucket)` (best-effort, see
+  // that function). Storage, types, dashboard panel and buildComponentUsage are
+  // all in place so re-wiring is a one-line change.
+  const componentUsage: ComponentUsageSection = EMPTY_COMPONENT_USAGE
 
   const snapshot: Snapshot = {
     generatedAt: new Date().toISOString(),
