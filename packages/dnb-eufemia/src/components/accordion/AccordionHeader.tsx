@@ -10,7 +10,6 @@ import type {
   MouseEvent,
   ReactNode,
 } from 'react'
-import type { SpacingProps } from '../../shared/types'
 
 import {
   validateDOMAttributes,
@@ -27,24 +26,25 @@ import {
   createSkeletonClass,
 } from '../skeleton/SkeletonHelper'
 
-import type { HeadingLevel } from '../Heading'
-import type { IconIcon, IconSize } from '../Icon'
-import type { SkeletonShow } from '../Skeleton'
-import type {
-  AccordionIcon,
-  AccordionIconPosition,
-  AccordionVariant,
-} from './Accordion'
+import type { IconIcon } from '../Icon'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
+import type {
+  AccordionHeaderContainerProps,
+  AccordionHeaderDescription,
+  AccordionHeaderDescriptionProps,
+  AccordionHeaderIcon,
+  AccordionHeaderIconProps,
+  AccordionHeaderProps,
+  AccordionHeaderTitle,
+  AccordionHeaderTitleProps,
+} from './header-types'
+
+export type * from './header-types'
 
 const defaultAccordionIcon = Icon.transition({
   collapsed: chevron_down,
   expanded: chevron_up,
 })
-
-export type AccordionHeaderTitleProps = SpacingProps & {
-  children?: ReactNode
-}
 
 function AccordionHeaderTitle({
   children = null,
@@ -61,10 +61,6 @@ function AccordionHeaderTitle({
   )
 }
 
-export type AccordionHeaderDescriptionProps = SpacingProps & {
-  children?: ReactNode
-}
-
 function AccordionHeaderDescription({
   children = null,
   ...rest
@@ -76,10 +72,6 @@ function AccordionHeaderDescription({
   return children ? <span {...spacingProps}>{children}</span> : null
 }
 
-export type AccordionHeaderContainerProps = SpacingProps & {
-  children?: ReactNode
-}
-
 function AccordionHeaderContainer({
   children = null,
   ...rest
@@ -89,20 +81,6 @@ function AccordionHeaderContainer({
   })
 
   return children ? <span {...spacingProps}>{children}</span> : null
-}
-
-type AccordionHeaderIconIcon =
-  | IconIcon
-  | {
-      closed?: IconIcon
-      expanded?: IconIcon
-    }
-
-export type AccordionHeaderIconProps = {
-  icon?: AccordionHeaderIconIcon
-  size?: IconSize
-  expanded?: boolean
-  iconPosition?: AccordionIconPosition
 }
 
 function AccordionHeaderIcon({
@@ -145,49 +123,6 @@ function AccordionHeaderIcon({
     </span>
   )
 }
-
-export type AccordionHeaderTitle = string | ReactNode | (() => ReactNode)
-export type AccordionHeaderDescription =
-  | string
-  | ReactNode
-  | (() => ReactNode)
-export type AccordionHeaderLeftComponent =
-  | string
-  | ReactNode
-  | (() => ReactNode)
-export type AccordionHeaderElement = string | ReactNode | (() => ReactNode)
-export type AccordionHeaderHeading =
-  | boolean
-  | string
-  | ReactNode
-  | (() => ReactNode)
-export type AccordionHeaderIcon =
-  | ReactNode
-  | (() => ReactNode)
-  | {
-      closed?: ReactNode | (() => ReactNode)
-      expanded?: ReactNode | (() => ReactNode)
-    }
-
-export type AccordionHeaderProps = HTMLProps<HTMLElement> &
-  SpacingProps & {
-    title?: AccordionHeaderTitle
-    expanded?: boolean
-    description?: AccordionHeaderDescription
-    leftComponent?: AccordionHeaderLeftComponent
-    element?: AccordionHeaderElement
-    heading?: AccordionHeaderHeading
-    headingLevel?: HeadingLevel
-    icon?: AccordionIcon
-    iconPosition?: AccordionIconPosition
-    iconSize?: IconSize
-    disabled?: boolean
-    skeleton?: SkeletonShow
-    noAnimation?: boolean
-    className?: string
-    children?: string | ReactNode | (() => ReactNode)
-    variant?: AccordionVariant
-  }
 
 const accordionHeaderDefaultProps = {
   iconSize: 'medium',

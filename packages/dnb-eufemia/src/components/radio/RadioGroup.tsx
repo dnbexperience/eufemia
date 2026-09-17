@@ -3,7 +3,7 @@
  */
 
 import { useCallback, useContext, useRef, useState } from 'react'
-import type { CSSProperties, ReactNode, SyntheticEvent } from 'react'
+import type { ReactNode, SyntheticEvent } from 'react'
 import { clsx } from 'clsx'
 import useId from '../../shared/helpers/useId'
 import {
@@ -14,7 +14,6 @@ import {
   dispatchCustomElementEvent,
   removeUndefinedProps,
 } from '../../shared/component-helper'
-import type { FormElementProps } from '../../shared/helpers/filterValidProps'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 import { useSpacing } from '../space/SpacingUtils'
 import AlignmentHelper from '../../shared/AlignmentHelper'
@@ -25,53 +24,10 @@ import Flex from '../Flex'
 import Context from '../../shared/Context'
 import Suffix from '../../shared/helpers/Suffix'
 import RadioGroupContext from './RadioGroupContext'
-import type {
-  FormStatusBaseProps,
-  FormStatusText,
-  FormStatusState,
-} from '../FormStatus'
-import type { SkeletonShow } from '../Skeleton'
-import type { SpacingProps } from '../../shared/types'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
+import type { RadioGroupProps } from './group-types'
 
-export type RadioGroupLabelPosition = 'left' | 'right'
-export type RadioGroupSize = 'default' | 'medium' | 'large'
-export type RadioGroupSuffix = string | ReactNode
-export type RadioGroupLayoutDirection = 'column' | 'row'
-export type RadioGroupAttributes = string | Record<string, unknown>
-export type RadioGroupChildren = string | ReactNode
-
-export type RadioGroupChangeEvent = {
-  value: string
-  event: SyntheticEvent
-}
-
-export type RadioGroupProps = {
-  label?: ReactNode
-  labelDirection?: FormElementProps['labelDirection']
-  labelSrOnly?: boolean
-  labelPosition?: RadioGroupLabelPosition
-  title?: string
-  disabled?: boolean
-  skeleton?: SkeletonShow
-  id?: string
-  name?: string
-  size?: RadioGroupSize
-  status?: FormStatusText
-  statusState?: FormStatusState
-  statusProps?: FormStatusBaseProps
-  statusNoAnimation?: boolean
-  globalStatus?: FormStatusBaseProps['globalStatus']
-  suffix?: RadioGroupSuffix
-  vertical?: boolean
-  layoutDirection?: RadioGroupLayoutDirection
-  value?: string
-  attributes?: RadioGroupAttributes
-  style?: CSSProperties
-  className?: string
-  children?: RadioGroupChildren
-  onChange?: (event: RadioGroupChangeEvent) => void
-} & SpacingProps
+export type * from './group-types'
 
 const radioGroupDefaultProps: Partial<RadioGroupProps> = {
   label: null,
