@@ -156,5 +156,8 @@ describe('normalizeComponentName', () => {
   it('collapses import spellings to one canonical name', () => {
     expect(normalizeComponentName('Button')).toBe('button')
     expect(normalizeComponentName(' Button ')).toBe('button')
+    expect(normalizeComponentName('@dnb/eufemia/components/Button')).toBe(
+      'button'
+    )
   })
 })

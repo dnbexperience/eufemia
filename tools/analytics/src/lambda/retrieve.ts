@@ -5,6 +5,7 @@ import {
   StartQueryExecutionCommand,
 } from '@aws-sdk/client-athena'
 import type {
+  ComponentUsageAggregate,
   ComponentUsageDaily,
   McpUsageDaily,
 } from './snapshot-store.js'
@@ -209,9 +210,6 @@ export async function retrieveMcpUsageDaily(): Promise<McpUsageDaily[]> {
   return readResults(queryExecutionId, toDailyRow)
 }
 
-/** A component-usage aggregate row: one count per app+component+version+day. */
-export type ComponentUsageRow = ComponentUsageDaily
-
 function toComponentUsageDailyRow([
   dt,
   app,
@@ -221,6 +219,20 @@ function toComponentUsageDailyRow([
 ]: Array<string | undefined>): ComponentUsageDaily {
   return {
     dt: dt ?? '',
+    app: app ?? '',
+    component: component ?? '',
+    version: version ?? '',
+    count: Number(count ?? 0),
+  }
+}
+
+function toComponentUsageAggregateRow([
+  app,
+  component,
+  version,
+  count,
+]: Array<string | undefined>): ComponentUsageAggregate {
+  return {
     app: app ?? '',
     component: component ?? '',
     version: version ?? '',
@@ -251,17 +263,23 @@ export async function aggregateComponentUsageRaw(
   return readResults(queryExecutionId, toComponentUsageDailyRow)
 }
 
-/** Read the full durable daily component-usage rollup for the dashboard section. */
+/**
+ * Read the durable component-usage rollup for the dashboard section, summed by
+ * app/component/version across all days. Athena does the aggregation so the
+ * result stays bounded (~one row per distinct app+component+version) no matter
+ * how many days of raw rollup have accrued, instead of paging every daily row
+ * into the Lambda and summing in JS.
+ */
 export async function retrieveComponentUsageDaily(): Promise<
-  ComponentUsageDaily[]
+  ComponentUsageAggregate[]
 > {
   const database = requireEnv('GLUE_DATABASE')
   const table = requireEnv('GLUE_TABLE_COMPONENT_USAGE_DAILY')
   const workgroup = requireEnv('ATHENA_WORKGROUP')
 
-  const query = `SELECT dt, app, component, version, count FROM "${database}"."${table}"`
+  const query = `SELECT app, component, version, sum(count) AS cnt FROM "${database}"."${table}" GROUP BY app, component, version`
   const queryExecutionId = await startQuery(query, workgroup)
   await waitForQuery(queryExecutionId)
 
-  return readResults(queryExecutionId, toComponentUsageDailyRow)
+  return readResults(queryExecutionId, toComponentUsageAggregateRow)
 }

@@ -261,21 +261,12 @@ describe('buildComponentUsage', () => {
     ])
     retrieveComponentUsageDaily.mockResolvedValue([
       {
-        dt: '2026-09-15',
         app: 'app-a',
         component: 'button',
         version: '10.72.0',
-        count: 2,
+        count: 6,
       },
       {
-        dt: '2026-09-16',
-        app: 'app-a',
-        component: 'button',
-        version: '10.72.0',
-        count: 4,
-      },
-      {
-        dt: '2026-09-16',
         app: 'app-b',
         component: 'input',
         version: '10.71.0',
@@ -332,7 +323,6 @@ describe('buildComponentUsage', () => {
     aggregateComponentUsageRaw.mockRejectedValue(new Error('athena blip'))
     retrieveComponentUsageDaily.mockResolvedValue([
       {
-        dt: '2026-09-15',
         app: 'app-a',
         component: 'button',
         version: '10.72.0',

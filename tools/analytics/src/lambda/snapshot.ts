@@ -12,8 +12,8 @@ import {
   storeComponentUsageDaily,
   storeMcpUsageDaily,
   writeSnapshot,
+  type ComponentUsageAggregate,
   type ComponentUsageCount,
-  type ComponentUsageDaily,
   type ComponentUsageSection,
   type McpUsageCount,
   type McpUsageDaily,
@@ -191,7 +191,7 @@ const COMPONENT_TOP_LIMIT = 50
 const COMPONENT_ROLLUP_DAYS = 7
 
 function sumComponentUsageBy(
-  rows: ComponentUsageDaily[],
+  rows: ComponentUsageAggregate[],
   key: 'component' | 'app' | 'version'
 ): ComponentUsageCount[] {
   const counts = new Map<string, number>()
@@ -317,6 +317,11 @@ export async function handler(): Promise<{
   //     emitComponentUsageBuildFailureMetric()
   //     componentUsage = EMPTY_COMPONENT_USAGE
   //   }
+  // Also build it CONCURRENTLY with the MCP section (Promise.all) — wiring it in
+  // adds two Athena queries, and run sequentially the five (portal + 2 MCP + 2
+  // here) can exceed the Lambda timeout, killing the run before writeSnapshot.
+  // The infra "three Athena queries" / 90s-timeout test assumes this is unwired;
+  // update both when re-enabling.
   const componentUsage: ComponentUsageSection = EMPTY_COMPONENT_USAGE
 
   const snapshot: Snapshot = {

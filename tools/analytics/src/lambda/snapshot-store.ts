@@ -55,15 +55,19 @@ export const EMPTY_MCP_USAGE: McpUsageSection = {
 // Nucleus bundler plugin (the producer) lands; empty until then.
 export type ComponentUsageCount = { name: string; count: number }
 
-// A daily component-usage aggregate row (one per app+component+version per day),
-// read from and written to the durable component_usage_daily rollup.
-export type ComponentUsageDaily = {
-  dt: string
+// A component-usage count keyed by app+component+version, summed across days.
+// This is what the durable rollup returns for the dashboard section (Athena does
+// the GROUP BY, so the read stays bounded regardless of how many days accrue).
+export type ComponentUsageAggregate = {
   app: string
   component: string
   version: string
   count: number
 }
+
+// A daily component-usage aggregate row (one per app+component+version per day),
+// written to the durable component_usage_daily rollup and recomputed from raw.
+export type ComponentUsageDaily = ComponentUsageAggregate & { dt: string }
 
 export type ComponentUsageSection = {
   total: number

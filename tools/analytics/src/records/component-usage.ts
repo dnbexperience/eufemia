@@ -74,12 +74,15 @@ function isValidTimestamp(value: unknown): value is string {
 
 /**
  * Canonical component name for stable rollups. Mirrors the docs resolver's
- * lowercase convention (see the MCP usage track, #9344) so different import
- * spellings — `Button` vs the deep path `@dnb/eufemia/components/Button` — never
- * fragment into separate rows when Athena groups by component.
+ * lowercase convention (see the MCP usage track, #9344) and reduces a deep-path
+ * import to its final segment, so different import spellings — `Button` vs the
+ * deep path `@dnb/eufemia/components/Button` — collapse to one row when Athena
+ * groups by component instead of fragmenting.
  */
 export function normalizeComponentName(name: string): string {
-  return name.trim().toLowerCase()
+  const segment = name.trim().split('/').filter(Boolean).pop() ?? ''
+
+  return segment.toLowerCase()
 }
 
 /**
