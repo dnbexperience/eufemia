@@ -218,8 +218,9 @@ function sumComponentUsageBy(
  *
  * NOT currently called by the generator — the section ships empty until a
  * producer (the Nucleus bundler plugin) exists, to avoid querying empty tables.
- * Exported and tested so re-wiring is a one-line change in the handler. The
- * caller must handle a thrown durable read (fall back to the empty section).
+ * Exported and tested so re-wiring means restoring the try/catch snippet in the
+ * handler (it must catch, since this throws on a durable-read failure — falling
+ * back to the empty section so one section can't blank the whole snapshot).
  *
  * The tail recompute is best-effort: a transient Athena/S3 failure there is
  * logged and flagged (the rollup misses the newest tail until the next run) but
@@ -303,10 +304,19 @@ export async function handler(): Promise<{
   // The component-usage section is deliberately NOT wired to Athena yet: there
   // is no producer (the Nucleus bundler plugin) writing to component-usage/, so
   // querying the empty tables every run would only add Athena cost and an empty
-  // section. Ship the empty section until a producer exists; re-enable by
-  // replacing this with `await buildComponentUsage(bucket)` (best-effort, see
-  // that function). Storage, types, dashboard panel and buildComponentUsage are
-  // all in place so re-wiring is a one-line change.
+  // section. Ship the empty section until a producer exists.
+  //
+  // To re-enable once a producer lands, build it inside a try/catch so a failure
+  // here can't discard the portal views / MCP section already built (additive
+  // sections must fail independently):
+  //   let componentUsage: ComponentUsageSection
+  //   try {
+  //     componentUsage = await buildComponentUsage(bucket)
+  //   } catch (error) {
+  //     console.error('Failed to build component usage section', error)
+  //     emitComponentUsageBuildFailureMetric()
+  //     componentUsage = EMPTY_COMPONENT_USAGE
+  //   }
   const componentUsage: ComponentUsageSection = EMPTY_COMPONENT_USAGE
 
   const snapshot: Snapshot = {
