@@ -153,11 +153,18 @@ describe('babel build', () => {
       const { getPreHydrationScript } = await import(moduleUrl)
       const styles: Array<{ textContent: string }> = []
       const openItemsMenu = {
+        querySelectorAll: () => [defaultOpenAccordion],
         getAttribute: (name: string) =>
           ({
             'data-open-items-storage-key': 'navigation',
             'data-open-items-storage': 'session',
           })[name],
+      }
+      const defaultOpenAccordion = {
+        closest: () => openItemsMenu,
+        hasAttribute: () => false,
+        getAttribute: () => 'products',
+        querySelector: () => null,
       }
       const view = {
         scrollTop: 0,
@@ -214,6 +221,9 @@ describe('babel build', () => {
 
       expect(styles).toHaveLength(1)
       expect(styles[0].textContent).toContain('display:block')
+      expect(styles[0].textContent).toContain(
+        '[data-sidebar-menu-id="products"] > .dnb-height-animation{height:0'
+      )
       expect(view.scrollTop).toBe(120)
     }
   )

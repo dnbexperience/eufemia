@@ -2660,6 +2660,42 @@ describe('SidebarMenu', () => {
     sessionStorage.removeItem(storageKey)
   })
 
+  it('suppresses icon transitions while restoring stored accordion state', () => {
+    const storageKey = 'sidebar-menu-icon-restoration'
+    sessionStorage.setItem(storageKey, JSON.stringify([]))
+    vi.useFakeTimers()
+
+    try {
+      render(
+        <SidebarMenu.Root
+          openItemsStorageKey={storageKey}
+          defaultOpenItems={['products']}
+        >
+          <SidebarMenu.Accordion id="products" text="Products">
+            <SidebarMenu.Accordion id="cards" text="Cards">
+              <SidebarMenu.Item id="debit-card" text="Debit card" />
+            </SidebarMenu.Accordion>
+          </SidebarMenu.Accordion>
+        </SidebarMenu.Root>
+      )
+
+      const menu = document.querySelector('.dnb-sidebar-menu')
+      expect(menu).toHaveClass('dnb-sidebar-menu--restoring')
+      expect(
+        document.querySelector('[data-sidebar-menu-id="products"] button')
+      ).toHaveAttribute('aria-expanded', 'false')
+
+      act(() => {
+        vi.advanceTimersByTime(20)
+      })
+
+      expect(menu).not.toHaveClass('dnb-sidebar-menu--restoring')
+    } finally {
+      vi.useRealTimers()
+      sessionStorage.removeItem(storageKey)
+    }
+  })
+
   it('keeps animations enabled when open state is controlled with storage', () => {
     render(
       <SidebarMenu.Root

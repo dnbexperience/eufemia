@@ -32,6 +32,13 @@
 
   background-color: transparent;
 
+  &--restoring &__accordion__expand-icon {
+    svg,
+    svg path {
+      transition: none !important;
+    }
+  }
+
   &__sections.dnb-dropdown {
     --dropdown-border-radius: var(--token-radius-xl);
     --dropdown-border-width--open: 0.0625rem;

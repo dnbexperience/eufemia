@@ -1,4 +1,5 @@
 import { render } from '@testing-library/react'
+import { renderToString } from 'react-dom/server'
 import { afterEach, describe, expect, it } from 'vitest'
 import {
   SidebarMenuPreHydrationScript,
@@ -70,6 +71,112 @@ describe('SidebarMenuPreHydrationScript', () => {
         .textContent
     ).toContain('display:block')
   })
+
+  it('closes server-rendered defaults when stored open items are empty', () => {
+    document.body.innerHTML = renderToString(
+      <SidebarMenu.Root
+        openItemsStorageKey="navigation"
+        defaultOpenItems={['products']}
+      >
+        <SidebarMenu.Accordion id="products" text="Products">
+          <SidebarMenu.Item id="cards" text="Cards" />
+        </SidebarMenu.Accordion>
+      </SidebarMenu.Root>
+    )
+    sessionStorage.setItem('navigation', JSON.stringify([]))
+
+    Function(getPreHydrationScript())()
+
+    expect(
+      document.querySelector('[data-sidebar-menu-pre-hydration]')
+        ?.textContent
+    ).toContain(
+      '[data-sidebar-menu-id="products"] > .dnb-height-animation{height:0'
+    )
+  })
+
+  it('closes omitted defaults without closing saved nested accordions', () => {
+    document.body.innerHTML = renderToString(
+      <SidebarMenu.Root
+        openItemsStorageKey="navigation"
+        defaultOpenItems={['products']}
+      >
+        <SidebarMenu.Accordion id="products" text="Products">
+          <SidebarMenu.Accordion id="cards" text="Cards">
+            <SidebarMenu.Item id="debit" text="Debit" />
+          </SidebarMenu.Accordion>
+        </SidebarMenu.Accordion>
+      </SidebarMenu.Root>
+    )
+    sessionStorage.setItem('navigation', JSON.stringify(['cards']))
+
+    Function(getPreHydrationScript())()
+
+    const css = document.querySelector(
+      '[data-sidebar-menu-pre-hydration]'
+    )?.textContent
+    expect(css).toContain(
+      '[data-sidebar-menu-id="products"] > .dnb-height-animation{height:0'
+    )
+    expect(css).toContain(
+      '[data-sidebar-menu-id="cards"] > .dnb-height-animation{display:block'
+    )
+  })
+
+  it('preserves selected paths and explicitly controlled accordions', () => {
+    document.body.innerHTML = renderToString(
+      <SidebarMenu.Root
+        openItemsStorageKey="navigation"
+        selectedItem="cards"
+      >
+        <SidebarMenu.Accordion id="products" text="Products">
+          <SidebarMenu.Accordion id="accounts" text="Accounts">
+            <SidebarMenu.Item id="cards" text="Cards" />
+          </SidebarMenu.Accordion>
+        </SidebarMenu.Accordion>
+        <SidebarMenu.Accordion id="controlled" text="Controlled" open>
+          <SidebarMenu.Item id="settings" text="Settings" />
+        </SidebarMenu.Accordion>
+        <SidebarMenu.Accordion
+          id="static"
+          text="Static"
+          collapsible={false}
+        >
+          <SidebarMenu.Item id="help" text="Help" />
+        </SidebarMenu.Accordion>
+      </SidebarMenu.Root>
+    )
+    sessionStorage.setItem('navigation', JSON.stringify([]))
+
+    Function(getPreHydrationScript())()
+
+    expect(
+      document.querySelector('[data-sidebar-menu-pre-hydration]')
+    ).not.toBeInTheDocument()
+  })
+
+  it.each([null, {}, ['products', 1], { openItems: [] }])(
+    'preserves defaults for malformed saved state %j',
+    (stored) => {
+      document.body.innerHTML = renderToString(
+        <SidebarMenu.Root
+          openItemsStorageKey="navigation"
+          defaultOpenItems={['products']}
+        >
+          <SidebarMenu.Accordion id="products" text="Products">
+            <SidebarMenu.Item id="cards" text="Cards" />
+          </SidebarMenu.Accordion>
+        </SidebarMenu.Root>
+      )
+      sessionStorage.setItem('navigation', JSON.stringify(stored))
+
+      Function(getPreHydrationScript())()
+
+      expect(
+        document.querySelector('[data-sidebar-menu-pre-hydration]')
+      ).not.toBeInTheDocument()
+    }
+  )
 
   it('preserves an exact stored scroll position before hydration', () => {
     sessionStorage.setItem('navigation-scroll', '120')
