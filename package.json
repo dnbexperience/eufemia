@@ -32,6 +32,8 @@
     "lint:styles": "yarn workspace @dnb/eufemia lint:styles && yarn workspace dnb-design-system-portal lint:styles"
   },
   "devDependencies": {
+    "@dnb/browserslist-config": "1.4.1",
+    "@mdn/browser-compat-data": "8.0.12",
     "prettier": "3.8.1"
   },
   "resolutions": {

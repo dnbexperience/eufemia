@@ -1,0 +1,115 @@
+name: Automation - Platform modernization
+
+on:
+  schedule:
+    - cron: '37 6 15 1,7 *'
+  workflow_dispatch:
+
+permissions:
+  actions: read # Download the deterministic context in the reusable workflow.
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: true
+
+jobs:
+  prepare:
+    name: Check compatibility candidates
+    if: >-
+      vars.AUTOMATIONS_ENABLED == 'true' &&
+      github.repository == 'dnbexperience/eufemia'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    outputs:
+      artifact-name: ${{ steps.context.outputs.artifact-name }}
+      should-run: ${{ steps.context.outputs.should-run }}
+
+    steps:
+      - name: Check out default branch
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Setup dependencies
+        uses: ./.github/actions/setup
+        with:
+          cache-version: ${{ secrets.CACHE_VERSION }}
+
+      - name: Collect modernization candidates
+        id: context
+        run: |
+          context_dir="$RUNNER_TEMP/platform-modernization-context"
+          mkdir -p "$context_dir"
+          node .github/automations/modernization/collect-candidates.mjs \
+            .github/automations/modernization/candidates.json \
+            "$context_dir/platform-modernization.json"
+
+          eligible=$(jq '.summary.eligible' "$context_dir/platform-modernization.json")
+          blocked=$(jq '.summary.blocked' "$context_dir/platform-modernization.json")
+          artifact_name="platform-modernization-$GITHUB_RUN_ID"
+          if [[ $eligible -gt 0 ]]; then
+            should_run=true
+          else
+            should_run=false
+          fi
+          {
+            echo "artifact-name=$artifact_name"
+            echo "should-run=$should_run"
+          } >> "$GITHUB_OUTPUT"
+
+          {
+            echo "## Platform modernization"
+            echo
+            echo "Eligible candidates: **$eligible**"
+            echo "Blocked candidates: **$blocked**"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload compatibility context
+        if: steps.context.outputs.should-run == 'true'
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: ${{ steps.context.outputs.artifact-name }}
+          path: ${{ runner.temp }}/platform-modernization-context
+          retention-days: 30
+
+  analyze:
+    name: Assess modernization candidates
+    needs: prepare
+    if: needs.prepare.outputs.should-run == 'true'
+    uses: ./.github/workflows/automation-run.yml
+    with:
+      context-artifact: ${{ needs.prepare.outputs.artifact-name }}
+      prompt-file: platform-modernization.md
+      report-name: platform-modernization-${{ github.run_id }}
+
+  notify:
+    name: Update platform modernization issue
+    needs: analyze
+    if: needs.analyze.outputs.report != ''
+    permissions:
+      contents: read
+      issues: write # Update the platform modernization tracking issue.
+    uses: ./.github/workflows/automation-notify.yml
+    with:
+      marker: eufemia-automation:platform-modernization
+      report: ${{ needs.analyze.outputs.report }}
+      target: platform-modernization
+      target-kind: issue
+      title: 'Automation report: platform modernization'
+
+  clear-notification:
+    name: Close resolved modernization issue
+    needs: prepare
+    if: needs.prepare.outputs.should-run == 'false'
+    permissions:
+      contents: read
+      issues: write # Close the platform modernization tracking issue.
+    uses: ./.github/workflows/automation-notify.yml
+    with:
+      marker: eufemia-automation:platform-modernization
+      report: '{"title":"Platform modernization","summary":"No registered compatibility fallback is currently eligible for removal.","status":"ok","findings":[],"metrics":[]}'
+      target: platform-modernization
+      target-kind: issue
+      title: 'Automation report: platform modernization'
