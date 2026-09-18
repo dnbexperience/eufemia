@@ -3,7 +3,7 @@
  *
  */
 
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import type { HTMLProps, ReactNode } from 'react'
 import Anchor from '../tags/Anchor'
 import { clsx } from 'clsx'
@@ -66,6 +66,20 @@ function Layout(props: LayoutProps) {
   const codeFocusMode = focusModeCodeId !== null
 
   const fs = ssrFullscreen || urlFullscreen || codeFocusMode
+  const updateSidebarWidth = useCallback(
+    (width: number) => {
+      if (!fs && !hideSidebar) {
+        portalRef.current?.style.setProperty('--aside-width', `${width}px`)
+      }
+    },
+    [fs, hideSidebar]
+  )
+
+  useEffect(() => {
+    if (fs || hideSidebar) {
+      portalRef.current?.style.setProperty('--aside-width', '0px')
+    }
+  }, [fs, hideSidebar])
 
   // Restore the page position after exiting any fullscreen mode
   const wasFullscreenRef = useRef(false)
@@ -145,19 +159,19 @@ function Layout(props: LayoutProps) {
       </a>
 
       <EufemiaSidebarMenu.ResponsiveProvider
-        onInlineCollapsedChange={(collapsed) => {
-          if (collapsed) {
-            portalRef.current?.style.setProperty('--aside-width', '0px')
-          } else {
-            portalRef.current?.style.removeProperty('--aside-width')
-          }
-        }}
+        drawerAt="medium"
+        compactAt="large"
+        compactOffset="10em"
       >
         {!fs && <StickyMenuBar />}
 
         <div className={wrapperStyle}>
           {!fs && !hideSidebar && (
-            <SidebarMenu location={location} showAll={false} />
+            <SidebarMenu
+              location={location}
+              showAll={false}
+              onWidthChange={updateSidebarWidth}
+            />
           )}
 
           <Content key="content" fullscreen={fs}>

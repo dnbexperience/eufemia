@@ -3,22 +3,17 @@
  *
  */
 
-import { useEffect, useRef } from 'react'
+import { useEffect } from 'react'
 import { clsx } from 'clsx'
 import { useStaticQuery, graphql } from 'portal-query'
 import * as SidebarMenu from '@dnb/eufemia/src/extensions/sidebar-menu'
 import '@dnb/eufemia/src/extensions/sidebar-menu/style'
-import { ScrollView } from '@dnb/eufemia/src/fragments'
 import { setPageFocusElement } from '@dnb/eufemia/src/shared/helpers'
 import {
   navStyle,
-  collapsedNavStyle,
-  desktopNavStyle,
   mobileDrawerStyle,
   mobileDrawerLogoStyle,
-  mobileNavStyle,
   scrollContentStyle,
-  scrollStyle,
   sidebarLogoStyle,
 } from './SidebarMenu.module.scss'
 import { defaultTabsValue } from '../tags/defaultValues'
@@ -42,19 +37,15 @@ const showAlwaysMenuItems = [] // like "uilib" something like that
 type SidebarLayoutProps = {
   location: Location
   showAll?: boolean
+  onWidthChange?: (width: number) => void
 }
 
 export default function SidebarLayout({
   location,
   showAll,
+  onWidthChange,
 }: SidebarLayoutProps) {
-  const {
-    close: closeMenu,
-    collapseInline,
-    inlineCollapsed,
-    isSmallScreen,
-  } = SidebarMenu.useResponsive()
-  const scrollRef = useRef<HTMLElement>(null)
+  const { close: closeMenu } = SidebarMenu.useResponsive()
 
   const {
     allMdx,
@@ -148,64 +139,16 @@ export default function SidebarLayout({
   const selectedItem = findActiveSidebarItemId(groupedNavItems)
   const currentTheme = useTheme()?.name
   const storageKey = getSidebarMenuStorageKey(groupedNavItems)
-  const menu = (
-    className?: string,
-    withSpace = true,
-    withResizeHandle = false
-  ) => (
-    <aside
-      id="portal-sidebar-menu"
-      className={clsx(
-        navStyle,
-        inlineCollapsed && collapsedNavStyle,
-        className
-      )}
-      ref={scrollRef}
-    >
-      <ScrollView
-        className={clsx(
-          scrollStyle,
-          'portal-sidebar-scroll-view',
-          'dnb-scrollbar-appearance'
-        )}
-        interactive="auto"
-        scrollbarGutter={isSmallScreen ? undefined : 'stable'}
-      >
-        <div className={scrollContentStyle}>
-          <Link
-            href="/"
-            className={clsx(sidebarLogoStyle, 'dnb-tab-focus')}
-            title="Go to Eufemia home"
-          >
-            <PortalLogo />
-          </Link>
-
-          <SidebarMenu.Data
-            aria-label="Section Content Menu"
-            className="dev-grid"
-            data={addThemeBadges(navItems, currentTheme)}
-            selectedItem={selectedItem}
-            openItemsStorageKey={storageKey}
-            scrollPositionStorageKey={`${storageKey}-scroll-position`}
-            {...(withSpace && {
-              left: 'medium',
-              top: 'medium',
-              right: 'small',
-            })}
-          />
-        </div>
-      </ScrollView>
-
-      {withResizeHandle && (
-        <SidebarMenu.ResizeHandle
-          targetRef={scrollRef}
-          scopeSelector=".eufemia-scope--portal"
-          cssProperty="--aside-width"
-          onCollapse={collapseInline}
-          aria-controls="portal-sidebar-menu"
-        />
-      )}
-    </aside>
+  const menu = (withSpace = false) => (
+    <SidebarMenu.Data
+      aria-label="Section Content Menu"
+      className="dev-grid"
+      data={addThemeBadges(navItems, currentTheme)}
+      selectedItem={selectedItem}
+      openItemsStorageKey={storageKey}
+      scrollPositionStorageKey={`${storageKey}-scroll-position`}
+      {...(withSpace && { top: 'medium' })}
+    />
   )
 
   return (
@@ -224,12 +167,33 @@ export default function SidebarLayout({
           </Link>
         }
       >
-        {menu(mobileNavStyle, false)}
+        {menu()}
       </SidebarMenu.ResponsiveDrawer>
 
-      <SidebarMenu.ResponsiveInline>
-        {menu(desktopNavStyle, true, !isSmallScreen)}
-      </SidebarMenu.ResponsiveInline>
+      <SidebarMenu.ResponsiveAside
+        id="portal-sidebar-menu"
+        className={navStyle}
+        expandedWidth="24rem"
+        compactWidth="4rem"
+        resizable
+        onWidthChange={onWidthChange}
+        scrollViewProps={{
+          className: clsx(
+            'portal-sidebar-scroll-view',
+            'dnb-scrollbar-appearance'
+          ),
+        }}
+        contentProps={{ className: scrollContentStyle }}
+      >
+        <Link
+          href="/"
+          className={clsx(sidebarLogoStyle, 'dnb-tab-focus')}
+          title="Go to Eufemia home"
+        >
+          <PortalLogo />
+        </Link>
+        {menu(true)}
+      </SidebarMenu.ResponsiveAside>
     </>
   )
 }

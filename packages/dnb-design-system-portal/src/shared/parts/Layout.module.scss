@@ -210,9 +210,6 @@
   width: 100%;
   min-height: 100vh;
 
-  margin-left: 30vw; /* fallback */
-  margin-left: var(--aside-width);
-
   padding: 0;
 
   /* Reserve space for the fixed header. */
