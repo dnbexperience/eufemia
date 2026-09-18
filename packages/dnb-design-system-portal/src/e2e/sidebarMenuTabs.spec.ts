@@ -202,8 +202,12 @@ test.describe('Portal SidebarMenu', () => {
     await menuBeforeNavigation.getByRole('link', { name: 'Home' }).click()
 
     await expect(page).toHaveURL('/')
+    const menuAfterNavigation = page.getByRole('navigation', {
+      name: 'Section Content Menu',
+    })
+    await expect(menuAfterNavigation).toBeVisible()
     await expect(
-      page.getByRole('navigation', { name: 'Section Content Menu' })
+      menuAfterNavigation.getByRole('link', { name: 'Home' })
     ).toBeVisible()
   })
 
