@@ -22,3 +22,20 @@ render(<Form.SubmitIndicator state="pending" />)
 ### Integration
 
 The indicator is implemented by default in the [Form.SubmitButton](/uilib/extensions/forms/Form/SubmitButton/) and [FieldBlock](/uilib/extensions/forms/create-component/FieldBlock/) label. It will be displayed when the `onSubmit` event handler on the [Form.Handler](/uilib/extensions/forms/Form/Handler/) component is an async function. You can find some examples down below.
+
+### Border glow
+
+To show the border glow on a field, set `fieldState="pending"` on [FieldBlock](/uilib/extensions/forms/create-component/FieldBlock/). This adds the glow styling around the field contents and includes the status text for screen readers. When hover or focus styling is visible, the glow is adjusted so both states remain visible.
+
+```tsx
+import { Input } from '@dnb/eufemia'
+import { FieldBlock } from '@dnb/eufemia/extensions/forms'
+
+render(
+  <FieldBlock label="Label" fieldState="pending">
+    <Input defaultValue="Value" />
+  </FieldBlock>
+)
+```
+
+For custom compositions, apply `dnb-indicator-border-glow` to the wrapper and add `dnb-indicator-border-glow--active` while the operation is pending.
