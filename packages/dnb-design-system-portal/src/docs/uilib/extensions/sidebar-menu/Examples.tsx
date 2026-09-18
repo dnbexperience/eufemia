@@ -1,6 +1,7 @@
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import * as SidebarMenu from '@dnb/eufemia/src/extensions/sidebar-menu'
 import '@dnb/eufemia/src/extensions/sidebar-menu/style'
+import styles from './Examples.module.scss'
 import { ScrollView } from '@dnb/eufemia/src/fragments'
 import {
   account,
@@ -304,23 +305,41 @@ export function SidebarMenuData() {
   )
 }
 
-export function SidebarMenuResponsiveDrawer() {
+export function SidebarMenuResponsiveNavigation() {
   return (
-    <ComponentBox hideCode>
+    <ComponentBox hideCode scope={{ account, card, cog, home, styles }}>
       {() => {
         const ResponsiveMenu = () => {
           const items = [
-            { id: 'home', text: 'Home', href: '#home' },
+            { id: 'home', text: 'Home', icon: home, href: '#home' },
             {
               id: 'products',
               text: 'Products',
+              icon: card,
               items: [
-                { id: 'accounts', text: 'Accounts', href: '#accounts' },
-                { id: 'cards', text: 'Cards', href: '#cards' },
+                {
+                  id: 'accounts',
+                  text: 'Accounts',
+                  icon: account,
+                  href: '#accounts',
+                },
+                { id: 'cards', text: 'Cards', icon: card, href: '#cards' },
+                {
+                  id: 'statements',
+                  text: 'Statements',
+                  href: '#statements',
+                },
               ],
             },
+            {
+              id: 'settings',
+              text: 'Settings',
+              icon: cog,
+              href: '#settings',
+              dividerBefore: true,
+            },
           ]
-          const { close } = SidebarMenu.useResponsive()
+          const { close, isSmallScreen } = SidebarMenu.useResponsive()
           const menuItems = items.map((item) => ({
             ...item,
             onClick: item.href ? close : undefined,
@@ -331,17 +350,39 @@ export function SidebarMenuResponsiveDrawer() {
           }))
 
           return (
-            <>
-              <SidebarMenu.ResponsiveTrigger
-                controls="responsive-menu-drawer"
-                text="Menu"
-              />
-              <SidebarMenu.ResponsiveInline>
+            <div
+              className={styles.responsiveShell}
+              data-sidebar-menu-responsive-example
+              data-small-screen={isSmallScreen}
+            >
+              <SidebarMenu.ResponsiveAside
+                compactWidth="4rem"
+                expandedWidth="18rem"
+                resizable
+                resizeHandleProps={{ minWidth: 240, maxWidth: 480 }}
+              >
                 <SidebarMenu.Data
                   aria-label="Main navigation"
                   data={menuItems}
+                  defaultOpenItems={['products']}
+                  openItemsStorageKey="sidebar-menu-responsive-example"
+                  scrollPositionStorageKey="sidebar-menu-responsive-example-scroll"
                 />
-              </SidebarMenu.ResponsiveInline>
+              </SidebarMenu.ResponsiveAside>
+
+              <main className={styles.responsiveMain}>
+                <SidebarMenu.ResponsiveTrigger
+                  controls="responsive-menu-drawer"
+                  text="Menu"
+                  bottom="medium"
+                />
+                <h2>Account overview</h2>
+                <p>
+                  The page content uses the space left by the responsive
+                  navigation. Resize the viewport to see all three modes.
+                </p>
+              </main>
+
               <SidebarMenu.ResponsiveDrawer
                 id="responsive-menu-drawer"
                 dialogTitle="Menu"
@@ -349,14 +390,20 @@ export function SidebarMenuResponsiveDrawer() {
                 <SidebarMenu.Data
                   aria-label="Main navigation"
                   data={menuItems}
+                  openItemsStorageKey="sidebar-menu-responsive-example"
+                  scrollPositionStorageKey="sidebar-menu-responsive-example-scroll"
                 />
               </SidebarMenu.ResponsiveDrawer>
-            </>
+            </div>
           )
         }
 
         return (
-          <SidebarMenu.ResponsiveProvider breakpoint="medium">
+          <SidebarMenu.ResponsiveProvider
+            drawerAt="medium"
+            compactAt="large"
+            compactOffset="10em"
+          >
             <ResponsiveMenu />
           </SidebarMenu.ResponsiveProvider>
         )
