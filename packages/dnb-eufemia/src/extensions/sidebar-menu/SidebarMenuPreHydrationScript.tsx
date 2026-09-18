@@ -113,8 +113,8 @@ function applyPreHydrationState() {
 
               const id = accordion.getAttribute('data-sidebar-menu-id')
               if (
-                !openItems.includes(id) &&
-                !closedItems.includes(id) &&
+                openItems.indexOf(id) === -1 &&
+                closedItems.indexOf(id) === -1 &&
                 !accordion.querySelector('[aria-current="page"]')
               ) {
                 add(id, false)
