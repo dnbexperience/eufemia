@@ -576,6 +576,7 @@ function SidebarMenuRoot(props: SidebarMenuRootProps) {
       className={clsx(
         'dnb-sidebar-menu',
         !animate && 'dnb-sidebar-menu--restoring',
+        responsive?.isCompact && 'dnb-sidebar-menu--compact',
         className
       )}
       data-open-items-storage-key={persistedOpenItemsStorageKey}

@@ -51,6 +51,219 @@ describe('SidebarMenu responsive parts', () => {
     ).toHaveAttribute('data-sidebar-menu-responsive-visible', 'true')
   })
 
+  it('provides a ready-to-use responsive aside', () => {
+    setMedia({ width: '100em' })
+
+    render(
+      <SidebarMenu.ResponsiveProvider compactAt="large">
+        <SidebarMenu.ResponsiveTrigger controls="mobile-navigation" />
+        <SidebarMenu.ResponsiveAside resizable>
+          <SidebarMenu.Root aria-label="Navigation">
+            <SidebarMenu.Item id="home" text="Home" />
+          </SidebarMenu.Root>
+        </SidebarMenu.ResponsiveAside>
+      </SidebarMenu.ResponsiveProvider>
+    )
+
+    const aside = document.querySelector(
+      '.dnb-sidebar-menu-responsive-aside'
+    )
+    const handle = document.querySelector(
+      '.dnb-sidebar-menu-responsive-aside__resize-handle'
+    )
+    const trigger = document.querySelector(
+      '.dnb-sidebar-menu-responsive-trigger'
+    )
+
+    expect(aside).toContainElement(
+      document.querySelector(
+        '.dnb-sidebar-menu-responsive-aside__scroll-view'
+      )
+    )
+    expect(aside.id).toBeTruthy()
+    expect(handle).toHaveAttribute('aria-controls', aside.id)
+    expect(trigger).toHaveAttribute('aria-controls', aside.id)
+  })
+
+  it('reports the width reserved by ResponsiveAside', () => {
+    const originalResizeObserver = globalThis.ResizeObserver
+    globalThis.ResizeObserver = class {
+      observe() {}
+      disconnect() {}
+      unobserve() {}
+    } as typeof ResizeObserver
+    const getBoundingClientRect = vi
+      .spyOn(HTMLElement.prototype, 'getBoundingClientRect')
+      .mockImplementation(function (this: HTMLElement) {
+        return {
+          width: this.classList.contains(
+            'dnb-sidebar-menu-responsive-inline'
+          )
+            ? 320
+            : 0,
+        } as DOMRect
+      })
+    const onWidthChange = vi.fn()
+
+    render(
+      <SidebarMenu.ResponsiveProvider>
+        <SidebarMenu.ResponsiveAside onWidthChange={onWidthChange}>
+          Menu
+        </SidebarMenu.ResponsiveAside>
+      </SidebarMenu.ResponsiveProvider>
+    )
+
+    expect(onWidthChange).toHaveBeenCalledWith(320)
+    getBoundingClientRect.mockRestore()
+    globalThis.ResizeObserver = originalResizeObserver
+  })
+
+  it('uses the compact mode between the content and Drawer thresholds', () => {
+    setMedia({ width: '80em', hover: 'hover', pointer: 'fine' })
+
+    const { rerender } = render(
+      <SidebarMenu.ResponsiveProvider
+        drawerAt="medium"
+        compactAt="large"
+        compactOffset="24em"
+      >
+        <SidebarMenu.ResponsiveInline>
+          <SidebarMenu.Root aria-label="Navigation">
+            <SidebarMenu.Item id="home" text="Home" />
+          </SidebarMenu.Root>
+        </SidebarMenu.ResponsiveInline>
+      </SidebarMenu.ResponsiveProvider>
+    )
+
+    expect(
+      document.querySelector('.dnb-sidebar-menu-responsive-inline')
+    ).toHaveAttribute('data-sidebar-menu-responsive-compact', 'true')
+    expect(document.querySelector('.dnb-sidebar-menu')).toHaveClass(
+      'dnb-sidebar-menu--compact'
+    )
+
+    setMedia({ width: '100em' })
+    rerender(
+      <SidebarMenu.ResponsiveProvider
+        drawerAt="medium"
+        compactAt="large"
+        compactOffset="24em"
+      >
+        <SidebarMenu.ResponsiveInline>
+          <SidebarMenu.Root aria-label="Navigation">
+            <SidebarMenu.Item id="home" text="Home" />
+          </SidebarMenu.Root>
+        </SidebarMenu.ResponsiveInline>
+      </SidebarMenu.ResponsiveProvider>
+    )
+
+    expect(
+      document.querySelector('.dnb-sidebar-menu-responsive-inline')
+    ).toHaveAttribute('data-sidebar-menu-responsive-compact', 'false')
+    expect(document.querySelector('.dnb-sidebar-menu')).not.toHaveClass(
+      'dnb-sidebar-menu--compact'
+    )
+  })
+
+  it('keeps the full inline menu on touch-only input', () => {
+    setMedia({ width: '80em', hover: 'none', pointer: 'coarse' })
+
+    render(
+      <SidebarMenu.ResponsiveProvider
+        compactAt="large"
+        compactOffset="24em"
+      >
+        <SidebarMenu.ResponsiveInline>
+          Inline menu
+        </SidebarMenu.ResponsiveInline>
+      </SidebarMenu.ResponsiveProvider>
+    )
+
+    expect(
+      document.querySelector('.dnb-sidebar-menu-responsive-inline')
+    ).toHaveAttribute('data-sidebar-menu-responsive-compact', 'false')
+  })
+
+  it('dismisses the compact overlay after an item activates', () => {
+    setMedia({ width: '80em', hover: 'hover', pointer: 'fine' })
+
+    render(
+      <SidebarMenu.ResponsiveProvider
+        compactAt="large"
+        compactOffset="24em"
+      >
+        <SidebarMenu.ResponsiveInline>
+          <SidebarMenu.Root aria-label="Navigation">
+            <SidebarMenu.Item id="home" text="Home" />
+            <SidebarMenu.Accordion id="products" text="Products">
+              <SidebarMenu.Item id="accounts" text="Accounts" />
+            </SidebarMenu.Accordion>
+            <SidebarMenu.Item id="settings" text="Settings" />
+          </SidebarMenu.Root>
+        </SidebarMenu.ResponsiveInline>
+      </SidebarMenu.ResponsiveProvider>
+    )
+
+    const inline = document.querySelector(
+      '.dnb-sidebar-menu-responsive-inline'
+    )
+    const actions = document.querySelectorAll(
+      '.dnb-sidebar-menu__item__action'
+    )
+    const accordion = document.querySelector(
+      '.dnb-sidebar-menu__accordion__trigger'
+    )
+
+    fireEvent.click(accordion)
+    expect(inline).not.toHaveAttribute(
+      'data-sidebar-menu-responsive-dismissed'
+    )
+
+    fireEvent.click(actions[0])
+    expect(inline).toHaveAttribute(
+      'data-sidebar-menu-responsive-dismissed',
+      'true'
+    )
+
+    fireEvent.mouseLeave(inline)
+    expect(inline).toHaveAttribute(
+      'data-sidebar-menu-responsive-dismissed',
+      'true'
+    )
+    fireEvent.mouseEnter(inline)
+    expect(inline).not.toHaveAttribute(
+      'data-sidebar-menu-responsive-dismissed'
+    )
+
+    fireEvent.click(actions[0])
+    fireEvent.focus(actions[1])
+    expect(inline).not.toHaveAttribute(
+      'data-sidebar-menu-responsive-dismissed'
+    )
+  })
+
+  it('renders first-paint compact layout CSS', () => {
+    const html = renderToString(
+      <SidebarMenu.ResponsiveProvider
+        compactAt="large"
+        compactOffset="10em"
+      >
+        <SidebarMenu.ResponsiveInline
+          compactWidth="4rem"
+          expandedWidth="18rem"
+        >
+          Inline menu
+        </SidebarMenu.ResponsiveInline>
+      </SidebarMenu.ResponsiveProvider>
+    )
+
+    expect(html).toContain('(hover:hover) and (pointer:fine)')
+    expect(html).toContain('(max-width:82em)')
+    expect(html).toContain('--sidebar-menu-compact-width:4rem')
+    expect(html).toContain('--sidebar-menu-default-expanded-width:18rem')
+    expect(html).toContain('dnb-sidebar-menu-responsive-inline__content')
+  })
+
   it('restores a collapsed inline menu from the desktop trigger', () => {
     setMedia({ width: '70em' })
 
@@ -87,6 +300,10 @@ describe('SidebarMenu responsive parts', () => {
       'data-sidebar-menu-responsive-visible',
       'true'
     )
+    expect(trigger).toHaveAttribute(
+      'data-sidebar-menu-responsive-animate-hamburger',
+      'true'
+    )
     expect(trigger).toHaveAttribute('aria-controls', 'inline-menu')
     expect(trigger).not.toHaveAttribute('aria-haspopup')
     expect(trigger).toHaveAttribute('aria-expanded', 'false')
@@ -105,6 +322,9 @@ describe('SidebarMenu responsive parts', () => {
       'false'
     )
     expect(trigger).toHaveAttribute('aria-expanded', 'true')
+    expect(trigger).not.toHaveAttribute(
+      'data-sidebar-menu-responsive-animate-hamburger'
+    )
   })
 
   it('restores a dragged-away inline menu at its default width', async () => {
@@ -198,6 +418,9 @@ describe('SidebarMenu responsive parts', () => {
 
     expect(html).toContain('dnb-sidebar-menu-responsive-trigger')
     expect(html).toContain('dnb-sidebar-menu-responsive-inline')
+    expect(html).not.toContain(
+      'dnb-sidebar-menu-responsive-inline__content'
+    )
     expect(html).toContain('aria-label="Åpne meny"')
     expect(html).toContain('aria-controls="mobile-menu"')
     expect(html).toContain('aria-haspopup="dialog"')
@@ -208,7 +431,7 @@ describe('SidebarMenu responsive parts', () => {
   it('renders scoped first-paint CSS for a custom breakpoint', () => {
     const html = renderToString(
       <SidebarMenu.ResponsiveProvider
-        breakpoint="50em"
+        drawerAt="50em"
         styleNonce="nonce-value"
       >
         <SidebarMenu.ResponsiveTrigger />
@@ -230,7 +453,7 @@ describe('SidebarMenu responsive parts', () => {
 
   it('resolves named custom breakpoints for the first paint', () => {
     const html = renderToString(
-      <SidebarMenu.ResponsiveProvider breakpoint="small">
+      <SidebarMenu.ResponsiveProvider drawerAt="small">
         <SidebarMenu.ResponsiveTrigger />
       </SidebarMenu.ResponsiveProvider>
     )
@@ -262,7 +485,7 @@ describe('SidebarMenu responsive parts', () => {
 
   it('falls back to medium for unsupported runtime values', () => {
     const html = renderToString(
-      <SidebarMenu.ResponsiveProvider breakpoint={'800px' as '50em'}>
+      <SidebarMenu.ResponsiveProvider drawerAt={'800px' as '50em'}>
         <SidebarMenu.ResponsiveTrigger />
       </SidebarMenu.ResponsiveProvider>
     )
@@ -274,7 +497,7 @@ describe('SidebarMenu responsive parts', () => {
     setMedia({ width: '53.125em' })
 
     const { rerender } = render(
-      <SidebarMenu.ResponsiveProvider breakpoint="50em">
+      <SidebarMenu.ResponsiveProvider drawerAt="50em">
         <SidebarMenu.ResponsiveTrigger />
         <SidebarMenu.ResponsiveInline>
           Inline menu
@@ -291,7 +514,7 @@ describe('SidebarMenu responsive parts', () => {
 
     setMedia({ width: '43.75em' })
     rerender(
-      <SidebarMenu.ResponsiveProvider breakpoint="50em">
+      <SidebarMenu.ResponsiveProvider drawerAt="50em">
         <SidebarMenu.ResponsiveTrigger />
         <SidebarMenu.ResponsiveInline>
           Inline menu
@@ -310,7 +533,7 @@ describe('SidebarMenu responsive parts', () => {
   it('hydrates custom breakpoint markup with a stable scope', async () => {
     setMedia({ width: '53.125em' })
     const element = (
-      <SidebarMenu.ResponsiveProvider breakpoint="50em">
+      <SidebarMenu.ResponsiveProvider drawerAt="50em">
         <SidebarMenu.ResponsiveTrigger />
         <SidebarMenu.ResponsiveInline>
           Inline menu

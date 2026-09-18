@@ -57,6 +57,7 @@ describe('SidebarMenu', () => {
         'Root',
         'Section',
         'ResizeHandle',
+        'ResponsiveAside',
         'ResponsiveInline',
         'ResponsiveDrawer',
         'ResponsiveProvider',

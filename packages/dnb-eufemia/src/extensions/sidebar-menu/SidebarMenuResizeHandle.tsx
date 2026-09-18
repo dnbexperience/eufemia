@@ -56,6 +56,7 @@ export default function SidebarMenuResizeHandle({
   const translation = useTranslation().SidebarMenu
   const cleanupResizeRef = useRef<() => void>(undefined)
   const resetFrameRef = useRef<number>(undefined)
+  const initialMeasureFrameRef = useRef<number>(undefined)
   const resetTransitionCleanupRef = useRef<() => void>(undefined)
   const handleRef = useRef<HTMLButtonElement>(null)
   const writtenWidthRef = useRef<number>(undefined)
@@ -73,6 +74,7 @@ export default function SidebarMenuResizeHandle({
     () => () => {
       cleanupResizeRef.current?.()
       cancelAnimationFrame(resetFrameRef.current)
+      cancelAnimationFrame(initialMeasureFrameRef.current)
       resetTransitionCleanupRef.current?.()
     },
     []
@@ -113,12 +115,21 @@ export default function SidebarMenuResizeHandle({
   }, [maxWidth, minWidth, targetRef])
 
   useLayoutEffect(() => {
-    if (targetRef.current) {
+    const measure = () => {
+      if (!targetRef.current) {
+        return
+      }
       const targetWidth = targetRef.current.getBoundingClientRect().width
-      writtenWidthRef.current = targetWidth
-      setHandlePosition(targetWidth)
-      setResolvedMaxWidth(getMaximumWidth())
+      if (targetWidth > 0) {
+        writtenWidthRef.current = targetWidth
+        setHandlePosition(targetWidth)
+        setResolvedMaxWidth(getMaximumWidth())
+      }
     }
+
+    measure()
+    initialMeasureFrameRef.current = requestAnimationFrame(measure)
+    return () => cancelAnimationFrame(initialMeasureFrameRef.current)
   }, [getMaximumWidth, targetRef])
 
   useEffect(() => {
@@ -229,6 +240,7 @@ export default function SidebarMenuResizeHandle({
     ) => () => void
   ) {
     cleanupResizeRef.current?.()
+    cancelAnimationFrame(initialMeasureFrameRef.current)
     cancelAnimationFrame(resetFrameRef.current)
     resetTransitionCleanupRef.current?.()
     const rootElement = getRootElement()

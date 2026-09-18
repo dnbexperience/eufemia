@@ -13,6 +13,8 @@ import {
   SidebarMenuHeaderProperties,
   SidebarMenuResizeHandleProperties,
   SidebarMenuResponsiveProviderProperties,
+  SidebarMenuResponsiveInlineProperties,
+  SidebarMenuResponsiveAsideProperties,
   SidebarMenuResponsiveTriggerProperties,
   SidebarMenuResponsiveDrawerProperties,
 } from '@dnb/eufemia/src/extensions/sidebar-menu/SidebarMenuDocs'
@@ -65,6 +67,14 @@ Returns the same standalone script as a string for HTML templates assembled outs
 
 <PropertiesTable props={SidebarMenuResponsiveProviderProperties} />
 
+## SidebarMenu.ResponsiveInline
+
+<PropertiesTable props={SidebarMenuResponsiveInlineProperties} />
+
+## SidebarMenu.ResponsiveAside
+
+<PropertiesTable props={SidebarMenuResponsiveAsideProperties} />
+
 ## SidebarMenu.ResponsiveTrigger
 
 <PropertiesTable props={SidebarMenuResponsiveTriggerProperties} />
@@ -79,4 +89,5 @@ Returns `SidebarMenuResponsiveValue` with:
 
 - `open`, `setOpen`, `toggle`, and `close` for the small-screen Drawer.
 - `isSmallScreen` for the active responsive mode.
+- `isCompact` for the icon-rail mode.
 - `inlineCollapsed`, `collapseInline`, and `restoreInline` for dismissible desktop navigation.
