@@ -245,6 +245,9 @@ export default function SidebarMenuAccordion(
     <li
       {...rest}
       data-sidebar-menu-id={id}
+      data-sidebar-menu-open-controlled={
+        isControlled || !collapsible || undefined
+      }
       className={clsx(
         'dnb-sidebar-menu__accordion',
         isOpen && collapsible && 'dnb-sidebar-menu__accordion--open',

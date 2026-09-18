@@ -3,7 +3,7 @@
  *
  */
 
-import { Fragment, useContext, useState } from 'react'
+import { Fragment, useContext, useRef, useState } from 'react'
 import type { RefObject } from 'react'
 import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
 import {
@@ -21,6 +21,7 @@ import type {
   DrawerListGroupTitles,
 } from '../DrawerList'
 import DrawerList from '../DrawerList'
+import DrawerListPortal from '../DrawerListPortal'
 import DrawerListProvider from '../DrawerListProvider'
 import type { DrawerListContextValue } from '../DrawerListContext'
 import DrawerListContext from '../DrawerListContext'
@@ -1717,6 +1718,76 @@ describe('DrawerList portal', () => {
     expect(Array.from(element.classList)).toContain(
       'dnb-drawer-list--independent-width'
     )
+  })
+
+  describe('portal position transition', () => {
+    const noTransitionClass =
+      'dnb-drawer-list__portal__style--no-transition'
+
+    const originalRequestAnimationFrame = window.requestAnimationFrame
+    afterEach(() => {
+      window.requestAnimationFrame = originalRequestAnimationFrame
+    })
+
+    function PortalWrapper({ open }: { open: boolean }) {
+      const rootRef = useRef<HTMLSpanElement>(null)
+
+      return (
+        <span ref={rootRef}>
+          <DrawerListPortal id="portal" open={open} rootRef={rootRef}>
+            content
+          </DrawerListPortal>
+        </span>
+      )
+    }
+
+    it('enables the transition first after the initial position is set', async () => {
+      let runAnimationFrame: FrameRequestCallback
+      window.requestAnimationFrame = ((callback: FrameRequestCallback) => {
+        runAnimationFrame = callback
+        return 1
+      }) as typeof window.requestAnimationFrame
+
+      render(<DrawerList open noAnimation />)
+
+      const portal = document.querySelector(
+        '.dnb-drawer-list__portal__style'
+      )
+      await waitFor(() => expect(portal).toHaveAttribute('style'))
+      expect(portal).toHaveClass(noTransitionClass)
+
+      act(() => runAnimationFrame(0))
+
+      expect(portal).not.toHaveClass(noTransitionClass)
+    })
+
+    it('enables the transition right away when requestAnimationFrame is unavailable', async () => {
+      window.requestAnimationFrame = undefined
+
+      render(<DrawerList open noAnimation />)
+
+      const portal = document.querySelector(
+        '.dnb-drawer-list__portal__style'
+      )
+      await waitFor(() =>
+        expect(portal).not.toHaveClass(noTransitionClass)
+      )
+    })
+
+    it('disables the transition again while closing', async () => {
+      const { rerender } = render(<PortalWrapper open />)
+
+      const portal = document.querySelector(
+        '.dnb-drawer-list__portal__style'
+      )
+      await waitFor(() =>
+        expect(portal).not.toHaveClass(noTransitionClass)
+      )
+
+      rerender(<PortalWrapper open={false} />)
+
+      expect(portal).toHaveClass(noTransitionClass)
+    })
   })
 
   it('will set correct width when independentWidth is set and isolated style scope is used', async () => {

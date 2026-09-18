@@ -3,6 +3,7 @@ import { json } from './http.js'
 import {
   readSnapshot,
   requireEnv,
+  EMPTY_COMPONENT_USAGE,
   EMPTY_MCP_USAGE,
   type Snapshot,
 } from './snapshot-store.js'
@@ -11,6 +12,7 @@ const EMPTY: Snapshot = {
   generatedAt: '',
   portalViews: [],
   mcpUsage: EMPTY_MCP_USAGE,
+  componentUsage: EMPTY_COMPONENT_USAGE,
 }
 
 /**

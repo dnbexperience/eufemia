@@ -95,6 +95,11 @@
     &--fixed {
       position: fixed;
     }
+
+    // avoids animating from the unset position before the first position is set
+    &--no-transition {
+      transition: none;
+    }
   }
 
   &__root {

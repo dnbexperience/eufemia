@@ -484,7 +484,7 @@ export default [
         },
       ],
       'component-types/no-inline-type-exports': [
-        'warn',
+        'error',
         {
           threshold: 5,
         },

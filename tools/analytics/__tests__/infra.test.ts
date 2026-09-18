@@ -39,4 +39,61 @@ describe('analytics infrastructure', () => {
 
     expect(timeout).toBeGreaterThanOrEqual(90)
   })
+
+  it('expires raw component-usage objects on the component-usage/ prefix', () => {
+    const rawUsageRule = terraform.match(
+      /rule \{[\s\S]*?id\s+= "expire-component-usage-raw"[\s\S]*?^  \}/m
+    )?.[0]
+
+    expect(rawUsageRule).toContain('prefix = "component-usage/"')
+    expect(rawUsageRule).toContain('expiration {')
+    expect(rawUsageRule).not.toContain('noncurrent_version_expiration')
+  })
+
+  it('defines the component_usage Glue table and wires it into the generator', () => {
+    expect(terraform).toContain(
+      'resource "aws_glue_catalog_table" "component_usage"'
+    )
+    expect(terraform).toMatch(
+      /GLUE_TABLE_COMPONENT_USAGE\s+= aws_glue_catalog_table\.component_usage\.name/
+    )
+  })
+
+  it('defines a durable component_usage_daily rollup with no expiry rule', () => {
+    expect(terraform).toContain(
+      'resource "aws_glue_catalog_table" "component_usage_daily"'
+    )
+    expect(terraform).toMatch(
+      /GLUE_TABLE_COMPONENT_USAGE_DAILY\s+= aws_glue_catalog_table\.component_usage_daily\.name/
+    )
+
+    // The durable rollup must NOT have its own expiration rule, or history would
+    // be lost the same way the raw prefix is trimmed.
+    expect(terraform).not.toContain('prefix = "component-usage-daily/"')
+  })
+
+  it('locks the dashboard origin to the Akamai edge via a viewer-request function', () => {
+    // The function validates the shared X-Edge-Auth secret Akamai injects.
+    const originLock = terraform.match(
+      /resource \"aws_cloudfront_function\" \"dashboard_edge_auth\" \{[\s\S]*?^\}/m
+    )?.[0]
+
+    expect(originLock).toContain('functions/dashboard-edge-auth.js.tftpl')
+    expect(originLock).toContain(
+      'edge_auth_secret = jsonencode(var.edge_auth_secret)'
+    )
+
+    // It must run on every viewer request to the dashboard distribution.
+    const distribution = terraform.match(
+      /resource \"aws_cloudfront_distribution\" \"dashboard\" \{[\s\S]*?^\}/m
+    )?.[0]
+    const association = distribution?.match(
+      /function_association \{[\s\S]*?\}/
+    )?.[0]
+
+    expect(association).toContain('event_type   = "viewer-request"')
+    expect(association).toContain(
+      'aws_cloudfront_function.dashboard_edge_auth.arn'
+    )
+  })
 })

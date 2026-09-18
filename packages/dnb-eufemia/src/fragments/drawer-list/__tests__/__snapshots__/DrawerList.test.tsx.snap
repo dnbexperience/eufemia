@@ -51,6 +51,9 @@ exports[`DrawerList scss > has to match style dependencies css 1`] = `
 .dnb-drawer-list__portal__style--fixed {
   position: fixed;
 }
+.dnb-drawer-list__portal__style--no-transition {
+  transition: none;
+}
 .dnb-drawer-list__root {
   width: inherit;
   min-width: inherit;
@@ -641,6 +644,9 @@ exports[`DrawerList scss > have to match default theme snapshot 1`] = `
 }
 .dnb-drawer-list__portal__style--fixed {
   position: fixed;
+}
+.dnb-drawer-list__portal__style--no-transition {
+  transition: none;
 }
 .dnb-drawer-list__root {
   width: inherit;
