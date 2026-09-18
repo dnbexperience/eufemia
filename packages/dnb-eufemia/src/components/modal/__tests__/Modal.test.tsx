@@ -518,6 +518,131 @@ describe('Modal component', () => {
     })
   })
 
+  it('restores focus to an external trigger after a controlled modal closes', async () => {
+    const TestComponent = () => {
+      const [open, setOpen] = useState(false)
+
+      return (
+        <>
+          <button id="external-trigger" onClick={() => setOpen(true)}>
+            Open
+          </button>
+          <Modal
+            noAnimation
+            omitTriggerButton
+            open={open}
+            onClose={() => setOpen(false)}
+          >
+            <DialogContent />
+          </Modal>
+        </>
+      )
+    }
+
+    render(<TestComponent />)
+
+    const trigger = document.querySelector(
+      '#external-trigger'
+    ) as HTMLButtonElement
+    await userEvent.click(trigger)
+
+    fireEvent.keyDown(document.querySelector('div.dnb-dialog'), {
+      key: 'Escape',
+    })
+
+    await waitFor(() => {
+      expect(document.activeElement).toBe(trigger)
+    })
+  })
+
+  it('restores focus to a custom target ref after close', async () => {
+    const targetRef: RefObject<HTMLButtonElement | null> = {
+      current: null,
+    }
+
+    render(
+      <>
+        <button ref={targetRef}>Custom target</button>
+        <Modal noAnimation restoreFocusTo={targetRef}>
+          <DialogContent />
+        </Modal>
+      </>
+    )
+
+    fireEvent.click(document.querySelector('button.dnb-modal__trigger'))
+    fireEvent.keyDown(document.querySelector('div.dnb-dialog'), {
+      key: 'Escape',
+    })
+
+    expect(document.activeElement).toBe(targetRef.current)
+  })
+
+  it('restores focus to a custom target element after close', () => {
+    const target = document.createElement('button')
+    document.body.appendChild(target)
+
+    render(
+      <Modal noAnimation restoreFocusTo={target}>
+        <DialogContent />
+      </Modal>
+    )
+
+    fireEvent.click(document.querySelector('button.dnb-modal__trigger'))
+    fireEvent.keyDown(document.querySelector('div.dnb-dialog'), {
+      key: 'Escape',
+    })
+
+    expect(document.activeElement).toBe(target)
+    target.remove()
+  })
+
+  it('resolves a custom focus target when the modal closes', () => {
+    const targetCallback = vi.fn(() =>
+      document.querySelector<HTMLElement>('#custom-target')
+    )
+
+    render(
+      <>
+        <button id="custom-target">Custom target</button>
+        <Modal noAnimation restoreFocusTo={targetCallback}>
+          <DialogContent />
+        </Modal>
+      </>
+    )
+
+    fireEvent.click(document.querySelector('button.dnb-modal__trigger'))
+    expect(targetCallback).not.toHaveBeenCalled()
+
+    fireEvent.keyDown(document.querySelector('div.dnb-dialog'), {
+      key: 'Escape',
+    })
+
+    expect(targetCallback).toHaveBeenCalledTimes(1)
+    expect(document.activeElement).toBe(
+      document.querySelector('#custom-target')
+    )
+  })
+
+  it('does not restore focus when restoreFocus is false', () => {
+    render(
+      <Modal noAnimation restoreFocus={false}>
+        <DialogContent />
+      </Modal>
+    )
+
+    const trigger = document.querySelector(
+      'button.dnb-modal__trigger'
+    ) as HTMLButtonElement
+    fireEvent.click(trigger)
+    const focusSpy = vi.spyOn(trigger, 'focus')
+
+    fireEvent.keyDown(document.querySelector('div.dnb-dialog'), {
+      key: 'Escape',
+    })
+
+    expect(focusSpy).not.toHaveBeenCalled()
+  })
+
   it('should not set "data-autofocus" on mount when open is false', async () => {
     render(
       <Modal open={false} animationDuration={2}>

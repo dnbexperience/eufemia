@@ -86,7 +86,7 @@ Use the `status` property to display a status message as a [FormStatus](/uilib/c
 
 ### Logged out Dialog
 
-Use the `open` property to automatically trigger the Dialog, here demonstrated with a button for simplicity. You can also change the default confirm text and hide the decline button when suited.
+Use the `open` property to automatically trigger the Dialog, here demonstrated with a button for simplicity. Focus returns to the element that was focused when the Dialog opened. Use `restoreFocusTo` when another destination is more logical, or `restoreFocus={false}` when focus will be managed by the following workflow. You can also change the default confirm text and hide the decline button when suited.
 
 <DialogConfirmLoggedOut />
 
