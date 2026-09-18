@@ -5,6 +5,12 @@
     --aside-width: 24rem;
   }
 
+  @media (hover: hover) and (pointer: fine) and (min-width: 60.00625em) and (max-width: 82em) {
+    :root {
+      --aside-width: 4rem;
+    }
+  }
+
   .portal-sidebar-menu__theme-badge {
     flex-shrink: 0;
     width: 1.5em;
@@ -47,38 +53,7 @@
   z-index: 1;
   top: 0;
 
-  display: flex;
-  flex-direction: column;
-
-  width: var(--aside-width);
   height: 100vh;
-  margin: 0;
-
-  background-color: var(--token-color-background-neutral);
-  border-right: 1px solid var(--token-color-stroke-neutral-subtle);
-
-  :global(.dnb-sidebar-menu-resize-handle--transition-ready) & {
-    transition: width 300ms var(--easing-default);
-  }
-
-  :global(.dnb-sidebar-menu-resize-handle--dragging) & {
-    transition: none;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    transition: none;
-  }
-}
-
-.collapsedNavStyle {
-  overflow: hidden;
-  border-right-width: 0;
-}
-
-.desktopNavStyle {
-  @include utilities.allBelow(medium) {
-    display: none;
-  }
 }
 
 .mobileDrawerStyle {
@@ -108,39 +83,9 @@
   }
 }
 
-.mobileNavStyle {
-  position: relative;
-  z-index: auto;
-
-  width: 100%;
-  height: auto;
-  min-height: 100%;
-
-  border-right: 0;
-}
-
-.mobileNavStyle .scrollStyle {
-  padding: 0.125rem;
-}
-
-.scrollStyle {
-  @include utilities.scrollY(auto);
-  flex: 1;
-  min-height: 0;
-  overflow-x: auto;
-
-  :global(.dnb-sidebar-menu__list) {
-    min-width: 100%;
-  }
-}
-
 .scrollContentStyle {
   width: 100%;
   min-width: 0;
-}
-
-.desktopNavStyle .scrollContentStyle {
-  min-width: 20rem;
 }
 
 .sidebarLogoStyle {
