@@ -34,6 +34,7 @@ import HelpButtonInstance from '../help-button/HelpButtonInstance'
 import { getListOfModalRoots, getModalRoot } from './helpers'
 import ModalInner from './parts/ModalInner'
 import type { ModalProps } from './types'
+import getRefElement from '../../shared/internal/getRefElement'
 
 import ModalHeader from './parts/ModalHeader'
 import ModalHeaderBar from './parts/ModalHeaderBar'
@@ -63,6 +64,7 @@ const modalDefaultProps: Partial<ModalAllProps> = {
   alignContent: 'left',
   directDomReturn: false,
   omitTriggerButton: false,
+  restoreFocus: true,
 }
 
 function getContent(props) {
@@ -109,6 +111,8 @@ function ModalComponent(ownProps: ModalAllProps) {
 
     id: idProp,
     openDelay,
+    restoreFocus = true,
+    restoreFocusTo,
 
     omitTriggerButton = false,
     trigger = null,
@@ -129,7 +133,7 @@ function ModalComponent(ownProps: ModalAllProps) {
     ((event: Event, options: { triggeredBy?: string }) => void) | null
   >(null)
   const onUnmountRef = useRef<Array<() => void>>([])
-  const activeElementRef = useRef<Element>(null)
+  const activeElementRef = useRef<HTMLElement>(null)
   const isInTransitionRef = useRef(false)
   const openTimeoutRef = useRef<NodeJS.Timeout>(null)
   const closeTimeoutRef = useRef<NodeJS.Timeout>(null)
@@ -219,22 +223,26 @@ function ModalComponent(ownProps: ModalAllProps) {
           })
         }
 
-        if (triggerRef?.current) {
-          focus(triggerRef.current as HTMLElement)
-        }
+        if (restoreFocus) {
+          const explicitTarget =
+            typeof restoreFocusTo === 'function'
+              ? restoreFocusTo()
+              : getRefElement(restoreFocusTo || null)
+          const target = [
+            explicitTarget,
+            triggerRef.current,
+            activeElementRef.current,
+          ].find((element) => element?.isConnected)
 
-        if (
-          open === true &&
-          activeElementRef.current instanceof HTMLElement
-        ) {
           try {
-            focus(activeElementRef.current).then(() => {
-              activeElementRef.current = null
-            })
+            if (target) {
+              focus(target)
+            }
           } catch (e) {
             //
           }
         }
+        activeElementRef.current = null
 
         removeActiveState()
       }
@@ -248,9 +256,10 @@ function ModalComponent(ownProps: ModalAllProps) {
     },
     [
       closeModal,
-      open,
       animationDuration,
       removeActiveState,
+      restoreFocus,
+      restoreFocusTo,
       setActiveState,
     ]
   )
@@ -266,6 +275,19 @@ function ModalComponent(ownProps: ModalAllProps) {
         event.preventDefault()
       }
 
+      const shouldOpen =
+        typeof showModal === 'boolean'
+          ? showModal
+          : !stateRef.current.modalActive
+
+      const activeElement =
+        shouldOpen &&
+        typeof document !== 'undefined' &&
+        document.activeElement instanceof HTMLElement &&
+        document.activeElement !== document.body
+          ? document.activeElement
+          : null
+
       const toggleNow = () => {
         const timeoutDuration =
           typeof animationDuration === 'string'
@@ -276,6 +298,10 @@ function ModalComponent(ownProps: ModalAllProps) {
           typeof showModal === 'boolean'
             ? showModal
             : !stateRef.current.modalActive
+
+        if (newModalActive && !activeElementRef.current) {
+          activeElementRef.current = activeElement
+        }
 
         isInTransitionRef.current = true
 
@@ -399,10 +425,6 @@ function ModalComponent(ownProps: ModalAllProps) {
   const prevEffectOpenRef = useRef<typeof open>(undefined)
   const prevOwnPropsRef = useRef<ModalAllProps | undefined>(undefined)
   useEffect(() => {
-    if (!activeElementRef.current && typeof document !== 'undefined') {
-      activeElementRef.current = document.activeElement
-    }
-
     // Detect if parent provided new props
     const isNewProps =
       prevOwnPropsRef.current !== undefined &&

@@ -487,6 +487,39 @@ describe('Dialog', () => {
     })
   })
 
+  it('returns focus to an external trigger after confirming', async () => {
+    const TestComponent = () => {
+      const [open, setOpen] = useState(false)
+
+      return (
+        <>
+          <button id="external-trigger" onClick={() => setOpen(true)}>
+            Open
+          </button>
+          <Dialog
+            noAnimation
+            variant="confirmation"
+            open={open}
+            onClose={() => setOpen(false)}
+            onConfirm={({ close }) => close()}
+          />
+        </>
+      )
+    }
+
+    render(<TestComponent />)
+
+    const trigger = document.querySelector(
+      '#external-trigger'
+    ) as HTMLButtonElement
+    await userEvent.click(trigger)
+    await userEvent.click(
+      document.querySelector('.dnb-dialog__actions .dnb-button--primary')
+    )
+
+    expect(document.activeElement).toBe(trigger)
+  })
+
   it('has support for nested Dialogs', async () => {
     const onOpen = {
       first: vi.fn(),
