@@ -73,6 +73,24 @@ describe('App (smoke)', () => {
     expect(container.querySelectorAll('table').length).toBeGreaterThan(0)
   })
 
+  it('hides the component-usage section when there is no component data', async () => {
+    vi.mocked(loadDashboardData).mockResolvedValue({
+      kind: 'data',
+      payload: {
+        ...populated,
+        componentUsage: { total: 0, perComponent: [] },
+      },
+    })
+
+    const { container } = render(<App />)
+
+    await waitFor(() =>
+      expect(container.textContent).toContain('Top pages')
+    )
+    expect(container.textContent).not.toContain('Top components')
+    expect(container.textContent).not.toContain('component usages')
+  })
+
   it('surfaces a deploy-aware message on a 503', async () => {
     vi.mocked(loadDashboardData).mockResolvedValue({
       kind: 'error',
