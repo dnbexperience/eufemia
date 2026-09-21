@@ -30,6 +30,7 @@
       "url": "/uilib/usage/customisation/theming/design-tokens"
     },
     { "title": "Brand", "url": "/brand" },
-    { "title": "What's new", "url": "/uilib/changelog" }
+    { "title": "What's new", "url": "/uilib/changelog" },
+    { "title": "Eufemia change log", "url": "/design-system" }
   ]
 }

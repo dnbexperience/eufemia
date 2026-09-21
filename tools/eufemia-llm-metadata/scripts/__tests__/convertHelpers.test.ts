@@ -1053,6 +1053,7 @@ describe('convertMdxToMd', () => {
     expect(output).toContain('- [Images](/uilib/elements/image)')
     expect(output).toContain('- [Brand](/brand)')
     expect(output).toContain("- [What's new](/uilib/changelog)")
+    expect(output).toContain('- [Eufemia change log](/design-system)')
     expect(output).not.toContain('<Home')
   })
 
