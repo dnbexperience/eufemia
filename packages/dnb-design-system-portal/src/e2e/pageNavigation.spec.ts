@@ -132,6 +132,24 @@ test.describe('Page Navigation', () => {
       expect(title).toContain('Button | Eufemia')
     })
 
+    test('hydrates a Portal page without recoverable errors', async ({
+      page,
+    }) => {
+      const errors: string[] = []
+      page.on('console', (message) => {
+        if (message.type() === 'error') {
+          errors.push(message.text())
+        }
+      })
+
+      await page.goto('/uilib/components/button/')
+      await waitForApp(page)
+
+      expect(errors.filter((message) => message.includes('#418'))).toEqual(
+        []
+      )
+    })
+
     test('should contain a Suggest an edit link', async ({ page }) => {
       await page.goto('/uilib/components/button/')
       await waitForApp(page)
