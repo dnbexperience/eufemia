@@ -88,7 +88,10 @@ describe('App (smoke)', () => {
       expect(container.textContent).toContain('Top pages')
     )
     expect(container.textContent).not.toContain('Top components')
-    expect(container.textContent).not.toContain('component usages')
+    expect(container.textContent).not.toContain('Components by app')
+    expect(container.textContent).not.toContain(
+      'Components by Eufemia version'
+    )
   })
 
   it('surfaces a deploy-aware message on a 503', async () => {
