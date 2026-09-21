@@ -38,6 +38,7 @@ export const fetchFigmaIcons = async ({
     log.succeed(`> Figma: Icons conversion done (${icons?.length} icons)`)
   } catch (e) {
     log.fail(ErrorHandler('Failed during extractIcons', e))
+    throw e
   }
   return undefined
 }
@@ -53,8 +54,7 @@ export const fetchFigmaAll = async ({
     }) // as RegExp
 
     if (ignoreBranchCheck !== true && !branchName) {
-      log.fail('> Figma: Could not continue, as we require another branch')
-      return undefined
+      throw new Error('Figma icon sync requires an icon branch')
     }
 
     await fetchFigmaIcons(args)
@@ -62,5 +62,6 @@ export const fetchFigmaAll = async ({
     log.succeed('> Figma: All done')
   } catch (e) {
     log.fail(ErrorHandler('Failed during fetchFigmaAll', e))
+    throw e
   }
 }
