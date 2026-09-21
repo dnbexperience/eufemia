@@ -4,6 +4,7 @@
 
 import Anchor, { Link } from '../tags/Anchor'
 import { Card, H1, H2, P, Span } from '@dnb/eufemia/src'
+import homeData from './HomeData.json'
 import {
   actionArtworkStyle,
   actionDescriptionStyle,
@@ -20,20 +21,6 @@ import {
   titleStyle,
 } from './Home.module.scss'
 
-const resources = [
-  { title: 'Images', url: '/uilib/elements/image' },
-  { title: 'Animations', url: '/uilib/components/height-animation' },
-  { title: 'Icons', url: '/icons' },
-  { title: 'Theming', url: '/uilib/usage/customisation/theming' },
-  { title: 'Grid', url: '/uilib/layout/grid' },
-  {
-    title: 'Tokens',
-    url: '/uilib/usage/customisation/theming/design-tokens',
-  },
-  { title: 'Brand', url: '/brand' },
-  { title: "What's new", url: '/uilib/changelog' },
-]
-
 export default function Home() {
   return (
     <div className={rootStyle} data-portal-home>
@@ -44,12 +31,10 @@ export default function Home() {
           top={false}
           bottom={false}
         >
-          Welcome to Eufemia
+          {homeData.title}
         </H1>
         <P className={introStyle} top={false} bottom={false}>
-          Eufemia is DNB's design system, providing resources for designers
-          and developers to create consistent and efficient experiences
-          across web and native platforms.
+          {homeData.introduction}
         </P>
       </section>
 
@@ -57,7 +42,7 @@ export default function Home() {
         <Card.List className={actionGridStyle}>
           <Card.ListItem>
             <Card.Action
-              href="/quickguide-designer"
+              href={homeData.actions[0].url}
               element={Link}
               className={actionStyle}
               responsive={false}
@@ -76,21 +61,21 @@ export default function Home() {
                 top={false}
                 bottom={false}
               >
-                Design
+                {homeData.actions[0].title}
               </H2>
               <P
                 className={actionDescriptionStyle}
                 top={false}
                 bottom={false}
               >
-                Figma UI kits and more
+                {homeData.actions[0].description}
               </P>
             </Card.Action>
           </Card.ListItem>
 
           <Card.ListItem>
             <Card.Action
-              href="/uilib/getting-started/"
+              href={homeData.actions[1].url}
               element={Link}
               className={actionStyle}
               responsive={false}
@@ -109,14 +94,14 @@ export default function Home() {
                 top={false}
                 bottom={false}
               >
-                Develop
+                {homeData.actions[1].title}
               </H2>
               <P
                 className={actionDescriptionStyle}
                 top={false}
                 bottom={false}
               >
-                Get started with installation guides
+                {homeData.actions[1].description}
               </P>
             </Card.Action>
           </Card.ListItem>
@@ -136,7 +121,7 @@ export default function Home() {
           Resources
         </H2>
         <nav className={resourceGridStyle} aria-label="Resources">
-          {resources.map(({ title, url }) => (
+          {homeData.resources.map(({ title, url }) => (
             <Anchor
               key={title}
               href={url}

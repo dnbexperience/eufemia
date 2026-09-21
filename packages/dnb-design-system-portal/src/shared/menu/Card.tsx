@@ -5,7 +5,7 @@
 import type { HTMLAttributes, JSX, ReactNode } from 'react'
 import { Link } from '../tags/Anchor'
 import { Button, Card, Lead, P } from '@dnb/eufemia/src'
-import { cardItemStyle } from '../parts/ListComponentsOverview.module.scss'
+import { cardItemStyle } from './Card.module.scss'
 
 type MenuCardProps = {
   url: string

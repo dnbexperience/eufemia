@@ -1,4 +1,20 @@
+import fs from 'node:fs'
 import type { SpecialMdxComponentRenderer } from './types.ts'
+
+const homeData = JSON.parse(
+  fs.readFileSync(
+    new URL(
+      '../../../../../packages/dnb-design-system-portal/src/shared/home/HomeData.json',
+      import.meta.url
+    ),
+    'utf8'
+  )
+) as {
+  title: string
+  introduction: string
+  actions: Array<{ title: string; description: string; url: string }>
+  resources: Array<{ title: string; url: string }>
+}
 
 export function createHomeExtension(): SpecialMdxComponentRenderer {
   return {
@@ -9,23 +25,20 @@ export function createHomeExtension(): SpecialMdxComponentRenderer {
       }
 
       const markdown = [
-        '# Welcome to Eufemia',
+        `# ${homeData.title}`,
         '',
-        "Eufemia is DNB's design system, providing resources for designers and developers to create consistent and efficient experiences across web and native platforms.",
+        homeData.introduction,
         '',
-        '- [Design](/quickguide-designer) – Figma UI kits and more',
-        '- [Develop](/uilib/getting-started) – Get started with installation guides',
+        ...homeData.actions.map(
+          ({ title, description, url }) =>
+            `- [${title}](${url}) – ${description}`
+        ),
         '',
         '## Resources',
         '',
-        '- [Images](/uilib/elements/image)',
-        '- [Animations](/uilib/components/height-animation)',
-        '- [Icons](/icons)',
-        '- [Theming](/uilib/usage/customisation/theming)',
-        '- [Grid](/uilib/layout/grid)',
-        '- [Tokens](/uilib/usage/customisation/theming/design-tokens)',
-        '- [Brand](/brand)',
-        "- [What's new](/uilib/changelog)",
+        ...homeData.resources.map(
+          ({ title, url }) => `- [${title}](${url})`
+        ),
       ].join('\n')
 
       return content.replace(/<Home\b[^>]*\/>/g, markdown)

@@ -33,6 +33,24 @@ async function readConsoleMessage(message: ConsoleMessage) {
   )
 }
 
+async function markCurrentDocument(page) {
+  await page.evaluate(() => {
+    ;(
+      window as Window & { portalNavigationMarker?: boolean }
+    ).portalNavigationMarker = true
+  })
+}
+
+async function expectCurrentDocument(page) {
+  expect(
+    await page.evaluate(
+      () =>
+        (window as Window & { portalNavigationMarker?: boolean })
+          .portalNavigationMarker
+    )
+  ).toBe(true)
+}
+
 test.describe('Page Navigation', () => {
   test.describe('without JavaScript', () => {
     test.use({ javaScriptEnabled: false })
@@ -142,31 +160,25 @@ test.describe('Page Navigation', () => {
       await waitForApp(page)
     })
 
-    test('uses client-side navigation for the home action cards', async ({
+    test('uses client-side navigation for the Design card', async ({
       page,
     }) => {
-      for (const { name, path } of [
-        { name: /Design/, path: '/quickguide-designer' },
-        { name: /Develop/, path: '/uilib/getting-started/' },
-      ]) {
-        await page.goto('/')
-        await waitForApp(page)
-        await page.evaluate(() => {
-          ;(
-            window as Window & { portalNavigationMarker?: boolean }
-          ).portalNavigationMarker = true
-        })
+      await markCurrentDocument(page)
+      await page.getByRole('link', { name: /Design/ }).click()
+      await expect(page).toHaveURL('/quickguide-designer')
+      await expectCurrentDocument(page)
+    })
 
-        await page.getByRole('link', { name }).click()
-        await expect(page).toHaveURL(path)
-        expect(
-          await page.evaluate(
-            () =>
-              (window as Window & { portalNavigationMarker?: boolean })
-                .portalNavigationMarker
-          )
-        ).toBe(true)
-      }
+    test('uses client-side navigation for the Develop card', async ({
+      page,
+    }) => {
+      await markCurrentDocument(page)
+      await page.getByRole('link', { name: /Develop/ }).click()
+      await expect(page).toHaveURL('/uilib/getting-started/')
+      await expect(
+        page.getByRole('heading', { name: 'Getting Started' })
+      ).toBeVisible()
+      await expectCurrentDocument(page)
     })
 
     test('prerendered content should stay visible during JS hydration', async ({
