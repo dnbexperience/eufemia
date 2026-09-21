@@ -17,7 +17,7 @@ implementation in `packages/dnb-eufemia/src/mcp/`.
 For local development, a stdio transport is also available.
 
 > **Relationship to the in-repo MCP core:** A local stdio/HTTP MCP server lives
-> under [`packages/dnb-eufemia/src/mcp/`](../../packages/dnb-eufemia/src/mcp/)
+> under [`packages/dnb-eufemia/src/mcp/`](https://github.com/dnbexperience/eufemia/blob/main/packages/dnb-eufemia/src/mcp/)
 > for editor integrations and offline use. It was previously also deployed as a
 > Cloudflare Worker; that hosted deployment has been removed in favour of this
 > Lambda-based server.
@@ -103,7 +103,7 @@ Terraform state is stored in S3 (`eufemia-mcp-terraform-state`) with the S3 nati
 
 Deployment is a two-stage pipeline that spans public GitHub and GitHub Enterprise:
 
-1. **Build & push** — [`.github/workflows/mcp-lambda.yml`](../../.github/workflows/mcp-lambda.yml) runs on public GitHub. It tests, builds both Lambda artifacts, and force-pushes them with `infra/` and the deploy workflow to the `deploy` branch of the GHE repo (`eufemia/eufemia-mcp`). It only pushes when the `GHE_DEPLOY_PAT` secret is set (skips on forks).
+1. **Build & push** — [`.github/workflows/mcp-lambda.yml`](https://github.com/dnbexperience/eufemia/blob/main/.github/workflows/mcp-lambda.yml) runs on public GitHub. It tests, builds both Lambda artifacts, and force-pushes them with `infra/` and the deploy workflow to the `deploy` branch of the GHE repo (`eufemia/eufemia-mcp`). It only pushes when the `GHE_DEPLOY_PAT` secret is set (skips on forks).
 2. **Deploy** — `ghe-deploy-workflow.yml` (shipped as `.github/workflows/deploy.yml` on the GHE `deploy` branch) runs on push to `deploy`. It authenticates to AWS via OIDC and runs `terraform apply`.
 
 The build & push workflow triggers on:

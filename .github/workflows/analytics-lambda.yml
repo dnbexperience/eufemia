@@ -142,6 +142,9 @@ jobs:
           # variables, so it is not copied here.
           cp -R "$GITHUB_WORKSPACE/tools/analytics/dashboard/dist" ./dashboard
 
+          # Include the README so the deploy repo documents the pipeline it runs
+          cp "$GITHUB_WORKSPACE/tools/analytics/README.md" README.md
+
           # Include the deploy workflow so it lives on (and triggers from) the deploy branch
           mkdir -p .github/workflows
           cp "$GITHUB_WORKSPACE/tools/analytics/ghe-deploy-workflow.yml" .github/workflows/deploy.yml
