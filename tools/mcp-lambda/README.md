@@ -108,12 +108,11 @@ Deployment is a two-stage pipeline that spans public GitHub and GitHub Enterpris
 
 The build & push workflow triggers on:
 
-| Trigger                            | Deploys? |
-| ---------------------------------- | -------- |
-| Push to `release`                  | Yes      |
-| Push to any `mcp-server/**` branch | Yes      |
-| Push of a `v*` / `v*.*.*` tag      | Yes      |
-| Manual `workflow_dispatch`         | Yes      |
+| Trigger                       | Deploys? |
+| ----------------------------- | -------- |
+| Push to `release`             | Yes      |
+| Push of a `v*` / `v*.*.*` tag | Yes      |
+| Manual `workflow_dispatch`    | Yes      |
 
 Deploy credentials and configuration are provided via repository secrets and variables (managed in the repository settings), not stored in this repo.
 
