@@ -64,7 +64,6 @@ test.describe('Sidebar resize', () => {
     await gotoAndWait(page)
 
     const sidebar = page.locator('#portal-sidebar-menu')
-    const inline = page.locator('.dnb-sidebar-menu-responsive-inline')
     const scrollView = sidebar.locator('.portal-sidebar-scroll-view')
     const resizeHandle = page.getByRole('separator', {
       name: 'Endre størrelse på sidemeny',
@@ -363,7 +362,6 @@ test.describe('Sidebar resize', () => {
     await gotoAndWait(page)
 
     const sidebar = page.locator('#portal-sidebar-menu')
-    const inline = page.locator('.dnb-sidebar-menu-responsive-inline')
     const resizeHandle = page.getByRole('separator', {
       name: 'Endre størrelse på sidemeny',
     })
