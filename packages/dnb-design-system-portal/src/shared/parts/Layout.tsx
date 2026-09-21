@@ -159,6 +159,7 @@ function Layout(props: LayoutProps) {
       </a>
 
       <EufemiaSidebarMenu.ResponsiveProvider
+        scopeId="portal-sidebar-menu"
         drawerAt="medium"
         compactAt="large"
         compactOffset="10em"

@@ -50,13 +50,13 @@
     transition:
       left 300ms var(--easing-default),
       width 300ms var(--easing-default);
+
+    @media (prefers-reduced-motion: reduce) {
+      transition: none;
+    }
   }
 
   :global(.dnb-sidebar-menu-resize-handle--dragging) & {
-    transition: none;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
     transition: none;
   }
 

@@ -220,18 +220,6 @@
 
   background-color: var(--token-color-background-neutral);
 
-  :global(.dnb-sidebar-menu-resize-handle--transition-ready) & {
-    transition: margin-left 300ms var(--easing-default);
-  }
-
-  :global(.dnb-sidebar-menu-resize-handle--dragging) & {
-    transition: none;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    transition: none;
-  }
-
   &:has([data-portal-home]) {
     background-color: var(--token-color-background-page-background);
   }
