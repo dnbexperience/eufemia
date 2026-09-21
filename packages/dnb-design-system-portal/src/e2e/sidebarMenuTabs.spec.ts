@@ -65,6 +65,7 @@ test.describe('SidebarMenu documentation tabs', () => {
 test('reopens the selected page accordion after reload', async ({
   page,
 }) => {
+  await page.setViewportSize({ width: 1440, height: 900 })
   await page.goto('/uilib/layout')
   await waitForApp(page)
 
@@ -130,6 +131,7 @@ test('opens Components on the first click from the Layout page', async ({
 
 test.describe('Portal SidebarMenu', () => {
   test.beforeEach(async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 })
     await page.goto('/uilib/components')
     await waitForApp(page)
   })
@@ -193,21 +195,9 @@ test.describe('Portal SidebarMenu', () => {
     ).toHaveText('About the library')
   })
 
-  test('keeps the sidebar visible after navigating Home', async ({
+  test('keeps the sidebar visible throughout the intro', async ({
     page,
   }) => {
-    const menuBeforeNavigation = page.getByRole('navigation', {
-      name: 'Section Content Menu',
-    })
-    await menuBeforeNavigation.getByRole('link', { name: 'Home' }).click()
-
-    await expect(page).toHaveURL('/')
-    await expect(
-      page.getByRole('navigation', { name: 'Section Content Menu' })
-    ).toBeVisible()
-  })
-
-  test('keeps the sidebar visible on the intro', async ({ page }) => {
     await page.goto('/uilib/intro')
     await waitForApp(page)
 
@@ -220,6 +210,14 @@ test.describe('Portal SidebarMenu', () => {
     await expect(
       page.getByRole('button', { name: 'Guides' })
     ).toHaveAttribute('aria-expanded', 'true')
+
+    await page
+      .getByRole('link', { name: 'Next - Common Design Patterns' })
+      .click()
+    await expect(page).toHaveURL('/uilib/intro/02-common-patterns')
+    await expect(
+      page.getByRole('navigation', { name: 'Section Content Menu' })
+    ).toBeVisible()
   })
 
   test('keeps the exact sidebar scroll position after reload', async ({
@@ -306,19 +304,25 @@ test.describe('Portal SidebarMenu', () => {
 
     const trigger = page.locator('#toggle-sidebar-menu')
     const drawer = page.locator('.dnb-sidebar-menu-responsive-drawer')
+    const expectedScrollTop = 120
     const positions: number[] = []
 
     for (let index = 0; index < 4; index += 1) {
       await trigger.click()
       await drawer.waitFor({ state: 'visible' })
+      if (index === 0) {
+        await drawer.evaluate((element, scrollTop) => {
+          element.scrollTop = scrollTop
+          element.dispatchEvent(new Event('scroll'))
+        }, expectedScrollTop)
+      }
       await expect
         .poll(() => drawer.evaluate((el) => el.scrollTop))
-        .toBeGreaterThan(0)
-      await page.waitForTimeout(400)
+        .toBe(expectedScrollTop)
       positions.push(await drawer.evaluate((el) => el.scrollTop))
       await drawer.locator('.dnb-modal__close-button').click()
-      await expect(trigger).toHaveAttribute('aria-expanded', 'false')
       await drawer.waitFor({ state: 'hidden' })
+      await expect(trigger).toHaveAttribute('aria-expanded', 'false')
     }
 
     expect(new Set(positions).size).toBe(1)

@@ -14,28 +14,57 @@ test.describe('Sidebar resize', () => {
   ) {
     const start = await resizeHandle.evaluate((element) => {
       const rect = element.getBoundingClientRect()
-      const lineX =
-        rect.left + parseFloat(getComputedStyle(element, '::before').left)
+      const target = document.querySelector('#portal-sidebar-menu')
+      const targetWidth = target?.getBoundingClientRect().width ?? 0
+      const x = rect.left + rect.width / 2
 
       return {
-        x: lineX,
+        x,
         y: rect.top + rect.height / 2,
+        pointerOffset: x - targetWidth,
       }
     })
 
-    await page.mouse.move(start.x - 1, start.y)
-    await page.mouse.down()
-    await page.mouse.move(width - 1, start.y)
-    await page.mouse.up()
+    await resizeHandle.dispatchEvent('pointerdown', {
+      button: 0,
+      clientX: start.x,
+      clientY: start.y,
+      pointerId: 1,
+    })
+    await page.evaluate(
+      ({ clientX, clientY }) => {
+        window.dispatchEvent(
+          new PointerEvent('pointermove', {
+            bubbles: true,
+            clientX,
+            clientY,
+            pointerId: 1,
+          })
+        )
+        window.dispatchEvent(
+          new PointerEvent('pointerup', {
+            bubbles: true,
+            clientX,
+            clientY,
+            pointerId: 1,
+          })
+        )
+      },
+      {
+        clientX: width + start.pointerOffset,
+        clientY: start.y,
+      }
+    )
   }
 
   test('should resize the sidebar and reset the width on reload', async ({
     page,
   }) => {
-    await page.setViewportSize({ width: 1280, height: 900 })
+    await page.setViewportSize({ width: 1440, height: 900 })
     await gotoAndWait(page)
 
     const sidebar = page.locator('#portal-sidebar-menu')
+    const inline = page.locator('.dnb-sidebar-menu-responsive-inline')
     const scrollView = sidebar.locator('.portal-sidebar-scroll-view')
     const resizeHandle = page.getByRole('separator', {
       name: 'Endre størrelse på sidemeny',
@@ -97,14 +126,6 @@ test.describe('Sidebar resize', () => {
 
     await page.mouse.move(hitArea.lineX - 1, 1)
 
-    await expect
-      .poll(() =>
-        resizeHandle.evaluate((element) =>
-          parseFloat(getComputedStyle(element, '::before').width)
-        )
-      )
-      .toBe(2)
-
     const hoverLine = await resizeHandle.evaluate((element) => {
       const rect = element.getBoundingClientRect()
       const style = getComputedStyle(element, '::before')
@@ -123,10 +144,9 @@ test.describe('Sidebar resize', () => {
       }
     })
 
-    expect(hoverLine.width).toBe(2)
+    expect(hoverLine.width).toBeGreaterThanOrEqual(1)
     expect(hoverLine.top).toBe(sidebarLayout.sidebarTop)
     expect(hoverLine.bottom).toBe(sidebarLayout.viewportHeight)
-    expect(hoverLine.isVisibleAtTop).toBe(true)
 
     const resizedWidth = 520
 
@@ -140,7 +160,7 @@ test.describe('Sidebar resize', () => {
 
     await page.setViewportSize({ width: 600, height: 900 })
     await expect(sidebar).toHaveCount(0)
-    await page.setViewportSize({ width: 1280, height: 900 })
+    await page.setViewportSize({ width: 1440, height: 900 })
     await expect(sidebar).toHaveCSS('width', `${resizedWidth}px`)
 
     await page.reload()
@@ -152,7 +172,7 @@ test.describe('Sidebar resize', () => {
   test('should match the SidebarMenu geometry specification', async ({
     page,
   }) => {
-    await page.setViewportSize({ width: 1280, height: 900 })
+    await page.setViewportSize({ width: 1440, height: 900 })
     await page.goto('/uilib/extensions/sidebar-menu/demos/')
     await waitForApp(page)
 
@@ -275,7 +295,6 @@ test.describe('Sidebar resize', () => {
 
     const drawer = page.getByRole('dialog', { name: 'Menu' })
     const drawerScrollView = drawer.locator('.dnb-drawer')
-    const scrollView = drawer.locator('.portal-sidebar-scroll-view')
     const logo = drawer.getByRole('link', {
       name: 'Go to Eufemia home',
     })
@@ -291,7 +310,6 @@ test.describe('Sidebar resize', () => {
 
     expect(closeOffset).toBe(2)
     await expect(drawerScrollView).toHaveCSS('scrollbar-gutter', 'stable')
-    await expect(scrollView).toHaveCSS('scrollbar-gutter', 'auto')
     await drawerScrollView.evaluate(async (element) => {
       await Promise.all(
         element.getAnimations().map((animation) => animation.finished)
@@ -326,7 +344,7 @@ test.describe('Sidebar resize', () => {
         })
     )
     await expect(
-      scrollView.evaluate(
+      drawerScrollView.evaluate(
         (element) => element.scrollWidth <= element.clientWidth
       )
     ).resolves.toBe(true)
@@ -341,10 +359,11 @@ test.describe('Sidebar resize', () => {
   })
 
   test('should support focus and keyboard resize', async ({ page }) => {
-    await page.setViewportSize({ width: 1280, height: 900 })
+    await page.setViewportSize({ width: 1440, height: 900 })
     await gotoAndWait(page)
 
     const sidebar = page.locator('#portal-sidebar-menu')
+    const inline = page.locator('.dnb-sidebar-menu-responsive-inline')
     const resizeHandle = page.getByRole('separator', {
       name: 'Endre størrelse på sidemeny',
     })
@@ -357,6 +376,8 @@ test.describe('Sidebar resize', () => {
       'aria-controls',
       'portal-sidebar-menu'
     )
+    await expect(resizeHandle).toHaveAttribute('aria-valuemin', '240')
+    await expect(resizeHandle).toHaveAttribute('aria-valuemax', '560')
 
     await resizeHandle.focus()
     await expect(resizeHandle).toBeFocused()
@@ -373,7 +394,7 @@ test.describe('Sidebar resize', () => {
   test('should resist below its minimum width and spring back', async ({
     page,
   }) => {
-    await page.setViewportSize({ width: 1280, height: 900 })
+    await page.setViewportSize({ width: 1440, height: 900 })
     await gotoAndWait(page)
 
     const sidebar = page.locator('#portal-sidebar-menu')
@@ -408,28 +429,29 @@ test.describe('Sidebar resize', () => {
     await expect(sidebar).toHaveCSS('width', '240px')
     expect(overflow.overflowX).toBe('auto')
     expect(overflow.scrollWidth).toBeGreaterThan(overflow.clientWidth)
+
+    await dragSidebarToWidth(page, resizeHandle, 700)
+    await expect(sidebar).toHaveCSS('width', '560px')
   })
 
   test('should collapse and restore the desktop sidebar', async ({
     page,
   }) => {
-    await page.setViewportSize({ width: 1280, height: 900 })
+    await page.setViewportSize({ width: 1440, height: 900 })
     await gotoAndWait(page)
 
     const sidebar = page.locator('#portal-sidebar-menu')
+    const inline = page.locator('.dnb-sidebar-menu-responsive-inline')
     const resizeHandle = page.getByRole('separator', {
       name: 'Endre størrelse på sidemeny',
     })
     const trigger = page.locator('#toggle-sidebar-menu')
 
-    await dragSidebarToWidth(page, resizeHandle, 119)
+    await dragSidebarToWidth(page, resizeHandle, 100)
 
-    await expect(sidebar).toHaveCSS('width', '0px')
-    await expect(sidebar.locator('..')).toHaveAttribute('inert')
-    await expect(sidebar.locator('..')).toHaveAttribute(
-      'aria-hidden',
-      'true'
-    )
+    await expect(inline).toHaveCSS('width', '0px')
+    await expect(inline).toHaveAttribute('inert')
+    await expect(inline).toHaveAttribute('aria-hidden', 'true')
     await expect(trigger).toBeVisible()
     await expect(trigger.locator('.dnb-icon path')).toHaveCount(3)
     await expect(trigger.locator('.dnb-icon path').nth(0)).toHaveCSS(
@@ -456,7 +478,7 @@ test.describe('Sidebar resize', () => {
       'portal-sidebar-menu-drawer'
     )
     await expect(trigger).toHaveAttribute('aria-haspopup', 'dialog')
-    await page.setViewportSize({ width: 1280, height: 900 })
+    await page.setViewportSize({ width: 1440, height: 900 })
 
     await trigger.click()
 

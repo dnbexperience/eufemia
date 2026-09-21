@@ -14,6 +14,7 @@ import {
   categoryOrder,
   excludedSlugs,
   getCategoryId,
+  isCategorizedComponentSlug,
   type CategoryDefinition,
   type CategoryId,
 } from './componentCategories'
@@ -41,9 +42,7 @@ export default function ListComponentsOverview() {
             draft: { ne: true }
             hideInMenu: { ne: true }
           }
-          internal: {
-            contentFilePath: { regex: "/(uilib/components/.*)/" }
-          }
+          internal: { contentFilePath: { regex: "/(uilib/.*)/" } }
         }
         sort: [
           { frontmatter: { order: ASC } }
@@ -71,7 +70,11 @@ export default function ListComponentsOverview() {
       const slug = node.fields.slug
       const category = getCategoryId(node.frontmatter.category)
 
-      if (excludedSlugs.has(slug) || !category) {
+      if (
+        excludedSlugs.has(slug) ||
+        !isCategorizedComponentSlug(slug) ||
+        !category
+      ) {
         return items
       }
 

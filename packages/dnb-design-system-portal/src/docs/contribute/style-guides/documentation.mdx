@@ -25,6 +25,37 @@ sidebarMenuDividerBefore: true
 
 This can be used independently or together with `sidebarMenuPlacement`.
 
+Use `sidebarMenu` to move a page into the Portal's curated navigation:
+
+```yaml
+sidebarMenu:
+  parent: uilib/foundations-menu
+  title: Layout & spacing
+  order: 6
+  static: false
+```
+
+- `parent` identifies the configured root that owns the page.
+- `title` overrides the page title in the menu.
+- `icon` selects a registered sidebar graphic when the item needs one.
+- `order` controls the item's position within its parent.
+- `static: true` renders a non-collapsible group. Use `false` for a page that also owns child pages.
+- `hideStatus` hides the page's status badge in the sidebar.
+
+A page can define a top-level menu with `root: true`. `id` and `path` can give a synthetic root its own identity, while `includePageAs`, `pageIcon`, and `pageOrder` add the source page itself as a child link:
+
+```yaml
+sidebarMenu:
+  id: uilib-guides-menu
+  path: uilib/guides-menu
+  title: Guides
+  icon: lightbulb
+  order: 7
+  root: true
+  includePageAs: Platform comparison
+  pageOrder: 7
+```
+
 For a page that defines a synthetic root menu, `pageParent` places only the page link under another menu item while leaving the synthetic tree in place:
 
 ```yaml

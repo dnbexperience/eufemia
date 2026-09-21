@@ -424,6 +424,12 @@ export function injectHtml(
   return html
 }
 
+/**
+ * Build a minimal redirect HTML page.
+ *
+ * Uses both `<meta http-equiv="refresh">` and a canonical link
+ * so search engines follow the redirect correctly.
+ */
 export function buildRedirectHtml(redirectUrl: string): string {
   const url = escapeHtml(redirectUrl)
 

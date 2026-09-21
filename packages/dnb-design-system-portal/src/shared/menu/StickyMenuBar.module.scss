@@ -44,6 +44,7 @@
   justify-content: center;
 
   white-space: nowrap;
+  background-color: var(--token-color-background-neutral);
 
   :global(.dnb-sidebar-menu-resize-handle--transition-ready) & {
     transition:
@@ -60,6 +61,8 @@
   }
 
   @include utilities.allBelow(medium) {
+    background-color: transparent;
+
     &[data-scrolled='true'] .leadingStyle::before {
       opacity: 1;
       transform: scale(1);
