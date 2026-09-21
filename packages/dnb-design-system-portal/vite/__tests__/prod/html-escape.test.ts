@@ -6,7 +6,13 @@ describe('escapeHtml', () => {
     expect(escapeHtml(`&<>"'`)).toBe('&amp;&lt;&gt;&quot;&#39;')
   })
 
-  it('escapes the ampersand first so entities are not double-escaped', () => {
+  // The wrong order in a chained implementation (escape '<' before '&')
+  // re-escapes the ampersand it just emitted.
+  it('does not re-escape the entities it emits', () => {
+    expect(escapeHtml('<')).toBe('&lt;')
+  })
+
+  it('escapes an ampersand in text that already looks like an entity', () => {
     expect(escapeHtml('&lt;')).toBe('&amp;lt;')
   })
 

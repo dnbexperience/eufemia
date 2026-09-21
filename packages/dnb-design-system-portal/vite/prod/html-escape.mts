@@ -6,7 +6,7 @@
  * imports: prerender.mjs runs under plain Node.
  */
 
-const HTML_ENTITIES = {
+const HTML_ENTITIES: Record<string, string> = {
   '&': '&amp;',
   '<': '&lt;',
   '>': '&gt;',

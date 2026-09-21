@@ -764,6 +764,20 @@ describe('prerender-utils', () => {
         expect(result).toContain('<div id="root"><h1>100 $&</h1></div>')
       })
 
+      it('inserts Emotion CSS containing a dollar sign verbatim', () => {
+        const emotionCss =
+          '<style data-emotion="css">.x::after{content:"$&"}</style>'
+        const result = injectHtml(
+          template,
+          '<h1>Hi</h1>',
+          { js: [], css: [] },
+          emotionCss
+        )
+
+        expect(result).toContain(emotionCss)
+        expect(result).not.toContain('content:"</head>"')
+      })
+
       it('leaves a safe title untouched', () => {
         const result = injectHtml(
           template,
@@ -1073,6 +1087,54 @@ describe('prerender-utils', () => {
           extract('prerender-utils.ts', name)
         )
       }
+    })
+  })
+
+  // prerender.mjs carries its own copy of injectHtml and buildRedirectHtml,
+  // and that copy is the one that builds the site. Pin the regions that must
+  // stay identical so a fix to one can't silently miss the other. Only
+  // annotation-free regions can be compared this way — the surrounding code
+  // differs by its types.
+  describe('parity with the prerender.mjs copy', () => {
+    const prodDir = path.resolve(
+      path.dirname(fileURLToPath(import.meta.url)),
+      '../../prod'
+    )
+
+    const region = (file: string, from: string, to: string) => {
+      const lines = fs
+        .readFileSync(path.join(prodDir, file), 'utf-8')
+        .split('\n')
+      const start = lines.findIndex((line) => line.includes(from))
+      expect(start, `"${from}" not found in ${file}`).toBeGreaterThan(-1)
+
+      const end = lines.findIndex(
+        (line, index) => index > start && line.includes(to)
+      )
+      expect(
+        end,
+        `"${to}" not found after "${from}" in ${file}`
+      ).toBeGreaterThan(start)
+
+      return lines.slice(start, end + 1).join('\n')
+    }
+
+    it('escapes and injects page metadata the same way', () => {
+      const from = '// Inject per-page SEO meta tags'
+      const to = '() => `${emotionCss}'
+
+      expect(region('prerender.mjs', from, to)).toBe(
+        region('prerender-utils.ts', from, to)
+      )
+    })
+
+    it('builds the same redirect HTML', () => {
+      const from = 'const url = escapeHtml(redirectUrl)'
+      const to = "].join('')"
+
+      expect(region('prerender.mjs', from, to)).toBe(
+        region('prerender-utils.ts', from, to)
+      )
     })
   })
 })

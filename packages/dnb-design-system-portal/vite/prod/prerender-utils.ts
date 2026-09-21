@@ -382,10 +382,10 @@ export function injectHtml(
     // The prerender loop derives it from the copies present in the output,
     // so a page can only advertise one that exists.
     if (meta.mdPath) {
+      const mdPath = escapeHtml(meta.mdPath)
+
       ogTags.push(
-        `<link rel="alternate" type="text/markdown" title="Markdown documentation" href="${escapeHtml(
-          meta.mdPath
-        )}">`
+        `<link rel="alternate" type="text/markdown" title="Markdown documentation" href="${mdPath}">`
       )
     }
 
@@ -398,7 +398,7 @@ export function injectHtml(
   // Inject Emotion CSS extracted during SSR into <head> so styles
   // are available before the browser paints the prerendered HTML.
   if (emotionCss) {
-    html = html.replace('</head>', `${emotionCss}\n</head>`)
+    html = html.replace('</head>', () => `${emotionCss}\n</head>`)
   }
 
   // Inject route-specific CSS as render-blocking stylesheets so the
