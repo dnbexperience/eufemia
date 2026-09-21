@@ -8,7 +8,9 @@ const expandAllSidebarItems = async (page) => {
       buttons.forEach((button) => button.click())
     })
 
-  await page.waitForTimeout(500)
+  await expect(
+    page.locator('.dnb-height-animation--animating')
+  ).toHaveCount(0)
 }
 
 const getHeadingTextWithoutSrDescription = async (locator: Locator) =>
@@ -128,16 +130,17 @@ test.describe('Page Lists', () => {
       await expect(page.locator('h1')).toHaveCount(1)
     })
 
-    test('should list each element once', async ({ page }) => {
-      const links = page.locator(
+    test('should have same amount of elements', async ({ page }) => {
+      await expandAllSidebarItems(page)
+
+      const sidebarLinks = page.locator(
+        '#portal-sidebar-menu [data-sidebar-menu-id="uilib-elements"] [data-sidebar-menu-id] > a[href^="/uilib/elements/"]'
+      )
+      const pageLinks = page.locator(
         '#tab-bar-content ul li a[href^="/uilib/elements/"]:not([aria-hidden])'
       )
-      const hrefs = await links.evaluateAll((links) =>
-        links.map((link) => link.getAttribute('href'))
-      )
 
-      expect(hrefs.length).toBeGreaterThan(0)
-      expect(new Set(hrefs).size).toBe(hrefs.length)
+      await expect(pageLinks).toHaveCount(await sidebarLinks.count())
     })
   })
 })

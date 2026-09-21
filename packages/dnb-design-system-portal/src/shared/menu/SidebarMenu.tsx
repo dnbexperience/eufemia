@@ -75,7 +75,6 @@ export default function SidebarLayout({
               theme
               sidebarMenuPlacement
               sidebarMenuDividerBefore
-              platform
               sidebarMenu {
                 id
                 path
@@ -90,17 +89,6 @@ export default function SidebarLayout({
                 pageOrder
                 static
                 hideStatus
-                groups {
-                  id
-                  path
-                  title
-                  icon
-                  order
-                  static
-                  includePageAs
-                  pageOrder
-                }
-                platform
               }
               category
             }
@@ -176,6 +164,7 @@ export default function SidebarLayout({
         expandedWidth="24rem"
         compactWidth="4rem"
         resizable
+        resizeHandleProps={{ minWidth: 240, maxWidth: 560 }}
         onWidthChange={onWidthChange}
         scrollViewProps={{
           className: clsx(

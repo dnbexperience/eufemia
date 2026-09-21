@@ -914,77 +914,6 @@ describe('portal SidebarMenu data', () => {
     expect(findActiveSidebarItemId(structured)).toBe('design-tokens')
   })
 
-  it('creates the sidebar structure from page-local configuration', () => {
-    const structured = createUilibSidebarStructure([
-      {
-        id: 'uilib',
-        path: 'uilib',
-        title: 'UI Library',
-        sidebarMenu: {
-          id: 'design-language',
-          path: 'uilib/design-language',
-          title: 'Design Language',
-          root: true,
-          order: 1,
-          groups: [
-            {
-              id: 'web',
-              path: 'uilib/design-language/web',
-              title: 'Web',
-            },
-          ],
-        },
-        subheadings: [
-          {
-            id: 'typography',
-            path: 'uilib/typography',
-            title: 'Typography',
-            sidebarMenu: {
-              parent: 'uilib/design-language/web',
-            },
-          },
-        ],
-      },
-      {
-        id: 'contribute',
-        path: 'contribute',
-        title: 'Contribute',
-        sidebarMenu: {
-          parent: 'uilib/design-language',
-          title: 'Contribution Guide',
-        },
-        subheadings: [
-          {
-            id: 'getting-started',
-            path: 'contribute/getting-started',
-            title: 'Getting started',
-          },
-        ],
-      },
-    ])
-
-    expect(structured).toMatchObject([
-      {
-        id: 'design-language',
-        path: 'uilib/design-language',
-        title: 'Design Language',
-        subheadings: [
-          {
-            id: 'web',
-            title: 'Web',
-            isMenuGroup: true,
-            subheadings: [{ id: 'typography' }],
-          },
-          {
-            id: 'contribute',
-            title: 'Contribution Guide',
-            subheadings: [{ id: 'getting-started' }],
-          },
-        ],
-      },
-    ])
-  })
-
   it('throws when a configured parent cannot be found', () => {
     expect(() =>
       createUilibSidebarStructure([
@@ -1045,30 +974,6 @@ describe('portal SidebarMenu data', () => {
         }),
       ])
     )
-  })
-
-  it('selects a root page placed inside a configured group', () => {
-    const structured = createUilibSidebarStructure([
-      {
-        id: 'usage',
-        path: 'uilib/usage',
-        title: 'Usage',
-        isActive: true,
-        sidebarMenu: {
-          root: true,
-          groups: [
-            {
-              id: 'web',
-              path: 'uilib/usage/web',
-              title: 'Web',
-              includePageAs: 'Overview',
-            },
-          ],
-        },
-      },
-    ])
-
-    expect(findActiveSidebarItemId(structured)).toBe('usage-page')
   })
 
   it('uses the unified UI library structure for icons routes', () => {
@@ -1221,10 +1126,7 @@ describe('portal SidebarMenu data', () => {
 
         return (
           data.sidebarMenuOpen !== undefined ||
-          data.sidebarMenu?.open !== undefined ||
-          data.sidebarMenu?.groups?.some(
-            (group: { open?: boolean }) => group.open !== undefined
-          )
+          data.sidebarMenu?.open !== undefined
         )
       })
 

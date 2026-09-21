@@ -35,7 +35,6 @@ export type NavItem = {
   currentPathName?: string
   sidebarMenuPlacement?: string
   sidebarMenuDividerBefore?: boolean
-  platform?: string
   sidebarMenu?: SidebarMenuConfig
   category?: CategoryValue
   isMenuGroup?: boolean
@@ -57,24 +56,10 @@ export type SidebarMenuConfig = {
   pageOrder?: number
   static?: boolean
   hideStatus?: boolean
-  groups?: SidebarMenuGroupConfig[]
-  platform?: string
-}
-
-export type SidebarMenuGroupConfig = {
-  id: string
-  path: string
-  title: string
-  icon?: string
-  order?: number
-  static?: boolean
-  includePageAs?: string
-  pageOrder?: number
 }
 
 export type PortalSidebarMenuItemData = SidebarMenuItemData & {
   themes?: ThemeNames[]
-  platform?: string
   items?: PortalSidebarMenuItemData[]
 }
 
@@ -222,7 +207,6 @@ export function toSidebarMenuData(
           ? { status: 'neutral' as const, subtle: true }
           : undefined,
         themes: item.theme,
-        platform: item.platform ?? item.sidebarMenu?.platform,
         items: nestedItems,
         type: isGroup ? 'group' : undefined,
         collapsible: nestedItems && !isGroup ? true : undefined,
@@ -258,7 +242,6 @@ export function createUilibSidebarStructure(
       const root = createConfiguredRoot(source, excludedPaths)
       roots.set(normalizePath(source.path), root)
       targets.set(normalizePath(root.path), root)
-      addConfiguredGroups(root, source.sidebarMenu.groups, targets, source)
     })
 
   configuredSources
@@ -311,7 +294,6 @@ export function createUilibSidebarStructure(
           path: '/',
           title: 'Home',
           icon: 'home',
-          platform: 'web',
           isActive: sourceItems.some(
             ({ currentPathName }) => currentPathName === ''
           ),
@@ -348,17 +330,10 @@ function createConfiguredRoot(
         ? config.title
         : item.menuTitle,
     icon: config.icon || item.icon,
-    isActive:
-      config.includePageAs ||
-      config.groups?.some(({ includePageAs }) => includePageAs)
-        ? false
-        : item.isActive,
+    isActive: config.includePageAs ? false : item.isActive,
     isMenuLink:
-      isSyntheticRoot || config.includePageAs || config.groups?.length
-        ? false
-        : item.isMenuLink,
+      isSyntheticRoot || config.includePageAs ? false : item.isMenuLink,
     sidebarMenu: undefined,
-    platform: config.platform ?? item.platform,
     subheadings: [
       ...(config.includePageAs && !config.pageParent
         ? [
@@ -399,7 +374,6 @@ function createConfiguredChild(
     status: config.hideStatus ? undefined : item.status,
     isMenuGroup: config.static ?? item.isMenuGroup,
     sidebarMenu: undefined,
-    platform: config.platform ?? item.platform,
     subheadings: sortConfiguredSidebarItems(
       cloneUnconfiguredChildren(item, excludedPaths)
     ),
@@ -441,43 +415,6 @@ function cloneUnconfiguredItem(
     subheadings: cloneUnconfiguredChildren(item, excludedPaths),
     _sidebarMenuOrder: item.sidebarMenu?.order,
   }
-}
-
-function addConfiguredGroups(
-  parent: NavItem,
-  groups: SidebarMenuGroupConfig[] = [],
-  targets: Map<string, NavItem>,
-  source: NavItem
-) {
-  groups.forEach((config) => {
-    const group: NavItem = {
-      id: config.id,
-      path: config.path,
-      title: config.title,
-      icon: config.icon,
-      isMenuGroup: config.static ?? true,
-      isMenuLink: false,
-      subheadings: config.includePageAs
-        ? [
-            {
-              ...source,
-              id: `${source.id || source.path}-page`,
-              title: config.includePageAs,
-              menuTitle: config.includePageAs,
-              icon: undefined,
-              isMenuLink: true,
-              isActive: source.isActive,
-              sidebarMenu: undefined,
-              subheadings: undefined,
-              _sidebarMenuOrder: config.pageOrder ?? 0,
-            },
-          ]
-        : [],
-      _sidebarMenuOrder: config.order,
-    }
-    parent.subheadings.push(group)
-    targets.set(normalizePath(config.path), group)
-  })
 }
 
 function sortConfiguredSidebarItems(items: NavItem[]): NavItem[]

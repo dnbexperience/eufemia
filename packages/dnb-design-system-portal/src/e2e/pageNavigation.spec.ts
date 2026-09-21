@@ -27,6 +27,7 @@ test.describe('Page Navigation', () => {
       }
 
       await page.goto('/uilib/components/')
+      await page.click('#portal-tools', { force: true })
       expect(await page.locator('#switch-grid').count()).toBe(0)
     })
 
@@ -164,6 +165,7 @@ test.describe('Page Navigation', () => {
     test('click on button page should open /uilib/components/button', async ({
       page,
     }) => {
+      await page.setViewportSize({ width: 1440, height: 900 })
       await page.goto('/uilib/components/')
       await waitForApp(page)
 

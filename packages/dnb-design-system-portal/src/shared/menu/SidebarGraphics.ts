@@ -34,14 +34,10 @@ import AnimationPrinciplesIcon from './graphics/AnimationPrinciplesIcon'
 import MotionIcon from './graphics/MotionIcon'
 import {
   brush,
-  cog,
   edit,
   home,
-  laptop,
-  layout_grid,
   lightbulb,
   newspaper,
-  play,
 } from '@dnb/eufemia/src/icons'
 
 const SidebarGraphics = {
@@ -75,14 +71,10 @@ const SidebarGraphics = {
   AnimationPrinciplesIcon,
   MotionIcon,
   brush,
-  cog,
   edit,
   home,
-  laptop,
-  layout_grid,
   lightbulb,
   newspaper,
-  play,
 }
 
 export default SidebarGraphics

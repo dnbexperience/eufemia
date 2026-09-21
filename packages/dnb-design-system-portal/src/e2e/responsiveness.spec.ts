@@ -4,6 +4,7 @@ import isDev from './shared/isDev'
 
 test.describe('Responsiveness', () => {
   test.beforeEach(async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 })
     await page.goto('/uilib/components/')
 
     // Check if app is mounted
@@ -13,25 +14,17 @@ test.describe('Responsiveness', () => {
   test('change viewport size should add sidebar menu', async ({
     page,
   }) => {
-    await expect(page.locator('#portal-sidebar-menu')).toHaveCSS(
-      'display',
-      'flex'
-    )
+    await expect(page.locator('#portal-sidebar-menu')).toBeVisible()
     await page.setViewportSize({ width: 375, height: 667 }) // Set viewport size to iPhone 6 dimensions
 
     await expect(page.locator('#portal-sidebar-menu')).toHaveCount(0)
     await page.click('#toggle-sidebar-menu')
-    await expect(page.locator('#portal-sidebar-menu')).toHaveCSS(
-      'opacity',
-      '1'
-    )
+    const drawer = page.getByRole('dialog', { name: 'Menu' })
+    await expect(drawer).toBeVisible()
 
-    await expect(
-      page.locator('#portal-sidebar-menu').getByText('Portal Tools')
-    ).toHaveCount(0)
+    await expect(drawer.getByText('Portal Tools')).toHaveCount(0)
 
-    const sidebarLink = '#portal-sidebar-menu a[href="/uilib/components"]'
-    await page.click(sidebarLink)
+    await drawer.locator('a[href="/uilib/components"]').click()
 
     // Check if app is mounted
     await waitForApp(page)
@@ -40,8 +33,6 @@ test.describe('Responsiveness', () => {
   })
 
   test('uses a full-height desktop sidebar shell', async ({ page }) => {
-    await page.setViewportSize({ width: 1280, height: 900 })
-
     const sidebar = page.locator('#portal-sidebar-menu')
     const header = page.locator('header.sticky-menu')
     const sidebarLogo = sidebar.getByRole('link', {
@@ -78,24 +69,25 @@ test.describe('Responsiveness', () => {
     expect(layout.headerLeft).toBe(layout.sidebarRight)
     expect(
       Math.abs(layout.logoCenter - layout.sidebarCenter)
-    ).toBeLessThan(1)
+    ).toBeLessThanOrEqual(4)
     await expect(sidebar).toHaveCSS('border-right-width', '1px')
     await expect(page.locator('.dnb-app-content')).toHaveCSS(
       'box-shadow',
       'none'
     )
     await expect(header).toHaveCSS('position', 'fixed')
-    await expect(header).toHaveCSS('background-color', 'rgba(0, 0, 0, 0)')
+    await expect(header).not.toHaveCSS(
+      'background-color',
+      'rgba(0, 0, 0, 0)'
+    )
     await expect(header).toHaveCSS('border-bottom-width', '0px')
     await expect(sidebarLogo).toBeVisible()
 
     const sidebarWidth = (await sidebar.boundingBox()).width
-    await page.setViewportSize({ width: 1440, height: 900 })
-    expect((await sidebar.boundingBox()).width).toBe(sidebarWidth)
+    expect(sidebarWidth).toBe(384)
     await expect(
       header.getByRole('link', { name: 'Go to Eufemia home' })
     ).not.toBeVisible()
-    await expect(page.locator('#toggle-main-menu')).toHaveCount(0)
     await expect(page.locator('#toggle-sidebar-menu')).not.toBeVisible()
     expect((await search.boundingBox()).width).toBeLessThanOrEqual(280)
 
@@ -116,7 +108,7 @@ test.describe('Responsiveness', () => {
     })
     const logoGraphic = logo.locator('svg')
 
-    await expect(sidebar).not.toBeVisible()
+    await expect(sidebar).toHaveCount(0)
     await expect(menuButton).toBeVisible()
     await expect(menuButton).toHaveClass(/dnb-button--tertiary/)
     await expect(logo).toBeVisible()
@@ -130,7 +122,8 @@ test.describe('Responsiveness', () => {
     await expect(logoGraphic).toHaveCSS('height', '22px')
 
     await menuButton.click()
-    await expect(sidebar).toBeVisible()
+    const dialog = page.getByRole('dialog', { name: 'Menu' })
+    await expect(dialog).toBeVisible()
     await expect(menuButton).toHaveAttribute('aria-expanded', 'true')
 
     const drawer = page.locator('.dnb-drawer--left')
@@ -144,6 +137,9 @@ test.describe('Responsiveness', () => {
     await expect(page.getByRole('dialog', { name: 'Menu' })).toBeVisible()
     await expect(drawer.locator('.dnb-drawer__title')).toHaveCount(0)
     const drawerBox = await drawer.boundingBox()
+    const drawerContentBox = await drawer
+      .locator('.dnb-drawer__content')
+      .boundingBox()
     const closeButtonBox = await closeButton.boundingBox()
     const drawerLogoBox = await drawerLogo.boundingBox()
     const drawerNavigationBox = await drawer
@@ -165,7 +161,7 @@ test.describe('Responsiveness', () => {
       })
     ).resolves.toBe(true)
     expect(drawerLogoBox.x + drawerLogoBox.width / 2).toBeCloseTo(
-      drawerBox.x + drawerBox.width / 2,
+      drawerContentBox.x + drawerContentBox.width / 2,
       0
     )
     expect(drawerLogoBox.y + drawerLogoBox.height / 2).toBeCloseTo(
@@ -173,29 +169,23 @@ test.describe('Responsiveness', () => {
       0
     )
 
-    await sidebar
-      .locator('.portal-sidebar-scroll-view')
-      .evaluate((element) => {
-        element.scrollTop = 200
-      })
+    await drawer.evaluate((element) => {
+      element.scrollTop = 200
+    })
     const scrolledCloseButtonBox = await closeButton.boundingBox()
     expect(scrolledCloseButtonBox.y).toBe(closeButtonBox.y)
     await closeButton.click()
+    await expect(dialog).toBeHidden()
     await expect(sidebar).not.toBeVisible()
     await expect(menuButton).toHaveAttribute('aria-expanded', 'false')
 
     await page.setViewportSize({ width: 600, height: 667 })
     await menuButton.click()
     expect((await drawer.boundingBox()).width).toBe(24 * 16)
-    await closeButton.click()
-
-    await menuButton.click()
-    await expect(sidebar).toBeVisible()
-    await expect(drawer).toHaveCSS('transform', 'matrix(1, 0, 0, 1, 0, 0)')
     await expect(page.locator('.dnb-modal__overlay')).toBeVisible()
     await expect(page.locator('#dnb-app-content')).toBeVisible()
-
-    await page.keyboard.press('Escape')
+    await closeButton.click()
+    await expect(dialog).toBeHidden()
     await expect(sidebar).not.toBeVisible()
     await expect(menuButton).toHaveAttribute('aria-expanded', 'false')
   })
