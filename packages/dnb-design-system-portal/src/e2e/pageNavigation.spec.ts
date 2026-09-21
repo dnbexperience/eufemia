@@ -51,6 +51,20 @@ async function expectCurrentDocument(page) {
   ).toBe(true)
 }
 
+test('home page hydrates without recoverable errors', async ({ page }) => {
+  const errors: string[] = []
+  page.on('console', (message) => {
+    if (message.type() === 'error') {
+      errors.push(message.text())
+    }
+  })
+
+  await page.goto('/')
+  await waitForApp(page)
+
+  expect(errors.filter((message) => message.includes('#418'))).toEqual([])
+})
+
 test.describe('Page Navigation', () => {
   test.describe('without JavaScript', () => {
     test.use({ javaScriptEnabled: false })
@@ -228,6 +242,9 @@ test.describe('Page Navigation', () => {
       await expect(
         sidebar.getByRole('button', { name: 'Foundations' })
       ).toBeVisible()
+      await expect(
+        page.getByRole('link', { name: 'Suggest an edit' })
+      ).toHaveCount(0)
     })
 
     test('should contain a Suggest an edit link', async ({ page }) => {
