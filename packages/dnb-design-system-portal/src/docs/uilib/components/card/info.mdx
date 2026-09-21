@@ -47,4 +47,8 @@ It uses a `section` element. Which allows you to add an `aria-label` or `aria-la
 
 Use `Card.List` and `Card.ListItem` to render a semantic `<ul>` / `<li>` list of cards. `Card.List` provides a responsive flex layout with wrapping. `Card.ListItem` supports a `center` prop to center content vertically — set it to `true` to always center, or `"when-small"` to center only on small screens.
 
+## Security
+
+Like the [Anchor](/uilib/components/anchor/info), `Card.Action` removes `href` and `to` values that use a script-executing protocol (`javascript:` or `vbscript:`), including obfuscated variants such as `java\tscript:`. This prevents cross-site scripting (XSS) when untrusted input is passed to these properties; the card then renders without a link target. Other protocols, such as `data:` and `blob:`, are left untouched.
+
 <RelatedComponents />
