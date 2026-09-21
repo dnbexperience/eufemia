@@ -264,41 +264,43 @@ function Dashboard({
         />
       </Card>
 
-      <P className="dashboard__meta">
-        {componentTotal > 0
-          ? `${componentTotal.toLocaleString()} component usages`
-          : 'No component usage yet.'}
-      </P>
+      {componentTotal > 0 && (
+        <>
+          <P className="dashboard__meta">
+            {`${componentTotal.toLocaleString()} component usages`}
+          </P>
 
-      <Card stack>
-        <H2 size="medium">Top components</H2>
-        <RankedTable
-          caption="Top components"
-          nameHeader="Component"
-          countHeader="Usages"
-          items={(component?.perComponent ?? []).slice(0, 15)}
-        />
-      </Card>
+          <Card stack>
+            <H2 size="medium">Top components</H2>
+            <RankedTable
+              caption="Top components"
+              nameHeader="Component"
+              countHeader="Usages"
+              items={(component?.perComponent ?? []).slice(0, 15)}
+            />
+          </Card>
 
-      <Card stack>
-        <H2 size="medium">Components by app</H2>
-        <RankedTable
-          caption="Components by app"
-          nameHeader="App"
-          countHeader="Usages"
-          items={(component?.perApp ?? []).slice(0, 15)}
-        />
-      </Card>
+          <Card stack>
+            <H2 size="medium">Components by app</H2>
+            <RankedTable
+              caption="Components by app"
+              nameHeader="App"
+              countHeader="Usages"
+              items={(component?.perApp ?? []).slice(0, 15)}
+            />
+          </Card>
 
-      <Card stack>
-        <H2 size="medium">Components by Eufemia version</H2>
-        <RankedTable
-          caption="Components by Eufemia version"
-          nameHeader="Version"
-          countHeader="Usages"
-          items={(component?.perVersion ?? []).slice(0, 15)}
-        />
-      </Card>
+          <Card stack>
+            <H2 size="medium">Components by Eufemia version</H2>
+            <RankedTable
+              caption="Components by Eufemia version"
+              nameHeader="Version"
+              countHeader="Usages"
+              items={(component?.perVersion ?? []).slice(0, 15)}
+            />
+          </Card>
+        </>
+      )}
     </Flex.Stack>
   )
 }
