@@ -1,35 +1,12 @@
-import { useStaticQuery, graphql } from 'portal-query'
 import ListSummaryFromEdges from './ListSummaryFromEdges'
+import { regularMdxNodes } from 'virtual:portal-pages'
+import { getExtensions } from './listEdges'
 
 export default function ListExtensions(props) {
-  const {
-    allMdx: { edges },
-  } = useStaticQuery(graphql`
-    {
-      allMdx(
-        filter: {
-          frontmatter: {
-            title: { ne: "" }
-            draft: { ne: true }
-            hideInMenu: { ne: true }
-          }
-          internal: { contentFilePath: { glob: "**/uilib/extensions/*" } }
-        }
-      ) {
-        edges {
-          node {
-            fields {
-              slug
-            }
-            frontmatter {
-              title
-              description
-            }
-          }
-        }
-      }
-    }
-  `)
-
-  return <ListSummaryFromEdges edges={edges} {...props} />
+  return (
+    <ListSummaryFromEdges
+      edges={getExtensions(regularMdxNodes)}
+      {...props}
+    />
+  )
 }

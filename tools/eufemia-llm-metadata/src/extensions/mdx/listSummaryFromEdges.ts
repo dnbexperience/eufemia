@@ -4,11 +4,7 @@ import type {
   SpecialMdxComponentRenderer,
   SpecialMdxRendererDeps,
 } from './types.ts'
-import {
-  findMdxFiles,
-  readFrontmatter,
-  type FrontmatterRecord,
-} from './mdxFiles.ts'
+import type { FrontmatterRecord } from './mdxFiles.ts'
 import { parseSimpleJsxStringAttributes } from './utils.ts'
 
 type ListSummaryFrontmatter = FrontmatterRecord
@@ -20,31 +16,14 @@ type ListEntry = {
   frontmatter: ListSummaryFrontmatter
 }
 
-type PathFilter =
-  | {
-      type: 'glob'
-      value: string
-    }
-  | {
-      type: 'regex'
-      value: RegExp
-    }
+type GetEdges = (pages: MdxNode[]) => MdxNode[]
 
-type FrontmatterFilter = {
-  field: string
-  operator: 'ne' | 'regex'
-  value: boolean | null | RegExp | string
-}
-
-type SortField = {
-  field: string
-  direction: 'ASC' | 'DESC'
+type MdxNode = {
+  fields: { slug: string; sourcePath: string }
+  frontmatter: Record<string, unknown>
 }
 
 type ListSummaryConfig = {
-  pathFilter: PathFilter | null
-  frontmatterFilters: FrontmatterFilter[]
-  sortFields: SortField[]
   returnListItems: boolean
 }
 
@@ -53,8 +32,8 @@ type ListSummaryData = {
   entries: ListEntry[]
 }
 
-const docsFilesCache = new Map<string, string[]>()
 const listSummaryCache = new Map<string, ListSummaryData | null>()
+const regularMdxNodesCache = new Map<string, MdxNode[]>()
 
 export function createListSummaryFromEdgesExtension(
   deps: SpecialMdxRendererDeps
@@ -196,9 +175,28 @@ async function resolveSourceWithExtension(basePath: string) {
   return null
 }
 
+function toListEntry(
+  relativePath: string,
+  frontmatter: ListSummaryFrontmatter,
+  deps: Pick<SpecialMdxRendererDeps, 'toSlugAndDir'>
+): ListEntry {
+  return {
+    slug: deps.toSlugAndDir(relativePath, '').slug,
+    title: String(frontmatter.title ?? ''),
+    description:
+      typeof frontmatter.description === 'string'
+        ? frontmatter.description
+        : null,
+    frontmatter,
+  }
+}
+
 async function loadListSummaryData(
   wrapperPath: string,
-  deps: Pick<SpecialMdxRendererDeps, 'docsRoot' | 'toSlugAndDir'>
+  deps: Pick<
+    SpecialMdxRendererDeps,
+    'docsRoot' | 'toSlugAndDir' | 'findPackageRoot'
+  >
 ) {
   const cacheKey = `${wrapperPath}::${deps.docsRoot}`
 
@@ -214,51 +212,22 @@ async function loadListSummaryData(
       return null
     }
 
-    const querySource = extractTemplateLiteral(source, 'graphql`')
+    const edges = await generateEdgesProp(wrapperPath, source, deps)
 
-    if (!querySource) {
+    if (!edges) {
       listSummaryCache.set(cacheKey, null)
       return null
     }
 
-    const config = parseListSummaryConfig(querySource, source)
-    const docsFiles = await findAllDocFiles(deps.docsRoot)
-    const entries: ListEntry[] = []
+    const config = parseListSummaryConfig(source)
 
-    for (const filePath of docsFiles) {
-      const relativePath = path
-        .relative(deps.docsRoot, filePath)
-        .replace(/\\/g, '/')
-
-      if (!matchesPathFilter(relativePath, config.pathFilter)) {
-        continue
-      }
-
-      const frontmatter = await readFrontmatter(filePath)
-
-      if (
-        !frontmatter ||
-        !matchesFrontmatterFilters(frontmatter, config)
-      ) {
-        continue
-      }
-
-      if (typeof frontmatter.title !== 'string' || !frontmatter.title) {
-        continue
-      }
-
-      entries.push({
-        slug: deps.toSlugAndDir(relativePath, '').slug,
-        title: frontmatter.title,
-        description:
-          typeof frontmatter.description === 'string'
-            ? frontmatter.description
-            : null,
-        frontmatter,
-      })
-    }
-
-    entries.sort((a, b) => compareListEntries(a, b, config.sortFields))
+    const entries: ListEntry[] = edges.map((node) =>
+      toListEntry(
+        `${node.fields.slug}.mdx`,
+        node.frontmatter as ListSummaryFrontmatter,
+        deps
+      )
+    )
 
     const data = { config, entries }
     listSummaryCache.set(cacheKey, data)
@@ -270,302 +239,109 @@ async function loadListSummaryData(
   }
 }
 
-function extractTemplateLiteral(source: string, anchor: string) {
-  const start = source.indexOf(anchor)
+/**
+ * The value the list component would pass to the `edges` prop.
+ *
+ * Both halves of `edges={getElements(regularMdxNodes)}` come from the app, so
+ * the generator renders the same pages the page does and never re-derives the
+ * selection:
+ *
+ * - the selection function is the one the component itself calls
+ * - `regularMdxNodes` is the portal's own page list
+ *
+ * What is assumed, rather than shared, is how to reach them: that the `edges`
+ * prop calls a statically imported function with the pages as its only
+ * argument, and where the portal keeps `getPortalPages()`.
+ */
+async function generateEdgesProp(
+  wrapperPath: string,
+  wrapperSource: string,
+  deps: Pick<SpecialMdxRendererDeps, 'docsRoot' | 'findPackageRoot'>
+): Promise<MdxNode[] | null> {
+  const portalRoot = deps.findPackageRoot('dnb-design-system-portal')
+  const getEdges = await extractGetEdges(wrapperPath, wrapperSource)
 
-  if (start < 0) {
+  if (!portalRoot || !getEdges) {
     return null
   }
 
-  const contentStart = start + anchor.length
-  const end = source.indexOf('`', contentStart)
-
-  if (end < 0) {
-    return null
-  }
-
-  return source.slice(contentStart, end)
-}
-
-function parseListSummaryConfig(
-  querySource: string,
-  componentSource: string
-): ListSummaryConfig {
-  return {
-    pathFilter: parsePathFilter(querySource),
-    frontmatterFilters: parseFrontmatterFilters(querySource),
-    sortFields: parseSortFields(querySource),
-    returnListItems:
-      /<ListSummaryFromEdges\b[^>]*\breturnListItems\b/.test(
-        componentSource
-      ),
-  }
-}
-
-function parsePathFilter(querySource: string): PathFilter | null {
-  const contentFilePathBlock = extractNamedBlock(
-    querySource,
-    'contentFilePath'
+  const regularMdxNodes = await loadRegularMdxNodes(
+    portalRoot,
+    deps.docsRoot
   )
 
-  if (!contentFilePathBlock) {
+  return getEdges(regularMdxNodes)
+}
+
+/** The selection function the component calls in its `edges` prop. */
+async function extractGetEdges(
+  wrapperPath: string,
+  wrapperSource: string
+): Promise<GetEdges | null> {
+  const name = wrapperSource.match(
+    /edges=\{\s*(\w+)\s*\(\s*regularMdxNodes\s*\)\s*\}/
+  )?.[1]
+
+  if (!name) {
     return null
   }
 
-  const globMatch = contentFilePathBlock.match(
-    /\bglob\s*:\s*(["'])([\s\S]*?)\1/
+  const importSource = wrapperSource.match(
+    new RegExp(
+      `import\\s*\\{[^}]*\\b${name}\\b[^}]*\\}\\s*from\\s*'([^']+)'`
+    )
+  )?.[1]
+
+  if (!importSource) {
+    return null
+  }
+
+  const modulePath = await resolveSourceWithExtension(
+    path.resolve(path.dirname(wrapperPath), importSource)
   )
 
-  if (globMatch?.[2]) {
-    return {
-      type: 'glob',
-      value: globMatch[2],
-    }
-  }
-
-  const regexMatch = contentFilePathBlock.match(
-    /\bregex\s*:\s*(["'])([\s\S]*?)\1/
-  )
-
-  if (regexMatch?.[2]) {
-    return {
-      type: 'regex',
-      value: new RegExp(
-        regexMatch[2].replace(/^\//, '').replace(/\/$/, '')
-      ),
-    }
-  }
-
-  return null
-}
-
-function parseFrontmatterFilters(querySource: string) {
-  const frontmatterBlock = extractNamedBlock(querySource, 'frontmatter')
-
-  if (!frontmatterBlock) {
-    return []
-  }
-
-  const filters: FrontmatterFilter[] = []
-  const regex =
-    /(\w+)\s*:\s*\{\s*(ne|regex)\s*:\s*(null|true|false|"[^"]*"|'[^']*')\s*\}/g
-  let match: RegExpExecArray | null
-
-  while ((match = regex.exec(frontmatterBlock))) {
-    const [, field, operator, rawValue] = match
-
-    if (!field || !operator || !rawValue) {
-      continue
-    }
-
-    filters.push({
-      field,
-      operator: operator as 'ne' | 'regex',
-      value: parseFilterValue(operator as 'ne' | 'regex', rawValue),
-    })
-  }
-
-  return filters
-}
-
-function parseSortFields(querySource: string) {
-  const sortBlock = extractNamedArrayBlock(querySource, 'sort')
-
-  if (!sortBlock) {
-    return []
-  }
-
-  const fields: SortField[] = []
-  const regex = /frontmatter\s*:\s*\{\s*(\w+)\s*:\s*(ASC|DESC)\s*\}/g
-  let match: RegExpExecArray | null
-
-  while ((match = regex.exec(sortBlock))) {
-    const [, field, direction] = match
-
-    if (!field || !direction) {
-      continue
-    }
-
-    fields.push({
-      field,
-      direction: direction as 'ASC' | 'DESC',
-    })
-  }
-
-  return fields
-}
-
-function extractNamedBlock(source: string, fieldName: string) {
-  const fieldRegex = new RegExp(`\\b${fieldName}\\s*:`)
-  const fieldMatch = fieldRegex.exec(source)
-
-  if (!fieldMatch) {
+  if (!modulePath) {
     return null
   }
 
-  const openIndex = source.indexOf('{', fieldMatch.index)
+  const selections = (await import(modulePath)) as Record<string, GetEdges>
 
-  if (openIndex < 0) {
-    return null
-  }
-
-  return extractBalancedBlock(source, openIndex, '{', '}')
+  return selections[name] ?? null
 }
 
-function extractNamedArrayBlock(source: string, fieldName: string) {
-  const fieldRegex = new RegExp(`\\b${fieldName}\\s*:`)
-  const fieldMatch = fieldRegex.exec(source)
-
-  if (!fieldMatch) {
-    return null
-  }
-
-  const openIndex = source.indexOf('[', fieldMatch.index)
-
-  if (openIndex < 0) {
-    return null
-  }
-
-  return extractBalancedBlock(source, openIndex, '[', ']')
-}
-
-function extractBalancedBlock(
-  source: string,
-  openIndex: number,
-  openChar: string,
-  closeChar: string
-) {
-  let depth = 0
-
-  for (let index = openIndex; index < source.length; index += 1) {
-    const char = source[index]
-
-    if (char === openChar) {
-      depth += 1
-    } else if (char === closeChar) {
-      depth -= 1
-
-      if (depth === 0) {
-        return source.slice(openIndex, index + 1)
-      }
-    }
-  }
-
-  return null
-}
-
-function parseFilterValue(
-  operator: 'ne' | 'regex',
-  rawValue: string
-): boolean | null | RegExp | string {
-  if (operator === 'regex') {
-    return new RegExp(rawValue.slice(2, -2))
-  }
-
-  if (rawValue === 'null') {
-    return null
-  }
-
-  if (rawValue === 'true') {
-    return true
-  }
-
-  if (rawValue === 'false') {
-    return false
-  }
-
-  return rawValue.slice(1, -1)
-}
-
-async function findAllDocFiles(docsRoot: string) {
-  const cached = docsFilesCache.get(docsRoot)
+/**
+ * The pages the app hands to `getEdges()`, built by the portal itself so the
+ * tool and the app cannot disagree on which pages exist.
+ */
+async function loadRegularMdxNodes(portalRoot: string, docsRoot: string) {
+  const cacheKey = `${portalRoot}::${docsRoot}`
+  const cached = regularMdxNodesCache.get(cacheKey)
 
   if (cached) {
     return cached
   }
 
-  const files = await findMdxFiles(docsRoot)
-  docsFilesCache.set(docsRoot, files)
+  const { getPortalPages } = await import(
+    path.join(portalRoot, 'vite/client/plugins/portal-pages.ts')
+  )
+  const { regularMdxNodes } = getPortalPages(docsRoot) as {
+    regularMdxNodes: MdxNode[]
+  }
 
-  return files
+  regularMdxNodesCache.set(cacheKey, regularMdxNodes)
+
+  return regularMdxNodes
 }
 
-function matchesPathFilter(
-  relativePath: string,
-  pathFilter: PathFilter | null
-) {
-  if (!pathFilter) {
-    return true
+function parseListSummaryConfig(
+  componentSource: string
+): ListSummaryConfig {
+  return {
+    returnListItems:
+      /<ListSummaryFromEdges\b[^>]*\breturnListItems\b/.test(
+        componentSource
+      ),
   }
-
-  if (pathFilter.type === 'regex') {
-    return pathFilter.value.test(relativePath)
-  }
-
-  return globToRegExp(pathFilter.value).test(relativePath)
-}
-
-function matchesFrontmatterFilters(
-  frontmatter: ListSummaryFrontmatter,
-  config: Pick<ListSummaryConfig, 'frontmatterFilters'>
-) {
-  return config.frontmatterFilters.every((filter) => {
-    const value = frontmatter[filter.field as keyof ListSummaryFrontmatter]
-
-    if (filter.operator === 'regex') {
-      return filter.value instanceof RegExp
-        ? filter.value.test(String(value || ''))
-        : false
-    }
-
-    return value !== filter.value
-  })
-}
-
-function compareListEntries(
-  a: ListEntry,
-  b: ListEntry,
-  sortFields: SortField[]
-) {
-  for (const sortField of sortFields) {
-    const left =
-      a.frontmatter[sortField.field as keyof ListSummaryFrontmatter]
-    const right =
-      b.frontmatter[sortField.field as keyof ListSummaryFrontmatter]
-    const compared = compareListValues(left, right)
-
-    if (compared !== 0) {
-      return sortField.direction === 'DESC' ? compared * -1 : compared
-    }
-  }
-
-  return a.title.localeCompare(b.title)
-}
-
-function compareListValues(
-  left: ListSummaryFrontmatter[keyof ListSummaryFrontmatter],
-  right: ListSummaryFrontmatter[keyof ListSummaryFrontmatter]
-) {
-  const leftMissing = left === null || left === undefined
-  const rightMissing = right === null || right === undefined
-
-  if (leftMissing && rightMissing) {
-    return 0
-  }
-
-  if (leftMissing) {
-    return 1
-  }
-
-  if (rightMissing) {
-    return -1
-  }
-
-  if (typeof left === 'number' && typeof right === 'number') {
-    return left - right
-  }
-
-  return String(left).localeCompare(String(right))
 }
 
 function parseHeadingLevel(value: string) {
@@ -609,107 +385,4 @@ function renderListEntriesMarkdown(
         : `${headingPrefix} [${entry.title}](${entry.slug})`
     })
     .join('\n\n')
-}
-
-function globToRegExp(pattern: string) {
-  return new RegExp(`^${convertGlobSegment(pattern)}$`)
-}
-
-function convertGlobSegment(pattern: string): string {
-  let output = ''
-
-  for (let index = 0; index < pattern.length; index += 1) {
-    const char = pattern[index]
-    const nextChar = pattern[index + 1]
-
-    if (char === '*' && nextChar === '*' && pattern[index + 2] === '/') {
-      output += '(?:.*\\/)?'
-      index += 2
-      continue
-    }
-
-    if (char === '*' && nextChar === '*') {
-      output += '.*'
-      index += 1
-      continue
-    }
-
-    if (char === '*') {
-      output += '[^/]*'
-      continue
-    }
-
-    if (char === '?') {
-      output += '[^/]'
-      continue
-    }
-
-    if (char === '{') {
-      const endIndex = findClosingBraceIndex(pattern, index)
-
-      if (endIndex > index) {
-        const inner = pattern.slice(index + 1, endIndex)
-        const parts = splitBraceAlternatives(inner)
-
-        output += `(?:${parts
-          .map((part) => convertGlobSegment(part))
-          .join('|')})`
-        index = endIndex
-        continue
-      }
-    }
-
-    output += escapeRegExp(char)
-  }
-
-  return output
-}
-
-function findClosingBraceIndex(pattern: string, startIndex: number) {
-  let depth = 0
-
-  for (let index = startIndex; index < pattern.length; index += 1) {
-    const char = pattern[index]
-
-    if (char === '{') {
-      depth += 1
-    } else if (char === '}') {
-      depth -= 1
-
-      if (depth === 0) {
-        return index
-      }
-    }
-  }
-
-  return -1
-}
-
-function splitBraceAlternatives(value: string) {
-  const parts: string[] = []
-  let current = ''
-  let depth = 0
-
-  for (const char of value) {
-    if (char === ',' && depth === 0) {
-      parts.push(current)
-      current = ''
-      continue
-    }
-
-    if (char === '{') {
-      depth += 1
-    } else if (char === '}') {
-      depth -= 1
-    }
-
-    current += char
-  }
-
-  parts.push(current)
-  return parts
-}
-
-function escapeRegExp(value: string) {
-  return value.replace(/[|\\{}()[\]^$+?.]/g, '\\$&')
 }

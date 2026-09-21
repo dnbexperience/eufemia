@@ -1,51 +1,15 @@
-import { useStaticQuery, graphql } from 'portal-query'
 import ListSummaryFromEdges from '../../../../../shared/parts/ListSummaryFromEdges'
+import { regularMdxNodes } from 'virtual:portal-pages'
+import { getBaseToggleComponents } from '../../../../../shared/parts/listEdges'
 
 export default function ListBaseToggleComponents() {
-  const {
-    allMdx: { edges },
-  } = useStaticQuery(graphql`
-    {
-      allMdx(
-        filter: {
-          frontmatter: {
-            title: { ne: null }
-            draft: { ne: true }
-            componentType: { in: "base-toggle" }
-          }
-          internal: {
-            contentFilePath: {
-              glob: "**/uilib/extensions/forms/base-fields/*"
-            }
-          }
-        }
-        sort: [
-          { frontmatter: { order: ASC } }
-          { frontmatter: { title: ASC } }
-        ]
-      ) {
-        edges {
-          node {
-            fields {
-              slug
-            }
-            frontmatter {
-              title
-              description
-            }
-          }
-        }
-      }
-    }
-  `)
-
   return (
     <ListSummaryFromEdges
       space={{ top: 'x-small' }}
       level={3}
       size="medium"
       description=""
-      edges={edges}
+      edges={getBaseToggleComponents(regularMdxNodes)}
     />
   )
 }

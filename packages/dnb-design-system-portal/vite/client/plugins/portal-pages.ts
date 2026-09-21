@@ -97,6 +97,67 @@ export function extractTableOfContents(
   return { items }
 }
 
+/** Where the portal's pages live, when no other location is given. */
+export function getDefaultDocsDir() {
+  return path.resolve(__dirname, '../../../src/docs')
+}
+
+/**
+ * Read every page from disk and build the two lists the portal exposes.
+ *
+ * This is the single definition of the portal's page data. The Vite plugin
+ * calls it to build `virtual:portal-pages`, and tools that run outside Vite —
+ * such as the LLM markdown generator — call it to get the identical lists.
+ */
+export function getPortalPages(docsDir: string = getDefaultDocsDir()) {
+  const files = scanPageFiles(docsDir)
+  const allMdxNodes = toMdxNodes(files)
+
+  return {
+    files,
+    allMdxNodes,
+    regularMdxNodes: toRegularMdxNodes(allMdxNodes),
+  }
+}
+
+/**
+ * The listable pages, in the order lists expect them: a title, not a draft,
+ * sorted by `order` with pages that have none last, and by title within an
+ * order.
+ */
+export function toRegularMdxNodes(nodes: MdxNode[]): MdxNode[] {
+  return nodes
+    .filter(
+      (node) => node.frontmatter?.title && node.frontmatter?.draft !== true
+    )
+    .sort((a, b) => {
+      return String(a.frontmatter.title).localeCompare(
+        String(b.frontmatter.title)
+      )
+    })
+    .sort(
+      ({ frontmatter: { order: a } }, { frontmatter: { order: b } }) => {
+        if (a === b) return 0
+        if (a === undefined) return 1
+        if (b === undefined) return -1
+        return (a as number) - (b as number)
+      }
+    )
+}
+
+/** Every MDX page found on disk, in the shape the virtual module exposes. */
+export function toMdxNodes(files: PageFileInfo[]): MdxNode[] {
+  return files
+    .filter((file) => file.type === 'mdx')
+    .map((file) => ({
+      fields: { slug: file.slug, sourcePath: file.sourcePath },
+      frontmatter: file.frontmatter,
+      ...(file.tableOfContents
+        ? { tableOfContents: file.tableOfContents }
+        : {}),
+    }))
+}
+
 export function scanPageFiles(docsDir: string): PageFileInfo[] {
   const results: PageFileInfo[] = []
 
@@ -231,8 +292,7 @@ export function getVirtualModuleSignature(
 export default function portalPagesPlugin(
   options: PortalPagesPluginOptions = {}
 ): Plugin {
-  const docsDir =
-    options.docsDir ?? path.resolve(__dirname, '../../../src/docs')
+  const docsDir = options.docsDir ?? getDefaultDocsDir()
   const normalizedDocsDir = docsDir.replace(/\\/g, '/')
   const pageSignatures = new Map<string, string | null>()
 
@@ -247,7 +307,12 @@ export default function portalPagesPlugin(
 
     load(id) {
       if (id === RESOLVED_VIRTUAL_MODULE_ID) {
-        const files = scanPageFiles(docsDir)
+        const { files, allMdxNodes, regularMdxNodes } =
+          getPortalPages(docsDir)
+
+        const regularMdxNodeIndexes = regularMdxNodes.map((node) =>
+          allMdxNodes.indexOf(node)
+        )
 
         pageSignatures.clear()
         for (const file of files) {
@@ -259,7 +324,6 @@ export default function portalPagesPlugin(
 
         // Generate lazy import statements and route definitions
         const routeDefs: string[] = []
-        const nodeEntries: string[] = []
         const redirectDefs: string[] = []
 
         files.forEach((file) => {
@@ -297,18 +361,7 @@ export default function portalPagesPlugin(
             )
           }
 
-          // Only MDX files contribute to the allMdxNodes data structure
-          // (TSX pages like index.tsx, 404.tsx don't have frontmatter for the sidebar)
           if (file.type === 'mdx') {
-            const nodeData: MdxNode = {
-              fields: { slug: file.slug, sourcePath: file.sourcePath },
-              frontmatter: file.frontmatter,
-            }
-            if (file.tableOfContents) {
-              nodeData.tableOfContents = file.tableOfContents
-            }
-            nodeEntries.push(`  ${JSON.stringify(nodeData)},`)
-
             // Collect redirect_from frontmatter for redirect routes
             const redirectFrom = file.frontmatter.redirect_from
             if (Array.isArray(redirectFrom)) {
@@ -325,6 +378,12 @@ export default function portalPagesPlugin(
             }
           }
         })
+
+        // Path matching helper, re-exported so page lists can select pages
+        // with the same globs the content queries used.
+        const globModulePath = path
+          .join(__dirname, 'portal-pages.shared')
+          .replace(/\\/g, '/')
 
         // Add catch-all 404 route — wraps the 404 page component to inject location prop
         const notFoundPath = path
@@ -356,8 +415,16 @@ ${routeDefs.join('\n')}
 ];
 
 export const allMdxNodes = [
-${nodeEntries.join('\n')}
+${allMdxNodes.map((node) => `  ${JSON.stringify(node)},`).join('\n')}
 ];
+
+const regularMdxNodeIndexes = [${regularMdxNodeIndexes.join(',')}];
+
+export const regularMdxNodes = regularMdxNodeIndexes.map(
+  (index) => allMdxNodes[index]
+);
+
+export { globPath } from '${globModulePath}';
 `
       }
     },
