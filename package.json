@@ -16,7 +16,8 @@
   "workspaces": [
     "packages/*",
     "packages/**/plugins/*",
-    "tools/*"
+    "tools/*",
+    "tools/analytics/dashboard"
   ],
   "main": "./packages/eufemia/index.js",
   "scripts": {
