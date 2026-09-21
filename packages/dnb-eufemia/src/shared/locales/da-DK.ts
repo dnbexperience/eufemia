@@ -81,6 +81,11 @@ export default {
     SidebarMenu: {
       sectionLabel: 'Menusektion',
       containsCurrentPage: 'Indeholder den aktuelle side',
+      containsNotifications: 'Indeholder notifikationer',
+      openMenu: 'Åbn menu',
+      closeMenu: 'Luk menu',
+      menu: 'Menu',
+      resizeSidebar: 'Tilpas sidemenuens størrelse',
     },
     Dropdown: {
       title: 'Vælg',

@@ -8,6 +8,7 @@
 
 import fs from 'fs-extra'
 import path from 'path'
+import { pathToFileURL } from 'node:url'
 import { getCommittedFiles } from '../../tools/cliTools'
 import { rebaseAssetUrls } from '../copyStyles'
 import { themeCapabilities } from '../../../src/style/themes/capabilities'
@@ -80,31 +81,34 @@ describe('type definitions', () => {
         )
       ).toBe(true)
 
-      // To ensure babel did not compile the d.ts file
-      expect(
-        fs.readFileSync(
-          path.resolve(
-            PKG_ROOT,
-            `build${stage}/components/input/Input.d.ts`
-          ),
-          'utf-8'
-        )
-      ).toMatch(/export (type|interface)/g)
-
-      // Test the output of js files
+      // The types live in a sibling types.ts and are re-exported from the
+      // component file, so both need to be emitted for consumers to resolve
+      // them from the component path.
       const file = path.resolve(
         PKG_ROOT,
         `build${stage}/components/input/Input.d.ts`
       )
+      const typesFile = path.resolve(
+        PKG_ROOT,
+        `build${stage}/components/input/types.d.ts`
+      )
 
       expect(fs.existsSync(file)).toBe(true)
+      expect(fs.existsSync(typesFile)).toBe(true)
 
       const content = fs.readFileSync(file, 'utf-8')
-      expect(content).toMatch(/export (type|interface) InputProps/)
-      expect(content).toMatch(
+      const typesContent = fs.readFileSync(typesFile, 'utf-8')
+
+      expect(content).toMatch(/export type \* from ['"]\.\/types['"]/)
+
+      // To ensure babel did not compile the d.ts file
+      expect(typesContent).toMatch(/export (type|interface)/g)
+
+      expect(typesContent).toMatch(/export (type|interface) InputProps/)
+      expect(typesContent).toMatch(
         /Omit<(?:React\.)?[A-Za-z]+<HTMLInputElement>, ['"]ref['"]/
       )
-      expect(content).toContain('SpacingProps')
+      expect(typesContent).toContain('SpacingProps')
     }
   )
 
@@ -134,6 +138,95 @@ describe('type definitions', () => {
 
 describe('babel build', () => {
   const buildStages = getBuildStages(['/es', '/esm', '/cjs'])
+
+  it.each(buildStages)(
+    'ships a standalone SidebarMenu pre-hydration script on stage %s',
+    async (stage) => {
+      stage = makeStagePathException(stage)
+
+      const moduleUrl = pathToFileURL(
+        path.resolve(
+          PKG_ROOT,
+          `build${stage}/extensions/sidebar-menu/SidebarMenuPreHydrationScript.js`
+        )
+      ).href
+      const { getPreHydrationScript } = await import(moduleUrl)
+      const styles: Array<{ textContent: string }> = []
+      const openItemsMenu = {
+        querySelectorAll: () => [defaultOpenAccordion],
+        getAttribute: (name: string) =>
+          ({
+            'data-open-items-storage-key': 'navigation',
+            'data-open-items-storage': 'session',
+          })[name],
+      }
+      const defaultOpenAccordion = {
+        closest: () => openItemsMenu,
+        hasAttribute: () => false,
+        getAttribute: () => 'products',
+        querySelector: () => null,
+      }
+      const view = {
+        scrollTop: 0,
+        style: {
+          getPropertyValue: () => '',
+          getPropertyPriority: () => '',
+          setProperty: () => undefined,
+        },
+      }
+      const scrollMenu = {
+        closest: () => view,
+        getAttribute: (name: string) =>
+          ({
+            'data-scroll-position-storage-key': 'navigation-scroll',
+            'data-scroll-position-storage': 'session',
+          })[name],
+        querySelector: () => null,
+      }
+      const document = {
+        currentScript: null,
+        querySelectorAll: (selector: string) => {
+          if (selector === '[data-open-items-storage-key]') {
+            return [openItemsMenu]
+          }
+          if (selector === '[data-scroll-position-storage-key]') {
+            return [scrollMenu]
+          }
+          return []
+        },
+        createElement: () => ({
+          setAttribute: () => undefined,
+          textContent: '',
+        }),
+        head: {
+          appendChild: (style: { textContent: string }) => {
+            styles.push(style)
+          },
+        },
+      }
+      const sessionStorage = {
+        getItem: (key: string) =>
+          key === 'navigation-scroll'
+            ? '120'
+            : JSON.stringify({ openItems: ['about'], closedItems: [] }),
+      }
+
+      Function(
+        'document',
+        'sessionStorage',
+        'localStorage',
+        'CSS',
+        getPreHydrationScript()
+      )(document, sessionStorage, sessionStorage, { escape: String })
+
+      expect(styles).toHaveLength(1)
+      expect(styles[0].textContent).toContain('display:block')
+      expect(styles[0].textContent).toContain(
+        '[data-sidebar-menu-id="products"] > .dnb-height-animation{height:0'
+      )
+      expect(view.scrollTop).toBe(120)
+    }
+  )
 
   it('should not contain any .cjs or .mjs files', () => {
     const buildDir = path.resolve(PKG_ROOT, 'build')

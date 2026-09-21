@@ -199,6 +199,45 @@ export const warningValidCases = [
     `,
     filename: 'ButtonDocs.ts',
   },
+  {
+    code: `
+      const FilterDocs = {
+        filters: {
+          type: 'Record<string, FilterValue>',
+        },
+        errorMessages: {
+          type: 'Record<string, React.ReactNode>',
+        },
+        htmlAttributes: {
+          type: 'AriaAttributes & DataAttributes',
+        },
+      }
+    `,
+    filename: 'FilterDocs.ts',
+  },
+  {
+    code: `
+      const SidebarMenuDocs = {
+        badge: {
+          type: 'BadgeProps["content"]',
+        },
+        breakpoint: {
+          type: ['MediaQuerySizes', '\`\${number}em\`'],
+        },
+      }
+    `,
+    filename: 'SidebarMenuDocs.ts',
+  },
+  {
+    code: `
+      const SegmentedFieldDocs = {
+        separator: {
+          type: '"yes|no"',
+        },
+      }
+    `,
+    filename: 'SegmentedFieldDocs.ts',
+  },
 ]
 
 export const warningInvalidCases = [
@@ -259,5 +298,23 @@ export const warningInvalidCases = [
     `,
     filename: 'InputDocs.ts',
     errors: [{ messageId: 'unknownType' }],
+  },
+  {
+    code: `
+      const SegmentedFieldDocs = {
+        separator: {
+          type: '"yes|no" | undefined',
+        },
+      }
+    `,
+    output: `
+      const SegmentedFieldDocs = {
+        separator: {
+          type: ['"yes|no"', 'undefined'],
+        },
+      }
+    `,
+    filename: 'SegmentedFieldDocs.ts',
+    errors: [{ messageId: 'avoidPipeUnion' }],
   },
 ]

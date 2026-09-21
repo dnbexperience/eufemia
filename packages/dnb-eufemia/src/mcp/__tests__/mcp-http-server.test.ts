@@ -400,3 +400,212 @@ describe('mcp-http-server with auth token', () => {
     expect(res.headers.get('mcp-session-id')).toBeTruthy()
   })
 })
+
+describe('mcp-http-server origin validation', () => {
+  let cleanup: () => void
+  let server: RunningHttpServer
+
+  beforeAll(async () => {
+    const fixture = createDocsFixture()
+    cleanup = fixture.cleanup
+
+    server = await startHttpServer({
+      docsRoot: fixture.docsRoot,
+      port: 0,
+      host: '127.0.0.1',
+      silent: true,
+    })
+  }, 15000)
+
+  afterAll(async () => {
+    await server.close()
+    cleanup()
+  })
+
+  it('allows requests without an Origin header', async () => {
+    const res = await fetch(`${server.url}/healthz`)
+    expect(res.status).toBe(200)
+  })
+
+  it('allows a loopback Origin', async () => {
+    const res = await fetch(`${server.url}/healthz`, {
+      headers: { Origin: 'http://localhost:3000' },
+    })
+    expect(res.status).toBe(200)
+  })
+
+  it('rejects a cross-site Origin', async () => {
+    const res = await fetch(`${server.url}/healthz`, {
+      headers: { Origin: 'https://attacker.example' },
+    })
+    expect(res.status).toBe(403)
+
+    const json = (await res.json()) as {
+      error?: { code?: number; message?: string }
+    }
+    expect(json.error?.message).toBe('Origin not allowed')
+  })
+
+  it('rejects a cross-site Origin on /mcp', async () => {
+    const res = await postJson(
+      `${server.url}/mcp`,
+      {
+        jsonrpc: '2.0',
+        id: 1,
+        method: 'initialize',
+        params: {
+          protocolVersion: '2024-11-05',
+          capabilities: {},
+          clientInfo: { name: 'test', version: '0.0.0' },
+        },
+      },
+      { Origin: 'https://attacker.example' }
+    )
+    expect(res.status).toBe(403)
+  })
+
+  it('rejects a cross-site Origin before parsing the body', async () => {
+    const res = await fetch(`${server.url}/mcp`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Origin: 'https://attacker.example',
+      },
+      body: '{ not json',
+    })
+
+    // A 400 would mean the body parser ran first.
+    expect(res.status).toBe(403)
+  })
+})
+
+describe('mcp-http-server with an explicit origin allowlist', () => {
+  let cleanup: () => void
+  let server: RunningHttpServer
+
+  beforeAll(async () => {
+    const fixture = createDocsFixture()
+    cleanup = fixture.cleanup
+
+    server = await startHttpServer({
+      docsRoot: fixture.docsRoot,
+      port: 0,
+      host: '127.0.0.1',
+      allowedOrigins: ['https://eufemia.dnb.no'],
+      silent: true,
+    })
+  }, 15000)
+
+  afterAll(async () => {
+    await server.close()
+    cleanup()
+  })
+
+  it('allows an allowlisted Origin', async () => {
+    const res = await fetch(`${server.url}/healthz`, {
+      headers: { Origin: 'https://eufemia.dnb.no' },
+    })
+    expect(res.status).toBe(200)
+  })
+
+  it('rejects an Origin outside the allowlist', async () => {
+    const res = await fetch(`${server.url}/healthz`, {
+      headers: { Origin: 'http://localhost:3000' },
+    })
+    expect(res.status).toBe(403)
+  })
+})
+
+describe('mcp-http-server origin allowlist normalization', () => {
+  let cleanup: () => void
+  let server: RunningHttpServer
+
+  beforeAll(async () => {
+    const fixture = createDocsFixture()
+    cleanup = fixture.cleanup
+
+    server = await startHttpServer({
+      docsRoot: fixture.docsRoot,
+      port: 0,
+      host: '127.0.0.1',
+      // A trailing slash, a default port and mixed case all describe the
+      // same origin a browser sends.
+      allowedOrigins: [
+        'https://eufemia.dnb.no/',
+        'HTTPS://Docs.DNB.no:443',
+        'not-an-origin',
+      ],
+      silent: true,
+    })
+  }, 15000)
+
+  afterAll(async () => {
+    await server.close()
+    cleanup()
+  })
+
+  it('matches an entry written with a trailing slash', async () => {
+    const res = await fetch(`${server.url}/healthz`, {
+      headers: { Origin: 'https://eufemia.dnb.no' },
+    })
+    expect(res.status).toBe(200)
+  })
+
+  it('matches an entry written with a default port and mixed case', async () => {
+    const res = await fetch(`${server.url}/healthz`, {
+      headers: { Origin: 'https://docs.dnb.no' },
+    })
+    expect(res.status).toBe(200)
+  })
+
+  it('still rejects an origin that is not allowlisted', async () => {
+    const res = await fetch(`${server.url}/healthz`, {
+      headers: { Origin: 'https://attacker.example' },
+    })
+    expect(res.status).toBe(403)
+  })
+
+  it('reports an allowlist entry that is not an origin', async () => {
+    const log = vi
+      .spyOn(console, 'error')
+      .mockImplementation(() => undefined)
+    const fixture = createDocsFixture()
+
+    const running = await startHttpServer({
+      docsRoot: fixture.docsRoot,
+      port: 0,
+      host: '127.0.0.1',
+      allowedOrigins: ['https://eufemia.dnb.no', 'not-an-origin'],
+    })
+
+    try {
+      expect(log).toHaveBeenCalledWith(
+        expect.stringContaining(
+          'skipping MCP_ALLOWED_ORIGINS entries that are not an origin: not-an-origin'
+        )
+      )
+    } finally {
+      await running.close()
+      fixture.cleanup()
+      log.mockRestore()
+    }
+  }, 15000)
+})
+
+describe('mcp-http-server default bind host', () => {
+  it('binds to loopback by default', async () => {
+    const fixture = createDocsFixture()
+    const server = await startHttpServer({
+      docsRoot: fixture.docsRoot,
+      port: 0,
+      silent: true,
+    })
+
+    try {
+      expect(server.host).toBe('127.0.0.1')
+    } finally {
+      await server.close()
+      fixture.cleanup()
+    }
+  }, 15000)
+})

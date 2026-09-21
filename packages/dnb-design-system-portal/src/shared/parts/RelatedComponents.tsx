@@ -1,4 +1,8 @@
-import { useStaticQuery, graphql } from 'portal-query'
+import {
+  useStaticQuery,
+  graphql,
+  type StaticQueryConnection,
+} from 'portal-query'
 import { Li, P, Ul } from '@dnb/eufemia/src'
 import { useLocation } from 'react-router'
 import Anchor from '../tags/Anchor'
@@ -8,27 +12,7 @@ import {
   getCategoryId,
   getCategoryTitle,
   type CategoryId,
-  type CategoryValue,
 } from './componentCategories'
-
-type QueryEdge = {
-  node: {
-    fields: {
-      slug: string
-    }
-    frontmatter: {
-      title: string
-      description?: string | undefined
-      category: CategoryValue
-    }
-  }
-}
-
-type QueryData = {
-  components: {
-    edges: QueryEdge[]
-  }
-}
 
 type Entry = {
   slug: string
@@ -69,7 +53,9 @@ function toReason(description?: string): string | undefined {
 export default function RelatedComponents() {
   const location = useLocation()
 
-  const data = useStaticQuery(graphql`
+  const data = useStaticQuery<{
+    components: StaticQueryConnection
+  }>(graphql`
     {
       components: allMdx(
         filter: {
@@ -101,7 +87,7 @@ export default function RelatedComponents() {
         }
       }
     }
-  `) as QueryData
+  `)
 
   const currentSlug = normalizeSlug(location?.pathname || '')
 

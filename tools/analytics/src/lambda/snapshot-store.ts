@@ -16,6 +16,7 @@ export type Snapshot = {
   generatedAt: string
   portalViews: unknown[]
   mcpUsage: McpUsageSection
+  componentUsage: ComponentUsageSection
 }
 
 // A daily MCP usage aggregate row (one per tool+component+path per day), read
@@ -47,6 +48,39 @@ export const EMPTY_MCP_USAGE: McpUsageSection = {
   perComponent: [],
   perPath: [],
   daily: [],
+}
+
+// The component usage dashboard section: overall total plus ranked breakdowns by
+// component, consuming app, and resolved Eufemia version. Populated once the
+// Nucleus bundler plugin (the producer) lands; empty until then.
+export type ComponentUsageCount = { name: string; count: number }
+
+// A component-usage count keyed by app+component+version, summed across days.
+// This is what the durable rollup returns for the dashboard section (Athena does
+// the GROUP BY, so the read stays bounded regardless of how many days accrue).
+export type ComponentUsageAggregate = {
+  app: string
+  component: string
+  version: string
+  count: number
+}
+
+// A daily component-usage aggregate row (one per app+component+version per day),
+// written to the durable component_usage_daily rollup and recomputed from raw.
+export type ComponentUsageDaily = ComponentUsageAggregate & { dt: string }
+
+export type ComponentUsageSection = {
+  total: number
+  perComponent: ComponentUsageCount[]
+  perApp: ComponentUsageCount[]
+  perVersion: ComponentUsageCount[]
+}
+
+export const EMPTY_COMPONENT_USAGE: ComponentUsageSection = {
+  total: 0,
+  perComponent: [],
+  perApp: [],
+  perVersion: [],
 }
 
 export function requireEnv(name: string): string {
@@ -142,6 +176,45 @@ export async function storeMcpUsageDaily(
       new PutObjectCommand({
         Bucket: bucket,
         Key: `mcp-usage-daily/dt=${dt}/agg.json`,
+        Body: body,
+        ContentType: 'application/x-ndjson',
+      })
+    )
+  }
+}
+
+// Persist recomputed daily component-usage aggregates, one object per day
+// (overwrite). The component-usage-daily/ prefix has no lifecycle rule, so these
+// survive the raw rows' expiry and keep long-range (year-over-year) adoption
+// history available.
+export async function storeComponentUsageDaily(
+  bucket: string,
+  rows: ComponentUsageDaily[]
+): Promise<void> {
+  const byDt = new Map<string, ComponentUsageDaily[]>()
+
+  for (const row of rows) {
+    const list = byDt.get(row.dt) ?? []
+    list.push(row)
+    byDt.set(row.dt, list)
+  }
+
+  for (const [dt, dtRows] of byDt) {
+    const body = dtRows
+      .map((r) =>
+        JSON.stringify({
+          app: r.app,
+          component: r.component,
+          version: r.version,
+          count: r.count,
+        })
+      )
+      .join('\n')
+
+    await s3.send(
+      new PutObjectCommand({
+        Bucket: bucket,
+        Key: `component-usage-daily/dt=${dt}/agg.json`,
         Body: body,
         ContentType: 'application/x-ndjson',
       })

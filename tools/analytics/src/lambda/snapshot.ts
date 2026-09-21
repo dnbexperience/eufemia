@@ -1,13 +1,20 @@
 import {
+  aggregateComponentUsageRaw,
   aggregateMcpUsageRaw,
+  retrieveComponentUsageDaily,
   retrieveMcpUsageDaily,
   retrievePortalViews,
 } from './retrieve.js'
 import {
+  EMPTY_COMPONENT_USAGE,
   EMPTY_MCP_USAGE,
   requireEnv,
+  storeComponentUsageDaily,
   storeMcpUsageDaily,
   writeSnapshot,
+  type ComponentUsageAggregate,
+  type ComponentUsageCount,
+  type ComponentUsageSection,
   type McpUsageCount,
   type McpUsageDaily,
   type McpUsageSection,
@@ -80,6 +87,37 @@ function emitMcpBuildFailureMetric(): void {
   )
 }
 
+/**
+ * Emit a component-usage build failure as an EMF metric. Emitted both when the
+ * durable rollup cannot be refreshed (history still served) and when the section
+ * cannot be built at all (empty fallback); neither increments Lambda Errors, so
+ * without this the degradation would be invisible. Kept in sync with the
+ * `snapshot_component_usage_build_failed` alarm in infra/main.tf.
+ */
+function emitComponentUsageBuildFailureMetric(): void {
+  const functionName = process.env.AWS_LAMBDA_FUNCTION_NAME ?? 'unknown'
+
+  // eslint-disable-next-line no-console -- EMF metric emission to CloudWatch Logs
+  console.log(
+    JSON.stringify({
+      _aws: {
+        Timestamp: Date.now(),
+        CloudWatchMetrics: [
+          {
+            Namespace: METRIC_NAMESPACE,
+            Dimensions: [['FunctionName']],
+            Metrics: [
+              { Name: 'ComponentUsageBuildFailure', Unit: 'Count' },
+            ],
+          },
+        ],
+      },
+      FunctionName: functionName,
+      ComponentUsageBuildFailure: 1,
+    })
+  )
+}
+
 // The number of recent days recomputed into the durable daily rollup on each
 // run. Wider than the hourly cadence so a short generator outage cannot leave a
 // day permanently un-aggregated (raw rows live far longer, so re-runs backfill).
@@ -145,6 +183,96 @@ async function buildMcpUsage(bucket: string): Promise<McpUsageSection> {
   }
 }
 
+const COMPONENT_TOP_LIMIT = 50
+
+// Like MCP_ROLLUP_DAYS: recompute a recent tail wider than the hourly cadence so
+// a short generator outage cannot leave a day permanently un-aggregated (raw
+// rows live far longer, so re-runs backfill).
+const COMPONENT_ROLLUP_DAYS = 7
+
+function sumComponentUsageBy(
+  rows: ComponentUsageAggregate[],
+  key: 'component' | 'app' | 'version'
+): ComponentUsageCount[] {
+  const counts = new Map<string, number>()
+
+  for (const row of rows) {
+    const name = row[key]
+    if (!name) {
+      continue
+    }
+
+    counts.set(name, (counts.get(name) ?? 0) + row.count)
+  }
+
+  return [...counts.entries()]
+    .map(([name, count]) => ({ name, count }))
+    .sort((a, b) => b.count - a.count)
+}
+
+/**
+ * Build the component-usage dashboard section. First recomputes the recent tail
+ * of raw usage into the durable daily rollup, then reads the full daily table.
+ * The rollup outlives the raw rows' expiry, so long-range adoption history stays
+ * available without holding raw events forever.
+ *
+ * NOT currently called by the generator — the section ships empty until a
+ * producer (the Nucleus bundler plugin) exists, to avoid querying empty tables.
+ * Exported and tested so re-wiring means restoring the try/catch snippet in the
+ * handler (it must catch, since this throws on a durable-read failure — falling
+ * back to the empty section so one section can't blank the whole snapshot).
+ *
+ * The tail recompute is best-effort: a transient Athena/S3 failure there is
+ * logged and flagged (the rollup misses the newest tail until the next run) but
+ * does NOT blank the section — the durable history is still read and shown. Only
+ * a failure of the durable read itself propagates to the caller.
+ *
+ * Counts are `count(*)` over raw build-event rows, so they are build-weighted: an
+ * app that builds often contributes more than one that rarely builds. For a true
+ * "how many apps use this component" figure, switch to COUNT(DISTINCT app) once
+ * the record schema is settled (EDS-843).
+ */
+export async function buildComponentUsage(
+  bucket: string
+): Promise<ComponentUsageSection> {
+  const since = new Date()
+  since.setUTCDate(since.getUTCDate() - (COMPONENT_ROLLUP_DAYS - 1))
+
+  try {
+    await storeComponentUsageDaily(
+      bucket,
+      await aggregateComponentUsageRaw(dayString(since))
+    )
+  } catch (error) {
+    // eslint-disable-next-line no-console -- surface the failure in CloudWatch Logs
+    console.error(
+      'Failed to refresh the component usage daily rollup; serving existing history',
+      error
+    )
+    emitComponentUsageBuildFailureMetric()
+  }
+
+  const daily = await retrieveComponentUsageDaily()
+
+  const total = daily.reduce((sum, row) => sum + row.count, 0)
+
+  return {
+    total,
+    perComponent: sumComponentUsageBy(daily, 'component').slice(
+      0,
+      COMPONENT_TOP_LIMIT
+    ),
+    perApp: sumComponentUsageBy(daily, 'app').slice(
+      0,
+      COMPONENT_TOP_LIMIT
+    ),
+    perVersion: sumComponentUsageBy(daily, 'version').slice(
+      0,
+      COMPONENT_TOP_LIMIT
+    ),
+  }
+}
+
 /**
  * Scheduled dashboard snapshot generator (EventBridge, off the request path).
  *
@@ -173,10 +301,34 @@ export async function handler(): Promise<{
     mcpUsage = EMPTY_MCP_USAGE
   }
 
+  // The component-usage section is deliberately NOT wired to Athena yet: there
+  // is no producer (the Nucleus bundler plugin) writing to component-usage/, so
+  // querying the empty tables every run would only add Athena cost and an empty
+  // section. Ship the empty section until a producer exists.
+  //
+  // To re-enable once a producer lands, build it inside a try/catch so a failure
+  // here can't discard the portal views / MCP section already built (additive
+  // sections must fail independently):
+  //   let componentUsage: ComponentUsageSection
+  //   try {
+  //     componentUsage = await buildComponentUsage(bucket)
+  //   } catch (error) {
+  //     console.error('Failed to build component usage section', error)
+  //     emitComponentUsageBuildFailureMetric()
+  //     componentUsage = EMPTY_COMPONENT_USAGE
+  //   }
+  // Also build it CONCURRENTLY with the MCP section (Promise.all) — wiring it in
+  // adds two Athena queries, and run sequentially the five (portal + 2 MCP + 2
+  // here) can exceed the Lambda timeout, killing the run before writeSnapshot.
+  // The infra "three Athena queries" / 90s-timeout test assumes this is unwired;
+  // update both when re-enabling.
+  const componentUsage: ComponentUsageSection = EMPTY_COMPONENT_USAGE
+
   const snapshot: Snapshot = {
     generatedAt: new Date().toISOString(),
     portalViews,
     mcpUsage,
+    componentUsage,
   }
 
   await writeSnapshot(bucket, snapshot)

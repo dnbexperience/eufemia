@@ -134,7 +134,9 @@ export const AsyncWizardContainer = () => {
                 const request = createRequest()
                 await request(1000) // Simulate a request
               } catch (error) {
-                return error
+                return error instanceof Error
+                  ? error
+                  : new Error(String(error))
               }
             }
 
@@ -149,7 +151,9 @@ export const AsyncWizardContainer = () => {
               const request = createRequest()
               await request(1000) // Simulate a request
             } catch (error) {
-              return error
+              return error instanceof Error
+                ? error
+                : new Error(String(error))
             }
 
             // Optional, you can show a FormStatus at the bottom of the form
@@ -161,7 +165,9 @@ export const AsyncWizardContainer = () => {
               const request = createRequest()
               await request(1000) // Simulate a request
             } catch (error) {
-              return error
+              return error instanceof Error
+                ? error
+                : new Error(String(error))
             }
 
             if (value === 'invalid') {

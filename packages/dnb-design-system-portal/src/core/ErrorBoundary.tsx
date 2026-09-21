@@ -16,17 +16,17 @@ export default class ErrorBoundary extends Component<
   ErrorBoundaryProps,
   ErrorBoundaryState
 > {
-  state: ErrorBoundaryState = { error: null }
+  override state: ErrorBoundaryState = { error: null }
 
   static getDerivedStateFromError(error: Error): ErrorBoundaryState {
     return { error }
   }
 
-  componentDidCatch(error: Error): void {
+  override componentDidCatch(error: Error): void {
     this.props.onError?.(error)
   }
 
-  render() {
+  override render() {
     if (this.state.error) {
       return (
         <GlobalError

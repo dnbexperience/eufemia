@@ -37,7 +37,7 @@ output "dashboard_bucket" {
 }
 
 output "dashboard_url" {
-  description = "Public CloudFront URL of the dashboard"
+  description = "CloudFront distribution URL of the dashboard (direct access returns 403; reachable only via the Akamai edge domain, dashboard_public_url)"
   value       = "https://${aws_cloudfront_distribution.dashboard.domain_name}"
 }
 

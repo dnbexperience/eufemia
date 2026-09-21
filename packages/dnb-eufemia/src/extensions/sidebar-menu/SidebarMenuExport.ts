@@ -6,3 +6,23 @@ export { default as Section } from './SidebarMenuSection'
 export { default as Header } from './SidebarMenuHeader'
 export { default as Divider } from './SidebarMenuDivider'
 export { default as Group } from './SidebarMenuGroup'
+export { default as ResizeHandle } from './SidebarMenuResizeHandle'
+export {
+  SidebarMenuPreHydrationScript as PreHydrationScript,
+  getPreHydrationScript,
+} from './SidebarMenuPreHydrationScript'
+export type { SidebarMenuPreHydrationScriptProps } from './SidebarMenuPreHydrationScript'
+export type { SidebarMenuResizeHandleProps } from './SidebarMenuResizeHandle'
+export {
+  SidebarMenuResponsiveInline as ResponsiveInline,
+  SidebarMenuResponsiveDrawer as ResponsiveDrawer,
+  SidebarMenuResponsiveProvider as ResponsiveProvider,
+  SidebarMenuResponsiveTrigger as ResponsiveTrigger,
+  useSidebarMenuResponsive as useResponsive,
+} from './SidebarMenuResponsive'
+export type {
+  SidebarMenuResponsiveDrawerProps,
+  SidebarMenuResponsiveProviderProps,
+  SidebarMenuResponsiveTriggerProps,
+  SidebarMenuResponsiveValue,
+} from './SidebarMenuResponsive'

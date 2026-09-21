@@ -98,6 +98,12 @@ describe('dashboard-read handler', () => {
         perPath: [],
         daily: [],
       },
+      componentUsage: {
+        total: 0,
+        perComponent: [],
+        perApp: [],
+        perVersion: [],
+      },
     })
     expect(putCalls()).toHaveLength(0)
   })

@@ -20,7 +20,9 @@ export const AsyncSubmitBehavior = () => {
             const request = createRequest()
             await request(1000) // Simulate a request
           } catch (error) {
-            return error
+            return error instanceof Error
+              ? error
+              : new Error(String(error))
           }
         })
 
@@ -49,7 +51,9 @@ export const AsyncChangeBehavior = () => {
             const request = createRequest()
             await request(1000) // Simulate a request
           } catch (error) {
-            return error
+            return error instanceof Error
+              ? error
+              : new Error(String(error))
           }
         })
 

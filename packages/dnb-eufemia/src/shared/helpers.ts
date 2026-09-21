@@ -5,6 +5,7 @@
 
 // For backward compatibility
 export { debounce, debounceAsync } from './helpers/debounce'
+export type { DebounceHelpers } from './helpers/debounce'
 
 export const PLATFORM_MAC = 'Mac|iPad|iPhone|iPod'
 export const PLATFORM_WIN = 'Win'

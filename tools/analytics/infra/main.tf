@@ -85,12 +85,30 @@ resource "aws_s3_bucket_lifecycle_configuration" "data" {
     }
   }
 
+  # Raw component-usage events emitted by the Nucleus bundler plugin. The
+  # trailing slash is load-bearing: it matches only component-usage/ and NOT
+  # component-usage-daily/, so the durable daily rollup is never expired by this
+  # rule. Write-once keys, so this only expires current versions.
+  rule {
+    id     = "expire-component-usage-raw"
+    status = "Enabled"
+
+    filter {
+      prefix = "component-usage/"
+    }
+
+    expiration {
+      days = 395
+    }
+  }
+
   # Bucket-wide noncurrent-version cleanup. Only the overwritten fixed-key
-  # objects (snapshots/dashboard.json, refreshed hourly, and
-  # mcp-usage-daily/<dt>/agg.json, recomputed each run) accumulate old versions
-  # under bucket versioning; the write-once prefixes (mcp-usage/, portal-views/)
-  # never create noncurrent versions, so this is a no-op there. Scoping it to the
-  # whole bucket means new overwritten prefixes are covered automatically.
+  # objects (snapshots/dashboard.json, refreshed hourly, and the
+  # <type>-daily/<dt>/agg.json rollups, recomputed each run) accumulate old
+  # versions under bucket versioning; the write-once prefixes (mcp-usage/,
+  # component-usage/, portal-views/) never create noncurrent versions, so this is
+  # a no-op there. Scoping it to the whole bucket means new overwritten prefixes
+  # are covered automatically.
   rule {
     id     = "expire-noncurrent-versions"
     status = "Enabled"
@@ -333,10 +351,142 @@ resource "aws_glue_catalog_table" "mcp_usage_daily" {
   }
 }
 
+# Raw component-usage events (one row per bundled Eufemia component per app
+# build), written directly to S3 by the Nucleus bundler plugin via a CI/OIDC
+# role. Anonymous: consuming app name, component, resolved version, env only.
+resource "aws_glue_catalog_table" "component_usage" {
+  name          = "component_usage"
+  database_name = aws_glue_catalog_database.analytics.name
+  table_type    = "EXTERNAL_TABLE"
+
+  parameters = {
+    classification     = "json"
+    has_encrypted_data = "true"
+
+    "projection.enabled"          = "true"
+    "projection.dt.type"          = "date"
+    "projection.dt.range"         = "2024-01-01,NOW"
+    "projection.dt.format"        = "yyyy-MM-dd"
+    "projection.dt.interval"      = "1"
+    "projection.dt.interval.unit" = "DAYS"
+    "storage.location.template"   = "s3://${aws_s3_bucket.data.id}/component-usage/dt=$${dt}/"
+  }
+
+  partition_keys {
+    name = "dt"
+    type = "string"
+  }
+
+  storage_descriptor {
+    location      = "s3://${aws_s3_bucket.data.id}/component-usage/"
+    input_format  = "org.apache.hadoop.mapred.TextInputFormat"
+    output_format = "org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat"
+
+    ser_de_info {
+      serialization_library = "org.openx.data.jsonserde.JsonSerDe"
+
+      parameters = {
+        "case.insensitive" = "true"
+      }
+    }
+
+    columns {
+      name = "app"
+      type = "string"
+    }
+
+    columns {
+      name = "component"
+      type = "string"
+    }
+
+    columns {
+      name = "version"
+      type = "string"
+    }
+
+    columns {
+      name = "env"
+      type = "string"
+    }
+
+    columns {
+      name = "timestamp"
+      type = "string"
+    }
+
+    columns {
+      name = "created_at"
+      type = "string"
+    }
+  }
+}
+
+# Durable daily component-usage rollup. The snapshot generator recomputes the
+# recent tail from component_usage each run and writes one object per day here.
+# This prefix has NO lifecycle expiry, so aggregates outlive the raw rows and
+# keep long-range (year-over-year) adoption history available.
+resource "aws_glue_catalog_table" "component_usage_daily" {
+  name          = "component_usage_daily"
+  database_name = aws_glue_catalog_database.analytics.name
+  table_type    = "EXTERNAL_TABLE"
+
+  parameters = {
+    classification     = "json"
+    has_encrypted_data = "true"
+
+    "projection.enabled"          = "true"
+    "projection.dt.type"          = "date"
+    "projection.dt.range"         = "2024-01-01,NOW"
+    "projection.dt.format"        = "yyyy-MM-dd"
+    "projection.dt.interval"      = "1"
+    "projection.dt.interval.unit" = "DAYS"
+    "storage.location.template"   = "s3://${aws_s3_bucket.data.id}/component-usage-daily/dt=$${dt}/"
+  }
+
+  partition_keys {
+    name = "dt"
+    type = "string"
+  }
+
+  storage_descriptor {
+    location      = "s3://${aws_s3_bucket.data.id}/component-usage-daily/"
+    input_format  = "org.apache.hadoop.mapred.TextInputFormat"
+    output_format = "org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat"
+
+    ser_de_info {
+      serialization_library = "org.openx.data.jsonserde.JsonSerDe"
+
+      parameters = {
+        "case.insensitive" = "true"
+      }
+    }
+
+    columns {
+      name = "app"
+      type = "string"
+    }
+
+    columns {
+      name = "component"
+      type = "string"
+    }
+
+    columns {
+      name = "version"
+      type = "string"
+    }
+
+    columns {
+      name = "count"
+      type = "bigint"
+    }
+  }
+}
+
 # ---------------------------------------------------------------------------
 # Athena
 # ---------------------------------------------------------------------------
-
 resource "aws_athena_workgroup" "analytics" {
   name = local.function_name
   tags = local.tags
@@ -607,13 +757,15 @@ resource "aws_lambda_function" "snapshot" {
 
   environment {
     variables = {
-      NODE_OPTIONS               = "--enable-source-maps"
-      DATA_BUCKET                = aws_s3_bucket.data.id
-      GLUE_DATABASE              = aws_glue_catalog_database.analytics.name
-      GLUE_TABLE                 = aws_glue_catalog_table.portal_views.name
-      GLUE_TABLE_MCP_USAGE       = aws_glue_catalog_table.mcp_usage.name
-      GLUE_TABLE_MCP_USAGE_DAILY = aws_glue_catalog_table.mcp_usage_daily.name
-      ATHENA_WORKGROUP           = aws_athena_workgroup.analytics.name
+      NODE_OPTIONS                     = "--enable-source-maps"
+      DATA_BUCKET                      = aws_s3_bucket.data.id
+      GLUE_DATABASE                    = aws_glue_catalog_database.analytics.name
+      GLUE_TABLE                       = aws_glue_catalog_table.portal_views.name
+      GLUE_TABLE_MCP_USAGE             = aws_glue_catalog_table.mcp_usage.name
+      GLUE_TABLE_MCP_USAGE_DAILY       = aws_glue_catalog_table.mcp_usage_daily.name
+      GLUE_TABLE_COMPONENT_USAGE       = aws_glue_catalog_table.component_usage.name
+      GLUE_TABLE_COMPONENT_USAGE_DAILY = aws_glue_catalog_table.component_usage_daily.name
+      ATHENA_WORKGROUP                 = aws_athena_workgroup.analytics.name
     }
   }
 
@@ -721,6 +873,28 @@ resource "aws_cloudwatch_metric_alarm" "snapshot_mcp_build_failed" {
   treat_missing_data  = "notBreaching"
 }
 
+# The component-usage section emits a ComponentUsageBuildFailure EMF metric when
+# the durable daily rollup cannot be refreshed (a transient tail recompute still
+# serves existing history) or the section cannot be built at all (falls back to
+# empty). Both are invisible to the Lambda/SnapshotRecordCount alarms, so this
+# alarm surfaces them. The namespace/metric/dimension must match those emitted in
+# src/lambda/snapshot.ts. DORMANT until buildComponentUsage is wired into the
+# generator (no producer yet), so the metric is not emitted and the alarm stays
+# at INSUFFICIENT_DATA/OK; kept so re-wiring needs no infra change.
+resource "aws_cloudwatch_metric_alarm" "snapshot_component_usage_build_failed" {
+  alarm_name          = "eufemia-${var.environment}-analytics-snapshot-component-usage-build-failed"
+  alarm_description   = "Dashboard snapshot generator failed to refresh or build the component usage section"
+  namespace           = "Eufemia/Analytics"
+  metric_name         = "ComponentUsageBuildFailure"
+  dimensions          = { FunctionName = aws_lambda_function.snapshot.function_name }
+  statistic           = "Sum"
+  period              = 3600
+  evaluation_periods  = 1
+  threshold           = 1
+  comparison_operator = "GreaterThanOrEqualToThreshold"
+  treat_missing_data  = "notBreaching"
+}
+
 # ---------------------------------------------------------------------------
 # Custom domain (origin for Akamai)
 # ---------------------------------------------------------------------------
@@ -796,10 +970,12 @@ resource "aws_route53_record" "analytics" {
 # ---------------------------------------------------------------------------
 #
 # The dashboard shell holds no data and no secrets: all data lives behind the
-# Entra-authenticated /data API, so the UI is safe to serve as a plain public
-# site. Access control is entirely the Entra sign-in plus the /data API's JWT
-# authorizer — there is deliberately no Lambda@Edge and no edge auth here. The
-# bucket stays private; CloudFront reads it through an Origin Access Control.
+# Entra-authenticated /data API, so data access is gated entirely by the Entra
+# sign-in plus the /data API's JWT authorizer. As defense-in-depth for the shell
+# itself, a viewer-request CloudFront function (below) rejects requests that do
+# not carry the shared X-Origin-Verify header Akamai injects, so the origin is
+# reachable only through the edge. There is no Lambda@Edge. The bucket stays
+# private; CloudFront reads it through an Origin Access Control.
 
 resource "aws_s3_bucket" "dashboard" {
   bucket = "${local.function_name}-dashboard-${data.aws_caller_identity.current.account_id}"
@@ -891,6 +1067,21 @@ resource "aws_cloudfront_response_headers_policy" "dashboard" {
   }
 }
 
+# Locks the CloudFront origin to the Akamai edge: Akamai injects the shared
+# X-Origin-Verify header, and this viewer-request function rejects any request that
+# reaches CloudFront without the matching secret (i.e. direct *.cloudfront.net
+# access) with a 403. The Entra JWT authorizer on /data remains the real data
+# control; this hardens the static-shell delivery path.
+resource "aws_cloudfront_function" "dashboard_edge_auth" {
+  name    = "${local.function_name}-dashboard-edge-auth"
+  runtime = "cloudfront-js-2.0"
+  comment = "Reject dashboard requests that do not carry the Akamai X-Origin-Verify secret"
+  publish = true
+  code = templatefile("${path.module}/functions/dashboard-edge-auth.js.tftpl", {
+    edge_auth_secret = jsonencode(var.edge_auth_secret)
+  })
+}
+
 resource "aws_cloudfront_distribution" "dashboard" {
   enabled             = true
   is_ipv6_enabled     = true
@@ -918,6 +1109,13 @@ resource "aws_cloudfront_distribution" "dashboard" {
     # Custom response-headers policy: managed security headers (HSTS,
     # X-Content-Type-Options, X-Frame-Options, Referrer-Policy) plus a CSP.
     response_headers_policy_id = aws_cloudfront_response_headers_policy.dashboard.id
+
+    # Reject direct *.cloudfront.net access; only the Akamai edge (which adds
+    # the X-Origin-Verify secret) gets through.
+    function_association {
+      event_type   = "viewer-request"
+      function_arn = aws_cloudfront_function.dashboard_edge_auth.arn
+    }
   }
 
   restrictions {
