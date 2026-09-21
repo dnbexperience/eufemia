@@ -4253,5 +4253,19 @@
     "name": "solve",
     "variant": "secondary",
     "category": "objects"
+  },
+  "sidebar_medium": {
+    "tags": ["AI sparkles", "KI"],
+    "created": 1789996678763,
+    "name": "sidebar",
+    "variant": "secondary",
+    "category": "essentials"
+  },
+  "sidebar": {
+    "tags": ["AI sparkles", "KI"],
+    "created": 1789996678844,
+    "name": "sidebar",
+    "variant": "secondary",
+    "category": "essentials"
   }
 }

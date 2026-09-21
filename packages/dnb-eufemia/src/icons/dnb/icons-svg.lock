@@ -6841,27 +6841,27 @@
     "iconName": "candle_stick_medium",
     "name": "candle_stick",
     "category": "products",
-    "url": "https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/888e5d07-c345-4446-8f83-123c11a8491e",
-    "id": "6068:48",
+    "url": "https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/dfe7f2c5-5e04-4266-a830-585259597a8e",
+    "id": "6036:6",
     "slug": "878548076e6ef92a3736f0e3597fb7be",
     "size": "24",
     "variant": "secondary",
     "bundleName": "secondary_icons_medium",
     "created": 1685609797988,
-    "updated": 1789047305399
+    "updated": 1789996678605
   },
   "candle_stick.svg": {
     "iconName": "candle_stick",
     "name": "candle_stick",
     "category": "products",
-    "url": "https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/c75a64e4-1750-4e8f-89a6-2988b8193ba4",
-    "id": "6068:51",
+    "url": "https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/564c999b-7c90-4603-9a03-49b75a36f636",
+    "id": "6036:9",
     "slug": "878548076e6ef92a3736f0e3597fb7be",
     "size": "16",
     "variant": "secondary",
     "bundleName": "secondary_icons",
     "created": 1685609798254,
-    "updated": 1789047305496
+    "updated": 1789996678686
   },
   "shield_lock_medium.svg": {
     "iconName": "shield_lock_medium",
@@ -7720,5 +7720,31 @@
     "bundleName": "secondary_icons",
     "created": 1789047331573,
     "updated": 1789047331573
+  },
+  "sidebar_medium.svg": {
+    "iconName": "sidebar_medium",
+    "name": "sidebar",
+    "category": "essentials",
+    "url": "https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/cc13d510-8093-4ddb-b669-ccdd1f754989",
+    "id": "15424:12",
+    "slug": "878548076e6ef92a3736f0e3597fb7be",
+    "size": "24",
+    "variant": "secondary",
+    "bundleName": "secondary_icons_medium",
+    "created": 1789996678763,
+    "updated": 1789996678763
+  },
+  "sidebar.svg": {
+    "iconName": "sidebar",
+    "name": "sidebar",
+    "category": "essentials",
+    "url": "https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/0cd48fa0-6cca-4575-bc55-e503962d77a4",
+    "id": "15424:14",
+    "slug": "878548076e6ef92a3736f0e3597fb7be",
+    "size": "16",
+    "variant": "secondary",
+    "bundleName": "secondary_icons",
+    "created": 1789996678844,
+    "updated": 1789996678844
   }
 }
