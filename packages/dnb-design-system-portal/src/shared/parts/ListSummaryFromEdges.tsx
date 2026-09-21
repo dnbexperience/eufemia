@@ -22,10 +22,8 @@ type ListSummaryFromEdgesProps = {
    * markdown generator for the LLM docs can import and call them instead of
    * re-deriving the selection from the component source — one definition of
    * what each list contains.
-   *
-   * Also accepts the legacy `{ node }` shape from `useStaticQuery`.
    */
-  edges: Array<MdxNode | { node: MdxNode }>
+  edges: MdxNode[]
   level?: HeadingLevel
   size?: HeadingSize
   description?: string
@@ -45,71 +43,74 @@ export default function ListSummaryFromEdges({
 
   resetLevels((level || 2) as InternalHeadingLevel)
 
-  const jsx = edges.map((edge, i) => {
-    const {
-      frontmatter: { title, description: fmDescription },
-      fields: { slug },
-    } = 'node' in edge ? edge.node : edge
-
-    return (
-      <ItemWrapper key={i}>
-        <Title />
-        <Description />
-      </ItemWrapper>
-    )
-
-    function Title() {
-      const titleLink = <Anchor href={'/' + slug}>{title}</Anchor>
-
-      if (returnListItems) {
-        return titleLink
-      }
-
+  const jsx = edges.map(
+    (
+      {
+        frontmatter: { title, description: fmDescription },
+        fields: { slug },
+      },
+      i
+    ) => {
       return (
-        <AutoLinkHeader
-          level={level || 2}
-          size={size}
-          useSlug={'/' + slug}
-          title={title}
-          {...props}
-        >
-          {titleLink}
-        </AutoLinkHeader>
+        <ItemWrapper key={i}>
+          <Title />
+          <Description />
+        </ItemWrapper>
       )
-    }
 
-    function Description() {
-      const rawDescription =
-        description !== null ? description : fmDescription
+      function Title() {
+        const titleLink = <Anchor href={'/' + slug}>{title}</Anchor>
 
-      if (rawDescription) {
         if (returnListItems) {
-          return (
-            <>
-              :{' '}
-              <ReactMarkdown
-                // @ts-expect-error -- strictFunctionTypes
-                components={basicComponents}
-                disallowedElements={['p']}
-                unwrapDisallowed={true}
-              >
-                {rawDescription}
-              </ReactMarkdown>
-            </>
-          )
+          return titleLink
         }
 
         return (
-          <ReactMarkdown
-            // @ts-expect-error -- strictFunctionTypes
-            components={basicComponents}
+          <AutoLinkHeader
+            level={level || 2}
+            size={size}
+            useSlug={'/' + slug}
+            title={title}
+            {...props}
           >
-            {rawDescription}
-          </ReactMarkdown>
+            {titleLink}
+          </AutoLinkHeader>
         )
       }
+
+      function Description() {
+        const rawDescription =
+          description !== null ? description : fmDescription
+
+        if (rawDescription) {
+          if (returnListItems) {
+            return (
+              <>
+                :{' '}
+                <ReactMarkdown
+                  // @ts-expect-error -- strictFunctionTypes
+                  components={basicComponents}
+                  disallowedElements={['p']}
+                  unwrapDisallowed={true}
+                >
+                  {rawDescription}
+                </ReactMarkdown>
+              </>
+            )
+          }
+
+          return (
+            <ReactMarkdown
+              // @ts-expect-error -- strictFunctionTypes
+              components={basicComponents}
+            >
+              {rawDescription}
+            </ReactMarkdown>
+          )
+        }
+      }
     }
-  })
+  )
 
   return <ListWrapper>{jsx}</ListWrapper>
 }

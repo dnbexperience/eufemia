@@ -310,6 +310,10 @@ export default function portalPagesPlugin(
         const { files, allMdxNodes, regularMdxNodes } =
           getPortalPages(docsDir)
 
+        const regularMdxNodeIndexes = regularMdxNodes.map((node) =>
+          allMdxNodes.indexOf(node)
+        )
+
         pageSignatures.clear()
         for (const file of files) {
           pageSignatures.set(
@@ -414,9 +418,11 @@ export const allMdxNodes = [
 ${allMdxNodes.map((node) => `  ${JSON.stringify(node)},`).join('\n')}
 ];
 
-export const regularMdxNodes = [
-${regularMdxNodes.map((node) => `  ${JSON.stringify(node)},`).join('\n')}
-];
+const regularMdxNodeIndexes = [${regularMdxNodeIndexes.join(',')}];
+
+export const regularMdxNodes = regularMdxNodeIndexes.map(
+  (index) => allMdxNodes[index]
+);
 
 export { globPath } from '${globModulePath}';
 `
