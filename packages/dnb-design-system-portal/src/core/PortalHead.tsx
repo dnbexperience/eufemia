@@ -19,8 +19,9 @@ export function usePortalHead({ title, description }) {
             formatTitle(title)
         }
         if (description) {
-          document.getElementById('head-description').textContent =
-            description
+          document
+            .getElementById('head-description')
+            .setAttribute('content', description)
         }
       } catch (e) {
         //
