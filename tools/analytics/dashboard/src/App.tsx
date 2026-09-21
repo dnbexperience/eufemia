@@ -165,10 +165,15 @@ function Dashboard({
 
   const mcp = payload?.mcpUsage
   const mcpTotal = mcp?.total ?? 0
-  const meta = snapshotMeta(payload, allRows.length + mcpTotal)
+  const component = payload?.componentUsage
+  const componentTotal = component?.total ?? 0
+  const meta = snapshotMeta(
+    payload,
+    allRows.length + mcpTotal + componentTotal
+  )
 
   return (
-    <Flex.Stack className="dashboard" space="large">
+    <Flex.Stack className="dashboard" gap="large">
       <Flex.Horizontal justify="space-between" align="center" wrap>
         <H1 size="large">Eufemia Analytics</H1>
         <Flex.Horizontal align="center" gap="small">
@@ -256,6 +261,42 @@ function Dashboard({
           nameHeader="Path"
           countHeader="Requests"
           items={(mcp?.perPath ?? []).slice(0, 15)}
+        />
+      </Card>
+
+      <P className="dashboard__meta">
+        {componentTotal > 0
+          ? `${componentTotal.toLocaleString()} component usages`
+          : 'No component usage yet.'}
+      </P>
+
+      <Card stack>
+        <H2 size="medium">Top components</H2>
+        <RankedTable
+          caption="Top components"
+          nameHeader="Component"
+          countHeader="Usages"
+          items={(component?.perComponent ?? []).slice(0, 15)}
+        />
+      </Card>
+
+      <Card stack>
+        <H2 size="medium">Components by app</H2>
+        <RankedTable
+          caption="Components by app"
+          nameHeader="App"
+          countHeader="Usages"
+          items={(component?.perApp ?? []).slice(0, 15)}
+        />
+      </Card>
+
+      <Card stack>
+        <H2 size="medium">Components by Eufemia version</H2>
+        <RankedTable
+          caption="Components by Eufemia version"
+          nameHeader="Version"
+          countHeader="Usages"
+          items={(component?.perVersion ?? []).slice(0, 15)}
         />
       </Card>
     </Flex.Stack>

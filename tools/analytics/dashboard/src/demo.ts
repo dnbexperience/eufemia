@@ -67,4 +67,25 @@ export const demoPayload: DashboardPayload = {
       { name: '/uilib/getting-started', count: 4 },
     ],
   },
+  componentUsage: {
+    total: 342,
+    perComponent: [
+      { name: 'Button', count: 96 },
+      { name: 'Input', count: 71 },
+      { name: 'Flex', count: 58 },
+      { name: 'Card', count: 44 },
+      { name: 'Dropdown', count: 39 },
+      { name: 'Table', count: 34 },
+    ],
+    perApp: [
+      { name: 'nettbank', count: 148 },
+      { name: 'sbanken-app', count: 121 },
+      { name: 'innlogging', count: 73 },
+    ],
+    perVersion: [
+      { name: '10.79.0', count: 190 },
+      { name: '10.78.1', count: 108 },
+      { name: '10.77.0', count: 44 },
+    ],
+  },
 }

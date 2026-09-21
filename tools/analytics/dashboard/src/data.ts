@@ -23,10 +23,18 @@ export type McpUsage = {
   perPath?: McpCount[]
 }
 
+export type ComponentUsage = {
+  total?: number
+  perComponent?: McpCount[]
+  perApp?: McpCount[]
+  perVersion?: McpCount[]
+}
+
 export type DashboardPayload = {
   generatedAt?: string
   portalViews?: AnalyticsRecord[]
   mcpUsage?: McpUsage
+  componentUsage?: ComponentUsage
 }
 
 export type ViewRow = {
