@@ -7,6 +7,7 @@ import {
   ColorSchemeHeadScript,
   ColorSchemeBodyFirstScript,
   ColorSchemeBodyLastScript,
+  type ColorSchemeHeadScriptProps,
 } from '../ColorSchemeScript'
 
 describe('ColorSchemeScript', () => {
@@ -241,22 +242,24 @@ describe('ColorSchemeScript', () => {
       expect(html).toContain('data-testid="head"')
     })
 
-    it('does not render scopeHash as a DOM attribute', () => {
-      render(<ColorSchemeHeadScript scopeHash="test-scope" nonce="abc" />)
+    it('does not forward scopeHash to the rendered tag', () => {
+      const html = renderToStaticMarkup(
+        <ColorSchemeHeadScript scopeHash="test-scope" nonce="abc" />
+      )
 
-      const script = document.querySelector('script')
-      expect(script.getAttribute('nonce')).toBe('abc')
-      expect(script.getAttribute('scopehash')).toBeNull()
-      expect(script.textContent).toContain("classList.add('test-scope')")
+      expect(html).toContain('nonce="abc"')
+      expect(html).not.toContain('scopeHash')
+      expect(html).not.toContain('scopehash')
+      expect(html).toContain("classList.add('test-scope')")
     })
 
     it('keeps the script content when a caller passes their own', () => {
+      const overrides = {
+        dangerouslySetInnerHTML: { __html: 'alert(1)' },
+      } as unknown as ColorSchemeHeadScriptProps
+
       const html = renderToStaticMarkup(
-        <ColorSchemeHeadScript
-          {...({
-            dangerouslySetInnerHTML: { __html: 'alert(1)' },
-          } as never)}
-        />
+        <ColorSchemeHeadScript {...overrides} />
       )
 
       expect(html).not.toContain('alert(1)')

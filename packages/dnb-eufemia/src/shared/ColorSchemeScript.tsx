@@ -20,6 +20,9 @@
  *     {content}
  *     <ColorSchemeBodyLastScript />
  *   </body>
+ *
+ * All three accept standard script attributes, including `nonce` for a strict
+ * Content-Security-Policy.
  */
 
 import type { ScriptHTMLAttributes } from 'react'
