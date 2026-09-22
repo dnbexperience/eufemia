@@ -306,6 +306,28 @@ describe('convertVariablesToTokens', () => {
       })
     ).toThrow('points to a variable that is not part of the response')
   })
+
+  it('rejects a color value that is not plain sRGB components', () => {
+    // Figma returns this shape for a composed color (aliased color + opacity)
+    const composed = { color: { r: 1, g: 1, b: 1 }, opacity: 0.5 }
+
+    expect(() =>
+      convertVariablesToTokens({
+        meta: {
+          ...meta,
+          variables: {
+            ...meta.variables,
+            'VariableID:1:2': {
+              ...meta.variables['VariableID:1:2'],
+              valuesByMode: { '1:0': composed },
+            },
+          },
+        },
+        collection: 'brand',
+        mode: 'dnb-light',
+      })
+    ).toThrow('has a color value that is not plain sRGB components')
+  })
 })
 
 describe('assertModesAreExported', () => {
@@ -340,6 +362,21 @@ describe('extractTokens', () => {
     await expect(extractTokens()).rejects.toThrow('FIGMA_TOKENS_FILE')
   })
 
+  it('rejects a file key that could alter the request path', async () => {
+    const get = vi.fn()
+    vi.mocked(createFigmaClient).mockReturnValue({
+      client: { get },
+    } as unknown as ReturnType<typeof createFigmaClient>)
+
+    for (const figmaFile of ['..', 'a/b', 'key with space', 'x?y=1']) {
+      await expect(extractTokens({ figmaFile })).rejects.toThrow(
+        'Expected an alphanumeric key'
+      )
+    }
+
+    expect(get).not.toHaveBeenCalled()
+  })
+
   it('writes one file per configured collection mode', async () => {
     const get = vi.fn().mockResolvedValue({ data: { meta } })
     vi.mocked(createFigmaClient).mockReturnValue({
@@ -347,11 +384,11 @@ describe('extractTokens', () => {
     } as unknown as ReturnType<typeof createFigmaClient>)
 
     const files = await extractTokens({
-      figmaFile: 'file-key',
+      figmaFile: 'filekey123',
       tokensDir: '/tokens',
     })
 
-    expect(get).toHaveBeenCalledWith('files/file-key/variables/local')
+    expect(get).toHaveBeenCalledWith('files/filekey123/variables/local')
     expect(files).toEqual([
       '/tokens/color.tokens.json',
       '/tokens/brand/dnb-light.tokens.json',
@@ -384,7 +421,7 @@ describe('extractTokens', () => {
     } as unknown as ReturnType<typeof createFigmaClient>)
 
     await expect(
-      extractTokens({ figmaFile: 'file-key', tokensDir: '/tokens' })
+      extractTokens({ figmaFile: 'filekey123', tokensDir: '/tokens' })
     ).rejects.toThrow(
       'Failed to convert the Figma collection "brand" (mode "dnb-dark")'
     )

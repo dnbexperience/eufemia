@@ -34,11 +34,18 @@ type FigmaColorValue = {
   a?: number
 }
 
+/** Returned when a color is composed from an aliased color and opacity */
+type FigmaComposedColor = {
+  color: FigmaColorValue | FigmaVariableAlias
+  opacity?: number | FigmaVariableAlias
+}
+
 type FigmaVariableValue =
   | boolean
   | number
   | string
   | FigmaColorValue
+  | FigmaComposedColor
   | FigmaVariableAlias
 
 type FigmaVariable = {
@@ -165,6 +172,9 @@ const isAlias = (value: unknown): value is FigmaVariableAlias =>
 const isLeaf = (node: TokenLeaf | TokenGroup): node is TokenLeaf =>
   '$type' in node
 
+const isFiniteNumber = (value: unknown) =>
+  typeof value === 'number' && Number.isFinite(value)
+
 const toHex = ({ r, g, b }: FigmaColorValue) =>
   '#' +
   [r, g, b]
@@ -182,10 +192,19 @@ const toTokenValue = (
 ): TokenLeaf['$value'] => {
   if (variable.resolvedType === 'COLOR') {
     const color = value as FigmaColorValue
+    const alpha = color?.a ?? 1
+
+    // Figma can also return a composed color, which this export does not model
+    if (![color?.r, color?.g, color?.b, alpha].every(isFiniteNumber)) {
+      throw new Error(
+        `The Figma variable "${variable.name}" has a color value that is not plain sRGB components`
+      )
+    }
+
     return {
       colorSpace: 'srgb',
       components: [color.r, color.g, color.b],
-      alpha: color.a ?? 1,
+      alpha,
       hex: toHex(color),
     }
   }
@@ -488,6 +507,13 @@ export const extractTokens = async ({
   if (!figmaFile) {
     throw new Error(
       'No Figma tokens file defined. Set the "FIGMA_TOKENS_FILE" environment variable.'
+    )
+  }
+
+  // Figma file keys are alphanumeric; reject anything else so it cannot alter the request path
+  if (!/^[A-Za-z0-9]+$/.test(figmaFile)) {
+    throw new Error(
+      'Invalid Figma file key in "FIGMA_TOKENS_FILE". Expected an alphanumeric key.'
     )
   }
 
