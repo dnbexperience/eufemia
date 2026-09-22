@@ -76,8 +76,10 @@ jobs:
 
       - name: Detect design token changes
         id: changes
+        # Scoped to the paths the commit step stages, so an unrelated dirty
+        # file cannot start a build that ends with nothing to commit.
         run: |
-          if [ -z "$(git status --porcelain)" ]; then
+          if [ -z "$(git status --porcelain -- packages/dnb-eufemia/src/style/themes)" ]; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
           else
             echo "changed=true" >> "$GITHUB_OUTPUT"
@@ -137,25 +139,57 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
-          changed_themes=$(git diff --name-only "origin/main...HEAD" \
-            -- 'packages/dnb-eufemia/src/style/themes/*/tokens*.scss' \
-               'packages/dnb-eufemia/src/style/themes/*/foundation.scss' |
-            cut -d/ -f6 | sort -u | paste -sd, - | sed 's/,/, /g')
+          token_scss='packages/dnb-eufemia/src/style/themes/*/tokens*.scss'
+          foundation_scss='packages/dnb-eufemia/src/style/themes/*/foundation.scss'
 
-          if [ -n "$changed_themes" ]; then
-            title="fix(Tokens): update $changed_themes"
+          # Declarations on the added (+) or removed (-) side of the diff
+          token_names() {
+            git diff -U0 "origin/main...HEAD" -- "$token_scss" |
+              sed -n "s/^$1[[:space:]]*\(--token-[a-z0-9-]*\):.*/\1/p" |
+              sort -u
+          }
+
+          as_list() {
+            if [ -z "$1" ]; then
+              echo "None"
+            else
+              echo "$1" | paste -sd, - | sed 's/,/, /g'
+            fi
+          }
+
+          added=$(comm -23 <(token_names '+') <(token_names '-'))
+          removed=$(comm -13 <(token_names '+') <(token_names '-'))
+          themes=$(git diff --name-only "origin/main...HEAD" \
+            -- "$token_scss" "$foundation_scss" |
+            cut -d/ -f6 |
+            sed 's/^ui$/DNB/; s/^sbanken$/Sbanken/; s/^carnegie$/Carnegie/' |
+            sort -u | paste -sd, - | sed 's/,/, /g')
+
+          if [ -n "$themes" ]; then
+            subject="design tokens for $themes"
           else
-            title="fix(Tokens): synchronize design tokens from Figma"
+            subject="design tokens from Figma"
           fi
 
-          body="Synchronizes the Eufemia design tokens with Figma for review before release."
-          {
-            echo "## Design token changes"
+          if [ -n "$removed" ]; then
+            title="feat(Theme)!: remove $subject"
+          elif [ -n "$added" ]; then
+            title="feat(Theme): add $subject"
+          else
+            title="fix(Theme): update $subject"
+          fi
+
+          body=$(
+            echo "Synchronizes the Eufemia design tokens with Figma for review before release."
             echo ""
-            echo "- Themes: ${changed_themes:-None}"
+            echo "- Themes: ${themes:-None}"
+            echo "- Added: $(as_list "$added")"
+            echo "- Removed: $(as_list "$removed")"
             echo ""
             echo "Review the token values, removals and visual snapshots before marking the pull request ready."
-          } >> "$GITHUB_STEP_SUMMARY"
+          )
+
+          printf '%s\n' "$body" >> "$GITHUB_STEP_SUMMARY"
           gh pr create \
             --base main \
             --head "$BRANCH" \

@@ -22,26 +22,26 @@ try {
  * Figma REST API types for `GET /v1/files/:file_key/variables/local`.
  * Only the fields we rely on are declared.
  */
-export type FigmaVariableAlias = {
+type FigmaVariableAlias = {
   type: 'VARIABLE_ALIAS'
   id: string
 }
 
-export type FigmaColorValue = {
+type FigmaColorValue = {
   r: number
   g: number
   b: number
   a?: number
 }
 
-export type FigmaVariableValue =
+type FigmaVariableValue =
   | boolean
   | number
   | string
   | FigmaColorValue
   | FigmaVariableAlias
 
-export type FigmaVariable = {
+type FigmaVariable = {
   id: string
   name: string
   variableCollectionId: string
@@ -53,7 +53,7 @@ export type FigmaVariable = {
   codeSyntax?: Record<string, string>
 }
 
-export type FigmaVariableCollection = {
+type FigmaVariableCollection = {
   id: string
   name: string
   modes: Array<{ modeId: string; name: string }>
@@ -434,14 +434,10 @@ export const convertVariablesToTokens = ({
   }
 }
 
-export const fetchLocalVariables = async ({
-  figmaFile,
-  personalAccessToken = process.env.FIGMA_TOKEN,
-}: {
-  figmaFile: string
-  personalAccessToken?: string
-}) => {
-  const Figma = createFigmaClient({ personalAccessToken })
+const fetchLocalVariables = async (figmaFile: string) => {
+  const Figma = createFigmaClient({
+    personalAccessToken: process.env.FIGMA_TOKEN,
+  })
 
   const { data } = await Figma.client.get<{ meta: FigmaLocalVariables }>(
     `files/${encodeURIComponent(figmaFile)}/variables/local`
@@ -471,18 +467,14 @@ export const extractTokens = async ({
     )
   }
 
-  const meta = await fetchLocalVariables({ figmaFile })
+  const meta = await fetchLocalVariables(figmaFile)
   const files: string[] = []
 
   for (const { collection, mode, fileName } of TOKEN_EXPORTS) {
+    let tokens: TokenExport
+
     try {
-      const tokens = convertVariablesToTokens({ meta, collection, mode })
-      const file = path.resolve(tokensDir, fileName)
-
-      await fs.outputFile(file, JSON.stringify(tokens, null, 2))
-      files.push(file)
-
-      log.info(`> Figma: Wrote design tokens to ${fileName}`)
+      tokens = convertVariablesToTokens({ meta, collection, mode })
     } catch (e) {
       throw new Error(
         `Failed to convert the Figma collection "${collection}"${
@@ -491,6 +483,13 @@ export const extractTokens = async ({
         { cause: e }
       )
     }
+
+    const file = path.resolve(tokensDir, fileName)
+
+    await fs.outputFile(file, JSON.stringify(tokens, null, 2))
+    files.push(file)
+
+    log.info(`> Figma: Wrote design tokens to ${fileName}`)
   }
 
   return files
