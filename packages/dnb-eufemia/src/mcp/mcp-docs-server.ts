@@ -1046,8 +1046,28 @@ export async function readDocsMeta(source: DocsSource): Promise<DocsMeta> {
 
 export function registerDocsTools(
   server: McpServer,
-  tools: DocsToolHandlers
+  tools: DocsToolHandlers,
+  options: {
+    onToolCall?: (toolName: string, input: unknown) => void
+  } = {}
 ) {
+  const { onToolCall } = options
+
+  // Post-call telemetry hook: run the tool handler, then notify the optional
+  // reporter without awaiting it or letting it affect the result. Kept inline
+  // so each handler keeps its schema-inferred input type.
+  const track = <T>(name: string, input: unknown, run: () => T): T => {
+    const result = run()
+    if (onToolCall) {
+      try {
+        onToolCall(name, input)
+      } catch {
+        // Telemetry must never affect the tool call.
+      }
+    }
+    return result
+  }
+
   server.registerTool(
     'docs_entry',
     {
@@ -1056,7 +1076,7 @@ export function registerDocsTools(
         'Return the complete llm.md documentation link index. This is a large exhaustive payload, not a normal onboarding or lookup step. Use it only when the full documentation structure is explicitly required. For routine work, prefer component_find/component_props for component APIs, component_doc for component guidance and examples, docs_search followed by docs_read for conceptual topics, or docs_list for one documentation area.',
       inputSchema: EmptyInput.shape,
     },
-    (input) => tools.docsEntry(input)
+    (input) => track('docs_entry', input, () => tools.docsEntry(input))
   )
 
   server.registerTool(
@@ -1067,7 +1087,7 @@ export function registerDocsTools(
         'Return metadata for the documentation served by this MCP instance, including the Eufemia version, generation time, and source commit. Use this before relying on version-specific guidance or comparing the served documentation with an installed Eufemia package.',
       inputSchema: EmptyInput.shape,
     },
-    (input) => tools.docsMeta(input)
+    (input) => track('docs_meta', input, () => tools.docsMeta(input))
   )
 
   server.registerTool(
@@ -1078,7 +1098,10 @@ export function registerDocsTools(
         'Return the complete Eufemia workflow for editing Portal content and delivering a focused pull request. Use this when someone asks to change, correct, or update text on the official Eufemia Portal, including an existing change made with Edit on GitHub.',
       inputSchema: EmptyInput.shape,
     },
-    (input) => tools.portalContentWorkflow(input)
+    (input) =>
+      track('portal_content_workflow', input, () =>
+        tools.portalContentWorkflow(input)
+      )
   )
 
   server.registerTool(
@@ -1089,7 +1112,7 @@ export function registerDocsTools(
         'Return Eufemia-owned review rule metadata, including stable IDs, classification, default severity, documentation, supported tools, and whether an automatic fix exists. Use this to classify lint or code-review findings without promoting recommendations or context-dependent guidance to errors.',
       inputSchema: EmptyInput.shape,
     },
-    (input) => tools.reviewRules(input)
+    (input) => track('review_rules', input, () => tools.reviewRules(input))
   )
 
   server.registerTool(
@@ -1100,7 +1123,7 @@ export function registerDocsTools(
         'Return a JSON array of all known markdown and MDX documentation files under the docs root, without filtering. Use this when you need a complete, machine-readable overview of available docs paths (for example to cache, pre-index, or sanity-check the docs structure) rather than when you are looking for a specific document.',
       inputSchema: EmptyInput.shape,
     },
-    (input) => tools.docsIndex(input)
+    (input) => track('docs_index', input, () => tools.docsIndex(input))
   )
 
   server.registerTool(
@@ -1111,7 +1134,7 @@ export function registerDocsTools(
         'List markdown and MDX documentation files under an optional prefix, returning a JSON array of relative paths. Use this when you know the high-level area of the docs (for example `/uilib/components/` or `/uilib/extensions/forms/`) and want to discover which specific files exist there, before choosing a concrete path to read with docs_read.',
       inputSchema: DocsListInput.shape,
     },
-    (input) => tools.docsList(input)
+    (input) => track('docs_list', input, () => tools.docsList(input))
   )
 
   server.registerTool(
@@ -1122,7 +1145,7 @@ export function registerDocsTools(
         'Read the raw markdown or MDX content of a single documentation file, given its path relative to the docs root (for example `/uilib/components/button.md`). If the path points to a directory instead of a file, the tool returns a structured JSON payload with an error code, a list of child entries, and suggested file paths you can try instead. Use this when you already know or have discovered a specific path and need the full document content.',
       inputSchema: DocsReadInput.shape,
     },
-    (input) => tools.docsRead(input)
+    (input) => track('docs_read', input, () => tools.docsRead(input))
   )
 
   server.registerTool(
@@ -1133,7 +1156,7 @@ export function registerDocsTools(
         'Search across all markdown and MDX documentation using a free-text query, returning a JSON array of ranked matches with relevance scores and text snippets. Use this when you know what you are looking for conceptually (for example a component, feature, or concept name), but you do not know the exact file path yet. Read the relevant result with docs_read before relying on its guidance or examples. Add a prefix when you know the documentation area to reduce unrelated results.',
       inputSchema: DocsSearchInput.shape,
     },
-    (input) => tools.docsSearch(input)
+    (input) => track('docs_search', input, () => tools.docsSearch(input))
   )
 
   server.registerTool(
@@ -1144,7 +1167,8 @@ export function registerDocsTools(
         "Resolve the documentation paths for a single Eufemia component by its name (for example 'Button', 'Field.Address', or 'Value.Address'). Returns a JSON object that includes the doc, properties, and events paths plus existence flags. Use this when you are starting from a component name and need to know which documentation files to read or inspect next.",
       inputSchema: ComponentNameInput.shape,
     },
-    (input) => tools.componentFind(input)
+    (input) =>
+      track('component_find', input, () => tools.componentFind(input))
   )
 
   server.registerTool(
@@ -1155,7 +1179,8 @@ export function registerDocsTools(
         "Return the full markdown or MDX documentation for a single Eufemia component, identified by its name (for example 'Button' or 'Field.Address'). Use this when you need to read the human-facing docs for a component, including narrative text, examples, and API, property, event and translation descriptions, rather than just the structured JSON blocks. Before implementing any examples from these docs, make sure you have already read the relevant getting started or first-steps documentation so you apply the examples in the correct way and context.",
       inputSchema: ComponentNameInput.shape,
     },
-    (input) => tools.componentDoc(input)
+    (input) =>
+      track('component_doc', input, () => tools.componentDoc(input))
   )
 
   server.registerTool(
@@ -1166,7 +1191,8 @@ export function registerDocsTools(
         'Extract and return all JSON code blocks from the component documentation markdown (for example structured API metadata embedded in ```json fences). Use this when you need a machine-readable representation of a component’s API or metadata, such as props or events, and you prefer to work with parsed JSON rather than free-form markdown.',
       inputSchema: ComponentNameInput.shape,
     },
-    (input) => tools.componentApi(input)
+    (input) =>
+      track('component_api', input, () => tools.componentApi(input))
   )
 
   server.registerTool(
@@ -1177,20 +1203,25 @@ export function registerDocsTools(
         'Return the structured JSON blocks describing a component’s properties and events, as derived from its main documentation file. Use this when you specifically need the props- and events-level schema or configuration for a component, rather than the full documentation text, and want to drive code generation, validation, or other automated reasoning from that data.',
       inputSchema: ComponentNameInput.shape,
     },
-    (input) => tools.componentProps(input)
+    (input) =>
+      track('component_props', input, () => tools.componentProps(input))
   )
 }
 
 export async function createDocsServer(
-  options: { docsRoot?: string } = {}
+  options: {
+    docsRoot?: string
+    onToolCall?: (toolName: string, input: unknown) => void
+  } = {}
 ): Promise<{
   server: McpServer
   tools: DocsToolHandlers
 }> {
-  const tools = createDocsTools(options)
+  const { onToolCall, ...docsOptions } = options
+  const tools = createDocsTools(docsOptions)
   const meta = await readDocsMeta(tools.source)
   const server = new McpServer(createServerInfo(meta.eufemiaVersion))
-  registerDocsTools(server, tools)
+  registerDocsTools(server, tools, { onToolCall })
   return { server, tools }
 }
 

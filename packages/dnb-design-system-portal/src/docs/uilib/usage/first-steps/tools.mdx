@@ -108,9 +108,33 @@ raicode mcp add --transport stdio eufemia -- node node_modules/@dnb/eufemia/mcp/
 ### How to use
 
 - The MCP server helps AI apply Eufemia patterns more accurately in code, but results can still be imperfect. So always review the output carefully!
-- The MCP server provides documentation context only; it does not execute code or access the network.
+- The MCP server provides documentation context only; it does not execute code. It sends anonymous, opt-out usage statistics (see [Telemetry](#telemetry) below) but never reads your code, files or search queries.
 - Ask your AI tool to search or summarize Eufemia docs, e.g. "Find the spacing system rules in Eufemia."
 - If the server fails to start, confirm `@dnb/eufemia` is installed and the path points to `node_modules/@dnb/eufemia/mcp/mcp-server.js`.
+
+### Telemetry
+
+The local MCP server sends **anonymous, aggregate usage statistics** so we can see which tools, components and documentation areas are most used and improve the docs accordingly. It is **on by default** and **opt-out**.
+
+What is collected is a closed, public vocabulary only: the tool name, the component name for a component lookup (e.g. `Button`, `Field.Address`), the documentation path for a doc read or list, and the `@dnb/eufemia` version you have installed. No machine identifier, IP address, user or session id, and no free text are ever sent — in particular a `docs_search` query is never collected (a search is recorded as a tool count only).
+
+Each event is a fire-and-forget beacon with a short timeout, so it never blocks or affects a tool call, and the server holds no credentials.
+
+Turn it off by setting `EUFEMIA_MCP_TELEMETRY` to `0` in your MCP client config:
+
+```json
+{
+  "servers": {
+    "eufemia": {
+      "command": "node",
+      "args": [
+        "${workspaceFolder}/node_modules/@dnb/eufemia/mcp/mcp-server.js"
+      ],
+      "env": { "EUFEMIA_MCP_TELEMETRY": "0" }
+    }
+  }
+}
+```
 
 ## Agent Skills
 

@@ -14,6 +14,7 @@ import process from 'node:process'
 import { serveStdio } from '@modelcontextprotocol/server/stdio'
 
 import { createDocsServer, validateDocsRoot } from './mcp-docs-server'
+import { createUsageReporter, readEufemiaVersion } from './usage-telemetry'
 
 function logErr(...args: unknown[]) {
   // eslint-disable-next-line no-console -- MCP stdio reserves stdout
@@ -26,7 +27,17 @@ async function main() {
 
   await validateDocsRoot(tools.docsRoot)
 
-  serveStdio(async () => (await createDocsServer()).server)
+  // Anonymous, opt-out usage telemetry. Null when opted out; the first-run
+  // notice (to stderr) and beacon are handled inside the reporter.
+  const reporter = createUsageReporter({
+    eufemiaVersion: readEufemiaVersion(),
+    logNotice: logErr,
+  })
+
+  serveStdio(
+    async () =>
+      (await createDocsServer({ onToolCall: reporter?.onToolCall })).server
+  )
   logErr('[eufemia] connected (stdio)')
 }
 
