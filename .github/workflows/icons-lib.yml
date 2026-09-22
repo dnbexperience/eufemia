@@ -42,8 +42,9 @@ jobs:
           branch="icons/automation-figma-sync"
           echo "branch=$branch" >> "$GITHUB_OUTPUT"
 
-      - name: Check for an open icon update pull request
+      - name: Find an open icon update pull request
         if: github.event_name == 'workflow_dispatch'
+        id: existing-pr
         env:
           BRANCH: ${{ steps.manual-branch.outputs.branch }}
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
@@ -55,9 +56,21 @@ jobs:
             --json url \
             --jq '.[0].url // empty')
           if [ -n "$url" ]; then
-            echo "Review or close the existing icon update pull request before starting another sync: $url" >&2
-            exit 1
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+            echo "url=$url" >> "$GITHUB_OUTPUT"
+            echo "An icon update pull request is already open: $url" >> "$GITHUB_STEP_SUMMARY"
           fi
+
+      - name: Check out the existing icon update branch
+        if: steps.existing-pr.outputs.exists == 'true'
+        env:
+          BRANCH: ${{ steps.manual-branch.outputs.branch }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: |
+          gh auth setup-git
+          git fetch origin "refs/heads/$BRANCH:refs/remotes/origin/$BRANCH"
+          git switch -C "$BRANCH" "origin/$BRANCH"
+          git rebase origin/main
 
       - name: Setup dependencies
         uses: ./.github/actions/setup
@@ -140,7 +153,9 @@ jobs:
           gh auth setup-git
           remote_sha=$(git ls-remote --heads origin "refs/heads/$BRANCH" | cut -f1)
 
-          git switch -c "$BRANCH"
+          if [ "$EXISTING_PR" != true ]; then
+            git switch -c "$BRANCH"
+          fi
           git config user.name "$GH_NAME"
           git config user.email "$GH_EMAIL"
           git add \
@@ -161,6 +176,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
           GH_NAME: ${{ secrets.GH_NAME }}
           GH_EMAIL: ${{ secrets.GH_EMAIL }}
+          EXISTING_PR: ${{ steps.existing-pr.outputs.exists }}
 
       - name: Create draft icon update pull request
         if: >-
@@ -170,6 +186,8 @@ jobs:
         env:
           BRANCH: ${{ steps.manual-branch.outputs.branch }}
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          EXISTING_PR: ${{ steps.existing-pr.outputs.exists }}
+          PR_URL: ${{ steps.existing-pr.outputs.url }}
         run: |
           icon_names() {
             git diff --name-only "origin/main...HEAD" --diff-filter="$1" \
@@ -217,13 +235,20 @@ jobs:
             echo ""
             echo "Review names, tags, removals, changelog and visual snapshots before marking the pull request ready."
           } >> "$GITHUB_STEP_SUMMARY"
-          gh pr create \
-            --base main \
-            --head "$BRANCH" \
-            --title "$title" \
-            --body "$body" \
-            --draft
-
+          if [ "$EXISTING_PR" = true ]; then
+            gh pr edit "$PR_URL" --title "$title"
+            is_draft=$(gh pr view "$PR_URL" --json isDraft --jq '.isDraft')
+            if [ "$is_draft" != true ]; then
+              gh pr ready "$PR_URL" --undo
+            fi
+          else
+            gh pr create \
+              --base main \
+              --head "$BRANCH" \
+              --title "$title" \
+              --body "$body" \
+              --draft
+          fi
       - name: Report no icon changes
         if: steps.changes.outputs.changed == 'false'
         run: echo "Figma and the Eufemia icon library are already synchronized."
