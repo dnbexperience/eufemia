@@ -38,6 +38,14 @@
     scroll-margin-block: 40vh;
   }
 
+  [data-sidebar-menu-responsive-provider='portal-sidebar-menu']
+    .dnb-sidebar-menu-responsive-inline:not(
+      [data-sidebar-menu-responsive-compact='true']
+    )
+    > .dnb-sidebar-menu-responsive-inline__content {
+    clip-path: inset(0 -2rem 0 0);
+  }
+
   :is(
       [data-sidebar-menu-group-id^='uilib-components-category-'],
       [data-sidebar-menu-group-id='uilib-design-language-web'],
@@ -50,7 +58,7 @@
 }
 .navStyle {
   position: fixed;
-  z-index: 1;
+  z-index: 3;
   top: 0;
 
   height: 100vh;
