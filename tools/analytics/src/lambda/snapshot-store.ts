@@ -19,6 +19,23 @@ export type Snapshot = {
   componentUsage: ComponentUsageSection
 }
 
+// A daily portal page-view aggregate row (one per path+env+dimension combo per
+// day), written to the durable portal_views_daily rollup. The anonymous view
+// dimensions are kept so their history survives the raw rows' expiry and stays
+// queryable via Athena.
+export type PortalViewDaily = {
+  dt: string
+  path: string
+  env: string
+  status: string
+  locale: string
+  theme: string
+  color_scheme: string
+  referrer: string
+  via_search: string
+  count: number
+}
+
 // A daily MCP usage aggregate row (one per tool+component+path per day), read
 // from and written to the durable mcp_usage_daily rollup.
 export type McpUsageDaily = {
@@ -143,6 +160,50 @@ export async function writeSnapshot(
       ContentType: 'application/json',
     })
   )
+}
+
+// Persist recomputed daily portal page-view aggregates, one object per day
+// (overwrite). The portal-views-daily/ prefix has no lifecycle rule, so these
+// survive the raw rows' 13-month expiry and keep long-range (year-over-year)
+// page-view history (including the anonymous view dimensions) available.
+export async function storePortalViewsDaily(
+  bucket: string,
+  rows: PortalViewDaily[]
+): Promise<void> {
+  const byDt = new Map<string, PortalViewDaily[]>()
+
+  for (const row of rows) {
+    const list = byDt.get(row.dt) ?? []
+    list.push(row)
+    byDt.set(row.dt, list)
+  }
+
+  for (const [dt, dtRows] of byDt) {
+    const body = dtRows
+      .map((r) =>
+        JSON.stringify({
+          path: r.path,
+          env: r.env,
+          status: r.status,
+          locale: r.locale,
+          theme: r.theme,
+          color_scheme: r.color_scheme,
+          referrer: r.referrer,
+          via_search: r.via_search,
+          count: r.count,
+        })
+      )
+      .join('\n')
+
+    await s3.send(
+      new PutObjectCommand({
+        Bucket: bucket,
+        Key: `portal-views-daily/dt=${dt}/agg.json`,
+        Body: body,
+        ContentType: 'application/x-ndjson',
+      })
+    )
+  }
 }
 
 // Persist recomputed daily MCP usage aggregates, one object per day (overwrite).

@@ -29,7 +29,9 @@ describe('analytics infrastructure', () => {
     )
   })
 
-  it('allows the snapshot generator to complete three Athena queries', () => {
+  it('gives the snapshot generator enough timeout for its Athena queries', () => {
+    // The generator runs the portal read, the retention rollup refresh, and the
+    // MCP section queries; the timeout must cover the deepest concurrent chain.
     const snapshotLambda = terraform.match(
       /resource \"aws_lambda_function\" \"snapshot\" \{[\s\S]*?^\}/m
     )?.[0]
@@ -59,6 +61,7 @@ describe('analytics infrastructure', () => {
       'snapshot_empty',
       'snapshot_mcp_build_failed',
       'snapshot_component_usage_build_failed',
+      'snapshot_portal_views_rollup_failed',
     ]) {
       const block = terraform.match(
         new RegExp(
@@ -70,6 +73,41 @@ describe('analytics infrastructure', () => {
         'alarm_actions       = [aws_sns_topic.snapshot_alerts.arn]'
       )
     }
+  })
+
+  it('expires raw portal-view objects on the portal-views/ prefix', () => {
+    const rawRule = terraform.match(
+      /rule \{[\s\S]*?id\s+= "expire-portal-views-raw"[\s\S]*?^  \}/m
+    )?.[0]
+
+    expect(rawRule).toContain('prefix = "portal-views/"')
+    expect(rawRule).toMatch(/expiration \{\s+days = 395\s+\}/)
+    expect(rawRule).not.toContain('noncurrent_version_expiration')
+  })
+
+  it('defines a durable portal_views_daily rollup with no expiry rule', () => {
+    expect(terraform).toContain(
+      'resource "aws_glue_catalog_table" "portal_views_daily"'
+    )
+    expect(terraform).toMatch(
+      /GLUE_TABLE_PORTAL_VIEWS_DAILY\s+= aws_glue_catalog_table\.portal_views_daily\.name/
+    )
+
+    // The durable rollup must NOT have its own expiration rule, or history would
+    // be lost the same way the raw prefix is trimmed.
+    expect(terraform).not.toContain('prefix = "portal-views-daily/"')
+  })
+
+  it('alarms on a persistent portal-view rollup-refresh failure', () => {
+    expect(terraform).toContain(
+      'resource "aws_cloudwatch_metric_alarm" "snapshot_portal_views_rollup_failed"'
+    )
+    const alarm = terraform.match(
+      /resource \"aws_cloudwatch_metric_alarm\" \"snapshot_portal_views_rollup_failed\" \{[\s\S]*?^\}/m
+    )?.[0]
+    expect(alarm).toContain(
+      'metric_name         = "PortalViewsRollupFailure"'
+    )
   })
 
   it('expires raw component-usage objects on the component-usage/ prefix', () => {

@@ -29,7 +29,10 @@ vi.mock('@aws-sdk/client-athena', () => ({
   },
 }))
 
-import { retrievePortalViews } from '../src/lambda/retrieve.js'
+import {
+  aggregatePortalViewsRaw,
+  retrievePortalViews,
+} from '../src/lambda/retrieve.js'
 
 type Command = { kind: 'start' | 'status' | 'results'; input: unknown }
 
@@ -93,6 +96,78 @@ describe('retrievePortalViews', () => {
     }
     expect(start.input.QueryString).toBe(
       `SELECT path, env, "timestamp" FROM "db"."portal_views" ORDER BY "timestamp" DESC LIMIT 1000`
+    )
+  })
+})
+
+describe('aggregatePortalViewsRaw', () => {
+  it('groups raw rows by day, path, env and the anonymous view dimensions', async () => {
+    send.mockImplementation((command: Command) => {
+      if (command.kind === 'start') {
+        return Promise.resolve({ QueryExecutionId: 'query-id' })
+      }
+      if (command.kind === 'status') {
+        return Promise.resolve({
+          QueryExecution: { Status: { State: 'SUCCEEDED' } },
+        })
+      }
+
+      return Promise.resolve({
+        ResultSet: {
+          Rows: [
+            {
+              Data: [
+                { VarCharValue: 'dt' },
+                { VarCharValue: 'path' },
+                { VarCharValue: 'env' },
+                { VarCharValue: 'status' },
+                { VarCharValue: 'locale' },
+                { VarCharValue: 'theme' },
+                { VarCharValue: 'color_scheme' },
+                { VarCharValue: 'referrer' },
+                { VarCharValue: 'via_search' },
+                { VarCharValue: 'cnt' },
+              ],
+            },
+            {
+              Data: [
+                { VarCharValue: '2026-09-20' },
+                { VarCharValue: '/uilib/components/button' },
+                { VarCharValue: 'prod' },
+                { VarCharValue: 'ok' },
+                { VarCharValue: 'en-GB' },
+                { VarCharValue: 'ui' },
+                { VarCharValue: 'dark' },
+                { VarCharValue: 'search' },
+                { VarCharValue: 'yes' },
+                { VarCharValue: '7' },
+              ],
+            },
+          ],
+        },
+      })
+    })
+
+    await expect(aggregatePortalViewsRaw('2026-09-14')).resolves.toEqual([
+      {
+        dt: '2026-09-20',
+        path: '/uilib/components/button',
+        env: 'prod',
+        status: 'ok',
+        locale: 'en-GB',
+        theme: 'ui',
+        color_scheme: 'dark',
+        referrer: 'search',
+        via_search: 'yes',
+        count: 7,
+      },
+    ])
+
+    const start = send.mock.calls[0][0] as Command & {
+      input: { QueryString: string }
+    }
+    expect(start.input.QueryString).toBe(
+      `SELECT dt, path, env, status, locale, theme, color_scheme, referrer, via_search, count(*) AS cnt FROM "db"."portal_views" WHERE dt >= '2026-09-14' GROUP BY dt, path, env, status, locale, theme, color_scheme, referrer, via_search`
     )
   })
 })
