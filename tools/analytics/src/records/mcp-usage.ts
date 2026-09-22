@@ -61,13 +61,41 @@ const MAX_VERSION_LENGTH = 64
 /** A short lowercase environment token, e.g. `prod`, `dev`. */
 const ENV_PATTERN = /^[a-z][a-z0-9-]{0,31}$/
 
-// A component name is one or more dot-separated PascalCase segments, so both
-// "DatePicker" and the compound "Field.Address" validate. A single character
-// class per segment keeps matching linear (no nested-quantifier ReDoS).
-const COMPONENT_SEGMENT = /^[A-Z][A-Za-z0-9]*$/
+// A component name is one or more dot-separated segments. Each segment starts
+// with a letter and may contain letters, digits, and hyphens, so both the
+// PascalCase form ("DatePicker", "Field.Address") and the hyphenated doc-file
+// form ("date-picker") validate. A single character class keeps matching linear
+// (no nested-quantifier ReDoS). Kept in sync with the same pattern in
+// tools/mcp-lambda/src/records/mcp-usage.ts.
+const COMPONENT_SEGMENT = /^[A-Za-z][A-Za-z0-9-]*$/
 
 // An absolute docs path with a restricted character set.
 const PATH_PATTERN = /^\/[A-Za-z0-9/_.-]*$/
+
+/**
+ * Reduce a docs path to the shape the docs server resolves it to: forward
+ * slashes, a single leading slash, and no empty, `.` or trailing segments.
+ * Mirrors `canonicalDocsPath` in tools/mcp-lambda/src/records/mcp-usage.ts,
+ * which mirrors the docs server's own `normalizeDocsPath` — so `/uilib/button.md`,
+ * `uilib/button.md`, `/uilib/./button.md` and `\uilib\button.md` all name the
+ * same document and must be stored under one key.
+ */
+function canonicalDocsPath(value: string): string {
+  const segments = value
+    .replaceAll('\\', '/')
+    .split('/')
+    .filter((segment) => segment !== '' && segment !== '.')
+
+  return segments.length === 0 ? '' : `/${segments.join('/')}`
+}
+
+// Mirror the docs server's normalizeName (trim + lowercase) so the stored value
+// is the form a successful lookup resolves against, and casing variants of the
+// same component fold into a single aggregate. Kept in sync with the same
+// function in tools/mcp-lambda/src/records/mcp-usage.ts.
+function normalizeComponent(value: string): string {
+  return value.trim().toLowerCase()
+}
 
 // A semver shape (major.minor.patch with optional pre-release/build metadata).
 // This validates the shape, not membership of a real release, so an arbitrary
@@ -144,31 +172,36 @@ function isValidEnv(value: unknown): value is string {
   return typeof value === 'string' && ENV_PATTERN.test(value)
 }
 
-function isValidComponent(value: unknown): value is string {
-  if (
-    typeof value !== 'string' ||
-    value.length === 0 ||
-    value.length > MAX_COMPONENT_LENGTH
-  ) {
-    return false
+function validComponent(value: unknown): string {
+  if (typeof value !== 'string' || value.length > MAX_COMPONENT_LENGTH) {
+    return ''
   }
 
-  return value
-    .split('.')
-    .every((segment) => COMPONENT_SEGMENT.test(segment))
+  const trimmed = value.trim()
+
+  return trimmed.length > 0 &&
+    trimmed.split('.').every((segment) => COMPONENT_SEGMENT.test(segment))
+    ? normalizeComponent(trimmed)
+    : ''
 }
 
-function isValidPath(value: unknown): value is string {
-  if (typeof value !== 'string' || value.length > MAX_PATH_LENGTH) {
-    return false
+function validPath(value: unknown): string {
+  if (typeof value !== 'string') {
+    return ''
   }
 
-  // Reject traversal outright; never store a `..` string as a doc path.
-  if (value.includes('..')) {
-    return false
+  // Drop any query string or fragment so no incidental data is stored.
+  const raw = value.split(/[?#]/)[0] ?? ''
+
+  // Bound and reject traversal on the raw value, before collapsing segments, so
+  // canonicalisation cannot mask a `..` the check would otherwise catch.
+  if (raw.length > MAX_PATH_LENGTH || raw.includes('..')) {
+    return ''
   }
 
-  return PATH_PATTERN.test(value)
+  const path = canonicalDocsPath(raw)
+
+  return PATH_PATTERN.test(path) ? path : ''
 }
 
 /**
@@ -256,10 +289,13 @@ export function validateMcpUsage(
     }
 
     if (valid) {
+      const normalizedComponent = validComponent(component)
+      const normalizedPath = validPath(path)
+
       value.push({
         tool: tool as string,
-        ...(isValidComponent(component) ? { component } : {}),
-        ...(isValidPath(path) ? { path } : {}),
+        ...(normalizedComponent ? { component: normalizedComponent } : {}),
+        ...(normalizedPath ? { path: normalizedPath } : {}),
         ...(isValidEnv(env) ? { env } : {}),
         ...(typeof eufemiaVersion === 'string' ? { eufemiaVersion } : {}),
         ...(typeof timestamp === 'string' ? { timestamp } : {}),

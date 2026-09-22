@@ -22,7 +22,7 @@ describe('validateMcpUsage', () => {
       ok: true,
       value: [
         { tool: 'docs_entry' },
-        { tool: 'component_find', component: 'Button' },
+        { tool: 'component_find', component: 'button' },
       ],
     })
   })
@@ -67,8 +67,14 @@ describe('validateMcpUsage', () => {
     expect(result.ok).toBe(false)
   })
 
-  it('accepts a valid component', () => {
-    for (const component of ['Button', 'DatePicker', 'Field.Address']) {
+  it('accepts a valid component and normalises it to the form the docs server resolves against', () => {
+    for (const [component, expected] of [
+      ['Button', 'button'],
+      ['DatePicker', 'datepicker'],
+      ['date-picker', 'date-picker'],
+      ['Field.Address', 'field.address'],
+      [' Button ', 'button'],
+    ] as const) {
       const result = validateMcpUsage({
         tool: 'component_doc',
         component,
@@ -76,16 +82,16 @@ describe('validateMcpUsage', () => {
 
       expect(result).toEqual({
         ok: true,
-        value: [{ tool: 'component_doc', component }],
+        value: [{ tool: 'component_doc', component: expected }],
       })
     }
   })
 
   it('drops an unrecognised component instead of rejecting', () => {
     for (const component of [
-      'button',
-      'date-picker',
       '<script>',
+      '.leading-dot',
+      'trailing-dot.',
       'a'.repeat(65),
       42,
     ]) {
@@ -113,9 +119,35 @@ describe('validateMcpUsage', () => {
     })
   })
 
-  it('drops an unrecognised or traversing path instead of rejecting', () => {
+  it('canonicalises a path the way the docs server resolves it', () => {
+    for (const [path, expected] of [
+      ['uilib/button.md', '/uilib/button.md'],
+      ['/uilib/./button.md', '/uilib/button.md'],
+      ['\\uilib\\button.md', '/uilib/button.md'],
+    ] as const) {
+      const result = validateMcpUsage({ tool: 'docs_read', path })
+
+      expect(result).toEqual({
+        ok: true,
+        value: [{ tool: 'docs_read', path: expected }],
+      })
+    }
+  })
+
+  it('strips a query string and fragment from a path instead of dropping it', () => {
+    const result = validateMcpUsage({
+      tool: 'docs_read',
+      path: '/uilib/button.md?token=secret#x',
+    })
+
+    expect(result).toEqual({
+      ok: true,
+      value: [{ tool: 'docs_read', path: '/uilib/button.md' }],
+    })
+  })
+
+  it('drops a traversing or malformed path instead of rejecting', () => {
     for (const path of [
-      'no-leading-slash',
       '/../etc/passwd',
       '/a/../b',
       '/<script>',
