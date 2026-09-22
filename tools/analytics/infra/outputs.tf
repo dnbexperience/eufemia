@@ -27,6 +27,11 @@ output "snapshot_function_name" {
   value       = aws_lambda_function.snapshot.function_name
 }
 
+output "snapshot_alerts_topic_arn" {
+  description = "SNS topic the snapshot CloudWatch alarms notify"
+  value       = aws_sns_topic.snapshot_alerts.arn
+}
+
 output "data_bucket" {
   value = aws_s3_bucket.data.id
 }

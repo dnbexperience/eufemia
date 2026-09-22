@@ -794,10 +794,27 @@ resource "aws_lambda_permission" "snapshot_events" {
   source_arn    = aws_cloudwatch_event_rule.snapshot.arn
 }
 
+# Notification target for the alarms below. Same-account CloudWatch alarms can
+# publish to a topic under its default access policy, so no extra topic policy
+# is needed. The email subscription is optional (snapshot_alert_email empty
+# skips it) so the topic can ship before an owner is chosen; a subscriber added
+# later (email or an HTTPS Slack webhook) just needs its own
+# aws_sns_topic_subscription pointed at this topic — alarm_actions never change.
+resource "aws_sns_topic" "snapshot_alerts" {
+  name = "eufemia-${var.environment}-analytics-snapshot-alerts"
+  tags = local.tags
+}
+
+resource "aws_sns_topic_subscription" "snapshot_alerts_email" {
+  count     = var.snapshot_alert_email != "" ? 1 : 0
+  topic_arn = aws_sns_topic.snapshot_alerts.arn
+  protocol  = "email"
+  endpoint  = var.snapshot_alert_email
+}
+
 # Failure signals for the scheduled generator. Without them a failed run, or a
 # schedule/target that stops firing, would leave the dashboard serving an
-# ever-staler snapshot with no signal. No alarm actions yet (state is visible in
-# CloudWatch); wire an SNS/notification target here when one exists.
+# ever-staler snapshot with no signal. Both notify snapshot_alerts above.
 resource "aws_cloudwatch_metric_alarm" "snapshot_errors" {
   alarm_name          = "eufemia-${var.environment}-analytics-snapshot-errors"
   alarm_description   = "Dashboard snapshot generator returned an error"
@@ -810,6 +827,7 @@ resource "aws_cloudwatch_metric_alarm" "snapshot_errors" {
   threshold           = 1
   comparison_operator = "GreaterThanOrEqualToThreshold"
   treat_missing_data  = "notBreaching"
+  alarm_actions       = [aws_sns_topic.snapshot_alerts.arn]
 }
 
 # Missing invocations mean the schedule or target is broken (Errors alone would
@@ -826,6 +844,7 @@ resource "aws_cloudwatch_metric_alarm" "snapshot_not_running" {
   threshold           = 1
   comparison_operator = "LessThanThreshold"
   treat_missing_data  = "breaching"
+  alarm_actions       = [aws_sns_topic.snapshot_alerts.arn]
 }
 
 # A run can succeed (Invocations >= 1, Errors = 0) yet write an empty snapshot,
@@ -834,9 +853,8 @@ resource "aws_cloudwatch_metric_alarm" "snapshot_not_running" {
 # caught here — the Lambda alarms above only see the run, not its content. The
 # not-running alarm owns the "stopped firing" case, so missing data here does not
 # breach. The namespace/metric/dimension must match those emitted in
-# src/lambda/snapshot.ts. No alarm actions yet (state is visible in CloudWatch);
-# wire an SNS/notification target here when one exists — and note a genuinely
-# idle environment (no traffic) can sit at 0 and trip this.
+# src/lambda/snapshot.ts. Notifies snapshot_alerts above — note a genuinely idle
+# environment (no traffic) can sit at 0 and trip this.
 resource "aws_cloudwatch_metric_alarm" "snapshot_empty" {
   alarm_name          = "eufemia-${var.environment}-analytics-snapshot-empty"
   alarm_description   = "Dashboard snapshot generator wrote an empty snapshot (no records)"
@@ -849,6 +867,7 @@ resource "aws_cloudwatch_metric_alarm" "snapshot_empty" {
   threshold           = 1
   comparison_operator = "LessThanThreshold"
   treat_missing_data  = "notBreaching"
+  alarm_actions       = [aws_sns_topic.snapshot_alerts.arn]
 }
 
 # The MCP usage section is built best-effort: a failure (e.g. the mcp_usage Glue
@@ -857,8 +876,7 @@ resource "aws_cloudwatch_metric_alarm" "snapshot_empty" {
 # Errors/Invocations and SnapshotRecordCount alarms, so the generator emits a
 # McpUsageBuildFailure EMF metric on the catch path and this alarm surfaces it.
 # The namespace/metric/dimension must match those emitted in src/lambda/snapshot.ts.
-# No alarm actions yet (state is visible in CloudWatch); wire a target here when
-# one exists.
+# Notifies snapshot_alerts above.
 resource "aws_cloudwatch_metric_alarm" "snapshot_mcp_build_failed" {
   alarm_name          = "eufemia-${var.environment}-analytics-snapshot-mcp-build-failed"
   alarm_description   = "Dashboard snapshot generator failed to build the MCP usage section (fell back to empty)"
@@ -871,6 +889,7 @@ resource "aws_cloudwatch_metric_alarm" "snapshot_mcp_build_failed" {
   threshold           = 1
   comparison_operator = "GreaterThanOrEqualToThreshold"
   treat_missing_data  = "notBreaching"
+  alarm_actions       = [aws_sns_topic.snapshot_alerts.arn]
 }
 
 # The component-usage section emits a ComponentUsageBuildFailure EMF metric when
@@ -880,7 +899,8 @@ resource "aws_cloudwatch_metric_alarm" "snapshot_mcp_build_failed" {
 # alarm surfaces them. The namespace/metric/dimension must match those emitted in
 # src/lambda/snapshot.ts. DORMANT until buildComponentUsage is wired into the
 # generator (no producer yet), so the metric is not emitted and the alarm stays
-# at INSUFFICIENT_DATA/OK; kept so re-wiring needs no infra change.
+# at INSUFFICIENT_DATA/OK; kept so re-wiring needs no infra change. Notifies
+# snapshot_alerts above once live.
 resource "aws_cloudwatch_metric_alarm" "snapshot_component_usage_build_failed" {
   alarm_name          = "eufemia-${var.environment}-analytics-snapshot-component-usage-build-failed"
   alarm_description   = "Dashboard snapshot generator failed to refresh or build the component usage section"
@@ -893,6 +913,7 @@ resource "aws_cloudwatch_metric_alarm" "snapshot_component_usage_build_failed" {
   threshold           = 1
   comparison_operator = "GreaterThanOrEqualToThreshold"
   treat_missing_data  = "notBreaching"
+  alarm_actions       = [aws_sns_topic.snapshot_alerts.arn]
 }
 
 # ---------------------------------------------------------------------------
