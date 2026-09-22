@@ -380,11 +380,12 @@ export async function handler(): Promise<{
   //     emitComponentUsageBuildFailureMetric()
   //     componentUsage = EMPTY_COMPONENT_USAGE
   //   }
-  // Also build it CONCURRENTLY with the MCP section (Promise.all) — wiring it in
-  // adds two Athena queries, and run sequentially the five (portal + 2 MCP + 2
-  // here) can exceed the Lambda timeout, killing the run before writeSnapshot.
-  // The infra "three Athena queries" / 90s-timeout test assumes this is unwired;
-  // update both when re-enabling.
+  // Also build it CONCURRENTLY with the other sections (Promise.all) — wiring it
+  // in adds two Athena queries, and run sequentially the total (portal read +
+  // rollup refresh + 2 MCP + 2 here) can exceed the Lambda timeout, killing the
+  // run before writeSnapshot. The infra "gives the snapshot generator enough
+  // timeout for its Athena queries" test assumes this is unwired; update it when
+  // re-enabling.
   const componentUsage: ComponentUsageSection = EMPTY_COMPONENT_USAGE
 
   const snapshot: Snapshot = {
