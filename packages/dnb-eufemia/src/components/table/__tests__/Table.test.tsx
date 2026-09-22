@@ -308,16 +308,16 @@ describe('Table scss', () => {
   it('should stack the outline above the sticky header, but below the accordion outline', () => {
     const css = loadScss(require.resolve('../style/deps.scss')) as string
 
-    const lastZIndexOf = (selector: string) => {
-      const block = css.split(`\n${selector} {`)[1].split('}')[0]
-      const declarations = [...block.matchAll(/z-index: (\d+);/g)]
+    const lastZIndexOf = (ruleStart: string) => {
+      const rule = css.split(`\n${ruleStart}`)[1].split('}')[0]
+      const declarations = [...rule.matchAll(/z-index: (\d+);/g)]
       return Number(declarations[declarations.length - 1][1])
     }
 
-    const outline = lastZIndexOf('.dnb-table--outline::after')
-    const stickyHeader = lastZIndexOf('.dnb-table tr.sticky')
+    const outline = lastZIndexOf('.dnb-table--outline::after {')
+    const stickyHeader = lastZIndexOf('.dnb-table tr.sticky {')
     const accordionOutline = lastZIndexOf(
-      '.dnb-table__tr--clickable:active, html[data-whatinput=keyboard] .dnb-table__tr--clickable:focus, .dnb-table__tr--clickable:hover:not(.dnb-table__tr--hover.dnb-table__tr--expanded)'
+      '.dnb-table__tr--clickable:active,'
     )
 
     expect(outline).toBeGreaterThan(stickyHeader)
