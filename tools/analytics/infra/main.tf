@@ -67,6 +67,25 @@ resource "aws_s3_bucket_lifecycle_configuration" "data" {
     }
   }
 
+  # Anonymous portal page-view records. 13-month retention (395 days) matches the
+  # MCP- and component-usage raw data and covers year-over-year reporting. The
+  # trailing slash matches only portal-views/ (there is a portal-views-daily/
+  # durable rollup that must NOT be expired). Write-once keys (one object per
+  # beacon batch), so this only expires current versions; the regenerated
+  # dashboard snapshot lives under snapshots/ and is unaffected.
+  rule {
+    id     = "expire-portal-views-raw"
+    status = "Enabled"
+
+    filter {
+      prefix = "portal-views/"
+    }
+
+    expiration {
+      days = 395
+    }
+  }
+
   # Raw MCP usage events. The trailing slash is load-bearing: it matches only
   # mcp-usage/ and NOT mcp-usage-daily/, so the durable daily rollup is never
   # expired by this rule. These keys are unique (never overwritten), so they
@@ -215,6 +234,96 @@ resource "aws_glue_catalog_table" "portal_views" {
     columns {
       name = "created_at"
       type = "string"
+    }
+  }
+}
+
+# Durable daily portal page-view rollup. The snapshot generator recomputes the
+# recent tail from portal_views each run and writes one object per day here. This
+# prefix has NO lifecycle expiry, so aggregates outlive the raw rows (expired at
+# 13 months) and keep long-range (year-over-year) history available. The grain
+# keeps the anonymous view dimensions (status/locale/theme/color_scheme/referrer/
+# via_search) so their history survives the raw expiry and stays queryable via
+# Athena.
+resource "aws_glue_catalog_table" "portal_views_daily" {
+  name          = "portal_views_daily"
+  database_name = aws_glue_catalog_database.analytics.name
+  table_type    = "EXTERNAL_TABLE"
+
+  parameters = {
+    classification     = "json"
+    has_encrypted_data = "true"
+
+    "projection.enabled"          = "true"
+    "projection.dt.type"          = "date"
+    "projection.dt.range"         = "2024-01-01,NOW"
+    "projection.dt.format"        = "yyyy-MM-dd"
+    "projection.dt.interval"      = "1"
+    "projection.dt.interval.unit" = "DAYS"
+    "storage.location.template"   = "s3://${aws_s3_bucket.data.id}/portal-views-daily/dt=$${dt}/"
+  }
+
+  partition_keys {
+    name = "dt"
+    type = "string"
+  }
+
+  storage_descriptor {
+    location      = "s3://${aws_s3_bucket.data.id}/portal-views-daily/"
+    input_format  = "org.apache.hadoop.mapred.TextInputFormat"
+    output_format = "org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat"
+
+    ser_de_info {
+      serialization_library = "org.openx.data.jsonserde.JsonSerDe"
+
+      parameters = {
+        "case.insensitive" = "true"
+      }
+    }
+
+    columns {
+      name = "path"
+      type = "string"
+    }
+
+    columns {
+      name = "env"
+      type = "string"
+    }
+
+    columns {
+      name = "status"
+      type = "string"
+    }
+
+    columns {
+      name = "locale"
+      type = "string"
+    }
+
+    columns {
+      name = "theme"
+      type = "string"
+    }
+
+    columns {
+      name = "color_scheme"
+      type = "string"
+    }
+
+    columns {
+      name = "referrer"
+      type = "string"
+    }
+
+    columns {
+      name = "via_search"
+      type = "string"
+    }
+
+    columns {
+      name = "count"
+      type = "bigint"
     }
   }
 }
@@ -761,6 +870,7 @@ resource "aws_lambda_function" "snapshot" {
       DATA_BUCKET                      = aws_s3_bucket.data.id
       GLUE_DATABASE                    = aws_glue_catalog_database.analytics.name
       GLUE_TABLE                       = aws_glue_catalog_table.portal_views.name
+      GLUE_TABLE_PORTAL_VIEWS_DAILY    = aws_glue_catalog_table.portal_views_daily.name
       GLUE_TABLE_MCP_USAGE             = aws_glue_catalog_table.mcp_usage.name
       GLUE_TABLE_MCP_USAGE_DAILY       = aws_glue_catalog_table.mcp_usage_daily.name
       GLUE_TABLE_COMPONENT_USAGE       = aws_glue_catalog_table.component_usage.name
@@ -907,6 +1017,28 @@ resource "aws_cloudwatch_metric_alarm" "snapshot_component_usage_build_failed" {
   alarm_description   = "Dashboard snapshot generator failed to refresh or build the component usage section"
   namespace           = "Eufemia/Analytics"
   metric_name         = "ComponentUsageBuildFailure"
+  dimensions          = { FunctionName = aws_lambda_function.snapshot.function_name }
+  statistic           = "Sum"
+  period              = 3600
+  evaluation_periods  = 1
+  threshold           = 1
+  comparison_operator = "GreaterThanOrEqualToThreshold"
+  treat_missing_data  = "notBreaching"
+  alarm_actions       = [aws_sns_topic.snapshot_alerts.arn]
+}
+
+# The portal-view daily rollup is refreshed best-effort for retention (it does
+# not feed the dashboard yet): a failure is caught and the run still publishes the
+# snapshot, so it is invisible to the Lambda/SnapshotRecordCount alarms. The
+# generator emits a PortalViewsRollupFailure EMF metric on the catch path and this
+# alarm surfaces a persistent failure (which would silently stop the durable
+# history accruing). The namespace/metric/dimension must match those emitted in
+# src/lambda/snapshot.ts.
+resource "aws_cloudwatch_metric_alarm" "snapshot_portal_views_rollup_failed" {
+  alarm_name          = "eufemia-${var.environment}-analytics-snapshot-portal-views-rollup-failed"
+  alarm_description   = "Dashboard snapshot generator failed to refresh the portal-view daily rollup"
+  namespace           = "Eufemia/Analytics"
+  metric_name         = "PortalViewsRollupFailure"
   dimensions          = { FunctionName = aws_lambda_function.snapshot.function_name }
   statistic           = "Sum"
   period              = 3600

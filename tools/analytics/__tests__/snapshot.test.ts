@@ -3,6 +3,7 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 const {
   send,
   retrievePortalViews,
+  aggregatePortalViewsRaw,
   aggregateMcpUsageRaw,
   retrieveMcpUsageDaily,
   aggregateComponentUsageRaw,
@@ -10,6 +11,7 @@ const {
 } = vi.hoisted(() => ({
   send: vi.fn(),
   retrievePortalViews: vi.fn(),
+  aggregatePortalViewsRaw: vi.fn(),
   aggregateMcpUsageRaw: vi.fn(),
   retrieveMcpUsageDaily: vi.fn(),
   aggregateComponentUsageRaw: vi.fn(),
@@ -38,6 +40,7 @@ vi.mock('@aws-sdk/client-s3', () => ({
 
 vi.mock('../src/lambda/retrieve.js', () => ({
   retrievePortalViews,
+  aggregatePortalViewsRaw,
   aggregateMcpUsageRaw,
   retrieveMcpUsageDaily,
   aggregateComponentUsageRaw,
@@ -46,7 +49,10 @@ vi.mock('../src/lambda/retrieve.js', () => ({
 
 import { buildComponentUsage, handler } from '../src/lambda/snapshot.js'
 
-type Command = { kind: 'get' | 'put'; input: Record<string, unknown> }
+type Command = {
+  kind: 'get' | 'put'
+  input: Record<string, unknown>
+}
 
 function putCalls() {
   return send.mock.calls.filter(
@@ -62,11 +68,13 @@ let errorSpy: ReturnType<typeof vi.spyOn>
 beforeEach(() => {
   send.mockReset()
   retrievePortalViews.mockReset()
+  aggregatePortalViewsRaw.mockReset()
   aggregateMcpUsageRaw.mockReset()
   retrieveMcpUsageDaily.mockReset()
   aggregateComponentUsageRaw.mockReset()
   retrieveComponentUsageDaily.mockReset()
   send.mockResolvedValue({})
+  aggregatePortalViewsRaw.mockResolvedValue([])
   aggregateMcpUsageRaw.mockResolvedValue([])
   retrieveMcpUsageDaily.mockResolvedValue([])
   aggregateComponentUsageRaw.mockResolvedValue([])
@@ -101,11 +109,102 @@ describe('snapshot generator handler', () => {
     expect(result.generatedAt).toEqual(expect.any(String))
   })
 
+  it('writes the recomputed page-view aggregates to the durable daily rollup prefix', async () => {
+    retrievePortalViews.mockResolvedValue([])
+    aggregatePortalViewsRaw.mockResolvedValue([
+      {
+        dt: '2026-09-20',
+        path: '/',
+        env: 'prod',
+        status: 'ok',
+        locale: 'en-GB',
+        theme: 'ui',
+        color_scheme: 'dark',
+        referrer: 'search',
+        via_search: 'yes',
+        count: 3,
+      },
+    ])
+
+    await handler()
+
+    expect(aggregatePortalViewsRaw).toHaveBeenCalledWith(
+      expect.stringMatching(/^\d{4}-\d{2}-\d{2}$/)
+    )
+
+    const dailyPut = putCalls().find((call) =>
+      String((call[0] as Command).input.Key).startsWith(
+        'portal-views-daily/'
+      )
+    )
+    expect(dailyPut).toBeDefined()
+    expect((dailyPut![0] as Command).input.Key).toBe(
+      'portal-views-daily/dt=2026-09-20/agg.json'
+    )
+  })
+
+  it('backfills from an explicit sinceDt on the invocation event', async () => {
+    retrievePortalViews.mockResolvedValue([])
+
+    await handler({ sinceDt: '2024-01-01' })
+
+    expect(aggregatePortalViewsRaw).toHaveBeenCalledWith('2024-01-01')
+  })
+
+  it('recomputes only the recent tail on a scheduled run (no sinceDt)', async () => {
+    retrievePortalViews.mockResolvedValue([])
+
+    const expectedTail = new Date()
+    expectedTail.setUTCDate(expectedTail.getUTCDate() - 6)
+    const expectedSince = expectedTail.toISOString().slice(0, 10)
+
+    await handler()
+
+    expect(aggregatePortalViewsRaw).toHaveBeenCalledWith(expectedSince)
+    expect(aggregatePortalViewsRaw).not.toHaveBeenCalledWith('2024-01-01')
+  })
+
+  it('still writes the snapshot when the rollup refresh fails', async () => {
+    retrievePortalViews.mockResolvedValue([
+      { path: '/', env: 'prod', timestamp: 't' },
+    ])
+    aggregatePortalViewsRaw.mockRejectedValue(new Error('athena boom'))
+
+    await handler()
+
+    const snapshotPut = putCalls().find(
+      (call) =>
+        (call[0] as Command).input.Key === 'snapshots/dashboard.json'
+    )
+    expect(snapshotPut).toBeDefined()
+    expect(errorSpy).toHaveBeenCalled()
+
+    const failureMetric = logSpy.mock.calls
+      .map((call: unknown[]) => call[0])
+      .map((line: unknown) => {
+        try {
+          return JSON.parse(line as string) as Record<string, unknown>
+        } catch {
+          return null
+        }
+      })
+      .find(
+        (entry: Record<string, unknown> | null) =>
+          entry?.PortalViewsRollupFailure === 1
+      )
+    expect(failureMetric).toBeDefined()
+  })
+
   it('propagates a query failure so the schedule surfaces the error', async () => {
     retrievePortalViews.mockRejectedValue(new Error('athena boom'))
 
     await expect(handler()).rejects.toThrow('athena boom')
-    expect(putCalls()).toHaveLength(0)
+    expect(
+      putCalls().find(
+        (call) =>
+          (call[0] as Command).input.Key === 'snapshots/dashboard.json'
+      )
+    ).toBeUndefined()
   })
 
   it('throws when DATA_BUCKET is not set', async () => {
