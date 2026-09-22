@@ -40,6 +40,38 @@ describe('analytics infrastructure', () => {
     expect(timeout).toBeGreaterThanOrEqual(90)
   })
 
+  it('notifies an SNS topic from every snapshot alarm, with an optional email subscription', () => {
+    expect(terraform).toContain(
+      'resource "aws_sns_topic" "snapshot_alerts"'
+    )
+
+    const subscription = terraform.match(
+      /resource \"aws_sns_topic_subscription\" \"snapshot_alerts_email\" \{[\s\S]*?^\}/m
+    )?.[0]
+    expect(subscription).toContain(
+      'count     = var.snapshot_alert_email != "" ? 1 : 0'
+    )
+    expect(subscription).toContain('protocol  = "email"')
+
+    for (const alarm of [
+      'snapshot_errors',
+      'snapshot_not_running',
+      'snapshot_empty',
+      'snapshot_mcp_build_failed',
+      'snapshot_component_usage_build_failed',
+    ]) {
+      const block = terraform.match(
+        new RegExp(
+          `resource "aws_cloudwatch_metric_alarm" "${alarm}" \\{[\\s\\S]*?^\\}`,
+          'm'
+        )
+      )?.[0]
+      expect(block, `${alarm} alarm block`).toContain(
+        'alarm_actions       = [aws_sns_topic.snapshot_alerts.arn]'
+      )
+    }
+  })
+
   it('expires raw component-usage objects on the component-usage/ prefix', () => {
     const rawUsageRule = terraform.match(
       /rule \{[\s\S]*?id\s+= "expire-component-usage-raw"[\s\S]*?^  \}/m

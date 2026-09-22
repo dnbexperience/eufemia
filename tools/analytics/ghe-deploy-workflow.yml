@@ -55,6 +55,7 @@ jobs:
           TF_VAR_entra_client_id: ${{ vars.ENTRA_CLIENT_ID }}
           TF_VAR_entra_tenant_id: ${{ vars.ENTRA_TENANT_ID }}
           TF_VAR_dashboard_public_url: ${{ vars.DASHBOARD_PUBLIC_URL }}
+          TF_VAR_snapshot_alert_email: ${{ vars.SNAPSHOT_ALERT_EMAIL }}
         run: |
           set -euo pipefail
           cd infra
