@@ -1,4 +1,5 @@
 import {
+  assertModesAreExported,
   convertVariablesToTokens,
   extractTokens,
   TOKEN_EXPORTS,
@@ -241,8 +242,12 @@ describe('convertVariablesToTokens', () => {
     })
   })
 
-  it('uses the default mode when no mode is given', () => {
-    const tokens = convertVariablesToTokens({ meta, collection: 'colors' })
+  it('converts a single mode collection', () => {
+    const tokens = convertVariablesToTokens({
+      meta,
+      collection: 'colors',
+      mode: 'color',
+    })
 
     expect(tokens).toMatchObject({
       dnb: {
@@ -261,18 +266,24 @@ describe('convertVariablesToTokens', () => {
 
   it('throws when the collection is unknown', () => {
     expect(() =>
-      convertVariablesToTokens({ meta, collection: 'spacing' })
+      convertVariablesToTokens({
+        meta,
+        collection: 'spacing',
+        mode: 'spacing',
+      })
     ).toThrow('Expected exactly one Figma variable collection named')
   })
 
-  it('throws when the mode is unknown', () => {
+  it('names the available modes when the mode is unknown', () => {
     expect(() =>
       convertVariablesToTokens({
         meta,
         collection: 'brand',
         mode: 'dnbcarnegie-dark',
       })
-    ).toThrow('has no mode named "dnbcarnegie-dark"')
+    ).toThrow(
+      'has no mode named "dnbcarnegie-dark", only: dnb-light, dnb-dark'
+    )
   })
 
   it('throws when an alias points outside of the response', () => {
@@ -294,6 +305,33 @@ describe('convertVariablesToTokens', () => {
         mode: 'dnb-light',
       })
     ).toThrow('points to a variable that is not part of the response')
+  })
+})
+
+describe('assertModesAreExported', () => {
+  it('passes when Figma has no mode beyond the exported ones', () => {
+    expect(() => assertModesAreExported(meta)).not.toThrow()
+  })
+
+  it('throws when Figma has a mode that is not exported', () => {
+    expect(() =>
+      assertModesAreExported({
+        ...meta,
+        variableCollections: {
+          ...meta.variableCollections,
+          'VariableCollectionId:1:1': {
+            ...meta.variableCollections['VariableCollectionId:1:1'],
+            modes: [
+              ...meta.variableCollections['VariableCollectionId:1:1']
+                .modes,
+              { modeId: '1:5', name: 'dnbcarnegie-dark' },
+            ],
+          },
+        },
+      })
+    ).toThrow(
+      'The Figma variable collection "brand" has modes that are not exported: dnbcarnegie-dark'
+    )
   })
 })
 
@@ -452,27 +490,24 @@ describe('the committed Figma exports', () => {
     return meta
   }
 
-  it.each(TOKEN_EXPORTS)(
-    'reproduces $fileName',
-    ({ fileName, mode = 'color' }) => {
-      const file = path.resolve(
-        __dirname,
-        '../../../src/style/themes/figma',
-        fileName
-      )
-      const tokens = JSON.parse(readFileSync(file, 'utf-8'))
+  it.each(TOKEN_EXPORTS)('reproduces $fileName', ({ fileName, mode }) => {
+    const file = path.resolve(
+      __dirname,
+      '../../../src/style/themes/figma',
+      fileName
+    )
+    const tokens = JSON.parse(readFileSync(file, 'utf-8'))
 
-      expect(
-        JSON.stringify(
-          convertVariablesToTokens({
-            meta: toLocalVariables(tokens, mode),
-            collection: 'exported',
-            mode,
-          }),
-          null,
-          2
-        )
-      ).toBe(JSON.stringify(tokens, null, 2))
-    }
-  )
+    expect(
+      JSON.stringify(
+        convertVariablesToTokens({
+          meta: toLocalVariables(tokens, mode),
+          collection: 'exported',
+          mode,
+        }),
+        null,
+        2
+      )
+    ).toBe(JSON.stringify(tokens, null, 2))
+  })
 })

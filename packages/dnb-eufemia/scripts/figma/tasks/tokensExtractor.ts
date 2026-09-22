@@ -108,14 +108,15 @@ export type TokenExport = {
 
 /**
  * Which Figma collection and mode ends up in which file, relative to
- * `src/style/themes/figma`. A mode is only needed for multi mode collections.
+ * `src/style/themes/figma`. Every mode of these collections has to be listed,
+ * so a mode added in Figma cannot pass unnoticed.
  */
 export const TOKEN_EXPORTS: ReadonlyArray<{
   collection: string
-  mode?: string
+  mode: string
   fileName: string
 }> = [
-  { collection: 'colors', fileName: 'color.tokens.json' },
+  { collection: 'colors', mode: 'color', fileName: 'color.tokens.json' },
   {
     collection: 'brand',
     mode: 'dnb-light',
@@ -209,23 +210,46 @@ const findCollection = (
   return collections[0]
 }
 
-const findModeId = (
-  collection: FigmaVariableCollection,
-  name?: string
-) => {
-  if (!name) {
-    return collection.defaultModeId
-  }
-
+const findModeId = (collection: FigmaVariableCollection, name: string) => {
   const mode = collection.modes.find((mode) => mode.name === name)
 
   if (!mode) {
     throw new Error(
-      `The Figma variable collection "${collection.name}" has no mode named "${name}"`
+      `The Figma variable collection "${collection.name}" has no mode named "${name}", only: ${collection.modes
+        .map((mode) => mode.name)
+        .join(', ')}`
     )
   }
 
   return mode.modeId
+}
+
+/**
+ * A mode added in Figma would otherwise never reach the library, because
+ * nothing outside of Figma shows that it exists.
+ */
+export const assertModesAreExported = (meta: FigmaLocalVariables) => {
+  const collectionNames = Array.from(
+    new Set(TOKEN_EXPORTS.map(({ collection }) => collection))
+  )
+
+  for (const collectionName of collectionNames) {
+    const exported = TOKEN_EXPORTS.filter(
+      ({ collection }) => collection === collectionName
+    ).map(({ mode }) => mode)
+
+    const missing = findCollection(meta, collectionName)
+      .modes.map((mode) => mode.name)
+      .filter((name) => !exported.includes(name))
+
+    if (missing.length) {
+      throw new Error(
+        `The Figma variable collection "${collectionName}" has modes that are not exported: ${missing.join(
+          ', '
+        )}. Add them to TOKEN_EXPORTS and to the token files in makePropertiesFile.ts.`
+      )
+    }
+  }
 }
 
 /**
@@ -400,7 +424,7 @@ export const convertVariablesToTokens = ({
 }: {
   meta: FigmaLocalVariables
   collection: string
-  mode?: string
+  mode: string
 }): TokenExport => {
   const collection = findCollection(meta, collectionName)
   const modeId = findModeId(collection, modeName)
@@ -468,6 +492,9 @@ export const extractTokens = async ({
   }
 
   const meta = await fetchLocalVariables(figmaFile)
+
+  assertModesAreExported(meta)
+
   const files: string[] = []
 
   for (const { collection, mode, fileName } of TOKEN_EXPORTS) {
@@ -477,9 +504,7 @@ export const extractTokens = async ({
       tokens = convertVariablesToTokens({ meta, collection, mode })
     } catch (e) {
       throw new Error(
-        `Failed to convert the Figma collection "${collection}"${
-          mode ? ` (mode "${mode}")` : ''
-        } into ${fileName}`,
+        `Failed to convert the Figma collection "${collection}" (mode "${mode}") into ${fileName}`,
         { cause: e }
       )
     }

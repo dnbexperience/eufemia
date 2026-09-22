@@ -30,6 +30,8 @@ It reads the Figma variables with the [variables REST API](https://developers.fi
 
 Review the token values, removals and visual snapshots before marking the pull request as ready.
 
+Every mode of the exported collections has to be listed in `TOKEN_EXPORTS` (`packages/dnb-eufemia/scripts/figma/tasks/tokensExtractor.ts`). If a mode is added in Figma, the workflow fails until the mode is added there and to the token files in `makePropertiesFile.ts`, so a new mode cannot go unnoticed.
+
 The workflow needs the repository secrets `FIGMA_TOKEN` (a personal access token with the `file_variables:read` scope) and `FIGMA_TOKENS_FILE` (the key of the "💻 Eufemia - Web" file). The Figma variables API is only available to Enterprise organizations.
 
 ### 2. Exporting design tokens manually
