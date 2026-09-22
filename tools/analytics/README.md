@@ -102,11 +102,11 @@ For the same reason, an admin must pre-create the read-only dashboard-read execu
 
 > **Note:** the snapshot generator refreshes the durable `portal_views_daily` rollup each run for retention, but the dashboard does not read it yet — it still shows the recent raw page-view rows. Surfacing the retained history (and its dimensions) on the dashboard is a follow-up; the rollup exists now so the history is preserved before the raw rows begin to expire. Scheduled runs recompute only the recent tail; to capture page-views recorded before this rollup existed, run the generator once with an explicit start date (writes are idempotent per day):
 >
-> ```sh
+> ````sh
 > aws lambda invoke --function-name eufemia-<env>-analytics-snapshot \
 >   --payload '{"sinceDt":"2024-01-01"}' --cli-binary-format raw-in-base64-out /dev/stdout
-> ```
->
+> ```>
+> The rollup refresh is best-effort, so the invoke returns a normal snapshot result even if the backfill failed — check the run logs or the `PortalViewsRollupFailure` metric, not the invoke exit, and re-run if needed. If the full-history pass is too large for one invocation (90s / 256 MB), run it with progressively earlier `sinceDt` values (each re-scans to today; idempotent per day).>
 > Because nothing reads the rollup back in-app yet, sanity-check that the retained history is queryable with an ad-hoc Athena query against the workgroup, e.g. year-over-year page views by month:
 >
 > ```sql
@@ -114,7 +114,7 @@ For the same reason, an admin must pre-create the read-only dashboard-read execu
 > FROM portal_views_daily
 > GROUP BY substr(dt, 1, 7)
 > ORDER BY month;
-> ```
+> ````
 >
 > Swap `sum(count)` groupings for any retained dimension (`locale`, `theme`, `color_scheme`, `referrer`, `via_search`, `status`, `path`, `env`) to inspect its history.
 
