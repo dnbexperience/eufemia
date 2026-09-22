@@ -623,6 +623,36 @@ describe('Modal component', () => {
     )
   })
 
+  it('removes the active state when resolving a focus target throws', () => {
+    const restoreFocusTo = vi.fn(() => {
+      throw new Error('Could not resolve focus target')
+    })
+
+    render(
+      <Modal noAnimation restoreFocusTo={restoreFocusTo}>
+        <DialogContent />
+      </Modal>
+    )
+
+    const trigger = document.querySelector(
+      'button.dnb-modal__trigger'
+    ) as HTMLButtonElement
+    fireEvent.click(trigger)
+    expect(document.documentElement).toHaveAttribute(
+      'data-dnb-modal-active'
+    )
+
+    fireEvent.keyDown(document.querySelector('div.dnb-dialog'), {
+      key: 'Escape',
+    })
+
+    expect(restoreFocusTo).toHaveBeenCalledTimes(1)
+    expect(document.documentElement).not.toHaveAttribute(
+      'data-dnb-modal-active'
+    )
+    expect(document.activeElement).toBe(trigger)
+  })
+
   it('does not restore focus when restoreFocus is false', () => {
     render(
       <Modal noAnimation restoreFocus={false}>

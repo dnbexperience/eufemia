@@ -224,10 +224,16 @@ function ModalComponent(ownProps: ModalAllProps) {
         }
 
         if (restoreFocus) {
-          const explicitTarget =
-            typeof restoreFocusTo === 'function'
-              ? restoreFocusTo()
-              : getRefElement(restoreFocusTo || null)
+          let explicitTarget: HTMLElement | null = null
+          try {
+            explicitTarget =
+              typeof restoreFocusTo === 'function'
+                ? restoreFocusTo()
+                : getRefElement(restoreFocusTo || null)
+          } catch (e) {
+            //
+          }
+
           const target = [
             explicitTarget,
             triggerRef.current,
