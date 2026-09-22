@@ -140,8 +140,19 @@ export const useStickyHeader = ({
           }
         }
 
+        // the scroll target can change, because a scrollbar may appear first on a resize
+        const bindScroll = () => {
+          const target = scrollViewElem || document
+          if (target !== scrollTargetElem) {
+            scrollTargetElem?.removeEventListener('scroll', onScroll)
+            scrollTargetElem = target
+            scrollTargetElem.addEventListener('scroll', onScroll)
+          }
+        }
+
         const onResize = () => {
           setSizes()
+          bindScroll()
           onScroll()
         }
 
@@ -154,8 +165,7 @@ export const useStickyHeader = ({
 
             setSizes()
 
-            scrollTargetElem = scrollViewElem || document
-            scrollTargetElem.addEventListener('scroll', onScroll)
+            bindScroll()
             window.addEventListener('resize', onResize)
           } catch (e) {
             stickyWarning(String(e))

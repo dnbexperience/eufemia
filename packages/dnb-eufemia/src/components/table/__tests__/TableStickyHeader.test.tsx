@@ -368,6 +368,34 @@ describe('useStickyHeader', () => {
     )
   })
 
+  it('should follow the scroll view when a scrollbar appears on resize', () => {
+    render(
+      <Table.ScrollView>
+        <Table sticky>
+          <BasicTable />
+        </Table>
+      </Table.ScrollView>
+    )
+
+    const trElem: HTMLElement = document.querySelector('tr')
+    const scrollElem: HTMLElement =
+      document.querySelector('.dnb-scroll-view')
+
+    vi.spyOn(scrollElem, 'scrollHeight', 'get').mockReturnValue(100)
+    vi.spyOn(scrollElem, 'offsetHeight', 'get').mockReturnValue(100)
+
+    setSizes()
+
+    // the scroll view overflows first after a resize
+    vi.spyOn(scrollElem, 'scrollHeight', 'get').mockReturnValue(1000)
+    fireEvent.resize(window)
+
+    simulateScroll(320, scrollElem)
+    expect(trElem.style.getPropertyValue('--table-offset')).toEqual(
+      '320px'
+    )
+  })
+
   it('should stop listening on the scroll view when unmounted', () => {
     const { unmount } = render(
       <div className="dnb-modal__content">
