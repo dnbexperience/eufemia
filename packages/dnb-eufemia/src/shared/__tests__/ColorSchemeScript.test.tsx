@@ -249,5 +249,18 @@ describe('ColorSchemeScript', () => {
       expect(script.getAttribute('scopehash')).toBeNull()
       expect(script.textContent).toContain("classList.add('test-scope')")
     })
+
+    it('keeps the script content when a caller passes their own', () => {
+      const html = renderToStaticMarkup(
+        <ColorSchemeHeadScript
+          {...({
+            dangerouslySetInnerHTML: { __html: 'alert(1)' },
+          } as never)}
+        />
+      )
+
+      expect(html).not.toContain('alert(1)')
+      expect(html).toContain("localStorage.getItem('eufemia-theme')")
+    })
   })
 })
