@@ -308,10 +308,11 @@ describe('Table scss', () => {
   it('should stack the outline above the sticky header, but below the accordion outline', () => {
     const css = loadScss(require.resolve('../style/deps.scss')) as string
 
+    // a rule may declare z-index more than once, and the last one wins
     const lastZIndexOf = (ruleStart: string) => {
       const rule = css.split(`\n${ruleStart}`)[1].split('}')[0]
-      const declarations = [...rule.matchAll(/z-index: (\d+);/g)]
-      return Number(declarations[declarations.length - 1][1])
+      const values = rule.split('z-index: ')
+      return parseFloat(values[values.length - 1])
     }
 
     const outline = lastZIndexOf('.dnb-table--outline::after {')
