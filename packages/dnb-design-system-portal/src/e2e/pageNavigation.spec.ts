@@ -1,6 +1,37 @@
 import { test, expect } from '@playwright/test'
+import type { ConsoleMessage, Page } from '@playwright/test'
 import isDev from './shared/isDev'
 import waitForApp from './shared/waitForApp'
+
+function captureConsoleErrors(page: Page) {
+  const errors: Array<Promise<string[]>> = []
+  page.on('console', (message) => {
+    if (message.type() === 'error') {
+      errors.push(readConsoleMessage(message))
+    }
+  })
+
+  return async () => (await Promise.all(errors)).flat()
+}
+
+async function readConsoleMessage(message: ConsoleMessage) {
+  const args = message.args()
+  if (args.length === 0) {
+    return [message.text()]
+  }
+
+  return Promise.all(
+    args.map(async (argument) => {
+      try {
+        return await argument.evaluate((value) =>
+          value instanceof Error ? value.message : String(value)
+        )
+      } catch {
+        return message.text()
+      }
+    })
+  )
+}
 
 test.describe('Page Navigation', () => {
   test.describe('without JavaScript', () => {
@@ -135,19 +166,16 @@ test.describe('Page Navigation', () => {
     test('hydrates a Portal page without recoverable errors', async ({
       page,
     }) => {
-      const errors: string[] = []
-      page.on('console', (message) => {
-        if (message.type() === 'error') {
-          errors.push(message.text())
-        }
-      })
+      const getConsoleErrors = captureConsoleErrors(page)
 
       await page.goto('/uilib/components/button/')
       await waitForApp(page)
 
-      expect(errors.filter((message) => message.includes('#418'))).toEqual(
-        []
-      )
+      expect(
+        (await getConsoleErrors()).filter((message) =>
+          message.includes('#418')
+        )
+      ).toEqual([])
     })
 
     test('should contain a Suggest an edit link', async ({ page }) => {

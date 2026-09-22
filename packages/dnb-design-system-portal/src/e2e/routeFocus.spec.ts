@@ -45,8 +45,7 @@ test.describe('Route Focus', () => {
     await waitForApp(page)
 
     await page
-      .locator('a[href="/uilib/components/accordion"]')
-      .first()
+      .locator('.dnb-app-content a[href="/uilib/components/accordion"]')
       .click()
 
     await expect(page).toHaveURL('/uilib/components/accordion')
