@@ -84,7 +84,7 @@ jobs:
         run: yarn workspace @dnb/eufemia prebuild:figma:tokens:ci
         env:
           FIGMA_TOKEN: ${{ secrets.FIGMA_TOKEN }}
-          FIGMA_TOKENS_FILE: ${{ secrets.FIGMA_TOKENS_FILE }}
+          FIGMA_TOKENS_FILE: ${{ vars.FIGMA_TOKENS_FILE }}
 
       - name: Detect design token changes
         id: changes
