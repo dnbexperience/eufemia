@@ -77,9 +77,8 @@ export const useStickyHeader = ({
               hasScrollbar =
                 scrollElem.scrollHeight - 1 > scrollElem.offsetHeight
 
-              if (hasScrollbar) {
-                scrollViewElem = scrollElem
-              }
+              // without a scrollbar the page scrolls, not the scroll view
+              scrollViewElem = hasScrollbar ? scrollElem : null
             }
           }
 
