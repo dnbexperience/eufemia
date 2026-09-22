@@ -42,8 +42,9 @@ jobs:
           branch="icons/automation-figma-sync"
           echo "branch=$branch" >> "$GITHUB_OUTPUT"
 
-      - name: Check for an open icon update pull request
+      - name: Find an open icon update pull request
         if: github.event_name == 'workflow_dispatch'
+        id: existing-pr
         env:
           BRANCH: ${{ steps.manual-branch.outputs.branch }}
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
@@ -55,16 +56,18 @@ jobs:
             --json url \
             --jq '.[0].url // empty')
           if [ -n "$url" ]; then
-            echo "Review or close the existing icon update pull request before starting another sync: $url" >&2
-            exit 1
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+            echo "An icon update pull request is already open: $url" >> "$GITHUB_STEP_SUMMARY"
           fi
 
       - name: Setup dependencies
+        if: steps.existing-pr.outputs.exists != 'true'
         uses: ./.github/actions/setup
         with:
           cache-version: ${{ secrets.CACHE_VERSION }}
 
       - name: Use Playwright cache
+        if: steps.existing-pr.outputs.exists != 'true'
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         id: playwright-cache
         with:
@@ -75,12 +78,17 @@ jobs:
           key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-playwright-${{ hashFiles('**/yarn.lock') }}
       - name: Install Playwright browsers
         run: yarn workspace @dnb/eufemia playwright install --with-deps firefox
-        if: steps.playwright-cache.outputs.cache-hit != 'true'
+        if: >-
+          steps.existing-pr.outputs.exists != 'true' &&
+          steps.playwright-cache.outputs.cache-hit != 'true'
       - name: Install Playwright dependencies
         run: yarn workspace @dnb/eufemia playwright install-deps firefox
-        if: steps.playwright-cache.outputs.cache-hit == 'true'
+        if: >-
+          steps.existing-pr.outputs.exists != 'true' &&
+          steps.playwright-cache.outputs.cache-hit == 'true'
 
       - name: Icons fetch and prebuild
+        if: steps.existing-pr.outputs.exists != 'true'
         run: yarn workspace @dnb/eufemia prebuild:figma:ci
         env:
           BRANCH: ${{ steps.manual-branch.outputs.branch || github.ref_name }}
@@ -88,6 +96,7 @@ jobs:
           FIGMA_ICONS_FILE: ${{ secrets.FIGMA_ICONS_FILE }}
 
       - name: Detect icon changes
+        if: steps.existing-pr.outputs.exists != 'true'
         id: changes
         run: |
           if [ -z "$(git status --porcelain)" ]; then
