@@ -367,6 +367,41 @@ describe('useStickyHeader', () => {
       '200px'
     )
   })
+
+  it('should stop listening on the scroll view when unmounted', () => {
+    const { unmount } = render(
+      <div className="dnb-modal__content">
+        <div className="dnb-modal__header__bar">bar</div>
+        <div className="dnb-scroll-view">
+          <Table sticky>
+            <BasicTable />
+          </Table>
+        </div>
+      </div>
+    )
+
+    const trElem: HTMLElement = document.querySelector('tr')
+    const barElem: HTMLElement = document.querySelector(
+      '.dnb-modal__header__bar'
+    )
+    const scrollElem: HTMLElement =
+      document.querySelector('.dnb-scroll-view')
+
+    vi.spyOn(barElem, 'offsetHeight', 'get').mockReturnValue(40)
+
+    setSizes()
+
+    simulateScroll(320, scrollElem)
+    expect(trElem.style.getPropertyValue('--table-offset')).toEqual(
+      '200px'
+    )
+
+    unmount()
+    trElem.style.removeProperty('--table-offset')
+
+    simulateScroll(320, scrollElem)
+    expect(trElem.style.getPropertyValue('--table-offset')).toEqual('')
+  })
 })
 
 describe('Table aria', () => {

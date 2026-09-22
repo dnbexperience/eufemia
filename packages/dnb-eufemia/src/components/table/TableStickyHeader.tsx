@@ -32,6 +32,7 @@ export const useStickyHeader = ({
       let totalOffset = 0
       let hasScrollbar = null
       let scrollViewElem = null
+      let scrollTargetElem: HTMLElement | Document = null
       let timeout: NodeJS.Timeout = null
 
       try {
@@ -153,8 +154,8 @@ export const useStickyHeader = ({
 
             setSizes()
 
-            const scrollElem = scrollViewElem || document
-            scrollElem.addEventListener('scroll', onScroll)
+            scrollTargetElem = scrollViewElem || document
+            scrollTargetElem.addEventListener('scroll', onScroll)
             window.addEventListener('resize', onResize)
           } catch (e) {
             stickyWarning(String(e))
@@ -165,7 +166,7 @@ export const useStickyHeader = ({
 
         return () => {
           clearTimeout(timeout)
-          document.removeEventListener('scroll', onScroll)
+          scrollTargetElem?.removeEventListener('scroll', onScroll)
           window.removeEventListener('resize', onResize)
         }
       } catch (e) {
