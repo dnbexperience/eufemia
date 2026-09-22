@@ -797,8 +797,9 @@ resource "aws_lambda_permission" "snapshot_events" {
 # Notification target for the alarms below. Same-account CloudWatch alarms can
 # publish to a topic under its default access policy, so no extra topic policy
 # is needed. The email subscription is optional (snapshot_alert_email empty
-# skips it) so the topic can ship before an owner is chosen; a subscriber added
-# later (email or an HTTPS Slack webhook) just needs its own
+# skips it) so the topic can ship before an owner is chosen; a different target
+# (e.g. Slack via AWS Chatbot or a formatting Lambda — a raw incoming webhook
+# can't complete the SNS subscription handshake) just needs its own
 # aws_sns_topic_subscription pointed at this topic — alarm_actions never change.
 resource "aws_sns_topic" "snapshot_alerts" {
   name = "eufemia-${var.environment}-analytics-snapshot-alerts"
