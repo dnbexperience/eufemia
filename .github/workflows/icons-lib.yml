@@ -57,17 +57,27 @@ jobs:
             --jq '.[0].url // empty')
           if [ -n "$url" ]; then
             echo "exists=true" >> "$GITHUB_OUTPUT"
+            echo "url=$url" >> "$GITHUB_OUTPUT"
             echo "An icon update pull request is already open: $url" >> "$GITHUB_STEP_SUMMARY"
           fi
 
+      - name: Check out the existing icon update branch
+        if: steps.existing-pr.outputs.exists == 'true'
+        env:
+          BRANCH: ${{ steps.manual-branch.outputs.branch }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: |
+          gh auth setup-git
+          git fetch origin "refs/heads/$BRANCH:refs/remotes/origin/$BRANCH"
+          git switch -C "$BRANCH" "origin/$BRANCH"
+          git rebase origin/main
+
       - name: Setup dependencies
-        if: steps.existing-pr.outputs.exists != 'true'
         uses: ./.github/actions/setup
         with:
           cache-version: ${{ secrets.CACHE_VERSION }}
 
       - name: Use Playwright cache
-        if: steps.existing-pr.outputs.exists != 'true'
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         id: playwright-cache
         with:
@@ -78,17 +88,12 @@ jobs:
           key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-playwright-${{ hashFiles('**/yarn.lock') }}
       - name: Install Playwright browsers
         run: yarn workspace @dnb/eufemia playwright install --with-deps firefox
-        if: >-
-          steps.existing-pr.outputs.exists != 'true' &&
-          steps.playwright-cache.outputs.cache-hit != 'true'
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
       - name: Install Playwright dependencies
         run: yarn workspace @dnb/eufemia playwright install-deps firefox
-        if: >-
-          steps.existing-pr.outputs.exists != 'true' &&
-          steps.playwright-cache.outputs.cache-hit == 'true'
+        if: steps.playwright-cache.outputs.cache-hit == 'true'
 
       - name: Icons fetch and prebuild
-        if: steps.existing-pr.outputs.exists != 'true'
         run: yarn workspace @dnb/eufemia prebuild:figma:ci
         env:
           BRANCH: ${{ steps.manual-branch.outputs.branch || github.ref_name }}
@@ -96,7 +101,6 @@ jobs:
           FIGMA_ICONS_FILE: ${{ secrets.FIGMA_ICONS_FILE }}
 
       - name: Detect icon changes
-        if: steps.existing-pr.outputs.exists != 'true'
         id: changes
         run: |
           if [ -z "$(git status --porcelain)" ]; then
@@ -149,7 +153,9 @@ jobs:
           gh auth setup-git
           remote_sha=$(git ls-remote --heads origin "refs/heads/$BRANCH" | cut -f1)
 
-          git switch -c "$BRANCH"
+          if [ "$EXISTING_PR" != true ]; then
+            git switch -c "$BRANCH"
+          fi
           git config user.name "$GH_NAME"
           git config user.email "$GH_EMAIL"
           git add \
@@ -170,6 +176,7 @@ jobs:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
           GH_NAME: ${{ secrets.GH_NAME }}
           GH_EMAIL: ${{ secrets.GH_EMAIL }}
+          EXISTING_PR: ${{ steps.existing-pr.outputs.exists }}
 
       - name: Create draft icon update pull request
         if: >-
@@ -179,6 +186,8 @@ jobs:
         env:
           BRANCH: ${{ steps.manual-branch.outputs.branch }}
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          EXISTING_PR: ${{ steps.existing-pr.outputs.exists }}
+          PR_URL: ${{ steps.existing-pr.outputs.url }}
         run: |
           icon_names() {
             git diff --name-only "origin/main...HEAD" --diff-filter="$1" \
@@ -226,13 +235,20 @@ jobs:
             echo ""
             echo "Review names, tags, removals, changelog and visual snapshots before marking the pull request ready."
           } >> "$GITHUB_STEP_SUMMARY"
-          gh pr create \
-            --base main \
-            --head "$BRANCH" \
-            --title "$title" \
-            --body "$body" \
-            --draft
-
+          if [ "$EXISTING_PR" = true ]; then
+            gh pr edit "$PR_URL" --title "$title"
+            is_draft=$(gh pr view "$PR_URL" --json isDraft --jq '.isDraft')
+            if [ "$is_draft" != true ]; then
+              gh pr ready "$PR_URL" --undo
+            fi
+          else
+            gh pr create \
+              --base main \
+              --head "$BRANCH" \
+              --title "$title" \
+              --body "$body" \
+              --draft
+          fi
       - name: Report no icon changes
         if: steps.changes.outputs.changed == 'false'
         run: echo "Figma and the Eufemia icon library are already synchronized."
