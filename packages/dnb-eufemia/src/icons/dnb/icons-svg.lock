@@ -6841,27 +6841,27 @@
     "iconName": "candle_stick_medium",
     "name": "candle_stick",
     "category": "products",
-    "url": "https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/dfe7f2c5-5e04-4266-a830-585259597a8e",
-    "id": "6036:6",
+    "url": "https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/53a751e0-9698-4910-b0a7-982c7e8f2d65",
+    "id": "6068:48",
     "slug": "878548076e6ef92a3736f0e3597fb7be",
     "size": "24",
     "variant": "secondary",
     "bundleName": "secondary_icons_medium",
     "created": 1685609797988,
-    "updated": 1789996678605
+    "updated": 1790076159793
   },
   "candle_stick.svg": {
     "iconName": "candle_stick",
     "name": "candle_stick",
     "category": "products",
-    "url": "https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/564c999b-7c90-4603-9a03-49b75a36f636",
-    "id": "6036:9",
+    "url": "https://figma-alpha-api.s3.us-west-2.amazonaws.com/images/9375b7d2-532d-4ee4-9f1f-abc25aa14c51",
+    "id": "6068:51",
     "slug": "878548076e6ef92a3736f0e3597fb7be",
     "size": "16",
     "variant": "secondary",
     "bundleName": "secondary_icons",
     "created": 1685609798254,
-    "updated": 1789996678686
+    "updated": 1790076159870
   },
   "shield_lock_medium.svg": {
     "iconName": "shield_lock_medium",
