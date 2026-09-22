@@ -31,6 +31,8 @@ The design tokens are synchronized from Figma with the "Design Tokens" GitHub Ac
 
 Every mode of the exported collections has to be listed in `TOKEN_EXPORTS` (`packages/dnb-eufemia/scripts/figma/tasks/tokensExtractor.ts`). If a mode is added in Figma, the workflow fails until the mode is added there and to the token files in `makePropertiesFile.ts`, so a new mode cannot go unnoticed.
 
+The workflow writes `color.tokens.json` with only the foundation colors the brand collection actually uses, because the API returns the remote variables used in the file. A manual export contains the whole collection instead, so switching between the two shows up as a large diff in that one file without changing the generated CSS.
+
 The workflow needs the repository secrets `FIGMA_TOKEN` (a personal access token with the `file_variables:read` scope) and `FIGMA_TOKENS_FILE` (the key of the "💻 Eufemia - Web" file). The Figma variables API is only available to Enterprise organizations.
 
 ### 2. Exporting design tokens manually
