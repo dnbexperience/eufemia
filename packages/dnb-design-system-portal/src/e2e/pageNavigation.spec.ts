@@ -52,17 +52,16 @@ async function expectCurrentDocument(page) {
 }
 
 test('home page hydrates without recoverable errors', async ({ page }) => {
-  const errors: string[] = []
-  page.on('console', (message) => {
-    if (message.type() === 'error') {
-      errors.push(message.text())
-    }
-  })
+  const getConsoleErrors = captureConsoleErrors(page)
 
   await page.goto('/')
   await waitForApp(page)
 
-  expect(errors.filter((message) => message.includes('#418'))).toEqual([])
+  expect(
+    (await getConsoleErrors()).filter((message) =>
+      message.includes('#418')
+    )
+  ).toEqual([])
 })
 
 test.describe('Page Navigation', () => {
