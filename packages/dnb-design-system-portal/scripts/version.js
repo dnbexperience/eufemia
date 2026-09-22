@@ -20,7 +20,6 @@ const init = async () => {
   }
 
   await createBuildNewVersion()
-  await createNewChangelogVersion()
   await createReleaseNewVersion()
 }
 
@@ -102,29 +101,4 @@ async function getLatestReleaseTag() {
   })
 
   return tags.split('\n').find((tag) => /^v\d+\.\d+\.\d+$/.test(tag))
-}
-
-async function createNewChangelogVersion() {
-  try {
-    const file = path.resolve(__dirname, '../package.json')
-    const packageJson = await fs.readJson(file)
-    const changelogFilePath = path.resolve(
-      __dirname,
-      '../src/docs/EUFEMIA_CHANGELOG.mdx'
-    )
-    const content = await fs.readFile(changelogFilePath, 'utf-8')
-
-    const changelogVersion = String(/^#+\s(.*)\n/g.exec(content)[0])
-      .replace(/#+/, '')
-      .trim()
-
-    packageJson.changelogVersion = changelogVersion
-
-    // Update the extracted version of package.json with the change log version
-    await fs.writeFile(file, JSON.stringify(packageJson, null, 2))
-  } catch (e) {
-    console.warn(
-      `Failed to create new static version file! \n${e.message}`
-    )
-  }
 }

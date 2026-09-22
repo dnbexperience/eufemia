@@ -115,7 +115,6 @@
     "wrangler": "4.102.0"
   },
   "buildVersion": "[LOCAL BUILD]",
-  "changelogVersion": "[LOCAL BUILD]",
   "releaseVersion": "[LOCAL BUILD]",
   "volta": {
     "extends": "../../package.json"
