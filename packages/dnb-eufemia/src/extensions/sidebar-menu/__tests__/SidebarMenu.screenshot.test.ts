@@ -4,6 +4,8 @@ import {
   setupPageScreenshot,
 } from '../../../core/vitest-screenshots/setupVitestScreenshots'
 
+// The declarative demo persists its open accordions, so these
+// snapshots are only reproducible while storage is reset per test.
 describe.each(['ui', 'sbanken'])('SidebarMenu for %s', (themeName) => {
   setupPageScreenshot({
     themeName,
