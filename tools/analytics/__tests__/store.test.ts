@@ -14,7 +14,7 @@ vi.mock('@aws-sdk/client-s3', () => ({
   },
 }))
 
-import { storePortalViews } from '../src/lambda/store.js'
+import { storePortalViews, storeMcpUsage } from '../src/lambda/store.js'
 
 type PutInput = {
   Bucket: string
@@ -167,6 +167,83 @@ describe('storePortalViews', () => {
     await expect(storePortalViews([{ path: '/a' }])).rejects.toThrow(
       'DATA_BUCKET'
     )
+    expect(send).not.toHaveBeenCalled()
+  })
+})
+
+describe('storeMcpUsage', () => {
+  beforeEach(() => {
+    send.mockReset()
+    send.mockResolvedValue({})
+    process.env.DATA_BUCKET = 'my-bucket'
+  })
+
+  afterEach(() => {
+    delete process.env.DATA_BUCKET
+  })
+
+  it('writes a batch as newline-delimited JSON under a unique mcp-usage key', async () => {
+    const count = await storeMcpUsage(
+      [
+        { tool: 'docs_entry' },
+        { tool: 'component_doc', component: 'Button' },
+      ],
+      'local'
+    )
+
+    expect(count).toBe(2)
+    expect(send).toHaveBeenCalledTimes(1)
+
+    const input = send.mock.calls[0][0].input as PutInput
+
+    expect(input.Bucket).toBe('my-bucket')
+    expect(input.Key).toMatch(
+      /^mcp-usage\/dt=\d{4}-\d{2}-\d{2}\/\d+-[0-9a-f-]{36}\.json$/
+    )
+    expect(input.ContentType).toBe('application/x-ndjson')
+
+    const lines = input.Body.split('\n').map((line) => JSON.parse(line))
+    expect(lines).toHaveLength(2)
+    expect(lines[1]).toMatchObject({
+      tool: 'component_doc',
+      component: 'Button',
+    })
+  })
+
+  it('stamps every record with the given transport, ignoring the input', async () => {
+    await storeMcpUsage([{ tool: 'docs_entry' }], 'local')
+
+    const input = send.mock.calls[0][0].input as PutInput
+    const line = JSON.parse(input.Body)
+
+    expect(line.transport).toBe('local')
+  })
+
+  it('never stores identifiers or personal data', async () => {
+    await storeMcpUsage([{ tool: 'docs_entry' }], 'local')
+
+    const input = send.mock.calls[0][0].input as PutInput
+    const line = JSON.parse(input.Body)
+
+    expect(line).not.toHaveProperty('id')
+    expect(Object.keys(line).sort()).toEqual([
+      'component',
+      'createdat',
+      'env',
+      'eufemiaVersion',
+      'path',
+      'timestamp',
+      'tool',
+      'transport',
+    ])
+  })
+
+  it('throws when DATA_BUCKET is not set', async () => {
+    delete process.env.DATA_BUCKET
+
+    await expect(
+      storeMcpUsage([{ tool: 'docs_entry' }], 'local')
+    ).rejects.toThrow('DATA_BUCKET')
     expect(send).not.toHaveBeenCalled()
   })
 })
