@@ -32,9 +32,9 @@ test.describe('Page Heading', () => {
     expect(thirdElementTagName).toBe('H2')
 
     // App should re-render
-    await page
-      .locator('.dnb-app-content a[href="/uilib/components/button"]')
-      .click()
+    await page.click(
+      '#portal-sidebar-menu ul li a[href="/uilib/components/button"]'
+    )
 
     // On tab pages, h1 is in .dnb-tab-bar (AutoLinkHeader), not inside #tab-bar-content
     await page.waitForSelector('.dnb-tab-bar h1')
