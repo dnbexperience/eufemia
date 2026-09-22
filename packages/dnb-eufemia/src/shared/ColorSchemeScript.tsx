@@ -22,11 +22,25 @@
  *   </body>
  */
 
+import type { ScriptHTMLAttributes } from 'react'
 import { getStyleScopeHash } from '../plugins/postcss-isolated-style-scope/plugin-scope-hash.js'
 
 const STORAGE_KEY = 'eufemia-theme'
 const GLOBAL_KEY = '__eufemiaColorScheme'
 const CLASS_PREFIX = 'eufemia-theme__color-scheme--'
+
+/**
+ * Script attributes forwarded to the rendered tag, such as `nonce` for a
+ * Content-Security-Policy that does not allow `unsafe-inline`.
+ */
+export type ColorSchemeScriptProps = Omit<
+  ScriptHTMLAttributes<HTMLScriptElement>,
+  'children' | 'dangerouslySetInnerHTML'
+>
+
+export type ColorSchemeHeadScriptProps = ColorSchemeScriptProps & {
+  scopeHash?: string
+}
 
 /**
  * Returns the inline script that resolves the color scheme
@@ -60,11 +74,11 @@ export function getContentScript() {
  */
 export function ColorSchemeHeadScript({
   scopeHash,
-}: {
-  scopeHash?: string
-} = {}) {
+  ...props
+}: ColorSchemeHeadScriptProps = {}) {
   return (
     <script
+      {...props}
       dangerouslySetInnerHTML={{
         __html: getHeadScript(scopeHash),
       }}
@@ -76,9 +90,12 @@ export function ColorSchemeHeadScript({
  * Script component for the first child of <body>.
  * Adds the color-scheme class to <body>.
  */
-export function ColorSchemeBodyFirstScript() {
+export function ColorSchemeBodyFirstScript(
+  props: ColorSchemeScriptProps = {}
+) {
   return (
     <script
+      {...props}
       dangerouslySetInnerHTML={{
         __html: getBodyScript(),
       }}
@@ -90,9 +107,12 @@ export function ColorSchemeBodyFirstScript() {
  * Script component placed after the main content.
  * Swaps color-scheme classes on server-rendered Theme elements.
  */
-export function ColorSchemeBodyLastScript() {
+export function ColorSchemeBodyLastScript(
+  props: ColorSchemeScriptProps = {}
+) {
   return (
     <script
+      {...props}
       dangerouslySetInnerHTML={{
         __html: getContentScript(),
       }}

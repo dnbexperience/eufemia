@@ -1,4 +1,5 @@
 import { render } from '@testing-library/react'
+import { renderToStaticMarkup } from 'react-dom/server'
 import {
   getHeadScript,
   getBodyScript,
@@ -200,6 +201,53 @@ describe('ColorSchemeScript', () => {
       const script = document.querySelector('script')
       expect(script).toBeInTheDocument()
       expect(script.textContent).toContain('querySelectorAll')
+    })
+  })
+
+  describe('CSP nonce', () => {
+    it.each([
+      ['ColorSchemeHeadScript', ColorSchemeHeadScript],
+      ['ColorSchemeBodyFirstScript', ColorSchemeBodyFirstScript],
+      ['ColorSchemeBodyLastScript', ColorSchemeBodyLastScript],
+    ])(
+      '%s forwards the nonce to the server-rendered markup',
+      (_, Component) => {
+        const html = renderToStaticMarkup(<Component nonce="test-nonce" />)
+
+        expect(html).toContain('<script nonce="test-nonce">')
+      }
+    )
+
+    it.each([
+      ['ColorSchemeHeadScript', ColorSchemeHeadScript],
+      ['ColorSchemeBodyFirstScript', ColorSchemeBodyFirstScript],
+      ['ColorSchemeBodyLastScript', ColorSchemeBodyLastScript],
+    ])(
+      '%s omits the nonce attribute when none is given',
+      (_, Component) => {
+        const html = renderToStaticMarkup(<Component />)
+
+        expect(html).toContain('<script>')
+        expect(html).not.toContain('nonce')
+      }
+    )
+
+    it('forwards other script attributes', () => {
+      const html = renderToStaticMarkup(
+        <ColorSchemeHeadScript id="color-scheme" data-testid="head" />
+      )
+
+      expect(html).toContain('id="color-scheme"')
+      expect(html).toContain('data-testid="head"')
+    })
+
+    it('does not render scopeHash as a DOM attribute', () => {
+      render(<ColorSchemeHeadScript scopeHash="test-scope" nonce="abc" />)
+
+      const script = document.querySelector('script')
+      expect(script.getAttribute('nonce')).toBe('abc')
+      expect(script.getAttribute('scopehash')).toBeNull()
+      expect(script.textContent).toContain("classList.add('test-scope')")
     })
   })
 })
