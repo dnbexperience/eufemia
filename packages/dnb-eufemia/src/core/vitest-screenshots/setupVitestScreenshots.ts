@@ -148,7 +148,11 @@ export type MakeScreenshotOptions = {
   recalculateHeightAfterSimulate?: boolean
 }
 
-const defaultAllowedMismatchedPixelRatio = 0
+// CI runs on machines that rasterise text slightly differently from a
+// developer's, so it keeps the small tolerance the Playwright setup
+// used (`maxDiffPixelRatio: isCI ? 0.001 : 0`). Locally the match
+// stays exact, which is what makes an intentional change obvious.
+const defaultAllowedMismatchedPixelRatio = isCI ? 0.001 : 0
 
 const sanitize = (input: string) =>
   input.replace(/[^a-z0-9-_]+/gi, '-').replace(/^-+|-+$/g, '')
