@@ -24,11 +24,10 @@ The design tokens are synchronized from Figma with the "Design Tokens" GitHub Ac
 
 ### 1. Run the "Design Tokens" workflow
 
-Run the [Design Tokens](https://github.com/dnbexperience/eufemia/actions/workflows/tokens-lib.yml) workflow from the GitHub Actions tab.
-
-It reads the Figma variables with the [variables REST API](https://developers.figma.com/docs/rest-api/variables-endpoints/), writes the `*.tokens.json` files listed below, regenerates the CSS files, updates the visual test snapshots and opens a draft pull request on the `tokens/automation-figma-sync` branch.
-
-Review the token values, removals and visual snapshots before marking the pull request as ready.
+1. Open [**Actions → Design Tokens**](https://github.com/dnbexperience/eufemia/actions/workflows/tokens-lib.yml), then select **Run workflow** on `main`.
+1. The workflow reads the Figma variables with the [variables REST API](https://developers.figma.com/docs/rest-api/variables-endpoints/), writes the `*.tokens.json` files listed below, regenerates the CSS files, builds the library and Portal, updates the visual snapshots and opens a draft pull request. If Figma and the repository are already synchronized, it reports that no changes were found.
+1. Review the token values, removals and visual snapshots before marking the pull request ready.
+1. Review and (squash) merge the pull request.
 
 Every mode of the exported collections has to be listed in `TOKEN_EXPORTS` (`packages/dnb-eufemia/scripts/figma/tasks/tokensExtractor.ts`). If a mode is added in Figma, the workflow fails until the mode is added there and to the token files in `makePropertiesFile.ts`, so a new mode cannot go unnoticed.
 
