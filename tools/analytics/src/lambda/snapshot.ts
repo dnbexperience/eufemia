@@ -9,7 +9,6 @@ import {
 import {
   EMPTY_COMPONENT_USAGE,
   EMPTY_MCP_USAGE,
-  portalViewsDailyIsEmpty,
   requireEnv,
   storeComponentUsageDaily,
   storeMcpUsageDaily,
@@ -160,11 +159,6 @@ const MCP_TOP_LIMIT = 20
 // Recent-tail window for the retention rollup refresh (mirrors MCP_ROLLUP_DAYS).
 const PORTAL_VIEWS_ROLLUP_DAYS = 7
 
-// One-time backfill start for the first rollup run. Matches the Glue partition
-// projection range start, so it captures all retained raw history (raw rows only
-// exist from when tracking shipped; earlier partitions are simply empty).
-const PORTAL_VIEWS_BACKFILL_FROM = '2024-01-01'
-
 function dayString(date: Date): string {
   return date.toISOString().slice(0, 10)
 }
@@ -175,23 +169,24 @@ function dayString(date: Date): string {
 // it yet. Best-effort at the call site: a failure emits a metric but does not
 // fail the snapshot run.
 //
-// On the first run the rollup is empty, so it backfills the full history in one
-// pass — the raw rows predate this rollup and the retention rule now schedules
-// them for expiry, so a recent-tail-only recompute would never capture them.
-// Every later run only recomputes the recent tail (the wide scan runs once).
-async function refreshPortalViewsRollup(bucket: string): Promise<void> {
-  let sinceDt = PORTAL_VIEWS_BACKFILL_FROM
+// Scheduled runs pass no `sinceDt` and recompute only the recent tail. A one-time
+// historical backfill (for page-views recorded before this rollup existed) is a
+// manual invoke with an explicit `sinceDt`, e.g. the Glue projection start — see
+// the analytics README. Writes are idempotent per-day overwrites, so re-running a
+// window is safe.
+async function refreshPortalViewsRollup(
+  bucket: string,
+  sinceDt?: string
+): Promise<void> {
+  let from = sinceDt
 
-  if (!(await portalViewsDailyIsEmpty(bucket))) {
+  if (!from) {
     const since = new Date()
     since.setUTCDate(since.getUTCDate() - (PORTAL_VIEWS_ROLLUP_DAYS - 1))
-    sinceDt = dayString(since)
+    from = dayString(since)
   }
 
-  await storePortalViewsDaily(
-    bucket,
-    await aggregatePortalViewsRaw(sinceDt)
-  )
+  await storePortalViewsDaily(bucket, await aggregatePortalViewsRaw(from))
 }
 
 function sumBy(
@@ -345,8 +340,12 @@ export async function buildComponentUsage(
  * Queries Athena for the latest anonymous page views and writes the snapshot to
  * S3. Runs under the analytics execution role (Athena + S3 write); keeping it
  * separate from the read endpoint lets that endpoint run with a read-only role.
+ *
+ * An optional `sinceDt` on the invocation event backfills the page-view rollup
+ * from that date instead of the recent tail — used for the one-time historical
+ * backfill (see the analytics README). Scheduled invocations pass none.
  */
-export async function handler(): Promise<{
+export async function handler(event?: { sinceDt?: string }): Promise<{
   generatedAt: string
   count: number
 }> {
@@ -358,7 +357,7 @@ export async function handler(): Promise<{
   // it concurrent with the read keeps the added Athena query within the timeout.
   const [portalViews] = await Promise.all([
     retrievePortalViews({ limit: SNAPSHOT_LIMIT }),
-    refreshPortalViewsRollup(bucket).catch((error) => {
+    refreshPortalViewsRollup(bucket, event?.sinceDt).catch((error) => {
       // eslint-disable-next-line no-console -- surface the failure in CloudWatch Logs
       console.error(
         'Failed to refresh the portal-view daily rollup',

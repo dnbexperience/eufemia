@@ -1,30 +1,10 @@
 import {
   GetObjectCommand,
-  ListObjectsV2Command,
   PutObjectCommand,
   S3Client,
 } from '@aws-sdk/client-s3'
 
 const s3 = new S3Client({})
-
-// True when the durable portal-view rollup has no objects yet (the first run).
-// The generator uses this to backfill the full history once — the raw rows
-// predate this rollup, and the retention rule now schedules them for expiry, so
-// a recent-tail-only recompute would never capture them. Uses a cheap 1-key list
-// (the execution role already has ListBucket).
-export async function portalViewsDailyIsEmpty(
-  bucket: string
-): Promise<boolean> {
-  const result = await s3.send(
-    new ListObjectsV2Command({
-      Bucket: bucket,
-      Prefix: 'portal-views-daily/',
-      MaxKeys: 1,
-    })
-  )
-
-  return (result.Contents?.length ?? 0) === 0
-}
 
 // Key of the pre-generated dashboard snapshot in the data bucket. Must match the
 // s3:GetObject resource in the dashboard-read execution role's policy.
