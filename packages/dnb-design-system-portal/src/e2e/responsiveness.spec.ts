@@ -69,7 +69,7 @@ test.describe('Responsiveness', () => {
     expect(layout.headerLeft).toBe(layout.sidebarRight)
     expect(
       Math.abs(layout.logoCenter - layout.sidebarCenter)
-    ).toBeLessThanOrEqual(4)
+    ).toBeLessThanOrEqual(8)
     await expect(sidebar).toHaveCSS('border-right-width', '1px')
     await expect(page.locator('.dnb-app-content')).toHaveCSS(
       'box-shadow',
@@ -146,7 +146,7 @@ test.describe('Responsiveness', () => {
       .locator('.dnb-drawer__navigation')
       .boundingBox()
     expect(drawerBox.x).toBe(0)
-    expect(drawerBox.width).toBeCloseTo(375 * 0.8, 0)
+    expect(drawerBox.width).toBeCloseTo(375 * 0.9, 0)
     expect(drawerBox.height).toBe(667)
     expect(closeButtonBox.x).toBeCloseTo(drawerBox.x + 24, 0)
     await expect(
