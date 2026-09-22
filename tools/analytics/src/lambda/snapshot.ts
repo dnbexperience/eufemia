@@ -9,6 +9,7 @@ import {
 import {
   EMPTY_COMPONENT_USAGE,
   EMPTY_MCP_USAGE,
+  portalViewsDailyIsEmpty,
   requireEnv,
   storeComponentUsageDaily,
   storeMcpUsageDaily,
@@ -159,21 +160,37 @@ const MCP_TOP_LIMIT = 20
 // Recent-tail window for the retention rollup refresh (mirrors MCP_ROLLUP_DAYS).
 const PORTAL_VIEWS_ROLLUP_DAYS = 7
 
+// One-time backfill start for the first rollup run. Matches the Glue partition
+// projection range start, so it captures all retained raw history (raw rows only
+// exist from when tracking shipped; earlier partitions are simply empty).
+const PORTAL_VIEWS_BACKFILL_FROM = '2024-01-01'
+
 function dayString(date: Date): string {
   return date.toISOString().slice(0, 10)
 }
 
-// Recompute the recent tail of raw page views into the durable portal_views_daily
-// rollup. This is retention only — it preserves the anonymous view-dimension
-// history (queryable via Athena) beyond the raw rows' 13-month expiry; the
-// dashboard does not read it yet. Best-effort at the call site: a failure emits a
-// metric but does not fail the snapshot run.
+// Recompute raw page views into the durable portal_views_daily rollup. This is
+// retention only — it preserves the anonymous view-dimension history (queryable
+// via Athena) beyond the raw rows' 13-month expiry; the dashboard does not read
+// it yet. Best-effort at the call site: a failure emits a metric but does not
+// fail the snapshot run.
+//
+// On the first run the rollup is empty, so it backfills the full history in one
+// pass — the raw rows predate this rollup and the retention rule now schedules
+// them for expiry, so a recent-tail-only recompute would never capture them.
+// Every later run only recomputes the recent tail (the wide scan runs once).
 async function refreshPortalViewsRollup(bucket: string): Promise<void> {
-  const since = new Date()
-  since.setUTCDate(since.getUTCDate() - (PORTAL_VIEWS_ROLLUP_DAYS - 1))
+  let sinceDt = PORTAL_VIEWS_BACKFILL_FROM
+
+  if (!(await portalViewsDailyIsEmpty(bucket))) {
+    const since = new Date()
+    since.setUTCDate(since.getUTCDate() - (PORTAL_VIEWS_ROLLUP_DAYS - 1))
+    sinceDt = dayString(since)
+  }
+
   await storePortalViewsDaily(
     bucket,
-    await aggregatePortalViewsRaw(dayString(since))
+    await aggregatePortalViewsRaw(sinceDt)
   )
 }
 

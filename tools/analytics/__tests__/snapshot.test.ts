@@ -36,6 +36,13 @@ vi.mock('@aws-sdk/client-s3', () => ({
       this.input = input
     }
   },
+  ListObjectsV2Command: class {
+    readonly kind = 'list'
+    input: unknown
+    constructor(input: unknown) {
+      this.input = input
+    }
+  },
 }))
 
 vi.mock('../src/lambda/retrieve.js', () => ({
@@ -49,7 +56,10 @@ vi.mock('../src/lambda/retrieve.js', () => ({
 
 import { buildComponentUsage, handler } from '../src/lambda/snapshot.js'
 
-type Command = { kind: 'get' | 'put'; input: Record<string, unknown> }
+type Command = {
+  kind: 'get' | 'put' | 'list'
+  input: Record<string, unknown>
+}
 
 function putCalls() {
   return send.mock.calls.filter(
@@ -138,6 +148,37 @@ describe('snapshot generator handler', () => {
     expect((dailyPut![0] as Command).input.Key).toBe(
       'portal-views-daily/dt=2026-09-20/agg.json'
     )
+  })
+
+  it('backfills the full history on the first run (empty rollup)', async () => {
+    retrievePortalViews.mockResolvedValue([])
+    // Default `send` returns {} for the list → no Contents → rollup is empty.
+
+    await handler()
+
+    expect(aggregatePortalViewsRaw).toHaveBeenCalledWith('2024-01-01')
+  })
+
+  it('recomputes only the recent tail once the rollup has data', async () => {
+    retrievePortalViews.mockResolvedValue([])
+    send.mockImplementation((command: Command) =>
+      command.kind === 'list'
+        ? {
+            Contents: [
+              { Key: 'portal-views-daily/dt=2026-09-01/agg.json' },
+            ],
+          }
+        : {}
+    )
+
+    const expectedTail = new Date()
+    expectedTail.setUTCDate(expectedTail.getUTCDate() - 6)
+    const expectedSince = expectedTail.toISOString().slice(0, 10)
+
+    await handler()
+
+    expect(aggregatePortalViewsRaw).toHaveBeenCalledWith(expectedSince)
+    expect(aggregatePortalViewsRaw).not.toHaveBeenCalledWith('2024-01-01')
   })
 
   it('still writes the snapshot when the rollup refresh fails', async () => {
