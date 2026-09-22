@@ -32,7 +32,8 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
 
-      - name: Check for an open design token pull request
+      - name: Find an open design token pull request
+        id: existing-pr
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
@@ -43,9 +44,20 @@ jobs:
             --json url \
             --jq '.[0].url // empty')
           if [ -n "$url" ]; then
-            echo "Review or close the existing design token pull request before starting another sync: $url" >&2
-            exit 1
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+            echo "url=$url" >> "$GITHUB_OUTPUT"
+            echo "A design token pull request is already open: $url" >> "$GITHUB_STEP_SUMMARY"
           fi
+
+      - name: Check out the existing design token branch
+        if: steps.existing-pr.outputs.exists == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: |
+          gh auth setup-git
+          git fetch origin "refs/heads/$BRANCH:refs/remotes/origin/$BRANCH"
+          git switch -C "$BRANCH" "origin/$BRANCH"
+          git rebase origin/main
 
       - name: Setup dependencies
         uses: ./.github/actions/setup
@@ -115,7 +127,9 @@ jobs:
           gh auth setup-git
           remote_sha=$(git ls-remote --heads origin "refs/heads/$BRANCH" | cut -f1)
 
-          git switch -c "$BRANCH"
+          if [ "$EXISTING_PR" != true ]; then
+            git switch -c "$BRANCH"
+          fi
           git config user.name "$GH_NAME"
           git config user.email "$GH_EMAIL"
           git add \
@@ -133,11 +147,14 @@ jobs:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
           GH_NAME: ${{ secrets.GH_NAME }}
           GH_EMAIL: ${{ secrets.GH_EMAIL }}
+          EXISTING_PR: ${{ steps.existing-pr.outputs.exists }}
 
       - name: Create draft design token pull request
         if: success() && steps.changes.outputs.changed == 'true'
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          EXISTING_PR: ${{ steps.existing-pr.outputs.exists }}
+          PR_URL: ${{ steps.existing-pr.outputs.url }}
         run: |
           token_scss='packages/dnb-eufemia/src/style/themes/*/tokens*.scss'
           foundation_scss='packages/dnb-eufemia/src/style/themes/*/foundation.scss'
@@ -190,12 +207,20 @@ jobs:
           )
 
           printf '%s\n' "$body" >> "$GITHUB_STEP_SUMMARY"
-          gh pr create \
-            --base main \
-            --head "$BRANCH" \
-            --title "$title" \
-            --body "$body" \
-            --draft
+          if [ "$EXISTING_PR" = true ]; then
+            gh pr edit "$PR_URL" --title "$title"
+            is_draft=$(gh pr view "$PR_URL" --json isDraft --jq '.isDraft')
+            if [ "$is_draft" != true ]; then
+              gh pr ready "$PR_URL" --undo
+            fi
+          else
+            gh pr create \
+              --base main \
+              --head "$BRANCH" \
+              --title "$title" \
+              --body "$body" \
+              --draft
+          fi
 
       - name: Report no design token changes
         if: steps.changes.outputs.changed == 'false'

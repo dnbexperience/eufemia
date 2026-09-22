@@ -425,6 +425,8 @@ describe('extractTokens', () => {
     ).rejects.toThrow(
       'Failed to convert the Figma collection "brand" (mode "dnb-dark")'
     )
+
+    expect(fs.outputFile).not.toHaveBeenCalled()
   })
 })
 

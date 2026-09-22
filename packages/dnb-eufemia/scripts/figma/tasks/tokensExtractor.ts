@@ -521,9 +521,7 @@ export const extractTokens = async ({
 
   assertModesAreExported(meta)
 
-  const files: string[] = []
-
-  for (const { collection, mode, fileName } of TOKEN_EXPORTS) {
+  const exports = TOKEN_EXPORTS.map(({ collection, mode, fileName }) => {
     let tokens: TokenExport
 
     try {
@@ -535,13 +533,18 @@ export const extractTokens = async ({
       )
     }
 
-    const file = path.resolve(tokensDir, fileName)
+    return {
+      file: path.resolve(tokensDir, fileName),
+      fileName,
+      content: JSON.stringify(tokens, null, 2),
+    }
+  })
 
-    await fs.outputFile(file, JSON.stringify(tokens, null, 2))
-    files.push(file)
+  for (const { file, fileName, content } of exports) {
+    await fs.outputFile(file, content)
 
     log.info(`> Figma: Wrote design tokens to ${fileName}`)
   }
 
-  return files
+  return exports.map(({ file }) => file)
 }
