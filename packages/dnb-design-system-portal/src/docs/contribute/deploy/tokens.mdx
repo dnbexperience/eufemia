@@ -12,17 +12,29 @@ title: 'Design tokens (WIP)'
 
 ---
 
-The design tokens are exported manually from Figma and converted to CSS variables with the `make-properties` script. We currently generate color and radius tokens. Typography is skipped.
+The design tokens are synchronized from Figma with the "Design Tokens" GitHub Action and converted to CSS variables with the `make-properties` script. We currently generate color and radius tokens. Typography is skipped.
 
 ## Overview
 
-- Design tokens are not automatically exported from Figma.
+- Design tokens are synchronized from Figma by a GitHub Action, which opens a draft pull request for review.
 - We generate color tokens and radius values. Typography aliases and string values are skipped for now.
 - We export Foundation colors, plus light and dark brand token modes for DNB and Sbanken (Carnegie is light-only for now)
 
 ## How to update
 
-### 1. Exporting design tokens
+### 1. Run the "Design Tokens" workflow
+
+Run the [Design Tokens](https://github.com/dnbexperience/eufemia/actions/workflows/tokens-lib.yml) workflow from the GitHub Actions tab.
+
+It reads the Figma variables with the [variables REST API](https://developers.figma.com/docs/rest-api/variables-endpoints/), writes the `*.tokens.json` files listed below, regenerates the CSS files, updates the visual test snapshots and opens a draft pull request on the `tokens/automation-figma-sync` branch.
+
+Review the token values, removals and visual snapshots before marking the pull request as ready.
+
+The workflow needs the repository secrets `FIGMA_TOKEN` (a personal access token with the `file_variables:read` scope) and `FIGMA_TOKENS_FILE` (the key of the "💻 Eufemia - Web" file).
+
+### 2. Exporting design tokens manually
+
+As a fallback, the same files can be exported by hand.
 
 We currently export the Figma variable collections for:
 
@@ -34,7 +46,7 @@ We currently export the Figma variable collections for:
   - "sbanken-dark" (`brand/sbanken-dark.tokens.json`)
   - "dnbcarnegie-light" (`brand/dnbcarnegie-light.tokens.json`)
 
-These files are manually exported from Figma. Place `color.tokens.json` directly in `packages/dnb-eufemia/src/style/themes/figma`, and place the brand-mode exports in its `brand` subfolder.
+Place `color.tokens.json` directly in `packages/dnb-eufemia/src/style/themes/figma`, and place the brand-mode exports in its `brand` subfolder.
 
 Detailed steps:
 
@@ -48,13 +60,15 @@ Detailed steps:
 We export the collections from the same Figma file in order to ensure the collections are in sync.
 Each brand-mode export is a complete snapshot of the collection, so light and dark files also contain shared font and radius values. The generator filters unsupported typography values and produces the mode-specific CSS from these complete exports.
 
-### 2. Generate CSS files
+### 3. Generate CSS files
 
 The CSS files are automatically generated during the "Prebuild" step by the `makePropertiesFile.ts` script (`packages/dnb-eufemia/scripts/prebuild/tasks/makePropertiesFile.ts`).
 
 #### Generate locally (manual)
 
 To generate the files manually you can run the command `yarn workspace @dnb/eufemia make-properties`.
+
+To fetch the tokens from Figma locally, add `FIGMA_TOKEN` and `FIGMA_TOKENS_FILE` to your `.env` file and run `yarn workspace @dnb/eufemia figma:tokens`.
 
 ## Naming conventions/transforms
 

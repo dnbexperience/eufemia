@@ -1,0 +1,168 @@
+name: Design Tokens
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+# No job-wide secrets on purpose: they are scoped to the individual steps that
+# use them, so `yarn install` and the build steps never receive credentials.
+
+env:
+  BRANCH: tokens/automation-figma-sync
+
+jobs:
+  process-tokens:
+    name: Fetch and Build Design Tokens
+
+    runs-on: macos-26
+
+    timeout-minutes: 60
+
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: main
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Check for an open design token pull request
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: |
+          url=$(gh pr list \
+            --head "$BRANCH" \
+            --base main \
+            --state open \
+            --json url \
+            --jq '.[0].url // empty')
+          if [ -n "$url" ]; then
+            echo "Review or close the existing design token pull request before starting another sync: $url" >&2
+            exit 1
+          fi
+
+      - name: Setup dependencies
+        uses: ./.github/actions/setup
+        with:
+          cache-version: ${{ secrets.CACHE_VERSION }}
+
+      - name: Use Playwright cache
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
+        id: playwright-cache
+        with:
+          path: |
+            ~/Library/Caches/ms-playwright
+            ~/.cache/ms-playwright
+            %USERPROFILE%\AppData\Local\ms-playwright
+          key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-playwright-${{ hashFiles('**/yarn.lock') }}
+      - name: Install Playwright browsers
+        run: yarn workspace @dnb/eufemia playwright install --with-deps firefox
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+      - name: Install Playwright dependencies
+        run: yarn workspace @dnb/eufemia playwright install-deps firefox
+        if: steps.playwright-cache.outputs.cache-hit == 'true'
+
+      - name: Design tokens fetch and generate
+        run: yarn workspace @dnb/eufemia prebuild:figma:tokens:ci
+        env:
+          FIGMA_TOKEN: ${{ secrets.FIGMA_TOKEN }}
+          FIGMA_TOKENS_FILE: ${{ secrets.FIGMA_TOKENS_FILE }}
+
+      - name: Detect design token changes
+        id: changes
+        run: |
+          if [ -z "$(git status --porcelain)" ]; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Prebuild Library
+        if: steps.changes.outputs.changed == 'true'
+        run: yarn workspace @dnb/eufemia build:prebuild
+
+      - name: Build portal
+        if: steps.changes.outputs.changed == 'true'
+        run: yarn workspace dnb-design-system-portal build
+
+      - name: Run visual tests
+        if: steps.changes.outputs.changed == 'true'
+        run: yarn workspace dnb-design-system-portal test:screenshots:ci:update
+
+      - name: Store visual test artifacts
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        if: failure()
+        with:
+          name: visual-test-artifact
+          path: |
+            ./packages/dnb-eufemia/visual-diff-report/**
+
+      - name: Run visual tests info
+        if: failure()
+        run: echo '\n\n👉 Download the diff files as a ZIP file. \nIt is called "visual-test-artifact" and you find it in the test "Summary" under "Artifacts".\n\n\n'
+
+      - name: Commit design tokens and updated snapshots
+        if: success() && steps.changes.outputs.changed == 'true'
+        run: |
+          gh auth setup-git
+          remote_sha=$(git ls-remote --heads origin "refs/heads/$BRANCH" | cut -f1)
+
+          git switch -c "$BRANCH"
+          git config user.name "$GH_NAME"
+          git config user.email "$GH_EMAIL"
+          git add \
+            packages/dnb-eufemia/src/style/themes \
+            ':(glob)packages/dnb-eufemia/src/**/__image_snapshots__/**'
+
+          git commit --no-verify -m "chore: synchronize design tokens from Figma"
+          if [ -n "$remote_sha" ]; then
+            git push origin "HEAD:refs/heads/$BRANCH" \
+              --force-with-lease="refs/heads/$BRANCH:$remote_sha"
+          else
+            git push --set-upstream origin "$BRANCH"
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GH_NAME: ${{ secrets.GH_NAME }}
+          GH_EMAIL: ${{ secrets.GH_EMAIL }}
+
+      - name: Create draft design token pull request
+        if: success() && steps.changes.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: |
+          changed_themes=$(git diff --name-only "origin/main...HEAD" \
+            -- 'packages/dnb-eufemia/src/style/themes/*/tokens*.scss' \
+               'packages/dnb-eufemia/src/style/themes/*/foundation.scss' |
+            cut -d/ -f6 | sort -u | paste -sd, - | sed 's/,/, /g')
+
+          if [ -n "$changed_themes" ]; then
+            title="fix(Tokens): update $changed_themes"
+          else
+            title="fix(Tokens): synchronize design tokens from Figma"
+          fi
+
+          body="Synchronizes the Eufemia design tokens with Figma for review before release."
+          {
+            echo "## Design token changes"
+            echo ""
+            echo "- Themes: ${changed_themes:-None}"
+            echo ""
+            echo "Review the token values, removals and visual snapshots before marking the pull request ready."
+          } >> "$GITHUB_STEP_SUMMARY"
+          gh pr create \
+            --base main \
+            --head "$BRANCH" \
+            --title "$title" \
+            --body "$body" \
+            --draft
+
+      - name: Report no design token changes
+        if: steps.changes.outputs.changed == 'false'
+        run: echo "Figma and the Eufemia design tokens are already synchronized."
