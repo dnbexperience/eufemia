@@ -264,6 +264,17 @@ describe('path helpers', () => {
     ).toBe(true)
   })
 
+  it('treats the screenshot vitest config as global visual impact', () => {
+    expect(
+      isGlobalVisualImpact(
+        'packages/dnb-eufemia/vitest.config.screenshots.ts',
+        toPackageRelativePath(
+          'packages/dnb-eufemia/vitest.config.screenshots.ts'
+        )
+      )
+    ).toBe(true)
+  })
+
   it('does not treat unrelated jest helpers as global visual impact', () => {
     expect(
       isGlobalVisualImpact(
