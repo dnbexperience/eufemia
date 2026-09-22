@@ -25,8 +25,9 @@ function ComponentBox(props: ComponentBoxProps) {
   const { children, scope = {}, __buildScope, ...rest } = props
 
   const hash = children as string
+  const shouldMemoize = !import.meta.hot
 
-  if (globalThis.ComponentBoxMemo[hash]) {
+  if (shouldMemoize && globalThis.ComponentBoxMemo[hash]) {
     return globalThis.ComponentBoxMemo[hash]
   }
 
@@ -53,7 +54,9 @@ function ComponentBox(props: ComponentBoxProps) {
     </CodeBlock>
   )
 
-  globalThis.ComponentBoxMemo[hash] = element
+  if (shouldMemoize) {
+    globalThis.ComponentBoxMemo[hash] = element
+  }
 
   return element
 }
