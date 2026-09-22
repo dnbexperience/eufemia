@@ -1,4 +1,8 @@
 /**
+ * Without this, components that persist UI state — such as the open
+ * accordions in SidebarMenu — leak it into later tests and into their
+ * baselines.
+ *
  * Runs inside the page via `page.evaluate`, so it has to be
  * self-contained: Playwright ships the function source, and a
  * reference to anything in module scope resolves to `undefined`
