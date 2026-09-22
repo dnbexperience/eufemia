@@ -16,45 +16,22 @@ test.describe('Sidebar resize', () => {
       const rect = element.getBoundingClientRect()
       const target = document.querySelector('#portal-sidebar-menu')
       const targetWidth = target?.getBoundingClientRect().width ?? 0
-      const x = rect.left + rect.width / 2
+      const x = rect.left + 5
+      const y = rect.top + Math.min(100, rect.height / 2)
 
       return {
         x,
-        y: rect.top + rect.height / 2,
+        y,
         pointerOffset: x - targetWidth,
       }
     })
 
-    await resizeHandle.dispatchEvent('pointerdown', {
-      button: 0,
-      clientX: start.x,
-      clientY: start.y,
-      pointerId: 1,
+    await resizeHandle.hover({ position: { x: 5, y: 100 } })
+    await page.mouse.down()
+    await page.mouse.move(width + start.pointerOffset, start.y, {
+      steps: 5,
     })
-    await page.evaluate(
-      ({ clientX, clientY }) => {
-        window.dispatchEvent(
-          new PointerEvent('pointermove', {
-            bubbles: true,
-            clientX,
-            clientY,
-            pointerId: 1,
-          })
-        )
-        window.dispatchEvent(
-          new PointerEvent('pointerup', {
-            bubbles: true,
-            clientX,
-            clientY,
-            pointerId: 1,
-          })
-        )
-      },
-      {
-        clientX: width + start.pointerOffset,
-        clientY: start.y,
-      }
-    )
+    await page.mouse.up()
   }
 
   test('should resize the sidebar and reset the width on reload', async ({
@@ -409,9 +386,9 @@ test.describe('Sidebar resize', () => {
         y: rect.top + rect.height / 2,
       }
     })
-    await page.mouse.move(start.x - 1, start.y)
+    await resizeHandle.hover({ position: { x: 5, y: 100 } })
     await page.mouse.down()
-    await page.mouse.move(219, start.y)
+    await page.mouse.move(219, start.y, { steps: 5 })
     await expect(sidebar).toHaveCSS('width', '238px')
     await page.mouse.up()
 
