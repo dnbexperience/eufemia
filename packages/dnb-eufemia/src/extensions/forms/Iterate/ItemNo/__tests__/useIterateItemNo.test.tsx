@@ -35,7 +35,12 @@ describe('useIterateItemNo', () => {
         <TestComponent label="Label {itemNo}" required={false} />
       </IterateItemContext>
     )
-    expect(screen.getByText('Label 3 (valgfritt)')).toBeInTheDocument()
+    const suffix = document.querySelector(
+      '.dnb-forms-field-block__label__suffix'
+    )
+
+    expect(suffix).toHaveTextContent('(valgfritt)')
+    expect(suffix.parentElement).toHaveTextContent('Label 3 (valgfritt)')
   })
 
   it('should use custom suffix if labelSuffix is provided', () => {
@@ -48,7 +53,12 @@ describe('useIterateItemNo', () => {
         />
       </IterateItemContext>
     )
-    expect(screen.getByText('Custom 4 (custom)')).toBeInTheDocument()
+    const suffix = document.querySelector(
+      '.dnb-forms-field-block__label__suffix'
+    )
+
+    expect(suffix).toHaveTextContent('(custom)')
+    expect(suffix.parentElement).toHaveTextContent('Custom 4 (custom)')
   })
 
   it('should not append custom suffix when labelSuffix has value true', () => {

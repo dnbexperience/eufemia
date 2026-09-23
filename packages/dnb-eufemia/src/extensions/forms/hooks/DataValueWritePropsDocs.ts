@@ -47,7 +47,7 @@ export const DataValueWritePropsProperties: PropertiesTableProps = {
     status: 'optional',
   },
   labelSuffix: {
-    doc: 'Will append an additional text to the label, like "(optional)". When using `inheritLabel`, the suffix will not be inherited. **NB:** The visual appearance of the `labelSuffix` may change in the future.',
+    doc: 'Will append additional text to the label, like "(optional)", displayed in a secondary text color. When using `inheritLabel`, the suffix will not be inherited.',
     type: 'React.ReactNode',
     status: 'optional',
   },

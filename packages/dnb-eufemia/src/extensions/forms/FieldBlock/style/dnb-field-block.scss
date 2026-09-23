@@ -6,6 +6,14 @@ fieldset.dnb-forms-field-block {
 }
 
 .dnb-forms-field-block {
+  &__label__suffix {
+    color: var(--token-color-text-neutral-alternative);
+
+    .dnb-form-label--surface-dark & {
+      color: var(--token-color-text-neutral-subtle-ondark);
+    }
+  }
+
   &__label__description {
     color: var(--token-color-text-neutral-alternative);
     font-size: var(--font-size-small);

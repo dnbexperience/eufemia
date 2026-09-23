@@ -34,16 +34,14 @@ export function useIterateItemNo({
         return content
       }
 
-      if (typeof content === 'string') {
-        return content + ' ' + labelSuffixText
-      }
-
-      if (isValidElement(content)) {
+      if (typeof content === 'string' || isValidElement(content)) {
         return (
           <>
             {content}
             {' '}
-            {labelSuffixText}
+            <span className="dnb-forms-field-block__label__suffix">
+              {labelSuffixText}
+            </span>
           </>
         )
       }
