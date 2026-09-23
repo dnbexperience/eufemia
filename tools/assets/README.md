@@ -25,12 +25,16 @@ The deploy repository requires:
 
 - variable `AWS_ROLE_ARN`: the `eufemia-assets-deploy` role ARN
 - variable `COST_ALLOCATION`: the Eufemia BA number
-- secret `EDGE_AUTH_SECRET`: the same value configured on the Akamai property
+- secret `EDGE_AUTH_SECRET`: the value Akamai sends in the `X-Origin-Verify`
+  request header
 
 The public repository requires `GHE_ASSETS_DEPLOY_REPO=eufemia/eufemia-assets`.
 Its existing `GHE_DEPLOY_PAT` must also be granted Contents read/write access to
 that repository.
 
 After the first AWS deployment, copy the `origin_hostname` Terraform output to
-the `assets.eufemia.dnb.no` property in `akamai_delivery_eufemia`. The public DNS
-record is created by that repository's standard Akamai DNS PR module.
+the `assets.eufemia.dnb.no` property in `akamai_delivery_eufemia`. Configure the
+property like the CloudFront-backed dashboard property, including
+`X-Origin-Verify`; the Lambda-backed server property uses a different header.
+The public DNS record is created by that repository's standard Akamai DNS PR
+module.

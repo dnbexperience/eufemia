@@ -1,6 +1,11 @@
 name: Eufemia Assets
 
 on:
+  pull_request:
+    paths:
+      - 'packages/dnb-eufemia/assets/**'
+      - 'tools/assets/**'
+      - '.github/workflows/assets.yml'
   push:
     branches:
       - release
@@ -34,15 +39,26 @@ jobs:
         with:
           cache-version: ${{ secrets.CACHE_VERSION }}
 
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@b9cd54a3c349d3f38e8881555d616ced269862dd # v3
+        with:
+          terraform_version: '~> 1.10'
+
       - name: Lint
         run: yarn workspace eufemia-assets-hosting lint
 
       - name: Test
         run: yarn workspace eufemia-assets-hosting test
 
+      - name: Validate Terraform
+        run: |
+          terraform -chdir=tools/assets/infra init -backend=false -input=false
+          terraform -chdir=tools/assets/infra validate
+
   push:
     name: Push to GHE
     needs: test
+    if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     timeout-minutes: 15
 
