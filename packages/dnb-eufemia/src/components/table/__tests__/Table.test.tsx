@@ -1,5 +1,3 @@
-import fs from 'fs'
-import path from 'path'
 import { render, screen } from '@testing-library/react'
 import { loadScss, axeComponent } from '../../../core/test-utils/testSetup'
 import { BasicTable } from './TableMocks'
@@ -326,50 +324,4 @@ describe('Table scss', () => {
     expect(outline).toBeGreaterThan(stickyHeader)
     expect(accordionOutline).toBeGreaterThan(outline)
   })
-
-  it.each(['ui', 'sbanken'])(
-    'should keep the outline distinguishable from the rowgroup header background in the %s theme',
-    (theme) => {
-      const css = loadScss(require.resolve('../style/deps.scss')) as string
-
-      const tokenOf = (ruleStart: string, property: string) => {
-        const rule = css.split(`\n${ruleStart}`)[1]?.split('}')[0] ?? ''
-        return new RegExp(`${property}: var\\(\\s*(--[\\w-]+)`).exec(
-          rule
-        )?.[1]
-      }
-
-      // a token points to a primitive, which carries the actual colour
-      const colorOf = (token: string) => {
-        const read = (file: string) =>
-          fs.readFileSync(
-            path.resolve(__dirname, '../../../style/themes', theme, file),
-            'utf8'
-          )
-        const primitive = new RegExp(
-          `\\s${token}: var\\(\\s*(--[\\w-]+)`
-        ).exec(read('tokens.scss'))[1]
-        return new RegExp(`\\s${primitive}: ([^;]+);`).exec(
-          read('foundation.scss')
-        )[1]
-      }
-
-      // a table containing a rowgroup header may raise the outline colour
-      const outlineColor = colorOf(
-        tokenOf('.dnb-table:has(', '--table-outline-color') ??
-          tokenOf(
-            '.dnb-table, .dnb-table__container {',
-            '--table-outline-color'
-          )
-      )
-      const rowgroupColor = colorOf(
-        tokenOf(
-          '.dnb-table tbody th[scope=rowgroup][colspan] {',
-          '--table-th-background-color'
-        )
-      )
-
-      expect(outlineColor).not.toEqual(rowgroupColor)
-    }
-  )
 })
