@@ -154,6 +154,11 @@
     --table-outline-radius: var(--token-radius-xl);
     --table-outline-radius-top: var(--table-outline-radius);
 
+    // A rowgroup header uses a background equal to the subtle stroke, which would hide the outline crossing it
+    &:has(:where(tbody th[scope='rowgroup'][colspan])) {
+      --table-outline-color: var(--token-color-stroke-neutral-bold);
+    }
+
     html[data-visual-test] & {
       --table-border-color: blue;
       --table-outline-color: red;

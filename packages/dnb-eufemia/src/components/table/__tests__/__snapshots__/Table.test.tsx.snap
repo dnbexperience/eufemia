@@ -128,6 +128,9 @@ exports[`Table scss > should match style dependencies css 1`] = `
   --table-outline-radius: var(--token-radius-xl);
   --table-outline-radius-top: var(--table-outline-radius);
 }
+.dnb-table:has(:where(tbody th[scope=rowgroup][colspan])), .dnb-table__container:has(:where(tbody th[scope=rowgroup][colspan])) {
+  --table-outline-color: var(--token-color-stroke-neutral-bold);
+}
 html[data-visual-test] .dnb-table, html[data-visual-test] .dnb-table__container {
   --table-border-color: blue;
   --table-outline-color: red;
