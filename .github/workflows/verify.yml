@@ -77,6 +77,7 @@ jobs:
           yarn workspace eufemia-raiwork-plugin lint
           yarn workspace eufemia-analytics lint
           yarn workspace eufemia-analytics-dashboard lint
+          yarn workspace eufemia-assets-hosting lint
           yarn workspace eufemia-css-optimizer lint
           yarn workspace eufemia-llm-metadata lint
           yarn workspace markdown-tables-utils lint
@@ -204,6 +205,7 @@ jobs:
           yarn workspace eufemia-mcp-lambda test
           yarn workspace eufemia-analytics test
           yarn workspace eufemia-analytics-dashboard test
+          yarn workspace eufemia-assets-hosting test
           yarn workspace repo-utils test:ci
 
   deps:

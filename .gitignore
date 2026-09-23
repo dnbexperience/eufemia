@@ -23,6 +23,9 @@ yarn-debug.log*
 # Cloudflare Wrangler local artifacts
 .wrangler/
 
+# Terraform local provider and module cache
+**/.terraform/
+
 yarn-error.log*
 .yarn/*
 .yarn/cache

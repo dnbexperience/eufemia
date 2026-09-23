@@ -1,0 +1,69 @@
+name: Deploy Eufemia Assets
+
+on:
+  push:
+    branches:
+      - deploy
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@e7f100cf4c008499ea8adda475de1042d6975c7b # v6
+        with:
+          role-to-assume: ${{ vars.AWS_ROLE_ARN }}
+          aws-region: eu-north-1
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@b9cd54a3c349d3f38e8881555d616ced269862dd # v3
+        with:
+          terraform_version: '~> 1.10'
+
+      - name: Deploy infrastructure
+        env:
+          TF_VAR_cost_allocation: ${{ vars.COST_ALLOCATION }}
+          TF_VAR_edge_auth_secret: ${{ secrets.EDGE_AUTH_SECRET }}
+        run: |
+          set -euo pipefail
+          terraform -chdir=infra init -input=false
+          terraform -chdir=infra apply -auto-approve -input=false
+
+      - name: Publish assets
+        run: |
+          set -euo pipefail
+          BUCKET=$(terraform -chdir=infra output -raw bucket_name)
+          DIST=$(terraform -chdir=infra output -raw distribution_id)
+
+          aws s3 sync assets "s3://${BUCKET}" \
+            --delete \
+            --cache-control 'public,max-age=3600,s-maxage=86400,stale-while-revalidate=604800'
+
+          aws cloudfront create-invalidation \
+            --distribution-id "$DIST" \
+            --paths '/*'
+
+      - name: Post deploy summary
+        if: always()
+        run: |
+          ORIGIN=$(terraform -chdir=infra output -raw origin_hostname 2>/dev/null || true)
+          echo "## Eufemia assets deployed" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "**CloudFront origin:** \`${ORIGIN}\`" >> "$GITHUB_STEP_SUMMARY"
