@@ -1,0 +1,228 @@
+name: Design Tokens
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+# No job-wide secrets on purpose: they are scoped to the individual steps that
+# use them, so `yarn install` and the build steps never receive credentials.
+
+env:
+  BRANCH: tokens/automation-figma-sync
+
+jobs:
+  process-tokens:
+    name: Fetch and Build Design Tokens
+
+    runs-on: macos-26
+
+    timeout-minutes: 60
+
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: main
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Find an open design token pull request
+        id: existing-pr
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: |
+          url=$(gh pr list \
+            --head "$BRANCH" \
+            --base main \
+            --state open \
+            --json url \
+            --jq '.[0].url // empty')
+          if [ -n "$url" ]; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+            echo "url=$url" >> "$GITHUB_OUTPUT"
+            echo "A design token pull request is already open: $url" >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Check out the existing design token branch
+        if: steps.existing-pr.outputs.exists == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: |
+          gh auth setup-git
+          git fetch origin "refs/heads/$BRANCH:refs/remotes/origin/$BRANCH"
+          git switch -C "$BRANCH" "origin/$BRANCH"
+          git rebase origin/main
+
+      - name: Setup dependencies
+        uses: ./.github/actions/setup
+        with:
+          cache-version: ${{ secrets.CACHE_VERSION }}
+
+      - name: Use Playwright cache
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
+        id: playwright-cache
+        with:
+          path: |
+            ~/Library/Caches/ms-playwright
+            ~/.cache/ms-playwright
+            %USERPROFILE%\AppData\Local\ms-playwright
+          key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-playwright-${{ hashFiles('**/yarn.lock') }}
+      - name: Install Playwright browsers
+        run: yarn workspace @dnb/eufemia playwright install --with-deps firefox
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+      - name: Install Playwright dependencies
+        run: yarn workspace @dnb/eufemia playwright install-deps firefox
+        if: steps.playwright-cache.outputs.cache-hit == 'true'
+
+      - name: Design tokens fetch and generate
+        run: yarn workspace @dnb/eufemia prebuild:figma:tokens:ci
+        env:
+          FIGMA_TOKEN: ${{ secrets.FIGMA_TOKEN }}
+          FIGMA_TOKENS_FILE: ${{ vars.FIGMA_TOKENS_FILE }}
+
+      - name: Detect design token changes
+        id: changes
+        # Scoped to the paths the commit step stages, so an unrelated dirty
+        # file cannot start a build that ends with nothing to commit.
+        run: |
+          if [ -z "$(git status --porcelain -- packages/dnb-eufemia/src/style/themes)" ]; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Prebuild Library
+        if: steps.changes.outputs.changed == 'true'
+        run: yarn workspace @dnb/eufemia build:prebuild
+
+      - name: Build portal
+        if: steps.changes.outputs.changed == 'true'
+        run: yarn workspace dnb-design-system-portal build
+
+      - name: Run visual tests
+        if: steps.changes.outputs.changed == 'true'
+        run: yarn workspace dnb-design-system-portal test:screenshots:ci:update
+
+      - name: Store visual test artifacts
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        if: failure()
+        with:
+          name: visual-test-artifact
+          path: |
+            ./packages/dnb-eufemia/visual-diff-report/**
+
+      - name: Run visual tests info
+        if: failure()
+        run: echo '\n\n👉 Download the diff files as a ZIP file. \nIt is called "visual-test-artifact" and you find it in the test "Summary" under "Artifacts".\n\n\n'
+
+      - name: Commit design tokens and updated snapshots
+        if: success() && steps.changes.outputs.changed == 'true'
+        run: |
+          gh auth setup-git
+          # The tip fetched at the start, so a commit pushed during the run makes the push fail instead of vanishing
+          remote_sha=$(git rev-parse --verify --quiet "refs/remotes/origin/$BRANCH" || true)
+
+          if [ "$EXISTING_PR" != true ]; then
+            git switch -c "$BRANCH"
+          fi
+          git config user.name "$GH_NAME"
+          git config user.email "$GH_EMAIL"
+          git add \
+            packages/dnb-eufemia/src/style/themes \
+            ':(glob)packages/dnb-eufemia/src/**/__image_snapshots__/**'
+
+          git commit --no-verify -m "chore: synchronize design tokens from Figma"
+          if [ -n "$remote_sha" ]; then
+            git push origin "HEAD:refs/heads/$BRANCH" \
+              --force-with-lease="refs/heads/$BRANCH:$remote_sha"
+          else
+            git push --set-upstream origin "$BRANCH"
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GH_NAME: ${{ secrets.GH_NAME }}
+          GH_EMAIL: ${{ secrets.GH_EMAIL }}
+          EXISTING_PR: ${{ steps.existing-pr.outputs.exists }}
+
+      - name: Create draft design token pull request
+        if: success() && steps.changes.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          EXISTING_PR: ${{ steps.existing-pr.outputs.exists }}
+          PR_URL: ${{ steps.existing-pr.outputs.url }}
+        run: |
+          token_scss='packages/dnb-eufemia/src/style/themes/*/tokens*.scss'
+          foundation_scss='packages/dnb-eufemia/src/style/themes/*/foundation.scss'
+
+          # Declarations on the added (+) or removed (-) side of the diff
+          token_names() {
+            git diff -U0 "origin/main...HEAD" -- "$token_scss" |
+              sed -n "s/^$1[[:space:]]*\(--token-[a-z0-9-]*\):.*/\1/p" |
+              sort -u
+          }
+
+          as_list() {
+            if [ -z "$1" ]; then
+              echo "None"
+            else
+              echo "$1" | paste -sd, - | sed 's/,/, /g'
+            fi
+          }
+
+          added=$(comm -23 <(token_names '+') <(token_names '-'))
+          removed=$(comm -13 <(token_names '+') <(token_names '-'))
+          themes=$(git diff --name-only "origin/main...HEAD" \
+            -- "$token_scss" "$foundation_scss" |
+            cut -d/ -f6 |
+            sed 's/^ui$/DNB/; s/^sbanken$/Sbanken/; s/^carnegie$/Carnegie/' |
+            sort -u | paste -sd, - | sed 's/,/, /g')
+
+          if [ -n "$themes" ]; then
+            subject="design tokens for $themes"
+          else
+            subject="design tokens from Figma"
+          fi
+
+          if [ -n "$removed" ]; then
+            title="feat(Theme)!: remove $subject"
+          elif [ -n "$added" ]; then
+            title="feat(Theme): add $subject"
+          else
+            title="fix(Theme): update $subject"
+          fi
+
+          body=$(
+            echo "Synchronizes the Eufemia design tokens with Figma for review before release."
+            echo ""
+            echo "- Themes: ${themes:-None}"
+            echo "- Added: $(as_list "$added")"
+            echo "- Removed: $(as_list "$removed")"
+            echo ""
+            echo "Review the token values, removals and visual snapshots before marking the pull request ready."
+          )
+
+          printf '%s\n' "$body" >> "$GITHUB_STEP_SUMMARY"
+          if [ "$EXISTING_PR" = true ]; then
+            gh pr edit "$PR_URL" --title "$title"
+            is_draft=$(gh pr view "$PR_URL" --json isDraft --jq '.isDraft')
+            if [ "$is_draft" != true ]; then
+              gh pr ready "$PR_URL" --undo
+            fi
+          else
+            gh pr create \
+              --base main \
+              --head "$BRANCH" \
+              --title "$title" \
+              --body "$body" \
+              --draft
+          fi
+
+      - name: Report no design token changes
+        if: steps.changes.outputs.changed == 'false'
+        run: echo "Figma and the Eufemia design tokens are already synchronized."
