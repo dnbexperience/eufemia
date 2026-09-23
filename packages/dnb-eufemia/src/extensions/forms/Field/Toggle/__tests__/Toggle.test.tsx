@@ -40,6 +40,26 @@ describe('Field.Toggle', () => {
     expect(labelElement()).not.toHaveAttribute('disabled')
   })
 
+  it('should style the optional label suffix', () => {
+    render(
+      <Field.Toggle
+        label="Toggle label"
+        required={false}
+        valueOn="on"
+        valueOff="off"
+      />
+    )
+
+    const suffix = document.querySelector(
+      '.dnb-forms-field-block__label__suffix'
+    )
+
+    expect(suffix).toHaveTextContent('(valgfritt)')
+    expect(suffix.closest('label')).toHaveTextContent(
+      'Toggle label (valgfritt)'
+    )
+  })
+
   describe('variants', () => {
     describe('switch', () => {
       it('should support size', () => {
