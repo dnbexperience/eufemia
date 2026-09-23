@@ -1,3 +1,5 @@
+import path from 'path'
+import { readFileSync } from 'fs'
 import { render } from '@testing-library/react'
 import { renderToStaticMarkup } from 'react-dom/server'
 import {
@@ -264,6 +266,20 @@ describe('ColorSchemeScript', () => {
 
       expect(html).not.toContain('alert(1)')
       expect(html).toContain("localStorage.getItem('eufemia-theme')")
+    })
+  })
+
+  describe('ColorSchemeScriptUtils', () => {
+    // The portal's Vite config imports this module at config-load time, where
+    // an import chain reaching build info fails to resolve.
+    it('stays free of imports', () => {
+      const source = readFileSync(
+        path.resolve(__dirname, '../ColorSchemeScriptUtils.ts'),
+        'utf-8'
+      )
+
+      expect(source).not.toMatch(/^\s*import\s/m)
+      expect(source).not.toMatch(/\brequire\(/)
     })
   })
 })
