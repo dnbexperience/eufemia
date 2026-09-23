@@ -3,6 +3,20 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [11.14.1](https://github.com/dnbexperience/eufemia/compare/v11.14.0...v11.14.1) (2026-09-23)
+
+### :bug: Bug Fixes
+
+* **Card:** strip script-executing protocols from Card.Action href and to ([#9390](https://github.com/dnbexperience/eufemia/issues/9390)) ([fef79de](https://github.com/dnbexperience/eufemia/commit/fef79de16dcf55be8e13d55eed1fcd857175950b))
+* **ColorSchemeScript:** allow a CSP nonce on the color scheme scripts ([#9415](https://github.com/dnbexperience/eufemia/issues/9415)) ([bcf7b35](https://github.com/dnbexperience/eufemia/commit/bcf7b3569876a928c033ab9868adcabe3687cd63)), closes [#9409](https://github.com/dnbexperience/eufemia/issues/9409)
+* **DrawerList:** prevent first-open position jumps ([#9373](https://github.com/dnbexperience/eufemia/issues/9373)) ([697aa58](https://github.com/dnbexperience/eufemia/commit/697aa588244b84a492c434603f771f4c8429a054))
+* **Forms:** distinguish label suffixes from label text ([#9424](https://github.com/dnbexperience/eufemia/issues/9424)) ([a4c49a4](https://github.com/dnbexperience/eufemia/commit/a4c49a4e3732c7f2cbc9dc4c4e06bff9c45de436))
+* **Modal:** restore focus after controlled dialogs close ([#9394](https://github.com/dnbexperience/eufemia/issues/9394)) ([aeb83b5](https://github.com/dnbexperience/eufemia/commit/aeb83b55418e472c52d6881ca41f4a68f63bcf75))
+* **SidebarMenu:** prevent chevron animation when restoring saved state ([#9392](https://github.com/dnbexperience/eufemia/issues/9392)) ([39528da](https://github.com/dnbexperience/eufemia/commit/39528dac52b2c9c4f0327c68e1a5542110a631fa))
+* **Table:** draw the outline above the sticky header ([#9407](https://github.com/dnbexperience/eufemia/issues/9407)) ([237ed5a](https://github.com/dnbexperience/eufemia/commit/237ed5a4514baf3314535dc313228dc2b84832d7))
+* **Table:** keep the sticky header bound to the right scroll source ([#9416](https://github.com/dnbexperience/eufemia/issues/9416)) ([8fc3425](https://github.com/dnbexperience/eufemia/commit/8fc3425d1939f589806d79f6bba0d45faee16000))
+* **Table:** reset the sticky header row when sticky is turned off ([#9423](https://github.com/dnbexperience/eufemia/issues/9423)) ([c4d8ddd](https://github.com/dnbexperience/eufemia/commit/c4d8ddde0b10444b78de5b7f0decef22081edb0e)), closes [#9422](https://github.com/dnbexperience/eufemia/issues/9422)
+
 ## [11.14.0](https://github.com/dnbexperience/eufemia/compare/v11.13.0...v11.14.0) (2026-09-16)
 
 ### :sparkles: Features
