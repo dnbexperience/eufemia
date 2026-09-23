@@ -79,13 +79,15 @@ const isolateFirefoxAppData = (executablePath) => {
     return
   }
 
-  if (!fs.existsSync(browserAppIni)) {
-    fs.writeFileSync(
-      browserAppIni,
-      fs
-        .readFileSync(appIni, 'utf-8')
-        .replace(/^\[App\]$/m, '[App]\nProfile=PlaywrightFirefox')
-    )
+  const content = fs
+    .readFileSync(appIni, 'utf-8')
+    .replace(/^\[App\]$/m, '[App]\nProfile=PlaywrightFirefox')
+
+  if (
+    !fs.existsSync(browserAppIni) ||
+    fs.readFileSync(browserAppIni, 'utf-8') !== content
+  ) {
+    fs.writeFileSync(browserAppIni, content)
   }
 
   process.env.XUL_APP_FILE = browserAppIni
