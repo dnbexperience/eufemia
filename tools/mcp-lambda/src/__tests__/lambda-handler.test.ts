@@ -377,11 +377,23 @@ describe('lambda-handler origin auth (X-Edge-Auth)', () => {
     delete process.env.EDGE_AUTH_SECRET
     const { handler } = await import('../transports/lambda-handler.js')
 
-    const result = (await handler(
-      mcpEvent({}) as Parameters<typeof handler>[0]
-    )) as { statusCode: number }
+    // Capture the misconfiguration log, so it is asserted, not printed.
+    const errorSpy = vi
+      .spyOn(console, 'error')
+      .mockImplementation(() => {})
 
-    expect(result.statusCode).toBe(403)
+    try {
+      const result = (await handler(
+        mcpEvent({}) as Parameters<typeof handler>[0]
+      )) as { statusCode: number }
+
+      expect(result.statusCode).toBe(403)
+      expect(errorSpy).toHaveBeenCalledWith(
+        expect.stringContaining('EDGE_AUTH_SECRET is not set')
+      )
+    } finally {
+      errorSpy.mockRestore()
+    }
   })
 
   it('requires the edge header for /healthz when the secret is set', async () => {
