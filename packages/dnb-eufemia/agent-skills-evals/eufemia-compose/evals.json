@@ -30,6 +30,16 @@
         "The response limits work to documentation and planning while package installation is prohibited",
         "The response does not claim the interface was implemented or runtime-verified"
       ]
+    },
+    {
+      "id": 4,
+      "prompt": "Build the larger Eufemia form shown in this Figma screen. One field has an optional 'Valgfritt' marker beside its label and separate additional guidance below it.",
+      "expected_output": "A Forms composition where the field uses required={false} for the translated optional marker and labelDescription for the supporting guidance, without rendering 'Valgfritt' as an Input suffix.",
+      "assertions": [
+        "The response uses the matching Eufemia Forms Field component instead of a basic presentational Input",
+        "The response maps the optional marker to required={false} and the additional guidance to labelDescription",
+        "The response does not use the Input suffix property for optional label metadata"
+      ]
     }
   ]
 }

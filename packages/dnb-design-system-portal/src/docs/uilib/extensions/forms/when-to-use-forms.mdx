@@ -8,3 +8,17 @@ Classic form components like this one are presentational controls. They handle t
 For most data input and forms situations, use [Eufemia Forms](/uilib/extensions/forms/) fields instead. They build on these same components, but add data handling, validation, and error messages through the surrounding [Form.Handler](/uilib/extensions/forms/Form/Handler/). Browse the [field components](/uilib/extensions/forms/all-fields/) to find the one that matches your data.
 
 Reach for a classic component when you need it standalone outside of a form context, or when you handle the value and validation yourself.
+
+## Translating designs into form fields
+
+When implementing a screenshot or Figma design, identify the role of text around the field before mapping it to a property. Use `required={false}` when the label marks a Forms field as optional. Use `labelDescription` for separate supporting information. Both can be used on the same field.
+
+Do not render "optional" or "valgfritt" with the classic Input `suffix`. An input suffix is content attached to the value, such as a unit or currency, rather than label metadata.
+
+```tsx
+<Field.String
+  label="Account name"
+  required={false}
+  labelDescription="Use the name shown on the account."
+/>
+```
