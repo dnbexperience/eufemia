@@ -10,6 +10,7 @@ Exposed helpers:
 
 - `isCI` – boolean flag that is `true` when running in a CI environment.
 - `isCICheck()` – re-evaluates the CI environment and returns the result.
+- `isolateFirefoxAppData(executablePath)` – on macOS, gives Playwright's Firefox its own app-data folder, because macOS 27 blocks the one it shares with an installed Firefox.
 - `splitVitestArgs(args)` – splits raw CLI arguments into `filters` and `vitestArgs`.
 - `matchFiltersToFiles(filters, candidateFiles)` – maps each filter to the files it matches.
 - `prepareVitestRun(args, matchingFilesByFilter)` – resolves the filters, Vitest args and test files for a run.

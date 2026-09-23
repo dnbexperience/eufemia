@@ -1,5 +1,6 @@
 export const isCI: boolean
 export const isCICheck: () => boolean
+export const isolateFirefoxAppData: (executablePath: string) => void
 export type PreparedVitestRun = {
   filters: string[]
   vitestArgs: string[]
