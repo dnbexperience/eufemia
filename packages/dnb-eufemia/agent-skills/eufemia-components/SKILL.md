@@ -25,12 +25,8 @@ Use Eufemia's packaged documentation as the source of truth.
 5. Use `component_doc` when implementation examples, behavior, accessibility,
    or contextual guidance are needed.
 6. When translating a design, screenshot, or Figma context, identify the
-   semantic role of visible text before mapping it to a property. For form
-   fields, prefer the matching Eufemia Forms `Field.*` component unless the
-   control is intentionally standalone. Map optional label text to
-   `required={false}` and supporting label text to `labelDescription`; they can
-   be used together. Do not map "optional" or "valgfritt" to an input
-   `suffix`, which is content attached to the input value.
+   semantic role of visible details and verify each property mapping in the
+   current component documentation.
 7. Do not infer undocumented properties or reproduce APIs from memory.
 8. If generally useful functionality is missing, identify it as a possible
    Eufemia contribution instead of automatically creating a parallel component.

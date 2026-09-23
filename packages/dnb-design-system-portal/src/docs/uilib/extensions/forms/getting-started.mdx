@@ -628,6 +628,24 @@ It is possible to customize the suffix text with the `labelSuffix` property, if 
 </Form.Handler>
 ```
 
+#### Optional and supporting label text in designs
+
+When implementing a screenshot or Figma design, identify the role of text around the field before mapping it to a property. In a form where fields are required, use `required={false}` when a label marks one field as optional. Use `labelDescription` for separate supporting information, and add `labelDescriptionInline` when the supporting text appears on the same line as the label. These properties can be used together.
+
+Do not render "optional" or "valgfritt" with the classic Input `suffix`. An input suffix is content displayed after the input, such as contextual help, a unit or currency, rather than label metadata.
+
+```tsx
+<Form.Handler required>
+  <Field.String
+    label="Account name"
+    required={false}
+    labelDescription="Use the name shown on the account."
+    labelDescriptionInline
+  />
+  <Field.Email />
+</Form.Handler>
+```
+
 ### pattern
 
 The `pattern` property is a regular expression (RegExp) that the value of the field must match:

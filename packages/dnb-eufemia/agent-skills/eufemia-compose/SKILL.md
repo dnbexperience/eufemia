@@ -25,12 +25,8 @@ Build from current Eufemia capabilities rather than copied component recipes.
 5. Resolve candidate components with `component_find`, verify APIs with
    `component_props`, and read `component_doc` for behavior and examples.
 6. When translating a design, screenshot, or Figma context, identify the
-   semantic role of visible text before mapping it to a property. For form
-   fields, prefer the matching Eufemia Forms `Field.*` component unless the
-   control is intentionally standalone. Map optional label text to
-   `required={false}` and supporting label text to `labelDescription`; they can
-   be used together. Do not map "optional" or "valgfritt" to an input
-   `suffix`, which is content attached to the input value.
+   semantic role of visible details and verify each property mapping in the
+   current component documentation.
 7. Verify theme and color-scheme support in the current theming documentation.
    Do not infer a complete color scheme from the existence of `ondark` tokens.
 8. Cover loading, empty, error, success, validation, keyboard, and responsive

@@ -33,11 +33,11 @@
     },
     {
       "id": 4,
-      "prompt": "Implement a text field from this Figma design. The label shows 'Account name', an optional 'Valgfritt' marker, and separate additional guidance below the label.",
-      "expected_output": "A Field.String implementation that uses required={false} for the translated optional label and labelDescription for the separate guidance, without rendering 'Valgfritt' as an Input suffix.",
+      "prompt": "Implement a text field from this Figma design. The label shows 'Account name', an optional 'Valgfritt' marker, and separate additional guidance beside the label.",
+      "expected_output": "A Field.String implementation that uses required={false} for the translated optional label and labelDescription with labelDescriptionInline for the adjacent guidance, without rendering 'Valgfritt' as an Input suffix.",
       "assertions": [
         "The response selects Eufemia Forms Field.String instead of a basic Input for the form field",
-        "The response maps the optional marker to required={false} and the additional guidance to labelDescription",
+        "The response maps the optional marker to required={false} and the adjacent guidance to labelDescription with labelDescriptionInline",
         "The response does not use the Input suffix property for optional label metadata"
       ]
     }
