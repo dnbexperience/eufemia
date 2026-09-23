@@ -90,6 +90,8 @@ export const useStickyHeader = ({
               '--table-top',
               `${offsetTopPx / 16}rem`
             )
+            // tr.sticky always applies the transform, so a leftover offset would stack on top
+            trElem.style.removeProperty('--table-offset')
           } else {
             trElem.style.removeProperty('--table-top')
           }

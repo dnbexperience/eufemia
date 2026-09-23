@@ -525,6 +525,40 @@ describe('useStickyHeader', () => {
     expect(Array.from(trElem.classList)).not.toContain('css-position')
     expect(trElem.style.getPropertyValue('--table-top')).toEqual('')
   })
+
+  it('should remove the transform state when switching to the css-position mode', () => {
+    const { rerender } = render(
+      <Table sticky stickyOffset="4rem">
+        <BasicTable />
+      </Table>
+    )
+
+    const trElem: HTMLElement = document.querySelector('tr')
+
+    setSizes()
+
+    simulateScroll(320)
+
+    expect(trElem.style.getPropertyValue('--table-offset')).toEqual(
+      '224px'
+    )
+
+    rerender(
+      <Table sticky="css-position" stickyOffset="4rem">
+        <BasicTable />
+      </Table>
+    )
+
+    setSizes()
+
+    // the transform would otherwise stack on top of the "top" offset
+    expect(trElem.style.getPropertyValue('--table-offset')).toEqual('')
+    expect(trElem.style.getPropertyValue('--table-top')).toEqual('4rem')
+
+    simulateScroll(480)
+
+    expect(trElem.style.getPropertyValue('--table-offset')).toEqual('')
+  })
 })
 
 describe('Table aria', () => {
