@@ -26,7 +26,7 @@ describe('buildUsageRecord', () => {
     ).toBeNull()
   })
 
-  it('captures the component name for component tools', () => {
+  it('captures the normalized component name for component tools', () => {
     const record = buildUsageRecord(
       'component_doc',
       { name: 'Button' },
@@ -34,7 +34,7 @@ describe('buildUsageRecord', () => {
     )
     expect(record).toMatchObject({
       tool: 'component_doc',
-      component: 'Button',
+      component: 'button',
       eufemiaVersion: VERSION,
     })
     expect(record?.path).toBeUndefined()
@@ -46,7 +46,16 @@ describe('buildUsageRecord', () => {
       { name: 'Field.Address' },
       VERSION
     )
-    expect(record?.component).toBe('Field.Address')
+    expect(record?.component).toBe('field.address')
+  })
+
+  it('captures a hyphenated doc-file-form component name', () => {
+    const record = buildUsageRecord(
+      'component_find',
+      { name: 'info-card' },
+      VERSION
+    )
+    expect(record?.component).toBe('info-card')
   })
 
   it('drops an invalid component name (degrades to a tool count)', () => {
@@ -59,23 +68,23 @@ describe('buildUsageRecord', () => {
     expect(record?.tool).toBe('component_find')
   })
 
-  it('captures the path for docs_read', () => {
+  it('narrows the path for docs_read to its leading area', () => {
     const record = buildUsageRecord(
       'docs_read',
-      { path: '/uilib/components/button.md' },
-      VERSION
-    )
-    expect(record?.path).toBe('/uilib/components/button.md')
-    expect(record?.component).toBeUndefined()
-  })
-
-  it('captures the prefix as the path for docs_list', () => {
-    const record = buildUsageRecord(
-      'docs_list',
-      { prefix: '/uilib/components/' },
+      { path: '/uilib/components/button/events.md' },
       VERSION
     )
     expect(record?.path).toBe('/uilib/components/')
+    expect(record?.component).toBeUndefined()
+  })
+
+  it('narrows the prefix for docs_list to its leading area', () => {
+    const record = buildUsageRecord(
+      'docs_list',
+      { prefix: '/uilib/extensions/forms/feature-fields/' },
+      VERSION
+    )
+    expect(record?.path).toBe('/uilib/extensions/')
   })
 
   it('drops a traversal path', () => {
@@ -184,7 +193,7 @@ describe('createUsageReporter', () => {
     const body = JSON.parse(init.body)
     expect(body).toMatchObject({
       tool: 'component_doc',
-      component: 'Button',
+      component: 'button',
       eufemiaVersion: VERSION,
     })
     expect(init.signal).toBeInstanceOf(AbortSignal)

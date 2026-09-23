@@ -123,12 +123,15 @@ docs accordingly. It is **on by default** and **opt-out**.
 
 - the tool name (from the fixed set of registered tools);
 - for a component tool, the component name (e.g. `Button`, `Field.Address`);
-- for `docs_read` / `docs_list`, the doc path or prefix;
+- for `docs_read` / `docs_list`, the leading documentation area (e.g.
+  `/uilib/components/`), not the full path or prefix;
 - the running `@dnb/eufemia` version.
 
-**What is never collected:** no machine id, install id, IP, user, session or
+**What is not in the payload:** no machine id, install id, user, session or
 correlation id, and no free text — in particular the `docs_search` query is
-never sent (a search is recorded as a tool count only).
+never sent (a search is recorded as a tool count only). The request's source
+IP is visible to the network layer like any HTTP call, but it is not part of
+this payload and is not stored on the ingest side.
 
 Each event is POSTed to `https://server.eufemia.dnb.no/analytics/collect-local-mcp-usage`
 as a fire-and-forget beacon with a short (~1s) timeout. It never blocks or
@@ -151,5 +154,5 @@ credentials; the ingest route is locked down at the edge.
 }
 ```
 
-A one-line notice is printed to `stderr` on first run. Telemetry is disabled
-when `EUFEMIA_MCP_TELEMETRY` is `0` or `false`.
+A one-line notice is printed to `stderr` once per server start. Telemetry is
+disabled when `EUFEMIA_MCP_TELEMETRY` is `0` or `false`.

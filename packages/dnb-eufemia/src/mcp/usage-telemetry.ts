@@ -9,10 +9,12 @@
  *
  * Anonymity is the gate. Only a closed, public vocabulary leaves the machine:
  * the tool name (from the fixed registered set), an optional component name or
- * doc path (shape-validated), and the running Eufemia version (semver). No
- * machine id, install id, IP, session/correlation id or free text — in
- * particular a `docs_search` event is a tool count only and never carries its
- * query.
+ * doc area (both shape-validated; a path is narrowed to its leading area, not
+ * sent in full), and the running Eufemia version (semver). No machine id,
+ * install id, session/correlation id or free text — in particular a
+ * `docs_search` event is a tool count only and never carries its query. The
+ * request's source IP is visible to the network layer like any HTTP call, but
+ * is not part of the payload and is not stored by the ingest side (#9406).
  *
  * The beacon is fire-and-forget: it is never awaited on the tool-call path,
  * uses a short abort timeout, and swallows every error, so telemetry can
@@ -65,17 +67,38 @@ const PATH_TOOLS: ReadonlySet<string> = new Set(['docs_read', 'docs_list'])
 const MAX_COMPONENT_LENGTH = 64
 const MAX_PATH_LENGTH = 512
 
-// A component name is one or more dot-separated PascalCase segments, so both
-// "DatePicker" and the compound "Field.Address" validate. A single character
-// class per segment keeps matching linear (no nested-quantifier ReDoS).
-const COMPONENT_SEGMENT = /^[A-Z][A-Za-z0-9]*$/
+// A component name is one or more dot-separated segments. Each segment starts
+// with a letter and may contain letters, digits, and hyphens, so both the
+// PascalCase form ("DatePicker", "Field.Address") and the hyphenated doc-file
+// form ("date-picker") the docs server actually resolves against validate. Kept
+// in sync with the same pattern in tools/analytics/src/records/mcp-usage.ts.
+const COMPONENT_SEGMENT = /^[A-Za-z][A-Za-z0-9-]*$/
 
 // An absolute docs path with a restricted character set.
 const PATH_PATTERN = /^\/[A-Za-z0-9/_.-]*$/
 
+// Mirror the docs server's normalizeName (trim + lowercase) so a stored
+// component folds casing variants ('Button', 'button') into one aggregate.
+function normalizeComponent(value: string): string {
+  return value.trim().toLowerCase()
+}
+
+/**
+ * Reduce a path to its leading documentation area (its first two segments,
+ * e.g. `/uilib/components/`), so what leaves the machine is one of a small,
+ * closed set of areas rather than an arbitrary, per-project full path.
+ */
+function areaFromPath(path: string): string {
+  const segments = path.split('/').filter((segment) => segment !== '')
+  const area = segments.slice(0, 2)
+  return area.length === 0 ? '/' : `/${area.join('/')}/`
+}
+
 /**
  * The anonymous record sent to the ingest route. `transport` is stamped
- * server-side (always `local` here), so the client never sends it.
+ * server-side (always `local` here), so the client never sends it. `path` is
+ * the leading documentation area (e.g. `/uilib/components/`), not the full
+ * path the caller asked for.
  */
 export type LocalMcpUsageRecord = {
   tool: string
@@ -85,37 +108,45 @@ export type LocalMcpUsageRecord = {
   timestamp: string
 }
 
-function isValidComponent(value: unknown): value is string {
-  if (
-    typeof value !== 'string' ||
-    value.length === 0 ||
-    value.length > MAX_COMPONENT_LENGTH
-  ) {
-    return false
+// Returns the normalized component name, or `null` when the input doesn't
+// match a component the docs server would actually resolve.
+function validComponent(value: unknown): string | null {
+  if (typeof value !== 'string' || value.length > MAX_COMPONENT_LENGTH) {
+    return null
   }
-  return value
+  const trimmed = value.trim()
+  if (trimmed.length === 0) {
+    return null
+  }
+  const ok = trimmed
     .split('.')
     .every((segment) => COMPONENT_SEGMENT.test(segment))
+  return ok ? normalizeComponent(trimmed) : null
 }
 
-function isValidPath(value: unknown): value is string {
+// Returns the closed-vocabulary area for a doc path/prefix, or `null` when the
+// input doesn't match the accepted absolute-path shape. Narrowing to the area
+// (rather than sending the full path verbatim) keeps this a closed vocabulary
+// even for a path that never resolves to a real, allowlisted document.
+function validPath(value: unknown): string | null {
   if (typeof value !== 'string' || value.length > MAX_PATH_LENGTH) {
-    return false
+    return null
   }
-  // Reject traversal outright; never send a `..` string as a doc path.
+  // Reject traversal outright; never derive an area from a `..` string.
   if (value.includes('..')) {
-    return false
+    return null
   }
-  return PATH_PATTERN.test(value)
+  return PATH_PATTERN.test(value) ? areaFromPath(value) : null
 }
 
 /**
  * Build the anonymous record for a tool call, or `null` when the tool is not
  * one of the known tools. Only the allowlisted closed-vocabulary fields are
  * ever read from the input: `component` from a component tool's `name`, and
- * `path` from `docs_read`'s `path` / `docs_list`'s `prefix`. Anything that
- * fails shape validation is dropped, so the event degrades to a tool count
- * rather than leaking free text.
+ * `path` (narrowed to its leading area, e.g. `/uilib/components/`) from
+ * `docs_read`'s `path` / `docs_list`'s `prefix`. Anything that fails shape
+ * validation is dropped, so the event degrades to a tool count rather than
+ * leaking free text.
  */
 export function buildUsageRecord(
   toolName: string,
@@ -137,14 +168,18 @@ export function buildUsageRecord(
     timestamp: new Date().toISOString(),
   }
 
-  if (COMPONENT_TOOLS.has(toolName) && isValidComponent(args.name)) {
-    record.component = args.name
+  if (COMPONENT_TOOLS.has(toolName)) {
+    const component = validComponent(args.name)
+    if (component) {
+      record.component = component
+    }
   }
 
   if (PATH_TOOLS.has(toolName)) {
     const rawPath = toolName === 'docs_read' ? args.path : args.prefix
-    if (isValidPath(rawPath)) {
-      record.path = rawPath
+    const area = validPath(rawPath)
+    if (area) {
+      record.path = area
     }
   }
 
