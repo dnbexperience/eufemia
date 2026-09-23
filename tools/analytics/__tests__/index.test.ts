@@ -1,11 +1,15 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import type { APIGatewayProxyEventV2 } from 'aws-lambda'
 
-const { storePortalViews } = vi.hoisted(() => ({
+const { storePortalViews, storeMcpUsage } = vi.hoisted(() => ({
   storePortalViews: vi.fn(),
+  storeMcpUsage: vi.fn(),
 }))
 
-vi.mock('../src/lambda/store.js', () => ({ storePortalViews }))
+vi.mock('../src/lambda/store.js', () => ({
+  storePortalViews,
+  storeMcpUsage,
+}))
 
 import { handler } from '../src/lambda/index.js'
 
@@ -127,9 +131,102 @@ describe('handler /collect-portal-views (public ingest)', () => {
   })
 })
 
+describe('handler /collect-local-mcp-usage (public ingest)', () => {
+  beforeEach(() => {
+    storeMcpUsage.mockReset()
+    process.env.EDGE_AUTH_SECRET = 'edge-secret'
+  })
+
+  afterEach(() => {
+    delete process.env.EDGE_AUTH_SECRET
+  })
+
+  it('accepts local MCP usage without a bearer token', async () => {
+    storeMcpUsage.mockResolvedValue(1)
+
+    const res = await invoke(
+      event('POST', '/collect-local-mcp-usage', {
+        body: JSON.stringify([{ tool: 'docs_entry' }]),
+      })
+    )
+
+    expect(res.statusCode).toBe(202)
+    expect(JSON.parse(res.body)).toEqual({ accepted: 1 })
+    expect(storeMcpUsage).toHaveBeenCalledWith(
+      [{ tool: 'docs_entry' }],
+      'local'
+    )
+  })
+
+  it('stamps transport as local even if the client sends web', async () => {
+    storeMcpUsage.mockResolvedValue(1)
+
+    await invoke(
+      event('POST', '/collect-local-mcp-usage', {
+        body: JSON.stringify([{ tool: 'docs_entry', transport: 'web' }]),
+      })
+    )
+
+    expect(storeMcpUsage).toHaveBeenCalledWith(expect.anything(), 'local')
+  })
+
+  it('returns 400 for an invalid JSON body', async () => {
+    const res = await invoke(
+      event('POST', '/collect-local-mcp-usage', { body: 'not json' })
+    )
+
+    expect(res.statusCode).toBe(400)
+    expect(storeMcpUsage).not.toHaveBeenCalled()
+  })
+
+  it('returns 400 with details when validation fails', async () => {
+    const res = await invoke(
+      event('POST', '/collect-local-mcp-usage', {
+        body: JSON.stringify([{ tool: 'not_a_tool' }]),
+      })
+    )
+
+    expect(res.statusCode).toBe(400)
+    expect(JSON.parse(res.body).error).toBe('Validation failed')
+    expect(storeMcpUsage).not.toHaveBeenCalled()
+  })
+
+  it('accepts a valid eufemiaVersion', async () => {
+    storeMcpUsage.mockResolvedValue(1)
+
+    const res = await invoke(
+      event('POST', '/collect-local-mcp-usage', {
+        body: JSON.stringify([
+          { tool: 'docs_entry', eufemiaVersion: '12.3.0' },
+        ]),
+      })
+    )
+
+    expect(res.statusCode).toBe(202)
+    expect(storeMcpUsage).toHaveBeenCalledWith(
+      [{ tool: 'docs_entry', eufemiaVersion: '12.3.0' }],
+      'local'
+    )
+  })
+
+  it('rejects a non-semver eufemiaVersion', async () => {
+    const res = await invoke(
+      event('POST', '/collect-local-mcp-usage', {
+        body: JSON.stringify([
+          { tool: 'docs_entry', eufemiaVersion: 'latest' },
+        ]),
+      })
+    )
+
+    expect(res.statusCode).toBe(400)
+    expect(storeMcpUsage).not.toHaveBeenCalled()
+  })
+})
+
 describe('handler origin auth (X-Edge-Auth)', () => {
   beforeEach(() => {
     storePortalViews.mockReset()
+    storeMcpUsage.mockReset()
     process.env.EDGE_AUTH_SECRET = 'edge-secret'
   })
 
@@ -157,5 +254,17 @@ describe('handler origin auth (X-Edge-Auth)', () => {
 
     expect(res.statusCode).toBe(403)
     expect(storePortalViews).not.toHaveBeenCalled()
+  })
+
+  it('rejects local MCP usage ingest with 403 when the edge header is missing', async () => {
+    const res = await invoke(
+      event('POST', '/collect-local-mcp-usage', {
+        body: JSON.stringify([{ tool: 'docs_entry' }]),
+        edgeAuth: null,
+      })
+    )
+
+    expect(res.statusCode).toBe(403)
+    expect(storeMcpUsage).not.toHaveBeenCalled()
   })
 })

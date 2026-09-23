@@ -32,6 +32,7 @@ describe('usageRecordsFromRequestBody', () => {
       component: 'button',
       path: '',
       env: 'dev',
+      transport: 'web',
       timestamp: NOW,
       createdat: NOW,
     })

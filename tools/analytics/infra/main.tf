@@ -387,6 +387,16 @@ resource "aws_glue_catalog_table" "mcp_usage" {
     }
 
     columns {
+      name = "transport"
+      type = "string"
+    }
+
+    columns {
+      name = "eufemiaversion"
+      type = "string"
+    }
+
+    columns {
       name = "timestamp"
       type = "string"
     }
@@ -717,6 +727,12 @@ resource "aws_apigatewayv2_route" "health" {
 resource "aws_apigatewayv2_route" "collect_portal_views" {
   api_id    = aws_apigatewayv2_api.analytics.id
   route_key = "POST /collect-portal-views"
+  target    = "integrations/${aws_apigatewayv2_integration.analytics.id}"
+}
+
+resource "aws_apigatewayv2_route" "collect_local_mcp_usage" {
+  api_id    = aws_apigatewayv2_api.analytics.id
+  route_key = "POST /collect-local-mcp-usage"
   target    = "integrations/${aws_apigatewayv2_integration.analytics.id}"
 }
 

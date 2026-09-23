@@ -13,12 +13,13 @@ Portal views are written to S3 as newline-delimited JSON (one event per line), p
 
 ## HTTP API
 
-| Route                        | Auth | Description                                |
-| ---------------------------- | ---- | ------------------------------------------ |
-| `GET /healthz`               | edge | Liveness probe                             |
-| `POST /collect-portal-views` | edge | Ingest anonymous portal page views (batch) |
+| Route                           | Auth | Description                                      |
+| ------------------------------- | ---- | ------------------------------------------------ |
+| `GET /healthz`                  | edge | Liveness probe                                   |
+| `POST /collect-portal-views`    | edge | Ingest anonymous portal page views (batch)       |
+| `POST /collect-local-mcp-usage` | edge | Ingest anonymous local (stdio) MCP usage (batch) |
 
-Every ingest route is gated by the Akamai `X-Edge-Auth` origin header; there is no bearer token, so the browser never holds a secret. First-party producers (MCP, Nucleus) write their own S3 prefix directly via IAM rather than through an HTTP route. The dashboard's read API (`GET /data`) is a separate HTTP API gated by an Entra JWT authorizer.
+Every ingest route is gated by the Akamai `X-Edge-Auth` origin header; there is no bearer token, so the browser never holds a secret. The web MCP Lambda writes its own `mcp-usage/` prefix directly via IAM; the local (stdio) MCP server runs on public, open-source machines and cannot hold a secret or IAM role, so it goes through `/collect-local-mcp-usage` instead — the `transport` field is stamped `local` server-side regardless of what the client sends. The dashboard's read API (`GET /data`) is a separate HTTP API gated by an Entra JWT authorizer.
 
 ### Record shape
 
@@ -40,6 +41,18 @@ A portal view carries a `path` and optional `timestamp`, `env`, `status`, `local
 ```
 
 `path` must start with `/` and be at most 2048 characters, and a batch may contain at most 50 events. Supported dimensions are `status`: `ok`, `not_found`, or `error`; `locale`: `nb-NO`, `en-GB`, `sv-SE`, `da-DK`, or `en-US`; `theme`: `ui`, `sbanken`, `eiendom`, or `carnegie`; `color_scheme`: `light` or `dark`; `referrer`: `search`, `internal`, `direct`, or `external`; and `via_search`: `yes` or `no`.
+
+A local MCP usage event carries a required `tool` (one of the registered MCP tools) and optional `component`, `path`, `env`, `eufemiaVersion` and `timestamp`. The service stamps `transport` to `local` regardless of what the client sends, so a local-origin row can never be attributed to the web MCP. An unrecognised `component`, `path` or `env` is dropped rather than rejected; a malformed `tool`, `eufemiaVersion` (validated as a semver shape, not membership of a real release) or `timestamp` rejects the event. No identifiers, IP or free text are accepted.
+
+```json
+{
+  "tool": "component_doc",
+  "component": "Button",
+  "env": "prod",
+  "eufemiaVersion": "12.3.0",
+  "timestamp": "2026-08-07T09:00:00.000Z"
+}
+```
 
 ## Prerequisites
 
@@ -128,7 +141,7 @@ Swap `sum(count)` groupings for any retained dimension (`locale`, `theme`, `colo
 - **Lambda function** (`nodejs22.x`) — its execution role is pre-created out-of-band, because the OIDC deploy role's permissions boundary forbids `iam:CreateRole` (ADR 0004); it is only referenced here.
 - **Dashboard-read Lambda** (`nodejs22.x`) serving `GET /data` under the read-only `eufemia-<env>-dashboard-role`, plus a **scheduled snapshot generator** Lambda (hourly EventBridge rule) that runs under `eufemia-<env>-analytics-role` and refreshes `snapshots/dashboard.json` off the request path. CloudWatch alarms flag a failed generator run (`Errors`), a generator that has stopped firing (missing `Invocations`), a run that succeeds but writes an empty snapshot (the `SnapshotRecordCount` EMF metric stays below 1), and a run that falls back to an empty MCP usage or component usage section (the `McpUsageBuildFailure`/`ComponentUsageBuildFailure` EMF metrics). The EMF-based alarms need no extra role permissions. All alarms notify an SNS topic (`snapshot_alerts`); set `snapshot_alert_email` to subscribe an address (SNS emails a confirmation link that must be clicked once), or add another `aws_sns_topic_subscription` pointed at a different target, such as AWS Chatbot or a formatting Lambda for Slack (a raw incoming webhook can't complete the SNS subscription handshake, so it isn't a drop-in target).
 - The generator is also invoked once at the end of every deploy (the `Seed snapshot` step in `ghe-deploy-workflow.yml`), so the dashboard has data immediately instead of waiting for the first scheduled run, and a generator failure fails the deploy rather than surfacing later as a silently unavailable dashboard.
-- **API Gateway HTTP API** with the `/collect-portal-views` ingest route (plus `/healthz`) and throttling.
+- **API Gateway HTTP API** with the `/collect-portal-views` and `/collect-local-mcp-usage` ingest routes (plus `/healthz`) and throttling.
 
 The dashboard is hosted separately as a static site:
 
