@@ -367,6 +367,103 @@ describe('useStickyHeader', () => {
       '200px'
     )
   })
+
+  it('should follow the scroll view when a scrollbar appears on resize', () => {
+    render(
+      <Table.ScrollView>
+        <Table sticky>
+          <BasicTable />
+        </Table>
+      </Table.ScrollView>
+    )
+
+    const trElem: HTMLElement = document.querySelector('tr')
+    const scrollElem: HTMLElement =
+      document.querySelector('.dnb-scroll-view')
+
+    vi.spyOn(scrollElem, 'scrollHeight', 'get').mockReturnValue(100)
+    vi.spyOn(scrollElem, 'offsetHeight', 'get').mockReturnValue(100)
+
+    setSizes()
+
+    // the scroll view overflows first after a resize
+    vi.spyOn(scrollElem, 'scrollHeight', 'get').mockReturnValue(1000)
+    fireEvent.resize(window)
+
+    simulateScroll(320, scrollElem)
+    expect(trElem.style.getPropertyValue('--table-offset')).toEqual(
+      '320px'
+    )
+  })
+
+  it('should fall back to the document when the scrollbar disappears on resize', () => {
+    render(
+      <Table.ScrollView>
+        <Table sticky>
+          <BasicTable />
+        </Table>
+      </Table.ScrollView>
+    )
+
+    const trElem: HTMLElement = document.querySelector('tr')
+    const scrollElem: HTMLElement =
+      document.querySelector('.dnb-scroll-view')
+
+    vi.spyOn(scrollElem, 'scrollHeight', 'get').mockReturnValue(1000)
+    vi.spyOn(scrollElem, 'offsetHeight', 'get').mockReturnValue(100)
+
+    setSizes()
+
+    simulateScroll(320, scrollElem)
+    expect(trElem.style.getPropertyValue('--table-offset')).toEqual(
+      '320px'
+    )
+
+    // the scroll view stops overflowing, so the page scrolls instead
+    vi.spyOn(scrollElem, 'scrollHeight', 'get').mockReturnValue(100)
+    fireEvent.resize(window)
+    trElem.style.removeProperty('--table-offset')
+
+    simulateScroll(320)
+    expect(trElem.style.getPropertyValue('--table-offset')).toEqual(
+      '160px'
+    )
+  })
+
+  it('should stop listening on the scroll view when unmounted', () => {
+    const { unmount } = render(
+      <div className="dnb-modal__content">
+        <div className="dnb-modal__header__bar">bar</div>
+        <div className="dnb-scroll-view">
+          <Table sticky>
+            <BasicTable />
+          </Table>
+        </div>
+      </div>
+    )
+
+    const trElem: HTMLElement = document.querySelector('tr')
+    const barElem: HTMLElement = document.querySelector(
+      '.dnb-modal__header__bar'
+    )
+    const scrollElem: HTMLElement =
+      document.querySelector('.dnb-scroll-view')
+
+    vi.spyOn(barElem, 'offsetHeight', 'get').mockReturnValue(40)
+
+    setSizes()
+
+    simulateScroll(320, scrollElem)
+    expect(trElem.style.getPropertyValue('--table-offset')).toEqual(
+      '200px'
+    )
+
+    unmount()
+    trElem.style.removeProperty('--table-offset')
+
+    simulateScroll(320, scrollElem)
+    expect(trElem.style.getPropertyValue('--table-offset')).toEqual('')
+  })
 })
 
 describe('Table aria', () => {
