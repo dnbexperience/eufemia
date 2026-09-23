@@ -105,6 +105,15 @@ assert.strictEqual(
   '[App]\nProfile=PlaywrightFirefox\nName=Firefox\n'
 )
 
+// refreshes an outdated copy
+fs.writeFileSync(browserAppIni, '[App]\nName=Outdated\n')
+delete process.env.XUL_APP_FILE
+isolateFirefoxAppData(firefoxExecutable)
+assert.strictEqual(
+  fs.readFileSync(browserAppIni, 'utf-8'),
+  '[App]\nProfile=PlaywrightFirefox\nName=Firefox\n'
+)
+
 // keeps an XUL_APP_FILE that is already set
 process.env.XUL_APP_FILE = '/custom/application.ini'
 isolateFirefoxAppData(firefoxExecutable)
