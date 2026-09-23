@@ -1,4 +1,5 @@
 import { render } from '@testing-library/react'
+import { renderToStaticMarkup } from 'react-dom/server'
 import {
   getHeadScript,
   getBodyScript,
@@ -6,6 +7,7 @@ import {
   ColorSchemeHeadScript,
   ColorSchemeBodyFirstScript,
   ColorSchemeBodyLastScript,
+  type ColorSchemeHeadScriptProps,
 } from '../ColorSchemeScript'
 
 describe('ColorSchemeScript', () => {
@@ -200,6 +202,68 @@ describe('ColorSchemeScript', () => {
       const script = document.querySelector('script')
       expect(script).toBeInTheDocument()
       expect(script.textContent).toContain('querySelectorAll')
+    })
+  })
+
+  describe('CSP nonce', () => {
+    it.each([
+      ['ColorSchemeHeadScript', ColorSchemeHeadScript],
+      ['ColorSchemeBodyFirstScript', ColorSchemeBodyFirstScript],
+      ['ColorSchemeBodyLastScript', ColorSchemeBodyLastScript],
+    ])(
+      '%s forwards the nonce to the server-rendered markup',
+      (_, Component) => {
+        const html = renderToStaticMarkup(<Component nonce="test-nonce" />)
+
+        expect(html).toContain('<script nonce="test-nonce">')
+      }
+    )
+
+    it.each([
+      ['ColorSchemeHeadScript', ColorSchemeHeadScript],
+      ['ColorSchemeBodyFirstScript', ColorSchemeBodyFirstScript],
+      ['ColorSchemeBodyLastScript', ColorSchemeBodyLastScript],
+    ])(
+      '%s omits the nonce attribute when none is given',
+      (_, Component) => {
+        const html = renderToStaticMarkup(<Component />)
+
+        expect(html).toContain('<script>')
+        expect(html).not.toContain('nonce')
+      }
+    )
+
+    it('forwards other script attributes', () => {
+      const html = renderToStaticMarkup(
+        <ColorSchemeHeadScript id="color-scheme" data-testid="head" />
+      )
+
+      expect(html).toContain('id="color-scheme"')
+      expect(html).toContain('data-testid="head"')
+    })
+
+    it('does not forward scopeHash to the rendered tag', () => {
+      const html = renderToStaticMarkup(
+        <ColorSchemeHeadScript scopeHash="test-scope" nonce="abc" />
+      )
+
+      expect(html).toContain('nonce="abc"')
+      expect(html).not.toContain('scopeHash')
+      expect(html).not.toContain('scopehash')
+      expect(html).toContain("classList.add('test-scope')")
+    })
+
+    it('keeps the script content when a caller passes their own', () => {
+      const overrides = {
+        dangerouslySetInnerHTML: { __html: 'alert(1)' },
+      } as unknown as ColorSchemeHeadScriptProps
+
+      const html = renderToStaticMarkup(
+        <ColorSchemeHeadScript {...overrides} />
+      )
+
+      expect(html).not.toContain('alert(1)')
+      expect(html).toContain("localStorage.getItem('eufemia-theme')")
     })
   })
 })
