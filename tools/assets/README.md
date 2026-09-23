@@ -17,6 +17,10 @@ configuration, and deploy workflow to the `deploy` branch of the private GitHub
 Enterprise repository configured by `GHE_ASSETS_DEPLOY_REPO`. That repository
 deploys through GitHub OIDC without AWS access keys.
 
+The infrastructure uses `environment=dev` because Eufemia currently has one AWS
+account, `DNB-EUFEMIA-Dev`. The production Akamai hostname is independent of
+that AWS account classification.
+
 The deploy repository requires:
 
 - variable `AWS_ROLE_ARN`: the `eufemia-assets-deploy` role ARN

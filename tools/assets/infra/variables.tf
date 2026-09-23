@@ -4,8 +4,14 @@ variable "aws_region" {
 }
 
 variable "environment" {
-  type    = string
-  default = "dev"
+  type        = string
+  description = "AWS account environment used for names and tags. The public Akamai hostname is independent of this value."
+  default     = "dev"
+
+  validation {
+    condition     = contains(["dev", "test", "sit", "uat", "preprod", "prod"], var.environment)
+    error_message = "Environment must be one of: dev, test, sit, uat, preprod, prod."
+  }
 }
 
 variable "cost_allocation" {
