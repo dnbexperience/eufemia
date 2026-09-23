@@ -29,6 +29,10 @@ export type ModalCloseHandlerParams = {
   triggeredByEvent?: Event
 }
 export type ModalCloseHandler = (params?: ModalCloseHandlerParams) => void
+export type ModalRestoreFocusTarget =
+  | HTMLElement
+  | RefObject<HTMLElement | null>
+  | (() => HTMLElement | null)
 
 export type ModalProps = ModalRootProps & {
   /**
@@ -65,6 +69,16 @@ export type ModalProps = ModalRootProps & {
    * Use this property to control the open/close state by setting `true` / `false`.
    */
   open?: boolean
+
+  /**
+   * Moves focus back to the element that opened the Modal once it closes. Defaults to `true`.
+   */
+  restoreFocus?: boolean
+
+  /**
+   * Provide a specific element, ref or function returning an element to receive focus when the Modal closes. Takes precedence over the trigger and previously focused element.
+   */
+  restoreFocusTo?: ModalRestoreFocusTarget
 
   /**
    * The content which will appear when triggering open the modal. If a function is given, you get a close method `() => ({ close })` in the arguments.

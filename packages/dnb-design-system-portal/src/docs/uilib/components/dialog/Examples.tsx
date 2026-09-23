@@ -247,10 +247,12 @@ export const DialogConfirmLoggedOut = () => {
       {() => {
         const DemoComponent = () => {
           const [open, setOpen] = useState(false)
+          const triggerRef = useRef<HTMLButtonElement>(null)
           const loginHandler = () => null
           return (
             <>
               <Button
+                ref={triggerRef}
                 id="custom-triggerer"
                 text="Manually trigger"
                 onClick={() => setOpen(true)}
@@ -263,13 +265,14 @@ export const DialogConfirmLoggedOut = () => {
                 confirmText="Logg inn"
                 hideDecline
                 open={open}
+                restoreFocusTo={triggerRef}
                 onClose={({ triggeredBy }) => {
                   console.log('triggeredBy', triggeredBy)
 
                   setOpen(false)
                 }}
-                onConfirm={() => {
-                  setOpen(false)
+                onConfirm={({ close }) => {
+                  close()
                   loginHandler()
                 }}
                 labelledBy="custom-triggerer"
