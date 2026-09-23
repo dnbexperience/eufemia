@@ -89,6 +89,17 @@ describe.each(['ui', 'sbanken'])(`Table for %s`, (themeName) => {
     })
   })
 
+  // The outline has to stay above the sticky header, so the frame is unbroken
+  it('have to match a sticky header with an outline', async () => {
+    await makeScreenshot({
+      ...defaults,
+      style: {
+        width: '30rem',
+      },
+      selector: '[data-visual-test="table-sticky-outline"]',
+    })
+  })
+
   it('have to match header with wrapped text', async () => {
     const selector = '[data-visual-test="table-header"] .dnb-table'
     await makeScreenshot({

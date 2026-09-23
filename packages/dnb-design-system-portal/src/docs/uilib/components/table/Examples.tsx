@@ -1389,6 +1389,49 @@ export const Sticky = () => {
   )
 }
 
+export const StickyOutline = () => {
+  return (
+    <ComponentBox hideCode data-visual-test="table-sticky-outline">
+      <Table.ScrollView style={{ maxHeight: '12rem' }}>
+        <Table sticky="css-position" outline border>
+          <thead>
+            <Tr>
+              <Th>Column 1</Th>
+              <Th>Column 2</Th>
+            </Tr>
+          </thead>
+          <tbody>
+            <Tr>
+              <Td>Row 1</Td>
+              <Td>Row 1</Td>
+            </Tr>
+            <Tr>
+              <Td>Row 2</Td>
+              <Td>Row 2</Td>
+            </Tr>
+            <Tr>
+              <Td>Row 3</Td>
+              <Td>Row 3</Td>
+            </Tr>
+            <Tr>
+              <Td>Row 4</Td>
+              <Td>Row 4</Td>
+            </Tr>
+            <Tr>
+              <Td>Row 5</Td>
+              <Td>Row 5</Td>
+            </Tr>
+            <Tr>
+              <Td>Row 6</Td>
+              <Td>Row 6</Td>
+            </Tr>
+          </tbody>
+        </Table>
+      </Table.ScrollView>
+    </ComponentBox>
+  )
+}
+
 export const StickyMaxHeight = () => {
   return (
     <ComponentBox hideCode data-visual-test="table-sticky">
