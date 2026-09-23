@@ -122,7 +122,7 @@ describe('useStickyHeader', () => {
 
     // stickyOffset should support pixels as well
     rerender(
-      <Table sticky stickyOffset={64}>
+      <Table sticky="css-position" stickyOffset={64}>
         <BasicTable />
       </Table>
     )
@@ -462,6 +462,101 @@ describe('useStickyHeader', () => {
     trElem.style.removeProperty('--table-offset')
 
     simulateScroll(320, scrollElem)
+    expect(trElem.style.getPropertyValue('--table-offset')).toEqual('')
+  })
+
+  it('should reset the header row when sticky is disabled', () => {
+    const { rerender } = render(
+      <Table sticky>
+        <BasicTable />
+      </Table>
+    )
+
+    const trElem: HTMLElement = document.querySelector('tr')
+
+    setSizes()
+
+    simulateScroll(320)
+
+    expect(Array.from(trElem.classList)).toContain('sticky')
+    expect(Array.from(trElem.classList)).toContain('is-sticky')
+    expect(trElem.style.getPropertyValue('--table-offset')).toEqual(
+      '160px'
+    )
+
+    rerender(
+      <Table>
+        <BasicTable />
+      </Table>
+    )
+
+    expect(Array.from(trElem.classList)).not.toContain('sticky')
+    expect(Array.from(trElem.classList)).not.toContain('is-sticky')
+    expect(trElem.style.getPropertyValue('--table-offset')).toEqual('')
+
+    // the header should no longer follow the scroll
+    simulateScroll(480)
+    expect(trElem.style.getPropertyValue('--table-offset')).toEqual('')
+  })
+
+  it('should remove the css-position state when switching to the transform mode', () => {
+    const { rerender } = render(
+      <Table sticky="css-position" stickyOffset="4rem">
+        <BasicTable />
+      </Table>
+    )
+
+    const trElem: HTMLElement = document.querySelector('tr')
+
+    setSizes()
+
+    expect(Array.from(trElem.classList)).toContain('css-position')
+    expect(trElem.style.getPropertyValue('--table-top')).toEqual('4rem')
+
+    rerender(
+      <Table sticky stickyOffset="4rem">
+        <BasicTable />
+      </Table>
+    )
+
+    setSizes()
+
+    expect(Array.from(trElem.classList)).toContain('sticky')
+    expect(Array.from(trElem.classList)).not.toContain('css-position')
+    expect(trElem.style.getPropertyValue('--table-top')).toEqual('')
+  })
+
+  it('should remove the transform state when switching to the css-position mode', () => {
+    const { rerender } = render(
+      <Table sticky stickyOffset="4rem">
+        <BasicTable />
+      </Table>
+    )
+
+    const trElem: HTMLElement = document.querySelector('tr')
+
+    setSizes()
+
+    simulateScroll(320)
+
+    expect(trElem.style.getPropertyValue('--table-offset')).toEqual(
+      '224px'
+    )
+
+    rerender(
+      <Table sticky="css-position" stickyOffset="4rem">
+        <BasicTable />
+      </Table>
+    )
+
+    setSizes()
+
+    // the transform would otherwise stack on top of the "top" offset
+    expect(trElem.style.getPropertyValue('--table-offset')).toEqual('')
+    expect(trElem.style.getPropertyValue('--table-top')).toEqual('4rem')
+
+    simulateScroll(480)
+
     expect(trElem.style.getPropertyValue('--table-offset')).toEqual('')
   })
 })

@@ -38,9 +38,7 @@ export const useStickyHeader = ({
       try {
         const tableElem = elementRef.current
 
-        const trElem: HTMLTableRowElement = tableElem.querySelector(
-          'thead > tr:first-of-type, thead > .dnb-table__tr:first-of-type'
-        )
+        const trElem = getTrElement(tableElem)
         const thElem = getThElement(tableElem)
 
         const setSizes = () => {
@@ -92,6 +90,10 @@ export const useStickyHeader = ({
               '--table-top',
               `${offsetTopPx / 16}rem`
             )
+            // tr.sticky always applies the transform, so a leftover offset would stack on top
+            trElem.style.removeProperty('--table-offset')
+          } else {
+            trElem.style.removeProperty('--table-top')
           }
         }
 
@@ -158,9 +160,10 @@ export const useStickyHeader = ({
         const applyObservers = () => {
           try {
             trElem.classList.add('sticky')
-            if (sticky === 'css-position') {
-              trElem.classList.add('css-position')
-            }
+            trElem.classList.toggle(
+              'css-position',
+              sticky === 'css-position'
+            )
 
             setSizes()
 
@@ -183,10 +186,25 @@ export const useStickyHeader = ({
       }
     }
 
+    // the element is still mounted here, unlike during the effect cleanup
+    resetStickyHeader(elementRef.current)
+
     return undefined
   }, [elementRef, sticky, stickyOffset])
 
   return { elementRef }
+}
+
+const resetStickyHeader = (tableElem: HTMLTableElement) => {
+  const trElem = getTrElement(tableElem)
+
+  if (!trElem) {
+    return // stop here
+  }
+
+  trElem.classList.remove('sticky', 'css-position', 'is-sticky')
+  trElem.style.removeProperty('--table-offset')
+  trElem.style.removeProperty('--table-top')
 }
 
 const stickyWarning = (message = '') => {
@@ -195,5 +213,10 @@ const stickyWarning = (message = '') => {
 const getThElement = (element: HTMLTableElement): HTMLTableCellElement => {
   return element.querySelector(
     'thead > tr:first-of-type > th:first-of-type, thead > .dnb-table__tr:first-of-type > .dnb-table__th:first-of-type'
+  )
+}
+const getTrElement = (element: HTMLTableElement): HTMLTableRowElement => {
+  return element?.querySelector(
+    'thead > tr:first-of-type, thead > .dnb-table__tr:first-of-type'
   )
 }
