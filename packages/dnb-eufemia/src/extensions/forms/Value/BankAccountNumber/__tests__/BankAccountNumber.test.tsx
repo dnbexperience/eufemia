@@ -180,6 +180,30 @@ describe('Value.BankAccountNumber', () => {
     })
   })
 
+  describe('screen reader text', () => {
+    it.each([
+      ['norwegianBban', '20001234567', '2 0 0 0 1 2 3 4 5 6 7'],
+      ['swedishBban', '50001234567', '5 0 0 0 1 2 3 4 5 6 7'],
+      ['swedishBankgiro', '59140129', '5 9 1 4 0 1 2 9'],
+      ['swedishPlusgiro', '1263664', '1 2 6 3 6 6 4'],
+      ['iban', 'NO9386011117947', 'N O 9 3 8 6 0 1 1 1 1 7 9 4 7'],
+    ] as const)(
+      'announces %s one character at a time',
+      (bankAccountType, value, expected) => {
+        render(
+          <Value.BankAccountNumber
+            bankAccountType={bankAccountType}
+            value={value}
+          />
+        )
+
+        expect(
+          document.querySelector('.dnb-sr-only').getAttribute('data-text')
+        ).toBe(expected)
+      }
+    )
+  })
+
   describe('labels per bankAccountType', () => {
     it('uses default label for norwegianBban', () => {
       render(<Value.BankAccountNumber value="20001234567" />)

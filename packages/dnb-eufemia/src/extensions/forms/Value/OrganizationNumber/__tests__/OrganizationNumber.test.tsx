@@ -70,4 +70,12 @@ describe('Value.OrganizationNumber', () => {
     const element = document.querySelector('.dnb-forms-value-block')
     expect(element).not.toBeInTheDocument()
   })
+
+  it('announces the value to screen readers', () => {
+    render(<Value.OrganizationNumber value="123456789" />)
+
+    expect(
+      document.querySelector('.dnb-sr-only').getAttribute('data-text')
+    ).toBe('1 2 3 4 5 6 7 8 9')
+  })
 })

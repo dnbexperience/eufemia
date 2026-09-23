@@ -1,10 +1,8 @@
 import { useCallback } from 'react'
 import type { ValueStringProps as StringValueProps } from '../String'
 import StringValue from '../String'
-import {
-  formatOrganizationNumber,
-  cleanNumber,
-} from '../../../../components/number-format/NumberUtils'
+import { cleanNumber } from '../../../../components/number-format/NumberUtils'
+import NumberFormatOrganizationNumber from '../../../../components/number-format/OrganizationNumber'
 import useTranslation from '../../hooks/useTranslation'
 import { isValueEmpty } from '../../ValueBlock'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
@@ -18,7 +16,7 @@ function OrganizationNumber(props: ValueOrganizationNumberProps) {
     if (isValueEmpty(value)) {
       return undefined
     }
-    return formatOrganizationNumber(cleanNumber(value)).toString()
+    return <NumberFormatOrganizationNumber value={cleanNumber(value)} />
   }, [])
 
   const stringValueProps: ValueOrganizationNumberProps = {

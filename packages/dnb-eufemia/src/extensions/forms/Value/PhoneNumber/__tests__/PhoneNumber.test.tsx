@@ -120,4 +120,12 @@ describe('Value.PhoneNumber', () => {
       expect(element).toHaveTextContent('+1 (684) 12 34 56 7')
     })
   })
+
+  it('announces the value to screen readers', () => {
+    render(<Value.PhoneNumber value="+4712345678" />)
+
+    expect(
+      document.querySelector('.dnb-sr-only').getAttribute('data-text')
+    ).toBe('+47 12 34 56 78')
+  })
 })

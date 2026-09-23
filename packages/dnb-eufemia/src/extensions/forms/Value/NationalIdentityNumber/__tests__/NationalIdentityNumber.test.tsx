@@ -70,4 +70,12 @@ describe('Value.NationalIdentityNumber', () => {
     const element = document.querySelector('.dnb-forms-value-block')
     expect(element).not.toBeInTheDocument()
   })
+
+  it('announces the value to screen readers', () => {
+    render(<Value.NationalIdentityNumber value="18089212345" />)
+
+    expect(
+      document.querySelector('.dnb-sr-only').getAttribute('data-text')
+    ).toBe('18 08 92 1 2 3 4 5')
+  })
 })

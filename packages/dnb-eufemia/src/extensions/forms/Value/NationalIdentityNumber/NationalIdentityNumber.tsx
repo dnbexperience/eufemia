@@ -1,10 +1,8 @@
 import { useCallback } from 'react'
 import type { ValueStringProps as StringValueProps } from '../String'
 import StringValue from '../String'
-import {
-  formatNationalIdentityNumber,
-  cleanNumber,
-} from '../../../../components/number-format/NumberUtils'
+import { cleanNumber } from '../../../../components/number-format/NumberUtils'
+import NumberFormatNationalIdentityNumber from '../../../../components/number-format/NationalIdentityNumber'
 import useTranslation from '../../hooks/useTranslation'
 import { isValueEmpty } from '../../ValueBlock'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
@@ -18,7 +16,9 @@ function NationalIdentityNumber(props: ValueNationalIdentityNumberProps) {
     if (isValueEmpty(value)) {
       return undefined
     }
-    return formatNationalIdentityNumber(cleanNumber(value)).toString()
+    return (
+      <NumberFormatNationalIdentityNumber value={cleanNumber(value)} />
+    )
   }, [])
 
   const stringValueProps: ValueNationalIdentityNumberProps = {

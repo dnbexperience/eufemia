@@ -1,7 +1,7 @@
 import { useCallback } from 'react'
 import type { ValueStringProps as StringValueProps } from '../String'
 import StringValue from '../String'
-import { formatPhoneNumber } from '../../../../components/number-format/NumberUtils'
+import NumberFormatPhoneNumber from '../../../../components/number-format/PhoneNumber'
 import useTranslation from '../../hooks/useTranslation'
 import { isValueEmpty } from '../../ValueBlock'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
@@ -19,7 +19,7 @@ function PhoneNumber(props: ValuePhoneNumberProps) {
       return undefined
     }
 
-    return formatPhoneNumber(value).toString()
+    return <NumberFormatPhoneNumber value={value} />
   }, [])
 
   const stringValueProps: ValuePhoneNumberProps = {
