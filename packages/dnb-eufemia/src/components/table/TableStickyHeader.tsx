@@ -32,14 +32,13 @@ export const useStickyHeader = ({
       let totalOffset = 0
       let hasScrollbar = null
       let scrollViewElem = null
+      let scrollTargetElem: HTMLElement | Document = null
       let timeout: NodeJS.Timeout = null
 
       try {
         const tableElem = elementRef.current
 
-        const trElem: HTMLTableRowElement = tableElem.querySelector(
-          'thead > tr:first-of-type, thead > .dnb-table__tr:first-of-type'
-        )
+        const trElem = getTrElement(tableElem)
         const thElem = getThElement(tableElem)
 
         const setSizes = () => {
@@ -76,9 +75,8 @@ export const useStickyHeader = ({
               hasScrollbar =
                 scrollElem.scrollHeight - 1 > scrollElem.offsetHeight
 
-              if (hasScrollbar) {
-                scrollViewElem = scrollElem
-              }
+              // without a scrollbar the page scrolls, not the scroll view
+              scrollViewElem = hasScrollbar ? scrollElem : null
             }
           }
 
@@ -92,6 +90,10 @@ export const useStickyHeader = ({
               '--table-top',
               `${offsetTopPx / 16}rem`
             )
+            // tr.sticky always applies the transform, so a leftover offset would stack on top
+            trElem.style.removeProperty('--table-offset')
+          } else {
+            trElem.style.removeProperty('--table-top')
           }
         }
 
@@ -139,22 +141,33 @@ export const useStickyHeader = ({
           }
         }
 
+        // the scroll target can change, because a scrollbar may appear first on a resize
+        const bindScroll = () => {
+          const target = scrollViewElem || document
+          if (target !== scrollTargetElem) {
+            scrollTargetElem?.removeEventListener('scroll', onScroll)
+            scrollTargetElem = target
+            scrollTargetElem.addEventListener('scroll', onScroll)
+          }
+        }
+
         const onResize = () => {
           setSizes()
+          bindScroll()
           onScroll()
         }
 
         const applyObservers = () => {
           try {
             trElem.classList.add('sticky')
-            if (sticky === 'css-position') {
-              trElem.classList.add('css-position')
-            }
+            trElem.classList.toggle(
+              'css-position',
+              sticky === 'css-position'
+            )
 
             setSizes()
 
-            const scrollElem = scrollViewElem || document
-            scrollElem.addEventListener('scroll', onScroll)
+            bindScroll()
             window.addEventListener('resize', onResize)
           } catch (e) {
             stickyWarning(String(e))
@@ -165,7 +178,7 @@ export const useStickyHeader = ({
 
         return () => {
           clearTimeout(timeout)
-          document.removeEventListener('scroll', onScroll)
+          scrollTargetElem?.removeEventListener('scroll', onScroll)
           window.removeEventListener('resize', onResize)
         }
       } catch (e) {
@@ -173,10 +186,25 @@ export const useStickyHeader = ({
       }
     }
 
+    // the element is still mounted here, unlike during the effect cleanup
+    resetStickyHeader(elementRef.current)
+
     return undefined
   }, [elementRef, sticky, stickyOffset])
 
   return { elementRef }
+}
+
+const resetStickyHeader = (tableElem: HTMLTableElement) => {
+  const trElem = getTrElement(tableElem)
+
+  if (!trElem) {
+    return // stop here
+  }
+
+  trElem.classList.remove('sticky', 'css-position', 'is-sticky')
+  trElem.style.removeProperty('--table-offset')
+  trElem.style.removeProperty('--table-top')
 }
 
 const stickyWarning = (message = '') => {
@@ -185,5 +213,10 @@ const stickyWarning = (message = '') => {
 const getThElement = (element: HTMLTableElement): HTMLTableCellElement => {
   return element.querySelector(
     'thead > tr:first-of-type > th:first-of-type, thead > .dnb-table__tr:first-of-type > .dnb-table__th:first-of-type'
+  )
+}
+const getTrElement = (element: HTMLTableElement): HTMLTableRowElement => {
+  return element?.querySelector(
+    'thead > tr:first-of-type, thead > .dnb-table__tr:first-of-type'
   )
 }

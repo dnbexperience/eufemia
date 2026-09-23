@@ -110,14 +110,37 @@ For the same reason, an admin must pre-create the read-only dashboard-read execu
 
 `infra/` provisions:
 
-- **S3 bucket** (versioned, SSE-S3, public access blocked) holding portal-view records (`portal-views/`), MCP usage (`mcp-usage/`, `mcp-usage-daily/`), component usage (`component-usage/`, `component-usage-daily/`), the dashboard snapshot (`snapshots/dashboard.json`), and Athena output (`athena-results/`, expired after 7 days).
-- **Glue database + tables** with JSON SerDe and partition projection on `dt` (`portal_views`, `mcp_usage`, `mcp_usage_daily`, `component_usage`, `component_usage_daily`).
+- **S3 bucket** (versioned, SSE-S3, public access blocked) holding portal-view records (`portal-views/`, `portal-views-daily/`), MCP usage (`mcp-usage/`, `mcp-usage-daily/`), component usage (`component-usage/`, `component-usage-daily/`), the dashboard snapshot (`snapshots/dashboard.json`), and Athena output (`athena-results/`, expired after 7 days). The raw event prefixes (`portal-views/`, `mcp-usage/`, `component-usage/`) are expired after 395 days (≈ 13 months) to cover year-over-year reporting; the daily rollups (`*-daily/`) and the regenerated snapshot are not expired, so aggregated history outlives the raw rows.
+- **Glue database + tables** with JSON SerDe and partition projection on `dt` (`portal_views`, `portal_views_daily`, `mcp_usage`, `mcp_usage_daily`, `component_usage`, `component_usage_daily`). The `portal_views_daily` rollup keeps the anonymous view dimensions (`status`, `locale`, `theme`, `color_scheme`, `referrer`, `via_search`) alongside `path`/`env` so their history survives the raw expiry and stays queryable via Athena; only the per-event timestamp is dropped (aggregated to the `dt` day).
+
+> **Note:** the snapshot generator refreshes the durable `portal_views_daily` rollup each run for retention, but the dashboard does not read it yet — it still shows the recent raw page-view rows. Surfacing the retained history (and its dimensions) on the dashboard is a follow-up; the rollup exists now so the history is preserved before the raw rows begin to expire.
+
+Scheduled runs recompute only the recent tail. To capture page-views recorded before this rollup existed, run the generator once with an explicit start date (writes are idempotent per day):
+
+```sh
+aws lambda invoke --function-name eufemia-<env>-analytics-snapshot \
+  --payload '{"sinceDt":"2024-01-01"}' --cli-binary-format raw-in-base64-out /dev/stdout
+```
+
+The rollup refresh is best-effort, so the invoke returns a normal snapshot result even if the backfill failed — check the run logs or the `PortalViewsRollupFailure` metric, not the invoke exit, and re-run if needed. If the full-history pass is too large for one invocation (90s / 256 MB), run it with progressively earlier `sinceDt` values (each re-scans to today; idempotent per day).
+
+Because nothing reads the rollup back in-app yet, sanity-check that the retained history is queryable with an ad-hoc Athena query against the workgroup, e.g. year-over-year page views by month:
+
+```sql
+SELECT substr(dt, 1, 7) AS month, sum(count) AS views
+FROM portal_views_daily
+GROUP BY substr(dt, 1, 7)
+ORDER BY month;
+```
+
+Swap `sum(count)` groupings for any retained dimension (`locale`, `theme`, `color_scheme`, `referrer`, `via_search`, `status`, `path`, `env`) to inspect its history.
 
 > **Note:** the `component_usage*` tables and `component-usage*` prefixes are scaffold for a future Nucleus component-usage producer. There is no producer yet, so the snapshot generator does **not** query them (to avoid running Athena against empty tables) and the section ships empty. Re-wiring is a small change in `buildComponentUsage`'s caller — see the guidance in `src/lambda/snapshot.ts`.
 
 - **Athena workgroup** for the retrieve queries.
 - **Lambda function** (`nodejs22.x`) — its execution role is pre-created out-of-band, because the OIDC deploy role's permissions boundary forbids `iam:CreateRole` (ADR 0004); it is only referenced here.
-- **Dashboard-read Lambda** (`nodejs22.x`) serving `GET /data` under the read-only `eufemia-<env>-dashboard-role`, plus a **scheduled snapshot generator** Lambda (hourly EventBridge rule) that runs under `eufemia-<env>-analytics-role` and refreshes `snapshots/dashboard.json` off the request path. Three CloudWatch alarms flag a failed generator run (`Errors`), a generator that has stopped firing (missing `Invocations`), and a run that succeeds but writes an empty snapshot (the `SnapshotRecordCount` EMF metric stays below 1). The empty-snapshot metric is emitted as an Embedded Metric Format log line, so it needs no extra role permissions.
+- **Dashboard-read Lambda** (`nodejs22.x`) serving `GET /data` under the read-only `eufemia-<env>-dashboard-role`, plus a **scheduled snapshot generator** Lambda (hourly EventBridge rule) that runs under `eufemia-<env>-analytics-role` and refreshes `snapshots/dashboard.json` off the request path. CloudWatch alarms flag a failed generator run (`Errors`), a generator that has stopped firing (missing `Invocations`), a run that succeeds but writes an empty snapshot (the `SnapshotRecordCount` EMF metric stays below 1), and a run that falls back to an empty MCP usage or component usage section (the `McpUsageBuildFailure`/`ComponentUsageBuildFailure` EMF metrics). The EMF-based alarms need no extra role permissions. All alarms notify an SNS topic (`snapshot_alerts`); set `snapshot_alert_email` to subscribe an address (SNS emails a confirmation link that must be clicked once), or add another `aws_sns_topic_subscription` pointed at a different target, such as AWS Chatbot or a formatting Lambda for Slack (a raw incoming webhook can't complete the SNS subscription handshake, so it isn't a drop-in target).
+- The generator is also invoked once at the end of every deploy (the `Seed snapshot` step in `ghe-deploy-workflow.yml`), so the dashboard has data immediately instead of waiting for the first scheduled run, and a generator failure fails the deploy rather than surfacing later as a silently unavailable dashboard.
 - **API Gateway HTTP API** with the `/collect-portal-views` and `/collect-local-mcp-usage` ingest routes (plus `/healthz`) and throttling.
 
 The dashboard is hosted separately as a static site:
@@ -127,6 +150,6 @@ The dashboard is hosted separately as a static site:
 
 The dashboard API's CORS allows the dashboard's canonical origin (`DASHBOARD_PUBLIC_URL`, the custom domain) plus any extra origins from the optional `dashboard_origins` Terraform variable, such as a local-dev URL. The raw `*.cloudfront.net` origin is intentionally not allow-listed, since the dashboard is served via the custom domain (Akamai + WAF); direct access to the raw `*.cloudfront.net` origin is blocked at CloudFront by the `X-Origin-Verify` viewer-request function above, so only the Akamai edge (which injects the header) can reach it. After the first deploy, add the dashboard URL as a redirect URI on the app registration.
 
-Prerequisites for sign-in and data to work end to end: the app registration must expose a `Dashboard.Read` scope under App ID URI `api://<clientId>` and issue v2 access tokens (`requestedAccessTokenVersion = 2`). The deploy role's CloudFront and S3 permissions are provisioned in the OIDC federation repo, alongside the Lambda execution role.
+Prerequisites for sign-in and data to work end to end: the app registration must expose a `Dashboard.Read` scope under App ID URI `api://<clientId>` and issue v2 access tokens (`requestedAccessTokenVersion = 2`). The deploy role's CloudFront, S3, and SNS permissions are provisioned in the OIDC federation repo, alongside the Lambda execution role.
 
 Terraform state reuses the shared `eufemia-mcp-terraform-state` bucket under the `analytics/` key.

@@ -107,7 +107,7 @@ export type SharedFieldBlockProps = {
    */
   labelSrOnly?: boolean
   /**
-   * Will append an additional text to the label, like "(optional)" or "(recommended)"
+   * Will append additional text to the label, like "(optional)" or "(recommended)", displayed in a secondary text color.
    */
   labelSuffix?: ReactNode
   /**

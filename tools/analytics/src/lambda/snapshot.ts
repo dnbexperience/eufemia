@@ -1,6 +1,7 @@
 import {
   aggregateComponentUsageRaw,
   aggregateMcpUsageRaw,
+  aggregatePortalViewsRaw,
   retrieveComponentUsageDaily,
   retrieveMcpUsageDaily,
   retrievePortalViews,
@@ -11,6 +12,7 @@ import {
   requireEnv,
   storeComponentUsageDaily,
   storeMcpUsageDaily,
+  storePortalViewsDaily,
   writeSnapshot,
   type ComponentUsageAggregate,
   type ComponentUsageCount,
@@ -118,14 +120,73 @@ function emitComponentUsageBuildFailureMetric(): void {
   )
 }
 
+/**
+ * Emit a portal-view rollup-refresh failure as an EMF metric. The refresh is a
+ * best-effort retention side-job (it does not feed the dashboard yet), so a
+ * failure is swallowed rather than failing the run; without this metric that
+ * degradation — the durable history quietly stops accruing — would be invisible.
+ * Kept in sync with the `snapshot_portal_views_rollup_failed` alarm in
+ * infra/main.tf.
+ */
+function emitPortalViewsRollupFailureMetric(): void {
+  const functionName = process.env.AWS_LAMBDA_FUNCTION_NAME ?? 'unknown'
+
+  // eslint-disable-next-line no-console -- EMF metric emission to CloudWatch Logs
+  console.log(
+    JSON.stringify({
+      _aws: {
+        Timestamp: Date.now(),
+        CloudWatchMetrics: [
+          {
+            Namespace: METRIC_NAMESPACE,
+            Dimensions: [['FunctionName']],
+            Metrics: [{ Name: 'PortalViewsRollupFailure', Unit: 'Count' }],
+          },
+        ],
+      },
+      FunctionName: functionName,
+      PortalViewsRollupFailure: 1,
+    })
+  )
+}
+
 // The number of recent days recomputed into the durable daily rollup on each
 // run. Wider than the hourly cadence so a short generator outage cannot leave a
 // day permanently un-aggregated (raw rows live far longer, so re-runs backfill).
 const MCP_ROLLUP_DAYS = 7
 const MCP_TOP_LIMIT = 20
 
+// Recent-tail window for the retention rollup refresh (mirrors MCP_ROLLUP_DAYS).
+const PORTAL_VIEWS_ROLLUP_DAYS = 7
+
 function dayString(date: Date): string {
   return date.toISOString().slice(0, 10)
+}
+
+// Recompute raw page views into the durable portal_views_daily rollup. This is
+// retention only — it preserves the anonymous view-dimension history (queryable
+// via Athena) beyond the raw rows' 13-month expiry; the dashboard does not read
+// it yet. Best-effort at the call site: a failure emits a metric but does not
+// fail the snapshot run.
+//
+// Scheduled runs pass no `sinceDt` and recompute only the recent tail. A one-time
+// historical backfill (for page-views recorded before this rollup existed) is a
+// manual invoke with an explicit `sinceDt`, e.g. the Glue projection start — see
+// the analytics README. Writes are idempotent per-day overwrites, so re-running a
+// window is safe.
+async function refreshPortalViewsRollup(
+  bucket: string,
+  sinceDt?: string
+): Promise<void> {
+  let from = sinceDt
+
+  if (!from) {
+    const since = new Date()
+    since.setUTCDate(since.getUTCDate() - (PORTAL_VIEWS_ROLLUP_DAYS - 1))
+    from = dayString(since)
+  }
+
+  await storePortalViewsDaily(bucket, await aggregatePortalViewsRaw(from))
 }
 
 function sumBy(
@@ -279,14 +340,32 @@ export async function buildComponentUsage(
  * Queries Athena for the latest anonymous page views and writes the snapshot to
  * S3. Runs under the analytics execution role (Athena + S3 write); keeping it
  * separate from the read endpoint lets that endpoint run with a read-only role.
+ *
+ * An optional `sinceDt` on the invocation event backfills the page-view rollup
+ * from that date instead of the recent tail — used for the one-time historical
+ * backfill (see the analytics README). Scheduled invocations pass none.
  */
-export async function handler(): Promise<{
+export async function handler(event?: { sinceDt?: string }): Promise<{
   generatedAt: string
   count: number
 }> {
   const bucket = requireEnv('DATA_BUCKET')
 
-  const portalViews = await retrievePortalViews({ limit: SNAPSHOT_LIMIT })
+  // Fetch the dashboard's portal-view rows (load-bearing) and refresh the durable
+  // page-view rollup concurrently. The rollup refresh is retention only and must
+  // not fail the run, so its failure is caught and surfaced via a metric; keeping
+  // it concurrent with the read keeps the added Athena query within the timeout.
+  const [portalViews] = await Promise.all([
+    retrievePortalViews({ limit: SNAPSHOT_LIMIT }),
+    refreshPortalViewsRollup(bucket, event?.sinceDt).catch((error) => {
+      // eslint-disable-next-line no-console -- surface the failure in CloudWatch Logs
+      console.error(
+        'Failed to refresh the portal-view daily rollup',
+        error
+      )
+      emitPortalViewsRollupFailureMetric()
+    }),
+  ])
 
   // The MCP section is additive; a failure here (e.g. a missing Glue grant or a
   // slow query) must not discard the portal views that were just fetched. Fall
@@ -317,11 +396,12 @@ export async function handler(): Promise<{
   //     emitComponentUsageBuildFailureMetric()
   //     componentUsage = EMPTY_COMPONENT_USAGE
   //   }
-  // Also build it CONCURRENTLY with the MCP section (Promise.all) — wiring it in
-  // adds two Athena queries, and run sequentially the five (portal + 2 MCP + 2
-  // here) can exceed the Lambda timeout, killing the run before writeSnapshot.
-  // The infra "three Athena queries" / 90s-timeout test assumes this is unwired;
-  // update both when re-enabling.
+  // Also build it CONCURRENTLY with the other sections (Promise.all) — wiring it
+  // in adds two Athena queries, and run sequentially the total (portal read +
+  // rollup refresh + 2 MCP + 2 here) can exceed the Lambda timeout, killing the
+  // run before writeSnapshot. The infra "gives the snapshot generator enough
+  // timeout for its Athena queries" test assumes this is unwired; update it when
+  // re-enabling.
   const componentUsage: ComponentUsageSection = EMPTY_COMPONENT_USAGE
 
   const snapshot: Snapshot = {

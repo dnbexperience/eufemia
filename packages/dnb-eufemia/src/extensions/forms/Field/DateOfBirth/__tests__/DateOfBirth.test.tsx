@@ -50,6 +50,9 @@ describe('Field.DateOfBirth', () => {
     expect(label).toHaveTextContent(
       `${nb.DateOfBirth.label} ${nb.Field.optionalLabelSuffix}`
     )
+    expect(
+      label.querySelector('.dnb-forms-field-block__label__suffix')
+    ).toHaveTextContent(nb.Field.optionalLabelSuffix)
   })
 
   describe('onChange', () => {

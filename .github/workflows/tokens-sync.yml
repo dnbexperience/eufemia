@@ -1,27 +1,24 @@
-name: Icons Library
+name: Design Tokens
 
 on:
-  push:
-    branches:
-      - 'icon*/**'
   workflow_dispatch:
 
 permissions:
   contents: read
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
-# No job-wide `env:` on purpose: secrets are scoped to the individual steps that
+# No job-wide secrets on purpose: they are scoped to the individual steps that
 # use them, so `yarn install` and the build steps never receive credentials.
 
+env:
+  BRANCH: tokens/automation-figma-sync
+
 jobs:
-  process-icons:
-    name: Fetch and Build Icons
-    if: >-
-      github.event_name != 'push' ||
-      github.ref_name != 'icons/automation-figma-sync'
+  process-tokens:
+    name: Fetch and Build Design Tokens
 
     runs-on: macos-26
 
@@ -31,22 +28,13 @@ jobs:
       - name: Git checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
-          ref: ${{ github.event_name == 'workflow_dispatch' && 'main' || github.ref }}
+          ref: main
           fetch-depth: 0
           persist-credentials: false
 
-      - name: Prepare manual update branch
-        if: github.event_name == 'workflow_dispatch'
-        id: manual-branch
-        run: |
-          branch="icons/automation-figma-sync"
-          echo "branch=$branch" >> "$GITHUB_OUTPUT"
-
-      - name: Find an open icon update pull request
-        if: github.event_name == 'workflow_dispatch'
+      - name: Find an open design token pull request
         id: existing-pr
         env:
-          BRANCH: ${{ steps.manual-branch.outputs.branch }}
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
           url=$(gh pr list \
@@ -58,13 +46,12 @@ jobs:
           if [ -n "$url" ]; then
             echo "exists=true" >> "$GITHUB_OUTPUT"
             echo "url=$url" >> "$GITHUB_OUTPUT"
-            echo "An icon update pull request is already open: $url" >> "$GITHUB_STEP_SUMMARY"
+            echo "A design token pull request is already open: $url" >> "$GITHUB_STEP_SUMMARY"
           fi
 
-      - name: Check out the existing icon update branch
+      - name: Check out the existing design token branch
         if: steps.existing-pr.outputs.exists == 'true'
         env:
-          BRANCH: ${{ steps.manual-branch.outputs.branch }}
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
           gh auth setup-git
@@ -93,17 +80,18 @@ jobs:
         run: yarn workspace @dnb/eufemia playwright install-deps firefox
         if: steps.playwright-cache.outputs.cache-hit == 'true'
 
-      - name: Icons fetch and prebuild
-        run: yarn workspace @dnb/eufemia prebuild:figma:ci
+      - name: Design tokens fetch and generate
+        run: yarn workspace @dnb/eufemia prebuild:figma:tokens:ci
         env:
-          BRANCH: ${{ steps.manual-branch.outputs.branch || github.ref_name }}
           FIGMA_TOKEN: ${{ secrets.FIGMA_TOKEN }}
-          FIGMA_ICONS_FILE: ${{ secrets.FIGMA_ICONS_FILE }}
+          FIGMA_TOKENS_FILE: ${{ vars.FIGMA_TOKENS_FILE }}
 
-      - name: Detect icon changes
+      - name: Detect design token changes
         id: changes
+        # Scoped to the paths the commit step stages, so an unrelated dirty
+        # file cannot start a build that ends with nothing to commit.
         run: |
-          if [ -z "$(git status --porcelain)" ]; then
+          if [ -z "$(git status --porcelain -- packages/dnb-eufemia/src/style/themes)" ]; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
           else
             echo "changed=true" >> "$GITHUB_OUTPUT"
@@ -133,25 +121,12 @@ jobs:
         if: failure()
         run: echo '\n\n👉 Download the diff files as a ZIP file. \nIt is called "visual-test-artifact" and you find it in the test "Summary" under "Artifacts".\n\n\n'
 
-      - name: Commit icons and updated snapshots
-        if: >-
-          success() &&
-          github.event_name == 'push' &&
-          steps.changes.outputs.changed == 'true'
-        run: yarn workspace @dnb/eufemia icons:commit
-        env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
-          GH_NAME: ${{ secrets.GH_NAME }}
-          GH_EMAIL: ${{ secrets.GH_EMAIL }}
-
-      - name: Commit manual icon update
-        if: >-
-          success() &&
-          github.event_name == 'workflow_dispatch' &&
-          steps.changes.outputs.changed == 'true'
+      - name: Commit design tokens and updated snapshots
+        if: success() && steps.changes.outputs.changed == 'true'
         run: |
           gh auth setup-git
-          remote_sha=$(git ls-remote --heads origin "refs/heads/$BRANCH" | cut -f1)
+          # The tip fetched at the start, so a commit pushed during the run makes the push fail instead of vanishing
+          remote_sha=$(git rev-parse --verify --quiet "refs/remotes/origin/$BRANCH" || true)
 
           if [ "$EXISTING_PR" != true ]; then
             git switch -c "$BRANCH"
@@ -159,12 +134,10 @@ jobs:
           git config user.name "$GH_NAME"
           git config user.email "$GH_EMAIL"
           git add \
-            packages/dnb-eufemia/src/icons \
-            packages/dnb-eufemia/src/components/icon \
-            packages/dnb-eufemia/assets/icons \
-            packages/dnb-eufemia/scripts/figma/version.lock
+            packages/dnb-eufemia/src/style/themes \
+            ':(glob)packages/dnb-eufemia/src/**/__image_snapshots__/**'
 
-          git commit --no-verify -m "chore: synchronize icons from Figma"
+          git commit --no-verify -m "chore: synchronize design tokens from Figma"
           if [ -n "$remote_sha" ]; then
             git push origin "HEAD:refs/heads/$BRANCH" \
               --force-with-lease="refs/heads/$BRANCH:$remote_sha"
@@ -172,69 +145,69 @@ jobs:
             git push --set-upstream origin "$BRANCH"
           fi
         env:
-          BRANCH: ${{ steps.manual-branch.outputs.branch }}
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
           GH_NAME: ${{ secrets.GH_NAME }}
           GH_EMAIL: ${{ secrets.GH_EMAIL }}
           EXISTING_PR: ${{ steps.existing-pr.outputs.exists }}
 
-      - name: Create draft icon update pull request
-        if: >-
-          success() &&
-          github.event_name == 'workflow_dispatch' &&
-          steps.changes.outputs.changed == 'true'
+      - name: Create draft design token pull request
+        if: success() && steps.changes.outputs.changed == 'true'
         env:
-          BRANCH: ${{ steps.manual-branch.outputs.branch }}
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
           EXISTING_PR: ${{ steps.existing-pr.outputs.exists }}
           PR_URL: ${{ steps.existing-pr.outputs.url }}
         run: |
-          icon_names() {
-            git diff --name-only "origin/main...HEAD" --diff-filter="$1" \
-              -- 'packages/dnb-eufemia/assets/icons/dnb/*.svg' |
-              sed -E 's#.*/##; s/\.svg$//; s/_medium$//' |
-              sort -u | paste -sd, - | sed 's/,/, /g'
+          token_scss='packages/dnb-eufemia/src/style/themes/*/tokens*.scss'
+          foundation_scss='packages/dnb-eufemia/src/style/themes/*/foundation.scss'
+
+          # Declarations on the added (+) or removed (-) side of the diff
+          token_names() {
+            git diff -U0 "origin/main...HEAD" -- "$token_scss" |
+              sed -n "s/^$1[[:space:]]*\(--token-[a-z0-9-]*\):.*/\1/p" |
+              sort -u
           }
 
-          added=$(icon_names A)
-          removed=$(icon_names D)
-          updated=$(icon_names M)
-          if git diff --quiet "origin/main...HEAD" -- \
-            packages/dnb-eufemia/src/icons/dnb/icons-meta.json; then
-            metadata_changed=No
+          as_list() {
+            if [ -z "$1" ]; then
+              echo "None"
+            else
+              echo "$1" | paste -sd, - | sed 's/,/, /g'
+            fi
+          }
+
+          added=$(comm -23 <(token_names '+') <(token_names '-'))
+          removed=$(comm -13 <(token_names '+') <(token_names '-'))
+          themes=$(git diff --name-only "origin/main...HEAD" \
+            -- "$token_scss" "$foundation_scss" |
+            cut -d/ -f6 |
+            sed 's/^ui$/DNB/; s/^sbanken$/Sbanken/; s/^carnegie$/Carnegie/' |
+            sort -u | paste -sd, - | sed 's/,/, /g')
+
+          if [ -n "$themes" ]; then
+            subject="design tokens for $themes"
           else
-            metadata_changed=Yes
+            subject="design tokens from Figma"
           fi
 
           if [ -n "$removed" ]; then
-            title="feat(Icons)!: remove $removed"
-            fallback_title="feat(Icons)!: remove icons from Figma"
+            title="feat(Theme)!: remove $subject"
           elif [ -n "$added" ]; then
-            title="feat(Icons): add $added"
-            fallback_title="feat(Icons): add icons from Figma"
-          elif [ -n "$updated" ]; then
-            title="fix(Icons): update $updated"
-            fallback_title="fix(Icons): update icons from Figma"
+            title="feat(Theme): add $subject"
           else
-            title="fix(Icons): synchronize icons from Figma"
-            fallback_title="$title"
+            title="fix(Theme): update $subject"
           fi
 
-          if [ "${#title}" -gt 240 ]; then
-            title="$fallback_title"
-          fi
+          body=$(
+            echo "Synchronizes the Eufemia design tokens with Figma for review before release."
+            echo ""
+            echo "- Themes: ${themes:-None}"
+            echo "- Added: $(as_list "$added")"
+            echo "- Removed: $(as_list "$removed")"
+            echo ""
+            echo "Review the token values, removals and visual snapshots before marking the pull request ready."
+          )
 
-          body="Synchronizes the Eufemia icon library with Figma for review before release."
-          {
-            echo "## Icon changes"
-            echo ""
-            echo "- Added: ${added:-None}"
-            echo "- Updated: ${updated:-None}"
-            echo "- Removed: ${removed:-None}"
-            echo "- Metadata changed: $metadata_changed"
-            echo ""
-            echo "Review names, tags, removals, changelog and visual snapshots before marking the pull request ready."
-          } >> "$GITHUB_STEP_SUMMARY"
+          printf '%s\n' "$body" >> "$GITHUB_STEP_SUMMARY"
           if [ "$EXISTING_PR" = true ]; then
             gh pr edit "$PR_URL" --title "$title"
             is_draft=$(gh pr view "$PR_URL" --json isDraft --jq '.isDraft')
@@ -249,6 +222,7 @@ jobs:
               --body "$body" \
               --draft
           fi
-      - name: Report no icon changes
+
+      - name: Report no design token changes
         if: steps.changes.outputs.changed == 'false'
-        run: echo "Figma and the Eufemia icon library are already synchronized."
+        run: echo "Figma and the Eufemia design tokens are already synchronized."

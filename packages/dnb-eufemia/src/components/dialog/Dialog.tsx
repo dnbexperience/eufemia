@@ -62,6 +62,8 @@ function Dialog(localProps: DialogAllProps) {
     preventOverlayClose,
     open,
     openDelay,
+    restoreFocus,
+    restoreFocusTo,
 
     trigger,
     omitTriggerButton = false,
@@ -119,6 +121,8 @@ function Dialog(localProps: DialogAllProps) {
     noAnimationOnMobile,
     fullscreen: currentFullscreen,
     open,
+    restoreFocus,
+    restoreFocusTo,
     directDomReturn,
     onOpen,
     onClose,

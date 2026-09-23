@@ -8,6 +8,7 @@ import type {
   ComponentUsageAggregate,
   ComponentUsageDaily,
   McpUsageDaily,
+  PortalViewDaily,
 } from './snapshot-store.js'
 
 const athena = new AthenaClient({})
@@ -161,6 +162,57 @@ export async function retrievePortalViews(
 // A YYYY-MM-DD partition token is derived from the server clock, never user
 // input, so interpolating it into the query carries no injection risk.
 const DT_PATTERN = /^\d{4}-\d{2}-\d{2}$/
+
+function toPortalViewDailyRow([
+  dt,
+  path,
+  env,
+  status,
+  locale,
+  theme,
+  color_scheme,
+  referrer,
+  via_search,
+  count,
+]: Array<string | undefined>): PortalViewDaily {
+  return {
+    dt: dt ?? '',
+    path: path ?? '',
+    env: env ?? '',
+    status: status ?? '',
+    locale: locale ?? '',
+    theme: theme ?? '',
+    color_scheme: color_scheme ?? '',
+    referrer: referrer ?? '',
+    via_search: via_search ?? '',
+    count: Number(count ?? 0),
+  }
+}
+
+/**
+ * Aggregate raw portal page-view rows on or after `sinceDt` into per-day counts,
+ * grouped by path/env and the anonymous view dimensions (status/locale/theme/
+ * color_scheme/referrer/via_search). Keeping the dimensions in the durable rollup
+ * means their history survives the raw rows' expiry. Used to recompute the recent
+ * tail of the rollup on each generator run.
+ */
+export async function aggregatePortalViewsRaw(
+  sinceDt: string
+): Promise<PortalViewDaily[]> {
+  if (!DT_PATTERN.test(sinceDt)) {
+    throw new Error(`sinceDt must be a YYYY-MM-DD date, got: ${sinceDt}`)
+  }
+
+  const database = requireEnv('GLUE_DATABASE')
+  const table = requireEnv('GLUE_TABLE')
+  const workgroup = requireEnv('ATHENA_WORKGROUP')
+
+  const query = `SELECT dt, path, env, status, locale, theme, color_scheme, referrer, via_search, count(*) AS cnt FROM "${database}"."${table}" WHERE dt >= '${sinceDt}' GROUP BY dt, path, env, status, locale, theme, color_scheme, referrer, via_search`
+  const queryExecutionId = await startQuery(query, workgroup)
+  await waitForQuery(queryExecutionId)
+
+  return readResults(queryExecutionId, toPortalViewDailyRow)
+}
 
 function toDailyRow([dt, tool, component, path, count]: Array<
   string | undefined

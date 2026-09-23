@@ -81,6 +81,20 @@ export const ModalProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
+  restoreFocus: {
+    doc: 'Moves focus back to the element that opened the Modal once it closes. Defaults to `true`.',
+    type: 'boolean',
+    status: 'optional',
+  },
+  restoreFocusTo: {
+    doc: 'Provide a specific element, ref or function returning an element to receive focus when the Modal closes. Takes precedence over the trigger and previously focused element.',
+    type: [
+      'HTMLElement',
+      'React.RefObject<HTMLElement>',
+      '() => HTMLElement',
+    ],
+    status: 'optional',
+  },
   overlayClass: {
     doc: 'Give the page overlay a custom class name (maps to `dnb-modal__overlay`).',
     type: 'string',

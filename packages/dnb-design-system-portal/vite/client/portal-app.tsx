@@ -5,6 +5,7 @@ import {
   useEffect,
   useMemo,
   useRef,
+  useState,
 } from 'react'
 import {
   createBrowserRouter,
@@ -44,6 +45,7 @@ import 'virtual:eufemia-theme-styles'
 const emotionCache = createEmotionCache({ key: 'css' })
 
 function RootLayout() {
+  const hmrRevision = useHmrRevision()
   // Drop the deprecated `name` mirror so it isn't passed to <Theme>.
   const {
     setTheme,
@@ -74,7 +76,10 @@ function RootLayout() {
           >
             <SkeletonEnabled>
               <Theme colorScheme={colorScheme || 'auto'} {...theme}>
-                <ErrorBoundary onError={trackRenderError}>
+                <ErrorBoundary
+                  onError={trackRenderError}
+                  resetKey={hmrRevision}
+                >
                   <MDXProvider components={tags}>
                     <PageWrapper />
                   </MDXProvider>
@@ -87,6 +92,26 @@ function RootLayout() {
       </FocusModeCodeProvider>
     </CacheProvider>
   )
+}
+
+function useHmrRevision() {
+  const [revision, setRevision] = useState(0)
+
+  useEffect(() => {
+    if (!import.meta.hot) {
+      return undefined
+    }
+
+    const handleAfterUpdate = () => {
+      setRevision((revision) => revision + 1)
+    }
+    import.meta.hot.on('vite:afterUpdate', handleAfterUpdate)
+    return () => {
+      import.meta.hot?.off('vite:afterUpdate', handleAfterUpdate)
+    }
+  }, [])
+
+  return revision
 }
 
 function SkeletonEnabled({ children }: { children: React.ReactNode }) {

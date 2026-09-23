@@ -67,6 +67,25 @@ resource "aws_s3_bucket_lifecycle_configuration" "data" {
     }
   }
 
+  # Anonymous portal page-view records. 13-month retention (395 days) matches the
+  # MCP- and component-usage raw data and covers year-over-year reporting. The
+  # trailing slash matches only portal-views/ (there is a portal-views-daily/
+  # durable rollup that must NOT be expired). Write-once keys (one object per
+  # beacon batch), so this only expires current versions; the regenerated
+  # dashboard snapshot lives under snapshots/ and is unaffected.
+  rule {
+    id     = "expire-portal-views-raw"
+    status = "Enabled"
+
+    filter {
+      prefix = "portal-views/"
+    }
+
+    expiration {
+      days = 395
+    }
+  }
+
   # Raw MCP usage events. The trailing slash is load-bearing: it matches only
   # mcp-usage/ and NOT mcp-usage-daily/, so the durable daily rollup is never
   # expired by this rule. These keys are unique (never overwritten), so they
@@ -215,6 +234,96 @@ resource "aws_glue_catalog_table" "portal_views" {
     columns {
       name = "created_at"
       type = "string"
+    }
+  }
+}
+
+# Durable daily portal page-view rollup. The snapshot generator recomputes the
+# recent tail from portal_views each run and writes one object per day here. This
+# prefix has NO lifecycle expiry, so aggregates outlive the raw rows (expired at
+# 13 months) and keep long-range (year-over-year) history available. The grain
+# keeps the anonymous view dimensions (status/locale/theme/color_scheme/referrer/
+# via_search) so their history survives the raw expiry and stays queryable via
+# Athena.
+resource "aws_glue_catalog_table" "portal_views_daily" {
+  name          = "portal_views_daily"
+  database_name = aws_glue_catalog_database.analytics.name
+  table_type    = "EXTERNAL_TABLE"
+
+  parameters = {
+    classification     = "json"
+    has_encrypted_data = "true"
+
+    "projection.enabled"          = "true"
+    "projection.dt.type"          = "date"
+    "projection.dt.range"         = "2024-01-01,NOW"
+    "projection.dt.format"        = "yyyy-MM-dd"
+    "projection.dt.interval"      = "1"
+    "projection.dt.interval.unit" = "DAYS"
+    "storage.location.template"   = "s3://${aws_s3_bucket.data.id}/portal-views-daily/dt=$${dt}/"
+  }
+
+  partition_keys {
+    name = "dt"
+    type = "string"
+  }
+
+  storage_descriptor {
+    location      = "s3://${aws_s3_bucket.data.id}/portal-views-daily/"
+    input_format  = "org.apache.hadoop.mapred.TextInputFormat"
+    output_format = "org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat"
+
+    ser_de_info {
+      serialization_library = "org.openx.data.jsonserde.JsonSerDe"
+
+      parameters = {
+        "case.insensitive" = "true"
+      }
+    }
+
+    columns {
+      name = "path"
+      type = "string"
+    }
+
+    columns {
+      name = "env"
+      type = "string"
+    }
+
+    columns {
+      name = "status"
+      type = "string"
+    }
+
+    columns {
+      name = "locale"
+      type = "string"
+    }
+
+    columns {
+      name = "theme"
+      type = "string"
+    }
+
+    columns {
+      name = "color_scheme"
+      type = "string"
+    }
+
+    columns {
+      name = "referrer"
+      type = "string"
+    }
+
+    columns {
+      name = "via_search"
+      type = "string"
+    }
+
+    columns {
+      name = "count"
+      type = "bigint"
     }
   }
 }
@@ -777,6 +886,7 @@ resource "aws_lambda_function" "snapshot" {
       DATA_BUCKET                      = aws_s3_bucket.data.id
       GLUE_DATABASE                    = aws_glue_catalog_database.analytics.name
       GLUE_TABLE                       = aws_glue_catalog_table.portal_views.name
+      GLUE_TABLE_PORTAL_VIEWS_DAILY    = aws_glue_catalog_table.portal_views_daily.name
       GLUE_TABLE_MCP_USAGE             = aws_glue_catalog_table.mcp_usage.name
       GLUE_TABLE_MCP_USAGE_DAILY       = aws_glue_catalog_table.mcp_usage_daily.name
       GLUE_TABLE_COMPONENT_USAGE       = aws_glue_catalog_table.component_usage.name
@@ -810,10 +920,28 @@ resource "aws_lambda_permission" "snapshot_events" {
   source_arn    = aws_cloudwatch_event_rule.snapshot.arn
 }
 
+# Notification target for the alarms below. Same-account CloudWatch alarms can
+# publish to a topic under its default access policy, so no extra topic policy
+# is needed. The email subscription is optional (snapshot_alert_email empty
+# skips it) so the topic can ship before an owner is chosen; a different target
+# (e.g. Slack via AWS Chatbot or a formatting Lambda — a raw incoming webhook
+# can't complete the SNS subscription handshake) just needs its own
+# aws_sns_topic_subscription pointed at this topic — alarm_actions never change.
+resource "aws_sns_topic" "snapshot_alerts" {
+  name = "eufemia-${var.environment}-analytics-snapshot-alerts"
+  tags = local.tags
+}
+
+resource "aws_sns_topic_subscription" "snapshot_alerts_email" {
+  count     = var.snapshot_alert_email != "" ? 1 : 0
+  topic_arn = aws_sns_topic.snapshot_alerts.arn
+  protocol  = "email"
+  endpoint  = var.snapshot_alert_email
+}
+
 # Failure signals for the scheduled generator. Without them a failed run, or a
 # schedule/target that stops firing, would leave the dashboard serving an
-# ever-staler snapshot with no signal. No alarm actions yet (state is visible in
-# CloudWatch); wire an SNS/notification target here when one exists.
+# ever-staler snapshot with no signal. Both notify snapshot_alerts above.
 resource "aws_cloudwatch_metric_alarm" "snapshot_errors" {
   alarm_name          = "eufemia-${var.environment}-analytics-snapshot-errors"
   alarm_description   = "Dashboard snapshot generator returned an error"
@@ -826,6 +954,7 @@ resource "aws_cloudwatch_metric_alarm" "snapshot_errors" {
   threshold           = 1
   comparison_operator = "GreaterThanOrEqualToThreshold"
   treat_missing_data  = "notBreaching"
+  alarm_actions       = [aws_sns_topic.snapshot_alerts.arn]
 }
 
 # Missing invocations mean the schedule or target is broken (Errors alone would
@@ -842,6 +971,7 @@ resource "aws_cloudwatch_metric_alarm" "snapshot_not_running" {
   threshold           = 1
   comparison_operator = "LessThanThreshold"
   treat_missing_data  = "breaching"
+  alarm_actions       = [aws_sns_topic.snapshot_alerts.arn]
 }
 
 # A run can succeed (Invocations >= 1, Errors = 0) yet write an empty snapshot,
@@ -850,9 +980,8 @@ resource "aws_cloudwatch_metric_alarm" "snapshot_not_running" {
 # caught here — the Lambda alarms above only see the run, not its content. The
 # not-running alarm owns the "stopped firing" case, so missing data here does not
 # breach. The namespace/metric/dimension must match those emitted in
-# src/lambda/snapshot.ts. No alarm actions yet (state is visible in CloudWatch);
-# wire an SNS/notification target here when one exists — and note a genuinely
-# idle environment (no traffic) can sit at 0 and trip this.
+# src/lambda/snapshot.ts. Notifies snapshot_alerts above — note a genuinely idle
+# environment (no traffic) can sit at 0 and trip this.
 resource "aws_cloudwatch_metric_alarm" "snapshot_empty" {
   alarm_name          = "eufemia-${var.environment}-analytics-snapshot-empty"
   alarm_description   = "Dashboard snapshot generator wrote an empty snapshot (no records)"
@@ -865,6 +994,7 @@ resource "aws_cloudwatch_metric_alarm" "snapshot_empty" {
   threshold           = 1
   comparison_operator = "LessThanThreshold"
   treat_missing_data  = "notBreaching"
+  alarm_actions       = [aws_sns_topic.snapshot_alerts.arn]
 }
 
 # The MCP usage section is built best-effort: a failure (e.g. the mcp_usage Glue
@@ -873,8 +1003,7 @@ resource "aws_cloudwatch_metric_alarm" "snapshot_empty" {
 # Errors/Invocations and SnapshotRecordCount alarms, so the generator emits a
 # McpUsageBuildFailure EMF metric on the catch path and this alarm surfaces it.
 # The namespace/metric/dimension must match those emitted in src/lambda/snapshot.ts.
-# No alarm actions yet (state is visible in CloudWatch); wire a target here when
-# one exists.
+# Notifies snapshot_alerts above.
 resource "aws_cloudwatch_metric_alarm" "snapshot_mcp_build_failed" {
   alarm_name          = "eufemia-${var.environment}-analytics-snapshot-mcp-build-failed"
   alarm_description   = "Dashboard snapshot generator failed to build the MCP usage section (fell back to empty)"
@@ -887,6 +1016,7 @@ resource "aws_cloudwatch_metric_alarm" "snapshot_mcp_build_failed" {
   threshold           = 1
   comparison_operator = "GreaterThanOrEqualToThreshold"
   treat_missing_data  = "notBreaching"
+  alarm_actions       = [aws_sns_topic.snapshot_alerts.arn]
 }
 
 # The component-usage section emits a ComponentUsageBuildFailure EMF metric when
@@ -896,7 +1026,8 @@ resource "aws_cloudwatch_metric_alarm" "snapshot_mcp_build_failed" {
 # alarm surfaces them. The namespace/metric/dimension must match those emitted in
 # src/lambda/snapshot.ts. DORMANT until buildComponentUsage is wired into the
 # generator (no producer yet), so the metric is not emitted and the alarm stays
-# at INSUFFICIENT_DATA/OK; kept so re-wiring needs no infra change.
+# at INSUFFICIENT_DATA/OK; kept so re-wiring needs no infra change. Notifies
+# snapshot_alerts above once live.
 resource "aws_cloudwatch_metric_alarm" "snapshot_component_usage_build_failed" {
   alarm_name          = "eufemia-${var.environment}-analytics-snapshot-component-usage-build-failed"
   alarm_description   = "Dashboard snapshot generator failed to refresh or build the component usage section"
@@ -909,6 +1040,29 @@ resource "aws_cloudwatch_metric_alarm" "snapshot_component_usage_build_failed" {
   threshold           = 1
   comparison_operator = "GreaterThanOrEqualToThreshold"
   treat_missing_data  = "notBreaching"
+  alarm_actions       = [aws_sns_topic.snapshot_alerts.arn]
+}
+
+# The portal-view daily rollup is refreshed best-effort for retention (it does
+# not feed the dashboard yet): a failure is caught and the run still publishes the
+# snapshot, so it is invisible to the Lambda/SnapshotRecordCount alarms. The
+# generator emits a PortalViewsRollupFailure EMF metric on the catch path and this
+# alarm surfaces a persistent failure (which would silently stop the durable
+# history accruing). The namespace/metric/dimension must match those emitted in
+# src/lambda/snapshot.ts.
+resource "aws_cloudwatch_metric_alarm" "snapshot_portal_views_rollup_failed" {
+  alarm_name          = "eufemia-${var.environment}-analytics-snapshot-portal-views-rollup-failed"
+  alarm_description   = "Dashboard snapshot generator failed to refresh the portal-view daily rollup"
+  namespace           = "Eufemia/Analytics"
+  metric_name         = "PortalViewsRollupFailure"
+  dimensions          = { FunctionName = aws_lambda_function.snapshot.function_name }
+  statistic           = "Sum"
+  period              = 3600
+  evaluation_periods  = 1
+  threshold           = 1
+  comparison_operator = "GreaterThanOrEqualToThreshold"
+  treat_missing_data  = "notBreaching"
+  alarm_actions       = [aws_sns_topic.snapshot_alerts.arn]
 }
 
 # ---------------------------------------------------------------------------

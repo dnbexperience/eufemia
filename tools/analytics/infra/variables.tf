@@ -85,3 +85,15 @@ variable "dashboard_public_url" {
     error_message = "dashboard_public_url must be an https:// origin with no trailing slash (e.g. https://dashboard.eufemia.dnb.no)."
   }
 }
+
+# Optional. Subscribes this address to the snapshot alert SNS topic so a real
+# person is notified when a snapshot alarm fires. Empty ships the topic without
+# a subscriber (e.g. before an owner is chosen, or when a different
+# subscription — such as an HTTPS Slack webhook — is added directly in Terraform
+# instead).
+variable "snapshot_alert_email" {
+  type        = string
+  description = "Email address to subscribe to the dashboard snapshot alert SNS topic. Empty skips creating a subscription."
+  default     = ""
+  sensitive   = true
+}
