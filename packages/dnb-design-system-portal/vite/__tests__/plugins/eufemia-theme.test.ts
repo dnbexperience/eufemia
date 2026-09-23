@@ -253,8 +253,7 @@ describe('eufemia-theme plugin', () => {
       )
     })
 
-    // Guards against reintroducing a local copy of the scripts that drifts
-    // from the shared module.
+    // Fails if the plugin goes back to a local copy of the scripts.
     it('injects the shared color-scheme scripts using the portal scope', () => {
       const plugin = eufemiaThemePlugin()
       const transformIndexHtml = plugin.transformIndexHtml as (

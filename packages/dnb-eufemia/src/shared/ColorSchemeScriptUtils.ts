@@ -1,11 +1,4 @@
-/**
- * Inline scripts used by ColorSchemeScript.
- *
- * Deliberately free of imports, so build tooling can load it before a JSX
- * transform is registered. The scope hash is a required argument rather than
- * a default for the same reason: resolving it pulls in build info that a
- * config-time consumer neither needs nor can rely on.
- */
+// Import-free on purpose: the portal's Vite config loads this at config time.
 
 const STORAGE_KEY = 'eufemia-theme'
 const GLOBAL_KEY = '__eufemiaColorScheme'

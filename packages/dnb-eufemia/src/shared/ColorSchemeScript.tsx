@@ -53,9 +53,8 @@ export type ColorSchemeHeadScriptProps = ColorSchemeScriptProps & {
  * from localStorage and adds the scope hash to <html>.
  * Place this in <head>.
  */
-// Wrapped rather than re-exported: the shared module stays import-free, so the
-// scope hash default is resolved here.
 export function getHeadScript(scopeHash: string = getStyleScopeHash()) {
+  // The default is resolved here so ColorSchemeScriptUtils stays import-free.
   return buildHeadScript(scopeHash)
 }
 
