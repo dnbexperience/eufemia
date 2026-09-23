@@ -18,6 +18,7 @@ export type McpUsageRecord = {
   component: string
   path: string
   env: string
+  transport: 'web'
   timestamp: string
   createdat: string
 }
@@ -156,6 +157,9 @@ function recordFromMessage(
     component,
     path,
     env,
+    // The web Lambda writes this producer's rows only; the local (stdio)
+    // server stamps 'local' via the ingest route in tools/analytics.
+    transport: 'web',
     timestamp: createdAt,
     createdat: createdAt,
   }
