@@ -12,6 +12,20 @@ import { expect, beforeEach, beforeAll, afterAll } from 'vitest'
 import '@testing-library/jest-dom/vitest'
 import { waitFor } from '@testing-library/react'
 
+type JSDOMError = Error & { type?: string }
+
+type GlobalWithJSDOM = typeof globalThis & {
+  jsdom?: {
+    virtualConsole?: {
+      removeAllListeners: (eventName: string) => void
+      on: (
+        eventName: 'jsdomError',
+        listener: (error: JSDOMError) => void
+      ) => void
+    }
+  }
+}
+
 // Tell React 18+ that this environment supports act()
 globalThis.IS_REACT_ACT_ENVIRONMENT = true
 
@@ -78,6 +92,28 @@ if (typeof window !== 'undefined') {
   window.scrollBy = () => undefined
 }
 
+// jsdom reports its internal problems ("not implemented" notices, uncaught
+// exceptions inside the document and resource errors) as "jsdomError" events
+// on its virtual console, which forwards them to the Node console captured
+// while the environment was created. That bypasses Vitest's console
+// interception, so the output is printed without any test attribution.
+// Replace the forwarder with one that drops the navigation notices — emitted
+// whenever a test clicks a real link, which jsdom cannot follow — and reports
+// everything else through Vitest's console.
+const { virtualConsole } = (globalThis as GlobalWithJSDOM).jsdom ?? {}
+virtualConsole?.removeAllListeners('jsdomError')
+virtualConsole?.on('jsdomError', (error) => {
+  if (/Not implemented: navigation/.test(error.message)) {
+    return // stop here
+  }
+
+  console.error(
+    error.type === 'unhandled-exception'
+      ? (error.cause as Error | undefined)?.stack
+      : error.message
+  )
+})
+
 // Silence known noisy console output globally
 const originalError = console.error
 const originalLog = console.log
@@ -93,8 +129,7 @@ beforeAll(() => {
     if (
       /not wrapped in act/.test(msg) ||
       /not configured to support act/.test(msg) ||
-      /component suspended inside an `act` scope/.test(msg) ||
-      /Not implemented: navigation/.test(msg)
+      /component suspended inside an `act` scope/.test(msg)
     ) {
       return
     }
