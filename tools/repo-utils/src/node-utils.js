@@ -1,3 +1,6 @@
+const fs = require('node:fs')
+const path = require('node:path')
+
 const isCICheck = () => {
   const ci = String(process.env.CI)
   return ci === 'true' || ci === '1'
@@ -62,8 +65,35 @@ const prepareVitestRun = (args, matchingFilesByFilter) => {
   }
 }
 
+// Avoids a launch hang on macOS 27, see microsoft/playwright#42768
+const isolateFirefoxAppData = (executablePath) => {
+  if (process.platform !== 'darwin' || process.env.XUL_APP_FILE) {
+    return
+  }
+
+  const resources = path.resolve(executablePath, '../../Resources')
+  const appIni = path.join(resources, 'application.ini')
+  const browserAppIni = path.join(resources, 'browser', 'application.ini')
+
+  if (!fs.existsSync(appIni)) {
+    return
+  }
+
+  if (!fs.existsSync(browserAppIni)) {
+    fs.writeFileSync(
+      browserAppIni,
+      fs
+        .readFileSync(appIni, 'utf-8')
+        .replace(/^\[App\]$/m, '[App]\nProfile=PlaywrightFirefox')
+    )
+  }
+
+  process.env.XUL_APP_FILE = browserAppIni
+}
+
 exports.isCI = isCICheck()
 exports.isCICheck = isCICheck
+exports.isolateFirefoxAppData = isolateFirefoxAppData
 exports.matchFiltersToFiles = matchFiltersToFiles
 exports.prepareVitestRun = prepareVitestRun
 exports.splitVitestArgs = splitVitestArgs

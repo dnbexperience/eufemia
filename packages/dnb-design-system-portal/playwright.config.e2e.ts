@@ -1,5 +1,7 @@
-import { defineConfig } from '@playwright/test'
-import { isCI } from 'repo-utils'
+import { defineConfig, firefox } from '@playwright/test'
+import { isCI, isolateFirefoxAppData } from 'repo-utils'
+
+isolateFirefoxAppData(firefox.executablePath())
 
 export default defineConfig({
   timeout: 30_000,
