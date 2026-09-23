@@ -12,7 +12,7 @@ import { expect, beforeEach, beforeAll, afterAll } from 'vitest'
 import '@testing-library/jest-dom/vitest'
 import { waitFor } from '@testing-library/react'
 
-type JSDOMError = Error & { type?: string }
+type JSDOMError = Error & { type?: string; cause?: Error }
 
 type GlobalWithJSDOM = typeof globalThis & {
   jsdom?: {
@@ -109,7 +109,7 @@ virtualConsole?.on('jsdomError', (error) => {
 
   console.error(
     error.type === 'unhandled-exception'
-      ? (error.cause as Error | undefined)?.stack
+      ? error.cause?.stack
       : error.message
   )
 })
