@@ -125,7 +125,8 @@ jobs:
         if: success() && steps.changes.outputs.changed == 'true'
         run: |
           gh auth setup-git
-          remote_sha=$(git ls-remote --heads origin "refs/heads/$BRANCH" | cut -f1)
+          # The tip fetched at the start, so a commit pushed during the run makes the push fail instead of vanishing
+          remote_sha=$(git rev-parse --verify --quiet "refs/remotes/origin/$BRANCH" || true)
 
           if [ "$EXISTING_PR" != true ]; then
             git switch -c "$BRANCH"
