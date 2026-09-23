@@ -249,7 +249,7 @@ formatBankAccountNumberByType('1263664', 'swedishPlusgiro') // { number: '126366
 formatBankAccountNumberByType('NO9386011117947', 'iban') // { number: 'NO93 8601 1117 947', aria: 'N O 9 3 8 6 0 1 1 1 1 7 9 4 7' }
 ```
 
-The `aria` string is read one character at a time, so the account number can be written down exactly as it is announced.
+The `aria` string is what screen readers announce, one character at a time.
 
 ### Element and style
 
@@ -293,6 +293,8 @@ render(
 > Screen readers require numbers to be formatted properly in order to be read as numbers. The **NumberFormat** component helps achieve this requirement.
 
 Numbers are formatted differently for screen readers than the visual number. Numbers also get assigned a `lang` attribute so the screen reader knows what language (locale) should be used for the particular number, even if the surrounding text does not correspond to the same language.
+
+Amounts are announced as whole numbers, such as "ten thousand kroner", because that is how the value is read out loud. Identifiers are announced one character at a time, so they can be written down exactly as announced. This applies to `BankAccountNumber`, `OrganizationNumber` and the personal number part of `NationalIdentityNumber`. `PhoneNumber` is announced in pairs, following how phone numbers are spoken.
 
 ### Sources
 
