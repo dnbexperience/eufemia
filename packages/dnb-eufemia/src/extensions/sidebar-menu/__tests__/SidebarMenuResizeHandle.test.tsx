@@ -133,6 +133,23 @@ describe('SidebarMenuResizeHandle', () => {
     expect(handle).toHaveAttribute('aria-valuemax', '560')
   })
 
+  it('keeps the handle at the rendered edge when CSS limits the width', () => {
+    const { handle, root } = renderHandle({
+      layoutMaxWidth: 330,
+      layoutMaxWidthValue: 'calc(100% - 12rem)',
+    })
+
+    fireEvent.keyDown(handle, { key: 'ArrowRight', shiftKey: true })
+
+    expect(root.style.getPropertyValue('--aside-width')).toBe('368px')
+    expect(
+      handle.style.getPropertyValue(
+        '--sidebar-menu-resize-handle-position'
+      )
+    ).toBe('330px')
+    expect(handle).toHaveAttribute('aria-valuenow', '330')
+  })
+
   it('refreshes its maximum width when the viewport changes', () => {
     const { handle } = renderHandle({ maxWidth: 900 })
     const initialWidth = window.innerWidth

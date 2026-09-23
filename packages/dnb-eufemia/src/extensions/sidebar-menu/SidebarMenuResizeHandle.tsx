@@ -146,7 +146,7 @@ export default function SidebarMenuResizeHandle({
     getRootElement().style.setProperty(cssProperty, value)
     writtenWidthRef.current = nextWidth
     setResolvedMaxWidth(getMaximumWidth())
-    setHandlePosition(nextWidth)
+    setHandlePosition(getTargetWidth() || nextWidth)
   }
 
   function setRubberBandWidth(width: number) {
@@ -323,16 +323,12 @@ export default function SidebarMenuResizeHandle({
 
     if (event.key === 'ArrowLeft') {
       event.preventDefault()
-      setWidth(
-        (writtenWidthRef.current ?? getTargetWidth()) - keyboardStep
-      )
+      setWidth(getTargetWidth() - keyboardStep)
     }
 
     if (event.key === 'ArrowRight') {
       event.preventDefault()
-      setWidth(
-        (writtenWidthRef.current ?? getTargetWidth()) + keyboardStep
-      )
+      setWidth(getTargetWidth() + keyboardStep)
     }
 
     if (event.key === 'Enter') {
