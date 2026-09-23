@@ -528,6 +528,9 @@ describe('NumberFormat component', () => {
     expect(document.querySelector(displaySelector).textContent).toBe(
       '2000 12 34567'
     )
+    expect(
+      document.querySelector(ariaSelector).getAttribute('data-text')
+    ).toBe('2 0 0 0 1 2 3 4 5 6 7')
 
     // also check the formatting with one digit less
     rerender(<NumberFormat.BankAccountNumber value="2000123456" />)
@@ -535,6 +538,9 @@ describe('NumberFormat component', () => {
     expect(document.querySelector(displaySelector).textContent).toBe(
       '2000 12 3456'
     )
+    expect(
+      document.querySelector(ariaSelector).getAttribute('data-text')
+    ).toBe('2 0 0 0 1 2 3 4 5 6')
   })
 
   it('have to match national identification number', () => {
