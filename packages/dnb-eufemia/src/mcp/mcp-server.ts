@@ -14,7 +14,11 @@ import process from 'node:process'
 import { serveStdio } from '@modelcontextprotocol/server/stdio'
 
 import { createDocsServer, validateDocsRoot } from './mcp-docs-server'
-import { createUsageReporter, readEufemiaVersion } from './usage-telemetry'
+import {
+  computeKnownAreas,
+  createUsageReporter,
+  readEufemiaVersion,
+} from './usage-telemetry'
 
 function logErr(...args: unknown[]) {
   // eslint-disable-next-line no-console -- MCP stdio reserves stdout
@@ -28,10 +32,14 @@ async function main() {
   await validateDocsRoot(tools.docsRoot)
 
   // Anonymous, opt-out usage telemetry. Null when opted out; the first-run
-  // notice (to stderr) and beacon are handled inside the reporter.
+  // notice (to stderr) and beacon are handled inside the reporter. The known
+  // areas are computed once from the real docs, so a `path` the telemetry
+  // sends is always one that actually exists in this server's docs.
+  const knownAreas = computeKnownAreas(await tools.source.listMarkdown())
   const reporter = createUsageReporter({
     eufemiaVersion: readEufemiaVersion(),
     logNotice: logErr,
+    knownAreas,
   })
 
   serveStdio(

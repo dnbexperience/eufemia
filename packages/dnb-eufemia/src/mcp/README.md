@@ -124,7 +124,9 @@ docs accordingly. It is **on by default** and **opt-out**.
 - the tool name (from the fixed set of registered tools);
 - for a component tool, the component name (e.g. `Button`, `Field.Address`);
 - for `docs_read` / `docs_list`, the leading documentation area (e.g.
-  `/uilib/components/`), not the full path or prefix;
+  `/uilib/components/`), gated against the areas this server's own docs
+  actually contain — a path outside the docs (or a model's guess) is dropped
+  instead of narrowed;
 - the running `@dnb/eufemia` version.
 
 **What is not in the payload:** no machine id, install id, user, session or

@@ -9,12 +9,15 @@
  *
  * Anonymity is the gate. Only a closed, public vocabulary leaves the machine:
  * the tool name (from the fixed registered set), an optional component name or
- * doc area (both shape-validated; a path is narrowed to its leading area, not
- * sent in full), and the running Eufemia version (semver). No machine id,
- * install id, session/correlation id or free text — in particular a
- * `docs_search` event is a tool count only and never carries its query. The
- * request's source IP is visible to the network layer like any HTTP call, but
- * is not part of the payload and is not stored by the ingest side (#9406).
+ * doc area (both shape-validated; a path is narrowed to its leading area and
+ * gated against the areas the packaged docs actually contain — see
+ * {@link computeKnownAreas} — so it is never sent in full and never for a
+ * path outside the docs), and the running Eufemia version (semver). No
+ * machine id, install id, session/correlation id or free text — in
+ * particular a `docs_search` event is a tool count only and never carries its
+ * query. The request's source IP is visible to the network layer like any
+ * HTTP call, but is not part of the payload and is not stored by the ingest
+ * side (#9406).
  *
  * The beacon is fire-and-forget: it is never awaited on the tool-call path,
  * uses a short abort timeout, and swallows every error, so telemetry can
@@ -84,15 +87,40 @@ function normalizeComponent(value: string): string {
 }
 
 /**
- * Reduce a path to its leading documentation area (its first two segments,
- * e.g. `/uilib/components/`), so what leaves the machine is one of a small,
- * closed set of areas rather than an arbitrary, per-project full path.
+ * Reduce a path to its leading documentation area — its first two segments,
+ * e.g. `/uilib/components/` for `/uilib/components/button.md`, or the whole
+ * single segment for a root-level file, e.g. `/llm.md`. This is only a
+ * grouping step; whether the result is actually sent is decided separately by
+ * checking it against {@link computeKnownAreas}.
  */
 function areaFromPath(path: string): string {
   const segments = path.split('/').filter((segment) => segment !== '')
   const area = segments.slice(0, 2)
   return area.length === 0 ? '/' : `/${area.join('/')}/`
 }
+
+/**
+ * Compute the closed set of documentation areas that actually exist, from the
+ * docs' own markdown/MDX file list (as returned by `DocsSource.listMarkdown`,
+ * i.e. paths relative to the docs root without a leading slash). A path or
+ * prefix from a tool call is only ever sent when its area is a member of this
+ * set — so a non-docs path (a model's guess, or a path derived from the
+ * caller's own project) is dropped instead of leaking a segment of itself.
+ */
+export function computeKnownAreas(
+  markdownPaths: readonly string[]
+): ReadonlySet<string> {
+  const areas = new Set<string>()
+  for (const markdownPath of markdownPaths) {
+    const withLeadingSlash = markdownPath.startsWith('/')
+      ? markdownPath
+      : `/${markdownPath}`
+    areas.add(areaFromPath(withLeadingSlash))
+  }
+  return areas
+}
+
+const NO_KNOWN_AREAS: ReadonlySet<string> = new Set()
 
 /**
  * The anonymous record sent to the ingest route. `transport` is stamped
@@ -124,11 +152,16 @@ function validComponent(value: unknown): string | null {
   return ok ? normalizeComponent(trimmed) : null
 }
 
-// Returns the closed-vocabulary area for a doc path/prefix, or `null` when the
-// input doesn't match the accepted absolute-path shape. Narrowing to the area
-// (rather than sending the full path verbatim) keeps this a closed vocabulary
-// even for a path that never resolves to a real, allowlisted document.
-function validPath(value: unknown): string | null {
+// Returns the doc area for a path/prefix, or `null` when the input doesn't
+// match the accepted absolute-path shape, or its area isn't one of
+// `knownAreas`. The known-areas gate is what makes this a closed vocabulary:
+// narrowing to the leading area alone still leaks an arbitrary non-docs
+// path's own segments, so a path whose area was never seen in the real docs
+// is dropped entirely rather than sent.
+function validPath(
+  value: unknown,
+  knownAreas: ReadonlySet<string>
+): string | null {
   if (typeof value !== 'string' || value.length > MAX_PATH_LENGTH) {
     return null
   }
@@ -136,22 +169,28 @@ function validPath(value: unknown): string | null {
   if (value.includes('..')) {
     return null
   }
-  return PATH_PATTERN.test(value) ? areaFromPath(value) : null
+  if (!PATH_PATTERN.test(value)) {
+    return null
+  }
+  const area = areaFromPath(value)
+  return knownAreas.has(area) ? area : null
 }
 
 /**
  * Build the anonymous record for a tool call, or `null` when the tool is not
  * one of the known tools. Only the allowlisted closed-vocabulary fields are
  * ever read from the input: `component` from a component tool's `name`, and
- * `path` (narrowed to its leading area, e.g. `/uilib/components/`) from
- * `docs_read`'s `path` / `docs_list`'s `prefix`. Anything that fails shape
+ * `path` (narrowed to its leading area, e.g. `/uilib/components/`, and sent
+ * only when that area is in `knownAreas` — see {@link computeKnownAreas}) from
+ * `docs_read`'s `path` / `docs_list`'s `prefix`. Anything that fails
  * validation is dropped, so the event degrades to a tool count rather than
- * leaking free text.
+ * leaking free text or an unrecognised path.
  */
 export function buildUsageRecord(
   toolName: string,
   input: unknown,
-  eufemiaVersion: string
+  eufemiaVersion: string,
+  knownAreas: ReadonlySet<string> = NO_KNOWN_AREAS
 ): LocalMcpUsageRecord | null {
   if (!KNOWN_TOOLS.has(toolName)) {
     return null
@@ -177,7 +216,7 @@ export function buildUsageRecord(
 
   if (PATH_TOOLS.has(toolName)) {
     const rawPath = toolName === 'docs_read' ? args.path : args.prefix
-    const area = validPath(rawPath)
+    const area = validPath(rawPath, knownAreas)
     if (area) {
       record.path = area
     }
@@ -231,6 +270,12 @@ export type UsageReporter = {
 export type UsageReporterOptions = {
   /** The running Eufemia version, sent with every record. */
   eufemiaVersion: string
+  /**
+   * The closed set of doc areas a `path` is checked against (see
+   * {@link computeKnownAreas}). Omitting it means no `path` is ever sent,
+   * rather than falling back to an unvalidated one.
+   */
+  knownAreas?: ReadonlySet<string>
   /** Environment used for the opt-out gate and endpoint override. */
   env?: NodeJS.ProcessEnv
   /** Overridable for tests; defaults to the global `fetch`. */
@@ -269,13 +314,16 @@ export function createUsageReporter(
     logNotice(FIRST_RUN_NOTICE)
   }
 
+  const knownAreas = options.knownAreas ?? NO_KNOWN_AREAS
+
   return {
     onToolCall(toolName, input) {
       try {
         const record = buildUsageRecord(
           toolName,
           input,
-          options.eufemiaVersion
+          options.eufemiaVersion,
+          knownAreas
         )
         if (!record || typeof fetchImpl !== 'function') {
           return

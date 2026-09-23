@@ -7,6 +7,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import {
   buildUsageRecord,
+  computeKnownAreas,
   createUsageReporter,
   isTelemetryDisabled,
   readEufemiaVersion,
@@ -68,30 +69,54 @@ describe('buildUsageRecord', () => {
     expect(record?.tool).toBe('component_find')
   })
 
-  it('narrows the path for docs_read to its leading area', () => {
+  const knownAreas = new Set(['/uilib/components/', '/uilib/extensions/'])
+
+  it('narrows the path for docs_read to its leading area when the area is known', () => {
     const record = buildUsageRecord(
       'docs_read',
       { path: '/uilib/components/button/events.md' },
-      VERSION
+      VERSION,
+      knownAreas
     )
     expect(record?.path).toBe('/uilib/components/')
     expect(record?.component).toBeUndefined()
   })
 
-  it('narrows the prefix for docs_list to its leading area', () => {
+  it('narrows the prefix for docs_list to its leading area when the area is known', () => {
     const record = buildUsageRecord(
       'docs_list',
       { prefix: '/uilib/extensions/forms/feature-fields/' },
-      VERSION
+      VERSION,
+      knownAreas
     )
     expect(record?.path).toBe('/uilib/extensions/')
   })
 
-  it('drops a traversal path', () => {
+  it('drops a path whose area is not a known doc area (closed vocabulary, not just narrowed)', () => {
     const record = buildUsageRecord(
       'docs_read',
-      { path: '/uilib/../secret.md' },
+      { path: '/my-secret-project/roadmap.md' },
+      VERSION,
+      knownAreas
+    )
+    expect(record?.path).toBeUndefined()
+  })
+
+  it('drops any path when no knownAreas are supplied (fails closed by default)', () => {
+    const record = buildUsageRecord(
+      'docs_read',
+      { path: '/uilib/components/button.md' },
       VERSION
+    )
+    expect(record?.path).toBeUndefined()
+  })
+
+  it('drops a traversal path even for a known area', () => {
+    const record = buildUsageRecord(
+      'docs_read',
+      { path: '/uilib/components/../../secret.md' },
+      VERSION,
+      knownAreas
     )
     expect(record?.path).toBeUndefined()
   })
@@ -100,7 +125,8 @@ describe('buildUsageRecord', () => {
     const record = buildUsageRecord(
       'docs_read',
       { path: 'uilib/components/button.md' },
-      VERSION
+      VERSION,
+      knownAreas
     )
     expect(record?.path).toBeUndefined()
   })
@@ -129,6 +155,26 @@ describe('buildUsageRecord', () => {
     expect(record?.timestamp).toMatch(
       /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/
     )
+  })
+})
+
+describe('computeKnownAreas', () => {
+  it('derives an area from each markdown path, adding a leading slash', () => {
+    const areas = computeKnownAreas([
+      'uilib/components/button.md',
+      'uilib/components/input.md',
+      'uilib/extensions/forms/feature-fields/Address.mdx',
+      'llm.md',
+    ])
+
+    expect(areas).toEqual(
+      new Set(['/uilib/components/', '/uilib/extensions/', '/llm.md/'])
+    )
+  })
+
+  it('does not include an area that has no corresponding doc', () => {
+    const areas = computeKnownAreas(['uilib/components/button.md'])
+    expect(areas.has('/my-secret-project/')).toBe(false)
   })
 })
 
@@ -225,6 +271,25 @@ describe('createUsageReporter', () => {
     reporter?.onToolCall('evil_tool', {})
 
     expect(fetchImpl).not.toHaveBeenCalled()
+  })
+
+  it('only sends a path whose area is in the reporter-level knownAreas', () => {
+    const fetchImpl = vi.fn().mockResolvedValue(new Response(null))
+    const reporter = createUsageReporter({
+      eufemiaVersion: VERSION,
+      env: {},
+      knownAreas: new Set(['/uilib/components/']),
+      fetchImpl: fetchImpl as unknown as typeof fetch,
+      logNotice: () => undefined,
+    })
+
+    reporter?.onToolCall('docs_read', {
+      path: '/my-secret-project/roadmap.md',
+    })
+
+    const [, init] = fetchImpl.mock.calls[0]
+    const body = JSON.parse(init.body)
+    expect(body.path).toBeUndefined()
   })
 
   it('swallows a rejected fetch without throwing', async () => {
