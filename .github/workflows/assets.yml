@@ -1,0 +1,104 @@
+name: Eufemia Assets
+
+on:
+  push:
+    branches:
+      - release
+    paths:
+      - 'packages/dnb-eufemia/assets/**'
+      - 'tools/assets/**'
+      - '.github/workflows/assets.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+
+      - name: Setup dependencies
+        uses: ./.github/actions/setup
+        with:
+          cache-version: ${{ secrets.CACHE_VERSION }}
+
+      - name: Lint
+        run: yarn workspace eufemia-assets-hosting lint
+
+      - name: Test
+        run: yarn workspace eufemia-assets-hosting test
+
+  push:
+    name: Push to GHE
+    needs: test
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+
+      - name: Skip if GHE credentials are missing
+        id: gate
+        env:
+          GHE_PAT: ${{ secrets.GHE_DEPLOY_PAT }}
+        run: |
+          if [ -z "${GHE_PAT:-}" ]; then
+            echo "GHE_DEPLOY_PAT is not set; skipping push."
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Push to GHE deploy repo
+        if: steps.gate.outputs.skip != 'true'
+        env:
+          GHE_PAT: ${{ secrets.GHE_DEPLOY_PAT }}
+          GHE_REPO: ${{ vars.GHE_ASSETS_DEPLOY_REPO }}
+          SOURCE_REF: ${{ github.ref_name }}
+          SOURCE_SHA: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+
+          if [[ ! "$GHE_REPO" =~ ^[^/[:space:]]+/[^/[:space:]]+$ ]]; then
+            echo "::error::GHE_ASSETS_DEPLOY_REPO must be 'owner/repo' (got ${#GHE_REPO} chars)."
+            exit 1
+          fi
+          case "$GHE_REPO" in
+            github_pat_*|ghp_*|gho_*|ghs_*)
+              echo "::error::GHE_ASSETS_DEPLOY_REPO looks like a token, not a repo name."
+              exit 1 ;;
+          esac
+
+          DEPLOY_DIR=$(mktemp -d)
+          cd "$DEPLOY_DIR"
+          git init
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          cp -R "$GITHUB_WORKSPACE/packages/dnb-eufemia/assets" .
+          cp -R "$GITHUB_WORKSPACE/tools/assets/infra" .
+          cp "$GITHUB_WORKSPACE/tools/assets/README.md" README.md
+          mkdir -p .github/workflows
+          cp "$GITHUB_WORKSPACE/tools/assets/ghe-deploy-workflow.yml" .github/workflows/deploy.yml
+
+          git add -A
+          git commit -m "Deploy from ${SOURCE_REF} (${SOURCE_SHA:0:7})"
+
+          AUTH_HEADER=$(printf 'x-access-token:%s' "$GHE_PAT" | base64 | tr -d '\n')
+          git -c http.extraheader="AUTHORIZATION: basic ${AUTH_HEADER}" \
+            push "https://dnb.ghe.com/${GHE_REPO}.git" HEAD:refs/heads/deploy --force

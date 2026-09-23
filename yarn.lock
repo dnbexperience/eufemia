@@ -9926,6 +9926,14 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"eufemia-assets-hosting@workspace:tools/assets":
+  version: 0.0.0-use.local
+  resolution: "eufemia-assets-hosting@workspace:tools/assets"
+  dependencies:
+    vitest: "npm:4.1.11"
+  languageName: unknown
+  linkType: soft
+
 "eufemia-css-optimizer@workspace:tools/eufemia-css-optimizer":
   version: 0.0.0-use.local
   resolution: "eufemia-css-optimizer@workspace:tools/eufemia-css-optimizer"

@@ -1,0 +1,19 @@
+function handler(event) {
+  var request = event.request
+  var header = request.headers['x-origin-verify']
+  var provided = header ? header.value : ''
+
+  if (provided !== ${edge_auth_secret}) {
+    return {
+      statusCode: 403,
+      statusDescription: 'Forbidden',
+      headers: {
+        'content-type': { value: 'text/plain' },
+      },
+      body: 'Forbidden',
+    }
+  }
+
+  delete request.headers['x-origin-verify']
+  return request
+}
