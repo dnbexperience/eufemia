@@ -1,11 +1,17 @@
-import { describe, it, expect, beforeEach, afterEach } from 'vitest'
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { isEdgeAuthorized } from '../src/lambda/http.js'
 
 describe('isEdgeAuthorized', () => {
   const original = process.env.EDGE_AUTH_SECRET
 
+  // Capture the misconfiguration log, so it is asserted, not printed.
+  let errorSpy: ReturnType<typeof vi.spyOn>
+
   beforeEach(() => {
     delete process.env.EDGE_AUTH_SECRET
+    errorSpy = vi
+      .spyOn(console, 'error')
+      .mockImplementation(() => undefined)
   })
 
   afterEach(() => {
@@ -14,11 +20,18 @@ describe('isEdgeAuthorized', () => {
     } else {
       process.env.EDGE_AUTH_SECRET = original
     }
+    errorSpy.mockRestore()
   })
 
   it('rejects any request when EDGE_AUTH_SECRET is not set (fail-closed)', () => {
     expect(isEdgeAuthorized(undefined)).toBe(false)
     expect(isEdgeAuthorized({})).toBe(false)
+
+    // Logged once per process, not once per request.
+    expect(errorSpy).toHaveBeenCalledTimes(1)
+    expect(errorSpy).toHaveBeenCalledWith(
+      expect.stringContaining('EDGE_AUTH_SECRET is not set')
+    )
   })
 
   it('accepts a matching X-Edge-Auth header', () => {
