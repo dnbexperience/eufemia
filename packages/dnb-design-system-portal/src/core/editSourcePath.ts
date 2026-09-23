@@ -1,26 +1,9 @@
 import { defaultTabsValue } from '../shared/tags/defaultValues'
-
-type Tab = {
-  title: string
-  key: string
-}
-
-type EditSourceNode = {
-  fields: {
-    slug: string
-    sourcePath: string
-  }
-  frontmatter: {
-    title?: string
-    showTabs?: boolean
-    tabs?: Tab[]
-    hideTabs?: Array<{ title: string }>
-  }
-}
+import type { MdxNode } from '../../vite/client/plugins/portal-pages.shared'
 
 export function resolveEditSourcePath(
-  currentNode: EditSourceNode,
-  allNodes: EditSourceNode[]
+  currentNode: MdxNode,
+  allNodes: MdxNode[]
 ): string {
   const { fields, frontmatter } = currentNode
 

@@ -1,6 +1,10 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import type * as EufemiaPrebuildModule from '../../client/plugins/eufemia-prebuild'
 import type * as GlobbyModule from 'globby'
+import {
+  getHeadScript,
+  getBodyScript,
+} from '@dnb/eufemia/src/shared/ColorSchemeScriptUtils'
 import eufemiaThemePlugin, {
   getDefaultConfig,
 } from '../../client/plugins/eufemia-theme'
@@ -247,6 +251,20 @@ describe('eufemia-theme plugin', () => {
       expect(html.indexOf('data-eufemia-text-scale')).toBeLessThan(
         html.indexOf('</head>')
       )
+    })
+
+    // Fails if the plugin goes back to a local copy of the scripts.
+    it('injects the shared color-scheme scripts using the portal scope', () => {
+      const plugin = eufemiaThemePlugin()
+      const transformIndexHtml = plugin.transformIndexHtml as (
+        html: string
+      ) => string
+      const html = transformIndexHtml(
+        '<html><head></head><body class="dnb-page-background"></body></html>'
+      )
+
+      expect(html).toContain(getHeadScript('eufemia-scope--portal'))
+      expect(html).toContain(getBodyScript())
     })
   })
 

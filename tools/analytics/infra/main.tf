@@ -67,6 +67,25 @@ resource "aws_s3_bucket_lifecycle_configuration" "data" {
     }
   }
 
+  # Anonymous portal page-view records. 13-month retention (395 days) matches the
+  # MCP- and component-usage raw data and covers year-over-year reporting. The
+  # trailing slash matches only portal-views/ (there is a portal-views-daily/
+  # durable rollup that must NOT be expired). Write-once keys (one object per
+  # beacon batch), so this only expires current versions; the regenerated
+  # dashboard snapshot lives under snapshots/ and is unaffected.
+  rule {
+    id     = "expire-portal-views-raw"
+    status = "Enabled"
+
+    filter {
+      prefix = "portal-views/"
+    }
+
+    expiration {
+      days = 395
+    }
+  }
+
   # Raw MCP usage events. The trailing slash is load-bearing: it matches only
   # mcp-usage/ and NOT mcp-usage-daily/, so the durable daily rollup is never
   # expired by this rule. These keys are unique (never overwritten), so they
@@ -85,12 +104,30 @@ resource "aws_s3_bucket_lifecycle_configuration" "data" {
     }
   }
 
+  # Raw component-usage events emitted by the Nucleus bundler plugin. The
+  # trailing slash is load-bearing: it matches only component-usage/ and NOT
+  # component-usage-daily/, so the durable daily rollup is never expired by this
+  # rule. Write-once keys, so this only expires current versions.
+  rule {
+    id     = "expire-component-usage-raw"
+    status = "Enabled"
+
+    filter {
+      prefix = "component-usage/"
+    }
+
+    expiration {
+      days = 395
+    }
+  }
+
   # Bucket-wide noncurrent-version cleanup. Only the overwritten fixed-key
-  # objects (snapshots/dashboard.json, refreshed hourly, and
-  # mcp-usage-daily/<dt>/agg.json, recomputed each run) accumulate old versions
-  # under bucket versioning; the write-once prefixes (mcp-usage/, portal-views/)
-  # never create noncurrent versions, so this is a no-op there. Scoping it to the
-  # whole bucket means new overwritten prefixes are covered automatically.
+  # objects (snapshots/dashboard.json, refreshed hourly, and the
+  # <type>-daily/<dt>/agg.json rollups, recomputed each run) accumulate old
+  # versions under bucket versioning; the write-once prefixes (mcp-usage/,
+  # component-usage/, portal-views/) never create noncurrent versions, so this is
+  # a no-op there. Scoping it to the whole bucket means new overwritten prefixes
+  # are covered automatically.
   rule {
     id     = "expire-noncurrent-versions"
     status = "Enabled"
@@ -201,6 +238,96 @@ resource "aws_glue_catalog_table" "portal_views" {
   }
 }
 
+# Durable daily portal page-view rollup. The snapshot generator recomputes the
+# recent tail from portal_views each run and writes one object per day here. This
+# prefix has NO lifecycle expiry, so aggregates outlive the raw rows (expired at
+# 13 months) and keep long-range (year-over-year) history available. The grain
+# keeps the anonymous view dimensions (status/locale/theme/color_scheme/referrer/
+# via_search) so their history survives the raw expiry and stays queryable via
+# Athena.
+resource "aws_glue_catalog_table" "portal_views_daily" {
+  name          = "portal_views_daily"
+  database_name = aws_glue_catalog_database.analytics.name
+  table_type    = "EXTERNAL_TABLE"
+
+  parameters = {
+    classification     = "json"
+    has_encrypted_data = "true"
+
+    "projection.enabled"          = "true"
+    "projection.dt.type"          = "date"
+    "projection.dt.range"         = "2024-01-01,NOW"
+    "projection.dt.format"        = "yyyy-MM-dd"
+    "projection.dt.interval"      = "1"
+    "projection.dt.interval.unit" = "DAYS"
+    "storage.location.template"   = "s3://${aws_s3_bucket.data.id}/portal-views-daily/dt=$${dt}/"
+  }
+
+  partition_keys {
+    name = "dt"
+    type = "string"
+  }
+
+  storage_descriptor {
+    location      = "s3://${aws_s3_bucket.data.id}/portal-views-daily/"
+    input_format  = "org.apache.hadoop.mapred.TextInputFormat"
+    output_format = "org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat"
+
+    ser_de_info {
+      serialization_library = "org.openx.data.jsonserde.JsonSerDe"
+
+      parameters = {
+        "case.insensitive" = "true"
+      }
+    }
+
+    columns {
+      name = "path"
+      type = "string"
+    }
+
+    columns {
+      name = "env"
+      type = "string"
+    }
+
+    columns {
+      name = "status"
+      type = "string"
+    }
+
+    columns {
+      name = "locale"
+      type = "string"
+    }
+
+    columns {
+      name = "theme"
+      type = "string"
+    }
+
+    columns {
+      name = "color_scheme"
+      type = "string"
+    }
+
+    columns {
+      name = "referrer"
+      type = "string"
+    }
+
+    columns {
+      name = "via_search"
+      type = "string"
+    }
+
+    columns {
+      name = "count"
+      type = "bigint"
+    }
+  }
+}
+
 # Raw MCP usage events (one row per validated tool call), written directly to S3
 # by the MCP Lambda. Anonymous: tool + optional allow-listed component/path only.
 resource "aws_glue_catalog_table" "mcp_usage" {
@@ -256,6 +383,16 @@ resource "aws_glue_catalog_table" "mcp_usage" {
 
     columns {
       name = "env"
+      type = "string"
+    }
+
+    columns {
+      name = "transport"
+      type = "string"
+    }
+
+    columns {
+      name = "eufemiaversion"
       type = "string"
     }
 
@@ -333,10 +470,142 @@ resource "aws_glue_catalog_table" "mcp_usage_daily" {
   }
 }
 
+# Raw component-usage events (one row per bundled Eufemia component per app
+# build), written directly to S3 by the Nucleus bundler plugin via a CI/OIDC
+# role. Anonymous: consuming app name, component, resolved version, env only.
+resource "aws_glue_catalog_table" "component_usage" {
+  name          = "component_usage"
+  database_name = aws_glue_catalog_database.analytics.name
+  table_type    = "EXTERNAL_TABLE"
+
+  parameters = {
+    classification     = "json"
+    has_encrypted_data = "true"
+
+    "projection.enabled"          = "true"
+    "projection.dt.type"          = "date"
+    "projection.dt.range"         = "2024-01-01,NOW"
+    "projection.dt.format"        = "yyyy-MM-dd"
+    "projection.dt.interval"      = "1"
+    "projection.dt.interval.unit" = "DAYS"
+    "storage.location.template"   = "s3://${aws_s3_bucket.data.id}/component-usage/dt=$${dt}/"
+  }
+
+  partition_keys {
+    name = "dt"
+    type = "string"
+  }
+
+  storage_descriptor {
+    location      = "s3://${aws_s3_bucket.data.id}/component-usage/"
+    input_format  = "org.apache.hadoop.mapred.TextInputFormat"
+    output_format = "org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat"
+
+    ser_de_info {
+      serialization_library = "org.openx.data.jsonserde.JsonSerDe"
+
+      parameters = {
+        "case.insensitive" = "true"
+      }
+    }
+
+    columns {
+      name = "app"
+      type = "string"
+    }
+
+    columns {
+      name = "component"
+      type = "string"
+    }
+
+    columns {
+      name = "version"
+      type = "string"
+    }
+
+    columns {
+      name = "env"
+      type = "string"
+    }
+
+    columns {
+      name = "timestamp"
+      type = "string"
+    }
+
+    columns {
+      name = "created_at"
+      type = "string"
+    }
+  }
+}
+
+# Durable daily component-usage rollup. The snapshot generator recomputes the
+# recent tail from component_usage each run and writes one object per day here.
+# This prefix has NO lifecycle expiry, so aggregates outlive the raw rows and
+# keep long-range (year-over-year) adoption history available.
+resource "aws_glue_catalog_table" "component_usage_daily" {
+  name          = "component_usage_daily"
+  database_name = aws_glue_catalog_database.analytics.name
+  table_type    = "EXTERNAL_TABLE"
+
+  parameters = {
+    classification     = "json"
+    has_encrypted_data = "true"
+
+    "projection.enabled"          = "true"
+    "projection.dt.type"          = "date"
+    "projection.dt.range"         = "2024-01-01,NOW"
+    "projection.dt.format"        = "yyyy-MM-dd"
+    "projection.dt.interval"      = "1"
+    "projection.dt.interval.unit" = "DAYS"
+    "storage.location.template"   = "s3://${aws_s3_bucket.data.id}/component-usage-daily/dt=$${dt}/"
+  }
+
+  partition_keys {
+    name = "dt"
+    type = "string"
+  }
+
+  storage_descriptor {
+    location      = "s3://${aws_s3_bucket.data.id}/component-usage-daily/"
+    input_format  = "org.apache.hadoop.mapred.TextInputFormat"
+    output_format = "org.apache.hadoop.hive.ql.io.HiveIgnoreKeyTextOutputFormat"
+
+    ser_de_info {
+      serialization_library = "org.openx.data.jsonserde.JsonSerDe"
+
+      parameters = {
+        "case.insensitive" = "true"
+      }
+    }
+
+    columns {
+      name = "app"
+      type = "string"
+    }
+
+    columns {
+      name = "component"
+      type = "string"
+    }
+
+    columns {
+      name = "version"
+      type = "string"
+    }
+
+    columns {
+      name = "count"
+      type = "bigint"
+    }
+  }
+}
+
 # ---------------------------------------------------------------------------
 # Athena
 # ---------------------------------------------------------------------------
-
 resource "aws_athena_workgroup" "analytics" {
   name = local.function_name
   tags = local.tags
@@ -458,6 +727,12 @@ resource "aws_apigatewayv2_route" "health" {
 resource "aws_apigatewayv2_route" "collect_portal_views" {
   api_id    = aws_apigatewayv2_api.analytics.id
   route_key = "POST /collect-portal-views"
+  target    = "integrations/${aws_apigatewayv2_integration.analytics.id}"
+}
+
+resource "aws_apigatewayv2_route" "collect_local_mcp_usage" {
+  api_id    = aws_apigatewayv2_api.analytics.id
+  route_key = "POST /collect-local-mcp-usage"
   target    = "integrations/${aws_apigatewayv2_integration.analytics.id}"
 }
 
@@ -607,13 +882,16 @@ resource "aws_lambda_function" "snapshot" {
 
   environment {
     variables = {
-      NODE_OPTIONS               = "--enable-source-maps"
-      DATA_BUCKET                = aws_s3_bucket.data.id
-      GLUE_DATABASE              = aws_glue_catalog_database.analytics.name
-      GLUE_TABLE                 = aws_glue_catalog_table.portal_views.name
-      GLUE_TABLE_MCP_USAGE       = aws_glue_catalog_table.mcp_usage.name
-      GLUE_TABLE_MCP_USAGE_DAILY = aws_glue_catalog_table.mcp_usage_daily.name
-      ATHENA_WORKGROUP           = aws_athena_workgroup.analytics.name
+      NODE_OPTIONS                     = "--enable-source-maps"
+      DATA_BUCKET                      = aws_s3_bucket.data.id
+      GLUE_DATABASE                    = aws_glue_catalog_database.analytics.name
+      GLUE_TABLE                       = aws_glue_catalog_table.portal_views.name
+      GLUE_TABLE_PORTAL_VIEWS_DAILY    = aws_glue_catalog_table.portal_views_daily.name
+      GLUE_TABLE_MCP_USAGE             = aws_glue_catalog_table.mcp_usage.name
+      GLUE_TABLE_MCP_USAGE_DAILY       = aws_glue_catalog_table.mcp_usage_daily.name
+      GLUE_TABLE_COMPONENT_USAGE       = aws_glue_catalog_table.component_usage.name
+      GLUE_TABLE_COMPONENT_USAGE_DAILY = aws_glue_catalog_table.component_usage_daily.name
+      ATHENA_WORKGROUP                 = aws_athena_workgroup.analytics.name
     }
   }
 
@@ -642,10 +920,28 @@ resource "aws_lambda_permission" "snapshot_events" {
   source_arn    = aws_cloudwatch_event_rule.snapshot.arn
 }
 
+# Notification target for the alarms below. Same-account CloudWatch alarms can
+# publish to a topic under its default access policy, so no extra topic policy
+# is needed. The email subscription is optional (snapshot_alert_email empty
+# skips it) so the topic can ship before an owner is chosen; a different target
+# (e.g. Slack via AWS Chatbot or a formatting Lambda — a raw incoming webhook
+# can't complete the SNS subscription handshake) just needs its own
+# aws_sns_topic_subscription pointed at this topic — alarm_actions never change.
+resource "aws_sns_topic" "snapshot_alerts" {
+  name = "eufemia-${var.environment}-analytics-snapshot-alerts"
+  tags = local.tags
+}
+
+resource "aws_sns_topic_subscription" "snapshot_alerts_email" {
+  count     = var.snapshot_alert_email != "" ? 1 : 0
+  topic_arn = aws_sns_topic.snapshot_alerts.arn
+  protocol  = "email"
+  endpoint  = var.snapshot_alert_email
+}
+
 # Failure signals for the scheduled generator. Without them a failed run, or a
 # schedule/target that stops firing, would leave the dashboard serving an
-# ever-staler snapshot with no signal. No alarm actions yet (state is visible in
-# CloudWatch); wire an SNS/notification target here when one exists.
+# ever-staler snapshot with no signal. Both notify snapshot_alerts above.
 resource "aws_cloudwatch_metric_alarm" "snapshot_errors" {
   alarm_name          = "eufemia-${var.environment}-analytics-snapshot-errors"
   alarm_description   = "Dashboard snapshot generator returned an error"
@@ -658,6 +954,7 @@ resource "aws_cloudwatch_metric_alarm" "snapshot_errors" {
   threshold           = 1
   comparison_operator = "GreaterThanOrEqualToThreshold"
   treat_missing_data  = "notBreaching"
+  alarm_actions       = [aws_sns_topic.snapshot_alerts.arn]
 }
 
 # Missing invocations mean the schedule or target is broken (Errors alone would
@@ -674,6 +971,7 @@ resource "aws_cloudwatch_metric_alarm" "snapshot_not_running" {
   threshold           = 1
   comparison_operator = "LessThanThreshold"
   treat_missing_data  = "breaching"
+  alarm_actions       = [aws_sns_topic.snapshot_alerts.arn]
 }
 
 # A run can succeed (Invocations >= 1, Errors = 0) yet write an empty snapshot,
@@ -682,9 +980,8 @@ resource "aws_cloudwatch_metric_alarm" "snapshot_not_running" {
 # caught here — the Lambda alarms above only see the run, not its content. The
 # not-running alarm owns the "stopped firing" case, so missing data here does not
 # breach. The namespace/metric/dimension must match those emitted in
-# src/lambda/snapshot.ts. No alarm actions yet (state is visible in CloudWatch);
-# wire an SNS/notification target here when one exists — and note a genuinely
-# idle environment (no traffic) can sit at 0 and trip this.
+# src/lambda/snapshot.ts. Notifies snapshot_alerts above — note a genuinely idle
+# environment (no traffic) can sit at 0 and trip this.
 resource "aws_cloudwatch_metric_alarm" "snapshot_empty" {
   alarm_name          = "eufemia-${var.environment}-analytics-snapshot-empty"
   alarm_description   = "Dashboard snapshot generator wrote an empty snapshot (no records)"
@@ -697,6 +994,7 @@ resource "aws_cloudwatch_metric_alarm" "snapshot_empty" {
   threshold           = 1
   comparison_operator = "LessThanThreshold"
   treat_missing_data  = "notBreaching"
+  alarm_actions       = [aws_sns_topic.snapshot_alerts.arn]
 }
 
 # The MCP usage section is built best-effort: a failure (e.g. the mcp_usage Glue
@@ -705,8 +1003,7 @@ resource "aws_cloudwatch_metric_alarm" "snapshot_empty" {
 # Errors/Invocations and SnapshotRecordCount alarms, so the generator emits a
 # McpUsageBuildFailure EMF metric on the catch path and this alarm surfaces it.
 # The namespace/metric/dimension must match those emitted in src/lambda/snapshot.ts.
-# No alarm actions yet (state is visible in CloudWatch); wire a target here when
-# one exists.
+# Notifies snapshot_alerts above.
 resource "aws_cloudwatch_metric_alarm" "snapshot_mcp_build_failed" {
   alarm_name          = "eufemia-${var.environment}-analytics-snapshot-mcp-build-failed"
   alarm_description   = "Dashboard snapshot generator failed to build the MCP usage section (fell back to empty)"
@@ -719,6 +1016,53 @@ resource "aws_cloudwatch_metric_alarm" "snapshot_mcp_build_failed" {
   threshold           = 1
   comparison_operator = "GreaterThanOrEqualToThreshold"
   treat_missing_data  = "notBreaching"
+  alarm_actions       = [aws_sns_topic.snapshot_alerts.arn]
+}
+
+# The component-usage section emits a ComponentUsageBuildFailure EMF metric when
+# the durable daily rollup cannot be refreshed (a transient tail recompute still
+# serves existing history) or the section cannot be built at all (falls back to
+# empty). Both are invisible to the Lambda/SnapshotRecordCount alarms, so this
+# alarm surfaces them. The namespace/metric/dimension must match those emitted in
+# src/lambda/snapshot.ts. DORMANT until buildComponentUsage is wired into the
+# generator (no producer yet), so the metric is not emitted and the alarm stays
+# at INSUFFICIENT_DATA/OK; kept so re-wiring needs no infra change. Notifies
+# snapshot_alerts above once live.
+resource "aws_cloudwatch_metric_alarm" "snapshot_component_usage_build_failed" {
+  alarm_name          = "eufemia-${var.environment}-analytics-snapshot-component-usage-build-failed"
+  alarm_description   = "Dashboard snapshot generator failed to refresh or build the component usage section"
+  namespace           = "Eufemia/Analytics"
+  metric_name         = "ComponentUsageBuildFailure"
+  dimensions          = { FunctionName = aws_lambda_function.snapshot.function_name }
+  statistic           = "Sum"
+  period              = 3600
+  evaluation_periods  = 1
+  threshold           = 1
+  comparison_operator = "GreaterThanOrEqualToThreshold"
+  treat_missing_data  = "notBreaching"
+  alarm_actions       = [aws_sns_topic.snapshot_alerts.arn]
+}
+
+# The portal-view daily rollup is refreshed best-effort for retention (it does
+# not feed the dashboard yet): a failure is caught and the run still publishes the
+# snapshot, so it is invisible to the Lambda/SnapshotRecordCount alarms. The
+# generator emits a PortalViewsRollupFailure EMF metric on the catch path and this
+# alarm surfaces a persistent failure (which would silently stop the durable
+# history accruing). The namespace/metric/dimension must match those emitted in
+# src/lambda/snapshot.ts.
+resource "aws_cloudwatch_metric_alarm" "snapshot_portal_views_rollup_failed" {
+  alarm_name          = "eufemia-${var.environment}-analytics-snapshot-portal-views-rollup-failed"
+  alarm_description   = "Dashboard snapshot generator failed to refresh the portal-view daily rollup"
+  namespace           = "Eufemia/Analytics"
+  metric_name         = "PortalViewsRollupFailure"
+  dimensions          = { FunctionName = aws_lambda_function.snapshot.function_name }
+  statistic           = "Sum"
+  period              = 3600
+  evaluation_periods  = 1
+  threshold           = 1
+  comparison_operator = "GreaterThanOrEqualToThreshold"
+  treat_missing_data  = "notBreaching"
+  alarm_actions       = [aws_sns_topic.snapshot_alerts.arn]
 }
 
 # ---------------------------------------------------------------------------
@@ -796,10 +1140,12 @@ resource "aws_route53_record" "analytics" {
 # ---------------------------------------------------------------------------
 #
 # The dashboard shell holds no data and no secrets: all data lives behind the
-# Entra-authenticated /data API, so the UI is safe to serve as a plain public
-# site. Access control is entirely the Entra sign-in plus the /data API's JWT
-# authorizer — there is deliberately no Lambda@Edge and no edge auth here. The
-# bucket stays private; CloudFront reads it through an Origin Access Control.
+# Entra-authenticated /data API, so data access is gated entirely by the Entra
+# sign-in plus the /data API's JWT authorizer. As defense-in-depth for the shell
+# itself, a viewer-request CloudFront function (below) rejects requests that do
+# not carry the shared X-Origin-Verify header Akamai injects, so the origin is
+# reachable only through the edge. There is no Lambda@Edge. The bucket stays
+# private; CloudFront reads it through an Origin Access Control.
 
 resource "aws_s3_bucket" "dashboard" {
   bucket = "${local.function_name}-dashboard-${data.aws_caller_identity.current.account_id}"
@@ -891,6 +1237,21 @@ resource "aws_cloudfront_response_headers_policy" "dashboard" {
   }
 }
 
+# Locks the CloudFront origin to the Akamai edge: Akamai injects the shared
+# X-Origin-Verify header, and this viewer-request function rejects any request that
+# reaches CloudFront without the matching secret (i.e. direct *.cloudfront.net
+# access) with a 403. The Entra JWT authorizer on /data remains the real data
+# control; this hardens the static-shell delivery path.
+resource "aws_cloudfront_function" "dashboard_edge_auth" {
+  name    = "${local.function_name}-dashboard-edge-auth"
+  runtime = "cloudfront-js-2.0"
+  comment = "Reject dashboard requests that do not carry the Akamai X-Origin-Verify secret"
+  publish = true
+  code = templatefile("${path.module}/functions/dashboard-edge-auth.js.tftpl", {
+    edge_auth_secret = jsonencode(var.edge_auth_secret)
+  })
+}
+
 resource "aws_cloudfront_distribution" "dashboard" {
   enabled             = true
   is_ipv6_enabled     = true
@@ -918,6 +1279,13 @@ resource "aws_cloudfront_distribution" "dashboard" {
     # Custom response-headers policy: managed security headers (HSTS,
     # X-Content-Type-Options, X-Frame-Options, Referrer-Policy) plus a CSP.
     response_headers_policy_id = aws_cloudfront_response_headers_policy.dashboard.id
+
+    # Reject direct *.cloudfront.net access; only the Akamai edge (which adds
+    # the X-Origin-Verify secret) gets through.
+    function_association {
+      event_type   = "viewer-request"
+      function_arn = aws_cloudfront_function.dashboard_edge_auth.arn
+    }
   }
 
   restrictions {

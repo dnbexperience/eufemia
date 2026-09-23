@@ -1,0 +1,15 @@
+{
+  "name": "eufemia-assets-hosting",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "test": "vitest run",
+    "lint": "node ../../node_modules/.bin/prettier --check '**/*.{js,json,md,ts,yml}' '../../.github/workflows/assets.yml'"
+  },
+  "devDependencies": {
+    "vitest": "4.1.11"
+  },
+  "volta": {
+    "extends": "../../package.json"
+  }
+}

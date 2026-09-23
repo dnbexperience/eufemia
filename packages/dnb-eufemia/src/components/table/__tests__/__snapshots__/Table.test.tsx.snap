@@ -68,7 +68,7 @@ exports[`Table scss > should match style dependencies css 1`] = `
   right: 0;
   z-index: 1;
   pointer-events: none;
-  z-index: 3;
+  z-index: 5;
   border: var(--table-outline);
 }
 .dnb-table--outline > caption, .dnb-table--outline > caption::after {
@@ -1045,7 +1045,7 @@ html:not([data-whatintent=touch]) .dnb-table__td__button:hover:not([disabled]) .
 }
 
 .dnb-table__tr--clickable:active, html[data-whatinput=keyboard] .dnb-table__tr--clickable:focus, .dnb-table__tr--clickable:hover:not(.dnb-table__tr--hover.dnb-table__tr--expanded) {
-  z-index: 5;
+  z-index: 6;
 }
 
 .dnb-table--border .dnb-table__tr--clickable.dnb-table__tr--expanded td::after {

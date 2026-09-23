@@ -6107,6 +6107,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/picomatch@npm:4.0.3":
+  version: 4.0.3
+  resolution: "@types/picomatch@npm:4.0.3"
+  checksum: 10/6aa8d30d0c868ad1b09f695ecf9a40025277a2f862cb7e9814c4ea3c36295ec546450726d9862667eb326d927815c90c1168af51b9c0e830e9e5e014c12a45a6
+  languageName: node
+  linkType: hard
+
 "@types/pngjs@npm:6.0.5":
   version: 6.0.5
   resolution: "@types/pngjs@npm:6.0.5"
@@ -8687,6 +8694,7 @@ __metadata:
     "@playwright/test": "npm:1.60.0"
     "@testing-library/react": "npm:16.3.2"
     "@types/json-schema": "npm:7.0.12"
+    "@types/picomatch": "npm:4.0.3"
     "@types/react": "npm:19.2.14"
     "@types/react-dom": "npm:19.2.3"
     "@vitejs/plugin-react": "npm:6.0.1"
@@ -8708,6 +8716,7 @@ __metadata:
     mdast-util-to-string: "npm:4.0.0"
     micromatch: "npm:4.0.8"
     parse5: "npm:8.0.1"
+    picomatch: "npm:4.0.4"
     prettier: "npm:3.8.1"
     prettier-package-json: "npm:2.8.0"
     prism-react-renderer: "npm:2.4.1"
@@ -9878,6 +9887,33 @@ __metadata:
   languageName: node
   linkType: hard
 
+"eufemia-analytics-dashboard@workspace:tools/analytics/dashboard":
+  version: 0.0.0-use.local
+  resolution: "eufemia-analytics-dashboard@workspace:tools/analytics/dashboard"
+  dependencies:
+    "@dnb/eufemia": "workspace:*"
+    "@eslint/js": "npm:10.0.1"
+    "@testing-library/react": "npm:16.3.2"
+    "@types/react": "npm:19.2.14"
+    "@types/react-dom": "npm:19.2.3"
+    "@vitejs/plugin-react": "npm:6.0.1"
+    eslint: "npm:10.4.1"
+    eslint-plugin-react-hooks: "npm:7.1.1"
+    eslint-plugin-react-refresh: "npm:0.5.2"
+    globals: "npm:17.6.0"
+    jsdom: "npm:29.1.1"
+    prettier: "npm:3.8.1"
+    purgecss: "npm:8.0.0"
+    react: "npm:19.2.8"
+    react-dom: "npm:19.2.8"
+    sass: "npm:1.97.2"
+    typescript: "npm:5.9.3"
+    typescript-eslint: "npm:8.60.0"
+    vite: "npm:8.0.16"
+    vitest: "npm:4.1.11"
+  languageName: unknown
+  linkType: soft
+
 "eufemia-analytics@workspace:tools/analytics":
   version: 0.0.0-use.local
   resolution: "eufemia-analytics@workspace:tools/analytics"
@@ -9886,6 +9922,14 @@ __metadata:
     "@aws-sdk/client-s3": "npm:3.1075.0"
     "@types/aws-lambda": "npm:8.10.161"
     esbuild: "npm:0.25.5"
+    vitest: "npm:4.1.11"
+  languageName: unknown
+  linkType: soft
+
+"eufemia-assets-hosting@workspace:tools/assets":
+  version: 0.0.0-use.local
+  resolution: "eufemia-assets-hosting@workspace:tools/assets"
+  dependencies:
     vitest: "npm:4.1.11"
   languageName: unknown
   linkType: soft

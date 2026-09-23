@@ -28,6 +28,19 @@ function applyPreHydrationState() {
           }
 
           const parsed = globalThis['JSON']['parse'](value)
+          const isStringArray = (items: unknown): items is string[] =>
+            Array.isArray(items) &&
+            items.every((item) => typeof item === 'string')
+          if (
+            !isStringArray(parsed) &&
+            !(
+              parsed &&
+              isStringArray(parsed.openItems) &&
+              isStringArray(parsed.closedItems)
+            )
+          ) {
+            return
+          }
           const openItems = Array.isArray(parsed)
             ? parsed
             : Array.isArray(parsed?.openItems)
@@ -84,6 +97,29 @@ function applyPreHydrationState() {
             }
           })
           closedItems.forEach((id) => add(id, false))
+
+          menu
+            .querySelectorAll<HTMLElement>(
+              '.dnb-sidebar-menu__accordion[data-sidebar-menu-id]'
+            )
+            .forEach((accordion) => {
+              if (
+                accordion.closest('[data-open-items-storage-key]') !==
+                  menu ||
+                accordion.hasAttribute('data-sidebar-menu-open-controlled')
+              ) {
+                return
+              }
+
+              const id = accordion.getAttribute('data-sidebar-menu-id')
+              if (
+                openItems.indexOf(id) === -1 &&
+                closedItems.indexOf(id) === -1 &&
+                !accordion.querySelector('[aria-current="page"]')
+              ) {
+                add(id, false)
+              }
+            })
 
           if (rules.length) {
             const style = document.createElement('style')

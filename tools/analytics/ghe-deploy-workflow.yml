@@ -55,6 +55,7 @@ jobs:
           TF_VAR_entra_client_id: ${{ vars.ENTRA_CLIENT_ID }}
           TF_VAR_entra_tenant_id: ${{ vars.ENTRA_TENANT_ID }}
           TF_VAR_dashboard_public_url: ${{ vars.DASHBOARD_PUBLIC_URL }}
+          TF_VAR_snapshot_alert_email: ${{ vars.SNAPSHOT_ALERT_EMAIL }}
         run: |
           set -euo pipefail
           cd infra
@@ -109,15 +110,13 @@ jobs:
             '{clientId: $clientId, tenantId: $tenantId, redirectUri: $redirectUri, apiBaseUrl: $apiBaseUrl, apiScope: $apiScope}' \
             > ../dashboard/config.json
 
-          # Publish everything users load; keep the committed scaffold files
-          # (example config, docs) out of the bucket. no-cache: assets aren't
-          # fingerprinted, so make browsers revalidate (paired with the
-          # invalidation below) instead of serving a stale cached copy.
+          # Publish the built dashboard. index.html and the runtime config.json
+          # are not fingerprinted, so serve them no-cache and revalidate (paired
+          # with the invalidation below); the hashed assets under assets/ are
+          # immutable but revalidating them is harmless.
           aws s3 sync ../dashboard "s3://${BUCKET}" \
             --delete \
-            --cache-control 'no-cache' \
-            --exclude 'config.example.json' \
-            --exclude 'README.md'
+            --cache-control 'no-cache'
 
           # Invalidate so the new config.json and assets are served immediately.
           aws cloudfront create-invalidation \

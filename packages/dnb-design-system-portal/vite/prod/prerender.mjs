@@ -23,6 +23,7 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { Worker } from 'node:worker_threads'
 import { collectMarkdownPaths, getMdPath } from './md-paths.mts'
+import { escapeHtml } from './html-escape.mts'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const viteRoot = path.resolve(__dirname, '..')
@@ -465,7 +466,8 @@ function injectHtml(
 
   let html = template.replace(
     '<div id="root"></div>',
-    `<div id="root">${appHtml}</div>\n\t<script>${contentScript};${scrollRestoreScript}</script>`
+    () =>
+      `<div id="root">${appHtml}</div>\n\t<script>${contentScript};${scrollRestoreScript}</script>`
   )
 
   // Inject <link> tags for ALL brand theme CSS chunks.
@@ -504,26 +506,27 @@ function injectHtml(
     )
   }
 
-  // Inject per-page SEO meta tags
+  // Inject per-page SEO meta tags (title, description, Open Graph)
   if (meta) {
     const siteUrl = 'https://eufemia.dnb.no'
     const defaultDescription =
       'Eufemia Design System is the go-to place for all who has to design, develop and make digital WEB applications for DNB.'
     const formattedTitle = meta.title
-      ? `${meta.title} | Eufemia`
+      ? `${escapeHtml(meta.title)} | Eufemia`
       : 'Eufemia'
-    const desc = meta.description || defaultDescription
-    const fullUrl = `${siteUrl}${meta.url}`
+    const desc = escapeHtml(meta.description || defaultDescription)
+    const fullUrl = escapeHtml(`${siteUrl}${meta.url}`)
     const ogImage = `${siteUrl}/dnb/og-image.png`
 
     // Replace existing title and meta description from the template
     html = html.replace(
       /<title id="head-title">[^<]*<\/title>/,
-      `<title id="head-title">${formattedTitle}</title>`
+      () => `<title id="head-title">${formattedTitle}</title>`
     )
     html = html.replace(
       /<meta id="head-description"[^>]*\/?\s*>/,
-      `<meta id="head-description" name="description" content="${desc}" />`
+      () =>
+        `<meta id="head-description" name="description" content="${desc}" />`
     )
 
     const ogTags = [
@@ -548,21 +551,23 @@ function injectHtml(
     // The prerender loop derives it from the copies present in the output,
     // so a page can only advertise one that exists.
     if (meta.mdPath) {
+      const mdPath = escapeHtml(meta.mdPath)
+
       ogTags.push(
-        `<link rel="alternate" type="text/markdown" title="Markdown documentation" href="${meta.mdPath}">`
+        `<link rel="alternate" type="text/markdown" title="Markdown documentation" href="${mdPath}">`
       )
     }
 
     html = html.replace(
       '</head>',
-      `    ${ogTags.join('\n    ')}\n  </head>`
+      () => `    ${ogTags.join('\n    ')}\n  </head>`
     )
   }
 
   // Inject Emotion CSS extracted during SSR into <head> so styles
   // are available before the browser paints the prerendered HTML.
   if (emotionCss) {
-    html = html.replace('</head>', `${emotionCss}\n</head>`)
+    html = html.replace('</head>', () => `${emotionCss}\n</head>`)
   }
 
   // Inject route-specific CSS as render-blocking stylesheets
@@ -591,11 +596,13 @@ function injectHtml(
 }
 
 function buildRedirectHtml(redirectUrl) {
+  const url = escapeHtml(redirectUrl)
+
   return [
     '<!DOCTYPE html>',
     '<html><head>',
-    `<meta http-equiv="refresh" content="0;url=${redirectUrl}">`,
-    `<link rel="canonical" href="${redirectUrl}">`,
+    `<meta http-equiv="refresh" content="0;url=${url}">`,
+    `<link rel="canonical" href="${url}">`,
     '</head><body></body></html>',
   ].join('')
 }

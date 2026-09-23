@@ -573,7 +573,11 @@ function SidebarMenuRoot(props: SidebarMenuRootProps) {
       {...rest}
       element="nav"
       ref={menuRef}
-      className={clsx('dnb-sidebar-menu', className)}
+      className={clsx(
+        'dnb-sidebar-menu',
+        !animate && 'dnb-sidebar-menu--restoring',
+        className
+      )}
       data-open-items-storage-key={persistedOpenItemsStorageKey}
       data-open-items-storage={
         persistedOpenItemsStorageKey ? openItemsStorage : undefined

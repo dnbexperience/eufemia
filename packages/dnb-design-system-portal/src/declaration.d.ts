@@ -20,14 +20,34 @@ declare module '*.module.scss' {
 }
 
 declare module 'virtual:portal-pages' {
+  import type { MdxNode } from '../vite/client/plugins/portal-pages.shared'
+
   export const routes: Array<{
     path: string
     lazy: () => Promise<{ Component: React.ComponentType }>
   }>
-  export const allMdxNodes: Array<{
-    fields: { slug: string; sourcePath: string }
-    frontmatter: Record<string, unknown>
-  }>
+
+  /**
+   * Every MDX page, unfiltered and unsorted.
+   */
+  export const allMdxNodes: Array<MdxNode>
+
+  /**
+   * Subset of `allMdxNodes`. Pages that are published and listable: they
+   * have a title and are not drafts, ordered by `order`, with pages that
+   * have no `order` last.
+   */
+  export const regularMdxNodes: Array<MdxNode>
+
+  /**
+   * Does a page's slug match the glob pattern?
+   *
+   * `*` matches within one path segment, `**` matches any number of them:
+   *
+   *   globPath(node, 'uilib/elements/*')       direct children
+   *   globPath(node, 'uilib/elements/**')      any depth
+   */
+  export function globPath(node: MdxNode, pattern: string): boolean
 }
 
 declare module 'virtual:prefetch-on-hover' {

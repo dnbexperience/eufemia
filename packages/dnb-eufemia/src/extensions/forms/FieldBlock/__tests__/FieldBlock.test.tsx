@@ -285,7 +285,9 @@ describe('FieldBlock', () => {
       )
       expect(
         labelElement.querySelector('span > span').innerHTML
-      ).toContain(`A Label&nbsp;(valgfritt)`)
+      ).toContain(
+        `A Label&nbsp;<span class="dnb-forms-field-block__label__suffix">(valgfritt)</span>`
+      )
     })
 
     it('should add additional text to the label with a non-breaking space when label and labelSuffix is a JSX element', () => {
@@ -305,7 +307,7 @@ describe('FieldBlock', () => {
         `A Label ${nb.Field.optionalLabelSuffix}`
       )
       expect(labelElement.querySelector('span').innerHTML).toContain(
-        `<b>A Label</b>&nbsp;<i>(valgfritt)</i>`
+        `<b>A Label</b>&nbsp;<span class="dnb-forms-field-block__label__suffix"><i>(valgfritt)</i></span>`
       )
     })
   })
@@ -388,7 +390,7 @@ describe('FieldBlock', () => {
         `A Label ${nb.Field.optionalLabelSuffix}`
       )
       expect(labelElement.querySelector('span').innerHTML).toContain(
-        `<b>A Label</b>&nbsp;(valgfritt)`
+        `<b>A Label</b>&nbsp;<span class="dnb-forms-field-block__label__suffix">(valgfritt)</span>`
       )
     })
   })

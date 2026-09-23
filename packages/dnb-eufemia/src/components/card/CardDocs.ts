@@ -97,12 +97,12 @@ export const CardProperties: PropertiesTableProps = {
 
 export const CardActionProperties: PropertiesTableProps = {
   href: {
-    doc: 'The URL to navigate to. When set, renders an anchor element.',
+    doc: 'The URL to navigate to. When set, renders an anchor element. Values using a script-executing protocol (`javascript:` or `vbscript:`) are removed.',
     type: 'string',
     status: 'optional',
   },
   to: {
-    doc: 'Route path for use with a router Link component (e.g. react-router). Pass a custom `element` that accepts `to`.',
+    doc: 'Route path for use with a router Link component (e.g. react-router). Pass a custom `element` that accepts `to`. Values using a script-executing protocol (`javascript:` or `vbscript:`) are removed.',
     type: 'string',
     status: 'optional',
   },

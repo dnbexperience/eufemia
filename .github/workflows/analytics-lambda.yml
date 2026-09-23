@@ -97,6 +97,10 @@ jobs:
         if: steps.gate.outputs.skip != 'true'
         run: cd tools/analytics && yarn build
 
+      - name: Build dashboard
+        if: steps.gate.outputs.skip != 'true'
+        run: yarn workspace eufemia-analytics-dashboard build
+
       - name: Push to GHE deploy repo
         if: steps.gate.outputs.skip != 'true'
         env:
@@ -132,10 +136,14 @@ jobs:
           cp "$GITHUB_WORKSPACE/tools/analytics/dist/lambda.zip" dist/
           cp -R "$GITHUB_WORKSPACE/tools/analytics/infra" .
 
-          # Include the dashboard static files so the deploy job can publish
-          # them to the CloudFront-fronted bucket. config.json is generated at
-          # deploy time from the GHE variables, so it is not copied here.
-          cp -R "$GITHUB_WORKSPACE/tools/analytics/dashboard" .
+          # Include the built dashboard so the deploy job can publish it to the
+          # CloudFront-fronted bucket. The Vite build output (dist/) is copied
+          # as dashboard/; config.json is generated at deploy time from the GHE
+          # variables, so it is not copied here.
+          cp -R "$GITHUB_WORKSPACE/tools/analytics/dashboard/dist" ./dashboard
+
+          # Include the README so the deploy repo documents the pipeline it runs
+          cp "$GITHUB_WORKSPACE/tools/analytics/README.md" README.md
 
           # Include the deploy workflow so it lives on (and triggers from) the deploy branch
           mkdir -p .github/workflows

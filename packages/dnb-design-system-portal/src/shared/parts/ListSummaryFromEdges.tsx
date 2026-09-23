@@ -11,22 +11,19 @@ import {
 import ReactMarkdown from 'react-markdown'
 import { basicComponents } from '../../shared/tags'
 import type { SpacingProps } from '@dnb/eufemia/src/shared/types'
+import type { MdxNode } from '../../../vite/client/plugins/portal-pages.shared'
 
-type ListEdge = {
-  node: {
-    frontmatter: {
-      title: string
-      description?: string
-      order?: number
-    }
-    fields: {
-      slug: string
-    }
-  }
-}
-export type ListEdges = Array<ListEdge>
 type ListSummaryFromEdgesProps = {
-  edges: ListEdges
+  /**
+   * The pages to list.
+   *
+   * Lists keep their page selection in `listEdges.ts` and pass the result
+   * here. Those are plain functions taking the pages as an argument, so the
+   * markdown generator for the LLM docs can import and call them instead of
+   * re-deriving the selection from the component source — one definition of
+   * what each list contains.
+   */
+  edges: MdxNode[]
   level?: HeadingLevel
   size?: HeadingSize
   description?: string
@@ -49,10 +46,8 @@ export default function ListSummaryFromEdges({
   const jsx = edges.map(
     (
       {
-        node: {
-          frontmatter: { title, description: fmDescription },
-          fields: { slug },
-        },
+        frontmatter: { title, description: fmDescription },
+        fields: { slug },
       },
       i
     ) => {

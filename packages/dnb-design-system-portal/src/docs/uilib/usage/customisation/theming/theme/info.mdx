@@ -234,6 +234,25 @@ Place them in your HTML template as follows:
 - **`ColorSchemeBodyFirstScript`** — Adds the resolved color-scheme class to `<body>`. Place as the first child of `<body>`.
 - **`ColorSchemeBodyLastScript`** — Swaps color-scheme classes on server-rendered `Theme` elements so they match the resolved scheme. Place as the last child of `<body>`.
 
+#### Content Security Policy (CSP)
+
+These are inline scripts. A policy such as `script-src 'nonce-...'` blocks them unless they carry the matching nonce, which brings the flash back. Pass your per-request nonce to each script:
+
+```tsx
+<html>
+  <head>
+    <ColorSchemeHeadScript nonce={nonce} />
+  </head>
+  <body>
+    <ColorSchemeBodyFirstScript nonce={nonce} />
+    {/* your app content */}
+    <ColorSchemeBodyLastScript nonce={nonce} />
+  </body>
+</html>
+```
+
+All three accept the standard `<script>` attributes, so `id` and `data-*` can be forwarded the same way. This lets you keep a strict policy instead of allowing `unsafe-inline`.
+
 ### Hide or show parts of your component (filter)
 
 With this helper function you show or hide content based on inherited theme properties.

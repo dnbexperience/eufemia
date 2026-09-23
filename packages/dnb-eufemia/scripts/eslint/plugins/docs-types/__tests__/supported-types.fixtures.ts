@@ -228,6 +228,16 @@ export const warningValidCases = [
     `,
     filename: 'SidebarMenuDocs.ts',
   },
+  {
+    code: `
+      const SegmentedFieldDocs = {
+        separator: {
+          type: '"yes|no"',
+        },
+      }
+    `,
+    filename: 'SegmentedFieldDocs.ts',
+  },
 ]
 
 export const warningInvalidCases = [
@@ -288,5 +298,23 @@ export const warningInvalidCases = [
     `,
     filename: 'InputDocs.ts',
     errors: [{ messageId: 'unknownType' }],
+  },
+  {
+    code: `
+      const SegmentedFieldDocs = {
+        separator: {
+          type: '"yes|no" | undefined',
+        },
+      }
+    `,
+    output: `
+      const SegmentedFieldDocs = {
+        separator: {
+          type: ['"yes|no"', 'undefined'],
+        },
+      }
+    `,
+    filename: 'SegmentedFieldDocs.ts',
+    errors: [{ messageId: 'avoidPipeUnion' }],
   },
 ]

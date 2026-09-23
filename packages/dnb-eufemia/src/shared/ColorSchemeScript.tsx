@@ -20,13 +20,33 @@
  *     {content}
  *     <ColorSchemeBodyLastScript />
  *   </body>
+ *
+ * All three accept standard script attributes, including `nonce` for a strict
+ * Content-Security-Policy.
  */
 
+import type { ScriptHTMLAttributes } from 'react'
 import { getStyleScopeHash } from '../plugins/postcss-isolated-style-scope/plugin-scope-hash.js'
+import {
+  getHeadScript as buildHeadScript,
+  getBodyScript,
+  getContentScript,
+} from './ColorSchemeScriptUtils'
 
-const STORAGE_KEY = 'eufemia-theme'
-const GLOBAL_KEY = '__eufemiaColorScheme'
-const CLASS_PREFIX = 'eufemia-theme__color-scheme--'
+export { getBodyScript, getContentScript } from './ColorSchemeScriptUtils'
+
+/**
+ * Script attributes forwarded to the rendered tag, such as `nonce` for a
+ * Content-Security-Policy that does not allow `unsafe-inline`.
+ */
+export type ColorSchemeScriptProps = Omit<
+  ScriptHTMLAttributes<HTMLScriptElement>,
+  'children' | 'dangerouslySetInnerHTML'
+>
+
+export type ColorSchemeHeadScriptProps = ColorSchemeScriptProps & {
+  scopeHash?: string
+}
 
 /**
  * Returns the inline script that resolves the color scheme
@@ -34,24 +54,8 @@ const CLASS_PREFIX = 'eufemia-theme__color-scheme--'
  * Place this in <head>.
  */
 export function getHeadScript(scopeHash: string = getStyleScopeHash()) {
-  return `(function(){try{var t=JSON.parse(localStorage.getItem('${STORAGE_KEY}')||'{}');var s=t.colorScheme;if(s==='auto'||!s){s=matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'}document.documentElement.classList.add('${scopeHash}');if(s){globalThis.${GLOBAL_KEY}=s}}catch(e){}})()`
-}
-
-/**
- * Returns the inline script that adds the color-scheme class to <body>.
- * Place this as the first child of <body>.
- */
-export function getBodyScript() {
-  return `(function(){var s=globalThis.${GLOBAL_KEY};if(s){document.body.classList.add('${CLASS_PREFIX}'+s)}})()`
-}
-
-/**
- * Returns the inline script that swaps color-scheme classes
- * on all .eufemia-theme elements in the static HTML.
- * Place this after the main content div.
- */
-export function getContentScript() {
-  return `(function(){var s=globalThis.${GLOBAL_KEY};if(s&&s!=='light'){var o=s==='dark'?'light':'dark';document.querySelectorAll('.${CLASS_PREFIX}'+o).forEach(function(el){el.classList.remove('${CLASS_PREFIX}'+o);el.classList.add('${CLASS_PREFIX}'+s)})}})()`
+  // The default is resolved here so ColorSchemeScriptUtils stays import-free.
+  return buildHeadScript(scopeHash)
 }
 
 /**
@@ -60,11 +64,11 @@ export function getContentScript() {
  */
 export function ColorSchemeHeadScript({
   scopeHash,
-}: {
-  scopeHash?: string
-} = {}) {
+  ...props
+}: ColorSchemeHeadScriptProps = {}) {
   return (
     <script
+      {...props}
       dangerouslySetInnerHTML={{
         __html: getHeadScript(scopeHash),
       }}
@@ -76,9 +80,12 @@ export function ColorSchemeHeadScript({
  * Script component for the first child of <body>.
  * Adds the color-scheme class to <body>.
  */
-export function ColorSchemeBodyFirstScript() {
+export function ColorSchemeBodyFirstScript(
+  props: ColorSchemeScriptProps = {}
+) {
   return (
     <script
+      {...props}
       dangerouslySetInnerHTML={{
         __html: getBodyScript(),
       }}
@@ -90,9 +97,12 @@ export function ColorSchemeBodyFirstScript() {
  * Script component placed after the main content.
  * Swaps color-scheme classes on server-rendered Theme elements.
  */
-export function ColorSchemeBodyLastScript() {
+export function ColorSchemeBodyLastScript(
+  props: ColorSchemeScriptProps = {}
+) {
   return (
     <script
+      {...props}
       dangerouslySetInnerHTML={{
         __html: getContentScript(),
       }}

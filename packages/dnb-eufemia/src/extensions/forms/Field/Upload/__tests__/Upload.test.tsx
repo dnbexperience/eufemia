@@ -93,6 +93,9 @@ describe('Field.Upload', () => {
     expect(label).toHaveTextContent(
       `${nbShared.Upload.title} ${nbForms.Field.optionalLabelSuffix}`
     )
+    expect(
+      label.querySelector('.dnb-forms-field-block__label__suffix')
+    ).toHaveTextContent(nbForms.Field.optionalLabelSuffix)
   })
 
   it('should support labelSuffix', () => {
@@ -106,6 +109,9 @@ describe('Field.Upload', () => {
 
     const [label] = Array.from(document.querySelectorAll('p'))
     expect(label.textContent).toBe('A Label (suffix)')
+    expect(
+      label.querySelector('.dnb-forms-field-block__label__suffix')
+    ).toHaveTextContent('(suffix)')
   })
 
   it('should support onFileClick event', () => {

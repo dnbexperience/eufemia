@@ -19,19 +19,10 @@ Icons are getting added (more or less) automatically by extracting them from [Fi
 
 To fetch new icons from the [Figma Icons Library](https://www.figma.com/file/2aNwT4Lbyt9hFmDv8k34yN/Eufemia---Icons?node-id=1%3A9) file, you have to:
 
-1. Re-branch `main`, and name it `icons/{your-branch-name}` (it needs to include `icons/` in the name):
-
-   ```bash
-   git pull origin main
-   ```
-
-   ```bash
-   git checkout -b icons/{your-branch-name} && git push -u origin
-   ```
-
-1. After the CI/CD process has finished it should have made a commit back to the branch including the new optimized icons.
-1. Pull the changes down locally, and run visual tests to [update the snapshots](/contribute/getting-started#running-tests-locally). Ideally, all of that should be handled during the CI/CD process.
-1. Make a PR back to `main`, review, and (squash) merge it.
+1. Open [**Actions → Icons Library**](https://github.com/dnbexperience/eufemia/actions/workflows/icons-lib.yml), then select **Run workflow** on `main`.
+1. The workflow fetches and optimizes the icons, builds the library and Portal, updates the visual snapshots and opens or updates a draft pull request. Existing reviewer commits, such as changelog edits, are preserved. If Figma and the pull request are already synchronized, it reports that no changes were found.
+1. Review icon names, tags, removals and visual snapshots. Add genuinely new icon names to the changelog under the intended release date before marking the pull request ready.
+1. Review and (squash) merge the pull request.
    - The PR or commit needs an [appropriate title](/contribute/style-guides/git) e.g. `feat(Icons): add [icon names]` or `fix(Icon): fix cropped [icon name]`. You can either give the commit a good title during the squash merge of the PR or you may pull and rebase interactive `git pull && git rebase -i` or amend.
 
 ## How to fix icons?

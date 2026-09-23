@@ -4,3 +4,7 @@
 cost_allocation = "BSN00000000"
 
 # environment = "dev"
+
+# Subscribes this address to the snapshot alert SNS topic. Leave unset to ship
+# the topic without a subscriber.
+# snapshot_alert_email = "alerts@example.com"

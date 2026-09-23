@@ -615,6 +615,7 @@ The `required` property is a boolean that indicates whether the field is require
 ```
 
 When you need to opt-out of the required field validation, you can use the `required={false}` property. This will also add a "(optional)" suffix to the field label(`labelSuffix`). Optional fields are labeled instead of required ones because, in a required form, most fields should be required — labeling the exceptions reduces visual noise and makes the form easier to scan.
+The suffix is displayed in a secondary text color to distinguish it from the label while keeping it inside the label.
 
 Using a consistent suffix convention across all forms helps users build a reliable mental model: "if there's no suffix, I need to fill this in." If a form has mostly optional fields and only a few required ones, consider whether the form could be simplified — for example, by moving optional fields to a separate step or section.
 

@@ -11,6 +11,12 @@ import styled from '@emotion/styled'
 if (!globalThis.ComponentBoxMemo) {
   globalThis.ComponentBoxMemo = {}
 }
+if (!globalThis.ComponentBoxMemoIds) {
+  globalThis.ComponentBoxMemoIds = new WeakMap()
+}
+if (!globalThis.ComponentBoxMemoId) {
+  globalThis.ComponentBoxMemoId = 0
+}
 
 type ComponentBoxProps = CodeSectionProps & {
   /**
@@ -24,7 +30,12 @@ type ComponentBoxProps = CodeSectionProps & {
 function ComponentBox(props: ComponentBoxProps) {
   const { children, scope = {}, __buildScope, ...rest } = props
 
-  const hash = children as string
+  const hash = JSON.stringify([
+    getMemoValue(children),
+    getMemoRecord(scope),
+    getMemoRecord(__buildScope),
+    getMemoRecord(rest),
+  ])
 
   if (globalThis.ComponentBoxMemo[hash]) {
     return globalThis.ComponentBoxMemo[hash]
@@ -56,6 +67,41 @@ function ComponentBox(props: ComponentBoxProps) {
   globalThis.ComponentBoxMemo[hash] = element
 
   return element
+}
+
+function getMemoValue(value: unknown): string {
+  if (Array.isArray(value)) {
+    return JSON.stringify(value.map(getMemoValue))
+  }
+
+  if (value && typeof value === 'object') {
+    return getObjectId(value)
+  }
+
+  if (typeof value === 'function') {
+    return getObjectId(value)
+  }
+
+  return `${typeof value}:${String(value)}`
+}
+
+function getMemoRecord(value?: Record<string, unknown>): string {
+  return JSON.stringify(
+    Object.entries(value ?? {})
+      .sort(([first], [second]) => first.localeCompare(second))
+      .map(([key, value]) => [key, getMemoValue(value)])
+  )
+}
+
+function getObjectId(value: object): string {
+  let id = globalThis.ComponentBoxMemoIds.get(value)
+
+  if (!id) {
+    id = ++globalThis.ComponentBoxMemoId
+    globalThis.ComponentBoxMemoIds.set(value, id)
+  }
+
+  return `object:${id}`
 }
 
 export default ComponentBox

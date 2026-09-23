@@ -70,10 +70,22 @@ function splitTopLevelUnion(value) {
   const parts = []
   let start = 0
   let depth = 0
+  let quote = null
 
   for (let index = 0; index < value.length; index += 1) {
     const character = value[index]
-    if ('<([{'.includes(character)) {
+
+    // A `|` inside a string literal (`"yes|no"`) is part of the literal, not a union.
+    if (quote) {
+      if (character === quote) {
+        quote = null
+      }
+      continue
+    }
+
+    if (character === '"' || character === "'") {
+      quote = character
+    } else if ('<([{'.includes(character)) {
       depth += 1
     } else if ('>)]}'.includes(character)) {
       depth = Math.max(0, depth - 1)

@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - 'icon*/**'
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -18,6 +19,9 @@ concurrency:
 jobs:
   process-icons:
     name: Fetch and Build Icons
+    if: >-
+      github.event_name != 'push' ||
+      github.ref_name != 'icons/automation-figma-sync'
 
     runs-on: macos-26
 
@@ -27,7 +31,46 @@ jobs:
       - name: Git checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
+          ref: ${{ github.event_name == 'workflow_dispatch' && 'main' || github.ref }}
+          fetch-depth: 0
           persist-credentials: false
+
+      - name: Prepare manual update branch
+        if: github.event_name == 'workflow_dispatch'
+        id: manual-branch
+        run: |
+          branch="icons/automation-figma-sync"
+          echo "branch=$branch" >> "$GITHUB_OUTPUT"
+
+      - name: Find an open icon update pull request
+        if: github.event_name == 'workflow_dispatch'
+        id: existing-pr
+        env:
+          BRANCH: ${{ steps.manual-branch.outputs.branch }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: |
+          url=$(gh pr list \
+            --head "$BRANCH" \
+            --base main \
+            --state open \
+            --json url \
+            --jq '.[0].url // empty')
+          if [ -n "$url" ]; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+            echo "url=$url" >> "$GITHUB_OUTPUT"
+            echo "An icon update pull request is already open: $url" >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Check out the existing icon update branch
+        if: steps.existing-pr.outputs.exists == 'true'
+        env:
+          BRANCH: ${{ steps.manual-branch.outputs.branch }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: |
+          gh auth setup-git
+          git fetch origin "refs/heads/$BRANCH:refs/remotes/origin/$BRANCH"
+          git switch -C "$BRANCH" "origin/$BRANCH"
+          git rebase origin/main
 
       - name: Setup dependencies
         uses: ./.github/actions/setup
@@ -53,16 +96,29 @@ jobs:
       - name: Icons fetch and prebuild
         run: yarn workspace @dnb/eufemia prebuild:figma:ci
         env:
+          BRANCH: ${{ steps.manual-branch.outputs.branch || github.ref_name }}
           FIGMA_TOKEN: ${{ secrets.FIGMA_TOKEN }}
           FIGMA_ICONS_FILE: ${{ secrets.FIGMA_ICONS_FILE }}
 
+      - name: Detect icon changes
+        id: changes
+        run: |
+          if [ -z "$(git status --porcelain)" ]; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Prebuild Library
+        if: steps.changes.outputs.changed == 'true'
         run: yarn workspace @dnb/eufemia build:prebuild
 
       - name: Build portal
+        if: steps.changes.outputs.changed == 'true'
         run: yarn workspace dnb-design-system-portal build
 
       - name: Run visual tests
+        if: steps.changes.outputs.changed == 'true'
         run: yarn workspace dnb-design-system-portal test:screenshots:ci:update
 
       - name: Store visual test artifacts
@@ -78,9 +134,121 @@ jobs:
         run: echo '\n\n👉 Download the diff files as a ZIP file. \nIt is called "visual-test-artifact" and you find it in the test "Summary" under "Artifacts".\n\n\n'
 
       - name: Commit icons and updated snapshots
-        if: success()
+        if: >-
+          success() &&
+          github.event_name == 'push' &&
+          steps.changes.outputs.changed == 'true'
         run: yarn workspace @dnb/eufemia icons:commit
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
           GH_NAME: ${{ secrets.GH_NAME }}
           GH_EMAIL: ${{ secrets.GH_EMAIL }}
+
+      - name: Commit manual icon update
+        if: >-
+          success() &&
+          github.event_name == 'workflow_dispatch' &&
+          steps.changes.outputs.changed == 'true'
+        run: |
+          gh auth setup-git
+          remote_sha=$(git ls-remote --heads origin "refs/heads/$BRANCH" | cut -f1)
+
+          if [ "$EXISTING_PR" != true ]; then
+            git switch -c "$BRANCH"
+          fi
+          git config user.name "$GH_NAME"
+          git config user.email "$GH_EMAIL"
+          git add \
+            packages/dnb-eufemia/src/icons \
+            packages/dnb-eufemia/src/components/icon \
+            packages/dnb-eufemia/assets/icons \
+            packages/dnb-eufemia/scripts/figma/version.lock
+
+          git commit --no-verify -m "chore: synchronize icons from Figma"
+          if [ -n "$remote_sha" ]; then
+            git push origin "HEAD:refs/heads/$BRANCH" \
+              --force-with-lease="refs/heads/$BRANCH:$remote_sha"
+          else
+            git push --set-upstream origin "$BRANCH"
+          fi
+        env:
+          BRANCH: ${{ steps.manual-branch.outputs.branch }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GH_NAME: ${{ secrets.GH_NAME }}
+          GH_EMAIL: ${{ secrets.GH_EMAIL }}
+          EXISTING_PR: ${{ steps.existing-pr.outputs.exists }}
+
+      - name: Create draft icon update pull request
+        if: >-
+          success() &&
+          github.event_name == 'workflow_dispatch' &&
+          steps.changes.outputs.changed == 'true'
+        env:
+          BRANCH: ${{ steps.manual-branch.outputs.branch }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          EXISTING_PR: ${{ steps.existing-pr.outputs.exists }}
+          PR_URL: ${{ steps.existing-pr.outputs.url }}
+        run: |
+          icon_names() {
+            git diff --name-only "origin/main...HEAD" --diff-filter="$1" \
+              -- 'packages/dnb-eufemia/assets/icons/dnb/*.svg' |
+              sed -E 's#.*/##; s/\.svg$//; s/_medium$//' |
+              sort -u | paste -sd, - | sed 's/,/, /g'
+          }
+
+          added=$(icon_names A)
+          removed=$(icon_names D)
+          updated=$(icon_names M)
+          if git diff --quiet "origin/main...HEAD" -- \
+            packages/dnb-eufemia/src/icons/dnb/icons-meta.json; then
+            metadata_changed=No
+          else
+            metadata_changed=Yes
+          fi
+
+          if [ -n "$removed" ]; then
+            title="feat(Icons)!: remove $removed"
+            fallback_title="feat(Icons)!: remove icons from Figma"
+          elif [ -n "$added" ]; then
+            title="feat(Icons): add $added"
+            fallback_title="feat(Icons): add icons from Figma"
+          elif [ -n "$updated" ]; then
+            title="fix(Icons): update $updated"
+            fallback_title="fix(Icons): update icons from Figma"
+          else
+            title="fix(Icons): synchronize icons from Figma"
+            fallback_title="$title"
+          fi
+
+          if [ "${#title}" -gt 240 ]; then
+            title="$fallback_title"
+          fi
+
+          body="Synchronizes the Eufemia icon library with Figma for review before release."
+          {
+            echo "## Icon changes"
+            echo ""
+            echo "- Added: ${added:-None}"
+            echo "- Updated: ${updated:-None}"
+            echo "- Removed: ${removed:-None}"
+            echo "- Metadata changed: $metadata_changed"
+            echo ""
+            echo "Review names, tags, removals, changelog and visual snapshots before marking the pull request ready."
+          } >> "$GITHUB_STEP_SUMMARY"
+          if [ "$EXISTING_PR" = true ]; then
+            gh pr edit "$PR_URL" --title "$title"
+            is_draft=$(gh pr view "$PR_URL" --json isDraft --jq '.isDraft')
+            if [ "$is_draft" != true ]; then
+              gh pr ready "$PR_URL" --undo
+            fi
+          else
+            gh pr create \
+              --base main \
+              --head "$BRANCH" \
+              --title "$title" \
+              --body "$body" \
+              --draft
+          fi
+      - name: Report no icon changes
+        if: steps.changes.outputs.changed == 'false'
+        run: echo "Figma and the Eufemia icon library are already synchronized."

@@ -4,9 +4,10 @@
  */
 
 // These files can change screenshot behavior globally, so any change forces full visual coverage.
+// Entries are matched against package-relative paths, so they need the extension.
 export const GLOBAL_VISUAL_FILES = new Set([
   'package.json',
-  'vitest.config.screenshots',
+  'vitest.config.screenshots.ts',
 ])
 
 // Shared style/test infra paths are cross-cutting; selective mapping is too error-prone here.

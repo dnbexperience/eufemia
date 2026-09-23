@@ -334,6 +334,26 @@ describe('Drawer', () => {
     })
   })
 
+  it('restores focus to a custom target after close', () => {
+    const targetRef: RefObject<HTMLButtonElement | null> = {
+      current: null,
+    }
+
+    render(
+      <>
+        <button ref={targetRef}>Custom target</button>
+        <Drawer noAnimation restoreFocusTo={targetRef} title="Title" />
+      </>
+    )
+
+    fireEvent.click(document.querySelector('button.dnb-modal__trigger'))
+    fireEvent.keyDown(document.querySelector('div.dnb-drawer'), {
+      key: 'Escape',
+    })
+
+    expect(document.activeElement).toBe(targetRef.current)
+  })
+
   it('has support for nested Drawers', async () => {
     const onOpen = {
       first: vi.fn(),

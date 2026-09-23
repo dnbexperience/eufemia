@@ -3,8 +3,9 @@ import type {
   APIGatewayProxyResultV2,
 } from 'aws-lambda'
 import { isEdgeAuthorized, json } from './http.js'
-import { storePortalViews } from './store.js'
+import { storePortalViews, storeMcpUsage } from './store.js'
 import { validatePortalViews } from '../records/portal-view.js'
+import { validateMcpUsage } from '../records/mcp-usage.js'
 
 function parseBody(event: APIGatewayProxyEventV2): unknown {
   if (!event.body) {
@@ -41,16 +42,43 @@ async function handlePortalViews(
   return json(202, { accepted })
 }
 
+async function handleLocalMcpUsage(
+  event: APIGatewayProxyEventV2
+): Promise<APIGatewayProxyResultV2> {
+  let payload: unknown
+  try {
+    payload = parseBody(event)
+  } catch {
+    return json(400, { error: 'Body must be valid JSON' })
+  }
+
+  const validation = validateMcpUsage(payload)
+  if (!validation.ok) {
+    return json(400, {
+      error: 'Validation failed',
+      details: validation.errors,
+    })
+  }
+
+  // Stamp the transport server-side; the local ingest route can only ever
+  // write 'local' rows, regardless of what the client sends.
+  const accepted = await storeMcpUsage(validation.value, 'local')
+
+  return json(202, { accepted })
+}
+
 /**
  * HTTP API entry point (edge-locked ingest).
  *
  * Routes:
- * - `GET  /healthz`               liveness probe
- * - `POST /collect-portal-views`  store anonymous portal page views in S3
+ * - `GET  /healthz`                  liveness probe
+ * - `POST /collect-portal-views`     store anonymous portal page views in S3
+ * - `POST /collect-local-mcp-usage`  store anonymous local (stdio) MCP usage in S3
  *
  * Every route is gated by the Akamai X-Edge-Auth origin lock; there is no
- * bearer token. First-party producers (MCP, Nucleus) write their own S3 prefix
- * directly via IAM rather than through an HTTP route.
+ * bearer token. The web MCP Lambda writes its own S3 prefix directly via IAM
+ * rather than through an HTTP route; the local (stdio) MCP server cannot hold
+ * a secret or IAM role, so it uses this route instead.
  */
 export async function handler(
   event: APIGatewayProxyEventV2
@@ -70,6 +98,10 @@ export async function handler(
   // secret.
   if (method === 'POST' && path === '/collect-portal-views') {
     return handlePortalViews(event)
+  }
+
+  if (method === 'POST' && path === '/collect-local-mcp-usage') {
+    return handleLocalMcpUsage(event)
   }
 
   return json(404, { error: 'Not found' })

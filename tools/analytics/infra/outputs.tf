@@ -27,6 +27,11 @@ output "snapshot_function_name" {
   value       = aws_lambda_function.snapshot.function_name
 }
 
+output "snapshot_alerts_topic_arn" {
+  description = "SNS topic the snapshot CloudWatch alarms notify"
+  value       = aws_sns_topic.snapshot_alerts.arn
+}
+
 output "data_bucket" {
   value = aws_s3_bucket.data.id
 }
@@ -37,7 +42,7 @@ output "dashboard_bucket" {
 }
 
 output "dashboard_url" {
-  description = "Public CloudFront URL of the dashboard"
+  description = "CloudFront distribution URL of the dashboard (direct access returns 403; reachable only via the Akamai edge domain, dashboard_public_url)"
   value       = "https://${aws_cloudfront_distribution.dashboard.domain_name}"
 }
 

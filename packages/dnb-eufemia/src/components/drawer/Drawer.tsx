@@ -45,6 +45,8 @@ function Drawer({
   preventOverlayClose,
   open,
   openDelay,
+  restoreFocus,
+  restoreFocusTo,
 
   omitTriggerButton,
   trigger,
@@ -87,6 +89,8 @@ function Drawer({
     fullscreen,
     containerPlacement,
     open,
+    restoreFocus,
+    restoreFocusTo,
     directDomReturn,
     onOpen,
     onClose,

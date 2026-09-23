@@ -18,24 +18,13 @@ import { sync as globSync } from 'globby'
 import micromatch from 'micromatch'
 import { hasPrebuild } from './eufemia-prebuild'
 import { getTextScaleScript } from '@dnb/eufemia/src/shared/TextScaleScriptUtils'
+import {
+  getHeadScript,
+  getBodyScript,
+} from '@dnb/eufemia/src/shared/ColorSchemeScriptUtils'
 
-/**
- * FOUC-prevention scripts matching @dnb/eufemia/shared/ColorSchemeScript.
- * These must stay in sync with getHeadScript / getBodyScript in that module.
- *
- * We inline them here because the Vite config/plugin context cannot import
- * .tsx files from eufemia at config-load time (before Vite's JSX transform
- * is registered).
- */
+// The portal scopes its styles to itself rather than to an Eufemia version.
 const SCOPE_HASH = 'eufemia-scope--portal'
-
-function getHeadScript() {
-  return `(function(){try{var t=JSON.parse(localStorage.getItem('eufemia-theme')||'{}');var s=t.colorScheme;if(s==='auto'||!s){s=matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'}document.documentElement.classList.add('${SCOPE_HASH}');if(s){globalThis.__eufemiaColorScheme=s}}catch(e){}})()`
-}
-
-function getBodyScript() {
-  return `(function(){var s=globalThis.__eufemiaColorScheme;if(s){document.body.classList.add('eufemia-theme__color-scheme--'+s)}})()`
-}
 
 const VIRTUAL_STYLES_ID = 'virtual:eufemia-theme-styles'
 const RESOLVED_VIRTUAL_STYLES_ID = '\0' + VIRTUAL_STYLES_ID
@@ -428,7 +417,7 @@ if (typeof window !== 'undefined') {
      * module into the HTML template.
      */
     transformIndexHtml(html) {
-      const headScript = `<script>${getHeadScript()}</script>
+      const headScript = `<script>${getHeadScript(SCOPE_HASH)}</script>
 <script>${getTextScaleScript()}</script>`
       const bodyScript = `<script>${getBodyScript()}</script>`
 

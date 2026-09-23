@@ -1,5 +1,6 @@
 import { Ul, Li } from '@dnb/eufemia/src'
 import Anchor from '../tags/Anchor'
+import type { StaticQueryConnection } from 'portal-query'
 
 type TableOfContents = {
   url: string
@@ -7,22 +8,27 @@ type TableOfContents = {
   items?: Array<TableOfContents>
 }
 
-type TableOfContentsProps = {
-  edges: Array<{
-    node: {
-      frontmatter: { order: number }
-      tableOfContents: {
-        items: Array<TableOfContents>
-      }
-    }
-  }>
-}
+type TableOfContentsProps = StaticQueryConnection
 
 const TableOfContents = ({ edges }: TableOfContentsProps) => {
-  const orderedContents = edges
-    .sort((edgeA, edgeB) =>
-      edgeA.node.frontmatter.order > edgeB.node.frontmatter.order ? 1 : -1
-    )
+  const orderedContents = [...edges]
+    // Same ordering as `regularMdxNodes`
+    .sort(({ node: a }, { node: b }) => {
+      const orderA = a.frontmatter.order
+      const orderB = b.frontmatter.order
+
+      if (orderA === orderB) {
+        return 0
+      }
+      if (orderA === undefined) {
+        return 1
+      }
+      if (orderB === undefined) {
+        return -1
+      }
+
+      return orderA - orderB
+    })
     .map(({ node }) => node.tableOfContents?.items)
     .filter(Boolean)
     .reduce<Array<TableOfContents>>((allContent, currentContent) => {

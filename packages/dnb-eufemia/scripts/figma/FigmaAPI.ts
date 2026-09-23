@@ -4,6 +4,7 @@
  */
 
 import { extractIcons } from './tasks/assetsExtractors'
+import { extractTokens } from './tasks/tokensExtractor'
 import { getRequiredBranchName } from '../prebuild/commitToBranch'
 import { log, ErrorHandler } from '../lib'
 
@@ -15,6 +16,11 @@ type FetchFigmaIconsOptions = {
   forceRefetch?: boolean
   forceReconvert?: boolean
   ignoreBranchCheck?: boolean
+}
+
+type FetchFigmaTokensOptions = {
+  figmaFile?: string
+  tokensDir?: string
 }
 
 export const fetchFigmaIcons = async ({
@@ -38,6 +44,7 @@ export const fetchFigmaIcons = async ({
     log.succeed(`> Figma: Icons conversion done (${icons?.length} icons)`)
   } catch (e) {
     log.fail(ErrorHandler('Failed during extractIcons', e))
+    throw e
   }
   return undefined
 }
@@ -53,8 +60,7 @@ export const fetchFigmaAll = async ({
     }) // as RegExp
 
     if (ignoreBranchCheck !== true && !branchName) {
-      log.fail('> Figma: Could not continue, as we require another branch')
-      return undefined
+      throw new Error('Figma icon sync requires an icon branch')
     }
 
     await fetchFigmaIcons(args)
@@ -62,5 +68,23 @@ export const fetchFigmaAll = async ({
     log.succeed('> Figma: All done')
   } catch (e) {
     log.fail(ErrorHandler('Failed during fetchFigmaAll', e))
+    throw e
+  }
+}
+
+export const fetchFigmaTokens = async ({
+  figmaFile = process.env.FIGMA_TOKENS_FILE,
+  ...args
+}: FetchFigmaTokensOptions = {}) => {
+  try {
+    log.start('> Figma: Starting the design tokens fetch')
+    const files = await extractTokens({ figmaFile, ...args })
+    log.succeed(
+      `> Figma: Design tokens conversion done (${files.length} files)`
+    )
+    return files
+  } catch (e) {
+    log.fail(ErrorHandler('Failed during extractTokens', e))
+    throw e
   }
 }

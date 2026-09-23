@@ -44,13 +44,18 @@ function putCalls() {
   )
 }
 
+// Capture the read-failure log, so it is asserted, not printed.
+let errorSpy: ReturnType<typeof vi.spyOn>
+
 beforeEach(() => {
   send.mockReset()
   process.env.DATA_BUCKET = 'my-bucket'
+  errorSpy = vi.spyOn(console, 'error').mockImplementation(() => undefined)
 })
 
 afterEach(() => {
   delete process.env.DATA_BUCKET
+  errorSpy.mockRestore()
 })
 
 describe('dashboard-read handler', () => {
@@ -98,6 +103,12 @@ describe('dashboard-read handler', () => {
         perPath: [],
         daily: [],
       },
+      componentUsage: {
+        total: 0,
+        perComponent: [],
+        perApp: [],
+        perVersion: [],
+      },
     })
     expect(putCalls()).toHaveLength(0)
   })
@@ -109,6 +120,9 @@ describe('dashboard-read handler', () => {
 
     expect(res.statusCode).toBe(503)
     expect(putCalls()).toHaveLength(0)
+    expect(errorSpy).toHaveBeenCalledWith(
+      expect.stringContaining('failed to read dashboard snapshot')
+    )
   })
 
   it('throws when DATA_BUCKET is not set', async () => {
