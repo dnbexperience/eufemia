@@ -2851,6 +2851,7 @@ __metadata:
     core-js-pure: "npm:3.47.0"
     cross-env: "npm:7.0.3"
     cssnano: "npm:6.0.1"
+    csstype: "npm:3.2.3"
     date-fns: "npm:4.4.0"
     dependency-cruiser: "npm:17.3.8"
     dnb-design-system-portal: "workspace:*"
@@ -8440,7 +8441,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"csstype@npm:^3.0.2, csstype@npm:^3.2.2":
+"csstype@npm:3.2.3, csstype@npm:^3.0.2, csstype@npm:^3.2.2":
   version: 3.2.3
   resolution: "csstype@npm:3.2.3"
   checksum: 10/ad41baf7e2ffac65ab544d79107bf7cd1a4bb9bab9ac3302f59ab4ba655d5e30942a8ae46e10ba160c6f4ecea464cc95b975ca2fefbdeeacd6ac63f12f99fe1f
