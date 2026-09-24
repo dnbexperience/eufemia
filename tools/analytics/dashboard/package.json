@@ -11,7 +11,7 @@
     "build": "node prepare-eufemia.mjs && vite build --configLoader runner",
     "preview": "node prepare-eufemia.mjs && vite preview --configLoader runner",
     "test": "vitest run",
-    "test:types": "tsc -p tsconfig.app.json",
+    "test:types": "tsc -p tsconfig.app.json && tsc -p tsconfig.node.json",
     "lint": "eslint . && prettier --check 'src/**/*.{ts,tsx}' 'index.html' '*.{json,md}'"
   },
   "dependencies": {
