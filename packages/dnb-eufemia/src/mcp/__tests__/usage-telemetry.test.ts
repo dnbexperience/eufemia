@@ -11,6 +11,7 @@ import {
   createUsageReporter,
   isTelemetryDisabled,
   readEufemiaVersion,
+  KNOWN_TOOLS,
 } from '../usage-telemetry'
 import { registerDocsTools } from '../mcp-docs-server'
 
@@ -403,6 +404,15 @@ describe('registerDocsTools telemetry hook', () => {
     registerDocsTools(fakeServer, fakeTools, { onToolCall })
     return handlers
   }
+
+  // A tool missing from KNOWN_TOOLS emits no beacon, so its usage disappears
+  // without any error. Pin the gate to what the server actually registers.
+  it('gates exactly the tools the server registers', () => {
+    const registered = [...wire().keys()].sort()
+
+    expect(registered.length).toBeGreaterThan(0)
+    expect([...KNOWN_TOOLS].sort()).toEqual(registered)
+  })
 
   it('calls the hook with the tool name and input after a tool call', async () => {
     const onToolCall = vi.fn()

@@ -1,9 +1,14 @@
+import { readFileSync } from 'node:fs'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 import { describe, it, expect } from 'vitest'
 import {
   validateMcpUsage,
   buildMcpUsageRecord,
   KNOWN_TOOLS,
 } from '../src/records/mcp-usage.js'
+
+const dir = path.dirname(fileURLToPath(import.meta.url))
 
 describe('validateMcpUsage', () => {
   it('accepts a single event object', () => {
@@ -56,6 +61,28 @@ describe('validateMcpUsage', () => {
 
       expect(result.ok).toBe(true)
     }
+  })
+
+  // The library gates which tools emit a beacon; anything it sends that is
+  // missing here fails validation and the whole batch is rejected. This
+  // workspace cannot import the library, so read its list from source.
+  it('accepts the same tools the library emits beacons for', () => {
+    const source = readFileSync(
+      path.resolve(
+        dir,
+        '../../../packages/dnb-eufemia/src/mcp/usage-telemetry.ts'
+      ),
+      'utf8'
+    )
+    const list = source.match(
+      /export const KNOWN_TOOLS[^[]*\[([^\]]*)\]/
+    )?.[1]
+    const libraryTools = [...(list ?? '').matchAll(/'([a-z0-9_]+)'/g)]
+      .map((match) => match[1])
+      .sort()
+
+    expect(libraryTools.length).toBeGreaterThan(0)
+    expect([...KNOWN_TOOLS].sort()).toEqual(libraryTools)
   })
 
   it('rejects the whole batch when any event is invalid', () => {

@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { normalizeDocsPath } from '@dnb/eufemia/src/mcp/docs-source.js'
+import { KNOWN_TOOLS as LIBRARY_KNOWN_TOOLS } from '@dnb/eufemia/src/mcp/usage-telemetry.js'
 import {
   usageRecordsFromRequestBody,
   KNOWN_TOOLS,
@@ -226,6 +227,15 @@ describe('usageRecordsFromRequestBody', () => {
 
   it('registers exactly the twelve docs-server tools', () => {
     expect(KNOWN_TOOLS.size).toBe(12)
+  })
+
+  // This copy exists because the lambda cannot bundle the library, so a tool
+  // the library knows about but this list misses is dropped by
+  // `usageRecordsFromRequestBody` with no error and no log.
+  it('accepts the same tools the library emits beacons for', () => {
+    expect([...KNOWN_TOOLS].sort()).toEqual(
+      [...LIBRARY_KNOWN_TOOLS].sort()
+    )
   })
 
   // `canonicalDocsPath` reimplements the server's own path normalisation rather
