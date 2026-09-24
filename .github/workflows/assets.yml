@@ -4,16 +4,20 @@ on:
   pull_request:
     paths:
       - 'packages/dnb-eufemia/assets/**'
+      - 'packages/dnb-eufemia/postcss.config.js'
+      - 'packages/dnb-eufemia/src/plugins/postcss-font-url-rewrite/**'
+      - 'packages/dnb-design-system-portal/postcss.config.js'
+      - 'packages/dnb-design-system-portal/src/docs/uilib/typography.mdx'
       - 'tools/assets/**'
       - '.github/workflows/assets.yml'
-  push:
-    branches:
-      - release
-    paths:
-      - 'packages/dnb-eufemia/assets/**'
-      - 'tools/assets/**'
-      - '.github/workflows/assets.yml'
+  release:
+    types: [published]
   workflow_dispatch:
+    inputs:
+      version:
+        description: Published Eufemia version, including the v prefix
+        required: true
+        type: string
 
 permissions:
   contents: read
@@ -67,6 +71,15 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           persist-credentials: false
+          ref: ${{ github.event.repository.default_branch }}
+
+      - name: Checkout published assets
+        id: release-source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+          ref: ${{ github.event.release.tag_name || inputs.version }}
+          path: release-source
 
       - name: Skip if GHE credentials are missing
         id: gate
@@ -83,12 +96,13 @@ jobs:
       - name: Push to GHE deploy repo
         if: steps.gate.outputs.skip != 'true'
         env:
+          ASSET_VERSION: ${{ github.event.release.tag_name || inputs.version }}
           GHE_PAT: ${{ secrets.GHE_DEPLOY_PAT }}
           GHE_REPO: ${{ vars.GHE_ASSETS_DEPLOY_REPO }}
-          SOURCE_REF: ${{ github.ref_name }}
-          SOURCE_SHA: ${{ github.sha }}
+          SOURCE_REF: ${{ github.event.release.tag_name || inputs.version }}
         run: |
           set -euo pipefail
+          SOURCE_SHA=$(git -C "$GITHUB_WORKSPACE/release-source" rev-parse HEAD)
 
           if [[ ! "$GHE_REPO" =~ ^[^/[:space:]]+/[^/[:space:]]+$ ]]; then
             echo "::error::GHE_ASSETS_DEPLOY_REPO must be 'owner/repo' (got ${#GHE_REPO} chars)."
@@ -106,7 +120,14 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          cp -R "$GITHUB_WORKSPACE/packages/dnb-eufemia/assets" .
+          if [[ ! "$ASSET_VERSION" =~ ^v[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.-]+)?$ ]]; then
+            echo "::error::Asset version must be a published semver tag with a v prefix."
+            exit 1
+          fi
+
+          cp -R "$GITHUB_WORKSPACE/release-source/packages/dnb-eufemia/assets" .
+          printf '%s\n' "$ASSET_VERSION" > VERSION
+          find assets -type f -print0 | sort -z | xargs -0 sha256sum > ASSETS.sha256
           cp -R "$GITHUB_WORKSPACE/tools/assets/infra" .
           cp "$GITHUB_WORKSPACE/tools/assets/README.md" README.md
           mkdir -p .github/workflows
