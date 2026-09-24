@@ -361,6 +361,10 @@ describe('mcp usage section', () => {
 
     await handler()
 
+    expect(aggregateLocalMcpUsageByVersion).toHaveBeenCalledWith(
+      expect.stringMatching(/^\d{4}-\d{2}-\d{2}$/)
+    )
+
     const snapshotPut = putCalls().find(
       (call) =>
         (call[0] as Command).input.Key === 'snapshots/dashboard.json'

@@ -176,7 +176,13 @@ describe('aggregatePortalViewsRaw', () => {
 })
 
 describe('aggregateLocalMcpUsageByVersion', () => {
-  it('groups local-transport rows by version, filtering out web/null rows in the query', async () => {
+  it('rejects a non-date sinceDt before running any query', async () => {
+    await expect(
+      aggregateLocalMcpUsageByVersion("2026'; DROP")
+    ).rejects.toThrow('YYYY-MM-DD')
+  })
+
+  it('groups local-transport rows in the window by version, filtering out web/null rows in the query', async () => {
     send.mockImplementation((command: Command) => {
       if (command.kind === 'start') {
         return Promise.resolve({ QueryExecutionId: 'query-id' })
@@ -204,15 +210,15 @@ describe('aggregateLocalMcpUsageByVersion', () => {
       })
     })
 
-    await expect(aggregateLocalMcpUsageByVersion()).resolves.toEqual([
-      { name: '10.79.0', count: 9 },
-    ])
+    await expect(
+      aggregateLocalMcpUsageByVersion('2026-06-27')
+    ).resolves.toEqual([{ name: '10.79.0', count: 9 }])
 
     const start = send.mock.calls[0][0] as Command & {
       input: { QueryString: string }
     }
     expect(start.input.QueryString).toBe(
-      `SELECT eufemiaversion, count(*) AS cnt FROM "db"."mcp_usage" WHERE transport = 'local' AND eufemiaversion IS NOT NULL AND eufemiaversion <> '' GROUP BY eufemiaversion ORDER BY cnt DESC`
+      `SELECT eufemiaversion, count(*) AS cnt FROM "db"."mcp_usage" WHERE dt >= '2026-06-27' AND transport = 'local' AND eufemiaversion IS NOT NULL AND eufemiaversion <> '' GROUP BY eufemiaversion ORDER BY cnt DESC`
     )
     expect(start.input.QueryString).toContain("transport = 'local'")
   })
