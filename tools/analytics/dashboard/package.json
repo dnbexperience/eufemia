@@ -7,9 +7,9 @@
   "author": "DNB Team",
   "license": "SEE LICENSE IN LICENSE FILE",
   "scripts": {
-    "dev": "node prepare-eufemia.mjs && vite --configLoader runner",
-    "build": "node prepare-eufemia.mjs && vite build --configLoader runner",
-    "preview": "node prepare-eufemia.mjs && vite preview --configLoader runner",
+    "dev": "yarn workspace @dnb/eufemia build:style-manifest && vite --configLoader runner",
+    "build": "yarn workspace @dnb/eufemia build:style-manifest && vite build --configLoader runner",
+    "preview": "yarn workspace @dnb/eufemia build:style-manifest && vite preview --configLoader runner",
     "test": "vitest run",
     "test:types": "tsc -p tsconfig.app.json && tsc -p tsconfig.node.json",
     "lint": "eslint . && prettier --check 'src/**/*.{ts,tsx}' 'index.html' '*.{json,md}'"
