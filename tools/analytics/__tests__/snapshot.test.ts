@@ -6,6 +6,7 @@ const {
   aggregatePortalViewsRaw,
   aggregateMcpUsageRaw,
   retrieveMcpUsageDaily,
+  aggregateLocalMcpUsageByVersion,
   aggregateComponentUsageRaw,
   retrieveComponentUsageDaily,
 } = vi.hoisted(() => ({
@@ -14,6 +15,7 @@ const {
   aggregatePortalViewsRaw: vi.fn(),
   aggregateMcpUsageRaw: vi.fn(),
   retrieveMcpUsageDaily: vi.fn(),
+  aggregateLocalMcpUsageByVersion: vi.fn(),
   aggregateComponentUsageRaw: vi.fn(),
   retrieveComponentUsageDaily: vi.fn(),
 }))
@@ -43,6 +45,7 @@ vi.mock('../src/lambda/retrieve.js', () => ({
   aggregatePortalViewsRaw,
   aggregateMcpUsageRaw,
   retrieveMcpUsageDaily,
+  aggregateLocalMcpUsageByVersion,
   aggregateComponentUsageRaw,
   retrieveComponentUsageDaily,
 }))
@@ -71,12 +74,14 @@ beforeEach(() => {
   aggregatePortalViewsRaw.mockReset()
   aggregateMcpUsageRaw.mockReset()
   retrieveMcpUsageDaily.mockReset()
+  aggregateLocalMcpUsageByVersion.mockReset()
   aggregateComponentUsageRaw.mockReset()
   retrieveComponentUsageDaily.mockReset()
   send.mockResolvedValue({})
   aggregatePortalViewsRaw.mockResolvedValue([])
   aggregateMcpUsageRaw.mockResolvedValue([])
   retrieveMcpUsageDaily.mockResolvedValue([])
+  aggregateLocalMcpUsageByVersion.mockResolvedValue([])
   aggregateComponentUsageRaw.mockResolvedValue([])
   retrieveComponentUsageDaily.mockResolvedValue([])
   process.env.DATA_BUCKET = 'my-bucket'
@@ -326,6 +331,7 @@ describe('mcp usage section', () => {
       perTool: [],
       perComponent: [],
       perPath: [],
+      perVersion: [],
       daily: [],
     })
     expect(errorSpy).toHaveBeenCalled()
@@ -344,6 +350,29 @@ describe('mcp usage section', () => {
           entry?.McpUsageBuildFailure === 1
       )
     expect(failureMetric).toBeDefined()
+  })
+
+  it('builds perVersion from local-only usage, ordered by count', async () => {
+    retrievePortalViews.mockResolvedValue([])
+    aggregateLocalMcpUsageByVersion.mockResolvedValue([
+      { name: '10.79.0', count: 9 },
+      { name: '10.78.1', count: 3 },
+    ])
+
+    await handler()
+
+    const snapshotPut = putCalls().find(
+      (call) =>
+        (call[0] as Command).input.Key === 'snapshots/dashboard.json'
+    )
+    const mcp = JSON.parse(
+      (snapshotPut![0] as Command).input.Body as string
+    ).mcpUsage
+
+    expect(mcp.perVersion).toEqual([
+      { name: '10.79.0', count: 9 },
+      { name: '10.78.1', count: 3 },
+    ])
   })
 })
 

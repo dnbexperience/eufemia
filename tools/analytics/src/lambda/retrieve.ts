@@ -7,6 +7,7 @@ import {
 import type {
   ComponentUsageAggregate,
   ComponentUsageDaily,
+  McpUsageCount,
   McpUsageDaily,
   PortalViewDaily,
 } from './snapshot-store.js'
@@ -260,6 +261,34 @@ export async function retrieveMcpUsageDaily(): Promise<McpUsageDaily[]> {
   await waitForQuery(queryExecutionId)
 
   return readResults(queryExecutionId, toDailyRow)
+}
+
+/**
+ * Aggregate local MCP usage into per-version counts for the dashboard, highest
+ * request count first.
+ *
+ * Only transport='local' rows carry a meaningful Eufemia version: the web MCP
+ * Lambda always runs latest and records no version, so those rows are excluded
+ * here rather than surfaced as a null/empty bucket. Reads the raw mcp_usage
+ * table directly (the durable daily rollup does not carry the transport/version
+ * dimensions); the query interpolates no user input, so it carries no
+ * injection risk.
+ */
+export async function aggregateLocalMcpUsageByVersion(): Promise<
+  McpUsageCount[]
+> {
+  const database = requireEnv('GLUE_DATABASE')
+  const table = requireEnv('GLUE_TABLE_MCP_USAGE')
+  const workgroup = requireEnv('ATHENA_WORKGROUP')
+
+  const query = `SELECT eufemiaversion, count(*) AS cnt FROM "${database}"."${table}" WHERE transport = 'local' AND eufemiaversion IS NOT NULL AND eufemiaversion <> '' GROUP BY eufemiaversion ORDER BY cnt DESC`
+  const queryExecutionId = await startQuery(query, workgroup)
+  await waitForQuery(queryExecutionId)
+
+  return readResults(queryExecutionId, ([version, count]) => ({
+    name: version ?? '',
+    count: Number(count ?? 0),
+  }))
 }
 
 function toComponentUsageDailyRow([

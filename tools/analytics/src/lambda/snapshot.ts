@@ -1,5 +1,6 @@
 import {
   aggregateComponentUsageRaw,
+  aggregateLocalMcpUsageByVersion,
   aggregateMcpUsageRaw,
   aggregatePortalViewsRaw,
   retrieveComponentUsageDaily,
@@ -224,6 +225,7 @@ async function buildMcpUsage(bucket: string): Promise<McpUsageSection> {
   )
 
   const daily = await retrieveMcpUsageDaily()
+  const perVersion = await aggregateLocalMcpUsageByVersion()
 
   const dayTotals = new Map<string, number>()
   let total = 0
@@ -238,6 +240,7 @@ async function buildMcpUsage(bucket: string): Promise<McpUsageSection> {
     perTool: sumBy(daily, 'tool').slice(0, MCP_TOP_LIMIT),
     perComponent: sumBy(daily, 'component').slice(0, MCP_TOP_LIMIT),
     perPath: sumBy(daily, 'path').slice(0, MCP_TOP_LIMIT),
+    perVersion: perVersion.slice(0, MCP_TOP_LIMIT),
     daily: [...dayTotals.entries()]
       .map(([date, count]) => ({ date, count }))
       .sort((a, b) => a.date.localeCompare(b.date)),
