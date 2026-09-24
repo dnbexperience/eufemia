@@ -8,10 +8,12 @@ describe('SidebarMenuResizeHandle', () => {
     maxWidth,
     layoutMaxWidth,
     layoutMaxWidthValue,
+    runningAnimation,
   }: {
     maxWidth?: number
     layoutMaxWidth?: number
     layoutMaxWidthValue?: string
+    runningAnimation?: boolean
   } = {}) {
     const targetRef = createRef<HTMLElement>()
     const result = render(
@@ -20,7 +22,15 @@ describe('SidebarMenuResizeHandle', () => {
           ref={(element) => {
             targetRef.current = element
             if (element) {
+              if (runningAnimation) {
+                element.getAnimations = () =>
+                  [{ playState: 'running' }] as Animation[]
+              }
               element.getBoundingClientRect = () => {
+                if (runningAnimation) {
+                  return { width: 320 } as DOMRect
+                }
+
                 const writtenWidth = Number.parseFloat(
                   element
                     .closest<HTMLElement>('.layout')
@@ -148,6 +158,32 @@ describe('SidebarMenuResizeHandle', () => {
       )
     ).toBe('330px')
     expect(handle).toHaveAttribute('aria-valuenow', '330')
+
+    fireEvent.keyDown(handle, { key: 'ArrowLeft' })
+
+    expect(root.style.getPropertyValue('--aside-width')).toBe('314px')
+    expect(
+      handle.style.getPropertyValue(
+        '--sidebar-menu-resize-handle-position'
+      )
+    ).toBe('314px')
+    expect(handle).toHaveAttribute('aria-valuenow', '314')
+  })
+
+  it('keeps keyboard resizing ahead of a running width animation', () => {
+    const { handle, root } = renderHandle({ runningAnimation: true })
+
+    for (let i = 0; i < 5; i += 1) {
+      fireEvent.keyDown(handle, { key: 'ArrowRight' })
+    }
+
+    expect(root.style.getPropertyValue('--aside-width')).toBe('400px')
+    expect(
+      handle.style.getPropertyValue(
+        '--sidebar-menu-resize-handle-position'
+      )
+    ).toBe('400px')
+    expect(handle).toHaveAttribute('aria-valuenow', '400')
   })
 
   it('refreshes its maximum width when the viewport changes', () => {

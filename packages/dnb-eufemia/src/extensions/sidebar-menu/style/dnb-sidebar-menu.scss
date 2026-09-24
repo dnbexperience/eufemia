@@ -553,7 +553,7 @@ html[data-whatinput='keyboard']
   &:focus-visible {
     color: var(--token-color-stroke-action-focus);
     transition-delay: 0ms;
-    outline: none;
+    outline: var(--focus-ring-width) solid transparent;
 
     &::before {
       width: var(--focus-ring-width);
