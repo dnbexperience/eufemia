@@ -38,7 +38,7 @@
     "globals": "17.6.0",
     "purgecss": "8.0.0",
     "sass": "1.97.2",
-    "typescript": "5.9.3",
+    "typescript": "6.0.3",
     "typescript-eslint": "8.60.0",
     "vite": "8.0.16"
   }

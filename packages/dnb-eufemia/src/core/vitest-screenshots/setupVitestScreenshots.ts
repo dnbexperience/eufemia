@@ -13,7 +13,6 @@ import {
   expect,
   expect as vitestExpect,
 } from 'vitest'
-// @ts-expect-error
 import { commands } from 'vitest/browser'
 
 import { onMain, runOnMain, selectThemes } from './themeSelection.client'
@@ -28,7 +27,6 @@ import type { LoadImagePayload } from './commands/loadImage'
 export { expect, beforeAll, beforeEach, afterAll }
 export { onMain, runOnMain, selectThemes }
 
-// @ts-expect-error
 declare module 'vitest/internal/browser' {
   /* eslint-disable @typescript-eslint/consistent-type-definitions */
   interface BrowserCommands {
