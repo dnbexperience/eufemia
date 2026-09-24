@@ -193,12 +193,6 @@ export default defineConfig({
         postcssThemeScopePlugin(),
       ],
     },
-    preprocessorOptions: {
-      scss: {
-        // Suppress sass deprecation warnings from dependencies
-        silenceDeprecations: ['legacy-js-api'],
-      },
-    },
   },
 
   optimizeDeps: {
