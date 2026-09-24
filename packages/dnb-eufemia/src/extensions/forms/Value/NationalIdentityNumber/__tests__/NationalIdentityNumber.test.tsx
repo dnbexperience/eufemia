@@ -96,4 +96,20 @@ describe('Value.NationalIdentityNumber', () => {
       )
     ).toHaveTextContent('180892 12345')
   })
+
+  it('does not reformat a custom transformIn result', () => {
+    render(
+      <Value.NationalIdentityNumber
+        value="18089212345"
+        transformIn={(value) => `${String(value).slice(0, 6)} *****`}
+      />
+    )
+
+    expect(
+      document.querySelector(
+        '.dnb-forms-value-string .dnb-forms-value-block__content'
+      )
+    ).toHaveTextContent('180892 *****')
+    expect(document.querySelector('.dnb-sr-only')).toBeNull()
+  })
 })

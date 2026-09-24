@@ -20,15 +20,18 @@ function OrganizationNumber(props: ValueOrganizationNumberProps) {
     return formatOrganizationNumber(value).toString()
   }, [])
 
-  const renderValue = useCallback(
-    (value: ReactNode) =>
-      typeof value === 'string' ? (
-        <NumberFormatOrganizationNumber value={value} />
-      ) : (
-        value
-      ),
-    []
-  )
+  const renderValue = useCallback((value: ReactNode) => {
+    // Reformatting would drop what a custom transformIn returned.
+    const isFormatted =
+      typeof value === 'string' &&
+      formatOrganizationNumber(value).toString() === value
+
+    return isFormatted ? (
+      <NumberFormatOrganizationNumber value={value} />
+    ) : (
+      value
+    )
+  }, [])
 
   const stringValueProps: ValueOrganizationNumberProps = {
     ...props,

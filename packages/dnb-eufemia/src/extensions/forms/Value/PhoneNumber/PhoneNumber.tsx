@@ -24,15 +24,14 @@ function PhoneNumber(props: ValuePhoneNumberProps) {
     return formatPhoneNumber(value).toString()
   }, [])
 
-  const renderValue = useCallback(
-    (value: ReactNode) =>
-      typeof value === 'string' ? (
-        <NumberFormatPhoneNumber value={value} />
-      ) : (
-        value
-      ),
-    []
-  )
+  const renderValue = useCallback((value: ReactNode) => {
+    // Reformatting would drop what a custom transformIn returned.
+    const isFormatted =
+      typeof value === 'string' &&
+      formatPhoneNumber(value).toString() === value
+
+    return isFormatted ? <NumberFormatPhoneNumber value={value} /> : value
+  }, [])
 
   const stringValueProps: ValuePhoneNumberProps = {
     ...props,

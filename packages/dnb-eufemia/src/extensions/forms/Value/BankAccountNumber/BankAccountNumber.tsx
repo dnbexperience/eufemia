@@ -39,15 +39,22 @@ function BankAccountNumber(props: ValueBankAccountNumberProps) {
   )
 
   const renderValue = useCallback(
-    (value: ReactNode) =>
-      typeof value === 'string' ? (
+    (value: ReactNode) => {
+      // Reformatting would drop what a custom transformIn returned.
+      const isFormatted =
+        typeof value === 'string' &&
+        formatBankAccountNumberByType(value, bankAccountType).number ===
+          value
+
+      return isFormatted ? (
         <NumberFormatBankAccountNumber
           bankAccountType={bankAccountType}
           value={value}
         />
       ) : (
         value
-      ),
+      )
+    },
     [bankAccountType]
   )
 

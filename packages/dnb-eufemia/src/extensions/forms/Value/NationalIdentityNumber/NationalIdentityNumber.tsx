@@ -20,15 +20,18 @@ function NationalIdentityNumber(props: ValueNationalIdentityNumberProps) {
     return formatNationalIdentityNumber(value).toString()
   }, [])
 
-  const renderValue = useCallback(
-    (value: ReactNode) =>
-      typeof value === 'string' ? (
-        <NumberFormatNationalIdentityNumber value={value} />
-      ) : (
-        value
-      ),
-    []
-  )
+  const renderValue = useCallback((value: ReactNode) => {
+    // Reformatting would drop what a custom transformIn returned.
+    const isFormatted =
+      typeof value === 'string' &&
+      formatNationalIdentityNumber(value).toString() === value
+
+    return isFormatted ? (
+      <NumberFormatNationalIdentityNumber value={value} />
+    ) : (
+      value
+    )
+  }, [])
 
   const stringValueProps: ValueNationalIdentityNumberProps = {
     ...props,

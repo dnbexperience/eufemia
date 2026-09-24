@@ -143,4 +143,20 @@ describe('Value.PhoneNumber', () => {
       )
     ).toHaveTextContent('+47 12 34 56 78')
   })
+
+  it('does not reformat a custom transformIn result', () => {
+    render(
+      <Value.PhoneNumber
+        value="+4712345678"
+        transformIn={(value) => String(value).replace(/\s/g, '')}
+      />
+    )
+
+    expect(
+      document.querySelector(
+        '.dnb-forms-value-string .dnb-forms-value-block__content'
+      )
+    ).toHaveTextContent('+4712345678')
+    expect(document.querySelector('.dnb-sr-only')).toBeNull()
+  })
 })

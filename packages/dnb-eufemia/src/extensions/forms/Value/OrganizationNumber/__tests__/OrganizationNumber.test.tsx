@@ -96,4 +96,20 @@ describe('Value.OrganizationNumber', () => {
       )
     ).toHaveTextContent('123 456 789')
   })
+
+  it('does not reformat a custom transformIn result', () => {
+    render(
+      <Value.OrganizationNumber
+        value="123456789"
+        transformIn={(value) => `NO ${String(value)}`}
+      />
+    )
+
+    expect(
+      document.querySelector(
+        '.dnb-forms-value-string .dnb-forms-value-block__content'
+      )
+    ).toHaveTextContent('NO 123 456 789')
+    expect(document.querySelector('.dnb-sr-only')).toBeNull()
+  })
 })

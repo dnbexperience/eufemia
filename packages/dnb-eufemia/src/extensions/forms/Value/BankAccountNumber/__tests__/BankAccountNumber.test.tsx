@@ -222,6 +222,37 @@ describe('Value.BankAccountNumber', () => {
     ).toHaveTextContent('2000 12 34567')
   })
 
+  it('does not reformat a custom transformIn result', () => {
+    render(
+      <Value.BankAccountNumber
+        value="20001234567"
+        transformIn={(value) => `${String(value)} (sperret)`}
+      />
+    )
+
+    expect(
+      document.querySelector(
+        '.dnb-forms-value-string .dnb-forms-value-block__content'
+      )
+    ).toHaveTextContent('2000 12 34567 (sperret)')
+    expect(document.querySelector('.dnb-sr-only')).toBeNull()
+  })
+
+  it('renders a transformIn result that is not a string', () => {
+    render(
+      <Value.BankAccountNumber
+        value="20001234567"
+        transformIn={(value) => <b>{String(value)}</b>}
+      />
+    )
+
+    expect(
+      document.querySelector(
+        '.dnb-forms-value-string .dnb-forms-value-block__content b'
+      )
+    ).toHaveTextContent('2000 12 34567')
+  })
+
   describe('labels per bankAccountType', () => {
     it('uses default label for norwegianBban', () => {
       render(<Value.BankAccountNumber value="20001234567" />)
