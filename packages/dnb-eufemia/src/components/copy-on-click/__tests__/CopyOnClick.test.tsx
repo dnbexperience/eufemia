@@ -150,6 +150,8 @@ describe('CopyOnClick', () => {
     const customMessage = 'My custom tooltip'
     render(<CopyOnClick tooltipContent={customMessage}>text</CopyOnClick>)
 
+    expect(document.querySelector('.dnb-tooltip')).not.toBeInTheDocument()
+
     await userEvent.click(document.querySelector('.dnb-copy-on-click'))
 
     await waitFor(() => {
