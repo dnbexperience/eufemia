@@ -112,3 +112,49 @@ Then verify it is up:
 ```bash
 curl http://localhost:8787/healthz
 ```
+
+## Telemetry
+
+The **stdio** server sends anonymous, aggregate usage statistics so we can see
+which tools, components and documentation areas are most used and prioritise the
+docs accordingly. It is **on by default** and **opt-out**.
+
+**What is collected** (a closed, public vocabulary only):
+
+- the tool name (from the fixed set of registered tools);
+- for a component tool, the component name (e.g. `Button`, `Field.Address`);
+- for `docs_read` / `docs_list`, the leading documentation area (e.g.
+  `/uilib/components/`), gated against the areas this server's own docs
+  actually contain — a path outside the docs (or a model's guess) is dropped
+  instead of narrowed;
+- the running `@dnb/eufemia` version.
+
+**What is not in the payload:** no machine id, install id, user, session or
+correlation id, and no free text — in particular the `docs_search` query is
+never sent (a search is recorded as a tool count only). The request's source
+IP is visible to the network layer like any HTTP call, but it is not part of
+this payload and is not stored on the ingest side.
+
+Each event is POSTed to `https://server.eufemia.dnb.no/analytics/collect-local-mcp-usage`
+as a fire-and-forget beacon with a short (~1s) timeout. It never blocks or
+affects a tool call, and any failure is silently ignored. The server holds no
+credentials; the ingest route is locked down at the edge.
+
+**Turn it off** by setting the environment variable in your MCP client config:
+
+```json
+{
+  "servers": {
+    "eufemia": {
+      "command": "node",
+      "args": [
+        "${workspaceFolder}/node_modules/@dnb/eufemia/mcp/mcp-server.js"
+      ],
+      "env": { "EUFEMIA_MCP_TELEMETRY": "0" }
+    }
+  }
+}
+```
+
+A one-line notice is printed to `stderr` once per server start. Telemetry is
+disabled when `EUFEMIA_MCP_TELEMETRY` is `0` or `false`.
