@@ -242,16 +242,18 @@ Use `formatBankAccountNumberByType` to format bank account numbers with a specif
 ```ts
 import { formatBankAccountNumberByType } from '@dnb/eufemia/components/NumberFormat'
 
-formatBankAccountNumberByType('20001234567') // { number: '2000 12 34567', aria: '20 00 12 34 56 7' }
-formatBankAccountNumberByType('50001234567', 'swedishBban') // { number: '5000-1234567', aria: '50 00 12 34 56 7' }
-formatBankAccountNumberByType('59140129', 'swedishBankgiro') // { number: '5914-0129', aria: '59 14 01 29' }
-formatBankAccountNumberByType('1263664', 'swedishPlusgiro') // { number: '126366-4', aria: '12 63 66 4' }
-formatBankAccountNumberByType('NO9386011117947', 'iban') // { number: 'NO93 8601 1117 947', aria: 'NO93 8601 1117 947' }
+formatBankAccountNumberByType('20001234567') // { number: '2000 12 34567', aria: '2 0 0 0 1 2 3 4 5 6 7' }
+formatBankAccountNumberByType('50001234567', 'swedishBban') // { number: '5000-1234567', aria: '5 0 0 0 1 2 3 4 5 6 7' }
+formatBankAccountNumberByType('59140129', 'swedishBankgiro') // { number: '5914-0129', aria: '5 9 1 4 0 1 2 9' }
+formatBankAccountNumberByType('1263664', 'swedishPlusgiro') // { number: '126366-4', aria: '1 2 6 3 6 6 4' }
+formatBankAccountNumberByType('NO9386011117947', 'iban') // { number: 'NO93 8601 1117 947', aria: 'N O 9 3 8 6 0 1 1 1 1 7 9 4 7' }
 ```
+
+The `aria` string is what screen readers announce, one character at a time.
 
 ### Element and style
 
-The number component is style-independent, so it has no visual styles. By default, a `<span>` is used (with [speak-as: numbers](https://developer.mozilla.org/en-US/docs/Web/CSS/@counter-style/speak-as), even though the support is very low). However, you can easily change the element type by providing a different value to the `element="div"` property.
+The number component is style-independent, so it has no visual styles. By default, a `<span>` is used. However, you can easily change the element type by providing a different value to the `element="div"` property.
 
 ## Accessibility
 
@@ -291,6 +293,8 @@ render(
 > Screen readers require numbers to be formatted properly in order to be read as numbers. The **NumberFormat** component helps achieve this requirement.
 
 Numbers are formatted differently for screen readers than the visual number. Numbers also get assigned a `lang` attribute so the screen reader knows what language (locale) should be used for the particular number, even if the surrounding text does not correspond to the same language.
+
+Amounts are announced as whole numbers, such as "ten thousand kroner", because that is how the value is read out loud. Identifiers are announced one character at a time, so they can be written down exactly as announced. This applies to `BankAccountNumber`, `OrganizationNumber` and the personal number part of `NationalIdentityNumber`. `PhoneNumber` is announced in pairs, following how phone numbers are spoken.
 
 ### Sources
 
