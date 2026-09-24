@@ -12,7 +12,7 @@ const terraform = readFileSync(
 describe('analytics infrastructure', () => {
   it('expires raw MCP usage objects and cleans noncurrent versions bucket-wide', () => {
     const rawUsageRule = terraform.match(
-      /rule \{[\s\S]*?id\s+= "expire-mcp-usage-raw"[\s\S]*?^  \}/m
+      /rule \{[\s\S]*?id\s+= "expire-mcp-usage-raw"[\s\S]*?^ {2}\}/m
     )?.[0]
 
     // Raw usage keys are unique (write-once), so this rule only expires current
@@ -21,7 +21,7 @@ describe('analytics infrastructure', () => {
     expect(rawUsageRule).not.toContain('noncurrent_version_expiration')
 
     const noncurrentRule = terraform.match(
-      /rule \{[\s\S]*?id\s+= "expire-noncurrent-versions"[\s\S]*?^  \}/m
+      /rule \{[\s\S]*?id\s+= "expire-noncurrent-versions"[\s\S]*?^ {2}\}/m
     )?.[0]
 
     expect(noncurrentRule).toMatch(
@@ -33,7 +33,7 @@ describe('analytics infrastructure', () => {
     // The generator runs the portal read, the retention rollup refresh, and the
     // MCP section queries; the timeout must cover the deepest concurrent chain.
     const snapshotLambda = terraform.match(
-      /resource \"aws_lambda_function\" \"snapshot\" \{[\s\S]*?^\}/m
+      /resource "aws_lambda_function" "snapshot" \{[\s\S]*?^\}/m
     )?.[0]
     const timeout = Number(
       snapshotLambda?.match(/timeout\s+=\s+(\d+)/)?.[1]
@@ -48,7 +48,7 @@ describe('analytics infrastructure', () => {
     )
 
     const subscription = terraform.match(
-      /resource \"aws_sns_topic_subscription\" \"snapshot_alerts_email\" \{[\s\S]*?^\}/m
+      /resource "aws_sns_topic_subscription" "snapshot_alerts_email" \{[\s\S]*?^\}/m
     )?.[0]
     expect(subscription).toContain(
       'count     = var.snapshot_alert_email != "" ? 1 : 0'
@@ -77,7 +77,7 @@ describe('analytics infrastructure', () => {
 
   it('expires raw portal-view objects on the portal-views/ prefix', () => {
     const rawRule = terraform.match(
-      /rule \{[\s\S]*?id\s+= "expire-portal-views-raw"[\s\S]*?^  \}/m
+      /rule \{[\s\S]*?id\s+= "expire-portal-views-raw"[\s\S]*?^ {2}\}/m
     )?.[0]
 
     expect(rawRule).toContain('prefix = "portal-views/"')
@@ -103,7 +103,7 @@ describe('analytics infrastructure', () => {
       'resource "aws_cloudwatch_metric_alarm" "snapshot_portal_views_rollup_failed"'
     )
     const alarm = terraform.match(
-      /resource \"aws_cloudwatch_metric_alarm\" \"snapshot_portal_views_rollup_failed\" \{[\s\S]*?^\}/m
+      /resource "aws_cloudwatch_metric_alarm" "snapshot_portal_views_rollup_failed" \{[\s\S]*?^\}/m
     )?.[0]
     expect(alarm).toContain(
       'metric_name         = "PortalViewsRollupFailure"'
@@ -112,7 +112,7 @@ describe('analytics infrastructure', () => {
 
   it('expires raw component-usage objects on the component-usage/ prefix', () => {
     const rawUsageRule = terraform.match(
-      /rule \{[\s\S]*?id\s+= "expire-component-usage-raw"[\s\S]*?^  \}/m
+      /rule \{[\s\S]*?id\s+= "expire-component-usage-raw"[\s\S]*?^ {2}\}/m
     )?.[0]
 
     expect(rawUsageRule).toContain('prefix = "component-usage/"')
@@ -145,7 +145,7 @@ describe('analytics infrastructure', () => {
   it('locks the dashboard origin to the Akamai edge via a viewer-request function', () => {
     // The function validates the shared X-Edge-Auth secret Akamai injects.
     const originLock = terraform.match(
-      /resource \"aws_cloudfront_function\" \"dashboard_edge_auth\" \{[\s\S]*?^\}/m
+      /resource "aws_cloudfront_function" "dashboard_edge_auth" \{[\s\S]*?^\}/m
     )?.[0]
 
     expect(originLock).toContain('functions/dashboard-edge-auth.js.tftpl')
@@ -155,7 +155,7 @@ describe('analytics infrastructure', () => {
 
     // It must run on every viewer request to the dashboard distribution.
     const distribution = terraform.match(
-      /resource \"aws_cloudfront_distribution\" \"dashboard\" \{[\s\S]*?^\}/m
+      /resource "aws_cloudfront_distribution" "dashboard" \{[\s\S]*?^\}/m
     )?.[0]
     const association = distribution?.match(
       /function_association \{[\s\S]*?\}/
