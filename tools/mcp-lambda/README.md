@@ -69,7 +69,7 @@ EUFEMIA_DOCS_ROOT=/path/to/docs yarn dev
 | ------------------ | -------------------------------------- |
 | `yarn dev`         | Run locally via stdio transport        |
 | `yarn test`        | Run tests                              |
-| `yarn typecheck`   | Type-check without emitting            |
+| `yarn test:types`  | Type-check without emitting            |
 | `yarn build`       | Build docs and create both Lambda ZIPs |
 | `yarn deploy:plan` | Build and run `terraform plan`         |
 | `yarn deploy`      | Build and run `terraform apply`        |

@@ -31,7 +31,7 @@ Every response carries `Deprecation` (RFC 9745), `Sunset` (RFC 8594), and
 ```bash
 yarn workspace @dnb/eufemia-mcp-legacy-proxy dev        # local worker
 yarn workspace @dnb/eufemia-mcp-legacy-proxy test       # unit tests
-yarn workspace @dnb/eufemia-mcp-legacy-proxy typecheck
+yarn workspace @dnb/eufemia-mcp-legacy-proxy test:types
 ```
 
 ## Deploy

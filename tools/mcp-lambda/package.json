@@ -8,10 +8,10 @@
     "dev": "tsx src/transports/stdio.ts",
     "test": "vitest run",
     "audit:ci": "yarn npm audit --recursive --environment production --severity high",
-    "lint": "node ../../node_modules/.bin/eslint 'src/**/*.ts'",
+    "lint": "eslint 'src/**/*.ts'",
     "deploy": "yarn build && terraform -chdir=infra init && terraform -chdir=infra apply -auto-approve",
     "deploy:plan": "yarn build && terraform -chdir=infra init && terraform -chdir=infra plan",
-    "typecheck": "tsc --noEmit"
+    "test:types": "tsc --noEmit"
   },
   "type": "module",
   "dependencies": {
@@ -24,6 +24,7 @@
     "@modelcontextprotocol/client": "2.0.0",
     "@types/aws-lambda": "8.10.161",
     "esbuild": "0.25.5",
+    "eslint": "10.4.1",
     "tsx": "4.22.4",
     "typescript": "5.9.3",
     "vitest": "4.1.11"

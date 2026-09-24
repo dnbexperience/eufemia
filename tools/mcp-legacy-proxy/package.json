@@ -8,11 +8,12 @@
     "dev": "wrangler dev",
     "deploy": "wrangler deploy",
     "test": "vitest run",
-    "typecheck": "tsc --noEmit",
-    "lint": "node ../../node_modules/.bin/eslint 'src/**/*.ts'"
+    "test:types": "tsc --noEmit",
+    "lint": "eslint 'src/**/*.ts'"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "4.20260617.1",
+    "eslint": "10.4.1",
     "typescript": "5.9.3",
     "vitest": "4.1.11",
     "wrangler": "4.102.0"

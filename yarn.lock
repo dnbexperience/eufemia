@@ -2779,6 +2779,7 @@ __metadata:
   resolution: "@dnb/eufemia-mcp-legacy-proxy@workspace:tools/mcp-legacy-proxy"
   dependencies:
     "@cloudflare/workers-types": "npm:4.20260617.1"
+    eslint: "npm:10.4.1"
     typescript: "npm:5.9.3"
     vitest: "npm:4.1.11"
     wrangler: "npm:4.102.0"
@@ -9922,6 +9923,9 @@ __metadata:
     "@aws-sdk/client-s3": "npm:3.1075.0"
     "@types/aws-lambda": "npm:8.10.161"
     esbuild: "npm:0.25.5"
+    eslint: "npm:10.4.1"
+    prettier: "npm:3.8.1"
+    typescript: "npm:5.9.3"
     vitest: "npm:4.1.11"
   languageName: unknown
   linkType: soft
@@ -9930,6 +9934,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "eufemia-assets-hosting@workspace:tools/assets"
   dependencies:
+    prettier: "npm:3.8.1"
     vitest: "npm:4.1.11"
   languageName: unknown
   linkType: soft
@@ -9938,6 +9943,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "eufemia-css-optimizer@workspace:tools/eufemia-css-optimizer"
   dependencies:
+    eslint: "npm:10.4.1"
+    typescript: "npm:5.9.3"
     vitest: "npm:4.1.11"
   languageName: unknown
   linkType: soft
@@ -9954,10 +9961,12 @@ __metadata:
     "@babel/traverse": "npm:7.29.7"
     "@babel/types": "npm:7.29.7"
     "@dnb/eufemia": "workspace:*"
+    eslint: "npm:10.4.1"
     front-matter: "npm:4.0.2"
     fs-extra: "npm:10.0.0"
     markdown-tables-utils: "workspace:*"
     prettier: "npm:3.8.1"
+    typescript: "npm:5.9.3"
     vitest: "npm:4.1.11"
   languageName: unknown
   linkType: soft
@@ -9973,6 +9982,7 @@ __metadata:
     "@modelcontextprotocol/server": "npm:2.0.0"
     "@types/aws-lambda": "npm:8.10.161"
     esbuild: "npm:0.25.5"
+    eslint: "npm:10.4.1"
     tsx: "npm:4.22.4"
     typescript: "npm:5.9.3"
     vitest: "npm:4.1.11"
@@ -9985,6 +9995,7 @@ __metadata:
   dependencies:
     "@types/node": "npm:24.13.3"
     "@types/pngjs": "npm:6.0.5"
+    eslint: "npm:10.4.1"
     pngjs: "npm:7.0.0"
     prettier: "npm:3.8.1"
     typescript: "npm:5.9.3"
@@ -13065,6 +13076,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "markdown-tables-utils@workspace:tools/markdown-tables-utils"
   dependencies:
+    eslint: "npm:10.4.1"
     vitest: "npm:4.1.11"
   languageName: unknown
   linkType: soft

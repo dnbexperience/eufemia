@@ -14,11 +14,12 @@
     "release:check": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types src/cli.ts release-check",
     "test": "vitest run",
     "test:types": "tsc --noEmit",
-    "lint": "node ../../node_modules/.bin/eslint 'src/**/*.ts' '__tests__/**/*.ts'"
+    "lint": "eslint 'src/**/*.ts' '__tests__/**/*.ts'"
   },
   "devDependencies": {
     "@types/node": "24.13.3",
     "@types/pngjs": "6.0.5",
+    "eslint": "10.4.1",
     "prettier": "3.8.1",
     "typescript": "5.9.3",
     "vitest": "4.1.11"

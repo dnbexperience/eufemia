@@ -7,7 +7,7 @@
   "version": "1.0.0",
   "main": "./src/node-utils.js",
   "scripts": {
-    "test:ci": "node src/node-utils.test.js"
+    "test": "node src/node-utils.test.js"
   },
   "volta": {
     "extends": "../../package.json"

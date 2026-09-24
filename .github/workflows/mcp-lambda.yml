@@ -54,7 +54,7 @@ jobs:
           YARN_HTTP_TIMEOUT: '360000'
 
       - name: Typecheck
-        run: cd tools/mcp-lambda && yarn typecheck
+        run: cd tools/mcp-lambda && yarn test:types
 
       - name: Lint
         run: cd tools/mcp-lambda && yarn lint

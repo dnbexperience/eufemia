@@ -4,9 +4,10 @@
   "private": true,
   "scripts": {
     "test": "vitest run",
-    "lint": "node ../../node_modules/.bin/prettier --check '**/*.{js,json,md,ts,yml}' '../../.github/workflows/assets.yml'"
+    "lint": "prettier --check '**/*.{js,json,md,ts,yml}' '../../.github/workflows/assets.yml'"
   },
   "devDependencies": {
+    "prettier": "3.8.1",
     "vitest": "4.1.11"
   },
   "volta": {

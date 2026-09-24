@@ -14,9 +14,10 @@
   },
   "scripts": {
     "test": "vitest run",
-    "lint": "node ../../node_modules/.bin/eslint **/*.ts"
+    "lint": "eslint '**/*.ts'"
   },
   "devDependencies": {
+    "eslint": "10.4.1",
     "vitest": "4.1.11"
   },
   "volta": {

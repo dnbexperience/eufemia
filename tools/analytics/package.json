@@ -8,8 +8,8 @@
   "license": "SEE LICENSE IN LICENSE FILE",
   "scripts": {
     "test": "vitest run",
-    "test:types": "../../node_modules/.bin/tsc --noEmit",
-    "lint": "node ../../node_modules/.bin/eslint 'src/**/*.ts' '__tests__/**/*.ts' && node ../../node_modules/.bin/prettier --check 'src/**/*.ts' '__tests__/**/*.{js,ts}'",
+    "test:types": "tsc --noEmit",
+    "lint": "eslint 'src/**/*.ts' '__tests__/**/*.ts' && prettier --check 'src/**/*.ts' '__tests__/**/*.{js,ts}'",
     "audit:ci": "yarn npm audit --recursive --environment production --severity high",
     "build": "rm -rf dist && esbuild src/lambda/index.ts --bundle --platform=node --target=node22 --format=esm --sourcemap --outfile=dist/index.mjs '--external:@aws-sdk/*' && cd dist && zip -rq lambda.zip index.mjs index.mjs.map",
     "deploy": "yarn build && terraform -chdir=infra init && terraform -chdir=infra apply -auto-approve",
@@ -22,6 +22,9 @@
   "devDependencies": {
     "@types/aws-lambda": "8.10.161",
     "esbuild": "0.25.5",
+    "eslint": "10.4.1",
+    "prettier": "3.8.1",
+    "typescript": "5.9.3",
     "vitest": "4.1.11"
   },
   "volta": {

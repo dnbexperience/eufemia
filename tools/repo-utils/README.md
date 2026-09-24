@@ -24,4 +24,4 @@ Consumed by [`@dnb/eufemia`](../../packages/dnb-eufemia) and the [design system 
 
 ## Scripts
 
-- `yarn test:ci` – run the helper tests with Node.
+- `yarn test` – run the helper tests with Node.

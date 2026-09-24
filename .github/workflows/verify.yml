@@ -154,8 +154,8 @@ jobs:
           yarn workspace eufemia-css-optimizer test:types
           yarn workspace eufemia-llm-metadata test:types
           yarn workspace eufemia-raiwork-plugin test:types
-          yarn workspace @dnb/eufemia-mcp-legacy-proxy typecheck
-          yarn workspace eufemia-mcp-lambda typecheck
+          yarn workspace @dnb/eufemia-mcp-legacy-proxy test:types
+          yarn workspace eufemia-mcp-lambda test:types
           yarn workspace eufemia-analytics test:types
           yarn workspace eufemia-analytics-dashboard test:types
 
@@ -206,7 +206,7 @@ jobs:
           yarn workspace eufemia-analytics test
           yarn workspace eufemia-analytics-dashboard test
           yarn workspace eufemia-assets-hosting test
-          yarn workspace repo-utils test:ci
+          yarn workspace repo-utils test
 
   deps:
     name: Run dependency checks
@@ -253,7 +253,7 @@ jobs:
           cache-version: ${{ secrets.CACHE_VERSION }}
 
       - name: Verify isCI
-        run: yarn workspace repo-utils test:ci
+        run: yarn workspace repo-utils test
 
       - name: Prebuild Library
         run: yarn workspace @dnb/eufemia prebuild:ci
