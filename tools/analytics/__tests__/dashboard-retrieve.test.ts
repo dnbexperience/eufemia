@@ -30,6 +30,7 @@ vi.mock('@aws-sdk/client-athena', () => ({
 }))
 
 import {
+  aggregateLocalMcpUsageByVersion,
   aggregatePortalViewsRaw,
   retrievePortalViews,
 } from '../src/lambda/retrieve.js'
@@ -40,12 +41,14 @@ beforeEach(() => {
   send.mockReset()
   process.env.GLUE_DATABASE = 'db'
   process.env.GLUE_TABLE = 'portal_views'
+  process.env.GLUE_TABLE_MCP_USAGE = 'mcp_usage'
   process.env.ATHENA_WORKGROUP = 'wg'
 })
 
 afterEach(() => {
   delete process.env.GLUE_DATABASE
   delete process.env.GLUE_TABLE
+  delete process.env.GLUE_TABLE_MCP_USAGE
   delete process.env.ATHENA_WORKGROUP
 })
 
@@ -169,5 +172,54 @@ describe('aggregatePortalViewsRaw', () => {
     expect(start.input.QueryString).toBe(
       `SELECT dt, path, env, status, locale, theme, color_scheme, referrer, via_search, count(*) AS cnt FROM "db"."portal_views" WHERE dt >= '2026-09-14' GROUP BY dt, path, env, status, locale, theme, color_scheme, referrer, via_search`
     )
+  })
+})
+
+describe('aggregateLocalMcpUsageByVersion', () => {
+  it('rejects a non-date sinceDt before running any query', async () => {
+    await expect(
+      aggregateLocalMcpUsageByVersion("2026'; DROP")
+    ).rejects.toThrow('YYYY-MM-DD')
+  })
+
+  it('groups local-transport rows in the window by version, filtering out web/null rows in the query', async () => {
+    send.mockImplementation((command: Command) => {
+      if (command.kind === 'start') {
+        return Promise.resolve({ QueryExecutionId: 'query-id' })
+      }
+      if (command.kind === 'status') {
+        return Promise.resolve({
+          QueryExecution: { Status: { State: 'SUCCEEDED' } },
+        })
+      }
+
+      return Promise.resolve({
+        ResultSet: {
+          Rows: [
+            {
+              Data: [
+                { VarCharValue: 'eufemiaversion' },
+                { VarCharValue: 'cnt' },
+              ],
+            },
+            {
+              Data: [{ VarCharValue: '10.79.0' }, { VarCharValue: '9' }],
+            },
+          ],
+        },
+      })
+    })
+
+    await expect(
+      aggregateLocalMcpUsageByVersion('2026-06-27')
+    ).resolves.toEqual([{ name: '10.79.0', count: 9 }])
+
+    const start = send.mock.calls[0][0] as Command & {
+      input: { QueryString: string }
+    }
+    expect(start.input.QueryString).toBe(
+      `SELECT eufemiaversion, count(*) AS cnt FROM "db"."mcp_usage" WHERE dt >= '2026-06-27' AND transport = 'local' AND eufemiaversion IS NOT NULL AND eufemiaversion <> '' GROUP BY eufemiaversion ORDER BY cnt DESC`
+    )
+    expect(start.input.QueryString).toContain("transport = 'local'")
   })
 })

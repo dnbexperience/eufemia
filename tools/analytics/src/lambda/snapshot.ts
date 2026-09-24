@@ -1,5 +1,6 @@
 import {
   aggregateComponentUsageRaw,
+  aggregateLocalMcpUsageByVersion,
   aggregateMcpUsageRaw,
   aggregatePortalViewsRaw,
   retrieveComponentUsageDaily,
@@ -156,6 +157,13 @@ function emitPortalViewsRollupFailureMetric(): void {
 const MCP_ROLLUP_DAYS = 7
 const MCP_TOP_LIMIT = 20
 
+// Recent window for the local-by-version breakdown. Unlike the daily-rollup
+// reads above, this scans the raw per-request mcp_usage table directly (it has
+// no durable rollup for the transport/version dimensions), so it needs its own
+// bound to stay cheap as the table's 13-month retention fills; it also keeps
+// the metric focused on currently-relevant versions rather than all-time history.
+const MCP_VERSION_WINDOW_DAYS = 90
+
 // Recent-tail window for the retention rollup refresh (mirrors MCP_ROLLUP_DAYS).
 const PORTAL_VIEWS_ROLLUP_DAYS = 7
 
@@ -225,6 +233,14 @@ async function buildMcpUsage(bucket: string): Promise<McpUsageSection> {
 
   const daily = await retrieveMcpUsageDaily()
 
+  const versionSince = new Date()
+  versionSince.setUTCDate(
+    versionSince.getUTCDate() - (MCP_VERSION_WINDOW_DAYS - 1)
+  )
+  const perVersion = await aggregateLocalMcpUsageByVersion(
+    dayString(versionSince)
+  )
+
   const dayTotals = new Map<string, number>()
   let total = 0
 
@@ -238,6 +254,7 @@ async function buildMcpUsage(bucket: string): Promise<McpUsageSection> {
     perTool: sumBy(daily, 'tool').slice(0, MCP_TOP_LIMIT),
     perComponent: sumBy(daily, 'component').slice(0, MCP_TOP_LIMIT),
     perPath: sumBy(daily, 'path').slice(0, MCP_TOP_LIMIT),
+    perVersion: perVersion.slice(0, MCP_TOP_LIMIT),
     daily: [...dayTotals.entries()]
       .map(([date, count]) => ({ date, count }))
       .sort((a, b) => a.date.localeCompare(b.date)),
