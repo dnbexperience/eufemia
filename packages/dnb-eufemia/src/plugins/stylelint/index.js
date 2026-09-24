@@ -5,20 +5,20 @@ const noUndefinedCustomProperty = require('./rules/no-undefined-custom-property.
 const reviewRules = require('../review-rules.js')
 
 /**
- * Cast, because the extra properties are assigned after the array is created.
+ * Inline the type, because a named typedef is not emitted into the
+ * declaration file and would leave it referencing an undeclared name.
  *
- * @typedef {import('stylelint').Plugin[] & {
+ * @type {import('stylelint').Plugin[] & {
  *   reviewRules: Record<string, import('../review-rules.js').ReviewRuleMetadata>
  *   recommended: import('stylelint').Config
- * }} EufemiaStylelintPlugins
+ * }}
  */
-
-const pluginPack = /** @type {EufemiaStylelintPlugins} */ ([
+const pluginPack = [
   noDeprecatedColorVariables,
   tokenNamePolicy,
   noUnusedUse,
   noUndefinedCustomProperty,
-])
+]
 
 pluginPack.reviewRules = reviewRules
 pluginPack.recommended = {
