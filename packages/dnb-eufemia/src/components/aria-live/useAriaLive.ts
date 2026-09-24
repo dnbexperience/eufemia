@@ -59,19 +59,17 @@ export default function useAriaLive(props: AriaLiveAllProps) {
   )
 
   const showTextAnnouncement = delay > -1
-  const hasAnnouncement = !(
-    children === null ||
-    children === undefined ||
-    children === false ||
-    children === ''
-  )
+  const hasAnnouncement =
+    children !== null &&
+    children !== undefined &&
+    children !== false &&
+    children !== ''
 
   useEffect(() => {
     if (showTextAnnouncement) {
       setAnnouncement('')
 
-      // An idle live region has nothing to announce, so no timers are needed.
-      // This keeps pages with many mounted regions cheap.
+      // An idle live region stays mounted, but has nothing to announce.
       if (!hasAnnouncement) {
         return undefined
       }
