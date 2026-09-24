@@ -2853,7 +2853,6 @@ __metadata:
     cssnano: "npm:6.0.1"
     date-fns: "npm:4.4.0"
     dependency-cruiser: "npm:17.3.8"
-    dnb-design-system-portal: "workspace:*"
     dotenv-cli: "npm:4.1.0"
     eslint: "npm:10.4.1"
     eslint-plugin-compat: "npm:7.0.2"
@@ -8679,7 +8678,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dnb-design-system-portal@workspace:*, dnb-design-system-portal@workspace:packages/dnb-design-system-portal":
+"dnb-design-system-portal@workspace:packages/dnb-design-system-portal":
   version: 0.0.0-use.local
   resolution: "dnb-design-system-portal@workspace:packages/dnb-design-system-portal"
   dependencies:
