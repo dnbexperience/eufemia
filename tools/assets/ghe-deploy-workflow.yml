@@ -86,6 +86,11 @@ jobs:
             # historical releases and unrelated publishers can never be deleted.
             for ASSET_DIR in assets/*/; do
               ASSET_PREFIX=$(basename "$ASSET_DIR")
+              case "$ASSET_PREFIX" in
+                logos|v*)
+                  echo "Reserved asset prefix: $ASSET_PREFIX" >&2
+                  exit 1 ;;
+              esac
               aws s3 sync "$ASSET_DIR" "s3://${BUCKET}/${ASSET_PREFIX}/" \
                 --delete \
                 --cache-control 'public,max-age=3600,s-maxage=86400,stale-while-revalidate=604800'

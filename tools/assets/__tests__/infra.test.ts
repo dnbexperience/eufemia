@@ -85,6 +85,10 @@ describe('assets infrastructure', () => {
       'Refusing to change immutable assets for ${VERSION}.'
     )
     expect(deployWorkflow).toContain('if [[ "$VERSION" != *-* ]]')
+    expect(deployWorkflow).toContain('logos|v*)')
+    expect(deployWorkflow).toContain(
+      'Reserved asset prefix: $ASSET_PREFIX'
+    )
     expect(deployWorkflow).not.toContain("--paths '/*'")
   })
 })

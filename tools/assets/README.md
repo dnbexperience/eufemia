@@ -14,7 +14,8 @@ available for manually linked assets and backwards compatibility:
 
 Generated Eufemia CSS uses the immutable URL matching its package version. The
 root sync cannot delete historical `v*/` content or independently published
-prefixes such as `logos/`.
+prefixes. The `logos/` namespace is reserved for the standalone
+`@eufemia/logos` publisher.
 
 ## Deployment
 
