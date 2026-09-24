@@ -1,19 +1,15 @@
 {
-  "extends": "../../packages/dnb-design-system-portal/tsconfig.json",
+  "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "rootDir": "../../../..",
-    "outDir": "./out",
     "module": "nodenext",
     "moduleResolution": "nodenext",
-    "target": "es2020",
-    "types": ["node", "vitest/globals"]
+    "allowImportingTsExtensions": true,
+    "types": ["node", "vitest/globals"],
+    // The Babel AST helpers rely on packages that ship no typings, so these two
+    // checks stay off until those are typed; the rest of `strict` applies.
+    "noImplicitAny": false,
+    "strictNullChecks": false
   },
-  "include": [
-    "src/**/*.ts",
-    "src/**/*.tsx",
-    "src/**/*.js",
-    "__tests__/**/*.ts",
-    "scripts/**/*.ts"
-  ],
-  "exclude": ["node_modules", "out"]
+  "include": ["src/**/*.ts", "scripts/**/*.ts", "__tests__/**/*.ts"],
+  "exclude": ["node_modules"]
 }

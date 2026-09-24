@@ -1,0 +1,19 @@
+{
+  // Shared by the Node-side tool workspaces. The library, the Portal and the
+  // Vite apps keep their own settings (JSX, DOM lib, looser strictness).
+  "compilerOptions": {
+    "target": "es2022",
+    "lib": ["es2022"],
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "isolatedModules": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "noEmit": true,
+    "strict": true,
+    "noImplicitOverride": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "forceConsistentCasingInFileNames": true
+  }
+}
