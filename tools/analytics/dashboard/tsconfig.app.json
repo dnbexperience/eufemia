@@ -1,17 +1,19 @@
 {
   "compilerOptions": {
-    "downlevelIteration": true,
     "jsx": "react-jsx",
     "allowJs": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "isolatedModules": true,
+    "target": "es2022",
     "module": "es2022",
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
     "noEmit": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,
+    "strict": false,
+    "noUncheckedSideEffectImports": false,
     "strictFunctionTypes": true,
     "lib": ["es2022", "dom", "dom.iterable"],
     "types": [
