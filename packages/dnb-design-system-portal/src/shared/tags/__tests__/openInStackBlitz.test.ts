@@ -12,10 +12,12 @@ import {
 } from '../openInStackBlitz'
 
 const currentDir = path.dirname(fileURLToPath(import.meta.url))
-const starterViteConfig = path.resolve(
+const starterDir = path.resolve(
   currentDir,
-  '../../../../../eufemia-starter/vite.config.ts'
+  '../../../../../eufemia-starter'
 )
+const starterViteConfig = path.join(starterDir, 'vite.config.ts')
+const starterTsConfig = path.join(starterDir, 'tsconfig.app.json')
 
 describe('filterImportsByUsage', () => {
   it('keeps imports for names used in code', () => {
@@ -377,6 +379,24 @@ describe('openInStackBlitz', () => {
 
     form.cleanup()
   })
+
+  it('mirrors the starter TypeScript config', async () => {
+    const form = mockFormSubmission()
+
+    await openInStackBlitz('<Button>Click</Button>', [
+      "import { Button } from '@dnb/eufemia'",
+    ])
+
+    const generated = JSON.parse(
+      form.fields['project[files][tsconfig.json]']
+    )
+    const starter = parseJsonc(readFileSync(starterTsConfig, 'utf8'))
+
+    expect(Object.keys(starter.compilerOptions).length).toBeGreaterThan(0)
+    expect(generated).toEqual(starter)
+
+    form.cleanup()
+  })
 })
 
 describe('formatCode', () => {
@@ -427,6 +447,14 @@ function extractOptimizeDeps(source: string) {
   }
 
   return null
+}
+
+/**
+ * The starter's tsconfig carries section comments; the generated one is plain
+ * JSON, so strip comments before comparing the two as objects.
+ */
+function parseJsonc(source: string) {
+  return JSON.parse(source.replace(/\/\*[\s\S]*?\*\//g, ''))
 }
 
 /**
