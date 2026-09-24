@@ -6,6 +6,7 @@
     "allowSyntheticDefaultImports": true,
     "isolatedModules": true,
     "target": "es2022",
+    "useDefineForClassFields": false,
     "module": "es2022",
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
