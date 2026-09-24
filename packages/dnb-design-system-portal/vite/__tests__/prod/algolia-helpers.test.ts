@@ -3,25 +3,44 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { describe, it, expect } from 'vitest'
 import {
-  makeSlug,
   shouldIncludeInAlgolia,
   buildAlgoliaRecord,
   findAncestorPages,
   excludedSlugPartials,
 } from '../../prod/algolia-helpers.mjs'
+import { getSlugFromMdastHeading } from '../../../src/uilib/utils/slug.mjs'
+import { unified } from 'unified'
+import remarkParse from 'remark-parse'
+import remarkMdx from 'remark-mdx'
+import { visit } from 'unist-util-visit'
+import { headingIdCases } from '../../../src/uilib/utils/__tests__/headingIdCases'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const portalRoot = path.resolve(__dirname, '../..')
 
 describe('algolia-helpers', () => {
-  describe('makeSlug', () => {
-    it('should slugify a heading value', () => {
-      expect(makeSlug('Hello World')).toBe('hello-world')
-    })
+  describe('heading slugs', () => {
+    // Mirrors how push-algolia walks a document: it holds an mdast node.
+    function firstHeading(markdown: string) {
+      let node = null
+      visit(
+        unified().use(remarkParse).use(remarkMdx).parse(markdown),
+        'heading',
+        (found) => {
+          node = node || found
+        }
+      )
+      return node
+    }
 
-    it('should handle special characters', () => {
-      expect(makeSlug('Ä Ö Ü')).toBe('ä-ö-ü')
-    })
+    it.each(headingIdCases)(
+      'indexes $name under the id the page renders',
+      ({ markdown, id }) => {
+        expect(
+          getSlugFromMdastHeading(firstHeading(`## ${markdown}`))
+        ).toBe(id)
+      }
+    )
   })
 
   describe('shouldIncludeInAlgolia', () => {
@@ -62,7 +81,7 @@ describe('algolia-helpers', () => {
         buildAlgoliaRecord({
           fields: { slug: '/page' },
           frontmatter: {},
-          headings: [],
+          recordHeadings: [],
           siblings: [],
         })
       ).toBeNull()
@@ -72,7 +91,7 @@ describe('algolia-helpers', () => {
       const result = buildAlgoliaRecord({
         fields: { slug: '/page' },
         frontmatter: { title: 'My Page' },
-        headings: [],
+        recordHeadings: [],
         siblings: [],
       })
 
@@ -86,7 +105,7 @@ describe('algolia-helpers', () => {
       const result = buildAlgoliaRecord({
         fields: { slug: '/page' },
         frontmatter: {},
-        headings: [{ value: 'Heading 1', depth: 1 }],
+        recordHeadings: [{ value: 'Heading 1', depth: 1 }],
         siblings: [],
       })
 
@@ -101,7 +120,7 @@ describe('algolia-helpers', () => {
       const result = buildAlgoliaRecord({
         fields: { slug: '/page' },
         frontmatter: { search: 'search string' },
-        headings: [{ value: 'Heading 1', depth: 1 }],
+        recordHeadings: [{ value: 'Heading 1', depth: 1 }],
         siblings: [],
       })
 
@@ -112,11 +131,13 @@ describe('algolia-helpers', () => {
       })
     })
 
-    it('should add slug to headings without one', () => {
+    it('should carry the headings it was given into the record', () => {
       const result = buildAlgoliaRecord({
         fields: { slug: '/page' },
         frontmatter: { title: 'Title' },
-        headings: [{ value: 'Some Heading', depth: 2 }],
+        recordHeadings: [
+          { value: 'Some Heading', depth: 2, slug: 'some-heading' },
+        ],
         siblings: [],
       })
 
@@ -130,7 +151,7 @@ describe('algolia-helpers', () => {
       const result = buildAlgoliaRecord({
         fields: { slug: '/page' },
         frontmatter: { title: 'Title' },
-        headings: [],
+        recordHeadings: [],
         siblings: [
           {
             fields: { slug: '/category' },
@@ -149,7 +170,7 @@ describe('algolia-helpers', () => {
       const result = buildAlgoliaRecord({
         fields: { slug: '/page' },
         frontmatter: {},
-        headings: [{ value: 'Properties', depth: 2 }],
+        recordHeadings: [{ value: 'Properties', depth: 2 }],
         siblings: [
           {
             fields: { slug: '/page' },
