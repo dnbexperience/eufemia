@@ -24,8 +24,9 @@ const formatPhoneNumberParts = (
       let code = ''
       num = String(number)
 
-      // Normalize spaces and dashes so detectCountryCode can match
-      const normalized = num.replace(/[\s-]/g, '')
+      // Normalize spaces, dashes and parentheses so detectCountryCode can
+      // match, also when the value has already been formatted once.
+      const normalized = num.replace(/[\s\-()]/g, '')
       const detected = detectCountryCode(normalized)
       if (detected) {
         code = `${detected.countryCode} `

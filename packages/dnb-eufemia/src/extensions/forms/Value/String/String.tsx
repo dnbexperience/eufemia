@@ -1,4 +1,5 @@
 import { clsx } from 'clsx'
+import type { ReactNode } from 'react'
 import ValueBlock from '../../ValueBlock'
 import { useValueProps } from '../../hooks'
 import type { ValueProps } from '../../types'
@@ -6,15 +7,20 @@ import withComponentMarkers from '../../../../shared/helpers/withComponentMarker
 
 export type ValueStringProps = ValueProps<string>
 
-function StringComponent(props: ValueStringProps) {
-  const { value, className, ...rest } = useValueProps(props)
+type StringComponentProps = ValueStringProps & {
+  /** For internal use only. Renders the resolved value, after all value transformations ran. */
+  renderValue?: (value: ReactNode) => ReactNode
+}
+
+function StringComponent(props: StringComponentProps) {
+  const { value, className, renderValue, ...rest } = useValueProps(props)
 
   return (
     <ValueBlock
       className={clsx('dnb-forms-value-string', className)}
       {...rest}
     >
-      {value}
+      {renderValue ? renderValue(value) : value}
     </ValueBlock>
   )
 }

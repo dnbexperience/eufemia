@@ -1,7 +1,11 @@
 import { useCallback, useMemo } from 'react'
+import type { ReactNode } from 'react'
 import type { ValueStringProps as StringValueProps } from '../String'
 import StringValue from '../String'
-import type { BankAccountType } from '../../../../components/number-format/utils/formatBankAccountNumber'
+import {
+  formatBankAccountNumberByType,
+  type BankAccountType,
+} from '../../../../components/number-format/utils/formatBankAccountNumber'
 import NumberFormatBankAccountNumber from '../../../../components/number-format/BankAccountNumber'
 import useTranslation from '../../hooks/useTranslation'
 import { isValueEmpty } from '../../ValueBlock'
@@ -26,13 +30,24 @@ function BankAccountNumber(props: ValueBankAccountNumberProps) {
         return undefined
       }
 
-      return (
+      return formatBankAccountNumberByType(
+        String(external),
+        bankAccountType
+      ).number
+    },
+    [bankAccountType]
+  )
+
+  const renderValue = useCallback(
+    (value: ReactNode) =>
+      typeof value === 'string' ? (
         <NumberFormatBankAccountNumber
           bankAccountType={bankAccountType}
-          value={String(external)}
+          value={value}
         />
-      )
-    },
+      ) : (
+        value
+      ),
     [bankAccountType]
   )
 
@@ -64,7 +79,7 @@ function BankAccountNumber(props: ValueBankAccountNumberProps) {
     label,
     toInput,
   }
-  return <StringValue {...stringValueProps} />
+  return <StringValue {...stringValueProps} renderValue={renderValue} />
 }
 
 withComponentMarkers(BankAccountNumber, {

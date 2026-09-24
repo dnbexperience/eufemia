@@ -128,4 +128,19 @@ describe('Value.PhoneNumber', () => {
       document.querySelector('.dnb-sr-only').getAttribute('data-text')
     ).toBe('+47 12 34 56 78')
   })
+
+  it('gives the formatted string to transformIn', () => {
+    const transformIn = vi.fn((value) => value)
+
+    render(
+      <Value.PhoneNumber value="+4712345678" transformIn={transformIn} />
+    )
+
+    expect(transformIn).toHaveBeenCalledWith('+47 12 34 56 78')
+    expect(
+      document.querySelector(
+        '.dnb-forms-value-string .dnb-forms-value-block__content'
+      )
+    ).toHaveTextContent('+47 12 34 56 78')
+  })
 })

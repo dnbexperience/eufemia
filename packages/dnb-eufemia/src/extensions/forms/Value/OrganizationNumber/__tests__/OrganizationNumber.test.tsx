@@ -78,4 +78,22 @@ describe('Value.OrganizationNumber', () => {
       document.querySelector('.dnb-sr-only').getAttribute('data-text')
     ).toBe('1 2 3 4 5 6 7 8 9')
   })
+
+  it('gives the formatted string to transformIn', () => {
+    const transformIn = vi.fn((value) => value)
+
+    render(
+      <Value.OrganizationNumber
+        value="123456789"
+        transformIn={transformIn}
+      />
+    )
+
+    expect(transformIn).toHaveBeenCalledWith('123 456 789')
+    expect(
+      document.querySelector(
+        '.dnb-forms-value-string .dnb-forms-value-block__content'
+      )
+    ).toHaveTextContent('123 456 789')
+  })
 })

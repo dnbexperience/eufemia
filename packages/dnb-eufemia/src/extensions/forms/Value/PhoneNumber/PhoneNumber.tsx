@@ -1,6 +1,8 @@
 import { useCallback } from 'react'
+import type { ReactNode } from 'react'
 import type { ValueStringProps as StringValueProps } from '../String'
 import StringValue from '../String'
+import { formatPhoneNumber } from '../../../../components/number-format/NumberUtils'
 import NumberFormatPhoneNumber from '../../../../components/number-format/PhoneNumber'
 import useTranslation from '../../hooks/useTranslation'
 import { isValueEmpty } from '../../ValueBlock'
@@ -19,8 +21,18 @@ function PhoneNumber(props: ValuePhoneNumberProps) {
       return undefined
     }
 
-    return <NumberFormatPhoneNumber value={value} />
+    return formatPhoneNumber(value).toString()
   }, [])
+
+  const renderValue = useCallback(
+    (value: ReactNode) =>
+      typeof value === 'string' ? (
+        <NumberFormatPhoneNumber value={value} />
+      ) : (
+        value
+      ),
+    []
+  )
 
   const stringValueProps: ValuePhoneNumberProps = {
     ...props,
@@ -28,7 +40,7 @@ function PhoneNumber(props: ValuePhoneNumberProps) {
     toInput,
   }
 
-  return <StringValue {...stringValueProps} />
+  return <StringValue {...stringValueProps} renderValue={renderValue} />
 }
 
 withComponentMarkers(PhoneNumber, {

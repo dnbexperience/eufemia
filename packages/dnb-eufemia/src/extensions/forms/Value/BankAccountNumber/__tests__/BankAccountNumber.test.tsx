@@ -204,6 +204,24 @@ describe('Value.BankAccountNumber', () => {
     )
   })
 
+  it('gives the formatted string to transformIn', () => {
+    const transformIn = vi.fn((value) => value)
+
+    render(
+      <Value.BankAccountNumber
+        value="20001234567"
+        transformIn={transformIn}
+      />
+    )
+
+    expect(transformIn).toHaveBeenCalledWith('2000 12 34567')
+    expect(
+      document.querySelector(
+        '.dnb-forms-value-string .dnb-forms-value-block__content'
+      )
+    ).toHaveTextContent('2000 12 34567')
+  })
+
   describe('labels per bankAccountType', () => {
     it('uses default label for norwegianBban', () => {
       render(<Value.BankAccountNumber value="20001234567" />)

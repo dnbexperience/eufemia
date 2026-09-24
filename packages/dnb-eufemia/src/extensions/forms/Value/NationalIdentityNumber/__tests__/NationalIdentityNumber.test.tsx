@@ -78,4 +78,22 @@ describe('Value.NationalIdentityNumber', () => {
       document.querySelector('.dnb-sr-only').getAttribute('data-text')
     ).toBe('18 08 92 1 2 3 4 5')
   })
+
+  it('gives the formatted string to transformIn', () => {
+    const transformIn = vi.fn((value) => value)
+
+    render(
+      <Value.NationalIdentityNumber
+        value="18089212345"
+        transformIn={transformIn}
+      />
+    )
+
+    expect(transformIn).toHaveBeenCalledWith('180892 12345')
+    expect(
+      document.querySelector(
+        '.dnb-forms-value-string .dnb-forms-value-block__content'
+      )
+    ).toHaveTextContent('180892 12345')
+  })
 })
