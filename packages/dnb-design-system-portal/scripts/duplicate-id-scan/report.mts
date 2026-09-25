@@ -211,7 +211,9 @@ export function renderIssueBody(
     sections.push(mdTable(['id', 'count', 'page', 'change'], rows))
   }
 
-  if (diff.resolved.length > 0) {
+  // A page that failed to load looks the same as one whose duplicate was
+  // fixed, so only claim resolutions when every page actually loaded.
+  if (diff.resolved.length > 0 && !meta.failedCount) {
     sections.push(
       `**${plural(diff.resolved.length, 'duplicate')} no longer found since last run**`
     )

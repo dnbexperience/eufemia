@@ -93,11 +93,13 @@ describe('renderIssueBody', () => {
     expect(parseBaselineFromIssue(body)).toEqual([])
   })
 
-  it('warns when pages failed to load', () => {
-    const diff = diffDuplicates([], [])
+  it('warns and suppresses resolutions when pages failed to load', () => {
+    const previous: Duplicate[] = [{ url: 'a', id: 'x', count: 2 }]
+    const diff = diffDuplicates(previous, [])
     const body = renderIssueBody([], diff, { ...meta, failedCount: 3 })
 
     expect(body).toContain('3 pages failed to load')
+    expect(body).not.toContain('no longer found since last run')
   })
 })
 
