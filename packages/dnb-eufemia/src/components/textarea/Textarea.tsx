@@ -124,8 +124,7 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
   const id = useId(ownProps.id)
 
   const heightOffsetRef = useRef<number | undefined>(undefined)
-  const appliedHeightRef = useRef<number | undefined>(undefined)
-  const manualHeightRef = useRef<number | undefined>(undefined)
+  const heightRef = useRef<number | undefined>(undefined)
   const resizeObserverRef = useRef<ResizeObserver | null>(null)
 
   const propValue = getValue(ownProps)
@@ -174,11 +173,8 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
     }
     try {
       const currentHeight = parseFloat(elem.style.height)
-      if (
-        !hideResizeHandle &&
-        currentHeight !== appliedHeightRef.current
-      ) {
-        manualHeightRef.current = currentHeight
+      if (!hideResizeHandle && currentHeight !== heightRef.current) {
+        heightRef.current = currentHeight
       }
       elem.style.height = 'auto'
     } catch (e) {
@@ -222,15 +218,12 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
           }
         }
 
-        const manualHeight = manualHeightRef.current
-        if (!hideResizeHandle && manualHeight > newHeight) {
-          newHeight = manualHeight
-        } else {
-          manualHeightRef.current = undefined
+        if (!hideResizeHandle && heightRef.current > newHeight) {
+          newHeight = heightRef.current
         }
 
         elem.style.height = newHeight + 'px'
-        appliedHeightRef.current = newHeight
+        heightRef.current = newHeight
       } catch (e) {
         warn('Textarea: Failed to set autosize height:', e)
       }
