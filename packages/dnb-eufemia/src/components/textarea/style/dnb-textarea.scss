@@ -94,8 +94,18 @@
     }
   }
 
-  &__autoresize &__shell::after {
+  &__no-resize &__shell::after {
     content: none;
+  }
+
+  @media (hover: none) and (pointer: coarse) {
+    &__shell::after {
+      content: none;
+    }
+
+    &__textarea {
+      resize: none;
+    }
   }
 
   &__state {
@@ -209,7 +219,7 @@
     --textarea-size-horizontal: 1rem;
   }
 
-  &__autoresize &__textarea {
+  &__no-resize &__textarea {
     resize: none;
   }
 

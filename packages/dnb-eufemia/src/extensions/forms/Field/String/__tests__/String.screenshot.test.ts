@@ -39,4 +39,10 @@ describe.each(['ui', 'sbanken'])(`String field for %s`, (themeName) => {
       selector: '[data-visual-test="string-label-description"]',
     })
   })
+
+  it('matches resize handles', async () => {
+    await makeScreenshot({
+      selector: '[data-visual-test="string-resize-handle"]',
+    })
+  })
 })
