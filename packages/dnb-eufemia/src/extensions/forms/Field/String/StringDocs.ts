@@ -98,6 +98,11 @@ export const StringProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  hideResizeHandle: {
+    doc: 'To be used together with `multiline`. Hide the resize handle and prevent users from manually resizing the field. Defaults to `false`.',
+    type: 'boolean',
+    status: 'optional',
+  },
 
   // - Additional props
   inputClassName: {

@@ -279,6 +279,50 @@ describe('Textarea component', () => {
     expect(elem.style.height).toBe('96px')
   })
 
+  it('preserves a user-defined height while auto resizing', async () => {
+    render(<Textarea rows={1} autoResize autoResizeMaxRows={4} />)
+
+    const elem = document.querySelector('textarea')
+    const style = { lineHeight: String(1.5 * 16) } as CSSStyleDeclaration
+
+    vi.spyOn(window, 'getComputedStyle').mockImplementation(() => style)
+    vi.spyOn(elem, 'scrollHeight', 'get').mockImplementation(
+      () => 1.5 * 32
+    )
+
+    await userEvent.type(elem, 'a')
+    expect(elem.style.height).toBe('48px')
+
+    elem.style.height = '240px'
+    await userEvent.type(elem, 'a')
+
+    expect(elem.style.height).toBe('240px')
+    expect(document.querySelector('.dnb-textarea')).not.toHaveClass(
+      'dnb-textarea__hide-resize-handle'
+    )
+  })
+
+  it('supports hiding the resize handle', async () => {
+    render(<Textarea rows={1} autoResize hideResizeHandle />)
+
+    const elem = document.querySelector('textarea')
+    const style = { lineHeight: String(1.5 * 16) } as CSSStyleDeclaration
+
+    vi.spyOn(window, 'getComputedStyle').mockImplementation(() => style)
+    vi.spyOn(elem, 'scrollHeight', 'get').mockImplementation(
+      () => 1.5 * 32
+    )
+
+    await userEvent.type(elem, 'a')
+    elem.style.height = '240px'
+    await userEvent.type(elem, 'a')
+
+    expect(elem.style.height).toBe('48px')
+    expect(document.querySelector('.dnb-textarea')).toHaveClass(
+      'dnb-textarea__hide-resize-handle'
+    )
+  })
+
   it('should support spacing props', () => {
     render(<Textarea top="2rem" />)
 

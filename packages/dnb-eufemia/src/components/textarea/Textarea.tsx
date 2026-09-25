@@ -107,6 +107,7 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
     readOnly,
     className,
     autoResize,
+    hideResizeHandle,
     characterCounter,
     autoResizeMaxRows,
     id: _id,
@@ -123,6 +124,8 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
   const id = useId(ownProps.id)
 
   const heightOffsetRef = useRef<number | undefined>(undefined)
+  const appliedHeightRef = useRef<number | undefined>(undefined)
+  const manualHeightRef = useRef<number | undefined>(undefined)
   const resizeObserverRef = useRef<ResizeObserver | null>(null)
 
   const propValue = getValue(ownProps)
@@ -164,17 +167,32 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
     )
   }, [getLineHeight])
 
+  const preserveManualHeight = useCallback(() => {
+    const elem = textareaRef.current
+    const currentHeight = parseFloat(elem?.style.height)
+
+    if (
+      !hideResizeHandle &&
+      Number.isFinite(currentHeight) &&
+      appliedHeightRef.current !== undefined &&
+      currentHeight !== appliedHeightRef.current
+    ) {
+      manualHeightRef.current = currentHeight
+    }
+  }, [hideResizeHandle])
+
   const prepareAutosize = useCallback(() => {
     const elem = textareaRef.current
     if (!elem) {
       return // stop here
     }
     try {
+      preserveManualHeight()
       elem.style.height = 'auto'
     } catch (e) {
       warn('Textarea: Failed to prepare autosize:', e)
     }
-  }, [])
+  }, [preserveManualHeight])
 
   const setAutosize = useCallback(
     (rows: number | null = null) => {
@@ -183,6 +201,8 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
         return // stop here
       }
       try {
+        preserveManualHeight()
+
         if (typeof heightOffsetRef.current === 'undefined') {
           heightOffsetRef.current = elem.offsetHeight - elem.clientHeight
         }
@@ -210,12 +230,26 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
           }
         }
 
+        const manualHeight = manualHeightRef.current
+        if (!hideResizeHandle && manualHeight > newHeight) {
+          newHeight = manualHeight
+        } else {
+          manualHeightRef.current = undefined
+        }
+
         elem.style.height = newHeight + 'px'
+        appliedHeightRef.current = newHeight
       } catch (e) {
         warn('Textarea: Failed to set autosize height:', e)
       }
     },
-    [autoResizeMaxRows, getLineHeight, getRows]
+    [
+      autoResizeMaxRows,
+      getLineHeight,
+      getRows,
+      hideResizeHandle,
+      preserveManualHeight,
+    ]
   )
 
   const onFocusHandler = useCallback(
@@ -370,6 +404,7 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
       typeof size === 'string' && `dnb-textarea__size--${size}`,
       status && `dnb-textarea__status--${statusState}`,
       autoResize && 'dnb-textarea__autoresize',
+      hideResizeHandle && 'dnb-textarea__hide-resize-handle',
       labelDirection && `dnb-textarea--${labelDirection}`,
       stretch && `dnb-textarea--stretch`,
       keepPlaceholder && `dnb-textarea--keep-placeholder`,

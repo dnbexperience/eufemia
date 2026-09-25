@@ -51,6 +51,11 @@ export const TextareaProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  hideResizeHandle: {
+    doc: 'Use `true` to hide the resize handle and prevent users from manually resizing the Textarea. Defaults to `false`.',
+    type: 'boolean',
+    status: 'optional',
+  },
   autoResizeMaxRows: {
     doc: 'Set a number to define how many rows the Textarea can auto grow.',
     type: 'number',

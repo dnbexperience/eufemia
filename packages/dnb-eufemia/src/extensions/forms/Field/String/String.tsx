@@ -107,6 +107,10 @@ export type FieldStringProps = FieldProps<string, undefined | string> & {
    */
   autoResize?: TextareaProps['autoResize']
   /**
+   * To be used together with `multiline`. Hide the resize handle and prevent users from manually resizing the field. Defaults to `false`.
+   */
+  hideResizeHandle?: TextareaProps['hideResizeHandle']
+  /**
    * To be used together with `multiline`. Use a number to define the displayed max length e.g. `40` or `{ max: 40, variant: 'down' }`.
    */
   characterCounter?: Omit<TextCounterProps, 'text'> | number
@@ -274,6 +278,7 @@ function StringComponent(props: FieldStringProps) {
     rows,
     autoResizeMaxRows = 6,
     autoResize = true,
+    hideResizeHandle,
     characterCounter,
 
     // - Html props
@@ -350,6 +355,7 @@ function StringComponent(props: FieldStringProps) {
     rows,
     autoResizeMaxRows: autoResizeMaxRows,
     autoResize,
+    hideResizeHandle,
     characterCounter,
   }
 

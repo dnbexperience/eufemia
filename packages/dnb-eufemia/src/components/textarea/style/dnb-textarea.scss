@@ -94,7 +94,7 @@
     }
   }
 
-  &__autoresize &__shell::after {
+  &__hide-resize-handle &__shell::after {
     content: none;
   }
 
@@ -209,7 +209,7 @@
     --textarea-size-horizontal: 1rem;
   }
 
-  &__autoresize &__textarea {
+  &__hide-resize-handle &__textarea {
     resize: none;
   }
 
