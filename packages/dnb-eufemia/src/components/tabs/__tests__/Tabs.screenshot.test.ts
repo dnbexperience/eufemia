@@ -45,7 +45,8 @@ describe.each(['ui', 'sbanken'])(`Tabs for %s`, (themeName) => {
 
   it('have to match a disabled tab with a tooltip', async () => {
     await makeScreenshot({
-      selector: '[data-visual-test="tabs-disabled-tooltip"] .dnb-tabs__tabs',
+      selector:
+        '[data-visual-test="tabs-disabled-tooltip"] .dnb-tabs__tabs',
     })
   })
 
