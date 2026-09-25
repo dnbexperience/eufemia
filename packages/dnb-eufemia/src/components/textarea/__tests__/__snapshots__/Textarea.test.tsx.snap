@@ -257,6 +257,14 @@ button .dnb-form-status__text {
 .dnb-textarea__no-resize .dnb-textarea__shell::after {
   content: none;
 }
+@media (hover: none) and (pointer: coarse) {
+  .dnb-textarea__shell::after {
+    content: none;
+  }
+  .dnb-textarea__textarea {
+    resize: none;
+  }
+}
 .dnb-textarea__state {
   position: absolute;
   z-index: 1;

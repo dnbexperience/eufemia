@@ -129,7 +129,7 @@ export type TextareaProps = Omit<
      */
     autoResize?: boolean
     /**
-     * Use `true` to hide the resize handle and prevent users from manually resizing the Textarea. Defaults to `false`.
+     * Use `true` to hide the resize handle and prevent users from manually resizing the Textarea. The handle is hidden automatically on touch-primary devices. Defaults to `false`.
      */
     hideResizeHandle?: boolean
     /**

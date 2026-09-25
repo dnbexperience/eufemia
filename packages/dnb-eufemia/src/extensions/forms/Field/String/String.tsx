@@ -107,7 +107,7 @@ export type FieldStringProps = FieldProps<string, undefined | string> & {
    */
   autoResize?: TextareaProps['autoResize']
   /**
-   * To be used together with `multiline`. Hide the resize handle and prevent users from manually resizing the field. Defaults to `false`.
+   * To be used together with `multiline`. Hide the resize handle and prevent users from manually resizing the field. The handle is hidden automatically on touch-primary devices. Defaults to `false`.
    */
   hideResizeHandle?: TextareaProps['hideResizeHandle']
   /**

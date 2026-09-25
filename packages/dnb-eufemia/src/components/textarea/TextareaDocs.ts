@@ -52,7 +52,7 @@ export const TextareaProperties: PropertiesTableProps = {
     status: 'optional',
   },
   hideResizeHandle: {
-    doc: 'Use `true` to hide the resize handle and prevent users from manually resizing the Textarea. Defaults to `false`.',
+    doc: 'Use `true` to hide the resize handle and prevent users from manually resizing the Textarea. The handle is hidden automatically on touch-primary devices. Defaults to `false`.',
     type: 'boolean',
     status: 'optional',
   },

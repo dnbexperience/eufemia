@@ -98,6 +98,16 @@
     content: none;
   }
 
+  @media (hover: none) and (pointer: coarse) {
+    &__shell::after {
+      content: none;
+    }
+
+    &__textarea {
+      resize: none;
+    }
+  }
+
   &__state {
     position: absolute;
     z-index: 1;
