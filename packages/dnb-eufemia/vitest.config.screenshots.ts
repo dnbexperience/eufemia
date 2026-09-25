@@ -10,7 +10,6 @@
 
 import { defineConfig } from 'vitest/config'
 import { playwright } from '@vitest/browser-playwright'
-import { firefox } from 'playwright'
 import { isCI, isolateFirefoxAppData } from 'repo-utils'
 import path from 'node:path'
 
@@ -23,7 +22,7 @@ import ScreenshotReporter from './src/core/vitest-screenshots/screenshotReporter
 import LiveReporter from './src/core/vitest-screenshots/liveReporter'
 import SummaryOnlyReporter from './src/core/vitest-screenshots/summaryOnlyReporter'
 
-isolateFirefoxAppData(firefox.executablePath())
+isolateFirefoxAppData()
 
 export default defineConfig({
   test: {
