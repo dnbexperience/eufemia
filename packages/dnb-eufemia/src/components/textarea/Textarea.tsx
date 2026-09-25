@@ -167,32 +167,24 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
     )
   }, [getLineHeight])
 
-  const preserveManualHeight = useCallback(() => {
-    const elem = textareaRef.current
-    const currentHeight = parseFloat(elem?.style.height)
-
-    if (
-      !hideResizeHandle &&
-      Number.isFinite(currentHeight) &&
-      appliedHeightRef.current !== undefined &&
-      currentHeight !== appliedHeightRef.current
-    ) {
-      manualHeightRef.current = currentHeight
-    }
-  }, [hideResizeHandle])
-
   const prepareAutosize = useCallback(() => {
     const elem = textareaRef.current
     if (!elem) {
       return // stop here
     }
     try {
-      preserveManualHeight()
+      const currentHeight = parseFloat(elem.style.height)
+      if (
+        !hideResizeHandle &&
+        currentHeight !== appliedHeightRef.current
+      ) {
+        manualHeightRef.current = currentHeight
+      }
       elem.style.height = 'auto'
     } catch (e) {
       warn('Textarea: Failed to prepare autosize:', e)
     }
-  }, [preserveManualHeight])
+  }, [hideResizeHandle])
 
   const setAutosize = useCallback(
     (rows: number | null = null) => {
@@ -201,13 +193,13 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
         return // stop here
       }
       try {
-        preserveManualHeight()
+        if (!rows) {
+          prepareAutosize()
+        }
 
         if (typeof heightOffsetRef.current === 'undefined') {
           heightOffsetRef.current = elem.offsetHeight - elem.clientHeight
         }
-
-        elem.style.height = 'auto'
 
         const lineHeight = getLineHeight()
         let newHeight = elem.scrollHeight + heightOffsetRef.current
@@ -248,7 +240,7 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
       getLineHeight,
       getRows,
       hideResizeHandle,
-      preserveManualHeight,
+      prepareAutosize,
     ]
   )
 
@@ -404,7 +396,7 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
       typeof size === 'string' && `dnb-textarea__size--${size}`,
       status && `dnb-textarea__status--${statusState}`,
       autoResize && 'dnb-textarea__autoresize',
-      hideResizeHandle && 'dnb-textarea__hide-resize-handle',
+      hideResizeHandle && 'dnb-textarea__no-resize',
       labelDirection && `dnb-textarea--${labelDirection}`,
       stretch && `dnb-textarea--stretch`,
       keepPlaceholder && `dnb-textarea--keep-placeholder`,

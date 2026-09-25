@@ -298,7 +298,7 @@ describe('Textarea component', () => {
 
     expect(elem.style.height).toBe('240px')
     expect(document.querySelector('.dnb-textarea')).not.toHaveClass(
-      'dnb-textarea__hide-resize-handle'
+      'dnb-textarea__no-resize'
     )
   })
 
@@ -319,7 +319,7 @@ describe('Textarea component', () => {
 
     expect(elem.style.height).toBe('48px')
     expect(document.querySelector('.dnb-textarea')).toHaveClass(
-      'dnb-textarea__hide-resize-handle'
+      'dnb-textarea__no-resize'
     )
   })
 

@@ -254,7 +254,7 @@ button .dnb-form-status__text {
   background: linear-gradient(-45deg, transparent var(--grip-line-1), var(--grip-color) var(--grip-line-1), var(--grip-color) calc(var(--grip-line-1) + var(--grip-line-1-stroke)), transparent calc(var(--grip-line-1) + var(--grip-line-1-stroke)), transparent var(--grip-line-2), var(--grip-color) var(--grip-line-2), var(--grip-color) calc(var(--grip-line-2) + var(--grip-line-2-stroke)), transparent calc(var(--grip-line-2) + var(--grip-line-2-stroke)), transparent var(--grip-line-3), var(--grip-color) var(--grip-line-3), var(--grip-color) calc(var(--grip-line-3) + var(--grip-line-3-stroke)), transparent calc(var(--grip-line-3) + var(--grip-line-3-stroke)));
   background-color: var(--textarea-color-background);
 }
-.dnb-textarea__hide-resize-handle .dnb-textarea__shell::after {
+.dnb-textarea__no-resize .dnb-textarea__shell::after {
   content: none;
 }
 .dnb-textarea__state {
@@ -372,7 +372,7 @@ button .dnb-form-status__text {
   --textarea-size-vertical: var(--textarea-size--large);
   --textarea-size-horizontal: 1rem;
 }
-.dnb-textarea__hide-resize-handle .dnb-textarea__textarea {
+.dnb-textarea__no-resize .dnb-textarea__textarea {
   resize: none;
 }
 .dnb-textarea--disabled {
