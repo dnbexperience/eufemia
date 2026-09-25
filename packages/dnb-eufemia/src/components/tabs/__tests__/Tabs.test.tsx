@@ -6,7 +6,8 @@
 import { StrictMode } from 'react'
 import type { ReactNode } from 'react'
 import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
-import { act, fireEvent, render } from '@testing-library/react'
+import { act, fireEvent, render, waitFor } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { renderToString } from 'react-dom/server'
 import { hydrateRoot } from 'react-dom/client'
 import { Provider } from '../../../shared'
@@ -436,6 +437,110 @@ describe('Tabs component', () => {
       `No content was given to the Tabs component!
 Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outside of the Tabs component</Tabs.Content>
 `
+    )
+  })
+})
+
+describe('Tabs disabled with tooltip', () => {
+  const data = [
+    { title: 'First', key: 'first' },
+    { title: 'Second', key: 'second' },
+    {
+      title: 'Third',
+      key: 'third',
+      disabled: true,
+      tooltip: 'Coming soon',
+    },
+    { title: 'Fourth', key: 'fourth' },
+    { title: 'Fifth', key: 'fifth', disabled: true },
+  ]
+
+  const getTab = (key: string) =>
+    document.querySelector(`.dnb-tabs__button[data-tab-key="${key}"]`)
+
+  it('uses aria-disabled instead of native disabled when a tooltip is set', () => {
+    render(<Tabs {...props} data={data} selectedKey="second" />)
+
+    expect(getTab('third')).toHaveAttribute('aria-disabled', 'true')
+    expect(getTab('third')).not.toHaveAttribute('disabled')
+    expect(getTab('fifth')).toHaveAttribute('disabled')
+  })
+
+  it('shows the tooltip when hovering the disabled tab', async () => {
+    render(<Tabs {...props} data={data} selectedKey="second" />)
+
+    await userEvent.hover(getTab('third'))
+
+    await waitFor(() => {
+      expect(
+        document.querySelector('.dnb-tooltip--active')
+      ).toHaveTextContent('Coming soon')
+    })
+  })
+
+  it('does not select the disabled tab on click', () => {
+    const onChange = vi.fn()
+    const onClick = vi.fn()
+    render(
+      <Tabs
+        {...props}
+        data={data}
+        selectedKey="second"
+        onChange={onChange}
+        onClick={onClick}
+      />
+    )
+
+    fireEvent.click(getTab('third'))
+
+    expect(onClick).not.toHaveBeenCalled()
+    expect(onChange).not.toHaveBeenCalled()
+    expect(getTab('second')).toHaveAttribute('aria-selected', 'true')
+  })
+
+  it('skips the disabled tab when stepping with the scroll navigation buttons', () => {
+    const onChange = vi.fn()
+    render(
+      <Tabs
+        {...props}
+        data={data}
+        selectedKey="second"
+        onChange={onChange}
+      />
+    )
+
+    const [prevButton, nextButton] = Array.from(
+      document.querySelectorAll('.dnb-tabs__scroll-nav-button')
+    )
+
+    fireEvent.mouseDown(nextButton)
+    expect(onChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({ key: 'fourth' })
+    )
+
+    fireEvent.mouseDown(prevButton)
+    expect(onChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({ key: 'second' })
+    )
+  })
+
+  it('skips the disabled tab when moving focus with the keyboard', () => {
+    const onFocus = vi.fn()
+    render(
+      <Tabs
+        {...props}
+        data={data}
+        selectedKey="second"
+        onFocus={onFocus}
+      />
+    )
+
+    fireEvent.keyDown(document.querySelector('.dnb-tabs__tabs__tablist'), {
+      key: 'ArrowRight',
+    })
+
+    expect(onFocus).toHaveBeenLastCalledWith(
+      expect.objectContaining({ focusKey: 'fourth' })
     )
   })
 })

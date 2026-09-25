@@ -197,19 +197,19 @@ exports[`Tabs scss > has to match style dependencies css 1`] = `
   font-size: var(--font-size-small);
   transform: translateY(-0.125rem);
 }
-html:not([data-whatintent=touch]) .dnb-tabs__button:hover[disabled], html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button:hover[disabled] {
+html:not([data-whatintent=touch]) .dnb-tabs__button:hover[aria-disabled=true], html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button:hover[aria-disabled=true] {
   cursor: not-allowed;
 }
-html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([disabled]), html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button:hover:not([disabled]) {
+html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([aria-disabled=true]), html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button:hover:not([aria-disabled=true]) {
   --tab-title-background: var(--tab-title-background--hover);
   --tab-title-border: var(--tab-title-border--hover);
   --tab-title-border-height: 2px;
   background-color: var(--tab-button-background--hover);
 }
-html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([disabled]) .dnb-tabs__button__title, html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button:hover:not([disabled]) .dnb-tabs__button__title {
+html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([aria-disabled=true]) .dnb-tabs__button__title, html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button:hover:not([aria-disabled=true]) .dnb-tabs__button__title {
   color: var(--tab-title-color--hover);
 }
-html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([disabled])::after, html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button:hover:not([disabled])::after {
+html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([aria-disabled=true])::after, html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button:hover:not([aria-disabled=true])::after {
   height: 2px;
   border-radius: var(--token-radius-sm);
   background-color: var(--tab-title-border--hover);
@@ -235,10 +235,10 @@ html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([disabled])::after
   width: 100%;
   height: 1px;
 }
-.dnb-tabs__button[disabled], .dnb-core-style .dnb-tabs__button[disabled] {
+.dnb-tabs__button[aria-disabled=true], .dnb-core-style .dnb-tabs__button[aria-disabled=true] {
   background-color: var(--tab-title-background--disabled);
 }
-.dnb-tabs__button[disabled] .dnb-tabs__button__title, .dnb-tabs__button[disabled] .dnb-core-style .dnb-tabs__button__title, .dnb-core-style .dnb-tabs__button[disabled] .dnb-tabs__button__title, .dnb-core-style .dnb-tabs__button[disabled] .dnb-core-style .dnb-tabs__button__title {
+.dnb-tabs__button[aria-disabled=true] .dnb-tabs__button__title, .dnb-tabs__button[aria-disabled=true] .dnb-core-style .dnb-tabs__button__title, .dnb-core-style .dnb-tabs__button[aria-disabled=true] .dnb-tabs__button__title, .dnb-core-style .dnb-tabs__button[aria-disabled=true] .dnb-core-style .dnb-tabs__button__title {
   color: var(--tab-title-color--disabled);
 }
 .dnb-tabs__button span[hidden], .dnb-core-style .dnb-tabs__button span[hidden] {
@@ -247,7 +247,7 @@ html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([disabled])::after
 .dnb-tabs__button, .dnb-core-style .dnb-tabs__button {
   /* stylelint-disable no-descending-specificity */
 }
-.dnb-tabs__button:not([disabled]):active, .dnb-core-style .dnb-tabs__button:not([disabled]):active {
+.dnb-tabs__button:not([aria-disabled=true]):active, .dnb-core-style .dnb-tabs__button:not([aria-disabled=true]):active {
   --tab-title-background: var(
     --token-color-background-action-pressed-subtle
   );
@@ -255,57 +255,57 @@ html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([disabled])::after
   --tab-title-border-height: 2px;
   background-color: var(--tab-button-background--active);
 }
-.dnb-tabs__button:not([disabled]):active::after, .dnb-core-style .dnb-tabs__button:not([disabled]):active::after {
+.dnb-tabs__button:not([aria-disabled=true]):active::after, .dnb-core-style .dnb-tabs__button:not([aria-disabled=true]):active::after {
   height: 2px;
   border-radius: var(--token-radius-sm);
   background-color: var(--tab-title-border--active);
 }
-html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([disabled]):active, html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button:hover:not([disabled]):active {
+html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([aria-disabled=true]):active, html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button:hover:not([aria-disabled=true]):active {
   --tab-title-border: var(--tab-title-border--active);
   background-color: var(--tab-button-background--active);
 }
-html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([disabled]):active::after, html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button:hover:not([disabled]):active::after {
+html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([aria-disabled=true]):active::after, html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button:hover:not([aria-disabled=true]):active::after {
   background-color: var(--tab-title-border--active);
 }
-.dnb-tabs__button:not([disabled]):active .dnb-tabs__button__title, .dnb-tabs__button:not([disabled]):active .dnb-core-style .dnb-tabs__button__title, .dnb-core-style .dnb-tabs__button:not([disabled]):active .dnb-tabs__button__title, .dnb-core-style .dnb-tabs__button:not([disabled]):active .dnb-core-style .dnb-tabs__button__title {
+.dnb-tabs__button:not([aria-disabled=true]):active .dnb-tabs__button__title, .dnb-tabs__button:not([aria-disabled=true]):active .dnb-core-style .dnb-tabs__button__title, .dnb-core-style .dnb-tabs__button:not([aria-disabled=true]):active .dnb-tabs__button__title, .dnb-core-style .dnb-tabs__button:not([aria-disabled=true]):active .dnb-core-style .dnb-tabs__button__title {
   color: var(--tab-title-color--active);
 }
-.dnb-tabs__button:not([disabled]).selected, .dnb-core-style .dnb-tabs__button:not([disabled]).selected {
+.dnb-tabs__button:not([aria-disabled=true]).selected, .dnb-core-style .dnb-tabs__button:not([aria-disabled=true]).selected {
   --tab-title-border: var(--tab-title-border--selected);
   --tab-title-border-height: 2px;
 }
-.dnb-tabs__button:not([disabled]).selected::after, .dnb-core-style .dnb-tabs__button:not([disabled]).selected::after {
+.dnb-tabs__button:not([aria-disabled=true]).selected::after, .dnb-core-style .dnb-tabs__button:not([aria-disabled=true]).selected::after {
   height: 2px;
   border-radius: var(--token-radius-sm);
   background-color: var(--tab-title-border--selected);
 }
-html:not([data-whatintent=touch]) .dnb-tabs__button:not([disabled]).selected:hover[disabled], html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button:not([disabled]).selected:hover[disabled] {
+html:not([data-whatintent=touch]) .dnb-tabs__button:not([aria-disabled=true]).selected:hover[disabled], html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button:not([aria-disabled=true]).selected:hover[disabled] {
   cursor: not-allowed;
 }
-html:not([data-whatintent=touch]) .dnb-tabs__button:not([disabled]).selected:hover:not([disabled]), html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button:not([disabled]).selected:hover:not([disabled]) {
+html:not([data-whatintent=touch]) .dnb-tabs__button:not([aria-disabled=true]).selected:hover:not([disabled]), html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button:not([aria-disabled=true]).selected:hover:not([disabled]) {
   --tab-title-background: var(--tab-title-background--hover);
   --tab-title-border: var(--token-color-stroke-action-hover);
   background-color: var(--tab-button-background--hover);
 }
-html:not([data-whatintent=touch]) .dnb-tabs__button:not([disabled]).selected:hover:not([disabled])::after, html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button:not([disabled]).selected:hover:not([disabled])::after {
+html:not([data-whatintent=touch]) .dnb-tabs__button:not([aria-disabled=true]).selected:hover:not([disabled])::after, html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button:not([aria-disabled=true]).selected:hover:not([disabled])::after {
   background-color: var(--token-color-stroke-action-hover);
   opacity: 0.25;
 }
-html:not([data-whatintent=touch]) .dnb-tabs__button:not([disabled]).selected:hover:not([disabled]):active, html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button:not([disabled]).selected:hover:not([disabled]):active {
+html:not([data-whatintent=touch]) .dnb-tabs__button:not([aria-disabled=true]).selected:hover:not([disabled]):active, html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button:not([aria-disabled=true]).selected:hover:not([disabled]):active {
   --tab-title-background: var(
     --token-color-background-action-pressed-subtle
   );
   --tab-title-border: var(--token-color-stroke-action-pressed);
   background-color: var(--tab-button-background--active);
 }
-html:not([data-whatintent=touch]) .dnb-tabs__button:not([disabled]).selected:hover:not([disabled]):active::after, html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button:not([disabled]).selected:hover:not([disabled]):active::after {
+html:not([data-whatintent=touch]) .dnb-tabs__button:not([aria-disabled=true]).selected:hover:not([disabled]):active::after, html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button:not([aria-disabled=true]).selected:hover:not([disabled]):active::after {
   background-color: var(--token-color-stroke-action-pressed);
 }
-.dnb-tabs__button:not([disabled]).selected .dnb-tabs__button__title, .dnb-tabs__button:not([disabled]).selected .dnb-core-style .dnb-tabs__button__title, .dnb-core-style .dnb-tabs__button:not([disabled]).selected .dnb-tabs__button__title, .dnb-core-style .dnb-tabs__button:not([disabled]).selected .dnb-core-style .dnb-tabs__button__title {
+.dnb-tabs__button:not([aria-disabled=true]).selected .dnb-tabs__button__title, .dnb-tabs__button:not([aria-disabled=true]).selected .dnb-core-style .dnb-tabs__button__title, .dnb-core-style .dnb-tabs__button:not([aria-disabled=true]).selected .dnb-tabs__button__title, .dnb-core-style .dnb-tabs__button:not([aria-disabled=true]).selected .dnb-core-style .dnb-tabs__button__title {
   color: var(--tab-title-color--selected);
   font-weight: var(--tab-title-font-weight--selected);
 }
-.dnb-tabs__button:not([disabled]).selected:active .dnb-tabs__button__title, .dnb-tabs__button:not([disabled]).selected:active .dnb-core-style .dnb-tabs__button__title, .dnb-core-style .dnb-tabs__button:not([disabled]).selected:active .dnb-tabs__button__title, .dnb-core-style .dnb-tabs__button:not([disabled]).selected:active .dnb-core-style .dnb-tabs__button__title {
+.dnb-tabs__button:not([aria-disabled=true]).selected:active .dnb-tabs__button__title, .dnb-tabs__button:not([aria-disabled=true]).selected:active .dnb-core-style .dnb-tabs__button__title, .dnb-core-style .dnb-tabs__button:not([aria-disabled=true]).selected:active .dnb-tabs__button__title, .dnb-core-style .dnb-tabs__button:not([aria-disabled=true]).selected:active .dnb-core-style .dnb-tabs__button__title {
   color: var(--token-color-text-action-pressed);
 }
 .dnb-tabs__button:not(:hover):focus-visible::before, .dnb-core-style .dnb-tabs__button:not(:hover):focus-visible::before {
@@ -330,7 +330,7 @@ html[data-whatinput=keyboard] .dnb-tabs__button:not(:hover):focus-visible::befor
 .dnb-tabs__button:not(:hover):focus-visible, .dnb-core-style .dnb-tabs__button:not(:hover):focus-visible {
   overflow: visible;
 }
-.dnb-tabs__button:not([disabled]):focus-visible .dnb-tabs__button__title, .dnb-tabs__button:not([disabled]).selected:focus-visible .dnb-tabs__button__title, .dnb-tabs__button:not([disabled]):focus-visible .dnb-core-style .dnb-tabs__button__title, .dnb-tabs__button:not([disabled]).selected:focus-visible .dnb-core-style .dnb-tabs__button__title, .dnb-core-style .dnb-tabs__button:not([disabled]):focus-visible .dnb-tabs__button__title, .dnb-core-style .dnb-tabs__button:not([disabled]).selected:focus-visible .dnb-tabs__button__title, .dnb-core-style .dnb-tabs__button:not([disabled]):focus-visible .dnb-core-style .dnb-tabs__button__title, .dnb-core-style .dnb-tabs__button:not([disabled]).selected:focus-visible .dnb-core-style .dnb-tabs__button__title {
+.dnb-tabs__button:not([aria-disabled=true]):focus-visible .dnb-tabs__button__title, .dnb-tabs__button:not([aria-disabled=true]).selected:focus-visible .dnb-tabs__button__title, .dnb-tabs__button:not([aria-disabled=true]):focus-visible .dnb-core-style .dnb-tabs__button__title, .dnb-tabs__button:not([aria-disabled=true]).selected:focus-visible .dnb-core-style .dnb-tabs__button__title, .dnb-core-style .dnb-tabs__button:not([aria-disabled=true]):focus-visible .dnb-tabs__button__title, .dnb-core-style .dnb-tabs__button:not([aria-disabled=true]).selected:focus-visible .dnb-tabs__button__title, .dnb-core-style .dnb-tabs__button:not([aria-disabled=true]):focus-visible .dnb-core-style .dnb-tabs__button__title, .dnb-core-style .dnb-tabs__button:not([aria-disabled=true]).selected:focus-visible .dnb-core-style .dnb-tabs__button__title {
   color: var(--token-color-text-action-focus);
 }
 .dnb-tabs__button__snap {
@@ -371,10 +371,10 @@ html[data-whatinput=keyboard] .dnb-tabs__button:not(:hover):focus-visible::befor
 .dnb-tabs__selection--animated {
   transition: width 300ms var(--easing-default), transform 300ms var(--easing-default), background-color 200ms var(--easing-default);
 }
-.dnb-tabs__tabs__tablist:has(> .dnb-tabs__selection--visible) .dnb-tabs__button:not([disabled]).selected {
+.dnb-tabs__tabs__tablist:has(> .dnb-tabs__selection--visible) .dnb-tabs__button:not([aria-disabled=true]).selected {
   --tab-title-border: transparent;
 }
-.dnb-tabs__tabs__tablist:has(> .dnb-tabs__selection--visible) .dnb-tabs__button:not([disabled]).selected::after {
+.dnb-tabs__tabs__tablist:has(> .dnb-tabs__selection--visible) .dnb-tabs__button:not([aria-disabled=true]).selected::after {
   background-color: transparent;
 }
 .dnb-tabs__button__snap.selected:has(.dnb-tabs__button:active) ~ .dnb-tabs__selection {
@@ -668,19 +668,19 @@ exports[`Tabs scss > have to match default theme snapshot 1`] = `
   font-size: var(--font-size-small);
   transform: translateY(-0.125rem);
 }
-html:not([data-whatintent=touch]) .dnb-tabs__button:hover[disabled], html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button:hover[disabled] {
+html:not([data-whatintent=touch]) .dnb-tabs__button:hover[aria-disabled=true], html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button:hover[aria-disabled=true] {
   cursor: not-allowed;
 }
-html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([disabled]), html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button:hover:not([disabled]) {
+html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([aria-disabled=true]), html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button:hover:not([aria-disabled=true]) {
   --tab-title-background: var(--tab-title-background--hover);
   --tab-title-border: var(--tab-title-border--hover);
   --tab-title-border-height: 2px;
   background-color: var(--tab-button-background--hover);
 }
-html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([disabled]) .dnb-tabs__button__title, html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button:hover:not([disabled]) .dnb-tabs__button__title {
+html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([aria-disabled=true]) .dnb-tabs__button__title, html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button:hover:not([aria-disabled=true]) .dnb-tabs__button__title {
   color: var(--tab-title-color--hover);
 }
-html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([disabled])::after, html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button:hover:not([disabled])::after {
+html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([aria-disabled=true])::after, html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button:hover:not([aria-disabled=true])::after {
   height: 2px;
   border-radius: var(--token-radius-sm);
   background-color: var(--tab-title-border--hover);
@@ -706,10 +706,10 @@ html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([disabled])::after
   width: 100%;
   height: 1px;
 }
-.dnb-tabs__button[disabled], .dnb-core-style .dnb-tabs__button[disabled] {
+.dnb-tabs__button[aria-disabled=true], .dnb-core-style .dnb-tabs__button[aria-disabled=true] {
   background-color: var(--tab-title-background--disabled);
 }
-.dnb-tabs__button[disabled] .dnb-tabs__button__title, .dnb-tabs__button[disabled] .dnb-core-style .dnb-tabs__button__title, .dnb-core-style .dnb-tabs__button[disabled] .dnb-tabs__button__title, .dnb-core-style .dnb-tabs__button[disabled] .dnb-core-style .dnb-tabs__button__title {
+.dnb-tabs__button[aria-disabled=true] .dnb-tabs__button__title, .dnb-tabs__button[aria-disabled=true] .dnb-core-style .dnb-tabs__button__title, .dnb-core-style .dnb-tabs__button[aria-disabled=true] .dnb-tabs__button__title, .dnb-core-style .dnb-tabs__button[aria-disabled=true] .dnb-core-style .dnb-tabs__button__title {
   color: var(--tab-title-color--disabled);
 }
 .dnb-tabs__button span[hidden], .dnb-core-style .dnb-tabs__button span[hidden] {
@@ -718,7 +718,7 @@ html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([disabled])::after
 .dnb-tabs__button, .dnb-core-style .dnb-tabs__button {
   /* stylelint-disable no-descending-specificity */
 }
-.dnb-tabs__button:not([disabled]):active, .dnb-core-style .dnb-tabs__button:not([disabled]):active {
+.dnb-tabs__button:not([aria-disabled=true]):active, .dnb-core-style .dnb-tabs__button:not([aria-disabled=true]):active {
   --tab-title-background: var(
     --token-color-background-action-pressed-subtle
   );
@@ -726,57 +726,57 @@ html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([disabled])::after
   --tab-title-border-height: 2px;
   background-color: var(--tab-button-background--active);
 }
-.dnb-tabs__button:not([disabled]):active::after, .dnb-core-style .dnb-tabs__button:not([disabled]):active::after {
+.dnb-tabs__button:not([aria-disabled=true]):active::after, .dnb-core-style .dnb-tabs__button:not([aria-disabled=true]):active::after {
   height: 2px;
   border-radius: var(--token-radius-sm);
   background-color: var(--tab-title-border--active);
 }
-html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([disabled]):active, html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button:hover:not([disabled]):active {
+html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([aria-disabled=true]):active, html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button:hover:not([aria-disabled=true]):active {
   --tab-title-border: var(--tab-title-border--active);
   background-color: var(--tab-button-background--active);
 }
-html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([disabled]):active::after, html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button:hover:not([disabled]):active::after {
+html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([aria-disabled=true]):active::after, html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button:hover:not([aria-disabled=true]):active::after {
   background-color: var(--tab-title-border--active);
 }
-.dnb-tabs__button:not([disabled]):active .dnb-tabs__button__title, .dnb-tabs__button:not([disabled]):active .dnb-core-style .dnb-tabs__button__title, .dnb-core-style .dnb-tabs__button:not([disabled]):active .dnb-tabs__button__title, .dnb-core-style .dnb-tabs__button:not([disabled]):active .dnb-core-style .dnb-tabs__button__title {
+.dnb-tabs__button:not([aria-disabled=true]):active .dnb-tabs__button__title, .dnb-tabs__button:not([aria-disabled=true]):active .dnb-core-style .dnb-tabs__button__title, .dnb-core-style .dnb-tabs__button:not([aria-disabled=true]):active .dnb-tabs__button__title, .dnb-core-style .dnb-tabs__button:not([aria-disabled=true]):active .dnb-core-style .dnb-tabs__button__title {
   color: var(--tab-title-color--active);
 }
-.dnb-tabs__button:not([disabled]).selected, .dnb-core-style .dnb-tabs__button:not([disabled]).selected {
+.dnb-tabs__button:not([aria-disabled=true]).selected, .dnb-core-style .dnb-tabs__button:not([aria-disabled=true]).selected {
   --tab-title-border: var(--tab-title-border--selected);
   --tab-title-border-height: 2px;
 }
-.dnb-tabs__button:not([disabled]).selected::after, .dnb-core-style .dnb-tabs__button:not([disabled]).selected::after {
+.dnb-tabs__button:not([aria-disabled=true]).selected::after, .dnb-core-style .dnb-tabs__button:not([aria-disabled=true]).selected::after {
   height: 2px;
   border-radius: var(--token-radius-sm);
   background-color: var(--tab-title-border--selected);
 }
-html:not([data-whatintent=touch]) .dnb-tabs__button:not([disabled]).selected:hover[disabled], html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button:not([disabled]).selected:hover[disabled] {
+html:not([data-whatintent=touch]) .dnb-tabs__button:not([aria-disabled=true]).selected:hover[disabled], html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button:not([aria-disabled=true]).selected:hover[disabled] {
   cursor: not-allowed;
 }
-html:not([data-whatintent=touch]) .dnb-tabs__button:not([disabled]).selected:hover:not([disabled]), html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button:not([disabled]).selected:hover:not([disabled]) {
+html:not([data-whatintent=touch]) .dnb-tabs__button:not([aria-disabled=true]).selected:hover:not([disabled]), html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button:not([aria-disabled=true]).selected:hover:not([disabled]) {
   --tab-title-background: var(--tab-title-background--hover);
   --tab-title-border: var(--token-color-stroke-action-hover);
   background-color: var(--tab-button-background--hover);
 }
-html:not([data-whatintent=touch]) .dnb-tabs__button:not([disabled]).selected:hover:not([disabled])::after, html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button:not([disabled]).selected:hover:not([disabled])::after {
+html:not([data-whatintent=touch]) .dnb-tabs__button:not([aria-disabled=true]).selected:hover:not([disabled])::after, html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button:not([aria-disabled=true]).selected:hover:not([disabled])::after {
   background-color: var(--token-color-stroke-action-hover);
   opacity: 0.25;
 }
-html:not([data-whatintent=touch]) .dnb-tabs__button:not([disabled]).selected:hover:not([disabled]):active, html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button:not([disabled]).selected:hover:not([disabled]):active {
+html:not([data-whatintent=touch]) .dnb-tabs__button:not([aria-disabled=true]).selected:hover:not([disabled]):active, html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button:not([aria-disabled=true]).selected:hover:not([disabled]):active {
   --tab-title-background: var(
     --token-color-background-action-pressed-subtle
   );
   --tab-title-border: var(--token-color-stroke-action-pressed);
   background-color: var(--tab-button-background--active);
 }
-html:not([data-whatintent=touch]) .dnb-tabs__button:not([disabled]).selected:hover:not([disabled]):active::after, html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button:not([disabled]).selected:hover:not([disabled]):active::after {
+html:not([data-whatintent=touch]) .dnb-tabs__button:not([aria-disabled=true]).selected:hover:not([disabled]):active::after, html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button:not([aria-disabled=true]).selected:hover:not([disabled]):active::after {
   background-color: var(--token-color-stroke-action-pressed);
 }
-.dnb-tabs__button:not([disabled]).selected .dnb-tabs__button__title, .dnb-tabs__button:not([disabled]).selected .dnb-core-style .dnb-tabs__button__title, .dnb-core-style .dnb-tabs__button:not([disabled]).selected .dnb-tabs__button__title, .dnb-core-style .dnb-tabs__button:not([disabled]).selected .dnb-core-style .dnb-tabs__button__title {
+.dnb-tabs__button:not([aria-disabled=true]).selected .dnb-tabs__button__title, .dnb-tabs__button:not([aria-disabled=true]).selected .dnb-core-style .dnb-tabs__button__title, .dnb-core-style .dnb-tabs__button:not([aria-disabled=true]).selected .dnb-tabs__button__title, .dnb-core-style .dnb-tabs__button:not([aria-disabled=true]).selected .dnb-core-style .dnb-tabs__button__title {
   color: var(--tab-title-color--selected);
   font-weight: var(--tab-title-font-weight--selected);
 }
-.dnb-tabs__button:not([disabled]).selected:active .dnb-tabs__button__title, .dnb-tabs__button:not([disabled]).selected:active .dnb-core-style .dnb-tabs__button__title, .dnb-core-style .dnb-tabs__button:not([disabled]).selected:active .dnb-tabs__button__title, .dnb-core-style .dnb-tabs__button:not([disabled]).selected:active .dnb-core-style .dnb-tabs__button__title {
+.dnb-tabs__button:not([aria-disabled=true]).selected:active .dnb-tabs__button__title, .dnb-tabs__button:not([aria-disabled=true]).selected:active .dnb-core-style .dnb-tabs__button__title, .dnb-core-style .dnb-tabs__button:not([aria-disabled=true]).selected:active .dnb-tabs__button__title, .dnb-core-style .dnb-tabs__button:not([aria-disabled=true]).selected:active .dnb-core-style .dnb-tabs__button__title {
   color: var(--token-color-text-action-pressed);
 }
 .dnb-tabs__button:not(:hover):focus-visible::before, .dnb-core-style .dnb-tabs__button:not(:hover):focus-visible::before {
@@ -801,7 +801,7 @@ html[data-whatinput=keyboard] .dnb-tabs__button:not(:hover):focus-visible::befor
 .dnb-tabs__button:not(:hover):focus-visible, .dnb-core-style .dnb-tabs__button:not(:hover):focus-visible {
   overflow: visible;
 }
-.dnb-tabs__button:not([disabled]):focus-visible .dnb-tabs__button__title, .dnb-tabs__button:not([disabled]).selected:focus-visible .dnb-tabs__button__title, .dnb-tabs__button:not([disabled]):focus-visible .dnb-core-style .dnb-tabs__button__title, .dnb-tabs__button:not([disabled]).selected:focus-visible .dnb-core-style .dnb-tabs__button__title, .dnb-core-style .dnb-tabs__button:not([disabled]):focus-visible .dnb-tabs__button__title, .dnb-core-style .dnb-tabs__button:not([disabled]).selected:focus-visible .dnb-tabs__button__title, .dnb-core-style .dnb-tabs__button:not([disabled]):focus-visible .dnb-core-style .dnb-tabs__button__title, .dnb-core-style .dnb-tabs__button:not([disabled]).selected:focus-visible .dnb-core-style .dnb-tabs__button__title {
+.dnb-tabs__button:not([aria-disabled=true]):focus-visible .dnb-tabs__button__title, .dnb-tabs__button:not([aria-disabled=true]).selected:focus-visible .dnb-tabs__button__title, .dnb-tabs__button:not([aria-disabled=true]):focus-visible .dnb-core-style .dnb-tabs__button__title, .dnb-tabs__button:not([aria-disabled=true]).selected:focus-visible .dnb-core-style .dnb-tabs__button__title, .dnb-core-style .dnb-tabs__button:not([aria-disabled=true]):focus-visible .dnb-tabs__button__title, .dnb-core-style .dnb-tabs__button:not([aria-disabled=true]).selected:focus-visible .dnb-tabs__button__title, .dnb-core-style .dnb-tabs__button:not([aria-disabled=true]):focus-visible .dnb-core-style .dnb-tabs__button__title, .dnb-core-style .dnb-tabs__button:not([aria-disabled=true]).selected:focus-visible .dnb-core-style .dnb-tabs__button__title {
   color: var(--token-color-text-action-focus);
 }
 .dnb-tabs__button__snap {
@@ -842,10 +842,10 @@ html[data-whatinput=keyboard] .dnb-tabs__button:not(:hover):focus-visible::befor
 .dnb-tabs__selection--animated {
   transition: width 300ms var(--easing-default), transform 300ms var(--easing-default), background-color 200ms var(--easing-default);
 }
-.dnb-tabs__tabs__tablist:has(> .dnb-tabs__selection--visible) .dnb-tabs__button:not([disabled]).selected {
+.dnb-tabs__tabs__tablist:has(> .dnb-tabs__selection--visible) .dnb-tabs__button:not([aria-disabled=true]).selected {
   --tab-title-border: transparent;
 }
-.dnb-tabs__tabs__tablist:has(> .dnb-tabs__selection--visible) .dnb-tabs__button:not([disabled]).selected::after {
+.dnb-tabs__tabs__tablist:has(> .dnb-tabs__selection--visible) .dnb-tabs__button:not([aria-disabled=true]).selected::after {
   background-color: transparent;
 }
 .dnb-tabs__button__snap.selected:has(.dnb-tabs__button:active) ~ .dnb-tabs__selection {

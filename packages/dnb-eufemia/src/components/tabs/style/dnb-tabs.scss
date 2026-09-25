@@ -5,6 +5,19 @@
 
 @use '../../../style/core/utilities.scss' as utilities;
 
+// Like `utilities.hover`, but keyed on `aria-disabled`: a disabled tab with a
+// tooltip has no native `disabled` attribute.
+@mixin tab-hover() {
+  html:not([data-whatintent='touch']) &:hover {
+    &[aria-disabled='true'] {
+      cursor: not-allowed;
+    }
+    &:not([aria-disabled='true']) {
+      @content;
+    }
+  }
+}
+
 .dnb-tabs {
   --tablist-border-color--default: var(
     --token-color-stroke-neutral-subtle
@@ -190,7 +203,7 @@
     }
 
     // hover
-    @include utilities.hover() {
+    @include tab-hover() {
       --tab-title-background: var(--tab-title-background--hover);
       --tab-title-border: var(--tab-title-border--hover);
       --tab-title-border-height: 2px;
@@ -227,15 +240,15 @@
     }
 
     // disabled
-    &[disabled] {
+    &[aria-disabled='true'] {
       background-color: var(--tab-title-background--disabled);
     }
-    &[disabled] &__title {
+    &[aria-disabled='true'] &__title {
       color: var(--tab-title-color--disabled);
     }
 
     // To make sure we have the wider width on every item
-    // Have to be same as &:not([disabled]).selected
+    // Have to be same as &:not([aria-disabled='true']).selected
     span[hidden] {
       font-weight: var(--tab-title-font-weight--selected);
     }
@@ -243,7 +256,7 @@
     /* stylelint-disable no-descending-specificity */
 
     // active (pressed)
-    &:not([disabled]):active {
+    &:not([aria-disabled='true']):active {
       --tab-title-background: var(
         --token-color-background-action-pressed-subtle
       );
@@ -259,7 +272,8 @@
       }
     }
 
-    html:not([data-whatintent='touch']) &:hover:not([disabled]):active {
+    html:not([data-whatintent='touch'])
+      &:hover:not([aria-disabled='true']):active {
       --tab-title-border: var(--tab-title-border--active);
 
       background-color: var(--tab-button-background--active);
@@ -269,12 +283,12 @@
       }
     }
 
-    &:not([disabled]):active &__title {
+    &:not([aria-disabled='true']):active &__title {
       color: var(--tab-title-color--active);
     }
 
     // selected
-    &:not([disabled]).selected {
+    &:not([aria-disabled='true']).selected {
       --tab-title-border: var(--tab-title-border--selected);
       --tab-title-border-height: 2px;
 
@@ -310,12 +324,12 @@
       }
     }
 
-    &:not([disabled]).selected &__title {
+    &:not([aria-disabled='true']).selected &__title {
       color: var(--tab-title-color--selected);
       font-weight: var(--tab-title-font-weight--selected);
     }
 
-    &:not([disabled]).selected:active &__title {
+    &:not([aria-disabled='true']).selected:active &__title {
       color: var(--token-color-text-action-pressed);
     }
 
@@ -342,8 +356,8 @@
 
       overflow: visible;
     }
-    &:not([disabled]):focus-visible &__title,
-    &:not([disabled]).selected:focus-visible &__title {
+    &:not([aria-disabled='true']):focus-visible &__title,
+    &:not([aria-disabled='true']).selected:focus-visible &__title {
       color: var(--token-color-text-action-focus);
     }
   }
@@ -398,7 +412,7 @@
   // Keep the button underline as an SSR/no-JS fallback, then hide it once the
   // measured, animated underline is ready.
   &__tabs__tablist:has(> &__selection--visible)
-    &__button:not([disabled]).selected {
+    &__button:not([aria-disabled='true']).selected {
     --tab-title-border: transparent;
 
     &::after {

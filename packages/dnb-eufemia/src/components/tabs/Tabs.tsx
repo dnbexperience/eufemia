@@ -41,6 +41,7 @@ import {
   skeletonDOMAttributes,
 } from '../skeleton/SkeletonHelper'
 import Button from '../button/Button'
+import Tooltip from '../tooltip/Tooltip'
 import useId from '../../shared/helpers/useId'
 import useIsomorphicLayoutEffect from '../../shared/helpers/useIsomorphicLayoutEffect'
 import useUpdateEffect from '../../shared/helpers/useUpdateEffect'
@@ -61,6 +62,7 @@ type TabDataItem = {
   key: string | number
   selected?: boolean
   disabled?: boolean
+  tooltip?: ReactNode
   content?: TabsContent
   [key: string]: unknown
 }
@@ -239,6 +241,15 @@ function TabsComponent(ownProps: TabsProps) {
   const tabsRef = useRef<HTMLDivElement>(null)
   const tablistRef = useRef<HTMLDivElement>(null)
   const selectionRef = useRef<HTMLSpanElement>(null)
+  const tabRefs = useRef(
+    new Map<TabDataItem['key'], { current: HTMLElement }>()
+  )
+  const getTabRef = (key: TabDataItem['key']) => {
+    if (!tabRefs.current.has(key)) {
+      tabRefs.current.set(key, { current: null })
+    }
+    return tabRefs.current.get(key)
+  }
   const cacheRef = useRef<
     Record<string, { content: ReactNode; [key: string]: unknown }>
   >({})
@@ -696,7 +707,7 @@ function TabsComponent(ownProps: TabsProps) {
     const tablist = tablistRef.current
     const selection = selectionRef.current
     const selectedTab = tablist?.querySelector<HTMLElement>(
-      '.dnb-tabs__button.selected:not([disabled])'
+      '.dnb-tabs__button.selected:not([aria-disabled="true"])'
     )
 
     if (!tablist || !selection || !selectedTab) {
@@ -936,7 +947,12 @@ function TabsComponent(ownProps: TabsProps) {
 
   const onClickHandler = (event: SyntheticEvent) => {
     const key = getCurrentKey(event)
-    if (key) {
+    // A disabled tab with a tooltip has no native `disabled`, so it still
+    // receives clicks.
+    const isDisabled = dataRef.current.some(
+      (item) => item.key == key && item.disabled
+    )
+    if (key && !isDisabled) {
       const ret = dispatchCustomElementEvent(
         { props: propsRef.current },
         'onClick',
@@ -1216,7 +1232,7 @@ Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outs
     const TabElement = tabElement || 'button'
 
     const tabs = currentData.map(
-      ({ title, key, disabled = false, to, href }) => {
+      ({ title, key, disabled = false, tooltip, to, href }) => {
         const itemParams: Record<string, unknown> = { to, href }
         const isFocus = currentFocusKey == key
         const isSelected = currentSelectedKey == key
@@ -1226,8 +1242,15 @@ Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outs
         }
 
         if (disabled) {
-          itemParams.disabled = true
+          // Native `disabled` suppresses the hover events a tooltip needs.
+          if (!tooltip) {
+            itemParams.disabled = true
+          }
           itemParams['aria-disabled'] = true
+        }
+
+        if (tooltip) {
+          itemParams.ref = getTabRef(key)
         }
 
         if (TabElement === 'button') {
@@ -1271,6 +1294,14 @@ Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outs
               </span>
               <Dummy>{title as ReactNode}</Dummy>
             </TabElement>
+            {tooltip && (
+              <Tooltip
+                id={`${_id}-tab-${key}-tooltip`}
+                targetElement={getTabRef(key)}
+              >
+                {tooltip}
+              </Tooltip>
+            )}
           </div>
         )
       }
