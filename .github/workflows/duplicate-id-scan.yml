@@ -1,0 +1,76 @@
+name: Duplicate ID Scan
+
+on:
+  schedule:
+    # Every Monday at 06:00 UTC.
+    - cron: '0 6 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: false
+
+env:
+  SCAN_OUT: ${{ github.workspace }}/packages/dnb-design-system-portal/duplicate-ids.json
+
+jobs:
+  duplicate-id-scan:
+    name: Scan portal pages for duplicate ids
+
+    runs-on: ubuntu-latest
+
+    timeout-minutes: 40
+
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+
+      - name: Setup dependencies
+        uses: ./.github/actions/setup
+        with:
+          cache-version: ${{ secrets.CACHE_VERSION }}
+
+      - name: Use Playwright cache
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
+        id: playwright-cache
+        with:
+          path: |
+            ~/Library/Caches/ms-playwright
+            ~/.cache/ms-playwright
+            %USERPROFILE%\AppData\Local\ms-playwright
+          key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-playwright-firefox-${{ hashFiles('**/yarn.lock') }}
+      - name: Install Playwright browsers
+        run: yarn workspace dnb-design-system-portal playwright install --with-deps firefox
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+      - name: Install Playwright dependencies
+        run: yarn workspace dnb-design-system-portal playwright install-deps firefox
+        if: steps.playwright-cache.outputs.cache-hit == 'true'
+
+      - name: Prebuild Library
+        run: yarn workspace @dnb/eufemia prebuild:ci
+
+      - name: Postbuild Library
+        run: yarn workspace @dnb/eufemia postbuild:ci
+
+      - name: Build portal
+        run: yarn workspace dnb-design-system-portal build
+        env:
+          # Public search config embedded into the client bundle at build time.
+          ALGOLIA_APP_ID: ${{ secrets.ALGOLIA_APP_ID }}
+          ALGOLIA_SEARCH_KEY: ${{ secrets.ALGOLIA_SEARCH_KEY }}
+          ALGOLIA_INDEX_NAME: ${{ secrets.ALGOLIA_INDEX_NAME }}
+
+      - name: Scan pages for duplicate ids
+        run: yarn workspace dnb-design-system-portal duplicate-ids:scan:ci
+
+      - name: Publish results to the rolling issue
+        run: yarn workspace dnb-design-system-portal duplicate-ids:publish
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_SHA: ${{ github.sha }}
