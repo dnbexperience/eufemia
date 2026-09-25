@@ -33,6 +33,10 @@ async function readConsoleMessage(message: ConsoleMessage) {
   )
 }
 
+function isHydrationError(message: string) {
+  return message.includes('#418') || message.includes('Hydration failed')
+}
+
 async function markCurrentDocument(page) {
   await page.evaluate(() => {
     ;(
@@ -57,11 +61,7 @@ test('home page hydrates without recoverable errors', async ({ page }) => {
   await page.goto('/')
   await waitForApp(page)
 
-  expect(
-    (await getConsoleErrors()).filter((message) =>
-      message.includes('#418')
-    )
-  ).toEqual([])
+  expect((await getConsoleErrors()).filter(isHydrationError)).toEqual([])
 })
 
 test.describe('Page Navigation', () => {
@@ -223,11 +223,9 @@ test.describe('Page Navigation', () => {
       await page.goto('/uilib/components/button/')
       await waitForApp(page)
 
-      expect(
-        (await getConsoleErrors()).filter((message) =>
-          message.includes('#418')
-        )
-      ).toEqual([])
+      expect((await getConsoleErrors()).filter(isHydrationError)).toEqual(
+        []
+      )
     })
 
     test('home page should show the sidebar menu', async ({ page }) => {

@@ -41,7 +41,7 @@ export function createHomeExtension(): SpecialMdxComponentRenderer {
         ),
       ].join('\n')
 
-      return content.replace(/<Home\b[^>]*\/>/g, markdown)
+      return content.replace(/<Home\b[^>]*\/>/g, () => markdown)
     },
   }
 }
