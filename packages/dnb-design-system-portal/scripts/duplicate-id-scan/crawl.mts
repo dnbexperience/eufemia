@@ -3,7 +3,8 @@
  * element ids. Expects the portal to be built (`public/`) and served (default
  * http://localhost:8002). Writes the result as JSON for the publish step.
  *
- * Env overrides: SCAN_BASE_URL, SCAN_PUBLIC_DIR, SCAN_OUT.
+ * Env overrides: SCAN_BASE_URL, SCAN_PUBLIC_DIR, SCAN_OUT, SCAN_LIMIT (crawl
+ * only the first N routes, for local smoke runs).
  */
 
 import fs from 'node:fs'
@@ -32,13 +33,16 @@ async function main() {
     )
   }
 
+  const limit = Number(process.env.SCAN_LIMIT) || 0
+  const targets = limit > 0 ? routes.slice(0, limit) : routes
+
   const browser = await firefox.launch()
   const page = await browser.newPage()
   const duplicates: Duplicate[] = []
   const failed: string[] = []
 
   try {
-    for (const route of routes) {
+    for (const route of targets) {
       try {
         await page.goto(baseUrl + route, {
           waitUntil: 'load',
@@ -72,13 +76,13 @@ async function main() {
 
   const payload = {
     generatedAt: new Date().toISOString(),
-    routeCount: routes.length,
+    routeCount: targets.length,
     duplicates,
   }
   fs.writeFileSync(outFile, JSON.stringify(payload, null, 2) + '\n')
 
   console.log(
-    `Scanned ${routes.length} route(s); found ${duplicates.length} duplicate id(s)` +
+    `Scanned ${targets.length} route(s); found ${duplicates.length} duplicate id(s)` +
       (failed.length > 0
         ? `; ${failed.length} route(s) failed to load`
         : '') +
