@@ -8,6 +8,7 @@ import {
   H1,
   H2,
   P,
+  Tabs,
 } from '@dnb/eufemia/src'
 
 import {
@@ -204,115 +205,127 @@ function Dashboard({
 
       {meta && <P className="dashboard__meta">{meta}</P>}
 
-      {rows.length > 0 && (
-        <>
-          <Kpis items={kpis} />
+      <Tabs>
+        {rows.length > 0 && (
+          <Tabs.Content title="Page views" key="pages">
+            <Flex.Stack gap="large" top="small">
+              <Kpis items={kpis} />
 
-          <Card stack>
-            <H2 size="medium">Records per day</H2>
-            <BarList items={rank(countBy(rows, 'day'), { sort: 'key' })} />
-          </Card>
+              <Card stack>
+                <H2 size="medium">Records per day</H2>
+                <BarList
+                  items={rank(countBy(rows, 'day'), { sort: 'key' })}
+                />
+              </Card>
 
-          <Card stack>
-            <H2 size="medium">Top pages</H2>
-            <RankedTable
-              caption="Top pages"
-              nameHeader="Page"
-              countHeader="Views"
-              items={rank(countBy(rows, 'label'), {
-                sort: 'desc',
-                limit: 15,
-              })}
-            />
-          </Card>
-        </>
-      )}
+              <Card stack>
+                <H2 size="medium">Top pages</H2>
+                <RankedTable
+                  caption="Top pages"
+                  nameHeader="Page"
+                  countHeader="Views"
+                  items={rank(countBy(rows, 'label'), {
+                    sort: 'desc',
+                    limit: 15,
+                  })}
+                />
+              </Card>
+            </Flex.Stack>
+          </Tabs.Content>
+        )}
 
-      <P className="dashboard__meta">
-        {mcpTotal > 0
-          ? `${mcpTotal.toLocaleString()} MCP requests`
-          : 'No MCP usage yet.'}
-      </P>
+        <Tabs.Content title="MCP usage" key="mcp">
+          <Flex.Stack gap="large" top="small">
+            <P className="dashboard__meta">
+              {mcpTotal > 0
+                ? `${mcpTotal.toLocaleString()} MCP requests`
+                : 'No MCP usage yet.'}
+            </P>
 
-      <Card stack>
-        <H2 size="medium">MCP tools</H2>
-        <RankedTable
-          caption="MCP tools"
-          nameHeader="Tool"
-          countHeader="Requests"
-          items={mcp?.perTool ?? []}
-        />
-      </Card>
+            <Card stack>
+              <H2 size="medium">MCP tools</H2>
+              <RankedTable
+                caption="MCP tools"
+                nameHeader="Tool"
+                countHeader="Requests"
+                items={mcp?.perTool ?? []}
+              />
+            </Card>
 
-      <Card stack>
-        <H2 size="medium">MCP components</H2>
-        <RankedTable
-          caption="MCP components"
-          nameHeader="Component"
-          countHeader="Requests"
-          items={(mcp?.perComponent ?? []).slice(0, 15)}
-        />
-      </Card>
+            <Card stack>
+              <H2 size="medium">MCP components</H2>
+              <RankedTable
+                caption="MCP components"
+                nameHeader="Component"
+                countHeader="Requests"
+                items={(mcp?.perComponent ?? []).slice(0, 15)}
+              />
+            </Card>
 
-      <Card stack>
-        <H2 size="medium">MCP doc paths</H2>
-        <RankedTable
-          caption="MCP doc paths"
-          nameHeader="Path"
-          countHeader="Requests"
-          items={(mcp?.perPath ?? []).slice(0, 15)}
-        />
-      </Card>
+            <Card stack>
+              <H2 size="medium">MCP doc paths</H2>
+              <RankedTable
+                caption="MCP doc paths"
+                nameHeader="Path"
+                countHeader="Requests"
+                items={(mcp?.perPath ?? []).slice(0, 15)}
+              />
+            </Card>
 
-      {(mcp?.perVersion ?? []).length > 0 && (
-        <Card stack>
-          <H2 size="medium">Local MCP — by Eufemia version</H2>
-          <RankedTable
-            caption="Local MCP by Eufemia version"
-            nameHeader="Version"
-            countHeader="Requests"
-            items={(mcp?.perVersion ?? []).slice(0, 15)}
-          />
-        </Card>
-      )}
+            {(mcp?.perVersion ?? []).length > 0 && (
+              <Card stack>
+                <H2 size="medium">Local MCP — by Eufemia version</H2>
+                <RankedTable
+                  caption="Local MCP by Eufemia version"
+                  nameHeader="Version"
+                  countHeader="Requests"
+                  items={(mcp?.perVersion ?? []).slice(0, 15)}
+                />
+              </Card>
+            )}
+          </Flex.Stack>
+        </Tabs.Content>
 
-      {componentTotal > 0 && (
-        <>
-          <P className="dashboard__meta">
-            {`${componentTotal.toLocaleString()} component usages`}
-          </P>
+        {componentTotal > 0 && (
+          <Tabs.Content title="Component usage" key="components">
+            <Flex.Stack gap="large" top="small">
+              <P className="dashboard__meta">
+                {`${componentTotal.toLocaleString()} component usages`}
+              </P>
 
-          <Card stack>
-            <H2 size="medium">Top components</H2>
-            <RankedTable
-              caption="Top components"
-              nameHeader="Component"
-              countHeader="Usages"
-              items={(component?.perComponent ?? []).slice(0, 15)}
-            />
-          </Card>
+              <Card stack>
+                <H2 size="medium">Top components</H2>
+                <RankedTable
+                  caption="Top components"
+                  nameHeader="Component"
+                  countHeader="Usages"
+                  items={(component?.perComponent ?? []).slice(0, 15)}
+                />
+              </Card>
 
-          <Card stack>
-            <H2 size="medium">Components by app</H2>
-            <RankedTable
-              caption="Components by app"
-              nameHeader="App"
-              countHeader="Usages"
-              items={(component?.perApp ?? []).slice(0, 15)}
-            />
-          </Card>
+              <Card stack>
+                <H2 size="medium">Components by app</H2>
+                <RankedTable
+                  caption="Components by app"
+                  nameHeader="App"
+                  countHeader="Usages"
+                  items={(component?.perApp ?? []).slice(0, 15)}
+                />
+              </Card>
 
-          <Card stack>
-            <H2 size="medium">Components by Eufemia version</H2>
-            <RankedTable
-              caption="Components by Eufemia version"
-              nameHeader="Version"
-              countHeader="Usages"
-              items={(component?.perVersion ?? []).slice(0, 15)}
-            />
-          </Card>
-        </>
-      )}
+              <Card stack>
+                <H2 size="medium">Components by Eufemia version</H2>
+                <RankedTable
+                  caption="Components by Eufemia version"
+                  nameHeader="Version"
+                  countHeader="Usages"
+                  items={(component?.perVersion ?? []).slice(0, 15)}
+                />
+              </Card>
+            </Flex.Stack>
+          </Tabs.Content>
+        )}
+      </Tabs>
     </Flex.Stack>
   )
 }

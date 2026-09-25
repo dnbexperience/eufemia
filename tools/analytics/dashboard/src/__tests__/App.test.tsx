@@ -1,4 +1,4 @@
-import { render, waitFor } from '@testing-library/react'
+import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 import App from '../App'
@@ -56,7 +56,7 @@ describe('App (smoke)', () => {
     expect(container.textContent?.trim()).not.toBe('')
   })
 
-  it('renders portal, MCP and component sections when data is present', async () => {
+  it('renders portal, MCP and component sections across tabs when data is present', async () => {
     vi.mocked(loadDashboardData).mockResolvedValue({
       kind: 'data',
       payload: populated,
@@ -64,13 +64,18 @@ describe('App (smoke)', () => {
 
     const { container } = render(<App />)
 
+    // "Page views" is the default-selected tab.
     await waitFor(() =>
       expect(container.textContent).toContain('Top pages')
     )
+    expect(container.querySelectorAll('table').length).toBeGreaterThan(0)
+
+    fireEvent.click(screen.getByRole('tab', { name: 'MCP usage' }))
     expect(container.textContent).toContain('docs_read')
+
+    fireEvent.click(screen.getByRole('tab', { name: 'Component usage' }))
     expect(container.textContent).toContain('Top components')
     expect(container.textContent).toContain('12 component usages')
-    expect(container.querySelectorAll('table').length).toBeGreaterThan(0)
   })
 
   it('renders the local MCP by-version section when perVersion has data', async () => {
@@ -88,9 +93,12 @@ describe('App (smoke)', () => {
     const { container } = render(<App />)
 
     await waitFor(() =>
-      expect(container.textContent).toContain(
-        'Local MCP — by Eufemia version'
-      )
+      expect(container.textContent).toContain('Top pages')
+    )
+    fireEvent.click(screen.getByRole('tab', { name: 'MCP usage' }))
+
+    expect(container.textContent).toContain(
+      'Local MCP — by Eufemia version'
     )
     expect(container.textContent).toContain('10.79.0')
   })
@@ -106,12 +114,14 @@ describe('App (smoke)', () => {
     await waitFor(() =>
       expect(container.textContent).toContain('Top pages')
     )
+    fireEvent.click(screen.getByRole('tab', { name: 'MCP usage' }))
+
     expect(container.textContent).not.toContain(
       'Local MCP — by Eufemia version'
     )
   })
 
-  it('hides the component-usage section when there is no component data', async () => {
+  it('hides the component-usage tab when there is no component data', async () => {
     vi.mocked(loadDashboardData).mockResolvedValue({
       kind: 'data',
       payload: {
@@ -125,7 +135,9 @@ describe('App (smoke)', () => {
     await waitFor(() =>
       expect(container.textContent).toContain('Top pages')
     )
-    expect(container.textContent).not.toContain('Top components')
+    expect(
+      screen.queryByRole('tab', { name: 'Component usage' })
+    ).toBeNull()
     expect(container.textContent).not.toContain('Components by app')
     expect(container.textContent).not.toContain(
       'Components by Eufemia version'
