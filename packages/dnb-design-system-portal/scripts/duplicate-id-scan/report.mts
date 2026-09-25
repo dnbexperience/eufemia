@@ -24,6 +24,26 @@ export type ScanMeta = {
   generatedAt: string
   routeCount: number
   commit?: string
+  failedCount?: number
+}
+
+/** Fraction of routes allowed to fail before a run is treated as unreliable. */
+export const MAX_FAILURE_RATIO = 0.1
+
+/**
+ * Whether a scan covered enough routes to trust its result. A run that scanned
+ * nothing, or where too many pages failed to load, must not be reported as a
+ * clean all-clear.
+ */
+export function isReliableRun(
+  failedCount: number,
+  attempted: number,
+  maxRatio: number = MAX_FAILURE_RATIO
+): boolean {
+  if (attempted === 0) {
+    return false
+  }
+  return failedCount / attempted <= maxRatio
 }
 
 function keyOf(entry: { url: string; id: string }): string {
@@ -160,6 +180,12 @@ export function renderIssueBody(
   }
 
   const sections: string[] = [`_${metaParts.join(' · ')}_`]
+
+  if (meta.failedCount && meta.failedCount > 0) {
+    sections.push(
+      `> ⚠️ ${plural(meta.failedCount, 'page')} failed to load this run — results may be incomplete.`
+    )
+  }
 
   if (current.length === 0) {
     sections.push('✅ No duplicate element ids found.')

@@ -13,6 +13,7 @@ import { fileURLToPath } from 'node:url'
 import { firefox } from '@playwright/test'
 import { discoverRoutes, routeToSlug } from './routes.mts'
 import { findDuplicateIds, type Duplicate } from './detect.mts'
+import { isReliableRun } from './report.mts'
 
 const scriptDir = path.dirname(fileURLToPath(import.meta.url))
 const portalRoot = path.resolve(scriptDir, '../..')
@@ -77,6 +78,8 @@ async function main() {
   const payload = {
     generatedAt: new Date().toISOString(),
     routeCount: targets.length,
+    failedCount: failed.length,
+    failed,
     duplicates,
   }
   fs.writeFileSync(outFile, JSON.stringify(payload, null, 2) + '\n')
@@ -88,6 +91,14 @@ async function main() {
         : '') +
       `. Wrote ${outFile}`
   )
+
+  if (!isReliableRun(failed.length, targets.length)) {
+    console.error(
+      `Too many routes failed to load (${failed.length}/${targets.length}); ` +
+        `treating this run as unreliable so it cannot report a false all-clear.`
+    )
+    process.exitCode = 1
+  }
 }
 
 main().catch((error) => {

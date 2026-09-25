@@ -2,6 +2,7 @@ import { describe, it, expect } from 'vitest'
 import {
   diffDuplicates,
   hasChangesToReport,
+  isReliableRun,
   parseBaselineFromIssue,
   embedBaseline,
   renderIssueBody,
@@ -90,5 +91,30 @@ describe('renderIssueBody', () => {
     expect(body).toContain('No duplicate element ids found')
     expect(body).toContain('no longer found since last run')
     expect(parseBaselineFromIssue(body)).toEqual([])
+  })
+
+  it('warns when pages failed to load', () => {
+    const diff = diffDuplicates([], [])
+    const body = renderIssueBody([], diff, { ...meta, failedCount: 3 })
+
+    expect(body).toContain('3 pages failed to load')
+  })
+})
+
+describe('isReliableRun', () => {
+  it('is false when nothing was scanned', () => {
+    expect(isReliableRun(0, 0)).toBe(false)
+  })
+
+  it('is true when no pages failed', () => {
+    expect(isReliableRun(0, 100)).toBe(true)
+  })
+
+  it('is true when failures are within the tolerated ratio', () => {
+    expect(isReliableRun(10, 100)).toBe(true)
+  })
+
+  it('is false when too many pages failed', () => {
+    expect(isReliableRun(11, 100)).toBe(false)
   })
 })

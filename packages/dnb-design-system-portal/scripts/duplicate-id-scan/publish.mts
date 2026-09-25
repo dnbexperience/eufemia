@@ -32,6 +32,7 @@ const inputFile =
 type ScanFile = {
   generatedAt: string
   routeCount: number
+  failedCount?: number
   duplicates: Duplicate[]
 }
 
@@ -109,6 +110,7 @@ function main() {
     generatedAt: scan.generatedAt,
     routeCount: scan.routeCount,
     commit: process.env.GITHUB_SHA,
+    failedCount: scan.failedCount,
   }
 
   const existing = findExistingIssue()
@@ -144,7 +146,9 @@ function main() {
 
   const isOpen = existing.state.toUpperCase() === 'OPEN'
 
-  if (current.length === 0 && isOpen) {
+  // Only close as clean when every page actually loaded — a run with load
+  // failures must not report a false all-clear.
+  if (current.length === 0 && isOpen && (scan.failedCount ?? 0) === 0) {
     gh([
       'issue',
       'close',
