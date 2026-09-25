@@ -85,31 +85,36 @@ function ListFormat(
           return <Li key={index}>{child}</Li>
         })
       : valueToUse
-  }, [value, children, variant, listType])
+  }, [value, children, variant])
 
-  const result = useMemo(() => {
-    if (variant === 'text') {
-      return listFormat(list, { locale, format })
+  // Only the text formatting is worth memoizing. The list element is rendered
+  // below so that `listType`, `className` and the rest props stay in sync.
+  const formattedText = useMemo(() => {
+    if (variant !== 'text') {
+      return null
     }
+    return listFormat(list, { locale, format })
+  }, [variant, list, locale, format])
 
-    const ListElement = variant.startsWith('ol') ? Ol : Ul
+  if (variant === 'text') {
+    return formattedText
+  }
 
-    return (
-      <ListElement
-        type={listType !== 'unstyled' ? listType : null}
-        className={clsx(
-          'dnb-list-format',
-          listType === 'unstyled' && 'dnb-unstyled-list',
-          className
-        )}
-        {...props}
-      >
-        {list}
-      </ListElement>
-    )
-  }, [format, list, locale])
+  const ListElement = variant.startsWith('ol') ? Ol : Ul
 
-  return result
+  return (
+    <ListElement
+      type={listType !== 'unstyled' ? listType : null}
+      className={clsx(
+        'dnb-list-format',
+        listType === 'unstyled' && 'dnb-unstyled-list',
+        className
+      )}
+      {...props}
+    >
+      {list}
+    </ListElement>
+  )
 }
 
 export function listFormat(

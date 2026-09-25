@@ -354,13 +354,7 @@ function ModalComponent(ownProps: ModalAllProps) {
         waitBeforeOpen()
       }
     },
-    [
-      animationDuration,
-      noAnimation,
-      openDelay,
-      openModal,
-      handleSideEffects,
-    ]
+    [animationDuration, noAnimation, openDelay, openModal]
   )
 
   // Keep the ref in sync
