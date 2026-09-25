@@ -93,6 +93,7 @@
     "test:screenshots:watch": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types ./scripts/tools/vitest/runScreenshotVitest.ts --watch",
     "test:scripts": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types ./scripts/tools/vitest/runVitest.ts --preset=scripts",
     "test:types": "tsc --noEmit --incremental --tsBuildInfoFile tsconfig.tsbuildinfo",
+    "test:types:definitions": "rm -rf ./.definitions-check && tsc -p tsconfig.definitions.json --declarationDir ./.definitions-check --rootDir src && OUT_DIR=./.definitions-check babel-node --extensions .js,.ts,.tsx ./scripts/postbuild/copyTypeScriptFiles.js && tsc -p tsconfig.definitions-check.json",
     "test:types:watch": "tsc --noEmit --watch",
     "test:update": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types ./scripts/tools/vitest/runVitest.ts --update=true",
     "test:watch": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types ./scripts/tools/vitest/runVitest.ts --watch",

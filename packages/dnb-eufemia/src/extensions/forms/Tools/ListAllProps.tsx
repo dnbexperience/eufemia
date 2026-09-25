@@ -16,7 +16,7 @@ export type ListAllPropsProps<Data> = {
   children: ReactNode
 }
 export type GenerateRef<Data extends JsonObject = JsonObject> =
-  ListAllPropsProps<Data>['generateRef']['current']
+  NonNullable<ListAllPropsProps<Data>['generateRef']>['current']
 
 export default function ListAllProps<Data extends JsonObject = JsonObject>(
   props: ListAllPropsProps<Data>
