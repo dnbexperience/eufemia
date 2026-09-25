@@ -76,10 +76,7 @@ test.describe('Responsiveness', () => {
       'none'
     )
     await expect(header).toHaveCSS('position', 'fixed')
-    await expect(header).not.toHaveCSS(
-      'background-color',
-      'rgba(0, 0, 0, 0)'
-    )
+    await expect(header).toHaveCSS('background-color', 'rgba(0, 0, 0, 0)')
     await expect(header).toHaveCSS('border-bottom-width', '0px')
     await expect(sidebarLogo).toBeVisible()
 
@@ -94,6 +91,107 @@ test.describe('Responsiveness', () => {
     await page.evaluate(() => window.scrollTo({ top: 400 }))
     await expect.poll(async () => (await header.boundingBox()).y).toBe(0)
     await expect(sidebar).toHaveCSS('position', 'fixed')
+  })
+
+  test('keeps the compact toggle above the Portal ScrollView', async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1200, height: 500 })
+    await page.goto('/uilib/about-the-lib/living-system')
+    await waitForApp(page)
+
+    const toggle = page.locator(
+      '.dnb-sidebar-menu-responsive-inline__toggle'
+    )
+    const scrollView = page.locator(
+      '.dnb-sidebar-menu-responsive-aside__scroll-view'
+    )
+    const firstAction = page
+      .locator('#portal-sidebar-menu .dnb-sidebar-menu__item__action')
+      .first()
+    const inline = page.locator(
+      '.dnb-sidebar-menu-responsive-inline[data-sidebar-menu-responsive-scope="portal-sidebar-menu"]'
+    )
+    const pageContent = page.locator('#dnb-app-content')
+
+    await scrollView.evaluate((element) => element.scrollTo(0, 0))
+    await expect
+      .poll(() => scrollView.evaluate((element) => element.scrollTop))
+      .toBe(0)
+
+    const toggleBox = await toggle.boundingBox()
+    const firstActionBox = await firstAction.boundingBox()
+    const inlineBox = await inline.boundingBox()
+    const pageContentBox = await pageContent.boundingBox()
+    expect((firstActionBox?.y ?? 0) - (toggleBox?.y ?? 0) - 48).toBe(12)
+    expect(pageContentBox?.x).toBe(
+      (inlineBox?.x ?? 0) + (inlineBox?.width ?? 0)
+    )
+
+    await page.evaluate(() => window.scrollTo(0, 800))
+    await expect.poll(async () => (await toggle.boundingBox())?.y).toBe(8)
+
+    await scrollView.evaluate((element) => {
+      element.scrollTop = 500
+    })
+    await expect
+      .poll(() => scrollView.evaluate((element) => element.scrollTop))
+      .toBeGreaterThan(0)
+    await expect.poll(async () => (await toggle.boundingBox())?.y).toBe(8)
+  })
+
+  test('hides the fixed Portal sidebar after drag dismissal', async ({
+    page,
+  }) => {
+    const sidebar = page.locator('#portal-sidebar-menu')
+    const sidebarSurface = page.locator(
+      '.dnb-sidebar-menu-responsive-inline__content'
+    )
+    const inline = page.locator(
+      '.dnb-sidebar-menu-responsive-inline[data-sidebar-menu-responsive-scope="portal-sidebar-menu"]'
+    )
+    const handle = sidebar.locator('.dnb-sidebar-menu-resize-handle')
+    const trigger = page.locator('#toggle-sidebar-menu')
+    const tools = page
+      .locator('header.sticky-menu')
+      .locator('[class*=toolsStyle]')
+    const toolsRight = await tools.evaluate(
+      (element) => element.getBoundingClientRect().right
+    )
+    const handlePosition = await handle.evaluate((element) => {
+      const rect = element.getBoundingClientRect()
+      return { y: rect.top + rect.height / 2 }
+    })
+
+    await page.mouse.move(383, handlePosition.y)
+    await page.mouse.down()
+    await page.mouse.move(119, handlePosition.y)
+    expect((await inline.boundingBox())?.width).toBeLessThan(240)
+    await page.mouse.up()
+
+    await expect(trigger).toBeVisible()
+    const triggerBox = await trigger.boundingBox()
+    const headerLogoBox = await page
+      .locator('header.sticky-menu')
+      .getByRole('link', { name: 'Go to Eufemia home' })
+      .boundingBox()
+    expect(triggerBox?.x).toBe(32)
+    expect((triggerBox?.x ?? 0) + (triggerBox?.width ?? 0)).toBeLessThan(
+      headerLogoBox?.x ?? 0
+    )
+    expect(
+      await tools.evaluate(
+        (element) => element.getBoundingClientRect().right
+      )
+    ).toBeCloseTo(toolsRight, 1)
+    await expect(sidebar).toHaveCSS('visibility', 'hidden')
+    await expect(sidebarSurface).toHaveCSS(
+      'clip-path',
+      'inset(0px 100% 0px 0px)'
+    )
+
+    await trigger.click()
+    await expect(sidebar).toHaveCSS('visibility', 'visible')
   })
 
   test('shows a hamburger before the logo on small screens', async ({

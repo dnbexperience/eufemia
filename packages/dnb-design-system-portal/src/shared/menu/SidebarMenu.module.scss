@@ -5,7 +5,7 @@
     --aside-width: 24rem;
   }
 
-  @media (hover: hover) and (pointer: fine) and (min-width: 60.00625em) and (max-width: 82em) {
+  @media (min-width: 60.00625em) and (max-width: 82em) {
     :root {
       --aside-width: 4rem;
     }
@@ -39,7 +39,7 @@
   }
 
   [data-sidebar-menu-responsive-provider='portal-sidebar-menu']
-    .dnb-sidebar-menu-responsive-inline:not(
+    .dnb-sidebar-menu-responsive-inline[data-sidebar-menu-responsive-visible='true']:not(
       [data-sidebar-menu-responsive-compact='true']
     )
     > .dnb-sidebar-menu-responsive-inline__content {
@@ -62,6 +62,42 @@
   top: 0;
 
   height: 100vh;
+
+  :global([data-sidebar-menu-responsive-visible='false']) & {
+    visibility: hidden;
+  }
+}
+
+:global(
+  [data-sidebar-menu-responsive-compact='true'][data-sidebar-menu-responsive-scope='portal-sidebar-menu']
+) {
+  z-index: 3202;
+}
+
+:global(
+  html[data-dnb-modal-active]
+    [data-sidebar-menu-responsive-compact='true'][data-sidebar-menu-responsive-scope='portal-sidebar-menu'],
+  html[data-portal-tools-open]
+    [data-sidebar-menu-responsive-compact='true'][data-sidebar-menu-responsive-scope='portal-sidebar-menu']
+) {
+  z-index: 2998;
+}
+
+:global(
+  html[data-dnb-drawer-list-active='portal-search']
+    [data-sidebar-menu-responsive-compact='true'][data-sidebar-menu-responsive-scope='portal-sidebar-menu']
+) {
+  z-index: 3199;
+}
+
+:global(
+  [data-sidebar-menu-responsive-compact='true'][data-sidebar-menu-responsive-scope='portal-sidebar-menu']
+    > .dnb-sidebar-menu-responsive-inline__content
+    > .dnb-sidebar-menu-responsive-inline__toggle-island
+) {
+  position: fixed;
+  z-index: 4;
+  top: 0.5rem;
 }
 
 .mobileDrawerStyle {
@@ -114,4 +150,31 @@
   @include utilities.allBelow(medium) {
     display: none;
   }
+}
+
+@media (min-width: 60.00625em) and (max-width: 82em) {
+  .sidebarLogoStyle {
+    display: none;
+  }
+
+  .scrollContentStyle :global(.dnb-sidebar-menu) {
+    margin-block-start: 0;
+  }
+}
+
+:global(
+    [data-sidebar-menu-responsive-compact='true']
+      .dnb-sidebar-menu-responsive-aside
+  )
+  .sidebarLogoStyle {
+  display: none;
+}
+
+:global(
+    [data-sidebar-menu-responsive-compact='true']
+      .dnb-sidebar-menu-responsive-aside
+  )
+  .scrollContentStyle
+  :global(.dnb-sidebar-menu) {
+  margin-block-start: 0;
 }
