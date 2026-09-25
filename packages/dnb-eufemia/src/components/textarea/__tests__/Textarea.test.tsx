@@ -302,6 +302,28 @@ describe('Textarea component', () => {
     )
   })
 
+  it('preserves the scroll position while auto resizing', async () => {
+    render(<Textarea rows={1} autoResize autoResizeMaxRows={4} />)
+
+    const elem = document.querySelector('textarea')
+    const setScrollTop = vi.fn()
+    const style = { lineHeight: String(1.5 * 16) } as CSSStyleDeclaration
+
+    Object.defineProperty(elem, 'scrollTop', {
+      configurable: true,
+      get: () => 42,
+      set: setScrollTop,
+    })
+    vi.spyOn(window, 'getComputedStyle').mockImplementation(() => style)
+    vi.spyOn(elem, 'scrollHeight', 'get').mockImplementation(
+      () => 1.5 * 2000
+    )
+
+    await userEvent.type(elem, 'a')
+
+    expect(setScrollTop).toHaveBeenCalledWith(42)
+  })
+
   it('supports hiding the resize handle', async () => {
     render(<Textarea rows={1} autoResize hideResizeHandle />)
 
