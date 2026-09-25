@@ -807,7 +807,7 @@ describe('Field.Composition', () => {
 
     const inputs = Array.from(document.querySelectorAll('input'))
     const indicators = Array.from(
-      document.querySelectorAll('.dnb-forms-submit-indicator')
+      document.querySelectorAll('.dnb-forms-submit-indicator-glow__status')
     )
     const firstIndicator = indicators[0]
     const secondIndicator = indicators[1]
@@ -819,37 +819,37 @@ describe('Field.Composition', () => {
 
     await waitFor(() => {
       expect(firstIndicator).toHaveClass(
-        'dnb-forms-submit-indicator--state-pending'
+        'dnb-forms-submit-indicator-glow__status--state-pending'
       )
       expect(secondIndicator).toHaveClass(
-        'dnb-forms-submit-indicator--state-pending'
+        'dnb-forms-submit-indicator-glow__status--state-pending'
       )
       expect(outerIndicator).toHaveClass(
-        'dnb-forms-submit-indicator--state-pending'
+        'dnb-forms-submit-indicator-glow__status--state-pending'
       )
     })
     expect(
       document.querySelectorAll(
-        '.dnb-forms-submit-indicator--state-pending'
+        '.dnb-forms-submit-indicator-glow__status--state-pending'
       )
     ).toHaveLength(3)
     expect(compositionIndicator).not.toHaveClass(
-      'dnb-forms-submit-indicator--state-pending'
+      'dnb-forms-submit-indicator-glow__status--state-pending'
     )
 
     await waitFor(() => {
       expect(firstIndicator).toHaveClass(
-        'dnb-forms-submit-indicator--state-pending'
+        'dnb-forms-submit-indicator-glow__status--state-pending'
       )
       expect(secondIndicator).toHaveClass(
-        'dnb-forms-submit-indicator--state-complete'
+        'dnb-forms-submit-indicator-glow__status--state-complete'
       )
       expect(outerIndicator).toHaveClass(
-        'dnb-forms-submit-indicator--state-pending'
+        'dnb-forms-submit-indicator-glow__status--state-pending'
       )
       expect(
         document.querySelectorAll(
-          '.dnb-forms-submit-indicator--state-pending'
+          '.dnb-forms-submit-indicator-glow__status--state-pending'
         )
       ).toHaveLength(2)
     })
@@ -870,16 +870,18 @@ describe('Field.Composition', () => {
     )
 
     const button = document.querySelector('button')
-    const indicator = button.querySelector('.dnb-forms-submit-indicator')
+    const indicator = button.querySelector(
+      '.dnb-forms-submit-indicator-glow__status'
+    )
 
     expect(indicator).not.toHaveClass(
-      'dnb-forms-submit-indicator--state-pending'
+      'dnb-forms-submit-indicator-glow__status--state-pending'
     )
 
     await userEvent.click(button)
 
     expect(indicator).toHaveClass(
-      'dnb-forms-submit-indicator--state-pending'
+      'dnb-forms-submit-indicator-glow__status--state-pending'
     )
   })
 })
