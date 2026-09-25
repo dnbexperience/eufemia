@@ -1,0 +1,94 @@
+---
+title: 'Asset CDN'
+description: 'Public, versioned URLs for Eufemia fonts, icons, images, flags, browser assets, and company logos.'
+order: 3
+---
+
+# Asset CDN
+
+Eufemia publishes the static files from `@dnb/eufemia/assets` at
+`https://assets.eufemia.dnb.no`. Use the CDN when a consumer needs a public
+file URL. Prefer package imports and Eufemia components when they fit the use
+case, because they provide typed APIs and follow the installed package version.
+
+## Stable and versioned URLs
+
+Choose the URL based on how the asset is consumed:
+
+| URL                                                             | Use                                                                         | Cache contract                                                                  |
+| --------------------------------------------------------------- | --------------------------------------------------------------------------- | ------------------------------------------------------------------------------- |
+| `https://assets.eufemia.dnb.no/v<eufemia-version>/<asset-path>` | Applications, generated CSS, or other reproducible builds                   | Immutable. The contents never change at the same URL.                           |
+| `https://assets.eufemia.dnb.no/<asset-path>`                    | Manually linked assets that should follow the latest stable Eufemia release | Stable alias. It updates on stable releases and is cached for a shorter period. |
+
+For example:
+
+```text
+https://assets.eufemia.dnb.no/v11.14.1/fonts/dnb/DNB-Regular.woff2
+https://assets.eufemia.dnb.no/fonts/dnb/DNB-Regular.woff2
+```
+
+New Eufemia releases publish their complete asset set under the matching
+version. Prereleases receive an immutable version path but do not update the
+stable aliases. Generated Eufemia CSS uses the versioned font path matching the
+package release.
+
+## Available Eufemia assets
+
+The CDN path after the optional version matches the path inside
+`@dnb/eufemia/assets`. Common groups include:
+
+| Asset                       | Example                         |
+| --------------------------- | ------------------------------- |
+| Browser icons and manifests | `browser/dnb/favicon-32x32.png` |
+| Flags                       | `flags/1x1/no.svg`              |
+| Fonts                       | `fonts/dnb/DNB-Regular.woff2`   |
+| Icons                       | `icons/dnb/home.svg`            |
+| Brand images                | `images/dnb/dnb-logo.png`       |
+
+Versioned examples:
+
+```text
+https://assets.eufemia.dnb.no/v11.14.1/icons/dnb/home.svg
+https://assets.eufemia.dnb.no/v11.14.1/flags/1x1/no.svg
+https://assets.eufemia.dnb.no/v11.14.1/images/dnb/dnb-logo.png
+```
+
+The CDN supports cross-origin asset loading. It does not provide directory
+listings, so use the package contents or repository source to discover Eufemia
+asset names.
+
+## Company logos
+
+The standalone `@eufemia/logos` catalogue publishes native PNGs in its own
+namespace. Logo package versions are independent of `@dnb/eufemia` versions.
+
+Start with the short-cached discovery manifest:
+
+```text
+https://assets.eufemia.dnb.no/logos/manifest.json
+```
+
+It points to the current immutable native manifest, for example:
+
+```text
+https://assets.eufemia.dnb.no/logos/v1.6.0/manifest.json
+https://assets.eufemia.dnb.no/logos/v1.6.0/vipps/logo-light-64pt@2x.png
+https://assets.eufemia.dnb.no/logos/v1.6.0/vipps/logo-dark-256pt@3x.png
+https://assets.eufemia.dnb.no/logos/v1.6.0/vipps/avatar-light-64pt@1x.png
+https://assets.eufemia.dnb.no/logos/v1.6.0/vipps/avatar-dark-256pt@3x.png
+```
+
+The Vipps examples show the available dimensions: `logo` and `avatar` variants,
+light and dark themes, 64pt and 256pt sizes, and 1x, 2x, and 3x scales. Use the
+native manifest to find the combinations available for each company. Individual
+company-logo PNGs are versioned only. For React applications, use the
+`@eufemia/logos` package instead of downloading the full catalogue. For DNB
+brand-family logos, use the [Logo component](/uilib/components/logo) or the
+assets published with `@dnb/eufemia`.
+
+## Related documentation
+
+- [Typography and hosted fonts](/uilib/typography/#hosted-fonts-cdn)
+- [Icons](/icons/)
+- [Logo component](/uilib/components/logo/)
+- [Designer logo guidance](/quickguide-designer/logos/)
