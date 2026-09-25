@@ -153,7 +153,7 @@ export const TabsExampleScrollable = () => (
 
 export const TabsExampleDisabledWithTooltip = () => (
   <Wrapper>
-    <ComponentBox>
+    <ComponentBox data-visual-test="tabs-disabled-tooltip">
       <Tabs
         data={[
           { title: 'Overview', key: 'overview' },
