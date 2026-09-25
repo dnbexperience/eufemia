@@ -11,7 +11,7 @@ const jsBundles = [
   { path: 'build/esm/dnb-ui-elements.min.mjs', maxSize: '75kB' },
   { path: 'build/esm/dnb-ui-extensions.min.mjs', maxSize: '400kB' },
   { path: 'build/esm/dnb-ui-lib.min.mjs', maxSize: '250kB' },
-];
+]
 
 const cssBundles = [
   { path: 'build/style/dnb-ui-basis.min.css', maxSize: '5kB' },
@@ -108,9 +108,9 @@ const cssBundles = [
     path: 'build/style/themes/ui/ui-theme-properties.min.css',
     maxSize: '5kB',
   },
-];
+]
 
 module.exports = {
   defaultCompression: 'gzip',
   files: [...jsBundles, ...cssBundles],
-};
+}
