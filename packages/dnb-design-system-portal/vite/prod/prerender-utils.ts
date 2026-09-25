@@ -295,7 +295,8 @@ export function injectHtml(
 
   let html = template.replace(
     '<div id="root"></div>',
-    `<div id="root">${appHtml}</div>\n\t<script>${contentScript};${sidebarPreHydrationScript}</script>`
+    () =>
+      `<div id="root">${appHtml}</div>\n\t<script>${contentScript};${sidebarPreHydrationScript}</script>`
   )
 
   // Inject <link> tags for ALL brand theme CSS chunks.

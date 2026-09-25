@@ -235,6 +235,10 @@
   position: relative;
   z-index: 2;
 
+  &:has([data-sidebar-menu-responsive-compact='true']) {
+    z-index: auto;
+  }
+
   display: flex;
   justify-content: space-between; /* pos Footer at the bottom */
 

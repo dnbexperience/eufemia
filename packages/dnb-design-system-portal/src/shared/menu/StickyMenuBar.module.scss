@@ -44,7 +44,6 @@
   justify-content: center;
 
   white-space: nowrap;
-  background-color: var(--token-color-background-neutral);
 
   :global(.dnb-sidebar-menu-resize-handle--transition-ready) & {
     transition:
@@ -61,8 +60,6 @@
   }
 
   @include utilities.allBelow(medium) {
-    background-color: transparent;
-
     &[data-scrolled='true'] .leadingStyle::before {
       opacity: 1;
       transform: scale(1);
@@ -106,7 +103,7 @@
   /* make sure we are on 64px instead of 65px */
   padding: 0.5rem 2rem;
 
-  &[data-inline-collapsed='true'] {
+  &[data-compact='true'] {
     justify-content: space-between;
   }
 
@@ -121,12 +118,29 @@
   }
 
   align-items: center;
+
+  @media (min-width: 60.00625em) and (max-width: 82em) {
+    justify-content: space-between;
+  }
 }
 
 .leadingStyle {
   display: none;
 
+  &[data-compact='true'],
   &[data-inline-collapsed='true'] {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  &[data-inline-collapsed='true'] {
+    position: fixed;
+    inset-block-start: 0.5rem;
+    inset-inline-start: 2rem;
+  }
+
+  @media (min-width: 60.00625em) and (max-width: 82em) {
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -135,6 +149,7 @@
   @include utilities.allBelow(medium) {
     position: relative;
     isolation: isolate;
+    inset: auto;
 
     display: flex;
     align-items: center;
