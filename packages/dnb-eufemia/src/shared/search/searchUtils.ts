@@ -54,13 +54,10 @@ export function prepareSearchWords(
   let searchWords = rawValue.split(/\s+/g).filter(Boolean)
 
   if (startsWithMatch) {
-    // @ts-expect-error Unicode property escapes are supported at runtime
     const hasLetters = /[\p{L}]/u.test(rawValue)
-    // @ts-expect-error Unicode property escapes are supported at runtime
     const hasNumbers = /[\p{N}]/u.test(rawValue)
 
     if (numbers && hasNumbers && !hasLetters) {
-      // @ts-expect-error Unicode property escapes are supported at runtime
       const normalizedNumeric = rawValue.replace(/[^\p{N}]+/gu, '')
       searchWords = normalizedNumeric ? [normalizedNumeric] : []
     }
@@ -83,8 +80,7 @@ export function prepareSearchWords(
 
   const searchWordsData = searchWords.map((word, wordIndex) => {
     const processedWord = numbers
-      ? // @ts-expect-error Unicode property escapes are supported at runtime
-        word.replace(/[^\p{L}\p{N}]+/gu, '')
+      ? word.replace(/[^\p{L}\p{N}]+/gu, '')
       : escapeRegexChars(word)
     const wordBoundary = getWordBoundary(wordIndex)
 
@@ -202,9 +198,8 @@ export function passesNumericTermsCheck(
     return true
   }
 
-  const allWordsAreNumeric = searchWords.every(
-    // @ts-expect-error Unicode property escapes are supported at runtime
-    (word) => /^[\p{N}\s.,]+$/u.test(word)
+  const allWordsAreNumeric = searchWords.every((word) =>
+    /^[\p{N}\s.,]+$/u.test(word)
   )
 
   const hasMultipleNumericTerms =
