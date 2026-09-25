@@ -176,8 +176,9 @@ export default defineConfig({
   },
 
   css: {
-    // Override postcss.config.js to exclude the font-url-rewrite plugin
-    // which rewrites font URLs to https://eufemia.dnb.no/fonts/ (production only).
+    // Override postcss.config.js to exclude the production-only font URL
+    // rewrite. In release builds it targets the matching assets.eufemia.dnb.no
+    // version.
     // In dev, fonts load from relative paths resolved by Vite.
     postcss: {
       plugins: [
