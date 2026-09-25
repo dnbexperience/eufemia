@@ -72,15 +72,19 @@ It points to the current immutable native manifest, for example:
 
 ```text
 https://assets.eufemia.dnb.no/logos/v1.6.0/manifest.json
-https://assets.eufemia.dnb.no/logos/v1.6.0/aafjord-sparebank/avatar-light-64pt@1x.png
+https://assets.eufemia.dnb.no/logos/v1.6.0/vipps/logo-light-64pt@2x.png
+https://assets.eufemia.dnb.no/logos/v1.6.0/vipps/logo-dark-256pt@3x.png
+https://assets.eufemia.dnb.no/logos/v1.6.0/vipps/avatar-light-64pt@1x.png
+https://assets.eufemia.dnb.no/logos/v1.6.0/vipps/avatar-dark-256pt@3x.png
 ```
 
-The native manifest lists light and dark logo/avatar variants as transparent
-PNGs in 64pt and 256pt sizes at 1x, 2x, and 3x scales. Individual company-logo
-PNGs are versioned only. For React applications, use the `@eufemia/logos`
-package instead of downloading the full catalogue. For DNB brand-family logos,
-use the [Logo component](/uilib/components/logo) or the assets published with
-`@dnb/eufemia`.
+The Vipps examples show the available dimensions: `logo` and `avatar` variants,
+light and dark themes, 64pt and 256pt sizes, and 1x, 2x, and 3x scales. Use the
+native manifest to find the combinations available for each company. Individual
+company-logo PNGs are versioned only. For React applications, use the
+`@eufemia/logos` package instead of downloading the full catalogue. For DNB
+brand-family logos, use the [Logo component](/uilib/components/logo) or the
+assets published with `@dnb/eufemia`.
 
 ## Related documentation
 
