@@ -1,11 +1,20 @@
 import ComponentBox from '../../../../shared/tags/ComponentBox'
+import { useState } from 'react'
+import { H2, P } from '@dnb/eufemia/src'
 import * as SidebarMenu from '@dnb/eufemia/src/extensions/sidebar-menu'
+import type { SidebarMenuItemData } from '@dnb/eufemia/src/extensions/sidebar-menu'
 import '@dnb/eufemia/src/extensions/sidebar-menu/style'
+import styles from './Examples.module.scss'
 import { ScrollView } from '@dnb/eufemia/src/fragments'
 import {
   account,
+  bank,
   card,
   cog,
+  coins_1,
+  file,
+  folder,
+  funds,
   home,
   office_buildings,
   pay_from,
@@ -304,59 +313,168 @@ export function SidebarMenuData() {
   )
 }
 
-export function SidebarMenuResponsiveDrawer() {
+export function SidebarMenuResponsiveNavigation() {
   return (
-    <ComponentBox hideCode>
+    <ComponentBox
+      hideCode
+      scope={{
+        account,
+        bank,
+        card,
+        cog,
+        coins_1,
+        file,
+        folder,
+        funds,
+        H2,
+        home,
+        P,
+        styles,
+      }}
+    >
       {() => {
         const ResponsiveMenu = () => {
-          const items = [
-            { id: 'home', text: 'Home', href: '#home' },
+          const [selectedItem, setSelectedItem] = useState('home')
+          const items: SidebarMenuItemData[] = [
+            { id: 'home', text: 'Home', icon: home, href: '#home' },
             {
               id: 'products',
               text: 'Products',
+              icon: funds,
               items: [
-                { id: 'accounts', text: 'Accounts', href: '#accounts' },
-                { id: 'cards', text: 'Cards', href: '#cards' },
+                {
+                  id: 'accounts',
+                  text: 'Accounts',
+                  icon: account,
+                  href: '#accounts',
+                },
+                {
+                  id: 'cards',
+                  text: 'Payment cards',
+                  icon: card,
+                  href: '#cards',
+                  badge: 'New',
+                  badgeProps: { status: 'positive', subtle: true },
+                },
+                {
+                  id: 'statements',
+                  text: 'Statements',
+                  icon: file,
+                  href: '#statements',
+                },
+                {
+                  id: 'more-products',
+                  text: 'More products',
+                  icon: folder,
+                  items: [
+                    {
+                      id: 'loans',
+                      text: 'Loans',
+                      icon: bank,
+                      href: '#loans',
+                    },
+                    {
+                      id: 'savings',
+                      text: 'Savings',
+                      icon: coins_1,
+                      href: '#savings',
+                      badge: 2,
+                      badgeProps: {
+                        variant: 'notification',
+                        label: 'Notifications:',
+                      },
+                    },
+                  ],
+                },
               ],
             },
+            {
+              id: 'without-icon',
+              text: 'Without icon',
+              href: '#without-icon',
+            },
+            {
+              id: 'settings',
+              text: 'Settings',
+              icon: cog,
+              href: '#settings',
+              dividerBefore: true,
+            },
           ]
+          const itemTitles: Record<string, string> = {
+            home: 'Home',
+            accounts: 'Accounts',
+            cards: 'Payment cards',
+            statements: 'Statements',
+            loans: 'Loans',
+            savings: 'Savings',
+            'without-icon': 'Without icon',
+            settings: 'Settings',
+          }
           const { close } = SidebarMenu.useResponsive()
-          const menuItems = items.map((item) => ({
-            ...item,
-            onClick: item.href ? close : undefined,
-            items: item.items?.map((item) => ({
+          const addCloseHandler = (
+            items: SidebarMenuItemData[]
+          ): SidebarMenuItemData[] =>
+            items.map((item) => ({
               ...item,
-              onClick: close,
-            })),
-          }))
+              onClick: item.href || item.to ? close : item.onClick,
+              items: item.items ? addCloseHandler(item.items) : undefined,
+            }))
+          const menuItems = addCloseHandler(items)
+          const navigationMenu = (
+            <SidebarMenu.Data
+              aria-label="Main navigation"
+              data={menuItems}
+              selectedItem={selectedItem}
+              onSelectedItemChange={setSelectedItem}
+              openItemsStorageKey="sidebar-menu-responsive-example"
+              scrollPositionStorageKey="sidebar-menu-responsive-example-scroll"
+            />
+          )
 
           return (
-            <>
-              <SidebarMenu.ResponsiveTrigger
-                controls="responsive-menu-drawer"
-                text="Menu"
-              />
-              <SidebarMenu.ResponsiveInline>
-                <SidebarMenu.Data
-                  aria-label="Main navigation"
-                  data={menuItems}
+            <SidebarMenu.ResponsiveShell
+              className={styles.responsiveShell}
+              data-sidebar-menu-responsive-example
+            >
+              <SidebarMenu.ResponsiveAside
+                compactWidth="4rem"
+                expandedWidth="19rem"
+                resizable
+                resizeHandleProps={{ minWidth: 240, maxWidth: 480 }}
+              >
+                {navigationMenu}
+              </SidebarMenu.ResponsiveAside>
+
+              <main className={styles.responsiveMain}>
+                <SidebarMenu.ResponsiveTrigger
+                  controls="responsive-menu-drawer"
+                  text="Menu"
+                  bottom="medium"
                 />
-              </SidebarMenu.ResponsiveInline>
+                <H2>{itemTitles[selectedItem]}</H2>
+                <P>
+                  The page content uses the space left by the responsive
+                  navigation. Resize the viewport to see all three modes.
+                </P>
+              </main>
+
               <SidebarMenu.ResponsiveDrawer
                 id="responsive-menu-drawer"
                 dialogTitle="Menu"
               >
-                <SidebarMenu.Data
-                  aria-label="Main navigation"
-                  data={menuItems}
-                />
+                {navigationMenu}
               </SidebarMenu.ResponsiveDrawer>
-            </>
+            </SidebarMenu.ResponsiveShell>
           )
         }
 
         return (
-          <SidebarMenu.ResponsiveProvider breakpoint="medium">
+          <SidebarMenu.ResponsiveProvider
+            drawerAt="medium"
+            compactAt="large"
+            compactOffset="10em"
+          >
             <ResponsiveMenu />
           </SidebarMenu.ResponsiveProvider>
         )

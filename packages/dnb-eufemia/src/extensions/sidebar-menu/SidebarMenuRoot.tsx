@@ -19,7 +19,10 @@ import type {
   SidebarMenuRootProps,
   SidebarMenuSectionProps,
 } from './types'
-import { useOptionalSidebarMenuResponsive } from './SidebarMenuResponsive'
+import {
+  useOptionalSidebarMenuResponsive,
+  useSidebarMenuResponsiveInlineCompact,
+} from './SidebarMenuResponsiveContext'
 
 function SidebarMenuRoot(props: SidebarMenuRootProps) {
   const {
@@ -45,6 +48,7 @@ function SidebarMenuRoot(props: SidebarMenuRootProps) {
   } = props
   const translation = useTranslation().SidebarMenu
   const responsive = useOptionalSidebarMenuResponsive()
+  const responsiveInlineCompact = useSidebarMenuResponsiveInlineCompact()
   const resolvedSectionLabel = sectionLabel ?? translation.sectionLabel
   const menuRef = useRef<HTMLElement>(null)
   const defaultOpenItemsKey = defaultOpenItems.join(',')
@@ -576,6 +580,7 @@ function SidebarMenuRoot(props: SidebarMenuRootProps) {
       className={clsx(
         'dnb-sidebar-menu',
         !animate && 'dnb-sidebar-menu--restoring',
+        responsiveInlineCompact && 'dnb-sidebar-menu--compact',
         className
       )}
       data-open-items-storage-key={persistedOpenItemsStorageKey}
