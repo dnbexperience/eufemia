@@ -582,6 +582,11 @@ type NavItem = {
   currentPathName?: string
 }
 
+/**
+ * Makes sure the number string has 3 digits.
+ */
+const pad = (number: number) => String(number).padStart(3, '0')
+
 const prepareNav = ({
   location,
   allMdx,
@@ -685,11 +690,13 @@ const prepareNav = ({
         .reduce((acc, cur, i) => {
           const mySub = parts.slice(0, i + 1).join('/')
           if (!orderCache[mySub]) {
-            orderCache[mySub] = item.order
-              ? parseFloat(item.order) >= 0
-                ? parseFloat(item.order) + 1000 // push manual ordering to the top
-                : parseFloat(item.order) + 3000 // push negative manual ordering to the bottom
-              : count + 2000
+            const order = parseFloat(item.order)
+
+            orderCache[mySub] = order
+              ? order > 0
+                ? '1' + pad(order) // postitive order come first
+                : '3' + pad(order + 1000) // negative order comes last
+              : '2' + pad(count) // unordered or 0 is in the middle
           }
           acc.push(orderCache[mySub])
           return acc
