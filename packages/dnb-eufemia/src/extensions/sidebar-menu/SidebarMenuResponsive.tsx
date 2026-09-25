@@ -1,5 +1,4 @@
 import {
-  createContext,
   useCallback,
   useContext,
   useEffect,
@@ -8,50 +7,70 @@ import {
   useRef,
   useState,
 } from 'react'
-import type { ReactNode, RefObject } from 'react'
+import type {
+  ComponentPropsWithRef,
+  CSSProperties,
+  ReactNode,
+  RefObject,
+} from 'react'
 import Button from '../../components/button/Button'
 import type { ButtonProps } from '../../components/button/Button'
+import type { IconSVGProps } from '../../components/icon/Icon'
+import Tooltip from '../../components/tooltip/Tooltip'
 import Drawer from '../../components/drawer/Drawer'
 import type { DrawerAllProps } from '../../components/drawer/Drawer'
 import useMediaQuery from '../../shared/useMediaQuery'
 import Context from '../../shared/Context'
 import { defaultBreakpoints } from '../../shared/MediaQueryUtils'
 import type { MediaQuerySizes } from '../../shared/MediaQueryUtils'
-import { hamburger } from '../../icons'
+import { hamburger, sidebar } from '../../icons'
 import { clsx } from 'clsx'
 import useCombinedRef from '../../shared/helpers/useCombinedRef'
 import useIsomorphicLayoutEffect from '../../shared/helpers/useIsomorphicLayoutEffect'
 import useTranslation from '../../shared/useTranslation'
+import {
+  SidebarMenuResponsiveInlineCompactContext,
+  SidebarMenuResponsiveContext,
+  useSidebarMenuResponsiveContext,
+} from './SidebarMenuResponsiveContext'
+import type { SidebarMenuResponsiveContextValue } from './SidebarMenuResponsiveContext'
 
-type SidebarMenuResponsiveContextValue = {
-  close: () => void
-  drawerScrollElement: HTMLElement | null
-  drawerOpeningRef: RefObject<boolean>
-  setDrawerScrollElement: (element: HTMLElement | null) => void
-  isHydrated: boolean
-  inlineCollapsed: boolean
-  isSmallScreen: boolean
-  open: boolean
-  openRef: RefObject<boolean>
-  setOpen: (open: boolean) => void
-  toggle: () => void
-  collapseInline: () => void
-  restoreInline: () => void
-  triggerRef: RefObject<HTMLElement | null>
-  isSmallScreenRef: RefObject<boolean>
-  registerInlineReset: (reset: () => void) => () => void
-  scopeId: string
-}
-
-const ResponsiveContext = createContext<
-  SidebarMenuResponsiveContextValue | undefined
->(undefined)
+const animatedHamburger = (props?: IconSVGProps) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width={16}
+    height={16}
+    fill="none"
+    viewBox="0 0 16 16"
+    {...props}
+  >
+    <path
+      stroke="#000"
+      strokeLinecap="round"
+      strokeWidth={1.5}
+      d="M1 2h14"
+    />
+    <path
+      stroke="#000"
+      strokeLinecap="round"
+      strokeWidth={1.5}
+      d="M1 8h14"
+    />
+    <path
+      stroke="#000"
+      strokeLinecap="round"
+      strokeWidth={1.5}
+      d="M1 14h14"
+    />
+  </svg>
+)
 
 export type SidebarMenuResponsiveValue = Pick<
   SidebarMenuResponsiveContextValue,
   | 'close'
   | 'collapseInline'
   | 'inlineCollapsed'
+  | 'isCompact'
   | 'isSmallScreen'
   | 'open'
   | 'restoreInline'
@@ -61,8 +80,16 @@ export type SidebarMenuResponsiveValue = Pick<
 
 export type SidebarMenuResponsiveProviderProps = {
   children: ReactNode
-  /** Maximum viewport width at which the mobile navigation is used. */
+  /** Stable scope used by generated first-paint CSS. */
+  scopeId?: string
+  /** Maximum viewport width at which the mobile Drawer is used. */
+  drawerAt?: MediaQuerySizes | `${number}em`
+  /** @deprecated Use drawerAt instead. */
   breakpoint?: MediaQuerySizes | `${number}em`
+  /** Maximum available content width at which the inline menu becomes icon-only. */
+  compactAt?: MediaQuerySizes | `${number}em`
+  /** Additional viewport width added to the compactAt threshold. */
+  compactOffset?: `${number}em`
   /** CSP nonce forwarded to custom first-paint breakpoint CSS. */
   styleNonce?: string
   /** Controlled Drawer state. */
@@ -81,7 +108,11 @@ export type SidebarMenuResponsiveProviderProps = {
 
 export function SidebarMenuResponsiveProvider({
   children,
-  breakpoint = 'medium',
+  scopeId: scopeIdProp,
+  drawerAt,
+  breakpoint,
+  compactAt,
+  compactOffset = '0em',
   styleNonce,
   open,
   defaultOpen = false,
@@ -91,19 +122,27 @@ export function SidebarMenuResponsiveProvider({
   onInlineCollapsedChange,
 }: SidebarMenuResponsiveProviderProps) {
   const { breakpoints } = useContext(Context)
-  const configuredBreakpoint =
-    breakpoints?.[breakpoint] ??
-    defaultBreakpoints[breakpoint as MediaQuerySizes] ??
-    breakpoint
-  const resolvedBreakpoint = /^\d+(?:\.\d+)?em$/.test(
-    String(configuredBreakpoint)
+  const resolvedDrawerAt = resolveBreakpoint(
+    drawerAt ?? breakpoint ?? 'medium',
+    breakpoints,
+    defaultBreakpoints.medium ?? '60em'
   )
-    ? String(configuredBreakpoint)
-    : (defaultBreakpoints.medium ?? '60em')
+  const resolvedCompactAt = compactAt
+    ? addEmValues(resolveBreakpoint(compactAt, breakpoints), compactOffset)
+    : undefined
   const isSmallScreen = useMediaQuery({
-    when: { max: resolvedBreakpoint },
+    when: { max: resolvedDrawerAt },
   })
-  const scopeId = `sidebar-menu-${useId().replace(/:/g, '')}`
+  const matchesCompactAt = useMediaQuery({
+    when: { max: resolvedCompactAt ?? '0em' },
+    disabled: !resolvedCompactAt,
+  })
+  const isCompact = Boolean(
+    resolvedCompactAt && matchesCompactAt && !isSmallScreen
+  )
+  const hasCompact = Boolean(resolvedCompactAt)
+  const generatedScopeId = `sidebar-menu-${useId().replace(/:/g, '')}`
+  const scopeId = scopeIdProp ?? generatedScopeId
   const [isHydrated, setHydrated] = useState(false)
   const [internalOpen, setInternalOpen] = useState(defaultOpen)
   const [internalInlineCollapsed, setInternalInlineCollapsed] = useState(
@@ -201,6 +240,8 @@ export function SidebarMenuResponsiveProvider({
       drawerScrollElement,
       drawerOpeningRef,
       isHydrated,
+      isCompact,
+      hasCompact,
       inlineCollapsed: resolvedInlineCollapsed,
       isSmallScreen,
       isSmallScreenRef,
@@ -219,6 +260,8 @@ export function SidebarMenuResponsiveProvider({
       collapseInline,
       drawerScrollElement,
       isHydrated,
+      isCompact,
+      hasCompact,
       resolvedInlineCollapsed,
       isSmallScreen,
       resolvedOpen,
@@ -231,22 +274,34 @@ export function SidebarMenuResponsiveProvider({
     ]
   )
 
-  const firstPaintCss = getFirstPaintCss(scopeId, resolvedBreakpoint)
+  const firstPaintCss = getFirstPaintCss(
+    scopeId,
+    resolvedDrawerAt,
+    resolvedCompactAt
+  )
 
   return (
-    <ResponsiveContext value={value}>
-      {firstPaintCss && <style nonce={styleNonce}>{firstPaintCss}</style>}
-      {children}
-    </ResponsiveContext>
+    <SidebarMenuResponsiveContext value={value}>
+      <div
+        className="dnb-sidebar-menu-responsive-provider"
+        data-sidebar-menu-responsive-provider={scopeId}
+      >
+        {firstPaintCss && (
+          <style nonce={styleNonce}>{firstPaintCss}</style>
+        )}
+        {children}
+      </div>
+    </SidebarMenuResponsiveContext>
   )
 }
 
 export function useSidebarMenuResponsive(): SidebarMenuResponsiveValue {
-  const context = useResponsiveContext()
+  const context = useSidebarMenuResponsiveContext()
   const {
     close,
     collapseInline,
     inlineCollapsed,
+    isCompact,
     isSmallScreen,
     open,
     restoreInline,
@@ -259,6 +314,7 @@ export function useSidebarMenuResponsive(): SidebarMenuResponsiveValue {
       close,
       collapseInline,
       inlineCollapsed,
+      isCompact,
       isSmallScreen,
       open,
       restoreInline,
@@ -269,6 +325,7 @@ export function useSidebarMenuResponsive(): SidebarMenuResponsiveValue {
       close,
       collapseInline,
       inlineCollapsed,
+      isCompact,
       isSmallScreen,
       open,
       restoreInline,
@@ -276,20 +333,6 @@ export function useSidebarMenuResponsive(): SidebarMenuResponsiveValue {
       toggle,
     ]
   )
-}
-
-function useResponsiveContext() {
-  const context = useContext(ResponsiveContext)
-  if (!context) {
-    throw new Error(
-      'SidebarMenu responsive parts must be inside SidebarMenu.ResponsiveProvider'
-    )
-  }
-  return context
-}
-
-export function useOptionalSidebarMenuResponsive() {
-  return useContext(ResponsiveContext)
 }
 
 export type SidebarMenuResponsiveTriggerProps = Omit<
@@ -321,9 +364,11 @@ export function SidebarMenuResponsiveTrigger({
     toggle,
     triggerRef,
     scopeId,
-  } = useResponsiveContext()
+  } = useSidebarMenuResponsiveContext()
   const translation = useTranslation().SidebarMenu
   const combinedRef = useCombinedRef(ref, triggerRef)
+  const resolvedInlineControls =
+    inlineControls ?? `${scopeId}-responsive-aside`
 
   return (
     <Button
@@ -336,17 +381,26 @@ export function SidebarMenuResponsiveTrigger({
       data-sidebar-menu-responsive-visible={
         isHydrated ? String(isSmallScreen || inlineCollapsed) : undefined
       }
+      data-sidebar-menu-responsive-animate-hamburger={
+        isHydrated &&
+        !isSmallScreen &&
+        inlineCollapsed &&
+        (icon === undefined || icon === null)
+          ? true
+          : undefined
+      }
       data-sidebar-menu-responsive-scope={scopeId}
-      icon={icon ?? hamburger}
+      icon={
+        icon ??
+        (!isSmallScreen && inlineCollapsed ? animatedHamburger : hamburger)
+      }
       variant={variant}
       title={
         title ?? (open ? translation.closeMenu : translation.openMenu)
       }
       aria-haspopup={!isHydrated || isSmallScreen ? 'dialog' : undefined}
       aria-controls={
-        !isHydrated || isSmallScreen
-          ? controls
-          : (inlineControls ?? controls)
+        !isHydrated || isSmallScreen ? controls : resolvedInlineControls
       }
       aria-expanded={
         !isHydrated || isSmallScreen ? open : !inlineCollapsed
@@ -365,39 +419,359 @@ export function SidebarMenuResponsiveTrigger({
   )
 }
 
+export type SidebarMenuResponsiveInlineProps = Omit<
+  ComponentPropsWithRef<'div'>,
+  'children'
+> & {
+  children: ReactNode
+  /** Width of the full inline menu. Default: 18rem. */
+  expandedWidth?: CSSProperties['width']
+  /** Width reserved while the inline menu is compact. Minimum and default: 4rem. */
+  compactWidth?: CSSProperties['width']
+}
+
 export function SidebarMenuResponsiveInline({
   children,
-}: {
-  children: ReactNode
-}) {
-  const { inlineCollapsed, isHydrated, isSmallScreen, scopeId } =
-    useResponsiveContext()
+  expandedWidth = '18rem',
+  compactWidth = '4rem',
+  ref,
+  className,
+  style,
+  onClick,
+  onClickCapture,
+  onFocusCapture,
+  onBlurCapture,
+  onKeyDownCapture,
+  onPointerEnter,
+  onPointerLeave,
+  onPointerMove,
+  ...props
+}: SidebarMenuResponsiveInlineProps) {
+  const {
+    hasCompact,
+    inlineCollapsed,
+    isCompact,
+    isHydrated,
+    isSmallScreen,
+    scopeId,
+  } = useSidebarMenuResponsiveContext()
+  const inlineRef = useRef<HTMLDivElement>(null)
+  const combinedRef = useCombinedRef(ref, inlineRef)
+  const [compactExpanded, setCompactExpanded] = useState(false)
+  const [compactDismissed, setCompactDismissed] = useState(false)
+  const [compactHovered, setCompactHovered] = useState(false)
+  const [compactScrolled, setCompactScrolled] = useState(false)
+  const [transitionsReady, setTransitionsReady] = useState(false)
+  const compactHoveredRef = useRef(false)
+  const [tooltipTarget, setTooltipTarget] = useState<HTMLElement>()
+  const [tooltipLabel, setTooltipLabel] = useState('')
+  const compactOpen =
+    compactExpanded || (compactHovered && !compactDismissed)
+  const contentId = `${scopeId}-responsive-inline-content`
+  const translation = useTranslation().SidebarMenu
+
+  useEffect(() => {
+    if (!isHydrated) {
+      return undefined
+    }
+    const frame = requestAnimationFrame(() => setTransitionsReady(true))
+    return () => cancelAnimationFrame(frame)
+  }, [isHydrated])
+
+  useEffect(() => {
+    if (!isCompact) {
+      setCompactExpanded(false)
+      setCompactDismissed(false)
+      setCompactHovered(false)
+      setCompactScrolled(false)
+      setTooltipTarget(undefined)
+    }
+  }, [isCompact])
+
+  useEffect(() => {
+    if (!isCompact) {
+      return undefined
+    }
+
+    const scrollView = inlineRef.current?.querySelector<HTMLElement>(
+      '.dnb-sidebar-menu-responsive-aside__scroll-view'
+    )
+    if (!scrollView) {
+      return undefined
+    }
+
+    const handleScroll = () => setCompactScrolled(scrollView.scrollTop > 0)
+    handleScroll()
+    scrollView.addEventListener('scroll', handleScroll, { passive: true })
+    return () => scrollView.removeEventListener('scroll', handleScroll)
+  }, [isCompact])
+
+  useEffect(() => {
+    if (!compactExpanded) {
+      return undefined
+    }
+
+    const handlePointerDown = (event: PointerEvent) => {
+      if (!inlineRef.current?.contains(event.target as Node)) {
+        setCompactExpanded(false)
+      }
+    }
+    document.addEventListener('pointerdown', handlePointerDown, true)
+    return () =>
+      document.removeEventListener('pointerdown', handlePointerDown, true)
+  }, [compactExpanded])
+
   if (isHydrated && isSmallScreen) {
     return null
   }
 
+  const responsiveChildren = (
+    <SidebarMenuResponsiveInlineCompactContext value={isCompact}>
+      {children}
+    </SidebarMenuResponsiveInlineCompactContext>
+  )
+
   return (
     <div
-      className="dnb-sidebar-menu-responsive-inline"
+      {...props}
+      ref={combinedRef}
+      className={clsx(
+        'dnb-sidebar-menu-responsive-inline',
+        compactOpen && 'dnb-sidebar-menu-responsive-inline--expanded',
+        transitionsReady &&
+          'dnb-sidebar-menu-responsive-inline--transitions-ready',
+        className
+      )}
       data-sidebar-menu-responsive-visible={
         isHydrated ? String(!isSmallScreen && !inlineCollapsed) : undefined
       }
+      data-sidebar-menu-responsive-compact={
+        isHydrated ? String(isCompact) : undefined
+      }
+      data-sidebar-menu-responsive-has-compact={hasCompact || undefined}
+      data-sidebar-menu-responsive-expanded={compactOpen || undefined}
       data-sidebar-menu-responsive-scope={scopeId}
       inert={isHydrated && inlineCollapsed}
       aria-hidden={isHydrated && inlineCollapsed ? 'true' : undefined}
+      onClickCapture={(event) => {
+        onClickCapture?.(event)
+        if (!isCompact || event.defaultPrevented) {
+          return
+        }
+
+        const accordion = (event.target as Element).closest<HTMLElement>(
+          '.dnb-sidebar-menu__accordion__trigger'
+        )
+        const isAccordionLink = accordion?.classList.contains(
+          'dnb-sidebar-menu__accordion__link'
+        )
+        if (accordion && !isAccordionLink && !compactOpen) {
+          if (accordion.getAttribute('aria-expanded') === 'true') {
+            event.preventDefault()
+            event.stopPropagation()
+          }
+          setTooltipTarget(undefined)
+          setCompactExpanded(true)
+          setCompactDismissed(false)
+        }
+      }}
+      onClick={(event) => {
+        onClick?.(event)
+        if (!isCompact) {
+          return
+        }
+
+        const action = (event.target as Element).closest<HTMLElement>(
+          '.dnb-sidebar-menu__item__action'
+        )
+        const isAccordionTrigger = action?.classList.contains(
+          'dnb-sidebar-menu__accordion__trigger'
+        )
+        const isDisabled =
+          action?.matches(':disabled, [aria-disabled="true"]') ?? false
+        if (action && !isAccordionTrigger && !isDisabled) {
+          setTooltipTarget(undefined)
+          setCompactExpanded(false)
+          setCompactDismissed(true)
+        }
+      }}
+      onFocusCapture={(event) => {
+        onFocusCapture?.(event)
+        if (
+          isCompact &&
+          document.documentElement.dataset.whatinput === 'keyboard' &&
+          (event.target as Element).closest(
+            '.dnb-sidebar-menu__item__action'
+          )
+        ) {
+          setCompactExpanded(true)
+          setCompactDismissed(false)
+        }
+      }}
+      onBlurCapture={(event) => {
+        onBlurCapture?.(event)
+        if (!event.currentTarget.contains(event.relatedTarget)) {
+          setCompactExpanded(false)
+        }
+      }}
+      onKeyDownCapture={(event) => {
+        onKeyDownCapture?.(event)
+        if (isCompact && event.key === 'Escape') {
+          setCompactExpanded(false)
+          setCompactDismissed(true)
+        }
+      }}
+      onPointerEnter={(event) => {
+        onPointerEnter?.(event)
+        if (hasCompact && event.pointerType !== 'touch') {
+          compactHoveredRef.current = true
+          setCompactHovered(true)
+        }
+      }}
+      onPointerLeave={(event) => {
+        onPointerLeave?.(event)
+        if (!hasCompact) {
+          return
+        }
+        compactHoveredRef.current = false
+        setCompactHovered(false)
+        setCompactDismissed(false)
+        setTooltipTarget(undefined)
+      }}
+      onPointerMove={(event) => {
+        onPointerMove?.(event)
+        if (!isCompact || compactOpen || event.pointerType === 'touch') {
+          return
+        }
+
+        const action = (event.target as Element).closest<HTMLElement>(
+          '.dnb-sidebar-menu__item__action'
+        )
+        if (action) {
+          if (tooltipTarget !== action) {
+            setTooltipTarget(action)
+            setTooltipLabel(getActionLabel(action))
+          }
+        } else {
+          setTooltipTarget(undefined)
+        }
+      }}
+      style={
+        {
+          ...style,
+          '--sidebar-menu-default-expanded-width':
+            toCssLength(expandedWidth),
+          '--sidebar-menu-compact-width': `max(4rem, ${toCssLength(
+            compactWidth
+          )})`,
+          '--sidebar-menu-opacity': compactOpen ? 1 : 0.55,
+        } as CSSProperties
+      }
     >
-      {children}
+      {hasCompact ? (
+        <div className="dnb-sidebar-menu-responsive-inline__content">
+          <div
+            className="dnb-sidebar-menu-responsive-inline__toggle-island"
+            style={{
+              boxShadow: compactScrolled ? 'var(--shadow-sharp)' : 'none',
+            }}
+          >
+            <Button
+              className="dnb-sidebar-menu-responsive-inline__toggle"
+              icon={sidebar}
+              variant="tertiary"
+              aria-label={
+                compactOpen ? translation.closeMenu : translation.openMenu
+              }
+              tooltip={!compactOpen ? translation.openMenu : undefined}
+              aria-controls={contentId}
+              aria-expanded={compactOpen}
+              onClick={() => {
+                const wasOpen =
+                  compactExpanded ||
+                  (compactHoveredRef.current && !compactDismissed)
+                setTooltipTarget(undefined)
+                setCompactExpanded(!wasOpen)
+                setCompactDismissed(wasOpen)
+              }}
+            />
+          </div>
+          <div
+            id={contentId}
+            className="dnb-sidebar-menu-responsive-inline__body"
+          >
+            {responsiveChildren}
+          </div>
+          {isCompact && tooltipTarget && tooltipLabel && !compactOpen && (
+            <Tooltip
+              open
+              targetElement={tooltipTarget}
+              tooltip={tooltipLabel}
+              placement="right"
+              triggerOffset={8}
+              omitDescribedBy
+            />
+          )}
+        </div>
+      ) : (
+        responsiveChildren
+      )}
     </div>
   )
 }
 
-function getFirstPaintCss(scopeId: string, breakpoint: string) {
-  if (breakpoint === defaultBreakpoints.medium) {
-    return undefined
+function getActionLabel(action: HTMLElement) {
+  const ariaLabel = action.getAttribute('aria-label')
+  if (ariaLabel) {
+    return ariaLabel
   }
 
-  const em = Number.parseFloat(breakpoint)
-  if (!/^\d+(?:\.\d+)?em$/.test(breakpoint) || !Number.isFinite(em)) {
+  const label = action.querySelector<HTMLElement>(
+    '.dnb-sidebar-menu__item__text'
+  )
+  const clone = label?.cloneNode(true) as HTMLElement | undefined
+  clone?.querySelectorAll('.dnb-sr-only').forEach((element) => {
+    element.remove()
+  })
+  return clone?.textContent?.trim() ?? ''
+}
+
+function resolveBreakpoint(
+  value: MediaQuerySizes | `${number}em`,
+  breakpoints?: Record<string, string>,
+  fallback = defaultBreakpoints.large ?? '72em'
+) {
+  const configured =
+    breakpoints?.[value] ??
+    defaultBreakpoints[value as MediaQuerySizes] ??
+    value
+
+  return isEmValue(String(configured)) ? String(configured) : fallback
+}
+
+function toCssLength(value: CSSProperties['width']) {
+  return typeof value === 'number' ? `${value}px` : value
+}
+
+function addEmValues(first: string, second: string) {
+  if (!isEmValue(first) || !isEmValue(second)) {
+    return first
+  }
+
+  return `${Number.parseFloat(first) + Number.parseFloat(second)}em`
+}
+
+function isEmValue(value: string) {
+  return /^\d+(?:\.\d+)?em$/.test(value)
+}
+
+function getFirstPaintCss(
+  scopeId: string,
+  drawerAt: string,
+  compactAt?: string
+) {
+  const em = Number.parseFloat(drawerAt)
+  if (!isEmValue(drawerAt) || !Number.isFinite(em)) {
     return undefined
   }
 
@@ -405,7 +779,33 @@ function getFirstPaintCss(scopeId: string, breakpoint: string) {
   const scope = `[data-sidebar-menu-responsive-scope="${scopeId}"]`
   const unresolved = ':not([data-sidebar-menu-responsive-visible])'
 
-  return `@media (max-width: ${breakpoint}){${scope}.dnb-sidebar-menu-responsive-trigger${unresolved}{display:inline-flex}${scope}.dnb-sidebar-menu-responsive-inline${unresolved}{display:none}}@media (min-width: ${minWidth}){${scope}.dnb-sidebar-menu-responsive-trigger${unresolved}{display:none}${scope}.dnb-sidebar-menu-responsive-inline${unresolved}{display:contents}}`
+  const drawerCss =
+    drawerAt === defaultBreakpoints.medium
+      ? ''
+      : `@media (max-width: ${drawerAt}){${scope}.dnb-sidebar-menu-responsive-trigger${unresolved}{display:inline-flex}${scope}.dnb-sidebar-menu-responsive-inline${unresolved}{display:none}}@media (min-width: ${minWidth}){${scope}.dnb-sidebar-menu-responsive-trigger${unresolved}{display:none}${scope}.dnb-sidebar-menu-responsive-inline${unresolved}{display:contents}}`
+  const compactCss = compactAt
+    ? getCompactFirstPaintCss(scope, minWidth, compactAt)
+    : ''
+
+  return drawerCss + compactCss || undefined
+}
+
+function getCompactFirstPaintCss(
+  scope: string,
+  minWidth: string,
+  compactAt: string
+) {
+  const inline = `${scope}.dnb-sidebar-menu-responsive-inline:not([data-sidebar-menu-responsive-compact])`
+  const content = `${inline}>.dnb-sidebar-menu-responsive-inline__content`
+  const menu = `${content} .dnb-sidebar-menu`
+  const toggle = `${content}>.dnb-sidebar-menu-responsive-inline__toggle-island`
+  const informationBadge = `${menu} .dnb-sidebar-menu__badge:not(:has(.dnb-badge--variant-notification))`
+  const notificationBadge = `${menu} .dnb-badge--variant-notification`
+  const notificationIndicator = `${menu} .dnb-sidebar-menu__accordion__notification-indicator`
+  const textOnlySelected = `${menu} :is(.dnb-sidebar-menu__item--active,.dnb-sidebar-menu__item--selected)>.dnb-sidebar-menu__item__action:not(:has(.dnb-sidebar-menu__item__icon))`
+  const media = `@media (min-width:${minWidth}) and (max-width:${compactAt})`
+
+  return `${media}{${inline}{display:block;width:var(--sidebar-menu-compact-width)}${inline}::after{opacity:1}${content}{clip-path:inset(0 calc(var(--sidebar-menu-expanded-width) - var(--sidebar-menu-compact-width)) 0 0)}${content}:dir(rtl){clip-path:inset(0 0 0 calc(var(--sidebar-menu-expanded-width) - var(--sidebar-menu-compact-width)))}${toggle}{display:inline-flex}${content} .dnb-sidebar-menu-responsive-aside__content{padding:4rem 0 2.5rem}${content} .dnb-sidebar-menu-responsive-aside .dnb-sidebar-menu{width:100%;margin-inline:0}${content} .dnb-sidebar-menu-responsive-aside__resize-handle{display:none}${menu} .dnb-sidebar-menu__item__action{width:2.75rem;margin-inline-start:calc(.375rem + var(--sidebar-menu-compact-offset));padding-inline:.625rem;border-radius:var(--token-radius-full)}${menu} .dnb-sidebar-menu__item__content{flex:0 0 auto}${menu} .dnb-sidebar-menu__item__text{max-width:0;overflow:hidden;white-space:nowrap;opacity:0}${menu} .dnb-sidebar-menu__item__action:not(:has(.dnb-sidebar-menu__item__icon)) .dnb-sidebar-menu__item__text{max-width:2.25rem;opacity:.8;mask-image:linear-gradient(to right,#000 35%,transparent 100%)}${menu} .dnb-sidebar-menu__item__action:not(:has(.dnb-sidebar-menu__item__icon)) .dnb-sidebar-menu__item__text:dir(rtl){mask-image:linear-gradient(to left,#000 35%,transparent 100%)}${textOnlySelected}{box-shadow:none;background-color:transparent;background-image:linear-gradient(to right,var(--sidebar-menu-action-background-color--selected) 0 35%,transparent 100%);border-radius:var(--token-radius-full) 0 0 var(--token-radius-full)}${textOnlySelected}:dir(rtl){background-image:linear-gradient(to left,var(--sidebar-menu-action-background-color--selected) 0 35%,transparent 100%);border-radius:0 var(--token-radius-full) var(--token-radius-full) 0}${menu} .dnb-sidebar-menu__accordion .dnb-sidebar-menu__list .dnb-sidebar-menu__item__action:not([aria-current]){opacity:var(--sidebar-menu-opacity)}${menu} .dnb-sidebar-menu__accordion__indicator{margin-inline-start:0}${menu} .dnb-sidebar-menu__accordion__expand-icon{width:0;overflow:hidden;opacity:0}${informationBadge}{display:none}${notificationBadge}{position:absolute;inset-block-start:-.25rem;inset-inline-end:-.375rem}${notificationIndicator}{position:absolute;inset-block-start:50%;inset-inline:auto -.125rem;transform:translateY(-50%)}${menu} .dnb-sidebar-menu__group__title,${menu} .dnb-sidebar-menu__header,${menu} .dnb-sidebar-menu__section-text{max-height:0;padding-block:0;overflow:hidden;opacity:0}${menu} .dnb-sidebar-menu__divider{width:2.5rem;margin:1rem 0 1rem calc(.5rem + var(--sidebar-menu-compact-offset))}}`
 }
 
 export type SidebarMenuResponsiveDrawerProps = Omit<
@@ -420,8 +820,8 @@ export function SidebarMenuResponsiveDrawer({
   dialogTitle,
   containerPlacement = 'left',
   fullscreen = false,
-  minWidth = 'min(80vw, 24rem)',
-  maxWidth = 'min(80vw, 24rem)',
+  minWidth = 'min(90vw, 24rem)',
+  maxWidth = 'min(90vw, 24rem)',
   spacing = false,
   scrollbarGutter = 'stable',
   scrollRef,
@@ -439,7 +839,7 @@ export function SidebarMenuResponsiveDrawer({
     open,
     setDrawerScrollElement,
     triggerRef,
-  } = useResponsiveContext()
+  } = useSidebarMenuResponsiveContext()
   const combinedScrollRef = useMemo<RefObject<HTMLElement>>(() => {
     let current: HTMLElement | null = null
 

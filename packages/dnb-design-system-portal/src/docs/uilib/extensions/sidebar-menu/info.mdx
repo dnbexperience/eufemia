@@ -45,6 +45,8 @@ Accordion groups support deep nesting, but keep the hierarchy as shallow as poss
 
 Menu point rows have a minimum height of 44px. Top-level rows have 16px between them, while nested rows have 8px. The first accordion level is indented by 48px and each deeper accordion level adds 16px.
 
+Menu labels wrap at normal word boundaries. Browsers may automatically hyphenate long words when the document or nearest ancestor declares the correct `lang`. Unbroken identifiers and URLs are not split character by character; use readable labels or add explicit break opportunities when those values must appear in navigation.
+
 Set `dividerBefore: true` on a data item to render a separator, or place `SidebarMenu.Divider` between declarative items. Set `openOnFind={false}` on Root or Data when collapsed content should not use `hidden="until-found"`.
 
 When an accordion also represents a page, provide `href` or `to`. The accordion becomes a navigation link that also controls expansion.
@@ -145,141 +147,63 @@ const sidebarRef = useRef<HTMLElement>(null)
 
 Use the responsive compound parts when the same navigation should be inline on larger screens and available through a hamburger-triggered Drawer on smaller screens:
 
-- `ResponsiveProvider` owns the breakpoint and Drawer state.
+- `ResponsiveProvider` owns the responsive thresholds and Drawer state.
 - `ResponsiveProvider` can also own a collapsible desktop inline state.
-- `ResponsiveTrigger` renders a hamburger button below the breakpoint or while the desktop inline navigation is collapsed. On desktop it restores the inline navigation instead of opening a Drawer.
-- `ResponsiveInline` renders its children only above the breakpoint.
-- `ResponsiveDrawer` renders a left-side Drawer only below the breakpoint. Its close button is placed on the left.
+- `ResponsiveTrigger` renders a hamburger button at or below `drawerAt`, or while the desktop inline navigation is collapsed. On desktop it restores the inline navigation instead of opening a Drawer.
+- When the built-in hamburger appears after desktop dismissal, its bars animate in sequentially. Custom trigger icons are not animated.
+- `ResponsiveInline` renders its children above `drawerAt`. Between `drawerAt` and the optional `compactAt` threshold, its SidebarMenu becomes a narrow icon rail that expands over adjacent content on hover, keyboard focus, or with its toggle button.
+- `ResponsiveAside` combines `ResponsiveInline`, the sidebar surface, `ScrollView`, spacing, and optional `ResizeHandle` into a ready-to-use navigation sidebar.
+- `ResponsiveShell` provides the responsive two-column application layout for `ResponsiveAside` and page content, then switches to one column below `drawerAt`.
+- `ResponsiveDrawer` renders a left-side Drawer at or below `drawerAt`. Its close button is placed on the left.
 - `useResponsive().close()` closes the Drawer after mobile navigation.
 
 The trigger and Drawer do not need to be siblings. Place both under the same provider, for example with the trigger in an application header and the Drawer beside the desktop navigation.
 
-The default `medium` breakpoint uses the bundled responsive CSS. A custom Eufemia breakpoint name or explicit `em` value adds scoped first-paint CSS, so server-rendered visibility uses the same breakpoint before and after hydration. Pass `styleNonce` when your content security policy requires a nonce for inline styles.
+`drawerAt` defaults to `medium`. A custom Eufemia breakpoint name, explicit `em` value, or `compactAt` adds scoped first-paint CSS, so server-rendered visibility uses the same breakpoint before and after hydration. Pass `styleNonce` when your content security policy requires a nonce for inline styles.
+
+Set `compactAt` when the inline menu should reduce to an icon rail before it becomes a Drawer. `compactAt` controls when the sidebar enters compact mode. `compactWidth` controls how wide the sidebar is in that mode. `compactOffset` adds an additional viewport width to the threshold, so `compactAt="large" compactOffset="10em"` becomes compact at `82em`. Set `expandedWidth` and `compactWidth` on `ResponsiveAside`; it reserves only the compact width and expands the full menu over adjacent content on hover, keyboard focus, or when its toggle button is activated. In compact mode, every interactive menu row must have an icon whenever a suitable icon exists. Text-only rows remain supported when an icon would not add meaningful value. Use `ResponsiveInline` directly only when the application needs to build a different sidebar surface.
 
 Use `inlineCollapsed` with `onInlineCollapsedChange` when application state controls desktop dismissal, or `defaultInlineCollapsed` for an uncontrolled initial state. `useResponsive()` exposes `inlineCollapsed`, `collapseInline()`, and `restoreInline()` to compound children.
 
 ### Dismissible desktop navigation
 
-Combine `ResizeHandle`, the responsive parts, and one shared width property to let people temporarily dismiss a desktop sidebar:
+`ResponsiveAside` provides the complete inline sidebar surface, scrolling, spacing, optional resizing, drag-to-dismiss behavior, and hamburger restoration:
 
 ```tsx
-function Navigation() {
-  const sidebarRef = useRef<HTMLElement>(null)
-  const { collapseInline } = SidebarMenu.useResponsive()
-
-  return (
-    <>
-      <header className="header">
-        <span className="header-leading">
-          <SidebarMenu.ResponsiveTrigger
-            controls="mobile-navigation"
-            inlineControls="desktop-navigation"
-          />
-          <a href="/">Brand</a>
-        </span>
-      </header>
-      <SidebarMenu.ResponsiveInline>
-        <aside
-          id="desktop-navigation"
-          ref={sidebarRef}
-          className="sidebar"
-        >
-          <SidebarMenu.Root aria-label="Main navigation" />
-          <SidebarMenu.ResizeHandle
-            targetRef={sidebarRef}
-            scopeSelector=".layout"
-            cssProperty="--sidebar-restored-width"
-            onCollapse={collapseInline}
-            aria-controls="desktop-navigation"
-          />
-        </aside>
-      </SidebarMenu.ResponsiveInline>
-      <SidebarMenu.ResponsiveDrawer id="mobile-navigation">
-        <SidebarMenu.Root aria-label="Main navigation" />
-      </SidebarMenu.ResponsiveDrawer>
-    </>
-  )
-}
-
 function AppNavigation() {
-  const layoutRef = useRef<HTMLDivElement>(null)
-
   return (
-    <div ref={layoutRef} className="layout">
-      <SidebarMenu.ResponsiveProvider
-        onInlineCollapsedChange={(collapsed) => {
-          layoutRef.current?.toggleAttribute(
-            'data-sidebar-collapsed',
-            collapsed
-          )
-        }}
-      >
-        <Navigation />
-      </SidebarMenu.ResponsiveProvider>
-      <main className="content">Page content</main>
-    </div>
+    <SidebarMenu.ResponsiveProvider
+      drawerAt="medium"
+      compactAt="large"
+      compactOffset="10em"
+    >
+      <SidebarMenu.ResponsiveShell>
+        <SidebarMenu.ResponsiveAside
+          expandedWidth="18rem"
+          compactWidth="4rem"
+          resizable
+        >
+          <SidebarMenu.Data aria-label="Main navigation" data={items} />
+        </SidebarMenu.ResponsiveAside>
+
+        <div className="page">
+          <header>
+            <SidebarMenu.ResponsiveTrigger controls="mobile-navigation" />
+            <a href="/">Brand</a>
+          </header>
+          <main>Page content</main>
+        </div>
+
+        <SidebarMenu.ResponsiveDrawer id="mobile-navigation">
+          <SidebarMenu.Data aria-label="Main navigation" data={items} />
+        </SidebarMenu.ResponsiveDrawer>
+      </SidebarMenu.ResponsiveShell>
+    </SidebarMenu.ResponsiveProvider>
   )
 }
 ```
 
-```css
-.layout {
-  --sidebar-restored-width: 20rem;
-  --sidebar-width: var(--sidebar-restored-width);
-}
-
-.layout[data-sidebar-collapsed] {
-  --sidebar-width: 0px;
-}
-
-.sidebar {
-  width: var(--sidebar-width);
-}
-
-.layout.dnb-sidebar-menu-resize-handle--transition-ready .sidebar {
-  transition: width 300ms var(--easing-default);
-}
-
-.content {
-  margin-inline-start: var(--sidebar-width);
-}
-
-.layout.dnb-sidebar-menu-resize-handle--transition-ready .content {
-  transition: margin-inline-start 300ms var(--easing-default);
-}
-
-.header {
-  inset-inline-start: var(--sidebar-width);
-  width: calc(100% - var(--sidebar-width));
-}
-
-.layout.dnb-sidebar-menu-resize-handle--transition-ready .header {
-  transition:
-    inset-inline-start 300ms var(--easing-default),
-    width 300ms var(--easing-default);
-}
-
-.header-leading {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.layout.dnb-sidebar-menu-resize-handle--dragging
-  :is(.sidebar, .content, .header) {
-  transition: none;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .sidebar,
-  .content,
-  .header {
-    transition: none;
-  }
-}
-```
-
-The desktop trigger controls the hidden inline navigation and restores it at the CSS default width, like Enter or double-click on `ResizeHandle`, after which the handle can resize it again. This recipe fixes the sidebar to the viewport, clips horizontal overflow while preserving vertical scrolling, and reserves the same width beside it for page content. The sidebar must own clipping because `ResponsiveInline` uses `display: contents` to preserve the consumer's layout; `inert` and `aria-hidden` prevent interaction but do not hide painted overflow. Keep the trigger and brand together at the start of the header so they replace the dismissed sidebar's leading content. Below the responsive breakpoint, the same trigger controls the Drawer instead. A desktop-dismissed state can remain while crossing the breakpoint; returning to desktop shows the restore trigger again. The inline tree stays mounted but inert and `aria-hidden` while dismissed so the width can animate without leaving hidden navigation interactive.
+The desktop trigger restores a dismissed sidebar at `expandedWidth`. Enter or double-click on the resize divider also restores that width. While dragging below `ResizeHandle`'s `minWidth`, the content keeps that minimum width and ScrollView provides horizontal overflow instead of rewrapping menu labels. Keep the trigger and brand together at the start of the header so they replace the dismissed sidebar's leading content. Below `drawerAt`, the same trigger controls the Drawer instead.
 
 ## Relevant links
 
