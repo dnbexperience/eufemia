@@ -4,7 +4,7 @@
  * http://localhost:8002). Writes the result as JSON for the publish step.
  *
  * Env overrides: SCAN_BASE_URL, SCAN_PUBLIC_DIR, SCAN_OUT, SCAN_LIMIT (crawl
- * only the first N routes, for local smoke runs).
+ * only the first N routes, for local smoke runs; ignored in CI).
  */
 
 import fs from 'node:fs'
@@ -34,7 +34,9 @@ async function main() {
     )
   }
 
-  const limit = Number(process.env.SCAN_LIMIT) || 0
+  // SCAN_LIMIT is a local smoke aid; ignore it in CI so a real run can never
+  // publish a truncated baseline.
+  const limit = process.env.CI ? 0 : Number(process.env.SCAN_LIMIT) || 0
   const targets = limit > 0 ? routes.slice(0, limit) : routes
 
   const browser = await firefox.launch()

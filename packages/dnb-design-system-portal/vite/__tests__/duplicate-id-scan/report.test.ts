@@ -3,6 +3,7 @@ import {
   diffDuplicates,
   hasChangesToReport,
   isReliableRun,
+  mergeBaseline,
   parseBaselineFromIssue,
   embedBaseline,
   renderIssueBody,
@@ -118,5 +119,36 @@ describe('isReliableRun', () => {
 
   it('is false when too many pages failed', () => {
     expect(isReliableRun(11, 100)).toBe(false)
+  })
+})
+
+describe('mergeBaseline', () => {
+  it('is just the current scan when nothing failed', () => {
+    const current: Duplicate[] = [{ url: 'a', id: 'x', count: 2 }]
+    const previous: Duplicate[] = [{ url: 'b', id: 'y', count: 2 }]
+
+    expect(mergeBaseline(current, previous, new Set())).toEqual(current)
+  })
+
+  it('carries forward previous entries for pages that failed to load', () => {
+    const current: Duplicate[] = [{ url: 'b', id: 'y', count: 2 }]
+    const previous: Duplicate[] = [
+      { url: 'a', id: 'x', count: 3 },
+      { url: 'b', id: 'y', count: 2 },
+    ]
+
+    expect(mergeBaseline(current, previous, new Set(['a']))).toEqual([
+      { url: 'a', id: 'x', count: 3 },
+      { url: 'b', id: 'y', count: 2 },
+    ])
+  })
+
+  it('does not duplicate an entry already found this run', () => {
+    const current: Duplicate[] = [{ url: 'a', id: 'x', count: 2 }]
+    const previous: Duplicate[] = [{ url: 'a', id: 'x', count: 2 }]
+
+    expect(mergeBaseline(current, previous, new Set(['a']))).toEqual(
+      current
+    )
   })
 })

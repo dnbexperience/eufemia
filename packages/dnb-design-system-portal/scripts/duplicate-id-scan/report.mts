@@ -98,6 +98,25 @@ export function hasChangesToReport(diff: DuplicateDiff): boolean {
   return diff.added.length > 0 || diff.changed.length > 0
 }
 
+/**
+ * Baseline to persist for the next run: everything found this run, plus the
+ * previous entries for pages that failed to load. Carrying failed pages forward
+ * stops a transient load failure from dropping a duplicate and then resurfacing
+ * it as "new" on the following run.
+ */
+export function mergeBaseline(
+  current: readonly Duplicate[],
+  previous: readonly Duplicate[],
+  failedUrls: ReadonlySet<string>
+): Duplicate[] {
+  const carriedForward = previous.filter(
+    (entry) =>
+      failedUrls.has(entry.url) &&
+      !current.some((found) => keyOf(found) === keyOf(entry))
+  )
+  return sortDuplicates([...current, ...carriedForward])
+}
+
 function plural(count: number, singular: string): string {
   return `${count} ${count === 1 ? singular : `${singular}s`}`
 }
@@ -169,7 +188,8 @@ export function parseBaselineFromIssue(
 export function renderIssueBody(
   current: readonly Duplicate[],
   diff: DuplicateDiff,
-  meta: ScanMeta
+  meta: ScanMeta,
+  baseline: readonly Duplicate[] = current
 ): string {
   const metaParts = [
     `Last scan: ${meta.generatedAt}`,
@@ -225,7 +245,7 @@ export function renderIssueBody(
     )
   }
 
-  sections.push(embedBaseline(current))
+  sections.push(embedBaseline(baseline))
 
   return sections.join('\n\n') + '\n'
 }

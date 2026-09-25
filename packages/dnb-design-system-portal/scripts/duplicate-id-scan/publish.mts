@@ -14,11 +14,13 @@ import os from 'node:os'
 import path from 'node:path'
 import { execFileSync } from 'node:child_process'
 import { type Duplicate } from './detect.mts'
+import { routeToSlug } from './routes.mts'
 import {
   ISSUE_LABEL,
   ISSUE_TITLE,
   diffDuplicates,
   hasChangesToReport,
+  mergeBaseline,
   parseBaselineFromIssue,
   renderIssueBody,
   type DuplicateDiff,
@@ -33,6 +35,7 @@ type ScanFile = {
   generatedAt: string
   routeCount: number
   failedCount?: number
+  failed?: string[]
   duplicates: Duplicate[]
 }
 
@@ -116,7 +119,9 @@ function main() {
   const existing = findExistingIssue()
   const previous = parseBaselineFromIssue(existing?.body)
   const diff = diffDuplicates(previous, current)
-  const body = renderIssueBody(current, diff, meta)
+  const failedUrls = new Set((scan.failed ?? []).map(routeToSlug))
+  const baseline = mergeBaseline(current, previous, failedUrls)
+  const body = renderIssueBody(current, diff, meta, baseline)
 
   if (!existing) {
     if (current.length === 0) {
