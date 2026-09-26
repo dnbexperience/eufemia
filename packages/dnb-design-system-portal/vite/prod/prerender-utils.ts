@@ -281,10 +281,6 @@ export function injectHtml(
   // before the browser paints — preventing a dark-mode FOUC.
   const contentScript = getContentScript()
 
-  // Restore sidebar scroll position before first paint so the menu
-  // doesn't flash at the top before jumping to the saved position.
-  const scrollRestoreScript = `(function(){try{var el=document.getElementById('portal-sidebar-menu');if(el){var s=parseFloat(sessionStorage.getItem('scroll-#portal-sidebar-menu')||'0');if(s){el.style.scrollBehavior='auto';el.scrollTop=s;el.style.scrollBehavior=''}}}catch(e){}})()`
-
   const persistedNavigationScript =
     /data-(?:inline-collapsed|open-items|scroll-position|table-of-content-expanded)-storage-key=/.test(
       appHtml
@@ -295,7 +291,7 @@ export function injectHtml(
   let html = template.replace(
     '<div id="root"></div>',
     () =>
-      `<div id="root">${appHtml}</div>\n\t<script>${contentScript};${scrollRestoreScript};${persistedNavigationScript}</script>`
+      `<div id="root">${appHtml}</div>\n\t<script>${contentScript};${persistedNavigationScript}</script>`
   )
 
   // Inject <link> tags for ALL brand theme CSS chunks.

@@ -1,6 +1,68 @@
 import { test, expect } from '@playwright/test'
+import type { ConsoleMessage, Page } from '@playwright/test'
 import isDev from './shared/isDev'
 import waitForApp from './shared/waitForApp'
+
+function captureConsoleErrors(page: Page) {
+  const errors: Array<Promise<string[]>> = []
+  page.on('console', (message) => {
+    if (message.type() === 'error') {
+      errors.push(readConsoleMessage(message))
+    }
+  })
+
+  return async () => (await Promise.all(errors)).flat()
+}
+
+async function readConsoleMessage(message: ConsoleMessage) {
+  const args = message.args()
+  if (args.length === 0) {
+    return [message.text()]
+  }
+
+  return Promise.all(
+    args.map(async (argument) => {
+      try {
+        return await argument.evaluate((value) =>
+          value instanceof Error ? value.message : String(value)
+        )
+      } catch {
+        return message.text()
+      }
+    })
+  )
+}
+
+function isHydrationError(message: string) {
+  return message.includes('#418') || message.includes('Hydration failed')
+}
+
+async function markCurrentDocument(page) {
+  await page.evaluate(() => {
+    ;(
+      window as Window & { portalNavigationMarker?: boolean }
+    ).portalNavigationMarker = true
+  })
+}
+
+async function expectCurrentDocument(page) {
+  expect(
+    await page.evaluate(
+      () =>
+        (window as Window & { portalNavigationMarker?: boolean })
+          .portalNavigationMarker
+    )
+  ).toBe(true)
+}
+
+test('home page hydrates without recoverable errors', async ({ page }) => {
+  const getConsoleErrors = captureConsoleErrors(page)
+
+  await page.goto('/')
+  await waitForApp(page)
+
+  expect((await getConsoleErrors()).filter(isHydrationError)).toEqual([])
+})
 
 test.describe('Page Navigation', () => {
   test.describe('without JavaScript', () => {
@@ -111,6 +173,27 @@ test.describe('Page Navigation', () => {
       await waitForApp(page)
     })
 
+    test('uses client-side navigation for the Design card', async ({
+      page,
+    }) => {
+      await markCurrentDocument(page)
+      await page.getByRole('link', { name: /Design/ }).click()
+      await expect(page).toHaveURL('/quickguide-designer')
+      await expectCurrentDocument(page)
+    })
+
+    test('uses client-side navigation for the Develop card', async ({
+      page,
+    }) => {
+      await markCurrentDocument(page)
+      await page.getByRole('link', { name: /Develop/ }).click()
+      await expect(page).toHaveURL('/uilib/getting-started/')
+      await expect(
+        page.getByRole('heading', { name: 'Getting Started' })
+      ).toBeVisible()
+      await expectCurrentDocument(page)
+    })
+
     test('prerendered content should stay visible during JS hydration', async ({
       page,
     }) => {
@@ -132,6 +215,35 @@ test.describe('Page Navigation', () => {
       expect(title).toContain('Button | Eufemia')
     })
 
+    test('hydrates a Portal page without recoverable errors', async ({
+      page,
+    }) => {
+      const getConsoleErrors = captureConsoleErrors(page)
+
+      await page.goto('/uilib/components/button/')
+      await waitForApp(page)
+
+      expect((await getConsoleErrors()).filter(isHydrationError)).toEqual(
+        []
+      )
+    })
+
+    test('home page should show the sidebar menu', async ({ page }) => {
+      const sidebar = page.getByRole('navigation', {
+        name: 'Section Content Menu',
+      })
+
+      await expect(
+        sidebar.getByRole('link', { name: 'Home' })
+      ).toBeVisible()
+      await expect(
+        sidebar.getByRole('button', { name: 'Foundations' })
+      ).toBeVisible()
+      await expect(
+        page.getByRole('link', { name: 'Suggest an edit' })
+      ).toHaveCount(0)
+    })
+
     test('should contain a Suggest an edit link', async ({ page }) => {
       await page.goto('/uilib/components/button/')
       await waitForApp(page)
@@ -144,37 +256,34 @@ test.describe('Page Navigation', () => {
       )
     })
 
-    test('click on first main menu card should open /design-system', async ({
+    test('click on Design should open the designer guide', async ({
       page,
     }) => {
       const titleBeforeClick = await page.title()
       expect(titleBeforeClick).toContain('DNB Design System | Eufemia')
 
-      await page.click('main nav a')
-      await page.waitForURL('**/design-system/')
+      await page.getByRole('link', { name: /Design/ }).click()
+      await expect(page).toHaveURL('/quickguide-designer')
       await waitForApp(page)
-
-      await page.waitForFunction(
-        () => !document.title.includes('DNB Design System')
-      )
-
-      const titleAfterClick = await page.title()
-      expect(titleAfterClick).toContain('About Eufemia | Eufemia')
+      await expect(
+        page.getByRole('heading', { name: 'Quick Guide - Designers' })
+      ).toBeVisible()
     })
 
     test('click on button page should open /uilib/components/button', async ({
       page,
     }) => {
+      await page.setViewportSize({ width: 1440, height: 900 })
       await page.goto('/uilib/components/')
       await waitForApp(page)
 
-      const expandButtons = page.locator(
-        '.dnb-sidebar-menu__expand-button'
-      )
-      const count = await expandButtons.count()
-      for (let i = 0; i < count; i++) {
-        await expandButtons.nth(i).click()
-      }
+      await page
+        .locator(
+          '.dnb-sidebar-menu__accordion__toggle[aria-expanded="false"]'
+        )
+        .evaluateAll((buttons: HTMLButtonElement[]) => {
+          buttons.forEach((button) => button.click())
+        })
 
       const href = '/uilib/components/button'
       const buttonLink = page.locator(
