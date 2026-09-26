@@ -113,4 +113,9 @@ const cssBundles = [
 module.exports = {
   defaultCompression: 'gzip',
   files: [...jsBundles, ...cssBundles],
+  ci: {
+    repoBranchBase:
+      process.env.CI_BRANCH_BASE || process.env.GITHUB_BASE_REF || 'main',
+    trackBranches: ['main'],
+  },
 }
