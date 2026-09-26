@@ -2,6 +2,7 @@ import { createAvailableCountriesTableExtension } from './availableCountriesTabl
 import { createCardProductsTableExtension } from './cardProductsTable.ts'
 import { createColorTableExtension } from './colorTable.ts'
 import { createGitHubChangelogExtension } from './githubChangelog.ts'
+import { createHomeExtension } from './home.ts'
 import { createListAllIconsExtension } from './listAllIcons.ts'
 import { createListComponentsOverviewExtension } from './listComponentsOverview.ts'
 import { createListSummaryFromEdgesExtension } from './listSummaryFromEdges.ts'
@@ -38,6 +39,7 @@ function createSpecialMdxExtensions(
     createColorTableExtension(deps),
     createGitHubChangelogExtension(),
     createListSummaryFromEdgesExtension(deps),
+    createHomeExtension(),
     createListComponentsOverviewExtension(deps),
     createRelatedComponentsExtension(deps),
     createMenuCardExtension(),
