@@ -1,4 +1,5 @@
 import type { ReactElement, ReactNode, RefObject } from 'react'
+import { clsx } from 'clsx'
 import Dropdown from '../../components/Dropdown'
 import Icon from '../../components/icon/Icon'
 import { chevron_down, chevron_up } from '../../icons'
@@ -40,9 +41,16 @@ function renderSelector(
     setHoveredSection: (id?: string) => void
   }
 ) {
+  const activeSectionProps = sections.find(
+    ({ props }) => props.id === activeSection
+  )?.props
+
   return (
     <Dropdown
-      className="dnb-sidebar-menu__sections"
+      className={clsx(
+        'dnb-sidebar-menu__sections',
+        activeSectionProps?.icon && 'dnb-sidebar-menu__sections--has-icon'
+      )}
       portalClass="dnb-sidebar-menu__sections-portal"
       value={activeSection}
       label={sectionLabel}
@@ -65,22 +73,25 @@ function renderSelector(
             props.text
           )
 
-        const selectedValue =
-          props.icon || props.triggerBadge !== undefined ? (
-            <Dropdown.HorizontalItem className="dnb-sidebar-menu__section-label">
-              {props.icon && <Icon icon={props.icon} />}
+        const selectedValue = (
+          <Dropdown.HorizontalItem className="dnb-sidebar-menu__section-label">
+            {props.icon && (
+              <span className="dnb-sidebar-menu__item__icon">
+                <Icon icon={props.icon} />
+              </span>
+            )}
+            <span className="dnb-sidebar-menu__item__text">
               {props.text}
-              <SidebarMenuBadge
-                badge={props.triggerBadge}
-                badgeProps={{
-                  variant: 'notification',
-                  ...props.triggerBadgeProps,
-                }}
-              />
-            </Dropdown.HorizontalItem>
-          ) : (
-            props.text
-          )
+            </span>
+            <SidebarMenuBadge
+              badge={props.triggerBadge}
+              badgeProps={{
+                variant: 'notification',
+                ...props.triggerBadgeProps,
+              }}
+            />
+          </Dropdown.HorizontalItem>
+        )
 
         return { selectedKey: props.id, selectedValue, content }
       })}

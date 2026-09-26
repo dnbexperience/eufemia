@@ -20,11 +20,15 @@ This example is placed inside a `ScrollView` with a viewport-aware maximum heigh
 
 <Examples.SidebarMenuData />
 
-### Responsive drawer
+### Responsive navigation
 
-The same data renders as an inline menu on larger screens and behind a hamburger button on smaller screens. `ResponsiveProvider` owns the breakpoint, Drawer state, and optional collapsed-inline state, while `ResponsiveDrawer` handles the dialog, focus trapping, Escape key, backdrop, left-side close button, and focus return.
+Compact mode is designed for menu items with icons and works best when every item has a suitable icon. Items without icons remain supported and use a faded text fallback, but this is less immediately recognizable in the narrow rail.
+
+The same data renders as a full inline menu on wide screens, a narrow icon rail that expands over the page on hover, keyboard focus, or with its toggle button at the compact threshold, and behind a hamburger button at the Drawer threshold. `ResponsiveProvider` owns these thresholds, Drawer state, and optional collapsed-inline state, while `ResponsiveDrawer` handles the dialog, focus trapping, Escape key, backdrop, left-side close button, and focus return.
+
+The full `ResponsiveAside` includes `ScrollView`, Portal-style menu spacing, and `ResizeHandle`. Drag its divider, use the arrow keys while it is focused, or press Enter to restore the default width.
+Accordion state and ScrollView position persist in session storage.
 
 Drag the demo viewport to the medium breakpoint or narrower to reveal the hamburger button and try the drawer.
-For a resizable desktop sidebar that can be dragged past its minimum width and restored from the same trigger, see [Dismissible desktop navigation](/uilib/extensions/sidebar-menu/#dismissible-desktop-navigation).
 
-<Examples.SidebarMenuResponsiveDrawer />
+<Examples.SidebarMenuResponsiveNavigation />
