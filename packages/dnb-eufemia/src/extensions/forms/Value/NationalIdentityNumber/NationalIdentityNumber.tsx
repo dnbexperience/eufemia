@@ -1,10 +1,9 @@
 import { useCallback } from 'react'
+import type { ReactNode } from 'react'
 import type { ValueStringProps as StringValueProps } from '../String'
 import StringValue from '../String'
-import {
-  formatNationalIdentityNumber,
-  cleanNumber,
-} from '../../../../components/number-format/NumberUtils'
+import { formatNationalIdentityNumber } from '../../../../components/number-format/NumberUtils'
+import NumberFormatNationalIdentityNumber from '../../../../components/number-format/NationalIdentityNumber'
 import useTranslation from '../../hooks/useTranslation'
 import { isValueEmpty } from '../../ValueBlock'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
@@ -18,7 +17,20 @@ function NationalIdentityNumber(props: ValueNationalIdentityNumberProps) {
     if (isValueEmpty(value)) {
       return undefined
     }
-    return formatNationalIdentityNumber(cleanNumber(value)).toString()
+    return formatNationalIdentityNumber(value).toString()
+  }, [])
+
+  const renderValue = useCallback((value: ReactNode) => {
+    // Reformatting would drop what a custom transformIn returned.
+    const isFormatted =
+      typeof value === 'string' &&
+      formatNationalIdentityNumber(value).toString() === value
+
+    return isFormatted ? (
+      <NumberFormatNationalIdentityNumber value={value} />
+    ) : (
+      value
+    )
   }, [])
 
   const stringValueProps: ValueNationalIdentityNumberProps = {
@@ -26,7 +38,7 @@ function NationalIdentityNumber(props: ValueNationalIdentityNumberProps) {
     label: props.label ?? (props.inline ? undefined : translations.label),
     toInput,
   }
-  return <StringValue {...stringValueProps} />
+  return <StringValue {...stringValueProps} renderValue={renderValue} />
 }
 
 withComponentMarkers(NationalIdentityNumber, {

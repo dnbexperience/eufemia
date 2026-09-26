@@ -180,6 +180,79 @@ describe('Value.BankAccountNumber', () => {
     })
   })
 
+  describe('screen reader text', () => {
+    it.each([
+      ['norwegianBban', '20001234567', '2 0 0 0 1 2 3 4 5 6 7'],
+      ['swedishBban', '50001234567', '5 0 0 0 1 2 3 4 5 6 7'],
+      ['swedishBankgiro', '59140129', '5 9 1 4 0 1 2 9'],
+      ['swedishPlusgiro', '1263664', '1 2 6 3 6 6 4'],
+      ['iban', 'NO9386011117947', 'N O 9 3 8 6 0 1 1 1 1 7 9 4 7'],
+    ] as const)(
+      'announces %s one character at a time',
+      (bankAccountType, value, expected) => {
+        render(
+          <Value.BankAccountNumber
+            bankAccountType={bankAccountType}
+            value={value}
+          />
+        )
+
+        expect(
+          document.querySelector('.dnb-sr-only').getAttribute('data-text')
+        ).toBe(expected)
+      }
+    )
+  })
+
+  it('gives the formatted string to transformIn', () => {
+    const transformIn = vi.fn((value) => value)
+
+    render(
+      <Value.BankAccountNumber
+        value="20001234567"
+        transformIn={transformIn}
+      />
+    )
+
+    expect(transformIn).toHaveBeenCalledWith('2000 12 34567')
+    expect(
+      document.querySelector(
+        '.dnb-forms-value-string .dnb-forms-value-block__content'
+      )
+    ).toHaveTextContent('2000 12 34567')
+  })
+
+  it('does not reformat a custom transformIn result', () => {
+    render(
+      <Value.BankAccountNumber
+        value="20001234567"
+        transformIn={(value) => `${String(value)} (sperret)`}
+      />
+    )
+
+    expect(
+      document.querySelector(
+        '.dnb-forms-value-string .dnb-forms-value-block__content'
+      )
+    ).toHaveTextContent('2000 12 34567 (sperret)')
+    expect(document.querySelector('.dnb-sr-only')).toBeNull()
+  })
+
+  it('renders a transformIn result that is not a string', () => {
+    render(
+      <Value.BankAccountNumber
+        value="20001234567"
+        transformIn={(value) => <b>{String(value)}</b>}
+      />
+    )
+
+    expect(
+      document.querySelector(
+        '.dnb-forms-value-string .dnb-forms-value-block__content b'
+      )
+    ).toHaveTextContent('2000 12 34567')
+  })
+
   describe('labels per bankAccountType', () => {
     it('uses default label for norwegianBban', () => {
       render(<Value.BankAccountNumber value="20001234567" />)

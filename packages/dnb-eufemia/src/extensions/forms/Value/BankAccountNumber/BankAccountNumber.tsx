@@ -1,10 +1,12 @@
 import { useCallback, useMemo } from 'react'
+import type { ReactNode } from 'react'
 import type { ValueStringProps as StringValueProps } from '../String'
 import StringValue from '../String'
 import {
   formatBankAccountNumberByType,
   type BankAccountType,
 } from '../../../../components/number-format/utils/formatBankAccountNumber'
+import NumberFormatBankAccountNumber from '../../../../components/number-format/BankAccountNumber'
 import useTranslation from '../../hooks/useTranslation'
 import { isValueEmpty } from '../../ValueBlock'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
@@ -32,6 +34,26 @@ function BankAccountNumber(props: ValueBankAccountNumberProps) {
         String(external),
         bankAccountType
       ).number
+    },
+    [bankAccountType]
+  )
+
+  const renderValue = useCallback(
+    (value: ReactNode) => {
+      // Reformatting would drop what a custom transformIn returned.
+      const isFormatted =
+        typeof value === 'string' &&
+        formatBankAccountNumberByType(value, bankAccountType).number ===
+          value
+
+      return isFormatted ? (
+        <NumberFormatBankAccountNumber
+          bankAccountType={bankAccountType}
+          value={value}
+        />
+      ) : (
+        value
+      )
     },
     [bankAccountType]
   )
@@ -64,7 +86,7 @@ function BankAccountNumber(props: ValueBankAccountNumberProps) {
     label,
     toInput,
   }
-  return <StringValue {...stringValueProps} />
+  return <StringValue {...stringValueProps} renderValue={renderValue} />
 }
 
 withComponentMarkers(BankAccountNumber, {

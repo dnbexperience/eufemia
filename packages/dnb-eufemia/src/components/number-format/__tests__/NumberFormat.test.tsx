@@ -543,6 +543,21 @@ describe('NumberFormat component', () => {
     ).toBe('2 0 0 0 1 2 3 4 5 6')
   })
 
+  it('have to match bank account number of a given type', () => {
+    render(
+      <NumberFormat.BankAccountNumber
+        bankAccountType="iban"
+        value="NO9386011117947"
+      />
+    )
+    expect(document.querySelector(displaySelector).textContent).toBe(
+      'NO93 8601 1117 947'
+    )
+    expect(
+      document.querySelector(ariaSelector).getAttribute('data-text')
+    ).toBe('N O 9 3 8 6 0 1 1 1 1 7 9 4 7')
+  })
+
   it('have to match national identification number', () => {
     render(
       <NumberFormat.NationalIdentityNumber>

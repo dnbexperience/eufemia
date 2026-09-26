@@ -72,6 +72,7 @@
   "components/list-format/ListFormat.tsx": 1,
   "components/menu/MenuAction.tsx": 1,
   "components/menu/MenuRoot.tsx": 1,
+  "components/number-format/BankAccountNumber.tsx": 1,
   "components/number-format/NumberFormatBase.tsx": 1,
   "components/number-format/PhoneNumber.tsx": 1,
   "components/number-format/withFormatter.tsx": 1,

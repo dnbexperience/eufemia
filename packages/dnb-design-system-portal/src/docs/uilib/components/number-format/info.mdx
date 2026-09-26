@@ -251,6 +251,15 @@ formatBankAccountNumberByType('NO9386011117947', 'iban') // { number: 'NO93 8601
 
 The `aria` string is what screen readers announce, one character at a time.
 
+The `NumberFormat.BankAccountNumber` component takes the same types with the `bankAccountType` property:
+
+```jsx
+<NumberFormat.BankAccountNumber
+  bankAccountType="iban"
+  value="NO9386011117947"
+/>
+```
+
 ### Element and style
 
 The number component is style-independent, so it has no visual styles. By default, a `<span>` is used. However, you can easily change the element type by providing a different value to the `element="div"` property.

@@ -70,4 +70,46 @@ describe('Value.OrganizationNumber', () => {
     const element = document.querySelector('.dnb-forms-value-block')
     expect(element).not.toBeInTheDocument()
   })
+
+  it('announces the value to screen readers', () => {
+    render(<Value.OrganizationNumber value="123456789" />)
+
+    expect(
+      document.querySelector('.dnb-sr-only').getAttribute('data-text')
+    ).toBe('1 2 3 4 5 6 7 8 9')
+  })
+
+  it('gives the formatted string to transformIn', () => {
+    const transformIn = vi.fn((value) => value)
+
+    render(
+      <Value.OrganizationNumber
+        value="123456789"
+        transformIn={transformIn}
+      />
+    )
+
+    expect(transformIn).toHaveBeenCalledWith('123 456 789')
+    expect(
+      document.querySelector(
+        '.dnb-forms-value-string .dnb-forms-value-block__content'
+      )
+    ).toHaveTextContent('123 456 789')
+  })
+
+  it('does not reformat a custom transformIn result', () => {
+    render(
+      <Value.OrganizationNumber
+        value="123456789"
+        transformIn={(value) => `NO ${String(value)}`}
+      />
+    )
+
+    expect(
+      document.querySelector(
+        '.dnb-forms-value-string .dnb-forms-value-block__content'
+      )
+    ).toHaveTextContent('NO 123 456 789')
+    expect(document.querySelector('.dnb-sr-only')).toBeNull()
+  })
 })

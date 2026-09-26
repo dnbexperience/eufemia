@@ -200,6 +200,11 @@ export const NumberFormatPhoneNumberProperties: PropertiesTableProps = {
 export const NumberFormatBankAccountNumberProperties: PropertiesTableProps =
   {
     ...commonIdentifierProps,
+    bankAccountType: {
+      doc: 'The type of bank account number. Can be `norwegianBban`, `swedishBban`, `swedishBankgiro`, `swedishPlusgiro` or `iban`. Defaults to `norwegianBban`.',
+      type: 'string',
+      status: 'optional',
+    },
     ...spacingProps,
   }
 

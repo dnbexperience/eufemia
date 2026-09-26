@@ -1,10 +1,9 @@
 import { useCallback } from 'react'
+import type { ReactNode } from 'react'
 import type { ValueStringProps as StringValueProps } from '../String'
 import StringValue from '../String'
-import {
-  formatOrganizationNumber,
-  cleanNumber,
-} from '../../../../components/number-format/NumberUtils'
+import { formatOrganizationNumber } from '../../../../components/number-format/NumberUtils'
+import NumberFormatOrganizationNumber from '../../../../components/number-format/OrganizationNumber'
 import useTranslation from '../../hooks/useTranslation'
 import { isValueEmpty } from '../../ValueBlock'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
@@ -18,7 +17,20 @@ function OrganizationNumber(props: ValueOrganizationNumberProps) {
     if (isValueEmpty(value)) {
       return undefined
     }
-    return formatOrganizationNumber(cleanNumber(value)).toString()
+    return formatOrganizationNumber(value).toString()
+  }, [])
+
+  const renderValue = useCallback((value: ReactNode) => {
+    // Reformatting would drop what a custom transformIn returned.
+    const isFormatted =
+      typeof value === 'string' &&
+      formatOrganizationNumber(value).toString() === value
+
+    return isFormatted ? (
+      <NumberFormatOrganizationNumber value={value} />
+    ) : (
+      value
+    )
   }, [])
 
   const stringValueProps: ValueOrganizationNumberProps = {
@@ -26,7 +38,7 @@ function OrganizationNumber(props: ValueOrganizationNumberProps) {
     label: props.label ?? (props.inline ? undefined : translations.label),
     toInput,
   }
-  return <StringValue {...stringValueProps} />
+  return <StringValue {...stringValueProps} renderValue={renderValue} />
 }
 
 withComponentMarkers(OrganizationNumber, {

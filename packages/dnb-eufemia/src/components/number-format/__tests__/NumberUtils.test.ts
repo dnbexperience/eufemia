@@ -1540,6 +1540,14 @@ describe('formatPhoneNumber', () => {
       expect(result.aria).toBe('+1 (684) 80 02 22 22')
     })
 
+    it('should keep an already formatted dashed CDC unchanged', () => {
+      const result = formatPhoneNumber('+1 (684) 12 34 56 7', {
+        returnAria: true,
+      })
+      expect(result.number).toBe('+1 (684) 12 34 56 7')
+      expect(result.aria).toBe('+1 (684) 12 34 56 7')
+    })
+
     it('should not detect country code from non-00 international prefixes', () => {
       // "011" (US/Canada IDD prefix) is ambiguous and should not be parsed
       const result = formatPhoneNumber('0114712345678', {
