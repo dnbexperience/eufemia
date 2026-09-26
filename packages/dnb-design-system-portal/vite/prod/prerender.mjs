@@ -24,6 +24,12 @@ import { fileURLToPath } from 'node:url'
 import { Worker } from 'node:worker_threads'
 import { collectMarkdownPaths, getMdPath } from './md-paths.mts'
 import { escapeHtml } from './html-escape.mts'
+import { extractPageLinks } from './internal-links.mjs'
+import {
+  createCanonicalUrls,
+  createPortalDuplicateIdReport,
+  createPortalSitemap,
+} from './portal-duplicate-ids.mjs'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const viteRoot = path.resolve(__dirname, '..')
@@ -136,6 +142,7 @@ async function prerender() {
 
   let rendered = 0
   let errors = 0
+  const renderedPages = []
 
   // Render pages in parallel using worker threads.
   // renderToString is synchronous/CPU-bound, so worker threads
@@ -165,7 +172,9 @@ async function prerender() {
     }
 
     if (result.redirect) {
-      writeHtml(url, buildRedirectHtml(result.redirect))
+      const html = buildRedirectHtml(result.redirect)
+      writeHtml(url, html)
+      renderedPages.push({ url, ...extractPageLinks(html) })
     } else {
       const preloads = getRoutePreloads(url, ssrManifest, clientManifest)
       const meta = getPageMeta(url, allMdxNodes)
@@ -180,6 +189,7 @@ async function prerender() {
         themeCssPaths
       )
       writeHtml(url, html)
+      renderedPages.push({ url, ...extractPageLinks(html) })
     }
 
     rendered++
@@ -223,6 +233,25 @@ async function prerender() {
   fs.cpSync(fontsSource, fontsDest, { recursive: true })
   console.log(`\n✓ Copied fonts to ${fontsDest}`)
 
+  if (process.env.IS_E2E !== '1' && process.env.IS_VISUAL_TEST !== '1') {
+    const canonicalUrls = createCanonicalUrls(allMdxNodes)
+    const sitemap = createPortalSitemap(renderedPages, canonicalUrls)
+    const duplicateIdReport = createPortalDuplicateIdReport(
+      renderedPages,
+      canonicalUrls
+    )
+
+    writeJson(path.resolve(outDir, 'sitemap.json'), sitemap)
+    writeJson(
+      path.resolve(outDir, 'portal-duplicate-ids.json'),
+      duplicateIdReport
+    )
+    console.log(
+      `✓ Generated Portal duplicate ID report for ${duplicateIdReport.summary.pages} canonical pages ` +
+        `with ${duplicateIdReport.summary.duplicateIdGroups} duplicate ID groups`
+    )
+  }
+
   /**
    * Write HTML to the correct path in the output directory.
    */
@@ -231,6 +260,10 @@ async function prerender() {
     const dir = path.dirname(filePath)
     fs.mkdirSync(dir, { recursive: true })
     fs.writeFileSync(filePath, html)
+  }
+
+  function writeJson(filePath, value) {
+    fs.writeFileSync(filePath, `${JSON.stringify(value, null, 2)}\n`)
   }
 }
 
