@@ -27,6 +27,16 @@ export type TableOfContentsItem = {
 export type KnownFrontmatter = {
   title?: string
   description?: string
+  /**
+   * A number from -999 to 999
+   *
+   * Set to override the alphabetical order by `title` in the menu. Lower is
+   * higher, `undefined` is last. Pages with the same order are sorted by `title`.
+   *
+   *
+   * Positive numbers come first, negative numbers last, and `undefined` and 0
+   * is in the middle.
+   */
   order?: number
   draft?: boolean
   hideInMenu?: boolean
