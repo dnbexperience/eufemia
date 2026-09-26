@@ -10,8 +10,8 @@ import type { IconIcon } from '../../components/icon/Icon'
 import type { SpacingProps } from '../../shared/types'
 
 export type SidebarMenuItemData = {
-  /** Renders nested items as a static titled group, or renders custom content without item semantics. */
-  type?: 'group' | 'custom'
+  /** Renders nested items as a static titled group, a heading, or custom content without item semantics. */
+  type?: 'group' | 'header' | 'custom'
   /** Unique id used for selection and open state. */
   id: string
   /** Visible item or accordion label. */
@@ -292,11 +292,21 @@ export type SidebarMenuGroupProps = SidebarMenuGroupBaseProps &
     | { id?: string; href?: undefined; to?: undefined }
   )
 
-export type SidebarMenuHeaderProps = {
-  children?: ReactNode
-  text?: ReactNode
-  /** Semantic heading level. Default: `2` */
+type SidebarMenuHeaderBaseProps = Omit<
+  HTMLAttributes<HTMLLIElement>,
+  'title' | 'children'
+> & {
+  /**
+   * Kept for backwards compatibility and has no effect.
+   * @deprecated SidebarMenu.Header is a visual menu label.
+   */
   headingLevel?: number
-} & Omit<HTMLAttributes<HTMLLIElement>, 'title' | 'children'>
+}
+
+export type SidebarMenuHeaderProps = SidebarMenuHeaderBaseProps &
+  (
+    | { text: ReactNode; children?: ReactNode }
+    | { text?: undefined; children: ReactNode }
+  )
 
 export type SidebarMenuDividerProps = HTMLAttributes<HTMLLIElement>
