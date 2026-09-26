@@ -13,6 +13,7 @@ import {
   QuickguideDesignerSvg,
   DesignSystemSvg,
   DevelopmentSvg,
+  FoundationsSvg,
 } from './MainMenuGraphics'
 import { Card as EufemiaCard, VisuallyHidden } from '@dnb/eufemia/src'
 import PortalLogo from './graphics/logo'
@@ -38,6 +39,7 @@ function MainMenu() {
                   "uilib"
                   "quickguide-designer"
                   "icons"
+                  "foundations"
                   "design-system"
                   "brand"
                   "principles"
@@ -136,6 +138,12 @@ function MainMenu() {
                 title={items['icons']?.title}
                 about={items['icons']?.description}
                 icon={IconsSvg}
+              />
+              <Card
+                url={items['foundations']?.url}
+                title={items['foundations']?.title}
+                about={items['foundations']?.description}
+                icon={FoundationsSvg}
               />
               <Card
                 url={items['brand']?.url}
