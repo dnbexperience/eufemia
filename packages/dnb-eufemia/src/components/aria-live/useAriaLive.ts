@@ -59,10 +59,20 @@ export default function useAriaLive(props: AriaLiveAllProps) {
   )
 
   const showTextAnnouncement = delay > -1
+  const hasAnnouncement =
+    children !== null &&
+    children !== undefined &&
+    children !== false &&
+    children !== ''
 
   useEffect(() => {
     if (showTextAnnouncement) {
       setAnnouncement('')
+
+      // An idle live region stays mounted, but has nothing to announce.
+      if (!hasAnnouncement) {
+        return undefined
+      }
 
       const isTest = process.env.NODE_ENV === 'test'
       const timer = setTimeout(
@@ -87,7 +97,7 @@ export default function useAriaLive(props: AriaLiveAllProps) {
     }
 
     return undefined
-  }, [delay, children, disabled, showTextAnnouncement])
+  }, [delay, children, disabled, hasAnnouncement, showTextAnnouncement])
 
   return {
     'aria-live': disabled && !showTextAnnouncement ? 'off' : politeness,
