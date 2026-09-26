@@ -142,6 +142,24 @@ describe('portal-pages plugin', () => {
       })
     })
 
+    it('extracts redirects for a moved page', () => {
+      createFile(
+        'new/page.mdx',
+        [
+          '---',
+          'title: My Page',
+          'redirect_from:',
+          '  - /old/page',
+          '---',
+        ].join('\n')
+      )
+
+      const files = scanPageFiles(tmpDir)
+
+      expect(files[0].slug).toBe('new/page')
+      expect(files[0].frontmatter.redirect_from).toEqual(['/old/page'])
+    })
+
     it('returns empty frontmatter for TSX files', () => {
       createFile('page.tsx', 'export default () => <div/>')
 

@@ -11,6 +11,7 @@ import path from 'node:path'
 import { getContentScript } from '@dnb/eufemia/src/shared/ColorSchemeScript'
 import { escapeHtml } from './html-escape.mts'
 import type { MdxNode as PortalMdxNode } from '../client/plugins/portal-pages.shared'
+import { getPreHydrationScript } from '@dnb/eufemia/src/extensions/sidebar-menu/SidebarMenuPreHydrationScript'
 
 export type RouteEntry = {
   path?: string
@@ -290,15 +291,12 @@ export function injectHtml(
   // blocking script that swaps color-scheme classes on Theme elements
   // before the browser paints — preventing a dark-mode FOUC.
   const contentScript = getContentScript()
-
-  // Restore sidebar scroll position before first paint so the menu
-  // doesn't flash at the top before jumping to the saved position.
-  const scrollRestoreScript = `(function(){try{var el=document.getElementById('portal-sidebar-menu');if(el){var s=parseFloat(sessionStorage.getItem('scroll-#portal-sidebar-menu')||'0');if(s){el.style.scrollBehavior='auto';el.scrollTop=s;el.style.scrollBehavior=''}}}catch(e){}})()`
+  const sidebarPreHydrationScript = getPreHydrationScript()
 
   let html = template.replace(
     '<div id="root"></div>',
     () =>
-      `<div id="root">${appHtml}</div>\n\t<script>${contentScript};${scrollRestoreScript}</script>`
+      `<div id="root">${appHtml}</div>\n\t<script>${contentScript};${sidebarPreHydrationScript}</script>`
   )
 
   // Inject <link> tags for ALL brand theme CSS chunks.

@@ -208,21 +208,21 @@
   justify-content: flex-start;
 
   width: 100%;
-  min-height: calc(100vh - 4rem); /* height of StickyMenuBar */
-
-  margin-left: 30vw; /* fallback */
-  margin-left: var(--aside-width);
+  min-height: 100vh;
 
   padding: 0;
 
-  /* we use padding here, instead of margin, because applyPageFocus is else scrolling the page unwanted height of StickyMenuBar */
+  /* Reserve space for the fixed header. */
   padding-top: 4rem;
   :global(.focusmode) & {
     padding-top: 0;
   }
 
   background-color: var(--token-color-background-neutral);
-  box-shadow: inset 1px 0 0 0 var(--token-color-stroke-neutral-subtle);
+
+  &:has([data-portal-home]) {
+    background-color: var(--token-color-background-page-background);
+  }
 
   /* make sure that Sidebar aside "styled.aside" gets the same max-width */
   @include utilities.allBelow(medium) {
@@ -235,6 +235,10 @@
   position: relative;
   z-index: 2;
 
+  &:has([data-sidebar-menu-responsive-compact='true']) {
+    z-index: auto;
+  }
+
   display: flex;
   justify-content: space-between; /* pos Footer at the bottom */
 
@@ -245,5 +249,5 @@
 
 .fullscreenStyle,
 .hideSidebarStyle {
-  --aside-width: 0;
+  --aside-width: 0px;
 }

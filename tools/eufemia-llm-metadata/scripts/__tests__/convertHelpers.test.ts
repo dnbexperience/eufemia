@@ -1024,6 +1024,39 @@ describe('convertMdxToMd', () => {
     expect(output).not.toContain('Card.List')
   })
 
+  it('renders the portal Home as navigation links', async () => {
+    const tmpRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'mdx-home-'))
+    const docsRoot = path.join(tmpRoot, 'docs')
+    fs.mkdirSync(docsRoot, { recursive: true })
+
+    fs.writeFileSync(
+      path.join(docsRoot, 'index.mdx'),
+      [
+        "import Home from 'dnb-design-system-portal/src/shared/home/Home'",
+        '',
+        '<Home />',
+      ].join('\n')
+    )
+    const output = await convertMdxToMd({
+      inputPath: path.join(docsRoot, 'index.mdx'),
+      docsRoot,
+      docsBaseRoot: docsRoot,
+      prettierConfig: {},
+      includeFrontmatter: false,
+      state: { mdxCache: new Map(), inProgress: new Set() },
+    })
+
+    expect(output).toContain(
+      '- [Develop](/uilib/getting-started/) – Get started with installation guides'
+    )
+    expect(output).toContain('## Resources')
+    expect(output).toContain('- [Images](/uilib/elements/image)')
+    expect(output).toContain('- [Brand](/brand)')
+    expect(output).toContain("- [What's new](/uilib/changelog)")
+    expect(output).toContain('- [Eufemia change log](/design-system)')
+    expect(output).not.toContain('<Home')
+  })
+
   it('renders RelatedComponents into a related markdown list', async () => {
     const tmpRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'mdx-related-'))
     const docsRoot = path.join(tmpRoot, 'docs')
@@ -1158,7 +1191,9 @@ describe('convertMdxToMd', () => {
     const tmpRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'mdx-overview-'))
     const docsRoot = path.join(tmpRoot, 'docs')
     const componentsDir = path.join(docsRoot, 'uilib', 'components')
+    const extensionsDir = path.join(docsRoot, 'uilib', 'extensions')
     fs.mkdirSync(componentsDir, { recursive: true })
+    fs.mkdirSync(extensionsDir, { recursive: true })
 
     fs.writeFileSync(
       path.join(componentsDir, 'button.mdx'),
@@ -1199,6 +1234,19 @@ describe('convertMdxToMd', () => {
       ].join('\n')
     )
 
+    fs.writeFileSync(
+      path.join(extensionsDir, 'action-extension.mdx'),
+      [
+        '---',
+        'title: ActionExtension',
+        "category: 'actions'",
+        "description: 'Use ActionExtension to complete an action.'",
+        '---',
+        '',
+        '# ActionExtension',
+      ].join('\n')
+    )
+
     const output = await convertMdxToMd({
       inputPath: path.join(componentsDir, 'overview.mdx'),
       docsRoot,
@@ -1215,6 +1263,9 @@ describe('convertMdxToMd', () => {
     )
     expect(output).toContain(
       '- [Checkbox](/uilib/components/checkbox/): Use Checkbox to turn options on or off.'
+    )
+    expect(output).toContain(
+      '- [ActionExtension](/uilib/extensions/action-extension/): Use ActionExtension to complete an action.'
     )
     expect(output).toContain('[Eufemia Forms](/uilib/extensions/forms/)')
     expect(output).not.toContain('<ListComponentsOverview')

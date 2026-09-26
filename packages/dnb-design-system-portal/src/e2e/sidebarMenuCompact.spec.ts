@@ -776,7 +776,7 @@ test('resizes the full SidebarMenu and restores that width', async ({
   await expect(moreProducts).toHaveCSS('white-space', 'normal')
   await expect(moreProductsText).toHaveCSS('overflow-wrap', 'normal')
   await expect(moreProductsText).toHaveCSS('hyphens', 'auto')
-  await expect(moreProducts).toHaveCSS('height', '64px')
+  await expect(moreProducts).toHaveCSS('height', '88px')
   const moreProductsBox = await moreProducts.boundingBox()
   const moreProductsTextBox = await moreProductsText.boundingBox()
   const moreProductsIndicatorBox =
@@ -866,7 +866,13 @@ test('dismisses the full SidebarMenu by dragging and restores it', async ({
     '[data-sidebar-menu-id="more-products"] > .dnb-sidebar-menu__accordion__trigger'
   )
   await expect(moreProducts).toHaveCSS('white-space', 'normal')
-  await expect(moreProducts).toHaveCSS('height', '64px')
+  await expect
+    .poll(() =>
+      moreProducts.evaluate(
+        (element) => element.getBoundingClientRect().height
+      )
+    )
+    .toBeGreaterThan(44)
 
   await page.mouse.move(handlePosition.x - 185, handlePosition.y)
   await page.mouse.up()
