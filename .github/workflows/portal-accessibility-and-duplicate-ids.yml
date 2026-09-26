@@ -1,0 +1,224 @@
+name: Portal accessibility and duplicate IDs
+
+on:
+  schedule:
+    - cron: '17 5 * * 1'
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: read
+  issues: write
+
+concurrency:
+  group: portal-accessibility-and-duplicate-ids
+  cancel-in-progress: false
+
+jobs:
+  scan:
+    name: Scan production Portal
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+
+      - name: Setup dependencies
+        uses: ./.github/actions/setup
+        with:
+          cache-version: ${{ secrets.CACHE_VERSION }}
+
+      - name: Use Playwright cache
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
+        id: playwright-cache
+        with:
+          path: |
+            ~/.cache/ms-playwright
+          key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-playwright-chromium-${{ hashFiles('**/yarn.lock') }}
+
+      - name: Install Playwright browser
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+        run: yarn workspace dnb-design-system-portal playwright install --with-deps chromium
+
+      - name: Install Playwright dependencies
+        if: steps.playwright-cache.outputs.cache-hit == 'true'
+        run: yarn workspace dnb-design-system-portal playwright install-deps chromium
+
+      - name: Download previous report
+        id: previous
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9
+        with:
+          script: |
+            const fs = require('fs')
+            const runs = await github.paginate(
+              github.rest.actions.listWorkflowRuns,
+              {
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                workflow_id: 'portal-accessibility-and-duplicate-ids.yml',
+                status: 'success',
+                per_page: 100,
+              }
+            )
+
+            for (const run of runs) {
+              if (run.id === context.runId) continue
+
+              const artifacts = await github.paginate(
+                github.rest.actions.listWorkflowRunArtifacts,
+                {
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  run_id: run.id,
+                  per_page: 100,
+                }
+              )
+              const report = artifacts.find(
+                (artifact) =>
+                  artifact.name === 'portal-accessibility-report'
+              )
+              if (!report) continue
+
+              const archive = await github.rest.actions.downloadArtifact({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                artifact_id: report.id,
+                archive_format: 'zip',
+              })
+              fs.writeFileSync(
+                'previous-report.zip',
+                Buffer.from(archive.data)
+              )
+              core.setOutput('found', 'true')
+              return
+            }
+
+            core.setOutput('found', 'false')
+
+      - name: Extract previous report
+        if: steps.previous.outputs.found == 'true'
+        run: unzip -q previous-report.zip -d previous-report
+
+      - name: Scan all canonical pages
+        run: |
+          previous=()
+          if [ -f previous-report/portal-accessibility-report.json ]; then
+            previous=(--previous ../../previous-report/portal-accessibility-report.json)
+          fi
+
+          yarn workspace dnb-design-system-portal scan:accessibility \
+            --base-url https://eufemia.dnb.no \
+            --sitemap https://eufemia.dnb.no/sitemap.json \
+            --output portal-accessibility-report.json \
+            --issue-output portal-accessibility-issue.json \
+            "${previous[@]}"
+
+      - name: Update rolling issue
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9
+        env:
+          REPORT_PATH: packages/dnb-design-system-portal/portal-accessibility-report.json
+          ISSUE_PATH: packages/dnb-design-system-portal/portal-accessibility-issue.json
+        with:
+          script: |
+            const fs = require('fs')
+            const report = JSON.parse(fs.readFileSync(process.env.REPORT_PATH))
+            const issueReport = JSON.parse(fs.readFileSync(process.env.ISSUE_PATH))
+            const title = 'Portal accessibility and duplicate IDs'
+            const runUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`
+            const marker = '<!-- portal-accessibility-current-details -->'
+            const issues = await github.paginate(github.rest.issues.listForRepo, {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'all',
+              per_page: 100,
+            })
+            let issue = issues.find(
+              (candidate) => !candidate.pull_request && candidate.title === title
+            )
+            const body = `${issueReport.chunks[0]}\n\n[Full workflow report](${runUrl})`
+
+            if (!issue && report.summary.findings === 0) {
+              core.notice('Portal scan has no findings; no issue is needed.')
+              return
+            }
+
+            if (!issue) {
+              const created = await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title,
+                body,
+              })
+              issue = created.data
+            } else {
+              await github.rest.issues.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issue.number,
+                body,
+                state: report.summary.findings === 0 ? 'closed' : 'open',
+              })
+            }
+
+            const comments = await github.paginate(
+              github.rest.issues.listComments,
+              {
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issue.number,
+                per_page: 100,
+              }
+            )
+            const managed = comments.filter((comment) =>
+              comment.body?.includes(marker)
+            )
+            const detailChunks = issueReport.chunks.slice(1)
+
+            for (let index = 0; index < detailChunks.length; index++) {
+              const commentBody = `${marker}\n${detailChunks[index]}`
+              if (managed[index]) {
+                await github.rest.issues.updateComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  comment_id: managed[index].id,
+                  body: commentBody,
+                })
+              } else {
+                await github.rest.issues.createComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: issue.number,
+                  body: commentBody,
+                })
+              }
+            }
+
+            for (const comment of managed.slice(detailChunks.length)) {
+              await github.rest.issues.deleteComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: comment.id,
+              })
+            }
+
+            if (issueReport.changes) {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issue.number,
+                body: `${issueReport.changes}\n\n[Workflow run](${runUrl})`,
+              })
+            }
+
+      - name: Store accessibility report
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: portal-accessibility-report
+          path: |
+            packages/dnb-design-system-portal/portal-accessibility-report.json
+            packages/dnb-design-system-portal/portal-accessibility-issue.json
+          retention-days: 90

@@ -32,6 +32,7 @@
     "prettier:package:write": "prettier-package-json --write ./package.json",
     "prettier:write": "prettier --log-level warn --write '**/*.{md,mdx,js,ts,tsx}'",
     "reset": "yarn clean && rm -rf ./node_modules",
+    "scan:accessibility": "node scripts/scan-portal-accessibility.mjs",
     "serve": "vite preview --port=8000",
     "serve:8001": "vite preview --port=8001",
     "serve:8002": "vite preview --port=8002",
@@ -66,6 +67,7 @@
     "react-dom": "19.2.8"
   },
   "devDependencies": {
+    "@axe-core/playwright": "4.13.0",
     "@babel/core": "7.29.7",
     "@dnb/browserslist-config": "1.4.1",
     "@mdx-js/rollup": "3.1.1",
@@ -93,6 +95,7 @@
     "micromatch": "4.0.8",
     "parse5": "8.0.1",
     "picomatch": "4.0.4",
+    "playwright-core": "1.60.0",
     "prettier": "3.8.1",
     "prettier-package-json": "2.8.0",
     "prism-react-renderer": "2.4.1",
