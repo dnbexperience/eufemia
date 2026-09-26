@@ -183,10 +183,31 @@ export const SidebarMenuResizeHandleEvents: PropertiesTableProps = {
 
 export const SidebarMenuResponsiveProviderProperties: PropertiesTableProps =
   {
-    breakpoint: {
-      doc: 'Maximum viewport width at which the mobile navigation is used. Use an Eufemia breakpoint name or an explicit em value.',
+    scopeId: {
+      doc: 'Stable scope for generated first-paint CSS. Set this when server and client render under different surrounding trees.',
+      type: 'string',
+      status: 'optional',
+    },
+    drawerAt: {
+      doc: 'Maximum viewport width at which the mobile Drawer is used. Use an Eufemia breakpoint name or an explicit em value.',
       type: ['MediaQuerySizes', '`${number}em`'],
       defaultValue: '"medium"',
+      status: 'optional',
+    },
+    breakpoint: {
+      doc: 'Deprecated. Use `drawerAt` instead.',
+      type: ['MediaQuerySizes', '`${number}em`'],
+      status: 'deprecated',
+    },
+    compactAt: {
+      doc: 'Maximum available content width at which the inline menu becomes an icon rail that expands over adjacent content on hover or with its toggle button. Use an Eufemia breakpoint name or an explicit em value.',
+      type: ['MediaQuerySizes', '`${number}em`'],
+      status: 'optional',
+    },
+    compactOffset: {
+      doc: 'Additional viewport width added to the compactAt threshold.',
+      type: '`${number}em`',
+      defaultValue: '"0em"',
       status: 'optional',
     },
     styleNonce: {
@@ -218,6 +239,86 @@ export const SidebarMenuResponsiveProviderProperties: PropertiesTableProps =
     },
   }
 
+export const SidebarMenuResponsiveInlineProperties: PropertiesTableProps =
+  {
+    expandedWidth: {
+      doc: 'Width of the full inline menu.',
+      type: 'CSSProperties["width"]',
+      defaultValue: '"18rem"',
+      status: 'optional',
+    },
+    compactWidth: {
+      doc: 'Width reserved while the inline menu is compact. Values below 4rem use the 4rem minimum.',
+      type: 'CSSProperties["width"]',
+      defaultValue: '"4rem"',
+      status: 'optional',
+    },
+    '[HTML attributes]': {
+      doc: 'Supports HTML attributes for the responsive inline wrapper.',
+      type: 'Various',
+      status: 'optional',
+    },
+  }
+
+export const SidebarMenuResponsiveAsideProperties: PropertiesTableProps = {
+  id: {
+    doc: 'Id used by ResponsiveTrigger inlineControls and the resize divider. Generated when omitted.',
+    type: 'string',
+    status: 'optional',
+  },
+  expandedWidth: {
+    doc: 'Width of the full inline sidebar.',
+    type: 'CSSProperties["width"]',
+    defaultValue: '"18rem"',
+    status: 'optional',
+  },
+  compactWidth: {
+    doc: 'Width reserved while the inline sidebar is compact. Values below 4rem use the 4rem minimum.',
+    type: 'CSSProperties["width"]',
+    defaultValue: '"4rem"',
+    status: 'optional',
+  },
+  resizable: {
+    doc: 'Enables ResizeHandle for the full inline sidebar. Below minWidth, the content retains that minimum width and ScrollView provides horizontal overflow instead of rewrapping labels. Dragging past the collapse threshold dismisses the sidebar.',
+    type: 'boolean',
+    defaultValue: 'false',
+    status: 'optional',
+  },
+  scrollViewProps: {
+    doc: 'Properties forwarded to the internal ScrollView.',
+    type: 'ScrollViewAllProps',
+    status: 'optional',
+  },
+  contentProps: {
+    doc: 'Properties forwarded to the content wrapper inside ScrollView.',
+    type: 'HTMLAttributes<HTMLDivElement>',
+    status: 'optional',
+  },
+  resizeHandleProps: {
+    doc: 'Properties forwarded to ResizeHandle except targetRef, scopeSelector, and cssProperty.',
+    type: 'SidebarMenuResizeHandleProps',
+    status: 'optional',
+  },
+  onWidthChange: {
+    doc: 'Called when the width reserved by the inline sidebar changes.',
+    type: '(width: number) => void',
+    status: 'optional',
+  },
+  '[HTML attributes]': {
+    doc: 'Supports HTML attributes for the aside element.',
+    type: 'Various',
+    status: 'optional',
+  },
+}
+
+export const SidebarMenuResponsiveShellProperties: PropertiesTableProps = {
+  '[HTML attributes]': {
+    doc: 'Supports HTML attributes for the responsive two-column layout wrapper. The style property can override its grid defaults.',
+    type: 'Various',
+    status: 'optional',
+  },
+}
+
 export const SidebarMenuResponsiveProviderEvents: PropertiesTableProps = {
   onOpenChange: {
     doc: 'Called whenever the responsive Drawer opens or closes.',
@@ -240,7 +341,7 @@ export const SidebarMenuResponsiveTriggerProperties: PropertiesTableProps =
       status: 'optional',
     },
     inlineControls: {
-      doc: 'Id of the desktop inline navigation restored by the trigger.',
+      doc: 'Id of the desktop inline navigation restored by the trigger. Defaults to the generated ResponsiveAside id in the same provider. Set it when ResponsiveAside uses a custom id.',
       type: 'string',
       status: 'optional',
     },
@@ -539,19 +640,13 @@ export const SidebarMenuGroupProperties: PropertiesTableProps = {
 
 export const SidebarMenuHeaderProperties: PropertiesTableProps = {
   text: {
-    doc: 'Header text.',
+    doc: 'Visible label for the grouped menu items.',
     type: 'React.ReactNode',
-    status: 'optional',
+    status: 'required',
   },
   children: {
-    doc: 'Alternative to text.',
+    doc: 'Menu items labelled by the header text.',
     type: 'React.ReactNode',
-    status: 'optional',
-  },
-  headingLevel: {
-    doc: 'Semantic heading level.',
-    type: 'number',
-    defaultValue: '2',
     status: 'optional',
   },
 }

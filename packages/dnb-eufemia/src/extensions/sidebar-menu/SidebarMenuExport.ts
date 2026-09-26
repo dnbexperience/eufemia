@@ -7,12 +7,16 @@ export { default as Header } from './SidebarMenuHeader'
 export { default as Divider } from './SidebarMenuDivider'
 export { default as Group } from './SidebarMenuGroup'
 export { default as ResizeHandle } from './SidebarMenuResizeHandle'
+export { default as ResponsiveAside } from './SidebarMenuResponsiveAside'
+export { default as ResponsiveShell } from './SidebarMenuResponsiveShell'
 export {
   SidebarMenuPreHydrationScript as PreHydrationScript,
   getPreHydrationScript,
 } from './SidebarMenuPreHydrationScript'
 export type { SidebarMenuPreHydrationScriptProps } from './SidebarMenuPreHydrationScript'
 export type { SidebarMenuResizeHandleProps } from './SidebarMenuResizeHandle'
+export type { SidebarMenuResponsiveAsideProps } from './SidebarMenuResponsiveAside'
+export type { SidebarMenuResponsiveShellProps } from './SidebarMenuResponsiveShell'
 export {
   SidebarMenuResponsiveInline as ResponsiveInline,
   SidebarMenuResponsiveDrawer as ResponsiveDrawer,
@@ -22,6 +26,7 @@ export {
 } from './SidebarMenuResponsive'
 export type {
   SidebarMenuResponsiveDrawerProps,
+  SidebarMenuResponsiveInlineProps,
   SidebarMenuResponsiveProviderProps,
   SidebarMenuResponsiveTriggerProps,
   SidebarMenuResponsiveValue,

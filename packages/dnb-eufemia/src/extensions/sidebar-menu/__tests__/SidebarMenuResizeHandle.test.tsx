@@ -1,4 +1,4 @@
-import { fireEvent, render } from '@testing-library/react'
+import { act, fireEvent, render } from '@testing-library/react'
 import { createRef } from 'react'
 import { axeComponent } from '../../../core/test-utils/testSetup'
 import SidebarMenu from '../SidebarMenu'
@@ -78,6 +78,41 @@ describe('SidebarMenuResizeHandle', () => {
     expect(handle).toHaveAttribute('aria-valuemin', '240')
     expect(handle).toHaveAttribute('aria-valuemax', '560')
     expect(handle).toHaveAttribute('aria-valuenow', '320')
+  })
+
+  it('remeasures after the responsive parent layout settles', () => {
+    let width = 240
+    let measure: FrameRequestCallback
+    const requestAnimationFrame = vi
+      .spyOn(window, 'requestAnimationFrame')
+      .mockImplementation((callback) => {
+        measure = callback
+        return 1
+      })
+    const targetRef = createRef<HTMLElement>()
+
+    render(
+      <>
+        <aside
+          ref={(element) => {
+            targetRef.current = element
+            if (element) {
+              element.getBoundingClientRect = () => ({ width }) as DOMRect
+            }
+          }}
+        />
+        <SidebarMenu.ResizeHandle targetRef={targetRef} />
+      </>
+    )
+
+    const handle = document.querySelector('button')
+    expect(handle).toHaveAttribute('aria-valuenow', '240')
+
+    width = 320
+    act(() => measure(performance.now()))
+
+    expect(handle).toHaveAttribute('aria-valuenow', '320')
+    requestAnimationFrame.mockRestore()
   })
 
   it('resizes with the keyboard and resets with Enter or double click', () => {
@@ -245,7 +280,7 @@ describe('SidebarMenuResizeHandle', () => {
       handle.style.getPropertyValue(
         '--sidebar-menu-resize-handle-position'
       )
-    ).toBe('240px')
+    ).toBe('228px')
     expect(document.documentElement).not.toHaveClass(
       'dnb-sidebar-menu-resize-handle--resizing'
     )
