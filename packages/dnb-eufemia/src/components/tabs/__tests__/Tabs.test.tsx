@@ -14,6 +14,7 @@ import { Provider } from '../../../shared'
 import defaultLocales from '../../../shared/locales'
 import type { TabsProps } from '../Tabs'
 import Tabs from '../Tabs'
+import type { TabsTabElement } from '../types'
 import Input from '../../input/Input'
 
 const props: TabsProps = { id: 'id' }
@@ -499,11 +500,10 @@ describe('Tabs disabled with tooltip', () => {
   })
 
   it('prevents link navigation when clicking a disabled tab', () => {
-    const Link = ({
-      children,
-      ...props
-    }: AnchorHTMLAttributes<HTMLAnchorElement>) => (
-      <a {...props}>{children}</a>
+    const Link: TabsTabElement = ({ children, ...props }) => (
+      <a {...(props as AnchorHTMLAttributes<HTMLAnchorElement>)}>
+        {children}
+      </a>
     )
     render(
       <Tabs
