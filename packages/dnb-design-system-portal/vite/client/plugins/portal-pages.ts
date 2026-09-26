@@ -18,6 +18,7 @@ import type {
   PageFileInfo,
   TableOfContentsItem,
 } from './portal-pages.shared'
+import { isFirstTabPage } from './portal-pages.shared'
 
 const VIRTUAL_MODULE_ID = 'virtual:portal-pages'
 const RESOLVED_VIRTUAL_MODULE_ID = '\0' + VIRTUAL_MODULE_ID
@@ -270,10 +271,7 @@ export function getVirtualModuleSignature(
   return JSON.stringify({
     slug: file.slug,
     frontmatter: file.frontmatter,
-    isFirstTab:
-      file.frontmatter.showTabs &&
-      !file.frontmatter.title &&
-      file.slug.endsWith('/info'),
+    isFirstTab: isFirstTabPage(file),
     redirectFrom: file.frontmatter.redirect_from,
   })
 }
@@ -321,11 +319,7 @@ export default function portalPagesPlugin(
           // First-tab pages (e.g. info.mdx with showTabs but no title)
           // redirect to the parent page instead of rendering separately.
           // The parent page already includes this content.
-          const isFirstTab =
-            file.type === 'mdx' &&
-            file.frontmatter.showTabs &&
-            !file.frontmatter.title &&
-            file.slug.endsWith('/info')
+          const isFirstTab = isFirstTabPage(file)
 
           if (isFirstTab) {
             const parentSlug = file.slug.replace(/\/info$/, '')

@@ -28,7 +28,16 @@ export type KnownFrontmatter = {
   title?: string
   description?: string
   order?: number
+
+  /**
+   * Hide the page from the menu and from generated list, such as
+   * `<RelatedComponents>` and the `<List*>` components.
+   */
   draft?: boolean
+
+  /**
+   * Hide the page from the menu.
+   */
   hideInMenu?: boolean
   menuTitle?: string
   showTabs?: boolean
@@ -77,6 +86,22 @@ export type PageFileInfo = {
   frontmatter: MdxFrontmatter
   tableOfContents?: { items: TableOfContentsItem[] }
   type: 'mdx' | 'tsx'
+}
+
+/**
+ * Is this the first tab of a tabbed page?
+ *
+ * Such a page (e.g. `components/table/info.mdx`) has no route of its own. The
+ * parent page already imports and renders it, so the router redirects there
+ * instead. Every other tab (`demos`, `properties`, ...) is a real route.
+ */
+export function isFirstTabPage(file: PageFileInfo): boolean {
+  return Boolean(
+    file.type === 'mdx' &&
+    file.frontmatter.showTabs &&
+    !file.frontmatter.title &&
+    file.slug.endsWith('/info')
+  )
 }
 
 const matchers = new Map<string, (slug: string) => boolean>()
