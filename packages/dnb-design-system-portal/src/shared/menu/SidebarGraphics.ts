@@ -32,6 +32,13 @@ import elements from './graphics/elements'
 import OverviewIcon from './graphics/OverviewIcon'
 import AnimationPrinciplesIcon from './graphics/AnimationPrinciplesIcon'
 import MotionIcon from './graphics/MotionIcon'
+import {
+  brush,
+  edit,
+  home,
+  lightbulb,
+  newspaper,
+} from '@dnb/eufemia/src/icons'
 
 const SidebarGraphics = {
   aboutTheLib,
@@ -63,6 +70,11 @@ const SidebarGraphics = {
   OverviewIcon,
   AnimationPrinciplesIcon,
   MotionIcon,
+  brush,
+  edit,
+  home,
+  lightbulb,
+  newspaper,
 }
 
 export default SidebarGraphics

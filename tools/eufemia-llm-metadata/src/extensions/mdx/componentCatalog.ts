@@ -143,16 +143,23 @@ export function loadComponentCatalog(
 async function buildComponentCatalog(
   docsRoot: string
 ): Promise<ComponentCatalog> {
-  const componentsRoot = path.join(docsRoot, 'uilib', 'components')
+  const catalogRoots = [
+    path.join(docsRoot, 'uilib', 'components'),
+    path.join(docsRoot, 'uilib', 'extensions'),
+  ]
   const entries: ComponentCatalogEntry[] = []
 
-  let files: string[]
-
-  try {
-    files = await findMdxFiles(componentsRoot)
-  } catch {
-    files = []
-  }
+  const files = (
+    await Promise.all(
+      catalogRoots.map(async (root) => {
+        try {
+          return await findMdxFiles(root)
+        } catch {
+          return []
+        }
+      })
+    )
+  ).flat()
 
   for (const filePath of files) {
     const relativePath = path
@@ -167,6 +174,13 @@ async function buildComponentCatalog(
     const frontmatter = await readFrontmatter(filePath)
 
     if (!frontmatter) {
+      continue
+    }
+
+    if (
+      noExt.startsWith('uilib/extensions/') &&
+      noExt.split('/').length !== 3
+    ) {
       continue
     }
 

@@ -5,7 +5,6 @@
 
 import { useEffect, useRef } from 'react'
 import type { ComponentProps, ReactNode } from 'react'
-import { Global, css } from '@emotion/react'
 import { navigate } from 'portal-query'
 import { Anchor, Button, Space } from '@dnb/eufemia/src'
 import { wrapperStyle, innerStyle, footerStyle } from './Intro.module.scss'
@@ -60,13 +59,6 @@ type IntroFooterProps = {
 
 export const IntroFooter = ({ href, text }: IntroFooterProps) => (
   <Space top noCollapse className={footerStyle}>
-    <Global
-      styles={css`
-        .dnb-app-content {
-          margin-left: 0;
-        }
-      `}
-    />
     {/* @ts-expect-error -- strictFunctionTypes */}
     <Button href={href} text={text} icon="chevron_right" element={Link} />
     <Button

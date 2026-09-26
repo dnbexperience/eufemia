@@ -1,15 +1,13 @@
 /**
  * Vite plugin that provides portal build information via a virtual module.
  *
- * (`buildVersion`, `releaseVersion`, `changelogVersion`) via
+ * (`buildVersion`, `releaseVersion`) via
  * scripts/version.js before the build.
  *
  * In the Vite pipeline the plugin computes these values at build time:
  *
  * - `releaseVersion` — read from package.json (set by `build:version` on CI)
  * - `buildVersion` — generated as current date/time in `nb-NO` locale
- * - `changelogVersion` — extracted from the first heading in the changelog
- *
  * Components import from `virtual:build-info` to access these values.
  */
 
@@ -23,23 +21,16 @@ const RESOLVED_VIRTUAL_MODULE_ID = '\0' + VIRTUAL_MODULE_ID
 export type BuildInfo = {
   releaseVersion: string
   buildVersion: string
-  changelogVersion: string
 }
 
 const portalRoot = path.resolve(__dirname, '..', '..', '..')
 
 export function getBuildInfo({
   packageJsonPath = path.resolve(portalRoot, 'package.json'),
-  changelogPath = path.resolve(
-    portalRoot,
-    'src/docs/EUFEMIA_CHANGELOG.mdx'
-  ),
 }: {
   packageJsonPath?: string
-  changelogPath?: string
 } = {}): BuildInfo {
   let releaseVersion = '[LOCAL BUILD]'
-  let changelogVersion = '[LOCAL BUILD]'
 
   // Release version from package.json (set by build:version on CI)
   try {
@@ -51,23 +42,12 @@ export function getBuildInfo({
     // Ignore — use default
   }
 
-  // Changelog version from the first heading in the changelog file
-  try {
-    const content = fs.readFileSync(changelogPath, 'utf-8')
-    const match = /^#+\s+(.*)\n/m.exec(content)
-    if (match) {
-      changelogVersion = match[1].trim()
-    }
-  } catch {
-    // Ignore — use default
-  }
-
   // Build timestamp in Norwegian locale
   const buildVersion = new Date().toLocaleString('nb-NO', {
     timeZone: 'Europe/Oslo',
   })
 
-  return { releaseVersion, buildVersion, changelogVersion }
+  return { releaseVersion, buildVersion }
 }
 
 export default function buildInfoPlugin(): Plugin {
@@ -102,7 +82,6 @@ export default function buildInfoPlugin(): Plugin {
         return [
           `export const releaseVersion = ${JSON.stringify(info.releaseVersion)}`,
           `export const buildVersion = ${JSON.stringify(info.buildVersion)}`,
-          `export const changelogVersion = ${JSON.stringify(info.changelogVersion)}`,
         ].join('\n')
       }
     },
