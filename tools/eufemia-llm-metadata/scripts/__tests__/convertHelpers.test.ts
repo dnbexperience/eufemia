@@ -1158,7 +1158,9 @@ describe('convertMdxToMd', () => {
     const tmpRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'mdx-overview-'))
     const docsRoot = path.join(tmpRoot, 'docs')
     const componentsDir = path.join(docsRoot, 'uilib', 'components')
+    const extensionsDir = path.join(docsRoot, 'uilib', 'extensions')
     fs.mkdirSync(componentsDir, { recursive: true })
+    fs.mkdirSync(extensionsDir, { recursive: true })
 
     fs.writeFileSync(
       path.join(componentsDir, 'button.mdx'),
@@ -1199,6 +1201,19 @@ describe('convertMdxToMd', () => {
       ].join('\n')
     )
 
+    fs.writeFileSync(
+      path.join(extensionsDir, 'action-extension.mdx'),
+      [
+        '---',
+        'title: ActionExtension',
+        "category: 'actions'",
+        "description: 'Use ActionExtension to complete an action.'",
+        '---',
+        '',
+        '# ActionExtension',
+      ].join('\n')
+    )
+
     const output = await convertMdxToMd({
       inputPath: path.join(componentsDir, 'overview.mdx'),
       docsRoot,
@@ -1215,6 +1230,9 @@ describe('convertMdxToMd', () => {
     )
     expect(output).toContain(
       '- [Checkbox](/uilib/components/checkbox/): Use Checkbox to turn options on or off.'
+    )
+    expect(output).toContain(
+      '- [ActionExtension](/uilib/extensions/action-extension/): Use ActionExtension to complete an action.'
     )
     expect(output).toContain('[Eufemia Forms](/uilib/extensions/forms/)')
     expect(output).not.toContain('<ListComponentsOverview')

@@ -86,9 +86,8 @@ async function prerender() {
   // Load the SSR module for metadata only (routes, allMdxNodes, etc.).
   // Actual rendering is done in worker threads for parallelism.
   const serverEntry = path.resolve(outDir, 'server', 'entry-server.mjs')
-  const { routes, getContentScript, allMdxNodes } = await import(
-    serverEntry
-  )
+  const { routes, getContentScript, getPreHydrationScript, allMdxNodes } =
+    await import(serverEntry)
 
   // Read the client HTML template
   const templatePath = path.resolve(outDir, 'index.html')
@@ -110,6 +109,7 @@ async function prerender() {
     : null
 
   const contentScript = getContentScript()
+  const sidebarPreHydrationScript = getPreHydrationScript()
   let urls = collectUrls(routes)
   console.log(`  ${urls.length} pages to prerender`)
 
@@ -175,6 +175,7 @@ async function prerender() {
         result.html,
         preloads,
         contentScript,
+        sidebarPreHydrationScript,
         result.emotionCss,
         { url, title: meta.title, description: meta.description, mdPath },
         themeCssPaths
@@ -195,6 +196,7 @@ async function prerender() {
         result404.value.html,
         { js: [], css: [] },
         contentScript,
+        sidebarPreHydrationScript,
         result404.value.emotionCss
       )
     )
@@ -419,6 +421,7 @@ function injectHtml(
   appHtml,
   preloads,
   contentScript,
+  sidebarPreHydrationScript,
   emotionCss,
   meta,
   themeCssPaths
@@ -461,13 +464,9 @@ function injectHtml(
     return normalized ? `style="${normalized};"` : 'style=""'
   })
 
-  // Restore sidebar scroll position before first paint.
-  const scrollRestoreScript = `(function(){try{var el=document.getElementById('portal-sidebar-menu');if(el){var s=parseFloat(sessionStorage.getItem('scroll-#portal-sidebar-menu')||'0');if(s){el.style.scrollBehavior='auto';el.scrollTop=s;el.style.scrollBehavior=''}}}catch(e){}})()`
-
   let html = template.replace(
     '<div id="root"></div>',
-    () =>
-      `<div id="root">${appHtml}</div>\n\t<script>${contentScript};${scrollRestoreScript}</script>`
+    `<div id="root">${appHtml}</div>\n\t<script>${contentScript};${sidebarPreHydrationScript}</script>`
   )
 
   // Inject <link> tags for ALL brand theme CSS chunks.

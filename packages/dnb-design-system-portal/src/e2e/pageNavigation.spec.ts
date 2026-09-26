@@ -1,6 +1,37 @@
 import { test, expect } from '@playwright/test'
+import type { ConsoleMessage, Page } from '@playwright/test'
 import isDev from './shared/isDev'
 import waitForApp from './shared/waitForApp'
+
+function captureConsoleErrors(page: Page) {
+  const errors: Array<Promise<string[]>> = []
+  page.on('console', (message) => {
+    if (message.type() === 'error') {
+      errors.push(readConsoleMessage(message))
+    }
+  })
+
+  return async () => (await Promise.all(errors)).flat()
+}
+
+async function readConsoleMessage(message: ConsoleMessage) {
+  const args = message.args()
+  if (args.length === 0) {
+    return [message.text()]
+  }
+
+  return Promise.all(
+    args.map(async (argument) => {
+      try {
+        return await argument.evaluate((value) =>
+          value instanceof Error ? value.message : String(value)
+        )
+      } catch {
+        return message.text()
+      }
+    })
+  )
+}
 
 test.describe('Page Navigation', () => {
   test.describe('without JavaScript', () => {
@@ -132,6 +163,21 @@ test.describe('Page Navigation', () => {
       expect(title).toContain('Button | Eufemia')
     })
 
+    test('hydrates a Portal page without recoverable errors', async ({
+      page,
+    }) => {
+      const getConsoleErrors = captureConsoleErrors(page)
+
+      await page.goto('/uilib/components/button/')
+      await waitForApp(page)
+
+      expect(
+        (await getConsoleErrors()).filter((message) =>
+          message.includes('#418')
+        )
+      ).toEqual([])
+    })
+
     test('should contain a Suggest an edit link', async ({ page }) => {
       await page.goto('/uilib/components/button/')
       await waitForApp(page)
@@ -165,16 +211,17 @@ test.describe('Page Navigation', () => {
     test('click on button page should open /uilib/components/button', async ({
       page,
     }) => {
+      await page.setViewportSize({ width: 1440, height: 900 })
       await page.goto('/uilib/components/')
       await waitForApp(page)
 
-      const expandButtons = page.locator(
-        '.dnb-sidebar-menu__expand-button'
-      )
-      const count = await expandButtons.count()
-      for (let i = 0; i < count; i++) {
-        await expandButtons.nth(i).click()
-      }
+      await page
+        .locator(
+          '.dnb-sidebar-menu__accordion__toggle[aria-expanded="false"]'
+        )
+        .evaluateAll((buttons: HTMLButtonElement[]) => {
+          buttons.forEach((button) => button.click())
+        })
 
       const href = '/uilib/components/button'
       const buttonLink = page.locator(

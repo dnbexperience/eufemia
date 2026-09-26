@@ -13,8 +13,8 @@
  * Environment variables:
  * - `IS_VISUAL_TEST=1` — extracts URLs from `setupPageScreenshot()` /
  *   `makeScreenshot()` calls in `.screenshot.test.ts` files
- * - `IS_E2E=1` — extracts URLs from `page.goto()` calls in
- *   `.spec.ts` / `.e2e.spec.ts` files
+ * - `IS_E2E=1` — extracts URLs from `page.goto()` and `toHaveURL()` calls
+ *   in `.spec.ts` / `.e2e.spec.ts` files
  *
  * When neither variable is set, the plugin does nothing.
  */
@@ -290,7 +290,8 @@ export function extractPageGotoUrls(filePath: string): Set<string> {
     if (
       ts.isCallExpression(node) &&
       ts.isPropertyAccessExpression(node.expression) &&
-      node.expression.name.text === 'goto'
+      (node.expression.name.text === 'goto' ||
+        node.expression.name.text === 'toHaveURL')
     ) {
       const [arg] = node.arguments
       const rawValue =

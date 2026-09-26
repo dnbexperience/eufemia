@@ -64,6 +64,19 @@ export const excludedSlugs = new Set([
   'uilib/components/overview',
 ])
 
+const categorizedExtensionSlugs = new Set([
+  'uilib/extensions/payment-card',
+  'uilib/extensions/sidebar-menu',
+  'uilib/extensions/vipps-wallet-button',
+])
+
+export function isCategorizedComponentSlug(slug: string) {
+  return (
+    slug.startsWith('uilib/components/') ||
+    categorizedExtensionSlugs.has(slug)
+  )
+}
+
 export function isCategoryId(
   category: CategoryValue
 ): category is CategoryId {
