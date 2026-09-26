@@ -5,10 +5,17 @@ AWS origin is a private, versioned S3 bucket behind CloudFront. Akamai is the
 public edge and CloudFront rejects requests that do not carry the shared origin
 verification header.
 
-The URL structure matches the package structure, for example:
+Every published Eufemia version, including prereleases, gets an immutable
+prefix. Stable aliases follow only the latest stable release and remain
+available for manually linked assets and backwards compatibility:
 
+- `https://assets.eufemia.dnb.no/v<version>/fonts/dnb/DNB-Regular.woff2`
 - `https://assets.eufemia.dnb.no/fonts/dnb/DNB-Regular.woff2`
-- `https://assets.eufemia.dnb.no/flags/1x1/no.svg`
+
+Generated Eufemia CSS uses the immutable URL matching its package version. The
+root sync cannot delete historical `v*/` content or independently published
+prefixes. The `logos/` namespace is reserved for the standalone
+`@eufemia/logos` publisher.
 
 ## Deployment
 

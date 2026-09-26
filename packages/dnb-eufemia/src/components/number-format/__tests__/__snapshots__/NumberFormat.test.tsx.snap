@@ -66,7 +66,6 @@ exports[`NumberFormat scss > has to match style dependencies css 1`] = `
 .dnb-number-format {
   display: inline-block;
   position: relative;
-  speak-as: numbers;
   white-space: nowrap;
 }
 .dnb-number-format .dnb-sr-only::before {

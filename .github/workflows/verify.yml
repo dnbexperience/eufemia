@@ -264,6 +264,11 @@ jobs:
       - name: Build marketplace plugins
         run: yarn workspace eufemia-raiwork-plugin build:all
 
+      # The starter is published as a consumer template (see dev.yml) and has
+      # no other CI coverage.
+      - name: Build starter template
+        run: yarn workspace eufemia-starter build
+
       - name: Check bundle sizes
         env:
           BUNDLEWATCH_GITHUB_TOKEN: ${{ github.token }}

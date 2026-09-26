@@ -51,11 +51,17 @@ export type McpUsageDay = { date: string; count: number }
 
 // The MCP usage dashboard section: overall total plus ranked breakdowns and a
 // daily series for trend/year-over-year views.
+//
+// `perVersion` is local-only: it counts transport='local' rows grouped by the
+// reported Eufemia version. The web MCP Lambda always runs latest and records no
+// version, so those rows are excluded rather than shown as a null bucket. The
+// tool/component/path breakdowns above merge both transports.
 export type McpUsageSection = {
   total: number
   perTool: McpUsageCount[]
   perComponent: McpUsageCount[]
   perPath: McpUsageCount[]
+  perVersion: McpUsageCount[]
   daily: McpUsageDay[]
 }
 
@@ -64,6 +70,7 @@ export const EMPTY_MCP_USAGE: McpUsageSection = {
   perTool: [],
   perComponent: [],
   perPath: [],
+  perVersion: [],
   daily: [],
 }
 

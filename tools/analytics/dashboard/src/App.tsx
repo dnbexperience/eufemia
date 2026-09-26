@@ -264,6 +264,18 @@ function Dashboard({
         />
       </Card>
 
+      {(mcp?.perVersion ?? []).length > 0 && (
+        <Card stack>
+          <H2 size="medium">Local MCP — by Eufemia version</H2>
+          <RankedTable
+            caption="Local MCP by Eufemia version"
+            nameHeader="Version"
+            countHeader="Requests"
+            items={(mcp?.perVersion ?? []).slice(0, 15)}
+          />
+        </Card>
+      )}
+
       {componentTotal > 0 && (
         <>
           <P className="dashboard__meta">

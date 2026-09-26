@@ -15,6 +15,9 @@ const { getStyleScopeHash } = requireConfigTimeEufemiaModule(
 const postcssFontUrlRewritePlugin = requireConfigTimeEufemiaModule(
   '@dnb/eufemia/src/plugins/postcss-font-url-rewrite'
 )
+const { getFontBasePath } = requireConfigTimeEufemiaModule(
+  '@dnb/eufemia/src/plugins/postcss-font-url-rewrite/config'
+)
 const postcssThemeScopePlugin = require('./postcss-eufemia-theme-scope.cjs')
 
 module.exports = {
@@ -36,7 +39,7 @@ module.exports = {
           }),
           postcssThemeScopePlugin(),
           postcssFontUrlRewritePlugin({
-            basePath: 'https://eufemia.dnb.no/fonts/',
+            basePath: getFontBasePath(),
             verbose: false,
           }),
         ]

@@ -151,6 +151,26 @@ export const TabsExampleScrollable = () => (
   </Wrapper>
 )
 
+export const TabsExampleDisabledWithTooltip = () => (
+  <Wrapper>
+    <ComponentBox data-visual-test="tabs-disabled-tooltip">
+      <Tabs
+        data={[
+          { title: 'Overview', key: 'overview' },
+          { title: 'Analysis', key: 'analysis' },
+          {
+            title: 'Holdings',
+            key: 'holdings',
+            disabled: true,
+            tooltip: 'Coming soon',
+          },
+          { title: 'Dividends', key: 'dividends' },
+        ]}
+      />
+    </ComponentBox>
+  </Wrapper>
+)
+
 export const TabsExampleLeftAligned = () => (
   <Wrapper>
     <ComponentBox data-visual-test="tabs-section-styles">

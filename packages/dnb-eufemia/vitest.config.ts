@@ -70,18 +70,9 @@ export default defineConfig({
     mockReset: false,
     clearMocks: false,
 
-    // Transform configuration — Vitest uses esbuild by default
+    // Transform configuration — Vitest transforms through Oxc (Rolldown)
     // CSS/SCSS/MD files are returned as empty strings
     css: false,
-
-    // Dependencies that need transforming (ESM packages)
-    deps: {
-      optimizer: {
-        web: {
-          include: ['ora', 'globby', 'mock-match-media'],
-        },
-      },
-    },
   },
 
   resolve: {

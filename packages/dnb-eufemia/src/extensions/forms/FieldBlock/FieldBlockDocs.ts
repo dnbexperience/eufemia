@@ -7,7 +7,7 @@ export const FieldBlockSharedProperties: PropertiesTableProps = {
     status: 'optional',
   },
   labelDescription: {
-    doc: 'A more discreet text displayed beside the label (e.g. "(optional)").',
+    doc: 'Supporting text displayed below the label by default. Set `labelDescriptionInline` to `true` to display it on the same line as the label.',
     type: 'string',
     status: 'optional',
   },

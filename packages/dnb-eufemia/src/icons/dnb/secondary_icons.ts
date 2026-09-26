@@ -234,6 +234,7 @@ import shield from './shield'
 import shield_lock from './shield_lock'
 import shopping_cart from './shopping_cart'
 import show_pin from './show_pin'
+import sidebar from './sidebar'
 import snowmobile from './snowmobile'
 import solve from './solve'
 import sort from './sort'
@@ -511,6 +512,7 @@ export {
   shield_lock,
   shopping_cart,
   show_pin,
+  sidebar,
   snowmobile,
   solve,
   sort,

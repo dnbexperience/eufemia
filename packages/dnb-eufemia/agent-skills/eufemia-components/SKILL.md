@@ -24,8 +24,11 @@ Use Eufemia's packaged documentation as the source of truth.
    block, including inherited APIs and compound components.
 5. Use `component_doc` when implementation examples, behavior, accessibility,
    or contextual guidance are needed.
-6. Do not infer undocumented properties or reproduce APIs from memory.
-7. If generally useful functionality is missing, identify it as a possible
+6. When translating a design, screenshot, or Figma context, identify the
+   semantic role of visible details and verify each property mapping in the
+   current component documentation.
+7. Do not infer undocumented properties or reproduce APIs from memory.
+8. If generally useful functionality is missing, identify it as a possible
    Eufemia contribution instead of automatically creating a parallel component.
 
 State which documentation path or component API supports the result. If the MCP

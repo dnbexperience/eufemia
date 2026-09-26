@@ -73,6 +73,44 @@ describe('App (smoke)', () => {
     expect(container.querySelectorAll('table').length).toBeGreaterThan(0)
   })
 
+  it('renders the local MCP by-version section when perVersion has data', async () => {
+    vi.mocked(loadDashboardData).mockResolvedValue({
+      kind: 'data',
+      payload: {
+        ...populated,
+        mcpUsage: {
+          ...populated.mcpUsage,
+          perVersion: [{ name: '10.79.0', count: 5 }],
+        },
+      },
+    })
+
+    const { container } = render(<App />)
+
+    await waitFor(() =>
+      expect(container.textContent).toContain(
+        'Local MCP — by Eufemia version'
+      )
+    )
+    expect(container.textContent).toContain('10.79.0')
+  })
+
+  it('hides the local MCP by-version section when perVersion is empty', async () => {
+    vi.mocked(loadDashboardData).mockResolvedValue({
+      kind: 'data',
+      payload: populated,
+    })
+
+    const { container } = render(<App />)
+
+    await waitFor(() =>
+      expect(container.textContent).toContain('Top pages')
+    )
+    expect(container.textContent).not.toContain(
+      'Local MCP — by Eufemia version'
+    )
+  })
+
   it('hides the component-usage section when there is no component data', async () => {
     vi.mocked(loadDashboardData).mockResolvedValue({
       kind: 'data',

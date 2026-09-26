@@ -179,6 +179,36 @@ export const IconsSvg = ({ strokeWidth = '1.5', ...props }) => (
     />
   </svg>
 )
+export const FoundationsSvg = (props) => (
+  <svg
+    width="48"
+    height="48"
+    viewBox="0 0 48 48"
+    fill="none"
+    stroke="currentColor"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
+  >
+    <path
+      d="M24 2L46 14L24 26L2 14L24 2Z"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M2 24L24 36L46 24"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M2 34L24 46L46 34"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+)
 export const UilibSvg = (props) => (
   <svg
     width="48"

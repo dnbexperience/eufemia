@@ -67,7 +67,7 @@ function MyApp() {
 **Good to know:**
 
 - Remove existing `.dnb-core-style` classes.
-- Font files are loaded from the CDN (Read more [about hosted fonts](/uilib/typography/#hosted-fonts-cdn)), so they are shared between Eufemia versions.
+- Font files are loaded from the [immutable CDN path matching the Eufemia version](/uilib/usage/assets/#stable-and-versioned-urls), so isolated applications do not silently change when a newer release updates a font.
 
 ### 3. Add the PostCSS plugin
 

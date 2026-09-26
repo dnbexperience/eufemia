@@ -51,14 +51,58 @@ jobs:
           set -euo pipefail
           BUCKET=$(terraform -chdir=infra output -raw bucket_name)
           DIST=$(terraform -chdir=infra output -raw distribution_id)
+          VERSION=$(cat VERSION)
 
-          aws s3 sync assets "s3://${BUCKET}" \
-            --delete \
-            --cache-control 'public,max-age=3600,s-maxage=86400,stale-while-revalidate=604800'
+          if [[ ! "$VERSION" =~ ^v[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.-]+)?$ ]]; then
+            echo "Invalid asset version: $VERSION" >&2
+            exit 1
+          fi
 
-          aws cloudfront create-invalidation \
-            --distribution-id "$DIST" \
-            --paths '/*'
+          # Immutable release assets. A rerun is allowed only when every source
+          # byte is identical to the original publication.
+          EXISTING_COUNT=$(aws s3api list-objects-v2 \
+            --bucket "$BUCKET" \
+            --prefix "${VERSION}/" \
+            --max-keys 1 \
+            --query 'KeyCount' \
+            --output text)
+          if [ "$EXISTING_COUNT" = "0" ]; then
+            aws s3 sync assets "s3://${BUCKET}/${VERSION}/" \
+              --cache-control 'public,max-age=31536000,immutable'
+            aws s3 cp ASSETS.sha256 "s3://${BUCKET}/${VERSION}/.manifest.sha256" \
+              --cache-control 'public,max-age=31536000,immutable'
+          else
+            aws s3 cp "s3://${BUCKET}/${VERSION}/.manifest.sha256" \
+              /tmp/published-assets.sha256
+            if ! cmp --silent ASSETS.sha256 /tmp/published-assets.sha256; then
+              echo "Refusing to change immutable assets for ${VERSION}." >&2
+              exit 1
+            fi
+          fi
+
+          if [[ "$VERSION" != *-* ]]; then
+            # Stable aliases for manually linked assets and backwards
+            # compatibility. Sync only the prefixes this publisher owns, so
+            # historical releases and unrelated publishers can never be deleted.
+            for ASSET_DIR in assets/*/; do
+              ASSET_PREFIX=$(basename "$ASSET_DIR")
+              case "$ASSET_PREFIX" in
+                logos|v*)
+                  echo "Reserved asset prefix: $ASSET_PREFIX" >&2
+                  exit 1 ;;
+              esac
+              aws s3 sync "$ASSET_DIR" "s3://${BUCKET}/${ASSET_PREFIX}/" \
+                --delete \
+                --cache-control 'public,max-age=3600,s-maxage=86400,stale-while-revalidate=604800'
+            done
+
+            mapfile -t INVALIDATION_PATHS < <(
+              find assets -mindepth 1 -maxdepth 1 -type d -printf '/%f/*\n' | sort
+            )
+            aws cloudfront create-invalidation \
+              --distribution-id "$DIST" \
+              --paths "${INVALIDATION_PATHS[@]}"
+          fi
 
       - name: Post deploy summary
         if: always()
@@ -67,3 +111,4 @@ jobs:
           echo "## Eufemia assets deployed" >> "$GITHUB_STEP_SUMMARY"
           echo "" >> "$GITHUB_STEP_SUMMARY"
           echo "**CloudFront origin:** \`${ORIGIN}\`" >> "$GITHUB_STEP_SUMMARY"
+          echo "**Published version:** \`$(cat VERSION)\`" >> "$GITHUB_STEP_SUMMARY"

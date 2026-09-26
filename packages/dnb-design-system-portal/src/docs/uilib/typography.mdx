@@ -145,29 +145,37 @@ Use it either by a CSS class `.dnb-t__family--monospace` or define your own like
 
 ## Hosted Fonts (CDN)
 
-The font files are hosted under the following URLs:
+New Eufemia releases load fonts from an immutable CDN path matching the package
+version, for example
+`https://assets.eufemia.dnb.no/v<version>/fonts/dnb/DNB-Regular.woff2`.
+
+The stable URLs below always serve the latest stable release and are convenient
+when linking fonts manually:
 
 ### DNB
 
-- `https://eufemia.dnb.no/fonts/dnb/DNB-Regular.woff2`
-- `https://eufemia.dnb.no/fonts/dnb/DNB-Medium.woff2`
-- `https://eufemia.dnb.no/fonts/dnb/DNB-Bold.woff2`
-- `https://eufemia.dnb.no/fonts/dnb/DNBMono-Regular.woff2`
-- `https://eufemia.dnb.no/fonts/dnb/DNBMono-Medium.woff2`
-- `https://eufemia.dnb.no/fonts/dnb/DNBMono-Bold.woff2`
+- `https://assets.eufemia.dnb.no/fonts/dnb/DNB-Regular.woff2`
+- `https://assets.eufemia.dnb.no/fonts/dnb/DNB-Medium.woff2`
+- `https://assets.eufemia.dnb.no/fonts/dnb/DNB-Bold.woff2`
+- `https://assets.eufemia.dnb.no/fonts/dnb/DNBMono-Regular.woff2`
+- `https://assets.eufemia.dnb.no/fonts/dnb/DNBMono-Medium.woff2`
+- `https://assets.eufemia.dnb.no/fonts/dnb/DNBMono-Bold.woff2`
 
 ### Sbanken
 
-- `https://eufemia.dnb.no/fonts/sbanken/MaisonNeue.woff2`
-- `https://eufemia.dnb.no/fonts/sbanken/Roboto-Regular.woff2`
-- `https://eufemia.dnb.no/fonts/sbanken/Roboto-Medium.woff2`
-- `https://eufemia.dnb.no/fonts/sbanken/Roboto-Bold.woff2`
+- `https://assets.eufemia.dnb.no/fonts/sbanken/MaisonNeue.woff2`
+- `https://assets.eufemia.dnb.no/fonts/sbanken/Roboto-Regular.woff2`
+- `https://assets.eufemia.dnb.no/fonts/sbanken/Roboto-Medium.woff2`
+- `https://assets.eufemia.dnb.no/fonts/sbanken/Roboto-Bold.woff2`
 
 ### DNB Carnegie
 
-- `https://eufemia.dnb.no/fonts/carnegie/ArizonaFlare-Regular.woff2`
-- `https://eufemia.dnb.no/fonts/carnegie/ArizonaFlare-Medium.woff2`
-- `https://eufemia.dnb.no/fonts/carnegie/ArizonaFlare-Bold.woff2`
+- `https://assets.eufemia.dnb.no/fonts/carnegie/ArizonaFlare-Regular.woff2`
+- `https://assets.eufemia.dnb.no/fonts/carnegie/ArizonaFlare-Medium.woff2`
+- `https://assets.eufemia.dnb.no/fonts/carnegie/ArizonaFlare-Bold.woff2`
+
+See the [Asset CDN documentation](/uilib/usage/assets/) for the immutable URL
+contract and other published assets.
 
 <VisibleWhenVisualTest>
   <ResponsiveTypographyFullExample />
