@@ -3,7 +3,6 @@
 declare module 'virtual:build-info' {
   export const releaseVersion: string
   export const buildVersion: string
-  export const changelogVersion: string
 }
 
 declare module 'virtual:eufemia-theme-styles' {

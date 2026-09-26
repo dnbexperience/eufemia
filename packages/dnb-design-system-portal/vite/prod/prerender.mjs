@@ -470,9 +470,6 @@ function injectHtml(
     ''
   )
 
-  // Restore sidebar scroll position before first paint.
-  const scrollRestoreScript = `(function(){try{var el=document.getElementById('portal-sidebar-menu');if(el){var s=parseFloat(sessionStorage.getItem('scroll-#portal-sidebar-menu')||'0');if(s){el.style.scrollBehavior='auto';el.scrollTop=s;el.style.scrollBehavior=''}}}catch(e){}})()`
-
   const persistedSidebarScript =
     /data-(?:inline-collapsed|open-items|scroll-position)-storage-key=/.test(
       appHtml
@@ -483,7 +480,7 @@ function injectHtml(
   let html = template.replace(
     '<div id="root"></div>',
     () =>
-      `<div id="root">${appHtml}</div>\n\t<script>${contentScript};${scrollRestoreScript};${persistedSidebarScript}</script>`
+      `<div id="root">${appHtml}</div>\n\t<script>${contentScript};${persistedSidebarScript}</script>`
   )
 
   // Inject <link> tags for ALL brand theme CSS chunks.

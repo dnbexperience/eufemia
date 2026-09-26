@@ -8,7 +8,7 @@ test.describe('Fullscreen', () => {
   test('click on fullscreen button should navigate to the fullscreen page', async ({
     page,
   }) => {
-    await page.waitForSelector('nav#portal-sidebar-menu')
+    await page.waitForSelector('#portal-sidebar-menu')
 
     await page.click('a.fullscreen')
     await page.waitForURL('**/uilib/components/button/demos/?fullscreen')
@@ -51,7 +51,7 @@ test.describe('Fullscreen', () => {
 
     // Header and sidebar should be hidden
     await expect(page.locator('header.sticky-menu')).toHaveCount(0)
-    await expect(page.locator('nav#portal-sidebar-menu')).toHaveCount(0)
+    await expect(page.locator('#portal-sidebar-menu')).toHaveCount(0)
 
     // Quit fullscreen
     await page.click('a.fullscreen')
@@ -59,7 +59,7 @@ test.describe('Fullscreen', () => {
 
     // Header and sidebar should reappear
     await expect(page.locator('header.sticky-menu')).toBeVisible()
-    await expect(page.locator('nav#portal-sidebar-menu')).toBeVisible()
+    await expect(page.locator('#portal-sidebar-menu')).toBeVisible()
   })
 
   test('should highlight the correct tab when visiting a fullscreen URL directly', async ({

@@ -20,9 +20,8 @@ if (
 
   let css =
     'header.sticky-menu{display:none!important}' +
-    'nav#portal-sidebar-menu{display:none!important}' +
-    '.dnb-app-content{margin-left:0!important}' +
-    ':root{--aside-width:0}'
+    '.dnb-sidebar-menu-responsive-inline{display:none!important}' +
+    ':root{--aside-width:0px}'
 
   if (search.includes('focusmode')) {
     css +=
