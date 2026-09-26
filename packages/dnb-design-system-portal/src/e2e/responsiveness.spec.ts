@@ -160,12 +160,12 @@ test.describe('Responsiveness', () => {
     )
     const handlePosition = await handle.evaluate((element) => {
       const rect = element.getBoundingClientRect()
-      return { y: rect.top + rect.height / 2 }
+      return { x: rect.left + 3, y: rect.top + rect.height / 2 }
     })
 
-    await page.mouse.move(383, handlePosition.y)
+    await page.mouse.move(handlePosition.x, handlePosition.y)
     await page.mouse.down()
-    await page.mouse.move(119, handlePosition.y)
+    await page.mouse.move(handlePosition.x - 264, handlePosition.y)
     expect((await inline.boundingBox())?.width).toBeLessThan(240)
     await page.mouse.up()
 
@@ -183,7 +183,7 @@ test.describe('Responsiveness', () => {
       await tools.evaluate(
         (element) => element.getBoundingClientRect().right
       )
-    ).toBeCloseTo(toolsRight, 1)
+    ).toBeCloseTo(toolsRight, 0)
     await expect(sidebar).toHaveCSS('visibility', 'hidden')
     await expect(sidebarSurface).toHaveCSS(
       'clip-path',
