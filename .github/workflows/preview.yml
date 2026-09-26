@@ -54,6 +54,21 @@ jobs:
       - name: Validate internal links
         run: yarn workspace dnb-design-system-portal validate:links
 
+      - name: Compare duplicate IDs with production
+        run: |
+          set -o pipefail
+          yarn workspace dnb-design-system-portal validate:duplicate-ids \
+            --baseline https://eufemia.dnb.no/portal-duplicate-ids.json \
+            --current public/portal-duplicate-ids.json \
+            | tee -a "$GITHUB_STEP_SUMMARY"
+
+      - name: Store duplicate ID report
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: portal-duplicate-ids
+          path: packages/dnb-design-system-portal/public/portal-duplicate-ids.json
+
       # Cloudflare credentials are not exposed to Dependabot-triggered runs or
       # forked PRs. Detect their absence and skip the deploy instead of failing,
       # so those PRs still go green. Only the presence of the token is checked,
