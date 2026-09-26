@@ -499,8 +499,11 @@ describe('Tabs disabled with tooltip', () => {
   })
 
   it('prevents link navigation when clicking a disabled tab', () => {
-    const Link = (props: AnchorHTMLAttributes<HTMLAnchorElement>) => (
-      <a {...props} />
+    const Link = ({
+      children,
+      ...props
+    }: AnchorHTMLAttributes<HTMLAnchorElement>) => (
+      <a {...props}>{children}</a>
     )
     render(
       <Tabs
@@ -549,7 +552,7 @@ describe('Tabs disabled with tooltip', () => {
     )
   })
 
-  it('skips the disabled tab when moving focus with the keyboard', () => {
+  it('focuses a disabled tab with a tooltip without selecting it', async () => {
     const onFocus = vi.fn()
     render(
       <Tabs
@@ -565,8 +568,27 @@ describe('Tabs disabled with tooltip', () => {
     })
 
     expect(onFocus).toHaveBeenLastCalledWith(
-      expect.objectContaining({ focusKey: 'fourth' })
+      expect.objectContaining({ focusKey: 'third' })
     )
+    expect(getTab('third')).toHaveFocus()
+    expect(getTab('second')).toHaveAttribute('aria-selected', 'true')
+    await waitFor(() => {
+      expect(
+        document.querySelector('.dnb-tooltip--active')
+      ).toHaveTextContent('Coming soon')
+    })
+
+    fireEvent.keyDown(document.querySelector('.dnb-tabs__tabs__tablist'), {
+      key: 'ArrowRight',
+    })
+    fireEvent.keyDown(document.querySelector('.dnb-tabs__tabs__tablist'), {
+      key: 'ArrowRight',
+    })
+
+    expect(onFocus).toHaveBeenLastCalledWith(
+      expect.objectContaining({ focusKey: 'first' })
+    )
+    expect(getTab('fifth')).not.toHaveFocus()
   })
 })
 

@@ -583,9 +583,13 @@ function TabsComponent(ownProps: TabsProps) {
 
   const getStepKey = (
     useKey: string | number,
-    stateKey: string | number
+    stateKey: string | number,
+    includeDisabledWithTooltip = false
   ) => {
-    const currentData = dataRef.current.filter(({ disabled }) => !disabled)
+    const currentData = dataRef.current.filter(
+      ({ disabled, tooltip }) =>
+        !disabled || (includeDisabledWithTooltip && Boolean(tooltip))
+    )
     const currentIndex = currentData.reduce(
       (acc: number, { key }: TabDataItem, i: number) =>
         key == stateKey ? i : acc,
@@ -627,7 +631,7 @@ function TabsComponent(ownProps: TabsProps) {
   ) => {
     // for handling openPrevTab and openNextTab
     if (mode === 'step' && parseFloat(String(newFocusKey))) {
-      newFocusKey = getStepKey(newFocusKey, focusKeyRef.current)
+      newFocusKey = getStepKey(newFocusKey, focusKeyRef.current, true)
     }
 
     listenForPropChangesRef.current = false
