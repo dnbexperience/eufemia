@@ -32,6 +32,13 @@ test.describe('Page Heading', () => {
     expect(thirdElementTagName).toBe('H2')
 
     // App should re-render
+    await page
+      .locator('#portal-sidebar-menu .dnb-sidebar-menu__item__action')
+      .first()
+      .hover()
+    await expect(
+      page.locator('.dnb-sidebar-menu-responsive-inline__content')
+    ).toHaveCSS('clip-path', 'inset(0px)')
     await page.click(
       '#portal-sidebar-menu ul li a[href="/uilib/components/button"]'
     )
