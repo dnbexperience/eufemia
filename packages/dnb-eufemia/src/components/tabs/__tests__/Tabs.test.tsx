@@ -4,7 +4,7 @@
  */
 
 import { StrictMode } from 'react'
-import type { ReactNode } from 'react'
+import type { AnchorHTMLAttributes, ReactNode } from 'react'
 import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
 import { act, fireEvent, render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
@@ -496,6 +496,31 @@ describe('Tabs disabled with tooltip', () => {
     expect(onClick).not.toHaveBeenCalled()
     expect(onChange).not.toHaveBeenCalled()
     expect(getTab('second')).toHaveAttribute('aria-selected', 'true')
+  })
+
+  it('prevents link navigation when clicking a disabled tab', () => {
+    const Link = (props: AnchorHTMLAttributes<HTMLAnchorElement>) => (
+      <a {...props} />
+    )
+    render(
+      <Tabs
+        {...props}
+        data={data.map((item) => ({
+          ...item,
+          href: `/${item.key}`,
+        }))}
+        selectedKey="second"
+        tabElement={Link}
+      />
+    )
+
+    const event = new MouseEvent('click', {
+      bubbles: true,
+      cancelable: true,
+    })
+    getTab('third').dispatchEvent(event)
+
+    expect(event.defaultPrevented).toBe(true)
   })
 
   it('skips the disabled tab when stepping with the scroll navigation buttons', () => {

@@ -952,7 +952,12 @@ function TabsComponent(ownProps: TabsProps) {
     const isDisabled = dataRef.current.some(
       (item) => item.key == key && item.disabled
     )
-    if (key && !isDisabled) {
+    if (isDisabled) {
+      event.preventDefault()
+      return
+    }
+
+    if (key) {
       const ret = dispatchCustomElementEvent(
         { props: propsRef.current },
         'onClick',
