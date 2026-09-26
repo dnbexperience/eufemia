@@ -9,6 +9,8 @@
 /style
 /docs
 /public
+/portal-accessibility-issue.json
+/portal-accessibility-report.json
 /dist
 /vite/dist
 

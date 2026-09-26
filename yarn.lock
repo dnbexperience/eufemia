@@ -606,6 +606,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@axe-core/playwright@npm:4.13.0":
+  version: 4.13.0
+  resolution: "@axe-core/playwright@npm:4.13.0"
+  dependencies:
+    axe-core: "npm:~4.13.0"
+  peerDependencies:
+    playwright-core: ">= 1.0.0"
+  checksum: 10/2400e309d6f6d96b3f3f12b00a80e32cb0213726fcfc3c457b36d17f7136a3361f02a7523286024d7e8ceba9045a5f9c18edd8bc352f76b549faedce298fada2
+  languageName: node
+  linkType: hard
+
 "@babel/cli@npm:7.28.3":
   version: 7.28.3
   resolution: "@babel/cli@npm:7.28.3"
@@ -7076,10 +7087,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axe-core@npm:4.12.1, axe-core@npm:^4.10.0":
+"axe-core@npm:4.12.1":
   version: 4.12.1
   resolution: "axe-core@npm:4.12.1"
   checksum: 10/08c2ff348524b57dfb68f4e866b1a6363147203b721c734ed00090c16eb911cd015cf71fd96a8bafe42609715f649d21b2e188fae622ac8ef6144b144582f6c4
+  languageName: node
+  linkType: hard
+
+"axe-core@npm:^4.10.0, axe-core@npm:~4.13.0":
+  version: 4.13.0
+  resolution: "axe-core@npm:4.13.0"
+  checksum: 10/b9319bedc705fde00e4abd981d8724202cc20102e4ae6d8edfde33cb5265e0fb8f67f32adcb4ad33fbd4a2c8d7ad7ef5af1d933d9ad859bed90e3eae0ee8c52f
   languageName: node
   linkType: hard
 
@@ -8682,6 +8700,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "dnb-design-system-portal@workspace:packages/dnb-design-system-portal"
   dependencies:
+    "@axe-core/playwright": "npm:4.13.0"
     "@babel/core": "npm:7.29.7"
     "@dnb/browserslist-config": "npm:1.4.1"
     "@dnb/eufemia": "workspace:*"
@@ -8716,6 +8735,7 @@ __metadata:
     micromatch: "npm:4.0.8"
     parse5: "npm:8.0.1"
     picomatch: "npm:4.0.4"
+    playwright-core: "npm:1.60.0"
     prettier: "npm:3.8.1"
     prettier-package-json: "npm:2.8.0"
     prism-react-renderer: "npm:2.4.1"
