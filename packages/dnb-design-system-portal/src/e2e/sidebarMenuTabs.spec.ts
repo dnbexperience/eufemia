@@ -1,0 +1,348 @@
+import { expect, test } from '@playwright/test'
+import waitForApp from './shared/waitForApp'
+
+test.describe('SidebarMenu documentation tabs', () => {
+  test.beforeEach(async ({ page }) => {
+    await page.goto('/uilib/extensions/sidebar-menu')
+    await waitForApp(page)
+  })
+
+  test('navigates to properties and events', async ({ page }) => {
+    const properties = page.getByRole('tab', {
+      name: 'Properties',
+      exact: true,
+    })
+    await properties.click()
+
+    await expect(page).toHaveURL(
+      '/uilib/extensions/sidebar-menu/properties'
+    )
+    await expect(properties).toHaveAttribute('aria-selected', 'true')
+    await expect(
+      page.getByRole('heading', {
+        name: 'SidebarMenu.Root',
+        exact: true,
+      })
+    ).toBeVisible()
+
+    const events = page.getByRole('tab', {
+      name: 'Events',
+      exact: true,
+    })
+    await events.click()
+
+    await expect(page).toHaveURL('/uilib/extensions/sidebar-menu/events')
+    await expect(events).toHaveAttribute('aria-selected', 'true')
+    await expect(
+      page.getByRole('heading', {
+        name: 'SidebarMenu.Root Events',
+        exact: true,
+      })
+    ).toBeVisible()
+  })
+
+  test('loads properties and events directly', async ({ page }) => {
+    await page.goto('/uilib/extensions/sidebar-menu/properties')
+    await waitForApp(page)
+    await expect(
+      page.getByRole('heading', {
+        name: 'SidebarMenu.Root',
+        exact: true,
+      })
+    ).toBeVisible()
+
+    await page.goto('/uilib/extensions/sidebar-menu/events')
+    await waitForApp(page)
+    await expect(
+      page.getByRole('heading', {
+        name: 'SidebarMenu.Root Events',
+        exact: true,
+      })
+    ).toBeVisible()
+  })
+})
+
+test('reopens the selected page accordion after reload', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.goto('/uilib/layout')
+  await waitForApp(page)
+
+  const menu = page.getByRole('navigation', {
+    name: 'Section Content Menu',
+  })
+  const layout = menu.getByRole('link', {
+    name: 'Layout & spacing',
+    exact: true,
+  })
+
+  await expect(
+    menu.getByRole('button', { name: 'Foundations' })
+  ).toHaveAttribute('aria-expanded', 'true')
+  await expect(layout).toHaveAttribute('aria-expanded', 'true')
+  await expect(layout).not.toHaveCSS(
+    'background-color',
+    'rgba(0, 0, 0, 0)'
+  )
+  await expect(layout).not.toHaveCSS('box-shadow', 'none')
+  await page.keyboard.press('Tab')
+  await layout.focus()
+  await expect(layout).toHaveCSS('color', 'rgb(39, 106, 206)')
+  await expect(menu.locator('#uilib-layout-content')).toBeVisible()
+
+  await layout.click()
+  await expect(layout).toHaveAttribute('aria-expanded', 'false')
+
+  await page.reload()
+  await waitForApp(page)
+
+  const reloadedMenu = page.getByRole('navigation', {
+    name: 'Section Content Menu',
+  })
+  await expect(
+    reloadedMenu.getByRole('link', {
+      name: 'Layout & spacing',
+      exact: true,
+    })
+  ).toHaveAttribute('aria-expanded', 'true')
+  await expect(reloadedMenu.locator('#uilib-layout-content')).toBeVisible()
+})
+
+test('opens Components on the first click from the Layout page', async ({
+  page,
+}) => {
+  await page.goto('/uilib/layout')
+
+  const menu = page.getByRole('navigation', {
+    name: 'Section Content Menu',
+  })
+  const components = menu.getByRole('button', {
+    name: 'Components',
+    exact: true,
+  })
+
+  await expect(components).toHaveAttribute('aria-expanded', 'false')
+  await components.click()
+
+  await expect(components).toHaveAttribute('aria-expanded', 'true')
+  await expect(menu.locator('#uilib-components-content')).toBeVisible()
+})
+
+test.describe('Portal SidebarMenu', () => {
+  test.beforeEach(async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 })
+    await page.goto('/uilib/components')
+    await waitForApp(page)
+  })
+
+  test('shows the requested navigation structure', async ({ page }) => {
+    const menu = page.getByRole('navigation', {
+      name: 'Section Content Menu',
+    })
+
+    await expect(menu.getByRole('link', { name: 'Home' })).toHaveAttribute(
+      'href',
+      '/'
+    )
+    await expect(
+      menu.getByRole('link', { name: "What's new" })
+    ).toHaveAttribute('href', '/uilib/changelog')
+    await expect(
+      menu.getByRole('button', { name: 'Expand Getting started' })
+    ).toHaveCount(0)
+
+    await menu.getByRole('button', { name: 'Foundations' }).click()
+    for (const name of [
+      'Design tokens',
+      'Colors',
+      'Typography',
+      'Icons',
+      'Theming & brands',
+      'Layout & spacing',
+    ]) {
+      await expect(
+        menu.getByRole('link', { name, exact: true })
+      ).toBeVisible()
+    }
+
+    await menu.getByRole('button', { name: 'Guides' }).click()
+    for (const name of [
+      'Quick intro',
+      'Developer guide',
+      'Requirements',
+      'Designer guide',
+      'Accessibility',
+      'Best practices',
+      'Platform comparison',
+    ]) {
+      await expect(
+        menu.getByRole('link', { name, exact: true })
+      ).toBeVisible()
+    }
+
+    await menu.getByRole('button', { name: 'Contribute' }).click()
+    await expect(menu.locator('a[href="/contribute"]')).toHaveText(
+      'Getting started'
+    )
+    await expect(
+      menu.locator('a[href="/contribute/getting-started"]')
+    ).toHaveText('Development setup')
+
+    await menu.getByRole('button', { name: 'About Eufemia' }).click()
+    await expect(
+      menu.locator('a[href="/uilib/about-the-lib"]')
+    ).toHaveText('About the library')
+  })
+
+  test('keeps the sidebar visible after navigating Home', async ({
+    page,
+  }) => {
+    const menuBeforeNavigation = page.getByRole('navigation', {
+      name: 'Section Content Menu',
+    })
+    await menuBeforeNavigation.getByRole('link', { name: 'Home' }).click()
+
+    await expect(page).toHaveURL('/')
+    const menuAfterNavigation = page.getByRole('navigation', {
+      name: 'Section Content Menu',
+    })
+    await expect(menuAfterNavigation).toBeVisible()
+    await expect(
+      menuAfterNavigation.getByRole('link', { name: 'Home' })
+    ).toBeVisible()
+  })
+
+  test('keeps the sidebar visible throughout the intro', async ({
+    page,
+  }) => {
+    await page.goto('/uilib/intro')
+    await waitForApp(page)
+
+    await expect(
+      page.getByRole('navigation', { name: 'Section Content Menu' })
+    ).toBeVisible()
+    await expect(
+      page.getByRole('heading', { name: 'Eufemia Design System' })
+    ).toBeVisible()
+    await expect(
+      page.getByRole('button', { name: 'Guides' })
+    ).toHaveAttribute('aria-expanded', 'true')
+
+    await page
+      .getByRole('link', { name: 'Next - Common Design Patterns' })
+      .click()
+    await expect(page).toHaveURL('/uilib/intro/02-common-patterns')
+    await expect(
+      page.getByRole('navigation', { name: 'Section Content Menu' })
+    ).toBeVisible()
+  })
+
+  test('keeps the exact sidebar scroll position after reload', async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1280, height: 900 })
+    await page.goto('/uilib/about-the-lib/')
+    await waitForApp(page)
+
+    const menu = page.getByRole('navigation', {
+      name: 'Section Content Menu',
+    })
+    const guides = menu.getByRole('button', {
+      name: 'Guides',
+      exact: true,
+    })
+    await guides.click()
+    await expect(guides).toHaveAttribute('aria-expanded', 'true')
+    await expect(
+      menu.locator(
+        '[data-sidebar-menu-id="uilib-guides-menu"] > .dnb-height-animation'
+      )
+    ).not.toHaveClass(/dnb-height-animation--animating/)
+
+    const scrollView = page.locator(
+      '#portal-sidebar-menu .portal-sidebar-scroll-view'
+    )
+    const storageKey = await menu.getAttribute(
+      'data-scroll-position-storage-key'
+    )
+    if (!storageKey) {
+      throw new Error('SidebarMenu scroll storage key is missing')
+    }
+    await scrollView.evaluate((element) => {
+      element.scrollTop = 89
+      element.dispatchEvent(new Event('scroll'))
+    })
+    await expect
+      .poll(() =>
+        page.evaluate((key) => sessionStorage.getItem(key), storageKey)
+      )
+      .toBe('89')
+
+    await page.reload()
+    await waitForApp(page)
+
+    const reloadedMenu = page.getByRole('navigation', {
+      name: 'Section Content Menu',
+    })
+    const reloadedGuides = reloadedMenu.getByRole('button', {
+      name: 'Guides',
+      exact: true,
+    })
+    await expect(reloadedGuides).toHaveAttribute('aria-expanded', 'true')
+    await expect(
+      reloadedMenu.locator(
+        '[data-sidebar-menu-id="uilib-guides-menu"] > .dnb-height-animation'
+      )
+    ).not.toHaveClass(/dnb-height-animation--animating/)
+    await expect
+      .poll(() => scrollView.evaluate((element) => element.scrollTop))
+      .toBe(89)
+  })
+
+  test('omits the platform selector without other platforms', async ({
+    page,
+  }) => {
+    const menu = page.getByRole('navigation', {
+      name: 'Section Content Menu',
+    })
+
+    await expect(menu.getByRole('combobox')).toHaveCount(0)
+    await expect(
+      menu.getByRole('button', { name: 'Components', exact: true })
+    ).toBeVisible()
+  })
+
+  test('keeps Drawer scroll position across repeated opens', async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 390, height: 844 })
+    await page.goto('/uilib/extensions/sidebar-menu/demos/')
+    await waitForApp(page)
+
+    const trigger = page.locator('#toggle-sidebar-menu')
+    const drawer = page.locator('.dnb-sidebar-menu-responsive-drawer')
+    const expectedScrollTop = 120
+    const positions: number[] = []
+
+    for (let index = 0; index < 4; index += 1) {
+      await trigger.click()
+      await drawer.waitFor({ state: 'visible' })
+      if (index === 0) {
+        await drawer.evaluate((element, scrollTop) => {
+          element.scrollTop = scrollTop
+          element.dispatchEvent(new Event('scroll'))
+        }, expectedScrollTop)
+      }
+      await expect
+        .poll(() => drawer.evaluate((el) => el.scrollTop))
+        .toBe(expectedScrollTop)
+      positions.push(await drawer.evaluate((el) => el.scrollTop))
+      await drawer.locator('.dnb-modal__close-button').click()
+      await drawer.waitFor({ state: 'hidden' })
+      await expect(trigger).toHaveAttribute('aria-expanded', 'false')
+    }
+
+    expect(new Set(positions).size).toBe(1)
+  })
+})

@@ -192,3 +192,4 @@ export { routes, allMdxNodes }
  * Re-export FOUC prevention script for the prerender pipeline.
  */
 export { getContentScript } from '@dnb/eufemia/src/shared/ColorSchemeScript'
+export { getPreHydrationScript } from '@dnb/eufemia/src/extensions/sidebar-menu/SidebarMenuPreHydrationScript'
