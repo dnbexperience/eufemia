@@ -6,7 +6,11 @@ import Heading, {
   type HeadingAllProps,
 } from '@dnb/eufemia/src/components/Heading'
 import { copyToClipboard } from '@dnb/eufemia/src/shared/helpers'
-import { makeSlug } from '../../uilib/utils/slug'
+import {
+  getSlugFromReactHeading,
+  getSlugFromText,
+  stripCustomMarkdownId,
+} from '../../uilib/utils/slug.mjs'
 import { useLocation } from 'react-router'
 import {
   anchorLinkStyle,
@@ -38,7 +42,9 @@ const AutoLinkHeader = ({
   ...props
 }: AutoLinkHeaderProps) => {
   const location = useLocation()
-  const id = makeSlug(children, useSlug)
+  const id = useSlug
+    ? getSlugFromText(useSlug)
+    : getSlugFromReactHeading(children)
   const [anchorUrlSet, setAnchorUrlSet] = useState(false)
   const tooltipTimeoutRef =
     useRef<ReturnType<typeof setTimeout>>(undefined)
@@ -47,9 +53,7 @@ const AutoLinkHeader = ({
     return () => clearTimeout(tooltipTimeoutRef.current)
   }, [])
 
-  if (typeof children === 'string' && /\{#(.*)\}/.test(children)) {
-    children = children.replace(/\{#(.*)\}/g, '').trim()
-  }
+  children = stripCustomMarkdownId(children)
 
   const accessibleTitle =
     typeof children === 'string'
