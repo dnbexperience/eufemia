@@ -51,6 +51,7 @@
     "test:types:watch": "tsc --noEmit --watch",
     "test:update": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types ./scripts/runVitest.ts --update=true",
     "test:watch": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types ./scripts/runVitest.ts --watch",
+    "validate:duplicate-ids": "node vite/prod/compare-portal-duplicate-ids.mjs",
     "validate:links": "node vite/prod/validate-internal-links.mjs"
   },
   "dependencies": {
