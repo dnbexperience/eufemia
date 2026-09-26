@@ -38,6 +38,31 @@ describe('GitHubChangelog', () => {
     expect(document.querySelector('button')).toBeNull()
   })
 
+  it('gives every release unique ids', () => {
+    render(
+      <MemoryRouter>
+        <GitHubChangelog releases={releases} />
+      </MemoryRouter>
+    )
+
+    fireEvent.click(document.querySelector('button') as HTMLButtonElement)
+
+    const idCounts = new Map<string, number>()
+    document.querySelectorAll('[id]').forEach(({ id }) => {
+      if (id) {
+        idCounts.set(id, (idCounts.get(id) ?? 0) + 1)
+      }
+    })
+
+    expect(
+      Array.from(idCounts)
+        .filter(([, count]) => count > 1)
+        .map(([id, count]) => `${id} (${count}×)`)
+    ).toEqual([])
+
+    expect(document.querySelector('h3 a[id]').id).toBe('v1100-features')
+  })
+
   it('prepares GitHub release notes for the portal', () => {
     expect(prepareReleaseNotes(releases[0].body)).toBe(
       '### Features\n\n* A release change'
