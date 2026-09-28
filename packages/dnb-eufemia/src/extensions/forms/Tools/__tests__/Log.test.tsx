@@ -83,7 +83,7 @@ describe('Tools.Log', () => {
     )
 
     const element = document.querySelector('output')
-    expect(element).toHaveStyle('maxWidth: 80vw')
+    expect(element.style.maxWidth).toBe('80vw')
   })
 
   it('should render pre element', () => {

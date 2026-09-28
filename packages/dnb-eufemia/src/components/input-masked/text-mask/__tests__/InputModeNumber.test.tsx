@@ -212,18 +212,18 @@ describe('InputModeNumber', () => {
       vi.spyOn(inputElement, 'offsetWidth', 'get').mockReturnValue(100)
 
       expect(inputElement).toHaveAttribute('type', 'text')
-      expect(inputElement).toHaveStyle({ width: '2rem' })
+      expect(inputElement.style.width).toBe('2rem')
 
       fireEvent.mouseEnter(inputElement)
 
       expect(inputElement).toHaveAttribute('type', 'number')
-      expect(inputElement).toHaveStyle({ width: '100px' })
+      expect(inputElement.style.width).toBe('100px')
 
       await waitFor(() => {
         expect(inputElement).toHaveAttribute('type', 'text')
       })
 
-      expect(inputElement).toHaveStyle({ width: '2rem' })
+      expect(inputElement.style.width).toBe('2rem')
     })
 
     it('should add "dnb-input-masked--hide-controls" class when mouseEnter is called', async () => {
