@@ -345,6 +345,40 @@ describe('Textarea component', () => {
     )
   })
 
+  it('reports the updated rows to onChange when content is removed', async () => {
+    const onChange = vi.fn()
+    render(
+      <Textarea
+        rows={1}
+        autoResize
+        autoResizeMaxRows={4}
+        onChange={onChange}
+      />
+    )
+
+    const elem = document.querySelector('textarea')
+    const style = { lineHeight: String(1.5 * 16) } as CSSStyleDeclaration
+    let contentHeight = 1.5 * 16 * 4
+
+    vi.spyOn(window, 'getComputedStyle').mockImplementation(() => style)
+    // Like browsers, never report less than the set height
+    vi.spyOn(elem, 'scrollHeight', 'get').mockImplementation(() =>
+      Math.max(parseFloat(elem.style.height) || 0, contentHeight)
+    )
+
+    await userEvent.type(elem, 'a')
+    expect(onChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({ rows: 4 })
+    )
+
+    contentHeight = 1.5 * 16 * 3
+    await userEvent.type(elem, '{backspace}')
+
+    expect(onChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({ rows: 3 })
+    )
+  })
+
   it('should support spacing props', () => {
     render(<Textarea top="2rem" />)
 

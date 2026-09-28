@@ -263,7 +263,20 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
     (event: ChangeEvent<HTMLTextAreaElement>) => {
       const { value } = event.target
 
-      const rows = getRows()
+      let rows: number
+      if (autoResize) {
+        const elem = textareaRef.current
+        const { height } = elem.style
+        const { scrollTop } = elem
+
+        // The height set for the previous value would hide removed rows
+        elem.style.height = 'auto'
+        rows = getRows()
+        elem.style.height = height
+        elem.scrollTop = scrollTop
+      } else {
+        rows = getRows()
+      }
 
       const ret = dispatchCustomElementEvent(props, 'onChange', {
         value,
