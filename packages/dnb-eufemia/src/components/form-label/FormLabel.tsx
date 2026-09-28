@@ -146,7 +146,7 @@ function FormLabel(localProps: FormLabelAllProps) {
       return undefined
     }
 
-    const forElem = document.querySelector(`#${forId}`)
+    const forElem = document.getElementById(forId)
     const target =
       forElem?.closest('.dnb-input__border--root') ||
       forElem?.closest('.dnb-input__border')
