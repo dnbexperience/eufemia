@@ -14,6 +14,7 @@ import { clsx } from 'clsx'
 import Anchor from '../tags/Anchor'
 import { useStaticQuery, graphql } from 'portal-query'
 import { SidebarMenuContext } from './SidebarMenuContext'
+import { createOrderKey } from './SidebarMenuOrder'
 import { createSkeletonClass } from '@dnb/eufemia/src/components/skeleton/SkeletonHelper'
 import {
   Icon,
@@ -582,11 +583,6 @@ type NavItem = {
   currentPathName?: string
 }
 
-/**
- * Makes sure the number string has 3 digits.
- */
-const pad = (number: number) => String(number).padStart(3, '0')
-
 const prepareNav = ({
   location,
   allMdx,
@@ -690,13 +686,7 @@ const prepareNav = ({
         .reduce((acc, cur, i) => {
           const mySub = parts.slice(0, i + 1).join('/')
           if (!orderCache[mySub]) {
-            const order = parseFloat(item.order)
-
-            orderCache[mySub] = order
-              ? order > 0
-                ? '1' + pad(order) // postitive order come first
-                : '3' + pad(order + 1000) // negative order comes last
-              : '2' + pad(count) // unordered or 0 is in the middle
+            orderCache[mySub] = createOrderKey(item.order, count)
           }
           acc.push(orderCache[mySub])
           return acc
