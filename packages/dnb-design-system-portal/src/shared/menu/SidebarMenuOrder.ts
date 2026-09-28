@@ -9,6 +9,11 @@ const pad = (number: number) => {
   return integer.padStart(3, '0') + (decimals ? `.${decimals}` : '')
 }
 
+/** Keys are compared as strings, so the order has to fit within 3 digits. */
+const limit = 999
+
+const clamp = (number: number) => Math.min(limit, Math.max(-limit, number))
+
 /**
  * Builds a sortable key for a page, based on its frontmatter `order`.
  *
@@ -23,10 +28,10 @@ export function createOrderKey(
   order: number | string | undefined,
   fallbackIndex: number
 ) {
-  const value = parseFloat(String(order))
+  const value = clamp(parseFloat(String(order)))
 
   if (!value) {
-    return '2' + pad(fallbackIndex)
+    return '2' + pad(clamp(fallbackIndex))
   }
 
   return value > 0 ? '1' + pad(value) : '3' + pad(value + 1000)

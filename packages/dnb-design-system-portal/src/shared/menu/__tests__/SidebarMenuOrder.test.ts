@@ -37,12 +37,20 @@ describe('createOrderKey', () => {
     const highest = createOrderKey(999, 0)
     const lowest = createOrderKey(-999, 0)
 
-    for (const fallbackIndex of [0, 1, 99, 999]) {
+    for (const fallbackIndex of [0, 1, 99, 999, 1000, 12345]) {
       const unordered = createOrderKey(undefined, fallbackIndex)
 
       expect(highest < unordered).toBe(true)
       expect(unordered < lowest).toBe(true)
     }
+  })
+
+  it('clamps an order outside the supported range', () => {
+    expect(createOrderKey(1000, 0)).toBe(createOrderKey(999, 0))
+    expect(createOrderKey(-1000, 0)).toBe(createOrderKey(-999, 0))
+
+    expect(createOrderKey(1000, 0) > createOrderKey(998, 0)).toBe(true)
+    expect(createOrderKey(-1000, 0) < createOrderKey(-998, 0)).toBe(true)
   })
 
   it('keeps unordered pages in their sibling order', () => {
