@@ -89,7 +89,7 @@ You can find the output in the `./packages/dnb-eufemia/build` folder.
 
 ### Locale support
 
-Put your translation inside: `./packages/dnb-eufemia/src/shared/locales/nb-NO.js` as well as in the `en-GB.js` file:
+Put your translation in each locale file in `./packages/dnb-eufemia/src/shared/locales/`: `nb-NO.ts`, `en-GB.ts`, `sv-SE.ts` and `da-DK.ts`. The other files are type-checked against `nb-NO.ts`, so a missing string fails the type check. Write the `en-GB` strings in British English. `en-US.ts` extends `en-GB`, so add the string there only when the American wording differs:
 
 ```js
 export default {

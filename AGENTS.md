@@ -21,6 +21,8 @@
 ## Code Style
 
 - Write code in logical blocks and separate them with blank lines.
+- Use American English in code, comments, and documentation, such as `color`, `behavior`, and `canceled`. Keep the spelling of existing public names and URLs, such as `--carnegie-greyscale-*` and `/uilib/usage/customisation/`.
+- Use British English in the `en-GB` translations. `en-US` extends `en-GB`, so add a string to the `en-US` files only when the American wording differs.
 - Use TypeScript for type safety.
 - Use React Hooks instead of class components.
 - Use camelCase for functions and variables.
