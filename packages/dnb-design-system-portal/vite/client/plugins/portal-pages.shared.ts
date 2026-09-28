@@ -28,14 +28,12 @@ export type KnownFrontmatter = {
   title?: string
   description?: string
   /**
-   * A number from -999 to 999
+   * A number from -999 to 999, decimals are allowed.
    *
-   * Set to override the alphabetical order by `title` in the menu. Lower is
-   * higher, `undefined` is last. Pages with the same order are sorted by `title`.
-   *
-   *
-   * Positive numbers come first, negative numbers last, and `undefined` and 0
-   * is in the middle.
+   * Set to override the alphabetical order by `title` in the menu.
+   * Positive numbers come first, negative numbers last, and `undefined`
+   * and 0 keep their alphabetical place in the middle.
+   * A lower number comes before a higher one.
    */
   order?: number
   draft?: boolean
