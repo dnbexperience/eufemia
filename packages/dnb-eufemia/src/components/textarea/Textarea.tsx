@@ -107,6 +107,7 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
     readOnly,
     className,
     autoResize,
+    hideResizeHandle,
     characterCounter,
     autoResizeMaxRows,
     id: _id,
@@ -123,6 +124,7 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
   const id = useId(ownProps.id)
 
   const heightOffsetRef = useRef<number | undefined>(undefined)
+  const heightRef = useRef<number | undefined>(undefined)
   const resizeObserverRef = useRef<ResizeObserver | null>(null)
 
   const propValue = getValue(ownProps)
@@ -170,11 +172,15 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
       return // stop here
     }
     try {
+      const currentHeight = parseFloat(elem.style.height)
+      if (!hideResizeHandle && currentHeight !== heightRef.current) {
+        heightRef.current = currentHeight
+      }
       elem.style.height = 'auto'
     } catch (e) {
       warn('Textarea: Failed to prepare autosize:', e)
     }
-  }, [])
+  }, [hideResizeHandle])
 
   const setAutosize = useCallback(
     (rows: number | null = null) => {
@@ -183,11 +189,12 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
         return // stop here
       }
       try {
+        const scrollTop = elem.scrollTop
+        prepareAutosize()
+
         if (typeof heightOffsetRef.current === 'undefined') {
           heightOffsetRef.current = elem.offsetHeight - elem.clientHeight
         }
-
-        elem.style.height = 'auto'
 
         const lineHeight = getLineHeight()
         let newHeight = elem.scrollHeight + heightOffsetRef.current
@@ -210,12 +217,24 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
           }
         }
 
+        if (!hideResizeHandle && heightRef.current > newHeight) {
+          newHeight = heightRef.current
+        }
+
         elem.style.height = newHeight + 'px'
+        elem.scrollTop = scrollTop
+        heightRef.current = newHeight
       } catch (e) {
         warn('Textarea: Failed to set autosize height:', e)
       }
     },
-    [autoResizeMaxRows, getLineHeight, getRows]
+    [
+      autoResizeMaxRows,
+      getLineHeight,
+      getRows,
+      hideResizeHandle,
+      prepareAutosize,
+    ]
   )
 
   const onFocusHandler = useCallback(
@@ -243,10 +262,6 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
   const onChangeHandler = useCallback(
     (event: ChangeEvent<HTMLTextAreaElement>) => {
       const { value } = event.target
-
-      if (autoResize) {
-        prepareAutosize()
-      }
 
       const rows = getRows()
 
@@ -370,6 +385,7 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
       typeof size === 'string' && `dnb-textarea__size--${size}`,
       status && `dnb-textarea__status--${statusState}`,
       autoResize && 'dnb-textarea__autoresize',
+      hideResizeHandle && 'dnb-textarea__no-resize',
       labelDirection && `dnb-textarea--${labelDirection}`,
       stretch && `dnb-textarea--stretch`,
       keepPlaceholder && `dnb-textarea--keep-placeholder`,

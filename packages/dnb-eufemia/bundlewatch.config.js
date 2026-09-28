@@ -2,15 +2,15 @@ const jsBundles = [
   // NB: Icon entry bundles are thin import/re-export wrappers and are excluded on purpose.
 
   { path: 'build/umd/dnb-ui-basis.min.js', maxSize: '5kB' },
-  { path: 'build/umd/dnb-ui-components.min.js', maxSize: '250kB' },
+  { path: 'build/umd/dnb-ui-components.min.js', maxSize: '255kB' },
   { path: 'build/umd/dnb-ui-elements.min.js', maxSize: '75kB' },
   { path: 'build/umd/dnb-ui-extensions.min.js', maxSize: '400kB' },
-  { path: 'build/umd/dnb-ui-lib.min.js', maxSize: '250kB' },
+  { path: 'build/umd/dnb-ui-lib.min.js', maxSize: '256kB' },
   { path: 'build/esm/dnb-ui-basis.min.mjs', maxSize: '5kB' },
-  { path: 'build/esm/dnb-ui-components.min.mjs', maxSize: '250kB' },
+  { path: 'build/esm/dnb-ui-components.min.mjs', maxSize: '254kB' },
   { path: 'build/esm/dnb-ui-elements.min.mjs', maxSize: '75kB' },
   { path: 'build/esm/dnb-ui-extensions.min.mjs', maxSize: '400kB' },
-  { path: 'build/esm/dnb-ui-lib.min.mjs', maxSize: '250kB' },
+  { path: 'build/esm/dnb-ui-lib.min.mjs', maxSize: '255kB' },
 ]
 
 const cssBundles = [
@@ -19,7 +19,7 @@ const cssBundles = [
   { path: 'build/style/dnb-ui-components.min.css', maxSize: '52kB' },
   { path: 'build/style/dnb-ui-core.min.css', maxSize: '5kB' },
   { path: 'build/style/dnb-ui-elements.min.css', maxSize: '10kB' },
-  { path: 'build/style/dnb-ui-extensions.min.css', maxSize: '11kB' },
+  { path: 'build/style/dnb-ui-extensions.min.css', maxSize: '12kB' },
   { path: 'build/style/dnb-ui-forms.min.css', maxSize: '10kB' },
   { path: 'build/style/dnb-ui-fragments.min.css', maxSize: '5kB' },
 
@@ -113,4 +113,9 @@ const cssBundles = [
 module.exports = {
   defaultCompression: 'gzip',
   files: [...jsBundles, ...cssBundles],
+  ci: {
+    repoBranchBase:
+      process.env.CI_BRANCH_BASE || process.env.GITHUB_BASE_REF || 'main',
+    trackBranches: ['main'],
+  },
 }

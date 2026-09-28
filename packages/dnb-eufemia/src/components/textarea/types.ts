@@ -129,6 +129,10 @@ export type TextareaProps = Omit<
      */
     autoResize?: boolean
     /**
+     * Use `true` to hide the resize handle and prevent users from manually resizing the Textarea. The handle is hidden automatically on touch-primary devices. Defaults to `false`.
+     */
+    hideResizeHandle?: boolean
+    /**
      * Use a number to define the displayed max length. You can also use an object defining the [TextCounter](uilib/components/fragments/text-counter/) `variant` or properties. Please avoid using `maxLength` for accessibility reasons.
      */
     characterCounter?: Omit<TextCounterProps, 'text'> | number

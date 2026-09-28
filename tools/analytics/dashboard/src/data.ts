@@ -21,6 +21,7 @@ export type McpUsage = {
   perTool?: McpCount[]
   perComponent?: McpCount[]
   perPath?: McpCount[]
+  perVersion?: McpCount[]
 }
 
 export type ComponentUsage = {

@@ -8,11 +8,10 @@ export default defineConfig({
 
   // Ensure dependency pre-bundling handles .js files that may contain JSX
   optimizeDeps: {
-    esbuildOptions: {
-      loader: {
+    rolldownOptions: {
+      moduleTypes: {
         '.js': 'jsx',
       },
-      jsx: 'automatic',
     },
   },
 

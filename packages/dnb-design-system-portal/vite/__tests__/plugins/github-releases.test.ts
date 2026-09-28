@@ -18,6 +18,12 @@ const changelog = `# Changelog
 
 * Another release change
 
+# [11.10.0](https://github.com/dnbexperience/eufemia/compare/v11.9.0...v11.10.0) (2026-08-10)
+
+### :sparkles: Features
+
+* A feature release change
+
 ## [11.11.0](https://github.com/dnbexperience/eufemia/compare/v11.10.1...v11.11.0) (2026-08-25)
 
 * Duplicate release entry
@@ -39,6 +45,14 @@ describe('github-releases plugin', () => {
         prerelease: true,
         publishedAt: '2026-08-17T00:00:00Z',
         tagName: 'v11.10.1-beta.1',
+      },
+      // A release headed with `#`, the way older entries are.
+      {
+        body: '### :sparkles: Features\n\n* A feature release change',
+        name: 'v11.10.0',
+        prerelease: false,
+        publishedAt: '2026-08-10T00:00:00Z',
+        tagName: 'v11.10.0',
       },
     ])
   })

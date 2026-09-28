@@ -93,7 +93,7 @@ export const InputProperties: PropertiesTableProps = {
     status: 'optional',
   },
   suffix: {
-    doc: 'Text describing the content of the input more than the label. You can also send in a React component, so it gets wrapped inside the Input component.',
+    doc: 'Content displayed after the input, such as contextual help, a unit or currency. It is not label metadata such as optional or required status. You can also provide a React component.',
     type: ['string', 'React.ReactNode'],
     status: 'optional',
   },

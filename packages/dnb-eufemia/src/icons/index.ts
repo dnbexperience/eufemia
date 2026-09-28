@@ -510,6 +510,8 @@ import shopping_cart from './dnb/shopping_cart'
 import shopping_cart_medium from './dnb/shopping_cart_medium'
 import show_pin from './dnb/show_pin'
 import show_pin_medium from './dnb/show_pin_medium'
+import sidebar from './dnb/sidebar'
+import sidebar_medium from './dnb/sidebar_medium'
 import snowmobile from './dnb/snowmobile'
 import snowmobile_medium from './dnb/snowmobile_medium'
 import solve from './dnb/solve'
@@ -1106,6 +1108,8 @@ export {
   shopping_cart_medium,
   show_pin,
   show_pin_medium,
+  sidebar,
+  sidebar_medium,
   snowmobile,
   snowmobile_medium,
   solve,

@@ -85,7 +85,7 @@ const SkipContent = (localProps: SkipContentAllProps) => {
 
       // Tell the linked return component, it should stay active (if it gets focused as well)
       document
-        .querySelector(`#${returnSelector}--alias--alias`)
+        .getElementById(`${returnSelector}--alias--alias`)
         ?.classList.add('dnb-skip-content__return--active')
     }
 

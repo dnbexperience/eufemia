@@ -66,6 +66,11 @@ export const demoPayload: DashboardPayload = {
       { name: '/uilib/patterns/forms', count: 7 },
       { name: '/uilib/getting-started', count: 4 },
     ],
+    perVersion: [
+      { name: '10.79.0', count: 34 },
+      { name: '10.78.1', count: 21 },
+      { name: '10.77.0', count: 9 },
+    ],
   },
   componentUsage: {
     total: 342,

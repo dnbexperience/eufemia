@@ -14,6 +14,7 @@ import { clsx } from 'clsx'
 import Anchor from '../tags/Anchor'
 import { useStaticQuery, graphql } from 'portal-query'
 import { SidebarMenuContext } from './SidebarMenuContext'
+import { createOrderKey } from './SidebarMenuOrder'
 import { createSkeletonClass } from '@dnb/eufemia/src/components/skeleton/SkeletonHelper'
 import {
   Icon,
@@ -685,11 +686,7 @@ const prepareNav = ({
         .reduce((acc, cur, i) => {
           const mySub = parts.slice(0, i + 1).join('/')
           if (!orderCache[mySub]) {
-            orderCache[mySub] = item.order
-              ? parseFloat(item.order) >= 0
-                ? parseFloat(item.order) + 1000 // push manual ordering to the top
-                : parseFloat(item.order) + 3000 // push negative manual ordering to the bottom
-              : count + 2000
+            orderCache[mySub] = createOrderKey(item.order, count)
           }
           acc.push(orderCache[mySub])
           return acc

@@ -15,8 +15,10 @@ updates:
     directories:
       - '/'
       - '/packages/*'
-      - '/packages/**/plugins/*'
       - '/tools/*'
+      # "*" does not match across directory levels, so the nested workspace
+      # needs its own entry (it is listed separately in "workspaces" too).
+      - '/tools/analytics/dashboard'
       - '/smoke/*'
     schedule:
       interval: 'monthly'

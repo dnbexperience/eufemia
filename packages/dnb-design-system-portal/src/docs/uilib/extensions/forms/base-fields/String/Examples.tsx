@@ -450,6 +450,40 @@ export const MultipleLabelAndValue = () => {
   )
 }
 
+export const MultipleResizeHandle = () => {
+  return (
+    <ComponentBox data-visual-test="string-resize-handle">
+      {() => {
+        const value = Array.from(
+          { length: 12 },
+          (_, index) => `Template line ${index + 1}`
+        ).join(String.fromCharCode(10))
+
+        return (
+          <Form.Card>
+            <Field.String
+              label="Visible resize handle"
+              labelDescription="The field grows automatically to five rows. Drag the lower-right corner to temporarily show more."
+              defaultValue={value}
+              multiline
+              rows={2}
+              autoResizeMaxRows={5}
+            />
+            <Field.String
+              label="Hidden resize handle"
+              defaultValue={value}
+              multiline
+              rows={2}
+              autoResizeMaxRows={5}
+              hideResizeHandle
+            />
+          </Form.Card>
+        )
+      }}
+    </ComponentBox>
+  )
+}
+
 export const MultipleWithHelp = () => {
   return (
     <ComponentBox>

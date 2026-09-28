@@ -234,6 +234,7 @@ import shield_lock_medium from './shield_lock_medium'
 import shield_medium from './shield_medium'
 import shopping_cart_medium from './shopping_cart_medium'
 import show_pin_medium from './show_pin_medium'
+import sidebar_medium from './sidebar_medium'
 import snowmobile_medium from './snowmobile_medium'
 import solve_medium from './solve_medium'
 import sort_medium from './sort_medium'
@@ -511,6 +512,7 @@ export {
   shield_medium,
   shopping_cart_medium,
   show_pin_medium,
+  sidebar_medium,
   snowmobile_medium,
   solve_medium,
   sort_medium,

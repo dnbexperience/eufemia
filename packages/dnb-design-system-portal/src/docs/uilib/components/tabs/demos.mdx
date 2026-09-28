@@ -18,6 +18,7 @@ import {
   TabsSingleElementData,
   TabsAlignProperty,
   TabsExampleWithBadgeNotification,
+  TabsExampleDisabledWithTooltip,
 } from 'Docs/uilib/components/tabs/Examples'
 
 ## Demos
@@ -61,6 +62,12 @@ By using `keepInDOM={true}` the content is kept inside the DOM.
 Also, when switching the tabs, the height is animated.
 
 <TabsExampleKeepInDOM />
+
+### Disabled tabs with a tooltip
+
+Use `tooltip` together with `disabled` to explain why a tab is unavailable. The tab stays hoverable, but it cannot be selected by clicking, the scroll navigation buttons or the keyboard.
+
+<TabsExampleDisabledWithTooltip />
 
 ### Tabs optimized for narrow screens
 

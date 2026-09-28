@@ -28,6 +28,7 @@ export type TabsData =
       key: string | number
       selected?: boolean
       disabled?: boolean
+      tooltip?: ReactNode
       content?: TabsContent
     }[]
   | any

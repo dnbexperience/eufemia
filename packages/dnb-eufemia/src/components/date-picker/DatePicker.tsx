@@ -71,6 +71,7 @@ import {
   formatDateRange,
 } from '../date-format/DateFormatUtils'
 import useId from '../../shared/helpers/useId'
+import idSelector from '../../shared/helpers/idSelector'
 
 export type DatePickerEventAttributes = {
   day?: string
@@ -851,7 +852,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
                   arrowPosition={
                     alignPicker === 'right' ? 'right' : 'left'
                   }
-                  arrowPositionSelector={`#${id}`}
+                  arrowPositionSelector={idSelector(id)}
                 >
                   <span
                     className={containerClassNames}

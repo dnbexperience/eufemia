@@ -101,6 +101,7 @@ describe('dashboard-read handler', () => {
         perTool: [],
         perComponent: [],
         perPath: [],
+        perVersion: [],
         daily: [],
       },
       componentUsage: {

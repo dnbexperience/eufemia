@@ -1,4 +1,7 @@
 import { describe, it, expect } from 'vitest'
+import { readFileSync } from 'node:fs'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 import {
   filterImportsByUsage,
   analyzeCodeStructure,
@@ -7,6 +10,14 @@ import {
   openInStackBlitz,
   eufemiaVersion,
 } from '../openInStackBlitz'
+
+const currentDir = path.dirname(fileURLToPath(import.meta.url))
+const starterDir = path.resolve(
+  currentDir,
+  '../../../../../eufemia-starter'
+)
+const starterViteConfig = path.join(starterDir, 'vite.config.ts')
+const starterTsConfig = path.join(starterDir, 'tsconfig.app.json')
 
 describe('filterImportsByUsage', () => {
   it('keeps imports for names used in code', () => {
@@ -350,6 +361,42 @@ describe('openInStackBlitz', () => {
 
     form.cleanup()
   })
+
+  it('mirrors the starter dependency pre-bundling config', async () => {
+    const form = mockFormSubmission()
+
+    await openInStackBlitz('<Button>Click</Button>', [
+      "import { Button } from '@dnb/eufemia'",
+    ])
+
+    const generated = form.fields['project[files][vite.config.ts]']
+    const starter = readFileSync(starterViteConfig, 'utf8')
+    const expected = extractOptimizeDeps(starter)
+
+    // Guards against both sides extracting nothing and matching vacuously
+    expect(expected).toContain('optimizeDeps:')
+    expect(extractOptimizeDeps(generated)).toBe(expected)
+
+    form.cleanup()
+  })
+
+  it('mirrors the starter TypeScript config', async () => {
+    const form = mockFormSubmission()
+
+    await openInStackBlitz('<Button>Click</Button>', [
+      "import { Button } from '@dnb/eufemia'",
+    ])
+
+    const generated = JSON.parse(
+      form.fields['project[files][tsconfig.json]']
+    )
+    const starter = parseJsonc(readFileSync(starterTsConfig, 'utf8'))
+
+    expect(Object.keys(starter.compilerOptions).length).toBeGreaterThan(0)
+    expect(generated).toEqual(starter)
+
+    form.cleanup()
+  })
 })
 
 describe('formatCode', () => {
@@ -368,6 +415,47 @@ describe('formatCode', () => {
     expect(result).toBe(broken)
   })
 })
+
+/**
+ * Returns the `optimizeDeps` object literal normalized for whitespace and
+ * trailing commas, so the generated template and the starter can be compared
+ * regardless of formatting.
+ */
+function extractOptimizeDeps(source: string) {
+  const start = source.indexOf('optimizeDeps:')
+  const open = source.indexOf('{', start)
+
+  if (start === -1 || open === -1) {
+    return null
+  }
+
+  let depth = 0
+
+  for (let i = open; i < source.length; i++) {
+    if (source[i] === '{') {
+      depth++
+    } else if (source[i] === '}') {
+      depth--
+
+      if (depth === 0) {
+        return source
+          .slice(start, i + 1)
+          .replace(/\s+/g, '')
+          .replace(/,(?=})/g, '')
+      }
+    }
+  }
+
+  return null
+}
+
+/**
+ * The starter's tsconfig carries section comments; the generated one is plain
+ * JSON, so strip comments before comparing the two as objects.
+ */
+function parseJsonc(source: string) {
+  return JSON.parse(source.replace(/\/\*[\s\S]*?\*\//g, ''))
+}
 
 /**
  * Intercepts form submission by stubbing document.createElement

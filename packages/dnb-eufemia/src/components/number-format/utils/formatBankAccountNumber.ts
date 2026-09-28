@@ -22,11 +22,9 @@ const cleanDigits = (val: string | number) =>
 const cleanAlphanumeric = (val: string | number) =>
   String(val).replace(/[^A-Za-z0-9]/g, '')
 
-const pairwiseAria = (digits: string) =>
-  digits
-    .split(/([0-9]{2})/)
-    .filter((s) => s)
-    .join(' ')
+// Grouped characters are spoken as compound numbers ("20" as "twenty"),
+// so the value is read one character at a time to stay transcribable.
+const spellOutAria = (value: string) => value.split('').join(' ')
 
 /**
  * Format a bank account number into display and aria strings.
@@ -50,8 +48,7 @@ export const formatBankAccountNumberByType = (
     case 'iban': {
       const cleaned = cleanAlphanumeric(number).toUpperCase()
       display = cleaned.match(/.{1,4}/g)?.join(' ') ?? cleaned
-      // Block-of-4 aria mirrors the visual grouping for screen readers
-      aria = display
+      aria = spellOutAria(cleaned)
       break
     }
 
@@ -61,7 +58,7 @@ export const formatBankAccountNumberByType = (
         cleaned.length > 4
           ? cleaned.slice(0, 4) + '-' + cleaned.slice(4)
           : cleaned
-      aria = pairwiseAria(cleaned)
+      aria = spellOutAria(cleaned)
       break
     }
 
@@ -74,7 +71,7 @@ export const formatBankAccountNumberByType = (
       } else {
         display = cleaned
       }
-      aria = pairwiseAria(cleaned)
+      aria = spellOutAria(cleaned)
       break
     }
 
@@ -88,7 +85,7 @@ export const formatBankAccountNumberByType = (
       } else {
         display = cleaned
       }
-      aria = pairwiseAria(cleaned)
+      aria = spellOutAria(cleaned)
       break
     }
 
@@ -99,7 +96,7 @@ export const formatBankAccountNumberByType = (
         .split(/([0-9]{4})([0-9]{2})([0-9]{1,})/)
         .filter((s) => s)
         .join(' ')
-      aria = pairwiseAria(cleaned)
+      aria = spellOutAria(cleaned)
       break
     }
   }

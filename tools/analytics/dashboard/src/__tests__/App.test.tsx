@@ -1,4 +1,4 @@
-import { render, waitFor } from '@testing-library/react'
+import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 
 import App from '../App'
@@ -56,7 +56,74 @@ describe('App (smoke)', () => {
     expect(container.textContent?.trim()).not.toBe('')
   })
 
-  it('renders portal, MCP and component sections when data is present', async () => {
+  it('shows an empty message in the Page views tab when there are no portal views', async () => {
+    vi.mocked(loadDashboardData).mockResolvedValue({
+      kind: 'data',
+      payload: {
+        generatedAt: '2026-09-16T10:00:00Z',
+        portalViews: [],
+        mcpUsage: { total: 4, perTool: [{ name: 'docs_read', count: 4 }] },
+        componentUsage: { total: 0, perComponent: [] },
+      },
+    })
+
+    const { container } = render(<App />)
+
+    // "Page views" is still the default-selected tab, just empty.
+    await waitFor(() =>
+      expect(container.textContent).toContain('No page views yet.')
+    )
+    expect(container.textContent).not.toContain('Top pages')
+  })
+
+  it('renders portal, MCP and component sections across tabs when data is present', async () => {
+    vi.mocked(loadDashboardData).mockResolvedValue({
+      kind: 'data',
+      payload: populated,
+    })
+
+    const { container } = render(<App />)
+
+    // "Page views" is the default-selected tab.
+    await waitFor(() =>
+      expect(container.textContent).toContain('Top pages')
+    )
+    expect(container.querySelectorAll('table').length).toBeGreaterThan(0)
+
+    fireEvent.click(screen.getByRole('tab', { name: 'MCP usage' }))
+    expect(container.textContent).toContain('docs_read')
+
+    fireEvent.click(screen.getByRole('tab', { name: 'Component usage' }))
+    expect(container.textContent).toContain('Top components')
+    expect(container.textContent).toContain('12 component usages')
+  })
+
+  it('renders the local MCP by-version section when perVersion has data', async () => {
+    vi.mocked(loadDashboardData).mockResolvedValue({
+      kind: 'data',
+      payload: {
+        ...populated,
+        mcpUsage: {
+          ...populated.mcpUsage,
+          perVersion: [{ name: '10.79.0', count: 5 }],
+        },
+      },
+    })
+
+    const { container } = render(<App />)
+
+    await waitFor(() =>
+      expect(container.textContent).toContain('Top pages')
+    )
+    fireEvent.click(screen.getByRole('tab', { name: 'MCP usage' }))
+
+    expect(container.textContent).toContain(
+      'Local MCP — by Eufemia version'
+    )
+    expect(container.textContent).toContain('10.79.0')
+  })
+
+  it('hides the local MCP by-version section when perVersion is empty', async () => {
     vi.mocked(loadDashboardData).mockResolvedValue({
       kind: 'data',
       payload: populated,
@@ -67,13 +134,14 @@ describe('App (smoke)', () => {
     await waitFor(() =>
       expect(container.textContent).toContain('Top pages')
     )
-    expect(container.textContent).toContain('docs_read')
-    expect(container.textContent).toContain('Top components')
-    expect(container.textContent).toContain('12 component usages')
-    expect(container.querySelectorAll('table').length).toBeGreaterThan(0)
+    fireEvent.click(screen.getByRole('tab', { name: 'MCP usage' }))
+
+    expect(container.textContent).not.toContain(
+      'Local MCP — by Eufemia version'
+    )
   })
 
-  it('hides the component-usage section when there is no component data', async () => {
+  it('shows an empty message in the Component usage tab when there is no component data', async () => {
     vi.mocked(loadDashboardData).mockResolvedValue({
       kind: 'data',
       payload: {
@@ -87,7 +155,9 @@ describe('App (smoke)', () => {
     await waitFor(() =>
       expect(container.textContent).toContain('Top pages')
     )
-    expect(container.textContent).not.toContain('Top components')
+    fireEvent.click(screen.getByRole('tab', { name: 'Component usage' }))
+
+    expect(container.textContent).toContain('No component usage yet.')
     expect(container.textContent).not.toContain('Components by app')
     expect(container.textContent).not.toContain(
       'Components by Eufemia version'

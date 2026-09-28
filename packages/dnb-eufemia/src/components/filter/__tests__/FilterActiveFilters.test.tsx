@@ -474,6 +474,26 @@ describe('Filter.ActiveFilters collapsible', () => {
     ).not.toBeInTheDocument()
   })
 
+  it('gives the accordion an id that is a valid CSS identifier', () => {
+    render(
+      <FilterRoot>
+        <SetManyFilters count={6} />
+        <FilterActiveFilters collapsibleThreshold={5} />
+      </FilterRoot>
+    )
+
+    fireEvent.click(document.querySelector('[data-testid="set-many"]'))
+
+    const button = document.querySelector(
+      '.dnb-accordion__tertiary-button'
+    )
+    const contentId = button.getAttribute('aria-controls')
+
+    expect(contentId).toMatch(/^id-[a-zA-Z0-9-]+-content$/)
+    expect(document.getElementById(contentId)).toBeInTheDocument()
+    expect(() => document.querySelector(`#${contentId}`)).not.toThrow()
+  })
+
   it('shows filter count in the accordion title', () => {
     render(
       <FilterRoot>

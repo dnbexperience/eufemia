@@ -13,6 +13,17 @@ const edgeAuth = fs.readFileSync(
   ),
   'utf8'
 )
+const publicWorkflow = fs.readFileSync(
+  path.resolve(
+    import.meta.dirname,
+    '../../../.github/workflows/assets.yml'
+  ),
+  'utf8'
+)
+const deployWorkflow = fs.readFileSync(
+  path.resolve(import.meta.dirname, '../ghe-deploy-workflow.yml'),
+  'utf8'
+)
 
 describe('assets infrastructure', () => {
   it('keeps the bucket private behind a CloudFront OAC', () => {
@@ -36,5 +47,48 @@ describe('assets infrastructure', () => {
   it('allows cross-origin asset use', () => {
     expect(infra).toContain('access_control_allow_origins')
     expect(infra).toContain('items = ["*"]')
+  })
+
+  it('publishes every GitHub release with its exact tag', () => {
+    expect(publicWorkflow).toContain('release:\n    types: [published]')
+    expect(publicWorkflow).toContain(
+      'ASSET_VERSION: ${{ github.event.release.tag_name || inputs.version }}'
+    )
+    expect(publicWorkflow).toContain(
+      'ref: ${{ github.event.release.tag_name || inputs.version }}'
+    )
+    expect(publicWorkflow).toContain('path: release-source')
+    expect(publicWorkflow).toContain(
+      '$GITHUB_WORKSPACE/release-source/packages/dnb-eufemia/assets'
+    )
+    expect(publicWorkflow).toContain('> VERSION')
+    expect(publicWorkflow).toContain('> ASSETS.sha256')
+  })
+
+  it('preserves immutable releases and independently owned prefixes', () => {
+    expect(deployWorkflow).toContain(
+      'aws s3 sync assets "s3://${BUCKET}/${VERSION}/"'
+    )
+    expect(deployWorkflow).toContain(
+      "--cache-control 'public,max-age=31536000,immutable'"
+    )
+    expect(deployWorkflow).toContain('for ASSET_DIR in assets/*/')
+    expect(deployWorkflow).toContain(
+      'aws s3 sync "$ASSET_DIR" "s3://${BUCKET}/${ASSET_PREFIX}/"'
+    )
+    expect(deployWorkflow).not.toContain(
+      'aws s3 sync assets "s3://${BUCKET}"'
+    )
+    expect(deployWorkflow).toContain('.manifest.sha256')
+    expect(deployWorkflow).toContain('cmp --silent')
+    expect(deployWorkflow).toContain(
+      'Refusing to change immutable assets for ${VERSION}.'
+    )
+    expect(deployWorkflow).toContain('if [[ "$VERSION" != *-* ]]')
+    expect(deployWorkflow).toContain('logos|v*)')
+    expect(deployWorkflow).toContain(
+      'Reserved asset prefix: $ASSET_PREFIX'
+    )
+    expect(deployWorkflow).not.toContain("--paths '/*'")
   })
 })

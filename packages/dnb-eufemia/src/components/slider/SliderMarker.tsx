@@ -1,6 +1,7 @@
 import { useMemo } from 'react'
 import type { ReactNode } from 'react'
 import useId from '../../shared/helpers/useId'
+import idSelector from '../../shared/helpers/idSelector'
 import { useSliderProps } from './hooks/useSliderProps'
 import { clamp, getFormattedNumber } from './SliderHelpers'
 import Tooltip from '../tooltip/Tooltip'
@@ -31,7 +32,9 @@ export default function SliderMarker({ value, text }: SliderMarkerProps) {
         [`${isVertical ? 'top' : 'left'}`]: `${percent}%`,
       },
       children: (
-        <Tooltip targetSelector={`#${markerId}`}>{text || number}</Tooltip>
+        <Tooltip targetSelector={idSelector(markerId)}>
+          {text || number}
+        </Tooltip>
       ),
     }
   }, [

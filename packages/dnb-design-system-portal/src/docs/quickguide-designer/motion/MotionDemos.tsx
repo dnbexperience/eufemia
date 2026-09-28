@@ -88,21 +88,21 @@ export default function MotionDemos({
         <MotionStudy
           id="show-submission"
           title="Show submission"
-          description="Confirm that the request is being processed so people do not submit again. Keep the action recognisable while they wait."
+          description="Confirm that the request is being processed so people do not submit again. Keep the action recognizable while they wait."
         >
           <SubmitScene />
         </MotionStudy>
         <MotionStudy
           id="animate-an-illustration"
           title="Animate an illustration"
-          description="Keep the subject recognisable and animate only the part that supports the message. Here, the house stays still while the garage opens and closes."
+          description="Keep the subject recognizable and animate only the part that supports the message. Here, the house stays still while the garage opens and closes."
         >
           <FamilyHomeIllustration />
         </MotionStudy>
         <MotionStudy
           id="animate-an-icon"
           title="Animate an icon"
-          description="Reinforce the meaning of an event, such as a new notification. Keep the symbol recognisable; movement should not be the only signal."
+          description="Reinforce the meaning of an event, such as a new notification. Keep the symbol recognizable; movement should not be the only signal."
         >
           <IconScene />
         </MotionStudy>

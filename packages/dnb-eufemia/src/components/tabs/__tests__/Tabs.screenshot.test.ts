@@ -43,6 +43,26 @@ describe.each(['ui', 'sbanken'])(`Tabs for %s`, (themeName) => {
     })
   })
 
+  it('have to match a disabled tab with a tooltip', async () => {
+    await makeScreenshot({
+      selector:
+        '[data-visual-test="tabs-disabled-tooltip"] .dnb-tabs__tabs',
+    })
+  })
+
+  it('have to match a disabled tab with a tooltip on hover', async () => {
+    await makeScreenshot({
+      style: {
+        padding: '1rem',
+        'padding-top': '3rem',
+      },
+      selector: '[data-visual-test="tabs-disabled-tooltip"]',
+      simulateSelector:
+        '[data-visual-test="tabs-disabled-tooltip"] .dnb-tabs__button[aria-disabled="true"]',
+      simulate: 'hover',
+    })
+  })
+
   it('have to match a tablist with a click handler', async () => {
     await makeScreenshot({
       selector: '[data-visual-test="tabs-clickhandler"] .dnb-tabs__tabs',

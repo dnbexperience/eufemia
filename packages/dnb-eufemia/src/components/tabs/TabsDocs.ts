@@ -120,8 +120,13 @@ export const TabsDataObject: PropertiesTableProps = {
     status: 'optional',
   },
   disabled: {
-    doc: 'If set to `true`, the tab will be disabled.',
+    doc: 'If set to `true`, the tab will be disabled. It cannot be selected by clicking, the scroll navigation buttons or the keyboard.',
     type: 'boolean',
+    status: 'optional',
+  },
+  tooltip: {
+    doc: 'Shows a tooltip when hovering or focusing the tab. Use it together with `disabled` to explain why a tab is unavailable, e.g. "Coming soon". A disabled tab with a tooltip uses `aria-disabled` instead of the native `disabled` attribute, so it still receives hover events.',
+    type: 'React.ReactNode',
     status: 'optional',
   },
 }

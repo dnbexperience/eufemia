@@ -5,17 +5,27 @@ AWS origin is a private, versioned S3 bucket behind CloudFront. Akamai is the
 public edge and CloudFront rejects requests that do not carry the shared origin
 verification header.
 
-The URL structure matches the package structure, for example:
+Every published Eufemia version, including prereleases, gets an immutable
+prefix. Stable aliases follow only the latest stable release and remain
+available for manually linked assets and backwards compatibility:
 
+- `https://assets.eufemia.dnb.no/v<version>/fonts/dnb/DNB-Regular.woff2`
 - `https://assets.eufemia.dnb.no/fonts/dnb/DNB-Regular.woff2`
-- `https://assets.eufemia.dnb.no/flags/1x1/no.svg`
+
+Generated Eufemia CSS uses the immutable URL matching its package version, and
+repeats each `@font-face` source against the stable alias so the fonts still
+load while a version prefix is unavailable. The root sync cannot delete
+historical `v*/` content or independently published prefixes. The `logos/`
+namespace is reserved for the standalone `@eufemia/logos` publisher.
 
 ## Deployment
 
 The public workflow `.github/workflows/assets.yml` copies the assets, Terraform
 configuration, and deploy workflow to the `deploy` branch of the private GitHub
 Enterprise repository configured by `GHE_ASSETS_DEPLOY_REPO`. That repository
-deploys through GitHub OIDC without AWS access keys.
+deploys through GitHub OIDC without AWS access keys. The public workflow then
+waits for the published version to answer and fails when it never does, so a
+version that does not reach the CDN cannot pass unnoticed.
 
 The infrastructure uses `environment=dev` because Eufemia currently has one AWS
 account, `DNB-EUFEMIA-Dev`. The production Akamai hostname is independent of
@@ -30,7 +40,9 @@ The deploy repository requires:
 
 The public repository requires `GHE_ASSETS_DEPLOY_REPO=eufemia/eufemia-assets`.
 Its existing `GHE_DEPLOY_PAT` must also be granted Contents read/write access to
-that repository.
+that repository, and permission to write workflow files, because the push
+includes `.github/workflows/deploy.yml`. Without it the push is rejected and no
+version reaches the CDN.
 
 After the first AWS deployment, copy the `origin_hostname` Terraform output to
 the `assets.eufemia.dnb.no` property in `akamai_delivery_eufemia`. Configure the

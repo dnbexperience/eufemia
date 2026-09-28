@@ -17,13 +17,5 @@ export default defineConfig({
     restoreMocks: false,
     mockReset: false,
     clearMocks: false,
-
-    deps: {
-      optimizer: {
-        web: {
-          include: ['ora', 'globby'],
-        },
-      },
-    },
   },
 })

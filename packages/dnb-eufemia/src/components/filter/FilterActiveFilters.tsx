@@ -1,5 +1,6 @@
-import { useContext, useId } from 'react'
+import { useContext } from 'react'
 import { clsx } from 'clsx'
+import useId from '../../shared/helpers/useId'
 import SharedContext from '../../shared/Context'
 import { FilterContext } from './FilterContext'
 import Tag from '../tag/Tag'

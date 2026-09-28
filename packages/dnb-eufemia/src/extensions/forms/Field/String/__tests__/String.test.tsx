@@ -222,6 +222,22 @@ describe('Field.String', () => {
       expect(elem.style.height).toBe('48px')
     })
 
+    it('shows the resize handle by default', () => {
+      render(<Field.String multiline />)
+
+      expect(document.querySelector('.dnb-textarea')).not.toHaveClass(
+        'dnb-textarea__no-resize'
+      )
+    })
+
+    it('supports hiding the resize handle', () => {
+      render(<Field.String multiline hideResizeHandle />)
+
+      expect(document.querySelector('.dnb-textarea')).toHaveClass(
+        'dnb-textarea__no-resize'
+      )
+    })
+
     it('should support disabled prop', () => {
       const { rerender } = render(
         <Field.String label="Disabled label" disabled />

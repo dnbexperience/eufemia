@@ -467,11 +467,10 @@ function detectComponentsInFile(
           }
         }
 
-        if (defaultBinding || namespaceAlias) {
-          formsMemberAliases.set(
-            defaultBinding ?? namespaceAlias,
-            memberBarrel
-          )
+        const namespaceBinding = defaultBinding || namespaceAlias
+
+        if (namespaceBinding) {
+          formsMemberAliases.set(namespaceBinding, memberBarrel)
         }
 
         continue

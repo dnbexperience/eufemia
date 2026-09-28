@@ -337,9 +337,8 @@ import { eufemiaCssOptimizer } from '@dnb/eufemia/style/vite-plugin.js'
 export default defineConfig({
   plugins: [react(), eufemiaCssOptimizer()],
   optimizeDeps: {
-    esbuildOptions: {
-      loader: { '.js': 'jsx' },
-      jsx: 'automatic',
+    rolldownOptions: {
+      moduleTypes: { '.js': 'jsx' },
     },
   },
 })

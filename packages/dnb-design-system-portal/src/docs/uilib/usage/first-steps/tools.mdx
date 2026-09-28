@@ -16,6 +16,8 @@ import VSCodeExtensionFontSize from 'Docs/uilib/usage/first-steps/assets/eufemia
 
 **NB:** This feature is experimental and may change in the future. Please give us feedback on your experience with it!
 
+The MCP server provides documentation context only; it does not execute code.
+
 If your AI coding agent supports the Model Context Protocol (MCP), you have two options:
 
 1. **Use the hosted MCP server** at `https://server.eufemia.dnb.no/mcp/web` — no installation needed, always serves the latest released docs.
@@ -108,9 +110,32 @@ raicode mcp add --transport stdio eufemia -- node node_modules/@dnb/eufemia/mcp/
 ### How to use
 
 - The MCP server helps AI apply Eufemia patterns more accurately in code, but results can still be imperfect. So always review the output carefully!
-- The MCP server provides documentation context only; it does not execute code or access the network.
 - Ask your AI tool to search or summarize Eufemia docs, e.g. "Find the spacing system rules in Eufemia."
 - If the server fails to start, confirm `@dnb/eufemia` is installed and the path points to `node_modules/@dnb/eufemia/mcp/mcp-server.js`.
+
+### Telemetry
+
+The local MCP server sends **anonymous, aggregate usage statistics** so we can see which tools, components and documentation areas are most used and improve the docs accordingly. It is **on by default** and **opt-out**.
+
+What is collected is a closed, public vocabulary only: the tool name, the component name for a component lookup (e.g. `Button`, `Field.Address`), the leading documentation area for a doc read or list (e.g. `/uilib/components/`, gated against the areas actually present in the docs — a path outside the docs is dropped, not narrowed), and the `@dnb/eufemia` version you have installed. No machine identifier, user, session or correlation id, and no free text are in that payload — in particular a `docs_search` query is never collected (a search is recorded as a tool count only). The request's source IP is visible to the network layer like any HTTP call, but it is not part of this payload and is not stored on the ingest side.
+
+Each event is a fire-and-forget beacon with a short timeout, so it never blocks or affects a tool call, and the server holds no credentials.
+
+Turn it off by setting `EUFEMIA_MCP_TELEMETRY` to `0` in your MCP client config:
+
+```json
+{
+  "servers": {
+    "eufemia": {
+      "command": "node",
+      "args": [
+        "${workspaceFolder}/node_modules/@dnb/eufemia/mcp/mcp-server.js"
+      ],
+      "env": { "EUFEMIA_MCP_TELEMETRY": "0" }
+    }
+  }
+}
+```
 
 ## Agent Skills
 
@@ -421,8 +446,8 @@ lint severity, but should preserve the rule's documented meaning. A
 recommendation or context-dependent migration should not be presented as an
 unsupported API or an automatic fix.
 
-MCP clients can call `review_rules` to retrieve the same catalogue with the
-stable rule IDs included in the response. The catalogue currently covers the
+MCP clients can call `review_rules` to retrieve the same catalog with the
+stable rule IDs included in the response. The catalog currently covers the
 cross-tool rules that have published metadata; tool-specific rules can still be
 configured as documented above.
 

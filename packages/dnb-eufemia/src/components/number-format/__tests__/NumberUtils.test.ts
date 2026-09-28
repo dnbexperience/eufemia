@@ -1287,7 +1287,7 @@ describe('formatPhoneNumber', () => {
       it('should format 11-digit Norwegian BBAN', () => {
         const result = formatBankAccountNumberByType('20001234567')
         expect(result.number).toBe('2000 12 34567')
-        expect(result.aria).toBe('20 00 12 34 56 7')
+        expect(result.aria).toBe('2 0 0 0 1 2 3 4 5 6 7')
       })
 
       it('should default to norwegianBban when no type is given', () => {
@@ -1308,6 +1308,7 @@ describe('formatPhoneNumber', () => {
           'swedishBban'
         )
         expect(result.number).toBe('5000-1234567')
+        expect(result.aria).toBe('5 0 0 0 1 2 3 4 5 6 7')
       })
 
       it('should format short Swedish BBAN (4 or fewer digits)', () => {
@@ -1331,7 +1332,7 @@ describe('formatPhoneNumber', () => {
           'swedishBankgiro'
         )
         expect(result.number).toBe('5914-0129')
-        expect(result.aria).toBe('59 14 01 29')
+        expect(result.aria).toBe('5 9 1 4 0 1 2 9')
       })
 
       it('should format 7-digit Bankgiro as XXX-XXXX', () => {
@@ -1340,7 +1341,7 @@ describe('formatPhoneNumber', () => {
           'swedishBankgiro'
         )
         expect(result.number).toBe('591-4012')
-        expect(result.aria).toBe('59 14 01 2')
+        expect(result.aria).toBe('5 9 1 4 0 1 2')
       })
 
       it('should return unformatted for other lengths', () => {
@@ -1367,7 +1368,7 @@ describe('formatPhoneNumber', () => {
           'swedishPlusgiro'
         )
         expect(result.number).toBe('126366-4')
-        expect(result.aria).toBe('12 63 66 4')
+        expect(result.aria).toBe('1 2 6 3 6 6 4')
       })
 
       it('should format 8-digit Plusgiro with dash before check digit', () => {
@@ -1376,7 +1377,7 @@ describe('formatPhoneNumber', () => {
           'swedishPlusgiro'
         )
         expect(result.number).toBe('1263664-1')
-        expect(result.aria).toBe('12 63 66 41')
+        expect(result.aria).toBe('1 2 6 3 6 6 4 1')
       })
 
       it('should format 3-digit Plusgiro with dash before check digit', () => {
@@ -1385,7 +1386,7 @@ describe('formatPhoneNumber', () => {
           'swedishPlusgiro'
         )
         expect(result.number).toBe('12-3')
-        expect(result.aria).toBe('12 3')
+        expect(result.aria).toBe('1 2 3')
       })
 
       it('should format 2-digit Plusgiro', () => {
@@ -1394,7 +1395,7 @@ describe('formatPhoneNumber', () => {
           'swedishPlusgiro'
         )
         expect(result.number).toBe('1-2')
-        expect(result.aria).toBe('12')
+        expect(result.aria).toBe('1 2')
       })
 
       it('should return single digit unformatted', () => {
@@ -1431,12 +1432,12 @@ describe('formatPhoneNumber', () => {
         expect(result.number).toBe('DE89 3704 0044 0532 0130 00')
       })
 
-      it('should generate aria with block-of-4 grouping', () => {
+      it('should generate aria one character at a time', () => {
         const result = formatBankAccountNumberByType(
           'NO9386011117947',
           'iban'
         )
-        expect(result.aria).toBe('NO93 8601 1117 947')
+        expect(result.aria).toBe('N O 9 3 8 6 0 1 1 1 1 7 9 4 7')
       })
 
       it('should strip non-alphanumeric characters', () => {
@@ -1459,6 +1460,33 @@ describe('formatPhoneNumber', () => {
         const result = formatBankAccountNumberByType('')
         expect(result.number).toBe('–')
         expect(result.aria).toBe('–')
+      })
+    })
+
+    describe('screen reader output', () => {
+      // Grouped digits are spoken as compound numbers ("20" as "twenty"),
+      // which cannot be transcribed back to the original account number.
+      it.each([
+        ['norwegianBban', '20001234567'],
+        ['swedishBban', '50001234567'],
+        ['swedishBankgiro', '59140129'],
+        ['swedishPlusgiro', '1263664'],
+        ['iban', 'NO9386011117947'],
+      ] as const)(
+        'should never group characters for %s',
+        (type, value) => {
+          const { aria } = formatBankAccountNumberByType(value, type)
+
+          expect(aria.split(' ').every((part) => part.length === 1)).toBe(
+            true
+          )
+        }
+      )
+
+      it('should keep every character of the value, in order', () => {
+        const { aria } = formatBankAccountNumberByType('20001234567')
+
+        expect(aria.replace(/ /g, '')).toBe('20001234567')
       })
     })
   })
