@@ -30,10 +30,9 @@ export type KnownFrontmatter = {
   /**
    * A number from -999 to 999, decimals are allowed.
    *
-   * Set to override the alphabetical order by `title` in the menu.
-   * Positive numbers come first, negative numbers last, and `undefined`
-   * and 0 keep their alphabetical place in the middle.
-   * A lower number comes before a higher one.
+   * Set to override the alphabetical order by `title`, where a lower number
+   * comes first. Lists put pages without an order last, while the sidebar
+   * menu keeps them in the middle and moves negative numbers to the bottom.
    */
   order?: number
   draft?: boolean
