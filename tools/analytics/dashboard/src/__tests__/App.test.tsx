@@ -56,6 +56,27 @@ describe('App (smoke)', () => {
     expect(container.textContent?.trim()).not.toBe('')
   })
 
+  it('shows an empty message in the Page views tab when there are no portal views', async () => {
+    vi.mocked(loadDashboardData).mockResolvedValue({
+      kind: 'data',
+      payload: {
+        generatedAt: '2026-09-16T10:00:00Z',
+        portalViews: [],
+        mcpUsage: { total: 4, perTool: [{ name: 'docs_read', count: 4 }] },
+        componentUsage: { total: 0, perComponent: [] },
+      },
+    })
+
+    const { container } = render(<App />)
+
+    // "Page views" is still the default-selected tab, just empty.
+    await waitFor(() =>
+      expect(container.textContent).toContain('No page views yet.')
+    )
+    expect(screen.getByRole('tab', { name: 'Page views' })).not.toBeNull()
+    expect(container.textContent).not.toContain('Top pages')
+  })
+
   it('renders portal, MCP and component sections across tabs when data is present', async () => {
     vi.mocked(loadDashboardData).mockResolvedValue({
       kind: 'data',
@@ -121,7 +142,7 @@ describe('App (smoke)', () => {
     )
   })
 
-  it('hides the component-usage tab when there is no component data', async () => {
+  it('shows an empty message in the Component usage tab when there is no component data', async () => {
     vi.mocked(loadDashboardData).mockResolvedValue({
       kind: 'data',
       payload: {
@@ -135,9 +156,9 @@ describe('App (smoke)', () => {
     await waitFor(() =>
       expect(container.textContent).toContain('Top pages')
     )
-    expect(
-      screen.queryByRole('tab', { name: 'Component usage' })
-    ).toBeNull()
+    fireEvent.click(screen.getByRole('tab', { name: 'Component usage' }))
+
+    expect(container.textContent).toContain('No component usage yet.')
     expect(container.textContent).not.toContain('Components by app')
     expect(container.textContent).not.toContain(
       'Components by Eufemia version'
