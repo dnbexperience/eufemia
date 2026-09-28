@@ -119,6 +119,22 @@ describe('Modal component', () => {
     )
   })
 
+  it('should not invalidate the content when "contentId" is not a valid CSS identifier', () => {
+    render(
+      <Modal noAnimation directDomReturn contentId="my.id">
+        <DialogContent>
+          <button className="but-not-me">button</button>
+        </DialogContent>
+      </Modal>
+    )
+
+    fireEvent.click(document.querySelector('button.dnb-modal__trigger'))
+
+    expect(
+      document.querySelector('button.but-not-me')
+    ).not.toHaveAttribute('aria-hidden')
+  })
+
   it('should bypass elements defined in bypassInvalidationSelectors', () => {
     render(
       <>

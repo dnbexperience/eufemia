@@ -13,6 +13,7 @@ import {
   clearAllBodyScrollLocks,
 } from './bodyScrollLock'
 import useId from '../../shared/helpers/useId'
+import idSelector from '../../shared/helpers/idSelector'
 import {
   warn,
   InteractionInvalidation,
@@ -338,8 +339,9 @@ export default function ModalContent(props: ModalContentProps) {
 
     if (firstLevel === selfRef.current) {
       const contentElement =
-        contentRef.current || document.querySelector(`#${usedContentId}`)
+        contentRef.current || document.getElementById(usedContentId)
       const parentElements = getParents(contentElement)
+      const contentSelector = idSelector(usedContentId)
 
       const ii = new InteractionInvalidation()
       ii.setBypassElements(parentElements)
@@ -347,8 +349,8 @@ export default function ModalContent(props: ModalContentProps) {
         [
           '#eufemia-portal-root',
           '#eufemia-portal-root *',
-          `#${usedContentId}`,
-          `#${usedContentId} *`,
+          contentSelector,
+          `${contentSelector} *`,
           '.dnb-modal--bypass-invalidation',
           '.dnb-modal--bypass-invalidation-deep *',
           ...(bypassInvalidationSelectors || []),

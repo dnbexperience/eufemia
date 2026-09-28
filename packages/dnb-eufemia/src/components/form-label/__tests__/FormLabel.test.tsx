@@ -368,6 +368,21 @@ describe('FormLabel component', () => {
       expect(input).not.toHaveClass('hover')
     })
 
+    it('should set hover class when the id is not a valid CSS identifier', () => {
+      render(
+        <>
+          <FormLabel forId="my.id" />
+          <input type="text" id="my.id" className="dnb-input__border" />
+        </>
+      )
+
+      const label = document.querySelector('label')
+      const input = document.querySelector('input')
+
+      fireEvent.mouseEnter(label)
+      expect(input).toHaveClass('hover')
+    })
+
     it('should not set hover class when "dnb-input__border" is not present', () => {
       render(
         <>
