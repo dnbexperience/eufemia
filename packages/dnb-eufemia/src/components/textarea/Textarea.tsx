@@ -238,7 +238,8 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
 
         elem.style.height = newHeight + 'px'
         elem.scrollTop = scrollTop
-        heightRef.current = newHeight
+        // Read back, as browsers round the value they store
+        heightRef.current = parseFloat(elem.style.height)
       } catch (e) {
         warn('Textarea: Failed to set autosize height:', e)
       }

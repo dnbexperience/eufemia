@@ -486,6 +486,38 @@ describe('Textarea component', () => {
     expect(elem.style.height).toBe('24px')
   })
 
+  it('shrinks from a maximum height the browser rounds', async () => {
+    render(<Textarea rows={1} autoResize autoResizeMaxRows={3} />)
+
+    const elem = document.querySelector('textarea')
+    const lineHeight = 1.65 * 16
+    const style = { lineHeight: String(lineHeight) } as CSSStyleDeclaration
+    let contentHeight = lineHeight * 5
+    let height = ''
+
+    vi.spyOn(window, 'getComputedStyle').mockImplementation(() => style)
+    // Browsers store 79.19999999999999px as 79.2px
+    Object.defineProperty(elem.style, 'height', {
+      configurable: true,
+      get: () => height,
+      set: (value: string) => {
+        const px = parseFloat(value)
+        height = isNaN(px) ? value : `${Math.round(px * 1e4) / 1e4}px`
+      },
+    })
+    vi.spyOn(elem, 'scrollHeight', 'get').mockImplementation(() =>
+      Math.max(parseFloat(elem.style.height) || 0, contentHeight)
+    )
+
+    await userEvent.type(elem, 'a')
+    expect(elem.style.height).toBe('79.2px')
+
+    contentHeight = lineHeight
+    await userEvent.type(elem, '{backspace}')
+
+    expect(elem.style.height).toBe('26.4px')
+  })
+
   it('preserves a user-defined height while auto resizing', async () => {
     render(<Textarea rows={1} autoResize autoResizeMaxRows={4} />)
 
