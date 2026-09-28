@@ -10,3 +10,17 @@ exports.getFontBasePath = (version) => {
 
   return stableFontBasePath
 }
+
+/**
+ * The immutable version path is published after the package, so a release
+ * build emits the stable alias as a `src` fallback next to it.
+ */
+exports.getFontBasePaths = (version) => {
+  const basePath = exports.getFontBasePath(version)
+
+  return {
+    basePath,
+    fallbackBasePath:
+      basePath === stableFontBasePath ? undefined : stableFontBasePath,
+  }
+}

@@ -1,4 +1,4 @@
-import { getFontBasePath } from '../config'
+import { getFontBasePath, getFontBasePaths } from '../config'
 
 describe('font URL rewrite config', () => {
   it('uses an immutable CDN path for a release version', () => {
@@ -17,5 +17,19 @@ describe('font URL rewrite config', () => {
     expect(getFontBasePath('release')).toBe(
       'https://assets.eufemia.dnb.no/fonts/'
     )
+  })
+
+  it('pairs a release version with the stable alias as fallback', () => {
+    expect(getFontBasePaths('11.14.1')).toEqual({
+      basePath: 'https://assets.eufemia.dnb.no/v11.14.1/fonts/',
+      fallbackBasePath: 'https://assets.eufemia.dnb.no/fonts/',
+    })
+  })
+
+  it('omits the fallback when the stable alias is already the base', () => {
+    expect(getFontBasePaths('release')).toEqual({
+      basePath: 'https://assets.eufemia.dnb.no/fonts/',
+      fallbackBasePath: undefined,
+    })
   })
 })

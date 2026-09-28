@@ -62,7 +62,7 @@ jobs:
   push:
     name: Push to GHE
     needs: test
-    if: github.event_name != 'pull_request'
+    if: github.event_name != 'pull_request' && github.repository == 'dnbexperience/eufemia'
     runs-on: ubuntu-latest
     timeout-minutes: 15
 
@@ -81,20 +81,16 @@ jobs:
           ref: ${{ github.event.release.tag_name || inputs.version }}
           path: release-source
 
-      - name: Skip if GHE credentials are missing
-        id: gate
+      - name: Require GHE credentials
         env:
           GHE_PAT: ${{ secrets.GHE_DEPLOY_PAT }}
         run: |
           if [ -z "${GHE_PAT:-}" ]; then
-            echo "GHE_DEPLOY_PAT is not set; skipping push."
-            echo "skip=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "skip=false" >> "$GITHUB_OUTPUT"
+            echo "::error::GHE_DEPLOY_PAT is not set, so the assets cannot be published."
+            exit 1
           fi
 
       - name: Push to GHE deploy repo
-        if: steps.gate.outputs.skip != 'true'
         env:
           ASSET_VERSION: ${{ github.event.release.tag_name || inputs.version }}
           GHE_PAT: ${{ secrets.GHE_DEPLOY_PAT }}
@@ -139,3 +135,40 @@ jobs:
           AUTH_HEADER=$(printf 'x-access-token:%s' "$GHE_PAT" | base64 | tr -d '\n')
           git -c http.extraheader="AUTHORIZATION: basic ${AUTH_HEADER}" \
             push "https://dnb.ghe.com/${GHE_REPO}.git" HEAD:refs/heads/deploy --force
+
+  verify:
+    name: Verify published assets
+    needs: push
+    runs-on: ubuntu-latest
+    # The deploy repo job budgets 20 minutes of its own, and is queued behind
+    # its own runners, so leave room for a slow but healthy deploy.
+    timeout-minutes: 45
+
+    steps:
+      - name: Wait for the published version to answer
+        env:
+          ASSET_VERSION: ${{ github.event.release.tag_name || inputs.version }}
+        run: |
+          set -euo pipefail
+
+          if [[ ! "$ASSET_VERSION" =~ ^v[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.-]+)?$ ]]; then
+            echo "::error::Asset version must be a published semver tag with a v prefix."
+            exit 1
+          fi
+
+          # The exact url the generated CSS points at, so an edge that answers
+          # anything but 200 counts as unavailable for consumers too.
+          URL="https://assets.eufemia.dnb.no/${ASSET_VERSION}/fonts/dnb/DNB-Regular.woff2"
+          DEADLINE=$(( $(date +%s) + 1800 ))
+
+          while [ "$(date +%s)" -lt "$DEADLINE" ]; do
+            code=$(curl -s -o /dev/null -w '%{http_code}' --max-time 10 "$URL" || true)
+            if [ "$code" = "200" ]; then
+              echo "Published assets are live: $URL"
+              exit 0
+            fi
+            sleep 15
+          done
+
+          echo "::error::Assets for ${ASSET_VERSION} never became available at ${URL}. Check the deploy repo, then re-run this workflow with the version to republish."
+          exit 1

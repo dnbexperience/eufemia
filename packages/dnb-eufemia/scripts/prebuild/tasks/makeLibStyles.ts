@@ -17,7 +17,7 @@ import {
 import postcssIsolatePlugin from '../../../src/plugins/postcss-isolated-style-scope'
 import postcssFontUrlRewritePlugin from '../../../src/plugins/postcss-font-url-rewrite'
 import { enableBuildStyleScope } from '../../../src/plugins/postcss-isolated-style-scope/config'
-import { getFontBasePath } from '../../../src/plugins/postcss-font-url-rewrite/config'
+import { getFontBasePaths } from '../../../src/plugins/postcss-font-url-rewrite/config'
 
 // import the post css config
 import postcssConfig from '../config/postcssConfig'
@@ -101,7 +101,7 @@ export const runFactory = async (
                 verbose: false,
               }),
               postcssFontUrlRewritePlugin({
-                basePath: getFontBasePath(),
+                ...getFontBasePaths(),
                 verbose: false,
               }),
             ],
