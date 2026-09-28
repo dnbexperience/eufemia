@@ -890,13 +890,13 @@ You can also use `top` and `bottom` individually if you need different values, e
 
 - The exported `SectionSpacing` type has been removed. If you imported it (e.g. for Breadcrumb or custom components), use the `InnerSpaceType` from `@dnb/eufemia/components/space/types` instead.
 
-#### Styling
+#### Styling \{#section-styling\}
 
 - Remove CSS classes `dnb-section--spacing`, `dnb-section--spacing-small`, etc, as they are not supported anymore.
 
 ### [HelpButton](/uilib/components/help-button/)
 
-#### Translations
+#### Translations \{#helpbutton-translations\}
 
 - Replace `HelpButton.aria_role` with `HelpButton.ariaRole`.
 
@@ -910,7 +910,7 @@ You can also use `top` and `bottom` individually if you need different values, e
 - Replace `align_autocomplete` with `align`.
 - Replace `on_show` with `onOpen` and `on_hide` with `onClose` (not just a casing change — the event names changed).
 
-#### Properties
+#### Properties \{#autocomplete-properties\}
 
 The following properties have been renamed from snake_case to camelCase:
 
@@ -975,7 +975,7 @@ The following properties have been renamed from snake_case to camelCase:
 - Replace `is_popup` with `isPopup`.
 - Replace `selectall` with `selectAll`.
 
-#### Events
+#### Events \{#autocomplete-events\}
 
 - Replace `on_type` with `onType`.
 - Replace `on_focus` with `onFocus`.
@@ -985,7 +985,7 @@ The following properties have been renamed from snake_case to camelCase:
 - Replace `on_show` with `onOpen`.
 - Replace `on_hide` with `onClose`.
 
-#### Translations
+#### Translations \{#autocomplete-translations\}
 
 - Replace `Autocomplete.no_options` with `Autocomplete.noOptions`.
 - Replace `Autocomplete.show_all` with `Autocomplete.showAll`.
@@ -995,12 +995,12 @@ The following properties have been renamed from snake_case to camelCase:
 - Replace `Autocomplete.selected_sr` with `Autocomplete.selectedSr`.
 - Replace `Autocomplete.submit_button_title` with `Autocomplete.submitButtonTitle`.
 
-#### Styling
+#### Styling \{#autocomplete-styling\}
 
 - Replace CSS class `dnb-autocomplete--opened` with `dnb-autocomplete--open`.
 - Replace CSS class `dnb-autocomplete__suffixValue` with `dnb-autocomplete__suffix-value` (BEM kebab-case fix).
 
-#### TypeScript types
+#### TypeScript types \{#autocomplete-typescript-types\}
 
 - Replace `AutocompleteClearEvent` with `AutocompleteOnClearParams`.
 - Replace `AutocompleteTypeEvent` with `AutocompleteOnTypeParams`.
@@ -1009,7 +1009,7 @@ The following properties have been renamed from snake_case to camelCase:
 - Replace `AutocompleteChangeEvent` with `AutocompleteOnChangeParams`.
 - Replace `AutocompleteSelectEvent` with `AutocompleteOnSelectParams`.
 
-#### DrawerListDataArrayObject
+#### DrawerListDataArrayObject \{#autocomplete-drawerlistdataarrayobject\}
 
 Data object property renames: `selected_value` → `selectedValue`, `suffix_value` → `suffixValue`, `search_content` → `searchContent`, `class_name` → `className`. See [DrawerList](#drawerlist) for details.
 
@@ -1024,7 +1024,7 @@ Data object property renames: `selected_value` → `selectedValue`, `suffix_valu
 - Replace `align_dropdown` with `align`.
 - Replace `on_show` with `onOpen` and `on_hide` with `onClose` (not just a casing change — the event names changed).
 
-#### Properties
+#### Properties \{#dropdown-properties\}
 
 The following properties have been renamed from snake_case to camelCase:
 
@@ -1067,7 +1067,7 @@ The following properties have been renamed from snake_case to camelCase:
 - Replace `is_popup` with `isPopup`.
 - Replace `prevent_focus` with `preventFocus`.
 
-#### Events
+#### Events \{#dropdown-events\}
 
 - Replace `on_change` with `onChange`.
 - Replace `on_select` with `onSelect`.
@@ -1076,17 +1076,17 @@ The following properties have been renamed from snake_case to camelCase:
 - Replace `on_show_focus` with `onOpenFocus`.
 - Replace `on_hide_focus` with `onCloseFocus`.
 
-#### Styling
+#### Styling \{#dropdown-styling\}
 
 - Replace CSS class `dnb-dropdown--opened` with `dnb-dropdown--open`.
 
-#### DrawerListDataArrayObject
+#### DrawerListDataArrayObject \{#dropdown-drawerlistdataarrayobject\}
 
 Data object property renames: `selected_value` → `selectedValue`, `suffix_value` → `suffixValue`, `search_content` → `searchContent`, `class_name` → `className`. See [DrawerList](#drawerlist) for details.
 
 ### [DrawerList](/uilib/components/fragments/drawer-list/)
 
-#### Properties
+#### Properties \{#drawerlist-properties\}
 
 - The deprecated `onStateUpdate` prop has been removed. Use `onChange` instead.
 - Replace type `DrawerListDataObjectUnion` with `DrawerListDataArrayItem`.
@@ -1123,7 +1123,7 @@ Data object property renames: `selected_value` → `selectedValue`, `suffix_valu
 - Replace `opened` with `open`.
 - Remove `prepared_data`.
 
-#### Events
+#### Events \{#drawerlist-events\}
 
 - Replace `on_show` with `onOpen`.
 - Replace `on_hide` with `onClose`.
@@ -1133,11 +1133,11 @@ Data object property renames: `selected_value` → `selectedValue`, `suffix_valu
 - Replace `on_resize` with `onResize`.
 - Replace `on_select` with `onSelect`.
 
-#### Styling
+#### Styling \{#drawerlist-styling\}
 
 - Replace CSS class `dnb-drawer-list--opened` with `dnb-drawer-list--open`.
 
-#### DrawerListDataArrayObject
+#### DrawerListDataArrayObject \{#drawerlist-drawerlistdataarrayobject\}
 
 - Replace `selected_value` with `selectedValue`.
 - Replace `suffix_value` with `suffixValue`.
@@ -1148,12 +1148,12 @@ Data object property renames: `selected_value` → `selectedValue`, `suffix_valu
 
 - When using icons in an Anchor (text link), use the `icon` property instead of inlining it.
 
-#### Properties
+#### Properties \{#anchor-properties\}
 
 - Find and remove `scrollToHashHandler`. Smooth hash scrolling is now supported by all major browsers.
 - Replace `inner_ref` with `ref`.
 
-#### Styling
+#### Styling \{#anchor-styling\}
 
 - Replace CSS class `dnb-anchor--contrast` with `dnb-anchor--surface-dark`.
 
@@ -1166,7 +1166,7 @@ Data object property renames: `selected_value` → `selectedValue`, `suffix_valu
 - Replace `clear` with `showClearButton`.
 - Replace `input_class` with `inputClassName` (note the name change, not just casing).
 
-#### Properties
+#### Properties \{#input-properties\}
 
 The following properties have been renamed from snake_case to camelCase:
 
@@ -1192,7 +1192,7 @@ The following properties have been renamed from snake_case to camelCase:
 - Replace `submit_button_status` with `submitButtonStatus`.
 - Replace `selectall` with `selectAll`.
 
-#### Events
+#### Events \{#input-events\}
 
 - Replace `on_change` with `onChange`.
 - Replace `on_focus` with `onFocus`.
@@ -1203,7 +1203,7 @@ The following properties have been renamed from snake_case to camelCase:
 - Replace `on_submit_blur` with `onSubmitBlur`.
 - Replace `on_clear` with `onClear`.
 
-#### Translations
+#### Translations \{#input-translations\}
 
 - Replace `Input.submit_button_title` with `Input.submitButtonTitle`.
 - Replace `Input.clear_button_title` with `Input.clearButtonTitle`.
@@ -1226,7 +1226,7 @@ New props added:
 - `allowOverflow` – allow typing beyond the defined mask length.
 - `overwriteMode` – control how overwriting characters is handled (`shift` or `replace`).
 
-#### Properties
+#### Properties \{#inputmasked-properties\}
 
 - The deprecated `onStateUpdate` prop has been removed. Use `onChange` instead.
 - Replace `clear` with `showClearButton`.
@@ -1261,7 +1261,7 @@ New props added:
 - Replace `submit_button_status` with `submitButtonStatus`.
 - Replace `selectall` with `selectAll`.
 
-#### Events
+#### Events \{#inputmasked-events\}
 
 - Replace `on_change` with `onChange`.
 - Replace `on_submit` with `onSubmit`.
@@ -1308,14 +1308,14 @@ New props added:
 
 ### [FormLabel](/uilib/components/form-label/)
 
-#### Properties
+#### Properties \{#formlabel-properties\}
 
 - Replace `for_id` with `forId`.
 - Replace `sr_only` with `srOnly`.
 
 ### [Radio](/uilib/components/radio/)
 
-#### Properties
+#### Properties \{#radio-properties\}
 
 - The deprecated `onStateUpdate` prop has been removed. Use `onChange` instead.
 - The deprecated `attributes` prop has been removed. Use spread props instead.
@@ -1326,13 +1326,13 @@ New props added:
 - Replace `status_props` with `statusProps`.
 - Replace `status_no_animation` with `statusNoAnimation`.
 
-#### Events
+#### Events \{#radio-events\}
 
 - Replace `on_change` with `onChange`.
 
 ### [Radio.Group](/uilib/components/radio/)
 
-#### Properties
+#### Properties \{#radiogroup-properties\}
 
 - The deprecated `attributes` prop has been removed. Use spread props instead.
 - Replace `label_direction` with `labelDirection`.
@@ -1344,13 +1344,13 @@ New props added:
 - Replace `status_no_animation` with `statusNoAnimation`.
 - Replace `layout_direction` with `layoutDirection`.
 
-#### Events
+#### Events \{#radiogroup-events\}
 
 - Replace `on_change` with `onChange`.
 
 ### [Textarea](/uilib/components/textarea/)
 
-#### Properties
+#### Properties \{#textarea-properties\}
 
 - The deprecated `onStateUpdate` prop has been removed. Use `onChange` instead.
 - The deprecated `textareaAttributes` prop has been removed. Use spread props instead.
@@ -1368,7 +1368,7 @@ New props added:
 - Replace `inner_ref` with `ref`.
 - Replace `textarea_element` with `textareaElement`.
 
-#### Events
+#### Events \{#textarea-events\}
 
 - Replace `on_change` with `onChange`.
 - Replace `on_focus` with `onFocus`.
@@ -1377,7 +1377,7 @@ New props added:
 
 ### [Accordion](/uilib/components/accordion/)
 
-#### Properties
+#### Properties \{#accordion-properties\}
 
 - The deprecated `onStateUpdate` prop has been removed. Use `onChange` instead.
 - The deprecated `attributes` prop has been removed. Use spread props instead.
@@ -1395,39 +1395,39 @@ New props added:
 - Replace `no_animation` with `noAnimation`.
 - Replace `prerender` with `keepInDOM`.
 
-#### Events
+#### Events \{#accordion-events\}
 
 - Replace `on_change` with `onChange`.
 
 ### [Accordion.Group](/uilib/components/accordion/)
 
-#### Properties
+#### Properties \{#accordiongroup-properties\}
 
 - Replace `allow_close_all` with `allowCloseAll`.
 - Replace `expanded_id` with `expandedId`.
 
 ### [Accordion.Provider](/uilib/components/accordion/)
 
-#### Properties
+#### Properties \{#accordionprovider-properties\}
 
 - Replace `expanded_id` with `expandedId`.
 
 ### [Tag](/uilib/components/tag/)
 
-#### Events
+#### Events \{#tag-events\}
 
 - Replace `onDelete` with `onClick`, and add `variant="removable"`.
 
 ### [Upload](/uilib/components/upload/)
 
-#### Properties
+#### Properties \{#upload-properties\}
 
 - Replace `variant="normal"` with `variant="default"`.
 - Replace `fileListAriaLabel` with `listAriaLabel`.
 
 ### [Stat](/uilib/components/stat/)
 
-#### Removals
+#### Removals \{#stat-removals\}
 
 - `Stat.Amount` has been removed. Use `Stat.Number` instead.
 - `Stat.Info` no longer accepts `variant="default"`. Use `variant="plain"` instead.
@@ -1459,7 +1459,7 @@ New props added:
 - Replace class `.dnb-p--small` or `.dnb-p__size--small` with `.dnb-t__size--small` and `.dnb-t__line-height--small`.
 - Replace class `.dnb-p--x-small` or `.dnb-p__size--x-small` with `.dnb-t__size--x-small` and `.dnb-t__line-height--x-small`.
 
-#### Properties
+#### Properties \{#p-properties\}
 
 - Replace `medium={true}` with `weight='medium'`.
 - Replace `bold={true}` with `weight='bold'`.
@@ -1470,13 +1470,13 @@ New props added:
 
 ### [Definition lists](/uilib/elements/lists/#definition-lists)
 
-#### Properties
+#### Properties \{#definition-lists-properties\}
 
 - Replace `direction` in `<Dl>` with `layout`.
 
 ### [Breadcrumb](/uilib/components/breadcrumb/)
 
-#### Properties
+#### Properties \{#breadcrumb-properties\}
 
 - Replace `isCollapsed` with `collapsed`.
 - Replace `styleType` (or `style_type`) with `backgroundColor`.
@@ -1494,7 +1494,7 @@ For more context, see this [PR](https://github.com/dnbexperience/eufemia/pull/27
 
 ### [ProgressIndicator](/uilib/components/progress-indicator/)
 
-#### Properties
+#### Properties \{#progressindicator-properties\}
 
 - Replace `visible` with `show`.
 - Replace `no_animation` with `noAnimation`.
@@ -1504,21 +1504,21 @@ For more context, see this [PR](https://github.com/dnbexperience/eufemia/pull/27
 - Replace `class` with `className`.
 - Replace `children` with `label`.
 
-#### Events
+#### Events \{#progressindicator-events\}
 
 - Replace `on_complete` with `onComplete`.
 
-#### Styling
+#### Styling \{#progressindicator-styling\}
 
 - Replace CSS class `dnb-progress-indicator--visible` with `dnb-progress-indicator--show`.
 
-#### Translations
+#### Translations \{#progressindicator-translations\}
 
 - Replace translation `ProgressIndicator.indicator_label` with `ProgressIndicator.indicatorLabel`.
 
 ### [PaymentCard](/uilib/extensions/payment-card/)
 
-#### Properties
+#### Properties \{#paymentcard-properties\}
 
 - Replace `product_code` with `productCode`.
 - Replace `card_number` with `cardNumber`.
@@ -1532,7 +1532,7 @@ For more context, see this [PR](https://github.com/dnbexperience/eufemia/pull/27
 - Replace value `order_in_process` with `orderInProcess`.
 - Replace value `new_order` with `newOrder`.
 
-#### Translations
+#### Translations \{#paymentcard-translations\}
 
 - Remove translation `PaymentCard.text_card_number` as it's not supported anymore.
 - Replace `PaymentCard.text_blocked` with `PaymentCard.textBlocked`.
@@ -1576,33 +1576,33 @@ The `PaymentCard` types (`DNB`, `Visa`, `Mastercard`, `CardType`, `BankAxept`, `
 
 ### Divider ([Horizontal Rule](/uilib/elements/horizontal-rule/))
 
-#### Properties
+#### Properties \{#divider-horizontal-rule-properties\}
 
 - Remove the `light` and `medium` props — they are no longer supported. The Divider now renders with a single default style. If you need to customize the line appearance, use CSS custom properties or a wrapper with custom styling.
 - Replace `fullscreen` with `breakout`.
 
 ### [Flex.Item](/uilib/layout/flex/item/)
 
-#### Properties
+#### Properties \{#flexitem-properties\}
 
 - Replace `size` with `span`. The property sets how many columns an item should span in the flex layout.
 
 ### [Card](/uilib/components/card/)
 
-#### Properties
+#### Properties \{#card-properties\}
 
 - Remove `spacing` property.
 - Replace `size` with `span` (inherited from [Flex.Item](/uilib/layout/flex/item/)).
 - The default `innerSpace` is now `small` (`16px`) on all sides.
 
-#### Styling
+#### Styling \{#card-styling\}
 
 - The default outline has changed to `1px` with color `#ebebeb`.
 - The corner radius has changed to `24px`.
 
 ### [Checkbox](/uilib/components/checkbox/)
 
-#### Properties
+#### Properties \{#checkbox-properties\}
 
 - The deprecated `attributes` prop has been removed. Use spread props instead.
 - Replace `label_position` with `labelPosition`.
@@ -1613,18 +1613,18 @@ The `PaymentCard` types (`DNB`, `Visa`, `Mastercard`, `CardType`, `BankAxept`, `
 - Replace `status_no_animation` with `statusNoAnimation`.
 - Replace `children` with `label`.
 
-#### Events
+#### Events \{#checkbox-events\}
 
 - Replace `on_change` with `onChange`.
 
-#### TypeScript types
+#### TypeScript types \{#checkbox-typescript-types\}
 
 - Replace `OnChangeParams` with `CheckboxOnChangeParams`.
 - Replace `OnClickParams` with `CheckboxOnClickParams`.
 
 ### [Switch](/uilib/components/switch/)
 
-#### Properties
+#### Properties \{#switch-properties\}
 
 - The deprecated `onStateUpdate` prop has been removed. Use `onChange` instead.
 - Replace `label_position` with `labelPosition`.
@@ -1634,7 +1634,7 @@ The `PaymentCard` types (`DNB`, `Visa`, `Mastercard`, `CardType`, `BankAxept`, `
 - Replace `status_props` with `statusProps`.
 - Replace `status_no_animation` with `statusNoAnimation`.
 
-#### Events
+#### Events \{#switch-events\}
 
 - Replace `on_change` with `onChange`.
 - Replace `on_change_end` with `onChangeEnd`.
@@ -1643,7 +1643,7 @@ The `PaymentCard` types (`DNB`, `Visa`, `Mastercard`, `CardType`, `BankAxept`, `
 
 > **Major change:** The Logo component API has been redesigned. Instead of `brand` and `variant` props, import the specific SVG component directly.
 
-#### Properties
+#### Properties \{#logo-properties\}
 
 - Remove `brand` prop. Import and use the desired SVG component directly (e.g., `DnbDefault`, `SbankenDefault`, `SbankenCompact`, `SbankenHorizontal`, `CarnegieDefault`, `EiendomDefault`).
 - Remove `variant` prop. Instead, import the specific variant directly (e.g., `SbankenCompact` instead of `brand="sbanken" variant="compact"`).
@@ -1673,7 +1673,7 @@ render(<Logo svg={SbankenCompact} />)
 
 ### [Icon](/uilib/components/icon/)
 
-#### Properties
+#### Properties \{#icon-properties\}
 
 - Replace `inherit_color` with `inheritColor`.
 
@@ -1684,7 +1684,7 @@ render(<Logo svg={SbankenCompact} />)
 - The `variant="signal"` has been removed. Use `variant="primary"` or `variant="secondary"` instead.
 - The `buttonVariantPropType` export has been removed as part of the PropTypes removal. If you were importing it via `import { buttonVariantPropType } from '@dnb/eufemia/components/button'`, remove the import — runtime prop validation is no longer provided.
 
-#### Properties
+#### Properties \{#button-properties\}
 
 - Replace `icon_position` with `iconPosition`.
 - Replace `icon_size` with `iconSize`.
@@ -1696,7 +1696,7 @@ render(<Logo svg={SbankenCompact} />)
 - The `class` prop has been removed. Use `className` instead.
 - Replace `inner_ref` with `ref`.
 
-#### Events
+#### Events \{#button-events\}
 
 - Replace `on_click` with `onClick`.
 
@@ -1708,7 +1708,7 @@ render(<Logo svg={SbankenCompact} />)
 - Replace `openState` with `open`. Replace `openState="opened"` with `open={true}` and `openState="closed"` with `open={false}`.
 - If you rely on opening and closing a modal by mounting and unmounting the component (legacy behavior), you should change to using the `open` property instead.
 
-#### Properties
+#### Properties \{#modal-dialog-and-drawer-properties\}
 
 The following properties have been renamed from snake_case to camelCase:
 
@@ -1749,36 +1749,36 @@ The following properties have been renamed from snake_case to camelCase:
 - Replace `prevent_overlay_close` with `preventOverlayClose`.
 - Replace `confirmType`'s value `info` with `information` on Dialog.
 
-#### Events
+#### Events \{#modal-dialog-and-drawer-events\}
 
 - Replace `on_open` with `onOpen`.
 - Replace `on_close` with `onClose`.
 - Replace `on_close_prevent` with `onClosePrevent`.
 
-#### TypeScript types
+#### TypeScript types \{#modal-dialog-and-drawer-typescript-types\}
 
 - Replace `ModalPropTypes` with `ModalAllProps`.
 
-#### Translations
+#### Translations \{#modal-dialog-and-drawer-translations\}
 
 - Replace `Modal.dialog_title` with `Modal.dialogTitle`.
 - Replace `Modal.close_title` with `Modal.closeTitle`.
 
 ### [Modal.Header](/uilib/components/modal/), [Dialog.Header](/uilib/components/dialog/) and [Drawer.Header](/uilib/components/drawer/)
 
-#### Properties
+#### Properties \{#modalheader-dialogheader-and-drawerheader-properties\}
 
 - Replace `title_class` with `titleClass`.
 
 ### [ModalHeaderBar](/uilib/components/modal/), [Dialog.Navigation](/uilib/components/dialog/) and [Drawer.Navigation](/uilib/components/drawer/)
 
-#### Properties
+#### Properties \{#modalheaderbar-dialognavigation-and-drawernavigation-properties\}
 
 - Replace `shadow_class` with `shadowClass`.
 
 ### [Dialog.Body](/uilib/components/dialog/) and [Drawer.Body](/uilib/components/drawer/)
 
-#### Properties
+#### Properties \{#dialogbody-and-drawerbody-properties\}
 
 - Replace `styleType` (or `style_type`) with `backgroundColor`.
 - Replace `spacing` with `innerSpace`. Use `block` to match the old vertical-only padding:
@@ -1792,14 +1792,14 @@ The following properties have been renamed from snake_case to camelCase:
 
 ### [Heading](/uilib/components/heading/)
 
-#### Properties
+#### Properties \{#heading-properties\}
 
 - Replace `debug_counter` with `debugCounter`.
 - Replace `skip_correction` with `skipCorrection`.
 
 ### [H (heading elements)](/uilib/elements/heading/)
 
-#### Properties
+#### Properties \{#h-heading-elements-properties\}
 
 - Replace `as` with `element`.
 
@@ -1821,26 +1821,26 @@ The following properties have been renamed from snake_case to camelCase:
 
 ### [Table](/uilib/components/table/)
 
-#### Properties
+#### Properties \{#table-properties\}
 
 - Replace `accordion` with `mode="accordion"`.
 - Replace `accordionChevronPlacement="start"` with `accordionChevronPlacement="left"` (or remove it, since `"left"` is the default).
 - Replace `accordionChevronPlacement="end"` with `accordionChevronPlacement="right"`.
 
-#### Events
+#### Events \{#table-events\}
 
 - Replace `onClosed` with `onClose`.
 - Replace `onOpened` with `onOpen`.
 
 #### TableClickableHead
 
-##### Events
+##### Events \{#tableclickablehead-events\}
 
 - Replace `on_click` with `onClick`.
 
 ### [FormStatus](/uilib/components/form-status/)
 
-#### Properties
+#### Properties \{#formstatus-properties\}
 
 - Replace `no_animation` with `noAnimation`.
 - Replace `icon_size` with `iconSize`.
@@ -1851,26 +1851,26 @@ The following properties have been renamed from snake_case to camelCase:
 - Replace `state`'s value `warn` with `warning`.
 - Replace `variant`'s value `flat` with `plain`.
 
-#### TypeScript types
+#### TypeScript types \{#formstatus-typescript-types\}
 
 - The `FormStatusState` type no longer includes `| string | boolean`. It now only accepts the literal values `'error'`, `'warning'`, `'information'`, `'success'`, and `'marketing'`. If you were passing arbitrary strings or booleans as `state` or `statusState`, update them to one of the valid literals.
 
 ### [Skeleton](/uilib/components/skeleton/)
 
-#### Properties
+#### Properties \{#skeleton-properties\}
 
 - Replace `no_animation` with `noAnimation`.
 - Replace `aria_busy` with `ariaBusy`.
 - Replace `aria_ready` with `ariaReady`.
 
-#### Translations
+#### Translations \{#skeleton-translations\}
 
 - Replace translation `Skeleton.aria_busy` with `Skeleton.ariaBusy`.
 - Replace translation `Skeleton.aria_ready` with `Skeleton.ariaReady`.
 
 ### [Tabs](/uilib/components/tabs/)
 
-#### Properties
+#### Properties \{#tabs-properties\}
 
 - Replace `selected_key` with `selectedKey`.
 - Replace `content_style` with `contentStyle`.
@@ -1885,20 +1885,20 @@ The following properties have been renamed from snake_case to camelCase:
 - Replace `prerender` with `keepInDOM`.
 - The `class` prop has been removed. Use `className` instead.
 
-#### Events
+#### Events \{#tabs-events\}
 
 - Replace `on_change` with `onChange`.
 - Replace `on_click` with `onClick`.
 - Replace `on_mouse_enter` with `onMouseEnter`.
 - Replace `on_focus` with `onFocus`.
 
-#### Styling
+#### Styling \{#tabs-styling\}
 
 - The CSS classes `dnb-section--spacing-*` are no longer applied to the Tabs content wrapper or tab list. If you have custom CSS targeting these classes within Tabs, update to target the inline styles or use `contentInnerSpace`/`tabsInnerSpace` props instead.
 
 ### [Pagination](/uilib/components/pagination/)
 
-#### Properties
+#### Properties \{#pagination-properties\}
 
 - Replace `place_maker_before_content` with `placeMarkerBeforeContent`.
 - Replace `startup_page` with `startupPage`.
@@ -1932,14 +1932,14 @@ The following properties have been renamed from snake_case to camelCase:
 <Pagination loadButton={{ text: "Load more" }} />
 ```
 
-#### Events
+#### Events \{#pagination-events\}
 
 - Replace `on_change` with `onChange`.
 - Replace `on_startup` with `onStartup`.
 - Replace `on_load` with `onLoad`.
 - Replace `on_end` with `onEnd`.
 
-#### Translations
+#### Translations \{#pagination-translations\}
 
 - Replace `Pagination.button_title` with `Pagination.buttonTitle`.
 - Replace `Pagination.prev_title` with `Pagination.prevTitle`.
@@ -1954,7 +1954,7 @@ The following properties have been renamed from snake_case to camelCase:
 
 ### [Slider](/uilib/components/slider/)
 
-#### Properties
+#### Properties \{#slider-properties\}
 
 - Replace `statusState`'s value `info` with `information`.
 
@@ -1970,23 +1970,23 @@ The following properties have been renamed from snake_case to camelCase:
 - Replace `status_props` with `statusProps`.
 - Replace `status_no_animation` with `statusNoAnimation`.
 
-#### Events
+#### Events \{#slider-events\}
 
 - Replace `on_change` with `onChange`.
 
-#### Translations
+#### Translations \{#slider-translations\}
 
 - Replace `Slider.add_title` with `Slider.addTitle`.
 - Replace `Slider.subtract_title` with `Slider.subtractTitle`.
 
-#### TypeScript types
+#### TypeScript types \{#slider-typescript-types\}
 
 - Replace `OnChangeEventProps` with `SliderOnChangeParams`.
 - Replace `ThumbStateEnums` with `SliderThumbState`.
 
 ### [Timeline](/uilib/components/timeline/)
 
-#### Translations
+#### Translations \{#timeline-translations\}
 
 - Replace `TimelineItem.alt_label_completed` with `TimelineItem.altLabelCompleted`.
 - Replace `TimelineItem.alt_label_current` with `TimelineItem.altLabelCurrent`.
@@ -2034,7 +2034,7 @@ The following properties have been renamed from snake_case to camelCase:
   ;<DatePicker locale={nb} />
   ```
 
-#### Properties
+#### Properties \{#datepicker-properties\}
 
 In addition to the behavioral changes above, the following properties have been renamed from snake_case to camelCase:
 
@@ -2077,7 +2077,7 @@ In addition to the behavioral changes above, the following properties have been 
 - Replace `skip_portal` with `skipPortal`.
 - Replace the `shortcuts` property `close_on_select` with `closeOnSelect`.
 
-#### Events
+#### Events \{#datepicker-events\}
 
 - Replace `on_days_render` with `onDaysRender`.
 - Replace `on_change` with `onChange`.
@@ -2097,7 +2097,7 @@ The following properties on the event callback return object have been renamed:
 - Replace `is_valid_start_date` with `isValidStartDate`.
 - Replace `is_valid_end_date` with `isValidEndDate`.
 
-#### Styling
+#### Styling \{#datepicker-styling\}
 
 - Replace CSS class `dnb-date-picker--opened` with `dnb-date-picker--open`.
 
@@ -2222,16 +2222,16 @@ The returned `parts` shape is unchanged. Standard Eufemia formatters preserve se
 - Replace `copy_selection` with `copySelection`.
 - Replace `clean_copy_value` with `cleanCopyValue`.
 
-#### Translations
+#### Translations \{#numberformat-translations\}
 
 - Replace `NumberFormat.clipboard_copy` with `NumberFormat.clipboardCopy`.
 - Replace `NumberFormat.not_available` with `NumberFormat.notAvailable`.
 
-#### Styling
+#### Styling \{#numberformat-styling\}
 
 - Replace CSS class `dnb-number-format--selectall` with `dnb-number-format--select-all`.
 
-#### TypeScript types
+#### TypeScript types \{#numberformat-typescript-types\}
 
 - Replace `formatReturnValue` with `NumberFormatReturnValue`.
 - Replace `formatValue` with `NumberFormatValue`.
@@ -2245,12 +2245,12 @@ The returned `parts` shape is unchanged. Standard Eufemia formatters preserve se
 
 > **Major change:** This component has been redesigned. The sidebar variant has been removed entirely.
 
-#### Removals
+#### Removals \{#stepindicator-removals\}
 
 - Major redesign of component. There is now only one variant (instead of two).
 - Remove `StepIndicatorRenderCallback` type. Not needed anymore.
 
-#### Properties
+#### Properties \{#stepindicator-properties\}
 
 - Remove `on_item_render`. No longer has any other function than each step's `title` property.
 - Remove step item `on_render`. No longer has any other function than the `title` property.
@@ -2266,12 +2266,12 @@ The returned `parts` shape is unchanged. Standard Eufemia formatters preserve se
 - Replace `hide_numbers` with `hideNumbers`.
 - Replace `no_animation` with `noAnimation`.
 
-#### Translations
+#### Translations \{#stepindicator-translations\}
 
 - Replace `StepIndicator.overview_title` with `StepIndicator.overviewTitle`.
 - Replace `StepIndicator.step_title` with `StepIndicator.stepTitle`.
 
-#### Events
+#### Events \{#stepindicator-events\}
 
 - Replace `on_change` with `onChange`.
 - Replace `on_click` with `onClick`.
@@ -2289,18 +2289,18 @@ The returned `parts` shape is unchanged. Standard Eufemia formatters preserve se
 
 ### [GlobalError](/uilib/components/global-error/)
 
-#### Properties
+#### Properties \{#globalerror-properties\}
 
 - Replace `status` with `statusCode`.
 - Replace `code` with `errorMessageCode`.
 
-#### Translations
+#### Translations \{#globalerror-translations\}
 
 - Replace translation `GlobalError.code` with `GlobalError.errorMessageCode`.
 
 ### [ToggleButton](/uilib/components/toggle-button/)
 
-#### Properties
+#### Properties \{#togglebutton-properties\}
 
 - The deprecated `onStateUpdate` prop has been removed. Use `onChange` instead.
 - The deprecated `attributes` prop has been removed from ToggleButton and ToggleButtonGroup. Use spread props instead.
@@ -2312,13 +2312,13 @@ The returned `parts` shape is unchanged. Standard Eufemia formatters preserve se
 - Replace `status_no_animation` with `statusNoAnimation`.
 - Replace `left_component` with `leftComponent`.
 
-#### Events
+#### Events \{#togglebutton-events\}
 
 - Replace `on_change` with `onChange`.
 
 ### [ToggleButton.Group](/uilib/components/toggle-button/)
 
-#### Properties
+#### Properties \{#togglebuttongroup-properties\}
 
 - Replace `status_state` with `statusState`.
 - Replace `statusState`'s value `warn` with `warning`.
@@ -2329,13 +2329,13 @@ The returned `parts` shape is unchanged. Standard Eufemia formatters preserve se
 - Replace `left_component` with `leftComponent`.
 - Replace `layout_direction` with `layoutDirection`.
 
-#### Events
+#### Events \{#togglebuttongroup-events\}
 
 - Replace `on_change` with `onChange`.
 
 ### [Tooltip](/uilib/components/tooltip/)
 
-#### Properties
+#### Properties \{#tooltip-properties\}
 
 - Replace `position` with `placement` to match the Popover API.
 - Replace `active` with `open`.
@@ -2344,7 +2344,7 @@ The returned `parts` shape is unchanged. Standard Eufemia formatters preserve se
 
 ### [GlobalStatus](/uilib/components/global-status/)
 
-#### Properties
+#### Properties \{#globalstatus-properties\}
 
 - Replace `icon_size` with `iconSize`.
 - Replace `no_animation` with `noAnimation`.
@@ -2362,7 +2362,7 @@ The returned `parts` shape is unchanged. Standard Eufemia formatters preserve se
 - Replace `autoclose` with `autoClose`.
 - Replace `autoscroll` with `autoScroll`.
 
-#### Events
+#### Events \{#globalstatus-events\}
 
 - Replace `on_adjust` with `onAdjust`.
 - Replace `on_open` with `onOpen`.
@@ -2370,7 +2370,7 @@ The returned `parts` shape is unchanged. Standard Eufemia formatters preserve se
 - Replace `on_hide` with `onHide`.
 - Replace `on_close` with `onClose`. The `status_id` callback parameter has been renamed to `statusId`.
 
-#### Translations
+#### Translations \{#globalstatus-translations\}
 
 - Replace translation `GlobalStatus.close_text` with `GlobalStatus.closeText`.
 - Replace translation `GlobalStatus.default_title` with `GlobalStatus.defaultTitle`.
@@ -2382,11 +2382,11 @@ The returned `parts` shape is unchanged. Standard Eufemia formatters preserve se
 
 #### GlobalStatus.create
 
-##### Properties
+##### Properties \{#globalstatuscreate-properties\}
 
 - Replace `status_id` with `statusId`.
 
-##### Events
+##### Events \{#globalstatuscreate-events\}
 
 - Replace `on_show` with `onShow`.
 - Replace `on_hide` with `onHide`.
@@ -2394,12 +2394,12 @@ The returned `parts` shape is unchanged. Standard Eufemia formatters preserve se
 
 #### GlobalStatus.Remove
 
-##### Properties
+##### Properties \{#globalstatusremove-properties\}
 
 - Replace `status_id` with `statusId`.
 - Replace `buffer_delay` with `bufferDelay`.
 
-##### Events
+##### Events \{#globalstatusremove-events\}
 
 - Replace `on_show` with `onShow`.
 - Replace `on_hide` with `onHide`.
@@ -2407,11 +2407,11 @@ The returned `parts` shape is unchanged. Standard Eufemia formatters preserve se
 
 #### GlobalStatus.Add
 
-##### Properties
+##### Properties \{#globalstatusadd-properties\}
 
 - Replace `status_id` with `statusId`.
 
-##### Events
+##### Events \{#globalstatusadd-events\}
 
 - Replace `on_show` with `onShow`.
 - Replace `on_hide` with `onHide`.
@@ -2419,11 +2419,11 @@ The returned `parts` shape is unchanged. Standard Eufemia formatters preserve se
 
 #### GlobalStatus.Update
 
-##### Properties
+##### Properties \{#globalstatusupdate-properties\}
 
 - Replace `status_id` with `statusId`.
 
-##### Events
+##### Events \{#globalstatusupdate-events\}
 
 - Replace `on_show` with `onShow`.
 - Replace `on_hide` with `onHide`.
@@ -2431,7 +2431,7 @@ The returned `parts` shape is unchanged. Standard Eufemia formatters preserve se
 
 ### [CopyOnClick](/uilib/components/copy-on-click/)
 
-#### Translations
+#### Translations \{#copyonclick-translations\}
 
 - Replace `CopyOnClick.clipboard_copy` with `CopyOnClick.clipboardCopy`.
 
@@ -2439,13 +2439,13 @@ The returned `parts` shape is unchanged. Standard Eufemia formatters preserve se
 
 ### [Space](/uilib/layout/space/)
 
-#### Properties
+#### Properties \{#space-properties\}
 
 - Replace `no_collapse` with `noCollapse`.
 
 ### [Flex](/uilib/layout/flex/)
 
-#### Properties
+#### Properties \{#flex-properties\}
 
 - Replace `spacing` with `gap` on all Flex components.
 - `rowGap` no longer accepts value `true`. Remove the property to get the same behavior.
@@ -2484,7 +2484,7 @@ If you migrate a `FormSet` that relied on a native browser submit, such as `meth
 
 ### [Component helpers](/uilib/helpers/)
 
-#### Properties
+#### Properties \{#component-helpers-properties\}
 
 - Remove `extendGracefully`, it no longer exists.
 
@@ -2712,7 +2712,7 @@ See also: [Form error messages](/uilib/extensions/forms/Form/error-messages/), [
 
 ### Every `Field.*` component
 
-#### Properties
+#### Properties \{#every-field-component-properties\}
 
 - Replace `continuousValidation` with `validateContinuously`.
 - Replace `validator` with `onChangeValidator`.
@@ -2722,7 +2722,7 @@ Docs: [All Fields](/uilib/extensions/forms/all-fields/)
 
 ### [Field.Date](/uilib/extensions/forms/feature-fields/Date/)
 
-#### Properties
+#### Properties \{#fielddate-properties\}
 
 - Replace `opened` with `open`.
 
@@ -2732,13 +2732,13 @@ Docs: [All Fields](/uilib/extensions/forms/all-fields/)
 - Replace `end_date` with `endDate`.
 - Replace `is_valid` with `isValid`.
 
-#### Styling
+#### Styling \{#fielddate-styling\}
 
 - Replace CSS class `dnb-date-picker--opened` with `dnb-date-picker--open`.
 
 ### [Field.Expiry](/uilib/extensions/forms/feature-fields/Expiry/)
 
-#### Properties
+#### Properties \{#fieldexpiry-properties\}
 
 - The visible expiry segments are no longer native `input` elements. They are now exposed as section elements with `role="spinbutton"`. If you have Jest or DOM tests that query `input` or assert old input-specific ARIA attributes, update them to target the visible expiry field/segments instead.
 
@@ -2764,19 +2764,19 @@ A new `detectCountryCode` utility is available for detecting E.164 country codes
 import detectCountryCode from '@dnb/eufemia/shared/detectCountryCode'
 ```
 
-#### Translations
+#### Translations \{#fieldphonenumber-translations\}
 
 - Replace `PhoneNumber.label` translation string with `PhoneNumber.numberLabel`.
 
 ### [Field.PostalCodeAndCity](/uilib/extensions/forms/feature-fields/PostalCodeAndCity/)
 
-#### Properties
+#### Properties \{#fieldpostalcodeandcity-properties\}
 
 - Replace `country` with `countryCode`.
 
 ### [Field.Selection](/uilib/extensions/forms/base-fields/Selection/)
 
-#### Properties
+#### Properties \{#fieldselection-properties\}
 
 - The `radio-list` variant has been removed. Use a composition pattern with [List](/uilib/components/list/) to build custom radio layouts ([example](/uilib/extensions/forms/base-fields/Selection/#radio-with-list-composition)).
 
@@ -2797,25 +2797,25 @@ See docs about changed [Dropdown properties](/uilib/about-the-lib/releases/eufem
 
 ### [Field.Password](/uilib/extensions/forms/feature-fields/Password/)
 
-#### Properties
+#### Properties \{#fieldpassword-properties\}
 
 - Replace property `show_password` with translation `Password.ariaLabelShow`.
 - Replace property `hide_password` with translation `Password.ariaLabelHide`.
 
-#### Events
+#### Events \{#fieldpassword-events\}
 
 - Replace `on_show_password` with `onShowPassword`.
 - Replace `on_hide_password` with `onHidePassword`.
 
 ### [Iterate.PushContainer](/uilib/extensions/forms/Iterate/PushContainer/)
 
-#### Properties
+#### Properties \{#iteratepushcontainer-properties\}
 
 - Replace `requireCommit` with `preventUncommittedChanges`.
 
 ### [Wizard.Container](/uilib/extensions/forms/Wizard/Container/)
 
-#### Properties
+#### Properties \{#wizardcontainer-properties\}
 
 - Remove `variant`. No longer has any variants.
 - Remove `scrollTopOnStepChange`, as it's now enabled by default. You can disable it with `omitScrollManagement`.
@@ -2829,14 +2829,14 @@ The JSX usage (`<Wizard.Provider value={...}>`) remains the same — no changes 
 
 ### [Wizard.Step](/uilib/extensions/forms/Wizard/Step/)
 
-#### Properties
+#### Properties \{#wizardstep-properties\}
 
 - Replace `active` with `include`.
 - Replace `activeWhen` with `includeWhen`.
 
 ### [DataContext.Provider](/uilib/extensions/forms/DataContext/Provider/)
 
-#### Properties
+#### Properties \{#datacontextprovider-properties\}
 
 - Replace `filterSubmitData` by using the `filterData` function in the second event parameter of the `onSubmit` or `onChange` events.
 
@@ -3066,14 +3066,14 @@ import type {
 
 Affected components and props:
 
-#### Accordion
+#### Accordion \{#typed-event-handlers-accordion\}
 
 | Prop                      | Before                    | After                                    |
 | ------------------------- | ------------------------- | ---------------------------------------- |
 | `onChange`                | `(...args: any[]) => any` | `(event: AccordionChangeEvent) => void`  |
 | `onInit` (AccordionGroup) | `(...args: any[]) => any` | `(accordion: AccordionInstance) => void` |
 
-#### Tabs
+#### Tabs \{#typed-event-handlers-tabs\}
 
 | Prop           | Before                    | After                                                   |
 | -------------- | ------------------------- | ------------------------------------------------------- |
@@ -3083,19 +3083,19 @@ Affected components and props:
 | `onFocus`      | `(...args: any[]) => any` | `(event: TabsEvent) => void`                            |
 | `render`       | `(...args: any[]) => any` | `(components: TabsRenderComponents) => React.ReactNode` |
 
-#### ToggleButton
+#### ToggleButton \{#typed-event-handlers-togglebutton\}
 
 | Prop       | Before                    | After                                      |
 | ---------- | ------------------------- | ------------------------------------------ |
 | `onChange` | `(...args: any[]) => any` | `(event: ToggleButtonChangeEvent) => void` |
 
-#### ToggleButton.Group
+#### ToggleButton.Group \{#typed-event-handlers-togglebuttongroup\}
 
 | Prop       | Before                    | After                                           |
 | ---------- | ------------------------- | ----------------------------------------------- |
 | `onChange` | `(...args: any[]) => any` | `(event: ToggleButtonGroupChangeEvent) => void` |
 
-#### DrawerList
+#### DrawerList \{#typed-event-handlers-drawerlist\}
 
 | Prop          | Before                    | After                                               |
 | ------------- | ------------------------- | --------------------------------------------------- |
@@ -3106,7 +3106,7 @@ Affected components and props:
 | `onResize`    | `(...args: any[]) => any` | `(event: DrawerListResizeEvent) => void`            |
 | `onSelect`    | `(...args: any[]) => any` | `(event: DrawerListSelectEvent) => void`            |
 
-#### ProgressIndicator
+#### ProgressIndicator \{#typed-event-handlers-progressindicator\}
 
 | Prop         | Before                    | After        |
 | ------------ | ------------------------- | ------------ |
