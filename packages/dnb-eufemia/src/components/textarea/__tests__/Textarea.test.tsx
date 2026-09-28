@@ -464,6 +464,28 @@ describe('Textarea component', () => {
     )
   })
 
+  it('shrinks when content is removed', async () => {
+    render(<Textarea rows={1} autoResize autoResizeMaxRows={4} />)
+
+    const elem = document.querySelector('textarea')
+    const style = { lineHeight: String(1.5 * 16) } as CSSStyleDeclaration
+    let contentHeight = 1.5 * 16 * 4
+
+    vi.spyOn(window, 'getComputedStyle').mockImplementation(() => style)
+    // Like browsers, never report less than the set height
+    vi.spyOn(elem, 'scrollHeight', 'get').mockImplementation(() =>
+      Math.max(parseFloat(elem.style.height) || 0, contentHeight)
+    )
+
+    await userEvent.type(elem, 'a')
+    expect(elem.style.height).toBe('96px')
+
+    contentHeight = 1.5 * 16
+    await userEvent.type(elem, '{backspace}')
+
+    expect(elem.style.height).toBe('24px')
+  })
+
   it('preserves a user-defined height while auto resizing', async () => {
     render(<Textarea rows={1} autoResize autoResizeMaxRows={4} />)
 
