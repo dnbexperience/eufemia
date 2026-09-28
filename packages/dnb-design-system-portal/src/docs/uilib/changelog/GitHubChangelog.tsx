@@ -1,12 +1,15 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import { Button, Hr, P } from '@dnb/eufemia/src'
 import AutoLinkHeader from '../../../shared/tags/AutoLinkHeader'
 import { basicComponents } from '../../../shared/tags'
+import { getSlugFromReactHeading } from '../../../uilib/utils/slug.mjs'
 import type { GitHubRelease } from '../../../../vite/client/plugins/github-releases'
 
 const pageSize = 10
+
+const headingLevels = [2, 3, 4, 5, 6] as const
 
 export function prepareReleaseNotes(body: string) {
   return body
@@ -23,6 +26,26 @@ export function getReleaseType(release: GitHubRelease) {
   return patch > 0 ? 'Patch release' : 'Feature release'
 }
 
+function componentsWithHeadingIdPrefix(tagName: string) {
+  const scopedHeadings = Object.fromEntries(
+    headingLevels.map((level) => {
+      const Heading = basicComponents[`h${level}`]
+
+      return [
+        `h${level}`,
+        (props) => (
+          <Heading
+            useSlug={`${tagName} ${getSlugFromReactHeading(props.children)}`}
+            {...props}
+          />
+        ),
+      ]
+    })
+  )
+
+  return { ...basicComponents, ...scopedHeadings }
+}
+
 export default function GitHubChangelog({
   releases,
 }: {
@@ -30,6 +53,15 @@ export default function GitHubChangelog({
 }) {
   const [visibleCount, setVisibleCount] = useState(pageSize)
   const visibleReleases = releases.slice(0, visibleCount)
+
+  const componentsByReleaseTag = useMemo(() => {
+    return new Map(
+      releases.map(({ tagName }) => [
+        tagName,
+        componentsWithHeadingIdPrefix(tagName),
+      ])
+    )
+  }, [releases])
 
   return (
     <section aria-label="Eufemia release history">
@@ -50,7 +82,7 @@ export default function GitHubChangelog({
           <ReactMarkdown
             remarkPlugins={[remarkGfm]}
             // @ts-expect-error -- strictFunctionTypes
-            components={basicComponents}
+            components={componentsByReleaseTag.get(release.tagName)}
           >
             {prepareReleaseNotes(release.body)}
           </ReactMarkdown>
