@@ -259,24 +259,25 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
     [props.onBlur]
   )
 
+  const getContentRows = useCallback(() => {
+    const elem = textareaRef.current
+    const { height } = elem.style
+    const { scrollTop } = elem
+
+    // A set height taller than the content would count as extra rows
+    elem.style.height = 'auto'
+    const rows = getRows()
+    elem.style.height = height
+    elem.scrollTop = scrollTop
+
+    return rows
+  }, [getRows])
+
   const onChangeHandler = useCallback(
     (event: ChangeEvent<HTMLTextAreaElement>) => {
       const { value } = event.target
 
-      let rows: number
-      if (autoResize) {
-        const elem = textareaRef.current
-        const { height } = elem.style
-        const { scrollTop } = elem
-
-        // The height set for the previous value would hide removed rows
-        elem.style.height = 'auto'
-        rows = getRows()
-        elem.style.height = height
-        elem.scrollTop = scrollTop
-      } else {
-        rows = getRows()
-      }
+      const rows = autoResize ? getContentRows() : getRows()
 
       const ret = dispatchCustomElementEvent(props, 'onChange', {
         value,
@@ -291,12 +292,19 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [autoResize, prepareAutosize, getRows, setAutosize, props.onChange]
+    [
+      autoResize,
+      prepareAutosize,
+      getContentRows,
+      getRows,
+      setAutosize,
+      props.onChange,
+    ]
   )
 
   const onKeyDownHandler = useCallback(
     (event: KeyboardEvent<HTMLTextAreaElement>) => {
-      const rows = getRows()
+      const rows = autoResize ? getContentRows() : getRows()
       const { value } = event.target as HTMLTextAreaElement
       dispatchCustomElementEvent(props, 'onKeyDown', {
         value,
@@ -305,7 +313,7 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
       })
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [getRows, props.onKeyDown]
+    [autoResize, getContentRows, getRows, props.onKeyDown]
   )
 
   // Keep a ref to the latest setAutosize so the mount-time ResizeObserver

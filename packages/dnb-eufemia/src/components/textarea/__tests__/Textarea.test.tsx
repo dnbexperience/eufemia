@@ -379,6 +379,33 @@ describe('Textarea component', () => {
     )
   })
 
+  it('reports the rows of the content to onKeyDown after a manual resize', async () => {
+    const onKeyDown = vi.fn()
+    render(
+      <Textarea
+        rows={1}
+        autoResize
+        autoResizeMaxRows={4}
+        onKeyDown={onKeyDown}
+      />
+    )
+
+    const elem = document.querySelector('textarea')
+    const style = { lineHeight: String(1.5 * 16) } as CSSStyleDeclaration
+
+    vi.spyOn(window, 'getComputedStyle').mockImplementation(() => style)
+    vi.spyOn(elem, 'scrollHeight', 'get').mockImplementation(() =>
+      Math.max(parseFloat(elem.style.height) || 0, 1.5 * 16)
+    )
+
+    elem.style.height = '240px'
+    await userEvent.type(elem, 'a')
+
+    expect(onKeyDown).toHaveBeenLastCalledWith(
+      expect.objectContaining({ rows: 1 })
+    )
+  })
+
   it('should support spacing props', () => {
     render(<Textarea top="2rem" />)
 
