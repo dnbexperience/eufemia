@@ -509,6 +509,31 @@ describe('Textarea component', () => {
     expect(setScrollTop).toHaveBeenCalledWith(42)
   })
 
+  it('resizes when the value is changed from outside', () => {
+    const { rerender } = render(
+      <Textarea rows={1} autoResize autoResizeMaxRows={6} value="one" />
+    )
+
+    const elem = document.querySelector('textarea')
+    const style = { lineHeight: String(1.5 * 16) } as CSSStyleDeclaration
+
+    vi.spyOn(window, 'getComputedStyle').mockImplementation(() => style)
+    vi.spyOn(elem, 'scrollHeight', 'get').mockImplementation(
+      () => elem.value.split('\n').length * 1.5 * 16
+    )
+
+    rerender(
+      <Textarea
+        rows={1}
+        autoResize
+        autoResizeMaxRows={6}
+        value={'1\n2\n3\n4\n5'}
+      />
+    )
+
+    expect(elem.style.height).toBe('120px')
+  })
+
   it('supports hiding the resize handle', async () => {
     render(<Textarea rows={1} autoResize hideResizeHandle />)
 

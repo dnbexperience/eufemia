@@ -19,6 +19,7 @@ import type {
   ReactNode,
   TextareaHTMLAttributes,
 } from 'react'
+import useIsomorphicLayoutEffect from '../../shared/helpers/useIsomorphicLayoutEffect'
 import useCombinedRef from '../../shared/helpers/useCombinedRef'
 import { clsx } from 'clsx'
 import FormLabel from '../form-label/FormLabel'
@@ -137,6 +138,7 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
 
   const propValue = getValue(ownProps)
   const prevValuePropRef = useRef(propValue)
+  const hasExternalValueRef = useRef(false)
   const [value, setValue] = useState<string | null>(() => {
     if (propValue !== 'initval' && propValue !== null) {
       return propValue as string
@@ -154,6 +156,7 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
     propValue !== prevValuePropRef.current
   ) {
     setValue(propValue as string)
+    hasExternalValueRef.current = true
   }
   prevValuePropRef.current = propValue
 
@@ -361,6 +364,14 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
       }
     }
   }, [autoResize, autoResizeMaxRows, props.rows])
+
+  // onChange only resizes typed values, not values set from outside
+  useIsomorphicLayoutEffect(() => {
+    if (autoResize && hasExternalValueRef.current) {
+      hasExternalValueRef.current = false
+      setAutosizeRef.current()
+    }
+  }, [autoResize, value])
 
   const showStatus = getStatusState(status)
   const currentHasValue = hasValue(value)
