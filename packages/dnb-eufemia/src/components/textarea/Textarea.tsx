@@ -182,6 +182,8 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
     }
   }, [hideResizeHandle])
 
+  const contentRowsRef = useRef(1)
+
   const setAutosize = useCallback(
     (rows: number | null = null) => {
       const elem = textareaRef.current
@@ -201,6 +203,7 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
         if (!rows) {
           rows = getRows()
         }
+        contentRowsRef.current = rows
 
         if (rows === 1) {
           if (newHeight > lineHeight) {
@@ -259,25 +262,24 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
     [props.onBlur]
   )
 
-  const getContentRows = useCallback(() => {
-    const elem = textareaRef.current
-    const { height } = elem.style
-    const { scrollTop } = elem
-
-    // A set height taller than the content would count as extra rows
-    elem.style.height = 'auto'
-    const rows = getRows()
-    elem.style.height = height
-    elem.scrollTop = scrollTop
-
-    return rows
-  }, [getRows])
-
   const onChangeHandler = useCallback(
     (event: ChangeEvent<HTMLTextAreaElement>) => {
       const { value } = event.target
 
-      const rows = autoResize ? getContentRows() : getRows()
+      let rows: number
+      if (autoResize) {
+        const elem = textareaRef.current
+        const { height } = elem.style
+        const { scrollTop } = elem
+
+        // The height set for the previous value would hide removed rows
+        elem.style.height = 'auto'
+        rows = getRows()
+        elem.style.height = height
+        elem.scrollTop = scrollTop
+      } else {
+        rows = getRows()
+      }
 
       const ret = dispatchCustomElementEvent(props, 'onChange', {
         value,
@@ -292,19 +294,13 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [
-      autoResize,
-      prepareAutosize,
-      getContentRows,
-      getRows,
-      setAutosize,
-      props.onChange,
-    ]
+    [autoResize, prepareAutosize, getRows, setAutosize, props.onChange]
   )
 
   const onKeyDownHandler = useCallback(
     (event: KeyboardEvent<HTMLTextAreaElement>) => {
-      const rows = autoResize ? getContentRows() : getRows()
+      // A manually enlarged field is taller than its content
+      const rows = autoResize ? contentRowsRef.current : getRows()
       const { value } = event.target as HTMLTextAreaElement
       dispatchCustomElementEvent(props, 'onKeyDown', {
         value,
@@ -313,7 +309,7 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
       })
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [autoResize, getContentRows, getRows, props.onKeyDown]
+    [autoResize, getRows, props.onKeyDown]
   )
 
   // Keep a ref to the latest setAutosize so the mount-time ResizeObserver

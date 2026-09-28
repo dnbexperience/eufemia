@@ -395,14 +395,15 @@ describe('Textarea component', () => {
 
     vi.spyOn(window, 'getComputedStyle').mockImplementation(() => style)
     vi.spyOn(elem, 'scrollHeight', 'get').mockImplementation(() =>
-      Math.max(parseFloat(elem.style.height) || 0, 1.5 * 16)
+      Math.max(parseFloat(elem.style.height) || 0, 1.5 * 16 * 2)
     )
 
+    await userEvent.type(elem, 'a')
     elem.style.height = '240px'
     await userEvent.type(elem, 'a')
 
     expect(onKeyDown).toHaveBeenLastCalledWith(
-      expect.objectContaining({ rows: 1 })
+      expect.objectContaining({ rows: 2 })
     )
   })
 
