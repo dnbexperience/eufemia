@@ -29,6 +29,8 @@ Eufemia components comes with a set of default translated strings for the follow
   ))}
 </Ul>
 
+`en-GB` is the default English locale and uses British spelling. `en-US` extends `en-GB` and only changes the strings that differ: the DatePicker date order (`mm/dd/yyyy`) and first day of the week (Sunday), and the `Field.OrganizationNumber` texts, which use American spelling.
+
 You can easily change one, some or all of them by using a React provider – the Eufemia Provider.
 
 Here are the default strings located:
@@ -39,6 +41,10 @@ import enGB from '@dnb/eufemia/shared/locales/en-GB'
 import nbNO from '@dnb/eufemia/shared/locales/nb-NO'
 import enGB_forms from '@dnb/eufemia/extensions/forms/constants/locales/en-GB'
 import nbNO_forms from '@dnb/eufemia/extensions/forms/constants/locales/nb-NO'
+
+// Additional locales you can add
+import enUS from '@dnb/eufemia/shared/locales/en-US'
+import enUS_forms from '@dnb/eufemia/extensions/forms/constants/locales/en-US'
 
 // Additional locales you can add
 import svSE from '@dnb/eufemia/shared/locales/sv-SE'
