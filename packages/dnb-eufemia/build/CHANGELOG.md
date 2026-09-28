@@ -3,6 +3,37 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [11.15.0](https://github.com/dnbexperience/eufemia/compare/v11.14.1...v11.15.0) (2026-09-28)
+
+### :sparkles: Features
+
+* **Icons:** add sidebar ([#9402](https://github.com/dnbexperience/eufemia/issues/9402)) ([8f28f63](https://github.com/dnbexperience/eufemia/commit/8f28f6325c578253569e8f77b3cc2d5a72314f52))
+* **Tabs:** add `tooltip` to data items, for disabled tabs ([#9470](https://github.com/dnbexperience/eufemia/issues/9470)) ([cdd2b48](https://github.com/dnbexperience/eufemia/commit/cdd2b4891ea0da7f0d611d12744bddd4e526ce9f))
+* **Textarea:** show resize handle with auto resize ([#9468](https://github.com/dnbexperience/eufemia/issues/9468)) ([69697b4](https://github.com/dnbexperience/eufemia/commit/69697b4997a800b8737b80e15aa8c7ee3bf69a05))
+
+### :bug: Bug Fixes
+
+* **AriaLive:** skip announcement timers when there is nothing to announce ([#9453](https://github.com/dnbexperience/eufemia/issues/9453)) ([d04f42b](https://github.com/dnbexperience/eufemia/commit/d04f42b6ab0301c4db30b52159f5879447651853))
+* **Filter:** use the shared useId helper for the active filters accordion ([#9495](https://github.com/dnbexperience/eufemia/issues/9495)) ([8fafaab](https://github.com/dnbexperience/eufemia/commit/8fafaab8d87c732ab0e7b694c321723a22b9edc1)), closes [#9494](https://github.com/dnbexperience/eufemia/issues/9494)
+* **Forms:** handle invalid dates and __proto__ keys when cloning data in older browsers ([#9477](https://github.com/dnbexperience/eufemia/issues/9477)) ([00336ff](https://github.com/dnbexperience/eufemia/commit/00336ff0fd95a189a5612fd88b924625e9338694))
+* **Forms:** ship the JSON Schema types the public API exposes ([#9461](https://github.com/dnbexperience/eufemia/issues/9461)) ([966cebd](https://github.com/dnbexperience/eufemia/commit/966cebd13fc29775c0d45cc6c302bfc1d8251cff))
+* generate element ids that are valid CSS identifiers on React 19.0 and 19.1 ([#9494](https://github.com/dnbexperience/eufemia/issues/9494)) ([84f2c80](https://github.com/dnbexperience/eufemia/commit/84f2c80b64fce416cb96595ebdd61fa1e54f28aa))
+* **NumberFormat:** announce bank account numbers one character at a time ([#9436](https://github.com/dnbexperience/eufemia/issues/9436)) ([6c277e8](https://github.com/dnbexperience/eufemia/commit/6c277e87963fa99deb258d5a2aeeff0ce2038210))
+* **SidebarMenu:** improve resize handle accessibility ([#9435](https://github.com/dnbexperience/eufemia/issues/9435)) ([d61178e](https://github.com/dnbexperience/eufemia/commit/d61178e6bf1d99604be28a10bb0b7ec9660a07b4))
+
+### :memo: Documentation
+
+* **AI:** clarify Forms label semantics in design translation ([#9425](https://github.com/dnbexperience/eufemia/issues/9425)) ([5ccb5c2](https://github.com/dnbexperience/eufemia/commit/5ccb5c290ab8eb257732fc03ae5003a147f05231))
+* document which English spelling to use in code, docs, and translations ([#9482](https://github.com/dnbexperience/eufemia/issues/9482)) ([591d3ae](https://github.com/dnbexperience/eufemia/commit/591d3aeaa704afbb3a77bac2619a3ec32123b1bf))
+* **Portal:** document the company logo library ([#9395](https://github.com/dnbexperience/eufemia/issues/9395)) ([246bda3](https://github.com/dnbexperience/eufemia/commit/246bda3790f5cdfc783daf80e9a32b0700978615))
+* **Portal:** document the public asset CDN ([#9467](https://github.com/dnbexperience/eufemia/issues/9467)) ([5915db5](https://github.com/dnbexperience/eufemia/commit/5915db5b5d18214cbb03063a4b63ca0fe165544f))
+
+### :package: Dependencies
+
+* bump core-js-pure to 3.50.0 for polyfill fixes in the CommonJS build ([#9483](https://github.com/dnbexperience/eufemia/issues/9483)) ([cd26ed1](https://github.com/dnbexperience/eufemia/commit/cd26ed183b906b19884bf2e38069116d60306085))
+* bump React to 19.3 and fix Theme element typing for Fragment ([#9488](https://github.com/dnbexperience/eufemia/issues/9488)) ([a4235db](https://github.com/dnbexperience/eufemia/commit/a4235db899ae26dd79d44007ba95e9ea4435a542))
+* bump zod to 4.6.5 for faster validation and stricter string formats ([#9484](https://github.com/dnbexperience/eufemia/issues/9484)) ([258b9aa](https://github.com/dnbexperience/eufemia/commit/258b9aac6cca1f9e79a380cc95b820d07d8048d9))
+
 ## [11.14.1](https://github.com/dnbexperience/eufemia/compare/v11.14.0...v11.14.1) (2026-09-23)
 
 ### :bug: Bug Fixes
