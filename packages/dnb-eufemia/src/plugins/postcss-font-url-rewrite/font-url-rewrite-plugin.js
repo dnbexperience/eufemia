@@ -9,21 +9,19 @@ const URL_PATTERN = /url\(\s*(['"]?)([^'")]+)\1\s*\)/
 // Split a `src` value on the commas that separate its entries.
 const splitSrcEntries = (value) => value.split(/,(?=\s*(?:url\(|local\())/)
 
-// Drop entries repeating a url already listed, so re-running the plugin over
-// its own output does not stack duplicates.
+// Drop entries repeating one already listed, so re-running the plugin over its
+// own output does not stack duplicates. Entries sharing a url but differing in
+// `format()` or `tech()` are distinct and all kept.
 function dedupeSrcEntries(value) {
   const seen = new Set()
 
   return splitSrcEntries(value)
     .filter((entry) => {
-      const match = entry.match(URL_PATTERN)
-      if (!match) {
-        return true
-      }
-      if (seen.has(match[2])) {
+      const key = entry.trim()
+      if (seen.has(key)) {
         return false
       }
-      seen.add(match[2])
+      seen.add(key)
       return true
     })
     .join(',')

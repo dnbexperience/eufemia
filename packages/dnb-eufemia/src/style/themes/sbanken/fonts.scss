@@ -31,8 +31,7 @@ $fonts-path: '../../../../assets/fonts/sbanken' !default;
 @font-face {
   font-family: MaisonNeueHeadings;
   src: url('#{$fonts-path}/MaisonNeue.woff2'),
-    url('#{$fonts-path}/MaisonNeue.woff'),
-    url('#{$fonts-path}/MaisonNeue.woff2');
+    url('#{$fonts-path}/MaisonNeue.woff');
   font-weight: normal; // have to be the same as: --sb-font-weight-regular
   font-style: normal;
   font-display: fallback;

@@ -447,6 +447,44 @@ describe('font-url-rewrite-plugin', () => {
         `src: local('TestFont'), url("${basePath}TestFont.woff2") format('woff2'), url("${fallbackBasePath}TestFont.woff2") format('woff2')`
       )
     })
+
+    it('keeps entries sharing a url but differing in descriptors', async () => {
+      const input = `
+        @font-face {
+          font-family: 'TestFont';
+          src: url('../assets/fonts/TestFont.woff2') format('woff2') tech(variations),
+               url('../assets/fonts/TestFont.woff2') format('woff2');
+        }
+      `
+      const output = await processCSS(input, {
+        basePath,
+        fallbackBasePath,
+      })
+
+      expect(output.css).toContain(
+        `url("${basePath}TestFont.woff2") format('woff2') tech(variations), url("${fallbackBasePath}TestFont.woff2") format('woff2') tech(variations)`
+      )
+      expect(
+        output.css.match(/url\("https:\/\/cdn\.example\.com/g)
+      ).toHaveLength(4)
+    })
+  })
+
+  it('collapses duplicated src entries when re-processed without a fallback', async () => {
+    const input = `
+      @font-face {
+        font-family: 'TestFont';
+        src: url('https://cdn.example.com/v1.2.3/fonts/TestFont.woff2') format('woff2'),
+             url('https://cdn.example.com/fonts/TestFont.woff2') format('woff2');
+      }
+    `
+    const output = await processCSS(input, {
+      basePath: 'https://cdn.example.com/fonts/',
+    })
+
+    expect(
+      output.css.match(/url\("https:\/\/cdn\.example\.com/g)
+    ).toHaveLength(1)
   })
 
   it('should handle running the plugin twice with version', async () => {
