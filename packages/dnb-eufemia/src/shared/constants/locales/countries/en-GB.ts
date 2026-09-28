@@ -1,3 +1,4 @@
+import type nb from './nb-NO'
 export default {
   'en-GB': {
     countries: {
@@ -252,5 +253,5 @@ export default {
       ZM: 'Zambia',
       ZW: 'Zimbabwe',
     },
-  },
+  } satisfies (typeof nb)['nb-NO'],
 }

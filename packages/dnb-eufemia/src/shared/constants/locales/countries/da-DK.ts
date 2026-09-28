@@ -1,3 +1,4 @@
+import type nb from './nb-NO'
 export default {
   'da-DK': {
     countries: {
@@ -252,5 +253,5 @@ export default {
       ZM: 'Zambia',
       ZW: 'Zimbabwe',
     },
-  },
+  } satisfies (typeof nb)['nb-NO'],
 }
