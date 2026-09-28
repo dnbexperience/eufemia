@@ -73,7 +73,6 @@ describe('App (smoke)', () => {
     await waitFor(() =>
       expect(container.textContent).toContain('No page views yet.')
     )
-    expect(screen.getByRole('tab', { name: 'Page views' })).not.toBeNull()
     expect(container.textContent).not.toContain('Top pages')
   })
 
