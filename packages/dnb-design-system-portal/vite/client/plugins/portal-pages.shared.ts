@@ -27,6 +27,13 @@ export type TableOfContentsItem = {
 export type KnownFrontmatter = {
   title?: string
   description?: string
+  /**
+   * A number from -999 to 999, decimals are allowed.
+   *
+   * Set to override the alphabetical order by `title`, where a lower number
+   * comes first. Lists put pages without an order last, while the sidebar
+   * menu keeps them in the middle and moves negative numbers to the bottom.
+   */
   order?: number
 
   /**
