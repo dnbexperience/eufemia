@@ -198,12 +198,12 @@ describe('HeightAnimation', () => {
       )
 
       const main = document.querySelector('.dnb-height-animation')
-      expect(main).toHaveStyle('margin-top: calc(2rem * -1);')
+      expect(main).toHaveStyle('margin-top: -32px;')
 
       const inner = main.querySelector(
         '.dnb-height-animation__compensate-for-gap'
       )
-      expect(inner).toHaveStyle('margin-top: 2rem;')
+      expect(inner).toHaveStyle('margin-top: 32px;')
     })
   })
 

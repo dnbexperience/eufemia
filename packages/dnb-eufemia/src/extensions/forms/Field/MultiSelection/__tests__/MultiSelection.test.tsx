@@ -179,8 +179,10 @@ describe('MultiSelection', () => {
       )
 
       expect(
-        document.querySelector('.dnb-forms-field-multi-selection__items')
-      ).toHaveStyle({ maxHeight: '32rem' })
+        document.querySelector<HTMLElement>(
+          '.dnb-forms-field-multi-selection__items'
+        ).style.maxHeight
+      ).toBe('32rem')
       expect(
         document.querySelectorAll('.dnb-forms-field-multi-selection__item')
           .length
@@ -2837,7 +2839,7 @@ describe('MultiSelection', () => {
         '.dnb-forms-field-multi-selection__items'
       ) as HTMLElement
 
-      expect(items).toHaveStyle({ maxHeight: '28rem' })
+      expect(items.style.maxHeight).toBe('28rem')
       expect(items).toHaveClass('dnb-scroll-view')
       expect(
         items.querySelector(
@@ -2910,8 +2912,10 @@ describe('MultiSelection', () => {
       )
 
       expect(
-        document.querySelector('.dnb-forms-field-multi-selection__items')
-      ).toHaveStyle({ maxHeight: '28rem' })
+        document.querySelector<HTMLElement>(
+          '.dnb-forms-field-multi-selection__items'
+        ).style.maxHeight
+      ).toBe('28rem')
     })
 
     it('does not apply maxHeight to the popover item list', async () => {
@@ -2936,8 +2940,10 @@ describe('MultiSelection', () => {
       )
 
       expect(
-        document.querySelector('.dnb-forms-field-multi-selection__items')
-      ).not.toHaveStyle({ maxHeight: '28rem' })
+        document.querySelector<HTMLElement>(
+          '.dnb-forms-field-multi-selection__items'
+        ).style.maxHeight
+      ).not.toBe('28rem')
     })
 
     it('passes axe validation with a scrollable item list', async () => {
