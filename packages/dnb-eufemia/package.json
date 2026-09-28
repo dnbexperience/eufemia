@@ -240,7 +240,7 @@
     "react-dom": "19.2.8",
     "repo-utils": "workspace:*",
     "sass": "1.97.2",
-    "semantic-release": "25.0.3",
+    "semantic-release": "25.0.9",
     "simple-git": "3.36.0",
     "start-server-and-test": "3.0.11",
     "stylelint": "16.26.1",
