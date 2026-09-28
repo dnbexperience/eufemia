@@ -283,6 +283,33 @@ describe('Textarea component', () => {
     })
   })
 
+  it('resizes when the textarea itself changes size', async () => {
+    const { ResizeObserver } = globalThis
+    const observe = vi.fn()
+    let notify: ResizeObserverCallback
+    setResizeObserver({ init: (callback) => (notify = callback), observe })
+
+    render(<Textarea rows={1} autoResize autoResizeMaxRows={6} />)
+    globalThis.ResizeObserver = ResizeObserver
+
+    const elem = document.querySelector('textarea')
+    const style = { lineHeight: String(1.5 * 16) } as CSSStyleDeclaration
+
+    expect(observe).toHaveBeenCalledWith(elem)
+
+    vi.spyOn(window, 'getComputedStyle').mockImplementation(() => style)
+    vi.spyOn(elem, 'scrollHeight', 'get').mockImplementation(
+      () => 1.5 * 16 * 4
+    )
+
+    // E.g. a narrower field that wraps the text into more rows
+    notify([{ target: elem } as unknown as ResizeObserverEntry], null)
+
+    await waitFor(() => {
+      expect(elem.style.height).toBe('96px')
+    })
+  })
+
   it('resizes when autoResize is enabled after mount', () => {
     const { rerender } = render(<Textarea rows={1} value="one" />)
 

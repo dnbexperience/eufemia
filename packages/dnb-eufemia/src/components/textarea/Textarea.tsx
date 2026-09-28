@@ -345,6 +345,8 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
         if (typographyProbeRef.current) {
           observer.observe(typographyProbeRef.current)
         }
+        // The field can get narrower or be revealed without the body resizing
+        observer.observe(textareaRef.current)
         resizeObserverRef.current = observer
       } catch (e) {
         window.addEventListener('resize', handleResize)
