@@ -30,6 +30,7 @@ const CopyOnClick = ({
   const ref = useRef<HTMLSpanElement>(null)
   const timeoutRef = useRef<NodeJS.Timeout>(undefined)
   const [active, setActive] = useState(false)
+  const [hasCopied, setHasCopied] = useState(false)
 
   useEffect(() => {
     if (IS_IOS) {
@@ -48,6 +49,7 @@ const CopyOnClick = ({
     try {
       const success = await copyToClipboard(str)
       if (success) {
+        setHasCopied(true)
         setActive(true)
 
         timeoutRef.current = setTimeout(() => setActive(false), 2000)
@@ -98,9 +100,11 @@ const CopyOnClick = ({
       {...params}
     >
       {children}
-      <Tooltip open={active} targetElement={ref}>
-        {message}
-      </Tooltip>
+      {hasCopied && (
+        <Tooltip open={active} targetElement={ref}>
+          {message}
+        </Tooltip>
+      )}
     </Span>
   )
 }
