@@ -7,9 +7,11 @@ export { coreTranslations as translations }
 export async function loadTranslations(locale: string) {
   switch (locale) {
     case 'en-US': {
-      const enUS = (await import('@dnb/eufemia/src/shared/locales/en-US'))
-        .default
-      return enUS
+      const [enUS, enUSForms] = await Promise.all([
+        import('@dnb/eufemia/src/shared/locales/en-US'),
+        import('@dnb/eufemia/src/extensions/forms/constants/locales/en-US'),
+      ])
+      return mergeTranslations(enUS.default, enUSForms.default)
     }
     case 'sv-SE': {
       const [svSE, svSEForms, svSECountries] = await Promise.all([
