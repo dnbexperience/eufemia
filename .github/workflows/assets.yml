@@ -64,7 +64,7 @@ jobs:
     needs: test
     if: github.event_name != 'pull_request'
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 25
 
     steps:
       - name: Git checkout
@@ -139,3 +139,26 @@ jobs:
           AUTH_HEADER=$(printf 'x-access-token:%s' "$GHE_PAT" | base64 | tr -d '\n')
           git -c http.extraheader="AUTHORIZATION: basic ${AUTH_HEADER}" \
             push "https://dnb.ghe.com/${GHE_REPO}.git" HEAD:refs/heads/deploy --force
+
+      - name: Verify published assets
+        if: steps.gate.outputs.skip != 'true'
+        env:
+          ASSET_VERSION: ${{ github.event.release.tag_name || inputs.version }}
+        run: |
+          set -euo pipefail
+          # The deploy repo publishes asynchronously, so wait for the version
+          # the generated CSS points at to actually answer.
+          URL="https://assets.eufemia.dnb.no/${ASSET_VERSION}/fonts/dnb/DNB-Regular.woff2"
+          DEADLINE=$(( $(date +%s) + 900 ))
+
+          while [ "$(date +%s)" -lt "$DEADLINE" ]; do
+            code=$(curl -s -o /dev/null -w '%{http_code}' --max-time 10 "$URL" || true)
+            if [ "$code" = "200" ]; then
+              echo "Published assets are live: $URL"
+              exit 0
+            fi
+            sleep 15
+          done
+
+          echo "::error::Assets for ${ASSET_VERSION} never became available at ${URL}. Check the deploy repo, then re-run this workflow with the version to republish."
+          exit 1

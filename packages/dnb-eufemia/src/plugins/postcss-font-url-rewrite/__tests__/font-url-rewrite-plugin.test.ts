@@ -328,6 +328,127 @@ describe('font-url-rewrite-plugin', () => {
     )
   })
 
+  describe('fallbackBasePath', () => {
+    const basePath = 'https://cdn.example.com/v1.2.3/fonts/'
+    const fallbackBasePath = 'https://cdn.example.com/fonts/'
+
+    it('emits the fallback right after each rewritten url', async () => {
+      const input = `
+        @font-face {
+          font-family: 'TestFont';
+          src: url('../assets/fonts/TestFont.woff2') format('woff2'),
+               url('../assets/fonts/TestFont.woff') format('woff');
+        }
+      `
+      const output = await processCSS(input, {
+        basePath,
+        fallbackBasePath,
+      })
+
+      expect(output.css).toContain(
+        `url("${basePath}TestFont.woff2") format('woff2'), url("${fallbackBasePath}TestFont.woff2") format('woff2')`
+      )
+      expect(output.css).toContain(
+        `url("${basePath}TestFont.woff") format('woff'), url("${fallbackBasePath}TestFont.woff") format('woff')`
+      )
+    })
+
+    it('keeps subdirectories on the fallback url', async () => {
+      const input = `
+        @font-face {
+          font-family: 'TestFont';
+          src: url('../assets/fonts/dnb/TestFont.woff2') format('woff2');
+        }
+      `
+      const output = await processCSS(input, {
+        basePath,
+        fallbackBasePath,
+      })
+
+      expect(output.css).toContain(
+        `url("${fallbackBasePath}dnb/TestFont.woff2")`
+      )
+    })
+
+    it('does not duplicate when the fallback equals the base', async () => {
+      const input = `
+        @font-face {
+          font-family: 'TestFont';
+          src: url('../assets/fonts/TestFont.woff2') format('woff2');
+        }
+      `
+      const output = await processCSS(input, {
+        basePath: fallbackBasePath,
+        fallbackBasePath,
+      })
+
+      expect(
+        output.css.match(/url\("https:\/\/cdn\.example\.com/g)
+      ).toHaveLength(1)
+    })
+
+    it('does not stack duplicates when run twice', async () => {
+      const input = `
+        @font-face {
+          font-family: 'TestFont';
+          src: url('../assets/fonts/TestFont.woff2') format('woff2');
+        }
+      `
+      const firstOutput = await processCSS(input, {
+        basePath,
+        fallbackBasePath,
+      })
+      const secondOutput = await processCSS(firstOutput.css, {
+        basePath,
+        fallbackBasePath,
+      })
+
+      expect(secondOutput.css).toBe(firstOutput.css)
+      expect(
+        secondOutput.css.match(/url\("https:\/\/cdn\.example\.com/g)
+      ).toHaveLength(2)
+    })
+
+    it('replaces the previous version when the base path changes', async () => {
+      const input = `
+        @font-face {
+          font-family: 'TestFont';
+          src: url('../assets/fonts/TestFont.woff2') format('woff2');
+        }
+      `
+      const firstOutput = await processCSS(input, {
+        basePath,
+        fallbackBasePath,
+      })
+      const secondOutput = await processCSS(firstOutput.css, {
+        basePath: 'https://cdn.example.com/v2.0.0/fonts/',
+        fallbackBasePath,
+      })
+
+      expect(secondOutput.css).toContain(
+        `url("https://cdn.example.com/v2.0.0/fonts/TestFont.woff2") format('woff2'), url("${fallbackBasePath}TestFont.woff2") format('woff2')`
+      )
+      expect(secondOutput.css).not.toContain(basePath)
+    })
+
+    it('leaves a local() source untouched', async () => {
+      const input = `
+        @font-face {
+          font-family: 'TestFont';
+          src: local('TestFont'), url('../assets/fonts/TestFont.woff2') format('woff2');
+        }
+      `
+      const output = await processCSS(input, {
+        basePath,
+        fallbackBasePath,
+      })
+
+      expect(output.css).toContain(
+        `src: local('TestFont'), url("${basePath}TestFont.woff2") format('woff2'), url("${fallbackBasePath}TestFont.woff2") format('woff2')`
+      )
+    })
+  })
+
   it('should handle running the plugin twice with version', async () => {
     const input = `
       @font-face {
