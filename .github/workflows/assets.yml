@@ -62,7 +62,7 @@ jobs:
   push:
     name: Push to GHE
     needs: test
-    if: github.event_name != 'pull_request'
+    if: github.event_name != 'pull_request' && github.repository == 'dnbexperience/eufemia'
     runs-on: ubuntu-latest
     timeout-minutes: 15
 
