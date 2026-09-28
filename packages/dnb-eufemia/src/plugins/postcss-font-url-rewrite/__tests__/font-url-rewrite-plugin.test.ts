@@ -470,18 +470,21 @@ describe('font-url-rewrite-plugin', () => {
     })
   })
 
-  it('collapses duplicated src entries when re-processed without a fallback', async () => {
+  it('collapses the released pair when re-processed without a fallback', async () => {
+    // The shape cssnano leaves behind in the published stylesheets.
     const input = `
       @font-face {
         font-family: 'TestFont';
-        src: url('https://cdn.example.com/v1.2.3/fonts/TestFont.woff2') format('woff2'),
-             url('https://cdn.example.com/fonts/TestFont.woff2') format('woff2');
+        src: url(https://cdn.example.com/v1.2.3/fonts/TestFont.woff2) format("woff2"),url(https://cdn.example.com/fonts/TestFont.woff2) format("woff2");
       }
     `
     const output = await processCSS(input, {
       basePath: 'https://cdn.example.com/fonts/',
     })
 
+    expect(output.css).toContain(
+      `src: url("https://cdn.example.com/fonts/TestFont.woff2") format("woff2");`
+    )
     expect(
       output.css.match(/url\("https:\/\/cdn\.example\.com/g)
     ).toHaveLength(1)
