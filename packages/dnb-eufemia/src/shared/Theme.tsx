@@ -50,7 +50,7 @@ export type ThemeProps = {
   contrastMode?: ContrastMode
   colorScheme?: ThemeColorScheme
   surface?: ThemeSurface
-  element?: DynamicElement | false
+  element?: DynamicElement | typeof Fragment | false
 }
 
 export type ThemeAllProps = ThemeProps & HTMLAttributes<HTMLElement>
