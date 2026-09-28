@@ -125,6 +125,7 @@
     "ajv-errors": "3.0.0",
     "clsx": "2.1.1",
     "core-js-pure": "3.47.0",
+    "csstype": "3.2.3",
     "date-fns": "4.4.0",
     "intl-messageformat": "11.2.3",
     "postcss-selector-parser": "7.1.6",

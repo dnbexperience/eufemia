@@ -1198,6 +1198,20 @@ describe('package.json dependencies', () => {
     })
   })
 
+  it('includes the type-only packages the published types import', () => {
+    // The generated type definitions import "csstype" (progress-indicator) and
+    // re-export "json-schema" (extensions/forms), so consumers cannot resolve
+    // the types unless these packages are installed alongside the library.
+    const packageJson = fs.readJsonSync(
+      path.resolve(PKG_ROOT, 'package.json')
+    )
+
+    expect(packageJson.dependencies).toMatchObject({
+      '@types/json-schema': expect.any(String),
+      csstype: expect.any(String),
+    })
+  })
+
   it('declares PurgeCSS as an optional peer dependency', () => {
     const packageJson = fs.readJsonSync(
       path.resolve(PKG_ROOT, 'package.json')
