@@ -89,7 +89,7 @@ export type FieldMultiSelectionProps = FieldProps<
   Array<number | string> | undefined
 > & {
   /**
-   * Array of objects where each object contains at least `value` and `title`. Can also include `text` for an optional primary extra line, `description` for an optional secondary grey line, plus `disabled`, `help`, and `className`.
+   * Array of objects where each object contains at least `value` and `title`. Can also include `text` for an optional primary extra line, `description` for an optional secondary gray line, plus `disabled`, `help`, and `className`.
    */
   data?: MultiSelectionData
 

@@ -198,8 +198,8 @@ export function PizzaDemo() {
                       <Form.SubHeading>Your Pizza</Form.SubHeading>
                       <Field.Selection
                         variant="button"
-                        label="Choose a flavour"
-                        path="/flavour"
+                        label="Choose a flavor"
+                        path="/flavor"
                         required
                       >
                         <Field.Option
@@ -279,7 +279,7 @@ export function PizzaDemo() {
 
                     <Form.Card>
                       <Value.SummaryList>
-                        <Value.String label="My flavour" path="/flavour" />
+                        <Value.String label="My flavor" path="/flavor" />
                         <Value.Boolean
                           label="I have allergies"
                           path="/hasAllergies"
