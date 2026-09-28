@@ -13,8 +13,10 @@ export type GitHubRelease = {
   tagName: string
 }
 
+// Every release now uses an `##` heading, but feature releases up to v9.47.0
+// (February 2023) used `#`, and those entries are still in the changelog.
 const releaseHeading =
-  /^## \[([^\]]+)\]\([^\n]+\) \((\d{4}-\d{2}-\d{2})\)\s*$/gm
+  /^#{1,2} \[([^\]]+)\]\([^\n]+\) \((\d{4}-\d{2}-\d{2})\)\s*$/gm
 
 export function parseGitHubChangelog(changelog: string) {
   const headings = Array.from(changelog.matchAll(releaseHeading))
