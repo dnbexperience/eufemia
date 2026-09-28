@@ -30,6 +30,7 @@ describe('useId', () => {
     [':r1:', 'React 19.0'],
     ['«r1»', 'React 19.1'],
     ['_r_1_', 'React 19.2'],
+    ['~r~1~', 'a delimiter React has not used yet'],
   ])('should return a valid CSS identifier for %s (%s)', (id) => {
     reactId.current = id
 
@@ -39,5 +40,13 @@ describe('useId', () => {
     expect(() =>
       document.querySelector(`#${result.current}`)
     ).not.toThrow()
+  })
+
+  it('should keep the hyphens of a custom identifierPrefix', () => {
+    reactId.current = '_my-appr_1_'
+
+    const { result } = renderHook(() => useId())
+
+    expect(result.current).toBe('id-my-appr1')
   })
 })
