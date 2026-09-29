@@ -3,7 +3,14 @@
  */
 
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
-import { memo, useCallback, useContext, useRef, useState } from 'react'
+import {
+  memo,
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react'
 import type {
   CSSProperties,
   ChangeEvent,
@@ -12,7 +19,6 @@ import type {
   ReactNode,
   TextareaHTMLAttributes,
 } from 'react'
-import useMountEffect from '../../shared/helpers/useMountEffect'
 import useCombinedRef from '../../shared/helpers/useCombinedRef'
 import { clsx } from 'clsx'
 import FormLabel from '../form-label/FormLabel'
@@ -295,14 +301,14 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
     [getRows, props.onKeyDown]
   )
 
-  // Keep a ref to the latest setAutosize so the mount-time ResizeObserver
-  // and window listener always call the current version (avoids stale closure
+  // Keep a ref to the latest setAutosize so the ResizeObserver and window
+  // listener always call the current version (avoids stale closure
   // if autoResizeMaxRows changes after mount).
   const setAutosizeRef = useRef(setAutosize)
   setAutosizeRef.current = setAutosize
 
-  // Setup autoResize on mount
-  useMountEffect(() => {
+  // Measure again when the configuration behind the height changes
+  useEffect(() => {
     const handleResize = () => setAutosizeRef.current()
 
     if (autoResize && typeof window !== 'undefined') {
@@ -332,7 +338,7 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
         window.removeEventListener('resize', handleResize)
       }
     }
-  })
+  }, [autoResize, autoResizeMaxRows, props.rows])
 
   const showStatus = getStatusState(status)
   const currentHasValue = hasValue(value)

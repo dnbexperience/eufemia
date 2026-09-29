@@ -13,6 +13,7 @@ import userEvent from '@testing-library/user-event'
 import { Provider } from '../../../shared'
 import enGB from '../../../shared/locales/en-GB'
 import nbNO from '../../../shared/locales/nb-NO'
+import { setResizeObserver } from '../../scroll-view/__tests__/shared-mocks/ResizeObserver'
 
 const gb = enGB['en-GB']
 const nb = nbNO['nb-NO']
@@ -247,6 +248,55 @@ describe('Textarea component', () => {
     expect(document.querySelector('.dnb-textarea')).toHaveClass(
       'dnb-textarea__autoresize'
     )
+  })
+
+  it('resizes when autoResize is enabled after mount', () => {
+    const { rerender } = render(<Textarea rows={1} value="one" />)
+
+    const elem = document.querySelector('textarea')
+    const style = { lineHeight: String(1.5 * 16) } as CSSStyleDeclaration
+
+    vi.spyOn(window, 'getComputedStyle').mockImplementation(() => style)
+    vi.spyOn(elem, 'scrollHeight', 'get').mockImplementation(
+      () => 1.5 * 16 * 4
+    )
+
+    rerender(<Textarea rows={1} value="one" autoResize />)
+
+    expect(elem.style.height).toBe('96px')
+  })
+
+  it('resizes when autoResizeMaxRows is changed', () => {
+    const { rerender } = render(
+      <Textarea rows={1} autoResize autoResizeMaxRows={2} />
+    )
+
+    const elem = document.querySelector('textarea')
+    const style = { lineHeight: String(1.5 * 16) } as CSSStyleDeclaration
+
+    vi.spyOn(window, 'getComputedStyle').mockImplementation(() => style)
+    vi.spyOn(elem, 'scrollHeight', 'get').mockImplementation(
+      () => 1.5 * 16 * 4
+    )
+
+    rerender(<Textarea rows={1} autoResize autoResizeMaxRows={4} />)
+
+    expect(elem.style.height).toBe('96px')
+  })
+
+  it('stops observing when autoResize is disabled', () => {
+    const { ResizeObserver } = globalThis
+    const disconnect = vi.fn()
+    setResizeObserver({ disconnect })
+
+    const { rerender } = render(<Textarea rows={1} autoResize />)
+
+    expect(disconnect).not.toHaveBeenCalled()
+
+    rerender(<Textarea rows={1} autoResize={false} />)
+    globalThis.ResizeObserver = ResizeObserver
+
+    expect(disconnect).toHaveBeenCalledTimes(1)
   })
 
   it('will correctly auto resize if prop autoResize is used', async () => {
