@@ -116,9 +116,9 @@
   "dependencies": {
     "@babel/runtime-corejs3": "7.28.4",
     "@inquirer/checkbox": "5.2.1",
-    "@maskito/core": "5.4.0",
-    "@maskito/kit": "5.4.0",
-    "@maskito/react": "5.4.0",
+    "@maskito/core": "5.6.0",
+    "@maskito/kit": "5.6.0",
+    "@maskito/react": "5.6.0",
     "@navikt/fnrvalidator": "2.2.1",
     "@types/json-schema": "7.0.12",
     "@ungap/structured-clone": "1.4.0",
