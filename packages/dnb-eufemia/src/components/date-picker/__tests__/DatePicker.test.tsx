@@ -5716,47 +5716,6 @@ describe('Custom text for buttons', () => {
   })
 })
 
-describe('DatePicker attributes', () => {
-  it('should set data attributes once, on the root element', () => {
-    render(<DatePicker showInput data-testid="my-date" />)
-
-    const elements = document.querySelectorAll('[data-testid="my-date"]')
-
-    expect(elements).toHaveLength(1)
-    expect(elements[0]).toHaveClass('dnb-date-picker')
-  })
-
-  it('should set data attributes once when range is used', () => {
-    render(<DatePicker showInput range data-testid="my-range" />)
-
-    expect(
-      document.querySelectorAll('[data-testid="my-range"]')
-    ).toHaveLength(1)
-  })
-
-  it('should keep the labels of the date sections when aria-label is given', () => {
-    render(<DatePicker showInput aria-label="Birthday" />)
-
-    const [day, month, year] = getDatePickerInputs()
-    const { DatePicker: translation } = nbNO['nb-NO']
-
-    expect(day).toHaveAttribute('aria-label', translation.day)
-    expect(month).toHaveAttribute('aria-label', translation.month)
-    expect(year).toHaveAttribute('aria-label', translation.year)
-    expect(
-      document.querySelector('.dnb-date-picker__fieldset')
-    ).toHaveAttribute('aria-label', 'Birthday')
-  })
-
-  it('should still set other aria attributes on every date section', () => {
-    render(<DatePicker showInput aria-required="true" />)
-
-    for (const section of getDatePickerInputs()) {
-      expect(section).toHaveAttribute('aria-required', 'true')
-    }
-  })
-})
-
 describe('DatePicker ARIA', () => {
   it('should validate', async () => {
     const Comp = render(
@@ -6234,5 +6193,54 @@ describe('DatePicker ARIA', () => {
       expect(button.classList).toContain('dnb-button--tertiary')
       expect(button.textContent).toContain('Open')
     })
+  })
+})
+
+describe('DatePicker attributes', () => {
+  it('should set data attributes once, on the root element', () => {
+    render(<DatePicker showInput data-testid="my-date" />)
+
+    const elements = document.querySelectorAll('[data-testid="my-date"]')
+
+    expect(elements).toHaveLength(1)
+    expect(elements[0]).toHaveClass('dnb-date-picker')
+  })
+
+  it('should set data attributes once when range is used', () => {
+    render(<DatePicker showInput range data-testid="my-range" />)
+
+    expect(
+      document.querySelectorAll('[data-testid="my-range"]')
+    ).toHaveLength(1)
+  })
+
+  it('should keep the labels of the date sections when aria-label is given', () => {
+    render(<DatePicker showInput aria-label="Birthday" />)
+
+    const [day, month, year] = getDatePickerInputs()
+    const { DatePicker: translation } = nbNO['nb-NO']
+
+    expect(day).toHaveAttribute('aria-label', translation.day)
+    expect(month).toHaveAttribute('aria-label', translation.month)
+    expect(year).toHaveAttribute('aria-label', translation.year)
+    expect(
+      document.querySelector('.dnb-date-picker__fieldset')
+    ).toHaveAttribute('aria-label', 'Birthday')
+  })
+
+  it('should still set other aria attributes on every date section', () => {
+    render(<DatePicker showInput aria-required="true" />)
+
+    for (const section of getDatePickerInputs()) {
+      expect(section).toHaveAttribute('aria-required', 'true')
+    }
+  })
+
+  it('should validate with aria-label and data attributes', async () => {
+    const result = render(
+      <DatePicker showInput aria-label="Birthday" data-testid="my-date" />
+    )
+
+    expect(await axeComponent(result)).toHaveNoViolations()
   })
 })
