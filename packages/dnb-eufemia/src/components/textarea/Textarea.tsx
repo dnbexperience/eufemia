@@ -312,12 +312,12 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
     const handleResize = () => setAutosizeRef.current()
     const elem = textareaRef.current
 
-    // Leave a height chosen with the resize handle
+    // Leave a height chosen with the resize handle; browsers round the stored height
     if (
       !autoResize &&
       elem &&
       heightRef.current !== undefined &&
-      parseFloat(elem.style.height) === heightRef.current
+      Math.abs(parseFloat(elem.style.height) - heightRef.current) < 0.01
     ) {
       elem.style.height = ''
       heightRef.current = undefined
