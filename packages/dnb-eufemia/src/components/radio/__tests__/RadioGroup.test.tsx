@@ -4,6 +4,7 @@
  */
 
 import { fireEvent, render } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { axeComponent } from '../../../core/test-utils/testSetup'
 import Radio from '../Radio'
 import { Provider } from '../../../shared'
@@ -35,6 +36,51 @@ describe('Radio group component', () => {
     expect(myEvent.mock.calls.length).toBe(2)
     expect(myEvent.mock.calls[1][0].value).toBe('second')
     expect(typeof myEvent.mock.calls[1][0].event).toBe('object')
+  })
+
+  it('should not call onChange when the selected radio is pressed again', async () => {
+    const myEvent = vi.fn()
+    render(
+      <Radio.Group label="Label" value="first" onChange={myEvent}>
+        <Radio id="radio-1" label="Radio 1" value="first" />
+        <Radio id="radio-2" label="Radio 2" value="second" />
+      </Radio.Group>
+    )
+
+    document.querySelector<HTMLElement>('input#radio-1').focus()
+    await userEvent.keyboard('{ }')
+
+    expect(myEvent).toHaveBeenCalledTimes(0)
+  })
+
+  it('should not call onChange when the selected radio is clicked again', async () => {
+    const myEvent = vi.fn()
+    render(
+      <Radio.Group label="Label" value="first" onChange={myEvent}>
+        <Radio id="radio-1" label="Radio 1" value="first" />
+        <Radio id="radio-2" label="Radio 2" value="second" />
+      </Radio.Group>
+    )
+
+    await userEvent.click(document.querySelector('input#radio-1'))
+
+    expect(myEvent).toHaveBeenCalledTimes(0)
+  })
+
+  it('should call onChange when another radio is pressed', async () => {
+    const myEvent = vi.fn()
+    render(
+      <Radio.Group label="Label" value="first" onChange={myEvent}>
+        <Radio id="radio-1" label="Radio 1" value="first" />
+        <Radio id="radio-2" label="Radio 2" value="second" />
+      </Radio.Group>
+    )
+
+    document.querySelector<HTMLElement>('input#radio-2').focus()
+    await userEvent.keyboard('{ }')
+
+    expect(myEvent).toHaveBeenCalledTimes(1)
+    expect(myEvent.mock.calls[0][0].value).toBe('second')
   })
 
   it('will disable a single button within a group', () => {
