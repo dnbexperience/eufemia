@@ -331,6 +331,15 @@ describe('Switch component', () => {
 
     expect(onChange).toHaveBeenCalledTimes(0)
   })
+
+  it('should call onKeyUp given as a property', () => {
+    const onKeyUp = vi.fn()
+    render(<Switch onKeyUp={onKeyUp} />)
+
+    fireEvent.keyUp(document.querySelector('input'), { code: 'Enter' })
+
+    expect(onKeyUp).toHaveBeenCalledTimes(1)
+  })
 })
 
 describe('Switch scss', () => {
