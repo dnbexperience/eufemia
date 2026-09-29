@@ -260,11 +260,11 @@ describe('Textarea component', () => {
     globalThis.ResizeObserver = ResizeObserver
 
     const elem = document.querySelector('textarea')
-    const typographyProbe = observe.mock.calls
-      .map(([target]) => target)
-      .find((target) => target !== document.body)
+    const typographyProbe = document.querySelector(
+      '.dnb-textarea__typography-probe'
+    )
 
-    expect(typographyProbe).toBeInstanceOf(HTMLElement)
+    expect(observe).toHaveBeenCalledWith(typographyProbe)
 
     const style = { lineHeight: String(1.5 * 16) } as CSSStyleDeclaration
     vi.spyOn(window, 'getComputedStyle').mockImplementation(() => style)
