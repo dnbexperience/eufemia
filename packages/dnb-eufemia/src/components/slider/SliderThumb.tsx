@@ -75,6 +75,21 @@ function Thumb({ value, currentIndex }: ThumbProps) {
   const { number, aria } = getFormattedNumber(value, numberFormat)
 
   const helperParams: Record<string, unknown> = {}
+  const thumbParams: Record<string, unknown> = {}
+
+  // Event handlers and labels belong on the focusable range input
+  for (const [key, val] of Object.entries(attributes)) {
+    if (
+      /^on[A-Z]/.test(key) ||
+      key === 'aria-label' ||
+      key === 'aria-labelledby' ||
+      key === 'aria-describedby'
+    ) {
+      helperParams[key] = val
+    } else {
+      thumbParams[key] = val
+    }
+  }
 
   if (label) {
     helperParams['aria-labelledby'] = combineLabelledBy(
@@ -90,15 +105,17 @@ function Thumb({ value, currentIndex }: ThumbProps) {
       suffix ? id + '-suffix' : null
     )
   }
-
-  const thumbParams = attributes as Record<string, unknown>
   const elemRef = useRef<HTMLElement>(undefined)
   const [forceActive, setForceActive] = useState(false)
   validateDOMAttributes(allProps, thumbParams) // because we send along rest attributes
 
+  const { onFocus, onBlur, onMouseDown, onMouseUp, ...restHelperParams } =
+    helperParams as Record<string, (event: unknown) => void>
+
   return (
     <span className="dnb-slider__thumb" style={style}>
       <input
+        {...restHelperParams}
         id={`${id}-thumb-${currentIndex}`}
         type="range"
         className="dnb-slider__button-helper"
@@ -111,17 +128,26 @@ function Thumb({ value, currentIndex }: ThumbProps) {
         onFocus={(event) => {
           onHelperFocusHandler(event)
           setForceActive(true)
+          onFocus?.(event)
         }}
-        onBlur={() => setForceActive(false)}
-        onMouseDown={onThumbMouseDownHandler}
-        onMouseUp={onThumbMouseUpHandler}
+        onBlur={(event) => {
+          setForceActive(false)
+          onBlur?.(event)
+        }}
+        onMouseDown={(event) => {
+          onThumbMouseDownHandler(event)
+          onMouseDown?.(event)
+        }}
+        onMouseUp={(event) => {
+          onThumbMouseUpHandler()
+          onMouseUp?.(event)
+        }}
         aria-valuemin={min}
         aria-valuemax={max}
         aria-valuenow={value}
         aria-valuetext={aria ? aria : undefined}
         aria-orientation={isVertical ? 'vertical' : 'horizontal'}
         data-index={currentIndex}
-        {...helperParams}
       />
 
       <Button
