@@ -1,5 +1,5 @@
 import { render } from '@testing-library/react'
-import { renderToString } from 'react-dom/server'
+import { renderToStaticMarkup, renderToString } from 'react-dom/server'
 import { afterEach, describe, expect, it } from 'vitest'
 import {
   SidebarMenuPreHydrationScript,
@@ -16,13 +16,15 @@ describe('SidebarMenuPreHydrationScript', () => {
   })
 
   it('renders a blocking script with a CSP nonce', () => {
-    render(<SidebarMenuPreHydrationScript nonce="nonce-value" />)
+    const html = renderToStaticMarkup(
+      <SidebarMenuPreHydrationScript nonce="nonce-value" />
+    )
 
-    const script = document.querySelector('script')
-    expect(script).toHaveAttribute('nonce', 'nonce-value')
-    expect(script.textContent).toBe(getPreHydrationScript())
-    expect(script.textContent).toContain('document.currentScript?.nonce')
-    expect(script.textContent).toContain('style.nonce = nonce')
+    expect(html).toBe(
+      `<script nonce="nonce-value">${getPreHydrationScript()}</script>`
+    )
+    expect(html).toContain('document.currentScript?.nonce')
+    expect(html).toContain('style.nonce = nonce')
   })
 
   it('matches the hydrated accordion gap while restoring closed state', () => {

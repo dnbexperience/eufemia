@@ -1,6 +1,5 @@
 import path from 'path'
 import { readFileSync } from 'fs'
-import { render } from '@testing-library/react'
 import { renderToStaticMarkup } from 'react-dom/server'
 import {
   getHeadScript,
@@ -183,27 +182,26 @@ describe('ColorSchemeScript', () => {
 
   describe('React components', () => {
     it('ColorSchemeHeadScript renders a script tag', () => {
-      render(<ColorSchemeHeadScript scopeHash="test-scope" />)
+      const html = renderToStaticMarkup(
+        <ColorSchemeHeadScript scopeHash="test-scope" />
+      )
 
-      const script = document.querySelector('script')
-      expect(script).toBeInTheDocument()
-      expect(script.textContent).toContain("classList.add('test-scope')")
+      expect(html).toContain('<script>')
+      expect(html).toContain("classList.add('test-scope')")
     })
 
     it('ColorSchemeBodyFirstScript renders a script tag', () => {
-      render(<ColorSchemeBodyFirstScript />)
+      const html = renderToStaticMarkup(<ColorSchemeBodyFirstScript />)
 
-      const script = document.querySelector('script')
-      expect(script).toBeInTheDocument()
-      expect(script.textContent).toContain('document.body.classList')
+      expect(html).toContain('<script>')
+      expect(html).toContain('document.body.classList')
     })
 
     it('ColorSchemeBodyLastScript renders a script tag', () => {
-      render(<ColorSchemeBodyLastScript />)
+      const html = renderToStaticMarkup(<ColorSchemeBodyLastScript />)
 
-      const script = document.querySelector('script')
-      expect(script).toBeInTheDocument()
-      expect(script.textContent).toContain('querySelectorAll')
+      expect(html).toContain('<script>')
+      expect(html).toContain('querySelectorAll')
     })
   })
 
