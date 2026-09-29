@@ -10,6 +10,11 @@ import {
   P,
   Tabs,
 } from '@dnb/eufemia/src'
+import Theme, {
+  getTheme,
+  setTheme,
+  type ThemeColorScheme,
+} from '@dnb/eufemia/src/shared/Theme'
 
 import {
   clearSession,
@@ -41,7 +46,40 @@ type State =
       payload: DashboardPayload | null
     }
 
+const COLOR_SCHEMES: ThemeColorScheme[] = ['auto', 'light', 'dark']
+
+function readColorScheme(): ThemeColorScheme {
+  const stored = getTheme().colorScheme
+
+  return COLOR_SCHEMES.includes(stored) ? stored : 'auto'
+}
+
 export default function App() {
+  const [colorScheme, setColorScheme] =
+    useState<ThemeColorScheme>(readColorScheme)
+
+  function changeColorScheme(next: ThemeColorScheme) {
+    setColorScheme(next)
+    setTheme({ colorScheme: next })
+  }
+
+  return (
+    <Theme colorScheme={colorScheme}>
+      <Content
+        colorScheme={colorScheme}
+        onColorSchemeChange={changeColorScheme}
+      />
+    </Theme>
+  )
+}
+
+function Content({
+  colorScheme,
+  onColorSchemeChange,
+}: {
+  colorScheme: ThemeColorScheme
+  onColorSchemeChange: (colorScheme: ThemeColorScheme) => void
+}) {
   const [state, setState] = useState<State>({ status: 'loading' })
   const [env, setEnv] = useState('')
 
@@ -144,6 +182,8 @@ export default function App() {
       payload={state.payload}
       env={env}
       onEnvChange={setEnv}
+      colorScheme={colorScheme}
+      onColorSchemeChange={onColorSchemeChange}
     />
   )
 }
@@ -153,11 +193,15 @@ function Dashboard({
   payload,
   env,
   onEnvChange,
+  colorScheme,
+  onColorSchemeChange,
 }: {
   session: Session | null
   payload: DashboardPayload | null
   env: string
   onEnvChange: (env: string) => void
+  colorScheme: ThemeColorScheme
+  onColorSchemeChange: (colorScheme: ThemeColorScheme) => void
 }) {
   const { allRows, rows, envs, kpis } = useMemo(
     () => dashboardView(payload, env),
@@ -192,6 +236,19 @@ function Dashboard({
               }
             />
           )}
+          <Dropdown
+            label="Color scheme"
+            labelDirection="horizontal"
+            value={colorScheme}
+            data={[
+              { selectedKey: 'auto', content: 'Auto' },
+              { selectedKey: 'light', content: 'Light' },
+              { selectedKey: 'dark', content: 'Dark' },
+            ]}
+            onChange={({ data }) =>
+              onColorSchemeChange(data?.selectedKey as ThemeColorScheme)
+            }
+          />
           {session && (
             <>
               <P>{session.name}</P>

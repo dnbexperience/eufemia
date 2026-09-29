@@ -41,6 +41,7 @@ const populated: DashboardPayload = {
 describe('App (smoke)', () => {
   beforeEach(() => {
     vi.mocked(loadDashboardData).mockReset()
+    window.localStorage.clear()
   })
 
   // Guards against the whole app failing to mount (e.g. a duplicate React in
@@ -54,6 +55,41 @@ describe('App (smoke)', () => {
       expect(container.textContent).toContain('Eufemia Analytics')
     )
     expect(container.textContent?.trim()).not.toBe('')
+  })
+
+  it('applies the persisted dark color scheme', async () => {
+    window.localStorage.setItem(
+      'eufemia-theme',
+      JSON.stringify({ colorScheme: 'dark' })
+    )
+    vi.mocked(loadDashboardData).mockResolvedValue({ kind: 'empty' })
+
+    const { container } = render(<App />)
+
+    await waitFor(() =>
+      expect(container.textContent).toContain('Eufemia Analytics')
+    )
+    expect(
+      container.querySelector('.eufemia-theme__color-scheme--dark')
+    ).not.toBeNull()
+  })
+
+  it('ignores an unknown persisted color scheme', async () => {
+    window.localStorage.setItem(
+      'eufemia-theme',
+      JSON.stringify({ colorScheme: 'sepia' })
+    )
+    vi.mocked(loadDashboardData).mockResolvedValue({ kind: 'empty' })
+
+    const { container } = render(<App />)
+
+    await waitFor(() =>
+      expect(container.textContent).toContain('Eufemia Analytics')
+    )
+    expect(container.querySelector('.eufemia-theme')).not.toBeNull()
+    expect(
+      container.querySelector('.eufemia-theme__color-scheme--sepia')
+    ).toBeNull()
   })
 
   it('shows an empty message in the Page views tab when there are no portal views', async () => {
