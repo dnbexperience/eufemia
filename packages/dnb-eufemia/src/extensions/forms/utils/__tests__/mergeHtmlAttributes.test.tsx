@@ -21,7 +21,7 @@ describe('mergeHtmlAttributes', () => {
     expect(merged['aria-label']).toBe('given')
   })
 
-  it('should call both the own and the given handler', () => {
+  it('should call both the given and the own handler', () => {
     const own = vi.fn()
     const given = vi.fn()
 
@@ -31,13 +31,13 @@ describe('mergeHtmlAttributes', () => {
     ) as Handlers
     merged.onKeyDown({ key: 'a' })
 
-    expect(own).toHaveBeenCalledTimes(1)
     expect(given).toHaveBeenCalledTimes(1)
-    expect(own).toHaveBeenCalledWith({ key: 'a' })
+    expect(own).toHaveBeenCalledTimes(1)
     expect(given).toHaveBeenCalledWith({ key: 'a' })
+    expect(own).toHaveBeenCalledWith({ key: 'a' })
   })
 
-  it('should call the own handler before the given handler', () => {
+  it('should call the given handler before the own handler', () => {
     const order: Array<string> = []
 
     const merged = mergeHtmlAttributes(
@@ -46,19 +46,22 @@ describe('mergeHtmlAttributes', () => {
     ) as Handlers
     merged.onKeyDown()
 
-    expect(order).toEqual(['own', 'given'])
+    expect(order).toEqual(['given', 'own'])
   })
 
-  it('should return the result of the given handler when it returns one', () => {
+  it('should skip the own handler when the given handler returns false', () => {
+    const own = vi.fn()
+
     const merged = mergeHtmlAttributes(
-      { onChange: () => 'own' },
+      { onChange: own },
       { onChange: () => false }
     ) as Handlers
 
     expect(merged.onChange()).toBe(false)
+    expect(own).toHaveBeenCalledTimes(0)
   })
 
-  it('should return the result of the own handler when the given handler returns nothing', () => {
+  it('should return the result of the own handler', () => {
     const merged = mergeHtmlAttributes(
       { onChange: () => 'own' },
       { onChange: () => undefined }
@@ -95,6 +98,24 @@ describe('mergeHtmlAttributes', () => {
 })
 
 describe('htmlAttributes event handlers on fields', () => {
+  it('Field.String should let an onChange returning false block the change', async () => {
+    const fieldOnChange = vi.fn()
+
+    render(
+      <Field.String
+        onChange={fieldOnChange}
+        htmlAttributes={{ onChange: () => false }}
+      />
+    )
+
+    const input = document.querySelector('input')
+
+    await userEvent.type(input, 'abc')
+
+    expect(input).toHaveValue('')
+    expect(fieldOnChange).toHaveBeenCalledTimes(0)
+  })
+
   it('Field.String should keep its own onChange when htmlAttributes has one', async () => {
     const fieldOnChange = vi.fn()
     const attributeOnChange = vi.fn()

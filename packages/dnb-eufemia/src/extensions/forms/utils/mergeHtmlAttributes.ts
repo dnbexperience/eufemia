@@ -18,11 +18,14 @@ export default function mergeHtmlAttributes<
       typeof givenHandler === 'function'
     ) {
       merged[key] = (...args: Array<unknown>) => {
-        const ownResult = ownHandler(...args)
         const givenResult = givenHandler(...args)
 
-        // Components like Input act on the returned value, so keep the given one
-        return typeof givenResult === 'undefined' ? ownResult : givenResult
+        // Components like Input use `false` to reject the event
+        if (givenResult === false) {
+          return false
+        }
+
+        return ownHandler(...args)
       }
     }
   }
