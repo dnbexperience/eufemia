@@ -2948,18 +2948,12 @@ describe('InputMasked scss', () => {
 
 describe('InputMasked Maskito integration', () => {
   it('should not throw when an input event arrives without a preceding beforeinput event', () => {
-    // Reproduces https://github.com/taiga-family/maskito/issues/2903:
-    // Maskito's broken-default plugin marks the field as a virtual Android
-    // keyboard on `keydown[key=Unidentified]`, then reads the last
-    // `beforeinput` event inside its `input` listener. Browser autofill and
-    // password managers dispatch `input` without a preceding `beforeinput`,
-    // which threw a TypeError before the fix in @maskito/core 5.6.0. jsdom
-    // reports a listener exception through a window `error` event rather than
-    // rethrowing from dispatchEvent, so assert against that.
+    // https://github.com/taiga-family/maskito/issues/2903
     render(<InputMasked value="1234" numberMask />)
 
     const input = document.querySelector('input')
     const listenerErrors: Array<unknown> = []
+    // jsdom reports listener exceptions as window errors instead of rethrowing
     const onError = (event: ErrorEvent) => {
       listenerErrors.push(event.error)
     }
