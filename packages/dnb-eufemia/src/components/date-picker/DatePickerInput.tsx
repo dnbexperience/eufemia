@@ -137,6 +137,8 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
     onBlur,
     onChange,
     onSubmit,
+    onKeyDown,
+    onKeyUp,
     selectedDateTitle,
     showInput,
     inputElement,
@@ -397,6 +399,8 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
           spinButton,
           className: cls,
           inputMode: 'numeric' as const,
+          onKeyDown,
+          onKeyUp,
           onPaste: pasteHandler,
           onCopy: (e: ClipboardEvent<HTMLInputElement>) =>
             copyHandler(e, mode),
@@ -404,7 +408,15 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
       }
       return orderedParts.map((p) => byPart(p))
     },
-    [isRange, orderedParts, pasteHandler, copyHandler, translation]
+    [
+      isRange,
+      orderedParts,
+      onKeyDown,
+      onKeyUp,
+      pasteHandler,
+      copyHandler,
+      translation,
+    ]
   )
 
   const callOnChangeAsInvalid = useCallback(

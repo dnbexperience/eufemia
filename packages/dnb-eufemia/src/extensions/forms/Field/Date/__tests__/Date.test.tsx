@@ -2453,6 +2453,39 @@ describe('Field.Date', () => {
     ).not.toBeInTheDocument()
   })
 
+  it('should let onKeyDown set the date as a shortcut', async () => {
+    const MyForm = () => {
+      const { update } = Form.useData('date-shortcut')
+
+      return (
+        <Form.Handler id="date-shortcut">
+          <Field.Date
+            path="/date"
+            onKeyDown={(event) => {
+              if (event.key === 'd') {
+                event.preventDefault()
+                update('/date', '2026-12-24')
+              }
+            }}
+          />
+        </Form.Handler>
+      )
+    }
+
+    render(<MyForm />)
+
+    const [day, month, year]: Array<HTMLInputElement> = Array.from(
+      document.querySelectorAll('.dnb-date-picker__input')
+    )
+
+    await userEvent.click(day)
+    await userEvent.keyboard('d')
+
+    expect(day).toHaveValue('24')
+    expect(month).toHaveValue('12')
+    expect(year).toHaveValue('2026')
+  })
+
   it('should support custom date shortcuts', async () => {
     render(
       <Field.Date
