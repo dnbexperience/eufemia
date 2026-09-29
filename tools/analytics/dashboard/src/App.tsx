@@ -246,7 +246,9 @@ function Dashboard({
               { selectedKey: 'dark', content: 'Dark' },
             ]}
             onChange={({ data }) =>
-              onColorSchemeChange(data?.selectedKey as ThemeColorScheme)
+              onColorSchemeChange(
+                (data?.selectedKey ?? 'auto') as ThemeColorScheme
+              )
             }
           />
           {session && (

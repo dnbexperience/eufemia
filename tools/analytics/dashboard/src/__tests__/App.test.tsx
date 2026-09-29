@@ -74,6 +74,28 @@ describe('App (smoke)', () => {
     ).not.toBeNull()
   })
 
+  it('applies and persists the color scheme picked in the selector', async () => {
+    vi.mocked(loadDashboardData).mockResolvedValue({ kind: 'empty' })
+
+    const { container } = render(<App />)
+
+    await waitFor(() =>
+      expect(container.textContent).toContain('Eufemia Analytics')
+    )
+    fireEvent.click(screen.getByRole('combobox', { name: /Color scheme/ }))
+    fireEvent.click(screen.getByRole('option', { name: 'Dark' }))
+
+    await waitFor(() =>
+      expect(
+        container.querySelector('.eufemia-theme__color-scheme--dark')
+      ).not.toBeNull()
+    )
+    expect(
+      JSON.parse(window.localStorage.getItem('eufemia-theme') ?? '{}')
+        .colorScheme
+    ).toBe('dark')
+  })
+
   it('ignores an unknown persisted color scheme', async () => {
     window.localStorage.setItem(
       'eufemia-theme',
