@@ -360,6 +360,25 @@ describe('Textarea component', () => {
     expect(elem.style.height).toBe('240px')
   })
 
+  it('keeps a user-defined height after typing when autoResize is disabled', async () => {
+    const { rerender } = render(<Textarea rows={1} autoResize />)
+
+    const elem = document.querySelector('textarea')
+    const style = { lineHeight: String(1.5 * 16) } as CSSStyleDeclaration
+
+    vi.spyOn(window, 'getComputedStyle').mockImplementation(() => style)
+    vi.spyOn(elem, 'scrollHeight', 'get').mockImplementation(
+      () => 1.5 * 16
+    )
+
+    elem.style.height = '240px'
+    await userEvent.type(elem, 'a')
+    expect(elem.style.height).toBe('240px')
+
+    rerender(<Textarea rows={1} autoResize={false} />)
+    expect(elem.style.height).toBe('240px')
+  })
+
   it('will correctly auto resize if prop autoResize is used', async () => {
     render(<Textarea rows={1} autoResize={true} autoResizeMaxRows={4} />)
 

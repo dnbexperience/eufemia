@@ -131,6 +131,7 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
 
   const heightOffsetRef = useRef<number | undefined>(undefined)
   const heightRef = useRef<number | undefined>(undefined)
+  const contentHeightRef = useRef<number | undefined>(undefined)
   const resizeObserverRef = useRef<ResizeObserver | null>(null)
 
   const propValue = getValue(ownProps)
@@ -223,6 +224,7 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
           }
         }
 
+        contentHeightRef.current = newHeight
         if (!hideResizeHandle && heightRef.current > newHeight) {
           newHeight = heightRef.current
         }
@@ -316,11 +318,13 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
     if (
       !autoResize &&
       elem &&
-      heightRef.current !== undefined &&
-      Math.abs(parseFloat(elem.style.height) - heightRef.current) < 0.01
+      contentHeightRef.current !== undefined &&
+      Math.abs(parseFloat(elem.style.height) - contentHeightRef.current) <
+        0.01
     ) {
       elem.style.height = ''
       heightRef.current = undefined
+      contentHeightRef.current = undefined
     }
 
     if (autoResize && typeof window !== 'undefined') {
