@@ -51,6 +51,68 @@ describe('Slider component', () => {
     expect(element).toHaveClass('dnb-space__top--large')
   })
 
+  it('should call onKeyDown and onKeyUp when the range input has focus', () => {
+    const onKeyDown = vi.fn()
+    const onKeyUp = vi.fn()
+
+    render(<Slider {...props} onKeyDown={onKeyDown} onKeyUp={onKeyUp} />)
+
+    fireEvent.keyDown(getRangeElement(0), { key: 'ArrowUp' })
+    fireEvent.keyUp(getRangeElement(0), { key: 'ArrowUp' })
+
+    expect(onKeyDown).toHaveBeenCalledTimes(1)
+    expect(onKeyUp).toHaveBeenCalledTimes(1)
+  })
+
+  it('should call onFocus and keep showing the active state', () => {
+    const onFocus = vi.fn()
+
+    render(<Slider {...props} tooltip onFocus={onFocus} />)
+
+    fireEvent.focus(getRangeElement(0))
+
+    expect(onFocus).toHaveBeenCalledTimes(1)
+    expect(document.querySelector('.dnb-tooltip')).toBeInTheDocument()
+  })
+
+  it('should keep pointer event handlers on the thumb', () => {
+    const onMouseEnter = vi.fn()
+
+    render(<Slider {...props} onMouseEnter={onMouseEnter} />)
+
+    fireEvent.mouseEnter(getRangeElement(0))
+    expect(onMouseEnter).toHaveBeenCalledTimes(0)
+
+    fireEvent.mouseEnter(
+      document.querySelector('.dnb-slider__thumb .dnb-button')
+    )
+    expect(onMouseEnter).toHaveBeenCalledTimes(1)
+  })
+
+  it('should set aria-label on the range input', () => {
+    render(<Slider {...props} label={undefined} aria-label="Amount" />)
+
+    expect(getRangeElement(0)).toHaveAttribute('aria-label', 'Amount')
+    expect(
+      document.querySelector('.dnb-slider__thumb .dnb-button')
+    ).not.toHaveAttribute('aria-label')
+  })
+
+  it('should set aria-invalid and aria-required on the range input', () => {
+    render(<Slider {...props} aria-invalid="true" aria-required="true" />)
+
+    expect(getRangeElement(0)).toHaveAttribute('aria-invalid', 'true')
+    expect(getRangeElement(0)).toHaveAttribute('aria-required', 'true')
+  })
+
+  it('should combine aria-describedby with the internal one', () => {
+    render(<Slider {...props} suffix="kr" aria-describedby="custom-id" />)
+
+    expect(getRangeElement(0).getAttribute('aria-describedby')).toBe(
+      'custom-id slider-suffix'
+    )
+  })
+
   it('should include className', () => {
     render(<Slider {...props} className="custom-class" />)
 
