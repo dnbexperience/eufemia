@@ -5,6 +5,7 @@
 
 import { fireEvent, render, cleanup } from '@testing-library/react'
 import { StrictMode, useState } from 'react'
+import userEvent from '@testing-library/user-event'
 import { axeComponent } from '../../../core/test-utils/testSetup'
 import ToggleButton from '../ToggleButton'
 import { Provider } from '../../../shared'
@@ -120,6 +121,30 @@ describe('ToggleButton group component', () => {
       attr: 'value',
       prop: 'value-2',
     })
+  })
+
+  it('has multiselect "onChange" event which will trigger once on an Enter keypress', async () => {
+    const myEvent = vi.fn()
+    render(
+      <ToggleButton.Group multiselect onChange={myEvent}>
+        <ToggleButton
+          id="toggle-button-1"
+          text="ToggleButton 1"
+          value="first"
+        />
+        <ToggleButton
+          id="toggle-button-2"
+          text="ToggleButton 2"
+          value="second"
+        />
+      </ToggleButton.Group>
+    )
+
+    document.querySelector<HTMLElement>('button#toggle-button-2').focus()
+    await userEvent.keyboard('{Enter}')
+
+    expect(myEvent).toHaveBeenCalledTimes(1)
+    expect(myEvent.mock.calls[0][0].values).toEqual(['second'])
   })
 
   it('should use formset/legend when label was given', () => {
