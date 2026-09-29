@@ -53,6 +53,7 @@ export default function Indeterminate(props: FieldIndeterminateProps) {
       {...rest}
       variant="checkbox"
       htmlAttributes={{
+        ...rest.htmlAttributes,
         indeterminate,
         ['aria-controls']: ariaControlsIds,
       }}

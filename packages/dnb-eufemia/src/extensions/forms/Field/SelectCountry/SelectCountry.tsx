@@ -5,6 +5,7 @@ import FieldBlockContext from '../../FieldBlock/FieldBlockContext'
 import { LOCALE } from '../../../../shared/defaults'
 import { Autocomplete } from '../../../../components'
 import { pickSpacingProps } from '../../../../components/flex/utils'
+import mergeHtmlAttributes from '../../utils/mergeHtmlAttributes'
 import type listOfCountries from '../../../../shared/constants/countries'
 import {
   prioritizedCountries,
@@ -274,11 +275,6 @@ function SelectCountry(props: FieldSelectCountryProps) {
         value={typeof value === 'string' ? value : null}
         disabled={disabled}
         size={size}
-        onOpen={fillData}
-        onFocus={onFocusHandler}
-        onBlur={handleBlur}
-        onChange={handleCountryChange}
-        onType={onTypeHandler}
         stretch
         selectAll
         status={hasError ? 'error' : undefined}
@@ -287,7 +283,16 @@ function SelectCountry(props: FieldSelectCountryProps) {
         autoComplete={autoComplete ?? 'country-name'}
         noAnimation={noAnimation}
         listDriver={listDriver}
-        {...htmlAttributes}
+        {...mergeHtmlAttributes(
+          {
+            onOpen: fillData,
+            onFocus: onFocusHandler,
+            onBlur: handleBlur,
+            onChange: handleCountryChange,
+            onType: onTypeHandler,
+          },
+          htmlAttributes
+        )}
       />
     </FieldBlock>
   )
