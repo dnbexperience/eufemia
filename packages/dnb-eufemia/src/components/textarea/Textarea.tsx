@@ -310,6 +310,18 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
   // Measure again when the configuration behind the height changes
   useEffect(() => {
     const handleResize = () => setAutosizeRef.current()
+    const elem = textareaRef.current
+
+    // Leave a height chosen with the resize handle
+    if (
+      !autoResize &&
+      elem &&
+      heightRef.current !== undefined &&
+      parseFloat(elem.style.height) === heightRef.current
+    ) {
+      elem.style.height = ''
+      heightRef.current = undefined
+    }
 
     if (autoResize && typeof window !== 'undefined') {
       setAutosizeRef.current()

@@ -299,6 +299,34 @@ describe('Textarea component', () => {
     expect(disconnect).toHaveBeenCalledTimes(1)
   })
 
+  it('returns to its rows height when autoResize is disabled', () => {
+    const { rerender } = render(<Textarea rows={1} autoResize />)
+
+    const elem = document.querySelector('textarea')
+    const style = { lineHeight: String(1.5 * 16) } as CSSStyleDeclaration
+
+    vi.spyOn(window, 'getComputedStyle').mockImplementation(() => style)
+    vi.spyOn(elem, 'scrollHeight', 'get').mockImplementation(
+      () => 1.5 * 16 * 4
+    )
+
+    rerender(<Textarea rows={2} autoResize />)
+    expect(elem.style.height).toBe('96px')
+
+    rerender(<Textarea rows={2} autoResize={false} />)
+    expect(elem.style.height).toBe('')
+  })
+
+  it('keeps a user-defined height when autoResize is disabled', () => {
+    const { rerender } = render(<Textarea rows={1} autoResize />)
+
+    const elem = document.querySelector('textarea')
+    elem.style.height = '240px'
+
+    rerender(<Textarea rows={1} autoResize={false} />)
+    expect(elem.style.height).toBe('240px')
+  })
+
   it('will correctly auto resize if prop autoResize is used', async () => {
     render(<Textarea rows={1} autoResize={true} autoResizeMaxRows={4} />)
 
