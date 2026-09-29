@@ -11,12 +11,7 @@ import {
   useRef,
   useState,
 } from 'react'
-import type {
-  KeyboardEvent,
-  ReactElement,
-  ReactNode,
-  SyntheticEvent,
-} from 'react'
+import type { ReactElement, ReactNode, SyntheticEvent } from 'react'
 import { clsx } from 'clsx'
 import useId from '../../shared/helpers/useId'
 import {
@@ -224,28 +219,6 @@ function ToggleButton(ownProps: ToggleButtonProps) {
     [callOnChange]
   )
 
-  const onKeyDownHandler = useCallback(
-    (event: KeyboardEvent<HTMLButtonElement>) => {
-      ownPropsRef.current.onKeyDown?.(event)
-
-      if (!event.defaultPrevented && event.key === 'Enter') {
-        onClickHandler({ event })
-      }
-    },
-    [onClickHandler]
-  )
-
-  const onKeyUpHandler = useCallback(
-    (event: KeyboardEvent<HTMLButtonElement>) => {
-      ownPropsRef.current.onKeyUp?.(event)
-
-      if (!event.defaultPrevented && event.key === 'Enter') {
-        onClickHandler({ event })
-      }
-    },
-    [onClickHandler]
-  )
-
   const resolvedProps = {
     ...toggleButtonDefaultProps,
     ...removeUndefinedProps({ ...ownProps }),
@@ -445,8 +418,6 @@ function ToggleButton(ownProps: ToggleButtonProps) {
             {...buttonParams}
             ref={refButton}
             onClick={onClickHandler}
-            onKeyDown={onKeyDownHandler}
-            onKeyUp={onKeyUpHandler}
           />
 
           {suffix && (

@@ -286,20 +286,27 @@ describe('ToggleButton component', () => {
     ).toBe('true')
   })
 
-  it('should support enter key', () => {
+  it('should call onChange once per Enter keypress', async () => {
     const onChange = vi.fn()
     render(<ToggleButton onChange={onChange} />)
 
-    const element = document.querySelector('button')
+    document.querySelector('button').focus()
+    await userEvent.keyboard('{Enter}')
 
-    fireEvent.keyDown(element, { key: 'Enter' })
     expect(onChange).toHaveBeenCalledTimes(1)
-
-    fireEvent.keyUp(element, { key: 'Enter' })
-    expect(onChange).toHaveBeenCalledTimes(2)
   })
 
-  it('should call onKeyDown and onKeyUp given as properties', () => {
+  it('should call onChange once per Space keypress', async () => {
+    const onChange = vi.fn()
+    render(<ToggleButton onChange={onChange} />)
+
+    document.querySelector('button').focus()
+    await userEvent.keyboard('{ }')
+
+    expect(onChange).toHaveBeenCalledTimes(1)
+  })
+
+  it('should call onKeyDown and onKeyUp given as properties', async () => {
     const onKeyDown = vi.fn()
     const onKeyUp = vi.fn()
     const onChange = vi.fn()
@@ -311,30 +318,25 @@ describe('ToggleButton component', () => {
       />
     )
 
-    const element = document.querySelector('button')
-
-    fireEvent.keyDown(element, { key: 'Enter' })
-    fireEvent.keyUp(element, { key: 'Enter' })
+    document.querySelector('button').focus()
+    await userEvent.keyboard('{Enter}')
 
     expect(onKeyDown).toHaveBeenCalledTimes(1)
     expect(onKeyUp).toHaveBeenCalledTimes(1)
-    expect(onChange).toHaveBeenCalledTimes(2)
+    expect(onChange).toHaveBeenCalledTimes(1)
   })
 
-  it('should not toggle on Enter when onKeyDown and onKeyUp prevent default', () => {
+  it('should not toggle on Enter when onKeyDown prevents default', async () => {
     const onChange = vi.fn()
     render(
       <ToggleButton
         onKeyDown={(event) => event.preventDefault()}
-        onKeyUp={(event) => event.preventDefault()}
         onChange={onChange}
       />
     )
 
-    const element = document.querySelector('button')
-
-    fireEvent.keyDown(element, { key: 'Enter' })
-    fireEvent.keyUp(element, { key: 'Enter' })
+    document.querySelector('button').focus()
+    await userEvent.keyboard('{Enter}')
 
     expect(onChange).toHaveBeenCalledTimes(0)
   })
