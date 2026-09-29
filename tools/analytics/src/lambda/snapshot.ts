@@ -28,6 +28,12 @@ const SNAPSHOT_LIMIT = 1000
 
 const METRIC_NAMESPACE = 'Eufemia/Analytics'
 
+type MetricName =
+  | 'SnapshotRecordCount'
+  | 'McpUsageBuildFailure'
+  | 'ComponentUsageBuildFailure'
+  | 'PortalViewsRollupFailure'
+
 /**
  * Emit a CloudWatch metric using the Embedded Metric Format (a structured log
  * line). EMF needs only the Lambda's existing log permissions, so the
@@ -47,7 +53,7 @@ const METRIC_NAMESPACE = 'Eufemia/Analytics'
  * - PortalViewsRollupFailure (`snapshot_portal_views_rollup_failed`): the
  *   best-effort rollup refresh is swallowed, so its failure is otherwise silent.
  */
-function emitMetric(name: string, value: number): void {
+function emitMetric(name: MetricName, value: number): void {
   const functionName = process.env.AWS_LAMBDA_FUNCTION_NAME ?? 'unknown'
 
   // eslint-disable-next-line no-console -- EMF metric emission to CloudWatch Logs
