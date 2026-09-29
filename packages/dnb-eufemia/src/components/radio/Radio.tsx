@@ -200,7 +200,11 @@ function RadioComponent({ ref: externalRef, ...ownProps }: RadioProps) {
           if (value !== null && typeof value !== 'undefined') {
             event.preventDefault()
           }
-          onChangeHandler(event)
+
+          // a radio cannot be deselected, so re-selecting must not emit a change
+          if (value !== ownPropsRef.current.value) {
+            onChangeHandler(event)
+          }
         }
       } else {
         // else we only use the native support, and don't want space support
