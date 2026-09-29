@@ -243,12 +243,23 @@ function Time(props: TimeProps = {}) {
         ? 'information'
         : null
 
+  const dataAttributes: Record<string, unknown> = {}
+  const restAttributes: Record<string, unknown> = {}
+  for (const [key, value] of Object.entries(htmlAttributes ?? {})) {
+    if (key.startsWith('data-')) {
+      dataAttributes[key] = value
+    } else {
+      restAttributes[key] = value
+    }
+  }
+
   const fieldBlockProps: FieldBlockProps = {
     id,
     forId: `${id}-input`,
     className: clsx('dnb-forms-field-time', className),
     label,
     ...pickSpacingProps(props),
+    ...dataAttributes,
   }
 
   return (
@@ -276,7 +287,7 @@ function Time(props: TimeProps = {}) {
               getInitialValue: () => new Date().getHours(),
             },
             placeholder: hoursPlaceholder?.repeat(2),
-            ...htmlAttributes,
+            ...restAttributes,
           },
           {
             id: 'minutes',
@@ -288,7 +299,7 @@ function Time(props: TimeProps = {}) {
               getInitialValue: () => new Date().getMinutes(),
             },
             placeholder: minutesPlaceholder?.repeat(2),
-            ...htmlAttributes,
+            ...restAttributes,
           },
           ...(showSeconds
             ? [
@@ -302,7 +313,7 @@ function Time(props: TimeProps = {}) {
                     getInitialValue: () => new Date().getSeconds(),
                   },
                   placeholder: secondsPlaceholder?.repeat(2),
-                  ...htmlAttributes,
+                  ...restAttributes,
                 },
               ]
             : []),
