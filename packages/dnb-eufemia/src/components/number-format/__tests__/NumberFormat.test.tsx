@@ -8,7 +8,7 @@ import {
   loadScss,
   mockClipboard,
 } from '../../../core/test-utils/testSetup'
-import { fireEvent, render, waitFor } from '@testing-library/react'
+import { act, fireEvent, render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { LOCALE } from '../../../shared/defaults'
 import { isMac } from '../../../shared/helpers'
@@ -1931,7 +1931,9 @@ describe('NumberFormat copy tooltip', () => {
       document.querySelector('.dnb-tooltip__content')?.textContent
     ).toContain(en.clipboardCopy)
 
-    await vi.runAllTimersAsync()
+    await act(async () => {
+      await vi.runAllTimersAsync()
+    })
 
     expect(
       document.querySelector('.dnb-tooltip--active')
