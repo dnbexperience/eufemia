@@ -975,7 +975,7 @@ function TabsComponent(ownProps: TabsProps) {
     }
   }
 
-  const onKeyDownHandler = (event: KeyboardEvent) => {
+  const onKeyUpHandler = (event: KeyboardEvent) => {
     if (event.key === 'Enter') {
       try {
         const elem = document.getElementById(`${_id}-content`)
@@ -1289,7 +1289,7 @@ Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outs
               )}
               onMouseEnter={onMouseEnterHandler}
               onClick={onClickHandler}
-              onKeyUp={onKeyDownHandler}
+              onKeyUp={onKeyUpHandler}
               data-tab-key={key}
               {...itemParams}
             >
