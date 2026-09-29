@@ -279,6 +279,28 @@ describe('Textarea component', () => {
     expect(elem.style.height).toBe('96px')
   })
 
+  it('grows to a second row when the lines are shorter than the line-height', async () => {
+    const onChange = vi.fn()
+    render(<Textarea rows={1} autoResize onChange={onChange} />)
+
+    const elem = document.querySelector('textarea')
+
+    // Safari on iOS: a 25.5px line-height, but lines rendered 25px tall
+    const style = { lineHeight: '25.5px' } as CSSStyleDeclaration
+    vi.spyOn(window, 'getComputedStyle').mockImplementation(() => style)
+
+    vi.spyOn(elem, 'scrollHeight', 'get').mockImplementation(() => 25)
+    await userEvent.type(elem, 'a')
+    expect(elem.style.height).toBe('25px')
+
+    vi.spyOn(elem, 'scrollHeight', 'get').mockImplementation(() => 50)
+    await userEvent.type(elem, 'a')
+    expect(elem.style.height).toBe('50px')
+    expect(onChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({ rows: 2 })
+    )
+  })
+
   it('preserves a user-defined height while auto resizing', async () => {
     render(<Textarea rows={1} autoResize autoResizeMaxRows={4} />)
 
