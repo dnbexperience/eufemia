@@ -29,6 +29,34 @@ describe('Field.Currency', () => {
     expect(input).toHaveValue('123 NOK')
   })
 
+  it('should support onKeyDown, e.g. for amount shortcuts', async () => {
+    const MyForm = () => {
+      const { update } = Form.useData<{ amount: number }>('amount')
+
+      return (
+        <Form.Handler id="amount">
+          <Field.Currency
+            path="/amount"
+            onKeyDown={(event) => {
+              if (event.key === 't') {
+                event.preventDefault()
+                update('/amount', (value) => (value || 1) * 1000)
+              }
+            }}
+          />
+        </Form.Handler>
+      )
+    }
+
+    render(<MyForm />)
+
+    const input = document.querySelector('input')
+
+    await userEvent.type(input, '2,5t')
+
+    expect(input).toHaveValue('2 500 kr')
+  })
+
   it('should treat dot + 3 digits as thousands in nb-NO locale with kr suffix', () => {
     const onChange = vi.fn()
 
