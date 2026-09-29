@@ -1,4 +1,4 @@
-import { render, waitFor } from '@testing-library/react'
+import { render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import mergeHtmlAttributes from '../mergeHtmlAttributes'
 import { Field, Form } from '../..'
@@ -312,28 +312,6 @@ describe('htmlAttributes event handlers on fields', () => {
 
     expect(attributeOnChange).toHaveBeenCalledTimes(1)
     expect(fieldOnChange).toHaveBeenCalledTimes(1)
-  })
-
-  it('Field.Upload should call both onChange handlers', async () => {
-    const fieldOnChange = vi.fn()
-    const attributeOnChange = vi.fn()
-
-    render(
-      <Field.Upload
-        onChange={fieldOnChange}
-        htmlAttributes={{ onChange: attributeOnChange }}
-      />
-    )
-
-    await userEvent.upload(
-      document.querySelector<HTMLInputElement>('input[type="file"]'),
-      new File(['content'], 'file.png', { type: 'image/png' })
-    )
-
-    await waitFor(() => {
-      expect(fieldOnChange).toHaveBeenCalledTimes(1)
-    })
-    expect(attributeOnChange).toHaveBeenCalledTimes(1)
   })
 
   it('Field.SelectCountry should call both onChange handlers', async () => {

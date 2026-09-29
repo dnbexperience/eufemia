@@ -48,6 +48,29 @@ describe('Field.Upload', () => {
     expect(fourthDd).toBeUndefined()
   })
 
+  it('should call both onChange handlers when htmlAttributes has one', async () => {
+    const fieldOnChange = vi.fn()
+    const attributeOnChange = vi.fn()
+
+    render(
+      <Field.Upload
+        onChange={fieldOnChange}
+        htmlAttributes={{ onChange: attributeOnChange }}
+      />
+    )
+
+    fireEvent.drop(getRootElement(), {
+      dataTransfer: {
+        files: [createMockFile('fileName-1.png', 100, 'image/png')],
+      },
+    })
+
+    await waitFor(() => {
+      expect(fieldOnChange).toHaveBeenCalledTimes(1)
+    })
+    expect(attributeOnChange).toHaveBeenCalledTimes(1)
+  })
+
   it('should render with custom properties', () => {
     render(
       <Field.Upload
