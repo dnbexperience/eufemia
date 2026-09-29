@@ -1,0 +1,108 @@
+name: Automation - Release motivation links
+
+on:
+  # zizmor: ignore[dangerous-triggers] This trusted observer processes a successful release and executes only default-branch tooling.
+  workflow_run:
+    workflows: [Release]
+    types: [completed]
+
+permissions:
+  actions: read # Read the successful Release workflow run.
+  contents: read
+  pull-requests: read # Resolve the merged release and source PRs.
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.workflow_run.head_sha }}
+  cancel-in-progress: true
+
+jobs:
+  collect:
+    name: Collect release links
+    if: >-
+      vars.AUTOMATIONS_ENABLED == 'true' &&
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.head_branch == 'release' &&
+      github.event.workflow_run.head_repository.full_name == github.repository &&
+      startsWith(github.event.workflow_run.display_title, 'release of v')
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    outputs:
+      artifact-name: ${{ steps.context.outputs.artifact-name }}
+      marker: ${{ steps.context.outputs.marker }}
+      pull-number: ${{ steps.context.outputs.pull-number }}
+
+    steps:
+      - name: Check out trusted release tooling
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Collect release context and links
+        id: context
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RUN_ID: ${{ github.event.workflow_run.id }}
+        run: |
+          context_dir="$RUNNER_TEMP/release-links"
+          mkdir -p "$context_dir"
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/$RUN_ID" > "$context_dir/run.json"
+          node .github/automations/release/collect-release-context.mjs \
+            "$context_dir/run.json" \
+            "$context_dir/release-context.json"
+          node .github/automations/release/format-motivation-comment.mjs \
+            "$context_dir/release-context.json" \
+            "$context_dir/comment.md"
+
+          version=$(jq --raw-output '.version' "$context_dir/release-context.json")
+          artifact_name="release-motivation-links-$version"
+          {
+            echo "artifact-name=$artifact_name"
+            echo "marker=eufemia-release-motivation-links:$version"
+            echo "pull-number=$(jq --raw-output '.releasePullRequest.number' "$context_dir/release-context.json")"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Upload collected links
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: ${{ steps.context.outputs.artifact-name }}
+          path: ${{ runner.temp }}/release-links/comment.md
+          retention-days: 30
+
+  publish:
+    name: Publish release links
+    needs: collect
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      actions: read # Download the deterministic links artifact.
+      contents: read
+      issues: write # Upsert collected source links on the release PR.
+
+    steps:
+      - name: Check out trusted publisher
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Download collected links
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+        with:
+          name: ${{ needs.collect.outputs.artifact-name }}
+          path: ${{ runner.temp }}/release-links
+
+      - name: Publish comment
+        env:
+          GH_TOKEN: ${{ github.token }}
+          MARKER: ${{ needs.collect.outputs.marker }}
+          PR_NUMBER: ${{ needs.collect.outputs.pull-number }}
+        run: |
+          node .github/automations/release/upsert-comment.mjs \
+            "$GITHUB_REPOSITORY" \
+            "$PR_NUMBER" \
+            "$MARKER" \
+            "$RUNNER_TEMP/release-links/comment.md"
+          cat "$RUNNER_TEMP/release-links/comment.md" >> "$GITHUB_STEP_SUMMARY"
