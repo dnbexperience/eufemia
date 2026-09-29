@@ -499,7 +499,7 @@ function InputComponent({ ref, ...restProps }: InputProps) {
           {...statusProps}
         />
 
-        <span className="dnb-input__row">
+        <span className="dnb-input__row dnb-indicator-border-glow__target dnb-indicator-border-glow__target--row">
           <span {...shellParams}>
             {(InputElement as ReactNode) || (
               <input ref={combinedRef} {...inputParams} />

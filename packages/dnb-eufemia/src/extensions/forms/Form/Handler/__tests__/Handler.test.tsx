@@ -726,7 +726,7 @@ describe('Form.Handler', () => {
 
       expect(
         document.querySelector(
-          '.dnb-forms-submit-indicator--state-pending'
+          '.dnb-forms-submit-indicator-glow__status--state-pending'
         )
       ).toBeTruthy()
 
@@ -740,7 +740,7 @@ describe('Form.Handler', () => {
 
       expect(
         document.querySelector(
-          '.dnb-forms-submit-indicator--state-pending'
+          '.dnb-forms-submit-indicator-glow__status--state-pending'
         )
       ).toBeNull()
     })
@@ -810,7 +810,7 @@ describe('Form.Handler', () => {
 
       expect(
         document.querySelector(
-          '.dnb-forms-submit-indicator--state-pending'
+          '.dnb-forms-submit-indicator-glow__status--state-pending'
         )
       ).toBeTruthy()
 
@@ -827,7 +827,7 @@ describe('Form.Handler', () => {
       await waitFor(() => {
         expect(
           document.querySelector(
-            '.dnb-forms-submit-indicator--state-pending'
+            '.dnb-forms-submit-indicator-glow__status--state-pending'
           )
         ).toBeNull()
       })
@@ -840,7 +840,7 @@ describe('Form.Handler', () => {
 
       expect(
         document.querySelector(
-          '.dnb-forms-submit-indicator--state-pending'
+          '.dnb-forms-submit-indicator-glow__status--state-pending'
         )
       ).toBeTruthy()
 
@@ -857,7 +857,7 @@ describe('Form.Handler', () => {
       await waitFor(() => {
         expect(
           document.querySelector(
-            '.dnb-forms-submit-indicator--state-pending'
+            '.dnb-forms-submit-indicator-glow__status--state-pending'
           )
         ).toBeNull()
       })
@@ -1007,14 +1007,14 @@ describe('Form.Handler', () => {
 
       expect(
         document.querySelector(
-          '.dnb-forms-submit-indicator--state-pending'
+          '.dnb-forms-submit-indicator-glow__status--state-pending'
         )
       ).toBeTruthy()
 
       await waitFor(() => {
         expect(
           document.querySelector(
-            '.dnb-forms-submit-indicator--state-pending'
+            '.dnb-forms-submit-indicator-glow__status--state-pending'
           )
         ).toBeNull()
       })
@@ -1034,14 +1034,14 @@ describe('Form.Handler', () => {
 
       expect(
         document.querySelector(
-          '.dnb-forms-submit-indicator--state-pending'
+          '.dnb-forms-submit-indicator-glow__status--state-pending'
         )
       ).toBeTruthy()
 
       await waitFor(() => {
         expect(
           document.querySelector(
-            '.dnb-forms-submit-indicator--state-pending'
+            '.dnb-forms-submit-indicator-glow__status--state-pending'
           )
         ).toBeNull()
       })

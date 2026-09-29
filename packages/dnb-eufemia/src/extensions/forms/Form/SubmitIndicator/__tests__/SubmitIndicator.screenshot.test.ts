@@ -9,9 +9,10 @@ describe('Form.SubmitIndicator', () => {
     url: '/uilib/extensions/forms/Form/SubmitIndicator/demos/',
   })
 
-  it('have to match submit-indicator-with-label', async () => {
+  it('have to match border glow', async () => {
     await makeScreenshot({
-      selector: '[data-visual-test="submit-indicator-with-label"]',
+      selector: '[data-visual-test="submit-indicator-border-glow"]',
+      style: { height: '62rem' },
     })
   })
 })

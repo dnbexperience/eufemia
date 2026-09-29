@@ -21,7 +21,7 @@ test.describe('Connector.Bring', () => {
       '.dnb-forms-field-postal-code-and-city__postal-code input'
     )
     const postalCodeIndicator = form.locator(
-      '.dnb-forms-field-postal-code-and-city__postal-code .dnb-forms-submit-indicator'
+      '.dnb-forms-field-postal-code-and-city__postal-code .dnb-forms-submit-indicator-glow__status'
     )
 
     await countryInput.click()
@@ -37,17 +37,17 @@ test.describe('Connector.Bring', () => {
     await postalCodeInput.fill('12345')
     await expect(form.getByRole('alert')).toHaveText('Ugyldig postnummer.')
     await expect(postalCodeIndicator).not.toHaveClass(
-      /dnb-forms-submit-indicator--state-pending/
+      /dnb-forms-submit-indicator-glow__status--state-pending/
     )
 
     await postalCodeInput.press('Backspace')
     await postalCodeInput.press('4')
     await expect(postalCodeIndicator).toHaveClass(
-      /dnb-forms-submit-indicator--state-pending/
+      /dnb-forms-submit-indicator-glow__status--state-pending/
     )
     await postalCodeInput.blur()
     await expect(postalCodeIndicator).not.toHaveClass(
-      /dnb-forms-submit-indicator--state-pending/
+      /dnb-forms-submit-indicator-glow__status--state-pending/
     )
     await expect(form.getByRole('alert')).toHaveText('Ugyldig postnummer.')
 
