@@ -98,6 +98,13 @@ describe('Slider component', () => {
     ).not.toHaveAttribute('aria-label')
   })
 
+  it('should set aria-invalid and aria-required on the range input', () => {
+    render(<Slider {...props} aria-invalid="true" aria-required="true" />)
+
+    expect(getRangeElement(0)).toHaveAttribute('aria-invalid', 'true')
+    expect(getRangeElement(0)).toHaveAttribute('aria-required', 'true')
+  })
+
   it('should combine aria-describedby with the internal one', () => {
     render(<Slider {...props} suffix="kr" aria-describedby="custom-id" />)
 

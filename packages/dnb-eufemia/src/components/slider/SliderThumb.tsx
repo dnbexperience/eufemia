@@ -81,9 +81,7 @@ function Thumb({ value, currentIndex }: ThumbProps) {
   for (const [key, val] of Object.entries(attributes)) {
     if (
       /^on(Key|Focus|Blur)/.test(key) ||
-      key === 'aria-label' ||
-      key === 'aria-labelledby' ||
-      key === 'aria-describedby'
+      (key.startsWith('aria-') && key !== 'aria-hidden')
     ) {
       helperParams[key] = val
     } else {
