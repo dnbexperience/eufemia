@@ -20,6 +20,7 @@ import Context from '../../shared/Context'
 import { extendPropsWithContext } from '../../shared/component-helper'
 import useId from '../../shared/helpers/useId'
 import { getOffsetTop } from '../../shared/helpers'
+import decodeHashId from '../../shared/helpers/decodeHashId'
 import { isDangerousHref } from '../../shared/helpers/isDangerousHref'
 import IconPrimary from '../icon-primary/IconPrimary'
 import Tooltip from '../tooltip/Tooltip'
@@ -283,7 +284,9 @@ export function scrollToHash(hash: string) {
   // Only continue, when we are sure we are on the same page,
   // because, the same ID may exists occasionally on the current page.
   const id = hash.split(/#/g).reverse()[0]
-  const anchorElem = document.getElementById(id)
+  const anchorElem =
+    document.getElementById(id) ||
+    document.getElementById(decodeHashId(id))
 
   if (anchorElem instanceof HTMLElement) {
     try {

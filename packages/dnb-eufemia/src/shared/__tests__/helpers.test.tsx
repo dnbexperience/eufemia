@@ -201,6 +201,26 @@ describe('"scrollToLocationHashId" should', () => {
 
     expect(scrollTo).toHaveBeenCalledTimes(0)
   })
+
+  it('find an element whose id contains non-ASCII characters', () => {
+    window.history.replaceState({}, '', 'http://localhost/#søknad')
+
+    render(<div id="søknad">content</div>)
+
+    expect(scrollToLocationHashId()).toBe(
+      document.getElementById('søknad')
+    )
+  })
+
+  it('find an element whose id contains a percent sign', () => {
+    window.history.replaceState({}, '', 'http://localhost/#50%off')
+
+    render(<div id="50%off">content</div>)
+
+    expect(scrollToLocationHashId()).toBe(
+      document.getElementById('50%off')
+    )
+  })
 })
 
 describe('platform', () => {

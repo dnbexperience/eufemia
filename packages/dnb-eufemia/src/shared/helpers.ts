@@ -3,6 +3,8 @@
  *
  */
 
+import decodeHashId from './helpers/decodeHashId'
+
 // For backward compatibility
 export { debounce, debounceAsync } from './helpers/debounce'
 export type { DebounceHelpers } from './helpers/debounce'
@@ -236,7 +238,9 @@ export function scrollToLocationHashId({
           }
         }
 
-        const elem = document.getElementById(id)
+        const elem =
+          document.getElementById(id) ||
+          document.getElementById(decodeHashId(id))
         if (elem instanceof HTMLElement) {
           window.addEventListener('beforeunload', () =>
             clearTimeout(_timeout)
