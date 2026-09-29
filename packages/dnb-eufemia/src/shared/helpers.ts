@@ -80,13 +80,16 @@ export function setPageFocusElement(
 }
 
 export function applyPageFocus(
-  selector = 'default',
+  selectorOrElement: string | HTMLElement = 'default',
   callback: ((element: HTMLElement) => void) | null = null
 ) {
   try {
-    let element: string | HTMLElement | null = /^[.#]/.test(selector)
-      ? selector
-      : pageFocusElements[selector]
+    let element: string | HTMLElement | null = selectorOrElement
+
+    if (typeof element === 'string' && !/^[.#]/.test(element)) {
+      element = pageFocusElements[element]
+    }
+
     if (typeof element === 'string' && typeof document !== 'undefined') {
       element = document.querySelector<HTMLElement>(element)
     } else if (!element && typeof document !== 'undefined') {

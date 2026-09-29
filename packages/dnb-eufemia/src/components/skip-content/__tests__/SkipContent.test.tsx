@@ -124,6 +124,27 @@ describe('SkipContent', () => {
     )
   })
 
+  it('should set focus on a target whose id is not a valid CSS identifier', async () => {
+    render(
+      <>
+        <SkipContent selector="#unique:id" focusDelay={0}>
+          Aria
+        </SkipContent>
+        <button id="unique:id">content</button>
+      </>
+    )
+
+    const element = document.querySelector('.dnb-skip-content')
+    fireEvent.keyUp(element.querySelector('button.dnb-sr-only'), {
+      key: 'Tab',
+    })
+    fireEvent.click(element.querySelector('.dnb-button'))
+
+    await waitFor(() => {
+      expect(document.activeElement).toHaveAttribute('id', 'unique:id')
+    })
+  })
+
   it('should not add a supplemental focus ring to interactive targets', async () => {
     render(
       <>

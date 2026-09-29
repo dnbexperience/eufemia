@@ -63,6 +63,18 @@ const SkipContent = (localProps: SkipContentAllProps) => {
   const returnSelector = selector.replace(/^(\.|#)/, '')
   const returnId = `${returnSelector}--alias`
 
+  // An id may contain characters that are invalid in a CSS identifier, so a
+  // plain id selector is resolved by id rather than parsed as a selector
+  const targetId = /^#[^\s>+~,]+$/.test(selector) ? returnSelector : null
+
+  const getTargetElement = useCallback(
+    () =>
+      targetId
+        ? document.getElementById(targetId)
+        : document.querySelector<HTMLElement>(selector),
+    [selector, targetId]
+  )
+
   const handleBlur = useCallback(() => {
     blurTimeout.current = setTimeout(() => setVisible(false), 0)
   }, [])
@@ -73,7 +85,7 @@ const SkipContent = (localProps: SkipContentAllProps) => {
 
   const handleClick = useCallback(() => {
     // Scroll to the element at first
-    const element = document.querySelector<HTMLElement>(selector)
+    const element = getTargetElement()
     element?.scrollIntoView?.({ behavior: 'smooth' })
 
     if (element && !isInteractive(element)) {
@@ -81,7 +93,7 @@ const SkipContent = (localProps: SkipContentAllProps) => {
     }
 
     const focusTarget = () => {
-      applyPageFocus(selector)
+      applyPageFocus(getTargetElement() ?? selector)
 
       // Tell the linked return component, it should stay active (if it gets focused as well)
       document
@@ -96,7 +108,7 @@ const SkipContent = (localProps: SkipContentAllProps) => {
       // Delay the focus, so the UX is smoother
       timeout.current = setTimeout(focusTarget, focusDelay)
     }
-  }, [focusDelay, returnSelector, selector])
+  }, [focusDelay, getTargetElement, returnSelector, selector])
 
   const setFocus = useCallback(() => {
     setVisible(true)
