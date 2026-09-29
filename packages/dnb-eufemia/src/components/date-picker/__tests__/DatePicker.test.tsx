@@ -5715,6 +5715,128 @@ describe('Custom text for buttons', () => {
   })
 })
 
+describe('DatePicker onKeyDown', () => {
+  it('should call onKeyDown while typing in the date input', async () => {
+    const onKeyDown = vi.fn()
+
+    render(<DatePicker showInput onKeyDown={onKeyDown} />)
+
+    await userEvent.click(getDatePickerInputs()[0])
+    await userEvent.keyboard('1')
+
+    expect(onKeyDown).toHaveBeenCalledTimes(1)
+    expect(onKeyDown.mock.calls[0][0]).toMatchObject({ key: '1' })
+  })
+
+  it('should call onKeyDown for keys the date input does not use', async () => {
+    const onKeyDown = vi.fn()
+
+    render(<DatePicker showInput onKeyDown={onKeyDown} />)
+
+    await userEvent.click(getDatePickerInputs()[0])
+    await userEvent.keyboard('d')
+
+    expect(onKeyDown).toHaveBeenCalledTimes(1)
+    expect(onKeyDown.mock.calls[0][0]).toMatchObject({ key: 'd' })
+  })
+
+  it('should call onKeyDown from every date section', async () => {
+    const onKeyDown = vi.fn()
+
+    render(<DatePicker showInput onKeyDown={onKeyDown} />)
+
+    const [day, month, year] = getDatePickerInputs()
+
+    await userEvent.click(day)
+    await userEvent.keyboard('1')
+    await userEvent.click(month)
+    await userEvent.keyboard('1')
+    await userEvent.click(year)
+    await userEvent.keyboard('1')
+
+    expect(onKeyDown).toHaveBeenCalledTimes(3)
+  })
+
+  it('should keep typing working when onKeyDown does not prevent default', async () => {
+    render(<DatePicker showInput onKeyDown={() => null} />)
+
+    const [day, month, year] = getDatePickerInputs()
+
+    await userEvent.click(day)
+    await userEvent.keyboard('24122026')
+
+    expect(day).toHaveValue('24')
+    expect(month).toHaveValue('12')
+    expect(year).toHaveValue('2026')
+  })
+
+  it('should not type the key when onKeyDown prevents default', async () => {
+    render(
+      <DatePicker
+        showInput
+        onKeyDown={(event) => {
+          if (event.key === '1') {
+            event.preventDefault()
+          }
+        }}
+      />
+    )
+
+    const [day] = getDatePickerInputs()
+
+    await userEvent.click(day)
+    await userEvent.keyboard('1')
+
+    expect(day).toHaveValue('dd')
+
+    await userEvent.keyboard('2')
+
+    expect(day).toHaveValue('2d')
+  })
+
+  it('should let onKeyDown set the date as a shortcut', async () => {
+    const Component = () => {
+      const [date, setDate] = useState<string>(null)
+
+      return (
+        <DatePicker
+          showInput
+          date={date}
+          onChange={({ date }) => setDate(date)}
+          onKeyDown={(event) => {
+            if (event.key === 'd') {
+              event.preventDefault()
+              setDate('2026-12-24')
+            }
+          }}
+        />
+      )
+    }
+
+    render(<Component />)
+
+    const [day, month, year] = getDatePickerInputs()
+
+    await userEvent.click(day)
+    await userEvent.keyboard('d')
+
+    expect(day).toHaveValue('24')
+    expect(month).toHaveValue('12')
+    expect(year).toHaveValue('2026')
+  })
+
+  it('should not call onKeyDown for the trigger button', async () => {
+    const onKeyDown = vi.fn()
+
+    render(<DatePicker showInput onKeyDown={onKeyDown} />)
+
+    getDatePickerTriggerButton().focus()
+    await userEvent.keyboard('1')
+
+    expect(onKeyDown).toHaveBeenCalledTimes(0)
+  })
+})
+
 describe('DatePicker ARIA', () => {
   it('should validate', async () => {
     const Comp = render(

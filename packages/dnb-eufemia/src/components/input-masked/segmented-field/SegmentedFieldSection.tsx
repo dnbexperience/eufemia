@@ -1,5 +1,5 @@
 import { useCallback, useLayoutEffect, useMemo, useRef } from 'react'
-import type { ClipboardEvent } from 'react'
+import type { ClipboardEvent, KeyboardEvent } from 'react'
 import { clsx } from 'clsx'
 import {
   listAllSections,
@@ -55,6 +55,7 @@ export default function SegmentedFieldSection({
     placeholder,
     onCopy: onCopyExternal,
     onPaste: onPasteExternal,
+    onKeyDown: onKeyDownExternal,
     ...htmlProps
   } = itemProps as SegmentedFieldItem<string>
 
@@ -566,6 +567,14 @@ export default function SegmentedFieldSection({
         }}
         onKeyDown={(event) => {
           if (disabled) {
+            return
+          }
+
+          onKeyDownExternal?.(
+            event as unknown as KeyboardEvent<HTMLInputElement>
+          )
+
+          if (event.defaultPrevented) {
             return
           }
 
