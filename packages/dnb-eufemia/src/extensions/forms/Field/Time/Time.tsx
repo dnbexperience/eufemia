@@ -244,12 +244,12 @@ function Time(props: TimeProps = {}) {
         : null
 
   const dataAttributes: Record<string, unknown> = {}
-  const sectionAttributes: Record<string, unknown> = {}
+  const restAttributes: Record<string, unknown> = {}
   for (const [key, value] of Object.entries(htmlAttributes ?? {})) {
     if (key.startsWith('data-')) {
       dataAttributes[key] = value
     } else {
-      sectionAttributes[key] = value
+      restAttributes[key] = value
     }
   }
 
@@ -287,7 +287,7 @@ function Time(props: TimeProps = {}) {
               getInitialValue: () => new Date().getHours(),
             },
             placeholder: hoursPlaceholder?.repeat(2),
-            ...sectionAttributes,
+            ...restAttributes,
           },
           {
             id: 'minutes',
@@ -299,7 +299,7 @@ function Time(props: TimeProps = {}) {
               getInitialValue: () => new Date().getMinutes(),
             },
             placeholder: minutesPlaceholder?.repeat(2),
-            ...sectionAttributes,
+            ...restAttributes,
           },
           ...(showSeconds
             ? [
@@ -313,7 +313,7 @@ function Time(props: TimeProps = {}) {
                     getInitialValue: () => new Date().getSeconds(),
                   },
                   placeholder: secondsPlaceholder?.repeat(2),
-                  ...sectionAttributes,
+                  ...restAttributes,
                 },
               ]
             : []),

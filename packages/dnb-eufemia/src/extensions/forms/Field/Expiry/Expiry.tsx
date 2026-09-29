@@ -243,12 +243,12 @@ function Expiry(props: ExpiryProps = {}) {
         : null
 
   const dataAttributes: Record<string, unknown> = {}
-  const sectionAttributes: Record<string, unknown> = {}
+  const restAttributes: Record<string, unknown> = {}
   for (const [key, value] of Object.entries(htmlAttributes ?? {})) {
     if (key.startsWith('data-')) {
       dataAttributes[key] = value
     } else {
-      sectionAttributes[key] = value
+      restAttributes[key] = value
     }
   }
 
@@ -287,7 +287,7 @@ function Expiry(props: ExpiryProps = {}) {
             },
             placeholder: repeatPlaceholder(placeholders.month, 2),
             autoComplete: 'cc-exp-month',
-            ...sectionAttributes,
+            ...restAttributes,
           },
           {
             id: 'year',
@@ -300,7 +300,7 @@ function Expiry(props: ExpiryProps = {}) {
             },
             placeholder: repeatPlaceholder(placeholders.year, 2),
             autoComplete: 'cc-exp-year',
-            ...sectionAttributes,
+            ...restAttributes,
           },
         ]}
       />
