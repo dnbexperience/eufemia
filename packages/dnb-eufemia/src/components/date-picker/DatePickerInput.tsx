@@ -152,6 +152,8 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
     statusProps,
     triggerProps,
     _omitInputShellClass,
+    'aria-label': groupAriaLabel,
+    'aria-labelledby': groupAriaLabelledBy,
 
     ...attributes
   } = props
@@ -907,7 +909,12 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
   )
 
   return (
-    <fieldset className="dnb-date-picker__fieldset" lang={lang}>
+    <fieldset
+      className="dnb-date-picker__fieldset"
+      lang={lang}
+      aria-label={groupAriaLabel}
+      aria-labelledby={groupAriaLabelledBy}
+    >
       {label && <legend className="dnb-sr-only">{label}</legend>}
       <Input
         id={`${id}__input`}

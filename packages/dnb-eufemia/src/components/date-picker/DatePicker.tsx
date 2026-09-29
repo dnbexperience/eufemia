@@ -640,6 +640,11 @@ function DatePicker(externalProps: DatePickerAllProps) {
     [restProps]
   )
 
+  const { dataAttributes, inputAttributes } = useMemo(
+    () => splitDataAttributes(attributes),
+    [attributes]
+  )
+
   const showStatus = getStatusState(status)
 
   const pickerParams = {} as HTMLProps<HTMLSpanElement>
@@ -731,7 +736,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
       setReturnObject={(fn) => (getReturnObject.current = fn)}
       hidePicker={hidePicker}
     >
-      <span {...mainParams}>
+      <span {...mainParams} {...dataAttributes}>
         {label && (
           <FormLabel
             id={id + '-label'}
@@ -824,7 +829,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
                   statusState={statusState}
                   lang={context.locale}
                   _omitInputShellClass={_omitInputShellClass}
-                  {...attributes}
+                  {...inputAttributes}
                   submitProps={remainingSubmitProps}
                   // @ts-expect-error statusProps (FormStatusProps) spreads a DOM `onSubmit` (SubmitEvent) that conflicts with the button `onSubmit` (MouseEvent)
                   onSubmit={togglePicker}
@@ -979,6 +984,20 @@ function filterOutNonAttributes(props: DatePickerProps) {
     }
     return attributes
   }, {})
+}
+
+function splitDataAttributes(attributes: Record<string, unknown>) {
+  const dataAttributes: Record<string, unknown> = {}
+  const inputAttributes: Record<string, unknown> = {}
+
+  for (const key of Object.keys(attributes)) {
+    const target = key.startsWith('data-')
+      ? dataAttributes
+      : inputAttributes
+    target[key] = attributes[key]
+  }
+
+  return { dataAttributes, inputAttributes }
 }
 
 withComponentMarkers(DatePicker, {
