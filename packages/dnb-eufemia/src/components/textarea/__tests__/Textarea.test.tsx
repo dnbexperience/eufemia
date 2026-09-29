@@ -287,16 +287,16 @@ describe('Textarea component', () => {
     // Safari on iOS: a 25.5px line-height, but lines rendered 25px tall
     const style = { lineHeight: '25.5px' } as CSSStyleDeclaration
     vi.spyOn(window, 'getComputedStyle').mockImplementation(() => style)
-    vi.spyOn(
-      HTMLTextAreaElement.prototype,
-      'scrollHeight',
-      'get'
-    ).mockImplementation(function (this: HTMLTextAreaElement) {
-      return this === elem ? 25 * 4 : this.value.split('\n').length * 25
-    })
+    const scrollHeight = vi
+      .spyOn(HTMLTextAreaElement.prototype, 'scrollHeight', 'get')
+      .mockImplementation(function (this: HTMLTextAreaElement) {
+        return this === elem ? 25 * 4 : this.value.split('\n').length * 25
+      })
 
     await userEvent.type(elem, 'a')
     expect(elem.style.height).toBe('75px')
+
+    scrollHeight.mockRestore()
   })
 
   it('preserves a user-defined height while auto resizing', async () => {
