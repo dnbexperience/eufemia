@@ -6,7 +6,7 @@ import {
   useRef,
   useState,
 } from 'react'
-import type { KeyboardEvent, RefObject } from 'react'
+import type { KeyboardEvent, KeyboardEventHandler, RefObject } from 'react'
 import { InputMasked, Button } from '../../../../components'
 import type { InputMaskedProps } from '../../../../components/InputMasked'
 import type { NumberFormatOptionParams } from '../../../../components/number-format/NumberUtils'
@@ -118,6 +118,12 @@ export type FieldNumberProps = FieldProps<number, undefined | number> & {
   showStepControls?: boolean
   /** Text showing in place of the value if no value is given. */
   placeholder?: string
+
+  // - Events
+  /**
+   * Will be called when a key is pressed while the input has focus, after the field has handled the key. Call `event.preventDefault()` to keep the key from being typed, e.g. to set the value with a keyboard shortcut.
+   */
+  onKeyDown?: KeyboardEventHandler<HTMLInputElement>
 }
 
 const defaultMinimum = Number.MIN_SAFE_INTEGER
@@ -408,6 +414,7 @@ function NumberComponent(props: FieldNumberProps) {
     handleBlur,
     handleChange,
     setDisplayValue,
+    onKeyDown,
   } = useFieldProps(preparedProps)
 
   useEffect(() => {
@@ -427,33 +434,33 @@ function NumberComponent(props: FieldNumberProps) {
         event.preventDefault?.() // And prevent the default form submit
       }
 
-      if (!showStepControls) {
-        return
+      if (showStepControls) {
+        let numberValue = null
+
+        switch (event.key) {
+          case 'ArrowUp':
+            numberValue = clamp(
+              (value ?? startWith) + step,
+              minimum,
+              maximum
+            )
+            break
+          case 'ArrowDown':
+            numberValue = clamp(
+              (value ?? startWith) - step,
+              minimum,
+              maximum
+            )
+            break
+        }
+
+        if (numberValue !== null) {
+          event.preventDefault()
+          handleChange({ numberValue })
+        }
       }
 
-      let numberValue = null
-
-      switch (event.key) {
-        case 'ArrowUp':
-          numberValue = clamp(
-            (value ?? startWith) + step,
-            minimum,
-            maximum
-          )
-          break
-        case 'ArrowDown':
-          numberValue = clamp(
-            (value ?? startWith) - step,
-            minimum,
-            maximum
-          )
-          break
-      }
-
-      if (numberValue !== null) {
-        event.preventDefault()
-        handleChange({ numberValue })
-      }
+      onKeyDown?.(event)
     },
     [
       dataContext?.props?.isolate,
@@ -461,6 +468,7 @@ function NumberComponent(props: FieldNumberProps) {
       handleSubmit,
       maximum,
       minimum,
+      onKeyDown,
       showStepControls,
       startWith,
       step,
