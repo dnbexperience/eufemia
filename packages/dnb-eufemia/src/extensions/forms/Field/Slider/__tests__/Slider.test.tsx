@@ -314,6 +314,27 @@ describe('Field.Slider', () => {
 
       expect(await axeComponent(result)).toHaveNoViolations()
     })
+
+    it('should set aria-invalid, aria-required and aria-describedby on the range input', () => {
+      render(<Field.Slider label="Slider" required validateInitially />)
+
+      const input = getButtonHelper()
+      const status = document.querySelector('.dnb-form-status')
+
+      expect(input).toHaveAttribute('aria-invalid', 'true')
+      expect(input).toHaveAttribute('aria-required', 'true')
+      expect(input.getAttribute('aria-describedby')).toContain(status.id)
+    })
+  })
+
+  it('should call onKeyDown given in htmlAttributes', () => {
+    const onKeyDown = vi.fn()
+
+    render(<Field.Slider htmlAttributes={{ onKeyDown }} />)
+
+    fireEvent.keyDown(getButtonHelper(), { key: 'ArrowUp' })
+
+    expect(onKeyDown).toHaveBeenCalledTimes(1)
   })
 })
 
