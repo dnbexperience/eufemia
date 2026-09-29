@@ -121,3 +121,11 @@ export const StringProperties: PropertiesTableProps = {
     status: 'optional',
   },
 }
+
+export const StringEvents: PropertiesTableProps = {
+  onKeyDown: {
+    doc: 'Will be called when a key is pressed while the input has focus, after the field has handled the key. Call `event.preventDefault()` to keep the key from being typed, e.g. to set the value with a keyboard shortcut.',
+    type: '(event: React.KeyboardEvent<HTMLInputElement>) => void',
+    status: 'optional',
+  },
+}
