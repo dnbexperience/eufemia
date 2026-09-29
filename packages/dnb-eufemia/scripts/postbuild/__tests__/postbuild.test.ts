@@ -8,6 +8,7 @@
 
 import fs from 'fs-extra'
 import path from 'path'
+import { builtinModules } from 'node:module'
 import { pathToFileURL } from 'node:url'
 import { getCommittedFiles } from '../../tools/cliTools'
 import { rebaseAssetUrls } from '../copyStyles'
@@ -1166,22 +1167,72 @@ describe('review rule metadata build', () => {
 })
 
 describe('package.json dependencies', () => {
-  it('includes @babel/runtime-corejs3 as a runtime dependency', () => {
-    // The published build artifacts contain imports from
-    // "@babel/runtime-corejs3/helpers/esm/*" because they were compiled with
-    // @babel/plugin-transform-runtime using corejs: 3. Consumers bundling with
-    // tools like esbuild or Vite will get a build error if this package is not
-    // listed as a dependency in the published package.json.
-    // See: https://github.com/dnbexperience/eufemia/pull/7994 (accidental removal)
-    //      https://github.com/dnbexperience/eufemia/pull/8016 (re-added)
-    const packageJson = fs.readJsonSync(
+  // Opt-in entry points whose packages consumers install themselves.
+  const optionalImports = {
+    // Documented in src/mcp/README.md.
+    'mcp/': [
+      '@modelcontextprotocol/node',
+      '@modelcontextprotocol/server',
+      '@modelcontextprotocol/server-legacy',
+      'express',
+    ],
+    // Only loaded from a consumer's own Stylelint config.
+    'plugins/stylelint/': ['stylelint'],
+    // Build-time script shipped alongside the PostCSS plugin.
+    'plugins/postcss-isolated-style-scope/scripts/': [
+      'fs-extra',
+      'globby',
+      'lebab',
+    ],
+  }
+
+  it('only imports packages it declares as dependencies', async () => {
+    const buildDir = path.resolve(PKG_ROOT, 'build')
+    const { name, dependencies, peerDependencies } = fs.readJsonSync(
       path.resolve(PKG_ROOT, 'package.json')
     )
+    const allowedEverywhere = new Set([
+      name,
+      ...builtinModules,
+      ...Object.keys(dependencies),
+      ...Object.keys(peerDependencies),
+    ])
+    const importPattern =
+      /\b(?:from|import|require)\s*\(?\s*["']((?:@[a-z0-9][\w.-]*\/)?[a-z0-9][\w.-]*)(?:\/[^"']*)?["']/g
 
-    expect(packageJson.dependencies).toMatchObject({
-      '@babel/runtime-corejs3': expect.any(String),
-    })
-  })
+    const files = (
+      fs.readdirSync(buildDir, { recursive: true }) as string[]
+    ).filter(
+      (file) => /\.[cm]?js$/.test(file) && !file.includes('node_modules')
+    )
+
+    const undeclared = await Promise.all(
+      files.map(async (file) => {
+        const relativePath = file
+          .split(path.sep)
+          .join('/')
+          .replace(/^(cjs|es)\//, '')
+        const allowedHere = Object.entries(optionalImports)
+          .filter(([dir]) => relativePath.startsWith(dir))
+          .flatMap(([, packages]) => packages)
+        const code = await fs.promises.readFile(
+          path.join(buildDir, file),
+          'utf-8'
+        )
+
+        return [...code.matchAll(importPattern)]
+          .map(([, specifier]) => specifier)
+          .filter(
+            (specifier) =>
+              !allowedEverywhere.has(specifier) &&
+              !allowedHere.includes(specifier)
+          )
+          .map((specifier) => `${specifier} (${file})`)
+      })
+    )
+
+    expect([...new Set(undeclared.flat())]).toEqual([])
+  }, 120_000)
 
   it('includes postcss-selector-parser as a runtime dependency', () => {
     // The published package ships the postcss-isolated-style-scope plugin
