@@ -9,6 +9,7 @@ import type { ReturnAdditional } from '../../hooks/useFieldProps'
 import { checkForError } from '../../hooks/useFieldProps'
 import type { DefaultErrorMessages, FieldProps, Path } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
+import mergeHtmlAttributes from '../../utils/mergeHtmlAttributes'
 import ToggleButtonGroupContext from '../../../../components/toggle-button/ToggleButtonGroupContext'
 import type { HelpProps } from '../../../../components/help-button/HelpButtonInline'
 import type { Data } from '../Selection'
@@ -290,8 +291,10 @@ export function useCheckboxOrToggleOptions({
           }
           suffix={suffix}
           role="checkbox"
-          onChange={handleSelect}
-          {...htmlAttributes}
+          {...mergeHtmlAttributes(
+            { onChange: handleSelect },
+            htmlAttributes
+          )}
           {...rest}
         />
       )

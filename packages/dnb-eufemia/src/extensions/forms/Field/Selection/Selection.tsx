@@ -27,6 +27,7 @@ import { useFieldProps } from '../../hooks'
 import type { ReturnAdditional } from '../../hooks/useFieldProps'
 import { checkForError } from '../../hooks/useFieldProps'
 import { pickSpacingProps } from '../../../../components/flex/utils'
+import mergeHtmlAttributes from '../../utils/mergeHtmlAttributes'
 import type { FieldBlockProps, FieldBlockWidth } from '../../FieldBlock'
 import FieldBlock from '../../FieldBlock'
 import type { FieldProps, Path } from '../../types'
@@ -360,14 +361,18 @@ function Selection(props: FieldSelectionProps) {
             ? 'error'
             : undefined,
         disabled,
-        ...htmlAttributes,
+        ...mergeHtmlAttributes(
+          {
+            onChange: handleDrawerListChange,
+            onOpen: handleShow,
+            onClose: handleHide,
+          },
+          htmlAttributes
+        ),
         data,
         groups,
         listDriver,
         size,
-        onChange: handleDrawerListChange,
-        onOpen: handleShow,
-        onClose: handleHide,
         stretch: true,
       }
 

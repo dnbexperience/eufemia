@@ -1,7 +1,7 @@
-import { render } from '@testing-library/react'
+import { render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import mergeHtmlAttributes from '../mergeHtmlAttributes'
-import { Field } from '../..'
+import { Field, Form } from '../..'
 
 type Handlers = Record<string, (...args: Array<unknown>) => unknown>
 
@@ -204,5 +204,220 @@ describe('htmlAttributes event handlers on fields', () => {
     expect(attributeOnChange).toHaveBeenCalledTimes(1)
     expect(fieldOnChange).toHaveBeenCalledTimes(1)
     expect(fieldOnChange).toHaveBeenCalledWith(1, expect.anything())
+  })
+
+  it('Field.Toggle should call both onChange handlers', async () => {
+    const fieldOnChange = vi.fn()
+    const attributeOnChange = vi.fn()
+
+    render(
+      <Field.Toggle
+        valueOn="on"
+        valueOff="off"
+        onChange={fieldOnChange}
+        htmlAttributes={{ onChange: attributeOnChange }}
+      />
+    )
+
+    await userEvent.click(document.querySelector('input[type="checkbox"]'))
+
+    expect(attributeOnChange).toHaveBeenCalledTimes(1)
+    expect(fieldOnChange).toHaveBeenCalledTimes(1)
+    expect(fieldOnChange).toHaveBeenCalledWith('on', expect.anything())
+  })
+
+  it('Field.Boolean should call both onChange handlers', async () => {
+    const fieldOnChange = vi.fn()
+    const attributeOnChange = vi.fn()
+
+    render(
+      <Field.Boolean
+        onChange={fieldOnChange}
+        htmlAttributes={{ onChange: attributeOnChange }}
+      />
+    )
+
+    await userEvent.click(document.querySelector('input[type="checkbox"]'))
+
+    expect(attributeOnChange).toHaveBeenCalledTimes(1)
+    expect(fieldOnChange).toHaveBeenCalledTimes(1)
+    expect(fieldOnChange).toHaveBeenCalledWith(true, expect.anything())
+  })
+
+  it('Field.Indeterminate should keep the htmlAttributes it is given', async () => {
+    const fieldOnChange = vi.fn()
+    const attributeOnChange = vi.fn()
+
+    render(
+      <Form.Handler>
+        <Field.Indeterminate
+          dependencePaths={['/a']}
+          onChange={fieldOnChange}
+          htmlAttributes={{
+            onChange: attributeOnChange,
+            'data-custom': 'value',
+          }}
+        />
+        <Field.Boolean path="/a" />
+      </Form.Handler>
+    )
+
+    const [checkbox] = Array.from(
+      document.querySelectorAll('input[type="checkbox"]')
+    )
+
+    expect(checkbox).toHaveAttribute('data-custom', 'value')
+    expect(checkbox).toHaveAttribute('aria-controls')
+
+    await userEvent.click(checkbox)
+
+    expect(attributeOnChange).toHaveBeenCalledTimes(1)
+    expect(fieldOnChange).toHaveBeenCalledTimes(1)
+  })
+
+  it('Field.ArraySelection should call both onChange handlers', async () => {
+    const fieldOnChange = vi.fn()
+    const attributeOnChange = vi.fn()
+
+    render(
+      <Field.ArraySelection
+        onChange={fieldOnChange}
+        htmlAttributes={{ onChange: attributeOnChange }}
+      >
+        <Field.Option value="a" title="A" />
+      </Field.ArraySelection>
+    )
+
+    await userEvent.click(document.querySelector('input[type="checkbox"]'))
+
+    expect(attributeOnChange).toHaveBeenCalledTimes(1)
+    expect(fieldOnChange).toHaveBeenCalledTimes(1)
+    expect(fieldOnChange).toHaveBeenCalledWith(['a'], expect.anything())
+  })
+
+  it('Field.MultiSelection should call both onChange handlers', async () => {
+    const fieldOnChange = vi.fn()
+    const attributeOnChange = vi.fn()
+
+    render(
+      <Field.MultiSelection
+        data={[{ value: 'a', title: 'A' }]}
+        onChange={fieldOnChange}
+        htmlAttributes={{ onChange: attributeOnChange }}
+      />
+    )
+
+    await userEvent.click(document.querySelector('button'))
+    await userEvent.click(document.querySelector('input[type="checkbox"]'))
+
+    expect(attributeOnChange).toHaveBeenCalledTimes(1)
+    expect(fieldOnChange).toHaveBeenCalledTimes(1)
+  })
+
+  it('Field.Upload should call both onChange handlers', async () => {
+    const fieldOnChange = vi.fn()
+    const attributeOnChange = vi.fn()
+
+    render(
+      <Field.Upload
+        onChange={fieldOnChange}
+        htmlAttributes={{ onChange: attributeOnChange }}
+      />
+    )
+
+    await userEvent.upload(
+      document.querySelector<HTMLInputElement>('input[type="file"]'),
+      new File(['content'], 'file.png', { type: 'image/png' })
+    )
+
+    await waitFor(() => {
+      expect(fieldOnChange).toHaveBeenCalledTimes(1)
+    })
+    expect(attributeOnChange).toHaveBeenCalledTimes(1)
+  })
+
+  it('Field.SelectCountry should call both onChange handlers', async () => {
+    const fieldOnChange = vi.fn()
+    const attributeOnChange = vi.fn()
+
+    render(
+      <Field.SelectCountry
+        onChange={fieldOnChange}
+        htmlAttributes={{ onChange: attributeOnChange }}
+      />
+    )
+
+    await userEvent.click(document.querySelector('input'))
+    await userEvent.keyboard('Norge')
+    await userEvent.click(document.querySelector('li[role="option"]'))
+
+    expect(attributeOnChange).toHaveBeenCalledTimes(1)
+    expect(fieldOnChange).toHaveBeenCalledTimes(1)
+    expect(fieldOnChange).toHaveBeenCalledWith('NO', expect.anything())
+  })
+
+  it('Field.SelectCurrency should call both onChange handlers', async () => {
+    const fieldOnChange = vi.fn()
+    const attributeOnChange = vi.fn()
+
+    render(
+      <Field.SelectCurrency
+        onChange={fieldOnChange}
+        htmlAttributes={{ onChange: attributeOnChange }}
+      />
+    )
+
+    await userEvent.click(document.querySelector('input'))
+    await userEvent.keyboard('NOK')
+    await userEvent.click(document.querySelector('li[role="option"]'))
+
+    expect(attributeOnChange).toHaveBeenCalledTimes(1)
+    expect(fieldOnChange).toHaveBeenCalledTimes(1)
+    expect(fieldOnChange).toHaveBeenCalledWith('NOK', expect.anything())
+  })
+
+  it('Field.Selection with a dropdown should call both onChange handlers', async () => {
+    const fieldOnChange = vi.fn()
+    const attributeOnChange = vi.fn()
+
+    render(
+      <Field.Selection
+        variant="dropdown"
+        onChange={fieldOnChange}
+        htmlAttributes={{ onChange: attributeOnChange }}
+      >
+        <Field.Option value="a" title="A" />
+      </Field.Selection>
+    )
+
+    await userEvent.click(document.querySelector('button'))
+    await userEvent.click(document.querySelector('li[role="option"]'))
+
+    expect(attributeOnChange).toHaveBeenCalledTimes(1)
+    expect(fieldOnChange).toHaveBeenCalledTimes(1)
+    expect(fieldOnChange).toHaveBeenCalledWith('a', expect.anything())
+  })
+
+  it('Field.Selection with an autocomplete should call both onChange handlers', async () => {
+    const fieldOnChange = vi.fn()
+    const attributeOnChange = vi.fn()
+
+    render(
+      <Field.Selection
+        variant="autocomplete"
+        onChange={fieldOnChange}
+        htmlAttributes={{ onChange: attributeOnChange }}
+      >
+        <Field.Option value="a" title="Apple" />
+      </Field.Selection>
+    )
+
+    await userEvent.click(document.querySelector('input'))
+    await userEvent.keyboard('App')
+    await userEvent.click(document.querySelector('li[role="option"]'))
+
+    expect(attributeOnChange).toHaveBeenCalledTimes(1)
+    expect(fieldOnChange).toHaveBeenCalledTimes(1)
+    expect(fieldOnChange).toHaveBeenCalledWith('a', expect.anything())
   })
 })
