@@ -3,6 +3,30 @@
 All notable changes to @dnb/eufemia will be documented in this file. See
 [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [11.15.1](https://github.com/dnbexperience/eufemia/compare/v11.15.0...v11.15.1) (2026-09-29)
+
+### :bug: Bug Fixes
+
+* **Checkbox, Switch, ToggleButton, Dropdown:** call onKeyDown and onKeyUp given as properties ([#9523](https://github.com/dnbexperience/eufemia/issues/9523)) ([9344f62](https://github.com/dnbexperience/eufemia/commit/9344f621c5e831fca0293c23d90946ac8b43ee53))
+* **DatePicker:** call onKeyDown when typing in the date input ([#9511](https://github.com/dnbexperience/eufemia/issues/9511)) ([68f1b55](https://github.com/dnbexperience/eufemia/commit/68f1b556883907bebc75060d1a6f729a335c212e))
+* **DatePicker:** set data and aria-label attributes only once ([#9521](https://github.com/dnbexperience/eufemia/issues/9521)) ([227e564](https://github.com/dnbexperience/eufemia/commit/227e5643dec56dbd039567d7f92af3cd0c2b41dc))
+* **deps:** patch undici and ip-address moderate advisories ([#9507](https://github.com/dnbexperience/eufemia/issues/9507)) ([5d669fd](https://github.com/dnbexperience/eufemia/commit/5d669fda0bf959288a2767606f8a31b729903e53))
+* **Field.Slider:** announce errors and required state to screen readers ([#9526](https://github.com/dnbexperience/eufemia/issues/9526)) ([58a3112](https://github.com/dnbexperience/eufemia/commit/58a31122652d4fb89d18e072a68e312717fe4e99)), closes [#9524](https://github.com/dnbexperience/eufemia/issues/9524)
+* **Field.Time, Field.Expiry:** set data attributes from htmlAttributes only once ([#9525](https://github.com/dnbexperience/eufemia/issues/9525)) ([c02b067](https://github.com/dnbexperience/eufemia/commit/c02b06704ac5a9586d3b4edccfb89082c5bc7912))
+* **Radio:** skip the change event when the selected radio is pressed again ([#9534](https://github.com/dnbexperience/eufemia/issues/9534)) ([3f6a7ff](https://github.com/dnbexperience/eufemia/commit/3f6a7ff66a43b38758ca1635b450f12c26bfbee6))
+* **Slider:** forward event handlers and aria attributes to the focusable input ([#9524](https://github.com/dnbexperience/eufemia/issues/9524)) ([30abe2a](https://github.com/dnbexperience/eufemia/commit/30abe2a449ada0506374064554e34ba8d55c76e7))
+* **Textarea:** apply autoResize changes made after mount ([#9508](https://github.com/dnbexperience/eufemia/issues/9508)) ([b0d2020](https://github.com/dnbexperience/eufemia/commit/b0d20203c6c422c8a6811b70c779c80f0725d866)), closes [#9485](https://github.com/dnbexperience/eufemia/issues/9485) [#9487](https://github.com/dnbexperience/eufemia/issues/9487) [#9490](https://github.com/dnbexperience/eufemia/issues/9490) [#9492](https://github.com/dnbexperience/eufemia/issues/9492) [#9492](https://github.com/dnbexperience/eufemia/issues/9492)
+* **Textarea:** grow autoResize with a fractional line-height ([#9502](https://github.com/dnbexperience/eufemia/issues/9502)) ([0069e90](https://github.com/dnbexperience/eufemia/commit/0069e9079c1f3c87953013e78e587b37c69bf13a))
+* **Textarea:** let autoResize shrink when content is removed ([#9485](https://github.com/dnbexperience/eufemia/issues/9485)) ([4ab234d](https://github.com/dnbexperience/eufemia/commit/4ab234db21cfd3cb1e386f391cbc6c16c9891577)), closes [#9468](https://github.com/dnbexperience/eufemia/issues/9468) [#9434](https://github.com/dnbexperience/eufemia/issues/9434)
+* **Textarea:** update the autoResize height when the text size changes ([#9517](https://github.com/dnbexperience/eufemia/issues/9517)) ([afcf7fa](https://github.com/dnbexperience/eufemia/commit/afcf7fada4270996a5cd6585452cae92066609dc)), closes [#9492](https://github.com/dnbexperience/eufemia/issues/9492)
+* **Textarea:** update the autoResize height when the value is set programmatically ([#9490](https://github.com/dnbexperience/eufemia/issues/9490)) ([91d7e49](https://github.com/dnbexperience/eufemia/commit/91d7e49022fb3e63245350bdc0f6f85760ce69fc)), closes [#9434](https://github.com/dnbexperience/eufemia/issues/9434) [#9434](https://github.com/dnbexperience/eufemia/issues/9434)
+* **ToggleButton:** call onChange once per Enter keypress ([#9531](https://github.com/dnbexperience/eufemia/issues/9531)) ([8aae476](https://github.com/dnbexperience/eufemia/commit/8aae47627f1dee6876754e3d229ca2d000e6357c))
+* update fast-uri security resolution ([#9506](https://github.com/dnbexperience/eufemia/issues/9506)) ([b8c124e](https://github.com/dnbexperience/eufemia/commit/b8c124e72b0482c3fb73e08b76d63753a2cbcebd))
+
+### :memo: Documentation
+
+* **Checkbox, Switch, ToggleButton, Dropdown, Slider:** document the onKeyDown and onKeyUp events ([#9529](https://github.com/dnbexperience/eufemia/issues/9529)) ([7e38711](https://github.com/dnbexperience/eufemia/commit/7e3871162a0ecb6a44e58eee350d1d97527b8b25)), closes [#9523](https://github.com/dnbexperience/eufemia/issues/9523) [#9524](https://github.com/dnbexperience/eufemia/issues/9524) [#9511](https://github.com/dnbexperience/eufemia/issues/9511)
+
 ## [11.15.0](https://github.com/dnbexperience/eufemia/compare/v11.14.1...v11.15.0) (2026-09-28)
 
 ### :sparkles: Features
