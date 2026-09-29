@@ -149,4 +149,14 @@ export const SliderEvents: PropertiesTableProps = {
     type: 'function',
     status: 'optional',
   },
+  onKeyDown: {
+    doc: 'Will be called when a key is pressed while a slider thumb has focus. Call `event.preventDefault()` to keep the key from changing the value.',
+    type: '(event: React.KeyboardEvent<HTMLInputElement>) => void',
+    status: 'optional',
+  },
+  onKeyUp: {
+    doc: 'Will be called when a key is released while a slider thumb has focus.',
+    type: '(event: React.KeyboardEvent<HTMLInputElement>) => void',
+    status: 'optional',
+  },
 }
