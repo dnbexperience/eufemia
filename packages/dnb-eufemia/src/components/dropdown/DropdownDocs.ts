@@ -31,6 +31,16 @@ export const DropdownEvents: PropertiesTableProps = {
     type: 'function',
     status: 'optional',
   },
+  onKeyDown: {
+    doc: 'Will be called when a key is pressed while the trigger button has focus. Call `event.preventDefault()` to skip the built-in key handling, such as opening the list.',
+    type: '(event: React.KeyboardEvent<HTMLButtonElement>) => void',
+    status: 'optional',
+  },
+  onKeyUp: {
+    doc: 'Will be called when a key is released while the trigger button has focus.',
+    type: '(event: React.KeyboardEvent<HTMLButtonElement>) => void',
+    status: 'optional',
+  },
 }
 
 export const DropdownProperties: PropertiesTableProps = {
