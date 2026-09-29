@@ -23,6 +23,7 @@ import {
   SidebarMenuContext,
   useSidebarMenuContext,
 } from './SidebarMenuContext'
+import { useOptionalSidebarMenuResponsive } from './SidebarMenuResponsiveContext'
 import SidebarMenuBadge from './SidebarMenuBadge'
 import SidebarMenuItemContent from './SidebarMenuItemContent'
 import type { SidebarMenuAccordionProps } from './types'
@@ -66,8 +67,11 @@ export default function SidebarMenuAccordion(
   } = props
   const translation = useTranslation().SidebarMenu
   const context = useSidebarMenuContext()
+  const responsive = useOptionalSidebarMenuResponsive()
   const [internalOpen, setInternalOpen] = useState(defaultOpen)
   const [delayOpen, setDelayOpen] = useState(false)
+  const accordionRef = useRef<HTMLLIElement>(null)
+  const scrollAfterOpeningRef = useRef(false)
   const pendingOpenTimer = useRef<ReturnType<typeof setTimeout>>(undefined)
   const contextControlsOpen = context.openItems.includes(id)
   const isControlled = typeof open === 'boolean'
@@ -101,9 +105,10 @@ export default function SidebarMenuAccordion(
   }, [])
 
   const setOpen = useCallback(
-    (next: boolean) => {
+    (next: boolean, scrollAfterOpening = false) => {
       clearPendingOpen()
       setDelayOpen(false)
+      scrollAfterOpeningRef.current = next && scrollAfterOpening
       if (!isControlled && !context.openItemsControlled) {
         setInternalOpen(next)
       }
@@ -112,11 +117,58 @@ export default function SidebarMenuAccordion(
     },
     [clearPendingOpen, context, id, isControlled, onOpenChange]
   )
+  const scrollOpenedAccordionIntoView = useCallback(() => {
+    if (!scrollAfterOpeningRef.current) {
+      return
+    }
+
+    scrollAfterOpeningRef.current = false
+    scrollExpandedContentIntoView(
+      accordionRef.current,
+      responsive?.isSmallScreen ? responsive.drawerScrollElement : null
+    )
+  }, [responsive?.drawerScrollElement, responsive?.isSmallScreen])
 
   useEffect(() => clearPendingOpen, [clearPendingOpen])
   useLayoutEffect(() => {
+    if (!isOpen) {
+      scrollAfterOpeningRef.current = false
+    }
     previousIsOpenRef.current = isOpen
   }, [isOpen])
+  useEffect(() => {
+    if (!isOpen || !scrollAfterOpeningRef.current) {
+      return undefined
+    }
+
+    let observer: MutationObserver | undefined
+    const frame = requestAnimationFrame(() => {
+      const content = accordionRef.current?.querySelector<HTMLElement>(
+        ':scope > .dnb-sidebar-menu__accordion__content'
+      )
+      if (content?.classList.contains('dnb-height-animation--animating')) {
+        observer = new MutationObserver(() => {
+          if (
+            !content.classList.contains('dnb-height-animation--animating')
+          ) {
+            observer?.disconnect()
+            scrollOpenedAccordionIntoView()
+          }
+        })
+        observer.observe(content, {
+          attributes: true,
+          attributeFilter: ['class'],
+        })
+        return
+      }
+      scrollOpenedAccordionIntoView()
+    })
+
+    return () => {
+      cancelAnimationFrame(frame)
+      observer?.disconnect()
+    }
+  }, [isOpen, scrollOpenedAccordionIntoView])
 
   const handleLinkClick = useCallback(
     (event: MouseEvent<HTMLElement>) => {
@@ -137,7 +189,7 @@ export default function SidebarMenuAccordion(
 
       if (isSelected && collapsible) {
         event.preventDefault()
-        setOpen(!requestedOpen)
+        setOpen(!requestedOpen, !requestedOpen)
         return
       }
 
@@ -154,7 +206,7 @@ export default function SidebarMenuAccordion(
       }
 
       if (!isSelected && !requestedOpen) {
-        setOpen(true)
+        setOpen(true, true)
         setDelayOpen(true)
         pendingOpenTimer.current = setTimeout(
           () => setDelayOpen(false),
@@ -163,7 +215,7 @@ export default function SidebarMenuAccordion(
         return
       }
 
-      setOpen(true)
+      setOpen(true, !requestedOpen)
     },
     [
       collapsible,
@@ -244,6 +296,7 @@ export default function SidebarMenuAccordion(
   return (
     <li
       {...rest}
+      ref={accordionRef}
       data-sidebar-menu-id={id}
       data-sidebar-menu-open-controlled={
         isControlled || !collapsible || undefined
@@ -298,7 +351,7 @@ export default function SidebarMenuAccordion(
           aria-labelledby={ariaLabelledBy}
           aria-controls={controlsContent ? `${id}-content` : undefined}
           disabled={disabled}
-          onClick={() => setOpen(!requestedOpen)}
+          onClick={() => setOpen(!requestedOpen, !requestedOpen)}
           title={title}
           style={itemStyle}
         >
@@ -323,6 +376,7 @@ export default function SidebarMenuAccordion(
         onAnimationEnd={(state) => {
           if (state === 'opened') {
             setDescendantsReady(true)
+            scrollOpenedAccordionIntoView()
           }
         }}
       >
@@ -343,6 +397,66 @@ export default function SidebarMenuAccordion(
       </HeightAnimation>
     </li>
   )
+}
+
+function scrollExpandedContentIntoView(
+  accordion: HTMLElement | null,
+  drawerScrollElement: HTMLElement | null
+) {
+  const scrollView =
+    drawerScrollElement ??
+    accordion?.closest<HTMLElement>('.dnb-scroll-view')
+  const trigger = accordion?.querySelector<HTMLElement>(
+    ':scope > .dnb-sidebar-menu__accordion__trigger'
+  )
+  const content = accordion?.querySelector<HTMLElement>(
+    ':scope > .dnb-sidebar-menu__accordion__content'
+  )
+
+  if (!trigger || !content) {
+    return
+  }
+
+  const viewport = scrollView?.getBoundingClientRect() ?? {
+    top: 0,
+    bottom: window.innerHeight,
+  }
+  const contentRect = content.getBoundingClientRect()
+  const hiddenBelow = contentRect.bottom - viewport.bottom
+
+  if (hiddenBelow <= 0) {
+    return
+  }
+
+  const triggerRect = trigger.getBoundingClientRect()
+  const isCompact = Boolean(
+    accordion.closest('[data-sidebar-menu-responsive-compact="true"]')
+  )
+  const rem =
+    Number.parseFloat(
+      getComputedStyle(document.documentElement).fontSize
+    ) || 16
+  const topInset = isCompact ? 4 * rem : rem
+  const bottomInset = rem
+  const availableAbove = Math.max(
+    triggerRect.top - viewport.top - topInset,
+    0
+  )
+  const scrollBy = Math.min(hiddenBelow + bottomInset, availableAbove)
+
+  if (scrollBy < bottomInset) {
+    return
+  }
+
+  const scrollElement = scrollView ?? window
+  scrollElement.scrollTo({
+    top: (scrollView?.scrollTop ?? window.scrollY) + scrollBy,
+    behavior: prefersReducedMotion() ? 'auto' : 'smooth',
+  })
+}
+
+function prefersReducedMotion() {
+  return window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
 }
 
 withComponentMarkers(SidebarMenuAccordion, {
