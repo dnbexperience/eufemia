@@ -5835,6 +5835,22 @@ describe('DatePicker onKeyDown', () => {
 
     expect(onKeyDown).toHaveBeenCalledTimes(0)
   })
+
+  it('should call onKeyUp while typing in the date input', async () => {
+    const onKeyUp = vi.fn()
+
+    render(<DatePicker showInput range onKeyUp={onKeyUp} />)
+
+    const inputs = getDatePickerInputs()
+
+    await userEvent.click(inputs[0])
+    await userEvent.keyboard('1')
+    await userEvent.click(inputs[5])
+    await userEvent.keyboard('1')
+
+    expect(onKeyUp).toHaveBeenCalledTimes(2)
+    expect(onKeyUp.mock.calls[0][0]).toMatchObject({ key: '1' })
+  })
 })
 
 describe('DatePicker ARIA', () => {

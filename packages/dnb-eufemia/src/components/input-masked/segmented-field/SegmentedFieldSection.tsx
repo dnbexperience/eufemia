@@ -56,6 +56,7 @@ export default function SegmentedFieldSection({
     onCopy: onCopyExternal,
     onPaste: onPasteExternal,
     onKeyDown: onKeyDownExternal,
+    onKeyUp: onKeyUpExternal,
     ...htmlProps
   } = itemProps as SegmentedFieldItem<string>
 
@@ -727,6 +728,15 @@ export default function SegmentedFieldSection({
             replaceWithChar(key)
             return
           }
+        }}
+        onKeyUp={(event) => {
+          if (disabled) {
+            return
+          }
+
+          onKeyUpExternal?.(
+            event as unknown as KeyboardEvent<HTMLInputElement>
+          )
         }}
         onCopy={(event) => {
           onCopyExternal?.(

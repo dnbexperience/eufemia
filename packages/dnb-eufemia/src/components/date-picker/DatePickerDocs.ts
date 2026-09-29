@@ -356,4 +356,9 @@ export const DatePickerEvents: PropertiesTableProps = {
     type: '(event: React.KeyboardEvent<HTMLElement>) => void',
     status: 'optional',
   },
+  onKeyUp: {
+    doc: 'Will be called when a key is released while the date input has focus.',
+    type: '(event: React.KeyboardEvent<HTMLElement>) => void',
+    status: 'optional',
+  },
 }

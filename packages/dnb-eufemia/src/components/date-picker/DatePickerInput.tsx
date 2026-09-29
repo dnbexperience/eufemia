@@ -138,6 +138,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
     onChange,
     onSubmit,
     onKeyDown,
+    onKeyUp,
     selectedDateTitle,
     showInput,
     inputElement,
@@ -399,6 +400,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
           className: cls,
           inputMode: 'numeric' as const,
           onKeyDown,
+          onKeyUp,
           onPaste: pasteHandler,
           onCopy: (e: ClipboardEvent<HTMLInputElement>) =>
             copyHandler(e, mode),
@@ -410,6 +412,7 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
       isRange,
       orderedParts,
       onKeyDown,
+      onKeyUp,
       pasteHandler,
       copyHandler,
       translation,
