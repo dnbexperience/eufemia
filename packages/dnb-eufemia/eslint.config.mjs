@@ -53,6 +53,31 @@ const vitestGlobals = {
   vi: 'readonly',
 }
 
+const restrictedSyntax = [
+  'IfStatement > ExpressionStatement > AssignmentExpression',
+  {
+    selector:
+      'ChainExpression MemberExpression[optional=true][object.name="process"]',
+    message:
+      'Do not use optional chaining on process (process?.env). Use process.env instead – optional chaining breaks Vite define replacements.',
+  },
+]
+
+const selectorMethods =
+  '/^(querySelector|querySelectorAll|closest|matches)$/'
+const idSelectorMessage =
+  'Do not build a selector as "#" + id. HTML allows ids that are not valid CSS identifiers, such as "1-a", and the selector then throws. Use getElementById, or idSelector() from shared/helpers when a selector string is required.'
+const restrictedIdSelectors = [
+  {
+    selector: `CallExpression[callee.property.name=${selectorMethods}] > TemplateLiteral[expressions.length>0] > TemplateElement:first-child[value.raw=/^#/]`,
+    message: idSelectorMessage,
+  },
+  {
+    selector: `CallExpression[callee.property.name=${selectorMethods}] BinaryExpression[operator="+"][left.value=/^#/]`,
+    message: idSelectorMessage,
+  },
+]
+
 export default [
   {
     ignores: ignorePatterns,
@@ -166,13 +191,8 @@ export default [
       'multiline-comment-style': ['error', 'separate-lines'],
       'no-restricted-syntax': [
         'error',
-        'IfStatement > ExpressionStatement > AssignmentExpression',
-        {
-          selector:
-            'ChainExpression MemberExpression[optional=true][object.name="process"]',
-          message:
-            'Do not use optional chaining on process (process?.env). Use process.env instead – optional chaining breaks Vite define replacements.',
-        },
+        ...restrictedSyntax,
+        ...restrictedIdSelectors,
       ],
       'import/export': 'off',
       'import/no-duplicates': 'error',
@@ -374,6 +394,8 @@ export default [
       'no-console': 'off',
       'compat/compat': 'off',
       '@typescript-eslint/no-require-imports': 'off',
+      // Tests own the ids they render, so a `#${id}` selector is safe there
+      'no-restricted-syntax': ['error', ...restrictedSyntax],
       'no-restricted-imports': [
         'error',
         {
