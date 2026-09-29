@@ -1206,32 +1206,39 @@ describe('package.json dependencies', () => {
       (file) => /\.[cm]?js$/.test(file) && !file.includes('node_modules')
     )
 
-    const undeclared = await Promise.all(
-      files.map(async (file) => {
-        const relativePath = file
-          .split(path.sep)
-          .join('/')
-          .replace(/^(cjs|es)\//, '')
-        const allowedHere = Object.entries(optionalImports)
-          .filter(([dir]) => relativePath.startsWith(dir))
-          .flatMap(([, packages]) => packages)
-        const code = await fs.promises.readFile(
-          path.join(buildDir, file),
-          'utf-8'
+    const findUndeclared = async (file: string) => {
+      const relativePath = file
+        .split(path.sep)
+        .join('/')
+        .replace(/^(cjs|es)\//, '')
+      const allowedHere = Object.entries(optionalImports)
+        .filter(([dir]) => relativePath.startsWith(dir))
+        .flatMap(([, packages]) => packages)
+      const code = await fs.promises.readFile(
+        path.join(buildDir, file),
+        'utf-8'
+      )
+
+      return [...code.matchAll(importPattern)]
+        .map(([, specifier]) => specifier)
+        .filter(
+          (specifier) =>
+            !allowedEverywhere.has(specifier) &&
+            !allowedHere.includes(specifier)
         )
+        .map((specifier) => `${specifier} (${file})`)
+    }
 
-        return [...code.matchAll(importPattern)]
-          .map(([, specifier]) => specifier)
-          .filter(
-            (specifier) =>
-              !allowedEverywhere.has(specifier) &&
-              !allowedHere.includes(specifier)
-          )
-          .map((specifier) => `${specifier} (${file})`)
-      })
-    )
+    // Batched so the open files stay below low file-descriptor limits.
+    const undeclared = new Set<string>()
+    for (let i = 0; i < files.length; i += 64) {
+      const batch = await Promise.all(
+        files.slice(i, i + 64).map(findUndeclared)
+      )
+      batch.flat().forEach((entry) => undeclared.add(entry))
+    }
 
-    expect([...new Set(undeclared.flat())]).toEqual([])
+    expect([...undeclared]).toEqual([])
   }, 120_000)
 
   it('includes postcss-selector-parser as a runtime dependency', () => {
