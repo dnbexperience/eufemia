@@ -29,18 +29,25 @@ const SNAPSHOT_LIMIT = 1000
 const METRIC_NAMESPACE = 'Eufemia/Analytics'
 
 /**
- * Emit the snapshot record count as a CloudWatch metric using the Embedded
- * Metric Format (a structured log line). EMF needs only the Lambda's existing
- * log permissions, so the pre-provisioned execution role stays as-is (it cannot
- * be granted cloudwatch:PutMetricData in Terraform, ADR 0004). A sustained count
- * of 0 catches a run that succeeds but writes an empty snapshot — a state the
- * generator's Errors/Invocations alarms cannot see.
+ * Emit a CloudWatch metric using the Embedded Metric Format (a structured log
+ * line). EMF needs only the Lambda's existing log permissions, so the
+ * pre-provisioned execution role stays as-is (it cannot be granted
+ * cloudwatch:PutMetricData in Terraform, ADR 0004).
  *
- * The namespace, metric name, and FunctionName dimension below must stay in sync
- * with the `snapshot_empty` alarm in infra/main.tf; a mismatch silently leaves
- * the alarm at INSUFFICIENT_DATA.
+ * The namespace, metric name, and FunctionName dimension must stay in sync with
+ * the matching alarm in infra/main.tf; a mismatch silently leaves the alarm at
+ * INSUFFICIENT_DATA. Metrics and their alarms:
+ * - SnapshotRecordCount (`snapshot_empty`): a sustained 0 catches a run that
+ *   succeeds but writes an empty snapshot, which the Errors/Invocations alarms
+ *   cannot see.
+ * - McpUsageBuildFailure (`snapshot_mcp_build_failed`): a caught buildMcpUsage
+ *   error does not increment Lambda Errors.
+ * - ComponentUsageBuildFailure (`snapshot_component_usage_build_failed`): emitted
+ *   when the durable rollup cannot be refreshed or the section cannot be built.
+ * - PortalViewsRollupFailure (`snapshot_portal_views_rollup_failed`): the
+ *   best-effort rollup refresh is swallowed, so its failure is otherwise silent.
  */
-function emitRecordCountMetric(count: number): void {
+function emitMetric(name: string, value: number): void {
   const functionName = process.env.AWS_LAMBDA_FUNCTION_NAME ?? 'unknown'
 
   // eslint-disable-next-line no-console -- EMF metric emission to CloudWatch Logs
@@ -52,101 +59,12 @@ function emitRecordCountMetric(count: number): void {
           {
             Namespace: METRIC_NAMESPACE,
             Dimensions: [['FunctionName']],
-            Metrics: [{ Name: 'SnapshotRecordCount', Unit: 'Count' }],
+            Metrics: [{ Name: name, Unit: 'Count' }],
           },
         ],
       },
       FunctionName: functionName,
-      SnapshotRecordCount: count,
-    })
-  )
-}
-
-/**
- * Emit an MCP-build failure as an EMF metric. A caught buildMcpUsage error does
- * not increment Lambda Errors and SnapshotRecordCount tracks portal views only,
- * so without this a broken MCP section would be invisible to monitoring. Kept in
- * sync with the `snapshot_mcp_build_failed` alarm in infra/main.tf.
- */
-function emitMcpBuildFailureMetric(): void {
-  const functionName = process.env.AWS_LAMBDA_FUNCTION_NAME ?? 'unknown'
-
-  // eslint-disable-next-line no-console -- EMF metric emission to CloudWatch Logs
-  console.log(
-    JSON.stringify({
-      _aws: {
-        Timestamp: Date.now(),
-        CloudWatchMetrics: [
-          {
-            Namespace: METRIC_NAMESPACE,
-            Dimensions: [['FunctionName']],
-            Metrics: [{ Name: 'McpUsageBuildFailure', Unit: 'Count' }],
-          },
-        ],
-      },
-      FunctionName: functionName,
-      McpUsageBuildFailure: 1,
-    })
-  )
-}
-
-/**
- * Emit a component-usage build failure as an EMF metric. Emitted both when the
- * durable rollup cannot be refreshed (history still served) and when the section
- * cannot be built at all (empty fallback); neither increments Lambda Errors, so
- * without this the degradation would be invisible. Kept in sync with the
- * `snapshot_component_usage_build_failed` alarm in infra/main.tf.
- */
-function emitComponentUsageBuildFailureMetric(): void {
-  const functionName = process.env.AWS_LAMBDA_FUNCTION_NAME ?? 'unknown'
-
-  // eslint-disable-next-line no-console -- EMF metric emission to CloudWatch Logs
-  console.log(
-    JSON.stringify({
-      _aws: {
-        Timestamp: Date.now(),
-        CloudWatchMetrics: [
-          {
-            Namespace: METRIC_NAMESPACE,
-            Dimensions: [['FunctionName']],
-            Metrics: [
-              { Name: 'ComponentUsageBuildFailure', Unit: 'Count' },
-            ],
-          },
-        ],
-      },
-      FunctionName: functionName,
-      ComponentUsageBuildFailure: 1,
-    })
-  )
-}
-
-/**
- * Emit a portal-view rollup-refresh failure as an EMF metric. The refresh is a
- * best-effort retention side-job (it does not feed the dashboard yet), so a
- * failure is swallowed rather than failing the run; without this metric that
- * degradation — the durable history quietly stops accruing — would be invisible.
- * Kept in sync with the `snapshot_portal_views_rollup_failed` alarm in
- * infra/main.tf.
- */
-function emitPortalViewsRollupFailureMetric(): void {
-  const functionName = process.env.AWS_LAMBDA_FUNCTION_NAME ?? 'unknown'
-
-  // eslint-disable-next-line no-console -- EMF metric emission to CloudWatch Logs
-  console.log(
-    JSON.stringify({
-      _aws: {
-        Timestamp: Date.now(),
-        CloudWatchMetrics: [
-          {
-            Namespace: METRIC_NAMESPACE,
-            Dimensions: [['FunctionName']],
-            Metrics: [{ Name: 'PortalViewsRollupFailure', Unit: 'Count' }],
-          },
-        ],
-      },
-      FunctionName: functionName,
-      PortalViewsRollupFailure: 1,
+      [name]: value,
     })
   )
 }
@@ -327,7 +245,7 @@ export async function buildComponentUsage(
       'Failed to refresh the component usage daily rollup; serving existing history',
       error
     )
-    emitComponentUsageBuildFailureMetric()
+    emitMetric('ComponentUsageBuildFailure', 1)
   }
 
   const daily = await retrieveComponentUsageDaily()
@@ -380,7 +298,7 @@ export async function handler(event?: { sinceDt?: string }): Promise<{
         'Failed to refresh the portal-view daily rollup',
         error
       )
-      emitPortalViewsRollupFailureMetric()
+      emitMetric('PortalViewsRollupFailure', 1)
     }),
   ])
 
@@ -393,7 +311,7 @@ export async function handler(event?: { sinceDt?: string }): Promise<{
   } catch (error) {
     // eslint-disable-next-line no-console -- surface the failure in CloudWatch Logs
     console.error('Failed to build MCP usage section', error)
-    emitMcpBuildFailureMetric()
+    emitMetric('McpUsageBuildFailure', 1)
     mcpUsage = EMPTY_MCP_USAGE
   }
 
@@ -410,7 +328,7 @@ export async function handler(event?: { sinceDt?: string }): Promise<{
   //     componentUsage = await buildComponentUsage(bucket)
   //   } catch (error) {
   //     console.error('Failed to build component usage section', error)
-  //     emitComponentUsageBuildFailureMetric()
+  //     emitMetric('ComponentUsageBuildFailure', 1)
   //     componentUsage = EMPTY_COMPONENT_USAGE
   //   }
   // Also build it CONCURRENTLY with the other sections (Promise.all) — wiring it
@@ -430,7 +348,7 @@ export async function handler(event?: { sinceDt?: string }): Promise<{
 
   await writeSnapshot(bucket, snapshot)
 
-  emitRecordCountMetric(snapshot.portalViews.length)
+  emitMetric('SnapshotRecordCount', snapshot.portalViews.length)
 
   return {
     generatedAt: snapshot.generatedAt,
