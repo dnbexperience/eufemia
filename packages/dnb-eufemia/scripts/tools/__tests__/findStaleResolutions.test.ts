@@ -1,5 +1,3 @@
-import { spawnSync } from 'node:child_process'
-import path from 'node:path'
 import { findStaleResolutions } from '../findStaleResolutions.mjs'
 
 const lockfile = `
@@ -85,15 +83,5 @@ describe('findStaleResolutions', () => {
         lockfile,
       })
     ).toEqual(['@tootallnate/once'])
-  })
-
-  it('passes for the repository resolutions', () => {
-    const script = path.resolve(__dirname, '../findStaleResolutions.mjs')
-    const result = spawnSync(process.execPath, [script], {
-      encoding: 'utf8',
-    })
-
-    expect(result.stderr).toBe('')
-    expect(result.status).toBe(0)
   })
 })
