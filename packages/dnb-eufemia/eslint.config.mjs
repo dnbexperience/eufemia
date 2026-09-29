@@ -66,7 +66,7 @@ const restrictedSyntax = [
 const selectorMethods =
   '/^(querySelector|querySelectorAll|closest|matches)$/'
 const idSelectorMessage =
-  'Do not build a selector as "#" + id. HTML allows ids that are not valid CSS identifiers, such as "1-a", and the selector then throws. Use getElementById, or idSelector() from shared/helpers when a selector string is required.'
+  'Do not build a selector as "#" + id. HTML allows ids that are not valid CSS identifiers, such as "1-a", and the selector then throws. Use getElementById, or idSelector() from shared/helpers/idSelector when a selector string is required.'
 const restrictedIdSelectors = [
   {
     selector: `CallExpression[callee.property.name=${selectorMethods}] > TemplateLiteral[expressions.length>0] > TemplateElement:first-child[value.raw=/^#/]`,
