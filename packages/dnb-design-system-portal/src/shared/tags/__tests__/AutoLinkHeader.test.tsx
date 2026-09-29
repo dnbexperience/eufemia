@@ -79,7 +79,7 @@ describe('AutoLinkHeader', () => {
   it('derives the id from a heading carrying inline markup', () => {
     render(
       <MemoryRouter>
-        <AutoLinkHeader level={2}>
+        <AutoLinkHeader level={1}>
           Default <code>font-size</code> <strong>rem</strong> table
         </AutoLinkHeader>
       </MemoryRouter>
@@ -103,7 +103,7 @@ describe('AutoLinkHeader', () => {
   it('honours a custom id without rendering the marker', () => {
     render(
       <MemoryRouter>
-        <AutoLinkHeader level={2}>
+        <AutoLinkHeader level={1}>
           <strong>200%</strong> in <code>font-size</code> {'{#font-size}'}
         </AutoLinkHeader>
       </MemoryRouter>
@@ -119,7 +119,7 @@ describe('AutoLinkHeader', () => {
   it('slugifies a custom id, so an author cannot declare an unusable one', () => {
     render(
       <MemoryRouter>
-        <AutoLinkHeader level={2}>
+        <AutoLinkHeader level={1}>
           {'A Heading {#My Custom ID}'}
         </AutoLinkHeader>
       </MemoryRouter>
