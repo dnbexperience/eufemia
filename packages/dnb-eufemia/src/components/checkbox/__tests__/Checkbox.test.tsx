@@ -540,6 +540,15 @@ describe('Checkbox component', () => {
 
     expect(onChange).toHaveBeenCalledTimes(0)
   })
+
+  it('should call onKeyUp given as a property', () => {
+    const onKeyUp = vi.fn()
+    render(<Checkbox onKeyUp={onKeyUp} />)
+
+    fireEvent.keyUp(document.querySelector('input'), { key: 'Enter' })
+
+    expect(onKeyUp).toHaveBeenCalledTimes(1)
+  })
 })
 
 describe('Checkbox scss', () => {

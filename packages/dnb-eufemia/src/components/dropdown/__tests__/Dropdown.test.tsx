@@ -2267,6 +2267,20 @@ describe('Dropdown key handling', () => {
       document.querySelector('button.dnb-dropdown__trigger')
     ).toHaveAttribute('aria-expanded', 'false')
   })
+
+  it('should call onKeyUp given as a property', () => {
+    const onKeyUp = vi.fn()
+    render(<Dropdown data={['a', 'b']} onKeyUp={onKeyUp} noAnimation />)
+
+    fireEvent.keyUp(
+      document.querySelector('button.dnb-dropdown__trigger'),
+      {
+        key: 'ArrowDown',
+      }
+    )
+
+    expect(onKeyUp).toHaveBeenCalledTimes(1)
+  })
 })
 
 describe('Dropdown scss', () => {
