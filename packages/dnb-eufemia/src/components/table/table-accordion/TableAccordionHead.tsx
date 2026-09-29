@@ -32,6 +32,7 @@ import type {
   TableAccordionContentRowProps,
 } from './TableAccordionContent'
 import type { TableTrProps } from '../TableTr'
+import decodeHashId from '../../../shared/helpers/decodeHashId'
 
 const accordionChevron = Icon.transition({
   collapsed: chevron_down,
@@ -71,7 +72,8 @@ export function TableAccordionHead(allProps: TableAccordionHeadProps) {
       return expanded
     } else if (typeof location !== 'undefined') {
       const id = props?.id
-      if (id && '#' + id === location.hash) {
+      const hashId = location.hash.slice(1)
+      if (id && (id === hashId || id === decodeHashId(hashId))) {
         return true
       }
     }

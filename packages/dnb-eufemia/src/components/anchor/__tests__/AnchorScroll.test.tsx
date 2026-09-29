@@ -30,4 +30,14 @@ describe('Anchor with scrollToHash', () => {
       scrollToHash(undefined)
     }).not.toThrow()
   })
+
+  it('should find an element whose id contains non-ASCII characters', () => {
+    vi.spyOn(window, 'scroll').mockImplementationOnce(vi.fn())
+
+    render(<span id="søknad" />)
+
+    expect(scrollToHash('/path#s%C3%B8knad')?.element).toBe(
+      document.getElementById('søknad')
+    )
+  })
 })
