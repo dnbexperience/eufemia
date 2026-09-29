@@ -3,7 +3,14 @@
  */
 
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
-import { memo, useCallback, useContext, useRef, useState } from 'react'
+import {
+  memo,
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react'
 import type {
   CSSProperties,
   ChangeEvent,
@@ -12,7 +19,6 @@ import type {
   ReactNode,
   TextareaHTMLAttributes,
 } from 'react'
-import useMountEffect from '../../shared/helpers/useMountEffect'
 import useCombinedRef from '../../shared/helpers/useCombinedRef'
 import { clsx } from 'clsx'
 import FormLabel from '../form-label/FormLabel'
@@ -125,6 +131,7 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
 
   const heightOffsetRef = useRef<number | undefined>(undefined)
   const heightRef = useRef<number | undefined>(undefined)
+  const contentHeightRef = useRef<number | undefined>(undefined)
   const resizeObserverRef = useRef<ResizeObserver | null>(null)
 
   const propValue = getValue(ownProps)
@@ -218,6 +225,7 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
           }
         }
 
+        contentHeightRef.current = newHeight
         if (!hideResizeHandle && heightRef.current > newHeight) {
           newHeight = heightRef.current
         }
@@ -296,15 +304,29 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
     [getRows, props.onKeyDown]
   )
 
-  // Keep a ref to the latest setAutosize so the mount-time ResizeObserver
-  // and window listener always call the current version (avoids stale closure
+  // Keep a ref to the latest setAutosize so the ResizeObserver and window
+  // listener always call the current version (avoids stale closure
   // if autoResizeMaxRows changes after mount).
   const setAutosizeRef = useRef(setAutosize)
   setAutosizeRef.current = setAutosize
 
-  // Setup autoResize on mount
-  useMountEffect(() => {
+  // Measure again when the configuration behind the height changes
+  useEffect(() => {
     const handleResize = () => setAutosizeRef.current()
+    const elem = textareaRef.current
+
+    // Leave a height chosen with the resize handle; browsers round the stored height
+    if (
+      !autoResize &&
+      elem &&
+      contentHeightRef.current !== undefined &&
+      Math.abs(parseFloat(elem.style.height) - contentHeightRef.current) <
+        0.01
+    ) {
+      elem.style.height = ''
+      heightRef.current = undefined
+      contentHeightRef.current = undefined
+    }
 
     if (autoResize && typeof window !== 'undefined') {
       setAutosizeRef.current()
@@ -333,7 +355,7 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
         window.removeEventListener('resize', handleResize)
       }
     }
-  })
+  }, [autoResize, autoResizeMaxRows, props.rows])
 
   const showStatus = getStatusState(status)
   const currentHasValue = hasValue(value)

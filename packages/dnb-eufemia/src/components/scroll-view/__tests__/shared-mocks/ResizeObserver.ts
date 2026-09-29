@@ -1,11 +1,13 @@
 type ObserverOptions = {
   init?: (callback: ResizeObserverCallback) => void
   observe?: (elem: HTMLElement) => void
+  disconnect?: () => void
 }
 
 export const setResizeObserver = ({
   observe,
   init,
+  disconnect,
 }: ObserverOptions = {}) => {
   class ResizeObserver {
     constructor(callback: ResizeObserverCallback) {
@@ -18,7 +20,7 @@ export const setResizeObserver = ({
       // do nothing
     }
     disconnect() {
-      // do nothing
+      return disconnect?.()
     }
   }
 
