@@ -166,6 +166,49 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
     )
   }, [getLineHeight])
 
+  const maxHeightRef = useRef<{ key: string; height: number } | null>(null)
+
+  // Browsers may render lines shorter than a fractional line-height
+  const getMaxHeight = useCallback(
+    (maxRows: number, lineHeight: number) => {
+      const fallback = maxRows * lineHeight
+      if (!Number.isInteger(maxRows)) {
+        return fallback
+      }
+
+      const key = `${maxRows}|${lineHeight}`
+      if (maxHeightRef.current?.key !== key) {
+        const elem = textareaRef.current
+        const probe = elem.cloneNode() as HTMLTextAreaElement
+        probe.removeAttribute('id')
+        probe.removeAttribute('name')
+        Object.assign(probe.style, {
+          position: 'absolute',
+          visibility: 'hidden',
+          height: '0',
+          minHeight: '0',
+          overflow: 'hidden',
+        })
+        probe.value = '\n'.repeat(maxRows - 1)
+        elem.parentNode.appendChild(probe)
+        const height = probe.scrollHeight
+        probe.remove()
+
+        if (!height) {
+          return fallback
+        }
+        // scrollHeight is rounded, so only trust clearly shorter lines
+        maxHeightRef.current = {
+          key,
+          height: fallback - height >= 0.5 ? height : fallback,
+        }
+      }
+
+      return maxHeightRef.current.height
+    },
+    []
+  )
+
   const prepareAutosize = useCallback(() => {
     const elem = textareaRef.current
     if (!elem) {
@@ -210,7 +253,7 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
 
         const maxRows = parseFloat(String(autoResizeMaxRows))
         if (maxRows > 0) {
-          const maxHeight = maxRows * lineHeight
+          const maxHeight = getMaxHeight(maxRows, lineHeight)
 
           if (rows > maxRows || newHeight > maxHeight) {
             newHeight = maxHeight
@@ -231,6 +274,7 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
     [
       autoResizeMaxRows,
       getLineHeight,
+      getMaxHeight,
       getRows,
       hideResizeHandle,
       prepareAutosize,

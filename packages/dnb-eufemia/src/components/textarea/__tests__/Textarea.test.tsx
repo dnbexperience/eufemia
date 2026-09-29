@@ -279,6 +279,26 @@ describe('Textarea component', () => {
     expect(elem.style.height).toBe('96px')
   })
 
+  it('limits the height to whole rendered rows with a fractional line-height', async () => {
+    render(<Textarea rows={1} autoResize autoResizeMaxRows={3} />)
+
+    const elem = document.querySelector('textarea')
+
+    // Safari on iOS: a 25.5px line-height, but lines rendered 25px tall
+    const style = { lineHeight: '25.5px' } as CSSStyleDeclaration
+    vi.spyOn(window, 'getComputedStyle').mockImplementation(() => style)
+    vi.spyOn(
+      HTMLTextAreaElement.prototype,
+      'scrollHeight',
+      'get'
+    ).mockImplementation(function (this: HTMLTextAreaElement) {
+      return this === elem ? 25 * 4 : this.value.split('\n').length * 25
+    })
+
+    await userEvent.type(elem, 'a')
+    expect(elem.style.height).toBe('75px')
+  })
+
   it('preserves a user-defined height while auto resizing', async () => {
     render(<Textarea rows={1} autoResize autoResizeMaxRows={4} />)
 
