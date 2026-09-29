@@ -88,12 +88,12 @@ export const ToggleButtonEvents: PropertiesTableProps = {
     status: 'optional',
   },
   onKeyDown: {
-    doc: 'Will be called when a key is pressed while the toggle button has focus. Call `event.preventDefault()` to keep the toggle button from toggling on Enter.',
+    doc: 'Will be called when a key is pressed while the toggle button has focus. Enter is handled in both `onKeyDown` and `onKeyUp`, so call `event.preventDefault()` in both to keep the toggle button from toggling.',
     type: '(event: React.KeyboardEvent<HTMLButtonElement>) => void',
     status: 'optional',
   },
   onKeyUp: {
-    doc: 'Will be called when a key is released while the toggle button has focus. Call `event.preventDefault()` to keep the toggle button from toggling on Enter.',
+    doc: 'Will be called when a key is released while the toggle button has focus. Enter is handled in both `onKeyDown` and `onKeyUp`, so call `event.preventDefault()` in both to keep the toggle button from toggling.',
     type: '(event: React.KeyboardEvent<HTMLButtonElement>) => void',
     status: 'optional',
   },
