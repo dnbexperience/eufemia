@@ -1,8 +1,4 @@
-/**
- * Merges `htmlAttributes` into the props of a field, so that event handlers
- * given in `htmlAttributes` are called in addition to the field's own handlers,
- * instead of replacing them.
- */
+/** Merges `htmlAttributes` into field props, calling both event handlers instead of replacing the field's own. */
 export default function mergeHtmlAttributes<
   T extends Record<string, unknown>,
 >(props: T, htmlAttributes?: Record<string, unknown>): T {

@@ -1,7 +1,7 @@
 import { render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import mergeHtmlAttributes from '../mergeHtmlAttributes'
-import { Field } from '../../Forms'
+import { Field } from '../..'
 
 type Handlers = Record<string, (...args: Array<unknown>) => unknown>
 
