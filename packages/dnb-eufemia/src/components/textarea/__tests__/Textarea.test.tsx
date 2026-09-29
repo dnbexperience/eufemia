@@ -299,6 +299,29 @@ describe('Textarea component', () => {
     scrollHeight.mockRestore()
   })
 
+  it('limits a single row to the rendered line with a fractional line-height', async () => {
+    render(<Textarea rows={1} autoResize autoResizeMaxRows={1} />)
+
+    const elem = document.querySelector('textarea')
+
+    const style = { lineHeight: '25.5px' } as CSSStyleDeclaration
+    vi.spyOn(window, 'getComputedStyle').mockImplementation(() => style)
+    const scrollHeight = vi
+      .spyOn(HTMLTextAreaElement.prototype, 'scrollHeight', 'get')
+      .mockImplementation(function (this: HTMLTextAreaElement) {
+        if (this === elem) {
+          return 25 * 4
+        }
+        // Like Safari, an empty textarea is taller than a line of text
+        return this.value ? this.value.split('\n').length * 25 : 26
+      })
+
+    await userEvent.type(elem, 'a')
+    expect(elem.style.height).toBe('25px')
+
+    scrollHeight.mockRestore()
+  })
+
   it('preserves a user-defined height while auto resizing', async () => {
     render(<Textarea rows={1} autoResize autoResizeMaxRows={4} />)
 

@@ -189,7 +189,8 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
           minHeight: '0',
           overflow: 'hidden',
         })
-        probe.value = '\n'.repeat(maxRows - 1)
+        // An empty textarea can measure taller than a line of text
+        probe.value = Array(maxRows).fill('x').join('\n')
         elem.parentNode.appendChild(probe)
         const height = probe.scrollHeight
         probe.remove()
