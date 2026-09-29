@@ -184,7 +184,8 @@
     background-color: transparent;
   }
 
-  &__line-height-probe {
+  // Follows the typography of the textarea, so a change resizes it
+  &__typography-probe {
     pointer-events: none;
     visibility: hidden;
 
@@ -192,11 +193,8 @@
     top: 0;
     left: 0;
 
-    width: 0;
-    height: 1lh;
-
-    font-size: var(--font-size-basis);
-    line-height: var(--line-height-basis);
+    width: var(--font-size-basis);
+    height: var(--line-height-basis);
   }
 
   &__textarea,

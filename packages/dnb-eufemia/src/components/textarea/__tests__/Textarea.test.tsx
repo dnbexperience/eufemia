@@ -250,7 +250,7 @@ describe('Textarea component', () => {
     )
   })
 
-  it('resizes when the line-height changes', async () => {
+  it('resizes when the text size changes', async () => {
     const { ResizeObserver } = globalThis
     const observe = vi.fn()
     let notify: ResizeObserverCallback
@@ -260,11 +260,11 @@ describe('Textarea component', () => {
     globalThis.ResizeObserver = ResizeObserver
 
     const elem = document.querySelector('textarea')
-    const lineHeightProbe = observe.mock.calls
+    const typographyProbe = observe.mock.calls
       .map(([target]) => target)
       .find((target) => target !== document.body)
 
-    expect(lineHeightProbe).toBeInstanceOf(HTMLElement)
+    expect(typographyProbe).toBeInstanceOf(HTMLElement)
 
     const style = { lineHeight: String(1.5 * 16) } as CSSStyleDeclaration
     vi.spyOn(window, 'getComputedStyle').mockImplementation(() => style)
@@ -274,7 +274,7 @@ describe('Textarea component', () => {
 
     // E.g. the user changes the text size, which wraps the text into more rows
     notify(
-      [{ target: lineHeightProbe } as unknown as ResizeObserverEntry],
+      [{ target: typographyProbe } as unknown as ResizeObserverEntry],
       null
     )
 
