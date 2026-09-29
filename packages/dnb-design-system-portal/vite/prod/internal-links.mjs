@@ -51,12 +51,13 @@ export function validateInternalLinks(
 
 export function extractPageLinks(html) {
   const anchors = []
+  const ids = []
   const links = []
   let redirect
 
   visit(parse(html), false)
 
-  return { anchors, links, redirect }
+  return { anchors, ids, links, redirect }
 
   function visit(node, ignored) {
     const attributes = Object.fromEntries(
@@ -65,6 +66,10 @@ export function extractPageLinks(html) {
     const shouldIgnore =
       ignored || attributes['data-link-check'] === 'ignore'
 
+    if (attributes.id) {
+      ids.push(attributes.id)
+    }
+
     if (!shouldIgnore) {
       const anchor =
         attributes.id ||
@@ -72,7 +77,6 @@ export function extractPageLinks(html) {
       if (anchor) {
         anchors.push(anchor)
       }
-
       // <link> carries references too: the stylesheets and preloads, the
       // icons, and the alternates each page advertises for LLMs — llms.txt
       // on the front page and the page's own markdown copy.
