@@ -3980,6 +3980,12 @@ describe('Field.Date', () => {
       const input = document.querySelector('.dnb-date-picker__input')
       expect(input).toHaveAttribute('aria-invalid', 'true')
     })
+
+    it('should set a data-testid on one element only', () => {
+      render(<Field.Date range data-testid="my-date" />)
+
+      expect(screen.getByTestId('my-date')).toHaveClass('dnb-date-picker')
+    })
   })
 
   describe('error handling', () => {
