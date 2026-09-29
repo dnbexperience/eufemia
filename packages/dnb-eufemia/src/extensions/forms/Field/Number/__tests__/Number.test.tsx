@@ -1848,6 +1848,27 @@ describe('Field.Number', () => {
       expect(onKeyDown.mock.calls[0][0]).toMatchObject({ key: '1' })
     })
 
+    it('does not type the key when onKeyDown prevents it', async () => {
+      const onChange = vi.fn()
+      render(
+        <Field.Number
+          onChange={onChange}
+          onKeyDown={(event) => {
+            if (event.key === '0') {
+              event.preventDefault()
+            }
+          }}
+        />
+      )
+
+      const input = document.querySelector('input')
+
+      await userEvent.type(input, '102')
+
+      expect(input).toHaveValue('12')
+      expect(onChange).toHaveBeenLastCalledWith(12, expect.anything())
+    })
+
     it('keeps the arrow key stepping when onKeyDown is given', async () => {
       const onKeyDown = vi.fn()
       render(
