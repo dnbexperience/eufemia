@@ -1,4 +1,5 @@
 import { render } from '@testing-library/react'
+import { renderToStaticMarkup } from 'react-dom/server'
 import {
   getTextScaleScript,
   TextScaleClient,
@@ -144,11 +145,13 @@ describe('TextScaleScript', () => {
   })
 
   it('renders a blocking script for the document head', () => {
-    render(<TextScaleHeadScript nonce="nonce-value" />)
+    const html = renderToStaticMarkup(
+      <TextScaleHeadScript nonce="nonce-value" />
+    )
 
-    const script = document.querySelector('script')
-    expect(script).toHaveAttribute('nonce', 'nonce-value')
-    expect(script?.textContent).toBe(getTextScaleScript())
+    expect(html).toBe(
+      `<script nonce="nonce-value">${getTextScaleScript()}</script>`
+    )
   })
 
   it('provides a client-rendering fallback', () => {
