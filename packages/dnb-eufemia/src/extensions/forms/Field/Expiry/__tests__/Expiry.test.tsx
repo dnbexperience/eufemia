@@ -1411,4 +1411,28 @@ describe('Field.Expiry', () => {
       })
     })
   })
+
+  it('should set data attributes from htmlAttributes only once', () => {
+    render(
+      <Field.Expiry
+        htmlAttributes={{
+          'data-testid': 'my-field',
+          'aria-required': 'true',
+        }}
+      />
+    )
+
+    const withTestId = document.querySelectorAll(
+      '[data-testid="my-field"]'
+    )
+    expect(withTestId).toHaveLength(1)
+    expect(withTestId[0]).toHaveClass('dnb-forms-field-block')
+
+    const sections = document.querySelectorAll(
+      '.dnb-segmented-field__section'
+    )
+    sections.forEach((section) => {
+      expect(section).toHaveAttribute('aria-required', 'true')
+    })
+  })
 })
