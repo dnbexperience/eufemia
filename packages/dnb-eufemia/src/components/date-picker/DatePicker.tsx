@@ -350,7 +350,7 @@ export type DatePickerProps = {
    */
   onBlur?: (event: DatePickerEvent<FocusEvent<HTMLElement>>) => void
   /**
-   * Will be called when a key is pressed in the date input, before the input handles the key. Call `event.preventDefault()` to keep the input from handling it, e.g. to set the date with a keyboard shortcut.
+   * Will be called when a key is pressed while the date input has focus. Call `event.preventDefault()` to keep the key from being typed, e.g. to set the date with a keyboard shortcut. Check `event.metaKey` and `event.ctrlKey` to leave browser shortcuts alone.
    */
   onKeyDown?: (event: KeyboardEvent<HTMLElement>) => void
   /** @internal */
