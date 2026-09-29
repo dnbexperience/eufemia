@@ -180,8 +180,6 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
       if (maxHeightRef.current?.key !== key) {
         const elem = textareaRef.current
         const probe = elem.cloneNode() as HTMLTextAreaElement
-        probe.removeAttribute('id')
-        probe.removeAttribute('name')
         Object.assign(probe.style, {
           position: 'absolute',
           visibility: 'hidden',
