@@ -161,8 +161,9 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
   }, [])
 
   const getRows = useCallback(() => {
+    // Round, because browsers may lay out lines shorter than a fractional line-height
     return (
-      Math.floor(textareaRef.current.scrollHeight / getLineHeight()) || 1
+      Math.round(textareaRef.current.scrollHeight / getLineHeight()) || 1
     )
   }, [getLineHeight])
 
