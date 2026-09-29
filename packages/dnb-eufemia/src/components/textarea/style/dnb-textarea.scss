@@ -184,6 +184,19 @@
     background-color: transparent;
   }
 
+  // Follows the typography of the textarea, so a change resizes it
+  &__typography-probe {
+    pointer-events: none;
+    visibility: hidden;
+
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: var(--font-size-basis);
+    height: var(--line-height-basis);
+  }
+
   &__textarea,
   &__placeholder {
     text-align: left;

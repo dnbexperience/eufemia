@@ -349,6 +349,14 @@ export type DatePickerProps = {
    * Will be called once the input loses focus.
    */
   onBlur?: (event: DatePickerEvent<FocusEvent<HTMLElement>>) => void
+  /**
+   * Will be called when a key is pressed while the date input has focus. Call `event.preventDefault()` to keep the key from being typed, e.g. to set the date with a keyboard shortcut. Check `event.metaKey` and `event.ctrlKey` to leave browser shortcuts alone.
+   */
+  onKeyDown?: (event: KeyboardEvent<HTMLElement>) => void
+  /**
+   * Will be called when a key is released while the date input has focus.
+   */
+  onKeyUp?: (event: KeyboardEvent<HTMLElement>) => void
   /** @internal */
   _omitInputShellClass?: boolean
 }
@@ -365,6 +373,8 @@ export type DatePickerAllProps = DatePickerProps &
     | 'onChange'
     | 'onBlur'
     | 'onFocus'
+    | 'onKeyDown'
+    | 'onKeyUp'
     | 'onSubmit'
     | 'onReset'
     | 'start'
@@ -630,6 +640,11 @@ function DatePicker(externalProps: DatePickerAllProps) {
     [restProps]
   )
 
+  const { dataAttributes, inputAttributes } = useMemo(
+    () => splitDataAttributes(attributes),
+    [attributes]
+  )
+
   const showStatus = getStatusState(status)
 
   const pickerParams = {} as HTMLProps<HTMLSpanElement>
@@ -721,7 +736,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
       setReturnObject={(fn) => (getReturnObject.current = fn)}
       hidePicker={hidePicker}
     >
-      <span {...mainParams}>
+      <span {...mainParams} {...dataAttributes}>
         {label && (
           <FormLabel
             id={id + '-label'}
@@ -814,7 +829,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
                   statusState={statusState}
                   lang={context.locale}
                   _omitInputShellClass={_omitInputShellClass}
-                  {...attributes}
+                  {...inputAttributes}
                   submitProps={remainingSubmitProps}
                   // @ts-expect-error statusProps (FormStatusProps) spreads a DOM `onSubmit` (SubmitEvent) that conflicts with the button `onSubmit` (MouseEvent)
                   onSubmit={togglePicker}
@@ -969,6 +984,20 @@ function filterOutNonAttributes(props: DatePickerProps) {
     }
     return attributes
   }, {})
+}
+
+function splitDataAttributes(attributes: Record<string, unknown>) {
+  const dataAttributes: Record<string, unknown> = {}
+  const inputAttributes: Record<string, unknown> = {}
+
+  for (const key of Object.keys(attributes)) {
+    const target = key.startsWith('data-')
+      ? dataAttributes
+      : inputAttributes
+    target[key] = attributes[key]
+  }
+
+  return { dataAttributes, inputAttributes }
 }
 
 withComponentMarkers(DatePicker, {

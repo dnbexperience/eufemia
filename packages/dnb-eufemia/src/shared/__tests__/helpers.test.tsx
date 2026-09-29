@@ -60,6 +60,15 @@ describe('"applyPageFocus" should', () => {
     expect(document.activeElement.tagName).toBe('DIV')
   })
 
+  it('set a focus on a given element', () => {
+    const focusElement =
+      document.querySelector<HTMLElement>('.focus-content')
+
+    applyPageFocus(focusElement)
+
+    expect(focusElement === document.activeElement).toBe(true)
+  })
+
   it('set attribute "tabindex" with the value -1', () => {
     applyPageFocus('.focus-content')
 
@@ -191,6 +200,26 @@ describe('"scrollToLocationHashId" should', () => {
     scrollToLocationHashId({ offset: 100 })
 
     expect(scrollTo).toHaveBeenCalledTimes(0)
+  })
+
+  it('find an element whose id contains non-ASCII characters', () => {
+    window.history.replaceState({}, '', 'http://localhost/#søknad')
+
+    render(<div id="søknad">content</div>)
+
+    expect(scrollToLocationHashId()).toBe(
+      document.getElementById('søknad')
+    )
+  })
+
+  it('find an element whose id contains a percent sign', () => {
+    window.history.replaceState({}, '', 'http://localhost/#50%off')
+
+    render(<div id="50%off">content</div>)
+
+    expect(scrollToLocationHashId()).toBe(
+      document.getElementById('50%off')
+    )
   })
 })
 

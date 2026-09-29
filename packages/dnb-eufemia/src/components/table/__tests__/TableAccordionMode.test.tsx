@@ -836,6 +836,25 @@ describe('Table using mode="accordion" prop', () => {
     )
   })
 
+  it('should expand the row when an id with non-ASCII characters matches location hash', () => {
+    window.history.replaceState({}, '', 'http://localhost/#rad-ø')
+
+    render(
+      <Table mode="accordion">
+        <tbody>
+          <Tr id="rad-ø">
+            <Td>content</Td>
+            <Td.AccordionContent>accordion content</Td.AccordionContent>
+          </Tr>
+        </tbody>
+      </Table>
+    )
+
+    expect(document.querySelector('tr')).toHaveClass(
+      'dnb-table__tr--expanded'
+    )
+  })
+
   describe('events', () => {
     it('should emit onClick event', () => {
       const onClick = vi.fn()

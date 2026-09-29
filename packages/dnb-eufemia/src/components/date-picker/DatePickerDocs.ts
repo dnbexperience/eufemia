@@ -351,4 +351,14 @@ export const DatePickerEvents: PropertiesTableProps = {
     type: 'function',
     status: 'optional',
   },
+  onKeyDown: {
+    doc: 'Will be called when a key is pressed while the date input has focus. Call `event.preventDefault()` to keep the key from being typed, e.g. to set the date with a keyboard shortcut. Check `event.metaKey` and `event.ctrlKey` to leave browser shortcuts alone.',
+    type: '(event: React.KeyboardEvent<HTMLElement>) => void',
+    status: 'optional',
+  },
+  onKeyUp: {
+    doc: 'Will be called when a key is released while the date input has focus.',
+    type: '(event: React.KeyboardEvent<HTMLElement>) => void',
+    status: 'optional',
+  },
 }

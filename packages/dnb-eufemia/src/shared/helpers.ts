@@ -3,6 +3,8 @@
  *
  */
 
+import decodeHashId from './helpers/decodeHashId'
+
 // For backward compatibility
 export { debounce, debounceAsync } from './helpers/debounce'
 export type { DebounceHelpers } from './helpers/debounce'
@@ -80,13 +82,16 @@ export function setPageFocusElement(
 }
 
 export function applyPageFocus(
-  selector = 'default',
+  selectorOrElement: string | HTMLElement = 'default',
   callback: ((element: HTMLElement) => void) | null = null
 ) {
   try {
-    let element: string | HTMLElement | null = /^[.#]/.test(selector)
-      ? selector
-      : pageFocusElements[selector]
+    let element: string | HTMLElement | null = selectorOrElement
+
+    if (typeof element === 'string' && !/^[.#]/.test(element)) {
+      element = pageFocusElements[element]
+    }
+
     if (typeof element === 'string' && typeof document !== 'undefined') {
       element = document.querySelector<HTMLElement>(element)
     } else if (!element && typeof document !== 'undefined') {
@@ -233,7 +238,9 @@ export function scrollToLocationHashId({
           }
         }
 
-        const elem = document.getElementById(id)
+        const elem =
+          document.getElementById(id) ||
+          document.getElementById(decodeHashId(id))
         if (elem instanceof HTMLElement) {
           window.addEventListener('beforeunload', () =>
             clearTimeout(_timeout)

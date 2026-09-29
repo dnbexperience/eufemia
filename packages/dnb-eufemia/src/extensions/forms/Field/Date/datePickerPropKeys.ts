@@ -41,6 +41,8 @@ export const datePickerPropKeys = [
   'onSubmit',
   'onCancel',
   'onReset',
+  'onKeyDown',
+  'onKeyUp',
   'skipPortal',
   'yearNavigation',
   'tooltip',

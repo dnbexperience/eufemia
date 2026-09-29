@@ -515,6 +515,40 @@ describe('Checkbox component', () => {
       ).toBe(false)
     })
   })
+
+  it('should call onKeyDown given as a property', () => {
+    const onKeyDown = vi.fn()
+    const onChange = vi.fn()
+    render(<Checkbox onKeyDown={onKeyDown} onChange={onChange} />)
+
+    fireEvent.keyDown(document.querySelector('input'), { key: 'Enter' })
+
+    expect(onKeyDown).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenCalledTimes(1)
+  })
+
+  it('should not toggle on Enter when onKeyDown prevents default', () => {
+    const onChange = vi.fn()
+    render(
+      <Checkbox
+        onKeyDown={(event) => event.preventDefault()}
+        onChange={onChange}
+      />
+    )
+
+    fireEvent.keyDown(document.querySelector('input'), { key: 'Enter' })
+
+    expect(onChange).toHaveBeenCalledTimes(0)
+  })
+
+  it('should call onKeyUp given as a property', () => {
+    const onKeyUp = vi.fn()
+    render(<Checkbox onKeyUp={onKeyUp} />)
+
+    fireEvent.keyUp(document.querySelector('input'), { key: 'Enter' })
+
+    expect(onKeyUp).toHaveBeenCalledTimes(1)
+  })
 })
 
 describe('Checkbox scss', () => {

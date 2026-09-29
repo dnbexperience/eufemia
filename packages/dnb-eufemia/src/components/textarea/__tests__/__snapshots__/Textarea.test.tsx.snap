@@ -359,6 +359,15 @@ button .dnb-form-status__text {
   color: var(--textarea-color-placeholder);
   background-color: transparent;
 }
+.dnb-textarea__typography-probe {
+  pointer-events: none;
+  visibility: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: var(--font-size-basis);
+  height: var(--line-height-basis);
+}
 .dnb-textarea__textarea, .dnb-textarea__placeholder {
   text-align: left;
 }

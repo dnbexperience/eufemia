@@ -95,4 +95,14 @@ export const SwitchEvents: PropertiesTableProps = {
     type: '({ checked: boolean; event: MouseEvent, preventDefault: () => void }) => void',
     status: 'optional',
   },
+  onKeyDown: {
+    doc: 'Will be called when a key is pressed while the switch has focus. Call `event.preventDefault()` to keep the switch from toggling on Enter.',
+    type: '(event: React.KeyboardEvent<HTMLInputElement>) => void',
+    status: 'optional',
+  },
+  onKeyUp: {
+    doc: 'Will be called when a key is released while the switch has focus.',
+    type: '(event: React.KeyboardEvent<HTMLInputElement>) => void',
+    status: 'optional',
+  },
 }

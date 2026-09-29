@@ -242,12 +242,23 @@ function Expiry(props: ExpiryProps = {}) {
         ? 'information'
         : null
 
+  const dataAttributes: Record<string, unknown> = {}
+  const restAttributes: Record<string, unknown> = {}
+  for (const [key, value] of Object.entries(htmlAttributes ?? {})) {
+    if (key.startsWith('data-')) {
+      dataAttributes[key] = value
+    } else {
+      restAttributes[key] = value
+    }
+  }
+
   const fieldBlockProps: FieldBlockProps = {
     id,
     forId: `${id}-input`,
     className: clsx('dnb-forms-field-expiry', className),
     label,
     ...pickSpacingProps(props),
+    ...dataAttributes,
   }
 
   return (
@@ -276,7 +287,7 @@ function Expiry(props: ExpiryProps = {}) {
             },
             placeholder: repeatPlaceholder(placeholders.month, 2),
             autoComplete: 'cc-exp-month',
-            ...htmlAttributes,
+            ...restAttributes,
           },
           {
             id: 'year',
@@ -289,7 +300,7 @@ function Expiry(props: ExpiryProps = {}) {
             },
             placeholder: repeatPlaceholder(placeholders.year, 2),
             autoComplete: 'cc-exp-year',
-            ...htmlAttributes,
+            ...restAttributes,
           },
         ]}
       />

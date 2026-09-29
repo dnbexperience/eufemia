@@ -2901,6 +2901,7 @@ __metadata:
     stylelint: "npm:16.26.1"
     stylelint-config-recommended: "npm:15.0.0"
     stylelint-config-standard-scss: "npm:15.0.1"
+    stylelint-scss: "npm:6.14.0"
     svgo: "npm:3.3.5"
     tar: "npm:7.5.21"
     traverse: "npm:0.6.6"
@@ -8746,6 +8747,7 @@ __metadata:
     stylelint: "npm:16.26.1"
     stylelint-config-recommended: "npm:15.0.0"
     stylelint-config-standard-scss: "npm:15.0.1"
+    stylelint-scss: "npm:6.14.0"
     typescript: "npm:5.9.3"
     unist-util-visit: "npm:5.1.0"
     vite: "npm:8.0.16"
@@ -10257,10 +10259,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fast-uri@npm:3.1.6":
-  version: 3.1.6
-  resolution: "fast-uri@npm:3.1.6"
-  checksum: 10/de34fceafd3a1d917989a1116b092d9b6ebe6fa3c9e908a308b988a6455449fa0a0256b6ef628aa7da80f1f84031d704c290d6ba0ea4c6f4c42b7974a3bd43ae
+"fast-uri@npm:3.1.7":
+  version: 3.1.7
+  resolution: "fast-uri@npm:3.1.7"
+  checksum: 10/6d62ea818841e1b460f60482fd31582faa23ea9d9b33f856412b24c42da11fd72bd003be6696390ec896dbe4e9e78d3bb8d93bf70a511c7f69e5e807ac9b284f
   languageName: node
   linkType: hard
 
@@ -11599,10 +11601,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ip-address@npm:10.3.1":
-  version: 10.3.1
-  resolution: "ip-address@npm:10.3.1"
-  checksum: 10/cc0d5b9953acb4114990a3887e0701f8fe843903811f982cf2856cd307c5fb6cdca426ad16c39a1f4950091935c8be4d42631a443f797a96626cce161fffed41
+"ip-address@npm:10.5.1":
+  version: 10.5.1
+  resolution: "ip-address@npm:10.5.1"
+  checksum: 10/5809efd2c8c09e03dc4df104cf0eb6ff81478255e782839fca66a52fbfd39f06636b68c68957f8930ce648a51acf5232df6174f0cd5b4c447775bc2e20f47077
   languageName: node
   linkType: hard
 
@@ -18283,7 +18285,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"stylelint-scss@npm:^6.12.0":
+"stylelint-scss@npm:6.14.0, stylelint-scss@npm:^6.12.0":
   version: 6.14.0
   resolution: "stylelint-scss@npm:6.14.0"
   dependencies:
@@ -19103,17 +19105,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"undici@npm:6.28.0, undici@npm:^6.25.0":
-  version: 6.28.0
-  resolution: "undici@npm:6.28.0"
-  checksum: 10/672a7a53bd1f6c80edb73b357ab36e98ef9e474024c442aab2b8ea2bc32f1103cab05525c78661ae724f3e1340e23d03efb9730fba28e76218ab0ec52e15d75a
+"undici@npm:7.30.0, undici@npm:^7.0.0":
+  version: 7.30.0
+  resolution: "undici@npm:7.30.0"
+  checksum: 10/eb9e4bb5f1b4c35cb934c0d04fe676b62c3be06fb3be4a256ff73699bd77abc3d41f262597a4debd41f334c95ca3ea6e763268c3768882c3fc88a5d33234b8f6
   languageName: node
   linkType: hard
 
-"undici@npm:7.29.0, undici@npm:^7.0.0":
-  version: 7.29.0
-  resolution: "undici@npm:7.29.0"
-  checksum: 10/ca73639071bdcbc41e57be1800847fa18f86f8fbf7a5641ff9899f7bbb6f5cecdd593e225f5fd94e31703dcbfaea4a722a3b81cab90c5c4e2b406aec1ae55732
+"undici@npm:^6.23.0, undici@npm:^6.25.0":
+  version: 6.29.0
+  resolution: "undici@npm:6.29.0"
+  checksum: 10/fd4969cfc846cb4da7f7b1b225536d629e17b17b4a1913287f1264f30c855b9eb65a6da6cde46ba1ddfe42f113a3969ab2697029c2b920401be2b7b3b40abef8
   languageName: node
   linkType: hard
 

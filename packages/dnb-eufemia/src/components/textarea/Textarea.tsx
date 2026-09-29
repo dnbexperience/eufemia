@@ -3,7 +3,14 @@
  */
 
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
-import { memo, useCallback, useContext, useRef, useState } from 'react'
+import {
+  memo,
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react'
 import type {
   CSSProperties,
   ChangeEvent,
@@ -12,7 +19,7 @@ import type {
   ReactNode,
   TextareaHTMLAttributes,
 } from 'react'
-import useMountEffect from '../../shared/helpers/useMountEffect'
+import useIsomorphicLayoutEffect from '../../shared/helpers/useIsomorphicLayoutEffect'
 import useCombinedRef from '../../shared/helpers/useCombinedRef'
 import { clsx } from 'clsx'
 import FormLabel from '../form-label/FormLabel'
@@ -119,16 +126,20 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
   } = props
 
   const textareaRef = useRef<HTMLTextAreaElement | null>(null)
+  const typographyProbeRef = useRef<HTMLSpanElement | null>(null)
   const combinedRef = useCombinedRef(ref, textareaRef)
 
   const id = useId(ownProps.id)
 
   const heightOffsetRef = useRef<number | undefined>(undefined)
   const heightRef = useRef<number | undefined>(undefined)
+  const contentHeightRef = useRef<number | undefined>(undefined)
+  const userHeightRef = useRef<number | undefined>(undefined)
   const resizeObserverRef = useRef<ResizeObserver | null>(null)
 
   const propValue = getValue(ownProps)
   const prevValuePropRef = useRef(propValue)
+  const hasExternalValueRef = useRef(false)
   const [value, setValue] = useState<string | null>(() => {
     if (propValue !== 'initval' && propValue !== null) {
       return propValue as string
@@ -146,6 +157,7 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
     propValue !== prevValuePropRef.current
   ) {
     setValue(propValue as string)
+    hasExternalValueRef.current = true
   }
   prevValuePropRef.current = propValue
 
@@ -161,8 +173,9 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
   }, [])
 
   const getRows = useCallback(() => {
+    // Round, because browsers may lay out lines shorter than a fractional line-height
     return (
-      Math.floor(textareaRef.current.scrollHeight / getLineHeight()) || 1
+      Math.round(textareaRef.current.scrollHeight / getLineHeight()) || 1
     )
   }, [getLineHeight])
 
@@ -173,8 +186,9 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
     }
     try {
       const currentHeight = parseFloat(elem.style.height)
+      // A height that autosize did not set comes from the resize handle
       if (!hideResizeHandle && currentHeight !== heightRef.current) {
-        heightRef.current = currentHeight
+        userHeightRef.current = currentHeight
       }
       elem.style.height = 'auto'
     } catch (e) {
@@ -217,13 +231,15 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
           }
         }
 
-        if (!hideResizeHandle && heightRef.current > newHeight) {
-          newHeight = heightRef.current
+        contentHeightRef.current = newHeight
+        if (!hideResizeHandle && userHeightRef.current > newHeight) {
+          newHeight = userHeightRef.current
         }
 
         elem.style.height = newHeight + 'px'
         elem.scrollTop = scrollTop
-        heightRef.current = newHeight
+        // Read back, as browsers round the value they store
+        heightRef.current = parseFloat(elem.style.height)
       } catch (e) {
         warn('Textarea: Failed to set autosize height:', e)
       }
@@ -295,15 +311,29 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
     [getRows, props.onKeyDown]
   )
 
-  // Keep a ref to the latest setAutosize so the mount-time ResizeObserver
-  // and window listener always call the current version (avoids stale closure
+  // Keep a ref to the latest setAutosize so the ResizeObserver and window
+  // listener always call the current version (avoids stale closure
   // if autoResizeMaxRows changes after mount).
   const setAutosizeRef = useRef(setAutosize)
   setAutosizeRef.current = setAutosize
 
-  // Setup autoResize on mount
-  useMountEffect(() => {
+  // Measure again when the configuration behind the height changes
+  useEffect(() => {
     const handleResize = () => setAutosizeRef.current()
+    const elem = textareaRef.current
+
+    // Leave a height chosen with the resize handle; browsers round the stored height
+    if (
+      !autoResize &&
+      elem &&
+      contentHeightRef.current !== undefined &&
+      Math.abs(parseFloat(elem.style.height) - contentHeightRef.current) <
+        0.01
+    ) {
+      elem.style.height = ''
+      heightRef.current = undefined
+      contentHeightRef.current = undefined
+    }
 
     if (autoResize && typeof window !== 'undefined') {
       setAutosizeRef.current()
@@ -317,6 +347,10 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
           })
         })
         observer.observe(document.body)
+        // A text size change can wrap the text without resizing any box
+        if (typographyProbeRef.current) {
+          observer.observe(typographyProbeRef.current)
+        }
         resizeObserverRef.current = observer
       } catch (e) {
         window.addEventListener('resize', handleResize)
@@ -332,7 +366,15 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
         window.removeEventListener('resize', handleResize)
       }
     }
-  })
+  }, [autoResize, autoResizeMaxRows, props.rows])
+
+  // onChange only resizes typed values, not values set from outside
+  useIsomorphicLayoutEffect(() => {
+    if (autoResize && hasExternalValueRef.current) {
+      hasExternalValueRef.current = false
+      setAutosizeRef.current()
+    }
+  }, [autoResize, value])
 
   const showStatus = getStatusState(status)
   const currentHasValue = hasValue(value)
@@ -481,6 +523,14 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
               )}
 
             <span className="dnb-textarea__state" />
+
+            {autoResize && (
+              <span
+                className="dnb-textarea__typography-probe"
+                ref={typographyProbeRef}
+                aria-hidden
+              />
+            )}
           </span>
 
           {suffix && (

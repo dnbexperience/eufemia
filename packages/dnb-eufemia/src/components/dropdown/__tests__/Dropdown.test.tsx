@@ -2237,6 +2237,52 @@ describe('Dropdown multiple instances', () => {
   })
 })
 
+describe('Dropdown key handling', () => {
+  it('should call onKeyDown given as a property', () => {
+    const onKeyDown = vi.fn()
+    render(
+      <Dropdown data={['a', 'b']} onKeyDown={onKeyDown} noAnimation />
+    )
+
+    keydown('ArrowDown')
+
+    expect(onKeyDown).toHaveBeenCalledTimes(1)
+    expect(
+      document.querySelector('button.dnb-dropdown__trigger')
+    ).toHaveAttribute('aria-expanded', 'true')
+  })
+
+  it('should not open when onKeyDown prevents default', () => {
+    render(
+      <Dropdown
+        data={['a', 'b']}
+        onKeyDown={(event) => event.preventDefault()}
+        noAnimation
+      />
+    )
+
+    keydown('ArrowDown')
+
+    expect(
+      document.querySelector('button.dnb-dropdown__trigger')
+    ).toHaveAttribute('aria-expanded', 'false')
+  })
+
+  it('should call onKeyUp given as a property', () => {
+    const onKeyUp = vi.fn()
+    render(<Dropdown data={['a', 'b']} onKeyUp={onKeyUp} noAnimation />)
+
+    fireEvent.keyUp(
+      document.querySelector('button.dnb-dropdown__trigger'),
+      {
+        key: 'ArrowDown',
+      }
+    )
+
+    expect(onKeyUp).toHaveBeenCalledTimes(1)
+  })
+})
+
 describe('Dropdown scss', () => {
   it('has to match style dependencies css', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))

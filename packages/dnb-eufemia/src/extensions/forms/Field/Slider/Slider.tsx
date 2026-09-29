@@ -101,6 +101,7 @@ function SliderComponent(props: FieldSliderProps) {
     tooltip,
     alwaysShowTooltip,
     extensions,
+    htmlAttributes,
     handleChange,
     handleFocus,
     handleBlur,
@@ -149,6 +150,7 @@ function SliderComponent(props: FieldSliderProps) {
   }
 
   const sliderProps: SliderProps = {
+    ...htmlAttributes,
     id: `${id}-slider`,
     value: sliderValue,
     step,

@@ -75,6 +75,19 @@ function Thumb({ value, currentIndex }: ThumbProps) {
   const { number, aria } = getFormattedNumber(value, numberFormat)
 
   const helperParams: Record<string, unknown> = {}
+  const thumbParams: Record<string, unknown> = {}
+
+  // The range input has focus but no pointer events (see dnb-slider.scss)
+  for (const [key, val] of Object.entries(attributes)) {
+    if (
+      /^on(Key|Focus|Blur)/.test(key) ||
+      (key.startsWith('aria-') && key !== 'aria-hidden')
+    ) {
+      helperParams[key] = val
+    } else {
+      thumbParams[key] = val
+    }
+  }
 
   if (label) {
     helperParams['aria-labelledby'] = combineLabelledBy(
@@ -91,14 +104,19 @@ function Thumb({ value, currentIndex }: ThumbProps) {
     )
   }
 
-  const thumbParams = attributes as Record<string, unknown>
   const elemRef = useRef<HTMLElement>(undefined)
   const [forceActive, setForceActive] = useState(false)
   validateDOMAttributes(allProps, thumbParams) // because we send along rest attributes
 
+  const { onFocus, onBlur, ...restHelperParams } = helperParams as Record<
+    string,
+    (event: unknown) => void
+  >
+
   return (
     <span className="dnb-slider__thumb" style={style}>
       <input
+        {...restHelperParams}
         id={`${id}-thumb-${currentIndex}`}
         type="range"
         className="dnb-slider__button-helper"
@@ -111,8 +129,12 @@ function Thumb({ value, currentIndex }: ThumbProps) {
         onFocus={(event) => {
           onHelperFocusHandler(event)
           setForceActive(true)
+          onFocus?.(event)
         }}
-        onBlur={() => setForceActive(false)}
+        onBlur={(event) => {
+          setForceActive(false)
+          onBlur?.(event)
+        }}
         onMouseDown={onThumbMouseDownHandler}
         onMouseUp={onThumbMouseUpHandler}
         aria-valuemin={min}
@@ -121,7 +143,6 @@ function Thumb({ value, currentIndex }: ThumbProps) {
         aria-valuetext={aria ? aria : undefined}
         aria-orientation={isVertical ? 'vertical' : 'horizontal'}
         data-index={currentIndex}
-        {...helperParams}
       />
 
       <Button
