@@ -125,6 +125,7 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
   } = props
 
   const textareaRef = useRef<HTMLTextAreaElement | null>(null)
+  const typographyProbeRef = useRef<HTMLSpanElement | null>(null)
   const combinedRef = useCombinedRef(ref, textareaRef)
 
   const id = useId(ownProps.id)
@@ -340,6 +341,10 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
           })
         })
         observer.observe(document.body)
+        // A text size change can wrap the text without resizing any box
+        if (typographyProbeRef.current) {
+          observer.observe(typographyProbeRef.current)
+        }
         resizeObserverRef.current = observer
       } catch (e) {
         window.addEventListener('resize', handleResize)
@@ -504,6 +509,14 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
               )}
 
             <span className="dnb-textarea__state" />
+
+            {autoResize && (
+              <span
+                className="dnb-textarea__typography-probe"
+                ref={typographyProbeRef}
+                aria-hidden
+              />
+            )}
           </span>
 
           {suffix && (
