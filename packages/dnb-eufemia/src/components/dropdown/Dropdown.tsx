@@ -312,6 +312,15 @@ const DropdownComponent = memo(function DropdownComponent({
 
   const onTriggerKeyDownHandler = useCallback(
     (e: KeyboardEvent<HTMLButtonElement>) => {
+      const { onKeyDown } = (attributesRef.current || {}) as {
+        onKeyDown?: (event: KeyboardEvent<HTMLButtonElement>) => void
+      }
+      onKeyDown?.(e)
+
+      if (e.defaultPrevented) {
+        return
+      }
+
       switch (e.key) {
         case 'Enter':
         case ' ':

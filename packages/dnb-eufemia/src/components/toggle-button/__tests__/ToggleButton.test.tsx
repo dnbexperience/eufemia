@@ -299,6 +299,46 @@ describe('ToggleButton component', () => {
     expect(onChange).toHaveBeenCalledTimes(2)
   })
 
+  it('should call onKeyDown and onKeyUp given as properties', () => {
+    const onKeyDown = vi.fn()
+    const onKeyUp = vi.fn()
+    const onChange = vi.fn()
+    render(
+      <ToggleButton
+        onKeyDown={onKeyDown}
+        onKeyUp={onKeyUp}
+        onChange={onChange}
+      />
+    )
+
+    const element = document.querySelector('button')
+
+    fireEvent.keyDown(element, { key: 'Enter' })
+    fireEvent.keyUp(element, { key: 'Enter' })
+
+    expect(onKeyDown).toHaveBeenCalledTimes(1)
+    expect(onKeyUp).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenCalledTimes(2)
+  })
+
+  it('should not toggle on Enter when onKeyDown and onKeyUp prevent default', () => {
+    const onChange = vi.fn()
+    render(
+      <ToggleButton
+        onKeyDown={(event) => event.preventDefault()}
+        onKeyUp={(event) => event.preventDefault()}
+        onChange={onChange}
+      />
+    )
+
+    const element = document.querySelector('button')
+
+    fireEvent.keyDown(element, { key: 'Enter' })
+    fireEvent.keyUp(element, { key: 'Enter' })
+
+    expect(onChange).toHaveBeenCalledTimes(0)
+  })
+
   it('should support spacing props', () => {
     render(<ToggleButton top="2rem" />)
 
