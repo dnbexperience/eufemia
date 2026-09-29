@@ -306,6 +306,31 @@ describe('Switch component', () => {
     expect(input.getAttribute('aria-checked')).toBe('true')
     expect(onChange).toHaveBeenCalledWith(true)
   })
+
+  it('should call onKeyDown given as a property', () => {
+    const onKeyDown = vi.fn()
+    const onChange = vi.fn()
+    render(<Switch onKeyDown={onKeyDown} onChange={onChange} />)
+
+    fireEvent.keyDown(document.querySelector('input'), { code: 'Enter' })
+
+    expect(onKeyDown).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenCalledTimes(1)
+  })
+
+  it('should not toggle on Enter when onKeyDown prevents default', () => {
+    const onChange = vi.fn()
+    render(
+      <Switch
+        onKeyDown={(event) => event.preventDefault()}
+        onChange={onChange}
+      />
+    )
+
+    fireEvent.keyDown(document.querySelector('input'), { code: 'Enter' })
+
+    expect(onChange).toHaveBeenCalledTimes(0)
+  })
 })
 
 describe('Switch scss', () => {

@@ -64,6 +64,7 @@ function Switch(props: SwitchProps) {
     onChange,
     onChangeEnd,
     onClick,
+    onKeyDown,
     ref: refProp,
     ...rest
   } = allProps
@@ -158,14 +159,20 @@ function Switch(props: SwitchProps) {
   )
 
   const onKeyDownHandler = useCallback(
-    (event: KeyboardEvent) => {
+    (event: KeyboardEvent<HTMLInputElement>) => {
+      onKeyDown?.(event)
+
+      if (event.defaultPrevented) {
+        return
+      }
+
       switch (event.code) {
         case 'Enter':
           onChangeHandler(event)
           break
       }
     },
-    [onChangeHandler]
+    [onChangeHandler, onKeyDown]
   )
 
   const showStatus = useMemo(() => getStatusState(status), [status])

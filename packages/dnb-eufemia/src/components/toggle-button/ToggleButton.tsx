@@ -225,8 +225,10 @@ function ToggleButton(ownProps: ToggleButtonProps) {
   )
 
   const onKeyDownHandler = useCallback(
-    (event: KeyboardEvent) => {
-      if (event.key === 'Enter') {
+    (event: KeyboardEvent<HTMLButtonElement>) => {
+      ownPropsRef.current.onKeyDown?.(event)
+
+      if (!event.defaultPrevented && event.key === 'Enter') {
         onClickHandler({ event })
       }
     },
@@ -234,8 +236,10 @@ function ToggleButton(ownProps: ToggleButtonProps) {
   )
 
   const onKeyUpHandler = useCallback(
-    (event: KeyboardEvent) => {
-      if (event.key === 'Enter') {
+    (event: KeyboardEvent<HTMLButtonElement>) => {
+      ownPropsRef.current.onKeyUp?.(event)
+
+      if (!event.defaultPrevented && event.key === 'Enter') {
         onClickHandler({ event })
       }
     },

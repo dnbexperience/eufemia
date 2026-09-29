@@ -14,6 +14,7 @@ import type {
   ChangeEvent,
   ElementType,
   HTMLProps,
+  KeyboardEvent,
   MouseEvent,
   MouseEventHandler,
   ReactNode,
@@ -159,6 +160,7 @@ function Checkbox(localProps: CheckboxProps) {
     checked,
     onChange,
     onClick,
+    onKeyDown,
     ref: refProp,
     ...rest
   } = props
@@ -252,12 +254,14 @@ function Checkbox(localProps: CheckboxProps) {
   )
 
   const onKeyDownHandler = useCallback(
-    (event: KeyboardEvent & CheckboxOnChangeParams['event']) => {
-      if (event.key === 'Enter') {
-        handleChange(event)
+    (event: KeyboardEvent<HTMLInputElement>) => {
+      onKeyDown?.(event)
+
+      if (!event.defaultPrevented && event.key === 'Enter') {
+        handleChange(event as unknown as CheckboxOnChangeParams['event'])
       }
     },
-    [handleChange]
+    [handleChange, onKeyDown]
   )
 
   const showStatus = getStatusState(status)
