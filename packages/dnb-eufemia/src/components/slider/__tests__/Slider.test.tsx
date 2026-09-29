@@ -75,6 +75,20 @@ describe('Slider component', () => {
     expect(document.querySelector('.dnb-tooltip')).toBeInTheDocument()
   })
 
+  it('should keep pointer event handlers on the thumb', () => {
+    const onMouseEnter = vi.fn()
+
+    render(<Slider {...props} onMouseEnter={onMouseEnter} />)
+
+    fireEvent.mouseEnter(getRangeElement(0))
+    expect(onMouseEnter).toHaveBeenCalledTimes(0)
+
+    fireEvent.mouseEnter(
+      document.querySelector('.dnb-slider__thumb .dnb-button')
+    )
+    expect(onMouseEnter).toHaveBeenCalledTimes(1)
+  })
+
   it('should set aria-label on the range input', () => {
     render(<Slider {...props} label={undefined} aria-label="Amount" />)
 

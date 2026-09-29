@@ -77,10 +77,10 @@ function Thumb({ value, currentIndex }: ThumbProps) {
   const helperParams: Record<string, unknown> = {}
   const thumbParams: Record<string, unknown> = {}
 
-  // Event handlers and labels belong on the focusable range input
+  // The range input has focus but no pointer events (see dnb-slider.scss)
   for (const [key, val] of Object.entries(attributes)) {
     if (
-      /^on[A-Z]/.test(key) ||
+      /^on(Key|Focus|Blur)/.test(key) ||
       key === 'aria-label' ||
       key === 'aria-labelledby' ||
       key === 'aria-describedby'
@@ -105,12 +105,15 @@ function Thumb({ value, currentIndex }: ThumbProps) {
       suffix ? id + '-suffix' : null
     )
   }
+
   const elemRef = useRef<HTMLElement>(undefined)
   const [forceActive, setForceActive] = useState(false)
   validateDOMAttributes(allProps, thumbParams) // because we send along rest attributes
 
-  const { onFocus, onBlur, onMouseDown, onMouseUp, ...restHelperParams } =
-    helperParams as Record<string, (event: unknown) => void>
+  const { onFocus, onBlur, ...restHelperParams } = helperParams as Record<
+    string,
+    (event: unknown) => void
+  >
 
   return (
     <span className="dnb-slider__thumb" style={style}>
@@ -134,14 +137,8 @@ function Thumb({ value, currentIndex }: ThumbProps) {
           setForceActive(false)
           onBlur?.(event)
         }}
-        onMouseDown={(event) => {
-          onThumbMouseDownHandler(event)
-          onMouseDown?.(event)
-        }}
-        onMouseUp={(event) => {
-          onThumbMouseUpHandler()
-          onMouseUp?.(event)
-        }}
+        onMouseDown={onThumbMouseDownHandler}
+        onMouseUp={onThumbMouseUpHandler}
         aria-valuemin={min}
         aria-valuemax={max}
         aria-valuenow={value}
