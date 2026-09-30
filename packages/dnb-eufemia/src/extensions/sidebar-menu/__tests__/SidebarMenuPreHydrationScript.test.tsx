@@ -16,15 +16,14 @@ describe('SidebarMenuPreHydrationScript', () => {
   })
 
   it('renders a blocking script with a CSP nonce', () => {
+    const script = getPreHydrationScript()
     const html = renderToStaticMarkup(
       <SidebarMenuPreHydrationScript nonce="nonce-value" />
     )
 
-    expect(html).toBe(
-      `<script nonce="nonce-value">${getPreHydrationScript()}</script>`
-    )
-    expect(html).toContain('document.currentScript?.nonce')
-    expect(html).toContain('style.nonce = nonce')
+    expect(html).toBe(`<script nonce="nonce-value">${script}</script>`)
+    expect(script).toContain('document.currentScript?.nonce')
+    expect(script).toContain('style.nonce = nonce')
   })
 
   it('matches the hydrated accordion gap while restoring closed state', () => {
