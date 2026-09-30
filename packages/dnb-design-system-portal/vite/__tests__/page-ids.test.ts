@@ -26,9 +26,9 @@ import { docsDir, resolveImportCandidates } from './shared/helpers'
  *   anchor with `id={getSlugFromReactHeading(children)}`. Two headings with
  *   the same text therefore produce the same id, since the slugger is reset
  *   per call and does not add a uniqueness counter.
- * - Tab pages (`showTabs: true`) get an extra H1 from the TabBar, built from
- *   the page title. A tab usually has no title of its own and inherits it
- *   from its parent page, so `components/table/properties` renders "Table".
+ * - `PortalLayout` renders an extra H1 from the page title. A page without a
+ *   title of its own inherits it from its nearest ancestor page, so
+ *   `components/table/properties` renders "Table".
  * - MDX may also set `id="..."` explicitly on any element.
  *
  * A page is analyzed together with the MDX partials it renders, because those
@@ -296,28 +296,31 @@ describe('portal page ids', () => {
   const pagesBySlug = new Map(mdxPages.map((page) => [page.slug, page]))
 
   /**
-   * The title the TabBar renders as the page H1.
+   * The title `PortalLayout` renders as the page H1, or undefined when the
+   * page renders none.
    *
-   * A tab page usually has no `title` of its own and inherits it from the
-   * nearest ancestor page, the way `PortalLayout` merges the category
-   * frontmatter over the current one. So `components/table/properties`
-   * renders "Table", and a `## Table` heading in it is a collision.
+   * `contentTitle` overrides the title for the heading only. A page without a
+   * title of its own inherits it from its nearest ancestor page, the way
+   * `PortalLayout` merges the parent frontmatter over the current one. So
+   * `components/table/properties` renders "Table", and a `## Table` heading
+   * in it is a collision.
    */
-  function resolveTabTitle(page: PageFileInfo): string | undefined {
-    if (page.frontmatter.showTabs !== true) {
-      return undefined
+  function resolvePageTitle(page: PageFileInfo): string | undefined {
+    const { contentTitle, title } = page.frontmatter
+    if (contentTitle !== undefined) {
+      return contentTitle ? String(contentTitle) : undefined
     }
-
-    const ownTitle = page.frontmatter.title
-    if (ownTitle) {
-      return String(ownTitle)
+    if (title !== undefined) {
+      return title ? String(title) : undefined
     }
 
     const parts = page.slug.split('/')
     for (let i = parts.length - 1; i > 0; i--) {
       const ancestor = pagesBySlug.get(parts.slice(0, i).join('/'))
-      if (ancestor?.frontmatter.title) {
-        return String(ancestor.frontmatter.title)
+      if (ancestor) {
+        return ancestor.frontmatter.title
+          ? String(ancestor.frontmatter.title)
+          : undefined
       }
     }
 
@@ -329,16 +332,28 @@ describe('portal page ids', () => {
     expect(mdxPages.length).toBeGreaterThan(50)
   })
 
-  it('resolves the H1 a tab page inherits from its parent', () => {
+  it('resolves the H1 a page inherits from its parent', () => {
     // Most tab pages carry no title of their own. Reading only their own
     // frontmatter silently skips the H1 for hundreds of pages, so assert the
     // inherited title is found rather than trusting it is.
     expect(
-      resolveTabTitle(pagesBySlug.get('uilib/components/table/properties'))
+      resolvePageTitle(
+        pagesBySlug.get('uilib/components/table/properties')
+      )
     ).toBe('Table')
 
+    // `contentTitle` replaces the title for the heading only.
+    expect(
+      resolvePageTitle(pagesBySlug.get('uilib/usage/first-steps/react'))
+    ).toBe(
+      String(
+        pagesBySlug.get('uilib/usage/first-steps/react').frontmatter
+          .contentTitle
+      )
+    )
+
     const inherited = mdxPages.filter(
-      (page) => !page.frontmatter.title && resolveTabTitle(page)
+      (page) => !page.frontmatter.title && resolvePageTitle(page)
     )
     expect(inherited.length).toBeGreaterThan(100)
   })
@@ -362,12 +377,12 @@ describe('portal page ids', () => {
       for (const theme of themeNames) {
         const renderedIds = collectRenderedIds(page.filePath, theme)
 
-        // The TabBar renders an H1 with an anchor made from the title.
-        const tabTitle = resolveTabTitle(page)
-        if (tabTitle) {
-          const id = getSlugFromText(tabTitle)
+        // PortalLayout renders an H1 with an anchor made from the title.
+        const pageTitle = resolvePageTitle(page)
+        if (pageTitle) {
+          const id = getSlugFromText(pageTitle)
           if (id) {
-            renderedIds.unshift({ id, sourceFile: 'tab bar title' })
+            renderedIds.unshift({ id, sourceFile: 'page title' })
           }
         }
 
