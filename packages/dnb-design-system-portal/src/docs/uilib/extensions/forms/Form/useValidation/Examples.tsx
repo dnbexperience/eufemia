@@ -60,6 +60,43 @@ export function HasErrors() {
   )
 }
 
+export function HasFieldErrorWithDescendants() {
+  return (
+    <ComponentBox>
+      {() => {
+        const Component = () => {
+          const { hasFieldError } = Form.useValidation('descendants-id')
+
+          return (
+            <Form.Handler id="descendants-id">
+              <Flex.Stack>
+                <Tools.Log
+                  data={hasFieldError('/mySection', {
+                    withDescendants: true,
+                  })}
+                  label="hasFieldError with descendants:"
+                  breakout={false}
+                />
+
+                <Form.Section path="/mySection">
+                  <Field.String
+                    label="Write something valid"
+                    path="/myField"
+                    pattern="^valid$"
+                    validateInitially
+                  />
+                </Form.Section>
+              </Flex.Stack>
+            </Form.Handler>
+          )
+        }
+
+        return <Component />
+      }}
+    </ComponentBox>
+  )
+}
+
 export function SetFieldStatus() {
   return (
     <ComponentBox>

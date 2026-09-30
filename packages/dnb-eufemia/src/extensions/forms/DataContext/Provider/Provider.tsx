@@ -648,12 +648,14 @@ export default function Provider<Data extends JsonObject>(
   )
   const hasFieldError: ContextState['hasFieldError'] = useCallback(
     (path, { withDescendants = false } = {}) => {
+      // The trailing slash keeps "/foo" from matching siblings like "/fooBar"
+      const prefix = path?.endsWith('/') ? path : `${path}/`
+
       return Array.from(mountedFieldsRef.current.entries()).some(
         ([p, item]) => {
           return (
             item.isMounted &&
-            (p === path ||
-              (withDescendants && p.startsWith(`${path}/`))) &&
+            (p === path || (withDescendants && p.startsWith(prefix))) &&
             checkFieldStateFor(p, 'error')
           )
         }
