@@ -2,7 +2,6 @@ import {
   assertModesAreExported,
   convertVariablesToTokens,
   extractTokens,
-  readKnownVariableIds,
   TOKEN_EXPORTS,
   type FigmaLocalVariables,
 } from '../tasks/tokensExtractor'
@@ -27,8 +26,8 @@ const inAllModes = <Value>(value: Value) =>
 
 const meta: FigmaLocalVariables = {
   variableCollections: {
-    'VariableCollectionId:1:1': {
-      id: 'VariableCollectionId:1:1',
+    'VariableCollectionId:53684:1279': {
+      id: 'VariableCollectionId:53684:1279',
       name: 'brand',
       modes: [
         { modeId: '1:0', name: 'dnb-light' },
@@ -60,7 +59,7 @@ const meta: FigmaLocalVariables = {
     'VariableID:1:2': {
       id: 'VariableID:1:2',
       name: 'color/background/page-background',
-      variableCollectionId: 'VariableCollectionId:1:1',
+      variableCollectionId: 'VariableCollectionId:53684:1279',
       resolvedType: 'COLOR',
       valuesByMode: {
         '1:0': { type: 'VARIABLE_ALIAS', id: 'VariableID:def/5552:1666' },
@@ -74,7 +73,7 @@ const meta: FigmaLocalVariables = {
     'VariableID:1:3': {
       id: 'VariableID:1:3',
       name: 'radius/interactive',
-      variableCollectionId: 'VariableCollectionId:1:1',
+      variableCollectionId: 'VariableCollectionId:53684:1279',
       resolvedType: 'FLOAT',
       valuesByMode: { '1:0': 4, '1:1': 4, ...inAllModes(4) },
       hiddenFromPublishing: true,
@@ -84,7 +83,7 @@ const meta: FigmaLocalVariables = {
     'VariableID:1:4': {
       id: 'VariableID:1:4',
       name: 'font/weight/basis',
-      variableCollectionId: 'VariableCollectionId:1:1',
+      variableCollectionId: 'VariableCollectionId:53684:1279',
       resolvedType: 'STRING',
       valuesByMode: {
         '1:0': 'Regular',
@@ -97,7 +96,7 @@ const meta: FigmaLocalVariables = {
     'VariableID:1:5': {
       id: 'VariableID:1:5',
       name: 'font/weight',
-      variableCollectionId: 'VariableCollectionId:1:1',
+      variableCollectionId: 'VariableCollectionId:53684:1279',
       resolvedType: 'STRING',
       valuesByMode: {
         '1:0': 'Medium',
@@ -139,7 +138,7 @@ const withDuplicateBrand: FigmaLocalVariables = {
   variableCollections: {
     ...meta.variableCollections,
     'VariableCollectionId:2:1': {
-      ...meta.variableCollections['VariableCollectionId:1:1'],
+      ...meta.variableCollections['VariableCollectionId:53684:1279'],
       id: 'VariableCollectionId:2:1',
       variableIds: ['VariableID:2:2'],
     },
@@ -153,6 +152,18 @@ const withDuplicateBrand: FigmaLocalVariables = {
     },
   },
 }
+
+describe('TOKEN_EXPORTS', () => {
+  it('pins every brand export to the same collection id', () => {
+    const ids = new Set(
+      TOKEN_EXPORTS.filter(({ collection }) => collection === 'brand').map(
+        ({ collectionId }) => collectionId
+      )
+    )
+
+    expect(ids).toEqual(new Set(['VariableCollectionId:53684:1279']))
+  })
+})
 
 describe('convertVariablesToTokens', () => {
   it('converts an aliased color to the resolved value and alias data', () => {
@@ -292,29 +303,32 @@ describe('convertVariablesToTokens', () => {
         collection: 'spacing',
         mode: 'spacing',
       })
-    ).toThrow('Found no Figma variable collection named "spacing"')
+    ).toThrow(
+      'Expected exactly one Figma variable collection named "spacing", found 0'
+    )
   })
 
-  it('picks the duplicate collection the committed ids point at', () => {
+  it('takes the pinned collection when two share a name', () => {
     const tokens = convertVariablesToTokens({
       meta: withDuplicateBrand,
       collection: 'brand',
+      collectionId: 'VariableCollectionId:53684:1279',
       mode: 'dnb-light',
-      knownVariableIds: new Map([['brand', new Set(['VariableID:1:3'])]]),
     })
 
     expect(tokens.radius).toBeDefined()
   })
 
-  it('throws when the committed ids cannot tell duplicate collections apart', () => {
+  it('throws when the pinned collection is gone', () => {
     expect(() =>
       convertVariablesToTokens({
         meta: withDuplicateBrand,
         collection: 'brand',
+        collectionId: 'VariableCollectionId:9:9',
         mode: 'dnb-light',
       })
     ).toThrow(
-      'Found 2 Figma variable collections named "brand", and the committed token files did not point at one of them: VariableCollectionId:1:1 (4 variables, 0 already committed), VariableCollectionId:2:1 (1 variables, 0 already committed)'
+      'Expected exactly one Figma variable collection named "brand" with the id "VariableCollectionId:9:9", found 0'
     )
   })
 
@@ -385,11 +399,12 @@ describe('assertModesAreExported', () => {
         ...meta,
         variableCollections: {
           ...meta.variableCollections,
-          'VariableCollectionId:1:1': {
-            ...meta.variableCollections['VariableCollectionId:1:1'],
+          'VariableCollectionId:53684:1279': {
+            ...meta.variableCollections['VariableCollectionId:53684:1279'],
             modes: [
-              ...meta.variableCollections['VariableCollectionId:1:1']
-                .modes,
+              ...meta.variableCollections[
+                'VariableCollectionId:53684:1279'
+              ].modes,
               { modeId: '1:5', name: 'dnbcarnegie-dark' },
             ],
           },
@@ -416,24 +431,6 @@ describe('assertModesAreExported', () => {
         },
       })
     ).not.toThrow()
-  })
-})
-
-describe('readKnownVariableIds', () => {
-  it('reads the ids out of the committed token files', () => {
-    const known = readKnownVariableIds(
-      path.resolve(__dirname, '../../../src/style/themes/figma')
-    )
-
-    expect(known.get('brand').size).toBeGreaterThan(0)
-    expect(known.get('colors').size).toBeGreaterThan(0)
-  })
-
-  it('returns empty sets when no token file exists', () => {
-    const known = readKnownVariableIds('/does-not-exist')
-
-    expect(known.get('brand').size).toBe(0)
-    expect(known.get('colors').size).toBe(0)
   })
 })
 
@@ -487,8 +484,10 @@ describe('extractTokens', () => {
           ...meta,
           variableCollections: {
             ...meta.variableCollections,
-            'VariableCollectionId:1:1': {
-              ...meta.variableCollections['VariableCollectionId:1:1'],
+            'VariableCollectionId:53684:1279': {
+              ...meta.variableCollections[
+                'VariableCollectionId:53684:1279'
+              ],
               modes: [{ modeId: '1:0', name: 'dnb-light' }],
             },
           },
