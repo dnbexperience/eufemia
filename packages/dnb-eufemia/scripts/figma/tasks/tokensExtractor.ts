@@ -8,6 +8,7 @@
  */
 
 import fs from 'fs-extra'
+import { readFileSync } from 'node:fs'
 import path from 'path'
 import { log } from '../../lib'
 import { createFigmaClient } from '../helpers/figmaClient'
@@ -212,21 +213,107 @@ const toTokenValue = (
   return value as number | string
 }
 
+/** The variable ids already committed, per collection name */
+export type KnownVariableIds = Map<string, Set<string>>
+
+const collectVariableIds = (node: unknown, ids: Set<string>) => {
+  if (typeof node !== 'object' || node === null) {
+    return
+  }
+
+  const id = (node as TokenLeaf).$extensions?.['com.figma.variableId']
+
+  if (typeof id === 'string') {
+    ids.add(id)
+  }
+
+  for (const value of Object.values(node)) {
+    collectVariableIds(value, ids)
+  }
+}
+
+/**
+ * Reads the variable ids out of the committed token files. Figma allows two
+ * collections to share a name, and the ids are what tells them apart.
+ */
+export const readKnownVariableIds = (tokensDir: string) => {
+  const known: KnownVariableIds = new Map()
+
+  for (const { collection, fileName } of TOKEN_EXPORTS) {
+    const ids = known.get(collection) ?? new Set<string>()
+    known.set(collection, ids)
+
+    try {
+      collectVariableIds(
+        JSON.parse(
+          readFileSync(path.resolve(tokensDir, fileName), 'utf-8')
+        ),
+        ids
+      )
+    } catch {
+      // A collection that was never exported has no ids to compare against
+    }
+  }
+
+  return known
+}
+
+/**
+ * Duplicating a collection in Figma gives its variables new ids, so the
+ * collection we already export is the one the committed ids point into.
+ */
+const pickKnownCollection = (
+  collections: FigmaVariableCollection[],
+  name: string,
+  knownIds: Set<string> = new Set()
+) => {
+  const [best, next] = collections
+    .map((collection) => ({
+      collection,
+      matches: collection.variableIds.filter((id) => knownIds.has(id))
+        .length,
+    }))
+    .sort((a, b) => b.matches - a.matches)
+
+  if (best.matches === 0 || best.matches === next.matches) {
+    throw new Error(
+      `Expected exactly one Figma variable collection named "${name}", found ${collections.length} (${collections
+        .map((collection) => collection.id)
+        .join(
+          ', '
+        )}), and the committed token files did not point at one of them`
+    )
+  }
+
+  log.info(
+    `> Figma: Found ${collections.length} variable collections named "${name}", using ${best.collection.id}`
+  )
+
+  return best.collection
+}
+
 const findCollection = (
   { variableCollections }: FigmaLocalVariables,
-  name: string
+  name: string,
+  knownVariableIds?: KnownVariableIds
 ) => {
   const collections = Object.values(variableCollections).filter(
     (collection) => collection.name === name
   )
 
-  if (collections.length !== 1) {
-    throw new Error(
-      `Expected exactly one Figma variable collection named "${name}", found ${collections.length}`
-    )
+  if (collections.length === 0) {
+    throw new Error(`Found no Figma variable collection named "${name}"`)
   }
 
-  return collections[0]
+  if (collections.length === 1) {
+    return collections[0]
+  }
+
+  return pickKnownCollection(
+    collections,
+    name,
+    knownVariableIds?.get(name)
+  )
 }
 
 const findModeId = (collection: FigmaVariableCollection, name: string) => {
@@ -247,7 +334,10 @@ const findModeId = (collection: FigmaVariableCollection, name: string) => {
  * A mode added in Figma would otherwise never reach the library, because
  * nothing outside of Figma shows that it exists.
  */
-export const assertModesAreExported = (meta: FigmaLocalVariables) => {
+export const assertModesAreExported = (
+  meta: FigmaLocalVariables,
+  knownVariableIds?: KnownVariableIds
+) => {
   const collectionNames = Array.from(
     new Set(TOKEN_EXPORTS.map(({ collection }) => collection))
   )
@@ -257,7 +347,7 @@ export const assertModesAreExported = (meta: FigmaLocalVariables) => {
       ({ collection }) => collection === collectionName
     ).map(({ mode }) => mode)
 
-    const missing = findCollection(meta, collectionName)
+    const missing = findCollection(meta, collectionName, knownVariableIds)
       .modes.map((mode) => mode.name)
       .filter((name) => !exported.includes(name))
 
@@ -440,12 +530,14 @@ export const convertVariablesToTokens = ({
   meta,
   collection: collectionName,
   mode: modeName,
+  knownVariableIds,
 }: {
   meta: FigmaLocalVariables
   collection: string
   mode: string
+  knownVariableIds?: KnownVariableIds
 }): TokenExport => {
-  const collection = findCollection(meta, collectionName)
+  const collection = findCollection(meta, collectionName, knownVariableIds)
   const modeId = findModeId(collection, modeName)
   const tokens: TokenGroup = {}
 
@@ -518,14 +610,20 @@ export const extractTokens = async ({
   }
 
   const meta = await fetchLocalVariables(figmaFile)
+  const knownVariableIds = readKnownVariableIds(tokensDir)
 
-  assertModesAreExported(meta)
+  assertModesAreExported(meta, knownVariableIds)
 
   const exports = TOKEN_EXPORTS.map(({ collection, mode, fileName }) => {
     let tokens: TokenExport
 
     try {
-      tokens = convertVariablesToTokens({ meta, collection, mode })
+      tokens = convertVariablesToTokens({
+        meta,
+        collection,
+        mode,
+        knownVariableIds,
+      })
     } catch (e) {
       throw new Error(
         `Failed to convert the Figma collection "${collection}" (mode "${mode}") into ${fileName}`,
