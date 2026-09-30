@@ -87,6 +87,7 @@ export function HasFieldErrorWithDescendants() {
                     label="Write something valid"
                     path="/myField"
                     pattern="^valid$"
+                    required
                     validateInitially
                   />
                 </Form.Section>
