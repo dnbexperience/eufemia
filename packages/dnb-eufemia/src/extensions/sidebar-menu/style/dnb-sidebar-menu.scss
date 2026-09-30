@@ -55,13 +55,11 @@
         --token-color-background-neutral-base
       );
       --button-color-border--default: var(
-        --token-color-stroke-neutral-subtle
+        --token-color-stroke-neutral-base
       );
-      --button-color-border--hover: var(
-        --token-color-stroke-neutral-subtle
-      );
+      --button-color-border--hover: var(--token-color-stroke-neutral-base);
       --button-color-border--active: var(
-        --token-color-stroke-neutral-subtle
+        --token-color-stroke-neutral-base
       );
       --button-color-icon--default: var(--token-color-icon-neutral);
       --button-color-icon--hover: var(--token-color-icon-neutral);
