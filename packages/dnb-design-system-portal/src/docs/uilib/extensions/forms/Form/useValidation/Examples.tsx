@@ -64,20 +64,24 @@ export function HasFieldErrorWithDescendants() {
   return (
     <ComponentBox>
       {() => {
-        const Component = () => {
-          const { hasFieldError } = Form.useValidation('descendants-id')
+        const MyCustomComponent = () => {
+          const { hasFieldError } = Form.useValidation()
 
           return (
-            <Form.Handler id="descendants-id">
-              <Flex.Stack>
-                <Tools.Log
-                  data={hasFieldError('/mySection', {
-                    withDescendants: true,
-                  })}
-                  label="hasFieldError with descendants:"
-                  breakout={false}
-                />
+            <Tools.Log
+              data={hasFieldError('/mySection', {
+                withDescendants: true,
+              })}
+              label="Section has an error:"
+              breakout={false}
+            />
+          )
+        }
 
+        const MyForm = () => {
+          return (
+            <Form.Handler>
+              <Flex.Stack>
                 <Form.Section path="/mySection">
                   <Field.String
                     label="Write something valid"
@@ -86,12 +90,14 @@ export function HasFieldErrorWithDescendants() {
                     validateInitially
                   />
                 </Form.Section>
+
+                <MyCustomComponent />
               </Flex.Stack>
             </Form.Handler>
           )
         }
 
-        return <Component />
+        return <MyForm />
       }}
     </ComponentBox>
   )

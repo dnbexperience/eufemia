@@ -684,6 +684,43 @@ describe('useValidation', () => {
           expect(output).toHaveTextContent('{"hasError":false}')
         })
       })
+
+      it('should rerender when used inside of the form context', async () => {
+        const MockComponent = () => {
+          const { hasFieldError } = useValidation()
+
+          return (
+            <output>
+              {JSON.stringify({
+                hasError: hasFieldError('/section', {
+                  withDescendants: true,
+                }),
+              })}
+            </output>
+          )
+        }
+
+        render(
+          <Form.Handler>
+            <Form.Section path="/section">
+              <Field.String path="/fieldX" required />
+            </Form.Section>
+            <MockComponent />
+          </Form.Handler>
+        )
+
+        const output = document.querySelector('output')
+
+        await waitFor(() => {
+          expect(output).toHaveTextContent('{"hasError":true}')
+        })
+
+        await userEvent.type(document.querySelector('input'), 'abc')
+
+        await waitFor(() => {
+          expect(output).toHaveTextContent('{"hasError":false}')
+        })
+      })
     })
   })
 
