@@ -56,6 +56,7 @@ type FigmaVariable = {
   valuesByMode: Record<string, FigmaVariableValue>
   description?: string
   hiddenFromPublishing?: boolean
+  deletedButReferenced?: boolean
   scopes?: string[]
   codeSyntax?: Record<string, string>
 }
@@ -474,8 +475,9 @@ export const convertVariablesToTokens = ({
   for (const variableId of collection.variableIds) {
     const variable = meta.variables[variableId]
 
-    if (!variable) {
-      continue // a deleted variable can still be referenced by the collection
+    // A deleted variable keeps its name, and can collide with the one that replaced it
+    if (!variable || variable.deletedButReferenced) {
+      continue
     }
 
     addTokenLeaf(

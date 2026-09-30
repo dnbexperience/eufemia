@@ -319,6 +319,41 @@ describe('convertVariablesToTokens', () => {
     expect(tokens.radius).toBeDefined()
   })
 
+  it('skips a deleted variable that shares its name with a live one', () => {
+    const brand =
+      meta.variableCollections['VariableCollectionId:53684:1279']
+    const live = meta.variables['VariableID:1:2']
+
+    const tokens = convertVariablesToTokens({
+      meta: {
+        variableCollections: {
+          ...meta.variableCollections,
+          'VariableCollectionId:53684:1279': {
+            ...brand,
+            variableIds: [...brand.variableIds, 'VariableID:1:6'],
+          },
+        },
+        variables: {
+          ...meta.variables,
+          'VariableID:1:6': {
+            ...live,
+            id: 'VariableID:1:6',
+            deletedButReferenced: true,
+          },
+        },
+      },
+      collection: 'brand',
+      collectionId: 'VariableCollectionId:53684:1279',
+      mode: 'dnb-light',
+    })
+
+    expect(
+      tokens.color['background']['page-background'].$extensions[
+        'com.figma.variableId'
+      ]
+    ).toBe('VariableID:1:2')
+  })
+
   it('throws when the pinned collection is gone', () => {
     expect(() =>
       convertVariablesToTokens({
