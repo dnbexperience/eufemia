@@ -604,6 +604,22 @@ describe('useValidation', () => {
         ).toBe(true)
       })
 
+      it('should match every field when given the root path', () => {
+        render(
+          <Form.Handler id={identifier}>
+            <Form.Section path="/section">
+              <Field.String path="/fieldX" required />
+            </Form.Section>
+          </Form.Handler>
+        )
+
+        const { result } = renderHook(() => useValidation(identifier))
+
+        expect(
+          result.current.hasFieldError('/', { withDescendants: true })
+        ).toBe(true)
+      })
+
       it('should react on changes', async () => {
         render(
           <Form.Handler id={identifier}>
@@ -628,6 +644,45 @@ describe('useValidation', () => {
             withDescendants: true,
           })
         ).toBe(false)
+      })
+
+      it('should rerender when used outside of the form context', async () => {
+        const MockComponent = () => {
+          const { hasFieldError } = useValidation(identifier)
+
+          return (
+            <output>
+              {JSON.stringify({
+                hasError: hasFieldError('/section', {
+                  withDescendants: true,
+                }),
+              })}
+            </output>
+          )
+        }
+
+        render(
+          <>
+            <Form.Handler id={identifier}>
+              <Form.Section path="/section">
+                <Field.String path="/fieldX" required />
+              </Form.Section>
+            </Form.Handler>
+            <MockComponent />
+          </>
+        )
+
+        const output = document.querySelector('output')
+
+        await waitFor(() => {
+          expect(output).toHaveTextContent('{"hasError":true}')
+        })
+
+        await userEvent.type(document.querySelector('input'), 'abc')
+
+        await waitFor(() => {
+          expect(output).toHaveTextContent('{"hasError":false}')
+        })
       })
     })
   })
