@@ -266,9 +266,8 @@ const findModeId = (collection: FigmaVariableCollection, name: string) => {
 export const assertModesAreExported = (meta: FigmaLocalVariables) => {
   const collections = TOKEN_EXPORTS.filter(
     ({ collection }, index) =>
-      TOKEN_EXPORTS.findIndex(
-        (item) => item.collection === collection
-      ) === index
+      TOKEN_EXPORTS.findIndex((item) => item.collection === collection) ===
+      index
   )
 
   for (const { collection: collectionName, collectionId } of collections) {
