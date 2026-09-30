@@ -21,7 +21,7 @@ import { pickSpacingProps } from '../../../../components/flex/utils'
 import { toCapitalized } from '../../../../shared/component-helper'
 import type { TextCounterProps } from '../../../../fragments/TextCounter'
 import type { FieldProps, Schema } from '../../types'
-import mergeHtmlAttributes from '../../utils/mergeHtmlAttributes'
+import mergeProps from '../../utils/mergeProps'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type FieldStringProps = FieldProps<string, undefined | string> & {
@@ -329,7 +329,7 @@ function StringComponent(props: FieldStringProps) {
   const cn = clsx('dnb-forms-field-string__input', inputClassName)
 
   const sharedProps = {
-    ...mergeHtmlAttributes(
+    ...mergeProps(
       {
         id,
         name,

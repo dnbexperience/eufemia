@@ -31,7 +31,7 @@ import type {
 import { clamp } from '../../../../shared/helpers/clamp'
 import DataContext from '../../DataContext/Context'
 import { FormError } from '../../utils'
-import mergeHtmlAttributes from '../../utils/mergeHtmlAttributes'
+import mergeProps from '../../utils/mergeProps'
 import * as z from 'zod'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
@@ -620,7 +620,7 @@ function NumberComponent(props: FieldNumberProps) {
   }
 
   const inputProps = {
-    ...mergeHtmlAttributes(
+    ...mergeProps(
       {
         id,
         name,

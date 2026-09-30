@@ -15,6 +15,7 @@ import DataContext from '../../DataContext/Context'
 import useDataValue from '../../hooks/useDataValue'
 import { usePath } from '../../hooks'
 import { convertJsxToString } from '../../../../shared/component-helper'
+import mergeProps from '../../utils/mergeProps'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type IteratePushButtonProps = ButtonProps & {
@@ -111,12 +112,16 @@ function PushButton(props: IteratePushButtonProps) {
 
   return (
     <Button
-      className={clsx('dnb-forms-iterate-push-button', className)}
-      variant="secondary"
-      icon={add}
-      iconPosition="left"
-      onClick={handleClick}
-      {...buttonProps}
+      {...mergeProps<ButtonProps>(
+        {
+          className: clsx('dnb-forms-iterate-push-button', className),
+          variant: 'secondary',
+          icon: add,
+          iconPosition: 'left',
+          onClick: handleClick,
+        },
+        buttonProps
+      )}
     >
       {content}
     </Button>

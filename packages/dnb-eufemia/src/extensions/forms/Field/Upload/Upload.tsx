@@ -18,7 +18,7 @@ import Upload from '../../../../components/Upload'
 import useUpload from '../../../../components/upload/useUpload'
 import { isSameFile } from '../../../../components/upload/uploadFileUtils'
 import { pickSpacingProps } from '../../../../components/flex/utils'
-import mergeHtmlAttributes from '../../utils/mergeHtmlAttributes'
+import mergeProps from '../../utils/mergeProps'
 import type { HelpProps } from '../../../../components/help-button/HelpButtonInline'
 import HelpButtonInline, {
   HelpButtonInlineContent,
@@ -535,7 +535,7 @@ function UploadComponent(props: FieldUploadProps) {
             usedLabelDescription
           )
         }
-        {...mergeHtmlAttributes(
+        {...mergeProps(
           {
             onChange: changeHandler,
             onFileDelete,

@@ -2,7 +2,7 @@ import { Fragment, useCallback, useMemo, useRef } from 'react'
 import type { ReactNode, MouseEvent } from 'react'
 import { clsx } from 'clsx'
 import { Checkbox } from '../../../../components'
-import mergeHtmlAttributes from '../../utils/mergeHtmlAttributes'
+import mergeProps from '../../utils/mergeProps'
 import ScrollView from '../../../../components/scroll-view/ScrollView'
 import { P } from '../../../../elements'
 import { useHighlightText } from '../../../../shared/helpers/highlightText'
@@ -137,7 +137,7 @@ export function MultiSelectionItemList({
         disabled={disabled || item.disabled}
         label={highlight(item.title)}
         className="dnb-forms-field-multi-selection__checkbox"
-        {...mergeHtmlAttributes(
+        {...mergeProps(
           {
             onChange: () =>
               item.children

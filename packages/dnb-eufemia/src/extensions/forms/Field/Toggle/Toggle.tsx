@@ -13,7 +13,7 @@ import FieldBlock from '../../FieldBlock'
 import { useFieldProps } from '../../hooks'
 import type { FieldProps } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
-import mergeHtmlAttributes from '../../utils/mergeHtmlAttributes'
+import mergeProps from '../../utils/mergeProps'
 import ToggleButtonGroupContext from '../../../../components/toggle-button/ToggleButtonGroupContext'
 import useTranslation from '../../hooks/useTranslation'
 import { useIterateItemNo } from '../../Iterate/ItemNo/useIterateItemNo'
@@ -175,7 +175,7 @@ function Toggle(props: FieldToggleProps) {
             size={size !== 'small' ? size : undefined}
             status={hasError ? 'error' : undefined}
             suffix={helpButton}
-            {...mergeHtmlAttributes(
+            {...mergeProps(
               {
                 onChange: handleCheckboxChange,
                 onClick: handleClick,
@@ -203,7 +203,7 @@ function Toggle(props: FieldToggleProps) {
             size={size !== 'small' ? size : undefined}
             status={hasError ? 'error' : undefined}
             suffix={helpButton}
-            {...mergeHtmlAttributes(
+            {...mergeProps(
               {
                 onChange: handleSwitchChange,
                 onClick: handleClick,
@@ -229,7 +229,7 @@ function Toggle(props: FieldToggleProps) {
             value={value ? 'true' : 'false'}
             size={size}
             role="checkbox"
-            {...mergeHtmlAttributes(
+            {...mergeProps(
               { onChange: handleCheckboxChange },
               htmlAttributes
             )}
@@ -324,7 +324,7 @@ function Toggle(props: FieldToggleProps) {
             value={value ? 'true' : 'false'}
             size={size}
             role="checkbox"
-            {...mergeHtmlAttributes(
+            {...mergeProps(
               { onChange: handleCheckboxChange },
               htmlAttributes
             )}

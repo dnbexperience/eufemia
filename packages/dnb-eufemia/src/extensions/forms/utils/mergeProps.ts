@@ -1,16 +1,17 @@
-/** Merges `htmlAttributes` into field props, calling both event handlers instead of replacing the field's own. */
-export default function mergeHtmlAttributes<
-  T extends Record<string, unknown>,
->(props: T, htmlAttributes?: Record<string, unknown>): T {
-  if (!htmlAttributes) {
+/** Merges a given props object into a component's own props, calling both event handlers instead of replacing the component's own. */
+export default function mergeProps<T extends Record<string, unknown>>(
+  props: T,
+  givenProps?: Record<string, unknown>
+): T {
+  if (!givenProps) {
     return props
   }
 
-  const merged: Record<string, unknown> = { ...props, ...htmlAttributes }
+  const merged: Record<string, unknown> = { ...props, ...givenProps }
 
-  for (const key of Object.keys(htmlAttributes)) {
+  for (const key of Object.keys(givenProps)) {
     const ownHandler = props[key]
-    const givenHandler = htmlAttributes[key]
+    const givenHandler = givenProps[key]
 
     if (
       /^on[A-Z]/.test(key) &&

@@ -5,7 +5,7 @@ import FieldBlockContext from '../../FieldBlock/FieldBlockContext'
 import { LOCALE } from '../../../../shared/defaults'
 import { Autocomplete } from '../../../../components'
 import { pickSpacingProps } from '../../../../components/flex/utils'
-import mergeHtmlAttributes from '../../utils/mergeHtmlAttributes'
+import mergeProps from '../../utils/mergeProps'
 import currencies, {
   prioritizedCurrencies,
   type CurrencyType,
@@ -280,7 +280,7 @@ function SelectCurrency(props: FieldSelectCurrencyProps) {
         autoComplete={autoComplete}
         noAnimation={noAnimation}
         listDriver={listDriver}
-        {...mergeHtmlAttributes(
+        {...mergeProps(
           {
             onOpen: fillData,
             onFocus: onFocusHandler,

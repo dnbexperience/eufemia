@@ -9,6 +9,7 @@ import ArrayItemAreaContext from '../Array/ArrayItemAreaContext'
 import type { DataValueReadWriteComponentProps } from '../../types'
 import { omitDataValueReadWriteProps } from '../../types'
 import { trash } from '../../../../icons'
+import mergeProps from '../../utils/mergeProps'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type IterateRemoveButtonProps = ButtonProps &
@@ -69,9 +70,10 @@ function RemoveButton(props: IterateRemoveButtonProps) {
 
   return (
     <Button
-      {...triggerProps}
-      onClick={(args) => handleClick(args)}
-      {...buttonProps}
+      {...mergeProps(
+        { ...triggerProps, onClick: (args) => handleClick(args) },
+        buttonProps
+      )}
     />
   )
 }
