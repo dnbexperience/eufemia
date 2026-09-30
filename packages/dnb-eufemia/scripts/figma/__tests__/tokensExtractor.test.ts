@@ -271,7 +271,37 @@ describe('convertVariablesToTokens', () => {
         collection: 'spacing',
         mode: 'spacing',
       })
-    ).toThrow('Expected exactly one Figma variable collection named')
+    ).toThrow('Found no Figma variable collection named "spacing"')
+  })
+
+  it('falls back to the first of two collections sharing a name', () => {
+    const tokens = convertVariablesToTokens({
+      meta: {
+        variableCollections: {
+          ...meta.variableCollections,
+          'VariableCollectionId:2:1': {
+            ...meta.variableCollections['VariableCollectionId:1:1'],
+            id: 'VariableCollectionId:2:1',
+            variableIds: ['VariableID:2:2'],
+          },
+        },
+        variables: {
+          ...meta.variables,
+          'VariableID:2:2': {
+            ...meta.variables['VariableID:1:2'],
+            id: 'VariableID:2:2',
+            variableCollectionId: 'VariableCollectionId:2:1',
+          },
+        },
+      },
+      collection: 'brand',
+      mode: 'dnb-light',
+    })
+
+    expect(tokens.radius).toBeDefined()
+    expect(log.info).toHaveBeenCalledWith(
+      '> Figma: Found 2 variable collections named "brand", using VariableCollectionId:1:1'
+    )
   })
 
   it('names the available modes when the mode is unknown', () => {
@@ -354,6 +384,24 @@ describe('assertModesAreExported', () => {
     ).toThrow(
       'The Figma variable collection "brand" has modes that are not exported: dnbcarnegie-dark'
     )
+  })
+
+  it('ignores a collection that is not exported', () => {
+    expect(() =>
+      assertModesAreExported({
+        ...meta,
+        variableCollections: {
+          ...meta.variableCollections,
+          'VariableCollectionId:3:1': {
+            id: 'VariableCollectionId:3:1',
+            name: 'screen-size',
+            modes: [{ modeId: '3:0', name: 'small' }],
+            defaultModeId: '3:0',
+            variableIds: [],
+          },
+        },
+      })
+    ).not.toThrow()
   })
 })
 

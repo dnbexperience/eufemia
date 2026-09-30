@@ -220,9 +220,14 @@ const findCollection = (
     (collection) => collection.name === name
   )
 
-  if (collections.length !== 1) {
-    throw new Error(
-      `Expected exactly one Figma variable collection named "${name}", found ${collections.length}`
+  if (collections.length === 0) {
+    throw new Error(`Found no Figma variable collection named "${name}"`)
+  }
+
+  // Figma allows two collections to share a name, and the response has no stable order
+  if (collections.length > 1) {
+    log.info(
+      `> Figma: Found ${collections.length} variable collections named "${name}", using ${collections[0].id}`
     )
   }
 
