@@ -2,7 +2,6 @@ import {
   assertModesAreExported,
   convertVariablesToTokens,
   extractTokens,
-  readKnownVariableIds,
   TOKEN_EXPORTS,
   type FigmaLocalVariables,
 } from '../tasks/tokensExtractor'
@@ -133,26 +132,6 @@ beforeEach(() => {
 afterEach(() => {
   vi.restoreAllMocks()
 })
-
-/** A second collection named "brand", as Figma allows */
-const withDuplicateBrand: FigmaLocalVariables = {
-  variableCollections: {
-    ...meta.variableCollections,
-    'VariableCollectionId:2:1': {
-      ...meta.variableCollections['VariableCollectionId:1:1'],
-      id: 'VariableCollectionId:2:1',
-      variableIds: ['VariableID:2:2'],
-    },
-  },
-  variables: {
-    ...meta.variables,
-    'VariableID:2:2': {
-      ...meta.variables['VariableID:1:2'],
-      id: 'VariableID:2:2',
-      variableCollectionId: 'VariableCollectionId:2:1',
-    },
-  },
-}
 
 describe('convertVariablesToTokens', () => {
   it('converts an aliased color to the resolved value and alias data', () => {
@@ -295,26 +274,33 @@ describe('convertVariablesToTokens', () => {
     ).toThrow('Found no Figma variable collection named "spacing"')
   })
 
-  it('picks the duplicate collection the committed ids point at', () => {
+  it('falls back to the first of two collections sharing a name', () => {
     const tokens = convertVariablesToTokens({
-      meta: withDuplicateBrand,
+      meta: {
+        variableCollections: {
+          ...meta.variableCollections,
+          'VariableCollectionId:2:1': {
+            ...meta.variableCollections['VariableCollectionId:1:1'],
+            id: 'VariableCollectionId:2:1',
+            variableIds: ['VariableID:2:2'],
+          },
+        },
+        variables: {
+          ...meta.variables,
+          'VariableID:2:2': {
+            ...meta.variables['VariableID:1:2'],
+            id: 'VariableID:2:2',
+            variableCollectionId: 'VariableCollectionId:2:1',
+          },
+        },
+      },
       collection: 'brand',
       mode: 'dnb-light',
-      knownVariableIds: new Map([['brand', new Set(['VariableID:1:3'])]]),
     })
 
     expect(tokens.radius).toBeDefined()
-  })
-
-  it('throws when the committed ids cannot tell duplicate collections apart', () => {
-    expect(() =>
-      convertVariablesToTokens({
-        meta: withDuplicateBrand,
-        collection: 'brand',
-        mode: 'dnb-light',
-      })
-    ).toThrow(
-      'Expected exactly one Figma variable collection named "brand", found 2 (VariableCollectionId:1:1, VariableCollectionId:2:1)'
+    expect(log.info).toHaveBeenCalledWith(
+      '> Figma: Found 2 variable collections named "brand", using VariableCollectionId:1:1'
     )
   })
 
@@ -416,24 +402,6 @@ describe('assertModesAreExported', () => {
         },
       })
     ).not.toThrow()
-  })
-})
-
-describe('readKnownVariableIds', () => {
-  it('reads the ids out of the committed token files', () => {
-    const known = readKnownVariableIds(
-      path.resolve(__dirname, '../../../src/style/themes/figma')
-    )
-
-    expect(known.get('brand').size).toBeGreaterThan(0)
-    expect(known.get('colors').size).toBeGreaterThan(0)
-  })
-
-  it('returns empty sets when no token file exists', () => {
-    const known = readKnownVariableIds('/does-not-exist')
-
-    expect(known.get('brand').size).toBe(0)
-    expect(known.get('colors').size).toBe(0)
   })
 })
 
