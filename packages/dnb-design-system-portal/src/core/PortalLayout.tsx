@@ -10,6 +10,8 @@ import { graphql, useStaticQuery } from 'portal-query'
 import Layout from '../shared/parts/Layout'
 import TabBar from '../shared/tags/TabBar'
 import AutoLinkHeader from '../shared/tags/AutoLinkHeader'
+import PortalToc from '../shared/parts/PortalToc'
+import pageLayoutStyles from './PortalLayout.module.scss'
 import { defaultTabsValue } from '../shared/tags/defaultValues'
 import { Link } from '../shared/tags/Anchor'
 import tags from '../shared/tags'
@@ -45,6 +47,8 @@ export default function PortalLayout(props: PortalLayoutProps) {
               contentTitle
               description
               fullscreen
+              hideToc
+              tocDepth
               showTabs
               hideEditLink
               breadcrumb {
@@ -69,6 +73,8 @@ export default function PortalLayout(props: PortalLayoutProps) {
                 title
                 description
                 fullscreen
+                hideToc
+                tocDepth
                 showTabs
                 hideEditLink
                 breadcrumb {
@@ -132,6 +138,11 @@ export default function PortalLayout(props: PortalLayoutProps) {
   usePortalHead(headData)
 
   const tabsFromParent = Boolean(!pageFm.title && pageFm.showTabs)
+  const hideToc =
+    pageFm.hideToc ?? (tabsFromParent ? parentFm.hideToc : undefined)
+  const tocDepth =
+    pageFm.tocDepth ?? (tabsFromParent ? parentFm.tocDepth : undefined)
+
   const rootPath =
     '/' +
     (tabsFromParent ? parentMdx?.fields?.slug : pageMdx?.fields?.slug)
@@ -163,51 +174,76 @@ export default function PortalLayout(props: PortalLayoutProps) {
 
   return (
     <Layout key="layout" location={location} fullscreen={fullscreen}>
-      {!codeFocusMode && fmData.breadcrumb && (
-        <Breadcrumb key="breadcrumb" top="large">
-          {fmData.breadcrumb.map((item, i, a) => {
-            return (
-              <Breadcrumb.Item
-                key={item.text}
-                variant={
-                  (i === 0 && 'home') ||
-                  (i === a.length - 1 && 'current') ||
-                  null
-                }
-                // @ts-expect-error -- strictFunctionTypes
-                element={Link}
-                text={item.text}
-                href={item.href}
-              />
-            )
-          })}
-        </Breadcrumb>
-      )}
-
-      {!codeFocusMode &&
-        (pageFm.showTabs ? (
-          <TabBar
-            key="tab-bar"
-            location={location}
-            rootPath={rootPath}
-            title={titleNode}
-            tabs={fmData.tabs}
-            defaultTabs={fmData.defaultTabs}
-            hideTabs={fmData.hideTabs}
-          />
-        ) : (
-          titleNode
-        ))}
-
-      <Heading.Level reset={2}>
-        <Content
-          sourcePath={editSourcePath}
-          pagePath={`${location.pathname}${location.hash || ''}`}
-          showEditLink={!codeFocusMode && !fmData.hideEditLink}
+      {codeFocusMode ? (
+        <Content>{children}</Content>
+      ) : (
+        <div
+          className={`${pageLayoutStyles['content-grid']} ${
+            hideToc ? pageLayoutStyles['content-grid--without-toc'] : ''
+          }`}
         >
-          {children}
-        </Content>
-      </Heading.Level>
+          <div
+            className={pageLayoutStyles['content-grid__header']}
+            id="content-grid-header"
+          >
+            {fmData.breadcrumb && (
+              <Breadcrumb key="breadcrumb" top="large">
+                {fmData.breadcrumb.map((item, i, a) => {
+                  return (
+                    <Breadcrumb.Item
+                      key={item.text}
+                      variant={
+                        (i === 0 && 'home') ||
+                        (i === a.length - 1 && 'current') ||
+                        null
+                      }
+                      // @ts-expect-error -- strictFunctionTypes
+                      element={Link}
+                      text={item.text}
+                      href={item.href}
+                    />
+                  )
+                })}
+              </Breadcrumb>
+            )}
+
+            {pageFm.showTabs ? (
+              <TabBar
+                key="tab-bar"
+                location={location}
+                rootPath={rootPath}
+                title={titleNode}
+                tabs={fmData.tabs}
+                defaultTabs={fmData.defaultTabs}
+                hideTabs={fmData.hideTabs}
+              />
+            ) : (
+              titleNode
+            )}
+          </div>
+
+          {!hideToc && (
+            <div
+              className={pageLayoutStyles['content-grid__sidebar']}
+              id="content-grid-sidebar"
+            >
+              <PortalToc maxDepth={tocDepth} />
+            </div>
+          )}
+
+          <div className={pageLayoutStyles['content-grid__content']}>
+            <Heading.Level reset={2}>
+              <Content
+                sourcePath={editSourcePath}
+                pagePath={`${location.pathname}${location.hash || ''}`}
+                showEditLink={!fmData.hideEditLink}
+              >
+                {children}
+              </Content>
+            </Heading.Level>
+          </div>
+        </div>
+      )}
     </Layout>
   )
 }
