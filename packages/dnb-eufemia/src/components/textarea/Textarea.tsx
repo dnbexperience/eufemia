@@ -370,8 +370,12 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
 
   // onChange only resizes typed values, not values set from outside
   useIsomorphicLayoutEffect(() => {
-    if (autoResize && hasExternalValueRef.current) {
-      hasExternalValueRef.current = false
+    const hasExternalValue = hasExternalValueRef.current
+    // Also clear it while autoResize is off, so enabling it later, which the
+    // effect above already measures, does not measure a second time
+    hasExternalValueRef.current = false
+
+    if (autoResize && hasExternalValue) {
       setAutosizeRef.current()
     }
   }, [autoResize, value])
