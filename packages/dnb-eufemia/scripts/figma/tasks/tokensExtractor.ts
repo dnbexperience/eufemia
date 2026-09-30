@@ -179,6 +179,10 @@ const isAlias = (value: unknown): value is FigmaVariableAlias =>
   value !== null &&
   (value as FigmaVariableAlias).type === 'VARIABLE_ALIAS'
 
+/** Figma returns this when a color is an aliased color combined with an opacity */
+const isComposedColor = (value: unknown): value is FigmaComposedColor =>
+  typeof value === 'object' && value !== null && 'color' in value
+
 const isLeaf = (node: TokenLeaf | TokenGroup): node is TokenLeaf =>
   '$type' in node
 
@@ -204,7 +208,6 @@ const toTokenValue = (
     const color = value as FigmaColorValue
     const alpha = color?.a ?? 1
 
-    // Figma can also return a composed color, which this export does not model
     if (![color?.r, color?.g, color?.b, alpha].every(isFiniteNumber)) {
       throw new Error(
         `The Figma variable "${variable.name}" has a color value that is not plain sRGB components`
@@ -297,7 +300,7 @@ const resolveValue = (
   meta: FigmaLocalVariables,
   value: FigmaVariableValue,
   modeId: string
-) => {
+): FigmaVariableValue => {
   let resolved = value
 
   for (let depth = 0; isAlias(resolved); depth++) {
@@ -330,6 +333,20 @@ const resolveValue = (
         `The Figma variable "${target.name}" has no value for mode "${targetModeId}"`
       )
     }
+  }
+
+  if (isComposedColor(resolved)) {
+    const color = resolveValue(
+      meta,
+      resolved.color,
+      modeId
+    ) as FigmaColorValue
+    const opacity =
+      resolved.opacity === undefined
+        ? color?.a
+        : resolveValue(meta, resolved.opacity, modeId)
+
+    return { ...color, a: (opacity as number) ?? 1 }
   }
 
   return resolved

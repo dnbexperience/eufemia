@@ -400,26 +400,68 @@ describe('convertVariablesToTokens', () => {
     ).toThrow('points to a variable that is not part of the response')
   })
 
-  it('rejects a color value that is not plain sRGB components', () => {
-    // Figma returns this shape for a composed color (aliased color + opacity)
-    const composed = { color: { r: 1, g: 1, b: 1 }, opacity: 0.5 }
+  const withColorValue = (value) => ({
+    ...meta,
+    variables: {
+      ...meta.variables,
+      'VariableID:1:2': {
+        ...meta.variables['VariableID:1:2'],
+        valuesByMode: { '1:0': value },
+      },
+    },
+  })
 
-    expect(() =>
-      convertVariablesToTokens({
-        meta: {
-          ...meta,
-          variables: {
-            ...meta.variables,
-            'VariableID:1:2': {
-              ...meta.variables['VariableID:1:2'],
-              valuesByMode: { '1:0': composed },
-            },
-          },
-        },
-        collection: 'brand',
-        mode: 'dnb-light',
+  const pageBackground = (metaWithValue: FigmaLocalVariables) =>
+    convertVariablesToTokens({
+      meta: metaWithValue,
+      collection: 'brand',
+      collectionId: 'VariableCollectionId:53684:1279',
+      mode: 'dnb-light',
+    }).color['background']['page-background']
+
+  it('combines a composed color into components and alpha', () => {
+    const tokens = pageBackground(
+      withColorValue({ color: { r: 0, g: 0, b: 0 }, opacity: 0.3 })
+    )
+
+    expect(tokens.$value).toEqual({
+      colorSpace: 'srgb',
+      components: [0, 0, 0],
+      alpha: 0.3,
+      hex: '#000000',
+    })
+  })
+
+  it('resolves the alias and the opacity of a composed color', () => {
+    const tokens = pageBackground(
+      withColorValue({
+        color: { type: 'VARIABLE_ALIAS', id: 'VariableID:def/5552:1666' },
+        opacity: 0.4,
       })
-    ).toThrow('has a color value that is not plain sRGB components')
+    )
+
+    expect(tokens.$value).toEqual({
+      colorSpace: 'srgb',
+      components: [1, 1, 1],
+      alpha: 0.4,
+      hex: '#FFFFFF',
+    })
+  })
+
+  it('keeps the alpha of the aliased color when no opacity is given', () => {
+    const tokens = pageBackground(
+      withColorValue({
+        color: { type: 'VARIABLE_ALIAS', id: 'VariableID:def/5552:1667' },
+      })
+    )
+
+    expect(tokens.$value.alpha).toBe(0.4)
+  })
+
+  it('rejects a color value that is not plain sRGB components', () => {
+    expect(() => pageBackground(withColorValue({ r: 1, g: 1 }))).toThrow(
+      'has a color value that is not plain sRGB components'
+    )
   })
 })
 
