@@ -166,7 +166,10 @@ export type ContextState = {
   setShowAllErrors: (showAllErrors: boolean) => void
   hasErrors: () => boolean
   hasFieldState: (state: SubmitState) => boolean
-  hasFieldError: (path: Path) => boolean
+  hasFieldError: (
+    path: Path,
+    options?: { withDescendants?: boolean }
+  ) => boolean
   hasFieldWithAsyncValidator?: () => boolean
   setFieldState?: (
     path: Path,

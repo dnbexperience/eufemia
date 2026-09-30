@@ -646,14 +646,15 @@ export default function Provider<Data extends JsonObject>(
     },
     [checkFieldStateFor]
   )
-  const hasFieldError = useCallback(
-    (path: Path) => {
+  const hasFieldError: ContextState['hasFieldError'] = useCallback(
+    (path, { withDescendants = false } = {}) => {
       return Array.from(mountedFieldsRef.current.entries()).some(
         ([p, item]) => {
           return (
             item.isMounted &&
-            p === path &&
-            checkFieldStateFor(path, 'error')
+            (p === path ||
+              (withDescendants && p.startsWith(`${path}/`))) &&
+            checkFieldStateFor(p, 'error')
           )
         }
       )
