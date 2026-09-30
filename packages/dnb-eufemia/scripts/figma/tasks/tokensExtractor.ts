@@ -56,6 +56,7 @@ type FigmaVariable = {
   valuesByMode: Record<string, FigmaVariableValue>
   description?: string
   hiddenFromPublishing?: boolean
+  deletedButReferenced?: boolean
   scopes?: string[]
   codeSyntax?: Record<string, string>
 }
@@ -263,14 +264,13 @@ const findModeId = (collection: FigmaVariableCollection, name: string) => {
  * nothing outside of Figma shows that it exists.
  */
 export const assertModesAreExported = (meta: FigmaLocalVariables) => {
-  const collections = new Map(
-    TOKEN_EXPORTS.map(({ collection, collectionId }) => [
-      collection,
-      collectionId,
-    ])
+  const collections = TOKEN_EXPORTS.filter(
+    ({ collection }, index) =>
+      TOKEN_EXPORTS.findIndex((item) => item.collection === collection) ===
+      index
   )
 
-  for (const [collectionName, collectionId] of collections) {
+  for (const { collection: collectionName, collectionId } of collections) {
     const exported = TOKEN_EXPORTS.filter(
       ({ collection }) => collection === collectionName
     ).map(({ mode }) => mode)
@@ -474,8 +474,9 @@ export const convertVariablesToTokens = ({
   for (const variableId of collection.variableIds) {
     const variable = meta.variables[variableId]
 
-    if (!variable) {
-      continue // a deleted variable can still be referenced by the collection
+    // A deleted variable keeps its name, and can collide with the one that replaced it
+    if (!variable || variable.deletedButReferenced) {
+      continue
     }
 
     addTokenLeaf(
