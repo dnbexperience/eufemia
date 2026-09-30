@@ -235,6 +235,9 @@ describe('algolia-helpers', () => {
   })
 
   describe('push-algolia.mjs', () => {
+    // The child process boots the whole page graph. The test budget has to
+    // outlast the execFileSync timeout below, so a hung script is reported
+    // as a script failure rather than as a test timeout.
     it('should run under plain Node without module resolution errors', () => {
       const script = path.resolve(portalRoot, 'prod/push-algolia.mjs')
 
@@ -245,6 +248,6 @@ describe('algolia-helpers', () => {
           timeout: 30_000,
         })
       }).not.toThrow()
-    })
+    }, 60_000)
   })
 })
