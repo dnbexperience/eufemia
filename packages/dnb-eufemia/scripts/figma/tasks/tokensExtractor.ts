@@ -264,14 +264,14 @@ const findModeId = (collection: FigmaVariableCollection, name: string) => {
  * nothing outside of Figma shows that it exists.
  */
 export const assertModesAreExported = (meta: FigmaLocalVariables) => {
-  const collections = new Map(
-    TOKEN_EXPORTS.map(({ collection, collectionId }) => [
-      collection,
-      collectionId,
-    ])
+  const collections = TOKEN_EXPORTS.filter(
+    ({ collection }, index) =>
+      TOKEN_EXPORTS.findIndex(
+        (item) => item.collection === collection
+      ) === index
   )
 
-  for (const [collectionName, collectionId] of collections) {
+  for (const { collection: collectionName, collectionId } of collections) {
     const exported = TOKEN_EXPORTS.filter(
       ({ collection }) => collection === collectionName
     ).map(({ mode }) => mode)
