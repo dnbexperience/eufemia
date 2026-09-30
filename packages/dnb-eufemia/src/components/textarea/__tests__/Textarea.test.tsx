@@ -588,6 +588,32 @@ describe('Textarea component', () => {
     expect(elem.style.height).toBe('120px')
   })
 
+  it('shrinks when the value is cleared from outside', () => {
+    const { rerender } = render(
+      <Textarea
+        rows={1}
+        autoResize
+        autoResizeMaxRows={6}
+        value={'1\n2\n3\n4\n5'}
+      />
+    )
+
+    const elem = document.querySelector('textarea')
+    const style = { lineHeight: String(1.5 * 16) } as CSSStyleDeclaration
+
+    vi.spyOn(window, 'getComputedStyle').mockImplementation(() => style)
+    vi.spyOn(elem, 'scrollHeight', 'get').mockImplementation(
+      () => elem.value.split('\n').length * 1.5 * 16
+    )
+
+    // E.g. the form is reset
+    rerender(
+      <Textarea rows={1} autoResize autoResizeMaxRows={6} value="" />
+    )
+
+    expect(elem.style.height).toBe('24px')
+  })
+
   it('supports hiding the resize handle', async () => {
     render(<Textarea rows={1} autoResize hideResizeHandle />)
 
