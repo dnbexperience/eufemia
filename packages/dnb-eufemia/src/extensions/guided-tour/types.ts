@@ -12,11 +12,11 @@ export type GuidedTourTarget =
 
 export type GuidedTourStep = {
   /**
-   * Stable identifier of the step.
+   * Unique identifier of the step.
    */
   id: string
   /**
-   * The element the step points at: a CSS selector, an element, a ref or a function that returns an element. Omit it to show the step centered on the screen. Steps whose target is missing or hidden are skipped.
+   * The element to highlight: a CSS selector, an element, a ref or a function that returns an element. Without it, the step is centered on the screen. Steps with a missing or hidden target are skipped.
    */
   target?: GuidedTourTarget
   /**
@@ -28,17 +28,17 @@ export type GuidedTourStep = {
    */
   content: ReactNode
   /**
-   * Preferred side of the target to place the step on.
+   * Preferred side of the target to show the step on.
    * Default: `"bottom"`
    */
   placement?: PopoverPlacement
   /**
-   * Horizontal alignment on the target when `placement` is `top` or `bottom`.
+   * Alignment on the target when `placement` is `top` or `bottom`.
    * Default: `"center"`
    */
   align?: Exclude<PopoverAlign, null>
   /**
-   * Runs before the step is shown, e.g. to reveal the target. May return a promise. The step waits up to 1.5 seconds for it, and then for the target to appear, before the step is skipped.
+   * Runs each time before the step is shown, e.g. to reveal its target. May return a promise. The tour waits up to 1.5 seconds for the promise, then up to 1.5 seconds for the target to appear, before it skips the step. A rejected promise skips the step.
    */
   onBeforeShow?: () => void | Promise<void>
 }
@@ -50,7 +50,7 @@ export type GuidedTourDialogContent = {
 
 export type GuidedTourProps = {
   /**
-   * Whether the tour is shown.
+   * Whether the tour is shown. Use together with `onOpenChange`.
    */
   open: boolean
   /**
@@ -58,23 +58,23 @@ export type GuidedTourProps = {
    */
   steps: Array<GuidedTourStep>
   /**
-   * Shown in a Dialog before the first step, with a start and a skip button.
+   * Dialog shown before the first step, with a start and a skip button.
    */
   intro?: GuidedTourDialogContent
   /**
-   * Shown in a Dialog after the last step.
+   * Dialog shown after the last step. Closing it also completes the tour.
    */
   outro?: GuidedTourDialogContent
   /**
-   * Called with `false` when the tour is completed or canceled.
+   * Called with `false` when the tour ends.
    */
   onOpenChange?: (open: boolean) => void
   /**
-   * Called when the user finishes the tour.
+   * Called when the tour is finished: after the last step, or when the outro is closed.
    */
   onComplete?: () => void
   /**
-   * Called when the user closes or skips the tour before it is finished.
+   * Called when the tour is skipped or closed before the last step.
    */
   onCancel?: () => void
 }
