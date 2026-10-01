@@ -421,7 +421,7 @@ describe('convertVariablesToTokens', () => {
 
   it('combines a composed color into components and alpha', () => {
     const tokens = pageBackground(
-      withColorValue({ color: { r: 0, g: 0, b: 0 }, opacity: 0.3 })
+      withColorValue({ color: { r: 0, g: 0, b: 0 }, opacity: 30 })
     )
 
     expect(tokens.$value).toEqual({
@@ -436,7 +436,7 @@ describe('convertVariablesToTokens', () => {
     const tokens = pageBackground(
       withColorValue({
         color: { type: 'VARIABLE_ALIAS', id: 'VariableID:def/5552:1666' },
-        opacity: 0.4,
+        opacity: 40,
       })
     )
 
@@ -448,14 +448,15 @@ describe('convertVariablesToTokens', () => {
     })
   })
 
-  it('keeps the alpha of the aliased color when no opacity is given', () => {
+  it('replaces the alpha of the aliased color with the aliased opacity', () => {
     const tokens = pageBackground(
       withColorValue({
         color: { type: 'VARIABLE_ALIAS', id: 'VariableID:def/5552:1667' },
+        opacity: { type: 'VARIABLE_ALIAS', id: 'VariableID:1:3' },
       })
     )
 
-    expect(tokens.$value.alpha).toBe(0.4)
+    expect(tokens.$value.alpha).toBe(0.04)
   })
 
   it('rejects a color value that is not plain sRGB components', () => {

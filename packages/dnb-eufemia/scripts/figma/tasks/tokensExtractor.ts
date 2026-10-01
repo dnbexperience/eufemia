@@ -37,7 +37,8 @@ type FigmaColorValue = {
 /** Returned when a color is composed from an aliased color and opacity */
 type FigmaComposedColor = {
   color: FigmaColorValue | FigmaVariableAlias
-  opacity?: number | FigmaVariableAlias
+  /** A percentage from 0 to 100 */
+  opacity: number | FigmaVariableAlias
 }
 
 type FigmaVariableValue =
@@ -341,12 +342,9 @@ const resolveValue = (
       resolved.color,
       modeId
     ) as FigmaColorValue
-    const opacity =
-      resolved.opacity === undefined
-        ? color?.a
-        : resolveValue(meta, resolved.opacity, modeId)
+    const opacity = resolveValue(meta, resolved.opacity, modeId) as number
 
-    return { ...color, a: (opacity as number) ?? 1 }
+    return { ...color, a: opacity / 100 }
   }
 
   return resolved
