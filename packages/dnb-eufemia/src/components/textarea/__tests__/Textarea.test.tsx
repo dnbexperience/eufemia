@@ -299,6 +299,26 @@ describe('Textarea component', () => {
     expect(elem.style.height).toBe('96px')
   })
 
+  it('measures once when autoResize is enabled after a value from outside', () => {
+    const { rerender } = render(<Textarea rows={1} value="one" />)
+
+    const elem = document.querySelector('textarea')
+    const style = { lineHeight: String(1.5 * 16) } as CSSStyleDeclaration
+
+    vi.spyOn(window, 'getComputedStyle').mockImplementation(() => style)
+    vi.spyOn(elem, 'scrollHeight', 'get').mockImplementation(
+      () => 1.5 * 16 * 4
+    )
+
+    rerender(<Textarea rows={1} value="two" />)
+
+    const setHeight = vi.spyOn(elem.style, 'height', 'set')
+    rerender(<Textarea rows={1} value="two" autoResize />)
+
+    // Each measure resets the height before it reads the content height
+    expect(setHeight.mock.calls).toEqual([['auto'], ['96px']])
+  })
+
   it('resizes when autoResizeMaxRows is changed', () => {
     const { rerender } = render(
       <Textarea rows={1} autoResize autoResizeMaxRows={2} />
