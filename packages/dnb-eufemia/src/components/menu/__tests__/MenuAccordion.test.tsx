@@ -86,6 +86,27 @@ describe('MenuAccordion', () => {
     expect(trigger.getAttribute('aria-expanded')).toBe('true')
   })
 
+  it('keeps opening on Enter key when an onKeyDown is given', () => {
+    const ctx = createMockContext()
+    const onKeyDown = vi.fn()
+
+    render(
+      <MenuContext value={ctx}>
+        <ul role="menu">
+          <Menu.Accordion text="Export as" onKeyDown={onKeyDown}>
+            <Menu.Action text="PDF" />
+          </Menu.Accordion>
+        </ul>
+      </MenuContext>
+    )
+
+    const trigger = document.querySelector('.dnb-menu__accordion__trigger')
+    fireEvent.keyDown(trigger, { key: 'Enter' })
+
+    expect(onKeyDown).toHaveBeenCalledTimes(1)
+    expect(trigger.getAttribute('aria-expanded')).toBe('true')
+  })
+
   it('closes on Enter key when already open', () => {
     const ctx = createMockContext()
 
