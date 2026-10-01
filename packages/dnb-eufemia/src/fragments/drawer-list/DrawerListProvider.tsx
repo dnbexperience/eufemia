@@ -1410,7 +1410,7 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
                       'style',
                       'opacity:0;position:absolute;'
                     )
-                    // Safari skips buttons on Tab unless tabindex is set
+                    // Safari only focuses buttons on Tab or click when tabindex is set
                     elem.setAttribute('tabindex', '0')
                     const focus = () => {
                       prevActiveElement.focus()

@@ -254,6 +254,15 @@ const DrawerListComponent = memo(function DrawerListComponent(
     _refRoot,
   } = noNullNumbers(context.drawerList)
 
+  // Safari only focuses links on Tab or click when tabindex is set.
+  // No dependencies, because the option content is arbitrary and not owned by
+  // DrawerList, so there is no reliable value to key this on.
+  useEffect(() => {
+    _refUl.current
+      ?.querySelectorAll('a[href]:not([tabindex])')
+      .forEach((anchor) => anchor.setAttribute('tabindex', '0'))
+  })
+
   const renderData = makeRenderData(
     data,
     groups,
@@ -312,13 +321,6 @@ const DrawerListComponent = memo(function DrawerListComponent(
   if (focusable) {
     ulParams.tabIndex = 0
   }
-
-  // Safari skips links on Tab unless tabindex is set
-  useEffect(() => {
-    _refUl.current
-      ?.querySelectorAll('a[href]:not([tabindex])')
-      .forEach((anchor) => anchor.setAttribute('tabindex', '0'))
-  })
 
   // also used for code markup simulation
   validateDOMAttributes(ownProps, mainParams)
