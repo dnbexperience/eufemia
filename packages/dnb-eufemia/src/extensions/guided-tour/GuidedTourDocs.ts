@@ -2,7 +2,7 @@ import type { PropertiesTableProps } from '../../shared/types'
 
 export const GuidedTourProperties: PropertiesTableProps = {
   open: {
-    doc: 'Whether the tour is shown.',
+    doc: 'Whether the tour is shown. Use together with `onOpenChange`.',
     type: 'boolean',
     status: 'required',
   },
@@ -12,12 +12,12 @@ export const GuidedTourProperties: PropertiesTableProps = {
     status: 'required',
   },
   intro: {
-    doc: 'Shown in a Dialog before the first step, with a start and a skip button.',
+    doc: 'Dialog shown before the first step, with a start and a skip button.',
     type: '{ title?: React.ReactNode, content: React.ReactNode }',
     status: 'optional',
   },
   outro: {
-    doc: 'Shown in a Dialog after the last step.',
+    doc: 'Dialog shown after the last step. Closing it also completes the tour.',
     type: '{ title?: React.ReactNode, content: React.ReactNode }',
     status: 'optional',
   },
@@ -25,12 +25,12 @@ export const GuidedTourProperties: PropertiesTableProps = {
 
 export const GuidedTourStepProperties: PropertiesTableProps = {
   id: {
-    doc: 'Stable identifier of the step.',
+    doc: 'Unique identifier of the step.',
     type: 'string',
     status: 'required',
   },
   target: {
-    doc: 'The element the step points at: a CSS selector, an element, a ref or a function that returns an element. Omit it to show the step centered on the screen. Steps whose target is missing or hidden are skipped.',
+    doc: 'The element to highlight: a CSS selector, an element, a ref or a function that returns an element. Without it, the step is centered on the screen. Steps with a missing or hidden target are skipped.',
     type: [
       'string',
       'HTMLElement',
@@ -50,19 +50,19 @@ export const GuidedTourStepProperties: PropertiesTableProps = {
     status: 'required',
   },
   placement: {
-    doc: 'Preferred side of the target to place the step on.',
+    doc: 'Preferred side of the target to show the step on.',
     type: ['"top"', '"right"', '"bottom"', '"left"'],
     defaultValue: '"bottom"',
     status: 'optional',
   },
   align: {
-    doc: 'Horizontal alignment on the target when `placement` is `top` or `bottom`.',
+    doc: 'Alignment on the target when `placement` is `top` or `bottom`.',
     type: ['"left"', '"center"', '"right"'],
     defaultValue: '"center"',
     status: 'optional',
   },
   onBeforeShow: {
-    doc: 'Runs before the step is shown, e.g. to reveal the target. May return a promise. The step waits up to 1.5 seconds for it, and then for the target to appear, before the step is skipped.',
+    doc: 'Runs each time before the step is shown, e.g. to reveal its target. May return a promise. The tour waits up to 1.5 seconds for the promise, then up to 1.5 seconds for the target to appear, before it skips the step. A rejected promise skips the step.',
     type: '() => void | Promise<void>',
     status: 'optional',
   },
@@ -70,17 +70,17 @@ export const GuidedTourStepProperties: PropertiesTableProps = {
 
 export const GuidedTourEvents: PropertiesTableProps = {
   onOpenChange: {
-    doc: 'Called with `false` when the tour is completed or canceled.',
+    doc: 'Called with `false` when the tour ends.',
     type: '(open: boolean) => void',
     status: 'optional',
   },
   onComplete: {
-    doc: 'Called when the user finishes the tour.',
+    doc: 'Called when the tour is finished: after the last step, or when the outro is closed.',
     type: '() => void',
     status: 'optional',
   },
   onCancel: {
-    doc: 'Called when the user closes or skips the tour before it is finished.',
+    doc: 'Called when the tour is skipped or closed before the last step.',
     type: '() => void',
     status: 'optional',
   },
