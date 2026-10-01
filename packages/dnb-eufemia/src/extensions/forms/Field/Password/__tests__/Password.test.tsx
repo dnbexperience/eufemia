@@ -135,6 +135,19 @@ describe('Password component', () => {
     ).toBe('focus')
   })
 
+  it('should include the visibility toggle button in the tab order', () => {
+    const { rerender } = render(<Field.Password />)
+
+    const button = () =>
+      document.querySelector('button.dnb-input__submit-button__button')
+
+    expect(button()).toHaveAttribute('tabindex', '0')
+
+    rerender(<Field.Password disabled />)
+
+    expect(button()).not.toHaveAttribute('tabindex')
+  })
+
   it('can change the visibility of the password', async () => {
     render(<Field.Password />)
 

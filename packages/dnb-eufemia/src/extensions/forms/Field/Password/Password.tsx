@@ -117,6 +117,8 @@ function Password({
         }
         disabled={disabled}
         skeleton={sharedContext.skeleton}
+        // Safari skips buttons on Tab, which would leave this toggle unreachable by keyboard
+        tabIndex={disabled ? undefined : 0}
         onMouseDown={preventFocusChange}
         onClick={toggleVisibility}
       />
