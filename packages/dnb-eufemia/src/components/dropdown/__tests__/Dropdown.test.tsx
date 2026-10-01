@@ -809,6 +809,10 @@ describe('Dropdown component', () => {
     rerender(<Dropdown {...props} data={mockData} preventSelection />)
 
     expect(trigger()).toHaveAttribute('tabindex', '0')
+
+    rerender(<Dropdown {...props} data={mockData} tabIndex={-1} />)
+
+    expect(trigger()).toHaveAttribute('tabindex', '-1')
   })
 
   it('has correct "role" in options', () => {

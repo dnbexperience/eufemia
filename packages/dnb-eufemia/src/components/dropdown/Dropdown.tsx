@@ -548,7 +548,7 @@ const DropdownComponent = memo(function DropdownComponent({
     disabled,
     'aria-haspopup': handleAsMenu ? true : 'listbox',
     'aria-expanded': open,
-    // Safari skips buttons on Tab unless tabindex is set
+    // Safari only focuses buttons on Tab or click when tabindex is set, unlike a native select
     tabIndex: 0,
     ...attributes,
     onFocus: onFocusHandler,
