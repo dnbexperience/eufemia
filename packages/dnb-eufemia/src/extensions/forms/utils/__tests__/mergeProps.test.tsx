@@ -1,7 +1,10 @@
-import { render } from '@testing-library/react'
+import { render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import mergeProps from '../mergeProps'
 import { Field, Form, Iterate } from '../..'
+import nbNO from '../../constants/locales/nb-NO'
+
+const nb = nbNO['nb-NO']
 
 type Handlers = Record<string, (...args: Array<unknown>) => unknown>
 
@@ -564,5 +567,24 @@ describe('event handlers in component prop bags', () => {
 
     expect(givenOnClick).toHaveBeenCalledTimes(1)
     expect(document.querySelectorAll('input')).toHaveLength(1)
+  })
+
+  it('Field.Date should keep validating while typing when an onType is given', async () => {
+    const givenOnType = vi.fn()
+
+    render(<Field.Date required onType={givenOnType} />)
+
+    await userEvent.click(
+      document.querySelector('.dnb-date-picker__input--day')
+    )
+    await userEvent.keyboard('07')
+    await userEvent.click(document.body)
+
+    await waitFor(() => {
+      expect(
+        document.querySelector('.dnb-form-status__text')
+      ).toHaveTextContent(nb.Date.errorRequired)
+    })
+    expect(givenOnType).toHaveBeenCalled()
   })
 })

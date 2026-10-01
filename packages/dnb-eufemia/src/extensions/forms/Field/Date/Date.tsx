@@ -368,8 +368,16 @@ function DateComponent(props: DateProps): ReactElement {
 
       // To ensure that the form can show the required error message while typing and blurring
       setChanged(true)
+
+      datePickerProps.onType?.(event)
     },
-    [handleChange, props.range, setChanged, internalValue]
+    [
+      handleChange,
+      props.range,
+      setChanged,
+      internalValue,
+      datePickerProps.onType,
+    ]
   )
 
   const { value, startDate, endDate } = useMemo(() => {
@@ -430,11 +438,11 @@ function DateComponent(props: DateProps): ReactElement {
         {...mergeProps(
           {
             onReset: handleReset,
-            onType, // To support validation while typing (e.g. required)
             onChange: handleChange,
             onFocus,
             onBlur: handleBlur,
             ...datePickerProps,
+            onType, // To support validation while typing (e.g. required)
             onOpen: handleOpen,
             onSubmit: handleSubmit,
             onCancel: handleCancel,
