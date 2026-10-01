@@ -1,7 +1,12 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import type { KeyboardEvent, ReactNode, SyntheticEvent } from 'react'
+import type {
+  FocusEvent as ReactFocusEvent,
+  KeyboardEvent,
+  ReactNode,
+  SyntheticEvent,
+} from 'react'
 import { clsx } from 'clsx'
-import type { ButtonProps } from '../button/Button'
+import type { ButtonClickEvent, ButtonProps } from '../button/Button'
 import Button from '../button/Button'
 import HeightAnimation from '../height-animation/HeightAnimation'
 import { applyPageFocus } from '../../shared/helpers'
@@ -78,8 +83,8 @@ const SkipContent = (localProps: SkipContentAllProps) => {
   )
 
   const handleBlur = useCallback(
-    (args) => {
-      onBlur?.(args)
+    (event: ReactFocusEvent<HTMLButtonElement | HTMLAnchorElement>) => {
+      onBlur?.(event)
       blurTimeout.current = setTimeout(() => setVisible(false), 0)
     },
     [onBlur]
@@ -90,7 +95,7 @@ const SkipContent = (localProps: SkipContentAllProps) => {
   }, [])
 
   const handleClick = useCallback(
-    (args) => {
+    (args: ButtonClickEvent) => {
       onClick?.(args)
 
       // Scroll to the element at first
