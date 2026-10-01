@@ -64,8 +64,16 @@ export default function TermDefinition(
     context?.TermDefinition
   )
 
-  const { children, content, className, placement, skeleton, ...rest } =
-    allProps
+  const {
+    children,
+    content,
+    className,
+    placement,
+    skeleton,
+    onClick: givenOnClick,
+    onKeyDown: givenOnKeyDown,
+    ...rest
+  } = allProps
 
   const skeletonClasses = createSkeletonClass('font', skeleton, context)
 
@@ -87,14 +95,17 @@ export default function TermDefinition(
 
   const onClick = useCallback(
     (e: MouseEvent<HTMLSpanElement>) => {
+      givenOnClick?.(e)
       e.preventDefault()
       toggle()
     },
-    [toggle]
+    [givenOnClick, toggle]
   )
 
   const onKeyDown = useCallback(
     (e: KeyboardEvent<HTMLSpanElement> & KeyboardEvent) => {
+      givenOnKeyDown?.(e)
+
       if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault()
         toggle()
@@ -104,7 +115,7 @@ export default function TermDefinition(
         toggle(false)
       }
     },
-    [toggle]
+    [givenOnKeyDown, toggle]
   )
 
   const triggerProps = removeSpaceProps(rest)
