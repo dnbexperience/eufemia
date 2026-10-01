@@ -8,6 +8,7 @@ import {
 } from 'react'
 import type {
   KeyboardEvent,
+  MouseEvent,
   ReactElement,
   SyntheticEvent,
   TableHTMLAttributes,
@@ -102,7 +103,7 @@ export function TableAccordionHead(allProps: TableAccordionHeadProps) {
   )
 
   const onMouseLeaveHandler = useCallback(
-    (event) => {
+    (event: MouseEvent<HTMLTableRowElement>) => {
       onMouseLeave?.(event)
       setHover(false)
       setHadClick(false)
@@ -147,7 +148,7 @@ export function TableAccordionHead(allProps: TableAccordionHeadProps) {
   )
 
   const onMouseEnterHandler = useCallback(
-    (event) => {
+    (event: MouseEvent<HTMLTableRowElement>) => {
       onMouseEnter?.(event)
       setHover(true)
     },
