@@ -15,6 +15,7 @@ type Props = ComponentProps<typeof Button> & {
 
 export default function CancelButton({
   showConfirmDialog = true,
+  onClick,
   ...buttonProps
 }: Props) {
   const { onCancel, setShowError, isPending } =
@@ -33,7 +34,7 @@ export default function CancelButton({
     translation.SectionEditContainer
 
   const cancelHandler = useCallback(
-    ({ close }: { close?: () => void }) => {
+    ({ close, event }) => {
       close?.()
       restoreOriginalData()
 
@@ -50,11 +51,13 @@ export default function CancelButton({
         }
 
         onCancel?.()
+        onClick?.(event)
       }) // because of the re-render of "restoreOriginalData"
     },
     [
       hasVisibleError,
       onCancel,
+      onClick,
       restoreOriginalData,
       setShowBoundaryErrors,
       setShowError,

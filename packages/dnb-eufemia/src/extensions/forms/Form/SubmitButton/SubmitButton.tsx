@@ -27,8 +27,15 @@ export type FormSubmitButtonProps = {
 function SubmitButton(props: FormSubmitButtonProps) {
   const translations = useTranslation().SubmitButton
 
-  const { variant, className, showIndicator, children, text, ...rest } =
-    props
+  const {
+    variant,
+    className,
+    showIndicator,
+    children,
+    text,
+    onClick,
+    ...rest
+  } = props
 
   const content =
     text ||
@@ -46,17 +53,22 @@ function SubmitButton(props: FormSubmitButtonProps) {
   } = useContext(DataContext) || {}
   const { isolate } = dataContextProps || {}
 
-  const onClickHandler = useCallback(() => {
-    setActiveSubmitButtonId?.(submitButtonId)
-    if (!hasElementRef?.current) {
-      handleSubmit?.()
-    }
-  }, [
-    hasElementRef,
-    handleSubmit,
-    setActiveSubmitButtonId,
-    submitButtonId,
-  ])
+  const onClickHandler = useCallback(
+    (args) => {
+      onClick?.(args)
+      setActiveSubmitButtonId?.(submitButtonId)
+      if (!hasElementRef?.current) {
+        handleSubmit?.()
+      }
+    },
+    [
+      onClick,
+      hasElementRef,
+      handleSubmit,
+      setActiveSubmitButtonId,
+      submitButtonId,
+    ]
+  )
 
   const isActiveSubmitButton =
     !activeSubmitButtonId || activeSubmitButtonId === submitButtonId

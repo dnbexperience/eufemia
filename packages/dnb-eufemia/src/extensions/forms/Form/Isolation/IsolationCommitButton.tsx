@@ -12,7 +12,7 @@ export type IsolationCommitButtonProps = ButtonProps
 function IsolationCommitButton(props: IsolationCommitButtonProps) {
   const translations = useTranslation().Isolation
 
-  const { className, children, text, ...rest } = props
+  const { className, children, text, onClick, ...rest } = props
 
   const content = text || children || translations.commitButtonText
 
@@ -20,11 +20,15 @@ function IsolationCommitButton(props: IsolationCommitButtonProps) {
     useContext(DataContext) || {}
   const { isolate } = dataContextProps || {}
 
-  const onClickHandler = useCallback(() => {
-    if (isolate) {
-      handleSubmit?.()
-    }
-  }, [handleSubmit, isolate])
+  const onClickHandler = useCallback(
+    (args) => {
+      onClick?.(args)
+      if (isolate) {
+        handleSubmit?.()
+      }
+    },
+    [onClick, handleSubmit, isolate]
+  )
 
   return (
     <Button

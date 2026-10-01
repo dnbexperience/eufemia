@@ -237,4 +237,24 @@ describe('CancelButton', () => {
       expect(document.querySelector('.dnb-dialog')).not.toBeInTheDocument()
     })
   })
+
+  it('calls a given onClick when the cancel is performed', async () => {
+    const onClick = vi.fn()
+    const switchContainerMode = vi.fn()
+
+    render(
+      <SectionContainerContext value={{ switchContainerMode }}>
+        <Toolbar>
+          <CancelButton showConfirmDialog={false} onClick={onClick} />
+        </Toolbar>
+      </SectionContainerContext>
+    )
+
+    await userEvent.click(document.querySelector('button'))
+
+    await waitFor(() => {
+      expect(onClick).toHaveBeenCalledTimes(1)
+    })
+    expect(switchContainerMode).toHaveBeenCalledWith('view')
+  })
 })

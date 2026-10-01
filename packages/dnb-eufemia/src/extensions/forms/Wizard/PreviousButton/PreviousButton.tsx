@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { useCallback, useContext } from 'react'
 import type { JSX } from 'react'
 import { clsx } from 'clsx'
 import type { ComponentProps } from '../../types'
@@ -21,8 +21,17 @@ function PreviousButton(props: WizardPreviousButtonProps) {
     iconPosition = 'left',
     icon = 'chevron_left',
     children = translations.text,
+    onClick,
   } = props
   const { activeIndex, handlePrevious } = useContext(WizardContext) || {}
+
+  const handleClick = useCallback(
+    (args) => {
+      onClick?.(args)
+      handlePrevious?.()
+    },
+    [onClick, handlePrevious]
+  )
 
   const { prerenderFieldProps } = useContext(DataContext)
   if (prerenderFieldProps) {
@@ -38,12 +47,12 @@ function PreviousButton(props: WizardPreviousButtonProps) {
     <ButtonRow>
       <Button
         className={clsx('dnb-forms-previous-button', className)}
-        onClick={handlePrevious}
         variant={variant}
         iconPosition={iconPosition}
         icon={icon}
         {...params}
         {...props}
+        onClick={handleClick}
       >
         {children}
       </Button>

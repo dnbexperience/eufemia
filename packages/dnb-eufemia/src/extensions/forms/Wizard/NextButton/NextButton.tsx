@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { useCallback, useContext } from 'react'
 import type { JSX } from 'react'
 import { clsx } from 'clsx'
 import type { ComponentProps } from '../../types'
@@ -21,8 +21,17 @@ function NextButton(props: WizardNextButtonProps) {
     iconPosition = 'right',
     icon = 'chevron_right',
     children = translations.text,
+    onClick,
   } = props
   const { handleNext } = useContext(WizardContext) || {}
+
+  const handleClick = useCallback(
+    (args) => {
+      onClick?.(args)
+      handleNext?.()
+    },
+    [onClick, handleNext]
+  )
 
   const { prerenderFieldProps } = useContext(DataContext)
   if (prerenderFieldProps) {
@@ -35,10 +44,10 @@ function NextButton(props: WizardNextButtonProps) {
       <SubmitButton
         type="button"
         className={clsx('dnb-forms-next-button', className)}
-        onClick={handleNext as any}
         iconPosition={iconPosition}
         icon={icon}
         {...props}
+        onClick={handleClick}
       >
         {children}
       </SubmitButton>

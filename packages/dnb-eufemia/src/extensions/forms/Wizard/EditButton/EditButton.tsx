@@ -29,14 +29,20 @@ function EditButton(props: WizardEditButtonProps) {
     icon,
     toStep,
     children = translations.text,
+    onClick,
     ...rest
   } = props
 
-  const handleClick = useCallback(() => {
-    if (toStep > -1) {
-      setActiveIndex(toStep)
-    }
-  }, [toStep, setActiveIndex])
+  const handleClick = useCallback(
+    (args) => {
+      onClick?.(args)
+
+      if (toStep > -1) {
+        setActiveIndex(toStep)
+      }
+    },
+    [onClick, toStep, setActiveIndex]
+  )
 
   return (
     <ButtonRow {...pickSpacingProps(props)}>

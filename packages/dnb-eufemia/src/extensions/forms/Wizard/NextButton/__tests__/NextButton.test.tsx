@@ -78,4 +78,20 @@ describe('NextButton', () => {
     expect(handlePrevious).toHaveBeenCalledTimes(0)
     expect(handleNext).toHaveBeenCalledTimes(1)
   })
+
+  it('should keep navigating when an onClick is given', () => {
+    const handleNext = vi.fn()
+    const onClick = vi.fn()
+
+    render(
+      <WizardContext value={{ handleNext }}>
+        <NextButton onClick={onClick} />
+      </WizardContext>
+    )
+
+    fireEvent.click(document.querySelector('.dnb-forms-next-button'))
+
+    expect(onClick).toHaveBeenCalledTimes(1)
+    expect(handleNext).toHaveBeenCalledTimes(1)
+  })
 })

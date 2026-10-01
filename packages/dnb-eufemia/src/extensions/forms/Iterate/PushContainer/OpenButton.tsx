@@ -10,13 +10,17 @@ import { convertJsxToString } from '../../../../shared/component-helper'
 type Props = ButtonProps
 
 function OpenButton(props: Props) {
-  const { className, text, children, ...restProps } = props
+  const { className, text, children, onClick, ...restProps } = props
   const { switchContainerMode } = useContext(IterateItemContext) || {}
   const { entries } = useContext(PushContainerContext) || {}
 
-  const handleClick = useCallback(() => {
-    switchContainerMode?.('edit')
-  }, [switchContainerMode])
+  const handleClick = useCallback(
+    (args) => {
+      onClick?.(args)
+      switchContainerMode?.('edit')
+    },
+    [onClick, switchContainerMode]
+  )
 
   const content = useMemo(() => {
     if (children || text) {

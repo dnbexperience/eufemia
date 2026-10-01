@@ -12,7 +12,7 @@ import type { ButtonProps } from '../../../../components/Button'
 type Props = ButtonProps
 
 export default function DoneButton(props: Props) {
-  const { className, ...restProps } = props
+  const { className, onClick, ...restProps } = props
   const { switchContainerMode, containerMode, arrayValue, index } =
     useContext(IterateItemContext) || {}
   const { hasError, hasVisibleError, setShowBoundaryErrors } =
@@ -32,29 +32,35 @@ export default function DoneButton(props: Props) {
     }
   }, [arrayValue, containerMode, index])
 
-  const doneHandler = useCallback(() => {
-    if (hasError) {
-      setShowBoundaryErrors?.(true)
-      if (hasVisibleError) {
-        setShowError(true)
-      }
-    } else {
-      setShowBoundaryErrors?.(false)
-      setShowError(false)
-      if (commitHandleRef) {
-        commitHandleRef.current?.()
+  const doneHandler = useCallback(
+    (args) => {
+      onClick?.(args)
+
+      if (hasError) {
+        setShowBoundaryErrors?.(true)
+        if (hasVisibleError) {
+          setShowError(true)
+        }
       } else {
-        switchContainerMode?.('view')
+        setShowBoundaryErrors?.(false)
+        setShowError(false)
+        if (commitHandleRef) {
+          commitHandleRef.current?.()
+        } else {
+          switchContainerMode?.('view')
+        }
       }
-    }
-  }, [
-    commitHandleRef,
-    hasError,
-    hasVisibleError,
-    setShowBoundaryErrors,
-    setShowError,
-    switchContainerMode,
-  ])
+    },
+    [
+      onClick,
+      commitHandleRef,
+      hasError,
+      hasVisibleError,
+      setShowBoundaryErrors,
+      setShowError,
+      switchContainerMode,
+    ]
+  )
 
   return (
     <Button
