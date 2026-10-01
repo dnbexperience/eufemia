@@ -572,6 +572,47 @@ describe('DrawerList virtualization', () => {
     expect(await axeComponent(result)).toHaveNoViolations()
   })
 
+  it('includes links in rows that mount while scrolling in the tab order', async () => {
+    const linkData = Array.from({ length: 1000 }, (_, index) => [
+      <a href={`/item-${index}`} key={index}>
+        Item {index}
+      </a>,
+    ])
+
+    render(
+      <Autocomplete
+        id="virtual-autocomplete"
+        data={linkData}
+        listDriver={listDriver}
+        open
+        noAnimation
+        skipPortal
+      />
+    )
+
+    await waitFor(() => {
+      expect(document.querySelector('a[href="/item-0"]')).toHaveAttribute(
+        'tabindex',
+        '0'
+      )
+    })
+
+    const options = document.querySelector('.dnb-drawer-list__options')
+    options.scrollTop = 48 * 100
+    fireEvent.scroll(options)
+
+    await waitFor(() => {
+      expect(
+        document.querySelector('a[href="/item-100"]')
+      ).toBeInTheDocument()
+    })
+
+    expect(document.querySelector('a[href="/item-100"]')).toHaveAttribute(
+      'tabindex',
+      '0'
+    )
+  })
+
   it('falls back to optionsRender when both APIs are provided', () => {
     render(
       <Autocomplete
