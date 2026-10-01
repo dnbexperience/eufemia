@@ -2,12 +2,17 @@ name: Design Tokens
 
 on:
   workflow_dispatch:
+    inputs:
+      dry_run:
+        description: Run on the selected branch and upload the result, without committing or opening a pull request
+        type: boolean
+        default: false
 
 permissions:
   contents: read
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: ${{ github.workflow }}-${{ github.ref }}-${{ inputs.dry_run }}
   cancel-in-progress: true
 
 # No job-wide secrets on purpose: they are scoped to the individual steps that
@@ -28,11 +33,13 @@ jobs:
       - name: Git checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
-          ref: main
+          # A dry run tests the selected branch, a real sync always starts from main
+          ref: ${{ inputs.dry_run && github.ref || 'main' }}
           fetch-depth: 0
           persist-credentials: false
 
       - name: Find an open design token pull request
+        if: ${{ !inputs.dry_run }}
         id: existing-pr
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
@@ -102,6 +109,14 @@ jobs:
         # The snapshots mirror the generated theme files, so a token change always changes them
         run: yarn workspace @dnb/eufemia test:scripts makePropertiesFile -u --hookTimeout=180000
 
+      - name: Run design token unit tests
+        if: steps.changes.outputs.changed == 'true'
+        # The tests that read the token files, so a sync cannot open a failing pull request
+        run: |
+          yarn workspace @dnb/eufemia test:scripts --hookTimeout=180000
+          yarn workspace @dnb/eufemia test src/style/themes
+          yarn workspace dnb-design-system-portal test designTokens
+
       - name: Prebuild Library
         if: steps.changes.outputs.changed == 'true'
         run: yarn workspace @dnb/eufemia build:prebuild
@@ -126,8 +141,33 @@ jobs:
         if: failure()
         run: echo '\n\n👉 Download the diff files as a ZIP file. \nIt is called "visual-test-artifact" and you find it in the test "Summary" under "Artifacts".\n\n\n'
 
+      - name: Store dry run result
+        if: always() && inputs.dry_run && steps.changes.outputs.changed == 'true'
+        run: |
+          paths=(
+            packages/dnb-eufemia/src/style/themes
+            packages/dnb-eufemia/scripts/prebuild/tasks/__tests__/__snapshots__/makePropertiesFile.test.ts.snap
+            ':(glob)packages/dnb-eufemia/src/**/__image_snapshots__/**'
+          )
+          git add --intent-to-add -- "${paths[@]}"
+          git diff --binary -- "${paths[@]}" > design-tokens-dry-run.patch
+          {
+            echo '### Design token dry run'
+            echo
+            echo '```'
+            git diff --stat -- "${paths[@]}" | tail -n 40
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload dry run result
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        if: always() && inputs.dry_run && steps.changes.outputs.changed == 'true'
+        with:
+          name: design-tokens-dry-run
+          path: design-tokens-dry-run.patch
+
       - name: Commit design tokens and updated snapshots
-        if: success() && steps.changes.outputs.changed == 'true'
+        if: success() && !inputs.dry_run && steps.changes.outputs.changed == 'true'
         run: |
           gh auth setup-git
           # The tip fetched at the start, so a commit pushed during the run makes the push fail instead of vanishing
@@ -157,7 +197,7 @@ jobs:
           EXISTING_PR: ${{ steps.existing-pr.outputs.exists }}
 
       - name: Create draft design token pull request
-        if: success() && steps.changes.outputs.changed == 'true'
+        if: success() && !inputs.dry_run && steps.changes.outputs.changed == 'true'
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
           EXISTING_PR: ${{ steps.existing-pr.outputs.exists }}
