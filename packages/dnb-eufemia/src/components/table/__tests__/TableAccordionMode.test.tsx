@@ -1007,4 +1007,51 @@ describe('Table using mode="accordion" prop', () => {
       )
     })
   })
+
+  it('should keep expanding the row when an onKeyDown is given', () => {
+    const onKeyDown = vi.fn()
+
+    render(
+      <Table mode="accordion">
+        <tbody>
+          <Tr onKeyDown={onKeyDown}>
+            <Td>content</Td>
+            <Td.AccordionContent>accordion content</Td.AccordionContent>
+          </Tr>
+        </tbody>
+      </Table>
+    )
+
+    const trElement = document.querySelector('tr.dnb-table__tr')
+    fireEvent.keyDown(trElement, { key: 'Enter' })
+
+    expect(onKeyDown).toHaveBeenCalledTimes(1)
+    expect(Array.from(trElement.classList)).toContain(
+      'dnb-table__tr--expanded'
+    )
+  })
+
+  it('should keep the hover state when an onMouseEnter is given', () => {
+    const onMouseEnter = vi.fn()
+
+    render(
+      <Table mode="accordion">
+        <tbody>
+          <Tr onMouseEnter={onMouseEnter}>
+            <Td>content</Td>
+            <Td.AccordionContent>accordion content</Td.AccordionContent>
+          </Tr>
+        </tbody>
+      </Table>
+    )
+
+    const trElement = document.querySelector('tr.dnb-table__tr')
+    fireEvent.click(trElement)
+    fireEvent.mouseEnter(trElement)
+
+    expect(onMouseEnter).toHaveBeenCalledTimes(1)
+    expect(Array.from(trElement.classList)).toContain(
+      'dnb-table__tr--hover'
+    )
+  })
 })

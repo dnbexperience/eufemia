@@ -7,6 +7,7 @@ import {
   useState,
 } from 'react'
 import type {
+  KeyboardEvent,
   ReactElement,
   SyntheticEvent,
   TableHTMLAttributes,
@@ -62,6 +63,9 @@ export function TableAccordionHead(allProps: TableAccordionHeadProps) {
     onClick,
     onOpen,
     onClose,
+    onKeyDown,
+    onMouseEnter,
+    onMouseLeave,
     count,
     ...props
   } = allProps
@@ -97,10 +101,14 @@ export function TableAccordionHead(allProps: TableAccordionHeadProps) {
     [headerContent, tableContext.allProps.accordionChevronPlacement]
   )
 
-  const onMouseLeaveHandler = useCallback(() => {
-    setHover(false)
-    setHadClick(false)
-  }, [])
+  const onMouseLeaveHandler = useCallback(
+    (event) => {
+      onMouseLeave?.(event)
+      setHover(false)
+      setHadClick(false)
+    },
+    [onMouseLeave]
+  )
 
   const toggleOpenFn = useCallback(
     (event: SyntheticEvent) => {
@@ -138,15 +146,20 @@ export function TableAccordionHead(allProps: TableAccordionHeadProps) {
     [toggleOpenFn]
   )
 
-  const onMouseEnterHandler = useCallback(() => {
-    setHover(true)
-  }, [])
+  const onMouseEnterHandler = useCallback(
+    (event) => {
+      onMouseEnter?.(event)
+      setHover(true)
+    },
+    [onMouseEnter]
+  )
 
   const onKeyDownHandler = useCallback(
-    (event: SyntheticEvent) => {
+    (event: KeyboardEvent<HTMLTableRowElement>) => {
+      onKeyDown?.(event)
       toggleOpenTr(event, true)
     },
-    [toggleOpenTr]
+    [onKeyDown, toggleOpenTr]
   )
 
   /**
