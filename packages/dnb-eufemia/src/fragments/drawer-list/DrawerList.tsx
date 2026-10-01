@@ -8,6 +8,7 @@ import {
   memo,
   useCallback,
   useContext,
+  useEffect,
 } from 'react'
 import type { KeyboardEvent, MouseEvent, Ref } from 'react'
 import useMountEffect from '../../shared/helpers/useMountEffect'
@@ -311,6 +312,13 @@ const DrawerListComponent = memo(function DrawerListComponent(
   if (focusable) {
     ulParams.tabIndex = 0
   }
+
+  // Safari skips links on Tab unless tabindex is set
+  useEffect(() => {
+    _refUl.current
+      ?.querySelectorAll('a[href]:not([tabindex])')
+      .forEach((anchor) => anchor.setAttribute('tabindex', '0'))
+  })
 
   // also used for code markup simulation
   validateDOMAttributes(ownProps, mainParams)

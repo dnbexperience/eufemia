@@ -3888,6 +3888,12 @@ describe('Autocomplete component', () => {
     // Verify handler focused the LI
     expect(document.activeElement.tagName).toBe('LI')
 
+    const tabHelpers = document.activeElement.querySelectorAll('button')
+    expect(tabHelpers).toHaveLength(2)
+    tabHelpers.forEach((helper) => {
+      expect(helper).toHaveAttribute('tabindex', '0')
+    })
+
     // Now manually move focus to first anchor (simulating browser Tab behavior)
     const firstAnchor = document.querySelector(
       '.first-anchor'
@@ -5647,6 +5653,33 @@ describe('Autocomplete inline', () => {
 
     await userEvent.tab()
     expect(document.activeElement).toBe(nextButton)
+  })
+
+  it('should include option anchors in the tab order', () => {
+    render(
+      <Autocomplete
+        {...inlineProps}
+        data={[
+          [
+            <a href="/first" key="first">
+              First anchor
+            </a>,
+            <a href="/second" key="second" tabIndex={-1}>
+              Second anchor
+            </a>,
+          ],
+        ]}
+      />
+    )
+
+    expect(document.querySelector('a[href="/first"]')).toHaveAttribute(
+      'tabindex',
+      '0'
+    )
+    expect(document.querySelector('a[href="/second"]')).toHaveAttribute(
+      'tabindex',
+      '-1'
+    )
   })
 
   it('should validate with ARIA rules in inline mode', async () => {
