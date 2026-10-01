@@ -204,7 +204,7 @@ When the component owns a prop of that name with a different signature or meanin
 
 ```tsx
 export type ComponentProps = {
-  onClick?: (event: SyntheticEvent, info: ClickInfo) => void
+  onClick?: (event: React.SyntheticEvent, info: ClickInfo) => void
 } & Omit<React.HTMLAttributes<HTMLElement>, 'onClick'>
 ```
 
