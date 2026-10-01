@@ -23,6 +23,20 @@ Here is an example of how it should look when implemented:
 
 <Examples.FocusExample />
 
+## Safari and the tab order
+
+Safari on macOS only moves focus between text fields and pop-up menus by default. Links, buttons, checkboxes, radio buttons and range inputs are skipped on <kbd>Tab</kbd>, and clicking them does not focus them either, unless they have a `tabindex`. Chromium and Firefox include all of them.
+
+Eufemia sets `tabindex="0"` on its interactive components so they behave the same in every browser. An explicit `tabIndex` always takes precedence, and disabled elements stay unfocusable.
+
+Apply the same to your own interactive elements, so the tab order stays consistent across the page:
+
+```jsx
+<a href="/path" tabIndex={0}>
+  Reachable in Safari
+</a>
+```
+
 ## Focus Management
 
 Focus is an important part of keyboard-only and screen reader navigation.

@@ -204,6 +204,9 @@ function Button({ ref, transitionState, ...restProps }: ButtonProps) {
 
   const titleString = convertJsxToString(title) || undefined
 
+  const isInteractiveElement =
+    !disabled && (Element === 'button' || !!(props.href || props.to))
+
   const params = useSpacing(props, {
     className: clsx(
       'dnb-button',
@@ -231,6 +234,8 @@ function Button({ ref, transitionState, ...restProps }: ButtonProps) {
     title: titleString,
     id: resolvedId,
     disabled,
+    // Safari only focuses buttons and links on Tab or click when tabindex is set
+    ...(isInteractiveElement && { tabIndex: 0 }),
     ...attributes,
     ...(Element === Anchor && { omitClass: true }),
   })

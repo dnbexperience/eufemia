@@ -421,6 +421,24 @@ describe('Anchor element', () => {
     expect(document.querySelector('[href]')).toBeInTheDocument()
   })
 
+  it('should include a link with href in the tab order', () => {
+    const { rerender } = render(<Anchor href="/url">text</Anchor>)
+
+    expect(document.querySelector('a')).toHaveAttribute('tabindex', '0')
+
+    rerender(
+      <Anchor href="/url" tabIndex={-1}>
+        text
+      </Anchor>
+    )
+
+    expect(document.querySelector('a')).toHaveAttribute('tabindex', '-1')
+
+    rerender(<Anchor>text</Anchor>)
+
+    expect(document.querySelector('a')).not.toHaveAttribute('tabindex')
+  })
+
   it('should forward id', () => {
     render(
       <Anchor href="/url" id="unique-id">

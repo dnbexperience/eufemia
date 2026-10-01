@@ -64,7 +64,7 @@ describe('AutoLinkHeader', () => {
     const anchor =
       document.querySelector<HTMLAnchorElement>('.anchor-hash')
 
-    expect(anchor?.getAttribute('tabindex')).toBeNull()
+    expect(anchor?.getAttribute('tabindex')).toBe('0')
     expect(anchor?.getAttribute('aria-hidden')).toBeNull()
     expect(anchor?.getAttribute('aria-label')).toBe('Link to My Heading')
     expect(anchor?.closest('h1')?.getAttribute('aria-label')).toBe(

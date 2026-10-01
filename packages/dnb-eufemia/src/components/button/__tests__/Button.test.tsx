@@ -197,6 +197,38 @@ describe('Button component', () => {
     )
   })
 
+  it('should include buttons and links in the tab order', () => {
+    const { rerender } = render(<Button text="Button" />)
+
+    expect(document.querySelector('button')).toHaveAttribute(
+      'tabindex',
+      '0'
+    )
+
+    rerender(<Button text="Button" tabIndex={-1} />)
+
+    expect(document.querySelector('button')).toHaveAttribute(
+      'tabindex',
+      '-1'
+    )
+
+    rerender(<Button text="Button" href="/url" />)
+
+    expect(document.querySelector('a')).toHaveAttribute('tabindex', '0')
+
+    rerender(<Button text="Button" href="/url" disabled />)
+
+    expect(document.querySelector('a')).toHaveAttribute('tabindex', '-1')
+  })
+
+  it('should not make a non-interactive element focusable', () => {
+    render(<Button text="Button" element="span" />)
+
+    expect(document.querySelector('span.dnb-button')).not.toHaveAttribute(
+      'tabindex'
+    )
+  })
+
   it('has "onClick" event which will trigger on a click', () => {
     const myEvent = vi.fn()
     render(<Button onClick={myEvent} />)

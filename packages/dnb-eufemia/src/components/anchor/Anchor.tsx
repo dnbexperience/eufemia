@@ -180,6 +180,11 @@ export function AnchorComponent(localProps: AnchorAllProps) {
 
   const prefix = iconPosition === 'left' && iconNode
 
+  // Safari only focuses links on Tab or click when tabindex is set
+  if (href && !isDisabled && typeof attributes.tabIndex === 'undefined') {
+    attributes.tabIndex = 0
+  }
+
   const anchorRef = useCallback(
     (elem: HTMLAnchorElement | null) => {
       tooltipRef.current = elem

@@ -180,6 +180,7 @@ describe('Form.SubmitButton', () => {
 
     expect(attributes).toEqual([
       'class',
+      'tabindex',
       'type',
       'data-form-submit-button-id',
       'aria-label',
