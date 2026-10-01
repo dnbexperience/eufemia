@@ -151,6 +151,15 @@ export default {
     VippsWalletButton: {
       text: 'Legg til i',
     },
+    GuidedTour: {
+      startButtonText: 'Start omvisning',
+      skipButtonText: 'Hopp over',
+      nextButtonText: 'Neste',
+      backButtonText: 'Tilbake',
+      doneButtonText: 'Ferdig',
+      closeButtonTitle: 'Lukk omvisning',
+      progress: '%current av %total',
+    },
     PaymentCard: {
       textBlocked: 'Sperret',
       textExpired: 'Utløpt',

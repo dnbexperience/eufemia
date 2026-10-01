@@ -11,13 +11,14 @@
 
 // import all the available components
 import Forms from './forms/Forms'
+import GuidedTour from './guided-tour/GuidedTour'
 import PaymentCard from './payment-card/PaymentCard'
 import SidebarMenu from './sidebar-menu/SidebarMenu'
 import VippsWalletButton from './vipps-wallet-button/VippsWalletButton'
 
 // define / export all the available components
-export { Forms, PaymentCard, SidebarMenu, VippsWalletButton }
+export { Forms, GuidedTour, PaymentCard, SidebarMenu, VippsWalletButton }
 
 export const getExtensions = () => {
-  return { Forms, PaymentCard, SidebarMenu, VippsWalletButton }
+  return { Forms, GuidedTour, PaymentCard, SidebarMenu, VippsWalletButton }
 }
