@@ -3,19 +3,13 @@
  *
  */
 
-import {
-  useCallback,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
 import type { HTMLProps, ReactNode } from 'react'
 import { clsx } from 'clsx'
 import Section from '../../section/Section'
 import ModalContext from '../ModalContext'
 import CloseButton from './CloseButton'
-import type { ButtonClickEvent } from '../../button/Button'
+import mergeProps from '../../../shared/helpers/mergeProps'
 import type { SectionProps } from '../../Section'
 
 export type ModalHeaderBarProps = {
@@ -87,17 +81,6 @@ export default function ModalHeaderBar({
     closeTitle,
   } = context
 
-  const { onClick: givenOnClick, ...restCloseButtonAttributes } =
-    closeButtonAttributes || {}
-
-  const onCloseClick = useCallback(
-    (args: ButtonClickEvent) => {
-      givenOnClick?.(args)
-      onCloseClickHandler?.(args)
-    },
-    [givenOnClick, onCloseClickHandler]
-  )
-
   return (
     <Section
       className={clsx(
@@ -115,9 +98,10 @@ export default function ModalHeaderBar({
       {!hideCloseButton && (
         <div className="dnb-modal__header__bar__close">
           <CloseButton
-            closeTitle={closeTitle}
-            {...restCloseButtonAttributes}
-            onClick={onCloseClick}
+            {...mergeProps(
+              { closeTitle, onClick: onCloseClickHandler },
+              closeButtonAttributes
+            )}
           />
         </div>
       )}
