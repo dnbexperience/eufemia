@@ -116,6 +116,8 @@ function Thumb({ value, currentIndex }: ThumbProps) {
   return (
     <span className="dnb-slider__thumb" style={style}>
       <input
+        // Safari skips range inputs on Tab unless tabindex is set
+        tabIndex={0}
         {...restHelperParams}
         id={`${id}-thumb-${currentIndex}`}
         type="range"

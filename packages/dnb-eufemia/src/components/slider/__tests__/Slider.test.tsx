@@ -51,6 +51,18 @@ describe('Slider component', () => {
     expect(element).toHaveClass('dnb-space__top--large')
   })
 
+  it('should include the thumb and buttons in the tab order', () => {
+    render(<Slider {...props} />)
+
+    expect(getRangeElement(0)).toHaveAttribute('tabindex', '0')
+    expect(
+      document.querySelector('.dnb-slider__button--subtract')
+    ).toHaveAttribute('tabindex', '0')
+    expect(
+      document.querySelector('.dnb-slider__button--add')
+    ).toHaveAttribute('tabindex', '0')
+  })
+
   it('should call onKeyDown and onKeyUp when the range input has focus', () => {
     const onKeyDown = vi.fn()
     const onKeyUp = vi.fn()
