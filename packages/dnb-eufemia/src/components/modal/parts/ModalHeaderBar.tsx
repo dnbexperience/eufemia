@@ -15,6 +15,7 @@ import { clsx } from 'clsx'
 import Section from '../../section/Section'
 import ModalContext from '../ModalContext'
 import CloseButton from './CloseButton'
+import type { ButtonClickEvent } from '../../button/Button'
 import type { SectionProps } from '../../Section'
 
 export type ModalHeaderBarProps = {
@@ -90,7 +91,7 @@ export default function ModalHeaderBar({
     closeButtonAttributes || {}
 
   const onCloseClick = useCallback(
-    (args) => {
+    (args: ButtonClickEvent) => {
       givenOnClick?.(args)
       onCloseClickHandler?.(args)
     },
