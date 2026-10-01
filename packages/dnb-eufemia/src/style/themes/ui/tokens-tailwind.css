@@ -38,8 +38,8 @@
   --color-background-neutral-static: var(--dnb-greyscale-0);
   --color-background-neutral-subtle: var(--dnb-greyscale-50);
   --color-background-neutral-base: var(--dnb-greyscale-100);
-  --color-background-neutral-bold: var(--dnb-greyscale-200);
-  --color-background-neutral-alternative: var(--dnb-blue-50);
+  --color-background-neutral-bold: var(--dnb-greyscale-300);
+  --color-background-neutral-alternative: var(--dnb-greyscale-200);
   --color-background-info: var(--dnb-coldgreen-600);
   --color-background-info-subtle: var(--dnb-warmgreen-50);
   --color-background-positive: var(--dnb-green-700);
@@ -128,8 +128,9 @@
   --color-stroke-neutral: var(--dnb-greyscale-800);
   --color-stroke-neutral-ondark: var(--dnb-greyscale-0);
   --color-stroke-neutral-subtle: var(--dnb-greyscale-100);
+  --color-stroke-neutral-base: var(--dnb-greyscale-150);
   --color-stroke-neutral-bold: var(--dnb-greyscale-200);
-  --color-stroke-neutral-alternative: var(--dnb-blue-50);
+  --color-stroke-neutral-alternative: var(--dnb-greyscale-50);
   --color-stroke-info: var(--dnb-coldgreen-600);
   --color-stroke-positive: var(--dnb-green-700);
   --color-stroke-warning: var(--dnb-yellow-500);
@@ -232,9 +233,9 @@
   --color-component-button-stroke-action-destructive-pressed: var(
     --dnb-red-700
   );
-  --color-component-button-stroke-selected: var(--dnb-coldgreen-700-40);
+  --color-component-button-stroke-selected: rgba(20 85 90 / 40%);
   --color-component-tooltip-background-neutral: var(--dnb-greyscale-800);
-  --color-component-dimmer-background: var(--dnb-greyscale-1000-30);
+  --color-component-dimmer-background: rgba(0 0 0 / 30%);
   --color-component-switch-action-disabled-ondark: var(
     --dnb-greyscale-800
   );

@@ -1995,7 +1995,7 @@
           "com.figma.variableId": "VariableID:53690:1332",
           "com.figma.scopes": [
             "SHAPE_FILL",
-            "STROKE"
+            "STROKE_COLOR"
           ],
           "com.figma.codeSyntax": {
             "WEB": "--token-color-icon-action"
@@ -2024,7 +2024,7 @@
           "com.figma.variableId": "VariableID:53780:723",
           "com.figma.scopes": [
             "SHAPE_FILL",
-            "STROKE"
+            "STROKE_COLOR"
           ],
           "com.figma.codeSyntax": {
             "WEB": "--token-color-icon-action-hover"
@@ -2053,7 +2053,7 @@
           "com.figma.variableId": "VariableID:53780:724",
           "com.figma.scopes": [
             "SHAPE_FILL",
-            "STROKE"
+            "STROKE_COLOR"
           ],
           "com.figma.codeSyntax": {
             "WEB": "--token-color-icon-action-pressed"
@@ -2082,7 +2082,7 @@
           "com.figma.variableId": "VariableID:53780:725",
           "com.figma.scopes": [
             "SHAPE_FILL",
-            "STROKE"
+            "STROKE_COLOR"
           ],
           "com.figma.codeSyntax": {
             "WEB": "--token-color-icon-action-focus"
@@ -2111,7 +2111,7 @@
           "com.figma.variableId": "VariableID:53785:929",
           "com.figma.scopes": [
             "SHAPE_FILL",
-            "STROKE"
+            "STROKE_COLOR"
           ],
           "com.figma.codeSyntax": {
             "WEB": "--token-color-icon-action-disabled"
@@ -2140,7 +2140,7 @@
           "com.figma.variableId": "VariableID:53690:1333",
           "com.figma.scopes": [
             "SHAPE_FILL",
-            "STROKE"
+            "STROKE_COLOR"
           ],
           "com.figma.codeSyntax": {
             "WEB": "--token-color-icon-action-inverse"
@@ -2169,7 +2169,7 @@
           "com.figma.variableId": "VariableID:56478:17059",
           "com.figma.scopes": [
             "SHAPE_FILL",
-            "STROKE"
+            "STROKE_COLOR"
           ],
           "com.figma.codeSyntax": {
             "WEB": "--token-color-icon-action-hover-inverse"
@@ -2198,7 +2198,7 @@
           "com.figma.variableId": "VariableID:56478:17060",
           "com.figma.scopes": [
             "SHAPE_FILL",
-            "STROKE"
+            "STROKE_COLOR"
           ],
           "com.figma.codeSyntax": {
             "WEB": "--token-color-icon-action-pressed-inverse"
@@ -2227,7 +2227,7 @@
           "com.figma.variableId": "VariableID:53690:1334",
           "com.figma.scopes": [
             "SHAPE_FILL",
-            "STROKE"
+            "STROKE_COLOR"
           ],
           "com.figma.codeSyntax": {
             "WEB": "--token-color-icon-selected"
@@ -2256,7 +2256,7 @@
           "com.figma.variableId": "VariableID:56059:1726",
           "com.figma.scopes": [
             "SHAPE_FILL",
-            "STROKE"
+            "STROKE_COLOR"
           ],
           "com.figma.codeSyntax": {
             "WEB": "--token-color-icon-selected-ondark"
@@ -2285,7 +2285,7 @@
           "com.figma.variableId": "VariableID:53696:1314",
           "com.figma.scopes": [
             "SHAPE_FILL",
-            "STROKE"
+            "STROKE_COLOR"
           ],
           "com.figma.codeSyntax": {
             "WEB": "--token-color-icon-action-ondark"
@@ -2314,7 +2314,7 @@
           "com.figma.variableId": "VariableID:56059:1902",
           "com.figma.scopes": [
             "SHAPE_FILL",
-            "STROKE"
+            "STROKE_COLOR"
           ],
           "com.figma.codeSyntax": {
             "WEB": "--token-color-icon-action-alternative-ondark"
@@ -2343,7 +2343,7 @@
           "com.figma.variableId": "VariableID:55872:1119",
           "com.figma.scopes": [
             "SHAPE_FILL",
-            "STROKE"
+            "STROKE_COLOR"
           ],
           "com.figma.codeSyntax": {
             "WEB": "--token-color-icon-action-hover-ondark"
@@ -2372,7 +2372,7 @@
           "com.figma.variableId": "VariableID:55872:1121",
           "com.figma.scopes": [
             "SHAPE_FILL",
-            "STROKE"
+            "STROKE_COLOR"
           ],
           "com.figma.codeSyntax": {
             "WEB": "--token-color-icon-action-pressed-ondark"
@@ -2401,7 +2401,7 @@
           "com.figma.variableId": "VariableID:55872:1908",
           "com.figma.scopes": [
             "SHAPE_FILL",
-            "STROKE"
+            "STROKE_COLOR"
           ],
           "com.figma.codeSyntax": {
             "WEB": "--token-color-icon-action-disabled-ondark"
@@ -2430,7 +2430,7 @@
           "com.figma.variableId": "VariableID:53690:1335",
           "com.figma.scopes": [
             "SHAPE_FILL",
-            "STROKE"
+            "STROKE_COLOR"
           ],
           "com.figma.codeSyntax": {
             "WEB": "--token-color-icon-neutral"
@@ -2459,7 +2459,7 @@
           "com.figma.variableId": "VariableID:62150:16166",
           "com.figma.scopes": [
             "SHAPE_FILL",
-            "STROKE"
+            "STROKE_COLOR"
           ],
           "com.figma.codeSyntax": {
             "WEB": "--token-color-icon-neutral-static"
@@ -2488,7 +2488,7 @@
           "com.figma.variableId": "VariableID:53690:1337",
           "com.figma.scopes": [
             "SHAPE_FILL",
-            "STROKE"
+            "STROKE_COLOR"
           ],
           "com.figma.codeSyntax": {
             "WEB": "--token-color-icon-neutral-inverse"
@@ -2517,7 +2517,7 @@
           "com.figma.variableId": "VariableID:53690:1338",
           "com.figma.scopes": [
             "SHAPE_FILL",
-            "STROKE"
+            "STROKE_COLOR"
           ],
           "com.figma.codeSyntax": {
             "WEB": "--token-color-icon-neutral-ondark"
@@ -2546,7 +2546,7 @@
           "com.figma.variableId": "VariableID:53690:1340",
           "com.figma.scopes": [
             "SHAPE_FILL",
-            "STROKE"
+            "STROKE_COLOR"
           ],
           "com.figma.codeSyntax": {
             "WEB": "--token-color-icon-neutral-alternative"
@@ -2633,7 +2633,7 @@
           "com.figma.variableId": "VariableID:62150:1988",
           "com.figma.scopes": [
             "ALL_FILLS",
-            "STROKE"
+            "STROKE_COLOR"
           ],
           "com.figma.codeSyntax": {
             "WEB": "--token-color-icon-positive"
@@ -2749,7 +2749,7 @@
           "com.figma.variableId": "VariableID:53690:1341",
           "com.figma.scopes": [
             "SHAPE_FILL",
-            "STROKE"
+            "STROKE_COLOR"
           ],
           "com.figma.codeSyntax": {
             "WEB": "--token-color-icon-error"
@@ -2807,7 +2807,7 @@
           "com.figma.variableId": "VariableID:53684:1321",
           "com.figma.scopes": [
             "SHAPE_FILL",
-            "STROKE"
+            "STROKE_COLOR"
           ],
           "com.figma.codeSyntax": {
             "WEB": "--token-color-icon-marketing"
@@ -2866,7 +2866,7 @@
         "$extensions": {
           "com.figma.variableId": "VariableID:53718:712",
           "com.figma.scopes": [
-            "STROKE"
+            "STROKE_COLOR"
           ],
           "com.figma.codeSyntax": {
             "WEB": "--token-color-stroke-action"
@@ -2894,7 +2894,7 @@
         "$extensions": {
           "com.figma.variableId": "VariableID:55036:12503",
           "com.figma.scopes": [
-            "STROKE"
+            "STROKE_COLOR"
           ],
           "com.figma.codeSyntax": {
             "WEB": "--token-color-stroke-action-alternative"
@@ -2922,7 +2922,7 @@
         "$extensions": {
           "com.figma.variableId": "VariableID:53780:726",
           "com.figma.scopes": [
-            "STROKE"
+            "STROKE_COLOR"
           ],
           "com.figma.codeSyntax": {
             "WEB": "--token-color-stroke-action-hover"
@@ -2950,7 +2950,7 @@
         "$extensions": {
           "com.figma.variableId": "VariableID:53780:727",
           "com.figma.scopes": [
-            "STROKE"
+            "STROKE_COLOR"
           ],
           "com.figma.codeSyntax": {
             "WEB": "--token-color-stroke-action-pressed"
@@ -2978,7 +2978,7 @@
         "$extensions": {
           "com.figma.variableId": "VariableID:55887:6980",
           "com.figma.scopes": [
-            "STROKE"
+            "STROKE_COLOR"
           ],
           "com.figma.codeSyntax": {
             "WEB": "--token-color-stroke-action-inverse"
@@ -3006,7 +3006,7 @@
         "$extensions": {
           "com.figma.variableId": "VariableID:56478:17064",
           "com.figma.scopes": [
-            "STROKE"
+            "STROKE_COLOR"
           ],
           "com.figma.codeSyntax": {
             "WEB": "--token-color-stroke-action-hover-inverse"
@@ -3034,7 +3034,7 @@
         "$extensions": {
           "com.figma.variableId": "VariableID:56478:17063",
           "com.figma.scopes": [
-            "STROKE"
+            "STROKE_COLOR"
           ],
           "com.figma.codeSyntax": {
             "WEB": "--token-color-stroke-action-pressed-inverse"
@@ -3062,7 +3062,7 @@
         "$extensions": {
           "com.figma.variableId": "VariableID:53785:729",
           "com.figma.scopes": [
-            "STROKE"
+            "STROKE_COLOR"
           ],
           "com.figma.codeSyntax": {
             "WEB": "--token-color-stroke-action-focus"
@@ -3090,7 +3090,7 @@
         "$extensions": {
           "com.figma.variableId": "VariableID:55036:12504",
           "com.figma.scopes": [
-            "STROKE"
+            "STROKE_COLOR"
           ],
           "com.figma.codeSyntax": {
             "WEB": "--token-color-stroke-action-focus-subtle"
@@ -3118,7 +3118,7 @@
         "$extensions": {
           "com.figma.variableId": "VariableID:53785:931",
           "com.figma.scopes": [
-            "STROKE"
+            "STROKE_COLOR"
           ],
           "com.figma.codeSyntax": {
             "WEB": "--token-color-stroke-action-disabled"
@@ -3146,7 +3146,7 @@
         "$extensions": {
           "com.figma.variableId": "VariableID:53718:714",
           "com.figma.scopes": [
-            "STROKE"
+            "STROKE_COLOR"
           ],
           "com.figma.codeSyntax": {
             "WEB": "--token-color-stroke-selected"
@@ -3174,7 +3174,7 @@
         "$extensions": {
           "com.figma.variableId": "VariableID:56059:1725",
           "com.figma.scopes": [
-            "STROKE"
+            "STROKE_COLOR"
           ],
           "com.figma.codeSyntax": {
             "WEB": "--token-color-stroke-selected-ondark"
@@ -3202,7 +3202,7 @@
         "$extensions": {
           "com.figma.variableId": "VariableID:55036:12973",
           "com.figma.scopes": [
-            "STROKE"
+            "STROKE_COLOR"
           ],
           "com.figma.codeSyntax": {
             "WEB": "--token-color-stroke-action-ondark"
@@ -3230,7 +3230,7 @@
         "$extensions": {
           "com.figma.variableId": "VariableID:56059:1917",
           "com.figma.scopes": [
-            "STROKE"
+            "STROKE_COLOR"
           ],
           "com.figma.codeSyntax": {
             "WEB": "--token-color-stroke-action-alternative-ondark"
@@ -3258,7 +3258,7 @@
         "$extensions": {
           "com.figma.variableId": "VariableID:55887:6981",
           "com.figma.scopes": [
-            "STROKE"
+            "STROKE_COLOR"
           ],
           "com.figma.codeSyntax": {
             "WEB": "--token-color-stroke-action-hover-ondark"
@@ -3286,7 +3286,7 @@
         "$extensions": {
           "com.figma.variableId": "VariableID:55887:6982",
           "com.figma.scopes": [
-            "STROKE"
+            "STROKE_COLOR"
           ],
           "com.figma.codeSyntax": {
             "WEB": "--token-color-stroke-action-pressed-ondark"
@@ -3314,7 +3314,7 @@
         "$extensions": {
           "com.figma.variableId": "VariableID:55872:1909",
           "com.figma.scopes": [
-            "STROKE"
+            "STROKE_COLOR"
           ],
           "com.figma.codeSyntax": {
             "WEB": "--token-color-stroke-action-disabled-ondark"
@@ -3342,7 +3342,7 @@
         "$extensions": {
           "com.figma.variableId": "VariableID:53718:718",
           "com.figma.scopes": [
-            "STROKE"
+            "STROKE_COLOR"
           ],
           "com.figma.codeSyntax": {
             "WEB": "--token-color-stroke-neutral"
@@ -3370,7 +3370,7 @@
         "$extensions": {
           "com.figma.variableId": "VariableID:53718:719",
           "com.figma.scopes": [
-            "STROKE"
+            "STROKE_COLOR"
           ],
           "com.figma.codeSyntax": {
             "WEB": "--token-color-stroke-neutral-ondark"
@@ -3398,7 +3398,35 @@
         "$extensions": {
           "com.figma.variableId": "VariableID:53718:720",
           "com.figma.scopes": [
-            "STROKE"
+            "STROKE_COLOR"
+          ],
+          "com.figma.codeSyntax": {
+            "WEB": "--token-color-stroke-neutral-subtle"
+          },
+          "com.figma.aliasData": {
+            "targetVariableId": "VariableID:9e780779c73acfa5a3c70c8b71ee30246f695b52/5552:1843",
+            "targetVariableName": "sbanken/greyscale/300",
+            "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
+            "targetVariableSetName": "colors"
+          }
+        }
+      },
+      "neutral-base": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.8509804010391235,
+            0.8509804010391235,
+            0.8941176533699036
+          ],
+          "alpha": 1,
+          "hex": "#D9D9E4"
+        },
+        "$extensions": {
+          "com.figma.variableId": "VariableID:70153:58758",
+          "com.figma.scopes": [
+            "STROKE_COLOR"
           ],
           "com.figma.codeSyntax": {
             "WEB": "--token-color-stroke-neutral-subtle"
@@ -3426,7 +3454,7 @@
         "$extensions": {
           "com.figma.variableId": "VariableID:55045:37609",
           "com.figma.scopes": [
-            "STROKE"
+            "STROKE_COLOR"
           ],
           "com.figma.codeSyntax": {
             "WEB": "--token-color-stroke-neutral-bold"
@@ -3454,7 +3482,7 @@
         "$extensions": {
           "com.figma.variableId": "VariableID:53837:4988",
           "com.figma.scopes": [
-            "STROKE"
+            "STROKE_COLOR"
           ],
           "com.figma.codeSyntax": {
             "WEB": "--token-color-stroke-neutral-alternative"
@@ -3482,7 +3510,7 @@
         "$extensions": {
           "com.figma.variableId": "VariableID:53718:722",
           "com.figma.scopes": [
-            "STROKE"
+            "STROKE_COLOR"
           ],
           "com.figma.codeSyntax": {
             "WEB": "--token-color-stroke-info"
@@ -3510,7 +3538,7 @@
         "$extensions": {
           "com.figma.variableId": "VariableID:54483:254295",
           "com.figma.scopes": [
-            "STROKE"
+            "STROKE_COLOR"
           ],
           "com.figma.codeSyntax": {
             "WEB": "--token-color-stroke-positive"
@@ -3538,7 +3566,7 @@
         "$extensions": {
           "com.figma.variableId": "VariableID:53718:723",
           "com.figma.scopes": [
-            "STROKE"
+            "STROKE_COLOR"
           ],
           "com.figma.codeSyntax": {
             "WEB": "--token-color-stroke-warning"
@@ -3566,7 +3594,7 @@
         "$extensions": {
           "com.figma.variableId": "VariableID:53718:724",
           "com.figma.scopes": [
-            "STROKE"
+            "STROKE_COLOR"
           ],
           "com.figma.codeSyntax": {
             "WEB": "--token-color-stroke-error"
@@ -3594,7 +3622,7 @@
         "$extensions": {
           "com.figma.variableId": "VariableID:53718:725",
           "com.figma.scopes": [
-            "STROKE"
+            "STROKE_COLOR"
           ],
           "com.figma.codeSyntax": {
             "WEB": "--token-color-stroke-marketing"
@@ -3818,7 +3846,7 @@
             "alpha": 1,
             "hex": "#4E08BC"
           },
-          "$description": "Standard background color for \"ondark\" components",
+          "$description": "Standard background color for &quot;ondark&quot; components",
           "$extensions": {
             "com.figma.variableId": "VariableID:53820:6408",
             "com.figma.scopes": [
@@ -5075,7 +5103,7 @@
               "com.figma.variableId": "VariableID:55892:2038",
               "com.figma.scopes": [
                 "SHAPE_FILL",
-                "STROKE"
+                "STROKE_COLOR"
               ],
               "com.figma.codeSyntax": {
                 "WEB": "--token-color-component-button-icon-neutral"
@@ -5104,7 +5132,7 @@
               "com.figma.variableId": "VariableID:55892:2040",
               "com.figma.scopes": [
                 "SHAPE_FILL",
-                "STROKE"
+                "STROKE_COLOR"
               ],
               "com.figma.codeSyntax": {
                 "WEB": "--token-color-component-button-icon-neutral-ondark"
@@ -5133,7 +5161,7 @@
               "com.figma.variableId": "VariableID:53837:573",
               "com.figma.scopes": [
                 "SHAPE_FILL",
-                "STROKE"
+                "STROKE_COLOR"
               ],
               "com.figma.codeSyntax": {
                 "WEB": "--token-color-component-button-icon-action"
@@ -5162,7 +5190,7 @@
               "com.figma.variableId": "VariableID:55036:12976",
               "com.figma.scopes": [
                 "SHAPE_FILL",
-                "STROKE"
+                "STROKE_COLOR"
               ],
               "com.figma.codeSyntax": {
                 "WEB": "--token-color-component-button-icon-action-hover"
@@ -5191,7 +5219,7 @@
               "com.figma.variableId": "VariableID:55907:4290",
               "com.figma.scopes": [
                 "SHAPE_FILL",
-                "STROKE"
+                "STROKE_COLOR"
               ],
               "com.figma.codeSyntax": {
                 "WEB": "--token-color-component-button-icon-action-disabled"
@@ -5220,7 +5248,7 @@
               "com.figma.variableId": "VariableID:55907:2247",
               "com.figma.scopes": [
                 "SHAPE_FILL",
-                "STROKE"
+                "STROKE_COLOR"
               ],
               "com.figma.codeSyntax": {
                 "WEB": "--token-color-component-button-icon-neutral-destructive"
@@ -5249,7 +5277,7 @@
               "com.figma.variableId": "VariableID:55907:1829",
               "com.figma.scopes": [
                 "SHAPE_FILL",
-                "STROKE"
+                "STROKE_COLOR"
               ],
               "com.figma.codeSyntax": {
                 "WEB": "--token-color-component-button-icon-action-destructive"
@@ -5278,7 +5306,7 @@
               "com.figma.variableId": "VariableID:55907:1827",
               "com.figma.scopes": [
                 "SHAPE_FILL",
-                "STROKE"
+                "STROKE_COLOR"
               ],
               "com.figma.codeSyntax": {
                 "WEB": "--token-color-component-button-icon-action-destructive-hover"
@@ -5307,7 +5335,7 @@
               "com.figma.variableId": "VariableID:55907:1828",
               "com.figma.scopes": [
                 "SHAPE_FILL",
-                "STROKE"
+                "STROKE_COLOR"
               ],
               "com.figma.codeSyntax": {
                 "WEB": "--token-color-component-button-icon-action-destructive-pressed"
@@ -5337,7 +5365,7 @@
             "$extensions": {
               "com.figma.variableId": "VariableID:53837:4984",
               "com.figma.scopes": [
-                "STROKE"
+                "STROKE_COLOR"
               ],
               "com.figma.codeSyntax": {
                 "WEB": "--token-color-component-button-stroke-action"
@@ -5365,7 +5393,7 @@
             "$extensions": {
               "com.figma.variableId": "VariableID:55036:12977",
               "com.figma.scopes": [
-                "STROKE"
+                "STROKE_COLOR"
               ],
               "com.figma.codeSyntax": {
                 "WEB": "--token-color-component-button-stroke-action-hover"
@@ -5393,7 +5421,7 @@
             "$extensions": {
               "com.figma.variableId": "VariableID:55907:1832",
               "com.figma.scopes": [
-                "STROKE"
+                "STROKE_COLOR"
               ],
               "com.figma.codeSyntax": {
                 "WEB": "--token-color-component-button-stroke-action-destructive"
@@ -5421,7 +5449,7 @@
             "$extensions": {
               "com.figma.variableId": "VariableID:55907:1830",
               "com.figma.scopes": [
-                "STROKE"
+                "STROKE_COLOR"
               ],
               "com.figma.codeSyntax": {
                 "WEB": "--token-color-component-button-stroke-action-destructive-hover"
@@ -5449,7 +5477,7 @@
             "$extensions": {
               "com.figma.variableId": "VariableID:55907:1831",
               "com.figma.scopes": [
-                "STROKE"
+                "STROKE_COLOR"
               ],
               "com.figma.codeSyntax": {
                 "WEB": "--token-color-component-button-stroke-action-destructive-pressed"
@@ -5471,22 +5499,16 @@
                 0.0313725508749485,
                 0.7372549176216125
               ],
-              "alpha": 0.4000000059604645,
+              "alpha": 0.4,
               "hex": "#4E08BC"
             },
             "$extensions": {
               "com.figma.variableId": "VariableID:60162:6172",
               "com.figma.scopes": [
-                "STROKE"
+                "STROKE_COLOR"
               ],
               "com.figma.codeSyntax": {
                 "WEB": "--token-color-component-button-stroke-selected"
-              },
-              "com.figma.aliasData": {
-                "targetVariableId": "VariableID:7a2845f64ead21d1789bd1dd0cdf72459d784bc6/5552:1780",
-                "targetVariableName": "sbanken/purple/700/40",
-                "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
-                "targetVariableSetName": "colors"
               }
             }
           }
@@ -5535,7 +5557,7 @@
               0,
               0
             ],
-            "alpha": 0.30000001192092896,
+            "alpha": 0.3,
             "hex": "#000000"
           },
           "$extensions": {
@@ -5545,12 +5567,6 @@
             ],
             "com.figma.codeSyntax": {
               "WEB": "--token-color-component-dimmer-background"
-            },
-            "com.figma.aliasData": {
-              "targetVariableId": "VariableID:32ab2d9beaeab39a289d33c85f9201693a67e02b/5552:1854",
-              "targetVariableName": "sbanken/greyscale/1000/30",
-              "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
-              "targetVariableSetName": "colors"
             }
           }
         }

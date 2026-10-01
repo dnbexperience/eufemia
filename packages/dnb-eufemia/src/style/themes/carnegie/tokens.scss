@@ -7,13 +7,9 @@
   --token-color-background-page-background: var(--carnegie-greyscale-0);
   --token-color-background-action: var(--carnegie-greyscale-1000);
   --token-color-background-action-hover: var(--carnegie-greyscale-800);
-  --token-color-background-action-hover-subtle: var(
-    --carnegie-greyscale-1000-5
-  );
+  --token-color-background-action-hover-subtle: rgba(0 0 0 / 5%);
   --token-color-background-action-pressed: var(--carnegie-greyscale-1000);
-  --token-color-background-action-pressed-subtle: var(
-    --carnegie-greyscale-1000-10
-  );
+  --token-color-background-action-pressed-subtle: rgba(0 0 0 / 10%);
   --token-color-background-action-focus: var(--carnegie-blue-600);
   --token-color-background-action-focus-subtle: var(--carnegie-blue-50);
   --token-color-background-action-disabled: var(--carnegie-greyscale-200);
@@ -31,15 +27,11 @@
   --token-color-background-action-hover-ondark: var(
     --carnegie-greyscale-0
   );
-  --token-color-background-action-hover-subtle-ondark: var(
-    --carnegie-greyscale-1000-30
-  );
+  --token-color-background-action-hover-subtle-ondark: rgba(0 0 0 / 30%);
   --token-color-background-action-pressed-ondark: var(
     --carnegie-greyscale-0
   );
-  --token-color-background-action-pressed-subtle-ondark: var(
-    --carnegie-greyscale-1000-50
-  );
+  --token-color-background-action-pressed-subtle-ondark: rgba(0 0 0 / 50%);
   --token-color-background-action-disabled-ondark: var(
     --carnegie-greyscale-700
   );
@@ -161,6 +153,7 @@
   --token-color-stroke-neutral: var(--carnegie-beige-300);
   --token-color-stroke-neutral-ondark: var(--carnegie-greyscale-0);
   --token-color-stroke-neutral-subtle: var(--carnegie-beige-200);
+  --token-color-stroke-neutral-base: var(--carnegie-beige-300);
   --token-color-stroke-neutral-bold: var(--carnegie-greyscale-1000);
   --token-color-stroke-neutral-alternative: var(--carnegie-greyscale-200);
   --token-color-stroke-info: var(--carnegie-coldgreen-600);
@@ -323,9 +316,7 @@
   --token-color-component-tooltip-background-neutral: var(
     --carnegie-greyscale-800
   );
-  --token-color-component-dimmer-background: var(
-    --carnegie-greyscale-1000-30
-  );
+  --token-color-component-dimmer-background: rgba(0 0 0 / 30%);
   --token-color-component-switch-action-disabled-ondark: var(
     --carnegie-greyscale-800
   );

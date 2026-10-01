@@ -146,8 +146,9 @@
   --token-color-stroke-neutral: var(--sbanken-greyscale-400);
   --token-color-stroke-neutral-ondark: var(--sbanken-greyscale-0);
   --token-color-stroke-neutral-subtle: var(--sbanken-greyscale-800);
-  --token-color-stroke-neutral-bold: var(--sbanken-greyscale-800);
-  --token-color-stroke-neutral-alternative: var(--sbanken-greyscale-900);
+  --token-color-stroke-neutral-base: var(--sbanken-greyscale-800);
+  --token-color-stroke-neutral-bold: var(--sbanken-greyscale-600);
+  --token-color-stroke-neutral-alternative: var(--sbanken-greyscale-700);
   --token-color-stroke-info: var(--sbanken-green-700);
   --token-color-stroke-positive: var(--sbanken-green-400);
   --token-color-stroke-warning: var(--sbanken-yellow-600);
@@ -278,15 +279,11 @@
   --token-color-component-button-stroke-action-destructive-pressed: var(
     --sbanken-orange-400
   );
-  --token-color-component-button-stroke-selected: var(
-    --sbanken-green-300-40
-  );
+  --token-color-component-button-stroke-selected: rgba(146 238 205 / 40%);
   --token-color-component-tooltip-background-neutral: var(
     --sbanken-greyscale-100
   );
-  --token-color-component-dimmer-background: var(
-    --sbanken-greyscale-800-60
-  );
+  --token-color-component-dimmer-background: rgba(58 58 74 / 60%);
   --token-color-component-switch-action-disabled-ondark: var(
     --sbanken-purple-1000
   );
