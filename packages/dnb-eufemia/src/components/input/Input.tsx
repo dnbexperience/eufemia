@@ -540,6 +540,8 @@ function InputComponent({ ref, ...restProps }: InputProps) {
                   attributes={{ className: 'dnb-input__clear-button' }}
                   id={id + '-clear-button'}
                   type="button"
+                  // Safari skips buttons on Tab unless tabindex is set explicitly
+                  tabIndex={0}
                   variant="tertiary"
                   aria-controls={id}
                   aria-label={clearButtonTitle}
