@@ -84,17 +84,23 @@ type TokenValue = {
   hex: string
 }
 
+type TokenAliasData = {
+  targetVariableId: string
+  targetVariableName: string
+  targetVariableSetId: string
+  targetVariableSetName: string
+}
+
 type TokenExtensions = {
   'com.figma.variableId': string
   'com.figma.hiddenFromPublishing'?: true
   'com.figma.scopes'?: string[]
   'com.figma.codeSyntax'?: Record<string, string>
   'com.figma.type'?: TokenType
-  'com.figma.aliasData'?: {
-    targetVariableId: string
-    targetVariableName: string
-    targetVariableSetId: string
-    targetVariableSetName: string
+  'com.figma.aliasData'?: TokenAliasData
+  'com.figma.composedColor'?: {
+    colorArg: { type: 'alias'; alias: TokenAliasData }
+    opacityArg: { type: 'number'; value: number }
   }
 }
 
@@ -344,7 +350,8 @@ const resolveValue = (
     ) as FigmaColorValue
     const opacity = resolveValue(meta, resolved.opacity, modeId) as number
 
-    return { ...color, a: opacity / 100 }
+    // Figma stores color channels as 32-bit floats
+    return { ...color, a: Math.fround(opacity / 100) }
   }
 
   return resolved
@@ -418,6 +425,17 @@ const makeTokenLeaf = (
   }
   if (isAlias(value)) {
     $extensions['com.figma.aliasData'] = makeAliasData(meta, value)
+  }
+  // Only this composition has been seen in Figma exports
+  if (
+    isComposedColor(value) &&
+    isAlias(value.color) &&
+    typeof value.opacity === 'number'
+  ) {
+    $extensions['com.figma.composedColor'] = {
+      colorArg: { type: 'alias', alias: makeAliasData(meta, value.color) },
+      opacityArg: { type: 'number', value: value.opacity },
+    }
   }
 
   return {
