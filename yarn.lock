@@ -2872,7 +2872,7 @@ __metadata:
     fs-extra: "npm:10.0.0"
     globals: "npm:17.6.0"
     globby: "npm:11.0.4"
-    hono: "npm:4.13.5"
+    hono: "npm:4.13.7"
     intl-messageformat: "npm:11.2.3"
     jest-axe: "npm:11.0.0"
     jsdom: "npm:30.1.1"
@@ -11218,10 +11218,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"hono@npm:4.13.5":
-  version: 4.13.5
-  resolution: "hono@npm:4.13.5"
-  checksum: 10/a302e8d3a5329276ca436333e54679ef864e92e1b3fbd4db0d98cc56e71748622a1654103fcdf9ee866027b797255557e1ade05c8ceb866411603d74bf71bf43
+"hono@npm:4.13.7":
+  version: 4.13.7
+  resolution: "hono@npm:4.13.7"
+  checksum: 10/0f7b6bede2101e0fade436dd5054aa205f9271d905a2f638dd52fb6307354a7ae81d07ac5ec4e1a80603c618a0d50685650bb8a7e2f77b3d96a2423e1473c474
   languageName: node
   linkType: hard
 
