@@ -11601,10 +11601,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ip-address@npm:10.5.1":
-  version: 10.5.1
-  resolution: "ip-address@npm:10.5.1"
-  checksum: 10/5809efd2c8c09e03dc4df104cf0eb6ff81478255e782839fca66a52fbfd39f06636b68c68957f8930ce648a51acf5232df6174f0cd5b4c447775bc2e20f47077
+"ip-address@npm:10.7.2":
+  version: 10.7.2
+  resolution: "ip-address@npm:10.7.2"
+  checksum: 10/3a051cb5234cff142bb527e8b40bf0f9dd895b0334161b1ffe0256700a50a49f4d3b94ef72a809f086b2bd6489d4f7a4a52025b03db9c2e9e83a5f9e4d4bdb60
   languageName: node
   linkType: hard
 
