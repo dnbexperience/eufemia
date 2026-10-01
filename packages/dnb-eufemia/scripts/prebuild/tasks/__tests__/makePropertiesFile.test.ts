@@ -6,6 +6,7 @@ import makePropertiesFile, {
   transformNamespace,
   generateCSSVariablesFromTokenList,
   convertToTokenList,
+  generateColorMixFallback,
   overrideFoundationReferencePrefix,
 } from '../makePropertiesFile'
 
@@ -391,6 +392,27 @@ describe('makePropertiesFile', () => {
     })
 
     describe('transformFigmaValue', () => {
+      const composedColor = {
+        $type: 'color' as const,
+        $value: {
+          alpha: 0.30000001192092896,
+          hex: '#000000',
+        },
+        $extensions: {
+          'com.figma.composedColor': {
+            colorArg: {
+              type: 'alias' as const,
+              alias: {
+                targetVariableName: 'dnb/greyscale/1000',
+                targetVariableSetId: colorsVariableSetId,
+                targetVariableSetName: 'colors',
+              },
+            },
+            opacityArg: { type: 'number' as const, value: 30 },
+          },
+        },
+      }
+
       it('generates alias', () => {
         const val = {
           $type: 'color' as const,
@@ -412,31 +434,53 @@ describe('makePropertiesFile', () => {
       })
 
       it('references the color of a composed color with its opacity', () => {
-        const val = {
-          $type: 'color' as const,
-          $value: {
-            alpha: 0.30000001192092896,
-            hex: '#000000',
-          },
-          $extensions: {
-            'com.figma.composedColor': {
-              colorArg: {
-                type: 'alias' as const,
-                alias: {
-                  targetVariableName: 'dnb/greyscale/1000',
-                  targetVariableSetId: colorsVariableSetId,
-                  targetVariableSetName: 'colors',
-                },
-              },
-              opacityArg: { type: 'number' as const, value: 30 },
-            },
-          },
-        }
-
-        const result = transformFigmaValue(val)
-        expect(result).toEqual(
+        expect(transformFigmaValue(composedColor)).toEqual(
           'color-mix(in srgb, var(--dnb-greyscale-1000) 30%, transparent)'
         )
+      })
+
+      it('adds a literal fallback for browsers without color-mix()', () => {
+        expect(
+          generateColorMixFallback(
+            [
+              {
+                figmaPath: ['color', 'component', 'dimmer', 'background'],
+                figmaSetId: colorsVariableSetId,
+                ...composedColor,
+              },
+              {
+                figmaPath: ['color', 'background', 'page'],
+                figmaSetId: colorsVariableSetId,
+                $type: 'color',
+                $value: { alpha: 1, hex: '#FFFFFF' },
+              },
+            ],
+            ':root',
+            'token'
+          )
+        ).toEqual(
+          '@supports not (color: color-mix(in srgb, red, red)) {\n' +
+            ':root {\n' +
+            '--token-color-component-dimmer-background: rgba(0 0 0 / 30%);\n' +
+            '}\n}\n'
+        )
+      })
+
+      it('adds no fallback without composed colors', () => {
+        expect(
+          generateColorMixFallback(
+            [
+              {
+                figmaPath: ['color', 'background', 'page'],
+                figmaSetId: colorsVariableSetId,
+                $type: 'color',
+                $value: { alpha: 1, hex: '#FFFFFF' },
+              },
+            ],
+            ':root',
+            'token'
+          )
+        ).toBe('')
       })
 
       it('generates color hex', () => {
@@ -763,6 +807,39 @@ describe('makePropertiesFile', () => {
       for (const variable of Array.from(foundationVariables)) {
         expect(tokenVariables.has(variable)).toBe(true)
       }
+    })
+  })
+
+  describe('Foundation declares every variable the tokens reference', () => {
+    it.each([
+      [
+        'ui',
+        () => [global.uiTokens + global.uiTokensDark, global.uiFoundation],
+      ],
+      [
+        'sbanken',
+        () => [
+          global.sbankenTokens + global.sbankenTokensDark,
+          global.sbankenFoundation,
+        ],
+      ],
+      [
+        'carnegie',
+        () => [global.carnegieTokens, global.carnegieFoundation],
+      ],
+    ])('%s', (_theme, getFiles) => {
+      const [tokens, foundation] = getFiles()
+      const declared = new Set(
+        [...foundation.matchAll(/^\s*(--[a-z0-9-]+)\s*:/gim)].map(
+          (match) => match[1]
+        )
+      )
+
+      expect(
+        Array.from(extractReferencedCssVariables(tokens)).filter(
+          (variable) => !declared.has(variable)
+        )
+      ).toEqual([])
     })
   })
 })

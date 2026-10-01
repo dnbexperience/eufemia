@@ -359,17 +359,44 @@ export const transformFigmaValue = (value: FigmaValue) => {
     )
   }
 
-  const composed = value.$extensions?.['com.figma.composedColor']
-  if (
-    composed?.colorArg?.type === 'alias' &&
-    composed.opacityArg?.type === 'number'
-  ) {
+  const composed = getComposedColor(value)
+  if (composed) {
     return `color-mix(in srgb, ${transformFigmaAlias(
       composed.colorArg.alias
     )} ${composed.opacityArg.value}%, transparent)`
   }
 
   return transformFigmaRawValue(value)
+}
+
+const getComposedColor = (value: FigmaValue) => {
+  const composed = value.$extensions?.['com.figma.composedColor']
+
+  return composed?.colorArg?.type === 'alias' &&
+    composed.opacityArg?.type === 'number'
+    ? composed
+    : undefined
+}
+
+const COLOR_MIX_FALLBACK_CONDITION =
+  '@supports not (color: color-mix(in srgb, red, red))'
+
+/** Literal values of the composed colors, for browsers without `color-mix()` */
+export const generateColorMixFallback = (
+  tokenList: TokenList,
+  selector: string,
+  namespace?: string
+) => {
+  const declarations = generateCSSVariablesFromTokenList(
+    tokenList
+      .filter((token) => getComposedColor(token))
+      .map((token) => ({ ...token, $extensions: undefined })),
+    namespace
+  )
+
+  return declarations
+    ? `${COLOR_MIX_FALLBACK_CONDITION} {\n${selector} {\n${declarations}}\n}\n`
+    : ''
 }
 
 const transformFigmaRawValue = (value: FigmaValue) => {
@@ -549,9 +576,20 @@ const makeDesignTokenTailwindCSS = async (
     let currentSelector: string | null = null
 
     let pendingSelectorLines: string[] = []
+    let skippedBlockDepth = 0
 
     for (const line of lines) {
       const trimmed = line.trim()
+
+      // Tailwind v4 requires color-mix() support, so it needs no fallback
+      if (
+        skippedBlockDepth > 0 ||
+        trimmed.startsWith(COLOR_MIX_FALLBACK_CONDITION)
+      ) {
+        skippedBlockDepth +=
+          trimmed.split('{').length - trimmed.split('}').length
+        continue
+      }
 
       if (!collecting && trimmed.endsWith('{')) {
         currentSelector = [...pendingSelectorLines, trimmed.slice(0, -1)]
@@ -736,6 +774,11 @@ const makeDesignTokenSCSS = async ({
 
     scssContent += generateCSSVariablesFromTokenList(tokenList, namespace)
     scssContent += '}\n'
+    scssContent += generateColorMixFallback(
+      tokenList,
+      combinedSelector,
+      namespace
+    )
 
     if (referencedVariables) {
       scssContent = keepOnlyReferencedVariableDeclarations(
