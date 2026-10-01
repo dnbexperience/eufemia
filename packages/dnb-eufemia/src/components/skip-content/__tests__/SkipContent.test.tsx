@@ -124,6 +124,37 @@ describe('SkipContent', () => {
     )
   })
 
+  it('should keep setting focus when an onClick is given', async () => {
+    const onClick = vi.fn()
+
+    render(
+      <>
+        <SkipContent
+          selector="#unique-id"
+          focusDelay={1}
+          onClick={onClick}
+        >
+          Aria
+        </SkipContent>
+        <Section id="unique-id">content</Section>
+      </>
+    )
+
+    const element = document.querySelector('.dnb-skip-content')
+
+    fireEvent.keyUp(element.querySelector('button.dnb-sr-only'), {
+      key: 'Tab',
+    })
+    fireEvent.click(element.querySelector('.dnb-button'))
+
+    expect(onClick).toHaveBeenCalledTimes(1)
+
+    await waitFor(() => {
+      expect(document.activeElement.tagName).toBe('SECTION')
+    })
+    expect(element.querySelector('.dnb-button')).not.toBeInTheDocument()
+  })
+
   it('should set focus on a target whose id is not a valid CSS identifier', async () => {
     render(
       <>

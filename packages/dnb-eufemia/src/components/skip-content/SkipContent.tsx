@@ -37,6 +37,8 @@ const SkipContent = (localProps: SkipContentAllProps) => {
     children,
     className,
     focusDelay = 400,
+    onClick,
+    onBlur,
     ...props
   } = localProps
 
@@ -75,40 +77,49 @@ const SkipContent = (localProps: SkipContentAllProps) => {
     [selector, targetId]
   )
 
-  const handleBlur = useCallback(() => {
-    blurTimeout.current = setTimeout(() => setVisible(false), 0)
-  }, [])
+  const handleBlur = useCallback(
+    (args) => {
+      onBlur?.(args)
+      blurTimeout.current = setTimeout(() => setVisible(false), 0)
+    },
+    [onBlur]
+  )
 
   const handleButtonRef = useCallback((element: HTMLElement | null) => {
     element?.focus()
   }, [])
 
-  const handleClick = useCallback(() => {
-    // Scroll to the element at first
-    const element = getTargetElement()
-    element?.scrollIntoView?.({ behavior: 'smooth' })
+  const handleClick = useCallback(
+    (args) => {
+      onClick?.(args)
 
-    if (element && !isInteractive(element)) {
-      element.classList.add('dnb-skip-content__focus')
-    }
+      // Scroll to the element at first
+      const element = getTargetElement()
+      element?.scrollIntoView?.({ behavior: 'smooth' })
 
-    const focusTarget = () => {
-      applyPageFocus(getTargetElement() ?? selector)
+      if (element && !isInteractive(element)) {
+        element.classList.add('dnb-skip-content__focus')
+      }
 
-      // Tell the linked return component, it should stay active (if it gets focused as well)
-      document
-        .getElementById(`${returnSelector}--alias--alias`)
-        ?.classList.add('dnb-skip-content__return--active')
-    }
+      const focusTarget = () => {
+        applyPageFocus(getTargetElement() ?? selector)
 
-    if (focusDelay === 0) {
-      focusTarget()
-    } else {
-      setVisible(false)
-      // Delay the focus, so the UX is smoother
-      timeout.current = setTimeout(focusTarget, focusDelay)
-    }
-  }, [focusDelay, getTargetElement, returnSelector, selector])
+        // Tell the linked return component, it should stay active (if it gets focused as well)
+        document
+          .getElementById(`${returnSelector}--alias--alias`)
+          ?.classList.add('dnb-skip-content__return--active')
+      }
+
+      if (focusDelay === 0) {
+        focusTarget()
+      } else {
+        setVisible(false)
+        // Delay the focus, so the UX is smoother
+        timeout.current = setTimeout(focusTarget, focusDelay)
+      }
+    },
+    [onClick, focusDelay, getTargetElement, returnSelector, selector]
+  )
 
   const setFocus = useCallback(() => {
     setVisible(true)
