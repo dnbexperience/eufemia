@@ -342,6 +342,11 @@ function InputComponent({ ref, ...restProps }: InputProps) {
     ...attributes
   } = inputSubmitButtonAttributes
 
+  // A given onClick belongs to the input element, and would otherwise
+  // replace the click handler the submit button needs to emit onSubmit
+  const { onClick: _onClick, ...submitButtonAttributes } =
+    inputSubmitButtonAttributes
+
   let usedInputState = inputState
   if (disabled || skeleton) {
     usedInputState = 'disabled'
@@ -561,7 +566,7 @@ function InputComponent({ ref, ...restProps }: InputProps) {
                 submitElement
               ) : (
                 <InputSubmitButton
-                  {...inputSubmitButtonAttributes}
+                  {...submitButtonAttributes}
                   id={id + '-submit-button'}
                   value={hasVal ? value : ''}
                   icon={submitButtonIcon}

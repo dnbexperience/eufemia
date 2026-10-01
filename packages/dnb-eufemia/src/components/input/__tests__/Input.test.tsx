@@ -578,6 +578,52 @@ describe('Input component', () => {
     ).toBeInTheDocument()
   })
 
+  it('keeps emitting onSubmit when an onClick is given', () => {
+    const onSubmit = vi.fn()
+    const onClick = vi.fn()
+
+    render(
+      <Input
+        type="search"
+        showSubmitButton
+        onSubmit={onSubmit}
+        onClick={onClick}
+      />
+    )
+
+    fireEvent.click(
+      document.querySelector('.dnb-input__submit-button button')
+    )
+
+    expect(onSubmit).toHaveBeenCalledTimes(1)
+    expect(onClick).toHaveBeenCalledTimes(0)
+
+    fireEvent.click(document.querySelector('input'))
+
+    expect(onClick).toHaveBeenCalledTimes(1)
+    expect(onSubmit).toHaveBeenCalledTimes(1)
+  })
+
+  it('does not submit when the clear button is clicked', () => {
+    const onSubmit = vi.fn()
+    const onClear = vi.fn()
+
+    render(
+      <Input
+        type="search"
+        value="foo"
+        showClearButton
+        onSubmit={onSubmit}
+        onClear={onClear}
+      />
+    )
+
+    fireEvent.click(document.querySelector('.dnb-input__clear-button'))
+
+    expect(onClear).toHaveBeenCalledTimes(1)
+    expect(onSubmit).toHaveBeenCalledTimes(0)
+  })
+
   it('should not expose the value as an html attribute', async () => {
     render(<Input />)
 
