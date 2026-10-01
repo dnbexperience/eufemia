@@ -13,6 +13,7 @@ import {
   omitSpacingProps,
   pickSpacingProps,
 } from '../../../../components/flex/utils'
+import mergeProps from '../../../../shared/helpers/mergeProps'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type WizardEditButtonProps = ComponentProps &
@@ -29,20 +30,14 @@ function EditButton(props: WizardEditButtonProps) {
     icon,
     toStep,
     children = translations.text,
-    onClick,
     ...rest
   } = props
 
-  const handleClick = useCallback(
-    (args) => {
-      onClick?.(args)
-
-      if (toStep > -1) {
-        setActiveIndex(toStep)
-      }
-    },
-    [onClick, toStep, setActiveIndex]
-  )
+  const handleClick = useCallback(() => {
+    if (toStep > -1) {
+      setActiveIndex(toStep)
+    }
+  }, [toStep, setActiveIndex])
 
   return (
     <ButtonRow {...pickSpacingProps(props)}>
@@ -52,8 +47,7 @@ function EditButton(props: WizardEditButtonProps) {
         variant={variant}
         iconPosition={iconPosition}
         icon={edit || icon}
-        onClick={handleClick}
-        {...omitSpacingProps(rest)}
+        {...mergeProps({ onClick: handleClick }, omitSpacingProps(rest))}
       >
         {children}
       </Button>

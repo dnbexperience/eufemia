@@ -4,12 +4,12 @@ import ToolbarContext from '../Toolbar/ToolbarContext'
 import { useTranslation } from '../../../hooks'
 import { Button } from '../../../../../components'
 import { edit } from '../../../../../icons'
+import mergeProps from '../../../../../shared/helpers/mergeProps'
 import type { ButtonProps } from '../../../../../components/button/Button'
 
 export type FormSectionEditButtonProps = ButtonProps
 
 export default function EditButton(props: FormSectionEditButtonProps) {
-  const { onClick, ...rest } = props
   const sectionContainerContext = useContext(SectionContainerContext)
   const { onEdit } = useContext(ToolbarContext) || {}
   const { switchContainerMode, disableEditing } =
@@ -17,14 +17,10 @@ export default function EditButton(props: FormSectionEditButtonProps) {
 
   const translation = useTranslation().SectionViewContainer
 
-  const editHandler = useCallback(
-    (args) => {
-      onClick?.(args)
-      switchContainerMode?.('edit')
-      onEdit?.()
-    },
-    [onClick, onEdit, switchContainerMode]
-  )
+  const editHandler = useCallback(() => {
+    switchContainerMode?.('edit')
+    onEdit?.()
+  }, [onEdit, switchContainerMode])
 
   if (disableEditing === true) {
     return null
@@ -35,8 +31,7 @@ export default function EditButton(props: FormSectionEditButtonProps) {
       variant="tertiary"
       icon={edit}
       iconPosition="left"
-      onClick={editHandler}
-      {...rest}
+      {...mergeProps({ onClick: editHandler }, props)}
     >
       {translation.editButton}
     </Button>

@@ -7,12 +7,13 @@ import ToolbarContext from '../Toolbar/ToolbarContext'
 import FieldBoundaryContext from '../../DataContext/FieldBoundary/FieldBoundaryContext'
 import PushContainerContext from '../PushContainer/PushContainerContext'
 import { check } from '../../../../icons'
+import mergeProps from '../../../../shared/helpers/mergeProps'
 import type { ButtonProps } from '../../../../components/Button'
 
 type Props = ButtonProps
 
 export default function DoneButton(props: Props) {
-  const { className, onClick, ...restProps } = props
+  const { className, ...restProps } = props
   const { switchContainerMode, containerMode, arrayValue, index } =
     useContext(IterateItemContext) || {}
   const { hasError, hasVisibleError, setShowBoundaryErrors } =
@@ -32,35 +33,29 @@ export default function DoneButton(props: Props) {
     }
   }, [arrayValue, containerMode, index])
 
-  const doneHandler = useCallback(
-    (args) => {
-      onClick?.(args)
-
-      if (hasError) {
-        setShowBoundaryErrors?.(true)
-        if (hasVisibleError) {
-          setShowError(true)
-        }
-      } else {
-        setShowBoundaryErrors?.(false)
-        setShowError(false)
-        if (commitHandleRef) {
-          commitHandleRef.current?.()
-        } else {
-          switchContainerMode?.('view')
-        }
+  const doneHandler = useCallback(() => {
+    if (hasError) {
+      setShowBoundaryErrors?.(true)
+      if (hasVisibleError) {
+        setShowError(true)
       }
-    },
-    [
-      onClick,
-      commitHandleRef,
-      hasError,
-      hasVisibleError,
-      setShowBoundaryErrors,
-      setShowError,
-      switchContainerMode,
-    ]
-  )
+    } else {
+      setShowBoundaryErrors?.(false)
+      setShowError(false)
+      if (commitHandleRef) {
+        commitHandleRef.current?.()
+      } else {
+        switchContainerMode?.('view')
+      }
+    }
+  }, [
+    commitHandleRef,
+    hasError,
+    hasVisibleError,
+    setShowBoundaryErrors,
+    setShowError,
+    switchContainerMode,
+  ])
 
   return (
     <Button
@@ -68,8 +63,7 @@ export default function DoneButton(props: Props) {
       className={clsx('dnb-forms-iterate__done-button', className)}
       icon={check}
       iconPosition="left"
-      onClick={doneHandler}
-      {...restProps}
+      {...mergeProps({ onClick: doneHandler }, restProps)}
     >
       {doneButton}
     </Button>

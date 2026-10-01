@@ -9,6 +9,7 @@ import SubmitIndicator from '../SubmitIndicator'
 import useTranslation from '../../hooks/useTranslation'
 import { send } from '../../../../icons'
 import useId from '../../../../shared/helpers/useId'
+import mergeProps from '../../../../shared/helpers/mergeProps'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type FormSubmitButtonProps = {
@@ -27,15 +28,8 @@ export type FormSubmitButtonProps = {
 function SubmitButton(props: FormSubmitButtonProps) {
   const translations = useTranslation().SubmitButton
 
-  const {
-    variant,
-    className,
-    showIndicator,
-    children,
-    text,
-    onClick,
-    ...rest
-  } = props
+  const { variant, className, showIndicator, children, text, ...rest } =
+    props
 
   const content =
     text ||
@@ -53,22 +47,17 @@ function SubmitButton(props: FormSubmitButtonProps) {
   } = useContext(DataContext) || {}
   const { isolate } = dataContextProps || {}
 
-  const onClickHandler = useCallback(
-    (args) => {
-      onClick?.(args)
-      setActiveSubmitButtonId?.(submitButtonId)
-      if (!hasElementRef?.current) {
-        handleSubmit?.()
-      }
-    },
-    [
-      onClick,
-      hasElementRef,
-      handleSubmit,
-      setActiveSubmitButtonId,
-      submitButtonId,
-    ]
-  )
+  const onClickHandler = useCallback(() => {
+    setActiveSubmitButtonId?.(submitButtonId)
+    if (!hasElementRef?.current) {
+      handleSubmit?.()
+    }
+  }, [
+    hasElementRef,
+    handleSubmit,
+    setActiveSubmitButtonId,
+    submitButtonId,
+  ])
 
   const isActiveSubmitButton =
     !activeSubmitButtonId || activeSubmitButtonId === submitButtonId
@@ -81,12 +70,11 @@ function SubmitButton(props: FormSubmitButtonProps) {
   return (
     <Button
       className={clsx('dnb-forms-submit-button', className)}
-      onClick={onClickHandler}
       type={isolate ? 'button' : 'submit'}
       variant={variant === 'secondary' ? 'secondary' : undefined}
       icon={variant === 'send' ? send : null}
       data-form-submit-button-id={submitButtonId}
-      {...rest}
+      {...mergeProps({ onClick: onClickHandler }, rest)}
     >
       {content}
 

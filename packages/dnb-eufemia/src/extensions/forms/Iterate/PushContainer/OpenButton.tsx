@@ -5,22 +5,19 @@ import Button from '../../../../components/Button'
 import { add } from '../../../../icons'
 import IterateItemContext from '../IterateItemContext'
 import PushContainerContext from './PushContainerContext'
+import mergeProps from '../../../../shared/helpers/mergeProps'
 import { convertJsxToString } from '../../../../shared/component-helper'
 
 type Props = ButtonProps
 
 function OpenButton(props: Props) {
-  const { className, text, children, onClick, ...restProps } = props
+  const { className, text, children, ...restProps } = props
   const { switchContainerMode } = useContext(IterateItemContext) || {}
   const { entries } = useContext(PushContainerContext) || {}
 
-  const handleClick = useCallback(
-    (args) => {
-      onClick?.(args)
-      switchContainerMode?.('edit')
-    },
-    [onClick, switchContainerMode]
-  )
+  const handleClick = useCallback(() => {
+    switchContainerMode?.('edit')
+  }, [switchContainerMode])
 
   const content = useMemo(() => {
     if (children || text) {
@@ -41,8 +38,7 @@ function OpenButton(props: Props) {
       variant="secondary"
       icon={add}
       iconPosition="left"
-      onClick={handleClick}
-      {...restProps}
+      {...mergeProps({ onClick: handleClick }, restProps)}
     >
       {content}
     </Button>

@@ -8,6 +8,7 @@ import WizardContext from '../Context/WizardContext'
 import DataContext from '../../DataContext/Context'
 import ButtonRow from '../../Form/ButtonRow'
 import useTranslation from '../../hooks/useTranslation'
+import mergeProps from '../../../../shared/helpers/mergeProps'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type WizardPreviousButtonProps = ComponentProps & ButtonProps
@@ -21,17 +22,12 @@ function PreviousButton(props: WizardPreviousButtonProps) {
     iconPosition = 'left',
     icon = 'chevron_left',
     children = translations.text,
-    onClick,
   } = props
   const { activeIndex, handlePrevious } = useContext(WizardContext) || {}
 
-  const handleClick = useCallback(
-    (args) => {
-      onClick?.(args)
-      handlePrevious?.()
-    },
-    [onClick, handlePrevious]
-  )
+  const handleClick = useCallback(() => {
+    handlePrevious?.()
+  }, [handlePrevious])
 
   const { prerenderFieldProps } = useContext(DataContext)
   if (prerenderFieldProps) {
@@ -51,8 +47,7 @@ function PreviousButton(props: WizardPreviousButtonProps) {
         iconPosition={iconPosition}
         icon={icon}
         {...params}
-        {...props}
-        onClick={handleClick}
+        {...mergeProps({ onClick: handleClick }, props)}
       >
         {children}
       </Button>

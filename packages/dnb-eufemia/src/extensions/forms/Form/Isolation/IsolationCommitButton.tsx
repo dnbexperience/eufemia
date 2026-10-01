@@ -5,6 +5,7 @@ import DataContext from '../../DataContext/Context'
 import type { ButtonProps } from '../../../../components/button/Button'
 import Button from '../../../../components/button/Button'
 import { check } from '../../../../icons'
+import mergeProps from '../../../../shared/helpers/mergeProps'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type IsolationCommitButtonProps = ButtonProps
@@ -12,7 +13,7 @@ export type IsolationCommitButtonProps = ButtonProps
 function IsolationCommitButton(props: IsolationCommitButtonProps) {
   const translations = useTranslation().Isolation
 
-  const { className, children, text, onClick, ...rest } = props
+  const { className, children, text, ...rest } = props
 
   const content = text || children || translations.commitButtonText
 
@@ -20,15 +21,11 @@ function IsolationCommitButton(props: IsolationCommitButtonProps) {
     useContext(DataContext) || {}
   const { isolate } = dataContextProps || {}
 
-  const onClickHandler = useCallback(
-    (args) => {
-      onClick?.(args)
-      if (isolate) {
-        handleSubmit?.()
-      }
-    },
-    [onClick, handleSubmit, isolate]
-  )
+  const onClickHandler = useCallback(() => {
+    if (isolate) {
+      handleSubmit?.()
+    }
+  }, [handleSubmit, isolate])
 
   return (
     <Button
@@ -36,8 +33,7 @@ function IsolationCommitButton(props: IsolationCommitButtonProps) {
       className={clsx('dnb-forms-isolate__commit-button', className)}
       icon={check}
       iconPosition="left"
-      onClick={onClickHandler}
-      {...rest}
+      {...mergeProps({ onClick: onClickHandler }, rest)}
     >
       {content}
     </Button>

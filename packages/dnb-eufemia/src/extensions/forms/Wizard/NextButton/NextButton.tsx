@@ -8,6 +8,7 @@ import DataContext from '../../DataContext/Context'
 import ButtonRow from '../../Form/ButtonRow'
 import SubmitButton from '../../Form/SubmitButton'
 import useTranslation from '../../hooks/useTranslation'
+import mergeProps from '../../../../shared/helpers/mergeProps'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type WizardNextButtonProps = ComponentProps &
@@ -21,17 +22,12 @@ function NextButton(props: WizardNextButtonProps) {
     iconPosition = 'right',
     icon = 'chevron_right',
     children = translations.text,
-    onClick,
   } = props
   const { handleNext } = useContext(WizardContext) || {}
 
-  const handleClick = useCallback(
-    (args) => {
-      onClick?.(args)
-      handleNext?.()
-    },
-    [onClick, handleNext]
-  )
+  const handleClick = useCallback(() => {
+    handleNext?.()
+  }, [handleNext])
 
   const { prerenderFieldProps } = useContext(DataContext)
   if (prerenderFieldProps) {
@@ -46,8 +42,7 @@ function NextButton(props: WizardNextButtonProps) {
         className={clsx('dnb-forms-next-button', className)}
         iconPosition={iconPosition}
         icon={icon}
-        {...props}
-        onClick={handleClick}
+        {...mergeProps({ onClick: handleClick }, props)}
       >
         {children}
       </SubmitButton>
