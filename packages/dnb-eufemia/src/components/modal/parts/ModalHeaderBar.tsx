@@ -3,7 +3,13 @@
  *
  */
 
-import { useContext, useEffect, useRef, useState } from 'react'
+import {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from 'react'
 import type { HTMLProps, ReactNode } from 'react'
 import { clsx } from 'clsx'
 import Section from '../../section/Section'
@@ -83,10 +89,13 @@ export default function ModalHeaderBar({
   const { onClick: givenOnClick, ...restCloseButtonAttributes } =
     closeButtonAttributes || {}
 
-  const onCloseClick = (args) => {
-    givenOnClick?.(args)
-    onCloseClickHandler?.(args)
-  }
+  const onCloseClick = useCallback(
+    (args) => {
+      givenOnClick?.(args)
+      onCloseClickHandler?.(args)
+    },
+    [givenOnClick, onCloseClickHandler]
+  )
 
   return (
     <Section
