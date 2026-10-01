@@ -48,12 +48,16 @@ function RemoveButton(props: IterateRemoveButtonProps) {
     [handleRemove, handleRemoveItem, itemPath]
   )
 
-  const triggerProps: ButtonProps = {
+  const defaultProps: ButtonProps = {
     className: clsx('dnb-forms-iterate-remove-element-button', className),
     text: replaceItemNo(textContent, index),
     variant: textContent ? 'tertiary' : 'secondary',
     icon: trash,
     iconPosition: 'left',
+  }
+
+  const triggerProps: ButtonProps = {
+    ...defaultProps,
     ...buttonProps,
   }
 
@@ -71,7 +75,7 @@ function RemoveButton(props: IterateRemoveButtonProps) {
   return (
     <Button
       {...mergeProps(
-        { ...triggerProps, onClick: (args) => handleClick(args) },
+        { ...defaultProps, onClick: (args) => handleClick(args) },
         buttonProps
       )}
     />

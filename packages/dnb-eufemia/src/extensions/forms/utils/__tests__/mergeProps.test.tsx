@@ -569,6 +569,24 @@ describe('event handlers in component prop bags', () => {
     expect(document.querySelectorAll('input')).toHaveLength(1)
   })
 
+  it('Iterate.RemoveButton should call a given handler it has no own handler for once', async () => {
+    const givenOnMouseOver = vi.fn()
+
+    render(
+      <Form.Handler data={{ list: ['first'] }}>
+        <Iterate.Array path="/list">
+          <Iterate.RemoveButton onMouseOver={givenOnMouseOver} />
+        </Iterate.Array>
+      </Form.Handler>
+    )
+
+    await userEvent.hover(
+      document.querySelector('.dnb-forms-iterate-remove-element-button')
+    )
+
+    expect(givenOnMouseOver).toHaveBeenCalledTimes(1)
+  })
+
   it('Field.Date should keep validating while typing when an onType is given', async () => {
     const givenOnType = vi.fn()
 
