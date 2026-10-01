@@ -145,8 +145,8 @@ export type LocalMcpUsageRecord = {
   timestamp: string
 }
 
-// Returns the normalized component name, or `null` when the input doesn't
-// match a component the docs server would actually resolve.
+// Returns the normalized component name, or `null` when it is not a
+// dot-separated name of letters, digits and hyphens.
 function validComponent(value: unknown): string | null {
   if (typeof value !== 'string' || value.length > MAX_COMPONENT_LENGTH) {
     return null
@@ -185,7 +185,6 @@ function validPath(
   return knownAreas.has(area) ? area : null
 }
 
-/** Coerce a tool call's input into a plain args object. */
 function toArgs(input: unknown): Record<string, unknown> {
   return input && typeof input === 'object' && !Array.isArray(input)
     ? (input as Record<string, unknown>)

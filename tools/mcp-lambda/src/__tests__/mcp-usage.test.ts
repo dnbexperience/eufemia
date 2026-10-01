@@ -192,7 +192,7 @@ describe('usageRecordsFromRequestBody', () => {
     expect(record?.tool).toBe('portal_content_workflow')
   })
 
-  it('drops a component argument that is not a well-formed name', async () => {
+  it('drops a component argument with invalid characters', async () => {
     const [record] = await usageRecordsFromRequestBody(
       body(toolCall('component_props', { name: 'Button; DROP TABLE' })),
       { env: 'dev', now: NOW, resolver }
@@ -207,7 +207,7 @@ describe('usageRecordsFromRequestBody', () => {
     'component_api',
     'component_props',
   ])(
-    'drops a well-formed component that does not exist for %s',
+    'drops a valid-looking component that does not exist for %s',
     async (tool) => {
       const [record] = await usageRecordsFromRequestBody(
         body(toolCall(tool, { name: 'NotAComponent' })),
@@ -228,7 +228,7 @@ describe('usageRecordsFromRequestBody', () => {
     expect(record?.component).toBe('')
   })
 
-  it('drops a well-formed docs_read path that is not a file', async () => {
+  it('drops a docs_read path that is not a file', async () => {
     const missing = await usageRecordsFromRequestBody(
       body(toolCall('docs_read', { path: '/uilib/components/nope.md' })),
       { env: 'dev', now: NOW, resolver }

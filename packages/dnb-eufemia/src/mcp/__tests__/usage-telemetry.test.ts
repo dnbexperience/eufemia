@@ -205,7 +205,7 @@ describe('createUsageReporter', () => {
     component: async (name: string) => name === 'Button',
     docsFile: async (path: string) =>
       path === '/uilib/components/button.md',
-    docsDir: async () => false,
+    docsDir: async (path: string) => path === '/uilib/components',
   }
 
   beforeEach(() => {
@@ -362,12 +362,21 @@ describe('createUsageReporter', () => {
     reporter?.onToolCall('docs_read', {
       path: '/uilib/components/nope.md',
     })
+    reporter?.onToolCall('docs_list', { prefix: '/uilib/components' })
+    reporter?.onToolCall('docs_list', {
+      prefix: '/uilib/components/missing',
+    })
     await vi.runAllTimersAsync()
 
     const paths = fetchImpl.mock.calls.map(
       ([, init]) => JSON.parse(init.body).path
     )
-    expect(paths).toEqual(['/uilib/components/', undefined])
+    expect(paths).toEqual([
+      '/uilib/components/',
+      undefined,
+      '/uilib/components/',
+      undefined,
+    ])
   })
 
   it('swallows a rejected fetch without throwing', async () => {

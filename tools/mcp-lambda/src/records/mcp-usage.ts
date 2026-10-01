@@ -6,7 +6,7 @@
  *
  * Validation is structural first (closed character sets, bounded length, no
  * traversal), so nothing incidental in an argument can reach storage. A
- * well-formed component or path is then checked against the docs through the
+ * component or path that passes is then checked against the docs through the
  * {@link UsageResolver}, so a name that does not exist is dropped and the event
  * degrades to a tool count. Component names and doc paths are stored in the form
  * the docs server resolves them to, so one component or document groups under
@@ -97,9 +97,8 @@ function normalizeComponent(value: string): string {
   return value.trim().toLowerCase()
 }
 
-// Returns the trimmed name as the caller passed it, so the resolver sees the
-// same casing the docs tool does; it is lowercased only when stored.
-function wellFormedComponent(value: unknown): string {
+// Original casing, as the docs tool sees it; lowercased only when stored.
+function parseComponentName(value: unknown): string {
   if (typeof value !== 'string' || value.length > MAX_COMPONENT_LENGTH) {
     return ''
   }
@@ -112,7 +111,7 @@ function wellFormedComponent(value: unknown): string {
     : ''
 }
 
-function wellFormedPath(value: unknown): string {
+function parseDocsPath(value: unknown): string {
   if (typeof value !== 'string') {
     return ''
   }
@@ -154,7 +153,7 @@ async function recordFromMessage(
   const args = (message.params?.arguments ?? {}) as Record<string, unknown>
 
   const rawComponent = COMPONENT_TOOLS.has(tool)
-    ? wellFormedComponent(args.name)
+    ? parseComponentName(args.name)
     : ''
   const component =
     rawComponent && (await resolver.component(rawComponent))
@@ -163,9 +162,9 @@ async function recordFromMessage(
 
   const candidatePath =
     tool === 'docs_read'
-      ? wellFormedPath(args.path)
+      ? parseDocsPath(args.path)
       : tool === 'docs_list'
-        ? wellFormedPath(args.prefix)
+        ? parseDocsPath(args.prefix)
         : ''
   const exists =
     tool === 'docs_read' ? resolver.docsFile : resolver.docsDir
