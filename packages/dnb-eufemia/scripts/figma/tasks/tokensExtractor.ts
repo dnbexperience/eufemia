@@ -166,6 +166,18 @@ export const TOKEN_EXPORTS: ReadonlyArray<{
     mode: 'dnbcarnegie-light',
     fileName: 'brand/dnbcarnegie-light.tokens.json',
   },
+  {
+    collection: 'brand',
+    collectionId: BRAND_COLLECTION_ID,
+    mode: 'dnbeiendom-light',
+    fileName: 'brand/dnbeiendom-light.tokens.json',
+  },
+  {
+    collection: 'brand',
+    collectionId: BRAND_COLLECTION_ID,
+    mode: 'dnbeiendom-dark',
+    fileName: 'brand/dnbeiendom-dark.tokens.json',
+  },
 ]
 
 const TOKEN_TYPES: Record<
@@ -293,7 +305,7 @@ export const assertModesAreExported = (meta: FigmaLocalVariables) => {
       throw new Error(
         `The Figma variable collection "${collectionName}" has modes that are not exported: ${missing.join(
           ', '
-        )}. Add them to TOKEN_EXPORTS and to the token files in makePropertiesFile.ts.`
+        )}. Add them to TOKEN_EXPORTS, and to the token files in makePropertiesFile.ts once a theme uses them.`
       )
     }
   }

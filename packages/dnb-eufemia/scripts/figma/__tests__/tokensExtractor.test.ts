@@ -6,7 +6,7 @@ import {
   type FigmaLocalVariables,
 } from '../tasks/tokensExtractor'
 import { createFigmaClient } from '../helpers/figmaClient'
-import { readFileSync } from 'node:fs'
+import { existsSync, readFileSync } from 'node:fs'
 import path from 'path'
 import fs from 'fs-extra'
 import { log } from '../../lib'
@@ -20,7 +20,7 @@ const white = { r: 1, g: 1, b: 1, a: 1 }
 const green = { r: 0, g: 0.4470588266849518, b: 0.4470588266849518, a: 1 }
 
 /** The remaining brand modes only exist so every configured export can be written */
-const restModes = ['1:2', '1:3', '1:4']
+const restModes = ['1:2', '1:3', '1:4', '1:5', '1:6']
 const inAllModes = <Value>(value: Value) =>
   Object.fromEntries(restModes.map((modeId) => [modeId, value]))
 
@@ -35,6 +35,8 @@ const meta: FigmaLocalVariables = {
         { modeId: '1:2', name: 'sbanken-light' },
         { modeId: '1:3', name: 'sbanken-dark' },
         { modeId: '1:4', name: 'dnbcarnegie-light' },
+        { modeId: '1:5', name: 'dnbeiendom-light' },
+        { modeId: '1:6', name: 'dnbeiendom-dark' },
       ],
       defaultModeId: '1:0',
       variableIds: [
@@ -574,8 +576,10 @@ describe('extractTokens', () => {
       '/tokens/brand/sbanken-light.tokens.json',
       '/tokens/brand/sbanken-dark.tokens.json',
       '/tokens/brand/dnbcarnegie-light.tokens.json',
+      '/tokens/brand/dnbeiendom-light.tokens.json',
+      '/tokens/brand/dnbeiendom-dark.tokens.json',
     ])
-    expect(fs.outputFile).toHaveBeenCalledTimes(6)
+    expect(fs.outputFile).toHaveBeenCalledTimes(8)
   })
 
   it('names the failing collection and mode', async () => {
@@ -725,24 +729,34 @@ describe('the committed Figma exports', () => {
     return meta
   }
 
-  it.each(TOKEN_EXPORTS)('reproduces $fileName', ({ fileName, mode }) => {
-    const file = path.resolve(
-      __dirname,
-      '../../../src/style/themes/figma',
-      fileName
+  // A newly exported mode has no committed file until the next token sync
+  const committedExports = TOKEN_EXPORTS.filter(({ fileName }) =>
+    existsSync(
+      path.resolve(__dirname, '../../../src/style/themes/figma', fileName)
     )
-    const tokens = JSON.parse(readFileSync(file, 'utf-8'))
+  )
 
-    expect(
-      JSON.stringify(
-        convertVariablesToTokens({
-          meta: toLocalVariables(tokens, mode),
-          collection: 'exported',
-          mode,
-        }),
-        null,
-        2
+  it.each(committedExports)(
+    'reproduces $fileName',
+    ({ fileName, mode }) => {
+      const file = path.resolve(
+        __dirname,
+        '../../../src/style/themes/figma',
+        fileName
       )
-    ).toBe(JSON.stringify(tokens, null, 2))
-  })
+      const tokens = JSON.parse(readFileSync(file, 'utf-8'))
+
+      expect(
+        JSON.stringify(
+          convertVariablesToTokens({
+            meta: toLocalVariables(tokens, mode),
+            collection: 'exported',
+            mode,
+          }),
+          null,
+          2
+        )
+      ).toBe(JSON.stringify(tokens, null, 2))
+    }
+  )
 })
