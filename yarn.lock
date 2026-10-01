@@ -2813,9 +2813,9 @@ __metadata:
     "@eslint/eslintrc": "npm:3.3.5"
     "@eslint/js": "npm:10.0.1"
     "@inquirer/checkbox": "npm:5.2.1"
-    "@maskito/core": "npm:5.4.0"
-    "@maskito/kit": "npm:5.4.0"
-    "@maskito/react": "npm:5.4.0"
+    "@maskito/core": "npm:5.6.0"
+    "@maskito/kit": "npm:5.6.0"
+    "@maskito/react": "npm:5.6.0"
     "@modelcontextprotocol/node": "npm:2.0.0"
     "@modelcontextprotocol/server": "npm:2.0.0"
     "@modelcontextprotocol/server-legacy": "npm:2.0.0"
@@ -4174,30 +4174,30 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@maskito/core@npm:5.4.0":
-  version: 5.4.0
-  resolution: "@maskito/core@npm:5.4.0"
-  checksum: 10/aeef91c91eab13819f4136ae20b677229dee7b49c73a9de783f90eef910b1bb6df2514fbcad3f05bbb5ce372603479268b5c4a13dd3eb7ce77004c2c5bde0ffd
+"@maskito/core@npm:5.6.0":
+  version: 5.6.0
+  resolution: "@maskito/core@npm:5.6.0"
+  checksum: 10/628a35acf0b30f661eab42b191b217ab17020511b0f4b1e59a417deae65f6958378b1136d1bec8022c4880ecba6406575f4de0bb2207b42fbb535a4a52d86de6
   languageName: node
   linkType: hard
 
-"@maskito/kit@npm:5.4.0":
-  version: 5.4.0
-  resolution: "@maskito/kit@npm:5.4.0"
+"@maskito/kit@npm:5.6.0":
+  version: 5.6.0
+  resolution: "@maskito/kit@npm:5.6.0"
   peerDependencies:
-    "@maskito/core": ^5.4.0
-  checksum: 10/ad23f3ff2654982f12e594c09c1f5d83c5e8fa661936c1e64d6ec869ae389757fae4f1e57824821cefc20792d95c71197ce029bfa1313402c2ec3e4989b6f018
+    "@maskito/core": ^5.6.0
+  checksum: 10/6f954908589a94ef2cdf16e06952c3d3477e1b4296e63f9ad99f25cb6bed8e2cacec259adbd557edef81178fe0b0be227be9a97ca03306c7583be493d71737d1
   languageName: node
   linkType: hard
 
-"@maskito/react@npm:5.4.0":
-  version: 5.4.0
-  resolution: "@maskito/react@npm:5.4.0"
+"@maskito/react@npm:5.6.0":
+  version: 5.6.0
+  resolution: "@maskito/react@npm:5.6.0"
   peerDependencies:
-    "@maskito/core": ^5.4.0
+    "@maskito/core": ^5.6.0
     react: ">=16.8"
     react-dom: ">=16.8"
-  checksum: 10/50db8382f0edc8c251a7a5b9bc3c0d6407f589bd8a3885c86872038586601338a9d72761071eae7b8e1e7731312cb00511c461e14af904e27c9a45d2125968fc
+  checksum: 10/8f26a5cff2ad73a677df2d0ca5e00742781f9279bd571b2520a986aee639f1db5d951fd53b03ed5ef78211830171200cce5e38117a03c50d682f2bbb73170884
   languageName: node
   linkType: hard
 
