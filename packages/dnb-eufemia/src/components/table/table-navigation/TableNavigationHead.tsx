@@ -20,12 +20,13 @@ export type TableNavigationHeadProps = TableTrProps &
   Omit<TableHTMLAttributes<HTMLTableRowElement>, 'onClick'>
 
 export function TableNavigationHead(allProps: TableNavigationHeadProps) {
-  const { children, onClick, onKeyDown, ...props } = allProps
+  const { children, onClick, onKeyDown, disabled, ...props } = allProps
   const tableContext = useContext(TableContext)
 
   const content = Array.isArray(children) ? [...children] : [children]
 
   const hasOnClick = typeof onClick === 'function'
+  const isInteractive = hasOnClick && !disabled
 
   const tableContextAllProps = useContext(TableContext)?.allProps
 
@@ -59,14 +60,18 @@ export function TableNavigationHead(allProps: TableNavigationHeadProps) {
   const onKeyDownHandler = useCallback(
     (event: KeyboardEvent<HTMLTableRowElement>) => {
       onKeyDown?.(event)
-      onClickTr(event, true, onClick)
+
+      if (isInteractive) {
+        onClickTr(event, true, onClick)
+      }
     },
-    [onKeyDown, onClick]
+    [onKeyDown, isInteractive, onClick]
   )
 
   return (
     <TableClickableHead
       clickable={hasOnClick}
+      disabled={disabled}
       onClick={onClickHandler}
       onKeyDown={onKeyDownHandler}
       ariaLabel={tableContextAllProps?.navigationButtonSR}

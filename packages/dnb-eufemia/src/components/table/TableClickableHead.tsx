@@ -56,15 +56,16 @@ export function TableClickableHead(allProps: TableClickableHeadProps) {
 
   const tableContext = useContext(TableContext)
   const id = useId()
-  const trParams =
-    !disabled && clickable
-      ? {
-          onClick: onClick,
-          onMouseEnter: onMouseEnter,
-          onMouseLeave: onMouseLeave,
-          onKeyDown: onKeydownHandler,
-        }
-      : {}
+  const isInteractive = !disabled && clickable
+
+  // A row that is not interactive still forwards a given handler, so it keeps
+  // running. The row modes leave out their own handling in that case.
+  const trParams = {
+    onMouseEnter: onMouseEnter,
+    onMouseLeave: onMouseLeave,
+    onClick: isInteractive ? onClick : undefined,
+    onKeyDown: isInteractive ? onKeydownHandler : onKeyDown,
+  }
 
   return (
     <tr

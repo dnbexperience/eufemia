@@ -1054,4 +1054,60 @@ describe('Table using mode="accordion" prop', () => {
       'dnb-table__tr--hover'
     )
   })
+
+  it('should call the given handlers on a row without accordion content', () => {
+    const onKeyDown = vi.fn()
+    const onMouseEnter = vi.fn()
+    const onMouseLeave = vi.fn()
+
+    render(
+      <Table mode="accordion">
+        <tbody>
+          <Tr
+            onKeyDown={onKeyDown}
+            onMouseEnter={onMouseEnter}
+            onMouseLeave={onMouseLeave}
+          >
+            <Td>content</Td>
+          </Tr>
+        </tbody>
+      </Table>
+    )
+
+    const trElement = document.querySelector('tr.dnb-table__tr')
+
+    fireEvent.keyDown(trElement, { key: 'Enter' })
+    fireEvent.mouseEnter(trElement)
+    fireEvent.mouseLeave(trElement)
+
+    expect(onKeyDown).toHaveBeenCalledTimes(1)
+    expect(onMouseEnter).toHaveBeenCalledTimes(1)
+    expect(onMouseLeave).toHaveBeenCalledTimes(1)
+    expect(Array.from(trElement.classList)).not.toContain(
+      'dnb-table__tr--expanded'
+    )
+  })
+
+  it('should call the given handlers on a disabled row without expanding it', () => {
+    const onKeyDown = vi.fn()
+
+    render(
+      <Table mode="accordion">
+        <tbody>
+          <Tr disabled onKeyDown={onKeyDown}>
+            <Td>content</Td>
+            <Td.AccordionContent>accordion content</Td.AccordionContent>
+          </Tr>
+        </tbody>
+      </Table>
+    )
+
+    const trElement = document.querySelector('tr.dnb-table__tr')
+    fireEvent.keyDown(trElement, { key: 'Enter' })
+
+    expect(onKeyDown).toHaveBeenCalledTimes(1)
+    expect(Array.from(trElement.classList)).not.toContain(
+      'dnb-table__tr--expanded'
+    )
+  })
 })

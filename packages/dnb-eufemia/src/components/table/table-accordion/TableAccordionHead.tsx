@@ -67,6 +67,7 @@ export function TableAccordionHead(allProps: TableAccordionHeadProps) {
     onKeyDown,
     onMouseEnter,
     onMouseLeave,
+    disabled,
     count,
     ...props
   } = allProps
@@ -90,6 +91,21 @@ export function TableAccordionHead(allProps: TableAccordionHeadProps) {
   const openOnFind = openOnFindProp ?? keepInDOM ?? false
 
   let headerContent = Children.toArray(children)
+
+  /**
+   * Handle Accordion Content
+   */
+  const accordionContent = headerContent.filter((element) => {
+    return isAccordionElement(element as ReactElement)
+  }) as ReactElement<
+    TableAccordionContentSingleProps | TableAccordionContentRowProps
+  >[]
+
+  const hasAccordionContent =
+    accordionContent.length !== 0 &&
+    accordionContent.every((element) => isValidElement(element))
+
+  const isInteractive = hasAccordionContent && !disabled
 
   const addContent = useCallback(
     (content: ReturnType<typeof Children.toArray>[number]) => {
@@ -158,23 +174,13 @@ export function TableAccordionHead(allProps: TableAccordionHeadProps) {
   const onKeyDownHandler = useCallback(
     (event: KeyboardEvent<HTMLTableRowElement>) => {
       onKeyDown?.(event)
-      toggleOpenTr(event, true)
+
+      if (isInteractive) {
+        toggleOpenTr(event, true)
+      }
     },
-    [onKeyDown, toggleOpenTr]
+    [onKeyDown, isInteractive, toggleOpenTr]
   )
-
-  /**
-   * Handle Accordion Content
-   */
-  const accordionContent = headerContent.filter((element) => {
-    return isAccordionElement(element as ReactElement)
-  }) as ReactElement<
-    TableAccordionContentSingleProps | TableAccordionContentRowProps
-  >[]
-
-  const hasAccordionContent =
-    accordionContent.length !== 0 &&
-    accordionContent.every((element) => isValidElement(element))
 
   useEffect(() => {
     if (
@@ -242,6 +248,7 @@ export function TableAccordionHead(allProps: TableAccordionHeadProps) {
         trIsHover={trIsHover}
         trHadClick={trHadClick}
         clickable={hasAccordionContent}
+        disabled={disabled}
         noAnimation={noAnimation}
         onClick={toggleOpenTr}
         onMouseEnter={onMouseEnterHandler}
