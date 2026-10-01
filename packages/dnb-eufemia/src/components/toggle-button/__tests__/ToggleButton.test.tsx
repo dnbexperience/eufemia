@@ -341,6 +341,38 @@ describe('ToggleButton component', () => {
     expect(onChange).toHaveBeenCalledTimes(0)
   })
 
+  it('should include the button in the tab order', () => {
+    const { rerender } = render(<ToggleButton text="Toggle" />)
+
+    expect(document.querySelector('button')).toHaveAttribute(
+      'tabindex',
+      '0'
+    )
+
+    rerender(<ToggleButton text="Toggle" tabIndex={-1} />)
+
+    expect(document.querySelector('button')).toHaveAttribute(
+      'tabindex',
+      '-1'
+    )
+  })
+
+  it('should not make the inner checkbox or radio focusable', () => {
+    const { rerender } = render(
+      <ToggleButton text="Toggle" variant="checkbox" />
+    )
+
+    expect(
+      document.querySelector('.dnb-checkbox__input')
+    ).not.toHaveAttribute('tabindex')
+
+    rerender(<ToggleButton text="Toggle" variant="radio" />)
+
+    expect(
+      document.querySelector('.dnb-radio__input')
+    ).not.toHaveAttribute('tabindex')
+  })
+
   it('should support spacing props', () => {
     render(<ToggleButton top="2rem" />)
 

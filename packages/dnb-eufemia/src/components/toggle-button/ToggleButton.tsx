@@ -321,6 +321,8 @@ function ToggleButton(ownProps: ToggleButtonProps) {
       role === 'radio' || role === 'checkbox' ? 'checked' : 'pressed'
     }`]: String(resolvedChecked || false),
     role,
+    // Safari only focuses buttons on Tab or click when tabindex is set
+    tabIndex: 0,
     ...rest,
   }
 

@@ -127,6 +127,26 @@ describe('Radio component', () => {
     )
   })
 
+  it('should include the radio in the tab order', () => {
+    const { rerender } = render(<Radio />)
+
+    expect(document.querySelector('input')).toHaveAttribute(
+      'tabindex',
+      '0'
+    )
+
+    rerender(
+      <Radio.Group>
+        <Radio value="a" />
+        <Radio value="b" tabIndex={-1} />
+      </Radio.Group>
+    )
+
+    const [first, second] = Array.from(document.querySelectorAll('input'))
+    expect(first).toHaveAttribute('tabindex', '0')
+    expect(second).toHaveAttribute('tabindex', '-1')
+  })
+
   it('should support spacing props', () => {
     render(<Radio top="2rem" />)
 
@@ -168,6 +188,7 @@ describe('Radio component', () => {
       'aria-checked',
       'disabled',
       'role',
+      'tabindex',
       'aria-label',
       'type',
       'value',

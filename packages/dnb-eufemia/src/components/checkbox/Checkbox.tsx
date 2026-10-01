@@ -274,6 +274,8 @@ function Checkbox(localProps: CheckboxProps) {
       disabled,
       checked: isCheckedRef.current,
       readOnly,
+      // Safari only focuses checkboxes on Tab or click when tabindex is set
+      tabIndex: !element || element === 'input' ? 0 : undefined,
       ...rest,
     }
 
@@ -296,6 +298,7 @@ function Checkbox(localProps: CheckboxProps) {
   }, [
     context,
     disabled,
+    element,
     id,
     props,
     readOnly,

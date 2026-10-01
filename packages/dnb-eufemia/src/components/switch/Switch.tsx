@@ -193,6 +193,8 @@ function Switch(props: SwitchProps) {
   const inputParams = {
     disabled,
     checked: isCheckedRef.current,
+    // Safari only focuses checkboxes on Tab or click when tabindex is set
+    tabIndex: 0,
     ...rest,
   }
 

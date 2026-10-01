@@ -139,6 +139,22 @@ describe('Switch component', () => {
     )
   })
 
+  it('should include the switch in the tab order', () => {
+    const { rerender } = render(<Switch />)
+
+    expect(document.querySelector('input')).toHaveAttribute(
+      'tabindex',
+      '0'
+    )
+
+    rerender(<Switch tabIndex={-1} />)
+
+    expect(document.querySelector('input')).toHaveAttribute(
+      'tabindex',
+      '-1'
+    )
+  })
+
   it('should support spacing props', () => {
     render(<Switch top="2rem" />)
 
@@ -172,6 +188,7 @@ describe('Switch component', () => {
       'role',
       'aria-checked',
       'class',
+      'tabindex',
       'type',
       'value',
       'name',

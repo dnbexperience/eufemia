@@ -382,6 +382,22 @@ describe('Checkbox component', () => {
     )
   })
 
+  it('should include the checkbox in the tab order', () => {
+    const { rerender } = render(<Checkbox />)
+
+    expect(document.querySelector('input')).toHaveAttribute(
+      'tabindex',
+      '0'
+    )
+
+    rerender(<Checkbox tabIndex={-1} />)
+
+    expect(document.querySelector('input')).toHaveAttribute(
+      'tabindex',
+      '-1'
+    )
+  })
+
   it('should support spacing props', () => {
     render(<Checkbox top="2rem" />)
 
@@ -416,6 +432,7 @@ describe('Checkbox component', () => {
       'id',
       'class',
       'disabled',
+      'tabindex',
       'aria-disabled',
       'type',
       'value',
