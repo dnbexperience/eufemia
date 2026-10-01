@@ -186,7 +186,7 @@ function SubtractButton() {
       onClick={onSubtractClickHandler as ButtonOnClick}
       disabled={disabled}
       skeleton={skeleton}
-      // Safari skips buttons on Tab unless tabindex is set
+      // Safari only focuses buttons on Tab or click when tabindex is set
       tabIndex={0}
       {...subtractParams}
     />
@@ -223,6 +223,7 @@ function AddButton() {
       onClick={onAddClickHandler as ButtonOnClick}
       disabled={disabled}
       skeleton={skeleton}
+      // Safari only focuses buttons on Tab or click when tabindex is set
       tabIndex={0}
       {...addParams}
     />
