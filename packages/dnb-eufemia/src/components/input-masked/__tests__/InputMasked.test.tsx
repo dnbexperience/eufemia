@@ -2969,7 +2969,7 @@ describe('InputMasked Maskito integration', () => {
 
     window.removeEventListener('error', onError)
 
-    expect(listenerErrors).toHaveLength(0)
+    expect(listenerErrors).toEqual([])
   })
 })
 
