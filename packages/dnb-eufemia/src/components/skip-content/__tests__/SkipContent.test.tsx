@@ -233,6 +233,32 @@ describe('SkipContent', () => {
     expect(document.activeElement.tagName).toBe('BODY')
   })
 
+  it('should keep hiding the button when an onBlur is given', async () => {
+    const onBlur = vi.fn()
+
+    render(
+      <>
+        <SkipContent selector="#unique-id" focusDelay={1} onBlur={onBlur}>
+          Aria
+        </SkipContent>
+        <Section id="unique-id">content</Section>
+      </>
+    )
+
+    const element = document.querySelector('.dnb-skip-content')
+
+    fireEvent.keyUp(element.querySelector('button.dnb-sr-only'), {
+      key: 'Tab',
+    })
+    fireEvent.blur(element.querySelector('.dnb-button'))
+
+    expect(onBlur).toHaveBeenCalledTimes(1)
+
+    await waitFor(() => {
+      expect(element.querySelector('.dnb-button')).not.toBeInTheDocument()
+    })
+  })
+
   it('should have aria-live with polite when visible', async () => {
     render(
       <>
