@@ -411,6 +411,34 @@ describe('makePropertiesFile', () => {
         expect(result).toEqual('var(--dnb-coldgreen-600)')
       })
 
+      it('references the color of a composed color with its opacity', () => {
+        const val = {
+          $type: 'color' as const,
+          $value: {
+            alpha: 0.30000001192092896,
+            hex: '#000000',
+          },
+          $extensions: {
+            'com.figma.composedColor': {
+              colorArg: {
+                type: 'alias' as const,
+                alias: {
+                  targetVariableName: 'dnb/greyscale/1000',
+                  targetVariableSetId: colorsVariableSetId,
+                  targetVariableSetName: 'colors',
+                },
+              },
+              opacityArg: { type: 'number' as const, value: 30 },
+            },
+          },
+        }
+
+        const result = transformFigmaValue(val)
+        expect(result).toEqual(
+          'color-mix(in srgb, var(--dnb-greyscale-1000) 30%, transparent)'
+        )
+      })
+
       it('generates color hex', () => {
         const val = {
           $type: 'color' as const,

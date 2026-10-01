@@ -186,11 +186,17 @@ type FigmaAlias = {
   targetVariableSetName: string
 }
 
+type FigmaComposedColor = {
+  colorArg: { type: 'alias'; alias: FigmaAlias }
+  opacityArg: { type: 'number'; value: number }
+}
+
 type FigmaValueBase = {
   $type: string
   $value: unknown
   $extensions?: {
     'com.figma.aliasData'?: FigmaAlias
+    'com.figma.composedColor'?: FigmaComposedColor
   }
 }
 
@@ -351,9 +357,19 @@ export const transformFigmaValue = (value: FigmaValue) => {
     return transformFigmaAlias(
       value.$extensions?.['com.figma.aliasData'] as FigmaAlias
     )
-  } else {
-    return transformFigmaRawValue(value)
   }
+
+  const composed = value.$extensions?.['com.figma.composedColor']
+  if (
+    composed?.colorArg?.type === 'alias' &&
+    composed.opacityArg?.type === 'number'
+  ) {
+    return `color-mix(in srgb, ${transformFigmaAlias(
+      composed.colorArg.alias
+    )} ${composed.opacityArg.value}%, transparent)`
+  }
+
+  return transformFigmaRawValue(value)
 }
 
 const transformFigmaRawValue = (value: FigmaValue) => {
