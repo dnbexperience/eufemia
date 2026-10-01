@@ -1,10 +1,10 @@
 /** Merges a given props object into a component's own props, calling both event handlers instead of replacing the component's own. */
-export default function mergeProps<T extends Record<string, unknown>>(
-  props: T,
-  givenProps?: Record<string, unknown>
-): T {
+export default function mergeProps<
+  T extends Record<string, unknown>,
+  U extends Record<string, unknown> = Record<string, unknown>,
+>(props: T, givenProps?: U): T & U {
   if (!givenProps) {
-    return props
+    return props as T & U
   }
 
   const merged: Record<string, unknown> = { ...props, ...givenProps }
@@ -31,5 +31,5 @@ export default function mergeProps<T extends Record<string, unknown>>(
     }
   }
 
-  return merged as T
+  return merged as T & U
 }

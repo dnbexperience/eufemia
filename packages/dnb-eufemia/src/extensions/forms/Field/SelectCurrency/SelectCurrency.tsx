@@ -5,7 +5,7 @@ import FieldBlockContext from '../../FieldBlock/FieldBlockContext'
 import { LOCALE } from '../../../../shared/defaults'
 import { Autocomplete } from '../../../../components'
 import { pickSpacingProps } from '../../../../components/flex/utils'
-import mergeProps from '../../utils/mergeProps'
+import mergeProps from '../../../../shared/helpers/mergeProps'
 import currencies, {
   prioritizedCurrencies,
   type CurrencyType,

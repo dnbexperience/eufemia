@@ -15,7 +15,7 @@ import DataContext from '../../DataContext/Context'
 import useDataValue from '../../hooks/useDataValue'
 import { usePath } from '../../hooks'
 import { convertJsxToString } from '../../../../shared/component-helper'
-import mergeProps from '../../utils/mergeProps'
+import mergeProps from '../../../../shared/helpers/mergeProps'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type IteratePushButtonProps = ButtonProps & {
