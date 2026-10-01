@@ -29,7 +29,7 @@ The design tokens are synchronized from Figma with the "Design Tokens" GitHub Ac
 1. Review the token values, removals and visual snapshots before marking the pull request ready.
 1. Review and (squash) merge the pull request.
 
-Every mode of the exported collections has to be listed in `TOKEN_EXPORTS` (`packages/dnb-eufemia/scripts/figma/tasks/tokensExtractor.ts`). If a mode is added in Figma, the workflow fails until the mode is added there and to the token files in `makePropertiesFile.ts`, so a new mode cannot go unnoticed.
+Every mode of the exported collections has to be listed in `TOKEN_EXPORTS` (`packages/dnb-eufemia/scripts/figma/tasks/tokensExtractor.ts`). If a mode is added in Figma, the workflow fails until the mode is added there, so a new mode cannot go unnoticed. A mode only becomes CSS once it is also added to the token files in `makePropertiesFile.ts`.
 
 The workflow writes `color.tokens.json` with only the foundation colors the brand collection actually uses, because the API returns the remote variables used in the file. A manual export contains the whole collection instead, so switching between the two shows up as a large diff in that one file without changing the generated CSS.
 
@@ -48,6 +48,10 @@ We currently export the Figma variable collections for:
   - "sbanken-light" (`brand/sbanken-light.tokens.json`)
   - "sbanken-dark" (`brand/sbanken-dark.tokens.json`)
   - "dnbcarnegie-light" (`brand/dnbcarnegie-light.tokens.json`)
+  - "dnbeiendom-light" (`brand/dnbeiendom-light.tokens.json`)
+  - "dnbeiendom-dark" (`brand/dnbeiendom-dark.tokens.json`)
+
+The Eiendom theme still uses the DNB tokens, so its exports do not generate CSS yet.
 
 Place `color.tokens.json` directly in `packages/dnb-eufemia/src/style/themes/figma`, and place the brand-mode exports in its `brand` subfolder.
 
