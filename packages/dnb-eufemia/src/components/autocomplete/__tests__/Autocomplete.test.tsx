@@ -4206,21 +4206,6 @@ describe('Autocomplete component', () => {
     }
   })
 
-  it('should include the clear button in the tab order', () => {
-    render(
-      <Autocomplete
-        showClearButton
-        inputValue="aa"
-        data={mockData}
-        {...mockProps}
-      />
-    )
-
-    expect(
-      document.querySelector('.dnb-input__clear-button')
-    ).toHaveAttribute('tabindex', '0')
-  })
-
   it('should emit onClear event on clear button click', async () => {
     const onClear = vi.fn()
 

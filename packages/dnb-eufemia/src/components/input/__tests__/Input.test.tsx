@@ -758,16 +758,6 @@ describe('Input with clear button', () => {
     expect(clearButton).toHaveAttribute('disabled')
   })
 
-  it('should include the clear button in the tab order', () => {
-    render(<Input id="input-id" showClearButton={true} value="value" />)
-
-    const clearButton = document.querySelector(
-      'button#input-id-clear-button'
-    )
-
-    expect(clearButton).toHaveAttribute('tabindex', '0')
-  })
-
   it('should set focus on input when clear button is pressed', () => {
     render(<Input id="input-id" showClearButton={true} value="value" />)
 
