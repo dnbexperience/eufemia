@@ -6,7 +6,7 @@ import makePropertiesFile, {
   transformNamespace,
   generateCSSVariablesFromTokenList,
   convertToTokenList,
-  getComposedColorFoundationTokens,
+  generateColorMixFallback,
   overrideFoundationReferencePrefix,
 } from '../makePropertiesFile'
 
@@ -433,24 +433,54 @@ describe('makePropertiesFile', () => {
         expect(result).toEqual('var(--dnb-coldgreen-600)')
       })
 
-      it('references a foundation variable for a composed color', () => {
+      it('references the color of a composed color with its opacity', () => {
         expect(transformFigmaValue(composedColor)).toEqual(
-          'var(--dnb-greyscale-1000-30)'
+          'color-mix(in srgb, var(--dnb-greyscale-1000) 30%, transparent)'
         )
       })
 
-      it('declares the foundation variable of a composed color', () => {
+      it('adds a literal fallback for browsers without color-mix()', () => {
         expect(
-          generateCSSVariablesFromTokenList(
-            getComposedColorFoundationTokens([
+          generateColorMixFallback(
+            [
               {
                 figmaPath: ['color', 'component', 'dimmer', 'background'],
                 figmaSetId: colorsVariableSetId,
                 ...composedColor,
               },
-            ])
+              {
+                figmaPath: ['color', 'background', 'page'],
+                figmaSetId: colorsVariableSetId,
+                $type: 'color',
+                $value: { alpha: 1, hex: '#FFFFFF' },
+              },
+            ],
+            ':root',
+            'token'
           )
-        ).toEqual('--dnb-greyscale-1000-30: rgba(0 0 0 / 30%);\n')
+        ).toEqual(
+          '@supports not (color: color-mix(in srgb, red, red)) {\n' +
+            ':root {\n' +
+            '--token-color-component-dimmer-background: rgba(0 0 0 / 30%);\n' +
+            '}\n}\n'
+        )
+      })
+
+      it('adds no fallback without composed colors', () => {
+        expect(
+          generateColorMixFallback(
+            [
+              {
+                figmaPath: ['color', 'background', 'page'],
+                figmaSetId: colorsVariableSetId,
+                $type: 'color',
+                $value: { alpha: 1, hex: '#FFFFFF' },
+              },
+            ],
+            ':root',
+            'token'
+          )
+        ).toBe('')
       })
 
       it('generates color hex', () => {
