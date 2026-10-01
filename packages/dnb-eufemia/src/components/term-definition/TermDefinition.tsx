@@ -96,6 +96,7 @@ export default function TermDefinition(
   const onClick = useCallback(
     (e: MouseEvent<HTMLSpanElement>) => {
       givenOnClick?.(e)
+
       e.preventDefault()
       toggle()
     },
