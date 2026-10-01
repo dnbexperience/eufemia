@@ -187,7 +187,7 @@ function SubtractButton() {
       disabled={disabled}
       skeleton={skeleton}
       // Safari only focuses buttons on Tab or click when tabindex is set
-      tabIndex={0}
+      tabIndex={disabled ? undefined : 0}
       {...subtractParams}
     />
   )
@@ -224,7 +224,7 @@ function AddButton() {
       disabled={disabled}
       skeleton={skeleton}
       // Safari only focuses buttons on Tab or click when tabindex is set
-      tabIndex={0}
+      tabIndex={disabled ? undefined : 0}
       {...addParams}
     />
   )

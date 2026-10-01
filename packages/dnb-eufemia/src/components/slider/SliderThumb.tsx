@@ -120,7 +120,7 @@ function Thumb({ value, currentIndex }: ThumbProps) {
         id={`${id}-thumb-${currentIndex}`}
         type="range"
         // Safari only focuses range inputs on Tab or click when tabindex is set
-        tabIndex={0}
+        tabIndex={disabled ? undefined : 0}
         className="dnb-slider__button-helper"
         min={min}
         max={max}
