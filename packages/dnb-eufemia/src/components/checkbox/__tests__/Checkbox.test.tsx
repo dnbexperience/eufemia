@@ -396,6 +396,10 @@ describe('Checkbox component', () => {
       'tabindex',
       '-1'
     )
+
+    rerender(<Checkbox disabled />)
+
+    expect(document.querySelector('input')).not.toHaveAttribute('tabindex')
   })
 
   it('should support spacing props', () => {
@@ -432,7 +436,6 @@ describe('Checkbox component', () => {
       'id',
       'class',
       'disabled',
-      'tabindex',
       'aria-disabled',
       'type',
       'value',

@@ -153,6 +153,10 @@ describe('Switch component', () => {
       'tabindex',
       '-1'
     )
+
+    rerender(<Switch disabled />)
+
+    expect(document.querySelector('input')).not.toHaveAttribute('tabindex')
   })
 
   it('should support spacing props', () => {

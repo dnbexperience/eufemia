@@ -145,6 +145,10 @@ describe('Radio component', () => {
     const [first, second] = Array.from(document.querySelectorAll('input'))
     expect(first).toHaveAttribute('tabindex', '0')
     expect(second).toHaveAttribute('tabindex', '-1')
+
+    rerender(<Radio disabled />)
+
+    expect(document.querySelector('input')).not.toHaveAttribute('tabindex')
   })
 
   it('should support spacing props', () => {
@@ -188,7 +192,6 @@ describe('Radio component', () => {
       'aria-checked',
       'disabled',
       'role',
-      'tabindex',
       'aria-label',
       'type',
       'value',

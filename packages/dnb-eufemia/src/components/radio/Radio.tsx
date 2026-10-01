@@ -335,7 +335,8 @@ function RadioComponent({ ref: externalRef, ...ownProps }: RadioProps) {
     role: hasContext || group ? 'radio' : null,
     type: hasContext || group ? 'radio' : 'checkbox', // overwriting the type
     // Safari only focuses radios on Tab or click when tabindex is set
-    tabIndex: !element || element === 'input' ? 0 : undefined,
+    tabIndex:
+      !disabled && (!element || element === 'input') ? 0 : undefined,
   }
 
   if (!group) {

@@ -355,6 +355,12 @@ describe('ToggleButton component', () => {
       'tabindex',
       '-1'
     )
+
+    rerender(<ToggleButton text="Toggle" disabled />)
+
+    expect(document.querySelector('button')).not.toHaveAttribute(
+      'tabindex'
+    )
   })
 
   it('should not make the inner checkbox or radio focusable', () => {
