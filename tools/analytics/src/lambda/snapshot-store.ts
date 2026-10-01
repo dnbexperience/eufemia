@@ -173,7 +173,7 @@ export async function writeSnapshot(
 // expiry. `projectRow` must emit exactly the Glue table's columns (minus `dt`).
 export async function storeDailyRollup<T extends { dt: string }>(
   bucket: string,
-  prefix: string,
+  prefix: `${string}/`,
   rows: T[],
   projectRow: (row: T) => Record<string, unknown>
 ): Promise<void> {

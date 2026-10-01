@@ -146,6 +146,19 @@ describe('snapshot generator handler', () => {
     expect((dailyPut![0] as Command).input.Key).toBe(
       'portal-views-daily/dt=2026-09-20/agg.json'
     )
+    expect(
+      JSON.parse((dailyPut![0] as Command).input.Body as string)
+    ).toEqual({
+      path: '/',
+      env: 'prod',
+      status: 'ok',
+      locale: 'en-GB',
+      theme: 'ui',
+      color_scheme: 'dark',
+      referrer: 'search',
+      via_search: 'yes',
+      count: 3,
+    })
   })
 
   it('backfills from an explicit sinceDt on the invocation event', async () => {
@@ -307,6 +320,14 @@ describe('mcp usage section', () => {
     expect((dailyPut![0] as Command).input.Key).toBe(
       'mcp-usage-daily/dt=2026-09-10/agg.json'
     )
+    expect(
+      JSON.parse((dailyPut![0] as Command).input.Body as string)
+    ).toEqual({
+      tool: 'docs_search',
+      component: '',
+      path: '',
+      count: 3,
+    })
   })
 
   it('still writes the snapshot with an empty MCP section when the MCP query fails', async () => {
@@ -449,6 +470,14 @@ describe('buildComponentUsage', () => {
     expect((dailyPut![0] as Command).input.Key).toBe(
       'component-usage-daily/dt=2026-09-16/agg.json'
     )
+    expect(
+      JSON.parse((dailyPut![0] as Command).input.Body as string)
+    ).toEqual({
+      app: 'app-a',
+      component: 'button',
+      version: '10.72.0',
+      count: 4,
+    })
   })
 
   it('serves existing daily history when the tail recompute fails', async () => {
