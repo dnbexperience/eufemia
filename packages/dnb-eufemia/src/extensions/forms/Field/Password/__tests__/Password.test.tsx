@@ -135,6 +135,15 @@ describe('Password component', () => {
     ).toBe('focus')
   })
 
+  it('should include the visibility toggle button in the tab order', () => {
+    render(<Field.Password />)
+
+    expect(document.querySelector('button')).toHaveAttribute(
+      'tabindex',
+      '0'
+    )
+  })
+
   it('can change the visibility of the password', async () => {
     render(<Field.Password />)
 

@@ -625,6 +625,23 @@ describe('Input component', () => {
     expect(onSubmit.mock.calls[0][0].value).toBe('value')
   })
 
+  it('should include the submit button in the tab order', () => {
+    const { rerender } = render(
+      <Input id="input-id" type="search" showSubmitButton />
+    )
+
+    const button = () =>
+      document.querySelector('button#input-id-submit-button')
+
+    expect(button()).toHaveAttribute('tabindex', '0')
+
+    rerender(
+      <Input id="input-id" type="search" showSubmitButton tabIndex={-1} />
+    )
+
+    expect(button()).toHaveAttribute('tabindex', '-1')
+  })
+
   it('should call onSubmit event handler on submit button click', () => {
     const onSubmit = vi.fn()
     render(

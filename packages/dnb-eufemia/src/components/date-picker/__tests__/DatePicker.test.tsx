@@ -5509,6 +5509,12 @@ describe('Custom text for buttons', () => {
     ).toBe('Maybe')
   })
 
+  it('should include the trigger button in the tab order when showInput is set', () => {
+    render(<DatePicker showInput />)
+
+    expect(getDatePickerTriggerButton()).toHaveAttribute('tabindex', '0')
+  })
+
   it('should pass tabIndex to submit button and date sections', () => {
     render(<DatePicker tabIndex={-1} showInput />)
 

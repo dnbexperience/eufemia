@@ -2062,6 +2062,14 @@ describe('Autocomplete component', () => {
     ).toBe('button')
   })
 
+  it('should include the submit button in the tab order', () => {
+    render(<Autocomplete {...props} data={mockData} />)
+
+    expect(
+      document.querySelector('button.dnb-input__submit-button__button')
+    ).toHaveAttribute('tabindex', '0')
+  })
+
   it('has correct length of li elements', () => {
     render(<Autocomplete {...props} data={mockData} />)
 
