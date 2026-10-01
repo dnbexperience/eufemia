@@ -9,10 +9,11 @@
  *
  * Anonymity is the gate. Only a closed, public vocabulary leaves the machine:
  * the tool name (from the fixed registered set), an optional component name or
- * doc area (both shape-validated; a path is narrowed to its leading area and
- * gated against the areas the packaged docs actually contain — see
- * {@link computeKnownAreas} — so it is never sent in full and never for a
- * path outside the docs), and the running Eufemia version (semver). No
+ * doc area (both shape-validated and then resolved against the packaged docs,
+ * so a name or path the docs do not contain is never sent; a path is narrowed
+ * to its leading area and gated against the areas the packaged docs actually
+ * contain — see {@link computeKnownAreas} — so it is never sent in full), and
+ * the running Eufemia version (semver). No
  * machine id, install id, session/correlation id or free text — in
  * particular a `docs_search` event is a tool count only and never carries its
  * query. The request's source IP is visible to the network layer like any
@@ -26,6 +27,8 @@
 
 import fs from 'node:fs'
 import path from 'node:path'
+
+import type { UsageResolver } from './mcp-docs-server'
 
 const DEFAULT_ENDPOINT =
   'https://server.eufemia.dnb.no/analytics/collect-local-mcp-usage'
@@ -122,6 +125,12 @@ export function computeKnownAreas(
 
 const NO_KNOWN_AREAS: ReadonlySet<string> = new Set()
 
+const NO_RESOLVER: UsageResolver = {
+  component: async () => false,
+  docsFile: async () => false,
+  docsDir: async () => false,
+}
+
 /**
  * The anonymous record sent to the ingest route. `transport` is stamped
  * server-side (always `local` here), so the client never sends it. `path` is
@@ -176,6 +185,13 @@ function validPath(
   return knownAreas.has(area) ? area : null
 }
 
+/** Coerce a tool call's input into a plain args object. */
+function toArgs(input: unknown): Record<string, unknown> {
+  return input && typeof input === 'object' && !Array.isArray(input)
+    ? (input as Record<string, unknown>)
+    : {}
+}
+
 /**
  * Build the anonymous record for a tool call, or `null` when the tool is not
  * one of the known tools. Only the allowlisted closed-vocabulary fields are
@@ -196,10 +212,7 @@ export function buildUsageRecord(
     return null
   }
 
-  const args =
-    input && typeof input === 'object' && !Array.isArray(input)
-      ? (input as Record<string, unknown>)
-      : {}
+  const args = toArgs(input)
 
   const record: LocalMcpUsageRecord = {
     tool: toolName,
@@ -231,6 +244,36 @@ export function isTelemetryDisabled(
 ): boolean {
   const value = (env.EUFEMIA_MCP_TELEMETRY ?? '').trim().toLowerCase()
   return value === '0' || value === 'false'
+}
+
+// Looks up the name as the caller passed it, the form the docs tools use.
+async function dropUnresolved(
+  record: LocalMcpUsageRecord,
+  toolName: string,
+  input: unknown,
+  resolver: UsageResolver
+): Promise<LocalMcpUsageRecord> {
+  const args = toArgs(input)
+
+  if (record.component !== undefined) {
+    const name = typeof args.name === 'string' ? args.name.trim() : ''
+
+    if (!(await resolver.component(name))) {
+      delete record.component
+    }
+  }
+
+  if (record.path !== undefined) {
+    const isRead = toolName === 'docs_read'
+    const raw = isRead ? args.path : args.prefix
+    const exists = isRead ? resolver.docsFile : resolver.docsDir
+
+    if (typeof raw !== 'string' || !(await exists(raw))) {
+      delete record.path
+    }
+  }
+
+  return record
 }
 
 /**
@@ -276,6 +319,11 @@ export type UsageReporterOptions = {
    * rather than falling back to an unvalidated one.
    */
   knownAreas?: ReadonlySet<string>
+  /**
+   * Checks a component or path against the docs before it is sent. Omitting it
+   * means no component or path is ever sent.
+   */
+  resolver?: UsageResolver
   /** Environment used for the opt-out gate and endpoint override. */
   env?: NodeJS.ProcessEnv
   /** Overridable for tests; defaults to the global `fetch`. */
@@ -315,6 +363,7 @@ export function createUsageReporter(
   }
 
   const knownAreas = options.knownAreas ?? NO_KNOWN_AREAS
+  const resolver = options.resolver ?? NO_RESOLVER
 
   return {
     onToolCall(toolName, input) {
@@ -329,7 +378,15 @@ export function createUsageReporter(
           return
         }
         // Fire-and-forget: never awaited on the tool-call path.
-        void sendBeacon(record, endpoint, fetchImpl)
+        if (record.component === undefined && record.path === undefined) {
+          void sendBeacon(record, endpoint, fetchImpl)
+          return
+        }
+        void dropUnresolved(record, toolName, input, resolver)
+          .then((resolved) => sendBeacon(resolved, endpoint, fetchImpl))
+          .catch(() => {
+            // Telemetry must never affect the tool call.
+          })
       } catch {
         // Telemetry must never affect the tool call.
       }

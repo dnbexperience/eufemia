@@ -1,17 +1,22 @@
 import { SendMessageCommand, SQSClient } from '@aws-sdk/client-sqs'
 import type { APIGatewayProxyEventV2 } from 'aws-lambda'
-import { usageRecordsFromRequestBody } from './records/mcp-usage.js'
+import {
+  usageRecordsFromRequestBody,
+  type UsageResolver,
+} from './records/mcp-usage.js'
 
 const sqs = new SQSClient({})
 const ENQUEUE_TIMEOUT_MS = 1_000
 
 /**
- * Queue anonymous MCP usage (which tool, plus an allow-listed component or doc
- * path) from the request body. Best-effort and bounded: any failure is logged
- * and swallowed so usage capture cannot consume the Lambda's full timeout.
+ * Queue anonymous MCP usage (which tool, plus a component or doc path that
+ * exists in the docs) from the request body. Best-effort and bounded: any
+ * failure is logged and swallowed so usage capture cannot consume the Lambda's
+ * full timeout.
  */
 export async function captureUsage(
-  event: APIGatewayProxyEventV2
+  event: APIGatewayProxyEventV2,
+  resolver: UsageResolver
 ): Promise<void> {
   const queueUrl = process.env.USAGE_QUEUE_URL
   if (!queueUrl || event.body == null) {
@@ -23,8 +28,9 @@ export async function captureUsage(
       ? Buffer.from(event.body, 'base64').toString('utf8')
       : event.body
 
-    const records = usageRecordsFromRequestBody(body, {
+    const records = await usageRecordsFromRequestBody(body, {
       env: process.env.USAGE_ENV ?? 'unknown',
+      resolver,
     })
     if (records.length === 0) {
       return
