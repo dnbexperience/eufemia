@@ -359,18 +359,54 @@ export const transformFigmaValue = (value: FigmaValue) => {
     )
   }
 
-  const composed = value.$extensions?.['com.figma.composedColor']
-  if (
-    composed?.colorArg?.type === 'alias' &&
-    composed.opacityArg?.type === 'number'
-  ) {
-    return `color-mix(in srgb, ${transformFigmaAlias(
-      composed.colorArg.alias
-    )} ${composed.opacityArg.value}%, transparent)`
+  const composed = getComposedColor(value)
+  if (composed) {
+    return transformFigmaAlias(toComposedColorAlias(composed))
   }
 
   return transformFigmaRawValue(value)
 }
+
+const getComposedColor = (value: FigmaValue) => {
+  const composed = value.$extensions?.['com.figma.composedColor']
+
+  return composed?.colorArg?.type === 'alias' &&
+    composed.opacityArg?.type === 'number'
+    ? composed
+    : undefined
+}
+
+/** `dnb/greyscale/1000` at 30% becomes the literal `dnb/greyscale/1000/30`, which works without `color-mix()` */
+const toComposedColorAlias = ({
+  colorArg,
+  opacityArg,
+}: FigmaComposedColor): FigmaAlias => ({
+  ...colorArg.alias,
+  targetVariableName: `${colorArg.alias.targetVariableName}/${opacityArg.value}`,
+})
+
+/** The foundation variables that composed colors in a token list reference */
+export const getComposedColorFoundationTokens = (
+  tokenList: TokenList
+): TokenList =>
+  tokenList.flatMap((token) => {
+    const composed = getComposedColor(token)
+
+    if (!composed || token.$type !== 'color') {
+      return []
+    }
+
+    const alias = toComposedColorAlias(composed)
+
+    return [
+      {
+        figmaPath: alias.targetVariableName.split('/'),
+        figmaSetId: alias.targetVariableSetId as FigmaSetId,
+        $type: 'color',
+        $value: token.$value,
+      },
+    ]
+  })
 
 const transformFigmaRawValue = (value: FigmaValue) => {
   if (value.$type === 'number') {
@@ -692,6 +728,7 @@ const makeDesignTokenSCSS = async ({
   referencePrefixOverride,
   filter = (json) => json,
   referencedVariables,
+  extraTokens = [],
   colorScheme,
 }: {
   /** Root path to Figma JSON export file */
@@ -711,6 +748,8 @@ const makeDesignTokenSCSS = async ({
   /** Optional filter function that transforms the source before generating */
   filter?: (json: FigmaExport) => FigmaNode
   referencedVariables?: Set<string>
+  /** Tokens added when the source has no token with the same path */
+  extraTokens?: TokenList
   colorScheme?: 'light' | 'dark'
 }) => {
   try {
@@ -720,6 +759,18 @@ const makeDesignTokenSCSS = async ({
       ),
       figmaSetId
     )
+
+    const tokenPaths = new Set(
+      tokenList.map(({ figmaPath }) => figmaPath.join('/'))
+    )
+    for (const token of extraTokens) {
+      const tokenPath = token.figmaPath.join('/')
+
+      if (!tokenPaths.has(tokenPath)) {
+        tokenPaths.add(tokenPath)
+        tokenList.push(token)
+      }
+    }
 
     // When scoping to :root, also add .eufemia-theme__color-scheme--light
     // so that light tokens can override dark tokens in nested contexts.
@@ -997,6 +1048,19 @@ const runDesignTokenFactory = async () => {
     new Map<string, Set<string>>()
   )
 
+  const composedColorTokensByTheme = new Map<string, TokenList>()
+  for (const file of tokenFiles) {
+    const tokenList = convertToTokenList(
+      JSON.parse(fs.readFileSync(path.resolve(file.in), 'utf-8')),
+      file.figmaSetId
+    )
+
+    composedColorTokensByTheme.set(file.theme, [
+      ...(composedColorTokensByTheme.get(file.theme) ?? []),
+      ...getComposedColorFoundationTokens(tokenList),
+    ])
+  }
+
   await Promise.all(
     foundationFiles.map(async (file) =>
       makeDesignTokenSCSS({
@@ -1005,6 +1069,7 @@ const runDesignTokenFactory = async () => {
         figmaSetId: file.figmaSetId,
         filter: file.filter,
         referencedVariables: referencedVariablesByTheme.get(file.theme),
+        extraTokens: composedColorTokensByTheme.get(file.theme),
       })
     )
   )
