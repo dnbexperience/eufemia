@@ -12,6 +12,7 @@ import type {
 import { clsx } from 'clsx'
 import Popover from '../popover/Popover'
 import useId from '../../shared/helpers/useId'
+import mergeProps from '../../shared/helpers/mergeProps'
 import type { SkeletonShow } from '../skeleton/Skeleton'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 import useTranslation from '../../shared/useTranslation'
@@ -64,16 +65,8 @@ export default function TermDefinition(
     context?.TermDefinition
   )
 
-  const {
-    children,
-    content,
-    className,
-    placement,
-    skeleton,
-    onClick: givenOnClick,
-    onKeyDown: givenOnKeyDown,
-    ...rest
-  } = allProps
+  const { children, content, className, placement, skeleton, ...rest } =
+    allProps
 
   const skeletonClasses = createSkeletonClass('font', skeleton, context)
 
@@ -95,18 +88,14 @@ export default function TermDefinition(
 
   const onClick = useCallback(
     (e: MouseEvent<HTMLSpanElement>) => {
-      givenOnClick?.(e)
-
       e.preventDefault()
       toggle()
     },
-    [givenOnClick, toggle]
+    [toggle]
   )
 
   const onKeyDown = useCallback(
     (e: KeyboardEvent<HTMLSpanElement> & KeyboardEvent) => {
-      givenOnKeyDown?.(e)
-
       if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault()
         toggle()
@@ -116,7 +105,7 @@ export default function TermDefinition(
         toggle(false)
       }
     },
-    [givenOnKeyDown, toggle]
+    [toggle]
   )
 
   const triggerProps = removeSpaceProps(rest)
@@ -139,9 +128,7 @@ export default function TermDefinition(
           'aria-controls': active ? id : undefined,
           'aria-describedby': `${id}-description`,
           title,
-          onClick,
-          onKeyDown,
-          ...triggerProps,
+          ...mergeProps({ onClick, onKeyDown }, triggerProps),
         })}
       >
         {children}
