@@ -6,10 +6,16 @@
   --color-background-page-background: var(--carnegie-greyscale-0);
   --color-background-action: var(--carnegie-greyscale-1000);
   --color-background-action-hover: var(--carnegie-greyscale-800);
-  --color-background-action-hover-subtle: var(--carnegie-greyscale-1000-5);
+  --color-background-action-hover-subtle: color-mix(
+    in srgb,
+    var(--carnegie-greyscale-1000) 5%,
+    transparent
+  );
   --color-background-action-pressed: var(--carnegie-greyscale-1000);
-  --color-background-action-pressed-subtle: var(
-    --carnegie-greyscale-1000-10
+  --color-background-action-pressed-subtle: color-mix(
+    in srgb,
+    var(--carnegie-greyscale-1000) 10%,
+    transparent
   );
   --color-background-action-focus: var(--carnegie-blue-600);
   --color-background-action-focus-subtle: var(--carnegie-blue-50);
@@ -24,12 +30,16 @@
   );
   --color-background-action-ondark: var(--carnegie-greyscale-0);
   --color-background-action-hover-ondark: var(--carnegie-greyscale-0);
-  --color-background-action-hover-subtle-ondark: var(
-    --carnegie-greyscale-1000-30
+  --color-background-action-hover-subtle-ondark: color-mix(
+    in srgb,
+    var(--carnegie-greyscale-1000) 30%,
+    transparent
   );
   --color-background-action-pressed-ondark: var(--carnegie-greyscale-0);
-  --color-background-action-pressed-subtle-ondark: var(
-    --carnegie-greyscale-1000-50
+  --color-background-action-pressed-subtle-ondark: color-mix(
+    in srgb,
+    var(--carnegie-greyscale-1000) 50%,
+    transparent
   );
   --color-background-action-disabled-ondark: var(--carnegie-greyscale-700);
   --color-background-action-alternative: var(--carnegie-greyscale-1000);
@@ -136,6 +146,7 @@
   --color-stroke-neutral: var(--carnegie-beige-300);
   --color-stroke-neutral-ondark: var(--carnegie-greyscale-0);
   --color-stroke-neutral-subtle: var(--carnegie-beige-200);
+  --color-stroke-neutral-base: var(--carnegie-beige-300);
   --color-stroke-neutral-bold: var(--carnegie-greyscale-1000);
   --color-stroke-neutral-alternative: var(--carnegie-greyscale-200);
   --color-stroke-info: var(--carnegie-coldgreen-600);
@@ -270,7 +281,11 @@
   --color-component-tooltip-background-neutral: var(
     --carnegie-greyscale-800
   );
-  --color-component-dimmer-background: var(--carnegie-greyscale-1000-30);
+  --color-component-dimmer-background: color-mix(
+    in srgb,
+    var(--carnegie-greyscale-1000) 30%,
+    transparent
+  );
   --color-component-switch-action-disabled-ondark: var(
     --carnegie-greyscale-800
   );
