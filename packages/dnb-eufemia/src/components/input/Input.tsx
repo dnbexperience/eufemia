@@ -342,10 +342,15 @@ function InputComponent({ ref, ...restProps }: InputProps) {
     ...attributes
   } = inputSubmitButtonAttributes
 
-  // A given onClick belongs to the input element, and would otherwise
-  // replace the click handler the submit button needs to emit onSubmit
-  const { onClick: _onClick, ...submitButtonAttributes } =
-    inputSubmitButtonAttributes
+  // These handlers belong to the input element, which receives them through
+  // `attributes`. Forwarding them to the submit button as well would replace
+  // the handlers it needs to emit onSubmit, onSubmitFocus and onSubmitBlur.
+  const {
+    onClick: _onClick, //eslint-disable-line
+    onFocus: _onFocus, //eslint-disable-line
+    onBlur: _onBlur, //eslint-disable-line
+    ...submitButtonAttributes
+  } = inputSubmitButtonAttributes
 
   let usedInputState = inputState
   if (disabled || skeleton) {
