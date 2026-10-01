@@ -191,12 +191,12 @@ export const InputEvents: PropertiesTableProps = {
     status: 'optional',
   },
   onSubmitFocus: {
-    doc: 'Will be called on submit button focus. Only relevant when a submit button is shown. Returns `{ value, event }`.',
+    doc: 'Will be called on submit button focus. Only relevant when a submit button is shown. Returns `{ value, event }`. Not called in Safari, which only focuses buttons on Tab or click when "Press Tab to highlight each item on a web page" is enabled in the Advanced settings in Safari.',
     type: 'function',
     status: 'optional',
   },
   onSubmitBlur: {
-    doc: 'Will be called on submit button blur. Only relevant when a submit button is shown. Returns `{ value, event }`.',
+    doc: 'Will be called on submit button blur. Only relevant when a submit button is shown. Returns `{ value, event }`. Not called in Safari, which only focuses buttons on Tab or click when "Press Tab to highlight each item on a web page" is enabled in the Advanced settings in Safari.',
     type: 'function',
     status: 'optional',
   },
