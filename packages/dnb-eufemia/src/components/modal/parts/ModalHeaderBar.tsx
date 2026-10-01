@@ -80,6 +80,14 @@ export default function ModalHeaderBar({
     closeTitle,
   } = context
 
+  const { onClick: givenOnClick, ...restCloseButtonAttributes } =
+    closeButtonAttributes || {}
+
+  const onCloseClick = (args) => {
+    givenOnClick?.(args)
+    onCloseClickHandler?.(args)
+  }
+
   return (
     <Section
       className={clsx(
@@ -97,9 +105,9 @@ export default function ModalHeaderBar({
       {!hideCloseButton && (
         <div className="dnb-modal__header__bar__close">
           <CloseButton
-            onClick={onCloseClickHandler}
             closeTitle={closeTitle}
-            {...closeButtonAttributes}
+            {...restCloseButtonAttributes}
+            onClick={onCloseClick}
           />
         </div>
       )}
