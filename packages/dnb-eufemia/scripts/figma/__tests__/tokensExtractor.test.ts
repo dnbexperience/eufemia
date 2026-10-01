@@ -427,7 +427,7 @@ describe('convertVariablesToTokens', () => {
     expect(tokens.$value).toEqual({
       colorSpace: 'srgb',
       components: [0, 0, 0],
-      alpha: 0.3,
+      alpha: 0.30000001192092896,
       hex: '#000000',
     })
   })
@@ -443,8 +443,31 @@ describe('convertVariablesToTokens', () => {
     expect(tokens.$value).toEqual({
       colorSpace: 'srgb',
       components: [1, 1, 1],
-      alpha: 0.4,
+      alpha: 0.4000000059604645,
       hex: '#FFFFFF',
+    })
+  })
+
+  it('writes the composition of a composed color like Figma does', () => {
+    const tokens = pageBackground(
+      withColorValue({
+        color: { type: 'VARIABLE_ALIAS', id: 'VariableID:def/5552:1666' },
+        opacity: 40,
+      })
+    )
+
+    expect(tokens.$extensions['com.figma.aliasData']).toBeUndefined()
+    expect(tokens.$extensions['com.figma.composedColor']).toEqual({
+      colorArg: {
+        type: 'alias',
+        alias: {
+          targetVariableId: 'VariableID:def/5552:1666',
+          targetVariableName: 'dnb/greyscale/0',
+          targetVariableSetId: 'VariableCollectionId:abc/5552:1080',
+          targetVariableSetName: 'colors',
+        },
+      },
+      opacityArg: { type: 'number', value: 40 },
     })
   })
 
@@ -456,7 +479,7 @@ describe('convertVariablesToTokens', () => {
       })
     )
 
-    expect(tokens.$value.alpha).toBe(0.04)
+    expect(tokens.$value.alpha).toBe(Math.fround(0.04))
   })
 
   it('rejects a color value that is not plain sRGB components', () => {
@@ -623,8 +646,7 @@ describe('the committed Figma exports', () => {
           }
         : leaf.$value
 
-    const addAliasTarget = (leaf) => {
-      const alias = leaf.$extensions['com.figma.aliasData']
+    const addAliasTarget = (leaf, alias, value = toValue(leaf)) => {
       const targetCollectionId = alias.targetVariableSetId
 
       meta.variableCollections[targetCollectionId] ??= {
@@ -639,7 +661,7 @@ describe('the committed Figma exports', () => {
         name: alias.targetVariableName,
         variableCollectionId: targetCollectionId,
         resolvedType: FIGMA_TYPES[leaf.$type],
-        valuesByMode: { target: toValue(leaf) },
+        valuesByMode: { target: value },
       }
     }
 
@@ -655,6 +677,24 @@ describe('the committed Figma exports', () => {
 
       const extensions = node.$extensions
       const id = extensions['com.figma.variableId']
+      const alias = extensions['com.figma.aliasData']
+      const composed = extensions['com.figma.composedColor']
+
+      const toModeValue = () => {
+        if (alias) {
+          return { type: 'VARIABLE_ALIAS', id: alias.targetVariableId }
+        }
+        if (composed) {
+          return {
+            color: {
+              type: 'VARIABLE_ALIAS',
+              id: composed.colorArg.alias.targetVariableId,
+            },
+            opacity: composed.opacityArg.value,
+          }
+        }
+        return toValue(node)
+      }
 
       meta.variableCollections[collectionId].variableIds.push(id)
       meta.variables[id] = {
@@ -662,22 +702,21 @@ describe('the committed Figma exports', () => {
         name: figmaPath.filter(Boolean).join('/'),
         variableCollectionId: collectionId,
         resolvedType: FIGMA_TYPES[node.$type],
-        valuesByMode: {
-          '1:0': extensions['com.figma.aliasData']
-            ? {
-                type: 'VARIABLE_ALIAS',
-                id: extensions['com.figma.aliasData'].targetVariableId,
-              }
-            : toValue(node),
-        },
+        valuesByMode: { '1:0': toModeValue() },
         description: node.$description,
         hiddenFromPublishing: extensions['com.figma.hiddenFromPublishing'],
         scopes: extensions['com.figma.scopes'],
         codeSyntax: extensions['com.figma.codeSyntax'],
       }
 
-      if (extensions['com.figma.aliasData']) {
-        addAliasTarget(node)
+      if (alias) {
+        addAliasTarget(node, alias)
+      }
+      if (composed) {
+        addAliasTarget(node, composed.colorArg.alias, {
+          ...toValue(node),
+          a: 1,
+        })
       }
     }
 
