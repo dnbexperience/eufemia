@@ -798,6 +798,22 @@ describe('Dropdown component', () => {
     ).toBe('true')
   })
 
+  it('should include the trigger in the tab order', () => {
+    render(<Dropdown {...props} data={mockData} />)
+
+    expect(
+      document.querySelector('button.dnb-dropdown__trigger')
+    ).toHaveAttribute('tabindex', '0')
+  })
+
+  it('should not set tabindex on the trigger when preventSelection', () => {
+    render(<Dropdown {...props} data={mockData} preventSelection />)
+
+    expect(
+      document.querySelector('button.dnb-dropdown__trigger')
+    ).not.toHaveAttribute('tabindex')
+  })
+
   it('has correct "role" in options', () => {
     render(<Dropdown skipPortal noAnimation open={true} data={mockData} />)
 

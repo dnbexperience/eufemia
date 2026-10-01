@@ -5521,6 +5521,16 @@ describe('Custom text for buttons', () => {
     expect(year).toHaveAttribute('tabindex', '-1')
   })
 
+  it('should include the trigger button in the tab order when showInput is not set', () => {
+    const { rerender } = render(<DatePicker />)
+
+    expect(getDatePickerTriggerButton()).toHaveAttribute('tabindex', '0')
+
+    rerender(<DatePicker tabIndex={-1} />)
+
+    expect(getDatePickerTriggerButton()).toHaveAttribute('tabindex', '-1')
+  })
+
   it('should support tooltip for button', async () => {
     render(<DatePicker tooltip="Tooltip content" />)
 

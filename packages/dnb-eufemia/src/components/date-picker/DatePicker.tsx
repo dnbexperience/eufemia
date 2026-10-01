@@ -660,7 +660,8 @@ function DatePicker(externalProps: DatePickerAllProps) {
   const submitParams = {
     ['aria-expanded']: open,
     ref: submitButtonRef,
-    tabIndex: extendedProps.tabIndex,
+    // Safari skips buttons on Tab unless tabindex is set, unlike a native date input
+    tabIndex: extendedProps.tabIndex ?? (showInput ? undefined : 0),
     tooltip,
   }
 
