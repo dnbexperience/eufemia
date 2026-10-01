@@ -325,6 +325,15 @@ describe('makePropertiesFile', () => {
         expect(result).toEqual('var(--dnb-coldgreen-600)')
       })
 
+      it('transforms the renamed Carnegie prefix', () => {
+        const result = transformFigmaAlias({
+          targetVariableName: 'dnb-carnegie/greyscale/0',
+          targetVariableSetId: colorsVariableSetId,
+          targetVariableSetName: 'colors',
+        })
+        expect(result).toEqual('var(--carnegie-greyscale-0)')
+      })
+
       it('transforms prefix', () => {
         const val = {
           targetVariableName: 'dnbcarnegie/ColdGreen/600',
@@ -598,6 +607,14 @@ describe('makePropertiesFile', () => {
       it('transforms prefixes', () => {
         const result = transformFigmaPath({
           figmaPath: ['dnbcarnegie', 'Primary', 'Dark'],
+          figmaSetId: colorsVariableSetId,
+        })
+        expect(result).toEqual('carnegie-primary-dark')
+      })
+
+      it('transforms the renamed Carnegie prefix in paths', () => {
+        const result = transformFigmaPath({
+          figmaPath: ['dnb-carnegie', 'Primary', 'Dark'],
           figmaSetId: colorsVariableSetId,
         })
         expect(result).toEqual('carnegie-primary-dark')

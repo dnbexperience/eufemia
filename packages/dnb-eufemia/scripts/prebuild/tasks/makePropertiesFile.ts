@@ -239,9 +239,17 @@ type TokenItem = {
 } & FigmaValue
 
 const foundationPrefixMap = {
-  ui: { css: 'dnb', figma: 'dnb' },
-  sbanken: { css: 'sbanken', figma: 'sbanken' },
-  carnegie: { css: 'carnegie', figma: 'dnbcarnegie' },
+  ui: { css: 'dnb', figma: ['dnb'] },
+  sbanken: { css: 'sbanken', figma: ['sbanken'] },
+  // Figma renamed the group, and exports synced before still use dnbcarnegie
+  carnegie: { css: 'carnegie', figma: ['dnb-carnegie', 'dnbcarnegie'] },
+}
+
+/** Keeps only the foundation group of one theme, under whichever name the export uses */
+const pickFoundationGroup = (json: FigmaExport, names: string[]) => {
+  const name = names.find((name) => name in json) ?? names[0]
+
+  return { [name]: json[name] }
 }
 
 export const transformFigmaAlias = (alias: FigmaAlias) => {
@@ -254,7 +262,7 @@ export const transformFigmaAlias = (alias: FigmaAlias) => {
     let knownPrefix = false
     Object.values(foundationPrefixMap).forEach((prefix) => {
       // TODO: perhaps we should be even more strict and ensure that the prefix is from the correct theme
-      if (path[0] === prefix.figma) {
+      if (prefix.figma.includes(path[0])) {
         knownPrefix = true
       }
     })
@@ -433,7 +441,7 @@ export const transformFigmaPath = (
   if (value.figmaSetId === TOKEN_SETS.colors.targetVariableSetId) {
     Object.values(foundationPrefixMap).forEach((prefix) => {
       // TODO: perhaps we should be even more strict and ensure that the prefix is from the correct theme
-      if (cleanPath[0] === prefix.figma) {
+      if (prefix.figma.includes(cleanPath[0])) {
         cleanPath[0] = prefix.css
       }
     })
@@ -972,29 +980,24 @@ const runDesignTokenFactory = async () => {
       in: `./src/style/themes/figma/${TOKEN_SETS.colors.fileName}`,
       out: './src/style/themes/ui/foundation.scss',
       figmaSetId: TOKEN_SETS.colors.targetVariableSetId,
-      filter: (json) => ({
-        [foundationPrefixMap.ui.figma]: json[foundationPrefixMap.ui.figma],
-      }),
+      filter: (json) =>
+        pickFoundationGroup(json, foundationPrefixMap.ui.figma),
     },
     {
       theme: 'sbanken',
       in: `./src/style/themes/figma/${TOKEN_SETS.colors.fileName}`,
       out: './src/style/themes/sbanken/foundation.scss',
       figmaSetId: TOKEN_SETS.colors.targetVariableSetId,
-      filter: (json) => ({
-        [foundationPrefixMap.sbanken.figma]:
-          json[foundationPrefixMap.sbanken.figma],
-      }),
+      filter: (json) =>
+        pickFoundationGroup(json, foundationPrefixMap.sbanken.figma),
     },
     {
       theme: 'carnegie',
       in: `./src/style/themes/figma/${TOKEN_SETS.colors.fileName}`,
       out: './src/style/themes/carnegie/foundation.scss',
       figmaSetId: TOKEN_SETS.colors.targetVariableSetId,
-      filter: (json) => ({
-        [foundationPrefixMap.carnegie.figma]:
-          json[foundationPrefixMap.carnegie.figma],
-      }),
+      filter: (json) =>
+        pickFoundationGroup(json, foundationPrefixMap.carnegie.figma),
     },
   ]
 
