@@ -173,29 +173,41 @@ function MyComponent(props: ComponentAllProps) {
 
 Spreading the `...rest` means the rendered element also receives the event handlers the consumer passes. When the component defines a handler of the same name, the position of the spread decides which one survives. A given handler that replaces the component's own leaves no trace, and the component silently stops working.
 
-Put the component's own handler after the spread, and call the given one from it:
+Use the `mergeProps` helper, which calls the given handler first and then the component's own:
 
 ```tsx
+import mergeProps from '../../shared/helpers/mergeProps'
+
 function MyComponent(props: ComponentAllProps) {
-  const { onClick, ...rest } = props
+  const { myParam, ...rest } = props
 
-  const handleClick = React.useCallback(
-    (event) => {
-      onClick?.(event)
-      toggle()
-    },
-    [onClick, toggle]
-  )
+  const handleClick = React.useCallback(() => {
+    toggle()
+  }, [toggle])
 
-  return <button {...rest} onClick={handleClick} />
+  return <button {...mergeProps({ onClick: handleClick }, rest)} />
 }
 ```
 
-Avoid the opposite order, where a given `onClick` replaces `handleClick` and the button stops toggling:
+A given handler can return `false` to block the component's own handling, which is the convention `Input` already uses for rejecting a change.
+
+Avoid placing the component's own handler before the spread, where a given `onClick` replaces `handleClick` and the button stops toggling:
 
 ```tsx
 // Don't do this
 return <button onClick={handleClick} {...rest} />
+```
+
+Composing the handlers by hand is fine when `mergeProps` does not fit, such as when the component's own handler has to run for a key the consumer cannot see, or when hiding the handler inside a spread would stop `jsx-a11y` from checking the element:
+
+```tsx
+const handleKeyDown = React.useCallback(
+  (event) => {
+    onKeyDown?.(event)
+    toggle()
+  },
+  [onKeyDown, toggle]
+)
 ```
 
 This applies to every handler the type accepts, not only the ones listed in the property tables. The tables do not enumerate the DOM events, so the type is what tells the consumer that a handler is accepted.
