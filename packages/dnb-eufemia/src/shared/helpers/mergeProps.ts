@@ -1,4 +1,8 @@
-/** Merges a given props object into a component's own props, calling both event handlers instead of replacing the component's own. */
+/**
+ * Merges given props into a component's own props, where the given props win.
+ * Event handlers, like `onChange`, that both define are composed instead: the given one runs first, then the own one.
+ * A given handler can return `false` to skip the own one. The `false` is returned, so components like Input can reject the change.
+ */
 export default function mergeProps<
   T extends Record<string, unknown>,
   U extends Record<string, unknown> = Record<string, unknown>,

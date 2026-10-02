@@ -37,6 +37,7 @@ Here is a list of [all available fields](/uilib/extensions/forms/all-fields/).
   - [More info](#more-info)
     - [Empty value](#empty-value)
     - [Standardized properties](#standardized-properties)
+    - [Event handlers in htmlAttributes](#event-handlers-in-htmlattributes)
     - [Controlled \& Uncontrolled](#controlled--uncontrolled)
     - [Creating custom field components](#creating-custom-field-components)
     - [Basic field usage](#basic-field-usage)
@@ -81,6 +82,26 @@ It is deliberate that `onChange` sends out the value from the field, and not the
 The basic components have a number of properties that make it possible to control how they function in the interface, such as `multiline` on `Field.String`, which chooses whether to get one line of text (input tag) or several lines (textarea tag). In addition, they have a number of validation properties, such as `minLength` and `required`.
 
 Inside a [Form.Handler](/uilib/extensions/forms/Form/Handler/) (or [DataContext.Provider](/uilib/extensions/forms/DataContext/Provider/)), fields connect to the surrounding data set with the `path` prop — a [JSON Pointer](/uilib/extensions/forms/getting-started/#what-is-a-json-pointer) such as `/firstName`. The `path` can be type-checked against your data model for autocomplete and compile-time errors on typos — see [Type-checked paths](/uilib/extensions/forms/typed-paths/).
+
+### Event handlers in htmlAttributes
+
+Fields pass `htmlAttributes` on to the element or component they render, such as an input. An event handler given this way, such as `onKeyDown`, runs before the field's own handler for the same event, and the field keeps updating its value and validation as usual. The same applies to event handlers given in `autocompleteProps` and `dropdownProps` on [Field.Selection](/uilib/extensions/forms/base-fields/Selection/).
+
+Return `false` from your handler to skip the field's own handling of that event. On `Field.String`, returning `false` from `onChange` also rejects the change, so the input keeps its previous value:
+
+```tsx
+<Field.String
+  htmlAttributes={{
+    onChange: ({ value }) => {
+      if (/\d/.test(value)) {
+        return false
+      }
+    },
+  }}
+/>
+```
+
+Return `false` only when you mean to block the field. A shorthand like `event.key === 'Enter' && submit()` returns `false` for every other key, so the field would stop handling them, such as the arrow key stepping in `Field.Number`.
 
 ### Controlled & Uncontrolled
 
