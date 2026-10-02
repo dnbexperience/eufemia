@@ -96,7 +96,9 @@ const SkipContent = (localProps: SkipContentAllProps) => {
 
   const handleClick = useCallback(
     (args: ButtonClickEvent) => {
-      onClick?.(args)
+      // ButtonOnClick is a union of signatures, and only Button knows which one it calls
+      const givenOnClick = onClick as (event: ButtonClickEvent) => void
+      givenOnClick?.(args)
 
       // Scroll to the element at first
       const element = getTargetElement()
