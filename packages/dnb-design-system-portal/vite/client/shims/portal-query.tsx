@@ -8,6 +8,7 @@
 import { useNavigate, type To } from 'react-router'
 import { allMdxNodes } from 'virtual:portal-pages'
 import type { MdxNode } from '../plugins/portal-pages.shared'
+import { compareByOrder } from '../plugins/portal-pages.shared'
 
 export type StaticQueryConnection = {
   edges: Array<{
@@ -187,9 +188,11 @@ function buildFilteredEdges(
     filtered = [...filtered].sort((a, b) => {
       const aFm = a.frontmatter
       const bFm = b.frontmatter
-      const aOrder = (aFm?.order as number) ?? 999
-      const bOrder = (bFm?.order as number) ?? 999
-      if (aOrder !== bOrder) return aOrder - bOrder
+      const byOrder = compareByOrder(
+        aFm?.order as number,
+        bFm?.order as number
+      )
+      if (byOrder !== 0) return byOrder
       const aTitle = ((aFm?.title as string) ?? '').toLowerCase()
       const bTitle = ((bFm?.title as string) ?? '').toLowerCase()
       return aTitle.localeCompare(bTitle)

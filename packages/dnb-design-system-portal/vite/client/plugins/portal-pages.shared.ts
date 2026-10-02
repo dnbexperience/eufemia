@@ -41,9 +41,14 @@ export type KnownFrontmatter = {
   /**
    * A number from -999 to 999, decimals are allowed.
    *
-   * Set to override the alphabetical order by `title`, where a lower number
-   * comes first. Lists put pages without an order last, while the sidebar
-   * menu keeps them in the middle and moves negative numbers to the bottom.
+   * Custom ordering of pages.
+   *
+   * Positive numbers appear before non-ordered pages. Lowest first.
+   * Negative numbers appear after non-ordered pages. Lowest first.
+   *
+   * Non-ordered pages or pages with the same order are sorted alphabetically.
+   *
+   * Default: `undefined`, which means the page is non-ordered.
    */
   order?: number
 
@@ -131,6 +136,24 @@ export function isFirstTabPage(file: PageFileInfo): boolean {
     !file.frontmatter.title &&
     file.slug.endsWith('/info')
   )
+}
+
+const orderGroup = (order?: number) => (!order ? 2 : order > 0 ? 1 : 3)
+
+/**
+ * Orders pages by their frontmatter `order`, the same way the sidebar menu
+ * does: a positive order first, unordered pages and 0 in the middle, and a
+ * negative order last. Within a group, a lower number comes first.
+ */
+export function compareByOrder(a?: number, b?: number) {
+  const groupA = orderGroup(a)
+  const groupB = orderGroup(b)
+
+  if (groupA !== groupB) {
+    return groupA - groupB
+  }
+
+  return (a ?? 0) - (b ?? 0)
 }
 
 const matchers = new Map<string, (slug: string) => boolean>()
