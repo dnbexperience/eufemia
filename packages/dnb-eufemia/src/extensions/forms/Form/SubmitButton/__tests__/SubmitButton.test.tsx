@@ -293,4 +293,20 @@ describe('Form.SubmitButton', () => {
       'dnb-forms-submit-indicator--state-pending'
     )
   })
+
+  it('should keep submitting when an onClick is given and no form element is used', () => {
+    const onSubmit = vi.fn()
+    const onClick = vi.fn()
+
+    render(
+      <Form.Handler decoupleForm onSubmit={onSubmit}>
+        <Form.SubmitButton onClick={onClick} />
+      </Form.Handler>
+    )
+
+    fireEvent.click(document.querySelector('.dnb-forms-submit-button'))
+
+    expect(onClick).toHaveBeenCalledTimes(1)
+    expect(onSubmit).toHaveBeenCalledTimes(1)
+  })
 })

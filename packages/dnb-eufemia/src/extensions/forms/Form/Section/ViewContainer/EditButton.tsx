@@ -4,6 +4,7 @@ import ToolbarContext from '../Toolbar/ToolbarContext'
 import { useTranslation } from '../../../hooks'
 import { Button } from '../../../../../components'
 import { edit } from '../../../../../icons'
+import mergeProps from '../../../../../shared/helpers/mergeProps'
 import type { ButtonProps } from '../../../../../components/button/Button'
 
 export type FormSectionEditButtonProps = ButtonProps
@@ -30,8 +31,7 @@ export default function EditButton(props: FormSectionEditButtonProps) {
       variant="tertiary"
       icon={edit}
       iconPosition="left"
-      onClick={editHandler}
-      {...props}
+      {...mergeProps({ onClick: editHandler }, props)}
     >
       {translation.editButton}
     </Button>

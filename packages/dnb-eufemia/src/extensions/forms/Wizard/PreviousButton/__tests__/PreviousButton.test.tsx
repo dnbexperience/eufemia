@@ -114,4 +114,29 @@ describe('PreviousButton', () => {
     expect(handlePrevious).toHaveBeenCalledTimes(1)
     expect(handleNext).toHaveBeenCalledTimes(0)
   })
+
+  it('should keep navigating when an onClick is given', () => {
+    const handlePrevious = vi.fn()
+    const onClick = vi.fn()
+
+    render(
+      <WizardContext value={{ handlePrevious }}>
+        <PreviousButton onClick={onClick} />
+      </WizardContext>
+    )
+
+    fireEvent.click(document.querySelector('.dnb-forms-previous-button'))
+
+    expect(onClick).toHaveBeenCalledTimes(1)
+    expect(handlePrevious).toHaveBeenCalledTimes(1)
+  })
+
+  it('should keep its own className when a className is given', () => {
+    render(<PreviousButton className="custom" />)
+
+    expect(document.querySelector('button')).toHaveClass(
+      'dnb-forms-previous-button',
+      'custom'
+    )
+  })
 })

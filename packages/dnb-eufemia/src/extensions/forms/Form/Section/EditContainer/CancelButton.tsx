@@ -4,6 +4,7 @@ import SectionContainerContext from '../containers/SectionContainerContext'
 import ToolbarContext from '../Toolbar/ToolbarContext'
 import { useTranslation } from '../../../hooks'
 import { Button, Dialog } from '../../../../../components'
+import type { ButtonClickEvent } from '../../../../../components/button/types'
 import { close } from '../../../../../icons'
 import useContainerDataStore from './useContainerDataStore'
 import FieldBoundaryContext from '../../../DataContext/FieldBoundary/FieldBoundaryContext'
@@ -15,6 +16,7 @@ type Props = ComponentProps<typeof Button> & {
 
 export default function CancelButton({
   showConfirmDialog = true,
+  onClick,
   ...buttonProps
 }: Props) {
   const { onCancel, setShowError, isPending } =
@@ -32,8 +34,10 @@ export default function CancelButton({
   const { cancelButton, confirmCancelText } =
     translation.SectionEditContainer
 
+  // The Dialog hands over the Button click payload as `event`, so both paths
+  // give a given `onClick` the same argument the Button would.
   const cancelHandler = useCallback(
-    ({ close }: { close?: () => void }) => {
+    ({ close, event }) => {
       close?.()
       restoreOriginalData()
 
@@ -50,11 +54,13 @@ export default function CancelButton({
         }
 
         onCancel?.()
+        onClick?.(event)
       }) // because of the re-render of "restoreOriginalData"
     },
     [
       hasVisibleError,
       onCancel,
+      onClick,
       restoreOriginalData,
       setShowBoundaryErrors,
       setShowError,
@@ -86,7 +92,9 @@ export default function CancelButton({
   return (
     <Button
       {...triggerAttributes}
-      onClick={(args) => cancelHandler(args)}
+      onClick={(event: ButtonClickEvent) =>
+        cancelHandler({ close: undefined, event })
+      }
     />
   )
 }

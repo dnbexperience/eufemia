@@ -43,6 +43,25 @@ describe('DoneButton', () => {
     expect(switchContainerMode).toHaveBeenCalledWith('view')
   })
 
+  it('calls "switchContainerMode" when an onClick is given', () => {
+    const switchContainerMode = vi.fn()
+    const onClick = vi.fn()
+
+    render(
+      <IterateItemContext value={{ switchContainerMode }}>
+        <Toolbar>
+          <DoneButton onClick={onClick} />
+        </Toolbar>
+      </IterateItemContext>
+    )
+
+    fireEvent.click(document.querySelectorAll('button')[0])
+
+    expect(onClick).toHaveBeenCalledTimes(1)
+    expect(switchContainerMode).toHaveBeenCalledTimes(1)
+    expect(switchContainerMode).toHaveBeenCalledWith('view')
+  })
+
   it('should not call "setShowError" when hasError is true and hasVisibleError is false', () => {
     const setShowError = vi.fn()
     const setShowBoundaryErrors = vi.fn()

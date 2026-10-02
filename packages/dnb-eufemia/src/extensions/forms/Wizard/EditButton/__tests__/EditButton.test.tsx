@@ -83,4 +83,27 @@ describe('EditButton', () => {
     await userEvent.click(document.querySelector('.dnb-forms-edit-button'))
     expect(document.querySelector('output')).toHaveTextContent('Step 2')
   })
+
+  it('should keep changing step when an onClick is given', async () => {
+    const onClick = vi.fn()
+
+    render(
+      <Form.Handler>
+        <Wizard.Container omitScrollManagement initialActiveIndex={1}>
+          <Wizard.Step title="Step 1">
+            <output>Step 1</output>
+          </Wizard.Step>
+          <Wizard.Step title="Step 2">
+            <output>Step 2</output>
+            <EditButton toStep={0} onClick={onClick} />
+          </Wizard.Step>
+        </Wizard.Container>
+      </Form.Handler>
+    )
+
+    await userEvent.click(document.querySelector('.dnb-forms-edit-button'))
+
+    expect(onClick).toHaveBeenCalledTimes(1)
+    expect(document.querySelector('output')).toHaveTextContent('Step 1')
+  })
 })
