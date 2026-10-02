@@ -37,6 +37,19 @@ describe('List.ShowMoreButton', () => {
     expect(getButton().textContent).toContain('Vis mindre')
   })
 
+  it('keeps toggling when an onClick is passed anyway', () => {
+    render(
+      <ListShowMoreButton
+        id="toggle-given-on-click"
+        {...({ onClick: vi.fn() } as Record<string, unknown>)}
+      />
+    )
+
+    fireEvent.click(getButton())
+
+    expect(getButton().textContent).toContain('Vis mindre')
+  })
+
   it('toggles back to collapsed text on second click', () => {
     render(<ListShowMoreButton id="toggle-back" />)
 

@@ -51,10 +51,10 @@ function ListShowMoreButton(props: ListShowMoreButtonProps) {
       text={expanded ? resolvedShowLess : resolvedShowMore}
       icon={expanded ? ChevronUp : ChevronDown}
       iconPosition="right"
-      onClick={handleClick}
       aria-expanded={expanded}
       aria-controls={typeof id === 'string' ? id : undefined}
       {...rest}
+      onClick={handleClick}
     />
   )
 }
