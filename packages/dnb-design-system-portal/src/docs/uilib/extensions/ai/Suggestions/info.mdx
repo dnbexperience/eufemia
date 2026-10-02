@@ -1,0 +1,19 @@
+---
+showTabs: true
+---
+
+## Import
+
+```tsx
+import * as Ai from '@dnb/eufemia/extensions/ai'
+import '@dnb/eufemia/extensions/ai/style'
+render(
+  <Ai.Suggestions>
+    <Ai.Suggestion />
+  </Ai.Suggestions>
+)
+```
+
+## Description
+
+Use `Ai.Suggestions` with `Ai.Suggestion` to show prompts the user can choose, e.g. on a welcome screen. A suggestion is a chip by default, or a card with `variant="card"`. `onClick` receives the `suggestion`, so the shown text can be shorter than the prompt that is sent.

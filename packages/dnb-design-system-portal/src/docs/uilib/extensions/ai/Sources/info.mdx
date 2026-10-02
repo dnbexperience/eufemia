@@ -1,0 +1,15 @@
+---
+showTabs: true
+---
+
+## Import
+
+```tsx
+import * as Ai from '@dnb/eufemia/extensions/ai'
+import '@dnb/eufemia/extensions/ai/style'
+render(<Ai.Sources />)
+```
+
+## Description
+
+`Ai.Sources` shows a collapsible list of the sources used in a reply. [Ai.Message](/uilib/extensions/ai/Message/) shows it for the `source-url` parts of a `UIMessage`. Sources with unsafe URLs (like `javascript:`) are left out.
