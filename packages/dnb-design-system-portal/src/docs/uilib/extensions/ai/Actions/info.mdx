@@ -1,0 +1,19 @@
+---
+showTabs: true
+---
+
+## Import
+
+```tsx
+import * as Ai from '@dnb/eufemia/extensions/ai'
+import '@dnb/eufemia/extensions/ai/style'
+render(
+  <Ai.Actions>
+    <Ai.Action />
+  </Ai.Actions>
+)
+```
+
+## Description
+
+`Ai.Actions` with `Ai.Action` shows icon buttons below a message, like copy, feedback or regenerate. Give them to the `actions` property of [Ai.Message](/uilib/extensions/ai/Message/). Each `Ai.Action` is a tertiary [Button](/uilib/components/button/), and its `label` is used for the tooltip and for screen readers.
