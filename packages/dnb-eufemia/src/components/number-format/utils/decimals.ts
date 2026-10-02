@@ -4,7 +4,7 @@
 
 import type {
   NumberFormatValue,
-  InternalNumberFormatOptions,
+  NumberFormatInternalOptions,
 } from './types'
 
 /**
@@ -35,7 +35,7 @@ export const formatDecimals = (
   value: NumberFormatValue,
   decimals: number | string | null,
   rounding: string | boolean | null | undefined,
-  opts: InternalNumberFormatOptions = {}
+  opts: NumberFormatInternalOptions = {}
 ): NumberFormatValue => {
   decimals = parseFloat(String(decimals))
 

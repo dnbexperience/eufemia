@@ -19,8 +19,8 @@ import {
   removeChar,
 } from './utils'
 import type {
-  SegmentedFieldItem,
-  SegmentedFieldSectionProps,
+  InputMaskedSegmentedFieldItem,
+  InputMaskedSegmentedFieldSectionProps,
 } from './types'
 
 export default function SegmentedFieldSection({
@@ -49,7 +49,7 @@ export default function SegmentedFieldSection({
   onGroupFocus,
   onGroupBlur,
   ...sharedProps
-}: SegmentedFieldSectionProps) {
+}: InputMaskedSegmentedFieldSectionProps) {
   const {
     label,
     mask,
@@ -61,7 +61,7 @@ export default function SegmentedFieldSection({
     onKeyDown: onKeyDownExternal,
     onKeyUp: onKeyUpExternal,
     ...htmlProps
-  } = itemProps as SegmentedFieldItem<string>
+  } = itemProps as InputMaskedSegmentedFieldItem<string>
 
   const displayValue = getDisplayValue({
     value,

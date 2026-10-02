@@ -2,7 +2,7 @@ import { useContext } from 'react'
 import type { HTMLProps } from 'react'
 import { clsx } from 'clsx'
 import Flex from '../flex/Flex'
-import type { HorizontalProps as FlexHorizontalProps } from '../flex/Horizontal'
+import type { FlexHorizontalProps as FlexHorizontalProps } from '../flex/Horizontal'
 import type { SkeletonShow } from '../skeleton/Skeleton'
 import { warn } from '../../shared/component-helper'
 import StatRootContext from './StatRootContext'
@@ -10,7 +10,7 @@ import useStatSkeleton from './useStatSkeleton'
 import Provider from '../../shared/Provider'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
-export type InlineProps = FlexHorizontalProps & {
+export type StatInlineProps = FlexHorizontalProps & {
   id?: string
   skeleton?: SkeletonShow
 }
@@ -23,7 +23,7 @@ function Inline({
   layoutEngine = 'css',
   skeleton = null,
   ...rest
-}: InlineProps) {
+}: StatInlineProps) {
   const { inRoot } = useContext(StatRootContext)
   const { hasSkeleton, skeletonClass, applySkeletonAttributes } =
     useStatSkeleton(skeleton)

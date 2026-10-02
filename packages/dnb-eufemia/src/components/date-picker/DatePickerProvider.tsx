@@ -45,7 +45,7 @@ export type DatePickerChangeEvent<E> = DatePickerDates &
     event?: E
   }
 
-export type GetReturnObjectParams<E> = DatePickerDates &
+export type DatePickerGetReturnObjectParams<E> = DatePickerDates &
   DatePickerInvalidDates & {
     event?: E
   }
@@ -139,7 +139,10 @@ function DatePickerProvider(props: DatePickerProviderProps) {
   prevOpenRef.current = open
 
   const getReturnObject = useCallback(
-    <E,>({ event = null, ...rest }: GetReturnObjectParams<E> = {}) => {
+    <E,>({
+      event = null,
+      ...rest
+    }: DatePickerGetReturnObjectParams<E> = {}) => {
       const { startDate, endDate, invalidStartDate, invalidEndDate } = {
         ...views,
         ...dates,

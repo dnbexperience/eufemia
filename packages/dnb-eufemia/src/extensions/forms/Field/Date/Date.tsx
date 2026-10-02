@@ -23,7 +23,7 @@ import useTranslation from '../../hooks/useTranslation'
 import type {
   DatePickerEvent,
   DatePickerProps,
-  DisplayPickerEvent,
+  DatePickerDisplayEvent,
 } from '../../../../components/DatePicker'
 import { convertStringToDate } from '../../../../components/date-picker/DatePickerCalc'
 import type { ProviderProps } from '../../../../shared/Provider'
@@ -259,7 +259,7 @@ function DateComponent(props: DateProps): ReactElement {
   const valueOnOpenRef = useRef(internalValue)
 
   const handleOpen = useCallback(
-    (event: DatePickerEvent<DisplayPickerEvent>) => {
+    (event: DatePickerEvent<DatePickerDisplayEvent>) => {
       valueOnOpenRef.current = internalValue
       datePickerProps.onOpen?.(event)
     },

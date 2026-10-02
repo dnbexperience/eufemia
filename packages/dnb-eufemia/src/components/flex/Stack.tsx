@@ -3,9 +3,9 @@ import Container from './Container'
 import type { FlexContainerAllProps } from './Container'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
-export type StackProps = FlexContainerAllProps
+export type FlexStackProps = FlexContainerAllProps
 
-function Stack(props: StackProps) {
+function Stack(props: FlexStackProps) {
   const {
     className,
     direction = 'vertical',

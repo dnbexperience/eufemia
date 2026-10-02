@@ -21,12 +21,12 @@ export const ValidIconType = [
   'xx-large', // 48px 3rem
 ] as const
 
-export type DefaultIconSizes = typeof DefaultIconSizes
-export type ValidIconType = (typeof ValidIconType)[number]
-export type ValidIconNumericSize = DefaultIconSizes[keyof DefaultIconSizes]
+export type IconDefaultSizes = typeof DefaultIconSizes
+export type IconValidType = (typeof ValidIconType)[number]
+export type IconValidNumericSize = IconDefaultSizes[keyof IconDefaultSizes]
 
 export const ListDefaultIconSizes: Array<
-  [ValidIconType, ValidIconNumericSize]
+  [IconValidType, IconValidNumericSize]
 > = [
   ['default', 16],
   ['medium', 24],
