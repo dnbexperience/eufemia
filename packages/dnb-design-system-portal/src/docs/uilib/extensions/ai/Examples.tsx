@@ -751,3 +751,69 @@ export function AiToolStates() {
     </ComponentBox>
   )
 }
+
+const reasoning = `The customer asks about **food** in March.
+
+1. Find the transactions for groceries.
+2. Add up the amounts.`
+
+export function AiReasoningStreaming() {
+  return (
+    <ComponentBox scope={{ reasoning }}>
+      {() => {
+        const StreamingReasoning = () => {
+          const [length, setLength] = useState(0)
+          const [replays, setReplays] = useState(0)
+          const isStreaming = length < reasoning.length
+
+          useEffect(() => {
+            if (!isStreaming) {
+              return // stop here
+            }
+            const timeout = setTimeout(
+              () => setLength((current) => current + 2),
+              40
+            )
+            return () => clearTimeout(timeout)
+          }, [length, isStreaming])
+
+          return (
+            <>
+              <Button
+                variant="secondary"
+                bottom
+                onClick={() => {
+                  setLength(0)
+                  setReplays((current) => current + 1)
+                }}
+              >
+                Replay
+              </Button>
+              <Ai.Reasoning key={replays} isStreaming={isStreaming}>
+                {reasoning.slice(0, length)}
+              </Ai.Reasoning>
+            </>
+          )
+        }
+
+        return <StreamingReasoning />
+      }}
+    </ComponentBox>
+  )
+}
+
+export function AiReasoningDone() {
+  return (
+    <ComponentBox data-visual-test="ai-reasoning" scope={{ reasoning }}>
+      <Ai.Reasoning>{reasoning}</Ai.Reasoning>
+    </ComponentBox>
+  )
+}
+
+export function AiShimmerExample() {
+  return (
+    <ComponentBox>
+      <Ai.Shimmer>Looking up your transactions …</Ai.Shimmer>
+    </ComponentBox>
+  )
+}

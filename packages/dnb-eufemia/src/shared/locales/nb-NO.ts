@@ -105,6 +105,8 @@ export default {
       toolError: 'Feilet',
       toolAwaitingApproval: 'Venter på bekreftelse',
       canceled: 'Avbrutt',
+      thinking: 'Tenker …',
+      reasoning: 'Tankeprosess',
     },
     Dropdown: {
       title: 'Velg',
