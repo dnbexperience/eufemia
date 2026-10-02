@@ -1845,6 +1845,28 @@ describe('Upload', () => {
   })
 
   describe('events', () => {
+    it('should call a given onClick and keep resetting the file input', () => {
+      const onClick = vi.fn()
+
+      render(
+        <Upload {...defaultProps} id="given-on-click" onClick={onClick} />
+      )
+
+      const inputElement = document.querySelector(
+        '.dnb-upload__file-input'
+      ) as HTMLInputElement
+
+      Object.defineProperty(inputElement, 'value', {
+        writable: true,
+        value: 'mock-value',
+      })
+
+      fireEvent.click(inputElement)
+
+      expect(onClick).toHaveBeenCalledTimes(1)
+      expect(inputElement.value).toBe(null)
+    })
+
     it('will call onChange when file gets added or removed', async () => {
       const id = 'onChange'
       const onChange = vi.fn()
