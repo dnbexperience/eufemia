@@ -1,10 +1,12 @@
-import { useEffect, useState } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import type { UIMessage } from 'ai'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import { useChatSimulation } from './useChatSimulation'
 import * as Ai from '@dnb/eufemia/src/extensions/ai'
 import '@dnb/eufemia/src/extensions/ai/style'
 import {
+  ToggleButton,
+  Flex,
   Anchor,
   Avatar,
   Button,
@@ -772,6 +774,428 @@ export function AiShimmerExample() {
   return (
     <ComponentBox>
       <Ai.Shimmer>Looking up your transactions …</Ai.Shimmer>
+    </ComponentBox>
+  )
+}
+
+export function AiConversationScrollBehavior() {
+  return (
+    <ComponentBox scope={{ useChatSimulation, chatStyle }}>
+      {() => {
+        const Chat = () => {
+          const [scrollBehavior, setScrollBehavior] = useState<
+            'turn' | 'end'
+          >('turn')
+          const { messages, status, sendMessage, stop } =
+            useChatSimulation()
+
+          return (
+            <div style={{ ...chatStyle, height: '32rem' }}>
+              <ToggleButton.Group
+                label="Scroll behavior"
+                value={scrollBehavior}
+                onChange={({ value }) =>
+                  setScrollBehavior(value as 'turn' | 'end')
+                }
+              >
+                <ToggleButton value="turn" text="turn" />
+                <ToggleButton value="end" text="end" />
+              </ToggleButton.Group>
+
+              <Ai.Conversation
+                scrollBehavior={scrollBehavior}
+                style={{ flex: '1 1 auto' }}
+              >
+                {messages.map((message) => (
+                  <Ai.Message key={message.id} message={message} />
+                ))}
+                {status === 'submitted' && <Ai.Loader />}
+              </Ai.Conversation>
+
+              <Ai.PromptInput
+                variant="compact"
+                placeholder="Try: Compare my spending"
+                status={status}
+                onSubmit={({ value }) => sendMessage({ text: value })}
+                onStop={stop}
+              />
+            </div>
+          )
+        }
+
+        return <Chat />
+      }}
+    </ComponentBox>
+  )
+}
+
+const scrollerReply =
+  'You can do it in the app under Cards. Choose the card, and follow the steps. It only takes a minute, and you get a confirmation when it is done.'
+
+export function AiScrollerPeek() {
+  return (
+    <ComponentBox scope={{ scrollerReply }}>
+      {() => {
+        const Chat = () => {
+          const [peek, setPeek] = useState('3rem')
+          const [count, setCount] = useState(2)
+
+          return (
+            <>
+              <Flex.Horizontal align="center" bottom>
+                <ToggleButton.Group
+                  label="Peek"
+                  value={peek}
+                  onChange={({ value }) => setPeek(String(value))}
+                >
+                  <ToggleButton value="0" text="None" />
+                  <ToggleButton value="3rem" text="3rem" />
+                  <ToggleButton value="6rem" text="6rem" />
+                </ToggleButton.Group>
+                <Button
+                  variant="secondary"
+                  onClick={() => setCount((current) => current + 1)}
+                >
+                  Ask another question
+                </Button>
+              </Flex.Horizontal>
+
+              <Ai.Conversation
+                style={
+                  {
+                    height: '18rem',
+                    '--ai-conversation-peek': peek,
+                  } as React.CSSProperties
+                }
+              >
+                {Array.from({ length: count }, (_, index) => (
+                  <Fragment key={index}>
+                    <Ai.Message from="user">
+                      Question {index + 1}
+                    </Ai.Message>
+                    <Ai.Message>{scrollerReply}</Ai.Message>
+                  </Fragment>
+                ))}
+              </Ai.Conversation>
+            </>
+          )
+        }
+
+        return <Chat />
+      }}
+    </ComponentBox>
+  )
+}
+
+export function AiScrollerOpening() {
+  return (
+    <ComponentBox scope={{ scrollerReply }}>
+      {() => {
+        const SavedChat = () => {
+          const [scrollBehavior, setScrollBehavior] = useState<
+            'turn' | 'end'
+          >('turn')
+
+          return (
+            <>
+              <ToggleButton.Group
+                label="Scroll behavior"
+                value={scrollBehavior}
+                onChange={({ value }) =>
+                  setScrollBehavior(value as 'turn' | 'end')
+                }
+                bottom
+              >
+                <ToggleButton value="turn" text="turn" />
+                <ToggleButton value="end" text="end" />
+              </ToggleButton.Group>
+
+              <Ai.Conversation
+                key={scrollBehavior}
+                scrollBehavior={scrollBehavior}
+                style={{ height: '18rem' }}
+              >
+                {['How do I block my card?', 'Can I order a new one?'].map(
+                  (question) => (
+                    <Fragment key={question}>
+                      <Ai.Message from="user">{question}</Ai.Message>
+                      <Ai.Message>
+                        <P>{scrollerReply}</P>
+                        <P top>{scrollerReply}</P>
+                      </Ai.Message>
+                    </Fragment>
+                  )
+                )}
+              </Ai.Conversation>
+            </>
+          )
+        }
+
+        return <SavedChat />
+      }}
+    </ComponentBox>
+  )
+}
+
+export function AiScrollerHistory() {
+  return (
+    <ComponentBox scope={{ scrollerReply }}>
+      {() => {
+        const History = () => {
+          const [first, setFirst] = useState(5)
+          const turns = Array.from(
+            { length: 8 - first },
+            (_, index) => first + index
+          )
+
+          return (
+            <>
+              <Button
+                variant="secondary"
+                bottom
+                disabled={first === 1}
+                onClick={() =>
+                  setFirst((current) => Math.max(1, current - 2))
+                }
+              >
+                Load earlier messages
+              </Button>
+
+              <Ai.Conversation style={{ height: '18rem' }}>
+                {turns.map((turn) => (
+                  <Fragment key={turn}>
+                    <Ai.Message from="user">Question {turn}</Ai.Message>
+                    <Ai.Message>{scrollerReply}</Ai.Message>
+                  </Fragment>
+                ))}
+              </Ai.Conversation>
+            </>
+          )
+        }
+
+        return <History />
+      }}
+    </ComponentBox>
+  )
+}
+
+export function AiScrollerOutline() {
+  return (
+    <ComponentBox scope={{ scrollerReply }}>
+      {() => {
+        const questions = [
+          { id: 'block', text: 'How do I block my card?' },
+          { id: 'order', text: 'Can I order a new card?' },
+          { id: 'time', text: 'How long does it take?' },
+          { id: 'cost', text: 'Does it cost anything?' },
+        ]
+
+        const Outline = () => {
+          const { scrollToMessage } = Ai.useConversation('outline-chat')
+          const { currentTurnId } =
+            Ai.useConversationVisibility('outline-chat')
+
+          return (
+            <Flex.Horizontal bottom>
+              {questions.map(({ id, text }) => (
+                <Button
+                  key={id}
+                  variant={currentTurnId === id ? 'primary' : 'secondary'}
+                  size="medium"
+                  aria-current={currentTurnId === id ? 'step' : undefined}
+                  onClick={() => scrollToMessage(id)}
+                >
+                  {text}
+                </Button>
+              ))}
+            </Flex.Horizontal>
+          )
+        }
+
+        return (
+          <>
+            <Outline />
+            <Ai.Conversation id="outline-chat" style={{ height: '18rem' }}>
+              {questions.map(({ id, text }) => (
+                <Fragment key={id}>
+                  <Ai.Message from="user" id={id}>
+                    {text}
+                  </Ai.Message>
+                  <Ai.Message>{scrollerReply}</Ai.Message>
+                </Fragment>
+              ))}
+            </Ai.Conversation>
+          </>
+        )
+      }}
+    </ComponentBox>
+  )
+}
+
+export function AiScrollerScrollState() {
+  return (
+    <ComponentBox scope={{ scrollerReply }}>
+      {() => {
+        const Toolbar = () => {
+          const { scrollToStart, scrollToEnd } =
+            Ai.useConversation('state-chat')
+          const { isAtStart, isAtEnd } =
+            Ai.useConversationScrollState('state-chat')
+
+          return (
+            <Flex.Horizontal bottom>
+              <Button
+                variant="secondary"
+                disabled={isAtStart}
+                onClick={scrollToStart}
+              >
+                Go to start
+              </Button>
+              <Button
+                variant="secondary"
+                disabled={isAtEnd}
+                onClick={scrollToEnd}
+              >
+                Go to end
+              </Button>
+            </Flex.Horizontal>
+          )
+        }
+
+        return (
+          <>
+            <Toolbar />
+            <Ai.Conversation id="state-chat" style={{ height: '18rem' }}>
+              {Array.from({ length: 4 }, (_, index) => (
+                <Fragment key={index}>
+                  <Ai.Message from="user">Question {index + 1}</Ai.Message>
+                  <Ai.Message>{scrollerReply}</Ai.Message>
+                </Fragment>
+              ))}
+            </Ai.Conversation>
+          </>
+        )
+      }}
+    </ComponentBox>
+  )
+}
+
+export function AiScrollerAnimation() {
+  return (
+    <ComponentBox scope={{ scrollerReply }}>
+      {() => {
+        const css = `
+          @keyframes my-chat-enter {
+            from {
+              opacity: 0;
+              filter: blur(0.5rem);
+            }
+          }
+          .my-chat--blur .dnb-ai-conversation__content > [data-entering] {
+            animation: my-chat-enter 600ms ease-out;
+          }
+        `
+
+        const Chat = () => {
+          const [animation, setAnimation] = useState('fade')
+          const [count, setCount] = useState(1)
+
+          return (
+            <>
+              <style>{css}</style>
+              <Flex.Horizontal align="center" bottom>
+                <ToggleButton.Group
+                  label="Animation"
+                  value={animation}
+                  onChange={({ value }) => setAnimation(String(value))}
+                >
+                  <ToggleButton value="fade" text="Fade" />
+                  <ToggleButton value="blur" text="Blur" />
+                </ToggleButton.Group>
+                <Button
+                  variant="secondary"
+                  onClick={() => setCount((current) => current + 1)}
+                >
+                  Ask another question
+                </Button>
+              </Flex.Horizontal>
+
+              <Ai.Conversation
+                className={`my-chat--${animation}`}
+                style={{ height: '18rem' }}
+              >
+                {Array.from({ length: count }, (_, index) => (
+                  <Fragment key={index}>
+                    <Ai.Message from="user">
+                      Question {index + 1}
+                    </Ai.Message>
+                    <Ai.Message>{scrollerReply}</Ai.Message>
+                  </Fragment>
+                ))}
+              </Ai.Conversation>
+            </>
+          )
+        }
+
+        return <Chat />
+      }}
+    </ComponentBox>
+  )
+}
+
+export function AiScrollerLongConversation() {
+  return (
+    <ComponentBox scope={{ scrollerReply }}>
+      {() => {
+        const turns = Array.from({ length: 500 }, (_, index) => ({
+          id: `question-${index + 1}`,
+          number: index + 1,
+        }))
+
+        const Toolbar = () => {
+          const { scrollToStart, scrollToMessage, scrollToEnd } =
+            Ai.useConversation('long-chat')
+          const { currentTurnId } =
+            Ai.useConversationVisibility('long-chat')
+
+          return (
+            <Flex.Horizontal align="center" bottom>
+              <Button variant="secondary" onClick={scrollToStart}>
+                Go to start
+              </Button>
+              <Button
+                variant="secondary"
+                onClick={() => scrollToMessage('question-250')}
+              >
+                Go to question 250
+              </Button>
+              <Button variant="secondary" onClick={scrollToEnd}>
+                Go to end
+              </Button>
+              <span>
+                Reading:{' '}
+                {currentTurnId?.replace('question-', 'question ') ?? '–'}
+              </span>
+            </Flex.Horizontal>
+          )
+        }
+
+        return (
+          <>
+            <Toolbar />
+            <Ai.Conversation id="long-chat" style={{ height: '24rem' }}>
+              {turns.map(({ id, number }) => (
+                <Fragment key={id}>
+                  <Ai.Message from="user" id={id}>
+                    Question {number}
+                  </Ai.Message>
+                  <Ai.Message>{scrollerReply}</Ai.Message>
+                </Fragment>
+              ))}
+            </Ai.Conversation>
+          </>
+        )
+      }}
     </ComponentBox>
   )
 }

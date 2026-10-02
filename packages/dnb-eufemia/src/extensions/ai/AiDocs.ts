@@ -282,6 +282,17 @@ export const AiConversationProperties: PropertiesTableProps = {
     type: 'string',
     status: 'optional',
   },
+  scrollBehavior: {
+    doc: 'Use `turn` to scroll a new message from the user near the top, and let the reply stream in below it. Use `end` to follow the end of the conversation while the reply streams in.',
+    type: ['"turn"', '"end"'],
+    defaultValue: '"turn"',
+    status: 'optional',
+  },
+  id: {
+    doc: 'Identifier used to scroll the conversation from elsewhere with `Ai.useConversation(id)`.',
+    type: 'string',
+    status: 'optional',
+  },
   children: {
     doc: 'The messages of the conversation.',
     type: 'React.ReactNode',
@@ -416,6 +427,50 @@ export const AiReasoningProperties: PropertiesTableProps = {
   '[Space](/uilib/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],
+    status: 'optional',
+  },
+}
+
+export const AiConversationControls: PropertiesTableProps = {
+  scrollToEnd: {
+    doc: 'Scroll to the end and follow new content.',
+    type: 'function',
+    status: 'optional',
+  },
+  scrollToStart: {
+    doc: 'Scroll to the start of the conversation.',
+    type: 'function',
+    status: 'optional',
+  },
+  scrollToMessage: {
+    doc: 'Scroll to the message with the given id, like the `id` of a `UIMessage`. Returns `false` when the message is not found.',
+    type: 'function',
+    status: 'optional',
+  },
+}
+
+export const AiConversationScrollState: PropertiesTableProps = {
+  isAtStart: {
+    doc: '`true` when the conversation is scrolled to the start.',
+    type: 'boolean',
+    status: 'optional',
+  },
+  isAtEnd: {
+    doc: '`true` when the conversation is scrolled to the end.',
+    type: 'boolean',
+    status: 'optional',
+  },
+}
+
+export const AiConversationVisibility: PropertiesTableProps = {
+  currentTurnId: {
+    doc: 'The id of the message from the user that starts the turn the user is reading. Stays set when the message is scrolled above the view.',
+    type: ['string', 'null'],
+    status: 'optional',
+  },
+  visibleMessageIds: {
+    doc: 'The ids of the messages that are visible, in the order they are shown.',
+    type: 'Array<string>',
     status: 'optional',
   },
 }

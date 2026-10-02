@@ -137,6 +137,7 @@ export function getAiComponents(pages: MdxNode[]): MdxNode[] {
     (node) =>
       globPath(node, 'uilib/extensions/ai/*') &&
       node.frontmatter.title &&
+      node.frontmatter.componentType !== 'docs' &&
       node.frontmatter.hideInMenu !== true
   )
 }

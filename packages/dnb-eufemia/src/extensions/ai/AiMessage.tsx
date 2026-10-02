@@ -31,6 +31,7 @@ function AiMessage(props: AiMessageProps) {
   const hasHeader = Boolean(avatar || name || timestamp || aiGenerated)
 
   const rootProps = useSpacing(props, {
+    'data-message-id': message?.id,
     ...rest,
     className: clsx(
       'dnb-ai-message',
