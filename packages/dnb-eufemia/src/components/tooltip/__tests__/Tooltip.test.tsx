@@ -576,6 +576,42 @@ describe('Tooltip', () => {
       })
     })
 
+    it('calls a given onMouseEnter and onMouseLeave and keeps the hover handling', async () => {
+      const onMouseEnter = vi.fn()
+      const onMouseLeave = vi.fn()
+
+      render(
+        <Tooltip
+          hideDelay={50}
+          onMouseEnter={onMouseEnter}
+          onMouseLeave={onMouseLeave}
+        />
+      )
+
+      const buttonElem = document.querySelector('button')
+
+      fireEvent.mouseEnter(buttonElem)
+
+      await waitFor(() => {
+        expect(getMainElem()).toHaveClass('dnb-tooltip--active')
+      })
+
+      fireEvent.mouseLeave(buttonElem)
+      fireEvent.mouseEnter(getMainElem())
+
+      await wait(75)
+
+      expect(getMainElem()).toHaveClass('dnb-tooltip--active')
+      expect(onMouseEnter).toHaveBeenCalledTimes(1)
+
+      fireEvent.mouseLeave(getMainElem())
+
+      await waitFor(() => {
+        expect(getMainElem()).not.toHaveClass('dnb-tooltip--active')
+      })
+      expect(onMouseLeave).toHaveBeenCalledTimes(1)
+    })
+
     it('should stay visible when mouse returns to the target', async () => {
       render(
         <OriginalTooltip
