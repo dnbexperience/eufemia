@@ -8,6 +8,7 @@ import type {
   UseFieldProps,
 } from '../../types'
 import useTranslation from '../../hooks/useTranslation'
+import { isAsync } from '../../../../shared/helpers/isAsync'
 import type {
   GeneralConfig,
   HandlerConfig,
@@ -197,6 +198,16 @@ export function suggestionsElement(
 
   const Autocomplete = (props: SelectionProps) => {
     const { suggestionPlaceholder } = useTranslation().StreetAddress
+
+    const handleChange: SelectionProps['onChange'] = (
+      value,
+      additionalArgs
+    ) => {
+      const result = props?.onChange?.(value, additionalArgs)
+      onChange(value, additionalArgs)
+      return result
+    }
+
     return (
       <Selection
         variant="autocomplete"
@@ -213,10 +224,13 @@ export function suggestionsElement(
             onType(event)
           },
         }}
-        onChange={(value, additionalArgs) => {
-          props?.onChange?.(value, additionalArgs)
-          onChange(value, additionalArgs)
-        }}
+        // useFieldProps only awaits an onChange it detects as async
+        onChange={
+          isAsync(props?.onChange)
+            ? async (value, additionalArgs) =>
+                handleChange(value, additionalArgs)
+            : handleChange
+        }
       />
     )
   }

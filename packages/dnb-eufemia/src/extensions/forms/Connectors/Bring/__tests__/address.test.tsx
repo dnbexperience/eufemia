@@ -100,6 +100,43 @@ describe('address', () => {
       )
     })
 
+    it.each([
+      ['sync', () => ({ warning: 'Check the address' })],
+      ['async', async () => ({ warning: 'Check the address' })],
+    ])(
+      'should use what a given %s onChange returns and keep filling the city',
+      async (_name, onChange) => {
+        render(
+          <Form.Handler>
+            <Field.Address.Street
+              element={addressSuggestionsElement}
+              onChange={onChange}
+            />
+            <Field.PostalCodeAndCity
+              postalCode={{ path: '/myPostalCode' }}
+              city={{ path: '/myCity' }}
+            />
+          </Form.Handler>
+        )
+
+        await userEvent.type(document.querySelector('input'), 'a value')
+        await userEvent.click(
+          document.querySelectorAll('[role="option"]')[0]
+        )
+
+        await waitFor(() => {
+          expect(
+            document.querySelector('.dnb-form-status')
+          ).toHaveTextContent('Check the address')
+        })
+        expect(
+          document.querySelector(
+            '.dnb-forms-field-postal-code-and-city__city .dnb-input__input'
+          )
+        ).toHaveValue('Vollen')
+      }
+    )
+
     it('should keep suggesting addresses when an onType is given', async () => {
       const onType = vi.fn()
 
