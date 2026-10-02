@@ -182,6 +182,18 @@ describe('Timeline', () => {
       ).toBeInTheDocument()
     })
 
+    it('keeps its own classes when a className is given', () => {
+      render(
+        <TimelineItem title="title" state="completed" className="custom" />
+      )
+
+      expect(document.querySelector('li')).toHaveClass(
+        'dnb-timeline__item',
+        'dnb-timeline__item--completed',
+        'custom'
+      )
+    })
+
     it('renders title', () => {
       const title = 'Completed'
       render(<TimelineItem title={title} state="completed" />)
