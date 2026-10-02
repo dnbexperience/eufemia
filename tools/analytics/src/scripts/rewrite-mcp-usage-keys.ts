@@ -3,11 +3,14 @@
  * `eufemiaVersion` / `createdat` keys to `eufemia_version` / `created_at`, so
  * rows written before the snake_case rename stay readable through the renamed
  * Glue columns. Objects are overwritten in place (same key); bucket versioning
- * keeps the previous version for the noncurrent-expiry window.
+ * keeps the previous version for the noncurrent-expiry window. Overwriting also
+ * restarts each object's raw-prefix expiry, and makes these keys briefly not
+ * write-once (see the lifecycle rules in infra/main.tf).
  *
- * Run only after both the analytics and the MCP Lambda deploys are live, so no
- * producer writes legacy keys afterwards. Idempotent: rows already using the new
- * keys are left as-is, so a re-run only touches stragglers.
+ * Run once after the analytics deploy (local rows) and again after the MCP
+ * Lambda release (web rows), since that stack deploys only on release.
+ * Idempotent: rows already using the new keys are left as-is, so a re-run only
+ * touches stragglers.
  *
  *   AWS_REGION=eu-north-1 node tools/analytics/src/scripts/rewrite-mcp-usage-keys.ts \
  *     --bucket <data-bucket> [--prefix mcp-usage/dt=2026-09-20/] [--dry-run]
@@ -84,7 +87,17 @@ export function rewriteBody(body: string): string | null {
 function argValue(args: string[], name: string): string | undefined {
   const index = args.indexOf(name)
 
-  return index >= 0 ? args[index + 1] : undefined
+  if (index < 0) {
+    return undefined
+  }
+
+  const value = args[index + 1]
+
+  if (!value || value.startsWith('--')) {
+    throw new Error(`${name} needs a value`)
+  }
+
+  return value
 }
 
 async function main(args: string[]): Promise<void> {
@@ -126,30 +139,42 @@ async function main(args: string[]): Promise<void> {
   async function worker(): Promise<void> {
     while (next < keys.length) {
       const key = keys[next++]
-      const object = await s3.send(
-        new GetObjectCommand({ Bucket: bucket, Key: key })
-      )
-      const body = rewriteBody(
-        (await object.Body?.transformToString()) ?? ''
-      )
 
-      if (body === null) {
-        continue
-      }
-
-      rewritten++
-
-      if (!dryRun) {
-        await s3.send(
-          new PutObjectCommand({
-            Bucket: bucket,
-            Key: key,
-            Body: body,
-            ContentType: 'application/x-ndjson',
-          })
+      try {
+        await rewriteObject(key)
+      } catch (error) {
+        throw new Error(
+          `Failed on ${key} after rewriting ${rewritten} objects (safe to re-run): ${error}`,
+          { cause: error }
         )
       }
     }
+  }
+
+  async function rewriteObject(key: string): Promise<void> {
+    const object = await s3.send(
+      new GetObjectCommand({ Bucket: bucket, Key: key })
+    )
+    const body = rewriteBody(
+      (await object.Body?.transformToString()) ?? ''
+    )
+
+    if (body === null) {
+      return
+    }
+
+    if (!dryRun) {
+      await s3.send(
+        new PutObjectCommand({
+          Bucket: bucket,
+          Key: key,
+          Body: body,
+          ContentType: 'application/x-ndjson',
+        })
+      )
+    }
+
+    rewritten++
   }
 
   await Promise.all(Array.from({ length: CONCURRENCY }, worker))

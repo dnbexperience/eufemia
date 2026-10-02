@@ -82,6 +82,23 @@ describe('usage consumer', () => {
     expect(errorSpy).toHaveBeenCalled()
   })
 
+  it('stores a message queued before the snake_case rename', async () => {
+    const { created_at, ...legacy } = usageRecord()
+
+    await handler(
+      event(
+        sqsRecord(
+          'old',
+          JSON.stringify([{ ...legacy, createdat: created_at }])
+        )
+      )
+    )
+
+    expect(storeMcpUsage).toHaveBeenCalledWith('my-bucket', [
+      usageRecord(),
+    ])
+  })
+
   it('retries the batch when S3 storage fails', async () => {
     storeMcpUsage.mockRejectedValue(new Error('s3 down'))
 

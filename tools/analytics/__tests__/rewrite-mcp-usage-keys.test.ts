@@ -35,10 +35,11 @@ describe('rewriteRow', () => {
 
   it('renames a web row that only carries createdat', () => {
     const { eufemiaVersion: _, ...web } = legacy
+    const { eufemia_version: __, ...expected } = migrated
 
-    expect(
-      JSON.parse(rewriteRow(JSON.stringify(web)) ?? '')
-    ).not.toHaveProperty('createdat')
+    expect(JSON.parse(rewriteRow(JSON.stringify(web)) ?? '')).toEqual(
+      expected
+    )
   })
 
   it('leaves an already migrated row untouched', () => {
