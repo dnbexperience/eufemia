@@ -1058,4 +1058,50 @@ describe('ItemAccordion', () => {
     expect(element.getAttribute('open')).toBeNull()
     expect(element.getAttribute('keepInDOM')).toBeNull()
   })
+
+  it('keeps toggling when the header has an onClick', () => {
+    const onClick = vi.fn()
+
+    render(
+      <ItemAccordion>
+        <ItemAccordion.Header onClick={onClick}>
+          Title
+        </ItemAccordion.Header>
+        <ItemAccordion.Content>Content</ItemAccordion.Content>
+      </ItemAccordion>
+    )
+
+    const header = document.querySelector(
+      '.dnb-list__item__accordion__header'
+    )
+
+    expect(header.getAttribute('aria-expanded')).toBe('false')
+
+    fireEvent.click(header)
+
+    expect(onClick).toHaveBeenCalledTimes(1)
+    expect(header.getAttribute('aria-expanded')).toBe('true')
+  })
+
+  it('keeps toggling with the keyboard when the header has an onKeyDown', () => {
+    const onKeyDown = vi.fn()
+
+    render(
+      <ItemAccordion>
+        <ItemAccordion.Header onKeyDown={onKeyDown}>
+          Title
+        </ItemAccordion.Header>
+        <ItemAccordion.Content>Content</ItemAccordion.Content>
+      </ItemAccordion>
+    )
+
+    const header = document.querySelector(
+      '.dnb-list__item__accordion__header'
+    )
+
+    fireEvent.keyDown(header, { key: 'Enter' })
+
+    expect(onKeyDown).toHaveBeenCalledTimes(1)
+    expect(header.getAttribute('aria-expanded')).toBe('true')
+  })
 })
