@@ -103,6 +103,8 @@ Return `false` from your handler to skip the field's own handling of that event.
 
 Return `false` only when you mean to block the field. A shorthand like `event.key === 'Enter' && submit()` returns `false` for every other key, so the field would stop handling them, such as the arrow key stepping in `Field.Number`.
 
+The radio and button variants of `Field.Selection` and `Field.Toggle` handle the change on the surrounding group instead, so returning `false` does not block it there.
+
 ### Controlled & Uncontrolled
 
 In React, it's important to be aware of where the states of a given set of data "lives". This can be an entire object that represents an entity the user is going to make changes to (e.g. a user or a bank account), but it also applies to the individual value a form makes changes to. A form field can be [controlled](https://reactjs.org/docs/forms.html#controlled-components) or [uncontrolled](https://reactjs.org/docs/uncontrolled-components.html). The components in this package make it possible to work in both ways.
