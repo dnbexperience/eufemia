@@ -100,6 +100,11 @@ export default {
       conversationLabel: 'Samtale',
       scrollToBottom: 'Gå til siste melding',
       sources: 'Kilder (%count)',
+      toolRunning: 'Pågår',
+      toolDone: 'Fullført',
+      toolError: 'Feilet',
+      toolAwaitingApproval: 'Venter på bekreftelse',
+      canceled: 'Avbrutt',
     },
     Dropdown: {
       title: 'Velg',
