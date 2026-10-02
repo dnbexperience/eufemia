@@ -342,6 +342,16 @@ function InputComponent({ ref, ...restProps }: InputProps) {
     ...attributes
   } = inputSubmitButtonAttributes
 
+  // These handlers belong to the input element, which receives them through
+  // `attributes`. Forwarding them to the submit button as well would replace
+  // the handlers it needs to emit onSubmit, onSubmitFocus and onSubmitBlur.
+  const {
+    onClick: _onClick, //eslint-disable-line
+    onFocus: _onFocus, //eslint-disable-line
+    onBlur: _onBlur, //eslint-disable-line
+    ...submitButtonAttributes
+  } = inputSubmitButtonAttributes
+
   let usedInputState = inputState
   if (disabled || skeleton) {
     usedInputState = 'disabled'
@@ -559,7 +569,7 @@ function InputComponent({ ref, ...restProps }: InputProps) {
                 submitElement
               ) : (
                 <InputSubmitButton
-                  {...inputSubmitButtonAttributes}
+                  {...submitButtonAttributes}
                   id={id + '-submit-button'}
                   value={hasVal ? value : ''}
                   icon={submitButtonIcon}
