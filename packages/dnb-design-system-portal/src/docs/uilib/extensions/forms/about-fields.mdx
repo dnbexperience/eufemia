@@ -37,7 +37,7 @@ Here is a list of [all available fields](/uilib/extensions/forms/all-fields/).
   - [More info](#more-info)
     - [Empty value](#empty-value)
     - [Standardized properties](#standardized-properties)
-    - [How htmlAttributes are merged](#how-htmlattributes-are-merged)
+    - [How given attributes are merged](#how-given-attributes-are-merged)
     - [Controlled \& Uncontrolled](#controlled--uncontrolled)
     - [Creating custom field components](#creating-custom-field-components)
     - [Basic field usage](#basic-field-usage)
@@ -83,34 +83,22 @@ The basic components have a number of properties that make it possible to contro
 
 Inside a [Form.Handler](/uilib/extensions/forms/Form/Handler/) (or [DataContext.Provider](/uilib/extensions/forms/DataContext/Provider/)), fields connect to the surrounding data set with the `path` prop — a [JSON Pointer](/uilib/extensions/forms/getting-started/#what-is-a-json-pointer) such as `/firstName`. The `path` can be type-checked against your data model for autocomplete and compile-time errors on typos — see [Type-checked paths](/uilib/extensions/forms/typed-paths/).
 
-### How htmlAttributes are merged
+### How given attributes are merged
 
-Fields pass `htmlAttributes` on to the element or component they render, such as an input. When the field sets the same prop itself, the two are combined:
+Fields pass the attributes you give them on to the element or component they render, such as an input. When the field sets the same prop itself, the two are combined instead of yours replacing the field's:
 
-- An event handler, such as `onKeyDown`, runs before the field's own handler for the same event, and the field keeps updating its value and validation as usual.
+- An event handler runs before the field's own handler for the same event, and the field keeps updating its value and validation as usual.
 - A `className` is added to the field's own classes.
 - A `style` is merged with the field's own, where your values win.
-- For other props, your value wins, except for a few that the field controls itself.
+- For every other prop, your value wins, except the ones a field has to control itself, such as its current value and error status. Those are applied after the merge.
 
-The same applies to `autocompleteProps` and `dropdownProps` on [Field.Selection](/uilib/extensions/forms/base-fields/Selection/).
+Return `false` from your handler to skip the field's own handling of that event. Where the underlying component can reject a change, returning `false` from `onChange` also keeps the previous value.
 
-Return `false` from your handler to skip the field's own handling of that event. On `Field.String`, returning `false` from `onChange` also rejects the change, so the input keeps its previous value:
+`false` is the only return value with a meaning here. Anything else you return is ignored, and the field's own handler decides the outcome.
 
-```tsx
-<Field.String
-  htmlAttributes={{
-    onChange: ({ value }) => {
-      if (/\d/.test(value)) {
-        return false
-      }
-    },
-  }}
-/>
-```
+So return `false` only when you mean to block the field. A shorthand like `event.key === 'Enter' && submit()` returns `false` for every other key, and the field would stop handling them, such as stepping a value with the arrow keys.
 
-Return `false` only when you mean to block the field. A shorthand like `event.key === 'Enter' && submit()` returns `false` for every other key, so the field would stop handling them, such as the arrow key stepping in `Field.Number`.
-
-The radio and button variants of `Field.Selection` and `Field.Toggle` handle the change on the surrounding group instead, so returning `false` does not block it there.
+Not every field merges this way. When a field renders a group of elements and handles the change on the group rather than on each element, your handler is passed on as it is: it still runs, but returning `false` does not block the field.
 
 ### Controlled & Uncontrolled
 

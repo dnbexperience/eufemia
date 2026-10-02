@@ -67,6 +67,15 @@ describe('mergeProps', () => {
     expect(merged.onChange()).toBe('own')
   })
 
+  it('should not pass on the result of the given handler', () => {
+    const merged = mergeProps(
+      { onChange: () => undefined },
+      { onChange: () => 'given' }
+    ) as Handlers
+
+    expect(merged.onChange()).toBe(undefined)
+  })
+
   it('should keep the given handler when there is no own handler', () => {
     const given = vi.fn()
 
@@ -82,6 +91,18 @@ describe('mergeProps', () => {
     const merged = mergeProps(
       { onKeyDown: own },
       { onKeyDown: undefined }
+    ) as Handlers
+    merged.onKeyDown()
+
+    expect(own).toHaveBeenCalledTimes(1)
+  })
+
+  it('should keep the own handler when the given one is not a function', () => {
+    const own = vi.fn()
+
+    const merged = mergeProps(
+      { onKeyDown: own },
+      { onKeyDown: 'not a function' }
     ) as Handlers
     merged.onKeyDown()
 
