@@ -77,6 +77,51 @@ describe('address', () => {
       expect(input.value).toBe('Gransvea 37')
     })
 
+    it('should call a given onChange when a suggestion is chosen', async () => {
+      const onChange = vi.fn()
+
+      render(
+        <Form.Handler>
+          <Field.Address.Street
+            element={addressSuggestionsElement}
+            onChange={onChange}
+          />
+        </Form.Handler>
+      )
+
+      await userEvent.type(document.querySelector('input'), 'a value')
+      await userEvent.click(
+        document.querySelectorAll('[role="option"]')[0]
+      )
+
+      expect(onChange).toHaveBeenLastCalledWith(
+        'Gransvea 37',
+        expect.anything()
+      )
+    })
+
+    it('should keep suggesting addresses when an onType is given', async () => {
+      const onType = vi.fn()
+
+      render(
+        <Form.Handler>
+          <Field.Address.Street
+            element={addressSuggestionsElement}
+            autocompleteProps={{ onType }}
+          />
+        </Form.Handler>
+      )
+
+      await userEvent.type(document.querySelector('input'), 'a value')
+
+      await waitFor(() => {
+        expect(document.querySelectorAll('[role="option"]')).toHaveLength(
+          4
+        )
+      })
+      expect(onType).toHaveBeenCalled()
+    })
+
     it('should suggest addresses while typing', async () => {
       render(
         <Form.Handler>

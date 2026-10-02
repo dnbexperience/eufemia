@@ -174,7 +174,9 @@ export function suggestionsElement(
   generalConfig: GeneralConfig,
   handlerConfig?: SuggestionsHandlerConfig
 ) {
-  const onType = suggestions(generalConfig, handlerConfig)
+  const onType = suggestions(generalConfig, handlerConfig) as unknown as (
+    event: AutocompleteOnTypeParams
+  ) => void
   const onChange: UseFieldProps<string>['onChange'] = (
     value,
     additionalArgs
@@ -205,12 +207,16 @@ export function suggestionsElement(
           keepValue: true,
           openOnFocus: true,
           placeholder: suggestionPlaceholder,
-          onType: onType as unknown as (
-            event: AutocompleteOnTypeParams
-          ) => void,
           ...props?.autocompleteProps,
+          onType: (event: AutocompleteOnTypeParams) => {
+            props?.autocompleteProps?.onType?.(event)
+            onType(event)
+          },
         }}
-        onChange={onChange}
+        onChange={(value, additionalArgs) => {
+          props?.onChange?.(value, additionalArgs)
+          onChange(value, additionalArgs)
+        }}
       />
     )
   }
