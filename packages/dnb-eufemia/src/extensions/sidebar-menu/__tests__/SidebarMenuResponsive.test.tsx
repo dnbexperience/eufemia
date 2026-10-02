@@ -1538,4 +1538,78 @@ describe('SidebarMenu responsive parts', () => {
 
     sessionStorage.removeItem(storageKey)
   })
+
+  it('scrolls the Drawer instead of a nested ScrollView when opening an accordion', async () => {
+    setMedia({ width: '30em' })
+
+    render(
+      <SidebarMenu.ResponsiveProvider>
+        <SidebarMenu.ResponsiveTrigger />
+        <SidebarMenu.ResponsiveDrawer>
+          <ScrollView>
+            <SidebarMenu.Root>
+              <SidebarMenu.Accordion id="products" text="Products">
+                <SidebarMenu.Item id="accounts" text="Accounts" />
+              </SidebarMenu.Accordion>
+            </SidebarMenu.Root>
+          </ScrollView>
+        </SidebarMenu.ResponsiveDrawer>
+      </SidebarMenu.ResponsiveProvider>
+    )
+
+    fireEvent.click(document.querySelector('[aria-label="Åpne meny"]'))
+    await waitFor(() =>
+      expect(document.querySelector('.dnb-drawer')).toBeInTheDocument()
+    )
+
+    const drawer = document.querySelector<HTMLElement>('.dnb-drawer')
+    const innerScrollView =
+      drawer.querySelector<HTMLElement>('.dnb-scroll-view')
+    const trigger = drawer.querySelector<HTMLElement>(
+      '.dnb-sidebar-menu__accordion__trigger'
+    )
+    const content = drawer.querySelector<HTMLElement>(
+      '.dnb-sidebar-menu__accordion__content'
+    )
+    const drawerScrollTo = vi.fn()
+    const innerScrollTo = vi.fn()
+    Object.defineProperty(drawer, 'scrollTo', {
+      configurable: true,
+      value: drawerScrollTo,
+    })
+    Object.defineProperty(innerScrollView, 'scrollTo', {
+      configurable: true,
+      value: innerScrollTo,
+    })
+    vi.spyOn(drawer, 'getBoundingClientRect').mockReturnValue({
+      top: 0,
+      bottom: 300,
+      height: 300,
+    } as DOMRect)
+    vi.spyOn(innerScrollView, 'getBoundingClientRect').mockReturnValue({
+      top: 0,
+      bottom: 500,
+      height: 500,
+    } as DOMRect)
+    vi.spyOn(trigger, 'getBoundingClientRect').mockReturnValue({
+      top: 180,
+      bottom: 224,
+      height: 44,
+    } as DOMRect)
+    vi.spyOn(content, 'getBoundingClientRect').mockReturnValue({
+      top: 224,
+      bottom: 420,
+      height: 196,
+    } as DOMRect)
+
+    fireEvent.click(trigger)
+
+    await waitFor(() =>
+      expect(drawerScrollTo).toHaveBeenCalledWith({
+        top: 136,
+        behavior: 'smooth',
+      })
+    )
+    expect(innerScrollTo).not.toHaveBeenCalled()
+  })
 })
