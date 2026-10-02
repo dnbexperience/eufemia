@@ -3,12 +3,12 @@ import type {
   AriaAttributes,
   ElementType,
   KeyboardEvent,
-  MouseEvent,
   ReactNode,
   RefObject,
 } from 'react'
 import { clsx } from 'clsx'
 import type { HelpButtonProps } from './HelpButton'
+import type { ButtonClickEvent } from '../button/types'
 import HelpButtonInstance from './HelpButtonInstance'
 import HeightAnimation from '../HeightAnimation'
 import { useSharedState } from '../../shared/helpers/useSharedState'
@@ -75,6 +75,8 @@ function HelpButtonInlineComponent(props: HelpButtonInlineProps) {
     focusOnOpen,
     className,
     children,
+    onClick,
+    onKeyDown,
     ...rest
   } = props
   const controlId = useId(contentId)
@@ -103,19 +105,21 @@ function HelpButtonInlineComponent(props: HelpButtonInlineProps) {
   }
 
   const onClickHandler = useCallback(
-    ({
-      event,
-    }: {
-      event: MouseEvent<HTMLButtonElement | HTMLAnchorElement>
-    }) => {
-      event.preventDefault() // Because when used inside a FormLabel
+    (args: ButtonClickEvent) => {
+      // ButtonOnClick is a union of signatures, and only Button knows which one it calls
+      const givenOnClick = onClick as (args: ButtonClickEvent) => void
+      givenOnClick?.(args)
+
+      args.event.preventDefault() // Because when used inside a FormLabel
       toggleOpen()
     },
-    [toggleOpen]
+    [onClick, toggleOpen]
   )
 
   const onKeyDownHandler = useCallback(
     (event: KeyboardEvent<HTMLButtonElement>) => {
+      onKeyDown?.(event)
+
       if (event.currentTarget === event.target) {
         switch (event.key) {
           case 'Escape':
@@ -130,7 +134,7 @@ function HelpButtonInlineComponent(props: HelpButtonInlineProps) {
         }
       }
     },
-    [isOpen, toggleOpen]
+    [onKeyDown, isOpen, toggleOpen]
   )
 
   const titleString = convertJsxToString(help?.title)

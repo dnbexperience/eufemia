@@ -59,6 +59,39 @@ describe('HelpButtonInline', () => {
     expect(button).toHaveAttribute('aria-expanded', 'false')
   })
 
+  it('should call a given onClick and keep toggling', async () => {
+    const onClick = vi.fn()
+
+    render(
+      <HelpButtonInline help={{ title: 'Help title' }} onClick={onClick} />
+    )
+
+    const button = document.querySelector('button')
+    await userEvent.click(button)
+
+    expect(onClick).toHaveBeenCalledTimes(1)
+    expect(button).toHaveAttribute('aria-expanded', 'true')
+  })
+
+  it('should call a given onKeyDown and keep closing on Escape', async () => {
+    const onKeyDown = vi.fn()
+
+    render(
+      <HelpButtonInline
+        help={{ title: 'Help title', open: true }}
+        onKeyDown={onKeyDown}
+      />
+    )
+
+    const button = document.querySelector('button')
+    fireEvent.keyDown(button, { key: 'Escape' })
+
+    expect(onKeyDown).toHaveBeenCalledTimes(1)
+    await waitFor(() => {
+      expect(button).toHaveAttribute('aria-expanded', 'false')
+    })
+  })
+
   it('should open inline help when matching content is found', () => {
     render(
       <HelpButtonInline
