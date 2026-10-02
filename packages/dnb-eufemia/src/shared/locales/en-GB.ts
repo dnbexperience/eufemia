@@ -101,6 +101,11 @@ export default {
       conversationLabel: 'Conversation',
       scrollToBottom: 'Go to latest message',
       sources: 'Sources (%count)',
+      toolRunning: 'In progress',
+      toolDone: 'Completed',
+      toolError: 'Failed',
+      toolAwaitingApproval: 'Waiting for confirmation',
+      canceled: 'Cancelled',
     },
     Dropdown: {
       title: 'Select',

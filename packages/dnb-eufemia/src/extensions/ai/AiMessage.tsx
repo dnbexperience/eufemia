@@ -5,7 +5,8 @@ import Tag from '../../components/Tag'
 import useTranslation from '../../shared/useTranslation'
 import AiResponse from './AiResponse'
 import AiSources from './AiSources'
-import type { AiMessageProps } from './types'
+import AiTool from './AiTool'
+import type { AiMessageProps, AiToolPart } from './types'
 
 function AiMessage(props: AiMessageProps) {
   const {
@@ -74,13 +75,13 @@ function AiMessage(props: AiMessageProps) {
 }
 
 function renderParts(message: UIMessage, from: AiMessageProps['from']) {
-  const texts = message.parts.filter((part) => part.type === 'text')
-  if (texts.length === 0) {
-    return null
-  }
-
-  // User input is shown as written, assistant output as markdown
+  // User input is shown as written
   if (from === 'user') {
+    const texts = message.parts.filter((part) => part.type === 'text')
+    if (texts.length === 0) {
+      return null
+    }
+
     return (
       <span className="dnb-ai-message__text">
         {texts.map((part) => part.text).join('\n\n')}
@@ -88,14 +89,26 @@ function renderParts(message: UIMessage, from: AiMessageProps['from']) {
     )
   }
 
-  return texts.map((part, index) => (
-    <AiResponse
-      key={index}
-      parseIncompleteMarkdown={part.state !== 'done'}
-    >
-      {part.text}
-    </AiResponse>
-  ))
+  const content = message.parts.map((part, index) => {
+    if (part.type === 'text') {
+      return (
+        <AiResponse
+          key={index}
+          parseIncompleteMarkdown={part.state !== 'done'}
+        >
+          {part.text}
+        </AiResponse>
+      )
+    }
+
+    if (part.type === 'dynamic-tool' || part.type.startsWith('tool-')) {
+      return <AiTool key={index} part={part as AiToolPart} />
+    }
+
+    return null
+  })
+
+  return content.some(Boolean) ? content : null
 }
 
 export default AiMessage
