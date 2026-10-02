@@ -74,7 +74,7 @@ export const AiMessageProperties: PropertiesTableProps = {
     status: 'optional',
   },
   message: {
-    doc: 'A message from the AI SDK (`UIMessage`). Its text parts are rendered, user text as written and assistant text as markdown. Tool parts are rendered as `Ai.Tool`, and `source-url` parts as `Ai.Sources`. Used instead of `children`.',
+    doc: 'A message from the AI SDK (`UIMessage`). Its text parts are rendered, user text as written and assistant text as markdown. Reasoning parts are rendered as `Ai.Reasoning`, tool parts as `Ai.Tool`, and `source-url` parts as `Ai.Sources`. Used instead of `children`.',
     type: 'UIMessage',
     status: 'optional',
   },
@@ -375,6 +375,42 @@ export const AiToolProperties: PropertiesTableProps = {
   children: {
     doc: 'Content shown below the status, e.g. the result of the tool.',
     type: 'React.ReactNode',
+    status: 'optional',
+  },
+  '[Space](/uilib/layout/space/properties)': {
+    doc: 'Spacing properties like `top` or `bottom` are supported.',
+    type: ['string', 'object'],
+    status: 'optional',
+  },
+}
+
+export const AiShimmerProperties: PropertiesTableProps = {
+  children: {
+    doc: 'The text to show with the shimmer, e.g. `Thinking …`.',
+    type: 'React.ReactNode',
+    status: 'optional',
+  },
+  '[Space](/uilib/layout/space/properties)': {
+    doc: 'Spacing properties like `top` or `bottom` are supported.',
+    type: ['string', 'object'],
+    status: 'optional',
+  },
+}
+
+export const AiReasoningProperties: PropertiesTableProps = {
+  part: {
+    doc: 'A reasoning part from a `UIMessage` of the AI SDK. Its text and state are shown.',
+    type: 'ReasoningUIPart',
+    status: 'optional',
+  },
+  isStreaming: {
+    doc: 'Whether the reasoning is still streaming. It is open while streaming and closes when done, unless the user has opened or closed it. Defaults to the state of `part`.',
+    type: 'boolean',
+    status: 'optional',
+  },
+  children: {
+    doc: 'The reasoning, rendered as markdown. Defaults to the text of `part`.',
+    type: 'string',
     status: 'optional',
   },
   '[Space](/uilib/layout/space/properties)': {
