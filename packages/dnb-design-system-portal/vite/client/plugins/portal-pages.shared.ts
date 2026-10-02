@@ -25,14 +25,25 @@ export type TableOfContentsItem = {
  * index signature that would turn picked fields into required ones.
  */
 export type KnownFrontmatter = {
+  /**
+   * Set to include page in the menu. Text is used in the browser tab, the
+   * menu, and to alphabetically order generated lists, such as
+   * `<RelatedComponents>`. On a tab page it is also the page heading (H1).
+   *
+   * The sidebar menu is ordered by the file path instead, which usually
+   * matches the title, but not always.
+   *
+   * If not set, the page uses the browser tab text (and, on a tab page,
+   * the heading) of its nearest parent, but is not included in the menu.
+   */
   title?: string
   description?: string
   /**
    * A number from -999 to 999, decimals are allowed.
    *
-   * Set to override the alphabetical order by `title`, where a lower number
-   * comes first. Lists put pages without an order last, while the sidebar
-   * menu keeps them in the middle and moves negative numbers to the bottom.
+   * Set to override the default order, where a lower number comes first.
+   * A positive order comes first, pages without an order or `0` stay in
+   * the middle, and a negative order comes last.
    */
   order?: number
 
@@ -43,10 +54,21 @@ export type KnownFrontmatter = {
   draft?: boolean
 
   /**
-   * Hide the page from the menu.
+   * Hide the page from the menu, even if it has a `title` set.
+   *
+   * Also hides it in `<RelatedComponents>` and some `<List*>` components.
    */
   hideInMenu?: boolean
+
+  /** Set to override `title` as the text used in the menu. */
   menuTitle?: string
+
+  /**
+   * Render the page heading inside a tab bar.
+   *
+   * Special case: If the page is named `info.mdx`, has no `title`, and is the
+   * first tab, it redirects to its parent.
+   */
   showTabs?: boolean
   hideTabs?: Array<{ title: string }>
   tabs?: Array<{ title: string; key: string }>
@@ -109,6 +131,24 @@ export function isFirstTabPage(file: PageFileInfo): boolean {
     !file.frontmatter.title &&
     file.slug.endsWith('/info')
   )
+}
+
+const orderGroup = (order?: number) => (!order ? 2 : order > 0 ? 1 : 3)
+
+/**
+ * Orders pages by their frontmatter `order`, the same way the sidebar menu
+ * does: a positive order first, unordered pages and 0 in the middle, and a
+ * negative order last. Within a group, a lower number comes first.
+ */
+export function compareByOrder(a?: number, b?: number) {
+  const groupA = orderGroup(a)
+  const groupB = orderGroup(b)
+
+  if (groupA !== groupB) {
+    return groupA - groupB
+  }
+
+  return (a ?? 0) - (b ?? 0)
 }
 
 const matchers = new Map<string, (slug: string) => boolean>()
