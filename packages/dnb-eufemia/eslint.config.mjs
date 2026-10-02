@@ -511,7 +511,7 @@ export default [
     },
     rules: {
       'naming-conventions/no-bare-props-export': 'error',
-      'spread-props/no-unmerged-own-props': 'warn',
+      'spread-props/no-unmerged-own-props': 'error',
     },
   },
   {
