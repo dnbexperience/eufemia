@@ -152,6 +152,15 @@ export default {
     VippsWalletButton: {
       text: 'Add to',
     },
+    GuidedTour: {
+      startButtonText: 'Start tour',
+      skipButtonText: 'Skip',
+      nextButtonText: 'Next',
+      backButtonText: 'Back',
+      doneButtonText: 'Done',
+      closeButtonTitle: 'Close tour',
+      progress: '%current of %total',
+    },
     PaymentCard: {
       textBlocked: 'Blocked',
       textExpired: 'Expired',
