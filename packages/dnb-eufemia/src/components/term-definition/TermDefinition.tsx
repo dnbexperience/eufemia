@@ -12,6 +12,7 @@ import type {
 import { clsx } from 'clsx'
 import Popover from '../popover/Popover'
 import useId from '../../shared/helpers/useId'
+import mergeProps from '../../shared/helpers/mergeProps'
 import type { SkeletonShow } from '../skeleton/Skeleton'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 import useTranslation from '../../shared/useTranslation'
@@ -127,9 +128,7 @@ export default function TermDefinition(
           'aria-controls': active ? id : undefined,
           'aria-describedby': `${id}-description`,
           title,
-          onClick,
-          onKeyDown,
-          ...triggerProps,
+          ...mergeProps({ onClick, onKeyDown }, triggerProps),
         })}
       >
         {children}
