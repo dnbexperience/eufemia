@@ -86,4 +86,39 @@ describe('mergeProps', () => {
     expect(given).toHaveBeenCalledTimes(1)
     expect(own).toHaveBeenCalledTimes(0)
   })
+
+  it('should join the own and the given className', () => {
+    const merged = mergeProps(
+      { className: 'dnb-own' },
+      { className: 'custom' }
+    )
+
+    expect(merged.className).toBe('dnb-own custom')
+  })
+
+  it('should keep the own className when the given one is undefined', () => {
+    const merged = mergeProps(
+      { className: 'dnb-own' },
+      { className: undefined }
+    )
+
+    expect(merged.className).toBe('dnb-own')
+  })
+
+  it('should merge the own and the given style, where the given values win', () => {
+    const merged = mergeProps(
+      { style: { color: 'red', margin: 0 } },
+      { style: { color: 'blue', padding: 0 } }
+    )
+
+    expect(merged.style).toEqual({ color: 'blue', margin: 0, padding: 0 })
+  })
+
+  it('should keep the own style when the given one is undefined', () => {
+    const style = { color: 'red' }
+
+    const merged = mergeProps({ style }, { style: undefined })
+
+    expect(merged.style).toBe(style)
+  })
 })
