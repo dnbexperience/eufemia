@@ -122,6 +122,10 @@
     background-color: var(--ai-message-background--user);
   }
 
+  &__content > * + * {
+    margin-top: 1rem;
+  }
+
   &--plain &__content {
     width: 100%;
   }
@@ -188,12 +192,12 @@
 
 .dnb-ai-prompt-input {
   --ai-prompt-input-background: var(--token-color-background-neutral);
-  --ai-prompt-input-border-color: var(--token-color-stroke-action);
-  --ai-prompt-input-radius: 1.5rem;
+  --ai-prompt-input-border-color: var(--token-color-stroke-neutral-subtle);
+  --ai-prompt-input-radius: var(--token-radius-lg);
 
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 1rem;
 
   padding: 1rem;
 
@@ -213,6 +217,7 @@
     --ai-prompt-input-border-color: var(
       --token-color-decorative-second-muted
     );
+    --ai-prompt-input-radius: 1.5rem;
 
     flex-direction: row;
     align-items: flex-end;
@@ -241,6 +246,32 @@
   &--compact &__textarea.dnb-textarea {
     align-self: center;
     padding: 0 0.5rem;
+  }
+
+  &__field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  &__counter {
+    align-self: flex-end;
+
+    font-size: var(--font-size-x-small);
+    line-height: var(--line-height-x-small);
+    color: var(--token-color-text-neutral-alternative);
+
+    &--exceeded {
+      color: var(--token-color-text-error);
+    }
+  }
+
+  &--compact &__counter {
+    align-self: center;
+  }
+
+  &__icon-button {
+    --button-color-icon--default: var(--token-color-icon-neutral);
   }
 
   &__toolbar,
@@ -392,5 +423,45 @@
 
   &__list {
     margin: 0.5rem 0 0;
+  }
+}
+
+.dnb-ai-tool {
+  &__status {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+
+    font-size: var(--font-size-small);
+    line-height: var(--line-height-small);
+  }
+
+  &__icon {
+    display: flex;
+  }
+
+  &__state {
+    color: var(--token-color-text-neutral-alternative);
+  }
+
+  &--done &__icon {
+    color: var(--token-color-icon-positive);
+  }
+
+  &--error &__icon {
+    color: var(--token-color-icon-error);
+  }
+
+  &__error {
+    margin-top: 0.5rem;
+
+    font-size: var(--font-size-small);
+    line-height: var(--line-height-small);
+    color: var(--token-color-text-error);
+  }
+
+  &__status ~ :not(&__error) {
+    margin-top: 1rem;
   }
 }

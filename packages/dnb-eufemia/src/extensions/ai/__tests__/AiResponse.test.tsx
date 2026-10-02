@@ -306,6 +306,7 @@ describe('Ai', () => {
       'Sources',
       'Suggestion',
       'Suggestions',
+      'Tool',
       'Welcome',
     ])
   })
