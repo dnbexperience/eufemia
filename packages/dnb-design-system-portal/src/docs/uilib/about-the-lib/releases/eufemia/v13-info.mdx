@@ -13,6 +13,7 @@ draft: true
   - [CSS custom properties](#css-custom-properties)
   - [Component changes](#component-changes)
     - [Theme](#theme)
+    - [SidebarMenu](#sidebarmenu)
     - [Flex](#flex)
     - [Accordion](#accordion)
     - [Autocomplete](#autocomplete)
@@ -86,6 +87,19 @@ The deprecated `VisibilityByTheme.Name` component has been removed. Use `Visibil
 ```diff
 -<VisibilityByTheme.Name />
 +<VisibilityByTheme.Brand />
+```
+
+### [SidebarMenu](/uilib/extensions/sidebar-menu/)
+
+Replace `breakpoint` with `drawerAt` on `SidebarMenu.ResponsiveProvider`. The deprecated `breakpoint` alias is removed in v13.
+
+`SidebarMenu.Header` now uses `text` for its label and `children` for the nested menu items. Move the previous label children to `text`. The deprecated, no-effect `headingLevel` compatibility property is removed in v13 because Header is a visual menu label rather than a semantic page heading.
+
+```diff
+-<SidebarMenu.Header headingLevel={3}>Accounts</SidebarMenu.Header>
++<SidebarMenu.Header text="Accounts">
++  <SidebarMenu.Item id="overview" text="Overview" />
++</SidebarMenu.Header>
 ```
 
 ### [Flex](/uilib/layout/flex/)
