@@ -195,6 +195,7 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
   )
   const {
     className,
+    style: givenStyle,
     forId,
     layout = 'vertical',
     layoutOptions,
@@ -567,9 +568,10 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
       style['--dnb-forms-field-block-layout-width-max'] = max
     }
 
-    return style
+    return { ...style, ...givenStyle }
   }, [
     contentWidth,
+    givenStyle,
     hasCustomContentWidth,
     hasCustomWidth,
     layoutOptions,
