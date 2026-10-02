@@ -1,5 +1,10 @@
 import { useCallback, useContext, useRef } from 'react'
-import type { ReactNode, SyntheticEvent } from 'react'
+import type {
+  MouseEvent,
+  MouseEventHandler,
+  ReactNode,
+  SyntheticEvent,
+} from 'react'
 
 // Components
 import Button from '../button/Button'
@@ -20,11 +25,13 @@ const UploadFileInput = ({
   children,
   disabled,
   files,
+  onClick,
   ...rest
 }: {
   children?: ReactNode
   files?: UploadFile[]
   disabled?: boolean
+  onClick?: MouseEventHandler<HTMLInputElement>
 }) => {
   const fileInput = useRef<HTMLInputElement>(null)
 
@@ -59,18 +66,23 @@ const UploadFileInput = ({
     [onInputUpload]
   )
 
-  const onClickHandler = useCallback((event: SyntheticEvent) => {
-    const target = event.target as HTMLInputElement
+  const onClickHandler = useCallback(
+    (event: MouseEvent<HTMLInputElement>) => {
+      onClick?.(event)
 
-    /**
-     * This resets the internal state.
-     * Some browsers (chromium) to check for already selected files.
-     * But we have our own logic for that.
-     * We also align the UX to be the same to all browsers,
-     * and to be same when the drag file API is used.
-     */
-    target.value = null
-  }, [])
+      const target = event.target as HTMLInputElement
+
+      /**
+       * This resets the internal state.
+       * Some browsers (chromium) to check for already selected files.
+       * But we have our own logic for that.
+       * We also align the UX to be the same to all browsers,
+       * and to be same when the drag file API is used.
+       */
+      target.value = null
+    },
+    [onClick]
+  )
 
   return (
     <div className="dnb-upload__file-input-area">
