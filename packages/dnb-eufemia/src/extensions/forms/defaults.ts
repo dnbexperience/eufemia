@@ -10,7 +10,8 @@
  * `Form.Section`'s `onDone` may stay unsettled before the form stops
  * waiting and recovers.
  *
- * The documentation states this value in prose ("30 seconds by default"),
- * so those texts need to be updated alongside it.
+ * Defined in `shared/defaults`, which owns the note about the prose stating
+ * this value, because `Filter.useFilterAsync` gives its fetcher the same
+ * deadline and a component cannot read a forms default.
  */
-export const DEFAULT_ASYNC_SUBMIT_TIMEOUT = 30000
+export { DEFAULT_ASYNC_SUBMIT_TIMEOUT } from '../../shared/defaults'
