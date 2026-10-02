@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
-import type { ChatStatus, UIMessage } from 'ai'
+import type { UIMessage } from 'ai'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
+import { useChatSimulation } from './useChatSimulation'
 import * as Ai from '@dnb/eufemia/src/extensions/ai'
 import '@dnb/eufemia/src/extensions/ai/style'
 import {
@@ -438,110 +439,36 @@ const chatStyle = {
   height: '40rem',
 } as const
 
+// Copies the text of a message to the clipboard
+function copyText(message: UIMessage) {
+  const text = message.parts
+    .map((part) => (part.type === 'text' ? part.text : ''))
+    .filter(Boolean)
+    .join('\n\n')
+  navigator.clipboard?.writeText(text)
+}
+
 export function AiChatExample() {
   return (
     <ComponentBox
       data-visual-test="ai-chat"
-      scope={{ chatStyle, copy, thumbs_up, thumbs_down }}
+      scope={{ useChatSimulation, copyText, chatStyle, copy, refresh }}
     >
       {() => {
         const suggestions = [
           { label: 'block my visa', prompt: 'Block my Visa card' },
-          { label: 'vipps', prompt: 'Help me with Vipps' },
           { label: 'transactions', prompt: 'Show my latest transactions' },
           {
             label: 'compare spending',
             prompt: 'Compare my spending with last month',
           },
+          { label: 'help', prompt: 'What can you help me with?' },
         ]
-        const reply =
-          'You can block your card in the app under **Cards**. Choose the card and press **Block card**. You can order a new card at the same time.'
 
-        // Simulates useChat from @ai-sdk/react
         const Chat = () => {
-          const [messages, setMessages] = useState<Array<UIMessage>>([])
-          const [status, setStatus] = useState<ChatStatus>('ready')
-
-          const updateReply = (
-            text: string,
-            state: 'streaming' | 'done'
-          ) => {
-            setMessages((current) => {
-              const parts: UIMessage['parts'] = [
-                { type: 'text', text, state },
-              ]
-              if (state === 'done') {
-                parts.push({
-                  type: 'source-url',
-                  sourceId: '1',
-                  url: 'https://www.dnb.no/kort',
-                  title: 'Cards',
-                })
-              }
-              return [
-                ...current.slice(0, -1),
-                { ...current.at(-1), parts },
-              ]
-            })
-          }
-
-          const send = (text: string) => {
-            setMessages((current) => [
-              ...current,
-              {
-                id: String(current.length),
-                role: 'user',
-                parts: [{ type: 'text', text }],
-              },
-            ])
-            setStatus('submitted')
-          }
-
-          const stop = () => {
-            const last = messages.at(-1)
-            const part = last?.parts[0]
-            if (last?.role === 'assistant' && part?.type === 'text') {
-              updateReply(part.text, 'done')
-            }
-            setStatus('ready')
-          }
-
-          useEffect(() => {
-            if (status === 'submitted') {
-              const timeout = setTimeout(() => {
-                setMessages((current) => [
-                  ...current,
-                  {
-                    id: String(current.length),
-                    role: 'assistant',
-                    parts: [
-                      { type: 'text', text: '', state: 'streaming' },
-                    ],
-                  },
-                ])
-                setStatus('streaming')
-              }, 1000)
-              return () => clearTimeout(timeout)
-            }
-
-            if (status === 'streaming') {
-              const part = messages.at(-1).parts[0]
-              const length = part.type === 'text' ? part.text.length : 0
-              const done = length >= reply.length
-              const timeout = setTimeout(() => {
-                updateReply(
-                  reply.slice(0, length + 4),
-                  done ? 'done' : 'streaming'
-                )
-                if (done) {
-                  setStatus('ready')
-                }
-              }, 30)
-              return () => clearTimeout(timeout)
-            }
-
-            return undefined
-          }, [status, messages])
+          // Replace with useChat from @ai-sdk/react
+          const { messages, status, sendMessage, stop, regenerate } =
+            useChatSimulation()
 
           return (
             <div style={chatStyle}>
@@ -555,7 +482,9 @@ export function AiChatExample() {
                       <Ai.Suggestion
                         key={label}
                         suggestion={prompt}
-                        onClick={({ suggestion }) => send(suggestion)}
+                        onClick={({ suggestion }) =>
+                          sendMessage({ text: suggestion })
+                        }
                       >
                         {label}
                       </Ai.Suggestion>
@@ -566,38 +495,58 @@ export function AiChatExample() {
                 <Ai.Conversation style={{ flex: '1 1 auto' }}>
                   <Ai.DateMarker date={new Date()} />
                   <Ai.Disclaimer>
-                    Aino is a chatbot for customer service. Do not share
-                    personal information with the chatbot. AI-generated
-                    answers can contain errors.
+                    <P>
+                      Aino is a chatbot for customer service. Do not share
+                      personal information with the chatbot. Read more
+                      about{' '}
+                      <Anchor href="https://www.dnb.no/personvern">
+                        your privacy
+                      </Anchor>
+                      .
+                    </P>
+                    <P top>
+                      Some answers are generated with artificial
+                      intelligence and are marked with a tag. AI-generated
+                      answers can contain errors.
+                    </P>
                   </Ai.Disclaimer>
 
-                  {messages.map((message) => {
+                  {messages.map((message, index) => {
                     const isAssistant = message.role === 'assistant'
+                    const isLast = index === messages.length - 1
                     const isDone =
-                      isAssistant &&
-                      !(
-                        status === 'streaming' &&
-                        message === messages.at(-1)
-                      )
+                      isAssistant && !(isLast && status === 'streaming')
 
                     return (
                       <Ai.Message
                         key={message.id}
                         message={message}
                         name={isAssistant ? 'Aino' : 'You'}
+                        avatar={
+                          isAssistant ? (
+                            <Avatar variant="secondary" hasLabel>
+                              A
+                            </Avatar>
+                          ) : (
+                            <Avatar hasLabel>P</Avatar>
+                          )
+                        }
                         aiGenerated={isAssistant}
                         actions={
                           isDone && (
                             <Ai.Actions>
-                              <Ai.Action icon={copy} label="Copy" />
                               <Ai.Action
-                                icon={thumbs_up}
-                                label="Good answer"
+                                icon={copy}
+                                label="Copy"
+                                onClick={() => copyText(message)}
                               />
-                              <Ai.Action
-                                icon={thumbs_down}
-                                label="Bad answer"
-                              />
+                              {isLast && (
+                                <Ai.Action
+                                  icon={refresh}
+                                  label="Regenerate"
+                                  onClick={regenerate}
+                                />
+                              )}
                             </Ai.Actions>
                           )
                         }
@@ -605,14 +554,23 @@ export function AiChatExample() {
                     )
                   })}
 
-                  {status === 'submitted' && <Ai.Loader name="Aino" />}
+                  {status === 'submitted' && (
+                    <Ai.Loader
+                      name="Aino"
+                      avatar={
+                        <Avatar variant="secondary" hasLabel>
+                          A
+                        </Avatar>
+                      }
+                    />
+                  )}
                 </Ai.Conversation>
               )}
 
               <Ai.PromptInput
                 status={status}
-                characterCounter={111}
-                onSubmit={({ value }) => send(value)}
+                characterCounter={200}
+                onSubmit={({ value }) => sendMessage({ text: value })}
                 onStop={stop}
                 onAttachmentClick={() => null}
                 onMicrophoneClick={() => null}
