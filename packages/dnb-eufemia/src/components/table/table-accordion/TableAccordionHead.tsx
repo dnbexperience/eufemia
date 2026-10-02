@@ -121,10 +121,13 @@ export function TableAccordionHead(allProps: TableAccordionHeadProps) {
   const onMouseLeaveHandler = useCallback(
     (event: MouseEvent<HTMLTableRowElement>) => {
       onMouseLeave?.(event)
-      setHover(false)
-      setHadClick(false)
+
+      if (isInteractive) {
+        setHover(false)
+        setHadClick(false)
+      }
     },
-    [onMouseLeave]
+    [onMouseLeave, isInteractive]
   )
 
   const toggleOpenFn = useCallback(
@@ -166,9 +169,12 @@ export function TableAccordionHead(allProps: TableAccordionHeadProps) {
   const onMouseEnterHandler = useCallback(
     (event: MouseEvent<HTMLTableRowElement>) => {
       onMouseEnter?.(event)
-      setHover(true)
+
+      if (isInteractive) {
+        setHover(true)
+      }
     },
-    [onMouseEnter]
+    [onMouseEnter, isInteractive]
   )
 
   const onKeyDownHandler = useCallback(
