@@ -94,4 +94,13 @@ describe('NextButton', () => {
     expect(onClick).toHaveBeenCalledTimes(1)
     expect(handleNext).toHaveBeenCalledTimes(1)
   })
+
+  it('should keep its own className when a className is given', () => {
+    render(<NextButton className="custom" />)
+
+    expect(document.querySelector('button')).toHaveClass(
+      'dnb-forms-next-button',
+      'custom'
+    )
+  })
 })

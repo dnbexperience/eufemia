@@ -1,6 +1,5 @@
 import { useCallback, useContext } from 'react'
 import type { JSX } from 'react'
-import { clsx } from 'clsx'
 import type { ComponentProps } from '../../types'
 import type { ButtonProps } from '../../../../components/button/Button'
 import WizardContext from '../Context/WizardContext'
@@ -18,7 +17,6 @@ function NextButton(props: WizardNextButtonProps) {
   const translations = useTranslation().WizardNextButton
 
   const {
-    className,
     iconPosition = 'right',
     icon = 'chevron_right',
     children = translations.text,
@@ -39,10 +37,12 @@ function NextButton(props: WizardNextButtonProps) {
       {/* Use SubmitButton to inherit the indicator functionality */}
       <SubmitButton
         type="button"
-        className={clsx('dnb-forms-next-button', className)}
         iconPosition={iconPosition}
         icon={icon}
-        {...mergeProps({ onClick: handleClick }, props)}
+        {...mergeProps(
+          { className: 'dnb-forms-next-button', onClick: handleClick },
+          props
+        )}
       >
         {children}
       </SubmitButton>

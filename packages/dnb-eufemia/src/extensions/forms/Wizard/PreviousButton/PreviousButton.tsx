@@ -1,6 +1,5 @@
 import { useCallback, useContext } from 'react'
 import type { JSX } from 'react'
-import { clsx } from 'clsx'
 import type { ComponentProps } from '../../types'
 import { Button } from '../../../../components'
 import type { ButtonProps } from '../../../../components/button/Button'
@@ -17,7 +16,6 @@ function PreviousButton(props: WizardPreviousButtonProps) {
   const translations = useTranslation().WizardPreviousButton
 
   const {
-    className,
     variant = 'tertiary',
     iconPosition = 'left',
     icon = 'chevron_left',
@@ -42,12 +40,14 @@ function PreviousButton(props: WizardPreviousButtonProps) {
   return (
     <ButtonRow>
       <Button
-        className={clsx('dnb-forms-previous-button', className)}
         variant={variant}
         iconPosition={iconPosition}
         icon={icon}
         {...params}
-        {...mergeProps({ onClick: handleClick }, props)}
+        {...mergeProps(
+          { className: 'dnb-forms-previous-button', onClick: handleClick },
+          props
+        )}
       >
         {children}
       </Button>

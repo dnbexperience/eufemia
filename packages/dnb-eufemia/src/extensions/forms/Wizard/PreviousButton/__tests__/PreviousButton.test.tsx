@@ -130,4 +130,13 @@ describe('PreviousButton', () => {
     expect(onClick).toHaveBeenCalledTimes(1)
     expect(handlePrevious).toHaveBeenCalledTimes(1)
   })
+
+  it('should keep its own className when a className is given', () => {
+    render(<PreviousButton className="custom" />)
+
+    expect(document.querySelector('button')).toHaveClass(
+      'dnb-forms-previous-button',
+      'custom'
+    )
+  })
 })
