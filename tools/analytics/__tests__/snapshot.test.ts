@@ -373,6 +373,51 @@ describe('mcp usage section', () => {
     expect(failureMetric).toBeDefined()
   })
 
+  it('serves existing daily history when the tail recompute fails', async () => {
+    retrievePortalViews.mockResolvedValue([])
+    aggregateMcpUsageRaw.mockRejectedValue(new Error('athena blip'))
+    retrieveMcpUsageDaily.mockResolvedValue([
+      {
+        dt: '2026-09-09',
+        tool: 'component_props',
+        component: 'Button',
+        path: '',
+        count: 5,
+      },
+    ])
+
+    await handler()
+
+    const snapshotPut = putCalls().find(
+      (call) =>
+        (call[0] as Command).input.Key === 'snapshots/dashboard.json'
+    )
+    const mcp = JSON.parse(
+      (snapshotPut![0] as Command).input.Body as string
+    ).mcpUsage
+
+    // A transient recompute failure must NOT blank the section: the durable
+    // history is still read and shown.
+    expect(mcp.total).toBe(5)
+    expect(mcp.perComponent).toEqual([{ name: 'Button', count: 5 }])
+    expect(errorSpy).toHaveBeenCalled()
+
+    const failureMetric = logSpy.mock.calls
+      .map((call: unknown[]) => call[0])
+      .map((line: unknown) => {
+        try {
+          return JSON.parse(line as string) as Record<string, unknown>
+        } catch {
+          return null
+        }
+      })
+      .find(
+        (entry: Record<string, unknown> | null) =>
+          entry?.McpUsageBuildFailure === 1
+      )
+    expect(failureMetric).toBeDefined()
+  })
+
   it('builds perVersion from local-only usage, ordered by count', async () => {
     retrievePortalViews.mockResolvedValue([])
     aggregateLocalMcpUsageByVersion.mockResolvedValue([
