@@ -318,18 +318,33 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
 
   useEffect(() => clearOverlayTimers, [])
 
-  const handleOverlayMouseEnter = useCallback(() => {
-    clearTimers()
-    clearOverlayTimers()
-    if (!isControlled) {
-      if (!resumeHideAnimation()) {
-        setOverlayHovered(true)
+  const {
+    className: attributeClassName,
+    onAnimationEnd,
+    onMouseEnter: onOverlayMouseEnter,
+    onMouseLeave: onOverlayMouseLeave,
+    ...restAttributes
+  } = attributes || {}
+
+  const handleOverlayMouseEnter = useCallback(
+    (event: MouseEvent<HTMLElement>) => {
+      onOverlayMouseEnter?.(event)
+
+      clearTimers()
+      clearOverlayTimers()
+      if (!isControlled) {
+        if (!resumeHideAnimation()) {
+          setOverlayHovered(true)
+        }
       }
-    }
-  }, [isControlled, resumeHideAnimation])
+    },
+    [isControlled, onOverlayMouseEnter, resumeHideAnimation]
+  )
 
   const handleOverlayMouseLeave = useCallback(
-    (event: MouseEvent) => {
+    (event: MouseEvent<HTMLElement>) => {
+      onOverlayMouseLeave?.(event)
+
       if (isControlled) {
         return undefined
       }
@@ -360,14 +375,14 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
         run()
       }
     },
-    [hideDelayMs, isControlled, markHideAnimationStarted, shouldDelayHide]
+    [
+      hideDelayMs,
+      isControlled,
+      markHideAnimationStarted,
+      onOverlayMouseLeave,
+      shouldDelayHide,
+    ]
   )
-
-  const {
-    className: attributeClassName,
-    onAnimationEnd,
-    ...restAttributes
-  } = attributes || {}
 
   const handleAnimationEnd = useCallback(
     (event: AnimationEvent<HTMLElement>) => {
