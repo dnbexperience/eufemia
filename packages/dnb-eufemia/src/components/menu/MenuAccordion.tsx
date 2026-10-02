@@ -25,6 +25,7 @@ export default function MenuAccordion(props: MenuAccordionProps) {
     disabled = false,
     openOnFind = false,
     onOpenChange,
+    onKeyDown,
     ...rest
   } = props
 
@@ -110,6 +111,8 @@ export default function MenuAccordion(props: MenuAccordionProps) {
 
   const handleKeyDown = useCallback(
     (event: KeyboardEvent<HTMLDivElement>) => {
+      onKeyDown?.(event)
+
       if (disabled) {
         return // stop here
       }
@@ -144,7 +147,7 @@ export default function MenuAccordion(props: MenuAccordionProps) {
         setIsOpen(false)
       }
     },
-    [disabled, isOpen, setIsOpen, focusFirstChild]
+    [onKeyDown, disabled, isOpen, setIsOpen, focusFirstChild]
   )
 
   return (
