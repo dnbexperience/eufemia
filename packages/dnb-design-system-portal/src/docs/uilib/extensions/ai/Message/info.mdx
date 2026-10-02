@@ -1,0 +1,17 @@
+---
+showTabs: true
+---
+
+## Import
+
+```tsx
+import * as Ai from '@dnb/eufemia/extensions/ai'
+import '@dnb/eufemia/extensions/ai/style'
+render(<Ai.Message />)
+```
+
+## Description
+
+`Ai.Message` shows a message from the user or the assistant, with an optional header (avatar, name, time and an AI-generated tag) and actions. User messages are placed on the right.
+
+Pass a `UIMessage` from `useChat` in [@ai-sdk/react](https://ai-sdk.dev/docs/reference/ai-sdk-ui/use-chat) to `message`. Its text parts are rendered, user text as written and assistant text as markdown with [Ai.Response](/uilib/extensions/ai/Response/), followed by its `source-url` parts as [Ai.Sources](/uilib/extensions/ai/Sources/). Other parts, like tool calls or files, are not rendered. To show them, give the content as `children` instead of `message`.
