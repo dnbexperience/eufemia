@@ -1,6 +1,6 @@
 import { act } from 'react'
 import type { ReactElement } from 'react'
-import { render } from '@testing-library/react'
+import { fireEvent, render } from '@testing-library/react'
 import ModalHeaderBar from '../parts/ModalHeaderBar'
 import ModalContext from '../ModalContext'
 
@@ -166,5 +166,21 @@ describe('ModalHeaderBar', () => {
 
     expect(disconnect).toHaveBeenCalledTimes(1)
     expect(window.IntersectionObserver).toHaveBeenCalledTimes(2)
+  })
+
+  it('should call both the given and the own close handler', () => {
+    const onCloseClickHandler = vi.fn()
+    const givenOnClick = vi.fn()
+
+    renderWithContext(<ModalHeaderBar />, {
+      ...defaultContext,
+      onCloseClickHandler,
+      closeButtonAttributes: { onClick: givenOnClick },
+    })
+
+    fireEvent.click(document.querySelector('.dnb-modal__close-button'))
+
+    expect(givenOnClick).toHaveBeenCalledTimes(1)
+    expect(onCloseClickHandler).toHaveBeenCalledTimes(1)
   })
 })

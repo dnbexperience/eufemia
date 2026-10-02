@@ -219,6 +219,31 @@ describe('Drawer', () => {
     ).toBe('New prop')
   })
 
+  it('keeps closing when closeButtonProps has an onClick', () => {
+    const onClick = vi.fn()
+    const onClose = vi.fn()
+
+    render(
+      <Drawer noAnimation onClose={onClose} closeButtonProps={{ onClick }}>
+        Content
+      </Drawer>
+    )
+
+    fireEvent.click(document.querySelector('.dnb-modal__trigger'))
+
+    expect(
+      document.querySelector('.dnb-drawer__content')
+    ).toBeInTheDocument()
+
+    fireEvent.click(document.querySelector('.dnb-modal__close-button'))
+
+    expect(onClick).toHaveBeenCalledTimes(1)
+    expect(onClose).toHaveBeenCalledTimes(1)
+    expect(
+      document.querySelector('.dnb-drawer__content')
+    ).not.toBeInTheDocument()
+  })
+
   it('will use props from global context', () => {
     const contextTitle = 'Custom title'
     render(
