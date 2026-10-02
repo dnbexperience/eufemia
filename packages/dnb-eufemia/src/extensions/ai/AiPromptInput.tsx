@@ -4,6 +4,7 @@ import { clsx } from 'clsx'
 import { useSpacing } from '../../components/space/SpacingUtils'
 import Button from '../../components/Button'
 import Textarea from '../../components/Textarea'
+import TextCounter from '../../fragments/TextCounter'
 import type {
   TextareaChangeEvent,
   TextareaKeyDownEvent,
@@ -37,9 +38,11 @@ function AiPromptInput(props: AiPromptInputProps) {
   const isBusy = status === 'submitted' || status === 'streaming'
   const isCompact = variant === 'compact'
   const isEmpty = value.trim() === ''
+  const isTooLong = characterCounter > 0 && value.length > characterCounter
+  const isSubmitDisabled = isEmpty || isTooLong || isBusy || disabled
 
   const submit = (event: AiPromptInputSubmitEvent['event']) => {
-    if (isEmpty || isBusy || disabled) {
+    if (isSubmitDisabled) {
       return // stop here
     }
 
@@ -93,7 +96,6 @@ function AiPromptInput(props: AiPromptInputProps) {
       autoResizeMaxRows={isCompact ? 4 : 8}
       hideResizeHandle
       stretch
-      characterCounter={characterCounter}
       disabled={disabled}
       onChange={handleChange}
       onKeyDown={handleKeyDown}
@@ -101,10 +103,33 @@ function AiPromptInput(props: AiPromptInputProps) {
     />
   )
 
+  // The visible count is short, and screen readers get the full text
+  const counter = characterCounter > 0 && (
+    <div
+      className={clsx(
+        'dnb-ai-prompt-input__counter',
+        isTooLong && 'dnb-ai-prompt-input__counter--exceeded'
+      )}
+    >
+      <span aria-hidden>
+        {value.length}/{characterCounter}
+      </span>
+      <TextCounter
+        variant="up"
+        text={value}
+        max={characterCounter}
+        className="dnb-sr-only"
+      />
+    </div>
+  )
+
+  const iconButtonSize = isCompact ? 'medium' : 'small'
+
   const attachmentButton = onAttachmentClick && (
     <Button
       variant="tertiary"
-      size="medium"
+      size={iconButtonSize}
+      className="dnb-ai-prompt-input__icon-button"
       icon={add}
       aria-label={translation.addAttachment}
       tooltip={translation.addAttachment}
@@ -116,7 +141,8 @@ function AiPromptInput(props: AiPromptInputProps) {
   const microphoneButton = onMicrophoneClick && (
     <Button
       variant="tertiary"
-      size="medium"
+      size={iconButtonSize}
+      className="dnb-ai-prompt-input__icon-button"
       icon={microphone}
       aria-label={translation.useMicrophone}
       tooltip={translation.useMicrophone}
@@ -129,7 +155,7 @@ function AiPromptInput(props: AiPromptInputProps) {
     isBusy && onStop ? (
       <Button
         type="button"
-        size="medium"
+        size={isCompact ? 'medium' : undefined}
         className="dnb-ai-prompt-input__stop"
         icon={stop}
         iconPosition="left"
@@ -144,16 +170,17 @@ function AiPromptInput(props: AiPromptInputProps) {
     ) : (
       <Button
         type="submit"
-        size="medium"
+        size={isCompact ? 'medium' : undefined}
         className="dnb-ai-prompt-input__submit"
+        icon={arrow_up}
+        iconPosition="right"
         {...(isCompact
           ? {
-              icon: arrow_up,
               'aria-label': translation.send,
               tooltip: translation.send,
             }
           : { text: translation.send })}
-        disabled={disabled || isEmpty || isBusy}
+        disabled={isSubmitDisabled}
       />
     )
 
@@ -163,12 +190,16 @@ function AiPromptInput(props: AiPromptInputProps) {
         <>
           {attachmentButton}
           {textarea}
+          {counter}
           {microphoneButton}
           {submitButton}
         </>
       ) : (
         <>
-          {textarea}
+          <div className="dnb-ai-prompt-input__field">
+            {textarea}
+            {counter}
+          </div>
           <div className="dnb-ai-prompt-input__toolbar">
             {attachmentButton}
             <div className="dnb-ai-prompt-input__actions">
