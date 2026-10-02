@@ -1,0 +1,29 @@
+---
+showTabs: true
+---
+
+import * as Examples from '../Examples'
+
+## Demos
+
+### Response
+
+<Examples.AiResponseDefault />
+
+### Streaming response
+
+Unfinished markdown is closed while the text streams in. Finished blocks are not rendered again.
+
+<Examples.AiResponseStreaming />
+
+### Allowed URLs
+
+Links and images that are not allowed are rendered as text.
+
+<Examples.AiResponseAllowedUrls />
+
+### Custom elements
+
+Use `components` to override how a markdown element is rendered.
+
+<Examples.AiResponseComponents />
