@@ -18,6 +18,7 @@ import Upload from '../../../../components/Upload'
 import useUpload from '../../../../components/upload/useUpload'
 import { isSameFile } from '../../../../components/upload/uploadFileUtils'
 import { pickSpacingProps } from '../../../../components/flex/utils'
+import mergeProps from '../../utils/mergeProps'
 import type { HelpProps } from '../../../../components/help-button/HelpButtonInline'
 import HelpButtonInline, {
   HelpButtonInlineContent,
@@ -512,9 +513,6 @@ function UploadComponent(props: FieldUploadProps) {
         disabled={disabled}
         fileMaxSize={fileMaxSize}
         skeleton={skeleton}
-        onChange={changeHandler}
-        onFileDelete={onFileDelete}
-        onFileClick={onFileClick}
         title={
           help && labelDescription === false ? (
             <LabelWithHelpButton
@@ -537,7 +535,14 @@ function UploadComponent(props: FieldUploadProps) {
             usedLabelDescription
           )
         }
-        {...htmlAttributes}
+        {...mergeProps(
+          {
+            onChange: changeHandler,
+            onFileDelete,
+            onFileClick,
+          },
+          htmlAttributes
+        )}
       >
         {help && (
           <HelpButtonInlineContent

@@ -31,6 +31,7 @@ import type {
 import { clamp } from '../../../../shared/helpers/clamp'
 import DataContext from '../../DataContext/Context'
 import { FormError } from '../../utils'
+import mergeProps from '../../utils/mergeProps'
 import * as z from 'zod'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
@@ -619,32 +620,36 @@ function NumberComponent(props: FieldNumberProps) {
   }
 
   const inputProps = {
-    id,
-    name,
-    ref: inputRef,
-    autoComplete,
-    className: clsx(
-      'dnb-forms-field-number__input',
-      `dnb-input--${size}`,
-      inputClassName
+    ...mergeProps(
+      {
+        id,
+        name,
+        ref: inputRef,
+        autoComplete,
+        className: clsx(
+          'dnb-forms-field-number__input',
+          `dnb-input--${size}`,
+          inputClassName
+        ),
+        step: showStepControls ? step : undefined,
+        placeholder,
+        value,
+        align: showStepControls ? 'center' : align,
+        onKeyDown: onKeyDownHandler,
+        onPaste: handleBlur,
+        onFocus: handleFocus,
+        onBlur: () => {
+          setLimitError(undefined)
+          handleBlur()
+        },
+        onChange: onChangeHandler,
+        disabled,
+        status: hasError ? 'error' : undefined,
+        stretch: Boolean(width),
+        ...maskProps,
+      },
+      htmlAttributes
     ),
-    step: showStepControls ? step : undefined,
-    placeholder,
-    value,
-    align: showStepControls ? 'center' : align,
-    onKeyDown: onKeyDownHandler,
-    onPaste: handleBlur,
-    onFocus: handleFocus,
-    onBlur: () => {
-      setLimitError(undefined)
-      handleBlur()
-    },
-    onChange: onChangeHandler,
-    disabled,
-    status: hasError ? 'error' : undefined,
-    stretch: Boolean(width),
-    ...maskProps,
-    ...htmlAttributes,
     ...(ariaParams || {}),
   }
 

@@ -2,6 +2,7 @@ import { Fragment, useCallback, useMemo, useRef } from 'react'
 import type { ReactNode, MouseEvent } from 'react'
 import { clsx } from 'clsx'
 import { Checkbox } from '../../../../components'
+import mergeProps from '../../utils/mergeProps'
 import ScrollView from '../../../../components/scroll-view/ScrollView'
 import { P } from '../../../../elements'
 import { useHighlightText } from '../../../../shared/helpers/highlightText'
@@ -133,13 +134,18 @@ export function MultiSelectionItemList({
         indeterminate={
           item.children ? getParentState(item).indeterminate : false
         }
-        onChange={() =>
-          item.children ? onToggleParent(item) : onToggleItem(item.value)
-        }
         disabled={disabled || item.disabled}
         label={highlight(item.title)}
         className="dnb-forms-field-multi-selection__checkbox"
-        {...htmlAttributes}
+        {...mergeProps(
+          {
+            onChange: () =>
+              item.children
+                ? onToggleParent(item)
+                : onToggleItem(item.value),
+          },
+          htmlAttributes
+        )}
       />
       {(item.text || item.description) && (
         <div className="dnb-forms-field-multi-selection__item-details">

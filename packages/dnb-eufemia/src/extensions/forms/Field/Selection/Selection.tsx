@@ -27,6 +27,7 @@ import { useFieldProps } from '../../hooks'
 import type { ReturnAdditional } from '../../hooks/useFieldProps'
 import { checkForError } from '../../hooks/useFieldProps'
 import { pickSpacingProps } from '../../../../components/flex/utils'
+import mergeProps from '../../utils/mergeProps'
 import type { FieldBlockProps, FieldBlockWidth } from '../../FieldBlock'
 import FieldBlock from '../../FieldBlock'
 import type { FieldProps, Path } from '../../types'
@@ -360,14 +361,18 @@ function Selection(props: FieldSelectionProps) {
             ? 'error'
             : undefined,
         disabled,
-        ...htmlAttributes,
+        ...mergeProps(
+          {
+            onChange: handleDrawerListChange,
+            onOpen: handleShow,
+            onClose: handleHide,
+          },
+          htmlAttributes
+        ),
         data,
         groups,
         listDriver,
         size,
-        onChange: handleDrawerListChange,
-        onOpen: handleShow,
-        onClose: handleHide,
         stretch: true,
       }
 
@@ -380,12 +385,11 @@ function Selection(props: FieldSelectionProps) {
         <FieldBlock {...fieldBlockProps} {...specificFieldBlockProps}>
           {variant === 'autocomplete' ? (
             <Autocomplete
-              {...sharedProps}
-              {...autocompleteProps}
+              {...mergeProps(sharedProps, autocompleteProps)}
               value={
                 autocompleteProps?.preventSelection ? undefined : value
               }
-              onType={onTypeAutocompleteHandler}
+              onType={onTypeAutocompleteHandler} // Wraps the given onType, so it must not be composed
               data={
                 !props.data &&
                 !props.dataPath &&
@@ -396,7 +400,7 @@ function Selection(props: FieldSelectionProps) {
               selectAll
             />
           ) : (
-            <Dropdown {...sharedProps} {...dropdownProps} />
+            <Dropdown {...mergeProps(sharedProps, dropdownProps)} />
           )}
         </FieldBlock>
       )
