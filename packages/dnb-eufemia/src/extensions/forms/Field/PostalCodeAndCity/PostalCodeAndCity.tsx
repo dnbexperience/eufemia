@@ -67,6 +67,7 @@ function PostalCodeAndCity(props: FieldPostalCodeAndCityProps) {
     width = 'large',
     countryCode = countryCodeFromProvider ?? defaultCountry,
     size,
+    className,
     ...compositionFieldProps
   } = props
 
@@ -149,10 +150,7 @@ function PostalCodeAndCity(props: FieldPostalCodeAndCityProps) {
 
   return (
     <CompositionField
-      className={clsx(
-        'dnb-forms-field-postal-code-and-city',
-        props.className
-      )}
+      className={clsx('dnb-forms-field-postal-code-and-city', className)}
       {...compositionFieldProps}
       width={width}
     >

@@ -14,7 +14,7 @@ export type WizardButtonsProps = ComponentProps & {
 }
 
 function Buttons(props: WizardButtonsProps) {
-  const { className } = props
+  const { className, ...rest } = props
   const { activeIndex, totalStepsRef } = useContext(WizardContext) || {}
 
   const totalSteps = totalStepsRef?.current || 0
@@ -31,7 +31,7 @@ function Buttons(props: WizardButtonsProps) {
   }
 
   return (
-    <ButtonRow className={clsx('dnb-forms-buttons', className)} {...props}>
+    <ButtonRow className={clsx('dnb-forms-buttons', className)} {...rest}>
       {showPreviousButton && <PreviousButton />}
       {showNextButton && <NextButton />}
     </ButtonRow>
