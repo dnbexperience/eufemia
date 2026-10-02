@@ -31,7 +31,7 @@ import type {
 import { clamp } from '../../../../shared/helpers/clamp'
 import DataContext from '../../DataContext/Context'
 import { FormError } from '../../utils'
-import mergeProps from '../../utils/mergeProps'
+import mergeProps from '../../../../shared/helpers/mergeProps'
 import * as z from 'zod'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 

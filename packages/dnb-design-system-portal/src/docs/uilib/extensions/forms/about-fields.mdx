@@ -37,6 +37,7 @@ Here is a list of [all available fields](/uilib/extensions/forms/all-fields/).
   - [More info](#more-info)
     - [Empty value](#empty-value)
     - [Standardized properties](#standardized-properties)
+    - [How given attributes are merged](#how-given-attributes-are-merged)
     - [Controlled \& Uncontrolled](#controlled--uncontrolled)
     - [Creating custom field components](#creating-custom-field-components)
     - [Basic field usage](#basic-field-usage)
@@ -81,6 +82,23 @@ It is deliberate that `onChange` sends out the value from the field, and not the
 The basic components have a number of properties that make it possible to control how they function in the interface, such as `multiline` on `Field.String`, which chooses whether to get one line of text (input tag) or several lines (textarea tag). In addition, they have a number of validation properties, such as `minLength` and `required`.
 
 Inside a [Form.Handler](/uilib/extensions/forms/Form/Handler/) (or [DataContext.Provider](/uilib/extensions/forms/DataContext/Provider/)), fields connect to the surrounding data set with the `path` prop — a [JSON Pointer](/uilib/extensions/forms/getting-started/#what-is-a-json-pointer) such as `/firstName`. The `path` can be type-checked against your data model for autocomplete and compile-time errors on typos — see [Type-checked paths](/uilib/extensions/forms/typed-paths/).
+
+### How given attributes are merged
+
+Fields pass the attributes you give them on to the element or component they render, such as an input. When the field sets the same prop itself, the two are combined instead of yours replacing the field's:
+
+- An event handler runs before the field's own handler for the same event, and the field keeps updating its value and validation as usual.
+- A `className` is added to the field's own classes.
+- A `style` is merged with the field's own, where your values win.
+- For every other prop, your value wins, except the ones a field has to control itself, such as its current value and error status. Those are applied after the merge.
+
+Return `false` from your handler to skip the field's own handling of that event. Where the underlying component can reject a change, returning `false` from `onChange` also keeps the previous value.
+
+`false` is the only return value with a meaning here. Anything else you return is ignored, and the field's own handler decides the outcome.
+
+So return `false` only when you mean to block the field. A shorthand like `event.key === 'Enter' && submit()` returns `false` for every other key, and the field would stop handling them, such as stepping a value with the arrow keys.
+
+Not every field merges this way. When a field renders a group of elements and handles the change on the group rather than on each element, your handler is passed on as it is: it still runs, but returning `false` does not block the field.
 
 ### Controlled & Uncontrolled
 

@@ -28,7 +28,7 @@ import type {
 import { convertStringToDate } from '../../../../components/date-picker/DatePickerCalc'
 import type { ProviderProps } from '../../../../shared/Provider'
 import { FormError } from '../../utils'
-import mergeProps from '../../utils/mergeProps'
+import mergeProps from '../../../../shared/helpers/mergeProps'
 import type { DatePickerInvalidDates } from '../../../../components/date-picker/DatePickerInput'
 import useInvalidDates from './hooks/useInvalidDates'
 import type { DateFormatOptions } from '../../../../components/date-format/DateFormatUtils'

@@ -13,7 +13,7 @@ import DataContext from '../../DataContext/Context'
 import useDataValue from '../../hooks/useDataValue'
 import { isPath } from '../../utils/json-pointer'
 import { useTranslation as useSharedTranslation } from '../../../../shared'
-import mergeProps from '../../utils/mergeProps'
+import mergeProps from '../../../../shared/helpers/mergeProps'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type SliderVisibilityEvent = MouseEvent<HTMLButtonElement> & {

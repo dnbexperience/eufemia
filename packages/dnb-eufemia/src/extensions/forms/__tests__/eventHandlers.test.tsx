@@ -1,98 +1,9 @@
 import { render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import mergeProps from '../mergeProps'
-import { Field, Form, Iterate } from '../..'
-import nbNO from '../../constants/locales/nb-NO'
+import { Field, Form, Iterate } from '..'
+import nbNO from '../constants/locales/nb-NO'
 
 const nb = nbNO['nb-NO']
-
-type Handlers = Record<string, (...args: Array<unknown>) => unknown>
-
-describe('mergeProps', () => {
-  it('should return the given props when no htmlAttributes are given', () => {
-    const props = { id: 'unique' }
-
-    expect(mergeProps(props)).toBe(props)
-  })
-
-  it('should let htmlAttributes win over non-handler props', () => {
-    const merged = mergeProps(
-      { 'aria-label': 'own' },
-      { 'aria-label': 'given' }
-    )
-
-    expect(merged['aria-label']).toBe('given')
-  })
-
-  it('should call both the given and the own handler', () => {
-    const own = vi.fn()
-    const given = vi.fn()
-
-    const merged = mergeProps(
-      { onKeyDown: own },
-      { onKeyDown: given }
-    ) as Handlers
-    merged.onKeyDown({ key: 'a' })
-
-    expect(given).toHaveBeenCalledTimes(1)
-    expect(own).toHaveBeenCalledTimes(1)
-    expect(given).toHaveBeenCalledWith({ key: 'a' })
-    expect(own).toHaveBeenCalledWith({ key: 'a' })
-  })
-
-  it('should call the given handler before the own handler', () => {
-    const order: Array<string> = []
-
-    const merged = mergeProps(
-      { onKeyDown: () => order.push('own') },
-      { onKeyDown: () => order.push('given') }
-    ) as Handlers
-    merged.onKeyDown()
-
-    expect(order).toEqual(['given', 'own'])
-  })
-
-  it('should skip the own handler when the given handler returns false', () => {
-    const own = vi.fn()
-
-    const merged = mergeProps(
-      { onChange: own },
-      { onChange: () => false }
-    ) as Handlers
-
-    expect(merged.onChange()).toBe(false)
-    expect(own).toHaveBeenCalledTimes(0)
-  })
-
-  it('should return the result of the own handler', () => {
-    const merged = mergeProps(
-      { onChange: () => 'own' },
-      { onChange: () => undefined }
-    ) as Handlers
-
-    expect(merged.onChange()).toBe('own')
-  })
-
-  it('should keep the given handler when the field has no own handler', () => {
-    const given = vi.fn()
-
-    const merged = mergeProps({}, { onKeyDown: given }) as Handlers
-    merged.onKeyDown()
-
-    expect(given).toHaveBeenCalledTimes(1)
-  })
-
-  it('should not compose props that are not event handlers', () => {
-    const own = vi.fn()
-    const given = vi.fn()
-
-    const merged = mergeProps({ onto: own }, { onto: given }) as Handlers
-    merged.onto()
-
-    expect(given).toHaveBeenCalledTimes(1)
-    expect(own).toHaveBeenCalledTimes(0)
-  })
-})
 
 describe('htmlAttributes event handlers on fields', () => {
   it('Field.String should let an onChange returning false block the change', async () => {
@@ -129,6 +40,21 @@ describe('htmlAttributes event handlers on fields', () => {
     expect(attributeOnChange).toHaveBeenCalledTimes(1)
     expect(fieldOnChange).toHaveBeenCalledTimes(1)
     expect(fieldOnChange).toHaveBeenCalledWith('a', expect.anything())
+  })
+
+  it('Field.String should keep its own onChange when htmlAttributes has an undefined one', async () => {
+    const fieldOnChange = vi.fn()
+
+    render(
+      <Field.String
+        onChange={fieldOnChange}
+        htmlAttributes={{ onChange: undefined }}
+      />
+    )
+
+    await userEvent.type(document.querySelector('input'), 'a')
+
+    expect(fieldOnChange).toHaveBeenCalledTimes(1)
   })
 
   it('Field.String should keep its own onFocus when htmlAttributes has one', async () => {
@@ -604,5 +530,65 @@ describe('event handlers in component prop bags', () => {
       ).toHaveTextContent(nb.Date.errorRequired)
     })
     expect(givenOnType).toHaveBeenCalled()
+  })
+})
+
+describe('className in htmlAttributes on fields', () => {
+  it('Field.String should keep its own className and add the given one', () => {
+    render(<Field.String htmlAttributes={{ className: 'custom' }} />)
+
+    expect(
+      document.querySelector('.dnb-forms-field-string__input')
+    ).toHaveClass('custom')
+  })
+
+  it('Field.Number should keep its own className and add the given one', () => {
+    render(<Field.Number htmlAttributes={{ className: 'custom' }} />)
+
+    expect(
+      document.querySelector('.dnb-forms-field-number__input')
+    ).toHaveClass('custom')
+  })
+
+  it('Field.Toggle should keep its own className and add the given one', () => {
+    render(
+      <Field.Toggle
+        valueOn="on"
+        valueOff="off"
+        htmlAttributes={{ className: 'custom' }}
+      />
+    )
+
+    expect(document.querySelector('.dnb-checkbox')).toHaveClass(
+      'dnb-forms-field-toggle',
+      'custom'
+    )
+  })
+
+  it('Field.ArraySelection should keep its own className and add the given one', () => {
+    render(
+      <Field.ArraySelection htmlAttributes={{ className: 'custom' }}>
+        <Field.Option value="a" title="A" />
+      </Field.ArraySelection>
+    )
+
+    expect(
+      document.querySelector('.dnb-forms-field-array-selection__checkbox')
+    ).toHaveClass('custom')
+  })
+
+  it('Field.MultiSelection should keep its own className and add the given one', async () => {
+    render(
+      <Field.MultiSelection
+        data={[{ value: 'a', title: 'A' }]}
+        htmlAttributes={{ className: 'custom' }}
+      />
+    )
+
+    await userEvent.click(document.querySelector('button'))
+
+    expect(
+      document.querySelector('.dnb-forms-field-multi-selection__checkbox')
+    ).toHaveClass('custom')
   })
 })

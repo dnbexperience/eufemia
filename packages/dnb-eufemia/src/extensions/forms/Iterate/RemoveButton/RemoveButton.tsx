@@ -9,7 +9,7 @@ import ArrayItemAreaContext from '../Array/ArrayItemAreaContext'
 import type { DataValueReadWriteComponentProps } from '../../types'
 import { omitDataValueReadWriteProps } from '../../types'
 import { trash } from '../../../../icons'
-import mergeProps from '../../utils/mergeProps'
+import mergeProps from '../../../../shared/helpers/mergeProps'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type IterateRemoveButtonProps = ButtonProps &
