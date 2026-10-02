@@ -1,0 +1,29 @@
+---
+showTabs: true
+---
+
+## Import
+
+```tsx
+import * as Ai from '@dnb/eufemia/extensions/ai'
+import '@dnb/eufemia/extensions/ai/style'
+render(<Ai.Response />)
+```
+
+## Description
+
+`Ai.Response` renders markdown from an AI model with Eufemia elements, such as [P](/uilib/elements/paragraph/), [Heading](/uilib/components/heading/), [Lists](/uilib/elements/lists/), [Code](/uilib/elements/code/), [Anchor](/uilib/components/anchor/) and [Table](/uilib/components/table/). It has no extra dependencies.
+
+It is made for streaming:
+
+- Unfinished markdown in the last block, like `**bold` or an open code span, is closed while it streams in. Unfinished links and images are hidden until they are complete.
+- Blocks that are finished are not rendered again when new text arrives.
+
+It is safe by default:
+
+- Raw HTML is never rendered, only shown as text.
+- Links and images with unsafe URLs (like `javascript:`) are rendered as text. Use `allowedLinkPrefixes` and `allowedImagePrefixes` to only allow known URLs.
+
+Supported markdown: headings, paragraphs, emphasis, strikethrough, inline code, fenced code blocks, ordered, unordered and task lists, blockquotes, thematic breaks, tables, links, autolinks and images.
+
+Not supported: syntax highlighting, math, diagrams, indented code blocks, HTML and HTML entities. You can add syntax highlighting by overriding the `code` element with `components`. Code blocks get a `language-*` class.
