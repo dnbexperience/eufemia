@@ -74,7 +74,7 @@ export const AiMessageProperties: PropertiesTableProps = {
     status: 'optional',
   },
   message: {
-    doc: 'A message from the AI SDK (`UIMessage`). Its text parts are rendered, user text as written and assistant text as markdown, followed by its `source-url` parts as `Ai.Sources`. Used instead of `children`.',
+    doc: 'A message from the AI SDK (`UIMessage`). Its text parts are rendered, user text as written and assistant text as markdown. Tool parts are rendered as `Ai.Tool`, and `source-url` parts as `Ai.Sources`. Used instead of `children`.',
     type: 'UIMessage',
     status: 'optional',
   },
@@ -165,7 +165,7 @@ export const AiPromptInputProperties: PropertiesTableProps = {
     status: 'optional',
   },
   characterCounter: {
-    doc: 'Show a character counter with the given maximum number of characters.',
+    doc: 'Show a character counter with the given maximum number of characters. Text that is longer is not sent.',
     type: 'number',
     status: 'optional',
   },
@@ -334,6 +334,47 @@ export const AiSourcesProperties: PropertiesTableProps = {
   message: {
     doc: 'A message from the AI SDK (`UIMessage`). Its `source-url` parts are listed. Used instead of `sources`.',
     type: 'UIMessage',
+    status: 'optional',
+  },
+  '[Space](/uilib/layout/space/properties)': {
+    doc: 'Spacing properties like `top` or `bottom` are supported.',
+    type: ['string', 'object'],
+    status: 'optional',
+  },
+}
+
+export const AiToolProperties: PropertiesTableProps = {
+  part: {
+    doc: 'A tool part from a `UIMessage` of the AI SDK. Its title, state and error are shown.',
+    type: ['ToolUIPart', 'DynamicToolUIPart'],
+    status: 'optional',
+  },
+  title: {
+    doc: 'What the tool does, e.g. `Looking up your transactions`. Defaults to the `title` of `part`, or its tool name.',
+    type: 'React.ReactNode',
+    status: 'optional',
+  },
+  state: {
+    doc: 'The state of the tool call, like `input-available` or `output-available`. Defaults to the state of `part`.',
+    type: [
+      '"input-streaming"',
+      '"input-available"',
+      '"approval-requested"',
+      '"approval-responded"',
+      '"output-available"',
+      '"output-error"',
+      '"output-denied"',
+    ],
+    status: 'optional',
+  },
+  errorText: {
+    doc: 'Error shown when the state is `output-error`. Defaults to the `errorText` of `part`.',
+    type: 'React.ReactNode',
+    status: 'optional',
+  },
+  children: {
+    doc: 'Content shown below the status, e.g. the result of the tool.',
+    type: 'React.ReactNode',
     status: 'optional',
   },
   '[Space](/uilib/layout/space/properties)': {

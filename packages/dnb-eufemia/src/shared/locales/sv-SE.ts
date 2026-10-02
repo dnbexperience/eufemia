@@ -101,6 +101,11 @@ export default {
       conversationLabel: 'Konversation',
       scrollToBottom: 'Gå till senaste meddelandet',
       sources: 'Källor (%count)',
+      toolRunning: 'Pågår',
+      toolDone: 'Slutförd',
+      toolError: 'Misslyckades',
+      toolAwaitingApproval: 'Väntar på bekräftelse',
+      canceled: 'Avbruten',
     },
     Dropdown: {
       title: 'Välj',
