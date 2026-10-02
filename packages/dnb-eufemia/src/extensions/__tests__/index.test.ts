@@ -6,11 +6,15 @@
  */
 
 import '../../core/test-utils/testSetup'
-import { PaymentCard, SidebarMenu } from '../index'
+import { Ai, PaymentCard, SidebarMenu } from '../index'
 
 describe('Library', () => {
   it('has to have a PaymentCard Component', () => {
     expect(typeof PaymentCard).toBe('function')
+  })
+
+  it('has to have an Ai extension', () => {
+    expect(typeof Ai.Response).toBe('function')
   })
 
   it('has to have a SidebarMenu extension', () => {
