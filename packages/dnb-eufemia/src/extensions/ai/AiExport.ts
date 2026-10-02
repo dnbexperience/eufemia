@@ -9,7 +9,12 @@ export {
   AiSuggestion as Suggestion,
 } from './AiSuggestions'
 export { default as Welcome } from './AiWelcome'
-export { default as Conversation } from './AiConversation'
+export {
+  default as Conversation,
+  useConversation,
+  useConversationScrollState,
+  useConversationVisibility,
+} from './AiConversation'
 export { default as DateMarker } from './AiDateMarker'
 export { default as Disclaimer } from './AiDisclaimer'
 export { default as Sources } from './AiSources'
