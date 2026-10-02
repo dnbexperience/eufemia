@@ -4,6 +4,15 @@ const noUnusedUse = require('./rules/no-unused-use.cjs')
 const noUndefinedCustomProperty = require('./rules/no-undefined-custom-property.cjs')
 const reviewRules = require('../review-rules.js')
 
+/**
+ * Inline the type, because a named typedef is not emitted into the
+ * declaration file and would leave it referencing an undeclared name.
+ *
+ * @type {import('stylelint').Plugin[] & {
+ *   reviewRules: Record<string, import('../review-rules.js').ReviewRuleMetadata>
+ *   recommended: import('stylelint').Config
+ * }}
+ */
 const pluginPack = [
   noDeprecatedColorVariables,
   tokenNamePolicy,
