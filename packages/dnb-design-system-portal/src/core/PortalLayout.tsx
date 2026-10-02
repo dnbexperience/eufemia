@@ -90,24 +90,24 @@ export default function PortalLayout(props: PortalLayoutProps) {
 
   const slug = location.pathname.replace(/^\/|\/$/g, '')
   const mdxEdges = data.allMdx.edges
-  const mdx = useMemo(() => {
+  const pageMdx = useMemo(() => {
     return mdxEdges.find(({ node }) => {
       return slug === node.fields.slug
     })
   }, [mdxEdges, slug])?.node
 
-  const siblings = mdx?.siblings
-  const category = siblings?.[0]
-  const categoryFm = category?.frontmatter || {}
-  const currentFm = mdx?.frontmatter || {}
-  const fmData = Object.entries(categoryFm).reduce(
+  const mdxParents = pageMdx?.siblings
+  const parentMdx = mdxParents?.[0]
+  const parentFm = parentMdx?.frontmatter || {}
+  const pageFm = pageMdx?.frontmatter || {}
+  const fmData = Object.entries(parentFm).reduce(
     (acc, [key, value]) => {
       if (!acc[key]) {
         acc[key] = value
       }
       return acc
     },
-    { ...currentFm }
+    { ...pageFm }
   )
 
   // For tab pages without their own title, construct a title like "ComponentName → TabName"
@@ -115,12 +115,12 @@ export default function PortalLayout(props: PortalLayoutProps) {
     title: fmData.title,
     description: fmData.description,
   }
-  if (!currentFm.title && currentFm.showTabs && categoryFm.title) {
+  if (!pageFm.title && pageFm.showTabs && parentFm.title) {
     const tabs = fmData.tabs || defaultTabsValue
     const currentTabKey = '/' + slug.split('/').pop()
     const currentTab = tabs.find(({ key }) => key === currentTabKey)
     if (currentTab?.title) {
-      headData.title = `${categoryFm.title} → ${currentTab.title}`
+      headData.title = `${parentFm.title} → ${currentTab.title}`
     }
   }
 
@@ -129,22 +129,21 @@ export default function PortalLayout(props: PortalLayoutProps) {
 
   usePortalHead(headData)
 
-  const makeUseOfCategory = Boolean(
-    !mdx?.frontmatter?.title && mdx?.frontmatter?.showTabs
-  )
+  const tabsFromParent = Boolean(!pageFm.title && pageFm.showTabs)
   const rootPath =
-    '/' + (makeUseOfCategory ? category?.fields?.slug : mdx?.fields?.slug)
+    '/' +
+    (tabsFromParent ? parentMdx?.fields?.slug : pageMdx?.fields?.slug)
   const fullscreen = Boolean(fmData?.fullscreen) || pageContext?.fullscreen
 
   const { focusModeCodeId } = useFocusModeCode()
   const codeFocusMode = focusModeCodeId !== null
 
-  if (!mdx?.frontmatter) {
+  if (!pageMdx?.frontmatter) {
     return <>{children}</> // looks like it was not a MDX, so we just return children
   }
 
   const editSourcePath = resolveEditSourcePath(
-    mdx,
+    pageMdx,
     mdxEdges.map(({ node }) => node)
   )
 
@@ -176,7 +175,7 @@ export default function PortalLayout(props: PortalLayoutProps) {
         </Breadcrumb>
       )}
 
-      {!codeFocusMode && currentFm.showTabs && (
+      {!codeFocusMode && pageFm.showTabs && (
         <TabBar
           key="tab-bar"
           location={location}
@@ -189,7 +188,7 @@ export default function PortalLayout(props: PortalLayoutProps) {
       )}
 
       <Content
-        showTabs={currentFm.showTabs}
+        showTabs={pageFm.showTabs}
         sourcePath={editSourcePath}
         pagePath={`${location.pathname}${location.hash || ''}`}
         showEditLink={!codeFocusMode && !fmData.hideEditLink}
