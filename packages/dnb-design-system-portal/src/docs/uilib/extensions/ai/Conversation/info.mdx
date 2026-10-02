@@ -1,0 +1,17 @@
+---
+showTabs: true
+---
+
+## Import
+
+```tsx
+import * as Ai from '@dnb/eufemia/extensions/ai'
+import '@dnb/eufemia/extensions/ai/style'
+render(<Ai.Conversation />)
+```
+
+## Description
+
+`Ai.Conversation` holds the messages. It keeps the latest message in view while new text streams in, unless the user has scrolled up. Then a button to go to the latest message is shown. Short conversations start at the bottom, like in most chats.
+
+Give it a height, e.g. with `style` or by placing it in a flex layout. Screen readers announce new messages, as it is a [log](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Roles/log_role). The conversation can be scrolled with the keyboard when its content overflows.

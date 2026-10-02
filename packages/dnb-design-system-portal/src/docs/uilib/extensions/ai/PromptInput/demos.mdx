@@ -1,0 +1,27 @@
+---
+showTabs: true
+---
+
+import * as Examples from '../Examples'
+
+## Demos
+
+### Prompt input
+
+Enter sends the message and Shift+Enter adds a new line.
+
+<Examples.AiPromptInputDefault />
+
+### Compact prompt input
+
+<Examples.AiPromptInputCompact />
+
+### Stop while streaming
+
+Pass `status` and `onStop` from `useChat` to show a stop button while the reply streams in.
+
+<Examples.AiPromptInputStatus />
+
+### Prompt input with an error
+
+<Examples.AiPromptInputError />
