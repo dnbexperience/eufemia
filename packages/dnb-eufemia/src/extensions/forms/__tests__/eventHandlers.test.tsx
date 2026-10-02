@@ -517,3 +517,63 @@ describe('event handlers in component prop bags', () => {
     expect(givenOnType).toHaveBeenCalled()
   })
 })
+
+describe('className in htmlAttributes on fields', () => {
+  it('Field.String should keep its own className and add the given one', () => {
+    render(<Field.String htmlAttributes={{ className: 'custom' }} />)
+
+    expect(
+      document.querySelector('.dnb-forms-field-string__input')
+    ).toHaveClass('custom')
+  })
+
+  it('Field.Number should keep its own className and add the given one', () => {
+    render(<Field.Number htmlAttributes={{ className: 'custom' }} />)
+
+    expect(
+      document.querySelector('.dnb-forms-field-number__input')
+    ).toHaveClass('custom')
+  })
+
+  it('Field.Toggle should keep its own className and add the given one', () => {
+    render(
+      <Field.Toggle
+        valueOn="on"
+        valueOff="off"
+        htmlAttributes={{ className: 'custom' }}
+      />
+    )
+
+    expect(document.querySelector('.dnb-checkbox')).toHaveClass(
+      'dnb-forms-field-toggle',
+      'custom'
+    )
+  })
+
+  it('Field.ArraySelection should keep its own className and add the given one', () => {
+    render(
+      <Field.ArraySelection htmlAttributes={{ className: 'custom' }}>
+        <Field.Option value="a" title="A" />
+      </Field.ArraySelection>
+    )
+
+    expect(
+      document.querySelector('.dnb-forms-field-array-selection__checkbox')
+    ).toHaveClass('custom')
+  })
+
+  it('Field.MultiSelection should keep its own className and add the given one', async () => {
+    render(
+      <Field.MultiSelection
+        data={[{ value: 'a', title: 'A' }]}
+        htmlAttributes={{ className: 'custom' }}
+      />
+    )
+
+    await userEvent.click(document.querySelector('button'))
+
+    expect(
+      document.querySelector('.dnb-forms-field-multi-selection__checkbox')
+    ).toHaveClass('custom')
+  })
+})

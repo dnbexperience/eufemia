@@ -162,7 +162,6 @@ function Toggle(props: FieldToggleProps) {
         <FieldBlock {...fieldBlockProps} label={undefined}>
           <Checkbox
             id={id}
-            className={cn}
             label={
               labelWithItemNo ??
               (isOn
@@ -177,6 +176,7 @@ function Toggle(props: FieldToggleProps) {
             suffix={helpButton}
             {...mergeProps(
               {
+                className: cn,
                 onChange: handleCheckboxChange,
                 onClick: handleClick,
               },
@@ -190,7 +190,6 @@ function Toggle(props: FieldToggleProps) {
         <FieldBlock {...fieldBlockProps} label={undefined}>
           <Switch
             id={id}
-            className={cn}
             label={
               labelWithItemNo ??
               (isOn
@@ -205,6 +204,7 @@ function Toggle(props: FieldToggleProps) {
             suffix={helpButton}
             {...mergeProps(
               {
+                className: cn,
                 onChange: handleSwitchChange,
                 onClick: handleClick,
               },

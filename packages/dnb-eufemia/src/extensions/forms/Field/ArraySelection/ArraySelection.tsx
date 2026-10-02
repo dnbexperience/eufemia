@@ -272,12 +272,6 @@ export function useCheckboxOrToggleOptions({
           id={optionsCount === 1 ? id : undefined}
           key={`option-${i}`}
           variant={variant === 'checkbox-button' ? 'checkbox' : undefined}
-          className={clsx(
-            `dnb-forms-field-array-selection__${
-              variant === 'checkbox' ? 'checkbox' : 'button'
-            }`,
-            className
-          )}
           size={size}
           label={variant === 'checkbox' ? label : undefined}
           text={variant !== 'checkbox' ? label : undefined}
@@ -291,7 +285,18 @@ export function useCheckboxOrToggleOptions({
           }
           suffix={suffix}
           role="checkbox"
-          {...mergeProps({ onChange: handleSelect }, htmlAttributes)}
+          {...mergeProps(
+            {
+              className: clsx(
+                `dnb-forms-field-array-selection__${
+                  variant === 'checkbox' ? 'checkbox' : 'button'
+                }`,
+                className
+              ),
+              onChange: handleSelect,
+            },
+            htmlAttributes
+          )}
           {...rest}
         />
       )

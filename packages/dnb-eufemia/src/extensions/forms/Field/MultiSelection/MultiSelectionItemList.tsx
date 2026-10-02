@@ -136,9 +136,9 @@ export function MultiSelectionItemList({
         }
         disabled={disabled || item.disabled}
         label={highlight(item.title)}
-        className="dnb-forms-field-multi-selection__checkbox"
         {...mergeProps(
           {
+            className: 'dnb-forms-field-multi-selection__checkbox',
             onChange: () =>
               item.children
                 ? onToggleParent(item)
