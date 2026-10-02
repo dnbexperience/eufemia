@@ -191,6 +191,7 @@ export function InfinityMarker(props: PaginationProps) {
 
 function PaginationContent({
   children,
+  className,
   ref,
   ...props
 }: {
@@ -199,7 +200,7 @@ function PaginationContent({
 } & HTMLAttributes<HTMLDivElement>) {
   return (
     <div
-      className="dnb-pagination__content dnb-no-focus"
+      className={clsx('dnb-pagination__content dnb-no-focus', className)}
       tabIndex={-1}
       {...props}
       ref={ref}

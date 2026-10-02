@@ -994,6 +994,19 @@ describe('undefined props should fall through to defaults', () => {
   })
 })
 
+describe('Pagination.Content', () => {
+  it('should keep its own classes when a className is given', () => {
+    render(
+      <Pagination.Content className="custom">content</Pagination.Content>
+    )
+
+    expect(document.querySelector('.custom')).toHaveClass(
+      'dnb-pagination__content',
+      'dnb-no-focus'
+    )
+  })
+})
+
 describe('Pagination transformNavigationItem', () => {
   const transformNavigationItem = (page: number, navigationItemProps) => (
     <Anchor href={`/page/${page}`} {...navigationItemProps} />
