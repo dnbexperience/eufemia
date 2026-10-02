@@ -175,7 +175,7 @@ Spreading the `...rest` means the rendered element also receives the event handl
 
 Use the `mergeProps` helper. It combines the component's own props with the given ones:
 
-- Event handlers that both define are both called: the given one first, then the component's own.
+- Event handlers that both define are both called: the given one first, then the component's own. A given handler that is `undefined` keeps the component's own.
 - `className` values are joined.
 - `style` objects are merged, where the given values win.
 - For every other prop, the given value wins.
