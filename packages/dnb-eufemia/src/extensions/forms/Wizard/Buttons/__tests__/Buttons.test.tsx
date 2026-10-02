@@ -15,6 +15,23 @@ describe('Wizard.Buttons', () => {
     )
   }
 
+  it('should keep its own class when a className is given', () => {
+    render(
+      <Form.Handler>
+        <Wizard.Container mode="loose">
+          <Wizard.Step>
+            <Wizard.Buttons className="custom" />
+          </Wizard.Step>
+          <Wizard.Step />
+        </Wizard.Container>
+      </Form.Handler>
+    )
+
+    expect(document.querySelector('.custom')).toHaveClass(
+      'dnb-forms-buttons'
+    )
+  })
+
   it('should show previous button only when on step greater than 0', async () => {
     render(
       <Form.Handler>
