@@ -1837,6 +1837,80 @@ describe('Field.Number', () => {
       expect(onChange.mock.calls[2][0]).toEqual(24.5762)
       expect(onChange.mock.calls[3][0]).toEqual(24.57621)
     })
+
+    it('calls onKeyDown with the keyboard event', async () => {
+      const onKeyDown = vi.fn()
+      render(<Field.Number onKeyDown={onKeyDown} />)
+
+      await userEvent.type(document.querySelector('input'), '1')
+
+      expect(onKeyDown).toHaveBeenCalledTimes(1)
+      expect(onKeyDown.mock.calls[0][0]).toMatchObject({ key: '1' })
+    })
+
+    it('does not type the key when onKeyDown prevents it', async () => {
+      const onChange = vi.fn()
+      render(
+        <Field.Number
+          onChange={onChange}
+          onKeyDown={(event) => {
+            if (event.key === '0') {
+              event.preventDefault()
+            }
+          }}
+        />
+      )
+
+      const input = document.querySelector('input')
+
+      await userEvent.type(input, '102')
+
+      expect(input).toHaveValue('12')
+      expect(onChange).toHaveBeenLastCalledWith(12, expect.anything())
+    })
+
+    it('keeps the arrow key stepping when onKeyDown is given', async () => {
+      const onKeyDown = vi.fn()
+      render(
+        <Field.Number showStepControls value={1} onKeyDown={onKeyDown} />
+      )
+
+      const input = document.querySelector('input')
+
+      await userEvent.click(input)
+      await userEvent.keyboard('{ArrowUp}')
+
+      expect(onKeyDown).toHaveBeenCalledTimes(1)
+      expect(input).toHaveValue('2')
+    })
+
+    it('lets onKeyDown set the value, e.g. for amount shortcuts', async () => {
+      const MyForm = () => {
+        const { update } = Form.useData<{ amount: number }>('shortcuts')
+
+        return (
+          <Form.Handler id="shortcuts">
+            <Field.Number
+              path="/amount"
+              onKeyDown={(event) => {
+                if (event.key === 'm') {
+                  event.preventDefault()
+                  update('/amount', (value) => (value || 1) * 1_000_000)
+                }
+              }}
+            />
+          </Form.Handler>
+        )
+      }
+
+      render(<MyForm />)
+
+      const input = document.querySelector('input')
+
+      await userEvent.type(input, '14m')
+
+      expect(input).toHaveValue('14 000 000')
+    })
   })
 
   describe('error handling', () => {
