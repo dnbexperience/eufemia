@@ -1,6 +1,9 @@
 const assert = require('assert')
+const os = require('os')
+const path = require('path')
 const {
   isCI,
+  isolateFirefoxAppData,
   matchFiltersToFiles,
   prepareVitestRun,
   splitVitestArgs,
@@ -65,3 +68,28 @@ assert.deepStrictEqual(
     missingFilters: ['missing'],
   }
 )
+
+// isolateFirefoxAppData gives Playwright's Firefox its own app-data folder
+const platform = Object.getOwnPropertyDescriptor(process, 'platform')
+const setPlatform = (value) =>
+  Object.defineProperty(process, 'platform', { value })
+
+delete process.env.MOZ_APP_DATA
+
+setPlatform('linux')
+isolateFirefoxAppData()
+assert.strictEqual(process.env.MOZ_APP_DATA, undefined)
+
+setPlatform('darwin')
+isolateFirefoxAppData()
+assert.strictEqual(
+  process.env.MOZ_APP_DATA,
+  path.join(os.tmpdir(), `playwright-firefox-${process.pid}`)
+)
+
+// keeps an app-data folder that is already set
+process.env.MOZ_APP_DATA = '/custom/firefox-app-data'
+isolateFirefoxAppData()
+assert.strictEqual(process.env.MOZ_APP_DATA, '/custom/firefox-app-data')
+
+Object.defineProperty(process, 'platform', platform)

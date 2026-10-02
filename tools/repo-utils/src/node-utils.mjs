@@ -1,3 +1,6 @@
+import os from 'node:os'
+import path from 'node:path'
+
 const isCICheck = () => {
   const ci = String(process.env.CI)
   return ci === 'true' || ci === '1'
@@ -62,9 +65,20 @@ const prepareVitestRun = (args, matchingFilesByFilter) => {
   }
 }
 
+// Avoids a launch hang on macOS 27, see microsoft/playwright#42768
+const isolateFirefoxAppData = () => {
+  if (process.platform === 'darwin' && !process.env.MOZ_APP_DATA) {
+    process.env.MOZ_APP_DATA = path.join(
+      os.tmpdir(),
+      `playwright-firefox-${process.pid}`
+    )
+  }
+}
+
 export const isCI = isCICheck()
 export {
   isCICheck,
+  isolateFirefoxAppData,
   matchFiltersToFiles,
   prepareVitestRun,
   splitVitestArgs,
