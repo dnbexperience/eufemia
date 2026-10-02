@@ -6,6 +6,7 @@ import useTranslation from '../../shared/useTranslation'
 import AiResponse from './AiResponse'
 import AiSources from './AiSources'
 import AiTool from './AiTool'
+import AiReasoning from './AiReasoning'
 import type { AiMessageProps, AiToolPart } from './types'
 
 function AiMessage(props: AiMessageProps) {
@@ -99,6 +100,10 @@ function renderParts(message: UIMessage, from: AiMessageProps['from']) {
           {part.text}
         </AiResponse>
       )
+    }
+
+    if (part.type === 'reasoning') {
+      return <AiReasoning key={index} part={part} />
     }
 
     if (part.type === 'dynamic-tool' || part.type.startsWith('tool-')) {
