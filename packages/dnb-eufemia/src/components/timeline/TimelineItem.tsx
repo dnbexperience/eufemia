@@ -92,6 +92,7 @@ const TimelineItem = (localProps: TimelineItemAllProps) => {
     infoMessage,
     state,
     skeleton,
+    className,
     ...props
   } = allProps
 
@@ -99,7 +100,8 @@ const TimelineItem = (localProps: TimelineItemAllProps) => {
   const classes = clsx(
     'dnb-timeline__item',
     skeletonClasses,
-    `dnb-timeline__item--${state}`
+    `dnb-timeline__item--${state}`,
+    className
   )
 
   return (
