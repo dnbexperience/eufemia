@@ -220,6 +220,13 @@ export type AiWelcomeProps = {
 export type AiConversationProps = {
   /** Label of the conversation for screen readers. Defaults to a translated text. */
   label?: string
+  /**
+   * Use `turn` to scroll a new message from the user near the top, and let the reply stream in below it. Use `end` to follow the end of the conversation while the reply streams in.
+   * Default: `"turn"`
+   */
+  scrollBehavior?: 'turn' | 'end'
+  /** Identifier used to scroll the conversation from elsewhere with `Ai.useConversation(id)`. */
+  id?: string
   /** The messages of the conversation. */
   children?: ReactNode
 } & SpacingProps &
@@ -285,3 +292,26 @@ export type AiReasoningProps = {
   children?: string
 } & SpacingProps &
   Omit<HTMLAttributes<HTMLDivElement>, 'children' | 'part'>
+
+export type AiConversationControls = {
+  /** Scroll to the end and follow new content. */
+  scrollToEnd: () => void
+  /** Scroll to the start of the conversation. */
+  scrollToStart: () => void
+  /** Scroll to the message with the given id, like the `id` of a `UIMessage`. Returns `false` when the message is not found. */
+  scrollToMessage: (messageId: string) => boolean
+}
+
+export type AiConversationScrollState = {
+  /** `true` when the conversation is scrolled to the start. */
+  isAtStart: boolean
+  /** `true` when the conversation is scrolled to the end. */
+  isAtEnd: boolean
+}
+
+export type AiConversationVisibility = {
+  /** The id of the message from the user that starts the turn the user is reading. Stays set when the message is scrolled above the view. */
+  currentTurnId: string | null
+  /** The ids of the messages that are visible, in the order they are shown. */
+  visibleMessageIds: Array<string>
+}
