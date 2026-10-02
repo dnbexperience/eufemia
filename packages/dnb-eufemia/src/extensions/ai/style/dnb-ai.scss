@@ -348,13 +348,42 @@
   flex-direction: column;
   min-height: 0;
 
+  --ai-conversation-peek: 3rem;
+
   &__scroll {
     flex: 1 1 auto;
     min-height: 0;
+
+    // The conversation follows new content itself, and chooses when to
+    // scroll smoothly, so corrections of the position are not animated
+    overflow-anchor: none;
+    scroll-behavior: auto;
+  }
+
+  // A new turn is scrolled near the top, with a peek of the reply above
+  & .dnb-ai-message--user {
+    scroll-margin-top: var(--ai-conversation-peek);
+  }
+
+  // Messages out of view are not rendered by the browser, but can still
+  // be found, selected and read by screen readers
+  &__content > .dnb-ai-message {
+    content-visibility: auto;
+    contain-intrinsic-block-size: auto 5rem;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    &__content > [data-entering] {
+      animation: dnb-ai-conversation-enter 300ms ease-out;
+    }
+  }
+
+  &__spacer {
+    flex-shrink: 0;
   }
 
   // Short conversations start at the bottom, like in most chats
-  &__content {
+  &--end &__content {
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
@@ -514,5 +543,11 @@
       line-height: inherit;
       color: inherit;
     }
+  }
+}
+
+@keyframes dnb-ai-conversation-enter {
+  from {
+    opacity: 0;
   }
 }

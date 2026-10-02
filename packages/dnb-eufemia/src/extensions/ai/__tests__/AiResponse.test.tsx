@@ -310,6 +310,9 @@ describe('Ai', () => {
       'Suggestions',
       'Tool',
       'Welcome',
+      'useConversation',
+      'useConversationScrollState',
+      'useConversationVisibility',
     ])
   })
 })
