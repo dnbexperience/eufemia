@@ -18,6 +18,7 @@ export type SkeletonTableProps = {
 function SkeletonTable({
   rows = 3,
   children = null,
+  className,
   ...rest
 }: SkeletonTableProps) {
   const rowsLength = useMemo(() => {
@@ -37,7 +38,8 @@ function SkeletonTable({
     <div
       className={clsx(
         'dnb-skeleton__figure',
-        'dnb-skeleton__figure--show'
+        'dnb-skeleton__figure--show',
+        className
       )}
       aria-busy
       {...rest}
