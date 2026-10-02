@@ -180,7 +180,7 @@ Use the `mergeProps` helper. It combines the component's own props with the give
 - `style` objects are merged, where the given values win.
 - For every other prop, the given value wins.
 
-These are the rules that React libraries such as React Aria, Radix and Base UI agree on. Pass the component's own `className` and `style` to `mergeProps` as well, so a given `className` is added to the component's own instead of replacing it:
+Radix and Base UI merge props the same way. Pass the component's own `className` and `style` to `mergeProps` as well, so a given `className` is added to the component's own instead of replacing it:
 
 ```tsx
 import mergeProps from '../../shared/helpers/mergeProps'
