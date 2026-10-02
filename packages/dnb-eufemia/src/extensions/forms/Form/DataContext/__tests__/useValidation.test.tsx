@@ -8,7 +8,7 @@ import {
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { makeUniqueId } from '../../../../../shared/component-helper'
-import { Field, Form } from '../../..'
+import { Field, Form, Iterate } from '../../..'
 import { Button } from '../../../../../components'
 import SharedProvider from '../../../../../shared/Provider'
 import useValidation from '../useValidation'
@@ -526,6 +526,201 @@ describe('useValidation', () => {
 
       expect(result.current.hasFieldError('/foo')).toBe(true)
       expect(result.current.hasFieldError('/bar')).toBe(false)
+    })
+
+    describe('withDescendants', () => {
+      it('should return true when a descendant field has an error', () => {
+        render(
+          <Form.Handler id={identifier}>
+            <Form.Section path="/section">
+              <Field.String path="/fieldX" required />
+            </Form.Section>
+          </Form.Handler>
+        )
+
+        const { result } = renderHook(() => useValidation(identifier))
+
+        expect(result.current.hasFieldError('/section')).toBe(false)
+        expect(
+          result.current.hasFieldError('/section', {
+            withDescendants: true,
+          })
+        ).toBe(true)
+      })
+
+      it('should return false when no descendant field has an error', () => {
+        render(
+          <Form.Handler id={identifier}>
+            <Form.Section path="/section">
+              <Field.String path="/fieldX" />
+            </Form.Section>
+            <Field.String path="/other" required />
+          </Form.Handler>
+        )
+
+        const { result } = renderHook(() => useValidation(identifier))
+
+        expect(
+          result.current.hasFieldError('/section', {
+            withDescendants: true,
+          })
+        ).toBe(false)
+      })
+
+      it('should not match paths with a shared prefix', () => {
+        render(
+          <Form.Handler id={identifier}>
+            <Field.String path="/sectionX" required />
+          </Form.Handler>
+        )
+
+        const { result } = renderHook(() => useValidation(identifier))
+
+        expect(
+          result.current.hasFieldError('/section', {
+            withDescendants: true,
+          })
+        ).toBe(false)
+      })
+
+      it('should match nested descendants and iterate items', () => {
+        render(
+          <Form.Handler
+            id={identifier}
+            data={{ section: { items: [{ nested: {} }] } }}
+          >
+            <Iterate.Array path="/section/items">
+              <Field.String itemPath="/nested/deep" required />
+            </Iterate.Array>
+          </Form.Handler>
+        )
+
+        const { result } = renderHook(() => useValidation(identifier))
+
+        expect(
+          result.current.hasFieldError('/section', {
+            withDescendants: true,
+          })
+        ).toBe(true)
+      })
+
+      it('should match every field when given the root path', () => {
+        render(
+          <Form.Handler id={identifier}>
+            <Form.Section path="/section">
+              <Field.String path="/fieldX" required />
+            </Form.Section>
+          </Form.Handler>
+        )
+
+        const { result } = renderHook(() => useValidation(identifier))
+
+        expect(
+          result.current.hasFieldError('/', { withDescendants: true })
+        ).toBe(true)
+      })
+
+      it('should react on changes', async () => {
+        render(
+          <Form.Handler id={identifier}>
+            <Form.Section path="/section">
+              <Field.String path="/fieldX" required />
+            </Form.Section>
+          </Form.Handler>
+        )
+
+        const { result } = renderHook(() => useValidation(identifier))
+
+        expect(
+          result.current.hasFieldError('/section', {
+            withDescendants: true,
+          })
+        ).toBe(true)
+
+        await userEvent.type(document.querySelector('input'), 'abc')
+
+        expect(
+          result.current.hasFieldError('/section', {
+            withDescendants: true,
+          })
+        ).toBe(false)
+      })
+
+      it('should rerender when used outside of the form context', async () => {
+        const MockComponent = () => {
+          const { hasFieldError } = useValidation(identifier)
+
+          return (
+            <output>
+              {JSON.stringify({
+                hasError: hasFieldError('/section', {
+                  withDescendants: true,
+                }),
+              })}
+            </output>
+          )
+        }
+
+        render(
+          <>
+            <Form.Handler id={identifier}>
+              <Form.Section path="/section">
+                <Field.String path="/fieldX" required />
+              </Form.Section>
+            </Form.Handler>
+            <MockComponent />
+          </>
+        )
+
+        const output = document.querySelector('output')
+
+        await waitFor(() => {
+          expect(output).toHaveTextContent('{"hasError":true}')
+        })
+
+        await userEvent.type(document.querySelector('input'), 'abc')
+
+        await waitFor(() => {
+          expect(output).toHaveTextContent('{"hasError":false}')
+        })
+      })
+
+      it('should rerender when used inside of the form context', async () => {
+        const MockComponent = () => {
+          const { hasFieldError } = useValidation()
+
+          return (
+            <output>
+              {JSON.stringify({
+                hasError: hasFieldError('/section', {
+                  withDescendants: true,
+                }),
+              })}
+            </output>
+          )
+        }
+
+        render(
+          <Form.Handler>
+            <Form.Section path="/section">
+              <Field.String path="/fieldX" required />
+            </Form.Section>
+            <MockComponent />
+          </Form.Handler>
+        )
+
+        const output = document.querySelector('output')
+
+        await waitFor(() => {
+          expect(output).toHaveTextContent('{"hasError":true}')
+        })
+
+        await userEvent.type(document.querySelector('input'), 'abc')
+
+        await waitFor(() => {
+          expect(output).toHaveTextContent('{"hasError":false}')
+        })
+      })
     })
   })
 
