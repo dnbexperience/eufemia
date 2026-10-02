@@ -109,6 +109,30 @@ tester.run('no-unmerged-own-props', rule, {
         }
       `,
     },
+    // An own handler set after the spread always wins, which fits a props type that omits it
+    {
+      code: `
+        const Comp = ({ help, ...rest }) => {
+          return <Button {...rest} onKeyDown={handleKeyDown} />
+        }
+      `,
+    },
+    // An own handler set after a spread of a prop bag
+    {
+      code: `
+        function Comp({ buttonProps }) {
+          return <Button {...buttonProps} onClick={handleClick} />
+        }
+      `,
+    },
+    // A destructured prop that is not a prop bag
+    {
+      code: `
+        function Comp({ data }) {
+          return <div onClick={handleClick} {...data} />
+        }
+      `,
+    },
   ],
   invalid: [
     // A given onClick replaces the component's own
@@ -154,17 +178,32 @@ tester.run('no-unmerged-own-props', rule, {
         },
       ],
     },
-    // A given handler is ignored when the own one is set after the spread
+    // A given handler in a prop bag replaces the component's own
     {
       code: `
-        const Comp = ({ help, ...rest }) => {
-          return <Button {...rest} onKeyDown={handleKeyDown} />
+        function Comp({ htmlAttributes, ...rest }) {
+          return <input onChange={handleChange} {...htmlAttributes} />
         }
       `,
       errors: [
         {
-          messageId: 'ignored',
-          data: { name: 'onKeyDown', spread: 'rest' },
+          messageId: 'replaced',
+          data: { name: 'onChange', spread: 'htmlAttributes' },
+        },
+      ],
+    },
+    // A prop bag destructured in the function body
+    {
+      code: `
+        function Comp(props) {
+          const { closeButtonAttributes } = props
+          return <Button onClick={close} {...closeButtonAttributes} />
+        }
+      `,
+      errors: [
+        {
+          messageId: 'replaced',
+          data: { name: 'onClick', spread: 'closeButtonAttributes' },
         },
       ],
     },

@@ -2,15 +2,15 @@
  * ESLint rule: no-unmerged-own-props
  *
  * Reports an event handler, `className` or `style` that a component sets on
- * an element next to a spread of the consumer's props, when the spread can
- * contain the same prop. Depending on the order, the consumer's value either
- * replaces the component's own, so the component silently stops working, or
- * is ignored. Use `mergeProps`, or take the prop out of the rest and combine
- * it with the component's own.
+ * an element before a spread of the consumer's props, when the spread can
+ * contain the same prop. The consumer's value then replaces the component's
+ * own, so the component silently stops working. Use `mergeProps`, take the
+ * prop out of the rest and combine it with the component's own, or set the
+ * own prop after the spread when the props type omits it.
  *
  * A spread counts as the consumer's props when it is the rest of an object
- * destructuring, or a component's whole props parameter. Without type
- * information, the rule cannot see a prop that is omitted from the type.
+ * destructuring, a component's whole props parameter, or a destructured prop
+ * bag such as `htmlAttributes` or `buttonProps`.
  */
 
 const DOM_EVENT_HANDLER =
@@ -18,6 +18,8 @@ const DOM_EVENT_HANDLER =
 
 const isOwnProp = (name) =>
   name === 'className' || name === 'style' || DOM_EVENT_HANDLER.test(name)
+
+const PROP_BAG = /(Props|Attributes)$/
 
 const unwrap = (node) => {
   while (
@@ -44,22 +46,6 @@ const isComponentFunction = (fn) => {
     fn.id?.name ||
     (fn.parent?.type === 'VariableDeclarator' && fn.parent.id?.name)
   return Boolean(name && /^[A-Z]/.test(name))
-}
-
-const referencesIdentifier = (node, name) => {
-  if (!node || typeof node !== 'object') {
-    return false
-  }
-  if (node.type === 'Identifier' && node.name === name) {
-    return true
-  }
-  return Object.keys(node).some(
-    (key) =>
-      key !== 'parent' &&
-      []
-        .concat(node[key])
-        .some((child) => referencesIdentifier(child, name))
-  )
 }
 
 const findVariable = (identifier, scope) => {
@@ -114,6 +100,15 @@ function getExcludedNames(identifier, scope, depth = 0) {
   }
 
   if (
+    parent?.type === 'Property' &&
+    parent.value === node &&
+    parent.parent?.type === 'ObjectPattern' &&
+    PROP_BAG.test(keyName(parent))
+  ) {
+    return new Set()
+  }
+
+  if (
     def.type === 'Parameter' &&
     def.node.params?.[0] === node &&
     isComponentFunction(def.node)
@@ -130,13 +125,11 @@ module.exports = {
     type: 'problem',
     docs: {
       description:
-        'Disallow an own event handler, className or style next to a spread of the consumer props that can contain the same prop',
+        'Disallow an own event handler, className or style before a spread of the consumer props that can replace it',
     },
     messages: {
       replaced:
-        '`{{ name }}` is set before `{...{{ spread }}}`, so a `{{ name }}` in `{{ spread }}` replaces it. Use `mergeProps`, or take `{{ name }}` out of `{{ spread }}` and combine it with your own.',
-      ignored:
-        '`{{ name }}` is set after `{...{{ spread }}}`, so a `{{ name }}` in `{{ spread }}` is ignored. Use `mergeProps`, or take `{{ name }}` out of `{{ spread }}` and combine it with your own.',
+        '`{{ name }}` is set before `{...{{ spread }}}`, so a `{{ name }}` in `{{ spread }}` replaces it. Use `mergeProps`, take `{{ name }}` out of `{{ spread }}` and combine it with your own, or set it after the spread when the props type omits it.',
     },
     schema: [],
   },
@@ -184,26 +177,15 @@ module.exports = {
           }
 
           const spread = spreads.find(
-            (spread) => !spread.excluded.has(name)
+            (spread) => spread.index > index && !spread.excluded.has(name)
           )
           if (!spread) {
             return
           }
 
-          const isAfterSpread = index > spread.index
-
-          // Set after the spread and passing the given value on, so it is merged by hand
-          if (
-            isAfterSpread &&
-            (referencesIdentifier(attribute.value, spread.name) ||
-              referencesIdentifier(attribute.value, name))
-          ) {
-            return
-          }
-
           context.report({
             node: attribute,
-            messageId: isAfterSpread ? 'ignored' : 'replaced',
+            messageId: 'replaced',
             data: { name, spread: spread.name },
           })
         })
