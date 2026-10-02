@@ -5,7 +5,7 @@ import { useSpacing } from '../../components/space/SpacingUtils'
 import Anchor from '../../components/Anchor'
 import Table from '../../components/Table'
 import { Th, Td, Tr } from '../../components/table/Table'
-import { Blockquote, Code, H, Hr, Li, Ol, P, Ul } from '../../elements'
+import { Code, H, Hr, Li, Ol, P, Ul } from '../../elements'
 import type { HSize } from '../../elements/typography/H'
 import AiCodeBlock from './AiCodeBlock'
 import { parseBlocks } from './markdown/parseBlocks'
@@ -59,6 +59,10 @@ const DefaultLink = ({ href, ...props }) => {
   )
 }
 
+function AiBlockquote(props: React.HTMLAttributes<HTMLQuoteElement>) {
+  return <blockquote className="dnb-ai-response__blockquote" {...props} />
+}
+
 const DEFAULT_COMPONENTS: Record<AiResponseElement, React.ElementType> = {
   p: P,
   h1: DefaultHeading(1),
@@ -70,7 +74,7 @@ const DEFAULT_COMPONENTS: Record<AiResponseElement, React.ElementType> = {
   ul: Ul,
   ol: Ol,
   li: Li,
-  blockquote: Blockquote,
+  blockquote: AiBlockquote,
   hr: Hr,
   pre: AiCodeBlock,
   code: Code,
