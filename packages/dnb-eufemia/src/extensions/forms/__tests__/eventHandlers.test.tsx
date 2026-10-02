@@ -42,6 +42,21 @@ describe('htmlAttributes event handlers on fields', () => {
     expect(fieldOnChange).toHaveBeenCalledWith('a', expect.anything())
   })
 
+  it('Field.String should keep its own onChange when htmlAttributes has an undefined one', async () => {
+    const fieldOnChange = vi.fn()
+
+    render(
+      <Field.String
+        onChange={fieldOnChange}
+        htmlAttributes={{ onChange: undefined }}
+      />
+    )
+
+    await userEvent.type(document.querySelector('input'), 'a')
+
+    expect(fieldOnChange).toHaveBeenCalledTimes(1)
+  })
+
   it('Field.String should keep its own onFocus when htmlAttributes has one', async () => {
     const fieldOnFocus = vi.fn()
     const attributeOnFocus = vi.fn()

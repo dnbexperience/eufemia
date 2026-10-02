@@ -5,6 +5,7 @@ import type { CSSProperties } from 'react'
  * Merges given props into a component's own props:
  * - Event handlers, like `onChange`, that both define are both called: the given one first, then the own one.
  *   A given handler can return `false` to skip the own one. The `false` is returned, so components like Input can reject the change.
+ *   A given handler that is `undefined` keeps the own one.
  * - `className` values are joined.
  * - `style` objects are merged, where the given values win.
  * - For every other prop, the given value wins.
@@ -34,21 +35,20 @@ export default function mergeProps<
               ...(givenValue as CSSProperties),
             }
           : (givenValue ?? ownValue)
-    } else if (
-      /^on[A-Z]/.test(key) &&
-      typeof ownValue === 'function' &&
-      typeof givenValue === 'function'
-    ) {
-      merged[key] = (...args: Array<unknown>) => {
-        const givenResult = givenValue(...args)
+    } else if (/^on[A-Z]/.test(key) && typeof ownValue === 'function') {
+      merged[key] =
+        typeof givenValue !== 'function' || givenValue === ownValue
+          ? ownValue
+          : (...args: Array<unknown>) => {
+              const givenResult = givenValue(...args)
 
-        // Components like Input use `false` to reject the event
-        if (givenResult === false) {
-          return false
-        }
+              // Components like Input use `false` to reject the event
+              if (givenResult === false) {
+                return false
+              }
 
-        return ownValue(...args)
-      }
+              return ownValue(...args)
+            }
     }
   }
 

@@ -76,6 +76,30 @@ describe('mergeProps', () => {
     expect(given).toHaveBeenCalledTimes(1)
   })
 
+  it('should keep the own handler when the given one is undefined', () => {
+    const own = vi.fn()
+
+    const merged = mergeProps(
+      { onKeyDown: own },
+      { onKeyDown: undefined }
+    ) as Handlers
+    merged.onKeyDown()
+
+    expect(own).toHaveBeenCalledTimes(1)
+  })
+
+  it('should call a handler once when it is both the own and the given one', () => {
+    const handler = vi.fn()
+
+    const merged = mergeProps(
+      { onKeyDown: handler },
+      { onKeyDown: handler }
+    ) as Handlers
+    merged.onKeyDown()
+
+    expect(handler).toHaveBeenCalledTimes(1)
+  })
+
   it('should not compose props that are not event handlers', () => {
     const own = vi.fn()
     const given = vi.fn()
