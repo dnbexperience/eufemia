@@ -45,7 +45,7 @@ describe('Ai.Response', () => {
     expect(document.querySelectorAll('ul.dnb-ul > li')).toHaveLength(2)
     expect(document.querySelector('ol.dnb-ol')).toBeInTheDocument()
     expect(
-      document.querySelector('blockquote.dnb-blockquote')
+      document.querySelector('blockquote.dnb-ai-response__blockquote')
     ).toHaveTextContent('Quote')
     expect(document.querySelector('hr.dnb-hr')).toBeInTheDocument()
   })
