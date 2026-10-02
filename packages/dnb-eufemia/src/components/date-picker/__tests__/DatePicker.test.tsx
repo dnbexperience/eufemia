@@ -6332,6 +6332,21 @@ describe('DatePicker ARIA', () => {
       expect(button.textContent).toContain('Open')
     })
   })
+
+  describe('statusProps', () => {
+    it('should keep opening the picker when statusProps has an onSubmit', () => {
+      const onSubmit = vi.fn()
+
+      render(<DatePicker statusProps={{ onSubmit }} />)
+
+      fireEvent.click(getDatePickerTriggerButton())
+
+      expect(onSubmit).toHaveBeenCalledTimes(1)
+      expect(
+        document.querySelector('.dnb-date-picker__container--open')
+      ).toBeInTheDocument()
+    })
+  })
 })
 
 describe('DatePicker attributes', () => {
