@@ -32,7 +32,7 @@ function record(overrides: Partial<McpUsageRecord> = {}): McpUsageRecord {
     env: 'dev',
     transport: 'web',
     timestamp: '2026-09-10T12:00:00.000Z',
-    createdat: '2026-09-10T12:00:00.000Z',
+    created_at: '2026-09-10T12:00:00.000Z',
     ...overrides,
   }
 }
@@ -76,7 +76,7 @@ describe('storeMcpUsage', () => {
   it('keeps records from different dates in their matching partitions', async () => {
     await storeMcpUsage('my-bucket', [
       record(),
-      record({ createdat: '2026-09-11T00:00:00.000Z' }),
+      record({ created_at: '2026-09-11T00:00:00.000Z' }),
     ])
 
     expect(send).toHaveBeenCalledTimes(2)

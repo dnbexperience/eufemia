@@ -156,9 +156,9 @@ export type McpUsageRecord = {
   path: string
   env: string
   transport: McpUsageTransport
-  eufemiaVersion: string
+  eufemia_version: string
   timestamp: string
-  createdat: string
+  created_at: string
 }
 
 type ValidationFailure = { ok: false; errors: string[] }
@@ -332,8 +332,8 @@ export function buildMcpUsageRecord(
     path: PATH_TOOLS.has(input.tool) ? (input.path ?? '') : '',
     env: input.env ?? 'unknown',
     transport,
-    eufemiaVersion: input.eufemiaVersion ?? 'unknown',
+    eufemia_version: input.eufemiaVersion ?? 'unknown',
     timestamp: input.timestamp ?? createdAt,
-    createdat: createdAt,
+    created_at: createdAt,
   }
 }

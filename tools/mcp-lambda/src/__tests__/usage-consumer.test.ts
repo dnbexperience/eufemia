@@ -18,7 +18,7 @@ function usageRecord(
     env: 'dev',
     transport: 'web',
     timestamp: '2026-09-10T12:00:00.000Z',
-    createdat: '2026-09-10T12:00:00.000Z',
+    created_at: '2026-09-10T12:00:00.000Z',
     ...overrides,
   }
 }
