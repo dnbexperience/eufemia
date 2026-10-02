@@ -113,6 +113,16 @@ describe('Upload', () => {
     expect(onClick).toHaveBeenCalledTimes(1)
   })
 
+  it('keeps the button class when buttonProps has a className', () => {
+    render(
+      <Upload {...defaultProps} buttonProps={{ className: 'custom' }} />
+    )
+
+    expect(document.querySelector('.custom')).toHaveClass(
+      'dnb-upload__file-input-button'
+    )
+  })
+
   it('renders the upload file input section', () => {
     render(<Upload {...defaultProps} />)
 

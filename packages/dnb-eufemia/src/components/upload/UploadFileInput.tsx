@@ -5,6 +5,7 @@ import type {
   ReactNode,
   SyntheticEvent,
 } from 'react'
+import { clsx } from 'clsx'
 
 // Components
 import Button from '../button/Button'
@@ -90,7 +91,6 @@ const UploadFileInput = ({
         <Button
           top={variant === 'default' ? 'medium' : undefined}
           id={`${sharedId}-input`}
-          className="dnb-upload__file-input-button"
           icon={FolderIcon}
           iconPosition="left"
           variant="secondary"
@@ -98,6 +98,10 @@ const UploadFileInput = ({
           disabled={disabled}
           text={buttonText}
           {...buttonProps}
+          className={clsx(
+            'dnb-upload__file-input-button',
+            buttonProps?.className
+          )}
           onClick={(e) => {
             openFileDialog()
             buttonProps?.onClick?.(e)
@@ -110,13 +114,13 @@ const UploadFileInput = ({
         aria-labelledby={`${sharedId}-input`}
         ref={fileInput}
         accept={accept}
-        className="dnb-upload__file-input"
         type="file"
-        onChange={onChangeHandler}
         onClick={onClickHandler}
         multiple={filesAmountLimit > 1}
         disabled={disabled}
         {...rest}
+        className="dnb-upload__file-input"
+        onChange={onChangeHandler}
       />
     </div>
   )
