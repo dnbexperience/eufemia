@@ -18,6 +18,7 @@ export type SkeletonCircleProps = {
 function SkeletonCircle({
   rows = 3,
   children = null,
+  className,
   ...rest
 }: SkeletonCircleProps) {
   const rowsLength = useMemo(() => {
@@ -37,7 +38,8 @@ function SkeletonCircle({
     <div
       className={clsx(
         'dnb-skeleton__figure',
-        'dnb-skeleton__figure--show'
+        'dnb-skeleton__figure--show',
+        className
       )}
       aria-busy
       {...rest}
