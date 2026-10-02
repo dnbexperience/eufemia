@@ -30,6 +30,18 @@
     right: 0.5rem;
   }
 
+  &__blockquote {
+    margin: 0 0 1.5rem;
+    padding-left: 1rem;
+
+    color: var(--token-color-text-neutral-alternative);
+    border-left: 0.25rem solid var(--token-color-stroke-neutral-subtle);
+
+    > :last-child {
+      margin-bottom: 0;
+    }
+  }
+
   &__task {
     list-style: none;
 
