@@ -215,9 +215,51 @@ describe('Ai.PromptInput', () => {
     ).toHaveAccessibleName('Stopp')
   })
 
-  it('renders a character counter', () => {
-    render(<Ai.PromptInput characterCounter={111} />)
-    expect(document.querySelector('.dnb-text-counter')).toBeInTheDocument()
+  it('renders a short character counter with a text for screen readers', async () => {
+    render(
+      <Provider locale="nb-NO">
+        <Ai.PromptInput characterCounter={111} />
+      </Provider>
+    )
+
+    const counter = document.querySelector('.dnb-ai-prompt-input__counter')
+    expect(counter.querySelector('[aria-hidden]')).toHaveTextContent(
+      '0/111'
+    )
+    expect(
+      counter.querySelector('.dnb-text-counter.dnb-sr-only')
+    ).toHaveTextContent('Du har brukt 0 av 111 tegn.')
+
+    await userEvent.type(getTextarea(), 'Hei')
+    expect(counter.querySelector('[aria-hidden]')).toHaveTextContent(
+      '3/111'
+    )
+  })
+
+  it('does not submit text longer than the character counter', async () => {
+    const onSubmit = vi.fn()
+    render(
+      <Ai.PromptInput
+        characterCounter={3}
+        value="Hello"
+        onSubmit={onSubmit}
+      />
+    )
+
+    expect(
+      document.querySelector('.dnb-ai-prompt-input__counter')
+    ).toHaveClass('dnb-ai-prompt-input__counter--exceeded')
+    expect(getSubmit()).toBeDisabled()
+
+    await userEvent.type(getTextarea(), '{Enter}')
+    expect(onSubmit).not.toHaveBeenCalled()
+  })
+
+  it('shows an arrow on the send button', () => {
+    render(<Ai.PromptInput />)
+    expect(
+      getSubmit().querySelector('[data-testid="arrow up icon"]')
+    ).toBeInTheDocument()
   })
 
   it('disables the input and buttons', () => {

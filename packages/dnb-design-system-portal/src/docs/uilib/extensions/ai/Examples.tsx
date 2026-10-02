@@ -728,3 +728,26 @@ export function AiChatConversation() {
     </ComponentBox>
   )
 }
+
+export function AiToolStates() {
+  return (
+    <ComponentBox data-visual-test="ai-tool-states">
+      <Ai.Tool
+        title="Looking up your transactions"
+        state="input-available"
+      />
+      <Ai.Tool
+        top
+        title="Looking up your transactions"
+        state="output-available"
+      />
+      <Ai.Tool
+        top
+        title="Blocking your card"
+        state="output-error"
+        errorText="The card could not be blocked. Try again later."
+      />
+      <Ai.Tool top title="Blocking your card" state="output-denied" />
+    </ComponentBox>
+  )
+}
