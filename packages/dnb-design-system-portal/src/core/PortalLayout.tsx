@@ -102,7 +102,7 @@ export default function PortalLayout(props: PortalLayoutProps) {
   const pageFm = pageMdx?.frontmatter || {}
   const fmData = Object.entries(parentFm).reduce(
     (acc, [key, value]) => {
-      if (!acc[key]) {
+      if (acc[key] === undefined) {
         acc[key] = value
       }
       return acc
