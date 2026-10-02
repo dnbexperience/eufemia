@@ -117,8 +117,8 @@ describe('SkipContent', () => {
 
     await waitFor(() => {
       expect(document.activeElement.tagName).toBe('SECTION')
+      expect(element.querySelector('.dnb-button')).not.toBeInTheDocument()
     })
-    expect(element.querySelector('.dnb-button')).not.toBeInTheDocument()
     expect(document.activeElement.classList).toContain(
       'dnb-skip-content__focus'
     )
