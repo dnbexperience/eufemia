@@ -37,7 +37,7 @@ Here is a list of [all available fields](/uilib/extensions/forms/all-fields/).
   - [More info](#more-info)
     - [Empty value](#empty-value)
     - [Standardized properties](#standardized-properties)
-    - [Event handlers in htmlAttributes](#event-handlers-in-htmlattributes)
+    - [How htmlAttributes are merged](#how-htmlattributes-are-merged)
     - [Controlled \& Uncontrolled](#controlled--uncontrolled)
     - [Creating custom field components](#creating-custom-field-components)
     - [Basic field usage](#basic-field-usage)
@@ -83,9 +83,16 @@ The basic components have a number of properties that make it possible to contro
 
 Inside a [Form.Handler](/uilib/extensions/forms/Form/Handler/) (or [DataContext.Provider](/uilib/extensions/forms/DataContext/Provider/)), fields connect to the surrounding data set with the `path` prop — a [JSON Pointer](/uilib/extensions/forms/getting-started/#what-is-a-json-pointer) such as `/firstName`. The `path` can be type-checked against your data model for autocomplete and compile-time errors on typos — see [Type-checked paths](/uilib/extensions/forms/typed-paths/).
 
-### Event handlers in htmlAttributes
+### How htmlAttributes are merged
 
-Fields pass `htmlAttributes` on to the element or component they render, such as an input. An event handler given this way, such as `onKeyDown`, runs before the field's own handler for the same event, and the field keeps updating its value and validation as usual. The same applies to event handlers given in `autocompleteProps` and `dropdownProps` on [Field.Selection](/uilib/extensions/forms/base-fields/Selection/).
+Fields pass `htmlAttributes` on to the element or component they render, such as an input. When the field sets the same prop itself, the two are combined:
+
+- An event handler, such as `onKeyDown`, runs before the field's own handler for the same event, and the field keeps updating its value and validation as usual.
+- A `className` is added to the field's own classes.
+- A `style` is merged with the field's own, where your values win.
+- For other props, your value wins, except for a few that the field controls itself.
+
+The same applies to `autocompleteProps` and `dropdownProps` on [Field.Selection](/uilib/extensions/forms/base-fields/Selection/).
 
 Return `false` from your handler to skip the field's own handling of that event. On `Field.String`, returning `false` from `onChange` also rejects the change, so the input keeps its previous value:
 
