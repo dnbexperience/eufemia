@@ -109,6 +109,8 @@ export default {
       toolError: 'Mislykkedes',
       toolAwaitingApproval: 'Venter på bekræftelse',
       canceled: 'Annulleret',
+      thinking: 'Tænker …',
+      reasoning: 'Ræsonnement',
     },
     Dropdown: {
       title: 'Vælg',

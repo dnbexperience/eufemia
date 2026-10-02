@@ -11,7 +11,7 @@ const sources = [
 ]
 
 const getToggle = () =>
-  document.querySelector<HTMLButtonElement>('.dnb-ai-sources__toggle')
+  document.querySelector<HTMLButtonElement>('.dnb-ai-collapsible__toggle')
 
 describe('Ai.Sources', () => {
   it('renders a collapsed toggle with the number of sources', () => {
@@ -28,9 +28,7 @@ describe('Ai.Sources', () => {
     await userEvent.click(getToggle())
 
     expect(getToggle()).toHaveAttribute('aria-expanded', 'true')
-    expect(document.querySelector('.dnb-ai-sources')).toHaveClass(
-      'dnb-ai-sources--open'
-    )
+    expect(getToggle()).toHaveClass('dnb-ai-collapsible__toggle--open')
 
     const list = document.getElementById(
       getToggle().getAttribute('aria-controls')

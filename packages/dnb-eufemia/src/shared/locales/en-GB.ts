@@ -108,6 +108,8 @@ export default {
       toolError: 'Failed',
       toolAwaitingApproval: 'Waiting for confirmation',
       canceled: 'Cancelled',
+      thinking: 'Thinking …',
+      reasoning: 'Reasoning',
     },
     Dropdown: {
       title: 'Select',
