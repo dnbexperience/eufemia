@@ -625,6 +625,45 @@ describe('Input component', () => {
     expect(statusOnSubmit).toHaveBeenCalledTimes(1)
   })
 
+  it('keeps emitting onSubmit when statusProps has an onClick', () => {
+    const onSubmit = vi.fn()
+    const onClick = vi.fn()
+
+    render(
+      <Input
+        type="search"
+        showSubmitButton
+        onSubmit={onSubmit}
+        statusProps={{ onClick }}
+      />
+    )
+
+    fireEvent.click(
+      document.querySelector('.dnb-input__submit-button button')
+    )
+
+    expect(onSubmit).toHaveBeenCalledTimes(1)
+  })
+
+  it('keeps the submit button free of the given statusProps', () => {
+    render(
+      <Input
+        type="search"
+        showSubmitButton
+        status="Something went wrong"
+        statusProps={{ text: 'Replaced status text', className: 'custom' }}
+      />
+    )
+
+    const button = document.querySelector(
+      '.dnb-input__submit-button button'
+    )
+
+    expect(button).toHaveClass('dnb-button--icon-only')
+    expect(button).not.toHaveClass('custom')
+    expect(button.textContent).toBe('')
+  })
+
   it('keeps emitting onSubmitFocus and onSubmitBlur when an onFocus and onBlur is given', () => {
     const onSubmitFocus = vi.fn()
     const onSubmitBlur = vi.fn()
