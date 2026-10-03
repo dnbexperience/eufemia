@@ -150,6 +150,31 @@ describe('UploadFileInput', () => {
     expect(onInputUpload).toHaveBeenCalledWith([{ file }])
   })
 
+  it('keeps the file input class and change handler when the same props are given', () => {
+    const file = createMockFile('fileName.png', 100, 'image/png')
+    const onInputUpload = vi.fn()
+
+    render(
+      <UploadFileInput
+        {...({
+          className: 'custom',
+          onChange: vi.fn(),
+        } as Record<string, unknown>)}
+      />,
+      {
+        wrapper: makeWrapper({ onInputUpload }),
+      }
+    )
+
+    const inputElement = document.querySelector('.dnb-upload__file-input')
+
+    expect(inputElement).toBeInTheDocument()
+
+    fireEvent.change(inputElement, { target: { files: [file] } })
+
+    expect(onInputUpload).toHaveBeenCalledWith([{ file }])
+  })
+
   it('accepts given acceptedFileTypes', async () => {
     render(<UploadFileInput />, {
       wrapper: makeWrapper({

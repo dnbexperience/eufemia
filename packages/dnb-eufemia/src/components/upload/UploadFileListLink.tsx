@@ -12,7 +12,7 @@ export const UploadFileLink = (props: UploadFileLinkProps) => {
 
   if (!onClick && !href) {
     return (
-      <Span className="dnb-p" {...rest}>
+      <Span {...rest} className="dnb-p">
         {text}
       </Span>
     )

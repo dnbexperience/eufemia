@@ -62,6 +62,23 @@ describe('Visibility', () => {
       expect(element).toHaveTextContent('Child')
     })
 
+    it('should keep the wrapper class when animate is true and a className is given', () => {
+      render(
+        <Visibility
+          id="my-id"
+          animate
+          visible
+          {...({ className: 'custom' } as Record<string, unknown>)}
+        >
+          Child
+        </Visibility>
+      )
+
+      expect(document.querySelector('#my-id')).toHaveClass(
+        'dnb-forms-visibility'
+      )
+    })
+
     it('should forward id to span when keepInDOM is true', () => {
       render(
         <Visibility id="my-id" keepInDOM visible={false}>

@@ -169,9 +169,9 @@ export default function MenuAccordion(props: MenuAccordionProps) {
         aria-disabled={disabled || undefined}
         tabIndex={isActive ? 0 : -1}
         className="dnb-menu__action dnb-menu__accordion__trigger"
-        onClick={handleClick}
         onKeyDown={handleKeyDown}
         {...rest}
+        onClick={handleClick}
       >
         <MenuItemContent icon={icon} text={text} />
 

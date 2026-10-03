@@ -128,5 +128,15 @@ describe('UploadFileListLink', () => {
         'test'
       )
     })
+
+    it('keeps the dnb-p class when a className is given', () => {
+      render(
+        <UploadFileLink
+          {...props}
+          {...({ className: 'custom' } as Record<string, unknown>)}
+        />
+      )
+      expect(document.querySelector('span')).toHaveClass('dnb-p')
+    })
   })
 })

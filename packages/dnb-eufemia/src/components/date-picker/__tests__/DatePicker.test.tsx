@@ -6331,6 +6331,32 @@ describe('DatePicker ARIA', () => {
       expect(button.classList).toContain('dnb-button--tertiary')
       expect(button.textContent).toContain('Open')
     })
+
+    it('should keep the trigger class and click when triggerProps has the same props', () => {
+      render(
+        <DatePicker
+          showInput
+          triggerProps={
+            {
+              className: 'custom',
+              onClick: vi.fn(),
+            } as Record<string, unknown>
+          }
+        />
+      )
+
+      const button = document.querySelector(
+        'button.dnb-input__submit-button__button'
+      ) as HTMLButtonElement
+
+      expect(button.classList).toContain('dnb-button--input-button')
+
+      fireEvent.click(button)
+
+      expect(
+        document.querySelector('.dnb-date-picker__container--open')
+      ).toBeInTheDocument()
+    })
   })
 })
 

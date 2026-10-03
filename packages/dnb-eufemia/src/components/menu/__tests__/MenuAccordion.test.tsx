@@ -34,6 +34,29 @@ describe('MenuAccordion', () => {
     expect(trigger.textContent).toContain('Export as')
   })
 
+  it('keeps toggling when an onClick is given', () => {
+    const ctx = createMockContext()
+
+    render(
+      <MenuContext value={ctx}>
+        <ul role="menu">
+          <Menu.Accordion
+            text="Export as"
+            {...({ onClick: vi.fn() } as Record<string, unknown>)}
+          >
+            <Menu.Action text="PDF" />
+          </Menu.Accordion>
+        </ul>
+      </MenuContext>
+    )
+
+    const trigger = document.querySelector('.dnb-menu__accordion__trigger')
+
+    fireEvent.click(trigger)
+
+    expect(trigger.getAttribute('aria-expanded')).toBe('true')
+  })
+
   it('toggles open/close on click', () => {
     const ctx = createMockContext()
 
