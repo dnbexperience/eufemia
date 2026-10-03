@@ -127,6 +127,11 @@ describe('Dialog', () => {
     )
 
     fireEvent.click(document.querySelector('.dnb-modal__trigger'))
+
+    expect(
+      document.querySelector('.dnb-dialog__content')
+    ).toBeInTheDocument()
+
     fireEvent.click(document.querySelector('.dnb-modal__close-button'))
 
     expect(onClick).toHaveBeenCalledTimes(1)
