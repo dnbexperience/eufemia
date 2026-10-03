@@ -14,6 +14,19 @@ describe('Tools.Log', () => {
     expect(element.textContent).toBe(JSON.stringify(data, null, 2) + ' ')
   })
 
+  it('should keep the max width when a style is given', () => {
+    render(
+      <Form.Handler>
+        <Tools.Log style={{ color: 'red' }} />
+      </Form.Handler>
+    )
+
+    const element = document.querySelector<HTMLElement>('output')
+
+    expect(element.style.maxWidth).toBe('80vw')
+    expect(element.style.color).toBe('red')
+  })
+
   it('should format array with square brackets', () => {
     const data = { foo: ['bar', 'baz'] }
     render(
