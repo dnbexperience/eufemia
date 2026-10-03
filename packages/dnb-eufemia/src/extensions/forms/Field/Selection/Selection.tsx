@@ -123,12 +123,12 @@ export type FieldSelectionProps = FieldProps<IOption['value']> & {
    */
   listDriver?: DrawerListDriver
   /**
-   * Forward any additional properties to the [Autocomplete](/uilib/components/autocomplete/) component. `onType` will additionally provide the `value` parameter with `emptyValue` support in addition to the internal `dataContext`.
+   * Forward any additional properties to the [Autocomplete](/uilib/components/autocomplete/) component. Event handlers run together with the field's own, see [how given attributes are merged](/uilib/extensions/forms/about-fields/#how-given-attributes-are-merged). `onType` will additionally provide the `value` parameter with `emptyValue` support in addition to the internal `dataContext`.
    */
   autocompleteProps?: AutocompleteAllProps
 
   /**
-   * Forward any additional properties to the [Dropdown](/uilib/components/dropdown/) component.
+   * Forward any additional properties to the [Dropdown](/uilib/components/dropdown/) component. Event handlers run together with the field's own, see [how given attributes are merged](/uilib/extensions/forms/about-fields/#how-given-attributes-are-merged).
    */
   dropdownProps?: DropdownAllProps
 
