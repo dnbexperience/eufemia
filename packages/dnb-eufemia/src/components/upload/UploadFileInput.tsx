@@ -110,13 +110,13 @@ const UploadFileInput = ({
         aria-labelledby={`${sharedId}-input`}
         ref={fileInput}
         accept={accept}
-        className="dnb-upload__file-input"
         type="file"
-        onChange={onChangeHandler}
         onClick={onClickHandler}
         multiple={filesAmountLimit > 1}
         disabled={disabled}
         {...rest}
+        className="dnb-upload__file-input"
+        onChange={onChangeHandler}
       />
     </div>
   )
