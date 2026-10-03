@@ -100,6 +100,8 @@ So return `false` only when you mean to block the field. A shorthand like `event
 
 Not every field merges this way. When a field renders a group of elements and handles the change on the group rather than on each element, your handler is passed on as it is: it still runs, but returning `false` does not block the field.
 
+Other Eufemia components merge the props you give them the same way. See [how given props are merged](/uilib/usage/first-steps/the-basics/#how-given-props-are-merged).
+
 ### Controlled & Uncontrolled
 
 In React, it's important to be aware of where the states of a given set of data "lives". This can be an entire object that represents an entity the user is going to make changes to (e.g. a user or a bank account), but it also applies to the individual value a form makes changes to. A form field can be [controlled](https://reactjs.org/docs/forms.html#controlled-components) or [uncontrolled](https://reactjs.org/docs/uncontrolled-components.html). The components in this package make it possible to work in both ways.
