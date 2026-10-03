@@ -524,6 +524,33 @@ describe('Autocomplete component', () => {
         document.querySelector('.dnb-autocomplete__inner')
       ).toHaveAttribute('id')
     })
+
+    it('keeps the submit button free of the given statusProps', () => {
+      const onClick = vi.fn()
+
+      render(
+        <Autocomplete
+          data={mockData}
+          {...mockProps}
+          showSubmitButton
+          statusProps={{ className: 'custom-status', onClick }}
+        />
+      )
+
+      const button = document.querySelector(
+        '.dnb-input__submit-button button'
+      )
+
+      expect(button).toHaveClass('dnb-input__submit-button__button')
+      expect(button).not.toHaveClass('custom-status')
+
+      fireEvent.click(button)
+
+      expect(document.querySelector('.dnb-input__input')).toHaveAttribute(
+        'aria-expanded',
+        'true'
+      )
+    })
   })
 
   it('keyboard navigation loops', () => {

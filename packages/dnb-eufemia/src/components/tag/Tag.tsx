@@ -112,6 +112,7 @@ const Tag = (
     hasLabel,
     variant = 'default',
     onClick,
+    onKeyUp,
     omitOnKeyUpDeleteEvent,
     icon,
     removeIconTitle, // has a translation in context
@@ -175,8 +176,11 @@ const Tag = (
       skeleton={skeleton}
       onKeyUp={
         variant === 'removable' && !omitOnKeyUpDeleteEvent
-          ? (e) => handleDeleteKeyUp(e)
-          : undefined
+          ? (e) => {
+              onKeyUp?.(e)
+              handleDeleteKeyUp(e)
+            }
+          : onKeyUp
       }
       {...additionalButtonParams}
       {...(props as Record<string, unknown>)}

@@ -62,7 +62,7 @@ export const InfoCardProperties: PropertiesTableProps = {
     status: 'optional',
   },
   closeButtonProps: {
-    doc: 'Props forwarded to the close button.',
+    doc: 'Props forwarded to the close button. A given `onClick` runs before `onClose`. Return `false` from it to skip `onClose`.',
     type: 'ButtonProps',
     status: 'optional',
   },
@@ -77,7 +77,7 @@ export const InfoCardProperties: PropertiesTableProps = {
     status: 'optional',
   },
   acceptButtonProps: {
-    doc: 'Props forwarded to the accept button.',
+    doc: 'Props forwarded to the accept button. A given `onClick` runs before `onAccept`. Return `false` from it to skip `onAccept`.',
     type: 'ButtonProps',
     status: 'optional',
   },

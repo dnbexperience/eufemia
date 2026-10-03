@@ -26,6 +26,25 @@ describe('Field.Slider', () => {
     )
   })
 
+  it('should call both onChange handlers when htmlAttributes has one', () => {
+    const fieldOnChange = vi.fn()
+    const attributeOnChange = vi.fn()
+
+    render(
+      <Field.Slider
+        value={10}
+        onChange={fieldOnChange}
+        htmlAttributes={{ onChange: attributeOnChange }}
+      />
+    )
+
+    fireEvent.click(document.querySelector('.dnb-slider__button--add'))
+
+    expect(attributeOnChange).toHaveBeenCalledTimes(1)
+    expect(fieldOnChange).toHaveBeenCalledTimes(1)
+    expect(fieldOnChange).toHaveBeenCalledWith(11, expect.anything())
+  })
+
   describe('single thumb', () => {
     it('with "value"', () => {
       const value = 70

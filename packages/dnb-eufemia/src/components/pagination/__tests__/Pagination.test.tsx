@@ -153,6 +153,15 @@ describe('Pagination bar', () => {
     ).toBe('2')
   })
 
+  it('keeps the content class when a className is given', () => {
+    render(<Pagination.Content className="custom-class" />)
+
+    const element = document.querySelector('.dnb-pagination__content')
+
+    expect(element).toHaveClass('dnb-no-focus')
+    expect(element).toHaveClass('custom-class')
+  })
+
   it('sets content with setContent', () => {
     render(
       <Pagination pageCount={3} startupPage={2}>

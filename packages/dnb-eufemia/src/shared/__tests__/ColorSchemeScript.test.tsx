@@ -186,22 +186,19 @@ describe('ColorSchemeScript', () => {
         <ColorSchemeHeadScript scopeHash="test-scope" />
       )
 
-      expect(html).toContain('<script>')
-      expect(html).toContain("classList.add('test-scope')")
+      expect(html).toBe(`<script>${getHeadScript('test-scope')}</script>`)
     })
 
     it('ColorSchemeBodyFirstScript renders a script tag', () => {
       const html = renderToStaticMarkup(<ColorSchemeBodyFirstScript />)
 
-      expect(html).toContain('<script>')
-      expect(html).toContain('document.body.classList')
+      expect(html).toBe(`<script>${getBodyScript()}</script>`)
     })
 
     it('ColorSchemeBodyLastScript renders a script tag', () => {
       const html = renderToStaticMarkup(<ColorSchemeBodyLastScript />)
 
-      expect(html).toContain('<script>')
-      expect(html).toContain('querySelectorAll')
+      expect(html).toBe(`<script>${getContentScript()}</script>`)
     })
   })
 

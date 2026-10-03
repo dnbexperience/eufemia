@@ -1,5 +1,8 @@
 import { useCallback, useLayoutEffect, useMemo, useRef } from 'react'
-import type { ClipboardEvent, KeyboardEvent } from 'react'
+import type {
+  ClipboardEvent as ReactClipboardEvent,
+  KeyboardEvent as ReactKeyboardEvent,
+} from 'react'
 import { clsx } from 'clsx'
 import {
   listAllSections,
@@ -313,6 +316,8 @@ export default function SegmentedFieldSection({
           })
         }
 
+        // The adjacent section belongs to another SegmentedField instance,
+        // so a native event is the only way to hand the character over.
         if (focusAdjacentSection('next')) {
           ;(document.activeElement as HTMLElement | null)?.dispatchEvent(
             new KeyboardEvent('keydown', {
@@ -380,7 +385,7 @@ export default function SegmentedFieldSection({
   )
 
   const handlePaste = useCallback(
-    (event: ClipboardEvent<HTMLSpanElement>) => {
+    (event: ReactClipboardEvent<HTMLSpanElement>) => {
       if (handledPasteTimestampRef.current === event.timeStamp) {
         return
       }
@@ -388,7 +393,7 @@ export default function SegmentedFieldSection({
       handledPasteTimestampRef.current = event.timeStamp
 
       onPasteExternal?.(
-        event as unknown as ClipboardEvent<HTMLInputElement>
+        event as unknown as ReactClipboardEvent<HTMLInputElement>
       )
 
       if (event.defaultPrevented) {
@@ -572,7 +577,7 @@ export default function SegmentedFieldSection({
           }
 
           onKeyDownExternal?.(
-            event as unknown as KeyboardEvent<HTMLInputElement>
+            event as unknown as ReactKeyboardEvent<HTMLInputElement>
           )
 
           if (event.defaultPrevented) {
@@ -735,12 +740,12 @@ export default function SegmentedFieldSection({
           }
 
           onKeyUpExternal?.(
-            event as unknown as KeyboardEvent<HTMLInputElement>
+            event as unknown as ReactKeyboardEvent<HTMLInputElement>
           )
         }}
         onCopy={(event) => {
           onCopyExternal?.(
-            event as unknown as ClipboardEvent<HTMLInputElement>
+            event as unknown as ReactClipboardEvent<HTMLInputElement>
           )
 
           if (event.defaultPrevented) {

@@ -31,6 +31,7 @@ import { extendPropsWithContext } from '../../shared/helpers/extendPropsWithCont
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 import useId from '../../shared/helpers/useId'
 import Suffix from '../../shared/helpers/Suffix'
+import mergeProps from '../../shared/helpers/mergeProps'
 import {
   warn,
   removeUndefinedProps,
@@ -342,6 +343,21 @@ function InputComponent({ ref, ...restProps }: InputProps) {
     ...attributes
   } = inputSubmitButtonAttributes
 
+  // These handlers belong to the input element, which receives them through
+  // `attributes`. Forwarding them to the submit button as well would replace
+  // the handlers it needs to emit onSubmit, onSubmitFocus and onSubmitBlur.
+  const {
+    onClick: _onClick, //eslint-disable-line
+    onFocus: _onFocus, //eslint-disable-line
+    onBlur: _onBlur, //eslint-disable-line
+    ...submitButtonAttributes
+  } = inputSubmitButtonAttributes
+
+  // The submit button takes these as its own `statusProps`, so they reach its
+  // Button through a merge instead of replacing the handlers and class it sets.
+  const { onSubmit: _statusOnSubmit, ...remainingStatusProps } =
+    statusProps ?? {}
+
   let usedInputState = inputState
   if (disabled || skeleton) {
     usedInputState = 'disabled'
@@ -559,7 +575,7 @@ function InputComponent({ ref, ...restProps }: InputProps) {
                 submitElement
               ) : (
                 <InputSubmitButton
-                  {...inputSubmitButtonAttributes}
+                  {...submitButtonAttributes}
                   id={id + '-submit-button'}
                   value={hasVal ? value : ''}
                   icon={submitButtonIcon}
@@ -573,8 +589,13 @@ function InputComponent({ ref, ...restProps }: InputProps) {
                   disabled={disabled}
                   skeleton={skeleton}
                   size={size}
-                  onSubmit={onSubmit}
-                  {...statusProps}
+                  onSubmit={
+                    mergeProps(
+                      { onSubmit },
+                      { onSubmit: statusProps?.onSubmit }
+                    ).onSubmit
+                  }
+                  statusProps={remainingStatusProps}
                 />
               )}
             </span>
@@ -723,12 +744,12 @@ function InputSubmitButton({
         iconSize={iconSize}
         status={status}
         statusState={statusState}
+        statusProps={statusProps}
         onClick={onSubmitHandler}
         onFocus={onSubmitFocusHandler}
         onBlur={onSubmitBlurHandler}
         ref={combinedButtonRef}
         {...(params as Record<string, unknown>)}
-        {...(statusProps as Record<string, unknown>)}
       />
     </span>
   )

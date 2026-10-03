@@ -84,6 +84,30 @@ describe('Menu integration', () => {
     expect(onOpenChange).toHaveBeenCalledWith(false)
   })
 
+  it('keeps the keyboard navigation when the list has an onKeyDown', () => {
+    const onKeyDown = vi.fn()
+
+    render(
+      <Menu.Root open={true}>
+        <Menu.Button>
+          {({ active, ...props }) => <button {...props}>Menu</button>}
+        </Menu.Button>
+        <Menu.List aria-label="Actions" onKeyDown={onKeyDown}>
+          <Menu.Action text="Item 1" />
+          <Menu.Action text="Item 2" />
+        </Menu.List>
+      </Menu.Root>
+    )
+
+    const list = document.querySelector('[role="menu"]')
+    fireEvent.keyDown(list, { key: 'ArrowDown' })
+
+    expect(onKeyDown).toHaveBeenCalledTimes(1)
+    expect(document.activeElement).toBe(
+      document.querySelectorAll('[role="menuitem"]')[0]
+    )
+  })
+
   it('renders menu with icons', () => {
     render(
       <Menu.Root open={true}>

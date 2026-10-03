@@ -237,4 +237,62 @@ describe('CancelButton', () => {
       expect(document.querySelector('.dnb-dialog')).not.toBeInTheDocument()
     })
   })
+
+  it('calls a given onClick when the cancel is performed', async () => {
+    const onClick = vi.fn()
+    const switchContainerMode = vi.fn()
+
+    render(
+      <SectionContainerContext value={{ switchContainerMode }}>
+        <Toolbar>
+          <CancelButton showConfirmDialog={false} onClick={onClick} />
+        </Toolbar>
+      </SectionContainerContext>
+    )
+
+    await userEvent.click(document.querySelector('button'))
+
+    await waitFor(() => {
+      expect(onClick).toHaveBeenCalledTimes(1)
+    })
+    expect(onClick).toHaveBeenCalledWith(
+      expect.objectContaining({
+        event: expect.objectContaining({ type: 'click' }),
+      })
+    )
+    expect(switchContainerMode).toHaveBeenCalledWith('view')
+  })
+
+  it('calls a given onClick with the same payload when confirming the dialog', async () => {
+    const onClick = vi.fn()
+    const switchContainerMode = vi.fn()
+
+    render(
+      <SectionContainerContext value={{ switchContainerMode }}>
+        <Toolbar>
+          <CancelButton onClick={onClick} />
+        </Toolbar>
+      </SectionContainerContext>
+    )
+
+    await userEvent.click(document.querySelector('button'))
+
+    await waitFor(() => {
+      expect(document.querySelector('.dnb-dialog')).toBeInTheDocument()
+    })
+    expect(onClick).toHaveBeenCalledTimes(0)
+
+    await userEvent.click(
+      document.querySelector('.dnb-dialog .dnb-button--primary')
+    )
+
+    await waitFor(() => {
+      expect(onClick).toHaveBeenCalledTimes(1)
+    })
+    expect(onClick).toHaveBeenCalledWith(
+      expect.objectContaining({
+        event: expect.objectContaining({ type: 'click' }),
+      })
+    )
+  })
 })

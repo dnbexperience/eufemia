@@ -9,6 +9,7 @@ import type { DragEvent as ReactDragEvent } from 'react'
 import { clsx } from 'clsx'
 
 import HeightAnimation from '../height-animation/HeightAnimation'
+import mergeProps from '../../shared/helpers/mergeProps'
 import { UploadContext } from './UploadContext'
 import type {
   UploadAllProps,
@@ -118,10 +119,14 @@ export default function UploadDropzone({
   return (
     <HeightAnimation
       className={clsx(className, hover && 'dnb-upload--active')}
-      onDrop={dropHandler}
-      onDragOver={dragEnterHandler}
-      onDragLeave={dragLeaveHandler}
-      {...props}
+      {...mergeProps(
+        {
+          onDrop: dropHandler,
+          onDragOver: dragEnterHandler,
+          onDragLeave: dragLeaveHandler,
+        },
+        props
+      )}
     >
       {children}
 

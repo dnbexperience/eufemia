@@ -12,7 +12,7 @@ export const WizardNextButtonProperties: PropertiesTableProps = {
     status: 'optional',
   },
   '[Button](/uilib/components/button/properties)': {
-    doc: 'All button properties, except `variant`.',
+    doc: 'All button properties, except `variant`. A given `onClick` runs before the wizard moves to the next step, instead of replacing it. Return `false` from it to stay on the current step.',
     type: 'Various',
     status: 'optional',
   },

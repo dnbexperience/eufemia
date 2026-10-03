@@ -34,6 +34,29 @@ describe('Form.Isolation', () => {
     ).toBeUndefined()
   })
 
+  it('should keep committing when the commit button has an onClick', async () => {
+    const onCommit = vi.fn()
+    const onClick = vi.fn()
+
+    render(
+      <Form.Handler>
+        <Form.Isolation onCommit={onCommit}>
+          <Field.String path="/foo" value="Value" />
+          <Form.Isolation.CommitButton onClick={onClick} />
+        </Form.Isolation>
+      </Form.Handler>
+    )
+
+    await userEvent.click(
+      document.querySelector('.dnb-forms-isolate__commit-button')
+    )
+
+    expect(onClick).toHaveBeenCalledTimes(1)
+    await waitFor(() => {
+      expect(onCommit).toHaveBeenCalledTimes(1)
+    })
+  })
+
   it('should use initial value from root context', () => {
     render(
       <Form.Handler

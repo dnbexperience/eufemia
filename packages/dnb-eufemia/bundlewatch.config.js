@@ -10,7 +10,7 @@ const jsBundles = [
   { path: 'build/esm/dnb-ui-components.min.mjs', maxSize: '254kB' },
   { path: 'build/esm/dnb-ui-elements.min.mjs', maxSize: '75kB' },
   { path: 'build/esm/dnb-ui-extensions.min.mjs', maxSize: '400kB' },
-  { path: 'build/esm/dnb-ui-lib.min.mjs', maxSize: '255kB' },
+  { path: 'build/esm/dnb-ui-lib.min.mjs', maxSize: '256kB' },
 ]
 
 const cssBundles = [

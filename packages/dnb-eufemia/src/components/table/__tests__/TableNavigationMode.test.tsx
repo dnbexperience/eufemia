@@ -382,4 +382,67 @@ describe('Table using mode="navigation" prop', () => {
     expect(spaceKey.preventDefault).toHaveBeenCalledTimes(1)
     expect(onClick).toHaveBeenCalledTimes(2)
   })
+
+  it('should keep activating the row when an onKeyDown is given', () => {
+    const onClick = vi.fn()
+    const onKeyDown = vi.fn()
+
+    render(
+      <Table mode="navigation">
+        <tbody>
+          <Tr onClick={onClick} onKeyDown={onKeyDown}>
+            <Td>content</Td>
+          </Tr>
+        </tbody>
+      </Table>
+    )
+
+    const trElement = document.querySelector('tr.dnb-table__tr')
+    fireEvent.keyDown(trElement, { key: 'Enter' })
+
+    expect(onKeyDown).toHaveBeenCalledTimes(1)
+    expect(onClick).toHaveBeenCalledTimes(1)
+  })
+
+  it('should call a given onKeyDown on a row without an onClick', () => {
+    const onKeyDown = vi.fn()
+
+    render(
+      <Table mode="navigation">
+        <tbody>
+          <Tr onKeyDown={onKeyDown}>
+            <Td>content</Td>
+          </Tr>
+        </tbody>
+      </Table>
+    )
+
+    fireEvent.keyDown(document.querySelector('tr.dnb-table__tr'), {
+      key: 'Enter',
+    })
+
+    expect(onKeyDown).toHaveBeenCalledTimes(1)
+  })
+
+  it('should call a given onKeyDown on a disabled row without activating it', () => {
+    const onClick = vi.fn()
+    const onKeyDown = vi.fn()
+
+    render(
+      <Table mode="navigation">
+        <tbody>
+          <Tr disabled onClick={onClick} onKeyDown={onKeyDown}>
+            <Td>content</Td>
+          </Tr>
+        </tbody>
+      </Table>
+    )
+
+    fireEvent.keyDown(document.querySelector('tr.dnb-table__tr'), {
+      key: 'Enter',
+    })
+
+    expect(onKeyDown).toHaveBeenCalledTimes(1)
+    expect(onClick).toHaveBeenCalledTimes(0)
+  })
 })

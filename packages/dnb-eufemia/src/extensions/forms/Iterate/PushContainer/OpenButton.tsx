@@ -5,6 +5,7 @@ import Button from '../../../../components/Button'
 import { add } from '../../../../icons'
 import IterateItemContext from '../IterateItemContext'
 import PushContainerContext from './PushContainerContext'
+import mergeProps from '../../../../shared/helpers/mergeProps'
 import { convertJsxToString } from '../../../../shared/component-helper'
 
 type Props = ButtonProps
@@ -37,8 +38,7 @@ function OpenButton(props: Props) {
       variant="secondary"
       icon={add}
       iconPosition="left"
-      onClick={handleClick}
-      {...restProps}
+      {...mergeProps({ onClick: handleClick }, restProps)}
     >
       {content}
     </Button>

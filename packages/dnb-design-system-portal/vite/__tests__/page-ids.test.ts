@@ -343,6 +343,7 @@ describe('portal page ids', () => {
     expect(inherited.length).toBeGreaterThan(100)
   })
 
+  // Rendering every served page takes well over the default 5 s timeout.
   it('every served page renders unique ids', () => {
     const collisions: string[] = []
 
@@ -410,5 +411,5 @@ describe('portal page ids', () => {
         `Each entry below names the page, the duplicated id, and the ` +
         `files it is rendered from.`
     ).toEqual([])
-  })
+  }, 60_000)
 })

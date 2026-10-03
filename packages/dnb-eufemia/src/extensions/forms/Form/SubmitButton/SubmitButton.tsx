@@ -9,6 +9,7 @@ import SubmitIndicator from '../SubmitIndicator'
 import useTranslation from '../../hooks/useTranslation'
 import { send } from '../../../../icons'
 import useId from '../../../../shared/helpers/useId'
+import mergeProps from '../../../../shared/helpers/mergeProps'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type FormSubmitButtonProps = {
@@ -69,12 +70,11 @@ function SubmitButton(props: FormSubmitButtonProps) {
   return (
     <Button
       className={clsx('dnb-forms-submit-button', className)}
-      onClick={onClickHandler}
       type={isolate ? 'button' : 'submit'}
       variant={variant === 'secondary' ? 'secondary' : undefined}
       icon={variant === 'send' ? send : null}
       data-form-submit-button-id={submitButtonId}
-      {...rest}
+      {...mergeProps({ onClick: onClickHandler }, rest)}
     >
       {content}
 

@@ -50,6 +50,8 @@ function Dialog(localProps: DialogAllProps) {
     animationDuration,
     triggerProps,
     triggerAttributes,
+    closeButtonProps,
+    closeButtonAttributes,
     hideCloseButton,
     fullscreen,
 
@@ -133,6 +135,8 @@ function Dialog(localProps: DialogAllProps) {
     trigger,
     triggerProps,
     triggerAttributes,
+    closeButtonProps,
+    closeButtonAttributes,
     overlayClass,
     top,
     bottom,

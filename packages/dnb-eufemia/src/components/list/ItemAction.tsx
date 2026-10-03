@@ -54,6 +54,7 @@ function ItemAction<E extends ElementType = 'a'>(
   const {
     className,
     onClick,
+    onKeyDown,
     children,
     variant,
     selected,
@@ -118,7 +119,9 @@ function ItemAction<E extends ElementType = 'a'>(
   )
 
   const handleLinkKeyDown = useCallback(
-    (event: KeyboardEvent<HTMLElement>) => {
+    (event: KeyboardEvent<HTMLDivElement>) => {
+      onKeyDown?.(event)
+
       if (event.key === ' ') {
         event.preventDefault()
         if (!isInactive) {
@@ -126,7 +129,7 @@ function ItemAction<E extends ElementType = 'a'>(
         }
       }
     },
-    [isInactive]
+    [onKeyDown, isInactive]
   )
 
   const actionClassName = clsx(
@@ -183,6 +186,7 @@ function ItemAction<E extends ElementType = 'a'>(
     <ItemContent
       className={actionClassName}
       onClick={handleClick}
+      onKeyDown={onKeyDown}
       variant={variant}
       selected={selected}
       skeleton={skeleton}

@@ -5,6 +5,7 @@ import DataContext from '../../DataContext/Context'
 import type { ButtonProps } from '../../../../components/button/Button'
 import Button from '../../../../components/button/Button'
 import { check } from '../../../../icons'
+import mergeProps from '../../../../shared/helpers/mergeProps'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type IsolationCommitButtonProps = ButtonProps
@@ -32,8 +33,7 @@ function IsolationCommitButton(props: IsolationCommitButtonProps) {
       className={clsx('dnb-forms-isolate__commit-button', className)}
       icon={check}
       iconPosition="left"
-      onClick={onClickHandler}
-      {...rest}
+      {...mergeProps({ onClick: onClickHandler }, rest)}
     >
       {content}
     </Button>

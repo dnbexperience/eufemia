@@ -7,6 +7,8 @@ import {
   useState,
 } from 'react'
 import type {
+  KeyboardEvent,
+  MouseEvent,
   ReactElement,
   SyntheticEvent,
   TableHTMLAttributes,
@@ -62,6 +64,10 @@ export function TableAccordionHead(allProps: TableAccordionHeadProps) {
     onClick,
     onOpen,
     onClose,
+    onKeyDown,
+    onMouseEnter,
+    onMouseLeave,
+    disabled,
     count,
     ...props
   } = allProps
@@ -86,6 +92,21 @@ export function TableAccordionHead(allProps: TableAccordionHeadProps) {
 
   let headerContent = Children.toArray(children)
 
+  /**
+   * Handle Accordion Content
+   */
+  const accordionContent = headerContent.filter((element) => {
+    return isAccordionElement(element as ReactElement)
+  }) as ReactElement<
+    TableAccordionContentSingleProps | TableAccordionContentRowProps
+  >[]
+
+  const hasAccordionContent =
+    accordionContent.length !== 0 &&
+    accordionContent.every((element) => isValidElement(element))
+
+  const isInteractive = hasAccordionContent && !disabled
+
   const addContent = useCallback(
     (content: ReturnType<typeof Children.toArray>[number]) => {
       if (tableContext.allProps.accordionChevronPlacement === 'right') {
@@ -97,10 +118,17 @@ export function TableAccordionHead(allProps: TableAccordionHeadProps) {
     [headerContent, tableContext.allProps.accordionChevronPlacement]
   )
 
-  const onMouseLeaveHandler = useCallback(() => {
-    setHover(false)
-    setHadClick(false)
-  }, [])
+  const onMouseLeaveHandler = useCallback(
+    (event: MouseEvent<HTMLTableRowElement>) => {
+      onMouseLeave?.(event)
+
+      if (isInteractive) {
+        setHover(false)
+        setHadClick(false)
+      }
+    },
+    [onMouseLeave, isInteractive]
+  )
 
   const toggleOpenFn = useCallback(
     (event: SyntheticEvent) => {
@@ -138,29 +166,27 @@ export function TableAccordionHead(allProps: TableAccordionHeadProps) {
     [toggleOpenFn]
   )
 
-  const onMouseEnterHandler = useCallback(() => {
-    setHover(true)
-  }, [])
+  const onMouseEnterHandler = useCallback(
+    (event: MouseEvent<HTMLTableRowElement>) => {
+      onMouseEnter?.(event)
 
-  const onKeyDownHandler = useCallback(
-    (event: SyntheticEvent) => {
-      toggleOpenTr(event, true)
+      if (isInteractive) {
+        setHover(true)
+      }
     },
-    [toggleOpenTr]
+    [onMouseEnter, isInteractive]
   )
 
-  /**
-   * Handle Accordion Content
-   */
-  const accordionContent = headerContent.filter((element) => {
-    return isAccordionElement(element as ReactElement)
-  }) as ReactElement<
-    TableAccordionContentSingleProps | TableAccordionContentRowProps
-  >[]
+  const onKeyDownHandler = useCallback(
+    (event: KeyboardEvent<HTMLTableRowElement>) => {
+      onKeyDown?.(event)
 
-  const hasAccordionContent =
-    accordionContent.length !== 0 &&
-    accordionContent.every((element) => isValidElement(element))
+      if (isInteractive) {
+        toggleOpenTr(event, true)
+      }
+    },
+    [onKeyDown, isInteractive, toggleOpenTr]
+  )
 
   useEffect(() => {
     if (
@@ -228,6 +254,7 @@ export function TableAccordionHead(allProps: TableAccordionHeadProps) {
         trIsHover={trIsHover}
         trHadClick={trHadClick}
         clickable={hasAccordionContent}
+        disabled={disabled}
         noAnimation={noAnimation}
         onClick={toggleOpenTr}
         onMouseEnter={onMouseEnterHandler}

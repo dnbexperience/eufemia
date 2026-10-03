@@ -578,6 +578,152 @@ describe('Input component', () => {
     ).toBeInTheDocument()
   })
 
+  it('keeps emitting onSubmit when an onClick is given', () => {
+    const onSubmit = vi.fn()
+    const onClick = vi.fn()
+
+    render(
+      <Input
+        type="search"
+        showSubmitButton
+        onSubmit={onSubmit}
+        onClick={onClick}
+      />
+    )
+
+    fireEvent.click(
+      document.querySelector('.dnb-input__submit-button button')
+    )
+
+    expect(onSubmit).toHaveBeenCalledTimes(1)
+    expect(onClick).toHaveBeenCalledTimes(0)
+
+    fireEvent.click(document.querySelector('input'))
+
+    expect(onClick).toHaveBeenCalledTimes(1)
+    expect(onSubmit).toHaveBeenCalledTimes(1)
+  })
+
+  it('keeps emitting onSubmit when statusProps has an onSubmit', () => {
+    const onSubmit = vi.fn()
+    const statusOnSubmit = vi.fn()
+
+    render(
+      <Input
+        type="search"
+        showSubmitButton
+        onSubmit={onSubmit}
+        statusProps={{ onSubmit: statusOnSubmit }}
+      />
+    )
+
+    fireEvent.click(
+      document.querySelector('.dnb-input__submit-button button')
+    )
+
+    expect(onSubmit).toHaveBeenCalledTimes(1)
+    expect(statusOnSubmit).toHaveBeenCalledTimes(1)
+  })
+
+  it('keeps emitting onSubmit when statusProps has an onClick', () => {
+    const onSubmit = vi.fn()
+    const onClick = vi.fn()
+
+    render(
+      <Input
+        type="search"
+        showSubmitButton
+        onSubmit={onSubmit}
+        statusProps={{ onClick }}
+      />
+    )
+
+    fireEvent.click(
+      document.querySelector('.dnb-input__submit-button button')
+    )
+
+    expect(onSubmit).toHaveBeenCalledTimes(1)
+  })
+
+  it('keeps the submit button free of the given statusProps', () => {
+    render(
+      <Input
+        type="search"
+        showSubmitButton
+        status="Something went wrong"
+        statusProps={{ text: 'Replaced status text', className: 'custom' }}
+      />
+    )
+
+    const button = document.querySelector(
+      '.dnb-input__submit-button button'
+    )
+
+    expect(button).toHaveClass('dnb-button--icon-only')
+    expect(button).not.toHaveClass('custom')
+    expect(button.textContent).toBe('')
+  })
+
+  it('keeps emitting onSubmitFocus and onSubmitBlur when an onFocus and onBlur is given', () => {
+    const onSubmitFocus = vi.fn()
+    const onSubmitBlur = vi.fn()
+    const onFocus = vi.fn()
+    const onBlur = vi.fn()
+
+    render(
+      <Input
+        type="search"
+        showSubmitButton
+        onSubmitFocus={onSubmitFocus}
+        onSubmitBlur={onSubmitBlur}
+        onFocus={onFocus}
+        onBlur={onBlur}
+      />
+    )
+
+    const submitButton = document.querySelector(
+      '.dnb-input__submit-button button'
+    )
+
+    fireEvent.focus(submitButton)
+    fireEvent.blur(submitButton)
+
+    expect(onSubmitFocus).toHaveBeenCalledTimes(1)
+    expect(onSubmitBlur).toHaveBeenCalledTimes(1)
+    expect(onFocus).toHaveBeenCalledTimes(0)
+    expect(onBlur).toHaveBeenCalledTimes(0)
+
+    const input = document.querySelector('input')
+
+    fireEvent.focus(input)
+    fireEvent.blur(input)
+
+    expect(onFocus).toHaveBeenCalledTimes(1)
+    expect(onBlur).toHaveBeenCalledTimes(1)
+    expect(onSubmitFocus).toHaveBeenCalledTimes(1)
+    expect(onSubmitBlur).toHaveBeenCalledTimes(1)
+  })
+
+  it('does not submit when the clear button is clicked', () => {
+    const onSubmit = vi.fn()
+    const onClear = vi.fn()
+
+    render(
+      <Input
+        type="search"
+        value="foo"
+        showClearButton
+        onSubmit={onSubmit}
+        onClear={onClear}
+      />
+    )
+
+    fireEvent.click(document.querySelector('.dnb-input__clear-button'))
+
+    expect(onClear).toHaveBeenCalledTimes(1)
+    expect(onSubmit).toHaveBeenCalledTimes(0)
+  })
+
   it('should not expose the value as an html attribute', async () => {
     render(<Input />)
 

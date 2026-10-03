@@ -169,15 +169,15 @@ export async function writeSnapshot(
   )
 }
 
-// Persist recomputed daily portal page-view aggregates, one object per day
-// (overwrite). The portal-views-daily/ prefix has no lifecycle rule, so these
-// survive the raw rows' 13-month expiry and keep long-range (year-over-year)
-// page-view history (including the anonymous view dimensions) available.
-export async function storePortalViewsDaily(
+// The *-daily/ prefixes have no lifecycle rule, so rollups outlive the raw rows'
+// expiry. `projectRow` must emit exactly the Glue table's columns (minus `dt`).
+export async function storeDailyRollup<T extends { dt: string }>(
   bucket: string,
-  rows: PortalViewDaily[]
+  prefix: `${string}/`,
+  rows: T[],
+  projectRow: (row: T) => Record<string, unknown>
 ): Promise<void> {
-  const byDt = new Map<string, PortalViewDaily[]>()
+  const byDt = new Map<string, T[]>()
 
   for (const row of rows) {
     const list = byDt.get(row.dt) ?? []
@@ -186,104 +186,11 @@ export async function storePortalViewsDaily(
   }
 
   for (const [dt, dtRows] of byDt) {
-    const body = dtRows
-      .map((r) =>
-        JSON.stringify({
-          path: r.path,
-          env: r.env,
-          status: r.status,
-          locale: r.locale,
-          theme: r.theme,
-          color_scheme: r.color_scheme,
-          referrer: r.referrer,
-          via_search: r.via_search,
-          count: r.count,
-        })
-      )
-      .join('\n')
-
     await s3.send(
       new PutObjectCommand({
         Bucket: bucket,
-        Key: `portal-views-daily/dt=${dt}/agg.json`,
-        Body: body,
-        ContentType: 'application/x-ndjson',
-      })
-    )
-  }
-}
-
-// Persist recomputed daily MCP usage aggregates, one object per day (overwrite).
-// The mcp-usage-daily/ prefix has no lifecycle rule, so these survive the raw
-// rows' expiry and keep long-range (year-over-year) comparison available.
-export async function storeMcpUsageDaily(
-  bucket: string,
-  rows: McpUsageDaily[]
-): Promise<void> {
-  const byDt = new Map<string, McpUsageDaily[]>()
-
-  for (const row of rows) {
-    const list = byDt.get(row.dt) ?? []
-    list.push(row)
-    byDt.set(row.dt, list)
-  }
-
-  for (const [dt, dtRows] of byDt) {
-    const body = dtRows
-      .map((r) =>
-        JSON.stringify({
-          tool: r.tool,
-          component: r.component,
-          path: r.path,
-          count: r.count,
-        })
-      )
-      .join('\n')
-
-    await s3.send(
-      new PutObjectCommand({
-        Bucket: bucket,
-        Key: `mcp-usage-daily/dt=${dt}/agg.json`,
-        Body: body,
-        ContentType: 'application/x-ndjson',
-      })
-    )
-  }
-}
-
-// Persist recomputed daily component-usage aggregates, one object per day
-// (overwrite). The component-usage-daily/ prefix has no lifecycle rule, so these
-// survive the raw rows' expiry and keep long-range (year-over-year) adoption
-// history available.
-export async function storeComponentUsageDaily(
-  bucket: string,
-  rows: ComponentUsageDaily[]
-): Promise<void> {
-  const byDt = new Map<string, ComponentUsageDaily[]>()
-
-  for (const row of rows) {
-    const list = byDt.get(row.dt) ?? []
-    list.push(row)
-    byDt.set(row.dt, list)
-  }
-
-  for (const [dt, dtRows] of byDt) {
-    const body = dtRows
-      .map((r) =>
-        JSON.stringify({
-          app: r.app,
-          component: r.component,
-          version: r.version,
-          count: r.count,
-        })
-      )
-      .join('\n')
-
-    await s3.send(
-      new PutObjectCommand({
-        Bucket: bucket,
-        Key: `component-usage-daily/dt=${dt}/agg.json`,
-        Body: body,
+        Key: `${prefix}dt=${dt}/agg.json`,
+        Body: dtRows.map((r) => JSON.stringify(projectRow(r))).join('\n'),
         ContentType: 'application/x-ndjson',
       })
     )

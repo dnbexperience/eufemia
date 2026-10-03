@@ -97,6 +97,11 @@ jobs:
             echo "changed=true" >> "$GITHUB_OUTPUT"
           fi
 
+      - name: Update design token snapshots
+        if: steps.changes.outputs.changed == 'true'
+        # The snapshots mirror the generated theme files, so a token change always changes them
+        run: yarn workspace @dnb/eufemia test:scripts makePropertiesFile -u --hookTimeout=180000
+
       - name: Prebuild Library
         if: steps.changes.outputs.changed == 'true'
         run: yarn workspace @dnb/eufemia build:prebuild
@@ -135,6 +140,7 @@ jobs:
           git config user.email "$GH_EMAIL"
           git add \
             packages/dnb-eufemia/src/style/themes \
+            packages/dnb-eufemia/scripts/prebuild/tasks/__tests__/__snapshots__/makePropertiesFile.test.ts.snap \
             ':(glob)packages/dnb-eufemia/src/**/__image_snapshots__/**'
 
           git commit --no-verify -m "chore: synchronize design tokens from Figma"

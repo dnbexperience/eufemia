@@ -1,5 +1,9 @@
 import { useCallback, useContext } from 'react'
-import type { SyntheticEvent, TableHTMLAttributes } from 'react'
+import type {
+  KeyboardEvent,
+  SyntheticEvent,
+  TableHTMLAttributes,
+} from 'react'
 import Td from '../TableTd'
 import { TableContext } from '../TableContext'
 import {
@@ -16,12 +20,13 @@ export type TableNavigationHeadProps = TableTrProps &
   Omit<TableHTMLAttributes<HTMLTableRowElement>, 'onClick'>
 
 export function TableNavigationHead(allProps: TableNavigationHeadProps) {
-  const { children, onClick, ...props } = allProps
+  const { children, onClick, onKeyDown, disabled, ...props } = allProps
   const tableContext = useContext(TableContext)
 
   const content = Array.isArray(children) ? [...children] : [children]
 
   const hasOnClick = typeof onClick === 'function'
+  const isInteractive = hasOnClick && !disabled
 
   const tableContextAllProps = useContext(TableContext)?.allProps
 
@@ -53,15 +58,20 @@ export function TableNavigationHead(allProps: TableNavigationHeadProps) {
   }
 
   const onKeyDownHandler = useCallback(
-    (event: SyntheticEvent) => {
-      onClickTr(event, true, onClick)
+    (event: KeyboardEvent<HTMLTableRowElement>) => {
+      onKeyDown?.(event)
+
+      if (isInteractive) {
+        onClickTr(event, true, onClick)
+      }
     },
-    [onClick]
+    [onKeyDown, isInteractive, onClick]
   )
 
   return (
     <TableClickableHead
       clickable={hasOnClick}
+      disabled={disabled}
       onClick={onClickHandler}
       onKeyDown={onKeyDownHandler}
       ariaLabel={tableContextAllProps?.navigationButtonSR}

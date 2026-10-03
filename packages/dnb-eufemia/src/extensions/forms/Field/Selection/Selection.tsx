@@ -27,6 +27,7 @@ import { useFieldProps } from '../../hooks'
 import type { ReturnAdditional } from '../../hooks/useFieldProps'
 import { checkForError } from '../../hooks/useFieldProps'
 import { pickSpacingProps } from '../../../../components/flex/utils'
+import mergeProps from '../../../../shared/helpers/mergeProps'
 import type { FieldBlockProps, FieldBlockWidth } from '../../FieldBlock'
 import FieldBlock from '../../FieldBlock'
 import type { FieldProps, Path } from '../../types'
@@ -122,12 +123,12 @@ export type FieldSelectionProps = FieldProps<IOption['value']> & {
    */
   listDriver?: DrawerListDriver
   /**
-   * Forward any additional properties to the [Autocomplete](/uilib/components/autocomplete/) component. `onType` will additionally provide the `value` parameter with `emptyValue` support in addition to the internal `dataContext`.
+   * Forward any additional properties to the [Autocomplete](/uilib/components/autocomplete/) component. Event handlers run together with the field's own, see [how given attributes are merged](/uilib/extensions/forms/about-fields/#how-given-attributes-are-merged). `onType` will additionally provide the `value` parameter with `emptyValue` support in addition to the internal `dataContext`.
    */
   autocompleteProps?: AutocompleteAllProps
 
   /**
-   * Forward any additional properties to the [Dropdown](/uilib/components/dropdown/) component.
+   * Forward any additional properties to the [Dropdown](/uilib/components/dropdown/) component. Event handlers run together with the field's own, see [how given attributes are merged](/uilib/extensions/forms/about-fields/#how-given-attributes-are-merged).
    */
   dropdownProps?: DropdownAllProps
 
@@ -360,14 +361,18 @@ function Selection(props: FieldSelectionProps) {
             ? 'error'
             : undefined,
         disabled,
-        ...htmlAttributes,
+        ...mergeProps(
+          {
+            onChange: handleDrawerListChange,
+            onOpen: handleShow,
+            onClose: handleHide,
+          },
+          htmlAttributes
+        ),
         data,
         groups,
         listDriver,
         size,
-        onChange: handleDrawerListChange,
-        onOpen: handleShow,
-        onClose: handleHide,
         stretch: true,
       }
 
@@ -380,12 +385,11 @@ function Selection(props: FieldSelectionProps) {
         <FieldBlock {...fieldBlockProps} {...specificFieldBlockProps}>
           {variant === 'autocomplete' ? (
             <Autocomplete
-              {...sharedProps}
-              {...autocompleteProps}
+              {...mergeProps(sharedProps, autocompleteProps)}
               value={
                 autocompleteProps?.preventSelection ? undefined : value
               }
-              onType={onTypeAutocompleteHandler}
+              onType={onTypeAutocompleteHandler} // Wraps the given onType, so it must not be composed
               data={
                 !props.data &&
                 !props.dataPath &&
@@ -396,7 +400,7 @@ function Selection(props: FieldSelectionProps) {
               selectAll
             />
           ) : (
-            <Dropdown {...sharedProps} {...dropdownProps} />
+            <Dropdown {...mergeProps(sharedProps, dropdownProps)} />
           )}
         </FieldBlock>
       )

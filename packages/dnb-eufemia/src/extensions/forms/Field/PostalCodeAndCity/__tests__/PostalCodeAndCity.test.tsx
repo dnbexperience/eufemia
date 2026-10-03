@@ -9,6 +9,14 @@ import type { ComponentMarkers } from '../../../../../shared/helpers/withCompone
 const nb = nbNO['nb-NO']
 
 describe('Field.PostalCodeAndCity', () => {
+  it('should keep its own class when a className is given', () => {
+    render(<Field.PostalCodeAndCity className="custom" />)
+
+    expect(document.querySelector('.custom')).toHaveClass(
+      'dnb-forms-field-postal-code-and-city'
+    )
+  })
+
   it('should render with props', () => {
     render(<Field.PostalCodeAndCity />)
     expect(screen.getByLabelText(nb.PostalCode.label)).toBeInTheDocument()

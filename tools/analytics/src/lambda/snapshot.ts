@@ -11,9 +11,7 @@ import {
   EMPTY_COMPONENT_USAGE,
   EMPTY_MCP_USAGE,
   requireEnv,
-  storeComponentUsageDaily,
-  storeMcpUsageDaily,
-  storePortalViewsDaily,
+  storeDailyRollup,
   writeSnapshot,
   type ComponentUsageAggregate,
   type ComponentUsageCount,
@@ -118,7 +116,32 @@ async function refreshPortalViewsRollup(
     from = dayString(since)
   }
 
-  await storePortalViewsDaily(bucket, await aggregatePortalViewsRaw(from))
+  await storeDailyRollup(
+    bucket,
+    'portal-views-daily/',
+    await aggregatePortalViewsRaw(from),
+    ({
+      path,
+      env,
+      status,
+      locale,
+      theme,
+      color_scheme,
+      referrer,
+      via_search,
+      count,
+    }) => ({
+      path,
+      env,
+      status,
+      locale,
+      theme,
+      color_scheme,
+      referrer,
+      via_search,
+      count,
+    })
+  )
 }
 
 function sumBy(
@@ -150,9 +173,16 @@ function sumBy(
 async function buildMcpUsage(bucket: string): Promise<McpUsageSection> {
   const since = new Date()
   since.setUTCDate(since.getUTCDate() - (MCP_ROLLUP_DAYS - 1))
-  await storeMcpUsageDaily(
+  await storeDailyRollup(
     bucket,
-    await aggregateMcpUsageRaw(dayString(since))
+    'mcp-usage-daily/',
+    await aggregateMcpUsageRaw(dayString(since)),
+    ({ tool, component, path, count }) => ({
+      tool,
+      component,
+      path,
+      count,
+    })
   )
 
   const daily = await retrieveMcpUsageDaily()
@@ -241,9 +271,16 @@ export async function buildComponentUsage(
   since.setUTCDate(since.getUTCDate() - (COMPONENT_ROLLUP_DAYS - 1))
 
   try {
-    await storeComponentUsageDaily(
+    await storeDailyRollup(
       bucket,
-      await aggregateComponentUsageRaw(dayString(since))
+      'component-usage-daily/',
+      await aggregateComponentUsageRaw(dayString(since)),
+      ({ app, component, version, count }) => ({
+        app,
+        component,
+        version,
+        count,
+      })
     )
   } catch (error) {
     // eslint-disable-next-line no-console -- surface the failure in CloudWatch Logs

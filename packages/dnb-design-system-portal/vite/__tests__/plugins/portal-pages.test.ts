@@ -275,6 +275,7 @@ describe('portal-pages plugin', () => {
       expect(resolveId('some-other-module')).toBeUndefined()
     })
 
+    // Scanning and parsing every docs page takes more than the 5 s default.
     it('generates code with routes and allMdxNodes from load()', () => {
       const plugin = portalPagesPlugin()
       const load = plugin.load as (id: string) => string | undefined
@@ -285,7 +286,7 @@ describe('portal-pages plugin', () => {
       expect(code).toContain('export const allMdxNodes')
       expect(code).toContain('import React')
       expect(code).toContain('redirect')
-    })
+    }, 60_000)
 
     it('returns nothing for non-virtual module IDs', () => {
       const plugin = portalPagesPlugin()

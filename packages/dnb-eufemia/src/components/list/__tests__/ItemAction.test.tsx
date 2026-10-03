@@ -563,6 +563,42 @@ describe('ItemAction', () => {
       clickMock.mockRestore()
     })
 
+    it('calls a given onKeyDown and keeps triggering the anchor on Space key (href)', () => {
+      const onKeyDown = vi.fn()
+
+      render(
+        <ItemAction href="/path" onKeyDown={onKeyDown}>
+          Link content
+        </ItemAction>
+      )
+
+      const listItem = document.querySelector(hrefSelector)
+      const anchor = listItem?.querySelector('a')
+
+      // Mock click to prevent jsdom "Not implemented: navigation" warning
+      const clickMock = vi
+        .spyOn(anchor as HTMLAnchorElement, 'click')
+        .mockImplementation(() => undefined)
+
+      fireEvent.keyDown(listItem as Element, { key: ' ' })
+
+      expect(onKeyDown).toHaveBeenCalledTimes(1)
+      expect(clickMock).toHaveBeenCalled()
+      clickMock.mockRestore()
+    })
+
+    it('calls a given onKeyDown without href', () => {
+      const onKeyDown = vi.fn()
+
+      render(<ItemAction onKeyDown={onKeyDown}>Content</ItemAction>)
+
+      fireEvent.keyDown(document.querySelector('[role="button"]'), {
+        key: 'a',
+      })
+
+      expect(onKeyDown).toHaveBeenCalledTimes(1)
+    })
+
     it('supports target and rel when href is provided', () => {
       render(
         <ItemAction href="/path" target="_blank" rel="noopener noreferrer">

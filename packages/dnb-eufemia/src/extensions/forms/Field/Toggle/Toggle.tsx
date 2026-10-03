@@ -13,6 +13,7 @@ import FieldBlock from '../../FieldBlock'
 import { useFieldProps } from '../../hooks'
 import type { FieldProps } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
+import mergeProps from '../../../../shared/helpers/mergeProps'
 import ToggleButtonGroupContext from '../../../../components/toggle-button/ToggleButtonGroupContext'
 import useTranslation from '../../hooks/useTranslation'
 import { useIterateItemNo } from '../../Iterate/ItemNo/useIterateItemNo'
@@ -161,7 +162,6 @@ function Toggle(props: FieldToggleProps) {
         <FieldBlock {...fieldBlockProps} label={undefined}>
           <Checkbox
             id={id}
-            className={cn}
             label={
               labelWithItemNo ??
               (isOn
@@ -173,10 +173,15 @@ function Toggle(props: FieldToggleProps) {
             disabled={disabled}
             size={size !== 'small' ? size : undefined}
             status={hasError ? 'error' : undefined}
-            onChange={handleCheckboxChange}
-            onClick={handleClick}
             suffix={helpButton}
-            {...htmlAttributes}
+            {...mergeProps(
+              {
+                className: cn,
+                onChange: handleCheckboxChange,
+                onClick: handleClick,
+              },
+              htmlAttributes
+            )}
           />
         </FieldBlock>
       )
@@ -185,7 +190,6 @@ function Toggle(props: FieldToggleProps) {
         <FieldBlock {...fieldBlockProps} label={undefined}>
           <Switch
             id={id}
-            className={cn}
             label={
               labelWithItemNo ??
               (isOn
@@ -197,10 +201,15 @@ function Toggle(props: FieldToggleProps) {
             disabled={disabled}
             size={size !== 'small' ? size : undefined}
             status={hasError ? 'error' : undefined}
-            onChange={handleSwitchChange}
-            onClick={handleClick}
             suffix={helpButton}
-            {...htmlAttributes}
+            {...mergeProps(
+              {
+                className: cn,
+                onChange: handleSwitchChange,
+                onClick: handleClick,
+              },
+              htmlAttributes
+            )}
           />
         </FieldBlock>
       )
@@ -219,9 +228,11 @@ function Toggle(props: FieldToggleProps) {
             status={hasError ? 'error' : undefined}
             value={value ? 'true' : 'false'}
             size={size}
-            onChange={handleCheckboxChange}
             role="checkbox"
-            {...htmlAttributes}
+            {...mergeProps(
+              { onChange: handleCheckboxChange },
+              htmlAttributes
+            )}
           />
         </FieldBlock>
       )
@@ -312,9 +323,11 @@ function Toggle(props: FieldToggleProps) {
             status={hasError ? 'error' : undefined}
             value={value ? 'true' : 'false'}
             size={size}
-            onChange={handleCheckboxChange}
             role="checkbox"
-            {...htmlAttributes}
+            {...mergeProps(
+              { onChange: handleCheckboxChange },
+              htmlAttributes
+            )}
           />
         </FieldBlock>
       )

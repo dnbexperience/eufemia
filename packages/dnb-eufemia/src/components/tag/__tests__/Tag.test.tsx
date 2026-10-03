@@ -461,6 +461,26 @@ describe('Tag', () => {
 
       expect(onClick).toHaveBeenCalledTimes(2)
     })
+
+    it('calls a given onKeyUp and keeps removing on Delete', () => {
+      const onClick = vi.fn()
+      const onKeyUp = vi.fn()
+
+      render(
+        <Tag.Group label="tags">
+          <Tag variant="removable" onClick={onClick} onKeyUp={onKeyUp}>
+            Keyboard
+          </Tag>
+        </Tag.Group>
+      )
+
+      fireEvent.keyUp(screen.getByRole('button'), {
+        key: 'Delete',
+      })
+
+      expect(onKeyUp).toHaveBeenCalledTimes(1)
+      expect(onClick).toHaveBeenCalledTimes(1)
+    })
   })
 
   describe('with onClick', () => {

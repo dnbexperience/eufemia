@@ -28,25 +28,24 @@ describe('eufemia-theme plugin', () => {
 
     it('includes the expected file glob patterns', () => {
       const config = getDefaultConfig()
-      expect(config.filesGlobs).toContainEqual(
-        expect.stringContaining('dnb-ui-core.scss')
-      )
-      expect(config.filesGlobs).toContainEqual(
-        expect.stringContaining('theme-{basis,components,dark-mode}')
-      )
+
+      // Anchored patterns, so globby does not walk the whole package.
+      expect(config.filesGlobs).toEqual([
+        'src/style/dnb-ui-core.scss',
+        'src/style/themes/**/*-theme-{basis,components,dark-mode}.scss',
+        'src/extensions/payment-card/**/dnb-*.scss',
+      ])
     })
 
     it('uses build style globs when prebuild styles are requested', () => {
       const config = getDefaultConfig(true)
 
+      expect(config.filesGlobs).toContain('build/style/dnb-ui-core.scss')
       expect(config.filesGlobs).toContain(
-        '**/build/style/dnb-ui-core.scss'
+        'build/style/themes/**/*-theme-{basis,components,dark-mode}.scss'
       )
       expect(config.filesGlobs).toContain(
-        '**/build/style/themes/**/*-theme-{basis,components,dark-mode}.scss'
-      )
-      expect(config.filesGlobs).toContain(
-        '**/build/extensions/payment-card/**/dnb-*.scss'
+        'build/extensions/payment-card/**/dnb-*.scss'
       )
     })
 

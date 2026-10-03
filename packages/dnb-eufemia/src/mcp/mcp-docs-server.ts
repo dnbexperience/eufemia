@@ -609,6 +609,25 @@ function createDocsContext(source: DocsSource) {
   }
 }
 
+/** Existence checks that use the same lookup as the docs tools. */
+export type UsageResolver = {
+  /** Takes the name as the caller passed it, not lowercased. */
+  component: (name: string) => Promise<boolean>
+  docsFile: (path: string) => Promise<boolean>
+  docsDir: (path: string) => Promise<boolean>
+}
+
+export function createUsageResolver(source: DocsSource): UsageResolver {
+  const context = createDocsContext(source)
+
+  return {
+    component: async (name) =>
+      (await context.resolveComponentPaths(name)).docExists,
+    docsFile: async (path) => (await source.stat(path)).kind === 'file',
+    docsDir: async (path) => (await source.stat(path)).kind === 'dir',
+  }
+}
+
 const EmptyInput = z.object({})
 
 const PORTAL_CONTENT_WORKFLOW = `# Edit Eufemia Portal Content

@@ -15,7 +15,16 @@ vi.mock('@aws-sdk/client-sqs', () => ({
 }))
 
 import type { APIGatewayProxyEventV2 } from 'aws-lambda'
-import { captureUsage } from '../usage-capture.js'
+import { captureUsage as capture } from '../usage-capture.js'
+
+const resolver = {
+  component: async (name: string) => name.toLowerCase() === 'button',
+  docsFile: async () => true,
+  docsDir: async () => true,
+}
+
+const captureUsage = (event: APIGatewayProxyEventV2) =>
+  capture(event, resolver)
 
 const TOOL_CALL = JSON.stringify({
   jsonrpc: '2.0',
@@ -68,6 +77,30 @@ describe('captureUsage', () => {
     expect(send.mock.calls[0]?.[1]?.abortSignal).toBeInstanceOf(
       AbortSignal
     )
+  })
+
+  it('queues the tool without a component the docs do not contain', async () => {
+    await captureUsage(
+      event({
+        body: JSON.stringify({
+          jsonrpc: '2.0',
+          id: 1,
+          method: 'tools/call',
+          params: {
+            name: 'component_props',
+            arguments: { name: 'NotAComponent' },
+          },
+        }),
+      })
+    )
+
+    const command = send.mock.calls[0]?.[0] as
+      | { input: { MessageBody: string } }
+      | undefined
+    const [record] = JSON.parse(command?.input.MessageBody ?? '[]')
+
+    expect(record.tool).toBe('component_props')
+    expect(record.component).toBe('')
   })
 
   it('decodes a base64-encoded body', async () => {
