@@ -14,6 +14,7 @@ import {
   useState,
 } from 'react'
 import type {
+  CSSProperties,
   KeyboardEvent,
   MouseEvent,
   PropsWithChildren,
@@ -1087,9 +1088,10 @@ function TabsComponent(ownProps: TabsProps) {
   renderTabsListRef.current = ({
     children,
     className: extraClassName,
+    style,
     ...rest
   }: PropsWithChildren<
-    { className?: string } & Record<string, unknown>
+    { className?: string; style?: CSSProperties } & Record<string, unknown>
   >) => {
     const {
       align,
@@ -1119,8 +1121,9 @@ function TabsComponent(ownProps: TabsProps) {
                 paddingTop: `var(--spacing-${
                   tabsInnerSpace === true ? 'large' : tabsInnerSpace
                 })`,
+                ...style,
               }
-            : undefined
+            : style
         }
         {...rest}
       >

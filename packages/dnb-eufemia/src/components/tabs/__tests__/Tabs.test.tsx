@@ -772,6 +772,30 @@ describe('Tabs aria-controls', () => {
     expect(renderPasses).toBeGreaterThan(0)
     expect(contentFn).toHaveBeenCalledTimes(renderPasses)
   })
+  it('keeps the inner space padding when a style is given', () => {
+    render(
+      <Tabs
+        id="tabs-list-style"
+        data={tablistData}
+        tabsInnerSpace="small"
+        render={({ Wrapper, TabsList, Tabs: TabItems, Content }) => (
+          <Wrapper>
+            <TabsList style={{ color: 'red' }}>
+              <TabItems />
+            </TabsList>
+            <Content />
+          </Wrapper>
+        )}
+      >
+        {contentWrapperData}
+      </Tabs>
+    )
+
+    const element = document.querySelector<HTMLElement>('.dnb-tabs__tabs')
+
+    expect(element.style.paddingTop).toBe('var(--spacing-small)')
+    expect(element.style.color).toBe('red')
+  })
 })
 
 describe('TabList component', () => {
