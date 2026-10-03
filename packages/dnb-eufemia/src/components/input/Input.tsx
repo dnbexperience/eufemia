@@ -353,6 +353,11 @@ function InputComponent({ ref, ...restProps }: InputProps) {
     ...submitButtonAttributes
   } = inputSubmitButtonAttributes
 
+  // The submit button takes these as its own `statusProps`, so they reach its
+  // Button through a merge instead of replacing the handlers and class it sets.
+  const { onSubmit: _statusOnSubmit, ...remainingStatusProps } =
+    statusProps ?? {}
+
   let usedInputState = inputState
   if (disabled || skeleton) {
     usedInputState = 'disabled'
@@ -584,7 +589,13 @@ function InputComponent({ ref, ...restProps }: InputProps) {
                   disabled={disabled}
                   skeleton={skeleton}
                   size={size}
-                  {...mergeProps({ onSubmit }, statusProps)}
+                  onSubmit={
+                    mergeProps(
+                      { onSubmit },
+                      { onSubmit: statusProps?.onSubmit }
+                    ).onSubmit
+                  }
+                  statusProps={remainingStatusProps}
                 />
               )}
             </span>
@@ -723,26 +734,22 @@ function InputSubmitButton({
       data-input-state={focusState}
     >
       <Button
-        {...mergeProps(
-          {
-            className: clsx(
-              'dnb-input__submit-button__button',
-              'dnb-button--input-button',
-              className
-            ),
-            variant: variant as ButtonVariant,
-            icon,
-            iconSize,
-            status,
-            statusState,
-            onClick: onSubmitHandler,
-            onFocus: onSubmitFocusHandler,
-            onBlur: onSubmitBlurHandler,
-            ref: combinedButtonRef,
-            ...(params as Record<string, unknown>),
-          },
-          statusProps as Record<string, unknown>
+        className={clsx(
+          'dnb-input__submit-button__button',
+          'dnb-button--input-button',
+          className
         )}
+        variant={variant as ButtonVariant}
+        icon={icon}
+        iconSize={iconSize}
+        status={status}
+        statusState={statusState}
+        statusProps={statusProps}
+        onClick={onSubmitHandler}
+        onFocus={onSubmitFocusHandler}
+        onBlur={onSubmitBlurHandler}
+        ref={combinedButtonRef}
+        {...(params as Record<string, unknown>)}
       />
     </span>
   )

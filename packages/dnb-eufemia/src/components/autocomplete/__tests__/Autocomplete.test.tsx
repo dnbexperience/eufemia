@@ -525,7 +525,7 @@ describe('Autocomplete component', () => {
       ).toHaveAttribute('id')
     })
 
-    it('keeps the submit button class and toggle when statusProps has the same props', () => {
+    it('keeps the submit button free of the given statusProps', () => {
       const onClick = vi.fn()
 
       render(
@@ -542,11 +542,10 @@ describe('Autocomplete component', () => {
       )
 
       expect(button).toHaveClass('dnb-input__submit-button__button')
-      expect(button).toHaveClass('custom-status')
+      expect(button).not.toHaveClass('custom-status')
 
       fireEvent.click(button)
 
-      expect(onClick).toHaveBeenCalledTimes(1)
       expect(document.querySelector('.dnb-input__input')).toHaveAttribute(
         'aria-expanded',
         'true'
