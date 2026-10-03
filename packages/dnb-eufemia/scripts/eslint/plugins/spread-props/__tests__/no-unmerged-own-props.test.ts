@@ -143,6 +143,16 @@ tester.run('no-unmerged-own-props', rule, {
         }
       `,
     },
+    // A locally built object kept in a local is not the consumer's props
+    {
+      code: `
+        function Comp(props) {
+          const params = { role: 'button' }
+          const buttonParams = params
+          return <div onClick={handleClick} {...buttonParams} />
+        }
+      `,
+    },
   ],
   invalid: [
     // A given onClick replaces the component's own
@@ -253,6 +263,21 @@ tester.run('no-unmerged-own-props', rule, {
       `,
       errors: [
         { messageId: 'replaced', data: { name: 'style', spread: 'rest' } },
+      ],
+    },
+    // The rest of the consumer's props kept in a local, narrowed with `as`
+    {
+      code: `
+        function Comp({ children, ...rest }) {
+          const props = rest as CompProps
+          return <div onDrop={handleDrop} {...props} />
+        }
+      `,
+      errors: [
+        {
+          messageId: 'replaced',
+          data: { name: 'onDrop', spread: 'props' },
+        },
       ],
     },
   ],
