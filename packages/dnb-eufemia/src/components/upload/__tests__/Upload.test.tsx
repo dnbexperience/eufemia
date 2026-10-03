@@ -1881,6 +1881,25 @@ describe('Upload', () => {
       })
     })
 
+    it('should skip the upload when a given onDrop returns false', () => {
+      const id = 'given-on-drop-false'
+      const onDrop = vi.fn(() => false)
+
+      const { result } = renderHook(useUpload, { initialProps: id })
+
+      render(<Upload {...defaultProps} id={id} onDrop={onDrop} />)
+
+      fireEvent.drop(document.querySelector('.dnb-upload'), {
+        dataTransfer: {
+          files: [createMockFile('fileName-1.png', 100, 'image/png')],
+        },
+      })
+
+      expect(onDrop).toHaveBeenCalledTimes(1)
+      expect(result.current.files).toEqual([])
+      expect(result.current.internalFiles).toEqual([])
+    })
+
     it('should call a given onClick and keep resetting the file input', () => {
       const onClick = vi.fn()
 
