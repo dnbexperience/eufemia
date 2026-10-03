@@ -12,7 +12,7 @@ export const SubmitButtonProperties: PropertiesTableProps = {
     status: 'optional',
   },
   '[Button](/uilib/components/button/properties)': {
-    doc: 'All button properties.',
+    doc: 'All button properties. A given `onClick` runs before the form is submitted, instead of replacing the submit.',
     type: 'Various',
     status: 'optional',
   },
