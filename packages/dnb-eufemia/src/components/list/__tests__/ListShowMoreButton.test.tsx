@@ -49,6 +49,21 @@ describe('List.ShowMoreButton', () => {
     expect(getButton().textContent).toContain('Vis mer')
   })
 
+  it('keeps toggling when an onClick is given', () => {
+    const onClick = vi.fn()
+
+    render(
+      <ListShowMoreButton
+        id="toggle-on-click"
+        {...({ onClick } as Record<string, unknown>)}
+      />
+    )
+
+    fireEvent.click(getButton())
+
+    expect(getButton().textContent).toContain('Vis mindre')
+  })
+
   it('sets aria-expanded false when collapsed', () => {
     render(<ListShowMoreButton id="toggle-aria" />)
 
