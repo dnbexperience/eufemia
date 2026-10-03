@@ -3,7 +3,13 @@ import type { ChatStatus, UIMessage } from 'ai'
 
 type ScriptStep =
   | { type: 'reasoning' | 'text'; text: string }
-  | { type: 'tool'; name: string; title: string }
+  | {
+      type: 'tool'
+      name: string
+      title: string
+      output?: unknown
+      errorText?: string
+    }
   | { type: 'source-url'; url: string; title: string }
 
 type Turn = {
@@ -15,10 +21,54 @@ type Turn = {
   stopped: boolean
 }
 
-const scripts: Array<{ match: RegExp; script: Array<ScriptStep> }> = [
+export type Transaction = {
+  name: string
+  account: string
+  date: string
+  amount: number
+}
+
+const transactions: Array<Transaction> = [
   {
-    match: /block|visa|card/i,
-    script: [
+    name: 'Rema 1000',
+    account: 'Brukskonto',
+    date: '02.10',
+    amount: -342.5,
+  },
+  { name: 'Ruter', account: 'Brukskonto', date: '01.10', amount: -40 },
+  {
+    name: 'Lønn DNB',
+    account: 'Lønnskonto',
+    date: '30.09',
+    amount: 38500,
+  },
+  {
+    name: 'Kim Olsen',
+    account: 'Brukskonto',
+    date: '28.09',
+    amount: -888,
+  },
+]
+
+function createScript(prompt: string): Array<ScriptStep> {
+  if (/confirmation/i.test(prompt)) {
+    const name = prompt.match(/for (.+)$/i)?.[1] ?? 'the payment'
+    return [
+      {
+        type: 'tool',
+        name: 'getPaymentConfirmation',
+        title: 'Finding the payment confirmation',
+        output: { name },
+      },
+      {
+        type: 'text',
+        text: `Here is the payment confirmation for **${name}**:\n\n| | |\n| :-- | :-- |\n| Status | Completed |\n| Reference | 2026-1002-4471 |\n\nYou can download it as a PDF in the app under **Payments**.`,
+      },
+    ]
+  }
+
+  if (/block|visa|card/i.test(prompt)) {
+    return [
       {
         type: 'reasoning',
         text: 'The customer wants to block a **Visa card**. I look up the cards first, so I block the right one.',
@@ -31,22 +81,22 @@ const scripts: Array<{ match: RegExp; script: Array<ScriptStep> }> = [
       },
       {
         type: 'source-url',
-        url: 'https://www.dnb.no/kort',
-        title: 'Block a card',
+        url: 'https://www.dnb.no/privat/kort',
+        title: 'Cards at DNB',
       },
-    ],
-  },
-  {
-    match: /spend|transaction|compare/i,
-    script: [
+    ]
+  }
+
+  if (/spend|compare|budget/i.test(prompt)) {
+    return [
       {
         type: 'reasoning',
-        text: 'The customer asks about spending. I compare the transactions of this month with last month, grouped by category.',
+        text: 'The customer asks about spending. I compare this month with last month, grouped by category.',
       },
       {
         type: 'tool',
-        name: 'getTransactions',
-        title: 'Looking up your transactions',
+        name: 'getSpending',
+        title: 'Comparing your spending',
       },
       {
         type: 'text',
@@ -54,19 +104,53 @@ const scripts: Array<{ match: RegExp; script: Array<ScriptStep> }> = [
       },
       {
         type: 'source-url',
-        url: 'https://www.dnb.no/',
-        title: 'Your accounts',
+        url: 'https://www.dnb.no/privat/dagligbank',
+        title: 'Everyday banking',
       },
-    ],
-  },
-]
+    ]
+  }
 
-const fallbackScript: Array<ScriptStep> = [
-  {
-    type: 'text',
-    text: 'I can help you with cards, payments and your spending. Try asking me to **block a card** or to **compare your spending**.',
-  },
-]
+  if (/transaction|payment|transfer/i.test(prompt)) {
+    return [
+      {
+        type: 'tool',
+        name: 'getTransactions',
+        title: 'Looking up your transactions',
+        output: { transactions },
+      },
+      {
+        type: 'text',
+        text: 'Here are your latest transactions. Choose one to see the details or the payment confirmation.',
+      },
+    ]
+  }
+
+  if (/loan|mortgage/i.test(prompt)) {
+    return [
+      {
+        type: 'reasoning',
+        text: 'The customer asks about loans. I check the current offers.',
+      },
+      {
+        type: 'tool',
+        name: 'getLoanOffers',
+        title: 'Checking loan offers',
+        errorText: 'The loan service is not available right now.',
+      },
+      {
+        type: 'text',
+        text: 'Sorry, I could not check the loan offers right now. Please try again later, or read more about [mortgages at DNB](https://www.dnb.no/privat/boliglan).',
+      },
+    ]
+  }
+
+  return [
+    {
+      type: 'text',
+      text: 'I am **Aino**, your digital banking assistant. I can help you with:\n\n- Blocking a card\n- Your latest transactions\n- Comparing your spending\n- Loan offers\n\nWhat would you like to do?',
+    },
+  ]
+}
 
 /**
  * Simulates `useChat` from `@ai-sdk/react` with scripted replies,
@@ -95,7 +179,7 @@ export function useChatSimulation() {
     if (last.step === -1) {
       delay = 1000
     } else if (step.type === 'tool') {
-      delay = 1200
+      delay = step.errorText ? 1500 : 1200
     } else if (step.type === 'source-url') {
       delay = 0
     } else if (last.length < step.text.length) {
@@ -111,9 +195,7 @@ export function useChatSimulation() {
   }, [last])
 
   const sendMessage = ({ text }: { text: string }) => {
-    const script =
-      scripts.find(({ match }) => match.test(text))?.script ??
-      fallbackScript
+    const script = createScript(text)
     setTurns((current) => [
       ...current,
       {
@@ -156,7 +238,14 @@ export function useChatSimulation() {
     ]
   })
 
-  return { messages, status, sendMessage, stop, regenerate }
+  // The simulation only supports clearing the messages
+  const setMessages = (messages: Array<UIMessage>) => {
+    if (messages.length === 0) {
+      setTurns([])
+    }
+  }
+
+  return { messages, status, sendMessage, stop, regenerate, setMessages }
 }
 
 function toParts(turn: Turn): UIMessage['parts'] {
@@ -183,9 +272,7 @@ function toParts(turn: Turn): UIMessage['parts'] {
         toolCallId: `${turn.id}-${index}`,
         title: step.title,
         input: {},
-        ...(isCurrent
-          ? { state: 'input-available' }
-          : { state: 'output-available', output: {} }),
+        ...getToolState(step, isCurrent),
       } as UIMessage['parts'][number])
       return // stop here
     }
@@ -199,4 +286,17 @@ function toParts(turn: Turn): UIMessage['parts'] {
   })
 
   return parts
+}
+
+function getToolState(
+  step: Extract<ScriptStep, { type: 'tool' }>,
+  isCurrent: boolean
+) {
+  if (isCurrent) {
+    return { state: 'input-available' }
+  }
+  if (step.errorText) {
+    return { state: 'output-error', errorText: step.errorText }
+  }
+  return { state: 'output-available', output: step.output ?? {} }
 }
