@@ -15,17 +15,37 @@ function isUsageRecord(value: unknown): value is McpUsageRecord {
     typeof record.path === 'string' &&
     typeof record.env === 'string' &&
     typeof record.timestamp === 'string' &&
-    typeof record.createdat === 'string'
+    typeof record.created_at === 'string'
   )
+}
+
+// Messages queued before the snake_case rename; remove with the rewrite script.
+function withCreatedAt(value: unknown): unknown {
+  if (
+    typeof value !== 'object' ||
+    value === null ||
+    'created_at' in value ||
+    !('createdat' in value)
+  ) {
+    return value
+  }
+
+  const { createdat, ...rest } = value as Record<string, unknown>
+
+  return { ...rest, created_at: createdat }
 }
 
 function recordsFromMessage(body: string): McpUsageRecord[] | null {
   try {
     const parsed: unknown = JSON.parse(body)
 
-    return Array.isArray(parsed) && parsed.every(isUsageRecord)
-      ? parsed
-      : null
+    if (!Array.isArray(parsed)) {
+      return null
+    }
+
+    const records = parsed.map(withCreatedAt)
+
+    return records.every(isUsageRecord) ? records : null
   } catch {
     return null
   }

@@ -67,7 +67,7 @@ describe('usageRecordsFromRequestBody', () => {
       env: 'dev',
       transport: 'web',
       timestamp: NOW,
-      createdat: NOW,
+      created_at: NOW,
     })
   })
 

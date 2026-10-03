@@ -18,7 +18,7 @@ function usageRecord(
     env: 'dev',
     transport: 'web',
     timestamp: '2026-09-10T12:00:00.000Z',
-    createdat: '2026-09-10T12:00:00.000Z',
+    created_at: '2026-09-10T12:00:00.000Z',
     ...overrides,
   }
 }
@@ -80,6 +80,23 @@ describe('usage consumer', () => {
       usageRecord(),
     ])
     expect(errorSpy).toHaveBeenCalled()
+  })
+
+  it('stores a message queued before the snake_case rename', async () => {
+    const { created_at, ...legacy } = usageRecord()
+
+    await handler(
+      event(
+        sqsRecord(
+          'old',
+          JSON.stringify([{ ...legacy, createdat: created_at }])
+        )
+      )
+    )
+
+    expect(storeMcpUsage).toHaveBeenCalledWith('my-bucket', [
+      usageRecord(),
+    ])
   })
 
   it('retries the batch when S3 storage fails', async () => {

@@ -28,7 +28,7 @@ export type McpUsageRecord = {
   env: string
   transport: 'web'
   timestamp: string
-  createdat: string
+  created_at: string
 }
 
 // The registered docs-server tools. A record is written only for calls to one of
@@ -180,7 +180,7 @@ async function recordFromMessage(
     // server stamps 'local' via the ingest route in tools/analytics.
     transport: 'web',
     timestamp: createdAt,
-    createdat: createdAt,
+    created_at: createdAt,
   }
 }
 
