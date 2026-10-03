@@ -90,7 +90,7 @@ Fields pass the attributes you give them on to the element or component they ren
 - An event handler runs before the field's own handler for the same event, and the field keeps updating its value and validation as usual.
 - A `className` is added to the field's own classes.
 - A `style` is merged with the field's own, where your values win.
-- For every other prop, your value wins, except the ones a field has to control itself, such as its current value and error status. Those are applied after the merge.
+- For every other prop, your value wins. Set the field's value with its own `value` property, not through `htmlAttributes`, since some fields let an attribute such as `value` or `checked` replace it.
 
 Return `false` from your handler to skip the field's own handling of that event. Where the underlying component can reject a change, returning `false` from `onChange` also keeps the previous value.
 
