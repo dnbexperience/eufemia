@@ -10,7 +10,8 @@
  *
  * A spread counts as the consumer's props when it is the rest of an object
  * destructuring, a component's whole props parameter, or a destructured prop
- * bag such as `htmlAttributes` or `buttonProps`.
+ * bag such as `htmlAttributes` or `buttonProps`, also when one of them is
+ * picked with `||` or `??`.
  */
 
 const DOM_EVENT_HANDLER =
@@ -57,6 +58,15 @@ const findVariable = (identifier, scope) => {
   }
   return null
 }
+
+/** Returns the values an `a || b` or `a ?? b` expression can result in. */
+const getFallbackOperands = (node) =>
+  node?.type === 'LogicalExpression' && node.operator !== '&&'
+    ? [
+        ...getFallbackOperands(unwrap(node.left)),
+        ...getFallbackOperands(unwrap(node.right)),
+      ]
+    : [node]
 
 /**
  * Returns the names the spread variable cannot contain, or null when the
@@ -106,6 +116,29 @@ function getExcludedNames(identifier, scope, depth = 0) {
     PROP_BAG.test(keyName(parent))
   ) {
     return new Set()
+  }
+
+  // A prop bag picked from several, such as `closeButtonProps || closeButtonAttributes`
+  const init = unwrap(parent?.init)
+  if (
+    parent?.type === 'VariableDeclarator' &&
+    parent.id === node &&
+    init?.type === 'LogicalExpression'
+  ) {
+    const excludedSets = getFallbackOperands(init)
+      .filter((operand) => operand?.type === 'Identifier')
+      .map((operand) =>
+        getExcludedNames(operand, variable.scope, depth + 1)
+      )
+      .filter(Boolean)
+
+    if (excludedSets.length > 0) {
+      return new Set(
+        [...excludedSets[0]].filter((name) =>
+          excludedSets.every((excluded) => excluded.has(name))
+        )
+      )
+    }
   }
 
   if (
