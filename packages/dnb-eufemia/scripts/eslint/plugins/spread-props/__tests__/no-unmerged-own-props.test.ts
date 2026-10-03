@@ -133,6 +133,16 @@ tester.run('no-unmerged-own-props', rule, {
         }
       `,
     },
+    // A fallback between objects that are not the consumer's props
+    {
+      code: `
+        function Comp(props) {
+          const params = { role: 'button' }
+          const buttonProps = params || {}
+          return <Button onClick={close} {...buttonProps} />
+        }
+      `,
+    },
   ],
   invalid: [
     // A given onClick replaces the component's own
@@ -204,6 +214,22 @@ tester.run('no-unmerged-own-props', rule, {
         {
           messageId: 'replaced',
           data: { name: 'onClick', spread: 'closeButtonAttributes' },
+        },
+      ],
+    },
+    // A prop bag picked from a new and a deprecated prop name
+    {
+      code: `
+        function Comp(props) {
+          const { closeButtonProps, closeButtonAttributes } = props
+          const buttonProps = closeButtonProps || closeButtonAttributes
+          return <Button onClick={close} {...buttonProps} />
+        }
+      `,
+      errors: [
+        {
+          messageId: 'replaced',
+          data: { name: 'onClick', spread: 'buttonProps' },
         },
       ],
     },
