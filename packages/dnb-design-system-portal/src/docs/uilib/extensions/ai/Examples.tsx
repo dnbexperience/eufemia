@@ -2,6 +2,10 @@ import { Fragment, useEffect, useState } from 'react'
 import type { UIMessage } from 'ai'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import { useChatSimulation } from './useChatSimulation'
+import type { Transaction } from './useChatSimulation'
+import styled from '@emotion/styled'
+import svSE from '@dnb/eufemia/src/shared/locales/sv-SE'
+import daDK from '@dnb/eufemia/src/shared/locales/da-DK'
 import * as Ai from '@dnb/eufemia/src/extensions/ai'
 import '@dnb/eufemia/src/extensions/ai/style'
 import {
@@ -14,9 +18,13 @@ import {
   NumberFormat,
   P,
 } from '@dnb/eufemia/src'
+import { Provider } from '@dnb/eufemia/src/shared'
 import {
+  add,
   bank,
+  card,
   copy,
+  loan,
   pay_from,
   refresh,
   thumbs_down,
@@ -441,147 +449,375 @@ const chatStyle = {
   height: '40rem',
 } as const
 
-// Copies the text of a message to the clipboard
-function copyText(message: UIMessage) {
-  const text = message.parts
+// The chat with a list of the questions next to it on wide screens
+const ChatLayout = styled.div`
+  display: flex;
+  align-items: flex-start;
+  gap: 1.5rem;
+
+  & > .chat {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  & > nav {
+    flex: 0 0 14rem;
+    max-height: 40rem;
+    overflow-y: auto;
+  }
+
+  @media (max-width: 60em) {
+    & > nav {
+      display: none;
+    }
+  }
+`
+
+const chatTranslations = { ...svSE, ...daDK }
+
+function getText(message: UIMessage) {
+  return message.parts
     .map((part) => (part.type === 'text' ? part.text : ''))
     .filter(Boolean)
     .join('\n\n')
-  navigator.clipboard?.writeText(text)
+}
+
+// Copies the text of a message to the clipboard
+function copyText(message: UIMessage) {
+  navigator.clipboard?.writeText(getText(message))
+}
+
+// The transactions from a finished getTransactions tool
+function getTransactions(message: UIMessage) {
+  const part = message.parts.find(
+    (part) => part.type === 'tool-getTransactions'
+  )
+  if (part && 'state' in part && part.state === 'output-available') {
+    return (part.output as { transactions: Array<Transaction> })
+      .transactions
+  }
+  return undefined
 }
 
 export function AiChatExample() {
   return (
     <ComponentBox
       data-visual-test="ai-chat"
-      scope={{ useChatSimulation, copyText, chatStyle, copy, refresh }}
+      scope={{
+        useChatSimulation,
+        chatStyle,
+        ChatLayout,
+        chatTranslations,
+        getText,
+        copyText,
+        getTransactions,
+        add,
+        bank,
+        card,
+        copy,
+        loan,
+        pay_from,
+        refresh,
+        thumbs_down,
+        thumbs_up,
+        transfer,
+      }}
     >
       {() => {
-        const suggestions = [
-          { label: 'block my visa', prompt: 'Block my Visa card' },
-          { label: 'transactions', prompt: 'Show my latest transactions' },
-          {
-            label: 'compare spending',
-            prompt: 'Compare my spending with last month',
-          },
-          { label: 'help', prompt: 'What can you help me with?' },
+        const suggestionCards = [
+          { icon: card, prompt: 'Block my Visa card' },
+          { icon: bank, prompt: 'Compare my spending with last month' },
+          { icon: transfer, prompt: 'Show my latest transactions' },
         ]
+        const suggestionChips = [
+          {
+            icon: loan,
+            label: 'loan offers',
+            prompt: 'What loan offers do you have?',
+          },
+          {
+            label: 'what can you do?',
+            prompt: 'What can you help me with?',
+          },
+        ]
+        const ainoAvatar = (
+          <Avatar variant="secondary" hasLabel>
+            A
+          </Avatar>
+        )
 
-        const Chat = () => {
+        const BankingAssistant = () => {
+          const [locale, setLocale] = useState('en-GB')
+          const [feedback, setFeedback] = useState({})
+
           // Replace with useChat from @ai-sdk/react
-          const { messages, status, sendMessage, stop, regenerate } =
-            useChatSimulation()
+          const {
+            messages,
+            status,
+            sendMessage,
+            stop,
+            regenerate,
+            setMessages,
+          } = useChatSimulation()
+
+          const send = (text) => sendMessage({ text })
+
+          const questions = messages.filter(({ role }) => role === 'user')
 
           return (
-            <div style={chatStyle}>
-              {messages.length === 0 ? (
-                <Ai.Welcome
-                  title="Welcome, Peter"
-                  style={{ margin: 'auto 0' }}
-                >
-                  <Ai.Suggestions>
-                    {suggestions.map(({ label, prompt }) => (
-                      <Ai.Suggestion
-                        key={label}
-                        suggestion={prompt}
-                        onClick={({ suggestion }) =>
-                          sendMessage({ text: suggestion })
-                        }
+            <Provider locale={locale} translations={chatTranslations}>
+              <ChatLayout>
+                <section className="chat" style={chatStyle}>
+                  <Flex.Horizontal align="center" justify="space-between">
+                    <Flex.Horizontal align="center" gap="small">
+                      {ainoAvatar}
+                      <div>
+                        <strong>Aino</strong>
+                        <P size="small">DNB Banking Assistant</P>
+                      </div>
+                    </Flex.Horizontal>
+
+                    <Flex.Horizontal align="center" gap="small">
+                      <ToggleButton.Group
+                        label="Language"
+                        labelSrOnly
+                        size="small"
+                        value={locale}
+                        onChange={({ value }) => setLocale(String(value))}
                       >
-                        {label}
-                      </Ai.Suggestion>
-                    ))}
-                  </Ai.Suggestions>
-                </Ai.Welcome>
-              ) : (
-                <Ai.Conversation style={{ flex: '1 1 auto' }}>
-                  <Ai.DateMarker date={new Date()} />
-                  <Ai.Disclaimer>
-                    <P>
-                      Aino is a chatbot for customer service. Do not share
-                      personal information with the chatbot. Read more
-                      about{' '}
-                      <Anchor href="https://www.dnb.no/personvern">
-                        your privacy
-                      </Anchor>
-                      .
-                    </P>
-                    <P top>
-                      Some answers are generated with artificial
-                      intelligence and are marked with a tag. AI-generated
-                      answers can contain errors.
-                    </P>
-                  </Ai.Disclaimer>
+                        <ToggleButton value="nb-NO" text="NO" />
+                        <ToggleButton value="en-GB" text="EN" />
+                        <ToggleButton value="sv-SE" text="SV" />
+                        <ToggleButton value="da-DK" text="DK" />
+                      </ToggleButton.Group>
+                      <Button
+                        variant="tertiary"
+                        icon={add}
+                        iconPosition="left"
+                        disabled={messages.length === 0}
+                        onClick={() => {
+                          stop()
+                          setMessages([])
+                          setFeedback({})
+                        }}
+                      >
+                        New chat
+                      </Button>
+                    </Flex.Horizontal>
+                  </Flex.Horizontal>
 
-                  {messages.map((message, index) => {
-                    const isAssistant = message.role === 'assistant'
-                    const isLast = index === messages.length - 1
-                    const isDone =
-                      isAssistant && !(isLast && status === 'streaming')
+                  {messages.length === 0 ? (
+                    <Ai.Welcome
+                      title="Hello, Peter"
+                      style={{ margin: 'auto 0' }}
+                    >
+                      <Ai.Suggestions>
+                        {suggestionCards.map(({ icon, prompt }) => (
+                          <Ai.Suggestion
+                            key={prompt}
+                            variant="card"
+                            icon={icon}
+                            suggestion={prompt}
+                            onClick={({ suggestion }) => send(suggestion)}
+                          />
+                        ))}
+                      </Ai.Suggestions>
+                      <Ai.Suggestions>
+                        {suggestionChips.map(({ icon, label, prompt }) => (
+                          <Ai.Suggestion
+                            key={label}
+                            icon={icon}
+                            suggestion={prompt}
+                            onClick={({ suggestion }) => send(suggestion)}
+                          >
+                            {label}
+                          </Ai.Suggestion>
+                        ))}
+                      </Ai.Suggestions>
+                    </Ai.Welcome>
+                  ) : (
+                    <Ai.Conversation
+                      id="banking-chat"
+                      scrollBehavior="end"
+                      style={{ flex: '1 1 auto' }}
+                    >
+                      <Ai.DateMarker date={new Date()} />
+                      <Ai.Disclaimer>
+                        <P>
+                          Aino is a chatbot for customer service. Do not
+                          share personal information with the chatbot. Read
+                          more about{' '}
+                          <Anchor href="https://www.dnb.no/personvern">
+                            your privacy
+                          </Anchor>
+                          .
+                        </P>
+                        <P top>
+                          Some answers are generated with artificial
+                          intelligence and are marked with a tag.
+                          AI-generated answers can contain errors.
+                        </P>
+                      </Ai.Disclaimer>
 
-                    return (
-                      <Ai.Message
-                        key={message.id}
-                        message={message}
-                        name={isAssistant ? 'Aino' : 'You'}
-                        avatar={
-                          isAssistant ? (
-                            <Avatar variant="secondary" hasLabel>
-                              A
-                            </Avatar>
-                          ) : (
-                            <Avatar hasLabel>P</Avatar>
-                          )
-                        }
-                        aiGenerated={isAssistant}
-                        actions={
-                          isDone && (
-                            <Ai.Actions>
-                              <Ai.Action
-                                icon={copy}
-                                label="Copy"
-                                onClick={() => copyText(message)}
-                              />
-                              {isLast && (
+                      {messages.map((message, index) => {
+                        const isAssistant = message.role === 'assistant'
+                        const isLast = index === messages.length - 1
+                        const isDone = !(isLast && status === 'streaming')
+                        const transactions = getTransactions(message)
+
+                        const actions = isAssistant && isDone && (
+                          <Ai.Actions>
+                            <Ai.Action
+                              icon={copy}
+                              label="Copy"
+                              onClick={() => copyText(message)}
+                            />
+                            {message.id in feedback ? (
+                              <P size="small">Thanks for your feedback!</P>
+                            ) : (
+                              <>
                                 <Ai.Action
-                                  icon={refresh}
-                                  label="Regenerate"
-                                  onClick={regenerate}
+                                  icon={thumbs_up}
+                                  label="Good answer"
+                                  onClick={() =>
+                                    setFeedback((all) => ({
+                                      ...all,
+                                      [message.id]: true,
+                                    }))
+                                  }
                                 />
-                              )}
-                            </Ai.Actions>
-                          )
-                        }
-                      />
-                    )
-                  })}
+                                <Ai.Action
+                                  icon={thumbs_down}
+                                  label="Bad answer"
+                                  onClick={() =>
+                                    setFeedback((all) => ({
+                                      ...all,
+                                      [message.id]: false,
+                                    }))
+                                  }
+                                />
+                              </>
+                            )}
+                            {isLast && (
+                              <Ai.Action
+                                icon={refresh}
+                                label="Regenerate"
+                                onClick={regenerate}
+                              />
+                            )}
+                          </Ai.Actions>
+                        )
 
-                  {status === 'submitted' && (
-                    <Ai.Loader
-                      name="Aino"
-                      avatar={
-                        <Avatar variant="secondary" hasLabel>
-                          A
-                        </Avatar>
-                      }
-                    />
+                        return (
+                          <Fragment key={message.id}>
+                            <Ai.Message
+                              message={message}
+                              name={isAssistant ? 'Aino' : 'You'}
+                              avatar={
+                                isAssistant ? (
+                                  ainoAvatar
+                                ) : (
+                                  <Avatar hasLabel>P</Avatar>
+                                )
+                              }
+                              aiGenerated={isAssistant}
+                              actions={transactions ? undefined : actions}
+                            />
+
+                            {transactions && (
+                              <Ai.Message
+                                variant="plain"
+                                actions={actions}
+                              >
+                                <List.Container>
+                                  {transactions.map(
+                                    ({ name, account, date, amount }) => (
+                                      <List.Item.Action
+                                        key={name}
+                                        icon={
+                                          amount < 0 ? transfer : pay_from
+                                        }
+                                        onClick={() =>
+                                          send(
+                                            `Show the payment confirmation for ${name}`
+                                          )
+                                        }
+                                      >
+                                        <List.Cell.Title>
+                                          <List.Cell.Title.Overline>
+                                            {account} · {date}
+                                          </List.Cell.Title.Overline>
+                                          {name}
+                                        </List.Cell.Title>
+                                        <List.Cell.End>
+                                          <NumberFormat.Currency
+                                            value={amount}
+                                          />
+                                        </List.Cell.End>
+                                      </List.Item.Action>
+                                    )
+                                  )}
+                                </List.Container>
+                              </Ai.Message>
+                            )}
+                          </Fragment>
+                        )
+                      })}
+
+                      {status === 'submitted' && (
+                        <Ai.Loader name="Aino" avatar={ainoAvatar} />
+                      )}
+                    </Ai.Conversation>
                   )}
-                </Ai.Conversation>
-              )}
 
-              <Ai.PromptInput
-                status={status}
-                characterCounter={200}
-                onSubmit={({ value }) => sendMessage({ text: value })}
-                onStop={stop}
-                onAttachmentClick={() => null}
-                onMicrophoneClick={() => null}
-              />
-            </div>
+                  <Ai.PromptInput
+                    status={status}
+                    characterCounter={200}
+                    onSubmit={({ value }) => send(value)}
+                    onStop={stop}
+                    onAttachmentClick={() => null}
+                    onMicrophoneClick={() => null}
+                  />
+                </section>
+
+                {questions.length > 1 && (
+                  <QuestionOverview questions={questions} />
+                )}
+              </ChatLayout>
+            </Provider>
           )
         }
 
-        return <Chat />
+        // Jump between the questions, and see which one you read
+        const QuestionOverview = ({ questions }) => {
+          const { scrollToMessage } = Ai.useConversation('banking-chat')
+          const { currentTurnId } =
+            Ai.useConversationVisibility('banking-chat')
+
+          return (
+            <nav aria-label="Questions in this chat">
+              <P bottom="x-small">
+                <strong>Questions</strong>
+              </P>
+              <List.Container>
+                {questions.map((question) => (
+                  <List.Item.Action
+                    key={question.id}
+                    selected={question.id === currentTurnId}
+                    aria-current={
+                      question.id === currentTurnId ? 'step' : undefined
+                    }
+                    onClick={() => scrollToMessage(question.id)}
+                  >
+                    <List.Cell.Title>{getText(question)}</List.Cell.Title>
+                  </List.Item.Action>
+                ))}
+              </List.Container>
+            </nav>
+          )
+        }
+
+        return <BankingAssistant />
       }}
     </ComponentBox>
   )
