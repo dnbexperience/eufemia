@@ -10,7 +10,9 @@
  *
  * A spread counts as the consumer's props when it is the rest of an object
  * destructuring, a component's whole props parameter, or a destructured prop
- * bag such as `htmlAttributes` or `buttonProps`.
+ * bag such as `htmlAttributes` or `buttonProps`. A bag routed through a local,
+ * such as `const buttonProps = buttonPropsProp || buttonAttributesProp`,
+ * counts as well.
  */
 
 const DOM_EVENT_HANDLER =
@@ -57,6 +59,15 @@ const findVariable = (identifier, scope) => {
   }
   return null
 }
+
+/** Flattens a fallback such as `a || b` or `a ?? b` into the values it can take */
+const fallbackValues = (node) =>
+  node?.type === 'LogicalExpression' && node.operator !== '&&'
+    ? [
+        ...fallbackValues(unwrap(node.left)),
+        ...fallbackValues(unwrap(node.right)),
+      ]
+    : [node]
 
 /**
  * Returns the names the spread variable cannot contain, or null when the
@@ -114,6 +125,24 @@ function getExcludedNames(identifier, scope, depth = 0) {
     isComponentFunction(def.node)
   ) {
     return new Set()
+  }
+
+  if (def.type === 'Variable' && parent?.type === 'VariableDeclarator') {
+    const values = fallbackValues(unwrap(def.node.init)).map((value) =>
+      value?.type === 'Identifier'
+        ? getExcludedNames(value, variable.scope, depth + 1)
+        : null
+    )
+
+    if (values.some((excluded) => !excluded)) {
+      return null
+    }
+
+    // The spread can contain a name unless every value it can take leaves it out
+    return values.reduce(
+      (shared, excluded) =>
+        new Set([...shared].filter((name) => excluded.has(name)))
+    )
   }
 
   return null

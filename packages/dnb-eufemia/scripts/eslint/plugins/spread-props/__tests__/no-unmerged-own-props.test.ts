@@ -133,6 +133,27 @@ tester.run('no-unmerged-own-props', rule, {
         }
       `,
     },
+    // A locally built object kept in a local is not the consumer's props
+    {
+      code: `
+        function Comp(props) {
+          const params = { role: 'button' }
+          const buttonParams = params
+          return <div onClick={handleClick} {...buttonParams} />
+        }
+      `,
+    },
+    // Every value the fallback can take leaves the prop out
+    {
+      code: `
+        function Comp(props) {
+          const { onClick, ...rest } = props
+          const { onClick: givenOnClick, ...fallback } = props.extra
+          const params = rest || fallback
+          return <Button onClick={handleClick} {...params} />
+        }
+      `,
+    },
   ],
   invalid: [
     // A given onClick replaces the component's own
@@ -227,6 +248,52 @@ tester.run('no-unmerged-own-props', rule, {
       `,
       errors: [
         { messageId: 'replaced', data: { name: 'style', spread: 'rest' } },
+      ],
+    },
+    // A prop bag routed through a local still replaces the component's own
+    {
+      code: `
+        function Comp(props) {
+          const { buttonProps } = props
+          const params = buttonProps
+          return <Button onClick={handleClick} {...params} />
+        }
+      `,
+      errors: [
+        {
+          messageId: 'replaced',
+          data: { name: 'onClick', spread: 'params' },
+        },
+      ],
+    },
+    // A prop bag picked from a deprecated alias through a fallback
+    {
+      code: `
+        function Comp(props) {
+          const {
+            closeButtonProps: closeButtonPropsProp,
+            closeButtonAttributes: closeButtonAttributesProp,
+          } = props
+          const closeButtonAttributes =
+            closeButtonPropsProp || closeButtonAttributesProp
+          return (
+            <Button
+              className="dnb-comp__close"
+              onClick={onClose}
+              {...closeButtonAttributes}
+            />
+          )
+        }
+      `,
+      errors: [
+        {
+          messageId: 'replaced',
+          data: { name: 'className', spread: 'closeButtonAttributes' },
+        },
+        {
+          messageId: 'replaced',
+          data: { name: 'onClick', spread: 'closeButtonAttributes' },
+        },
       ],
     },
   ],

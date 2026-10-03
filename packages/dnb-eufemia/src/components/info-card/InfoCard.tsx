@@ -21,6 +21,7 @@ import type { SkeletonShow } from '../skeleton/Skeleton'
 import Context from '../../shared/Context'
 import Provider from '../../shared/Provider'
 import type { SpacingProps } from '../../shared/types'
+import mergeProps from '../../shared/helpers/mergeProps'
 import {
   extendPropsWithContext,
   validateDOMAttributes,
@@ -188,25 +189,33 @@ const InfoCard = (localProps: InfoCardAllProps) => {
           <Button
             top={centered ? 'medium' : 'small'}
             type="button"
-            className="dnb-info-card__buttons__accept-button"
             variant="secondary"
             right={centered ? 'zero' : 'small'}
-            onClick={onAccept}
             text={acceptButtonText}
-            {...acceptButtonAttributes}
+            {...mergeProps(
+              {
+                className: 'dnb-info-card__buttons__accept-button',
+                onClick: onAccept,
+              },
+              acceptButtonAttributes
+            )}
           />
         )}
         {!closeButtonIsHidden && (
           <Button
             type="button"
-            className="dnb-info-card__buttons__close-button"
             variant="tertiary"
             top="small"
-            onClick={onClose}
             icon="close"
             iconPosition="left"
             text={closeButtonText}
-            {...closeButtonAttributes}
+            {...mergeProps(
+              {
+                className: 'dnb-info-card__buttons__close-button',
+                onClick: onClose,
+              },
+              closeButtonAttributes
+            )}
           />
         )}
       </div>

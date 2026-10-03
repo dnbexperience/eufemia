@@ -338,6 +338,56 @@ describe('InfoCard', () => {
     expect(buttonElement.getAttribute('data-testid')).toBe('new-prop')
   })
 
+  it('keeps calling onClose and onAccept when the button props have an onClick', () => {
+    const onClose = vi.fn()
+    const onAccept = vi.fn()
+    const onCloseClick = vi.fn()
+    const onAcceptClick = vi.fn()
+
+    render(
+      <InfoCard
+        text="text"
+        onClose={onClose}
+        onAccept={onAccept}
+        closeButtonProps={{ onClick: onCloseClick }}
+        acceptButtonProps={{ onClick: onAcceptClick }}
+      />
+    )
+
+    fireEvent.click(
+      document.querySelector('.dnb-info-card__buttons__accept-button')
+    )
+    fireEvent.click(
+      document.querySelector('.dnb-info-card__buttons__close-button')
+    )
+
+    expect(onAcceptClick).toHaveBeenCalledTimes(1)
+    expect(onAccept).toHaveBeenCalledTimes(1)
+    expect(onCloseClick).toHaveBeenCalledTimes(1)
+    expect(onClose).toHaveBeenCalledTimes(1)
+  })
+
+  it('keeps the button classes when the button props have a className', () => {
+    render(
+      <InfoCard
+        text="text"
+        onClose={vi.fn()}
+        onAccept={vi.fn()}
+        closeButtonProps={{ className: 'custom-close' }}
+        acceptButtonProps={{ className: 'custom-accept' }}
+      />
+    )
+
+    expect(
+      document.querySelector('.dnb-info-card__buttons__accept-button')
+        .className
+    ).toContain('custom-accept')
+    expect(
+      document.querySelector('.dnb-info-card__buttons__close-button')
+        .className
+    ).toContain('custom-close')
+  })
+
   it('renders skeleton if skeleton is true', () => {
     const skeletonClassName = 'dnb-skeleton'
 
