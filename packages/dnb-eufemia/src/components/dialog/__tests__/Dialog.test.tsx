@@ -83,6 +83,59 @@ describe('Dialog', () => {
     ).not.toBeInTheDocument()
   })
 
+  it('sends along closeButtonProps to close button', () => {
+    render(
+      <Dialog open noAnimation closeButtonProps={{ text: 'Custom text' }}>
+        Content
+      </Dialog>
+    )
+
+    expect(
+      document
+        .querySelector('.dnb-modal__close-button')
+        ?.textContent?.replace(/\u200C/g, '')
+    ).toBe('Custom text')
+  })
+
+  it('closeButtonProps takes precedence over closeButtonAttributes', () => {
+    render(
+      <Dialog
+        open
+        noAnimation
+        closeButtonProps={{ text: 'New prop' }}
+        closeButtonAttributes={{ text: 'Old prop' }}
+      >
+        Content
+      </Dialog>
+    )
+
+    expect(
+      document
+        .querySelector('.dnb-modal__close-button')
+        ?.textContent?.replace(/\u200C/g, '')
+    ).toBe('New prop')
+  })
+
+  it('keeps closing when closeButtonProps has an onClick', () => {
+    const onClick = vi.fn()
+    const onClose = vi.fn()
+
+    render(
+      <Dialog noAnimation onClose={onClose} closeButtonProps={{ onClick }}>
+        Content
+      </Dialog>
+    )
+
+    fireEvent.click(document.querySelector('.dnb-modal__trigger'))
+    fireEvent.click(document.querySelector('.dnb-modal__close-button'))
+
+    expect(onClick).toHaveBeenCalledTimes(1)
+    expect(onClose).toHaveBeenCalledTimes(1)
+    expect(
+      document.querySelector('.dnb-dialog__content')
+    ).not.toBeInTheDocument()
+  })
+
   it('will close by using callback method', () => {
     const onClose = vi.fn()
     const onOpen = vi.fn()
