@@ -95,6 +95,22 @@ describe('NextButton', () => {
     expect(handleNext).toHaveBeenCalledTimes(1)
   })
 
+  it('should stay on the step when the given onClick returns false', () => {
+    const handleNext = vi.fn()
+    const onClick = vi.fn(() => false)
+
+    render(
+      <WizardContext value={{ handleNext }}>
+        <NextButton onClick={onClick} />
+      </WizardContext>
+    )
+
+    fireEvent.click(document.querySelector('.dnb-forms-next-button'))
+
+    expect(onClick).toHaveBeenCalledTimes(1)
+    expect(handleNext).not.toHaveBeenCalled()
+  })
+
   it('should keep its own className when a className is given', () => {
     render(<NextButton className="custom" />)
 
