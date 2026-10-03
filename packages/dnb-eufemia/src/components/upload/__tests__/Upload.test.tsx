@@ -77,6 +77,19 @@ describe('Upload', () => {
     ).toBeInTheDocument()
   })
 
+  it('keeps the button class when buttonProps has a className', () => {
+    render(
+      <Upload
+        {...defaultProps}
+        buttonProps={{ className: 'custom-class' }}
+      />
+    )
+
+    const button = document.querySelector('.dnb-upload__file-input-button')
+
+    expect(button).toHaveClass('custom-class')
+  })
+
   it('opens file dialog when clicking button', () => {
     render(<Upload {...defaultProps} />)
 
