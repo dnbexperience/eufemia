@@ -215,6 +215,16 @@ export const ModalProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  closeButtonProps: {
+    doc: 'Props forwarded to the close button. A given `onClick` runs before the close button closes the modal. Return `false` from it to keep the modal open.',
+    type: 'Various',
+    status: 'optional',
+  },
+  closeButtonAttributes: {
+    doc: 'Deprecated. Use `closeButtonProps` instead.',
+    type: 'Various',
+    status: 'deprecated',
+  },
 }
 
 export const ModalEvents: PropertiesTableProps = {
