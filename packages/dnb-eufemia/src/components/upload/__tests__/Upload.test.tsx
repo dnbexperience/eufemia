@@ -1858,6 +1858,48 @@ describe('Upload', () => {
   })
 
   describe('events', () => {
+    it('should call a given onDrop and still upload the dropped file', async () => {
+      const id = 'given-on-drop'
+      const onDrop = vi.fn()
+
+      const { result } = renderHook(useUpload, { initialProps: id })
+
+      render(<Upload {...defaultProps} id={id} onDrop={onDrop} />)
+
+      const file1 = createMockFile('fileName-1.png', 100, 'image/png')
+
+      fireEvent.drop(document.querySelector('.dnb-upload'), {
+        dataTransfer: { files: [file1] },
+      })
+
+      expect(onDrop).toHaveBeenCalledTimes(1)
+
+      await waitFor(() => {
+        expect(result.current.files).toEqual([
+          { file: file1, id: expect.any(String), exists: false },
+        ])
+      })
+    })
+
+    it('should skip the upload when a given onDrop returns false', () => {
+      const id = 'given-on-drop-false'
+      const onDrop = vi.fn(() => false)
+
+      const { result } = renderHook(useUpload, { initialProps: id })
+
+      render(<Upload {...defaultProps} id={id} onDrop={onDrop} />)
+
+      fireEvent.drop(document.querySelector('.dnb-upload'), {
+        dataTransfer: {
+          files: [createMockFile('fileName-1.png', 100, 'image/png')],
+        },
+      })
+
+      expect(onDrop).toHaveBeenCalledTimes(1)
+      expect(result.current.files).toEqual([])
+      expect(result.current.internalFiles).toEqual([])
+    })
+
     it('should call a given onClick and keep resetting the file input', () => {
       const onClick = vi.fn()
 

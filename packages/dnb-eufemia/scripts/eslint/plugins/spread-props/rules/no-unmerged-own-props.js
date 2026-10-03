@@ -10,8 +10,8 @@
  *
  * A spread counts as the consumer's props when it is the rest of an object
  * destructuring, a component's whole props parameter, or a destructured prop
- * bag such as `htmlAttributes` or `buttonProps`, also when one of them is
- * picked with `||` or `??`.
+ * bag such as `htmlAttributes` or `buttonProps`, also when it is kept in a
+ * local or picked with `||` or `??`.
  */
 
 const DOM_EVENT_HANDLER =
@@ -118,12 +118,13 @@ function getExcludedNames(identifier, scope, depth = 0) {
     return new Set()
   }
 
-  // A prop bag picked from several, such as `closeButtonProps || closeButtonAttributes`
+  // A prop bag kept in a local, such as `const props = rest as Props`, or
+  // picked from several, such as `closeButtonProps || closeButtonAttributes`
   const init = unwrap(parent?.init)
   if (
     parent?.type === 'VariableDeclarator' &&
     parent.id === node &&
-    init?.type === 'LogicalExpression'
+    (init?.type === 'Identifier' || init?.type === 'LogicalExpression')
   ) {
     const excludedSets = getFallbackOperands(init)
       .filter((operand) => operand?.type === 'Identifier')
