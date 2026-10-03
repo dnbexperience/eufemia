@@ -31,6 +31,7 @@ import { extendPropsWithContext } from '../../shared/helpers/extendPropsWithCont
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 import useId from '../../shared/helpers/useId'
 import Suffix from '../../shared/helpers/Suffix'
+import mergeProps from '../../shared/helpers/mergeProps'
 import {
   warn,
   removeUndefinedProps,
@@ -583,8 +584,7 @@ function InputComponent({ ref, ...restProps }: InputProps) {
                   disabled={disabled}
                   skeleton={skeleton}
                   size={size}
-                  onSubmit={onSubmit}
-                  {...statusProps}
+                  {...mergeProps({ onSubmit }, statusProps)}
                 />
               )}
             </span>
@@ -723,22 +723,26 @@ function InputSubmitButton({
       data-input-state={focusState}
     >
       <Button
-        className={clsx(
-          'dnb-input__submit-button__button',
-          'dnb-button--input-button',
-          className
+        {...mergeProps(
+          {
+            className: clsx(
+              'dnb-input__submit-button__button',
+              'dnb-button--input-button',
+              className
+            ),
+            variant: variant as ButtonVariant,
+            icon,
+            iconSize,
+            status,
+            statusState,
+            onClick: onSubmitHandler,
+            onFocus: onSubmitFocusHandler,
+            onBlur: onSubmitBlurHandler,
+            ref: combinedButtonRef,
+            ...(params as Record<string, unknown>),
+          },
+          statusProps as Record<string, unknown>
         )}
-        variant={variant as ButtonVariant}
-        icon={icon}
-        iconSize={iconSize}
-        status={status}
-        statusState={statusState}
-        onClick={onSubmitHandler}
-        onFocus={onSubmitFocusHandler}
-        onBlur={onSubmitBlurHandler}
-        ref={combinedButtonRef}
-        {...(params as Record<string, unknown>)}
-        {...(statusProps as Record<string, unknown>)}
       />
     </span>
   )

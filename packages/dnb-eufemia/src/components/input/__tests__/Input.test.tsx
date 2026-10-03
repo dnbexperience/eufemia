@@ -604,6 +604,27 @@ describe('Input component', () => {
     expect(onSubmit).toHaveBeenCalledTimes(1)
   })
 
+  it('keeps emitting onSubmit when statusProps has an onSubmit', () => {
+    const onSubmit = vi.fn()
+    const statusOnSubmit = vi.fn()
+
+    render(
+      <Input
+        type="search"
+        showSubmitButton
+        onSubmit={onSubmit}
+        statusProps={{ onSubmit: statusOnSubmit }}
+      />
+    )
+
+    fireEvent.click(
+      document.querySelector('.dnb-input__submit-button button')
+    )
+
+    expect(onSubmit).toHaveBeenCalledTimes(1)
+    expect(statusOnSubmit).toHaveBeenCalledTimes(1)
+  })
+
   it('keeps emitting onSubmitFocus and onSubmitBlur when an onFocus and onBlur is given', () => {
     const onSubmitFocus = vi.fn()
     const onSubmitBlur = vi.fn()
