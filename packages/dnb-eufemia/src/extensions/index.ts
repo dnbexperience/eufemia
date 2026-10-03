@@ -10,10 +10,11 @@
  */
 
 // import all the available components
+import Ai from './ai/Ai'
 import Forms from './forms/Forms'
 import PaymentCard from './payment-card/PaymentCard'
 import SidebarMenu from './sidebar-menu/SidebarMenu'
 import VippsWalletButton from './vipps-wallet-button/VippsWalletButton'
 
 // define / export all the available components
-export { Forms, PaymentCard, SidebarMenu, VippsWalletButton }
+export { Ai, Forms, PaymentCard, SidebarMenu, VippsWalletButton }

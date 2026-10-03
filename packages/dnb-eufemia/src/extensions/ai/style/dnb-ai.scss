@@ -1,0 +1,553 @@
+@use '../../../style/core/utilities.scss' as utilities;
+
+.dnb-ai-response {
+  overflow-wrap: anywhere;
+
+  > .dnb-table__scroll-view,
+  &__code-block {
+    margin-bottom: 1.5rem;
+  }
+
+  > :first-child {
+    margin-top: 0;
+  }
+
+  > :last-child {
+    margin-bottom: 0;
+  }
+
+  &__code-block {
+    position: relative;
+
+    .dnb-pre {
+      padding-right: 3rem;
+    }
+  }
+
+  &__copy {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+  }
+
+  &__blockquote {
+    margin: 0 0 1.5rem;
+    padding-left: 1rem;
+
+    color: var(--token-color-text-neutral-alternative);
+    border-left: 0.25rem solid var(--token-color-stroke-neutral-subtle);
+
+    > :last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  &__task {
+    list-style: none;
+
+    input {
+      margin: 0 0.5rem 0 0;
+      vertical-align: middle;
+    }
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+.dnb-ai-message {
+  --ai-message-background--user: var(
+    --token-color-background-neutral-base
+  );
+  --ai-message-background--assistant: var(
+    --token-color-background-selected-subtle
+  );
+  --ai-message-border-radius: 1.5rem;
+  --ai-message-border-radius--start: 0.25rem;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+
+  color: var(--token-color-text-neutral);
+
+  & + & {
+    margin-top: 1rem;
+  }
+
+  &--user {
+    align-items: flex-end;
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+
+    font-size: var(--font-size-small);
+    line-height: var(--line-height-small);
+  }
+
+  &--user &__header {
+    flex-direction: row-reverse;
+  }
+
+  &__avatar {
+    display: flex;
+  }
+
+  &__content {
+    max-width: 100%;
+
+    font-size: var(--font-size-basis);
+    line-height: var(--line-height-basis);
+  }
+
+  &--bubble &__content {
+    padding: 1rem;
+
+    border-radius: var(--ai-message-border-radius);
+  }
+
+  &--bubble#{&}--assistant &__content {
+    border-top-left-radius: var(--ai-message-border-radius--start);
+    background-color: var(--ai-message-background--assistant);
+  }
+
+  &--bubble#{&}--user &__content {
+    border-top-right-radius: var(--ai-message-border-radius--start);
+    background-color: var(--ai-message-background--user);
+  }
+
+  &__content > * + * {
+    margin-top: 1rem;
+  }
+
+  &--plain &__content {
+    width: 100%;
+  }
+
+  &__text {
+    white-space: pre-wrap;
+  }
+
+  &__actions {
+    display: flex;
+    gap: 0.25rem;
+  }
+}
+
+.dnb-ai-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+
+.dnb-ai-loader {
+  &__dots {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    height: var(--line-height-basis);
+
+    span {
+      width: 0.5rem;
+      height: 0.5rem;
+
+      border-radius: 50%;
+      background-color: currentcolor;
+
+      animation: dnb-ai-loader-dot 1.2s ease-in-out infinite;
+
+      &:nth-child(2) {
+        animation-delay: 0.2s;
+      }
+
+      &:nth-child(3) {
+        animation-delay: 0.4s;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        animation: none;
+        opacity: 0.6;
+      }
+    }
+  }
+}
+
+@keyframes dnb-ai-loader-dot {
+  0%,
+  80%,
+  100% {
+    opacity: 0.3;
+  }
+
+  40% {
+    opacity: 1;
+  }
+}
+
+.dnb-ai-prompt-input {
+  --ai-prompt-input-background: var(--token-color-background-neutral);
+  --ai-prompt-input-border-color: var(--token-color-stroke-neutral-subtle);
+  --ai-prompt-input-radius: var(--token-radius-lg);
+
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  padding: 1rem;
+
+  background-color: var(--ai-prompt-input-background);
+  border-radius: var(--ai-prompt-input-radius);
+
+  @include utilities.fakeBorder(var(--ai-prompt-input-border-color));
+
+  &:focus-within {
+    @include utilities.fakeBorder(
+      var(--token-color-stroke-action-focus),
+      var(--focus-ring-width)
+    );
+  }
+
+  &--compact {
+    --ai-prompt-input-border-color: var(
+      --token-color-decorative-second-muted
+    );
+    --ai-prompt-input-radius: 1.5rem;
+
+    flex-direction: row;
+    align-items: flex-end;
+
+    padding: 0.5rem 1rem;
+
+    filter: drop-shadow(0 0.5rem 0.5rem rgb(51 51 51 / 8%));
+  }
+
+  // The card draws the border, so the textarea only shows its text
+  &__textarea.dnb-textarea {
+    --textarea-color-background: transparent;
+
+    flex: 1 1 auto;
+    align-self: stretch;
+
+    .dnb-textarea__state {
+      display: none;
+    }
+
+    .dnb-textarea__row {
+      margin: 0;
+    }
+  }
+
+  &--compact &__textarea.dnb-textarea {
+    align-self: center;
+    padding: 0 0.5rem;
+  }
+
+  &__field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  &__counter {
+    align-self: flex-end;
+
+    font-size: var(--font-size-x-small);
+    line-height: var(--line-height-x-small);
+    color: var(--token-color-text-neutral-alternative);
+
+    &--exceeded {
+      color: var(--token-color-text-error);
+    }
+  }
+
+  &--compact &__counter {
+    align-self: center;
+  }
+
+  &__icon-button {
+    --button-color-icon--default: var(--token-color-icon-neutral);
+  }
+
+  &__toolbar,
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  &__actions {
+    margin-left: auto;
+  }
+}
+
+.dnb-ai-suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.dnb-ai-suggestion--card {
+  display: flex;
+  flex: 0 1 10.75rem;
+  align-items: flex-start;
+  gap: 1rem;
+  min-width: 0;
+
+  padding: 1rem;
+  margin: 0;
+
+  font-family: inherit;
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-small);
+  text-align: left;
+  color: var(--token-color-text-neutral);
+
+  cursor: pointer;
+  background-color: var(--token-color-background-neutral);
+  border: none;
+  border-radius: 1.5rem;
+
+  @include utilities.fakeBorder(var(--token-color-stroke-neutral-subtle));
+
+  @include utilities.hover() {
+    @include utilities.fakeBorder(var(--token-color-stroke-action));
+  }
+
+  @include utilities.focusVisible() {
+    @include utilities.fakeBorder(
+      var(--token-color-stroke-action-focus),
+      var(--focus-ring-width)
+    );
+  }
+
+  &:disabled {
+    color: var(--token-color-text-neutral-alternative);
+  }
+
+  .dnb-ai-suggestion__icon {
+    color: var(--token-color-icon-action);
+  }
+}
+
+.dnb-ai-welcome {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.dnb-ai-conversation {
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+
+  --ai-conversation-peek: 3rem;
+
+  &__scroll {
+    flex: 1 1 auto;
+    min-height: 0;
+
+    // The conversation follows new content itself, and chooses when to
+    // scroll smoothly, so corrections of the position are not animated
+    overflow-anchor: none;
+    scroll-behavior: auto;
+  }
+
+  // A new turn is scrolled near the top, with a peek of the reply above
+  & .dnb-ai-message--user {
+    scroll-margin-top: var(--ai-conversation-peek);
+  }
+
+  // Messages out of view are not rendered by the browser, but can still
+  // be found, selected and read by screen readers
+  &__content > .dnb-ai-message {
+    content-visibility: auto;
+    contain-intrinsic-block-size: auto 5rem;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    &__content > [data-entering] {
+      animation: dnb-ai-conversation-enter 300ms ease-out;
+    }
+  }
+
+  &__spacer {
+    flex-shrink: 0;
+  }
+
+  // Short conversations start at the bottom, like in most chats
+  &--end &__content {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    min-height: 100%;
+  }
+
+  &__scroll-button {
+    position: absolute;
+    bottom: 1rem;
+    left: 50%;
+
+    transform: translateX(-50%);
+  }
+}
+
+.dnb-ai-date-marker {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  padding-bottom: 0.5rem;
+
+  font-size: var(--font-size-basis);
+  line-height: var(--line-height-basis);
+  color: var(--token-color-text-neutral);
+
+  &__date {
+    white-space: nowrap;
+
+    &::first-letter {
+      text-transform: uppercase;
+    }
+  }
+
+  &__line.dnb-hr {
+    flex: 1 1 auto;
+  }
+}
+
+.dnb-ai-disclaimer {
+  padding-bottom: 1.5rem;
+
+  font-size: var(--font-size-small);
+  line-height: var(--line-height-small);
+  color: var(--token-color-text-neutral-alternative);
+
+  .dnb-p {
+    font-size: inherit;
+    line-height: inherit;
+    color: inherit;
+  }
+}
+
+.dnb-ai-collapsible__toggle {
+  .dnb-icon {
+    transition: transform 200ms var(--easing-default);
+
+    @include utilities.reducedMotion() {
+      transition: none;
+    }
+  }
+
+  &--open .dnb-icon {
+    transform: rotate(180deg);
+  }
+}
+
+.dnb-ai-sources__list {
+  margin: 0.5rem 0 0;
+}
+
+.dnb-ai-tool {
+  &__status {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+
+    font-size: var(--font-size-small);
+    line-height: var(--line-height-small);
+  }
+
+  &__icon {
+    display: flex;
+  }
+
+  &__state {
+    color: var(--token-color-text-neutral-alternative);
+  }
+
+  &--done &__icon {
+    color: var(--token-color-icon-positive);
+  }
+
+  &--error &__icon {
+    color: var(--token-color-icon-error);
+  }
+
+  &__error {
+    margin-top: 0.5rem;
+
+    font-size: var(--font-size-small);
+    line-height: var(--line-height-small);
+    color: var(--token-color-text-error);
+  }
+
+  &__status ~ :not(&__error) {
+    margin-top: 1rem;
+  }
+}
+
+.dnb-ai-shimmer {
+  --ai-shimmer-duration: 2s;
+
+  mask-image: linear-gradient(
+    90deg,
+    #000 40%,
+    rgb(0 0 0 / 40%) 50%,
+    #000 60%
+  );
+  mask-size: 300% 100%;
+
+  animation: dnb-ai-shimmer var(--ai-shimmer-duration) linear infinite;
+
+  @include utilities.reducedMotion() {
+    mask-image: none;
+    animation: none;
+  }
+}
+
+@keyframes dnb-ai-shimmer {
+  from {
+    mask-position: 100% 0;
+  }
+
+  to {
+    mask-position: 0 0;
+  }
+}
+
+.dnb-ai-reasoning {
+  &__content {
+    margin-top: 0.5rem;
+    padding-left: 1rem;
+
+    font-size: var(--font-size-small);
+    line-height: var(--line-height-small);
+    color: var(--token-color-text-neutral-alternative);
+    border-left: 0.25rem solid var(--token-color-stroke-neutral-subtle);
+
+    .dnb-p,
+    .dnb-ul,
+    .dnb-ol,
+    .dnb-ul li,
+    .dnb-ol li {
+      font-size: inherit;
+      line-height: inherit;
+      color: inherit;
+    }
+  }
+}
+
+@keyframes dnb-ai-conversation-enter {
+  from {
+    opacity: 0;
+  }
+}
