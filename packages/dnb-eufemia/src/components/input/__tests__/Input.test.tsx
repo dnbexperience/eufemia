@@ -3,7 +3,7 @@
  *
  */
 
-import { useRef, useState } from 'react'
+import { createRef, useRef, useState } from 'react'
 import type { Ref, RefObject } from 'react'
 import {
   axeComponent,
@@ -437,6 +437,15 @@ describe('Input component', () => {
       'custom-input-class',
       'custom-attribute-class'
     )
+  })
+
+  it('keeps showing the value when inputAttributes has a ref', () => {
+    const ref = createRef<HTMLInputElement>()
+    render(<Input value="value" inputAttributes={{ ref }} />)
+
+    const input = document.querySelector('input')
+    expect(input).toHaveValue('value')
+    expect(ref.current).toBe(input)
   })
 
   it('has to have a prop value like value', () => {
