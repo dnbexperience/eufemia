@@ -1,3 +1,4 @@
+import { createRef } from 'react'
 import { act, render, fireEvent, waitFor } from '@testing-library/react'
 import { axeComponent } from '../../../core/test-utils/testSetup'
 import FilterRoot from '../FilterRoot'
@@ -157,6 +158,27 @@ describe('Filter.Panel', () => {
     const panelButton = document.querySelector('.dnb-button')
 
     expect(document.activeElement).toBe(panelButton)
+  })
+
+  it('moves focus to the panel button when a ref is given to it', () => {
+    const ref = createRef<HTMLButtonElement>()
+
+    render(
+      <FilterRoot>
+        <FilterPanelButton ref={ref}>Filters</FilterPanelButton>
+        <FilterPanel>
+          <p>Content</p>
+        </FilterPanel>
+      </FilterRoot>
+    )
+
+    fireEvent.click(document.querySelector('.dnb-button'))
+    fireEvent.click(document.querySelector('.dnb-filter__panel-close'))
+
+    const panelButton = document.querySelector('.dnb-button')
+
+    expect(document.activeElement).toBe(panelButton)
+    expect(ref.current).toBe(panelButton)
   })
 
   it('moves focus to the panel button when apply is clicked in manual mode', () => {

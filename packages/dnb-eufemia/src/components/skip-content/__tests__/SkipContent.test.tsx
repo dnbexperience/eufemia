@@ -1,3 +1,4 @@
+import { createRef } from 'react'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import type { SkipContentAllProps } from '../SkipContent'
 import SkipContent from '../SkipContent'
@@ -122,6 +123,30 @@ describe('SkipContent', () => {
     expect(document.activeElement.classList).toContain(
       'dnb-skip-content__focus'
     )
+  })
+
+  it('should focus the shown button when a ref is given', () => {
+    const ref = createRef<HTMLButtonElement>()
+
+    render(
+      <>
+        <SkipContent selector="#unique-id" ref={ref}>
+          Aria
+        </SkipContent>
+        <Section id="unique-id">content</Section>
+      </>
+    )
+
+    const element = document.querySelector('.dnb-skip-content')
+
+    fireEvent.keyUp(element.querySelector('button.dnb-sr-only'), {
+      key: 'Tab',
+    })
+
+    const button = element.querySelector('.dnb-button')
+
+    expect(document.activeElement).toBe(button)
+    expect(ref.current).toBe(button)
   })
 
   it('should keep setting focus when an onClick is given', async () => {
