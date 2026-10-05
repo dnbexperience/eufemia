@@ -148,4 +148,54 @@ describe('NextButton', () => {
     })
     expect(onCommit).toHaveBeenCalledTimes(1)
   })
+
+  it('should show the indicator for an async step change when going back', async () => {
+    let resolveStepChange: () => void
+    const onStepChange = async () => {
+      await new Promise<void>((resolve) => {
+        resolveStepChange = resolve
+      })
+    }
+
+    render(
+      <Form.Handler minimumAsyncBehaviorTime={0}>
+        <Wizard.Container onStepChange={onStepChange}>
+          <Wizard.Step title="Step 1">
+            <output>Step 1</output>
+            <Wizard.Buttons />
+          </Wizard.Step>
+          <Wizard.Step title="Step 2">
+            <output>Step 2</output>
+            <Wizard.Buttons />
+          </Wizard.Step>
+          <Wizard.Step title="Step 3">
+            <output>Step 3</output>
+            <Wizard.Buttons />
+          </Wizard.Step>
+        </Wizard.Container>
+      </Form.Handler>
+    )
+
+    const indicator = () =>
+      document.querySelector(
+        '.dnb-forms-next-button .dnb-forms-submit-indicator--state-pending'
+      )
+
+    fireEvent.click(document.querySelector('.dnb-forms-next-button'))
+    await waitFor(() => {
+      expect(indicator()).toBeInTheDocument()
+    })
+    resolveStepChange()
+
+    await waitFor(() => {
+      expect(document.querySelector('output')).toHaveTextContent('Step 2')
+      expect(indicator()).toBeNull()
+    })
+
+    fireEvent.click(document.querySelector('.dnb-forms-previous-button'))
+    await waitFor(() => {
+      expect(indicator()).toBeInTheDocument()
+    })
+    resolveStepChange()
+  })
 })

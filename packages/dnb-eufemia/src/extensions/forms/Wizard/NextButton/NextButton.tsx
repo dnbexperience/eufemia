@@ -26,7 +26,7 @@ function NextButton(props: WizardNextButtonProps) {
   const handleClick = useCallback(() => {
     handleNext?.()
 
-    // Skips the SubmitButton's own click handling, which would submit as well
+    // Keeps SubmitButton from also submitting and claiming the indicator
     return false
   }, [handleNext])
 
