@@ -65,7 +65,13 @@ export type KnownFrontmatter = {
    */
   hideInMenu?: boolean
 
-  /** Set to override `title` as the text used in the menu. */
+  /**
+   * Text used in the side menu link.
+   *
+   * Default: the `title` value is used.
+   *
+   * Use it to give the side menu a different text than `title`.
+   */
   menuTitle?: string
 
   /**
