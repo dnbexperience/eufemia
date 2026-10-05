@@ -1,0 +1,110 @@
+import { useState } from 'react'
+import { Hr, Icon, Switch, VisuallyHidden } from '@dnb/eufemia/src'
+import { Theme, useTheme } from '@dnb/eufemia/src/shared'
+import type { ThemeColorScheme } from '@dnb/eufemia/src/shared/Theme'
+import {
+  check,
+  check_medium,
+  cog,
+  cog_medium,
+  exclamation,
+  exclamation_medium,
+  exclamation_triangle,
+  exclamation_triangle_medium,
+  stop,
+  stop_medium,
+} from '@dnb/eufemia/src/icons'
+import styles from './StatusIcons.module.scss'
+
+const statuses = [
+  {
+    label: 'Operational',
+    icon: check,
+    mediumIcon: check_medium,
+    status: 'positive',
+  },
+  {
+    label: 'Minor outage',
+    icon: exclamation_triangle,
+    mediumIcon: exclamation_triangle_medium,
+    status: 'negative',
+  },
+  {
+    label: 'Major outage',
+    icon: stop,
+    mediumIcon: stop_medium,
+    status: 'negative',
+  },
+  {
+    label: 'Degraded performance',
+    icon: exclamation,
+    mediumIcon: exclamation_medium,
+    status: 'warning',
+  },
+  {
+    label: 'Under maintenance',
+    icon: cog,
+    mediumIcon: cog_medium,
+    status: 'neutral',
+  },
+] as const
+
+export default function StatusIcons() {
+  const theme = useTheme()
+  const [selectedColorScheme, setSelectedColorScheme] =
+    useState<ThemeColorScheme | null>(null)
+  const colorScheme = selectedColorScheme ?? theme?.colorScheme ?? 'light'
+
+  return (
+    <>
+      <Theme
+        colorScheme={colorScheme}
+        className={styles.example}
+        data-visual-test="status-icons"
+      >
+        <StatusList size="medium" label="24 px icons" />
+        <Hr />
+        <StatusList size="default" label="16 px icons" compact />
+      </Theme>
+
+      <Switch
+        label="Dark mode"
+        checked={colorScheme === 'dark'}
+        top="small"
+        onChange={({ checked }) =>
+          setSelectedColorScheme(checked ? 'dark' : 'light')
+        }
+      />
+    </>
+  )
+}
+
+function StatusList({
+  size,
+  label,
+  compact = false,
+}: {
+  size: 'default' | 'medium'
+  label: string
+  compact?: boolean
+}) {
+  return (
+    <section className={styles.group}>
+      <p className={styles.label}>{label}</p>
+      <ul className={styles.list} aria-label={label}>
+        {statuses.map(({ label, icon, mediumIcon, status }) => (
+          <li key={label} className={styles.item}>
+            <span
+              className={`${styles.icon} ${compact ? styles.compact : ''} ${styles[status]}`}
+              aria-hidden
+            >
+              <Icon icon={size === 'medium' ? mediumIcon : icon} />
+            </span>
+            <VisuallyHidden>Status: </VisuallyHidden>
+            {label}
+          </li>
+        ))}
+      </ul>
+    </section>
+  )
+}

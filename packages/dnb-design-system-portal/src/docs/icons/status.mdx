@@ -1,0 +1,146 @@
+---
+title: 'Status icons'
+description: 'Use existing icons and semantic colors to show a status.'
+icon: 'check'
+order: 4
+---
+
+import StatusIcons from 'Docs/icons/StatusIcons'
+
+# Status icons
+
+Use a status icon to give a compact visual summary of an item's current state. It is a composition of an existing [Icon](/uilib/components/icon), a rounded container and semantic color tokens, not a separate component or icon set.
+
+<StatusIcons />
+
+## Pattern
+
+Use a 1.5rem medium icon inside a 2rem container, or a 1rem default icon inside a 1.5rem container. Both leave 0.25rem of space on every side. Use `--token-radius-md` for a rounded box and keep 0.5rem between the icon and its label.
+
+Map product-specific states to the closest semantic status. The icon and visible label should communicate the exact meaning.
+
+| Semantic status | Background token                           | Icon color token              | Examples                   |
+| --------------- | ------------------------------------------ | ----------------------------- | -------------------------- |
+| Positive        | `--token-color-background-positive-subtle` | `--token-color-text-positive` | Operational, completed     |
+| Warning         | `--token-color-background-warning-subtle`  | `--token-color-text-warning`  | Degraded, delayed          |
+| Negative        | `--token-color-background-error-subtle`    | `--token-color-text-error`    | Partial or complete outage |
+| Neutral         | `--token-color-background-neutral-subtle`  | `--token-color-text-neutral`  | Maintenance, unknown       |
+
+The semantic tokens adapt to supported dark color schemes. Follow the existing [Dark mode guide](/uilib/usage/customisation/theming/design-tokens/dark-mode) for application setup. This pattern needs no media queries or dark mode overrides.
+
+### React
+
+```tsx
+import { Icon, VisuallyHidden } from '@dnb/eufemia'
+import { Theme } from '@dnb/eufemia/shared'
+import { check, check_medium } from '@dnb/eufemia/icons'
+import '@dnb/eufemia/style/themes/ui/ui-theme-dark-mode.min.css'
+
+function App() {
+  return (
+    <Theme colorScheme="auto">
+      <ServiceStatus />
+    </Theme>
+  )
+}
+
+function ServiceStatus() {
+  return (
+    <span className="status">
+      <span className="status__icon status__icon--positive" aria-hidden>
+        <Icon icon={check_medium} size="medium" />
+      </span>
+      <VisuallyHidden>Status: </VisuallyHidden>
+      Operational
+    </span>
+  )
+}
+
+// Compact version: use the 16px icon asset with the smaller container.
+function CompactServiceStatus() {
+  return (
+    <span className="status">
+      <span
+        className="status__icon status__icon--compact status__icon--positive"
+        aria-hidden
+      >
+        <Icon icon={check} />
+      </span>
+      <VisuallyHidden>Status: </VisuallyHidden>
+      Operational
+    </span>
+  )
+}
+```
+
+If the application already configures `Theme` and imports its dark token stylesheet, only the `ServiceStatus` composition is needed.
+
+### CSS
+
+```css
+.status {
+  display: inline-flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.status__icon {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: var(--token-radius-md);
+  color: var(--status-icon-color);
+  background-color: var(--status-icon-background);
+}
+
+.status__icon--compact {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.status__icon--positive {
+  --status-icon-color: var(--token-color-text-positive);
+  --status-icon-background: var(--token-color-background-positive-subtle);
+}
+
+.status__icon--warning {
+  --status-icon-color: var(--token-color-text-warning);
+  --status-icon-background: var(--token-color-background-warning-subtle);
+}
+
+.status__icon--negative {
+  --status-icon-color: var(--token-color-text-error);
+  --status-icon-background: var(--token-color-background-error-subtle);
+}
+
+.status__icon--neutral {
+  --status-icon-color: var(--token-color-text-neutral);
+  --status-icon-background: var(--token-color-background-neutral-subtle);
+}
+```
+
+Use the default (non-medium) icon asset for the compact presentation. Do not scale a medium asset down.
+
+## Accessibility
+
+- Always pair the icon with a visible status label. Color and the icon alone are not enough.
+- Add a visually hidden `Status:` prefix when the surrounding structure does not already identify the value as a status. This gives assistive technology the context “Status: Operational” without duplicating visible text.
+- Omit the hidden prefix when a table header, description term or group label already provides the same context.
+- Hide the icon from assistive technology with `aria-hidden` when the visible text communicates the same status.
+- If the status has no visible label, give the `Icon` an `alt` value.
+- For live status changes, use [AriaLive](/uilib/components/aria-live) around the changing text. Do not add `role="status"` to every static icon because that role defines a live region.
+- Do not make the icon container interactive. Use a [Button](/uilib/components/button) or [Anchor](/uilib/components/anchor) when the status opens more details.
+
+## Where it fits
+
+| Use                                     | Pattern or component                            |
+| --------------------------------------- | ----------------------------------------------- |
+| Compact state beside an item or service | Status icon pattern                             |
+| Count, short label or new-item metadata | [Badge](/uilib/components/badge)                |
+| Validation or help connected to a field | [FormStatus](/uilib/components/form-status)     |
+| Page-wide operational message           | [GlobalStatus](/uilib/components/global-status) |
+
+Badge should not be used as the icon container. It adds label and status semantics intended for badge content. FormStatus icons belong to form feedback and are not general status assets.
