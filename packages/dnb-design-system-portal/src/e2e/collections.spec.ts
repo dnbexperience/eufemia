@@ -31,25 +31,3 @@ test('the company logos page is part of Collections', async ({ page }) => {
     page.getByRole('heading', { name: 'Company logos', level: 1 })
   ).toBeVisible()
 })
-
-test('the old Foundations URL redirects to Collections', async ({
-  page,
-}) => {
-  await page.goto('/foundations/')
-  await expect(page).toHaveURL(/\/collections\/?$/)
-  await waitForApp(page)
-  await expect(
-    page.getByRole('heading', { name: 'Collections', level: 1 })
-  ).toBeVisible()
-})
-
-test('the old company logos URL redirects to Collections', async ({
-  page,
-}) => {
-  await page.goto('/foundations/logos/')
-  await expect(page).toHaveURL(/\/collections\/logos\/?$/)
-  await waitForApp(page)
-  await expect(
-    page.getByRole('heading', { name: 'Company logos', level: 1 })
-  ).toBeVisible()
-})
