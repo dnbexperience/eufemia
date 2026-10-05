@@ -3,6 +3,7 @@ import type {
   MouseEvent,
   MouseEventHandler,
   ReactNode,
+  Ref,
   SyntheticEvent,
 } from 'react'
 import { clsx } from 'clsx'
@@ -15,6 +16,7 @@ import { folder as FolderIcon } from '../../icons'
 
 // Shared
 import useId from '../../shared/helpers/useId'
+import useCombinedRef from '../../shared/helpers/useCombinedRef'
 
 // Internal
 import { UploadContext } from './UploadContext'
@@ -27,14 +29,17 @@ const UploadFileInput = ({
   disabled,
   files,
   onClick,
+  ref,
   ...rest
 }: {
   children?: ReactNode
   files?: UploadFile[]
   disabled?: boolean
   onClick?: MouseEventHandler<HTMLInputElement>
+  ref?: Ref<HTMLInputElement>
 }) => {
   const fileInput = useRef<HTMLInputElement>(null)
+  const combinedRef = useCombinedRef(ref, fileInput)
 
   const context = useContext(UploadContext)
 
@@ -112,7 +117,7 @@ const UploadFileInput = ({
 
       <input
         aria-labelledby={`${sharedId}-input`}
-        ref={fileInput}
+        ref={combinedRef}
         accept={accept}
         type="file"
         onClick={onClickHandler}
