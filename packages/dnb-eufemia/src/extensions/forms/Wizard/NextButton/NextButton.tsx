@@ -25,6 +25,9 @@ function NextButton(props: WizardNextButtonProps) {
 
   const handleClick = useCallback(() => {
     handleNext?.()
+
+    // Skips the SubmitButton's own click handling, which would submit as well
+    return false
   }, [handleNext])
 
   const { prerenderFieldProps } = useContext(DataContext)

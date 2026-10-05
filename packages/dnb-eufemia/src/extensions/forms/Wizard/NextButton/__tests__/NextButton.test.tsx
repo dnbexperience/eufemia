@@ -1,7 +1,9 @@
-import { fireEvent, render } from '@testing-library/react'
+import { fireEvent, render, waitFor } from '@testing-library/react'
+import '../../../../../core/vitest/mockMatchMediaSetup'
 import NextButton from '../NextButton'
 import { Provider } from '../../../../../shared'
 import WizardContext from '../../Context/WizardContext'
+import { Field, Form, Wizard } from '../../..'
 
 describe('NextButton', () => {
   it('should have default text', () => {
@@ -118,5 +120,32 @@ describe('NextButton', () => {
       'dnb-forms-next-button',
       'custom'
     )
+  })
+
+  it('should commit a surrounding Form.Isolation only once', async () => {
+    const onCommit = vi.fn()
+
+    render(
+      <Form.Handler>
+        <Form.Isolation onCommit={onCommit}>
+          <Wizard.Container>
+            <Wizard.Step title="Step 1">
+              <Field.String path="/name" />
+              <Wizard.Buttons />
+            </Wizard.Step>
+            <Wizard.Step title="Step 2">
+              <output>Step 2</output>
+            </Wizard.Step>
+          </Wizard.Container>
+        </Form.Isolation>
+      </Form.Handler>
+    )
+
+    fireEvent.click(document.querySelector('.dnb-forms-next-button'))
+
+    await waitFor(() => {
+      expect(document.querySelector('output')).toHaveTextContent('Step 2')
+    })
+    expect(onCommit).toHaveBeenCalledTimes(1)
   })
 })
