@@ -42,7 +42,7 @@ A portal view carries a `path` and optional `timestamp`, `env`, `status`, `local
 
 `path` must start with `/` and be at most 2048 characters, and a batch may contain at most 50 events. Supported dimensions are `status`: `ok`, `not_found`, or `error`; `locale`: `nb-NO`, `en-GB`, `sv-SE`, `da-DK`, or `en-US`; `theme`: `ui`, `sbanken`, `eiendom`, or `carnegie`; `color_scheme`: `light` or `dark`; `referrer`: `search`, `internal`, `direct`, or `external`; and `via_search`: `yes` or `no`.
 
-A local MCP usage event carries a required `tool` (one of the registered MCP tools) and optional `component`, `path`, `env`, `eufemiaVersion` and `timestamp`. The service stamps `transport` to `local` regardless of what the client sends, so a local-origin row can never be attributed to the web MCP. An unrecognised `component`, `path` or `env` is dropped rather than rejected; a malformed `tool`, `eufemiaVersion` (validated as a semver shape, not membership of a real release) or `timestamp` rejects the event. No identifiers, IP or free text are accepted.
+A local MCP usage event carries a required `tool` (one of the registered MCP tools) and optional `component`, `path`, `env`, `eufemiaVersion` and `timestamp`. The service stamps `transport` to `local` regardless of what the client sends, so a local-origin row can never be attributed to the web MCP. It also stamps `created_at` and stores `eufemiaVersion` as `eufemia_version`, since stored rows use snake_case. An unrecognised `component`, `path` or `env` is dropped rather than rejected; a malformed `tool`, `eufemiaVersion` (validated as a semver shape, not membership of a real release) or `timestamp` rejects the event. No identifiers, IP or free text are accepted.
 
 ```json
 {

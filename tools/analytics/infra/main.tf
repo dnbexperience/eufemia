@@ -392,7 +392,7 @@ resource "aws_glue_catalog_table" "mcp_usage" {
     }
 
     columns {
-      name = "eufemiaversion"
+      name = "eufemia_version"
       type = "string"
     }
 
@@ -402,7 +402,7 @@ resource "aws_glue_catalog_table" "mcp_usage" {
     }
 
     columns {
-      name = "createdat"
+      name = "created_at"
       type = "string"
     }
   }

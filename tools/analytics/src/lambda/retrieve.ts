@@ -285,7 +285,7 @@ export async function aggregateLocalMcpUsageByVersion(
   const table = requireEnv('GLUE_TABLE_MCP_USAGE')
   const workgroup = requireEnv('ATHENA_WORKGROUP')
 
-  const query = `SELECT eufemiaversion, count(*) AS cnt FROM "${database}"."${table}" WHERE dt >= '${sinceDt}' AND transport = 'local' AND eufemiaversion IS NOT NULL AND eufemiaversion <> '' GROUP BY eufemiaversion ORDER BY cnt DESC`
+  const query = `SELECT eufemia_version, count(*) AS cnt FROM "${database}"."${table}" WHERE dt >= '${sinceDt}' AND transport = 'local' AND eufemia_version IS NOT NULL AND eufemia_version <> '' GROUP BY eufemia_version ORDER BY cnt DESC`
   const queryExecutionId = await startQuery(query, workgroup)
   await waitForQuery(queryExecutionId)
 
