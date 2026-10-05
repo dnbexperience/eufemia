@@ -77,6 +77,29 @@ describe('Tabs component', () => {
     consoleError.mockRestore()
   })
 
+  it('should keep the ContentWrapper classes and inner space when a className or style is given', () => {
+    render(
+      <Tabs.ContentWrapper
+        id="content-wrapper"
+        contentInnerSpace={{ top: 'small' }}
+        className="custom-class"
+        style={{ color: 'red' }}
+      >
+        <p>Content</p>
+      </Tabs.ContentWrapper>
+    )
+
+    const element = document.querySelector<HTMLElement>('.custom-class')
+
+    expect(element).toHaveClass(
+      'dnb-tabs__content',
+      'dnb-no-focus',
+      'dnb-space'
+    )
+    expect(element.style.getPropertyValue('--padding-t-s')).toBe('1rem')
+    expect(element.style.color).toBe('red')
+  })
+
   it('have a "selectedKey" state have to be same as prop from startup', () => {
     render(
       <Tabs {...props} data={tablistData} selectedKey={startupSelectedKey}>
