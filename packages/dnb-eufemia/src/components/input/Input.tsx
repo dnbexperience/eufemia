@@ -718,6 +718,11 @@ function InputSubmitButton({
     onSubmitBlur: _onSubmitBlur, //eslint-disable-line
     onSubmitFocus: _onSubmitFocus, //eslint-disable-line
 
+    // A given handler replaces the own one, which DatePicker and Field.Password rely on
+    onClick,
+    onFocus,
+    onBlur,
+
     ...rest
   } = props
 
@@ -755,9 +760,9 @@ function InputSubmitButton({
         status={status}
         statusState={statusState}
         statusProps={statusProps}
-        onClick={onSubmitHandler}
-        onFocus={onSubmitFocusHandler}
-        onBlur={onSubmitBlurHandler}
+        onClick={onClick ?? onSubmitHandler}
+        onFocus={onFocus ?? onSubmitFocusHandler}
+        onBlur={onBlur ?? onSubmitBlurHandler}
         ref={combinedButtonRef}
         {...(params as Record<string, unknown>)}
       />
