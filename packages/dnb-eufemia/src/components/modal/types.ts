@@ -229,11 +229,12 @@ export type ModalContentProps = {
   hideCloseButton?: boolean
 
   /**
-   * Props forwarded to the close button.
+   * Props forwarded to the close button. A given `onClick` runs before the close. Return `false` from it to keep it open.
    */
   closeButtonProps?: CloseButtonProps
 
   /**
+   * Deprecated. Use `closeButtonProps` instead.
    * @deprecated Use `closeButtonProps` instead.
    */
   closeButtonAttributes?: CloseButtonProps
