@@ -417,7 +417,6 @@ function InputComponent({ ref, ...restProps }: InputProps) {
     : {}
 
   const inputParams = {
-    className: clsx('dnb-input__input', inputClassName),
     autoComplete: autocomplete,
     type,
     id,
@@ -428,6 +427,11 @@ function InputComponent({ ref, ...restProps }: InputProps) {
       : undefined,
     ...attributes,
     ...usedInputAttributes,
+    className: clsx(
+      'dnb-input__input',
+      inputClassName,
+      usedInputAttributes.className
+    ),
     onChange: onChangeHandler,
     onKeyDown: onKeyDownHandler,
     onFocus: onFocusHandler,

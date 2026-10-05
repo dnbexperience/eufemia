@@ -425,6 +425,20 @@ describe('Input component', () => {
     expect(document.querySelector('input').getAttribute('size')).toBe('2')
   })
 
+  it('keeps the input class when inputAttributes has a className', () => {
+    render(
+      <Input
+        inputClassName="custom-input-class"
+        inputAttributes={{ className: 'custom-attribute-class' }}
+      />
+    )
+    expect(document.querySelector('input')).toHaveClass(
+      'dnb-input__input',
+      'custom-input-class',
+      'custom-attribute-class'
+    )
+  })
+
   it('has to have a prop value like value', () => {
     const { rerender } = render(
       <Input {...props} value={null}>
