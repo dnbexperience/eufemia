@@ -44,8 +44,9 @@ type MetricName =
  * - SnapshotRecordCount (`snapshot_empty`): a sustained 0 catches a run that
  *   succeeds but writes an empty snapshot, which the Errors/Invocations alarms
  *   cannot see.
- * - McpUsageBuildFailure (`snapshot_mcp_build_failed`): a caught buildMcpUsage
- *   error does not increment Lambda Errors.
+ * - McpUsageBuildFailure (`snapshot_mcp_build_failed`): emitted when the
+ *   durable rollup refresh fails or buildMcpUsage cannot build the section;
+ *   neither increments Lambda Errors.
  * - ComponentUsageBuildFailure (`snapshot_component_usage_build_failed`): emitted
  *   when the durable rollup cannot be refreshed or the section cannot be built.
  * - PortalViewsRollupFailure (`snapshot_portal_views_rollup_failed`): the
@@ -169,21 +170,37 @@ function sumBy(
  * usage into the durable daily rollup (idempotent overwrite), then reads the full
  * daily table. The rollup outlives the raw rows' 13-month expiry, so long-range
  * comparisons stay available without holding raw events forever.
+ *
+ * The tail recompute is best-effort: a transient Athena/S3 failure there is
+ * logged and flagged (the rollup misses the newest tail until the next run) but
+ * does NOT blank the section — the durable history is still read and shown. Only
+ * a failure of the durable read (or the version breakdown) propagates to the
+ * handler, which falls back to the empty section.
  */
 async function buildMcpUsage(bucket: string): Promise<McpUsageSection> {
   const since = new Date()
   since.setUTCDate(since.getUTCDate() - (MCP_ROLLUP_DAYS - 1))
-  await storeDailyRollup(
-    bucket,
-    'mcp-usage-daily/',
-    await aggregateMcpUsageRaw(dayString(since)),
-    ({ tool, component, path, count }) => ({
-      tool,
-      component,
-      path,
-      count,
-    })
-  )
+
+  try {
+    await storeDailyRollup(
+      bucket,
+      'mcp-usage-daily/',
+      await aggregateMcpUsageRaw(dayString(since)),
+      ({ tool, component, path, count }) => ({
+        tool,
+        component,
+        path,
+        count,
+      })
+    )
+  } catch (error) {
+    // eslint-disable-next-line no-console -- surface the failure in CloudWatch Logs
+    console.error(
+      'Failed to refresh the MCP usage daily rollup; serving existing history',
+      error
+    )
+    emitMetric('McpUsageBuildFailure', 1)
+  }
 
   const daily = await retrieveMcpUsageDaily()
 

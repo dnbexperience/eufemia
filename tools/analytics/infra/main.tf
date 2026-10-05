@@ -997,16 +997,17 @@ resource "aws_cloudwatch_metric_alarm" "snapshot_empty" {
   alarm_actions       = [aws_sns_topic.snapshot_alerts.arn]
 }
 
-# The MCP usage section is built best-effort: a failure (e.g. the mcp_usage Glue
-# grant missing after a deploy) is caught, logged, and the section falls back to
-# empty so portal views still publish. That fallback is invisible to the Lambda
-# Errors/Invocations and SnapshotRecordCount alarms, so the generator emits a
-# McpUsageBuildFailure EMF metric on the catch path and this alarm surfaces it.
+# The MCP usage section is built best-effort: a failed durable-rollup refresh is
+# logged and the existing history is still served, while a failure to build the
+# section at all (e.g. the mcp_usage Glue grant missing after a deploy) is caught
+# and falls back to empty so portal views still publish. Both are invisible to
+# the Lambda Errors/Invocations and SnapshotRecordCount alarms, so the generator
+# emits a McpUsageBuildFailure EMF metric on either path and this alarm surfaces it.
 # The namespace/metric/dimension must match those emitted in src/lambda/snapshot.ts.
 # Notifies snapshot_alerts above.
 resource "aws_cloudwatch_metric_alarm" "snapshot_mcp_build_failed" {
   alarm_name          = "eufemia-${var.environment}-analytics-snapshot-mcp-build-failed"
-  alarm_description   = "Dashboard snapshot generator failed to build the MCP usage section (fell back to empty)"
+  alarm_description   = "Dashboard snapshot generator failed to refresh or build the MCP usage section"
   namespace           = "Eufemia/Analytics"
   metric_name         = "McpUsageBuildFailure"
   dimensions          = { FunctionName = aws_lambda_function.snapshot.function_name }
