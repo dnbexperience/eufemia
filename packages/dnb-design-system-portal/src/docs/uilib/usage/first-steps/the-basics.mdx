@@ -55,12 +55,12 @@ All the UI Components (and some HTML Elements) have individual interaction state
 
 Eufemia components apply the props you give them on top of the ones they set themselves, either directly or through a prop object such as `closeButtonProps`. When you set the same prop as the component, the two are combined instead of yours replacing the component's:
 
-- An event handler runs before the component's own handler for the same event, so the component keeps doing what it does. A `Drawer` still closes, and a `Wizard.NextButton` still moves to the next step.
+- An event handler is called as well as the component's own handler for the same event, so the component keeps doing what it does. A `Drawer` still closes, and a `Wizard.NextButton` still moves to the next step.
 - A `className` is added to the component's own classes.
 - A `style` is merged with the component's own, where your values win.
 - For every other prop, your value wins. Avoid setting what the component controls itself, and use the property it offers for it instead.
 
-Return `false` from your handler to skip the component's own handling of that event:
+Some props also let your handler skip the component's own handling. Your handler then runs first, and when it returns `false`, the component does nothing more for that event. The property docs say where this is supported, such as for `closeButtonProps` on the Drawer:
 
 ```jsx
 <Drawer
@@ -72,7 +72,7 @@ Return `false` from your handler to skip the component's own handling of that ev
 />
 ```
 
-`false` is the only return value with a meaning here. Anything else you return is ignored, and the component's own handler decides the outcome.
+`false` is the only return value with a meaning here. Anything else you return is ignored, and the component's own handler decides the outcome. Where the property docs do not mention it, do not rely on `false` to skip anything.
 
 So return `false` only when you mean to block the component. A shorthand like `event.key === 'Enter' && submit()` returns `false` for every other key, and the component would stop handling them.
 

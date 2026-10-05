@@ -100,7 +100,7 @@ So return `false` only when you mean to block the field. A shorthand like `event
 
 Not every field merges this way. When a field renders a group of elements and handles the change on the group rather than on each element, your handler is passed on as it is: it still runs, but returning `false` does not block the field.
 
-Other Eufemia components merge the props you give them the same way. See [how given props are merged](/uilib/usage/first-steps/the-basics/#how-given-props-are-merged).
+Other Eufemia components combine the props you give them too, but only some of them let `false` skip their own handling. See [how given props are merged](/uilib/usage/first-steps/the-basics/#how-given-props-are-merged).
 
 ### Controlled & Uncontrolled
 
