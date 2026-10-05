@@ -91,6 +91,15 @@ jobs:
         # the @dnb/eufemia npm library, the Eufemia MCP Lambda and the
         # eufemia-analytics Lambda. All must pass; dev/build tooling advisories
         # are tracked via Dependabot instead.
+        #
+        # `--environment production` drops devDependencies of the audited
+        # workspace only; once the walk enters a package it follows every
+        # dependency. A sibling workspace resolves to its anchored package,
+        # whose dependency set already merges its devDependencies — so listing
+        # one under `dependencies` reports that workspace's build tooling as
+        # shipped. Keep `@dnb/eufemia` in the Lambdas' `devDependencies`: it is
+        # read at build time by esbuild, and the line below audits its own
+        # production tree.
         run: |
           yarn workspace @dnb/eufemia audit:ci
           yarn workspace eufemia-mcp-lambda audit:ci
