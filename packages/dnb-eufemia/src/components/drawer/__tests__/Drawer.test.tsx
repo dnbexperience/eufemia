@@ -264,6 +264,47 @@ describe('Drawer', () => {
     ).toBeInTheDocument()
   })
 
+  it('keeps the min and max width when a style is given', () => {
+    render(
+      <Drawer
+        noAnimation
+        minWidth="20rem"
+        maxWidth="40rem"
+        style={{ color: 'red' }}
+      >
+        Content
+      </Drawer>
+    )
+
+    fireEvent.click(document.querySelector('.dnb-modal__trigger'))
+
+    const drawer = document.querySelector('.dnb-drawer') as HTMLElement
+    expect(drawer.style.minWidth).toBe('20rem')
+    expect(drawer.style.maxWidth).toBe('40rem')
+    expect(drawer.style.color).toBe('red')
+  })
+
+  it('keeps a click inside from reaching the elements around it when an onClick is given', () => {
+    const onClick = vi.fn()
+    const onOuterClick = vi.fn()
+
+    render(
+      <div role="presentation" onClick={onOuterClick}>
+        <Drawer noAnimation onClick={onClick}>
+          <p className="inside">Content</p>
+        </Drawer>
+      </div>
+    )
+
+    fireEvent.click(document.querySelector('.dnb-modal__trigger'))
+    onOuterClick.mockClear()
+
+    fireEvent.click(document.querySelector('.inside'))
+
+    expect(onClick).toHaveBeenCalledTimes(1)
+    expect(onOuterClick).not.toHaveBeenCalled()
+  })
+
   it('will use props from global context', () => {
     const contextTitle = 'Custom title'
     render(

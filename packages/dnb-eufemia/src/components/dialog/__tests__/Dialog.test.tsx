@@ -141,6 +141,47 @@ describe('Dialog', () => {
     ).not.toBeInTheDocument()
   })
 
+  it('keeps the min and max width when a style is given', () => {
+    render(
+      <Dialog
+        noAnimation
+        minWidth="20rem"
+        maxWidth="40rem"
+        style={{ color: 'red' }}
+      >
+        Content
+      </Dialog>
+    )
+
+    fireEvent.click(document.querySelector('.dnb-modal__trigger'))
+
+    const dialog = document.querySelector('.dnb-dialog') as HTMLElement
+    expect(dialog.style.minWidth).toBe('20rem')
+    expect(dialog.style.maxWidth).toBe('40rem')
+    expect(dialog.style.color).toBe('red')
+  })
+
+  it('keeps a click inside from reaching the elements around it when an onClick is given', () => {
+    const onClick = vi.fn()
+    const onOuterClick = vi.fn()
+
+    render(
+      <div role="presentation" onClick={onOuterClick}>
+        <Dialog noAnimation onClick={onClick}>
+          <p className="inside">Content</p>
+        </Dialog>
+      </div>
+    )
+
+    fireEvent.click(document.querySelector('.dnb-modal__trigger'))
+    onOuterClick.mockClear()
+
+    fireEvent.click(document.querySelector('.inside'))
+
+    expect(onClick).toHaveBeenCalledTimes(1)
+    expect(onOuterClick).not.toHaveBeenCalled()
+  })
+
   it('will close by using callback method', () => {
     const onClose = vi.fn()
     const onOpen = vi.fn()
