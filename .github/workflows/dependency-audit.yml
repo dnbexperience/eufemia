@@ -91,6 +91,8 @@ jobs:
         # the @dnb/eufemia npm library, the Eufemia MCP Lambda and the
         # eufemia-analytics Lambda. All must pass; dev/build tooling advisories
         # are tracked via Dependabot instead.
+        # `@dnb/eufemia` stays a devDependency of the MCP Lambda, or its
+        # devDependencies are audited as shipped (docs/vulnerability-management.md).
         run: |
           yarn workspace @dnb/eufemia audit:ci
           yarn workspace eufemia-mcp-lambda audit:ci
