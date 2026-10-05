@@ -235,7 +235,12 @@ const InfoCard = (localProps: InfoCardAllProps) => {
   const getIllustration = useCallback(() => {
     if (src || imgProps) {
       const imageProps = { src, alt, ...imgProps }
-      return <Img className="dnb-info-card__image" {...imageProps} />
+      return (
+        <Img
+          {...imageProps}
+          className={clsx('dnb-info-card__image', imgProps?.className)}
+        />
+      )
     }
     return (
       <IconPrimary

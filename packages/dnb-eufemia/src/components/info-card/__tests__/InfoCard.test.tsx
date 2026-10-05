@@ -133,6 +133,23 @@ describe('InfoCard', () => {
     expect(image.getAttribute('height')).toBe(imgHeight)
   })
 
+  it('keeps the image class when imgProps has a className', () => {
+    render(
+      <InfoCard
+        text="text"
+        imgProps={{
+          alt: 'alt-text',
+          src: '/dnb/android-chrome-192x192.png',
+          className: 'custom-class',
+        }}
+      />
+    )
+
+    expect(document.querySelector('.custom-class')).toHaveClass(
+      'dnb-info-card__image'
+    )
+  })
+
   it('does not render the buttons', () => {
     render(<InfoCard text="text" />)
 
