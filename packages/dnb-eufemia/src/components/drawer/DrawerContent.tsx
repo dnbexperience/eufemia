@@ -12,6 +12,7 @@ import ScrollView from '../scroll-view/ScrollView'
 import DrawerHeader from './parts/DrawerHeader'
 import DrawerNavigation from './parts/DrawerNavigation'
 import ModalContext from '../modal/ModalContext'
+import mergeProps from '../../shared/helpers/mergeProps'
 import { getContent } from '../modal/helpers'
 import type { DrawerContentProps } from './types'
 import { checkMinMaxWidth } from './helpers'
@@ -65,11 +66,15 @@ export default function DrawerContent({
       `dnb-drawer--${containerPlacement || 'right'}`,
       className
     ),
-    style: (minWidth || maxWidth) && { minWidth, maxWidth },
-    onClick: context?.preventClick,
-    onTouchStart: context?.preventClick,
-    onKeyDown: context?.onKeyDownHandler,
-    ...rest,
+    ...mergeProps(
+      {
+        style: (minWidth || maxWidth) && { minWidth, maxWidth },
+        onClick: context?.preventClick,
+        onTouchStart: context?.preventClick,
+        onKeyDown: context?.onKeyDownHandler,
+      },
+      rest
+    ),
   }
 
   /**

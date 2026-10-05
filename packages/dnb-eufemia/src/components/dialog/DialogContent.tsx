@@ -16,6 +16,7 @@ import DialogNavigation from './parts/DialogNavigation'
 import DialogAction from './parts/DialogAction'
 import { getContent } from '../modal/helpers'
 import ModalContext from '../modal/ModalContext'
+import mergeProps from '../../shared/helpers/mergeProps'
 import { checkMinMaxWidth } from '../drawer/helpers'
 import type { DialogContentProps } from './types'
 import ModalHeaderBar from '../modal/parts/ModalHeaderBar'
@@ -83,11 +84,15 @@ export default function DialogContent({
       noAnimationOnMobile && `dnb-dialog--no-animation-on-mobile`,
       className
     ),
-    style: (minWidth || maxWidth) && { minWidth, maxWidth },
-    onClick: context?.preventClick,
-    onTouchStart: context?.preventClick,
-    onKeyDown: context?.onKeyDownHandler,
-    ...rest,
+    ...mergeProps(
+      {
+        style: (minWidth || maxWidth) && { minWidth, maxWidth },
+        onClick: context?.preventClick,
+        onTouchStart: context?.preventClick,
+        onKeyDown: context?.onKeyDownHandler,
+      },
+      rest
+    ),
   }
 
   const navExists = findElementInChildren(
