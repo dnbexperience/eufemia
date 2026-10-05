@@ -23,6 +23,7 @@ export default function UploadDropzone({
   children,
   className,
   hideOutline = false,
+  onDrop,
   ...rest
 }: Partial<UploadAllProps> & { hideOutline?: boolean }) {
   const props = rest as Omit<UploadProps, 'title' | 'onChange' | 'id'>
@@ -66,6 +67,22 @@ export default function UploadDropzone({
       hoverHandler(event, false)
     },
     [getFiles, onInputUpload, hoverHandler]
+  )
+
+  const handleDrop = useCallback(
+    (event: ReactDragEvent<HTMLElement>) => {
+      // The DOM handler type returns void, but `false` skips the upload
+      const givenResult: unknown = onDrop?.(event)
+
+      if (givenResult === false) {
+        // Still ends the drag here, or the page-wide drop zone uploads the files
+        hoverHandler(event, false)
+        return // stop here
+      }
+
+      dropHandler(event)
+    },
+    [onDrop, dropHandler, hoverHandler]
   )
 
   const dragEnterHandler = useCallback(
@@ -121,12 +138,12 @@ export default function UploadDropzone({
       className={clsx(className, hover && 'dnb-upload--active')}
       {...mergeProps(
         {
-          onDrop: dropHandler,
           onDragOver: dragEnterHandler,
           onDragLeave: dragLeaveHandler,
         },
         props
       )}
+      onDrop={handleDrop}
     >
       {children}
 

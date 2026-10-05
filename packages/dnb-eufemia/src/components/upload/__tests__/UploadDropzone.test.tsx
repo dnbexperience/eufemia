@@ -185,5 +185,29 @@ describe('UploadDropzone', () => {
         )
       )
     })
+
+    it('skips the upload when a given onDrop returns false', async () => {
+      defaultContext.onInputUpload = vi.fn()
+      const onDrop = vi.fn(() => false)
+
+      render(<MockComponent {...defaultProps} onDrop={onDrop} />)
+
+      await waitFor(() =>
+        expect(document.body).toHaveAttribute('data-upload-drop-zone')
+      )
+
+      fireEvent.dragOver(getRootElement())
+
+      const notPrevented = fireEvent.drop(getRootElement(), {
+        dataTransfer: {
+          files: [createMockFile('fileName-1.png', 100, 'image/png')],
+        },
+      })
+
+      expect(onDrop).toHaveBeenCalledTimes(1)
+      expect(defaultContext.onInputUpload).not.toHaveBeenCalled()
+      expect(notPrevented).toBe(false)
+      expect(getRootElement()).not.toHaveClass('dnb-upload--active')
+    })
   })
 })

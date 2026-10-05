@@ -162,6 +162,11 @@ export const UploadEvents: PropertiesTableProps = {
     type: 'function',
     status: 'optional',
   },
+  onDrop: {
+    doc: 'Will be called when files are dropped on the upload area, before they are added. Return `false` from it to skip adding them.',
+    type: 'function',
+    status: 'optional',
+  },
 }
 
 export const FileItemProperties: PropertiesTableProps = {
