@@ -25,6 +25,9 @@ function NextButton(props: WizardNextButtonProps) {
 
   const handleClick = useCallback(() => {
     handleNext?.()
+
+    // Keeps SubmitButton from also submitting and claiming the indicator
+    return false
   }, [handleNext])
 
   const { prerenderFieldProps } = useContext(DataContext)
