@@ -144,7 +144,7 @@ async function main(args: string[]): Promise<void> {
         await rewriteObject(key)
       } catch (error) {
         throw new Error(
-          `Failed on ${key} after rewriting ${rewritten} objects (safe to re-run): ${error}`,
+          `Failed on ${key} (${dryRun ? 'would have rewritten' : 'rewrote'} about ${rewritten} objects so far; safe to re-run): ${error}`,
           { cause: error }
         )
       }
