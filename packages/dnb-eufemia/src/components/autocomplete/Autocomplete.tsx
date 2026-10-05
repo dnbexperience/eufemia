@@ -50,6 +50,7 @@ import {
 import { IS_MAC, debounce, hasSelectedText } from '../../shared/helpers'
 import { highlightText } from '../../shared/helpers/highlightText'
 import useId from '../../shared/helpers/useId'
+import mergeProps from '../../shared/helpers/mergeProps'
 import useMountEffect from '../../shared/helpers/useMountEffect'
 import { useIsomorphicLayoutEffect } from '../../shared/helpers/useIsomorphicLayoutEffect'
 import Context from '../../shared/Context'
@@ -2014,15 +2015,19 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
     'aria-haspopup': 'listbox' as const,
     'aria-expanded': isExpanded,
 
-    onMouseDown: onInputClickHandler,
-    onKeyDown: onInputKeyDownHandler,
     onChange: onInputChangeHandler,
     onFocus: onInputFocusHandler,
     onBlur: onBlurHandler,
     iconPosition: iconPosition,
     disabled,
     skeleton,
-    ...attributes,
+    ...mergeProps(
+      {
+        onMouseDown: onInputClickHandler,
+        onKeyDown: onInputKeyDownHandler,
+      },
+      attributes
+    ),
   }
 
   if (!(parseFloat(String(selectedItem)) > -1)) {

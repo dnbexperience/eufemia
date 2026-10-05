@@ -5970,6 +5970,48 @@ describe('Autocomplete with List item content', () => {
   })
 })
 
+describe('Autocomplete given input handlers', () => {
+  it('should keep opening the list with ArrowDown when an onKeyDown is given', async () => {
+    const onKeyDown = vi.fn()
+
+    render(
+      <Autocomplete data={mockData} {...mockProps} onKeyDown={onKeyDown} />
+    )
+
+    fireEvent.keyDown(document.querySelector('.dnb-input__input'), {
+      key: 'ArrowDown',
+    })
+
+    expect(onKeyDown).toHaveBeenCalledTimes(1)
+    await waitFor(() => {
+      expect(document.querySelector('.dnb-autocomplete')).toHaveClass(
+        'dnb-autocomplete--open'
+      )
+    })
+  })
+
+  it('should keep opening the list on mouse down when an onMouseDown is given', async () => {
+    const onMouseDown = vi.fn()
+
+    render(
+      <Autocomplete
+        data={mockData}
+        {...mockProps}
+        onMouseDown={onMouseDown}
+      />
+    )
+
+    fireEvent.mouseDown(document.querySelector('.dnb-input__input'))
+
+    expect(onMouseDown).toHaveBeenCalledTimes(1)
+    await waitFor(() => {
+      expect(document.querySelector('.dnb-autocomplete')).toHaveClass(
+        'dnb-autocomplete--open'
+      )
+    })
+  })
+})
+
 describe('Autocomplete onItemMouseEnter', () => {
   it('should call onItemMouseEnter when hovering a dropdown item', () => {
     const onItemMouseEnter = vi.fn()
