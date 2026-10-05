@@ -162,7 +162,6 @@ export default function MenuAccordion(props: MenuAccordionProps) {
     >
       <div
         id={id}
-        ref={triggerRef}
         role="menuitem"
         aria-expanded={isOpen}
         aria-haspopup="menu"
@@ -171,6 +170,7 @@ export default function MenuAccordion(props: MenuAccordionProps) {
         className="dnb-menu__action dnb-menu__accordion__trigger"
         onKeyDown={handleKeyDown}
         {...rest}
+        ref={triggerRef}
         onClick={handleClick}
       >
         <MenuItemContent icon={icon} text={text} />

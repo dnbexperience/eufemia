@@ -320,8 +320,6 @@ function HelpButtonInlineContentComponent(
     >
       <Section
         id={`${contentId}-content`}
-        {...focusParams}
-        ref={contentRef}
         outset={outsetFromLayout}
         breakout={breakoutFromLayout}
         roundedCorner={roundedCorner ?? !breakoutFromLayout}
@@ -336,6 +334,8 @@ function HelpButtonInlineContentComponent(
               }
         }
         {...rest}
+        {...focusParams}
+        ref={contentRef}
       >
         <Flex.Vertical layoutEngine="css" gap="x-small">
           {title && (

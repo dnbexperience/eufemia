@@ -901,8 +901,8 @@ function PopoverContainer(props: PopoverContainerProps) {
 
   return (
     <span
-      ref={elementRef}
       {...attributes}
+      ref={elementRef}
       {...{
         onMouseMove: handlePropagation,
         onMouseDown: handlePropagation,
