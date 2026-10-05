@@ -36,7 +36,7 @@ const UploadFileInput = ({
   files?: UploadFile[]
   disabled?: boolean
   onClick?: MouseEventHandler<HTMLInputElement>
-  ref?: Ref<HTMLInputElement>
+  ref?: Ref<HTMLElement>
 }) => {
   const fileInput = useRef<HTMLInputElement>(null)
   const combinedRef = useCombinedRef(ref, fileInput)
