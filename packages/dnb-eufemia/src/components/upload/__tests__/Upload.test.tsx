@@ -1881,23 +1881,43 @@ describe('Upload', () => {
       })
     })
 
-    it('should skip the upload when a given onDrop returns false', () => {
-      const id = 'given-on-drop-false'
-      const onDrop = vi.fn(() => false)
-
-      const { result } = renderHook(useUpload, { initialProps: id })
-
-      render(<Upload {...defaultProps} id={id} onDrop={onDrop} />)
-
-      fireEvent.drop(document.querySelector('.dnb-upload'), {
-        dataTransfer: {
-          files: [createMockFile('fileName-1.png', 100, 'image/png')],
-        },
+    it('should keep a dropped file in its own Upload when a given onDrop returns false', async () => {
+      const first = renderHook(useUpload, { initialProps: 'first-upload' })
+      const second = renderHook(useUpload, {
+        initialProps: 'second-upload',
       })
 
-      expect(onDrop).toHaveBeenCalledTimes(1)
-      expect(result.current.files).toEqual([])
-      expect(result.current.internalFiles).toEqual([])
+      render(
+        <>
+          <Upload {...defaultProps} id="first-upload" />
+          <Upload
+            {...defaultProps}
+            id="second-upload"
+            onDrop={() => false}
+          />
+        </>
+      )
+
+      // The first Upload also listens for drops anywhere on the page
+      await waitFor(() => {
+        expect(document.body).toHaveAttribute(
+          'data-upload-drop-zone',
+          'first-upload'
+        )
+      })
+
+      const file1 = createMockFile('fileName-1.png', 100, 'image/png')
+
+      fireEvent.drop(document.querySelectorAll('.dnb-upload')[1], {
+        dataTransfer: { files: [file1] },
+      })
+
+      await waitFor(() => {
+        expect(second.result.current.files).toEqual([
+          { file: file1, id: expect.any(String), exists: false },
+        ])
+      })
+      expect(first.result.current.files).toEqual([])
     })
 
     it('should call a given onClick and keep resetting the file input', () => {
