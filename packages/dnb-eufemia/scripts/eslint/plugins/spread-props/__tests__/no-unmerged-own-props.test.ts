@@ -153,6 +153,35 @@ tester.run('no-unmerged-own-props', rule, {
         }
       `,
     },
+    // An own handler set after the spread inside an object that is spread into an element
+    {
+      code: `
+        function Comp({ children, ...attributes }) {
+          const inputParams = { ...attributes, onKeyDown: handleKeyDown }
+          return <input {...inputParams} />
+        }
+      `,
+    },
+    // The handler is taken out of the rest that the object spreads
+    {
+      code: `
+        function Comp(props) {
+          const { onKeyDown, ...attributes } = props
+          const inputParams = { onKeyDown: handleKeyDown, ...attributes }
+          return <input {...inputParams} />
+        }
+      `,
+    },
+    // An object that is not spread into an element is not checked
+    {
+      code: `
+        function Comp({ children, ...rest }) {
+          const params = { onClick: handleClick, ...rest }
+          useParams(params)
+          return <div />
+        }
+      `,
+    },
   ],
   invalid: [
     // A given onClick replaces the component's own
@@ -278,6 +307,42 @@ tester.run('no-unmerged-own-props', rule, {
           messageId: 'replaced',
           data: { name: 'onDrop', spread: 'props' },
         },
+      ],
+    },
+    // An object kept in a local and spread into an element later
+    {
+      code: `
+        function Comp(props) {
+          const { onFocus, ...attributes } = props
+          const inputParams = {
+            className: 'dnb-comp__input',
+            onKeyDown: handleKeyDown,
+            onFocus: handleFocus,
+            ...attributes,
+          }
+          return <input {...(inputParams as Record<string, unknown>)} />
+        }
+      `,
+      errors: [
+        {
+          messageId: 'replaced',
+          data: { name: 'className', spread: 'attributes' },
+        },
+        {
+          messageId: 'replaced',
+          data: { name: 'onKeyDown', spread: 'attributes' },
+        },
+      ],
+    },
+    // An object literal spread directly into an element
+    {
+      code: `
+        function Comp({ open, ...rest }) {
+          return <div {...{ style: firstPaintStyle, ...rest }} />
+        }
+      `,
+      errors: [
+        { messageId: 'replaced', data: { name: 'style', spread: 'rest' } },
       ],
     },
   ],
