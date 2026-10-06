@@ -1114,7 +1114,6 @@ function TabsComponent(ownProps: TabsProps) {
           breakout && 'dnb-tabs__tabs--breakout',
           extraClassName
         )}
-        ref={tabsRef}
         style={
           tabsInnerSpace
             ? {
@@ -1126,6 +1125,7 @@ function TabsComponent(ownProps: TabsProps) {
             : style
         }
         {...rest}
+        ref={tabsRef}
       >
         <ScrollNavButton
           onMouseDown={openPrevTab}

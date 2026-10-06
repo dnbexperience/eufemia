@@ -113,8 +113,8 @@ function TableAccordionContent(
         isVisibleParallax && 'dnb-table__tr__accordion-content--parallax',
         className
       )}
-      ref={trRef}
       {...props}
+      ref={trRef}
     >
       {variant === 'row' && (
         <>
