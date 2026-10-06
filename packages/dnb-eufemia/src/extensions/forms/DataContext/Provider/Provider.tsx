@@ -1634,6 +1634,9 @@ export default function Provider<Data extends JsonObject>(
               })
             }
           }
+        } else {
+          // A submit stopped by errors does not keep the indicator on its button
+          activeSubmitButtonIsNewRef.current = false
         }
 
         setShowAllErrors(true)

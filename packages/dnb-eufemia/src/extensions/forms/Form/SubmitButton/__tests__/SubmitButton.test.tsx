@@ -282,6 +282,47 @@ describe('Form.SubmitButton', () => {
     })
   })
 
+  it('should show the indicator on every submit button after a click that was stopped by an error', async () => {
+    const onSubmit = vi.fn(async () => {
+      await wait(10)
+    })
+
+    let submit: () => void
+    const SubmitFromOutside = () => {
+      submit = Form.useSubmit().submit
+      return null
+    }
+
+    render(
+      <Form.Handler onSubmit={onSubmit}>
+        <Field.String path="/foo" required />
+        <Form.SubmitButton>First</Form.SubmitButton>
+        <Form.SubmitButton>Second</Form.SubmitButton>
+        <SubmitFromOutside />
+      </Form.Handler>
+    )
+
+    const [firstButton, secondButton] = screen.getAllByRole('button')
+    const isPending = (button: HTMLElement) =>
+      button
+        .querySelector('.dnb-forms-submit-indicator')
+        .classList.contains('dnb-forms-submit-indicator--state-pending')
+
+    fireEvent.click(secondButton)
+
+    expect(onSubmit).toHaveBeenCalledTimes(0)
+
+    fireEvent.change(document.querySelector('input'), {
+      target: { value: 'value' },
+    })
+    submit()
+
+    await waitFor(() => {
+      expect(isPending(firstButton)).toBe(true)
+      expect(isPending(secondButton)).toBe(true)
+    })
+  })
+
   it('should show the indicator on the Next button when going back after a submit', async () => {
     let resolveStepChange: () => void
     const onStepChange = async () => {
