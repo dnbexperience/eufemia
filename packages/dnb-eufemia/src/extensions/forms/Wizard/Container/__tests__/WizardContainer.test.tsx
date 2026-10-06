@@ -2121,6 +2121,47 @@ describe('Wizard.Container', () => {
         expect(nextButton()).not.toBeDisabled()
       })
     })
+
+    it('should go back while an async onBlurValidator is pending', async () => {
+      const onStepChange = vi.fn(async () => null)
+      const onBlurValidator = () => new Promise<undefined>(() => null)
+
+      render(
+        <Form.Handler>
+          <Wizard.Container
+            initialActiveIndex={1}
+            onStepChange={onStepChange}
+          >
+            <Wizard.Step title="Step 1">
+              <output>Step 1</output>
+              <Wizard.Buttons />
+            </Wizard.Step>
+
+            <Wizard.Step title="Step 2">
+              <output>Step 2</output>
+              <Field.String onBlurValidator={onBlurValidator} />
+              <Wizard.Buttons />
+            </Wizard.Step>
+          </Wizard.Container>
+        </Form.Handler>
+      )
+
+      const input = document.querySelector('input')
+      await userEvent.type(input, 'Value')
+      fireEvent.blur(input)
+      fireEvent.click(previousButton())
+
+      await waitFor(() => {
+        expect(output()).toHaveTextContent('Step 1')
+        expect(nextButton()).not.toBeDisabled()
+      })
+      expect(onStepChange).toHaveBeenCalledTimes(1)
+      expect(onStepChange).toHaveBeenLastCalledWith(
+        0,
+        'previous',
+        expect.anything()
+      )
+    })
   })
 
   it('should scroll to top on step change', async () => {

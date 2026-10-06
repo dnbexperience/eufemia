@@ -1422,6 +1422,14 @@ export default function Provider<Data extends JsonObject>(
           bumpValidationVersionRef.current()
         })
 
+        // Stop waiting for a field that is gone while it validates
+        if (
+          state.isMounted === false &&
+          fieldStateRef.current[path] === 'pending'
+        ) {
+          forceUpdate()
+        }
+
         for (const itm of fieldEventListenersRef.current) {
           if (
             itm.type === 'onSetMountedFieldState' &&
@@ -1563,7 +1571,8 @@ export default function Provider<Data extends JsonObject>(
 
       if (
         !(skipErrorCheck ? false : hasErrors()) &&
-        !hasFieldState('pending') &&
+        // A pending validator can only report an error, which skipErrorCheck ignores
+        (skipErrorCheck || !hasFieldState('pending')) &&
         (skipFieldValidation ? true : !hasFieldState('error'))
       ) {
         result = await resolveStateResult(async () => {
