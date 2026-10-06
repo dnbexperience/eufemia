@@ -1,5 +1,4 @@
 import { clsx } from 'clsx'
-import type { UIMessage } from 'ai'
 import { useSpacing } from '../../components/space/SpacingUtils'
 import Tag from '../../components/Tag'
 import useTranslation from '../../shared/useTranslation'
@@ -7,7 +6,7 @@ import AiResponse from './AiResponse'
 import AiSources from './AiSources'
 import AiTool from './AiTool'
 import AiReasoning from './AiReasoning'
-import type { AiMessageProps, AiToolPart } from './types'
+import type { AiMessageData, AiMessageProps, AiToolPart } from './types'
 
 function AiMessage(props: AiMessageProps) {
   const {
@@ -76,7 +75,10 @@ function AiMessage(props: AiMessageProps) {
   )
 }
 
-function renderParts(message: UIMessage, from: AiMessageProps['from']) {
+function renderParts(
+  message: AiMessageData,
+  from: AiMessageProps['from']
+) {
   // User input is shown as written
   if (from === 'user') {
     const texts = message.parts.filter((part) => part.type === 'text')
@@ -86,7 +88,7 @@ function renderParts(message: UIMessage, from: AiMessageProps['from']) {
 
     return (
       <span className="dnb-ai-message__text">
-        {texts.map((part) => part.text).join('\n\n')}
+        {texts.map((part) => part.text ?? '').join('\n\n')}
       </span>
     )
   }
@@ -98,7 +100,7 @@ function renderParts(message: UIMessage, from: AiMessageProps['from']) {
           key={index}
           parseIncompleteMarkdown={part.state !== 'done'}
         >
-          {part.text}
+          {part.text ?? ''}
         </AiResponse>
       )
     }

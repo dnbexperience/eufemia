@@ -1,5 +1,5 @@
 import { Fragment, useEffect, useState } from 'react'
-import type { UIMessage } from 'ai'
+import type { AiMessageData } from '@dnb/eufemia/src/extensions/ai/types'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import { useChatSimulation } from './useChatSimulation'
 import type { Transaction } from './useChatSimulation'
@@ -195,8 +195,7 @@ export function AiLoaderExample() {
   )
 }
 
-// Messages from useChat in @ai-sdk/react
-const messages: Array<UIMessage> = [
+const messages: Array<AiMessageData> = [
   {
     id: '1',
     role: 'user',
@@ -215,7 +214,7 @@ const messages: Array<UIMessage> = [
   },
 ]
 
-export function AiMessageUIMessage() {
+export function AiMessageDataDemo() {
   return (
     <ComponentBox scope={{ messages }}>
       {messages.map((message) => (
@@ -475,7 +474,7 @@ const ChatLayout = styled.div`
 
 const chatTranslations = { ...svSE, ...daDK }
 
-function getText(message: UIMessage) {
+function getText(message: AiMessageData) {
   return message.parts
     .map((part) => (part.type === 'text' ? part.text : ''))
     .filter(Boolean)
@@ -483,12 +482,12 @@ function getText(message: UIMessage) {
 }
 
 // Copies the text of a message to the clipboard
-function copyText(message: UIMessage) {
+function copyText(message: AiMessageData) {
   navigator.clipboard?.writeText(getText(message))
 }
 
 // The transactions from a finished getTransactions tool
-function getTransactions(message: UIMessage) {
+function getTransactions(message: AiMessageData) {
   const part = message.parts.find(
     (part) => part.type === 'tool-getTransactions'
   )
@@ -550,7 +549,6 @@ export function AiChatExample() {
           const [locale, setLocale] = useState('en-GB')
           const [feedback, setFeedback] = useState({})
 
-          // Replace with useChat from @ai-sdk/react
           const {
             messages,
             status,
