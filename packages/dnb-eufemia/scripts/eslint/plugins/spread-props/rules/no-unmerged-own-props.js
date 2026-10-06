@@ -12,6 +12,10 @@
  * destructuring, a component's whole props parameter, or a destructured prop
  * bag such as `htmlAttributes` or `buttonProps`, also when it is kept in a
  * local or picked with `||` or `??`.
+ *
+ * The same applies inside an object literal that is spread into an element,
+ * directly or through a local, such as
+ * `const params = { onKeyDown, ...attributes }` and `<input {...params} />`.
  */
 
 const DOM_EVENT_HANDLER =
@@ -57,6 +61,22 @@ const findVariable = (identifier, scope) => {
     }
   }
   return null
+}
+
+/** Returns the object literal a JSX spread argument is, or is kept in. */
+const getObjectLiteral = (argument, scope) => {
+  if (argument?.type === 'ObjectExpression') {
+    return argument
+  }
+  if (argument?.type !== 'Identifier') {
+    return null
+  }
+  const def = findVariable(argument, scope)?.defs?.[0]
+  if (def?.type !== 'Variable' || def.node.id !== def.name) {
+    return null
+  }
+  const init = unwrap(def.node.init)
+  return init?.type === 'ObjectExpression' ? init : null
 }
 
 /** Returns the values an `a || b` or `a ?? b` expression can result in. */
@@ -169,9 +189,69 @@ module.exports = {
   },
   create(context) {
     const sourceCode = context.sourceCode
+    const checkedObjects = new Set()
+
+    const checkObjectLiteral = (object) => {
+      if (checkedObjects.has(object)) {
+        return
+      }
+      checkedObjects.add(object)
+
+      const properties = object.properties
+      const scope = sourceCode.getScope(object)
+      const reported = new Set()
+
+      properties.forEach((spread, spreadIndex) => {
+        if (spread.type !== 'SpreadElement') {
+          return
+        }
+        const argument = unwrap(spread.argument)
+        if (argument?.type !== 'Identifier') {
+          return
+        }
+        const excluded = getExcludedNames(argument, scope)
+        if (!excluded) {
+          return
+        }
+
+        properties.slice(0, spreadIndex).forEach((property) => {
+          if (property.type !== 'Property' || property.computed) {
+            return
+          }
+          const name = keyName(property)
+          if (
+            !name ||
+            !isOwnProp(name) ||
+            excluded.has(name) ||
+            reported.has(property)
+          ) {
+            return
+          }
+
+          reported.add(property)
+          context.report({
+            node: property,
+            messageId: 'replaced',
+            data: { name, spread: argument.name },
+          })
+        })
+      })
+    }
 
     return {
       JSXOpeningElement(element) {
+        element.attributes
+          .filter((attribute) => attribute.type === 'JSXSpreadAttribute')
+          .forEach((attribute) => {
+            const object = getObjectLiteral(
+              unwrap(attribute.argument),
+              sourceCode.getScope(attribute)
+            )
+            if (object) {
+              checkObjectLiteral(object)
+            }
+          })
+
         const attributes = element.attributes
         const spreads = attributes
           .map((attribute, index) => ({ attribute, index }))
