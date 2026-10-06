@@ -323,6 +323,116 @@ describe('Form.SubmitButton', () => {
     })
   })
 
+  it('should show the indicator only on the clicked button when it is clicked again after an error', async () => {
+    const onSubmit = vi.fn(async () => {
+      await wait(10)
+    })
+
+    render(
+      <Form.Handler onSubmit={onSubmit}>
+        <Field.String path="/foo" required />
+        <Form.SubmitButton>First</Form.SubmitButton>
+        <Form.SubmitButton>Second</Form.SubmitButton>
+      </Form.Handler>
+    )
+
+    const [firstButton, secondButton] = Array.from(
+      document.querySelectorAll('button')
+    )
+    const isPending = (button: HTMLElement) =>
+      button
+        .querySelector('.dnb-forms-submit-indicator')
+        .classList.contains('dnb-forms-submit-indicator--state-pending')
+
+    fireEvent.click(secondButton)
+
+    expect(onSubmit).toHaveBeenCalledTimes(0)
+
+    fireEvent.change(document.querySelector('input'), {
+      target: { value: 'value' },
+    })
+    fireEvent.click(secondButton)
+
+    await waitFor(() => {
+      expect(isPending(secondButton)).toBe(true)
+    })
+    expect(isPending(firstButton)).toBe(false)
+  })
+
+  it('should keep the indicator on the clicked button while a submit confirmation is open', async () => {
+    render(
+      <Form.Handler onSubmit={() => null}>
+        <Form.SubmitConfirmation
+          preventSubmitWhen={() => true}
+          renderWithState={({ confirmationState }) => (
+            <output>{confirmationState}</output>
+          )}
+        >
+          <Form.SubmitButton>First</Form.SubmitButton>
+          <Form.SubmitButton>Second</Form.SubmitButton>
+        </Form.SubmitConfirmation>
+      </Form.Handler>
+    )
+
+    const [firstButton, secondButton] = Array.from(
+      document.querySelectorAll('button')
+    )
+    const isPending = (button: HTMLElement) =>
+      button
+        .querySelector('.dnb-forms-submit-indicator')
+        .classList.contains('dnb-forms-submit-indicator--state-pending')
+
+    fireEvent.click(secondButton)
+
+    await waitFor(() => {
+      expect(document.querySelector('output')).toHaveTextContent(
+        'readyToBeSubmitted'
+      )
+      expect(isPending(secondButton)).toBe(true)
+    })
+    expect(isPending(firstButton)).toBe(false)
+  })
+
+  it('should show the indicator on the Next button after a submit button outside the steps was stopped by an error', async () => {
+    let resolveStepChange: () => void
+    const onStepChange = async () => {
+      await new Promise<void>((resolve) => {
+        resolveStepChange = resolve
+      })
+    }
+
+    render(
+      <Form.Handler onSubmit={() => null}>
+        <Wizard.Container onStepChange={onStepChange}>
+          <Wizard.Step title="Step 1">
+            <Field.String path="/foo" required />
+            <Wizard.Buttons />
+          </Wizard.Step>
+          <Wizard.Step title="Step 2">
+            <output>Step 2</output>
+          </Wizard.Step>
+        </Wizard.Container>
+        <Form.SubmitButton className="outside" />
+      </Form.Handler>
+    )
+
+    fireEvent.click(document.querySelector('.outside'))
+    fireEvent.change(document.querySelector('input'), {
+      target: { value: 'value' },
+    })
+    fireEvent.click(document.querySelector('.dnb-forms-next-button'))
+
+    await waitFor(() => {
+      expect(
+        document.querySelector(
+          '.dnb-forms-next-button .dnb-forms-submit-indicator--state-pending'
+        )
+      ).toBeInTheDocument()
+    })
+
+    resolveStepChange()
+  })
+
   it('should show the indicator on the Next button when going back after a submit', async () => {
     let resolveStepChange: () => void
     const onStepChange = async () => {
