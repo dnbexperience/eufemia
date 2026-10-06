@@ -467,13 +467,23 @@ function WizardContainer(props: WizardContainerProps) {
       await handleSubmitCall({
         skipErrorCheck,
         skipFieldValidation: skipErrorCheck,
-        enableAsyncBehavior: isAsync(onStepChange),
+        // With bypassOnNavigation, the step change below shows the indicator
+        enableAsyncBehavior: !bypassOnNavigation && isAsync(onStepChange),
         onSubmit: bypassOnNavigation ? () => null : onSubmit,
       })
 
       if (!didSubmit) {
         if (bypassOnNavigation) {
-          await onSubmit()
+          if (isAsync(onStepChange)) {
+            setFormState('pending')
+          }
+
+          try {
+            await onSubmit()
+          } catch (error) {
+            setFormState('abort')
+            setSubmitState?.({ error: error as Error })
+          }
         } else {
           if (mode === 'next') {
             // In case steps were visited before, or they use the "keepInDOM" prop,
@@ -505,6 +515,7 @@ function WizardContainer(props: WizardContainerProps) {
       setFormState,
       setShowAllErrors,
       setStepAsVisited,
+      setSubmitState,
     ]
   )
 

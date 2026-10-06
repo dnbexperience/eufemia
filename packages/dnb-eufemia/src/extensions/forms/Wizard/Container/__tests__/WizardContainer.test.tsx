@@ -2745,6 +2745,91 @@ describe('Wizard.Container', () => {
     expect(firstStep.querySelector('.dnb-form-status')).toBeInTheDocument()
   })
 
+  it('should stay busy until an async onStepChange is done with bypassOnNavigation', async () => {
+    let resolveStepChange: () => void
+    const onStepChange = vi.fn(async () => {
+      await new Promise<void>((resolve) => {
+        resolveStepChange = resolve
+      })
+    })
+
+    render(
+      <Form.Handler minimumAsyncBehaviorTime={10}>
+        <Wizard.Container
+          validationMode="bypassOnNavigation"
+          onStepChange={onStepChange}
+        >
+          <Wizard.Step title="Step 1">
+            <output>Step 1</output>
+            <Field.String required />
+            <Wizard.Buttons />
+          </Wizard.Step>
+
+          <Wizard.Step title="Step 2">
+            <output>Step 2</output>
+            <Wizard.Buttons />
+          </Wizard.Step>
+        </Wizard.Container>
+      </Form.Handler>
+    )
+
+    fireEvent.click(nextButton())
+    await wait(100)
+
+    expect(nextButton()).toBeDisabled()
+    expect(
+      document.querySelector(
+        '.dnb-forms-next-button .dnb-forms-submit-indicator--state-pending'
+      )
+    ).toBeInTheDocument()
+
+    fireEvent.click(nextButton())
+    expect(onStepChange).toHaveBeenCalledTimes(1)
+
+    resolveStepChange()
+
+    await waitFor(() => {
+      expect(output()).toHaveTextContent('Step 2')
+      expect(previousButton()).not.toBeDisabled()
+    })
+  })
+
+  it('should show the error of an async onStepChange that throws with bypassOnNavigation', async () => {
+    const onStepChange = vi.fn(async () => {
+      throw new Error('Request failed')
+    })
+
+    render(
+      <Form.Handler minimumAsyncBehaviorTime={10}>
+        <Wizard.Container
+          validationMode="bypassOnNavigation"
+          onStepChange={onStepChange}
+        >
+          <Wizard.Step title="Step 1">
+            <output>Step 1</output>
+            <Wizard.Buttons />
+          </Wizard.Step>
+
+          <Wizard.Step title="Step 2">
+            <output>Step 2</output>
+            <Wizard.Buttons />
+          </Wizard.Step>
+        </Wizard.Container>
+      </Form.Handler>
+    )
+
+    fireEvent.click(nextButton())
+
+    await waitFor(() => {
+      expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
+        'Request failed'
+      )
+      expect(nextButton()).not.toBeDisabled()
+    })
+    expect(onStepChange).toHaveBeenCalledTimes(1)
+    expect(output()).toHaveTextContent('Step 1')
+  })
+
   describe('validation', () => {
     it('should show error on navigating back and forth', async () => {
       render(
