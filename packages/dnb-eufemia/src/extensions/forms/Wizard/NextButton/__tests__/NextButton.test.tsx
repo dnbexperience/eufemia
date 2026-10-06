@@ -149,7 +149,7 @@ describe('NextButton', () => {
     expect(onCommit).toHaveBeenCalledTimes(1)
   })
 
-  it('should show the indicator for an async step change when going back', async () => {
+  it('should leave the indicator to the Previous button when going back', async () => {
     let resolveStepChange: () => void
     const onStepChange = async () => {
       await new Promise<void>((resolve) => {
@@ -194,8 +194,13 @@ describe('NextButton', () => {
 
     fireEvent.click(document.querySelector('.dnb-forms-previous-button'))
     await waitFor(() => {
-      expect(indicator()).toBeInTheDocument()
+      expect(
+        document.querySelector(
+          '.dnb-forms-previous-button .dnb-forms-submit-indicator--state-pending'
+        )
+      ).toBeInTheDocument()
     })
+    expect(indicator()).toBeNull()
     resolveStepChange()
   })
 })
