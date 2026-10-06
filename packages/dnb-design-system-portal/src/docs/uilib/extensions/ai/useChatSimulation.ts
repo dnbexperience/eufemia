@@ -1,5 +1,8 @@
 import { useEffect, useState } from 'react'
-import type { ChatStatus, UIMessage } from 'ai'
+import type {
+  AiChatStatus,
+  AiMessageData,
+} from '@dnb/eufemia/src/extensions/ai/types'
 
 type ScriptStep =
   | { type: 'reasoning' | 'text'; text: string }
@@ -153,8 +156,7 @@ function createScript(prompt: string): Array<ScriptStep> {
 }
 
 /**
- * Simulates `useChat` from `@ai-sdk/react` with scripted replies,
- * so the demo works without a server.
+ * Simulates a chat with scripted replies, so the demo works without a server.
  */
 export function useChatSimulation() {
   const [turns, setTurns] = useState<Array<Turn>>([])
@@ -214,13 +216,13 @@ export function useChatSimulation() {
   const regenerate = () =>
     updateLast({ step: -1, length: 0, stopped: false })
 
-  let status: ChatStatus = 'ready'
+  let status: AiChatStatus = 'ready'
   if (last && !last.stopped && last.step < last.script.length) {
     status = last.step === -1 ? 'submitted' : 'streaming'
   }
 
-  const messages: Array<UIMessage> = turns.flatMap((turn) => {
-    const user: UIMessage = {
+  const messages: Array<AiMessageData> = turns.flatMap((turn) => {
+    const user: AiMessageData = {
       id: `${turn.id}-user`,
       role: 'user',
       parts: [{ type: 'text', text: turn.prompt }],
@@ -239,7 +241,7 @@ export function useChatSimulation() {
   })
 
   // The simulation only supports clearing the messages
-  const setMessages = (messages: Array<UIMessage>) => {
+  const setMessages = (messages: Array<AiMessageData>) => {
     if (messages.length === 0) {
       setTurns([])
     }
@@ -248,8 +250,8 @@ export function useChatSimulation() {
   return { messages, status, sendMessage, stop, regenerate, setMessages }
 }
 
-function toParts(turn: Turn): UIMessage['parts'] {
-  const parts: UIMessage['parts'] = []
+function toParts(turn: Turn): AiMessageData['parts'] {
+  const parts: AiMessageData['parts'] = []
 
   turn.script.forEach((step, index) => {
     const isCurrent = index === turn.step
@@ -273,7 +275,7 @@ function toParts(turn: Turn): UIMessage['parts'] {
         title: step.title,
         input: {},
         ...getToolState(step, isCurrent),
-      } as UIMessage['parts'][number])
+      })
       return // stop here
     }
 
