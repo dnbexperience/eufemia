@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { createRef, useEffect } from 'react'
 import {
   fireEvent,
   render,
@@ -101,6 +101,21 @@ describe('Upload', () => {
     )
 
     expect(inputClick).toHaveBeenCalledTimes(1)
+  })
+
+  it('opens file dialog when clicking button and a ref is given', () => {
+    const ref = createRef<HTMLInputElement>()
+    render(<Upload {...defaultProps} ref={ref} />)
+
+    const input = document.querySelector('.dnb-upload__file-input')
+    const inputClick = vi.spyOn(input as HTMLInputElement, 'click')
+
+    fireEvent.click(
+      document.querySelector('.dnb-upload__file-input-button')
+    )
+
+    expect(inputClick).toHaveBeenCalledTimes(1)
+    expect(ref.current).toBe(input)
   })
 
   it('renders custom onClick using buttonProps', () => {

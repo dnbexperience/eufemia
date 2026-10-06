@@ -7,6 +7,7 @@ import WizardContext from '../Context/WizardContext'
 import WizardStepContext from './StepContext'
 import Flex from '../../../../components/flex/Flex'
 import { convertJsxToString } from '../../../../shared/component-helper'
+import useCombinedRef from '../../../../shared/helpers/useCombinedRef'
 import FieldProvider from '../../Field/Provider'
 import type { VisibleWhen } from '../../Form/Visibility'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
@@ -70,6 +71,7 @@ function Step(props: WizardStepProps): JSX.Element {
     prerenderFieldProps,
     children,
     layoutEngine = 'css',
+    ref,
     ...restProps
   } = props
 
@@ -153,6 +155,11 @@ function Step(props: WizardStepProps): JSX.Element {
     ariaLabel,
   ])
 
+  const stepRef = useCombinedRef(
+    ref,
+    activeIndex === index ? stepElementRef : null
+  )
+
   // If the index is greater than the total steps,
   // it's a sign that e.g. React.StrictMode is used.
   // And if no title or id is given,
@@ -191,7 +198,6 @@ function Step(props: WizardStepProps): JSX.Element {
     )
   }
 
-  const stepRef = activeIndex === index ? stepElementRef : null
   const childrenWithFlex = (
     <WizardStepContext value={{ index }}>
       <Flex.Stack

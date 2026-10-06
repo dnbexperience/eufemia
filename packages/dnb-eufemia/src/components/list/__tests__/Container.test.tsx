@@ -1,4 +1,5 @@
 import { render } from '@testing-library/react'
+import { createRef } from 'react'
 import type { ReactNode } from 'react'
 import { axeComponent } from '../../../core/test-utils/testSetup'
 import type { ListContainerProps } from '../Container'
@@ -7,6 +8,22 @@ import ItemContent from '../ItemContent'
 import Provider from '../../../shared/Provider'
 
 describe('List Container', () => {
+  it('keeps the overflow items hidden until found when a ref is given', () => {
+    const ref = createRef<HTMLElement>()
+
+    render(
+      <Container id="with-ref" visibleCount={1} ref={ref}>
+        <ItemContent>Item 1</ItemContent>
+        <ItemContent>Item 2</ItemContent>
+      </Container>
+    )
+
+    const items = document.querySelectorAll('.dnb-list__item')
+
+    expect(items[1]).toHaveAttribute('hidden', 'until-found')
+    expect(ref.current).toBe(document.querySelector('.dnb-list'))
+  })
+
   it('renders with props as an object', () => {
     const props: ListContainerProps = {}
 
