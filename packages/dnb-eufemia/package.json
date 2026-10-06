@@ -242,7 +242,7 @@
     "repo-utils": "workspace:*",
     "sass": "1.97.2",
     "semantic-release": "25.0.9",
-    "simple-git": "3.36.0",
+    "simple-git": "4.0.1",
     "start-server-and-test": "3.0.11",
     "stylelint": "16.26.1",
     "stylelint-config-recommended": "15.0.0",
