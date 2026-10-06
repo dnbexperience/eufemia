@@ -3,6 +3,7 @@
  *
  */
 
+import { createRef } from 'react'
 import {
   axeComponent,
   loadScss,
@@ -656,6 +657,58 @@ describe('NumberFormat component', () => {
 
     fireEvent.mouseLeave(element)
     expect(element).toHaveAttribute('aria-hidden', 'true')
+  })
+
+  it('will set aria-hidden to false on mouse over when onMouseEnter and onMouseLeave are given', () => {
+    const onMouseEnter = vi.fn()
+    const onMouseLeave = vi.fn()
+    render(
+      <Component
+        value={-value}
+        currency
+        onMouseEnter={onMouseEnter}
+        onMouseLeave={onMouseLeave}
+      />
+    )
+
+    const element = document.querySelector('.dnb-number-format__visible')
+
+    fireEvent.mouseOver(element)
+    expect(element).toHaveAttribute('aria-hidden', 'false')
+    expect(onMouseEnter).toHaveBeenCalledTimes(1)
+
+    fireEvent.mouseLeave(element)
+    expect(element).toHaveAttribute('aria-hidden', 'true')
+    expect(onMouseLeave).toHaveBeenCalledTimes(1)
+  })
+
+  it('will keep its own classes when a tooltip is given', () => {
+    render(<Component value={-value} currency tooltip="Tooltip content" />)
+
+    expect(document.querySelector('.dnb-tooltip__wrapper')).toHaveClass(
+      'dnb-number-format',
+      'dnb-number-format--currency'
+    )
+  })
+
+  it('will show the tooltip on hover and set the given ref when a ref is given', async () => {
+    const ref = createRef<HTMLElement>()
+    render(
+      <Component value={-value} tooltip="Tooltip content" ref={ref} />
+    )
+
+    const element = document.querySelector<HTMLElement>(
+      '.dnb-number-format'
+    )
+    expect(ref.current).toBe(element)
+
+    await userEvent.hover(element)
+
+    await waitFor(() => {
+      expect(
+        document.querySelector('.dnb-tooltip--active')
+      ).toBeInTheDocument()
+    })
   })
 
   it('will render selection value on click event', () => {

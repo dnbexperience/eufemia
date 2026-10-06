@@ -991,7 +991,7 @@ describe('Tooltip', () => {
       )
       expect(wrapperElement.getAttribute('tabindex')).toBe('0')
       expect(wrapperElement).toHaveClass(
-        'dnb-tooltip__wrapper dnb-tab-focus',
+        'dnb-number-format dnb-number-format--select-all dnb-tooltip__wrapper dnb-tab-focus',
         { exact: true }
       )
 
