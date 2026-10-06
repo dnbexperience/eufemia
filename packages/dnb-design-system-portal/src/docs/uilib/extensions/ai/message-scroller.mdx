@@ -29,10 +29,18 @@ The scrolling is built into `Ai.Conversation`. Give it a height, and put the mes
 
 ```tsx
 import * as Ai from '@dnb/eufemia/extensions/ai'
+import type {
+  AiChatStatus,
+  AiMessageData,
+} from '@dnb/eufemia/extensions/ai'
 
-function Chat() {
-  const { messages, status } = useChat()
-
+function Chat({
+  messages,
+  status,
+}: {
+  messages: Array<AiMessageData>
+  status: AiChatStatus
+}) {
   return (
     <Ai.Conversation style={{ height: '40rem' }}>
       {messages.map((message) => (
@@ -48,7 +56,7 @@ function Chat() {
 
 A turn starts with a message from the user. When the user sends a message, it is scrolled near the top, and the reply streams in below it. The view stays where it is while the reply streams in, so the user can read the start of the reply in peace. When the reply goes below the view, a button to go to the latest message is shown.
 
-Messages with `from="user"`, or a `UIMessage` with the role `user`, start a turn. There is no need to mark them.
+Messages with `from="user"`, or an `AiMessageData` object with the role `user`, start a turn. There is no need to mark them.
 
 Send a few messages and see where each new question is placed.
 
@@ -126,7 +134,7 @@ const { scrollToMessage, scrollToStart, scrollToEnd } =
 scrollToMessage(message.id)
 ```
 
-`scrollToMessage` finds a message by the `id` of its `UIMessage`, or by its `id` attribute, and returns `false` when the message is not found. The message is placed below the peek, like a new turn.
+`scrollToMessage` finds a message by the `id` of its `AiMessageData` object, or by its `id` attribute, and returns `false` when the message is not found. The message is placed below the peek, like a new turn.
 
 ## Reading position
 
@@ -137,7 +145,7 @@ const { currentTurnId, visibleMessageIds } =
   Ai.useConversationVisibility('my-chat')
 ```
 
-`currentTurnId` is the id of the message from the user that starts the turn being read. It stays set when that message is scrolled above the view, while the user reads the reply. Messages need an id to be tracked, like a `UIMessage` or the `id` attribute. The messages are only tracked while the hook is used.
+`currentTurnId` is the id of the message from the user that starts the turn being read. It stays set when that message is scrolled above the view, while the user reads the reply. Messages need an id to be tracked, like an `AiMessageData` object or the `id` attribute. The messages are only tracked while the hook is used.
 
 Scroll the conversation, and see how the current question is marked.
 

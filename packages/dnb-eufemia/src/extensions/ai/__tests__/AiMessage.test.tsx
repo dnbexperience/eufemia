@@ -1,5 +1,5 @@
 import { render } from '@testing-library/react'
-import type { UIMessage } from 'ai'
+import type { AiMessageData } from '../types'
 import { axeComponent } from '../../../core/test-utils/testSetup'
 import Provider from '../../../shared/Provider'
 import Avatar from '../../../components/Avatar'
@@ -90,8 +90,8 @@ describe('Ai.Message', () => {
     ).toBeInTheDocument()
   })
 
-  it('renders assistant text parts of a UIMessage as markdown', () => {
-    const message: UIMessage = {
+  it('renders assistant text parts of a message as markdown', () => {
+    const message: AiMessageData = {
       id: '1',
       role: 'assistant',
       parts: [
@@ -109,8 +109,8 @@ describe('Ai.Message', () => {
     ).toHaveTextContent('bold')
   })
 
-  it('does not repair finished UIMessage text', () => {
-    const message: UIMessage = {
+  it('does not repair finished message text', () => {
+    const message: AiMessageData = {
       id: '1',
       role: 'assistant',
       parts: [{ type: 'text', text: '2 **x', state: 'done' }],
@@ -120,8 +120,8 @@ describe('Ai.Message', () => {
     expect(document.querySelector('strong')).toBeNull()
   })
 
-  it('renders user text parts of a UIMessage as written', () => {
-    const message: UIMessage = {
+  it('renders user text parts of a message as written', () => {
+    const message: AiMessageData = {
       id: '1',
       role: 'user',
       parts: [{ type: 'text', text: 'Is **this** bold?' }],

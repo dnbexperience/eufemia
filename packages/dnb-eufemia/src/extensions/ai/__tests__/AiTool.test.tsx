@@ -1,18 +1,17 @@
 import { render } from '@testing-library/react'
-import type { ToolUIPart, UIMessage } from 'ai'
+import type { AiMessageData, AiToolPart } from '../types'
 import { axeComponent } from '../../../core/test-utils/testSetup'
 import Provider from '../../../shared/Provider'
 import enUS from '../../../shared/locales/en-US'
 import * as Ai from '..'
 
-const toolPart = (part: Partial<ToolUIPart>) =>
-  ({
-    type: 'tool-blockCard',
-    toolCallId: 'call-1',
-    input: {},
-    state: 'input-available',
-    ...part,
-  }) as ToolUIPart
+const toolPart = (part: Partial<AiToolPart>): AiToolPart => ({
+  type: 'tool-blockCard',
+  toolCallId: 'call-1',
+  input: {},
+  state: 'input-available',
+  ...part,
+})
 
 const getStatus = () => document.querySelector('.dnb-ai-tool__status')
 
@@ -147,7 +146,7 @@ describe('Ai.Tool', () => {
 
 describe('Ai.Message with tool parts', () => {
   it('renders tool parts in order', () => {
-    const message: UIMessage = {
+    const message: AiMessageData = {
       id: '1',
       role: 'assistant',
       parts: [
