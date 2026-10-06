@@ -543,12 +543,16 @@ function WizardContainer(props: WizardContainerProps) {
 
   const handleChange = useCallback(
     ({ currentStep }) => {
+      // Going back from the step indicator shows the indicator on the Previous buttons
+      if (currentStep < activeIndexRef.current && isAsync(onStepChange)) {
+        setActiveSubmitButtonId?.(id)
+      }
       setActiveIndex(
         currentStep,
         mode === 'loose' ? { skipErrorCheck: true } : undefined
       )
     },
-    [mode, setActiveIndex]
+    [id, mode, onStepChange, setActiveIndex, setActiveSubmitButtonId]
   )
 
   const setFormError = useCallback(
