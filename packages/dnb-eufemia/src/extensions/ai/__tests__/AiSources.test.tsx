@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import type { UIMessage } from 'ai'
+import type { AiMessageData } from '../types'
 import { axeComponent } from '../../../core/test-utils/testSetup'
 import Provider from '../../../shared/Provider'
 import * as Ai from '..'
@@ -41,8 +41,8 @@ describe('Ai.Sources', () => {
     expect(links[1]).toHaveTextContent('https://www.dnb.no/')
   })
 
-  it('lists the source-url parts of a UIMessage', () => {
-    const message: UIMessage = {
+  it('lists the source-url parts of a message', () => {
+    const message: AiMessageData = {
       id: '1',
       role: 'assistant',
       parts: [
@@ -84,8 +84,8 @@ describe('Ai.Sources', () => {
     expect(document.querySelector('.dnb-ai-sources')).toBeNull()
   })
 
-  it('is rendered by Ai.Message for a UIMessage', () => {
-    const message: UIMessage = {
+  it('is rendered by Ai.Message for a message', () => {
+    const message: AiMessageData = {
       id: '1',
       role: 'assistant',
       parts: [
