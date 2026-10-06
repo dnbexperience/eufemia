@@ -551,6 +551,31 @@ describe('Autocomplete component', () => {
         'true'
       )
     })
+
+    it('applies the given statusProps to the form status only', () => {
+      render(
+        <Autocomplete
+          data={mockData}
+          {...mockProps}
+          status="status text"
+          statusProps={{
+            className: 'custom-status',
+            id: 'custom-status-id',
+          }}
+        />
+      )
+
+      expect(document.querySelector('.custom-status')).toHaveClass(
+        'dnb-form-status'
+      )
+      expect(document.querySelector('.dnb-input')).toHaveClass(
+        'dnb-autocomplete__input'
+      )
+      expect(document.querySelector('.dnb-input__input')).toHaveAttribute(
+        'id',
+        mockProps.id
+      )
+    })
   })
 
   it('keyboard navigation loops', () => {
