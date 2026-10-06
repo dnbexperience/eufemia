@@ -12,7 +12,7 @@ const path = require('path')
 const { execFileSync } = require('child_process')
 const { createRequire } = require('module')
 const { Writable } = require('stream')
-const simpleGit = require('simple-git')
+const { simpleGit } = require('simple-git')
 
 // The matcher semantic-release itself expands the branch configuration with
 const micromatch = createRequire(

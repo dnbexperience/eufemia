@@ -6,7 +6,7 @@
 import fs from 'fs-extra'
 import { makeReleaseVersion } from '../makeReleaseVersion'
 import * as child_process from 'child_process'
-import simpleGit from 'simple-git'
+import { simpleGit } from 'simple-git'
 import type { SimpleGit } from 'simple-git'
 import * as getNextReleaseVersion from '../../../postbuild/getNextReleaseVersion'
 import { log } from '../../../lib'
