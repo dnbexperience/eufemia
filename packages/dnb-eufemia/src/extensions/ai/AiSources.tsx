@@ -1,12 +1,11 @@
 import { useState } from 'react'
 import { clsx } from 'clsx'
-import type { UIMessage } from 'ai'
 import { useSpacing } from '../../components/space/SpacingUtils'
 import Anchor from '../../components/Anchor'
 import useTranslation from '../../shared/useTranslation'
 import AiCollapsible from './AiCollapsible'
 import { sanitizeUrl } from './markdown/sanitizeUrl'
-import type { AiSource, AiSourcesProps } from './types'
+import type { AiMessageData, AiSource, AiSourcesProps } from './types'
 
 function AiSources(props: AiSourcesProps) {
   const { sources: sourcesProp, message, className, ...rest } = props
@@ -50,10 +49,12 @@ function AiSources(props: AiSourcesProps) {
   )
 }
 
-function getSources(message?: UIMessage): Array<AiSource> {
-  return (message?.parts ?? [])
-    .filter((part) => part.type === 'source-url')
-    .map(({ url, title }) => ({ url, title }))
+function getSources(message?: AiMessageData): Array<AiSource> {
+  return (message?.parts ?? []).flatMap((part) =>
+    part.type === 'source-url' && typeof part.url === 'string'
+      ? [{ url: part.url, title: part.title }]
+      : []
+  )
 }
 
 export default AiSources

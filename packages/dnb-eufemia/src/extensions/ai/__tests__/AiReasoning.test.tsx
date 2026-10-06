@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import type { UIMessage } from 'ai'
+import type { AiMessageData } from '../types'
 import { axeComponent } from '../../../core/test-utils/testSetup'
 import Provider from '../../../shared/Provider'
 import * as Ai from '..'
@@ -104,7 +104,7 @@ describe('Ai.Reasoning', () => {
   })
 
   it('is rendered by Ai.Message in order', () => {
-    const message: UIMessage = {
+    const message: AiMessageData = {
       id: '1',
       role: 'assistant',
       parts: [
