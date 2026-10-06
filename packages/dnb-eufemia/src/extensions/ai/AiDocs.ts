@@ -74,8 +74,8 @@ export const AiMessageProperties: PropertiesTableProps = {
     status: 'optional',
   },
   message: {
-    doc: 'A message from the AI SDK (`UIMessage`). Its text parts are rendered, user text as written and assistant text as markdown. Reasoning parts are rendered as `Ai.Reasoning`, tool parts as `Ai.Tool`, and `source-url` parts as `Ai.Sources`. Used instead of `children`.',
-    type: 'UIMessage',
+    doc: 'A message whose text, reasoning, tool and source parts are rendered. Used instead of `children`.',
+    type: 'AiMessageData',
     status: 'optional',
   },
   actions: {
@@ -160,7 +160,7 @@ export const AiPromptInputProperties: PropertiesTableProps = {
     status: 'optional',
   },
   status: {
-    doc: 'The status of the chat, e.g. `status` from `useChat`. While `submitted` or `streaming`, the send button becomes a stop button when `onStop` is given.',
+    doc: 'The status of the chat. While `submitted` or `streaming`, the send button becomes a stop button when `onStop` is given.',
     type: ['"ready"', '"submitted"', '"streaming"', '"error"'],
     status: 'optional',
   },
@@ -343,8 +343,8 @@ export const AiSourcesProperties: PropertiesTableProps = {
     status: 'optional',
   },
   message: {
-    doc: 'A message from the AI SDK (`UIMessage`). Its `source-url` parts are listed. Used instead of `sources`.',
-    type: 'UIMessage',
+    doc: 'A message whose `source-url` parts are listed. Used instead of `sources`.',
+    type: 'AiMessageData',
     status: 'optional',
   },
   '[Space](/uilib/layout/space/properties)': {
@@ -356,8 +356,8 @@ export const AiSourcesProperties: PropertiesTableProps = {
 
 export const AiToolProperties: PropertiesTableProps = {
   part: {
-    doc: 'A tool part from a `UIMessage` of the AI SDK. Its title, state and error are shown.',
-    type: ['ToolUIPart', 'DynamicToolUIPart'],
+    doc: 'A tool part from a message. Its title, state and error are shown.',
+    type: 'AiToolPart',
     status: 'optional',
   },
   title: {
@@ -410,8 +410,8 @@ export const AiShimmerProperties: PropertiesTableProps = {
 
 export const AiReasoningProperties: PropertiesTableProps = {
   part: {
-    doc: 'A reasoning part from a `UIMessage` of the AI SDK. Its text and state are shown.',
-    type: 'ReasoningUIPart',
+    doc: 'A reasoning part from a message. Its text and state are shown.',
+    type: 'AiMessagePart',
     status: 'optional',
   },
   isStreaming: {
@@ -443,7 +443,7 @@ export const AiConversationControls: PropertiesTableProps = {
     status: 'optional',
   },
   scrollToMessage: {
-    doc: 'Scroll to the message with the given id, like the `id` of a `UIMessage`. Returns `false` when the message is not found.',
+    doc: 'Scroll to the message with the given id. Returns `false` when the message is not found.',
     type: 'function',
     status: 'optional',
   },
