@@ -1,5 +1,5 @@
 import { act, fireEvent, render } from '@testing-library/react'
-import type { UIMessage } from 'ai'
+import type { AiMessageData } from '../types'
 import { axeComponent } from '../../../core/test-utils/testSetup'
 import Provider from '../../../shared/Provider'
 import * as Ai from '..'
@@ -557,7 +557,7 @@ describe('Ai.useConversation', () => {
     Element.prototype.scrollTo = scrollTo
   })
 
-  const message: UIMessage = {
+  const message: AiMessageData = {
     id: 'message-2',
     role: 'assistant',
     parts: [{ type: 'text', text: 'Hello', state: 'done' }],
@@ -706,7 +706,10 @@ describe('Ai.useConversationVisibility', () => {
     delete window.IntersectionObserver
   })
 
-  const message = (id: string, role: UIMessage['role']): UIMessage => ({
+  const message = (
+    id: string,
+    role: AiMessageData['role']
+  ): AiMessageData => ({
     id,
     role,
     parts: [{ type: 'text', text: id, state: 'done' }],

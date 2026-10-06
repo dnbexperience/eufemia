@@ -15,17 +15,25 @@ import '@dnb/eufemia/extensions/ai/style'
 
 `Ai` provides building blocks for AI chat experiences, built with Eufemia components. Use them to build a chat with an assistant, from the welcome screen with suggestions to the conversation and the prompt input.
 
-## Usage with the AI SDK
+## Usage
 
-The components work with [useChat](https://ai-sdk.dev/docs/reference/ai-sdk-ui/use-chat) from `@ai-sdk/react`, but do not depend on it. Install `ai` and `@ai-sdk/react` in your app, and pass the messages and status on:
+Pass your messages and chat status to the components. `AiMessageData` describes the message fields Eufemia renders; your chat implementation can keep other fields as well.
 
 ```tsx
-import { useChat } from '@ai-sdk/react'
 import * as Ai from '@dnb/eufemia/extensions/ai'
+import type {
+  AiChatStatus,
+  AiMessageData,
+} from '@dnb/eufemia/extensions/ai'
 
-function Chat() {
-  const { messages, sendMessage, status, stop } = useChat()
+type ChatProps = {
+  messages: Array<AiMessageData>
+  status: AiChatStatus
+  onSubmit: (text: string) => void
+  onStop: () => void
+}
 
+function Chat({ messages, status, onSubmit, onStop }: ChatProps) {
   return (
     <>
       <Ai.Conversation style={{ height: '40rem' }}>
@@ -41,15 +49,15 @@ function Chat() {
 
       <Ai.PromptInput
         status={status}
-        onSubmit={({ value }) => sendMessage({ text: value })}
-        onStop={stop}
+        onSubmit={({ value }) => onSubmit(value)}
+        onStop={onStop}
       />
     </>
   )
 }
 ```
 
-`Ai.Message` renders the text parts of a message, reasoning parts as `Ai.Reasoning`, tool parts as `Ai.Tool` and `source-url` parts as `Ai.Sources`. Other parts, like files, are not rendered. To show them, give the content as `children` instead of `message`.
+`Ai.Message` renders `text` parts (with `text` and optional `state`), `reasoning` parts (with `text` and `state`), tool parts (with a `tool-` prefix or `dynamic-tool` type), and `source-url` parts (with `url` and optional `title`). Other parts, like files, are not rendered. To show them, give the content as `children` instead of `message`.
 
 ## Guides
 
