@@ -95,7 +95,13 @@ function getValue(props: InputProps) {
 function InputComponent({ ref, ...restProps }: InputProps) {
   const context = useContext(Context)
   const inputRef = useRef<HTMLInputElement | null>(null)
-  const combinedRef = useCombinedRef(ref, inputRef)
+  const combinedRef = useCombinedRef(
+    ref,
+    inputRef,
+    typeof restProps.inputAttributes === 'object'
+      ? (restProps.inputAttributes?.ref as Ref<HTMLInputElement>)
+      : undefined
+  )
 
   const formElement = context?.formElement as
     | (typeof context.formElement & { useId?: () => string })
@@ -417,7 +423,6 @@ function InputComponent({ ref, ...restProps }: InputProps) {
     : {}
 
   const inputParams = {
-    className: clsx('dnb-input__input', inputClassName),
     autoComplete: autocomplete,
     type,
     id,
@@ -428,6 +433,11 @@ function InputComponent({ ref, ...restProps }: InputProps) {
       : undefined,
     ...attributes,
     ...usedInputAttributes,
+    className: clsx(
+      'dnb-input__input',
+      inputClassName,
+      usedInputAttributes.className
+    ),
     onChange: onChangeHandler,
     onKeyDown: onKeyDownHandler,
     onFocus: onFocusHandler,
@@ -518,7 +528,7 @@ function InputComponent({ ref, ...restProps }: InputProps) {
         <span className="dnb-input__row">
           <span {...shellParams}>
             {(InputElement as ReactNode) || (
-              <input ref={combinedRef} {...inputParams} />
+              <input {...inputParams} ref={combinedRef} />
             )}
 
             {innerElement && (

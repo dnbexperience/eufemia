@@ -3,7 +3,7 @@
  *
  */
 
-import { useRef, useState } from 'react'
+import { createRef, useRef, useState } from 'react'
 import type { Ref, RefObject } from 'react'
 import {
   axeComponent,
@@ -423,6 +423,29 @@ describe('Input component', () => {
   it('has correct size attribute (chars length) on input by using inputAttributes and a JSON object', () => {
     render(<Input inputAttributes='{"size": "2"}' />)
     expect(document.querySelector('input').getAttribute('size')).toBe('2')
+  })
+
+  it('keeps the input class when inputAttributes has a className', () => {
+    render(
+      <Input
+        inputClassName="custom-input-class"
+        inputAttributes={{ className: 'custom-attribute-class' }}
+      />
+    )
+    expect(document.querySelector('input')).toHaveClass(
+      'dnb-input__input',
+      'custom-input-class',
+      'custom-attribute-class'
+    )
+  })
+
+  it('keeps showing the value when inputAttributes has a ref', () => {
+    const ref = createRef<HTMLInputElement>()
+    render(<Input value="value" inputAttributes={{ ref }} />)
+
+    const input = document.querySelector('input')
+    expect(input).toHaveValue('value')
+    expect(ref.current).toBe(input)
   })
 
   it('has to have a prop value like value', () => {
