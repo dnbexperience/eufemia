@@ -511,12 +511,12 @@ function WizardContainer(props: WizardContainerProps) {
   const setActiveIndex = useCallback(
     (index: StepIndex, options?: SetActiveIndexOptions) => {
       if (index === activeIndexRef.current) {
-        return
+        return undefined
       }
 
       const mode = index > activeIndexRef.current ? 'next' : 'previous'
 
-      handleStepChange({
+      return handleStepChange({
         index,
         skipErrorCheck: mode === 'previous',
         mode,
@@ -566,11 +566,13 @@ function WizardContainer(props: WizardContainerProps) {
       }
 
       if (activeIndexRef.current + 1 < totalStepsRef.current) {
-        handleNext()
         preventSubmit()
+
+        // Keeps the submit pending until the step change is done
+        return setActiveIndex(activeIndexRef.current + 1)
       }
     },
-    [hasInvalidStepsState, handleNext]
+    [hasInvalidStepsState, setActiveIndex]
   )
   useEventListener('onSubmit', handleSubmit)
 

@@ -1763,10 +1763,9 @@ export default function Provider<Data extends JsonObject>(
         for (const item of fieldEventListenersRef.current) {
           const { type, callback } = item
           if (type === 'onSubmit') {
-            if (isAsync(callback)) {
-              await callback({ preventSubmit })
-            } else {
-              callback({ preventSubmit })
+            const result = callback({ preventSubmit })
+            if (result instanceof Promise) {
+              await result
             }
           }
         }

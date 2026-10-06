@@ -1789,6 +1789,59 @@ describe('Wizard.Container', () => {
       })
     })
 
+    it('should stay pending until a step change started by a submit is done', async () => {
+      let resolveStepChange: () => void
+      const onStepChange = vi.fn(async () => {
+        await new Promise<void>((resolve) => {
+          resolveStepChange = resolve
+        })
+      })
+
+      render(
+        <Form.Handler onSubmit={async () => null}>
+          <Wizard.Container onStepChange={onStepChange}>
+            <Wizard.Step title="Step 1">
+              <output>Step 1</output>
+              <Form.SubmitButton />
+            </Wizard.Step>
+
+            <Wizard.Step title="Step 2">
+              <output>Step 2</output>
+              <Wizard.PreviousButton />
+            </Wizard.Step>
+          </Wizard.Container>
+        </Form.Handler>
+      )
+
+      fireEvent.click(submitButton())
+
+      await waitFor(() => {
+        expect(onStepChange).toHaveBeenCalledTimes(1)
+      })
+
+      // Longer than the minimum async behavior time in tests
+      await wait(50)
+
+      expect(submitButton()).toBeDisabled()
+      expect(
+        submitButton().querySelector(
+          '.dnb-forms-submit-indicator--state-pending'
+        )
+      ).toBeInTheDocument()
+
+      fireEvent.click(submitButton())
+
+      expect(onStepChange).toHaveBeenCalledTimes(1)
+
+      resolveStepChange()
+
+      await waitFor(() => {
+        expect(output()).toHaveTextContent('Step 2')
+        expect(previousButton()).not.toBeDisabled()
+      })
+      expect(onStepChange).toHaveBeenCalledTimes(1)
+    })
+
     it('should show required error when another async onChangeValidator is pending', async () => {
       const asyncValidator = async () => undefined
 
