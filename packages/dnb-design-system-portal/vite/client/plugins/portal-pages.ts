@@ -18,7 +18,7 @@ import type {
   PageFileInfo,
   TableOfContentsItem,
 } from './portal-pages.shared'
-import { isFirstTabPage } from './portal-pages.shared'
+import { compareByOrder, isFirstTabPage } from './portal-pages.shared'
 
 const VIRTUAL_MODULE_ID = 'virtual:portal-pages'
 const RESOLVED_VIRTUAL_MODULE_ID = '\0' + VIRTUAL_MODULE_ID
@@ -125,13 +125,8 @@ export function toRegularMdxNodes(nodes: MdxNode[]): MdxNode[] {
         String(b.frontmatter.title)
       )
     })
-    .sort(
-      ({ frontmatter: { order: a } }, { frontmatter: { order: b } }) => {
-        if (a === b) return 0
-        if (a === undefined) return 1
-        if (b === undefined) return -1
-        return (a as number) - (b as number)
-      }
+    .sort((a, b) =>
+      compareByOrder(a.frontmatter.order, b.frontmatter.order)
     )
 }
 

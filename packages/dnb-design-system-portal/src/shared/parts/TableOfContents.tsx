@@ -1,6 +1,7 @@
 import { Ul, Li } from '@dnb/eufemia/src'
 import Anchor from '../tags/Anchor'
 import type { StaticQueryConnection } from 'portal-query'
+import { compareByOrder } from '../../../vite/client/plugins/portal-pages.shared'
 
 type TableOfContents = {
   url: string
@@ -13,22 +14,9 @@ type TableOfContentsProps = StaticQueryConnection
 const TableOfContents = ({ edges }: TableOfContentsProps) => {
   const orderedContents = [...edges]
     // Same ordering as `regularMdxNodes`
-    .sort(({ node: a }, { node: b }) => {
-      const orderA = a.frontmatter.order
-      const orderB = b.frontmatter.order
-
-      if (orderA === orderB) {
-        return 0
-      }
-      if (orderA === undefined) {
-        return 1
-      }
-      if (orderB === undefined) {
-        return -1
-      }
-
-      return orderA - orderB
-    })
+    .sort(({ node: a }, { node: b }) =>
+      compareByOrder(a.frontmatter.order, b.frontmatter.order)
+    )
     .map(({ node }) => node.tableOfContents?.items)
     .filter(Boolean)
     .reduce<Array<TableOfContents>>((allContent, currentContent) => {
