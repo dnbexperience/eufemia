@@ -1717,6 +1717,39 @@ describe('Wizard.Container', () => {
       })
     })
 
+    it('should call an onStepChange that throws only once', async () => {
+      const onStepChange = vi.fn(async () => {
+        throw new Error('Request failed')
+      })
+
+      render(
+        <Form.Handler>
+          <Wizard.Container onStepChange={onStepChange}>
+            <Wizard.Step title="Step 1">
+              <output>Step 1</output>
+              <Wizard.Buttons />
+            </Wizard.Step>
+
+            <Wizard.Step title="Step 2">
+              <output>Step 2</output>
+              <Wizard.Buttons />
+            </Wizard.Step>
+          </Wizard.Container>
+        </Form.Handler>
+      )
+
+      fireEvent.click(nextButton())
+
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toHaveTextContent('Request failed')
+        expect(nextButton()).not.toBeDisabled()
+      })
+      expect(onStepChange).toHaveBeenCalledTimes(1)
+      expect(output()).toHaveTextContent('Step 1')
+    })
+
     it('should handle async onSubmit', async () => {
       const onSubmit = async () => null
 

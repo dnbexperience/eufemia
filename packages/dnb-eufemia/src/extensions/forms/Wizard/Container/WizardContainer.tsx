@@ -423,6 +423,9 @@ function WizardContainer(props: WizardContainerProps) {
     } & SetActiveIndexOptions) => {
       let didSubmit = false
       const onSubmit = async () => {
+        // Set first, so the fallback below does not call a throwing onStepChange again
+        didSubmit = true
+
         if (!skipStepChangeCallFromHook) {
           onStepChangeEventsRef?.current?.forEach((onStepChange) => {
             if (typeof onStepChange === 'function') {
@@ -459,7 +462,6 @@ function WizardContainer(props: WizardContainerProps) {
         }
 
         preventNextStepRef.current = false
-        didSubmit = true
 
         return result
       }
