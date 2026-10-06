@@ -17,6 +17,20 @@ test.describe('Redirects', () => {
       expect(page.url()).toMatch(/\/uilib\/components\/button\/?$/)
       expect(response?.status()).toBeLessThan(400)
     })
+
+    test('redirects the old /foundations URLs to /collections', async ({
+      page,
+    }) => {
+      if (await isDev(page)) {
+        return // stop here
+      }
+
+      await page.goto('/foundations/')
+      await page.waitForURL(/\/collections\/?$/)
+
+      await page.goto('/foundations/logos/')
+      await page.waitForURL(/\/collections\/logos\/?$/)
+    })
   })
 
   test('redirects /uilib/components/button/info/ to parent', async ({
