@@ -2160,7 +2160,11 @@ function useFormStatusBuffer(props: FormStatusBufferProps) {
       hadCompleteRef.current = false
       onPending()
       setState('pending')
-    } else if (stateRef.current === 'pending') {
+    } else if (
+      stateRef.current === 'pending' &&
+      // The submit is still running, even when the fields are done validating
+      formState !== 'pending'
+    ) {
       const offset = Math.max(Date.now() - nowRef.current)
       const delay = isTest ? minimum : Math.max(minimum - offset, 0)
 
