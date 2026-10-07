@@ -8,5 +8,6 @@
 @use './tokens.scss';
 @use './fonts.scss';
 @use './carnegie-theme-elements.scss';
+@use '../../../elements/typography/style/themes/dnb-typography-theme-carnegie.scss';
 @use './theme-mapping.scss';
 @use '../shared-globals.scss';

@@ -1,0 +1,13 @@
+@use '../../../../style/core/utilities.scss' as utilities;
+
+.eufemia-theme__carnegie .dnb-h--xx-large:not(.dnb-t__responsive-on) {
+  --typography-h-xx-large-font-size: 3.5rem;
+  --typography-h-xx-large-line-height: 4.25rem;
+}
+
+@include utilities.allAbove(medium) {
+  .eufemia-theme__carnegie .dnb-h--xx-large.dnb-t__responsive-on {
+    --typography-h-xx-large-font-size: 3.5rem;
+    --typography-h-xx-large-line-height: 4.25rem;
+  }
+}
