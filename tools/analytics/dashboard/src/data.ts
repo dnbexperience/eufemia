@@ -213,14 +213,14 @@ export function dashboardView(
   const rows = env ? allRows.filter((r) => r.env === env) : allRows
 
   const kpis: Kpi[] = [
-    { value: rows.length, label: 'Records' },
+    { value: rows.length, label: 'Latest views' },
     {
       value: new Set(rows.map((r) => r.label).filter(Boolean)).size,
       label: 'Unique pages',
     },
     {
       value: new Set(rows.map((r) => r.day).filter(Boolean)).size,
-      label: 'Days with data',
+      label: 'Days covered',
     },
   ]
 

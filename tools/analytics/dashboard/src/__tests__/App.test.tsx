@@ -147,9 +147,11 @@ describe('App (smoke)', () => {
       expect(container.textContent).toContain('Top pages')
     )
     expect(container.querySelectorAll('table').length).toBeGreaterThan(0)
+    expect(container.textContent).toContain('not all-time totals')
 
     fireEvent.click(screen.getByRole('tab', { name: 'MCP usage' }))
     expect(container.textContent).toContain('docs_read')
+    expect(container.textContent).toContain('MCP doc paths and areas')
 
     fireEvent.click(screen.getByRole('tab', { name: 'Component usage' }))
     expect(container.textContent).toContain('Top components')

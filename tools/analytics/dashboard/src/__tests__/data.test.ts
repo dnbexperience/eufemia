@@ -126,9 +126,9 @@ describe('dashboardView', () => {
     expect(view.envs).toEqual(['prod', 'test'])
     expect(view.rows).toHaveLength(3)
     expect(view.kpis).toEqual([
-      { value: 3, label: 'Records' },
+      { value: 3, label: 'Latest views' },
       { value: 2, label: 'Unique pages' },
-      { value: 2, label: 'Days with data' },
+      { value: 2, label: 'Days covered' },
     ])
   })
 
@@ -139,9 +139,9 @@ describe('dashboardView', () => {
     expect(view.rows).toHaveLength(2)
     expect(view.rows.every((r) => r.env === 'prod')).toBe(true)
     expect(view.kpis).toEqual([
-      { value: 2, label: 'Records' },
+      { value: 2, label: 'Latest views' },
       { value: 1, label: 'Unique pages' },
-      { value: 1, label: 'Days with data' },
+      { value: 1, label: 'Days covered' },
     ])
   })
 })
