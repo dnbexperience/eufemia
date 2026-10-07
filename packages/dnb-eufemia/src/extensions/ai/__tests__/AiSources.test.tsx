@@ -79,6 +79,18 @@ describe('Ai.Sources', () => {
     expect(document.querySelector('.dnb-ai-sources')).toBeNull()
   })
 
+  it('leaves out backslash network-path sources', () => {
+    render(
+      <Ai.Sources
+        sources={[
+          { url: String.raw`\\evil.example/path`, title: 'Source' },
+        ]}
+      />
+    )
+
+    expect(document.querySelector('.dnb-ai-sources')).toBeNull()
+  })
+
   it('renders nothing without sources', () => {
     render(<Ai.Sources sources={[]} />)
     expect(document.querySelector('.dnb-ai-sources')).toBeNull()
