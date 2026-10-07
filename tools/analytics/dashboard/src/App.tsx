@@ -270,7 +270,8 @@ function Dashboard({
             {rows.length > 0 ? (
               <>
                 <P className="dashboard__meta">
-                  {`Based on the newest ${allRows.length.toLocaleString()} page views, not all-time totals.`}
+                  Shows only the most recent page views, so older views may
+                  be missing.
                 </P>
 
                 <Kpis items={kpis} />

@@ -147,7 +147,7 @@ describe('App (smoke)', () => {
       expect(container.textContent).toContain('Top pages')
     )
     expect(container.querySelectorAll('table').length).toBeGreaterThan(0)
-    expect(container.textContent).toContain('not all-time totals')
+    expect(container.textContent).toContain('older views may be missing')
 
     fireEvent.click(screen.getByRole('tab', { name: 'MCP usage' }))
     expect(container.textContent).toContain('docs_read')
