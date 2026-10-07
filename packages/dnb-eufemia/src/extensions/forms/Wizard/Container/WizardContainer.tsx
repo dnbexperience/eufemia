@@ -512,7 +512,7 @@ function WizardContainer(props: WizardContainerProps) {
     (
       index: StepIndex,
       options?: SetActiveIndexOptions,
-      submitButtonId?: string
+      submitButtonId?: unknown
     ) => {
       if (index === activeIndexRef.current) {
         return
@@ -523,7 +523,11 @@ function WizardContainer(props: WizardContainerProps) {
       // Claim first, so errors that stop the step change release it; router syncs don't claim
       if (isAsync(onStepChange) && !options?.skipStepChangeCallFromHook) {
         const buttonsId = mode === 'previous' ? id : `${id}-next`
-        setActiveSubmitButtonId?.(submitButtonId ?? buttonsId)
+
+        // handleNext and handlePrevious given as onClick get the click event
+        setActiveSubmitButtonId?.(
+          typeof submitButtonId === 'string' ? submitButtonId : buttonsId
+        )
       }
 
       handleStepChange({
@@ -537,14 +541,14 @@ function WizardContainer(props: WizardContainerProps) {
   )
 
   const handlePrevious = useCallback(
-    (submitButtonId?: string) => {
+    (submitButtonId?: unknown) => {
       setActiveIndex(activeIndexRef.current - 1, undefined, submitButtonId)
     },
     [setActiveIndex]
   )
 
   const handleNext = useCallback(
-    (submitButtonId?: string) => {
+    (submitButtonId?: unknown) => {
       setActiveIndex(activeIndexRef.current + 1, undefined, submitButtonId)
     },
     [setActiveIndex]

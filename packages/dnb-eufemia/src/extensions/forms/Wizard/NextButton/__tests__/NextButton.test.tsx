@@ -2,6 +2,7 @@ import { createRef } from 'react'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import '../../../../../core/vitest/mockMatchMediaSetup'
 import NextButton from '../NextButton'
+import { Button } from '../../../../../components'
 import { Provider } from '../../../../../shared'
 import WizardContext from '../../Context/WizardContext'
 import { Field, Form, Wizard } from '../../..'
@@ -317,6 +318,48 @@ describe('NextButton', () => {
         expect(isPending('.send')).toBe(true)
       })
       expect(isPending('.dnb-forms-next-button')).toBe(false)
+      resolveStepChange()
+
+      await waitFor(() => {
+        expect(document.querySelector('output')).toHaveTextContent(
+          'Step 2'
+        )
+      })
+    })
+
+    it('should show the indicator on the Next button when handleNext from useStep is given as onClick', async () => {
+      const CustomNextButton = () => {
+        const { handleNext } = Wizard.useStep()
+        return (
+          <Button
+            className="custom-next"
+            text="Continue"
+            onClick={handleNext}
+          />
+        )
+      }
+
+      render(
+        <Form.Handler minimumAsyncBehaviorTime={0}>
+          <Wizard.Container onStepChange={onStepChange}>
+            <Wizard.Step title="Step 1">
+              <output>Step 1</output>
+              <Wizard.Buttons />
+              <Form.SubmitButton className="send" />
+              <CustomNextButton />
+            </Wizard.Step>
+            <Wizard.Step title="Step 2">
+              <output>Step 2</output>
+            </Wizard.Step>
+          </Wizard.Container>
+        </Form.Handler>
+      )
+
+      fireEvent.click(document.querySelector('.custom-next'))
+      await waitFor(() => {
+        expect(isPending('.dnb-forms-next-button')).toBe(true)
+      })
+      expect(isPending('.send')).toBe(false)
       resolveStepChange()
 
       await waitFor(() => {
