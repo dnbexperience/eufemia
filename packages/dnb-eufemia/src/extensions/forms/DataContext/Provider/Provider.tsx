@@ -2120,6 +2120,7 @@ function useFormStatusBuffer(props: FormStatusBufferProps) {
 
   const hadCompleteRef = useRef(false)
   const activeElementRef = useRef<HTMLElement | null>(null)
+  const refocusAfterAbortRef = useRef<HTMLElement | null>(null)
 
   useEffect(() => {
     // This offset is used to calculate the delay,
@@ -2139,6 +2140,8 @@ function useFormStatusBuffer(props: FormStatusBufferProps) {
     }
 
     if (formState === 'abort') {
+      refocusAfterAbortRef.current =
+        stateRef.current === 'pending' ? activeElementRef.current : null
       clear()
       setState('abort')
 
@@ -2202,7 +2205,22 @@ function useFormStatusBuffer(props: FormStatusBufferProps) {
     onPending,
   ])
 
-  return { bufferedFormState: stateRef.current }
+  const bufferedFormState = stateRef.current
+
+  // Disabling the focused element moves focus to the body, so give it back once it is enabled again
+  useEffect(() => {
+    const element = refocusAfterAbortRef.current
+    if (bufferedFormState !== 'abort' || !element) {
+      return // stop here
+    }
+    refocusAfterAbortRef.current = null
+
+    if (element.isConnected && document.activeElement === document.body) {
+      element.focus()
+    }
+  }, [bufferedFormState])
+
+  return { bufferedFormState }
 }
 
 export const clearedData = Object.freeze({})

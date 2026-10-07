@@ -745,6 +745,78 @@ describe('Form.Handler', () => {
       ).toBeNull()
     })
 
+    it('should set focus back on the submit button when an async submit fails', async () => {
+      const onSubmit: OnSubmit = async () => {
+        await wait(1)
+
+        return new Error('Error message')
+      }
+
+      render(
+        <Form.Handler onSubmit={onSubmit}>
+          <Form.SubmitButton />
+        </Form.Handler>
+      )
+
+      const buttonElement = document.querySelector('button')
+      buttonElement.focus()
+      fireEvent.click(buttonElement)
+
+      expect(buttonElement).toBeDisabled()
+
+      // Browsers move focus to the body when the focused button gets disabled
+      buttonElement.removeAttribute('disabled')
+      buttonElement.blur()
+      expect(document.body).toHaveFocus()
+
+      await waitFor(() => {
+        expect(screen.queryByRole('alert')).toHaveTextContent(
+          'Error message'
+        )
+        expect(buttonElement).toHaveFocus()
+      })
+    })
+
+    it('should not move focus back when it was moved elsewhere during an async submit that fails', async () => {
+      const onSubmit: OnSubmit = async () => {
+        await wait(1)
+
+        return new Error('Error message')
+      }
+
+      render(
+        <>
+          <button className="outside">Outside</button>
+          <Form.Handler onSubmit={onSubmit}>
+            <Form.SubmitButton />
+          </Form.Handler>
+        </>
+      )
+
+      const buttonElement = document.querySelector(
+        '.dnb-forms-submit-button'
+      ) as HTMLButtonElement
+      const outsideElement = document.querySelector(
+        '.outside'
+      ) as HTMLButtonElement
+      buttonElement.focus()
+      fireEvent.click(buttonElement)
+
+      expect(buttonElement).toBeDisabled()
+
+      outsideElement.focus()
+
+      await waitFor(() => {
+        expect(screen.queryByRole('alert')).toHaveTextContent(
+          'Error message'
+        )
+        expect(buttonElement).not.toBeDisabled()
+      })
+      await wait(10)
+
+      expect(outsideElement).toHaveFocus()
+    })
+
     it('should call onSubmit and onSubmitComplete on async submit call', async () => {
       const onSubmit: OnSubmit = vi.fn()
       const onSubmitComplete = vi.fn()

@@ -2384,6 +2384,49 @@ describe('Wizard.Container', () => {
     })
   })
 
+  it('should set focus back on the next button when an async onStepChange fails', async () => {
+    const onStepChange = async () => {
+      await wait(1)
+
+      return new Error('Request failed')
+    }
+
+    render(
+      <Form.Handler>
+        <Wizard.Container onStepChange={onStepChange}>
+          <Wizard.Step title="Step 1">
+            <output>Step 1</output>
+            <Wizard.Buttons />
+          </Wizard.Step>
+
+          <Wizard.Step title="Step 2">
+            <output>Step 2</output>
+            <Wizard.Buttons />
+          </Wizard.Step>
+        </Wizard.Container>
+      </Form.Handler>
+    )
+
+    const buttonElement = nextButton() as HTMLButtonElement
+    buttonElement.focus()
+    fireEvent.click(buttonElement)
+
+    expect(buttonElement).toBeDisabled()
+
+    // Browsers move focus to the body when the focused button gets disabled
+    buttonElement.removeAttribute('disabled')
+    buttonElement.blur()
+    expect(document.body).toHaveFocus()
+
+    await waitFor(() => {
+      expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
+        'Request failed'
+      )
+      expect(buttonElement).toHaveFocus()
+    })
+    expect(output()).toHaveTextContent('Step 1')
+  })
+
   it('should have fallback title when no title was given', () => {
     render(
       <Wizard.Container>
