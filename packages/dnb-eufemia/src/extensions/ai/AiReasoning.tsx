@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { clsx } from 'clsx'
 import { useSpacing } from '../../components/space/SpacingUtils'
-import useTranslation from '../../shared/useTranslation'
+import useTranslation from './hooks/useTranslation'
 import AiCollapsible from './AiCollapsible'
 import AiResponse from './AiResponse'
 import AiShimmer from './AiShimmer'
