@@ -23,10 +23,17 @@ function PreviousButton(props: WizardPreviousButtonProps) {
     icon = 'chevron_left',
     children = translations.text,
   } = props
-  const { activeIndex, handlePrevious } = useContext(WizardContext) || {}
+  const {
+    id: wizardId,
+    activeIndex,
+    handlePrevious,
+  } = useContext(WizardContext) || {}
   const { prerenderFieldProps, formState, activeSubmitButtonId } =
     useContext(DataContext)
   const previousButtonId = useId()
+  const hasIndicator =
+    activeSubmitButtonId === previousButtonId ||
+    (wizardId !== undefined && activeSubmitButtonId === wizardId)
 
   const handleClick = useCallback(() => {
     handlePrevious?.(previousButtonId)
@@ -55,13 +62,7 @@ function PreviousButton(props: WizardPreviousButtonProps) {
       >
         {children}
 
-        <SubmitIndicator
-          state={
-            activeSubmitButtonId === previousButtonId
-              ? formState
-              : undefined
-          }
-        />
+        <SubmitIndicator state={hasIndicator ? formState : undefined} />
       </Button>
     </ButtonRow>
   )
