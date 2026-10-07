@@ -29,6 +29,10 @@ describe('sanitizeUrl', () => {
     expect(sanitizeUrl('#anchor')).toBe('#anchor')
   })
 
+  it('rejects backslash network paths', () => {
+    expect(sanitizeUrl(String.raw`\\evil.example/path`)).toBeNull()
+  })
+
   it('resolves relative URLs with defaultOrigin', () => {
     expect(sanitizeUrl('/path', { defaultOrigin: 'https://dnb.no' })).toBe(
       'https://dnb.no/path'
@@ -41,11 +45,28 @@ describe('sanitizeUrl', () => {
       'https://dnb.no/x'
     )
     expect(sanitizeUrl('https://evil.com', options)).toBeNull()
+    expect(
+      sanitizeUrl('https://dnb.no.evil.example/path', options)
+    ).toBeNull()
+    expect(
+      sanitizeUrl('https://dnb.no@evil.example/path', options)
+    ).toBeNull()
     expect(sanitizeUrl('//evil.com', options)).toBeNull()
     expect(sanitizeUrl('/x', options)).toBeNull()
     expect(
       sanitizeUrl('/x', { ...options, defaultOrigin: 'https://dnb.no' })
     ).toBe('https://dnb.no/x')
+    expect(
+      sanitizeUrl('https://dnb.no/help/article', {
+        allowedPrefixes: ['https://dnb.no/help'],
+      })
+    ).toBe('https://dnb.no/help/article')
+    expect(
+      sanitizeUrl('mailto:help@dnb.no', {
+        allowedPrefixes: ['mailto:'],
+        protocols: ['mailto:'],
+      })
+    ).toBe('mailto:help@dnb.no')
   })
 
   it('returns null for empty or invalid URLs', () => {
