@@ -1,4 +1,4 @@
-import { useCallback, useContext } from 'react'
+import { useCallback, useContext, useRef } from 'react'
 import type { JSX } from 'react'
 import type { ComponentProps } from '../../types'
 import type { ButtonProps } from '../../../../components/button/Button'
@@ -8,6 +8,7 @@ import ButtonRow from '../../Form/ButtonRow'
 import SubmitButton from '../../Form/SubmitButton'
 import useTranslation from '../../hooks/useTranslation'
 import mergeProps from '../../../../shared/helpers/mergeProps'
+import useCombinedRef from '../../../../shared/helpers/useCombinedRef'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type WizardNextButtonProps = ComponentProps &
@@ -22,11 +23,15 @@ function NextButton(props: WizardNextButtonProps) {
     children = translations.text,
   } = props
   const { handleNext } = useContext(WizardContext) || {}
+  const buttonRef = useRef<HTMLElement>(null)
+  const ref = useCombinedRef(props.ref, buttonRef)
 
   const handleClick = useCallback(() => {
-    handleNext?.()
+    handleNext?.(
+      buttonRef.current?.getAttribute('data-form-submit-button-id')
+    )
 
-    // Keeps SubmitButton from also submitting and claiming the indicator
+    // Keeps SubmitButton from also submitting
     return false
   }, [handleNext])
 
@@ -46,6 +51,7 @@ function NextButton(props: WizardNextButtonProps) {
           { className: 'dnb-forms-next-button', onClick: handleClick },
           props
         )}
+        ref={ref}
       >
         {children}
       </SubmitButton>
