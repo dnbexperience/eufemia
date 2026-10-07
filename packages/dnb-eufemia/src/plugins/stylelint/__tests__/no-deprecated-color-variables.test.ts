@@ -3,10 +3,6 @@
 import stylelint from 'stylelint'
 import stylelintPlugin from '../../stylelint.js'
 
-const plugin = stylelintPlugin as typeof stylelintPlugin & {
-  recommended: { plugins: unknown[]; rules: Record<string, unknown> }
-}
-
 const lintWithRule = async (code: string) => {
   const result = await stylelint.lint({
     code,
@@ -16,7 +12,7 @@ const lintWithRule = async (code: string) => {
       plugins: stylelintPlugin,
       rules: {
         'eufemia/no-deprecated-color-variables':
-          plugin.recommended.rules[
+          stylelintPlugin.recommended.rules[
             'eufemia/no-deprecated-color-variables'
           ],
       },
@@ -29,12 +25,14 @@ const lintWithRule = async (code: string) => {
 describe('stylelint recommended config', () => {
   it('includes no-deprecated-color-variables in recommended', () => {
     expect(
-      plugin.recommended.rules['eufemia/no-deprecated-color-variables']
+      stylelintPlugin.recommended.rules[
+        'eufemia/no-deprecated-color-variables'
+      ]
     ).toEqual([true, { severity: 'warning' }])
   })
 
   it('includes the plugin pack in recommended', () => {
-    expect(plugin.recommended.plugins).toBe(stylelintPlugin)
+    expect(stylelintPlugin.recommended.plugins).toBe(stylelintPlugin)
   })
 })
 
