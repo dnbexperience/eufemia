@@ -164,6 +164,22 @@ describe('Ai.Response', () => {
     )
   })
 
+  it('rejects lookalike hosts when link and image prefixes are restricted', () => {
+    render(
+      <Ai.Response
+        allowedLinkPrefixes={['https://dnb.no']}
+        allowedImagePrefixes={['https://cdn.dnb.no']}
+      >
+        {
+          '[DNB](https://dnb.no.evil.example/path) ![DNB](https://cdn.dnb.no.evil.example/image.png)'
+        }
+      </Ai.Response>
+    )
+
+    expect(document.querySelector('a')).toBeNull()
+    expect(document.querySelector('img')).toBeNull()
+  })
+
   it('never renders raw HTML', () => {
     render(
       <Ai.Response>
