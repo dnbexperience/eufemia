@@ -33,7 +33,7 @@ export function sanitizeUrl(
       return code > 32 && (code < 127 || code > 159)
     })
     .join('')
-  if (!value) {
+  if (!value || value.includes('\\')) {
     return null
   }
 
@@ -64,7 +64,16 @@ export function sanitizeUrl(
   }
 
   const href = parsed.href
-  return allowedPrefixes.some((prefix) => href.startsWith(prefix))
+  return allowedPrefixes.some((prefix) => {
+    try {
+      const allowed = new URL(prefix)
+      return (
+        parsed.origin === allowed.origin && href.startsWith(allowed.href)
+      )
+    } catch {
+      return false
+    }
+  })
     ? href
     : null
 }
