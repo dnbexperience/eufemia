@@ -6,19 +6,14 @@
 version: 2
 updates:
   - package-ecosystem: 'npm'
-    # Cover the root and every Yarn workspace (see "workspaces" in package.json),
-    # so security updates resolve and commit the root yarn.lock alongside the
-    # workspace package.json change. The smoke/* consumer fixtures are not Yarn
-    # workspaces — they are standalone npm projects with committed lockfiles that
-    # pin the bundler toolchain the release gate runs — so they are listed
-    # explicitly to keep them receiving security updates.
+    # The root covers every Yarn workspace (see "workspaces" in package.json):
+    # Dependabot updates their package.json files together with the root
+    # yarn.lock. The smoke/* consumer fixtures are not Yarn workspaces — they
+    # are standalone npm projects with committed lockfiles that pin the bundler
+    # toolchain the release gate runs — so they are listed explicitly to keep
+    # them receiving security updates.
     directories:
       - '/'
-      - '/packages/*'
-      - '/tools/*'
-      # "*" does not match across directory levels, so the nested workspace
-      # needs its own entry (it is listed separately in "workspaces" too).
-      - '/tools/analytics/dashboard'
       - '/smoke/*'
     schedule:
       interval: 'monthly'
@@ -72,6 +67,25 @@ updates:
         update-types:
           - 'minor'
           - 'patch'
+
+  # Workspace folders have no lockfile, so PRs opened from them only edit
+  # package.json and fail the immutable install; the root entry makes the same
+  # change with yarn.lock. Dependabot opens security PRs for unlisted folders
+  # too, so the workspaces are listed here to ignore them.
+  - package-ecosystem: 'npm'
+    directories:
+      - '/packages/*'
+      - '/tools/*'
+      # "*" does not match across directory levels, so the nested workspace
+      # needs its own entry (it is listed separately in "workspaces" too).
+      - '/tools/analytics/dashboard'
+    schedule:
+      interval: 'monthly'
+    ignore:
+      - dependency-name: '*'
+        # Security updates only honor ignore rules that list versions.
+        versions:
+          - '>= 0'
 
   - package-ecosystem: 'github-actions'
     directory: '/'
