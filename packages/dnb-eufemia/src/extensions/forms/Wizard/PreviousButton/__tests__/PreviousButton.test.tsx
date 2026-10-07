@@ -345,7 +345,10 @@ describe('PreviousButton', () => {
 
       render(
         <Form.Handler onSubmit={() => null} minimumAsyncBehaviorTime={50}>
-          <Wizard.Container onStepChange={onStepChange}>
+          <Wizard.Container
+            onStepChange={onStepChange}
+            initialActiveIndex={1}
+          >
             <Wizard.Step title="Step 1">
               <output>Step 1</output>
               <Wizard.Buttons />
@@ -359,14 +362,6 @@ describe('PreviousButton', () => {
           </Wizard.Container>
         </Form.Handler>
       )
-
-      fireEvent.click(document.querySelector('.dnb-forms-next-button'))
-      await waitFor(() => {
-        expect(resolveStepChange).toBeDefined()
-      })
-      resolveStepChange()
-      resolveStepChange = undefined
-      await waitForStep('Step 2')
 
       fireEvent.click(document.querySelector('.custom-previous'))
       await waitFor(() => {
