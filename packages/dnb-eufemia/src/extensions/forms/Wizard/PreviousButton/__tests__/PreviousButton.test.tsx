@@ -284,6 +284,48 @@ describe('PreviousButton', () => {
       await waitForStep('Step 1')
     })
 
+    it('should show the indicator on the Previous button when going back with the EditButton', async () => {
+      let resolveStepChange: () => void
+      const onStepChange = async () => {
+        await new Promise<void>((resolve) => {
+          resolveStepChange = resolve
+        })
+      }
+
+      render(
+        <Form.Handler onSubmit={() => null} minimumAsyncBehaviorTime={50}>
+          <Wizard.Container onStepChange={onStepChange}>
+            <Wizard.Step title="Step 1">
+              <output>Step 1</output>
+              <Wizard.Buttons />
+            </Wizard.Step>
+            <Wizard.Step title="Summary">
+              <output>Summary</output>
+              <Wizard.EditButton toStep={0} />
+              <Wizard.Buttons />
+              <Form.SubmitButton />
+            </Wizard.Step>
+          </Wizard.Container>
+        </Form.Handler>
+      )
+
+      fireEvent.click(document.querySelector('.dnb-forms-next-button'))
+      await waitFor(() => {
+        expect(resolveStepChange).toBeDefined()
+      })
+      resolveStepChange()
+      resolveStepChange = undefined
+      await waitForStep('Summary')
+
+      fireEvent.click(document.querySelector('.dnb-forms-edit-button'))
+      await waitFor(() => {
+        expect(isPending('.dnb-forms-previous-button')).toBe(true)
+      })
+      expect(isPending('.dnb-forms-submit-button')).toBe(false)
+      resolveStepChange()
+      await waitForStep('Step 1')
+    })
+
     it('should not take the indicator from the submit button when the step change is not async', async () => {
       let submit: () => void
       const SubmitFromOutside = () => {

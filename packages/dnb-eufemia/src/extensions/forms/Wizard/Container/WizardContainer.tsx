@@ -516,6 +516,15 @@ function WizardContainer(props: WizardContainerProps) {
 
       const mode = index > activeIndexRef.current ? 'next' : 'previous'
 
+      // Going back shows the indicator on the Previous buttons (not for router syncs)
+      if (
+        mode === 'previous' &&
+        isAsync(onStepChange) &&
+        !options?.skipStepChangeCallFromHook
+      ) {
+        setActiveSubmitButtonId?.(id)
+      }
+
       handleStepChange({
         index,
         skipErrorCheck: mode === 'previous',
@@ -523,16 +532,17 @@ function WizardContainer(props: WizardContainerProps) {
         ...options,
       })
     },
-    [handleStepChange]
+    [handleStepChange, id, onStepChange, setActiveSubmitButtonId]
   )
 
   const handlePrevious = useCallback(
     (submitButtonId?: string) => {
-      // Only an async step change shows an indicator to claim
+      setActiveIndex(activeIndexRef.current - 1)
+
+      // Narrow the indicator down to the clicked Previous button
       if (submitButtonId && isAsync(onStepChange)) {
         setActiveSubmitButtonId?.(submitButtonId)
       }
-      setActiveIndex(activeIndexRef.current - 1)
     },
     [onStepChange, setActiveIndex, setActiveSubmitButtonId]
   )
@@ -543,16 +553,12 @@ function WizardContainer(props: WizardContainerProps) {
 
   const handleChange = useCallback(
     ({ currentStep }) => {
-      // Going back from the step indicator shows the indicator on the Previous buttons
-      if (currentStep < activeIndexRef.current && isAsync(onStepChange)) {
-        setActiveSubmitButtonId?.(id)
-      }
       setActiveIndex(
         currentStep,
         mode === 'loose' ? { skipErrorCheck: true } : undefined
       )
     },
-    [id, mode, onStepChange, setActiveIndex, setActiveSubmitButtonId]
+    [mode, setActiveIndex]
   )
 
   const setFormError = useCallback(
