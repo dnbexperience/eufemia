@@ -269,10 +269,15 @@ function Dashboard({
           <Flex.Stack gap="large">
             {rows.length > 0 ? (
               <>
+                <P className="dashboard__meta">
+                  Shows only the most recent page views, so older views may
+                  be missing.
+                </P>
+
                 <Kpis items={kpis} />
 
                 <Card stack>
-                  <H2 size="medium">Records per day</H2>
+                  <H2 size="medium">Views per day</H2>
                   <BarList
                     items={rank(countBy(rows, 'day'), { sort: 'key' })}
                   />
@@ -326,10 +331,14 @@ function Dashboard({
                 </Card>
 
                 <Card stack>
-                  <H2 size="medium">MCP doc paths</H2>
+                  <H2 size="medium">MCP doc paths and areas</H2>
+                  <P className="dashboard__meta">
+                    Web requests count full doc paths. Local requests count
+                    only the leading area, such as /uilib/components/.
+                  </P>
                   <RankedTable
-                    caption="MCP doc paths"
-                    nameHeader="Path"
+                    caption="MCP doc paths and areas"
+                    nameHeader="Path or area"
                     countHeader="Requests"
                     items={(mcp?.perPath ?? []).slice(0, 15)}
                   />
