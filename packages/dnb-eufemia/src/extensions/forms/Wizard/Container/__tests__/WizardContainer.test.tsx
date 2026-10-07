@@ -1,6 +1,14 @@
 import { StrictMode, useContext, useEffect } from 'react'
-import { fireEvent, render, screen, waitFor } from '@testing-library/react'
+import {
+  act,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { renderToString } from 'react-dom/server'
+import { hydrateRoot } from 'react-dom/client'
 import '../../../../../core/vitest/mockMatchMediaSetup'
 import { setMedia } from 'mock-match-media'
 import {
@@ -5021,6 +5029,56 @@ describe('Wizard.Container', () => {
       expect(iframe.innerHTML).toBe('')
 
       expect(removedNodes).toHaveLength(0)
+    })
+
+    it('should hydrate server-rendered markup and prerender the other steps afterwards', () => {
+      const element = (
+        <Form.Handler id="hydrate-wizard">
+          <Wizard.Container>
+            <Wizard.Step title="Step 1">
+              <Field.String path="/fooStep1" />
+              <Wizard.Buttons />
+            </Wizard.Step>
+
+            <Wizard.Step title="Step 2">
+              <Field.String path="/fooStep2" />
+              <Wizard.Buttons />
+            </Wizard.Step>
+          </Wizard.Container>
+        </Form.Handler>
+      )
+
+      const originalDocument = globalThis.document
+      let html: string
+
+      try {
+        delete globalThis.document
+        html = renderToString(element)
+      } finally {
+        globalThis.document = originalDocument
+      }
+
+      const container = document.createElement('div')
+      container.innerHTML = html
+      document.body.appendChild(container)
+
+      const recoverableErrors = []
+      act(() => {
+        hydrateRoot(container, element, {
+          onRecoverableError: (error) => recoverableErrors.push(error),
+        })
+      })
+
+      expect(recoverableErrors).toEqual([])
+      expect(
+        document.body.querySelector(
+          ':scope > iframe[title="Wizard Prerender"]'
+        )
+      ).toBeInTheDocument()
+      expect(Object.keys(Form.getData('hydrate-wizard').data)).toEqual([
+        'fooStep1',
+        'fooStep2',
+      ])
     })
   })
 

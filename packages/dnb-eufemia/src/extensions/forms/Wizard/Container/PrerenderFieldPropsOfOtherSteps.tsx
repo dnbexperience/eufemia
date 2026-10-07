@@ -4,6 +4,7 @@ import {
   useEffect,
   useReducer,
   useRef,
+  useSyncExternalStore,
 } from 'react'
 import type { ReactNode } from 'react'
 import { createPortal } from 'react-dom'
@@ -14,10 +15,34 @@ import type { WizardContextState } from '../Context/WizardContext'
 import WizardContext from '../Context/WizardContext'
 import useEventListener from '../../DataContext/Provider/useEventListener'
 
-export function PrerenderFieldPropsOfOtherSteps({
+type PrerenderProps = Pick<
+  WizardContextState,
+  'prerenderFieldPropsRef' | 'stepsRef'
+>
+
+const subscribe = () => () => undefined
+const getClientSnapshot = () => true
+const getServerSnapshot = () => false
+
+export function PrerenderFieldPropsOfOtherSteps(props: PrerenderProps) {
+  // The portal has no server markup, so it may only mount after hydration
+  const isClient = useSyncExternalStore(
+    subscribe,
+    getClientSnapshot,
+    getServerSnapshot
+  )
+
+  if (!isClient) {
+    return null
+  }
+
+  return <PrerenderSteps {...props} />
+}
+
+function PrerenderSteps({
   prerenderFieldPropsRef,
   stepsRef,
-}: Pick<WizardContextState, 'prerenderFieldPropsRef' | 'stepsRef'>) {
+}: PrerenderProps) {
   const { activeIndex } = useContext(WizardContext) || {}
   const { renderContent, hasRenderedRef } = usePrerenderState()
 
@@ -157,15 +182,8 @@ function usePreventSubmit() {
   }, [handleSubmit, setFieldEventListener])
 }
 
-function PrerenderPortal({
-  children,
-}: {
-  children: ReactNode
-}): ReactNode {
-  if (typeof document !== 'undefined') {
-    return createPortal(children, document.body)
-  }
-  return undefined
+function PrerenderPortal({ children }: { children: ReactNode }) {
+  return createPortal(children, document.body)
 }
 
 function PrerenderFieldPropsProvider({ showAllErrorsNow, children }) {
