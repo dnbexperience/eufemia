@@ -659,7 +659,9 @@ function TabsComponent(ownProps: TabsProps) {
   ) => {
     // saving the position will avoid flickering if the new tab will be done by a new page load
     saveLastPosition()
-    saveLastUsedTab()
+    if (!propsRef.current.onOpenTabNavigationFn) {
+      saveLastUsedTab()
+    }
 
     // for handling openPrevTab and openNextTab
     if (mode === 'step' && parseFloat(String(newSelectedKey))) {
@@ -820,7 +822,10 @@ function TabsComponent(ownProps: TabsProps) {
           })
         }
 
-        if (hasLastUsedTab() !== null) {
+        if (
+          hasLastUsedTab() !== null &&
+          !propsRef.current.onOpenTabNavigationFn
+        ) {
           setFocusOnTabButton()
         }
       }

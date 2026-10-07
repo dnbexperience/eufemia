@@ -37,6 +37,44 @@ const contentWrapperData = {
 }
 
 describe('Tabs component', () => {
+  it('does not restore tab focus when navigation is handled externally', () => {
+    localStorage.setItem('tabs-last-id', 'first')
+
+    render(
+      <Tabs
+        {...props}
+        data={tablistData}
+        selectedKey="second"
+        onOpenTabNavigationFn={vi.fn()}
+      />
+    )
+    fireEvent.load(window)
+
+    expect(document.activeElement).not.toBe(
+      document.querySelector('.dnb-tabs__button.selected')
+    )
+    expect(localStorage.getItem('tabs-last-id')).toBeNull()
+
+    fireEvent.click(document.querySelector('[data-tab-key="third"]'))
+    expect(localStorage.getItem('tabs-last-id')).toBeNull()
+  })
+
+  it('restores tab focus by default after navigation', () => {
+    localStorage.setItem('tabs-last-id', 'first')
+
+    render(<Tabs {...props} data={tablistData} selectedKey="second" />)
+    fireEvent.load(window)
+
+    expect(document.activeElement).toBe(
+      document.querySelector('.dnb-tabs__button.selected')
+    )
+    expect(localStorage.getItem('tabs-last-id')).toBeNull()
+
+    fireEvent.click(document.querySelector('[data-tab-key="third"]'))
+    expect(localStorage.getItem('tabs-last-id')).toBe('second')
+    localStorage.removeItem('tabs-last-id')
+  })
+
   it('should not trigger setState warnings when using shared state with ContentWrapper', () => {
     const consoleError = vi
       .spyOn(console, 'error')
