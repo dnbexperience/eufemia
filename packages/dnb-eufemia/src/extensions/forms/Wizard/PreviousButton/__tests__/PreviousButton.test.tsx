@@ -4,6 +4,7 @@ import { wait } from '../../../../../core/test-utils/testSetup'
 import PreviousButton from '../PreviousButton'
 import WizardContext from '../../Context/WizardContext'
 import { Provider } from '../../../../../shared'
+import { Button } from '../../../../../components'
 import { Form, Wizard } from '../../..'
 
 describe('PreviousButton', () => {
@@ -318,6 +319,51 @@ describe('PreviousButton', () => {
       await waitForStep('Summary')
 
       fireEvent.click(document.querySelector('.dnb-forms-edit-button'))
+      await waitFor(() => {
+        expect(isPending('.dnb-forms-previous-button')).toBe(true)
+      })
+      expect(isPending('.dnb-forms-submit-button')).toBe(false)
+      resolveStepChange()
+      await waitForStep('Step 1')
+    })
+
+    it('should show the indicator on the Previous button when a custom button passes handlePrevious to onClick', async () => {
+      let resolveStepChange: () => void
+      const onStepChange = async () => {
+        await new Promise<void>((resolve) => {
+          resolveStepChange = resolve
+        })
+      }
+      const CustomPreviousButton = () => {
+        const { handlePrevious } = Wizard.useStep()
+        return (
+          <Button className="custom-previous" onClick={handlePrevious}>
+            Back
+          </Button>
+        )
+      }
+
+      render(
+        <Form.Handler onSubmit={() => null} minimumAsyncBehaviorTime={50}>
+          <Wizard.Container
+            onStepChange={onStepChange}
+            initialActiveIndex={1}
+          >
+            <Wizard.Step title="Step 1">
+              <output>Step 1</output>
+              <Wizard.Buttons />
+            </Wizard.Step>
+            <Wizard.Step title="Step 2">
+              <output>Step 2</output>
+              <CustomPreviousButton />
+              <Wizard.Buttons />
+              <Form.SubmitButton />
+            </Wizard.Step>
+          </Wizard.Container>
+        </Form.Handler>
+      )
+
+      fireEvent.click(document.querySelector('.custom-previous'))
       await waitFor(() => {
         expect(isPending('.dnb-forms-previous-button')).toBe(true)
       })
