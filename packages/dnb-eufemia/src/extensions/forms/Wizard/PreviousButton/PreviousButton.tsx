@@ -6,7 +6,9 @@ import type { ButtonProps } from '../../../../components/button/Button'
 import WizardContext from '../Context/WizardContext'
 import DataContext from '../../DataContext/Context'
 import ButtonRow from '../../Form/ButtonRow'
+import SubmitIndicator from '../../Form/SubmitIndicator'
 import useTranslation from '../../hooks/useTranslation'
+import useId from '../../../../shared/helpers/useId'
 import mergeProps from '../../../../shared/helpers/mergeProps'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
@@ -22,12 +24,14 @@ function PreviousButton(props: WizardPreviousButtonProps) {
     children = translations.text,
   } = props
   const { activeIndex, handlePrevious } = useContext(WizardContext) || {}
+  const { prerenderFieldProps, formState, activeSubmitButtonId } =
+    useContext(DataContext)
+  const previousButtonId = useId()
 
   const handleClick = useCallback(() => {
-    handlePrevious?.()
-  }, [handlePrevious])
+    handlePrevious?.(previousButtonId)
+  }, [handlePrevious, previousButtonId])
 
-  const { prerenderFieldProps } = useContext(DataContext)
   if (prerenderFieldProps) {
     return null as JSX.Element
   }
@@ -50,6 +54,14 @@ function PreviousButton(props: WizardPreviousButtonProps) {
         )}
       >
         {children}
+
+        <SubmitIndicator
+          state={
+            activeSubmitButtonId === previousButtonId
+              ? formState
+              : undefined
+          }
+        />
       </Button>
     </ButtonRow>
   )

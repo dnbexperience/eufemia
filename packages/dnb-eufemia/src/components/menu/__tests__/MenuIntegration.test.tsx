@@ -1,4 +1,4 @@
-import { act } from 'react'
+import { act, createRef } from 'react'
 import { render, fireEvent } from '@testing-library/react'
 import Menu from '../Menu'
 
@@ -271,6 +271,61 @@ describe('Menu integration with real Popover', () => {
     const parentMenu = document.querySelector('.dnb-menu')
     expect(parentMenu).toBeTruthy()
     expect(parentMenu.contains(exportTrigger)).toBe(true)
+
+    vi.useRealTimers()
+  })
+
+  it('opens on click and sets the given ref when Menu.Button has an onClick and a ref', () => {
+    vi.useFakeTimers()
+
+    const onClick = vi.fn()
+    const ref = createRef<HTMLElement>()
+
+    render(
+      <Menu.Root>
+        <Menu.Button text="Edit" onClick={onClick} ref={ref} />
+        <Menu.List>
+          <Menu.Action text="Cut" />
+        </Menu.List>
+      </Menu.Root>
+    )
+
+    const button = document.querySelector('.dnb-button') as HTMLElement
+    expect(ref.current).toBe(button)
+
+    fireEvent.click(button)
+    act(() => {
+      vi.advanceTimersByTime(100)
+    })
+
+    expect(onClick).toHaveBeenCalledTimes(1)
+    expect(document.querySelector('[role="menu"]')).toBeInTheDocument()
+
+    vi.useRealTimers()
+  })
+
+  it('opens on ArrowDown when Menu.Button has an onKeyDown', () => {
+    vi.useFakeTimers()
+
+    const onKeyDown = vi.fn()
+
+    render(
+      <Menu.Root>
+        <Menu.Button text="Edit" onKeyDown={onKeyDown} />
+        <Menu.List>
+          <Menu.Action text="Cut" />
+        </Menu.List>
+      </Menu.Root>
+    )
+
+    const button = document.querySelector('.dnb-button') as HTMLElement
+    fireEvent.keyDown(button, { key: 'ArrowDown' })
+    act(() => {
+      vi.advanceTimersByTime(100)
+    })
+
+    expect(onKeyDown).toHaveBeenCalledTimes(1)
+    expect(document.querySelector('[role="menu"]')).toBeInTheDocument()
 
     vi.useRealTimers()
   })

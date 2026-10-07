@@ -16,6 +16,8 @@ import useMountEffect from '../../shared/helpers/useMountEffect'
 import { useIsomorphicLayoutEffect } from '../../shared/helpers/useIsomorphicLayoutEffect'
 import { clsx } from 'clsx'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
+import mergeProps from '../../shared/helpers/mergeProps'
+import useCombinedRef from '../../shared/helpers/useCombinedRef'
 import Context, { type ContextProps } from '../../shared/Context'
 import useId from '../../shared/helpers/useId'
 import {
@@ -296,6 +298,7 @@ function NumberFormatComponent(ownProps: NumberFormatAllProps) {
     alwaysSelectAll,
     // Variant-specific formatter injection (see NumberFormat.withFormatter).
     __format,
+    ref,
     ..._rest
   } = props
   let rest: Record<string, unknown> = _rest
@@ -393,23 +396,27 @@ function NumberFormatComponent(ownProps: NumberFormatAllProps) {
     rest = injectTooltipSemantic(rest)
   }
 
+  const combinedRef = useCombinedRef(ref, elRef)
   const attributes = useSpacing(ownProps, {
     lang,
-    ref: elRef,
-    className: clsx(
-      'dnb-number-format',
-      className,
-      (currency === true || typeof currency === 'string') &&
-        'dnb-number-format--currency',
-      selectAllProp && 'dnb-number-format--select-all',
-      selected && 'dnb-number-format--selected',
-      monospace && 'dnb-number-format--monospace'
+    ref: combinedRef,
+    ...mergeProps(
+      {
+        className: clsx(
+          'dnb-number-format',
+          className,
+          (currency === true || typeof currency === 'string') &&
+            'dnb-number-format--currency',
+          selectAllProp && 'dnb-number-format--select-all',
+          selected && 'dnb-number-format--selected',
+          monospace && 'dnb-number-format--monospace'
+        ),
+        // Makes it possible for NVDA to read on mouse over
+        onMouseEnter,
+        onMouseLeave,
+      },
+      rest
     ),
-    // Makes it possible for NVDA to read on mouse over
-    onMouseEnter,
-    onMouseLeave,
-
-    ...rest,
   })
 
   const displayParams: Record<string, unknown> = {}

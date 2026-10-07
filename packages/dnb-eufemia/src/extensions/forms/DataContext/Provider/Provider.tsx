@@ -419,6 +419,7 @@ export default function Provider<Data extends JsonObject>(
   // - Progress
   const formStateRef = useRef<SubmitState>(undefined)
   const activeSubmitButtonIdRef = useRef<string>(undefined)
+  const activeSubmitButtonIsNewRef = useRef(false)
   const keepPending = useRef(false)
   const setFormState = useCallback<ContextState['setFormState']>(
     (formState: SubmitState, options = {}) => {
@@ -434,7 +435,16 @@ export default function Provider<Data extends JsonObject>(
     ContextState['setActiveSubmitButtonId']
   >((id) => {
     activeSubmitButtonIdRef.current = id
+    activeSubmitButtonIsNewRef.current = true
     forceUpdate()
+  }, [])
+
+  // Only the submit button that started this submit shows its indicator
+  const handleFormStatePending = useCallback(() => {
+    if (!activeSubmitButtonIsNewRef.current) {
+      activeSubmitButtonIdRef.current = undefined
+    }
+    activeSubmitButtonIsNewRef.current = false
   }, [])
 
   // - States (e.g. error) reported by fields, based on their direct validation rules
@@ -1624,6 +1634,9 @@ export default function Provider<Data extends JsonObject>(
               })
             }
           }
+        } else {
+          // A submit stopped by errors does not keep the indicator on its button
+          activeSubmitButtonIsNewRef.current = false
         }
 
         setShowAllErrors(true)
@@ -1910,6 +1923,7 @@ export default function Provider<Data extends JsonObject>(
     minimumAsyncBehaviorTime,
     asyncSubmitTimeout,
     onTimeout,
+    onPending: handleFormStatePending,
   })
 
   const submitState = submitStateRef.current
@@ -2071,6 +2085,7 @@ type FormStatusBufferProps = {
   formState: ContextState['formState']
   waitFor: boolean
   onTimeout: () => void
+  onPending: () => void
 }
 
 function useFormStatusBuffer(props: FormStatusBufferProps) {
@@ -2080,6 +2095,7 @@ function useFormStatusBuffer(props: FormStatusBufferProps) {
     minimumAsyncBehaviorTime,
     asyncSubmitTimeout,
     onTimeout,
+    onPending,
   } = props || {}
 
   const [, forceUpdate] = useReducer(() => ({}), {})
@@ -2142,6 +2158,7 @@ function useFormStatusBuffer(props: FormStatusBufferProps) {
       clear()
       nowRef.current = Date.now()
       hadCompleteRef.current = false
+      onPending()
       setState('pending')
     } else if (stateRef.current === 'pending') {
       const offset = Math.max(Date.now() - nowRef.current)
@@ -2182,6 +2199,7 @@ function useFormStatusBuffer(props: FormStatusBufferProps) {
     waitFor,
     asyncSubmitTimeout,
     onTimeout,
+    onPending,
   ])
 
   return { bufferedFormState: stateRef.current }

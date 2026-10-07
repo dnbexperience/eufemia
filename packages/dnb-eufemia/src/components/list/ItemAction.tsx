@@ -164,7 +164,6 @@ function ItemAction<E extends ElementType = 'a'>(
       >
         <Anchor
           noStyle
-          ref={anchorRef}
           {...(href != null
             ? { href: isInactive ? undefined : href }
             : {})}
@@ -175,6 +174,7 @@ function ItemAction<E extends ElementType = 'a'>(
           tabIndex={isInactive ? -1 : 0}
           aria-disabled={isInactive ? true : undefined}
           {...elementProps}
+          ref={anchorRef}
         >
           {content}
         </Anchor>

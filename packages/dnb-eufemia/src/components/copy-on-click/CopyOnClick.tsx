@@ -95,9 +95,9 @@ const CopyOnClick = ({
         showCursor && !disabled && 'dnb-copy-on-click--cursor',
         className
       )}
-      ref={ref}
       {...props}
       {...params}
+      ref={ref}
     >
       {children}
       {hasCopied && (

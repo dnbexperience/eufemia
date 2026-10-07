@@ -17,6 +17,59 @@ describe('Field.PostalCodeAndCity', () => {
     )
   })
 
+  it('should keep the class of each field when postalCode or city has a className', () => {
+    render(
+      <Field.PostalCodeAndCity
+        postalCode={{ className: 'custom-postal-code' }}
+        city={{ className: 'custom-city' }}
+      />
+    )
+
+    expect(document.querySelector('.custom-postal-code')).toHaveClass(
+      'dnb-forms-field-postal-code-and-city__postal-code'
+    )
+    expect(document.querySelector('.custom-city')).toHaveClass(
+      'dnb-forms-field-postal-code-and-city__city'
+    )
+  })
+
+  it('should keep the default error messages when postalCode or city has errorMessages', async () => {
+    render(
+      <Field.PostalCodeAndCity
+        postalCode={{
+          required: true,
+          validateInitially: true,
+          errorMessages: { 'Field.errorPattern': 'Custom postal code' },
+        }}
+        city={{
+          required: true,
+          validateInitially: true,
+          errorMessages: { 'Field.errorPattern': 'Custom city' },
+        }}
+      />
+    )
+
+    const [code, city] = Array.from(document.querySelectorAll('input'))
+
+    await userEvent.type(code, 'x{Backspace}')
+    expect(screen.queryByRole('alert')).toHaveTextContent(
+      nb.PostalCode.errorRequired
+    )
+
+    await userEvent.type(city, 'x{Backspace}')
+    expect(screen.queryByRole('alert')).toHaveTextContent(
+      nb.City.errorRequired
+    )
+
+    await userEvent.type(code, '123')
+    expect(screen.queryByRole('alert')).toHaveTextContent(
+      'Custom postal code'
+    )
+
+    await userEvent.type(city, '456')
+    expect(screen.queryByRole('alert')).toHaveTextContent('Custom city')
+  })
+
   it('should render with props', () => {
     render(<Field.PostalCodeAndCity />)
     expect(screen.getByLabelText(nb.PostalCode.label)).toBeInTheDocument()

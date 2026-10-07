@@ -204,13 +204,13 @@ export default function MenuList(props: MenuListProps) {
 
   return (
     <ul
-      ref={ulRef}
       role="menu"
       tabIndex={-1}
       className={clsx('dnb-menu__list', 'dnb-no-focus', className)}
       style={Object.keys(listStyle).length > 0 ? listStyle : undefined}
       onKeyDown={handleKeyDown}
       {...rest}
+      ref={ulRef}
     >
       {children}
     </ul>

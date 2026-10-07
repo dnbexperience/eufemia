@@ -631,10 +631,10 @@ function ScrollToElement({
 
   // If Element is React.Fragment, we need to wrap it in a div to attach the ref
   if (Element === Fragment) {
-    return <div ref={elementRef} {...props} />
+    return <div {...props} ref={elementRef} />
   }
 
-  return <Element ref={elementRef} {...props} />
+  return <Element {...props} ref={elementRef} />
 }
 
 withComponentMarkers(InfinityScroller, { _supportsSpacingProps: true })

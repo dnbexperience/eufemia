@@ -9,7 +9,6 @@ import type { DragEvent as ReactDragEvent } from 'react'
 import { clsx } from 'clsx'
 
 import HeightAnimation from '../height-animation/HeightAnimation'
-import mergeProps from '../../shared/helpers/mergeProps'
 import { UploadContext } from './UploadContext'
 import type {
   UploadAllProps,
@@ -23,6 +22,9 @@ export default function UploadDropzone({
   children,
   className,
   hideOutline = false,
+  onDrop,
+  onDragOver,
+  onDragLeave,
   ...rest
 }: Partial<UploadAllProps> & { hideOutline?: boolean }) {
   const props = rest as Omit<UploadProps, 'title' | 'onChange' | 'id'>
@@ -119,14 +121,20 @@ export default function UploadDropzone({
   return (
     <HeightAnimation
       className={clsx(className, hover && 'dnb-upload--active')}
-      {...mergeProps(
-        {
-          onDrop: dropHandler,
-          onDragOver: dragEnterHandler,
-          onDragLeave: dragLeaveHandler,
-        },
-        props
-      )}
+      {...props}
+      // Always run the own handling, so a drop cannot reach the page listener of another Upload
+      onDrop={(event) => {
+        onDrop?.(event)
+        dropHandler(event)
+      }}
+      onDragOver={(event) => {
+        onDragOver?.(event)
+        dragEnterHandler(event)
+      }}
+      onDragLeave={(event) => {
+        onDragLeave?.(event)
+        dragLeaveHandler(event)
+      }}
     >
       {children}
 

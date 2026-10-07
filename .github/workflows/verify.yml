@@ -60,12 +60,15 @@ jobs:
       # The key is unique per commit (always a miss), so restore-keys pulls
       # the most recent prior cache and ESLint only re-lints what changed; a
       # fresh entry is then saved at the end of the job.
+      # ESLint does not see a change to a local rule, or an upgrade of a plugin
+      # without version metadata (such as eslint-plugin-react), as a config
+      # change, so their hash starts a fresh cache when they change.
       - name: Use ESLint cache
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         with:
           path: packages/dnb-eufemia/.eslintcache
-          key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-eslint-eufemia-${{ github.sha }}
-          restore-keys: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-eslint-eufemia-
+          key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-eslint-eufemia-${{ hashFiles('yarn.lock', 'packages/dnb-eufemia/scripts/eslint/**/*.js') }}-${{ github.sha }}
+          restore-keys: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-eslint-eufemia-${{ hashFiles('yarn.lock', 'packages/dnb-eufemia/scripts/eslint/**/*.js') }}-
 
       - name: Run lint
         # Every workspace with a lint script runs here, except the Portal which

@@ -26,6 +26,7 @@ function ProgressIndicatorLine(props: ProgressIndicatorLinearAllProps) {
     callOnCompleteHandler,
     customColors,
     style,
+    className,
     ...rest
   } = props
 
@@ -58,7 +59,8 @@ function ProgressIndicatorLine(props: ProgressIndicatorLinearAllProps) {
     <span
       className={clsx(
         'dnb-progress-indicator__linear',
-        size && `dnb-progress-indicator__linear--${size}`
+        size && `dnb-progress-indicator__linear--${size}`,
+        className
       )}
       style={{
         ...style,

@@ -124,12 +124,11 @@ export default function SidebarLayout({
     }),
     location
   )
-    .filter(({ title, menuTitle }) => title || menuTitle)
+    .filter(({ title }) => title)
     .map(
       (
         {
           title,
-          menuTitle,
           status,
           icon,
           path,
@@ -153,7 +152,7 @@ export default function SidebarLayout({
           path,
           subheadings,
           currentPathName,
-          title: menuTitle || title,
+          title,
         }
 
         return <ListItem key={path} {...props} scrollRef={scrollRef} />
@@ -649,7 +648,7 @@ const prepareNav = ({
       const {
         node: {
           fields: { slug },
-          frontmatter: { title, order, ...rest },
+          frontmatter: { title, menuTitle, order, ...rest },
         },
       } = allMdx.edges.find(
         ({
@@ -665,7 +664,7 @@ const prepareNav = ({
       }
 
       return {
-        title,
+        title: menuTitle || title,
         path: slug,
         level,
         order,

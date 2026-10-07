@@ -11,6 +11,7 @@ import Button from '../button/Button'
 import HeightAnimation from '../height-animation/HeightAnimation'
 import { applyPageFocus } from '../../shared/helpers'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
+import useCombinedRef from '../../shared/helpers/useCombinedRef'
 
 export type SkipContentProps = {
   /**
@@ -44,6 +45,7 @@ const SkipContent = (localProps: SkipContentAllProps) => {
     focusDelay = 400,
     onClick,
     onBlur,
+    ref: buttonRef,
     ...props
   } = localProps
 
@@ -93,6 +95,7 @@ const SkipContent = (localProps: SkipContentAllProps) => {
   const handleButtonRef = useCallback((element: HTMLElement | null) => {
     element?.focus()
   }, [])
+  const combinedButtonRef = useCombinedRef(buttonRef, handleButtonRef)
 
   const handleClick = useCallback(
     (args: ButtonClickEvent) => {
@@ -177,7 +180,7 @@ const SkipContent = (localProps: SkipContentAllProps) => {
         </button>
         <HeightAnimation open={visible} aria-live="polite">
           <Button
-            ref={handleButtonRef}
+            ref={combinedButtonRef}
             wrap
             variant="secondary"
             onClick={handleClick}

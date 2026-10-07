@@ -21,6 +21,7 @@ import SharedContext from '../../shared/Context'
 import { useSharedState } from '../../shared/helpers/useSharedState'
 import type { ListShowMoreButtonSharedState } from './ListShowMoreButton'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
+import useCombinedRef from '../../shared/helpers/useCombinedRef'
 
 export type ListContainerProps = {
   id?: string
@@ -54,9 +55,11 @@ function ListContainer(props: ListContainerProps) {
     disabled,
     layoutEngine = 'css',
     wrapChildrenInSpace = false,
+    ref,
     ...rest
   } = props
   const containerRef = useRef<HTMLElement>(null)
+  const combinedRef = useCombinedRef(ref, containerRef)
 
   const parentContext = useContext(ListContext)
   const globalContext = useContext(SharedContext)
@@ -138,7 +141,7 @@ function ListContainer(props: ListContainerProps) {
   const listContent = (
     <FlexContainer
       element="ul"
-      ref={containerRef}
+      ref={combinedRef}
       layoutEngine={layoutEngine}
       rowGap={separated ? 'small' : false}
       wrap={false}

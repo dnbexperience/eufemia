@@ -15,7 +15,7 @@ function AriaLive({ element, ...props }: AriaLiveAllProps) {
   const Element = element || 'section'
 
   return (
-    <Element ref={rootRef} {...ariaAttributes}>
+    <Element {...ariaAttributes} ref={rootRef}>
       <FlexLayoutChildren layout={rootLayout}>
         {children}
       </FlexLayoutChildren>

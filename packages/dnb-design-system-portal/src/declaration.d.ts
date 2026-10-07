@@ -35,7 +35,7 @@ declare module 'virtual:portal-pages' {
   /**
    * Subset of `allMdxNodes`. Pages that are published and listable: they
    * have a title and are not drafts, ordered by `order`, with pages that
-   * have no `order` last.
+   * have no `order` in the middle and a negative `order` last.
    */
   export const regularMdxNodes: Array<MdxNode>
 

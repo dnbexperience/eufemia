@@ -1541,6 +1541,25 @@ describe('Popover', () => {
     expect(contentRef.current).toBe(popover)
   })
 
+  it('sets a given ref and still positions the popover', async () => {
+    const ref: RefObject<HTMLElement | null> = { current: null }
+    renderWithTrigger({ ref, noAnimation: true })
+
+    const trigger = (await waitFor(() =>
+      document.querySelector('button[aria-controls]')
+    )) as HTMLButtonElement
+    await userEvent.click(trigger)
+
+    const popover = (await waitFor(() =>
+      document.querySelector('.dnb-popover')
+    )) as HTMLElement
+
+    expect(ref.current).toBe(popover)
+    await waitFor(() => {
+      expect(popover.style.top).not.toBe('')
+    })
+  })
+
   it('applies closeButtonProps to the default close button', async () => {
     renderWithTrigger({
       closeButtonProps: {

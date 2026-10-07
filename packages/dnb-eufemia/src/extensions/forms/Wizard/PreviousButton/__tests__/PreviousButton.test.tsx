@@ -1,7 +1,10 @@
-import { fireEvent, render } from '@testing-library/react'
+import { fireEvent, render, waitFor } from '@testing-library/react'
+import '../../../../../core/vitest/mockMatchMediaSetup'
+import { wait } from '../../../../../core/test-utils/testSetup'
 import PreviousButton from '../PreviousButton'
 import WizardContext from '../../Context/WizardContext'
 import { Provider } from '../../../../../shared'
+import { Form, Wizard } from '../../..'
 
 describe('PreviousButton', () => {
   it('should have default text', () => {
@@ -138,5 +141,143 @@ describe('PreviousButton', () => {
       'dnb-forms-previous-button',
       'custom'
     )
+  })
+
+  describe('submit indicator', () => {
+    const isPending = (selector: string) =>
+      Boolean(
+        document.querySelector(
+          `${selector} .dnb-forms-submit-indicator--state-pending`
+        )
+      )
+    const output = () => document.querySelector('output')
+    const waitForStep = async (title: string) => {
+      await waitFor(
+        () => {
+          expect(output()).toHaveTextContent(title)
+          expect(
+            document.querySelector(
+              'button[disabled]:not(.dnb-forms-previous-button)'
+            )
+          ).toBeNull()
+          expect(
+            document.querySelector(
+              '.dnb-forms-submit-indicator[class*="--state-"]'
+            )
+          ).toBeNull()
+        },
+        { timeout: 2000 }
+      )
+    }
+
+    it('should show the indicator on the Previous button during an async step change', async () => {
+      let resolveStepChange: () => void
+      const onStepChange = async () => {
+        await new Promise<void>((resolve) => {
+          resolveStepChange = resolve
+        })
+      }
+      const changeStep = async (selector: string, title: string) => {
+        fireEvent.click(document.querySelector(selector))
+        await waitFor(() => {
+          expect(resolveStepChange).toBeDefined()
+        })
+        resolveStepChange()
+        resolveStepChange = undefined
+        await waitForStep(title)
+      }
+
+      render(
+        <Form.Handler onSubmit={() => null} minimumAsyncBehaviorTime={50}>
+          <Wizard.Container onStepChange={onStepChange}>
+            <Wizard.Step title="Step 1">
+              <output>Step 1</output>
+              <Wizard.Buttons />
+            </Wizard.Step>
+            <Wizard.Step title="Step 2">
+              <output>Step 2</output>
+              <Wizard.Buttons />
+            </Wizard.Step>
+            <Wizard.Step title="Step 3">
+              <output>Step 3</output>
+              <Wizard.Buttons />
+              <Form.SubmitButton />
+            </Wizard.Step>
+          </Wizard.Container>
+        </Form.Handler>
+      )
+
+      await changeStep('.dnb-forms-next-button', 'Step 2')
+      await changeStep('.dnb-forms-next-button', 'Step 3')
+
+      fireEvent.click(document.querySelector('.dnb-forms-previous-button'))
+      await waitFor(() => {
+        expect(isPending('.dnb-forms-previous-button')).toBe(true)
+      })
+      expect(isPending('.dnb-forms-submit-button')).toBe(false)
+      resolveStepChange()
+      resolveStepChange = undefined
+      await waitForStep('Step 2')
+
+      fireEvent.click(document.querySelector('.dnb-forms-previous-button'))
+      await waitFor(() => {
+        expect(isPending('.dnb-forms-previous-button')).toBe(true)
+      })
+      expect(isPending('.dnb-forms-next-button')).toBe(false)
+      resolveStepChange()
+      resolveStepChange = undefined
+      await waitForStep('Step 1')
+
+      fireEvent.click(document.querySelector('.dnb-forms-next-button'))
+      await waitFor(() => {
+        expect(isPending('.dnb-forms-next-button')).toBe(true)
+      })
+      expect(isPending('.dnb-forms-previous-button')).toBe(false)
+      resolveStepChange()
+    })
+
+    it('should not take the indicator from the submit button when the step change is not async', async () => {
+      let submit: () => void
+      const SubmitFromOutside = () => {
+        submit = Form.useSubmit().submit
+        return null
+      }
+
+      render(
+        <Form.Handler
+          onSubmit={async () => {
+            await wait(10)
+          }}
+        >
+          <Wizard.Container>
+            <Wizard.Step title="Step 1">
+              <output>Step 1</output>
+              <Wizard.Buttons />
+            </Wizard.Step>
+            <Wizard.Step title="Step 2">
+              <output>Step 2</output>
+              <Wizard.Buttons />
+              <Form.SubmitButton />
+            </Wizard.Step>
+          </Wizard.Container>
+          <SubmitFromOutside />
+        </Form.Handler>
+      )
+
+      fireEvent.click(document.querySelector('.dnb-forms-next-button'))
+      await waitForStep('Step 2')
+
+      fireEvent.click(document.querySelector('.dnb-forms-previous-button'))
+      await waitForStep('Step 1')
+
+      fireEvent.click(document.querySelector('.dnb-forms-next-button'))
+      await waitForStep('Step 2')
+
+      submit()
+
+      await waitFor(() => {
+        expect(isPending('.dnb-forms-submit-button')).toBe(true)
+      })
+    })
   })
 })

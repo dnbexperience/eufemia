@@ -215,6 +215,76 @@ describe('address', () => {
       expect(cityInput).toHaveValue('Vollen')
     })
 
+    it('should keep suggesting addresses when autocompleteProps has an onType', async () => {
+      const onType = vi.fn()
+
+      render(
+        <Form.Handler>
+          <Field.Address.Street
+            element={addressSuggestionsElement}
+            autocompleteProps={{ onType }}
+          />
+        </Form.Handler>
+      )
+
+      await userEvent.type(document.querySelector('input'), 'a value')
+
+      await waitFor(() => {
+        expect(document.querySelectorAll('[role="option"]')).toHaveLength(
+          4
+        )
+      })
+      expect(onType).toHaveBeenCalled()
+    })
+
+    it('should call a given onChange and keep filling the postal code and city', async () => {
+      const onChange = vi.fn()
+
+      render(
+        <Form.Handler>
+          <Field.Address.Street
+            element={addressSuggestionsElement}
+            onChange={onChange}
+          />
+          <Field.PostalCodeAndCity
+            postalCode={{
+              path: '/myPostalCode',
+            }}
+            city={{
+              path: '/myCity',
+            }}
+          />
+        </Form.Handler>
+      )
+
+      await userEvent.type(document.querySelector('input'), 'a value')
+
+      await waitFor(() => {
+        expect(document.querySelectorAll('[role="option"]')).toHaveLength(
+          4
+        )
+      })
+
+      await userEvent.click(
+        document.querySelectorAll('[role="option"]')[0]
+      )
+
+      expect(onChange).toHaveBeenLastCalledWith(
+        'Gransvea 37',
+        expect.anything()
+      )
+      expect(
+        document.querySelector(
+          '.dnb-forms-field-postal-code-and-city__postal-code .dnb-input__input'
+        )
+      ).toHaveValue('1391')
+      expect(
+        document.querySelector(
+          '.dnb-forms-field-postal-code-and-city__city .dnb-input__input'
+        )
+      ).toHaveValue('Vollen')
+    })
+
     it('should submit inserted data', async () => {
       const onSubmit = vi.fn()
 

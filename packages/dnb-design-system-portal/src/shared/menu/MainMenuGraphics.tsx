@@ -179,7 +179,7 @@ export const IconsSvg = ({ strokeWidth = '1.5', ...props }) => (
     />
   </svg>
 )
-export const FoundationsSvg = (props) => (
+export const CollectionsSvg = (props) => (
   <svg
     width="48"
     height="48"
