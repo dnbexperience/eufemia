@@ -5063,8 +5063,9 @@ describe('Wizard.Container', () => {
       document.body.appendChild(container)
 
       const recoverableErrors = []
+      let root: ReturnType<typeof hydrateRoot>
       act(() => {
-        hydrateRoot(container, element, {
+        root = hydrateRoot(container, element, {
           onRecoverableError: (error) => recoverableErrors.push(error),
         })
       })
@@ -5079,6 +5080,8 @@ describe('Wizard.Container', () => {
         'fooStep1',
         'fooStep2',
       ])
+
+      act(() => root.unmount())
     })
   })
 

@@ -21,18 +21,18 @@ type PrerenderProps = Pick<
 >
 
 const subscribe = () => () => undefined
-const getClientSnapshot = () => true
+const getClientSnapshot = () => typeof document !== 'undefined'
 const getServerSnapshot = () => false
 
 export function PrerenderFieldPropsOfOtherSteps(props: PrerenderProps) {
   // The portal has no server markup, so it may only mount after hydration
-  const isClient = useSyncExternalStore(
+  const canUseDOM = useSyncExternalStore(
     subscribe,
     getClientSnapshot,
     getServerSnapshot
   )
 
-  if (!isClient) {
+  if (!canUseDOM) {
     return null
   }
 
