@@ -838,15 +838,15 @@ function TabsComponent(ownProps: TabsProps) {
       resizeObserver.observe(tabsRef.current)
     }
 
-    // Web fonts that load after mount change the tab widths without
-    // resizing the Tabs container, so the ResizeObserver misses them.
-    document.fonts?.addEventListener('loadingdone', onResizeHandler)
+    // Late web fonts change the tab widths without resizing the container
+    const onFontsLoaded = () => updateSelection()
+    document.fonts?.addEventListener('loadingdone', onFontsLoaded)
 
     return () => {
       isMounted = false
       sharedStateRef.current = null
       resizeObserver?.disconnect()
-      document.fonts?.removeEventListener('loadingdone', onResizeHandler)
+      document.fonts?.removeEventListener('loadingdone', onFontsLoaded)
       if (typeof window !== 'undefined') {
         window.removeEventListener('load', init)
       }

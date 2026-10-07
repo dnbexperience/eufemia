@@ -205,6 +205,7 @@ describe('Tabs component', () => {
     expect(
       underline.style.getPropertyValue('--tabs-selection-width')
     ).toBe('42px')
+    expect(underline).not.toHaveClass('dnb-tabs__selection--animated')
 
     unmount()
     delete (document as unknown as Record<string, unknown>).fonts
