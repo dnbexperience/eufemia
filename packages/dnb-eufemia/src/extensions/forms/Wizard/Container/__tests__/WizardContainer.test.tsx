@@ -1664,6 +1664,60 @@ describe('Wizard.Container', () => {
       })
     })
 
+    it('should stay disabled until an async onStepChange is done when an async validator finishes first', async () => {
+      let resolveStepChange: () => void
+      const onStepChange = vi.fn(async () => {
+        await new Promise<void>((resolve) => {
+          resolveStepChange = resolve
+        })
+      })
+      const asyncValidator = async () => {
+        await wait(10)
+        return undefined
+      }
+
+      render(
+        <Form.Handler minimumAsyncBehaviorTime={10}>
+          <Wizard.Container onStepChange={onStepChange}>
+            <Wizard.Step title="Step 1">
+              <output>Step 1</output>
+              <Field.String
+                value="bar"
+                path="/foo"
+                onChangeValidator={asyncValidator}
+              />
+              <Wizard.Buttons />
+            </Wizard.Step>
+
+            <Wizard.Step title="Step 2">
+              <output>Step 2</output>
+            </Wizard.Step>
+          </Wizard.Container>
+        </Form.Handler>
+      )
+
+      fireEvent.click(nextButton())
+
+      await waitFor(() => {
+        expect(onStepChange).toHaveBeenCalledTimes(1)
+      })
+      await wait(100)
+
+      expect(output()).toHaveTextContent('Step 1')
+      expect(nextButton()).toBeDisabled()
+      expect(
+        document.querySelector(
+          '.dnb-forms-submit-indicator--state-pending'
+        )
+      ).toBeInTheDocument()
+
+      resolveStepChange()
+
+      await waitFor(() => {
+        expect(output()).toHaveTextContent('Step 2')
+      })
+    })
+
     it('should provide id prop in "onStepChange"', async () => {
       const onStepChange = vi.fn(async () => null)
 
