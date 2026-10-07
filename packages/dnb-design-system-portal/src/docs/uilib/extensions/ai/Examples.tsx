@@ -1,5 +1,6 @@
 import { Fragment, useEffect, useState } from 'react'
 import type { AiMessageData } from '@dnb/eufemia/src/extensions/ai/types'
+import { copyToClipboard } from '@dnb/eufemia/src/shared/helpers'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import { useChatSimulation } from './useChatSimulation'
 import type { Transaction } from './useChatSimulation'
@@ -481,11 +482,6 @@ function getText(message: AiMessageData) {
     .join('\n\n')
 }
 
-// Copies the text of a message to the clipboard
-function copyText(message: AiMessageData) {
-  navigator.clipboard?.writeText(getText(message))
-}
-
 // The transactions from a finished getTransactions tool
 function getTransactions(message: AiMessageData) {
   const part = message.parts.find(
@@ -508,7 +504,7 @@ export function AiChatExample() {
         ChatLayout,
         chatTranslations,
         getText,
-        copyText,
+        copyToClipboard,
         getTransactions,
         add,
         bank,
@@ -668,7 +664,9 @@ export function AiChatExample() {
                             <Ai.Action
                               icon={copy}
                               label="Copy"
-                              onClick={() => copyText(message)}
+                              onClick={() =>
+                                copyToClipboard(getText(message))
+                              }
                             />
                             {message.id in feedback ? (
                               <P size="small">Thanks for your feedback!</P>
