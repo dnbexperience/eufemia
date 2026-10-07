@@ -418,6 +418,7 @@ export default function Provider<Data extends JsonObject>(
 
   // - Progress
   const formStateRef = useRef<SubmitState>(undefined)
+  const formStateVersionRef = useRef(0)
   const activeSubmitButtonIdRef = useRef<string>(undefined)
   const activeSubmitButtonIsNewRef = useRef(false)
   const keepPending = useRef(false)
@@ -427,6 +428,7 @@ export default function Provider<Data extends JsonObject>(
         keepPending.current = options?.keepPending
       }
       formStateRef.current = formState
+      formStateVersionRef.current++
       forceUpdate()
     },
     []
@@ -1566,6 +1568,8 @@ export default function Provider<Data extends JsonObject>(
         !hasFieldState('pending') &&
         (skipFieldValidation ? true : !hasFieldState('error'))
       ) {
+        const formStateVersion = formStateVersionRef.current
+
         result = await resolveStateResult(async () => {
           if (isolate) {
             // Notify listeners before committing isolated data
@@ -1597,9 +1601,13 @@ export default function Provider<Data extends JsonObject>(
         })
 
         if (asyncBehaviorIsEnabled) {
+          // Leave the form state to what changed it during the submit, like a Wizard step change
+          const isTakenOver =
+            formStateVersionRef.current !== formStateVersion
+
           if (result?.error) {
             setFormState('abort')
-          } else if (keepPending.current !== true) {
+          } else if (keepPending.current !== true && !isTakenOver) {
             setFormState('complete')
           }
         }

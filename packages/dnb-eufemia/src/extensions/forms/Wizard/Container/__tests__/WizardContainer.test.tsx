@@ -1789,6 +1789,84 @@ describe('Wizard.Container', () => {
       })
     })
 
+    describe('step change started by a form submit', () => {
+      const isPending = () =>
+        Boolean(
+          submitButton().querySelector(
+            '.dnb-forms-submit-indicator--state-pending'
+          )
+        )
+
+      let resolveStepChange: () => void
+      const onStepChange = async () => {
+        await new Promise<void>((resolve) => {
+          resolveStepChange = resolve
+        })
+      }
+
+      let submit: () => void
+      const SubmitFromCode = () => {
+        submit = Form.useSubmit().submit
+        return null
+      }
+
+      const MyForm = () => (
+        <Form.Handler
+          onSubmit={async () => null}
+          minimumAsyncBehaviorTime={10}
+        >
+          <Wizard.Container onStepChange={onStepChange}>
+            <Wizard.Step title="Step 1">
+              <output>Step 1</output>
+              <Form.SubmitButton />
+            </Wizard.Step>
+            <Wizard.Step title="Step 2">
+              <output>Step 2</output>
+            </Wizard.Step>
+          </Wizard.Container>
+          <SubmitFromCode />
+        </Form.Handler>
+      )
+
+      beforeEach(() => {
+        resolveStepChange = undefined
+      })
+
+      it('should keep the indicator on the submit button until an async step change is done', async () => {
+        render(<MyForm />)
+
+        fireEvent.click(submitButton())
+        await waitFor(() => {
+          expect(resolveStepChange).toBeDefined()
+        })
+        await wait(50)
+
+        expect(isPending()).toBe(true)
+
+        resolveStepChange()
+        await waitFor(() => {
+          expect(output()).toHaveTextContent('Step 2')
+        })
+      })
+
+      it('should show the indicator during an async step change when submitted from code', async () => {
+        render(<MyForm />)
+
+        submit()
+        await waitFor(() => {
+          expect(resolveStepChange).toBeDefined()
+        })
+        await waitFor(() => {
+          expect(isPending()).toBe(true)
+        })
+
+        resolveStepChange()
+        await waitFor(() => {
+          expect(output()).toHaveTextContent('Step 2')
+        })
+      })
+    })
+
     it('should show required error when another async onChangeValidator is pending', async () => {
       const asyncValidator = async () => undefined
 
