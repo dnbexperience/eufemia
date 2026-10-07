@@ -3427,6 +3427,36 @@ describe('Wizard.Container', () => {
       }
     )
 
+    it.each([{ keepInDOM: false }, { keepInDOM: true }])(
+      'should not call an async onSubmit when a previous step that was never visited has an error (keepInDOM: $keepInDOM)',
+      async ({ keepInDOM }) => {
+        const onSubmit = vi.fn(async () => null)
+
+        render(
+          <Form.Handler onSubmit={onSubmit}>
+            <Wizard.Container initialActiveIndex={1}>
+              <Wizard.Step title="Step 1" keepInDOM={keepInDOM}>
+                <Field.String path="/foo" required />
+                <Wizard.Buttons />
+              </Wizard.Step>
+              <Wizard.Step title="Step 2">
+                <Form.SubmitButton />
+              </Wizard.Step>
+            </Wizard.Container>
+          </Form.Handler>
+        )
+
+        await userEvent.click(
+          document.querySelector('button[type="submit"]')
+        )
+
+        await expect(() => {
+          expect(onSubmit).toHaveBeenCalledTimes(1)
+        }).toNeverResolve()
+        expect(onSubmit).toHaveBeenCalledTimes(0)
+      }
+    )
+
     describe('with validation shown in menu', () => {
       it('should not show a status on submit when no error is present', async () => {
         const onSubmit = vi.fn()
