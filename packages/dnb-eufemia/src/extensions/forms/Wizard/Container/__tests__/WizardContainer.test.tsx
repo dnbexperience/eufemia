@@ -3400,6 +3400,8 @@ describe('Wizard.Container', () => {
           <Form.Handler
             defaultData={{ foo: 'value' }}
             onSubmit={onSubmit}
+            // Far longer than waitFor waits, so the submit can only get
+            // through if it doesn't wait for the timeout
             asyncSubmitTimeout={60000}
           >
             <Wizard.Container initialActiveIndex={1}>

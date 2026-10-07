@@ -96,7 +96,7 @@ function useEffectPromise() {
   const resolveRef = useRef<(() => void) | null>(null)
 
   // Create the promise before the render it waits for is requested,
-  // so that render's effect is guaranteed to resolve it.
+  // so that render's effect is guaranteed to resolve it
   const createEffectPromise = useCallback(() => {
     promiseRef.current = new Promise((resolve) => {
       resolveRef.current = resolve
