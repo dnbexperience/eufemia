@@ -509,20 +509,21 @@ function WizardContainer(props: WizardContainerProps) {
   )
 
   const setActiveIndex = useCallback(
-    (index: StepIndex, options?: SetActiveIndexOptions) => {
+    (
+      index: StepIndex,
+      options?: SetActiveIndexOptions,
+      submitButtonId?: string
+    ) => {
       if (index === activeIndexRef.current) {
         return
       }
 
       const mode = index > activeIndexRef.current ? 'next' : 'previous'
 
-      // Going back shows the indicator on the Previous buttons (not for router syncs)
-      if (
-        mode === 'previous' &&
-        isAsync(onStepChange) &&
-        !options?.skipStepChangeCallFromHook
-      ) {
-        setActiveSubmitButtonId?.(id)
+      // Claim first, so errors that stop the step change release it; router syncs don't claim
+      if (isAsync(onStepChange) && !options?.skipStepChangeCallFromHook) {
+        const buttonsId = mode === 'previous' ? id : `${id}-next`
+        setActiveSubmitButtonId?.(submitButtonId ?? buttonsId)
       }
 
       handleStepChange({
@@ -537,26 +538,16 @@ function WizardContainer(props: WizardContainerProps) {
 
   const handlePrevious = useCallback(
     (submitButtonId?: string) => {
-      setActiveIndex(activeIndexRef.current - 1)
-
-      // Narrow the indicator down to the clicked Previous button
-      if (submitButtonId && isAsync(onStepChange)) {
-        setActiveSubmitButtonId?.(submitButtonId)
-      }
+      setActiveIndex(activeIndexRef.current - 1, undefined, submitButtonId)
     },
-    [onStepChange, setActiveIndex, setActiveSubmitButtonId]
+    [setActiveIndex]
   )
 
   const handleNext = useCallback(
     (submitButtonId?: string) => {
-      // Claim first, so errors that stop the step change can release it
-      if (submitButtonId && isAsync(onStepChange)) {
-        setActiveSubmitButtonId?.(submitButtonId)
-      }
-
-      setActiveIndex(activeIndexRef.current + 1)
+      setActiveIndex(activeIndexRef.current + 1, undefined, submitButtonId)
     },
-    [onStepChange, setActiveIndex, setActiveSubmitButtonId]
+    [setActiveIndex]
   )
 
   const handleChange = useCallback(
@@ -584,11 +575,15 @@ function WizardContainer(props: WizardContainerProps) {
       }
 
       if (activeIndexRef.current + 1 < totalStepsRef.current) {
-        handleNext()
+        // The submit keeps its own indicator, so skip the claim in setActiveIndex
+        handleStepChange({
+          index: activeIndexRef.current + 1,
+          mode: 'next',
+        })
         preventSubmit()
       }
     },
-    [hasInvalidStepsState, handleNext]
+    [hasInvalidStepsState, handleStepChange]
   )
   useEventListener('onSubmit', handleSubmit)
 

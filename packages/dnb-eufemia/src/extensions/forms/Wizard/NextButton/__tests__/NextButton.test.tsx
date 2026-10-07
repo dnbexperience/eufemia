@@ -259,6 +259,73 @@ describe('NextButton', () => {
       })
     })
 
+    it('should show the indicator on the Next button when going forward with the step indicator', async () => {
+      render(
+        <Form.Handler minimumAsyncBehaviorTime={0}>
+          <Wizard.Container onStepChange={onStepChange} mode="loose">
+            <Wizard.Step title="Step 1">
+              <output>Step 1</output>
+              <Wizard.Buttons />
+              <Form.SubmitButton className="send" />
+            </Wizard.Step>
+            <Wizard.Step title="Step 2">
+              <output>Step 2</output>
+            </Wizard.Step>
+          </Wizard.Container>
+        </Form.Handler>
+      )
+
+      fireEvent.click(
+        document.querySelector(
+          'button.dnb-step-indicator__trigger__button--collapsed'
+        )
+      )
+      fireEvent.click(
+        document.querySelectorAll('.dnb-step-indicator__button')[1]
+      )
+      await waitFor(() => {
+        expect(isPending('.dnb-forms-next-button')).toBe(true)
+      })
+      expect(isPending('.send')).toBe(false)
+      resolveStepChange()
+
+      await waitFor(() => {
+        expect(document.querySelector('output')).toHaveTextContent(
+          'Step 2'
+        )
+      })
+    })
+
+    it('should leave the indicator to a submit button that moves to the next step', async () => {
+      render(
+        <Form.Handler minimumAsyncBehaviorTime={0}>
+          <Wizard.Container onStepChange={onStepChange}>
+            <Wizard.Step title="Step 1">
+              <output>Step 1</output>
+              <Wizard.Buttons />
+              <Form.SubmitButton className="send" />
+            </Wizard.Step>
+            <Wizard.Step title="Step 2">
+              <output>Step 2</output>
+            </Wizard.Step>
+          </Wizard.Container>
+        </Form.Handler>
+      )
+
+      fireEvent.click(document.querySelector('.send'))
+      await waitFor(() => {
+        expect(isPending('.send')).toBe(true)
+      })
+      expect(isPending('.dnb-forms-next-button')).toBe(false)
+      resolveStepChange()
+
+      await waitFor(() => {
+        expect(document.querySelector('output')).toHaveTextContent(
+          'Step 2'
+        )
+      })
+    })
+
     it('should not keep the indicator on the Next button when errors stop the step change', async () => {
       let submit: () => void
       const SubmitFromCode = () => {
