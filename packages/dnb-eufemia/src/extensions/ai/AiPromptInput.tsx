@@ -9,7 +9,7 @@ import type {
   TextareaChangeEvent,
   TextareaKeyDownEvent,
 } from '../../components/textarea/types'
-import useTranslation from '../../shared/useTranslation'
+import useTranslation from './hooks/useTranslation'
 import { add, arrow_up, microphone, stop } from '../../icons'
 import type { AiPromptInputProps, AiPromptInputSubmitEvent } from './types'
 
