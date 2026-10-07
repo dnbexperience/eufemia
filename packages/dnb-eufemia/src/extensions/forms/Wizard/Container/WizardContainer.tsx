@@ -468,6 +468,8 @@ function WizardContainer(props: WizardContainerProps) {
         skipErrorCheck,
         skipFieldValidation: skipErrorCheck,
         enableAsyncBehavior: isAsync(onStepChange),
+        // A step change is not a completed submit
+        keepFormState: () => true,
         onSubmit: bypassOnNavigation ? () => null : onSubmit,
       })
 

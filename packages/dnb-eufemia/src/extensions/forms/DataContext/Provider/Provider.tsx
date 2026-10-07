@@ -436,6 +436,11 @@ export default function Provider<Data extends JsonObject>(
   const setActiveSubmitButtonId = useCallback<
     ContextState['setActiveSubmitButtonId']
   >((id) => {
+    // A running submit keeps its indicator, even when its onSubmit changes the Wizard step
+    if (formStateRef.current === 'pending') {
+      return // stop here
+    }
+
     activeSubmitButtonIdRef.current = id
     activeSubmitButtonIsNewRef.current = true
     forceUpdate()
@@ -1505,6 +1510,7 @@ export default function Provider<Data extends JsonObject>(
         enableAsyncBehavior,
         skipFieldValidation,
         skipErrorCheck,
+        keepFormState,
       } = args
 
       if (!skipFieldValidation) {
@@ -1568,8 +1574,6 @@ export default function Provider<Data extends JsonObject>(
         !hasFieldState('pending') &&
         (skipFieldValidation ? true : !hasFieldState('error'))
       ) {
-        const formStateVersion = formStateVersionRef.current
-
         result = await resolveStateResult(async () => {
           if (isolate) {
             // Notify listeners before committing isolated data
@@ -1601,13 +1605,9 @@ export default function Provider<Data extends JsonObject>(
         })
 
         if (asyncBehaviorIsEnabled) {
-          // Leave the form state to what changed it during the submit, like a Wizard step change
-          const isTakenOver =
-            formStateVersionRef.current !== formStateVersion
-
           if (result?.error) {
             setFormState('abort')
-          } else if (keepPending.current !== true && !isTakenOver) {
+          } else if (keepPending.current !== true && !keepFormState?.()) {
             setFormState('complete')
           }
         }
@@ -1763,11 +1763,15 @@ export default function Provider<Data extends JsonObject>(
       }
     }
 
+    let isTakenOver = false
+
     return await handleSubmitCall({
       enableAsyncBehavior: isAsync(onSubmit),
+      keepFormState: () => isTakenOver,
       onSubmit: async () => {
         let stop = false
         const preventSubmit = () => (stop = true)
+        const formStateVersion = formStateVersionRef.current
         for (const item of fieldEventListenersRef.current) {
           const { type, callback } = item
           if (type === 'onSubmit') {
@@ -1779,6 +1783,8 @@ export default function Provider<Data extends JsonObject>(
           }
         }
         if (stop) {
+          // A listener that took over the form state, like a Wizard step change, keeps it
+          isTakenOver = formStateVersionRef.current !== formStateVersion
           return undefined // stop here
         }
 

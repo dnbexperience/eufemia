@@ -1865,6 +1865,112 @@ describe('Wizard.Container', () => {
           expect(output()).toHaveTextContent('Step 2')
         })
       })
+
+      it('should not show the complete state after the step change', async () => {
+        const states = new Set<string>()
+        const observer = new MutationObserver(() => {
+          document
+            .querySelectorAll('.dnb-forms-submit-indicator')
+            .forEach((element) => {
+              states.add(element.className)
+            })
+        })
+        observer.observe(document.body, {
+          subtree: true,
+          childList: true,
+          attributes: true,
+        })
+
+        render(
+          <Form.Handler
+            onSubmit={async () => null}
+            minimumAsyncBehaviorTime={10}
+          >
+            <Wizard.Container onStepChange={onStepChange}>
+              <Wizard.Step title="Step 1">
+                <output>Step 1</output>
+                <Form.SubmitButton />
+              </Wizard.Step>
+              <Wizard.Step title="Step 2">
+                <output>Step 2</output>
+                <Form.SubmitButton />
+              </Wizard.Step>
+            </Wizard.Container>
+            <SubmitFromCode />
+          </Form.Handler>
+        )
+
+        submit()
+        await waitFor(() => {
+          expect(resolveStepChange).toBeDefined()
+        })
+        resolveStepChange()
+        await waitFor(() => {
+          expect(output()).toHaveTextContent('Step 2')
+        })
+        await wait(100)
+        observer.disconnect()
+
+        expect(
+          Array.from(states).some((className) =>
+            className.includes('--state-complete')
+          )
+        ).toBe(false)
+      })
+
+      it('should keep the indicator on the submit button when its onSubmit changes the step', async () => {
+        let setActiveIndex: (index: number) => void
+        const GetStep = () => {
+          setActiveIndex = Wizard.useStep().setActiveIndex
+          return null
+        }
+
+        render(
+          <Form.Handler
+            onSubmit={async () => {
+              setActiveIndex(0)
+            }}
+            minimumAsyncBehaviorTime={100}
+          >
+            <Wizard.Container
+              onStepChange={onStepChange}
+              initialActiveIndex={1}
+            >
+              <Wizard.Step title="Step 1">
+                <output>Step 1</output>
+              </Wizard.Step>
+              <Wizard.Step title="Step 2">
+                <output>Step 2</output>
+                <GetStep />
+                <Wizard.Buttons />
+                <Form.SubmitButton className="send" />
+              </Wizard.Step>
+            </Wizard.Container>
+          </Form.Handler>
+        )
+
+        fireEvent.click(document.querySelector('.send'))
+        await waitFor(() => {
+          expect(resolveStepChange).toBeDefined()
+        })
+        await waitFor(() => {
+          expect(
+            document.querySelector(
+              '.send .dnb-forms-submit-indicator--state-complete'
+            )
+          ).toBeInTheDocument()
+        })
+        expect(
+          document.querySelector(
+            '.dnb-forms-previous-button .dnb-forms-submit-indicator[class*="--state-"]'
+          )
+        ).toBeNull()
+
+        resolveStepChange()
+        await waitFor(() => {
+          expect(output()).toHaveTextContent('Step 1')
+        })
+      })
     })
 
     it('should show required error when another async onChangeValidator is pending', async () => {

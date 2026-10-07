@@ -194,6 +194,7 @@ export type ContextState = {
     enableAsyncBehavior: boolean
     skipFieldValidation?: boolean
     skipErrorCheck?: boolean
+    keepFormState?: () => boolean
   }) => Promise<EventStateObject | undefined>
   getSubmitData?: () => unknown
   getSubmitParams?: () => OnSubmitParams
