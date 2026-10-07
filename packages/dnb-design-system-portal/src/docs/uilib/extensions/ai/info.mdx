@@ -17,39 +17,78 @@ import '@dnb/eufemia/extensions/ai/style'
 
 ## Usage
 
-Pass your messages and chat status to the components. `AiMessageData` describes the message fields Eufemia renders; your chat implementation can keep other fields as well.
+Your application owns the messages, transport, tool execution and error handling. Eufemia renders the content and handles presentation, keyboard interaction and conversation scrolling.
+
+The message type below belongs to this example. Use your application's data and map it to the component props.
 
 ```tsx
+import { useId } from 'react'
 import * as Ai from '@dnb/eufemia/extensions/ai'
-import type {
-  AiChatStatus,
-  AiMessageData,
-} from '@dnb/eufemia/extensions/ai'
+import { GlobalStatus } from '@dnb/eufemia/components'
+import '@dnb/eufemia/extensions/ai/style'
+
+type Message = {
+  id: string
+  from: 'user' | 'assistant'
+  text: string
+  isStreaming?: boolean
+}
 
 type ChatProps = {
-  messages: Array<AiMessageData>
-  status: AiChatStatus
-  onSubmit: (text: string) => void
+  messages: Array<Message>
+  isBusy: boolean
+  isWaiting: boolean
+  hasError: boolean
+  onSend: (text: string) => void
   onStop: () => void
 }
 
-function Chat({ messages, status, onSubmit, onStop }: ChatProps) {
+export function Chat({
+  messages,
+  isBusy,
+  isWaiting,
+  hasError,
+  onSend,
+  onStop,
+}: ChatProps) {
+  const prefix = useId()
   return (
     <>
-      <Ai.Conversation style={{ height: '40rem' }}>
+      <Ai.Conversation
+        label="Chat with the assistant"
+        style={{ height: '32rem' }}
+      >
         {messages.map((message) => (
           <Ai.Message
             key={message.id}
-            message={message}
-            aiGenerated={message.role === 'assistant'}
-          />
+            id={prefix + message.id}
+            from={message.from}
+          >
+            {message.from === 'user' ? (
+              message.text
+            ) : (
+              <Ai.Response
+                parseIncompleteMarkdown={message.isStreaming ?? false}
+              >
+                {message.text}
+              </Ai.Response>
+            )}
+          </Ai.Message>
         ))}
-        {status === 'submitted' && <Ai.Loader />}
+        {isWaiting && <Ai.Loader />}
       </Ai.Conversation>
-
+      {hasError && (
+        <GlobalStatus
+          show
+          autoScroll={false}
+          omitSetFocus
+          id={prefix + '-error'}
+          text="The reply could not be completed. Try again."
+        />
+      )}
       <Ai.PromptInput
-        status={status}
-        onSubmit={({ value }) => onSubmit(value)}
+        isBusy={isBusy}
+        onSubmit={({ value }) => onSend(value)}
         onStop={onStop}
       />
     </>
@@ -57,11 +96,13 @@ function Chat({ messages, status, onSubmit, onStop }: ChatProps) {
 }
 ```
 
-`Ai.Message` renders `text` parts (with `text` and optional `state`), `reasoning` parts (with `text` and `state`), tool parts (with a `tool-` prefix or `dynamic-tool` type), and `source-url` parts (with `url` and optional `title`). Other parts, like files, are not rendered. To show them, give the content as `children` instead of `message`.
+Compose reasoning, tool results and sources inside each message using `Ai.Reasoning`, `Ai.Tool` and `Ai.Sources`. See [Integrations](/uilib/extensions/ai/integrations/) for complete framework examples and ownership of each state.
 
 ## Guides
 
 - [Translations](/uilib/extensions/ai/translations/): select a locale and customize component labels.
+- [Integrations](/uilib/extensions/ai/integrations/): composition and recipes for AI SDK and TanStack AI.
+
 - [Message scroller](/uilib/extensions/ai/message-scroller/): how the conversation scrolls while replies stream in.
 
 ## Components

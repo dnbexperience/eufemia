@@ -8,13 +8,7 @@ import AiShimmer from './AiShimmer'
 import type { AiReasoningProps } from './types'
 
 function AiReasoning(props: AiReasoningProps) {
-  const {
-    part,
-    isStreaming = part?.state === 'streaming',
-    children = part?.text,
-    className,
-    ...rest
-  } = props
+  const { isStreaming = false, children, className, ...rest } = props
 
   const translation = useTranslation().Ai
   const [open, setOpen] = useState(isStreaming)

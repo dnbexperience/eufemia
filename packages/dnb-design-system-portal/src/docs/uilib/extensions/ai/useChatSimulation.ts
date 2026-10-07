@@ -1,8 +1,23 @@
-import { useEffect, useState } from 'react'
-import type {
-  AiChatStatus,
-  AiMessageData,
-} from '@dnb/eufemia/src/extensions/ai/types'
+import { useEffect, useId, useState } from 'react'
+import type { AiToolStatus } from '@dnb/eufemia/src/extensions/ai/types'
+
+export type DemoPart =
+  | { type: 'text' | 'reasoning'; text: string; isStreaming?: boolean }
+  | {
+      type: 'tool'
+      name: string
+      title: string
+      status: AiToolStatus
+      output?: unknown
+      errorText?: string
+    }
+  | { type: 'source'; url: string; title: string }
+
+export type DemoMessage = {
+  id: string
+  role: 'user' | 'assistant'
+  parts: Array<DemoPart>
+}
 
 type ScriptStep =
   | { type: 'reasoning' | 'text'; text: string }
@@ -13,7 +28,7 @@ type ScriptStep =
       output?: unknown
       errorText?: string
     }
-  | { type: 'source-url'; url: string; title: string }
+  | { type: 'source'; url: string; title: string }
 
 type Turn = {
   id: number
@@ -83,7 +98,7 @@ function createScript(prompt: string): Array<ScriptStep> {
         text: 'Your Visa card ending in **1234** is now blocked, so it can no longer be used.\n\n- Order a new card in the app under **Cards**.\n- If the card was stolen, report it to the police.',
       },
       {
-        type: 'source-url',
+        type: 'source',
         url: 'https://www.dnb.no/privat/kort',
         title: 'Cards at DNB',
       },
@@ -106,7 +121,7 @@ function createScript(prompt: string): Array<ScriptStep> {
         text: 'Here is your spending this month compared with last month:\n\n| Category | This month | Last month |\n| :-- | --: | --: |\n| Groceries | 4 200 kr | 3 900 kr |\n| Transport | 1 100 kr | 1 300 kr |\n| Restaurants | 850 kr | 1 200 kr |\n\nIn total you spent **6 150 kr**, which is **250 kr less** than last month.',
       },
       {
-        type: 'source-url',
+        type: 'source',
         url: 'https://www.dnb.no/privat/dagligbank',
         title: 'Everyday banking',
       },
@@ -159,6 +174,7 @@ function createScript(prompt: string): Array<ScriptStep> {
  * Simulates a chat with scripted replies, so the demo works without a server.
  */
 export function useChatSimulation() {
+  const prefix = useId()
   const [turns, setTurns] = useState<Array<Turn>>([])
   const last = turns.at(-1)
 
@@ -182,7 +198,7 @@ export function useChatSimulation() {
       delay = 1000
     } else if (step.type === 'tool') {
       delay = step.errorText ? 1500 : 1200
-    } else if (step.type === 'source-url') {
+    } else if (step.type === 'source') {
       delay = 0
     } else if (last.length < step.text.length) {
       changes = {
@@ -216,14 +232,14 @@ export function useChatSimulation() {
   const regenerate = () =>
     updateLast({ step: -1, length: 0, stopped: false })
 
-  let status: AiChatStatus = 'ready'
+  let status: 'ready' | 'submitted' | 'streaming' = 'ready'
   if (last && !last.stopped && last.step < last.script.length) {
     status = last.step === -1 ? 'submitted' : 'streaming'
   }
 
-  const messages: Array<AiMessageData> = turns.flatMap((turn) => {
-    const user: AiMessageData = {
-      id: `${turn.id}-user`,
+  const messages: Array<DemoMessage> = turns.flatMap((turn) => {
+    const user: DemoMessage = {
+      id: prefix + turn.id + '-user',
       role: 'user',
       parts: [{ type: 'text', text: turn.prompt }],
     }
@@ -233,7 +249,7 @@ export function useChatSimulation() {
     return [
       user,
       {
-        id: `${turn.id}-assistant`,
+        id: prefix + turn.id + '-assistant',
         role: 'assistant',
         parts: toParts(turn),
       },
@@ -241,7 +257,7 @@ export function useChatSimulation() {
   })
 
   // The simulation only supports clearing the messages
-  const setMessages = (messages: Array<AiMessageData>) => {
+  const setMessages = (messages: Array<DemoMessage>) => {
     if (messages.length === 0) {
       setTurns([])
     }
@@ -250,8 +266,8 @@ export function useChatSimulation() {
   return { messages, status, sendMessage, stop, regenerate, setMessages }
 }
 
-function toParts(turn: Turn): AiMessageData['parts'] {
-  const parts: AiMessageData['parts'] = []
+function toParts(turn: Turn): DemoMessage['parts'] {
+  const parts: DemoMessage['parts'] = []
 
   turn.script.forEach((step, index) => {
     const isCurrent = index === turn.step
@@ -259,8 +275,8 @@ function toParts(turn: Turn): AiMessageData['parts'] {
       return // stop here
     }
 
-    if (step.type === 'source-url') {
-      parts.push({ type: 'source-url', sourceId: step.url, ...step })
+    if (step.type === 'source') {
+      parts.push(step)
       return // stop here
     }
 
@@ -270,11 +286,12 @@ function toParts(turn: Turn): AiMessageData['parts'] {
         return // stop here
       }
       parts.push({
-        type: `tool-${step.name}`,
-        toolCallId: `${turn.id}-${index}`,
+        type: 'tool',
+        name: step.name,
         title: step.title,
-        input: {},
-        ...getToolState(step, isCurrent),
+        status: isCurrent ? 'running' : step.errorText ? 'error' : 'done',
+        errorText: isCurrent ? undefined : step.errorText,
+        output: isCurrent ? undefined : step.output,
       })
       return // stop here
     }
@@ -283,22 +300,9 @@ function toParts(turn: Turn): AiMessageData['parts'] {
     parts.push({
       type: step.type,
       text: isCurrent ? step.text.slice(0, turn.length) : step.text,
-      state: isStreaming ? 'streaming' : 'done',
+      isStreaming,
     })
   })
 
   return parts
-}
-
-function getToolState(
-  step: Extract<ScriptStep, { type: 'tool' }>,
-  isCurrent: boolean
-) {
-  if (isCurrent) {
-    return { state: 'input-available' }
-  }
-  if (step.errorText) {
-    return { state: 'output-error', errorText: step.errorText }
-  }
-  return { state: 'output-available', output: step.output ?? {} }
 }
