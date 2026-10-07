@@ -1,7 +1,7 @@
 import { clsx } from 'clsx'
 import { useSpacing } from '../../components/space/SpacingUtils'
 import Tag from '../../components/Tag'
-import useTranslation from '../../shared/useTranslation'
+import useTranslation from './hooks/useTranslation'
 import AiResponse from './AiResponse'
 import AiSources from './AiSources'
 import AiTool from './AiTool'

@@ -1,5 +1,5 @@
 import { clsx } from 'clsx'
-import useTranslation from '../../shared/useTranslation'
+import useTranslation from './hooks/useTranslation'
 import AiMessage from './AiMessage'
 import type { AiLoaderProps } from './types'
 
