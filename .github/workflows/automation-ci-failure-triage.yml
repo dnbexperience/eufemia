@@ -1,0 +1,140 @@
+name: Automation - CI failure triage
+
+on:
+  # zizmor: ignore[dangerous-triggers] This trusted observer never executes artifacts or PR code.
+  workflow_run:
+    workflows:
+      - Analytics Lambda
+      - CodeQL Analysis
+      - Dev Preview
+      - Deploy Preview
+      - E2E Tests
+      - Icons Library
+      - MCP Lambda
+      - Release
+      - Verify
+    types: [completed]
+
+permissions:
+  actions: read # Read failed jobs and logs from the completed run.
+  contents: read
+  pull-requests: read # Resolve pull request context when the run belongs to one.
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.workflow_run.id }}
+  cancel-in-progress: true
+
+jobs:
+  prepare:
+    name: Collect failed run context
+    if: >-
+      vars.AUTOMATIONS_ENABLED == 'true' &&
+      github.event.workflow_run.conclusion == 'failure' &&
+      github.event.workflow_run.head_repository.full_name == github.repository &&
+      (github.event.workflow_run.event == 'pull_request' ||
+      contains(fromJSON('["Analytics Lambda", "Icons Library", "MCP Lambda", "Release"]'), github.event.workflow_run.name))
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    outputs:
+      artifact-name: ${{ steps.context.outputs.artifact-name }}
+      pull-number: ${{ steps.context.outputs.pull-number }}
+      require-mcp: ${{ steps.context.outputs.require-mcp }}
+
+    steps:
+      - name: Collect context
+        id: context
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RUN_ID: ${{ github.event.workflow_run.id }}
+        run: |
+          context_dir="$RUNNER_TEMP/ci-failure-context"
+          mkdir -p "$context_dir"
+
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/$RUN_ID" > "$context_dir/run.json"
+          gh api --paginate --slurp \
+            "repos/$GITHUB_REPOSITORY/actions/runs/$RUN_ID/jobs?per_page=100" \
+            > "$context_dir/job-pages.json"
+          jq '[.[].jobs[] | select(.conclusion == "failure") | {name, conclusion, started_at, completed_at, html_url, steps}]' \
+            "$context_dir/job-pages.json" > "$context_dir/failed-jobs.json"
+          rm "$context_dir/job-pages.json"
+
+          gh run view "$RUN_ID" --log-failed > "$context_dir/full-failed.log" 2>&1 || true
+          head -c 200000 "$context_dir/full-failed.log" > "$context_dir/failed.log"
+          rm "$context_dir/full-failed.log"
+
+          pr_number=$(jq --raw-output '.pull_requests[0].number // empty' "$context_dir/run.json")
+          if [ -n "$pr_number" ]; then
+            gh api "repos/$GITHUB_REPOSITORY/pulls/$pr_number" > "$context_dir/pull-request.json"
+            gh pr diff "$pr_number" --repo "$GITHUB_REPOSITORY" --patch \
+              > "$context_dir/full-change.patch"
+          else
+            head_sha=$(jq --raw-output '.head_sha' "$context_dir/run.json")
+            gh api "repos/$GITHUB_REPOSITORY/commits/$head_sha" \
+              --header 'Accept: application/vnd.github.patch' \
+              > "$context_dir/full-change.patch" || true
+          fi
+          head -c 200000 "$context_dir/full-change.patch" > "$context_dir/change.patch"
+          rm "$context_dir/full-change.patch"
+
+          artifact_name="ci-failure-context-$RUN_ID"
+          workflow_name=$(jq --raw-output '.name' "$context_dir/run.json")
+          require_mcp=true
+          if [ "$workflow_name" = "MCP Lambda" ]; then
+            require_mcp=false
+          fi
+          {
+            echo "artifact-name=$artifact_name"
+            echo "pull-number=$pr_number"
+            echo "require-mcp=$require_mcp"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Upload context
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: ${{ steps.context.outputs.artifact-name }}
+          path: ${{ runner.temp }}/ci-failure-context
+          retention-days: 7
+
+  analyze:
+    name: Analyze CI failure
+    needs: prepare
+    uses: ./.github/workflows/automation-run.yml
+    with:
+      context-artifact: ${{ needs.prepare.outputs.artifact-name }}
+      prompt-file: ci-failure-triage.md
+      report-name: ci-failure-triage-${{ github.event.workflow_run.id }}
+      require-mcp: ${{ needs.prepare.outputs.require-mcp == 'true' }}
+
+  notify:
+    name: Notify pull request
+    needs: [prepare, analyze]
+    if: >-
+      needs.prepare.outputs.pull-number != '' &&
+      needs.analyze.outputs.report != ''
+    permissions:
+      contents: read
+      issues: write # Update the CI triage comment on the affected PR.
+    uses: ./.github/workflows/automation-notify.yml
+    with:
+      marker: eufemia-automation:ci-failure-triage:pr-${{ needs.prepare.outputs.pull-number }}
+      report: ${{ needs.analyze.outputs.report }}
+      target: ${{ needs.prepare.outputs.pull-number }}
+      target-kind: pr
+      title: CI failure triage
+
+  notify-tracking:
+    name: Update CI failure tracking issue
+    needs: [prepare, analyze]
+    if: >-
+      needs.prepare.outputs.pull-number == '' &&
+      needs.analyze.outputs.report != ''
+    permissions:
+      contents: read
+      issues: write # Update the CI failure tracking issue.
+    uses: ./.github/workflows/automation-notify.yml
+    with:
+      marker: eufemia-automation:ci-failure-triage
+      report: ${{ needs.analyze.outputs.report }}
+      target: ci-failure-triage
+      target-kind: issue
+      title: 'Automation report: CI failure triage'
