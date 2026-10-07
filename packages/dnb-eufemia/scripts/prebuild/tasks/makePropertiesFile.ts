@@ -80,8 +80,8 @@ const TOKEN_SETS = {
 const ROOT_DIR = path.resolve(__dirname, '../../..')
 
 export default async function makePropertiesFile() {
-  await runFactory()
   await runDesignTokenFactory()
+  await runFactory()
 
   log.succeed(
     '> PrePublish: "makePropertiesFile" creating properties file done'
@@ -109,10 +109,10 @@ export default ${JSON.stringify(variables, null, 2)}`,
 }
 
 const transformModulesContentCSS = async (content: string) => {
-  const variables = parseCSSVariables(content)
-
   // Convert --sb-* variables to Tailwind-compatible format
-  const convertedVariables = convertVariablesToTailwindFormat(variables)
+  const convertedVariables = convertVariablesToTailwindFormat(
+    parseCSSVariables(content)
+  )
 
   const cssContent = Object.entries(convertedVariables)
     .map(([key, value]) => `  ${key}: ${value};`)
@@ -339,9 +339,9 @@ const shouldTransformFigmaAlias = (value: FigmaValue) => {
     switch (alias.targetVariableSetId) {
       case TOKEN_SETS.colors.targetVariableSetId:
         return true
-      case TOKEN_SETS.sizes.targetVariableSetId: {
-        // Size aliases resolve to literal values instead of var() references
-        // because we do not import their foundation SCSS files.
+      case TOKEN_SETS.sizes.targetVariableSetId:
+      case TOKEN_SETS.typography.targetVariableSetId: {
+        // Numeric foundation aliases use the exported value directly.
         if (value.$type !== 'number') {
           const errorMessage = `Unexpected type : ${value.$type} for in variable set ${alias.targetVariableSetName}`
           log.fail(errorMessage)
@@ -510,12 +510,6 @@ const keepOnlyReferencedVariableDeclarations = (
 const shouldGenerateCSSVariable = (value: FigmaValue) => {
   if (value.$type === 'string') {
     return false // Exclude font-family and font weight
-  }
-  if (
-    value?.$extensions?.['com.figma.aliasData']?.targetVariableSetId ===
-    TOKEN_SETS.typography.targetVariableSetId
-  ) {
-    return false // Exclude typography
   }
   return true
 }
@@ -739,6 +733,7 @@ const makeDesignTokenSCSS = async ({
   filter = (json) => json,
   referencedVariables,
   colorScheme,
+  brand,
 }: {
   /** Root path to Figma JSON export file */
   inputPath: string
@@ -758,6 +753,7 @@ const makeDesignTokenSCSS = async ({
   filter?: (json: FigmaExport) => FigmaNode
   referencedVariables?: Set<string>
   colorScheme?: 'light' | 'dark'
+  brand?: string
 }) => {
   try {
     const tokenList = convertToTokenList(
@@ -787,6 +783,34 @@ const makeDesignTokenSCSS = async ({
       combinedSelector,
       namespace
     )
+
+    if (brand && colorScheme) {
+      const fontTokens = tokenList.filter(
+        (token) =>
+          token.figmaPath[0] === 'font' &&
+          ['size', 'height'].includes(token.figmaPath[1])
+      )
+      const brandClasses = typographyBrandClasses(brand)
+      const selectors =
+        colorScheme === 'dark'
+          ? brandClasses.map(
+              (brandClass) =>
+                brandClass + '.eufemia-theme__color-scheme--dark'
+            )
+          : [
+              ...brandClasses,
+              ...brandClasses.map(
+                (brandClass) =>
+                  brandClass + '.eufemia-theme__color-scheme--light'
+              ),
+            ]
+      scssContent += [
+        selectors.join(', ') + ' {',
+        generateCSSVariablesFromTokenList(fontTokens, namespace),
+        '}',
+        '',
+      ].join('\n')
+    }
 
     if (referencedVariables) {
       scssContent = keepOnlyReferencedVariableDeclarations(
@@ -904,6 +928,94 @@ export const convertToTokenList = (
   return tokenList
 }
 
+const typographyProperties = {
+  '--font-size-xx-small': ['font', 'size', 'text-2xs'],
+  '--font-size-x-small': ['font', 'size', 'text-xs'],
+  '--font-size-small': ['font', 'size', 'text-sm'],
+  '--font-size-basis': ['font', 'size', 'text-basis'],
+  '--font-size-medium': ['font', 'size', 'text-lead'],
+  '--font-size-large': ['font', 'size', 'heading-lg'],
+  '--font-size-x-large': ['font', 'size', 'heading-xl'],
+  '--font-size-xx-large': ['font', 'size', 'heading-2xl'],
+  '--line-height-x-small': ['font', 'height', 'text-xs'],
+  '--line-height-small': ['font', 'height', 'text-sm'],
+  '--line-height-basis': ['font', 'height', 'text-basis'],
+  '--line-height-medium': ['font', 'height', 'text-lead'],
+  '--line-height-large': ['font', 'height', 'heading-large'],
+  '--line-height-x-large': ['font', 'height', 'heading-xl'],
+  '--line-height-xx-large': ['font', 'height', 'heading-2xl'],
+} as const
+
+// Eiendom uses the UI token source.
+const typographyBrandClasses = (brand: string) =>
+  (brand === 'ui' ? ['ui', 'eiendom'] : [brand]).map(
+    (name) => '.eufemia-theme__' + name
+  )
+
+const makeTypographyPropertiesSCSS = async ({
+  inputPath,
+  outputPath,
+  brand,
+  dark = false,
+}: {
+  inputPath: string
+  outputPath: string
+  brand: string
+  dark?: boolean
+}) => {
+  const tokenList = convertToTokenList(
+    JSON.parse(fs.readFileSync(path.resolve(inputPath), 'utf-8')),
+    TOKEN_SETS.brand.targetVariableSetId
+  )
+  const tokenMap = new Map(
+    tokenList.map((token) => [token.figmaPath.join('/'), token])
+  )
+  const declarations = Object.entries(typographyProperties).map(
+    ([property, tokenPath]) => {
+      const tokenPathName = tokenPath.join('/')
+      const token = tokenMap.get(tokenPathName)
+      if (!token || token.$type !== 'number') {
+        throw new Error(
+          'Missing numeric typography token: ' + tokenPathName
+        )
+      }
+      return '  ' + property + ': ' + transformFigmaValue(token) + ';'
+    }
+  )
+  const brandClasses = typographyBrandClasses(brand)
+  const selector = (
+    dark
+      ? [
+          '.eufemia-theme__color-scheme--dark',
+          ...brandClasses.map(
+            (brandClass) =>
+              brandClass + '.eufemia-theme__color-scheme--dark'
+          ),
+        ]
+      : [
+          ':root',
+          '.eufemia-theme__color-scheme--light',
+          ...brandClasses,
+          ...brandClasses.map(
+            (brandClass) =>
+              brandClass + '.eufemia-theme__color-scheme--light'
+          ),
+        ]
+  ).join(', ')
+  const content = [
+    '/* This file is auto generated by makePropertiesFile.ts */',
+    '',
+    selector + ' {',
+    ...declarations,
+    '}',
+    '',
+  ].join('\n')
+  await promises.writeFile(
+    path.resolve(outputPath),
+    await prettier.format(content, { filepath: '*.scss', ...prettierrc })
+  )
+}
+
 const runDesignTokenFactory = async () => {
   log.start('> PrePublish: transforming figma variables to SCSS')
 
@@ -1015,6 +1127,13 @@ const runDesignTokenFactory = async () => {
       appendToFile: file.appendToFile,
       referencePrefixOverride: file.referencePrefixOverride,
       colorScheme: file.colorScheme,
+      brand: file.theme,
+    })
+    await makeTypographyPropertiesSCSS({
+      inputPath: file.in,
+      outputPath: file.out.replace('/tokens', '/typography-properties'),
+      brand: file.theme,
+      dark: file.colorScheme === 'dark',
     })
   }
 

@@ -3,21 +3,33 @@ import { useTheme } from '@dnb/eufemia/shared'
 import propertiesSbanken from '@dnb/eufemia/src/style/themes/sbanken/properties'
 import propertiesUi from '@dnb/eufemia/src/style/themes/ui/properties'
 import propertiesEiendom from '@dnb/eufemia/src/style/themes/eiendom/properties'
+import propertiesCarnegie from '@dnb/eufemia/src/style/themes/carnegie/properties'
 
 const properties = {
   sbanken: propertiesSbanken,
   ui: propertiesUi,
   eiendom: propertiesEiendom,
+  carnegie: propertiesCarnegie,
 }
 
 export const GetPropValue = (prop) => {
   const theme = useTheme()
   const themeProps = properties[theme.brand] || properties.ui
-  const p = themeProps[prop]
-  if (p && p.startsWith('var(')) {
-    return GetPropValue(p.substring(4, p.indexOf(')')))
+
+  let value = themeProps[prop]
+  const visited = new Set<string>()
+
+  while (value?.startsWith('var(')) {
+    const reference = value.substring(4, value.indexOf(')'))
+    if (visited.has(reference)) {
+      return undefined
+    }
+
+    visited.add(reference)
+    value = themeProps[reference]
   }
-  return p
+
+  return value
 }
 
 export const GetPropAsPx = (prop) => {

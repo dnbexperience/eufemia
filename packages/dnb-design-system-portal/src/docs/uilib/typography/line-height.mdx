@@ -10,7 +10,9 @@ import ChangeStyleTheme from '../../../core/ChangeStyleTheme'
 
 <ChangeStyleTheme label="Change the brand:" bottom="large" />
 
-For details about what values Typographic elements use, have a look at the [Fonts & Typography](/quickguide-designer/fonts#typographic-elements) documentation.
+For brand values, see the [typography tokens](/uilib/usage/customisation/theming/design-tokens/typography/). The [Fonts & Typography](/quickguide-designer/fonts#typographic-elements) guide shows the DNB scale.
+
+The tables below show light-mode values for the selected brand. The token catalog lists both light and dark modes.
 
 ## Default `line-height` **rem** table
 
@@ -34,15 +36,15 @@ Typography components inside the wrapper, like `H2`, `Span`, `P`, `Heading`, wil
 
 You can turn it off for a section using `<Typography.Context responsive={false}>`.
 
-| CSS Variable                        | `← small` | `small → medium` | `medium →` |
-| ----------------------------------- | --------- | ---------------- | ---------- |
-| `--responsive-line-height-x-small`  | 1.25rem   | 1.25rem          | 1.25rem    |
-| `--responsive-line-height-small`    | 1.25rem   | 1.25rem          | 1.25rem    |
-| `--responsive-line-height-basis`    | 1.25rem   | 1.5rem           | 1.5rem     |
-| `--responsive-line-height-medium`   | 1.5rem    | 1.5rem           | 1.5rem     |
-| `--responsive-line-height-large`    | 2rem      | 2rem             | 2rem       |
-| `--responsive-line-height-x-large`  | 2rem      | 2.5rem           | 2.5rem     |
-| `--responsive-line-height-xx-large` | 2rem      | 2.5rem           | 3.5rem     |
+| CSS Variable                        | `← small`                               | `small → medium`                         | `medium →`                               |
+| ----------------------------------- | --------------------------------------- | ---------------------------------------- | ---------------------------------------- |
+| `--responsive-line-height-x-small`  | {GetPropValue('--line-height-x-small')} | {GetPropValue('--line-height-x-small')}  | {GetPropValue('--line-height-x-small')}  |
+| `--responsive-line-height-small`    | {GetPropValue('--line-height-x-small')} | {GetPropValue('--line-height-small')}    | {GetPropValue('--line-height-small')}    |
+| `--responsive-line-height-basis`    | {GetPropValue('--line-height-small')}   | {GetPropValue('--line-height-basis')}    | {GetPropValue('--line-height-basis')}    |
+| `--responsive-line-height-medium`   | {GetPropValue('--line-height-medium')}  | {GetPropValue('--line-height-medium')}   | {GetPropValue('--line-height-medium')}   |
+| `--responsive-line-height-large`    | {GetPropValue('--line-height-large')}   | {GetPropValue('--line-height-large')}    | {GetPropValue('--line-height-large')}    |
+| `--responsive-line-height-x-large`  | {GetPropValue('--line-height-large')}   | {GetPropValue('--line-height-x-large')}  | {GetPropValue('--line-height-x-large')}  |
+| `--responsive-line-height-xx-large` | {GetPropValue('--line-height-x-large')} | {GetPropValue('--line-height-xx-large')} | {GetPropValue('--line-height-xx-large')} |
 
 All `--responsive-line-height-*` CSS variables are scoped to typography components (`P`, `Heading`, `Span`, `Lead`, `H1`, `H2`, etc.) as of now. If you need to use them elsewhere you can use the `.dnb-t` class.
 

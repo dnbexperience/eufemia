@@ -147,7 +147,7 @@ describe('token-name-policy stylelint rule', () => {
 
     expect(errors).toHaveLength(1)
     expect(errors[0].text).toContain(
-      'Expected "--token-" followed by one of: color, radius'
+      'Expected "--token-" followed by one of: color, font, radius'
     )
   })
 
@@ -191,6 +191,25 @@ describe('token-name-policy stylelint rule', () => {
     })
 
     expect(errors).toHaveLength(0)
+  })
+
+  it('allows font size and height tokens in token files', async () => {
+    const errors = await lintWithRule({
+      code: ':root { --token-font-size-heading-2xl: 3rem; --token-font-height-heading-2xl: 3.5rem; }',
+      codeFilename: '/repo/src/style/themes/ui/tokens.scss',
+    })
+
+    expect(errors).toHaveLength(0)
+  })
+
+  it('flags unknown font token categories', async () => {
+    const errors = await lintWithRule({
+      code: ':root { --token-font-shadow-heading-2xl: 3rem; }',
+      codeFilename: '/repo/src/style/themes/ui/tokens.scss',
+    })
+
+    expect(errors).toHaveLength(1)
+    expect(errors[0].text).toContain('Expected "--token-font-"')
   })
 
   it('flags foundation variable usage outside tokens.scss', async () => {

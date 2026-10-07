@@ -279,6 +279,28 @@
   --token-color-component-progressbar-neutral-onsubtle: var(
     --dnb-greyscale-700
   );
+  --token-font-size-heading-2xl: 3rem;
+  --token-font-size-heading-xl: 2.125rem;
+  --token-font-size-heading-lg: 1.625rem;
+  --token-font-size-text-lead: 1.25rem;
+  --token-font-size-text-basis: 1.125rem;
+  --token-font-size-text-basis-medium: 1.125rem;
+  --token-font-size-text-sm: 1rem;
+  --token-font-size-text-sm-medium: 1rem;
+  --token-font-size-text-xs: 0.875rem;
+  --token-font-size-text-xs-medium: 0.875rem;
+  --token-font-size-text-2xs: 0.8125rem;
+  --token-font-size-text-2xs-medium: 0.8125rem;
+  --token-font-height-heading-2xl: 3.5rem;
+  --token-font-height-heading-xl: 2.5rem;
+  --token-font-height-heading-large: 2rem;
+  --token-font-height-text-lead: 1.5rem;
+  --token-font-height-text-basis: 1.5rem;
+  --token-font-height-text-basis-medium: 1.5rem;
+  --token-font-height-text-sm: 1.25rem;
+  --token-font-height-text-sm-medium: 1.25rem;
+  --token-font-height-text-xs: 1.25rem;
+  --token-font-height-text-xs-medium: 1.25rem;
   --token-radius-0: 0;
   --token-radius-xs: 0.125rem;
   --token-radius-sm: 0.25rem;
@@ -286,4 +308,29 @@
   --token-radius-lg: 1rem;
   --token-radius-xl: 1.5rem;
   --token-radius-full: 9999px;
+}
+.eufemia-theme__ui.eufemia-theme__color-scheme--dark,
+.eufemia-theme__eiendom.eufemia-theme__color-scheme--dark {
+  --token-font-size-heading-2xl: 3rem;
+  --token-font-size-heading-xl: 2.125rem;
+  --token-font-size-heading-lg: 1.625rem;
+  --token-font-size-text-lead: 1.25rem;
+  --token-font-size-text-basis: 1.125rem;
+  --token-font-size-text-basis-medium: 1.125rem;
+  --token-font-size-text-sm: 1rem;
+  --token-font-size-text-sm-medium: 1rem;
+  --token-font-size-text-xs: 0.875rem;
+  --token-font-size-text-xs-medium: 0.875rem;
+  --token-font-size-text-2xs: 0.8125rem;
+  --token-font-size-text-2xs-medium: 0.8125rem;
+  --token-font-height-heading-2xl: 3.5rem;
+  --token-font-height-heading-xl: 2.5rem;
+  --token-font-height-heading-large: 2rem;
+  --token-font-height-text-lead: 1.5rem;
+  --token-font-height-text-basis: 1.5rem;
+  --token-font-height-text-basis-medium: 1.5rem;
+  --token-font-height-text-sm: 1.25rem;
+  --token-font-height-text-sm-medium: 1.25rem;
+  --token-font-height-text-xs: 1.25rem;
+  --token-font-height-text-xs-medium: 1.25rem;
 }

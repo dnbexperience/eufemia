@@ -501,7 +501,7 @@ export function TokenSectionOverview() {
   }
 
   const colorSections = tokenSections.filter(
-    (section) => section.id !== 'radius'
+    (section) => section.id !== 'radius' && section.id !== 'typography'
   )
 
   return (
@@ -569,6 +569,10 @@ export function TokenNamingRules() {
         <Tr>
           <Td>Semantic Color sections</Td>
           <Td>{renderInlineCodeList(tokenNamingPolicy.colorSections)}</Td>
+        </Tr>
+        <Tr>
+          <Td>Typography sections</Td>
+          <Td>{renderInlineCodeList(tokenNamingPolicy.fontSections)}</Td>
         </Tr>
         <Tr>
           <Td>Typical Color labels</Td>
@@ -934,6 +938,54 @@ export function RadiusTokenTable() {
             <Td>{renderRadiusValue(token.references.sbankenLight)}</Td>
             <Td>{renderRadiusValue(token.references.sbankenDark)}</Td>
             <Td>{renderRadiusValue(token.references.carnegie)}</Td>
+          </Tr>
+        ))}
+      </tbody>
+    </Table>
+  )
+}
+
+export function TypographyTokenTable() {
+  const sectionTokens =
+    tokenSections.find((section) => section.id === 'typography')?.tokens ||
+    []
+  const tokens = ['size', 'height'].flatMap((group) =>
+    sectionTokens.filter((token) => token.group === group)
+  )
+
+  return (
+    <Table>
+      <thead>
+        <Tr>
+          <Th noWrap>Token</Th>
+          <Th noWrap>DNB Light</Th>
+          <Th noWrap>DNB Dark</Th>
+          <Th noWrap>Sbanken Light</Th>
+          <Th noWrap>Sbanken Dark</Th>
+          <Th noWrap>Carnegie</Th>
+        </Tr>
+      </thead>
+      <tbody>
+        {tokens.map((token) => (
+          <Tr key={token.name}>
+            <Td style={cellVerticalMiddle}>
+              <MDXCode>{token.name}</MDXCode>
+            </Td>
+            <Td>
+              <MDXCode>{token.references.uiLight}</MDXCode>
+            </Td>
+            <Td>
+              <MDXCode>{token.references.uiDark}</MDXCode>
+            </Td>
+            <Td>
+              <MDXCode>{token.references.sbankenLight}</MDXCode>
+            </Td>
+            <Td>
+              <MDXCode>{token.references.sbankenDark}</MDXCode>
+            </Td>
+            <Td>
+              <MDXCode>{token.references.carnegie}</MDXCode>
+            </Td>
           </Tr>
         ))}
       </tbody>

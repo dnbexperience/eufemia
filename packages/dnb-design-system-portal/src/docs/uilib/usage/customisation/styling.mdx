@@ -202,9 +202,9 @@ This makes Eufemia properties directly usable with Tailwind's utility classes wh
 
 ### Semantic Design Tokens
 
-In addition to the theme properties above, Eufemia provides semantic design tokens via `tokens-tailwind.css`. These tokens represent higher-level design decisions (e.g., "background for an action element") rather than raw values, and reference foundation color variables.
+In addition to the theme properties above, Eufemia provides design tokens via `tokens-tailwind.css`. Color tokens express semantic roles (e.g., "background for an action element") and reference foundation colors. Typography and radius tokens provide brand values.
 
-The `--token-` prefix from `tokens.scss` is stripped, so the variables map directly to Tailwind's `--color-*` namespace:
+The `--token-` prefix from `tokens.scss` is stripped. Color tokens map to Tailwind's `--color-*` namespace:
 
 - **`--color-background-*`** - Background colors (e.g., `--color-background-action`, `--color-background-error-subtle`)
 - **`--color-text-*`** - Text colors (e.g., `--color-text-neutral`, `--color-text-action`)
@@ -212,6 +212,8 @@ The `--token-` prefix from `tokens.scss` is stripped, so the variables map direc
 - **`--color-stroke-*`** - Border/stroke colors (e.g., `--color-stroke-action`, `--color-stroke-error`)
 - **`--color-decorative-*`** - Decorative colors (e.g., `--color-decorative-first-base`, `--color-decorative-second-muted`)
 - **`--color-component-*`** - Component-specific tokens (e.g., `--color-component-button-background-action`)
+- **`--font-size-*`** - Brand font sizes (e.g., `--font-size-heading-2xl`)
+- **`--font-height-*`** - Brand line heights (e.g., `--font-height-heading-2xl`)
 
 This allows usage like:
 
@@ -222,6 +224,8 @@ This allows usage like:
 ```
 
 The `tokens-tailwind.css` files are available for all themes: `ui`, `sbanken`, and `carnegie`.
+
+Typography tokens remain available as CSS variables. For Tailwind font-size and line-height utilities, use the `--text-*` and `--leading-*` values from `properties-tailwind.css`.
 
 ## Z-Index Scale \{#z-index\}
 

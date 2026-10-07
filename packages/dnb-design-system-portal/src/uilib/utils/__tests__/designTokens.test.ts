@@ -3,6 +3,7 @@ import {
   buildThemeTokenEntries,
   buildTokenSections,
   extractTokenModifiers,
+  tokenSections,
 } from '../designTokens'
 
 describe('design token docs data', () => {
@@ -81,6 +82,46 @@ describe('design token docs data', () => {
         foundationReference: null,
       },
     ])
+  })
+
+  it('collects numeric typography tokens and excludes font metadata', () => {
+    const result = buildThemeTokenEntries({
+      font: {
+        size: {
+          'heading-2xl': { $type: 'number', $value: 56 },
+        },
+        height: {
+          'heading-2xl': { $type: 'number', $value: 68 },
+        },
+        family: {
+          heading: { $type: 'string', $value: 'DNB' },
+        },
+      },
+    })
+
+    expect(
+      result.filter((entry) => entry.section === 'typography')
+    ).toEqual([
+      expect.objectContaining({
+        name: '--token-font-size-heading-2xl',
+        group: 'size',
+        reference: '3.5rem',
+      }),
+      expect.objectContaining({
+        name: '--token-font-height-heading-2xl',
+        group: 'height',
+        reference: '4.25rem',
+      }),
+    ])
+  })
+
+  it('shows the current brand values for the largest heading', () => {
+    const heading = tokenSections
+      .find(({ id }) => id === 'typography')
+      ?.tokens.find(({ name }) => name === '--token-font-size-heading-2xl')
+
+    expect(heading?.references.uiLight).toBe('3rem')
+    expect(heading?.references.carnegie).toBe('3.5rem')
   })
 
   it('extracts known modifiers from a token path', () => {

@@ -10,8 +10,9 @@ import ChangeStyleTheme from '../../../core/ChangeStyleTheme'
 
 <ChangeStyleTheme label="Change the brand:" bottom="large" />
 
-For details about what values Typographic elements use, have a look at the
-[Fonts & Typography](/quickguide-designer/fonts#typographic-elements) documentation.
+For brand values, see the [typography tokens](/uilib/usage/customisation/theming/design-tokens/typography/). The [Fonts & Typography](/quickguide-designer/fonts#typographic-elements) guide shows the DNB scale.
+
+The tables below show light-mode values for the selected brand. The token catalog lists both light and dark modes.
 
 ## Default `font-size` **rem** table
 
@@ -104,15 +105,15 @@ Typography components inside the wrapper, like `H2`, `Span`, `P`, `Heading`, wil
 
 You can turn it off for a section using `<Typography.Context responsive={false}>`.
 
-| CSS Variable                      | `← small` | `small → medium` | `medium →` |
-| --------------------------------- | --------- | ---------------- | ---------- |
-| `--responsive-font-size-x-small`  | 0.8125rem | 0.875rem         | 0.875rem   |
-| `--responsive-font-size-small`    | 0.875rem  | 1rem             | 1rem       |
-| `--responsive-font-size-basis`    | 1rem      | 1.125rem         | 1.125rem   |
-| `--responsive-font-size-medium`   | 1.125rem  | 1.25rem          | 1.25rem    |
-| `--responsive-font-size-large`    | 1.25rem   | 1.625rem         | 1.625rem   |
-| `--responsive-font-size-x-large`  | 1.625rem  | 2.125rem         | 2.125rem   |
-| `--responsive-font-size-xx-large` | 2.125rem  | 3rem             | 3rem       |
+| CSS Variable                      | `← small`                              | `small → medium`                       | `medium →`                             |
+| --------------------------------- | -------------------------------------- | -------------------------------------- | -------------------------------------- |
+| `--responsive-font-size-x-small`  | {GetPropValue('--font-size-xx-small')} | {GetPropValue('--font-size-x-small')}  | {GetPropValue('--font-size-x-small')}  |
+| `--responsive-font-size-small`    | {GetPropValue('--font-size-x-small')}  | {GetPropValue('--font-size-small')}    | {GetPropValue('--font-size-small')}    |
+| `--responsive-font-size-basis`    | {GetPropValue('--font-size-small')}    | {GetPropValue('--font-size-basis')}    | {GetPropValue('--font-size-basis')}    |
+| `--responsive-font-size-medium`   | {GetPropValue('--font-size-basis')}    | {GetPropValue('--font-size-medium')}   | {GetPropValue('--font-size-medium')}   |
+| `--responsive-font-size-large`    | {GetPropValue('--font-size-medium')}   | {GetPropValue('--font-size-large')}    | {GetPropValue('--font-size-large')}    |
+| `--responsive-font-size-x-large`  | {GetPropValue('--font-size-large')}    | {GetPropValue('--font-size-x-large')}  | {GetPropValue('--font-size-x-large')}  |
+| `--responsive-font-size-xx-large` | {GetPropValue('--font-size-x-large')}  | {GetPropValue('--font-size-xx-large')} | {GetPropValue('--font-size-xx-large')} |
 
 All `--responsive-font-size-*` CSS variables are scoped to typography components (`P`, `Heading`, `Span`, `Lead`, `H1`, `H2`, etc.) as of now. If you need to use them elsewhere use the `.dnb-t` class.
 

@@ -242,6 +242,28 @@
     --dnb-greyscale-800
   );
   --color-component-progressbar-neutral-onsubtle: var(--dnb-greyscale-700);
+  --font-size-heading-2xl: 3rem;
+  --font-size-heading-xl: 2.125rem;
+  --font-size-heading-lg: 1.625rem;
+  --font-size-text-lead: 1.25rem;
+  --font-size-text-basis: 1.125rem;
+  --font-size-text-basis-medium: 1.125rem;
+  --font-size-text-sm: 1rem;
+  --font-size-text-sm-medium: 1rem;
+  --font-size-text-xs: 0.875rem;
+  --font-size-text-xs-medium: 0.875rem;
+  --font-size-text-2xs: 0.8125rem;
+  --font-size-text-2xs-medium: 0.8125rem;
+  --font-height-heading-2xl: 3.5rem;
+  --font-height-heading-xl: 2.5rem;
+  --font-height-heading-large: 2rem;
+  --font-height-text-lead: 1.5rem;
+  --font-height-text-basis: 1.5rem;
+  --font-height-text-basis-medium: 1.5rem;
+  --font-height-text-sm: 1.25rem;
+  --font-height-text-sm-medium: 1.25rem;
+  --font-height-text-xs: 1.25rem;
+  --font-height-text-xs-medium: 1.25rem;
   --radius-0: 0;
   --radius-xs: 0.125rem;
   --radius-sm: 0.25rem;
@@ -249,4 +271,30 @@
   --radius-lg: 1rem;
   --radius-xl: 1.5rem;
   --radius-full: 9999px;
+}
+
+.eufemia-theme__ui.eufemia-theme__color-scheme--dark,
+.eufemia-theme__eiendom.eufemia-theme__color-scheme--dark {
+  --font-size-heading-2xl: 3rem;
+  --font-size-heading-xl: 2.125rem;
+  --font-size-heading-lg: 1.625rem;
+  --font-size-text-lead: 1.25rem;
+  --font-size-text-basis: 1.125rem;
+  --font-size-text-basis-medium: 1.125rem;
+  --font-size-text-sm: 1rem;
+  --font-size-text-sm-medium: 1rem;
+  --font-size-text-xs: 0.875rem;
+  --font-size-text-xs-medium: 0.875rem;
+  --font-size-text-2xs: 0.8125rem;
+  --font-size-text-2xs-medium: 0.8125rem;
+  --font-height-heading-2xl: 3.5rem;
+  --font-height-heading-xl: 2.5rem;
+  --font-height-heading-large: 2rem;
+  --font-height-text-lead: 1.5rem;
+  --font-height-text-basis: 1.5rem;
+  --font-height-text-basis-medium: 1.5rem;
+  --font-height-text-sm: 1.25rem;
+  --font-height-text-sm-medium: 1.25rem;
+  --font-height-text-xs: 1.25rem;
+  --font-height-text-xs-medium: 1.25rem;
 }
