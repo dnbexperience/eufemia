@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import fs from 'node:fs'
 import path from 'node:path'
-import matter from 'gray-matter'
+import matter from '@11ty/gray-matter'
 import { scanPageFiles } from '../client/plugins/portal-pages'
 import { isFirstTabPage } from '../client/plugins/portal-pages.shared'
 import type { PageFileInfo } from '../client/plugins/portal-pages.shared'
