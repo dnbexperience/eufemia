@@ -1750,6 +1750,51 @@ describe('Wizard.Container', () => {
       expect(output()).toHaveTextContent('Step 1')
     })
 
+    it('should go to the next step on the next click after an onStepChange that prevented navigation and threw', async () => {
+      let shouldFail = true
+      const onStepChange = vi.fn(
+        async (step, mode, { preventNavigation }) => {
+          if (shouldFail) {
+            shouldFail = false
+            preventNavigation()
+            throw new Error('Request failed')
+          }
+        }
+      )
+
+      render(
+        <Form.Handler>
+          <Wizard.Container onStepChange={onStepChange}>
+            <Wizard.Step title="Step 1">
+              <output>Step 1</output>
+              <Wizard.Buttons />
+            </Wizard.Step>
+
+            <Wizard.Step title="Step 2">
+              <output>Step 2</output>
+              <Wizard.Buttons />
+            </Wizard.Step>
+          </Wizard.Container>
+        </Form.Handler>
+      )
+
+      fireEvent.click(nextButton())
+
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toHaveTextContent('Request failed')
+        expect(nextButton()).not.toBeDisabled()
+      })
+
+      fireEvent.click(nextButton())
+
+      await waitFor(() => {
+        expect(output()).toHaveTextContent('Step 2')
+      })
+      expect(onStepChange).toHaveBeenCalledTimes(2)
+    })
+
     it('should handle async onSubmit', async () => {
       const onSubmit = async () => null
 

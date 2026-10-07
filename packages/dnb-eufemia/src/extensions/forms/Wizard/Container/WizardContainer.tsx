@@ -440,7 +440,11 @@ function WizardContainer(props: WizardContainerProps) {
           !skipStepChangeCall &&
           !(skipStepChangeCallBeforeMounted && !isInteractionRef.current)
         ) {
-          result = await callOnStepChange(index, mode)
+          result = await callOnStepChange(index, mode).catch((error) => {
+            // Keep a preventNavigation call from blocking the next step change
+            preventNextStepRef.current = false
+            throw error
+          })
         }
 
         // Hide async indicator
