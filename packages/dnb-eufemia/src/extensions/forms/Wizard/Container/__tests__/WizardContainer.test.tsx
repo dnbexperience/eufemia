@@ -2414,8 +2414,10 @@ describe('Wizard.Container', () => {
     expect(buttonElement).toBeDisabled()
 
     // Browsers move focus to the body when the focused button gets disabled
-    buttonElement.removeAttribute('disabled')
-    buttonElement.blur()
+    const element = document.createElement('input')
+    document.body.appendChild(element)
+    element.focus()
+    element.remove()
     expect(document.body).toHaveFocus()
 
     await waitFor(() => {

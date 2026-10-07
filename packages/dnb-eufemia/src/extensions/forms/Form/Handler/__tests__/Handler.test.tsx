@@ -620,6 +620,14 @@ describe('Form.Handler', () => {
       log.mockRestore()
     })
 
+    // Browsers move focus to the body when the focused element gets disabled
+    const moveFocusToBody = () => {
+      const element = document.createElement('input')
+      document.body.appendChild(element)
+      element.focus()
+      element.remove()
+    }
+
     it('should disable form elements during submit indicator when formStatus is pending', () => {
       const onSubmit = async () => null
 
@@ -764,9 +772,7 @@ describe('Form.Handler', () => {
 
       expect(buttonElement).toBeDisabled()
 
-      // Browsers move focus to the body when the focused button gets disabled
-      buttonElement.removeAttribute('disabled')
-      buttonElement.blur()
+      moveFocusToBody()
       expect(document.body).toHaveFocus()
 
       await waitFor(() => {
@@ -775,6 +781,43 @@ describe('Form.Handler', () => {
         )
         expect(buttonElement).toHaveFocus()
       })
+    })
+
+    it('should set focus back on the submit button when an async validator stops the submit', async () => {
+      const onSubmit = vi.fn()
+      const onBlurValidator = async () => {
+        await wait(1)
+
+        return new Error('Invalid value')
+      }
+
+      render(
+        <Form.Handler onSubmit={onSubmit}>
+          <Field.String
+            path="/foo"
+            value="bar"
+            onBlurValidator={onBlurValidator}
+          />
+          <Form.SubmitButton />
+        </Form.Handler>
+      )
+
+      const buttonElement = document.querySelector('button')
+      buttonElement.focus()
+      fireEvent.click(buttonElement)
+
+      expect(buttonElement).toBeDisabled()
+
+      moveFocusToBody()
+      expect(document.body).toHaveFocus()
+
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toHaveTextContent('Invalid value')
+        expect(buttonElement).toHaveFocus()
+      })
+      expect(onSubmit).not.toHaveBeenCalled()
     })
 
     it('should not move focus back when it was moved elsewhere during an async submit that fails', async () => {
