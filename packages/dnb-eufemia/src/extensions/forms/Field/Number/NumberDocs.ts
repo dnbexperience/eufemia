@@ -1,5 +1,6 @@
 import { InputProperties } from '../../../../components/input/InputDocs'
 import type { PropertiesTableProps } from '../../../../shared/types'
+import { StringEvents } from '../String/StringDocs'
 
 export const NumberProperties: PropertiesTableProps = {
   decimalLimit: {
@@ -106,4 +107,8 @@ export const NumberProperties: PropertiesTableProps = {
     type: ['array', 'function'],
     status: 'optional',
   },
+}
+
+export const NumberEvents: PropertiesTableProps = {
+  onKeyDown: StringEvents.onKeyDown,
 }
