@@ -1,0 +1,88 @@
+---
+title: 'Translations'
+description: 'Locales and custom labels for the AI components.'
+order: 3
+componentType: 'docs'
+breadcrumb:
+  - text: AI
+    href: /uilib/extensions/ai/
+  - text: Translations
+    href: /uilib/extensions/ai/translations/
+---
+
+# Translations
+
+The AI extension keeps its strings in its own locale files, separate from the base component translations. It uses the shared Eufemia Provider for locale selection and overrides, like Forms.
+
+Norwegian Bokmål (`nb-NO`) and British English (`en-GB`) are included with the extension. Norwegian is the default. English variants fall back to British English; other locales fall back to Norwegian unless you supply translations.
+
+## Select a locale
+
+```tsx
+import { Provider } from '@dnb/eufemia/shared'
+import * as Ai from '@dnb/eufemia/extensions/ai'
+
+function ChatInput() {
+  return (
+    <Provider locale="en-GB">
+      <Ai.PromptInput />
+    </Provider>
+  )
+}
+```
+
+## Load an additional locale
+
+Swedish, Danish and US English are available as explicit imports. Load the AI locale alongside the corresponding base component locale, so buttons, input elements and number/date formatting use the same language.
+
+```tsx
+import { Provider } from '@dnb/eufemia/shared'
+import * as Ai from '@dnb/eufemia/extensions/ai'
+import svSE from '@dnb/eufemia/shared/locales/sv-SE'
+import aiSvSE from '@dnb/eufemia/extensions/ai/constants/locales/sv-SE'
+
+const translations = {
+  'sv-SE': { ...svSE['sv-SE'], ...aiSvSE['sv-SE'] },
+}
+
+function ChatInput() {
+  return (
+    <Provider locale="sv-SE" translations={translations}>
+      <Ai.PromptInput />
+    </Provider>
+  )
+}
+```
+
+Use the same pattern with `da-DK` or `en-US`. US English inherits the extension's British English strings and supplies American spelling where it differs. Provider's `translationsLoader` can also load these files asynchronously.
+
+## Override labels
+
+Keep overrides under `Ai`. Partial overrides preserve the other extension defaults. Both nested keys and flat keys such as `'Ai.promptPlaceholder'` work.
+
+```tsx
+import { Provider } from '@dnb/eufemia/shared'
+import * as Ai from '@dnb/eufemia/extensions/ai'
+
+const translations = {
+  'en-GB': {
+    Ai: {
+      promptPlaceholder: 'Ask about your accounts',
+      loading: 'Preparing your answer …',
+    },
+  },
+}
+
+function ChatInput() {
+  return (
+    <Provider locale="en-GB" translations={translations}>
+      <Ai.Loader />
+      <Ai.PromptInput />
+    </Provider>
+  )
+}
+```
+
+When overriding an explicitly imported locale, merge its `Ai` object before your custom keys, so the remaining labels keep that language. For example: `Ai: { ...aiSvSE['sv-SE'].Ai, loading: 'Förbereder ditt svar …' }`.
+
+The locale files cover component labels, tool statuses, source counts and accessibility text. Your application owns the language of messages, tool titles, results and other content passed as props or children. Changing the Provider locale does not translate generated answers or application data.
