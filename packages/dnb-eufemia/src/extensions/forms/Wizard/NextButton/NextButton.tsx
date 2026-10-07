@@ -22,9 +22,17 @@ function NextButton(props: WizardNextButtonProps) {
     icon = 'chevron_right',
     children = translations.text,
   } = props
-  const { handleNext } = useContext(WizardContext) || {}
+  const { id: wizardId, handleNext } = useContext(WizardContext) || {}
+  const { prerenderFieldProps, formState, activeSubmitButtonId } =
+    useContext(DataContext)
   const buttonRef = useRef<HTMLElement>(null)
   const ref = useCombinedRef(props.ref, buttonRef)
+
+  // Going forward without a Next button click, like with the step indicator
+  const showIndicator =
+    wizardId !== undefined &&
+    activeSubmitButtonId === `${wizardId}-next` &&
+    formState === 'pending'
 
   const handleClick = useCallback(() => {
     handleNext?.(
@@ -35,7 +43,6 @@ function NextButton(props: WizardNextButtonProps) {
     return false
   }, [handleNext])
 
-  const { prerenderFieldProps } = useContext(DataContext)
   if (prerenderFieldProps) {
     return null as JSX.Element
   }
@@ -47,6 +54,7 @@ function NextButton(props: WizardNextButtonProps) {
         type="button"
         iconPosition={iconPosition}
         icon={icon}
+        showIndicator={showIndicator}
         {...mergeProps(
           { className: 'dnb-forms-next-button', onClick: handleClick },
           props
