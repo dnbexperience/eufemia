@@ -7,6 +7,7 @@ import {
 } from 'react'
 import { useSharedState } from '../../../shared/helpers/useSharedState'
 import { debounceAsync } from '../../../shared/helpers/debounce'
+import { DEFAULT_ASYNC_SUBMIT_TIMEOUT } from '../../../shared/defaults'
 import type { FilterState, FilterValue } from '../FilterContext'
 import { FilterContext } from '../FilterContext'
 
@@ -151,9 +152,42 @@ export function useFilterAsync<T>(
       ? debouncedFetcherRef.current
       : fetcherRef.current
 
+    // Only returns true for whichever outcome arrives first, so a fetch
+    // settling after its deadline is ignored rather than overwriting results
+    // the filter has already moved on from
+    let settled = false
+    const claimRequest = () => {
+      if (settled || cancelled || requestId !== requestRef.current) {
+        return false
+      }
+
+      settled = true
+
+      return true
+    }
+
+    // The fetcher is what clears `resultLoading`, which shows a skeleton on
+    // Filter.Content and hides the result count. Nothing else clears it, so a
+    // Promise that never settles would leave the filter loading forever. The
+    // deadline runs from the change that triggered the fetch, because that is
+    // also when the loading state starts, so it covers `debounce` too.
+    const timeoutId = setTimeout(() => {
+      if (claimRequest()) {
+        const error = new Error(
+          `Filter.useFilterAsync(): the fetcher did not settle within ${DEFAULT_ASYNC_SUBMIT_TIMEOUT}ms.`
+        )
+        // Named so consumers can tell a deadline apart from a rejection the
+        // fetcher itself produced, and localize their own message for it
+        error.name = 'TimeoutError'
+        setError(error)
+        extend({ resultLoading: false })
+      }
+    }, DEFAULT_ASYNC_SUBMIT_TIMEOUT)
+
     fetchFn({ filters, search })
       .then((data) => {
-        if (!cancelled && requestId === requestRef.current) {
+        if (claimRequest()) {
+          clearTimeout(timeoutId)
           setResult(data)
           extend({
             resultLoading: false,
@@ -162,7 +196,8 @@ export function useFilterAsync<T>(
         }
       })
       .catch((err) => {
-        if (!cancelled && requestId === requestRef.current) {
+        if (claimRequest()) {
+          clearTimeout(timeoutId)
           setError(err instanceof Error ? err : new Error(String(err)))
           extend({ resultLoading: false })
         }
@@ -170,6 +205,7 @@ export function useFilterAsync<T>(
 
     return () => {
       cancelled = true
+      clearTimeout(timeoutId)
       if (shouldDebounce) {
         debouncedFetcherRef.current?.cancel()
       }
