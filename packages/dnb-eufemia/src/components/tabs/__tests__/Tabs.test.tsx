@@ -162,6 +162,54 @@ describe('Tabs component', () => {
     expect(underline).toHaveClass('dnb-tabs__selection--animated')
   })
 
+  it('updates the selection underline when web fonts finish loading', () => {
+    const fonts = new EventTarget()
+    Object.defineProperty(document, 'fonts', {
+      value: fonts,
+      configurable: true,
+    })
+
+    let tabWidth = 40
+    vi.spyOn(
+      HTMLElement.prototype,
+      'getBoundingClientRect'
+    ).mockImplementation(function (this: HTMLElement) {
+      if (this.getAttribute('data-tab-key') === 'first') {
+        return { left: 0, width: tabWidth } as DOMRect
+      }
+
+      return { left: 0, width: 0 } as DOMRect
+    })
+
+    const { unmount } = render(
+      <Tabs {...props} data={tablistData}>
+        {contentWrapperData}
+      </Tabs>
+    )
+
+    const underline = document.querySelector<HTMLElement>(
+      '.dnb-tabs__selection'
+    )
+
+    expect(
+      underline.style.getPropertyValue('--tabs-selection-width')
+    ).toBe('40px')
+
+    // The web font makes the tab wider than the fallback font did
+    tabWidth = 42
+
+    act(() => {
+      fonts.dispatchEvent(new Event('loadingdone'))
+    })
+
+    expect(
+      underline.style.getPropertyValue('--tabs-selection-width')
+    ).toBe('42px')
+
+    unmount()
+    delete (document as unknown as Record<string, unknown>).fonts
+  })
+
   it('has working "onChange" and "onClick" event handler', () => {
     let preventChange = false
     const onChange = vi.fn((e) => {
