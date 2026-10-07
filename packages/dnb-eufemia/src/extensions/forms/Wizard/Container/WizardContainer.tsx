@@ -524,7 +524,7 @@ function WizardContainer(props: WizardContainerProps) {
       if (isAsync(onStepChange) && !options?.skipStepChangeCallFromHook) {
         const buttonsId = mode === 'previous' ? id : `${id}-next`
 
-        // handleNext and handlePrevious given as onClick get the click event
+        // The click event arrives here when handleNext or handlePrevious is given as onClick
         setActiveSubmitButtonId?.(
           typeof submitButtonId === 'string' ? submitButtonId : buttonsId
         )
