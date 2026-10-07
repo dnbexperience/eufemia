@@ -42,7 +42,7 @@ export type WizardContextState = {
   prerenderFieldProps?: boolean
   keepInDOM?: boolean
   handlePrevious?: (submitButtonId?: string) => void
-  handleNext?: () => void
+  handleNext?: (submitButtonId?: string) => void
   setActiveIndex?: (
     index: StepIndex,
     {

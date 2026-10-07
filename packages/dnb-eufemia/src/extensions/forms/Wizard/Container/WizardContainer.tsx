@@ -547,9 +547,17 @@ function WizardContainer(props: WizardContainerProps) {
     [onStepChange, setActiveIndex, setActiveSubmitButtonId]
   )
 
-  const handleNext = useCallback(() => {
-    setActiveIndex(activeIndexRef.current + 1)
-  }, [setActiveIndex])
+  const handleNext = useCallback(
+    (submitButtonId?: string) => {
+      // Claim first, so errors that stop the step change can release it
+      if (submitButtonId && isAsync(onStepChange)) {
+        setActiveSubmitButtonId?.(submitButtonId)
+      }
+
+      setActiveIndex(activeIndexRef.current + 1)
+    },
+    [onStepChange, setActiveIndex, setActiveSubmitButtonId]
+  )
 
   const handleChange = useCallback(
     ({ currentStep }) => {

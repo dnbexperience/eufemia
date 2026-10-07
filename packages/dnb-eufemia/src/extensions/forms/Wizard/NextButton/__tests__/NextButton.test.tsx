@@ -1,3 +1,4 @@
+import { createRef } from 'react'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import '../../../../../core/vitest/mockMatchMediaSetup'
 import NextButton from '../NextButton'
@@ -122,6 +123,15 @@ describe('NextButton', () => {
     )
   })
 
+  it('should support a given ref', () => {
+    const ref = createRef<HTMLElement>()
+    render(<NextButton ref={ref} />)
+
+    expect(ref.current).toBe(
+      document.querySelector('.dnb-forms-next-button')
+    )
+  })
+
   it('should commit a surrounding Form.Isolation only once', async () => {
     const onCommit = vi.fn()
 
@@ -202,5 +212,99 @@ describe('NextButton', () => {
     })
     expect(indicator()).toBeNull()
     resolveStepChange()
+  })
+
+  describe('submit indicator', () => {
+    const isPending = (selector: string) =>
+      Boolean(
+        document.querySelector(
+          `${selector} .dnb-forms-submit-indicator--state-pending`
+        )
+      )
+
+    let resolveStepChange: () => void
+    const onStepChange = async () => {
+      await new Promise<void>((resolve) => {
+        resolveStepChange = resolve
+      })
+    }
+
+    it('should show the indicator only on the Next button when the step also has a submit button', async () => {
+      render(
+        <Form.Handler minimumAsyncBehaviorTime={0}>
+          <Wizard.Container onStepChange={onStepChange}>
+            <Wizard.Step title="Step 1">
+              <output>Step 1</output>
+              <Wizard.Buttons />
+              <Form.SubmitButton className="send" />
+            </Wizard.Step>
+            <Wizard.Step title="Step 2">
+              <output>Step 2</output>
+            </Wizard.Step>
+          </Wizard.Container>
+        </Form.Handler>
+      )
+
+      fireEvent.click(document.querySelector('.dnb-forms-next-button'))
+      await waitFor(() => {
+        expect(isPending('.dnb-forms-next-button')).toBe(true)
+      })
+      expect(isPending('.send')).toBe(false)
+      resolveStepChange()
+
+      await waitFor(() => {
+        expect(document.querySelector('output')).toHaveTextContent(
+          'Step 2'
+        )
+      })
+    })
+
+    it('should not keep the indicator on the Next button when errors stop the step change', async () => {
+      let submit: () => void
+      const SubmitFromCode = () => {
+        submit = Form.useSubmit().submit
+        return null
+      }
+
+      render(
+        <Form.Handler minimumAsyncBehaviorTime={0}>
+          <Wizard.Container onStepChange={onStepChange}>
+            <Wizard.Step title="Step 1">
+              <Field.String path="/name" required />
+              <Wizard.Buttons />
+              <Form.SubmitButton className="send" />
+            </Wizard.Step>
+            <Wizard.Step title="Step 2">
+              <output>Step 2</output>
+            </Wizard.Step>
+          </Wizard.Container>
+          <SubmitFromCode />
+        </Form.Handler>
+      )
+
+      fireEvent.click(document.querySelector('.dnb-forms-next-button'))
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status--error')
+        ).toBeInTheDocument()
+      })
+
+      fireEvent.change(document.querySelector('input'), {
+        target: { value: 'Name' },
+      })
+      submit()
+
+      await waitFor(() => {
+        expect(isPending('.dnb-forms-next-button')).toBe(true)
+      })
+      expect(isPending('.send')).toBe(true)
+      resolveStepChange()
+
+      await waitFor(() => {
+        expect(document.querySelector('output')).toHaveTextContent(
+          'Step 2'
+        )
+      })
+    })
   })
 })
