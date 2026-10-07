@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import type { HTMLAttributes } from 'react'
 import Button from '../../components/Button'
 import Theme from '../../shared/Theme'
-import useTranslation from '../../shared/useTranslation'
+import useTranslation from './hooks/useTranslation'
 import { copyToClipboard } from '../../shared/helpers'
 import { check, copy } from '../../icons'
 

@@ -1,0 +1,27 @@
+export default {
+  'nb-NO': {
+    Ai: {
+      copyCode: 'Kopier kode',
+      codeCopied: 'Kopiert',
+      loading: 'Skriver svar …',
+      aiGenerated: 'KI-generert',
+      promptLabel: 'Melding',
+      promptPlaceholder: 'Skriv en melding',
+      send: 'Send',
+      stop: 'Stopp',
+      addAttachment: 'Legg til vedlegg',
+      useMicrophone: 'Bruk mikrofon',
+      suggestions: 'Forslag',
+      conversationLabel: 'Samtale',
+      scrollToBottom: 'Gå til siste melding',
+      sources: 'Kilder (%count)',
+      toolRunning: 'Pågår',
+      toolDone: 'Fullført',
+      toolError: 'Feilet',
+      toolAwaitingApproval: 'Venter på bekreftelse',
+      canceled: 'Avbrutt',
+      thinking: 'Tenker …',
+      reasoning: 'Tankeprosess',
+    },
+  },
+}

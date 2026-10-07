@@ -2,7 +2,7 @@ import { render } from '@testing-library/react'
 import type { AiMessageData, AiToolPart } from '../types'
 import { axeComponent } from '../../../core/test-utils/testSetup'
 import Provider from '../../../shared/Provider'
-import enUS from '../../../shared/locales/en-US'
+import enUS from '../constants/locales/en-US'
 import * as Ai from '..'
 
 const toolPart = (part: Partial<AiToolPart>): AiToolPart => ({
