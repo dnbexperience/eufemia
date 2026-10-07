@@ -6,7 +6,9 @@ import { useChatSimulation } from './useChatSimulation'
 import type { Transaction } from './useChatSimulation'
 import styled from '@emotion/styled'
 import svSE from '@dnb/eufemia/src/shared/locales/sv-SE'
+import aiSvSE from '@dnb/eufemia/src/extensions/ai/constants/locales/sv-SE'
 import daDK from '@dnb/eufemia/src/shared/locales/da-DK'
+import aiDaDK from '@dnb/eufemia/src/extensions/ai/constants/locales/da-DK'
 import * as Ai from '@dnb/eufemia/src/extensions/ai'
 import '@dnb/eufemia/src/extensions/ai/style'
 import {
@@ -473,7 +475,10 @@ const ChatLayout = styled.div`
   }
 `
 
-const chatTranslations = { ...svSE, ...daDK }
+const chatTranslations = {
+  'sv-SE': { ...svSE['sv-SE'], ...aiSvSE['sv-SE'] },
+  'da-DK': { ...daDK['da-DK'], ...aiDaDK['da-DK'] },
+}
 
 function getText(message: AiMessageData) {
   return message.parts

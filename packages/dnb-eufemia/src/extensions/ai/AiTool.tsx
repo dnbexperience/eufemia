@@ -2,7 +2,7 @@ import { clsx } from 'clsx'
 import { useSpacing } from '../../components/space/SpacingUtils'
 import Icon from '../../components/Icon'
 import ProgressIndicator from '../../components/ProgressIndicator'
-import useTranslation from '../../shared/useTranslation'
+import useTranslation from './hooks/useTranslation'
 import {
   check,
   close,
