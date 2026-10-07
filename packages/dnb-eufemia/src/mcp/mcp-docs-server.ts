@@ -242,8 +242,7 @@ function extractJsonBlocks(markdown: string) {
   return blocks
 }
 
-// Property and event tables are the blocks with a `props` key. Other blocks,
-// such as translations, have a different shape.
+// Props/events blocks have a props key; translations and examples do not.
 function isPropsBlock(block: JsonValue) {
   return typeof block === 'object' && block !== null && 'props' in block
 }

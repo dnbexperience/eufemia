@@ -871,6 +871,19 @@ describe('component_props', () => {
       { props: { onClick: { type: 'function' } } },
     ])
   })
+
+  it.each(['componentApi', 'componentProps'] as const)(
+    '%s returns ENOENT for a missing component doc',
+    async (tool) => {
+      const tools = createDocsTools({ docsRoot })
+      const result = await tools[tool]({ name: 'Nonexistent' })
+      expect(JSON.parse(getText(result))).toEqual({
+        error: 'ENOENT',
+        message: 'component doc not found',
+        doc: '/uilib/components/nonexistent.md',
+      })
+    }
+  )
 })
 
 describe('createUsageResolver', () => {
