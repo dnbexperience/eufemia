@@ -47,7 +47,7 @@ export default function App() {
         <Code>
           {isReleaseBuild
             ? `release PR #9538, commit ${eufemiaVersion.split('@').pop()}`
-            : `@dnb/eufemia@${eufemiaVersion} (latest on npm)`}
+            : `@dnb/eufemia@${eufemiaVersion} (before this release)`}
         </Code>
       </P>
 
