@@ -17,7 +17,7 @@ export const GLOBAL_VISUAL_PATH_PREFIXES = [
 ]
 
 // Source paths that should not influence visual screenshot selection.
-export const NON_VISUAL_SOURCE_PATH_PREFIXES = []
+export const NON_VISUAL_SOURCE_PATH_PREFIXES = ['src/mcp/']
 
 // Source files that should not trigger visual dependency expansion.
 export const NON_VISUAL_SOURCE_FILES = new Set([])
