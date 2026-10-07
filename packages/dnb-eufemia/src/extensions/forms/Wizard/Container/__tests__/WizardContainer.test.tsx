@@ -5083,6 +5083,40 @@ describe('Wizard.Container', () => {
 
       act(() => root.unmount())
     })
+
+    it('should prerender the other steps in the first commit of a client render', () => {
+      let keysOnMount: Array<string>
+
+      const MountSpy = () => {
+        useEffect(() => {
+          keysOnMount = Object.keys(
+            Form.getData('first-commit-wizard').data
+          )
+        }, [])
+
+        return null
+      }
+
+      render(
+        <Form.Handler id="first-commit-wizard">
+          <Wizard.Container>
+            <Wizard.Step title="Step 1">
+              <Field.String path="/fooStep1" />
+              <Wizard.Buttons />
+            </Wizard.Step>
+
+            <Wizard.Step title="Step 2">
+              <Field.String path="/fooStep2" />
+              <Wizard.Buttons />
+            </Wizard.Step>
+          </Wizard.Container>
+
+          <MountSpy />
+        </Form.Handler>
+      )
+
+      expect(keysOnMount).toEqual(['fooStep1', 'fooStep2'])
+    })
   })
 
   describe('defaultValue', () => {
