@@ -24,7 +24,7 @@ import remarkParse from 'remark-parse'
 import remarkMdx from 'remark-mdx'
 import { visit } from 'unist-util-visit'
 import { toString as nodeToString } from 'mdast-util-to-string'
-import matter from 'gray-matter'
+import matter from '@11ty/gray-matter'
 import algoliasearch from 'algoliasearch'
 import {
   shouldIncludeInAlgolia,

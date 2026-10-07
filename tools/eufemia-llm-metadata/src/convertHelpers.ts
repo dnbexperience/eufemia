@@ -2,10 +2,7 @@ import fs from 'fs-extra'
 import path from 'path'
 import { fileURLToPath } from 'url'
 import crypto from 'crypto'
-import frontMatter, {
-  type FrontMatterOptions,
-  type FrontMatterResult,
-} from 'front-matter'
+import frontMatter from '@11ty/gray-matter'
 import * as prettier from 'prettier'
 import { extractMarkdownTables } from 'markdown-tables-utils'
 import type { NodePath } from '@babel/traverse'
@@ -52,10 +49,7 @@ export type DocEntry = {
 /** A map of prop/event names to their documentation entries. */
 export type DocEntryMap = Record<string, DocEntry>
 
-type FrontMatterParser = {
-  <T>(file: string, options?: FrontMatterOptions): FrontMatterResult<T>
-  test(file: string): boolean
-}
+type FrontMatterParser = typeof frontMatter
 
 function resolveFrontMatterParser(module: unknown): FrontMatterParser {
   if (typeof module === 'function') {
@@ -627,7 +621,7 @@ async function listFilesRecursive(dir: string) {
 async function isDraftMdx(file: string) {
   try {
     const src = await fs.readFile(file, 'utf-8')
-    const { attributes } = fm<{ draft?: boolean | string }>(src)
+    const { data: attributes } = fm(src)
     const raw = attributes && attributes.draft
 
     if (raw === true) {
@@ -768,7 +762,7 @@ export async function extractTitleFromMdx(mdxFile: string | null) {
 
   try {
     const src = await fs.readFile(mdxFile, 'utf-8')
-    const { attributes, body } = fm<{ title?: string }>(src)
+    const { data: attributes, content: body } = fm(src)
 
     if (attributes && typeof attributes.title === 'string') {
       return String(attributes.title).trim()
@@ -889,7 +883,7 @@ export async function extractDescriptionFromMdx(mdxFile: string | null) {
 
   try {
     const src = await fs.readFile(mdxFile, 'utf-8')
-    const { attributes } = fm<{ description?: string }>(src)
+    const { data: attributes } = fm(src)
 
     if (attributes && typeof attributes.description === 'string') {
       return String(attributes.description).trim()
@@ -1568,7 +1562,7 @@ export async function convertMdxToMd({
 
   if (frontmatter) {
     try {
-      const { attributes } = fm<{ title?: string }>(frontmatter)
+      const { data: attributes } = fm(frontmatter)
 
       if (attributes && typeof attributes.title === 'string') {
         const title = String(attributes.title).trim()

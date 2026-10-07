@@ -10,7 +10,7 @@
 import { type Plugin } from 'vite'
 import fs from 'node:fs'
 import path from 'node:path'
-import matter from 'gray-matter'
+import matter from '@11ty/gray-matter'
 import { getSlugFromMdxHeading } from '../../../src/uilib/utils/slug.mjs'
 import type {
   MdxFrontmatter,
