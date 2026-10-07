@@ -48,12 +48,18 @@ export type UploadProps = {
   fileMaxSize?: number | false
 
   /**
+   * Deadline in milliseconds for an `onFileDelete` or `onFileClick` that returns a Promise, defaulting to 30 seconds. Field.Upload sets it to the `asyncSubmitTimeout` of its Form.Handler, so a file operation and the form submit it can block share one deadline. Kept out of the public API until a consumer needs to change it.
+   * @internal
+   */
+  _asyncFileOperationTimeout?: number
+
+  /**
    * Will be called on `files` changes made by the user. Access the files with `{ files }` (containing each a `fileItem`).
    */
   onChange?: ({ files }: { files: Array<UploadFile> }) => void
 
   /**
-   * Will be called once a file gets deleted by the user. Access the deleted file with `{ fileItem }`.
+   * Will be called once a file gets deleted by the user. Access the deleted file with `{ fileItem }`. Return a Promise to keep the file in a loading state until it settles: the file is removed when the Promise resolves, and kept with an error message when it rejects. When it does not settle before its deadline, the file is kept as well and a later settle is ignored.
    */
   onFileDelete?: ({
     fileItem,
@@ -62,7 +68,7 @@ export type UploadProps = {
   }) => void | Promise<void>
 
   /**
-   * Will be called once a file gets clicked on by the user. Access the clicked file with `{ fileItem }`. When providing this property, the file will be rendered as a button instead of an anchor or plain text.
+   * Will be called once a file gets clicked on by the user. Access the clicked file with `{ fileItem }`. When providing this property, the file will be rendered as a button instead of an anchor or plain text. Return a Promise to keep the file in a loading state until it settles. When it does not settle before its deadline, the loading state stops and a later settle is ignored.
    */
   onFileClick?: ({
     fileItem,
@@ -104,6 +110,7 @@ export type UploadProps = {
   errorLargeFile?: ReactNode
   errorUnsupportedFile?: ReactNode
   errorAmountLimit?: ReactNode
+  errorDeleteTimeout?: ReactNode
   loadingText?: ReactNode
   deleteButton?: ReactNode
   listAriaLabel?: string
