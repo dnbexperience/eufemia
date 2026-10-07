@@ -8,7 +8,6 @@ vi.mock('../auth', () => ({
   ensureSignedIn: vi.fn(async () => null),
   getApiBaseUrl: vi.fn(() => 'https://api.example'),
   clearSession: vi.fn(),
-  signOut: vi.fn(),
 }))
 
 vi.mock('../data', async (importActual) => {

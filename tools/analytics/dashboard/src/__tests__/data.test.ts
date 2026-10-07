@@ -148,7 +148,6 @@ describe('dashboardView', () => {
 
 describe('loadDashboardData', () => {
   const session = {
-    name: 'Test',
     accessToken: 'token-abc',
     expiresAt: Date.now() + 60000,
   } satisfies Session

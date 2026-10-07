@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
 import {
-  Button,
   Card,
   Dropdown,
   Flex,
@@ -20,7 +19,6 @@ import {
   clearSession,
   ensureSignedIn,
   getApiBaseUrl,
-  signOut,
   type Session,
 } from './auth'
 import {
@@ -40,11 +38,7 @@ import './App.scss'
 type State =
   | { status: 'loading' }
   | { status: 'error'; message: string }
-  | {
-      status: 'ready'
-      session: Session | null
-      payload: DashboardPayload | null
-    }
+  | { status: 'ready'; payload: DashboardPayload | null }
 
 const COLOR_SCHEMES: ThemeColorScheme[] = ['auto', 'light', 'dark']
 
@@ -111,7 +105,7 @@ function Content({
           return
         }
 
-        setState({ status: 'ready', session, payload: demoPayload })
+        setState({ status: 'ready', payload: demoPayload })
 
         return
       }
@@ -150,7 +144,7 @@ function Content({
       }
 
       const payload = result.kind === 'data' ? result.payload : null
-      setState({ status: 'ready', session, payload })
+      setState({ status: 'ready', payload })
     }
 
     run()
@@ -178,7 +172,6 @@ function Content({
 
   return (
     <Dashboard
-      session={state.session}
       payload={state.payload}
       env={env}
       onEnvChange={setEnv}
@@ -189,14 +182,12 @@ function Content({
 }
 
 function Dashboard({
-  session,
   payload,
   env,
   onEnvChange,
   colorScheme,
   onColorSchemeChange,
 }: {
-  session: Session | null
   payload: DashboardPayload | null
   env: string
   onEnvChange: (env: string) => void
@@ -251,14 +242,6 @@ function Dashboard({
               )
             }
           />
-          {session && (
-            <>
-              <P>{session.name}</P>
-              <Button variant="secondary" onClick={signOut}>
-                Sign out
-              </Button>
-            </>
-          )}
         </Flex.Horizontal>
       </Flex.Horizontal>
 
