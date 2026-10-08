@@ -63,9 +63,10 @@ export function storePortalViews(
 }
 
 /**
- * Persist a batch of anonymous MCP usage events under the mcp-usage/ prefix.
- * The transport is stamped here (not taken from the client), so the local
- * ingest route can only ever write `local` rows.
+ * Persist a batch of anonymous MCP usage events under the mcp-usage/ prefix,
+ * shared with the web MCP producer (tools/mcp-lambda) and told apart by
+ * `transport`. The transport is stamped here (not taken from the client), so
+ * the local ingest route can only ever write `local` rows.
  */
 export function storeMcpUsage(
   events: McpUsageInput[],
