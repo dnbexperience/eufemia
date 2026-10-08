@@ -54,13 +54,23 @@ function createDocsFixture(): DocsFixture {
       '## Properties',
       '',
       '```json',
-      JSON.stringify([{ name: 'text', type: 'string' }], null, 2),
+      JSON.stringify({ props: { text: { type: 'string' } } }, null, 2),
       '```',
       '',
       '## Events',
       '',
       '```json',
-      JSON.stringify([{ name: 'onClick' }], null, 2),
+      JSON.stringify(
+        { props: { onClick: { type: 'function' } } },
+        null,
+        2
+      ),
+      '```',
+      '',
+      '## Translations',
+      '',
+      '```json',
+      JSON.stringify({ locales: ['nb-NO'], entries: {} }, null, 2),
       '```',
     ].join('\n')
   )
@@ -837,8 +847,7 @@ describe('component_api', () => {
     const meta = JSON.parse(getText(result)) as {
       jsonBlocks?: unknown[]
     }
-    expect(Array.isArray(meta.jsonBlocks)).toBe(true)
-    expect(meta.jsonBlocks?.length).toBeGreaterThan(0)
+    expect(meta.jsonBlocks).toHaveLength(3)
   })
 })
 
@@ -854,13 +863,27 @@ describe('component_props', () => {
 
   afterAll(() => cleanup())
 
-  it('returns the json blocks', async () => {
+  it('returns the property and event blocks but not other json blocks', async () => {
     const tools = createDocsTools({ docsRoot })
     const result = await tools.componentProps({ name: 'Button' })
-    const blocks = JSON.parse(getText(result)) as unknown[]
-    expect(Array.isArray(blocks)).toBe(true)
-    expect(blocks[0]).toEqual([{ name: 'text', type: 'string' }])
+    expect(JSON.parse(getText(result))).toEqual([
+      { props: { text: { type: 'string' } } },
+      { props: { onClick: { type: 'function' } } },
+    ])
   })
+
+  it.each(['componentApi', 'componentProps'] as const)(
+    '%s returns ENOENT for a missing component doc',
+    async (tool) => {
+      const tools = createDocsTools({ docsRoot })
+      const result = await tools[tool]({ name: 'Nonexistent' })
+      expect(JSON.parse(getText(result))).toEqual({
+        error: 'ENOENT',
+        message: 'component doc not found',
+        doc: '/uilib/components/nonexistent.md',
+      })
+    }
+  )
 })
 
 describe('createUsageResolver', () => {
