@@ -67,6 +67,7 @@ function SubmitConfirmation(props: ConfirmProps) {
   const confirmationStateRef = useRef<ConfirmationState>('idle')
   const submitStateRef = useRef<EventStateObject>(undefined)
   const preventSubmitRef = useRef<boolean>(undefined)
+  const isFinalSubmitRef = useRef(false)
 
   const validatePreventSubmit = useCallback(() => {
     return (preventSubmitRef.current = preventSubmitWhen?.(
@@ -167,7 +168,7 @@ function SubmitConfirmation(props: ConfirmProps) {
 
   const handleSubmit = useCallback(
     async ({ preventSubmit }) => {
-      if (confirmationStateRef.current === 'submitInProgress') {
+      if (isFinalSubmitRef.current) {
         return // stop here
       }
 
@@ -185,22 +186,19 @@ function SubmitConfirmation(props: ConfirmProps) {
     },
     [setConfirmationState, validatePreventSubmit]
   )
-  const { removeEvent } = useEventListener('onSubmit', handleSubmit)
+  useEventListener('onSubmit', handleSubmit)
 
   const submitHandler = useCallback(async () => {
-    removeEvent()
-
     await setConfirmationState('submitInProgress')
+
+    isFinalSubmitRef.current = true
     await handleFinalSubmit()
+    isFinalSubmitRef.current = false
+
     await setConfirmationState('submissionComplete')
 
     setFocusOnButton()
-  }, [
-    removeEvent,
-    setConfirmationState,
-    handleFinalSubmit,
-    setFocusOnButton,
-  ])
+  }, [setConfirmationState, handleFinalSubmit, setFocusOnButton])
 
   return (
     <>
