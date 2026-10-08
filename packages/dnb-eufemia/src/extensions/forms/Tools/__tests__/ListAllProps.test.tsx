@@ -91,6 +91,7 @@ describe('Tools.ListAllProps', () => {
                 id="id-rt"
                 name="nested/myString"
                 type="text"
+                value="my string"
               />,
             },
             "required": true,
