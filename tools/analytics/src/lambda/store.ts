@@ -55,7 +55,6 @@ async function putBatch<T>(
   return events.length
 }
 
-/** Persist a batch of anonymous portal views under the portal-views/ prefix. */
 export function storePortalViews(
   events: PortalViewInput[]
 ): Promise<number> {
