@@ -14,6 +14,12 @@ The `CopyOnClick` component provides a convenient way to copy text to the clipbo
 Upon hovering, the component can optionally provide visual feedback to the user, displaying a copy cursor or other visual cues that indicate the component's functionality.
 Upon clicking, the component provides a visual feedback to the user, displaying a tooltip with a confirmation message, indicating that the text has been successfully copied.
 
+## Accessibility
+
+`CopyOnClick` only works with a mouse or touch. It is not reachable with the keyboard, and screen readers do not announce that the text can be copied. So do not use it as the only way to copy.
+
+Use `CopyOnClick.Button` instead, or together with `CopyOnClick`. It is a [Button](/uilib/components/button) that copies the given `copyContent` and shows the same confirmation tooltip, which screen readers also announce.
+
 ## Relevant links
 
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/copy-on-click)
@@ -29,6 +35,18 @@ render(
   <P>
     <CopyOnClick>This is the text to copy!</CopyOnClick>
   </P>
+)
+```
+
+And with a copy button:
+
+```jsx
+import { CopyOnClick } from '@dnb/eufemia'
+render(
+  <CopyOnClick.Button
+    copyContent="70321369861"
+    title="Copy account number"
+  />
 )
 ```
 

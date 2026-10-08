@@ -4,7 +4,13 @@
  */
 
 import ComponentBox from '../../../../shared/tags/ComponentBox'
-import { CopyOnClick, Drawer, NumberFormat, P } from '@dnb/eufemia/src'
+import {
+  CopyOnClick,
+  Drawer,
+  Flex,
+  NumberFormat,
+  P,
+} from '@dnb/eufemia/src'
 
 export const Default = () => {
   return (
@@ -77,6 +83,20 @@ export const InsideDrawer = () => {
       <Drawer open>
         <CopyOnClick>I'm inside the drawer</CopyOnClick>
       </Drawer>
+    </ComponentBox>
+  )
+}
+
+export const CopyButton = () => {
+  return (
+    <ComponentBox>
+      <Flex.Horizontal align="center" gap="x-small">
+        <CopyOnClick copyContent="70321369861">7032 1369 861</CopyOnClick>
+        <CopyOnClick.Button
+          copyContent="70321369861"
+          title="Copy account number"
+        />
+      </Flex.Horizontal>
     </ComponentBox>
   )
 }

@@ -2,21 +2,18 @@
  * Web CopyOnClick Component
  */
 
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 import { clsx } from 'clsx'
 import type { CopyOnClickAllProps } from './types'
 import { runIOSSelectionFix } from '../number-format/NumberUtils'
-import {
-  copyToClipboard,
-  hasSelectedText,
-  IS_IOS,
-  warn,
-} from '../../shared/helpers'
+import { hasSelectedText, IS_IOS, warn } from '../../shared/helpers'
 import { convertJsxToString } from '../../shared/component-helper'
 import { useTranslation } from '../../shared'
 import { Span } from '../../elements'
 import Tooltip from '../Tooltip'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
+import useCopyToClipboard from './useCopyToClipboard'
+import CopyOnClickButton from './CopyOnClickButton'
 
 const CopyOnClick = ({
   children,
@@ -28,9 +25,7 @@ const CopyOnClick = ({
   ...props
 }: CopyOnClickAllProps) => {
   const ref = useRef<HTMLSpanElement>(null)
-  const timeoutRef = useRef<NodeJS.Timeout>(undefined)
-  const [active, setActive] = useState(false)
-  const [hasCopied, setHasCopied] = useState(false)
+  const { active, hasCopied, copy } = useCopyToClipboard()
 
   useEffect(() => {
     if (IS_IOS) {
@@ -41,25 +36,6 @@ const CopyOnClick = ({
   const {
     CopyOnClick: { clipboardCopy },
   } = useTranslation()
-
-  const copy = useCallback(async (str: string) => {
-    const clear = () => clearInterval(timeoutRef.current)
-    clear()
-
-    try {
-      const success = await copyToClipboard(str)
-      if (success) {
-        setHasCopied(true)
-        setActive(true)
-
-        timeoutRef.current = setTimeout(() => setActive(false), 2000)
-      }
-    } catch (e) {
-      warn('CopyOnClick: Failed to copy text to clipboard:', e)
-    }
-
-    return () => clear()
-  }, [])
 
   const onClickHandler = useCallback(() => {
     if (!hasSelectedText()) {
@@ -108,6 +84,8 @@ const CopyOnClick = ({
     </Span>
   )
 }
+
+CopyOnClick.Button = CopyOnClickButton
 
 withComponentMarkers(CopyOnClick, {
   _supportsSpacingProps: true,
