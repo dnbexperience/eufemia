@@ -192,8 +192,12 @@ function SubmitConfirmation(props: ConfirmProps) {
     await setConfirmationState('submitInProgress')
 
     isFinalSubmitRef.current = true
-    await handleFinalSubmit()
-    isFinalSubmitRef.current = false
+    try {
+      await handleFinalSubmit()
+    } finally {
+      // E.g. a throwing validator must not leave later submits unconfirmed
+      isFinalSubmitRef.current = false
+    }
 
     await setConfirmationState('submissionComplete')
 
