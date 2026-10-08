@@ -69,6 +69,7 @@ import type {
 import DataContext from '../Context'
 import DataContextRefContext from '../DataContextRefContext'
 import { structuredClone } from '../../../../shared/helpers/structuredClone'
+import useHydrated from '../../../../shared/helpers/useHydrated'
 
 import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../../../shared/helpers/useIsomorphicLayoutEffect'
 
@@ -457,17 +458,13 @@ export default function Provider<Data extends JsonObject>(
   const bumpValidationVersionRef = useRef<() => void>(() => null)
 
   // - Data
+  const isHydrated = useHydrated()
   const initialData = useMemo<Data>(() => {
-    if (sessionStorageId && typeof window !== 'undefined') {
-      const sessionDataJSON =
-        window.sessionStorage?.getItem(sessionStorageId)
-      if (sessionDataJSON) {
-        try {
-          return JSON.parse(sessionDataJSON)
-        } catch (e) {
-          // If session storage data is corrupted, clear it and use default data
-          window.sessionStorage?.removeItem(sessionStorageId)
-        }
+    // The server has no session storage, so it is restored right after hydration
+    if (sessionStorageId && isHydrated) {
+      const sessionData = getSessionData<Data>(sessionStorageId)
+      if (sessionData !== undefined) {
+        return sessionData
       }
     }
 
@@ -1241,6 +1238,33 @@ export default function Provider<Data extends JsonObject>(
       transformIn,
     ]
   )
+
+  const isRestoringSessionRef = useRef(!isHydrated)
+  useLayoutEffect(() => {
+    if (!isRestoringSessionRef.current || !isHydrated) {
+      return // stop here
+    }
+    isRestoringSessionRef.current = false
+
+    const sessionData = sessionStorageId
+      ? getSessionData<Data>(sessionStorageId)
+      : undefined
+
+    if (sessionData !== undefined) {
+      internalDataRef.current = sessionData
+      if (id) {
+        extendSharedData(sessionData, { preventSyncOfSameInstance: true })
+      }
+      notifyDataValueSubscribers()
+      forceUpdate()
+    }
+  }, [
+    extendSharedData,
+    id,
+    isHydrated,
+    notifyDataValueSubscribers,
+    sessionStorageId,
+  ])
 
   /**
    * Update the data set
@@ -2203,6 +2227,20 @@ function useFormStatusBuffer(props: FormStatusBufferProps) {
   ])
 
   return { bufferedFormState: stateRef.current }
+}
+
+function getSessionData<Data>(sessionStorageId: string): Data | undefined {
+  const sessionDataJSON = window.sessionStorage?.getItem(sessionStorageId)
+  if (sessionDataJSON) {
+    try {
+      return JSON.parse(sessionDataJSON)
+    } catch (e) {
+      // If session storage data is corrupted, clear it and use default data
+      window.sessionStorage?.removeItem(sessionStorageId)
+    }
+  }
+
+  return undefined
 }
 
 export const clearedData = Object.freeze({})

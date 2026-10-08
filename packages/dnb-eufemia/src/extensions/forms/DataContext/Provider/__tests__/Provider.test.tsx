@@ -16,6 +16,8 @@ import {
   waitFor,
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { renderToString } from 'react-dom/server'
+import { hydrateRoot } from 'react-dom/client'
 import {
   spyOnEufemiaWarn,
   wait,
@@ -39,6 +41,7 @@ import {
   Ajv,
   Iterate,
   Wizard,
+  Value,
   makeAjvInstance,
   withValidatorOptions,
 } from '../../../'
@@ -2590,6 +2593,60 @@ describe('DataContext.Provider', { retry: isCI ? 5 : 0 }, () => {
       )
 
       expect(screen.getByDisplayValue('Ipsum')).toBeInTheDocument()
+    })
+
+    it('should hydrate server-rendered markup and use the session storage data afterwards', () => {
+      window.sessionStorage.setItem(
+        'hydrated-data',
+        JSON.stringify({ lorem: 'From session storage' })
+      )
+
+      const element = (
+        <DataContext.Provider
+          id="hydrated-session"
+          sessionStorageId="hydrated-data"
+          defaultData={{ lorem: 'Default' }}
+        >
+          <Value.String path="/lorem" />
+        </DataContext.Provider>
+      )
+
+      const windowDescriptor = Object.getOwnPropertyDescriptor(
+        globalThis,
+        'window'
+      )
+      let html: string
+
+      try {
+        delete globalThis.window
+        html = renderToString(element)
+      } finally {
+        Object.defineProperty(globalThis, 'window', windowDescriptor)
+      }
+
+      expect(html).toContain('Default')
+
+      const container = document.createElement('div')
+      container.innerHTML = html
+      document.body.appendChild(container)
+
+      const recoverableErrors = []
+      let root: ReturnType<typeof hydrateRoot>
+      act(() => {
+        root = hydrateRoot(container, element, {
+          onRecoverableError: (error) => recoverableErrors.push(error),
+        })
+      })
+
+      expect(recoverableErrors).toEqual([])
+      expect(container).toHaveTextContent('From session storage')
+      expect(Form.getData('hydrated-session').data).toEqual({
+        lorem: 'From session storage',
+      })
+
+      act(() => root.unmount())
+      container.remove()
+      window.sessionStorage.removeItem('hydrated-data')
     })
 
     it('should throw when both data and sessionStorageId is provided', () => {
