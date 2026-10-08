@@ -57,8 +57,10 @@ describe('CopyOnClick.Button', () => {
   it('should copy with the keyboard and announce the tooltip content', async () => {
     render(<CopyOnClick.Button copyContent="70321369861" />)
 
+    const button = document.querySelector('button')
+
     await userEvent.tab()
-    expect(document.activeElement).toBe(document.querySelector('button'))
+    expect(document.activeElement).toBe(button)
 
     await userEvent.keyboard('{Enter}')
 
@@ -68,6 +70,7 @@ describe('CopyOnClick.Button', () => {
         'Kopiert'
       )
     })
+    expect(document.activeElement).toBe(button)
   })
 
   it('should support a custom title and tooltipContent', async () => {
