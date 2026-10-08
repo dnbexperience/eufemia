@@ -4,7 +4,9 @@
  */
 
 import { act, useEffect, useState } from 'react'
-import type { RefObject } from 'react'
+import type { ReactElement, RefObject } from 'react'
+import { renderToString } from 'react-dom/server'
+import { hydrateRoot } from 'react-dom/client'
 import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
 import type { AccordionProps } from '../Accordion'
 import Accordion from '../Accordion'
@@ -1354,6 +1356,82 @@ describe('Accordion tertiary variant', () => {
       '.dnb-accordion__tertiary-content'
     )
     expect(content).toHaveClass('dnb-space__top--large')
+  })
+})
+
+describe('Accordion with server-rendered markup', () => {
+  const hydrate = (element: ReactElement) => {
+    const windowDescriptor = Object.getOwnPropertyDescriptor(
+      globalThis,
+      'window'
+    )
+    let html: string
+
+    try {
+      delete globalThis.window
+      html = renderToString(element)
+    } finally {
+      Object.defineProperty(globalThis, 'window', windowDescriptor)
+    }
+
+    const container = document.createElement('div')
+    container.innerHTML = html
+    document.body.appendChild(container)
+
+    const recoverableErrors = []
+    let root: ReturnType<typeof hydrateRoot>
+    act(() => {
+      root = hydrateRoot(container, element, {
+        onRecoverableError: (error) => recoverableErrors.push(error),
+      })
+    })
+
+    const unmount = () => {
+      act(() => root.unmount())
+      container.remove()
+    }
+
+    return {
+      html,
+      accordion: container.querySelector('.dnb-accordion'),
+      recoverableErrors,
+      unmount,
+    }
+  }
+
+  it('should hydrate expandedSsr and collapse afterwards', () => {
+    const { html, accordion, recoverableErrors, unmount } = hydrate(
+      <Accordion expandedSsr id="expanded-ssr" title="Title">
+        Content
+      </Accordion>
+    )
+
+    expect(html).toContain('dnb-accordion--expanded')
+    expect(html).toContain('Content')
+    expect(recoverableErrors).toEqual([])
+    expect(accordion).not.toHaveClass('dnb-accordion--expanded')
+
+    unmount()
+  })
+
+  it('should hydrate a remembered expanded state and expand afterwards', () => {
+    localStorage.setItem(
+      'dnb-accordion-remembered',
+      JSON.stringify({ expanded: true })
+    )
+
+    const { html, accordion, recoverableErrors, unmount } = hydrate(
+      <Accordion rememberState id="remembered" title="Title">
+        Content
+      </Accordion>
+    )
+
+    expect(html).not.toContain('dnb-accordion--expanded')
+    expect(recoverableErrors).toEqual([])
+    expect(accordion).toHaveClass('dnb-accordion--expanded')
+
+    unmount()
+    localStorage.removeItem('dnb-accordion-remembered')
   })
 })
 
