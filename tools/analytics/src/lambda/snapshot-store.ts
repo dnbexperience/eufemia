@@ -36,10 +36,11 @@ export type PortalViewDaily = {
   count: number
 }
 
-// A daily MCP usage aggregate row (one per tool+component+path per day), read
-// from and written to the durable mcp_usage_daily rollup.
+// A daily MCP usage aggregate row (one per transport+tool+component+path per
+// day), read from and written to the durable mcp_usage_daily rollup.
 export type McpUsageDaily = {
   dt: string
+  transport: string
   tool: string
   component: string
   path: string
@@ -49,29 +50,35 @@ export type McpUsageDaily = {
 export type McpUsageCount = { name: string; count: number }
 export type McpUsageDay = { date: string; count: number }
 
-// The MCP usage dashboard section: overall total plus ranked breakdowns and a
-// daily series for trend/year-over-year views.
-//
-// `perVersion` is local-only: it counts transport='local' rows grouped by the
-// reported Eufemia version. The web MCP Lambda always runs latest and records no
-// version, so those rows are excluded rather than shown as a null bucket. The
-// tool/component/path breakdowns above merge both transports.
-export type McpUsageSection = {
+// MCP usage for one transport: total plus ranked breakdowns and a daily series
+// for trend/year-over-year views.
+export type McpTransportUsage = {
   total: number
   perTool: McpUsageCount[]
   perComponent: McpUsageCount[]
   perPath: McpUsageCount[]
-  perVersion: McpUsageCount[]
   daily: McpUsageDay[]
 }
 
-export const EMPTY_MCP_USAGE: McpUsageSection = {
+// The MCP usage dashboard section, split by transport: `web` is the deployed MCP
+// Lambda, `local` is the stdio server in @dnb/eufemia. The web Lambda records no
+// Eufemia version, so only `local` has `perVersion`.
+export type McpUsageSection = {
+  web: McpTransportUsage
+  local: McpTransportUsage & { perVersion: McpUsageCount[] }
+}
+
+const EMPTY_MCP_TRANSPORT_USAGE: McpTransportUsage = {
   total: 0,
   perTool: [],
   perComponent: [],
   perPath: [],
-  perVersion: [],
   daily: [],
+}
+
+export const EMPTY_MCP_USAGE: McpUsageSection = {
+  web: EMPTY_MCP_TRANSPORT_USAGE,
+  local: { ...EMPTY_MCP_TRANSPORT_USAGE, perVersion: [] },
 }
 
 // The component usage dashboard section: overall total plus ranked breakdowns by

@@ -111,18 +111,18 @@ For the same reason, an admin must pre-create the read-only dashboard-read execu
 `infra/` provisions:
 
 - **S3 bucket** (versioned, SSE-S3, public access blocked) holding portal-view records (`portal-views/`, `portal-views-daily/`), MCP usage (`mcp-usage/`, `mcp-usage-daily/`), component usage (`component-usage/`, `component-usage-daily/`), the dashboard snapshot (`snapshots/dashboard.json`), and Athena output (`athena-results/`, expired after 7 days). The raw event prefixes (`portal-views/`, `mcp-usage/`, `component-usage/`) are expired after 395 days (≈ 13 months) to cover year-over-year reporting; the daily rollups (`*-daily/`) and the regenerated snapshot are not expired, so aggregated history outlives the raw rows.
-- **Glue database + tables** with JSON SerDe and partition projection on `dt` (`portal_views`, `portal_views_daily`, `mcp_usage`, `mcp_usage_daily`, `component_usage`, `component_usage_daily`). The `portal_views_daily` rollup keeps the anonymous view dimensions (`status`, `locale`, `theme`, `color_scheme`, `referrer`, `via_search`) alongside `path`/`env` so their history survives the raw expiry and stays queryable via Athena; only the per-event timestamp is dropped (aggregated to the `dt` day).
+- **Glue database + tables** with JSON SerDe and partition projection on `dt` (`portal_views`, `portal_views_daily`, `mcp_usage`, `mcp_usage_daily`, `component_usage`, `component_usage_daily`). The `portal_views_daily` rollup keeps the anonymous view dimensions (`status`, `locale`, `theme`, `color_scheme`, `referrer`, `via_search`) alongside `path`/`env` so their history survives the raw expiry and stays queryable via Athena; only the per-event timestamp is dropped (aggregated to the `dt` day). The `mcp_usage_daily` rollup keeps `transport` (`web` or `local`), so the dashboard can show the web and local MCP servers separately; raw web rows written before the MCP Lambda stamped `transport` are counted as `web`.
 
 > **Note:** the snapshot generator refreshes the durable `portal_views_daily` rollup each run for retention, but the dashboard does not read it yet — it still shows the recent raw page-view rows. Surfacing the retained history (and its dimensions) on the dashboard is a follow-up; the rollup exists now so the history is preserved before the raw rows begin to expire.
 
-Scheduled runs recompute only the recent tail. To capture page-views recorded before this rollup existed, run the generator once with an explicit start date (writes are idempotent per day):
+Scheduled runs recompute only the recent tail. To capture page-views recorded before this rollup existed, or to add `transport` to older MCP usage rollup days, run the generator once with an explicit start date. The same `sinceDt` applies to both rollups, and writes are idempotent per day:
 
 ```sh
 aws lambda invoke --function-name eufemia-<env>-analytics-snapshot \
   --payload '{"sinceDt":"2024-01-01"}' --cli-binary-format raw-in-base64-out /dev/stdout
 ```
 
-The rollup refresh is best-effort, so the invoke returns a normal snapshot result even if the backfill failed — check the run logs or the `PortalViewsRollupFailure` metric, not the invoke exit, and re-run if needed. If the full-history pass is too large for one invocation (90s / 256 MB), run it with progressively earlier `sinceDt` values (each re-scans to today; idempotent per day).
+The rollup refresh is best-effort, so the invoke returns a normal snapshot result even if the backfill failed — check the run logs or the `PortalViewsRollupFailure` and `McpUsageBuildFailure` metrics, not the invoke exit, and re-run if needed. If the full-history pass is too large for one invocation (90s / 256 MB), run it with progressively earlier `sinceDt` values (each re-scans to today; idempotent per day).
 
 Because nothing reads the rollup back in-app yet, sanity-check that the retained history is queryable with an ad-hoc Athena query against the workgroup, e.g. year-over-year page views by month:
 

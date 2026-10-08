@@ -215,11 +215,12 @@ export async function aggregatePortalViewsRaw(
   return readResults(queryExecutionId, toPortalViewDailyRow)
 }
 
-function toDailyRow([dt, tool, component, path, count]: Array<
+function toDailyRow([dt, transport, tool, component, path, count]: Array<
   string | undefined
 >): McpUsageDaily {
   return {
     dt: dt ?? '',
+    transport: transport ?? '',
     tool: tool ?? '',
     component: component ?? '',
     path: path ?? '',
@@ -229,8 +230,9 @@ function toDailyRow([dt, tool, component, path, count]: Array<
 
 /**
  * Aggregate raw MCP usage rows on or after `sinceDt` into per-day counts, grouped
- * by tool/component/path. Used to recompute the recent tail of the durable daily
- * rollup on each generator run.
+ * by transport/tool/component/path. Used to recompute the recent tail of the
+ * durable daily rollup on each generator run. Web rows written before the MCP
+ * Lambda stamped `transport` read NULL, so they are counted as web.
  */
 export async function aggregateMcpUsageRaw(
   sinceDt: string
@@ -243,7 +245,7 @@ export async function aggregateMcpUsageRaw(
   const table = requireEnv('GLUE_TABLE_MCP_USAGE')
   const workgroup = requireEnv('ATHENA_WORKGROUP')
 
-  const query = `SELECT dt, tool, component, path, count(*) AS cnt FROM "${database}"."${table}" WHERE dt >= '${sinceDt}' GROUP BY dt, tool, component, path`
+  const query = `SELECT dt, coalesce(transport, 'web') AS transport, tool, component, path, count(*) AS cnt FROM "${database}"."${table}" WHERE dt >= '${sinceDt}' GROUP BY dt, coalesce(transport, 'web'), tool, component, path`
   const queryExecutionId = await startQuery(query, workgroup)
   await waitForQuery(queryExecutionId)
 
@@ -256,7 +258,7 @@ export async function retrieveMcpUsageDaily(): Promise<McpUsageDaily[]> {
   const table = requireEnv('GLUE_TABLE_MCP_USAGE_DAILY')
   const workgroup = requireEnv('ATHENA_WORKGROUP')
 
-  const query = `SELECT dt, tool, component, path, count FROM "${database}"."${table}"`
+  const query = `SELECT dt, transport, tool, component, path, count FROM "${database}"."${table}"`
   const queryExecutionId = await startQuery(query, workgroup)
   await waitForQuery(queryExecutionId)
 
@@ -270,8 +272,8 @@ export async function retrieveMcpUsageDaily(): Promise<McpUsageDaily[]> {
  * Only transport='local' rows carry a meaningful Eufemia version: the web MCP
  * Lambda always runs latest and records no version, so those rows are excluded
  * here rather than surfaced as a null/empty bucket. Reads the raw mcp_usage
- * table directly (the durable daily rollup does not carry the transport/version
- * dimensions), scoped to a recent window so the scan stays bounded as the raw
+ * table directly (the durable daily rollup does not carry the version
+ * dimension), scoped to a recent window so the scan stays bounded as the raw
  * table's 13-month retention fills, like its aggregateMcpUsageRaw sibling.
  */
 export async function aggregateLocalMcpUsageByVersion(

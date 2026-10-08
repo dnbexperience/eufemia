@@ -67,6 +67,7 @@ function putCalls() {
 // test output nor needs a per-suite spy; assertions read logSpy.mock.calls.
 let logSpy: ReturnType<typeof vi.spyOn>
 let errorSpy: ReturnType<typeof vi.spyOn>
+let warnSpy: ReturnType<typeof vi.spyOn>
 
 beforeEach(() => {
   send.mockReset()
@@ -87,12 +88,14 @@ beforeEach(() => {
   process.env.DATA_BUCKET = 'my-bucket'
   logSpy = vi.spyOn(console, 'log').mockImplementation(() => undefined)
   errorSpy = vi.spyOn(console, 'error').mockImplementation(() => undefined)
+  warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => undefined)
 })
 
 afterEach(() => {
   delete process.env.DATA_BUCKET
   logSpy.mockRestore()
   errorSpy.mockRestore()
+  warnSpy.mockRestore()
 })
 
 describe('snapshot generator handler', () => {
@@ -167,6 +170,7 @@ describe('snapshot generator handler', () => {
     await handler({ sinceDt: '2024-01-01' })
 
     expect(aggregatePortalViewsRaw).toHaveBeenCalledWith('2024-01-01')
+    expect(aggregateMcpUsageRaw).toHaveBeenCalledWith('2024-01-01')
   })
 
   it('recomputes only the recent tail on a scheduled run (no sinceDt)', async () => {
@@ -180,6 +184,7 @@ describe('snapshot generator handler', () => {
 
     expect(aggregatePortalViewsRaw).toHaveBeenCalledWith(expectedSince)
     expect(aggregatePortalViewsRaw).not.toHaveBeenCalledWith('2024-01-01')
+    expect(aggregateMcpUsageRaw).toHaveBeenCalledWith(expectedSince)
   })
 
   it('still writes the snapshot when the rollup refresh fails', async () => {
@@ -234,11 +239,12 @@ describe('snapshot generator handler', () => {
 })
 
 describe('mcp usage section', () => {
-  it('recomputes the recent rollup and builds the section from the daily table', async () => {
+  it('recomputes the recent rollup and builds one section per transport from the daily table', async () => {
     retrievePortalViews.mockResolvedValue([])
     aggregateMcpUsageRaw.mockResolvedValue([
       {
         dt: '2026-09-10',
+        transport: 'web',
         tool: 'docs_search',
         component: '',
         path: '',
@@ -248,6 +254,7 @@ describe('mcp usage section', () => {
     retrieveMcpUsageDaily.mockResolvedValue([
       {
         dt: '2026-09-09',
+        transport: 'web',
         tool: 'component_props',
         component: 'Button',
         path: '',
@@ -255,6 +262,7 @@ describe('mcp usage section', () => {
       },
       {
         dt: '2026-09-10',
+        transport: 'web',
         tool: 'docs_search',
         component: '',
         path: '',
@@ -262,9 +270,10 @@ describe('mcp usage section', () => {
       },
       {
         dt: '2026-09-10',
+        transport: 'local',
         tool: 'docs_read',
         component: '',
-        path: '/uilib/components/button.md',
+        path: '/uilib/components/',
         count: 2,
       },
     ])
@@ -283,19 +292,65 @@ describe('mcp usage section', () => {
       (snapshotPut![0] as Command).input.Body as string
     ).mcpUsage
 
-    expect(mcp.total).toBe(10)
-    expect(mcp.perTool).toContainEqual({
-      name: 'component_props',
-      count: 5,
+    expect(mcp.web).toEqual({
+      total: 8,
+      perTool: [
+        { name: 'component_props', count: 5 },
+        { name: 'docs_search', count: 3 },
+      ],
+      perComponent: [{ name: 'Button', count: 5 }],
+      perPath: [],
+      daily: [
+        { date: '2026-09-09', count: 5 },
+        { date: '2026-09-10', count: 3 },
+      ],
     })
-    expect(mcp.perComponent).toEqual([{ name: 'Button', count: 5 }])
-    expect(mcp.perPath).toEqual([
-      { name: '/uilib/components/button.md', count: 2 },
+    expect(mcp.local).toEqual({
+      total: 2,
+      perTool: [{ name: 'docs_read', count: 2 }],
+      perComponent: [],
+      perPath: [{ name: '/uilib/components/', count: 2 }],
+      daily: [{ date: '2026-09-10', count: 2 }],
+      perVersion: [],
+    })
+  })
+
+  it('leaves rollup rows without a transport out of both sections and warns', async () => {
+    retrievePortalViews.mockResolvedValue([])
+    retrieveMcpUsageDaily.mockResolvedValue([
+      {
+        dt: '2026-09-01',
+        transport: '',
+        tool: 'docs_read',
+        component: '',
+        path: '',
+        count: 7,
+      },
+      {
+        dt: '2026-09-10',
+        transport: 'web',
+        tool: 'docs_read',
+        component: '',
+        path: '',
+        count: 2,
+      },
     ])
-    expect(mcp.daily).toEqual([
-      { date: '2026-09-09', count: 5 },
-      { date: '2026-09-10', count: 5 },
-    ])
+
+    await handler()
+
+    const snapshotPut = putCalls().find(
+      (call) =>
+        (call[0] as Command).input.Key === 'snapshots/dashboard.json'
+    )
+    const mcp = JSON.parse(
+      (snapshotPut?.[0] as Command).input.Body as string
+    ).mcpUsage
+
+    expect(mcp.web.total).toBe(2)
+    expect(mcp.local.total).toBe(0)
+    expect(warnSpy).toHaveBeenCalledWith(
+      expect.stringContaining('1 MCP usage rollup rows have no transport')
+    )
   })
 
   it('writes the recomputed aggregates to the durable daily rollup prefix', async () => {
@@ -303,6 +358,7 @@ describe('mcp usage section', () => {
     aggregateMcpUsageRaw.mockResolvedValue([
       {
         dt: '2026-09-10',
+        transport: 'local',
         tool: 'docs_search',
         component: '',
         path: '',
@@ -323,6 +379,7 @@ describe('mcp usage section', () => {
     expect(
       JSON.parse((dailyPut![0] as Command).input.Body as string)
     ).toEqual({
+      transport: 'local',
       tool: 'docs_search',
       component: '',
       path: '',
@@ -348,12 +405,21 @@ describe('mcp usage section', () => {
     )
     expect(body.portalViews).toEqual(records)
     expect(body.mcpUsage).toEqual({
-      total: 0,
-      perTool: [],
-      perComponent: [],
-      perPath: [],
-      perVersion: [],
-      daily: [],
+      web: {
+        total: 0,
+        perTool: [],
+        perComponent: [],
+        perPath: [],
+        daily: [],
+      },
+      local: {
+        total: 0,
+        perTool: [],
+        perComponent: [],
+        perPath: [],
+        daily: [],
+        perVersion: [],
+      },
     })
     expect(errorSpy).toHaveBeenCalled()
 
@@ -379,6 +445,7 @@ describe('mcp usage section', () => {
     retrieveMcpUsageDaily.mockResolvedValue([
       {
         dt: '2026-09-09',
+        transport: 'web',
         tool: 'component_props',
         component: 'Button',
         path: '',
@@ -398,8 +465,8 @@ describe('mcp usage section', () => {
 
     // A transient recompute failure must NOT blank the section: the durable
     // history is still read and shown.
-    expect(mcp.total).toBe(5)
-    expect(mcp.perComponent).toEqual([{ name: 'Button', count: 5 }])
+    expect(mcp.web.total).toBe(5)
+    expect(mcp.web.perComponent).toEqual([{ name: 'Button', count: 5 }])
     expect(errorSpy).toHaveBeenCalled()
 
     const failureMetric = logSpy.mock.calls
@@ -439,7 +506,7 @@ describe('mcp usage section', () => {
       (snapshotPut![0] as Command).input.Body as string
     ).mcpUsage
 
-    expect(mcp.perVersion).toEqual([
+    expect(mcp.local.perVersion).toEqual([
       { name: '10.79.0', count: 9 },
       { name: '10.78.1', count: 3 },
     ])
