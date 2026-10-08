@@ -449,6 +449,37 @@ describe('DateFormat', () => {
       expect(actualDisplayedTime).toBe(expectedUTCTime)
     })
 
+    it('should show the UTC date together with the UTC time', () => {
+      const OriginalDateTimeFormat = Intl.DateTimeFormat
+
+      // Format in a time zone where 22:30 UTC is already the next day
+      vi.spyOn(Intl, 'DateTimeFormat').mockImplementation(function (
+        locale: string,
+        options: Intl.DateTimeFormatOptions
+      ) {
+        return new OriginalDateTimeFormat(locale, {
+          timeZone: 'Europe/Oslo',
+          ...options,
+        })
+      } as unknown as typeof Intl.DateTimeFormat)
+
+      render(
+        <DateFormat
+          value="2026-10-07T22:30:00Z"
+          dateStyle="short"
+          timeStyle="short"
+          dateTimeSeparator=" – "
+          locale="en-GB"
+        />
+      )
+
+      expect(document.querySelector('.dnb-date-format')).toHaveTextContent(
+        '07/10/2026 – 22:30'
+      )
+
+      vi.restoreAllMocks()
+    })
+
     it('should return an invalid date message if the date is invalid', () => {
       global.console.log = vi.fn()
 
