@@ -27,6 +27,7 @@ import getRefElement from '../../shared/internal/getRefElement'
 import type { TooltipProps } from './types'
 import { TooltipContext } from './TooltipContext'
 import AriaLive from '../AriaLive'
+import { MODAL_OPEN_EVENT } from '../modal/ModalContext'
 
 type TooltipWithEventsProps = {
   target: TooltipProps['targetElement']
@@ -176,6 +177,17 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
     [open, hideDelayMs, markHideAnimationStarted, shouldDelayHide]
   )
 
+  const onModalOpen = useCallback(() => {
+    clearTimers()
+    clearOverlayTimers()
+    setSkipShowAnimation(false)
+    setOverlayHovered(false)
+    setIsOpen(false)
+    if (isOpen || isOverlayHovered) {
+      markHideAnimationStarted()
+    }
+  }, [isOpen, isOverlayHovered, markHideAnimationStarted])
+
   const addEvents = useCallback(
     (element: HTMLElement) => {
       try {
@@ -185,6 +197,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
         element.addEventListener('mouseleave', onMouseLeave)
         element.addEventListener('touchstart', onMouseEnter)
         element.addEventListener('touchend', onMouseLeave)
+        document.addEventListener(MODAL_OPEN_EVENT, onModalOpen)
       } catch (e) {
         warn(
           'Tooltip: Failed to add event listeners to target element:',
@@ -192,7 +205,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
         )
       }
     },
-    [onFocus, onMouseLeave, onMouseEnter]
+    [onFocus, onMouseLeave, onMouseEnter, onModalOpen]
   )
 
   const removeEvents = useCallback(
@@ -207,6 +220,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
         element.removeEventListener('mouseleave', onMouseLeave)
         element.removeEventListener('touchstart', onMouseEnter)
         element.removeEventListener('touchend', onMouseLeave)
+        document.removeEventListener(MODAL_OPEN_EVENT, onModalOpen)
       } catch (e) {
         warn(
           'Tooltip: Failed to remove event listeners from target element:',
@@ -214,7 +228,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
         )
       }
     },
-    [onFocus, onMouseEnter, onMouseLeave]
+    [onFocus, onMouseEnter, onMouseLeave, onModalOpen]
   )
 
   const overlayOpen = Boolean(isOpen || isOverlayHovered)
