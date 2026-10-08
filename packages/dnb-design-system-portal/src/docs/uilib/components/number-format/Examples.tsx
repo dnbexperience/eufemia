@@ -216,6 +216,17 @@ export const NumberLocales = () => (
   </Style>
 )
 
+export const NumberBrowserLocale = () => (
+  <Style>
+    <ComponentBox>
+      <P>
+        <NumberFormat.Number locale="auto" value="-12345678.9" />
+        <NumberFormat.Currency locale="auto" value="-12345.6" />
+      </P>
+    </ComponentBox>
+  </Style>
+)
+
 export const NumberSpacing = () => (
   <Style>
     <ComponentBox data-visual-test="number-format-spacing">
