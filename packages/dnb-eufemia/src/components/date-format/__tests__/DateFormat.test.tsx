@@ -1,6 +1,9 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { format } from 'date-fns'
-import { fireEvent, render, waitFor } from '@testing-library/react'
+import type { ReactElement } from 'react'
+import { act, fireEvent, render, waitFor } from '@testing-library/react'
+import { renderToString } from 'react-dom/server'
+import { hydrateRoot } from 'react-dom/client'
 import DateFormat from '../../DateFormat'
 import { axeComponent } from '../../../core/test-utils/testSetup'
 import { Provider } from '../../../../shared'
@@ -1717,6 +1720,107 @@ describe('DateFormat', () => {
         // When the formats are the same, aria-label should not be present
         expect(dateFormat).not.toHaveAttribute('aria-label')
       })
+    })
+  })
+
+  describe('hydration', () => {
+    const OriginalDateTimeFormat = Intl.DateTimeFormat
+
+    const formatInTimeZone = (timeZone: string) => {
+      vi.spyOn(Intl, 'DateTimeFormat').mockImplementation(function (
+        locale: string,
+        options: Intl.DateTimeFormatOptions
+      ) {
+        return new OriginalDateTimeFormat(locale, { timeZone, ...options })
+      } as unknown as typeof Intl.DateTimeFormat)
+    }
+
+    const renderOnServer = (element: ReactElement) => {
+      const originalDocument = globalThis.document
+
+      try {
+        delete globalThis.document
+        return renderToString(element)
+      } finally {
+        globalThis.document = originalDocument
+      }
+    }
+
+    const hydrate = (html: string, element: ReactElement) => {
+      const container = document.createElement('div')
+      container.innerHTML = html
+      document.body.appendChild(container)
+
+      const recoverableErrors = []
+      let root: ReturnType<typeof hydrateRoot>
+      act(() => {
+        root = hydrateRoot(container, element, {
+          onRecoverableError: (error) => recoverableErrors.push(error),
+        })
+      })
+
+      const unmount = () => {
+        act(() => root.unmount())
+        container.remove()
+      }
+
+      return {
+        time: container.querySelector('time'),
+        recoverableErrors,
+        unmount,
+      }
+    }
+
+    afterEach(() => {
+      vi.useRealTimers()
+      vi.restoreAllMocks()
+    })
+
+    it('should hydrate a date formatted in another time zone on the server and update it afterwards', () => {
+      const element = (
+        <DateFormat
+          value="2026-10-08T00:30:00+02:00"
+          dateStyle="short"
+          timeStyle="short"
+        />
+      )
+
+      formatInTimeZone('UTC')
+      const html = renderOnServer(element)
+      expect(html).toContain('07.10.2026')
+
+      vi.restoreAllMocks()
+      formatInTimeZone('Europe/Oslo')
+      const { time, recoverableErrors, unmount } = hydrate(html, element)
+
+      expect(recoverableErrors).toEqual([])
+      expect(time).toHaveTextContent('08.10.2026')
+      expect(time).toHaveTextContent('00:30')
+
+      unmount()
+    })
+
+    it('should hydrate relative time rendered earlier on the server and update it afterwards', () => {
+      const now = new Date('2026-10-08T10:00:00Z').getTime()
+      const element = (
+        <DateFormat value="2026-10-08T09:59:30Z" relativeTime />
+      )
+
+      vi.useFakeTimers({ now, toFake: ['Date'] })
+      const html = renderOnServer(element)
+      expect(html).toContain('30 sekunder')
+
+      vi.setSystemTime(now + 60_000)
+      const { time, recoverableErrors, unmount } = hydrate(html, element)
+
+      expect(recoverableErrors).toEqual([])
+      expect(time).toHaveTextContent('for 1 minutt siden')
+      expect(time).toHaveAttribute(
+        'datetime',
+        format(new Date('2026-10-08T09:59:30Z'), 'yyyy-MM-dd HH:mm:ss')
+      )
+
+      unmount()
     })
   })
 })
