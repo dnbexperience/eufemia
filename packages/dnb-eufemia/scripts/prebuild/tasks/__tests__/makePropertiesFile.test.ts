@@ -827,6 +827,32 @@ describe('makePropertiesFile', () => {
   })
 
   describe('Properties for ui', () => {
+    it('includes generated typography when properties.scss is imported directly', async () => {
+      const sass = await import('sass')
+      const path = await import('path')
+      const css = sass.compile(
+        path.resolve('src/style/themes/ui/properties.scss')
+      ).css
+
+      expect(css).toContain('--font-size-xx-large: 3rem;')
+      expect(css).toContain('--line-height-xx-large: 3.5rem;')
+      expect(css).not.toContain('var(--token-font-')
+    })
+
+    it('keeps brand-specific typography in the theme entrypoints', async () => {
+      const sass = await import('sass')
+      const path = await import('path')
+      const brandProperties = sass.compile(
+        path.resolve('src/style/themes/sbanken/properties.scss')
+      ).css
+      const carnegieTheme = sass.compile(
+        path.resolve('src/style/themes/carnegie/carnegie-theme-basis.scss')
+      ).css
+
+      expect(brandProperties).not.toContain('--font-size-xx-large:')
+      expect(carnegieTheme).toContain('--font-size-xx-large: 3.5rem;')
+    })
+
     it('has to validate', () => {
       expect(global.ui).toMatchSnapshot()
       expect(global.ui).toContain(`'--font-size-large': '1.625rem'`)
