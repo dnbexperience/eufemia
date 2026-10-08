@@ -17,13 +17,12 @@ export type DashboardConfig = {
 }
 
 export type Session = {
-  name: string
   accessToken: string
   expiresAt: number
 }
 
 let config: DashboardConfig = {}
-const BASE_SCOPE = 'openid profile email'
+const BASE_SCOPE = 'openid'
 const SESSION_KEY = 'eufemia-analytics-session'
 const FLOW_KEY = 'eufemia-analytics-flow'
 const RETRY_KEY = 'eufemia-analytics-retry'
@@ -76,22 +75,6 @@ async function challengeFrom(verifier: string) {
   )
 
   return base64Url(digest)
-}
-
-function decodeJwt(token: string): Record<string, unknown> {
-  try {
-    let payload = token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/')
-    payload = payload.padEnd(Math.ceil(payload.length / 4) * 4, '=')
-
-    // atob yields a byte string; decode it as UTF-8 so names with æ/ø/å survive.
-    const json = new TextDecoder().decode(
-      Uint8Array.from(atob(payload), (char) => char.charCodeAt(0))
-    )
-
-    return JSON.parse(json)
-  } catch {
-    return {}
-  }
 }
 
 export function readSession(): Session | null {
@@ -160,13 +143,8 @@ async function exchangeCode(
   }
 
   const tokens = await response.json()
-  const claims = decodeJwt(tokens.id_token)
 
   const session: Session = {
-    name:
-      (claims.name as string) ||
-      (claims.preferred_username as string) ||
-      'Signed in',
     accessToken: tokens.access_token,
     expiresAt:
       Date.now() + (Number(tokens.expires_in) || 3600) * 1000 - 60000,
@@ -230,15 +208,6 @@ export async function ensureSignedIn(): Promise<Session | null> {
 
   // The redirect navigates away, so nothing after this resolves.
   return new Promise<Session>(() => {})
-}
-
-export function signOut() {
-  clearSession()
-
-  const params = new URLSearchParams({
-    post_logout_redirect_uri: config.redirectUri || window.location.origin,
-  })
-  window.location.assign(`${authority()}/oauth2/v2.0/logout?${params}`)
 }
 
 export function getApiBaseUrl() {

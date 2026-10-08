@@ -12,12 +12,12 @@ const SESSION_KEY = 'eufemia-analytics-session'
 
 describe('scopes', () => {
   it('returns the base scope when no API scope is configured', () => {
-    expect(scopes({})).toBe('openid profile email')
+    expect(scopes({})).toBe('openid')
   })
 
   it('appends the API scope when configured', () => {
     expect(scopes({ apiScope: 'api://app-id/Dashboard.Read' })).toBe(
-      'openid profile email api://app-id/Dashboard.Read'
+      'openid api://app-id/Dashboard.Read'
     )
   })
 })
@@ -50,7 +50,7 @@ describe('clearSession', () => {
   afterEach(() => sessionStorage.clear())
 
   it('removes the stored session', () => {
-    sessionStorage.setItem(SESSION_KEY, '{"name":"Signed in"}')
+    sessionStorage.setItem(SESSION_KEY, '{"accessToken":"token-abc"}')
     clearSession()
     expect(sessionStorage.getItem(SESSION_KEY)).toBe(null)
   })
@@ -66,7 +66,6 @@ describe('readSession', () => {
     sessionStorage.setItem(
       SESSION_KEY,
       JSON.stringify({
-        name: 'Signed in',
         accessToken: 'token-abc',
         expiresAt: future,
       })
@@ -79,7 +78,7 @@ describe('readSession', () => {
     // A session shape persisted by an older build: no accessToken.
     sessionStorage.setItem(
       SESSION_KEY,
-      JSON.stringify({ name: 'Signed in', expiresAt: future })
+      JSON.stringify({ expiresAt: future })
     )
 
     expect(readSession()).toBe(null)
@@ -90,7 +89,6 @@ describe('readSession', () => {
     sessionStorage.setItem(
       SESSION_KEY,
       JSON.stringify({
-        name: 'Signed in',
         accessToken: 'token-abc',
         expiresAt: Date.now() - 1000,
       })
