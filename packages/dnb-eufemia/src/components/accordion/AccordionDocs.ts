@@ -22,7 +22,7 @@ export const AccordionProperties: PropertiesTableProps = {
     status: 'optional',
   },
   expandedSsr: {
-    doc: "If set to `true` the accordion will be expanded during SSR. Can be potentially useful for SEO, although it will disturb client hydration, where React expects the same state. But that's mainly a technical aspect to consider.",
+    doc: 'If set to `true` the accordion will be expanded during SSR, which can be useful for SEO. It collapses right after hydration.',
     type: 'boolean',
     status: 'optional',
   },
