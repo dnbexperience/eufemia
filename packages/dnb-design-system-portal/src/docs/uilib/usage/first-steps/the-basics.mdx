@@ -62,7 +62,7 @@ Eufemia components apply the props you give them on top of the ones they set the
 
 To keep a component from doing what it normally does, use the property it offers for that, such as [`preventClose`](/uilib/components/drawer/properties/) on a `Drawer`, or the `preventNavigation` function that [`onStepChange`](/uilib/extensions/forms/Wizard/Container/events/) gives you on a `Wizard.Container`.
 
-Fields in [Eufemia Forms](/uilib/extensions/forms/) merge the same way. See [how given attributes are merged](/uilib/extensions/forms/about-fields/#how-given-attributes-are-merged) for what that means for a field's value and validation.
+Fields in [Eufemia Forms](/uilib/extensions/forms/) merge the same way, and most of them also run your handler first, so you can return `false` to skip the field's own handling. See [how given attributes are merged](/uilib/extensions/forms/about-fields/#how-given-attributes-are-merged) for what that means for a field's value and validation.
 
 ## CSS Styles
 
