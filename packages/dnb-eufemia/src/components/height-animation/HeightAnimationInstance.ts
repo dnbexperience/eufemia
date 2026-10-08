@@ -193,6 +193,9 @@ export default class HeightAnimation {
     for (const key in this.firstPaintStyle) {
       clonedElem.style[key] = this.firstPaintStyle[key]
     }
+    // Retained closed content is hidden, so its clone must be measurable.
+    clonedElem.classList.remove('dnb-height-animation--hidden')
+    clonedElem.removeAttribute('hidden')
     clonedElem.style.position = 'absolute' // not a part of the "firstPaintStyle"
 
     this.elem.parentNode?.insertBefore(clonedElem, this.elem.nextSibling)
@@ -207,9 +210,17 @@ export default class HeightAnimation {
       clonedElem.style.width = `${elemWidth}px`
     }
 
+    // data-height is used for mockup testing with "mockHeight"
+    const currentHeight = this.withFallback(
+      this.elem,
+      'clientHeight',
+      'data-height'
+    )
     const height =
-      // data-height is used for mockup testing with "mockHeight"
-      this.withFallback(this.elem, 'clientHeight', 'data-height') ?? null
+      currentHeight === 0
+        ? (this.withFallback(clonedElem, 'clientHeight', 'data-height') ??
+          0)
+        : currentHeight
 
     clonedElem.parentNode?.removeChild(clonedElem)
 
