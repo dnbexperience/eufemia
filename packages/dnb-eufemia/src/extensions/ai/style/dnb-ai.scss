@@ -1,8 +1,6 @@
 @use '../../../style/core/utilities.scss' as utilities;
 
 .dnb-ai-response {
-  overflow-wrap: anywhere;
-
   > .dnb-table__scroll-view,
   &__code-block {
     margin-bottom: 1.5rem;
