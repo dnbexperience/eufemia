@@ -38,6 +38,7 @@ export type EventListenerCall = {
   path?: Path
   type?:
     | 'onSubmit'
+    | 'onSubmitConfirm'
     | 'onBeforeSubmit'
     | 'onSubmitCall'
     | 'onSubmitRequest'

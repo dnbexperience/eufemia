@@ -68,6 +68,7 @@ function SubmitConfirmation(props: ConfirmProps) {
   const submitStateRef = useRef<EventStateObject>(undefined)
   const preventSubmitRef = useRef<boolean>(undefined)
   const isFinalSubmitRef = useRef(false)
+  const finalSubmitAllowedRef = useRef(false)
 
   const validatePreventSubmit = useCallback(() => {
     return (preventSubmitRef.current = preventSubmitWhen?.(
@@ -169,6 +170,7 @@ function SubmitConfirmation(props: ConfirmProps) {
   const handleSubmit = useCallback(
     async ({ preventSubmit }) => {
       if (isFinalSubmitRef.current) {
+        finalSubmitAllowedRef.current = true
         return // stop here
       }
 
@@ -186,17 +188,24 @@ function SubmitConfirmation(props: ConfirmProps) {
     },
     [setConfirmationState, validatePreventSubmit]
   )
-  useEventListener('onSubmit', handleSubmit)
+  useEventListener('onSubmitConfirm', handleSubmit)
 
   const submitHandler = useCallback(async () => {
     await setConfirmationState('submitInProgress')
 
     isFinalSubmitRef.current = true
+    finalSubmitAllowedRef.current = false
     try {
       await handleFinalSubmit()
     } finally {
       // E.g. a throwing validator must not leave later submits unconfirmed
       isFinalSubmitRef.current = false
+    }
+
+    // E.g. a field error or a Wizard step blocked the submit
+    if (!finalSubmitAllowedRef.current) {
+      await setConfirmationState('idle')
+      return // stop here
     }
 
     await setConfirmationState('submissionComplete')

@@ -1018,6 +1018,69 @@ describe('Form.SubmitConfirmation', { retry: isCI ? 5 : 0 }, () => {
     expect(onStepChange).toHaveBeenCalledTimes(3)
   })
 
+  it.each([{ asyncSubmit: false }, { asyncSubmit: true }])(
+    'should not ask for confirmation when another Wizard step has an error (asyncSubmit: $asyncSubmit)',
+    async ({ asyncSubmit }) => {
+      const onSubmit = asyncSubmit ? vi.fn(async () => null) : vi.fn()
+      const onStateChange = vi.fn()
+
+      render(
+        <Form.Handler onSubmit={onSubmit}>
+          <Wizard.Container initialActiveIndex={1}>
+            <Wizard.Step title="Step 1">
+              <Field.String path="/foo" required />
+            </Wizard.Step>
+            <Wizard.Step title="Step 2">
+              <Form.SubmitConfirmation
+                preventSubmitWhen={() => true}
+                onStateChange={onStateChange}
+              >
+                <Form.SubmitButton />
+              </Form.SubmitConfirmation>
+            </Wizard.Step>
+          </Wizard.Container>
+        </Form.Handler>
+      )
+
+      await userEvent.click(
+        document.querySelector('button[type="submit"]')
+      )
+
+      await expect(() => {
+        expect(onStateChange).toHaveBeenCalled()
+      }).toNeverResolve()
+      expect(onSubmit).toHaveBeenCalledTimes(0)
+    }
+  )
+
+  it('should not report a completed submission when the final submit is blocked', async () => {
+    const onSubmit = vi.fn()
+    const confirmationStateRef: RefObject<
+      ConfirmParams['confirmationState'] | null
+    > = { current: null }
+    const submitHandlerRef: RefObject<
+      ConfirmParams['submitHandler'] | null
+    > = { current: null }
+
+    render(
+      <Form.Handler onSubmit={onSubmit}>
+        <Field.String path="/foo" required />
+        <Form.SubmitConfirmation
+          renderWithState={({ confirmationState, submitHandler }) => {
+            confirmationStateRef.current = confirmationState
+            submitHandlerRef.current = submitHandler
+            return null
+          }}
+        />
+      </Form.Handler>
+    )
+
+    await act(submitHandlerRef.current)
+
+    expect(onSubmit).toHaveBeenCalledTimes(0)
+    expect(confirmationStateRef.current).toBe('idle')
+  })
+
   it('should render "renderWithState" inside a Wizard.Container (with prerender)', async () => {
     render(
       <Form.Handler>

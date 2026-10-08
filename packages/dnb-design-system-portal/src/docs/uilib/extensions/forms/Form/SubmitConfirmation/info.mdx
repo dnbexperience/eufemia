@@ -58,6 +58,8 @@ The `renderWithState` function is called whenever the submit confirmation state 
   - `customStatus` Your custom status.
 - `data` is the data that was submitted.
 
+The confirmation only starts when nothing else blocks the submit, such as a field error or an error in another [Wizard](/uilib/extensions/forms/Wizard/) step. If the submit is blocked after `submitHandler` was called, the state returns to `idle` instead of `submissionComplete`.
+
 ## Connect with a Dialog
 
 You can connect the submit confirmation with a [Dialog](/uilib/components/dialog) by using the `connectWithDialog` property. This property is an object that contains the `open`, `onConfirm`, `onDecline`, and `onClose` properties, which you can spread to the Dialog component.

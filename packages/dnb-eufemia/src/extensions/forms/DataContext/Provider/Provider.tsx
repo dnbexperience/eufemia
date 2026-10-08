@@ -1760,18 +1760,22 @@ export default function Provider<Data extends JsonObject>(
       onSubmit: async () => {
         let stop = false
         const preventSubmit = () => (stop = true)
-        for (const item of fieldEventListenersRef.current) {
-          const { type, callback } = item
-          if (type === 'onSubmit') {
-            if (isAsync(callback)) {
-              await callback({ preventSubmit })
-            } else {
-              callback({ preventSubmit })
+
+        // Confirmation listeners only run when no other listener has prevented the submit
+        for (const eventType of ['onSubmit', 'onSubmitConfirm'] as const) {
+          for (const item of fieldEventListenersRef.current) {
+            const { type, callback } = item
+            if (type === eventType) {
+              if (isAsync(callback)) {
+                await callback({ preventSubmit })
+              } else {
+                callback({ preventSubmit })
+              }
             }
           }
-        }
-        if (stop) {
-          return undefined // stop here
+          if (stop) {
+            return undefined // stop here
+          }
         }
 
         const data = getSubmitData()
