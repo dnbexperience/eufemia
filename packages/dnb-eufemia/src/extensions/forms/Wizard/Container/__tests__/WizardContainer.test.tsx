@@ -3391,6 +3391,83 @@ describe('Wizard.Container', () => {
       expect(onSubmit).toHaveBeenCalledTimes(0)
     })
 
+    it.each([{ asyncSubmit: false }, { asyncSubmit: true }])(
+      'should not submit when a step left through the menu has an error (asyncSubmit: $asyncSubmit)',
+      async ({ asyncSubmit }) => {
+        const onSubmit = asyncSubmit ? vi.fn(async () => null) : vi.fn()
+
+        render(
+          <Form.Handler onSubmit={onSubmit}>
+            <Wizard.Container mode="loose" expandedInitially>
+              <Wizard.Step title="Step 1">
+                <output>Step 1</output>
+                <Field.String path="/foo" required />
+              </Wizard.Step>
+              <Wizard.Step title="Step 2">
+                <output>Step 2</output>
+                <Form.SubmitButton />
+              </Wizard.Step>
+            </Wizard.Container>
+          </Form.Handler>
+        )
+
+        const [firstStep, secondStep] = Array.from(
+          document.querySelectorAll('.dnb-step-indicator__item')
+        )
+
+        // Leave Step 1 without fixing or revealing its error
+        await userEvent.click(secondStep.querySelector('.dnb-anchor'))
+
+        expect(output()).toHaveTextContent('Step 2')
+
+        await userEvent.click(
+          document.querySelector('button[type="submit"]')
+        )
+
+        await expect(() => {
+          expect(onSubmit).toHaveBeenCalledTimes(1)
+        }).toNeverResolve()
+        expect(onSubmit).toHaveBeenCalledTimes(0)
+        expect(
+          firstStep.querySelector('.dnb-form-status')
+        ).toHaveTextContent(nb.Step.stepHasError)
+      }
+    )
+
+    it('should submit when a step left through the menu is valid', async () => {
+      const onSubmit = vi.fn()
+
+      render(
+        <Form.Handler defaultData={{ foo: 'value' }} onSubmit={onSubmit}>
+          <Wizard.Container mode="loose" expandedInitially>
+            <Wizard.Step title="Step 1">
+              <output>Step 1</output>
+              <Field.String path="/foo" required />
+            </Wizard.Step>
+            <Wizard.Step title="Step 2">
+              <output>Step 2</output>
+              <Form.SubmitButton />
+            </Wizard.Step>
+          </Wizard.Container>
+        </Form.Handler>
+      )
+
+      const [, secondStep] = Array.from(
+        document.querySelectorAll('.dnb-step-indicator__item')
+      )
+      await userEvent.click(secondStep.querySelector('.dnb-anchor'))
+
+      expect(output()).toHaveTextContent('Step 2')
+
+      await userEvent.click(
+        document.querySelector('button[type="submit"]')
+      )
+
+      await waitFor(() => {
+        expect(onSubmit).toHaveBeenCalledTimes(1)
+      })
+    })
+
     it.each([{ keepInDOM: false }, { keepInDOM: true }])(
       'should call an async onSubmit right away when a previous step was never visited (keepInDOM: $keepInDOM)',
       async ({ keepInDOM }) => {
