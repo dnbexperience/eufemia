@@ -342,13 +342,20 @@ function Dashboard({
   )
 }
 
-const MCP_PANELS = {
+type McpPanelText = {
+  label: string
+  intro: string
+  pathTitle: string
+  pathHeader: string
+  pathNote?: string
+}
+
+const MCP_PANELS: Record<'web' | 'local', McpPanelText> = {
   web: {
     label: 'Web MCP',
     intro: 'requests to the hosted web MCP server.',
     pathTitle: 'Doc paths',
     pathHeader: 'Path',
-    pathNote: '',
   },
   local: {
     label: 'Local MCP',

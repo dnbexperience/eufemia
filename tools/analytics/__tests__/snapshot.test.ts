@@ -312,6 +312,49 @@ describe('mcp usage section', () => {
     })
   })
 
+  it('leaves rollup rows without a transport out of both sections and warns', async () => {
+    const warnSpy = vi
+      .spyOn(console, 'warn')
+      .mockImplementation(() => undefined)
+    retrievePortalViews.mockResolvedValue([])
+    retrieveMcpUsageDaily.mockResolvedValue([
+      {
+        dt: '2026-09-01',
+        transport: '',
+        tool: 'docs_read',
+        component: '',
+        path: '',
+        count: 7,
+      },
+      {
+        dt: '2026-09-10',
+        transport: 'web',
+        tool: 'docs_read',
+        component: '',
+        path: '',
+        count: 2,
+      },
+    ])
+
+    await handler()
+
+    const snapshotPut = putCalls().find(
+      (call) =>
+        (call[0] as Command).input.Key === 'snapshots/dashboard.json'
+    )
+    const mcp = JSON.parse(
+      (snapshotPut?.[0] as Command).input.Body as string
+    ).mcpUsage
+
+    expect(mcp.web.total).toBe(2)
+    expect(mcp.local.total).toBe(0)
+    expect(warnSpy).toHaveBeenCalledWith(
+      expect.stringContaining('1 MCP usage rollup rows have no transport')
+    )
+
+    warnSpy.mockRestore()
+  })
+
   it('writes the recomputed aggregates to the durable daily rollup prefix', async () => {
     retrievePortalViews.mockResolvedValue([])
     aggregateMcpUsageRaw.mockResolvedValue([

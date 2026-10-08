@@ -231,6 +231,17 @@ async function buildMcpUsage(
   }
 
   const daily = await retrieveMcpUsageDaily()
+
+  // Rows written before the rollup kept `transport` mix both transports, so
+  // neither section counts them until a sinceDt backfill rewrites those days.
+  const untagged = daily.filter((row) => !row.transport).length
+  if (untagged > 0) {
+    // eslint-disable-next-line no-console -- surface the gap in CloudWatch Logs
+    console.warn(
+      `${untagged} MCP usage rollup rows have no transport and are left out of the dashboard; backfill with sinceDt`
+    )
+  }
+
   const perVersion = await aggregateLocalMcpUsageByVersion(
     windowStart(MCP_VERSION_WINDOW_DAYS)
   )
