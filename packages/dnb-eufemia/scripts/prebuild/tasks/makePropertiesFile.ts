@@ -894,6 +894,7 @@ export const convertToTokenList = (
   return tokenList
 }
 
+// Map Eufemia's public scale to the corresponding Figma typography values.
 const typographyProperties = {
   '--font-size-xx-small': ['font', 'size', 'text-2xs'],
   '--font-size-x-small': ['font', 'size', 'text-xs'],
@@ -940,7 +941,10 @@ const makeTypographyPropertiesSCSS = async ({
       const token = tokenMap.get(tokenPathName)
       if (!token || token.$type !== 'number') {
         throw new Error(
-          'Missing numeric typography token: ' + tokenPathName
+          'Missing numeric typography token for ' +
+            property +
+            ': ' +
+            tokenPathName
         )
       }
       return '  ' + property + ': ' + transformFigmaValue(token) + ';'

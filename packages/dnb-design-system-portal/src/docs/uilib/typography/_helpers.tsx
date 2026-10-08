@@ -12,9 +12,9 @@ const properties = {
   carnegie: propertiesCarnegie,
 }
 
-export const GetPropValue = (prop) => {
+const usePropValue = (prop: string) => {
   const theme = useTheme()
-  const themeProps = properties[theme.brand] || properties.ui
+  const themeProps = properties[theme?.brand] || properties.ui
 
   let value = themeProps[prop]
   const visited = new Set<string>()
@@ -32,11 +32,15 @@ export const GetPropValue = (prop) => {
   return value
 }
 
-export const GetPropAsPx = (prop) => {
-  return RemToPx(GetPropValue(prop))
+export const PropValue = ({ name }: { name: string }) => {
+  return usePropValue(name)
 }
 
-const RemToPx = (rem = '') => {
+export const PropAsPx = ({ name }: { name: string }) => {
+  return remToPx(usePropValue(name))
+}
+
+const remToPx = (rem = '') => {
   if (rem.endsWith('rem')) {
     return parseFloat(rem) * 16 + 'px'
   }
