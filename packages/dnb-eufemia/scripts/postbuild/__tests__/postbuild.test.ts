@@ -905,14 +905,12 @@ describe('style build', () => {
         ),
         'utf-8'
       )
-      expect(properties).toContain(
-        `@use './_typography-properties-mixin.scss' as typography;`
-      )
+      expect(properties).toContain(`@use './typography-properties.scss';`)
       expect(
         fs.existsSync(
           path.resolve(
             PKG_ROOT,
-            `build${stage}/style/themes/ui/_typography-properties-mixin.scss`
+            `build${stage}/style/themes/ui/typography-properties.scss`
           )
         )
       ).toBe(true)
