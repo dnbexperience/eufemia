@@ -1,5 +1,7 @@
 import type { RefObject } from 'react'
-import { render } from '@testing-library/react'
+import { act, render } from '@testing-library/react'
+import { renderToString } from 'react-dom/server'
+import { hydrateRoot } from 'react-dom/client'
 import PortalRoot, { getOrCreatePortalElement } from '../PortalRoot'
 import IsolatedStyleScope, {
   IsolatedStyleScopeContext,
@@ -87,6 +89,51 @@ describe('PortalRoot', () => {
     if (originalDescriptor) {
       Object.defineProperty(globalThis, 'document', originalDescriptor)
     }
+  })
+
+  it('should hydrate server-rendered markup and mount the portal afterwards', () => {
+    const ref: RefObject<HTMLElement | null> = { current: null }
+    const element = (
+      <div>
+        <PortalRoot ref={ref}>
+          <div data-testid="portal-content">Portal Content</div>
+        </PortalRoot>
+      </div>
+    )
+
+    const originalDocument = globalThis.document
+    let html: string
+
+    try {
+      delete globalThis.document
+      html = renderToString(element)
+    } finally {
+      globalThis.document = originalDocument
+    }
+
+    const container = document.createElement('div')
+    container.innerHTML = html
+    document.body.appendChild(container)
+
+    const recoverableErrors = []
+    let root: ReturnType<typeof hydrateRoot>
+    act(() => {
+      root = hydrateRoot(container, element, {
+        onRecoverableError: (error) => recoverableErrors.push(error),
+      })
+    })
+
+    expect(recoverableErrors).toEqual([])
+    expect(
+      document.querySelector(
+        '#eufemia-portal-root [data-testid="portal-content"]'
+      )
+    ).toHaveTextContent('Portal Content')
+    expect(ref.current).toBe(
+      document.getElementById('eufemia-portal-root')
+    )
+
+    act(() => root.unmount())
   })
 
   it('should reuse existing portal element', () => {
