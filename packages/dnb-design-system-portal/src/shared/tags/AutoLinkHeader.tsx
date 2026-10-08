@@ -5,7 +5,6 @@ import Anchor from './Anchor'
 import Heading, {
   type HeadingAllProps,
 } from '@dnb/eufemia/src/components/Heading'
-import Tooltip from '@dnb/eufemia/src/components/Tooltip'
 import { copyToClipboard } from '@dnb/eufemia/src/shared/helpers'
 import {
   getSlugFromReactHeading,
@@ -110,9 +109,7 @@ const AutoLinkHeader = ({
           <Anchor
             className="anchor-hash"
             tooltip={
-              <Tooltip open={anchorUrlSet ? true : undefined}>
-                {anchorUrlSet ? 'Copied' : 'Click to set an Anchor URL'}
-              </Tooltip>
+              anchorUrlSet ? 'Copied' : 'Click to set an Anchor URL'
             }
             id={id}
             href={`#${id}`}

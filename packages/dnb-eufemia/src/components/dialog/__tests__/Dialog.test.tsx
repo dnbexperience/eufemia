@@ -93,6 +93,57 @@ describe('Dialog', () => {
     expect(document.querySelector('.dnb-tooltip--active')).toBeNull()
   })
 
+  it('dismisses an external tooltip when a controlled dialog opens', async () => {
+    const Example = ({ open }: { open: boolean }) => (
+      <>
+        <Button
+          id="hovered-button"
+          text="Hover"
+          tooltip={
+            <Tooltip showDelay={0} noAnimation>
+              Hint
+            </Tooltip>
+          }
+        />
+        <Dialog {...props} open={open} omitTriggerButton>
+          <Button
+            id="inside-dialog"
+            text="Inside"
+            tooltip={
+              <Tooltip showDelay={0} noAnimation>
+                Inside hint
+              </Tooltip>
+            }
+          />
+        </Dialog>
+      </>
+    )
+
+    const { rerender } = render(<Example open={false} />)
+    fireEvent.mouseEnter(document.querySelector('#hovered-button'))
+
+    await waitFor(() => {
+      expect(
+        document.querySelector('.dnb-tooltip--active')
+      ).toBeInTheDocument()
+    })
+
+    rerender(<Example open />)
+
+    await waitFor(() => {
+      expect(document.querySelector('.dnb-dialog')).toBeInTheDocument()
+      expect(document.querySelector('.dnb-tooltip--active')).toBeNull()
+    })
+
+    fireEvent.mouseEnter(document.querySelector('#inside-dialog'))
+
+    await waitFor(() => {
+      expect(
+        document.querySelector('.dnb-tooltip--active')
+      ).toHaveTextContent('Inside hint')
+    })
+  })
+
   it('omits trigger button once we set omitTriggerButton', () => {
     render(<Dialog {...props} omitTriggerButton />)
 

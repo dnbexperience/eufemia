@@ -15,6 +15,7 @@ import Anchor from '../../anchor/Anchor'
 import NumberFormat from '../../number-format/NumberFormat'
 import Popover, * as PopoverModule from '../../popover/Popover'
 import type { TooltipAllProps } from '../types'
+import { MODAL_OPEN_EVENT } from '../../modal/ModalContext'
 
 global.ResizeObserver = class {
   constructor() {
@@ -53,7 +54,48 @@ describe('Tooltip', () => {
 
   const getMainElem = () => document.body.querySelector('.dnb-tooltip')
 
-  it('fades out on activation and reopens on a new hover', async () => {
+  it('keeps a tooltip on a non-interactive target available after a touch tap', async () => {
+    render(<Tooltip targetElement={<span id="touch-target">Text</span>} />)
+
+    const target = document.querySelector('#touch-target')
+    fireEvent.touchStart(target)
+    fireEvent.touchEnd(target)
+    fireEvent.mouseEnter(target)
+    fireEvent.click(target)
+
+    await waitFor(() => {
+      expect(getMainElem()).toHaveClass('dnb-tooltip--active')
+    })
+  })
+
+  it('keeps updated tooltip feedback visible after activation', async () => {
+    const Component = () => {
+      const [copied, setCopied] = useState(false)
+
+      return (
+        <OriginalTooltip
+          noAnimation
+          targetElement={
+            <button onClick={() => setCopied(true)}>Copy</button>
+          }
+        >
+          {copied ? 'Copied' : 'Copy'}
+        </OriginalTooltip>
+      )
+    }
+
+    render(<Component />)
+    const button = document.querySelector('button')
+    fireEvent.mouseEnter(button)
+    fireEvent.click(button)
+
+    await waitFor(() => {
+      expect(getMainElem()).toHaveClass('dnb-tooltip--active')
+      expect(getMainElem()).toHaveTextContent('Copied')
+    })
+  })
+
+  it('fades out when a modal opens and reopens on a new hover', async () => {
     render(
       <OriginalTooltip
         targetElement={<button>Button</button>}
@@ -71,7 +113,7 @@ describe('Tooltip', () => {
       expect(getMainElem()).toHaveClass('dnb-tooltip--active')
     })
 
-    fireEvent.click(button)
+    document.dispatchEvent(new Event(MODAL_OPEN_EVENT))
 
     await waitFor(() => {
       expect(getMainElem()).toHaveClass('dnb-tooltip--hide')
@@ -88,23 +130,22 @@ describe('Tooltip', () => {
     expect(getMainElem()).toHaveClass('dnb-tooltip--no-animation')
   })
 
-  it('cancels a pending tooltip show on activation', async () => {
+  it('cancels a pending tooltip show when a modal opens', async () => {
     render(<Tooltip showDelay={50} />)
 
     const button = document.querySelector('button')
     fireEvent.mouseEnter(button)
-    fireEvent.click(button)
+    document.dispatchEvent(new Event(MODAL_OPEN_EVENT))
 
     await wait(70)
 
     expect(document.querySelector('.dnb-tooltip--active')).toBeNull()
   })
 
-  it('keeps a controlled tooltip open after activation', () => {
+  it('keeps a controlled tooltip open when a modal opens', () => {
     render(<Tooltip open />)
 
-    const button = document.querySelector('button')
-    fireEvent.click(button)
+    document.dispatchEvent(new Event(MODAL_OPEN_EVENT))
 
     expect(getMainElem()).toHaveClass('dnb-tooltip--active')
   })
@@ -872,17 +913,38 @@ describe('Tooltip', () => {
       )
     })
 
-    it('preserves the target click handler', () => {
-      const onClick = vi.fn()
-      render(
-        <Tooltip
-          targetElement={<button onClick={onClick}>Button</button>}
-        />
-      )
+    it('should not register click or mousedown on the target', () => {
+      const originalAdd = HTMLElement.prototype.addEventListener
+      const calls: Array<{
+        self: EventTarget
+        type: string
+      }> = []
 
-      fireEvent.click(document.querySelector('button'))
+      const spy = vi
+        .spyOn(HTMLElement.prototype, 'addEventListener')
+        .mockImplementation(function (
+          this: EventTarget,
+          type: string,
+          listener: EventListenerOrEventListenerObject,
+          options?: boolean | AddEventListenerOptions
+        ) {
+          calls.push({ self: this, type })
+          return originalAdd.call(this, type, listener, options)
+        })
 
-      expect(onClick).toHaveBeenCalledOnce()
+      try {
+        render(<Tooltip />)
+
+        const button = document.querySelector('button')
+        const targetCalls = calls.filter((c) => c.self === button)
+        const hasClickOrMouseDown = targetCalls.some(
+          (c) => c.type === 'click' || c.type === 'mousedown'
+        )
+
+        expect(hasClickOrMouseDown).toBe(false)
+      } finally {
+        spy.mockRestore()
+      }
     })
 
     it('should validate with ARIA rules as a tooltip', async () => {

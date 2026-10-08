@@ -1,4 +1,6 @@
 import { createContext } from 'react'
+
+export const MODAL_OPEN_EVENT = 'dnb-modal-open'
 /**
  * Web ModalContext Context
  *

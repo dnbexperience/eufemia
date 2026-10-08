@@ -32,7 +32,7 @@ The Tooltip component is integrated into components like [Button](/uilib/compone
 
 To enhance accessibility for touch devices, we add `tabindex="0"` and a `touchstart` event handler.
 
-An uncontrolled Tooltip closes when its target is activated by mouse, touch, or keyboard. It can open again on a new hover, focus, or touch.
+Opening a Modal, Dialog, or Drawer closes uncontrolled tooltips and cancels pending shows. Tooltips inside the opened overlay still work.
 
 ## Links (anchor) with target blank
 
