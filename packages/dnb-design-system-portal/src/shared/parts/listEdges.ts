@@ -16,6 +16,7 @@ import {
   globPath,
   type MdxNode,
 } from '../../../vite/client/plugins/portal-pages.shared.ts'
+import { excludedSlugs } from './componentCategories'
 
 /** The pages listed by `ListComponents`. */
 export function getComponents(pages: MdxNode[]): MdxNode[] {
@@ -23,6 +24,7 @@ export function getComponents(pages: MdxNode[]): MdxNode[] {
     (node) =>
       globPath(node, 'uilib/components/**/*') &&
       !globPath(node, 'uilib/components/fragments/**') &&
+      !excludedSlugs.has(node.fields.slug) &&
       node.frontmatter.hideInMenu !== true
   )
 }
