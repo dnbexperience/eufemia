@@ -264,12 +264,13 @@ describe('CancelButton', () => {
   })
 
   it('keeps editing when a given onClick returns false', async () => {
+    const onClick = vi.fn(() => false)
     const switchContainerMode = vi.fn()
 
     render(
       <SectionContainerContext value={{ switchContainerMode }}>
         <Toolbar>
-          <CancelButton showConfirmDialog={false} onClick={() => false} />
+          <CancelButton showConfirmDialog={false} onClick={onClick} />
         </Toolbar>
       </SectionContainerContext>
     )
@@ -277,6 +278,7 @@ describe('CancelButton', () => {
     await userEvent.click(document.querySelector('button'))
     await new Promise((resolve) => requestAnimationFrame(resolve))
 
+    expect(onClick).toHaveBeenCalledTimes(1)
     expect(switchContainerMode).not.toHaveBeenCalled()
   })
 
