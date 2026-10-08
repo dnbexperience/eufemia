@@ -99,7 +99,7 @@ async function redirectToLogin() {
     client_id: config.clientId ?? '',
     response_type: 'code',
     redirect_uri: config.redirectUri ?? '',
-    scope: config.apiScope ?? '',
+    scope: config.apiScope,
     code_challenge: await challengeFrom(verifier),
     code_challenge_method: 'S256',
     state,
