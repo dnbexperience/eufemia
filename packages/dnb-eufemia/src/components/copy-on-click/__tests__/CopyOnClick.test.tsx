@@ -181,6 +181,7 @@ describe('CopyOnClick', () => {
 
     // Force async clipboard API to fail
     const originalWrite = navigator.clipboard.writeText
+    const originalExecCommand = document.execCommand
     const writeText = vi
       .fn()
       .mockRejectedValue(new Error('Permission denied'))
@@ -192,24 +193,28 @@ describe('CopyOnClick', () => {
     // A selection left by an earlier test would skip the copy
     window.getSelection().removeAllRanges()
 
-    render(<CopyOnClick>Copy me</CopyOnClick>)
+    try {
+      render(<CopyOnClick>Copy me</CopyOnClick>)
 
-    await userEvent.click(document.querySelector('.dnb-copy-on-click'))
+      await userEvent.click(document.querySelector('.dnb-copy-on-click'))
 
-    // Clipboard should remain unchanged
-    expect(await navigator.clipboard.readText()).toBe('initial')
+      // Clipboard should remain unchanged
+      expect(await navigator.clipboard.readText()).toBe('initial')
 
-    await waitFor(() => {
-      expect(writeText).toHaveBeenCalledTimes(1)
-      expect(document.execCommand).toHaveBeenCalledWith('copy')
-    })
+      await waitFor(() => {
+        expect(writeText).toHaveBeenCalledTimes(1)
+        expect(document.execCommand).toHaveBeenCalledWith('copy')
+      })
 
-    // Tooltip should not become active
-    await new Promise((resolve) => setTimeout(resolve, 10))
-    expect(document.querySelector('.dnb-tooltip')).not.toBeInTheDocument()
-
-    // Restore original mock
-    navigator.clipboard.writeText = originalWrite
+      // Tooltip should not become active
+      await new Promise((resolve) => setTimeout(resolve, 10))
+      expect(
+        document.querySelector('.dnb-tooltip')
+      ).not.toBeInTheDocument()
+    } finally {
+      navigator.clipboard.writeText = originalWrite
+      document.execCommand = originalExecCommand
+    }
   })
 })
 

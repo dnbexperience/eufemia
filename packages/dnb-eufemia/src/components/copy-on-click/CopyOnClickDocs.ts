@@ -35,7 +35,7 @@ export const CopyOnClickButtonProperties: PropertiesTableProps = {
     status: 'required',
   },
   title: {
-    doc: 'Describes what the button copies, such as "Copy account number". Also used as the `aria-label`. Defaults to the translation `CopyOnClick.buttonTitle`.',
+    doc: 'Describes what the button copies, such as "Copy account number". When the button has no text, it is also used as the `aria-label` and defaults to the translation `CopyOnClick.buttonTitle`.',
     type: 'React.ReactNode',
     status: 'optional',
   },
@@ -45,15 +45,13 @@ export const CopyOnClickButtonProperties: PropertiesTableProps = {
     status: 'optional',
   },
   icon: {
-    doc: 'Icon displayed on the button.',
+    doc: 'Icon displayed on the button. Defaults to the `copy` icon.',
     type: 'IconIcon',
-    defaultValue: '`copy`',
     status: 'optional',
   },
   variant: {
-    doc: 'Button variant.',
+    doc: 'Button variant. Defaults to `tertiary`.',
     type: ['"primary"', '"secondary"', '"tertiary"'],
-    defaultValue: '"tertiary"',
     status: 'optional',
   },
   '[Button](/uilib/components/button/properties)': {

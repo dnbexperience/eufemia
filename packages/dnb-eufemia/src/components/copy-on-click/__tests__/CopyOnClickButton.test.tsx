@@ -153,18 +153,22 @@ describe('CopyOnClick.Button', () => {
     navigator.clipboard.writeText = writeText
     document.execCommand = vi.fn(() => false)
 
-    render(<CopyOnClick.Button copyContent="70321369861" />)
+    try {
+      render(<CopyOnClick.Button copyContent="70321369861" />)
 
-    await userEvent.click(document.querySelector('button'))
+      await userEvent.click(document.querySelector('button'))
 
-    await waitFor(() => {
-      expect(document.execCommand).toHaveBeenCalledWith('copy')
-    })
-    await new Promise((resolve) => setTimeout(resolve, 10))
-    expect(document.querySelector('.dnb-tooltip')).not.toBeInTheDocument()
-
-    navigator.clipboard.writeText = originalWrite
-    document.execCommand = originalExecCommand
+      await waitFor(() => {
+        expect(document.execCommand).toHaveBeenCalledWith('copy')
+      })
+      await new Promise((resolve) => setTimeout(resolve, 10))
+      expect(
+        document.querySelector('.dnb-tooltip')
+      ).not.toBeInTheDocument()
+    } finally {
+      navigator.clipboard.writeText = originalWrite
+      document.execCommand = originalExecCommand
+    }
   })
 
   it('should forward Button props and the ref', () => {
