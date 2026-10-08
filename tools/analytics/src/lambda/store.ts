@@ -23,24 +23,24 @@ function dataBucket(): string {
 }
 
 /**
- * Persist a batch of anonymous portal views as newline-delimited JSON (one
- * event per line) under the portal-views/ prefix, so the Glue table reads each
- * line as a row and high-frequency events do not each create a tiny S3 object.
+ * Write a batch as newline-delimited JSON (one record per line) under the
+ * given prefix, so the Glue table reads each line as a row and high-frequency
+ * events do not each create a tiny S3 object.
  *
  * A unique key per batch (timestamp + UUID) prevents events from overwriting
  * each other within the same day.
  */
-export async function storePortalViews(
-  events: PortalViewInput[]
+async function putBatch<T>(
+  prefix: string,
+  events: T[],
+  buildRecord: (event: T, createdAt: string) => object
 ): Promise<number> {
   const createdAt = new Date().toISOString()
   const dt = createdAt.slice(0, 10)
-  const key = `portal-views/dt=${dt}/${Date.now()}-${randomUUID()}.json`
+  const key = `${prefix}/dt=${dt}/${Date.now()}-${randomUUID()}.json`
 
   const body = events
-    .map((event) =>
-      JSON.stringify(buildPortalViewRecord(event, createdAt))
-    )
+    .map((event) => JSON.stringify(buildRecord(event, createdAt)))
     .join('\n')
 
   await s3.send(
@@ -55,38 +55,23 @@ export async function storePortalViews(
   return events.length
 }
 
+export function storePortalViews(
+  events: PortalViewInput[]
+): Promise<number> {
+  return putBatch('portal-views', events, buildPortalViewRecord)
+}
+
 /**
- * Persist a batch of anonymous MCP usage events as newline-delimited JSON under
- * the mcp-usage/ prefix — the same prefix and Glue table the web MCP producer
- * writes to, discriminated by the `transport` field. The transport is stamped
- * here (not taken from the client), so the local ingest route can only ever
- * write `local` rows.
- *
- * A unique key per batch (timestamp + UUID) prevents events from overwriting
- * each other within the same day.
+ * Persist a batch of anonymous MCP usage events under the mcp-usage/ prefix,
+ * shared with the web MCP producer (tools/mcp-lambda) and told apart by
+ * `transport`. The transport is stamped here (not taken from the client), so
+ * the local ingest route can only ever write `local` rows.
  */
-export async function storeMcpUsage(
+export function storeMcpUsage(
   events: McpUsageInput[],
   transport: McpUsageTransport
 ): Promise<number> {
-  const createdAt = new Date().toISOString()
-  const dt = createdAt.slice(0, 10)
-  const key = `mcp-usage/dt=${dt}/${Date.now()}-${randomUUID()}.json`
-
-  const body = events
-    .map((event) =>
-      JSON.stringify(buildMcpUsageRecord(event, createdAt, transport))
-    )
-    .join('\n')
-
-  await s3.send(
-    new PutObjectCommand({
-      Bucket: dataBucket(),
-      Key: key,
-      Body: body,
-      ContentType: 'application/x-ndjson',
-    })
+  return putBatch('mcp-usage', events, (event, createdAt) =>
+    buildMcpUsageRecord(event, createdAt, transport)
   )
-
-  return events.length
 }
