@@ -15,10 +15,11 @@ import { buildImportedSet, docsDir } from './shared/helpers'
  * - A page with none of these renders no heading at all.
  *
  * A page therefore owns its heading through frontmatter, never through a
- * markdown `# ` in the body. These tests assert both halves of that rule.
+ * markdown `# ` in the body. These tests assert both halves of that rule:
+ * every page has a heading to render, and no page body carries an H1.
  *
  * Pages whose heading comes from elsewhere, or that are not browsable
- * documentation, are skipped:
+ * documentation, are skipped by the first test:
  * - `showTabs` pages (heading inherited from the parent title)
  * - `draft: true` pages (not published)
  * - partials imported by another page (rendered inside the parent page)
@@ -102,15 +103,10 @@ describe('portal page main headings', () => {
     ).toEqual([])
   })
 
-  it('no page with a title starts with a main heading (H1) of its own', () => {
+  it('no page starts with a main heading (H1) of its own', () => {
     const offenders: string[] = []
 
     for (const page of mdxPages) {
-      const frontmatter = page.frontmatter as Record<string, unknown>
-
-      if (frontmatter.draft === true) continue
-      if (frontmatter.title === undefined) continue
-
       const body = matter(fs.readFileSync(page.filePath, 'utf-8')).content
 
       if (findFirstHeadingLevel(body) === 1) {
@@ -120,10 +116,11 @@ describe('portal page main headings', () => {
 
     expect(
       offenders,
-      `These pages render two main headings, as the H1 is already generated ` +
-        `from their frontmatter title:\n` +
+      `These pages start with a main heading (H1) of their own, but the H1 ` +
+        `is generated from the frontmatter:\n` +
         offenders.join('\n') +
-        `\n\nRemove the "# Title" heading, or remove the frontmatter title. ` +
+        `\n\nRemove the "# Title" heading and give the page a frontmatter ` +
+        `"title" or "contentTitle" instead. ` +
         `See vite/__tests__/page-headings.test.ts for the rules.`
     ).toEqual([])
   })
