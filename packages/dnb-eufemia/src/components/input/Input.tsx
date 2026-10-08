@@ -111,6 +111,7 @@ function InputComponent({ ref, ...restProps }: InputProps) {
 
   const selectAllTimeoutRef =
     useRef<ReturnType<typeof setTimeout>>(undefined)
+  const hasSyncedValueRef = useRef(false)
 
   const initialValue = useMemo(() => {
     const v = getValue(restProps)
@@ -175,6 +176,24 @@ function InputComponent({ ref, ...restProps }: InputProps) {
   // Autocomplete's delayed value sync) can mutate the DOM value, and this
   // effect re-applies the React state to keep them in sync.
   useEffect(() => {
+    const input = inputRef.current
+
+    // Keep what the user typed into the server-rendered input before hydration
+    if (!hasSyncedValueRef.current) {
+      hasSyncedValueRef.current = true
+
+      if (
+        input &&
+        !restProps.inputElement &&
+        input.value !== input.defaultValue
+      ) {
+        const event = new Event('change')
+        Object.defineProperty(event, 'target', { value: input })
+        onChangeHandler(event as unknown as ChangeEvent<HTMLInputElement>)
+        return // stop here
+      }
+    }
+
     updateInputValue()
   })
 
@@ -342,6 +361,13 @@ function InputComponent({ ref, ...restProps }: InputProps) {
 
     ...inputSubmitButtonAttributes
   } = props
+
+  // So the server HTML shows the initial value, except for passwords
+  const [defaultValue] = useState(() =>
+    type !== 'password' && hasValue(initialValue as string)
+      ? String(initialValue)
+      : undefined
+  )
 
   const {
     onSubmitBlur, //eslint-disable-line
@@ -528,7 +554,11 @@ function InputComponent({ ref, ...restProps }: InputProps) {
         <span className="dnb-input__row">
           <span {...shellParams}>
             {(InputElement as ReactNode) || (
-              <input {...inputParams} ref={combinedRef} />
+              <input
+                {...inputParams}
+                defaultValue={defaultValue}
+                ref={combinedRef}
+              />
             )}
 
             {innerElement && (

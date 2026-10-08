@@ -4,14 +4,16 @@
  */
 
 import { createRef, useRef, useState } from 'react'
-import type { Ref, RefObject } from 'react'
+import type { ReactElement, Ref, RefObject } from 'react'
 import {
   axeComponent,
   loadScss,
   wait,
 } from '../../../core/test-utils/testSetup'
-import { fireEvent, render } from '@testing-library/react'
+import { act, fireEvent, render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { renderToString } from 'react-dom/server'
+import { hydrateRoot } from 'react-dom/client'
 import type { InputProps } from '../Input'
 import Input from '../Input'
 import { formatNumber } from '../../number-format/NumberUtils'
@@ -1174,6 +1176,90 @@ describe('Input icon memoization', () => {
       value: 'ProgressIndicator',
       configurable: true,
     })
+  })
+})
+
+describe('Input with server-rendered markup', () => {
+  const hydrate = (element: ReactElement, typedValue?: string) => {
+    const container = document.createElement('div')
+    container.innerHTML = renderToString(element)
+    document.body.appendChild(container)
+
+    const input = container.querySelector('input')
+    if (typeof typedValue === 'string') {
+      input.value = typedValue
+    }
+
+    const recoverableErrors = []
+    let root: ReturnType<typeof hydrateRoot>
+    act(() => {
+      root = hydrateRoot(container, element, {
+        onRecoverableError: (error) => recoverableErrors.push(error),
+      })
+    })
+
+    const unmount = () => {
+      act(() => root.unmount())
+      container.remove()
+    }
+
+    return { input, recoverableErrors, unmount }
+  }
+
+  it('should render the value in the server HTML', () => {
+    expect(renderToString(<Input value="Prefilled" />)).toContain(
+      'value="Prefilled"'
+    )
+  })
+
+  it('should not render the value of a password input in the server HTML', () => {
+    expect(
+      renderToString(<Input type="password" value="secret" />)
+    ).not.toContain('secret')
+  })
+
+  it('should keep text typed before hydration and call onChange', () => {
+    const onChange = vi.fn()
+    const { input, recoverableErrors, unmount } = hydrate(
+      <Input onChange={onChange} />,
+      'typed'
+    )
+
+    expect(recoverableErrors).toEqual([])
+    expect(input).toHaveValue('typed')
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({ value: 'typed' })
+    )
+
+    unmount()
+  })
+
+  it('should keep a prefilled value changed before hydration', () => {
+    const onChange = vi.fn()
+    const { input, unmount } = hydrate(
+      <Input value="Prefilled" onChange={onChange} />,
+      'Prefilled and changed'
+    )
+
+    expect(input).toHaveValue('Prefilled and changed')
+    expect(onChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({ value: 'Prefilled and changed' })
+    )
+
+    unmount()
+  })
+
+  it('should not call onChange when nothing was typed before hydration', () => {
+    const onChange = vi.fn()
+    const { input, unmount } = hydrate(
+      <Input value="Prefilled" onChange={onChange} />
+    )
+
+    expect(input).toHaveValue('Prefilled')
+    expect(onChange).not.toHaveBeenCalled()
+
+    unmount()
   })
 })
 
