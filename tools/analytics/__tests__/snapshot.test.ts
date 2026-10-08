@@ -67,6 +67,7 @@ function putCalls() {
 // test output nor needs a per-suite spy; assertions read logSpy.mock.calls.
 let logSpy: ReturnType<typeof vi.spyOn>
 let errorSpy: ReturnType<typeof vi.spyOn>
+let warnSpy: ReturnType<typeof vi.spyOn>
 
 beforeEach(() => {
   send.mockReset()
@@ -87,12 +88,14 @@ beforeEach(() => {
   process.env.DATA_BUCKET = 'my-bucket'
   logSpy = vi.spyOn(console, 'log').mockImplementation(() => undefined)
   errorSpy = vi.spyOn(console, 'error').mockImplementation(() => undefined)
+  warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => undefined)
 })
 
 afterEach(() => {
   delete process.env.DATA_BUCKET
   logSpy.mockRestore()
   errorSpy.mockRestore()
+  warnSpy.mockRestore()
 })
 
 describe('snapshot generator handler', () => {
@@ -313,9 +316,6 @@ describe('mcp usage section', () => {
   })
 
   it('leaves rollup rows without a transport out of both sections and warns', async () => {
-    const warnSpy = vi
-      .spyOn(console, 'warn')
-      .mockImplementation(() => undefined)
     retrievePortalViews.mockResolvedValue([])
     retrieveMcpUsageDaily.mockResolvedValue([
       {
@@ -351,8 +351,6 @@ describe('mcp usage section', () => {
     expect(warnSpy).toHaveBeenCalledWith(
       expect.stringContaining('1 MCP usage rollup rows have no transport')
     )
-
-    warnSpy.mockRestore()
   })
 
   it('writes the recomputed aggregates to the durable daily rollup prefix', async () => {
