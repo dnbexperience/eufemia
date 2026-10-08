@@ -7,8 +7,7 @@ import { formatNumberValue } from '@dnb/eufemia/src/style/themes/figma/tokenValu
 
 export const tokenNamingPolicy = {
   prefix: '--token-',
-  categories: ['color', 'font', 'radius'],
-  fontSections: ['size', 'height'],
+  categories: ['color', 'radius'],
   colorSections: ['background', 'text', 'icon', 'stroke', 'decorative'],
   componentSections: ['component-*'],
   givenLabels: [
@@ -33,7 +32,6 @@ export const tokenSectionOrder = [
   'stroke',
   'decorative',
   'component',
-  'typography',
   'radius',
 ] as const
 
@@ -271,21 +269,15 @@ export const buildThemeTokenEntries = (
 
     if (isTokenLeaf(value)) {
       const category = nextPath[0]
-      if (category === 'font' && value.$type !== 'number') {
+      if (category === 'font') {
         return []
       }
       const section =
         category === 'radius'
           ? ('radius' as TokenSectionId)
-          : category === 'font'
-            ? ('typography' as TokenSectionId)
-            : (nextPath[1] as TokenSectionId)
+          : (nextPath[1] as TokenSectionId)
       const group =
-        category === 'radius'
-          ? 'radius'
-          : category === 'font'
-            ? nextPath[1]
-            : nextPath[2] || 'general'
+        category === 'radius' ? 'radius' : nextPath[2] || 'general'
       const name = `${tokenNamingPolicy.prefix}${nextPath.join('-')}`
 
       return [

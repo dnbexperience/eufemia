@@ -507,12 +507,8 @@ const keepOnlyReferencedVariableDeclarations = (
     .join('\n')
 }
 
-const shouldGenerateCSSVariable = (value: FigmaValue) => {
-  if (value.$type === 'string') {
-    return false // Exclude font-family and font weight
-  }
-  return true
-}
+const shouldGenerateCSSVariable = (value: TokenItem) =>
+  value.$type !== 'string' && value.figmaPath[0] !== 'font'
 
 /** Generates CSS variables as a SCSS string from a token list */
 export const generateCSSVariablesFromTokenList = (
@@ -733,7 +729,6 @@ const makeDesignTokenSCSS = async ({
   filter = (json) => json,
   referencedVariables,
   colorScheme,
-  brand,
 }: {
   /** Root path to Figma JSON export file */
   inputPath: string
@@ -753,7 +748,6 @@ const makeDesignTokenSCSS = async ({
   filter?: (json: FigmaExport) => FigmaNode
   referencedVariables?: Set<string>
   colorScheme?: 'light' | 'dark'
-  brand?: string
 }) => {
   try {
     const tokenList = convertToTokenList(
@@ -783,34 +777,6 @@ const makeDesignTokenSCSS = async ({
       combinedSelector,
       namespace
     )
-
-    if (brand && colorScheme) {
-      const fontTokens = tokenList.filter(
-        (token) =>
-          token.figmaPath[0] === 'font' &&
-          ['size', 'height'].includes(token.figmaPath[1])
-      )
-      const brandClasses = typographyBrandClasses(brand)
-      const selectors =
-        colorScheme === 'dark'
-          ? brandClasses.map(
-              (brandClass) =>
-                brandClass + '.eufemia-theme__color-scheme--dark'
-            )
-          : [
-              ...brandClasses,
-              ...brandClasses.map(
-                (brandClass) =>
-                  brandClass + '.eufemia-theme__color-scheme--light'
-              ),
-            ]
-      scssContent += [
-        selectors.join(', ') + ' {',
-        generateCSSVariablesFromTokenList(fontTokens, namespace),
-        '}',
-        '',
-      ].join('\n')
-    }
 
     if (referencedVariables) {
       scssContent = keepOnlyReferencedVariableDeclarations(
@@ -1150,7 +1116,6 @@ const runDesignTokenFactory = async () => {
       appendToFile: file.appendToFile,
       referencePrefixOverride: file.referencePrefixOverride,
       colorScheme: file.colorScheme,
-      brand: file.theme,
     })
     await makeTypographyPropertiesSCSS({
       inputPath: file.in,

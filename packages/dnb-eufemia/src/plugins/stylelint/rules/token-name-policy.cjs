@@ -7,9 +7,7 @@ const DEFAULT_POLICY = {
   tokenPrefix: '--token-',
 
   // Validates the 2nd-segment in --token-<segment>-... to avoid naming drift.
-  allowedTokenCategories: ['color', 'font', 'radius'],
-
-  allowedTokenFontCategories: ['size', 'height'],
+  allowedTokenCategories: ['color', 'radius'],
 
   // Validates the 3rd segment in --token-color-<segment>-...
   allowedTokenColorCategories: [
@@ -114,10 +112,6 @@ const messages = stylelint.utils.ruleMessages(RULE_NAME, {
     )}.`,
   wrongTokenColorCategory: (prop, categories) =>
     `Unexpected token variable "${prop}" in tokens file. Expected "--token-color-" followed by one of: ${categories.join(
-      ', '
-    )}.`,
-  wrongTokenFontCategory: (prop, categories) =>
-    `Unexpected token variable "${prop}" in tokens file. Expected "--token-font-" followed by one of: ${categories.join(
       ', '
     )}.`,
   wrongTokenColorSemantic: (prop, semantics) =>
@@ -290,9 +284,6 @@ const ruleFunction = (primary, secondaryOptions = {}) => {
     const allowedTokenColorCategories =
       secondaryOptions.allowedTokenColorCategories ||
       DEFAULT_POLICY.allowedTokenColorCategories
-    const allowedTokenFontCategories =
-      secondaryOptions.allowedTokenFontCategories ||
-      DEFAULT_POLICY.allowedTokenFontCategories
     const categoriesWithSemanticValidation =
       secondaryOptions.categoriesWithSemanticValidation ||
       DEFAULT_POLICY.categoriesWithSemanticValidation
@@ -486,20 +477,6 @@ const ruleFunction = (primary, secondaryOptions = {}) => {
                   ),
                 })
               }
-            }
-          } else if (tokenCategory === 'font') {
-            const tokenFontCategory = tokenNameParts[2]
-
-            if (!allowedTokenFontCategories.includes(tokenFontCategory)) {
-              stylelint.utils.report({
-                result,
-                ruleName: RULE_NAME,
-                node: decl,
-                message: messages.wrongTokenFontCategory(
-                  decl.prop,
-                  allowedTokenFontCategories
-                ),
-              })
             }
           }
         }

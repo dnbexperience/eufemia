@@ -142,22 +142,19 @@ describe('makePropertiesFile', () => {
         global.sbankenTokens,
         global.sbankenTokensDark,
       ]) {
-        expect(tokens).toContain('--token-font-size-heading-2xl: 3rem;')
-        expect(tokens).toContain(
-          '--token-font-height-heading-2xl: 3.5rem;'
-        )
-        expect(tokens).toContain('--token-font-size-text-2xs: 0.8125rem;')
+        expect(tokens).not.toContain('--token-font-')
       }
 
-      expect(global.carnegieTokens).toContain(
-        '--token-font-size-heading-2xl: 3.5rem;'
-      )
-      expect(global.carnegieTokens).toContain(
-        '--token-font-height-heading-2xl: 4.25rem;'
-      )
-      expect(global.carnegieTokensTailwind).toContain(
-        '--font-size-heading-2xl: 3.5rem;'
-      )
+      expect(global.carnegieTokens).not.toContain('--token-font-')
+      for (const tokens of [
+        global.uiTokensTailwind,
+        global.uiTokensDarkTailwind,
+        global.sbankenTokensTailwind,
+        global.sbankenTokensDarkTailwind,
+        global.carnegieTokensTailwind,
+      ]) {
+        expect(tokens).not.toMatch(/--font-(size|height)-/)
+      }
     })
 
     it('keeps medium text sizes and heights aligned with the regular scale', async () => {
@@ -230,13 +227,7 @@ describe('makePropertiesFile', () => {
       expect(read('carnegie')).toContain(
         '.eufemia-theme__carnegie.eufemia-theme__color-scheme--light'
       )
-      expect(global.carnegieTokens).toContain(
-        '.eufemia-theme__carnegie.eufemia-theme__color-scheme--light'
-      )
       expect(read('ui')).toContain(
-        '.eufemia-theme__eiendom.eufemia-theme__color-scheme--light'
-      )
-      expect(global.uiTokens).toContain(
         '.eufemia-theme__eiendom.eufemia-theme__color-scheme--light'
       )
     })
