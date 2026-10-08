@@ -1,4 +1,4 @@
-// OpenID Connect sign-in (authorization code + PKCE) for the dashboard.
+// Entra sign-in (OAuth 2.0 authorization code + PKCE) for the dashboard.
 //
 // Public client: no secret in the browser. Only users assigned to the app
 // registration receive a token (enforced by Entra "assignment required"), so
@@ -22,19 +22,12 @@ export type Session = {
 }
 
 let config: DashboardConfig = {}
-const BASE_SCOPE = 'openid'
 const SESSION_KEY = 'eufemia-analytics-session'
 const FLOW_KEY = 'eufemia-analytics-flow'
 const RETRY_KEY = 'eufemia-analytics-retry'
 
 function authority() {
   return `https://login.microsoftonline.com/${config.tenantId}`
-}
-
-// Request the API scope alongside sign-in so the token endpoint returns an
-// access token the dashboard API accepts.
-export function scopes(cfg: DashboardConfig = config) {
-  return cfg.apiScope ? `${BASE_SCOPE} ${cfg.apiScope}` : BASE_SCOPE
 }
 
 async function loadConfig(): Promise<DashboardConfig> {
@@ -106,7 +99,7 @@ async function redirectToLogin() {
     client_id: config.clientId ?? '',
     response_type: 'code',
     redirect_uri: config.redirectUri ?? '',
-    scope: scopes(),
+    scope: config.apiScope ?? '',
     code_challenge: await challengeFrom(verifier),
     code_challenge_method: 'S256',
     state,
@@ -195,6 +188,11 @@ export async function ensureSignedIn(): Promise<Session | null> {
 
   if (!config.clientId || !config.tenantId) {
     return null
+  }
+
+  // The API scope is the only scope requested; without it Entra gets none.
+  if (!config.apiScope) {
+    throw new Error('No API scope is configured.')
   }
 
   // The decision to grant access hinges on a validated session, not on any

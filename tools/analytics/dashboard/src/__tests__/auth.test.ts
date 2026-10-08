@@ -1,24 +1,58 @@
-import { afterEach, beforeEach, describe, expect, it } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import {
   beginAuthRetry,
   clearAuthRetry,
   clearSession,
+  ensureSignedIn,
   readSession,
-  scopes,
 } from '../auth'
 
 const SESSION_KEY = 'eufemia-analytics-session'
 
-describe('scopes', () => {
-  it('returns the base scope when no API scope is configured', () => {
-    expect(scopes({})).toBe('openid')
+describe('ensureSignedIn', () => {
+  const signIn = { clientId: 'client-id', tenantId: 'tenant-id' }
+
+  function serveConfig(config: Record<string, string>) {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async () => new Response(JSON.stringify(config)))
+    )
+  }
+
+  beforeEach(() => sessionStorage.clear())
+  afterEach(() => {
+    sessionStorage.clear()
+    vi.unstubAllGlobals()
   })
 
-  it('appends the API scope when configured', () => {
-    expect(scopes({ apiScope: 'api://app-id/Dashboard.Read' })).toBe(
-      'openid api://app-id/Dashboard.Read'
+  it('returns null when sign-in is not configured', async () => {
+    serveConfig({})
+
+    await expect(ensureSignedIn()).resolves.toBe(null)
+  })
+
+  it('refuses to sign in without an API scope', async () => {
+    serveConfig(signIn)
+
+    await expect(ensureSignedIn()).rejects.toThrow(
+      'No API scope is configured.'
     )
+  })
+
+  it('returns the stored session when an API scope is configured', async () => {
+    serveConfig({ ...signIn, apiScope: 'api://app-id/Dashboard.Read' })
+    sessionStorage.setItem(
+      SESSION_KEY,
+      JSON.stringify({
+        accessToken: 'token-abc',
+        expiresAt: Date.now() + 60000,
+      })
+    )
+
+    await expect(ensureSignedIn()).resolves.toMatchObject({
+      accessToken: 'token-abc',
+    })
   })
 })
 
