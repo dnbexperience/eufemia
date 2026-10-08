@@ -1385,7 +1385,7 @@ button.dnb-button::-moz-focus-inner {
   margin-right: 0.5rem;
 }
 .dnb-breadcrumb__item .dnb-anchor {
-  line-height: 1.5rem;
+  line-height: var(--line-height-basis);
   padding: 0;
   position: relative;
 }
