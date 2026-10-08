@@ -3391,6 +3391,74 @@ describe('Wizard.Container', () => {
       expect(onSubmit).toHaveBeenCalledTimes(0)
     })
 
+    it.each([{ keepInDOM: false }, { keepInDOM: true }])(
+      'should call an async onSubmit right away when a previous step was never visited (keepInDOM: $keepInDOM)',
+      async ({ keepInDOM }) => {
+        const onSubmit = vi.fn(async () => null)
+
+        render(
+          <Form.Handler
+            defaultData={{ foo: 'value' }}
+            onSubmit={onSubmit}
+            // Far longer than waitFor waits, so the submit can only get
+            // through if it doesn't wait for the timeout
+            asyncSubmitTimeout={60000}
+          >
+            <Wizard.Container initialActiveIndex={1}>
+              <Wizard.Step title="Step 1" keepInDOM={keepInDOM}>
+                <Field.String path="/foo" required />
+                <Wizard.Buttons />
+              </Wizard.Step>
+              <Wizard.Step title="Step 2">
+                <Form.SubmitButton />
+              </Wizard.Step>
+            </Wizard.Container>
+          </Form.Handler>
+        )
+
+        const submitButton = document.querySelector(
+          'button[type="submit"]'
+        )
+        expect(submitButton).toBeInTheDocument()
+
+        await userEvent.click(submitButton)
+
+        await waitFor(() => {
+          expect(onSubmit).toHaveBeenCalledTimes(1)
+        })
+      }
+    )
+
+    it.each([{ keepInDOM: false }, { keepInDOM: true }])(
+      'should not call an async onSubmit when a previous step that was never visited has an error (keepInDOM: $keepInDOM)',
+      async ({ keepInDOM }) => {
+        const onSubmit = vi.fn(async () => null)
+
+        render(
+          <Form.Handler onSubmit={onSubmit}>
+            <Wizard.Container initialActiveIndex={1}>
+              <Wizard.Step title="Step 1" keepInDOM={keepInDOM}>
+                <Field.String path="/foo" required />
+                <Wizard.Buttons />
+              </Wizard.Step>
+              <Wizard.Step title="Step 2">
+                <Form.SubmitButton />
+              </Wizard.Step>
+            </Wizard.Container>
+          </Form.Handler>
+        )
+
+        await userEvent.click(
+          document.querySelector('button[type="submit"]')
+        )
+
+        await expect(() => {
+          expect(onSubmit).toHaveBeenCalledTimes(1)
+        }).toNeverResolve()
+        expect(onSubmit).toHaveBeenCalledTimes(0)
+      }
+    )
+
     describe('with validation shown in menu', () => {
       it('should not show a status on submit when no error is present', async () => {
         const onSubmit = vi.fn()
