@@ -73,6 +73,14 @@ describe('CopyOnClick.Button', () => {
     expect(document.activeElement).toBe(button)
   })
 
+  it('should copy a number, including 0', async () => {
+    render(<CopyOnClick.Button copyContent={0} />)
+
+    await userEvent.click(document.querySelector('button'))
+
+    expect(await navigator.clipboard.readText()).toBe('0')
+  })
+
   it('should support a custom title and tooltipContent', async () => {
     render(
       <CopyOnClick.Button
