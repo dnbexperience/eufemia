@@ -104,16 +104,6 @@
   --color-ca-classic-beige: #f6eae4;
   --color-ca-pale-green: #ccf0e7;
   --color-ca-pale-red: #ffdedb;
-  --font-default: var(--font-sb-default);
-  --font-heading: var(--font-sb-heading);
-  --font-monospace:
-    'DNBMono', 'Menlo', 'Consolas', 'Roboto Mono', 'Ubuntu Monospace',
-    'Noto Mono', 'Oxygen Mono', 'Liberation Mono', monospace;
-  --font-weight-default: normal;
-  --font-weight-basis: normal;
-  --font-weight-regular: normal;
-  --font-weight-medium: var(--font-weight-sb-medium);
-  --font-weight-bold: var(--font-weight-sb-bold);
   --text-xx-small: 0.8125rem;
   --text-x-small: 0.875rem;
   --text-small: 1rem;
@@ -129,6 +119,16 @@
   --leading-large: 2rem;
   --leading-x-large: 2.5rem;
   --leading-xx-large: 3.5rem;
+  --font-default: var(--font-sb-default);
+  --font-heading: var(--font-sb-heading);
+  --font-monospace:
+    'DNBMono', 'Menlo', 'Consolas', 'Roboto Mono', 'Ubuntu Monospace',
+    'Noto Mono', 'Oxygen Mono', 'Liberation Mono', monospace;
+  --font-weight-default: normal;
+  --font-weight-basis: normal;
+  --font-weight-regular: normal;
+  --font-weight-medium: var(--font-weight-sb-medium);
+  --font-weight-bold: var(--font-weight-sb-bold);
   --text-basis--em: 1em;
   --text-lead: var(--font-size-medium);
   --leading-xx-small--em: 1em;

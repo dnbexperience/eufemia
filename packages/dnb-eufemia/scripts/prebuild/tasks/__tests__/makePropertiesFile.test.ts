@@ -197,56 +197,92 @@ describe('makePropertiesFile', () => {
       }
     })
 
-    it('generates public typography properties at the root for each brand', async () => {
+    it('keeps typography values the same in light and dark Figma exports', async () => {
       const fs = await import('fs')
       const path = await import('path')
-      const read = (theme: string, mode = '') =>
+      const readFont = (brand: string, mode: string) =>
+        JSON.parse(
+          fs.readFileSync(
+            path.resolve(
+              'src/style/themes/figma/brand/' +
+                brand +
+                '-' +
+                mode +
+                '.tokens.json'
+            ),
+            'utf-8'
+          )
+        ).font
+
+      for (const brand of ['dnb', 'sbanken']) {
+        const light = readFont(brand, 'light')
+        const dark = readFont(brand, 'dark')
+        for (const group of ['size', 'height']) {
+          const values = (font: typeof light) =>
+            Object.fromEntries(
+              Object.entries(
+                font[group] as Record<string, { $value: unknown }>
+              ).map(([name, token]) => [name, token.$value])
+            )
+          expect(values(dark)).toEqual(values(light))
+        }
+      }
+    })
+
+    it('generates one public typography scale per brand', async () => {
+      const fs = await import('fs')
+      const path = await import('path')
+      const read = (theme: string) =>
         fs.readFileSync(
           path.resolve(
-            'src/style/themes/' +
-              theme +
-              '/typography-properties' +
-              mode +
-              '.scss'
+            'src/style/themes/' + theme + '/typography-properties.scss'
           ),
           'utf-8'
         )
 
       expect(read('ui')).toContain('--font-size-xx-large: 3rem;')
-      expect(read('ui', '-dark')).toContain(
-        '--line-height-xx-large: 3.5rem;'
-      )
       expect(read('sbanken')).toContain('--font-size-xx-large: 3rem;')
-      expect(read('sbanken', '-dark')).toContain(
-        '--line-height-xx-large: 3.5rem;'
-      )
       expect(read('carnegie')).toContain('--font-size-xx-large: 3.5rem;')
       expect(read('carnegie')).toContain(
         '--line-height-xx-large: 4.25rem;'
       )
-      expect(read('carnegie')).toContain(
-        '.eufemia-theme__carnegie.eufemia-theme__color-scheme--light'
-      )
-      expect(read('ui')).toContain(
-        '.eufemia-theme__eiendom.eufemia-theme__color-scheme--light'
-      )
+      expect(read('carnegie')).toContain('.eufemia-theme__carnegie')
+      expect(read('ui')).toContain('.eufemia-theme__eiendom')
+      for (const theme of ['ui', 'sbanken']) {
+        expect(
+          fs.existsSync(
+            path.resolve(
+              'src/style/themes/' +
+                theme +
+                '/typography-properties-dark.scss'
+            )
+          )
+        ).toBe(false)
+      }
     })
 
-    it('keeps Carnegie typography values last in the compiled root cascade', async () => {
+    it('emits one UI scale and keeps Carnegie values after the UI fallback', async () => {
       const sass = await import('sass')
       const path = await import('path')
-      const css = sass.compile(
-        path.resolve('src/style/themes/carnegie/carnegie-theme-basis.scss')
-      ).css
-      const values = Array.from(css.matchAll(/([^{}]+)\{([^{}]*)\}/g))
-        .filter(([, selector]) => selector.includes(':root'))
-        .map(
-          ([, , declarations]) =>
-            declarations.match(/--font-size-xx-large:\s*([^;]+);/)?.[1]
-        )
-        .filter(Boolean)
+      const getValues = (theme: string) => {
+        const css = sass.compile(
+          path.resolve(
+            'src/style/themes/' + theme + '/' + theme + '-theme-basis.scss'
+          )
+        ).css
+        return Array.from(css.matchAll(/([^{}]+)\{([^{}]*)\}/g))
+          .filter(([, selector]) => selector.includes(':root'))
+          .map(
+            ([, , declarations]) =>
+              declarations.match(/--font-size-xx-large:\s*([^;]+);/)?.[1]
+          )
+          .filter(Boolean)
+      }
 
-      expect(values.at(-1)).toBe('3.5rem')
+      expect(getValues('ui')).toEqual(['3rem'])
+      expect(getValues('eiendom')).toEqual(['3rem'])
+      expect(getValues('sbanken')).toEqual(['3rem', '3rem'])
+      expect(getValues('carnegie')).toEqual(['3rem', '3.5rem'])
     })
 
     it('pairs responsive xx-large headings with their line-height scale', async () => {
@@ -268,16 +304,21 @@ describe('makePropertiesFile', () => {
       ])
     })
 
-    it('includes public typography values in the Eiendom dark stylesheet', async () => {
+    it('keeps typography out of the dark stylesheets', async () => {
       const sass = await import('sass')
       const path = await import('path')
-      const css = sass.compile(
-        path.resolve(
-          'src/style/themes/eiendom/eiendom-theme-dark-mode.scss'
-        )
-      ).css
-
-      expect(css).toContain('--font-size-xx-large: 3rem;')
+      for (const theme of ['ui', 'sbanken', 'eiendom']) {
+        const css = sass.compile(
+          path.resolve(
+            'src/style/themes/' +
+              theme +
+              '/' +
+              theme +
+              '-theme-dark-mode.scss'
+          )
+        ).css
+        expect(css).not.toMatch(/--(?:font-size|line-height)-xx-large:/)
+      }
     })
   })
 

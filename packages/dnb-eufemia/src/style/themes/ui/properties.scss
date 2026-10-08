@@ -3,7 +3,7 @@
  *
  */
 
-@use './_typography-properties-mixin.scss' as typography;
+@use './typography-properties.scss';
 
 :root {
   // Typography Family
@@ -21,8 +21,6 @@
   --font-weight-bold: 600;
 
   // Typography Sizes
-  @include typography.properties();
-
   --font-size-basis--em: 1em; // 16px
   --font-size-lead: var(--font-size-medium); // 20px
 
