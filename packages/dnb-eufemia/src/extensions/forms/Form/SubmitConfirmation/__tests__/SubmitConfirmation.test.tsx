@@ -320,6 +320,85 @@ describe('Form.SubmitConfirmation', { retry: isCI ? 5 : 0 }, () => {
       })
     })
 
+    it.each([{ asyncSubmit: false }, { asyncSubmit: true }])(
+      'should keep the form usable after a submit that needs no confirmation (asyncSubmit: $asyncSubmit)',
+      async ({ asyncSubmit }) => {
+        const onSubmit = asyncSubmit ? vi.fn(async () => null) : vi.fn()
+        const onStateChange = vi.fn()
+
+        render(
+          <Form.Handler onSubmit={onSubmit}>
+            <Form.SubmitConfirmation
+              preventSubmitWhen={() => false}
+              onStateChange={onStateChange}
+            >
+              <Form.SubmitButton />
+            </Form.SubmitConfirmation>
+          </Form.Handler>
+        )
+
+        const submitButton = document.querySelector(
+          'button[type="submit"]'
+        )
+
+        await userEvent.click(submitButton)
+        await waitFor(() => {
+          expect(onSubmit).toHaveBeenCalledTimes(1)
+        })
+        await waitFor(() => {
+          expect(submitButton).not.toBeDisabled()
+        })
+        expect(onStateChange).not.toHaveBeenCalled()
+      }
+    )
+
+    it('should open the confirmation from "onSubmitResult" and submit again', async () => {
+      const onSubmit = vi
+        .fn()
+        .mockResolvedValueOnce({ customStatus: 'custom' })
+        .mockResolvedValue(undefined)
+      const confirmationStateRef: RefObject<
+        ConfirmParams['confirmationState'] | null
+      > = { current: null }
+      const submitHandlerRef: RefObject<
+        ConfirmParams['submitHandler'] | null
+      > = { current: null }
+
+      render(
+        <Form.Handler onSubmit={onSubmit}>
+          <Form.SubmitConfirmation
+            onSubmitResult={({ submitState, setConfirmationState }) => {
+              if (submitState?.customStatus) {
+                setConfirmationState('readyToBeSubmitted')
+              }
+            }}
+            renderWithState={({ confirmationState, submitHandler }) => {
+              confirmationStateRef.current = confirmationState
+              submitHandlerRef.current = submitHandler
+              return null
+            }}
+          >
+            <Form.SubmitButton />
+          </Form.SubmitConfirmation>
+        </Form.Handler>
+      )
+
+      const submitButton = document.querySelector('button[type="submit"]')
+
+      await userEvent.click(submitButton)
+      await waitFor(() => {
+        expect(confirmationStateRef.current).toBe('readyToBeSubmitted')
+      })
+      expect(onSubmit).toHaveBeenCalledTimes(1)
+      await waitFor(() => {
+        expect(submitButton).toBeDisabled()
+      })
+
+      await act(submitHandlerRef.current)
+      expect(onSubmit).toHaveBeenCalledTimes(2)
+      expect(confirmationStateRef.current).toBe('submissionComplete')
+    })
+
     it('should get result from "onSubmit" including "customStatus"', async () => {
       const error = new Error('Error message')
       const customStatus = 'custom'

@@ -172,8 +172,8 @@ function SubmitConfirmation(props: ConfirmProps) {
         return // stop here
       }
 
+      // When inactive, leave the submit and the form state to Form.Handler
       if (validatePreventSubmit() !== true) {
-        await setConfirmationState('submitInProgress')
         return // stop here
       }
 
