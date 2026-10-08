@@ -10,11 +10,13 @@ import type {
   MediaQueryListener,
 } from './MediaQueryUtils'
 import { useIsomorphicLayoutEffect as useLayoutEffect } from './helpers/useIsomorphicLayoutEffect'
+import useHydrated from './helpers/useHydrated'
 
 export type { MediaQueryProps }
 
 export default function useMediaQuery(props: MediaQueryProps) {
   const context = useContext(Context)
+  const isHydrated = useHydrated()
   const {
     query,
     when,
@@ -30,8 +32,9 @@ export default function useMediaQuery(props: MediaQueryProps) {
       return false // stop here
     }
 
-    return matchOnSSR && !isMatchMediaSupported()
-  }, [disabled, matchOnSSR])
+    // Use the server result while hydrating; the layout effect updates it after mount
+    return matchOnSSR && (!isHydrated || !isMatchMediaSupported())
+  }, [disabled, matchOnSSR, isHydrated])
 
   const mediaQueryList = useRef(
     makeMediaQueryList({ query, when, not }, context.breakpoints, {

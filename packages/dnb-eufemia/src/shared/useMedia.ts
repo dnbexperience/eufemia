@@ -20,6 +20,7 @@ import type {
   MediaQueryOptions,
 } from './MediaQueryUtils'
 import { toPascalCase } from './component-helper'
+import useHydrated from './helpers/useHydrated'
 
 const makeLayoutEffect = () => {
   // SSR warning fix: https://gist.github.com/gaearon/e7d97cdf38a2907924ea12e4ebdf3c85
@@ -124,6 +125,10 @@ export default function useMedia(
   const resultRef = useRef<Partial<UseMediaResult>>({})
   const isMountedRef = useRef(false)
   const isDisabledRef = useRef(disabled)
+  const isHydrated = useHydrated()
+
+  // Use the server result while hydrating; the layout effect updates it after mount
+  const isHydratingRef = useRef(!isHydrated)
 
   const removeListeners = useCallback(() => {
     Object.entries(refs.current).forEach(([key, item]) => {
@@ -174,11 +179,13 @@ export default function useMedia(
 
         defaultsRef.current[name] = false
 
-        const item = runQuery({
-          when,
-          name,
-          key,
-        })
+        const item = isHydratingRef.current
+          ? undefined
+          : runQuery({
+              when,
+              name,
+              key,
+            })
 
         let hasMatch: boolean
 
@@ -201,7 +208,7 @@ export default function useMedia(
         return acc
       },
       {
-        isSSR: !isMatchMediaSupported(),
+        isSSR: isHydratingRef.current || !isMatchMediaSupported(),
         key: null,
       } as UseMediaResult
     ) as UseMediaResult
@@ -215,6 +222,7 @@ export default function useMedia(
   useLayoutEffect(() => {
     if (!isMountedRef.current) {
       isMountedRef.current = true
+      isHydratingRef.current = false
 
       const result = makeResult()
 
