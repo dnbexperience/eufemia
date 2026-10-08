@@ -30,8 +30,9 @@ export default function CopyOnClickButton({
   } = useTranslation()
 
   const onClick = useCallback(() => {
-    if (copyContent) {
-      copy(copyContent)
+    const text = String(copyContent ?? '')
+    if (text) {
+      copy(text)
     }
   }, [copy, copyContent])
 

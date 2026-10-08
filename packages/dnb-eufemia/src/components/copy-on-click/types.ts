@@ -38,7 +38,7 @@ export type CopyOnClickButtonProps = {
   /**
    * The text to copy.
    */
-  copyContent: string
+  copyContent: string | number
 
   /**
    * The message shown in the tooltip when the content is copied.

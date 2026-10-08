@@ -31,7 +31,7 @@ export const CopyOnClickProperties: PropertiesTableProps = {
 export const CopyOnClickButtonProperties: PropertiesTableProps = {
   copyContent: {
     doc: 'The text to copy.',
-    type: 'string',
+    type: ['string', 'number'],
     status: 'required',
   },
   title: {
