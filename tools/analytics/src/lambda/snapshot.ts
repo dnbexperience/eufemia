@@ -16,6 +16,7 @@ import {
   type ComponentUsageAggregate,
   type ComponentUsageCount,
   type ComponentUsageSection,
+  type McpTransportUsage,
   type McpUsageCount,
   type McpUsageDaily,
   type McpUsageSection,
@@ -82,7 +83,7 @@ const MCP_TOP_LIMIT = 20
 
 // Recent window for the local-by-version breakdown. Unlike the daily-rollup
 // reads above, this scans the raw per-request mcp_usage table directly (it has
-// no durable rollup for the transport/version dimensions), so it needs its own
+// no durable rollup for the version dimension), so it needs its own
 // bound to stay cheap as the table's 13-month retention fills; it also keeps
 // the metric focused on currently-relevant versions rather than all-time history.
 const MCP_VERSION_WINDOW_DAYS = 90
@@ -90,8 +91,12 @@ const MCP_VERSION_WINDOW_DAYS = 90
 // Recent-tail window for the retention rollup refresh (mirrors MCP_ROLLUP_DAYS).
 const PORTAL_VIEWS_ROLLUP_DAYS = 7
 
-function dayString(date: Date): string {
-  return date.toISOString().slice(0, 10)
+// First day (YYYY-MM-DD, UTC) of the `days`-long window that ends today.
+function windowStart(days: number): string {
+  const since = new Date()
+  since.setUTCDate(since.getUTCDate() - (days - 1))
+
+  return since.toISOString().slice(0, 10)
 }
 
 // Recompute raw page views into the durable portal_views_daily rollup. This is
@@ -109,13 +114,7 @@ async function refreshPortalViewsRollup(
   bucket: string,
   sinceDt?: string
 ): Promise<void> {
-  let from = sinceDt
-
-  if (!from) {
-    const since = new Date()
-    since.setUTCDate(since.getUTCDate() - (PORTAL_VIEWS_ROLLUP_DAYS - 1))
-    from = dayString(since)
-  }
+  const from = sinceDt || windowStart(PORTAL_VIEWS_ROLLUP_DAYS)
 
   await storeDailyRollup(
     bucket,
@@ -165,11 +164,37 @@ function sumBy(
     .sort((a, b) => b.count - a.count)
 }
 
+function buildTransportUsage(
+  daily: McpUsageDaily[],
+  transport: 'web' | 'local'
+): McpTransportUsage {
+  const rows = daily.filter((row) => row.transport === transport)
+  const dayTotals = new Map<string, number>()
+  let total = 0
+
+  for (const row of rows) {
+    total += row.count
+    dayTotals.set(row.dt, (dayTotals.get(row.dt) ?? 0) + row.count)
+  }
+
+  return {
+    total,
+    perTool: sumBy(rows, 'tool').slice(0, MCP_TOP_LIMIT),
+    perComponent: sumBy(rows, 'component').slice(0, MCP_TOP_LIMIT),
+    perPath: sumBy(rows, 'path').slice(0, MCP_TOP_LIMIT),
+    daily: [...dayTotals.entries()]
+      .map(([date, count]) => ({ date, count }))
+      .sort((a, b) => a.date.localeCompare(b.date)),
+  }
+}
+
 /**
- * Build the MCP usage dashboard section. First recomputes the recent tail of raw
- * usage into the durable daily rollup (idempotent overwrite), then reads the full
- * daily table. The rollup outlives the raw rows' 13-month expiry, so long-range
- * comparisons stay available without holding raw events forever.
+ * Build the MCP usage dashboard section, split by transport. First recomputes
+ * the recent tail of raw usage into the durable daily rollup (idempotent
+ * overwrite), then reads the full daily table. The rollup outlives the raw rows'
+ * 13-month expiry, so long-range comparisons stay available without holding raw
+ * events forever. An explicit `sinceDt` recomputes from that date instead of the
+ * recent tail (one-time backfill).
  *
  * The tail recompute is best-effort: a transient Athena/S3 failure there is
  * logged and flagged (the rollup misses the newest tail until the next run) but
@@ -177,16 +202,19 @@ function sumBy(
  * a failure of the durable read (or the version breakdown) propagates to the
  * handler, which falls back to the empty section.
  */
-async function buildMcpUsage(bucket: string): Promise<McpUsageSection> {
-  const since = new Date()
-  since.setUTCDate(since.getUTCDate() - (MCP_ROLLUP_DAYS - 1))
+async function buildMcpUsage(
+  bucket: string,
+  sinceDt?: string
+): Promise<McpUsageSection> {
+  const from = sinceDt || windowStart(MCP_ROLLUP_DAYS)
 
   try {
     await storeDailyRollup(
       bucket,
       'mcp-usage-daily/',
-      await aggregateMcpUsageRaw(dayString(since)),
-      ({ tool, component, path, count }) => ({
+      await aggregateMcpUsageRaw(from),
+      ({ transport, tool, component, path, count }) => ({
+        transport,
         tool,
         component,
         path,
@@ -203,32 +231,16 @@ async function buildMcpUsage(bucket: string): Promise<McpUsageSection> {
   }
 
   const daily = await retrieveMcpUsageDaily()
-
-  const versionSince = new Date()
-  versionSince.setUTCDate(
-    versionSince.getUTCDate() - (MCP_VERSION_WINDOW_DAYS - 1)
-  )
   const perVersion = await aggregateLocalMcpUsageByVersion(
-    dayString(versionSince)
+    windowStart(MCP_VERSION_WINDOW_DAYS)
   )
-
-  const dayTotals = new Map<string, number>()
-  let total = 0
-
-  for (const row of daily) {
-    total += row.count
-    dayTotals.set(row.dt, (dayTotals.get(row.dt) ?? 0) + row.count)
-  }
 
   return {
-    total,
-    perTool: sumBy(daily, 'tool').slice(0, MCP_TOP_LIMIT),
-    perComponent: sumBy(daily, 'component').slice(0, MCP_TOP_LIMIT),
-    perPath: sumBy(daily, 'path').slice(0, MCP_TOP_LIMIT),
-    perVersion: perVersion.slice(0, MCP_TOP_LIMIT),
-    daily: [...dayTotals.entries()]
-      .map(([date, count]) => ({ date, count }))
-      .sort((a, b) => a.date.localeCompare(b.date)),
+    web: buildTransportUsage(daily, 'web'),
+    local: {
+      ...buildTransportUsage(daily, 'local'),
+      perVersion: perVersion.slice(0, MCP_TOP_LIMIT),
+    },
   }
 }
 
@@ -284,14 +296,11 @@ function sumComponentUsageBy(
 export async function buildComponentUsage(
   bucket: string
 ): Promise<ComponentUsageSection> {
-  const since = new Date()
-  since.setUTCDate(since.getUTCDate() - (COMPONENT_ROLLUP_DAYS - 1))
-
   try {
     await storeDailyRollup(
       bucket,
       'component-usage-daily/',
-      await aggregateComponentUsageRaw(dayString(since)),
+      await aggregateComponentUsageRaw(windowStart(COMPONENT_ROLLUP_DAYS)),
       ({ app, component, version, count }) => ({
         app,
         component,
@@ -336,9 +345,9 @@ export async function buildComponentUsage(
  * S3. Runs under the analytics execution role (Athena + S3 write); keeping it
  * separate from the read endpoint lets that endpoint run with a read-only role.
  *
- * An optional `sinceDt` on the invocation event backfills the page-view rollup
- * from that date instead of the recent tail — used for the one-time historical
- * backfill (see the analytics README). Scheduled invocations pass none.
+ * An optional `sinceDt` on the invocation event backfills the page-view and MCP
+ * usage rollups from that date instead of the recent tail — used for one-time
+ * historical backfills (see the analytics README). Scheduled invocations pass none.
  */
 export async function handler(event?: { sinceDt?: string }): Promise<{
   generatedAt: string
@@ -367,7 +376,7 @@ export async function handler(event?: { sinceDt?: string }): Promise<{
   // back to the empty section so the rest of the dashboard keeps updating.
   let mcpUsage: McpUsageSection
   try {
-    mcpUsage = await buildMcpUsage(bucket)
+    mcpUsage = await buildMcpUsage(bucket, event?.sinceDt)
   } catch (error) {
     // eslint-disable-next-line no-console -- surface the failure in CloudWatch Logs
     console.error('Failed to build MCP usage section', error)

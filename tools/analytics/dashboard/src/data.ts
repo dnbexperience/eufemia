@@ -16,12 +16,17 @@ export type AnalyticsRecord = {
 
 export type McpCount = { name: string; count: number }
 
-export type McpUsage = {
+export type McpTransportUsage = {
   total?: number
   perTool?: McpCount[]
   perComponent?: McpCount[]
   perPath?: McpCount[]
   perVersion?: McpCount[]
+}
+
+export type McpUsage = {
+  web?: McpTransportUsage
+  local?: McpTransportUsage
 }
 
 export type ComponentUsage = {

@@ -449,6 +449,11 @@ resource "aws_glue_catalog_table" "mcp_usage_daily" {
     }
 
     columns {
+      name = "transport"
+      type = "string"
+    }
+
+    columns {
       name = "tool"
       type = "string"
     }
