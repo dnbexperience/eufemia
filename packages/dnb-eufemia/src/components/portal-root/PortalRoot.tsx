@@ -20,6 +20,7 @@ import IsolatedStyleScope, {
 } from '../../shared/IsolatedStyleScope'
 import Context from '../../shared/Context'
 import { getThemeClasses } from '../../shared/Theme'
+import useHydrated from '../../shared/helpers/useHydrated'
 
 import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../shared/helpers/useIsomorphicLayoutEffect'
 
@@ -220,6 +221,13 @@ export function getOrCreatePortalElement({
   return elem
 }
 function PortalRoot(props: PortalRootProps) {
+  // The portal has no server markup, so it may only mount after hydration
+  const isHydrated = useHydrated()
+
+  if (!isHydrated) {
+    return null
+  }
+
   return <PortalRootComponent {...props} />
 }
 PortalRoot.Provider = PortalRootProvider
