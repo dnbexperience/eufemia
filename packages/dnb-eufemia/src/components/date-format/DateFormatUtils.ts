@@ -66,7 +66,7 @@ export function convertNumberToDate(value: number): Date {
  * Detects if a date string represents a UTC date
  * by checking if it ends with 'Z' or contains a timezone offset
  */
-function isUTCDateString(dateValue: string): boolean {
+export function isUTCDateString(dateValue: string): boolean {
   // Check for UTC indicator 'Z' at the end
   if (dateValue.endsWith('Z')) {
     return true
