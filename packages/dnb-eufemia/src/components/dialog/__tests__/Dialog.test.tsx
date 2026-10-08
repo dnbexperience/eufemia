@@ -4,6 +4,7 @@ import Dialog from '../Dialog'
 import type { DialogContentProps, DialogProps } from '../types'
 import type { ModalContentProps } from '../../modal/types'
 import Button from '../../button/Button'
+import Tooltip from '../../tooltip/Tooltip'
 import Provider from '../../../shared/Provider'
 import { loadScss, axeComponent } from '../../../core/test-utils/testSetup'
 import { fireEvent, render, waitFor, screen } from '@testing-library/react'
@@ -61,18 +62,35 @@ describe('Dialog', () => {
     )
   })
 
-  it('appears on trigger click', () => {
+  it('appears on trigger click and dismisses its tooltip', async () => {
     render(
-      <Dialog {...props}>
+      <Dialog
+        {...props}
+        triggerProps={{
+          tooltip: (
+            <Tooltip showDelay={0} noAnimation>
+              Open
+            </Tooltip>
+          ),
+        }}
+      >
         <button>button</button>
       </Dialog>
     )
 
-    fireEvent.click(document.querySelector('button.dnb-modal__trigger'))
+    const trigger = document.querySelector('button.dnb-modal__trigger')
+    fireEvent.mouseEnter(trigger)
+    await waitFor(() => {
+      expect(
+        document.querySelector('.dnb-tooltip--active')
+      ).toBeInTheDocument()
+    })
+    fireEvent.click(trigger)
 
     expect(
       document.querySelector('button.dnb-modal__close-button')
     ).toBeInTheDocument()
+    expect(document.querySelector('.dnb-tooltip--active')).toBeNull()
   })
 
   it('omits trigger button once we set omitTriggerButton', () => {

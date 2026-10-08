@@ -2,6 +2,7 @@ import type { ReactNode, RefObject } from 'react'
 import type { DrawerAllProps } from '../Drawer'
 import Drawer from '../Drawer'
 import Button from '../../button/Button'
+import Tooltip from '../../tooltip/Tooltip'
 import Provider from '../../../shared/Provider'
 
 import { loadScss, axeComponent } from '../../../core/test-utils/testSetup'
@@ -57,18 +58,35 @@ describe('Drawer', () => {
     )
   })
 
-  it('appears on trigger click', () => {
+  it('appears on trigger click and dismisses its tooltip', async () => {
     render(
-      <Drawer {...props}>
+      <Drawer
+        {...props}
+        triggerProps={{
+          tooltip: (
+            <Tooltip showDelay={0} noAnimation>
+              Open
+            </Tooltip>
+          ),
+        }}
+      >
         <button>button</button>
       </Drawer>
     )
 
-    fireEvent.click(document.querySelector('button.dnb-modal__trigger'))
+    const trigger = document.querySelector('button.dnb-modal__trigger')
+    fireEvent.mouseEnter(trigger)
+    await waitFor(() => {
+      expect(
+        document.querySelector('.dnb-tooltip--active')
+      ).toBeInTheDocument()
+    })
+    fireEvent.click(trigger)
 
     expect(
       document.querySelector('button.dnb-modal__close-button')
     ).toBeInTheDocument()
+    expect(document.querySelector('.dnb-tooltip--active')).toBeNull()
   })
 
   it('omits trigger button once we set omitTriggerButton', () => {

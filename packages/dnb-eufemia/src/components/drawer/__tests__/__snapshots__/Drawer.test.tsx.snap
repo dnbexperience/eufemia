@@ -191,6 +191,12 @@ p > .dnb-icon {
   );
   z-index: var(--tooltip-z-index);
 }
+.dnb-tooltip--hide {
+  pointer-events: none;
+}
+html[data-dnb-modal-active] .dnb-tooltip--hide {
+  z-index: calc(var(--modal-z-index) + var(--tooltip-z-index));
+}
 .dnb-popover--inside-modal .dnb-tooltip {
   z-index: calc(var(--modal-z-index) + var(--tooltip-z-index));
 }

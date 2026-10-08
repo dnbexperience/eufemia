@@ -20,6 +20,12 @@
   );
 
   z-index: var(--tooltip-z-index);
+  &--hide {
+    pointer-events: none;
+    html[data-dnb-modal-active] & {
+      z-index: calc(var(--modal-z-index) + var(--tooltip-z-index));
+    }
+  }
   .dnb-popover--inside-modal & {
     z-index: calc(var(--modal-z-index) + var(--tooltip-z-index));
   }

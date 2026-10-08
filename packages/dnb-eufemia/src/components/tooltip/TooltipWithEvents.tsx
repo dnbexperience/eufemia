@@ -176,6 +176,17 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
     [open, hideDelayMs, markHideAnimationStarted, shouldDelayHide]
   )
 
+  const onClick = useCallback(() => {
+    clearTimers()
+    clearOverlayTimers()
+    setSkipShowAnimation(false)
+    setOverlayHovered(false)
+    setIsOpen(false)
+    if (isOpen || isOverlayHovered) {
+      markHideAnimationStarted()
+    }
+  }, [isOpen, isOverlayHovered, markHideAnimationStarted])
+
   const addEvents = useCallback(
     (element: HTMLElement) => {
       try {
@@ -185,6 +196,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
         element.addEventListener('mouseleave', onMouseLeave)
         element.addEventListener('touchstart', onMouseEnter)
         element.addEventListener('touchend', onMouseLeave)
+        element.addEventListener('click', onClick)
       } catch (e) {
         warn(
           'Tooltip: Failed to add event listeners to target element:',
@@ -192,7 +204,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
         )
       }
     },
-    [onFocus, onMouseLeave, onMouseEnter]
+    [onFocus, onMouseLeave, onMouseEnter, onClick]
   )
 
   const removeEvents = useCallback(
@@ -207,6 +219,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
         element.removeEventListener('mouseleave', onMouseLeave)
         element.removeEventListener('touchstart', onMouseEnter)
         element.removeEventListener('touchend', onMouseLeave)
+        element.removeEventListener('click', onClick)
       } catch (e) {
         warn(
           'Tooltip: Failed to remove event listeners from target element:',
@@ -214,7 +227,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
         )
       }
     },
-    [onFocus, onMouseEnter, onMouseLeave]
+    [onFocus, onMouseEnter, onMouseLeave, onClick]
   )
 
   const overlayOpen = Boolean(isOpen || isOverlayHovered)
