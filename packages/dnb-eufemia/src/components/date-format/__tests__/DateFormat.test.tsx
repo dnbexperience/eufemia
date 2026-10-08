@@ -42,6 +42,35 @@ describe('DateFormat', () => {
       expect(dateFormat).toHaveTextContent('01.08.2025')
     })
 
+    it('should format a timestamp', () => {
+      const timestamp = new Date(2025, 7, 1, 14, 30).getTime()
+      const { rerender } = render(
+        <DateFormat value={timestamp} dateStyle="short" />
+      )
+
+      const dateFormat = document.querySelector('.dnb-date-format')
+
+      expect(dateFormat).toHaveTextContent('01.08.2025')
+
+      rerender(
+        <DateFormat
+          value={timestamp}
+          dateStyle="short"
+          timeStyle="short"
+        />
+      )
+      expect(dateFormat).toHaveTextContent('01.08.2025')
+      expect(dateFormat).toHaveTextContent('14:30')
+    })
+
+    it('should still format numbers that read as a date', () => {
+      render(<DateFormat value={20250801} dateStyle="short" />)
+
+      expect(document.querySelector('.dnb-date-format')).toHaveTextContent(
+        '01.08.2025'
+      )
+    })
+
     it('should hide year for any dateStyle when hideCurrentYear and date is in current year', () => {
       const now = new Date('2025-06-15T12:00:00.000Z')
       vi.useFakeTimers({ now: now.getTime() })
