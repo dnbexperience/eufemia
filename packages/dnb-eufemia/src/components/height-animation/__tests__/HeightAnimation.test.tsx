@@ -172,7 +172,7 @@ describe('HeightAnimation', () => {
 
     rerender(<HeightAnimation open />)
 
-    expect(getElement()).toHaveAttribute('style', '')
+    expect(getElement()).toHaveAttribute('style', 'height: 0px;')
 
     runAnimation()
 

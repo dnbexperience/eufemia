@@ -91,7 +91,7 @@ describe('useHeightAnimation', () => {
 
     rerender(<MockComponent open />)
 
-    expect(getElement()).not.toHaveAttribute('style')
+    expect(getElement()).toHaveAttribute('style', 'height: 0px;')
 
     nextAnimationFrame()
 
@@ -109,7 +109,7 @@ describe('useHeightAnimation', () => {
 
     rerender(<MockComponent open={false} />)
 
-    expect(getElement()).toHaveAttribute('style', 'height: auto;')
+    expect(getElement()).toHaveAttribute('style', 'height: 100px;')
 
     nextAnimationFrame()
 

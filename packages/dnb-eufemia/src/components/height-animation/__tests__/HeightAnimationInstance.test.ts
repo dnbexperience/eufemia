@@ -16,6 +16,14 @@ beforeEach(() => {
 })
 
 describe('HeightAnimationInstance', () => {
+  it('sets the starting height before the first animation frame', () => {
+    const inst = new HeightAnimationInstance()
+    inst.setElement(element)
+    inst.start(0, 100)
+    expect(element.style.height).toBe('0px')
+    inst.remove()
+  })
+
   it('should check for window', () => {
     // In jsdom (browser-like environment), isInBrowser should be true
     expect(new HeightAnimationInstance().isInBrowser).toBe(true)
@@ -375,7 +383,7 @@ describe('HeightAnimationInstance', () => {
 
       inst.start(100, 200)
 
-      expect(inst.elem.style.height).toBe('')
+      expect(inst.elem.style.height).toBe('100px')
 
       nextAnimationFrame()
 
@@ -393,7 +401,7 @@ describe('HeightAnimationInstance', () => {
 
       inst.start(100, 200)
 
-      expect(elem.style.height).toBe('')
+      expect(elem.style.height).toBe('100px')
 
       nextAnimationFrame()
 

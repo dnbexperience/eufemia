@@ -257,6 +257,9 @@ export default class HeightAnimation {
     this.stop()
     this.isAnimating = true
 
+    // Reserve the starting height before the browser can paint new content.
+    this.elem.style.height = `${fromHeight}px`
+
     // make the animation
     this.reqId1 = window.requestAnimationFrame(() => {
       if (
