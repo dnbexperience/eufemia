@@ -18,7 +18,7 @@
     &::after {
       content: '';
       position: absolute;
-      inset: -0.0625rem;
+      inset: 0;
       z-index: 10;
 
       border-radius: inherit;
