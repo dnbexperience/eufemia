@@ -20,6 +20,7 @@ import mergeProps from '../../shared/helpers/mergeProps'
 import useCombinedRef from '../../shared/helpers/useCombinedRef'
 import Context, { type ContextProps } from '../../shared/Context'
 import useId from '../../shared/helpers/useId'
+import useCanUseDOM from '../../shared/helpers/useCanUseDOM'
 import {
   warn,
   validateDOMAttributes,
@@ -30,7 +31,12 @@ import {
   isTouchDevice,
   removeUndefinedProps,
 } from '../../shared/component-helper'
-import { hasSelectedText, IS_IOS } from '../../shared/helpers'
+import {
+  hasSelectedText,
+  IS_IOS,
+  IS_MAC,
+  IS_WIN,
+} from '../../shared/helpers'
 import { useSpacing } from '../space/SpacingUtils'
 import {
   skeletonDOMAttributes,
@@ -445,10 +451,8 @@ function NumberFormatComponent(ownProps: NumberFormatAllProps) {
       </span>
 
       {/* Used for VoiceOver and NVDA when navigating with arrow keys */}
-      <span
-        className="dnb-sr-only"
-        // Use "data-text" so Chrome does not copy the HTML as content, when pasting it in Outlook etc.
-        data-text={
+      <ScreenReaderText
+        text={
           srLabel
             ? `${convertJsxToString(srLabel)}${'\u00a0'}${aria}`
             : aria
@@ -492,6 +496,22 @@ function NumberFormatComponent(ownProps: NumberFormatAllProps) {
 }
 
 const NumberFormat = memo(NumberFormatComponent)
+
+function ScreenReaderText({ text }: { text: string }) {
+  // The text has fixes for VoiceOver and NVDA, which the server cannot know about,
+  // so keep the server text while hydrating and let React replace it right after
+  const canUseDOM = useCanUseDOM({ waitForHydration: IS_MAC || IS_WIN })
+  const isHydrating = !canUseDOM && typeof document !== 'undefined'
+
+  return (
+    <span
+      className="dnb-sr-only"
+      // Use "data-text" so Chrome does not copy the HTML as content, when pasting it in Outlook etc.
+      data-text={isHydrating ? undefined : text}
+      suppressHydrationWarning={isHydrating}
+    />
+  )
+}
 
 withComponentMarkers(NumberFormat, { _supportsSpacingProps: true })
 

@@ -3,8 +3,10 @@
  *
  */
 
-import { useRef, useState } from 'react'
+import { act, useRef, useState } from 'react'
 import type { RefObject } from 'react'
+import { renderToString } from 'react-dom/server'
+import { hydrateRoot } from 'react-dom/client'
 import { loadScss, wait } from '../../../core/test-utils/testSetup'
 import { render, fireEvent, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
@@ -2729,6 +2731,44 @@ describe('inputmode', () => {
       'inputmode',
       'tel'
     )
+  })
+
+  it('on iOS should remove "inputmode" from server-rendered markup after hydration', () => {
+    const element = <InputMasked value={1234.5} numberMask />
+
+    // The server is never iOS
+    const html = renderToString(element)
+    expect(html).toContain('inputMode="numeric"')
+
+    Object.defineProperty(helpers, 'IS_IOS', {
+      value: true,
+    })
+
+    const container = document.createElement('div')
+    container.innerHTML = html
+    document.body.appendChild(container)
+
+    const log = vi.spyOn(console, 'error')
+    const recoverableErrors = []
+    let root: ReturnType<typeof hydrateRoot>
+    act(() => {
+      root = hydrateRoot(container, element, {
+        onRecoverableError: (error) => recoverableErrors.push(error),
+      })
+    })
+
+    expect(recoverableErrors).toEqual([])
+    expect(log).not.toHaveBeenCalled()
+    expect(container.querySelector('input')).not.toHaveAttribute(
+      'inputmode'
+    )
+
+    act(() => root.unmount())
+    container.remove()
+    log.mockRestore()
+    Object.defineProperty(helpers, 'IS_IOS', {
+      value: false,
+    })
   })
 
   it('on iOS should remove "inputmode" when allowNegative is set', () => {
