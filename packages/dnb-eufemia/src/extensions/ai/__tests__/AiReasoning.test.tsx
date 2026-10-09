@@ -1,6 +1,5 @@
 import { render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import type { AiMessageData } from '../types'
 import { axeComponent } from '../../../core/test-utils/testSetup'
 import Provider from '../../../shared/Provider'
 import * as Ai from '..'
@@ -86,34 +85,25 @@ describe('Ai.Reasoning', () => {
     ).toHaveTextContent('Thinking about it')
   })
 
-  it('uses the text and state of a reasoning part', () => {
+  it('uses explicit text and streaming state', () => {
     render(
       <Provider locale="en-GB">
-        <Ai.Reasoning
-          part={{
-            type: 'reasoning',
-            text: 'Step one',
-            state: 'streaming',
-          }}
-        />
+        <Ai.Reasoning isStreaming>Step one</Ai.Reasoning>
       </Provider>
     )
-
     expect(getToggle()).toHaveTextContent('Thinking …')
     expect(getContent()).toHaveTextContent('Step one')
   })
 
-  it('is rendered by Ai.Message in order', () => {
-    const message: AiMessageData = {
-      id: '1',
-      role: 'assistant',
-      parts: [
-        { type: 'reasoning', text: 'Checking the account', state: 'done' },
-        { type: 'text', text: 'You have 100 kr.', state: 'done' },
-      ],
-    }
-    render(<Ai.Message message={message} />)
-
+  it('composes reasoning before the response', () => {
+    render(
+      <Ai.Message>
+        <Ai.Reasoning>Checking the account</Ai.Reasoning>
+        <Ai.Response parseIncompleteMarkdown={false}>
+          You have 100 kr.
+        </Ai.Response>
+      </Ai.Message>
+    )
     const children = document.querySelector(
       '.dnb-ai-message__content'
     ).children

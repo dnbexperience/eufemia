@@ -5,14 +5,14 @@ import Anchor from '../../components/Anchor'
 import useTranslation from './hooks/useTranslation'
 import AiCollapsible from './AiCollapsible'
 import { sanitizeUrl } from './markdown/sanitizeUrl'
-import type { AiMessageData, AiSource, AiSourcesProps } from './types'
+import type { AiSourcesProps } from './types'
 
 function AiSources(props: AiSourcesProps) {
-  const { sources: sourcesProp, message, className, ...rest } = props
+  const { sources: sourcesProp = [], className, ...rest } = props
 
   const translation = useTranslation().Ai
   const [open, setOpen] = useState(false)
-  const sources = (sourcesProp ?? getSources(message))
+  const sources = sourcesProp
     .map((source) => ({ ...source, url: sanitizeUrl(source.url) }))
     .filter((source) => source.url)
 
@@ -46,14 +46,6 @@ function AiSources(props: AiSourcesProps) {
         </ul>
       </AiCollapsible>
     </div>
-  )
-}
-
-function getSources(message?: AiMessageData): Array<AiSource> {
-  return (message?.parts ?? []).flatMap((part) =>
-    part.type === 'source-url' && typeof part.url === 'string'
-      ? [{ url: part.url, title: part.title }]
-      : []
   )
 }
 

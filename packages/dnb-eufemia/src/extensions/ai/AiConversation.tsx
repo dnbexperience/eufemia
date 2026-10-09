@@ -28,8 +28,7 @@ const BOTTOM_THRESHOLD = 32
 // A new turn starts at a message from the user
 const ANCHOR_SELECTOR = '.dnb-ai-message--user'
 
-const MESSAGE_SELECTOR =
-  '.dnb-ai-message[data-message-id], .dnb-ai-message[id]'
+const MESSAGE_SELECTOR = '.dnb-ai-message[id]'
 
 const SCROLL_KEYS = [
   'ArrowUp',
@@ -119,10 +118,9 @@ function AiConversation(props: AiConversationProps) {
         },
         scrollToMessage: (messageId) => {
           const content = contentRef.current
-          const element =
-            content?.querySelector(
-              `[data-message-id="${CSS.escape(messageId)}"]`
-            ) ?? content?.querySelector(`#${CSS.escape(messageId)}`)
+          const element = content?.querySelector(
+            '#' + CSS.escape(messageId)
+          )
           if (!element) {
             return false
           }
@@ -517,7 +515,7 @@ function trackVisibility(
 }
 
 function getMessageId(message: Element) {
-  return message.getAttribute('data-message-id') ?? message.id
+  return message.id
 }
 
 // What the user reads: the latest turn when it is in view, or else the
