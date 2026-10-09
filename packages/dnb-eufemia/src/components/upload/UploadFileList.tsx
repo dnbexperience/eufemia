@@ -3,7 +3,7 @@ import type { UploadFile } from './types'
 import { UploadContext } from './UploadContext'
 import UploadFileListCell from './UploadFileListCell'
 import useUpload from './useUpload'
-import { isSameFile } from './uploadFileUtils'
+import { isSameFile, getErrorMessage } from './uploadFileUtils'
 import { isAsync } from '../../shared/helpers/isAsync'
 
 function UploadFileList() {
@@ -16,6 +16,7 @@ function UploadFileList() {
     download,
     allowDuplicates,
     loadingText,
+    errorUnknown,
     onFileDelete,
     onFileClick,
     onChange,
@@ -77,8 +78,7 @@ function UploadFileList() {
       updateFiles(
         updateFile(uploadFile, {
           isLoading: false,
-          errorMessage:
-            error instanceof Error ? error.message : String(error),
+          errorMessage: getErrorMessage(error, errorUnknown),
         })
       )
     }
