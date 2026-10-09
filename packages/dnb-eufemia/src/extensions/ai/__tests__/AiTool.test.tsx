@@ -1,21 +1,21 @@
 import { render } from '@testing-library/react'
-import type { AiMessageData, AiToolPart } from '../types'
 import { axeComponent } from '../../../core/test-utils/testSetup'
 import Provider from '../../../shared/Provider'
 import enUS from '../constants/locales/en-US'
 import * as Ai from '..'
 
-const toolPart = (part: Partial<AiToolPart>): AiToolPart => ({
-  type: 'tool-blockCard',
-  toolCallId: 'call-1',
-  input: {},
-  state: 'input-available',
-  ...part,
-})
-
 const getStatus = () => document.querySelector('.dnb-ai-tool__status')
 
 describe('Ai.Tool', () => {
+  it('uses an explicit display status', () => {
+    const { rerender } = render(<Ai.Tool title="Checking" status="done" />)
+    expect(document.querySelector('.dnb-ai-tool')).toHaveClass(
+      'dnb-ai-tool--done'
+    )
+    rerender(<Ai.Tool title="Checking" status="awaiting" />)
+    expect(getStatus()).toHaveTextContent('Venter på bekreftelse')
+  })
+
   it('shows a running tool with a title', () => {
     render(<Ai.Tool title="Looking up your transactions" />)
 
@@ -34,82 +34,37 @@ describe('Ai.Tool', () => {
     )
   })
 
-  it('shows the state of a tool part', () => {
-    const { rerender } = render(
-      <Ai.Tool
-        part={toolPart({ state: 'output-available', output: {} })}
-      />
-    )
+  it.each([
+    ['running', 'Pågår'],
+    ['awaiting', 'Venter på bekreftelse'],
+    ['done', 'Fullført'],
+    ['error', 'Feilet'],
+    ['canceled', 'Avbrutt'],
+  ] as const)('shows the %s status', (status, label) => {
+    render(<Ai.Tool title="Checking your card" status={status} />)
     expect(document.querySelector('.dnb-ai-tool')).toHaveClass(
-      'dnb-ai-tool--done'
+      'dnb-ai-tool--' + status
     )
-    expect(getStatus()).toHaveTextContent('blockCard' + 'Fullført')
-
-    rerender(
-      <Ai.Tool
-        part={toolPart({
-          state: 'approval-requested',
-          approval: { id: 'a' },
-        })}
-      />
-    )
-    expect(getStatus()).toHaveTextContent('Venter på bekreftelse')
-
-    rerender(
-      <Ai.Tool
-        part={toolPart({
-          state: 'output-denied',
-          approval: { id: 'a', approved: false },
-        })}
-      />
-    )
-    expect(document.querySelector('.dnb-ai-tool')).toHaveClass(
-      'dnb-ai-tool--canceled'
-    )
-    expect(getStatus()).toHaveTextContent('Avbrutt')
+    expect(getStatus()).toHaveTextContent(label)
   })
 
-  it('uses the title and the name of a dynamic tool', () => {
+  it('shows error text only for an error', () => {
     const { rerender } = render(
-      <Ai.Tool part={toolPart({ title: 'Blocking your card' })} />
-    )
-    expect(getStatus()).toHaveTextContent('Blocking your card')
-
-    rerender(
-      <Ai.Tool
-        part={{
-          type: 'dynamic-tool',
-          toolName: 'getBalance',
-          toolCallId: '1',
-          state: 'input-streaming',
-        }}
-      />
-    )
-    expect(getStatus()).toHaveTextContent('getBalance')
-  })
-
-  it('shows the error text', () => {
-    render(
-      <Ai.Tool
-        part={toolPart({
-          state: 'output-error',
-          errorText: 'The card could not be blocked',
-        })}
-      />
-    )
-
-    expect(document.querySelector('.dnb-ai-tool')).toHaveClass(
-      'dnb-ai-tool--error'
+      <Ai.Tool title="Card" status="error" errorText="Try again" />
     )
     expect(
       document.querySelector('.dnb-ai-tool__error')
-    ).toHaveTextContent('The card could not be blocked')
+    ).toHaveTextContent('Try again')
+    rerender(
+      <Ai.Tool title="Card" status="running" errorText="Try again" />
+    )
+    expect(document.querySelector('.dnb-ai-tool__error')).toBeNull()
   })
 
   it('translates the state', () => {
     render(
       <Provider locale="en-GB">
-        <Ai.Tool title="Card" state="output-available" />
+        <Ai.Tool title="Card" status="done" />
       </Provider>
     )
     expect(getStatus()).toHaveTextContent('Completed')
@@ -118,7 +73,7 @@ describe('Ai.Tool', () => {
   it('uses American spelling in en-US', () => {
     render(
       <Provider locale="en-US" translations={enUS}>
-        <Ai.Tool title="Card" state="output-denied" />
+        <Ai.Tool title="Card" status="canceled" />
       </Provider>
     )
     expect(getStatus()).toHaveTextContent('Canceled')
@@ -136,41 +91,31 @@ describe('Ai.Tool', () => {
     const result = render(
       <>
         <Ai.Tool title="Looking up" />
-        <Ai.Tool title="Done" state="output-available" />
-        <Ai.Tool title="Error" state="output-error" errorText="Failed" />
+        <Ai.Tool title="Done" status="done" />
+        <Ai.Tool title="Error" status="error" errorText="Failed" />
       </>
     )
     expect(await axeComponent(result)).toHaveNoViolations()
   })
 })
 
-describe('Ai.Message with tool parts', () => {
-  it('renders tool parts in order', () => {
-    const message: AiMessageData = {
-      id: '1',
-      role: 'assistant',
-      parts: [
-        { type: 'text', text: 'Let me check.', state: 'done' },
-        toolPart({
-          toolCallId: 'a',
-          state: 'output-available',
-          output: {},
-          title: 'Looking up your cards',
-        }),
-        toolPart({
-          toolCallId: 'b',
-          state: 'approval-requested',
-          approval: { id: 'approval-1' },
-        }),
-      ],
-    }
-    render(<Ai.Message message={message} />)
-
+describe('Ai.Message with tools', () => {
+  it('renders composed tools and results in order', () => {
+    render(
+      <Ai.Message>
+        <Ai.Response>Let me check.</Ai.Response>
+        <Ai.Tool title="Looking up your cards" status="done">
+          Your card is active.
+        </Ai.Tool>
+        <Ai.Tool title="Blocking your card" status="awaiting" />
+      </Ai.Message>
+    )
     const children = document.querySelector(
       '.dnb-ai-message__content'
     ).children
     expect(children[0]).toHaveClass('dnb-ai-response')
     expect(children[1]).toHaveClass('dnb-ai-tool--done')
+    expect(children[1]).toHaveTextContent('Your card is active.')
     expect(children[2]).toHaveClass('dnb-ai-tool--awaiting')
   })
 })
