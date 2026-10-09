@@ -53,7 +53,7 @@ export type UploadProps = {
   onChange?: ({ files }: { files: Array<UploadFile> }) => void
 
   /**
-   * Will be called once a file gets deleted by the user. Access the deleted file with `{ fileItem }`. If an async function throws or rejects, the file shows the error message, or the `errorUnknown` translation when there is no message.
+   * Will be called once a file gets deleted by the user. Access the deleted file with `{ fileItem }`. If an async function throws or rejects, the file shows the error message, or the `errorDeleteFailed` translation when there is no message.
    */
   onFileDelete?: ({
     fileItem,
@@ -104,7 +104,7 @@ export type UploadProps = {
   errorLargeFile?: ReactNode
   errorUnsupportedFile?: ReactNode
   errorAmountLimit?: ReactNode
-  errorUnknown?: ReactNode
+  errorDeleteFailed?: ReactNode
   loadingText?: ReactNode
   deleteButton?: ReactNode
   listAriaLabel?: string

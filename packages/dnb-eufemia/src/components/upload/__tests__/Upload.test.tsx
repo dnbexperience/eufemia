@@ -2337,7 +2337,7 @@ describe('Upload', () => {
         await waitFor(() => {
           expect(
             document.querySelector('.dnb-upload__file-cell--warning')
-          ).toHaveTextContent(nb.errorUnknown)
+          ).toHaveTextContent(nb.errorDeleteFailed)
         })
       }
     )

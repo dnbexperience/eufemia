@@ -16,7 +16,7 @@ function UploadFileList() {
     download,
     allowDuplicates,
     loadingText,
-    errorUnknown,
+    errorDeleteFailed,
     onFileDelete,
     onFileClick,
     onChange,
@@ -78,7 +78,7 @@ function UploadFileList() {
       updateFiles(
         updateFile(uploadFile, {
           isLoading: false,
-          errorMessage: getErrorMessage(error, errorUnknown),
+          errorMessage: getErrorMessage(error, errorDeleteFailed),
         })
       )
     }

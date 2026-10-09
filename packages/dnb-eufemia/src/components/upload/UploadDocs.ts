@@ -111,7 +111,7 @@ export const UploadProperties: PropertiesTableProps = {
     type: 'React.ReactNode',
     status: 'optional',
   },
-  errorUnknown: {
+  errorDeleteFailed: {
     doc: 'Custom error message for a file when an async `onFileDelete` throws or rejects without a message. Overrides the default translation.',
     type: 'React.ReactNode',
     status: 'optional',
@@ -158,7 +158,7 @@ export const UploadEvents: PropertiesTableProps = {
     status: 'optional',
   },
   onFileDelete: {
-    doc: 'Will be called once a file gets deleted by the user. Access the deleted file with `{ fileItem }`. If an async function throws or rejects, the file shows the error message, or the `errorUnknown` translation when there is no message.',
+    doc: 'Will be called once a file gets deleted by the user. Access the deleted file with `{ fileItem }`. If an async function throws or rejects, the file shows the error message, or the `errorDeleteFailed` translation when there is no message.',
     type: 'function',
     status: 'optional',
   },

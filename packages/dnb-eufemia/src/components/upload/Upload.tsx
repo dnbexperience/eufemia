@@ -74,7 +74,7 @@ const Upload = (localProps: UploadAllProps) => {
     errorLargeFile,
     errorUnsupportedFile,
     errorAmountLimit,
-    errorUnknown,
+    errorDeleteFailed,
     deleteButton,
     listAriaLabel,
     buttonProps,
