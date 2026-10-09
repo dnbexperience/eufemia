@@ -110,6 +110,37 @@ describe('analytics infrastructure', () => {
     )
   })
 
+  it('points each snapshot metric alarm at a metric the generator emits', () => {
+    const snapshotSource = readFileSync(
+      path.resolve(dir, '../src/lambda/snapshot.ts'),
+      'utf8'
+    )
+
+    for (const [alarm, metric] of [
+      ['snapshot_empty', 'SnapshotPortalViewCount'],
+      ['snapshot_mcp_build_failed', 'McpUsageBuildFailure'],
+      [
+        'snapshot_component_usage_build_failed',
+        'ComponentUsageBuildFailure',
+      ],
+      ['snapshot_portal_views_rollup_failed', 'PortalViewsRollupFailure'],
+    ]) {
+      const block = terraform.match(
+        new RegExp(
+          `resource "aws_cloudwatch_metric_alarm" "${alarm}" \\{[\\s\\S]*?^\\}`,
+          'm'
+        )
+      )?.[0]
+
+      expect(block, `${alarm} metric_name`).toContain(
+        `metric_name         = "${metric}"`
+      )
+      expect(snapshotSource, `${metric} emitted`).toContain(
+        `emitMetric('${metric}'`
+      )
+    }
+  })
+
   it('expires raw component-usage objects on the component-usage/ prefix', () => {
     const rawUsageRule = terraform.match(
       /rule \{[\s\S]*?id\s+= "expire-component-usage-raw"[\s\S]*?^ {2}\}/m
