@@ -5,6 +5,9 @@ name: Deploy Fork Preview
 # must never check out or run the fork's code: the downloaded site is
 # untrusted content that is only uploaded.
 on:
+  # TEMP smoke test: registers the workflow so it can be dispatched here.
+  push:
+    branches: [chore/fork-pr-checks-smoke]
   workflow_run:
     workflows: [Deploy Preview]
     types: [completed]
@@ -32,9 +35,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
 
-    # The deploy token is a secret of this environment, so each deploy waits
-    # for the environment's required reviewers.
-    environment: fork-preview
+    # TEMP smoke test: no environment, repo-level token.
 
     permissions:
       actions: read
@@ -48,7 +49,7 @@ jobs:
         uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9
         env:
           RUN_ID: ${{ github.event.workflow_run.id || inputs.run_id }}
-          HAS_TOKEN: ${{ secrets.FORK_PREVIEW_CLOUDFLARE_API_TOKEN != '' }}
+          HAS_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN != '' }}
         with:
           script: |
             if (process.env.HAS_TOKEN !== 'true') {
@@ -143,7 +144,7 @@ jobs:
           echo "alias_url=$ALIAS_URL" >> "$GITHUB_OUTPUT"
           echo "deployment_url=$DEPLOYMENT_URL" >> "$GITHUB_OUTPUT"
         env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.FORK_PREVIEW_CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           # Never the fork's branch name: it is untrusted and could match the
           # Pages production branch.
