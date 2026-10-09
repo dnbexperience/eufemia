@@ -4,7 +4,7 @@ order: 2
 ---
 
 import { FontWeightByThemeExample } from 'Docs/uilib/typography/Examples'
-import { GetPropValue } from './_helpers.tsx'
+import { PropValue } from './_helpers.tsx'
 import ChangeStyleTheme from '../../../core/ChangeStyleTheme'
 
 # Font Weights for <VisibilityByTheme.Brand />
@@ -15,11 +15,11 @@ For details about what values Typographic elements use, have a look at the [Font
 
 ## Eufemia has three (3) font-weights
 
-| Type                                                                                              | CSS variable / property | CSS Classname             |
-| ------------------------------------------------------------------------------------------------- | ----------------------- | ------------------------- |
-| <span className="dnb-t__weight--regular">Regular ({GetPropValue('--font-weight-regular')})</span> | `--font-weight-regular` | `.dnb-t__weight--regular` |
-| <span className="dnb-t__weight--medium">Medium ({GetPropValue('--font-weight-medium')})</span>    | `--font-weight-medium`  | `.dnb-t__weight--medium`  |
-| <span className="dnb-t__weight--bold">Bold ({GetPropValue('--font-weight-bold')})</span>          | `--font-weight-bold`    | `.dnb-t__weight--bold`    |
+| Type                                                                                                 | CSS variable / property | CSS Classname             |
+| ---------------------------------------------------------------------------------------------------- | ----------------------- | ------------------------- |
+| <span className="dnb-t__weight--regular">Regular (<PropValue name="--font-weight-regular" />)</span> | `--font-weight-regular` | `.dnb-t__weight--regular` |
+| <span className="dnb-t__weight--medium">Medium (<PropValue name="--font-weight-medium" />)</span>    | `--font-weight-medium`  | `.dnb-t__weight--medium`  |
+| <span className="dnb-t__weight--bold">Bold (<PropValue name="--font-weight-bold" />)</span>          | `--font-weight-bold`    | `.dnb-t__weight--bold`    |
 
 ### How to use the weights (CSS)
 

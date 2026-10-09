@@ -6,6 +6,18 @@ import {
 } from '../designTokens'
 
 describe('design token docs data', () => {
+  it('excludes typography from the separate token catalog', () => {
+    expect(
+      buildThemeTokenEntries({
+        font: {
+          size: {
+            'heading-2xl': { $type: 'number', $value: 56 },
+          },
+        },
+      })
+    ).toEqual([])
+  })
+
   it('collects token entries from nested figma token data', () => {
     const result = buildThemeTokenEntries({
       color: {

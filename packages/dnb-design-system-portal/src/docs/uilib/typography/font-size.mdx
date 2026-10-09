@@ -3,27 +3,28 @@ title: 'Font Size'
 order: 3
 ---
 
-import { GetPropValue, GetPropAsPx } from './_helpers.tsx'
+import { PropValue, PropAsPx } from './_helpers.tsx'
 import ChangeStyleTheme from '../../../core/ChangeStyleTheme'
 
 # Font Size for <VisibilityByTheme.Brand />
 
 <ChangeStyleTheme label="Change the brand:" bottom="large" />
 
-For details about what values Typographic elements use, have a look at the
-[Fonts & Typography](/quickguide-designer/fonts#typographic-elements) documentation.
+The values below come from Figma for the selected brand, using Eufemia's existing CSS variable names. The [Fonts & Typography](/quickguide-designer/fonts#typographic-elements) guide shows the DNB scale.
+
+Font sizes are the same in light and dark mode.
 
 ## Default `font-size` **rem** table
 
-| Pixel                                 | Type       | Rem                                        | CSS variable / property | CSS Classname            | Info                            |
-| ------------------------------------- | ---------- | ------------------------------------------ | ----------------------- | ------------------------ | ------------------------------- |
-| {GetPropAsPx('--font-size-x-small')}  | `x-small`  | **{GetPropValue('--font-size-x-small')}**  | `--font-size-x-small`   | `.dnb-t__size--x-small`  | Do not use for texts            |
-| {GetPropAsPx('--font-size-small')}    | `small`    | **{GetPropValue('--font-size-small')}**    | `--font-size-small`     | `.dnb-t__size--small`    | [Fallback](#fallback-font-size) |
-| {GetPropAsPx('--font-size-basis')}    | `basis`    | **{GetPropValue('--font-size-basis')}**    | `--font-size-basis`     | `.dnb-t__size--basis`    | Default size                    |
-| {GetPropAsPx('--font-size-medium')}   | `medium`   | **{GetPropValue('--font-size-medium')}**   | `--font-size-medium`    | `.dnb-t__size--medium`   |                                 |
-| {GetPropAsPx('--font-size-large')}    | `large`    | **{GetPropValue('--font-size-large')}**    | `--font-size-large`     | `.dnb-t__size--large`    |                                 |
-| {GetPropAsPx('--font-size-x-large')}  | `x-large`  | **{GetPropValue('--font-size-x-large')}**  | `--font-size-x-large`   | `.dnb-t__size--x-large`  |                                 |
-| {GetPropAsPx('--font-size-xx-large')} | `xx-large` | **{GetPropValue('--font-size-xx-large')}** | `--font-size-xx-large`  | `.dnb-t__size--xx-large` |                                 |
+| Pixel                                    | Type       | Rem                                           | CSS variable / property | CSS Classname            | Info                            |
+| ---------------------------------------- | ---------- | --------------------------------------------- | ----------------------- | ------------------------ | ------------------------------- |
+| <PropAsPx name="--font-size-x-small" />  | `x-small`  | **<PropValue name="--font-size-x-small" />**  | `--font-size-x-small`   | `.dnb-t__size--x-small`  | Do not use for texts            |
+| <PropAsPx name="--font-size-small" />    | `small`    | **<PropValue name="--font-size-small" />**    | `--font-size-small`     | `.dnb-t__size--small`    | [Fallback](#fallback-font-size) |
+| <PropAsPx name="--font-size-basis" />    | `basis`    | **<PropValue name="--font-size-basis" />**    | `--font-size-basis`     | `.dnb-t__size--basis`    | Default size                    |
+| <PropAsPx name="--font-size-medium" />   | `medium`   | **<PropValue name="--font-size-medium" />**   | `--font-size-medium`    | `.dnb-t__size--medium`   |                                 |
+| <PropAsPx name="--font-size-large" />    | `large`    | **<PropValue name="--font-size-large" />**    | `--font-size-large`     | `.dnb-t__size--large`    |                                 |
+| <PropAsPx name="--font-size-x-large" />  | `x-large`  | **<PropValue name="--font-size-x-large" />**  | `--font-size-x-large`   | `.dnb-t__size--x-large`  |                                 |
+| <PropAsPx name="--font-size-xx-large" /> | `xx-large` | **<PropValue name="--font-size-xx-large" />** | `--font-size-xx-large`  | `.dnb-t__size--xx-large` |                                 |
 
 ## Why text can be larger on iOS
 
@@ -104,15 +105,15 @@ Typography components inside the wrapper, like `H2`, `Span`, `P`, `Heading`, wil
 
 You can turn it off for a section using `<Typography.Context responsive={false}>`.
 
-| CSS Variable                      | `← small` | `small → medium` | `medium →` |
-| --------------------------------- | --------- | ---------------- | ---------- |
-| `--responsive-font-size-x-small`  | 0.8125rem | 0.875rem         | 0.875rem   |
-| `--responsive-font-size-small`    | 0.875rem  | 1rem             | 1rem       |
-| `--responsive-font-size-basis`    | 1rem      | 1.125rem         | 1.125rem   |
-| `--responsive-font-size-medium`   | 1.125rem  | 1.25rem          | 1.25rem    |
-| `--responsive-font-size-large`    | 1.25rem   | 1.625rem         | 1.625rem   |
-| `--responsive-font-size-x-large`  | 1.625rem  | 2.125rem         | 2.125rem   |
-| `--responsive-font-size-xx-large` | 2.125rem  | 3rem             | 3rem       |
+| CSS Variable                      | `← small`                                 | `small → medium`                          | `medium →`                                |
+| --------------------------------- | ----------------------------------------- | ----------------------------------------- | ----------------------------------------- |
+| `--responsive-font-size-x-small`  | <PropValue name="--font-size-xx-small" /> | <PropValue name="--font-size-x-small" />  | <PropValue name="--font-size-x-small" />  |
+| `--responsive-font-size-small`    | <PropValue name="--font-size-x-small" />  | <PropValue name="--font-size-small" />    | <PropValue name="--font-size-small" />    |
+| `--responsive-font-size-basis`    | <PropValue name="--font-size-small" />    | <PropValue name="--font-size-basis" />    | <PropValue name="--font-size-basis" />    |
+| `--responsive-font-size-medium`   | <PropValue name="--font-size-basis" />    | <PropValue name="--font-size-medium" />   | <PropValue name="--font-size-medium" />   |
+| `--responsive-font-size-large`    | <PropValue name="--font-size-medium" />   | <PropValue name="--font-size-large" />    | <PropValue name="--font-size-large" />    |
+| `--responsive-font-size-x-large`  | <PropValue name="--font-size-large" />    | <PropValue name="--font-size-x-large" />  | <PropValue name="--font-size-x-large" />  |
+| `--responsive-font-size-xx-large` | <PropValue name="--font-size-x-large" />  | <PropValue name="--font-size-xx-large" /> | <PropValue name="--font-size-xx-large" /> |
 
 All `--responsive-font-size-*` CSS variables are scoped to typography components (`P`, `Heading`, `Span`, `Lead`, `H1`, `H2`, etc.) as of now. If you need to use them elsewhere use the `.dnb-t` class.
 
@@ -122,9 +123,9 @@ You may be interested in installing an [Eufemia code editor extension](/uilib/us
 
 ## Additional `font-size` **em** table
 
-| Pixel | Type        | Em                                          | Custom Property         | Info |
-| ----- | ----------- | ------------------------------------------- | ----------------------- | ---- |
-| 16px  | `basis--em` | **{GetPropValue('--font-size-basis--em')}** | `--font-size-basis--em` |      |
+| Pixel | Type        | Em                                             | Custom Property         | Info |
+| ----- | ----------- | ---------------------------------------------- | ----------------------- | ---- |
+| 16px  | `basis--em` | **<PropValue name="--font-size-basis--em" />** | `--font-size-basis--em` |      |
 
 ## How to use the sizes (CSS)
 

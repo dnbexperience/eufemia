@@ -14,9 +14,9 @@ import { TokenExample, TokenNamingRules } from './Examples'
 
 ## What are design tokens?
 
-Design tokens are semantic CSS custom properties that represent design decisions — such as "background for an action element" or "text color for an error state" — rather than raw color values.
+Design tokens are CSS custom properties for design decisions, such as an action background, an error text color, or a corner radius.
 
-They follow the naming pattern `--token-color-{section}-{role}` and are the recommended way to reference Eufemia colors in your own CSS.
+Color tokens follow the naming pattern `--token-color-{section}-{role}` and are the recommended way to reference Eufemia colors in your own CSS. Radius tokens use `--token-radius-*`.
 
 ## Why use design tokens?
 
@@ -124,8 +124,9 @@ Tokens are organized into sections. Each section covers a specific surface:
 | Icon       | `--token-color-icon-*`       | Icon colors                              |
 | Stroke     | `--token-color-stroke-*`     | Borders, dividers, outlines, focus rings |
 | Decorative | `--token-color-decorative-*` | Advanced decorative use cases            |
+| Radius     | `--token-radius-*`           | Corner radius values                     |
 
-See the [Color Tokens](/uilib/usage/customisation/theming/design-tokens/colors/) tab for the full catalog.
+See the [Color Tokens](/uilib/usage/customisation/theming/design-tokens/colors/) and [Radius](/uilib/usage/customisation/theming/design-tokens/radius/) tabs for the full catalog.
 
 ## Naming contract
 
@@ -144,4 +145,5 @@ Typical examples:
 - The token inventory is generated from the same exported theme token files that produce the CSS output.
 - The consumer API is the generated CSS tokens files.
 - The color values behind these tokens come from Eufemia Foundation colors and are mapped into semantic and component token layers per theme.
+- Radius values come from the same brand token exports and can differ between themes.
 - **Eiendom** currently reuses the UI token source, so the three explicit brand references are **DNB**, **Sbanken** and **Carnegie**.

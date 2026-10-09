@@ -65,7 +65,7 @@ Detailed steps:
 - Unzip the downloaded JSON files and place them in `packages/dnb-eufemia/src/style/themes/figma`, using the relative filenames listed above.
 
 We export the collections from the same Figma file in order to ensure the collections are in sync.
-Each brand-mode export is a complete snapshot of the collection, so light and dark files also contain shared font and radius values. The generator filters unsupported typography values and produces the mode-specific CSS from these complete exports.
+Each brand-mode export is a complete snapshot of the collection, so light and dark files also contain shared font and radius values. The generator produces one typography scale per brand from the light export. Dark mode does not change font sizes or line heights.
 
 ### 3. Generate CSS files
 

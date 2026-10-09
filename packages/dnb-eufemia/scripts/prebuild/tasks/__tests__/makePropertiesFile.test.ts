@@ -14,11 +14,14 @@ const colorsVariableSetId =
   'VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080'
 const sizesVariableSetId =
   'VariableCollectionId:fdb352a465b863aaf7567ea04748cb7e057d7b63/5552:1025'
+const typographyVariableSetId =
+  'VariableCollectionId:d00e91884fb9b3877858490e6b8fd6fcb0c60111/5552:1045'
 
 describe('makePropertiesFile', () => {
   const global = {
     ui: null,
     sbanken: null,
+    carnegie: null,
     uiTokens: null,
     uiTokensDark: null,
     sbankenTokens: null,
@@ -46,6 +49,10 @@ describe('makePropertiesFile', () => {
     )
     global.sbanken = fs.readFileSync(
       path.resolve('src/style/themes/sbanken/properties.ts'),
+      'utf-8'
+    )
+    global.carnegie = fs.readFileSync(
+      path.resolve('src/style/themes/carnegie/properties.ts'),
       'utf-8'
     )
 
@@ -126,6 +133,192 @@ describe('makePropertiesFile', () => {
       expect(global.carnegieTokensTailwind).toContain(
         '--radius-xl: 0.5rem;'
       )
+    })
+
+    it('generates brand typography values for every available mode', () => {
+      for (const tokens of [
+        global.uiTokens,
+        global.uiTokensDark,
+        global.sbankenTokens,
+        global.sbankenTokensDark,
+      ]) {
+        expect(tokens).not.toContain('--token-font-')
+      }
+
+      expect(global.carnegieTokens).not.toContain('--token-font-')
+      for (const tokens of [
+        global.uiTokensTailwind,
+        global.uiTokensDarkTailwind,
+        global.sbankenTokensTailwind,
+        global.sbankenTokensDarkTailwind,
+        global.carnegieTokensTailwind,
+      ]) {
+        expect(tokens).not.toMatch(/--font-(size|height)-/)
+      }
+    })
+
+    it('keeps medium text sizes and heights aligned with the regular scale', async () => {
+      // The typography API combines size and weight independently.
+      const fs = await import('fs')
+      const path = await import('path')
+      const modes = [
+        'dnb-light',
+        'dnb-dark',
+        'sbanken-light',
+        'sbanken-dark',
+        'dnbcarnegie-light',
+      ]
+
+      for (const mode of modes) {
+        const { font } = JSON.parse(
+          fs.readFileSync(
+            path.resolve(
+              'src/style/themes/figma/brand/' + mode + '.tokens.json'
+            ),
+            'utf-8'
+          )
+        )
+
+        for (const size of [
+          'text-basis',
+          'text-sm',
+          'text-xs',
+          'text-2xs',
+        ]) {
+          expect(font.size[size + '-medium'].$value).toBe(
+            font.size[size].$value
+          )
+        }
+        for (const size of ['text-basis', 'text-sm', 'text-xs']) {
+          expect(font.height[size + '-medium'].$value).toBe(
+            font.height[size].$value
+          )
+        }
+      }
+    })
+
+    it('keeps typography values the same in light and dark Figma exports', async () => {
+      const fs = await import('fs')
+      const path = await import('path')
+      const readFont = (brand: string, mode: string) =>
+        JSON.parse(
+          fs.readFileSync(
+            path.resolve(
+              'src/style/themes/figma/brand/' +
+                brand +
+                '-' +
+                mode +
+                '.tokens.json'
+            ),
+            'utf-8'
+          )
+        ).font
+
+      for (const brand of ['dnb', 'sbanken']) {
+        const light = readFont(brand, 'light')
+        const dark = readFont(brand, 'dark')
+        for (const group of ['size', 'height']) {
+          const values = (font: typeof light) =>
+            Object.fromEntries(
+              Object.entries(
+                font[group] as Record<string, { $value: unknown }>
+              ).map(([name, token]) => [name, token.$value])
+            )
+          expect(values(dark)).toEqual(values(light))
+        }
+      }
+    })
+
+    it('generates one public typography scale per brand', async () => {
+      const fs = await import('fs')
+      const path = await import('path')
+      const read = (theme: string) =>
+        fs.readFileSync(
+          path.resolve(
+            'src/style/themes/' + theme + '/typography-properties.scss'
+          ),
+          'utf-8'
+        )
+
+      expect(read('ui')).toContain('--font-size-xx-large: 3rem;')
+      expect(read('sbanken')).toContain('--font-size-xx-large: 3rem;')
+      expect(read('carnegie')).toContain('--font-size-xx-large: 3.5rem;')
+      expect(read('carnegie')).toContain(
+        '--line-height-xx-large: 4.25rem;'
+      )
+      expect(read('carnegie')).toContain('.eufemia-theme__carnegie')
+      expect(read('ui')).toContain('.eufemia-theme__eiendom')
+      for (const theme of ['ui', 'sbanken']) {
+        expect(
+          fs.existsSync(
+            path.resolve(
+              'src/style/themes/' +
+                theme +
+                '/typography-properties-dark.scss'
+            )
+          )
+        ).toBe(false)
+      }
+    })
+
+    it('emits one UI scale and keeps Carnegie values after the UI fallback', async () => {
+      const sass = await import('sass')
+      const path = await import('path')
+      const getValues = (theme: string) => {
+        const css = sass.compile(
+          path.resolve(
+            'src/style/themes/' + theme + '/' + theme + '-theme-basis.scss'
+          )
+        ).css
+        return Array.from(css.matchAll(/([^{}]+)\{([^{}]*)\}/g))
+          .filter(([, selector]) => selector.includes(':root'))
+          .map(
+            ([, , declarations]) =>
+              declarations.match(/--font-size-xx-large:\s*([^;]+);/)?.[1]
+          )
+          .filter(Boolean)
+      }
+
+      expect(getValues('ui')).toEqual(['3rem'])
+      expect(getValues('eiendom')).toEqual(['3rem'])
+      expect(getValues('sbanken')).toEqual(['3rem', '3rem'])
+      expect(getValues('carnegie')).toEqual(['3rem', '3.5rem'])
+    })
+
+    it('pairs responsive xx-large headings with their line-height scale', async () => {
+      const sass = await import('sass')
+      const path = await import('path')
+      const css = sass.compile(
+        path.resolve('src/style/themes/carnegie/carnegie-theme-basis.scss')
+      ).css
+      const lineHeights = Array.from(
+        css.matchAll(
+          /--responsive-line-height-xx-large:\s*var\((--line-height-[^)]+)\)/g
+        )
+      ).map(([, value]) => value)
+
+      expect(lineHeights).toEqual([
+        '--line-height-x-large',
+        '--line-height-xx-large',
+        '--line-height-xx-large',
+      ])
+    })
+
+    it('keeps typography out of the dark stylesheets', async () => {
+      const sass = await import('sass')
+      const path = await import('path')
+      for (const theme of ['ui', 'sbanken', 'eiendom']) {
+        const css = sass.compile(
+          path.resolve(
+            'src/style/themes/' +
+              theme +
+              '/' +
+              theme +
+              '-theme-dark-mode.scss'
+          )
+        ).css
+        expect(css).not.toMatch(/--(?:font-size|line-height)-xx-large:/)
+      }
     })
   })
 
@@ -389,6 +582,22 @@ describe('makePropertiesFile', () => {
         expect(result).toEqual('0')
       })
 
+      it('resolves numeric typography aliases to rem values', () => {
+        expect(
+          transformFigmaValue({
+            $type: 'number',
+            $value: 48,
+            $extensions: {
+              'com.figma.aliasData': {
+                targetVariableName: 'Font/Size/48',
+                targetVariableSetId: typographyVariableSetId,
+                targetVariableSetName: 'typography',
+              },
+            },
+          })
+        ).toBe('3rem')
+      })
+
       it('error on unsupported theme prefix set', () => {
         const val = {
           targetVariableName: 'nonsense/ColdGreen/600',
@@ -650,9 +859,36 @@ describe('makePropertiesFile', () => {
   })
 
   describe('Properties for ui', () => {
+    it('includes generated typography when properties.scss is imported directly', async () => {
+      const sass = await import('sass')
+      const path = await import('path')
+      const css = sass.compile(
+        path.resolve('src/style/themes/ui/properties.scss')
+      ).css
+
+      expect(css).toContain('--font-size-xx-large: 3rem;')
+      expect(css).toContain('--line-height-xx-large: 3.5rem;')
+      expect(css).not.toContain('var(--token-font-')
+    })
+
+    it('keeps brand-specific typography in the theme entrypoints', async () => {
+      const sass = await import('sass')
+      const path = await import('path')
+      const brandProperties = sass.compile(
+        path.resolve('src/style/themes/sbanken/properties.scss')
+      ).css
+      const carnegieTheme = sass.compile(
+        path.resolve('src/style/themes/carnegie/carnegie-theme-basis.scss')
+      ).css
+
+      expect(brandProperties).not.toContain('--font-size-xx-large:')
+      expect(carnegieTheme).toContain('--font-size-xx-large: 3.5rem;')
+    })
+
     it('has to validate', () => {
       expect(global.ui).toMatchSnapshot()
       expect(global.ui).toContain(`'--font-size-large': '1.625rem'`)
+      expect(global.ui).not.toContain(`'--token-font-size-heading-lg'`)
       expect(global.ui).toContain(
         `'--easing-fast-bounce': 'cubic-bezier(0.34, 1.56, 0.64, 1)'`
       )
@@ -672,6 +908,13 @@ describe('makePropertiesFile', () => {
         `'--font-family-default': 'var(--sb-font-family-default)'`
       )
     })
+  })
+
+  it('keeps the generated JavaScript typography values concrete by brand', () => {
+    expect(global.carnegie).toContain(`'--font-size-xx-large': '3.5rem'`)
+    expect(global.carnegie).toContain(
+      `'--line-height-xx-large': '4.25rem'`
+    )
   })
 
   describe('Tailwind CSS Properties Generation', () => {
