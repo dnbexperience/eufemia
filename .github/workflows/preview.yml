@@ -71,6 +71,17 @@ jobs:
             echo "skip=false" >> "$GITHUB_OUTPUT"
           fi
 
+      # preview-fork.yml deploys this from a trusted context and treats it as
+      # untrusted content.
+      - name: Upload the build for the fork preview deploy
+        if: steps.gate.outputs.skip == 'true' && github.event.pull_request.head.repo.full_name != github.repository
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: portal-preview
+          path: packages/dnb-design-system-portal/public/
+          retention-days: 1
+          if-no-files-found: error
+
       - name: Deploy to Cloudflare Pages (branch preview)
         id: pages_deploy
         if: steps.gate.outputs.skip != 'true'

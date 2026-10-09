@@ -1,0 +1,25 @@
+name: Fork probe
+
+# Temporary experiment: which values reach a pull request from a fork?
+# Prints booleans only, never values.
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    name: Fork probe
+    runs-on: ubuntu-latest
+    steps:
+      - name: Report availability
+        env:
+          HEAD_REPO: ${{ github.event.pull_request.head.repo.full_name }}
+          IS_FORK: ${{ github.event.pull_request.head.repo.fork }}
+        run: |
+          echo "vars.FIGMA_TOKENS_FILE set: ${{ vars.FIGMA_TOKENS_FILE != '' }}"
+          echo "vars.GHE_MCP_DEPLOY_REPO set: ${{ vars.GHE_MCP_DEPLOY_REPO != '' }}"
+          echo "secrets.CACHE_VERSION set: ${{ secrets.CACHE_VERSION != '' }}"
+          echo "secrets.CLOUDFLARE_API_TOKEN set: ${{ secrets.CLOUDFLARE_API_TOKEN != '' }}"
+          echo "head repo: $HEAD_REPO fork=$IS_FORK"
