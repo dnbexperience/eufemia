@@ -71,6 +71,8 @@ export type CodeSectionProps = {
   noInline?: boolean
   hideToolbar?: boolean
   hideCode?: boolean
+  /** Show the preview without code actions or an editor. */
+  previewOnly?: boolean
   hidePreview?: boolean
   /**
    * Use surface="dark" to show the button to toggle surface, forcing it to be dark by default.
@@ -242,7 +244,9 @@ function LiveCode(props: LiveCodeProps) {
   const codeAccordionId = `${baseId}-code`
   const previewAccordionId = `${baseId}-preview`
 
-  const [hideCode, setHideCode] = useState(props.hideCode)
+  const [hideCode, setHideCode] = useState(
+    props.hideCode || props.previewOnly
+  )
   const [hidePreview, setHidePreview] = useState(props.hidePreview)
   const [showFocusModePadding, setShowFocusModePadding] = useState(true)
   const [editedCode, setEditedCode] = useState<string | null>(null)
@@ -271,6 +275,7 @@ function LiveCode(props: LiveCodeProps) {
 
     code: codeProp,
     hideCode: hideCodeProp,
+    previewOnly,
     hidePreview: hidePreviewProp,
     surface: surfaceProp,
     'data-visual-test': visualTest,
@@ -468,7 +473,8 @@ function LiveCode(props: LiveCodeProps) {
   // The code editor is collapsible via an Accordion whenever a toggle is
   // rendered in the toolbar (always for omitWrapper, or when hideCode is set).
   // Without a toolbar there is no toggle, so the editor renders directly.
-  const showCodeToggle = !hideToolbar && (omitWrapper || hideCodeProp)
+  const showCodeToggle =
+    !previewOnly && !hideToolbar && (omitWrapper || hideCodeProp)
 
   const codeToggleAccordion = (
     <Accordion
@@ -528,10 +534,10 @@ function LiveCode(props: LiveCodeProps) {
               className={clsx('dnb-live-toolbar', toolbarStyle)}
             >
               {omitWrapper ? (
-                codeToggleAccordion
+                !previewOnly && codeToggleAccordion
               ) : (
                 <>
-                  {hideCodeProp && codeToggleAccordion}
+                  {!previewOnly && hideCodeProp && codeToggleAccordion}
 
                   {isInFocusMode && (
                     <ChangeStyleTheme
@@ -578,9 +584,11 @@ function LiveCode(props: LiveCodeProps) {
                       />
                     )}
 
-                    {!isInFocusMode && copyCodeButton}
+                    {!previewOnly && !isInFocusMode && copyCodeButton}
 
-                    {!isInFocusMode && openInStackBlitzButton}
+                    {!previewOnly &&
+                      !isInFocusMode &&
+                      openInStackBlitzButton}
 
                     {focusModePaddingButton}
 
@@ -591,7 +599,8 @@ function LiveCode(props: LiveCodeProps) {
             </Space>
           )}
 
-          {!global.IS_TEST &&
+          {!previewOnly &&
+            !global.IS_TEST &&
             (showCodeToggle ? (
               <Accordion.Content connectedTo={codeAccordionId}>
                 {codeEditor}
