@@ -1014,6 +1014,40 @@ describe('CodeBlock', () => {
   })
 
   describe('Show/Hide Code toggle (standard wrapper)', () => {
+    it('keeps appearance controls without exposing code in preview-only mode', () => {
+      const { container } = render(
+        <CodeBlock reactLive previewOnly scope={{}} language="jsx">
+          {'<div>Hello</div>'}
+        </CodeBlock>
+      )
+
+      expect(
+        container.querySelector('[data-testid="live-preview"]')
+      ).toBeTruthy()
+      expect(container.querySelector('.dnb-live-toolbar')).toBeTruthy()
+      expect(container.querySelector('button[aria-controls]')).toBeNull()
+      expect(
+        container.querySelector('[data-testid="live-editor"]')
+      ).toBeNull()
+      expect(
+        container.querySelector('button[aria-label="Open in StackBlitz"]')
+      ).toBeNull()
+      expect(
+        container.querySelector('button[title="Copy to clipboard"]')
+      ).toBeNull()
+
+      const checkbox = container.querySelector<HTMLInputElement>(
+        'input[type="checkbox"]'
+      )
+      expect(checkbox).toBeTruthy()
+
+      act(() => {
+        checkbox.click()
+      })
+
+      expect(checkbox.checked).toBe(true)
+    })
+
     it('should render the code toggle as an accordion alongside the preview', () => {
       const { container } = render(
         <CodeBlock reactLive hideCode scope={{}} language="jsx">
