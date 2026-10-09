@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import type { HTMLAttributes } from 'react'
+import { clsx } from 'clsx'
 import Button from '../../components/Button'
 import Theme from '../../shared/Theme'
 import useTranslation from './hooks/useTranslation'
@@ -15,6 +16,7 @@ export default function AiCodeBlock({
   code,
   language,
   children,
+  className,
   ...rest
 }: AiCodeBlockProps) {
   const translation = useTranslation().Ai
@@ -34,7 +36,7 @@ export default function AiCodeBlock({
   return (
     <div className="dnb-ai-response__code-block">
       <pre
-        className="dnb-pre dnb-space__bottom--zero"
+        className={clsx('dnb-pre dnb-space__bottom--zero', className)}
         data-language={language || undefined}
         {...rest}
       >
