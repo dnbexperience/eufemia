@@ -90,7 +90,6 @@ export function dataErrorMessage(status: number): string {
 export type DataResult =
   | { kind: 'empty' }
   | { kind: 'retry' }
-  | { kind: 'rejected' }
   | { kind: 'error'; message: string }
   | { kind: 'data'; payload: DashboardPayload }
 
@@ -103,8 +102,16 @@ export async function loadDashboardData(
   session: Session | null,
   apiBaseUrl: string | undefined
 ): Promise<DataResult> {
-  if (!session || !apiBaseUrl) {
+  if (!session) {
     return { kind: 'empty' }
+  }
+
+  if (!apiBaseUrl) {
+    return {
+      kind: 'error',
+      message:
+        'The dashboard has no data API address configured. Please contact the dashboard owner.',
+    }
   }
 
   const base = apiBaseUrl.replace(/\/$/, '')
@@ -124,7 +131,15 @@ export async function loadDashboardData(
   }
 
   if (response.status === 401) {
-    return beginAuthRetry() ? { kind: 'retry' } : { kind: 'rejected' }
+    if (beginAuthRetry()) {
+      return { kind: 'retry' }
+    }
+
+    return {
+      kind: 'error',
+      message:
+        'The data API rejected your access. Please try again later, or contact the dashboard owner if it persists.',
+    }
   }
 
   if (!response.ok) {
@@ -187,7 +202,7 @@ export type DashboardView = {
 }
 
 /**
- * Derive the portal-view model the dashboard renders: the normalised rows, the
+ * Derive the portal-view model the dashboard renders: the view rows, the
  * distinct environments for the filter, the rows scoped to the selected
  * environment, and the key figures for that scope. Kept pure so the filter and
  * gating behaviour can be tested without rendering.

@@ -148,8 +148,11 @@ describe('loadDashboardData', () => {
     })
   })
 
-  it('returns the empty state when no API base URL is configured', async () => {
-    expect(await loadDashboardData(session, '')).toEqual({ kind: 'empty' })
+  it('reports an error when sign-in works but no API base URL is configured', async () => {
+    expect(await loadDashboardData(session, '')).toEqual({
+      kind: 'error',
+      message: expect.stringContaining('no data API address'),
+    })
   })
 
   it('sends the access token and returns fetched records', async () => {
@@ -203,7 +206,7 @@ describe('loadDashboardData', () => {
     expect(beginAuthRetry()).toBe(true)
   })
 
-  it('allows one retry on 401, then reports rejection', async () => {
+  it('allows one retry on 401, then reports an error', async () => {
     vi.stubGlobal('fetch', async () => ({ status: 401, ok: false }))
 
     expect(
@@ -214,7 +217,8 @@ describe('loadDashboardData', () => {
     expect(
       await loadDashboardData(session, 'https://api.example')
     ).toEqual({
-      kind: 'rejected',
+      kind: 'error',
+      message: expect.stringContaining('rejected your access'),
     })
   })
 

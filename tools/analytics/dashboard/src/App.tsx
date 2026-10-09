@@ -124,16 +124,6 @@ function Content({
         return
       }
 
-      if (result.kind === 'rejected') {
-        setState({
-          status: 'error',
-          message:
-            'The data API rejected your access. Please try again later, or contact the dashboard owner if it persists.',
-        })
-
-        return
-      }
-
       if (result.kind === 'error') {
         setState({ status: 'error', message: result.message })
 
