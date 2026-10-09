@@ -1,0 +1,19 @@
+---
+showTabs: true
+---
+
+## Import
+
+```tsx
+import * as Ai from '@dnb/eufemia/extensions/ai'
+import '@dnb/eufemia/extensions/ai/style'
+render(<Ai.Reasoning />)
+```
+
+## Description
+
+`Ai.Reasoning` shows how the AI model thinks before it answers, for models that send their reasoning. The reasoning is shown as markdown in a section the user can open and close.
+
+While the reasoning streams in, the section is open and shows a shimmering text. When it is done, the section closes, so the answer gets the attention. When the user opens or closes the section, it stays as the user left it.
+
+Pass the reasoning text as children and control `isStreaming` from your application. Compose it inside [Ai.Message](/uilib/extensions/ai/Message/) before the response.

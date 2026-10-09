@@ -1,0 +1,115 @@
+---
+showTabs: true
+---
+
+import ListAiComponents from './ListAiComponents'
+
+## Import
+
+```tsx
+import * as Ai from '@dnb/eufemia/extensions/ai'
+import '@dnb/eufemia/extensions/ai/style'
+```
+
+## Description
+
+`Ai` provides building blocks for AI chat experiences, built with Eufemia components. Use them to build a chat with an assistant, from the welcome screen with suggestions to the conversation and the prompt input.
+
+## Usage
+
+Your application owns the messages, transport, tool execution and error handling. Eufemia renders the content and handles presentation, keyboard interaction and conversation scrolling.
+
+The message type below belongs to this example. Use your application's data and map it to the component props.
+
+```tsx
+import { useId } from 'react'
+import * as Ai from '@dnb/eufemia/extensions/ai'
+import { GlobalStatus } from '@dnb/eufemia/components'
+import '@dnb/eufemia/extensions/ai/style'
+
+type Message = {
+  id: string
+  from: 'user' | 'assistant'
+  text: string
+  isStreaming?: boolean
+}
+
+type ChatProps = {
+  messages: Array<Message>
+  isBusy: boolean
+  isWaiting: boolean
+  hasError: boolean
+  onSend: (text: string) => void
+  onStop: () => void
+}
+
+export function Chat({
+  messages,
+  isBusy,
+  isWaiting,
+  hasError,
+  onSend,
+  onStop,
+}: ChatProps) {
+  const prefix = useId()
+  return (
+    <>
+      <Ai.Conversation
+        label="Chat with the assistant"
+        style={{ height: '32rem' }}
+      >
+        {messages.map((message) => (
+          <Ai.Message
+            key={message.id}
+            id={prefix + message.id}
+            from={message.from}
+          >
+            {message.from === 'user' ? (
+              message.text
+            ) : (
+              <Ai.Response
+                parseIncompleteMarkdown={message.isStreaming ?? false}
+              >
+                {message.text}
+              </Ai.Response>
+            )}
+          </Ai.Message>
+        ))}
+        {isWaiting && <Ai.Loader />}
+      </Ai.Conversation>
+      {hasError && (
+        <GlobalStatus
+          show
+          autoScroll={false}
+          omitSetFocus
+          id={prefix + '-error'}
+          text="The reply could not be completed. Try again."
+        />
+      )}
+      <Ai.PromptInput
+        isBusy={isBusy}
+        onSubmit={({ value }) => onSend(value)}
+        onStop={onStop}
+      />
+    </>
+  )
+}
+```
+
+Compose reasoning, tool results and sources inside each message using `Ai.Reasoning`, `Ai.Tool` and `Ai.Sources`. See [Integrations](/uilib/extensions/ai/integrations/) for complete framework examples and ownership of each state.
+
+## Guides
+
+- [Translations](/uilib/extensions/ai/translations/): select a locale and customize component labels.
+- [Integrations](/uilib/extensions/ai/integrations/): composition and recipes for AI SDK and TanStack AI.
+
+- [Message scroller](/uilib/extensions/ai/message-scroller/): how the conversation scrolls while replies stream in.
+
+## Components
+
+<ListAiComponents size="small" />
+
+## Relevant links
+
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/ai)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/extensions/ai)

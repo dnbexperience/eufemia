@@ -1,0 +1,19 @@
+---
+showTabs: true
+---
+
+## Import
+
+```tsx
+import * as Ai from '@dnb/eufemia/extensions/ai'
+import '@dnb/eufemia/extensions/ai/style'
+render(<Ai.Tool />)
+```
+
+## Description
+
+`Ai.Tool` shows the status of a tool the AI uses, like looking up transactions or blocking a card. It shows a progress indicator while the tool runs, and whether it was completed, failed or canceled.
+
+Pass a human-readable `title` and a display `status`: `running`, `awaiting`, `done`, `error` or `canceled`. Map your chat framework's tool state to these values in your app.
+
+Use children for a useful result, such as a balance or a confirmation, and `errorText` for a user-facing error. The component does not execute tools. For actions requiring confirmation, show `status="awaiting"`, render your confirmation controls as children, and pass the user's decision to your chat implementation.

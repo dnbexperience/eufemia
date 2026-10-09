@@ -1,0 +1,25 @@
+---
+showTabs: true
+---
+
+import * as Examples from './Examples'
+
+## Examples
+
+### Full chat experience
+
+A complete chat with an assistant. Choose a suggestion or write a message, e.g. "Block my card" or "Compare my spending", to see the reasoning, tools, answer and sources stream in. Press stop to end the reply, or regenerate the last answer.
+
+The demo uses scripted replies and local chat state. Connect your own messages, status, send, stop and regenerate actions to the components in your app.
+
+<Examples.AiChatExample />
+
+### Chat with compact input
+
+<Examples.AiChatCompact />
+
+### Chat with content in the conversation
+
+User messages are placed on the right. Content like a list can be shown without a bubble by using `variant="plain"`.
+
+<Examples.AiChatConversation />

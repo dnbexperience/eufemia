@@ -1,0 +1,19 @@
+---
+showTabs: true
+---
+
+## Import
+
+```tsx
+import * as Ai from '@dnb/eufemia/extensions/ai'
+import '@dnb/eufemia/extensions/ai/style'
+render(<Ai.Message />)
+```
+
+## Description
+
+`Ai.Message` shows a message from the user or the assistant, with an optional header (avatar, name, time and an AI-generated tag) and actions. User messages are placed on the right.
+
+Compose the content inside `Ai.Message` using children: plain text, [Ai.Response](/uilib/extensions/ai/Response/) for markdown, [Ai.Reasoning](/uilib/extensions/ai/Reasoning/), [Ai.Tool](/uilib/extensions/ai/Tool/), or [Ai.Sources](/uilib/extensions/ai/Sources/). String children preserve line breaks. Set `from="user"` for user messages and give each message a unique DOM `id` to use the conversation scrolling and visibility hooks.
+
+See [Integrations](/uilib/extensions/ai/integrations/) for connecting your chat data to these components.

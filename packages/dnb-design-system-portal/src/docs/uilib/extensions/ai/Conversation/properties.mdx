@@ -1,0 +1,40 @@
+---
+showTabs: true
+---
+
+import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
+import {
+  AiConversationProperties,
+  AiConversationControls,
+  AiConversationVisibility,
+  AiConversationScrollState,
+} from '@dnb/eufemia/src/extensions/ai/AiDocs'
+
+## Properties
+
+<PropertiesTable props={AiConversationProperties} />
+
+## Ai.useConversation
+
+`Ai.useConversation(id)` returns these functions. Without an `id`, it uses the conversation it is inside.
+
+<PropertiesTable props={AiConversationControls} />
+
+## Ai.useConversationVisibility
+
+`Ai.useConversationVisibility(id)` returns these values. Without an `id`, it uses the conversation it is inside. The messages are only tracked while the hook is used.
+
+<PropertiesTable props={AiConversationVisibility} />
+
+## Ai.useConversationScrollState
+
+`Ai.useConversationScrollState(id)` returns these values. Without an `id`, it uses the conversation it is inside.
+
+<PropertiesTable props={AiConversationScrollState} />
+
+## Translations
+
+| Key                 | nb-NO                | en-GB                | sv-SE                       | da-DK                 |
+| ------------------- | -------------------- | -------------------- | --------------------------- | --------------------- |
+| `conversationLabel` | Samtale              | Conversation         | Konversation                | Samtale               |
+| `scrollToBottom`    | Gå til siste melding | Go to latest message | Gå till senaste meddelandet | Gå til seneste besked |

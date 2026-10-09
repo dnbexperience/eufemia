@@ -1,0 +1,201 @@
+---
+title: 'Message scroller'
+description: 'How Ai.Conversation scrolls while new messages and replies stream in, so the user keeps their place and context.'
+order: 1
+componentType: 'docs'
+breadcrumb:
+  - text: AI
+    href: /uilib/extensions/ai/
+  - text: Message scroller
+    href: /uilib/extensions/ai/message-scroller/
+---
+
+import * as Examples from './Examples'
+
+# Message scroller
+
+A chat list that only grows at the bottom is easy to scroll: stay at the end and show the newest message. Streaming breaks that. A reply grows while the user reads it, parts of it open and close, and older messages can be loaded above. When the view follows every change, the user loses their place.
+
+[Ai.Conversation](/uilib/extensions/ai/Conversation/) takes care of the scrolling, so that:
+
+- The user decides when the view moves. Content that changes does not move what the user reads.
+- A new question starts near the top, with a peek of the previous reply, so the new turn stays connected to what came before.
+- The view only follows a streaming reply when the user is at the end, and stops when the user scrolls up.
+- Saved conversations open where the last turn starts, not in the middle of a long reply.
+
+## Usage
+
+The scrolling is built into `Ai.Conversation`. Give it a height, and put the messages inside.
+
+```tsx
+import * as Ai from '@dnb/eufemia/extensions/ai'
+
+function Chat({
+  messages,
+}: {
+  messages: Array<{
+    id: string
+    from: 'user' | 'assistant'
+    text: string
+    isStreaming?: boolean
+  }>
+}) {
+  return (
+    <Ai.Conversation style={{ height: '40rem' }}>
+      {messages.map((message) => (
+        <Ai.Message key={message.id} id={message.id} from={message.from}>
+          {message.from === 'user' ? (
+            message.text
+          ) : (
+            <Ai.Response
+              parseIncompleteMarkdown={message.isStreaming ?? false}
+            >
+              {message.text}
+            </Ai.Response>
+          )}
+        </Ai.Message>
+      ))}
+    </Ai.Conversation>
+  )
+}
+```
+
+## Anchoring turns
+
+A turn starts with a message from the user. When the user sends a message, it is scrolled near the top, and the reply streams in below it. The view stays where it is while the reply streams in, so the user can read the start of the reply in peace. When the reply goes below the view, a button to go to the latest message is shown.
+
+Messages with `from="user"` start a turn.
+
+Send a few messages and see where each new question is placed.
+
+<Examples.AiConversationScrollBehavior />
+
+## Keeping context visible
+
+A new turn is not scrolled all the way to the top. A part of the previous reply is shown above it, so the new question does not feel like the start of a blank page.
+
+Set how much is shown with the `--ai-conversation-peek` CSS custom property. It defaults to `3rem`.
+
+```css
+.my-chat {
+  --ai-conversation-peek: 4rem;
+}
+```
+
+<Examples.AiScrollerPeek />
+
+## Following the live edge
+
+When the user scrolls to the end, or presses the button to go to the latest message, the conversation follows the reply as it streams in. When the user scrolls up, it stops following, and the button is shown again.
+
+Only the user can stop the following: by scrolling with the mouse wheel, touch, keyboard or the scrollbar. Content that grows or shrinks, like a reasoning section that closes, does not.
+
+Use `scrollBehavior="end"` to follow the end of the conversation from the start, like a classic chat. In the [anchoring turns](#anchoring-turns) demo above, switch to `end` to compare.
+
+```tsx
+<Ai.Conversation scrollBehavior="end">…</Ai.Conversation>
+```
+
+## Opening saved conversations
+
+When a conversation is shown with messages from before, it opens where the last turn starts, so the user sees their last question and the start of the reply. With `scrollBehavior="end"`, it opens at the end.
+
+<Examples.AiScrollerOpening />
+
+## Loading earlier messages
+
+When older messages are added at the start of the conversation, the messages the user is reading stay in place. This works in all browsers, also in Safari, which does not keep the position by itself.
+
+<Examples.AiScrollerHistory />
+
+## Animating new messages
+
+New messages fade in, so it is easy to see what was added. Messages that are shown when the conversation opens, or when earlier messages are loaded above, do not fade in. When the user prefers reduced motion, there is no animation.
+
+New items get the `data-entering` attribute. Use it to change the animation. Animate properties that do not change the size or position of a message, like `opacity`, so the conversation can keep the user's place.
+
+```css
+@keyframes my-chat-enter {
+  from {
+    opacity: 0;
+    filter: blur(0.25rem);
+  }
+}
+
+.my-chat .dnb-ai-conversation__content > [data-entering] {
+  animation-name: my-chat-enter;
+}
+```
+
+Switch between the default fade and a custom blur, and ask a few questions.
+
+<Examples.AiScrollerAnimation />
+
+## Jumping to messages
+
+Give the conversation an `id`, and use `Ai.useConversation(id)` to scroll it from elsewhere, like an outline or a toolbar. Inside the conversation, `Ai.useConversation()` needs no `id`.
+
+```tsx
+const { scrollToMessage, scrollToStart, scrollToEnd } =
+  Ai.useConversation('my-chat')
+
+scrollToMessage(message.id)
+```
+
+`scrollToMessage` finds a message by its DOM `id`, and returns `false` when the message is not found. The message is placed below the peek, like a new turn.
+
+## Reading position
+
+`Ai.useConversationVisibility(id)` tells which messages are visible, and which turn the user is reading. Use it to show the current question in an outline, or to mark messages as read.
+
+```tsx
+const { currentTurnId, visibleMessageIds } =
+  Ai.useConversationVisibility('my-chat')
+```
+
+`currentTurnId` is the id of the message from the user that starts the turn being read. It stays set when that message is scrolled above the view, while the user reads the reply. Give each message a unique DOM `id` to track it. Use the same id when calling `scrollToMessage`. The messages are only tracked while the hook is used.
+
+Scroll the conversation, and see how the current question is marked.
+
+<Examples.AiScrollerOutline />
+
+## Scroll state
+
+`Ai.useConversationScrollState(id)` tells whether the conversation is scrolled to the start or the end. Use it to show or disable controls, like buttons to go to the start or the end.
+
+```tsx
+const { isAtStart, isAtEnd } = Ai.useConversationScrollState('my-chat')
+```
+
+<Examples.AiScrollerScrollState />
+
+## Accessibility
+
+- The conversation is a [log](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Roles/log_role) with a translated label. Screen readers announce new messages, but not every word of a reply that streams in.
+- The conversation can be scrolled with the keyboard when its content overflows.
+- The button to go to the latest message is only shown when there is more content below, and has a translated label.
+- When the user prefers reduced motion, the conversation scrolls without animation.
+
+## Performance
+
+Scrolling does not render the messages again. The conversation measures the content when its size changes, and when the user scrolls, it only updates the button to go to the latest message and the components that use its hooks.
+
+Messages out of view are not rendered by the browser, with [content-visibility](https://developer.mozilla.org/en-US/docs/Web/CSS/content-visibility). Unlike a virtualized list, all messages stay in the page, so the user can still find text with the search of the browser, select text across messages, and use a screen reader to read them. When a message is rendered and gets its real size, the conversation keeps the user's place.
+
+Until a message has been rendered, its height is estimated. Set the estimate with `contain-intrinsic-block-size` when your messages are much taller or shorter:
+
+```css
+.my-chat .dnb-ai-conversation__content > .dnb-ai-message {
+  contain-intrinsic-block-size: auto 10rem;
+}
+```
+
+The conversation below has 1000 messages. Scroll through it, or jump to the start, the middle or the end.
+
+<Examples.AiScrollerLongConversation />
+
+This works well for conversations with thousands of messages. For even longer conversations, show the latest messages, and load earlier messages when the user asks for them.
+
+## Properties
+
+See [Ai.Conversation properties](/uilib/extensions/ai/Conversation/properties/) for `scrollBehavior`, `id` and the values of `Ai.useConversation`, `Ai.useConversationVisibility` and `Ai.useConversationScrollState`.
