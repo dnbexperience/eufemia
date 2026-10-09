@@ -133,6 +133,7 @@ describe('Tools.GenerateSchema', () => {
                 id="id-r1p"
                 name="nested/myString"
                 type="text"
+                value="my string"
               />,
             },
             "required": true,

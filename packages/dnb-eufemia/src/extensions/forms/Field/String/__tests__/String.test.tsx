@@ -12,6 +12,8 @@ import {
   fireEvent,
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { renderToString } from 'react-dom/server'
+import { hydrateRoot } from 'react-dom/client'
 import SharedProvider from '../../../../../shared/Provider'
 import DataContext from '../../../DataContext/Context'
 import Provider from '../../../DataContext/Provider'
@@ -1559,6 +1561,42 @@ describe('Field.String', () => {
   })
 
   describe('with data context', () => {
+    it('should render the value in the server HTML and keep text typed before hydration', () => {
+      const element = (
+        <Form.Handler
+          id="typed-before-hydration"
+          defaultData={{ name: 'Prefilled', email: undefined }}
+        >
+          <Field.String path="/name" />
+          <Field.String path="/email" />
+        </Form.Handler>
+      )
+
+      const html = renderToString(element)
+      expect(html).toContain('value="Prefilled"')
+
+      const container = document.createElement('div')
+      container.innerHTML = html
+      document.body.appendChild(container)
+      container.querySelectorAll('input')[1].value = 'typed@example.com'
+
+      let root: ReturnType<typeof hydrateRoot>
+      act(() => {
+        root = hydrateRoot(container, element)
+      })
+
+      expect(Form.getData('typed-before-hydration').data).toEqual({
+        name: 'Prefilled',
+        email: 'typed@example.com',
+      })
+      expect(container.querySelectorAll('input')[1]).toHaveValue(
+        'typed@example.com'
+      )
+
+      act(() => root.unmount())
+      container.remove()
+    })
+
     it('use target path value', () => {
       render(
         <Provider data={{ foo: 'data-context-value' }}>
