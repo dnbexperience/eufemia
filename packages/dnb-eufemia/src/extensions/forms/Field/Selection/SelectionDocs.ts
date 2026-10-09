@@ -17,6 +17,11 @@ export const SelectionProperties: PropertiesTableProps = {
     ],
     status: 'optional',
   },
+  autoSelectSingleOption: {
+    doc: 'Automatically selects the only enabled option when the field is empty. Options without a value or matching `emptyValue` are ignored. Uses normal field change handling, including validation and callbacks. Existing values are preserved, including when more options become available. Disabled fields and Autocomplete with `preventSelection` are not automatically selected. Enable only when the complete option list is available. Defaults to `false`.',
+    type: 'boolean',
+    status: 'optional',
+  },
   value: {
     doc: 'Defines the `value`. When using variant `radio`, `button` or `radio-button`, value has to be a `string`.',
     type: ['number', 'string'],
