@@ -2755,6 +2755,62 @@ describe('Field.Upload', () => {
     ).not.toBeInTheDocument()
   })
 
+  it('should not bring back a file that was removed while the rest of its batch uploads', async () => {
+    const largeFile = createMockFile(
+      'fileName-large.png',
+      2 * BYTES_IN_A_MEGA_BYTE,
+      'image/png'
+    )
+    const file = createMockFile('fileName-1.png', 100, 'image/png')
+    let resolveFileHandler!: (value: UploadValue) => void
+    const fileHandler = vi.fn(() => {
+      return new Promise<UploadValue>((resolve) => {
+        resolveFileHandler = resolve
+      })
+    })
+    const onChange = vi.fn()
+
+    render(
+      <Form.Handler onChange={onChange}>
+        <Field.Upload
+          path="/files"
+          fileMaxSize={1}
+          fileHandler={fileHandler}
+        />
+      </Form.Handler>
+    )
+
+    fireEvent.drop(getRootElement(), {
+      dataTransfer: { files: [largeFile, file] },
+    })
+    await waitFor(() => {
+      expect(fileHandler).toHaveBeenCalledTimes(1)
+    })
+
+    // The file with an error can be removed while the other one uploads
+    fireEvent.click(
+      screen.getAllByRole('button', {
+        name: nbShared.Upload.deleteButton,
+      })[0]
+    )
+
+    act(() => {
+      resolveFileHandler([{ file, id: 'server-id', exists: false }])
+    })
+
+    await waitFor(() => {
+      expect(onChange).toHaveBeenLastCalledWith(
+        { files: [expect.objectContaining({ id: 'server-id' })] },
+        expect.anything()
+      )
+    })
+    expect(
+      Array.from(
+        document.querySelectorAll('.dnb-upload__file-cell .dnb-anchor')
+      ).map((element) => element.textContent)
+    ).toEqual(['fileName-1.png'])
+  })
+
   it('should recreate files from session storage', async () => {
     const file = createMockFile('fileName.png', 100, 'image/png')
 
