@@ -41,7 +41,9 @@ jobs:
       - name: Build
         run: yarn workspace dnb-design-system-portal build
         env:
-          VITE_EUFEMIA_STACKBLITZ_VERSION: 'https://pkg.pr.new/@dnb/eufemia@${{ github.event.pull_request.head.sha }}'
+          # pkg.pr.new only publishes same-repo branches (dev.yml); fork
+          # previews fall back to the latest release.
+          VITE_EUFEMIA_STACKBLITZ_VERSION: ${{ github.event.pull_request.head.repo.full_name == github.repository && format('https://pkg.pr.new/@dnb/eufemia@{0}', github.event.pull_request.head.sha) || '' }}
           VITE_GITHUB_REPOSITORY: ${{ github.event.pull_request.head.repo.full_name }}
           VITE_GITHUB_EDIT_REF: ${{ github.event.pull_request.head.ref }}
           VITE_GITHUB_COMMIT_SHA: ${{ github.event.pull_request.head.sha }}

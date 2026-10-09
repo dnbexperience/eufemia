@@ -1,31 +1,39 @@
 name: Deploy Fork Preview
 
 # Deploys the portal that "Deploy Preview" built for a pull request from a
-# fork. GitHub runs this file from the default branch, with secrets, so it must
-# never check out or run the fork's code: the downloaded site is untrusted
-# content that is only uploaded.
+# fork. This file always runs from the default branch, with secrets, so it
+# must never check out or run the fork's code: the downloaded site is
+# untrusted content that is only uploaded.
 on:
   workflow_run:
     workflows: [Deploy Preview]
     types: [completed]
+  workflow_dispatch:
+    inputs:
+      run_id:
+        description: 'ID of a successful "Deploy Preview" run of a fork pull request'
+        required: true
+        type: string
 
 permissions: {}
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.event.workflow_run.head_repository.full_name }}-${{ github.event.workflow_run.head_branch }}
+  group: ${{ github.workflow }}-${{ github.event.workflow_run.head_repository.full_name }}-${{ github.event.workflow_run.head_branch }}${{ inputs.run_id }}
   cancel-in-progress: true
 
 jobs:
   deploy:
     name: Deploy fork preview
     if: >-
-      github.event.workflow_run.event == 'pull_request' &&
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.workflow_run.event == 'pull_request' &&
       github.event.workflow_run.conclusion == 'success' &&
-      github.event.workflow_run.head_repository.full_name != github.repository
+      github.event.workflow_run.head_repository.full_name != github.repository)
     runs-on: ubuntu-latest
     timeout-minutes: 15
 
-    # Required reviewers approve each deploy; the Cloudflare secrets live here.
+    # The deploy token is a secret of this environment, so each deploy waits
+    # for the environment's required reviewers.
     environment: fork-preview
 
     permissions:
@@ -39,11 +47,31 @@ jobs:
         id: pr
         uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9
         env:
-          HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
-          HEAD_REPO: ${{ github.event.workflow_run.head_repository.full_name }}
+          RUN_ID: ${{ github.event.workflow_run.id || inputs.run_id }}
+          HAS_TOKEN: ${{ secrets.FORK_PREVIEW_CLOUDFLARE_API_TOKEN != '' }}
         with:
           script: |
-            const { HEAD_SHA, HEAD_REPO } = process.env
+            if (process.env.HAS_TOKEN !== 'true') {
+              core.notice('The fork-preview environment has no FORK_PREVIEW_CLOUDFLARE_API_TOKEN secret; skipping.')
+              return
+            }
+
+            const run_id = Number(process.env.RUN_ID)
+            const { data: run } = await github.rest.actions.getWorkflowRun({
+              ...context.repo,
+              run_id,
+            })
+
+            if (
+              run.path !== '.github/workflows/preview.yml' ||
+              run.event !== 'pull_request' ||
+              run.conclusion !== 'success' ||
+              run.head_repository?.full_name === `${context.repo.owner}/${context.repo.repo}`
+            ) {
+              core.notice(`Run ${run_id} is not a successful "Deploy Preview" run of a fork; skipping.`)
+              return
+            }
+
             const pulls = await github.paginate(github.rest.pulls.list, {
               ...context.repo,
               state: 'open',
@@ -52,14 +80,18 @@ jobs:
 
             // Only the current head of an open pull request gets deployed.
             const pr = pulls.find(
-              (p) => p.head.sha === HEAD_SHA && p.head.repo?.full_name === HEAD_REPO
+              (p) =>
+                p.head.sha === run.head_sha &&
+                p.head.repo?.full_name === run.head_repository.full_name
             )
             if (!pr) {
-              core.notice(`No open pull request has head ${HEAD_SHA}; skipping.`)
+              core.notice(`No open pull request has head ${run.head_sha}; skipping.`)
               return
             }
 
             core.setOutput('number', String(pr.number))
+            core.setOutput('sha', run.head_sha)
+            core.setOutput('run_id', String(run_id))
 
       # Default branch only (no `ref:`), so the setup action and wrangler are trusted.
       - name: Git checkout
@@ -80,17 +112,15 @@ jobs:
         with:
           name: portal-preview
           path: ${{ runner.temp }}/preview
-          run-id: ${{ github.event.workflow_run.id }}
+          run-id: ${{ steps.pr.outputs.run_id }}
           github-token: ${{ github.token }}
 
-      # wrangler would deploy _worker.js as server-side code, and the portal
-      # ships none of these files.
+      # wrangler reads these from the deployed folder, and would run
+      # _worker.js as server-side code. The portal ships none of them.
       - name: Remove Cloudflare Pages config and server code
         if: steps.pr.outputs.number
         working-directory: ${{ runner.temp }}/preview
-        run: |
-          rm -rf -- _worker.js _routes.json _headers _redirects functions
-          find . -type l -delete
+        run: rm -rf -- _worker.js _routes.json _headers _redirects
 
       - name: Deploy to Cloudflare Pages
         id: pages_deploy
@@ -113,19 +143,19 @@ jobs:
           echo "alias_url=$ALIAS_URL" >> "$GITHUB_OUTPUT"
           echo "deployment_url=$DEPLOYMENT_URL" >> "$GITHUB_OUTPUT"
         env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.FORK_PREVIEW_CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           # Never the fork's branch name: it is untrusted and could match the
           # Pages production branch.
           PR_NUMBER: ${{ steps.pr.outputs.number }}
-          HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
+          HEAD_SHA: ${{ steps.pr.outputs.sha }}
 
       - name: Post or update preview comment
         if: steps.pr.outputs.number
         uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9
         env:
           PR_NUMBER: ${{ steps.pr.outputs.number }}
-          HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
+          HEAD_SHA: ${{ steps.pr.outputs.sha }}
           ALIAS_URL: ${{ steps.pages_deploy.outputs.alias_url }}
           DEPLOYMENT_URL: ${{ steps.pages_deploy.outputs.deployment_url }}
         with:
@@ -139,10 +169,19 @@ jobs:
               '**Branch Preview URL (stable):**',
               ALIAS_URL,
               '',
+              '```',
+              ALIAS_URL,
+              '```',
+              '',
               '**Deployment URL (unique):**',
               DEPLOYMENT_URL,
               '',
-              `Built from the fork commit ${HEAD_SHA}.`,
+              '```',
+              DEPLOYMENT_URL,
+              '```',
+              '',
+              `Deployed from the fork commit ${HEAD_SHA}.`,
+              '',
             ].join('\n')
 
             await github.rest.repos.createCommitStatus({
