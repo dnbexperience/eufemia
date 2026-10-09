@@ -36,6 +36,7 @@ type FileHandlerOperation = {
   fieldIdentifier: Identifier
   timeout?: ReturnType<typeof setTimeout>
   invalidated: boolean
+  timedOut: boolean
 }
 
 export type FieldUploadProps = Omit<
@@ -304,6 +305,7 @@ function UploadComponent(props: FieldUploadProps) {
         const operation: FileHandlerOperation = {
           fieldIdentifier,
           invalidated: false,
+          timedOut: false,
         }
         fileHandlerOperationsRef.current.add(operation)
 
@@ -324,19 +326,21 @@ function UploadComponent(props: FieldUploadProps) {
             (file) => file.isLoading
           )
           operation.timeout = setTimeout(() => {
-            operation.invalidated = true
+            operation.timedOut = true
             completeFileHandlerOperation(operation, {
               cancelPendingSubmit: true,
             })
-            setFiles(
-              filesRef.current?.map((file) => {
-                return loadingFiles.some((loadingFile) =>
-                  isSameFile(loadingFile, file)
-                )
-                  ? { ...file, isLoading: false }
-                  : file
-              })
-            )
+            const timedOutFiles = filesRef.current?.map((file) => {
+              return loadingFiles.some(({ id }) => id === file.id)
+                ? {
+                    ...file,
+                    isLoading: false,
+                    errorMessage: formsTr.errorUploadTimeout,
+                  }
+                : file
+            })
+            setFiles(timedOutFiles)
+            handleChange(timedOutFiles)
           }, asyncSubmitTimeout)
 
           const incomingFiles = await fileHandler(newValidFiles)
@@ -344,7 +348,24 @@ function UploadComponent(props: FieldUploadProps) {
             return
           }
 
-          if (!incomingFiles) {
+          if (operation.timedOut) {
+            // Match by id, so a file that was added again keeps its own upload
+            const lateFiles = filesRef.current?.map((file) => {
+              const index = loadingFiles.findIndex(
+                ({ id }) => id === file.id
+              )
+              const incomingFile = index >= 0 && incomingFiles?.[index]
+              return incomingFile
+                ? { ...incomingFile, isLoading: file.isLoading }
+                : file
+            })
+            if (
+              lateFiles?.some((file, i) => file !== filesRef.current[i])
+            ) {
+              setFiles(lateFiles)
+              handleChange(lateFiles)
+            }
+          } else if (!incomingFiles) {
             setFiles(existingFiles)
             handleChange(existingFiles)
           } else {
@@ -418,6 +439,7 @@ function UploadComponent(props: FieldUploadProps) {
       setFieldState,
       setFiles,
       completeFileHandlerOperation,
+      formsTr.errorUploadTimeout,
     ]
   )
 

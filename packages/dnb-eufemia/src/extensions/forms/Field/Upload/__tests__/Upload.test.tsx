@@ -1091,10 +1091,26 @@ describe('Field.Upload', () => {
       expect(
         document.querySelector('.dnb-progress-indicator')
       ).not.toBeInTheDocument()
+      expect(
+        document.querySelector('.dnb-upload__file-cell--warning')
+      ).toHaveTextContent(nbForms.Upload.errorUploadTimeout)
       await wait(50)
       expect(onSubmit).not.toHaveBeenCalled()
 
-      // The timed-out submit was canceled, but an explicit retry can submit
+      // The file was never uploaded, so it blocks the submit until removed
+      await userEvent.click(
+        document.querySelector('button[type="submit"]')
+      )
+      expect(
+        document.querySelector('.dnb-forms-field-block__status')
+      ).toHaveTextContent(nbForms.Upload.errorInvalidFiles)
+      expect(onSubmit).not.toHaveBeenCalled()
+
+      await userEvent.click(
+        screen.getByRole('button', {
+          name: nbShared.Upload.deleteButton,
+        })
+      )
       await userEvent.click(
         document.querySelector('button[type="submit"]')
       )
@@ -1102,6 +1118,158 @@ describe('Field.Upload', () => {
       await waitFor(() => {
         expect(onSubmit).toHaveBeenCalledTimes(1)
       })
+    })
+
+    it('should store the timeout error in the form data', async () => {
+      const file = createMockFile('fileName-1.png', 100, 'image/png')
+      const fileHandler = vi.fn(() => {
+        return new Promise<UploadValue>(() => undefined)
+      })
+      const onChange = vi.fn()
+
+      render(
+        <Form.Handler asyncSubmitTimeout={100} onChange={onChange}>
+          <Field.Upload path="/files" fileHandler={fileHandler} />
+        </Form.Handler>
+      )
+
+      fireEvent.drop(getRootElement(), {
+        dataTransfer: { files: [file] },
+      })
+
+      await waitFor(() => {
+        expect(onChange).toHaveBeenLastCalledWith(
+          {
+            files: [
+              expect.objectContaining({
+                file,
+                isLoading: false,
+                errorMessage: nbForms.Upload.errorUploadTimeout,
+              }),
+            ],
+          },
+          expect.anything()
+        )
+      })
+    })
+
+    it('should apply a fileHandler result that settles after the timeout', async () => {
+      const file1 = createMockFile('fileName-1.png', 100, 'image/png')
+      const file2 = createMockFile('fileName-2.png', 100, 'image/png')
+      let resolveFileHandler!: (value: UploadValue) => void
+      const fileHandler = vi.fn(() => {
+        return new Promise<UploadValue>((resolve) => {
+          resolveFileHandler = resolve
+        })
+      })
+      const onChange = vi.fn()
+
+      render(
+        <Form.Handler asyncSubmitTimeout={100} onChange={onChange}>
+          <Field.Upload path="/files" fileHandler={fileHandler} />
+        </Form.Handler>
+      )
+
+      fireEvent.drop(getRootElement(), {
+        dataTransfer: { files: [file1, file2] },
+      })
+
+      await waitFor(() => {
+        expect(
+          document.querySelectorAll('.dnb-upload__file-cell--warning')
+        ).toHaveLength(2)
+      })
+
+      act(() => {
+        resolveFileHandler([
+          { file: file1, id: 'server-id-1', exists: false },
+          {
+            file: file2,
+            id: 'server-id-2',
+            exists: false,
+            errorMessage: 'Server error',
+          },
+        ])
+      })
+
+      await waitFor(() => {
+        const warnings = document.querySelectorAll(
+          '.dnb-upload__file-cell--warning'
+        )
+        expect(warnings).toHaveLength(1)
+        expect(warnings[0]).toHaveTextContent('Server error')
+      })
+
+      const [{ files }] = onChange.mock.calls.at(-1)
+      expect(files).toEqual([
+        expect.objectContaining({ file: file1, id: 'server-id-1' }),
+        expect.objectContaining({
+          file: file2,
+          id: 'server-id-2',
+          errorMessage: 'Server error',
+        }),
+      ])
+      expect(files[0].errorMessage).toBeUndefined()
+    })
+
+    it('should not apply a late result to the same file when added again', async () => {
+      const file = createMockFile('fileName-1.png', 100, 'image/png')
+      const resolvers: Array<(value: UploadValue) => void> = []
+      const fileHandler = vi.fn(() => {
+        return new Promise<UploadValue>((resolve) => {
+          resolvers.push(resolve)
+        })
+      })
+      const onChange = vi.fn()
+
+      render(
+        <Form.Handler asyncSubmitTimeout={300} onChange={onChange}>
+          <Field.Upload path="/files" fileHandler={fileHandler} />
+        </Form.Handler>
+      )
+
+      fireEvent.drop(getRootElement(), {
+        dataTransfer: { files: [file] },
+      })
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-upload__file-cell--warning')
+        ).toHaveTextContent(nbForms.Upload.errorUploadTimeout)
+      })
+
+      // Try again
+      await userEvent.click(
+        screen.getByRole('button', { name: nbShared.Upload.deleteButton })
+      )
+      fireEvent.drop(getRootElement(), {
+        dataTransfer: { files: [file] },
+      })
+      await waitFor(() => {
+        expect(fileHandler).toHaveBeenCalledTimes(2)
+      })
+
+      act(() => {
+        resolvers[0]([{ file, id: 'stale-id', exists: false }])
+      })
+      await wait(20)
+      expect(
+        screen.getByRole('button', { name: nbShared.Upload.deleteButton })
+      ).toBeDisabled()
+
+      act(() => {
+        resolvers[1]([{ file, id: 'server-id', exists: false }])
+      })
+      await waitFor(() => {
+        expect(onChange).toHaveBeenLastCalledWith(
+          {
+            files: [expect.objectContaining({ file, id: 'server-id' })],
+          },
+          expect.anything()
+        )
+      })
+      expect(
+        document.querySelectorAll('.dnb-upload__file-cell')
+      ).toHaveLength(1)
     })
 
     it('should recover a file whose upload never settles while another one succeeds', async () => {
@@ -1250,9 +1418,10 @@ describe('Field.Upload', () => {
           resolveFileHandler = resolve
         })
       })
+      const onChange = vi.fn()
 
       render(
-        <Form.Handler asyncSubmitTimeout={300}>
+        <Form.Handler asyncSubmitTimeout={300} onChange={onChange}>
           <Field.Upload path="/files" fileHandler={fileHandler} />
         </Form.Handler>
       )
@@ -1275,6 +1444,11 @@ describe('Field.Upload', () => {
       expect(
         document.querySelectorAll('.dnb-upload__file-cell')
       ).toHaveLength(0)
+      expect(onChange).toHaveBeenLastCalledWith(
+        { files: undefined },
+        expect.anything()
+      )
+      const onChangeCalls = onChange.mock.calls.length
 
       act(() => {
         resolveFileHandler([{ file, id: 'server-id', exists: false }])
@@ -1284,6 +1458,7 @@ describe('Field.Upload', () => {
       expect(
         document.querySelectorAll('.dnb-upload__file-cell')
       ).toHaveLength(0)
+      expect(onChange).toHaveBeenCalledTimes(onChangeCalls)
     })
   })
 

@@ -278,6 +278,7 @@ export default {
     Upload: {
       errorRequired: 'You must upload a file.',
       errorInvalidFiles: 'Remove all files with errors.',
+      errorUploadTimeout: 'The upload took too long. Please try again.',
     },
   } satisfies (typeof nb)['nb-NO'],
 }
