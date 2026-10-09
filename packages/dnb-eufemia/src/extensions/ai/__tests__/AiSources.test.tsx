@@ -1,6 +1,5 @@
 import { render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import type { AiMessageData } from '../types'
 import { axeComponent } from '../../../core/test-utils/testSetup'
 import Provider from '../../../shared/Provider'
 import * as Ai from '..'
@@ -41,27 +40,13 @@ describe('Ai.Sources', () => {
     expect(links[1]).toHaveTextContent('https://www.dnb.no/')
   })
 
-  it('lists the source-url parts of a message', () => {
-    const message: AiMessageData = {
-      id: '1',
-      role: 'assistant',
-      parts: [
-        { type: 'text', text: 'Hi' },
-        {
-          type: 'source-url',
-          sourceId: 'a',
-          url: 'https://www.dnb.no/',
-          title: 'DNB',
-        },
-      ],
-    }
+  it('translates the source count', () => {
     render(
       <Provider locale="en-GB">
-        <Ai.Sources message={message} />
+        <Ai.Sources sources={sources} />
       </Provider>
     )
-
-    expect(getToggle()).toHaveTextContent('Sources (1)')
+    expect(getToggle()).toHaveTextContent('Sources (2)')
   })
 
   it('leaves out unsafe URLs', () => {
@@ -96,19 +81,17 @@ describe('Ai.Sources', () => {
     expect(document.querySelector('.dnb-ai-sources')).toBeNull()
   })
 
-  it('is rendered by Ai.Message for a message', () => {
-    const message: AiMessageData = {
-      id: '1',
-      role: 'assistant',
-      parts: [
-        { type: 'text', text: 'Hi', state: 'done' },
-        { type: 'source-url', sourceId: 'a', url: 'https://www.dnb.no/' },
-      ],
-    }
-    render(<Ai.Message message={message} />)
-
+  it('composes sources inside a message', () => {
+    render(
+      <Ai.Message>
+        <Ai.Response>Hi</Ai.Response>
+        <Ai.Sources sources={sources} />
+      </Ai.Message>
+    )
     expect(
-      document.querySelector('.dnb-ai-message__content + .dnb-ai-sources')
+      document.querySelector(
+        '.dnb-ai-message__content .dnb-ai-response + .dnb-ai-sources'
+      )
     ).toBeInTheDocument()
   })
 
