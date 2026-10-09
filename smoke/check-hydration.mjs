@@ -39,8 +39,26 @@ export async function checkHydration(workDir) {
 }
 
 async function assertHydration(browser, url) {
+  await assertPage(browser, url, {
+    scenario: 'without a session storage draft',
+  })
+  await assertPage(browser, url, {
+    scenario: 'with a session storage draft',
+    draft: DRAFT,
+  })
+}
+
+async function assertPage(browser, url, { scenario, draft }) {
   const context = await browser.newContext()
   await context.addInitScript(rememberServerForm)
+
+  // Seed the draft before any page script runs, like a draft saved on an earlier visit
+  if (draft) {
+    await context.addInitScript(
+      ([key, value]) => window.sessionStorage.setItem(key, value),
+      [SESSION_STORAGE_ID, JSON.stringify(draft)]
+    )
+  }
 
   const page = await context.newPage()
   const errors = []
@@ -53,27 +71,17 @@ async function assertHydration(browser, url) {
 
   await page.goto(url)
   await waitForHydration(page)
-  await assertServerFormKept(
-    page,
-    errors,
-    'without a session storage draft'
-  )
+  await assertServerFormKept(page, errors, scenario)
 
-  await page.evaluate(
-    ([key, value]) => window.sessionStorage.setItem(key, value),
-    [SESSION_STORAGE_ID, JSON.stringify(DRAFT)]
-  )
-  await page.reload()
-  await waitForHydration(page)
-  await assertServerFormKept(page, errors, 'with a session storage draft')
-
-  const extra = page.getByLabel('Extra')
-  await extra.waitFor({ timeout: 10000 })
-  const restoredValue = await extra.inputValue()
-  if (restoredValue !== DRAFT.extra) {
-    throw new Error(
-      `Hydration check failed: the session storage draft was not restored (got "${restoredValue}")`
-    )
+  if (draft) {
+    const extra = page.getByLabel('Extra')
+    await extra.waitFor({ timeout: 10000 })
+    const restoredValue = await extra.inputValue()
+    if (restoredValue !== draft.extra) {
+      throw new Error(
+        `Hydration check failed: the session storage draft was not restored (got "${restoredValue}")`
+      )
+    }
   }
 
   await context.close()
