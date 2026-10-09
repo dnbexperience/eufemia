@@ -1,10 +1,10 @@
 import Table, { Td, Th, Tr } from '@dnb/eufemia/src/components/Table'
 import { P } from '@dnb/eufemia/src'
 
-import { McpCount } from '../data'
+import { CountListItem } from '../data'
 
 export type RankedTableProps = {
-  items: McpCount[]
+  items: CountListItem[]
   caption: string
   nameHeader?: string
   countHeader?: string

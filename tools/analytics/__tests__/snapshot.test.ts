@@ -8,7 +8,7 @@ const {
   retrieveMcpUsageDaily,
   aggregateLocalMcpUsageByVersion,
   aggregateComponentUsageRaw,
-  retrieveComponentUsageDaily,
+  retrieveComponentUsageTotals,
 } = vi.hoisted(() => ({
   send: vi.fn(),
   retrievePortalViews: vi.fn(),
@@ -17,7 +17,7 @@ const {
   retrieveMcpUsageDaily: vi.fn(),
   aggregateLocalMcpUsageByVersion: vi.fn(),
   aggregateComponentUsageRaw: vi.fn(),
-  retrieveComponentUsageDaily: vi.fn(),
+  retrieveComponentUsageTotals: vi.fn(),
 }))
 
 vi.mock('@aws-sdk/client-s3', () => ({
@@ -47,7 +47,7 @@ vi.mock('../src/lambda/retrieve.js', () => ({
   retrieveMcpUsageDaily,
   aggregateLocalMcpUsageByVersion,
   aggregateComponentUsageRaw,
-  retrieveComponentUsageDaily,
+  retrieveComponentUsageTotals,
 }))
 
 import { buildComponentUsage, handler } from '../src/lambda/snapshot.js'
@@ -77,14 +77,14 @@ beforeEach(() => {
   retrieveMcpUsageDaily.mockReset()
   aggregateLocalMcpUsageByVersion.mockReset()
   aggregateComponentUsageRaw.mockReset()
-  retrieveComponentUsageDaily.mockReset()
+  retrieveComponentUsageTotals.mockReset()
   send.mockResolvedValue({})
   aggregatePortalViewsRaw.mockResolvedValue([])
   aggregateMcpUsageRaw.mockResolvedValue([])
   retrieveMcpUsageDaily.mockResolvedValue([])
   aggregateLocalMcpUsageByVersion.mockResolvedValue([])
   aggregateComponentUsageRaw.mockResolvedValue([])
-  retrieveComponentUsageDaily.mockResolvedValue([])
+  retrieveComponentUsageTotals.mockResolvedValue([])
   process.env.DATA_BUCKET = 'my-bucket'
   logSpy = vi.spyOn(console, 'log').mockImplementation(() => undefined)
   errorSpy = vi.spyOn(console, 'error').mockImplementation(() => undefined)
@@ -524,7 +524,7 @@ describe('buildComponentUsage', () => {
         count: 4,
       },
     ])
-    retrieveComponentUsageDaily.mockResolvedValue([
+    retrieveComponentUsageTotals.mockResolvedValue([
       {
         app: 'app-a',
         component: 'button',
@@ -569,7 +569,7 @@ describe('buildComponentUsage', () => {
         count: 4,
       },
     ])
-    retrieveComponentUsageDaily.mockResolvedValue([])
+    retrieveComponentUsageTotals.mockResolvedValue([])
 
     await buildComponentUsage('my-bucket')
 
@@ -594,7 +594,7 @@ describe('buildComponentUsage', () => {
 
   it('serves existing daily history when the tail recompute fails', async () => {
     aggregateComponentUsageRaw.mockRejectedValue(new Error('athena blip'))
-    retrieveComponentUsageDaily.mockResolvedValue([
+    retrieveComponentUsageTotals.mockResolvedValue([
       {
         app: 'app-a',
         component: 'button',
@@ -630,7 +630,9 @@ describe('buildComponentUsage', () => {
   })
 
   it('propagates a durable-read failure so the caller can fall back to empty', async () => {
-    retrieveComponentUsageDaily.mockRejectedValue(new Error('glue denied'))
+    retrieveComponentUsageTotals.mockRejectedValue(
+      new Error('glue denied')
+    )
 
     await expect(buildComponentUsage('my-bucket')).rejects.toThrow(
       'glue denied'
@@ -661,7 +663,7 @@ describe('component usage section (currently unwired)', () => {
 
     // No producer yet: the generator must not query the empty component tables.
     expect(aggregateComponentUsageRaw).not.toHaveBeenCalled()
-    expect(retrieveComponentUsageDaily).not.toHaveBeenCalled()
+    expect(retrieveComponentUsageTotals).not.toHaveBeenCalled()
 
     const dailyPut = putCalls().find((call) =>
       String((call[0] as Command).input.Key).startsWith(
@@ -672,13 +674,14 @@ describe('component usage section (currently unwired)', () => {
   })
 })
 
-describe('snapshot record-count metric', () => {
+describe('snapshot page-view count metric', () => {
   function findEmfMetric() {
     const line = logSpy.mock.calls
       .map((call: unknown[]) => call[0])
       .find(
         (arg: unknown): arg is string =>
-          typeof arg === 'string' && arg.includes('SnapshotRecordCount')
+          typeof arg === 'string' &&
+          arg.includes('SnapshotPortalViewCount')
       )
 
     return line ? JSON.parse(line) : null
@@ -688,7 +691,7 @@ describe('snapshot record-count metric', () => {
     delete process.env.AWS_LAMBDA_FUNCTION_NAME
   })
 
-  it('emits the record count as an EMF metric after a successful run', async () => {
+  it('emits the page-view count as an EMF metric after a successful run', async () => {
     process.env.AWS_LAMBDA_FUNCTION_NAME = 'eufemia-dev-analytics-snapshot'
     retrievePortalViews.mockResolvedValue([
       { path: '/', env: 'prod', timestamp: 't' },
@@ -698,18 +701,18 @@ describe('snapshot record-count metric', () => {
 
     const emf = findEmfMetric()
     expect(emf).not.toBeNull()
-    expect(emf.SnapshotRecordCount).toBe(1)
+    expect(emf.SnapshotPortalViewCount).toBe(1)
     expect(emf.FunctionName).toBe('eufemia-dev-analytics-snapshot')
     expect(emf._aws.CloudWatchMetrics[0].Namespace).toBe(
       'Eufemia/Analytics'
     )
     expect(emf._aws.CloudWatchMetrics[0].Metrics[0]).toEqual({
-      Name: 'SnapshotRecordCount',
+      Name: 'SnapshotPortalViewCount',
       Unit: 'Count',
     })
   })
 
-  it('emits a zero count when the snapshot is empty', async () => {
+  it('emits a zero count when the snapshot has no page views', async () => {
     retrievePortalViews.mockResolvedValue([])
 
     const result = await handler()
@@ -717,6 +720,6 @@ describe('snapshot record-count metric', () => {
     expect(result.count).toBe(0)
     const emf = findEmfMetric()
     expect(emf).not.toBeNull()
-    expect(emf.SnapshotRecordCount).toBe(0)
+    expect(emf.SnapshotPortalViewCount).toBe(0)
   })
 })

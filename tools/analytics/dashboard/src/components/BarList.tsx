@@ -1,13 +1,13 @@
-import { McpCount } from '../data'
+import { CountListItem } from '../data'
 import { P } from '@dnb/eufemia/src'
 
 export type BarListProps = {
-  items: McpCount[]
+  items: CountListItem[]
   emptyText?: string
 }
 
-// A ranked list rendered as horizontal bars. The value is real text (read by
-// screen readers); the bar itself is decorative.
+// A list rendered as horizontal bars, in the order given. The value is real
+// text (read by screen readers); the bar itself is decorative.
 export default function BarList({
   items,
   emptyText = 'No data.',

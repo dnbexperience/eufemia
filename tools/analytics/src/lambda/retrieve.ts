@@ -100,11 +100,11 @@ async function waitForQuery(queryExecutionId: string): Promise<void> {
   throw new Error('Athena query timed out')
 }
 
-async function readResults<Record>(
+async function readResults<Row>(
   queryExecutionId: string,
-  toRecord: (values: Array<string | undefined>) => Record
-): Promise<Record[]> {
-  const records: Record[] = []
+  toRow: (values: Array<string | undefined>) => Row
+): Promise<Row[]> {
+  const rows: Row[] = []
 
   let nextToken: string | undefined
   let isFirstPage = true
@@ -119,20 +119,20 @@ async function readResults<Record>(
       })
     )
 
-    const rows = ResultSet?.Rows ?? []
-    const dataRows = isFirstPage ? rows.slice(1) : rows
+    const pageRows = ResultSet?.Rows ?? []
+    const dataRows = isFirstPage ? pageRows.slice(1) : pageRows
     isFirstPage = false
 
-    for (const row of dataRows) {
-      records.push(
-        toRecord((row.Data ?? []).map((cell) => cell.VarCharValue))
+    for (const dataRow of dataRows) {
+      rows.push(
+        toRow((dataRow.Data ?? []).map((cell) => cell.VarCharValue))
       )
     }
 
     nextToken = NextToken
   } while (nextToken)
 
-  return records
+  return rows
 }
 
 /**
@@ -357,7 +357,7 @@ export async function aggregateComponentUsageRaw(
  * how many days of raw rollup have accrued, instead of paging every daily row
  * into the Lambda and summing in JS.
  */
-export async function retrieveComponentUsageDaily(): Promise<
+export async function retrieveComponentUsageTotals(): Promise<
   ComponentUsageAggregate[]
 > {
   const database = requireEnv('GLUE_DATABASE')
