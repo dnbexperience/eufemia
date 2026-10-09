@@ -5,7 +5,7 @@ import {
   clearAuthRetry,
   clearSession,
   ensureSignedIn,
-  readSession,
+  readSessionOrClear,
 } from '../auth'
 
 const SESSION_KEY = 'eufemia-analytics-session'
@@ -90,7 +90,7 @@ describe('clearSession', () => {
   })
 })
 
-describe('readSession', () => {
+describe('readSessionOrClear', () => {
   const future = Date.now() + 60000
 
   beforeEach(() => sessionStorage.clear())
@@ -105,7 +105,9 @@ describe('readSession', () => {
       })
     )
 
-    expect(readSession()).toMatchObject({ accessToken: 'token-abc' })
+    expect(readSessionOrClear()).toMatchObject({
+      accessToken: 'token-abc',
+    })
   })
 
   it('rejects and clears a session without an access token', () => {
@@ -115,7 +117,7 @@ describe('readSession', () => {
       JSON.stringify({ expiresAt: future })
     )
 
-    expect(readSession()).toBe(null)
+    expect(readSessionOrClear()).toBe(null)
     expect(sessionStorage.getItem(SESSION_KEY)).toBe(null)
   })
 
@@ -128,6 +130,6 @@ describe('readSession', () => {
       })
     )
 
-    expect(readSession()).toBe(null)
+    expect(readSessionOrClear()).toBe(null)
   })
 })

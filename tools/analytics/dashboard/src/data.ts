@@ -4,24 +4,20 @@
 
 import { beginAuthRetry, clearAuthRetry, type Session } from './auth'
 
-export type AnalyticsRecord = {
-  name?: string
+export type PortalView = {
   path?: string
-  type?: string
-  id?: string
   env?: string
-  created_at?: string
   timestamp?: string
 }
 
-export type McpCount = { name: string; count: number }
+export type CountListItem = { name: string; count: number }
 
 export type McpTransportUsage = {
   total?: number
-  perTool?: McpCount[]
-  perComponent?: McpCount[]
-  perPath?: McpCount[]
-  perVersion?: McpCount[]
+  perTool?: CountListItem[]
+  perComponent?: CountListItem[]
+  perPath?: CountListItem[]
+  perVersion?: CountListItem[]
 }
 
 export type McpUsage = {
@@ -31,47 +27,30 @@ export type McpUsage = {
 
 export type ComponentUsage = {
   total?: number
-  perComponent?: McpCount[]
-  perApp?: McpCount[]
-  perVersion?: McpCount[]
+  perComponent?: CountListItem[]
+  perApp?: CountListItem[]
+  perVersion?: CountListItem[]
 }
 
 export type DashboardPayload = {
   generatedAt?: string
-  portalViews?: AnalyticsRecord[]
+  portalViews?: PortalView[]
   mcpUsage?: McpUsage
   componentUsage?: ComponentUsage
 }
 
 export type ViewRow = {
-  label: string
+  path: string
   day: string
   env: string
 }
 
-/** Normalise the stored shape to a common view model. */
-export function normalise(record: AnalyticsRecord): ViewRow {
-  const label =
-    record.name ?? record.path ?? record.type ?? record.id ?? '—'
-  const when = record.created_at ?? record.timestamp ?? ''
-  const day = typeof when === 'string' ? when.slice(0, 10) : ''
-  const env = record.env ?? ''
+export function toViewRow(view: PortalView): ViewRow {
+  const path = view.path ?? '—'
+  const day = (view.timestamp ?? '').slice(0, 10)
+  const env = view.env ?? ''
 
-  return { label, day, env }
-}
-
-export function toRecords(
-  payload: DashboardPayload | AnalyticsRecord[] | null
-): AnalyticsRecord[] {
-  if (Array.isArray(payload)) {
-    return payload
-  }
-
-  if (payload && Array.isArray(payload.portalViews)) {
-    return payload.portalViews
-  }
-
-  return []
+  return { path, day, env }
 }
 
 /**
@@ -112,11 +91,11 @@ export type DataResult =
   | { kind: 'empty' }
   | { kind: 'retry' }
   | { kind: 'rejected' }
-  | { kind: 'error'; status: number }
+  | { kind: 'error'; message: string }
   | { kind: 'data'; payload: DashboardPayload }
 
 /**
- * Fetch dashboard records from the protected API. Returns a discriminated
+ * Fetch the dashboard snapshot from the protected API. Returns a discriminated
  * result so the caller owns rendering and navigation; this function only
  * manages the sign-in retry marker.
  */
@@ -137,8 +116,11 @@ export async function loadDashboardData(
       cache: 'no-store',
     })
   } catch {
-    // Network or endpoint issue; show the empty state.
-    return { kind: 'empty' }
+    return {
+      kind: 'error',
+      message:
+        'Could not reach the data API. Check your connection and refresh, or contact the dashboard owner if it persists.',
+    }
   }
 
   if (response.status === 401) {
@@ -146,7 +128,7 @@ export async function loadDashboardData(
   }
 
   if (!response.ok) {
-    return { kind: 'error', status: response.status }
+    return { kind: 'error', message: dataErrorMessage(response.status) }
   }
 
   clearAuthRetry()
@@ -154,8 +136,11 @@ export async function loadDashboardData(
   try {
     return { kind: 'data', payload: await response.json() }
   } catch {
-    // Malformed body; show the empty state rather than crashing the page.
-    return { kind: 'empty' }
+    return {
+      kind: 'error',
+      message:
+        'The data API sent a response the dashboard could not read. Please try again later, or contact the dashboard owner if it persists.',
+    }
   }
 }
 
@@ -177,11 +162,11 @@ export function countBy(
   return counts
 }
 
-/** Turn a counts map into a sorted, optionally limited, ranked list. */
+/** Turn a counts map into a sorted, optionally limited list. */
 export function rank(
   counts: Map<string, number>,
   { sort = 'desc', limit }: { sort?: 'desc' | 'key'; limit?: number } = {}
-): McpCount[] {
+): CountListItem[] {
   const entries = [...counts.entries()]
   entries.sort((a, b) =>
     sort === 'key' ? a[0].localeCompare(b[0]) : b[1] - a[1]
@@ -211,7 +196,8 @@ export function dashboardView(
   payload: DashboardPayload | null,
   env: string
 ): DashboardView {
-  const allRows = toRecords(payload).map(normalise)
+  const views = payload?.portalViews
+  const allRows = (Array.isArray(views) ? views : []).map(toViewRow)
   const envs = [
     ...new Set(allRows.map((r) => r.env).filter(Boolean)),
   ].sort()
@@ -220,8 +206,8 @@ export function dashboardView(
   const kpis: Kpi[] = [
     { value: rows.length, label: 'Latest views' },
     {
-      value: new Set(rows.map((r) => r.label).filter(Boolean)).size,
-      label: 'Unique pages',
+      value: new Set(rows.map((r) => r.path).filter(Boolean)).size,
+      label: 'Unique URLs',
     },
     {
       value: new Set(rows.map((r) => r.day).filter(Boolean)).size,

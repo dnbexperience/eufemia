@@ -34,7 +34,7 @@ const portalViews = pages.flatMap((path, pageIndex) => {
     return {
       path,
       env: n % 3 === 0 ? 'test' : 'prod',
-      created_at: `${day}T${hour}:00:00Z`,
+      timestamp: `${day}T${hour}:00:00Z`,
     }
   })
 })
