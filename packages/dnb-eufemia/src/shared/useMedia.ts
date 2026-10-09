@@ -20,7 +20,7 @@ import type {
   MediaQueryOptions,
 } from './MediaQueryUtils'
 import { toPascalCase } from './component-helper'
-import useHydrated from './helpers/useHydrated'
+import useCanUseDOM from './helpers/useCanUseDOM'
 
 const makeLayoutEffect = () => {
   // SSR warning fix: https://gist.github.com/gaearon/e7d97cdf38a2907924ea12e4ebdf3c85
@@ -125,10 +125,10 @@ export default function useMedia(
   const resultRef = useRef<Partial<UseMediaResult>>({})
   const isMountedRef = useRef(false)
   const isDisabledRef = useRef(disabled)
-  const isHydrated = useHydrated()
+  const canUseDOM = useCanUseDOM()
 
   // Use the server result while hydrating; the layout effect updates it after mount
-  const isHydratingRef = useRef(!isHydrated)
+  const isHydratingRef = useRef(!canUseDOM)
 
   const removeListeners = useCallback(() => {
     Object.entries(refs.current).forEach(([key, item]) => {
