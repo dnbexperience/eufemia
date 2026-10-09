@@ -13,6 +13,17 @@ Use a status icon to give a compact visual summary of an item's current state. I
 
 <StatusIconsExample />
 
+## Where it fits
+
+| Use                                     | Pattern or component                            |
+| --------------------------------------- | ----------------------------------------------- |
+| Compact state beside an item or service | Status icon pattern                             |
+| Count, short label or new-item metadata | [Badge](/uilib/components/badge)                |
+| Validation or help connected to a field | [FormStatus](/uilib/components/form-status)     |
+| Page-wide operational message           | [GlobalStatus](/uilib/components/global-status) |
+
+Badge should not be used as the icon container. It adds label and status semantics intended for badge content. FormStatus icons belong to form feedback and are not general status assets.
+
 ## Pattern
 
 Sizes refer to the outer circle: Large is 2.5rem, Medium is 2rem, and Small is 1.5rem. Use a 24px `_medium` icon for Large and a 16px default icon for Medium and Small.
@@ -128,14 +139,3 @@ If the application already configures `Theme` and imports its dark token stylesh
 - If the status has no visible label, give the `Icon` an `alt` value.
 - For live status changes, use [AriaLive](/uilib/components/aria-live) around the changing text. Do not add `role="status"` to every static icon because that role defines a live region.
 - Do not make the icon container interactive. Use a [Button](/uilib/components/button) or [Anchor](/uilib/components/anchor) when the status opens more details.
-
-## Where it fits
-
-| Use                                     | Pattern or component                            |
-| --------------------------------------- | ----------------------------------------------- |
-| Compact state beside an item or service | Status icon pattern                             |
-| Count, short label or new-item metadata | [Badge](/uilib/components/badge)                |
-| Validation or help connected to a field | [FormStatus](/uilib/components/form-status)     |
-| Page-wide operational message           | [GlobalStatus](/uilib/components/global-status) |
-
-Badge should not be used as the icon container. It adds label and status semantics intended for badge content. FormStatus icons belong to form feedback and are not general status assets.
