@@ -11,6 +11,8 @@ export const excludedSlugPartials = [
 ]
 
 const hasTitle = (record) => String(record.title || '').length > 0
+const hasContentTitle = (record) =>
+  String(record.contentTitle || '').length > 0
 const hasSearch = (record) => String(record.search || '').length > 0
 const hasDescription = (record) =>
   String(record.description || '').length > 0
@@ -39,6 +41,11 @@ export function buildAlgoliaRecord({
         ...nextFrontmatter,
         title: nextFrontmatter.search,
         search: null,
+      }
+    } else if (hasContentTitle(nextFrontmatter)) {
+      nextFrontmatter = {
+        ...nextFrontmatter,
+        title: nextFrontmatter.contentTitle,
       }
     } else {
       const first = nextHeadings[0]

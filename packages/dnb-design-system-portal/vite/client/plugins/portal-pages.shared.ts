@@ -26,17 +26,34 @@ export type TableOfContentsItem = {
  */
 export type KnownFrontmatter = {
   /**
-   * Set to include page in the menu. Text is used in the browser tab, the
-   * menu, and to alphabetically order generated lists, such as
-   * `<RelatedComponents>`. On a tab page it is also the page heading (H1).
+   * If set:
+   * - adds page to the side menu (unless `hideInMenu` or `draft` is set)
+   * - adds page to generated lists (unless `draft` is set)
+   * - sets page's H1 text (unless `contentTitle` is set)
+   * - sets browser tab title
+   * - sets side menu link text (unless `menuTitle` is set)
+   * - used in alphabetical ordering of generated lists (unless `order` is set)
    *
-   * The sidebar menu is ordered by the file path instead, which usually
+   *
+   * If not set:
+   * - uses the browser tab title of its nearest parent
+   * - is not shown in side menu or generated lists
+   * - If `showTabs` is `true`, the page inherits the H1 heading of its parent.
+   *
+   * Side note: The side menu is ordered by the file path, which usually
    * matches the title, but not always.
-   *
-   * If not set, the page uses the browser tab text (and, on a tab page,
-   * the heading) of its nearest parent, but is not included in the menu.
    */
   title?: string
+
+  /**
+   * Text used in the page's H1 heading.
+   *
+   * Default: the `title` value is used.
+   *
+   * Use it to give a page a H1 heading without adding it to the menu. Or to
+   * use a different H1 text than `title`.
+   */
+  contentTitle?: string
   description?: string
   /**
    * A number from -999 to 999, decimals are allowed.

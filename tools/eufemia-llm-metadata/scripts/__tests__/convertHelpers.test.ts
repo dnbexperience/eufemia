@@ -278,6 +278,38 @@ describe('convertMdxToMd', () => {
     expect(output).toContain('Some intro text.')
   })
 
+  it('prefers contentTitle over title for the heading', async () => {
+    const tmpRoot = fs.mkdtempSync(
+      path.join(os.tmpdir(), 'mdx-content-title-')
+    )
+    const docsRoot = path.join(tmpRoot, 'docs')
+    fs.mkdirSync(docsRoot, { recursive: true })
+
+    const mdxPath = path.join(docsRoot, 'title.mdx')
+    fs.writeFileSync(
+      mdxPath,
+      [
+        '---',
+        'title: Button',
+        'contentTitle: Button component',
+        '---',
+        '',
+        'Some intro text.',
+      ].join('\n')
+    )
+
+    const output = await convertMdxToMd({
+      inputPath: mdxPath,
+      docsRoot,
+      docsBaseRoot: docsRoot,
+      prettierConfig: {},
+      includeFrontmatter: false,
+      state: { mdxCache: new Map(), inProgress: new Set() },
+    })
+
+    expect(output.startsWith('# Button component')).toBe(true)
+  })
+
   it('inlines imported mdx fragments from Docs aliases', async () => {
     const tmpRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'mdx-imports-'))
     const docsBaseRoot = path.join(tmpRoot, 'src')

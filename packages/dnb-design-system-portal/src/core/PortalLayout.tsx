@@ -9,10 +9,11 @@ import { MDXProvider } from '@mdx-js/react'
 import { graphql, useStaticQuery } from 'portal-query'
 import Layout from '../shared/parts/Layout'
 import TabBar from '../shared/tags/TabBar'
+import AutoLinkHeader from '../shared/tags/AutoLinkHeader'
 import { defaultTabsValue } from '../shared/tags/defaultValues'
 import { Link } from '../shared/tags/Anchor'
 import tags from '../shared/tags'
-import { resetLevels } from '@dnb/eufemia/src/components/Heading'
+import Heading, { resetLevels } from '@dnb/eufemia/src/components/Heading'
 import { setPortalHeadData, usePortalHead } from './PortalHead'
 import { Breadcrumb, Button } from '@dnb/eufemia/src'
 import { resolveEditSourcePath } from './editSourcePath'
@@ -41,6 +42,7 @@ export default function PortalLayout(props: PortalLayoutProps) {
             }
             frontmatter {
               title
+              contentTitle
               description
               fullscreen
               showTabs
@@ -138,6 +140,14 @@ export default function PortalLayout(props: PortalLayoutProps) {
   const { focusModeCodeId } = useFocusModeCode()
   const codeFocusMode = focusModeCodeId !== null
 
+  const renderTitle =
+    pageFm.contentTitle ?? (tabsFromParent ? fmData.title : pageFm.title)
+  const titleNode = renderTitle ? (
+    <AutoLinkHeader className="dnb-no-focus" level={1}>
+      {renderTitle}
+    </AutoLinkHeader>
+  ) : undefined
+
   if (!pageMdx?.frontmatter) {
     return <>{children}</> // looks like it was not a MDX, so we just return children
   }
@@ -175,41 +185,35 @@ export default function PortalLayout(props: PortalLayoutProps) {
         </Breadcrumb>
       )}
 
-      {!codeFocusMode && pageFm.showTabs && (
-        <TabBar
-          key="tab-bar"
-          location={location}
-          rootPath={rootPath}
-          title={fmData.title}
-          tabs={fmData.tabs}
-          defaultTabs={fmData.defaultTabs}
-          hideTabs={fmData.hideTabs}
-        />
-      )}
+      {!codeFocusMode &&
+        (pageFm.showTabs ? (
+          <TabBar
+            key="tab-bar"
+            location={location}
+            rootPath={rootPath}
+            title={titleNode}
+            tabs={fmData.tabs}
+            defaultTabs={fmData.defaultTabs}
+            hideTabs={fmData.hideTabs}
+          />
+        ) : (
+          titleNode
+        ))}
 
-      <Content
-        showTabs={pageFm.showTabs}
-        sourcePath={editSourcePath}
-        pagePath={`${location.pathname}${location.hash || ''}`}
-        showEditLink={!codeFocusMode && !fmData.hideEditLink}
-      >
-        {children}
-      </Content>
+      <Heading.Level reset={2}>
+        <Content
+          sourcePath={editSourcePath}
+          pagePath={`${location.pathname}${location.hash || ''}`}
+          showEditLink={!codeFocusMode && !fmData.hideEditLink}
+        >
+          {children}
+        </Content>
+      </Heading.Level>
     </Layout>
   )
 }
 
-function Content({
-  showTabs,
-  sourcePath,
-  pagePath,
-  showEditLink,
-  children,
-}) {
-  if (showTabs) {
-    resetLevels(2)
-  }
-
+function Content({ sourcePath, pagePath, showEditLink, children }) {
   return (
     <ContentWrapper>
       <MDXProvider components={tags}>{children}</MDXProvider>

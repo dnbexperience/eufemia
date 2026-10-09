@@ -1564,8 +1564,14 @@ export async function convertMdxToMd({
     try {
       const { data: attributes } = fm(frontmatter)
 
-      if (attributes && typeof attributes.title === 'string') {
-        const title = String(attributes.title).trim()
+      // TODO: tab pages (`showTabs: true`) without their own title inherit
+      // the parent page title when rendered, but this function only sees a
+      // single file, so no heading is written for them.
+      const frontmatterTitle =
+        attributes?.contentTitle ?? attributes?.title
+
+      if (typeof frontmatterTitle === 'string') {
+        const title = frontmatterTitle.trim()
         // Check if body already starts with an H1 heading
         const trimmedBody = outputBody.trim()
         const startsWithHeading = /^#\s+/.test(trimmedBody)

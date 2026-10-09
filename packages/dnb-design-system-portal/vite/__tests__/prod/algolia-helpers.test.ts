@@ -101,6 +101,25 @@ describe('algolia-helpers', () => {
       })
     })
 
+    it('should use contentTitle as title when frontmatter has no title', () => {
+      const result = buildAlgoliaRecord({
+        fields: { slug: '/parent/page' },
+        frontmatter: { contentTitle: 'My Page' },
+        recordHeadings: [],
+        siblings: [
+          {
+            fields: { slug: '/parent' },
+            frontmatter: { title: 'Parent' },
+          },
+        ],
+      })
+
+      expect(result).toMatchObject({
+        slug: '/parent/page',
+        title: 'My Page',
+      })
+    })
+
     it('should promote h1 heading to title when frontmatter has no title', () => {
       const result = buildAlgoliaRecord({
         fields: { slug: '/page' },
