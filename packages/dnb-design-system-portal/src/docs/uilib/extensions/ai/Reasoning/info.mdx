@@ -16,4 +16,4 @@ render(<Ai.Reasoning />)
 
 While the reasoning streams in, the section is open and shows a shimmering text. When it is done, the section closes, so the answer gets the attention. When the user opens or closes the section, it stays as the user left it.
 
-[Ai.Message](/uilib/extensions/ai/Message/) shows the reasoning parts of an `AiMessageData` object as `Ai.Reasoning`.
+Pass the reasoning text as children and control `isStreaming` from your application. Compose it inside [Ai.Message](/uilib/extensions/ai/Message/) before the response.

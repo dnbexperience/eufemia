@@ -14,8 +14,6 @@ render(<Ai.Tool />)
 
 `Ai.Tool` shows the status of a tool the AI uses, like looking up transactions or blocking a card. It shows a progress indicator while the tool runs, and whether it was completed, failed or canceled.
 
-Pass a tool part from an `AiMessageData` object to `part`, or give `title` and `state`. [Ai.Message](/uilib/extensions/ai/Message/) shows tool parts as `Ai.Tool` for you. Give your tools a `title`, as the tool name is shown otherwise.
+Pass a human-readable `title` and a display `status`: `running`, `awaiting`, `done`, `error` or `canceled`. Map your chat framework's tool state to these values in your app.
 
-The details of the tool call, like its input and output, are not shown. Give a result for the user as `children` when you need it.
-
-When a tool needs approval, the state is `approval-requested` and the tool shows that it waits for confirmation. Render your own confirmation for the user and pass the response to your chat implementation.
+Use children for a useful result, such as a balance or a confirmation, and `errorText` for a user-facing error. The component does not execute tools. For actions requiring confirmation, show `status="awaiting"`, render your confirmation controls as children, and pass the user's decision to your chat implementation.

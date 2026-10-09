@@ -10,6 +10,26 @@ const getSubmit = () =>
   document.querySelector<HTMLButtonElement>('.dnb-ai-prompt-input__submit')
 
 describe('Ai.PromptInput', () => {
+  it('uses isBusy to show stop until the operation ends', () => {
+    const onStop = vi.fn()
+    const { rerender } = render(
+      <Ai.PromptInput isBusy onStop={onStop} value="Next" />
+    )
+    const stop = document.querySelector<HTMLButtonElement>(
+      '.dnb-ai-prompt-input__stop'
+    )
+    expect(stop).toBeInTheDocument()
+    stop.click()
+    expect(onStop).toHaveBeenCalledTimes(1)
+    rerender(
+      <Ai.PromptInput isBusy={false} onStop={onStop} value="Next" />
+    )
+    expect(document.querySelector('.dnb-ai-prompt-input__stop')).toBeNull()
+    expect(
+      document.querySelector('button[type="submit"]')
+    ).not.toBeDisabled()
+  })
+
   it('renders a form with a labeled textarea and a send button', () => {
     render(<Ai.PromptInput />)
 
@@ -140,7 +160,7 @@ describe('Ai.PromptInput', () => {
     const onSubmit = vi.fn()
     const { rerender } = render(
       <Ai.PromptInput
-        status="streaming"
+        isBusy
         value="Next"
         onStop={onStop}
         onSubmit={onSubmit}
@@ -158,16 +178,10 @@ describe('Ai.PromptInput', () => {
     await userEvent.type(getTextarea(), '{Enter}')
     expect(onSubmit).not.toHaveBeenCalled()
 
-    rerender(
-      <Ai.PromptInput
-        status="submitted"
-        value="Next"
-        onSubmit={onSubmit}
-      />
-    )
+    rerender(<Ai.PromptInput isBusy value="Next" onSubmit={onSubmit} />)
     expect(getSubmit()).toBeDisabled()
 
-    rerender(<Ai.PromptInput status="ready" value="Next" />)
+    rerender(<Ai.PromptInput isBusy={false} value="Next" />)
     expect(getSubmit()).not.toBeDisabled()
   })
 
@@ -198,7 +212,7 @@ describe('Ai.PromptInput', () => {
     render(
       <Ai.PromptInput
         variant="compact"
-        status="streaming"
+        isBusy
         onStop={vi.fn()}
         onAttachmentClick={vi.fn()}
       />
