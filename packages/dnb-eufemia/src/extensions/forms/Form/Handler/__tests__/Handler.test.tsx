@@ -967,6 +967,51 @@ describe('Form.Handler', () => {
       )
     })
 
+    it('should stay disabled until an async onSubmit is done when an async validator finishes first', async () => {
+      let resolveSubmit: () => void
+      const onSubmit = vi.fn(async () => {
+        await new Promise<void>((resolve) => {
+          resolveSubmit = resolve
+        })
+      })
+      const asyncValidator = async () => {
+        await wait(10)
+        return undefined
+      }
+
+      render(
+        <Form.Handler onSubmit={onSubmit} minimumAsyncBehaviorTime={10}>
+          <Field.String
+            value="bar"
+            path="/foo"
+            onChangeValidator={asyncValidator}
+          />
+          <Form.SubmitButton />
+        </Form.Handler>
+      )
+
+      const buttonElement = document.querySelector('button')
+      fireEvent.click(buttonElement)
+
+      await waitFor(() => {
+        expect(onSubmit).toHaveBeenCalledTimes(1)
+      })
+      await wait(100)
+
+      expect(buttonElement).toBeDisabled()
+      expect(
+        document.querySelector(
+          '.dnb-forms-submit-indicator--state-pending'
+        )
+      ).toBeInTheDocument()
+
+      resolveSubmit()
+
+      await waitFor(() => {
+        expect(buttonElement).not.toBeDisabled()
+      })
+    })
+
     it('should accept custom minimumAsyncBehaviorTime value', async () => {
       const onSubmit = async () => null
 
