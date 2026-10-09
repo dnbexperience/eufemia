@@ -353,7 +353,7 @@ function UploadComponent(props: FieldUploadProps) {
           })
 
           updateFiles(updatedFiles)
-          handleChange(updatedFiles)
+          handleChange(updatedFiles.length > 0 ? updatedFiles : undefined)
         } finally {
           completeFileHandlerOperation(operation)
         }
