@@ -16,6 +16,8 @@ import {
   waitFor,
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { renderToString } from 'react-dom/server'
+import { hydrateRoot } from 'react-dom/client'
 import {
   spyOnEufemiaWarn,
   wait,
@@ -39,6 +41,7 @@ import {
   Ajv,
   Iterate,
   Wizard,
+  Value,
   makeAjvInstance,
   withValidatorOptions,
 } from '../../../'
@@ -2590,6 +2593,88 @@ describe('DataContext.Provider', { retry: isCI ? 5 : 0 }, () => {
       )
 
       expect(screen.getByDisplayValue('Ipsum')).toBeInTheDocument()
+    })
+
+    it('should hydrate server-rendered markup and restore session storage data afterwards', () => {
+      const sessionStorageId = 'hydrate-session-data'
+      const element = (
+        <DataContext.Provider
+          id="hydrate-session-data"
+          defaultData={{ foo: 'default' }}
+          sessionStorageId={sessionStorageId}
+        >
+          <Field.String path="/foo" />
+          <Value.String path="/foo" />
+        </DataContext.Provider>
+      )
+
+      // The server has no access to the session storage of the browser
+      const html = renderToString(element)
+      window.sessionStorage.setItem(
+        sessionStorageId,
+        JSON.stringify({ foo: 'restored' })
+      )
+
+      const container = document.createElement('div')
+      container.innerHTML = html
+      document.body.appendChild(container)
+
+      const log = vi.spyOn(console, 'error')
+      const recoverableErrors = []
+      let root: ReturnType<typeof hydrateRoot>
+      act(() => {
+        root = hydrateRoot(container, element, {
+          onRecoverableError: (error) => recoverableErrors.push(error),
+        })
+      })
+
+      expect(recoverableErrors).toEqual([])
+      expect(log).not.toHaveBeenCalled()
+      expect(container.querySelector('input')).toHaveValue('restored')
+      expect(
+        container.querySelector('.dnb-forms-value-block__content')
+      ).toHaveTextContent('restored')
+      expect(Form.getData('hydrate-session-data').data).toEqual({
+        foo: 'restored',
+      })
+
+      act(() => root.unmount())
+      container.remove()
+      log.mockRestore()
+      window.sessionStorage.removeItem(sessionStorageId)
+    })
+
+    it('should not re-render after hydration when sessionStorageId is not given', () => {
+      let renderCount = 0
+      const RenderCounter = () => {
+        useContext(DataContext.Context)
+        renderCount++
+        return null
+      }
+
+      const element = (
+        <DataContext.Provider defaultData={{ foo: 'default' }}>
+          <Field.String path="/foo" />
+          <RenderCounter />
+        </DataContext.Provider>
+      )
+
+      const html = renderToString(element)
+      renderCount = 0
+
+      const container = document.createElement('div')
+      container.innerHTML = html
+      document.body.appendChild(container)
+
+      let root: ReturnType<typeof hydrateRoot>
+      act(() => {
+        root = hydrateRoot(container, element)
+      })
+
+      expect(renderCount).toBe(1)
+
+      act(() => root.unmount())
+      container.remove()
     })
 
     it('should throw when both data and sessionStorageId is provided', () => {
