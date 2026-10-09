@@ -1,7 +1,4 @@
-import { useState } from 'react'
-import { Hr, Icon, Switch, VisuallyHidden } from '@dnb/eufemia/src'
-import { Theme, useTheme } from '@dnb/eufemia/src/shared'
-import type { ThemeColorScheme } from '@dnb/eufemia/src/shared/Theme'
+import { Hr, Icon, VisuallyHidden } from '@dnb/eufemia/src'
 import {
   check,
   check_medium,
@@ -52,32 +49,14 @@ const statuses = [
 type StatusSize = 'large' | 'medium' | 'small'
 
 export default function StatusIcons() {
-  const theme = useTheme()
-  const [selectedColorScheme, setSelectedColorScheme] =
-    useState<ThemeColorScheme | null>(null)
-  const colorScheme = selectedColorScheme ?? theme?.colorScheme ?? 'light'
-
   return (
-    <>
-      <Theme colorScheme={colorScheme} data-visual-test="status-icons">
-        <div className={styles.example}>
-          <StatusList size="large" />
-          <Hr />
-          <StatusList size="medium" />
-          <Hr />
-          <StatusList size="small" />
-        </div>
-      </Theme>
-
-      <Switch
-        label="Dark mode"
-        checked={colorScheme === 'dark'}
-        top="small"
-        onChange={({ checked }) =>
-          setSelectedColorScheme(checked ? 'dark' : 'light')
-        }
-      />
-    </>
+    <div className={styles.example} data-visual-test="status-icons">
+      <StatusList size="large" />
+      <Hr />
+      <StatusList size="medium" />
+      <Hr />
+      <StatusList size="small" />
+    </div>
   )
 }
 

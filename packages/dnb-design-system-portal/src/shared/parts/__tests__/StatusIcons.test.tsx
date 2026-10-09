@@ -1,6 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { cleanup, fireEvent, render } from '@testing-library/react'
-import { Theme } from '@dnb/eufemia/src/shared'
+import { cleanup, render } from '@testing-library/react'
 
 vi.mock('../../../docs/icons/StatusIcons.module.scss', () => ({
   default: {
@@ -97,57 +96,5 @@ describe('StatusIcons', () => {
         '[data-visual-test="status-icons"] hr.dnb-hr'
       )
     ).toHaveLength(2)
-  })
-
-  it('toggles the example color scheme', () => {
-    render(
-      <Theme colorScheme="light">
-        <StatusIcons />
-      </Theme>
-    )
-
-    const example = document.querySelector(
-      '[data-visual-test="status-icons"]'
-    )
-    const input = document.querySelector<HTMLInputElement>(
-      '.dnb-switch__input'
-    )
-
-    expect(example?.classList).toContain(
-      'eufemia-theme__color-scheme--light'
-    )
-
-    fireEvent.click(input)
-
-    expect(example?.classList).toContain(
-      'eufemia-theme__color-scheme--dark'
-    )
-  })
-
-  it('starts in the surrounding dark color scheme and can switch locally', () => {
-    render(
-      <Theme colorScheme="dark">
-        <StatusIcons />
-      </Theme>
-    )
-
-    const example = document.querySelector(
-      '[data-visual-test="status-icons"]'
-    )
-    const input = document.querySelector<HTMLInputElement>(
-      '.dnb-switch__input'
-    )
-
-    expect(input?.checked).toBe(true)
-    expect(example?.classList).toContain(
-      'eufemia-theme__color-scheme--dark'
-    )
-
-    fireEvent.click(input)
-
-    expect(input?.checked).toBe(false)
-    expect(example?.classList).toContain(
-      'eufemia-theme__color-scheme--light'
-    )
   })
 })
