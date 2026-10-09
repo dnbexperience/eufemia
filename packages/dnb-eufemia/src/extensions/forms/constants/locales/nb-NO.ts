@@ -279,7 +279,6 @@ export default {
     Upload: {
       errorRequired: 'Du må laste opp minst en fil.',
       errorInvalidFiles: 'Fjern alle filer som har feil.',
-      errorUploadTimeout: 'Opplastingen tok for lang tid. Prøv igjen.',
     },
   },
 }

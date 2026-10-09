@@ -177,7 +177,7 @@ export type DataContextProviderProps<Data extends JsonObject> =
      */
     minimumAsyncBehaviorTime?: number
     /**
-     * The maximum time to display the submit indicator before it changes back to normal. In case something went wrong during submission. It also limits how long a field waits for an async `onChange`, validator or `Field.Upload` `fileHandler` before it clears its pending state. A submit waiting for that field is canceled and must be retried. Defaults to 30s.
+     * The maximum time to display the submit indicator before it changes back to normal. In case something went wrong during submission. It also limits how long a field waits for an async `onChange` or validator before it clears its pending state. A submit waiting for that field is canceled and must be retried. Defaults to 30s.
      */
     asyncSubmitTimeout?: number
     /**

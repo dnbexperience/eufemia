@@ -280,7 +280,6 @@ export default {
     Upload: {
       errorRequired: 'Du skal uploade mindst én fil.',
       errorInvalidFiles: 'Fjern alle filer, der indeholder fejl.',
-      errorUploadTimeout: 'Uploaden tog for lang tid. Prøv igen.',
     },
   } satisfies (typeof nb)['nb-NO'],
 }

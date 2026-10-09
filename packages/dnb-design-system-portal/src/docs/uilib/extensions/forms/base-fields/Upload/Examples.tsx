@@ -559,7 +559,7 @@ export const WithIterateArray = () => {
             formData.append('file', file.file, file.file.name)
 
             const request = createRequest()
-            await request(2000) // Simulate a request
+            await request(8000) // Simulate a request
 
             try {
               const mockResponse = {
