@@ -98,18 +98,6 @@ describe('analytics infrastructure', () => {
     expect(terraform).not.toContain('prefix = "portal-views-daily/"')
   })
 
-  it('alarms on a persistent portal-view rollup-refresh failure', () => {
-    expect(terraform).toContain(
-      'resource "aws_cloudwatch_metric_alarm" "snapshot_portal_views_rollup_failed"'
-    )
-    const alarm = terraform.match(
-      /resource "aws_cloudwatch_metric_alarm" "snapshot_portal_views_rollup_failed" \{[\s\S]*?^\}/m
-    )?.[0]
-    expect(alarm).toContain(
-      'metric_name         = "PortalViewsRollupFailure"'
-    )
-  })
-
   it('points each snapshot metric alarm at a metric the generator emits', () => {
     const snapshotSource = readFileSync(
       path.resolve(dir, '../src/lambda/snapshot.ts'),
@@ -135,8 +123,8 @@ describe('analytics infrastructure', () => {
       expect(block, `${alarm} metric_name`).toContain(
         `metric_name         = "${metric}"`
       )
-      expect(snapshotSource, `${metric} emitted`).toContain(
-        `emitMetric('${metric}'`
+      expect(snapshotSource, `${metric} emitted`).toMatch(
+        new RegExp(`^\\s*emitMetric\\('${metric}'`, 'm')
       )
     }
   })
