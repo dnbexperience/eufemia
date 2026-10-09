@@ -282,6 +282,29 @@ describe('Ai.PromptInput', () => {
     )
   })
 
+  it('keeps its textarea behavior when forwarding classes and handlers', async () => {
+    const onChange = vi.fn()
+    const onKeyDown = vi.fn()
+    const onSubmit = vi.fn()
+    render(
+      <Ai.PromptInput
+        onSubmit={onSubmit}
+        textareaProps={{ className: 'custom', onChange, onKeyDown }}
+      />
+    )
+
+    expect(document.querySelector('.dnb-textarea')).toHaveClass(
+      'dnb-ai-prompt-input__textarea',
+      'custom'
+    )
+    await userEvent.type(getTextarea(), 'Hello{Enter}')
+    expect(onChange).toHaveBeenCalled()
+    expect(onKeyDown).toHaveBeenCalled()
+    expect(onSubmit).toHaveBeenCalledWith(
+      expect.objectContaining({ value: 'Hello' })
+    )
+  })
+
   it('supports spacing props and forwards attributes', () => {
     render(<Ai.PromptInput top="large" className="custom" id="prompt" />)
 
