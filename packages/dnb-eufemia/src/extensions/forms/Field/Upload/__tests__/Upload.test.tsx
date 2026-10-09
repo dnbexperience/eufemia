@@ -1462,6 +1462,62 @@ describe('Field.Upload', () => {
     })
   })
 
+  describe('throwing fileHandler', () => {
+    it.each([
+      [
+        'rejects',
+        async () => {
+          throw new Error('Network error')
+        },
+      ],
+      [
+        'throws',
+        () => {
+          throw new Error('Network error')
+        },
+      ],
+    ])(
+      'should show the error on the files when the fileHandler %s',
+      async (_, fileHandler) => {
+        const file = createMockFile('fileName-1.png', 100, 'image/png')
+        const onChange = vi.fn()
+
+        render(
+          <Form.Handler onChange={onChange}>
+            <Field.Upload path="/files" fileHandler={fileHandler} />
+          </Form.Handler>
+        )
+
+        fireEvent.drop(getRootElement(), {
+          dataTransfer: { files: [file] },
+        })
+
+        await waitFor(() => {
+          expect(
+            document.querySelector('.dnb-upload__file-cell--warning')
+          ).toHaveTextContent('Network error')
+        })
+        expect(
+          screen.getByRole('button', {
+            name: nbShared.Upload.deleteButton,
+          })
+        ).not.toBeDisabled()
+        expect(onChange).toHaveBeenLastCalledWith(
+          {
+            files: [
+              expect.objectContaining({
+                file,
+                isLoading: false,
+                errorMessage: 'Network error',
+              }),
+            ],
+          },
+          expect.anything()
+        )
+      }
+    )
+  })
+
   describe('In Wizard', () => {
     const previousButton = () => {
       return document.querySelector('.dnb-forms-previous-button')

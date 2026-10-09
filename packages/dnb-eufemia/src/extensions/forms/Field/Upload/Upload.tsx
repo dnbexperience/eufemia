@@ -343,7 +343,17 @@ function UploadComponent(props: FieldUploadProps) {
             handleChange(timedOutFiles)
           }, asyncSubmitTimeout)
 
-          const incomingFiles = await fileHandler(newValidFiles)
+          let incomingFiles: UploadValue
+          try {
+            incomingFiles = await fileHandler(newValidFiles)
+          } catch (error) {
+            const errorMessage =
+              error instanceof Error ? error.message : String(error)
+            incomingFiles = newValidFiles.map((file) => ({
+              ...file,
+              errorMessage,
+            }))
+          }
           if (operation.invalidated) {
             return
           }
