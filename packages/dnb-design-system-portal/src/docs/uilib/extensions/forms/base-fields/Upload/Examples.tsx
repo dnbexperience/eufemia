@@ -153,7 +153,7 @@ export const WithAsyncFileHandler = () => {
   return (
     <ComponentBox scope={{ createRequest }}>
       {() => {
-        const MyForm = () => {
+        const MyField = () => {
           const { errorUploadFailed } = Form.useTranslation().Upload
 
           async function mockAsyncFileUpload(
@@ -202,22 +202,24 @@ export const WithAsyncFileHandler = () => {
           }
 
           return (
-            <Form.Handler onSubmit={async (form) => console.log(form)}>
-              <Flex.Stack>
-                <Field.Upload
-                  path="/attachments"
-                  labelDescription="Upload multiple files at once to see the upload error message. This demo has been set up so that every other file in a batch will fail."
-                  fileHandler={mockAsyncFileUpload}
-                  required
-                />
-                <Form.SubmitButton />
-                <Tools.Log />
-              </Flex.Stack>
-            </Form.Handler>
+            <Field.Upload
+              path="/attachments"
+              labelDescription="Upload multiple files at once to see the upload error message. This demo has been set up so that every other file in a batch will fail."
+              fileHandler={mockAsyncFileUpload}
+              required
+            />
           )
         }
 
-        return <MyForm />
+        return (
+          <Form.Handler onSubmit={async (form) => console.log(form)}>
+            <Flex.Stack>
+              <MyField />
+              <Form.SubmitButton />
+              <Tools.Log />
+            </Flex.Stack>
+          </Form.Handler>
+        )
       }}
     </ComponentBox>
   )
