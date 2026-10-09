@@ -6,6 +6,8 @@ import {
   HeightAnimation,
 } from '@dnb/eufemia/src/components'
 import { useMediaQuery } from '@dnb/eufemia/src/shared'
+import useIsomorphicLayoutEffect from '@dnb/eufemia/src/shared/helpers/useIsomorphicLayoutEffect'
+import useMarkerStyle from './useMarkerStyle'
 import styles from './PageToc.module.scss'
 
 // keep in sync with scroll-padding-block in PageToc.module.scss
@@ -143,29 +145,34 @@ export default function PageToc({
   )
 
   const scrollRef = useRef<HTMLDivElement>(null)
+  const [currentLink, setCurrentLink] = useState<HTMLAnchorElement | null>(
+    null
+  )
 
   const isLargeScreen = useMediaQuery({ when: { min: 'large' } })
   const [isExpanded, setIsExpanded] = useState(false)
   const [animateReady, setAnimateReady] = useState(!isLargeScreen)
+
+  const markerStyle = useMarkerStyle(isLargeScreen ? currentLink : null)
 
   useEffect(() => {
     // delays height animation with setState in useEffect so it doesnt trigger on screen size change to small
     setAnimateReady(!isLargeScreen)
   }, [isLargeScreen])
 
-  useEffect(() => {
-    const container = scrollRef.current
-    if (!container || currentVisibleIndex === null) {
-      return
-    }
-
-    const currentLink = container.querySelector<HTMLAnchorElement>(
-      'a[aria-current="true"]'
+  useIsomorphicLayoutEffect(() => {
+    setCurrentLink(
+      scrollRef.current?.querySelector<HTMLAnchorElement>(
+        'a[aria-current="true"]'
+      ) ?? null
     )
-    if (currentLink) {
-      revealInScroller(container, currentLink)
-    }
   }, [currentVisibleIndex])
+
+  useIsomorphicLayoutEffect(() => {
+    if (currentLink) {
+      revealInScroller(scrollRef.current, currentLink)
+    }
+  }, [currentLink])
 
   // the page title holds every heading below it, so the list starts one level deep
   const rootTocTree = pruneTocTree(
@@ -192,7 +199,6 @@ export default function PageToc({
         noStyle={isLargeScreen}
         noUnderline={isLargeScreen}
         noHover={isLargeScreen}
-        noAnimation={isLargeScreen}
       >
         {tocItem.title}
       </Anchor>
@@ -248,7 +254,16 @@ export default function PageToc({
           animate={!isLargeScreen && animateReady}
           openOnFind
           onBeforeMatch={() => setIsExpanded(true)}
+          className={styles['page-toc__list-wrapper']}
         >
+          {markerStyle && (
+            <span
+              className={styles['page-toc__marker']}
+              style={markerStyle}
+              aria-hidden
+            />
+          )}
+
           {renderList(rootTocTree)}
         </HeightAnimation>
       </ScrollView>
