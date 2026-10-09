@@ -33,6 +33,7 @@ export type { UploadFile, UploadFileNative }
 export type UploadValue = Array<UploadFile | UploadFileNative>
 type FileHandlerOperation = {
   fieldIdentifier: Identifier
+  invalidated: boolean
 }
 
 export type FieldUploadProps = Omit<
@@ -208,6 +209,16 @@ function UploadComponent(props: FieldUploadProps) {
     [setFieldInternals, setFieldState]
   )
 
+  useEffect(() => {
+    const operations = fileHandlerOperationsRef.current
+    return () => {
+      operations.forEach((operation) => {
+        operation.invalidated = true
+        completeFileHandlerOperation(operation)
+      })
+    }
+  }, [completeFileHandlerOperation])
+
   const labelWithItemNo = useIterateItemNo({
     label: label ?? title,
     labelSuffix: props.labelSuffix,
@@ -273,7 +284,10 @@ function UploadComponent(props: FieldUploadProps) {
 
       if (newValidFiles.length > 0) {
         const fieldIdentifier = identifier
-        const operation: FileHandlerOperation = { fieldIdentifier }
+        const operation: FileHandlerOperation = {
+          fieldIdentifier,
+          invalidated: false,
+        }
         fileHandlerOperationsRef.current.add(operation)
 
         setFieldState?.(fieldIdentifier, 'pending')
@@ -299,6 +313,11 @@ function UploadComponent(props: FieldUploadProps) {
               ...file,
               errorMessage,
             }))
+          }
+
+          // After an unmount, the path may belong to another field
+          if (operation.invalidated) {
+            return
           }
 
           if (!incomingFiles) {

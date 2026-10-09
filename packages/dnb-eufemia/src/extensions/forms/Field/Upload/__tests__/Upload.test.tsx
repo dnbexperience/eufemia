@@ -1099,12 +1099,13 @@ describe('Field.Upload', () => {
       ).not.toBeDisabled()
     })
 
-    it('should store the result when the field unmounts during the upload', async () => {
-      const file = createMockFile('fileName-1.png', 100, 'image/png')
-      let resolveFileHandler!: (value: UploadValue) => void
+    it('should ignore an upload that settles after the field unmounted', async () => {
+      const fileA = createMockFile('fileName-a.png', 100, 'image/png')
+      const fileB = createMockFile('fileName-b.png', 100, 'image/png')
+      const resolvers: Array<(value: UploadValue) => void> = []
       const fileHandler = vi.fn(() => {
         return new Promise<UploadValue>((resolve) => {
-          resolveFileHandler = resolve
+          resolvers.push(resolve)
         })
       })
       const onSubmit = vi.fn()
@@ -1121,29 +1122,105 @@ describe('Field.Upload', () => {
       const { rerender } = render(<MockForm show />)
 
       fireEvent.drop(getRootElement(), {
-        dataTransfer: { files: [file] },
+        dataTransfer: { files: [fileA] },
       })
       await waitFor(() => {
         expect(fileHandler).toHaveBeenCalledTimes(1)
       })
 
       rerender(<MockForm show={false} />)
-      act(() => {
-        resolveFileHandler([{ file, id: 'server-id', exists: false }])
-      })
-      await wait(50)
       rerender(<MockForm show />)
 
-      expect(
-        document.querySelectorAll('.dnb-upload__file-cell')
-      ).toHaveLength(1)
+      fireEvent.drop(getRootElement(), {
+        dataTransfer: { files: [fileB] },
+      })
+      await waitFor(() => {
+        expect(fileHandler).toHaveBeenCalledTimes(2)
+      })
+
+      act(() => {
+        resolvers[0]([{ file: fileA, id: 'server-id-a', exists: false }])
+      })
+      await wait(50)
+
+      // The upload of the mounted field is still pending
+      await userEvent.click(
+        document.querySelector('button[type="submit"]')
+      )
+      await wait(50)
+      expect(onSubmit).not.toHaveBeenCalled()
+
+      act(() => {
+        resolvers[1]([{ file: fileB, id: 'server-id-b', exists: false }])
+      })
+      await waitFor(() => {
+        expect(onSubmit).toHaveBeenCalledWith(
+          { files: [expect.objectContaining({ id: 'server-id-b' })] },
+          expect.anything()
+        )
+      })
+    })
+
+    it('should not write an upload into the next item when its Iterate item is removed', async () => {
+      const resolvers: Array<(value: UploadValue) => void> = []
+      const fileHandler = vi.fn(() => {
+        return new Promise<UploadValue>((resolve) => {
+          resolvers.push(resolve)
+        })
+      })
+      const onSubmit = vi.fn()
+      const file0 = createMockFile('fileName-0.png', 100, 'image/png')
+      const file1 = createMockFile('fileName-1.png', 100, 'image/png')
+
+      render(
+        <Form.Handler
+          onSubmit={onSubmit}
+          defaultData={{
+            list: [
+              { files: undefined },
+              { files: [{ file: file1, id: 'item-1-id', exists: false }] },
+            ],
+          }}
+        >
+          <Iterate.Array path="/list">
+            <Field.Upload itemPath="/files" fileHandler={fileHandler} />
+            <Iterate.RemoveButton />
+          </Iterate.Array>
+          <Form.SubmitButton />
+        </Form.Handler>
+      )
+
+      fireEvent.drop(document.querySelectorAll('.dnb-upload')[0], {
+        dataTransfer: { files: [file0] },
+      })
+      await waitFor(() => {
+        expect(fileHandler).toHaveBeenCalledTimes(1)
+      })
+
+      fireEvent.click(
+        document.querySelectorAll(
+          '.dnb-forms-iterate-remove-element-button'
+        )[0]
+      )
+      await waitFor(() => {
+        expect(document.querySelectorAll('.dnb-upload')).toHaveLength(1)
+      })
+
+      act(() => {
+        resolvers[0]([{ file: file0, id: 'item-0-id', exists: false }])
+      })
+      await wait(50)
 
       await userEvent.click(
         document.querySelector('button[type="submit"]')
       )
       await waitFor(() => {
         expect(onSubmit).toHaveBeenCalledWith(
-          { files: [expect.objectContaining({ id: 'server-id' })] },
+          {
+            list: [
+              { files: [expect.objectContaining({ id: 'item-1-id' })] },
+            ],
+          },
           expect.anything()
         )
       })
