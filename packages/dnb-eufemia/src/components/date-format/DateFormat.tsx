@@ -23,7 +23,7 @@ import { format } from 'date-fns'
 import type { SpacingProps } from '../../shared/types'
 import { clsx } from 'clsx'
 import { useSpacing } from '../space/SpacingUtils'
-import useHydrated from '../../shared/helpers/useHydrated'
+import useCanUseDOM from '../../shared/helpers/useCanUseDOM'
 import type { SkeletonShow } from '../Skeleton'
 import Tooltip from '../Tooltip'
 import {
@@ -85,8 +85,8 @@ function DateFormat(props: DateFormatProps) {
 
   // The server cannot know the time and time zone of the browser, so keep the
   // server text while hydrating and let React replace it right after
-  const isHydrated = useHydrated()
-  const isHydrating = !isHydrated && typeof document !== 'undefined'
+  const canUseDOM = useCanUseDOM()
+  const isHydrating = !canUseDOM && typeof document !== 'undefined'
   const hydrationProps = isHydrating
     ? { suppressHydrationWarning: true, dateTime: undefined }
     : undefined
