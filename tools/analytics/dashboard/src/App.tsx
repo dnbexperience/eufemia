@@ -24,7 +24,6 @@ import {
 import {
   countBy,
   dashboardView,
-  dataErrorMessage,
   loadDashboardData,
   rank,
   snapshotMeta,
@@ -125,21 +124,8 @@ function Content({
         return
       }
 
-      if (result.kind === 'rejected') {
-        setState({
-          status: 'error',
-          message:
-            'The data API rejected your access. Please try again later, or contact the dashboard owner if it persists.',
-        })
-
-        return
-      }
-
       if (result.kind === 'error') {
-        setState({
-          status: 'error',
-          message: dataErrorMessage(result.status),
-        })
+        setState({ status: 'error', message: result.message })
 
         return
       }
@@ -268,12 +254,12 @@ function Dashboard({
                 </Card>
 
                 <Card stack>
-                  <H2 size="medium">Top pages</H2>
+                  <H2 size="medium">Top URLs</H2>
                   <RankedTable
-                    caption="Top pages"
-                    nameHeader="Page"
+                    caption="Top URLs"
+                    nameHeader="URL"
                     countHeader="Views"
-                    items={rank(countBy(rows, 'label'), {
+                    items={rank(countBy(rows, 'path'), {
                       sort: 'desc',
                       limit: 15,
                     })}
@@ -423,9 +409,9 @@ function McpUsagePanel({
 
       {perVersion.length > 0 && (
         <Card stack>
-          <H2 size="medium">Eufemia versions</H2>
+          <H2 size="medium">Eufemia versions, last 90 days</H2>
           <RankedTable
-            caption={`${label} Eufemia versions`}
+            caption={`${label} Eufemia versions, last 90 days`}
             nameHeader="Version"
             countHeader="Requests"
             items={perVersion.slice(0, 15)}
