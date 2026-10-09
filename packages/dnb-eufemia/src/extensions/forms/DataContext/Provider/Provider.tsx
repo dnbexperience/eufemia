@@ -5,6 +5,7 @@ import {
   useMemo,
   useReducer,
   useRef,
+  useSyncExternalStore,
 } from 'react'
 import type { ReactNode, RefObject } from 'react'
 import type { JsonObject } from '../../utils/json-pointer'
@@ -222,6 +223,24 @@ export type DataContextProviderProps<Data extends JsonObject> =
   }
 
 const isArrayJsonPointer = /^\/\d+(\/|$)/
+
+const subscribe = () => () => undefined
+const getClientSnapshot = () => true
+const getServerSnapshot = () => false
+
+function getSessionData(sessionStorageId: string) {
+  const sessionDataJSON = window.sessionStorage?.getItem(sessionStorageId)
+  if (sessionDataJSON) {
+    try {
+      return JSON.parse(sessionDataJSON)
+    } catch (e) {
+      // If session storage data is corrupted, clear it and use default data
+      window.sessionStorage?.removeItem(sessionStorageId)
+    }
+  }
+
+  return undefined
+}
 
 export default function Provider<Data extends JsonObject>(
   props: DataContextProviderProps<Data>
@@ -457,17 +476,18 @@ export default function Provider<Data extends JsonObject>(
   const bumpValidationVersionRef = useRef<() => void>(() => null)
 
   // - Data
+  // The server markup has no session data, so it may only be read after hydration
+  const canUseDOM = useSyncExternalStore(
+    subscribe,
+    getClientSnapshot,
+    getServerSnapshot
+  )
+  const hasReadSessionDataRef = useRef(canUseDOM)
   const initialData = useMemo<Data>(() => {
-    if (sessionStorageId && typeof window !== 'undefined') {
-      const sessionDataJSON =
-        window.sessionStorage?.getItem(sessionStorageId)
-      if (sessionDataJSON) {
-        try {
-          return JSON.parse(sessionDataJSON)
-        } catch (e) {
-          // If session storage data is corrupted, clear it and use default data
-          window.sessionStorage?.removeItem(sessionStorageId)
-        }
+    if (sessionStorageId && canUseDOM) {
+      const sessionData = getSessionData(sessionStorageId)
+      if (sessionData !== undefined) {
+        return sessionData
       }
     }
 
@@ -1867,6 +1887,30 @@ export default function Provider<Data extends JsonObject>(
       }
     }
   }, [id, initialData, extendSharedData, sharedData.data])
+
+  useLayoutEffect(() => {
+    if (!canUseDOM || hasReadSessionDataRef.current) {
+      return undefined // stop here
+    }
+
+    hasReadSessionDataRef.current = true
+
+    const sessionData = sessionStorageId
+      ? getSessionData(sessionStorageId)
+      : undefined
+    if (sessionData === undefined) {
+      return undefined // stop here
+    }
+
+    internalDataRef.current = sessionData
+    if (id) {
+      setSharedData(sessionData, { preventSyncOfSameInstance: true })
+    }
+
+    notifyDataValueSubscribers()
+    forceUpdate()
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- Only run once, after hydration
+  }, [canUseDOM])
 
   // Sync shared state when the data prop content changes so that Form.useData
   // consumers outside the Provider stay in sync. Use set() instead of extend()
