@@ -4,7 +4,10 @@
  */
 
 import { act, useState } from 'react'
+import type { ReactElement } from 'react'
 import { render, screen } from '@testing-library/react'
+import { renderToString } from 'react-dom/server'
+import { hydrateRoot } from 'react-dom/client'
 
 import '../../core/vitest/mockMatchMediaSetup'
 import { setMedia } from 'mock-match-media'
@@ -139,6 +142,63 @@ describe('MediaQuery', () => {
     )
 
     expect(screen.queryByText('medium')).toBeInTheDocument()
+  })
+
+  describe('hydration', () => {
+    const hydrate = (element: ReactElement) => {
+      isMatchMediaSupported.mockReturnValue(false)
+      const html = renderToString(element)
+      isMatchMediaSupported.mockReturnValue(true)
+
+      const container = document.createElement('div')
+      container.innerHTML = html
+      document.body.appendChild(container)
+
+      const recoverableErrors = []
+      let root: ReturnType<typeof hydrateRoot>
+      act(() => {
+        root = hydrateRoot(container, element, {
+          onRecoverableError: (error) => recoverableErrors.push(error),
+        })
+      })
+
+      const content = container.textContent
+
+      act(() => root.unmount())
+      container.remove()
+
+      return { html, recoverableErrors, content }
+    }
+
+    it('should hydrate server-rendered markup and show matching content afterwards', () => {
+      setMedia({ width: '100em' })
+
+      const { html, recoverableErrors, content } = hydrate(
+        <div>
+          <MediaQuery when={{ min: 'medium' }}>large</MediaQuery>
+        </div>
+      )
+
+      expect(html).toBe('<div></div>')
+      expect(recoverableErrors).toEqual([])
+      expect(content).toBe('large')
+    })
+
+    it('should hydrate matchOnSSR markup and hide non-matching content afterwards', () => {
+      setMedia({ width: '30em' })
+
+      const { html, recoverableErrors, content } = hydrate(
+        <div>
+          <MediaQuery matchOnSSR when={{ min: 'medium' }}>
+            large
+          </MediaQuery>
+        </div>
+      )
+
+      expect(html).toBe('<div>large</div>')
+      expect(recoverableErrors).toEqual([])
+      expect(content).toBe('')
+    })
   })
 
   it('should match for query with medium and large width', () => {
