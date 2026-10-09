@@ -9,9 +9,7 @@ import {
   exclamation_circled,
   information_circled,
 } from '../../icons'
-import type { AiToolPart, AiToolProps, AiToolState } from './types'
-
-type AiToolStatus = 'running' | 'awaiting' | 'done' | 'error' | 'canceled'
+import type { AiToolProps } from './types'
 
 const STATUS_ICONS = {
   awaiting: information_circled,
@@ -30,17 +28,15 @@ const STATUS_TEXTS = {
 
 function AiTool(props: AiToolProps) {
   const {
-    part,
     title,
-    state = part?.state ?? 'input-available',
-    errorText = part?.errorText,
+    status = 'running',
+    errorText,
     children,
     className,
     ...rest
   } = props
 
   const translation = useTranslation().Ai
-  const status = getStatus(state, part?.approval?.approved)
 
   const rootProps = useSpacing(props, {
     ...rest,
@@ -57,9 +53,7 @@ function AiTool(props: AiToolProps) {
             <Icon icon={STATUS_ICONS[status]} />
           )}
         </span>
-        <span className="dnb-ai-tool__title">
-          {title ?? part?.title ?? (part && getToolName(part))}
-        </span>
+        <span className="dnb-ai-tool__title">{title}</span>
         <span className="dnb-ai-tool__state">
           {translation[STATUS_TEXTS[status]]}
         </span>
@@ -72,29 +66,6 @@ function AiTool(props: AiToolProps) {
       {children}
     </div>
   )
-}
-
-function getStatus(state: AiToolState, approved?: boolean): AiToolStatus {
-  switch (state) {
-    case 'approval-requested':
-      return 'awaiting'
-    case 'approval-responded':
-      return approved === false ? 'canceled' : 'running'
-    case 'output-available':
-      return 'done'
-    case 'output-error':
-      return 'error'
-    case 'output-denied':
-      return 'canceled'
-    default:
-      return 'running'
-  }
-}
-
-function getToolName(part: AiToolPart) {
-  return part.type === 'dynamic-tool'
-    ? part.toolName
-    : part.type.slice('tool-'.length)
 }
 
 export default AiTool
