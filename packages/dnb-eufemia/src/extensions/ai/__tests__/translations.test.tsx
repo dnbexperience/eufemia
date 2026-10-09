@@ -37,7 +37,7 @@ describe('Ai translations', () => {
       render(
         <Provider locale={locale} translations={translations}>
           <Labels />
-          <Tool state="output-denied" />
+          <Tool status="canceled" />
         </Provider>
       )
       expect(loading()).toBe(label)
