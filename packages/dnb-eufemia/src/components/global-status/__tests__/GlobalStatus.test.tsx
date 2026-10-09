@@ -718,7 +718,10 @@ describe('GlobalStatus component', () => {
     await waitFor(() => {
       expect(
         document.querySelector('.dnb-global-status__shell')
-      ).toHaveAttribute('style', '--duration: 800ms; height: auto;')
+      ).toHaveStyle({
+        '--duration': '800ms',
+        height: 'auto',
+      })
     })
   })
 

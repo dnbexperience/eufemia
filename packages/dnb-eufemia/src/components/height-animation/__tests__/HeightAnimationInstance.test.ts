@@ -16,6 +16,14 @@ beforeEach(() => {
 })
 
 describe('HeightAnimationInstance', () => {
+  it('sets the starting height before the first animation frame', () => {
+    const inst = new HeightAnimationInstance()
+    inst.setElement(element)
+    inst.start(0, 100)
+    expect(element.style.height).toBe('0px')
+    inst.remove()
+  })
+
   it('should check for window', () => {
     // In jsdom (browser-like environment), isInBrowser should be true
     expect(new HeightAnimationInstance().isInBrowser).toBe(true)
@@ -74,6 +82,55 @@ describe('HeightAnimationInstance', () => {
   })
 
   describe('getUnknownHeight', () => {
+    it('measures a clone when retained content is closed', () => {
+      const inst = new HeightAnimationInstance()
+      inst.setElement(element)
+      element.classList.add('dnb-height-animation--hidden')
+      element.style.height = '0px'
+
+      const clone = element.cloneNode(true) as HTMLElement
+      const cloneNode = vi
+        .spyOn(element, 'cloneNode')
+        .mockReturnValue(clone)
+      const height = vi
+        .spyOn(clone, 'clientHeight', 'get')
+        .mockReturnValue(88)
+      const originalHeight = vi
+        .spyOn(element, 'clientHeight', 'get')
+        .mockReturnValue(0)
+
+      expect(inst.getUnknownHeight()).toBe(88)
+      expect(clone).not.toHaveClass('dnb-height-animation--hidden')
+      expect(clone).toHaveStyle('height: auto')
+
+      cloneNode.mockRestore()
+      height.mockRestore()
+      originalHeight.mockRestore()
+      inst.remove()
+    })
+
+    it('prefers the current height for visible content', () => {
+      const inst = new HeightAnimationInstance()
+      inst.setElement(element)
+      const clone = element.cloneNode(true) as HTMLElement
+      const cloneNode = vi
+        .spyOn(element, 'cloneNode')
+        .mockReturnValue(clone)
+      const cloneHeight = vi
+        .spyOn(clone, 'clientHeight', 'get')
+        .mockReturnValue(60)
+      const currentHeight = vi
+        .spyOn(element, 'clientHeight', 'get')
+        .mockReturnValue(100)
+
+      expect(inst.getUnknownHeight()).toBe(100)
+
+      cloneNode.mockRestore()
+      cloneHeight.mockRestore()
+      currentHeight.mockRestore()
+      inst.remove()
+    })
+
     it('should return proper height', () => {
       const inst = new HeightAnimationInstance()
       inst.setElement(element)
@@ -375,7 +432,7 @@ describe('HeightAnimationInstance', () => {
 
       inst.start(100, 200)
 
-      expect(inst.elem.style.height).toBe('')
+      expect(inst.elem.style.height).toBe('100px')
 
       nextAnimationFrame()
 
@@ -393,7 +450,7 @@ describe('HeightAnimationInstance', () => {
 
       inst.start(100, 200)
 
-      expect(elem.style.height).toBe('')
+      expect(elem.style.height).toBe('100px')
 
       nextAnimationFrame()
 
