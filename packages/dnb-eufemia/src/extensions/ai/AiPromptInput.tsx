@@ -2,6 +2,7 @@ import { useState } from 'react'
 import type { FormEvent } from 'react'
 import { clsx } from 'clsx'
 import { useSpacing } from '../../components/space/SpacingUtils'
+import mergeProps from '../../shared/helpers/mergeProps'
 import Button from '../../components/Button'
 import Textarea from '../../components/Textarea'
 import TextCounter from '../../fragments/TextCounter'
@@ -86,20 +87,24 @@ function AiPromptInput(props: AiPromptInputProps) {
 
   const textarea = (
     <Textarea
-      className="dnb-ai-prompt-input__textarea"
-      label={label ?? translation.promptLabel}
-      labelSrOnly
-      placeholder={placeholder ?? translation.promptPlaceholder}
-      value={value}
-      rows={1}
-      autoResize
-      autoResizeMaxRows={isCompact ? 4 : 8}
-      hideResizeHandle
-      stretch
-      disabled={disabled}
-      onChange={handleChange}
-      onKeyDown={handleKeyDown}
-      {...textareaProps}
+      {...mergeProps(
+        {
+          className: 'dnb-ai-prompt-input__textarea',
+          label: label ?? translation.promptLabel,
+          labelSrOnly: true,
+          placeholder: placeholder ?? translation.promptPlaceholder,
+          value,
+          rows: 1,
+          autoResize: true,
+          autoResizeMaxRows: isCompact ? 4 : 8,
+          hideResizeHandle: true,
+          stretch: true,
+          disabled,
+          onChange: handleChange,
+          onKeyDown: handleKeyDown,
+        },
+        textareaProps
+      )}
     />
   )
 
