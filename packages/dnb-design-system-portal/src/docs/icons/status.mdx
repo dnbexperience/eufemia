@@ -5,26 +5,26 @@ icon: 'check'
 order: 4
 ---
 
-import StatusIcons from 'Docs/icons/StatusIcons'
+import { StatusIconsExample } from 'Docs/icons/Examples'
 
 # Status icons
 
-Use a status icon to give a compact visual summary of an item's current state. It is a composition of an existing [Icon](/uilib/components/icon), a rounded container and semantic color tokens, not a separate component or icon set.
+Use a status icon to give a compact visual summary of an item's current state. It is a composition of an existing [Icon](/uilib/components/icon), a circular background and semantic color tokens, not a separate component or icon set.
 
-<StatusIcons />
+<StatusIconsExample />
 
 ## Pattern
 
-Use a 1.5rem medium icon inside a 2rem container, or a 1rem default icon inside a 1.5rem container. Both leave 0.25rem of space on every side. Use `--token-radius-md` for a rounded box and keep 0.5rem between the icon and its label.
+Sizes refer to the outer circle: Large is 2.5rem, Medium is 2rem, and Small is 1.5rem. Use a 24px `_medium` icon for Large and a 16px default icon for Medium and Small.
 
 Map product-specific states to the closest semantic status. The icon and visible label should communicate the exact meaning.
 
-| Semantic status | Background token                           | Icon color token              | Examples                   |
-| --------------- | ------------------------------------------ | ----------------------------- | -------------------------- |
-| Positive        | `--token-color-background-positive-subtle` | `--token-color-text-positive` | Operational, completed     |
-| Warning         | `--token-color-background-warning-subtle`  | `--token-color-text-warning`  | Degraded, delayed          |
-| Negative        | `--token-color-background-error-subtle`    | `--token-color-text-error`    | Partial or complete outage |
-| Neutral         | `--token-color-background-neutral-subtle`  | `--token-color-text-neutral`  | Maintenance, unknown       |
+| Semantic status | Background token                        | Icon color token                     | Examples                   |
+| --------------- | --------------------------------------- | ------------------------------------ | -------------------------- |
+| Positive        | `--token-color-background-positive`     | `--token-color-text-neutral-inverse` | Operational, completed     |
+| Warning         | `--token-color-background-warning`      | `--token-color-text-neutral-onlight` | Degraded, delayed          |
+| Negative        | `--token-color-background-error`        | `--token-color-text-neutral-ondark`  | Partial or complete outage |
+| Neutral         | `--token-color-background-neutral-bold` | `--token-color-text-neutral`         | Maintenance, unknown       |
 
 The semantic tokens adapt to supported dark color schemes. Follow the existing [Dark mode guide](/uilib/usage/customisation/theming/design-tokens/dark-mode) for application setup. This pattern needs no media queries or dark mode overrides.
 
@@ -39,32 +39,21 @@ import '@dnb/eufemia/style/themes/ui/ui-theme-dark-mode.min.css'
 function App() {
   return (
     <Theme colorScheme="auto">
-      <ServiceStatus />
+      <ServiceStatus size="large" />
+      <ServiceStatus size="medium" />
+      <ServiceStatus size="small" />
     </Theme>
   )
 }
 
-function ServiceStatus() {
-  return (
-    <span className="status">
-      <span className="status__icon status__icon--positive" aria-hidden>
-        <Icon icon={check_medium} size="medium" />
-      </span>
-      <VisuallyHidden>Status: </VisuallyHidden>
-      Operational
-    </span>
-  )
-}
-
-// Compact version: use the 16px icon asset with the smaller container.
-function CompactServiceStatus() {
+function ServiceStatus({ size }: { size: 'large' | 'medium' | 'small' }) {
   return (
     <span className="status">
       <span
-        className="status__icon status__icon--compact status__icon--positive"
+        className={`status__icon status__icon--${size} status__icon--positive`}
         aria-hidden
       >
-        <Icon icon={check} />
+        <Icon icon={size === 'large' ? check_medium : check} />
       </span>
       <VisuallyHidden>Status: </VisuallyHidden>
       Operational
@@ -89,40 +78,46 @@ If the application already configures `Theme` and imports its dark token stylesh
   flex: none;
   align-items: center;
   justify-content: center;
-  width: 2rem;
-  height: 2rem;
-  border-radius: var(--token-radius-md);
+  border-radius: var(--token-radius-full);
   color: var(--status-icon-color);
   background-color: var(--status-icon-background);
 }
 
-.status__icon--compact {
+.status__icon--large {
+  width: 2.5rem;
+  height: 2.5rem;
+}
+
+.status__icon--medium {
+  width: 2rem;
+  height: 2rem;
+}
+
+.status__icon--small {
   width: 1.5rem;
   height: 1.5rem;
 }
 
 .status__icon--positive {
-  --status-icon-color: var(--token-color-text-positive);
-  --status-icon-background: var(--token-color-background-positive-subtle);
+  --status-icon-color: var(--token-color-text-neutral-inverse);
+  --status-icon-background: var(--token-color-background-positive);
 }
 
 .status__icon--warning {
-  --status-icon-color: var(--token-color-text-warning);
-  --status-icon-background: var(--token-color-background-warning-subtle);
+  --status-icon-color: var(--token-color-text-neutral-onlight);
+  --status-icon-background: var(--token-color-background-warning);
 }
 
 .status__icon--negative {
-  --status-icon-color: var(--token-color-text-error);
-  --status-icon-background: var(--token-color-background-error-subtle);
+  --status-icon-color: var(--token-color-text-neutral-ondark);
+  --status-icon-background: var(--token-color-background-error);
 }
 
 .status__icon--neutral {
   --status-icon-color: var(--token-color-text-neutral);
-  --status-icon-background: var(--token-color-background-neutral-subtle);
+  --status-icon-background: var(--token-color-background-neutral-bold);
 }
 ```
-
-Use the default (non-medium) icon asset for the compact presentation. Do not scale a medium asset down.
 
 ## Accessibility
 

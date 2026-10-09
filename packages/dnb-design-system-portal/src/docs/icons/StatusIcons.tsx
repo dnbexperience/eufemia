@@ -49,6 +49,8 @@ const statuses = [
   },
 ] as const
 
+type StatusSize = 'large' | 'medium' | 'small'
+
 export default function StatusIcons() {
   const theme = useTheme()
   const [selectedColorScheme, setSelectedColorScheme] =
@@ -57,14 +59,14 @@ export default function StatusIcons() {
 
   return (
     <>
-      <Theme
-        colorScheme={colorScheme}
-        className={styles.example}
-        data-visual-test="status-icons"
-      >
-        <StatusList size="medium" label="24 px icons" />
-        <Hr />
-        <StatusList size="default" label="16 px icons" compact />
+      <Theme colorScheme={colorScheme} data-visual-test="status-icons">
+        <div className={styles.example}>
+          <StatusList size="large" />
+          <Hr />
+          <StatusList size="medium" />
+          <Hr />
+          <StatusList size="small" />
+        </div>
       </Theme>
 
       <Switch
@@ -79,15 +81,13 @@ export default function StatusIcons() {
   )
 }
 
-function StatusList({
-  size,
-  label,
-  compact = false,
-}: {
-  size: 'default' | 'medium'
-  label: string
-  compact?: boolean
-}) {
+function StatusList({ size }: { size: StatusSize }) {
+  const label = {
+    large: 'Large (2.5rem)',
+    medium: 'Medium (2rem)',
+    small: 'Small (1.5rem)',
+  }[size]
+
   return (
     <section className={styles.group}>
       <p className={styles.label}>{label}</p>
@@ -95,10 +95,10 @@ function StatusList({
         {statuses.map(({ label, icon, mediumIcon, status }) => (
           <li key={label} className={styles.item}>
             <span
-              className={`${styles.icon} ${compact ? styles.compact : ''} ${styles[status]}`}
+              className={`${styles.icon} ${styles[size]} ${styles[status]}`}
               aria-hidden
             >
-              <Icon icon={size === 'medium' ? mediumIcon : icon} />
+              <Icon icon={size === 'large' ? mediumIcon : icon} />
             </span>
             <VisuallyHidden>Status: </VisuallyHidden>
             {label}
