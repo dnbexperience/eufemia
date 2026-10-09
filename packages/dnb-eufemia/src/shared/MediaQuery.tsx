@@ -11,7 +11,7 @@ import type {
   MediaQueryState,
   MediaQueryListener,
 } from './MediaQueryUtils'
-import useHydrated from './helpers/useHydrated'
+import useCanUseDOM from './helpers/useCanUseDOM'
 
 export type { MediaQueryProps }
 
@@ -20,7 +20,7 @@ export { onMediaQueryChange }
 function MediaQuery(props: MediaQueryProps) {
   const context = useContext(Context)
   const listenerRef = useRef<MediaQueryListener | null>(null)
-  const isHydrated = useHydrated()
+  const canUseDOM = useCanUseDOM()
 
   const getInitialState = (): MediaQueryState => {
     const state: MediaQueryState = {
@@ -29,7 +29,7 @@ function MediaQuery(props: MediaQueryProps) {
     }
 
     // Use the server result while hydrating; the effect updates it after mount
-    const canMatch = isHydrated && isMatchMediaSupported()
+    const canMatch = canUseDOM && isMatchMediaSupported()
 
     if (!canMatch && props.matchOnSSR) {
       state.match = true
