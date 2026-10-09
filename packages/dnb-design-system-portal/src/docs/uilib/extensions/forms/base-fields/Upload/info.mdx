@@ -124,7 +124,7 @@ Return an array of [file item objects](/uilib/components/upload/properties/#file
 
 The component automatically handles asynchronous loading states during the upload process, displaying a spinner next to each file while the `fileHandler` is processing.
 
-If the `fileHandler` throws or rejects, its files show the error message. The files keep loading until the `fileHandler` settles, so add your own timeout to the requests if you need one, for example with `AbortSignal.timeout()`.
+If the `fileHandler` throws or rejects, its files show the error message, or a generic one when there is none. The files keep loading until the `fileHandler` settles, so add your own timeout to the requests if you need one, for example with `AbortSignal.timeout()`.
 
 ```js
 async function virusCheck(newFiles) {

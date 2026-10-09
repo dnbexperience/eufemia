@@ -280,6 +280,7 @@ export default {
     Upload: {
       errorRequired: 'Du måste ladda upp minst en fil.',
       errorInvalidFiles: 'Ta bort alla filer som innehåller fel.',
+      errorUploadFailed: 'Filen kunde inte laddas upp.',
     },
   } satisfies (typeof nb)['nb-NO'],
 }

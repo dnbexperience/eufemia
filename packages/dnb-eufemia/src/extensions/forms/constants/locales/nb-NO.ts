@@ -279,6 +279,7 @@ export default {
     Upload: {
       errorRequired: 'Du må laste opp minst en fil.',
       errorInvalidFiles: 'Fjern alle filer som har feil.',
+      errorUploadFailed: 'Filen kunne ikke lastes opp.',
     },
   },
 }

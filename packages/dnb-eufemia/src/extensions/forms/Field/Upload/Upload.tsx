@@ -307,8 +307,11 @@ function UploadComponent(props: FieldUploadProps) {
           try {
             incomingFiles = await fileHandler(newValidFiles)
           } catch (error) {
+            const message = error instanceof Error ? error.message : error
             const errorMessage =
-              error instanceof Error ? error.message : String(error)
+              typeof message === 'string' && message
+                ? message
+                : formsTr.errorUploadFailed
             incomingFiles = newValidFiles.map((file) => ({
               ...file,
               errorMessage,
@@ -393,6 +396,7 @@ function UploadComponent(props: FieldUploadProps) {
       setFieldState,
       setFiles,
       completeFileHandlerOperation,
+      formsTr.errorUploadFailed,
     ]
   )
 
