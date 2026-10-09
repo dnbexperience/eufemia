@@ -4,6 +4,7 @@ import Dialog from '../Dialog'
 import type { DialogContentProps, DialogProps } from '../types'
 import type { ModalContentProps } from '../../modal/types'
 import Button from '../../button/Button'
+import Tooltip from '../../tooltip/Tooltip'
 import Provider from '../../../shared/Provider'
 import { loadScss, axeComponent } from '../../../core/test-utils/testSetup'
 import { fireEvent, render, waitFor, screen } from '@testing-library/react'
@@ -61,18 +62,86 @@ describe('Dialog', () => {
     )
   })
 
-  it('appears on trigger click', () => {
+  it('appears on trigger click and dismisses its tooltip', async () => {
     render(
-      <Dialog {...props}>
+      <Dialog
+        {...props}
+        triggerProps={{
+          tooltip: (
+            <Tooltip showDelay={0} noAnimation>
+              Open
+            </Tooltip>
+          ),
+        }}
+      >
         <button>button</button>
       </Dialog>
     )
 
-    fireEvent.click(document.querySelector('button.dnb-modal__trigger'))
+    const trigger = document.querySelector('button.dnb-modal__trigger')
+    fireEvent.mouseEnter(trigger)
+    await waitFor(() => {
+      expect(
+        document.querySelector('.dnb-tooltip--active')
+      ).toBeInTheDocument()
+    })
+    fireEvent.click(trigger)
 
     expect(
       document.querySelector('button.dnb-modal__close-button')
     ).toBeInTheDocument()
+    expect(document.querySelector('.dnb-tooltip--active')).toBeNull()
+  })
+
+  it('dismisses an external tooltip when a controlled dialog opens', async () => {
+    const Example = ({ open }: { open: boolean }) => (
+      <>
+        <Button
+          id="hovered-button"
+          text="Hover"
+          tooltip={
+            <Tooltip showDelay={0} noAnimation>
+              Hint
+            </Tooltip>
+          }
+        />
+        <Dialog {...props} open={open} omitTriggerButton>
+          <Button
+            id="inside-dialog"
+            text="Inside"
+            tooltip={
+              <Tooltip showDelay={0} noAnimation>
+                Inside hint
+              </Tooltip>
+            }
+          />
+        </Dialog>
+      </>
+    )
+
+    const { rerender } = render(<Example open={false} />)
+    fireEvent.mouseEnter(document.querySelector('#hovered-button'))
+
+    await waitFor(() => {
+      expect(
+        document.querySelector('.dnb-tooltip--active')
+      ).toBeInTheDocument()
+    })
+
+    rerender(<Example open />)
+
+    await waitFor(() => {
+      expect(document.querySelector('.dnb-dialog')).toBeInTheDocument()
+      expect(document.querySelector('.dnb-tooltip--active')).toBeNull()
+    })
+
+    fireEvent.mouseEnter(document.querySelector('#inside-dialog'))
+
+    await waitFor(() => {
+      expect(
+        document.querySelector('.dnb-tooltip--active')
+      ).toHaveTextContent('Inside hint')
+    })
   })
 
   it('omits trigger button once we set omitTriggerButton', () => {
@@ -81,6 +150,105 @@ describe('Dialog', () => {
     expect(
       document.querySelector('button.dnb-modal__trigger')
     ).not.toBeInTheDocument()
+  })
+
+  it('sends along closeButtonProps to close button', () => {
+    render(
+      <Dialog open noAnimation closeButtonProps={{ text: 'Custom text' }}>
+        Content
+      </Dialog>
+    )
+
+    expect(
+      document
+        .querySelector('.dnb-modal__close-button')
+        ?.textContent?.replace(/\u200C/g, '')
+    ).toBe('Custom text')
+  })
+
+  it('closeButtonProps takes precedence over closeButtonAttributes', () => {
+    render(
+      <Dialog
+        open
+        noAnimation
+        closeButtonProps={{ text: 'New prop' }}
+        closeButtonAttributes={{ text: 'Old prop' }}
+      >
+        Content
+      </Dialog>
+    )
+
+    expect(
+      document
+        .querySelector('.dnb-modal__close-button')
+        ?.textContent?.replace(/\u200C/g, '')
+    ).toBe('New prop')
+  })
+
+  it('keeps closing when closeButtonProps has an onClick', () => {
+    const onClick = vi.fn()
+    const onClose = vi.fn()
+
+    render(
+      <Dialog noAnimation onClose={onClose} closeButtonProps={{ onClick }}>
+        Content
+      </Dialog>
+    )
+
+    fireEvent.click(document.querySelector('.dnb-modal__trigger'))
+
+    expect(
+      document.querySelector('.dnb-dialog__content')
+    ).toBeInTheDocument()
+
+    fireEvent.click(document.querySelector('.dnb-modal__close-button'))
+
+    expect(onClick).toHaveBeenCalledTimes(1)
+    expect(onClose).toHaveBeenCalledTimes(1)
+    expect(
+      document.querySelector('.dnb-dialog__content')
+    ).not.toBeInTheDocument()
+  })
+
+  it('keeps the min and max width when a style is given', () => {
+    render(
+      <Dialog
+        noAnimation
+        minWidth="20rem"
+        maxWidth="40rem"
+        style={{ color: 'red' }}
+      >
+        Content
+      </Dialog>
+    )
+
+    fireEvent.click(document.querySelector('.dnb-modal__trigger'))
+
+    const dialog = document.querySelector('.dnb-dialog') as HTMLElement
+    expect(dialog.style.minWidth).toBe('20rem')
+    expect(dialog.style.maxWidth).toBe('40rem')
+    expect(dialog.style.color).toBe('red')
+  })
+
+  it('keeps a click inside from reaching the elements around it when an onClick is given', () => {
+    const onClick = vi.fn()
+    const onOuterClick = vi.fn()
+
+    render(
+      <div role="presentation" onClick={onOuterClick}>
+        <Dialog noAnimation onClick={onClick}>
+          <p className="inside">Content</p>
+        </Dialog>
+      </div>
+    )
+
+    fireEvent.click(document.querySelector('.dnb-modal__trigger'))
+    onOuterClick.mockClear()
+
+    fireEvent.click(document.querySelector('.inside'))
+
+    expect(onClick).toHaveBeenCalledTimes(1)
+    expect(onOuterClick).not.toHaveBeenCalled()
   })
 
   it('will close by using callback method', () => {

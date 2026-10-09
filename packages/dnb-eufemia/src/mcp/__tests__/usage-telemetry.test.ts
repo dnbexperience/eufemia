@@ -201,6 +201,13 @@ describe('isTelemetryDisabled', () => {
 })
 
 describe('createUsageReporter', () => {
+  const resolver = {
+    component: async (name: string) => name === 'Button',
+    docsFile: async (path: string) =>
+      path === '/uilib/components/button.md',
+    docsDir: async (path: string) => path === '/uilib/components',
+  }
+
   beforeEach(() => {
     vi.useFakeTimers()
   })
@@ -221,16 +228,18 @@ describe('createUsageReporter', () => {
     expect(fetchImpl).not.toHaveBeenCalled()
   })
 
-  it('POSTs the record to the default endpoint and sends the version', () => {
+  it('POSTs the record to the default endpoint and sends the version', async () => {
     const fetchImpl = vi.fn().mockResolvedValue(new Response(null))
     const reporter = createUsageReporter({
       eufemiaVersion: VERSION,
       env: {},
+      resolver,
       fetchImpl: fetchImpl as unknown as typeof fetch,
       logNotice: () => undefined,
     })
 
     reporter?.onToolCall('component_doc', { name: 'Button' })
+    await vi.runAllTimersAsync()
 
     expect(fetchImpl).toHaveBeenCalledTimes(1)
     const [url, init] = fetchImpl.mock.calls[0]
@@ -290,6 +299,84 @@ describe('createUsageReporter', () => {
     const [, init] = fetchImpl.mock.calls[0]
     const body = JSON.parse(init.body)
     expect(body.path).toBeUndefined()
+  })
+
+  it('drops a component the docs do not contain but still counts the tool', async () => {
+    const fetchImpl = vi.fn().mockResolvedValue(new Response(null))
+    const reporter = createUsageReporter({
+      eufemiaVersion: VERSION,
+      env: {},
+      resolver,
+      fetchImpl: fetchImpl as unknown as typeof fetch,
+      logNotice: () => undefined,
+    })
+
+    reporter?.onToolCall('component_doc', { name: 'NotAComponent' })
+    await vi.runAllTimersAsync()
+
+    expect(fetchImpl).toHaveBeenCalledTimes(1)
+    const body = JSON.parse(fetchImpl.mock.calls[0][1].body)
+    expect(body.tool).toBe('component_doc')
+    expect(body.component).toBeUndefined()
+  })
+
+  it('sends no component or path without a resolver', async () => {
+    const fetchImpl = vi.fn().mockResolvedValue(new Response(null))
+    const reporter = createUsageReporter({
+      eufemiaVersion: VERSION,
+      env: {},
+      knownAreas: new Set(['/uilib/components/']),
+      fetchImpl: fetchImpl as unknown as typeof fetch,
+      logNotice: () => undefined,
+    })
+
+    reporter?.onToolCall('component_doc', { name: 'Button' })
+    reporter?.onToolCall('docs_read', {
+      path: '/uilib/components/button.md',
+    })
+    await vi.runAllTimersAsync()
+
+    expect(fetchImpl).toHaveBeenCalledTimes(2)
+
+    for (const [, init] of fetchImpl.mock.calls) {
+      const body = JSON.parse(init.body)
+      expect(body.component).toBeUndefined()
+      expect(body.path).toBeUndefined()
+    }
+  })
+
+  it('sends the area only for a path the docs contain', async () => {
+    const fetchImpl = vi.fn().mockResolvedValue(new Response(null))
+    const reporter = createUsageReporter({
+      eufemiaVersion: VERSION,
+      env: {},
+      knownAreas: new Set(['/uilib/components/']),
+      resolver,
+      fetchImpl: fetchImpl as unknown as typeof fetch,
+      logNotice: () => undefined,
+    })
+
+    reporter?.onToolCall('docs_read', {
+      path: '/uilib/components/button.md',
+    })
+    reporter?.onToolCall('docs_read', {
+      path: '/uilib/components/nope.md',
+    })
+    reporter?.onToolCall('docs_list', { prefix: '/uilib/components' })
+    reporter?.onToolCall('docs_list', {
+      prefix: '/uilib/components/missing',
+    })
+    await vi.runAllTimersAsync()
+
+    const paths = fetchImpl.mock.calls.map(
+      ([, init]) => JSON.parse(init.body).path
+    )
+    expect(paths).toEqual([
+      '/uilib/components/',
+      undefined,
+      '/uilib/components/',
+      undefined,
+    ])
   })
 
   it('swallows a rejected fetch without throwing', async () => {

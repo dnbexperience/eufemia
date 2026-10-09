@@ -12,6 +12,7 @@ import tsParser from '@typescript-eslint/parser'
 import docsTypesPlugin from './scripts/eslint/plugins/docs-types/index.js'
 import componentTypesPlugin from './scripts/eslint/plugins/component-types/index.js'
 import namingConventionsPlugin from './scripts/eslint/plugins/naming-conventions/index.js'
+import spreadPropsPlugin from './scripts/eslint/plugins/spread-props/index.js'
 import playwrightExtrasPlugin from './scripts/eslint/plugins/playwright-extras/index.js'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
@@ -506,9 +507,11 @@ export default [
     ],
     plugins: {
       'naming-conventions': namingConventionsPlugin,
+      'spread-props': spreadPropsPlugin,
     },
     rules: {
       'naming-conventions/no-bare-props-export': 'error',
+      'spread-props/no-unmerged-own-props': 'error',
     },
   },
   {

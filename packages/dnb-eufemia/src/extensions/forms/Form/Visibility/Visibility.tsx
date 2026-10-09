@@ -195,9 +195,9 @@ function Visibility(props: FormVisibilityProps) {
         onAnimationEnd={onAnimationEnd}
         onOpen={onOpen}
         keepInDOM={Boolean(keepInDOM)}
-        className="dnb-forms-visibility"
         compensateForGap={compensateForGap}
         {...rest}
+        className="dnb-forms-visibility"
       >
         <FieldProvider {...providerProps}>{content}</FieldProvider>
       </HeightAnimation>

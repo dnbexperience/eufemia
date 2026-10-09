@@ -6,7 +6,7 @@
 import { execSync } from 'child_process'
 import fs from 'fs-extra'
 import { isCI } from 'repo-utils'
-import simpleGit from 'simple-git'
+import { simpleGit } from 'simple-git'
 import {
   getNextReleaseVersion,
   isReleaseBranch,

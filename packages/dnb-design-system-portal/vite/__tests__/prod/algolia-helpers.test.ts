@@ -101,6 +101,25 @@ describe('algolia-helpers', () => {
       })
     })
 
+    it('should use contentTitle as title when frontmatter has no title', () => {
+      const result = buildAlgoliaRecord({
+        fields: { slug: '/parent/page' },
+        frontmatter: { contentTitle: 'My Page' },
+        recordHeadings: [],
+        siblings: [
+          {
+            fields: { slug: '/parent' },
+            frontmatter: { title: 'Parent' },
+          },
+        ],
+      })
+
+      expect(result).toMatchObject({
+        slug: '/parent/page',
+        title: 'My Page',
+      })
+    })
+
     it('should promote h1 heading to title when frontmatter has no title', () => {
       const result = buildAlgoliaRecord({
         fields: { slug: '/page' },
@@ -235,6 +254,9 @@ describe('algolia-helpers', () => {
   })
 
   describe('push-algolia.mjs', () => {
+    // The child process boots the whole page graph. The test budget has to
+    // outlast the execFileSync timeout below, so a hung script is reported
+    // as a script failure rather than as a test timeout.
     it('should run under plain Node without module resolution errors', () => {
       const script = path.resolve(portalRoot, 'prod/push-algolia.mjs')
 
@@ -245,6 +267,6 @@ describe('algolia-helpers', () => {
           timeout: 30_000,
         })
       }).not.toThrow()
-    })
+    }, 60_000)
   })
 })

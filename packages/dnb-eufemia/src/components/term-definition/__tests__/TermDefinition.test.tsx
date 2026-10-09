@@ -403,6 +403,38 @@ describe('TermDefinition', () => {
     expect(document.activeElement).not.toBe(input)
     expect(input).not.toHaveFocus()
   })
+
+  it('keeps toggling when an onClick is given', () => {
+    const onClick = vi.fn()
+
+    render(
+      <TermDefinition content={definition} onClick={onClick}>
+        {term}
+      </TermDefinition>
+    )
+
+    const trigger = document.querySelector('.dnb-term-definition__trigger')
+    fireEvent.click(trigger)
+
+    expect(onClick).toHaveBeenCalledTimes(1)
+    expect(trigger).toHaveAttribute('aria-expanded', 'true')
+  })
+
+  it('keeps toggling with the keyboard when an onKeyDown is given', () => {
+    const onKeyDown = vi.fn()
+
+    render(
+      <TermDefinition content={definition} onKeyDown={onKeyDown}>
+        {term}
+      </TermDefinition>
+    )
+
+    const trigger = document.querySelector('.dnb-term-definition__trigger')
+    fireEvent.keyDown(trigger, { key: 'Enter' })
+
+    expect(onKeyDown).toHaveBeenCalledTimes(1)
+    expect(trigger).toHaveAttribute('aria-expanded', 'true')
+  })
 })
 
 describe('TermDefinition aria', () => {

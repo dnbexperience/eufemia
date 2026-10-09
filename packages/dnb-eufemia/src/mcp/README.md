@@ -39,8 +39,8 @@ The server exposes these tools:
 - `docs_search` - Search across markdown docs (supports multi-word queries).
 - `component_find` - Resolve component doc/properties/events paths (supports dot notation like `Field.Address`).
 - `component_doc` - Return markdown documentation for a component.
-- `component_api` - Return JSON blocks extracted from component markdown.
-- `component_props` - Return JSON blocks for component properties/events.
+- `component_api` - Return all JSON blocks extracted from component markdown, including translations.
+- `component_props` - Return only the JSON blocks for component properties/events.
 
 ## Transports
 
@@ -122,7 +122,8 @@ docs accordingly. It is **on by default** and **opt-out**.
 **What is collected** (a closed, public vocabulary only):
 
 - the tool name (from the fixed set of registered tools);
-- for a component tool, the component name (e.g. `Button`, `Field.Address`);
+- for a component tool, the component name (e.g. `Button`, `Field.Address`),
+  only when the docs contain it;
 - for `docs_read` / `docs_list`, the leading documentation area (e.g.
   `/uilib/components/`), gated against the areas this server's own docs
   actually contain — a path outside the docs (or a model's guess) is dropped

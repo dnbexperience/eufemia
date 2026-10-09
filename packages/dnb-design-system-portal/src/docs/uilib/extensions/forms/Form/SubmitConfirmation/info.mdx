@@ -69,6 +69,7 @@ import { Form } from '@dnb/eufemia/extensions/forms'
 render(
   <Form.Handler>
     <Form.SubmitConfirmation
+      preventSubmitWhen={() => true}
       renderWithState={({ connectWithDialog }) => {
         return (
           <Dialog

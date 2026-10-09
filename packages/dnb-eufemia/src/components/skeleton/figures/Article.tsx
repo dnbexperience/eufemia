@@ -21,6 +21,7 @@ export type SkeletonArticleProps = {
 function SkeletonArticle({
   rows = 3,
   children = null,
+  className,
   ...rest
 }: SkeletonArticleProps) {
   const rowsLength = useMemo(() => {
@@ -40,7 +41,8 @@ function SkeletonArticle({
     <div
       className={clsx(
         'dnb-skeleton__figure',
-        'dnb-skeleton__figure--show'
+        'dnb-skeleton__figure--show',
+        className
       )}
       aria-busy
       {...rest}

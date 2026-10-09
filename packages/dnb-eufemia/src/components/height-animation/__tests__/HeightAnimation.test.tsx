@@ -1,5 +1,10 @@
 import { useRef } from 'react'
-import type { RefObject } from 'react'
+import type {
+  CSSProperties,
+  DetailedHTMLProps,
+  HTMLAttributes,
+  RefObject,
+} from 'react'
 import { render, waitFor } from '@testing-library/react'
 import { renderToString } from 'react-dom/server'
 import HeightAnimation from '../HeightAnimation'
@@ -167,11 +172,41 @@ describe('HeightAnimation', () => {
 
     rerender(<HeightAnimation open />)
 
-    expect(getElement()).toHaveAttribute('style', '')
+    expect(getElement()).toHaveAttribute('style', 'height: 0px;')
 
     runAnimation()
 
     expect(getElement()).toHaveAttribute('style', 'height: auto;')
+  })
+
+  it('should keep the first paint style when a style is given', () => {
+    const receivedStyles: Array<CSSProperties> = []
+    const Element = ({
+      style,
+      children,
+    }: DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement>) => {
+      receivedStyles.push(style)
+      return <div style={style}>{children}</div>
+    }
+
+    const { rerender } = render(
+      <HeightAnimation
+        open={false}
+        element={Element}
+        style={{ color: 'red' }}
+      >
+        content
+      </HeightAnimation>
+    )
+    rerender(
+      <HeightAnimation open element={Element} style={{ color: 'red' }}>
+        content
+      </HeightAnimation>
+    )
+
+    expect(receivedStyles).toContainEqual(
+      expect.objectContaining({ visibility: 'hidden', color: 'red' })
+    )
   })
 
   describe('compensateForGap', () => {

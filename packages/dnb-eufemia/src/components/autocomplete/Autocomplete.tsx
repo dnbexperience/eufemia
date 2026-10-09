@@ -12,7 +12,6 @@ import {
   useState,
 } from 'react'
 import type {
-  ChangeEvent,
   ComponentType,
   ElementType,
   FocusEvent,
@@ -50,6 +49,7 @@ import {
 import { IS_MAC, debounce, hasSelectedText } from '../../shared/helpers'
 import { highlightText } from '../../shared/helpers/highlightText'
 import useId from '../../shared/helpers/useId'
+import mergeProps from '../../shared/helpers/mergeProps'
 import useMountEffect from '../../shared/helpers/useMountEffect'
 import { useIsomorphicLayoutEffect } from '../../shared/helpers/useIsomorphicLayoutEffect'
 import Context from '../../shared/Context'
@@ -64,6 +64,7 @@ import IconPrimary from '../icon-primary/IconPrimary'
 import Icon from '../icon/Icon'
 import { chevron_down, chevron_up } from '../../icons'
 import Input, { SubmitButton } from '../input/Input'
+import type { InputChangeEvent, InputFocusEvent } from '../input/types'
 import ProgressIndicator from '../progress-indicator/ProgressIndicator'
 import DrawerList from '../../fragments/drawer-list/DrawerList'
 import { ItemContent } from '../../fragments/drawer-list/DrawerListItem'
@@ -1402,13 +1403,7 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
 
   // Event handlers
   const onInputChangeHandler = useCallback(
-    ({
-      value: val,
-      event,
-    }: {
-      value: string
-      event: ChangeEvent<HTMLInputElement>
-    }) => {
+    ({ value: val, event }: InputChangeEvent) => {
       selectAllActiveRef.current = false
       setTypedInputValue(val)
       setInputValueState(val)
@@ -1517,7 +1512,7 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
   )
 
   const onInputFocusHandler = useCallback(
-    (event: FocusEvent<HTMLInputElement>) => {
+    (event: InputFocusEvent | FocusEvent<HTMLInputElement>) => {
       if (skipFocusDuringChange) {
         return undefined // stop here
       }
@@ -1532,7 +1527,7 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
 
       if (!hasFocusRef.current) {
         if (openOnFocus && hasValidData()) {
-          const { value } = event.target
+          const value = 'value' in event ? event.value : event.target.value
           setVisibleByContext({ value })
         } else {
           setSearchIndex({}, null)
@@ -1594,7 +1589,7 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
   )
 
   const onBlurHandler = useCallback(
-    (event: FocusEvent<HTMLInputElement>) => {
+    (event: InputFocusEvent | FocusEvent<HTMLInputElement>) => {
       if (
         preventFiringBlurEvent.current ||
         drawerList._hasFocusOnElementRef?.current ||
@@ -2014,15 +2009,19 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
     'aria-haspopup': 'listbox' as const,
     'aria-expanded': isExpanded,
 
-    onMouseDown: onInputClickHandler,
-    onKeyDown: onInputKeyDownHandler,
     onChange: onInputChangeHandler,
     onFocus: onInputFocusHandler,
     onBlur: onBlurHandler,
     iconPosition: iconPosition,
     disabled,
     skeleton,
-    ...attributes,
+    ...mergeProps(
+      {
+        onMouseDown: onInputClickHandler,
+        onKeyDown: onInputKeyDownHandler,
+      },
+      attributes
+    ),
   }
 
   if (!(parseFloat(String(selectedItem)) > -1)) {
@@ -2208,7 +2207,6 @@ function AutocompleteComponent(ownProps: AutocompleteAllProps) {
                 onClear={onClear}
                 ref={_refInput}
                 {...inputParams}
-                {...statusProps}
               />
             )}
 

@@ -16,12 +16,17 @@ export type AnalyticsRecord = {
 
 export type McpCount = { name: string; count: number }
 
-export type McpUsage = {
+export type McpTransportUsage = {
   total?: number
   perTool?: McpCount[]
   perComponent?: McpCount[]
   perPath?: McpCount[]
   perVersion?: McpCount[]
+}
+
+export type McpUsage = {
+  web?: McpTransportUsage
+  local?: McpTransportUsage
 }
 
 export type ComponentUsage = {
@@ -213,14 +218,14 @@ export function dashboardView(
   const rows = env ? allRows.filter((r) => r.env === env) : allRows
 
   const kpis: Kpi[] = [
-    { value: rows.length, label: 'Records' },
+    { value: rows.length, label: 'Latest views' },
     {
       value: new Set(rows.map((r) => r.label).filter(Boolean)).size,
       label: 'Unique pages',
     },
     {
       value: new Set(rows.map((r) => r.day).filter(Boolean)).size,
-      label: 'Days with data',
+      label: 'Days covered',
     },
   ]
 

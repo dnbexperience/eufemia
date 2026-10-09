@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef } from 'react'
+import { createRef, useContext, useEffect, useRef } from 'react'
 import type { RefObject } from 'react'
 import userEvent from '@testing-library/user-event'
 import { fireEvent, render } from '@testing-library/react'
@@ -98,6 +98,21 @@ describe('Step', () => {
 
     const stepElement = document.querySelector('.dnb-forms-step')
     expect(stepElementRef.current).toBe(stepElement)
+  })
+
+  it('should set stepElementRef and the given ref when a ref is given', () => {
+    const stepElementRef = { current: null }
+    const ref = createRef<HTMLElement>()
+
+    render(
+      <WizardContext value={{ stepElementRef }}>
+        <Wizard.Step ref={ref}>Step Content</Wizard.Step>
+      </WizardContext>
+    )
+
+    const stepElement = document.querySelector('.dnb-forms-step')
+    expect(stepElementRef.current).toBe(stepElement)
+    expect(ref.current).toBe(stepElement)
   })
 
   it('should set title as aria-label', () => {

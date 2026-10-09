@@ -23,6 +23,7 @@ function ProgressIndicatorCircular(
     customColors,
     customCircleWidth,
     counterClockwise = false,
+    className,
     ...rest
   } = props
   const keepAnimatingRef = useRef(true)
@@ -145,7 +146,8 @@ function ProgressIndicatorCircular(
         'dnb-progress-indicator__circular',
         size && `dnb-progress-indicator__circular--${size}`,
         progressIsControlled &&
-          'dnb-progress-indicator__circular--has-progress-value'
+          'dnb-progress-indicator__circular--has-progress-value',
+        className
       )}
       {...remainingDOMAttributes}
     >

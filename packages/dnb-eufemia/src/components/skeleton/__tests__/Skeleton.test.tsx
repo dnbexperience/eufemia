@@ -6,6 +6,7 @@
 import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
 import type { SkeletonProps } from '../Skeleton'
 import Skeleton from '../Skeleton'
+import { Article, Circle, Product, Table } from '../figures'
 import Input from '../../input/Input'
 import P from '../../../elements/P'
 import { render } from '@testing-library/react'
@@ -37,6 +38,23 @@ describe('Skeleton component', () => {
     const Comp = render(<Skeleton {...props} />)
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
+
+  it.each([
+    ['Article', Article],
+    ['Circle', Circle],
+    ['Product', Product],
+    ['Table', Table],
+  ])(
+    'figure %s keeps its own classes when a className is given',
+    (_name, Figure) => {
+      render(<Figure className="custom" />)
+
+      expect(document.querySelector('[aria-busy]')).toHaveClass(
+        'dnb-skeleton__figure',
+        'custom'
+      )
+    }
+  )
 })
 
 // React's deprecated .defaultProps would convert undefined values to the

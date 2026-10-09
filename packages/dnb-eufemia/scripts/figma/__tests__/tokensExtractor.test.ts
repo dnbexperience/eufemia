@@ -6,7 +6,7 @@ import {
   type FigmaLocalVariables,
 } from '../tasks/tokensExtractor'
 import { createFigmaClient } from '../helpers/figmaClient'
-import { readFileSync } from 'node:fs'
+import { existsSync, readFileSync } from 'node:fs'
 import path from 'path'
 import fs from 'fs-extra'
 import { log } from '../../lib'
@@ -20,14 +20,14 @@ const white = { r: 1, g: 1, b: 1, a: 1 }
 const green = { r: 0, g: 0.4470588266849518, b: 0.4470588266849518, a: 1 }
 
 /** The remaining brand modes only exist so every configured export can be written */
-const restModes = ['1:2', '1:3', '1:4']
+const restModes = ['1:2', '1:3', '1:4', '1:5', '1:6']
 const inAllModes = <Value>(value: Value) =>
   Object.fromEntries(restModes.map((modeId) => [modeId, value]))
 
 const meta: FigmaLocalVariables = {
   variableCollections: {
-    'VariableCollectionId:1:1': {
-      id: 'VariableCollectionId:1:1',
+    'VariableCollectionId:53684:1279': {
+      id: 'VariableCollectionId:53684:1279',
       name: 'brand',
       modes: [
         { modeId: '1:0', name: 'dnb-light' },
@@ -35,6 +35,8 @@ const meta: FigmaLocalVariables = {
         { modeId: '1:2', name: 'sbanken-light' },
         { modeId: '1:3', name: 'sbanken-dark' },
         { modeId: '1:4', name: 'dnbcarnegie-light' },
+        { modeId: '1:5', name: 'dnbeiendom-light' },
+        { modeId: '1:6', name: 'dnbeiendom-dark' },
       ],
       defaultModeId: '1:0',
       variableIds: [
@@ -59,7 +61,7 @@ const meta: FigmaLocalVariables = {
     'VariableID:1:2': {
       id: 'VariableID:1:2',
       name: 'color/background/page-background',
-      variableCollectionId: 'VariableCollectionId:1:1',
+      variableCollectionId: 'VariableCollectionId:53684:1279',
       resolvedType: 'COLOR',
       valuesByMode: {
         '1:0': { type: 'VARIABLE_ALIAS', id: 'VariableID:def/5552:1666' },
@@ -73,7 +75,7 @@ const meta: FigmaLocalVariables = {
     'VariableID:1:3': {
       id: 'VariableID:1:3',
       name: 'radius/interactive',
-      variableCollectionId: 'VariableCollectionId:1:1',
+      variableCollectionId: 'VariableCollectionId:53684:1279',
       resolvedType: 'FLOAT',
       valuesByMode: { '1:0': 4, '1:1': 4, ...inAllModes(4) },
       hiddenFromPublishing: true,
@@ -83,7 +85,7 @@ const meta: FigmaLocalVariables = {
     'VariableID:1:4': {
       id: 'VariableID:1:4',
       name: 'font/weight/basis',
-      variableCollectionId: 'VariableCollectionId:1:1',
+      variableCollectionId: 'VariableCollectionId:53684:1279',
       resolvedType: 'STRING',
       valuesByMode: {
         '1:0': 'Regular',
@@ -96,7 +98,7 @@ const meta: FigmaLocalVariables = {
     'VariableID:1:5': {
       id: 'VariableID:1:5',
       name: 'font/weight',
-      variableCollectionId: 'VariableCollectionId:1:1',
+      variableCollectionId: 'VariableCollectionId:53684:1279',
       resolvedType: 'STRING',
       valuesByMode: {
         '1:0': 'Medium',
@@ -131,6 +133,38 @@ beforeEach(() => {
 
 afterEach(() => {
   vi.restoreAllMocks()
+})
+
+/** A second collection named "brand", as Figma allows */
+const withDuplicateBrand: FigmaLocalVariables = {
+  variableCollections: {
+    ...meta.variableCollections,
+    'VariableCollectionId:2:1': {
+      ...meta.variableCollections['VariableCollectionId:53684:1279'],
+      id: 'VariableCollectionId:2:1',
+      variableIds: ['VariableID:2:2'],
+    },
+  },
+  variables: {
+    ...meta.variables,
+    'VariableID:2:2': {
+      ...meta.variables['VariableID:1:2'],
+      id: 'VariableID:2:2',
+      variableCollectionId: 'VariableCollectionId:2:1',
+    },
+  },
+}
+
+describe('TOKEN_EXPORTS', () => {
+  it('pins every brand export to the same collection id', () => {
+    const ids = new Set(
+      TOKEN_EXPORTS.filter(({ collection }) => collection === 'brand').map(
+        ({ collectionId }) => collectionId
+      )
+    )
+
+    expect(ids).toEqual(new Set(['VariableCollectionId:53684:1279']))
+  })
 })
 
 describe('convertVariablesToTokens', () => {
@@ -271,7 +305,68 @@ describe('convertVariablesToTokens', () => {
         collection: 'spacing',
         mode: 'spacing',
       })
-    ).toThrow('Expected exactly one Figma variable collection named')
+    ).toThrow(
+      'Expected exactly one Figma variable collection named "spacing", found 0'
+    )
+  })
+
+  it('takes the pinned collection when two share a name', () => {
+    const tokens = convertVariablesToTokens({
+      meta: withDuplicateBrand,
+      collection: 'brand',
+      collectionId: 'VariableCollectionId:53684:1279',
+      mode: 'dnb-light',
+    })
+
+    expect(tokens.radius).toBeDefined()
+  })
+
+  it('skips a deleted variable that shares its name with a live one', () => {
+    const brand =
+      meta.variableCollections['VariableCollectionId:53684:1279']
+    const live = meta.variables['VariableID:1:2']
+
+    const tokens = convertVariablesToTokens({
+      meta: {
+        variableCollections: {
+          ...meta.variableCollections,
+          'VariableCollectionId:53684:1279': {
+            ...brand,
+            variableIds: [...brand.variableIds, 'VariableID:1:6'],
+          },
+        },
+        variables: {
+          ...meta.variables,
+          'VariableID:1:6': {
+            ...live,
+            id: 'VariableID:1:6',
+            deletedButReferenced: true,
+          },
+        },
+      },
+      collection: 'brand',
+      collectionId: 'VariableCollectionId:53684:1279',
+      mode: 'dnb-light',
+    })
+
+    expect(
+      tokens.color['background']['page-background'].$extensions[
+        'com.figma.variableId'
+      ]
+    ).toBe('VariableID:1:2')
+  })
+
+  it('throws when the pinned collection is gone', () => {
+    expect(() =>
+      convertVariablesToTokens({
+        meta: withDuplicateBrand,
+        collection: 'brand',
+        collectionId: 'VariableCollectionId:9:9',
+        mode: 'dnb-light',
+      })
+    ).toThrow(
+      'Expected exactly one Figma variable collection named "brand" with the id "VariableCollectionId:9:9", found 0'
+    )
   })
 
   it('names the available modes when the mode is unknown', () => {
@@ -307,26 +402,92 @@ describe('convertVariablesToTokens', () => {
     ).toThrow('points to a variable that is not part of the response')
   })
 
-  it('rejects a color value that is not plain sRGB components', () => {
-    // Figma returns this shape for a composed color (aliased color + opacity)
-    const composed = { color: { r: 1, g: 1, b: 1 }, opacity: 0.5 }
+  const withColorValue = (value) => ({
+    ...meta,
+    variables: {
+      ...meta.variables,
+      'VariableID:1:2': {
+        ...meta.variables['VariableID:1:2'],
+        valuesByMode: { '1:0': value },
+      },
+    },
+  })
 
-    expect(() =>
-      convertVariablesToTokens({
-        meta: {
-          ...meta,
-          variables: {
-            ...meta.variables,
-            'VariableID:1:2': {
-              ...meta.variables['VariableID:1:2'],
-              valuesByMode: { '1:0': composed },
-            },
-          },
-        },
-        collection: 'brand',
-        mode: 'dnb-light',
+  const pageBackground = (metaWithValue: FigmaLocalVariables) =>
+    convertVariablesToTokens({
+      meta: metaWithValue,
+      collection: 'brand',
+      collectionId: 'VariableCollectionId:53684:1279',
+      mode: 'dnb-light',
+    }).color['background']['page-background']
+
+  it('combines a composed color into components and alpha', () => {
+    const tokens = pageBackground(
+      withColorValue({ color: { r: 0, g: 0, b: 0 }, opacity: 30 })
+    )
+
+    expect(tokens.$value).toEqual({
+      colorSpace: 'srgb',
+      components: [0, 0, 0],
+      alpha: 0.30000001192092896,
+      hex: '#000000',
+    })
+  })
+
+  it('resolves the alias and the opacity of a composed color', () => {
+    const tokens = pageBackground(
+      withColorValue({
+        color: { type: 'VARIABLE_ALIAS', id: 'VariableID:def/5552:1666' },
+        opacity: 40,
       })
-    ).toThrow('has a color value that is not plain sRGB components')
+    )
+
+    expect(tokens.$value).toEqual({
+      colorSpace: 'srgb',
+      components: [1, 1, 1],
+      alpha: 0.4000000059604645,
+      hex: '#FFFFFF',
+    })
+  })
+
+  it('writes the composition of a composed color like Figma does', () => {
+    const tokens = pageBackground(
+      withColorValue({
+        color: { type: 'VARIABLE_ALIAS', id: 'VariableID:def/5552:1666' },
+        opacity: 40,
+      })
+    )
+
+    expect(tokens.$extensions['com.figma.aliasData']).toBeUndefined()
+    expect(tokens.$extensions['com.figma.composedColor']).toEqual({
+      colorArg: {
+        type: 'alias',
+        alias: {
+          targetVariableId: 'VariableID:def/5552:1666',
+          targetVariableName: 'dnb/greyscale/0',
+          targetVariableSetId: 'VariableCollectionId:abc/5552:1080',
+          targetVariableSetName: 'colors',
+        },
+      },
+      opacityArg: { type: 'number', value: 40 },
+    })
+  })
+
+  it('replaces the alpha of the aliased color with the aliased opacity', () => {
+    const tokens = pageBackground(
+      withColorValue({
+        color: { type: 'VARIABLE_ALIAS', id: 'VariableID:def/5552:1667' },
+        opacity: { type: 'VARIABLE_ALIAS', id: 'VariableID:1:3' },
+      })
+    )
+
+    expect(tokens.$value.alpha).toBe(Math.fround(0.04))
+  })
+
+  it('rejects a color value that is not plain sRGB components', () => {
+    expect(() => pageBackground(withColorValue({ r: 1, g: 1 }))).toThrow(
+      'has a color value that is not plain sRGB components'
+    )
   })
 })
 
@@ -341,11 +502,12 @@ describe('assertModesAreExported', () => {
         ...meta,
         variableCollections: {
           ...meta.variableCollections,
-          'VariableCollectionId:1:1': {
-            ...meta.variableCollections['VariableCollectionId:1:1'],
+          'VariableCollectionId:53684:1279': {
+            ...meta.variableCollections['VariableCollectionId:53684:1279'],
             modes: [
-              ...meta.variableCollections['VariableCollectionId:1:1']
-                .modes,
+              ...meta.variableCollections[
+                'VariableCollectionId:53684:1279'
+              ].modes,
               { modeId: '1:5', name: 'dnbcarnegie-dark' },
             ],
           },
@@ -354,6 +516,24 @@ describe('assertModesAreExported', () => {
     ).toThrow(
       'The Figma variable collection "brand" has modes that are not exported: dnbcarnegie-dark'
     )
+  })
+
+  it('ignores a collection that is not exported', () => {
+    expect(() =>
+      assertModesAreExported({
+        ...meta,
+        variableCollections: {
+          ...meta.variableCollections,
+          'VariableCollectionId:3:1': {
+            id: 'VariableCollectionId:3:1',
+            name: 'screen-size',
+            modes: [{ modeId: '3:0', name: 'small' }],
+            defaultModeId: '3:0',
+            variableIds: [],
+          },
+        },
+      })
+    ).not.toThrow()
   })
 })
 
@@ -396,8 +576,10 @@ describe('extractTokens', () => {
       '/tokens/brand/sbanken-light.tokens.json',
       '/tokens/brand/sbanken-dark.tokens.json',
       '/tokens/brand/dnbcarnegie-light.tokens.json',
+      '/tokens/brand/dnbeiendom-light.tokens.json',
+      '/tokens/brand/dnbeiendom-dark.tokens.json',
     ])
-    expect(fs.outputFile).toHaveBeenCalledTimes(6)
+    expect(fs.outputFile).toHaveBeenCalledTimes(8)
   })
 
   it('names the failing collection and mode', async () => {
@@ -407,8 +589,10 @@ describe('extractTokens', () => {
           ...meta,
           variableCollections: {
             ...meta.variableCollections,
-            'VariableCollectionId:1:1': {
-              ...meta.variableCollections['VariableCollectionId:1:1'],
+            'VariableCollectionId:53684:1279': {
+              ...meta.variableCollections[
+                'VariableCollectionId:53684:1279'
+              ],
               modes: [{ modeId: '1:0', name: 'dnb-light' }],
             },
           },
@@ -466,8 +650,7 @@ describe('the committed Figma exports', () => {
           }
         : leaf.$value
 
-    const addAliasTarget = (leaf) => {
-      const alias = leaf.$extensions['com.figma.aliasData']
+    const addAliasTarget = (leaf, alias, value = toValue(leaf)) => {
       const targetCollectionId = alias.targetVariableSetId
 
       meta.variableCollections[targetCollectionId] ??= {
@@ -482,7 +665,7 @@ describe('the committed Figma exports', () => {
         name: alias.targetVariableName,
         variableCollectionId: targetCollectionId,
         resolvedType: FIGMA_TYPES[leaf.$type],
-        valuesByMode: { target: toValue(leaf) },
+        valuesByMode: { target: value },
       }
     }
 
@@ -498,6 +681,24 @@ describe('the committed Figma exports', () => {
 
       const extensions = node.$extensions
       const id = extensions['com.figma.variableId']
+      const alias = extensions['com.figma.aliasData']
+      const composed = extensions['com.figma.composedColor']
+
+      const toModeValue = () => {
+        if (alias) {
+          return { type: 'VARIABLE_ALIAS', id: alias.targetVariableId }
+        }
+        if (composed) {
+          return {
+            color: {
+              type: 'VARIABLE_ALIAS',
+              id: composed.colorArg.alias.targetVariableId,
+            },
+            opacity: composed.opacityArg.value,
+          }
+        }
+        return toValue(node)
+      }
 
       meta.variableCollections[collectionId].variableIds.push(id)
       meta.variables[id] = {
@@ -505,22 +706,21 @@ describe('the committed Figma exports', () => {
         name: figmaPath.filter(Boolean).join('/'),
         variableCollectionId: collectionId,
         resolvedType: FIGMA_TYPES[node.$type],
-        valuesByMode: {
-          '1:0': extensions['com.figma.aliasData']
-            ? {
-                type: 'VARIABLE_ALIAS',
-                id: extensions['com.figma.aliasData'].targetVariableId,
-              }
-            : toValue(node),
-        },
+        valuesByMode: { '1:0': toModeValue() },
         description: node.$description,
         hiddenFromPublishing: extensions['com.figma.hiddenFromPublishing'],
         scopes: extensions['com.figma.scopes'],
         codeSyntax: extensions['com.figma.codeSyntax'],
       }
 
-      if (extensions['com.figma.aliasData']) {
-        addAliasTarget(node)
+      if (alias) {
+        addAliasTarget(node, alias)
+      }
+      if (composed) {
+        addAliasTarget(node, composed.colorArg.alias, {
+          ...toValue(node),
+          a: 1,
+        })
       }
     }
 
@@ -529,24 +729,34 @@ describe('the committed Figma exports', () => {
     return meta
   }
 
-  it.each(TOKEN_EXPORTS)('reproduces $fileName', ({ fileName, mode }) => {
-    const file = path.resolve(
-      __dirname,
-      '../../../src/style/themes/figma',
-      fileName
+  // A newly exported mode has no committed file until the next token sync
+  const committedExports = TOKEN_EXPORTS.filter(({ fileName }) =>
+    existsSync(
+      path.resolve(__dirname, '../../../src/style/themes/figma', fileName)
     )
-    const tokens = JSON.parse(readFileSync(file, 'utf-8'))
+  )
 
-    expect(
-      JSON.stringify(
-        convertVariablesToTokens({
-          meta: toLocalVariables(tokens, mode),
-          collection: 'exported',
-          mode,
-        }),
-        null,
-        2
+  it.each(committedExports)(
+    'reproduces $fileName',
+    ({ fileName, mode }) => {
+      const file = path.resolve(
+        __dirname,
+        '../../../src/style/themes/figma',
+        fileName
       )
-    ).toBe(JSON.stringify(tokens, null, 2))
-  })
+      const tokens = JSON.parse(readFileSync(file, 'utf-8'))
+
+      expect(
+        JSON.stringify(
+          convertVariablesToTokens({
+            meta: toLocalVariables(tokens, mode),
+            collection: 'exported',
+            mode,
+          }),
+          null,
+          2
+        )
+      ).toBe(JSON.stringify(tokens, null, 2))
+    }
+  )
 })

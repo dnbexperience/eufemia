@@ -67,6 +67,7 @@ function PostalCodeAndCity(props: FieldPostalCodeAndCityProps) {
     width = 'large',
     countryCode = countryCodeFromProvider ?? defaultCountry,
     size,
+    className,
     ...compositionFieldProps
   } = props
 
@@ -99,6 +100,7 @@ function PostalCodeAndCity(props: FieldPostalCodeAndCityProps) {
     label: cityLabel,
     width: cityWidth,
     errorMessages: cityErrorMessages,
+    ...cityProps
   } = handleCityDefaults(city)
 
   const usesFourDigitPattern =
@@ -145,14 +147,12 @@ function PostalCodeAndCity(props: FieldPostalCodeAndCityProps) {
     label: postalCodeLabel,
     width: postalCodeWidth,
     errorMessages: postalCodeErrorMessages,
+    ...postalCodeProps
   } = handlePostalCodeDefaults(postalCode)
 
   return (
     <CompositionField
-      className={clsx(
-        'dnb-forms-field-postal-code-and-city',
-        props.className
-      )}
+      className={clsx('dnb-forms-field-postal-code-and-city', className)}
       {...compositionFieldProps}
       width={width}
     >
@@ -184,7 +184,7 @@ function PostalCodeAndCity(props: FieldPostalCodeAndCityProps) {
         inputMode="numeric"
         autoComplete="postal-code"
         data-country-code={countryCode}
-        {...postalCode}
+        {...postalCodeProps}
         exportValidators={{ postalCodeValidator }}
         onBlurValidator={onBlurValidatorToUse}
       />
@@ -214,7 +214,7 @@ function PostalCodeAndCity(props: FieldPostalCodeAndCityProps) {
         width={cityWidth ?? 'stretch'}
         inputClassName="dnb-forms-field-postal-code-and-city__city-input"
         autoComplete="address-level2"
-        {...city}
+        {...cityProps}
       />
     </CompositionField>
   )

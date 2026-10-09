@@ -275,6 +275,7 @@ describe('portal-pages plugin', () => {
       expect(resolveId('some-other-module')).toBeUndefined()
     })
 
+    // Scanning and parsing every docs page takes more than the 5 s default.
     it('generates code with routes and allMdxNodes from load()', () => {
       const plugin = portalPagesPlugin()
       const load = plugin.load as (id: string) => string | undefined
@@ -285,7 +286,7 @@ describe('portal-pages plugin', () => {
       expect(code).toContain('export const allMdxNodes')
       expect(code).toContain('import React')
       expect(code).toContain('redirect')
-    })
+    }, 60_000)
 
     it('returns nothing for non-virtual module IDs', () => {
       const plugin = portalPagesPlugin()
@@ -568,6 +569,33 @@ describe('portal-pages plugin', () => {
 
     it('returns undefined for content without headings', () => {
       expect(extractTableOfContents('Just text')).toBeUndefined()
+    })
+
+    it('lists h3 headings as top-level items when the file has no h2', () => {
+      const content = '### First\n\nSome text\n\n### Second\n'
+      const toc = extractTableOfContents(content)
+
+      expect(toc).toEqual({
+        items: [
+          { url: '#first', title: 'First' },
+          { url: '#second', title: 'Second' },
+        ],
+      })
+    })
+
+    it('skips an h3 that appears before the first h2', () => {
+      const content = '### Orphan\n\n## Parent\n\n### Child\n'
+      const toc = extractTableOfContents(content)
+
+      expect(toc).toEqual({
+        items: [
+          {
+            url: '#parent',
+            title: 'Parent',
+            items: [{ url: '#child', title: 'Child' }],
+          },
+        ],
+      })
     })
 
     it('ignores h1 headings', () => {

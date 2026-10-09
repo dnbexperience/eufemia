@@ -242,6 +242,11 @@ function extractJsonBlocks(markdown: string) {
   return blocks
 }
 
+// Props/events blocks have a props key; translations and examples do not.
+function isPropsBlock(block: JsonValue) {
+  return typeof block === 'object' && block !== null && 'props' in block
+}
+
 function makeTextResult(text: string): ToolResult {
   return {
     content: [{ type: 'text', text }],
@@ -609,6 +614,25 @@ function createDocsContext(source: DocsSource) {
   }
 }
 
+/** Existence checks that use the same lookup as the docs tools. */
+export type UsageResolver = {
+  /** Takes the name as the caller passed it, not lowercased. */
+  component: (name: string) => Promise<boolean>
+  docsFile: (path: string) => Promise<boolean>
+  docsDir: (path: string) => Promise<boolean>
+}
+
+export function createUsageResolver(source: DocsSource): UsageResolver {
+  const context = createDocsContext(source)
+
+  return {
+    component: async (name) =>
+      (await context.resolveComponentPaths(name)).docExists,
+    docsFile: async (path) => (await source.stat(path)).kind === 'file',
+    docsDir: async (path) => (await source.stat(path)).kind === 'dir',
+  }
+}
+
 const EmptyInput = z.object({})
 
 const PORTAL_CONTENT_WORKFLOW = `# Edit Eufemia Portal Content
@@ -931,62 +955,40 @@ export function createDocsTools(
     return makeTextResult(text)
   }
 
-  const componentApi = async ({
-    name,
-  }: ComponentNameInputType): Promise<ToolResult> => {
-    const info = await context.resolveComponentPaths(name)
-    const text = await context.readCached(info.doc)
+  const withComponentJsonBlocks = async (
+    name: string,
+    toResult: (doc: string, jsonBlocks: JsonValue[]) => unknown
+  ): Promise<ToolResult> => {
+    const { doc } = await context.resolveComponentPaths(name)
+    const text = await context.readCached(doc)
 
     if (text === null) {
-      return makeTextResult(
-        JSON.stringify(
-          {
-            error: 'ENOENT',
-            message: 'component doc not found',
-            doc: info.doc,
-          },
-          null,
-          2
-        )
-      )
+      const error = {
+        error: 'ENOENT',
+        message: 'component doc not found',
+        doc,
+      }
+      return makeTextResult(JSON.stringify(error, null, 2))
     }
 
-    const jsonBlocks = extractJsonBlocks(text)
-    return makeTextResult(
-      JSON.stringify(
-        {
-          doc: info.doc,
-          jsonBlocks,
-        },
-        null,
-        2
-      )
+    const result = toResult(doc, extractJsonBlocks(text))
+    return makeTextResult(JSON.stringify(result, null, 2))
+  }
+
+  const componentApi = ({
+    name,
+  }: ComponentNameInputType): Promise<ToolResult> =>
+    withComponentJsonBlocks(name, (doc, jsonBlocks) => ({
+      doc,
+      jsonBlocks,
+    }))
+
+  const componentProps = ({
+    name,
+  }: ComponentNameInputType): Promise<ToolResult> =>
+    withComponentJsonBlocks(name, (_doc, jsonBlocks) =>
+      jsonBlocks.filter(isPropsBlock)
     )
-  }
-
-  const componentProps = async ({
-    name,
-  }: ComponentNameInputType): Promise<ToolResult> => {
-    const info = await context.resolveComponentPaths(name)
-    const text = await context.readCached(info.doc)
-
-    if (text === null) {
-      return makeTextResult(
-        JSON.stringify(
-          {
-            error: 'ENOENT',
-            message: 'component doc not found',
-            doc: info.doc,
-          },
-          null,
-          2
-        )
-      )
-    }
-
-    const blocks = extractJsonBlocks(text)
-    return makeTextResult(JSON.stringify(blocks, null, 2))
-  }
 
   return {
     docsEntry,
@@ -1188,7 +1190,7 @@ export function registerDocsTools(
     {
       title: 'Component API',
       description:
-        'Extract and return all JSON code blocks from the component documentation markdown (for example structured API metadata embedded in ```json fences). Use this when you need a machine-readable representation of a component’s API or metadata, such as props or events, and you prefer to work with parsed JSON rather than free-form markdown.',
+        'Extract and return all JSON code blocks from the component documentation markdown (for example structured API metadata embedded in ```json fences), including blocks that are not props or events, such as translations. Use this when you need every machine-readable block for a component; for props and events only, use component_props.',
       inputSchema: ComponentNameInput.shape,
     },
     (input) =>
@@ -1200,7 +1202,7 @@ export function registerDocsTools(
     {
       title: 'Component props',
       description:
-        'Return the structured JSON blocks describing a component’s properties and events, as derived from its main documentation file. Use this when you specifically need the props- and events-level schema or configuration for a component, rather than the full documentation text, and want to drive code generation, validation, or other automated reasoning from that data.',
+        'Return only the JSON blocks that describe a component’s properties and events. For every block, including translations, use component_api.',
       inputSchema: ComponentNameInput.shape,
     },
     (input) =>

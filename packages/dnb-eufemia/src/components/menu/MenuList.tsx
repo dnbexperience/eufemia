@@ -6,8 +6,14 @@ import type { MenuListProps } from './types'
 import useIsomorphicLayoutEffect from '../../shared/helpers/useIsomorphicLayoutEffect'
 
 export default function MenuList(props: MenuListProps) {
-  const { children, className, maxVisibleListItems, style, ...rest } =
-    props
+  const {
+    children,
+    className,
+    maxVisibleListItems,
+    style,
+    onKeyDown,
+    ...rest
+  } = props
 
   const context = useMenuContext()
   const ulRef = useRef<HTMLUListElement>(null)
@@ -92,6 +98,8 @@ export default function MenuList(props: MenuListProps) {
 
   const handleKeyDown = useCallback(
     (event: KeyboardEvent<HTMLUListElement>) => {
+      onKeyDown?.(event)
+
       if (!context) {
         return
       }
@@ -177,7 +185,7 @@ export default function MenuList(props: MenuListProps) {
         }
       }
     },
-    [context, getNavigableItems, focusByDomOrder]
+    [onKeyDown, context, getNavigableItems, focusByDomOrder]
   )
 
   const resolvedMaxHeight = style?.maxHeight
@@ -196,13 +204,13 @@ export default function MenuList(props: MenuListProps) {
 
   return (
     <ul
-      ref={ulRef}
       role="menu"
       tabIndex={-1}
       className={clsx('dnb-menu__list', 'dnb-no-focus', className)}
       style={Object.keys(listStyle).length > 0 ? listStyle : undefined}
       onKeyDown={handleKeyDown}
       {...rest}
+      ref={ulRef}
     >
       {children}
     </ul>

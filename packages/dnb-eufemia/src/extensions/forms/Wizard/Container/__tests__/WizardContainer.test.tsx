@@ -1,6 +1,14 @@
 import { StrictMode, useContext, useEffect } from 'react'
-import { fireEvent, render, screen, waitFor } from '@testing-library/react'
+import {
+  act,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { renderToString } from 'react-dom/server'
+import { hydrateRoot } from 'react-dom/client'
 import '../../../../../core/vitest/mockMatchMediaSetup'
 import { setMedia } from 'mock-match-media'
 import {
@@ -1664,6 +1672,60 @@ describe('Wizard.Container', () => {
       })
     })
 
+    it('should stay disabled until an async onStepChange is done when an async validator finishes first', async () => {
+      let resolveStepChange: () => void
+      const onStepChange = vi.fn(async () => {
+        await new Promise<void>((resolve) => {
+          resolveStepChange = resolve
+        })
+      })
+      const asyncValidator = async () => {
+        await wait(10)
+        return undefined
+      }
+
+      render(
+        <Form.Handler minimumAsyncBehaviorTime={10}>
+          <Wizard.Container onStepChange={onStepChange}>
+            <Wizard.Step title="Step 1">
+              <output>Step 1</output>
+              <Field.String
+                value="bar"
+                path="/foo"
+                onChangeValidator={asyncValidator}
+              />
+              <Wizard.Buttons />
+            </Wizard.Step>
+
+            <Wizard.Step title="Step 2">
+              <output>Step 2</output>
+            </Wizard.Step>
+          </Wizard.Container>
+        </Form.Handler>
+      )
+
+      fireEvent.click(nextButton())
+
+      await waitFor(() => {
+        expect(onStepChange).toHaveBeenCalledTimes(1)
+      })
+      await wait(100)
+
+      expect(output()).toHaveTextContent('Step 1')
+      expect(nextButton()).toBeDisabled()
+      expect(
+        document.querySelector(
+          '.dnb-forms-submit-indicator--state-pending'
+        )
+      ).toBeInTheDocument()
+
+      resolveStepChange()
+
+      await waitFor(() => {
+        expect(output()).toHaveTextContent('Step 2')
+      })
+    })
+
     it('should provide id prop in "onStepChange"', async () => {
       const onStepChange = vi.fn(async () => null)
 
@@ -1715,6 +1777,84 @@ describe('Wizard.Container', () => {
         preventNavigation: expect.any(Function),
         totalSteps: 2,
       })
+    })
+
+    it('should call an onStepChange that throws only once', async () => {
+      const onStepChange = vi.fn(async () => {
+        throw new Error('Request failed')
+      })
+
+      render(
+        <Form.Handler>
+          <Wizard.Container onStepChange={onStepChange}>
+            <Wizard.Step title="Step 1">
+              <output>Step 1</output>
+              <Wizard.Buttons />
+            </Wizard.Step>
+
+            <Wizard.Step title="Step 2">
+              <output>Step 2</output>
+              <Wizard.Buttons />
+            </Wizard.Step>
+          </Wizard.Container>
+        </Form.Handler>
+      )
+
+      fireEvent.click(nextButton())
+
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toHaveTextContent('Request failed')
+        expect(nextButton()).not.toBeDisabled()
+      })
+      expect(onStepChange).toHaveBeenCalledTimes(1)
+      expect(output()).toHaveTextContent('Step 1')
+    })
+
+    it('should go to the next step on the next click after an onStepChange that prevented navigation and threw', async () => {
+      let shouldFail = true
+      const onStepChange = vi.fn(
+        async (step, mode, { preventNavigation }) => {
+          if (shouldFail) {
+            shouldFail = false
+            preventNavigation()
+            throw new Error('Request failed')
+          }
+        }
+      )
+
+      render(
+        <Form.Handler>
+          <Wizard.Container onStepChange={onStepChange}>
+            <Wizard.Step title="Step 1">
+              <output>Step 1</output>
+              <Wizard.Buttons />
+            </Wizard.Step>
+
+            <Wizard.Step title="Step 2">
+              <output>Step 2</output>
+              <Wizard.Buttons />
+            </Wizard.Step>
+          </Wizard.Container>
+        </Form.Handler>
+      )
+
+      fireEvent.click(nextButton())
+
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-form-status')
+        ).toHaveTextContent('Request failed')
+        expect(nextButton()).not.toBeDisabled()
+      })
+
+      fireEvent.click(nextButton())
+
+      await waitFor(() => {
+        expect(output()).toHaveTextContent('Step 2')
+      })
+      expect(onStepChange).toHaveBeenCalledTimes(2)
     })
 
     it('should handle async onSubmit', async () => {
@@ -3391,6 +3531,74 @@ describe('Wizard.Container', () => {
       expect(onSubmit).toHaveBeenCalledTimes(0)
     })
 
+    it.each([{ keepInDOM: false }, { keepInDOM: true }])(
+      'should call an async onSubmit right away when a previous step was never visited (keepInDOM: $keepInDOM)',
+      async ({ keepInDOM }) => {
+        const onSubmit = vi.fn(async () => null)
+
+        render(
+          <Form.Handler
+            defaultData={{ foo: 'value' }}
+            onSubmit={onSubmit}
+            // Far longer than waitFor waits, so the submit can only get
+            // through if it doesn't wait for the timeout
+            asyncSubmitTimeout={60000}
+          >
+            <Wizard.Container initialActiveIndex={1}>
+              <Wizard.Step title="Step 1" keepInDOM={keepInDOM}>
+                <Field.String path="/foo" required />
+                <Wizard.Buttons />
+              </Wizard.Step>
+              <Wizard.Step title="Step 2">
+                <Form.SubmitButton />
+              </Wizard.Step>
+            </Wizard.Container>
+          </Form.Handler>
+        )
+
+        const submitButton = document.querySelector(
+          'button[type="submit"]'
+        )
+        expect(submitButton).toBeInTheDocument()
+
+        await userEvent.click(submitButton)
+
+        await waitFor(() => {
+          expect(onSubmit).toHaveBeenCalledTimes(1)
+        })
+      }
+    )
+
+    it.each([{ keepInDOM: false }, { keepInDOM: true }])(
+      'should not call an async onSubmit when a previous step that was never visited has an error (keepInDOM: $keepInDOM)',
+      async ({ keepInDOM }) => {
+        const onSubmit = vi.fn(async () => null)
+
+        render(
+          <Form.Handler onSubmit={onSubmit}>
+            <Wizard.Container initialActiveIndex={1}>
+              <Wizard.Step title="Step 1" keepInDOM={keepInDOM}>
+                <Field.String path="/foo" required />
+                <Wizard.Buttons />
+              </Wizard.Step>
+              <Wizard.Step title="Step 2">
+                <Form.SubmitButton />
+              </Wizard.Step>
+            </Wizard.Container>
+          </Form.Handler>
+        )
+
+        await userEvent.click(
+          document.querySelector('button[type="submit"]')
+        )
+
+        await expect(() => {
+          expect(onSubmit).toHaveBeenCalledTimes(1)
+        }).toNeverResolve()
+        expect(onSubmit).toHaveBeenCalledTimes(0)
+      }
+    )
+
     describe('with validation shown in menu', () => {
       it('should not show a status on submit when no error is present', async () => {
         const onSubmit = vi.fn()
@@ -4821,6 +5029,93 @@ describe('Wizard.Container', () => {
       expect(iframe.innerHTML).toBe('')
 
       expect(removedNodes).toHaveLength(0)
+    })
+
+    it('should hydrate server-rendered markup and prerender the other steps afterwards', () => {
+      const element = (
+        <Form.Handler id="hydrate-wizard">
+          <Wizard.Container>
+            <Wizard.Step title="Step 1">
+              <Field.String path="/fooStep1" />
+              <Wizard.Buttons />
+            </Wizard.Step>
+
+            <Wizard.Step title="Step 2">
+              <Field.String path="/fooStep2" />
+              <Wizard.Buttons />
+            </Wizard.Step>
+          </Wizard.Container>
+        </Form.Handler>
+      )
+
+      const originalDocument = globalThis.document
+      let html: string
+
+      try {
+        delete globalThis.document
+        html = renderToString(element)
+      } finally {
+        globalThis.document = originalDocument
+      }
+
+      const container = document.createElement('div')
+      container.innerHTML = html
+      document.body.appendChild(container)
+
+      const recoverableErrors = []
+      let root: ReturnType<typeof hydrateRoot>
+      act(() => {
+        root = hydrateRoot(container, element, {
+          onRecoverableError: (error) => recoverableErrors.push(error),
+        })
+      })
+
+      expect(recoverableErrors).toEqual([])
+      expect(
+        document.body.querySelector(
+          ':scope > iframe[title="Wizard Prerender"]'
+        )
+      ).toBeInTheDocument()
+      expect(Object.keys(Form.getData('hydrate-wizard').data)).toEqual([
+        'fooStep1',
+        'fooStep2',
+      ])
+
+      act(() => root.unmount())
+    })
+
+    it('should prerender the other steps in the first commit of a client render', () => {
+      let keysOnMount: Array<string>
+
+      const MountSpy = () => {
+        useEffect(() => {
+          keysOnMount = Object.keys(
+            Form.getData('first-commit-wizard').data
+          )
+        }, [])
+
+        return null
+      }
+
+      render(
+        <Form.Handler id="first-commit-wizard">
+          <Wizard.Container>
+            <Wizard.Step title="Step 1">
+              <Field.String path="/fooStep1" />
+              <Wizard.Buttons />
+            </Wizard.Step>
+
+            <Wizard.Step title="Step 2">
+              <Field.String path="/fooStep2" />
+              <Wizard.Buttons />
+            </Wizard.Step>
+          </Wizard.Container>
+
+          <MountSpy />
+        </Form.Handler>
+      )
+
+      expect(keysOnMount).toEqual(['fooStep1', 'fooStep2'])
     })
   })
 

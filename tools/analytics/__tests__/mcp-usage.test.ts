@@ -259,9 +259,9 @@ describe('buildMcpUsageRecord', () => {
       path: '',
       env: 'unknown',
       transport: 'local',
-      eufemiaVersion: 'unknown',
+      eufemia_version: 'unknown',
       timestamp: createdAt,
-      createdat: createdAt,
+      created_at: createdAt,
     })
   })
 

@@ -5,6 +5,7 @@ import ToolbarContext from '../Toolbar/ToolbarContext'
 import { useTranslation } from '../../../hooks'
 import { Button, Dialog } from '../../../../../components'
 import { close } from '../../../../../icons'
+import mergeProps from '../../../../../shared/helpers/mergeProps'
 import useContainerDataStore from './useContainerDataStore'
 import FieldBoundaryContext from '../../../DataContext/FieldBoundary/FieldBoundaryContext'
 import EditContainerContext from './EditContainerContext'
@@ -85,8 +86,10 @@ export default function CancelButton({
 
   return (
     <Button
-      {...triggerAttributes}
-      onClick={(args) => cancelHandler(args)}
+      {...mergeProps(
+        { onClick: (args) => cancelHandler(args) },
+        triggerAttributes
+      )}
     />
   )
 }

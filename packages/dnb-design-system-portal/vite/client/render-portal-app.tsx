@@ -1,6 +1,5 @@
 import { createRoot, hydrateRoot } from 'react-dom/client'
 import type { Root } from 'react-dom/client'
-import { releaseVersion } from 'virtual:build-info'
 
 type RootStore = {
   __portalRoot?: Root
@@ -50,18 +49,11 @@ export function renderPortalApp<Props extends object>(
     // pre-resolved before this call, so React Router won't
     // render a HydrateFallback.
     //
-    // Minor hydration mismatches (e.g. AriaLive spans from Tooltips
-    // that only render client-side) are expected and handled
-    // gracefully by React's recovery mechanism.
+    // React recovers from hydration mismatches by rendering on the
+    // client. Log them in every build, so mismatches on the
+    // published portal can be found from the browser console.
     root = hydrateRootFn(container, element, {
       onRecoverableError(error, errorInfo) {
-        // Only log hydration mismatches on local and preview builds
-        // so they surface during development without cluttering
-        // production error reporting.
-        if (releaseVersion !== '[LOCAL BUILD]') {
-          return
-        }
-
         console.group('React recoverable hydration error')
         console.error(error)
         if (errorInfo?.componentStack) {

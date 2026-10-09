@@ -278,6 +278,7 @@ export default {
     Upload: {
       errorRequired: 'You must upload a file.',
       errorInvalidFiles: 'Remove all files with errors.',
+      errorUploadFailed: 'The file could not be uploaded.',
     },
   } satisfies (typeof nb)['nb-NO'],
 }

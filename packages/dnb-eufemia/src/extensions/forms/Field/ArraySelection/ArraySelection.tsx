@@ -9,6 +9,7 @@ import type { ReturnAdditional } from '../../hooks/useFieldProps'
 import { checkForError } from '../../hooks/useFieldProps'
 import type { DefaultErrorMessages, FieldProps, Path } from '../../types'
 import { pickSpacingProps } from '../../../../components/flex/utils'
+import mergeProps from '../../../../shared/helpers/mergeProps'
 import ToggleButtonGroupContext from '../../../../components/toggle-button/ToggleButtonGroupContext'
 import type { HelpProps } from '../../../../components/help-button/HelpButtonInline'
 import type { Data } from '../Selection'
@@ -271,12 +272,6 @@ export function useCheckboxOrToggleOptions({
           id={optionsCount === 1 ? id : undefined}
           key={`option-${i}`}
           variant={variant === 'checkbox-button' ? 'checkbox' : undefined}
-          className={clsx(
-            `dnb-forms-field-array-selection__${
-              variant === 'checkbox' ? 'checkbox' : 'button'
-            }`,
-            className
-          )}
           size={size}
           label={variant === 'checkbox' ? label : undefined}
           text={variant !== 'checkbox' ? label : undefined}
@@ -290,8 +285,18 @@ export function useCheckboxOrToggleOptions({
           }
           suffix={suffix}
           role="checkbox"
-          onChange={handleSelect}
-          {...htmlAttributes}
+          {...mergeProps(
+            {
+              className: clsx(
+                `dnb-forms-field-array-selection__${
+                  variant === 'checkbox' ? 'checkbox' : 'button'
+                }`,
+                className
+              ),
+              onChange: handleSelect,
+            },
+            htmlAttributes
+          )}
           {...rest}
         />
       )

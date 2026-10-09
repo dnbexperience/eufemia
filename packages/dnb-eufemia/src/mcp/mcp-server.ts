@@ -13,7 +13,11 @@ import process from 'node:process'
 
 import { serveStdio } from '@modelcontextprotocol/server/stdio'
 
-import { createDocsServer, validateDocsRoot } from './mcp-docs-server'
+import {
+  createDocsServer,
+  createUsageResolver,
+  validateDocsRoot,
+} from './mcp-docs-server'
 import {
   computeKnownAreas,
   createUsageReporter,
@@ -40,6 +44,7 @@ async function main() {
     eufemiaVersion: readEufemiaVersion(),
     logNotice: logErr,
     knownAreas,
+    resolver: createUsageResolver(tools.source),
   })
 
   serveStdio(

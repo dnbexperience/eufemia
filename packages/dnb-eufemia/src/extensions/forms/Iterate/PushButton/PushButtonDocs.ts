@@ -17,7 +17,7 @@ export const PushButtonProperties: PropertiesTableProps = {
     status: 'optional',
   },
   '[Button](/uilib/components/button/properties)': {
-    doc: 'All button properties.',
+    doc: 'All button properties. A given `onClick` runs before the item is added, instead of replacing it. Return `false` from it to skip adding the item.',
     type: 'Various',
     status: 'optional',
   },

@@ -6,7 +6,7 @@
 const { isCI } = require('repo-utils')
 const ora = require('ora')
 const path = require('path')
-const simpleGit = require('simple-git') // More info: https://github.com/steveukx/git-js#readme
+const { simpleGit } = require('simple-git') // More info: https://github.com/steveukx/git-js#readme
 
 try {
   process.loadEnvFile()
@@ -33,6 +33,11 @@ const getCurrentBranchName = async (repo = null) => {
 const getRepo = async () => {
   const pathToRepo = path.resolve(__dirname, '../../../../')
   const repo = simpleGit(pathToRepo, {
+    allowEnvironment: [
+      'GIT_CONFIG_COUNT',
+      'GIT_CONFIG_KEY_0',
+      'GIT_CONFIG_VALUE_0',
+    ],
     unsafe: {
       allowUnsafeConfigEnvCount: true,
     },
@@ -45,8 +50,17 @@ const getRepo = async () => {
       `x-access-token:${process.env.GH_TOKEN}`
     ).toString('base64')
 
+    // simple-git throws on the git variables it guards when they are passed
+    // explicitly, so leave out the ones inherited from the environment
+    const env = Object.fromEntries(
+      Object.entries(process.env).filter(
+        ([key]) =>
+          !/^(GIT_.*|EDITOR|VISUAL|PAGER|PREFIX|SSH_ASKPASS)$/i.test(key)
+      )
+    )
+
     repo.env({
-      ...process.env,
+      ...env,
       GIT_CONFIG_COUNT: '1',
       GIT_CONFIG_KEY_0: 'http.https://github.com/.extraheader',
       GIT_CONFIG_VALUE_0: `AUTHORIZATION: basic ${authHeader}`,

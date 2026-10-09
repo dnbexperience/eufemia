@@ -65,6 +65,7 @@
     "react-dom": "19.3.0"
   },
   "devDependencies": {
+    "@11ty/gray-matter": "2.1.0",
     "@babel/core": "7.29.7",
     "@dnb/browserslist-config": "1.4.1",
     "@mdx-js/rollup": "3.1.1",
@@ -86,7 +87,6 @@
     "fs-extra": "10.0.0",
     "github-slugger": "1.4.0",
     "globby": "11.0.4",
-    "gray-matter": "4.0.3",
     "jsdom": "30.1.1",
     "mdast-util-to-string": "4.0.0",
     "micromatch": "4.0.8",

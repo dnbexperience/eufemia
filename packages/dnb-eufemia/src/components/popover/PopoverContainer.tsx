@@ -7,11 +7,13 @@ import type {
   CSSProperties,
   HTMLAttributes,
   ReactNode,
+  Ref,
   RefObject,
   SyntheticEvent,
 } from 'react'
 import { clsx } from 'clsx'
 import { getOffsetLeft, getOffsetTop } from '../../shared/helpers'
+import useCombinedRef from '../../shared/helpers/useCombinedRef'
 import type {
   PopoverAlign,
   PopoverArrow,
@@ -27,7 +29,7 @@ type PopoverContainerProps = {
   baseClassNames?: string[]
   active?: boolean
   showDelay?: number
-  attributes?: HTMLAttributes<HTMLElement>
+  attributes?: HTMLAttributes<HTMLElement> & { ref?: Ref<HTMLElement> }
   arrowPosition?: PopoverArrow
   placement?: PopoverPlacement
   alignOnTarget?: PopoverAlign
@@ -111,6 +113,7 @@ function PopoverContainer(props: PopoverContainerProps) {
   const tmpRef = useRef<HTMLSpanElement>(null)
   const elementRef =
     contentRef && 'current' in contentRef ? contentRef : tmpRef
+  const combinedElementRef = useCombinedRef(attributes?.ref, elementRef)
   const scrollViewElementRef = useRef<Element | null>(null)
   const resolvedTargetRef = useRef<Element | null>(null)
 
@@ -901,8 +904,8 @@ function PopoverContainer(props: PopoverContainerProps) {
 
   return (
     <span
-      ref={elementRef}
       {...attributes}
+      ref={combinedElementRef}
       {...{
         onMouseMove: handlePropagation,
         onMouseDown: handlePropagation,

@@ -97,12 +97,21 @@ describe('dashboard-read handler', () => {
       generatedAt: '',
       portalViews: [],
       mcpUsage: {
-        total: 0,
-        perTool: [],
-        perComponent: [],
-        perPath: [],
-        perVersion: [],
-        daily: [],
+        web: {
+          total: 0,
+          perTool: [],
+          perComponent: [],
+          perPath: [],
+          daily: [],
+        },
+        local: {
+          total: 0,
+          perTool: [],
+          perComponent: [],
+          perPath: [],
+          daily: [],
+          perVersion: [],
+        },
       },
       componentUsage: {
         total: 0,

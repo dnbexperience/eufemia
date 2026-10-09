@@ -299,6 +299,26 @@ describe('Textarea component', () => {
     expect(elem.style.height).toBe('96px')
   })
 
+  it('measures once when autoResize is enabled after a value from outside', () => {
+    const { rerender } = render(<Textarea rows={1} value="one" />)
+
+    const elem = document.querySelector('textarea')
+    const style = { lineHeight: String(1.5 * 16) } as CSSStyleDeclaration
+
+    vi.spyOn(window, 'getComputedStyle').mockImplementation(() => style)
+    vi.spyOn(elem, 'scrollHeight', 'get').mockImplementation(
+      () => 1.5 * 16 * 4
+    )
+
+    rerender(<Textarea rows={1} value="two" />)
+
+    const setHeight = vi.spyOn(elem.style, 'height', 'set')
+    rerender(<Textarea rows={1} value="two" autoResize />)
+
+    // Each measure resets the height before it reads the content height
+    expect(setHeight.mock.calls).toEqual([['auto'], ['96px']])
+  })
+
   it('resizes when autoResizeMaxRows is changed', () => {
     const { rerender } = render(
       <Textarea rows={1} autoResize autoResizeMaxRows={2} />
@@ -586,6 +606,32 @@ describe('Textarea component', () => {
     )
 
     expect(elem.style.height).toBe('120px')
+  })
+
+  it('shrinks when the value is cleared from outside', () => {
+    const { rerender } = render(
+      <Textarea
+        rows={1}
+        autoResize
+        autoResizeMaxRows={6}
+        value={'1\n2\n3\n4\n5'}
+      />
+    )
+
+    const elem = document.querySelector('textarea')
+    const style = { lineHeight: String(1.5 * 16) } as CSSStyleDeclaration
+
+    vi.spyOn(window, 'getComputedStyle').mockImplementation(() => style)
+    vi.spyOn(elem, 'scrollHeight', 'get').mockImplementation(
+      () => elem.value.split('\n').length * 1.5 * 16
+    )
+
+    // E.g. the form is reset
+    rerender(
+      <Textarea rows={1} autoResize autoResizeMaxRows={6} value="" />
+    )
+
+    expect(elem.style.height).toBe('24px')
   })
 
   it('supports hiding the resize handle', async () => {

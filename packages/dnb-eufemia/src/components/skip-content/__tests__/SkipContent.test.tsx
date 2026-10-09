@@ -1,3 +1,4 @@
+import { createRef } from 'react'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import type { SkipContentAllProps } from '../SkipContent'
 import SkipContent from '../SkipContent'
@@ -117,11 +118,66 @@ describe('SkipContent', () => {
 
     await waitFor(() => {
       expect(document.activeElement.tagName).toBe('SECTION')
+      expect(element.querySelector('.dnb-button')).not.toBeInTheDocument()
     })
-    expect(element.querySelector('.dnb-button')).not.toBeInTheDocument()
     expect(document.activeElement.classList).toContain(
       'dnb-skip-content__focus'
     )
+  })
+
+  it('should focus the shown button when a ref is given', () => {
+    const ref = createRef<HTMLButtonElement>()
+
+    render(
+      <>
+        <SkipContent selector="#unique-id" ref={ref}>
+          Aria
+        </SkipContent>
+        <Section id="unique-id">content</Section>
+      </>
+    )
+
+    const element = document.querySelector('.dnb-skip-content')
+
+    fireEvent.keyUp(element.querySelector('button.dnb-sr-only'), {
+      key: 'Tab',
+    })
+
+    const button = element.querySelector('.dnb-button')
+
+    expect(document.activeElement).toBe(button)
+    expect(ref.current).toBe(button)
+  })
+
+  it('should keep setting focus when an onClick is given', async () => {
+    const onClick = vi.fn()
+
+    render(
+      <>
+        <SkipContent
+          selector="#unique-id"
+          focusDelay={1}
+          onClick={onClick}
+        >
+          Aria
+        </SkipContent>
+        <Section id="unique-id">content</Section>
+      </>
+    )
+
+    const element = document.querySelector('.dnb-skip-content')
+
+    fireEvent.keyUp(element.querySelector('button.dnb-sr-only'), {
+      key: 'Tab',
+    })
+    fireEvent.click(element.querySelector('.dnb-button'))
+
+    expect(onClick).toHaveBeenCalledTimes(1)
+
+    await waitFor(() => {
+      expect(document.activeElement.tagName).toBe('SECTION')
+    })
+    expect(element.querySelector('.dnb-button')).not.toBeInTheDocument()
   })
 
   it('should set focus on a target whose id is not a valid CSS identifier', async () => {
@@ -200,6 +256,32 @@ describe('SkipContent', () => {
       expect(element.querySelector('.dnb-button')).not.toBeInTheDocument()
     })
     expect(document.activeElement.tagName).toBe('BODY')
+  })
+
+  it('should keep hiding the button when an onBlur is given', async () => {
+    const onBlur = vi.fn()
+
+    render(
+      <>
+        <SkipContent selector="#unique-id" focusDelay={1} onBlur={onBlur}>
+          Aria
+        </SkipContent>
+        <Section id="unique-id">content</Section>
+      </>
+    )
+
+    const element = document.querySelector('.dnb-skip-content')
+
+    fireEvent.keyUp(element.querySelector('button.dnb-sr-only'), {
+      key: 'Tab',
+    })
+    fireEvent.blur(element.querySelector('.dnb-button'))
+
+    expect(onBlur).toHaveBeenCalledTimes(1)
+
+    await waitFor(() => {
+      expect(element.querySelector('.dnb-button')).not.toBeInTheDocument()
+    })
   })
 
   it('should have aria-live with polite when visible', async () => {

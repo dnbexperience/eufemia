@@ -22,6 +22,9 @@ export default function UploadDropzone({
   children,
   className,
   hideOutline = false,
+  onDrop,
+  onDragOver,
+  onDragLeave,
   ...rest
 }: Partial<UploadAllProps> & { hideOutline?: boolean }) {
   const props = rest as Omit<UploadProps, 'title' | 'onChange' | 'id'>
@@ -118,10 +121,20 @@ export default function UploadDropzone({
   return (
     <HeightAnimation
       className={clsx(className, hover && 'dnb-upload--active')}
-      onDrop={dropHandler}
-      onDragOver={dragEnterHandler}
-      onDragLeave={dragLeaveHandler}
       {...props}
+      // Always run the own handling, so a drop cannot reach the page listener of another Upload
+      onDrop={(event) => {
+        onDrop?.(event)
+        dropHandler(event)
+      }}
+      onDragOver={(event) => {
+        onDragOver?.(event)
+        dragEnterHandler(event)
+      }}
+      onDragLeave={(event) => {
+        onDragLeave?.(event)
+        dragLeaveHandler(event)
+      }}
     >
       {children}
 

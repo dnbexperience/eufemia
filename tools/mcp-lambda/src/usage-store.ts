@@ -20,7 +20,7 @@ export async function storeMcpUsage(
 
   const byDate = new Map<string, McpUsageRecord[]>()
   for (const record of records) {
-    const date = record.createdat.slice(0, 10)
+    const date = record.created_at.slice(0, 10)
     const dateRecords = byDate.get(date) ?? []
     dateRecords.push(record)
     byDate.set(date, dateRecords)

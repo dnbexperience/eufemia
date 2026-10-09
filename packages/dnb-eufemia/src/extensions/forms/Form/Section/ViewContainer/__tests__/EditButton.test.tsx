@@ -48,6 +48,25 @@ describe('EditButton', () => {
     expect(document.querySelector('button')).not.toBeInTheDocument()
   })
 
+  it('calls "switchContainerMode" when an onClick is given', () => {
+    const switchContainerMode = vi.fn()
+    const onClick = vi.fn()
+
+    render(
+      <SectionContainerContext value={{ switchContainerMode }}>
+        <Toolbar>
+          <EditButton onClick={onClick} />
+        </Toolbar>
+      </SectionContainerContext>
+    )
+
+    fireEvent.click(document.querySelector('button'))
+
+    expect(onClick).toHaveBeenCalledTimes(1)
+    expect(switchContainerMode).toHaveBeenCalledTimes(1)
+    expect(switchContainerMode).toHaveBeenCalledWith('edit')
+  })
+
   it('supports custom properties', () => {
     render(
       <Toolbar>

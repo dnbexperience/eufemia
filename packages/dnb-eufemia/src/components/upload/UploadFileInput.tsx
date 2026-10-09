@@ -1,5 +1,12 @@
 import { useCallback, useContext, useRef } from 'react'
-import type { ReactNode, SyntheticEvent } from 'react'
+import type {
+  MouseEvent,
+  MouseEventHandler,
+  ReactNode,
+  Ref,
+  SyntheticEvent,
+} from 'react'
+import { clsx } from 'clsx'
 
 // Components
 import Button from '../button/Button'
@@ -9,6 +16,7 @@ import { folder as FolderIcon } from '../../icons'
 
 // Shared
 import useId from '../../shared/helpers/useId'
+import useCombinedRef from '../../shared/helpers/useCombinedRef'
 
 // Internal
 import { UploadContext } from './UploadContext'
@@ -20,13 +28,18 @@ const UploadFileInput = ({
   children,
   disabled,
   files,
+  onClick,
+  ref,
   ...rest
 }: {
   children?: ReactNode
   files?: UploadFile[]
   disabled?: boolean
+  onClick?: MouseEventHandler<HTMLInputElement>
+  ref?: Ref<HTMLElement>
 }) => {
   const fileInput = useRef<HTMLInputElement>(null)
+  const combinedRef = useCombinedRef(ref, fileInput)
 
   const context = useContext(UploadContext)
 
@@ -59,18 +72,23 @@ const UploadFileInput = ({
     [onInputUpload]
   )
 
-  const onClickHandler = useCallback((event: SyntheticEvent) => {
-    const target = event.target as HTMLInputElement
+  const onClickHandler = useCallback(
+    (event: MouseEvent<HTMLInputElement>) => {
+      onClick?.(event)
 
-    /**
-     * This resets the internal state.
-     * Some browsers (chromium) to check for already selected files.
-     * But we have our own logic for that.
-     * We also align the UX to be the same to all browsers,
-     * and to be same when the drag file API is used.
-     */
-    target.value = null
-  }, [])
+      const target = event.target as HTMLInputElement
+
+      /**
+       * This resets the internal state.
+       * Some browsers (chromium) to check for already selected files.
+       * But we have our own logic for that.
+       * We also align the UX to be the same to all browsers,
+       * and to be same when the drag file API is used.
+       */
+      target.value = null
+    },
+    [onClick]
+  )
 
   return (
     <div className="dnb-upload__file-input-area">
@@ -78,7 +96,6 @@ const UploadFileInput = ({
         <Button
           top={variant === 'default' ? 'medium' : undefined}
           id={`${sharedId}-input`}
-          className="dnb-upload__file-input-button"
           icon={FolderIcon}
           iconPosition="left"
           variant="secondary"
@@ -86,6 +103,10 @@ const UploadFileInput = ({
           disabled={disabled}
           text={buttonText}
           {...buttonProps}
+          className={clsx(
+            'dnb-upload__file-input-button',
+            buttonProps?.className
+          )}
           onClick={(e) => {
             openFileDialog()
             buttonProps?.onClick?.(e)
@@ -96,15 +117,15 @@ const UploadFileInput = ({
 
       <input
         aria-labelledby={`${sharedId}-input`}
-        ref={fileInput}
+        ref={combinedRef}
         accept={accept}
-        className="dnb-upload__file-input"
         type="file"
-        onChange={onChangeHandler}
         onClick={onClickHandler}
         multiple={filesAmountLimit > 1}
         disabled={disabled}
         {...rest}
+        className="dnb-upload__file-input"
+        onChange={onChangeHandler}
       />
     </div>
   )

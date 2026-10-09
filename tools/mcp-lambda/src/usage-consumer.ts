@@ -15,7 +15,7 @@ function isUsageRecord(value: unknown): value is McpUsageRecord {
     typeof record.path === 'string' &&
     typeof record.env === 'string' &&
     typeof record.timestamp === 'string' &&
-    typeof record.createdat === 'string'
+    typeof record.created_at === 'string'
   )
 }
 

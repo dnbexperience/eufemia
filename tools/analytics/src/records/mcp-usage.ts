@@ -18,7 +18,9 @@
  *
  * This intentionally duplicates the server-side validator in
  * tools/mcp-lambda/src/records/mcp-usage.ts (`analytics` keeps its own
- * `src/records/`). The two copies must be kept in sync.
+ * `src/records/`). The two copies must be kept in sync. Validation here is
+ * structural only: this side has no docs, so the producers (web Lambda and
+ * local server) check that a component or path exists before sending it.
  */
 
 /** Which MCP transport produced the event. Stamped server-side, never trusted from the client. */
@@ -154,9 +156,9 @@ export type McpUsageRecord = {
   path: string
   env: string
   transport: McpUsageTransport
-  eufemiaVersion: string
+  eufemia_version: string
   timestamp: string
-  createdat: string
+  created_at: string
 }
 
 type ValidationFailure = { ok: false; errors: string[] }
@@ -330,8 +332,8 @@ export function buildMcpUsageRecord(
     path: PATH_TOOLS.has(input.tool) ? (input.path ?? '') : '',
     env: input.env ?? 'unknown',
     transport,
-    eufemiaVersion: input.eufemiaVersion ?? 'unknown',
+    eufemia_version: input.eufemiaVersion ?? 'unknown',
     timestamp: input.timestamp ?? createdAt,
-    createdat: createdAt,
+    created_at: createdAt,
   }
 }

@@ -5,8 +5,6 @@ order: 2
 
 import { PrimaryButtonExample } from 'Docs/uilib/usage/first-steps/Examples'
 
-# The Basics
-
 The `@dnb/eufemia` is hosted on the global NPM registry. It includes all the necessary parts to build an independent layer on top of a frontend framework of your choice.
 
 It is recommended to have an application setup with a compiling/build process in place.
@@ -50,6 +48,19 @@ All the UI Components (and some HTML Elements) have individual interaction state
 - active (TouchStart)
 - focus
 - disabled
+
+## How given props are merged
+
+Eufemia components apply the props you give them on top of the ones they set themselves, either directly or through a prop object such as `closeButtonProps`. When you set the same prop as the component, the two are combined instead of yours replacing the component's:
+
+- An event handler is called together with the component's own handler for the same event, so the component keeps doing what it does. A `Drawer` still closes, and a `Wizard.NextButton` still moves to the next step.
+- A `className` is added to the component's own classes.
+- A `style` is merged with the component's own, where your values win.
+- For every other prop, your value wins. Avoid setting what the component controls itself, and use the property it offers for it instead.
+
+To keep a component from doing what it normally does, use the property it offers for that, such as [`preventClose`](/uilib/components/drawer/properties/) on a `Drawer`, or the `preventNavigation` function that [`onStepChange`](/uilib/extensions/forms/Wizard/Container/events/) gives you on a `Wizard.Container`.
+
+Fields in [Eufemia Forms](/uilib/extensions/forms/) merge the same way. See [how given attributes are merged](/uilib/extensions/forms/about-fields/#how-given-attributes-are-merged) for what that means for a field's value and validation.
 
 ## CSS Styles
 

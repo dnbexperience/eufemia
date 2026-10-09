@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
 import {
-  Button,
   Card,
   Dropdown,
   Flex,
@@ -20,7 +19,6 @@ import {
   clearSession,
   ensureSignedIn,
   getApiBaseUrl,
-  signOut,
   type Session,
 } from './auth'
 import {
@@ -31,6 +29,7 @@ import {
   rank,
   snapshotMeta,
   type DashboardPayload,
+  type McpTransportUsage,
 } from './data'
 import Kpis from './components/Kpis'
 import BarList from './components/BarList'
@@ -40,11 +39,7 @@ import './App.scss'
 type State =
   | { status: 'loading' }
   | { status: 'error'; message: string }
-  | {
-      status: 'ready'
-      session: Session | null
-      payload: DashboardPayload | null
-    }
+  | { status: 'ready'; payload: DashboardPayload | null }
 
 const COLOR_SCHEMES: ThemeColorScheme[] = ['auto', 'light', 'dark']
 
@@ -111,7 +106,7 @@ function Content({
           return
         }
 
-        setState({ status: 'ready', session, payload: demoPayload })
+        setState({ status: 'ready', payload: demoPayload })
 
         return
       }
@@ -150,7 +145,7 @@ function Content({
       }
 
       const payload = result.kind === 'data' ? result.payload : null
-      setState({ status: 'ready', session, payload })
+      setState({ status: 'ready', payload })
     }
 
     run()
@@ -178,7 +173,6 @@ function Content({
 
   return (
     <Dashboard
-      session={state.session}
       payload={state.payload}
       env={env}
       onEnvChange={setEnv}
@@ -189,14 +183,12 @@ function Content({
 }
 
 function Dashboard({
-  session,
   payload,
   env,
   onEnvChange,
   colorScheme,
   onColorSchemeChange,
 }: {
-  session: Session | null
   payload: DashboardPayload | null
   env: string
   onEnvChange: (env: string) => void
@@ -209,7 +201,7 @@ function Dashboard({
   )
 
   const mcp = payload?.mcpUsage
-  const mcpTotal = mcp?.total ?? 0
+  const mcpTotal = (mcp?.web?.total ?? 0) + (mcp?.local?.total ?? 0)
   const component = payload?.componentUsage
   const componentTotal = component?.total ?? 0
   const meta = snapshotMeta(
@@ -251,14 +243,6 @@ function Dashboard({
               )
             }
           />
-          {session && (
-            <>
-              <P>{session.name}</P>
-              <Button variant="secondary" onClick={signOut}>
-                Sign out
-              </Button>
-            </>
-          )}
         </Flex.Horizontal>
       </Flex.Horizontal>
 
@@ -269,10 +253,15 @@ function Dashboard({
           <Flex.Stack gap="large">
             {rows.length > 0 ? (
               <>
+                <P className="dashboard__meta">
+                  Shows only the most recent page views, so older views may
+                  be missing.
+                </P>
+
                 <Kpis items={kpis} />
 
                 <Card stack>
-                  <H2 size="medium">Records per day</H2>
+                  <H2 size="medium">Views per day</H2>
                   <BarList
                     items={rank(countBy(rows, 'day'), { sort: 'key' })}
                   />
@@ -297,60 +286,12 @@ function Dashboard({
           </Flex.Stack>
         </Tabs.Content>
 
-        <Tabs.Content title="MCP usage" key="mcp">
-          <Flex.Stack gap="large">
-            {mcpTotal > 0 ? (
-              <>
-                <P className="dashboard__meta">
-                  {`${mcpTotal.toLocaleString()} MCP requests`}
-                </P>
+        <Tabs.Content title="Web MCP" key="mcp-web">
+          <McpUsagePanel transport="web" usage={mcp?.web} />
+        </Tabs.Content>
 
-                <Card stack>
-                  <H2 size="medium">MCP tools</H2>
-                  <RankedTable
-                    caption="MCP tools"
-                    nameHeader="Tool"
-                    countHeader="Requests"
-                    items={mcp?.perTool ?? []}
-                  />
-                </Card>
-
-                <Card stack>
-                  <H2 size="medium">MCP components</H2>
-                  <RankedTable
-                    caption="MCP components"
-                    nameHeader="Component"
-                    countHeader="Requests"
-                    items={(mcp?.perComponent ?? []).slice(0, 15)}
-                  />
-                </Card>
-
-                <Card stack>
-                  <H2 size="medium">MCP doc paths</H2>
-                  <RankedTable
-                    caption="MCP doc paths"
-                    nameHeader="Path"
-                    countHeader="Requests"
-                    items={(mcp?.perPath ?? []).slice(0, 15)}
-                  />
-                </Card>
-
-                {(mcp?.perVersion ?? []).length > 0 && (
-                  <Card stack>
-                    <H2 size="medium">Local MCP — by Eufemia version</H2>
-                    <RankedTable
-                      caption="Local MCP by Eufemia version"
-                      nameHeader="Version"
-                      countHeader="Requests"
-                      items={(mcp?.perVersion ?? []).slice(0, 15)}
-                    />
-                  </Card>
-                )}
-              </>
-            ) : (
-              <P className="dashboard__meta">No MCP usage yet.</P>
-            )}
-          </Flex.Stack>
+        <Tabs.Content title="Local MCP" key="mcp-local">
+          <McpUsagePanel transport="local" usage={mcp?.local} />
         </Tabs.Content>
 
         <Tabs.Content title="Component usage" key="components">
@@ -397,6 +338,100 @@ function Dashboard({
           </Flex.Stack>
         </Tabs.Content>
       </Tabs>
+    </Flex.Stack>
+  )
+}
+
+type McpPanelText = {
+  label: string
+  intro: string
+  pathTitle: string
+  pathHeader: string
+  pathNote?: string
+}
+
+const MCP_PANELS: Record<'web' | 'local', McpPanelText> = {
+  web: {
+    label: 'Web MCP',
+    intro: 'requests to the hosted web MCP server.',
+    pathTitle: 'Doc paths',
+    pathHeader: 'Path',
+  },
+  local: {
+    label: 'Local MCP',
+    intro:
+      'requests from local MCP servers (the @dnb/eufemia package) with telemetry on.',
+    pathTitle: 'Doc areas',
+    pathHeader: 'Area',
+    pathNote:
+      'Counts only the leading area of a doc path, such as /uilib/components/.',
+  },
+}
+
+function McpUsagePanel({
+  transport,
+  usage,
+}: {
+  transport: keyof typeof MCP_PANELS
+  usage: McpTransportUsage | undefined
+}) {
+  const { label, intro, pathTitle, pathHeader, pathNote } =
+    MCP_PANELS[transport]
+  const total = usage?.total ?? 0
+  const perVersion = usage?.perVersion ?? []
+
+  if (total === 0) {
+    return <P className="dashboard__meta">{`No ${label} usage yet.`}</P>
+  }
+
+  return (
+    <Flex.Stack gap="large">
+      <P className="dashboard__meta">
+        {`${total.toLocaleString()} ${intro}`}
+      </P>
+
+      <Card stack>
+        <H2 size="medium">Tools</H2>
+        <RankedTable
+          caption={`${label} tools`}
+          nameHeader="Tool"
+          countHeader="Requests"
+          items={usage?.perTool ?? []}
+        />
+      </Card>
+
+      <Card stack>
+        <H2 size="medium">Components</H2>
+        <RankedTable
+          caption={`${label} components`}
+          nameHeader="Component"
+          countHeader="Requests"
+          items={(usage?.perComponent ?? []).slice(0, 15)}
+        />
+      </Card>
+
+      <Card stack>
+        <H2 size="medium">{pathTitle}</H2>
+        {pathNote && <P className="dashboard__meta">{pathNote}</P>}
+        <RankedTable
+          caption={`${label} ${pathTitle.toLowerCase()}`}
+          nameHeader={pathHeader}
+          countHeader="Requests"
+          items={(usage?.perPath ?? []).slice(0, 15)}
+        />
+      </Card>
+
+      {perVersion.length > 0 && (
+        <Card stack>
+          <H2 size="medium">Eufemia versions</H2>
+          <RankedTable
+            caption={`${label} Eufemia versions`}
+            nameHeader="Version"
+            countHeader="Requests"
+            items={perVersion.slice(0, 15)}
+          />
+        </Card>
+      )}
     </Flex.Stack>
   )
 }

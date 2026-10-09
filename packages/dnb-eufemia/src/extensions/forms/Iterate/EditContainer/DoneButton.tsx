@@ -7,6 +7,7 @@ import ToolbarContext from '../Toolbar/ToolbarContext'
 import FieldBoundaryContext from '../../DataContext/FieldBoundary/FieldBoundaryContext'
 import PushContainerContext from '../PushContainer/PushContainerContext'
 import { check } from '../../../../icons'
+import mergeProps from '../../../../shared/helpers/mergeProps'
 import type { ButtonProps } from '../../../../components/Button'
 
 type Props = ButtonProps
@@ -62,8 +63,7 @@ export default function DoneButton(props: Props) {
       className={clsx('dnb-forms-iterate__done-button', className)}
       icon={check}
       iconPosition="left"
-      onClick={doneHandler}
-      {...restProps}
+      {...mergeProps({ onClick: doneHandler }, restProps)}
     >
       {doneButton}
     </Button>

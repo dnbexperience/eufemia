@@ -36,10 +36,11 @@ export type PortalViewDaily = {
   count: number
 }
 
-// A daily MCP usage aggregate row (one per tool+component+path per day), read
-// from and written to the durable mcp_usage_daily rollup.
+// A daily MCP usage aggregate row (one per transport+tool+component+path per
+// day), read from and written to the durable mcp_usage_daily rollup.
 export type McpUsageDaily = {
   dt: string
+  transport: string
   tool: string
   component: string
   path: string
@@ -49,29 +50,35 @@ export type McpUsageDaily = {
 export type McpUsageCount = { name: string; count: number }
 export type McpUsageDay = { date: string; count: number }
 
-// The MCP usage dashboard section: overall total plus ranked breakdowns and a
-// daily series for trend/year-over-year views.
-//
-// `perVersion` is local-only: it counts transport='local' rows grouped by the
-// reported Eufemia version. The web MCP Lambda always runs latest and records no
-// version, so those rows are excluded rather than shown as a null bucket. The
-// tool/component/path breakdowns above merge both transports.
-export type McpUsageSection = {
+// MCP usage for one transport: total plus ranked breakdowns and a daily series
+// for trend/year-over-year views.
+export type McpTransportUsage = {
   total: number
   perTool: McpUsageCount[]
   perComponent: McpUsageCount[]
   perPath: McpUsageCount[]
-  perVersion: McpUsageCount[]
   daily: McpUsageDay[]
 }
 
-export const EMPTY_MCP_USAGE: McpUsageSection = {
+// The MCP usage dashboard section, split by transport: `web` is the deployed MCP
+// Lambda, `local` is the stdio server in @dnb/eufemia. The web Lambda records no
+// Eufemia version, so only `local` has `perVersion`.
+export type McpUsageSection = {
+  web: McpTransportUsage
+  local: McpTransportUsage & { perVersion: McpUsageCount[] }
+}
+
+const EMPTY_MCP_TRANSPORT_USAGE: McpTransportUsage = {
   total: 0,
   perTool: [],
   perComponent: [],
   perPath: [],
-  perVersion: [],
   daily: [],
+}
+
+export const EMPTY_MCP_USAGE: McpUsageSection = {
+  web: EMPTY_MCP_TRANSPORT_USAGE,
+  local: { ...EMPTY_MCP_TRANSPORT_USAGE, perVersion: [] },
 }
 
 // The component usage dashboard section: overall total plus ranked breakdowns by
@@ -169,15 +176,15 @@ export async function writeSnapshot(
   )
 }
 
-// Persist recomputed daily portal page-view aggregates, one object per day
-// (overwrite). The portal-views-daily/ prefix has no lifecycle rule, so these
-// survive the raw rows' 13-month expiry and keep long-range (year-over-year)
-// page-view history (including the anonymous view dimensions) available.
-export async function storePortalViewsDaily(
+// The *-daily/ prefixes have no lifecycle rule, so rollups outlive the raw rows'
+// expiry. `projectRow` must emit exactly the Glue table's columns (minus `dt`).
+export async function storeDailyRollup<T extends { dt: string }>(
   bucket: string,
-  rows: PortalViewDaily[]
+  prefix: `${string}/`,
+  rows: T[],
+  projectRow: (row: T) => Record<string, unknown>
 ): Promise<void> {
-  const byDt = new Map<string, PortalViewDaily[]>()
+  const byDt = new Map<string, T[]>()
 
   for (const row of rows) {
     const list = byDt.get(row.dt) ?? []
@@ -186,104 +193,11 @@ export async function storePortalViewsDaily(
   }
 
   for (const [dt, dtRows] of byDt) {
-    const body = dtRows
-      .map((r) =>
-        JSON.stringify({
-          path: r.path,
-          env: r.env,
-          status: r.status,
-          locale: r.locale,
-          theme: r.theme,
-          color_scheme: r.color_scheme,
-          referrer: r.referrer,
-          via_search: r.via_search,
-          count: r.count,
-        })
-      )
-      .join('\n')
-
     await s3.send(
       new PutObjectCommand({
         Bucket: bucket,
-        Key: `portal-views-daily/dt=${dt}/agg.json`,
-        Body: body,
-        ContentType: 'application/x-ndjson',
-      })
-    )
-  }
-}
-
-// Persist recomputed daily MCP usage aggregates, one object per day (overwrite).
-// The mcp-usage-daily/ prefix has no lifecycle rule, so these survive the raw
-// rows' expiry and keep long-range (year-over-year) comparison available.
-export async function storeMcpUsageDaily(
-  bucket: string,
-  rows: McpUsageDaily[]
-): Promise<void> {
-  const byDt = new Map<string, McpUsageDaily[]>()
-
-  for (const row of rows) {
-    const list = byDt.get(row.dt) ?? []
-    list.push(row)
-    byDt.set(row.dt, list)
-  }
-
-  for (const [dt, dtRows] of byDt) {
-    const body = dtRows
-      .map((r) =>
-        JSON.stringify({
-          tool: r.tool,
-          component: r.component,
-          path: r.path,
-          count: r.count,
-        })
-      )
-      .join('\n')
-
-    await s3.send(
-      new PutObjectCommand({
-        Bucket: bucket,
-        Key: `mcp-usage-daily/dt=${dt}/agg.json`,
-        Body: body,
-        ContentType: 'application/x-ndjson',
-      })
-    )
-  }
-}
-
-// Persist recomputed daily component-usage aggregates, one object per day
-// (overwrite). The component-usage-daily/ prefix has no lifecycle rule, so these
-// survive the raw rows' expiry and keep long-range (year-over-year) adoption
-// history available.
-export async function storeComponentUsageDaily(
-  bucket: string,
-  rows: ComponentUsageDaily[]
-): Promise<void> {
-  const byDt = new Map<string, ComponentUsageDaily[]>()
-
-  for (const row of rows) {
-    const list = byDt.get(row.dt) ?? []
-    list.push(row)
-    byDt.set(row.dt, list)
-  }
-
-  for (const [dt, dtRows] of byDt) {
-    const body = dtRows
-      .map((r) =>
-        JSON.stringify({
-          app: r.app,
-          component: r.component,
-          version: r.version,
-          count: r.count,
-        })
-      )
-      .join('\n')
-
-    await s3.send(
-      new PutObjectCommand({
-        Bucket: bucket,
-        Key: `component-usage-daily/dt=${dt}/agg.json`,
-        Body: body,
+        Key: `${prefix}dt=${dt}/agg.json`,
+        Body: dtRows.map((r) => JSON.stringify(projectRow(r))).join('\n'),
         ContentType: 'application/x-ndjson',
       })
     )

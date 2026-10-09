@@ -9,6 +9,7 @@ import { FilterContext } from './FilterContext'
 import { filter as filterIcon, close } from '../../icons'
 import Icon from '../icon/Icon'
 import SharedContext from '../../shared/Context'
+import useCombinedRef from '../../shared/helpers/useCombinedRef'
 
 const panelToggleIcon = Icon.transition({
   closed: filterIcon,
@@ -30,6 +31,7 @@ export type FilterPanelButtonProps = Omit<
 function FilterPanelButton({
   children,
   onClick,
+  ref,
   ...rest
 }: FilterPanelButtonProps) {
   const context = useContext(FilterContext)
@@ -44,6 +46,7 @@ function FilterPanelButton({
 
   const { panelOpen, setPanelOpen, panelButtonRef } = context
   const localRef = useRef<HTMLButtonElement>(null)
+  const combinedRef = useCombinedRef(ref, localRef)
 
   useEffect(() => {
     panelButtonRef.current = localRef.current
@@ -64,7 +67,7 @@ function FilterPanelButton({
       iconPosition="left"
       transitionState={panelOpen ? 'open' : 'closed'}
       aria-expanded={panelOpen}
-      ref={localRef}
+      ref={combinedRef}
       onClick={handleClick}
       {...rest}
     >

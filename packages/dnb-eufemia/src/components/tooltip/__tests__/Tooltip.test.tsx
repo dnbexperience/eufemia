@@ -15,6 +15,7 @@ import Anchor from '../../anchor/Anchor'
 import NumberFormat from '../../number-format/NumberFormat'
 import Popover, * as PopoverModule from '../../popover/Popover'
 import type { TooltipAllProps } from '../types'
+import { MODAL_OPEN_EVENT } from '../../modal/ModalContext'
 
 global.ResizeObserver = class {
   constructor() {
@@ -52,6 +53,102 @@ describe('Tooltip', () => {
   )
 
   const getMainElem = () => document.body.querySelector('.dnb-tooltip')
+
+  it('keeps a tooltip on a non-interactive target available after a touch tap', async () => {
+    render(<Tooltip targetElement={<span id="touch-target">Text</span>} />)
+
+    const target = document.querySelector('#touch-target')
+    fireEvent.touchStart(target)
+    fireEvent.touchEnd(target)
+    fireEvent.mouseEnter(target)
+    fireEvent.click(target)
+
+    await waitFor(() => {
+      expect(getMainElem()).toHaveClass('dnb-tooltip--active')
+    })
+  })
+
+  it('keeps updated tooltip feedback visible after activation', async () => {
+    const Component = () => {
+      const [copied, setCopied] = useState(false)
+
+      return (
+        <OriginalTooltip
+          noAnimation
+          targetElement={
+            <button onClick={() => setCopied(true)}>Copy</button>
+          }
+        >
+          {copied ? 'Copied' : 'Copy'}
+        </OriginalTooltip>
+      )
+    }
+
+    render(<Component />)
+    const button = document.querySelector('button')
+    fireEvent.mouseEnter(button)
+    fireEvent.click(button)
+
+    await waitFor(() => {
+      expect(getMainElem()).toHaveClass('dnb-tooltip--active')
+      expect(getMainElem()).toHaveTextContent('Copied')
+    })
+  })
+
+  it('fades out when a modal opens and reopens on a new hover', async () => {
+    render(
+      <OriginalTooltip
+        targetElement={<button>Button</button>}
+        showDelay={0}
+        hideDelay={500}
+      >
+        Tooltip content
+      </OriginalTooltip>
+    )
+
+    const button = document.querySelector('button')
+    fireEvent.mouseEnter(button)
+
+    await waitFor(() => {
+      expect(getMainElem()).toHaveClass('dnb-tooltip--active')
+    })
+
+    document.dispatchEvent(new Event(MODAL_OPEN_EVENT))
+
+    await waitFor(() => {
+      expect(getMainElem()).toHaveClass('dnb-tooltip--hide')
+    })
+    expect(getMainElem()).not.toHaveClass('dnb-tooltip--no-animation')
+    expect(button).not.toHaveAttribute('aria-describedby')
+
+    fireEvent.mouseLeave(button)
+    fireEvent.mouseEnter(button)
+
+    await waitFor(() => {
+      expect(getMainElem()).toHaveClass('dnb-tooltip--active')
+    })
+    expect(getMainElem()).toHaveClass('dnb-tooltip--no-animation')
+  })
+
+  it('cancels a pending tooltip show when a modal opens', async () => {
+    render(<Tooltip showDelay={50} />)
+
+    const button = document.querySelector('button')
+    fireEvent.mouseEnter(button)
+    document.dispatchEvent(new Event(MODAL_OPEN_EVENT))
+
+    await wait(70)
+
+    expect(document.querySelector('.dnb-tooltip--active')).toBeNull()
+  })
+
+  it('keeps a controlled tooltip open when a modal opens', () => {
+    render(<Tooltip open />)
+
+    document.dispatchEvent(new Event(MODAL_OPEN_EVENT))
+
+    expect(getMainElem()).toHaveClass('dnb-tooltip--active')
+  })
 
   it('should not have aria-hidden when active', async () => {
     render(<Tooltip open />)
@@ -576,6 +673,42 @@ describe('Tooltip', () => {
       })
     })
 
+    it('calls a given onMouseEnter and onMouseLeave and keeps the hover handling', async () => {
+      const onMouseEnter = vi.fn()
+      const onMouseLeave = vi.fn()
+
+      render(
+        <Tooltip
+          hideDelay={50}
+          onMouseEnter={onMouseEnter}
+          onMouseLeave={onMouseLeave}
+        />
+      )
+
+      const buttonElem = document.querySelector('button')
+
+      fireEvent.mouseEnter(buttonElem)
+
+      await waitFor(() => {
+        expect(getMainElem()).toHaveClass('dnb-tooltip--active')
+      })
+
+      fireEvent.mouseLeave(buttonElem)
+      fireEvent.mouseEnter(getMainElem())
+
+      await wait(75)
+
+      expect(getMainElem()).toHaveClass('dnb-tooltip--active')
+      expect(onMouseEnter).toHaveBeenCalledTimes(1)
+
+      fireEvent.mouseLeave(getMainElem())
+
+      await waitFor(() => {
+        expect(getMainElem()).not.toHaveClass('dnb-tooltip--active')
+      })
+      expect(onMouseLeave).toHaveBeenCalledTimes(1)
+    })
+
     it('should stay visible when mouse returns to the target', async () => {
       render(
         <OriginalTooltip
@@ -955,7 +1088,7 @@ describe('Tooltip', () => {
       )
       expect(wrapperElement.getAttribute('tabindex')).toBe('0')
       expect(wrapperElement).toHaveClass(
-        'dnb-tooltip__wrapper dnb-tab-focus',
+        'dnb-number-format dnb-number-format--select-all dnb-tooltip__wrapper dnb-tab-focus',
         { exact: true }
       )
 

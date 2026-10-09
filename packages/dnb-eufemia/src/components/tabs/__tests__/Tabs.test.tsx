@@ -37,6 +37,44 @@ const contentWrapperData = {
 }
 
 describe('Tabs component', () => {
+  it('does not restore tab focus when navigation is handled externally', () => {
+    localStorage.setItem('tabs-last-id', 'first')
+
+    render(
+      <Tabs
+        {...props}
+        data={tablistData}
+        selectedKey="second"
+        onOpenTabNavigationFn={vi.fn()}
+      />
+    )
+    fireEvent.load(window)
+
+    expect(document.activeElement).not.toBe(
+      document.querySelector('.dnb-tabs__button.selected')
+    )
+    expect(localStorage.getItem('tabs-last-id')).toBeNull()
+
+    fireEvent.click(document.querySelector('[data-tab-key="third"]'))
+    expect(localStorage.getItem('tabs-last-id')).toBeNull()
+  })
+
+  it('restores tab focus by default after navigation', () => {
+    localStorage.setItem('tabs-last-id', 'first')
+
+    render(<Tabs {...props} data={tablistData} selectedKey="second" />)
+    fireEvent.load(window)
+
+    expect(document.activeElement).toBe(
+      document.querySelector('.dnb-tabs__button.selected')
+    )
+    expect(localStorage.getItem('tabs-last-id')).toBeNull()
+
+    fireEvent.click(document.querySelector('[data-tab-key="third"]'))
+    expect(localStorage.getItem('tabs-last-id')).toBe('second')
+    localStorage.removeItem('tabs-last-id')
+  })
+
   it('should not trigger setState warnings when using shared state with ContentWrapper', () => {
     const consoleError = vi
       .spyOn(console, 'error')
@@ -75,6 +113,29 @@ describe('Tabs component', () => {
     expect(setStateWarnings).toHaveLength(0)
 
     consoleError.mockRestore()
+  })
+
+  it('should keep the ContentWrapper classes and inner space when a className or style is given', () => {
+    render(
+      <Tabs.ContentWrapper
+        id="content-wrapper"
+        contentInnerSpace={{ top: 'small' }}
+        className="custom-class"
+        style={{ color: 'red' }}
+      >
+        <p>Content</p>
+      </Tabs.ContentWrapper>
+    )
+
+    const element = document.querySelector<HTMLElement>('.custom-class')
+
+    expect(element).toHaveClass(
+      'dnb-tabs__content',
+      'dnb-no-focus',
+      'dnb-space'
+    )
+    expect(element.style.getPropertyValue('--padding-t-s')).toBe('1rem')
+    expect(element.style.color).toBe('red')
   })
 
   it('have a "selectedKey" state have to be same as prop from startup', () => {
@@ -771,6 +832,30 @@ describe('Tabs aria-controls', () => {
     // resolved twice per render (2 * renderPasses).
     expect(renderPasses).toBeGreaterThan(0)
     expect(contentFn).toHaveBeenCalledTimes(renderPasses)
+  })
+  it('keeps the inner space padding when a style is given', () => {
+    render(
+      <Tabs
+        id="tabs-list-style"
+        data={tablistData}
+        tabsInnerSpace="small"
+        render={({ Wrapper, TabsList, Tabs: TabItems, Content }) => (
+          <Wrapper>
+            <TabsList style={{ color: 'red' }}>
+              <TabItems />
+            </TabsList>
+            <Content />
+          </Wrapper>
+        )}
+      >
+        {contentWrapperData}
+      </Tabs>
+    )
+
+    const element = document.querySelector<HTMLElement>('.dnb-tabs__tabs')
+
+    expect(element.style.paddingTop).toBe('var(--spacing-small)')
+    expect(element.style.color).toBe('red')
   })
 })
 

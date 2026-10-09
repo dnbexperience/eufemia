@@ -9,6 +9,7 @@ import { clsx } from 'clsx'
 import Section from '../../section/Section'
 import ModalContext from '../ModalContext'
 import CloseButton from './CloseButton'
+import mergeProps from '../../../shared/helpers/mergeProps'
 import type { SectionProps } from '../../Section'
 
 export type ModalHeaderBarProps = {
@@ -97,9 +98,10 @@ export default function ModalHeaderBar({
       {!hideCloseButton && (
         <div className="dnb-modal__header__bar__close">
           <CloseButton
-            onClick={onCloseClickHandler}
-            closeTitle={closeTitle}
-            {...closeButtonAttributes}
+            {...mergeProps(
+              { closeTitle, onClick: onCloseClickHandler },
+              closeButtonAttributes
+            )}
           />
         </div>
       )}

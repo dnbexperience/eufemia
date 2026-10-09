@@ -74,6 +74,7 @@ const Upload = (localProps: UploadAllProps) => {
     errorLargeFile,
     errorUnsupportedFile,
     errorAmountLimit,
+    errorDeleteFailed,
     deleteButton,
     listAriaLabel,
     buttonProps,
@@ -150,6 +151,10 @@ const Upload = (localProps: UploadAllProps) => {
     ? HeightAnimation
     : UploadDropzone
 
+  // Drag events reach the drop zone, not the hidden file input the other props go to
+  const { onDrop, onDragEnter, onDragOver, onDragLeave, ...inputProps } =
+    props
+
   return (
     <UploadContext
       value={{
@@ -168,6 +173,10 @@ const Upload = (localProps: UploadAllProps) => {
               className
             ),
           })}
+          onDrop={onDrop}
+          onDragEnter={onDragEnter}
+          onDragOver={onDragOver}
+          onDragLeave={onDragLeave}
           {...(!wrapperIsHeightAnimation
             ? { hideOutline: variant === 'compact' }
             : {})}
@@ -183,7 +192,7 @@ const Upload = (localProps: UploadAllProps) => {
           <UploadFileInput
             disabled={props.disabled}
             files={files}
-            {...props}
+            {...inputProps}
           />
 
           <UploadFileList />

@@ -22,7 +22,7 @@ matches a redirect URI registered on the app registration.
 ## Sign-in
 
 Access is limited to authorised DnB users via Entra (Azure AD). The page runs an
-OpenID Connect sign-in (authorization code + PKCE, no secret in the browser);
+OAuth 2.0 sign-in (authorization code + PKCE, no secret in the browser);
 only users assigned to the app registration receive a token, which controls who
 can sign in.
 
@@ -30,6 +30,8 @@ Configure it per host: copy `config.example.json` to `config.json` (gitignored)
 and fill in the `clientId`, `tenantId`, a `redirectUri` that exactly matches one
 registered on the app (SPA platform), the `apiBaseUrl` of the dashboard data API
 and the `apiScope` (`api://<client-id>/Dashboard.Read`) it requests a token for.
+The `apiScope` is the only scope requested, so sign-in stops with an error
+without it.
 The page fetches `config.json` at runtime, so it is not bundled into the build.
 
 ## Data and access

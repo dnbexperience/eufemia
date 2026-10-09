@@ -183,12 +183,18 @@ export function useHeightAnimation(
    * to avoid flickering.
    */
   const firstPaintStyle:
-    | typeof instRef.current.firstPaintStyle
+    | Pick<
+        typeof instRef.current.firstPaintStyle,
+        'visibility' | 'opacity'
+      >
     | Record<string, never> =
     (open &&
       !isVisible &&
       !isAnimating &&
-      instRef.current?.firstPaintStyle) ||
+      instRef.current && {
+        visibility: instRef.current.firstPaintStyle.visibility,
+        opacity: instRef.current.firstPaintStyle.opacity,
+      }) ||
     {}
   const isInDOM = open || isVisible
 

@@ -4,13 +4,21 @@
  * name (from the fixed registered set) plus an optional component or doc path
  * derived from the tool's arguments. The user's free-text query is never stored.
  *
- * Validation is structural (closed character sets, bounded length, no traversal),
- * so nothing incidental in an argument can reach storage. It is not an
- * existence check: an unknown-but-well-formed component name is still recorded.
- * Component names and doc paths are stored in the form the docs server resolves
- * them to, so one component or document groups under one key however the caller
- * spelled it.
+ * Validation is structural first (closed character sets, bounded length, no
+ * traversal), so nothing incidental in an argument can reach storage. A
+ * component or path that passes is then checked against the docs through the
+ * {@link UsageResolver}, so a name that does not exist is dropped and the event
+ * degrades to a tool count. Component names and doc paths are stored in the form
+ * the docs server resolves them to, so one component or document groups under
+ * one key however the caller spelled it.
  */
+
+/** Mirrors `UsageResolver` in mcp-docs-server; declared here to stay dependency-free. */
+export type UsageResolver = {
+  component: (name: string) => Promise<boolean>
+  docsFile: (path: string) => Promise<boolean>
+  docsDir: (path: string) => Promise<boolean>
+}
 
 /** The stored MCP usage record (one row in the mcp_usage Glue table). */
 export type McpUsageRecord = {
@@ -20,7 +28,7 @@ export type McpUsageRecord = {
   env: string
   transport: 'web'
   timestamp: string
-  createdat: string
+  created_at: string
 }
 
 // The registered docs-server tools. A record is written only for calls to one of
@@ -89,7 +97,8 @@ function normalizeComponent(value: string): string {
   return value.trim().toLowerCase()
 }
 
-function validComponent(value: unknown): string {
+// Original casing, as the docs tool sees it; lowercased only when stored.
+function parseComponentName(value: unknown): string {
   if (typeof value !== 'string' || value.length > MAX_COMPONENT_LENGTH) {
     return ''
   }
@@ -98,11 +107,11 @@ function validComponent(value: unknown): string {
 
   return trimmed.length > 0 &&
     trimmed.split('.').every((segment) => COMPONENT_SEGMENT.test(segment))
-    ? normalizeComponent(trimmed)
+    ? trimmed
     : ''
 }
 
-function validPath(value: unknown): string {
+function parseDocsPath(value: unknown): string {
   if (typeof value !== 'string') {
     return ''
   }
@@ -126,11 +135,12 @@ type JsonRpcMessage = {
   params?: { name?: unknown; arguments?: unknown }
 }
 
-function recordFromMessage(
+async function recordFromMessage(
   message: JsonRpcMessage,
   env: string,
-  createdAt: string
-): McpUsageRecord | null {
+  createdAt: string,
+  resolver: UsageResolver
+): Promise<McpUsageRecord | null> {
   if (message.method !== 'tools/call') {
     return null
   }
@@ -142,15 +152,24 @@ function recordFromMessage(
 
   const args = (message.params?.arguments ?? {}) as Record<string, unknown>
 
-  const component = COMPONENT_TOOLS.has(tool)
-    ? validComponent(args.name)
+  const rawComponent = COMPONENT_TOOLS.has(tool)
+    ? parseComponentName(args.name)
     : ''
-  const path =
+  const component =
+    rawComponent && (await resolver.component(rawComponent))
+      ? normalizeComponent(rawComponent)
+      : ''
+
+  const candidatePath =
     tool === 'docs_read'
-      ? validPath(args.path)
+      ? parseDocsPath(args.path)
       : tool === 'docs_list'
-        ? validPath(args.prefix)
+        ? parseDocsPath(args.prefix)
         : ''
+  const exists =
+    tool === 'docs_read' ? resolver.docsFile : resolver.docsDir
+  const path =
+    candidatePath && (await exists(candidatePath)) ? candidatePath : ''
 
   return {
     tool,
@@ -161,7 +180,7 @@ function recordFromMessage(
     // server stamps 'local' via the ingest route in tools/analytics.
     transport: 'web',
     timestamp: createdAt,
-    createdat: createdAt,
+    created_at: createdAt,
   }
 }
 
@@ -171,10 +190,10 @@ function recordFromMessage(
  * known tool is ignored. Malformed JSON yields no records, so usage capture
  * never affects the request.
  */
-export function usageRecordsFromRequestBody(
+export async function usageRecordsFromRequestBody(
   body: string,
-  options: { env: string; now?: string }
-): McpUsageRecord[] {
+  options: { env: string; now?: string; resolver: UsageResolver }
+): Promise<McpUsageRecord[]> {
   let parsed: unknown
   try {
     parsed = JSON.parse(body)
@@ -188,10 +207,11 @@ export function usageRecordsFromRequestBody(
   const records: McpUsageRecord[] = []
   for (const message of messages) {
     if (typeof message === 'object' && message !== null) {
-      const record = recordFromMessage(
+      const record = await recordFromMessage(
         message as JsonRpcMessage,
         options.env,
-        createdAt
+        createdAt,
+        options.resolver
       )
       if (record) {
         records.push(record)

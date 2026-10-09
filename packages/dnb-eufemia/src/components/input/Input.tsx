@@ -31,6 +31,7 @@ import { extendPropsWithContext } from '../../shared/helpers/extendPropsWithCont
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 import useId from '../../shared/helpers/useId'
 import Suffix from '../../shared/helpers/Suffix'
+import mergeProps from '../../shared/helpers/mergeProps'
 import {
   warn,
   removeUndefinedProps,
@@ -94,7 +95,13 @@ function getValue(props: InputProps) {
 function InputComponent({ ref, ...restProps }: InputProps) {
   const context = useContext(Context)
   const inputRef = useRef<HTMLInputElement | null>(null)
-  const combinedRef = useCombinedRef(ref, inputRef)
+  const combinedRef = useCombinedRef(
+    ref,
+    inputRef,
+    typeof restProps.inputAttributes === 'object'
+      ? (restProps.inputAttributes?.ref as Ref<HTMLInputElement>)
+      : undefined
+  )
 
   const formElement = context?.formElement as
     | (typeof context.formElement & { useId?: () => string })
@@ -342,6 +349,21 @@ function InputComponent({ ref, ...restProps }: InputProps) {
     ...attributes
   } = inputSubmitButtonAttributes
 
+  // These handlers belong to the input element, which receives them through
+  // `attributes`. Forwarding them to the submit button as well would replace
+  // the handlers it needs to emit onSubmit, onSubmitFocus and onSubmitBlur.
+  const {
+    onClick: _onClick, //eslint-disable-line
+    onFocus: _onFocus, //eslint-disable-line
+    onBlur: _onBlur, //eslint-disable-line
+    ...submitButtonAttributes
+  } = inputSubmitButtonAttributes
+
+  // The submit button takes these as its own `statusProps`, so they reach its
+  // Button through a merge instead of replacing the handlers and class it sets.
+  const { onSubmit: _statusOnSubmit, ...remainingStatusProps } =
+    statusProps ?? {}
+
   let usedInputState = inputState
   if (disabled || skeleton) {
     usedInputState = 'disabled'
@@ -401,7 +423,6 @@ function InputComponent({ ref, ...restProps }: InputProps) {
     : {}
 
   const inputParams = {
-    className: clsx('dnb-input__input', inputClassName),
     autoComplete: autocomplete,
     type,
     id,
@@ -412,6 +433,11 @@ function InputComponent({ ref, ...restProps }: InputProps) {
       : undefined,
     ...attributes,
     ...usedInputAttributes,
+    className: clsx(
+      'dnb-input__input',
+      inputClassName,
+      usedInputAttributes.className
+    ),
     onChange: onChangeHandler,
     onKeyDown: onKeyDownHandler,
     onFocus: onFocusHandler,
@@ -502,7 +528,7 @@ function InputComponent({ ref, ...restProps }: InputProps) {
         <span className="dnb-input__row">
           <span {...shellParams}>
             {(InputElement as ReactNode) || (
-              <input ref={combinedRef} {...inputParams} />
+              <input {...inputParams} ref={combinedRef} />
             )}
 
             {innerElement && (
@@ -559,7 +585,7 @@ function InputComponent({ ref, ...restProps }: InputProps) {
                 submitElement
               ) : (
                 <InputSubmitButton
-                  {...inputSubmitButtonAttributes}
+                  {...submitButtonAttributes}
                   id={id + '-submit-button'}
                   value={hasVal ? value : ''}
                   icon={submitButtonIcon}
@@ -573,8 +599,13 @@ function InputComponent({ ref, ...restProps }: InputProps) {
                   disabled={disabled}
                   skeleton={skeleton}
                   size={size}
-                  onSubmit={onSubmit}
-                  {...statusProps}
+                  onSubmit={
+                    mergeProps(
+                      { onSubmit },
+                      { onSubmit: statusProps?.onSubmit }
+                    ).onSubmit
+                  }
+                  statusProps={remainingStatusProps}
                 />
               )}
             </span>
@@ -687,6 +718,11 @@ function InputSubmitButton({
     onSubmitBlur: _onSubmitBlur, //eslint-disable-line
     onSubmitFocus: _onSubmitFocus, //eslint-disable-line
 
+    // A given handler replaces the own one, which DatePicker and Field.Password rely on
+    onClick,
+    onFocus,
+    onBlur,
+
     ...rest
   } = props
 
@@ -723,12 +759,12 @@ function InputSubmitButton({
         iconSize={iconSize}
         status={status}
         statusState={statusState}
-        onClick={onSubmitHandler}
-        onFocus={onSubmitFocusHandler}
-        onBlur={onSubmitBlurHandler}
+        statusProps={statusProps}
+        onClick={onClick ?? onSubmitHandler}
+        onFocus={onFocus ?? onSubmitFocusHandler}
+        onBlur={onBlur ?? onSubmitBlurHandler}
         ref={combinedButtonRef}
         {...(params as Record<string, unknown>)}
-        {...(statusProps as Record<string, unknown>)}
       />
     </span>
   )

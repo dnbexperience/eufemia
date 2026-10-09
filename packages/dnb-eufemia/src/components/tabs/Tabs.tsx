@@ -14,6 +14,7 @@ import {
   useState,
 } from 'react'
 import type {
+  CSSProperties,
   KeyboardEvent,
   MouseEvent,
   PropsWithChildren,
@@ -658,7 +659,9 @@ function TabsComponent(ownProps: TabsProps) {
   ) => {
     // saving the position will avoid flickering if the new tab will be done by a new page load
     saveLastPosition()
-    saveLastUsedTab()
+    if (!propsRef.current.onOpenTabNavigationFn) {
+      saveLastUsedTab()
+    }
 
     // for handling openPrevTab and openNextTab
     if (mode === 'step' && parseFloat(String(newSelectedKey))) {
@@ -819,7 +822,10 @@ function TabsComponent(ownProps: TabsProps) {
           })
         }
 
-        if (hasLastUsedTab() !== null) {
+        if (
+          hasLastUsedTab() !== null &&
+          !propsRef.current.onOpenTabNavigationFn
+        ) {
           setFocusOnTabButton()
         }
       }
@@ -1087,9 +1093,10 @@ function TabsComponent(ownProps: TabsProps) {
   renderTabsListRef.current = ({
     children,
     className: extraClassName,
+    style,
     ...rest
   }: PropsWithChildren<
-    { className?: string } & Record<string, unknown>
+    { className?: string; style?: CSSProperties } & Record<string, unknown>
   >) => {
     const {
       align,
@@ -1112,17 +1119,18 @@ function TabsComponent(ownProps: TabsProps) {
           breakout && 'dnb-tabs__tabs--breakout',
           extraClassName
         )}
-        ref={tabsRef}
         style={
           tabsInnerSpace
             ? {
                 paddingTop: `var(--spacing-${
                   tabsInnerSpace === true ? 'large' : tabsInnerSpace
                 })`,
+                ...style,
               }
-            : undefined
+            : style
         }
         {...rest}
+        ref={tabsRef}
       >
         <ScrollNavButton
           onMouseDown={openPrevTab}

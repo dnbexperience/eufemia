@@ -8,6 +8,7 @@ import type {
   UseFieldProps,
 } from '../../types'
 import useTranslation from '../../hooks/useTranslation'
+import mergeProps from '../../../../shared/helpers/mergeProps'
 import type {
   GeneralConfig,
   HandlerConfig,
@@ -199,18 +200,22 @@ export function suggestionsElement(
       <Selection
         variant="autocomplete"
         {...props}
-        autocompleteProps={{
-          mode: 'async',
-          search: { filter: false },
-          keepValue: true,
-          openOnFocus: true,
-          placeholder: suggestionPlaceholder,
-          onType: onType as unknown as (
-            event: AutocompleteOnTypeParams
-          ) => void,
-          ...props?.autocompleteProps,
-        }}
-        onChange={onChange}
+        autocompleteProps={mergeProps(
+          {
+            mode: 'async',
+            search: { filter: false },
+            keepValue: true,
+            openOnFocus: true,
+            placeholder: suggestionPlaceholder,
+            onType: onType as unknown as (
+              event: AutocompleteOnTypeParams
+            ) => void,
+          },
+          props?.autocompleteProps
+        )}
+        onChange={
+          mergeProps({ onChange }, { onChange: props.onChange }).onChange
+        }
       />
     )
   }

@@ -172,7 +172,7 @@ export type AccordionHeaderProps = {
 } & ItemContentProps
 
 function AccordionHeader(props: AccordionHeaderProps) {
-  const { className, children, ...rest } = props
+  const { className, children, onClick, onKeyDown, ...rest } = props
   const accordionContext = useContext(ItemAccordionContext)
   const context = useContext(Context)
   const inheritedSkeleton = useContext(ListContext)?.skeleton
@@ -182,15 +182,19 @@ function AccordionHeader(props: AccordionHeaderProps) {
 
   const handleClick = useCallback(
     (event: ReactMouseEvent<HTMLDivElement, MouseEvent>) => {
+      onClick?.(event)
+
       if (!isInactive && accordionContext) {
         accordionContext.handleToggle(event)
       }
     },
-    [accordionContext, isInactive]
+    [onClick, accordionContext, isInactive]
   )
 
   const handleKeyDown = useCallback(
     (event: KeyboardEvent<HTMLDivElement>) => {
+      onKeyDown?.(event)
+
       if (event.key === 'Enter' || event.key === ' ') {
         event.preventDefault()
         handleClick(
@@ -198,7 +202,7 @@ function AccordionHeader(props: AccordionHeaderProps) {
         )
       }
     },
-    [handleClick]
+    [onKeyDown, handleClick]
   )
 
   if (!accordionContext) {

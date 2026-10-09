@@ -1,5 +1,5 @@
 import { isCI } from 'repo-utils'
-import simpleGit, { type SimpleGit } from 'simple-git'
+import { simpleGit, type SimpleGit } from 'simple-git'
 import { log } from '../../lib'
 import {
   BASE_REF_ENV_VAR,

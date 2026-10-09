@@ -11,6 +11,7 @@ function Log({
   placeholder,
   label,
   data: logData,
+  style,
   ...props
 }: Omit<SectionAllProps, 'data' | 'label'> & {
   data?: unknown
@@ -28,7 +29,7 @@ function Log({
     <Section
       element="output"
       variant="warning"
-      style={{ maxWidth: '80vw' }}
+      style={{ maxWidth: '80vw', ...style }}
       innerSpace
       {...props}
     >

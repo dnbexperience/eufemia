@@ -98,6 +98,28 @@ test.describe('Route Focus', () => {
     await expect(page.getByRole('tab', { name: 'Demos' })).toBeVisible()
   })
 
+  test('should not focus the selected tab after refreshing a tab route', async ({
+    page,
+  }) => {
+    // Keep both routes in the partial E2E build.
+    await page.goto('/uilib/components/list/demos/')
+    await waitForApp(page)
+
+    await page.goto('/uilib/components/list/')
+    await waitForApp(page)
+
+    const demosTab = page.getByRole('tab', { name: 'Demos' })
+    await demosTab.click()
+    await expect(page).toHaveURL('/uilib/components/list/demos')
+
+    await page.reload()
+    await waitForApp(page)
+
+    await expect(demosTab).not.toBeFocused()
+    await page.keyboard.press('Tab')
+    await expect(page.locator('.dnb-skip-link')).toBeFocused()
+  })
+
   test('should preserve the current hash when entering fullscreen', async ({
     page,
   }) => {

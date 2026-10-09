@@ -42,6 +42,28 @@ describe('runScreenshotsConditionally', () => {
     expect(selection.mode).toBe('skip')
   })
 
+  it('skips when only MCP server source changed', () => {
+    const selection = select({
+      changedRepoFiles: [
+        'packages/dnb-eufemia/src/mcp/mcp-docs-server.ts',
+        'packages/dnb-eufemia/src/mcp/__tests__/mcp-docs-server.test.ts',
+      ],
+    })
+
+    expect(selection.mode).toBe('skip')
+  })
+
+  it('still selects tests for other source changes next to MCP changes', () => {
+    const selection = select({
+      changedRepoFiles: [
+        'packages/dnb-eufemia/src/mcp/mcp-docs-server.ts',
+        'packages/dnb-eufemia/src/core/test-utils/testSetup.ts',
+      ],
+    })
+
+    expect(selection.mode).toBe('all')
+  })
+
   it('runs all tests when global style paths are changed', () => {
     const selection = select({
       changedRepoFiles: ['packages/dnb-eufemia/src/style/core/base.scss'],

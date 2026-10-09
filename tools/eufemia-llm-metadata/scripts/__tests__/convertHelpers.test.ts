@@ -10,6 +10,8 @@ vi.mock('prettier', () => ({
 
 import {
   convertMdxToMd,
+  extractDescriptionFromMdx,
+  extractTitleFromMdx,
   formatUnhandledStandaloneMdxWarnings,
   findUnhandledStandaloneMdxComponents,
   loadTsDocsForDocPath,
@@ -274,6 +276,38 @@ describe('convertMdxToMd', () => {
 
     expect(output.startsWith('# Button')).toBe(true)
     expect(output).toContain('Some intro text.')
+  })
+
+  it('prefers contentTitle over title for the heading', async () => {
+    const tmpRoot = fs.mkdtempSync(
+      path.join(os.tmpdir(), 'mdx-content-title-')
+    )
+    const docsRoot = path.join(tmpRoot, 'docs')
+    fs.mkdirSync(docsRoot, { recursive: true })
+
+    const mdxPath = path.join(docsRoot, 'title.mdx')
+    fs.writeFileSync(
+      mdxPath,
+      [
+        '---',
+        'title: Button',
+        'contentTitle: Button component',
+        '---',
+        '',
+        'Some intro text.',
+      ].join('\n')
+    )
+
+    const output = await convertMdxToMd({
+      inputPath: mdxPath,
+      docsRoot,
+      docsBaseRoot: docsRoot,
+      prettierConfig: {},
+      includeFrontmatter: false,
+      state: { mdxCache: new Map(), inProgress: new Set() },
+    })
+
+    expect(output.startsWith('# Button component')).toBe(true)
   })
 
   it('inlines imported mdx fragments from Docs aliases', async () => {
@@ -1259,5 +1293,53 @@ describe('convertMdxToMd', () => {
     expect(output).toContain('"range"')
     // Property forwarded from DatePicker via datePickerPropKeys
     expect(output).toContain('"minDate"')
+  })
+})
+
+describe('frontmatter metadata', () => {
+  const writeMdx = (lines: Array<string>) => {
+    const tmpRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'mdx-meta-'))
+    const mdxPath = path.join(tmpRoot, 'page.mdx')
+    fs.writeFileSync(mdxPath, lines.join('\n'))
+
+    return mdxPath
+  }
+
+  it('prefers the frontmatter title over the first heading', async () => {
+    const mdxPath = writeMdx([
+      '---',
+      'title: From frontmatter',
+      '---',
+      '',
+      '# From heading',
+    ])
+
+    expect(await extractTitleFromMdx(mdxPath)).toBe('From frontmatter')
+  })
+
+  it('uses an H1 that directly follows the frontmatter as the title', async () => {
+    const mdxPath = writeMdx([
+      '---',
+      "icon: 'info'",
+      '---',
+      '',
+      '# Privacy',
+      '',
+      'Text.',
+    ])
+
+    expect(await extractTitleFromMdx(mdxPath)).toBe('Privacy')
+  })
+
+  it('reads the description from the frontmatter', async () => {
+    const mdxPath = writeMdx([
+      '---',
+      'description: "Use Button to start an action."',
+      '---',
+    ])
+
+    expect(await extractDescriptionFromMdx(mdxPath)).toBe(
+      'Use Button to start an action.'
+    )
   })
 })

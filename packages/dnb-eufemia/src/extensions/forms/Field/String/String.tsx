@@ -21,6 +21,7 @@ import { pickSpacingProps } from '../../../../components/flex/utils'
 import { toCapitalized } from '../../../../shared/component-helper'
 import type { TextCounterProps } from '../../../../fragments/TextCounter'
 import type { FieldProps, Schema } from '../../types'
+import mergeProps from '../../../../shared/helpers/mergeProps'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type FieldStringProps = FieldProps<string, undefined | string> & {
@@ -328,22 +329,26 @@ function StringComponent(props: FieldStringProps) {
   const cn = clsx('dnb-forms-field-string__input', inputClassName)
 
   const sharedProps = {
-    id,
-    name,
-    autoComplete,
-    autoCorrect,
-    spellCheck,
-    autoFocus,
-    autoCapitalize,
-    inputMode,
-    className: cn,
-    placeholder,
-    onFocus: handleFocus,
-    onBlur: handleBlur,
-    onChange: handleChange,
-    onKeyDown: handleKeyDown as any,
-    disabled,
-    ...htmlAttributes,
+    ...mergeProps(
+      {
+        id,
+        name,
+        autoComplete,
+        autoCorrect,
+        spellCheck,
+        autoFocus,
+        autoCapitalize,
+        inputMode,
+        className: cn,
+        placeholder,
+        onFocus: handleFocus,
+        onBlur: handleBlur,
+        onChange: handleChange,
+        onKeyDown: handleKeyDown as any,
+        disabled,
+      },
+      htmlAttributes
+    ),
     stretch: Boolean(width),
     ref: inputRef as any,
     status: hasError ? 'error' : undefined,

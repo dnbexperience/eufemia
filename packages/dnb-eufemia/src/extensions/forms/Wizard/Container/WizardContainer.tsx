@@ -77,7 +77,7 @@ export type WizardContainerProps = ComponentProps & {
   initialActiveIndex?: StepIndex
 
   /**
-   * Will be called when the user navigates to a different step, with step `index` as the first argument and `previous` or `next` (or `stepListModified` when a step gets replaced) as the second argument, and as the third parameter an options object containing `totalSteps`, a `preventNavigation` function, an `id` if given on the `Wizard.Step` and a `previousStep` object containing the previous `index` (and `id` if given on the `Wizard.Step`). When an async function is provided, it will show an indicator on the submit button during the form submission. All form elements will be disabled during the submit. The indicator will be shown for a minimum of 1 second. Related Form.Handler properties: `minimumAsyncBehaviorTime` and `asyncSubmitTimeout`.
+   * Will be called when the user navigates to a different step, with step `index` as the first argument and `previous` or `next` (or `stepListModified` when a step gets replaced) as the second argument, and as the third parameter an options object containing `totalSteps`, a `preventNavigation` function, an `id` if given on the `Wizard.Step` and a `previousStep` object containing the previous `index` (and `id` if given on the `Wizard.Step`). When an async function is provided, it will show an indicator during the step change, on the Previous button when going back, on the Next button when going forward, and on the submit buttons when a submit moves to the next step. All form elements will be disabled during the submit. The indicator will be shown for a minimum of 1 second. Related Form.Handler properties: `minimumAsyncBehaviorTime` and `asyncSubmitTimeout`.
    */
   onStepChange?: OnStepChange
 
@@ -204,6 +204,7 @@ function WizardContainer(props: WizardContainerProps) {
     hasFieldState,
     hasErrors,
     setFieldEventListener,
+    setActiveSubmitButtonId,
   } = dataContext
 
   const id = useId(idProp)
@@ -422,6 +423,9 @@ function WizardContainer(props: WizardContainerProps) {
     } & SetActiveIndexOptions) => {
       let didSubmit = false
       const onSubmit = async () => {
+        // Set first, so the fallback below does not call a throwing onStepChange again
+        didSubmit = true
+
         if (!skipStepChangeCallFromHook) {
           onStepChangeEventsRef?.current?.forEach((onStepChange) => {
             if (typeof onStepChange === 'function') {
@@ -436,7 +440,11 @@ function WizardContainer(props: WizardContainerProps) {
           !skipStepChangeCall &&
           !(skipStepChangeCallBeforeMounted && !isInteractionRef.current)
         ) {
-          result = await callOnStepChange(index, mode)
+          result = await callOnStepChange(index, mode).catch((error) => {
+            // Keep a preventNavigation call from blocking the next step change
+            preventNextStepRef.current = false
+            throw error
+          })
         }
 
         // Hide async indicator
@@ -458,7 +466,6 @@ function WizardContainer(props: WizardContainerProps) {
         }
 
         preventNextStepRef.current = false
-        didSubmit = true
 
         return result
       }
@@ -508,12 +515,24 @@ function WizardContainer(props: WizardContainerProps) {
   )
 
   const setActiveIndex = useCallback(
-    (index: StepIndex, options?: SetActiveIndexOptions) => {
+    (
+      index: StepIndex,
+      options?: SetActiveIndexOptions,
+      submitButtonId?: unknown
+    ) => {
       if (index === activeIndexRef.current) {
         return
       }
 
       const mode = index > activeIndexRef.current ? 'next' : 'previous'
+
+      // Claim first, so errors that stop the step change release it; router syncs don't claim
+      if (isAsync(onStepChange) && !options?.skipStepChangeCallFromHook) {
+        const buttonsId = mode === 'previous' ? id : `${id}-next`
+        setActiveSubmitButtonId?.(
+          typeof submitButtonId === 'string' ? submitButtonId : buttonsId
+        )
+      }
 
       handleStepChange({
         index,
@@ -522,16 +541,22 @@ function WizardContainer(props: WizardContainerProps) {
         ...options,
       })
     },
-    [handleStepChange]
+    [handleStepChange, id, onStepChange, setActiveSubmitButtonId]
   )
 
-  const handlePrevious = useCallback(() => {
-    setActiveIndex(activeIndexRef.current - 1)
-  }, [setActiveIndex])
+  const handlePrevious = useCallback(
+    (submitButtonId?: unknown) => {
+      setActiveIndex(activeIndexRef.current - 1, undefined, submitButtonId)
+    },
+    [setActiveIndex]
+  )
 
-  const handleNext = useCallback(() => {
-    setActiveIndex(activeIndexRef.current + 1)
-  }, [setActiveIndex])
+  const handleNext = useCallback(
+    (submitButtonId?: unknown) => {
+      setActiveIndex(activeIndexRef.current + 1, undefined, submitButtonId)
+    },
+    [setActiveIndex]
+  )
 
   const handleChange = useCallback(
     ({ currentStep }) => {
@@ -558,11 +583,15 @@ function WizardContainer(props: WizardContainerProps) {
       }
 
       if (activeIndexRef.current + 1 < totalStepsRef.current) {
-        handleNext()
+        // The submit keeps its own indicator, so skip the claim in setActiveIndex
+        handleStepChange({
+          index: activeIndexRef.current + 1,
+          mode: 'next',
+        })
         preventSubmit()
       }
     },
-    [hasInvalidStepsState, handleNext]
+    [hasInvalidStepsState, handleStepChange]
   )
   useEventListener('onSubmit', handleSubmit)
 
@@ -779,8 +808,8 @@ function WizardContainer(props: WizardContainerProps) {
     <WizardContext value={providerValue}>
       <Space
         className={clsx('dnb-forms-wizard-layout', className)}
-        ref={elementRef}
         {...rest}
+        ref={elementRef}
       >
         <DisplaySteps
           mode={mode}

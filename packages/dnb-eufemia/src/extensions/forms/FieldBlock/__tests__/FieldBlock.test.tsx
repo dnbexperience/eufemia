@@ -822,6 +822,19 @@ describe('FieldBlock', () => {
     expect(mainElement).toHaveStyle('--dnb-forms-field-block-width: 4rem;')
   })
 
+  it('should keep a custom "width" when a style is given', () => {
+    render(
+      <FieldBlock width="4rem" style={{ marginTop: '1rem' }}>
+        content
+      </FieldBlock>
+    )
+
+    const mainElement = document.querySelector('.dnb-forms-field-block')
+
+    expect(mainElement).toHaveStyle('--dnb-forms-field-block-width: 4rem;')
+    expect(mainElement.getAttribute('style')).toContain('margin-top: 1rem')
+  })
+
   it('should support custom "contentWidth"', () => {
     render(<FieldBlock contentWidth="4rem">content</FieldBlock>)
 

@@ -37,7 +37,8 @@ type FigmaColorValue = {
 /** Returned when a color is composed from an aliased color and opacity */
 type FigmaComposedColor = {
   color: FigmaColorValue | FigmaVariableAlias
-  opacity?: number | FigmaVariableAlias
+  /** A percentage from 0 to 100 */
+  opacity: number | FigmaVariableAlias
 }
 
 type FigmaVariableValue =
@@ -56,6 +57,7 @@ type FigmaVariable = {
   valuesByMode: Record<string, FigmaVariableValue>
   description?: string
   hiddenFromPublishing?: boolean
+  deletedButReferenced?: boolean
   scopes?: string[]
   codeSyntax?: Record<string, string>
 }
@@ -82,17 +84,23 @@ type TokenValue = {
   hex: string
 }
 
+type TokenAliasData = {
+  targetVariableId: string
+  targetVariableName: string
+  targetVariableSetId: string
+  targetVariableSetName: string
+}
+
 type TokenExtensions = {
   'com.figma.variableId': string
   'com.figma.hiddenFromPublishing'?: true
   'com.figma.scopes'?: string[]
   'com.figma.codeSyntax'?: Record<string, string>
   'com.figma.type'?: TokenType
-  'com.figma.aliasData'?: {
-    targetVariableId: string
-    targetVariableName: string
-    targetVariableSetId: string
-    targetVariableSetName: string
+  'com.figma.aliasData'?: TokenAliasData
+  'com.figma.composedColor'?: {
+    colorArg: { type: 'alias'; alias: TokenAliasData }
+    opacityArg: { type: 'number'; value: number }
   }
 }
 
@@ -113,6 +121,9 @@ export type TokenExport = {
   [key: string]: TokenLeaf | TokenGroup | TokenModeExtensions
 }
 
+/** A second collection is also named "brand", so the one we export is pinned by id */
+const BRAND_COLLECTION_ID = 'VariableCollectionId:53684:1279'
+
 /**
  * Which Figma collection and mode ends up in which file, relative to
  * `src/style/themes/figma`. Every mode of these collections has to be listed,
@@ -120,34 +131,52 @@ export type TokenExport = {
  */
 export const TOKEN_EXPORTS: ReadonlyArray<{
   collection: string
+  collectionId?: string
   mode: string
   fileName: string
 }> = [
   { collection: 'colors', mode: 'color', fileName: 'color.tokens.json' },
   {
     collection: 'brand',
+    collectionId: BRAND_COLLECTION_ID,
     mode: 'dnb-light',
     fileName: 'brand/dnb-light.tokens.json',
   },
   {
     collection: 'brand',
+    collectionId: BRAND_COLLECTION_ID,
     mode: 'dnb-dark',
     fileName: 'brand/dnb-dark.tokens.json',
   },
   {
     collection: 'brand',
+    collectionId: BRAND_COLLECTION_ID,
     mode: 'sbanken-light',
     fileName: 'brand/sbanken-light.tokens.json',
   },
   {
     collection: 'brand',
+    collectionId: BRAND_COLLECTION_ID,
     mode: 'sbanken-dark',
     fileName: 'brand/sbanken-dark.tokens.json',
   },
   {
     collection: 'brand',
+    collectionId: BRAND_COLLECTION_ID,
     mode: 'dnbcarnegie-light',
     fileName: 'brand/dnbcarnegie-light.tokens.json',
+  },
+  {
+    collection: 'brand',
+    collectionId: BRAND_COLLECTION_ID,
+    mode: 'dnbeiendom-light',
+    fileName: 'brand/dnbeiendom-light.tokens.json',
+  },
+  {
+    collection: 'brand',
+    collectionId: BRAND_COLLECTION_ID,
+    mode: 'dnbeiendom-dark',
+    fileName: 'brand/dnbeiendom-dark.tokens.json',
   },
 ]
 
@@ -168,6 +197,10 @@ const isAlias = (value: unknown): value is FigmaVariableAlias =>
   typeof value === 'object' &&
   value !== null &&
   (value as FigmaVariableAlias).type === 'VARIABLE_ALIAS'
+
+/** Figma returns this when a color is an aliased color combined with an opacity */
+const isComposedColor = (value: unknown): value is FigmaComposedColor =>
+  typeof value === 'object' && value !== null && 'color' in value
 
 const isLeaf = (node: TokenLeaf | TokenGroup): node is TokenLeaf =>
   '$type' in node
@@ -194,7 +227,6 @@ const toTokenValue = (
     const color = value as FigmaColorValue
     const alpha = color?.a ?? 1
 
-    // Figma can also return a composed color, which this export does not model
     if (![color?.r, color?.g, color?.b, alpha].every(isFiniteNumber)) {
       throw new Error(
         `The Figma variable "${variable.name}" has a color value that is not plain sRGB components`
@@ -214,15 +246,21 @@ const toTokenValue = (
 
 const findCollection = (
   { variableCollections }: FigmaLocalVariables,
-  name: string
+  name: string,
+  collectionId?: string
 ) => {
   const collections = Object.values(variableCollections).filter(
-    (collection) => collection.name === name
+    (collection) =>
+      collectionId
+        ? collection.id === collectionId
+        : collection.name === name
   )
 
   if (collections.length !== 1) {
     throw new Error(
-      `Expected exactly one Figma variable collection named "${name}", found ${collections.length}`
+      `Expected exactly one Figma variable collection named "${name}"${
+        collectionId ? ` with the id "${collectionId}"` : ''
+      }, found ${collections.length}`
     )
   }
 
@@ -248,16 +286,18 @@ const findModeId = (collection: FigmaVariableCollection, name: string) => {
  * nothing outside of Figma shows that it exists.
  */
 export const assertModesAreExported = (meta: FigmaLocalVariables) => {
-  const collectionNames = Array.from(
-    new Set(TOKEN_EXPORTS.map(({ collection }) => collection))
+  const collections = TOKEN_EXPORTS.filter(
+    ({ collection }, index) =>
+      TOKEN_EXPORTS.findIndex((item) => item.collection === collection) ===
+      index
   )
 
-  for (const collectionName of collectionNames) {
+  for (const { collection: collectionName, collectionId } of collections) {
     const exported = TOKEN_EXPORTS.filter(
       ({ collection }) => collection === collectionName
     ).map(({ mode }) => mode)
 
-    const missing = findCollection(meta, collectionName)
+    const missing = findCollection(meta, collectionName, collectionId)
       .modes.map((mode) => mode.name)
       .filter((name) => !exported.includes(name))
 
@@ -265,7 +305,7 @@ export const assertModesAreExported = (meta: FigmaLocalVariables) => {
       throw new Error(
         `The Figma variable collection "${collectionName}" has modes that are not exported: ${missing.join(
           ', '
-        )}. Add them to TOKEN_EXPORTS and to the token files in makePropertiesFile.ts.`
+        )}. Add them to TOKEN_EXPORTS, and to the token files in makePropertiesFile.ts once a theme uses them.`
       )
     }
   }
@@ -279,7 +319,7 @@ const resolveValue = (
   meta: FigmaLocalVariables,
   value: FigmaVariableValue,
   modeId: string
-) => {
+): FigmaVariableValue => {
   let resolved = value
 
   for (let depth = 0; isAlias(resolved); depth++) {
@@ -312,6 +352,18 @@ const resolveValue = (
         `The Figma variable "${target.name}" has no value for mode "${targetModeId}"`
       )
     }
+  }
+
+  if (isComposedColor(resolved)) {
+    const color = resolveValue(
+      meta,
+      resolved.color,
+      modeId
+    ) as FigmaColorValue
+    const opacity = resolveValue(meta, resolved.opacity, modeId) as number
+
+    // Figma stores color channels as 32-bit floats
+    return { ...color, a: Math.fround(opacity / 100) }
   }
 
   return resolved
@@ -386,6 +438,17 @@ const makeTokenLeaf = (
   if (isAlias(value)) {
     $extensions['com.figma.aliasData'] = makeAliasData(meta, value)
   }
+  // Only this composition has been seen in Figma exports
+  if (
+    isComposedColor(value) &&
+    isAlias(value.color) &&
+    typeof value.opacity === 'number'
+  ) {
+    $extensions['com.figma.composedColor'] = {
+      colorArg: { type: 'alias', alias: makeAliasData(meta, value.color) },
+      opacityArg: { type: 'number', value: value.opacity },
+    }
+  }
 
   return {
     $type,
@@ -425,7 +488,9 @@ const addTokenLeaf = (
     group[name] = leaf
   } else if (isLeaf(existing)) {
     throw new Error(
-      `Two Figma variables share the name "${figmaPath.join('/')}"`
+      `Two Figma variables share the name "${figmaPath.join('/')}": ${
+        existing.$extensions['com.figma.variableId']
+      } and ${leaf.$extensions['com.figma.variableId']}`
     )
   } else {
     existing.$root = leaf
@@ -439,21 +504,24 @@ const addTokenLeaf = (
 export const convertVariablesToTokens = ({
   meta,
   collection: collectionName,
+  collectionId,
   mode: modeName,
 }: {
   meta: FigmaLocalVariables
   collection: string
+  collectionId?: string
   mode: string
 }): TokenExport => {
-  const collection = findCollection(meta, collectionName)
+  const collection = findCollection(meta, collectionName, collectionId)
   const modeId = findModeId(collection, modeName)
   const tokens: TokenGroup = {}
 
   for (const variableId of collection.variableIds) {
     const variable = meta.variables[variableId]
 
-    if (!variable) {
-      continue // a deleted variable can still be referenced by the collection
+    // A deleted variable keeps its name, and can collide with the one that replaced it
+    if (!variable || variable.deletedButReferenced) {
+      continue
     }
 
     addTokenLeaf(
@@ -521,24 +589,31 @@ export const extractTokens = async ({
 
   assertModesAreExported(meta)
 
-  const exports = TOKEN_EXPORTS.map(({ collection, mode, fileName }) => {
-    let tokens: TokenExport
+  const exports = TOKEN_EXPORTS.map(
+    ({ collection, collectionId, mode, fileName }) => {
+      let tokens: TokenExport
 
-    try {
-      tokens = convertVariablesToTokens({ meta, collection, mode })
-    } catch (e) {
-      throw new Error(
-        `Failed to convert the Figma collection "${collection}" (mode "${mode}") into ${fileName}`,
-        { cause: e }
-      )
-    }
+      try {
+        tokens = convertVariablesToTokens({
+          meta,
+          collection,
+          collectionId,
+          mode,
+        })
+      } catch (e) {
+        throw new Error(
+          `Failed to convert the Figma collection "${collection}" (mode "${mode}") into ${fileName}`,
+          { cause: e }
+        )
+      }
 
-    return {
-      file: path.resolve(tokensDir, fileName),
-      fileName,
-      content: JSON.stringify(tokens, null, 2),
+      return {
+        file: path.resolve(tokensDir, fileName),
+        fileName,
+        content: JSON.stringify(tokens, null, 2),
+      }
     }
-  })
+  )
 
   for (const { file, fileName, content } of exports) {
     await fs.outputFile(file, content)

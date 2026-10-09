@@ -14,6 +14,7 @@ import {
 } from '../../..'
 import { Div } from '../../../../../elements'
 import DataContext from '../../../DataContext/Context'
+import IterateItemContext from '../../IterateItemContext'
 
 import nbNO from '../../../constants/locales/nb-NO'
 const nb = nbNO['nb-NO']
@@ -3601,5 +3602,42 @@ describe('PushContainer', () => {
 
     // The currency field should be cleared
     expect(newInput).toHaveValue('')
+  })
+
+  it('should keep opening the container when the open button has an onClick', async () => {
+    const onClick = vi.fn()
+    let containerMode = null
+
+    const ContextConsumer = () => {
+      containerMode = useContext(IterateItemContext)?.containerMode
+      return null
+    }
+
+    render(
+      <Form.Handler>
+        <Iterate.PushContainer
+          path="/list"
+          openButton={
+            <Iterate.PushContainer.OpenButton
+              text="Open"
+              onClick={onClick}
+            />
+          }
+          showOpenButtonWhen={() => true}
+        >
+          <Field.String itemPath="/" label="Item" />
+          <ContextConsumer />
+        </Iterate.PushContainer>
+      </Form.Handler>
+    )
+
+    expect(containerMode).toBe('view')
+
+    await userEvent.click(
+      document.querySelector('.dnb-forms-iterate__open-button')
+    )
+
+    expect(onClick).toHaveBeenCalledTimes(1)
+    expect(containerMode).toBe('edit')
   })
 })

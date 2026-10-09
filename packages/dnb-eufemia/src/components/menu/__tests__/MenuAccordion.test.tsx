@@ -34,6 +34,29 @@ describe('MenuAccordion', () => {
     expect(trigger.textContent).toContain('Export as')
   })
 
+  it('keeps toggling when an onClick is given', () => {
+    const ctx = createMockContext()
+
+    render(
+      <MenuContext value={ctx}>
+        <ul role="menu">
+          <Menu.Accordion
+            text="Export as"
+            {...({ onClick: vi.fn() } as Record<string, unknown>)}
+          >
+            <Menu.Action text="PDF" />
+          </Menu.Accordion>
+        </ul>
+      </MenuContext>
+    )
+
+    const trigger = document.querySelector('.dnb-menu__accordion__trigger')
+
+    fireEvent.click(trigger)
+
+    expect(trigger.getAttribute('aria-expanded')).toBe('true')
+  })
+
   it('toggles open/close on click', () => {
     const ctx = createMockContext()
 
@@ -83,6 +106,27 @@ describe('MenuAccordion', () => {
     const trigger = document.querySelector('.dnb-menu__accordion__trigger')
     fireEvent.keyDown(trigger, { key: 'Enter' })
 
+    expect(trigger.getAttribute('aria-expanded')).toBe('true')
+  })
+
+  it('keeps opening on Enter key when an onKeyDown is given', () => {
+    const ctx = createMockContext()
+    const onKeyDown = vi.fn()
+
+    render(
+      <MenuContext value={ctx}>
+        <ul role="menu">
+          <Menu.Accordion text="Export as" onKeyDown={onKeyDown}>
+            <Menu.Action text="PDF" />
+          </Menu.Accordion>
+        </ul>
+      </MenuContext>
+    )
+
+    const trigger = document.querySelector('.dnb-menu__accordion__trigger')
+    fireEvent.keyDown(trigger, { key: 'Enter' })
+
+    expect(onKeyDown).toHaveBeenCalledTimes(1)
     expect(trigger.getAttribute('aria-expanded')).toBe('true')
   })
 

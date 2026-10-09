@@ -32,6 +32,8 @@ The Tooltip component is integrated into components like [Button](/uilib/compone
 
 To enhance accessibility for touch devices, we add `tabindex="0"` and a `touchstart` event handler.
 
+Opening a Modal, Dialog, or Drawer closes uncontrolled tooltips and cancels pending shows. Tooltips inside the opened overlay still work.
+
 ## Links (anchor) with target blank
 
 The Eufemia [Anchor](/uilib/components/anchor) and [Button](/uilib/components/button) components display a Tooltip when the URL target is set to `_blank` to improve accessibility by informing users that a new window will open (out of context).

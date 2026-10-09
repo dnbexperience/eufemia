@@ -25,14 +25,47 @@ export type TableOfContentsItem = {
  * index signature that would turn picked fields into required ones.
  */
 export type KnownFrontmatter = {
+  /**
+   * If set:
+   * - adds page to the side menu (unless `hideInMenu` or `draft` is set)
+   * - adds page to generated lists (unless `draft` is set)
+   * - sets page's H1 text (unless `contentTitle` is set)
+   * - sets browser tab title
+   * - sets side menu link text (unless `menuTitle` is set)
+   * - used in alphabetical ordering of generated lists (unless `order` is set)
+   *
+   *
+   * If not set:
+   * - uses the browser tab title of its nearest parent
+   * - is not shown in side menu or generated lists
+   * - If `showTabs` is `true`, the page inherits the H1 heading of its parent.
+   *
+   * Side note: The side menu is ordered by the file path, which usually
+   * matches the title, but not always.
+   */
   title?: string
+
+  /**
+   * Text used in the page's H1 heading.
+   *
+   * Default: the `title` value is used.
+   *
+   * Use it to give a page a H1 heading without adding it to the menu. Or to
+   * use a different H1 text than `title`.
+   */
+  contentTitle?: string
   description?: string
   /**
    * A number from -999 to 999, decimals are allowed.
    *
-   * Set to override the alphabetical order by `title`, where a lower number
-   * comes first. Lists put pages without an order last, while the sidebar
-   * menu keeps them in the middle and moves negative numbers to the bottom.
+   * Custom ordering of pages.
+   *
+   * Positive numbers appear before non-ordered pages. Lowest first.
+   * Negative numbers appear after non-ordered pages. Lowest first.
+   *
+   * Non-ordered pages or pages with the same order are sorted alphabetically.
+   *
+   * Default: `undefined`, which means the page is non-ordered.
    */
   order?: number
 
@@ -43,10 +76,27 @@ export type KnownFrontmatter = {
   draft?: boolean
 
   /**
-   * Hide the page from the menu.
+   * Hide the page from the menu, even if it has a `title` set.
+   *
+   * Also hides it in `<RelatedComponents>` and some `<List*>` components.
    */
   hideInMenu?: boolean
+
+  /**
+   * Text used in the side menu link.
+   *
+   * Default: the `title` value is used.
+   *
+   * Use it to give the side menu a different text than `title`.
+   */
   menuTitle?: string
+
+  /**
+   * Render the page heading inside a tab bar.
+   *
+   * Special case: If the page is named `info.mdx`, has no `title`, and is the
+   * first tab, it redirects to its parent.
+   */
   showTabs?: boolean
   hideTabs?: Array<{ title: string }>
   tabs?: Array<{ title: string; key: string }>
@@ -109,6 +159,24 @@ export function isFirstTabPage(file: PageFileInfo): boolean {
     !file.frontmatter.title &&
     file.slug.endsWith('/info')
   )
+}
+
+const orderGroup = (order?: number) => (!order ? 2 : order > 0 ? 1 : 3)
+
+/**
+ * Orders pages by their frontmatter `order`, the same way the sidebar menu
+ * does: a positive order first, unordered pages and 0 in the middle, and a
+ * negative order last. Within a group, a lower number comes first.
+ */
+export function compareByOrder(a?: number, b?: number) {
+  const groupA = orderGroup(a)
+  const groupB = orderGroup(b)
+
+  if (groupA !== groupB) {
+    return groupA - groupB
+  }
+
+  return (a ?? 0) - (b ?? 0)
 }
 
 const matchers = new Map<string, (slug: string) => boolean>()

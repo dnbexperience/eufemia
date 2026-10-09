@@ -54,10 +54,11 @@ function getDefaultConfig(usePrebuildStyles = false): ThemeConfig {
       carnegie: { name: 'DNB Carnegie (WIP)' },
     },
     defaultTheme: 'ui',
+    // Anchored at the package root, so globby does not walk the whole package.
     filesGlobs: [
-      `**/${styleRoot}/dnb-ui-core.scss`,
-      `**/${styleRoot}/themes/**/*-theme-{basis,components,dark-mode}.scss`,
-      `**/${paymentCardRoot}/**/dnb-*.scss`,
+      `${styleRoot}/dnb-ui-core.scss`,
+      `${styleRoot}/themes/**/*-theme-{basis,components,dark-mode}.scss`,
+      `${paymentCardRoot}/**/dnb-*.scss`,
     ],
     includeFiles: [
       '**/dnb-ui-core*',

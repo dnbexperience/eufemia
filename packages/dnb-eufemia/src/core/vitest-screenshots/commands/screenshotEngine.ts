@@ -26,6 +26,7 @@ import {
   type PageMutationKind,
 } from '../pageResetStrategy'
 import { clearBrowserStorages } from '../storageReset'
+import { forceFontDisplayBlock } from '../fontDisplay'
 import { recordFailure, recordNavigation } from '../failures'
 import { createSizeMismatchDiff } from '../sizeMismatchDiff'
 
@@ -461,12 +462,10 @@ const ensureSession = async (
 // compounds badly across thousands of tests.
 const initialisedPages = new WeakSet<Page>()
 const stylesheetTaggedPages = new WeakSet<Page>()
-const fontsReadyPages = new WeakSet<Page>()
 
 const resetPageBootstrapMemo = (page: Page) => {
   initialisedPages.delete(page)
   stylesheetTaggedPages.delete(page)
-  fontsReadyPages.delete(page)
 }
 
 const applyTestConfiguration = async (page: Page) => {
@@ -693,22 +692,41 @@ const emulatePseudoStateViaCSS = async (
 }
 
 const waitForVisualStability = async (page: Page) => {
-  const skipFonts = fontsReadyPages.has(page)
-  await page.evaluate(async (skip: boolean) => {
+  await page.evaluate(forceFontDisplayBlock)
+
+  await page.evaluate(async () => {
     const waitForFrame = () =>
       new Promise<void>((resolve) =>
         requestAnimationFrame(() => resolve())
       )
 
-    if (!skip) {
-      try {
-        if ('fonts' in document) {
+    // `document.fonts.ready` only settles the loads that are pending
+    // at the time it is read. Demo content rendered after the first
+    // settle requests further faces, so re-check until nothing is
+    // loading. This must never be skipped: with `font-display: block`
+    // in effect (see `fontDisplay.ts`) text is invisible while its
+    // face loads, so capturing early is worse than a late capture.
+    const waitForFonts = async () => {
+      if (!('fonts' in document)) {
+        return
+      }
+
+      for (let attempt = 0; attempt < 3; attempt++) {
+        try {
           await document.fonts.ready
+        } catch {
+          return
         }
-      } catch {
-        // stop here
+
+        if (document.fonts.status === 'loaded') {
+          return
+        }
+
+        await waitForFrame()
       }
     }
+
+    await waitForFonts()
 
     try {
       const animations = document.getAnimations().filter((a) => {
@@ -729,8 +747,11 @@ const waitForVisualStability = async (page: Page) => {
 
     await waitForFrame()
     await waitForFrame()
-  }, skipFonts)
-  fontsReadyPages.add(page)
+
+    // The frames above flush pending layout, which is when a newly
+    // rendered glyph kicks off its font load.
+    await waitForFonts()
+  })
 }
 
 // Per-Page cache of the most recently applied viewport. `setViewportSize`

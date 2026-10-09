@@ -8,7 +8,6 @@ vi.mock('../auth', () => ({
   ensureSignedIn: vi.fn(async () => null),
   getApiBaseUrl: vi.fn(() => 'https://api.example'),
   clearSession: vi.fn(),
-  signOut: vi.fn(),
 }))
 
 vi.mock('../data', async (importActual) => {
@@ -31,7 +30,10 @@ const populated: DashboardPayload = {
       created_at: '2026-09-15T09:00:00Z',
     },
   ],
-  mcpUsage: { total: 4, perTool: [{ name: 'docs_read', count: 4 }] },
+  mcpUsage: {
+    web: { total: 4, perTool: [{ name: 'docs_read', count: 4 }] },
+    local: { total: 2, perTool: [{ name: 'component_props', count: 2 }] },
+  },
   componentUsage: {
     total: 12,
     perComponent: [{ name: 'Button', count: 12 }],
@@ -120,7 +122,7 @@ describe('App (smoke)', () => {
       payload: {
         generatedAt: '2026-09-16T10:00:00Z',
         portalViews: [],
-        mcpUsage: { total: 4, perTool: [{ name: 'docs_read', count: 4 }] },
+        mcpUsage: populated.mcpUsage,
         componentUsage: { total: 0, perComponent: [] },
       },
     })
@@ -147,23 +149,55 @@ describe('App (smoke)', () => {
       expect(container.textContent).toContain('Top pages')
     )
     expect(container.querySelectorAll('table').length).toBeGreaterThan(0)
+    expect(container.textContent).toContain('older views may be missing')
 
-    fireEvent.click(screen.getByRole('tab', { name: 'MCP usage' }))
+    fireEvent.click(screen.getByRole('tab', { name: 'Web MCP' }))
+    expect(container.textContent).toContain('4 requests to the hosted')
     expect(container.textContent).toContain('docs_read')
+    expect(container.textContent).not.toContain('component_props')
+    expect(container.textContent).toContain('Doc paths')
+
+    fireEvent.click(screen.getByRole('tab', { name: 'Local MCP' }))
+    expect(container.textContent).toContain('2 requests from local')
+    expect(container.textContent).toContain('component_props')
+    expect(container.textContent).not.toContain('docs_read')
+    expect(container.textContent).toContain('Doc areas')
 
     fireEvent.click(screen.getByRole('tab', { name: 'Component usage' }))
     expect(container.textContent).toContain('Top components')
     expect(container.textContent).toContain('12 component usages')
   })
 
-  it('renders the local MCP by-version section when perVersion has data', async () => {
+  it('shows an empty message in an MCP tab with no usage for that transport', async () => {
+    vi.mocked(loadDashboardData).mockResolvedValue({
+      kind: 'data',
+      payload: {
+        ...populated,
+        mcpUsage: { web: populated.mcpUsage?.web },
+      },
+    })
+
+    const { container } = render(<App />)
+
+    await waitFor(() =>
+      expect(container.textContent).toContain('Top pages')
+    )
+    fireEvent.click(screen.getByRole('tab', { name: 'Local MCP' }))
+
+    expect(container.textContent).toContain('No Local MCP usage yet.')
+  })
+
+  it('renders the Eufemia versions section in the Local MCP tab when perVersion has data', async () => {
     vi.mocked(loadDashboardData).mockResolvedValue({
       kind: 'data',
       payload: {
         ...populated,
         mcpUsage: {
           ...populated.mcpUsage,
-          perVersion: [{ name: '10.79.0', count: 5 }],
+          local: {
+            ...populated.mcpUsage?.local,
+            perVersion: [{ name: '10.79.0', count: 5 }],
+          },
         },
       },
     })
@@ -173,15 +207,13 @@ describe('App (smoke)', () => {
     await waitFor(() =>
       expect(container.textContent).toContain('Top pages')
     )
-    fireEvent.click(screen.getByRole('tab', { name: 'MCP usage' }))
+    fireEvent.click(screen.getByRole('tab', { name: 'Local MCP' }))
 
-    expect(container.textContent).toContain(
-      'Local MCP — by Eufemia version'
-    )
+    expect(container.textContent).toContain('Eufemia versions')
     expect(container.textContent).toContain('10.79.0')
   })
 
-  it('hides the local MCP by-version section when perVersion is empty', async () => {
+  it('hides the Eufemia versions section when perVersion is empty', async () => {
     vi.mocked(loadDashboardData).mockResolvedValue({
       kind: 'data',
       payload: populated,
@@ -192,11 +224,9 @@ describe('App (smoke)', () => {
     await waitFor(() =>
       expect(container.textContent).toContain('Top pages')
     )
-    fireEvent.click(screen.getByRole('tab', { name: 'MCP usage' }))
+    fireEvent.click(screen.getByRole('tab', { name: 'Local MCP' }))
 
-    expect(container.textContent).not.toContain(
-      'Local MCP — by Eufemia version'
-    )
+    expect(container.textContent).not.toContain('Eufemia versions')
   })
 
   it('shows an empty message in the Component usage tab when there is no component data', async () => {

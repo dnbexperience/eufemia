@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { createRef, useEffect } from 'react'
 import {
   fireEvent,
   render,
@@ -77,6 +77,19 @@ describe('Upload', () => {
     ).toBeInTheDocument()
   })
 
+  it('keeps the button class when buttonProps has a className', () => {
+    render(
+      <Upload
+        {...defaultProps}
+        buttonProps={{ className: 'custom-class' }}
+      />
+    )
+
+    const button = document.querySelector('.dnb-upload__file-input-button')
+
+    expect(button).toHaveClass('custom-class')
+  })
+
   it('opens file dialog when clicking button', () => {
     render(<Upload {...defaultProps} />)
 
@@ -88,6 +101,21 @@ describe('Upload', () => {
     )
 
     expect(inputClick).toHaveBeenCalledTimes(1)
+  })
+
+  it('opens file dialog when clicking button and a ref is given', () => {
+    const ref = createRef<HTMLInputElement>()
+    render(<Upload {...defaultProps} ref={ref} />)
+
+    const input = document.querySelector('.dnb-upload__file-input')
+    const inputClick = vi.spyOn(input as HTMLInputElement, 'click')
+
+    fireEvent.click(
+      document.querySelector('.dnb-upload__file-input-button')
+    )
+
+    expect(inputClick).toHaveBeenCalledTimes(1)
+    expect(ref.current).toBe(input)
   })
 
   it('renders custom onClick using buttonProps', () => {
@@ -1845,6 +1873,90 @@ describe('Upload', () => {
   })
 
   describe('events', () => {
+    it('should call a given onDrop and still upload the dropped file', async () => {
+      const id = 'given-on-drop'
+      const onDrop = vi.fn()
+
+      const { result } = renderHook(useUpload, { initialProps: id })
+
+      render(<Upload {...defaultProps} id={id} onDrop={onDrop} />)
+
+      const file1 = createMockFile('fileName-1.png', 100, 'image/png')
+
+      fireEvent.drop(document.querySelector('.dnb-upload'), {
+        dataTransfer: { files: [file1] },
+      })
+
+      expect(onDrop).toHaveBeenCalledTimes(1)
+
+      await waitFor(() => {
+        expect(result.current.files).toEqual([
+          { file: file1, id: expect.any(String), exists: false },
+        ])
+      })
+    })
+
+    it('should keep a dropped file in its own Upload when a given onDrop returns false', async () => {
+      const first = renderHook(useUpload, { initialProps: 'first-upload' })
+      const second = renderHook(useUpload, {
+        initialProps: 'second-upload',
+      })
+
+      render(
+        <>
+          <Upload {...defaultProps} id="first-upload" />
+          <Upload
+            {...defaultProps}
+            id="second-upload"
+            onDrop={() => false}
+          />
+        </>
+      )
+
+      // The first Upload also listens for drops anywhere on the page
+      await waitFor(() => {
+        expect(document.body).toHaveAttribute(
+          'data-upload-drop-zone',
+          'first-upload'
+        )
+      })
+
+      const file1 = createMockFile('fileName-1.png', 100, 'image/png')
+
+      fireEvent.drop(document.querySelectorAll('.dnb-upload')[1], {
+        dataTransfer: { files: [file1] },
+      })
+
+      await waitFor(() => {
+        expect(second.result.current.files).toEqual([
+          { file: file1, id: expect.any(String), exists: false },
+        ])
+      })
+      expect(first.result.current.files).toEqual([])
+    })
+
+    it('should call a given onClick and keep resetting the file input', () => {
+      const onClick = vi.fn()
+
+      render(
+        <Upload {...defaultProps} id="given-on-click" onClick={onClick} />
+      )
+
+      const inputElement = document.querySelector(
+        '.dnb-upload__file-input'
+      ) as HTMLInputElement
+
+      Object.defineProperty(inputElement, 'value', {
+        writable: true,
+        value: 'mock-value',
+      })
+
+      fireEvent.click(inputElement)
+
+      expect(onClick).toHaveBeenCalledTimes(1)
+      expect(inputElement.value).toBe(null)
+    })
+
     it('will call onChange when file gets added or removed', async () => {
       const id = 'onChange'
       const onChange = vi.fn()
@@ -2195,6 +2307,40 @@ describe('Upload', () => {
         ).toBeInTheDocument()
       })
     })
+
+    it.each([
+      ['undefined', undefined],
+      ['an object', { status: 500 }],
+      ['an Error without a message', new Error()],
+    ])(
+      'will display a translated message when async onFileDelete throws %s',
+      async (_, thrown) => {
+        const onFileDelete = vi.fn(async () => {
+          throw thrown
+        })
+
+        render(<Upload {...defaultProps} onFileDelete={onFileDelete} />)
+
+        fireEvent.change(
+          document.querySelector('.dnb-upload__file-input'),
+          {
+            target: {
+              files: [createMockFile('fileName-1.png', 100, 'image/png')],
+            },
+          }
+        )
+
+        fireEvent.click(
+          screen.queryByRole('button', { name: nb.deleteButton })
+        )
+
+        await waitFor(() => {
+          expect(
+            document.querySelector('.dnb-upload__file-cell--warning')
+          ).toHaveTextContent(nb.errorDeleteFailed)
+        })
+      }
+    )
   })
 
   it('should have default variant class when no variant is specified', () => {

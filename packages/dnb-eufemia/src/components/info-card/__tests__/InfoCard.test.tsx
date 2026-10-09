@@ -133,6 +133,23 @@ describe('InfoCard', () => {
     expect(image.getAttribute('height')).toBe(imgHeight)
   })
 
+  it('keeps the image class when imgProps has a className', () => {
+    render(
+      <InfoCard
+        text="text"
+        imgProps={{
+          alt: 'alt-text',
+          src: '/dnb/android-chrome-192x192.png',
+          className: 'custom-class',
+        }}
+      />
+    )
+
+    expect(document.querySelector('.custom-class')).toHaveClass(
+      'dnb-info-card__image'
+    )
+  })
+
   it('does not render the buttons', () => {
     render(<InfoCard text="text" />)
 
@@ -336,6 +353,72 @@ describe('InfoCard', () => {
     )
 
     expect(buttonElement.getAttribute('data-testid')).toBe('new-prop')
+  })
+
+  it('keeps calling onAccept when acceptButtonProps has an onClick', () => {
+    const onAccept = vi.fn()
+    const onClick = vi.fn()
+
+    render(
+      <InfoCard
+        text="text"
+        onAccept={onAccept}
+        acceptButtonProps={{ onClick, className: 'custom' }}
+      />
+    )
+
+    const buttonElement = document.querySelector(
+      '.dnb-info-card__buttons__accept-button'
+    )
+
+    expect(buttonElement).toHaveClass('custom')
+
+    fireEvent.click(buttonElement)
+
+    expect(onClick).toHaveBeenCalledTimes(1)
+    expect(onAccept).toHaveBeenCalledTimes(1)
+  })
+
+  it('keeps calling onClose when closeButtonProps has an onClick', () => {
+    const onClose = vi.fn()
+    const onClick = vi.fn()
+
+    render(
+      <InfoCard
+        text="text"
+        onClose={onClose}
+        closeButtonProps={{ onClick, className: 'custom' }}
+      />
+    )
+
+    const buttonElement = document.querySelector(
+      '.dnb-info-card__buttons__close-button'
+    )
+
+    expect(buttonElement).toHaveClass('custom')
+
+    fireEvent.click(buttonElement)
+
+    expect(onClick).toHaveBeenCalledTimes(1)
+    expect(onClose).toHaveBeenCalledTimes(1)
+  })
+
+  it('skips onClose when the onClick in closeButtonProps returns false', () => {
+    const onClose = vi.fn()
+
+    render(
+      <InfoCard
+        text="text"
+        onClose={onClose}
+        closeButtonProps={{ onClick: () => false }}
+      />
+    )
+
+    fireEvent.click(
+      document.querySelector('.dnb-info-card__buttons__close-button')
+    )
+
+    expect(onClose).not.toHaveBeenCalled()
   })
 
   it('renders skeleton if skeleton is true', () => {

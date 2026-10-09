@@ -31,6 +31,8 @@ export default function ContentWrapper({
   animate = null,
   contentInnerSpace = { top: 'large' } as InnerSpaceType | boolean,
   nested = false,
+  className,
+  style,
   ...rest
 }: TabsContentWrapperProps) {
   const sharedStateRef = useRef<SharedState | null>(null)
@@ -108,8 +110,10 @@ export default function ContentWrapper({
       className: clsx(
         'dnb-tabs__content',
         'dnb-no-focus',
-        !contentStyle && resolvedInnerSpace && 'dnb-space'
+        !contentStyle && resolvedInnerSpace && 'dnb-space',
+        className
       ),
+      style,
     }
   )
 

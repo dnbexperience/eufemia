@@ -198,7 +198,7 @@ describe('aggregateLocalMcpUsageByVersion', () => {
           Rows: [
             {
               Data: [
-                { VarCharValue: 'eufemiaversion' },
+                { VarCharValue: 'eufemia_version' },
                 { VarCharValue: 'cnt' },
               ],
             },
@@ -218,7 +218,7 @@ describe('aggregateLocalMcpUsageByVersion', () => {
       input: { QueryString: string }
     }
     expect(start.input.QueryString).toBe(
-      `SELECT eufemiaversion, count(*) AS cnt FROM "db"."mcp_usage" WHERE dt >= '2026-06-27' AND transport = 'local' AND eufemiaversion IS NOT NULL AND eufemiaversion <> '' GROUP BY eufemiaversion ORDER BY cnt DESC`
+      `SELECT eufemia_version, count(*) AS cnt FROM "db"."mcp_usage" WHERE dt >= '2026-06-27' AND transport = 'local' AND eufemia_version IS NOT NULL AND eufemia_version <> '' GROUP BY eufemia_version ORDER BY cnt DESC`
     )
     expect(start.input.QueryString).toContain("transport = 'local'")
   })

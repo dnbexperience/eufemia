@@ -35,6 +35,7 @@ import { skeletonDOMAttributes } from '../skeleton/SkeletonHelper'
 
 import Context from '../../shared/Context'
 import Suffix from '../../shared/helpers/Suffix'
+import mergeProps from '../../shared/helpers/mergeProps'
 import FormLabel from '../form-label/FormLabel'
 import type { FormStatusBaseProps } from '../form-status/FormStatus'
 import FormStatus from '../form-status/FormStatus'
@@ -664,6 +665,9 @@ function DatePicker(externalProps: DatePickerAllProps) {
     tooltip,
   }
 
+  const { onSubmit: statusOnSubmit, ...remainingStatusProps } =
+    statusProps ?? {}
+
   const selectedDateTitle = useMemo(() => {
     const { selectedDate, selectedDateRange } = translation
     const { startDate, endDate } = dates
@@ -810,6 +814,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
               </span>
             ) : (
               <span className="dnb-date-picker__shell" id={`${id}-shell`}>
+                {/* @ts-expect-error statusProps (FormStatusProps) is spread as DatePickerInput props, which it only partly matches */}
                 <DatePickerInput
                   id={id}
                   title={title}
@@ -831,10 +836,14 @@ function DatePicker(externalProps: DatePickerAllProps) {
                   _omitInputShellClass={_omitInputShellClass}
                   {...inputAttributes}
                   submitProps={remainingSubmitProps}
-                  // @ts-expect-error statusProps (FormStatusProps) spreads a DOM `onSubmit` (SubmitEvent) that conflicts with the button `onSubmit` (MouseEvent)
-                  onSubmit={togglePicker}
                   triggerProps={triggerProps}
-                  {...statusProps}
+                  onSubmit={
+                    mergeProps(
+                      { onSubmit: togglePicker },
+                      { onSubmit: statusOnSubmit }
+                    ).onSubmit
+                  }
+                  {...remainingStatusProps}
                 />
 
                 <Popover

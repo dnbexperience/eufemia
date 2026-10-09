@@ -13,6 +13,7 @@ import DataContext from '../../DataContext/Context'
 import useDataValue from '../../hooks/useDataValue'
 import { isPath } from '../../utils/json-pointer'
 import { useTranslation as useSharedTranslation } from '../../../../shared'
+import mergeProps from '../../../../shared/helpers/mergeProps'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type SliderVisibilityEvent = MouseEvent<HTMLButtonElement> & {
@@ -150,7 +151,14 @@ function SliderComponent(props: FieldSliderProps) {
   }
 
   const sliderProps: SliderProps = {
-    ...htmlAttributes,
+    ...mergeProps(
+      {
+        onChange: handleLocalChange,
+        onDragStart: handleFocus,
+        onDragEnd: handleBlur,
+      },
+      htmlAttributes
+    ),
     id: `${id}-slider`,
     value: sliderValue,
     step,
@@ -158,9 +166,6 @@ function SliderComponent(props: FieldSliderProps) {
     max,
     disabled,
     status: hasError ? 'error' : undefined,
-    onChange: handleLocalChange,
-    onDragStart: handleFocus,
-    onDragEnd: handleBlur,
     vertical,
     reverse,
     hideButtons,

@@ -86,6 +86,7 @@ function HeightAnimation({
   duration,
   delay,
   className,
+  style,
   ref,
   children,
   compensateForGap,
@@ -232,7 +233,7 @@ function HeightAnimation({
         showOverflow && 'dnb-height-animation--show-overflow',
         className
       )}
-      style={{ ...firstPaintStyle, ...rest?.style }}
+      style={{ ...firstPaintStyle, ...style }}
       aria-hidden={shouldKeepInDOM ? !resolvedOpen : undefined}
       {...rest}
     >

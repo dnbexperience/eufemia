@@ -13,6 +13,7 @@ import {
   omitSpacingProps,
   pickSpacingProps,
 } from '../../../../components/flex/utils'
+import mergeProps from '../../../../shared/helpers/mergeProps'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
 export type WizardEditButtonProps = ComponentProps &
@@ -46,8 +47,7 @@ function EditButton(props: WizardEditButtonProps) {
         variant={variant}
         iconPosition={iconPosition}
         icon={edit || icon}
-        onClick={handleClick}
-        {...omitSpacingProps(rest)}
+        {...mergeProps({ onClick: handleClick }, omitSpacingProps(rest))}
       >
         {children}
       </Button>

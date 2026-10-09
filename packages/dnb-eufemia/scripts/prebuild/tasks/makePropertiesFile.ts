@@ -186,11 +186,17 @@ type FigmaAlias = {
   targetVariableSetName: string
 }
 
+type FigmaComposedColor = {
+  colorArg: { type: 'alias'; alias: FigmaAlias }
+  opacityArg: { type: 'number'; value: number }
+}
+
 type FigmaValueBase = {
   $type: string
   $value: unknown
   $extensions?: {
     'com.figma.aliasData'?: FigmaAlias
+    'com.figma.composedColor'?: FigmaComposedColor
   }
 }
 
@@ -233,9 +239,17 @@ type TokenItem = {
 } & FigmaValue
 
 const foundationPrefixMap = {
-  ui: { css: 'dnb', figma: 'dnb' },
-  sbanken: { css: 'sbanken', figma: 'sbanken' },
-  carnegie: { css: 'carnegie', figma: 'dnbcarnegie' },
+  ui: { css: 'dnb', figma: ['dnb'] },
+  sbanken: { css: 'sbanken', figma: ['sbanken'] },
+  // Figma renamed the group, and exports synced before still use dnbcarnegie
+  carnegie: { css: 'carnegie', figma: ['dnb-carnegie', 'dnbcarnegie'] },
+}
+
+/** Keeps only the foundation group of one theme, under whichever name the export uses */
+const pickFoundationGroup = (json: FigmaExport, names: string[]) => {
+  const name = names.find((name) => name in json) ?? names[0]
+
+  return { [name]: json[name] }
 }
 
 export const transformFigmaAlias = (alias: FigmaAlias) => {
@@ -248,7 +262,7 @@ export const transformFigmaAlias = (alias: FigmaAlias) => {
     let knownPrefix = false
     Object.values(foundationPrefixMap).forEach((prefix) => {
       // TODO: perhaps we should be even more strict and ensure that the prefix is from the correct theme
-      if (path[0] === prefix.figma) {
+      if (prefix.figma.includes(path[0])) {
         knownPrefix = true
       }
     })
@@ -351,9 +365,46 @@ export const transformFigmaValue = (value: FigmaValue) => {
     return transformFigmaAlias(
       value.$extensions?.['com.figma.aliasData'] as FigmaAlias
     )
-  } else {
-    return transformFigmaRawValue(value)
   }
+
+  const composed = getComposedColor(value)
+  if (composed) {
+    return `color-mix(in srgb, ${transformFigmaAlias(
+      composed.colorArg.alias
+    )} ${composed.opacityArg.value}%, transparent)`
+  }
+
+  return transformFigmaRawValue(value)
+}
+
+const getComposedColor = (value: FigmaValue) => {
+  const composed = value.$extensions?.['com.figma.composedColor']
+
+  return composed?.colorArg?.type === 'alias' &&
+    composed.opacityArg?.type === 'number'
+    ? composed
+    : undefined
+}
+
+const COLOR_MIX_FALLBACK_CONDITION =
+  '@supports not (color: color-mix(in srgb, red, red))'
+
+/** Literal values of the composed colors, for browsers without `color-mix()` */
+export const generateColorMixFallback = (
+  tokenList: TokenList,
+  selector: string,
+  namespace?: string
+) => {
+  const declarations = generateCSSVariablesFromTokenList(
+    tokenList
+      .filter((token) => getComposedColor(token))
+      .map((token) => ({ ...token, $extensions: undefined })),
+    namespace
+  )
+
+  return declarations
+    ? `${COLOR_MIX_FALLBACK_CONDITION} {\n${selector} {\n${declarations}}\n}\n`
+    : ''
 }
 
 const transformFigmaRawValue = (value: FigmaValue) => {
@@ -390,7 +441,7 @@ export const transformFigmaPath = (
   if (value.figmaSetId === TOKEN_SETS.colors.targetVariableSetId) {
     Object.values(foundationPrefixMap).forEach((prefix) => {
       // TODO: perhaps we should be even more strict and ensure that the prefix is from the correct theme
-      if (cleanPath[0] === prefix.figma) {
+      if (prefix.figma.includes(cleanPath[0])) {
         cleanPath[0] = prefix.css
       }
     })
@@ -533,9 +584,20 @@ const makeDesignTokenTailwindCSS = async (
     let currentSelector: string | null = null
 
     let pendingSelectorLines: string[] = []
+    let skippedBlockDepth = 0
 
     for (const line of lines) {
       const trimmed = line.trim()
+
+      // Tailwind v4 requires color-mix() support, so it needs no fallback
+      if (
+        skippedBlockDepth > 0 ||
+        trimmed.startsWith(COLOR_MIX_FALLBACK_CONDITION)
+      ) {
+        skippedBlockDepth +=
+          trimmed.split('{').length - trimmed.split('}').length
+        continue
+      }
 
       if (!collecting && trimmed.endsWith('{')) {
         currentSelector = [...pendingSelectorLines, trimmed.slice(0, -1)]
@@ -720,6 +782,11 @@ const makeDesignTokenSCSS = async ({
 
     scssContent += generateCSSVariablesFromTokenList(tokenList, namespace)
     scssContent += '}\n'
+    scssContent += generateColorMixFallback(
+      tokenList,
+      combinedSelector,
+      namespace
+    )
 
     if (referencedVariables) {
       scssContent = keepOnlyReferencedVariableDeclarations(
@@ -913,29 +980,24 @@ const runDesignTokenFactory = async () => {
       in: `./src/style/themes/figma/${TOKEN_SETS.colors.fileName}`,
       out: './src/style/themes/ui/foundation.scss',
       figmaSetId: TOKEN_SETS.colors.targetVariableSetId,
-      filter: (json) => ({
-        [foundationPrefixMap.ui.figma]: json[foundationPrefixMap.ui.figma],
-      }),
+      filter: (json) =>
+        pickFoundationGroup(json, foundationPrefixMap.ui.figma),
     },
     {
       theme: 'sbanken',
       in: `./src/style/themes/figma/${TOKEN_SETS.colors.fileName}`,
       out: './src/style/themes/sbanken/foundation.scss',
       figmaSetId: TOKEN_SETS.colors.targetVariableSetId,
-      filter: (json) => ({
-        [foundationPrefixMap.sbanken.figma]:
-          json[foundationPrefixMap.sbanken.figma],
-      }),
+      filter: (json) =>
+        pickFoundationGroup(json, foundationPrefixMap.sbanken.figma),
     },
     {
       theme: 'carnegie',
       in: `./src/style/themes/figma/${TOKEN_SETS.colors.fileName}`,
       out: './src/style/themes/carnegie/foundation.scss',
       figmaSetId: TOKEN_SETS.colors.targetVariableSetId,
-      filter: (json) => ({
-        [foundationPrefixMap.carnegie.figma]:
-          json[foundationPrefixMap.carnegie.figma],
-      }),
+      filter: (json) =>
+        pickFoundationGroup(json, foundationPrefixMap.carnegie.figma),
     },
   ]
 

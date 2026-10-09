@@ -41,6 +41,7 @@ import ModalHeaderBar from './parts/ModalHeaderBar'
 import type { ScrollViewAllProps } from '../scroll-view/ScrollView'
 import CloseButton from './parts/CloseButton'
 import ModalRoot from './ModalRoot'
+import { MODAL_OPEN_EVENT } from './ModalContext'
 import { ParagraphContext } from '../../elements/typography/P'
 import type { SpacingProps } from '../../shared/types'
 import type { ButtonProps } from '../button/Button'
@@ -141,6 +142,7 @@ function ModalComponent(ownProps: ModalAllProps) {
     isModalActive: boolean
     preventAutoFocus: boolean
   } | null>(null)
+  const hasDispatchedOpenRef = useRef(false)
 
   const [hide, setHide] = useState(false)
   const [modalActive, setModalActive] = useState(false)
@@ -312,6 +314,14 @@ function ModalComponent(ownProps: ModalAllProps) {
         isInTransitionRef.current = true
 
         const doItNow = () => {
+          if (
+            newModalActive &&
+            !hasDispatchedOpenRef.current &&
+            typeof document !== 'undefined'
+          ) {
+            document.dispatchEvent(new Event(MODAL_OPEN_EVENT))
+          }
+          hasDispatchedOpenRef.current = newModalActive
           setHide(false)
           setModalActive(newModalActive)
           isInTransitionRef.current = false

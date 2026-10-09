@@ -280,6 +280,7 @@ export default {
     Upload: {
       errorRequired: 'Du skal uploade mindst én fil.',
       errorInvalidFiles: 'Fjern alle filer, der indeholder fejl.',
+      errorUploadFailed: 'Filen kunne ikke uploades.',
     },
   } satisfies (typeof nb)['nb-NO'],
 }

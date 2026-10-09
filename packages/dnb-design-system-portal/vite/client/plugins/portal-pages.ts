@@ -10,7 +10,7 @@
 import { type Plugin } from 'vite'
 import fs from 'node:fs'
 import path from 'node:path'
-import matter from 'gray-matter'
+import matter from '@11ty/gray-matter'
 import { getSlugFromMdxHeading } from '../../../src/uilib/utils/slug.mjs'
 import type {
   MdxFrontmatter,
@@ -18,7 +18,7 @@ import type {
   PageFileInfo,
   TableOfContentsItem,
 } from './portal-pages.shared'
-import { isFirstTabPage } from './portal-pages.shared'
+import { compareByOrder, isFirstTabPage } from './portal-pages.shared'
 
 const VIRTUAL_MODULE_ID = 'virtual:portal-pages'
 const RESOLVED_VIRTUAL_MODULE_ID = '\0' + VIRTUAL_MODULE_ID
@@ -56,11 +56,15 @@ export function shouldIgnore(filePath: string): boolean {
 /**
  * Extract a table-of-contents tree from MDX content by parsing
  * markdown headings (## and ###).
+ *
+ * The shallowest heading level present sets the top level, so partials
+ * that only use ### list their headings instead of dropping them.
  */
 export function extractTableOfContents(
   mdxContent: string
 ): { items: TableOfContentsItem[] } | undefined {
   const headingRegex = /^(#{2,3})\s+(.+)$/gm
+  const firstDepth = /^##\s+.+$/m.test(mdxContent) ? 2 : 3
   const items: TableOfContentsItem[] = []
   let match: RegExpExecArray | null
 
@@ -69,9 +73,9 @@ export function extractTableOfContents(
     const title = match[2].trim()
     const url = `#${getSlugFromMdxHeading(match[0])}`
 
-    if (depth === 2) {
+    if (depth === firstDepth) {
       items.push({ url, title })
-    } else if (depth === 3 && items.length > 0) {
+    } else if (depth === firstDepth + 1 && items.length > 0) {
       const parent = items[items.length - 1]
       if (!parent.items) {
         parent.items = []
@@ -125,13 +129,8 @@ export function toRegularMdxNodes(nodes: MdxNode[]): MdxNode[] {
         String(b.frontmatter.title)
       )
     })
-    .sort(
-      ({ frontmatter: { order: a } }, { frontmatter: { order: b } }) => {
-        if (a === b) return 0
-        if (a === undefined) return 1
-        if (b === undefined) return -1
-        return (a as number) - (b as number)
-      }
+    .sort((a, b) =>
+      compareByOrder(a.frontmatter.order, b.frontmatter.order)
     )
 }
 

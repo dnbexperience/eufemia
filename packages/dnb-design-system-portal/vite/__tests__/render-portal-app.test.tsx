@@ -1,6 +1,12 @@
 import { describe, expect, it, vi } from 'vitest'
 import { renderPortalApp } from '../client/render-portal-app'
 
+vi.mock('virtual:build-info', () => ({
+  releaseVersion: 'v11.0.0',
+  buildVersion: '1.1.2026, 12:00:00',
+  changelogVersion: 'v11.0.0',
+}))
+
 describe('renderPortalApp', () => {
   it('creates a root once and reuses it for later renders', () => {
     const container = document.createElement('div')
@@ -102,10 +108,13 @@ describe('renderPortalApp', () => {
     )
   })
 
-  it('passes onRecoverableError to hydrateRoot to suppress mismatch warnings', () => {
+  it('logs recoverable hydration errors in release builds', () => {
     vi.spyOn(console, 'group').mockImplementation(() => {})
     vi.spyOn(console, 'groupEnd').mockImplementation(() => {})
-    vi.spyOn(console, 'error').mockImplementation(() => {})
+    vi.spyOn(console, 'log').mockImplementation(() => {})
+    const errorSpy = vi
+      .spyOn(console, 'error')
+      .mockImplementation(() => {})
 
     const container = document.createElement('div')
     container.innerHTML = '<div>Pre-rendered</div>'
@@ -130,14 +139,21 @@ describe('renderPortalApp', () => {
     })
 
     const options = (hydrateRootFn.mock.calls[0] as unknown[])[2] as
-      | { onRecoverableError?: (error: unknown) => void }
+      | {
+          onRecoverableError?: (
+            error: unknown,
+            errorInfo: { componentStack?: string }
+          ) => void
+        }
       | undefined
-    expect(options).toHaveProperty('onRecoverableError')
-    expect(typeof options?.onRecoverableError).toBe('function')
+    const error = new Error('hydration mismatch')
 
-    // The handler silently swallows errors instead of rethrowing
     expect(() =>
-      options?.onRecoverableError?.(new Error('hydration mismatch'))
+      options?.onRecoverableError?.(error, {
+        componentStack: '\n    at App',
+      })
     ).not.toThrow()
+    expect(errorSpy).toHaveBeenCalledWith(error)
+    expect(console.log).toHaveBeenCalledWith('\n    at App')
   })
 })

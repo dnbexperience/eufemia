@@ -937,7 +937,6 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
             id={id}
             disabled={disabled}
             skeleton={skeleton}
-            className={clsx(showInput && 'dnb-button--input-button')}
             selected={open}
             aria-label={ariaLabel}
             title={title}
@@ -947,11 +946,12 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
             type="button"
             icon="calendar"
             variant="secondary"
-            onSubmit={onSubmit}
-            onClick={onSubmit}
             {...submitProps}
             {...statusProps}
             {...triggerProps}
+            className={clsx(showInput && 'dnb-button--input-button')}
+            onSubmit={onSubmit}
+            onClick={onSubmit}
           />
         }
         lang={lang}

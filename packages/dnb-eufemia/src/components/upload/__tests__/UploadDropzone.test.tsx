@@ -66,6 +66,24 @@ describe('UploadDropzone', () => {
     ])
   })
 
+  it('keeps the drop event when a given onDrop is passed', () => {
+    defaultContext.onInputUpload = vi.fn()
+    const onDrop = vi.fn()
+
+    render(<MockComponent {...defaultProps} onDrop={onDrop} />)
+
+    const file1 = createMockFile('fileName-1.png', 100, 'image/png')
+
+    fireEvent.drop(getRootElement(), {
+      dataTransfer: { files: [file1] },
+    })
+
+    expect(onDrop).toHaveBeenCalledTimes(1)
+    expect(defaultContext.onInputUpload).toHaveBeenLastCalledWith([
+      { file: file1 },
+    ])
+  })
+
   it('has "active" class on dragEnter event', async () => {
     render(<MockComponent {...defaultProps} />)
 

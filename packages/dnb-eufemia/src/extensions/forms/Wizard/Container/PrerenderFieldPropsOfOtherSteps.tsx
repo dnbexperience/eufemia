@@ -4,6 +4,7 @@ import {
   useEffect,
   useReducer,
   useRef,
+  useSyncExternalStore,
 } from 'react'
 import type { ReactNode } from 'react'
 import { createPortal } from 'react-dom'
@@ -14,10 +15,34 @@ import type { WizardContextState } from '../Context/WizardContext'
 import WizardContext from '../Context/WizardContext'
 import useEventListener from '../../DataContext/Provider/useEventListener'
 
-export function PrerenderFieldPropsOfOtherSteps({
+type PrerenderProps = Pick<
+  WizardContextState,
+  'prerenderFieldPropsRef' | 'stepsRef'
+>
+
+const subscribe = () => () => undefined
+const getClientSnapshot = () => typeof document !== 'undefined'
+const getServerSnapshot = () => false
+
+export function PrerenderFieldPropsOfOtherSteps(props: PrerenderProps) {
+  // The portal has no server markup, so it may only mount after hydration
+  const canUseDOM = useSyncExternalStore(
+    subscribe,
+    getClientSnapshot,
+    getServerSnapshot
+  )
+
+  if (!canUseDOM) {
+    return null
+  }
+
+  return <PrerenderSteps {...props} />
+}
+
+function PrerenderSteps({
   prerenderFieldPropsRef,
   stepsRef,
-}: Pick<WizardContextState, 'prerenderFieldPropsRef' | 'stepsRef'>) {
+}: PrerenderProps) {
   const { activeIndex } = useContext(WizardContext) || {}
   const { renderContent, hasRenderedRef } = usePrerenderState()
 
@@ -95,13 +120,15 @@ function useEffectPromise() {
   const promiseRef = useRef<Promise<void> | undefined>(undefined)
   const resolveRef = useRef<(() => void) | null>(null)
 
-  const effectPromise = useCallback(() => {
+  // Create the promise before the render it waits for is requested,
+  // so that render's effect is guaranteed to resolve it
+  const createEffectPromise = useCallback(() => {
     promiseRef.current = new Promise((resolve) => {
       resolveRef.current = resolve
     })
-
-    return promiseRef.current
   }, [])
+
+  const getEffectPromise = useCallback(() => promiseRef.current, [])
 
   useEffect(() => {
     // Delay the promise to allow the prerendered steps to be rendered
@@ -111,21 +138,26 @@ function useEffectPromise() {
     }
   }) // No deps, because we want to run this effect always
 
-  return effectPromise
+  return { createEffectPromise, getEffectPromise }
 }
 
 function usePreventSubmit() {
   const { setFieldEventListener } = useContext(DataContext)
   const { hasInvalidStepsState } = useContext(WizardContext) || {}
 
-  const effectPromise = useEffectPromise()
+  const { createEffectPromise, getEffectPromise } = useEffectPromise()
+
+  // The submit always re-renders the form after onBeforeSubmit, and the
+  // effect of that render resolves the promise
+  useEventListener('onBeforeSubmit', createEffectPromise)
+
   const hasUnknownSteps = hasInvalidStepsState(undefined, ['unknown'])
 
   const handleSubmit = useCallback(
     async ({ preventSubmit }) => {
       // - Wait for the prerendered steps to be rendered
       if (hasUnknownSteps) {
-        await effectPromise()
+        await getEffectPromise()
       }
 
       // - If there is a step with an error state, we need to prevent the submit
@@ -133,7 +165,7 @@ function usePreventSubmit() {
         return preventSubmit()
       }
     },
-    [hasUnknownSteps, hasInvalidStepsState, effectPromise]
+    [hasUnknownSteps, hasInvalidStepsState, getEffectPromise]
   )
 
   // Only add the listener when there is an unknown step state
@@ -150,15 +182,8 @@ function usePreventSubmit() {
   }, [handleSubmit, setFieldEventListener])
 }
 
-function PrerenderPortal({
-  children,
-}: {
-  children: ReactNode
-}): ReactNode {
-  if (typeof document !== 'undefined') {
-    return createPortal(children, document.body)
-  }
-  return undefined
+function PrerenderPortal({ children }: { children: ReactNode }) {
+  return createPortal(children, document.body)
 }
 
 function PrerenderFieldPropsProvider({ showAllErrorsNow, children }) {

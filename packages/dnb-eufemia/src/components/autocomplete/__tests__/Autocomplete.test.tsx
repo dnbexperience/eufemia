@@ -524,6 +524,58 @@ describe('Autocomplete component', () => {
         document.querySelector('.dnb-autocomplete__inner')
       ).toHaveAttribute('id')
     })
+
+    it('keeps the submit button free of the given statusProps', () => {
+      const onClick = vi.fn()
+
+      render(
+        <Autocomplete
+          data={mockData}
+          {...mockProps}
+          showSubmitButton
+          statusProps={{ className: 'custom-status', onClick }}
+        />
+      )
+
+      const button = document.querySelector(
+        '.dnb-input__submit-button button'
+      )
+
+      expect(button).toHaveClass('dnb-input__submit-button__button')
+      expect(button).not.toHaveClass('custom-status')
+
+      fireEvent.click(button)
+
+      expect(document.querySelector('.dnb-input__input')).toHaveAttribute(
+        'aria-expanded',
+        'true'
+      )
+    })
+
+    it('applies the given statusProps to the form status only', () => {
+      render(
+        <Autocomplete
+          data={mockData}
+          {...mockProps}
+          status="status text"
+          statusProps={{
+            className: 'custom-status',
+            id: 'custom-status-id',
+          }}
+        />
+      )
+
+      expect(document.querySelector('.custom-status')).toHaveClass(
+        'dnb-form-status'
+      )
+      expect(document.querySelector('.dnb-input')).toHaveClass(
+        'dnb-autocomplete__input'
+      )
+      expect(document.querySelector('.dnb-input__input')).toHaveAttribute(
+        'id',
+        mockProps.id
+      )
+    })
   })
 
   it('keyboard navigation loops', () => {
@@ -5940,6 +5992,48 @@ describe('Autocomplete with List item content', () => {
     )
 
     expect(await axeComponent(Comp)).toHaveNoViolations()
+  })
+})
+
+describe('Autocomplete given input handlers', () => {
+  it('should keep opening the list with ArrowDown when an onKeyDown is given', async () => {
+    const onKeyDown = vi.fn()
+
+    render(
+      <Autocomplete data={mockData} {...mockProps} onKeyDown={onKeyDown} />
+    )
+
+    fireEvent.keyDown(document.querySelector('.dnb-input__input'), {
+      key: 'ArrowDown',
+    })
+
+    expect(onKeyDown).toHaveBeenCalledTimes(1)
+    await waitFor(() => {
+      expect(document.querySelector('.dnb-autocomplete')).toHaveClass(
+        'dnb-autocomplete--open'
+      )
+    })
+  })
+
+  it('should keep opening the list on mouse down when an onMouseDown is given', async () => {
+    const onMouseDown = vi.fn()
+
+    render(
+      <Autocomplete
+        data={mockData}
+        {...mockProps}
+        onMouseDown={onMouseDown}
+      />
+    )
+
+    fireEvent.mouseDown(document.querySelector('.dnb-input__input'))
+
+    expect(onMouseDown).toHaveBeenCalledTimes(1)
+    await waitFor(() => {
+      expect(document.querySelector('.dnb-autocomplete')).toHaveClass(
+        'dnb-autocomplete--open'
+      )
+    })
   })
 })
 

@@ -2946,6 +2946,33 @@ describe('InputMasked scss', () => {
   })
 })
 
+describe('InputMasked Maskito integration', () => {
+  it('should not throw when an input event arrives without a preceding beforeinput event', () => {
+    // https://github.com/taiga-family/maskito/issues/2903
+    render(<InputMasked value="1234" numberMask />)
+
+    const input = document.querySelector('input')
+    const listenerErrors: Array<unknown> = []
+    // jsdom reports listener exceptions as window errors instead of rethrowing
+    const onError = (event: ErrorEvent) => {
+      listenerErrors.push(event.error)
+    }
+    window.addEventListener('error', onError)
+
+    fireEvent.keyDown(input, { key: 'Unidentified' })
+    input.dispatchEvent(
+      new InputEvent('input', {
+        bubbles: true,
+        inputType: 'deleteContentBackward',
+      })
+    )
+
+    window.removeEventListener('error', onError)
+
+    expect(listenerErrors).toEqual([])
+  })
+})
+
 describe('types', () => {
   it('should have correct types for onChange', () => {
     render(

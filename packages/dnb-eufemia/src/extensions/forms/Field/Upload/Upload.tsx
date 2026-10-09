@@ -16,8 +16,12 @@ import type {
 } from '../../../../components/Upload'
 import Upload from '../../../../components/Upload'
 import useUpload from '../../../../components/upload/useUpload'
-import { isSameFile } from '../../../../components/upload/uploadFileUtils'
+import {
+  getErrorMessage,
+  isSameFile,
+} from '../../../../components/upload/uploadFileUtils'
 import { pickSpacingProps } from '../../../../components/flex/utils'
+import mergeProps from '../../../../shared/helpers/mergeProps'
 import type { HelpProps } from '../../../../components/help-button/HelpButtonInline'
 import HelpButtonInline, {
   HelpButtonInlineContent,
@@ -25,7 +29,6 @@ import HelpButtonInline, {
 import { useTranslation as useSharedTranslation } from '../../../../shared'
 import type { SpacingProps } from '../../../../shared/types'
 import { FormError } from '../../utils'
-import { DEFAULT_ASYNC_SUBMIT_TIMEOUT } from '../../defaults'
 import { useIterateItemNo } from '../../Iterate/ItemNo/useIterateItemNo'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
@@ -33,7 +36,6 @@ export type { UploadFile, UploadFileNative }
 export type UploadValue = Array<UploadFile | UploadFileNative>
 type FileHandlerOperation = {
   fieldIdentifier: Identifier
-  timeout?: ReturnType<typeof setTimeout>
   invalidated: boolean
 }
 
@@ -180,28 +182,15 @@ function UploadComponent(props: FieldUploadProps) {
     filesRef.current = files
   }, [files])
 
-  // A file that waits for the fileHandler keeps its loading state, which
-  // disables its delete button, and keeps the field pending, which blocks the
-  // form submit. Give both a deadline, so a Promise that never settles cannot
-  // leave the file, and with it the form, permanently stuck.
-  const asyncSubmitTimeout =
-    dataContext?.props?.asyncSubmitTimeout ?? DEFAULT_ASYNC_SUBMIT_TIMEOUT
   const fileHandlerOperationsRef = useRef<Set<FileHandlerOperation>>(
     new Set()
   )
 
   const completeFileHandlerOperation = useCallback(
-    (
-      operation: FileHandlerOperation,
-      { cancelPendingSubmit = false } = {}
-    ) => {
+    (operation: FileHandlerOperation) => {
       const operations = fileHandlerOperationsRef.current
       if (!operations.delete(operation)) {
         return
-      }
-
-      if (typeof operation.timeout !== 'undefined') {
-        clearTimeout(operation.timeout)
       }
 
       const hasPendingOperation = Array.from(operations).some(
@@ -211,8 +200,7 @@ function UploadComponent(props: FieldUploadProps) {
 
       setFieldState?.(
         operation.fieldIdentifier,
-        hasPendingOperation ? 'pending' : undefined,
-        cancelPendingSubmit ? { cancelPendingSubmit: true } : undefined
+        hasPendingOperation ? 'pending' : undefined
       )
 
       if (!hasPendingOperation) {
@@ -229,11 +217,10 @@ function UploadComponent(props: FieldUploadProps) {
     return () => {
       operations.forEach((operation) => {
         operation.invalidated = true
-        clearTimeout(operation.timeout)
+        completeFileHandlerOperation(operation)
       })
-      operations.clear()
     }
-  }, [])
+  }, [completeFileHandlerOperation])
 
   const labelWithItemNo = useIterateItemNo({
     label: label ?? title,
@@ -319,26 +306,21 @@ function UploadComponent(props: FieldUploadProps) {
           }))
           setFiles([...filesRef.current, ...newFilesLoading])
 
-          const loadingFiles = newFilesLoading.filter(
-            (file) => file.isLoading
-          )
-          operation.timeout = setTimeout(() => {
-            operation.invalidated = true
-            completeFileHandlerOperation(operation, {
-              cancelPendingSubmit: true,
-            })
-            setFiles(
-              filesRef.current?.map((file) => {
-                return loadingFiles.some((loadingFile) =>
-                  isSameFile(loadingFile, file)
-                )
-                  ? { ...file, isLoading: false }
-                  : file
-              })
+          let incomingFiles: UploadValue
+          try {
+            incomingFiles = await fileHandler(newValidFiles)
+          } catch (error) {
+            const errorMessage = getErrorMessage(
+              error,
+              formsTr.errorUploadFailed
             )
-          }, asyncSubmitTimeout)
+            incomingFiles = newValidFiles.map((file) => ({
+              ...file,
+              errorMessage,
+            }))
+          }
 
-          const incomingFiles = await fileHandler(newValidFiles)
+          // After an unmount, the path may belong to another field
           if (operation.invalidated) {
             return
           }
@@ -409,7 +391,6 @@ function UploadComponent(props: FieldUploadProps) {
     },
     [
       identifier,
-      asyncSubmitTimeout,
       fileHandler,
       onValidationError,
       handleChange,
@@ -417,6 +398,7 @@ function UploadComponent(props: FieldUploadProps) {
       setFieldState,
       setFiles,
       completeFileHandlerOperation,
+      formsTr.errorUploadFailed,
     ]
   )
 
@@ -512,9 +494,6 @@ function UploadComponent(props: FieldUploadProps) {
         disabled={disabled}
         fileMaxSize={fileMaxSize}
         skeleton={skeleton}
-        onChange={changeHandler}
-        onFileDelete={onFileDelete}
-        onFileClick={onFileClick}
         title={
           help && labelDescription === false ? (
             <LabelWithHelpButton
@@ -537,7 +516,14 @@ function UploadComponent(props: FieldUploadProps) {
             usedLabelDescription
           )
         }
-        {...htmlAttributes}
+        {...mergeProps(
+          {
+            onChange: changeHandler,
+            onFileDelete,
+            onFileClick,
+          },
+          htmlAttributes
+        )}
       >
         {help && (
           <HelpButtonInlineContent

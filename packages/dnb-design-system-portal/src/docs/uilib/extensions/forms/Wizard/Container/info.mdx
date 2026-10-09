@@ -102,7 +102,7 @@ const MyForm = () => {
 
 To define a different initial index (other than 0), you can use the `initialActiveIndex` property.
 
-**Note:** When using `initialActiveIndex`, there may be previous steps with unknown field validation statuses. To address this, you can use the `keepInDOM` property to ensure that some or all steps are not removed from the DOM, so validation runs on fields in previous steps.
+**Note:** Steps that are not shown are removed from the DOM, unless they use `keepInDOM`. On submit, the Wizard still checks their fields for errors from built-in rules like `required`, `pattern` and schemas. Validators like `onChangeValidator` and `onBlurValidator` only run on submit for fields that are in the DOM. This matters when the user has not completed all previous steps with the Next button, for example when using `initialActiveIndex` or the `loose` mode. Use `keepInDOM` on those steps so all their validation runs on submit.
 
 For controlling the wizard steps interactively, you can use the [Wizard.useStep](/uilib/extensions/forms/Wizard/useStep/) hook:
 

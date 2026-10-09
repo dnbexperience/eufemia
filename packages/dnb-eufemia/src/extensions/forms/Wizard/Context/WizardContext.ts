@@ -41,8 +41,9 @@ export type WizardContextState = {
   onStepChangeEventsRef?: RefObject<Set<OnStepChange>>
   prerenderFieldProps?: boolean
   keepInDOM?: boolean
-  handlePrevious?: () => void
-  handleNext?: () => void
+  // Accept any argument, so both can be passed to onClick
+  handlePrevious?: (submitButtonId?: unknown) => void
+  handleNext?: (submitButtonId?: unknown) => void
   setActiveIndex?: (
     index: StepIndex,
     {
