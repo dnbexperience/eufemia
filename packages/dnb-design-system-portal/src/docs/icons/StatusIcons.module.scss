@@ -43,36 +43,43 @@
   align-items: center;
   justify-content: center;
 
-  width: 2rem;
-  height: 2rem;
-
-  border-radius: var(--token-radius-md);
+  border-radius: var(--token-radius-full);
 
   color: var(--status-icon-color);
   background-color: var(--status-icon-background);
 }
 
-.compact {
+.large {
+  width: 2.5rem;
+  height: 2.5rem;
+}
+
+.medium {
+  width: 2rem;
+  height: 2rem;
+}
+
+.small {
   width: 1.5rem;
   height: 1.5rem;
 }
 
 .positive {
-  --status-icon-color: var(--token-color-text-positive);
-  --status-icon-background: var(--token-color-background-positive-subtle);
+  --status-icon-color: var(--token-color-text-neutral-inverse);
+  --status-icon-background: var(--token-color-background-positive);
 }
 
 .warning {
-  --status-icon-color: var(--token-color-text-warning);
-  --status-icon-background: var(--token-color-background-warning-subtle);
+  --status-icon-color: var(--token-color-text-neutral-onlight);
+  --status-icon-background: var(--token-color-background-warning);
 }
 
 .negative {
-  --status-icon-color: var(--token-color-text-error);
-  --status-icon-background: var(--token-color-background-error-subtle);
+  --status-icon-color: var(--token-color-text-neutral-ondark);
+  --status-icon-background: var(--token-color-background-error);
 }
 
 .neutral {
   --status-icon-color: var(--token-color-text-neutral);
-  --status-icon-background: var(--token-color-background-neutral-subtle);
+  --status-icon-background: var(--token-color-background-neutral-bold);
 }
