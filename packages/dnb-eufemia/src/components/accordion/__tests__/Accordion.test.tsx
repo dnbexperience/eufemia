@@ -3,7 +3,7 @@
  *
  */
 
-import { act, useEffect, useState } from 'react'
+import { Profiler, act, useEffect, useState } from 'react'
 import type { ReactElement, RefObject } from 'react'
 import { renderToString } from 'react-dom/server'
 import { hydrateRoot } from 'react-dom/client'
@@ -1432,6 +1432,30 @@ describe('Accordion with server-rendered markup', () => {
 
     unmount()
     localStorage.removeItem('dnb-accordion-remembered')
+  })
+
+  it('should not render more often while hydrating than in a client render, without expandedSsr or rememberState', () => {
+    const clientRenders = vi.fn()
+    const { unmount: unmountClient } = render(
+      <Profiler id="client" onRender={clientRenders}>
+        <Accordion title="Title">Content</Accordion>
+      </Profiler>
+    )
+    unmountClient()
+
+    const hydrationRenders = vi.fn()
+    const { recoverableErrors, unmount } = hydrate(
+      <Profiler id="hydration" onRender={hydrationRenders}>
+        <Accordion title="Title">Content</Accordion>
+      </Profiler>
+    )
+
+    expect(recoverableErrors).toEqual([])
+    expect(hydrationRenders).toHaveBeenCalledTimes(
+      clientRenders.mock.calls.length
+    )
+
+    unmount()
   })
 })
 
