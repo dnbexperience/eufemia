@@ -59,8 +59,16 @@ const DefaultLink = ({ href, ...props }) => {
   )
 }
 
-function AiBlockquote(props: React.HTMLAttributes<HTMLQuoteElement>) {
-  return <blockquote className="dnb-ai-response__blockquote" {...props} />
+function AiBlockquote({
+  className,
+  ...props
+}: React.HTMLAttributes<HTMLQuoteElement>) {
+  return (
+    <blockquote
+      {...props}
+      className={clsx('dnb-ai-response__blockquote', className)}
+    />
+  )
 }
 
 const DEFAULT_COMPONENTS: Record<AiResponseElement, React.ElementType> = {
