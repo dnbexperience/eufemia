@@ -84,7 +84,7 @@ export type AccordionProps = Omit<
      */
     noAnimation?: boolean
     /**
-     * If set to `true` the accordion will be expanded during SSR. Can be potentially useful for SEO, although it will disturb client hydration, where React expects the same state. But that's mainly a technical aspect to consider.
+     * If set to `true` the accordion will be expanded during SSR, which can be useful for SEO. It collapses right after hydration.
      */
     expandedSsr?: boolean
     /**

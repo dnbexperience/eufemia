@@ -15,6 +15,7 @@ import {
 } from '../../shared/component-helper'
 import { useSpacing } from '../space/SpacingUtils'
 import useId from '../../shared/helpers/useId'
+import useCanUseDOM from '../../shared/helpers/useCanUseDOM'
 
 import AccordionGroup from './AccordionGroup'
 import AccordionHeader from './AccordionHeader'
@@ -70,10 +71,33 @@ function AccordionDefault({
 
   // States ordered last here to make sure that the getInitialExpandedState have access to the store
   const [previousExpanded, setPreviousExpanded] = useState(props.expanded)
-  const [expanded, setExpanded] = useState<boolean>(
-    getInitialExpandedState()
+  const canUseDOM = useCanUseDOM({
+    waitForHydration: Boolean(
+      props.expandedSsr ||
+      context?.expandedSsr ||
+      props.rememberState ||
+      context?.rememberState
+    ),
+  })
+  const [expanded, setExpanded] = useState<boolean>(() =>
+    getInitialExpandedState(!canUseDOM)
   )
   const hasAddedCallbackRef = useRef<boolean>(false)
+
+  // Render the server state while hydrating, then apply what only the browser
+  // knows (expandedSsr and rememberState) right after, without animating it
+  const [hydrationPhase, setHydrationPhase] = useState<
+    'server' | 'switching' | 'done'
+  >(canUseDOM ? 'done' : 'server')
+  if (hydrationPhase === 'server' && canUseDOM) {
+    setHydrationPhase('switching')
+    setExpanded(getInitialExpandedState(false))
+  }
+  useEffect(() => {
+    if (hydrationPhase === 'switching') {
+      setHydrationPhase('done')
+    }
+  }, [hydrationPhase])
 
   // replacement for getDerivedStateFromProps
   if (props.expanded !== previousExpanded) {
@@ -142,12 +166,14 @@ function AccordionDefault({
   // Gets the initial expanded state, to prevent the opening and closing of Accordion
   // That happens when if we put this logic in a useEffect that runs after the initial expanded state is set
   // Since useEffect runs after every render
-  function getInitialExpandedState() {
+  function getInitialExpandedState(
+    isServer = typeof window === 'undefined'
+  ) {
     if (props.expandedSsr || context?.expandedSsr) {
-      return typeof window === 'undefined'
+      return isServer
     }
 
-    if (props.rememberState || context.rememberState) {
+    if (!isServer && (props.rememberState || context.rememberState)) {
       const storedExpanded = store.getState()
 
       if (props.expanded && storedExpanded === false) {
@@ -309,7 +335,7 @@ function AccordionDefault({
     rememberState: rememberState,
     disabled: disabled,
     skeleton: skeleton,
-    noAnimation: noAnimation,
+    noAnimation: noAnimation || hydrationPhase === 'switching',
     callOnChange: callOnChangeHandler,
   }
 
