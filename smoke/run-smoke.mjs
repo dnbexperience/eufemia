@@ -3,9 +3,10 @@
  * @dnb/eufemia tarball, to catch broken exports, CSS imports, types or
  * tree-shaking regressions before a release reaches consumers.
  *
- * Usage: node smoke/run-smoke.mjs <fixture> [--tarball <path>] [--keep]
+ * Usage: node smoke/run-smoke.mjs <fixture> [--tarball <path>] [--check-hydration] [--keep]
  *   <fixture>   directory under smoke/ to build (e.g. "vite")
  *   --tarball   path to a prebuilt .tgz; if omitted, packs packages/dnb-eufemia/build
+ *   --check-hydration  serve the "nextjs" fixture and check it hydrates without errors in Chromium
  *   --keep      keep the temporary consumer directory (for debugging)
  */
 import { execFileSync } from 'node:child_process'
@@ -20,6 +21,7 @@ import {
 import { tmpdir } from 'node:os'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { checkHydration } from './check-hydration.mjs'
 
 const smokeRoot = path.dirname(fileURLToPath(import.meta.url))
 const repoRoot = path.resolve(smokeRoot, '..')
@@ -123,16 +125,21 @@ function assertTreeShaking(fixture, workDir, built) {
   )
 }
 
-function main() {
+async function main() {
   const args = process.argv.slice(2)
   const fixture = args.find((arg) => !arg.startsWith('--'))
   const keep = args.includes('--keep')
+  const shouldCheckHydration = args.includes('--check-hydration')
   const tarballIndex = args.indexOf('--tarball')
 
   if (!fixture) {
     throw new Error(
-      'Usage: node smoke/run-smoke.mjs <fixture> [--tarball <path>] [--keep]'
+      'Usage: node smoke/run-smoke.mjs <fixture> [--tarball <path>] [--check-hydration] [--keep]'
     )
+  }
+
+  if (shouldCheckHydration && fixture !== 'nextjs') {
+    throw new Error('--check-hydration only supports the "nextjs" fixture')
   }
 
   const fixtureDir = path.join(smokeRoot, fixture)
@@ -184,6 +191,10 @@ function main() {
 
     assertTreeShaking(fixture, workDir, built)
 
+    if (shouldCheckHydration) {
+      await checkHydration(workDir)
+    }
+
     console.log(
       `\nSmoke test passed for "${fixture}": ${built.length} build artifacts, CSS bundled.`
     )
@@ -196,4 +207,4 @@ function main() {
   }
 }
 
-main()
+await main()

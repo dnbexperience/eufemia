@@ -2,8 +2,10 @@ name: Consumer smoke tests
 
 # Build @dnb/eufemia, then production-build minimal Vite and Next.js consumers
 # against the packed tarball to catch broken exports, types or CSS imports early.
-# release.yml runs the same fixtures as a hard pre-publish gate. This workflow
-# needs no secrets, so it runs with least privilege.
+# The Next.js consumer is also served and loaded in Chromium to catch hydration
+# errors. release.yml runs the same fixture builds, without the browser check,
+# as a hard pre-publish gate. This workflow needs no secrets, so it runs with
+# least privilege.
 
 on:
   # No `paths:` filter: this gate protects the publishable build, whose inputs
@@ -63,5 +65,19 @@ jobs:
       - name: Vite consumer smoke test
         run: node smoke/run-smoke.mjs vite --tarball "${{ steps.pack.outputs.tarball }}"
 
+      # Chromium for the Next.js hydration check
+      - name: Cache Playwright browsers
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
+        id: playwright-cache
+        with:
+          path: ~/.cache/ms-playwright
+          key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-playwright-chromium-${{ hashFiles('**/yarn.lock') }}
+      - name: Install Playwright browsers
+        run: yarn workspace @dnb/eufemia playwright install --with-deps chromium
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+      - name: Install Playwright dependencies
+        run: yarn workspace @dnb/eufemia playwright install-deps chromium
+        if: steps.playwright-cache.outputs.cache-hit == 'true'
+
       - name: Next.js consumer smoke test
-        run: node smoke/run-smoke.mjs nextjs --tarball "${{ steps.pack.outputs.tarball }}"
+        run: node smoke/run-smoke.mjs nextjs --tarball "${{ steps.pack.outputs.tarball }}" --check-hydration
