@@ -225,7 +225,7 @@ export type DataContextProviderProps<Data extends JsonObject> =
 const isArrayJsonPointer = /^\/\d+(\/|$)/
 
 const subscribe = () => () => undefined
-const getClientSnapshot = () => true
+const getClientSnapshot = () => typeof window !== 'undefined'
 const getServerSnapshot = () => false
 
 function getSessionData(sessionStorageId: string) {
@@ -480,7 +480,7 @@ export default function Provider<Data extends JsonObject>(
   const canUseDOM = useSyncExternalStore(
     subscribe,
     getClientSnapshot,
-    getServerSnapshot
+    sessionStorageId ? getServerSnapshot : getClientSnapshot
   )
   const hasReadSessionDataRef = useRef(canUseDOM)
   const initialData = useMemo<Data>(() => {

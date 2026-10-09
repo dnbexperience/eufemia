@@ -2644,6 +2644,39 @@ describe('DataContext.Provider', { retry: isCI ? 5 : 0 }, () => {
       window.sessionStorage.removeItem(sessionStorageId)
     })
 
+    it('should not re-render after hydration when sessionStorageId is not given', () => {
+      let renderCount = 0
+      const RenderCounter = () => {
+        useContext(DataContext.Context)
+        renderCount++
+        return null
+      }
+
+      const element = (
+        <DataContext.Provider defaultData={{ foo: 'default' }}>
+          <Field.String path="/foo" />
+          <RenderCounter />
+        </DataContext.Provider>
+      )
+
+      const html = renderToString(element)
+      renderCount = 0
+
+      const container = document.createElement('div')
+      container.innerHTML = html
+      document.body.appendChild(container)
+
+      let root: ReturnType<typeof hydrateRoot>
+      act(() => {
+        root = hydrateRoot(container, element)
+      })
+
+      expect(renderCount).toBe(1)
+
+      act(() => root.unmount())
+      container.remove()
+    })
+
     it('should throw when both data and sessionStorageId is provided', () => {
       const log = vi
         .spyOn(global.console, 'error')
