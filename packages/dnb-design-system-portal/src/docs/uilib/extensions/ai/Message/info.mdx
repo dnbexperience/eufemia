@@ -14,4 +14,6 @@ render(<Ai.Message />)
 
 `Ai.Message` shows a message from the user or the assistant, with an optional header (avatar, name, time and an AI-generated tag) and actions. User messages are placed on the right.
 
-Pass an `AiMessageData` object to `message`. Its text parts are rendered, user text as written and assistant text as markdown with [Ai.Response](/uilib/extensions/ai/Response/), reasoning parts as [Ai.Reasoning](/uilib/extensions/ai/Reasoning/), tool parts as [Ai.Tool](/uilib/extensions/ai/Tool/), and `source-url` parts as [Ai.Sources](/uilib/extensions/ai/Sources/). Other parts, like files, are not rendered. To show them, give the content as `children` instead of `message`.
+Compose the content inside `Ai.Message` using children: plain text, [Ai.Response](/uilib/extensions/ai/Response/) for markdown, [Ai.Reasoning](/uilib/extensions/ai/Reasoning/), [Ai.Tool](/uilib/extensions/ai/Tool/), or [Ai.Sources](/uilib/extensions/ai/Sources/). String children preserve line breaks. Set `from="user"` for user messages and give each message a unique DOM `id` to use the conversation scrolling and visibility hooks.
+
+See [Integrations](/uilib/extensions/ai/integrations/) for connecting your chat data to these components.

@@ -1,9 +1,8 @@
 import { Fragment, useEffect, useState } from 'react'
-import type { AiMessageData } from '@dnb/eufemia/src/extensions/ai/types'
 import { copyToClipboard } from '@dnb/eufemia/src/shared/helpers'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import { useChatSimulation } from './useChatSimulation'
-import type { Transaction } from './useChatSimulation'
+import type { DemoMessage, Transaction } from './useChatSimulation'
 import styled from '@emotion/styled'
 import svSE from '@dnb/eufemia/src/shared/locales/sv-SE'
 import aiSvSE from '@dnb/eufemia/src/extensions/ai/constants/locales/sv-SE'
@@ -198,31 +197,24 @@ export function AiLoaderExample() {
   )
 }
 
-const messages: Array<AiMessageData> = [
-  {
-    id: '1',
-    role: 'user',
-    parts: [{ type: 'text', text: 'What did I spend on food?' }],
-  },
-  {
-    id: '2',
-    role: 'assistant',
-    parts: [
-      {
-        type: 'text',
-        text: 'You spent **4 200 kr** on groceries in March.',
-        state: 'done',
-      },
-    ],
-  },
-]
-
-export function AiMessageDataDemo() {
+export function AiMessageComposition() {
   return (
-    <ComponentBox scope={{ messages }}>
-      {messages.map((message) => (
-        <Ai.Message key={message.id} message={message} />
-      ))}
+    <ComponentBox>
+      <Ai.Message from="user">What did I spend on food?</Ai.Message>
+      <Ai.Message>
+        <Ai.Tool title="Checking your transactions" status="done" />
+        <Ai.Response parseIncompleteMarkdown={false}>
+          You spent **4 200 kr** on groceries in March.
+        </Ai.Response>
+        <Ai.Sources
+          sources={[
+            {
+              url: 'https://www.dnb.no/privat/dagligbank',
+              title: 'Everyday banking',
+            },
+          ]}
+        />
+      </Ai.Message>
     </ComponentBox>
   )
 }
@@ -252,28 +244,26 @@ export function AiPromptInputCompact() {
   )
 }
 
-export function AiPromptInputStatus() {
+export function AiPromptInputBusy() {
   return (
     <ComponentBox>
       {() => {
         const Chat = () => {
-          const [status, setStatus] = useState<
-            'ready' | 'submitted' | 'streaming'
-          >('ready')
+          const [isBusy, setIsBusy] = useState(false)
 
           useEffect(() => {
-            if (status === 'ready') {
+            if (!isBusy) {
               return // stop here
             }
-            const timeout = setTimeout(() => setStatus('ready'), 4000)
+            const timeout = setTimeout(() => setIsBusy(false), 4000)
             return () => clearTimeout(timeout)
-          }, [status])
+          }, [isBusy])
 
           return (
             <Ai.PromptInput
-              status={status}
-              onSubmit={() => setStatus('streaming')}
-              onStop={() => setStatus('ready')}
+              isBusy={isBusy}
+              onSubmit={() => setIsBusy(true)}
+              onStop={() => setIsBusy(false)}
             />
           )
         }
@@ -288,7 +278,6 @@ export function AiPromptInputError() {
   return (
     <ComponentBox>
       <Ai.PromptInput
-        status="error"
         textareaProps={{
           status: 'The message could not be sent. Try again.',
         }}
@@ -480,7 +469,57 @@ const chatTranslations = {
   'da-DK': { ...daDK['da-DK'], ...aiDaDK['da-DK'] },
 }
 
-function getText(message: AiMessageData) {
+function DemoMessageContent({ message }: { message: DemoMessage }) {
+  if (message.role === 'user') {
+    return (
+      <span style={{ whiteSpace: 'pre-wrap' }}>{getText(message)}</span>
+    )
+  }
+
+  return (
+    <>
+      {message.parts.map((part, index) => {
+        switch (part.type) {
+          case 'text':
+            return (
+              <Ai.Response
+                key={index}
+                parseIncompleteMarkdown={part.isStreaming}
+              >
+                {part.text}
+              </Ai.Response>
+            )
+          case 'reasoning':
+            return (
+              <Ai.Reasoning key={index} isStreaming={part.isStreaming}>
+                {part.text}
+              </Ai.Reasoning>
+            )
+          case 'tool':
+            return (
+              <Ai.Tool
+                key={index}
+                title={part.title}
+                status={part.status}
+                errorText={part.errorText}
+              />
+            )
+          default:
+            return null
+        }
+      })}
+      <Ai.Sources
+        sources={message.parts.flatMap((part) =>
+          part.type === 'source'
+            ? [{ url: part.url, title: part.title }]
+            : []
+        )}
+      />
+    </>
+  )
+}
+
+function getText(message: DemoMessage) {
   return message.parts
     .map((part) => (part.type === 'text' ? part.text : ''))
     .filter(Boolean)
@@ -488,11 +527,11 @@ function getText(message: AiMessageData) {
 }
 
 // The transactions from a finished getTransactions tool
-function getTransactions(message: AiMessageData) {
+function getTransactions(message: DemoMessage) {
   const part = message.parts.find(
-    (part) => part.type === 'tool-getTransactions'
+    (part) => part.type === 'tool' && part.name === 'getTransactions'
   )
-  if (part && 'state' in part && part.state === 'output-available') {
+  if (part?.type === 'tool' && part.status === 'done') {
     return (part.output as { transactions: Array<Transaction> })
       .transactions
   }
@@ -505,6 +544,7 @@ export function AiChatExample() {
       data-visual-test="ai-chat"
       scope={{
         useChatSimulation,
+        DemoMessageContent,
         chatStyle,
         ChatLayout,
         chatTranslations,
@@ -712,7 +752,8 @@ export function AiChatExample() {
                         return (
                           <Fragment key={message.id}>
                             <Ai.Message
-                              message={message}
+                              id={message.id}
+                              from={message.role}
                               name={isAssistant ? 'Aino' : 'You'}
                               avatar={
                                 isAssistant ? (
@@ -723,7 +764,9 @@ export function AiChatExample() {
                               }
                               aiGenerated={isAssistant}
                               actions={transactions ? undefined : actions}
-                            />
+                            >
+                              <DemoMessageContent message={message} />
+                            </Ai.Message>
 
                             {transactions && (
                               <Ai.Message
@@ -772,7 +815,9 @@ export function AiChatExample() {
                   )}
 
                   <Ai.PromptInput
-                    status={status}
+                    isBusy={
+                      status === 'submitted' || status === 'streaming'
+                    }
                     characterCounter={200}
                     onSubmit={({ value }) => send(value)}
                     onStop={stop}
@@ -929,22 +974,15 @@ export function AiChatConversation() {
 export function AiToolStates() {
   return (
     <ComponentBox data-visual-test="ai-tool-states">
-      <Ai.Tool
-        title="Looking up your transactions"
-        state="input-available"
-      />
-      <Ai.Tool
-        top
-        title="Looking up your transactions"
-        state="output-available"
-      />
+      <Ai.Tool title="Looking up your transactions" status="running" />
+      <Ai.Tool top title="Looking up your transactions" status="done" />
       <Ai.Tool
         top
         title="Blocking your card"
-        state="output-error"
+        status="error"
         errorText="The card could not be blocked. Try again later."
       />
-      <Ai.Tool top title="Blocking your card" state="output-denied" />
+      <Ai.Tool top title="Blocking your card" status="canceled" />
     </ComponentBox>
   )
 }
@@ -1017,7 +1055,9 @@ export function AiShimmerExample() {
 
 export function AiConversationScrollBehavior() {
   return (
-    <ComponentBox scope={{ useChatSimulation, chatStyle }}>
+    <ComponentBox
+      scope={{ useChatSimulation, chatStyle, DemoMessageContent }}
+    >
       {() => {
         const Chat = () => {
           const [scrollBehavior, setScrollBehavior] = useState<
@@ -1044,7 +1084,13 @@ export function AiConversationScrollBehavior() {
                 style={{ flex: '1 1 auto' }}
               >
                 {messages.map((message) => (
-                  <Ai.Message key={message.id} message={message} />
+                  <Ai.Message
+                    key={message.id}
+                    id={message.id}
+                    from={message.role}
+                  >
+                    <DemoMessageContent message={message} />
+                  </Ai.Message>
                 ))}
                 {status === 'submitted' && <Ai.Loader />}
               </Ai.Conversation>
@@ -1052,7 +1098,7 @@ export function AiConversationScrollBehavior() {
               <Ai.PromptInput
                 variant="compact"
                 placeholder="Try: Compare my spending"
-                status={status}
+                isBusy={status === 'submitted' || status === 'streaming'}
                 onSubmit={({ value }) => sendMessage({ text: value })}
                 onStop={stop}
               />

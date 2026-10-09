@@ -1,5 +1,13 @@
 import { render } from '@testing-library/react'
-import type { AiMessageData } from '../types'
+import { expectTypeOf } from 'vitest'
+import type {
+  AiMessageProps,
+  AiPromptInputProps,
+  AiReasoningProps,
+  AiSourcesProps,
+  AiToolProps,
+} from '..'
+
 import { axeComponent } from '../../../core/test-utils/testSetup'
 import Provider from '../../../shared/Provider'
 import Avatar from '../../../components/Avatar'
@@ -90,17 +98,24 @@ describe('Ai.Message', () => {
     ).toBeInTheDocument()
   })
 
-  it('renders assistant text parts of a message as markdown', () => {
-    const message: AiMessageData = {
-      id: '1',
-      role: 'assistant',
-      parts: [
-        { type: 'step-start' },
-        { type: 'text', text: 'Some **bold', state: 'streaming' },
-      ],
-    }
-    render(<Ai.Message message={message} />)
+  it('composes markdown inside a message', () => {
+    expectTypeOf<AiMessageProps>().not.toHaveProperty('message')
+    expectTypeOf<AiSourcesProps>().not.toHaveProperty('message')
+    expectTypeOf<AiToolProps>().not.toHaveProperty('part')
+    expectTypeOf<AiReasoningProps>().not.toHaveProperty('part')
+    expectTypeOf<AiPromptInputProps>().not.toHaveProperty('status')
+    expectTypeOf<AiPromptInputProps['isBusy']>().toEqualTypeOf<
+      boolean | undefined
+    >()
+    expectTypeOf<AiToolProps['status']>().toEqualTypeOf<
+      'running' | 'awaiting' | 'done' | 'error' | 'canceled' | undefined
+    >()
 
+    render(
+      <Ai.Message>
+        <Ai.Response>Some **bold</Ai.Response>
+      </Ai.Message>
+    )
     expect(document.querySelector('.dnb-ai-message')).toHaveClass(
       'dnb-ai-message--assistant'
     )
@@ -109,32 +124,26 @@ describe('Ai.Message', () => {
     ).toHaveTextContent('bold')
   })
 
-  it('does not repair finished message text', () => {
-    const message: AiMessageData = {
-      id: '1',
-      role: 'assistant',
-      parts: [{ type: 'text', text: '2 **x', state: 'done' }],
-    }
-    render(<Ai.Message message={message} />)
-
+  it('leaves the streaming policy to the response', () => {
+    render(
+      <Ai.Message>
+        <Ai.Response parseIncompleteMarkdown={false}>2 **x</Ai.Response>
+      </Ai.Message>
+    )
     expect(document.querySelector('strong')).toBeNull()
   })
 
-  it('renders user text parts of a message as written', () => {
-    const message: AiMessageData = {
-      id: '1',
-      role: 'user',
-      parts: [{ type: 'text', text: 'Is **this** bold?' }],
-    }
-    render(<Ai.Message message={message} />)
-
+  it('renders user text as written with line breaks', () => {
+    render(
+      <Ai.Message from="user">{'Is **this** bold?\nNext line'}</Ai.Message>
+    )
     expect(document.querySelector('.dnb-ai-message')).toHaveClass(
       'dnb-ai-message--user'
     )
     expect(document.querySelector('strong')).toBeNull()
     expect(
-      document.querySelector('.dnb-ai-message__text')
-    ).toHaveTextContent('Is **this** bold?')
+      document.querySelector('.dnb-ai-message__text').textContent
+    ).toBe('Is **this** bold?\nNext line')
   })
 
   it('supports spacing props and forwards attributes', () => {

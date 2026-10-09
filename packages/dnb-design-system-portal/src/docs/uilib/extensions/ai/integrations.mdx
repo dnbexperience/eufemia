@@ -1,0 +1,439 @@
+---
+title: 'Integrations'
+description: 'Compose a chat UI and connect AI SDK or TanStack AI to Eufemia.'
+order: 2
+componentType: 'docs'
+breadcrumb:
+  - text: AI
+    href: /uilib/extensions/ai/
+  - text: Integrations
+    href: /uilib/extensions/ai/integrations/
+---
+
+# Integrations
+
+Eufemia provides the interface. Your application or chat framework owns message storage, requests, streaming, retries and tool execution. Map that state to the components where you render the chat.
+
+## Component contract
+
+| Component        | Pass from your application                                                                                                          |
+| ---------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| `Ai.Message`     | `from`, a unique DOM `id`, and children. Plain string children preserve line breaks.                                                |
+| `Ai.Response`    | Markdown as children. Set `parseIncompleteMarkdown` while that text is streaming; set it to false when complete, stopped or failed. |
+| `Ai.PromptInput` | `isBusy` while a reply is pending or streaming, `onSubmit` to send, and `onStop` to cancel.                                         |
+| `Ai.Loader`      | Render while waiting for the first response, then remove it.                                                                        |
+| `Ai.Reasoning`   | Displayable reasoning text as children and `isStreaming`.                                                                           |
+| `Ai.Tool`        | A human-readable `title`, `status`, optional `errorText` and result UI as children.                                                 |
+| `Ai.Sources`     | References as `{ url, title }` objects, placed where you want them in the message.                                                  |
+
+See [Usage](/uilib/extensions/ai/#usage) for a complete composition without a chat framework. Use [AI SDK](#ai-sdk) or [TanStack AI](#tanstack-ai) below to connect the same components to a framework. No chat SDK is required by Eufemia.
+
+## Streaming, completion and stopping
+
+Track whether each response is still receiving content. Completed messages keep `parseIncompleteMarkdown={false}` even when a later answer starts streaming. Stopping ends the busy UI and the unfinished-markdown treatment. The framework determines whether cancellation also reaches your server and any running tools. Keep tool status tied to the server outcome: stopping the stream alone does not confirm that a tool was canceled. Set `canceled` when your application receives that outcome.
+
+Show a user-facing request error with [GlobalStatus](/uilib/components/global-status/). Keep any partial answer visible. Tool errors belong to the individual `Ai.Tool` with `status="error"` and a useful `errorText`. Use `textareaProps.status` for input validation, such as exceeding an application-specific limit.
+
+## Tool statuses and confirmation
+
+| Status     | Meaning                                       |
+| ---------- | --------------------------------------------- |
+| `running`  | Work is pending or in progress.               |
+| `awaiting` | A decision from the user is required.         |
+| `done`     | Work completed successfully.                  |
+| `error`    | Work failed.                                  |
+| `canceled` | Work was canceled or permission was declined. |
+
+An `Ai.Tool` only displays status and children. For a tool requiring approval, render your confirmation controls as children and send the decision through your framework's approval API. Only show `done` when execution has completed. The examples below display approval states; add your application's decision controls before enabling tools that require approval.
+
+## AI SDK
+
+The example uses `ai@7.0.128` and `@ai-sdk/react@4.0.131`. Install them in your application, following the [AI SDK setup guide](https://ai-sdk.dev/docs/getting-started). Your `/api/chat` endpoint must return the SDK's UI message stream; see its [chatbot guide](https://ai-sdk.dev/docs/ai-sdk-ui/chatbot).
+
+The following client renders text, reasoning, tool status/results and source URLs. A server tool named `getBalance` returns `{ balance: number }` in this example. Replace that result renderer with your application's typed tool UI. For approval controls, use [tool approval](https://ai-sdk.dev/docs/ai-sdk-ui/chatbot-tool-usage) and the hook's `addToolApprovalResponse`.
+
+```tsx
+import { useId } from 'react'
+import { useChat } from '@ai-sdk/react'
+import { DefaultChatTransport, getToolName, isToolUIPart } from 'ai'
+import type { DynamicToolUIPart, ToolUIPart, UIMessage } from 'ai'
+import { GlobalStatus } from '@dnb/eufemia/components'
+import { P } from '@dnb/eufemia/elements'
+import * as Ai from '@dnb/eufemia/extensions/ai'
+import type { AiToolStatus } from '@dnb/eufemia/extensions/ai'
+import '@dnb/eufemia/extensions/ai/style'
+
+const transport = new DefaultChatTransport({ api: '/api/chat' })
+
+function toolStatus(part: ToolUIPart | DynamicToolUIPart): AiToolStatus {
+  switch (part.state) {
+    case 'approval-requested':
+      return 'awaiting'
+    case 'approval-responded':
+      return part.approval.approved ? 'running' : 'canceled'
+    case 'output-available':
+      return 'done'
+    case 'output-error':
+      return 'error'
+    case 'output-denied':
+      return 'canceled'
+    default:
+      return 'running'
+  }
+}
+
+function BalanceResult({ output }: { output: unknown }) {
+  if (
+    typeof output !== 'object' ||
+    output === null ||
+    !('balance' in output) ||
+    typeof output.balance !== 'number'
+  ) {
+    return <P>The balance is unavailable.</P>
+  }
+  return <P>Balance: {output.balance} NOK</P>
+}
+
+function MessageContent({
+  message,
+  isBusy,
+}: {
+  message: UIMessage
+  isBusy: boolean
+}) {
+  if (message.role === 'user') {
+    return (
+      <span style={{ whiteSpace: 'pre-wrap' }}>
+        {message.parts
+          .filter((part) => part.type === 'text')
+          .map((part) => part.text)
+          .join('\n\n')}
+      </span>
+    )
+  }
+
+  return (
+    <>
+      {message.parts.map((part, index) => {
+        if (part.type === 'text') {
+          return (
+            <Ai.Response
+              key={index}
+              parseIncompleteMarkdown={isBusy && part.state !== 'done'}
+            >
+              {part.text}
+            </Ai.Response>
+          )
+        }
+        if (part.type === 'reasoning') {
+          return (
+            <Ai.Reasoning
+              key={index}
+              isStreaming={isBusy && part.state !== 'done'}
+            >
+              {part.text}
+            </Ai.Reasoning>
+          )
+        }
+        if (isToolUIPart(part)) {
+          const status = toolStatus(part)
+          const name = getToolName(part)
+          return (
+            <Ai.Tool
+              key={part.toolCallId}
+              title={
+                part.title ??
+                (name === 'getBalance' ? 'Checking your balance' : name)
+              }
+              status={status}
+              errorText="The tool could not complete. Try again."
+            >
+              {name === 'getBalance' &&
+                part.state === 'output-available' && (
+                  <BalanceResult output={part.output} />
+                )}
+            </Ai.Tool>
+          )
+        }
+        return null
+      })}
+      <Ai.Sources
+        sources={message.parts.flatMap((part) =>
+          part.type === 'source-url'
+            ? [{ url: part.url, title: part.title }]
+            : []
+        )}
+      />
+    </>
+  )
+}
+
+export function Chat() {
+  const prefix = useId()
+  const { messages, status, error, sendMessage, stop } = useChat({
+    transport,
+  })
+  const isBusy = status === 'submitted' || status === 'streaming'
+  return (
+    <>
+      <Ai.Conversation
+        label="Chat with the assistant"
+        style={{ height: '32rem' }}
+      >
+        {messages
+          .filter((message) => message.role !== 'system')
+          .map((message, index, visible) => (
+            <Ai.Message
+              key={message.id}
+              id={prefix + message.id}
+              from={message.role === 'user' ? 'user' : 'assistant'}
+            >
+              <MessageContent
+                message={message}
+                isBusy={isBusy && index === visible.length - 1}
+              />
+            </Ai.Message>
+          ))}
+        {status === 'submitted' && <Ai.Loader />}
+      </Ai.Conversation>
+      {error && (
+        <GlobalStatus
+          show
+          autoScroll={false}
+          omitSetFocus
+          id={prefix + '-error'}
+          text="The reply could not be completed. Try again."
+        />
+      )}
+      <Ai.PromptInput
+        isBusy={isBusy}
+        onSubmit={({ value }) => {
+          void sendMessage({ text: value })
+        }}
+        onStop={() => {
+          void stop()
+        }}
+      />
+    </>
+  )
+}
+```
+
+## TanStack AI
+
+The example uses `@tanstack/ai@0.64.1` and `@tanstack/ai-react@0.29.4`. Install them in your application and create the streaming `/api/chat` endpoint from the [TanStack AI quick start](https://tanstack.com/ai/latest/docs/getting-started/quick-start).
+
+Text parts use `content`. Tool calls and results are separate records: pair them by call id and render a result once. This example uses `getBalance` as above and accepts validated citation data from the application through `sourcesByMessage`. TanStack source metadata depends on your provider and application; normalize it to `{ url, title }` when receiving the response. For user decisions, connect the framework's [interrupts](https://tanstack.com/ai/latest/docs/ui/react) to confirmation controls inside `Ai.Tool`.
+
+```tsx
+import { useId } from 'react'
+import { useChat, fetchServerSentEvents } from '@tanstack/ai-react'
+import type { UIMessage } from '@tanstack/ai-react'
+import { GlobalStatus } from '@dnb/eufemia/components'
+import { P } from '@dnb/eufemia/elements'
+import * as Ai from '@dnb/eufemia/extensions/ai'
+import type { AiSource, AiToolStatus } from '@dnb/eufemia/extensions/ai'
+import '@dnb/eufemia/extensions/ai/style'
+
+const connection = fetchServerSentEvents('/api/chat')
+type ToolCall = Extract<UIMessage['parts'][number], { type: 'tool-call' }>
+type ToolResult = Extract<
+  UIMessage['parts'][number],
+  { type: 'tool-result' }
+>
+
+function toolStatus(
+  part: ToolCall,
+  result: ToolResult | undefined
+): AiToolStatus {
+  if (
+    part.approval?.approved === false ||
+    result?.outcome === 'denied' ||
+    result?.outcome === 'cancelled'
+  ) {
+    return 'canceled'
+  }
+  if (part.state === 'error' || result?.state === 'error') {
+    return 'error'
+  }
+  if (part.state === 'approval-requested') {
+    return 'awaiting'
+  }
+  if (part.state === 'complete' || result?.state === 'complete') {
+    return 'done'
+  }
+  return 'running'
+}
+
+function BalanceResult({ output }: { output: unknown }) {
+  if (
+    typeof output !== 'object' ||
+    output === null ||
+    !('balance' in output) ||
+    typeof output.balance !== 'number'
+  ) {
+    return <P>The balance is unavailable.</P>
+  }
+  return <P>Balance: {output.balance} NOK</P>
+}
+
+function MessageContent({
+  message,
+  isBusy,
+}: {
+  message: UIMessage
+  isBusy: boolean
+}) {
+  if (message.role === 'user') {
+    return (
+      <span style={{ whiteSpace: 'pre-wrap' }}>
+        {message.parts
+          .filter((part) => part.type === 'text')
+          .map((part) => part.content)
+          .join('\n\n')}
+      </span>
+    )
+  }
+  return (
+    <>
+      {message.parts.map((part, index) => {
+        if (part.type === 'text') {
+          return (
+            <Ai.Response
+              key={index}
+              parseIncompleteMarkdown={
+                isBusy && index === message.parts.length - 1
+              }
+            >
+              {part.content}
+            </Ai.Response>
+          )
+        }
+        if (part.type === 'thinking') {
+          return (
+            <Ai.Reasoning
+              key={index}
+              isStreaming={isBusy && index === message.parts.length - 1}
+            >
+              {part.content}
+            </Ai.Reasoning>
+          )
+        }
+        if (part.type === 'tool-call') {
+          const result = message.parts.find(
+            (candidate): candidate is ToolResult =>
+              candidate.type === 'tool-result' &&
+              candidate.toolCallId === part.id
+          )
+          const status = toolStatus(part, result)
+          return (
+            <Ai.Tool
+              key={part.id}
+              title={
+                part.name === 'getBalance'
+                  ? 'Checking your balance'
+                  : part.name
+              }
+              status={status}
+              errorText="The tool could not complete. Try again."
+            >
+              {part.name === 'getBalance' && status === 'done' && (
+                <BalanceResult output={part.output} />
+              )}
+            </Ai.Tool>
+          )
+        }
+        if (
+          part.type === 'tool-result' &&
+          !message.parts.some(
+            (candidate) =>
+              candidate.type === 'tool-call' &&
+              candidate.id === part.toolCallId
+          )
+        ) {
+          return (
+            <Ai.Tool
+              key={part.toolCallId}
+              title={part.name ?? 'Tool result'}
+              status={
+                part.outcome === 'denied' || part.outcome === 'cancelled'
+                  ? 'canceled'
+                  : part.state === 'error'
+                    ? 'error'
+                    : part.state === 'complete'
+                      ? 'done'
+                      : 'running'
+              }
+              errorText="The tool could not complete. Try again."
+            >
+              {part.state === 'complete' &&
+                typeof part.content === 'string' && <P>{part.content}</P>}
+            </Ai.Tool>
+          )
+        }
+        return null
+      })}
+    </>
+  )
+}
+
+// Supply references from your application's validated citation data, keyed by message id.
+export function Chat({
+  sourcesByMessage = {},
+}: {
+  sourcesByMessage?: Record<string, Array<AiSource>>
+}) {
+  const prefix = useId()
+  const { messages, isLoading, error, status, sendMessage, stop } =
+    useChat({ connection })
+  return (
+    <>
+      <Ai.Conversation
+        label="Chat with the assistant"
+        style={{ height: '32rem' }}
+      >
+        {messages
+          .filter((message) => message.role !== 'system')
+          .map((message, index, visible) => (
+            <Ai.Message
+              key={message.id}
+              id={prefix + message.id}
+              from={message.role === 'user' ? 'user' : 'assistant'}
+            >
+              <MessageContent
+                message={message}
+                isBusy={isLoading && index === visible.length - 1}
+              />
+              <Ai.Sources sources={sourcesByMessage[message.id]} />
+            </Ai.Message>
+          ))}
+        {status === 'submitted' && <Ai.Loader />}
+      </Ai.Conversation>
+      {error && (
+        <GlobalStatus
+          show
+          autoScroll={false}
+          omitSetFocus
+          id={prefix + '-error'}
+          text="The reply could not be completed. Try again."
+        />
+      )}
+      <Ai.PromptInput
+        isBusy={isLoading}
+        onSubmit={({ value }) => {
+          void sendMessage(value)
+        }}
+        onStop={stop}
+      />
+    </>
+  )
+}
+```
+
+## Other content and application responsibilities
+
+These examples deliberately render text, reasoning and tool results. Add application renderers for attachments, images, structured data and other message types you support. Keep system messages and non-displayable model metadata out of the visible conversation. Translate the example labels and messages to your application's supported languages.
+
+Use unique DOM ids across chat instances, including when restoring older conversations. The recipes prefix the framework's stable message id with React's `useId`. Pass the same resulting DOM id to `scrollToMessage`. See [Message scroller](/uilib/extensions/ai/message-scroller/) for loading history and reading-position controls.
+
+Authentication, authorization, persistence and approval of consequential tool actions belong to your application. Keep SDK objects in your application and pass only the display props and children Eufemia needs. The recipes are examples to adapt; Eufemia does not ship adapters or promise compatibility with every SDK version.
