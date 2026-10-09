@@ -2643,6 +2643,31 @@ describe('Field.Upload', () => {
     })
   })
 
+  it('should leave the value empty when the fileHandler returns no files', async () => {
+    const onChange = vi.fn()
+    const fileHandler = vi.fn(async () => [])
+
+    render(
+      <Form.Handler onChange={onChange}>
+        <Field.Upload path="/files" fileHandler={fileHandler} />
+      </Form.Handler>
+    )
+
+    fireEvent.drop(getRootElement(), {
+      dataTransfer: {
+        files: [createMockFile('fileName-1.png', 100, 'image/png')],
+      },
+    })
+
+    await waitFor(() => {
+      expect(
+        document.querySelectorAll('.dnb-upload__file-cell')
+      ).toHaveLength(0)
+    })
+    expect(fileHandler).toHaveBeenCalledTimes(1)
+    expect(onChange).not.toHaveBeenCalled()
+  })
+
   it('should remove files that the fileHandler does not return', async () => {
     const file1 = createMockFile('fileName-1.png', 100, 'image/png')
     const file2 = createMockFile('fileName-2.png', 100, 'image/png')
