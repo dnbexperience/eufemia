@@ -41,7 +41,9 @@ jobs:
       - name: Build
         run: yarn workspace dnb-design-system-portal build
         env:
-          VITE_EUFEMIA_STACKBLITZ_VERSION: 'https://pkg.pr.new/@dnb/eufemia@${{ github.event.pull_request.head.sha }}'
+          # pkg.pr.new only publishes same-repo branches (dev.yml); fork
+          # previews fall back to the latest release.
+          VITE_EUFEMIA_STACKBLITZ_VERSION: ${{ github.event.pull_request.head.repo.full_name == github.repository && format('https://pkg.pr.new/@dnb/eufemia@{0}', github.event.pull_request.head.sha) || '' }}
           VITE_GITHUB_REPOSITORY: ${{ github.event.pull_request.head.repo.full_name }}
           VITE_GITHUB_EDIT_REF: ${{ github.event.pull_request.head.ref }}
           VITE_GITHUB_COMMIT_SHA: ${{ github.event.pull_request.head.sha }}
@@ -70,6 +72,17 @@ jobs:
           else
             echo "skip=false" >> "$GITHUB_OUTPUT"
           fi
+
+      # preview-fork.yml deploys this from a trusted context and treats it as
+      # untrusted content.
+      - name: Upload the build for the fork preview deploy
+        if: steps.gate.outputs.skip == 'true' && github.event.pull_request.head.repo.full_name != github.repository
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: portal-preview
+          path: packages/dnb-design-system-portal/public/
+          retention-days: 1
+          if-no-files-found: error
 
       - name: Deploy to Cloudflare Pages (branch preview)
         id: pages_deploy

@@ -279,7 +279,7 @@ Eufemia uses [BundleWatch](https://bundlewatch.io/) to track selected build arti
 How it works:
 
 - The setup lives in `packages/dnb-eufemia/bundlewatch.config.js`.
-- CI runs the check in `.github/workflows/verify.yml` after `postbuild:ci`, so it measures the actual emitted build files.
+- CI runs the check in `.github/workflows/verify-jobs.yml` after `postbuild:ci`, so it measures the actual emitted build files.
 - Each watched file has its own `maxSize`, based on the current gzip-compressed output with some headroom for future changes.
 - The check is meant to catch regressions in meaningful emitted bundles, not to report every generated file in the package.
 
