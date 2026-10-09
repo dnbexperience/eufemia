@@ -20,7 +20,7 @@ function AiPromptInput(props: AiPromptInputProps) {
     value: valueProp,
     placeholder,
     label,
-    status = 'ready',
+    isBusy = false,
     characterCounter,
     disabled,
     textareaProps,
@@ -36,7 +36,6 @@ function AiPromptInput(props: AiPromptInputProps) {
   const translation = useTranslation().Ai
   const [internalValue, setInternalValue] = useState('')
   const value = valueProp ?? internalValue
-  const isBusy = status === 'submitted' || status === 'streaming'
   const isCompact = variant === 'compact'
   const isEmpty = value.trim() === ''
   const isTooLong = characterCounter > 0 && value.length > characterCounter
