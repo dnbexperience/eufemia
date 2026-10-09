@@ -15,7 +15,7 @@ import {
 } from '../../shared/component-helper'
 import { useSpacing } from '../space/SpacingUtils'
 import useId from '../../shared/helpers/useId'
-import useHydrated from '../../shared/helpers/useHydrated'
+import useCanUseDOM from '../../shared/helpers/useCanUseDOM'
 
 import AccordionGroup from './AccordionGroup'
 import AccordionHeader from './AccordionHeader'
@@ -71,9 +71,16 @@ function AccordionDefault({
 
   // States ordered last here to make sure that the getInitialExpandedState have access to the store
   const [previousExpanded, setPreviousExpanded] = useState(props.expanded)
-  const isHydrated = useHydrated()
+  const canUseDOM = useCanUseDOM({
+    waitForHydration: Boolean(
+      props.expandedSsr ||
+      context?.expandedSsr ||
+      props.rememberState ||
+      context?.rememberState
+    ),
+  })
   const [expanded, setExpanded] = useState<boolean>(() =>
-    getInitialExpandedState(!isHydrated)
+    getInitialExpandedState(!canUseDOM)
   )
   const hasAddedCallbackRef = useRef<boolean>(false)
 
@@ -81,8 +88,8 @@ function AccordionDefault({
   // knows (expandedSsr and rememberState) right after, without animating it
   const [hydrationPhase, setHydrationPhase] = useState<
     'server' | 'switching' | 'done'
-  >(isHydrated ? 'done' : 'server')
-  if (hydrationPhase === 'server' && isHydrated) {
+  >(canUseDOM ? 'done' : 'server')
+  if (hydrationPhase === 'server' && canUseDOM) {
     setHydrationPhase('switching')
     setExpanded(getInitialExpandedState(false))
   }
