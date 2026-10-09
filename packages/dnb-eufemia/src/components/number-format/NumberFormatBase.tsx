@@ -20,7 +20,7 @@ import mergeProps from '../../shared/helpers/mergeProps'
 import useCombinedRef from '../../shared/helpers/useCombinedRef'
 import Context, { type ContextProps } from '../../shared/Context'
 import useId from '../../shared/helpers/useId'
-import useHydrated from '../../shared/helpers/useHydrated'
+import useCanUseDOM from '../../shared/helpers/useCanUseDOM'
 import { LOCALE } from '../../shared/defaults'
 import {
   warn,
@@ -260,8 +260,6 @@ function NumberFormatComponent(ownProps: NumberFormatAllProps) {
     setHover(false)
   }, [])
 
-  const isHydrated = useHydrated()
-
   // Render logic
   const translations = context.getTranslation?.(propsWithDefaults)
     ?.NumberFormat as Record<string, string> | undefined
@@ -317,9 +315,12 @@ function NumberFormatComponent(ownProps: NumberFormatAllProps) {
   if (currencyDisplay === 'code' && !usedCurrencyPosition) {
     usedCurrencyPosition = 'before'
   }
+
+  // The server cannot know the browser locale, so use the same default while hydrating
+  const canUseDOM = useCanUseDOM({ waitForHydration: locale === 'auto' })
+
   const formatOptions: NumberFormatOptionParams & { returnAria: true } = {
-    // The server cannot know the browser locale, so use the same default while hydrating
-    locale: locale === 'auto' && !isHydrated ? LOCALE : locale,
+    locale: locale === 'auto' && !canUseDOM ? LOCALE : locale,
     currency,
     currencyDisplay,
     currencyPosition: usedCurrencyPosition,
