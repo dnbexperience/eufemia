@@ -2643,6 +2643,199 @@ describe('Field.Upload', () => {
     })
   })
 
+  it('should leave the value empty when the fileHandler returns no files', async () => {
+    const onChange = vi.fn()
+    const fileHandler = vi.fn(async () => [])
+
+    render(
+      <Form.Handler onChange={onChange}>
+        <Field.Upload path="/files" fileHandler={fileHandler} />
+      </Form.Handler>
+    )
+
+    fireEvent.drop(getRootElement(), {
+      dataTransfer: {
+        files: [createMockFile('fileName-1.png', 100, 'image/png')],
+      },
+    })
+
+    await waitFor(() => {
+      expect(
+        document.querySelectorAll('.dnb-upload__file-cell')
+      ).toHaveLength(0)
+    })
+    expect(fileHandler).toHaveBeenCalledTimes(1)
+    expect(onChange).not.toHaveBeenCalled()
+  })
+
+  it('should remove files that the fileHandler does not return', async () => {
+    const file1 = createMockFile('fileName-1.png', 100, 'image/png')
+    const file2 = createMockFile('fileName-2.png', 100, 'image/png')
+    const file3 = createMockFile('fileName-3.png', 100, 'image/png')
+    const largeFile = createMockFile(
+      'fileName-large.png',
+      2 * BYTES_IN_A_MEGA_BYTE,
+      'image/png'
+    )
+    const onChange = vi.fn()
+
+    render(
+      <Form.Handler onChange={onChange}>
+        <Field.Upload
+          path="/files"
+          fileMaxSize={1}
+          fileHandler={async (newFiles) =>
+            newFiles
+              .filter(({ file }) => file !== file2)
+              .map((file) => ({ ...file, id: `${file.file.name}-id` }))
+          }
+        />
+      </Form.Handler>
+    )
+
+    fireEvent.drop(getRootElement(), {
+      dataTransfer: { files: [file1, largeFile, file2, file3] },
+    })
+
+    await waitFor(() => {
+      expect(onChange).toHaveBeenLastCalledWith(
+        {
+          files: [
+            expect.objectContaining({
+              file: file1,
+              id: 'fileName-1.png-id',
+            }),
+            expect.objectContaining({
+              file: largeFile,
+              errorMessage: expect.any(String),
+            }),
+            expect.objectContaining({
+              file: file3,
+              id: 'fileName-3.png-id',
+            }),
+          ],
+        },
+        expect.anything()
+      )
+    })
+    expect(
+      Array.from(
+        document.querySelectorAll('.dnb-upload__file-cell .dnb-anchor')
+      ).map((element) => element.textContent)
+    ).toEqual(['fileName-1.png', 'fileName-large.png', 'fileName-3.png'])
+    expect(
+      document.querySelector(
+        '.dnb-upload__file-cell__text-container--loading'
+      )
+    ).not.toBeInTheDocument()
+  })
+
+  it('should apply the results of uploads that settle at the same time', async () => {
+    const file1 = createMockFile('fileName-1.png', 100, 'image/png')
+    const file2 = createMockFile('fileName-2.png', 100, 'image/png')
+    const resolvers: Array<(value: UploadValue) => void> = []
+    const fileHandler = vi.fn(() => {
+      return new Promise<UploadValue>((resolve) => {
+        resolvers.push(resolve)
+      })
+    })
+    const onChange = vi.fn()
+
+    render(
+      <Form.Handler onChange={onChange}>
+        <Field.Upload path="/files" fileHandler={fileHandler} />
+      </Form.Handler>
+    )
+
+    fireEvent.drop(getRootElement(), {
+      dataTransfer: { files: [file1] },
+    })
+    fireEvent.drop(getRootElement(), {
+      dataTransfer: { files: [file2] },
+    })
+    await waitFor(() => {
+      expect(fileHandler).toHaveBeenCalledTimes(2)
+    })
+
+    act(() => {
+      resolvers[0]([{ file: file1, id: 'server-id-1', exists: false }])
+      resolvers[1]([{ file: file2, id: 'server-id-2', exists: false }])
+    })
+
+    await waitFor(() => {
+      expect(onChange).toHaveBeenLastCalledWith(
+        {
+          files: [
+            expect.objectContaining({ id: 'server-id-1' }),
+            expect.objectContaining({ id: 'server-id-2' }),
+          ],
+        },
+        expect.anything()
+      )
+    })
+    expect(
+      document.querySelector(
+        '.dnb-upload__file-cell__text-container--loading'
+      )
+    ).not.toBeInTheDocument()
+  })
+
+  it('should not bring back a file that was removed while the rest of its batch uploads', async () => {
+    const largeFile = createMockFile(
+      'fileName-large.png',
+      2 * BYTES_IN_A_MEGA_BYTE,
+      'image/png'
+    )
+    const file = createMockFile('fileName-1.png', 100, 'image/png')
+    let resolveFileHandler!: (value: UploadValue) => void
+    const fileHandler = vi.fn(() => {
+      return new Promise<UploadValue>((resolve) => {
+        resolveFileHandler = resolve
+      })
+    })
+    const onChange = vi.fn()
+
+    render(
+      <Form.Handler onChange={onChange}>
+        <Field.Upload
+          path="/files"
+          fileMaxSize={1}
+          fileHandler={fileHandler}
+        />
+      </Form.Handler>
+    )
+
+    fireEvent.drop(getRootElement(), {
+      dataTransfer: { files: [largeFile, file] },
+    })
+    await waitFor(() => {
+      expect(fileHandler).toHaveBeenCalledTimes(1)
+    })
+
+    // The file with an error can be removed while the other one uploads
+    fireEvent.click(
+      screen.getAllByRole('button', {
+        name: nbShared.Upload.deleteButton,
+      })[0]
+    )
+
+    act(() => {
+      resolveFileHandler([{ file, id: 'server-id', exists: false }])
+    })
+
+    await waitFor(() => {
+      expect(onChange).toHaveBeenLastCalledWith(
+        { files: [expect.objectContaining({ id: 'server-id' })] },
+        expect.anything()
+      )
+    })
+    expect(
+      Array.from(
+        document.querySelectorAll('.dnb-upload__file-cell .dnb-anchor')
+      ).map((element) => element.textContent)
+    ).toEqual(['fileName-1.png'])
+  })
+
   it('should recreate files from session storage', async () => {
     const file = createMockFile('fileName.png', 100, 'image/png')
 
