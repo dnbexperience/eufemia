@@ -16,7 +16,10 @@ import type {
 } from '../../../../components/Upload'
 import Upload from '../../../../components/Upload'
 import useUpload from '../../../../components/upload/useUpload'
-import { isSameFile } from '../../../../components/upload/uploadFileUtils'
+import {
+  getErrorMessage,
+  isSameFile,
+} from '../../../../components/upload/uploadFileUtils'
 import { pickSpacingProps } from '../../../../components/flex/utils'
 import mergeProps from '../../../../shared/helpers/mergeProps'
 import type { HelpProps } from '../../../../components/help-button/HelpButtonInline'
@@ -307,11 +310,10 @@ function UploadComponent(props: FieldUploadProps) {
           try {
             incomingFiles = await fileHandler(newValidFiles)
           } catch (error) {
-            const message = error instanceof Error ? error.message : error
-            const errorMessage =
-              typeof message === 'string' && message
-                ? message
-                : formsTr.errorUploadFailed
+            const errorMessage = getErrorMessage(
+              error,
+              formsTr.errorUploadFailed
+            )
             incomingFiles = newValidFiles.map((file) => ({
               ...file,
               errorMessage,

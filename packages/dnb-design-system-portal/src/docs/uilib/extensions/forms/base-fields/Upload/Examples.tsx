@@ -154,6 +154,53 @@ export const WithAsyncFileHandler = () => {
     <ComponentBox scope={{ createRequest }}>
       {() => {
         const MyForm = () => {
+          const { errorUploadFailed } = Form.useTranslation().Upload
+
+          async function mockAsyncFileUpload(
+            newFiles: UploadValue
+          ): Promise<UploadValue> {
+            const updatedFiles: UploadValue = []
+
+            for (const [index, file] of Object.entries(newFiles)) {
+              const formData = new FormData()
+              formData.append('file', file.file, file.file.name)
+
+              const request = createRequest()
+              await request(Math.floor(Math.random() * 2000) + 1000) // Simulate a request
+
+              try {
+                const mockResponse = {
+                  ok: (parseFloat(index) + 2) % 2 === 0, // Every other request will fail
+                  json: async () => ({
+                    serverGeneratedId:
+                      file.file.name + '_' + crypto.randomUUID(),
+                  }),
+                }
+
+                if (!mockResponse.ok) {
+                  throw new Error('Unable to upload this file')
+                }
+
+                const data = await mockResponse.json()
+                updatedFiles.push({
+                  ...file,
+                  id: data.serverGeneratedId,
+                })
+              } catch (error) {
+                updatedFiles.push({
+                  ...file,
+                  errorMessage:
+                    error instanceof Error && error.message
+                      ? error.message
+                      : errorUploadFailed,
+                  removeLink: true,
+                })
+              }
+            }
+
+            return updatedFiles
+          }
+
           return (
             <Form.Handler onSubmit={async (form) => console.log(form)}>
               <Flex.Stack>
@@ -168,49 +215,6 @@ export const WithAsyncFileHandler = () => {
               </Flex.Stack>
             </Form.Handler>
           )
-        }
-
-        async function mockAsyncFileUpload(
-          newFiles: UploadValue
-        ): Promise<UploadValue> {
-          const updatedFiles: UploadValue = []
-
-          for (const [index, file] of Object.entries(newFiles)) {
-            const formData = new FormData()
-            formData.append('file', file.file, file.file.name)
-
-            const request = createRequest()
-            await request(Math.floor(Math.random() * 2000) + 1000) // Simulate a request
-
-            try {
-              const mockResponse = {
-                ok: (parseFloat(index) + 2) % 2 === 0, // Every other request will fail
-                json: async () => ({
-                  serverGeneratedId:
-                    file.file.name + '_' + crypto.randomUUID(),
-                }),
-              }
-
-              if (!mockResponse.ok) {
-                throw new Error('Unable to upload this file')
-              }
-
-              const data = await mockResponse.json()
-              updatedFiles.push({
-                ...file,
-                id: data.serverGeneratedId,
-              })
-            } catch (error) {
-              updatedFiles.push({
-                ...file,
-                errorMessage:
-                  error instanceof Error ? error.message : String(error),
-                removeLink: true,
-              })
-            }
-          }
-
-          return updatedFiles
         }
 
         return <MyForm />
@@ -561,27 +565,18 @@ export const WithIterateArray = () => {
             const request = createRequest()
             await request(8000) // Simulate a request
 
-            try {
-              const mockResponse = {
-                ok: true,
-                json: async () => ({
-                  serverGeneratedId:
-                    file.file.name + '_' + crypto.randomUUID(),
-                }),
-              }
-
-              const data = await mockResponse.json()
-              updatedFiles.push({
-                ...file,
-                id: data.serverGeneratedId,
-              })
-            } catch (error) {
-              updatedFiles.push({
-                ...file,
-                errorMessage:
-                  error instanceof Error ? error.message : String(error),
-              })
+            const mockResponse = {
+              json: async () => ({
+                serverGeneratedId:
+                  file.file.name + '_' + crypto.randomUUID(),
+              }),
             }
+
+            const data = await mockResponse.json()
+            updatedFiles.push({
+              ...file,
+              id: data.serverGeneratedId,
+            })
           }
 
           return updatedFiles

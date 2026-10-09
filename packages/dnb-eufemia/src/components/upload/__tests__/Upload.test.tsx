@@ -2307,6 +2307,40 @@ describe('Upload', () => {
         ).toBeInTheDocument()
       })
     })
+
+    it.each([
+      ['undefined', undefined],
+      ['an object', { status: 500 }],
+      ['an Error without a message', new Error()],
+    ])(
+      'will display a translated message when async onFileDelete throws %s',
+      async (_, thrown) => {
+        const onFileDelete = vi.fn(async () => {
+          throw thrown
+        })
+
+        render(<Upload {...defaultProps} onFileDelete={onFileDelete} />)
+
+        fireEvent.change(
+          document.querySelector('.dnb-upload__file-input'),
+          {
+            target: {
+              files: [createMockFile('fileName-1.png', 100, 'image/png')],
+            },
+          }
+        )
+
+        fireEvent.click(
+          screen.queryByRole('button', { name: nb.deleteButton })
+        )
+
+        await waitFor(() => {
+          expect(
+            document.querySelector('.dnb-upload__file-cell--warning')
+          ).toHaveTextContent(nb.errorDeleteFailed)
+        })
+      }
+    )
   })
 
   it('should have default variant class when no variant is specified', () => {

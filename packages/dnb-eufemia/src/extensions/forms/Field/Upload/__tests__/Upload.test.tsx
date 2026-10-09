@@ -1369,6 +1369,63 @@ describe('Field.Upload', () => {
         })
       }
     )
+
+    it('should block the submit when the fileHandler throws an Error without a message', async () => {
+      const onSubmit = vi.fn()
+
+      render(
+        <Form.Handler onSubmit={onSubmit}>
+          <Field.Upload
+            path="/files"
+            fileHandler={async () => {
+              throw new Error()
+            }}
+          />
+          <Form.SubmitButton />
+        </Form.Handler>
+      )
+
+      fireEvent.drop(getRootElement(), {
+        dataTransfer: {
+          files: [createMockFile('fileName-1.png', 100, 'image/png')],
+        },
+      })
+
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-upload__file-cell--warning')
+        ).toBeInTheDocument()
+      })
+
+      await userEvent.click(
+        document.querySelector('button[type="submit"]')
+      )
+      await wait(50)
+
+      expect(onSubmit).not.toHaveBeenCalled()
+    })
+
+    it('should show a thrown string', async () => {
+      render(
+        <Field.Upload
+          fileHandler={async () => {
+            throw 'Upload failed'
+          }}
+        />
+      )
+
+      fireEvent.drop(getRootElement(), {
+        dataTransfer: {
+          files: [createMockFile('fileName-1.png', 100, 'image/png')],
+        },
+      })
+
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-upload__file-cell--warning')
+        ).toHaveTextContent('Upload failed')
+      })
+    })
   })
 
   describe('In Wizard', () => {

@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react'
 import type { UploadFile, UploadFileNative } from './types'
 import { isFileEqual } from './useUpload'
 
@@ -22,4 +23,16 @@ export const isSameFile = (
   }
 
   return false
+}
+
+/**
+ * Returns the message of a thrown Error or string,
+ * or the fallback when there is no message to show.
+ */
+export const getErrorMessage = (
+  error: unknown,
+  fallback: ReactNode
+): ReactNode => {
+  const message = error instanceof Error ? error.message : error
+  return typeof message === 'string' && message.trim() ? message : fallback
 }
