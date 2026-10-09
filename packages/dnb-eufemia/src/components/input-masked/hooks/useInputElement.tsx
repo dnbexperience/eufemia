@@ -15,6 +15,8 @@ import type { JSX, Ref } from 'react'
 import InputMaskedContext from '../InputMaskedContext'
 import TextMask from '../TextMask'
 import { getSoftKeyboardAttributes } from '../InputMaskedUtils'
+import { IS_IOS } from '../../../shared/helpers'
+import useCanUseDOM from '../../../shared/helpers/useCanUseDOM'
 import { useMask } from './useMask'
 import { useMaskParams } from './useMaskParams'
 import { createNumberMask } from './useNumberMask'
@@ -29,6 +31,10 @@ export const useInputElement = () => {
 
   const mask = useMask()
   const { showMask } = useMaskParams()
+
+  // The server is never iOS, so use its soft keyboard while hydrating
+  const canUseDOM = useCanUseDOM({ waitForHydration: IS_IOS })
+  const isIOS = IS_IOS && canUseDOM
 
   const isFn = typeof refProp === 'function'
   const refHook = useRef<HTMLInputElement>(null)
@@ -61,11 +67,11 @@ export const useInputElement = () => {
           showMask={showMask}
           allowOverflow={allowOverflow}
           overwriteMode={overwriteMode}
-          {...(getSoftKeyboardAttributes(mask) || {})}
+          {...(getSoftKeyboardAttributes(mask, isIOS) || {})}
           {...params}
         />
       )
     },
-    [allowOverflow, mask, overwriteMode, ref, showMask]
+    [allowOverflow, isIOS, mask, overwriteMode, ref, showMask]
   )
 }
