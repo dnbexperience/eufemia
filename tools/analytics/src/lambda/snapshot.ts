@@ -3,7 +3,7 @@ import {
   aggregateLocalMcpUsageByVersion,
   aggregateMcpUsageRaw,
   aggregatePortalViewsRaw,
-  retrieveComponentUsageDaily,
+  retrieveComponentUsageTotals,
   retrieveMcpUsageDaily,
   retrievePortalViews,
 } from './retrieve.js'
@@ -28,7 +28,7 @@ const SNAPSHOT_LIMIT = 1000
 const METRIC_NAMESPACE = 'Eufemia/Analytics'
 
 type MetricName =
-  | 'SnapshotRecordCount'
+  | 'SnapshotPortalViewCount'
   | 'McpUsageBuildFailure'
   | 'ComponentUsageBuildFailure'
   | 'PortalViewsRollupFailure'
@@ -42,9 +42,9 @@ type MetricName =
  * The namespace, metric name, and FunctionName dimension must stay in sync with
  * the matching alarm in infra/main.tf; a mismatch silently leaves the alarm at
  * INSUFFICIENT_DATA. Metrics and their alarms:
- * - SnapshotRecordCount (`snapshot_empty`): a sustained 0 catches a run that
- *   succeeds but writes an empty snapshot, which the Errors/Invocations alarms
- *   cannot see.
+ * - SnapshotPortalViewCount (`snapshot_empty`): a sustained 0 catches a run
+ *   that succeeds but writes a snapshot with no page views, which the
+ *   Errors/Invocations alarms cannot see.
  * - McpUsageBuildFailure (`snapshot_mcp_build_failed`): emitted when the
  *   durable rollup refresh fails or buildMcpUsage cannot build the section;
  *   neither increments Lambda Errors.
@@ -328,21 +328,21 @@ export async function buildComponentUsage(
     emitMetric('ComponentUsageBuildFailure', 1)
   }
 
-  const daily = await retrieveComponentUsageDaily()
+  const usageTotals = await retrieveComponentUsageTotals()
 
-  const total = daily.reduce((sum, row) => sum + row.count, 0)
+  const total = usageTotals.reduce((sum, row) => sum + row.count, 0)
 
   return {
     total,
-    perComponent: sumComponentUsageBy(daily, 'component').slice(
+    perComponent: sumComponentUsageBy(usageTotals, 'component').slice(
       0,
       COMPONENT_TOP_LIMIT
     ),
-    perApp: sumComponentUsageBy(daily, 'app').slice(
+    perApp: sumComponentUsageBy(usageTotals, 'app').slice(
       0,
       COMPONENT_TOP_LIMIT
     ),
-    perVersion: sumComponentUsageBy(daily, 'version').slice(
+    perVersion: sumComponentUsageBy(usageTotals, 'version').slice(
       0,
       COMPONENT_TOP_LIMIT
     ),
@@ -352,9 +352,10 @@ export async function buildComponentUsage(
 /**
  * Scheduled dashboard snapshot generator (EventBridge, off the request path).
  *
- * Queries Athena for the latest anonymous page views and writes the snapshot to
- * S3. Runs under the analytics execution role (Athena + S3 write); keeping it
- * separate from the read endpoint lets that endpoint run with a read-only role.
+ * Queries Athena for the latest anonymous page views and the MCP usage section,
+ * refreshes the durable daily rollups, and writes the snapshot to S3. Runs
+ * under the analytics execution role (Athena + S3 write); keeping it separate
+ * from the read endpoint lets that endpoint run with a read-only role.
  *
  * An optional `sinceDt` on the invocation event backfills the page-view and MCP
  * usage rollups from that date instead of the recent tail — used for one-time
@@ -428,7 +429,7 @@ export async function handler(event?: { sinceDt?: string }): Promise<{
 
   await writeSnapshot(bucket, snapshot)
 
-  emitMetric('SnapshotRecordCount', snapshot.portalViews.length)
+  emitMetric('SnapshotPortalViewCount', snapshot.portalViews.length)
 
   return {
     generatedAt: snapshot.generatedAt,
