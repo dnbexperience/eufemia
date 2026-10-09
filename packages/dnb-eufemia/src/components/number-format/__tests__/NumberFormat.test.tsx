@@ -3,7 +3,7 @@
  *
  */
 
-import { createRef } from 'react'
+import { Profiler, createRef } from 'react'
 import {
   axeComponent,
   loadScss,
@@ -124,6 +124,32 @@ describe('NumberFormat component', () => {
     act(() => root.unmount())
     container.remove()
     languageGetter.mockReturnValue(locale)
+  })
+
+  it('should not render again after hydration when locale is not "auto"', () => {
+    const onRender = vi.fn()
+    const element = (
+      <Profiler id="number-format" onRender={onRender}>
+        <Component value={1234.5} />
+      </Profiler>
+    )
+
+    const html = renderToString(element)
+    onRender.mockClear()
+
+    const container = document.createElement('div')
+    container.innerHTML = html
+    document.body.appendChild(container)
+
+    let root: ReturnType<typeof hydrateRoot>
+    act(() => {
+      root = hydrateRoot(container, element)
+    })
+
+    expect(onRender).toHaveBeenCalledTimes(1)
+
+    act(() => root.unmount())
+    container.remove()
   })
 
   it('should preserve a formatted negative value when cleaning it', () => {
