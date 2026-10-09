@@ -5,7 +5,6 @@ import {
   useMemo,
   useReducer,
   useRef,
-  useSyncExternalStore,
 } from 'react'
 import type { ReactNode, RefObject } from 'react'
 import type { JsonObject } from '../../utils/json-pointer'
@@ -70,6 +69,11 @@ import type {
 import DataContext from '../Context'
 import DataContextRefContext from '../DataContextRefContext'
 import { structuredClone } from '../../../../shared/helpers/structuredClone'
+import useCanUseDOM from '../../../../shared/helpers/useCanUseDOM'
+import {
+  getWebStorage,
+  readWebStorageJSON,
+} from '../../../../shared/helpers/webStorage'
 
 import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../../../shared/helpers/useIsomorphicLayoutEffect'
 
@@ -223,24 +227,6 @@ export type DataContextProviderProps<Data extends JsonObject> =
   }
 
 const isArrayJsonPointer = /^\/\d+(\/|$)/
-
-const subscribe = () => () => undefined
-const getClientSnapshot = () => typeof window !== 'undefined'
-const getServerSnapshot = () => false
-
-function getSessionData(sessionStorageId: string) {
-  const sessionDataJSON = window.sessionStorage?.getItem(sessionStorageId)
-  if (sessionDataJSON) {
-    try {
-      return JSON.parse(sessionDataJSON)
-    } catch (e) {
-      // If session storage data is corrupted, clear it and use default data
-      window.sessionStorage?.removeItem(sessionStorageId)
-    }
-  }
-
-  return undefined
-}
 
 export default function Provider<Data extends JsonObject>(
   props: DataContextProviderProps<Data>
@@ -477,15 +463,16 @@ export default function Provider<Data extends JsonObject>(
 
   // - Data
   // The server markup has no session data, so it may only be read after hydration
-  const canUseDOM = useSyncExternalStore(
-    subscribe,
-    getClientSnapshot,
-    sessionStorageId ? getServerSnapshot : getClientSnapshot
-  )
+  const canUseDOM = useCanUseDOM({
+    waitForHydration: Boolean(sessionStorageId),
+  })
   const hasReadSessionDataRef = useRef(canUseDOM)
   const initialData = useMemo<Data>(() => {
     if (sessionStorageId && canUseDOM) {
-      const sessionData = getSessionData(sessionStorageId)
+      const sessionData = readWebStorageJSON<Data>(
+        'session',
+        sessionStorageId
+      )
       if (sessionData !== undefined) {
         return sessionData
       }
@@ -1216,7 +1203,7 @@ export default function Provider<Data extends JsonObject>(
   const storeInSession = useMemo(() => {
     return debounce(
       () => {
-        window.sessionStorage?.setItem(
+        getWebStorage('session')?.setItem(
           sessionStorageId,
           JSON.stringify(internalDataRef.current)
         )
@@ -1741,10 +1728,8 @@ export default function Provider<Data extends JsonObject>(
       resetForm: () => {
         formElement?.reset?.()
 
-        if (typeof window !== 'undefined') {
-          if (sessionStorageId) {
-            window.sessionStorage.removeItem(sessionStorageId)
-          }
+        if (sessionStorageId) {
+          getWebStorage('session')?.removeItem(sessionStorageId)
         }
 
         forceUpdate() // in order to fill "empty fields" again with their internal states
@@ -1896,7 +1881,7 @@ export default function Provider<Data extends JsonObject>(
     hasReadSessionDataRef.current = true
 
     const sessionData = sessionStorageId
-      ? getSessionData(sessionStorageId)
+      ? readWebStorageJSON<Data>('session', sessionStorageId)
       : undefined
     if (sessionData === undefined) {
       return undefined // stop here
