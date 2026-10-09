@@ -1,5 +1,4 @@
 import { act, fireEvent, render } from '@testing-library/react'
-import type { AiMessageData } from '../types'
 import { axeComponent } from '../../../core/test-utils/testSetup'
 import Provider from '../../../shared/Provider'
 import * as Ai from '..'
@@ -557,12 +556,6 @@ describe('Ai.useConversation', () => {
     Element.prototype.scrollTo = scrollTo
   })
 
-  const message: AiMessageData = {
-    id: 'message-2',
-    role: 'assistant',
-    parts: [{ type: 'text', text: 'Hello', state: 'done' }],
-  }
-
   it('scrolls the conversation with the given id', () => {
     let controls: ReturnType<typeof Ai.useConversation>
     const Toolbar = () => {
@@ -574,14 +567,12 @@ describe('Ai.useConversation', () => {
       <>
         <Toolbar />
         <Ai.Conversation id="chat">
-          <Ai.Message message={message} />
+          <Ai.Message id="message-2">Hello</Ai.Message>
         </Ai.Conversation>
       </>
     )
 
-    expect(
-      document.querySelector('[data-message-id="message-2"]')
-    ).toBeInTheDocument()
+    expect(document.querySelector('#message-2')).toBeInTheDocument()
 
     let found: boolean
     act(() => {
@@ -706,15 +697,6 @@ describe('Ai.useConversationVisibility', () => {
     delete window.IntersectionObserver
   })
 
-  const message = (
-    id: string,
-    role: AiMessageData['role']
-  ): AiMessageData => ({
-    id,
-    role,
-    parts: [{ type: 'text', text: id, state: 'done' }],
-  })
-
   it('tells which messages are visible and which turn is read', () => {
     let visibility: ReturnType<typeof Ai.useConversationVisibility>
     const Outline = () => {
@@ -724,16 +706,23 @@ describe('Ai.useConversationVisibility', () => {
     render(
       <Ai.Conversation>
         <Outline />
-        <Ai.Message message={message('q1', 'user')} />
-        <Ai.Message message={message('a1', 'assistant')} />
-        <Ai.Message message={message('q2', 'user')} />
-        <Ai.Message message={message('a2', 'assistant')} />
+        <Ai.Message id="q1" from="user">
+          q1
+        </Ai.Message>
+        <Ai.Message id="a1" from="assistant">
+          a1
+        </Ai.Message>
+        <Ai.Message id="q2" from="user">
+          q2
+        </Ai.Message>
+        <Ai.Message id="a2" from="assistant">
+          a2
+        </Ai.Message>
       </Ai.Conversation>
     )
     expect(observe).toHaveBeenCalledTimes(4)
 
-    const get = (id: string) =>
-      document.querySelector(`[data-message-id="${id}"]`)
+    const get = (id: string) => document.querySelector(`[id="${id}"]`)
     vi.spyOn(get('q1'), 'getBoundingClientRect').mockReturnValue({
       top: -200,
     } as DOMRect)
@@ -775,7 +764,9 @@ describe('Ai.useConversationVisibility', () => {
     const { rerender } = render(
       <>
         <Ai.Conversation id="chat">
-          <Ai.Message message={message('q1', 'user')} />
+          <Ai.Message id="q1" from="user">
+            q1
+          </Ai.Message>
         </Ai.Conversation>
       </>
     )
@@ -785,7 +776,9 @@ describe('Ai.useConversationVisibility', () => {
       <>
         <Outline />
         <Ai.Conversation id="chat">
-          <Ai.Message message={message('q1', 'user')} />
+          <Ai.Message id="q1" from="user">
+            q1
+          </Ai.Message>
         </Ai.Conversation>
       </>
     )
@@ -794,7 +787,9 @@ describe('Ai.useConversationVisibility', () => {
     rerender(
       <>
         <Ai.Conversation id="chat">
-          <Ai.Message message={message('q1', 'user')} />
+          <Ai.Message id="q1" from="user">
+            q1
+          </Ai.Message>
         </Ai.Conversation>
       </>
     )
