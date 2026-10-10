@@ -53,6 +53,16 @@ export type DateFormatOptions = {
 type FormatDateInput = DatePickerDateType | number | string
 
 /**
+ * Reads a number as a date first (like 20250801), and as a timestamp otherwise.
+ */
+export function convertNumberToDate(value: number): Date {
+  return (
+    convertStringToDate(String(value), { strictDateFormat: true }) ??
+    new Date(value)
+  )
+}
+
+/**
  * Detects if a date string represents a UTC date
  * by checking if it ends with 'Z' or contains a timezone offset
  */
@@ -183,12 +193,10 @@ export function formatDate(
         ? String(dateValue)
         : null
 
-  // Convert to DateType (Date | string) for convertStringToDate
-  // Numbers are converted to strings to preserve UTC detection
-  const dateInput: DatePickerDateType =
-    typeof dateValue === 'number' ? String(dateValue) : dateValue
-
-  const date = convertStringToDate(dateInput)
+  const date =
+    typeof dateValue === 'number'
+      ? convertNumberToDate(dateValue)
+      : convertStringToDate(dateValue)
 
   // If timeZone is explicitly provided, use it
   // Otherwise, if formatting time and input is UTC, use UTC timezone
