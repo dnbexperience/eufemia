@@ -10,6 +10,14 @@ import * as Examples from './Examples'
 
 <Examples.Default />
 
+### Copy button
+
+Use `CopyOnClick.Button` so people can also copy with the keyboard. Give it a `title` that describes what it copies, such as "Copy account number". You can combine it with `CopyOnClick` on the text.
+
+The button copies `copyContent` as it is. To copy a formatted value, pass the string from a [NumberFormat formatter](/uilib/components/number-format/#formatter-utilities), such as `formatCurrency(1234567.89)`.
+
+<Examples.CopyButton />
+
 ### Cursor hidden
 
 <Examples.CopyCursorHidden />

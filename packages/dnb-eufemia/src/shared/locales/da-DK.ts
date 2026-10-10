@@ -110,6 +110,7 @@ export default {
     },
     CopyOnClick: {
       clipboardCopy: 'Kopieret',
+      buttonTitle: 'Kopiér',
     },
     NumberFormat: {
       clipboardCopy: 'Kopieret',
