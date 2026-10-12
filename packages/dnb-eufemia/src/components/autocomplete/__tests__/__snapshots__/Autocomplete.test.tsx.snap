@@ -578,7 +578,12 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disable
   --button-input-separator-color: var(
     --button-input-separator-color--focus
   );
-  outline: var(--focus-ring-width) solid transparent;
+  outline: none;
+}
+@media (forced-colors: active) {
+  html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disabled]), html:not([data-whatinput=touch]) .dnb-button--secondary:focus-visible:not([disabled]), html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible:not([disabled]) {
+    outline: var(--focus-ring-width) solid transparent;
+  }
 }
 .dnb-button--primary[disabled], .dnb-button--secondary[disabled], .dnb-button--tertiary[disabled] {
   --button-color-bg: var(--button-color-bg--disabled);
@@ -1849,11 +1854,17 @@ html[data-visual-test] .dnb-input__input {
   height: inherit;
   border-radius: inherit;
   outline: none;
-  outline: var(--focus-ring-width) solid transparent;
   --border-color: var(--token-color-stroke-action-focus);
   --border-width: var(--focus-ring-width);
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
+}
+@media (forced-colors: active) {
+  .dnb-dropdown__status--error .dnb-button--tertiary::before {
+    outline: var(--focus-ring-width) solid transparent;
+  }
+}
+.dnb-dropdown__status--error .dnb-button--tertiary::before {
   --border-color: var(--token-color-stroke-error);
   --border-width: 0.0625rem;
 }

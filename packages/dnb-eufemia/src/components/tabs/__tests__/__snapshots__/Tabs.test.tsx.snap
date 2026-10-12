@@ -46,11 +46,17 @@ exports[`Tabs scss > has to match style dependencies css 1`] = `
 }
 .dnb-tabs__tabs__tablist:focus-visible {
   outline: none;
-  outline: var(--focus-ring-width) solid transparent;
   --border-color: var(--token-color-stroke-action-focus);
   --border-width: var(--focus-ring-width);
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
+}
+@media (forced-colors: active) {
+  .dnb-tabs__tabs__tablist:focus-visible {
+    outline: var(--focus-ring-width) solid transparent;
+  }
+}
+.dnb-tabs__tabs__tablist:focus-visible {
   border-radius: var(--token-radius-md);
 }
 .dnb-tabs__tabs__tablist {
@@ -323,11 +329,15 @@ html:not([data-whatintent=touch]) .dnb-tabs__button:not([aria-disabled=true]).se
   outline: none;
 }
 html[data-whatinput=keyboard] .dnb-tabs__button:not(:hover):focus-visible::before, html[data-whatinput=keyboard] .dnb-core-style .dnb-tabs__button:not(:hover):focus-visible::before {
-  outline: var(--focus-ring-width) solid transparent;
   --border-color: var(--token-color-stroke-action-focus);
   --border-width: var(--focus-ring-width);
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
+}
+@media (forced-colors: active) {
+  html[data-whatinput=keyboard] .dnb-tabs__button:not(:hover):focus-visible::before, html[data-whatinput=keyboard] .dnb-core-style .dnb-tabs__button:not(:hover):focus-visible::before {
+    outline: var(--focus-ring-width) solid transparent;
+  }
 }
 .dnb-tabs__button:not(:hover):focus-visible, .dnb-core-style .dnb-tabs__button:not(:hover):focus-visible {
   overflow: visible;
@@ -429,11 +439,15 @@ html[data-whatinput=keyboard] .dnb-tabs__button__snap:last-of-type.focus .dnb-ta
   max-width: 100vw;
   border-radius: var(--token-radius-md);
   outline: none;
-  outline: var(--focus-ring-width) solid transparent;
   --border-color: var(--token-color-stroke-action-focus);
   --border-width: var(--focus-ring-width);
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
+}
+@media (forced-colors: active) {
+  .dnb-tabs__content:focus-visible::before {
+    outline: var(--focus-ring-width) solid transparent;
+  }
 }
 .dnb-tabs__button .dnb-badge {
   margin-left: 0.25rem;
@@ -520,11 +534,17 @@ exports[`Tabs scss > have to match default theme snapshot 1`] = `
 }
 .dnb-tabs__tabs__tablist:focus-visible {
   outline: none;
-  outline: var(--focus-ring-width) solid transparent;
   --border-color: var(--token-color-stroke-action-focus);
   --border-width: var(--focus-ring-width);
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
+}
+@media (forced-colors: active) {
+  .dnb-tabs__tabs__tablist:focus-visible {
+    outline: var(--focus-ring-width) solid transparent;
+  }
+}
+.dnb-tabs__tabs__tablist:focus-visible {
   border-radius: var(--token-radius-md);
 }
 .dnb-tabs__tabs__tablist {
@@ -797,11 +817,15 @@ html:not([data-whatintent=touch]) .dnb-tabs__button:not([aria-disabled=true]).se
   outline: none;
 }
 html[data-whatinput=keyboard] .dnb-tabs__button:not(:hover):focus-visible::before, html[data-whatinput=keyboard] .dnb-core-style .dnb-tabs__button:not(:hover):focus-visible::before {
-  outline: var(--focus-ring-width) solid transparent;
   --border-color: var(--token-color-stroke-action-focus);
   --border-width: var(--focus-ring-width);
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
+}
+@media (forced-colors: active) {
+  html[data-whatinput=keyboard] .dnb-tabs__button:not(:hover):focus-visible::before, html[data-whatinput=keyboard] .dnb-core-style .dnb-tabs__button:not(:hover):focus-visible::before {
+    outline: var(--focus-ring-width) solid transparent;
+  }
 }
 .dnb-tabs__button:not(:hover):focus-visible, .dnb-core-style .dnb-tabs__button:not(:hover):focus-visible {
   overflow: visible;
@@ -903,11 +927,15 @@ html[data-whatinput=keyboard] .dnb-tabs__button__snap:last-of-type.focus .dnb-ta
   max-width: 100vw;
   border-radius: var(--token-radius-md);
   outline: none;
-  outline: var(--focus-ring-width) solid transparent;
   --border-color: var(--token-color-stroke-action-focus);
   --border-width: var(--focus-ring-width);
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
+}
+@media (forced-colors: active) {
+  .dnb-tabs__content:focus-visible::before {
+    outline: var(--focus-ring-width) solid transparent;
+  }
 }
 .dnb-tabs__button .dnb-badge {
   margin-left: 0.25rem;

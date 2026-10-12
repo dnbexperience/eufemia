@@ -1879,18 +1879,15 @@ describe('DrawerList scss', () => {
 
   it('shows the selected and focused option in forced colors mode', () => {
     const css = loadScss(require.resolve('../style/dnb-drawer-list.scss'))
-    const forcedColors = css.slice(
-      css.indexOf('@media (forced-colors: active)')
-    )
 
-    expect(forcedColors).toMatch(
-      /\.dnb-drawer-list__option--selected \{[^}]*background-color: Highlight;/
-    )
-    expect(forcedColors).toMatch(
-      /\.dnb-drawer-list__option--selected \.dnb-drawer-list__option__inner::after \{[^}]*background-color: HighlightText;/
+    expect(css).toMatch(
+      /@media \(forced-colors: active\) \{\s*\.dnb-drawer-list__option--selected \{[^}]*background-color: Highlight;/
     )
     expect(css).toMatch(
-      /\.dnb-drawer-list__option--focus \{[^}]*outline: var\(--focus-ring-width\) solid transparent;/
+      /@media \(forced-colors: active\) \{[^@]*\.dnb-drawer-list__option--selected \.dnb-drawer-list__option__inner::after \{\s*background-color: HighlightText;/
+    )
+    expect(css).toMatch(
+      /@media \(forced-colors: active\) \{\s*html\[data-whatinput=['"]?keyboard['"]?\] \.dnb-drawer-list__option--focus \{\s*outline: var\(--focus-ring-width\) solid transparent;/
     )
   })
 })

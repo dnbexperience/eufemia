@@ -238,7 +238,7 @@ describe('Radio scss', () => {
     const css = loadScss(require.resolve('../style/dnb-radio.scss'))
 
     expect(css).toMatch(
-      /\.dnb-radio__input:focus ~ \.dnb-radio__button \{[^}]*outline: var\(--focus-ring-width\) solid transparent;/
+      /@media \(forced-colors: active\) \{[^{]*\.dnb-radio__input:focus ~ \.dnb-radio__button \{\s*outline: var\(--focus-ring-width\) solid transparent;/
     )
   })
 

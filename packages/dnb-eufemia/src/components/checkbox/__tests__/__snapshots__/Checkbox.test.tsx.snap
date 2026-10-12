@@ -350,11 +350,15 @@ button .dnb-form-status__text {
   outline: none;
 }
 html[data-whatinput=keyboard] .dnb-checkbox__focus {
-  outline: var(--focus-ring-width) solid transparent;
   --border-color: var(--token-color-stroke-action-focus);
   --border-width: var(--focus-ring-width);
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
+}
+@media (forced-colors: active) {
+  html[data-whatinput=keyboard] .dnb-checkbox__focus {
+    outline: var(--focus-ring-width) solid transparent;
+  }
 }
 .dnb-checkbox__focus, .dnb-checkbox__button {
   position: relative;
