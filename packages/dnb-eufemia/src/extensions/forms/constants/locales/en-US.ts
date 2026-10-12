@@ -12,5 +12,10 @@ export default {
       errorOrgNoLength:
         'Invalid organization number. Enter a valid organization number with 9 digits.',
     },
+    InstallmentDay: {
+      ...enGB.InstallmentDay,
+      label: 'Installment day',
+      errorRequired: 'You must select an installment day.',
+    },
   } satisfies typeof enGB,
 }
