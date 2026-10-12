@@ -210,7 +210,7 @@ let mockLiveEditorOnChange: ((code: string) => void) | undefined
 let mockLiveProviderCode: string | undefined
 const mockLiveContextOnChange = vi.hoisted(() => vi.fn())
 
-vi.mock('react-live-ssr', async () => {
+vi.mock('react-live', async () => {
   const { createElement, createContext } = (await vi.importActual(
     'react'
   )) as {
@@ -262,6 +262,11 @@ vi.mock('react-live-ssr', async () => {
       }),
     LiveContext: MockLiveContext,
   }
+})
+
+vi.mock('react-live-ssr-adapter', async () => {
+  const { LiveProvider } = await import('react-live')
+  return { LiveProvider }
 })
 
 import CodeBlock from '../CodeBlock'

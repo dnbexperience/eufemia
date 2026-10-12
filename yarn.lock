@@ -8745,7 +8745,8 @@ __metadata:
     prismjs: "npm:1.30.0"
     react: "npm:19.3.0"
     react-dom: "npm:19.3.0"
-    react-live-ssr: "workspace:*"
+    react-live: "npm:5.0.1"
+    react-live-ssr-adapter: "workspace:*"
     react-markdown: "npm:9.1.0"
     react-router: "npm:8.3.0"
     remark-frontmatter: "npm:5.0.0"
@@ -16098,7 +16099,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prism-react-renderer@npm:2.4.1":
+"prism-react-renderer@npm:2.4.1, prism-react-renderer@npm:^2.4.1":
   version: 2.4.1
   resolution: "prism-react-renderer@npm:2.4.1"
   dependencies:
@@ -16396,14 +16397,42 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-live-ssr@workspace:*, react-live-ssr@workspace:tools/react-live-ssr":
+"react-live-ssr-adapter@workspace:*, react-live-ssr-adapter@workspace:tools/react-live-ssr-adapter":
   version: 0.0.0-use.local
-  resolution: "react-live-ssr@workspace:tools/react-live-ssr"
+  resolution: "react-live-ssr-adapter@workspace:tools/react-live-ssr-adapter"
   dependencies:
-    prism-react-renderer: "npm:2.4.1"
-    sucrase: "npm:3.35.1"
+    "@dnb/eufemia": "workspace:*"
+    "@testing-library/dom": "npm:10.4.2"
+    "@testing-library/react": "npm:16.3.3"
+    "@types/react": "npm:19.3.0"
+    "@types/react-dom": "npm:19.3.0"
+    eslint: "npm:10.4.1"
+    jsdom: "npm:30.1.1"
+    react: "npm:19.3.0"
+    react-dom: "npm:19.3.0"
+    react-live: "npm:5.0.1"
+    typescript: "npm:5.9.3"
+    vitest: "npm:4.1.11"
+  peerDependencies:
+    react: ">=18.0.0"
+    react-dom: ">=18.0.0"
+    react-live: ">=5.0.1 <6"
   languageName: unknown
   linkType: soft
+
+"react-live@npm:5.0.1":
+  version: 5.0.1
+  resolution: "react-live@npm:5.0.1"
+  dependencies:
+    prism-react-renderer: "npm:^2.4.1"
+    sucrase: "npm:^3.35.1"
+    use-editable: "npm:^2.3.3"
+  peerDependencies:
+    react: ">=18.0.0"
+    react-dom: ">=18.0.0"
+  checksum: 10/9a40922432cfc2c18230d5619e9df07f45fd2fd15c479f007193a946ec19dbdae1dbd4365d74b4dd8017225b15a8e0835dab10882a7cb8f9ec2152221561a5fb
+  languageName: node
+  linkType: hard
 
 "react-markdown@npm:9.1.0":
   version: 9.1.0
@@ -18312,7 +18341,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sucrase@npm:3.35.1":
+"sucrase@npm:^3.35.1":
   version: 3.35.1
   resolution: "sucrase@npm:3.35.1"
   dependencies:
@@ -19321,6 +19350,15 @@ __metadata:
   version: 5.0.0
   resolution: "url-join@npm:5.0.0"
   checksum: 10/5921384a8ad4395b49ce4b50aa26efbc429cebe0bc8b3660ad693dd12fd859747b5369be0443e60e53a7850b2bc9d7d0687bcb94386662b40e743596bbf38101
+  languageName: node
+  linkType: hard
+
+"use-editable@npm:^2.3.3":
+  version: 2.3.3
+  resolution: "use-editable@npm:2.3.3"
+  peerDependencies:
+    react: ">= 16.8.0"
+  checksum: 10/626ae826f0d1258d71026d0fc8cc96613f0b8f38b7bb489d6376f678cddc7e37db008cf87e0653c40116be984266dbc93bd9603e55413b38de8ad91ec8882545
   languageName: node
   linkType: hard
 
