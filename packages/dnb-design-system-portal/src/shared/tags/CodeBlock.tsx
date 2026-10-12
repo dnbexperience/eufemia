@@ -51,12 +51,12 @@ import {
   toolbarStyle,
 } from './CodeBlock.module.scss'
 import {
-  LiveProvider,
   LiveEditor,
   LiveError,
   LivePreview,
   LiveContext,
-} from 'react-live-ssr' // we use this temporary version of until ssr is supported https://github.com/FormidableLabs/react-live/pull/322
+} from 'react-live'
+import { LiveProvider } from 'react-live-ssr-adapter'
 
 // This theme uses CSS custom properties, so actual colors are controlled via CSS
 import prismTheme from '@dnb/eufemia/src/style/themes/ui/prism/dnb-prism-theme'
@@ -505,6 +505,7 @@ function LiveCode(props: LiveCodeProps) {
     >
       {!anotherBlockIsInFocusMode && (
         <LiveProvider
+          ssr
           theme={prismTheme}
           code={codeToUse}
           scope={scope}
