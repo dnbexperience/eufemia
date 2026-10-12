@@ -668,6 +668,20 @@ export default function Provider<Data extends JsonObject>(
       // The trailing slash keeps "/foo" from matching siblings like "/fooBar"
       const prefix = path?.endsWith('/') ? path : `${path}/`
 
+      if (
+        withDescendants &&
+        Object.entries(errorsRef.current ?? {}).some(
+          ([errorPath, error]) => {
+            return (
+              error instanceof Error &&
+              (errorPath === path || errorPath.startsWith(prefix))
+            )
+          }
+        )
+      ) {
+        return true
+      }
+
       return Array.from(mountedFieldsRef.current.entries()).some(
         ([p, item]) => {
           return (

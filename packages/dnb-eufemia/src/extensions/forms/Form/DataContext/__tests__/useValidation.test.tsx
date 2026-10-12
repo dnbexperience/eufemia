@@ -8,7 +8,7 @@ import {
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { makeUniqueId } from '../../../../../shared/component-helper'
-import { Field, Form, Iterate } from '../../..'
+import { Field, Form, Iterate, z } from '../../..'
 import { Button } from '../../../../../components'
 import SharedProvider from '../../../../../shared/Provider'
 import useValidation from '../useValidation'
@@ -529,6 +529,34 @@ describe('useValidation', () => {
     })
 
     describe('withDescendants', () => {
+      it('should include an error on the section itself', () => {
+        render(
+          <Form.Handler
+            id={identifier}
+            data={{ section: { field: 'ok' } }}
+          >
+            <Form.Section
+              path="/section"
+              schema={z.object({ field: z.string() }).refine(() => false)}
+            >
+              <Field.String path="/field" />
+            </Form.Section>
+          </Form.Handler>
+        )
+
+        const { result } = renderHook(() => useValidation(identifier))
+
+        expect(
+          result.current.hasFieldError('/section', {
+            withDescendants: true,
+          })
+        ).toBe(true)
+        expect(result.current.hasFieldError('/section')).toBe(false)
+        expect(
+          result.current.hasFieldError('/sect', { withDescendants: true })
+        ).toBe(false)
+      })
+
       it('should return true when a descendant field has an error', () => {
         render(
           <Form.Handler id={identifier}>
