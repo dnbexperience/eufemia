@@ -55,6 +55,30 @@ test('hydrates, edits, pastes, and restores code through upstream LiveEditor', a
   } else {
     // Firefox does not expose clipboard permission overrides in Playwright.
     await editor.evaluate((element) => {
+      // Synthetic paste does not establish the native editor selection.
+      // Firefox's Select All can otherwise leave a document-wide range.
+      const range = document.createRange()
+      const walker = document.createTreeWalker(
+        element,
+        NodeFilter.SHOW_TEXT
+      )
+      const first = walker.nextNode()
+      let last = first
+      while (walker.nextNode()) {
+        last = walker.currentNode
+      }
+      if (!first || !last) {
+        throw new Error('Paste requires editor text')
+      }
+      range.setStart(first, 0)
+      range.setEnd(last, last.textContent?.length ?? 0)
+      const selection = window.getSelection()
+      if (!selection) {
+        throw new Error('Paste requires an editor selection')
+      }
+      selection.removeAllRanges()
+      selection.addRange(range)
+      element.dispatchEvent(new Event('selectstart', { bubbles: true }))
       const paste = new ClipboardEvent('paste', {
         bubbles: true,
         cancelable: true,
