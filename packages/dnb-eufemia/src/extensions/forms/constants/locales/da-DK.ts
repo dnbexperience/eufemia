@@ -179,13 +179,13 @@ export default {
       label: 'Fornavn',
       errorRequired: 'Du skal udfylde fornavn.',
       errorPattern:
-        'Du skal indtaste et gyldigt fornavn. Kun bogstaver, bindestreger og mellemrum er tilladt.',
+        'Du skal indtaste et gyldigt fornavn. Kun bogstaver, bindestreger og mellemrum er tilladt. Bindestreger og mellemrum skal stå mellem to bogstaver.',
     },
     LastName: {
       label: 'Efternavn',
       errorRequired: 'Du skal udfylde efternavn.',
       errorPattern:
-        'Du skal indtaste et gyldigt efternavn. Kun bogstaver, bindestreger og mellemrum er tilladt.',
+        'Du skal indtaste et gyldigt efternavn. Kun bogstaver, bindestreger og mellemrum er tilladt. Bindestreger og mellemrum skal stå mellem to bogstaver.',
     },
     CompanyName: {
       label: 'Firmanavn',
