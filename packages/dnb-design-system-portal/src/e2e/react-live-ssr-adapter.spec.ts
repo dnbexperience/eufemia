@@ -78,7 +78,15 @@ test('hydrates, edits, pastes, and restores code through upstream LiveEditor', a
       element.dispatchEvent(paste)
     })
   }
-  await expect(preview).toHaveText('Adapter paste')
+  const pasteState = await editor.evaluate((element) => ({
+    code: element.textContent,
+    selection: window.getSelection()?.toString(),
+    focused: document.activeElement === element,
+  }))
+  expect(errors, 'Paste must not throw a runtime error').toEqual([])
+  await expect(preview, JSON.stringify(pasteState)).toHaveText(
+    'Adapter paste'
+  )
   await expect(editor).toBeFocused()
 
   await page.keyboard.press('ControlOrMeta+Z')
