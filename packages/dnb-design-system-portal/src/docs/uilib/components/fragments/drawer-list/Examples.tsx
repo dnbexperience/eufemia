@@ -399,6 +399,34 @@ export const DrawerListGroups = () => (
   </Wrapper>
 )
 
+export const DrawerListRightAlignedContent = () => (
+  <Wrapper>
+    <ComponentBox data-visual-test="drawer-list-right-aligned-content">
+      <DrawerList
+        skipPortal
+        open
+        preventClose
+        direction="top"
+        value={1}
+        observerElement=".dnb-live-preview" // prevents direction to change when scrolling in this example
+        data={[
+          ['Euro', 'EUR'],
+          ['US dollars', 'USD'],
+          ['Danish kroner', 'DKK'],
+        ].map(([name, code]) => (
+          <DrawerList.HorizontalItem
+            key={code}
+            style={{ justifyContent: 'space-between' }}
+          >
+            <span>{name}</span>
+            <span>{code}</span>
+          </DrawerList.HorizontalItem>
+        ))}
+      />
+    </ComponentBox>
+  </Wrapper>
+)
+
 export const DrawerListNoDivider = () => (
   <Wrapper>
     <ComponentBox data-visual-test="drawer-list-no-divider">
