@@ -423,3 +423,33 @@ export const DrawerListNoDivider = () => (
     </ComponentBox>
   </Wrapper>
 )
+
+export const DrawerListSuffixValue = () => (
+  <Wrapper>
+    <ComponentBox data-visual-test="drawer-list-suffix-value">
+      <DrawerList
+        skipPortal
+        open
+        preventClose
+        direction="top"
+        value={1}
+        observerElement=".dnb-live-preview" // prevents direction to change when scrolling in this example
+        data={[
+          ['Brukskonto', '1234 56 78901', '1 234,00 kr'],
+          ['Sparekonto', '1234 56 78902', '12 345,00 kr'],
+          ['BSU', '1234 56 78903', '123 456,00 kr'],
+        ].map(([name, accountNumber, balance]) => ({
+          content: (
+            <DrawerList.HorizontalItem
+              style={{ justifyContent: 'space-between' }}
+            >
+              <span>{name}</span>
+              <span>{accountNumber}</span>
+            </DrawerList.HorizontalItem>
+          ),
+          suffixValue: balance,
+        }))}
+      />
+    </ComponentBox>
+  </Wrapper>
+)

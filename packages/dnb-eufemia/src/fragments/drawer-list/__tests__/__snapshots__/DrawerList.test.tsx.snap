@@ -341,6 +341,7 @@ html[data-whatinput=keyboard] .dnb-drawer-list__option--focus {
     grid-row: 1/-1;
     justify-self: end;
     align-self: center;
+    margin-inline-start: 0.5rem;
   }
 }
 .dnb-drawer-list__option--ignore, .dnb-drawer-list__option.ignore-events {
@@ -953,6 +954,7 @@ html[data-whatinput=keyboard] .dnb-drawer-list__option--focus {
     grid-row: 1/-1;
     justify-self: end;
     align-self: center;
+    margin-inline-start: 0.5rem;
   }
 }
 .dnb-drawer-list__option--ignore, .dnb-drawer-list__option.ignore-events {
