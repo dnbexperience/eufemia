@@ -460,6 +460,11 @@ function WizardContainer(props: WizardContainerProps) {
         if (!preventNextStepRef.current && !(result instanceof Error)) {
           handleLayoutEffect()
 
+          // A step left without validation has to be checked again on submit
+          if (skipErrorCheck) {
+            visitedStepsRef.current.delete(activeIndexRef.current)
+          }
+
           activeIndexRef.current = index
           setStepAsVisited(activeIndexRef.current)
           forceUpdate()
