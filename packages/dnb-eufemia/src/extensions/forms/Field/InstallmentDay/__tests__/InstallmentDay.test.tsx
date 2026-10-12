@@ -418,6 +418,29 @@ describe('Field.InstallmentDay', () => {
     expect(onChange).toHaveBeenLastCalledWith('last', expect.anything())
   })
 
+  it('should call both onChange handlers when htmlAttributes has one', async () => {
+    const fieldOnChange = vi.fn()
+    const attributeOnChange = vi.fn()
+
+    render(
+      <Field.InstallmentDay
+        onChange={fieldOnChange}
+        htmlAttributes={{ onChange: attributeOnChange }}
+      />
+    )
+
+    await userEvent.click(
+      document.querySelector('button.dnb-dropdown__trigger')
+    )
+
+    const options = document.querySelectorAll('[role="option"]')
+    await userEvent.click(options[9])
+
+    expect(attributeOnChange).toHaveBeenCalledTimes(1)
+    expect(fieldOnChange).toHaveBeenCalledTimes(1)
+    expect(fieldOnChange).toHaveBeenLastCalledWith(10, expect.anything())
+  })
+
   it('should render the placeholder when no value is selected', () => {
     render(<Field.InstallmentDay />)
 
