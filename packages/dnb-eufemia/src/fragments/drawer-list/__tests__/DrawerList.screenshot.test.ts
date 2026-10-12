@@ -28,6 +28,16 @@ describe.each(['ui', 'sbanken'])(`DrawerList for %s`, (themeName) => {
     })
   })
 
+  it('have to separate right-aligned content from the checkmark', async () => {
+    await makeScreenshot({
+      style: {
+        width: '14rem',
+        'padding-top': '3rem',
+      },
+      selector: '[data-visual-test="drawer-list-right-aligned-content"]',
+    })
+  })
+
   it('have to match the inline style example', async () => {
     await makeScreenshot({
       style: {
