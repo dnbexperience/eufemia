@@ -1848,6 +1848,23 @@ describe('Field.Number', () => {
       expect(onKeyDown.mock.calls[0][0]).toMatchObject({ key: '1' })
     })
 
+    it('does not call onKeyDown for the beforeinput event on Android keyboards', () => {
+      const onKeyDown = vi.fn()
+      render(<Field.Number onKeyDown={onKeyDown} />)
+
+      const input = document.querySelector('input')
+
+      // Android sends key "Unidentified"; in jsdom, React makes beforeinput from the keypress
+      fireEvent.keyDown(input, { key: 'Unidentified', keyCode: 229 })
+      fireEvent.keyPress(input, { key: '1', charCode: 49, which: 49 })
+
+      expect(onKeyDown).toHaveBeenCalledTimes(1)
+      expect(onKeyDown.mock.calls[0][0]).toMatchObject({
+        type: 'keydown',
+        key: 'Unidentified',
+      })
+    })
+
     it('does not type the key when onKeyDown prevents it', async () => {
       const onChange = vi.fn()
       render(

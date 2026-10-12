@@ -323,7 +323,10 @@ function StringComponent(props: FieldStringProps) {
         event.preventDefault?.() // And prevent the default form submit
       }
 
-      onKeyDown?.(event)
+      // InputMasked also calls onKeyDown with the beforeinput event on Android
+      if (event.type === 'keydown') {
+        onKeyDown?.(event)
+      }
     },
     [handleSubmit, dataContext?.props?.isolate, multiline, onKeyDown]
   )

@@ -460,7 +460,10 @@ function NumberComponent(props: FieldNumberProps) {
         }
       }
 
-      onKeyDown?.(event)
+      // InputMasked also calls onKeyDown with the beforeinput event on Android
+      if (event.type === 'keydown') {
+        onKeyDown?.(event)
+      }
     },
     [
       dataContext?.props?.isolate,
