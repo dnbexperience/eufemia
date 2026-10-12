@@ -578,7 +578,7 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disable
   --button-input-separator-color: var(
     --button-input-separator-color--focus
   );
-  outline: none;
+  outline: var(--focus-ring-width) solid transparent;
 }
 .dnb-button--primary[disabled], .dnb-button--secondary[disabled], .dnb-button--tertiary[disabled] {
   --button-color-bg: var(--button-color-bg--disabled);
@@ -1825,6 +1825,7 @@ html[data-visual-test] .dnb-input__input {
   outline: none;
 }
 html[data-whatinput=keyboard] .dnb-checkbox__focus {
+  outline: var(--focus-ring-width) solid transparent;
   --border-color: var(--token-color-stroke-action-focus);
   --border-width: var(--focus-ring-width);
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
@@ -2779,6 +2780,7 @@ html:not([data-whatinput=touch]) .dnb-toggle-button__button:focus-visible:not([d
   outline: none;
 }
 html[data-whatinput=keyboard] .dnb-date-picker__container table.dnb-no-focus:focus {
+  outline: var(--focus-ring-width) solid transparent;
   --border-color: var(--token-color-stroke-action-focus);
   --border-width: var(--focus-ring-width);
   box-shadow: 0 0 0 var(--border-width) var(--border-color);

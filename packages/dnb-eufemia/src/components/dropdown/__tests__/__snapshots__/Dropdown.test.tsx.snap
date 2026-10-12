@@ -578,7 +578,7 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disable
   --button-input-separator-color: var(
     --button-input-separator-color--focus
   );
-  outline: none;
+  outline: var(--focus-ring-width) solid transparent;
 }
 .dnb-button--primary[disabled], .dnb-button--secondary[disabled], .dnb-button--tertiary[disabled] {
   --button-color-bg: var(--button-color-bg--disabled);
@@ -1365,6 +1365,7 @@ legend.dnb-form-label {
   height: inherit;
   border-radius: inherit;
   outline: none;
+  outline: var(--focus-ring-width) solid transparent;
   --border-color: var(--token-color-stroke-action-focus);
   --border-width: var(--focus-ring-width);
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
@@ -1672,6 +1673,7 @@ exports[`Dropdown scss > have to match default theme snapshot 1`] = `
   height: inherit;
   border-radius: inherit;
   outline: none;
+  outline: var(--focus-ring-width) solid transparent;
   --border-color: var(--token-color-stroke-action-focus);
   --border-width: var(--focus-ring-width);
   box-shadow: 0 0 0 var(--border-width) var(--border-color);

@@ -405,6 +405,7 @@ button .dnb-form-status__text {
   outline: none;
 }
 html[data-whatinput=keyboard] .dnb-switch__input:not([disabled]):focus ~ .dnb-switch__background, html[data-whatinput=keyboard] .dnb-switch__input:not([disabled]):active ~ .dnb-switch__background {
+  outline: var(--focus-ring-width) solid transparent;
   --border-color: var(--token-color-stroke-action-focus);
   --border-width: var(--focus-ring-width);
   box-shadow: 0 0 0 var(--border-width) var(--border-color);

@@ -137,7 +137,8 @@
         --button-input-separator-color--focus
       );
 
-      outline: none;
+      // Forced colors mode removes the box-shadow, but draws this outline
+      outline: var(--focus-ring-width) solid transparent;
     }
 
     &[disabled] {

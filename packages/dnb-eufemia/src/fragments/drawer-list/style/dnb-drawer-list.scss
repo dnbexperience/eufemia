@@ -425,6 +425,10 @@
       --drawer-list-option-extra-border: var(
         --drawer-list-option-extra-border--focus
       );
+
+      // Forced colors mode removes the box-shadow, but draws this outline
+      outline: var(--focus-ring-width) solid transparent;
+      outline-offset: calc(var(--focus-ring-width) * -1);
     }
 
     &__suffix {
@@ -512,6 +516,19 @@
       &--selected &__suffix {
         z-index: 0; // over check icon
         align-self: center;
+      }
+    }
+
+    // Forced colors mode replaces the selected colors and the check icon color
+    @media (forced-colors: active) {
+      &--selected {
+        color: HighlightText;
+        background-color: Highlight;
+        outline-color: HighlightText;
+      }
+
+      &--selected &__inner::after {
+        background-color: HighlightText;
       }
     }
 

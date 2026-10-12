@@ -582,7 +582,7 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disable
   --button-input-separator-color: var(
     --button-input-separator-color--focus
   );
-  outline: none;
+  outline: var(--focus-ring-width) solid transparent;
 }
 .dnb-button--primary[disabled], .dnb-button--secondary[disabled], .dnb-button--tertiary[disabled] {
   --button-color-bg: var(--button-color-bg--disabled);

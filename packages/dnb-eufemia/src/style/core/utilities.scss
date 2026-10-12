@@ -92,9 +92,13 @@
   $borderWidth: var(--focus-ring-width),
   $inset: null,
   $extendShadow: null,
-  $outline: none
+  $outline: $borderWidth solid transparent
 ) {
+  // Forced colors mode removes the box-shadow, but draws this outline
   outline: $outline;
+  @if $inset != null and $outline != null {
+    outline-offset: calc(#{$borderWidth} * -1);
+  }
   background-color: $bgColor;
   color: $textColor;
 
@@ -134,8 +138,7 @@
       $borderColor: $color,
       $borderWidth: $borderWidth,
       $inset: $inset,
-      $extendShadow: $extendShadow,
-      $outline: null
+      $extendShadow: $extendShadow
     );
   } @else {
     @include whatInput($whatinput) {
@@ -145,8 +148,7 @@
         $borderColor: $color,
         $borderWidth: $borderWidth,
         $inset: $inset,
-        $extendShadow: $extendShadow,
-        $outline: null
+        $extendShadow: $extendShadow
       );
     }
   }

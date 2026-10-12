@@ -273,6 +273,7 @@ sup :where(:not(.dnb-anchor--no-style)).dnb-anchor, sub :where(:not(.dnb-anchor-
 }
 :where(:not(.dnb-anchor--no-style)).dnb-anchor:focus-visible {
   outline: none;
+  outline: var(--focus-ring-width) solid transparent;
   --border-color: var(--token-color-stroke-action-focus);
   --border-width: var(--focus-ring-width);
   box-shadow: 0 0 0 var(--border-width) var(--border-color), inset 100vw 100vw 0 0 var(--token-color-background-action-focus-subtle), calc(var(--anchor-background-gutter-left, 0.125rem) * -1) 0 0 0 var(--token-color-background-action-focus-subtle), var(--anchor-background-gutter-right, 0.125rem) 0 0 0 var(--token-color-background-action-focus-subtle);
@@ -414,6 +415,7 @@ sup :where(:not(.dnb-anchor--no-style)).dnb-anchor, sub :where(:not(.dnb-anchor-
   }
   :not(.dnb-anchor--no-style).dnb-anchor:focus-visible {
     outline: none;
+    outline: var(--focus-ring-width) solid transparent;
     --border-color: var(--token-color-stroke-action-focus);
     --border-width: var(--focus-ring-width);
     box-shadow: 0 0 0 var(--border-width) var(--border-color), inset 100vw 100vw 0 0 var(--token-color-background-action-focus-subtle), calc(var(--anchor-background-gutter-left, 0.125rem) * -1) 0 0 0 var(--token-color-background-action-focus-subtle), var(--anchor-background-gutter-right, 0.125rem) 0 0 0 var(--token-color-background-action-focus-subtle);
@@ -537,6 +539,7 @@ sup :where(:not(.dnb-anchor--no-style)).dnb-anchor, sub :where(:not(.dnb-anchor-
 }
 .dnb-anchor--focus {
   outline: none;
+  outline: var(--focus-ring-width) solid transparent;
   --border-color: var(--token-color-stroke-action-focus);
   --border-width: var(--focus-ring-width);
   box-shadow: 0 0 0 var(--border-width) var(--border-color), inset 100vw 100vw 0 0 var(--token-color-background-action-focus-subtle), calc(var(--anchor-background-gutter-left, 0.125rem) * -1) 0 0 0 var(--token-color-background-action-focus-subtle), var(--anchor-background-gutter-right, 0.125rem) 0 0 0 var(--token-color-background-action-focus-subtle);

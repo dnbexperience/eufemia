@@ -1876,6 +1876,23 @@ describe('DrawerList scss', () => {
     const css = loadScss(require.resolve('../style/dnb-drawer-list.scss'))
     expect(css).toMatchSnapshot()
   })
+
+  it('shows the selected and focused option in forced colors mode', () => {
+    const css = loadScss(require.resolve('../style/dnb-drawer-list.scss'))
+    const forcedColors = css.slice(
+      css.indexOf('@media (forced-colors: active)')
+    )
+
+    expect(forcedColors).toMatch(
+      /\.dnb-drawer-list__option--selected \{[^}]*background-color: Highlight;/
+    )
+    expect(forcedColors).toMatch(
+      /\.dnb-drawer-list__option--selected \.dnb-drawer-list__option__inner::after \{[^}]*background-color: HighlightText;/
+    )
+    expect(css).toMatch(
+      /\.dnb-drawer-list__option--focus \{[^}]*outline: var\(--focus-ring-width\) solid transparent;/
+    )
+  })
 })
 
 const keydown = (key) => {
