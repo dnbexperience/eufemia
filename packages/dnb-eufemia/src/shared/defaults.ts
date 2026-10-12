@@ -16,8 +16,8 @@ export const COUNTRY = 'NO' // ISO 3166-1 alpha-2
  * waiting and recovers.
  *
  * It is also the default for `asyncSubmitTimeout`, which bounds a pending
- * submit, a field's async `onChange` or validator, a `Field.Upload`'s
- * `fileHandler`, and a `Form.Section`'s `onDone` the same way.
+ * submit, a field's async `onChange` or validator, and a `Form.Section`'s
+ * `onDone` the same way.
  *
  * The documentation states this value in prose ("30 seconds by default"), so
  * those texts need to be updated alongside it.
