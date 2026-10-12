@@ -177,13 +177,13 @@ export default {
       label: 'Given name',
       errorRequired: 'You must enter a given name (first name).',
       errorPattern:
-        'You must enter a valid first name. Only letters, hyphens and spaces are allowed.',
+        'You must enter a valid first name. Only letters, hyphens and spaces are allowed. Hyphens and spaces must be placed between two letters.',
     },
     LastName: {
       label: 'Surname',
       errorRequired: 'You must enter a surname (last name).',
       errorPattern:
-        'You must enter a valid surname. Only letters, hyphens and spaces are allowed.',
+        'You must enter a valid surname. Only letters, hyphens and spaces are allowed. Hyphens and spaces must be placed between two letters.',
     },
     CompanyName: {
       label: 'Company name',
