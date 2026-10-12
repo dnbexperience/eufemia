@@ -268,7 +268,7 @@ describe('createUsageReporter', () => {
     expect(fetchImpl.mock.calls[0][0]).toBe('http://localhost:9999/x')
   })
 
-  it('does not beacon for an unknown tool', () => {
+  it('does not post a record for an unknown tool', () => {
     const fetchImpl = vi.fn().mockResolvedValue(new Response(null))
     const reporter = createUsageReporter({
       eufemiaVersion: VERSION,
@@ -409,7 +409,7 @@ describe('createUsageReporter', () => {
   })
 })
 
-describe('first-run notice', () => {
+describe('startup notice', () => {
   beforeEach(() => {
     vi.resetModules()
   })

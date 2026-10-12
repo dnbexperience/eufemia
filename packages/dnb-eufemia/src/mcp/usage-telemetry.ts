@@ -20,9 +20,9 @@
  * HTTP call, but is not part of the payload and is not stored by the ingest
  * side (#9406).
  *
- * The beacon is fire-and-forget: it is never awaited on the tool-call path,
- * uses a short abort timeout, and swallows every error, so telemetry can
- * neither block nor break an MCP response.
+ * The usage record is posted fire-and-forget: it is never awaited on the
+ * tool-call path, uses a short abort timeout, and swallows every error, so
+ * telemetry can neither block nor break an MCP response.
  */
 
 import fs from 'node:fs'
@@ -33,14 +33,14 @@ import type { UsageResolver } from './mcp-docs-server'
 const DEFAULT_ENDPOINT =
   'https://server.eufemia.dnb.no/analytics/collect-local-mcp-usage'
 
-/** Abort the beacon quickly; it must never delay the process. */
-const BEACON_TIMEOUT_MS = 1000
+/** Abort the POST quickly; it must never delay the process. */
+const POST_TIMEOUT_MS = 1000
 
-const FIRST_RUN_NOTICE =
+const STARTUP_NOTICE =
   'Eufemia MCP collects anonymous usage stats; disable with EUFEMIA_MCP_TELEMETRY=0'
 
 // The registered docs-server tools. A record is emitted only for a call to one
-// of these, so an unknown method never produces a beacon. Kept in sync with the
+// of these, so an unknown method never produces a record. Kept in sync with the
 // ingest validator's KNOWN_TOOLS (tools/analytics/src/records/mcp-usage.ts).
 export const KNOWN_TOOLS: ReadonlySet<string> = new Set([
   'docs_entry',
@@ -147,7 +147,7 @@ export type LocalMcpUsageRecord = {
 
 // Returns the normalized component name, or `null` when it is not a
 // dot-separated name of letters, digits and hyphens.
-function validComponent(value: unknown): string | null {
+function parseComponentName(value: unknown): string | null {
   if (typeof value !== 'string' || value.length > MAX_COMPONENT_LENGTH) {
     return null
   }
@@ -167,7 +167,7 @@ function validComponent(value: unknown): string | null {
 // narrowing to the leading area alone still leaks an arbitrary non-docs
 // path's own segments, so a path whose area was never seen in the real docs
 // is dropped entirely rather than sent.
-function validPath(
+function parseDocsArea(
   value: unknown,
   knownAreas: ReadonlySet<string>
 ): string | null {
@@ -220,7 +220,7 @@ export function buildUsageRecord(
   }
 
   if (COMPONENT_TOOLS.has(toolName)) {
-    const component = validComponent(args.name)
+    const component = parseComponentName(args.name)
     if (component) {
       record.component = component
     }
@@ -228,7 +228,7 @@ export function buildUsageRecord(
 
   if (PATH_TOOLS.has(toolName)) {
     const rawPath = toolName === 'docs_read' ? args.path : args.prefix
-    const area = validPath(rawPath, knownAreas)
+    const area = parseDocsArea(rawPath, knownAreas)
     if (area) {
       record.path = area
     }
@@ -280,13 +280,13 @@ async function dropUnresolved(
  * abort timeout and swallowing every error, so it can neither block nor throw
  * on the tool-call path.
  */
-async function sendBeacon(
+async function postUsageRecord(
   record: LocalMcpUsageRecord,
   endpoint: string,
   fetchImpl: typeof fetch
 ): Promise<void> {
   const controller = new AbortController()
-  const timer = setTimeout(() => controller.abort(), BEACON_TIMEOUT_MS)
+  const timer = setTimeout(() => controller.abort(), POST_TIMEOUT_MS)
   try {
     await fetchImpl(endpoint, {
       method: 'POST',
@@ -301,7 +301,7 @@ async function sendBeacon(
   }
 }
 
-// Guard the first-run notice so it prints at most once per process, even if a
+// Guard the startup notice so it prints at most once per process, even if a
 // reporter is created more than once.
 let noticePrinted = false
 
@@ -327,15 +327,15 @@ export type UsageReporterOptions = {
   env?: NodeJS.ProcessEnv
   /** Overridable for tests; defaults to the global `fetch`. */
   fetchImpl?: typeof fetch
-  /** Sink for the one-line first-run notice; defaults to `stderr`. */
+  /** Sink for the one-line startup notice; defaults to `stderr`. */
   logNotice?: (message: string) => void
 }
 
 /**
  * Create the usage reporter, or `null` when telemetry is opted out. The
- * returned `onToolCall` is synchronous and non-blocking: it builds the record
- * and dispatches the beacon without awaiting, and swallows every error, so it
- * is safe to call on the tool-call path.
+ * returned `onToolCall` is synchronous and non-blocking: it builds the record,
+ * posts it without awaiting, and swallows every error, so it is safe to call
+ * on the tool-call path.
  */
 export function createUsageReporter(
   options: UsageReporterOptions
@@ -358,7 +358,7 @@ export function createUsageReporter(
 
   if (!noticePrinted) {
     noticePrinted = true
-    logNotice(FIRST_RUN_NOTICE)
+    logNotice(STARTUP_NOTICE)
   }
 
   const knownAreas = options.knownAreas ?? NO_KNOWN_AREAS
@@ -378,11 +378,13 @@ export function createUsageReporter(
         }
         // Fire-and-forget: never awaited on the tool-call path.
         if (record.component === undefined && record.path === undefined) {
-          void sendBeacon(record, endpoint, fetchImpl)
+          void postUsageRecord(record, endpoint, fetchImpl)
           return
         }
         void dropUnresolved(record, toolName, input, resolver)
-          .then((resolved) => sendBeacon(resolved, endpoint, fetchImpl))
+          .then((resolved) =>
+            postUsageRecord(resolved, endpoint, fetchImpl)
+          )
           .catch(() => {
             // Telemetry must never affect the tool call.
           })
