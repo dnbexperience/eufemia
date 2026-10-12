@@ -1887,9 +1887,15 @@ describe('Field.Number', () => {
     })
 
     it('keeps the arrow key stepping when onKeyDown is given', async () => {
+      const onChange = vi.fn()
       const onKeyDown = vi.fn()
       render(
-        <Field.Number showStepControls value={1} onKeyDown={onKeyDown} />
+        <Field.Number
+          showStepControls
+          value={1}
+          onChange={onChange}
+          onKeyDown={onKeyDown}
+        />
       )
 
       const input = document.querySelector('input')
@@ -1898,6 +1904,10 @@ describe('Field.Number', () => {
       await userEvent.keyboard('{ArrowUp}')
 
       expect(onKeyDown).toHaveBeenCalledTimes(1)
+      expect(onChange).toHaveBeenCalledWith(2, expect.anything())
+      expect(onChange.mock.invocationCallOrder[0]).toBeLessThan(
+        onKeyDown.mock.invocationCallOrder[0]
+      )
       expect(input).toHaveValue('2')
     })
 

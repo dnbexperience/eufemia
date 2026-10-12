@@ -1,6 +1,5 @@
 import { InputProperties } from '../../../../components/input/InputDocs'
 import type { PropertiesTableProps } from '../../../../shared/types'
-import { StringEvents } from '../String/StringDocs'
 
 export const NumberProperties: PropertiesTableProps = {
   decimalLimit: {
@@ -110,5 +109,9 @@ export const NumberProperties: PropertiesTableProps = {
 }
 
 export const NumberEvents: PropertiesTableProps = {
-  onKeyDown: StringEvents.onKeyDown,
+  onKeyDown: {
+    doc: 'Will be called when a key is pressed while the input has focus. Call `event.preventDefault()` to keep the key from being typed, e.g. to set the value with a keyboard shortcut. Check `event.metaKey` and `event.ctrlKey` to leave browser shortcuts alone. With `showStepControls`, the arrow keys step the value before it is called.',
+    type: '(event: React.KeyboardEvent<HTMLInputElement>) => void',
+    status: 'optional',
+  },
 }

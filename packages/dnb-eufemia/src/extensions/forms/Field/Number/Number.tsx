@@ -121,7 +121,7 @@ export type FieldNumberProps = FieldProps<number, undefined | number> & {
 
   // - Events
   /**
-   * Will be called when a key is pressed while the input has focus. Call `event.preventDefault()` to keep the key from being typed, e.g. to set the value with a keyboard shortcut. Check `event.metaKey` and `event.ctrlKey` to leave browser shortcuts alone.
+   * Will be called when a key is pressed while the input has focus. Call `event.preventDefault()` to keep the key from being typed, e.g. to set the value with a keyboard shortcut. Check `event.metaKey` and `event.ctrlKey` to leave browser shortcuts alone. With `showStepControls`, the arrow keys step the value before it is called.
    */
   onKeyDown?: KeyboardEventHandler<HTMLInputElement>
 }
