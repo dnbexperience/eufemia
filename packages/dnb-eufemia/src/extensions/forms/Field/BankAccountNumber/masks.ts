@@ -190,7 +190,7 @@ export function getWidth(
 ): FieldBlockWidth {
   switch (bankAccountType) {
     case 'iban':
-      return 'large'
+      return '28rem' // Fits a formatted 34-character IBAN
     default:
       return 'medium'
   }

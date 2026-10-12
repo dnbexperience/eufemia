@@ -38,7 +38,7 @@ export type FieldStringProps = FieldProps<string, undefined | string> & {
    */
   ref?: RefObject<HTMLInputElement | HTMLTextAreaElement>
   /**
-   * `false` for no width (use browser default), `small`, `medium` or `large` for predefined standard widths, `stretch` to fill available width.
+   * `false` for no width (use browser default), `small`, `medium` or `large` for predefined standard widths, `stretch` to fill available width. You can also set a custom width `{number}rem`.
    */
   width?: FieldBlockWidth
   /** The size of the input. Available sizes: `small`, `medium` (default), `large`. */
