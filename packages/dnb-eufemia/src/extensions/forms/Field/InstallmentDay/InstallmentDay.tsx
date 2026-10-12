@@ -8,6 +8,7 @@ import type { FieldBlockProps, FieldBlockWidth } from '../../FieldBlock'
 import FieldBlock from '../../FieldBlock'
 import useTranslation from '../../hooks/useTranslation'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
+import mergeProps from '../../../../shared/helpers/mergeProps'
 import SharedContext from '../../../../shared/Context'
 import { LOCALE } from '../../../../shared/defaults'
 import { getInstallmentDayDisplayValue } from './InstallmentDayDisplay'
@@ -235,10 +236,14 @@ function InstallmentDay(props: FieldInstallmentDayProps) {
         size={size}
         status={hasError ? 'error' : undefined}
         stretch
-        onChange={onChangeHandler}
-        onOpen={handleOpen}
-        onClose={handleClose}
-        {...htmlAttributes}
+        {...mergeProps(
+          {
+            onChange: onChangeHandler,
+            onOpen: handleOpen,
+            onClose: handleClose,
+          },
+          htmlAttributes
+        )}
       />
     </FieldBlock>
   )
