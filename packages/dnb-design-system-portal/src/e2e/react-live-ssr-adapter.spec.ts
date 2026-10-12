@@ -55,14 +55,27 @@ test('hydrates, edits, pastes, and restores code through upstream LiveEditor', a
   } else {
     // Firefox does not expose clipboard permission overrides in Playwright.
     await editor.evaluate((element) => {
-      const clipboardData = new DataTransfer()
-      clipboardData.setData(
-        'text/plain',
+      const paste = new ClipboardEvent('paste', {
+        bubbles: true,
+        cancelable: true,
+      })
+      // Firefox can discard data from a constructed DataTransfer. Supply the
+      // read-only clipboard payload consumed by the editor's paste handler.
+      Object.defineProperty(paste, 'clipboardData', {
+        value: {
+          getData: (format: string) =>
+            format === 'text/plain'
+              ? '<Button text="Adapter paste" />'
+              : '',
+        },
+      })
+      if (
+        paste.clipboardData?.getData('text/plain') !==
         '<Button text="Adapter paste" />'
-      )
-      element.dispatchEvent(
-        new ClipboardEvent('paste', { clipboardData, bubbles: true })
-      )
+      ) {
+        throw new Error('Paste event is missing the test clipboard text')
+      }
+      element.dispatchEvent(paste)
     })
   }
   await expect(preview).toHaveText('Adapter paste')
