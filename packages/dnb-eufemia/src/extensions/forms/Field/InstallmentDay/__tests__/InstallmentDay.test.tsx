@@ -5,6 +5,7 @@ import { Field, Form } from '../../..'
 import { Provider } from '../../../../../shared'
 import DataContext from '../../../DataContext/Context'
 import nbNO from '../../../constants/locales/nb-NO'
+import enUS from '../../../constants/locales/en-US'
 
 const nb = nbNO['nb-NO'].InstallmentDay
 
@@ -73,6 +74,17 @@ describe('Field.InstallmentDay', () => {
 
     const text = document.querySelector('.dnb-dropdown__text__inner')
     expect(text).toHaveTextContent('1st day of the month')
+  })
+
+  it('should use the American spelling in the label when locale is en-US', () => {
+    render(
+      <Provider locale="en-US" translations={enUS}>
+        <Field.InstallmentDay />
+      </Provider>
+    )
+
+    const label = document.querySelector('label')
+    expect(label).toHaveTextContent('Installment day')
   })
 
   it('should use the Form.Handler locale for the ordinal phrase', () => {
