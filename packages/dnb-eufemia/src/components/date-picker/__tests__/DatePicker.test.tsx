@@ -387,9 +387,10 @@ describe('DatePicker component', () => {
     fireEvent.click(getDatePickerTriggerButton())
     fireEvent.click(document.querySelector('button.dnb-dropdown__trigger'))
 
-    fireEvent.mouseDown(
-      document.querySelector('li.dnb-drawer-list__option')
-    )
+    const option = document.querySelector('li.dnb-drawer-list__option')
+    expect(option.closest('.dnb-date-picker__portal')).toBeNull()
+
+    fireEvent.mouseDown(option)
 
     expect(getDatePickerRoot()).toHaveClass('dnb-date-picker--open')
   })
