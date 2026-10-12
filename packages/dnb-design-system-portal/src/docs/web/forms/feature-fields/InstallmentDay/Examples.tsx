@@ -77,9 +77,9 @@ export const WithHelp = () => {
     <ComponentBox>
       <Field.InstallmentDay
         help={{
-          title: 'What is an instalment day?',
+          title: 'What is an installment day?',
           content:
-            'The instalment day is the day of the month when the payment is deducted from your account.',
+            'The installment day is the day of the month when the payment is deducted from your account.',
         }}
       />
     </ComponentBox>
