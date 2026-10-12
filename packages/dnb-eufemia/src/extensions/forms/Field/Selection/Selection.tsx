@@ -3,6 +3,7 @@ import {
   createElement,
   isValidElement,
   useCallback,
+  useEffect,
   useMemo,
 } from 'react'
 import type {
@@ -90,6 +91,11 @@ export type FieldSelectionProps = FieldProps<IOption['value']> & {
     | 'radio-button'
 
   /**
+   * Automatically selects the only enabled option when the field is empty. Options without a value or matching `emptyValue` are ignored. Uses normal field change handling, including validation and callbacks. Existing values are preserved, including when more options become available. Disabled fields and Autocomplete with `preventSelection` are not automatically selected. Enable only when the complete option list is available. Defaults to `false`.
+   */
+  autoSelectSingleOption?: boolean
+
+  /**
    * `small`, `medium` or `large` for predefined standard widths, `stretch` for fill available width.
    */
   width?: FieldBlockWidth
@@ -154,6 +160,7 @@ function Selection(props: FieldSelectionProps) {
     id,
     className,
     variant = 'dropdown',
+    autoSelectSingleOption = false,
     layout = 'vertical',
     optionsLayout = 'vertical',
     placeholder,
@@ -203,6 +210,82 @@ function Selection(props: FieldSelectionProps) {
     hasRenderPropChildren,
     renderedChildren,
     transformSelection,
+  ])
+
+  useEffect(() => {
+    if (
+      !autoSelectSingleOption ||
+      disabled ||
+      autocompleteProps?.preventSelection ||
+      (value !== undefined &&
+        value !== null &&
+        value !== '' &&
+        value !== emptyValue)
+    ) {
+      return undefined
+    }
+
+    const data: Array<{
+      selectedKey?: FieldSelectionProps['value']
+      disabled?: boolean
+    }> = [...normalizedData]
+
+    if (
+      variant === 'radio' ||
+      variant === 'button' ||
+      variant === 'radio-button'
+    ) {
+      data.length = 0
+      data.push(
+        ...renderDropdownItems(
+          hasRenderPropChildren ? undefined : dataList,
+          undefined
+        )
+      )
+      mapOptions(renderedChildren, {
+        createOption: (props) => {
+          const { value, disabled } = props as OptionFieldProps
+          data.push({ selectedKey: value, disabled })
+          return null
+        },
+      })
+    }
+
+    const options = data.filter(
+      (item) =>
+        !item.disabled &&
+        item.selectedKey !== undefined &&
+        item.selectedKey !== null &&
+        item.selectedKey !== '' &&
+        item.selectedKey !== emptyValue
+    )
+
+    if (options.length !== 1) {
+      return undefined
+    }
+
+    let canceled = false
+    Promise.resolve().then(() => {
+      if (!canceled) {
+        handleChange(options[0].selectedKey)
+      }
+    })
+
+    return () => {
+      canceled = true
+    }
+  }, [
+    autoSelectSingleOption,
+    disabled,
+    autocompleteProps?.preventSelection,
+    value,
+    emptyValue,
+    normalizedData,
+    variant,
+    dataList,
+    hasRenderPropChildren,
+    renderedChildren,
+    handleChange,
   ])
 
   const handleDrawerListChange = useCallback(
