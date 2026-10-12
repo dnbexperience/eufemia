@@ -457,22 +457,6 @@ describe('Field.BankAccountNumber', () => {
       expect(input).toHaveAttribute('inputmode', 'text')
     })
 
-    it('should use a width that fits the longest IBAN', () => {
-      render(<Field.BankAccountNumber bankAccountType="iban" />)
-
-      const mainElement = document.querySelector('.dnb-forms-field-block')
-      const contents = mainElement.querySelector(
-        '.dnb-forms-field-block__contents'
-      )
-
-      expect(contents.classList).toContain(
-        'dnb-forms-field-block__contents--width-custom'
-      )
-      expect(mainElement).toHaveStyle(
-        '--dnb-forms-field-block-content-width: 28rem;'
-      )
-    })
-
     it('should use numeric inputMode for Swedish BBAN', () => {
       render(<Field.BankAccountNumber bankAccountType="swedishBban" />)
 
