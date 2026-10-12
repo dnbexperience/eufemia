@@ -84,6 +84,11 @@ html[show-dev-grid] .dev-grid {
   /* stylelint-enable */
 }
 
+body.eufemia-theme__color-scheme--dark .typography-box {
+  --grid-opacity: 0.04;
+  --grid-opacity-bold: 0.08;
+}
+
 /* used in the designers guide */
 .lh-12 {
   line-height: calc(var(--line-height-basis) - 0.75rem); /* 0.75rem */
