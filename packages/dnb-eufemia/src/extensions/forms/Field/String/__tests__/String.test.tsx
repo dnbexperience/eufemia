@@ -793,6 +793,27 @@ describe('Field.String', () => {
       )
     })
 
+    it('does not type the key when onKeyDown prevents it', async () => {
+      const onChange = vi.fn()
+      render(
+        <Field.String
+          onChange={onChange}
+          onKeyDown={(event) => {
+            if (event.key === '0') {
+              event.preventDefault()
+            }
+          }}
+        />
+      )
+
+      const input = document.querySelector('input')
+
+      await userEvent.type(input, '102')
+
+      expect(input).toHaveValue('12')
+      expect(onChange).toHaveBeenLastCalledWith('12', expect.anything())
+    })
+
     it('does not call onKeyDown for the beforeinput event on Android keyboards when a mask is given', () => {
       const onKeyDown = vi.fn()
       render(
