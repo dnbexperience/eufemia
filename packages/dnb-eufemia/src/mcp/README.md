@@ -137,7 +137,7 @@ IP is visible to the network layer like any HTTP call, but it is not part of
 this payload and is not stored on the ingest side.
 
 Each event is POSTed to `https://server.eufemia.dnb.no/analytics/collect-local-mcp-usage`
-as a fire-and-forget beacon with a short (~1s) timeout. It never blocks or
+as a fire-and-forget request with a short (~1s) timeout. It never blocks or
 affects a tool call, and any failure is silently ignored. The server holds no
 credentials; the ingest route is locked down at the edge.
 

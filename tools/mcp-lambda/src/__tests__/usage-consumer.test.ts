@@ -82,6 +82,27 @@ describe('usage consumer', () => {
     expect(errorSpy).toHaveBeenCalled()
   })
 
+  it('drops a message whose record has no web transport', async () => {
+    const withoutTransport: Partial<McpUsageRecord> = usageRecord()
+    delete withoutTransport.transport
+
+    await handler(
+      event(
+        sqsRecord('missing', JSON.stringify([withoutTransport])),
+        sqsRecord(
+          'local',
+          JSON.stringify([{ ...usageRecord(), transport: 'local' }])
+        ),
+        sqsRecord('good', JSON.stringify([usageRecord()]))
+      )
+    )
+
+    expect(storeMcpUsage).toHaveBeenCalledWith('my-bucket', [
+      usageRecord(),
+    ])
+    expect(errorSpy).toHaveBeenCalledTimes(2)
+  })
+
   it('retries the batch when S3 storage fails', async () => {
     storeMcpUsage.mockRejectedValue(new Error('s3 down'))
 
