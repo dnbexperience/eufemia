@@ -113,6 +113,9 @@
       --accordion-color-border: var(--accordion-color-border--focus);
       --accordion-border-width: var(--accordion-border-width--focus);
       --accordion-border-inset: var(--accordion-border-inset--focus);
+
+      // Forced colors mode removes the box-shadow, but draws this outline
+      outline: var(--focus-ring-width) solid transparent;
     }
 
     &[disabled] {

@@ -1395,6 +1395,7 @@ button.dnb-button::-moz-focus-inner {
   inset: 0;
   transform: scale(1.25, 2);
   border: 0.5rem solid transparent;
+  forced-color-adjust: none;
 }
 .dnb-breadcrumb__item:first-child .dnb-anchor {
   border-left: none;

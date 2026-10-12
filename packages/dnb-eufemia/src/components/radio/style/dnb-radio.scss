@@ -388,6 +388,9 @@
       --radio-border-width: var(--radio-border-width--focus);
       --radio-color-border: var(--radio-color-border--focus);
       --radio-color-background: var(--radio-color-background--focus);
+
+      // Forced colors mode removes the box-shadow, but draws this outline
+      outline: var(--focus-ring-width) solid transparent;
     }
   }
   &__input:focus ~ &__dot {
