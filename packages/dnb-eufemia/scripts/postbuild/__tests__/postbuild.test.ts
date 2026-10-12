@@ -905,7 +905,18 @@ describe('style build', () => {
         ),
         'utf-8'
       )
-      expect(properties).toContain(`@use './typography-properties.scss';`)
+      expect(properties).not.toContain(
+        `@use './typography-properties.scss';`
+      )
+      expect(properties).toContain(`--font-size-xx-large: 3rem;`)
+      const mapping = fs.readFileSync(
+        path.resolve(
+          PKG_ROOT,
+          `build${stage}/style/themes/ui/theme-mapping.scss`
+        ),
+        'utf-8'
+      )
+      expect(mapping).toContain(`@use './typography-properties.scss';`)
       expect(
         fs.existsSync(
           path.resolve(

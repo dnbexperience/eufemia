@@ -919,6 +919,30 @@ const typographyBrandClasses = (brand: string) =>
     (name) => '.eufemia-theme__' + name
   )
 
+export const syncTypographyProperties = (
+  source: string,
+  values: Record<string, string>
+) => {
+  for (const [property, value] of Object.entries(values)) {
+    const declaration = new RegExp(
+      '^([ \t]*' + property + ':\\s*)[^;]+;',
+      'gm'
+    )
+    if (Array.from(source.matchAll(declaration)).length !== 1) {
+      throw new Error(
+        'Expected one typography property declaration: ' + property
+      )
+    }
+
+    source = source.replace(
+      declaration,
+      (_match, prefix) => prefix + value + ';'
+    )
+  }
+
+  return source
+}
+
 const makeTypographyPropertiesSCSS = async ({
   inputPath,
   outputPath,
@@ -964,6 +988,21 @@ const makeTypographyPropertiesSCSS = async ({
     path.resolve(outputPath),
     await prettier.format(content, { filepath: '*.scss', ...prettierrc })
   )
+
+  if (brand === 'ui') {
+    const propertiesPath = path.resolve(
+      path.dirname(outputPath),
+      'properties.scss'
+    )
+    const source = await promises.readFile(propertiesPath, 'utf-8')
+    await promises.writeFile(
+      propertiesPath,
+      await prettier.format(
+        syncTypographyProperties(source, parseCSSVariables(content)),
+        { filepath: '*.scss', ...prettierrc }
+      )
+    )
+  }
 }
 
 const runDesignTokenFactory = async () => {

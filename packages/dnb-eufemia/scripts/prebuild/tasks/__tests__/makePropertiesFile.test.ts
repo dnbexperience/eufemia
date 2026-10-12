@@ -6,6 +6,7 @@ import makePropertiesFile, {
   transformNamespace,
   generateCSSVariablesFromTokenList,
   convertToTokenList,
+  syncTypographyProperties,
   generateColorMixFallback,
   overrideFoundationReferencePrefix,
 } from '../makePropertiesFile'
@@ -261,7 +262,7 @@ describe('makePropertiesFile', () => {
       }
     })
 
-    it('emits one UI scale and keeps Carnegie values after the UI fallback', async () => {
+    it('keeps each brand scale after the standalone UI fallback', async () => {
       const sass = await import('sass')
       const path = await import('path')
       const getValues = (theme: string) => {
@@ -279,8 +280,8 @@ describe('makePropertiesFile', () => {
           .filter(Boolean)
       }
 
-      expect(getValues('ui')).toEqual(['3rem'])
-      expect(getValues('eiendom')).toEqual(['3rem'])
+      expect(getValues('ui')).toEqual(['3rem', '3rem'])
+      expect(getValues('eiendom')).toEqual(['3rem', '3rem'])
       expect(getValues('sbanken')).toEqual(['3rem', '3rem'])
       expect(getValues('carnegie')).toEqual(['3rem', '3.5rem'])
     })
@@ -859,6 +860,56 @@ describe('makePropertiesFile', () => {
   })
 
   describe('Properties for ui', () => {
+    it('syncs changed Figma values while preserving standalone properties and aliases', () => {
+      const source = [
+        ':root {',
+        '  --font-size-xx-large: 3rem; // Heading',
+        '  --font-size-lead: var(--font-size-medium);',
+        '}',
+      ].join('\n')
+      expect(
+        syncTypographyProperties(source, {
+          '--font-size-xx-large': '4rem',
+        })
+      ).toBe(source.replace('3rem', '4rem'))
+      expect(() =>
+        syncTypographyProperties(source, { '--line-height-basis': '2rem' })
+      ).toThrow(
+        'Expected one typography property declaration: --line-height-basis'
+      )
+      const duplicate = source + '\n  --font-size-xx-large: 3rem;'
+      expect(() =>
+        syncTypographyProperties(duplicate, {
+          '--font-size-xx-large': '4rem',
+        })
+      ).toThrow(
+        'Expected one typography property declaration: --font-size-xx-large'
+      )
+    })
+
+    it('loads generated typography through theme mappings instead of properties', async () => {
+      const fs = await import('fs')
+      const path = await import('path')
+      const read = (theme: string, file: string) =>
+        fs.readFileSync(
+          path.resolve('src/style/themes', theme, file),
+          'utf-8'
+        )
+
+      expect(read('ui', 'properties.scss')).not.toContain('@use')
+      for (const theme of ['ui', 'sbanken', 'carnegie', 'eiendom']) {
+        expect(read(theme, 'theme-mapping.scss')).toContain(
+          'typography-properties.scss'
+        )
+        expect(read(theme, theme + '-theme-basis.scss')).toContain(
+          './theme-mapping.scss'
+        )
+        expect(read(theme, 'properties-js.scss')).toContain(
+          './theme-mapping.scss'
+        )
+      }
+    })
+
     it('includes generated typography when properties.scss is imported directly', async () => {
       const sass = await import('sass')
       const path = await import('path')
