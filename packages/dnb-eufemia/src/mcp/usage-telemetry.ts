@@ -333,9 +333,9 @@ export type UsageReporterOptions = {
 
 /**
  * Create the usage reporter, or `null` when telemetry is opted out. The
- * returned `onToolCall` is synchronous and non-blocking: it builds the record
- * and posts it without awaiting, and swallows every error, so it
- * is safe to call on the tool-call path.
+ * returned `onToolCall` is synchronous and non-blocking: it builds the record,
+ * posts it without awaiting, and swallows every error, so it is safe to call
+ * on the tool-call path.
  */
 export function createUsageReporter(
   options: UsageReporterOptions

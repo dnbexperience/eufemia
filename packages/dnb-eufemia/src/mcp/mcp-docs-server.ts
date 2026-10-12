@@ -1055,10 +1055,9 @@ export function registerDocsTools(
 ) {
   const { onToolCall } = options
 
-  // Telemetry hook: notify the reporter without awaiting it or letting it
-  // affect the result. Handlers are async, so it fires when a call starts, even
-  // if the call later fails. Kept inline so each handler keeps its
-  // schema-inferred input type.
+  // Notify the reporter without awaiting it or letting it affect the result.
+  // Handlers are async, so it fires when a call starts, even if it later fails.
+  // Kept inline so each handler keeps its schema-inferred input type.
   const track = <T>(name: string, input: unknown, run: () => T): T => {
     const result = run()
     if (onToolCall) {
