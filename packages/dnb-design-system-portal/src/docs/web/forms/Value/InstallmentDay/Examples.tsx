@@ -38,7 +38,7 @@ export const Inline = () => {
   return (
     <ComponentBox>
       <P>
-        The instalment day is <Value.InstallmentDay value={15} inline />{' '}
+        The installment day is <Value.InstallmentDay value={15} inline />{' '}
         every month.
       </P>
     </ComponentBox>
