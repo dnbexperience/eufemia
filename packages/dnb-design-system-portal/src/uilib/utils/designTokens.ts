@@ -97,7 +97,7 @@ type FigmaExtensions = {
 
 type FigmaTokenLeaf = {
   $type: string
-  $value?: FigmaValue | number
+  $value?: FigmaValue | number | string
   $extensions?: FigmaExtensions
 }
 
@@ -269,6 +269,9 @@ export const buildThemeTokenEntries = (
 
     if (isTokenLeaf(value)) {
       const category = nextPath[0]
+      if (category === 'font') {
+        return []
+      }
       const section =
         category === 'radius'
           ? ('radius' as TokenSectionId)

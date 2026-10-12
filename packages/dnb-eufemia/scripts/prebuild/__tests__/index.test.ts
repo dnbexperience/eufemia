@@ -49,6 +49,12 @@ describe('runPrepublishTasks', () => {
     expect(makeLibStyles).toHaveBeenCalledTimes(1)
     expect(makeMainStyle).toHaveBeenCalledTimes(1)
     expect(makePropertiesFile).toHaveBeenCalledTimes(1)
+    expect(makePropertiesFile).toHaveBeenCalledBefore(
+      vi.mocked(runThemeFactory)
+    )
+    expect(makePropertiesFile).toHaveBeenCalledBefore(
+      vi.mocked(makeMainStyle)
+    )
     expect(prepareTemplates).toHaveBeenCalledTimes(1)
     expect(log.succeed).toHaveBeenCalledWith(
       'Prepublishing has Succeeded!'

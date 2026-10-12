@@ -2,23 +2,23 @@
 @use '../../../style/core/utilities.scss' as utilities;
 
 // Global sizes
-$t-fs-2xs: 0.8125rem; // 13px --font-size-xx-small
-$t-fs-xs: 0.875rem; // 14px --font-size-x-small
-$t-fs-sm: 1rem; // 16px --font-size-small
-$t-fs-bs: 1.125rem; // 18px --font-size-basis
-$t-fs-md: 1.25rem; // 20px --font-size-medium
-$t-fs-lg: 1.625rem; // 26px --font-size-large
-$t-fs-xl: 2.125rem; // 34px --font-size-x-large
-$t-fs-2xl: 3rem; // 48px --font-size-xx-large
+$t-fs-2xs: var(--font-size-xx-small);
+$t-fs-xs: var(--font-size-x-small);
+$t-fs-sm: var(--font-size-small);
+$t-fs-bs: var(--font-size-basis);
+$t-fs-md: var(--font-size-medium);
+$t-fs-lg: var(--font-size-large);
+$t-fs-xl: var(--font-size-x-large);
+$t-fs-2xl: var(--font-size-xx-large);
 
 // Global line-heights
-$t-lh-xs: 1.25rem; // 20px --line-height-x-small
-$t-lh-sm: 1.25rem; // 20px --line-height-small
-$t-lh-bs: 1.5rem; // 24px --line-height-basis
-$t-lh-md: 1.5rem; // 24px --line-height-medium
-$t-lh-lg: 2rem; // 32px --line-height-large
-$t-lh-xl: 2.5rem; // 40px --line-height-x-large
-$t-lh-2xl: 3.5rem; // 56px --line-height-xx-large
+$t-lh-xs: var(--line-height-x-small);
+$t-lh-sm: var(--line-height-small);
+$t-lh-bs: var(--line-height-basis);
+$t-lh-md: var(--line-height-medium);
+$t-lh-lg: var(--line-height-large);
+$t-lh-xl: var(--line-height-x-large);
+$t-lh-2xl: var(--line-height-xx-large);
 
 // includes all classes, tags, etc. needed for "global" typography rules (like css variables)
 @mixin typographySelectors() {
@@ -343,7 +343,7 @@ $t-lh-2xl: 3.5rem; // 56px --line-height-xx-large
     --responsive-line-height-medium: #{$t-lh-md};
     --responsive-line-height-large: #{$t-lh-lg};
     --responsive-line-height-x-large: #{$t-lh-lg};
-    --responsive-line-height-xx-large: #{$t-lh-lg};
+    --responsive-line-height-xx-large: #{$t-lh-xl};
   }
 
   @include utilities.allBetween(small, medium) {
@@ -363,7 +363,7 @@ $t-lh-2xl: 3.5rem; // 56px --line-height-xx-large
     --responsive-line-height-medium: #{$t-lh-md};
     --responsive-line-height-large: #{$t-lh-lg};
     --responsive-line-height-x-large: #{$t-lh-xl};
-    --responsive-line-height-xx-large: #{$t-lh-xl};
+    --responsive-line-height-xx-large: #{$t-lh-2xl};
   }
 
   @include utilities.allAbove(medium) {

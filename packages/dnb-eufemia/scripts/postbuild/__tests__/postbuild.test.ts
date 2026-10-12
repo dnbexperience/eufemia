@@ -897,6 +897,34 @@ describe('style build', () => {
       expect(content).toContain(`@use './fonts.scss';`)
       expect(content).toContain(`@use './ui-theme-elements.scss';`)
       expect(content).not.toContain(`@use '../../dnb-ui-elements.scss';`)
+
+      const properties = fs.readFileSync(
+        path.resolve(
+          PKG_ROOT,
+          `build${stage}/style/themes/ui/properties.scss`
+        ),
+        'utf-8'
+      )
+      expect(properties).not.toContain(
+        `@use './typography-properties.scss';`
+      )
+      expect(properties).toContain(`--font-size-xx-large: 3rem;`)
+      const mapping = fs.readFileSync(
+        path.resolve(
+          PKG_ROOT,
+          `build${stage}/style/themes/ui/theme-mapping.scss`
+        ),
+        'utf-8'
+      )
+      expect(mapping).toContain(`@use './typography-properties.scss';`)
+      expect(
+        fs.existsSync(
+          path.resolve(
+            PKG_ROOT,
+            `build${stage}/style/themes/ui/typography-properties.scss`
+          )
+        )
+      ).toBe(true)
     }
 
     {

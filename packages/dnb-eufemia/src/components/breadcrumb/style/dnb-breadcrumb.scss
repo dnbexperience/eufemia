@@ -72,7 +72,7 @@
     }
 
     .dnb-anchor {
-      line-height: 1.5rem;
+      line-height: var(--line-height-basis);
       padding: 0;
 
       // To make the click area bigger

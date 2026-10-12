@@ -43,11 +43,11 @@ export const runPrepublishTasks = async ({
     await convertSvgToJsx({ preventDelete })
 
     await makeReleaseVersion()
+    await makePropertiesFile()
     await runStyleFactory()
     await runThemeFactory()
     await makeLibStyles()
     await makeMainStyle()
-    await makePropertiesFile()
     await prepareTemplates()
 
     log.succeed('Prepublishing has Succeeded!')
