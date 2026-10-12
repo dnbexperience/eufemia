@@ -18,6 +18,7 @@ import {
   formatDuration,
   isValidDuration,
   getDateTimeSeparator,
+  convertNumberToDate,
 } from './DateFormatUtils'
 import { format } from 'date-fns'
 import type { SpacingProps } from '../../shared/types'
@@ -407,8 +408,7 @@ function getDate({
     if (value instanceof Date) {
       return value
     }
-    // For numbers, convert to string first
-    return convertStringToDate(String(value))
+    return convertNumberToDate(value)
   }
 
   const childrenValue = convertJsxToString(children)
