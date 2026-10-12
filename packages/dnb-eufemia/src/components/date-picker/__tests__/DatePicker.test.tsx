@@ -27,6 +27,7 @@ import {
 import { Dialog } from '../../'
 import Input from '../../Input'
 import Button from '../../Button'
+import Dropdown from '../../Dropdown'
 import { Provider } from '../../../shared'
 import svSE from '../../../shared/locales/sv-SE'
 import nbNO from '../../../shared/locales/nb-NO'
@@ -334,6 +335,63 @@ describe('DatePicker component', () => {
     expect(getDatePickerRoot().getAttribute('class')).not.toContain(
       'dnb-date-picker--open'
     )
+  })
+
+  it.each([
+    ['inline', true],
+    ['in a portal', false],
+  ])(
+    'closes an open Dropdown (%s) in addonElement on mousedown elsewhere in the calendar',
+    (_, skipPortal) => {
+      render(
+        <DatePicker
+          noAnimation
+          addonElement={
+            <Dropdown
+              skipPortal={skipPortal}
+              noAnimation
+              data={['A', 'B']}
+            />
+          }
+        />
+      )
+
+      fireEvent.click(getDatePickerTriggerButton())
+      fireEvent.click(
+        document.querySelector('button.dnb-dropdown__trigger')
+      )
+
+      expect(document.querySelector('.dnb-dropdown')).toHaveClass(
+        'dnb-dropdown--open'
+      )
+
+      fireEvent.mouseDown(
+        document.querySelector('.dnb-date-picker__calendar table')
+      )
+
+      expect(document.querySelector('.dnb-dropdown')).not.toHaveClass(
+        'dnb-dropdown--open'
+      )
+      expect(getDatePickerRoot()).toHaveClass('dnb-date-picker--open')
+    }
+  )
+
+  it('stays open on mousedown in the list of a portaled Dropdown in addonElement', () => {
+    render(
+      <DatePicker
+        noAnimation
+        addonElement={<Dropdown noAnimation data={['A', 'B']} />}
+      />
+    )
+
+    fireEvent.click(getDatePickerTriggerButton())
+    fireEvent.click(document.querySelector('button.dnb-dropdown__trigger'))
+
+    fireEvent.mouseDown(
+      document.querySelector('li.dnb-drawer-list__option')
+    )
+
+    expect(getDatePickerRoot()).toHaveClass('dnb-date-picker--open')
   })
 
   it('will close the picker after selection', () => {
