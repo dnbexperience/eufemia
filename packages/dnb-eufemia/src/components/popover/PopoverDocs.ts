@@ -155,7 +155,7 @@ export const PopoverProperties: PropertiesTableProps = {
     status: 'optional',
   },
   restoreFocus: {
-    doc: 'Moves focus back to the trigger element once the popover closes (defaults to `true`).',
+    doc: 'Moves focus back to the trigger element once the popover closes (defaults to `true`). A click or tap outside the popover leaves the focus where the user clicked or tapped.',
     type: 'boolean',
     status: 'optional',
   },

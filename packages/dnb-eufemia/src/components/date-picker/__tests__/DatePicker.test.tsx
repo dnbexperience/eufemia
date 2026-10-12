@@ -167,6 +167,27 @@ describe('DatePicker component', () => {
     )
   })
 
+  it('keeps the focus in another field that is clicked while the picker is open', async () => {
+    render(
+      <>
+        <DatePicker noAnimation />
+        <input id="other-field" />
+      </>
+    )
+
+    await userEvent.click(getDatePickerTriggerButton())
+    expect(getDatePickerRoot()).toHaveClass('dnb-date-picker--open')
+
+    const otherField = document.getElementById('other-field')
+    await userEvent.click(otherField)
+
+    expect(getDatePickerRoot()).not.toHaveClass('dnb-date-picker--open')
+
+    await new Promise((resolve) => requestAnimationFrame(resolve))
+
+    expect(document.activeElement).toBe(otherField)
+  })
+
   it('stays open when clicking outside if preventClose is true', async () => {
     render(<DatePicker {...defaultProps} preventClose />)
 

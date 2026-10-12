@@ -179,7 +179,7 @@ export type PopoverProps = PopoverOverlayProps & {
    */
   onFocusComplete?: () => void
   /**
-   * Moves focus back to the trigger element once the popover closes (defaults to `true`).
+   * Moves focus back to the trigger element once the popover closes (defaults to `true`). A click or tap outside the popover leaves the focus where the user clicked or tapped.
    */
   restoreFocus?: boolean
   /**
