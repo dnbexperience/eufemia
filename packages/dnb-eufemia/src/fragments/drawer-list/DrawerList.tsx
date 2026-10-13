@@ -8,9 +8,11 @@ import {
   memo,
   useCallback,
   useContext,
+  useState,
 } from 'react'
 import type { KeyboardEvent, MouseEvent, Ref } from 'react'
 import useMountEffect from '../../shared/helpers/useMountEffect'
+import { useIsomorphicLayoutEffect } from '../../shared/helpers/useIsomorphicLayoutEffect'
 import { clsx } from 'clsx'
 import {
   validateDOMAttributes,
@@ -253,6 +255,22 @@ const DrawerListComponent = memo(function DrawerListComponent(
     _refRoot,
   } = noNullNumbers(context.drawerList)
 
+  const [labelledBy, setLabelledBy] = useState(`${id}-label`)
+
+  // Dropdown and Autocomplete only render the label when they have one
+  useIsomorphicLayoutEffect(() => {
+    if (hidden === false) {
+      const labelId = `${id}-label`
+      setLabelledBy(
+        document.getElementById(labelId)
+          ? labelId
+          : document.getElementById(id)
+            ? id
+            : undefined
+      )
+    }
+  }, [hidden, id])
+
   const renderData = makeRenderData(
     data,
     groups,
@@ -294,7 +312,7 @@ const DrawerListComponent = memo(function DrawerListComponent(
     role,
     id: `${id}-ul`,
     'aria-expanded': open,
-    'aria-labelledby': `${id}-label`,
+    'aria-labelledby': labelledBy,
     tabIndex: -1,
     style: {
       maxHeight:
