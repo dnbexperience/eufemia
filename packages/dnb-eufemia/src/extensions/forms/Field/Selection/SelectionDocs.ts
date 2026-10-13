@@ -38,7 +38,7 @@ export const SelectionProperties: PropertiesTableProps = {
     status: 'optional',
   },
   width: {
-    doc: '`small`, `medium` or `large` for predefined standard widths, `stretch` for fill available width. You can also set a custom width `{number}rem`.',
+    doc: '`small`, `medium` or `large` for predefined standard widths, `stretch` to fill available width. You can also set a custom width `{number}rem`.',
     type: ['string', 'false'],
     status: 'optional',
   },
