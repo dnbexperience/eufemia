@@ -6,6 +6,7 @@ import TranslationsTable from 'dnb-design-system-portal/src/shared/parts/Transla
 import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
 import { FieldProperties } from '@dnb/eufemia/src/extensions/forms/Field/FieldDocs'
 import { UploadFieldProperties } from '@dnb/eufemia/src/extensions/forms/Field/Upload/UploadDocs'
+import { FileItemProperties } from '@dnb/eufemia/src/components/upload/UploadDocs'
 
 ## Properties
 
@@ -31,7 +32,11 @@ import { UploadFieldProperties } from '@dnb/eufemia/src/extensions/forms/Field/U
   ]}
 />
 
-### [FileItem](/uilib/components/upload/properties/#fileitem) properties
+### FileItem properties
+
+The value is a list of file item objects, the same as in the [Upload](/uilib/components/upload/properties/#fileitem) component.
+
+<PropertiesTable props={FileItemProperties} />
 
 ## Translations
 
