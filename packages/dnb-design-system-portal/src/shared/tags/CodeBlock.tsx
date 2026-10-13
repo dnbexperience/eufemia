@@ -136,7 +136,8 @@ const CodeBlock = ({
               className={copyButtonStyle}
             />
 
-            <Tag as="pre" className={className}>
+            {/* Focusable, so keyboard users can scroll wide code */}
+            <Tag as="pre" className={className} tabIndex={0}>
               {cleanTokens(tokens).map((line, i) => {
                 const { key, ...lineProps } = getLineProps({
                   line,
