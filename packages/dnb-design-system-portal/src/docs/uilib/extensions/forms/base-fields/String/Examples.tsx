@@ -554,7 +554,7 @@ export const OnInput = () => {
   return (
     <ComponentBox>
       {() => {
-        const forbiddenRegex = /\\d/
+        const forbiddenRegex = /\d/
 
         const onInput = (event: FormEvent<HTMLInputElement>) => {
           const inputEl = event.currentTarget
