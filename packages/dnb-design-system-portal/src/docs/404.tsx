@@ -6,9 +6,12 @@
 import { GlobalError } from '@dnb/eufemia/src/components'
 import { Provider } from '@dnb/eufemia/src/shared'
 import Layout from '../shared/parts/Layout'
+import { usePortalHead } from '../core/PortalHead'
 
 export default function PageNotFound({ location }) {
   const { pathname } = location
+
+  usePortalHead({ title: 'Page not found', description: null })
 
   return (
     <Provider
