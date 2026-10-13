@@ -611,7 +611,7 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
         {...rest}
       >
         <div className={gridClasses}>
-          {(label || labelDescription || hasHelp) && (
+          {(label || labelDescription || (hasHelp && !hideHelpButton)) && (
             <FormLabel {...labelProps}>
               <span>
                 {label && (
