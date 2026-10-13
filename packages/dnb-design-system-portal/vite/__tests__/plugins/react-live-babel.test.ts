@@ -344,4 +344,20 @@ describe('reactLiveBabelPlugin', () => {
       String.raw`console.log('Result:\n', /\d/, '\\')`
     )
   })
+
+  it('keeps template literals in the live code as written', async () => {
+    const code = 'console.log(`${value}\\`\\n`)'
+    const liveCode = await getLiveCode(`
+      export const Demo = () => (
+        <ComponentBox>
+          {() => {
+            ${code}
+            return <Output />
+          }}
+        </ComponentBox>
+      )
+    `)
+
+    expect(liveCode).toContain(code)
+  })
 })
