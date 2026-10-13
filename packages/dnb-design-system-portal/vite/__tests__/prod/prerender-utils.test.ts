@@ -156,6 +156,37 @@ describe('prerender-utils', () => {
       expect(meta.title).toBe('Button → Demos')
     })
 
+    it('constructs tab title when the tab keys are full paths', () => {
+      const fullPathNodes = [
+        {
+          fields: { slug: 'uilib/components/country-flag' },
+          frontmatter: {
+            title: 'CountryFlag',
+            description: '',
+            tabs: [
+              {
+                title: 'Info',
+                key: '/uilib/components/country-flag/info',
+              },
+              {
+                title: 'Demos',
+                key: '/uilib/components/country-flag/demos',
+              },
+            ],
+          },
+        },
+        {
+          fields: { slug: 'uilib/components/country-flag/demos' },
+          frontmatter: { title: '', description: '', showTabs: true },
+        },
+      ]
+      const meta = getPageMeta(
+        '/uilib/components/country-flag/demos/',
+        fullPathNodes
+      )
+      expect(meta.title).toBe('CountryFlag → Demos')
+    })
+
     it('inherits parent title without tab suffix when showTabs is not set', () => {
       const noTabNodes = [
         {

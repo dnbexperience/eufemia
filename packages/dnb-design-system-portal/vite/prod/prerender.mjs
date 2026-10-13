@@ -305,7 +305,7 @@ function getPageMeta(url, allMdxNodes) {
       // For tab pages (showTabs but no own title), construct
       // "ParentTitle → TabTitle" to match the client-side title.
       if (node.frontmatter.showTabs) {
-        const tabKey = '/' + slug.split('/').pop()
+        const tabKey = slug.split('/').pop()
         const defaultTabs = [
           { title: 'Info', key: '/info' },
           { title: 'Demos', key: '/demos' },
@@ -313,7 +313,10 @@ function getPageMeta(url, allMdxNodes) {
           { title: 'Events', key: '/events' },
         ]
         const tabs = parent.frontmatter.tabs || defaultTabs
-        const tab = tabs.find((t) => t.key === tabKey)
+        // Keys can be relative (`/demos`) or full paths, like TabBar accepts
+        const tab = tabs.find(
+          (t) => t.key.split('/').filter(Boolean).pop() === tabKey
+        )
 
         if (tab?.title) {
           title = `${parent.frontmatter.title} → ${tab.title}`

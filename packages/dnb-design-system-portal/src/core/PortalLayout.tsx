@@ -119,8 +119,11 @@ export default function PortalLayout(props: PortalLayoutProps) {
   }
   if (!pageFm.title && pageFm.showTabs && parentFm.title) {
     const tabs = fmData.tabs || defaultTabsValue
-    const currentTabKey = '/' + slug.split('/').pop()
-    const currentTab = tabs.find(({ key }) => key === currentTabKey)
+    const currentTabKey = slug.split('/').pop()
+    // Keys can be relative (`/demos`) or full paths, like TabBar accepts
+    const currentTab = tabs.find(
+      ({ key }) => key.split('/').filter(Boolean).pop() === currentTabKey
+    )
     if (currentTab?.title) {
       headData.title = `${parentFm.title} → ${currentTab.title}`
     }
