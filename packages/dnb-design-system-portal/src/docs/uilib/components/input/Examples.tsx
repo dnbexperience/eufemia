@@ -32,6 +32,8 @@ export const InputExampleSearch = () => (
 export const InputExampleMedium = () => (
   <ComponentBox data-visual-test="input-medium">
     <Input
+      label="Search"
+      labelSrOnly
       size="medium"
       type="search"
       stretch={true}
@@ -178,9 +180,23 @@ export const InputExampleSubmit = () => (
 export const InputExampleClear = () => (
   <ComponentBox data-visual-test="input-clear">
     <Flex.Vertical>
-      <Input showClearButton={true} value="Value ..." size="medium" />
-      <Input showClearButton={true} value="Value ..." type="search" />
       <Input
+        label="Label"
+        labelSrOnly
+        showClearButton={true}
+        value="Value ..."
+        size="medium"
+      />
+      <Input
+        label="Search"
+        labelSrOnly
+        showClearButton={true}
+        value="Value ..."
+        type="search"
+      />
+      <Input
+        label="Search"
+        labelSrOnly
         showClearButton={true}
         value="Value ..."
         type="search"
