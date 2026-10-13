@@ -113,7 +113,7 @@ describe.each(['ui', 'sbanken'])('SidebarMenu for %s', (themeName) => {
     await makeScreenshot({
       selector: '[data-visual-test="sidebar-menu-declarative"]',
       style: { width: '24rem' },
-      simulate: 'hover',
+      simulate: 'realhover',
       simulateSelector:
         '[data-visual-test="sidebar-menu-declarative"] [data-sidebar-menu-id="overview"] button',
     })
@@ -148,6 +148,26 @@ describe.each(['ui', 'sbanken'])('SidebarMenu for %s', (themeName) => {
       simulateSelector:
         '[data-visual-test="sidebar-menu-data"] [data-sidebar-menu-id="data-products"] button',
       recalculateHeightAfterSimulate: true,
+    })
+  })
+
+  it('matches the compact navigation rail', async () => {
+    await makeScreenshot({
+      selector: '[data-visual-test="sidebar-menu-responsive"]',
+      screenshotSelector: '.dnb-sidebar-menu-responsive-inline',
+      pageViewport: { width: 1200, height: 900 },
+      withWrapper: false,
+    })
+  })
+
+  it('matches the hover-expanded compact navigation rail', async () => {
+    await makeScreenshot({
+      selector: '[data-visual-test="sidebar-menu-responsive"]',
+      screenshotSelector: '.dnb-sidebar-menu-responsive-inline__content',
+      simulate: 'hover',
+      simulateSelector: '.dnb-sidebar-menu-responsive-inline',
+      pageViewport: { width: 1200, height: 900 },
+      withWrapper: false,
     })
   })
 })

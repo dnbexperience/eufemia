@@ -1,0 +1,12 @@
+.responsiveShell {
+  min-height: 24rem;
+  overflow: hidden;
+
+  background-color: var(--token-color-background-page-background);
+  border: 0.0625rem solid var(--token-color-stroke-neutral-subtle);
+  border-radius: var(--token-radius-xl);
+}
+
+.responsiveMain {
+  padding: 2rem;
+}

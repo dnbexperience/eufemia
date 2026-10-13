@@ -57,9 +57,11 @@ describe('SidebarMenu', () => {
         'Root',
         'Section',
         'ResizeHandle',
+        'ResponsiveAside',
         'ResponsiveInline',
         'ResponsiveDrawer',
         'ResponsiveProvider',
+        'ResponsiveShell',
         'ResponsiveTrigger',
         'useResponsive',
         'getPreHydrationScript',
@@ -84,11 +86,12 @@ describe('SidebarMenu', () => {
   it('renders declarative items and nested accordions', () => {
     render(
       <SidebarMenu.Root aria-label="Main navigation">
-        <SidebarMenu.Header>Menu</SidebarMenu.Header>
-        <SidebarMenu.Item id="home" text="Home" href="/home" />
-        <SidebarMenu.Accordion id="products" text="Products">
-          <SidebarMenu.Item id="cards" text="Cards" href="/cards" />
-        </SidebarMenu.Accordion>
+        <SidebarMenu.Header text="Menu">
+          <SidebarMenu.Item id="home" text="Home" href="/home" />
+          <SidebarMenu.Accordion id="products" text="Products">
+            <SidebarMenu.Item id="cards" text="Cards" href="/cards" />
+          </SidebarMenu.Accordion>
+        </SidebarMenu.Header>
       </SidebarMenu.Root>
     )
 
@@ -197,7 +200,44 @@ describe('SidebarMenu', () => {
     )
   })
 
-  it('renders Header with heading semantics', () => {
+  it('renders Header as a visual menu label', () => {
+    render(
+      <SidebarMenu.Root>
+        <SidebarMenu.Header text="Accounts">
+          <SidebarMenu.Item id="overview" text="Overview" />
+        </SidebarMenu.Header>
+      </SidebarMenu.Root>
+    )
+
+    const header = document.querySelector('.dnb-sidebar-menu__header')
+
+    expect(header).toHaveTextContent('Accounts')
+    expect(header).not.toHaveAttribute('role', 'heading')
+    expect(
+      header.querySelector('[role="heading"]')
+    ).not.toBeInTheDocument()
+    const list = header.nextElementSibling
+
+    expect(list).toHaveAttribute('aria-labelledby', header.id)
+    expect(list).toHaveAccessibleName('Accounts')
+  })
+
+  it('supports legacy Header children as its label', () => {
+    render(
+      <SidebarMenu.Root>
+        <SidebarMenu.Header>Accounts</SidebarMenu.Header>
+      </SidebarMenu.Root>
+    )
+
+    const header = document.querySelector('.dnb-sidebar-menu__header')
+
+    expect(header).toHaveTextContent('Accounts')
+    expect(header).toHaveClass('dnb-sidebar-menu__header')
+    expect(header).toHaveProperty('tagName', 'LI')
+    expect(header.nextElementSibling).not.toBeInTheDocument()
+  })
+
+  it('does not forward the removed Header headingLevel prop', () => {
     render(
       <SidebarMenu.Root>
         <SidebarMenu.Header headingLevel={3}>Accounts</SidebarMenu.Header>
@@ -205,19 +245,22 @@ describe('SidebarMenu', () => {
     )
 
     expect(
-      document.querySelector(
-        '.dnb-sidebar-menu__header [role="heading"][aria-level="3"]'
-      )
-    ).toHaveTextContent('Accounts')
+      document.querySelector('.dnb-sidebar-menu__header')
+    ).not.toHaveAttribute('headingLevel')
   })
 
   it('renders dedicated icon containers for menu point geometry', () => {
     render(
       <SidebarMenu.Root>
-        <SidebarMenu.Header>Menu</SidebarMenu.Header>
-        <SidebarMenu.Accordion id="products" text="Products" icon={person}>
-          <SidebarMenu.Item id="cards" text="Cards" />
-        </SidebarMenu.Accordion>
+        <SidebarMenu.Header text="Menu">
+          <SidebarMenu.Accordion
+            id="products"
+            text="Products"
+            icon={person}
+          >
+            <SidebarMenu.Item id="cards" text="Cards" />
+          </SidebarMenu.Accordion>
+        </SidebarMenu.Header>
       </SidebarMenu.Root>
     )
 
@@ -297,6 +340,32 @@ describe('SidebarMenu', () => {
     expect(
       document.querySelector('[data-sidebar-menu-id="button"]')
     ).toBeInTheDocument()
+  })
+
+  it('renders headers from data', () => {
+    render(
+      <SidebarMenu.Data
+        data={[
+          {
+            id: 'heading',
+            type: 'header',
+            text: 'Heading',
+            items: [{ id: 'overview', text: 'Overview' }],
+          },
+        ]}
+      />
+    )
+
+    const header = document.querySelector('.dnb-sidebar-menu__header')
+
+    expect(header).toHaveTextContent('Heading')
+    expect(
+      header.querySelector('[role="heading"]')
+    ).not.toBeInTheDocument()
+    const list = header.nextElementSibling
+
+    expect(list).toHaveAttribute('aria-labelledby', header.id)
+    expect(list).toHaveAccessibleName('Heading')
   })
 
   it('renders a divider before a data item', () => {
@@ -2907,18 +2976,19 @@ describe('SidebarMenu', () => {
     const component = render(
       <SidebarMenu.Root aria-label="Main navigation" selectedItem="cards">
         <SidebarMenu.Section id="personal" text="Personal">
-          <SidebarMenu.Header>Products</SidebarMenu.Header>
-          <SidebarMenu.Group id="accounts" text="Accounts">
-            <SidebarMenu.Accordion
-              id="products"
-              text="Products"
-              href="/products"
-            >
-              <SidebarMenu.Item id="cards" text="Cards" />
-            </SidebarMenu.Accordion>
-          </SidebarMenu.Group>
-          <SidebarMenu.Divider />
-          <SidebarMenu.Item id="disabled" text="Disabled" disabled />
+          <SidebarMenu.Header text="Products">
+            <SidebarMenu.Group id="accounts" text="Accounts">
+              <SidebarMenu.Accordion
+                id="products"
+                text="Products"
+                href="/products"
+              >
+                <SidebarMenu.Item id="cards" text="Cards" />
+              </SidebarMenu.Accordion>
+            </SidebarMenu.Group>
+            <SidebarMenu.Divider />
+            <SidebarMenu.Item id="disabled" text="Disabled" disabled />
+          </SidebarMenu.Header>
         </SidebarMenu.Section>
       </SidebarMenu.Root>
     )
