@@ -16,6 +16,7 @@ import {
   extendPropsWithContext,
 } from '../../shared/component-helper'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
+import useCheckedBeforeHydration from '../../shared/helpers/useCheckedBeforeHydration'
 import AlignmentHelper from '../../shared/AlignmentHelper'
 import { useSpacing } from '../space/SpacingUtils'
 import {
@@ -100,6 +101,26 @@ function Switch(props: SwitchProps) {
     [onChange]
   )
 
+  const applyChange = useCallback(
+    (checked: boolean, event) => {
+      isCheckedRef.current = checked
+      forceUpdate()
+      callOnChange({ checked, event })
+
+      if (onChangeEnd) {
+        setTimeout(() => onChangeEnd({ checked, event }), 500)
+      }
+    },
+    [callOnChange, onChangeEnd]
+  )
+
+  useCheckedBeforeHydration({
+    inputRef,
+    checkedRef: isCheckedRef,
+    readOnly,
+    onChange: applyChange,
+  })
+
   const onChangeHandler = useCallback(
     (event) => {
       if (preventChangeRef.current) {
@@ -114,25 +135,14 @@ function Switch(props: SwitchProps) {
         return // stop here
       }
 
-      const updatedChecked = !isCheckedRef.current
-
-      isCheckedRef.current = updatedChecked
-      forceUpdate()
-      callOnChange({ checked: updatedChecked, event })
-
-      if (onChangeEnd) {
-        setTimeout(
-          () => onChangeEnd({ checked: updatedChecked, event }),
-          500
-        )
-      }
+      applyChange(!isCheckedRef.current, event)
 
       // help firefox and safari to have a correct state after a click
       if (inputRef.current) {
         inputRef.current.focus()
       }
     },
-    [callOnChange, inputRef, onChangeEnd]
+    [applyChange, inputRef]
   )
 
   const onClickHandler: MouseEventHandler<HTMLInputElement> = useCallback(
