@@ -1,4 +1,4 @@
-import { useCallback, useContext, useMemo } from 'react'
+import { useCallback, useContext, useMemo, useRef } from 'react'
 import type { ComponentProps, JSX, ReactNode } from 'react'
 import { clsx } from 'clsx'
 import { Checkbox, HelpButton, ToggleButton } from '../../../../components'
@@ -230,6 +230,10 @@ export function useCheckboxOrToggleOptions({
   )
   const activeData: Array<OptionProps> = []
 
+  // Several options can change before a re-render, for example after hydration
+  const valueRef = useRef(value)
+  valueRef.current = value
+
   const createOption = useCallback(
     (props: OptionProps, i: number) => {
       const {
@@ -254,9 +258,11 @@ export function useCheckboxOrToggleOptions({
       ) : undefined
 
       const handleSelect = () => {
-        const newValue = value?.includes(active)
-          ? value.filter((value) => value !== active)
-          : [...(value ?? []), active]
+        const currentValue = valueRef.current
+        const newValue = currentValue?.includes(active)
+          ? currentValue.filter((value) => value !== active)
+          : [...(currentValue ?? []), active]
+        valueRef.current = newValue
 
         handleChange?.(
           newValue.length === 0 ? (emptyValue as typeof value) : newValue
