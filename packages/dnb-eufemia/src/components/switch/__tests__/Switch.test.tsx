@@ -4,8 +4,10 @@
  */
 
 import { cleanup, fireEvent, render } from '@testing-library/react'
-import { StrictMode, useRef, useState } from 'react'
-import type { RefObject } from 'react'
+import { StrictMode, act, useRef, useState } from 'react'
+import type { ReactElement, RefObject } from 'react'
+import { renderToString } from 'react-dom/server'
+import { hydrateRoot } from 'react-dom/client'
 import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
 import type { SwitchProps } from '../Switch'
 import Switch from '../Switch'
@@ -339,6 +341,64 @@ describe('Switch component', () => {
     fireEvent.keyUp(document.querySelector('input'), { code: 'Enter' })
 
     expect(onKeyUp).toHaveBeenCalledTimes(1)
+  })
+})
+
+describe('Switch with server-rendered markup', () => {
+  // The user changes the switch before the JavaScript has loaded
+  const hydrateAfterChange = (element: ReactElement) => {
+    const container = document.createElement('div')
+    container.innerHTML = renderToString(element)
+    document.body.appendChild(container)
+    container.querySelector('input').checked = true
+
+    let root: ReturnType<typeof hydrateRoot>
+    act(() => {
+      root = hydrateRoot(container, element)
+    })
+
+    return {
+      input: container.querySelector('input'),
+      unmount: () => {
+        act(() => root.unmount())
+        container.remove()
+      },
+    }
+  }
+
+  it('should report a change made before hydration', () => {
+    const onChange = vi.fn()
+    const { input, unmount } = hydrateAfterChange(
+      <Switch label="Label" onChange={onChange} />
+    )
+
+    expect(input.checked).toBe(true)
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({ checked: true })
+    )
+
+    fireEvent.click(input)
+
+    expect(input.checked).toBe(false)
+    expect(onChange).toHaveBeenCalledTimes(2)
+    expect(onChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({ checked: false })
+    )
+
+    unmount()
+  })
+
+  it('should undo a change made before hydration when readOnly', () => {
+    const onChange = vi.fn()
+    const { input, unmount } = hydrateAfterChange(
+      <Switch label="Label" readOnly onChange={onChange} />
+    )
+
+    expect(input.checked).toBe(false)
+    expect(onChange).not.toHaveBeenCalled()
+
+    unmount()
   })
 })
 

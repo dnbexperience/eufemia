@@ -37,6 +37,7 @@ import Context from '../../shared/Context'
 import Suffix from '../../shared/helpers/Suffix'
 import useId from '../../shared/helpers/useId'
 import useCombinedRef from '../../shared/helpers/useCombinedRef'
+import useCheckedBeforeHydration from '../../shared/helpers/useCheckedBeforeHydration'
 import type { SpacingProps } from '../../shared/types'
 import { pickFormElementProps } from '../../shared/helpers/filterValidProps'
 
@@ -196,17 +197,30 @@ function Checkbox(localProps: CheckboxProps) {
     [onChange]
   )
 
+  const applyChange = useCallback(
+    (checked: boolean, event: CheckboxOnChangeParams['event']) => {
+      isCheckedRef.current = checked
+      forceUpdate()
+      callOnChange({ checked, event })
+    },
+    [callOnChange]
+  )
+
+  useCheckedBeforeHydration({
+    inputRef: internalRef,
+    checkedRef: isCheckedRef,
+    readOnly,
+    onChange: applyChange,
+  })
+
   const handleChange = useCallback(
     (event: CheckboxOnChangeParams['event']) => {
       if (preventChangeRef.current) {
         preventChangeRef.current = false
         return // stop here
       }
-      const updatedCheck = !isCheckedRef.current
 
-      isCheckedRef.current = updatedCheck
-      forceUpdate()
-      callOnChange({ checked: updatedCheck, event })
+      applyChange(!isCheckedRef.current, event)
 
       // help firefox and safari to have a correct state after a click
       if (internalRef.current) {
@@ -215,7 +229,7 @@ function Checkbox(localProps: CheckboxProps) {
         })
       }
     },
-    [callOnChange, internalRef]
+    [applyChange, internalRef]
   )
 
   const onChangeHandler = useCallback(
