@@ -39,6 +39,16 @@ export const HeadingProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  up: {
+    doc: 'Same as `increase`.',
+    type: 'boolean',
+    status: 'optional',
+  },
+  down: {
+    doc: 'Same as `decrease`.',
+    type: 'boolean',
+    status: 'optional',
+  },
   inherit: {
     doc: 'If set to `true`, the heading last used level will be inherited. Also from inside a level context.',
     type: 'boolean',
