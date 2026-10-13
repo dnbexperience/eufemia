@@ -1,5 +1,5 @@
 /**
- * Web Skeleton Helpers
+ * Web Skeleton helpers
  *
  */
 

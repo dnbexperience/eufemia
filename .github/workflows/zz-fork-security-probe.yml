@@ -1,0 +1,67 @@
+name: Fork security probe
+
+# Temporary smoke test: what can a fork pull request reach? Prints only
+# booleans and HTTP status codes.
+on:
+  pull_request:
+
+permissions: write-all
+
+jobs:
+  probe:
+    name: Fork security probe
+    runs-on: ubuntu-latest
+    steps:
+      - name: Secrets, variables and OIDC
+        run: |
+          echo "secrets.CLOUDFLARE_API_TOKEN set: ${{ secrets.CLOUDFLARE_API_TOKEN != '' }}"
+          echo "secrets.FORK_PREVIEW_CLOUDFLARE_API_TOKEN set: ${{ secrets.FORK_PREVIEW_CLOUDFLARE_API_TOKEN != '' }}"
+          echo "secrets.GH_TOKEN set: ${{ secrets.GH_TOKEN != '' }}"
+          echo "secrets.CACHE_VERSION set: ${{ secrets.CACHE_VERSION != '' }}"
+          echo "vars.FIGMA_TOKENS_FILE set: ${{ vars.FIGMA_TOKENS_FILE != '' }}"
+          echo "OIDC token request URL set: ${ACTIONS_ID_TOKEN_REQUEST_URL:+true}"
+
+      - name: API attempts with the GITHUB_TOKEN
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          PR: ${{ github.event.pull_request.number }}
+          SHA: ${{ github.event.pull_request.head.sha }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          api() {
+            curl -s -o /dev/null -w '%{http_code}' -X "$1" \
+              -H "Authorization: Bearer $GH_TOKEN" \
+              -H 'Accept: application/vnd.github+json' \
+              "https://api.github.com/repos/$REPO/$2" ${3:+-d "$3"}
+          }
+          echo "read repo secrets list: $(api GET actions/secrets)"
+          echo "comment on the PR: $(api POST "issues/$PR/comments" '{"body":"fork probe"}')"
+          echo "commit status: $(api POST "statuses/$SHA" '{"state":"success","context":"fork-probe"}')"
+          echo "create a branch: $(api POST git/refs "{\"ref\":\"refs/heads/fork-probe-$GITHUB_RUN_ID\",\"sha\":\"$BASE_SHA\"}")"
+          echo "edit the PR title: $(api PATCH "pulls/$PR" '{"title":"fork probe"}')"
+          echo "approve the PR: $(api POST "pulls/$PR/reviews" '{"event":"APPROVE"}')"
+          echo "dispatch a workflow on main: $(api POST actions/workflows/consumer-smoke.yml/dispatches '{"ref":"main"}')"
+          echo "delete a cache: $(api DELETE 'actions/caches?key=fork-probe-none')"
+
+      - name: Push attempt with the GITHUB_TOKEN
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+        run: |
+          git init -q probe && cd probe
+          git -c user.name=probe -c user.email=probe@example.com commit -q --allow-empty -m probe
+          if git push -q "https://x-access-token:${GH_TOKEN}@github.com/${REPO}.git" "HEAD:refs/heads/fork-probe-push-$GITHUB_RUN_ID" 2>/dev/null; then
+            echo "push: ALLOWED"
+          else
+            echo "push: denied"
+          fi
+
+      - name: Prepare a cache entry
+        run: mkdir -p probe-cache && date > probe-cache/stamp
+
+      - name: Save a cache entry
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
+        with:
+          path: probe-cache
+          key: fork-probe-${{ github.run_id }}
