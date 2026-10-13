@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
-import PageNotFound from '../404'
+import PageNotFound from '../../docs/404'
 
 vi.mock('../../shared/parts/Layout', () => ({
   default: ({ children }) => children,
