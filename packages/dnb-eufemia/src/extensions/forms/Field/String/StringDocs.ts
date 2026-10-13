@@ -62,7 +62,7 @@ export const StringProperties: PropertiesTableProps = {
     status: 'optional',
   },
   width: {
-    doc: '`false` for no width (use browser default), `small`, `medium` or `large` for predefined standard widths, `stretch` to fill available width.',
+    doc: '`false` for no width (use browser default), `small`, `medium` or `large` for predefined standard widths, `stretch` to fill available width. You can also set a custom width `{number}rem`.',
     type: ['string', 'false'],
     status: 'optional',
   },
