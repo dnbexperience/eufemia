@@ -49,6 +49,6 @@ Use `Card.List` and `Card.ListItem` to render a semantic `<ul>` / `<li>` list of
 
 ## Security
 
-Like the [Anchor](/uilib/components/anchor/info), `Card.Action` removes `href` and `to` values that use a script-executing protocol (`javascript:` or `vbscript:`), including obfuscated variants such as `java\tscript:`. This prevents cross-site scripting (XSS) when untrusted input is passed to these properties; the card then renders without a link target. Other protocols, such as `data:` and `blob:`, are left untouched.
+Like the [Anchor](/uilib/components/anchor), `Card.Action` removes `href` and `to` values that use a script-executing protocol (`javascript:` or `vbscript:`), including obfuscated variants such as `java\tscript:`. This prevents cross-site scripting (XSS) when untrusted input is passed to these properties; the card then renders without a link target. Other protocols, such as `data:` and `blob:`, are left untouched.
 
 <RelatedComponents />
