@@ -1,5 +1,5 @@
 import type { PropertiesTableProps } from '../../../../shared/types'
-import { NumberProperties } from '../Number/NumberDocs'
+import { NumberEvents, NumberProperties } from '../Number/NumberDocs'
 
 const props = { ...NumberProperties }
 delete props.currency
@@ -17,4 +17,8 @@ export const CurrencyProperties: PropertiesTableProps = {
     status: 'optional',
   },
   ...props,
+}
+
+export const CurrencyEvents: PropertiesTableProps = {
+  ...NumberEvents,
 }
