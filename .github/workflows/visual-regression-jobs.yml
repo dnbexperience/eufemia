@@ -3,19 +3,6 @@ name: Visual regression jobs
 # Called by visual-regression.yml.
 on:
   workflow_call:
-    secrets:
-      CACHE_VERSION:
-        required: false
-      ALGOLIA_APP_ID:
-        required: false
-      ALGOLIA_SEARCH_KEY:
-        required: false
-      ALGOLIA_INDEX_NAME:
-        required: false
-      CLOUDFLARE_API_TOKEN:
-        required: false
-      CLOUDFLARE_ACCOUNT_ID:
-        required: false
 
 permissions:
   contents: read

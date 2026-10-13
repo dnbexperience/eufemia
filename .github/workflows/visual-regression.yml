@@ -23,7 +23,8 @@ permissions:
 
 jobs:
   # Runs on push, on every fork pull request, and when a same-repo pull
-  # request to a release branch is opened.
+  # request to a release branch is opened. A skipped call reports one "Visual"
+  # check, so it can never satisfy the required "Visual / …" checks.
   visual-regression:
     name: Visual
     if: >-
@@ -31,10 +32,4 @@ jobs:
       github.event.pull_request.head.repo.full_name != github.repository ||
       (github.event.action == 'opened' && contains(fromJSON('["release","beta","alpha","next"]'), github.base_ref))
     uses: ./.github/workflows/visual-regression-jobs.yml
-    secrets:
-      CACHE_VERSION: ${{ secrets.CACHE_VERSION }}
-      ALGOLIA_APP_ID: ${{ secrets.ALGOLIA_APP_ID }}
-      ALGOLIA_SEARCH_KEY: ${{ secrets.ALGOLIA_SEARCH_KEY }}
-      ALGOLIA_INDEX_NAME: ${{ secrets.ALGOLIA_INDEX_NAME }}
-      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+    secrets: inherit

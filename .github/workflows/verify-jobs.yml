@@ -3,9 +3,6 @@ name: Verify jobs
 # Called by verify.yml.
 on:
   workflow_call:
-    secrets:
-      CACHE_VERSION:
-        required: false
 
 permissions:
   contents: read

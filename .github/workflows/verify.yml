@@ -30,5 +30,4 @@ jobs:
       pull-requests: write
       statuses: write
     uses: ./.github/workflows/verify-jobs.yml
-    secrets:
-      CACHE_VERSION: ${{ secrets.CACHE_VERSION }}
+    secrets: inherit

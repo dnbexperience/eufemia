@@ -3,15 +3,6 @@ name: E2E jobs
 # Called by e2e.yml.
 on:
   workflow_call:
-    secrets:
-      CACHE_VERSION:
-        required: false
-      ALGOLIA_APP_ID:
-        required: false
-      ALGOLIA_SEARCH_KEY:
-        required: false
-      ALGOLIA_INDEX_NAME:
-        required: false
 
 permissions:
   contents: read
