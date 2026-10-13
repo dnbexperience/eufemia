@@ -1,5 +1,7 @@
 import { describe, it, expect } from 'vitest'
-import { injectStableName } from '../../client/plugins/react-live-babel'
+import reactLiveBabelPlugin, {
+  injectStableName,
+} from '../../client/plugins/react-live-babel'
 
 async function transform(code: string) {
   const babel = await import('@babel/core')
@@ -298,6 +300,48 @@ describe('sourceImports injection', () => {
     expect(output).toContain('sourceImports')
     expect(output).toContain(
       "import * as Blocks from '@dnb/eufemia/extensions/forms/blocks'"
+    )
+  })
+})
+
+describe('reactLiveBabelPlugin', () => {
+  async function getLiveCode(code: string) {
+    const babel = await import('@babel/core')
+    const transform = reactLiveBabelPlugin().transform as (
+      code: string,
+      id: string
+    ) => Promise<{ code: string }>
+    const result = await transform(code, '/docs/Examples.tsx')
+    const ast = babel.parseSync(result.code, {
+      babelrc: false,
+      configFile: false,
+      parserOpts: { plugins: ['jsx'] },
+    })
+
+    let liveCode = ''
+    babel.traverse(ast, {
+      TemplateLiteral({ node }) {
+        liveCode = node.quasis[0].value.cooked
+      },
+    })
+
+    return liveCode
+  }
+
+  it('keeps escape sequences in the live code as written', async () => {
+    const liveCode = await getLiveCode(String.raw`
+      export const Demo = () => (
+        <ComponentBox>
+          {() => {
+            console.log('Result:\n', /\d/, '\\')
+            return <Output />
+          }}
+        </ComponentBox>
+      )
+    `)
+
+    expect(liveCode).toContain(
+      String.raw`console.log('Result:\n', /\d/, '\\')`
     )
   })
 })

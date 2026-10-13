@@ -1,0 +1,14 @@
+diff --git a/babelPluginReactLive.js b/babelPluginReactLive.js
+index 8415b75da5c3be2127df9b9070b1621e63cf6fe3..8a6d0b91d1ac6d399cd9827f01f7ccdc4a4bf2e1 100644
+--- a/babelPluginReactLive.js
++++ b/babelPluginReactLive.js
+@@ -26,6 +26,9 @@ function babelPluginReactLive(babel, options) {
+     // Prettier adds a leading ;
+     code = code.replace(/^;/, '')
+ 
++    // Escape backslashes (\), so escape sequences like \n stay as written
++    code = code.replace(/\\/g, '\\\\')
++
+     // Also escape backticks (`)
+     code = code.replace(/`/g, '\\`')
+ 

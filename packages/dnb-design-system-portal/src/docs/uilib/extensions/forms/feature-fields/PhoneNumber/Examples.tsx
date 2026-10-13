@@ -136,7 +136,7 @@ export const ValidationPattern = () => {
         onChange={(value, { countryCode, phoneNumber, iso }) =>
           console.log('onChange', value, { countryCode, phoneNumber, iso })
         }
-        pattern="^\\+41[1]\\d{2}$"
+        pattern="^\+41[1]\d{2}$"
       />
     </ComponentBox>
   )

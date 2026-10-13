@@ -7231,6 +7231,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"babel-plugin-react-live@patch:babel-plugin-react-live@npm%3A1.4.5#~/.yarn/patches/babel-plugin-react-live-npm-1.4.5-f6f97795a5.patch":
+  version: 1.4.5
+  resolution: "babel-plugin-react-live@patch:babel-plugin-react-live@npm%3A1.4.5#~/.yarn/patches/babel-plugin-react-live-npm-1.4.5-f6f97795a5.patch::version=1.4.5&hash=ea4d6e"
+  dependencies:
+    "@babel/generator": "npm:7.21.5"
+    prettier: "npm:2.8.0"
+  checksum: 10/4878aa8888d6cdd0cbb72530d5ecfed38c6e0dbc7f1bb4c02cc63787945996c1a0f8926cf97ac36dd002fb65d5e6f9411ce7003fbd278c995633f7ceeccdfd9d
+  languageName: node
+  linkType: hard
+
 "babel-plugin-search-and-replace@npm:1.1.1":
   version: 1.1.1
   resolution: "babel-plugin-search-and-replace@npm:1.1.1"
@@ -8722,7 +8732,7 @@ __metadata:
     "@types/react-dom": "npm:19.3.0"
     "@vitejs/plugin-react": "npm:6.0.1"
     algoliasearch: "npm:4.27.0"
-    babel-plugin-react-live: "npm:1.4.5"
+    babel-plugin-react-live: "patch:babel-plugin-react-live@npm%3A1.4.5#~/.yarn/patches/babel-plugin-react-live-npm-1.4.5-f6f97795a5.patch"
     clsx: "npm:2.1.1"
     date-fns: "npm:4.4.0"
     eslint: "npm:10.4.1"

@@ -206,7 +206,7 @@ export const NonNorwegianPostalCode = () => {
           postalCode={{
             pattern: '^[0-9]{5}$',
             onBlurValidator: undefined,
-            mask: [/\\d/, /\\d/, /\\d/, /\\d/, /\\d/],
+            mask: [/\d/, /\d/, /\d/, /\d/, /\d/],
             placeholder: '00000',
             width: '5.4rem',
           }}

@@ -76,7 +76,7 @@
     "@types/react": "19.3.0",
     "@types/react-dom": "19.3.0",
     "@vitejs/plugin-react": "6.0.1",
-    "babel-plugin-react-live": "1.4.5",
+    "babel-plugin-react-live": "patch:babel-plugin-react-live@npm%3A1.4.5#~/.yarn/patches/babel-plugin-react-live-npm-1.4.5-f6f97795a5.patch",
     "date-fns": "4.4.0",
     "eslint": "10.4.1",
     "eslint-plugin-jsx-a11y": "6.10.2",
