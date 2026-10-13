@@ -234,7 +234,7 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
   const errorRef = useRef<UseFieldProps['error']>(undefined)
 
   const blockId = useId(props.id)
-  const [salt, forceUpdate] = useReducer(() => ({}), {})
+  const [, forceUpdate] = useReducer(() => ({}), {})
   const mountedFieldsRef = useRef<MountedFieldsRef>(new Map())
   const fieldStatesRef = useRef<Map<Identifier, SubmitState>>(new Map())
   const stateRecordRef = useRef<StateRecord>({})
@@ -255,40 +255,39 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
       stateRecordRef.current[identifier] = []
     }
 
-    fieldStateIdsRef.current = {
-      error: null,
-      warning: null,
-      information: null,
-    }
-
-    const existingIndex = stateRecordRef.current[identifier].findIndex(
-      (item) => {
-        return item.stateId === stateId && item.type === type
-      }
-    )
+    const records = stateRecordRef.current[identifier]
+    const existingIndex = records.findIndex((item) => {
+      return item.stateId === stateId && item.type === type
+    })
 
     if (existingIndex > -1) {
-      stateRecordRef.current[identifier][existingIndex] = {
-        ...stateRecordRef.current[identifier][existingIndex],
+      records[existingIndex] = {
+        ...records[existingIndex],
         ...props,
       }
+    } else if (stateId) {
+      // Keep validation messages before the messages given as props, which register during render
+      const index = records.findIndex((item) => !item.stateId)
+      records.splice(index > -1 ? index : records.length, 0, props)
     } else {
-      stateRecordRef.current[identifier].push(props)
+      records.push(props)
     }
   }, [])
 
   const setBlockRecordNested = nestedFieldBlockContext?.setBlockRecord
   const setBlockRecord = useCallback(
-    (props: StateBasis) => {
+    (props: StateBasis, options?: { skipUpdate?: boolean }) => {
       if (setBlockRecordNested) {
         // If this FieldBlock is inside another one, forward the call to the outer one
-        setBlockRecordNested(props)
+        setBlockRecordNested(props, options)
         return undefined
       }
 
       setInternalRecord(props)
 
-      forceUpdate()
+      if (!options?.skipUpdate) {
+        forceUpdate()
+      }
     },
     [setBlockRecordNested, setInternalRecord]
   )
@@ -341,35 +340,42 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
     [nestedFieldBlockContext]
   )
 
-  const statusContent = useMemo(() => {
-    if (typeof error !== 'undefined' || errorRef.current) {
-      errorRef.current = error
-      setInternalRecord({
-        identifier: blockId,
-        showInitially: hasInitiallyErrorPropRef.current,
-        type: 'error',
-        content: error,
-      })
-    }
+  if (typeof error !== 'undefined' || errorRef.current) {
+    errorRef.current = error
+    setInternalRecord({
+      identifier: blockId,
+      showInitially: hasInitiallyErrorPropRef.current,
+      type: 'error',
+      content: error,
+    })
+  }
 
-    if (typeof warning !== 'undefined' || warningRef.current !== warning) {
-      warningRef.current = warning
-      setInternalRecord({
-        identifier: blockId,
-        showInitially: true,
-        type: 'warning',
-        content: warning,
-      })
-    }
+  if (typeof warning !== 'undefined' || warningRef.current !== warning) {
+    warningRef.current = warning
+    setInternalRecord({
+      identifier: blockId,
+      showInitially: true,
+      type: 'warning',
+      content: warning,
+    })
+  }
 
-    if (typeof info !== 'undefined' || infoRef.current !== info) {
-      infoRef.current = info
-      setInternalRecord({
-        identifier: blockId,
-        showInitially: true,
-        type: 'information',
-        content: info,
-      })
+  if (typeof info !== 'undefined' || infoRef.current !== info) {
+    infoRef.current = info
+    setInternalRecord({
+      identifier: blockId,
+      showInitially: true,
+      type: 'information',
+      content: info,
+    })
+  }
+
+  // Called after the children have rendered, so messages they register during render are included
+  const getStatusContent = () => {
+    fieldStateIdsRef.current = {
+      error: null,
+      warning: null,
+      information: null,
     }
 
     const statesWithMessages: Array<StatesWithMessages> =
@@ -475,18 +481,8 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
       }
 
       return acc
-    }, salt) as StatusContent
-  }, [
-    error,
-    warning,
-    info,
-    salt,
-    setInternalRecord,
-    blockId,
-    props.id,
-    forId,
-    label,
-  ])
+    }, {}) as StatusContent
+  }
 
   // Handle the error prop from outside
   useEffect(() => {
@@ -673,25 +669,6 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
 
           <div
             className={clsx(
-              'dnb-forms-field-block__status',
-
-              // Handle the width of the status messages
-              contentWidth &&
-                contentWidth !== 'small' &&
-                contentWidth !== 'medium' &&
-                !(parseFloat(contentWidth) <= 11) &&
-                `dnb-forms-field-block__contents--width-${
-                  hasCustomContentWidth ? 'custom' : contentWidth
-                }`
-            )}
-          >
-            <FormStatus {...statusContent?.error} />
-            <FormStatus {...statusContent?.warning} />
-            <FormStatus {...statusContent?.information} />
-          </div>
-
-          <div
-            className={clsx(
               'dnb-forms-field-block__contents',
               contentWidth &&
                 `dnb-forms-field-block__contents--width-${
@@ -705,6 +682,33 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
             {children}
           </div>
 
+          <RenderAfterChildren
+            render={() => {
+              const statusContent = getStatusContent()
+
+              return (
+                <div
+                  className={clsx(
+                    'dnb-forms-field-block__status',
+
+                    // Handle the width of the status messages
+                    contentWidth &&
+                      contentWidth !== 'small' &&
+                      contentWidth !== 'medium' &&
+                      !(parseFloat(contentWidth) <= 11) &&
+                      `dnb-forms-field-block__contents--width-${
+                        hasCustomContentWidth ? 'custom' : contentWidth
+                      }`
+                  )}
+                >
+                  <FormStatus {...statusContent.error} />
+                  <FormStatus {...statusContent.warning} />
+                  <FormStatus {...statusContent.information} />
+                </div>
+              )
+            }}
+          />
+
           <SubmitIndicator
             state={
               fieldState ?? getAggregateFieldState(fieldStatesRef.current)
@@ -715,6 +719,10 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
       </Space>
     </FieldBlockContext>
   )
+}
+
+function RenderAfterChildren({ render }: { render: () => ReactNode }) {
+  return render()
 }
 
 const fieldStatePriority: Record<SubmitState, number> = {

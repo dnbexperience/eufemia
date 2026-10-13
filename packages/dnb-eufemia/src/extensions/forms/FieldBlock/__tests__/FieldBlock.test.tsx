@@ -1206,12 +1206,13 @@ describe('FieldBlock', () => {
         expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(
           2
         )
+        // The status is rendered after the contents
         expect(
           document.querySelectorAll('.dnb-form-status')[0].textContent
-        ).toBe('Outer')
+        ).toBe('Nested')
         expect(
           document.querySelectorAll('.dnb-form-status')[1].textContent
-        ).toBe('Nested')
+        ).toBe('Outer')
       })
 
       it('should summarize errors when returned in onChangeValidator', () => {
