@@ -344,6 +344,22 @@ describe('Field.Slider', () => {
       expect(input).toHaveAttribute('aria-required', 'true')
       expect(input.getAttribute('aria-describedby')).toContain(status.id)
     })
+
+    it('should give every thumb the label as accessible name', () => {
+      render(
+        <Form.Handler defaultData={{ first: 10, second: 20 }}>
+          <Field.Slider label="Slider" paths={['/first', '/second']} />
+        </Form.Handler>
+      )
+
+      const label = document.querySelector('.dnb-forms-field-block__label')
+      const [first, second] = Array.from(
+        document.querySelectorAll('input[type="range"]')
+      )
+
+      expect(first.getAttribute('aria-labelledby')).toBe(label.id)
+      expect(second.getAttribute('aria-labelledby')).toBe(label.id)
+    })
   })
 
   it('should call onKeyDown given in htmlAttributes', () => {

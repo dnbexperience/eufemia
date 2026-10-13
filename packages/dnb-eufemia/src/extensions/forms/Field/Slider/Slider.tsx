@@ -87,6 +87,7 @@ function SliderComponent(props: FieldSliderProps) {
     path,
     itemPath,
     value,
+    label,
     step = 1,
     min = 0,
     max = 100,
@@ -158,6 +159,10 @@ function SliderComponent(props: FieldSliderProps) {
         onChange: handleLocalChange,
         onDragStart: handleFocus,
         onDragEnd: handleBlur,
+
+        // The label's "for" only reaches the first thumb
+        'aria-labelledby':
+          label && Array.isArray(sliderValue) ? `${id}-label` : undefined,
       },
       htmlAttributes
     ),
