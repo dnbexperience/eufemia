@@ -24,6 +24,13 @@ export type FieldNameProps = Omit<StringFieldProps, 'onBlurValidator'> & {
   onBlurValidator?: NameValidator | false
 }
 
+export type FieldNameCompanyProps = Omit<
+  StringFieldProps,
+  'onBlurValidator'
+> & {
+  onBlurValidator?: CompanyNameValidator | false
+}
+
 // Pattern for first and last names: must start and end with a letter (or be a single letter),
 // disallow consecutive hyphens/spaces, allow letters, spaces, and hyphens inside,
 // but do not allow digits, dots, or trailing punctuation (e.g. ending with '-').
@@ -138,7 +145,7 @@ Name.Last = function LastName(props: FieldNameProps) {
 }
 Name.Last['_supportsSpacingProps'] = true
 
-Name.Company = function CompanyName(props: FieldNameProps) {
+Name.Company = function CompanyName(props: FieldNameCompanyProps) {
   const translations = useTranslation().CompanyName
   const {
     onBlurValidator: onBlurValidatorProp,
