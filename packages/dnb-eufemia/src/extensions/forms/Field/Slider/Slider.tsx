@@ -41,7 +41,9 @@ export type FieldSliderProps = FieldProps<SliderValue> & {
   alwaysShowTooltip?: SliderProps['alwaysShowTooltip']
   extensions?: SliderProps['extensions']
 
-  /** Styling */
+  /**
+   * `false` for no width (use browser default), `small`, `medium` or `large` for predefined standard widths, `stretch` to fill available width. Defaults to `stretch`.
+   */
   width?: FieldBlockWidth
 }
 
