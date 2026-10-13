@@ -67,7 +67,7 @@ describe('Decimals format', () => {
   it('should return default formatted number', () => {
     expect(formatNumber(num)).toBe('−12 345,6789')
     expect(formatNumber(num, { returnAria: true })).toMatchObject({
-      aria: '−12345,6789',
+      aria: '−12 345,6789',
       cleanedValue: '-12345,6789',
       locale: 'nb-NO',
       number: '−12 345,6789',
@@ -75,7 +75,7 @@ describe('Decimals format', () => {
       value: num,
     })
     expect(formatNumber(String(num), { returnAria: true })).toMatchObject({
-      aria: '−12345,6789',
+      aria: '−12 345,6789',
       cleanedValue: '-12345,6789',
       locale: 'nb-NO',
       number: '−12 345,6789',

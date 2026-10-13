@@ -489,7 +489,7 @@ describe('NumberFormat component', () => {
 
     expect(
       document.querySelector(ariaSelector).getAttribute('data-text')
-    ).toBe('−12345,95 kroner')
+    ).toBe('−12 345,95 kroner')
   })
 
   it('have to match currency with no decimals', () => {
@@ -501,7 +501,7 @@ describe('NumberFormat component', () => {
 
     expect(
       document.querySelector(ariaSelector).getAttribute('data-text')
-    ).toBe('−12346 kroner')
+    ).toBe('−12 346 kroner')
   })
 
   it('should yield strict zero when value gets rounded to zero because of decimals=0', () => {
@@ -1844,7 +1844,7 @@ describe('NumberFormat compact', () => {
     )
     expect(
       document.querySelector(ariaSelector).getAttribute('data-text')
-    ).toBe('−1234,00 kroner')
+    ).toBe('−1 234,00 kroner')
 
     rerender(<Component currency currencyDisplay="" value={-1234567} />)
 
