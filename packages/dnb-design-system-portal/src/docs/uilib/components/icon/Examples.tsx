@@ -4,6 +4,7 @@
  */
 
 import { useState } from 'react'
+import useCanUseDOM from '@dnb/eufemia/src/shared/helpers/useCanUseDOM'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import {
   bell_medium as BellMedium,
@@ -278,7 +279,9 @@ export function AllIconsTest() {
 }
 
 export function IconTransitionExample() {
-  const notSupported = !Icon.transition.isSupported && (
+  // isSupported is always false on the server
+  const canUseDOM = useCanUseDOM()
+  const notSupported = canUseDOM && !Icon.transition.isSupported && (
     <FormStatus state="warning" top>
       Your browser does not support CSS <code>d</code> path interpolation,
       so the icon transition will fall back to a simple crossfade.

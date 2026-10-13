@@ -9,6 +9,7 @@ import {
 } from '@dnb/eufemia/src'
 import { Field, Form } from '@dnb/eufemia/src/extensions/forms'
 import { copyToClipboard } from '@dnb/eufemia/src/shared/helpers'
+import useCanUseDOM from '@dnb/eufemia/src/shared/helpers/useCanUseDOM'
 import { getGitHubEditUrl } from '../../../core/githubSource'
 import {
   createSuggestEditPrompt,
@@ -16,10 +17,10 @@ import {
 } from '../../../core/suggestEdit'
 
 export default function SuggestEdit() {
-  const params =
-    typeof window === 'undefined'
-      ? new URLSearchParams()
-      : new URLSearchParams(window.location.search)
+  // The page is prerendered without the query, so it is read after hydration
+  const params = useCanUseDOM()
+    ? new URLSearchParams(window.location.search)
+    : new URLSearchParams()
   const page = params.get('page') || '/'
   const sourcePath = params.get('source') || ''
   const pageUrl = new URL(page, 'https://eufemia.dnb.no').toString()
