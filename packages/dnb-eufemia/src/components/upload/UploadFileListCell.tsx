@@ -33,6 +33,7 @@ import { getClosestParent } from '../../shared/component-helper'
 import useUpload, { isFileEqual } from './useUpload'
 import { getFileTypeFromExtension } from './UploadVerify'
 import UploadFileLink from './UploadFileListLink'
+import useObjectUrl from './useObjectUrl'
 import type { ProgressIndicatorAllProps } from '../progress-indicator/types'
 
 export const fileExtensionImages = {
@@ -108,7 +109,7 @@ const UploadFileListCell = ({
   } = uploadFile
   const hasWarning = errorMessage != null
 
-  const imageUrl = file?.size > 0 ? URL.createObjectURL(file) : null
+  const imageUrl = useObjectUrl(file)
   const cellRef = useRef<HTMLLIElement>(undefined)
   const exists = useExistsHighlight(id, file)
   const isDuplicate = !allowDuplicates && exists

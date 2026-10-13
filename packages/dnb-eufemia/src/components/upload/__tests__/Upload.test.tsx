@@ -24,6 +24,7 @@ const nb = nbNO['nb-NO'].Upload
 const en = enGB['en-GB'].Upload
 
 global.URL.createObjectURL = vi.fn(() => 'url')
+global.URL.revokeObjectURL = vi.fn()
 
 const defaultProps: UploadAllProps = {
   acceptedFileTypes: ['png'],

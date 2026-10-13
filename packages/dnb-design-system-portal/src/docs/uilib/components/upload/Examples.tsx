@@ -16,7 +16,7 @@ import ComponentBox from '../../../../shared/tags/ComponentBox'
 import { createRequest } from '../../extensions/forms/Form/SubmitIndicator/Examples'
 
 export function createMockFile(name: string, size: number, type: string) {
-  if (typeof window === 'undefined' || !window?.File) {
+  if (typeof File === 'undefined') {
     return undefined
   }
   const file = new File([], name, { type })
