@@ -1,10 +1,10 @@
 /**
  * Figma Task handlers
  *
- * Fetches the design token variables from Figma and writes them as
- * W3C Design Token (DTCG) JSON files – the same format the Figma UI
- * produces with "Export Modes". The files are consumed by
- * `scripts/prebuild/tasks/makePropertiesFile.ts`.
+ * Fetches the design token variables from Figma and writes one
+ * W3C Design Token (DTCG) JSON file per collection mode. Changes in Figma,
+ * such as a new mode, never stop the fetch. `tokensVerifier.ts` checks
+ * afterwards that the files `makePropertiesFile.ts` needs are there.
  */
 
 import fs from 'fs-extra'
@@ -125,60 +125,24 @@ export type TokenExport = {
 const BRAND_COLLECTION_ID = 'VariableCollectionId:53684:1279'
 
 /**
- * Which Figma collection and mode ends up in which file, relative to
- * `src/style/themes/figma`. Every mode of these collections has to be listed,
- * so a mode added in Figma cannot pass unnoticed.
+ * The Figma collections that are fetched, and the folder (relative to
+ * `src/style/themes/figma`) their modes are written to as `<mode>.tokens.json`.
  */
-export const TOKEN_EXPORTS: ReadonlyArray<{
+export const TOKEN_COLLECTIONS: ReadonlyArray<{
   collection: string
   collectionId?: string
-  mode: string
-  fileName: string
+  dir: string
 }> = [
-  { collection: 'colors', mode: 'color', fileName: 'color.tokens.json' },
-  {
-    collection: 'brand',
-    collectionId: BRAND_COLLECTION_ID,
-    mode: 'dnb-light',
-    fileName: 'brand/dnb-light.tokens.json',
-  },
-  {
-    collection: 'brand',
-    collectionId: BRAND_COLLECTION_ID,
-    mode: 'dnb-dark',
-    fileName: 'brand/dnb-dark.tokens.json',
-  },
-  {
-    collection: 'brand',
-    collectionId: BRAND_COLLECTION_ID,
-    mode: 'sbanken-light',
-    fileName: 'brand/sbanken-light.tokens.json',
-  },
-  {
-    collection: 'brand',
-    collectionId: BRAND_COLLECTION_ID,
-    mode: 'sbanken-dark',
-    fileName: 'brand/sbanken-dark.tokens.json',
-  },
-  {
-    collection: 'brand',
-    collectionId: BRAND_COLLECTION_ID,
-    mode: 'dnbcarnegie-light',
-    fileName: 'brand/dnbcarnegie-light.tokens.json',
-  },
-  {
-    collection: 'brand',
-    collectionId: BRAND_COLLECTION_ID,
-    mode: 'dnbeiendom-light',
-    fileName: 'brand/dnbeiendom-light.tokens.json',
-  },
-  {
-    collection: 'brand',
-    collectionId: BRAND_COLLECTION_ID,
-    mode: 'dnbeiendom-dark',
-    fileName: 'brand/dnbeiendom-dark.tokens.json',
-  },
+  { collection: 'colors', dir: '' },
+  { collection: 'brand', collectionId: BRAND_COLLECTION_ID, dir: 'brand' },
 ]
+
+/** `dnbeiendom-light (test)` becomes `dnbeiendom-light-test` */
+export const toTokenFileName = (modeName: string) =>
+  modeName
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-|-$/g, '')
 
 const TOKEN_TYPES: Record<
   FigmaVariable['resolvedType'],
@@ -279,36 +243,6 @@ const findModeId = (collection: FigmaVariableCollection, name: string) => {
   }
 
   return mode.modeId
-}
-
-/**
- * A mode added in Figma would otherwise never reach the library, because
- * nothing outside of Figma shows that it exists.
- */
-export const assertModesAreExported = (meta: FigmaLocalVariables) => {
-  const collections = TOKEN_EXPORTS.filter(
-    ({ collection }, index) =>
-      TOKEN_EXPORTS.findIndex((item) => item.collection === collection) ===
-      index
-  )
-
-  for (const { collection: collectionName, collectionId } of collections) {
-    const exported = TOKEN_EXPORTS.filter(
-      ({ collection }) => collection === collectionName
-    ).map(({ mode }) => mode)
-
-    const missing = findCollection(meta, collectionName, collectionId)
-      .modes.map((mode) => mode.name)
-      .filter((name) => !exported.includes(name))
-
-    if (missing.length) {
-      throw new Error(
-        `The Figma variable collection "${collectionName}" has modes that are not exported: ${missing.join(
-          ', '
-        )}. Add them to TOKEN_EXPORTS, and to the token files in makePropertiesFile.ts once a theme uses them.`
-      )
-    }
-  }
 }
 
 /**
@@ -524,17 +458,19 @@ export const convertVariablesToTokens = ({
       continue
     }
 
-    addTokenLeaf(
-      tokens,
-      variable.name.split('/'),
-      makeTokenLeaf(meta, variable, modeId)
-    )
-  }
-
-  if (Object.keys(tokens).length === 0) {
-    throw new Error(
-      `The Figma variable collection "${collectionName}" has no variables`
-    )
+    try {
+      addTokenLeaf(
+        tokens,
+        variable.name.split('/'),
+        makeTokenLeaf(meta, variable, modeId)
+      )
+    } catch (e) {
+      log.warn(
+        `> Figma: Skipped a variable in "${collectionName}" (mode "${modeName}"): ${
+          (e as Error).message
+        }`
+      )
+    }
   }
 
   const mode = collection.modes.find((mode) => mode.modeId === modeId)
@@ -561,8 +497,21 @@ const fetchLocalVariables = async (figmaFile: string) => {
   return data.meta
 }
 
+/** Removes the files of earlier fetches, so a renamed or removed mode does not linger */
+const removeTokenFiles = async (dir: string) => {
+  if (!(await fs.pathExists(dir))) {
+    return
+  }
+
+  for (const name of await fs.readdir(dir)) {
+    if (name.endsWith('.tokens.json')) {
+      await fs.remove(path.join(dir, name))
+    }
+  }
+}
+
 /**
- * Writes every configured collection mode to disk and
+ * Writes every mode of the fetched collections to disk and
  * returns the files that were written.
  */
 export const extractTokens = async ({
@@ -586,34 +535,60 @@ export const extractTokens = async ({
   }
 
   const meta = await fetchLocalVariables(figmaFile)
+  const exports: Array<{
+    file: string
+    fileName: string
+    content: string
+  }> = []
 
-  assertModesAreExported(meta)
+  for (const {
+    collection: name,
+    collectionId,
+    dir,
+  } of TOKEN_COLLECTIONS) {
+    let collection: FigmaVariableCollection
 
-  const exports = TOKEN_EXPORTS.map(
-    ({ collection, collectionId, mode, fileName }) => {
-      let tokens: TokenExport
+    try {
+      collection = findCollection(meta, name, collectionId)
+    } catch (e) {
+      log.warn(`> Figma: Skipped a collection: ${(e as Error).message}`)
+      continue
+    }
 
-      try {
-        tokens = convertVariablesToTokens({
-          meta,
-          collection,
-          collectionId,
-          mode,
-        })
-      } catch (e) {
-        throw new Error(
-          `Failed to convert the Figma collection "${collection}" (mode "${mode}") into ${fileName}`,
-          { cause: e }
+    for (const { name: modeName } of collection.modes) {
+      const fileName = path.posix.join(
+        dir,
+        `${toTokenFileName(modeName)}.tokens.json`
+      )
+
+      if (
+        !toTokenFileName(modeName) ||
+        exports.some((item) => item.fileName === fileName)
+      ) {
+        log.warn(
+          `> Figma: Skipped the mode "${modeName}" of "${name}", because its file name is empty or already taken`
         )
+        continue
       }
 
-      return {
+      const tokens = convertVariablesToTokens({
+        meta,
+        collection: name,
+        collectionId,
+        mode: modeName,
+      })
+
+      exports.push({
         file: path.resolve(tokensDir, fileName),
         fileName,
         content: JSON.stringify(tokens, null, 2),
-      }
+      })
     }
-  )
+  }
+
+  for (const { dir } of TOKEN_COLLECTIONS) {
+    await removeTokenFiles(path.resolve(tokensDir, dir))
+  }
 
   for (const { file, fileName, content } of exports) {
     await fs.outputFile(file, content)

@@ -64,70 +64,26 @@ jobs:
         with:
           cache-version: ${{ secrets.CACHE_VERSION }}
 
-      - name: Use Playwright cache
-        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
-        id: playwright-cache
-        with:
-          path: |
-            ~/Library/Caches/ms-playwright
-            ~/.cache/ms-playwright
-            %USERPROFILE%\AppData\Local\ms-playwright
-          key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-playwright-${{ hashFiles('**/yarn.lock') }}
-      - name: Install Playwright browsers
-        run: yarn workspace @dnb/eufemia playwright install --with-deps firefox
-        if: steps.playwright-cache.outputs.cache-hit != 'true'
-      - name: Install Playwright dependencies
-        run: yarn workspace @dnb/eufemia playwright install-deps firefox
-        if: steps.playwright-cache.outputs.cache-hit == 'true'
-
-      - name: Design tokens fetch and generate
-        run: yarn workspace @dnb/eufemia prebuild:figma:tokens:ci
+      # Step 1: fetch. Changes in Figma, such as a new mode, do not stop it.
+      - name: Fetch design tokens from Figma
+        id: fetch
+        run: yarn workspace @dnb/eufemia figma:tokens
         env:
           FIGMA_TOKEN: ${{ secrets.FIGMA_TOKEN }}
           FIGMA_TOKENS_FILE: ${{ vars.FIGMA_TOKENS_FILE }}
 
-      - name: Detect design token changes
-        id: changes
-        # Scoped to the paths the commit step stages, so an unrelated dirty
-        # file cannot start a build that ends with nothing to commit.
+      - name: Detect Figma export changes
+        id: exports
         run: |
-          if [ -z "$(git status --porcelain -- packages/dnb-eufemia/src/style/themes)" ]; then
+          if [ -z "$(git status --porcelain -- packages/dnb-eufemia/src/style/themes/figma)" ]; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
           else
             echo "changed=true" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Update design token snapshots
-        if: steps.changes.outputs.changed == 'true'
-        # The snapshots mirror the generated theme files, so a token change always changes them
-        run: yarn workspace @dnb/eufemia test:scripts makePropertiesFile -u --hookTimeout=180000
-
-      - name: Prebuild Library
-        if: steps.changes.outputs.changed == 'true'
-        run: yarn workspace @dnb/eufemia build:prebuild
-
-      - name: Build portal
-        if: steps.changes.outputs.changed == 'true'
-        run: yarn workspace dnb-design-system-portal build
-
-      - name: Run visual tests
-        if: steps.changes.outputs.changed == 'true'
-        run: yarn workspace dnb-design-system-portal test:screenshots:ci:update
-
-      - name: Store visual test artifacts
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
-        if: failure()
-        with:
-          name: visual-test-artifact
-          path: |
-            ./packages/dnb-eufemia/visual-diff-report/**
-
-      - name: Run visual tests info
-        if: failure()
-        run: echo '\n\n👉 Download the diff files as a ZIP file. \nIt is called "visual-test-artifact" and you find it in the test "Summary" under "Artifacts".\n\n\n'
-
-      - name: Commit design tokens and updated snapshots
-        if: success() && steps.changes.outputs.changed == 'true'
+      # Committed before verifying, so the exports can be reviewed even when a later step fails
+      - name: Commit the Figma exports
+        if: steps.exports.outputs.changed == 'true'
         run: |
           gh auth setup-git
           # The tip fetched at the start, so a commit pushed during the run makes the push fail instead of vanishing
@@ -138,12 +94,9 @@ jobs:
           fi
           git config user.name "$GH_NAME"
           git config user.email "$GH_EMAIL"
-          git add \
-            packages/dnb-eufemia/src/style/themes \
-            packages/dnb-eufemia/scripts/prebuild/tasks/__tests__/__snapshots__/makePropertiesFile.test.ts.snap \
-            ':(glob)packages/dnb-eufemia/src/**/__image_snapshots__/**'
+          git add packages/dnb-eufemia/src/style/themes/figma
 
-          git commit --no-verify -m "chore: synchronize design tokens from Figma"
+          git commit --no-verify -m "chore: synchronize the design token exports from Figma"
           if [ -n "$remote_sha" ]; then
             git push origin "HEAD:refs/heads/$BRANCH" \
               --force-with-lease="refs/heads/$BRANCH:$remote_sha"
@@ -156,12 +109,121 @@ jobs:
           GH_EMAIL: ${{ secrets.GH_EMAIL }}
           EXISTING_PR: ${{ steps.existing-pr.outputs.exists }}
 
-      - name: Create draft design token pull request
-        if: success() && steps.changes.outputs.changed == 'true'
+      - name: Open a draft design token pull request
+        id: new-pr
+        if: steps.exports.outputs.changed == 'true' && steps.existing-pr.outputs.exists != 'true'
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
-          EXISTING_PR: ${{ steps.existing-pr.outputs.exists }}
-          PR_URL: ${{ steps.existing-pr.outputs.url }}
+        run: |
+          url=$(gh pr create \
+            --base main \
+            --head "$BRANCH" \
+            --title "chore(Theme): synchronize design tokens from Figma" \
+            --body "Synchronizes the Eufemia design tokens with Figma. The generated CSS and snapshots follow once the exports are verified." \
+            --draft)
+          echo "url=$url" >> "$GITHUB_OUTPUT"
+
+      # Step 2: verify that the exports the themes are generated from are there
+      - name: Verify the Figma exports
+        run: yarn workspace @dnb/eufemia figma:tokens:verify
+
+      # Step 3: generate the theme files
+      - name: Generate the design token CSS
+        run: yarn workspace @dnb/eufemia make-properties
+
+      - name: Detect generated design token changes
+        id: generated
+        # Scoped to the paths the commit step stages, so an unrelated dirty
+        # file cannot start a build that ends with nothing to commit.
+        run: |
+          if [ -z "$(git status --porcelain -- packages/dnb-eufemia/src/style/themes)" ]; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Use Playwright cache
+        if: steps.generated.outputs.changed == 'true'
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
+        id: playwright-cache
+        with:
+          path: |
+            ~/Library/Caches/ms-playwright
+            ~/.cache/ms-playwright
+            %USERPROFILE%\AppData\Local\ms-playwright
+          key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-playwright-${{ hashFiles('**/yarn.lock') }}
+      - name: Install Playwright browsers
+        run: yarn workspace @dnb/eufemia playwright install --with-deps firefox
+        if: steps.generated.outputs.changed == 'true' && steps.playwright-cache.outputs.cache-hit != 'true'
+      - name: Install Playwright dependencies
+        run: yarn workspace @dnb/eufemia playwright install-deps firefox
+        if: steps.generated.outputs.changed == 'true' && steps.playwright-cache.outputs.cache-hit == 'true'
+
+      - name: Update design token snapshots
+        if: steps.generated.outputs.changed == 'true'
+        # The snapshots mirror the generated theme files, so a token change always changes them
+        run: yarn workspace @dnb/eufemia test:scripts makePropertiesFile -u --hookTimeout=180000
+
+      - name: Prebuild Library
+        if: steps.generated.outputs.changed == 'true'
+        run: yarn workspace @dnb/eufemia build:prebuild
+
+      - name: Build portal
+        if: steps.generated.outputs.changed == 'true'
+        run: yarn workspace dnb-design-system-portal build
+
+      - name: Run visual tests
+        id: visual-tests
+        if: steps.generated.outputs.changed == 'true'
+        run: yarn workspace dnb-design-system-portal test:screenshots:ci:update
+
+      - name: Store visual test artifacts
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        if: failure() && steps.visual-tests.outcome == 'failure'
+        with:
+          name: visual-test-artifact
+          path: |
+            ./packages/dnb-eufemia/visual-diff-report/**
+
+      - name: Run visual tests info
+        if: failure() && steps.visual-tests.outcome == 'failure'
+        run: echo '\n\n👉 Download the diff files as a ZIP file. \nIt is called "visual-test-artifact" and you find it in the test "Summary" under "Artifacts".\n\n\n'
+
+      - name: Commit design tokens and updated snapshots
+        if: success() && steps.generated.outputs.changed == 'true'
+        run: |
+          gh auth setup-git
+          # The tip known before this step, so a commit pushed during the run makes the push fail instead of vanishing
+          remote_sha=$(git rev-parse --verify --quiet "refs/remotes/origin/$BRANCH" || true)
+
+          if [ "$(git branch --show-current)" != "$BRANCH" ]; then
+            git switch -c "$BRANCH"
+          fi
+          git config user.name "$GH_NAME"
+          git config user.email "$GH_EMAIL"
+          git add \
+            packages/dnb-eufemia/src/style/themes \
+            packages/dnb-eufemia/scripts/prebuild/tasks/__tests__/__snapshots__/makePropertiesFile.test.ts.snap \
+            ':(glob)packages/dnb-eufemia/src/**/__image_snapshots__/**'
+
+          git commit --no-verify -m "chore: generate the design tokens from the Figma exports"
+          if [ -n "$remote_sha" ]; then
+            git push origin "HEAD:refs/heads/$BRANCH" \
+              --force-with-lease="refs/heads/$BRANCH:$remote_sha"
+          else
+            git push --set-upstream origin "$BRANCH"
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GH_NAME: ${{ secrets.GH_NAME }}
+          GH_EMAIL: ${{ secrets.GH_EMAIL }}
+
+      - name: Describe the design token pull request
+        if: success() && (steps.exports.outputs.changed == 'true' || steps.generated.outputs.changed == 'true')
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          EXISTING_PR_URL: ${{ steps.existing-pr.outputs.url }}
+          NEW_PR_URL: ${{ steps.new-pr.outputs.url }}
         run: |
           token_scss='packages/dnb-eufemia/src/style/themes/*/tokens*.scss'
           foundation_scss='packages/dnb-eufemia/src/style/themes/*/foundation.scss'
@@ -214,12 +276,15 @@ jobs:
           )
 
           printf '%s\n' "$body" >> "$GITHUB_STEP_SUMMARY"
-          if [ "$EXISTING_PR" = true ]; then
-            gh pr edit "$PR_URL" --title "$title"
-            is_draft=$(gh pr view "$PR_URL" --json isDraft --jq '.isDraft')
+          if [ -n "$EXISTING_PR_URL" ]; then
+            # Keep the description, as reviewers may have edited it
+            gh pr edit "$EXISTING_PR_URL" --title "$title"
+            is_draft=$(gh pr view "$EXISTING_PR_URL" --json isDraft --jq '.isDraft')
             if [ "$is_draft" != true ]; then
-              gh pr ready "$PR_URL" --undo
+              gh pr ready "$EXISTING_PR_URL" --undo
             fi
+          elif [ -n "$NEW_PR_URL" ]; then
+            gh pr edit "$NEW_PR_URL" --title "$title" --body "$body"
           else
             gh pr create \
               --base main \
@@ -230,5 +295,14 @@ jobs:
           fi
 
       - name: Report no design token changes
-        if: steps.changes.outputs.changed == 'false'
+        if: steps.exports.outputs.changed == 'false' && steps.generated.outputs.changed == 'false'
         run: echo "Figma and the Eufemia design tokens are already synchronized."
+
+      - name: Report the failure on the pull request
+        if: failure() && steps.fetch.outcome == 'success' && (steps.new-pr.outputs.url || steps.existing-pr.outputs.url)
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          PR_URL: ${{ steps.new-pr.outputs.url || steps.existing-pr.outputs.url }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          gh pr comment "$PR_URL" --body "The design token sync failed after fetching from Figma, so the generated CSS and snapshots may not match the Figma exports in this pull request. See the [workflow run]($RUN_URL) for the reason, then run the workflow again."
