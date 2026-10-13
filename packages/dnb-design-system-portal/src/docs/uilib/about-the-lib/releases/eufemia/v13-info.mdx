@@ -20,6 +20,7 @@ draft: true
     - [Img](#img)
     - [Popover](#popover)
     - [ScrollView](#scrollview)
+    - [Field.Name.Company](#fieldnamecompany)
 
 > **Note:** There is no `v12` release. The version `v12` was accidentally published to NPM and has since been removed. Because a published version number cannot be safely reused, `v12` has been skipped entirely, and these breaking changes are released as `v13` instead.
 
@@ -329,4 +330,19 @@ Note that the `disable*` props invert, so a disabled feature becomes `false`:
 ```diff
 -import { ScrollView } from '@dnb/eufemia/fragments'
 +import { ScrollView } from '@dnb/eufemia'
+```
+
+### [Field.Name.Company](/uilib/extensions/forms/feature-fields/Name/)
+
+- The `onBlurValidator` property now only accepts a `CompanyNameValidator`, and its `validators` no longer include `nameValidator`. Use `companyValidator` instead.
+
+```diff
+-import type { NameValidator } from '@dnb/eufemia/extensions/forms/Field/Name'
++import type { CompanyNameValidator } from '@dnb/eufemia/extensions/forms/Field/Name'
+
+-const myValidator: NameValidator = (value, { validators }) => {
+-  return [validators.nameValidator]
++const myValidator: CompanyNameValidator = (value, { validators }) => {
++  return [validators.companyValidator]
+ }
 ```

@@ -28,13 +28,16 @@ export type FieldNameCompanyProps = Omit<
   StringFieldProps,
   'onBlurValidator'
 > & {
+  // TODO: In v13, narrow this to `CompanyNameValidator | false`
   onBlurValidator?:
     | ValidatorWithCustomValidators<
         string,
         {
           companyValidator: Validator<string>
 
-          // Kept so validators typed as NameValidator still compile
+          /**
+           * @deprecated Not provided by `Field.Name.Company`, use `companyValidator` instead. Only typed so validators typed as `NameValidator` still compile. This will be removed in v13.
+           */
           nameValidator: Validator<string>
         }
       >
