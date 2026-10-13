@@ -745,4 +745,12 @@ describe('Button scss', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
     expect(css).toMatchSnapshot()
   })
+
+  it('shows the focus ring in forced colors mode', () => {
+    const css = loadScss(require.resolve('../style/deps.scss'))
+
+    expect(css).toMatch(
+      /@media \(forced-colors: active\) \{[^{]*\.dnb-button--primary:focus-visible:not\(\[disabled\]\)[^{]*\{\s*outline: var\(--focus-ring-width\) solid transparent;/
+    )
+  })
 })

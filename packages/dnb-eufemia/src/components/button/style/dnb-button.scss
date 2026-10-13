@@ -138,6 +138,8 @@
       );
 
       outline: none;
+
+      @include utilities.forcedColorsOutline();
     }
 
     &[disabled] {

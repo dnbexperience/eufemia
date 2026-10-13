@@ -329,6 +329,12 @@ html[data-whatinput=keyboard] .dnb-drawer-list__option--focus {
     --drawer-list-option-extra-border--focus
   );
 }
+@media (forced-colors: active) {
+  html[data-whatinput=keyboard] .dnb-drawer-list__option--focus {
+    outline: var(--focus-ring-width) solid transparent;
+    outline-offset: calc(var(--focus-ring-width) * -1);
+  }
+}
 @media screen and (min-width: 40.00625em) {
   .dnb-drawer-list__option__suffix {
     grid-column: 2;
@@ -392,6 +398,18 @@ html[data-whatinput=keyboard] .dnb-drawer-list__option--focus {
   .dnb-drawer-list__option--selected .dnb-drawer-list__option__suffix {
     z-index: 0;
     align-self: center;
+  }
+}
+@media (forced-colors: active) {
+  .dnb-drawer-list__option--selected {
+    color: HighlightText;
+    background-color: Highlight;
+  }
+  .dnb-drawer-list__option--selected .dnb-drawer-list__option__inner::after {
+    background-color: HighlightText;
+  }
+  html[data-whatinput=keyboard] .dnb-drawer-list__option--selected.dnb-drawer-list__option--focus {
+    outline-color: HighlightText;
   }
 }
 .dnb-drawer-list__option.last-of-type:not(.dnb-drawer-list__option--focus) .dnb-drawer-list__option__inner::before {
@@ -923,6 +941,12 @@ html[data-whatinput=keyboard] .dnb-drawer-list__option--focus {
     --drawer-list-option-extra-border--focus
   );
 }
+@media (forced-colors: active) {
+  html[data-whatinput=keyboard] .dnb-drawer-list__option--focus {
+    outline: var(--focus-ring-width) solid transparent;
+    outline-offset: calc(var(--focus-ring-width) * -1);
+  }
+}
 @media screen and (min-width: 40.00625em) {
   .dnb-drawer-list__option__suffix {
     grid-column: 2;
@@ -986,6 +1010,18 @@ html[data-whatinput=keyboard] .dnb-drawer-list__option--focus {
   .dnb-drawer-list__option--selected .dnb-drawer-list__option__suffix {
     z-index: 0;
     align-self: center;
+  }
+}
+@media (forced-colors: active) {
+  .dnb-drawer-list__option--selected {
+    color: HighlightText;
+    background-color: Highlight;
+  }
+  .dnb-drawer-list__option--selected .dnb-drawer-list__option__inner::after {
+    background-color: HighlightText;
+  }
+  html[data-whatinput=keyboard] .dnb-drawer-list__option--selected.dnb-drawer-list__option--focus {
+    outline-color: HighlightText;
   }
 }
 .dnb-drawer-list__option.last-of-type:not(.dnb-drawer-list__option--focus) .dnb-drawer-list__option__inner::before {

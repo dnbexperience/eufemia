@@ -278,6 +278,11 @@ sup :where(:not(.dnb-anchor--no-style)).dnb-anchor, sub :where(:not(.dnb-anchor-
   box-shadow: 0 0 0 var(--border-width) var(--border-color), inset 100vw 100vw 0 0 var(--token-color-background-action-focus-subtle), calc(var(--anchor-background-gutter-left, 0.125rem) * -1) 0 0 0 var(--token-color-background-action-focus-subtle), var(--anchor-background-gutter-right, 0.125rem) 0 0 0 var(--token-color-background-action-focus-subtle);
   border-color: transparent;
 }
+@media (forced-colors: active) {
+  :where(:not(.dnb-anchor--no-style)).dnb-anchor:focus-visible {
+    outline: var(--focus-ring-width) solid transparent;
+  }
+}
 :where(:not(.dnb-anchor--no-style)).dnb-anchor:hover:where(:not(.dnb-anchor--no-hover)) {
   --anchor-color: var(--anchor-color--hover);
   --anchor-icon-color: var(--anchor-icon-color--hover);
@@ -419,6 +424,11 @@ sup :where(:not(.dnb-anchor--no-style)).dnb-anchor, sub :where(:not(.dnb-anchor-
     box-shadow: 0 0 0 var(--border-width) var(--border-color), inset 100vw 100vw 0 0 var(--token-color-background-action-focus-subtle), calc(var(--anchor-background-gutter-left, 0.125rem) * -1) 0 0 0 var(--token-color-background-action-focus-subtle), var(--anchor-background-gutter-right, 0.125rem) 0 0 0 var(--token-color-background-action-focus-subtle);
     border-color: transparent;
   }
+  @media (forced-colors: active) {
+    :not(.dnb-anchor--no-style).dnb-anchor:focus-visible {
+      outline: var(--focus-ring-width) solid transparent;
+    }
+  }
   :not(.dnb-anchor--no-style).dnb-anchor:hover:where(:not(.dnb-anchor--no-hover)) {
     --anchor-color: var(--anchor-color--hover);
     --anchor-icon-color: var(--anchor-icon-color--hover);
@@ -541,6 +551,11 @@ sup :where(:not(.dnb-anchor--no-style)).dnb-anchor, sub :where(:not(.dnb-anchor-
   --border-width: var(--focus-ring-width);
   box-shadow: 0 0 0 var(--border-width) var(--border-color), inset 100vw 100vw 0 0 var(--token-color-background-action-focus-subtle), calc(var(--anchor-background-gutter-left, 0.125rem) * -1) 0 0 0 var(--token-color-background-action-focus-subtle), var(--anchor-background-gutter-right, 0.125rem) 0 0 0 var(--token-color-background-action-focus-subtle);
   border-color: transparent;
+}
+@media (forced-colors: active) {
+  .dnb-anchor--focus {
+    outline: var(--focus-ring-width) solid transparent;
+  }
 }
 
 .dnb-anchor--no-underline, .dnb-section .dnb-anchor--no-underline.dnb-anchor {

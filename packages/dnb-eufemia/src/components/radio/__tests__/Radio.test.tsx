@@ -234,6 +234,14 @@ describe('Radio scss', () => {
     )
   })
 
+  it('shows the focus ring in forced colors mode', () => {
+    const css = loadScss(require.resolve('../style/dnb-radio.scss'))
+
+    expect(css).toMatch(
+      /@media \(forced-colors: active\) \{[^{]*\.dnb-radio__input:focus ~ \.dnb-radio__button \{\s*outline: var\(--focus-ring-width\) solid transparent;/
+    )
+  })
+
   it('has to match style dependencies css', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
     expect(css).toMatchSnapshot()

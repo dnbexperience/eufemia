@@ -83,6 +83,9 @@
         inset: 0;
         transform: scale(1.25, 2);
         border: 0.5rem solid transparent;
+
+        // Forced colors mode would draw the transparent border
+        forced-color-adjust: none;
       }
     }
 

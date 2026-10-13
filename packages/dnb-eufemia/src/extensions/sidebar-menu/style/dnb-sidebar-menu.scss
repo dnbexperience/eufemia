@@ -482,6 +482,11 @@
     );
 
     background-color: var(--token-color-background-neutral-bold);
+
+    // Show the selected background of the DrawerList in forced colors mode
+    @media (forced-colors: active) {
+      background-color: Highlight;
+    }
   }
 
   .dnb-drawer-list__option--selected:has(.dnb-sidebar-menu__badge)
