@@ -17,7 +17,6 @@ export const WithValue = () => {
     <ComponentBox
       scope={{ createMockFile }}
       data-visual-test="upload-value-default"
-      ssr={false}
     >
       <Value.Upload
         inline
@@ -44,7 +43,6 @@ export const WithSize = () => {
       hideCode
       scope={{ createMockFile }}
       data-visual-test="upload-value-size"
-      ssr={false}
     >
       <Value.Upload
         displaySize
@@ -62,7 +60,7 @@ export const WithSize = () => {
 
 export const WithDownload = () => {
   return (
-    <ComponentBox hideCode scope={{ createMockFile }} ssr={false}>
+    <ComponentBox hideCode scope={{ createMockFile }}>
       <Value.Upload
         download
         value={[
@@ -79,7 +77,7 @@ export const WithDownload = () => {
 
 export const WithCustomFormat = () => {
   return (
-    <ComponentBox hideCode scope={{ createMockFile }} ssr={false}>
+    <ComponentBox hideCode scope={{ createMockFile }}>
       <Form.Handler
         locale="en-GB"
         data={{
@@ -109,7 +107,7 @@ export const WithCustomFormat = () => {
 
 export const FieldUploadSelectionPath = () => {
   return (
-    <ComponentBox hideCode scope={{ createMockFile }} ssr={false}>
+    <ComponentBox hideCode scope={{ createMockFile }}>
       <Form.Handler
         data={{
           myPath: [
@@ -159,7 +157,6 @@ export const LabelAndValue = () => {
       hideCode
       scope={{ createMockFile }}
       data-visual-test="upload-value-label-and-value"
-      ssr={false}
     >
       <Value.Upload
         label="Label text"
@@ -186,7 +183,6 @@ export const LabelAndValueOnFileClick = () => {
       hideCode
       scope={{ createMockFile }}
       data-visual-test="upload-value-label-and-value-on-file-click"
-      ssr={false}
     >
       <Value.Upload
         onFileClick={() => {
@@ -217,7 +213,6 @@ export const Inline = () => {
       hideCode
       scope={{ createMockFile }}
       data-visual-test="upload-value-inline"
-      ssr={false}
     >
       <Span>
         This is before the component{' '}
@@ -247,7 +242,6 @@ export const ListVariants = () => {
     <ComponentBox
       scope={{ createMockFile }}
       data-visual-test="upload-value-lists"
-      ssr={false}
       hideCode
     >
       <Value.Upload
@@ -301,7 +295,6 @@ export const ListVariantsOnFileClick = () => {
     <ComponentBox
       scope={{ createMockFile }}
       data-visual-test="upload-value-lists-on-file-click"
-      ssr={false}
       hideCode
     >
       <Value.Upload
@@ -361,7 +354,7 @@ export const ListVariantsOnFileClick = () => {
 
 export const ListTypes = () => {
   return (
-    <ComponentBox scope={{ createMockFile }} hideCode ssr={false}>
+    <ComponentBox scope={{ createMockFile }} hideCode>
       <Value.Upload
         value={[
           {
@@ -500,7 +493,7 @@ export const ListTypes = () => {
 
 export const OnFileClick = () => {
   return (
-    <ComponentBox scope={{ createMockFile, createRequest }} ssr={false}>
+    <ComponentBox scope={{ createMockFile, createRequest }}>
       <Value.Upload
         label="Label text"
         value={[
@@ -537,7 +530,6 @@ export const DisplayFileAsNonClickable = () => {
       hideCode
       scope={{ createMockFile }}
       data-visual-test="upload-value-display-file-as-non-clickable"
-      ssr={false}
     >
       <Value.Upload
         label="Label text"
