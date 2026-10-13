@@ -1,17 +1,6 @@
 import type { PropertiesTableProps } from '../../../../shared/types'
 import { ToggleProperties } from '../Toggle/ToggleDocs'
 
-Object.assign(ToggleProperties, {
-  valueOn: {
-    ...ToggleProperties.valueOn,
-    status: 'optional',
-  },
-  valueOff: {
-    ...ToggleProperties.valueOff,
-    status: 'optional',
-  },
-})
-
 export const IndeterminateProperties: PropertiesTableProps = {
   dependencePaths: {
     doc: 'Provide an array with the related paths of other [Field.Toggle](/uilib/extensions/forms/base-fields/Toggle/) or [Field.Boolean](/uilib/extensions/forms/base-fields/Boolean/) fields.',
@@ -24,6 +13,14 @@ export const IndeterminateProperties: PropertiesTableProps = {
     status: 'optional',
   },
   ...ToggleProperties,
+  valueOn: {
+    ...ToggleProperties.valueOn,
+    status: 'optional',
+  },
+  valueOff: {
+    ...ToggleProperties.valueOff,
+    status: 'optional',
+  },
   textOn: undefined,
   textOff: undefined,
   variant: undefined,
