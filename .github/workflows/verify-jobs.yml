@@ -273,5 +273,7 @@ jobs:
 
       - name: Check bundle sizes
         env:
-          BUNDLEWATCH_GITHUB_TOKEN: ${{ github.token }}
+          # Fork pull requests get a read-only token that cannot post the
+          # status, so it is not sent; the size limits still apply.
+          BUNDLEWATCH_GITHUB_TOKEN: ${{ github.event_name == 'push' && github.token || '' }}
         run: yarn workspace @dnb/eufemia build:size

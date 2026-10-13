@@ -1,9 +1,15 @@
 name: Deploy Fork Preview
 
+# Shown to the environment reviewers, so they know which fork they approve.
+run-name: >-
+  ${{ github.event_name == 'workflow_dispatch'
+  && format('Deploy fork preview of run {0}', inputs.run_id)
+  || format('Deploy fork preview of {0}:{1}', github.event.workflow_run.head_repository.full_name, github.event.workflow_run.head_branch) }}
+
 # Deploys the portal that "Deploy Preview" built for a pull request from a
-# fork. This file always runs from the default branch, with secrets, so it
-# must never check out or run the fork's code: the downloaded site is
-# untrusted content that is only uploaded.
+# fork. This file runs from this repository, with secrets, so it must never
+# check out or run the fork's code: the downloaded site is untrusted content
+# that is only uploaded.
 on:
   workflow_run:
     workflows: [Deploy Preview]
@@ -66,7 +72,8 @@ jobs:
               run.path !== '.github/workflows/preview.yml' ||
               run.event !== 'pull_request' ||
               run.conclusion !== 'success' ||
-              run.head_repository?.full_name === `${context.repo.owner}/${context.repo.repo}`
+              !run.head_repository ||
+              run.head_repository.full_name === `${context.repo.owner}/${context.repo.repo}`
             ) {
               core.notice(`Run ${run_id} is not a successful "Deploy Preview" run of a fork; skipping.`)
               return
@@ -93,7 +100,8 @@ jobs:
             core.setOutput('sha', run.head_sha)
             core.setOutput('run_id', String(run_id))
 
-      # Default branch only (no `ref:`), so the setup action and wrangler are trusted.
+      # No `ref:`: this repository's code, never the fork's, so the setup action
+      # and wrangler are trusted.
       - name: Git checkout
         if: steps.pr.outputs.number
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
