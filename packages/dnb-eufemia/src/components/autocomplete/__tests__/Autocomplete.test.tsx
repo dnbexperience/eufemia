@@ -5814,6 +5814,19 @@ describe('Autocomplete markup', () => {
     expect(await axeComponent(result)).toHaveNoViolations()
   })
 
+  it('should label the list with the input when there is no label', () => {
+    render(<Autocomplete data={mockData} showSubmitButton noAnimation />)
+
+    toggle()
+
+    expect(
+      document.querySelector('.dnb-drawer-list__options')
+    ).toHaveAttribute(
+      'aria-labelledby',
+      document.querySelector('.dnb-input__input').id
+    )
+  })
+
   it('should have correct aria-activedescendant', async () => {
     render(<Autocomplete {...props} value={undefined} data={mockData} />)
 
