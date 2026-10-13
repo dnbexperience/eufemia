@@ -310,6 +310,16 @@ describe('CodeBlock', () => {
     expect(pre.getAttribute('css')).toBeNull()
   })
 
+  it('should make non-live code blocks focusable, so they can be scrolled with the keyboard', () => {
+    const { container } = render(
+      <CodeBlock language="jsx">{'<div>Hello</div>'}</CodeBlock>
+    )
+
+    expect(container.querySelector('pre').getAttribute('tabindex')).toBe(
+      '0'
+    )
+  })
+
   it('should detect language from className', () => {
     const { container } = render(
       <CodeBlock className="language-typescript">
