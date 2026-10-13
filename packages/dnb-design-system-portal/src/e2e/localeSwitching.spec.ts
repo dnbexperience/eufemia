@@ -101,4 +101,28 @@ test.describe('Locale switching', () => {
     })
     expect(locale).toBe('nb-NO')
   })
+
+  test('should apply a stored locale after hydration', async ({
+    page,
+  }) => {
+    await gotoAndWait(page)
+    await page.evaluate(() => {
+      window.localStorage.setItem('locale', 'en-GB')
+    })
+
+    const hydrationErrors: string[] = []
+    page.on('console', (message) => {
+      if (message.text().includes('hydration error')) {
+        hydrationErrors.push(message.text())
+      }
+    })
+
+    await page.reload()
+    await waitForApp(page)
+
+    await expect(
+      page.locator('#portal-search-clear-button')
+    ).toHaveAttribute('aria-label', 'Clear value')
+    expect(hydrationErrors).toEqual([])
+  })
 })

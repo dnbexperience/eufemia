@@ -211,5 +211,27 @@ describe('theme-handler shim', () => {
       renderHook(() => useThemeHandler())
       expect(applyFn).toHaveBeenCalledWith('ui')
     })
+
+    it('returns the default theme while hydrating and the selected theme after', () => {
+      localStorage.setItem(
+        'eufemia-theme',
+        JSON.stringify({ brand: 'sbanken', colorScheme: 'dark' })
+      )
+
+      const rendered: string[] = []
+      const container = document.createElement('div')
+      document.body.appendChild(container)
+
+      renderHook(
+        () => {
+          const { brand, colorScheme } = useThemeHandler()
+          rendered.push(`${brand} ${colorScheme}`)
+        },
+        { container, hydrate: true }
+      )
+
+      expect(rendered[0]).toBe('ui undefined')
+      expect(rendered.at(-1)).toBe('sbanken dark')
+    })
   })
 })

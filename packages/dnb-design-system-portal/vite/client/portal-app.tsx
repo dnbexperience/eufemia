@@ -19,6 +19,8 @@ import { CacheProvider } from '@emotion/react'
 import createEmotionCache from '@emotion/cache'
 import { Provider, Context, Theme } from '@dnb/eufemia/src/shared'
 import IsolatedStyleScope from '@dnb/eufemia/src/shared/IsolatedStyleScope'
+import useCanUseDOM from '@dnb/eufemia/src/shared/helpers/useCanUseDOM'
+import { LOCALE } from '@dnb/eufemia/src/shared/defaults'
 import { applyRouteFocus } from './route-focus'
 import { trackPageView, buildTrackedPath } from './track-page-view'
 import { MDXProvider } from '@mdx-js/react'
@@ -54,6 +56,10 @@ function RootLayout() {
     ...theme
   } = useThemeHandler()
 
+  // Pages are prerendered with the default settings, so the stored ones are
+  // applied after hydration
+  const canUseDOM = useCanUseDOM()
+
   const translationsLoader = useCallback(async (locale: string) => {
     try {
       return await loadTranslations(locale)
@@ -66,8 +72,8 @@ function RootLayout() {
     <CacheProvider value={emotionCache}>
       <FocusModeCodeProvider>
         <Provider
-          skeleton={getSkeletonEnabled()}
-          locale={getLang()}
+          skeleton={canUseDOM && getSkeletonEnabled()}
+          locale={canUseDOM ? getLang() : LOCALE}
           translationsLoader={translationsLoader}
         >
           <IsolatedStyleScope
