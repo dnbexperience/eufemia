@@ -16,7 +16,7 @@ The `Form.useValidation` lets you monitor and modify field status or your form e
 ## APIs
 
 - `hasErrors(): boolean` - True if any error is present.
-- `hasFieldError(path: Path): boolean` - True if the field has an error.
+- `hasFieldError(path: Path, options?: { withDescendants?: boolean }): boolean` - True if the field has an error. With `withDescendants: true`, it is also true when any field beneath the given path has an error, such as a [Form.Section](/uilib/extensions/forms/Form/Section/) or an [Iterate.Array](/uilib/extensions/forms/Iterate/Array/).
 - `setFormError(error: Error | FormError | undefined)` - Report a form error.
 - `setFieldStatus(path: Path, status: EventStateObject)` - Show a field error.
 
@@ -56,6 +56,9 @@ function Component() {
 
   // True if the field has an error
   hasFieldError('/path/to/field')
+
+  // True if the section or any field beneath it has an error
+  hasFieldError('/path/to/section', { withDescendants: true })
 
   // Report a form error
   setFormError(new Error('This is a global form error'))

@@ -60,6 +60,50 @@ export function HasErrors() {
   )
 }
 
+export function HasFieldErrorWithDescendants() {
+  return (
+    <ComponentBox>
+      {() => {
+        const MyCustomComponent = () => {
+          const { hasFieldError } = Form.useValidation()
+
+          return (
+            <Tools.Log
+              data={hasFieldError('/mySection', {
+                withDescendants: true,
+              })}
+              label="Section has an error:"
+              breakout={false}
+            />
+          )
+        }
+
+        const MyForm = () => {
+          return (
+            <Form.Handler>
+              <Flex.Stack>
+                <Form.Section path="/mySection">
+                  <Field.String
+                    label="Write something valid"
+                    path="/myField"
+                    pattern="^valid$"
+                    required
+                    validateInitially
+                  />
+                </Form.Section>
+
+                <MyCustomComponent />
+              </Flex.Stack>
+            </Form.Handler>
+          )
+        }
+
+        return <MyForm />
+      }}
+    </ComponentBox>
+  )
+}
+
 export function SetFieldStatus() {
   return (
     <ComponentBox>
