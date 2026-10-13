@@ -23,6 +23,7 @@ const nbForms = nbNOForms['nb-NO']
 const nbShared = nbNOShared['nb-NO']
 
 global.URL.createObjectURL = vi.fn(() => 'url')
+global.URL.revokeObjectURL = vi.fn()
 
 describe('Field.Upload', () => {
   const getRootElement = () => document.querySelector('.dnb-upload')

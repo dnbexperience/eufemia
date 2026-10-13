@@ -84,6 +84,9 @@ export type CodeSectionProps = {
   children: string | ReactNode | (() => ReactNode)
   'data-visual-test'?: string
 
+  /** Set to false to render the preview only in the browser, after hydration. */
+  ssr?: boolean
+
   /** Injected by the babel transform — enclosing export name, stable across HMR. */
   stableName?: string
 

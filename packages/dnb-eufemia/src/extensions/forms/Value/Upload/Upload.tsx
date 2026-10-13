@@ -12,6 +12,7 @@ import type { FieldUploadProps as FieldUploadProps } from '../../Field/Upload/Up
 import { transformFiles } from '../../Field/Upload/Upload'
 import { formatNumber } from '../../../../components/number-format/NumberUtils'
 import { UploadFileLink } from '../../../../components/upload/UploadFileListLink'
+import useObjectUrl from '../../../../components/upload/useObjectUrl'
 import { isAsync } from '../../../../shared/helpers/isAsync'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
 
@@ -122,6 +123,7 @@ function UploadFileItem(
   const [loading, setLoading] = useState(false)
 
   const { file, isLoading: fileIsLoading } = uploadFile || {}
+  const imageUrl = useObjectUrl(file)
 
   if (!file) {
     return null
@@ -148,8 +150,6 @@ function UploadFileItem(
       }
     }
   }
-
-  const imageUrl = file?.size > 0 ? URL.createObjectURL(file) : null
 
   const text = file.name + (displaySize ? ' ' + getSize(file.size) : '')
   const isLoading = fileIsLoading || loading
