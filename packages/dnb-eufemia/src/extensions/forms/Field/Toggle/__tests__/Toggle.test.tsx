@@ -126,6 +126,9 @@ describe('Field.Toggle', () => {
           '.dnb-switch__suffix .dnb-help-button'
         )
         expect(helpButton).toBeInTheDocument()
+        expect(
+          document.querySelector('.dnb-forms-field-block__label')
+        ).not.toBeInTheDocument()
         expect(document.querySelector('input')).toHaveAttribute(
           'aria-describedby'
         )
@@ -1598,6 +1601,9 @@ describe('Field.Toggle', () => {
           '.dnb-checkbox__suffix .dnb-help-button'
         )
         expect(helpButton).toBeInTheDocument()
+        expect(
+          document.querySelector('.dnb-forms-field-block__label')
+        ).not.toBeInTheDocument()
         expect(document.querySelector('input')).toHaveAttribute(
           'aria-describedby'
         )

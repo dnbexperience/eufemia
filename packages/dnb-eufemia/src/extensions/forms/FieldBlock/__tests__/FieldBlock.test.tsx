@@ -567,6 +567,20 @@ describe('FieldBlock', () => {
     ).not.toBeInTheDocument()
   })
 
+  it('does not render an empty label when the help button is hidden and there is no label', () => {
+    const help = { title: 'Help title', content: 'Help content' }
+
+    render(
+      <FieldBlock help={help} hideHelpButton>
+        content
+      </FieldBlock>
+    )
+
+    expect(
+      document.querySelector('.dnb-form-label')
+    ).not.toBeInTheDocument()
+  })
+
   it('should use fieldset/legend when "asFieldset" is given', () => {
     render(
       <FieldBlock label="Legend" asFieldset>
