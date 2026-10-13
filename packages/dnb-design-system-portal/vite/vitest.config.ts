@@ -25,6 +25,22 @@ export default defineConfig({
         __dirname,
         '__tests__/mocks/virtual-build-info.ts'
       ),
+      'virtual:eufemia-theme-styles': path.resolve(
+        __dirname,
+        '__tests__/mocks/virtual-client-hooks.ts'
+      ),
+      'virtual:prefetch-on-hover': path.resolve(
+        __dirname,
+        '__tests__/mocks/virtual-client-hooks.ts'
+      ),
+      'virtual:catch-links': path.resolve(
+        __dirname,
+        '__tests__/mocks/virtual-client-hooks.ts'
+      ),
+      'virtual:scroll-position': path.resolve(
+        __dirname,
+        '__tests__/mocks/virtual-client-hooks.ts'
+      ),
     },
   },
 })
