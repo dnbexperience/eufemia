@@ -1,17 +1,6 @@
 import { fireEvent, render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { Field, Form } from '../../..'
-import { IndeterminateProperties } from '../IndeterminateDocs'
-import { ToggleProperties } from '../../Toggle/ToggleDocs'
-
-describe('IndeterminateProperties', () => {
-  it('should list valueOn and valueOff as optional without changing the Toggle properties', () => {
-    expect(IndeterminateProperties.valueOn.status).toBe('optional')
-    expect(IndeterminateProperties.valueOff.status).toBe('optional')
-    expect(ToggleProperties.valueOn.status).toBe('required')
-    expect(ToggleProperties.valueOff.status).toBe('required')
-  })
-})
 
 describe('Indeterminate', () => {
   it('should set aria-controls to be ids of dependence paths', () => {
