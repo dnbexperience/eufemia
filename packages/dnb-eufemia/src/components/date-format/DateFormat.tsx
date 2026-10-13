@@ -321,10 +321,20 @@ function DateFormat(props: DateFormatProps) {
         <time
           {...attributes}
           dateTime={originalDurationString}
-          aria-label={hasAriaLabel ? durationFormattedFull : undefined}
+          aria-label={
+            hasAriaLabel && !isHydrating
+              ? durationFormattedFull
+              : undefined
+          }
+          suppressHydrationWarning={isHydrating || undefined}
           ref={showTooltip ? ref : undefined}
         >
-          <span aria-hidden={hasAriaLabel}>{durationFormatted}</span>
+          <span
+            aria-hidden={hasAriaLabel}
+            suppressHydrationWarning={isHydrating || undefined}
+          >
+            {isHydrating ? '' : durationFormatted}
+          </span>
         </time>
         {showTooltip && (
           <Tooltip

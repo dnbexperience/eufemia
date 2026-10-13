@@ -1851,5 +1851,39 @@ describe('DateFormat', () => {
 
       unmount()
     })
+
+    it('should hydrate a duration formatted differently on the server and update it afterwards', () => {
+      const element = <DateFormat value="PT2H30M" dateStyle="short" />
+      const html = renderOnServer(element)
+      expect(html).toContain('2t, 30m')
+      expect(html).toContain('2 timer og 30 minutter')
+
+      // Like Safari, which spaces and joins some units differently
+      const OriginalDurationFormat = Intl.DurationFormat
+      vi.spyOn(Intl, 'DurationFormat').mockImplementation(function (
+        locale: string,
+        options: object
+      ) {
+        const formatter = new OriginalDurationFormat(locale, options)
+        return {
+          format: (duration: object) =>
+            formatter
+              .format(duration)
+              .replace(/(\d)([a-z])/g, '$1 $2')
+              .replace(' og ', ', '),
+        }
+      } as unknown as typeof Intl.DurationFormat)
+      const consoleError = vi.spyOn(console, 'error')
+
+      const { time, recoverableErrors, unmount } = hydrate(html, element)
+
+      expect(recoverableErrors).toEqual([])
+      expect(consoleError).not.toHaveBeenCalled()
+      expect(time).toHaveTextContent('2 t, 30 m')
+      expect(time).toHaveAttribute('aria-label', '2 timer, 30 minutter')
+      expect(time).toHaveAttribute('datetime', 'PT2H30M')
+
+      unmount()
+    })
   })
 })
