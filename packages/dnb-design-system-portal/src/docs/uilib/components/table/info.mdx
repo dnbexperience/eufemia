@@ -173,6 +173,7 @@ Use the `useTableKeyboardNavigation` hook to enable arrow-key navigation between
 
 ```jsx
 import Table, {
+  Td,
   useTableKeyboardNavigation,
 } from '@dnb/eufemia/components/Table'
 
@@ -183,12 +184,12 @@ function MyTable() {
     <Table ref={navRef}>
       <tbody>
         <tr>
-          <Table.Td>
+          <Td>
             <input />
-          </Table.Td>
-          <Table.Td>
+          </Td>
+          <Td>
             <input />
-          </Table.Td>
+          </Td>
         </tr>
       </tbody>
     </Table>
