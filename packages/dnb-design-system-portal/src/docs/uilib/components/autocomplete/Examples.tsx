@@ -202,6 +202,7 @@ export const AutocompleteDynamicallyUpdatedData = () => (
         return (
           <Autocomplete
             mode="async"
+            label="Label"
             onType={onTypeHandler}
             noScrollAnimation={true}
             placeholder="Search ..."
@@ -232,6 +233,7 @@ export const AutocompleteFirstFocusUpdate = () => (
         return (
           <Autocomplete
             mode="async"
+            label="Label"
             noScrollAnimation={true}
             preventSelection={true}
             onType={({ value /* updateData, ... */ }) => {
@@ -833,6 +835,8 @@ export const AutocompleteGroups = () => (
   <Wrapper>
     <ComponentBox data-visual-test="autocomplete-groups">
       <Autocomplete
+        label="Label"
+        labelSrOnly
         groups={[undefined, 'Pets', 'Cars']}
         data={[
           { groupIndex: 0, content: 'Default 1' },
@@ -851,6 +855,7 @@ export const AutocompleteNoDivider = () => (
   <Wrapper>
     <ComponentBox>
       <Autocomplete
+        label="Label"
         noDivider
         data={['Cat', 'Dog', 'Canary', 'Hamster', 'Piglet']}
       />
