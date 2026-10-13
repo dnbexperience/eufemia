@@ -1,8 +1,9 @@
 import { optimize } from 'svgo'
+import type { Config } from 'svgo'
 import svgoConfig from '../../../../svgo.config'
 
 const optimizeIcon = (svg: string) =>
-  optimize(svg, { path: 'pin.svg', ...svgoConfig }).data
+  optimize(svg, { path: 'pin.svg', ...(svgoConfig as Config) }).data
 
 describe('svgo.config', () => {
   it('removes a clip path that covers the whole view box', () => {
