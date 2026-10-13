@@ -28,7 +28,17 @@ export type FieldNameCompanyProps = Omit<
   StringFieldProps,
   'onBlurValidator'
 > & {
-  onBlurValidator?: CompanyNameValidator | false
+  onBlurValidator?:
+    | ValidatorWithCustomValidators<
+        string,
+        {
+          companyValidator: Validator<string>
+
+          // Kept so validators typed as NameValidator still compile
+          nameValidator: Validator<string>
+        }
+      >
+    | false
 }
 
 // Pattern for first and last names: must start and end with a letter (or be a single letter),
