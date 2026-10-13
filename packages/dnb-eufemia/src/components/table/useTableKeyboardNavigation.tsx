@@ -229,7 +229,7 @@ function handleKeyDown(event: KeyboardEvent, table: HTMLTableElement) {
  *
  * @example
  * ```tsx
- * import { useTableKeyboardNavigation } from '@dnb/eufemia/components/table'
+ * import Table, { Td, useTableKeyboardNavigation } from '@dnb/eufemia/components/Table'
  *
  * function MyTable() {
  *   const navRef = useTableKeyboardNavigation()
@@ -238,8 +238,8 @@ function handleKeyDown(event: KeyboardEvent, table: HTMLTableElement) {
  *      <Table ref={navRef}>
  *        <tbody>
  *          <tr>
- *            <Table.Td><input /></Table.Td>
- *            <Table.Td><input /></Table.Td>
+ *            <Td><input /></Td>
+ *            <Td><input /></Td>
  *          </tr>
  *        </tbody>
  *      </Table>
