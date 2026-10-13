@@ -212,7 +212,10 @@ jobs:
               issue_number,
               per_page: 100,
             })
-            const existing = comments.find((c) => c.body?.includes(marker))
+            // Anyone can post the marker, so only the bot's own comment counts.
+            const existing = comments.find(
+              (c) => c.user?.login === 'github-actions[bot]' && c.body?.includes(marker)
+            )
 
             if (existing) {
               await github.rest.issues.updateComment({
