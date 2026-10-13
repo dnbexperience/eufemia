@@ -17,6 +17,11 @@ export const NumberProperties: PropertiesTableProps = {
     type: ['boolean', 'string'],
     status: 'optional',
   },
+  currencyDisplay: {
+    doc: 'How to display the currency symbol: `code` (e.g., USD), `symbol` (e.g., $), `narrowSymbol`, or `name`. Use `false` to hide it.',
+    type: ['"code"', '"symbol"', '"narrowSymbol"', '"name"', 'false'],
+    status: 'optional',
+  },
   allowNegative: {
     doc: 'Whether or not to allow negative numbers. Defaults to `true`.',
     type: 'boolean',
@@ -53,7 +58,7 @@ export const NumberProperties: PropertiesTableProps = {
     status: 'optional',
   },
   width: {
-    doc: '`false` for no width (use browser default), `small`, `medium` or `large` for predefined standard widths, `stretch` for fill available width.',
+    doc: '`false` for no width (use browser default), `small`, `medium` or `large` for predefined standard widths, `stretch` to fill available width.',
     type: ['string', 'false'],
     status: 'optional',
   },
