@@ -44,7 +44,7 @@ export type FieldNumberProps = FieldProps<number, undefined | number> & {
    * Currency code (ISO 4217) or `true` to use the default `NOK`. Uses two decimals by default.
    */
   currency?: InputMaskedProps['asCurrency']
-  /** How to display the currency symbol: `code` (e.g., USD), `symbol` (e.g., $), `narrowSymbol`, or `name`. */
+  /** How to display the currency symbol: `code` (e.g., USD), `symbol` (e.g., $), `narrowSymbol`, or `name`. Use `false` to hide it. */
   currencyDisplay?: 'code' | 'symbol' | 'narrowSymbol' | 'name' | false
   /**
    * Format a number as a percentage.
@@ -105,7 +105,7 @@ export type FieldNumberProps = FieldProps<number, undefined | number> & {
   /** The size of the input. Available sizes: `small`, `medium` (default), `large`. */
   size?: InputSize
   /**
-   * `false` for no width (use browser default), `small`, `medium` or `large` for predefined standard widths, `stretch` for fill available width.
+   * `false` for no width (use browser default), `small`, `medium` or `large` for predefined standard widths, `stretch` to fill available width.
    */
   width?: FieldBlockWidth
   /**
