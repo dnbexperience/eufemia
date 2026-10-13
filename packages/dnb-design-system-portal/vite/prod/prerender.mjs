@@ -195,7 +195,8 @@ async function prerender() {
         result404.value.html,
         { js: [], css: [] },
         contentScript,
-        result404.value.emotionCss
+        result404.value.emotionCss,
+        { url: '/404/', title: 'Page not found' }
       )
     )
   }
