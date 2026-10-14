@@ -144,7 +144,8 @@ export class DetectOutsideClickClass {
           () => typeof onSuccess === 'function' && onSuccess({ event })
         )
       }
-      document.addEventListener('mousedown', this.handleClickOutside)
+      // Capture phase, so stopPropagation (e.g. in a Popover) cannot hide the click
+      document.addEventListener('mousedown', this.handleClickOutside, true)
 
       this.keydownCallback = (event) => {
         if (event.key === 'Escape') {
@@ -177,7 +178,11 @@ export class DetectOutsideClickClass {
 
   remove() {
     if (this.handleClickOutside && typeof document !== 'undefined') {
-      document.removeEventListener('mousedown', this.handleClickOutside)
+      document.removeEventListener(
+        'mousedown',
+        this.handleClickOutside,
+        true
+      )
       this.handleClickOutside = null
     }
     if (this.keydownCallback && typeof window !== 'undefined') {

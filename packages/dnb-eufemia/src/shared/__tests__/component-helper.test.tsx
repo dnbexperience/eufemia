@@ -159,6 +159,32 @@ describe('"detectOutsideClick" should', () => {
     })
   })
 
+  it('detect a click outside when an ancestor of the target stops the propagation', () => {
+    const inside = document.createElement('BUTTON')
+    const outside = document.createElement('DIV')
+    const target = document.createElement('SPAN')
+    outside.appendChild(target)
+    document.body.appendChild(inside)
+    document.body.appendChild(outside)
+    outside.addEventListener('mousedown', (event) =>
+      event.stopPropagation()
+    )
+
+    const onSuccess = vi.fn()
+    const outsideClick = detectOutsideClick(inside, onSuccess)
+
+    target.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }))
+    expect(onSuccess).toHaveBeenCalledTimes(1)
+
+    outsideClick.remove()
+
+    target.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }))
+    expect(onSuccess).toHaveBeenCalledTimes(1)
+
+    inside.remove()
+    outside.remove()
+  })
+
   it('should support react refs as ignore element', async () => {
     // Set PointerEvent to undefined to prevent the await keyword from failing this test
     // Is there perhaps a better way to handle this?
