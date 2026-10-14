@@ -35,6 +35,7 @@ export default function SuggestEdit() {
   }
   const [data, setData] = useState(defaultData)
   const [copyStatus, setCopyStatus] = useState<'copied' | 'failed'>(null)
+  const [copyCount, setCopyCount] = useState(0)
   const copied = copyStatus === 'copied'
 
   const prompt = useMemo(() => {
@@ -54,6 +55,7 @@ export default function SuggestEdit() {
     // copyToClipboard returns an error or a message when it fails
     const success = (await copyToClipboard(submittedPrompt)) === true
     setCopyStatus(success ? 'copied' : 'failed')
+    setCopyCount((count) => count + 1)
   }
 
   return (
@@ -168,7 +170,8 @@ export default function SuggestEdit() {
           </Form.ButtonRow>
 
           {copyStatus === 'failed' && (
-            <FormStatus state="error">
+            // A new key per attempt lets screen readers announce it again
+            <FormStatus key={copyCount} state="error">
               Could not copy the prompt. Open &quot;Preview prompt&quot;
               and copy it from there.
             </FormStatus>

@@ -67,6 +67,29 @@ describe('SuggestEdit', () => {
     ).toContain('Copy prompt')
   })
 
+  it('shows the error again when copying fails again', async () => {
+    mockCopyToClipboard.mockResolvedValue(new Error('Permission denied'))
+
+    await submitPrompt()
+
+    let firstError: Element
+    await waitFor(() => {
+      firstError = document.querySelector('.dnb-form-status--error')
+      expect(firstError).toBeTruthy()
+    })
+
+    await userEvent.click(document.querySelector('button[type="submit"]'))
+
+    await waitFor(() => {
+      expect(mockCopyToClipboard).toHaveBeenCalledTimes(2)
+    })
+    await waitFor(() => {
+      const secondError = document.querySelector('.dnb-form-status--error')
+      expect(secondError).toBeTruthy()
+      expect(secondError).not.toBe(firstError)
+    })
+  })
+
   it('removes the error when the form changes', async () => {
     mockCopyToClipboard.mockResolvedValueOnce(
       new Error('Permission denied')
