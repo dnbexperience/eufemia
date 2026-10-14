@@ -350,11 +350,12 @@ export async function copyToClipboard(string: string) {
   }
 
   const copyFallback = () => {
-    try {
-      const focusedElement = document.activeElement
+    const focusedElement = document.activeElement
 
-      // create the focusable element
-      const elem = document.createElement('textarea')
+    // create the focusable element
+    const elem = document.createElement('textarea')
+
+    try {
       elem.value = String(string)
       elem.contentEditable = 'true'
       elem.readOnly = false
@@ -365,22 +366,19 @@ export async function copyToClipboard(string: string) {
       elem.select()
 
       // NB: copy only works as a result of a user action (e.g. click events)
-      const success = document.execCommand('copy')
-
-      // Cleanup
-      document.body.removeChild(elem)
+      if (document.execCommand('copy')) {
+        return true
+      }
+    } catch (e) {
+      return e
+    } finally {
+      elem.remove()
 
       if (focusedElement instanceof HTMLElement) {
         focusedElement.focus({ preventScroll: true })
       }
 
       resetSelection()
-
-      if (success) {
-        return true
-      }
-    } catch (e) {
-      return e
     }
 
     return `Could not copy! Unknown reason. ${string}`
