@@ -185,10 +185,10 @@ export function AiMessageActions() {
   )
 }
 
-export function AiLoaderExample() {
+export function AiMessageIndicatorExample() {
   return (
-    <ComponentBox data-visual-test="ai-loader">
-      <Ai.Loader
+    <ComponentBox data-visual-test="ai-message-indicator">
+      <Ai.MessageIndicator
         name="Aino"
         avatar={
           <Avatar variant="secondary" hasLabel>
@@ -808,7 +808,10 @@ export function AiChatExample() {
                       })}
 
                       {status === 'submitted' && (
-                        <Ai.Loader name="Aino" avatar={ainoAvatar} />
+                        <Ai.MessageIndicator
+                          name="Aino"
+                          avatar={ainoAvatar}
+                        />
                       )}
                     </Ai.Conversation>
                   )}
@@ -1044,10 +1047,10 @@ export function AiReasoningDone() {
   )
 }
 
-export function AiShimmerExample() {
+export function AiActivityTextExample() {
   return (
     <ComponentBox>
-      <Ai.Shimmer>Looking up your transactions …</Ai.Shimmer>
+      <Ai.ActivityText>Looking up your transactions …</Ai.ActivityText>
     </ComponentBox>
   )
 }
@@ -1091,7 +1094,7 @@ export function AiConversationScrollBehavior() {
                     <DemoMessageContent message={message} />
                   </Ai.Message>
                 ))}
-                {status === 'submitted' && <Ai.Loader />}
+                {status === 'submitted' && <Ai.MessageIndicator />}
               </Ai.Conversation>
 
               <Ai.PromptInput

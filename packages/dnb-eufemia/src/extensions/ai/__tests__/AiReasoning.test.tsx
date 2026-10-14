@@ -9,37 +9,37 @@ const getToggle = () =>
 const getContent = () =>
   document.querySelector('.dnb-ai-reasoning__content')
 
-describe('Ai.Shimmer', () => {
+describe('Ai.ActivityText', () => {
   it('renders the text', () => {
-    render(<Ai.Shimmer>Thinking</Ai.Shimmer>)
+    render(<Ai.ActivityText>Thinking</Ai.ActivityText>)
     expect(
-      document.querySelector('span.dnb-ai-shimmer')
+      document.querySelector('span.dnb-ai-activity-text')
     ).toHaveTextContent('Thinking')
   })
 
   it('supports spacing props and forwards attributes', () => {
     render(
-      <Ai.Shimmer left="small" className="custom" id="s">
+      <Ai.ActivityText left="small" className="custom" id="s">
         Hi
-      </Ai.Shimmer>
+      </Ai.ActivityText>
     )
 
-    const element = document.querySelector('.dnb-ai-shimmer')
+    const element = document.querySelector('.dnb-ai-activity-text')
     expect(element).toHaveClass('dnb-space__left--small', 'custom')
     expect(element).toHaveAttribute('id', 's')
   })
 })
 
 describe('Ai.Reasoning', () => {
-  it('is open with a shimmer while streaming', () => {
+  it('is open with activity text while streaming', () => {
     render(
       <Ai.Reasoning isStreaming>{'Looking at **March**'}</Ai.Reasoning>
     )
 
     expect(getToggle()).toHaveAttribute('aria-expanded', 'true')
-    expect(getToggle().querySelector('.dnb-ai-shimmer')).toHaveTextContent(
-      'Tenker …'
-    )
+    expect(
+      getToggle().querySelector('.dnb-ai-activity-text')
+    ).toHaveTextContent('Tenker …')
     expect(getContent().querySelector('strong')).toHaveTextContent('March')
   })
 
@@ -54,7 +54,7 @@ describe('Ai.Reasoning', () => {
 
     expect(getToggle()).toHaveAttribute('aria-expanded', 'false')
     expect(getToggle()).toHaveTextContent('Tankeprosess')
-    expect(getToggle().querySelector('.dnb-ai-shimmer')).toBeNull()
+    expect(getToggle().querySelector('.dnb-ai-activity-text')).toBeNull()
   })
 
   it('stays as the user left it', async () => {

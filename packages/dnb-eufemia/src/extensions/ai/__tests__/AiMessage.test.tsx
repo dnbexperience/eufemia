@@ -184,30 +184,29 @@ describe('Ai.Message', () => {
   })
 })
 
-describe('Ai.Loader', () => {
+describe('Ai.MessageIndicator', () => {
   it('renders a status with a translated label', () => {
-    render(<Ai.Loader name="Aino" />)
+    render(<Ai.MessageIndicator name="Aino" />)
 
-    const element = document.querySelector('.dnb-ai-loader')
+    const element = document.querySelector('.dnb-ai-message-indicator')
     expect(element).toHaveClass('dnb-ai-message--assistant')
     expect(element.querySelector('[role="status"]')).toHaveTextContent(
       'Skriver svar …'
     )
-    expect(element.querySelector('.dnb-ai-loader__dots')).toHaveAttribute(
-      'aria-hidden',
-      'true'
-    )
+    expect(
+      element.querySelector('.dnb-ai-message-indicator__dots')
+    ).toHaveAttribute('aria-hidden', 'true')
   })
 
   it('supports a custom label', () => {
-    render(<Ai.Loader label="Thinking" />)
+    render(<Ai.MessageIndicator label="Thinking" />)
     expect(document.querySelector('[role="status"]')).toHaveTextContent(
       'Thinking'
     )
   })
 
   it('should validate with ARIA rules', async () => {
-    const result = render(<Ai.Loader name="Aino" />)
+    const result = render(<Ai.MessageIndicator name="Aino" />)
     expect(await axeComponent(result)).toHaveNoViolations()
   })
 })

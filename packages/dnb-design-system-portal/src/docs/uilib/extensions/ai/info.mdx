@@ -77,7 +77,7 @@ export function Chat({
             )}
           </Ai.Message>
         ))}
-        {isWaiting && <Ai.Loader />}
+        {isWaiting && <Ai.MessageIndicator />}
       </Ai.Conversation>
       {hasError && (
         <GlobalStatus
