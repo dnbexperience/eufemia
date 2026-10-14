@@ -581,6 +581,22 @@ describe('FieldBlock', () => {
     ).not.toBeInTheDocument()
   })
 
+  it('does not reference a label id when there is no label', () => {
+    render(
+      <FieldBlock asFieldset labelDescription="Description">
+        content
+      </FieldBlock>
+    )
+
+    expect(document.querySelector('fieldset')).not.toHaveAttribute(
+      'aria-labelledby'
+    )
+    expect(document.querySelector('legend')).not.toHaveAttribute('id')
+    expect(document.querySelector('legend')).toHaveTextContent(
+      'Description'
+    )
+  })
+
   it('should use fieldset/legend when "asFieldset" is given', () => {
     render(
       <FieldBlock label="Legend" asFieldset>

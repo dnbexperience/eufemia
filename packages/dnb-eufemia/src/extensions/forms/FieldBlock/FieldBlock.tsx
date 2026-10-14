@@ -536,7 +536,8 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
   })
 
   const labelProps: FormLabelAllProps = {
-    id: `${id}-label`,
+    // Without a label, the field's own control may already use this id (Field.Toggle)
+    id: label ? `${id}-label` : undefined,
     className: 'dnb-forms-field-block__label',
     element: enableFieldset ? 'legend' : forId ? 'label' : 'span',
     forId: enableFieldset ? undefined : forId,
