@@ -15,7 +15,7 @@
     }
   }
 
-  pre:focus-visible {
+  > pre:focus-visible {
     @include utilities.focusRing();
   }
 
