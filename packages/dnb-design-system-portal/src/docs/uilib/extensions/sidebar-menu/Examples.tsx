@@ -349,7 +349,7 @@ export function SidebarMenuResponsiveNavigation() {
           const items: SidebarMenuItemData[] = [
             { id: 'home', text: 'Home', icon: home, href: '#home' },
             {
-              id: 'products',
+              id: 'responsive-products',
               text: 'Products',
               icon: funds,
               items: [
