@@ -260,6 +260,51 @@ describe('"copyToClipboard" should', () => {
     await copyToClipboard('copy')
     expect(await navigator.clipboard.readText()).toBe('copy')
   })
+
+  const permissionError = new Error('Permission denied')
+
+  it.each([
+    ['succeeds', () => true, true],
+    [
+      'throws',
+      () => {
+        throw new Error('Copy failed')
+      },
+      permissionError,
+    ],
+  ])(
+    'keep the focus on the focused element when the fallback %s',
+    async (_, execCommand, result) => {
+      const originalWrite = navigator.clipboard.writeText
+      const originalExecCommand = document.execCommand
+      navigator.clipboard.writeText = vi
+        .fn()
+        .mockRejectedValue(permissionError)
+      document.execCommand = vi.fn(execCommand)
+
+      // Browsers move the focus on select(), jsdom does not
+      const select = vi
+        .spyOn(HTMLTextAreaElement.prototype, 'select')
+        .mockImplementation(function (this: HTMLTextAreaElement) {
+          this.focus()
+        })
+
+      render(<button>Copy</button>)
+      const button = document.querySelector('button')
+      button.focus()
+
+      try {
+        expect(await copyToClipboard('copy')).toBe(result)
+        expect(select).toHaveBeenCalledTimes(1)
+        expect(document.querySelector('textarea')).toBeNull()
+        expect(document.activeElement).toBe(button)
+      } finally {
+        navigator.clipboard.writeText = originalWrite
+        document.execCommand = originalExecCommand
+        select.mockRestore()
+      }
+    }
+  )
 })
 
 describe('selection related methods', () => {
