@@ -126,6 +126,32 @@ describe('CopyOnClick.Button', () => {
     })
   })
 
+  it('should replace the tooltip with the copy confirmation', async () => {
+    render(
+      <CopyOnClick.Button
+        copyContent="70321369861"
+        title="Kopier kontonummer"
+        tooltip="Kopier kontonummer"
+      />
+    )
+
+    const button = document.querySelector('button')
+
+    await userEvent.hover(button)
+    await waitFor(() => {
+      expect(
+        document.querySelector('.dnb-tooltip__content')
+      ).toHaveTextContent('Kopier kontonummer')
+    })
+
+    await userEvent.click(button)
+    await waitFor(() => {
+      const tooltips = document.querySelectorAll('.dnb-tooltip__content')
+      expect(tooltips).toHaveLength(1)
+      expect(tooltips[0]).toHaveTextContent('Kopiert')
+    })
+  })
+
   it('should not set a default title when the button has text', () => {
     render(
       <CopyOnClick.Button
