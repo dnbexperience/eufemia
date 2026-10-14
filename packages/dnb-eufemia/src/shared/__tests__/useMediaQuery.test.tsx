@@ -3,13 +3,15 @@
  *
  */
 
-import { StrictMode, useState } from 'react'
+import { StrictMode, act, useState } from 'react'
 import {
   render,
   screen,
   fireEvent,
   renderHook,
 } from '@testing-library/react'
+import { renderToString } from 'react-dom/server'
+import { hydrateRoot } from 'react-dom/client'
 import '../../core/vitest/mockMatchMediaSetup'
 import { setMedia } from 'mock-match-media'
 import useMediaQuery from '../useMediaQuery'
@@ -170,6 +172,40 @@ describe('useMediaQuery', () => {
 
     expect(window.matchMedia).toHaveBeenCalledTimes(6)
     expect(resultB.current).toBe(false)
+  })
+
+  it('should hydrate matchOnSSR markup and update afterwards', () => {
+    setMedia({ width: '30em' })
+
+    const element = (
+      <RenderMediaQueryHook matchOnSSR when={{ min: 'medium' }}>
+        large
+      </RenderMediaQueryHook>
+    )
+
+    isMatchMediaSupported.mockReturnValue(false)
+    const html = renderToString(element)
+    isMatchMediaSupported.mockReturnValue(true)
+
+    expect(html).toBe('<div id="mq-mock">large</div>')
+
+    const container = document.createElement('div')
+    container.innerHTML = html
+    document.body.appendChild(container)
+
+    const recoverableErrors = []
+    let root: ReturnType<typeof hydrateRoot>
+    act(() => {
+      root = hydrateRoot(container, element, {
+        onRecoverableError: (error) => recoverableErrors.push(error),
+      })
+    })
+
+    expect(recoverableErrors).toEqual([])
+    expect(container.textContent).toBe('')
+
+    act(() => root.unmount())
+    container.remove()
   })
 })
 

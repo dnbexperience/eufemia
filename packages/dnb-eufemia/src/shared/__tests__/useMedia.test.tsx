@@ -4,7 +4,10 @@
  */
 
 import { StrictMode, act } from 'react'
+import type { ReactElement } from 'react'
 import { render, waitFor, renderHook } from '@testing-library/react'
+import { renderToString } from 'react-dom/server'
+import { hydrateRoot } from 'react-dom/client'
 import type { UseMediaProps } from '../useMedia'
 import useMedia from '../useMedia'
 import Provider from '../Provider'
@@ -1002,6 +1005,140 @@ describe('useMedia', () => {
           key: 'large',
         })
       )
+    })
+  })
+
+  describe('hydration', () => {
+    beforeEach(() => {
+      vi.spyOn(window, 'matchMedia').mockImplementation(matchMedia)
+    })
+
+    afterEach(() => {
+      isMatchMediaSupported.mockReset()
+    })
+
+    const MockComponent = (options: UseMediaProps = null) => (
+      <output>{JSON.stringify(useMedia(options))}</output>
+    )
+
+    const hydrate = (
+      element: ReactElement,
+      afterHydration?: (container: HTMLDivElement) => void
+    ) => {
+      isMatchMediaSupported.mockReturnValue(false)
+      const html = renderToString(element)
+      isMatchMediaSupported.mockReturnValue(true)
+
+      const container = document.createElement('div')
+      container.innerHTML = html
+      document.body.appendChild(container)
+
+      const recoverableErrors = []
+      let root: ReturnType<typeof hydrateRoot>
+      act(() => {
+        root = hydrateRoot(container, element, {
+          onRecoverableError: (error) => recoverableErrors.push(error),
+        })
+      })
+
+      const content = JSON.parse(container.textContent)
+
+      try {
+        afterHydration?.(container)
+      } finally {
+        act(() => root.unmount())
+        container.remove()
+      }
+
+      return { recoverableErrors, content }
+    }
+
+    it.each([false, true])(
+      'should keep responding to breakpoint changes after hydrating with an inline initialValue (StrictMode: %s)',
+      (strictMode) => {
+        setMedia({ width: '30em' })
+
+        const Component = () => (
+          <output>
+            {JSON.stringify(useMedia({ initialValue: { isSmall: true } }))}
+          </output>
+        )
+
+        const { recoverableErrors } = hydrate(
+          strictMode ? (
+            <StrictMode>
+              <Component />
+            </StrictMode>
+          ) : (
+            <Component />
+          ),
+          (container) => {
+            const getContent = () => JSON.parse(container.textContent)
+
+            expect(getContent()).toEqual({
+              isSmall: true,
+              isMedium: false,
+              isLarge: false,
+              isSSR: false,
+              key: 'small',
+            })
+
+            act(() => setMedia({ width: '100em' }))
+
+            expect(getContent()).toEqual({
+              isSmall: false,
+              isMedium: false,
+              isLarge: true,
+              isSSR: false,
+              key: 'large',
+            })
+
+            act(() => setMedia({ width: '30em' }))
+
+            expect(getContent()).toEqual({
+              isSmall: true,
+              isMedium: false,
+              isLarge: false,
+              isSSR: false,
+              key: 'small',
+            })
+          }
+        )
+
+        expect(recoverableErrors).toEqual([])
+      }
+    )
+
+    it('should hydrate server-rendered markup and update afterwards', () => {
+      setMedia({ width: '100em' })
+
+      const { recoverableErrors, content } = hydrate(<MockComponent />)
+
+      expect(recoverableErrors).toEqual([])
+      expect(content).toEqual({
+        isSmall: false,
+        isMedium: false,
+        isLarge: true,
+        isSSR: false,
+        key: 'large',
+      })
+    })
+
+    it('should hydrate with initialValue and update afterwards', () => {
+      setMedia({ width: '30em' })
+
+      const { recoverableErrors, content } = hydrate(
+        <MockComponent initialValue={{ isLarge: true }} />
+      )
+
+      expect(recoverableErrors).toEqual([])
+      expect(content).toEqual({
+        isSmall: true,
+        isMedium: false,
+        isLarge: false,
+        isSSR: false,
+        key: 'small',
+      })
     })
   })
 })
