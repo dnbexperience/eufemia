@@ -5,14 +5,21 @@ order: 3
 ---
 
 import { Hr } from '@dnb/eufemia/src'
+import { basicComponents } from '../../shared/tags'
 import Toc from './getting-started/__utils__/Toc'
-import { nestedHeadings } from './getting-started/__utils__/nestedHeadings'
 import CloneRepo from './getting-started/clone-repo'
 import CommitChanges from './getting-started/commit-changes'
 import InstallDependencies from './getting-started/install-dependencies'
 import MakeAndRunTests from './getting-started/make-and-run-tests'
 import MakingChanges from './getting-started/making-changes'
 import UpdateChangeLogs from './getting-started/update-change-logs'
+
+export const nestedHeadings = {
+  h2: basicComponents.h3,
+  h3: basicComponents.h4,
+  h4: basicComponents.h5,
+  h5: basicComponents.h6,
+}
 
 You are now ready to get started. Here you will find a step-by-step guide to making changes in the Eufemia repo.
 If you are new to the repository, first check out [how to report an issue or suggest a new feature](/contribute/first-contribution#how-to-report-an-issue-or-suggest-a-new-feature).
