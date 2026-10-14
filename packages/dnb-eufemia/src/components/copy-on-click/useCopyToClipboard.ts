@@ -4,7 +4,7 @@ import { copyToClipboard, warn } from '../../shared/helpers'
 export default function useCopyToClipboard() {
   const timeoutRef = useRef<NodeJS.Timeout>(undefined)
   const [active, setActive] = useState(false)
-  const [hasCopied, setHasCopied] = useState(false)
+  const [copyCount, setCopyCount] = useState(0)
 
   useEffect(() => {
     return () => clearTimeout(timeoutRef.current)
@@ -17,7 +17,7 @@ export default function useCopyToClipboard() {
       // copyToClipboard returns an error or a message when it fails
       const success = (await copyToClipboard(str)) === true
       if (success) {
-        setHasCopied(true)
+        setCopyCount((count) => count + 1)
         setActive(true)
 
         timeoutRef.current = setTimeout(() => setActive(false), 2000)
@@ -27,5 +27,5 @@ export default function useCopyToClipboard() {
     }
   }, [])
 
-  return { active, hasCopied, copy }
+  return { active, copyCount, copy }
 }

@@ -54,6 +54,30 @@ describe('CopyOnClick.Button', () => {
     })
   })
 
+  it('should announce again when copying while the tooltip is open', async () => {
+    render(<CopyOnClick.Button copyContent="70321369861" />)
+
+    const button = document.querySelector('button')
+
+    await userEvent.click(button)
+    await waitFor(() => {
+      expect(document.querySelector('.dnb-aria-live')).toHaveTextContent(
+        'Kopiert'
+      )
+    })
+    await waitFor(() => {
+      expect(document.querySelector('.dnb-aria-live').textContent).toBe('')
+    })
+
+    await userEvent.click(button)
+    await waitFor(() => {
+      expect(document.querySelector('.dnb-aria-live')).toHaveTextContent(
+        'Kopiert'
+      )
+    })
+    expect(document.querySelectorAll('.dnb-tooltip')).toHaveLength(1)
+  })
+
   it('should copy with the keyboard and announce the tooltip content', async () => {
     render(<CopyOnClick.Button copyContent="70321369861" />)
 

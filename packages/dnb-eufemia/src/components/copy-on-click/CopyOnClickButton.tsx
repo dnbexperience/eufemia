@@ -23,7 +23,7 @@ export default function CopyOnClickButton({
 }: CopyOnClickButtonProps) {
   const elementRef = useRef<HTMLElement>(null)
   const combinedRef = useCombinedRef(ref, elementRef)
-  const { active, hasCopied, copy } = useCopyToClipboard()
+  const { active, copyCount, copy } = useCopyToClipboard()
 
   const {
     CopyOnClick: { clipboardCopy, buttonTitle },
@@ -50,8 +50,9 @@ export default function CopyOnClickButton({
           rest
         )}
       />
-      {hasCopied && (
-        <Tooltip open={active} targetElement={elementRef}>
+      {copyCount > 0 && (
+        // A new key per copy lets screen readers announce every copy
+        <Tooltip key={copyCount} open={active} targetElement={elementRef}>
           {tooltipContent ?? clipboardCopy}
         </Tooltip>
       )}

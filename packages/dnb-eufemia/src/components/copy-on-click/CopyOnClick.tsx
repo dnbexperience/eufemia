@@ -15,6 +15,8 @@ import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import useCopyToClipboard from './useCopyToClipboard'
 import CopyOnClickButton from './CopyOnClickButton'
 
+export type * from './types'
+
 const CopyOnClick = ({
   children,
   className = null,
@@ -25,7 +27,7 @@ const CopyOnClick = ({
   ...props
 }: CopyOnClickAllProps) => {
   const ref = useRef<HTMLSpanElement>(null)
-  const { active, hasCopied, copy } = useCopyToClipboard()
+  const { active, copyCount, copy } = useCopyToClipboard()
 
   useEffect(() => {
     if (IS_IOS) {
@@ -76,8 +78,9 @@ const CopyOnClick = ({
       ref={ref}
     >
       {children}
-      {hasCopied && (
-        <Tooltip open={active} targetElement={ref}>
+      {copyCount > 0 && (
+        // A new key per copy lets screen readers announce every copy
+        <Tooltip key={copyCount} open={active} targetElement={ref}>
           {message}
         </Tooltip>
       )}
