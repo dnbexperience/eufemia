@@ -1,5 +1,8 @@
 import { useContext } from 'react'
-import { useSharedState } from '../../shared/helpers/useSharedState'
+import {
+  useSharedState,
+  useSharedStateStore,
+} from '../../shared/helpers/useSharedState'
 import { useHighlightText } from '../../shared/helpers/highlightText'
 import type { FilterState } from './FilterContext'
 import { FilterContext, FilterConnectedIdContext } from './FilterContext'
@@ -16,7 +19,13 @@ function FilterHighlighting({
   const context = useContext(FilterContext)
   const connectedId = useContext(FilterConnectedIdContext)
   const resolvedId = connectedTo ?? connectedId ?? context?.id
-  const { data } = useSharedState<FilterState>(resolvedId)
+  const store = useSharedStateStore()
+  const { data } = useSharedState<FilterState>(
+    resolvedId,
+    undefined,
+    undefined,
+    { store }
+  )
 
   const search = data?.search ?? context?.state?.search ?? ''
 
