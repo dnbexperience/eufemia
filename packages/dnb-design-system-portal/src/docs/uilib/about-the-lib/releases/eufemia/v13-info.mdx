@@ -10,7 +10,6 @@ draft: true
   - [Install](#install)
   - [CSS custom properties](#css-custom-properties)
   - [Component changes](#component-changes)
-    - [AI preview](#ai-preview)
     - [Theme](#theme)
     - [SidebarMenu](#sidebarmenu)
     - [Flex](#flex)
@@ -60,10 +59,6 @@ The deprecated Sbanken-prefixed properties are still emitted. Their values diffe
 - Replace `--leading-sb-*` with `--leading-*`
 
 ## Component changes
-
-### AI preview
-
-The unreleased [Ai.Suggestion](/uilib/extensions/ai/Suggestions/) preview no longer includes the card layout or the `variant` prop. Remove `variant="card"` and `variant="chip"` from earlier preview usages. Suggestions now render as default-size secondary buttons. Custom CSS targeting `dnb-ai-suggestion--card` or `dnb-ai-suggestion--chip` should target `dnb-ai-suggestion` instead.
 
 ### [Theme](/uilib/usage/customisation/theming/theme)
 
