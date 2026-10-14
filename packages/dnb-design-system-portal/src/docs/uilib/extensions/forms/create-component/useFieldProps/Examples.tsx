@@ -81,6 +81,8 @@ export const CustomComponentWithAjvSchemaExample = () => {
                   {...steps}
                 />
                 <Slider
+                  label={label}
+                  labelSrOnly
                   value={value}
                   onChange={handleChange}
                   onDragStart={handleFocus}
@@ -95,6 +97,7 @@ export const CustomComponentWithAjvSchemaExample = () => {
         return (
           <Form.Handler data={{ sliderValue: 50 }}>
             <MySliderComponent
+              label="Slider value"
               path="/sliderValue"
               minimum={50}
               maximum={80}
@@ -181,6 +184,8 @@ export const CustomComponentWithZodSchemaExample = () => {
                   {...steps}
                 />
                 <Slider
+                  label={label}
+                  labelSrOnly
                   value={value}
                   onChange={handleChange}
                   onDragStart={handleFocus}
@@ -198,6 +203,7 @@ export const CustomComponentWithZodSchemaExample = () => {
         return (
           <Form.Handler data={{ sliderValue: 50 }}>
             <MySliderComponent
+              label="Slider value"
               path="/sliderValue"
               minimum={50}
               maximum={80}
@@ -284,6 +290,8 @@ export const CustomComponentWithJsonSchema = () => {
                   {...steps}
                 />
                 <Slider
+                  label={label}
+                  labelSrOnly
                   value={value}
                   onChange={handleChange}
                   onDragStart={handleFocus}
@@ -300,6 +308,7 @@ export const CustomComponentWithJsonSchema = () => {
         return (
           <Form.Handler data={{ sliderValue: 50 }} ajvInstance={ajv}>
             <MySliderComponent
+              label="Slider value"
               path="/sliderValue"
               minimum={50}
               maximum={80}

@@ -312,7 +312,7 @@ export const ValidateMinimum = () => {
 export const AllowNegative = () => {
   return (
     <ComponentBox>
-      <Field.Number allowNegative={false} />
+      <Field.Number label="Label text" allowNegative={false} />
     </ComponentBox>
   )
 }
@@ -320,7 +320,7 @@ export const AllowNegative = () => {
 export const DisallowLeadingZeroes = () => {
   return (
     <ComponentBox>
-      <Field.Number disallowLeadingZeroes />
+      <Field.Number label="Label text" disallowLeadingZeroes />
     </ComponentBox>
   )
 }
@@ -417,6 +417,8 @@ export const WithSlider = () => (
                 bottom="small"
               />
               <Slider
+                label="Label text"
+                labelSrOnly
                 min={settings.min}
                 max={settings.max}
                 step={settings.step}

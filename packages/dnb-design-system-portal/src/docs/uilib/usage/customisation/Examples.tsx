@@ -11,7 +11,12 @@ export const LargeButtonsAndIconsExample = () => (
       icon="chevron_right_medium"
       size="large"
     />
-    <Button icon="chevron_right" iconSize="medium" size="large" />
+    <Button
+      title="Next"
+      icon="chevron_right"
+      iconSize="medium"
+      size="large"
+    />
   </ComponentBox>
 )
 
@@ -34,11 +39,17 @@ export const ExtendedExample = () => (
         <Wrapper>
           <Button
             variant="secondary"
+            title="Menu"
             icon={hamburgerIcon}
             size="default"
             onClick={myHandler}
           />
-          <Button variant="secondary" size="default" onClick={myHandler}>
+          <Button
+            variant="secondary"
+            title="Menu"
+            size="default"
+            onClick={myHandler}
+          >
             <Icon icon={hamburgerIcon} />
           </Button>
         </Wrapper>

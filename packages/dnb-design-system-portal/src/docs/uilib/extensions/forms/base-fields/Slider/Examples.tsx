@@ -128,6 +128,8 @@ export const PathValues = () => {
             <HelpButton>Help text</HelpButton>
 
             <Field.Currency
+              label="Amount"
+              labelSrOnly
               path="/currentValue"
               width="stretch"
               decimalLimit={0}
@@ -135,6 +137,8 @@ export const PathValues = () => {
           </Flex.Horizontal>
 
           <Field.Slider
+            label="Amount"
+            labelSrOnly
             path="/currentValue"
             min="/min"
             max="/max"
