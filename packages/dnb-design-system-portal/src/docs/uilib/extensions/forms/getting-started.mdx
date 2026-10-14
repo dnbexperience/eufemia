@@ -236,7 +236,7 @@ As you can see in the code above, you can even handle the state outside the `For
 
 When forms are rendered on a server, the form data of each render is kept separate, so it never reaches another request.
 
-During a server render, components that share data by `id`, such as `Form.Handler` and `Form.useData`, share it when they are inside the same `Form.Handler` or Eufemia [Provider](/uilib/usage/customisation/provider/). To share data with components outside of `Form.Handler`, wrap your application in a `Provider`:
+During a server render, components that share data by `id`, such as `Form.Handler` and `Form.useData`, share it when they are inside the same `Form.Handler` or Eufemia [Provider](/uilib/usage/customisation/provider/). Without a `Provider`, `Form.Handler` and a `Form.useData` outside of it, for example in a parent or sibling component, do not share data on the server, but they do in the browser, so React reports a hydration mismatch. To share data with components outside of `Form.Handler`, wrap your application in a `Provider`:
 
 ```jsx
 import Provider from '@dnb/eufemia/shared/Provider'
