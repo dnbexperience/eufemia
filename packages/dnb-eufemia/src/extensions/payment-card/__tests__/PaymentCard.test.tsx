@@ -12,6 +12,7 @@ import PaymentCard, {
   BankAxeptType,
 } from '../PaymentCard'
 import { formatCardNumber } from '../components/CardNumber'
+import MastercardDark from '../icons/providers/MastercardDark'
 import nbNO from '../../../shared/locales/nb-NO'
 import enGB from '../../../shared/locales/en-GB'
 import { render, screen } from '@testing-library/react'
@@ -435,5 +436,32 @@ describe('PaymentCard scss', () => {
   it('has to match style dependencies css', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
     expect(css).toMatchSnapshot()
+  })
+})
+
+describe('MastercardDark', () => {
+  it('uses unique ids that its own references point to', () => {
+    const { container } = render(
+      <>
+        <MastercardDark />
+        <MastercardDark />
+      </>
+    )
+
+    const ids = Array.from(container.querySelectorAll('[id]')).map(
+      (element) => element.id
+    )
+    expect(ids.length).toBeGreaterThan(0)
+    expect(ids).toHaveLength(new Set(ids).size)
+
+    const [first, second] = Array.from(container.querySelectorAll('svg'))
+    for (const svg of [first, second]) {
+      const references = svg.innerHTML.match(/url\(#[^)]+\)/g)
+      expect(references.length).toBeGreaterThan(0)
+      for (const reference of references) {
+        const id = reference.slice(5, -1)
+        expect(svg.querySelector(`[id="${id}"]`)).not.toBeNull()
+      }
+    }
   })
 })
