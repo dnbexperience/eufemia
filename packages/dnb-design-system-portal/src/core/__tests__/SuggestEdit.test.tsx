@@ -1,6 +1,6 @@
-import { render, waitFor } from '@testing-library/react'
+import { cleanup, render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import SuggestEdit from '../../docs/contribute/suggest-edit/SuggestEdit'
 
 const mockCopyToClipboard = vi.hoisted(() => vi.fn())
@@ -15,6 +15,8 @@ vi.mock('@dnb/eufemia/src/shared/helpers', async (importOriginal) => {
     copyToClipboard: mockCopyToClipboard,
   }
 })
+
+afterEach(cleanup)
 
 async function submitPrompt() {
   render(<SuggestEdit />)
@@ -44,6 +46,29 @@ describe('SuggestEdit', () => {
       expect(
         document.querySelector('button[type="submit"]').textContent
       ).toContain('Prompt copied')
+    })
+  })
+
+  it('shows a copy icon, and a check icon once the prompt is copied', async () => {
+    mockCopyToClipboard.mockResolvedValueOnce(true)
+
+    render(<SuggestEdit />)
+
+    const button = document.querySelector('button[type="submit"]')
+    expect(
+      button.querySelector('.dnb-icon').getAttribute('data-testid')
+    ).toBe('copy icon')
+
+    await userEvent.type(
+      document.querySelector('textarea'),
+      'Clarify the click event.'
+    )
+    await userEvent.click(button)
+
+    await waitFor(() => {
+      expect(
+        button.querySelector('.dnb-icon').getAttribute('data-testid')
+      ).toBe('check icon')
     })
   })
 
