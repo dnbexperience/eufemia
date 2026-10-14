@@ -45,4 +45,4 @@ export type CopyOnClickButtonProps = {
    * Defaults to the translation `CopyOnClick.clipboardCopy`.
    */
   tooltipContent?: ReactNode
-} & Omit<ButtonProps, 'tooltip'>
+} & ButtonProps

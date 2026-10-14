@@ -172,6 +172,7 @@ function CopyCodeButton(props: CopyOnClickButtonProps) {
   return (
     <CopyOnClick.Button
       title="Copy to clipboard"
+      tooltip="Copy to clipboard"
       tooltipContent="Copied!"
       {...props}
     />

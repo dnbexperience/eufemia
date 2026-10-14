@@ -640,6 +640,26 @@ describe('CodeBlock', () => {
       expect(copyButton.classList).toContain('dnb-button--secondary')
     })
 
+    it('should show a "Copy to clipboard" tooltip on focus', async () => {
+      const { container } = render(
+        <CodeBlock language="jsx">{'<div>Hello</div>'}</CodeBlock>
+      )
+
+      const copyButton = container.querySelector(
+        'button.dnb-copy-on-click__button'
+      ) as HTMLButtonElement
+
+      await act(async () => {
+        copyButton.focus()
+      })
+
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-tooltip__content')?.textContent
+        ).toBe('Copy to clipboard')
+      })
+    })
+
     it('should copy code to clipboard when clicking copy button', async () => {
       const { container } = render(
         <CodeBlock language="jsx">{'<div>Hello</div>'}</CodeBlock>

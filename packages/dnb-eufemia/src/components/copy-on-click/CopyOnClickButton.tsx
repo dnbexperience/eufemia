@@ -15,6 +15,7 @@ import useCopyToClipboard from './useCopyToClipboard'
 export default function CopyOnClickButton({
   copyContent,
   tooltipContent,
+  tooltip,
   title,
   icon = copyIcon,
   variant = 'tertiary',
@@ -44,6 +45,7 @@ export default function CopyOnClickButton({
         icon={icon}
         variant={variant}
         title={title ?? (isIconOnly ? buttonTitle : undefined)}
+        tooltip={active ? undefined : tooltip}
         ref={combinedRef}
         {...mergeProps(
           { className: 'dnb-copy-on-click__button', onClick },
