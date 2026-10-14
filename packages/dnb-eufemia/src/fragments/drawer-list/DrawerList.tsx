@@ -8,11 +8,11 @@ import {
   memo,
   useCallback,
   useContext,
+  useEffect,
   useState,
 } from 'react'
 import type { KeyboardEvent, MouseEvent, Ref } from 'react'
 import useMountEffect from '../../shared/helpers/useMountEffect'
-import { useIsomorphicLayoutEffect } from '../../shared/helpers/useIsomorphicLayoutEffect'
 import { clsx } from 'clsx'
 import {
   validateDOMAttributes,
@@ -258,7 +258,7 @@ const DrawerListComponent = memo(function DrawerListComponent(
   const [labelledBy, setLabelledBy] = useState(`${id}-label`)
 
   // Dropdown and Autocomplete only render the label when they have one
-  useIsomorphicLayoutEffect(() => {
+  useEffect(() => {
     if (hidden === false) {
       const labelId = `${id}-label`
       setLabelledBy(
