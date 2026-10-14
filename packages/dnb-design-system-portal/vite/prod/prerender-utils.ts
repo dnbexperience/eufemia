@@ -94,7 +94,9 @@ export function getPageMeta(
     return { title: '', description: '' }
   }
 
-  let title = (node.frontmatter.title as string) || ''
+  let title =
+    ((node.frontmatter.title ||
+      node.frontmatter.contentTitle) as string) || ''
   let description = (node.frontmatter.description as string) || ''
 
   // If no title, check parent page (tab sub-pages inherit from parent)

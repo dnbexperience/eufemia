@@ -114,7 +114,7 @@ export default function PortalLayout(props: PortalLayoutProps) {
 
   // For tab pages without their own title, construct a title like "ComponentName → TabName"
   const headData = {
-    title: fmData.title,
+    title: pageFm.title ?? pageFm.contentTitle ?? fmData.title,
     description: fmData.description,
   }
   if (!pageFm.title && pageFm.showTabs && parentFm.title) {
