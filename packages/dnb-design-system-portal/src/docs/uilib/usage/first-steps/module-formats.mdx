@@ -73,3 +73,19 @@ export default defineConfig({
   },
 })
 ```
+
+## Hydration of the `html` element
+
+When `@dnb/eufemia` loads in the browser, it sets a `data-os` attribute (`mac`, `win` or `linux`) on the `<html>` element before React hydrates. If your application renders `<html>` with React, such as the Next.js App Router, React logs a development warning that the attributes of the server-rendered HTML didn't match. Production builds are not affected.
+
+Add `suppressHydrationWarning` to the `<html>` element to prevent the warning. It only applies to the attributes of that element, so hydration errors in your components are still reported:
+
+```tsx
+export default function RootLayout({ children }) {
+  return (
+    <html lang="en" suppressHydrationWarning>
+      <body>{children}</body>
+    </html>
+  )
+}
+```
