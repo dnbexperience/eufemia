@@ -384,6 +384,24 @@ describe('Ai.AgentAction', () => {
       expect(
         document.querySelector('.dnb-aria-live')
       ).toBeEmptyDOMElement()
+
+      const announcement = document.querySelector('.dnb-aria-live')
+      expect(announcement).toHaveAttribute('aria-live', 'polite')
+      expect(announcement).toHaveAttribute('aria-atomic', 'true')
+      rerender(
+        <AgentAction status="canceled">Payment reversed.</AgentAction>
+      )
+      act(() => vi.advanceTimersByTime(1))
+      expect(announcement).toHaveTextContent('Avbrutt: Payment reversed.')
+      rerender(
+        <AgentAction action="Paying" progress={0}>
+          Spotify Premium
+        </AgentAction>
+      )
+      act(() => vi.advanceTimersByTime(1))
+      expect(announcement).toHaveTextContent(
+        'Pågår: Paying Spotify Premium'
+      )
     })
   })
 })
