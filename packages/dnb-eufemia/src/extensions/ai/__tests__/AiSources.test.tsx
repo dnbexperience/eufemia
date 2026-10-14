@@ -40,6 +40,24 @@ describe('Ai.Sources', () => {
     expect(links[1]).toHaveTextContent('https://www.dnb.no/')
   })
 
+  it('keeps list spacing inside the animated content', async () => {
+    render(
+      <div className="dnb-spacing">
+        <Ai.Sources sources={sources} />
+      </div>
+    )
+    await userEvent.click(getToggle())
+
+    const list = document.querySelector('.dnb-ai-sources__list')
+    expect(list).toHaveClass(
+      'dnb-space__top--zero',
+      'dnb-space__bottom--zero'
+    )
+    expect(list.parentElement).toHaveClass('dnb-space')
+    expect(list.parentElement).toHaveStyle('--padding-t-l: 0.5rem')
+    expect(list.closest('.dnb-height-animation')).not.toBeNull()
+  })
+
   it('translates the source count', () => {
     render(
       <Provider locale="en-GB">
