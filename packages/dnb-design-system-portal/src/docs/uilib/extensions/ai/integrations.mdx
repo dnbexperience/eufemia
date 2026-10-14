@@ -57,7 +57,16 @@ import { DefaultChatTransport, getToolName, isToolUIPart } from 'ai'
 import type { DynamicToolUIPart, ToolUIPart, UIMessage } from 'ai'
 import { GlobalStatus } from '@dnb/eufemia/components'
 import { P } from '@dnb/eufemia/elements'
-import * as Ai from '@dnb/eufemia/extensions/ai'
+import {
+  Conversation,
+  Message,
+  MessageIndicator,
+  PromptInput,
+  Reasoning,
+  Response,
+  Sources,
+  Tool,
+} from '@dnb/eufemia/extensions/ai'
 import type { AiToolStatus } from '@dnb/eufemia/extensions/ai'
 import '@dnb/eufemia/extensions/ai/style'
 
@@ -115,29 +124,29 @@ function MessageContent({
       {message.parts.map((part, index) => {
         if (part.type === 'text') {
           return (
-            <Ai.Response
+            <Response
               key={index}
               parseIncompleteMarkdown={isBusy && part.state !== 'done'}
             >
               {part.text}
-            </Ai.Response>
+            </Response>
           )
         }
         if (part.type === 'reasoning') {
           return (
-            <Ai.Reasoning
+            <Reasoning
               key={index}
               isStreaming={isBusy && part.state !== 'done'}
             >
               {part.text}
-            </Ai.Reasoning>
+            </Reasoning>
           )
         }
         if (isToolUIPart(part)) {
           const status = toolStatus(part)
           const name = getToolName(part)
           return (
-            <Ai.Tool
+            <Tool
               key={part.toolCallId}
               title={
                 part.title ??
@@ -150,12 +159,12 @@ function MessageContent({
                 part.state === 'output-available' && (
                   <BalanceResult output={part.output} />
                 )}
-            </Ai.Tool>
+            </Tool>
           )
         }
         return null
       })}
-      <Ai.Sources
+      <Sources
         sources={message.parts.flatMap((part) =>
           part.type === 'source-url'
             ? [{ url: part.url, title: part.title }]
@@ -174,14 +183,14 @@ export function Chat() {
   const isBusy = status === 'submitted' || status === 'streaming'
   return (
     <>
-      <Ai.Conversation
+      <Conversation
         label="Chat with the assistant"
         style={{ height: '32rem' }}
       >
         {messages
           .filter((message) => message.role !== 'system')
           .map((message, index, visible) => (
-            <Ai.Message
+            <Message
               key={message.id}
               id={prefix + message.id}
               from={message.role === 'user' ? 'user' : 'assistant'}
@@ -190,10 +199,10 @@ export function Chat() {
                 message={message}
                 isBusy={isBusy && index === visible.length - 1}
               />
-            </Ai.Message>
+            </Message>
           ))}
-        {status === 'submitted' && <Ai.MessageIndicator />}
-      </Ai.Conversation>
+        {status === 'submitted' && <MessageIndicator />}
+      </Conversation>
       {error && (
         <GlobalStatus
           show
@@ -203,7 +212,7 @@ export function Chat() {
           text="The reply could not be completed. Try again."
         />
       )}
-      <Ai.PromptInput
+      <PromptInput
         isBusy={isBusy}
         onSubmit={({ value }) => {
           void sendMessage({ text: value })
@@ -229,7 +238,16 @@ import { useChat, fetchServerSentEvents } from '@tanstack/ai-react'
 import type { UIMessage } from '@tanstack/ai-react'
 import { GlobalStatus } from '@dnb/eufemia/components'
 import { P } from '@dnb/eufemia/elements'
-import * as Ai from '@dnb/eufemia/extensions/ai'
+import {
+  Conversation,
+  Message,
+  MessageIndicator,
+  PromptInput,
+  Reasoning,
+  Response,
+  Sources,
+  Tool,
+} from '@dnb/eufemia/extensions/ai'
 import type { AiSource, AiToolStatus } from '@dnb/eufemia/extensions/ai'
 import '@dnb/eufemia/extensions/ai/style'
 
@@ -297,24 +315,24 @@ function MessageContent({
       {message.parts.map((part, index) => {
         if (part.type === 'text') {
           return (
-            <Ai.Response
+            <Response
               key={index}
               parseIncompleteMarkdown={
                 isBusy && index === message.parts.length - 1
               }
             >
               {part.content}
-            </Ai.Response>
+            </Response>
           )
         }
         if (part.type === 'thinking') {
           return (
-            <Ai.Reasoning
+            <Reasoning
               key={index}
               isStreaming={isBusy && index === message.parts.length - 1}
             >
               {part.content}
-            </Ai.Reasoning>
+            </Reasoning>
           )
         }
         if (part.type === 'tool-call') {
@@ -325,7 +343,7 @@ function MessageContent({
           )
           const status = toolStatus(part, result)
           return (
-            <Ai.Tool
+            <Tool
               key={part.id}
               title={
                 part.name === 'getBalance'
@@ -338,7 +356,7 @@ function MessageContent({
               {part.name === 'getBalance' && status === 'done' && (
                 <BalanceResult output={part.output} />
               )}
-            </Ai.Tool>
+            </Tool>
           )
         }
         if (
@@ -350,7 +368,7 @@ function MessageContent({
           )
         ) {
           return (
-            <Ai.Tool
+            <Tool
               key={part.toolCallId}
               title={part.name ?? 'Tool result'}
               status={
@@ -366,7 +384,7 @@ function MessageContent({
             >
               {part.state === 'complete' &&
                 typeof part.content === 'string' && <P>{part.content}</P>}
-            </Ai.Tool>
+            </Tool>
           )
         }
         return null
@@ -386,14 +404,14 @@ export function Chat({
     useChat({ connection })
   return (
     <>
-      <Ai.Conversation
+      <Conversation
         label="Chat with the assistant"
         style={{ height: '32rem' }}
       >
         {messages
           .filter((message) => message.role !== 'system')
           .map((message, index, visible) => (
-            <Ai.Message
+            <Message
               key={message.id}
               id={prefix + message.id}
               from={message.role === 'user' ? 'user' : 'assistant'}
@@ -402,11 +420,11 @@ export function Chat({
                 message={message}
                 isBusy={isLoading && index === visible.length - 1}
               />
-              <Ai.Sources sources={sourcesByMessage[message.id]} />
-            </Ai.Message>
+              <Sources sources={sourcesByMessage[message.id]} />
+            </Message>
           ))}
-        {status === 'submitted' && <Ai.MessageIndicator />}
-      </Ai.Conversation>
+        {status === 'submitted' && <MessageIndicator />}
+      </Conversation>
       {error && (
         <GlobalStatus
           show
@@ -416,7 +434,7 @@ export function Chat({
           text="The reply could not be completed. Try again."
         />
       )}
-      <Ai.PromptInput
+      <PromptInput
         isBusy={isLoading}
         onSubmit={({ value }) => {
           void sendMessage(value)

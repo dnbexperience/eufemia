@@ -1,7 +1,7 @@
 import { act, fireEvent, render, waitFor } from '@testing-library/react'
 import { axeComponent } from '../../../core/test-utils/testSetup'
 import Provider from '../../../shared/Provider'
-import * as Ai from '..'
+import { Response } from '..'
 
 const writeText = vi.fn(() => Promise.resolve())
 
@@ -14,7 +14,7 @@ beforeEach(() => {
 describe('Ai.Response', () => {
   it('renders markdown with Eufemia elements', () => {
     render(
-      <Ai.Response>
+      <Response>
         {[
           '# Title',
           '',
@@ -29,7 +29,7 @@ describe('Ai.Response', () => {
           '',
           '---',
         ].join('\n')}
-      </Ai.Response>
+      </Response>
     )
 
     expect(document.querySelector('h1.dnb-h--large')).toHaveTextContent(
@@ -52,12 +52,12 @@ describe('Ai.Response', () => {
   })
 
   it('renders tight list items without paragraphs', () => {
-    render(<Ai.Response>{'- One\n- Two'}</Ai.Response>)
+    render(<Response>{'- One\n- Two'}</Response>)
     expect(document.querySelector('li p')).toBeNull()
   })
 
   it('renders task list items with disabled checkboxes', () => {
-    render(<Ai.Response>{'- [x] Done\n- [ ] Todo'}</Ai.Response>)
+    render(<Response>{'- [x] Done\n- [ ] Todo'}</Response>)
 
     const boxes = document.querySelectorAll<HTMLInputElement>(
       '.dnb-ai-response__task input[type="checkbox"]'
@@ -70,9 +70,7 @@ describe('Ai.Response', () => {
   })
 
   it('renders tables with Eufemia Table and alignment', () => {
-    render(
-      <Ai.Response>{'| A | B |\n|---|--:|\n| 1 | **2** |'}</Ai.Response>
-    )
+    render(<Response>{'| A | B |\n|---|--:|\n| 1 | **2** |'}</Response>)
 
     expect(document.querySelector('table.dnb-table')).toBeInTheDocument()
     expect(document.querySelectorAll('th')).toHaveLength(2)
@@ -82,7 +80,7 @@ describe('Ai.Response', () => {
   })
 
   it('renders code blocks with language and a copy button', async () => {
-    render(<Ai.Response>{'```ts\nconst a = 1\n```'}</Ai.Response>)
+    render(<Response>{'```ts\nconst a = 1\n```'}</Response>)
 
     const code = document.querySelector('pre.dnb-pre code')
     expect(code).toHaveClass('language-ts')
@@ -168,7 +166,7 @@ describe('Ai.Response', () => {
   it('translates the copy button and success confirmation', async () => {
     render(
       <Provider locale="en-GB">
-        <Ai.Response>{'```\nx\n```'}</Ai.Response>
+        <Response>{'```\nx\n```'}</Response>
       </Provider>
     )
 
@@ -184,9 +182,7 @@ describe('Ai.Response', () => {
 
   it('opens external links in a new tab', () => {
     render(
-      <Ai.Response>
-        {'[DNB](https://dnb.no) and [home](/home)'}
-      </Ai.Response>
+      <Response>{'[DNB](https://dnb.no) and [home](/home)'}</Response>
     )
 
     const [external, relative] = Array.from(
@@ -201,9 +197,9 @@ describe('Ai.Response', () => {
 
   it('renders unsafe links and images as text', () => {
     render(
-      <Ai.Response>
+      <Response>
         {'[click](javascript:alert(1)) ![pic](data:image/png;base64,x)'}
-      </Ai.Response>
+      </Response>
     )
 
     expect(document.querySelector('a')).toBeNull()
@@ -213,14 +209,14 @@ describe('Ai.Response', () => {
 
   it('only allows links and images with allowed prefixes', () => {
     render(
-      <Ai.Response
+      <Response
         allowedLinkPrefixes={['https://dnb.no']}
         allowedImagePrefixes={['https://cdn.dnb.no']}
       >
         {
           '[ok](https://dnb.no/a) [no](https://evil.com) ![ok](https://cdn.dnb.no/a.png) ![no](https://evil.com/a.png)'
         }
-      </Ai.Response>
+      </Response>
     )
 
     expect(document.querySelectorAll('a')).toHaveLength(1)
@@ -237,14 +233,14 @@ describe('Ai.Response', () => {
 
   it('rejects lookalike hosts when link and image prefixes are restricted', () => {
     render(
-      <Ai.Response
+      <Response
         allowedLinkPrefixes={['https://dnb.no']}
         allowedImagePrefixes={['https://cdn.dnb.no']}
       >
         {
           '[DNB](https://dnb.no.evil.example/path) ![DNB](https://cdn.dnb.no.evil.example/image.png)'
         }
-      </Ai.Response>
+      </Response>
     )
 
     expect(document.querySelector('a')).toBeNull()
@@ -253,9 +249,7 @@ describe('Ai.Response', () => {
 
   it('never renders raw HTML', () => {
     render(
-      <Ai.Response>
-        {'<img src=x onerror="alert(1)"> <b>bold</b>'}
-      </Ai.Response>
+      <Response>{'<img src=x onerror="alert(1)"> <b>bold</b>'}</Response>
     )
 
     expect(document.querySelector('img')).toBeNull()
@@ -276,9 +270,9 @@ describe('Ai.Response', () => {
     )
 
     render(
-      <Ai.Response components={{ a: Link, code: CodeElement }}>
+      <Response components={{ a: Link, code: CodeElement }}>
         {'[a](https://a.no)\n\n```js\nx\n```'}
-      </Ai.Response>
+      </Response>
     )
 
     expect(document.querySelector('a.custom-link')).toHaveAttribute(
@@ -291,21 +285,19 @@ describe('Ai.Response', () => {
   })
 
   it('closes unfinished markdown while streaming', () => {
-    const { rerender } = render(<Ai.Response>{'Hello **wor'}</Ai.Response>)
+    const { rerender } = render(<Response>{'Hello **wor'}</Response>)
     expect(document.querySelector('strong')).toHaveTextContent('wor')
 
-    rerender(
-      <Ai.Response>{'Hello **world** [docs](https://eu'}</Ai.Response>
-    )
+    rerender(<Response>{'Hello **world** [docs](https://eu'}</Response>)
     expect(document.querySelector('a')).toBeNull()
     expect(document.querySelector('p')).toHaveTextContent(
       'Hello world docs'
     )
 
     rerender(
-      <Ai.Response>
+      <Response>
         {'Hello **world** [docs](https://eufemia.dnb.no)'}
-      </Ai.Response>
+      </Response>
     )
     expect(document.querySelector('a')).toHaveAttribute(
       'href',
@@ -314,7 +306,7 @@ describe('Ai.Response', () => {
   })
 
   it('only repairs the last block', () => {
-    render(<Ai.Response>{'Keep **this\n\nFix **that'}</Ai.Response>)
+    render(<Response>{'Keep **this\n\nFix **that'}</Response>)
 
     const [first, last] = Array.from(document.querySelectorAll('p'))
     expect(first).toHaveTextContent('Keep **this')
@@ -323,9 +315,7 @@ describe('Ai.Response', () => {
 
   it('renders unfinished markdown as is with parseIncompleteMarkdown={false}', () => {
     render(
-      <Ai.Response parseIncompleteMarkdown={false}>
-        {'Hello **wor'}
-      </Ai.Response>
+      <Response parseIncompleteMarkdown={false}>{'Hello **wor'}</Response>
     )
     expect(document.querySelector('strong')).toBeNull()
     expect(document.querySelector('p')).toHaveTextContent('Hello **wor')
@@ -340,14 +330,12 @@ describe('Ai.Response', () => {
     const components = { p: Paragraph }
 
     const { rerender } = render(
-      <Ai.Response components={components}>{'First\n\nSec'}</Ai.Response>
+      <Response components={components}>{'First\n\nSec'}</Response>
     )
     expect(renders).toHaveBeenCalledTimes(2)
 
     rerender(
-      <Ai.Response components={components}>
-        {'First\n\nSecond'}
-      </Ai.Response>
+      <Response components={components}>{'First\n\nSecond'}</Response>
     )
     expect(renders).toHaveBeenCalledTimes(3)
     expect(renders).toHaveBeenLastCalledWith(['Second'])
@@ -355,9 +343,9 @@ describe('Ai.Response', () => {
 
   it('supports spacing props and forwards attributes', () => {
     render(
-      <Ai.Response top="large" className="custom" aria-label="Answer">
+      <Response top="large" className="custom" aria-label="Answer">
         Text
-      </Ai.Response>
+      </Response>
     )
 
     const element = document.querySelector('.dnb-ai-response')
@@ -367,11 +355,11 @@ describe('Ai.Response', () => {
 
   it('should validate with ARIA rules', async () => {
     const result = render(
-      <Ai.Response>
+      <Response>
         {
           '## Title\n\nText with [link](https://dnb.no).\n\n- [x] Task\n\n| A | B |\n|---|---|\n| 1 | 2 |\n\n```\ncode\n```'
         }
-      </Ai.Response>
+      </Response>
     )
 
     expect(await axeComponent(result)).toHaveNoViolations()
@@ -379,8 +367,8 @@ describe('Ai.Response', () => {
 })
 
 describe('Ai', () => {
-  it('exports the expected parts', () => {
-    expect(Object.keys(Ai).sort()).toEqual([
+  it('exports the expected parts', async () => {
+    expect(Object.keys(await import('..')).sort()).toEqual([
       'Action',
       'Actions',
       'ActivityText',
