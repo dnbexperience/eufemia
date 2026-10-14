@@ -2,6 +2,7 @@
  * All inline tags for Markdown
  */
 
+import { Children, cloneElement, isValidElement, useId } from 'react'
 import CodeBlock from './CodeBlock'
 import { Checkbox, Input, CopyOnClick } from '@dnb/eufemia/src/components'
 import {
@@ -24,6 +25,29 @@ import Details from './Details'
 import Summary from './Summary'
 import RelatedComponents from '../parts/RelatedComponents'
 
+function ListItem({ children, ...props }) {
+  const labelId = useId()
+  const [first, ...rest] = Children.toArray(children)
+
+  // A Markdown task list item starts with its checkbox
+  if (
+    !String(props.className).includes('task-list-item') ||
+    !isValidElement<{ type?: string; 'aria-labelledby'?: string }>(
+      first
+    ) ||
+    first.props.type !== 'checkbox'
+  ) {
+    return <Li {...props}>{children}</Li>
+  }
+
+  return (
+    <Li {...props}>
+      {cloneElement(first, { 'aria-labelledby': labelId })}
+      <span id={labelId}>{rest}</span>
+    </Li>
+  )
+}
+
 export const basicComponents = {
   // img: Img, // -> <figure> cannot appear as a descendant of <p>
   h1: (props) => <Header level="1" {...props} />,
@@ -32,7 +56,7 @@ export const basicComponents = {
   h4: (props) => <Header level="4" {...props} />,
   h5: (props) => <Header level="5" {...props} />,
   h6: (props) => <Header level="6" {...props} />,
-  li: (props) => <Li {...props} />,
+  li: ListItem,
   ul: (props) => <Ul {...props} />,
   ol: (props) => <Ol {...props} />,
   dl: (props) => <Dl {...props} />,
