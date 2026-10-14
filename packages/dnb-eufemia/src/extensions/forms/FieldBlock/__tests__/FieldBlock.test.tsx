@@ -581,6 +581,31 @@ describe('FieldBlock', () => {
     ).not.toBeInTheDocument()
   })
 
+  it('labels the fieldset by the description when there is no label', () => {
+    render(
+      <FieldBlock asFieldset labelDescription="Description">
+        content
+      </FieldBlock>
+    )
+
+    const legend = document.querySelector('legend')
+    expect(legend).toHaveTextContent('Description')
+    expect(legend.id).toBeTruthy()
+    expect(document.querySelector('fieldset')).toHaveAttribute(
+      'aria-labelledby',
+      legend.id
+    )
+  })
+
+  it('does not reference a label id when no legend is rendered', () => {
+    render(<FieldBlock asFieldset>content</FieldBlock>)
+
+    expect(document.querySelector('legend')).not.toBeInTheDocument()
+    expect(document.querySelector('fieldset')).not.toHaveAttribute(
+      'aria-labelledby'
+    )
+  })
+
   it('should use fieldset/legend when "asFieldset" is given', () => {
     render(
       <FieldBlock label="Legend" asFieldset>
