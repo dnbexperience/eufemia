@@ -10,7 +10,6 @@ draft: true
   - [Install](#install)
   - [CSS custom properties](#css-custom-properties)
   - [Component changes](#component-changes)
-    - [AI preview](#ai-preview)
     - [Theme](#theme)
     - [SidebarMenu](#sidebarmenu)
     - [Flex](#flex)
@@ -60,12 +59,6 @@ The deprecated Sbanken-prefixed properties are still emitted. Their values diffe
 - Replace `--leading-sb-*` with `--leading-*`
 
 ## Component changes
-
-### AI preview
-
-For applications using the unreleased AI extension preview, replace `Ai.Loader` with [Ai.MessageIndicator](/uilib/extensions/ai/MessageIndicator/) and `Ai.Shimmer` with [Ai.ActivityText](/uilib/extensions/ai/ActivityText/). Named imports and prop types follow the same rename: `Loader` → `MessageIndicator`, `AiLoaderProps` → `AiMessageIndicatorProps`, `Shimmer` → `ActivityText`, and `AiShimmerProps` → `AiActivityTextProps`.
-
-If you target these components in custom CSS, replace `dnb-ai-loader` with `dnb-ai-message-indicator`, `dnb-ai-shimmer` with `dnb-ai-activity-text`, and `--ai-shimmer-duration` with `--ai-activity-text-duration`. The behavior is unchanged; the new names describe each component's purpose. These names were changed before the extension's first release.
 
 ### [Theme](/uilib/usage/customisation/theming/theme)
 
