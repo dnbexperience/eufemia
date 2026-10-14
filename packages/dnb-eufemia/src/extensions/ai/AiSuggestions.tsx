@@ -63,7 +63,7 @@ export function AiSuggestion(props: AiSuggestionProps) {
   return (
     <Button
       variant="secondary"
-      size="medium"
+      size="default"
       icon={icon}
       iconPosition="left"
       className={classNames}
