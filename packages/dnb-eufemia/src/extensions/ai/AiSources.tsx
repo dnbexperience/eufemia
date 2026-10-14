@@ -2,6 +2,8 @@ import { useState } from 'react'
 import { clsx } from 'clsx'
 import { useSpacing } from '../../components/space/SpacingUtils'
 import Anchor from '../../components/Anchor'
+import Space from '../../components/Space'
+import Ul from '../../elements/Ul'
 import useTranslation from './hooks/useTranslation'
 import AiCollapsible from './AiCollapsible'
 import { sanitizeUrl } from './markdown/sanitizeUrl'
@@ -35,15 +37,21 @@ function AiSources(props: AiSourcesProps) {
         open={open}
         onToggle={() => setOpen((current) => !current)}
       >
-        <ul className="dnb-ul dnb-ai-sources__list">
-          {sources.map(({ url, title }, index) => (
-            <li key={index}>
-              <Anchor href={url} target="_blank" rel="noopener noreferrer">
-                {title || url}
-              </Anchor>
-            </li>
-          ))}
-        </ul>
+        <Space innerSpace={{ top: 'x-small' }}>
+          <Ul top={0} bottom={0} className="dnb-ai-sources__list">
+            {sources.map(({ url, title }, index) => (
+              <li key={index}>
+                <Anchor
+                  href={url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {title || url}
+                </Anchor>
+              </li>
+            ))}
+          </Ul>
+        </Space>
       </AiCollapsible>
     </div>
   )
