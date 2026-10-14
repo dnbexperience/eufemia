@@ -594,8 +594,11 @@ describe('Field.Composition', () => {
       container.querySelector('.dnb-form-status--warning')
     ).toHaveTextContent('Warning message')
     expect(
-      container.querySelector('.dnb-form-status--information')
-    ).toHaveTextContent('FieldBlock info' + 'Field info')
+      Array.from(
+        container.querySelectorAll('.dnb-form-status--information li'),
+        (item) => item.textContent
+      )
+    ).toEqual(['FieldBlock info', 'Field info'])
 
     const log = vi.spyOn(console, 'error').mockImplementation(vi.fn())
     render(element, { container, hydrate: true })
