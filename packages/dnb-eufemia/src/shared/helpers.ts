@@ -351,6 +351,8 @@ export async function copyToClipboard(string: string) {
 
   const copyFallback = () => {
     try {
+      const focusedElement = document.activeElement
+
       // create the focusable element
       const elem = document.createElement('textarea')
       elem.value = String(string)
@@ -367,6 +369,10 @@ export async function copyToClipboard(string: string) {
 
       // Cleanup
       document.body.removeChild(elem)
+
+      if (focusedElement instanceof HTMLElement) {
+        focusedElement.focus({ preventScroll: true })
+      }
 
       resetSelection()
 
