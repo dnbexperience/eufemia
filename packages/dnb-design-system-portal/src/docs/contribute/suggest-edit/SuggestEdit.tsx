@@ -50,7 +50,8 @@ export default function SuggestEdit() {
       sourcePath,
       ...submittedData,
     })
-    setCopied(await copyToClipboard(submittedPrompt))
+    // copyToClipboard returns an error or a message when it fails
+    setCopied((await copyToClipboard(submittedPrompt)) === true)
   }
 
   return (
