@@ -1147,6 +1147,130 @@ describe('Popover', () => {
     )
   })
 
+  describe('nested in another Popover', () => {
+    const renderNested = () =>
+      render(
+        <Popover
+          noAnimation
+          openInitially
+          trigger={({ ref, ...rest }) => (
+            <button type="button" id="outer-trigger" ref={ref} {...rest}>
+              Outer
+            </button>
+          )}
+        >
+          <span id="outer-content">Outer content</span>
+          <Popover
+            noAnimation
+            trigger={({ ref, ...rest }) => (
+              <button type="button" id="inner-trigger" ref={ref} {...rest}>
+                Inner
+              </button>
+            )}
+          >
+            <span id="inner-content">Inner content</span>
+          </Popover>
+        </Popover>
+      )
+
+    const openInner = async () => {
+      await userEvent.click(document.querySelector('#inner-trigger'))
+
+      await waitFor(() =>
+        expect(
+          document.querySelector('#inner-content')
+        ).toBeInTheDocument()
+      )
+    }
+
+    it('closes the inner Popover on mousedown elsewhere in the outer Popover', async () => {
+      renderNested()
+      await openInner()
+
+      fireEvent.mouseDown(document.querySelector('#outer-content'))
+
+      await waitFor(() =>
+        expect(document.querySelector('#inner-trigger')).toHaveAttribute(
+          'aria-expanded',
+          'false'
+        )
+      )
+      expect(document.querySelector('#outer-trigger')).toHaveAttribute(
+        'aria-expanded',
+        'true'
+      )
+    })
+
+    it('keeps both open on mousedown in the inner Popover', async () => {
+      renderNested()
+      await openInner()
+
+      fireEvent.mouseDown(document.querySelector('#inner-content'))
+
+      expect(document.querySelector('#inner-trigger')).toHaveAttribute(
+        'aria-expanded',
+        'true'
+      )
+      expect(document.querySelector('#outer-trigger')).toHaveAttribute(
+        'aria-expanded',
+        'true'
+      )
+    })
+
+    it('closes both on mousedown outside', async () => {
+      renderNested()
+      await openInner()
+
+      fireEvent.mouseDown(document.body)
+
+      await waitFor(() => {
+        expect(document.querySelector('#inner-trigger')).toBeNull()
+        expect(document.querySelector('#outer-trigger')).toHaveAttribute(
+          'aria-expanded',
+          'false'
+        )
+      })
+    })
+
+    it('keeps both open on a tap in the inner Popover', async () => {
+      renderNested()
+      await openInner()
+
+      const innerContent = document.querySelector('#inner-content')
+      fireEvent.touchStart(innerContent)
+      fireEvent.touchEnd(innerContent)
+
+      expect(document.querySelector('#inner-trigger')).toHaveAttribute(
+        'aria-expanded',
+        'true'
+      )
+      expect(document.querySelector('#outer-trigger')).toHaveAttribute(
+        'aria-expanded',
+        'true'
+      )
+    })
+
+    it('closes the inner Popover on a tap elsewhere in the outer Popover', async () => {
+      renderNested()
+      await openInner()
+
+      const outerContent = document.querySelector('#outer-content')
+      fireEvent.touchStart(outerContent)
+      fireEvent.touchEnd(outerContent)
+
+      await waitFor(() =>
+        expect(document.querySelector('#inner-trigger')).toHaveAttribute(
+          'aria-expanded',
+          'false'
+        )
+      )
+      expect(document.querySelector('#outer-trigger')).toHaveAttribute(
+        'aria-expanded',
+        'true'
+      )
+    })
+  })
+
   it('keeps dialog open when Popover handles Escape locally', async () => {
     render(
       <Dialog noAnimation open={true} title="Dialog">
