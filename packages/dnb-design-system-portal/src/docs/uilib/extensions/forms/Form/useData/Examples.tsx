@@ -48,7 +48,11 @@ export function Update() {
           return (
             <Form.Handler id="update-id">
               <Flex.Horizontal>
-                <Field.Number path="/count" showStepControls />
+                <Field.Number
+                  label="Count"
+                  path="/count"
+                  showStepControls
+                />
                 <Form.SubmitButton
                   onClick={increment}
                   text={`Increment ${data.count}`}

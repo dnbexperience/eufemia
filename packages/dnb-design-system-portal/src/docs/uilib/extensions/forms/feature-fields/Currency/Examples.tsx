@@ -7,6 +7,7 @@ export const Empty = () => {
   return (
     <ComponentBox>
       <Field.Currency
+        label="Label text"
         onChange={(value) => console.log('onChange', value)}
       />
     </ComponentBox>
@@ -17,6 +18,7 @@ export const Placeholder = () => {
   return (
     <ComponentBox>
       <Field.Currency
+        label="Label text"
         placeholder="Enter a number"
         onChange={(value) => console.log('onChange', value)}
       />
@@ -87,7 +89,7 @@ export const WithGBLocale = () => {
   return (
     <ComponentBox>
       <Provider locale="en-GB">
-        <Field.Currency value={-150000} align="right" />
+        <Field.Currency label="Label text" value={-150000} align="right" />
       </Provider>
     </ComponentBox>
   )

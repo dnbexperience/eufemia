@@ -17,7 +17,7 @@ export const SingleFieldSchema = () => {
         const schema = { type: 'string', minLength: 5 }
         return (
           <Form.Handler ajvInstance={ajv}>
-            <Field.String schema={schema} />
+            <Field.String label="Label text" schema={schema} />
           </Form.Handler>
         )
       }}
@@ -49,7 +49,7 @@ export const DataSetSchema = () => {
             <Form.Card bottom="small">
               <Form.MainHeading>Company information</Form.MainHeading>
 
-              <Field.Name path="/name" />
+              <Field.Name label="Name" path="/name" />
               <Field.String path="/address" label="Address" />
             </Form.Card>
 
@@ -88,7 +88,7 @@ export const IfRuleSchema = () => {
             <Form.Card>
               <Form.MainHeading>Customer information</Form.MainHeading>
 
-              <Field.Name path="/name" />
+              <Field.Name label="Name" path="/name" />
               <Field.String
                 path="/customerType"
                 label="Customer type (corporate or private)"
@@ -179,7 +179,7 @@ export const DependentListSchema = () => {
             <Flex.Vertical>
               <Form.MainHeading>Customer information</Form.MainHeading>
               <Form.Card>
-                <Field.Name path="/name" />
+                <Field.Name label="Name" path="/name" />
                 <Field.Email path="/email" label="E-mail" />
                 <Field.PhoneNumber path="/phone" label="Phone number" />
               </Form.Card>

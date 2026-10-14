@@ -15,6 +15,7 @@ export const BasicErrorMessage = () => {
         }}
       >
         <Field.String
+          label="Label text"
           errorMessages={{
             // Level 3
             'Field.errorPattern': 'Or on a single Field itself',
