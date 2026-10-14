@@ -449,8 +449,10 @@
   }
 }
 
-.dnb-ai-sources__list {
-  margin: 0.5rem 0 0;
+.dnb-ai-sources {
+  .dnb-ai-sources__list > li {
+    margin-block: 0;
+  }
 }
 
 .dnb-ai-tool {
