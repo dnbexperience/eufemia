@@ -34,6 +34,7 @@ import nbNO from '../../../shared/locales/nb-NO'
 import daDK from '../../../shared/locales/da-DK'
 import * as helpers from '../../../shared/helpers'
 import { getOsloDate } from '../../date-format/DateFormatUtils'
+import Popover from '../../popover/Popover'
 
 vi.setConfig({ testTimeout: 30e3 })
 
@@ -286,6 +287,32 @@ describe('DatePicker component', () => {
         'data-dnb-modal-active'
       )
     )
+  })
+
+  it('closes on mousedown elsewhere in a Popover it is placed in', () => {
+    render(
+      <Popover
+        noAnimation
+        openInitially
+        trigger={({ ref, ...rest }) => (
+          <button type="button" ref={ref} {...rest}>
+            Outer
+          </button>
+        )}
+      >
+        <span id="outer-content">Outer content</span>
+        <DatePicker {...defaultProps} showInput />
+      </Popover>
+    )
+
+    fireEvent.click(getDatePickerTriggerButton())
+    expect(getDatePickerRoot()).toHaveClass('dnb-date-picker--open')
+
+    fireEvent.mouseDown(getDatePickerInputs()[0])
+    expect(getDatePickerRoot()).toHaveClass('dnb-date-picker--open')
+
+    fireEvent.mouseDown(document.querySelector('#outer-content'))
+    expect(getDatePickerRoot()).not.toHaveClass('dnb-date-picker--open')
   })
 
   it('will close the picker on click outside when `onOpen` callback sets a state', async () => {
