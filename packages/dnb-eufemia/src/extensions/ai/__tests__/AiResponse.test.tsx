@@ -1,4 +1,4 @@
-import { act, fireEvent, render } from '@testing-library/react'
+import { act, fireEvent, render, waitFor } from '@testing-library/react'
 import { axeComponent } from '../../../core/test-utils/testSetup'
 import Provider from '../../../shared/Provider'
 import * as Ai from '..'
@@ -7,7 +7,8 @@ const writeText = vi.fn(() => Promise.resolve())
 
 beforeEach(() => {
   Object.assign(navigator, { clipboard: { writeText } })
-  writeText.mockClear()
+  writeText.mockReset()
+  writeText.mockResolvedValue(undefined)
 })
 
 describe('Ai.Response', () => {
@@ -96,19 +97,89 @@ describe('Ai.Response', () => {
     })
 
     expect(writeText).toHaveBeenCalledWith('const a = 1')
-    expect(button).toHaveAccessibleName('Kopiert')
+    expect(button).toHaveAccessibleName('Kopier kode')
+    expect(button).toHaveClass('dnb-copy-on-click__button')
+    await waitFor(() => {
+      expect(
+        document.querySelector('.dnb-tooltip__content')
+      ).toHaveTextContent('Kopiert')
+    })
   })
 
-  it('translates the copy button', () => {
+  it('copies the current raw code after a streaming update', async () => {
+    const { rerender } = render(
+      <Ai.Response>{'```ts\nconst a = 1\n```'}</Ai.Response>
+    )
+    await act(async () =>
+      fireEvent.click(document.querySelector('.dnb-ai-response__copy'))
+    )
+    rerender(
+      <Ai.Response>
+        {'```ts\nconst a = 2\n  // Keep indentation\n```'}
+      </Ai.Response>
+    )
+    await act(async () =>
+      fireEvent.click(document.querySelector('.dnb-ai-response__copy'))
+    )
+    expect(writeText).toHaveBeenLastCalledWith(
+      'const a = 2\n  // Keep indentation'
+    )
+  })
+
+  it('confirms copying only when the clipboard fallback succeeds', async () => {
+    writeText.mockRejectedValueOnce(new Error('Permission denied'))
+    const originalExecCommand = document.execCommand
+    document.execCommand = vi.fn(() => true)
+
+    try {
+      render(<Ai.Response>{'```\nx\n```'}</Ai.Response>)
+      await act(async () =>
+        fireEvent.click(document.querySelector('.dnb-ai-response__copy'))
+      )
+      expect(document.execCommand).toHaveBeenCalledWith('copy')
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-tooltip__content')
+        ).toHaveTextContent('Kopiert')
+      })
+    } finally {
+      document.execCommand = originalExecCommand
+    }
+  })
+
+  it('does not confirm a copy when both clipboard methods fail', async () => {
+    writeText.mockRejectedValueOnce(new Error('Permission denied'))
+    const originalExecCommand = document.execCommand
+    document.execCommand = vi.fn(() => false)
+
+    try {
+      render(<Ai.Response>{'```ts\nconst a = 1\n```'}</Ai.Response>)
+      const button = document.querySelector('.dnb-ai-response__copy')
+      await act(async () => fireEvent.click(button))
+
+      expect(document.execCommand).toHaveBeenCalledWith('copy')
+      expect(button).toHaveAccessibleName('Kopier kode')
+      expect(document.querySelector('.dnb-tooltip')).toBeNull()
+    } finally {
+      document.execCommand = originalExecCommand
+    }
+  })
+
+  it('translates the copy button and success confirmation', async () => {
     render(
       <Provider locale="en-GB">
         <Ai.Response>{'```\nx\n```'}</Ai.Response>
       </Provider>
     )
 
-    expect(
-      document.querySelector('.dnb-ai-response__copy')
-    ).toHaveAccessibleName('Copy code')
+    const button = document.querySelector('.dnb-ai-response__copy')
+    expect(button).toHaveAccessibleName('Copy code')
+    await act(async () => fireEvent.click(button))
+    await waitFor(() => {
+      expect(
+        document.querySelector('.dnb-tooltip__content')
+      ).toHaveTextContent('Copied')
+    })
   })
 
   it('opens external links in a new tab', () => {
