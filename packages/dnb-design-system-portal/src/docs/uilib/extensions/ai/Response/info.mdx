@@ -26,4 +26,6 @@ It is safe by default:
 
 Supported markdown: headings, paragraphs, emphasis, strikethrough, inline code, fenced code blocks, ordered, unordered and task lists, blockquotes, thematic breaks, tables, links, autolinks and images.
 
+Code blocks use [CopyOnClick.Button](/uilib/components/copy-on-click/) to copy the code with a mouse, touch, or keyboard. The button keeps its translated "Copy code" label and announces the translated confirmation in a tooltip only when copying succeeds.
+
 Not supported: syntax highlighting, math, diagrams, indented code blocks, HTML and HTML entities. You can add syntax highlighting by overriding the `code` element with `components`. Code blocks get a `language-*` class.
