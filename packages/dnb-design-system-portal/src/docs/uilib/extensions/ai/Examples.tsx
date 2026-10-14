@@ -1,5 +1,4 @@
 import { Fragment, useEffect, useState } from 'react'
-import { copyToClipboard } from '@dnb/eufemia/src/shared/helpers'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import { useChatSimulation } from './useChatSimulation'
 import type { DemoMessage, Transaction } from './useChatSimulation'
@@ -16,6 +15,7 @@ import {
   Anchor,
   Avatar,
   Button,
+  CopyOnClick,
   List,
   NumberFormat,
   P,
@@ -25,7 +25,6 @@ import {
   add,
   bank,
   card,
-  copy,
   loan,
   pay_from,
   refresh,
@@ -163,13 +162,17 @@ export function AiMessageActions() {
   return (
     <ComponentBox
       data-visual-test="ai-message-actions"
-      scope={{ copy, thumbs_up, thumbs_down, refresh }}
+      scope={{ thumbs_up, thumbs_down, refresh }}
     >
       <Ai.Message
         name="Aino"
         actions={
           <Ai.Actions>
-            <Ai.Action icon={copy} label="Copy" />
+            <CopyOnClick.Button
+              copyContent="Your card is now blocked."
+              title="Copy response"
+              tooltip="Copy response"
+            />
             <Ai.Action icon={thumbs_up} label="Good answer" />
             <Ai.Action icon={thumbs_down} label="Bad answer" />
             <Ai.Action icon={refresh} label="Regenerate" />
@@ -549,12 +552,10 @@ export function AiChatExample() {
         ChatLayout,
         chatTranslations,
         getText,
-        copyToClipboard,
         getTransactions,
         add,
         bank,
         card,
-        copy,
         loan,
         pay_from,
         refresh,
@@ -706,12 +707,10 @@ export function AiChatExample() {
 
                         const actions = isAssistant && isDone && (
                           <Ai.Actions>
-                            <Ai.Action
-                              icon={copy}
-                              label="Copy"
-                              onClick={() =>
-                                copyToClipboard(getText(message))
-                              }
+                            <CopyOnClick.Button
+                              copyContent={getText(message)}
+                              title="Copy response"
+                              tooltip="Copy response"
                             />
                             {message.id in feedback ? (
                               <P size="small">Thanks for your feedback!</P>
