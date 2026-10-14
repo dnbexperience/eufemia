@@ -8,6 +8,7 @@ import {
   Textarea,
 } from '@dnb/eufemia/src'
 import { Field, Form } from '@dnb/eufemia/src/extensions/forms'
+import { check, copy } from '@dnb/eufemia/src/icons'
 import { copyToClipboard } from '@dnb/eufemia/src/shared/helpers'
 import useCanUseDOM from '@dnb/eufemia/src/shared/helpers/useCanUseDOM'
 import { getGitHubEditUrl } from '../../../core/githubSource'
@@ -165,7 +166,7 @@ export default function SuggestEdit() {
           <Form.ButtonRow>
             <Form.SubmitButton
               text={copied ? 'Prompt copied' : 'Copy prompt'}
-              icon={copied ? 'check' : 'copy'}
+              icon={copied ? check : copy}
             />
           </Form.ButtonRow>
 
