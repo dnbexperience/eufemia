@@ -210,6 +210,24 @@ describe('prerender-utils', () => {
       expect(meta).toEqual({ title: '', description: '' })
     })
 
+    it('uses contentTitle when the page has no title', () => {
+      const contentTitleNodes = [
+        {
+          fields: { slug: 'uilib/intro' },
+          frontmatter: { title: 'Intro', description: '' },
+        },
+        {
+          fields: { slug: 'uilib/intro/03-accessibility' },
+          frontmatter: { contentTitle: 'Accessibility' },
+        },
+      ]
+      const meta = getPageMeta(
+        '/uilib/intro/03-accessibility/',
+        contentTitleNodes
+      )
+      expect(meta.title).toBe('Accessibility')
+    })
+
     it('resolves root URL to index', () => {
       const meta = getPageMeta('/', nodes)
       expect(meta.title).toBe('Home')

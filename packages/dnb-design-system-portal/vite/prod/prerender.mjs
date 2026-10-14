@@ -293,7 +293,7 @@ function getPageMeta(url, allMdxNodes) {
     return { title: '', description: '' }
   }
 
-  let title = node.frontmatter.title || ''
+  let title = node.frontmatter.title || node.frontmatter.contentTitle || ''
   let description = node.frontmatter.description || ''
 
   if (!title) {
