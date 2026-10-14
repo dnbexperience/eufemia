@@ -1,6 +1,12 @@
 import type { PropertiesTableProps } from '../../shared/types'
 
 export const AiResponseProperties: PropertiesTableProps = {
+  currencyFormatting: {
+    doc: 'Format recognized currency amounts with NumberFormat.Currency. Set to `false` to keep the original text, or provide the source `locale` and `currency` for amounts written as `kr`. Defaults to `true`, using Provider values.',
+    type: ['boolean', 'object'],
+    defaultValue: 'true',
+    status: 'optional',
+  },
   children: {
     doc: 'The markdown to render. Can be updated while the response is streaming.',
     type: 'string',

@@ -16,6 +16,24 @@ Unfinished markdown is closed while the text streams in. Finished blocks are not
 
 <Examples.AiResponseStreaming />
 
+### Formatted currency amounts
+
+Explicit currencies in text, emphasis and table cells use `NumberFormat.Currency`. Bare numbers and ambiguous symbols remain text.
+
+<Examples.AiResponseCurrencies />
+
+### Source locale
+
+Set the source locale when the response uses different separators from the display locale. This example reads English amounts and displays them in Norwegian.
+
+<Examples.AiResponseCurrencyLocale />
+
+### Streaming currency amounts
+
+An amount stays as text until following content confirms its boundary or streaming completes.
+
+<Examples.AiResponseCurrencyStreaming />
+
 ### Allowed URLs
 
 Links and images that are not allowed are rendered as text.

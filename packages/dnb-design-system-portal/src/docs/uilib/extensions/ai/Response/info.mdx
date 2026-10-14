@@ -27,5 +27,16 @@ It is safe by default:
 Supported markdown: headings, paragraphs, emphasis, strikethrough, inline code, fenced code blocks, ordered, unordered and task lists, blockquotes, thematic breaks, tables, links, autolinks and images.
 
 Code blocks use [CopyOnClick.Button](/uilib/components/copy-on-click/) to copy the code with a mouse, touch, or keyboard. The button keeps its translated "Copy code" label and announces the translated confirmation in a tooltip only when copying succeeds.
+## Currency amounts
+
+Recognized currency amounts use [NumberFormat.Currency](/uilib/components/number-format/) automatically, including in emphasis, lists and table cells. They inherit the Provider's display locale and use an explicit currency code to keep the currency clear. The number of written decimals is preserved. Formatting does not verify whether an AI-generated amount is correct.
+
+Supported uppercase codes are `NOK`, `SEK`, `DKK`, `ISK`, `EUR`, `USD`, `GBP`, `CHF`, `JPY`, `CAD`, `AUD`, `NZD`, `CNY`, `HKD`, `SGD`, `INR` and `PLN`, before or after an amount. `€` identifies EUR and `£` identifies GBP. `kr` uses the Provider currency only when it is NOK, SEK, DKK or ISK. Bare numbers, `$`, unsupported markers, malformed amounts and values that would lose numeric precision remain unchanged. Code, link labels, URLs, image alternatives and HTML attributes are not formatted.
+
+The source locale controls decimal and grouping separators. It defaults to the Provider locale. Standard three-digit grouping with spaces, non-breaking spaces and the locale's grouping separator is supported. Dot grouping is also supported for comma-decimal locales. Amounts with more than two fractional digits remain text. Recognition stays within a single text segment, so `**100 NOK**` works while `**100** NOK` stays text.
+
+If the generated text uses another locale, set `currencyFormatting={{ locale: 'en-GB' }}`. You can also provide `currency` to interpret `kr`, for example `currencyFormatting={{ locale: 'sv-SE', currency: 'SEK' }}`. An invalid source locale leaves amounts unchanged. Set `currencyFormatting={false}` to preserve all original currency text.
+
+While streaming, an amount at the end of unfinished text remains unformatted until following content confirms its boundary. Whitespace alone is not enough because it could be a grouping separator. Set `parseIncompleteMarkdown={false}` when streaming finishes, stops or fails so a final amount can be formatted. Keep this setting specific to each message.
 
 Not supported: syntax highlighting, math, diagrams, indented code blocks, HTML and HTML entities. You can add syntax highlighting by overriding the `code` element with `components`. Code blocks get a `language-*` class.

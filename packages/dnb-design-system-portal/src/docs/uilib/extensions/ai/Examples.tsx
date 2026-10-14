@@ -133,6 +133,75 @@ export function AiResponseAllowedUrls() {
   )
 }
 
+const currencyResponse =
+  'You spent **12 400,50 kr** and received a refund of **−250,00 NOK**.\n\n| Item | Amount |\n|---|---:|\n| Travel | EUR 199,95 |\n| Books | GBP 25 |\n\nBare numbers like 12345 and ambiguous symbols like $100 stay as text.'
+
+export function AiResponseCurrencies() {
+  return (
+    <ComponentBox
+      data-visual-test="ai-response-currencies"
+      scope={{ currencyResponse }}
+    >
+      <Provider locale="nb-NO">
+        <Ai.Response parseIncompleteMarkdown={false}>
+          {currencyResponse}
+        </Ai.Response>
+      </Provider>
+    </ComponentBox>
+  )
+}
+
+export function AiResponseCurrencyLocale() {
+  return (
+    <ComponentBox data-visual-test="ai-response-currency-locale">
+      <Provider locale="nb-NO">
+        <Ai.Response
+          parseIncompleteMarkdown={false}
+          currencyFormatting={{ locale: 'en-GB' }}
+        >
+          {'The total is USD 1,234.50 and EUR 99.95.'}
+        </Ai.Response>
+      </Provider>
+    </ComponentBox>
+  )
+}
+
+export function AiResponseCurrencyStreaming() {
+  return (
+    <ComponentBox data-visual-test="ai-response-currency-streaming">
+      {() => {
+        const StreamingAmount = () => {
+          const text =
+            'Your balance is NOK 12 400,50. The refund is 250,00 kr.'
+          const [length, setLength] = useState(0)
+          useEffect(() => {
+            if (length >= text.length) {
+              return undefined
+            }
+            const timeout = setTimeout(() => setLength(length + 1), 100)
+            return () => clearTimeout(timeout)
+          }, [length, text])
+          return (
+            <Provider locale="nb-NO">
+              <Button
+                variant="secondary"
+                bottom
+                onClick={() => setLength(0)}
+              >
+                Replay
+              </Button>
+              <Ai.Response parseIncompleteMarkdown={length < text.length}>
+                {text.slice(0, length)}
+              </Ai.Response>
+            </Provider>
+          )
+        }
+        return <StreamingAmount />
+      }}
+    </ComponentBox>
+  )
+}
+
 export function AiResponseComponents() {
   return (
     <ComponentBox>
