@@ -34,7 +34,8 @@ export default function SuggestEdit() {
     urgencyReason: '',
   }
   const [data, setData] = useState(defaultData)
-  const [copied, setCopied] = useState(false)
+  const [copyStatus, setCopyStatus] = useState<'copied' | 'failed'>(null)
+  const copied = copyStatus === 'copied'
 
   const prompt = useMemo(() => {
     return createSuggestEditPrompt({
@@ -51,7 +52,8 @@ export default function SuggestEdit() {
       ...submittedData,
     })
     // copyToClipboard returns an error or a message when it fails
-    setCopied((await copyToClipboard(submittedPrompt)) === true)
+    const success = (await copyToClipboard(submittedPrompt)) === true
+    setCopyStatus(success ? 'copied' : 'failed')
   }
 
   return (
@@ -64,7 +66,7 @@ export default function SuggestEdit() {
         defaultData={defaultData}
         onChange={(data) => {
           setData(data)
-          setCopied(false)
+          setCopyStatus(null)
         }}
         onSubmit={handleCopy}
       >
@@ -164,6 +166,13 @@ export default function SuggestEdit() {
               icon={copied ? 'check' : 'copy'}
             />
           </Form.ButtonRow>
+
+          {copyStatus === 'failed' && (
+            <FormStatus state="error">
+              Could not copy the prompt. Open &quot;Preview prompt&quot;
+              and copy it from there.
+            </FormStatus>
+          )}
 
           {sourcePath && (
             <Button

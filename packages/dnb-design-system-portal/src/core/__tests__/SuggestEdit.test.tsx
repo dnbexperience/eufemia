@@ -47,7 +47,7 @@ describe('SuggestEdit', () => {
     })
   })
 
-  it('does not confirm when copying fails', async () => {
+  it('explains that copying failed', async () => {
     // copyToClipboard returns an error or a message when it fails
     mockCopyToClipboard.mockResolvedValueOnce(
       new Error('Permission denied')
@@ -55,9 +55,33 @@ describe('SuggestEdit', () => {
 
     await submitPrompt()
 
-    await new Promise((resolve) => setTimeout(resolve, 10))
+    await waitFor(() => {
+      expect(
+        document.querySelector('.dnb-form-status--error').textContent
+      ).toBe(
+        'Could not copy the prompt. Open "Preview prompt" and copy it from there.'
+      )
+    })
     expect(
       document.querySelector('button[type="submit"]').textContent
     ).toContain('Copy prompt')
+  })
+
+  it('removes the error when the form changes', async () => {
+    mockCopyToClipboard.mockResolvedValueOnce(
+      new Error('Permission denied')
+    )
+
+    await submitPrompt()
+
+    await waitFor(() => {
+      expect(
+        document.querySelector('.dnb-form-status--error')
+      ).toBeTruthy()
+    })
+
+    await userEvent.type(document.querySelector('textarea'), ' Again.')
+
+    expect(document.querySelector('.dnb-form-status--error')).toBe(null)
   })
 })
