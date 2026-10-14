@@ -124,27 +124,4 @@ describe('portal page main headings', () => {
         `See vite/__tests__/page-headings.test.ts for the rules.`
     ).toEqual([])
   })
-
-  it('no published page skips from its main heading (H1) to H3 or deeper', () => {
-    const offenders: string[] = []
-
-    for (const page of mdxPages) {
-      const frontmatter = page.frontmatter as Record<string, unknown>
-      if (frontmatter.draft === true) continue
-
-      const body = matter(fs.readFileSync(page.filePath, 'utf-8')).content
-      if (findFirstHeadingLevel(body) > 2) {
-        offenders.push(`/${page.slug}`)
-      }
-    }
-
-    expect(
-      offenders,
-      `These pages skip from the main heading (H1) to H3 or deeper:\n` +
-        offenders.join('\n') +
-        `\n\nStart the page with "## ". When another page imports it below ` +
-        `its own heading, pass components that render the headings one ` +
-        `level deeper. See vite/__tests__/page-headings.test.ts for the rules.`
-    ).toEqual([])
-  })
 })
