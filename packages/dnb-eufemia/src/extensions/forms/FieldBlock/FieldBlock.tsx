@@ -537,7 +537,7 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
 
   const labelProps: FormLabelAllProps = {
     // Without a label, the field's own control may already use this id (Field.Toggle)
-    id: label ? `${id}-label` : undefined,
+    id: label || enableFieldset ? `${id}-label` : undefined,
     className: 'dnb-forms-field-block__label',
     element: enableFieldset ? 'legend' : forId ? 'label' : 'span',
     forId: enableFieldset ? undefined : forId,
@@ -589,6 +589,8 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
     : labelDescription
   const hasHelp = help?.title || help?.content
   const hasOnlyLabelDescription = !label && hasLabelDescription
+  const showLabel =
+    label || labelDescription || (hasHelp && !hideHelpButton)
 
   return (
     <FieldBlockContext
@@ -607,12 +609,14 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
         element={enableFieldset ? 'fieldset' : 'div'} // use fieldset and legend to enhance a11y
         style={mainStyle}
         className={mainClasses}
-        aria-labelledby={enableFieldset ? labelProps.id : undefined}
+        aria-labelledby={
+          enableFieldset && showLabel ? labelProps.id : undefined
+        }
         role={enableFieldset ? fieldsetRole : undefined}
         {...rest}
       >
         <div className={gridClasses}>
-          {(label || labelDescription || (hasHelp && !hideHelpButton)) && (
+          {showLabel && (
             <FormLabel {...labelProps}>
               <span>
                 {label && (
