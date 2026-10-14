@@ -14,15 +14,14 @@ Eufemia provides the interface. Your application or chat framework owns message 
 
 ## Component contract
 
-| Component             | Pass from your application                                                                                                          |
-| --------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
-| `Ai.Message`          | `from`, a unique DOM `id`, and children. Plain string children preserve line breaks.                                                |
-| `Ai.Response`         | Markdown as children. Set `parseIncompleteMarkdown` while that text is streaming; set it to false when complete, stopped or failed. |
-| `Ai.PromptInput`      | `isBusy` while a reply is pending or streaming, `onSubmit` to send, and `onStop` to cancel.                                         |
-| `Ai.MessageIndicator` | Render while waiting for the first response, then remove it.                                                                        |
-| `Ai.Reasoning`        | Displayable reasoning text as children and `isStreaming`.                                                                           |
-| `Ai.Tool`             | A human-readable `title`, `status`, optional `errorText` and result UI as children.                                                 |
-| `Ai.Sources`          | References as `{ url, title }` objects, placed where you want them in the message.                                                  |
+| Component        | Pass from your application                                                                                                          |
+| ---------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| `Ai.Message`     | `from`, a unique DOM `id`, and children. Plain string children preserve line breaks.                                                |
+| `Ai.Response`    | Markdown as children. Set `parseIncompleteMarkdown` while that text is streaming; set it to false when complete, stopped or failed. |
+| `Ai.PromptInput` | `isBusy` while a reply is pending or streaming, `onSubmit` to send, and `onStop` to cancel.                                         |
+| `Ai.Loader`      | Render while waiting for the first response, then remove it.                                                                        |
+| `Ai.Tool`        | A human-readable `title`, `status`, optional `errorText` and result UI as children.                                                 |
+| `Ai.Sources`     | References as `{ url, title }` objects, placed where you want them in the message.                                                  |
 
 See [Usage](/uilib/extensions/ai/#usage) for a complete composition without a chat framework. Use [AI SDK](#ai-sdk) or [TanStack AI](#tanstack-ai) below to connect the same components to a framework. No chat SDK is required by Eufemia.
 
@@ -48,7 +47,7 @@ An `Ai.Tool` only displays status and children. For a tool requiring approval, r
 
 The example uses `ai@7.0.128` and `@ai-sdk/react@4.0.131`. Install them in your application, following the [AI SDK setup guide](https://ai-sdk.dev/docs/getting-started). Your `/api/chat` endpoint must return the SDK's UI message stream; see its [chatbot guide](https://ai-sdk.dev/docs/ai-sdk-ui/chatbot).
 
-The following client renders text, reasoning, tool status/results and source URLs. A server tool named `getBalance` returns `{ balance: number }` in this example. Replace that result renderer with your application's typed tool UI. For approval controls, use [tool approval](https://ai-sdk.dev/docs/ai-sdk-ui/chatbot-tool-usage) and the hook's `addToolApprovalResponse`.
+The following client renders text, tool status/results and source URLs. A server tool named `getBalance` returns `{ balance: number }` in this example. Replace that result renderer with your application's typed tool UI. For approval controls, use [tool approval](https://ai-sdk.dev/docs/ai-sdk-ui/chatbot-tool-usage) and the hook's `addToolApprovalResponse`.
 
 ```tsx
 import { useId } from 'react'
@@ -62,7 +61,6 @@ import {
   Message,
   MessageIndicator,
   PromptInput,
-  Reasoning,
   Response,
   Sources,
   Tool,
@@ -130,16 +128,6 @@ function MessageContent({
             >
               {part.text}
             </Response>
-          )
-        }
-        if (part.type === 'reasoning') {
-          return (
-            <Reasoning
-              key={index}
-              isStreaming={isBusy && part.state !== 'done'}
-            >
-              {part.text}
-            </Reasoning>
           )
         }
         if (isToolUIPart(part)) {
@@ -243,7 +231,6 @@ import {
   Message,
   MessageIndicator,
   PromptInput,
-  Reasoning,
   Response,
   Sources,
   Tool,
@@ -323,16 +310,6 @@ function MessageContent({
             >
               {part.content}
             </Response>
-          )
-        }
-        if (part.type === 'thinking') {
-          return (
-            <Reasoning
-              key={index}
-              isStreaming={isBusy && index === message.parts.length - 1}
-            >
-              {part.content}
-            </Reasoning>
           )
         }
         if (part.type === 'tool-call') {
@@ -448,7 +425,7 @@ export function Chat({
 
 ## Other content and application responsibilities
 
-These examples deliberately render text, reasoning and tool results. Add application renderers for attachments, images, structured data and other message types you support. Keep system messages and non-displayable model metadata out of the visible conversation. Translate the example labels and messages to your application's supported languages.
+These examples deliberately render text and tool results. Add application renderers for attachments, images, structured data and other message types you support. Keep system messages and non-displayable model metadata out of the visible conversation. Translate the example labels and messages to your application's supported languages.
 
 Use unique DOM ids across chat instances, including when restoring older conversations. The recipes prefix the framework's stable message id with React's `useId`. Pass the same resulting DOM id to `scrollToMessage`. See [Message scroller](/uilib/extensions/ai/message-scroller/) for loading history and reading-position controls.
 
