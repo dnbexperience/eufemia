@@ -4,12 +4,13 @@ import userEvent from '@testing-library/user-event'
 import { axeComponent } from '../../../core/test-utils/testSetup'
 import Provider from '../../../shared/Provider'
 import { PromptInput } from '..'
+import { bank } from '../../../icons'
 
 const getTextarea = () => document.querySelector('textarea')
 const getSubmit = () =>
   document.querySelector<HTMLButtonElement>('.dnb-ai-prompt-input__submit')
 
-describe('Ai.PromptInput', () => {
+describe('PromptInput', () => {
   it('uses isBusy to show stop until the operation ends', () => {
     const onStop = vi.fn()
     const { rerender } = render(
@@ -225,6 +226,72 @@ describe('Ai.PromptInput', () => {
     expect(
       document.querySelector('.dnb-ai-prompt-input__stop')
     ).toHaveAccessibleName('Stopp')
+  })
+
+  it('shows the assistant icon and microphone without a send button when compact and empty', async () => {
+    render(
+      <PromptInput variant="compact" onMicrophoneClick={vi.fn()} />
+    )
+    expect(
+      document.querySelector('.dnb-ai-prompt-input__icon')
+    ).toHaveAttribute('aria-hidden', 'true')
+    expect(getSubmit()).toBeNull()
+    await userEvent.type(getTextarea(), 'Hello')
+    expect(getSubmit()).toHaveAccessibleName('Send')
+    await userEvent.clear(getTextarea())
+    expect(getSubmit()).toBeNull()
+  })
+
+  it('supports a custom compact icon and a flat surface', () => {
+    const { rerender } = render(
+      <PromptInput variant="compact" dropShadow={false} icon={bank} />
+    )
+    expect(document.querySelector('form')).not.toHaveClass(
+      'dnb-ai-prompt-input--drop-shadow'
+    )
+    expect(
+      document.querySelector('.dnb-ai-prompt-input__icon')
+    ).toBeInTheDocument()
+    rerender(<PromptInput variant="compact" icon={null} />)
+    expect(document.querySelector('.dnb-ai-prompt-input__icon')).toBeNull()
+    expect(document.querySelector('form')).toHaveClass(
+      'dnb-ai-prompt-input--drop-shadow'
+    )
+  })
+
+  it('keeps the stop button available when compact and empty', () => {
+    render(<PromptInput variant="compact" isBusy onStop={vi.fn()} />)
+    expect(
+      document.querySelector('.dnb-ai-prompt-input__stop')
+    ).toHaveAccessibleName('Stopp')
+  })
+
+  it('returns focus to the compact input after sending clears its value', async () => {
+    render(<PromptInput variant="compact" />)
+    await userEvent.type(getTextarea(), 'Hello')
+    await userEvent.click(getSubmit())
+    expect(getTextarea()).toHaveValue('')
+    expect(getTextarea()).toHaveFocus()
+    expect(getSubmit()).toBeNull()
+  })
+
+  it('renders removable context above the input without submitting', async () => {
+    const onRemove = vi.fn()
+    const onSubmit = vi.fn()
+    render(
+      <PromptInput value="Hello" onSubmit={onSubmit}>
+        <button type="button" onClick={onRemove}>
+          Remove reference
+        </button>
+      </PromptInput>
+    )
+    const context = document.querySelector('.dnb-ai-prompt-input__context')
+    expect(context.nextElementSibling).toHaveClass(
+      'dnb-ai-prompt-input__field'
+    )
+    await userEvent.click(context.querySelector('button'))
+    expect(onRemove).toHaveBeenCalledTimes(1)
+    expect(onSubmit).not.toHaveBeenCalled()
   })
 
   it('renders a short character counter with a text for screen readers', async () => {
