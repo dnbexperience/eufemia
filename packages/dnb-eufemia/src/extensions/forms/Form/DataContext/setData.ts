@@ -2,7 +2,11 @@ import type { JsonObject } from '../../utils/json-pointer'
 import pointer from '../../utils/json-pointer'
 import type { Path } from '../../types'
 import type { SharedStateId } from '../../../../shared/helpers/useSharedState'
-import { createSharedState } from '../../../../shared/helpers/useSharedState'
+import {
+  createSharedState,
+  createSharedStateStore,
+  isServerEnvironment,
+} from '../../../../shared/helpers/useSharedState'
 import type { UseDataReturnUpdate } from './useData'
 import { structuredClone } from '../../../../shared/helpers/structuredClone'
 
@@ -14,7 +18,12 @@ export default function setData<Data>(
   id: SharedStateId,
   data?: Data
 ): SetDataReturn<Data> {
-  const sharedState = createSharedState(id)
+  // On the server, the process-wide store would share the data with other requests
+  const sharedState = createSharedState(
+    id,
+    undefined,
+    isServerEnvironment() ? createSharedStateStore() : undefined
+  )
 
   if (data) {
     sharedState.extend(data)
