@@ -29,29 +29,37 @@ function getUnscopedServerStore() {
 export function useFieldBlockPropsHandoff(id: string) {
   const scope = useContext(SharedStateScopeContext)
   const key = 'field-block-props-' + id
-  const isUnscopedServer = !scope && isServerEnvironment()
-  const store = isUnscopedServer
-    ? getUnscopedServerStore()
-    : (scope ?? undefined)
+  const isServer = isServerEnvironment()
 
   return {
     set(props: Record<string, unknown>) {
+      const store =
+        isServer && !scope
+          ? getUnscopedServerStore()
+          : (scope ?? undefined)
       createSharedState(key, undefined, store).set(props, {
         silent: true,
       })
     },
     get(): FieldBlockProps | undefined {
-      const data = createSharedState<FieldBlockProps>(
-        key,
-        undefined,
-        store
-      ).get()
-
-      if (isUnscopedServer) {
-        store.states.delete(key)
+      if (!isServer) {
+        return createSharedState<FieldBlockProps>(
+          key,
+          undefined,
+          scope ?? undefined
+        ).get()
       }
 
-      return data
+      const scopedProps = scope?.states.get(key)?.data
+      if (scopedProps !== undefined) {
+        return scopedProps
+      }
+
+      // The field may have rendered outside of the scope this FieldBlock is in
+      const unscopedProps = unscopedServerStore?.states.get(key)?.data
+      unscopedServerStore?.states.delete(key)
+
+      return unscopedProps
     },
   }
 }
