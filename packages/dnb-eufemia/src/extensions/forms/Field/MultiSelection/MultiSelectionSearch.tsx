@@ -26,6 +26,7 @@ export function MultiSelectionSearch({
       icon="loupe"
       iconPosition="left"
       placeholder={placeholder}
+      aria-label={placeholder}
       value={value}
       onChange={(e) => onSearchChange(e.value)}
       disabled={disabled}

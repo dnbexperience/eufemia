@@ -1120,6 +1120,21 @@ describe('MultiSelection', () => {
   })
 
   describe('showSearchField', () => {
+    it('gives the search field an accessible name', () => {
+      render(
+        <Field.MultiSelection
+          label="Select fruits"
+          variant="inline"
+          data={[{ value: 'apple', title: 'Apple' }]}
+          showSearchField
+        />
+      )
+
+      expect(
+        screen.getByRole('searchbox', { name: 'Søk...' })
+      ).toBeInTheDocument()
+    })
+
     it('renders selected items before search without separators', async () => {
       const data = Array.from({ length: 11 }, (_, index) => ({
         value: `option${index + 1}`,
