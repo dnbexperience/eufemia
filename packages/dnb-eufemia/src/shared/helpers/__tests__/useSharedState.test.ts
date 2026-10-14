@@ -3,10 +3,13 @@ import { makeUniqueId } from '../../component-helper'
 import type { SharedStateId } from '../useSharedState'
 import {
   useSharedState,
+  useSharedStateStore,
   createSharedState,
+  createSharedStateStore,
   createReferenceKey,
   useWeakSharedState,
 } from '../useSharedState'
+import SharedStateScope from '../SharedStateScope'
 import { act, createContext } from 'react'
 
 describe('useSharedState', () => {
@@ -366,5 +369,41 @@ describe('createReferenceKey', () => {
     const key1 = createReferenceKey(ref1, ref2)
 
     expect(key1).toBeDefined()
+  })
+
+  it('should keep reference keys per store', () => {
+    const store = createSharedStateStore()
+
+    const key = createReferenceKey('ref', 'attachments', store)
+
+    expect(createReferenceKey('ref', 'attachments', store)).toBe(key)
+    expect(createReferenceKey('ref', 'attachments')).not.toBe(key)
+  })
+})
+
+describe('createSharedStateStore', () => {
+  it('should keep the data of a store separate from the process-wide store', () => {
+    const identifier = makeUniqueId()
+    const store = createSharedStateStore()
+
+    createSharedState(identifier, { test: 'scoped' }, store)
+
+    expect(createSharedState(identifier, undefined, store).get()).toEqual({
+      test: 'scoped',
+    })
+    expect(createSharedState(identifier).get()).toBeUndefined()
+  })
+})
+
+describe('useSharedStateStore', () => {
+  it('should use the process-wide store in the browser, also inside a SharedStateScope', () => {
+    const { result: withoutScope } = renderHook(() =>
+      useSharedStateStore()
+    )
+    const { result: withScope } = renderHook(() => useSharedStateStore(), {
+      wrapper: SharedStateScope,
+    })
+
+    expect(withScope.current).toBe(withoutScope.current)
   })
 })
