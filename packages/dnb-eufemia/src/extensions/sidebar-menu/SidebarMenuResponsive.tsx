@@ -441,6 +441,18 @@ export type SidebarMenuResponsiveInlineProps = Omit<
   compactWidth?: CSSProperties['width']
 }
 
+// The section list is portaled, so it is outside the inline menu in the DOM
+function isInsideInlineMenu(
+  inline: HTMLElement | null,
+  target: EventTarget | null
+) {
+  return (
+    target instanceof Element &&
+    (Boolean(inline?.contains(target)) ||
+      Boolean(target.closest('.dnb-sidebar-menu__sections-portal')))
+  )
+}
+
 export function SidebarMenuResponsiveInline({
   children,
   expandedWidth = '18rem',
@@ -557,7 +569,7 @@ export function SidebarMenuResponsiveInline({
     }
 
     const handlePointerDown = (event: PointerEvent) => {
-      if (!inlineRef.current?.contains(event.target as Node)) {
+      if (!isInsideInlineMenu(inlineRef.current, event.target)) {
         setCompactExpanded(false)
       }
     }
@@ -682,7 +694,9 @@ export function SidebarMenuResponsiveInline({
       }}
       onBlurCapture={(event) => {
         onBlurCapture?.(event)
-        if (!event.currentTarget.contains(event.relatedTarget)) {
+        if (
+          !isInsideInlineMenu(event.currentTarget, event.relatedTarget)
+        ) {
           setCompactExpanded(false)
         }
       }}
