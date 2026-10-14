@@ -106,15 +106,15 @@ describe('Ai.Response', () => {
 
   it('copies the current raw code after a streaming update', async () => {
     const { rerender } = render(
-      <Ai.Response>{'```ts\nconst a = 1\n```'}</Ai.Response>
+      <Response>{'```ts\nconst a = 1\n```'}</Response>
     )
     await act(async () =>
       fireEvent.click(document.querySelector('.dnb-ai-response__copy'))
     )
     rerender(
-      <Ai.Response>
+      <Response>
         {'```ts\nconst a = 2\n  // Keep indentation\n```'}
-      </Ai.Response>
+      </Response>
     )
     await act(async () =>
       fireEvent.click(document.querySelector('.dnb-ai-response__copy'))
@@ -130,7 +130,7 @@ describe('Ai.Response', () => {
     document.execCommand = vi.fn(() => true)
 
     try {
-      render(<Ai.Response>{'```\nx\n```'}</Ai.Response>)
+      render(<Response>{'```\nx\n```'}</Response>)
       await act(async () =>
         fireEvent.click(document.querySelector('.dnb-ai-response__copy'))
       )
@@ -151,7 +151,7 @@ describe('Ai.Response', () => {
     document.execCommand = vi.fn(() => false)
 
     try {
-      render(<Ai.Response>{'```ts\nconst a = 1\n```'}</Ai.Response>)
+      render(<Response>{'```ts\nconst a = 1\n```'}</Response>)
       const button = document.querySelector('.dnb-ai-response__copy')
       await act(async () => fireEvent.click(button))
 

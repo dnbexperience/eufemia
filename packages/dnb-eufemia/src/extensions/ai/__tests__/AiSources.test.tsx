@@ -43,7 +43,7 @@ describe('Ai.Sources', () => {
   it('keeps list spacing inside the animated content', async () => {
     render(
       <div className="dnb-spacing">
-        <Ai.Sources sources={sources} />
+        <Sources sources={sources} />
       </div>
     )
     await userEvent.click(getToggle())
