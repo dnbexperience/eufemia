@@ -220,7 +220,9 @@ export default function useMedia(
   const useLayoutEffect = useMemo(makeLayoutEffect, [])
 
   useLayoutEffect(() => {
-    if (!isMountedRef.current) {
+    removeListeners()
+
+    if (!disabled || !isMountedRef.current) {
       isMountedRef.current = true
       isHydratingRef.current = false
 
@@ -236,16 +238,10 @@ export default function useMedia(
       }
     }
 
-    return removeListeners
-  }, [makeResult, removeListeners])
-
-  useLayoutEffect(() => {
-    // If it was disabled before
-    if (isDisabledRef.current && !disabled) {
-      updateRerender(makeResult())
-    }
     isDisabledRef.current = disabled
-  }, [disabled, makeResult])
+
+    return removeListeners
+  }, [disabled, makeResult, removeListeners])
 
   return result
 }
