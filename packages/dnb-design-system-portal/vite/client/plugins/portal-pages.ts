@@ -29,8 +29,7 @@ const PORTAL_DOCS_SOURCE_PATH =
 const IGNORE_PATTERNS = [
   /\/Examples\./,
   /_not_in_use/,
-  /\/CardProductsTable\.js$/,
-  /\/ColorTable\.tsx$/,
+  /\/[A-Z][^/]*\.tsx$/, // PascalCase TSX files are components that pages import
   /\/assets\//,
   /\/__utils__\//,
   /\/_[^/]+\.[^/]+$/, // underscore-prefixed files (e.g. _helpers.tsx)
