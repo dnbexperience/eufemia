@@ -48,6 +48,7 @@ describe('Ai.Suggestion', () => {
       'dnb-ai-suggestion--chip',
       'dnb-button--secondary'
     )
+    expect(button).not.toHaveClass('dnb-button--size-medium')
     expect(button).toHaveTextContent('Block my card')
     expect(button.querySelector('[data-testid="ai icon"]')).toBeTruthy()
 
