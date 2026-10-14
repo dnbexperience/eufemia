@@ -5,6 +5,7 @@ import userEvent from '@testing-library/user-event'
 import { axeComponent } from '../../../core/test-utils/testSetup'
 import { Dialog } from '../../'
 import Button from '../../button/Button'
+import Dropdown from '../../dropdown/Dropdown'
 import Popover from '../Popover'
 import * as PopoverContainerModule from '../PopoverContainer'
 import Provider from '../../../shared/Provider'
@@ -1148,7 +1149,7 @@ describe('Popover', () => {
   })
 
   describe('nested in another Popover', () => {
-    const renderNested = () =>
+    const renderNested = (innerProps = {}) =>
       render(
         <Popover
           noAnimation
@@ -1162,6 +1163,7 @@ describe('Popover', () => {
           <span id="outer-content">Outer content</span>
           <Popover
             noAnimation
+            {...innerProps}
             trigger={({ ref, ...rest }) => (
               <button type="button" id="inner-trigger" ref={ref} {...rest}>
                 Inner
@@ -1269,6 +1271,40 @@ describe('Popover', () => {
         'true'
       )
     })
+
+    it('stops listening to the outer Popover once closed', async () => {
+      const onOpenChange = vi.fn()
+      renderNested({ onOpenChange })
+      await openInner()
+      onOpenChange.mockClear()
+
+      const outerContent = document.querySelector('#outer-content')
+      fireEvent.mouseDown(outerContent)
+      fireEvent.mouseDown(outerContent)
+
+      expect(onOpenChange).toHaveBeenCalledTimes(1)
+      expect(onOpenChange).toHaveBeenCalledWith(false)
+    })
+  })
+
+  it('stays open on a tap in the list of a portaled Dropdown in it', () => {
+    renderWithTrigger({
+      noAnimation: true,
+      openInitially: true,
+      content: <Dropdown noAnimation data={['A', 'B']} />,
+    })
+
+    fireEvent.click(document.querySelector('button.dnb-dropdown__trigger'))
+
+    const option = document.querySelector('li.dnb-drawer-list__option')
+    expect(option.closest('.dnb-popover')).toBeNull()
+
+    fireEvent.touchStart(option)
+    fireEvent.touchEnd(option)
+
+    expect(
+      document.querySelector('.dnb-popover__trigger')
+    ).toHaveAttribute('aria-expanded', 'true')
   })
 
   it('keeps dialog open when Popover handles Escape locally', async () => {
