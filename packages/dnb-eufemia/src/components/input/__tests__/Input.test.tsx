@@ -3,7 +3,7 @@
  *
  */
 
-import { createRef, useRef, useState } from 'react'
+import { createRef, StrictMode, useRef, useState } from 'react'
 import type { ReactElement, Ref, RefObject } from 'react'
 import {
   axeComponent,
@@ -1216,6 +1216,103 @@ describe('Input with server-rendered markup', () => {
     expect(
       renderToString(<Input type="password" value="secret" />)
     ).not.toContain('secret')
+  })
+
+  it.each([{ type: 'password' }, '{"type":"PASSWORD"}'])(
+    'should omit password values when the type is provided through input attributes: %j',
+    (inputAttributes) => {
+      expect(
+        renderToString(
+          <Input inputAttributes={inputAttributes} value="secret" />
+        )
+      ).not.toContain('secret')
+    }
+  )
+
+  it.each([
+    ['text', 'first\nsecond', 'firstsecond'],
+    ['email', ' user@example.com ', 'user@example.com'],
+    ['number', 'invalid', ''],
+  ])(
+    'should not report browser normalization of an initial %s value as typing',
+    (type, value, normalizedValue) => {
+      const onChange = vi.fn()
+      const element = (
+        <Input type={type} value={value} onChange={onChange} />
+      )
+      const { input, unmount } = hydrate(element)
+
+      expect(input).toHaveValue(type === 'number' ? null : normalizedValue)
+      expect(onChange).not.toHaveBeenCalled()
+      unmount()
+
+      const client = render(element)
+      expect(onChange).not.toHaveBeenCalled()
+      client.unmount()
+    }
+  )
+
+  it('should apply a change handler result equal to the initial value', () => {
+    const { input, unmount } = hydrate(
+      <Input value="ABC" onChange={({ value }) => value.toUpperCase()} />,
+      'abc'
+    )
+
+    expect(input).toHaveValue('ABC')
+    unmount()
+  })
+
+  it('should restore the initial value when the change handler rejects pre-hydration text', () => {
+    const { input, unmount } = hydrate(
+      <Input value="Prefilled" onChange={() => false} />,
+      'typed'
+    )
+
+    expect(input).toHaveValue('Prefilled')
+    unmount()
+  })
+
+  it('should preserve clearing a prefilled input before hydration', () => {
+    const onChange = vi.fn()
+    const { input, unmount } = hydrate(
+      <Input value="Prefilled" onChange={onChange} />,
+      ''
+    )
+
+    expect(input).toHaveValue('')
+    expect(onChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({ value: '' })
+    )
+    unmount()
+  })
+
+  it('should keep password text typed before hydration', () => {
+    const onChange = vi.fn()
+    const { input, unmount } = hydrate(
+      <Input type="password" value="secret" onChange={onChange} />,
+      'typed'
+    )
+
+    expect(input).toHaveValue('typed')
+    expect(input).not.toHaveAttribute('value')
+    expect(onChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({ value: 'typed' })
+    )
+    unmount()
+  })
+
+  it('should keep text typed before hydration in StrictMode', () => {
+    const onChange = vi.fn()
+    const { input, unmount } = hydrate(
+      <StrictMode>
+        <Input value="Prefilled" onChange={onChange} />
+      </StrictMode>,
+      'typed'
+    )
+
+    expect(input).toHaveValue('typed')
+    expect(onChange).toHaveBeenCalledTimes(1)
+    unmount()
   })
 
   it('should keep text typed before hydration and call onChange', () => {
