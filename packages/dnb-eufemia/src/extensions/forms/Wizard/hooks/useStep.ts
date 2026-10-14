@@ -6,6 +6,7 @@ import type { SharedStateId } from '../../../../shared/helpers/useSharedState'
 import {
   createReferenceKey,
   useSharedState,
+  useSharedStateStore,
 } from '../../../../shared/helpers/useSharedState'
 
 import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../../../shared/helpers/useIsomorphicLayoutEffect'
@@ -30,8 +31,12 @@ export default function useStep(
   const sharedDataRef = useRef<ReturnType<
     typeof useSharedState<WizardContextState>
   > | null>(null)
+  const store = useSharedStateStore()
   sharedDataRef.current = useSharedState<WizardContextState>(
-    id ? createReferenceKey(id, 'wizard') : undefined
+    id ? createReferenceKey(id, 'wizard', store) : undefined,
+    undefined,
+    undefined,
+    { store }
   )
 
   const data = sharedDataRef.current.data

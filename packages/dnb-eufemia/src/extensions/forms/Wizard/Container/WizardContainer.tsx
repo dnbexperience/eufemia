@@ -37,6 +37,7 @@ import type { SharedStateReturn } from '../../../../shared/helpers/useSharedStat
 import {
   createReferenceKey,
   useSharedState,
+  useSharedStateStore,
 } from '../../../../shared/helpers/useSharedState'
 import useHandleLayoutEffect from './useHandleLayoutEffect'
 import useStepAnimation from './useStepAnimation'
@@ -232,8 +233,12 @@ function WizardContainer(props: WizardContainerProps) {
   // - Handle shared state
   const sharedStateRef =
     useRef<SharedStateReturn<WizardContextState>>(undefined)
+  const store = useSharedStateStore()
   sharedStateRef.current = useSharedState<WizardContextState>(
-    hasContext && id ? createReferenceKey(id, 'wizard') : undefined
+    hasContext && id ? createReferenceKey(id, 'wizard', store) : undefined,
+    undefined,
+    undefined,
+    { store }
   )
 
   const hasFieldErrorInStep = useCallback((index: StepIndex) => {
