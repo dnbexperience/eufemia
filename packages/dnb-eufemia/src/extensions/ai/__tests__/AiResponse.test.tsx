@@ -371,6 +371,7 @@ describe('Ai', () => {
     expect(Object.keys(await import('..')).sort()).toEqual([
       'Action',
       'Actions',
+      'AgentAction',
       'ActivityText',
       'Conversation',
       'DateMarker',

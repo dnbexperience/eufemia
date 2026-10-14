@@ -1,0 +1,228 @@
+@use '../../../style/core/utilities.scss' as utilities;
+
+.dnb-ai-agent-action {
+  --ai-agent-action-activity-color: #8248c8;
+
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5625rem;
+
+  min-width: 0;
+
+  font-size: var(--font-size-basis);
+  line-height: var(--line-height-basis);
+  color: var(--token-color-text-neutral);
+
+  &__avatar {
+    display: flex;
+    flex-shrink: 0;
+
+    margin-top: 0.40625rem;
+  }
+
+  &__body {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem 1rem;
+
+    min-width: 0;
+  }
+
+  &__status {
+    min-width: 0;
+    outline-offset: 0.25rem;
+  }
+
+  &__label {
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+
+    min-width: 0;
+
+    > .dnb-ai-agent-action__text {
+      padding-left: 0.75rem;
+    }
+  }
+
+  &__target {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+
+    min-width: 0;
+    min-height: 2.3125rem;
+    padding: 0.34375rem 0.75rem;
+
+    overflow: hidden;
+    overflow-wrap: anywhere;
+
+    border: 0.0625rem solid var(--token-color-stroke-neutral-subtle);
+    border-radius: 1.15625rem;
+  }
+
+  &__target--has-icon {
+    padding-right: 1.5rem;
+  }
+
+  &__fill {
+    position: absolute;
+    inset: 0 auto 0 0;
+
+    min-width: min(2.3125rem, 100%);
+    max-width: 100%;
+
+    background-color: color-mix(
+      in srgb,
+      var(--token-color-decorative-first-bold) 8%,
+      var(--token-color-background-neutral)
+    );
+    border-radius: inherit;
+
+    transition: width 300ms ease-in-out;
+  }
+
+  &--indeterminate &__fill {
+    width: 100%;
+    min-width: 0;
+
+    animation: dnb-ai-agent-action-progress 3.84s ease-in-out infinite;
+  }
+
+  &__icon {
+    position: relative;
+    display: flex;
+    flex-shrink: 0;
+
+    .dnb-avatar {
+      --avatar-width--small: 1.03125rem;
+      --avatar-height--small: 1.03125rem;
+      --avatar-icon-size--small: 0.75rem;
+    }
+  }
+
+  &__text {
+    position: relative;
+    display: inline-grid;
+    min-width: 0;
+
+    > span {
+      grid-area: 1 / 1;
+    }
+  }
+
+  &__activity {
+    color: var(--ai-agent-action-activity-color);
+    mask-image: linear-gradient(
+      90deg,
+      transparent 40%,
+      #000 50%,
+      transparent 60%
+    );
+
+    @include utilities.reducedMotion() {
+      display: none;
+    }
+  }
+
+  &__result {
+    display: inline-block;
+
+    min-height: 2.3125rem;
+    padding: 0.40625rem 0.75rem;
+
+    overflow-wrap: anywhere;
+  }
+
+  &--done &__result {
+    animation: dnb-ai-agent-action-complete 300ms ease-out;
+  }
+
+  &--error &__result {
+    color: var(--token-color-text-error);
+  }
+
+  &__undo {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4375rem;
+
+    padding: 0.125rem;
+    padding-left: 0.75rem;
+
+    background-color: var(--token-color-background-neutral-subtle);
+    border: 0.0625rem solid var(--token-color-stroke-neutral-subtle);
+    border-radius: var(--token-radius-full);
+
+    animation: dnb-ai-agent-action-complete 200ms ease-out;
+  }
+
+  &__countdown {
+    min-width: 2.75rem;
+
+    font-size: var(--font-size-small);
+    font-weight: var(--font-weight-medium);
+    font-variant-numeric: tabular-nums;
+    color: var(--token-color-text-neutral-alternative);
+  }
+
+  &__undo-button.dnb-button {
+    --button-height--small: 2rem;
+    --button-padding--small: 0.75rem;
+    --button-icon-gutter: 0.375rem;
+    --button-color-bg--default: var(
+      --token-color-background-positive-subtle
+    );
+    --button-color-text--default: var(--token-color-text-positive);
+    --button-color-icon--default: var(--token-color-text-positive);
+    --button-color-border--default: var(
+      --token-color-stroke-neutral-subtle
+    );
+  }
+
+  @include utilities.reducedMotion() {
+    &__fill {
+      transition: none;
+    }
+
+    &--indeterminate &__fill {
+      width: 30%;
+      animation: none;
+    }
+
+    &__result,
+    &__undo {
+      animation: none;
+    }
+  }
+}
+
+@keyframes dnb-ai-agent-action-progress {
+  0%,
+  100% {
+    transform: translateX(-36%) scaleX(0.28);
+  }
+
+  25%,
+  75% {
+    transform: translateX(0) scaleX(0.49);
+  }
+
+  50% {
+    transform: translateX(36%) scaleX(0.28);
+  }
+}
+
+@keyframes dnb-ai-agent-action-complete {
+  from {
+    opacity: 0;
+    transform: translateY(0.25rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

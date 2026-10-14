@@ -3,6 +3,8 @@ import type nbNO from './nb-NO'
 export default {
   'da-DK': {
     Ai: {
+      undo: 'Fortryd',
+      undoTimeLeft: 'Tid tilbage til at fortryde',
       copyCode: 'Kopiér kode',
       codeCopied: 'Kopieret',
       loading: 'Skriver svar …',

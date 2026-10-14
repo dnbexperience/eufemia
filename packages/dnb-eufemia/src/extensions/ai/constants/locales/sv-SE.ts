@@ -3,6 +3,8 @@ import type nbNO from './nb-NO'
 export default {
   'sv-SE': {
     Ai: {
+      undo: 'Ångra',
+      undoTimeLeft: 'Tid kvar att ångra',
       copyCode: 'Kopiera kod',
       codeCopied: 'Kopierat',
       loading: 'Skriver svar …',

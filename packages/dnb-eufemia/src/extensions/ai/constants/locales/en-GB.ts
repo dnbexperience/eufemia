@@ -3,6 +3,8 @@ import type nbNO from './nb-NO'
 export default {
   'en-GB': {
     Ai: {
+      undo: 'Undo',
+      undoTimeLeft: 'Time left to undo',
       copyCode: 'Copy code',
       codeCopied: 'Copied',
       loading: 'Writing a reply …',

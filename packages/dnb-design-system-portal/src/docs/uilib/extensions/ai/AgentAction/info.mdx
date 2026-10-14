@@ -1,0 +1,40 @@
+---
+showTabs: true
+---
+
+## Import
+
+```tsx
+import { AgentAction } from '@dnb/eufemia/extensions/ai'
+import '@dnb/eufemia/extensions/ai/style'
+
+render(<AgentAction>Generating a graph…</AgentAction>)
+```
+
+## Description
+
+**Experimental:** The AI components and their APIs may change in the future. Please give us feedback on your experience with them.
+
+`Ai.AgentAction` shows a compact action row with a decorative agent avatar, an animated progress pill, and a result. It can also show Undo with a countdown. The design follows [Agent Action in Figma](https://www.figma.com/design/A8EvkeqtDzsdh1UhiTQbSQ/-Draft--AI-Components?node-id=71010-1526).
+
+Use it for actions that an agent carries out, such as paying a bill or generating a graph. Use [Ai.Tool](/uilib/extensions/ai/Tool/) when you need tool details, approval controls, or a larger result below the status.
+
+### Controlling an action
+
+The application owns execution, authorization, progress, and the result. Map your framework's state to `running`, `done`, `error`, or `canceled`, and supply text describing the current state. The component does not start or complete an action.
+
+While running, `action` is an optional verb before the pill and `children` is the text inside it. For example, use `action="Paying"` with `children="Spotify Premium"`. When the state changes, replace `children` with the result, such as `Spotify Premium paid.`. The verb and pill disappear.
+
+Pass `progress` from 0 to 100 when the application knows the actual progress. Omit it when the progress is unknown. A value of 100 still shows a running action until the application confirms `status="done"`. Do not infer success from elapsed time or an animation ending. Use a separate component instance or React key for each action.
+
+### Offering Undo
+
+Provide `onUndo` only when the application can reverse a completed action. It is shown only for `status="done"`. The callback receives the Eufemia Button click event; the application performs the reversal and updates the text and state once the outcome is known. Set `undoDisabled` while a reversal is pending, and present any failure in your application.
+
+For a time-limited reversal, pass `undoUntil` as an absolute Unix timestamp in milliseconds, preferably from the action result. The countdown uses the clock, so re-rendering or mounting an existing action does not restart the time window. Undo disappears at the deadline, and a late click is ignored. The application must still enforce the deadline when handling the request. Without `undoUntil`, Undo stays available until the application removes `onUndo` or changes the state.
+
+### Accessibility and motion
+
+Progress has an accessible name and a percentage when known. State and text changes are announced through Eufemia AriaLive; the countdown does not announce every second. The Undo control uses Eufemia Button and returns focus to the action result if it expires while focused. Reduced motion disables the animation while preserving the state and percentage.
+
+The agent avatar and target icon are decorative. Use the text to identify the action and result. A small [Avatar](/uilib/components/avatar/) with `hasLabel` works as an `avatar` or `icon`. Set `avatar={false}` to omit the agent avatar.

@@ -452,3 +452,62 @@ export const AiConversationVisibility: PropertiesTableProps = {
     status: 'optional',
   },
 }
+
+export const AiAgentActionProperties: PropertiesTableProps = {
+  status: {
+    doc: 'Display status supplied by the application. Progress never changes the status automatically.',
+    type: ['"running"', '"done"', '"error"', '"canceled"'],
+    defaultValue: '"running"',
+    status: 'optional',
+  },
+  action: {
+    doc: 'The action verb shown before the progress pill while running, e.g. `Paying`.',
+    type: 'string',
+    status: 'optional',
+  },
+  children: {
+    doc: 'The current action label or result, e.g. `Spotify Premium` while running and `Spotify Premium paid.` when done.',
+    type: 'string',
+    status: 'required',
+  },
+  avatar: {
+    doc: 'Decorative agent avatar. Defaults to a small Aino Avatar. Use `false` to hide it.',
+    type: 'React.ReactNode',
+    status: 'optional',
+  },
+  icon: {
+    doc: 'Decorative icon inside the progress pill, e.g. an Avatar with `hasLabel`.',
+    type: 'React.ReactNode',
+    status: 'optional',
+  },
+  progress: {
+    doc: 'Progress from 0 to 100. Omit it when progress is unknown. Values are clamped; non-finite values use indeterminate progress.',
+    type: 'number',
+    status: 'optional',
+  },
+  undoUntil: {
+    doc: 'Absolute Unix timestamp in milliseconds for the Undo deadline. Without it, Undo remains available until the application removes `onUndo`.',
+    type: 'number',
+    status: 'optional',
+  },
+  undoLabel: {
+    doc: 'Undo button text. Defaults to a translated text.',
+    type: 'string',
+    status: 'optional',
+  },
+  undoDisabled: {
+    doc: 'Disable Undo while the application handles the request.',
+    type: 'boolean',
+    status: 'optional',
+  },
+  '[Space](/uilib/layout/space/properties)':
+    AiMessageProperties['[Space](/uilib/layout/space/properties)'],
+}
+
+export const AiAgentActionEvents: PropertiesTableProps = {
+  onUndo: {
+    doc: 'Called when Undo is clicked before its deadline. Receives the Button click event. Only available when `status` is `done`; the application handles the reversal and updates the display.',
+    type: 'function',
+    status: 'optional',
+  },
+}

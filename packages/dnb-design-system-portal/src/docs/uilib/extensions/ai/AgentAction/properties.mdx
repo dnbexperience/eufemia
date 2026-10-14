@@ -1,0 +1,19 @@
+---
+showTabs: true
+---
+
+import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
+import { AiAgentActionProperties } from '@dnb/eufemia/src/extensions/ai/AiDocs'
+
+## Properties
+
+<PropertiesTable props={AiAgentActionProperties} />
+
+## Translations
+
+| Key            | nb-NO                 | en-GB / en-US     | sv-SE              | da-DK                       |
+| -------------- | --------------------- | ----------------- | ------------------ | --------------------------- |
+| `undo`         | Angre                 | Undo              | Ångra              | Fortryd                     |
+| `undoTimeLeft` | Tid igjen til å angre | Time left to undo | Tid kvar att ångra | Tid tilbage til at fortryde |
+
+Status announcements reuse the [Ai.Tool translations](/uilib/extensions/ai/Tool/properties/#translations). Application-specific action and result text must be translated by the application. See [AI translations](/uilib/extensions/ai/translations/).

@@ -1,6 +1,8 @@
 export default {
   'nb-NO': {
     Ai: {
+      undo: 'Angre',
+      undoTimeLeft: 'Tid igjen til å angre',
       copyCode: 'Kopier kode',
       codeCopied: 'Kopiert',
       loading: 'Skriver svar …',
