@@ -12,7 +12,7 @@ test('keeps selected nested accordion labels stable while closing', async ({
 
   const shell = page.locator('[data-sidebar-menu-responsive-example]')
   const products = shell.locator(
-    '[data-sidebar-menu-id="products"] > .dnb-sidebar-menu__accordion__trigger'
+    '[data-sidebar-menu-id="responsive-products"] > .dnb-sidebar-menu__accordion__trigger'
   )
   const moreProducts = shell.locator(
     '[data-sidebar-menu-id="more-products"] > .dnb-sidebar-menu__accordion__trigger'
@@ -65,7 +65,7 @@ test('keeps the compact SidebarMenu layout stable while expanding', async ({
   const divider = shell.locator('.dnb-sidebar-menu__divider')
   const home = actions.first()
   const productsIcon = shell.locator(
-    '[data-sidebar-menu-id="products"] > .dnb-sidebar-menu__accordion__trigger .dnb-sidebar-menu__item__icon'
+    '[data-sidebar-menu-id="responsive-products"] > .dnb-sidebar-menu__accordion__trigger .dnb-sidebar-menu__item__icon'
   )
   const moreProductsIcon = shell.locator(
     '[data-sidebar-menu-id="more-products"] > .dnb-sidebar-menu__accordion__trigger .dnb-sidebar-menu__item__icon'
@@ -77,7 +77,7 @@ test('keeps the compact SidebarMenu layout stable while expanding', async ({
     '[data-sidebar-menu-id="cards"] .dnb-sidebar-menu__badge'
   )
   const productsNotification = shell.locator(
-    '[data-sidebar-menu-id="products"] > .dnb-sidebar-menu__accordion__trigger .dnb-sidebar-menu__accordion__notification-indicator'
+    '[data-sidebar-menu-id="responsive-products"] > .dnb-sidebar-menu__accordion__trigger .dnb-sidebar-menu__accordion__notification-indicator'
   )
   const savingsNotification = shell.locator(
     '[data-sidebar-menu-id="savings"] .dnb-badge--variant-notification'
@@ -292,7 +292,7 @@ test('keeps the compact SidebarMenu layout stable while expanding', async ({
 
   await shell
     .locator(
-      '[data-sidebar-menu-id="products"] > .dnb-sidebar-menu__accordion__trigger'
+      '[data-sidebar-menu-id="responsive-products"] > .dnb-sidebar-menu__accordion__trigger'
     )
     .click()
   await expect
@@ -494,7 +494,7 @@ test('supports section dropdowns and headings in compact mode', async ({
     '[data-sidebar-menu-id="home"] .dnb-sidebar-menu__item__icon .dnb-icon'
   )
   const productsChevron = shell.locator(
-    '[data-sidebar-menu-id="products"] > .dnb-sidebar-menu__accordion__trigger .dnb-sidebar-menu__accordion__expand-icon .dnb-icon'
+    '[data-sidebar-menu-id="responsive-products"] > .dnb-sidebar-menu__accordion__trigger .dnb-sidebar-menu__accordion__expand-icon .dnb-icon'
   )
   await expect
     .poll(async () => ({
@@ -639,7 +639,7 @@ test('opens but never closes an accordion from the closed compact rail', async (
     '.dnb-sidebar-menu-responsive-inline__toggle'
   )
   const products = shell.locator(
-    '[data-sidebar-menu-id="products"] > .dnb-sidebar-menu__accordion__trigger'
+    '[data-sidebar-menu-id="responsive-products"] > .dnb-sidebar-menu__accordion__trigger'
   )
 
   await expect(products).toHaveAttribute('aria-expanded', 'false')
@@ -669,7 +669,7 @@ test('animates a selected first nested item from its compact background', async 
   await page.keyboard.press('Enter')
   await shell
     .locator(
-      '[data-sidebar-menu-id="products"] > .dnb-sidebar-menu__accordion__trigger'
+      '[data-sidebar-menu-id="responsive-products"] > .dnb-sidebar-menu__accordion__trigger'
     )
     .click()
   const accounts = shell.locator(
@@ -787,7 +787,7 @@ test('keeps scaled compact labels clear of accordion indicators', async ({
   await expect(toggle).toHaveAttribute('aria-expanded', 'true')
 
   const products = shell.locator(
-    '[data-sidebar-menu-id="products"] > .dnb-sidebar-menu__accordion__trigger'
+    '[data-sidebar-menu-id="responsive-products"] > .dnb-sidebar-menu__accordion__trigger'
   )
   const text = products.locator('.dnb-sidebar-menu__item__text')
   const indicator = products.locator(
