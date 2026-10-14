@@ -1,5 +1,7 @@
 import {
+  createContext,
   useCallback,
+  useContext,
   useEffect,
   useMemo,
   useRef,
@@ -13,6 +15,52 @@ export type SharedStateId =
   | Promise<() => void>
   | Context<any>
   | Record<string, unknown>
+
+export type SharedStateStore = {
+  states: Map<SharedStateId, SharedStateInstance<any>>
+  referenceKeys: Map<unknown, Map<unknown, Record<string, never>>>
+}
+
+export function createSharedStateStore(): SharedStateStore {
+  return { states: new Map(), referenceKeys: new Map() }
+}
+
+const globalStore = createSharedStateStore()
+
+/**
+ * Holds the store of the current server render.
+ */
+export const SharedStateScopeContext =
+  createContext<SharedStateStore | null>(null)
+
+export function isServerEnvironment() {
+  return typeof window === 'undefined' || typeof document === 'undefined'
+}
+
+/**
+ * Returns the store to use for shared state.
+ * In the browser, this is always the process-wide store.
+ * On the server, it is the store of the current render,
+ * so data never reaches another request.
+ */
+export function useSharedStateStore(): SharedStateStore {
+  const scope = useContext(SharedStateScopeContext)
+  const isolatedRef = useRef<SharedStateStore>(null)
+
+  if (!isServerEnvironment()) {
+    return globalStore
+  }
+
+  if (scope) {
+    return scope
+  }
+
+  if (!isolatedRef.current) {
+    isolatedRef.current = createSharedStateStore()
+  }
+
+  return isolatedRef.current
+}
 
 /**
  * The shared state will be deleted when all components have been unmounted.
@@ -43,25 +91,31 @@ export function useSharedState<Data>(
   {
     /** When set to `true`, the shared state will be deleted when all components have been unmounted. */
     weak = false,
-  } = {}
+    /** The store to use. Defaults to the process-wide store. */
+    store = globalStore,
+  }: { weak?: boolean; store?: SharedStateStore } = {}
 ) {
   const instanceRef = useRef({})
 
   const sharedState = useMemo(() => {
     if (id) {
-      return createSharedState<Data>(id, initialData)
+      return createSharedState<Data>(id, initialData, store)
     }
 
     return undefined
-  }, [id, initialData])
+  }, [id, initialData, store])
 
   const sharedAttachment = useMemo(() => {
     if (id) {
-      return createSharedState(createReferenceKey(id, 'oc'), { onChange })
+      return createSharedState(
+        createReferenceKey(id, 'oc', store),
+        { onChange },
+        store
+      )
     }
 
     return undefined
-  }, [id, onChange])
+  }, [id, onChange, store])
 
   const syncAttachment = useCallback(
     (newData: Data | Partial<Data>) => {
@@ -197,11 +251,6 @@ type SharedStateInstance<Data> = {
   hadInitialData: boolean
 } & SharedStateReturn<Data>
 
-const sharedStates: Map<
-  SharedStateId,
-  SharedStateInstance<any>
-> = new Map()
-
 type Options = {
   preventSyncOfSameInstance?: boolean
   callerRef?: unknown
@@ -216,8 +265,12 @@ export function createSharedState<Data>(
   /** The identifier for the shared state. */
   id: SharedStateId,
   /** The initial data for the shared state. */
-  initialData?: Data
+  initialData?: Data,
+  /** The store to use. Defaults to the process-wide store. */
+  store: SharedStateStore = globalStore
 ): SharedStateInstance<Data> {
+  const sharedStates = store.states
+
   if (!sharedStates.get(id)) {
     const subscribersRef = {
       current: [] as Subscriber[],
@@ -355,13 +408,13 @@ export function createSharedState<Data>(
  */
 export function preSeedSharedState<Data>(
   id: SharedStateId,
-  data: Data
+  data: Data,
+  store: SharedStateStore = globalStore
 ): void {
   // Ensure the store exists with hadInitialData = false
-  createSharedState<Data>(id)
-  const store = sharedStates.get(id)
-  if (store && store.data === undefined && data !== undefined) {
-    store.data = cloneData(data) as Data
+  const sharedState = createSharedState<Data>(id, undefined, store)
+  if (sharedState.data === undefined && data !== undefined) {
+    sharedState.data = cloneData(data) as Data
   }
 }
 
@@ -369,7 +422,13 @@ export function preSeedSharedState<Data>(
  * Creates a reference key for the shared state.
  * You can pass any JavaScript instance as the reference.
  */
-export function createReferenceKey(ref1, ref2) {
+export function createReferenceKey(
+  ref1: unknown,
+  ref2: unknown,
+  store: SharedStateStore = globalStore
+) {
+  const cache = store.referenceKeys
+
   if (!cache.has(ref1)) {
     cache.set(ref1, new Map())
   }
@@ -382,7 +441,6 @@ export function createReferenceKey(ref1, ref2) {
 
   return innerMap.get(ref2)
 }
-const cache = new Map()
 
 function isObjectLike(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null

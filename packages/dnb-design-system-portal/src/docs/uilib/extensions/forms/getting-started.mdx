@@ -232,6 +232,24 @@ As you can see in the code above, you can even handle the state outside the `For
 
 <Examples.GettingStarted />
 
+#### Server-side rendering (SSR)
+
+When forms are rendered on a server, the form data of each render is kept separate, so it never reaches another request.
+
+During a server render, components that share data by `id`, such as `Form.Handler` and `Form.useData`, share it when they are inside the same `Form.Handler` or Eufemia [Provider](/uilib/usage/customisation/provider/). To share data with components outside of `Form.Handler`, wrap your application in a `Provider`:
+
+```jsx
+import Provider from '@dnb/eufemia/shared/Provider'
+
+render(
+  <Provider>
+    <App />
+  </Provider>
+)
+```
+
+On the server, give the initial data to `Form.Handler` with `data` or `defaultData`. Data set with `Form.setData` is not used during server rendering.
+
 ### Filter data
 
 In this section we will show how to filter out some data based on your own logic. You can filter data by any given criteria.

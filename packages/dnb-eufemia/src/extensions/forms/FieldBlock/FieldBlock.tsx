@@ -50,7 +50,7 @@ import HelpButtonInline, {
   HelpButtonInlineContent,
 } from '../../../components/help-button/HelpButtonInline'
 import SubmitIndicator from '../Form/SubmitIndicator/SubmitIndicator'
-import { createSharedState } from '../../../shared/helpers/useSharedState'
+import { useFieldBlockPropsHandoff } from './useFieldBlockPropsHandoff'
 import useTranslation from '../hooks/useTranslation'
 import { FormError } from '../utils'
 import { useIterateItemNo } from '../Iterate/ItemNo/useIterateItemNo'
@@ -190,9 +190,7 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
     : null
 
   const id = useId(props.id ?? props.forId)
-  const sharedData = createSharedState<FieldBlockProps>(
-    'field-block-props-' + id
-  )
+  const sharedProps = useFieldBlockPropsHandoff(id).get()
   const {
     className,
     style: givenStyle,
@@ -225,7 +223,7 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
     fieldsetRole,
     children,
     ...rest
-  } = Object.assign({}, sharedData.data, props)
+  } = Object.assign({}, sharedProps, props)
   const hasCustomWidth = /\d(rem)$/.test(String(width))
   const hasCustomContentWidth = /\d(rem)$/.test(String(contentWidth))
 

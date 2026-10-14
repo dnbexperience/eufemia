@@ -1,7 +1,10 @@
 import { useCallback, useRef } from 'react'
 import { useFilter } from './useFilter'
 import type { FilterValue, FilterState } from '../FilterContext'
-import { useSharedState } from '../../../shared/helpers/useSharedState'
+import {
+  useSharedState,
+  useSharedStateStore,
+} from '../../../shared/helpers/useSharedState'
 import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../../shared/helpers/useIsomorphicLayoutEffect'
 
 import type { FilterQueryLocatorOptions } from './useQueryLocator'
@@ -31,7 +34,13 @@ export default function useFilterNextRouter(
   const searchParam = `${id}-search`
   const filtersParam = `${id}-filters`
 
-  const { extend } = useSharedState<FilterState>(id, emptyState)
+  const store = useSharedStateStore()
+  const { extend } = useSharedState<FilterState>(
+    id,
+    emptyState,
+    undefined,
+    { store }
+  )
   const { filters, search } = useFilter(id)
   const router = useRouter()
   const pathname = usePathname()

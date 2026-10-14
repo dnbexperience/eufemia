@@ -8,7 +8,11 @@ import {
 } from 'react'
 import type { CSSProperties, ReactNode } from 'react'
 import { clsx } from 'clsx'
-import { useSharedState } from '../../shared/helpers/useSharedState'
+import {
+  SharedStateScopeContext,
+  useSharedState,
+  useSharedStateStore,
+} from '../../shared/helpers/useSharedState'
 import SharedContext from '../../shared/Context'
 import type {
   FilterChangeState,
@@ -97,10 +101,13 @@ function FilterRoot({
 
   const accordionStateId = id ? `${id}__accordion` : undefined
 
+  const store = useSharedStateStore()
   const { data: savedAccordionState, extend: extendAccordionState } =
     useSharedState<Record<string, boolean>>(
       accordionStateId,
-      defaultAccordionState
+      defaultAccordionState,
+      undefined,
+      { store }
     )
 
   const accordionStateRef = useRef<Record<string, boolean>>(
@@ -117,7 +124,9 @@ function FilterRoot({
 
   const { data, get, extend } = useSharedState<FilterState>(
     id,
-    defaultState
+    defaultState,
+    undefined,
+    { store }
   )
 
   const isManual = behavior === 'manual'
@@ -445,11 +454,13 @@ function FilterRoot({
   })
 
   return (
-    <FilterContext value={contextValue}>
-      <div {...spacingProps} role="search" aria-label={ariaLabel}>
-        {children}
-      </div>
-    </FilterContext>
+    <SharedStateScopeContext value={store}>
+      <FilterContext value={contextValue}>
+        <div {...spacingProps} role="search" aria-label={ariaLabel}>
+          {children}
+        </div>
+      </FilterContext>
+    </SharedStateScopeContext>
   )
 }
 
