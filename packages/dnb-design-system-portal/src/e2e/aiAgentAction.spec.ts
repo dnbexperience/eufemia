@@ -2,6 +2,29 @@ import { test, expect } from '@playwright/test'
 import waitForApp from './shared/waitForApp'
 
 test.describe('Ai.AgentAction', () => {
+  test('uses regular action text, a narrow highlight, and medium Undo text', async ({
+    page,
+  }) => {
+    await page.goto('/uilib/extensions/ai/AgentAction/demos/')
+    await waitForApp(page)
+    const text = page.locator('.dnb-ai-agent-action__text').first()
+    const activity = text.locator('.dnb-ai-agent-action__activity')
+    await expect(activity).toHaveCSS(
+      'mask-image',
+      'linear-gradient(90deg, rgba(0, 0, 0, 0) 40%, rgb(0, 0, 0) 50%, rgba(0, 0, 0, 0) 60%)'
+    )
+    const action = page.locator('.dnb-ai-agent-action').first()
+    await action.locator('..').evaluate((parent) => {
+      parent.style.fontWeight = '700'
+    })
+    await expect(text).toHaveCSS('font-weight', '400')
+    await expect(text).toHaveCSS('color', 'rgb(51, 51, 51)')
+    const undo = page.getByRole('button', { name: 'Undo', exact: true })
+    await expect(undo).toBeVisible()
+    await expect(undo).toHaveCSS('font-weight', '500')
+    await expect(undo).toHaveCSS('color', 'rgb(0, 123, 94)')
+  })
+
   for (const reducedMotion of ['no-preference', 'reduce'] as const) {
     test(
       'keeps the payment row height through Undo and Replay with ' +
