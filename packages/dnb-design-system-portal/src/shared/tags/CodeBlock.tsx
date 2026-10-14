@@ -23,16 +23,15 @@ import {
   Flex,
   Space,
 } from '@dnb/eufemia/src/components'
+import CopyOnClick from '@dnb/eufemia/src/components/copy-on-click/CopyOnClick'
+import type { CopyOnClickButtonProps } from '@dnb/eufemia/src/components/copy-on-click/CopyOnClick'
 import {
-  copy as copyIcon,
-  check as checkIcon,
   fullscreen as focusModeIcon,
   close as focusModeCloseIcon,
   fullscreen as focusModePaddingIcon,
   layout_grid as focusModeCompactIcon,
   launch as launchIcon,
 } from '@dnb/eufemia/src/icons'
-import { copyToClipboard } from '@dnb/eufemia/src/shared/helpers'
 import Theme from '@dnb/eufemia/src/shared/Theme'
 import type {
   ThemeColorScheme,
@@ -135,7 +134,8 @@ const CodeBlock = ({
             )}
           >
             <CopyCodeButton
-              code={String(exampleCode)}
+              copyContent={String(exampleCode)}
+              variant="secondary"
               className={copyButtonStyle}
             />
 
@@ -168,55 +168,12 @@ const CodeBlock = ({
 
 export default CodeBlock
 
-/**
- * Hook for copy-to-clipboard functionality with feedback state.
- * Handles the copied state, timeout cleanup, and async clipboard operation.
- */
-function useCopyToClipboard(code: string) {
-  const [copied, setCopied] = useState(false)
-  const timeoutRef = useRef<ReturnType<typeof setTimeout>>(undefined)
-
-  const handleCopy = useCallback(async () => {
-    const success = await copyToClipboard(code)
-    if (success) {
-      setCopied(true)
-      clearTimeout(timeoutRef.current)
-      timeoutRef.current = setTimeout(() => setCopied(false), 2000)
-    }
-  }, [code])
-
-  useEffect(() => {
-    return () => clearTimeout(timeoutRef.current)
-  }, [])
-
-  return { copied, handleCopy }
-}
-
-type CopyCodeButtonProps = {
-  code: string
-  className?: string
-  variant?: 'tertiary'
-}
-
-/**
- * Reusable copy-to-clipboard button with visual feedback.
- * Used both for static code blocks (with copyButtonStyle) and live code toolbar.
- */
-function CopyCodeButton({
-  code,
-  className,
-  variant,
-}: CopyCodeButtonProps) {
-  const { copied, handleCopy } = useCopyToClipboard(code)
-
+function CopyCodeButton(props: CopyOnClickButtonProps) {
   return (
-    <Button
-      className={className}
-      variant={variant}
-      icon={copied ? checkIcon : copyIcon}
+    <CopyOnClick.Button
       title="Copy to clipboard"
-      tooltip={copied ? 'Copied!' : 'Copy to clipboard'}
-      onClick={handleCopy}
+      tooltipContent="Copied!"
+      {...props}
     />
   )
 }
@@ -389,7 +346,7 @@ function LiveCode(props: LiveCodeProps) {
   )
 
   const copyCodeButton = (
-    <CopyCodeButton code={editedCode ?? codeToUse} variant="tertiary" />
+    <CopyCodeButton copyContent={editedCode ?? codeToUse} />
   )
 
   const handleOpenInStackBlitz = useCallback(async () => {

@@ -12,7 +12,7 @@ import type {
   createContext as CreateContext,
   ReactNode,
 } from 'react'
-import { act, render } from '@testing-library/react'
+import { act, render, waitFor } from '@testing-library/react'
 import * as FocusModeCodeContext from '../../../core/FocusModeCodeContext'
 
 // Mock CSS modules
@@ -63,9 +63,15 @@ vi.mock('../Tag', async () => {
 })
 
 // Mock skeleton helper
-vi.mock('@dnb/eufemia/src/components/skeleton/SkeletonHelper', () => ({
-  createSkeletonClass: () => '',
-}))
+vi.mock(
+  '@dnb/eufemia/src/components/skeleton/SkeletonHelper',
+  async (importOriginal) => ({
+    ...(await importOriginal<
+      typeof import('@dnb/eufemia/src/components/skeleton/SkeletonHelper')
+    >()),
+    createSkeletonClass: () => '',
+  })
+)
 
 // Create hoisted mock for copyToClipboard
 const mockCopyToClipboard = vi.hoisted(() =>
@@ -196,11 +202,12 @@ vi.mock('@dnb/eufemia/src/components', async () => {
 })
 
 // Mock Context
-vi.mock('@dnb/eufemia/src/shared', async () => {
+vi.mock('@dnb/eufemia/src/shared', async (importOriginal) => {
   const { createContext } = (await vi.importActual('react')) as {
     createContext: typeof CreateContext
   }
   return {
+    ...(await importOriginal<typeof import('@dnb/eufemia/src/shared')>()),
     Context: createContext({}),
   }
 })
@@ -619,15 +626,18 @@ describe('CodeBlock', () => {
   })
 
   describe('copy code button', () => {
-    it('should render a copy code button with tooltip', () => {
+    it('should render a copy code button with an accessible name', () => {
       const { container } = render(
         <CodeBlock language="jsx">{'<div>Hello</div>'}</CodeBlock>
       )
 
       const copyButton = container.querySelector(
-        'button[tooltip="Copy to clipboard"]'
+        'button.dnb-copy-on-click__button'
       )
-      expect(copyButton).toBeTruthy()
+      expect(copyButton.getAttribute('aria-label')).toBe(
+        'Copy to clipboard'
+      )
+      expect(copyButton.classList).toContain('dnb-button--secondary')
     })
 
     it('should copy code to clipboard when clicking copy button', async () => {
@@ -636,7 +646,7 @@ describe('CodeBlock', () => {
       )
 
       const copyButton = container.querySelector(
-        'button[tooltip="Copy to clipboard"]'
+        'button.dnb-copy-on-click__button'
       ) as HTMLButtonElement
 
       await act(async () => {
@@ -652,18 +662,41 @@ describe('CodeBlock', () => {
       )
 
       const copyButton = container.querySelector(
-        'button[tooltip="Copy to clipboard"]'
+        'button.dnb-copy-on-click__button'
       ) as HTMLButtonElement
 
       await act(async () => {
         copyButton.click()
       })
 
-      // After clicking, the tooltip should change to "Copied!"
-      const copiedButton = container.querySelector(
-        'button[tooltip="Copied!"]'
+      await waitFor(() => {
+        const tooltipId = copyButton.getAttribute('aria-describedby')
+        expect(document.getElementById(tooltipId)?.textContent).toBe(
+          'Copied!'
+        )
+      })
+    })
+
+    it('should not show "Copied!" when copying fails', async () => {
+      // copyToClipboard returns an error or a message when it fails
+      mockCopyToClipboard.mockResolvedValueOnce(
+        new Error('Permission denied')
       )
-      expect(copiedButton).toBeTruthy()
+
+      const { container } = render(
+        <CodeBlock language="jsx">{'<div>Hello</div>'}</CodeBlock>
+      )
+
+      const copyButton = container.querySelector(
+        'button.dnb-copy-on-click__button'
+      ) as HTMLButtonElement
+
+      await act(async () => {
+        copyButton.click()
+      })
+
+      expect(mockCopyToClipboard).toHaveBeenCalledTimes(1)
+      expect(copyButton.hasAttribute('aria-describedby')).toBe(false)
     })
 
     it('should copy edited code when user has made changes', async () => {
@@ -679,8 +712,10 @@ describe('CodeBlock', () => {
       })
 
       const copyButton = container.querySelector(
-        'button[tooltip="Copy to clipboard"]'
+        'button.dnb-copy-on-click__button'
       ) as HTMLButtonElement
+
+      expect(copyButton.classList).toContain('dnb-button--tertiary')
 
       await act(async () => {
         copyButton.click()
