@@ -239,6 +239,14 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
   const fieldStatesRef = useRef<Map<Identifier, SubmitState>>(new Map())
   const stateRecordRef = useRef<StateRecord>({})
   const fieldStateIdsRef = useRef<FieldErrorIdsRef | null>(null)
+  const statusChildrenRef = useRef<
+    Partial<
+      Record<
+        FieldState,
+        { messages: Array<StateMessage>; children: ReactNode }
+      >
+    >
+  >({})
   const contentsRef = useRef<HTMLDivElement>(null)
   const hasInitiallyErrorPropRef = useRef(Boolean(error))
 
@@ -469,9 +477,24 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
 
         // Combine the messages and put them in an ul/li list
         if (messages.length > 0) {
+          const cached = statusChildrenRef.current[type]
+
+          // Reuse the children while the messages are unchanged, so FormStatus skips re-rendering
+          if (
+            cached?.messages.length !== messages.length ||
+            cached.messages.some((msg, i) => msg !== messages[i].message)
+          ) {
+            statusChildrenRef.current[type] = {
+              messages: messages.map(({ message }) => message),
+              children: (
+                <CombineMessages type={type} messages={messages} />
+              ),
+            }
+          }
+
           acc[type] = {
             ...acc[type],
-            children: <CombineMessages type={type} messages={messages} />,
+            children: statusChildrenRef.current[type].children,
           }
 
           fieldStateIdsRef.current[type] = id
