@@ -144,7 +144,7 @@
   gap: 0.25rem;
 }
 
-.dnb-ai-loader {
+.dnb-ai-message-indicator {
   &__dots {
     display: flex;
     align-items: center;
@@ -158,7 +158,7 @@
       border-radius: 50%;
       background-color: currentcolor;
 
-      animation: dnb-ai-loader-dot 1.2s ease-in-out infinite;
+      animation: dnb-ai-message-indicator-dot 1.2s ease-in-out infinite;
 
       &:nth-child(2) {
         animation-delay: 0.2s;
@@ -176,7 +176,7 @@
   }
 }
 
-@keyframes dnb-ai-loader-dot {
+@keyframes dnb-ai-message-indicator-dot {
   0%,
   80%,
   100% {
@@ -495,8 +495,8 @@
   }
 }
 
-.dnb-ai-shimmer {
-  --ai-shimmer-duration: 2s;
+.dnb-ai-activity-text {
+  --ai-activity-text-duration: 2s;
 
   mask-image: linear-gradient(
     90deg,
@@ -506,7 +506,8 @@
   );
   mask-size: 300% 100%;
 
-  animation: dnb-ai-shimmer var(--ai-shimmer-duration) linear infinite;
+  animation: dnb-ai-activity-text var(--ai-activity-text-duration) linear
+    infinite;
 
   @include utilities.reducedMotion() {
     mask-image: none;
@@ -514,7 +515,7 @@
   }
 }
 
-@keyframes dnb-ai-shimmer {
+@keyframes dnb-ai-activity-text {
   from {
     mask-position: 100% 0;
   }

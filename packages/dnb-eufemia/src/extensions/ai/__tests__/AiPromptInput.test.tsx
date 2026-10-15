@@ -3,7 +3,7 @@ import { fireEvent, render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { axeComponent } from '../../../core/test-utils/testSetup'
 import Provider from '../../../shared/Provider'
-import * as Ai from '..'
+import { PromptInput } from '..'
 
 const getTextarea = () => document.querySelector('textarea')
 const getSubmit = () =>
@@ -13,7 +13,7 @@ describe('Ai.PromptInput', () => {
   it('uses isBusy to show stop until the operation ends', () => {
     const onStop = vi.fn()
     const { rerender } = render(
-      <Ai.PromptInput isBusy onStop={onStop} value="Next" />
+      <PromptInput isBusy onStop={onStop} value="Next" />
     )
     const stop = document.querySelector<HTMLButtonElement>(
       '.dnb-ai-prompt-input__stop'
@@ -21,9 +21,7 @@ describe('Ai.PromptInput', () => {
     expect(stop).toBeInTheDocument()
     stop.click()
     expect(onStop).toHaveBeenCalledTimes(1)
-    rerender(
-      <Ai.PromptInput isBusy={false} onStop={onStop} value="Next" />
-    )
+    rerender(<PromptInput isBusy={false} onStop={onStop} value="Next" />)
     expect(document.querySelector('.dnb-ai-prompt-input__stop')).toBeNull()
     expect(
       document.querySelector('button[type="submit"]')
@@ -31,7 +29,7 @@ describe('Ai.PromptInput', () => {
   })
 
   it('renders a form with a labeled textarea and a send button', () => {
-    render(<Ai.PromptInput />)
+    render(<PromptInput />)
 
     const form = document.querySelector('form.dnb-ai-prompt-input')
     expect(form).toHaveClass('dnb-ai-prompt-input--default')
@@ -47,7 +45,7 @@ describe('Ai.PromptInput', () => {
   it('translates texts', () => {
     render(
       <Provider locale="en-GB">
-        <Ai.PromptInput
+        <PromptInput
           onAttachmentClick={vi.fn()}
           onMicrophoneClick={vi.fn()}
         />
@@ -66,7 +64,7 @@ describe('Ai.PromptInput', () => {
 
   it('submits the trimmed text on Enter and clears it', async () => {
     const onSubmit = vi.fn()
-    render(<Ai.PromptInput onSubmit={onSubmit} />)
+    render(<PromptInput onSubmit={onSubmit} />)
 
     await userEvent.type(getTextarea(), '  Hello  {Enter}')
 
@@ -79,7 +77,7 @@ describe('Ai.PromptInput', () => {
 
   it('adds a new line on Shift+Enter', async () => {
     const onSubmit = vi.fn()
-    render(<Ai.PromptInput onSubmit={onSubmit} />)
+    render(<PromptInput onSubmit={onSubmit} />)
 
     await userEvent.type(getTextarea(), 'a{Shift>}{Enter}{/Shift}b')
 
@@ -89,7 +87,7 @@ describe('Ai.PromptInput', () => {
 
   it('does not submit while composing text', () => {
     const onSubmit = vi.fn()
-    render(<Ai.PromptInput value="Hei" onSubmit={onSubmit} />)
+    render(<PromptInput value="Hei" onSubmit={onSubmit} />)
 
     fireEvent.keyDown(getTextarea(), { key: 'Enter', isComposing: true })
 
@@ -98,7 +96,7 @@ describe('Ai.PromptInput', () => {
 
   it('submits with the send button', async () => {
     const onSubmit = vi.fn()
-    render(<Ai.PromptInput onSubmit={onSubmit} />)
+    render(<PromptInput onSubmit={onSubmit} />)
 
     expect(getSubmit()).toBeDisabled()
 
@@ -113,7 +111,7 @@ describe('Ai.PromptInput', () => {
 
   it('does not submit empty text', async () => {
     const onSubmit = vi.fn()
-    render(<Ai.PromptInput onSubmit={onSubmit} />)
+    render(<PromptInput onSubmit={onSubmit} />)
 
     await userEvent.type(getTextarea(), '   {Enter}')
 
@@ -125,7 +123,7 @@ describe('Ai.PromptInput', () => {
     const Controlled = () => {
       const [value, setValue] = useState('Hi')
       return (
-        <Ai.PromptInput
+        <PromptInput
           value={value}
           onChange={({ value }) => setValue(value)}
           onSubmit={(event) => {
@@ -148,7 +146,7 @@ describe('Ai.PromptInput', () => {
   })
 
   it('keeps a controlled value after submit', async () => {
-    render(<Ai.PromptInput value="Hi" onSubmit={vi.fn()} />)
+    render(<PromptInput value="Hi" onSubmit={vi.fn()} />)
 
     await userEvent.type(getTextarea(), '{Enter}')
 
@@ -159,7 +157,7 @@ describe('Ai.PromptInput', () => {
     const onStop = vi.fn()
     const onSubmit = vi.fn()
     const { rerender } = render(
-      <Ai.PromptInput
+      <PromptInput
         isBusy
         value="Next"
         onStop={onStop}
@@ -178,21 +176,21 @@ describe('Ai.PromptInput', () => {
     await userEvent.type(getTextarea(), '{Enter}')
     expect(onSubmit).not.toHaveBeenCalled()
 
-    rerender(<Ai.PromptInput isBusy value="Next" onSubmit={onSubmit} />)
+    rerender(<PromptInput isBusy value="Next" onSubmit={onSubmit} />)
     expect(getSubmit()).toBeDisabled()
 
-    rerender(<Ai.PromptInput isBusy={false} value="Next" />)
+    rerender(<PromptInput isBusy={false} value="Next" />)
     expect(getSubmit()).not.toBeDisabled()
   })
 
   it('only renders the attachment and microphone buttons when callbacks are given', async () => {
-    const { rerender } = render(<Ai.PromptInput />)
+    const { rerender } = render(<PromptInput />)
     expect(document.querySelectorAll('button')).toHaveLength(1)
 
     const onAttachmentClick = vi.fn()
     const onMicrophoneClick = vi.fn()
     rerender(
-      <Ai.PromptInput
+      <PromptInput
         onAttachmentClick={onAttachmentClick}
         onMicrophoneClick={onMicrophoneClick}
       />
@@ -210,7 +208,7 @@ describe('Ai.PromptInput', () => {
 
   it('renders the compact variant with icon buttons', () => {
     render(
-      <Ai.PromptInput
+      <PromptInput
         variant="compact"
         isBusy
         onStop={vi.fn()}
@@ -232,7 +230,7 @@ describe('Ai.PromptInput', () => {
   it('renders a short character counter with a text for screen readers', async () => {
     render(
       <Provider locale="nb-NO">
-        <Ai.PromptInput characterCounter={111} />
+        <PromptInput characterCounter={111} />
       </Provider>
     )
 
@@ -253,7 +251,7 @@ describe('Ai.PromptInput', () => {
   it('does not submit text longer than the character counter', async () => {
     const onSubmit = vi.fn()
     render(
-      <Ai.PromptInput
+      <PromptInput
         characterCounter={3}
         value="Hello"
         onSubmit={onSubmit}
@@ -270,16 +268,14 @@ describe('Ai.PromptInput', () => {
   })
 
   it('shows an arrow on the send button', () => {
-    render(<Ai.PromptInput />)
+    render(<PromptInput />)
     expect(
       getSubmit().querySelector('[data-testid="arrow up icon"]')
     ).toBeInTheDocument()
   })
 
   it('disables the input and buttons', () => {
-    render(
-      <Ai.PromptInput value="Hi" disabled onAttachmentClick={vi.fn()} />
-    )
+    render(<PromptInput value="Hi" disabled onAttachmentClick={vi.fn()} />)
 
     expect(getTextarea()).toBeDisabled()
     document.querySelectorAll('button').forEach((button) => {
@@ -289,7 +285,7 @@ describe('Ai.PromptInput', () => {
 
   it('forwards textareaProps', () => {
     render(
-      <Ai.PromptInput textareaProps={{ status: 'Something went wrong' }} />
+      <PromptInput textareaProps={{ status: 'Something went wrong' }} />
     )
     expect(document.querySelector('.dnb-form-status')).toHaveTextContent(
       'Something went wrong'
@@ -301,7 +297,7 @@ describe('Ai.PromptInput', () => {
     const onKeyDown = vi.fn()
     const onSubmit = vi.fn()
     render(
-      <Ai.PromptInput
+      <PromptInput
         onSubmit={onSubmit}
         textareaProps={{ className: 'custom', onChange, onKeyDown }}
       />
@@ -320,7 +316,7 @@ describe('Ai.PromptInput', () => {
   })
 
   it('supports spacing props and forwards attributes', () => {
-    render(<Ai.PromptInput top="large" className="custom" id="prompt" />)
+    render(<PromptInput top="large" className="custom" id="prompt" />)
 
     const form = document.querySelector('form')
     expect(form).toHaveClass('dnb-space__top--large', 'custom')
@@ -330,12 +326,12 @@ describe('Ai.PromptInput', () => {
   it('should validate with ARIA rules', async () => {
     const result = render(
       <>
-        <Ai.PromptInput
+        <PromptInput
           characterCounter={111}
           onAttachmentClick={vi.fn()}
           onMicrophoneClick={vi.fn()}
         />
-        <Ai.PromptInput
+        <PromptInput
           variant="compact"
           onAttachmentClick={vi.fn()}
           onMicrophoneClick={vi.fn()}

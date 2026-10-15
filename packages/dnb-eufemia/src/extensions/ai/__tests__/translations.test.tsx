@@ -5,7 +5,7 @@ import sharedGb from '../../../shared/locales/en-GB'
 import sharedUs from '../../../shared/locales/en-US'
 import sharedSv from '../../../shared/locales/sv-SE'
 import sharedDa from '../../../shared/locales/da-DK'
-import { Loader, PromptInput, Tool } from '..'
+import { MessageIndicator, PromptInput, Tool } from '..'
 import nbNO from '../constants/locales/nb-NO'
 import enGB from '../constants/locales/en-GB'
 import enUS from '../constants/locales/en-US'
@@ -15,7 +15,7 @@ import daDK from '../constants/locales/da-DK'
 function Labels() {
   return (
     <>
-      <Loader />
+      <MessageIndicator />
       <PromptInput />
     </>
   )
@@ -151,13 +151,13 @@ describe('Ai translations', () => {
           locale="en-GB"
           translations={{ 'en-GB': { Ai: { loading: 'Custom …' } } }}
         >
-          <Loader />
+          <MessageIndicator />
           <Provider>
-            <Loader />
+            <MessageIndicator />
           </Provider>
         </Provider>
         <Provider locale="en-GB">
-          <Loader />
+          <MessageIndicator />
         </Provider>
       </>
     )

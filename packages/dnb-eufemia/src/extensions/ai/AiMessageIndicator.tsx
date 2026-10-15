@@ -1,19 +1,23 @@
 import { clsx } from 'clsx'
 import useTranslation from './hooks/useTranslation'
 import AiMessage from './AiMessage'
-import type { AiLoaderProps } from './types'
+import type { AiMessageIndicatorProps } from './types'
 
-function AiLoader({ label, className, ...rest }: AiLoaderProps) {
+function AiMessageIndicator({
+  label,
+  className,
+  ...rest
+}: AiMessageIndicatorProps) {
   const translation = useTranslation().Ai
 
   return (
     <AiMessage
       from="assistant"
-      className={clsx('dnb-ai-loader', className)}
+      className={clsx('dnb-ai-message-indicator', className)}
       {...rest}
     >
-      <span className="dnb-ai-loader__status" role="status">
-        <span className="dnb-ai-loader__dots" aria-hidden>
+      <span className="dnb-ai-message-indicator__status" role="status">
+        <span className="dnb-ai-message-indicator__dots" aria-hidden>
           <span />
           <span />
           <span />
@@ -24,4 +28,4 @@ function AiLoader({ label, className, ...rest }: AiLoaderProps) {
   )
 }
 
-export default AiLoader
+export default AiMessageIndicator
