@@ -19,6 +19,7 @@ import {
   isValidDuration,
   getDateTimeSeparator,
   convertNumberToDate,
+  isUTCDateString,
 } from './DateFormatUtils'
 import { format } from 'date-fns'
 import type { SpacingProps } from '../../shared/types'
@@ -178,9 +179,17 @@ function DateFormat(props: DateFormatProps) {
       // When timeStyle is provided, format date and time separately and join with separator
       // Uses custom dateTimeSeparator if provided, otherwise uses locale-aware separator
       if (options?.timeStyle) {
+        // formatDate keeps the time of UTC values in UTC, so the date has to follow
+        const timeZone =
+          typeof originalValue === 'string' &&
+          isUTCDateString(originalValue)
+            ? 'UTC'
+            : undefined
+
         const formattedDate = formatDate(originalValue, {
           locale,
           options: { dateStyle: options.dateStyle },
+          timeZone,
           hideCurrentYear:
             hideCurrentYearOverride !== undefined
               ? hideCurrentYearOverride
