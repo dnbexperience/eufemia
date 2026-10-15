@@ -1,13 +1,7 @@
 import { render } from '@testing-library/react'
 import { axeComponent } from '../../../core/test-utils/testSetup'
 import Provider from '../../../shared/Provider'
-import {
-  DateMarker,
-  Disclaimer,
-  Suggestion,
-  Suggestions,
-  Welcome,
-} from '..'
+import { DateMarker, Suggestion, Suggestions, Welcome } from '..'
 
 describe('Ai.Welcome', () => {
   it('renders a heading and content', () => {
@@ -87,22 +81,5 @@ describe('Ai.DateMarker', () => {
   it('should validate with ARIA rules', async () => {
     const result = render(<DateMarker date="2026-02-02" />)
     expect(await axeComponent(result)).toHaveNoViolations()
-  })
-})
-
-describe('Ai.Disclaimer', () => {
-  it('renders the content', () => {
-    render(<Disclaimer>AI-generated answers can be wrong.</Disclaimer>)
-    expect(document.querySelector('.dnb-ai-disclaimer')).toHaveTextContent(
-      'AI-generated answers can be wrong.'
-    )
-  })
-
-  it('supports spacing props and forwards attributes', () => {
-    render(<Disclaimer top="large" className="custom" id="x" />)
-
-    const element = document.querySelector('.dnb-ai-disclaimer')
-    expect(element).toHaveClass('dnb-space__top--large', 'custom')
-    expect(element).toHaveAttribute('id', 'x')
   })
 })

@@ -16,7 +16,7 @@ export {
   useConversationVisibility,
 } from './AiConversation'
 export { default as DateMarker } from './AiDateMarker'
-export { default as Disclaimer } from './AiDisclaimer'
+export { default as Info } from './AiInfo'
 export { default as Sources } from './AiSources'
 export { default as Tool } from './AiTool'
 export { default as Reasoning } from './AiReasoning'
