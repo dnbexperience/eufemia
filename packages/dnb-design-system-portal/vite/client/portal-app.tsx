@@ -164,7 +164,7 @@ function RouteFocusEffect() {
   // Focus mode owns its scroll position.
   const params = new URLSearchParams(location.search)
   params.delete('focusmode')
-  const routeSearch = params.toString()
+  const routeSearch = params.size ? '?' + params.toString() : ''
 
   const initialRouteRef = useRef<string | null>(null)
   const hasLeftInitialRouteRef = useRef(false)
