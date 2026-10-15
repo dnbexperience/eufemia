@@ -10,7 +10,7 @@ export default function StyleSample({
 }) {
   return (
     <article
-      className={`dnb-document ${styles.sample}`}
+      className={`${print ? 'dnb-print' : 'dnb-document'} ${styles.sample}`}
       data-visual-test="style-sample"
     >
       <H1>{print ? 'Print styles' : 'Document styles'}</H1>
@@ -52,7 +52,7 @@ export default function StyleSample({
         </tbody>
       </Table>
       <P className="dnb-print-hidden">Visible on screen only.</P>
-      <div className="dnb-document__signature">
+      <div className="dnb-document__signature dnb-print__keep-together">
         <P>
           Kind regards
           <br />

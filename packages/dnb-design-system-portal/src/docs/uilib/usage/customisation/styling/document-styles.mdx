@@ -1,6 +1,6 @@
 ---
 title: Print and document styles
-description: Optional print behavior and branded document typography for HTML and PDF output.
+description: Opt-in pagination for printable content and separate branded document typography.
 ---
 
 import { DocumentLetter } from './document-styles/Examples'
@@ -8,14 +8,23 @@ import { Space } from '@dnb/eufemia/src/components'
 
 Eufemia provides separate stylesheets for print behavior and document
 formatting. Use either on its own or combine them. Neither imports the
-other or is included in the default Eufemia bundle. Both support semantic
-HTML and Eufemia elements without requiring React.
+other or is included in the default Eufemia bundle. Import the stylesheet
+and apply its scope to enable it. Both work without React.
 
-| Need                                                   | Import                                 |
-| ------------------------------------------------------ | -------------------------------------- |
-| Print behavior with existing typography and spacing    | `dnb-ui-print.min.css`                 |
-| Document typography and spacing on screen and in print | `dnb-ui-document.min.css`              |
-| Document formatting with print/PDF behavior            | Both, with `dnb-ui-print.min.css` last |
+These styles provide pagination for selected printable content and an
+optional document typography profile. They do not make an entire app
+print-ready or provide print representations for every Eufemia component.
+Normal component styles do not automatically enable this print behavior.
+
+<Space bottom="medium">
+
+| Need                                                   | Import                                 | Scope                     |
+| ------------------------------------------------------ | -------------------------------------- | ------------------------- |
+| Print behavior with existing typography and spacing    | `dnb-ui-print.min.css`                 | `.dnb-print`              |
+| Document typography and spacing on screen and in print | `dnb-ui-document.min.css`              | `.dnb-document`           |
+| Document formatting with print/PDF behavior            | Both, with `dnb-ui-print.min.css` last | `.dnb-document.dnb-print` |
+
+</Space>
 
 SCSS imports are also available through `@dnb/eufemia/style/print` and
 `@dnb/eufemia/style/document`. For [isolated styles](/uilib/usage/customisation/styling/style-isolation/),
@@ -31,27 +40,40 @@ import '@dnb/eufemia/style/themes/ui/ui-theme-basis.min.css'
 import '@dnb/eufemia/style/dnb-ui-print.min.css'
 ```
 
-Wrap the content you want to print in `.dnb-document`. This activates the
-print rules without requiring the document stylesheet:
+Wrap the content you want to apply pagination to in `.dnb-print`. This
+works with existing app typography and does not require `.dnb-document`
+or the document stylesheet:
 
 ```html
-<article class="dnb-document">
+<section class="dnb-print">
   <!-- Your existing content -->
-</article>
+</section>
 ```
 
 The print stylesheet preserves your existing typography, spacing, brand
 palette and wrapper layout. It works independently of `dnb-ui-document`
 and does not change screen styles.
-Configure your PDF renderer to use print media.
+Configure your PDF renderer to use print media. The scope does not exclude
+content elsewhere in the app from printing; the app owns that selection.
 
-The optional print stylesheet only applies under `@media print`. It keeps
-headings with following content, repeats table headers, and requests that rows and signature blocks stay
-together when they fit on a page. Long documents and tables can span pages.
+The print stylesheet only applies under `@media print`. Within `.dnb-print`,
+it keeps headings with following content, requests repeating table headers
+and footers, and asks that table rows stay together when they fit on a page.
+It removes scrolling and clipping from Eufemia Table containers so rendered
+rows can flow across pages. Long documents and tables can span pages;
+pagination depends on the browser or PDF renderer.
 
-- Add `.dnb-print-hidden` to preview controls and other screen-only content.
-- Use `.dnb-document__keep-together` for a short group that belongs together.
-- Use `.dnb-document__page-break` to start a section on the next page.
+- Add `.dnb-print-hidden` to controls and other screen-only content. This
+  helper works inside or outside `.dnb-print`.
+- Use `.dnb-print__keep-together` inside the scope for a short group, such
+  as a signature, that belongs together.
+- Use `.dnb-print__page-break` inside the scope to start a section on the
+  next page.
+
+The app decides how navigation, buttons, form values, expanded sections,
+dialogs and other interactive content appear in print. The stylesheet does
+not hide controls automatically, expand collapsed content, render
+virtualized rows, or convert interactive components to static content.
 
 Page size, margins, repeated page footers and envelope geometry belong to
 the template and PDF renderer. The shared styles do not impose an `@page`
@@ -72,24 +94,36 @@ size or margin. For example, an A4 template can add:
 
 ### Color scheme and paper surface
 
-Print output requires a **light brand theme**. The print stylesheet does
-not convert dark-mode colors to a light palette. For React, set the scheme
-on the existing Theme wrapper around the printable content:
+Print output requires a **light brand theme**. Importing `dnb-ui-print`
+does **not** disable dark mode or convert dark tokens to a light palette,
+even when the browser switches to print media. Setting the CSS
+`color-scheme` property alone does not replace those tokens.
+
+For React, set the scheme on a Theme wrapper around the printable content:
 
 ```tsx
 <Theme colorScheme="light">
-  <article className="dnb-document">{/* Printable content */}</article>
+  <section className="dnb-print">{/* Printable content */}</section>
 </Theme>
 ```
 
 For HTML without React, apply `.eufemia-theme__color-scheme--light` on a
 wrapper around the printable content, with the selected brand's light
-theme stylesheet loaded.
+theme stylesheet loaded. This wrapper uses the light scheme on screen
+as well as in print. A nested light wrapper lets the surrounding app keep
+its selected color scheme. The document preview uses this approach.
+
+If the same content must be dark on screen and light only during printing,
+the app must currently provide a dedicated light printable view or a
+complete brand-specific print theme. Automatic print-only theme conversion
+is outside this stylesheet's support. Do not reset only a few color tokens.
 
 The template owns the paper background, text color, width, overflow and
 shadows. Use the light theme's background and text tokens for the paper
 surface. Brand accents and logos retain their colors; background printing
-depends on the renderer's settings.
+depends on the renderer's settings. Check that text, links, borders and
+status indicators remain readable with background graphics disabled and in
+grayscale. Essential meaning must not depend on color alone.
 Load fonts before generating the PDF and verify font embedding and page
 breaks in the actual production renderer.
 
@@ -117,11 +151,21 @@ document stylesheet:
 import '@dnb/eufemia/style/dnb-ui-print.min.css'
 ```
 
+Also add `.dnb-print` to the document wrapper:
+
+```html
+<article class="dnb-document dnb-print">
+  <!-- Document typography with print pagination -->
+</article>
+```
+
 ### Document scope
 
 Wrap the document in `.dnb-document`, inside the selected brand's theme.
 Application content outside this wrapper retains its normal typography.
-The wrapper activates whichever of the two stylesheets you have imported.
+`.dnb-document` activates document formatting only. Print pagination
+requires both the print import and `.dnb-print`. Neither scope imports
+styles or enables the other.
 
 ### React teams
 
@@ -131,7 +175,8 @@ options and theme context. `H1` renders an `<h1>` by default; it is not a
 different heading level.
 
 Keep the brand on the existing Theme component. For a standalone React
-preview with a `<div id="root"></div>` mount point:
+preview with a `<div id="root"></div>` mount point, this example uses
+document formatting only:
 
 ```tsx
 import { createRoot } from 'react-dom/client'
@@ -178,7 +223,10 @@ elements directly within `.dnb-document`, so React is not required:
 ```
 
 Both approaches produce semantic headings. Use the approach that fits the
-project's rendering technology.
+project's rendering technology. To enable print pagination in either
+example, import `dnb-ui-print` and add `dnb-print` to the article's classes.
+Add `dnb-print__keep-together` to the signature to keep it on one page when
+it fits.
 
 ### Typography and spacing
 

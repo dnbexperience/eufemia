@@ -24,33 +24,40 @@ test.describe('Document and print styles', () => {
     page = testPage
   })
 
+  async function withIsolation(css: string, isolated: boolean) {
+    if (isolated) {
+      return (
+        await postcss([
+          isolateStyles({ scopeHash: 'test-scope' }),
+        ]).process(css, { from: undefined })
+      ).css
+    }
+    return css
+  }
+
   async function render(
     brand = 'ui',
     isolated = false,
     nested = false,
     tableMarkup = ''
   ) {
-    let css = [
-      coreCss,
-      compile(`themes/${brand}/${brand}-theme-basis.scss`),
-      compile('../components/table/style/dnb-table.scss'),
-      compile('../components/space/style/dnb-space.scss'),
-      compile('../components/anchor/style/dnb-anchor.scss'),
-      documentCss,
-      printCss,
-    ].join('\n')
-    if (isolated) {
-      css = (
-        await postcss([
-          isolateStyles({ scopeHash: 'test-scope' }),
-        ]).process(css, { from: undefined })
-      ).css
-    }
+    const css = await withIsolation(
+      [
+        coreCss,
+        compile(`themes/${brand}/${brand}-theme-basis.scss`),
+        compile('../components/table/style/dnb-table.scss'),
+        compile('../components/space/style/dnb-space.scss'),
+        compile('../components/anchor/style/dnb-anchor.scss'),
+        documentCss,
+        printCss,
+      ].join('\n'),
+      isolated
+    )
     await page.setContent(`<style>${css}</style>
       <main class="${isolated ? 'test-scope' : ''}">
         <p id="outside" class="dnb-p">Application text</p>
         ${nested ? '<div class="dnb-core-style"><div class="dnb-spacing">' : ''}
-        <article class="dnb-document ${nested ? '' : 'dnb-core-style dnb-spacing'} eufemia-theme eufemia-theme__color-scheme--light">
+        <article class="dnb-document dnb-print ${nested ? '' : 'dnb-core-style dnb-spacing'} eufemia-theme eufemia-theme__color-scheme--light">
           <h1 id="heading">Avtalen din</h1>
           <h2 id="heading-component" class="dnb-h--x-large">Details</h2>
           <p id="plain">Hei Tobias</p>
@@ -61,7 +68,7 @@ test.describe('Document and print styles', () => {
           <h1 id="small-heading" class="dnb-h--medium">Explicit heading size</h1>
           <p id="spaced" class="dnb-p dnb-space__top--large dnb-space__bottom--large">Explicit spacing</p>
           <h1 id="spaced-heading" class="dnb-h--xx-large dnb-space__top--large">Explicit heading spacing</h1>
-          <p id="signature" class="dnb-p dnb-document__signature">Vennlig hilsen<br>DNB</p>
+          <p id="signature" class="dnb-p dnb-document__signature dnb-print__keep-together">Vennlig hilsen<br>DNB</p>
           <footer class="dnb-document__footer"><div><p id="footer-paragraph" class="dnb-p">Footer text</p></div></footer>
           <div class="dnb-document__signature"><p id="signature-paragraph" class="dnb-p">Signature text</p></div>
           <address class="dnb-document__return-address"><p id="return-address-paragraph">Return address</p></address>
@@ -102,6 +109,83 @@ test.describe('Document and print styles', () => {
         breakAfter: style.breakAfter,
         breakInside: style.breakInside,
       }
+    })
+  }
+
+  for (const isolated of [false, true]) {
+    test(`supports an independent print scope without document styles (isolated: ${isolated})`, async () => {
+      const css = await withIsolation(
+        [
+          coreCss,
+          compile('themes/ui/ui-theme-basis.scss'),
+          '.dnb-table__scroll-view { overflow: auto; max-height: 100px; clip-path: inset(0 round 8px); }',
+          printCss,
+        ].join('\n'),
+        isolated
+      )
+      await page.setContent(`<style>${css}</style>
+        <main class="${isolated ? 'test-scope' : ''}">
+          <section class="dnb-print dnb-core-style eufemia-theme__color-scheme--light">
+            <h2 id="print-heading">App content</h2>
+            <p id="print-text" class="dnb-p">Existing typography and spacing</p>
+            <div id="keep-together" class="dnb-print__keep-together">Short group</div>
+            <div id="page-break" class="dnb-print__page-break">Next page</div>
+            <div id="table-scroll" class="dnb-table__scroll-view">
+              <table><thead><tr><th>Heading</th></tr></thead><tbody><tr id="print-row"><td>Row</td></tr></tbody><tfoot><tr><td>Total</td></tr></tfoot></table>
+            </div>
+            <p id="print-hidden" class="dnb-print-hidden">Screen only</p>
+          </section>
+          <article class="dnb-document"><h2 id="document-only-heading">Document without print scope</h2></article>
+        </main>
+        <section><h2 id="outside-heading">Outside print scope</h2></section>
+        <section class="dnb-print"><h2 id="unisolated-heading">Outside isolation</h2></section>`)
+      const text = await styles('#print-text')
+      expect(text.fontSize).toBe(18)
+      expect((await styles('#print-heading')).breakAfter).toBe('auto')
+      expect((await styles('#print-hidden')).display).toBe('block')
+      await page.emulateMedia({ media: 'print' })
+      expect(await styles('#print-text')).toEqual(text)
+      expect((await styles('#print-heading')).breakAfter).toBe('avoid')
+      expect((await styles('#print-row')).breakInside).toBe('avoid')
+      expect((await styles('#keep-together')).breakInside).toBe('avoid')
+      expect(
+        await page
+          .locator('#page-break')
+          .evaluate((element) => getComputedStyle(element).breakBefore)
+      ).toBe('page')
+      expect((await styles('#print-hidden')).display).toBe('none')
+      expect((await styles('#document-only-heading')).breakAfter).toBe(
+        'auto'
+      )
+      expect((await styles('#outside-heading')).breakAfter).toBe('auto')
+      const table = await page
+        .locator('#table-scroll')
+        .evaluate((element) => {
+          const style = getComputedStyle(element)
+          return {
+            overflow: style.overflow,
+            maxHeight: style.maxHeight,
+            clipPath: style.clipPath,
+            headerDisplay: getComputedStyle(element.querySelector('thead'))
+              .display,
+            footerDisplay: getComputedStyle(element.querySelector('tfoot'))
+              .display,
+          }
+        })
+      expect(table).toEqual({
+        overflow: 'visible',
+        maxHeight: 'none',
+        clipPath: 'none',
+        headerDisplay: 'table-header-group',
+        footerDisplay: 'table-footer-group',
+      })
+      expect((await styles('#unisolated-heading')).breakAfter).toBe(
+        isolated ? 'auto' : 'avoid'
+      )
+      await page.emulateMedia({ media: 'screen' })
+      expect(await styles('#print-text')).toEqual(text)
+      expect((await styles('#print-heading')).breakAfter).toBe('auto')
+      expect((await styles('#print-hidden')).display).toBe('block')
     })
   }
 

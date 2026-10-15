@@ -3,14 +3,14 @@
  */
 
 @media print {
-  .dnb-document {
+  .dnb-print {
     orphans: 3;
     widows: 3;
 
     :is(h1, h2, h3, h4, h5, h6, .dnb-h, .dnb-lead) {
       break-after: avoid;
     }
-    :is(tr, .dnb-document__signature, .dnb-document__keep-together) {
+    :is(tr, .dnb-print__keep-together) {
       break-inside: avoid;
     }
     thead {
@@ -27,7 +27,7 @@
     .dnb-table--outline {
       clip-path: none;
     }
-    .dnb-document__page-break {
+    .dnb-print__page-break {
       break-before: page;
     }
   }

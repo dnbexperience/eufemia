@@ -45,7 +45,7 @@ export function DocumentLetter({
   return (
     <Theme brand={brand} colorScheme="light">
       <article
-        className={`dnb-document ${styles.letter}`}
+        className={`dnb-document dnb-print ${styles.letter}`}
         lang="nb"
         id="letter"
       >
@@ -105,7 +105,7 @@ export function DocumentLetter({
           <br />
           Takk for at du er kunde hos oss.
         </P>
-        <P className="dnb-document__signature">
+        <P className="dnb-document__signature dnb-print__keep-together">
           Vennlig hilsen
           <br />
           {brands[brand]}
