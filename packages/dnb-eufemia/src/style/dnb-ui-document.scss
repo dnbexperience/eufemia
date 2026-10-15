@@ -1,0 +1,205 @@
+/**
+ * Document typography. Import after core and brand styles.
+ */
+
+@use '../elements/typography/style/typography-mixins.scss' as typography;
+
+.dnb-document {
+  // Point equivalents assume the default 16px root. Keep the root scalable.
+  --font-size-xx-small: 0.75rem; // 9pt
+  --font-size-x-small: 0.75rem; // 9pt
+  --font-size-small: 0.833333rem; // 10pt
+  --font-size-basis: 0.916667rem; // 11pt
+  --font-size-basis--em: 1em;
+  --font-size-medium: 1rem; // 12pt
+  --font-size-large: 1rem; // 12pt
+  --font-size-x-large: 1.083333rem; // 13pt
+  --font-size-xx-large: 1.166667rem; // 14pt
+  --font-size-lead: var(--font-size-medium);
+  // Document line heights
+  --line-height-x-small: 0.975rem;
+  --line-height-small: 1.166667rem;
+  --line-height-basis: 1.283333rem;
+  --line-height-basis--em: 1.4em;
+  --line-height-medium: 1.3rem;
+  --line-height-large: 1.3rem;
+  --line-height-x-large: 1.354167rem;
+  --line-height-xx-large: 1.458333rem;
+  --line-height-lead: var(--line-height-medium);
+
+  font-family: var(--font-family-default);
+  font-weight: var(--font-weight-regular);
+  font-size: var(--font-size-basis);
+  line-height: var(--line-height-basis);
+  color: var(--token-color-text-neutral);
+
+  // Responsive UI typography must not change document pagination.
+  :is(
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    p,
+    small,
+    .dnb-lead,
+    .dnb-h,
+    .dnb-p,
+    .dnb-small,
+    .dnb-t,
+    [class^='dnb-t__'],
+    [class*=' dnb-t__']
+  ) {
+    @include typography.responsiveOff();
+  }
+
+  :is(h1, h2, h3, h4, h5, h6, .dnb-h, .dnb-lead) {
+    font-family: var(--font-family-heading);
+    color: var(--token-color-text-neutral);
+
+    &,
+    .dnb-core-style & {
+      &:not([class*='dnb-space__top']) {
+        margin-top: 1.25rem;
+      }
+      &:not([class*='dnb-space__bottom']) {
+        margin-bottom: 0.5rem;
+      }
+      &:first-child:not([class*='dnb-space__top']) {
+        margin-top: 0;
+      }
+    }
+  }
+
+  :is(h1:not([class*='dnb-h--']), .dnb-h--xx-large) {
+    @include typography.headingSizeXxLarge();
+  }
+  :is(h2:not([class*='dnb-h--']), .dnb-h--x-large) {
+    @include typography.headingSizeXLarge();
+  }
+  :is(h3:not([class*='dnb-h--']), .dnb-h--large) {
+    @include typography.headingSizeLarge();
+  }
+  :is(h4:not([class*='dnb-h--']), .dnb-h--medium) {
+    @include typography.headingSizeMedium();
+  }
+  :is(h5:not([class*='dnb-h--']), .dnb-h--basis) {
+    @include typography.headingSizeBasis();
+  }
+  :is(h6:not([class*='dnb-h--']), .dnb-h--small) {
+    @include typography.headingSizeSmall();
+  }
+
+  :is(p, .dnb-p, ul, ol, dl, .dnb-ul, .dnb-ol, .dnb-dl) {
+    &:where(:not([class*='dnb-t__size--'])) {
+      font-size: var(--font-size-basis);
+    }
+    &:where(:not([class*='dnb-t__line-height--'])) {
+      line-height: var(--line-height-basis);
+    }
+
+    &,
+    .dnb-core-style & {
+      &:not([class*='dnb-space__top']) {
+        margin-top: 0;
+      }
+      &:not([class*='dnb-space__bottom']) {
+        margin-bottom: 0.75rem;
+      }
+    }
+  }
+
+  :is(ul, ol, .dnb-ul, .dnb-ol) {
+    &:not([class*='dnb-space__left']) {
+      padding-inline-start: 1.25rem;
+    }
+    li {
+      margin-block: 0.25rem;
+    }
+  }
+
+  :is(.dnb-lead, .dnb-p--lead) {
+    @include typography.typographyLead();
+  }
+
+  :is(table, .dnb-table) {
+    width: 100%;
+    margin-bottom: 0.75rem;
+    border-collapse: collapse;
+    font-size: var(--font-size-small);
+    line-height: var(--line-height-small);
+
+    :is(th, td, .dnb-table__th, .dnb-table__td) {
+      padding: 0.375rem 0.5rem;
+      font-size: var(--font-size-small);
+      line-height: var(--line-height-small);
+
+      &:where(:not(.dnb-table--no-border *)) {
+        border-bottom: 0.0625rem solid
+          var(--token-color-stroke-neutral-subtle);
+      }
+
+      &:where(:not([align], [class*='dnb-t__align--'])) {
+        text-align: start;
+      }
+      &:where(
+        :not(
+          [valign],
+          [class*='dnb-table__td--vertical-align-'],
+          [class*='dnb-table__tr--vertical-align-'] *
+        )
+      ) {
+        vertical-align: top;
+      }
+      &:where(.dnb-table__td--no-spacing) {
+        padding: 0;
+      }
+      &:where(.dnb-table__td--spacing-horizontal) {
+        padding-top: 0;
+        padding-bottom: 0;
+      }
+    }
+    th {
+      font-weight: var(--font-weight-bold);
+    }
+    :is(p, .dnb-p) {
+      &,
+      .dnb-core-style & {
+        &:not([class*='dnb-space__top']) {
+          margin-top: 0;
+        }
+        &:not([class*='dnb-space__bottom']) {
+          margin-bottom: 0;
+        }
+      }
+      &:where(:not([class*='dnb-t__size--'])) {
+        font-size: inherit;
+      }
+      &:where(:not([class*='dnb-t__line-height--'])) {
+        line-height: inherit;
+      }
+    }
+  }
+
+  :is(
+    .dnb-document__signature,
+    .dnb-document__footer,
+    .dnb-document__return-address
+  ) {
+    --font-size-basis: var(--font-size-small);
+    --line-height-basis: var(--line-height-small);
+
+    font-size: var(--font-size-small);
+    line-height: var(--line-height-small);
+  }
+
+  .dnb-document__signature {
+    &,
+    .dnb-core-style & {
+      &:not([class*='dnb-space__top']) {
+        margin-top: 1.25rem;
+      }
+    }
+  }
+}
