@@ -194,6 +194,26 @@ describe('PaymentCard', () => {
 
     expect(screen.queryByText('Credit')).toBeInTheDocument()
   })
+
+  it('gives each Sbanken logo its own clip path id', () => {
+    render(
+      <>
+        <PaymentCard {...defaultProps} id="first" productCode="087" />
+        <PaymentCard {...defaultProps} id="second" productCode="087" />
+      </>
+    )
+
+    const ids = Array.from(document.querySelectorAll('clipPath')).map(
+      (clipPath) => clipPath.id
+    )
+    const references = Array.from(
+      document.querySelectorAll('g[clip-path]')
+    ).map((group) => group.getAttribute('clip-path'))
+
+    expect(ids).toHaveLength(2)
+    expect(new Set(ids).size).toBe(2)
+    expect(references).toEqual(ids.map((id) => `url(#${id})`))
+  })
 })
 
 describe('Helper functions', () => {
