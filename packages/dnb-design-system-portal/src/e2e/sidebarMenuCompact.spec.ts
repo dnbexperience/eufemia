@@ -892,6 +892,51 @@ test('resizes the full SidebarMenu and restores that width', async ({
     .toBe(320)
 })
 
+test('resizes the full SidebarMenu from anywhere on the resize handle', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1400, height: 900 })
+  await page.goto('/uilib/extensions/sidebar-menu/demos/')
+  await waitForApp(page)
+
+  const shell = page.locator('[data-sidebar-menu-responsive-example]')
+  const inline = shell.locator('.dnb-sidebar-menu-responsive-inline')
+  const handle = shell.locator('.dnb-sidebar-menu-resize-handle')
+  await shell.scrollIntoViewIfNeeded()
+
+  const handleBox = await handle.evaluate((element) => {
+    const rect = element.getBoundingClientRect()
+    return {
+      left: rect.left,
+      width: rect.width,
+      y: rect.top + rect.height / 2,
+    }
+  })
+  const missedPoints = await handle.evaluate((element, box) => {
+    const missed: number[] = []
+    for (let x = box.left + 1; x < box.left + box.width - 1; x++) {
+      if (document.elementFromPoint(x, box.y) !== element) {
+        missed.push(Math.round(x - box.left))
+      }
+    }
+    return missed
+  }, handleBox)
+  expect(missedPoints).toEqual([])
+
+  const startX = handleBox.left + handleBox.width / 2
+  await page.mouse.move(startX, handleBox.y)
+  await page.mouse.down()
+  await page.mouse.move(startX + 48, handleBox.y)
+  await page.mouse.up()
+
+  await expect(handle).toHaveAttribute('aria-valuenow', '352')
+  await expect
+    .poll(() =>
+      inline.evaluate((element) => element.getBoundingClientRect().width)
+    )
+    .toBe(352)
+})
+
 test('dismisses the full SidebarMenu by dragging and restores it', async ({
   page,
 }) => {

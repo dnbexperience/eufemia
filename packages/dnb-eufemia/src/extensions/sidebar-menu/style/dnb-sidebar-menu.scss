@@ -744,9 +744,14 @@ html.dnb-sidebar-menu-resize-handle--resizing
       min-height: 100%;
 
       background-color: var(--token-color-background-neutral);
-      clip-path: inset(0);
+      // Keep the resize handle that overlaps the edge reachable
+      clip-path: inset(0 -2rem 0 0);
 
       transition: clip-path 240ms var(--easing-default);
+
+      &:dir(rtl) {
+        clip-path: inset(0 0 0 -2rem);
+      }
     }
   }
 
