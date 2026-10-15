@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { act, cleanup, fireEvent, render } from '@testing-library/react'
-import { MemoryRouter, useLocation } from 'react-router'
+import { MemoryRouter, useLocation, useNavigate } from 'react-router'
 import {
   FocusModeCodeProvider,
   useFocusModeCode,
@@ -9,6 +9,7 @@ import {
 function Consumer() {
   const { focusModeCodeId, setFocusModeCodeId } = useFocusModeCode()
   const location = useLocation()
+  const navigate = useNavigate()
 
   return (
     <>
@@ -22,6 +23,9 @@ function Consumer() {
       <button onClick={() => setFocusModeCodeId(null)}>
         Exit focus mode
       </button>
+      <button onClick={() => navigate(-1)}>Back</button>
+      <button onClick={() => navigate(1)}>Forward</button>
+      <button onClick={() => navigate('/other-page')}>Other page</button>
     </>
   )
 }
@@ -49,6 +53,7 @@ describe('FocusModeCodeContext', () => {
       writable: true,
     })
     sessionStorage.clear()
+    window.history.scrollRestoration = 'auto'
   })
 
   afterEach(() => {
@@ -162,5 +167,48 @@ describe('FocusModeCodeContext', () => {
     expect(getByTestId('location').textContent).toBe(
       '/uilib?q=term#examples'
     )
+  })
+
+  it('restores the previous URL and focus mode state with Back and Forward', () => {
+    window.location = new URL(
+      'http://localhost/uilib?q=term#examples'
+    ) as unknown as Location & string
+
+    const { getByRole, getByTestId } = render(
+      <TestProvider>
+        <Consumer />
+      </TestProvider>
+    )
+
+    fireEvent.click(getByRole('button', { name: 'Enter focus mode' }))
+    fireEvent.click(getByRole('button', { name: 'Back' }))
+
+    expect(getByTestId('location').textContent).toBe(
+      '/uilib?q=term#examples'
+    )
+    expect(getByTestId('consumer').textContent).toBe('null')
+
+    fireEvent.click(getByRole('button', { name: 'Forward' }))
+
+    expect(getByTestId('location').textContent).toBe(
+      '/uilib?q=term&focusmode=my-block#examples'
+    )
+    expect(getByTestId('consumer').textContent).toBe('my-block')
+  })
+
+  it('clears focus mode when navigating to a URL without the parameter', () => {
+    const { getByRole, getByTestId } = render(
+      <TestProvider>
+        <Consumer />
+      </TestProvider>
+    )
+
+    fireEvent.click(getByRole('button', { name: 'Enter focus mode' }))
+    expect(window.history.scrollRestoration).toBe('manual')
+    fireEvent.click(getByRole('button', { name: 'Other page' }))
+
+    expect(getByTestId('location').textContent).toBe('/other-page')
+    expect(getByTestId('consumer').textContent).toBe('null')
+    expect(window.history.scrollRestoration).toBe('auto')
   })
 })
