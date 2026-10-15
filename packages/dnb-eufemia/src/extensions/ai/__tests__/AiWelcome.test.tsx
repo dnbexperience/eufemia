@@ -1,16 +1,22 @@
 import { render } from '@testing-library/react'
 import { axeComponent } from '../../../core/test-utils/testSetup'
 import Provider from '../../../shared/Provider'
-import * as Ai from '..'
+import {
+  DateMarker,
+  Disclaimer,
+  Suggestion,
+  Suggestions,
+  Welcome,
+} from '..'
 
 describe('Ai.Welcome', () => {
   it('renders a heading and content', () => {
     render(
-      <Ai.Welcome title="Hello, Peter">
-        <Ai.Suggestions>
-          <Ai.Suggestion suggestion="Block my card" />
-        </Ai.Suggestions>
-      </Ai.Welcome>
+      <Welcome title="Hello, Peter">
+        <Suggestions>
+          <Suggestion suggestion="Block my card" />
+        </Suggestions>
+      </Welcome>
     )
 
     const heading = document.querySelector('h2')
@@ -22,12 +28,12 @@ describe('Ai.Welcome', () => {
   })
 
   it('supports a heading level', () => {
-    render(<Ai.Welcome title="Hello" level={1} />)
+    render(<Welcome title="Hello" level={1} />)
     expect(document.querySelector('h1')).toHaveTextContent('Hello')
   })
 
   it('supports spacing props and forwards attributes', () => {
-    render(<Ai.Welcome title="Hi" top="large" className="custom" id="w" />)
+    render(<Welcome title="Hi" top="large" className="custom" id="w" />)
 
     const element = document.querySelector('.dnb-ai-welcome')
     expect(element).toHaveClass('dnb-space__top--large', 'custom')
@@ -35,14 +41,14 @@ describe('Ai.Welcome', () => {
   })
 
   it('should validate with ARIA rules', async () => {
-    const result = render(<Ai.Welcome title="Hello, Peter" />)
+    const result = render(<Welcome title="Hello, Peter" />)
     expect(await axeComponent(result)).toHaveNoViolations()
   })
 })
 
 describe('Ai.DateMarker', () => {
   it('renders the date with the weekday and a line', () => {
-    render(<Ai.DateMarker date="2026-02-02" />)
+    render(<DateMarker date="2026-02-02" />)
 
     expect(
       document.querySelector('.dnb-ai-date-marker__date')
@@ -55,7 +61,7 @@ describe('Ai.DateMarker', () => {
   it('formats the date in the given locale', () => {
     render(
       <Provider locale="en-GB">
-        <Ai.DateMarker date="2026-02-02" />
+        <DateMarker date="2026-02-02" />
       </Provider>
     )
     expect(
@@ -64,14 +70,14 @@ describe('Ai.DateMarker', () => {
   })
 
   it('shows children instead of the date', () => {
-    render(<Ai.DateMarker>Today</Ai.DateMarker>)
+    render(<DateMarker>Today</DateMarker>)
     expect(
       document.querySelector('.dnb-ai-date-marker__date')
     ).toHaveTextContent('Today')
   })
 
   it('supports spacing props and forwards attributes', () => {
-    render(<Ai.DateMarker top="large" className="custom" id="d" />)
+    render(<DateMarker top="large" className="custom" id="d" />)
 
     const element = document.querySelector('.dnb-ai-date-marker')
     expect(element).toHaveClass('dnb-space__top--large', 'custom')
@@ -79,23 +85,21 @@ describe('Ai.DateMarker', () => {
   })
 
   it('should validate with ARIA rules', async () => {
-    const result = render(<Ai.DateMarker date="2026-02-02" />)
+    const result = render(<DateMarker date="2026-02-02" />)
     expect(await axeComponent(result)).toHaveNoViolations()
   })
 })
 
 describe('Ai.Disclaimer', () => {
   it('renders the content', () => {
-    render(
-      <Ai.Disclaimer>AI-generated answers can be wrong.</Ai.Disclaimer>
-    )
+    render(<Disclaimer>AI-generated answers can be wrong.</Disclaimer>)
     expect(document.querySelector('.dnb-ai-disclaimer')).toHaveTextContent(
       'AI-generated answers can be wrong.'
     )
   })
 
   it('supports spacing props and forwards attributes', () => {
-    render(<Ai.Disclaimer top="large" className="custom" id="x" />)
+    render(<Disclaimer top="large" className="custom" id="x" />)
 
     const element = document.querySelector('.dnb-ai-disclaimer')
     expect(element).toHaveClass('dnb-space__top--large', 'custom')
