@@ -1,6 +1,6 @@
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import { useContext } from 'react'
-import type { HTMLProps, ReactNode } from 'react'
+import type { HTMLProps, MouseEventHandler, ReactNode } from 'react'
 import { clsx } from 'clsx'
 import Flex from '../flex/Flex'
 import type { SectionProps } from '../section/Section'
@@ -8,6 +8,10 @@ import { SectionParams } from '../section/Section'
 import { combineLabelledBy } from '../../shared/component-helper'
 import CardContext from './CardContext'
 import Space from '../Space'
+import Button from '../button/Button'
+import type { ButtonProps } from '../button/Button'
+import Context from '../../shared/Context'
+import mergeProps from '../../shared/helpers/mergeProps'
 import useId from '../../shared/helpers/useId'
 
 import type { FlexContainerProps } from '../flex/Container'
@@ -16,6 +20,12 @@ import type { SpaceTypeMedia } from '../../shared/types'
 import type { SpaceProps } from '../Space'
 
 export type CardProps = {
+  /** Called when the close button is clicked. The consumer controls dismissal. */
+  onClose?: MouseEventHandler<HTMLButtonElement>
+
+  /** Close button props. A given onClick runs before onClose and can return false to skip it. */
+  closeButtonProps?: ButtonProps
+
   /**
    * Define a title that appears on top of the Card.
    */
@@ -46,9 +56,12 @@ export type CardProps = {
 
 function Card(props: CardProps) {
   const nestedContext = useContext(CardContext)
+  const context = useContext(Context)
 
   const {
     className,
+    onClose,
+    closeButtonProps,
     stack,
     direction,
     gap,
@@ -92,6 +105,7 @@ function Card(props: CardProps) {
       className,
       responsive && 'dnb-card--responsive',
       filled && 'dnb-card--filled',
+      onClose && 'dnb-card--closable',
       !innerSpace && innerSpace != null && 'dnb-card--no-inner-space'
     ),
     breakout: responsive ? trueWhenSmall : false,
@@ -136,6 +150,18 @@ function Card(props: CardProps) {
           )}
           {children}
         </Flex.Container>
+        {onClose && (
+          <Button
+            variant="tertiary"
+            icon="close"
+            title={context.getTranslation(props).Card.closeTitle}
+            {...mergeProps(
+              { className: 'dnb-card__close-button', onClick: onClose },
+              closeButtonProps
+            )}
+            type="button"
+          />
+        )}
       </CardContext>
     </Flex.Item>
   )

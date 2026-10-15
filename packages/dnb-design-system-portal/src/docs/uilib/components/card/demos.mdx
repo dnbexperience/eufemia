@@ -85,3 +85,25 @@ Use `Card.Action` to make a Card clickable or a link. Pass `onClick` for a butto
 For custom routing (e.g. react-router), pass a router `Link` via the `element` prop on `Card.Action`.
 
 <Examples.InteractiveCards />
+
+### Info card layout
+
+Use `Card.Info` directly for information and tips. Compose its content using existing components.
+
+<Examples.InfoLayout />
+
+### Info card actions
+
+Set `onClick`, `href`, or `to` on Card.Info when the whole card performs one action or navigates to a URL. Keep the content free of nested links, buttons, and other interactive elements.
+
+<Examples.InfoCardActions />
+
+### Closable info card
+
+Wrap Card in [HeightAnimation](/uilib/components/height-animation/) to animate dismissal. HeightAnimation removes the card after the closing animation completes. In your application, move focus to a suitable remaining control when dismissing focused content.
+
+<Examples.ClosableInfoCard />
+
+### Graphic and centered layouts
+
+<Examples.InfoCardGraphic />

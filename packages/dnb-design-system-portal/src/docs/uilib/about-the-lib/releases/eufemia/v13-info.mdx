@@ -279,19 +279,40 @@ Note that the `disable*` props invert, so a disabled feature becomes `false`:
 
 ### [InfoCard](/uilib/components/info-card/)
 
-- Replace `closeButtonAttributes` with `closeButtonProps`.
+Replace InfoCard with `Card.Info` and compose its content as children. Card.Info supplies the card surface, shadow, and padding. See [Card.Info](/uilib/components/card/#cardinfo) for layout, sizing, interaction, and dismissal guidance.
 
-```diff
--<InfoCard closeButtonAttributes={{ href: '/path' }} />
-+<InfoCard closeButtonProps={{ href: '/path' }} />
+Before:
+
+```tsx
+<InfoCard
+  title="Savings tip"
+  text="Save a little every month."
+  acceptButtonText="Start saving"
+  onAccept={onAccept}
+/>
 ```
 
-- Replace `acceptButtonAttributes` with `acceptButtonProps`.
+After:
 
-```diff
--<InfoCard acceptButtonAttributes={{ href: '/path' }} />
-+<InfoCard acceptButtonProps={{ href: '/path' }} />
+```tsx
+<Card.Info>
+  <Flex.Stack gap="x-small">
+    <P size="small" weight="medium">
+      Savings tip
+    </P>
+    <P size="small">Save a little every month.</P>
+  </Flex.Stack>
+  <Button variant="secondary" onClick={onAccept}>
+    Start saving
+  </Button>
+</Card.Info>
 ```
+
+- Replace `text` with paragraph children. Use heading children or Card's `title` property for the title.
+- Replace `icon`, `src`, `alt`, and `imgProps` with IconPrimary, Img, or other graphic children. Include appropriate alternative text.
+- Replace accept and close button props, including the `*ButtonAttributes` aliases, with explicit Button children. For a top-corner close button, use `onClose` and `closeButtonProps` on Card.Info.
+- Replace `centered` with your content layout, for example `Flex.Stack align="center"` and centered text. Wrap loading content in `Provider skeleton`.
+- Remove `stretch` and control width through the containing layout. Other Card properties, including spacing and `dropShadow`, can be passed directly to Card.Info.
 
 ### [Img](/uilib/elements/image/)
 

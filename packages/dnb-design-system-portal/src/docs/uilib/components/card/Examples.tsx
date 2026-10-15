@@ -1,9 +1,13 @@
 import ComponentBox from '../../../../shared/tags/ComponentBox'
+import { useRef, useState } from 'react'
 import {
   Button,
+  Avatar,
   Card,
   Flex,
   Grid,
+  HeightAnimation,
+  IconPrimary,
   H2,
   Lead,
   P,
@@ -14,6 +18,223 @@ import {
   Tr,
 } from '@dnb/eufemia/src'
 import { Field, Form } from '@dnb/eufemia/src/extensions/forms'
+import { Provider } from '@dnb/eufemia/src/shared'
+import { fish, lightbulb_medium } from '@dnb/eufemia/src/icons'
+
+export const InfoLayout = () => (
+  <ComponentBox
+    scope={{ fish, lightbulb_medium }}
+    data-visual-test="card-info-layout"
+  >
+    <Card.Info>
+      <Flex.Horizontal wrap={false} gap="small">
+        <IconPrimary
+          icon={lightbulb_medium}
+          size="medium"
+          style={{ color: 'var(--token-color-icon-action)' }}
+        />
+        <Flex.Stack
+          gap="small"
+          style={{ maxWidth: 'var(--prose-max-width)' }}
+        >
+          <Flex.Stack gap="x-small">
+            <P size="small" weight="medium">
+              Title of your info/tip
+            </P>
+            <P size="small">
+              This is a description of some information or a tip that will
+              inform the user of something that will help them.
+            </P>
+          </Flex.Stack>
+          <Flex.Horizontal gap="small">
+            <Button
+              variant="secondary"
+              icon={fish}
+              href="#info-card-actions"
+            >
+              Some CTA here
+            </Button>
+            <Button
+              variant="tertiary"
+              icon={fish}
+              href="#info-card-actions"
+            >
+              Another CTA
+            </Button>
+          </Flex.Horizontal>
+        </Flex.Stack>
+      </Flex.Horizontal>
+    </Card.Info>
+  </ComponentBox>
+)
+
+export const InfoCardActions = () => (
+  <ComponentBox data-visual-test="card-info-actions">
+    <Flex.Stack>
+      <Card.Info onClick={() => console.log('Start saving')}>
+        <Flex.Stack gap="x-small">
+          <P size="small" weight="medium">
+            Start saving
+          </P>
+          <P size="small">
+            Set up a monthly transfer to build your savings.
+          </P>
+        </Flex.Stack>
+      </Card.Info>
+      <Card.Info href="#info-card-layout">
+        <Flex.Stack gap="x-small">
+          <P size="small" weight="medium">
+            Read more about saving
+          </P>
+          <P size="small">The whole card is a link.</P>
+        </Flex.Stack>
+      </Card.Info>
+    </Flex.Stack>
+  </ComponentBox>
+)
+
+export const ClosableInfoCard = () => (
+  <ComponentBox data-visual-test="card-info-close">
+    {() => {
+      const Example = () => {
+        const [visible, setVisible] = useState(true)
+        const [dismissed, setDismissed] = useState(false)
+        const animationRef = useRef<HTMLElement>(null)
+        const shouldMoveFocus = useRef(false)
+
+        return !dismissed ? (
+          <HeightAnimation
+            ref={animationRef}
+            open={visible}
+            onAnimationStart={(state) => {
+              if (state === 'closing') {
+                shouldMoveFocus.current =
+                  animationRef.current?.contains(document.activeElement) ??
+                  false
+              }
+            }}
+            onAnimationEnd={(state) => {
+              if (state === 'closed') {
+                setDismissed(true)
+                if (shouldMoveFocus.current) {
+                  document
+                    .getElementById('graphic-and-centered-layouts')
+                    ?.focus()
+                }
+              }
+            }}
+          >
+            <Card.Info
+              onClose={() => setVisible(false)}
+              closeButtonProps={{ title: 'Dismiss savings tip' }}
+            >
+              <Flex.Stack gap="x-small">
+                <P size="small" weight="medium">
+                  A little every month goes a long way
+                </P>
+                <P size="small">
+                  Set up a monthly transfer to build your savings.
+                </P>
+              </Flex.Stack>
+              <Button
+                variant="secondary"
+                onClick={() => setVisible(false)}
+              >
+                Got it
+              </Button>
+            </Card.Info>
+          </HeightAnimation>
+        ) : null
+      }
+      return <Example />
+    }}
+  </ComponentBox>
+)
+
+export const InfoCardGraphic = () => (
+  <ComponentBox data-visual-test="card-info-graphic">
+    <Flex.Stack>
+      <Card.Info>
+        <Flex.Horizontal wrap={false}>
+          <Avatar size="large" />
+          <Flex.Stack gap="x-small">
+            <P size="small" weight="medium">
+              Your savings adviser
+            </P>
+            <P size="small">
+              Compose an image, illustration, or any other content.
+            </P>
+          </Flex.Stack>
+        </Flex.Horizontal>
+      </Card.Info>
+      <Card.Info>
+        <Flex.Stack
+          align="center"
+          gap="small"
+          style={{ textAlign: 'center' }}
+        >
+          <Flex.Stack gap="x-small" align="center">
+            <H2 size="small">Build your savings</H2>
+            <P size="small">Center the content using Flex.</P>
+          </Flex.Stack>
+          <Flex.Item alignSelf="center">
+            <Button variant="secondary" href="#info-card-layout">
+              Learn more
+            </Button>
+          </Flex.Item>
+        </Flex.Stack>
+      </Card.Info>
+      <Card.Info dropShadow={false} innerSpace="small">
+        <Flex.Stack gap="x-small">
+          <P size="small" weight="medium">
+            Text only, without shadow
+          </P>
+          <P size="small">Card defaults can be overridden.</P>
+        </Flex.Stack>
+      </Card.Info>
+      <Provider skeleton>
+        <Card.Info>
+          <Flex.Stack gap="x-small">
+            <P size="small" weight="medium">
+              Loading title
+            </P>
+            <P size="small">Loading information</P>
+          </Flex.Stack>
+        </Card.Info>
+      </Provider>
+    </Flex.Stack>
+  </ComponentBox>
+)
+
+export const CloseButtonPadding = () => (
+  <ComponentBox data-visual-test="card-close-padding" hideCode>
+    <Flex.Stack>
+      <Card responsive={false} onClose={() => undefined}>
+        <P size="small">Plain Card with default padding</P>
+      </Card>
+      <Card.Info onClose={() => undefined}>
+        <P size="small">Card.Info with responsive padding</P>
+      </Card.Info>
+      <Card.Info innerSpace="large" onClose={() => undefined}>
+        <P size="small">Card.Info with custom padding</P>
+      </Card.Info>
+      <Card.Info
+        innerSpace={{
+          top: 'x-large',
+          bottom: 'small',
+          left: 'small',
+          right: 'small',
+        }}
+        onClose={() => undefined}
+      >
+        <P size="small">Card.Info with asymmetric padding</P>
+      </Card.Info>
+      <Card.Info innerSpace={false} onClose={() => undefined}>
+        <P size="small">Card.Info without padding</P>
+      </Card.Info>
+    </Flex.Stack>
+  </ComponentBox>
+)
 
 export const Default = () => {
   return (

@@ -99,6 +99,9 @@ export default {
       selectedSr: 'Selected:',
       indicatorLabel: 'Getting data ...',
     },
+    Card: {
+      closeTitle: 'Close',
+    },
     Modal: {
       dialogTitle: 'Dialog window',
       closeTitle: 'Close',
