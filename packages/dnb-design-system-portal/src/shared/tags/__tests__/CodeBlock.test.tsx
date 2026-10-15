@@ -621,7 +621,7 @@ describe('CodeBlock', () => {
       focusModeButton.click()
     })
 
-    expect(scrollTo).toHaveBeenCalledWith({ top: 0 })
+    expect(scrollTo).toHaveBeenCalledWith({ top: 0, behavior: 'instant' })
     expect(mockSetFocusModeCodeId).toHaveBeenCalledWith('block-a')
   })
 

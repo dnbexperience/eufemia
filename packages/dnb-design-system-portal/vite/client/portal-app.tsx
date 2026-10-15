@@ -160,14 +160,18 @@ function PageWrapper() {
  */
 function RouteFocusEffect() {
   const location = useLocation()
+
+  // Focus mode owns its scroll position.
+  const params = new URLSearchParams(location.search)
+  params.delete('focusmode')
+  const routeSearch = params.size ? '?' + params.toString() : ''
+
   const initialRouteRef = useRef<string | null>(null)
   const hasLeftInitialRouteRef = useRef(false)
 
   if (initialRouteRef.current === null && typeof window !== 'undefined') {
     initialRouteRef.current =
-      window.location.pathname +
-      window.location.search +
-      window.location.hash
+      window.location.pathname + routeSearch + window.location.hash
   }
 
   useEffect(() => {
@@ -175,9 +179,7 @@ function RouteFocusEffect() {
       typeof window !== 'undefined' ? window.location.hash : location.hash
     const currentRoute =
       typeof window !== 'undefined'
-        ? window.location.pathname +
-          window.location.search +
-          window.location.hash
+        ? window.location.pathname + routeSearch + window.location.hash
         : location.pathname + location.hash
 
     if (
@@ -193,7 +195,7 @@ function RouteFocusEffect() {
     }
 
     document.documentElement.setAttribute('data-portal-ready', 'true')
-  }, [location.hash, location.pathname, location.search])
+  }, [location.hash, location.pathname, routeSearch])
 
   return null
 }
