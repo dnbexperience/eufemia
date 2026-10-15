@@ -1,4 +1,6 @@
-import { screen, render } from '@testing-library/react'
+import { act, screen, render } from '@testing-library/react'
+import { renderToString } from 'react-dom/server'
+import { hydrateRoot } from 'react-dom/client'
 import { Value, Form } from '../../..'
 import { Provider } from '../../../../../shared'
 
@@ -392,6 +394,61 @@ describe('Value.Date', () => {
           document.querySelector('.dnb-forms-value-block__content')
         ).toHaveTextContent('16')
       })
+    })
+  })
+
+  describe('hydration', () => {
+    const OriginalDateTimeFormat = Intl.DateTimeFormat
+
+    const formatInTimeZone = (timeZone: string) => {
+      vi.spyOn(Intl, 'DateTimeFormat').mockImplementation(function (
+        locale: string,
+        options: Intl.DateTimeFormatOptions
+      ) {
+        return new OriginalDateTimeFormat(locale, { timeZone, ...options })
+      } as unknown as typeof Intl.DateTimeFormat)
+    }
+
+    afterEach(() => {
+      vi.restoreAllMocks()
+    })
+
+    it('should hydrate a date formatted in another time zone on the server and update it afterwards', () => {
+      const element = <Value.Date value="2026-10-07T22:30:00Z" />
+
+      formatInTimeZone('UTC')
+      const originalDocument = globalThis.document
+      let html: string
+      try {
+        delete globalThis.document
+        html = renderToString(element)
+      } finally {
+        globalThis.document = originalDocument
+      }
+      expect(html).toContain('7. oktober 2026')
+
+      vi.restoreAllMocks()
+      formatInTimeZone('Europe/Oslo')
+
+      const container = document.createElement('div')
+      container.innerHTML = html
+      document.body.appendChild(container)
+
+      const recoverableErrors = []
+      let root: ReturnType<typeof hydrateRoot>
+      act(() => {
+        root = hydrateRoot(container, element, {
+          onRecoverableError: (error) => recoverableErrors.push(error),
+        })
+      })
+
+      expect(recoverableErrors).toEqual([])
+      expect(
+        container.querySelector('.dnb-forms-value-block__content')
+      ).toHaveTextContent('8. oktober 2026')
+
+      act(() => root.unmount())
+      container.remove()
     })
   })
 })

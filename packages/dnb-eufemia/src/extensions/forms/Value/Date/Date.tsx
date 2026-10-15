@@ -12,6 +12,7 @@ import {
 } from '../../../../components/date-format/DateFormatUtils'
 import { DEFAULT_DATE_FORMAT } from '../../Field/DateOfBirth/DateOfBirth'
 import withComponentMarkers from '../../../../shared/helpers/withComponentMarkers'
+import useCanUseDOM from '../../../../shared/helpers/useCanUseDOM'
 
 export type ValueDateProps = StringValueProps & {
   variant?: 'long' | 'short' | 'numeric'
@@ -26,7 +27,7 @@ function DateComponent(props: ValueDateProps) {
   const { dateFormat, variant = 'long' } = props
   const options = convertVariantToDateStyle(variant)
 
-  const toInput = useCallback(
+  const formatValue = useCallback(
     (value: string) => {
       if (!value) {
         return undefined
@@ -49,6 +50,28 @@ function DateComponent(props: ValueDateProps) {
       return formatDate(value, { locale, options })
     },
     [locale, options, dateFormat]
+  )
+
+  // The server cannot know the time zone of the browser, so keep the
+  // server text while hydrating and let React replace it right after
+  const canUseDOM = useCanUseDOM()
+  const isHydrating = !canUseDOM && typeof document !== 'undefined'
+
+  const toInput = useCallback(
+    (value: string) => {
+      const formatted = formatValue(value)
+
+      if (formatted === undefined) {
+        return undefined
+      }
+
+      return (
+        <span suppressHydrationWarning={isHydrating || undefined}>
+          {isHydrating ? '' : formatted}
+        </span>
+      )
+    },
+    [formatValue, isHydrating]
   )
 
   const stringProps: ValueDateProps = {
