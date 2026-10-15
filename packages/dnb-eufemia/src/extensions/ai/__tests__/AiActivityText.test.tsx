@@ -1,22 +1,22 @@
 import { render } from '@testing-library/react'
-import * as Ai from '..'
+import { ActivityText } from '..'
 
-describe('Ai.Shimmer', () => {
+describe('Ai.ActivityText', () => {
   it('renders the text', () => {
-    render(<Ai.Shimmer>Thinking</Ai.Shimmer>)
+    render(<ActivityText>Thinking</ActivityText>)
     expect(
-      document.querySelector('span.dnb-ai-shimmer')
+      document.querySelector('span.dnb-ai-activity-text')
     ).toHaveTextContent('Thinking')
   })
 
   it('supports spacing props and forwards attributes', () => {
     render(
-      <Ai.Shimmer left="small" className="custom" id="s">
+      <ActivityText left="small" className="custom" id="s">
         Hi
-      </Ai.Shimmer>
+      </ActivityText>
     )
 
-    const element = document.querySelector('.dnb-ai-shimmer')
+    const element = document.querySelector('.dnb-ai-activity-text')
     expect(element).toHaveClass('dnb-space__left--small', 'custom')
     expect(element).toHaveAttribute('id', 's')
   })

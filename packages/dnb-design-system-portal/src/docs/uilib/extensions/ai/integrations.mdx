@@ -14,14 +14,14 @@ Eufemia provides the interface. Your application or chat framework owns message 
 
 ## Component contract
 
-| Component        | Pass from your application                                                                                                          |
-| ---------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
-| `Ai.Message`     | `from`, a unique DOM `id`, and children. Plain string children preserve line breaks.                                                |
-| `Ai.Response`    | Markdown as children. Set `parseIncompleteMarkdown` while that text is streaming; set it to false when complete, stopped or failed. |
-| `Ai.PromptInput` | `isBusy` while a reply is pending or streaming, `onSubmit` to send, and `onStop` to cancel.                                         |
-| `Ai.Loader`      | Render while waiting for the first response, then remove it.                                                                        |
-| `Ai.Tool`        | A human-readable `title`, `status`, optional `errorText` and result UI as children.                                                 |
-| `Ai.Sources`     | References as `{ url, title }` objects, placed where you want them in the message.                                                  |
+| Component             | Pass from your application                                                                                                          |
+| --------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| `Ai.Message`          | `from`, a unique DOM `id`, and children. Plain string children preserve line breaks.                                                |
+| `Ai.Response`         | Markdown as children. Set `parseIncompleteMarkdown` while that text is streaming; set it to false when complete, stopped or failed. |
+| `Ai.PromptInput`      | `isBusy` while a reply is pending or streaming, `onSubmit` to send, and `onStop` to cancel.                                         |
+| `Ai.MessageIndicator` | Render while waiting for the first response, then remove it.                                                                        |
+| `Ai.Tool`             | A human-readable `title`, `status`, optional `errorText` and result UI as children.                                                 |
+| `Ai.Sources`          | References as `{ url, title }` objects, placed where you want them in the message.                                                  |
 
 See [Usage](/uilib/extensions/ai/#usage) for a complete composition without a chat framework. Use [AI SDK](#ai-sdk) or [TanStack AI](#tanstack-ai) below to connect the same components to a framework. No chat SDK is required by Eufemia.
 
