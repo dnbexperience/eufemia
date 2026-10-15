@@ -451,6 +451,35 @@ describe('Accordion group component', () => {
     expect(second).not.toHaveClass('dnb-accordion--expanded')
     expect(third).not.toHaveClass('dnb-accordion--expanded')
   })
+
+  it('should not render Accordion props as DOM attributes', () => {
+    render(
+      <Accordion.Group
+        id="group"
+        variant="filled"
+        description="Description"
+        leftComponent="Left"
+        icon="bell"
+        element="span"
+        heading
+        headingLevel={3}
+        expandedSsr
+        preventRerenderConditional
+        skeleton
+        data-prop="group-value"
+      >
+        <Accordion title="Title">Content</Accordion>
+      </Accordion.Group>
+    )
+
+    const shell = document.querySelector('.dnb-accordion-group__shell')
+    expect(shell.getAttributeNames()).toEqual([
+      'id',
+      'class',
+      'role',
+      'data-prop',
+    ])
+  })
 })
 
 describe('Accordion container component', () => {
