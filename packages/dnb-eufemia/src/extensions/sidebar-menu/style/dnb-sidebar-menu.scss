@@ -381,6 +381,24 @@
   &__divider-item + &__custom {
     padding-block-start: 0;
   }
+
+  // Forced colors mode removes the backgrounds and box-shadows used for these
+  @media (forced-colors: active) {
+    .dnb-sidebar-menu__item__action[aria-current='page'] {
+      forced-color-adjust: none;
+      color: HighlightText !important;
+      background: Highlight !important;
+
+      .dnb-sidebar-menu__item__icon {
+        color: HighlightText;
+      }
+    }
+
+    &__accordion__notification-indicator,
+    &__divider {
+      background-color: CanvasText;
+    }
+  }
 }
 
 .dnb-sidebar-menu__sections-portal {
