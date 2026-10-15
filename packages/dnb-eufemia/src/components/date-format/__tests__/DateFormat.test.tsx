@@ -25,6 +25,17 @@ describe('DateFormat', () => {
     console.warn = originalWarn
   })
 
+  const OriginalDateTimeFormat = Intl.DateTimeFormat
+
+  const formatInTimeZone = (timeZone: string) => {
+    vi.spyOn(Intl, 'DateTimeFormat').mockImplementation(function (
+      locale: string,
+      options: Intl.DateTimeFormatOptions
+    ) {
+      return new OriginalDateTimeFormat(locale, { timeZone, ...options })
+    } as unknown as typeof Intl.DateTimeFormat)
+  }
+
   describe('absolute date', () => {
     it('should format the whole date based on `dateStyle`', () => {
       const { rerender } = render(
@@ -482,18 +493,8 @@ describe('DateFormat', () => {
     })
 
     it('should show the UTC date together with the UTC time', () => {
-      const OriginalDateTimeFormat = Intl.DateTimeFormat
-
       // Format in a time zone where 22:30 UTC is already the next day
-      vi.spyOn(Intl, 'DateTimeFormat').mockImplementation(function (
-        locale: string,
-        options: Intl.DateTimeFormatOptions
-      ) {
-        return new OriginalDateTimeFormat(locale, {
-          timeZone: 'Europe/Oslo',
-          ...options,
-        })
-      } as unknown as typeof Intl.DateTimeFormat)
+      formatInTimeZone('Europe/Oslo')
 
       render(
         <DateFormat
@@ -513,17 +514,12 @@ describe('DateFormat', () => {
     })
 
     it('should use the UTC date in the `dateTime` attribute when the UTC time is shown', () => {
+      onTestFinished(() => {
+        vi.restoreAllMocks()
+      })
+
       // Simulate Europe/Oslo (UTC+2 in October), since TZ can't be changed in worker threads
-      const OriginalDateTimeFormat = Intl.DateTimeFormat
-      vi.spyOn(Intl, 'DateTimeFormat').mockImplementation(function (
-        locale: string,
-        options: Intl.DateTimeFormatOptions
-      ) {
-        return new OriginalDateTimeFormat(locale, {
-          timeZone: 'Europe/Oslo',
-          ...options,
-        })
-      } as unknown as typeof Intl.DateTimeFormat)
+      formatInTimeZone('Europe/Oslo')
       for (const unit of ['FullYear', 'Month', 'Date'] as const) {
         vi.spyOn(Date.prototype, `get${unit}`).mockImplementation(
           function (this: Date) {
@@ -566,8 +562,6 @@ describe('DateFormat', () => {
 
       expect(dateFormat()).toHaveTextContent('08/10/2026')
       expect(dateFormat()).toHaveAttribute('dateTime', '2026-10-08')
-
-      vi.restoreAllMocks()
     })
 
     it('should return an invalid date message if the date is invalid', () => {
@@ -1842,17 +1836,6 @@ describe('DateFormat', () => {
   })
 
   describe('hydration', () => {
-    const OriginalDateTimeFormat = Intl.DateTimeFormat
-
-    const formatInTimeZone = (timeZone: string) => {
-      vi.spyOn(Intl, 'DateTimeFormat').mockImplementation(function (
-        locale: string,
-        options: Intl.DateTimeFormatOptions
-      ) {
-        return new OriginalDateTimeFormat(locale, { timeZone, ...options })
-      } as unknown as typeof Intl.DateTimeFormat)
-    }
-
     const renderOnServer = (element: ReactElement) => {
       const originalDocument = globalThis.document
 
