@@ -113,7 +113,9 @@ export function useScrollPosition() {
     if (prevPath !== location.pathname) {
       saveScrollPosition()
 
-      window.scrollTo({ top: 0 })
+      if (!location.hash) {
+        window.scrollTo({ top: 0 })
+      }
 
       requestAnimationFrame(() => {
         restoreScrollPosition({ smooth: true, restoreWindow: false })
@@ -124,7 +126,7 @@ export function useScrollPosition() {
   // Restore on initial render and persist on unload
   useEffect(() => {
     requestAnimationFrame(() => {
-      restoreScrollPosition()
+      restoreScrollPosition({ restoreWindow: !window.location.hash })
     })
 
     window.addEventListener('beforeunload', saveScrollPosition)

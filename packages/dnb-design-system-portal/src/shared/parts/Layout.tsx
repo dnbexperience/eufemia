@@ -27,7 +27,6 @@ import {
   hideSidebarStyle,
 } from './Layout.module.scss'
 import SidebarMenu from '../menu/SidebarMenu'
-import { scrollToAnimation } from './layout-utils'
 import { useFocusModeCode } from '../../core/FocusModeCodeContext'
 
 const SIDEBAR_SELECTOR = '#portal-sidebar-menu'
@@ -125,14 +124,7 @@ function Layout(props: LayoutProps) {
   }, [fs, savedScrollY])
 
   useEffect(() => {
-    // gets applied on "onRouteUpdate"
     setPageFocusElement('.dnb-app-content h1:nth-of-type(1)', 'content')
-
-    scrollToAnimation()
-
-    // Keep pathname and hash as dependencies because Layout is not
-    // remounted on SPA route changes, and hash targets may only exist
-    // after the new page content has mounted.
   }, [location.hash, location.pathname])
 
   const skipToContentHandler = (event) => {

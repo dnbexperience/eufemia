@@ -1,4 +1,3 @@
-import { scrollToHash } from '@dnb/eufemia/src/components/Anchor'
 import {
   applyPageFocus,
   setPageFocusElement,
@@ -17,13 +16,18 @@ function getFocusTarget(element: HTMLElement) {
   return element
 }
 
-export function applyRouteFocus(hash: string) {
+export function applyRouteFocus(
+  hash: string,
+  behavior: ScrollBehavior = 'instant'
+) {
   if (hash) {
-    const result = scrollToHash(hash)
+    const element = document.getElementById(hash.slice(1))
 
-    if (result?.element) {
-      setPageFocusElement(getFocusTarget(result.element), 'route-hash')
+    if (element) {
+      setPageFocusElement(getFocusTarget(element), 'route-hash')
       applyPageFocus('route-hash')
+      element.scrollIntoView({ behavior })
+      element.parentElement?.classList.add('focus')
     }
 
     return

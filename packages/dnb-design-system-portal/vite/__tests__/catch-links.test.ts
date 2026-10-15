@@ -1,4 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
+import catchLinksPlugin from '../client/plugins/catch-links'
 
 describe('catch-links', () => {
   let navigateFn: (...args: unknown[]) => void
@@ -7,58 +8,22 @@ describe('catch-links', () => {
   beforeEach(() => {
     navigateFn = vi.fn()
 
-    // Simulate the useCatchLinks behavior directly (since it's a hook
-    // tied to the full app, we test the click handler logic in isolation)
-    function onClick(e: MouseEvent) {
-      if (
-        e.defaultPrevented ||
-        e.button !== 0 ||
-        e.metaKey ||
-        e.altKey ||
-        e.ctrlKey ||
-        e.shiftKey
-      ) {
-        return
-      }
-
-      const anchor = (e.target as HTMLElement).closest?.('a')
-      if (!anchor) {
-        return
-      }
-
-      if (
-        anchor.hasAttribute('download') ||
-        anchor.getAttribute('rel') === 'external' ||
-        (anchor.target && anchor.target !== '_self')
-      ) {
-        return
-      }
-
-      const href = anchor.getAttribute('href')
-      if (!href) {
-        return
-      }
-
-      // Let the browser handle hash-only links natively (scroll to anchor)
-      if (href.startsWith('#')) {
-        return
-      }
-
-      try {
-        const url = new URL(href, window.location.origin)
-        if (url.origin !== window.location.origin) {
-          return
-        }
-
-        e.preventDefault()
-        navigateFn(url.pathname + url.search + url.hash)
-      } catch {
-        // Invalid URL
-      }
-    }
-
-    document.addEventListener('click', onClick)
-    cleanup = () => document.removeEventListener('click', onClick)
+    const plugin = catchLinksPlugin()
+    const load = plugin.load as (id: string) => string
+    const runtime = load('\0virtual:catch-links')
+      .replace(/^import .*$/gm, '')
+      .replace('export function', 'function')
+    const runHook = new Function(
+      'useEffect',
+      'useNavigate',
+      runtime + '\nuseCatchLinks()'
+    )
+    runHook(
+      (effect: () => () => void) => {
+        cleanup = effect()
+      },
+      () => navigateFn
+    )
   })
 
   afterEach(() => {
@@ -209,13 +174,17 @@ describe('catch-links', () => {
     expect(navigateFn).not.toHaveBeenCalled()
   })
 
-  it('does not intercept hash-only links', () => {
+  it('keeps hash-only navigation in sync with the router', () => {
     const a = document.createElement('a')
     a.setAttribute('href', '#section-heading')
     document.body.appendChild(a)
 
     const event = clickLink(a)
-    expect(navigateFn).not.toHaveBeenCalled()
-    expect(event.defaultPrevented).toBe(false)
+    expect(navigateFn).toHaveBeenCalledWith(
+      window.location.pathname +
+        window.location.search +
+        '#section-heading'
+    )
+    expect(event.defaultPrevented).toBe(true)
   })
 })
