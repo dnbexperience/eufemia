@@ -16,6 +16,6 @@ render(<PromptInput />)
 
 Use `variant="compact"` for a single line on a welcome screen. It shows the Aino icon by default and hides the send button until the user enters text. While busy, the stop button stays available even when the input is empty. Use `icon` to change the leading icon or `icon={null}` to hide it.
 
-The default variant is flat and gains a shadow on focus. The compact variant has a shadow by default; set `dropShadow={false}` for an inline surface or `dropShadow` to elevate the default variant. Keyboard focus remains visible in both variants.
+The default variant is flat and gains a shadow when the textarea is focused. The card uses Textarea hover and focus border colors and thickness; its toolbar buttons retain their own focus styles. The compact variant has a shadow by default; set `dropShadow={false}` for an inline surface or `dropShadow` to elevate the default variant. Keyboard focus remains visible in both variants.
 
 Pass context chips as `children` to show attachments or references above the input. Your application owns their data and removal actions. Use controls with `type="button"` so removing context does not submit the message.

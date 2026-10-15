@@ -206,14 +206,31 @@
 
   @include utilities.fakeBorder(var(--ai-prompt-input-border-color));
 
-  &:focus-within {
+  &:not(&--disabled):not(&--error):not(&--focus) {
+    @include utilities.hover() {
+      @include utilities.fakeBorder(
+        var(--token-color-stroke-action-hover),
+        0.125rem
+      );
+    }
+  }
+
+  &--focus:not(&--disabled) {
     @include utilities.fakeBorder(
-      var(--token-color-stroke-action-focus),
-      var(--focus-ring-width)
+      var(--token-color-stroke-action-pressed),
+      0.125rem
     );
   }
 
-  &:focus-within,
+  &--error:not(&--disabled) {
+    --border-color: var(--token-color-stroke-error);
+  }
+
+  &--disabled {
+    --border-color: var(--token-color-stroke-action-disabled);
+  }
+
+  &--focus,
   &--drop-shadow {
     filter: drop-shadow(var(--ai-prompt-input-shadow));
   }
@@ -241,7 +258,7 @@
     color: var(--token-color-icon-neutral-alternative);
   }
 
-  &--compact:not(&--drop-shadow):not(:focus-within) {
+  &--compact:not(&--drop-shadow):not(&--focus) {
     .dnb-ai-prompt-input__icon {
       color: var(--token-color-icon-neutral-alternative);
     }

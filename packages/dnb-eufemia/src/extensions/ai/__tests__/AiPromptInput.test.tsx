@@ -391,6 +391,26 @@ describe('PromptInput', () => {
     )
   })
 
+  it('tracks textarea focus without treating toolbar focus as input focus', async () => {
+    const onFocus = vi.fn()
+    const onBlur = vi.fn()
+    render(
+      <PromptInput
+        onAttachmentClick={vi.fn()}
+        textareaProps={{ onFocus, onBlur }}
+      />
+    )
+    const form = document.querySelector('form')
+    await userEvent.click(getTextarea())
+    expect(form).toHaveClass('dnb-ai-prompt-input--focus')
+    expect(onFocus).toHaveBeenCalledOnce()
+    await userEvent.click(
+      document.querySelector('.dnb-ai-prompt-input__icon-button')
+    )
+    expect(form).not.toHaveClass('dnb-ai-prompt-input--focus')
+    expect(onBlur).toHaveBeenCalledOnce()
+  })
+
   it('supports spacing props and forwards attributes', () => {
     render(<PromptInput top="large" className="custom" id="prompt" />)
 

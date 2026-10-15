@@ -39,6 +39,10 @@ function AiPromptInput(props: AiPromptInputProps) {
 
   const translation = useTranslation().Ai
   const [internalValue, setInternalValue] = useState('')
+  const [isFocused, setIsFocused] = useState(false)
+  const isError =
+    Boolean(textareaProps?.status) &&
+    (textareaProps.statusState ?? 'error') === 'error'
   const value = valueProp ?? internalValue
   const isCompact = variant === 'compact'
   const isEmpty = value.trim() === ''
@@ -92,6 +96,8 @@ function AiPromptInput(props: AiPromptInputProps) {
       `dnb-ai-prompt-input--${variant}`,
       dropShadow && 'dnb-ai-prompt-input--drop-shadow',
       disabled && 'dnb-ai-prompt-input--disabled',
+      isFocused && 'dnb-ai-prompt-input--focus',
+      isError && 'dnb-ai-prompt-input--error',
       className
     ),
   })
@@ -111,6 +117,8 @@ function AiPromptInput(props: AiPromptInputProps) {
           hideResizeHandle: true,
           stretch: true,
           disabled,
+          onFocus: () => setIsFocused(true),
+          onBlur: () => setIsFocused(false),
           onChange: handleChange,
           onKeyDown: handleKeyDown,
         },

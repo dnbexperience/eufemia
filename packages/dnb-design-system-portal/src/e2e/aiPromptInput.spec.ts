@@ -1,0 +1,76 @@
+import { test, expect } from '@playwright/test'
+import waitForApp from './shared/waitForApp'
+
+test.describe('Ai.PromptInput interaction styles', () => {
+  test.beforeEach(async ({ page }) => {
+    await page.goto('/uilib/extensions/ai/PromptInput/demos/')
+    await waitForApp(page)
+  })
+
+  test('uses the Textarea hover and focus borders on the card', async ({
+    page,
+  }) => {
+    const form = page.locator('.dnb-ai-prompt-input').first()
+    const textarea = form.locator('textarea')
+    const border = (element: HTMLElement) => ({
+      color: getComputedStyle(element)
+        .getPropertyValue('--border-color')
+        .trim(),
+      width: getComputedStyle(element)
+        .getPropertyValue('--border-width')
+        .trim(),
+    })
+    await textarea.hover()
+    let actual = await form.evaluate(border)
+    const hoverColor = await form.evaluate((element) =>
+      getComputedStyle(element)
+        .getPropertyValue('--token-color-stroke-action-hover')
+        .trim()
+    )
+    expect(actual.color).toBe(hoverColor)
+    expect(actual.width).toBe('0.125rem')
+
+    await textarea.focus()
+    await page.mouse.move(0, 0)
+    actual = await form.evaluate(border)
+    const focusColor = await form.evaluate((element) =>
+      getComputedStyle(element)
+        .getPropertyValue('--token-color-stroke-action-pressed')
+        .trim()
+    )
+    expect(actual.color).toBe(focusColor)
+    expect(actual.width).toBe('0.125rem')
+    await expect(form).not.toHaveCSS('filter', 'none')
+
+    const attachment = form.getByRole('button', {
+      name: 'Legg til vedlegg',
+      exact: true,
+    })
+    await attachment.focus()
+    await expect(form).not.toHaveClass(/dnb-ai-prompt-input--focus/)
+    actual = await form.evaluate(border)
+    const idleColor = await form.evaluate((element) =>
+      getComputedStyle(element)
+        .getPropertyValue('--token-color-stroke-neutral-subtle')
+        .trim()
+    )
+    expect(actual.color).toBe(idleColor)
+    expect(actual.width).toBe('0.0625rem')
+    await expect(form).toHaveCSS('filter', 'none')
+  })
+
+  test('keeps input error feedback on focus', async ({ page }) => {
+    const form = page.locator('.dnb-ai-prompt-input').last()
+    await form.locator('textarea').hover()
+    await form.locator('textarea').focus()
+    const border = await form.evaluate((element) =>
+      getComputedStyle(element).getPropertyValue('--border-color').trim()
+    )
+    const error = await form.evaluate((element) =>
+      getComputedStyle(element)
+        .getPropertyValue('--token-color-stroke-error')
+        .trim()
+    )
+    expect(border).toBe(error)
+  })
+})
