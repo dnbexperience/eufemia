@@ -512,6 +512,64 @@ describe('DateFormat', () => {
       vi.restoreAllMocks()
     })
 
+    it('should use the UTC date in the `dateTime` attribute when the UTC time is shown', () => {
+      // Simulate Europe/Oslo (UTC+2 in October), since TZ can't be changed in worker threads
+      const OriginalDateTimeFormat = Intl.DateTimeFormat
+      vi.spyOn(Intl, 'DateTimeFormat').mockImplementation(function (
+        locale: string,
+        options: Intl.DateTimeFormatOptions
+      ) {
+        return new OriginalDateTimeFormat(locale, {
+          timeZone: 'Europe/Oslo',
+          ...options,
+        })
+      } as unknown as typeof Intl.DateTimeFormat)
+      for (const unit of ['FullYear', 'Month', 'Date'] as const) {
+        vi.spyOn(Date.prototype, `get${unit}`).mockImplementation(
+          function (this: Date) {
+            return new Date(this.getTime() + 2 * 3_600_000)[
+              `getUTC${unit}`
+            ]()
+          }
+        )
+      }
+
+      const { rerender } = render(
+        <DateFormat
+          value="2026-10-07T22:30:00Z"
+          dateStyle="short"
+          timeStyle="short"
+          locale="en-GB"
+        />
+      )
+
+      const dateFormat = () => document.querySelector('.dnb-date-format')
+
+      expect(dateFormat()).toHaveTextContent('07/10/2026, 22:30')
+      expect(dateFormat()).toHaveAttribute('dateTime', '2026-10-07')
+
+      rerender(<DateFormat value="2026-10-07T22:30:00Z" relativeTime />)
+
+      expect(dateFormat()).toHaveAttribute(
+        'dateTime',
+        '2026-10-07 22:30:00Z'
+      )
+
+      // Without timeStyle, the date is shown in the local time zone
+      rerender(
+        <DateFormat
+          value="2026-10-07T22:30:00Z"
+          dateStyle="short"
+          locale="en-GB"
+        />
+      )
+
+      expect(dateFormat()).toHaveTextContent('08/10/2026')
+      expect(dateFormat()).toHaveAttribute('dateTime', '2026-10-08')
+
+      vi.restoreAllMocks()
+    })
+
     it('should return an invalid date message if the date is invalid', () => {
       global.console.log = vi.fn()
 
@@ -1875,10 +1933,7 @@ describe('DateFormat', () => {
 
       expect(recoverableErrors).toEqual([])
       expect(time).toHaveTextContent('for 1 minutt siden')
-      expect(time).toHaveAttribute(
-        'datetime',
-        format(new Date('2026-10-08T09:59:30Z'), 'yyyy-MM-dd HH:mm:ss')
-      )
+      expect(time).toHaveAttribute('datetime', '2026-10-08 09:59:30Z')
 
       unmount()
     })

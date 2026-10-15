@@ -139,13 +139,31 @@ function DateFormat(props: DateFormatProps) {
   })
   skeletonDOMAttributes(attributes, skeleton, context)
 
+  const isUTCValue = useMemo(() => {
+    const originalValue =
+      value !== undefined
+        ? value
+        : children !== undefined
+          ? convertJsxToString(children)
+          : undefined
+
+    return (
+      typeof originalValue === 'string' && isUTCDateString(originalValue)
+    )
+  }, [value, children])
+
   const getAbsoluteDateTime = useCallback(
-    (style = 'yyyy-MM-dd') => {
+    ({ withTime = false, inUTC = false } = {}) => {
       if (!date || isNaN(date.getTime())) {
         return undefined // stop here
       }
 
-      return format(date, style)
+      if (inUTC) {
+        const [day, time] = date.toISOString().split('T')
+        return withTime ? `${day} ${time.slice(0, 8)}Z` : day
+      }
+
+      return format(date, withTime ? 'yyyy-MM-dd HH:mm:ss' : 'yyyy-MM-dd')
     },
     [date]
   )
@@ -179,17 +197,11 @@ function DateFormat(props: DateFormatProps) {
       // When timeStyle is provided, format date and time separately and join with separator
       // Uses custom dateTimeSeparator if provided, otherwise uses locale-aware separator
       if (options?.timeStyle) {
-        // formatDate keeps the time of UTC values in UTC, so the date has to follow
-        const timeZone =
-          typeof originalValue === 'string' &&
-          isUTCDateString(originalValue)
-            ? 'UTC'
-            : undefined
-
         const formattedDate = formatDate(originalValue, {
           locale,
           options: { dateStyle: options.dateStyle },
-          timeZone,
+          // formatDate keeps the time of UTC values in UTC, so the date has to follow
+          timeZone: isUTCValue ? 'UTC' : undefined,
           hideCurrentYear:
             hideCurrentYearOverride !== undefined
               ? hideCurrentYearOverride
@@ -236,6 +248,7 @@ function DateFormat(props: DateFormatProps) {
       hideYear,
       value,
       children,
+      isUTCValue,
     ]
   )
 
@@ -382,7 +395,10 @@ function DateFormat(props: DateFormatProps) {
     return (
       <>
         <time
-          dateTime={getAbsoluteDateTime('yyyy-MM-dd HH:mm:ss')}
+          dateTime={getAbsoluteDateTime({
+            withTime: true,
+            inUTC: isUTCValue,
+          })}
           {...attributes}
           {...hydrationProps}
           ref={ref}
@@ -405,7 +421,10 @@ function DateFormat(props: DateFormatProps) {
   return (
     <>
       <time
-        dateTime={getAbsoluteDateTime()}
+        dateTime={getAbsoluteDateTime({
+          // The date of UTC values is only shown in UTC together with the time
+          inUTC: isUTCValue && Boolean(timeStyle),
+        })}
         {...attributes}
         {...hydrationProps}
         ref={showTooltip ? ref : undefined}
