@@ -420,6 +420,7 @@ test.describe('Document and print styles', () => {
           element.textContent.startsWith('Import dnb-ui-print')
         )
         const code = intro.nextElementSibling.querySelector('pre')
+        const copyButton = intro.nextElementSibling.querySelector('button')
         return {
           afterTable:
             scss.getBoundingClientRect().top -
@@ -427,10 +428,14 @@ test.describe('Document and print styles', () => {
           beforeCode:
             code.getBoundingClientRect().top -
             intro.getBoundingClientRect().bottom,
+          copyButtonTop:
+            copyButton.getBoundingClientRect().top -
+            code.getBoundingClientRect().top,
         }
       })
     expect.soft(gaps.afterTable).toBeGreaterThanOrEqual(32)
     expect.soft(gaps.beforeCode).toBeLessThanOrEqual(24)
+    expect(gaps.copyButtonTop).toBeLessThanOrEqual(16)
   })
 
   test('uses Eufemia preview controls and leaves space above the title', async () => {
