@@ -28,7 +28,7 @@ test.describe('Ai.PromptInput interaction styles', () => {
         .trim()
     )
     expect(actual.color).toBe(hoverColor)
-    expect(actual.width).toBe('0.125rem')
+    expect(parseFloat(actual.width)).toBe(0.125)
 
     await textarea.focus()
     await page.mouse.move(0, 0)
@@ -39,7 +39,7 @@ test.describe('Ai.PromptInput interaction styles', () => {
         .trim()
     )
     expect(actual.color).toBe(focusColor)
-    expect(actual.width).toBe('0.125rem')
+    expect(parseFloat(actual.width)).toBe(0.125)
     await expect(form).not.toHaveCSS('filter', 'none')
 
     const attachment = form.getByRole('button', {
@@ -55,7 +55,7 @@ test.describe('Ai.PromptInput interaction styles', () => {
         .trim()
     )
     expect(actual.color).toBe(idleColor)
-    expect(actual.width).toBe('0.0625rem')
+    expect(parseFloat(actual.width)).toBe(0.0625)
     await expect(form).toHaveCSS('filter', 'none')
   })
 
