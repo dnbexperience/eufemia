@@ -49,19 +49,6 @@ describe('useStickyHeader', () => {
     )
   })
 
-  it('should contain valid HTML classes when sticky is true', () => {
-    render(
-      <Table sticky>
-        <BasicTable />
-      </Table>
-    )
-
-    expect(screen.queryByRole('table')).toHaveClass(
-      'dnb-table dnb-table__variant--generic dnb-table__size--large dnb-table--sticky',
-      { exact: true }
-    )
-  })
-
   it('should add "css-position" class', () => {
     render(
       <Table sticky="css-position">

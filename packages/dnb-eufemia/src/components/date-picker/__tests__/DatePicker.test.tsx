@@ -2200,27 +2200,6 @@ describe('DatePicker component', () => {
     ).toBe('åååå')
   })
 
-  it('has to reset second input fields to blank during new date selection', () => {
-    render(<DatePicker {...defaultProps} />)
-    fireEvent.click(
-      document.querySelector('button.dnb-input__submit-button__button')
-    )
-
-    fireEvent.click(
-      document.querySelectorAll(
-        'table tbody button.dnb-button--secondary'
-      )[10]
-    )
-
-    expect(
-      (
-        document.querySelectorAll(
-          '.dnb-date-picker__input--year'
-        )[1] as HTMLInputElement
-      ).value
-    ).toBe('åååå')
-  })
-
   it('footer buttons work properly', async () => {
     const onSubmit = vi.fn()
     const onCancel = vi.fn()

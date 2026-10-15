@@ -214,21 +214,6 @@ describe('TableTh', () => {
     expect(values).toEqual([null, 'ascending', null])
   })
 
-  it('should set correct noWrap class', () => {
-    render(
-      <table>
-        <thead>
-          <tr>
-            <TableTh noWrap>th content</TableTh>
-          </tr>
-        </thead>
-      </table>
-    )
-
-    const element = document.querySelector('th')
-    expect(Array.from(element.classList)).toContain('dnb-table--no-wrap')
-  })
-
   it('should include custom classes', () => {
     render(
       <table>

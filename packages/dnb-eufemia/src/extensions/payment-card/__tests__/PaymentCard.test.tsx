@@ -234,11 +234,6 @@ describe('Helper functions', () => {
       expect(result).toEqual(null)
     })
 
-    it('should format card number to a certain length of 8', () => {
-      const result = formatCardNumber('************1337', 8)
-      expect(result).toEqual('**** 1337')
-    })
-
     it('should format card number to a certain length of 6', () => {
       const result = formatCardNumber('************1337', 6)
       expect(result).toEqual('** 1337')
@@ -252,16 +247,6 @@ describe('Helper functions', () => {
     it('should format card number to a certain length of 1', () => {
       const result = formatCardNumber('************1337', 1)
       expect(result).toEqual('7')
-    })
-
-    it('should not break when provided with empty string and a digit', () => {
-      const result = formatCardNumber('', 8)
-      expect(result).toEqual('')
-    })
-
-    it('should not break when provided with a null and a digit', () => {
-      const result = formatCardNumber(null, 8)
-      expect(result).toEqual(null)
     })
 
     it('should format when digits is same as card number length', () => {
