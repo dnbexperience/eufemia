@@ -46,9 +46,12 @@ describe('Ai.AgentAction', () => {
         'aria-valuenow',
         String(clamped)
       )
-      expect(
-        document.querySelector('.dnb-ai-agent-action__fill')
-      ).toHaveStyle({ width: clamped + '%' })
+      const fill = document.querySelector<HTMLElement>(
+        '.dnb-ai-agent-action__fill'
+      )
+      expect(fill.style.width).toBe(
+        'calc(' + clamped + '% + ' + 2.3125 * (1 - clamped / 100) + 'rem)'
+      )
       expect(root()).toHaveClass('dnb-ai-agent-action--running')
       expect(root()).not.toHaveClass('dnb-ai-agent-action--indeterminate')
     }

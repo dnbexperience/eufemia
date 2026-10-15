@@ -120,7 +120,14 @@ function AiAgentAction(props: AiAgentActionProps) {
                     style={
                       value === undefined
                         ? undefined
-                        : { width: String(value) + '%' }
+                        : {
+                            width:
+                              'calc(' +
+                              value +
+                              '% + ' +
+                              2.3125 * (1 - value / 100) +
+                              'rem)',
+                          }
                     }
                     aria-hidden
                   />

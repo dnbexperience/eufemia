@@ -2,6 +2,90 @@ import { test, expect } from '@playwright/test'
 import waitForApp from './shared/waitForApp'
 
 test.describe('Ai.AgentAction', () => {
+  test('grows known progress from the initial pill width to the full target', async ({
+    page,
+  }) => {
+    await page.goto('/uilib/extensions/ai/AgentAction/demos/')
+    await waitForApp(page)
+    await page.evaluate(() => document.fonts.ready)
+    for (const progress of [35, 65]) {
+      const fill = page.locator(
+        '[role="progressbar"][aria-valuenow="' +
+          progress +
+          '"] .dnb-ai-agent-action__fill'
+      )
+      const sizes = await fill.evaluate((element) => ({
+        width: element.getBoundingClientRect().width,
+        target: element.parentElement.clientWidth,
+        initial:
+          2.3125 *
+          parseFloat(getComputedStyle(document.documentElement).fontSize),
+      }))
+      expect(sizes.width).toBeCloseTo(
+        sizes.initial + ((sizes.target - sizes.initial) * progress) / 100,
+        0
+      )
+    }
+  })
+
+  test('matches the Figma fill width and travel without scaling its rounded ends', async ({
+    page,
+  }) => {
+    await page.emulateMedia({ reducedMotion: 'no-preference' })
+    await page.goto(
+      '/uilib/extensions/ai/AgentAction/demos/#unknown-progress-and-cancellation'
+    )
+    await waitForApp(page)
+    const action = page
+      .getByRole('button', { name: 'Complete graph', exact: true })
+      .locator('..')
+      .locator('..')
+      .locator('.dnb-ai-agent-action')
+    const samples = await action
+      .locator('.dnb-ai-agent-action__fill')
+      .evaluate(async (fill) => {
+        const animation = fill.getAnimations()[0]
+        animation.pause()
+        const duration = Number(animation.effect.getTiming().duration)
+        const track = fill.parentElement.getBoundingClientRect()
+        const trackWidth = fill.parentElement.clientWidth
+        const border = parseFloat(
+          getComputedStyle(fill.parentElement).borderLeftWidth
+        )
+        const samples: Array<{
+          left: number
+          width: number
+          height: number
+        }> = []
+        for (const progress of [
+          0, 0.125, 0.25, 0.375, 0.5, 0.625, 0.75, 0.875,
+        ]) {
+          animation.currentTime = duration * progress
+          await new Promise(requestAnimationFrame)
+          const bounds = fill.getBoundingClientRect()
+          samples.push({
+            left: (bounds.left - track.left - border) / trackWidth,
+            width: bounds.width / trackWidth,
+            height: bounds.height,
+          })
+        }
+        return { duration, samples }
+      })
+    expect(samples.duration).toBe(3840)
+    // Figma's 195px track, sampled every 480ms of its 3.84s return cycle.
+    const widths = [56, 76, 96, 76, 56, 76, 96, 76]
+    const lefts = [0, 17.427, 49.5, 101.573, 139, 101.573, 49.5, 17.427]
+    samples.samples.forEach((sample, index) => {
+      expect(sample.width).toBeCloseTo(widths[index] / 195, 2)
+      expect(sample.left).toBeCloseTo(lefts[index] / 195, 2)
+      expect(sample.height).toBe(35)
+    })
+    await expect(action.locator('.dnb-ai-agent-action__fill')).toHaveCSS(
+      'transform',
+      'none'
+    )
+  })
+
   test('moves continuously through the center of unknown progress in both directions', async ({
     page,
   }) => {
