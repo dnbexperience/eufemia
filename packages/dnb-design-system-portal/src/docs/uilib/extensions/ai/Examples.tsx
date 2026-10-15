@@ -13,7 +13,7 @@ import {
   ActivityText,
   Conversation,
   DateMarker,
-  Disclaimer,
+  Info,
   Message,
   MessageIndicator,
   PromptInput,
@@ -314,7 +314,7 @@ export function AiConversationExample() {
     <ComponentBox data-visual-test="ai-conversation">
       <Conversation style={{ height: '24rem' }}>
         <DateMarker date="2026-02-02" />
-        <Disclaimer>
+        <Info>
           <P>
             Aino is a chatbot for customer service. Do not share personal
             information with the chatbot. Read more about{' '}
@@ -327,7 +327,7 @@ export function AiConversationExample() {
             Some answers are generated with artificial intelligence and are
             marked with a tag. AI-generated answers can contain errors.
           </P>
-        </Disclaimer>
+        </Info>
         <Message name="Aino" timestamp="14:32">
           Hi, I am Aino, the digital assistant of DNB.
         </Message>
@@ -414,10 +414,10 @@ export function AiDateMarkerExample() {
   )
 }
 
-export function AiDisclaimerExample() {
+export function AiInfoExample() {
   return (
-    <ComponentBox data-visual-test="ai-disclaimer">
-      <Disclaimer>
+    <ComponentBox data-visual-test="ai-info">
+      <Info>
         <P>
           Aino is a chatbot for customer service. Do not share personal
           information with the chatbot. Read more about{' '}
@@ -430,7 +430,7 @@ export function AiDisclaimerExample() {
           Some answers are generated with artificial intelligence and are
           marked with a tag. AI-generated answers can contain errors.
         </P>
-      </Disclaimer>
+      </Info>
     </ComponentBox>
   )
 }
@@ -700,7 +700,7 @@ export function AiChatExample() {
                       style={{ flex: '1 1 auto' }}
                     >
                       <DateMarker date={new Date()} />
-                      <Disclaimer>
+                      <Info>
                         <P>
                           Aino is a chatbot for customer service. Do not
                           share personal information with the chatbot. Read
@@ -715,7 +715,7 @@ export function AiChatExample() {
                           intelligence and are marked with a tag.
                           AI-generated answers can contain errors.
                         </P>
-                      </Disclaimer>
+                      </Info>
 
                       {messages.map((message, index) => {
                         const isAssistant = message.role === 'assistant'
