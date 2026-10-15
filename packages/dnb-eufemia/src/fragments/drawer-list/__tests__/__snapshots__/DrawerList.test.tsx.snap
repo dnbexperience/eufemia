@@ -32,7 +32,7 @@ exports[`DrawerList scss > has to match style dependencies css 1`] = `
   --drawer-list-list-line-height: var(--line-height-basis);
   --drawer-list-group-title-color: var(--token-color-text-neutral);
   --drawer-list-group-title-bg: var(
-    --token-color-background-neutral-alternative
+    --token-color-background-neutral-subtle
   );
   display: block;
   position: relative;
@@ -644,7 +644,7 @@ exports[`DrawerList scss > have to match default theme snapshot 1`] = `
   --drawer-list-list-line-height: var(--line-height-basis);
   --drawer-list-group-title-color: var(--token-color-text-neutral);
   --drawer-list-group-title-bg: var(
-    --token-color-background-neutral-alternative
+    --token-color-background-neutral-subtle
   );
   display: block;
   position: relative;
