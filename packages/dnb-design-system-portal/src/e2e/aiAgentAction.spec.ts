@@ -100,6 +100,16 @@ test.describe('Ai.AgentAction', () => {
         expect(colors.border).not.toBe('rgba(0, 0, 0, 0)')
         if (forcedColors === 'active') {
           await expect(fill).toHaveCSS('forced-color-adjust', 'none')
+          const canvasText = await page.evaluate(() => {
+            const probe = document.createElement('span')
+            probe.style.cssText =
+              'color: CanvasText; forced-color-adjust: none'
+            document.body.appendChild(probe)
+            const color = getComputedStyle(probe).color
+            probe.remove()
+            return color
+          })
+          expect(colors.border).toBe(canvasText)
         }
         const luminance = (color: string) => {
           const channels = color
