@@ -423,42 +423,55 @@ describe('Value.Date', () => {
       vi.restoreAllMocks()
     })
 
-    it('should hydrate a date formatted in another time zone on the server and update it afterwards', () => {
-      const element = <Value.Date value="2026-10-07T22:30:00Z" />
+    it.each([
+      ['without', undefined, '8. oktober 2026'],
+      ['with', (value: string) => `Due ${value}`, 'Due 8. oktober 2026'],
+    ])(
+      'should hydrate a date formatted in another time zone on the server and update it afterwards (%s transformIn)',
+      (_, transformIn, expected) => {
+        const element = (
+          <Value.Date
+            value="2026-10-07T22:30:00Z"
+            transformIn={transformIn}
+          />
+        )
 
-      formatInTimeZone('UTC')
-      const originalDocument = globalThis.document
-      let html: string
-      try {
-        delete globalThis.document
-        html = renderToString(element)
-      } finally {
-        globalThis.document = originalDocument
-      }
-      expect(html).toContain('7. oktober 2026')
+        formatInTimeZone('UTC')
+        const originalDocument = globalThis.document
+        let html: string
+        try {
+          delete globalThis.document
+          html = renderToString(element)
+        } finally {
+          globalThis.document = originalDocument
+        }
+        expect(html).toContain('7. oktober 2026')
 
-      vi.restoreAllMocks()
-      formatInTimeZone('Europe/Oslo')
+        vi.restoreAllMocks()
+        formatInTimeZone('Europe/Oslo')
 
-      const container = document.createElement('div')
-      container.innerHTML = html
-      document.body.appendChild(container)
+        const container = document.createElement('div')
+        container.innerHTML = html
+        document.body.appendChild(container)
 
-      const recoverableErrors = []
-      let root: ReturnType<typeof hydrateRoot>
-      act(() => {
-        root = hydrateRoot(container, element, {
-          onRecoverableError: (error) => recoverableErrors.push(error),
+        const consoleError = vi.spyOn(console, 'error')
+        const recoverableErrors = []
+        let root: ReturnType<typeof hydrateRoot>
+        act(() => {
+          root = hydrateRoot(container, element, {
+            onRecoverableError: (error) => recoverableErrors.push(error),
+          })
         })
-      })
 
-      expect(recoverableErrors).toEqual([])
-      expect(
-        container.querySelector('.dnb-forms-value-block__content')
-      ).toHaveTextContent('8. oktober 2026')
+        expect(recoverableErrors).toEqual([])
+        expect(consoleError).not.toHaveBeenCalled()
+        expect(
+          container.querySelector('.dnb-forms-value-block__content')
+        ).toHaveTextContent(expected)
 
-      act(() => root.unmount())
-      container.remove()
-    })
+        act(() => root.unmount())
+        container.remove()
+      }
+    )
   })
 })
