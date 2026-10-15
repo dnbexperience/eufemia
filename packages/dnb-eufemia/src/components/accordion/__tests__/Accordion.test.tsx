@@ -473,12 +473,18 @@ describe('Accordion group component', () => {
     )
 
     const shell = document.querySelector('.dnb-accordion-group__shell')
-    expect(shell.getAttributeNames()).toEqual([
-      'id',
+    expect(shell.getAttributeNames().sort()).toEqual([
       'class',
-      'role',
       'data-prop',
+      'id',
+      'role',
     ])
+
+    const accordion = document.querySelector('.dnb-accordion')
+    expect(accordion).toHaveClass('dnb-accordion__variant--filled')
+    expect(
+      accordion.querySelector('.dnb-accordion__header__description')
+    ).toHaveTextContent('Description')
   })
 })
 
