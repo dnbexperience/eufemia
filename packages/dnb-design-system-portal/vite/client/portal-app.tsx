@@ -13,6 +13,7 @@ import {
   Outlet,
   useLocation,
   useMatches,
+  useNavigationType,
   type RouteObject,
 } from 'react-router'
 import { CacheProvider } from '@emotion/react'
@@ -159,43 +160,43 @@ function PageWrapper() {
  * the DOM.
  */
 function RouteFocusEffect() {
-  const location = useLocation()
+  const { pathname, search, hash: routeHash } = useLocation()
+  const navigationType = useNavigationType()
+  const previousRouteRef = useRef<{
+    pathname: string
+    route: string
+  } | null>(null)
 
   // Focus mode owns its scroll position.
-  const params = new URLSearchParams(location.search)
+  const params = new URLSearchParams(search)
   params.delete('focusmode')
   const routeSearch = params.size ? '?' + params.toString() : ''
 
-  const initialRouteRef = useRef<string | null>(null)
-  const hasLeftInitialRouteRef = useRef(false)
-
-  if (initialRouteRef.current === null && typeof window !== 'undefined') {
-    initialRouteRef.current =
-      window.location.pathname + routeSearch + window.location.hash
-  }
-
   useEffect(() => {
     const hash =
-      typeof window !== 'undefined' ? window.location.hash : location.hash
+      typeof window !== 'undefined' ? window.location.hash : routeHash
     const currentRoute =
       typeof window !== 'undefined'
         ? window.location.pathname + routeSearch + window.location.hash
-        : location.pathname + location.hash
+        : pathname + routeHash
 
-    if (
-      !hasLeftInitialRouteRef.current &&
-      currentRoute === initialRouteRef.current
-    ) {
-      if (hash) {
-        applyRouteFocus(hash)
-      }
-    } else {
-      hasLeftInitialRouteRef.current = true
-      applyRouteFocus(hash)
+    const previousRoute = previousRouteRef.current
+    if (previousRoute?.route === currentRoute) {
+      return
+    }
+    previousRouteRef.current = {
+      pathname,
+      route: currentRoute,
+    }
+
+    if (hash || previousRoute) {
+      const samePageClick =
+        navigationType === 'PUSH' && previousRoute?.pathname === pathname
+      applyRouteFocus(hash, samePageClick ? 'auto' : 'instant')
     }
 
     document.documentElement.setAttribute('data-portal-ready', 'true')
-  }, [location.hash, location.pathname, routeSearch])
+  }, [routeHash, pathname, routeSearch, navigationType])
 
   return null
 }
