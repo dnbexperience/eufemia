@@ -27,7 +27,7 @@ The design tokens are synchronized from Figma with the "Design Tokens" GitHub Ac
    1. **Fetch:** It reads the Figma variables with the [variables REST API](https://developers.figma.com/docs/rest-api/variables-endpoints/), writes one `*.tokens.json` file per mode of the fetched collections, and commits them to a draft pull request. Changes in Figma, such as a new mode or collection, do not make this step fail. Variables that cannot be converted are skipped, and the workflow lists them in a pull request comment.
    1. **Verify:** It checks that the exports the themes are generated from are there and can be converted to CSS, such as variable names and the collections tokens point to. Exports that no theme uses are ignored.
    1. **Generate:** It regenerates the CSS files and their test snapshots, builds the library and Portal, updates the visual snapshots and pushes the result to the same pull request.
-1. If the verify or generate step fails, the workflow comments on the pull request. The fetched exports stay in the pull request, so you can see what changed in Figma. Existing reviewer commits are preserved. If Figma and the pull request are already synchronized, it reports that no changes were found.
+1. If the verify or generate step fails, the workflow comments on the pull request and moves it back to draft. The fetched exports stay in the pull request, so you can see what changed in Figma. Existing reviewer commits are preserved. If Figma and the pull request are already synchronized, it reports that no changes were found.
 1. Review the token values, removals and visual snapshots before marking the pull request ready.
 1. Review and (squash) merge the pull request.
 
@@ -37,7 +37,7 @@ The workflow needs the repository secret `FIGMA_TOKEN` (a personal access token 
 
 ### Fetched collections and files
 
-The fetched collections are listed in `TOKEN_COLLECTIONS` (`packages/dnb-eufemia/scripts/figma/tasks/tokensExtractor.ts`). Each mode is written to `packages/dnb-eufemia/src/style/themes/figma` with a file name made from the mode name, such as `dnbeiendom-light (test)` → `dnbeiendom-light-test.tokens.json`:
+The fetched collections are listed in `TOKEN_COLLECTIONS` (`packages/dnb-eufemia/scripts/figma/tasks/tokensExtractor.ts`). They are found by id, because Figma allows several collections with the same name. Each mode is written to `packages/dnb-eufemia/src/style/themes/figma` with a file name made from the mode name, such as `dnbeiendom-light (test)` → `dnbeiendom-light-test.tokens.json`:
 
 - "Foundation" collection "colors" (`color.tokens.json`)
 - "💻 Eufemia - Web" collection "brand", one file per mode in the `brand` subfolder, such as `brand/dnb-light.tokens.json`
