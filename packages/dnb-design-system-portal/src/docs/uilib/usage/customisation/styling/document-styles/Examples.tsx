@@ -136,6 +136,7 @@ export function DocumentPreview() {
           content when using these styles.
         </P>
         <Dropdown
+          id="document-preview-brand"
           label="Brand"
           labelDirection="horizontal"
           data={brands}
