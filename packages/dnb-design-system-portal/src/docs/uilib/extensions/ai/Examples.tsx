@@ -877,10 +877,7 @@ export function AiChatCompact() {
             suggestion="Explain my spending this month"
           />
           <Suggestion icon={bank} suggestion="Show my savings goals" />
-          <Suggestion
-            icon={bank}
-            suggestion="When is my next bill due?"
-          />
+          <Suggestion icon={bank} suggestion="When is my next bill due?" />
         </Suggestions>
       </Welcome>
     </ComponentBox>
