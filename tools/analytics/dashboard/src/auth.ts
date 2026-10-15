@@ -187,7 +187,9 @@ export async function ensureSignedIn(): Promise<Session | null> {
 
   if (!config.clientId || !config.tenantId) {
     if (!import.meta.env.DEV) {
-      throw new Error('No sign-in is configured.')
+      throw new Error(
+        'The dashboard has no sign-in configured. Please contact the dashboard owner.'
+      )
     }
 
     return null

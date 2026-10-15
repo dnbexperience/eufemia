@@ -38,7 +38,7 @@ describe('ensureSignedIn', () => {
     serveConfig({ apiBaseUrl: 'https://api.example.test' })
 
     await expect(ensureSignedIn()).rejects.toThrow(
-      'No sign-in is configured.'
+      'The dashboard has no sign-in configured. Please contact the dashboard owner.'
     )
   })
 
