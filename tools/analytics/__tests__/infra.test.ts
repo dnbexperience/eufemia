@@ -69,8 +69,8 @@ describe('analytics infrastructure', () => {
           'm'
         )
       )?.[0]
-      expect(block, `${alarm} alarm block`).toContain(
-        'alarm_actions       = [aws_sns_topic.snapshot_alerts.arn]'
+      expect(block, `${alarm} alarm block`).toMatch(
+        /^\s+alarm_actions\s+= \[aws_sns_topic\.snapshot_alerts\.arn\]$/m
       )
     }
   })
@@ -120,8 +120,8 @@ describe('analytics infrastructure', () => {
         )
       )?.[0]
 
-      expect(block, `${alarm} metric_name`).toContain(
-        `metric_name         = "${metric}"`
+      expect(block, `${alarm} metric_name`).toMatch(
+        new RegExp(`^\\s+metric_name\\s+= "${metric}"$`, 'm')
       )
       expect(snapshotSource, `${metric} emitted`).toMatch(
         new RegExp(`^\\s*emitMetric\\('${metric}'`, 'm')
