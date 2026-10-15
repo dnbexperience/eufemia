@@ -236,6 +236,28 @@ describe('Dropdown component', () => {
     )
   })
 
+  it('sets aria-invalid when status is an error', () => {
+    const { rerender } = render(
+      <Dropdown skipPortal noAnimation data={mockData} status="status" />
+    )
+    expect(
+      document.querySelector('.dnb-dropdown__trigger')
+    ).toHaveAttribute('aria-invalid', 'true')
+
+    rerender(
+      <Dropdown
+        skipPortal
+        noAnimation
+        data={mockData}
+        status="status"
+        statusState="warning"
+      />
+    )
+    expect(
+      document.querySelector('.dnb-dropdown__trigger')
+    ).not.toHaveAttribute('aria-invalid')
+  })
+
   it('will stay open when keepOpen and a selection is made', () => {
     const onChange = vi.fn()
     render(

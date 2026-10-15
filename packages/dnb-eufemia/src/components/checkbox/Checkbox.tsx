@@ -284,6 +284,9 @@ function Checkbox(localProps: CheckboxProps) {
         suffix ? id + '-suffix' : null
       )
     }
+    if (status && statusState === 'error') {
+      inputParams['aria-invalid'] ??= true
+    }
     if (readOnly) {
       inputParams['aria-readonly'] = inputParams.readOnly = true
     }
@@ -302,6 +305,8 @@ function Checkbox(localProps: CheckboxProps) {
     rest,
     showStatus,
     skeleton,
+    status,
+    statusState,
     suffix,
   ])
 

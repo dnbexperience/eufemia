@@ -478,6 +478,38 @@ describe('Input component', () => {
     ).toBe('status')
   })
 
+  it('sets aria-invalid when status is an error', () => {
+    const { rerender } = render(<Input status="status" />)
+    expect(document.querySelector('input')).toHaveAttribute(
+      'aria-invalid',
+      'true'
+    )
+
+    rerender(<Input status />)
+    expect(document.querySelector('input')).toHaveAttribute(
+      'aria-invalid',
+      'true'
+    )
+
+    rerender(<Input status="status" statusState="warning" />)
+    expect(document.querySelector('input')).not.toHaveAttribute(
+      'aria-invalid'
+    )
+
+    rerender(<Input />)
+    expect(document.querySelector('input')).not.toHaveAttribute(
+      'aria-invalid'
+    )
+  })
+
+  it('keeps a given aria-invalid', () => {
+    render(<Input status="status" aria-invalid="false" />)
+    expect(document.querySelector('input')).toHaveAttribute(
+      'aria-invalid',
+      'false'
+    )
+  })
+
   it('shows form-status with correct classes', () => {
     render(
       <Input

@@ -230,6 +230,19 @@ describe('Textarea component', () => {
     ).toBe('status')
   })
 
+  it('sets aria-invalid when status is an error', () => {
+    const { rerender } = render(<Textarea status="status" />)
+    expect(document.querySelector('textarea')).toHaveAttribute(
+      'aria-invalid',
+      'true'
+    )
+
+    rerender(<Textarea status="status" statusState="warning" />)
+    expect(document.querySelector('textarea')).not.toHaveAttribute(
+      'aria-invalid'
+    )
+  })
+
   it('has a disabled attribute, once we set disabled to true', () => {
     const { rerender } = render(<Textarea />)
     rerender(<Textarea disabled={true} />)
