@@ -231,8 +231,8 @@ export type AiDateMarkerProps = {
 } & SpacingProps &
   HTMLAttributes<HTMLDivElement>
 
-export type AiDisclaimerProps = {
-  /** The disclaimer text. */
+export type AiInfoProps = {
+  /** Supporting information about the conversation. Accepts paragraphs, links, and other content. */
   children?: ReactNode
 } & SpacingProps &
   HTMLAttributes<HTMLDivElement>
