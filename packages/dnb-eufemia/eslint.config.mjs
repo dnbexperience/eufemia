@@ -372,16 +372,6 @@ export default [
       ...vitestPlugin.configs.recommended.rules,
       'vitest/no-focused-tests': 'error',
       'vitest/no-conditional-expect': 'warn',
-      'no-restricted-syntax': [
-        'error',
-        ...restrictedSyntax,
-        {
-          selector:
-            'ExpressionStatement > AwaitExpression > CallExpression[callee.name="axeComponent"]',
-          message:
-            'Assert the result: expect(await axeComponent(...)).toHaveNoViolations()',
-        },
-      ],
       'no-console': 'off',
       'compat/compat': 'off',
       '@typescript-eslint/no-require-imports': 'off',
@@ -436,6 +426,16 @@ export default [
                 'Do not import from src – but rather define correct relative paths!',
             },
           ],
+        },
+      ],
+      'no-restricted-syntax': [
+        'error',
+        ...restrictedSyntax,
+        {
+          selector:
+            'ExpressionStatement > CallExpression[callee.name="axeComponent"], ExpressionStatement > AwaitExpression > CallExpression[callee.name="axeComponent"]',
+          message:
+            'Assert the result: expect(await axeComponent(...)).toHaveNoViolations()',
         },
       ],
     },
