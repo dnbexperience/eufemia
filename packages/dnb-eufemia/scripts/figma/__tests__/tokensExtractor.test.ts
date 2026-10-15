@@ -21,6 +21,9 @@ vi.mock('fs-extra', () => ({
   },
 }))
 
+const COLORS_ID =
+  'VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080'
+
 const white = { r: 1, g: 1, b: 1, a: 1 }
 const green = { r: 0, g: 0.4470588266849518, b: 0.4470588266849518, a: 1 }
 
@@ -51,8 +54,8 @@ const meta: FigmaLocalVariables = {
         'VariableID:1:5',
       ],
     },
-    'VariableCollectionId:abc/5552:1080': {
-      id: 'VariableCollectionId:abc/5552:1080',
+    [COLORS_ID]: {
+      id: COLORS_ID,
       name: 'colors',
       modes: [{ modeId: '9:0', name: 'color' }],
       defaultModeId: '9:0',
@@ -115,7 +118,7 @@ const meta: FigmaLocalVariables = {
     'VariableID:def/5552:1666': {
       id: 'VariableID:def/5552:1666',
       name: 'dnb/greyscale/0',
-      variableCollectionId: 'VariableCollectionId:abc/5552:1080',
+      variableCollectionId: COLORS_ID,
       resolvedType: 'COLOR',
       valuesByMode: { '9:0': white },
       scopes: ['ALL_SCOPES'],
@@ -123,7 +126,7 @@ const meta: FigmaLocalVariables = {
     'VariableID:def/5552:1667': {
       id: 'VariableID:def/5552:1667',
       name: 'dnb/greyscale/0/40',
-      variableCollectionId: 'VariableCollectionId:abc/5552:1080',
+      variableCollectionId: COLORS_ID,
       resolvedType: 'COLOR',
       valuesByMode: { '9:0': { ...white, a: 0.4 } },
       scopes: ['ALL_SCOPES'],
@@ -167,6 +170,13 @@ describe('TOKEN_COLLECTIONS', () => {
       TOKEN_COLLECTIONS.find(({ collection }) => collection === 'brand')
         ?.collectionId
     ).toBe('VariableCollectionId:53684:1279')
+  })
+
+  it('pins the colors collection by id', () => {
+    expect(
+      TOKEN_COLLECTIONS.find(({ collection }) => collection === 'colors')
+        ?.collectionId
+    ).toBe(COLORS_ID)
   })
 })
 
@@ -214,7 +224,7 @@ describe('convertVariablesToTokens', () => {
             'com.figma.aliasData': {
               targetVariableId: 'VariableID:def/5552:1666',
               targetVariableName: 'dnb/greyscale/0',
-              targetVariableSetId: 'VariableCollectionId:abc/5552:1080',
+              targetVariableSetId: COLORS_ID,
               targetVariableSetName: 'colors',
             },
           },
@@ -514,7 +524,7 @@ describe('convertVariablesToTokens', () => {
         alias: {
           targetVariableId: 'VariableID:def/5552:1666',
           targetVariableName: 'dnb/greyscale/0',
-          targetVariableSetId: 'VariableCollectionId:abc/5552:1080',
+          targetVariableSetId: COLORS_ID,
           targetVariableSetName: 'colors',
         },
       },
@@ -654,6 +664,30 @@ describe('extractTokens', () => {
 
     expect(files).not.toContain('/tokens/small.tokens.json')
     expect(files).toHaveLength(8)
+  })
+
+  it('ignores a new collection that is also named "colors"', async () => {
+    mockResponse({
+      ...meta,
+      variableCollections: {
+        ...meta.variableCollections,
+        'VariableCollectionId:3:1': {
+          ...meta.variableCollections[COLORS_ID],
+          id: 'VariableCollectionId:3:1',
+          modes: [{ modeId: '3:0', name: 'colors-test' }],
+          variableIds: [],
+        },
+      },
+    })
+
+    const files = await extractTokens({
+      figmaFile: 'filekey123',
+      tokensDir: '/tokens',
+    })
+
+    expect(files).toContain('/tokens/color.tokens.json')
+    expect(files).not.toContain('/tokens/colors-test.tokens.json')
+    expect(log.warn).not.toHaveBeenCalled()
   })
 
   it('warns about a missing collection and writes the others', async () => {

@@ -67,7 +67,23 @@ jobs:
       # Step 1: fetch. Changes in Figma, such as a new mode, do not stop it.
       - name: Fetch design tokens from Figma
         id: fetch
-        run: yarn workspace @dnb/eufemia figma:tokens
+        shell: bash
+        run: |
+          yarn workspace @dnb/eufemia figma:tokens 2>&1 | tee "$RUNNER_TEMP/figma-fetch.log"
+
+          # Skipped variables are left out of the exports, so reviewers need to know about them
+          sed -n 's/.*> Figma: \(Skipped .*\)/\1/p' "$RUNNER_TEMP/figma-fetch.log" > "$RUNNER_TEMP/figma-skipped.txt"
+          if [ -s "$RUNNER_TEMP/figma-skipped.txt" ]; then
+            {
+              echo "Some Figma variables, modes or collections were skipped and are left out of the exports, so they may show up as removed tokens:"
+              echo ""
+              echo '```text'
+              cat "$RUNNER_TEMP/figma-skipped.txt"
+              echo '```'
+            } > "$RUNNER_TEMP/figma-skipped.md"
+            cat "$RUNNER_TEMP/figma-skipped.md" >> "$GITHUB_STEP_SUMMARY"
+            echo "skipped=true" >> "$GITHUB_OUTPUT"
+          fi
         env:
           FIGMA_TOKEN: ${{ secrets.FIGMA_TOKEN }}
           FIGMA_TOKENS_FILE: ${{ vars.FIGMA_TOKENS_FILE }}
@@ -122,6 +138,13 @@ jobs:
             --body "Synchronizes the Eufemia design tokens with Figma. The generated CSS and snapshots follow once the exports are verified." \
             --draft)
           echo "url=$url" >> "$GITHUB_OUTPUT"
+
+      - name: Report skipped Figma variables on the pull request
+        if: steps.fetch.outputs.skipped == 'true' && steps.exports.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          PR_URL: ${{ steps.new-pr.outputs.url || steps.existing-pr.outputs.url }}
+        run: gh pr comment "$PR_URL" --body-file "$RUNNER_TEMP/figma-skipped.md"
 
       # Step 2: verify that the exports the themes are generated from are there
       - name: Verify the Figma exports

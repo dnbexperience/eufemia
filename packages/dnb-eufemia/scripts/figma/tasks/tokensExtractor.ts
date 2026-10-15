@@ -121,8 +121,10 @@ export type TokenExport = {
   [key: string]: TokenLeaf | TokenGroup | TokenModeExtensions
 }
 
-/** A second collection is also named "brand", so the one we export is pinned by id */
+/** Figma allows duplicate collection names, so the ones we export are pinned by id */
 const BRAND_COLLECTION_ID = 'VariableCollectionId:53684:1279'
+const COLORS_COLLECTION_ID =
+  'VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080'
 
 /**
  * The Figma collections that are fetched, and the folder (relative to
@@ -133,7 +135,7 @@ export const TOKEN_COLLECTIONS: ReadonlyArray<{
   collectionId?: string
   dir: string
 }> = [
-  { collection: 'colors', dir: '' },
+  { collection: 'colors', collectionId: COLORS_COLLECTION_ID, dir: '' },
   { collection: 'brand', collectionId: BRAND_COLLECTION_ID, dir: 'brand' },
 ]
 

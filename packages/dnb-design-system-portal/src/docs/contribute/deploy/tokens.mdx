@@ -24,8 +24,8 @@ The design tokens are synchronized from Figma with the "Design Tokens" GitHub Ac
 
 1. Open [**Actions → Design Tokens**](https://github.com/dnbexperience/eufemia/actions/workflows/tokens-sync.yml), then select **Run workflow** on `main`.
 1. The workflow runs in three steps:
-   1. **Fetch:** It reads the Figma variables with the [variables REST API](https://developers.figma.com/docs/rest-api/variables-endpoints/), writes one `*.tokens.json` file per mode of the fetched collections, and commits them to a draft pull request. Changes in Figma, such as a new mode or collection, do not make this step fail. Variables that cannot be converted are skipped with a warning.
-   1. **Verify:** It checks that the exports the themes are generated from are there and contain tokens. Exports that no theme uses are ignored.
+   1. **Fetch:** It reads the Figma variables with the [variables REST API](https://developers.figma.com/docs/rest-api/variables-endpoints/), writes one `*.tokens.json` file per mode of the fetched collections, and commits them to a draft pull request. Changes in Figma, such as a new mode or collection, do not make this step fail. Variables that cannot be converted are skipped, and the workflow lists them in a pull request comment.
+   1. **Verify:** It checks that the exports the themes are generated from are there and can be converted to CSS, such as variable names and the collections tokens point to. Exports that no theme uses are ignored.
    1. **Generate:** It regenerates the CSS files and their test snapshots, builds the library and Portal, updates the visual snapshots and pushes the result to the same pull request.
 1. If the verify or generate step fails, the workflow comments on the pull request. The fetched exports stay in the pull request, so you can see what changed in Figma. Existing reviewer commits are preserved. If Figma and the pull request are already synchronized, it reports that no changes were found.
 1. Review the token values, removals and visual snapshots before marking the pull request ready.
