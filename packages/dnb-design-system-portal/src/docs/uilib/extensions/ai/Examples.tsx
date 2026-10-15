@@ -7,7 +7,27 @@ import svSE from '@dnb/eufemia/src/shared/locales/sv-SE'
 import aiSvSE from '@dnb/eufemia/src/extensions/ai/constants/locales/sv-SE'
 import daDK from '@dnb/eufemia/src/shared/locales/da-DK'
 import aiDaDK from '@dnb/eufemia/src/extensions/ai/constants/locales/da-DK'
-import * as Ai from '@dnb/eufemia/src/extensions/ai'
+import {
+  Action,
+  Actions,
+  ActivityText,
+  Conversation,
+  DateMarker,
+  Disclaimer,
+  Message,
+  MessageIndicator,
+  PromptInput,
+  Reasoning,
+  Response,
+  Sources,
+  Suggestion,
+  Suggestions,
+  Tool,
+  Welcome,
+  useConversation,
+  useConversationScrollState,
+  useConversationVisibility,
+} from '@dnb/eufemia/src/extensions/ai'
 import '@dnb/eufemia/src/extensions/ai/style'
 import {
   ToggleButton,
@@ -59,7 +79,7 @@ const total = groceries + transport
 export function AiResponseDefault() {
   return (
     <ComponentBox scope={{ answer }} data-visual-test="ai-response">
-      <Ai.Response>{answer}</Ai.Response>
+      <Response>{answer}</Response>
     </ComponentBox>
   )
 }
@@ -91,7 +111,7 @@ export function AiResponseStreaming() {
               >
                 Replay
               </Button>
-              <Ai.Response>{answer.slice(0, length)}</Ai.Response>
+              <Response>{answer.slice(0, length)}</Response>
             </>
           )
         }
@@ -105,11 +125,11 @@ export function AiResponseStreaming() {
 export function AiResponseAllowedUrls() {
   return (
     <ComponentBox>
-      <Ai.Response allowedLinkPrefixes={['https://www.dnb.no']}>
+      <Response allowedLinkPrefixes={['https://www.dnb.no']}>
         {
           'Read more on [dnb.no](https://www.dnb.no/), not on [example.com](https://example.com) or [this](javascript:alert(1)).'
         }
-      </Ai.Response>
+      </Response>
     </ComponentBox>
   )
 }
@@ -125,9 +145,9 @@ export function AiResponseComponents() {
         )
 
         return (
-          <Ai.Response components={{ strong: Strong }}>
+          <Response components={{ strong: Strong }}>
             {'This answer uses a **custom** element for **bold** text.'}
-          </Ai.Response>
+          </Response>
         )
       }}
     </ComponentBox>
@@ -137,7 +157,7 @@ export function AiResponseComponents() {
 export function AiMessagePlain() {
   return (
     <ComponentBox data-visual-test="ai-message-plain">
-      <Ai.Message
+      <Message
         variant="plain"
         name="Solve"
         timestamp="15:24"
@@ -148,12 +168,12 @@ export function AiMessagePlain() {
         }
         aiGenerated
       >
-        <Ai.Response>
+        <Response>
           {
             'It seems you made **2 transfers** 12.02. Choose the correct one below.'
           }
-        </Ai.Response>
-      </Ai.Message>
+        </Response>
+      </Message>
     </ComponentBox>
   )
 }
@@ -164,31 +184,31 @@ export function AiMessageActions() {
       data-visual-test="ai-message-actions"
       scope={{ thumbs_up, thumbs_down, refresh }}
     >
-      <Ai.Message
+      <Message
         name="Aino"
         actions={
-          <Ai.Actions>
+          <Actions>
             <CopyOnClick.Button
               copyContent="Your card is now blocked."
               title="Copy response"
               tooltip="Copy response"
             />
-            <Ai.Action icon={thumbs_up} label="Good answer" />
-            <Ai.Action icon={thumbs_down} label="Bad answer" />
-            <Ai.Action icon={refresh} label="Regenerate" />
-          </Ai.Actions>
+            <Action icon={thumbs_up} label="Good answer" />
+            <Action icon={thumbs_down} label="Bad answer" />
+            <Action icon={refresh} label="Regenerate" />
+          </Actions>
         }
       >
         Your card is now blocked.
-      </Ai.Message>
+      </Message>
     </ComponentBox>
   )
 }
 
-export function AiLoaderExample() {
+export function AiMessageIndicatorExample() {
   return (
-    <ComponentBox data-visual-test="ai-loader">
-      <Ai.Loader
+    <ComponentBox data-visual-test="ai-message-indicator">
+      <MessageIndicator
         name="Aino"
         avatar={
           <Avatar variant="secondary" hasLabel>
@@ -203,13 +223,13 @@ export function AiLoaderExample() {
 export function AiMessageComposition() {
   return (
     <ComponentBox>
-      <Ai.Message from="user">What did I spend on food?</Ai.Message>
-      <Ai.Message>
-        <Ai.Tool title="Checking your transactions" status="done" />
-        <Ai.Response parseIncompleteMarkdown={false}>
+      <Message from="user">What did I spend on food?</Message>
+      <Message>
+        <Tool title="Checking your transactions" status="done" />
+        <Response parseIncompleteMarkdown={false}>
           You spent **4 200 kr** on groceries in March.
-        </Ai.Response>
-        <Ai.Sources
+        </Response>
+        <Sources
           sources={[
             {
               url: 'https://www.dnb.no/privat/dagligbank',
@@ -217,7 +237,7 @@ export function AiMessageComposition() {
             },
           ]}
         />
-      </Ai.Message>
+      </Message>
     </ComponentBox>
   )
 }
@@ -225,7 +245,7 @@ export function AiMessageComposition() {
 export function AiPromptInputDefault() {
   return (
     <ComponentBox data-visual-test="ai-prompt-input-default">
-      <Ai.PromptInput
+      <PromptInput
         characterCounter={111}
         onAttachmentClick={() => null}
         onMicrophoneClick={() => null}
@@ -237,7 +257,7 @@ export function AiPromptInputDefault() {
 export function AiPromptInputCompact() {
   return (
     <ComponentBox data-visual-test="ai-prompt-input-compact">
-      <Ai.PromptInput
+      <PromptInput
         variant="compact"
         placeholder="Start typing here"
         onAttachmentClick={() => null}
@@ -263,7 +283,7 @@ export function AiPromptInputBusy() {
           }, [isBusy])
 
           return (
-            <Ai.PromptInput
+            <PromptInput
               isBusy={isBusy}
               onSubmit={() => setIsBusy(true)}
               onStop={() => setIsBusy(false)}
@@ -280,7 +300,7 @@ export function AiPromptInputBusy() {
 export function AiPromptInputError() {
   return (
     <ComponentBox>
-      <Ai.PromptInput
+      <PromptInput
         textareaProps={{
           status: 'The message could not be sent. Try again.',
         }}
@@ -292,9 +312,9 @@ export function AiPromptInputError() {
 export function AiConversationExample() {
   return (
     <ComponentBox data-visual-test="ai-conversation">
-      <Ai.Conversation style={{ height: '24rem' }}>
-        <Ai.DateMarker date="2026-02-02" />
-        <Ai.Disclaimer>
+      <Conversation style={{ height: '24rem' }}>
+        <DateMarker date="2026-02-02" />
+        <Disclaimer>
           <P>
             Aino is a chatbot for customer service. Do not share personal
             information with the chatbot. Read more about{' '}
@@ -307,20 +327,20 @@ export function AiConversationExample() {
             Some answers are generated with artificial intelligence and are
             marked with a tag. AI-generated answers can contain errors.
           </P>
-        </Ai.Disclaimer>
-        <Ai.Message name="Aino" timestamp="14:32">
+        </Disclaimer>
+        <Message name="Aino" timestamp="14:32">
           Hi, I am Aino, the digital assistant of DNB.
-        </Ai.Message>
-        <Ai.Message>How can I help you?</Ai.Message>
-        <Ai.Message from="user" name="You" timestamp="14:33">
+        </Message>
+        <Message>How can I help you?</Message>
+        <Message from="user" name="You" timestamp="14:33">
           I see an amount withdrawn from my account that I do not
           recognize. Can you help me find out what it is?
-        </Ai.Message>
-        <Ai.Message name="Aino" timestamp="14:33" aiGenerated>
+        </Message>
+        <Message name="Aino" timestamp="14:33" aiGenerated>
           Of course. Choose the transaction you want to know more about,
           and I will show you the details.
-        </Ai.Message>
-      </Ai.Conversation>
+        </Message>
+      </Conversation>
     </ComponentBox>
   )
 }
@@ -328,22 +348,20 @@ export function AiConversationExample() {
 export function AiWelcomeChips() {
   return (
     <ComponentBox data-visual-test="ai-welcome-chips">
-      <Ai.Welcome title="Welcome, Peter">
-        <Ai.Suggestions>
-          <Ai.Suggestion suggestion="Block my Visa card">
+      <Welcome title="Welcome, Peter">
+        <Suggestions>
+          <Suggestion suggestion="Block my Visa card">
             block my visa
-          </Ai.Suggestion>
-          <Ai.Suggestion suggestion="Help me with Vipps">
-            vipps
-          </Ai.Suggestion>
-          <Ai.Suggestion suggestion="Show my latest transactions">
+          </Suggestion>
+          <Suggestion suggestion="Help me with Vipps">vipps</Suggestion>
+          <Suggestion suggestion="Show my latest transactions">
             transactions
-          </Ai.Suggestion>
-          <Ai.Suggestion suggestion="Compare my spending with last month">
+          </Suggestion>
+          <Suggestion suggestion="Compare my spending with last month">
             compare spending
-          </Ai.Suggestion>
-        </Ai.Suggestions>
-      </Ai.Welcome>
+          </Suggestion>
+        </Suggestions>
+      </Welcome>
     </ComponentBox>
   )
 }
@@ -351,14 +369,14 @@ export function AiWelcomeChips() {
 export function AiSuggestionChips() {
   return (
     <ComponentBox data-visual-test="ai-suggestion-chips">
-      <Ai.Suggestions>
-        <Ai.Suggestion suggestion="Block my Visa card">
+      <Suggestions>
+        <Suggestion suggestion="Block my Visa card">
           block my visa
-        </Ai.Suggestion>
-        <Ai.Suggestion suggestion="Show my latest transactions">
+        </Suggestion>
+        <Suggestion suggestion="Show my latest transactions">
           transactions
-        </Ai.Suggestion>
-      </Ai.Suggestions>
+        </Suggestion>
+      </Suggestions>
     </ComponentBox>
   )
 }
@@ -366,23 +384,23 @@ export function AiSuggestionChips() {
 export function AiSuggestionCards() {
   return (
     <ComponentBox data-visual-test="ai-suggestion-cards" scope={{ bank }}>
-      <Ai.Suggestions>
-        <Ai.Suggestion
+      <Suggestions>
+        <Suggestion
           variant="card"
           icon={bank}
           suggestion="Explain my spending this month"
         />
-        <Ai.Suggestion
+        <Suggestion
           variant="card"
           icon={bank}
           suggestion="Show my savings goals"
         />
-        <Ai.Suggestion
+        <Suggestion
           variant="card"
           icon={bank}
           suggestion="When is my next bill due?"
         />
-      </Ai.Suggestions>
+      </Suggestions>
     </ComponentBox>
   )
 }
@@ -390,8 +408,8 @@ export function AiSuggestionCards() {
 export function AiDateMarkerExample() {
   return (
     <ComponentBox data-visual-test="ai-date-marker">
-      <Ai.DateMarker date="2026-02-02" />
-      <Ai.DateMarker>Today</Ai.DateMarker>
+      <DateMarker date="2026-02-02" />
+      <DateMarker>Today</DateMarker>
     </ComponentBox>
   )
 }
@@ -399,7 +417,7 @@ export function AiDateMarkerExample() {
 export function AiDisclaimerExample() {
   return (
     <ComponentBox data-visual-test="ai-disclaimer">
-      <Ai.Disclaimer>
+      <Disclaimer>
         <P>
           Aino is a chatbot for customer service. Do not share personal
           information with the chatbot. Read more about{' '}
@@ -412,7 +430,7 @@ export function AiDisclaimerExample() {
           Some answers are generated with artificial intelligence and are
           marked with a tag. AI-generated answers can contain errors.
         </P>
-      </Ai.Disclaimer>
+      </Disclaimer>
     </ComponentBox>
   )
 }
@@ -420,12 +438,12 @@ export function AiDisclaimerExample() {
 export function AiSourcesExample() {
   return (
     <ComponentBox data-visual-test="ai-sources">
-      <Ai.Message name="Aino" aiGenerated>
-        <Ai.Response>
+      <Message name="Aino" aiGenerated>
+        <Response>
           {'You can block your card in the app under **Cards**.'}
-        </Ai.Response>
-      </Ai.Message>
-      <Ai.Sources
+        </Response>
+      </Message>
+      <Sources
         top="x-small"
         sources={[
           { url: 'https://www.dnb.no/kort', title: 'Cards' },
@@ -485,22 +503,22 @@ function DemoMessageContent({ message }: { message: DemoMessage }) {
         switch (part.type) {
           case 'text':
             return (
-              <Ai.Response
+              <Response
                 key={index}
                 parseIncompleteMarkdown={part.isStreaming}
               >
                 {part.text}
-              </Ai.Response>
+              </Response>
             )
           case 'reasoning':
             return (
-              <Ai.Reasoning key={index} isStreaming={part.isStreaming}>
+              <Reasoning key={index} isStreaming={part.isStreaming}>
                 {part.text}
-              </Ai.Reasoning>
+              </Reasoning>
             )
           case 'tool':
             return (
-              <Ai.Tool
+              <Tool
                 key={index}
                 title={part.title}
                 status={part.status}
@@ -511,7 +529,7 @@ function DemoMessageContent({ message }: { message: DemoMessage }) {
             return null
         }
       })}
-      <Ai.Sources
+      <Sources
         sources={message.parts.flatMap((part) =>
           part.type === 'source'
             ? [{ url: part.url, title: part.title }]
@@ -647,13 +665,13 @@ export function AiChatExample() {
                   </Flex.Horizontal>
 
                   {messages.length === 0 ? (
-                    <Ai.Welcome
+                    <Welcome
                       title="Hello, Peter"
                       style={{ margin: 'auto 0' }}
                     >
-                      <Ai.Suggestions>
+                      <Suggestions>
                         {suggestionCards.map(({ icon, prompt }) => (
-                          <Ai.Suggestion
+                          <Suggestion
                             key={prompt}
                             variant="card"
                             icon={icon}
@@ -661,28 +679,28 @@ export function AiChatExample() {
                             onClick={({ suggestion }) => send(suggestion)}
                           />
                         ))}
-                      </Ai.Suggestions>
-                      <Ai.Suggestions>
+                      </Suggestions>
+                      <Suggestions>
                         {suggestionChips.map(({ icon, label, prompt }) => (
-                          <Ai.Suggestion
+                          <Suggestion
                             key={label}
                             icon={icon}
                             suggestion={prompt}
                             onClick={({ suggestion }) => send(suggestion)}
                           >
                             {label}
-                          </Ai.Suggestion>
+                          </Suggestion>
                         ))}
-                      </Ai.Suggestions>
-                    </Ai.Welcome>
+                      </Suggestions>
+                    </Welcome>
                   ) : (
-                    <Ai.Conversation
+                    <Conversation
                       id="banking-chat"
                       scrollBehavior="end"
                       style={{ flex: '1 1 auto' }}
                     >
-                      <Ai.DateMarker date={new Date()} />
-                      <Ai.Disclaimer>
+                      <DateMarker date={new Date()} />
+                      <Disclaimer>
                         <P>
                           Aino is a chatbot for customer service. Do not
                           share personal information with the chatbot. Read
@@ -697,7 +715,7 @@ export function AiChatExample() {
                           intelligence and are marked with a tag.
                           AI-generated answers can contain errors.
                         </P>
-                      </Ai.Disclaimer>
+                      </Disclaimer>
 
                       {messages.map((message, index) => {
                         const isAssistant = message.role === 'assistant'
@@ -706,7 +724,7 @@ export function AiChatExample() {
                         const transactions = getTransactions(message)
 
                         const actions = isAssistant && isDone && (
-                          <Ai.Actions>
+                          <Actions>
                             <CopyOnClick.Button
                               copyContent={getText(message)}
                               title="Copy response"
@@ -716,7 +734,7 @@ export function AiChatExample() {
                               <P size="small">Thanks for your feedback!</P>
                             ) : (
                               <>
-                                <Ai.Action
+                                <Action
                                   icon={thumbs_up}
                                   label="Good answer"
                                   onClick={() =>
@@ -726,7 +744,7 @@ export function AiChatExample() {
                                     }))
                                   }
                                 />
-                                <Ai.Action
+                                <Action
                                   icon={thumbs_down}
                                   label="Bad answer"
                                   onClick={() =>
@@ -739,18 +757,18 @@ export function AiChatExample() {
                               </>
                             )}
                             {isLast && (
-                              <Ai.Action
+                              <Action
                                 icon={refresh}
                                 label="Regenerate"
                                 onClick={regenerate}
                               />
                             )}
-                          </Ai.Actions>
+                          </Actions>
                         )
 
                         return (
                           <Fragment key={message.id}>
-                            <Ai.Message
+                            <Message
                               id={message.id}
                               from={message.role}
                               name={isAssistant ? 'Aino' : 'You'}
@@ -765,13 +783,10 @@ export function AiChatExample() {
                               actions={transactions ? undefined : actions}
                             >
                               <DemoMessageContent message={message} />
-                            </Ai.Message>
+                            </Message>
 
                             {transactions && (
-                              <Ai.Message
-                                variant="plain"
-                                actions={actions}
-                              >
+                              <Message variant="plain" actions={actions}>
                                 <List.Container>
                                   {transactions.map(
                                     ({ name, account, date, amount }) => (
@@ -801,19 +816,22 @@ export function AiChatExample() {
                                     )
                                   )}
                                 </List.Container>
-                              </Ai.Message>
+                              </Message>
                             )}
                           </Fragment>
                         )
                       })}
 
                       {status === 'submitted' && (
-                        <Ai.Loader name="Aino" avatar={ainoAvatar} />
+                        <MessageIndicator
+                          name="Aino"
+                          avatar={ainoAvatar}
+                        />
                       )}
-                    </Ai.Conversation>
+                    </Conversation>
                   )}
 
-                  <Ai.PromptInput
+                  <PromptInput
                     isBusy={
                       status === 'submitted' || status === 'streaming'
                     }
@@ -835,9 +853,9 @@ export function AiChatExample() {
 
         // Jump between the questions, and see which one you read
         const QuestionOverview = ({ questions }) => {
-          const { scrollToMessage } = Ai.useConversation('banking-chat')
+          const { scrollToMessage } = useConversation('banking-chat')
           const { currentTurnId } =
-            Ai.useConversationVisibility('banking-chat')
+            useConversationVisibility('banking-chat')
 
           return (
             <nav aria-label="Questions in this chat">
@@ -871,31 +889,31 @@ export function AiChatExample() {
 export function AiChatCompact() {
   return (
     <ComponentBox data-visual-test="ai-chat-compact" scope={{ bank }}>
-      <Ai.Welcome title="Hello, Peter">
-        <Ai.PromptInput
+      <Welcome title="Hello, Peter">
+        <PromptInput
           variant="compact"
           placeholder="Start typing here"
           onAttachmentClick={() => null}
           onMicrophoneClick={() => null}
         />
-        <Ai.Suggestions>
-          <Ai.Suggestion
+        <Suggestions>
+          <Suggestion
             variant="card"
             icon={bank}
             suggestion="Explain my spending this month"
           />
-          <Ai.Suggestion
+          <Suggestion
             variant="card"
             icon={bank}
             suggestion="Show my savings goals"
           />
-          <Ai.Suggestion
+          <Suggestion
             variant="card"
             icon={bank}
             suggestion="When is my next bill due?"
           />
-        </Ai.Suggestions>
-      </Ai.Welcome>
+        </Suggestions>
+      </Welcome>
     </ComponentBox>
   )
 }
@@ -907,8 +925,8 @@ export function AiChatConversation() {
       scope={{ chatStyle, transfer, pay_from }}
     >
       <div style={chatStyle}>
-        <Ai.Conversation style={{ flex: '1 1 auto' }}>
-          <Ai.Message
+        <Conversation style={{ flex: '1 1 auto' }}>
+          <Message
             from="user"
             name="You"
             timestamp="15:23"
@@ -916,9 +934,9 @@ export function AiChatConversation() {
           >
             Hi, I need the payment confirmation for a transfer I made from
             my salary account 12.02
-          </Ai.Message>
+          </Message>
 
-          <Ai.Message
+          <Message
             name="Aino"
             timestamp="15:24"
             avatar={
@@ -930,9 +948,9 @@ export function AiChatConversation() {
             Hi, it seems you made 2 transfers 12.02. I have provided both
             for you below. Just click the correct one and you will be able
             to get to the payment confirmation.
-          </Ai.Message>
+          </Message>
 
-          <Ai.Message variant="plain">
+          <Message variant="plain">
             <List.Container>
               <List.Item.Action icon={transfer}>
                 <List.Cell.Title>
@@ -957,10 +975,10 @@ export function AiChatConversation() {
                 </List.Cell.End>
               </List.Item.Action>
             </List.Container>
-          </Ai.Message>
-        </Ai.Conversation>
+          </Message>
+        </Conversation>
 
-        <Ai.PromptInput
+        <PromptInput
           characterCounter={111}
           onAttachmentClick={() => null}
           onMicrophoneClick={() => null}
@@ -973,15 +991,15 @@ export function AiChatConversation() {
 export function AiToolStates() {
   return (
     <ComponentBox data-visual-test="ai-tool-states">
-      <Ai.Tool title="Looking up your transactions" status="running" />
-      <Ai.Tool top title="Looking up your transactions" status="done" />
-      <Ai.Tool
+      <Tool title="Looking up your transactions" status="running" />
+      <Tool top title="Looking up your transactions" status="done" />
+      <Tool
         top
         title="Blocking your card"
         status="error"
         errorText="The card could not be blocked. Try again later."
       />
-      <Ai.Tool top title="Blocking your card" status="canceled" />
+      <Tool top title="Blocking your card" status="canceled" />
     </ComponentBox>
   )
 }
@@ -1023,9 +1041,9 @@ export function AiReasoningStreaming() {
               >
                 Replay
               </Button>
-              <Ai.Reasoning key={replays} isStreaming={isStreaming}>
+              <Reasoning key={replays} isStreaming={isStreaming}>
                 {reasoning.slice(0, length)}
-              </Ai.Reasoning>
+              </Reasoning>
             </>
           )
         }
@@ -1039,15 +1057,15 @@ export function AiReasoningStreaming() {
 export function AiReasoningDone() {
   return (
     <ComponentBox data-visual-test="ai-reasoning" scope={{ reasoning }}>
-      <Ai.Reasoning>{reasoning}</Ai.Reasoning>
+      <Reasoning>{reasoning}</Reasoning>
     </ComponentBox>
   )
 }
 
-export function AiShimmerExample() {
+export function AiActivityTextExample() {
   return (
     <ComponentBox>
-      <Ai.Shimmer>Looking up your transactions …</Ai.Shimmer>
+      <ActivityText>Looking up your transactions …</ActivityText>
     </ComponentBox>
   )
 }
@@ -1078,23 +1096,23 @@ export function AiConversationScrollBehavior() {
                 <ToggleButton value="end" text="end" />
               </ToggleButton.Group>
 
-              <Ai.Conversation
+              <Conversation
                 scrollBehavior={scrollBehavior}
                 style={{ flex: '1 1 auto' }}
               >
                 {messages.map((message) => (
-                  <Ai.Message
+                  <Message
                     key={message.id}
                     id={message.id}
                     from={message.role}
                   >
                     <DemoMessageContent message={message} />
-                  </Ai.Message>
+                  </Message>
                 ))}
-                {status === 'submitted' && <Ai.Loader />}
-              </Ai.Conversation>
+                {status === 'submitted' && <MessageIndicator />}
+              </Conversation>
 
-              <Ai.PromptInput
+              <PromptInput
                 variant="compact"
                 placeholder="Try: Compare my spending"
                 isBusy={status === 'submitted' || status === 'streaming'}
@@ -1142,7 +1160,7 @@ export function AiScrollerPeek() {
                 </Button>
               </Flex.Horizontal>
 
-              <Ai.Conversation
+              <Conversation
                 style={
                   {
                     height: '18rem',
@@ -1152,13 +1170,11 @@ export function AiScrollerPeek() {
               >
                 {Array.from({ length: count }, (_, index) => (
                   <Fragment key={index}>
-                    <Ai.Message from="user">
-                      Question {index + 1}
-                    </Ai.Message>
-                    <Ai.Message>{scrollerReply}</Ai.Message>
+                    <Message from="user">Question {index + 1}</Message>
+                    <Message>{scrollerReply}</Message>
                   </Fragment>
                 ))}
-              </Ai.Conversation>
+              </Conversation>
             </>
           )
         }
@@ -1192,7 +1208,7 @@ export function AiScrollerOpening() {
                 <ToggleButton value="end" text="end" />
               </ToggleButton.Group>
 
-              <Ai.Conversation
+              <Conversation
                 key={scrollBehavior}
                 scrollBehavior={scrollBehavior}
                 style={{ height: '18rem' }}
@@ -1200,15 +1216,15 @@ export function AiScrollerOpening() {
                 {['How do I block my card?', 'Can I order a new one?'].map(
                   (question) => (
                     <Fragment key={question}>
-                      <Ai.Message from="user">{question}</Ai.Message>
-                      <Ai.Message>
+                      <Message from="user">{question}</Message>
+                      <Message>
                         <P>{scrollerReply}</P>
                         <P top>{scrollerReply}</P>
-                      </Ai.Message>
+                      </Message>
                     </Fragment>
                   )
                 )}
-              </Ai.Conversation>
+              </Conversation>
             </>
           )
         }
@@ -1243,14 +1259,14 @@ export function AiScrollerHistory() {
                 Load earlier messages
               </Button>
 
-              <Ai.Conversation style={{ height: '18rem' }}>
+              <Conversation style={{ height: '18rem' }}>
                 {turns.map((turn) => (
                   <Fragment key={turn}>
-                    <Ai.Message from="user">Question {turn}</Ai.Message>
-                    <Ai.Message>{scrollerReply}</Ai.Message>
+                    <Message from="user">Question {turn}</Message>
+                    <Message>{scrollerReply}</Message>
                   </Fragment>
                 ))}
-              </Ai.Conversation>
+              </Conversation>
             </>
           )
         }
@@ -1273,9 +1289,9 @@ export function AiScrollerOutline() {
         ]
 
         const Outline = () => {
-          const { scrollToMessage } = Ai.useConversation('outline-chat')
+          const { scrollToMessage } = useConversation('outline-chat')
           const { currentTurnId } =
-            Ai.useConversationVisibility('outline-chat')
+            useConversationVisibility('outline-chat')
 
           return (
             <Flex.Horizontal bottom>
@@ -1297,16 +1313,16 @@ export function AiScrollerOutline() {
         return (
           <>
             <Outline />
-            <Ai.Conversation id="outline-chat" style={{ height: '18rem' }}>
+            <Conversation id="outline-chat" style={{ height: '18rem' }}>
               {questions.map(({ id, text }) => (
                 <Fragment key={id}>
-                  <Ai.Message from="user" id={id}>
+                  <Message from="user" id={id}>
                     {text}
-                  </Ai.Message>
-                  <Ai.Message>{scrollerReply}</Ai.Message>
+                  </Message>
+                  <Message>{scrollerReply}</Message>
                 </Fragment>
               ))}
-            </Ai.Conversation>
+            </Conversation>
           </>
         )
       }}
@@ -1320,9 +1336,9 @@ export function AiScrollerScrollState() {
       {() => {
         const Toolbar = () => {
           const { scrollToStart, scrollToEnd } =
-            Ai.useConversation('state-chat')
+            useConversation('state-chat')
           const { isAtStart, isAtEnd } =
-            Ai.useConversationScrollState('state-chat')
+            useConversationScrollState('state-chat')
 
           return (
             <Flex.Horizontal bottom>
@@ -1347,14 +1363,14 @@ export function AiScrollerScrollState() {
         return (
           <>
             <Toolbar />
-            <Ai.Conversation id="state-chat" style={{ height: '18rem' }}>
+            <Conversation id="state-chat" style={{ height: '18rem' }}>
               {Array.from({ length: 4 }, (_, index) => (
                 <Fragment key={index}>
-                  <Ai.Message from="user">Question {index + 1}</Ai.Message>
-                  <Ai.Message>{scrollerReply}</Ai.Message>
+                  <Message from="user">Question {index + 1}</Message>
+                  <Message>{scrollerReply}</Message>
                 </Fragment>
               ))}
-            </Ai.Conversation>
+            </Conversation>
           </>
         )
       }}
@@ -1402,19 +1418,17 @@ export function AiScrollerAnimation() {
                 </Button>
               </Flex.Horizontal>
 
-              <Ai.Conversation
+              <Conversation
                 className={`my-chat--${animation}`}
                 style={{ height: '18rem' }}
               >
                 {Array.from({ length: count }, (_, index) => (
                   <Fragment key={index}>
-                    <Ai.Message from="user">
-                      Question {index + 1}
-                    </Ai.Message>
-                    <Ai.Message>{scrollerReply}</Ai.Message>
+                    <Message from="user">Question {index + 1}</Message>
+                    <Message>{scrollerReply}</Message>
                   </Fragment>
                 ))}
-              </Ai.Conversation>
+              </Conversation>
             </>
           )
         }
@@ -1436,9 +1450,8 @@ export function AiScrollerLongConversation() {
 
         const Toolbar = () => {
           const { scrollToStart, scrollToMessage, scrollToEnd } =
-            Ai.useConversation('long-chat')
-          const { currentTurnId } =
-            Ai.useConversationVisibility('long-chat')
+            useConversation('long-chat')
+          const { currentTurnId } = useConversationVisibility('long-chat')
 
           return (
             <Flex.Horizontal align="center" bottom>
@@ -1465,16 +1478,16 @@ export function AiScrollerLongConversation() {
         return (
           <>
             <Toolbar />
-            <Ai.Conversation id="long-chat" style={{ height: '24rem' }}>
+            <Conversation id="long-chat" style={{ height: '24rem' }}>
               {turns.map(({ id, number }) => (
                 <Fragment key={id}>
-                  <Ai.Message from="user" id={id}>
+                  <Message from="user" id={id}>
                     Question {number}
-                  </Ai.Message>
-                  <Ai.Message>{scrollerReply}</Ai.Message>
+                  </Message>
+                  <Message>{scrollerReply}</Message>
                 </Fragment>
               ))}
-            </Ai.Conversation>
+            </Conversation>
           </>
         )
       }}

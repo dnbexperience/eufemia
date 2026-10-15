@@ -3,14 +3,14 @@ import userEvent from '@testing-library/user-event'
 import { axeComponent } from '../../../core/test-utils/testSetup'
 import Provider from '../../../shared/Provider'
 import { bank } from '../../../icons'
-import * as Ai from '..'
+import { Suggestion, Suggestions } from '..'
 
 describe('Ai.Suggestions', () => {
   it('renders a labeled group', () => {
     render(
-      <Ai.Suggestions>
-        <Ai.Suggestion suggestion="Block my card" />
-      </Ai.Suggestions>
+      <Suggestions>
+        <Suggestion suggestion="Block my card" />
+      </Suggestions>
     )
 
     const group = document.querySelector('.dnb-ai-suggestions')
@@ -21,7 +21,7 @@ describe('Ai.Suggestions', () => {
   it('translates the label', () => {
     render(
       <Provider locale="en-GB">
-        <Ai.Suggestions />
+        <Suggestions />
       </Provider>
     )
     expect(
@@ -30,7 +30,7 @@ describe('Ai.Suggestions', () => {
   })
 
   it('supports spacing props and forwards attributes', () => {
-    render(<Ai.Suggestions top="large" className="custom" id="list" />)
+    render(<Suggestions top="large" className="custom" id="list" />)
 
     const group = document.querySelector('.dnb-ai-suggestions')
     expect(group).toHaveClass('dnb-space__top--large', 'custom')
@@ -41,7 +41,7 @@ describe('Ai.Suggestions', () => {
 describe('Ai.Suggestion', () => {
   it('renders a chip with the ai icon', async () => {
     const onClick = vi.fn()
-    render(<Ai.Suggestion suggestion="Block my card" onClick={onClick} />)
+    render(<Suggestion suggestion="Block my card" onClick={onClick} />)
 
     const button = document.querySelector('button')
     expect(button).toHaveClass(
@@ -61,7 +61,7 @@ describe('Ai.Suggestion', () => {
   it('renders a card', async () => {
     const onClick = vi.fn()
     render(
-      <Ai.Suggestion
+      <Suggestion
         variant="card"
         icon={bank}
         suggestion="Explain my spending"
@@ -86,9 +86,9 @@ describe('Ai.Suggestion', () => {
   it('shows children instead of the suggestion', async () => {
     const onClick = vi.fn()
     render(
-      <Ai.Suggestion suggestion="Show my transactions" onClick={onClick}>
+      <Suggestion suggestion="Show my transactions" onClick={onClick}>
         Transactions
-      </Ai.Suggestion>
+      </Suggestion>
     )
 
     const button = document.querySelector('button')
@@ -103,13 +103,8 @@ describe('Ai.Suggestion', () => {
   it('supports disabled and spacing props', () => {
     render(
       <>
-        <Ai.Suggestion suggestion="A" disabled top="small" />
-        <Ai.Suggestion
-          variant="card"
-          suggestion="B"
-          disabled
-          top="small"
-        />
+        <Suggestion suggestion="A" disabled top="small" />
+        <Suggestion variant="card" suggestion="B" disabled top="small" />
       </>
     )
 
@@ -121,10 +116,10 @@ describe('Ai.Suggestion', () => {
 
   it('should validate with ARIA rules', async () => {
     const result = render(
-      <Ai.Suggestions>
-        <Ai.Suggestion suggestion="Block my card" />
-        <Ai.Suggestion variant="card" icon={bank} suggestion="Spending" />
-      </Ai.Suggestions>
+      <Suggestions>
+        <Suggestion suggestion="Block my card" />
+        <Suggestion variant="card" icon={bank} suggestion="Spending" />
+      </Suggestions>
     )
     expect(await axeComponent(result)).toHaveNoViolations()
   })

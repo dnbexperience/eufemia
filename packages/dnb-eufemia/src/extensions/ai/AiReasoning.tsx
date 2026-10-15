@@ -4,7 +4,7 @@ import { useSpacing } from '../../components/space/SpacingUtils'
 import useTranslation from './hooks/useTranslation'
 import AiCollapsible from './AiCollapsible'
 import AiResponse from './AiResponse'
-import AiShimmer from './AiShimmer'
+import AiActivityText from './AiActivityText'
 import type { AiReasoningProps } from './types'
 
 function AiReasoning(props: AiReasoningProps) {
@@ -31,7 +31,7 @@ function AiReasoning(props: AiReasoningProps) {
       <AiCollapsible
         label={
           isStreaming ? (
-            <AiShimmer>{translation.thinking}</AiShimmer>
+            <AiActivityText>{translation.thinking}</AiActivityText>
           ) : (
             translation.reasoning
           )
