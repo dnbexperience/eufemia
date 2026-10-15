@@ -92,11 +92,11 @@ export type ButtonProps = {
    */
   title?: ReactNode
   /**
-   * Defines the kind of button. Possible values are `primary`, `secondary` and `tertiary`. Defaults to `primary` (or `secondary` if icon only). The `tertiary` button is normally used together with an icon and officially supports only the default and large sizes.
+   * Defines the kind of button. Possible values are `primary`, `secondary` and `tertiary`. Defaults to `primary` (or `secondary` if icon only). The `tertiary` button is normally used together with an icon. Use default or large for tertiary buttons with text; icon-only tertiary buttons support all sizes.
    */
   variant?: ButtonVariant
   /**
-   * The size of the button. There is `default`, `small`, `medium` and `large`. The `tertiary` button officially supports only default and large. Changing the size mainly affects spacing, but the large tertiary button also has a larger font size.
+   * The size of the button. There is `default`, `small`, `medium` and `large`. Use default or large for tertiary buttons with text; icon-only tertiary buttons also support small and medium. Changing the size mainly affects spacing, but the large tertiary button also has a larger font size.
    */
   size?: ButtonSize
   /**
