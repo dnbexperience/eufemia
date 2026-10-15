@@ -14,6 +14,16 @@ describe('Value.Date', () => {
       ).toBe('16. januar 2023')
     })
 
+    it('passes the formatted date to transformIn', () => {
+      const transformIn = vi.fn((value) => `Due ${value}`)
+      render(<Value.Date value="2023-01-16" transformIn={transformIn} />)
+
+      expect(transformIn).toHaveBeenLastCalledWith('16. januar 2023')
+      expect(
+        document.querySelector('.dnb-forms-value-block__content')
+      ).toHaveTextContent('Due 16. januar 2023')
+    })
+
     it('renders without value', () => {
       expect(() => render(<Value.Date />)).not.toThrow()
 

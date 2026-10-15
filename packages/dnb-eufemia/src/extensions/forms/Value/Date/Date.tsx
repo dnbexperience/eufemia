@@ -1,6 +1,8 @@
 import { useCallback, useContext } from 'react'
+import { clsx } from 'clsx'
 import type { ValueStringProps as StringValueProps } from '../String'
-import StringValue from '../String'
+import ValueBlock from '../../ValueBlock'
+import { useValueProps } from '../../hooks'
 import useTranslation from '../../hooks/useTranslation'
 import type { AnyLocale } from '../../../../shared/Context'
 import SharedContext from '../../../../shared/Context'
@@ -27,7 +29,7 @@ function DateComponent(props: ValueDateProps) {
   const { dateFormat, variant = 'long' } = props
   const options = convertVariantToDateStyle(variant)
 
-  const formatValue = useCallback(
+  const toInput = useCallback(
     (value: string) => {
       if (!value) {
         return undefined
@@ -57,29 +59,26 @@ function DateComponent(props: ValueDateProps) {
   const canUseDOM = useCanUseDOM()
   const isHydrating = !canUseDOM && typeof document !== 'undefined'
 
-  const toInput = useCallback(
-    (value: string) => {
-      const formatted = formatValue(value)
-
-      if (formatted === undefined) {
-        return undefined
-      }
-
-      return (
-        <span suppressHydrationWarning={isHydrating || undefined}>
-          {isHydrating ? '' : formatted}
-        </span>
-      )
-    },
-    [formatValue, isHydrating]
-  )
-
-  const stringProps: ValueDateProps = {
+  const { value, className, ...rest } = useValueProps({
     ...props,
     label: props.label ?? translations.label,
     toInput,
-  }
-  return <StringValue {...stringProps} />
+  })
+
+  return (
+    <ValueBlock
+      className={clsx('dnb-forms-value-string', className)}
+      {...rest}
+    >
+      {typeof value === 'string' && value ? (
+        <span suppressHydrationWarning={isHydrating || undefined}>
+          {isHydrating ? '' : value}
+        </span>
+      ) : (
+        value
+      )}
+    </ValueBlock>
+  )
 }
 
 function convertVariantToDateStyle(
