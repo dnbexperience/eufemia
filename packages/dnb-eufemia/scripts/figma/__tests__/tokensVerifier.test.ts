@@ -20,6 +20,35 @@ const foundation = {
   'dnb-carnegie': { white: token },
 }
 
+const toGroup = (names: string[]) =>
+  Object.fromEntries(names.map((name) => [name, token]))
+
+/** The tokens the typography properties are generated from */
+const typography = {
+  size: toGroup([
+    'text-2xs',
+    'text-xs',
+    'text-sm',
+    'text-basis',
+    'text-lead',
+    'heading-lg',
+    'heading-xl',
+    'heading-2xl',
+  ]),
+  height: toGroup([
+    'text-xs',
+    'text-sm',
+    'text-basis',
+    'text-lead',
+    'heading-large',
+    'heading-xl',
+    'heading-2xl',
+  ]),
+}
+
+const brand = { radius: token, font: typography }
+const dnbLight = 'src/style/themes/figma/brand/dnb-light.tokens.json'
+
 let rootDir: string
 
 const writeExport = (file: string, content: unknown) =>
@@ -33,7 +62,7 @@ beforeEach(async () => {
   rootDir = await fs.mkdtemp(path.join(os.tmpdir(), 'eufemia-tokens-'))
 
   for (const file of DESIGN_TOKEN_FILES) {
-    await writeExport(file.in, { radius: token })
+    await writeExport(file.in, brand)
   }
   await writeExport(FOUNDATION_TOKEN_FILES[0].in, foundation)
 })
@@ -89,6 +118,53 @@ describe('verifyTokens', () => {
 
     await expect(verifyTokens({ rootDir })).rejects.toThrow(
       '(carnegie): Invalid Figma token node at "dnb-carnegie"'
+    )
+  })
+
+  it('reports a variable name that cannot become a CSS variable', async () => {
+    await writeExport(dnbLight, {
+      ...brand,
+      color: { 'action (old)': token },
+    })
+
+    await expect(verifyTokens({ rootDir })).rejects.toThrow(
+      `./${dnbLight} (ui): Unsupported characters [ ' ', '(', ')' ] in variable: "color/action (old)"`
+    )
+  })
+
+  it('reports an alias to a collection the themes do not support', async () => {
+    await writeExport(dnbLight, {
+      ...brand,
+      color: {
+        action: {
+          ...token,
+          $type: 'color',
+          $extensions: {
+            'com.figma.aliasData': {
+              targetVariableName: 'eiendom/green-500',
+              targetVariableSetId: 'VariableCollectionId:3:1',
+              targetVariableSetName: 'eiendom-colors',
+            },
+          },
+        },
+      },
+    })
+
+    await expect(verifyTokens({ rootDir })).rejects.toThrow(
+      `./${dnbLight} (ui): Unsupported variable set: eiendom-colors`
+    )
+  })
+
+  it('reports a missing typography token', async () => {
+    const size = { ...typography.size }
+    delete size['text-sm']
+    await writeExport(dnbLight, {
+      ...brand,
+      font: { ...typography, size },
+    })
+
+    await expect(verifyTokens({ rootDir })).rejects.toThrow(
+      `./${dnbLight} (ui): Missing numeric typography token for --font-size-small: font/size/text-sm`
     )
   })
 

@@ -1,15 +1,15 @@
 /**
  * Checks that the Figma exports the themes are generated from exist and
- * contain tokens. Exports that no theme uses are ignored.
+ * can be converted to CSS. Exports that no theme uses are ignored.
  */
 
 import fs from 'fs-extra'
 import path from 'path'
 import { log } from '../../lib'
 import {
-  convertToTokenList,
   DESIGN_TOKEN_FILES,
   FOUNDATION_TOKEN_FILES,
+  validateTokenExport,
 } from '../../prebuild/tasks/makePropertiesFile'
 
 export const verifyTokens = async ({
@@ -32,10 +32,10 @@ export const verifyTokens = async ({
     }
 
     try {
-      const json = JSON.parse(await fs.readFile(filePath, 'utf-8'))
-      const filter = 'filter' in file ? file.filter : undefined
-
-      convertToTokenList(filter ? filter(json) : json, file.figmaSetId)
+      validateTokenExport(
+        JSON.parse(await fs.readFile(filePath, 'utf-8')),
+        file
+      )
     } catch (e) {
       problems.add(`${file.in} (${file.theme}): ${(e as Error).message}`)
     }
