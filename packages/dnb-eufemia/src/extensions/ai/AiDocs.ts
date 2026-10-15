@@ -324,9 +324,9 @@ export const AiDateMarkerProperties: PropertiesTableProps = {
   },
 }
 
-export const AiDisclaimerProperties: PropertiesTableProps = {
+export const AiInfoProperties: PropertiesTableProps = {
   children: {
-    doc: 'The disclaimer text.',
+    doc: 'Supporting information about the conversation. Accepts paragraphs, links, and other content.',
     type: 'React.ReactNode',
     status: 'optional',
   },
