@@ -181,6 +181,7 @@ function AiPromptInput(props: AiPromptInputProps) {
               tooltip: translation.stop,
             }
           : { text: translation.stop })}
+        disabled={disabled}
         onClick={onStop}
       />
     ) : isCompact && isEmpty ? null : (

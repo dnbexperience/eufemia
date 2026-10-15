@@ -350,6 +350,17 @@ describe('PromptInput', () => {
     })
   })
 
+  it('disables Stop as well as the input while disabled and busy', async () => {
+    const onStop = vi.fn()
+    render(<Ai.PromptInput disabled isBusy onStop={onStop} />)
+    const stop = document.querySelector<HTMLButtonElement>(
+      '.dnb-ai-prompt-input__stop'
+    )
+    expect(stop).toBeDisabled()
+    await userEvent.click(stop)
+    expect(onStop).not.toHaveBeenCalled()
+  })
+
   it('forwards textareaProps', () => {
     render(
       <PromptInput textareaProps={{ status: 'Something went wrong' }} />
