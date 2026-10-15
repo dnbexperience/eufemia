@@ -374,7 +374,7 @@ describe('Ai', () => {
       'ActivityText',
       'Conversation',
       'DateMarker',
-      'Disclaimer',
+      'Info',
       'Message',
       'MessageIndicator',
       'PromptInput',
