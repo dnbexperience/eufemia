@@ -14,11 +14,11 @@ beforeEach(() => {
 describe('Ai.Response', () => {
   it('formats currency amounts in text, emphasis and tables', () => {
     render(
-      <Ai.Response parseIncompleteMarkdown={false}>
+      <Response parseIncompleteMarkdown={false}>
         {
           'You spent **12 400,50 kr**.\n\n| Item | Price |\n|---|---|\n| Fee | EUR 19,95 |'
         }
-      </Ai.Response>
+      </Response>
     )
     const amounts = document.querySelectorAll(
       '.dnb-number-format--currency'
@@ -39,12 +39,12 @@ describe('Ai.Response', () => {
   it('parses the source locale independently of the display locale', () => {
     const { rerender } = render(
       <Provider locale="en-GB">
-        <Ai.Response
+        <Response
           parseIncompleteMarkdown={false}
           currencyFormatting={{ locale: 'nb-NO', currency: 'SEK' }}
         >
           {'1 234,50 kr'}
-        </Ai.Response>
+        </Response>
       </Provider>
     )
     expect(
@@ -52,12 +52,12 @@ describe('Ai.Response', () => {
     ).toHaveTextContent('SEK 1,234.50')
     rerender(
       <Provider locale="nb-NO">
-        <Ai.Response
+        <Response
           parseIncompleteMarkdown={false}
           currencyFormatting={{ locale: 'nb-NO', currency: 'SEK' }}
         >
           {'1 234,50 kr'}
-        </Ai.Response>
+        </Response>
       </Provider>
     )
     expect(
@@ -67,11 +67,11 @@ describe('Ai.Response', () => {
 
   it('keeps code, links, ambiguous symbols and bare numbers unchanged', () => {
     render(
-      <Ai.Response parseIncompleteMarkdown={false}>
+      <Response parseIncompleteMarkdown={false}>
         {
           '`100 kr` [NOK 100](https://dnb.no) $100 12345\n\n```text\nNOK 200\n```'
         }
-      </Ai.Response>
+      </Response>
     )
     expect(document.querySelector('.dnb-number-format')).toBeNull()
     expect(document.querySelector('a')).toHaveTextContent('NOK 100')
@@ -79,18 +79,16 @@ describe('Ai.Response', () => {
   })
 
   it('can preserve the original text', () => {
-    render(
-      <Ai.Response currencyFormatting={false}>{'NOK 100'}</Ai.Response>
-    )
+    render(<Response currencyFormatting={false}>{'NOK 100'}</Response>)
     expect(document.querySelector('.dnb-number-format')).toBeNull()
     expect(document.querySelector('p')).toHaveTextContent('NOK 100')
   })
 
   it('exposes currency meaning without enabling isolated selection or copy controls', async () => {
     const result = render(
-      <Ai.Response parseIncompleteMarkdown={false}>
+      <Response parseIncompleteMarkdown={false}>
         {'The refund is −250,50 kr.'}
-      </Ai.Response>
+      </Response>
     )
     const amount = document.querySelector('.dnb-number-format')
     expect(amount).not.toHaveClass('dnb-number-format--select-all')
@@ -105,16 +103,14 @@ describe('Ai.Response', () => {
   })
 
   it('waits for the amount to be complete while streaming', () => {
-    const { rerender } = render(<Ai.Response>{'NOK 12'}</Ai.Response>)
+    const { rerender } = render(<Response>{'NOK 12'}</Response>)
     expect(document.querySelector('.dnb-number-format')).toBeNull()
-    rerender(<Ai.Response>{'NOK 12,50 paid.'}</Ai.Response>)
+    rerender(<Response>{'NOK 12,50 paid.'}</Response>)
     expect(
       document.querySelector('.dnb-number-format__visible')
     ).toHaveTextContent('NOK 12,50')
     rerender(
-      <Ai.Response parseIncompleteMarkdown={false}>
-        {'NOK 12,50'}
-      </Ai.Response>
+      <Response parseIncompleteMarkdown={false}>{'NOK 12,50'}</Response>
     )
     expect(
       document.querySelector('.dnb-number-format__visible')

@@ -143,9 +143,9 @@ export function AiResponseCurrencies() {
       scope={{ currencyResponse }}
     >
       <Provider locale="nb-NO">
-        <Ai.Response parseIncompleteMarkdown={false}>
+        <Response parseIncompleteMarkdown={false}>
           {currencyResponse}
-        </Ai.Response>
+        </Response>
       </Provider>
     </ComponentBox>
   )
@@ -155,12 +155,12 @@ export function AiResponseCurrencyLocale() {
   return (
     <ComponentBox data-visual-test="ai-response-currency-locale">
       <Provider locale="nb-NO">
-        <Ai.Response
+        <Response
           parseIncompleteMarkdown={false}
           currencyFormatting={{ locale: 'en-GB' }}
         >
           {'The total is USD 1,234.50 and EUR 99.95.'}
-        </Ai.Response>
+        </Response>
       </Provider>
     </ComponentBox>
   )
@@ -190,9 +190,9 @@ export function AiResponseCurrencyStreaming() {
               >
                 Replay
               </Button>
-              <Ai.Response parseIncompleteMarkdown={length < text.length}>
+              <Response parseIncompleteMarkdown={length < text.length}>
                 {text.slice(0, length)}
-              </Ai.Response>
+              </Response>
             </Provider>
           )
         }
