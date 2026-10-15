@@ -347,6 +347,7 @@ test.describe('Document and print styles', () => {
     ).toContainText('DNB Carnegie')
     await page.getByRole('checkbox', { name: 'Multi-page table' }).check()
     await expect(page.locator('#letter tbody tr')).toHaveCount(80)
+    await page.evaluate(() => document.fonts.ready)
     await page.evaluate(() => {
       window.print = () => {
         document.body.dataset.printRequested = 'true'
