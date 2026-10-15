@@ -952,6 +952,40 @@ describe('Tooltip', () => {
       expect(await axeComponent(Component)).toHaveNoViolations()
     })
 
+    it('should hide a hovered tooltip on Escape', async () => {
+      render(<Tooltip />)
+
+      fireEvent.mouseEnter(document.querySelector('button'))
+
+      await waitFor(() => {
+        expect(getMainElem()).toHaveClass('dnb-tooltip--active')
+      })
+
+      fireEvent.keyDown(document.body, { key: 'Escape' })
+
+      await waitFor(() => {
+        expect(document.querySelector('.dnb-tooltip--active')).toBeNull()
+      })
+    })
+
+    it('should hide a focused tooltip on Escape', async () => {
+      render(<Tooltip />)
+
+      const buttonElem = document.querySelector('button')
+      act(() => buttonElem.focus())
+
+      await waitFor(() => {
+        expect(getMainElem()).toHaveClass('dnb-tooltip--active')
+      })
+
+      fireEvent.keyDown(buttonElem, { key: 'Escape' })
+
+      await waitFor(() => {
+        expect(document.querySelector('.dnb-tooltip--active')).toBeNull()
+      })
+      expect(document.activeElement).toBe(buttonElem)
+    })
+
     it('should ignore DOM events when open initially is true (controlled)', async () => {
       render(<Tooltip open />)
 
