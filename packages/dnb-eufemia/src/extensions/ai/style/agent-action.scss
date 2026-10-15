@@ -191,16 +191,18 @@
 @keyframes dnb-ai-agent-action-progress {
   0%,
   100% {
-    transform: translateX(-36%) scaleX(0.28);
+    translate: -36% 0;
+    transform: scaleX(0.28);
   }
 
   25%,
   75% {
-    transform: translateX(0) scaleX(0.49);
+    transform: scaleX(0.49);
   }
 
   50% {
-    transform: translateX(36%) scaleX(0.28);
+    translate: 36% 0;
+    transform: scaleX(0.28);
   }
 }
 

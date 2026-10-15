@@ -2,6 +2,44 @@ import { test, expect } from '@playwright/test'
 import waitForApp from './shared/waitForApp'
 
 test.describe('Ai.AgentAction', () => {
+  test('moves continuously through the center of unknown progress in both directions', async ({
+    page,
+  }) => {
+    await page.emulateMedia({ reducedMotion: 'no-preference' })
+    await page.goto(
+      '/uilib/extensions/ai/AgentAction/demos/#unknown-progress-and-cancellation'
+    )
+    await waitForApp(page)
+    const action = page
+      .getByRole('button', { name: 'Complete graph', exact: true })
+      .locator('..')
+      .locator('..')
+      .locator('.dnb-ai-agent-action')
+    const centers = await action
+      .locator('.dnb-ai-agent-action__fill')
+      .evaluate(async (fill) => {
+        const animation = fill.getAnimations()[0]
+        animation.pause()
+        const duration = Number(animation.effect.getTiming().duration)
+        const track = fill.parentElement.getBoundingClientRect()
+        const centers: number[] = []
+        for (const progress of [0.2, 0.25, 0.3, 0.7, 0.75, 0.8]) {
+          animation.currentTime = duration * progress
+          await new Promise(requestAnimationFrame)
+          const bounds = fill.getBoundingClientRect()
+          centers.push(
+            (bounds.left + bounds.width / 2 - track.left) / track.width
+          )
+        }
+        return centers
+      })
+    // The fill should keep moving through the center instead of easing to a stop.
+    expect(centers[1] - centers[0]).toBeGreaterThan(0.05)
+    expect(centers[2] - centers[1]).toBeGreaterThan(0.05)
+    expect(centers[3] - centers[4]).toBeGreaterThan(0.05)
+    expect(centers[4] - centers[5]).toBeGreaterThan(0.05)
+  })
+
   test('keeps keyboard focus in the action while Undo is pending and respects moving on', async ({
     page,
   }) => {
