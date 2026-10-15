@@ -2,7 +2,7 @@ import { render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { axeComponent } from '../../../core/test-utils/testSetup'
 import Provider from '../../../shared/Provider'
-import * as Ai from '..'
+import { Message, Response, Sources } from '..'
 
 const sources = [
   { url: 'https://www.dnb.no/kort', title: 'Block a card' },
@@ -14,7 +14,7 @@ const getToggle = () =>
 
 describe('Ai.Sources', () => {
   it('renders a collapsed toggle with the number of sources', () => {
-    render(<Ai.Sources sources={sources} />)
+    render(<Sources sources={sources} />)
 
     expect(getToggle()).toHaveTextContent('Kilder (2)')
     expect(getToggle()).toHaveAttribute('aria-expanded', 'false')
@@ -22,7 +22,7 @@ describe('Ai.Sources', () => {
   })
 
   it('lists the sources as links when opened', async () => {
-    render(<Ai.Sources sources={sources} />)
+    render(<Sources sources={sources} />)
 
     await userEvent.click(getToggle())
 
@@ -43,7 +43,7 @@ describe('Ai.Sources', () => {
   it('keeps list spacing inside the animated content', async () => {
     render(
       <div className="dnb-spacing">
-        <Ai.Sources sources={sources} />
+        <Sources sources={sources} />
       </div>
     )
     await userEvent.click(getToggle())
@@ -61,7 +61,7 @@ describe('Ai.Sources', () => {
   it('translates the source count', () => {
     render(
       <Provider locale="en-GB">
-        <Ai.Sources sources={sources} />
+        <Sources sources={sources} />
       </Provider>
     )
     expect(getToggle()).toHaveTextContent('Sources (2)')
@@ -69,7 +69,7 @@ describe('Ai.Sources', () => {
 
   it('leaves out unsafe URLs', () => {
     const { rerender } = render(
-      <Ai.Sources
+      <Sources
         sources={[
           { url: 'javascript:alert(1)' },
           { url: 'https://www.dnb.no/' },
@@ -78,13 +78,13 @@ describe('Ai.Sources', () => {
     )
     expect(getToggle()).toHaveTextContent('Kilder (1)')
 
-    rerender(<Ai.Sources sources={[{ url: 'javascript:alert(1)' }]} />)
+    rerender(<Sources sources={[{ url: 'javascript:alert(1)' }]} />)
     expect(document.querySelector('.dnb-ai-sources')).toBeNull()
   })
 
   it('leaves out backslash network-path sources', () => {
     render(
-      <Ai.Sources
+      <Sources
         sources={[
           { url: String.raw`\\evil.example/path`, title: 'Source' },
         ]}
@@ -95,16 +95,16 @@ describe('Ai.Sources', () => {
   })
 
   it('renders nothing without sources', () => {
-    render(<Ai.Sources sources={[]} />)
+    render(<Sources sources={[]} />)
     expect(document.querySelector('.dnb-ai-sources')).toBeNull()
   })
 
   it('composes sources inside a message', () => {
     render(
-      <Ai.Message>
-        <Ai.Response>Hi</Ai.Response>
-        <Ai.Sources sources={sources} />
-      </Ai.Message>
+      <Message>
+        <Response>Hi</Response>
+        <Sources sources={sources} />
+      </Message>
     )
     expect(
       document.querySelector(
@@ -115,12 +115,7 @@ describe('Ai.Sources', () => {
 
   it('supports spacing props and forwards attributes', () => {
     render(
-      <Ai.Sources
-        sources={sources}
-        top="large"
-        className="custom"
-        id="s"
-      />
+      <Sources sources={sources} top="large" className="custom" id="s" />
     )
 
     const element = document.querySelector('.dnb-ai-sources')
@@ -129,7 +124,7 @@ describe('Ai.Sources', () => {
   })
 
   it('should validate with ARIA rules', async () => {
-    const result = render(<Ai.Sources sources={sources} />)
+    const result = render(<Sources sources={sources} />)
     expect(await axeComponent(result)).toHaveNoViolations()
 
     await userEvent.click(getToggle())

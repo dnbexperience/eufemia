@@ -106,7 +106,7 @@ export type AiMessageProps = {
 } & SpacingProps &
   HTMLAttributes<HTMLDivElement>
 
-export type AiLoaderProps = {
+export type AiMessageIndicatorProps = {
   /** Text for screen readers while waiting for the reply. Defaults to a translated text. */
   label?: string
 } & Omit<AiMessageProps, 'from' | 'children' | 'aiGenerated' | 'actions'>
@@ -267,8 +267,8 @@ export type AiToolProps = {
 } & SpacingProps &
   Omit<HTMLAttributes<HTMLDivElement>, 'title' | 'part'>
 
-export type AiShimmerProps = {
-  /** The text to show with the shimmer, e.g. `Thinking …`. */
+export type AiActivityTextProps = {
+  /** Text describing the assistant's current activity, e.g. `Thinking …` or `Searching …`. */
   children?: ReactNode
 } & SpacingProps &
   HTMLAttributes<HTMLSpanElement>

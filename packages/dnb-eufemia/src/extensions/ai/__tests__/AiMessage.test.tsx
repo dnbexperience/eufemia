@@ -12,11 +12,11 @@ import { axeComponent } from '../../../core/test-utils/testSetup'
 import Provider from '../../../shared/Provider'
 import Avatar from '../../../components/Avatar'
 import { copy } from '../../../icons'
-import * as Ai from '..'
+import { Action, Actions, Message, MessageIndicator, Response } from '..'
 
 describe('Ai.Message', () => {
   it('renders an assistant bubble by default', () => {
-    render(<Ai.Message>Hello</Ai.Message>)
+    render(<Message>Hello</Message>)
 
     const element = document.querySelector('.dnb-ai-message')
     expect(element).toHaveClass(
@@ -30,14 +30,14 @@ describe('Ai.Message', () => {
   })
 
   it('renders a user message', () => {
-    render(<Ai.Message from="user">Hi</Ai.Message>)
+    render(<Message from="user">Hi</Message>)
     expect(document.querySelector('.dnb-ai-message')).toHaveClass(
       'dnb-ai-message--user'
     )
   })
 
   it('renders the plain variant', () => {
-    render(<Ai.Message variant="plain">Hi</Ai.Message>)
+    render(<Message variant="plain">Hi</Message>)
     expect(document.querySelector('.dnb-ai-message')).toHaveClass(
       'dnb-ai-message--plain'
     )
@@ -45,13 +45,13 @@ describe('Ai.Message', () => {
 
   it('renders a header with name, timestamp and a hidden avatar', () => {
     render(
-      <Ai.Message
+      <Message
         name="Aino"
         timestamp="15:24"
         avatar={<Avatar hasLabel>A</Avatar>}
       >
         Hi
-      </Ai.Message>
+      </Message>
     )
 
     expect(
@@ -63,14 +63,14 @@ describe('Ai.Message', () => {
   })
 
   it('renders the AI-generated tag translated', () => {
-    const { rerender } = render(<Ai.Message aiGenerated>Hi</Ai.Message>)
+    const { rerender } = render(<Message aiGenerated>Hi</Message>)
     expect(
       document.querySelector('.dnb-ai-message__tag')
     ).toHaveTextContent('KI-generert')
 
     rerender(
       <Provider locale="en-GB">
-        <Ai.Message aiGenerated>Hi</Ai.Message>
+        <Message aiGenerated>Hi</Message>
       </Provider>
     )
     expect(
@@ -80,15 +80,15 @@ describe('Ai.Message', () => {
 
   it('renders actions below the content', () => {
     render(
-      <Ai.Message
+      <Message
         actions={
-          <Ai.Actions>
-            <Ai.Action icon={copy} label="Copy" />
-          </Ai.Actions>
+          <Actions>
+            <Action icon={copy} label="Copy" />
+          </Actions>
         }
       >
         Hi
-      </Ai.Message>
+      </Message>
     )
 
     expect(
@@ -112,9 +112,9 @@ describe('Ai.Message', () => {
     >()
 
     render(
-      <Ai.Message>
-        <Ai.Response>Some **bold</Ai.Response>
-      </Ai.Message>
+      <Message>
+        <Response>Some **bold</Response>
+      </Message>
     )
     expect(document.querySelector('.dnb-ai-message')).toHaveClass(
       'dnb-ai-message--assistant'
@@ -126,17 +126,15 @@ describe('Ai.Message', () => {
 
   it('leaves the streaming policy to the response', () => {
     render(
-      <Ai.Message>
-        <Ai.Response parseIncompleteMarkdown={false}>2 **x</Ai.Response>
-      </Ai.Message>
+      <Message>
+        <Response parseIncompleteMarkdown={false}>2 **x</Response>
+      </Message>
     )
     expect(document.querySelector('strong')).toBeNull()
   })
 
   it('renders user text as written with line breaks', () => {
-    render(
-      <Ai.Message from="user">{'Is **this** bold?\nNext line'}</Ai.Message>
-    )
+    render(<Message from="user">{'Is **this** bold?\nNext line'}</Message>)
     expect(document.querySelector('.dnb-ai-message')).toHaveClass(
       'dnb-ai-message--user'
     )
@@ -148,9 +146,9 @@ describe('Ai.Message', () => {
 
   it('supports spacing props and forwards attributes', () => {
     render(
-      <Ai.Message top="large" className="custom" id="message-1">
+      <Message top="large" className="custom" id="message-1">
         Hi
-      </Ai.Message>
+      </Message>
     )
 
     const element = document.querySelector('.dnb-ai-message')
@@ -161,22 +159,22 @@ describe('Ai.Message', () => {
   it('should validate with ARIA rules', async () => {
     const result = render(
       <>
-        <Ai.Message from="user" name="You" timestamp="15:23">
+        <Message from="user" name="You" timestamp="15:23">
           Hi
-        </Ai.Message>
-        <Ai.Message
+        </Message>
+        <Message
           name="Aino"
           timestamp="15:24"
           avatar={<Avatar hasLabel>A</Avatar>}
           aiGenerated
           actions={
-            <Ai.Actions>
-              <Ai.Action icon={copy} label="Copy" />
-            </Ai.Actions>
+            <Actions>
+              <Action icon={copy} label="Copy" />
+            </Actions>
           }
         >
           Hello
-        </Ai.Message>
+        </Message>
       </>
     )
 
@@ -184,30 +182,29 @@ describe('Ai.Message', () => {
   })
 })
 
-describe('Ai.Loader', () => {
+describe('Ai.MessageIndicator', () => {
   it('renders a status with a translated label', () => {
-    render(<Ai.Loader name="Aino" />)
+    render(<MessageIndicator name="Aino" />)
 
-    const element = document.querySelector('.dnb-ai-loader')
+    const element = document.querySelector('.dnb-ai-message-indicator')
     expect(element).toHaveClass('dnb-ai-message--assistant')
     expect(element.querySelector('[role="status"]')).toHaveTextContent(
       'Skriver svar …'
     )
-    expect(element.querySelector('.dnb-ai-loader__dots')).toHaveAttribute(
-      'aria-hidden',
-      'true'
-    )
+    expect(
+      element.querySelector('.dnb-ai-message-indicator__dots')
+    ).toHaveAttribute('aria-hidden', 'true')
   })
 
   it('supports a custom label', () => {
-    render(<Ai.Loader label="Thinking" />)
+    render(<MessageIndicator label="Thinking" />)
     expect(document.querySelector('[role="status"]')).toHaveTextContent(
       'Thinking'
     )
   })
 
   it('should validate with ARIA rules', async () => {
-    const result = render(<Ai.Loader name="Aino" />)
+    const result = render(<MessageIndicator name="Aino" />)
     expect(await axeComponent(result)).toHaveNoViolations()
   })
 })
@@ -216,9 +213,9 @@ describe('Ai.Action', () => {
   it('renders a tertiary icon button with label', () => {
     const onClick = vi.fn()
     render(
-      <Ai.Actions aria-label="Message actions" role="group">
-        <Ai.Action icon={copy} label="Copy" onClick={onClick} />
-      </Ai.Actions>
+      <Actions aria-label="Message actions" role="group">
+        <Action icon={copy} label="Copy" onClick={onClick} />
+      </Actions>
     )
 
     const button = document.querySelector('button')

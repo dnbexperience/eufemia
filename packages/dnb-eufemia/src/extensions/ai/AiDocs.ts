@@ -95,7 +95,7 @@ export const AiMessageProperties: PropertiesTableProps = {
   },
 }
 
-export const AiLoaderProperties: PropertiesTableProps = {
+export const AiMessageIndicatorProperties: PropertiesTableProps = {
   label: {
     doc: 'Text for screen readers while waiting for the reply. Defaults to a translated text.',
     type: 'string',
@@ -378,9 +378,9 @@ export const AiToolProperties: PropertiesTableProps = {
   },
 }
 
-export const AiShimmerProperties: PropertiesTableProps = {
+export const AiActivityTextProperties: PropertiesTableProps = {
   children: {
-    doc: 'The text to show with the shimmer, e.g. `Thinking …`.',
+    doc: "Text describing the assistant's current activity, e.g. `Thinking …` or `Searching …`.",
     type: 'React.ReactNode',
     status: 'optional',
   },

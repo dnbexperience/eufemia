@@ -9,9 +9,16 @@ import ListAiComponents from './ListAiComponents'
 ## Import
 
 ```tsx
-import * as Ai from '@dnb/eufemia/extensions/ai'
+import {
+  Conversation,
+  Message,
+  PromptInput,
+  Response,
+} from '@dnb/eufemia/extensions/ai'
 import '@dnb/eufemia/extensions/ai/style'
 ```
+
+Import the components and hooks you use by name. The `Ai.` prefix in the documentation identifies the extension; the examples use named imports directly.
 
 ## Description
 
@@ -25,11 +32,17 @@ The message type below belongs to this example. Use your application's data and 
 
 ```tsx
 import { useId } from 'react'
-import * as Ai from '@dnb/eufemia/extensions/ai'
+import {
+  Conversation,
+  Message,
+  MessageIndicator,
+  PromptInput,
+  Response,
+} from '@dnb/eufemia/extensions/ai'
 import { GlobalStatus } from '@dnb/eufemia/components'
 import '@dnb/eufemia/extensions/ai/style'
 
-type Message = {
+type ChatMessage = {
   id: string
   from: 'user' | 'assistant'
   text: string
@@ -37,7 +50,7 @@ type Message = {
 }
 
 type ChatProps = {
-  messages: Array<Message>
+  messages: Array<ChatMessage>
   isBusy: boolean
   isWaiting: boolean
   hasError: boolean
@@ -56,12 +69,12 @@ export function Chat({
   const prefix = useId()
   return (
     <>
-      <Ai.Conversation
+      <Conversation
         label="Chat with the assistant"
         style={{ height: '32rem' }}
       >
         {messages.map((message) => (
-          <Ai.Message
+          <Message
             key={message.id}
             id={prefix + message.id}
             from={message.from}
@@ -69,16 +82,16 @@ export function Chat({
             {message.from === 'user' ? (
               message.text
             ) : (
-              <Ai.Response
+              <Response
                 parseIncompleteMarkdown={message.isStreaming ?? false}
               >
                 {message.text}
-              </Ai.Response>
+              </Response>
             )}
-          </Ai.Message>
+          </Message>
         ))}
-        {isWaiting && <Ai.Loader />}
-      </Ai.Conversation>
+        {isWaiting && <MessageIndicator />}
+      </Conversation>
       {hasError && (
         <GlobalStatus
           show
@@ -88,7 +101,7 @@ export function Chat({
           text="The reply could not be completed. Try again."
         />
       )}
-      <Ai.PromptInput
+      <PromptInput
         isBusy={isBusy}
         onSubmit={({ value }) => onSend(value)}
         onStop={onStop}
