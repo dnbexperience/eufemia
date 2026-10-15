@@ -37,6 +37,15 @@ const ignorePatterns = [
 ]
 
 const tsConfigFiles = ['**/*.ts', '**/*.tsx']
+const restrictedSyntax = [
+  'IfStatement > ExpressionStatement > AssignmentExpression',
+  {
+    selector:
+      'ChainExpression MemberExpression[optional=true][object.name="process"]',
+    message:
+      'Do not use optional chaining on process (process?.env). Use process.env instead – optional chaining breaks Vite define replacements.',
+  },
+]
 const securityRecommendedRules =
   securityPlugin.configs.recommended.rules || {}
 const nodeGlobals = globals.node || {}
@@ -165,16 +174,7 @@ export default [
       'no-console': 'warn',
       'spaced-comment': ['error', 'always', { markers: ['/'] }],
       'multiline-comment-style': ['error', 'separate-lines'],
-      'no-restricted-syntax': [
-        'error',
-        'IfStatement > ExpressionStatement > AssignmentExpression',
-        {
-          selector:
-            'ChainExpression MemberExpression[optional=true][object.name="process"]',
-          message:
-            'Do not use optional chaining on process (process?.env). Use process.env instead – optional chaining breaks Vite define replacements.',
-        },
-      ],
+      'no-restricted-syntax': ['error', ...restrictedSyntax],
       'import/export': 'off',
       'import/no-duplicates': 'error',
       'import/no-named-as-default': 'error',
@@ -372,6 +372,16 @@ export default [
       ...vitestPlugin.configs.recommended.rules,
       'vitest/no-focused-tests': 'error',
       'vitest/no-conditional-expect': 'warn',
+      'no-restricted-syntax': [
+        'error',
+        ...restrictedSyntax,
+        {
+          selector:
+            'ExpressionStatement > AwaitExpression > CallExpression[callee.name="axeComponent"]',
+          message:
+            'Assert the result: expect(await axeComponent(...)).toHaveNoViolations()',
+        },
+      ],
       'no-console': 'off',
       'compat/compat': 'off',
       '@typescript-eslint/no-require-imports': 'off',
