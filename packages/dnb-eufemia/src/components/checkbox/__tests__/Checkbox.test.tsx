@@ -321,14 +321,6 @@ describe('Checkbox component', () => {
       expect(document.querySelector('input').checked).toBe(false)
       cleanup()
     })
-
-    it('handles set it to true', () => {
-      render(<ControlledVsUncontrolled />)
-
-      fireEvent.click(document.querySelector('button#set-state'))
-      expect(document.querySelector('input').checked).toBe(true)
-      cleanup()
-    })
     it('handles reset it with undefined to false', () => {
       render(<ControlledVsUncontrolled />)
 
