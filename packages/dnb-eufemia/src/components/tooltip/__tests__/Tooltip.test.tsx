@@ -289,8 +289,13 @@ describe('Tooltip', () => {
     )
 
     it('should validate with ARIA rules as a tooltip', async () => {
-      const Component = render(<Tooltip open />)
-      expect(await axeComponent(Component)).toHaveNoViolations()
+      const Component = render(<Tooltip open>Tooltip text</Tooltip>)
+      expect(
+        await axeComponent(
+          Component,
+          document.querySelector('.dnb-tooltip')
+        )
+      ).toHaveNoViolations()
     })
 
     it('should merge style prop', () => {
@@ -948,8 +953,13 @@ describe('Tooltip', () => {
     })
 
     it('should validate with ARIA rules as a tooltip', async () => {
-      const Component = render(<Tooltip open />)
-      expect(await axeComponent(Component)).toHaveNoViolations()
+      const Component = render(<Tooltip open>Tooltip text</Tooltip>)
+      expect(
+        await axeComponent(
+          Component,
+          document.querySelector('.dnb-tooltip')
+        )
+      ).toHaveNoViolations()
     })
 
     it('should ignore DOM events when open initially is true (controlled)', async () => {
