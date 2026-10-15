@@ -9,6 +9,7 @@ export const SectionProperties: PropertiesTableProps = {
       '"warning"',
       '"success"',
       '"divider"',
+      '"transparent"',
       'string',
     ],
     status: 'optional',
