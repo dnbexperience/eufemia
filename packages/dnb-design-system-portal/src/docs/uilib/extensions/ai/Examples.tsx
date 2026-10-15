@@ -365,7 +365,7 @@ export function AiPromptInputCompact() {
 export function AiPromptInputInline() {
   return (
     <ComponentBox data-visual-test="ai-prompt-input-inline">
-      <Ai.PromptInput
+      <PromptInput
         variant="compact"
         dropShadow={false}
         placeholder="Ask Aino"
@@ -397,7 +397,7 @@ export function AiPromptInputContext() {
             'Add the companies from the attached document to my watchlist.'
           )
           return (
-            <Ai.PromptInput
+            <PromptInput
               dropShadow
               value={value}
               onChange={({ value }) => setValue(value)}
@@ -420,7 +420,7 @@ export function AiPromptInputContext() {
                   />
                 </ContextChip>
               )}
-            </Ai.PromptInput>
+            </PromptInput>
           )
         }
         return <InputWithContext />

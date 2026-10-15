@@ -229,9 +229,7 @@ describe('PromptInput', () => {
   })
 
   it('shows the assistant icon and microphone without a send button when compact and empty', async () => {
-    render(
-      <PromptInput variant="compact" onMicrophoneClick={vi.fn()} />
-    )
+    render(<PromptInput variant="compact" onMicrophoneClick={vi.fn()} />)
     expect(
       document.querySelector('.dnb-ai-prompt-input__icon')
     ).toHaveAttribute('aria-hidden', 'true')
@@ -352,7 +350,7 @@ describe('PromptInput', () => {
 
   it('disables Stop as well as the input while disabled and busy', async () => {
     const onStop = vi.fn()
-    render(<Ai.PromptInput disabled isBusy onStop={onStop} />)
+    render(<PromptInput disabled isBusy onStop={onStop} />)
     const stop = document.querySelector<HTMLButtonElement>(
       '.dnb-ai-prompt-input__stop'
     )
