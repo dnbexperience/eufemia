@@ -79,9 +79,16 @@
       var(--token-color-decorative-first-bold) 8%,
       var(--token-color-background-neutral)
     );
+    border: 0.0625rem solid var(--token-color-stroke-neutral);
     border-radius: inherit;
 
     transition: width 300ms ease-in-out;
+
+    @media (forced-colors: active) {
+      forced-color-adjust: none;
+      background-color: Canvas;
+      border-color: Highlight;
+    }
   }
 
   &--indeterminate &__fill {

@@ -197,6 +197,47 @@ describe('Ai.AgentAction', () => {
     expect(root()).toHaveClass('dnb-ai-agent-action--done')
   })
 
+  it('moves focus to the status when a focused Undo becomes disabled', () => {
+    const view = (undoDisabled = false) => (
+      <AgentAction
+        status="done"
+        onUndo={vi.fn()}
+        undoDisabled={undoDisabled}
+      >
+        Paid
+      </AgentAction>
+    )
+    const { rerender } = render(view())
+    act(() => undoButton().focus())
+    rerender(view(true))
+    expect(
+      document.querySelector('.dnb-ai-agent-action__status')
+    ).toHaveFocus()
+  })
+
+  it('does not move focus elsewhere when Undo becomes disabled or disappears', () => {
+    const view = (pending = false, reversed = false) => (
+      <>
+        <button>Other</button>
+        <AgentAction
+          status={reversed ? 'canceled' : 'done'}
+          onUndo={vi.fn()}
+          undoDisabled={pending}
+        >
+          Paid
+        </AgentAction>
+      </>
+    )
+    const { rerender } = render(view())
+    act(() => undoButton().focus())
+    const other = document.querySelector<HTMLButtonElement>('button')
+    act(() => other.focus())
+    rerender(view(true))
+    expect(other).toHaveFocus()
+    rerender(view(false, true))
+    expect(other).toHaveFocus()
+  })
+
   it.each(['running', 'error', 'canceled'] as const)(
     'does not offer Undo for %s',
     (status) => {
@@ -331,6 +372,26 @@ describe('Ai.AgentAction', () => {
       expect(document.querySelector('[role="timer"]')).toBeNull()
       rerender(<AgentAction status="done">Paid</AgentAction>)
       expect(undoButton()).toBeNull()
+    })
+
+    it('keeps the same focused Undo when adding a deadline', () => {
+      const { rerender } = render(
+        <AgentAction status="done" onUndo={vi.fn()}>
+          Paid
+        </AgentAction>
+      )
+      const button = undoButton()
+      act(() => button.focus())
+      rerender(
+        <AgentAction status="done" onUndo={vi.fn()} undoUntil={120000}>
+          Paid
+        </AgentAction>
+      )
+      expect(undoButton()).toBe(button)
+      expect(button).toHaveFocus()
+      expect(document.querySelector('[role="timer"]')).toHaveTextContent(
+        '20s'
+      )
     })
 
     it('returns keyboard focus to the result when the Undo button expires', () => {

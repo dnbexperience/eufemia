@@ -35,6 +35,6 @@ For a time-limited reversal, pass `undoUntil` as an absolute Unix timestamp in m
 
 The running label keeps its normal text color. The progress fill inside the pill indicates activity.
 
-Progress has an accessible name and a percentage when known. State and text changes are announced through Eufemia AriaLive; the countdown does not announce every second. The Undo control uses Eufemia Button and returns focus to the action result if it expires while focused. Reduced motion disables the animation while preserving the state and percentage.
+Progress has an accessible name and a percentage when known. Its fill has a contrasting boundary, including in forced-colors mode. State and text changes are announced through Eufemia AriaLive; the countdown does not announce every second. The Undo control uses Eufemia Button and returns focus to the action status if it becomes disabled or expires while focused. It preserves focus elsewhere. Reduced motion disables the animation while preserving the state and percentage.
 
 The agent avatar and target icon are decorative. Use the text to identify the action and result. A small [Avatar](/uilib/components/avatar/) with `hasLabel` works as an `avatar` or `icon`. Set `avatar={false}` to omit the agent avatar.

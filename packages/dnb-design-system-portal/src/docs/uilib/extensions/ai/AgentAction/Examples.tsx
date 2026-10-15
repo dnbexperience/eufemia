@@ -177,3 +177,59 @@ export function UnknownProgress() {
     </ComponentBox>
   )
 }
+
+export function PendingUndo() {
+  return (
+    <ComponentBox scope={scope}>
+      {() => {
+        const UndoDemo = () => {
+          const [pending, setPending] = useState(false)
+          const [reversed, setReversed] = useState(false)
+          const [undoUntil, setUndoUntil] = useState<number>()
+          return (
+            <Provider locale="en-GB">
+              <Flex.Stack>
+                <AgentAction
+                  status={reversed ? 'canceled' : 'done'}
+                  undoDisabled={pending}
+                  undoUntil={undoUntil}
+                  onUndo={() => setPending(true)}
+                >
+                  {reversed
+                    ? 'Payment reversed.'
+                    : pending
+                      ? 'Reversing payment…'
+                      : 'Spotify Premium paid.'}
+                </AgentAction>
+                <Flex.Horizontal>
+                  <Button
+                    disabled={!pending}
+                    onClick={() => {
+                      setPending(false)
+                      setReversed(true)
+                    }}
+                  >
+                    Confirm reversal
+                  </Button>
+                  <Button onClick={() => setUndoUntil(Date.now() + 20000)}>
+                    Add Undo deadline
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      setPending(false)
+                      setReversed(false)
+                      setUndoUntil(undefined)
+                    }}
+                  >
+                    Reset payment
+                  </Button>
+                </Flex.Horizontal>
+              </Flex.Stack>
+            </Provider>
+          )
+        }
+        return <UndoDemo />
+      }}
+    </ComponentBox>
+  )
+}

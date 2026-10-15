@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { clsx } from 'clsx'
 import AriaLive from '../../components/AriaLive'
 import Avatar from '../../components/Avatar'
@@ -32,6 +32,7 @@ function AiAgentAction(props: AiAgentActionProps) {
   } = props
   const translation = useTranslation().Ai
   const statusRef = useRef<HTMLDivElement>(null)
+  const undoRef = useRef<HTMLButtonElement>(null)
   const undoHasFocusRef = useRef(false)
   const running = status === 'running'
   const remaining = useUndoCountdown(
@@ -47,12 +48,20 @@ function AiAgentAction(props: AiAgentActionProps) {
     ': ' +
     [running && action, children].filter(Boolean).join(' ')
 
-  useEffect(() => {
-    if (!showUndo && undoHasFocusRef.current) {
+  useLayoutEffect(() => {
+    const active = document.activeElement
+    if (
+      (!showUndo || undoDisabled) &&
+      undoHasFocusRef.current &&
+      (active === undoRef.current || active === document.body || !active)
+    ) {
       statusRef.current?.focus()
-      undoHasFocusRef.current = false
     }
-  }, [showUndo])
+    undoHasFocusRef.current =
+      showUndo &&
+      !undoDisabled &&
+      document.activeElement === undoRef.current
+  }, [showUndo, undoDisabled])
 
   const rootProps = useSpacing(props, {
     ...rest,
@@ -143,6 +152,7 @@ function AiAgentAction(props: AiAgentActionProps) {
               </span>
             )}
             <Button
+              ref={undoRef}
               variant="secondary"
               size="small"
               icon={undo}
@@ -152,8 +162,11 @@ function AiAgentAction(props: AiAgentActionProps) {
               onFocus={() => {
                 undoHasFocusRef.current = true
               }}
-              onBlur={() => {
-                undoHasFocusRef.current = false
+              onBlur={(event) => {
+                // Disabling a focused button fires blur in some browsers only.
+                if (!event.currentTarget.hasAttribute('disabled')) {
+                  undoHasFocusRef.current = false
+                }
               }}
               onClick={(event) => {
                 if (undoUntil === undefined || Date.now() < undoUntil) {
@@ -195,9 +208,13 @@ function useUndoCountdown(active: boolean, deadline?: number) {
     return undefined
   }
 
-  return now !== undefined && Number.isFinite(deadline)
-    ? Math.max(0, Math.ceil((deadline - Math.max(now, Date.now())) / 1000))
-    : 0
+  if (!Number.isFinite(deadline)) {
+    return 0
+  }
+
+  return now === undefined
+    ? undefined
+    : Math.max(0, Math.ceil((deadline - Math.max(now, Date.now())) / 1000))
 }
 
 export default AiAgentAction
