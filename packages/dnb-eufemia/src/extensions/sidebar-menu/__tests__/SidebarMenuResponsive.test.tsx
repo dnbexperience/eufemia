@@ -740,6 +740,53 @@ describe('SidebarMenu responsive parts', () => {
     expect(sectionTrigger).toHaveAttribute('aria-expanded', 'false')
   })
 
+  it('stays expanded while a section is chosen from the portaled list', () => {
+    setMedia({ width: '80em', hover: 'none', pointer: 'coarse' })
+
+    render(
+      <SidebarMenu.ResponsiveProvider
+        compactAt="large"
+        compactOffset="24em"
+      >
+        <SidebarMenu.ResponsiveInline>
+          <SidebarMenu.Root aria-label="Navigation">
+            <SidebarMenu.Section id="personal" text="Personal">
+              <SidebarMenu.Item id="home" text="Home" />
+            </SidebarMenu.Section>
+            <SidebarMenu.Section id="business" text="Business">
+              <SidebarMenu.Item id="payments" text="Payments" />
+            </SidebarMenu.Section>
+          </SidebarMenu.Root>
+        </SidebarMenu.ResponsiveInline>
+      </SidebarMenu.ResponsiveProvider>
+    )
+
+    const inline = document.querySelector(
+      '.dnb-sidebar-menu-responsive-inline'
+    )
+    const sectionTrigger = document.querySelector(
+      '.dnb-sidebar-menu__sections .dnb-dropdown__trigger'
+    )
+    fireEvent.click(sectionTrigger)
+
+    const option = document.querySelectorAll(
+      '.dnb-sidebar-menu__sections-portal li.dnb-drawer-list__option'
+    )[1]
+    expect(inline.contains(option)).toBe(false)
+
+    fireEvent.focusOut(sectionTrigger, { relatedTarget: option })
+    fireEvent.pointerDown(option)
+    fireEvent.click(option)
+
+    expect(inline).toHaveAttribute(
+      'data-sidebar-menu-responsive-expanded',
+      'true'
+    )
+    expect(
+      document.querySelector('.dnb-sidebar-menu__item__action')
+    ).toHaveTextContent('Payments')
+  })
+
   it('keeps an open accordion open when expanding the compact menu', () => {
     setMedia({ width: '80em', hover: 'none', pointer: 'coarse' })
 
