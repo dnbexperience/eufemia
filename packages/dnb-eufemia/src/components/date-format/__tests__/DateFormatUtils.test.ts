@@ -82,6 +82,22 @@ describe('DateFormatUtils', () => {
       vi.useRealTimers()
     })
 
+    it('checks the year in the time zone of the formatted date with hideCurrentYear', () => {
+      vi.useFakeTimers({ now: new Date('2026-06-15T12:00:00.000Z') })
+
+      // Still 2025 locally, but already 1 January 2026 in Auckland
+      const result = formatDate('2025-12-31T12:00:00Z', {
+        locale: 'en-GB',
+        options: { dateStyle: 'medium', timeStyle: 'short' },
+        timeZone: 'Pacific/Auckland',
+        hideCurrentYear: true,
+      })
+
+      vi.useRealTimers()
+
+      expect(result).toBe('1 Jan, 01:00')
+    })
+
     it('always hides year when hideYear is true', () => {
       const dateInCurrentYear = '2025-02-04'
       const dateOtherYear = '2024-02-04'
