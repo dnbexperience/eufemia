@@ -2,6 +2,7 @@ import { cleanup, render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import SuggestEdit from '../../docs/contribute/suggest-edit/SuggestEdit'
+import { githubSource } from '../githubSource'
 
 const mockCopyToClipboard = vi.hoisted(() => vi.fn())
 
@@ -152,7 +153,7 @@ describe('SuggestEdit', () => {
         document.querySelector('.dnb-form-status a').getAttribute('href')
       ).toBe('/uilib/components/button/#events')
       expect(mockCopyToClipboard.mock.calls[0][0]).toContain(
-        'Page: https://eufemia.dnb.no/uilib/components/button/#events\nSource: https://github.com/dnbexperience/eufemia/blob/main/packages/dnb-design-system-portal/src/docs/uilib/components/button/info.mdx\n'
+        `Page: https://eufemia.dnb.no/uilib/components/button/#events\nSource: https://github.com/${githubSource.repository}/blob/${githubSource.editRef}/packages/dnb-design-system-portal/src/docs/uilib/components/button/info.mdx\n`
       )
     })
 
