@@ -5,7 +5,7 @@
  * so only the symbols actually referenced in each file's code strings
  * are bundled — instead of pulling in the entire library.
  *
- * Derives component/fragment/element/forms lists dynamically by parsing
+ * Derives component/fragment/element/extension lists dynamically by parsing
  * the auto-generated lib.ts barrel files at load time, so this file
  * never needs manual updates when components are added or removed.
  */
@@ -39,11 +39,11 @@ function parseDefaultImports(
 }
 
 /**
- * Parse namespace and re-exported default exports from the forms index.
+ * Parse namespace and named re-exports from an extension barrel.
  * Matches: export * as Name from '...'
  * Matches: export { default as Name } from '...'
  */
-function parseFormsExports(filePath: string): string[] {
+function parseExtensionExports(filePath: string): string[] {
   const content = fs.readFileSync(filePath, 'utf-8')
   const names: string[] = []
 
@@ -54,10 +54,18 @@ function parseFormsExports(filePath: string): string[] {
     names.push(match[1])
   }
 
-  const namedRegex = /export\s*\{\s*default\s+as\s+(\w+)\s*\}\s*from/g
+  const namedRegex = /export\s*\{([^}]+)\}\s*from/g
 
   while ((match = namedRegex.exec(content)) !== null) {
-    names.push(match[1])
+    for (const specifier of match[1].split(',')) {
+      const name = specifier
+        .trim()
+        .split(/\s+as\s+/)
+        .pop()
+      if (name && /^\w+$/.test(name)) {
+        names.push(name)
+      }
+    }
   }
 
   return names
@@ -114,11 +122,21 @@ for (const { name, relativePath } of parseDefaultImports(
   allNames.push(name)
 }
 
-for (const name of parseFormsExports(
+for (const name of parseExtensionExports(
   path.join(eufemiaSrc, 'extensions/forms/index.ts')
 )) {
   importInfoMap.set(name, {
     source: '@dnb/eufemia/src/extensions/forms',
+    isDefault: false,
+  })
+  allNames.push(name)
+}
+
+for (const name of parseExtensionExports(
+  path.join(eufemiaSrc, 'extensions/ai/AiExport.ts')
+)) {
+  importInfoMap.set(name, {
+    source: '@dnb/eufemia/src/extensions/ai',
     isDefault: false,
   })
   allNames.push(name)

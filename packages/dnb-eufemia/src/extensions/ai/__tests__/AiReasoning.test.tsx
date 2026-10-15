@@ -2,77 +2,71 @@ import { render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { axeComponent } from '../../../core/test-utils/testSetup'
 import Provider from '../../../shared/Provider'
-import * as Ai from '..'
+import { ActivityText, Message, Reasoning, Response } from '..'
 
 const getToggle = () =>
   document.querySelector<HTMLButtonElement>('.dnb-ai-collapsible__toggle')
 const getContent = () =>
   document.querySelector('.dnb-ai-reasoning__content')
 
-describe('Ai.Shimmer', () => {
+describe('Ai.ActivityText', () => {
   it('renders the text', () => {
-    render(<Ai.Shimmer>Thinking</Ai.Shimmer>)
+    render(<ActivityText>Thinking</ActivityText>)
     expect(
-      document.querySelector('span.dnb-ai-shimmer')
+      document.querySelector('span.dnb-ai-activity-text')
     ).toHaveTextContent('Thinking')
   })
 
   it('supports spacing props and forwards attributes', () => {
     render(
-      <Ai.Shimmer left="small" className="custom" id="s">
+      <ActivityText left="small" className="custom" id="s">
         Hi
-      </Ai.Shimmer>
+      </ActivityText>
     )
 
-    const element = document.querySelector('.dnb-ai-shimmer')
+    const element = document.querySelector('.dnb-ai-activity-text')
     expect(element).toHaveClass('dnb-space__left--small', 'custom')
     expect(element).toHaveAttribute('id', 's')
   })
 })
 
 describe('Ai.Reasoning', () => {
-  it('is open with a shimmer while streaming', () => {
-    render(
-      <Ai.Reasoning isStreaming>{'Looking at **March**'}</Ai.Reasoning>
-    )
+  it('is open with activity text while streaming', () => {
+    render(<Reasoning isStreaming>{'Looking at **March**'}</Reasoning>)
 
     expect(getToggle()).toHaveAttribute('aria-expanded', 'true')
-    expect(getToggle().querySelector('.dnb-ai-shimmer')).toHaveTextContent(
-      'Tenker …'
-    )
+    expect(
+      getToggle().querySelector('.dnb-ai-activity-text')
+    ).toHaveTextContent('Tenker …')
     expect(getContent().querySelector('strong')).toHaveTextContent('March')
   })
 
   it('closes when the streaming is done', () => {
     const { rerender } = render(
-      <Ai.Reasoning isStreaming>Thinking about it</Ai.Reasoning>
+      <Reasoning isStreaming>Thinking about it</Reasoning>
     )
 
-    rerender(
-      <Ai.Reasoning isStreaming={false}>Thinking about it</Ai.Reasoning>
-    )
+    rerender(<Reasoning isStreaming={false}>Thinking about it</Reasoning>)
 
     expect(getToggle()).toHaveAttribute('aria-expanded', 'false')
     expect(getToggle()).toHaveTextContent('Tankeprosess')
-    expect(getToggle().querySelector('.dnb-ai-shimmer')).toBeNull()
+    expect(getToggle().querySelector('.dnb-ai-activity-text')).toBeNull()
   })
 
   it('stays as the user left it', async () => {
     const { rerender } = render(
-      <Ai.Reasoning isStreaming>Thinking about it</Ai.Reasoning>
+      <Reasoning isStreaming>Thinking about it</Reasoning>
     )
 
     await userEvent.click(getToggle())
     await userEvent.click(getToggle())
-    rerender(
-      <Ai.Reasoning isStreaming={false}>Thinking about it</Ai.Reasoning>
-    )
+    rerender(<Reasoning isStreaming={false}>Thinking about it</Reasoning>)
 
     expect(getToggle()).toHaveAttribute('aria-expanded', 'true')
   })
 
   it('can be opened when done', async () => {
-    render(<Ai.Reasoning>Thinking about it</Ai.Reasoning>)
+    render(<Reasoning>Thinking about it</Reasoning>)
 
     expect(getToggle()).toHaveAttribute('aria-expanded', 'false')
     expect(getContent()).toBeNull()
@@ -88,7 +82,7 @@ describe('Ai.Reasoning', () => {
   it('uses explicit text and streaming state', () => {
     render(
       <Provider locale="en-GB">
-        <Ai.Reasoning isStreaming>Step one</Ai.Reasoning>
+        <Reasoning isStreaming>Step one</Reasoning>
       </Provider>
     )
     expect(getToggle()).toHaveTextContent('Thinking …')
@@ -97,12 +91,12 @@ describe('Ai.Reasoning', () => {
 
   it('composes reasoning before the response', () => {
     render(
-      <Ai.Message>
-        <Ai.Reasoning>Checking the account</Ai.Reasoning>
-        <Ai.Response parseIncompleteMarkdown={false}>
+      <Message>
+        <Reasoning>Checking the account</Reasoning>
+        <Response parseIncompleteMarkdown={false}>
           You have 100 kr.
-        </Ai.Response>
-      </Ai.Message>
+        </Response>
+      </Message>
     )
     const children = document.querySelector(
       '.dnb-ai-message__content'
@@ -113,9 +107,9 @@ describe('Ai.Reasoning', () => {
 
   it('supports spacing props and forwards attributes', () => {
     render(
-      <Ai.Reasoning top="large" className="custom" id="r">
+      <Reasoning top="large" className="custom" id="r">
         Hi
-      </Ai.Reasoning>
+      </Reasoning>
     )
 
     const element = document.querySelector('.dnb-ai-reasoning')
@@ -126,8 +120,8 @@ describe('Ai.Reasoning', () => {
   it('should validate with ARIA rules', async () => {
     const result = render(
       <>
-        <Ai.Reasoning isStreaming>Thinking about it</Ai.Reasoning>
-        <Ai.Reasoning>Thought about it</Ai.Reasoning>
+        <Reasoning isStreaming>Thinking about it</Reasoning>
+        <Reasoning>Thought about it</Reasoning>
       </>
     )
     expect(await axeComponent(result)).toHaveNoViolations()

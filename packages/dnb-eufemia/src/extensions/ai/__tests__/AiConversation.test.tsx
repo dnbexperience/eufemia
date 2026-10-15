@@ -1,7 +1,13 @@
 import { act, fireEvent, render } from '@testing-library/react'
 import { axeComponent } from '../../../core/test-utils/testSetup'
 import Provider from '../../../shared/Provider'
-import * as Ai from '..'
+import {
+  Conversation,
+  Message,
+  useConversation,
+  useConversationScrollState,
+  useConversationVisibility,
+} from '..'
 
 const getScroll = () =>
   document.querySelector<HTMLDivElement>('.dnb-ai-conversation__scroll')
@@ -46,9 +52,9 @@ describe('Ai.Conversation', () => {
 
   it('renders a labeled log in a scroll view', () => {
     render(
-      <Ai.Conversation>
-        <Ai.Message>Hi</Ai.Message>
-      </Ai.Conversation>
+      <Conversation>
+        <Message>Hi</Message>
+      </Conversation>
     )
 
     const log = getScroll()
@@ -64,17 +70,17 @@ describe('Ai.Conversation', () => {
   it('translates and supports a custom label', () => {
     const { rerender } = render(
       <Provider locale="en-GB">
-        <Ai.Conversation />
+        <Conversation />
       </Provider>
     )
     expect(getScroll()).toHaveAccessibleName('Conversation')
 
-    rerender(<Ai.Conversation label="Chat with Aino" />)
+    rerender(<Conversation label="Chat with Aino" />)
     expect(getScroll()).toHaveAccessibleName('Chat with Aino')
   })
 
   it('follows new content while at the bottom', () => {
-    render(<Ai.Conversation scrollBehavior="end" />)
+    render(<Conversation scrollBehavior="end" />)
     const scrollTo = vi.mocked(Element.prototype.scrollTo)
     scrollTo.mockClear()
 
@@ -99,7 +105,7 @@ describe('Ai.Conversation', () => {
   })
 
   it('keeps following when content grows without the user scrolling', () => {
-    render(<Ai.Conversation scrollBehavior="end" />)
+    render(<Conversation scrollBehavior="end" />)
     const scrollTo = vi.mocked(Element.prototype.scrollTo)
 
     setScrollPosition(getScroll(), {
@@ -122,7 +128,7 @@ describe('Ai.Conversation', () => {
   })
 
   it('keeps following when the browser moves the scroll position', () => {
-    render(<Ai.Conversation scrollBehavior="end" />)
+    render(<Conversation scrollBehavior="end" />)
 
     setScrollPosition(getScroll(), {
       scrollHeight: 1000,
@@ -141,9 +147,9 @@ describe('Ai.Conversation', () => {
 
   it('keeps following after the user uses content in the conversation', () => {
     render(
-      <Ai.Conversation scrollBehavior="end">
+      <Conversation scrollBehavior="end">
         <button>Choose</button>
-      </Ai.Conversation>
+      </Conversation>
     )
 
     setScrollPosition(getScroll(), {
@@ -170,7 +176,7 @@ describe('Ai.Conversation', () => {
   })
 
   it('shows a button to scroll to the bottom when scrolled up', () => {
-    render(<Ai.Conversation scrollBehavior="end" />)
+    render(<Conversation scrollBehavior="end" />)
     expect(getScrollButton()).toBeNull()
 
     setScrollPosition(getScroll(), {
@@ -195,7 +201,7 @@ describe('Ai.Conversation', () => {
   })
 
   it('keeps following while scrolling down from the button', () => {
-    render(<Ai.Conversation scrollBehavior="end" />)
+    render(<Conversation scrollBehavior="end" />)
 
     setScrollPosition(getScroll(), {
       scrollHeight: 1000,
@@ -220,7 +226,7 @@ describe('Ai.Conversation', () => {
   })
 
   it('hides the button when scrolled back to the bottom', () => {
-    render(<Ai.Conversation scrollBehavior="end" />)
+    render(<Conversation scrollBehavior="end" />)
 
     setScrollPosition(getScroll(), {
       scrollHeight: 1000,
@@ -244,7 +250,7 @@ describe('Ai.Conversation', () => {
   })
 
   it('supports spacing props and forwards attributes', () => {
-    render(<Ai.Conversation top="large" className="custom" id="chat" />)
+    render(<Conversation top="large" className="custom" id="chat" />)
 
     const element = document.querySelector('.dnb-ai-conversation')
     expect(element).toHaveClass('dnb-space__top--large', 'custom')
@@ -253,10 +259,10 @@ describe('Ai.Conversation', () => {
 
   it('should validate with ARIA rules', async () => {
     const result = render(
-      <Ai.Conversation>
-        <Ai.Message from="user">Hi</Ai.Message>
-        <Ai.Message>Hello</Ai.Message>
-      </Ai.Conversation>
+      <Conversation>
+        <Message from="user">Hi</Message>
+        <Message>Hello</Message>
+      </Conversation>
     )
 
     setScrollPosition(getScroll(), {
@@ -303,13 +309,13 @@ describe('Ai.Conversation turns', () => {
 
   const renderTurn = (messages: Array<string>) =>
     render(
-      <Ai.Conversation>
+      <Conversation>
         {messages.map((text, index) => (
-          <Ai.Message key={index} from={index % 2 ? 'assistant' : 'user'}>
+          <Message key={index} from={index % 2 ? 'assistant' : 'user'}>
             {text}
-          </Ai.Message>
+          </Message>
         ))}
-      </Ai.Conversation>
+      </Conversation>
     )
 
   it('scrolls a new message from the user near the top', () => {
@@ -322,11 +328,11 @@ describe('Ai.Conversation turns', () => {
     scrollTo.mockClear()
 
     rerender(
-      <Ai.Conversation>
-        <Ai.Message from="user">Hi</Ai.Message>
-        <Ai.Message>Hello</Ai.Message>
-        <Ai.Message from="user">Block my card</Ai.Message>
-      </Ai.Conversation>
+      <Conversation>
+        <Message from="user">Hi</Message>
+        <Message>Hello</Message>
+        <Message from="user">Block my card</Message>
+      </Conversation>
     )
     const anchor = document.querySelectorAll('.dnb-ai-message--user')[1]
     setRect(getScroll(), 0)
@@ -448,13 +454,13 @@ describe('Ai.Conversation turns', () => {
     resize()
 
     rerender(
-      <Ai.Conversation>
+      <Conversation>
         {['Hi', 'Hello', 'Block my card'].map((text, index) => (
-          <Ai.Message key={index} from={index % 2 ? 'assistant' : 'user'}>
+          <Message key={index} from={index % 2 ? 'assistant' : 'user'}>
             {text}
-          </Ai.Message>
+          </Message>
         ))}
-      </Ai.Conversation>
+      </Conversation>
     )
     resize()
 
@@ -465,17 +471,17 @@ describe('Ai.Conversation turns', () => {
   })
 
   it('adjusts the scroll to a message when messages above change size', () => {
-    let controls: ReturnType<typeof Ai.useConversation>
+    let controls: ReturnType<typeof useConversation>
     const Toolbar = () => {
-      controls = Ai.useConversation()
+      controls = useConversation()
       return null
     }
     render(
-      <Ai.Conversation>
+      <Conversation>
         <Toolbar />
-        <Ai.Message id="a">Hi</Ai.Message>
-        <Ai.Message id="b">Hello</Ai.Message>
-      </Ai.Conversation>
+        <Message id="a">Hi</Message>
+        <Message id="b">Hello</Message>
+      </Conversation>
     )
     resize()
     const target = document.getElementById('b')
@@ -497,13 +503,13 @@ describe('Ai.Conversation turns', () => {
   it('keeps the view in place when messages are added above', () => {
     const messages = ['Hi', 'Hello']
     const Messages = ({ list }: { list: Array<string> }) => (
-      <Ai.Conversation>
+      <Conversation>
         {list.map((text) => (
-          <Ai.Message key={text} from="user">
+          <Message key={text} from="user">
             {text}
-          </Ai.Message>
+          </Message>
         ))}
-      </Ai.Conversation>
+      </Conversation>
     )
     const { rerender } = render(<Messages list={messages} />)
     const first = document.querySelector('.dnb-ai-message')
@@ -520,13 +526,13 @@ describe('Ai.Conversation turns', () => {
 
   it('keeps the view in place when a scroll event comes before the change is handled', () => {
     const Messages = ({ list }: { list: Array<string> }) => (
-      <Ai.Conversation>
+      <Conversation>
         {list.map((text) => (
-          <Ai.Message key={text} from="user">
+          <Message key={text} from="user">
             {text}
-          </Ai.Message>
+          </Message>
         ))}
-      </Ai.Conversation>
+      </Conversation>
     )
     const { rerender } = render(<Messages list={['Hi', 'Hello']} />)
     const content = document.querySelector('.dnb-ai-conversation__content')
@@ -557,18 +563,18 @@ describe('Ai.useConversation', () => {
   })
 
   it('scrolls the conversation with the given id', () => {
-    let controls: ReturnType<typeof Ai.useConversation>
+    let controls: ReturnType<typeof useConversation>
     const Toolbar = () => {
-      controls = Ai.useConversation('chat')
+      controls = useConversation('chat')
       return null
     }
 
     render(
       <>
         <Toolbar />
-        <Ai.Conversation id="chat">
-          <Ai.Message id="message-2">Hello</Ai.Message>
-        </Ai.Conversation>
+        <Conversation id="chat">
+          <Message id="message-2">Hello</Message>
+        </Conversation>
       </>
     )
 
@@ -593,14 +599,14 @@ describe('Ai.useConversation', () => {
 
   it('works inside the conversation without an id', () => {
     const ScrollButton = () => {
-      const { scrollToEnd } = Ai.useConversation()
+      const { scrollToEnd } = useConversation()
       return <button onClick={scrollToEnd}>End</button>
     }
 
     render(
-      <Ai.Conversation>
+      <Conversation>
         <ScrollButton />
-      </Ai.Conversation>
+      </Conversation>
     )
     Object.defineProperty(getScroll(), 'scrollHeight', {
       configurable: true,
@@ -615,9 +621,9 @@ describe('Ai.useConversation', () => {
   })
 
   it('does nothing without a conversation', () => {
-    let controls: ReturnType<typeof Ai.useConversation>
+    let controls: ReturnType<typeof useConversation>
     const Toolbar = () => {
-      controls = Ai.useConversation('missing')
+      controls = useConversation('missing')
       return null
     }
     render(<Toolbar />)
@@ -634,15 +640,15 @@ describe('Ai.useConversationScrollState', () => {
   })
 
   it('tells if the conversation is scrolled to the start or the end', () => {
-    let state: ReturnType<typeof Ai.useConversationScrollState>
+    let state: ReturnType<typeof useConversationScrollState>
     const Edges = () => {
-      state = Ai.useConversationScrollState('chat')
+      state = useConversationScrollState('chat')
       return null
     }
     render(
       <>
         <Edges />
-        <Ai.Conversation id="chat" />
+        <Conversation id="chat" />
       </>
     )
     expect(state).toEqual({ isAtStart: true, isAtEnd: true })
@@ -665,9 +671,9 @@ describe('Ai.useConversationScrollState', () => {
   })
 
   it('returns a default without a conversation', () => {
-    let state: ReturnType<typeof Ai.useConversationScrollState>
+    let state: ReturnType<typeof useConversationScrollState>
     const Edges = () => {
-      state = Ai.useConversationScrollState()
+      state = useConversationScrollState()
       return null
     }
     render(<Edges />)
@@ -698,27 +704,27 @@ describe('Ai.useConversationVisibility', () => {
   })
 
   it('tells which messages are visible and which turn is read', () => {
-    let visibility: ReturnType<typeof Ai.useConversationVisibility>
+    let visibility: ReturnType<typeof useConversationVisibility>
     const Outline = () => {
-      visibility = Ai.useConversationVisibility()
+      visibility = useConversationVisibility()
       return null
     }
     render(
-      <Ai.Conversation>
+      <Conversation>
         <Outline />
-        <Ai.Message id="q1" from="user">
+        <Message id="q1" from="user">
           q1
-        </Ai.Message>
-        <Ai.Message id="a1" from="assistant">
+        </Message>
+        <Message id="a1" from="assistant">
           a1
-        </Ai.Message>
-        <Ai.Message id="q2" from="user">
+        </Message>
+        <Message id="q2" from="user">
           q2
-        </Ai.Message>
-        <Ai.Message id="a2" from="assistant">
+        </Message>
+        <Message id="a2" from="assistant">
           a2
-        </Ai.Message>
-      </Ai.Conversation>
+        </Message>
+      </Conversation>
     )
     expect(observe).toHaveBeenCalledTimes(4)
 
@@ -758,16 +764,16 @@ describe('Ai.useConversationVisibility', () => {
 
   it('only tracks messages while it is used', () => {
     const Outline = () => {
-      Ai.useConversationVisibility('chat')
+      useConversationVisibility('chat')
       return null
     }
     const { rerender } = render(
       <>
-        <Ai.Conversation id="chat">
-          <Ai.Message id="q1" from="user">
+        <Conversation id="chat">
+          <Message id="q1" from="user">
             q1
-          </Ai.Message>
-        </Ai.Conversation>
+          </Message>
+        </Conversation>
       </>
     )
     expect(observe).not.toHaveBeenCalled()
@@ -775,22 +781,22 @@ describe('Ai.useConversationVisibility', () => {
     rerender(
       <>
         <Outline />
-        <Ai.Conversation id="chat">
-          <Ai.Message id="q1" from="user">
+        <Conversation id="chat">
+          <Message id="q1" from="user">
             q1
-          </Ai.Message>
-        </Ai.Conversation>
+          </Message>
+        </Conversation>
       </>
     )
     expect(observe).toHaveBeenCalledTimes(1)
 
     rerender(
       <>
-        <Ai.Conversation id="chat">
-          <Ai.Message id="q1" from="user">
+        <Conversation id="chat">
+          <Message id="q1" from="user">
             q1
-          </Ai.Message>
-        </Ai.Conversation>
+          </Message>
+        </Conversation>
       </>
     )
     expect(disconnect).toHaveBeenCalled()

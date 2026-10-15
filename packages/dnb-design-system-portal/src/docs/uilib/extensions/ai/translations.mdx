@@ -18,12 +18,12 @@ Norwegian Bokmål (`nb-NO`) and British English (`en-GB`) are included with the 
 
 ```tsx
 import { Provider } from '@dnb/eufemia/shared'
-import * as Ai from '@dnb/eufemia/extensions/ai'
+import { PromptInput } from '@dnb/eufemia/extensions/ai'
 
 function ChatInput() {
   return (
     <Provider locale="en-GB">
-      <Ai.PromptInput />
+      <PromptInput />
     </Provider>
   )
 }
@@ -35,7 +35,7 @@ Swedish, Danish and US English are available as explicit imports. Load the AI lo
 
 ```tsx
 import { Provider } from '@dnb/eufemia/shared'
-import * as Ai from '@dnb/eufemia/extensions/ai'
+import { PromptInput } from '@dnb/eufemia/extensions/ai'
 import svSE from '@dnb/eufemia/shared/locales/sv-SE'
 import aiSvSE from '@dnb/eufemia/extensions/ai/constants/locales/sv-SE'
 
@@ -46,7 +46,7 @@ const translations = {
 function ChatInput() {
   return (
     <Provider locale="sv-SE" translations={translations}>
-      <Ai.PromptInput />
+      <PromptInput />
     </Provider>
   )
 }
@@ -60,7 +60,7 @@ Keep overrides under `Ai`. Partial overrides preserve the other extension defaul
 
 ```tsx
 import { Provider } from '@dnb/eufemia/shared'
-import * as Ai from '@dnb/eufemia/extensions/ai'
+import { MessageIndicator, PromptInput } from '@dnb/eufemia/extensions/ai'
 
 const translations = {
   'en-GB': {
@@ -74,8 +74,8 @@ const translations = {
 function ChatInput() {
   return (
     <Provider locale="en-GB" translations={translations}>
-      <Ai.Loader />
-      <Ai.PromptInput />
+      <MessageIndicator />
+      <PromptInput />
     </Provider>
   )
 }
