@@ -100,6 +100,9 @@ export default {
       selectedSr: 'Valgt:',
       indicatorLabel: 'Henter data ...',
     },
+    Card: {
+      closeTitle: 'Luk',
+    },
     Modal: {
       dialogTitle: 'Separat vindue',
       closeTitle: 'Luk',

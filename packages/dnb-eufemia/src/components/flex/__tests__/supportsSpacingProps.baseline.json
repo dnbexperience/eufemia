@@ -13,6 +13,7 @@
   "components/breadcrumb/BreadcrumbItem.tsx": 1,
   "components/button/Button.tsx": 1,
   "components/card/CardAction.tsx": 1,
+  "components/card/CardInfo.tsx": 1,
   "components/card/CardInner.tsx": 1,
   "components/card/CardList.tsx": 1,
   "components/card/CardListItem.tsx": 1,

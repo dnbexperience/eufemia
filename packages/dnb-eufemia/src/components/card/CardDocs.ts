@@ -1,6 +1,11 @@
 import type { PropertiesTableProps } from '../../shared/types'
 
 export const CardProperties: PropertiesTableProps = {
+  closeButtonProps: {
+    doc: 'Button properties for the optional close button. Its label is translated by default. A given onClick runs before onClose and can return false to skip it.',
+    type: 'ButtonProps',
+    status: 'optional',
+  },
   layoutEngine: {
     doc: 'Select the internal Flex layout engine. Defaults to `legacy` for backwards compatibility. Use `css` to opt in to native CSS gap.',
     type: ['"css"', '"legacy"'],
@@ -95,6 +100,14 @@ export const CardProperties: PropertiesTableProps = {
   },
 }
 
+export const CardEvents: PropertiesTableProps = {
+  onClose: {
+    doc: 'Displays a close button and calls this handler when clicked. The consumer controls dismissal and focus after removal.',
+    type: 'function',
+    status: 'optional',
+  },
+}
+
 export const CardActionProperties: PropertiesTableProps = {
   href: {
     doc: 'The URL to navigate to. When set, renders an anchor element. Values using a script-executing protocol (`javascript:` or `vbscript:`) are removed.',
@@ -127,7 +140,7 @@ export const CardActionProperties: PropertiesTableProps = {
     status: 'required',
   },
   'Card properties': {
-    doc: 'All [Card](/uilib/components/card/properties) properties are supported.',
+    doc: '[Card](/uilib/components/card/properties) properties are supported, except onClose and closeButtonProps. A whole-card action must not contain nested interactive controls.',
     type: 'Various',
     status: 'optional',
   },
@@ -137,6 +150,24 @@ export const CardActionEvents: PropertiesTableProps = {
   onClick: {
     doc: 'Click handler. When used without `href`/`to`, renders a button-like wrapper with keyboard support (Enter/Space).',
     type: 'function',
+    status: 'optional',
+  },
+}
+
+export const CardInfoProperties: PropertiesTableProps = {
+  children: {
+    doc: 'Freely composed content such as headings, text, graphics, or actions. Do not include interactive controls when the whole card is interactive.',
+    type: 'React.ReactNode',
+    status: 'required',
+  },
+  'Card properties': {
+    doc: 'All [Card](/uilib/components/card/properties) properties are supported. Defaults to responsive=false, dropShadow=true, stack=true, gap="small", and innerSpace="small" on small screens or "medium" on larger screens. All defaults can be overridden.',
+    type: 'Various',
+    status: 'optional',
+  },
+  'Card.Action properties': {
+    doc: '[Card.Action](/uilib/components/card/properties/#cardaction-properties) properties are supported for a whole-card link or action. Set href, to, or onClick to make Card.Info interactive. Interactive cards cannot have onClose or closeButtonProps.',
+    type: 'Various',
     status: 'optional',
   },
 }

@@ -12,6 +12,18 @@
   );
   --card-background-color: var(--token-color-background-neutral);
 
+  &--closable > .dnb-flex-container {
+    padding-inline-end: 3rem;
+  }
+
+  &__close-button {
+    position: absolute;
+    z-index: 2;
+    top: calc(var(--padding-top, 0rem) + var(--line-height-small) / 2);
+    right: 1rem;
+    transform: translateY(-50%);
+  }
+
   &__title {
     padding-bottom: 1rem;
     font-size: var(--font-size-basis);

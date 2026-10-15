@@ -18,6 +18,7 @@ It uses [Flex.Item](/uilib/layout/flex/item) under the hood. When one of these p
 
 ## Relevant links
 
+- [Figma](https://www.figma.com/design/cdtwQD8IJ7pTeE45U148r1/?node-id=70914-1831)
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/card)
 - [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/components/card)
 
@@ -50,5 +51,52 @@ Use `Card.List` and `Card.ListItem` to render a semantic `<ul>` / `<li>` list of
 ## Security
 
 Like the [Anchor](/uilib/components/anchor), `Card.Action` removes `href` and `to` values that use a script-executing protocol (`javascript:` or `vbscript:`), including obfuscated variants such as `java\tscript:`. This prevents cross-site scripting (XSS) when untrusted input is passed to these properties; the card then renders without a link target. Other protocols, such as `data:` and `blob:`, are left untouched.
+
+## Card.Info
+
+Use `Card.Info` for information and tips. It is a complete Card with helpful defaults, so use it directly without an enclosing Card. Compose its children with headings, paragraphs, images, icons, Flex, and Buttons as needed.
+
+```tsx
+<Card.Info>
+  <Flex.Stack gap="x-small">
+    <H2 size="small">Build your savings</H2>
+    <P size="small">A little every month goes a long way.</P>
+  </Flex.Stack>
+  <Button variant="secondary" onClick={startSaving}>
+    Start saving
+  </Button>
+</Card.Info>
+```
+
+### Layout and surface
+
+Card.Info defaults to `dropShadow={true}`, `responsive={false}`, `stack={true}`, and `gap="small"`. Its padding is `small` on small screens and `medium` on larger screens. It keeps rounded corners on small screens. Override any default using the regular [Card properties](/uilib/components/card/properties).
+
+Group a title and its text in `Flex.Stack gap="x-small"` for an 8px gap. Card.Info keeps its default 16px gap between that group and separate actions.
+
+Width follows the containing layout. Constrain that layout when the card should be narrower. Use `innerSpace` to change padding, `dropShadow={false}` to remove the shadow, or `responsive` to use Card's edge-to-edge layout on small screens.
+
+Content is supplied through children. Use `Flex.Horizontal` for a graphic beside text, or `Flex.Stack align="center"` with centered text for a centered layout. Use `Provider skeleton` for loading content. Card.Info has no separate graphic, text, icon, or button props. The optional `title` prop retains Card's title behavior; use a heading child when the page structure needs a semantic heading.
+
+### Interactive information cards
+
+Set `href` or `to` for a whole-card link, or `onClick` for a whole-card action. Card.Info uses [Card.Action](/uilib/components/card/demos/#interactive-cards) for hover, focus, and keyboard behavior. Pass a router Link through `element` when using `to`.
+
+```tsx
+<Card.Info href="/savings">
+  <Flex.Stack gap="x-small">
+    <H2 size="small">Start saving</H2>
+    <P size="small">Read about our savings accounts.</P>
+  </Flex.Stack>
+</Card.Info>
+```
+
+Do not place buttons, links, inputs, or a close button inside a whole-card action. When the content needs independent controls, omit `href`, `to`, and `onClick` on Card.Info and render those controls as children. Provide `aria-label` or `aria-labelledby` when a noninteractive card needs a named landmark.
+
+### Close button
+
+Pass `onClose` to Card.Info or Card to display a close button. The callback controls dismissal; the card does not hide itself or move focus. When removing focused content, move focus to a suitable remaining control. Customize the button with `closeButtonProps`. Use HeightAnimation around Card.Info when dismissal should animate.
+
+See the [information card demos](/uilib/components/card/demos/#info-card-layout).
 
 <RelatedComponents />

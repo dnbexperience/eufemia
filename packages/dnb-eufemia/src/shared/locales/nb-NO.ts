@@ -98,6 +98,9 @@ export default {
       selectedSr: 'Valgt:',
       indicatorLabel: 'Henter data ...',
     },
+    Card: {
+      closeTitle: 'Lukk',
+    },
     Modal: {
       dialogTitle: 'Separat vindu',
       closeTitle: 'Lukk',

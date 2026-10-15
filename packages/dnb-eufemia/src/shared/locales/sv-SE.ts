@@ -99,6 +99,9 @@ export default {
       selectedSr: 'Vald:',
       indicatorLabel: 'Hämtar data ...',
     },
+    Card: {
+      closeTitle: 'Stäng',
+    },
     Modal: {
       dialogTitle: 'Separat fönster',
       closeTitle: 'Stäng',
