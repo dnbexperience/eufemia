@@ -179,18 +179,14 @@ They render semantic HTML and support Eufemia's spacing props, typography
 options and theme context. `H1` renders an `<h1>` by default; it is not a
 different heading level.
 
-Keep the brand on the existing Theme component. For a standalone React
-preview with a `<div id="root"></div>` mount point, this example uses
+Keep the brand on the existing Theme component. This example uses
 document formatting only:
 
 ```tsx
-import { createRoot } from 'react-dom/client'
 import { H1, H2, P } from '@dnb/eufemia/elements'
 import { Theme } from '@dnb/eufemia/shared'
 
-const root = createRoot(document.getElementById('root'))
-
-root.render(
+render(
   <Theme brand="sbanken" colorScheme="light">
     <article className="dnb-document" lang="nb">
       <H1 bottom="small">Informasjon om avtalen din</H1>
