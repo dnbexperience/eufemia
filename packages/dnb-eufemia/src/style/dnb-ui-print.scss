@@ -1,21 +1,9 @@
 /**
- * Optional print rules. Paper size and margins belong to the template.
+ * Optional print rules for a light brand theme. Layout belongs to the template.
  */
 
 @media print {
   .dnb-document {
-    --token-color-text-neutral: #000;
-    --token-color-text-neutral-alternative: #333;
-    --token-color-background-neutral: #fff;
-    --token-color-background-neutral-subtle: #f2f2f2;
-    --token-color-background-page-background: #fff;
-
-    color-scheme: light;
-    overflow: visible;
-    max-width: none;
-    box-shadow: none;
-    color: var(--token-color-text-neutral);
-    background: var(--token-color-background-neutral);
     orphans: 3;
     widows: 3;
 

@@ -9,7 +9,7 @@ describe.each(['ui', 'sbanken', 'eiendom', 'carnegie'])(
   (themeName) => {
     setupPageScreenshot({
       themeName,
-      colorScheme: themeName === 'carnegie' ? 'light' : 'dark',
+      colorScheme: 'light',
       url: '/uilib/usage/customisation/styling/document-styles/visual-tests/print/',
       withWrapper: false,
     })

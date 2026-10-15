@@ -40,13 +40,13 @@ print rules without requiring the document stylesheet:
 </article>
 ```
 
-The print stylesheet preserves your existing typography and spacing. It
-works independently of `dnb-ui-document` and does not change screen styles.
+The print stylesheet preserves your existing typography, spacing, brand
+palette and wrapper layout. It works independently of `dnb-ui-document`
+and does not change screen styles.
 Configure your PDF renderer to use print media.
 
-The optional print stylesheet only applies under `@media print`. It sets
-black body text on white paper, keeps headings with following content,
-repeats table headers, and requests that rows and signature blocks stay
+The optional print stylesheet only applies under `@media print`. It keeps
+headings with following content, repeats table headers, and requests that rows and signature blocks stay
 together when they fit on a page. Long documents and tables can span pages.
 
 - Add `.dnb-print-hidden` to preview controls and other screen-only content.
@@ -70,8 +70,26 @@ size or margin. For example, an A4 template can add:
 }
 ```
 
-Select a light brand theme for paper output. Brand accents and logos retain
-their colors; background printing depends on the renderer's settings.
+### Color scheme and paper surface
+
+Print output requires a **light brand theme**. The print stylesheet does
+not convert dark-mode colors to a light palette. For React, set the scheme
+on the existing Theme wrapper around the printable content:
+
+```tsx
+<Theme colorScheme="light">
+  <article className="dnb-document">{/* Printable content */}</article>
+</Theme>
+```
+
+For HTML without React, apply `.eufemia-theme__color-scheme--light` on a
+wrapper around the printable content, with the selected brand's light
+theme stylesheet loaded.
+
+The template owns the paper background, text color, width, overflow and
+shadows. Use the light theme's background and text tokens for the paper
+surface. Brand accents and logos retain their colors; background printing
+depends on the renderer's settings.
 Load fonts before generating the PDF and verify font embedding and page
 breaks in the actual production renderer.
 

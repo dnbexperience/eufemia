@@ -1,5 +1,5 @@
 import { H1, H2, P } from '@dnb/eufemia/src/elements'
-import { Table } from '@dnb/eufemia/src/components'
+import { Anchor, Table } from '@dnb/eufemia/src/components'
 import { Th, Td, Tr } from '@dnb/eufemia/src/components/Table'
 import styles from './sample.module.scss'
 
@@ -17,6 +17,9 @@ export default function StyleSample({
       <P>
         Branded text with <strong>emphasis</strong> and a{' '}
         <small>smaller annotation</small>.
+      </P>
+      <P>
+        <Anchor href="https://example.com">Read more</Anchor>
       </P>
       <H2 size="x-large">Section heading</H2>
       <ul className="dnb-ul">

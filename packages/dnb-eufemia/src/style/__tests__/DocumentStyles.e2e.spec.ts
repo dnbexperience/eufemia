@@ -28,17 +28,14 @@ test.describe('Document and print styles', () => {
     brand = 'ui',
     isolated = false,
     nested = false,
-    tableMarkup = '',
-    colorScheme: 'light' | 'dark' = 'light'
+    tableMarkup = ''
   ) {
     let css = [
       coreCss,
       compile(`themes/${brand}/${brand}-theme-basis.scss`),
-      colorScheme === 'dark'
-        ? compile(`themes/${brand}/${brand}-theme-dark-mode.scss`)
-        : '',
       compile('../components/table/style/dnb-table.scss'),
       compile('../components/space/style/dnb-space.scss'),
+      compile('../components/anchor/style/dnb-anchor.scss'),
       documentCss,
       printCss,
     ].join('\n')
@@ -53,11 +50,12 @@ test.describe('Document and print styles', () => {
       <main class="${isolated ? 'test-scope' : ''}">
         <p id="outside" class="dnb-p">Application text</p>
         ${nested ? '<div class="dnb-core-style"><div class="dnb-spacing">' : ''}
-        <article class="dnb-document ${nested ? '' : 'dnb-core-style dnb-spacing'} eufemia-theme eufemia-theme__color-scheme--${colorScheme}">
+        <article class="dnb-document ${nested ? '' : 'dnb-core-style dnb-spacing'} eufemia-theme eufemia-theme__color-scheme--light">
           <h1 id="heading">Avtalen din</h1>
           <h2 id="heading-component" class="dnb-h--x-large">Details</h2>
           <p id="plain">Hei Tobias</p>
           <p id="component" class="dnb-p dnb-t__responsive-on">Branded document text</p>
+          <a id="link" class="dnb-anchor" href="https://example.com">Read more</a>
           <p id="lead" class="dnb-p dnb-lead">Important information</p>
           <p id="small" class="dnb-p dnb-t__size--small dnb-t__line-height--small">Small text</p>
           <h1 id="small-heading" class="dnb-h--medium">Explicit heading size</h1>
@@ -178,9 +176,44 @@ test.describe('Document and print styles', () => {
     expect((await styles('#hidden')).display).toBe('none')
     expect((await styles('#heading')).breakAfter).toBe('avoid')
     expect((await styles('#signature')).breakInside).toBe('avoid')
-    expect((await styles('#component')).color).toBe('rgb(0, 0, 0)')
+    expect((await styles('#component')).color).toBe('rgb(51, 51, 51)')
     expect((await styles('#outside')).fontSize).toBe(18)
   })
+
+  test('preserves the template wrapper layout when print styles load last', async () => {
+    await render()
+    await page
+      .locator('.dnb-document')
+      .evaluate((element) => element.classList.add('letter'))
+    await page.locator('style').evaluate((element) => {
+      element.textContent =
+        '@media print { .letter { max-width: 300px; overflow: hidden; box-shadow: 0px 2px 4px rgb(51, 51, 51); } }\n' +
+        element.textContent
+    })
+    await page.emulateMedia({ media: 'print' })
+    const layout = await page.locator('.letter').evaluate((element) => {
+      const style = getComputedStyle(element)
+      return {
+        maxWidth: style.maxWidth,
+        overflow: style.overflow,
+        shadow: style.boxShadow,
+      }
+    })
+    expect(layout.maxWidth).toBe('300px')
+    expect(layout.overflow).toBe('hidden')
+    expect(layout.shadow).not.toBe('none')
+  })
+
+  for (const brand of ['ui', 'sbanken', 'eiendom', 'carnegie']) {
+    test(`preserves the ${brand} light brand palette in print`, async () => {
+      await render(brand)
+      const body = await styles('#component')
+      const link = await styles('#link')
+      await page.emulateMedia({ media: 'print' })
+      expect((await styles('#component')).color).toBe(body.color)
+      expect((await styles('#link')).color).toBe(link.color)
+    })
+  }
 
   test('supports isolated CSS without affecting another scope', async () => {
     await render('ui', true)
@@ -229,21 +262,6 @@ test.describe('Document and print styles', () => {
         <tr class="dnb-table__tr"><td id="component-horizontal" class="dnb-table__td dnb-table__td--spacing-horizontal dnb-table__td--vertical-align-middle">Horizontal padding</td></tr>
       </tbody>
     </table>`
-  }
-
-  for (const brand of ['ui', 'sbanken', 'eiendom']) {
-    test(`keeps ${brand} dark-mode table stripes readable in print`, async () => {
-      await render(brand, false, true, componentTable('small'), 'dark')
-      await page.emulateMedia({ media: 'print' })
-      const colors = await page
-        .locator('#component-td')
-        .evaluate((cell) => {
-          const style = getComputedStyle(cell)
-          return { color: style.color, background: style.backgroundColor }
-        })
-      expect(colors.color).toBe('rgb(0, 0, 0)')
-      expect(colors.background).toBe('rgb(242, 242, 242)')
-    })
   }
 
   for (const size of ['large', 'medium', 'small'] as const) {

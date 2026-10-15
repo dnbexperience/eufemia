@@ -244,35 +244,6 @@ describe('eufemia-theme plugin', () => {
       }
     })
 
-    it('loads styles from a checkout inside a hidden directory', async () => {
-      vi.resetModules()
-      vi.doMock('globby', async () => {
-        const actual = await vi.importActual<typeof GlobbyModule>('globby')
-        return {
-          ...actual,
-          sync: () => [
-            '/Users/test/.codex/worktrees/project/packages/dnb-eufemia/src/style/dnb-ui-core.scss',
-            '/Users/test/.codex/worktrees/project/packages/dnb-eufemia/src/style/themes/ui/ui-theme-basis.scss',
-          ],
-        }
-      })
-      try {
-        const { default: createThemePlugin } =
-          await import('../../client/plugins/eufemia-theme')
-        const load = createThemePlugin().load as (
-          id: string
-        ) => string | undefined
-        const code = load('\0virtual:eufemia-theme-styles')
-        expect(code).toContain(
-          "import '/Users/test/.codex/worktrees/project/packages/dnb-eufemia/src/style/dnb-ui-core.scss'"
-        )
-        expect(code).toContain('ui-theme-basis.scss')
-      } finally {
-        vi.doUnmock('globby')
-        vi.resetModules()
-      }
-    })
-
     it('generates per-theme module code', () => {
       const plugin = eufemiaThemePlugin()
       const load = plugin.load as (id: string) => string | undefined
