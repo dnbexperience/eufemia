@@ -16,7 +16,7 @@ const undoButton = () =>
 
 describe('Ai.AgentAction', () => {
   it('renders the action with indeterminate progress and a decorative agent avatar', () => {
-    render(<AgentAction action="Paying">Spotify Premium</AgentAction>)
+    render(<AgentAction actionLabel="Paying">Spotify Premium</AgentAction>)
     expect(root()).toHaveClass(
       'dnb-ai-agent-action--running',
       'dnb-ai-agent-action--indeterminate'
@@ -33,7 +33,7 @@ describe('Ai.AgentAction', () => {
   })
 
   it('renders each running label once without a decorative text copy', () => {
-    render(<AgentAction action="Paying">Spotify Premium</AgentAction>)
+    render(<AgentAction actionLabel="Paying">Spotify Premium</AgentAction>)
     expect(progressbar()).toHaveTextContent(/^PayingSpotify Premium$/)
   })
 
@@ -69,7 +69,7 @@ describe('Ai.AgentAction', () => {
     'renders the supplied %s result without progress or running labels',
     (status) => {
       render(
-        <AgentAction status={status} action="Paying">
+        <AgentAction status={status} actionLabel="Paying">
           Payment result
         </AgentAction>
       )
@@ -82,15 +82,15 @@ describe('Ai.AgentAction', () => {
     }
   )
 
-  it('supports custom or omitted avatars and target icons', () => {
+  it('supports a custom or omitted agent avatar and target visual', () => {
     const { rerender } = render(
       <AgentAction
-        avatar={
+        agentAvatar={
           <Avatar size="small" hasLabel>
             S
           </Avatar>
         }
-        icon={
+        targetVisual={
           <Avatar size="small" hasLabel>
             B
           </Avatar>
@@ -103,9 +103,9 @@ describe('Ai.AgentAction', () => {
       document.querySelector('.dnb-ai-agent-action__avatar')
     ).toHaveTextContent('S')
     expect(
-      document.querySelector('.dnb-ai-agent-action__icon')
+      document.querySelector('.dnb-ai-agent-action__target-visual')
     ).toHaveAttribute('aria-hidden', 'true')
-    rerender(<AgentAction avatar={false}>Bill</AgentAction>)
+    rerender(<AgentAction agentAvatar={false}>Bill</AgentAction>)
     expect(
       document.querySelector('.dnb-ai-agent-action__avatar')
     ).toBeNull()
@@ -117,6 +117,9 @@ describe('Ai.AgentAction', () => {
         top="large"
         className="custom"
         id="payment"
+        actionLabel="Paying"
+        agentAvatar={false}
+        targetVisual={<span>Logo</span>}
         progress={32}
         undoUntil={100}
         undoLabel="Revert"
@@ -128,6 +131,9 @@ describe('Ai.AgentAction', () => {
     expect(root()).toHaveClass('dnb-space__top--large', 'custom')
     expect(root()).toHaveAttribute('id', 'payment')
     for (const prop of [
+      'actionLabel',
+      'agentAvatar',
+      'targetVisual',
       'progress',
       'status',
       'undoUntil',
@@ -253,7 +259,7 @@ describe('Ai.AgentAction', () => {
   it('has accessible progress and Undo controls', async () => {
     const result = render(
       <>
-        <AgentAction action="Paying" progress={35}>
+        <AgentAction actionLabel="Paying" progress={35}>
           Bill
         </AgentAction>
         <AgentAction>Generating a graph…</AgentAction>
@@ -480,7 +486,7 @@ describe('Ai.AgentAction', () => {
       act(() => vi.advanceTimersByTime(1))
       expect(announcement).toHaveTextContent('Avbrutt: Payment reversed.')
       rerender(
-        <AgentAction action="Paying" progress={0}>
+        <AgentAction actionLabel="Paying" progress={0}>
           Spotify Premium
         </AgentAction>
       )

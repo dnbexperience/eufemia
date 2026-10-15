@@ -264,13 +264,13 @@ export type AiAgentActionProps = {
    */
   status?: AiAgentActionStatus
   /** The action verb shown before the progress pill while running, e.g. `Paying`. */
-  action?: string
-  /** The current action label or result, e.g. `Spotify Premium` while running and `Spotify Premium paid.` when done. */
+  actionLabel?: string
+  /** The target text while running, or the action result, e.g. `Spotify Premium` while running and `Spotify Premium paid.` when done. */
   children: string
   /** Decorative agent avatar. Defaults to a small Aino Avatar. Use `false` to hide it. */
-  avatar?: ReactNode
-  /** Decorative icon inside the progress pill, e.g. an Avatar with `hasLabel`. */
-  icon?: ReactNode
+  agentAvatar?: ReactNode
+  /** Decorative content beside the target text inside the progress pill, such as an Avatar, icon, or image. */
+  targetVisual?: ReactNode
   /** Progress from 0 to 100. Omit it when progress is unknown. Values are clamped; non-finite values use indeterminate progress. */
   progress?: number
   /** Absolute Unix timestamp in milliseconds for the Undo deadline. Without it, Undo remains available until the application removes `onUndo`. */

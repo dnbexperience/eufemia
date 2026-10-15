@@ -460,23 +460,23 @@ export const AiAgentActionProperties: PropertiesTableProps = {
     defaultValue: '"running"',
     status: 'optional',
   },
-  action: {
+  actionLabel: {
     doc: 'The action verb shown before the progress pill while running, e.g. `Paying`.',
     type: 'string',
     status: 'optional',
   },
   children: {
-    doc: 'The current action label or result, e.g. `Spotify Premium` while running and `Spotify Premium paid.` when done.',
+    doc: 'The target text while running, or the action result, e.g. `Spotify Premium` while running and `Spotify Premium paid.` when done.',
     type: 'string',
     status: 'required',
   },
-  avatar: {
+  agentAvatar: {
     doc: 'Decorative agent avatar. Defaults to a small Aino Avatar. Use `false` to hide it.',
     type: 'React.ReactNode',
     status: 'optional',
   },
-  icon: {
-    doc: 'Decorative icon inside the progress pill, e.g. an Avatar with `hasLabel`.',
+  targetVisual: {
+    doc: 'Decorative content beside the target text inside the progress pill, such as an Avatar, icon, or image.',
     type: 'React.ReactNode',
     status: 'optional',
   },

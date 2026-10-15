@@ -18,10 +18,10 @@ const statusTranslations = {
 function AiAgentAction(props: AiAgentActionProps) {
   const {
     status = 'running',
-    action,
+    actionLabel,
     children,
-    avatar = <Avatar size="small" icon={aino} hasLabel />,
-    icon,
+    agentAvatar = <Avatar size="small" icon={aino} hasLabel />,
+    targetVisual,
     progress,
     onUndo,
     undoUntil,
@@ -46,7 +46,7 @@ function AiAgentAction(props: AiAgentActionProps) {
   const announcement =
     translation[statusTranslations[status]] +
     ': ' +
-    [running && action, children].filter(Boolean).join(' ')
+    [running && actionLabel, children].filter(Boolean).join(' ')
 
   useLayoutEffect(() => {
     const active = document.activeElement
@@ -77,9 +77,9 @@ function AiAgentAction(props: AiAgentActionProps) {
 
   return (
     <div {...rootProps}>
-      {avatar && (
+      {agentAvatar && (
         <span className="dnb-ai-agent-action__avatar" aria-hidden>
-          {avatar}
+          {agentAvatar}
         </span>
       )}
       <div className="dnb-ai-agent-action__body">
@@ -92,7 +92,9 @@ function AiAgentAction(props: AiAgentActionProps) {
             <div
               className="dnb-ai-agent-action__processing"
               role="progressbar"
-              aria-label={[action, children].filter(Boolean).join(' ')}
+              aria-label={[actionLabel, children]
+                .filter(Boolean)
+                .join(' ')}
               aria-valuemin={0}
               aria-valuemax={100}
               aria-valuenow={value}
@@ -101,15 +103,16 @@ function AiAgentAction(props: AiAgentActionProps) {
               }
             >
               <span className="dnb-ai-agent-action__label">
-                {action && (
+                {actionLabel && (
                   <span className="dnb-ai-agent-action__text">
-                    {action}
+                    {actionLabel}
                   </span>
                 )}
                 <span
                   className={clsx(
                     'dnb-ai-agent-action__target',
-                    icon && 'dnb-ai-agent-action__target--has-icon'
+                    targetVisual &&
+                      'dnb-ai-agent-action__target--has-visual'
                   )}
                 >
                   <span
@@ -121,12 +124,12 @@ function AiAgentAction(props: AiAgentActionProps) {
                     }
                     aria-hidden
                   />
-                  {icon && (
+                  {targetVisual && (
                     <span
-                      className="dnb-ai-agent-action__icon"
+                      className="dnb-ai-agent-action__target-visual"
                       aria-hidden
                     >
-                      {icon}
+                      {targetVisual}
                     </span>
                   )}
                   <span className="dnb-ai-agent-action__text">

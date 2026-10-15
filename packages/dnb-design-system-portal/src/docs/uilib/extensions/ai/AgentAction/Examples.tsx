@@ -16,18 +16,18 @@ export function States() {
       <Provider locale="en-GB">
         <Flex.Stack>
           <AgentAction
-            action="Paying"
+            actionLabel="Paying"
             progress={35}
-            icon={
+            targetVisual={
               <Avatar size="small" src={spotifyAvatar} alt="" hasLabel />
             }
           >
             Spotify Premium
           </AgentAction>
           <AgentAction
-            action="Paying"
+            actionLabel="Paying"
             progress={65}
-            avatar={
+            agentAvatar={
               <Avatar
                 size="small"
                 icon={solve}
@@ -35,7 +35,7 @@ export function States() {
                 hasLabel
               />
             }
-            icon={
+            targetVisual={
               <Avatar size="small" src={spotifyAvatar} alt="" hasLabel />
             }
           >
@@ -87,10 +87,10 @@ export function KnownProgress() {
             <Provider locale="en-GB">
               <Flex.Stack>
                 <AgentAction
-                  action="Paying"
+                  actionLabel="Paying"
                   progress={progress}
                   status={status}
-                  icon={
+                  targetVisual={
                     <Avatar
                       size="small"
                       src={spotifyAvatar}

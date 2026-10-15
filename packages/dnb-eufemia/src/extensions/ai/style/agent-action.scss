@@ -63,7 +63,7 @@
     border-radius: 1.15625rem;
   }
 
-  &__target--has-icon {
+  &__target--has-visual {
     padding-right: 1.5rem;
   }
 
@@ -97,7 +97,7 @@
     animation: dnb-ai-agent-action-progress 3.84s ease-in-out infinite;
   }
 
-  &__icon {
+  &__target-visual {
     position: relative;
     display: flex;
     flex-shrink: 0;

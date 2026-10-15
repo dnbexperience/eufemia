@@ -21,7 +21,7 @@ Use it for actions that an agent carries out, such as paying a bill or generatin
 
 The application owns execution, authorization, progress, and the result. Map your framework's state to `running`, `done`, `error`, or `canceled`, and supply text describing the current state. The component does not start or complete an action.
 
-While running, `action` is an optional verb before the pill and `children` is the text inside it. For example, use `action="Paying"` with `children="Spotify Premium"`. When the state changes, replace `children` with the result, such as `Spotify Premium paid.`. The verb and pill disappear.
+While running, `actionLabel` is an optional verb before the pill and `children` is the text inside it. For example, use `actionLabel="Paying"` with `children="Spotify Premium"`. When the state changes, replace `children` with the result, such as `Spotify Premium paid.`. The verb and pill disappear.
 
 Pass `progress` from 0 to 100 when the application knows the actual progress. Omit it when the progress is unknown. A value of 100 still shows a running action until the application confirms `status="done"`. Do not infer success from elapsed time or an animation ending. Use a separate component instance or React key for each action.
 
@@ -37,4 +37,4 @@ The running label keeps its normal text color. The progress fill inside the pill
 
 Progress has an accessible name and a percentage when known. In forced-colors mode, its fill has a contrasting boundary using the system text color. State and text changes are announced through Eufemia AriaLive; the countdown does not announce every second. The Undo control uses Eufemia Button and returns focus to the action status if it becomes disabled or expires while focused. It preserves focus elsewhere. Reduced motion disables the animation while preserving the state and percentage.
 
-The agent avatar and target icon are decorative. Use the text to identify the action and result. A small [Avatar](/uilib/components/avatar/) with `hasLabel` works as an `avatar` or `icon`. Set `avatar={false}` to omit the agent avatar.
+The `agentAvatar` identifies the agent to the left of the action row. It defaults to Aino; set `agentAvatar={false}` to hide it. The `targetVisual` appears beside the target text inside the progress pill and accepts an Avatar, icon, or image. A small [Avatar](/uilib/components/avatar/) with `hasLabel` works in either position. Both visuals are decorative; use the text to identify the action and result.
