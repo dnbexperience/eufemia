@@ -82,6 +82,23 @@ describe('DateFormatUtils', () => {
       vi.useRealTimers()
     })
 
+    it('shows the year with hideCurrentYear when the UTC date is in another year than the local date', () => {
+      vi.stubEnv('TZ', 'Europe/Oslo')
+      vi.useFakeTimers({ now: new Date('2026-06-15T12:00:00.000Z') })
+
+      // Already 1 January 2026 in Oslo, but formatted in UTC
+      const result = formatDate('2025-12-31T23:30:00Z', {
+        locale: 'en-GB',
+        options: { dateStyle: 'medium', timeStyle: 'short' },
+        hideCurrentYear: true,
+      })
+
+      vi.useRealTimers()
+      vi.unstubAllEnvs()
+
+      expect(result).toBe('31 Dec 2025, 23:30')
+    })
+
     it('always hides year when hideYear is true', () => {
       const dateInCurrentYear = '2025-02-04'
       const dateOtherYear = '2024-02-04'

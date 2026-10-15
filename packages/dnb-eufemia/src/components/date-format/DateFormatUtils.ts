@@ -212,16 +212,23 @@ export function formatDate(
     finalOptions.timeZone = 'UTC'
   }
 
+  if (typeof Intl === 'undefined') {
+    return date.toLocaleString(locale, finalOptions)
+  }
+
   // Hide year: always hide when hideYear is true, or hide when hideCurrentYear is true and date is in current year
   const dateStyle = finalOptions.dateStyle
   const shouldHideYear =
     dateStyle &&
     (hideYear ||
-      (hideCurrentYear && date.getFullYear() === new Date().getFullYear()))
-
-  if (typeof Intl === 'undefined') {
-    return date.toLocaleString(locale, finalOptions)
-  }
+      (hideCurrentYear &&
+        // Use the year of the formatted date, which may be in another time zone
+        Number(
+          new Intl.DateTimeFormat('en-US', {
+            year: 'numeric',
+            timeZone: finalOptions.timeZone,
+          }).format(date)
+        ) === new Date().getFullYear()))
 
   if (shouldHideYear) {
     const datePart = formatDateWithoutYear(
