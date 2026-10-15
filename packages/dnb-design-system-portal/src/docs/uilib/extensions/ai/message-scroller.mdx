@@ -26,7 +26,11 @@ A chat list that only grows at the bottom is easy to scroll: stay at the end and
 The scrolling is built into `Ai.Conversation`. Give it a height, and put the messages inside.
 
 ```tsx
-import * as Ai from '@dnb/eufemia/extensions/ai'
+import {
+  Conversation,
+  Message,
+  Response,
+} from '@dnb/eufemia/extensions/ai'
 
 function Chat({
   messages,
@@ -39,21 +43,21 @@ function Chat({
   }>
 }) {
   return (
-    <Ai.Conversation style={{ height: '40rem' }}>
+    <Conversation style={{ height: '40rem' }}>
       {messages.map((message) => (
-        <Ai.Message key={message.id} id={message.id} from={message.from}>
+        <Message key={message.id} id={message.id} from={message.from}>
           {message.from === 'user' ? (
             message.text
           ) : (
-            <Ai.Response
+            <Response
               parseIncompleteMarkdown={message.isStreaming ?? false}
             >
               {message.text}
-            </Ai.Response>
+            </Response>
           )}
-        </Ai.Message>
+        </Message>
       ))}
-    </Ai.Conversation>
+    </Conversation>
   )
 }
 ```
@@ -91,7 +95,9 @@ Only the user can stop the following: by scrolling with the mouse wheel, touch, 
 Use `scrollBehavior="end"` to follow the end of the conversation from the start, like a classic chat. In the [anchoring turns](#anchoring-turns) demo above, switch to `end` to compare.
 
 ```tsx
-<Ai.Conversation scrollBehavior="end">…</Ai.Conversation>
+import { Conversation } from '@dnb/eufemia/extensions/ai'
+
+render(<Conversation scrollBehavior="end">…</Conversation>)
 ```
 
 ## Opening saved conversations
@@ -134,8 +140,10 @@ Switch between the default fade and a custom blur, and ask a few questions.
 Give the conversation an `id`, and use `Ai.useConversation(id)` to scroll it from elsewhere, like an outline or a toolbar. Inside the conversation, `Ai.useConversation()` needs no `id`.
 
 ```tsx
+import { useConversation } from '@dnb/eufemia/extensions/ai'
+
 const { scrollToMessage, scrollToStart, scrollToEnd } =
-  Ai.useConversation('my-chat')
+  useConversation('my-chat')
 
 scrollToMessage(message.id)
 ```
@@ -147,8 +155,10 @@ scrollToMessage(message.id)
 `Ai.useConversationVisibility(id)` tells which messages are visible, and which turn the user is reading. Use it to show the current question in an outline, or to mark messages as read.
 
 ```tsx
+import { useConversationVisibility } from '@dnb/eufemia/extensions/ai'
+
 const { currentTurnId, visibleMessageIds } =
-  Ai.useConversationVisibility('my-chat')
+  useConversationVisibility('my-chat')
 ```
 
 `currentTurnId` is the id of the message from the user that starts the turn being read. It stays set when that message is scrolled above the view, while the user reads the reply. Give each message a unique DOM `id` to track it. Use the same id when calling `scrollToMessage`. The messages are only tracked while the hook is used.
@@ -162,7 +172,9 @@ Scroll the conversation, and see how the current question is marked.
 `Ai.useConversationScrollState(id)` tells whether the conversation is scrolled to the start or the end. Use it to show or disable controls, like buttons to go to the start or the end.
 
 ```tsx
-const { isAtStart, isAtEnd } = Ai.useConversationScrollState('my-chat')
+import { useConversationScrollState } from '@dnb/eufemia/extensions/ai'
+
+const { isAtStart, isAtEnd } = useConversationScrollState('my-chat')
 ```
 
 <Examples.AiScrollerScrollState />
