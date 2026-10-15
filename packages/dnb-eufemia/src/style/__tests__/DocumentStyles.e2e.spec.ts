@@ -402,6 +402,37 @@ test.describe('Document and print styles', () => {
     })
   }
 
+  test('separates the import table and keeps code examples close to their introduction', async () => {
+    await page.goto('/uilib/usage/customisation/styling/document-styles/')
+    await expect(
+      page.getByText(/^SCSS imports are also available/)
+    ).toBeVisible()
+    await page.evaluate(() => document.fonts.ready)
+    const gaps = await page
+      .locator('#tab-bar-content')
+      .evaluate((root) => {
+        const paragraphs = Array.from(root.querySelectorAll('p'))
+        const scss = paragraphs.find((element) =>
+          element.textContent.startsWith('SCSS imports')
+        )
+        const table = root.querySelector('.dnb-table__scroll-view')
+        const intro = paragraphs.find((element) =>
+          element.textContent.startsWith('Import dnb-ui-print')
+        )
+        const code = intro.nextElementSibling.querySelector('pre')
+        return {
+          afterTable:
+            scss.getBoundingClientRect().top -
+            table.getBoundingClientRect().bottom,
+          beforeCode:
+            code.getBoundingClientRect().top -
+            intro.getBoundingClientRect().bottom,
+        }
+      })
+    expect.soft(gaps.afterTable).toBeGreaterThanOrEqual(32)
+    expect.soft(gaps.beforeCode).toBeLessThanOrEqual(24)
+  })
+
   test('uses Eufemia preview controls and leaves space above the title', async () => {
     await page.goto(
       '/uilib/usage/customisation/styling/document-styles/preview/'
@@ -431,6 +462,8 @@ test.describe('Document and print styles', () => {
     await expect(
       page.locator('#letter .dnb-document__signature')
     ).toContainText('Sbanken')
+    await expect(page.getByRole('listbox', { name: 'Brand' })).toBeHidden()
+    await expect(dropdown).toBeFocused()
     await dropdown.press('Space')
     await expect(
       page.getByRole('listbox', { name: 'Brand' })
@@ -439,11 +472,18 @@ test.describe('Document and print styles', () => {
       'data-dnb-drawer-list-active',
       await dropdown.getAttribute('id')
     )
-    await dropdown.press('ArrowDown')
-    await expect(
-      page.getByRole('option', { name: 'DNB Carnegie', exact: true })
-    ).toBeFocused()
-    await dropdown.press('Enter')
+    const selectedOption = page.getByRole('option', {
+      name: 'Sbanken',
+      exact: true,
+    })
+    await expect(selectedOption).toBeFocused()
+    await selectedOption.press('ArrowDown')
+    const nextOption = page.getByRole('option', {
+      name: 'DNB Carnegie',
+      exact: true,
+    })
+    await expect(nextOption).toBeFocused()
+    await nextOption.press('Enter')
     await expect(
       page.locator('#letter .dnb-document__signature')
     ).toContainText('DNB Carnegie')

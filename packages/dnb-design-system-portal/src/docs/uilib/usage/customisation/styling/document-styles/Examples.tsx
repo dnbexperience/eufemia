@@ -129,6 +129,7 @@ export function DocumentPreview() {
     <div className={styles.preview} data-document-preview>
       <div className={`dnb-print-hidden ${styles.controls}`}>
         <H1>Document style preview</H1>
+        <P>Beta: These styles are subject to change.</P>
         <P>
           This page previews typography, spacing, branding and print
           behavior. The fictional content and letter layout are
