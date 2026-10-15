@@ -5,7 +5,7 @@ import Avatar from '../../components/Avatar'
 import Button from '../../components/Button'
 import { useSpacing } from '../../components/space/SpacingUtils'
 import { aino, undo } from '../../icons'
-import AiShimmer from './AiShimmer'
+import AiActivityText from './AiActivityText'
 import useTranslation from './hooks/useTranslation'
 import type { AiAgentActionProps } from './types'
 
@@ -170,9 +170,12 @@ function ActionLabel({ children }: Pick<AiAgentActionProps, 'children'>) {
   return (
     <span className="dnb-ai-agent-action__text">
       <span>{children}</span>
-      <AiShimmer className="dnb-ai-agent-action__activity" aria-hidden>
+      <AiActivityText
+        className="dnb-ai-agent-action__activity"
+        aria-hidden
+      >
         {children}
-      </AiShimmer>
+      </AiActivityText>
     </span>
   )
 }
