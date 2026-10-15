@@ -24,6 +24,7 @@ import { format } from 'date-fns'
 import type { SpacingProps } from '../../shared/types'
 import { clsx } from 'clsx'
 import { useSpacing } from '../space/SpacingUtils'
+import useCanUseDOM from '../../shared/helpers/useCanUseDOM'
 import type { SkeletonShow } from '../Skeleton'
 import Tooltip from '../Tooltip'
 import {
@@ -82,6 +83,14 @@ function DateFormat(props: DateFormatProps) {
 
   const locale = localeProp || context.locale
   const ref = useRef<HTMLTimeElement>(undefined)
+
+  // The server cannot know the time and time zone of the browser, so keep the
+  // server text while hydrating and let React replace it right after
+  const canUseDOM = useCanUseDOM()
+  const isHydrating = !canUseDOM && typeof document !== 'undefined'
+  const hydrationProps = isHydrating
+    ? { suppressHydrationWarning: true, dateTime: undefined }
+    : undefined
 
   const date = useMemo(() => {
     // Always call getDate to maintain expected console.log behavior
@@ -312,10 +321,20 @@ function DateFormat(props: DateFormatProps) {
         <time
           {...attributes}
           dateTime={originalDurationString}
-          aria-label={hasAriaLabel ? durationFormattedFull : undefined}
+          aria-label={
+            hasAriaLabel && !isHydrating
+              ? durationFormattedFull
+              : undefined
+          }
+          suppressHydrationWarning={isHydrating || undefined}
           ref={showTooltip ? ref : undefined}
         >
-          <span aria-hidden={hasAriaLabel}>{durationFormatted}</span>
+          <span
+            aria-hidden={hasAriaLabel}
+            suppressHydrationWarning={isHydrating || undefined}
+          >
+            {isHydrating ? '' : durationFormatted}
+          </span>
         </time>
         {showTooltip && (
           <Tooltip
@@ -356,9 +375,10 @@ function DateFormat(props: DateFormatProps) {
         <time
           dateTime={getAbsoluteDateTime('yyyy-MM-dd HH:mm:ss')}
           {...attributes}
+          {...hydrationProps}
           ref={ref}
         >
-          {label}
+          {isHydrating ? '' : label}
         </time>
         <Tooltip
           targetElement={ref}
@@ -378,9 +398,10 @@ function DateFormat(props: DateFormatProps) {
       <time
         dateTime={getAbsoluteDateTime()}
         {...attributes}
+        {...hydrationProps}
         ref={showTooltip ? ref : undefined}
       >
-        {displayedContent}
+        {isHydrating ? '' : displayedContent}
       </time>
       {showTooltip && (
         <Tooltip
