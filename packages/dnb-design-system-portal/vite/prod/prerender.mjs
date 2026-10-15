@@ -24,6 +24,10 @@ import { fileURLToPath } from 'node:url'
 import { Worker } from 'node:worker_threads'
 import { collectMarkdownPaths, getMdPath } from './md-paths.mts'
 import { escapeHtml } from './html-escape.mts'
+import {
+  createCanonicalUrls,
+  createPortalSitemap,
+} from './portal-sitemap.mts'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const viteRoot = path.resolve(__dirname, '..')
@@ -136,6 +140,7 @@ async function prerender() {
 
   let rendered = 0
   let errors = 0
+  const renderedUrls = []
 
   // Render pages in parallel using worker threads.
   // renderToString is synchronous/CPU-bound, so worker threads
@@ -180,6 +185,7 @@ async function prerender() {
         themeCssPaths
       )
       writeHtml(url, html)
+      renderedUrls.push(url)
     }
 
     rendered++
@@ -224,6 +230,16 @@ async function prerender() {
   fs.cpSync(fontsSource, fontsDest, { recursive: true })
   console.log(`\n✓ Copied fonts to ${fontsDest}`)
 
+  if (process.env.IS_E2E !== '1' && process.env.IS_VISUAL_TEST !== '1') {
+    const canonicalUrls = createCanonicalUrls(allMdxNodes)
+    const sitemap = createPortalSitemap(renderedUrls, canonicalUrls)
+
+    writeJson(path.resolve(outDir, 'sitemap.json'), sitemap)
+    console.log(
+      `✓ Generated sitemap for ${sitemap.pages.length} canonical pages`
+    )
+  }
+
   /**
    * Write HTML to the correct path in the output directory.
    */
@@ -232,6 +248,10 @@ async function prerender() {
     const dir = path.dirname(filePath)
     fs.mkdirSync(dir, { recursive: true })
     fs.writeFileSync(filePath, html)
+  }
+
+  function writeJson(filePath, value) {
+    fs.writeFileSync(filePath, `${JSON.stringify(value, null, 2)}\n`)
   }
 }
 
