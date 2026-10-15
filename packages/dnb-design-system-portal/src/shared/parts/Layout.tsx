@@ -112,7 +112,7 @@ function Layout(props: LayoutProps) {
           }
 
           if (scrollTarget) {
-            window.scrollTo({ top: scrollTarget })
+            window.scrollTo({ top: scrollTarget, behavior: 'instant' })
           }
 
           restoreSidebarScroll()

@@ -288,7 +288,7 @@ function LiveCode(props: LiveCodeProps) {
       current = parent
     }
 
-    window.scrollTo({ top: 0 })
+    window.scrollTo({ top: 0, behavior: 'instant' })
 
     // Remove the preload style now that sibling hiding has taken over
     document.getElementById('portal-preload-style')?.remove()
@@ -334,7 +334,7 @@ function LiveCode(props: LiveCodeProps) {
             // ignore
           }
 
-          window.scrollTo({ top: 0 })
+          window.scrollTo({ top: 0, behavior: 'instant' })
         }
 
         setFocusModeCodeId(isInFocusMode ? null : focusModeId)
