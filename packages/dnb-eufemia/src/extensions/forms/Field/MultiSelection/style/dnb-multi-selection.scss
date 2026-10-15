@@ -133,7 +133,7 @@
 
     &--parent:not(&--selected) {
       --item-background-color: var(
-        --token-color-background-neutral-alternative
+        --token-color-background-neutral-subtle
       );
     }
 
