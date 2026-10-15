@@ -129,16 +129,6 @@ async function main() {
 }
 
 async function readJson(location) {
-  if (location.startsWith('http://') || location.startsWith('https://')) {
-    const response = await fetch(location)
-    if (!response.ok) {
-      throw new Error(
-        `${location}: ${response.status} ${response.statusText}`
-      )
-    }
-    return response.json()
-  }
-
   return JSON.parse(await fs.readFile(location, 'utf8'))
 }
 
