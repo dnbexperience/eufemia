@@ -95,7 +95,6 @@ export const FlexContainerProperties: PropertiesTableProps = {
   ref: {
     doc: 'Provide a React.Ref to access the inner HTML element.',
     type: 'React.RefObject',
-    defaultValue: 'undefined',
     status: 'optional',
   },
   wrapChildrenInSpace: {

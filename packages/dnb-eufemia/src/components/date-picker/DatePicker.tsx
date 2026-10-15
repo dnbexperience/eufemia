@@ -119,7 +119,7 @@ export type DatePickerProps = {
    */
   startMonth?: DatePickerDateType
   /**
-   * To display what month should be shown in the second calendar by default. Defaults to the `date` respective `startDate`.
+   * To display what month should be shown in the second calendar by default. Defaults to the month after `startMonth`. When `startMonth` is not set, the month of `endDate` is used if it differs from the first calendar.
    */
   endMonth?: DatePickerDateType
   /**

@@ -29,7 +29,7 @@ export const DatePickerProperties: PropertiesTableProps = {
     status: 'optional',
   },
   endMonth: {
-    doc: 'To display what month should be shown in the second calendar by default. Defaults to the `date` respective `startDate`.',
+    doc: 'To display what month should be shown in the second calendar by default. Defaults to the month after `startMonth`. When `startMonth` is not set, the month of `endDate` is used if it differs from the first calendar.',
     type: dateType,
     status: 'optional',
   },

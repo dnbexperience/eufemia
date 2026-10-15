@@ -17,21 +17,7 @@ import { SectionProperties } from '@dnb/eufemia/src/components/section/SectionDo
 | `error`       | Indicates an erroneous state.                                                                    |
 | `warning`     | Draws attention to a potential problem that may or may not require an action on the user's part. |
 | `success`     | Indicates a successful state.                                                                    |
+| `divider`     | Neutral background with a border line on top and bottom.                                         |
+| `transparent` | Transparent background. Used when a Section is needed, but without a background color.           |
 
-## Styles
-
-You can easily [customize the color](/uilib/components/section).
-
-| Style               | Description                                                                                         |
-| ------------------- | --------------------------------------------------------------------------------------------------- |
-| `white`             | uses `--color-white`.                                                                               |
-| `divider`           | uses `--color-white` as background with a border-line on top and bottom.                            |
-| `transparent`       | CSS transparent. Used in situations where a Section is of interest, but without a color as a basis. |
-| ~~`mint-green-12`~~ | _(default)_ uses `--color-mint-green-12`.                                                           |
-| ~~`mint-green`~~    | uses `--color-mint-green`.                                                                          |
-| ~~`lavender`~~      | uses `--color-lavender`.                                                                            |
-| ~~`sand-yellow`~~   | uses `--color-sand-yellow`.                                                                         |
-| ~~`pistachio`~~     | uses `--color-pistachio`.                                                                           |
-| ~~`black-3`~~       | uses `--color-black-3`.                                                                             |
-| ~~`emerald-green`~~ | uses `--color-emerald-green`.                                                                       |
-| ~~`fire-red`~~      | uses `--color-fire-red`. Is used by [GlobalStatus](/uilib/components/global-status)                 |
+To use another color, set `backgroundColor` (and `textColor`) instead of a `variant`.

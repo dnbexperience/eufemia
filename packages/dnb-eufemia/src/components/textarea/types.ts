@@ -133,7 +133,7 @@ export type TextareaProps = Omit<
      */
     hideResizeHandle?: boolean
     /**
-     * Use a number to define the displayed max length. You can also use an object defining the [TextCounter](uilib/components/fragments/text-counter/) `variant` or properties. Please avoid using `maxLength` for accessibility reasons.
+     * Use a number to define the displayed max length. You can also use an object defining the [TextCounter](/uilib/components/fragments/text-counter/) `variant` or properties. Please avoid using `maxLength` for accessibility reasons.
      */
     characterCounter?: Omit<TextCounterProps, 'text'> | number
     /**
