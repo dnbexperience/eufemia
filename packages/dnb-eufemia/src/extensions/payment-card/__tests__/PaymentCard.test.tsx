@@ -203,14 +203,15 @@ describe('PaymentCard', () => {
       </>
     )
 
-    const ids = Array.from(document.querySelectorAll('clipPath')).map(
-      (clipPath) => clipPath.id
+    const logos = Array.from(
+      document.querySelectorAll('.dnb-payment-card__card__bank-logo')
     )
-    const references = Array.from(
-      document.querySelectorAll('g[clip-path]')
-    ).map((group) => group.getAttribute('clip-path'))
+    const ids = logos.map((logo) => logo.querySelector('clipPath').id)
+    const references = logos.map((logo) =>
+      logo.querySelector('g[clip-path]').getAttribute('clip-path')
+    )
 
-    expect(ids).toHaveLength(2)
+    expect(logos).toHaveLength(2)
     expect(new Set(ids).size).toBe(2)
     expect(references).toEqual(ids.map((id) => `url(#${id})`))
   })
