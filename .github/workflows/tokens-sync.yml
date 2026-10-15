@@ -146,7 +146,7 @@ jobs:
           PR_URL: ${{ steps.new-pr.outputs.url || steps.existing-pr.outputs.url }}
         run: gh pr comment "$PR_URL" --body-file "$RUNNER_TEMP/figma-skipped.md"
 
-      # Step 2: verify that the exports the themes are generated from are there
+      # Step 2: verify that the exports the themes need are there and can be generated
       - name: Verify the Figma exports
         run: yarn workspace @dnb/eufemia figma:tokens:verify
 
@@ -329,3 +329,8 @@ jobs:
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
         run: |
           gh pr comment "$PR_URL" --body "The design token sync failed after fetching from Figma, so the generated CSS and snapshots may not match the Figma exports in this pull request. See the [workflow run]($RUN_URL) for the reason, then run the workflow again."
+          # The exports and the generated CSS no longer match, so it must not be merged as is
+          is_draft=$(gh pr view "$PR_URL" --json isDraft --jq '.isDraft')
+          if [ "$is_draft" != true ]; then
+            gh pr ready "$PR_URL" --undo
+          fi
