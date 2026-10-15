@@ -7,10 +7,7 @@ const PORTAL_ORIGIN = 'https://eufemia.dnb.no'
 const DOCS_SOURCE_PATH =
   /^packages\/dnb-design-system-portal\/src\/docs\/[\w/.-]+\.(mdx|tsx)$/
 
-/**
- * Reads the page and source from the query, ignoring a page outside the portal
- * and a source that is not a portal docs file.
- */
+/** Ignores a page outside the portal and a source that is not a portal docs file. */
 export function parseSuggestEditQuery(search: string) {
   const params = new URLSearchParams(search)
 
