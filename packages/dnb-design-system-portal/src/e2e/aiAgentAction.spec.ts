@@ -73,8 +73,7 @@ test.describe('Ai.AgentAction', () => {
 
   for (const forcedColors of ['none', 'active'] as const) {
     test(
-      'shows a distinct progress boundary with forced colors ' +
-        forcedColors,
+      'shows a progress boundary only with forced colors ' + forcedColors,
       async ({ page }) => {
         await page.emulateMedia({ forcedColors })
         test.skip(
@@ -86,6 +85,17 @@ test.describe('Ai.AgentAction', () => {
         )
         await page.goto('/uilib/extensions/ai/AgentAction/demos/')
         await waitForApp(page)
+        if (forcedColors === 'none') {
+          for (const fill of await page
+            .locator('.dnb-ai-agent-action__fill')
+            .all()) {
+            await expect(fill).toHaveCSS('border-top-width', '0px')
+          }
+          await expect(
+            page.locator('.dnb-ai-agent-action__target').first()
+          ).toHaveCSS('border-top-width', '1px')
+          return
+        }
         const fill = page.locator('.dnb-ai-agent-action__fill').first()
         const colors = await fill.evaluate((el) => {
           const style = getComputedStyle(el)
