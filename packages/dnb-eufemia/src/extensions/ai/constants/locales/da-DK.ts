@@ -4,6 +4,11 @@ export default {
   'da-DK': {
     Ai: {
       undo: 'Fortryd',
+      undoAvailable: '%action er tilgængelig.',
+      undoAvailableFor: '%action er tilgængelig i %seconds sekunder.',
+      undoAvailableForOneSecond: '%action er tilgængelig i 1 sekund.',
+      undoUnavailable: '%action er ikke længere tilgængelig.',
+      undoAvailableUntil: '%action er tilgængelig indtil %time.',
       undoTimeLeft: 'Tid tilbage til at fortryde',
       copyCode: 'Kopiér kode',
       codeCopied: 'Kopieret',

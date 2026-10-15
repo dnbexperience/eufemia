@@ -34,6 +34,16 @@
     outline-offset: 0.25rem;
   }
 
+  &__label > &__text,
+  &__target {
+    animation: dnb-ai-agent-action-result 300ms ease-out;
+  }
+
+  &__text + &__target {
+    animation-delay: 150ms;
+    animation-fill-mode: backwards;
+  }
+
   &__label {
     display: flex;
     align-items: center;
@@ -73,6 +83,8 @@
 
     min-width: min(2.3125rem, 100%);
     max-width: 100%;
+
+    overflow: hidden;
 
     background-color: color-mix(
       in srgb,
@@ -126,11 +138,20 @@
   }
 
   &--done &__result {
-    animation: dnb-ai-agent-action-complete 300ms ease-out;
+    animation: dnb-ai-agent-action-result 300ms ease-out;
   }
 
   &--error &__result {
+    display: inline-flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+
     color: var(--token-color-text-error);
+  }
+
+  &__error-icon {
+    flex-shrink: 0;
+    margin-top: 0.25rem;
   }
 
   &__undo {
@@ -145,7 +166,11 @@
     border: 0.0625rem solid var(--token-color-stroke-neutral-subtle);
     border-radius: var(--token-radius-full);
 
-    animation: dnb-ai-agent-action-complete 200ms ease-out;
+    animation: dnb-ai-agent-action-result 300ms ease-out 150ms backwards;
+
+    &:focus-within {
+      animation: none;
+    }
   }
 
   &__countdown {
@@ -183,6 +208,8 @@
       animation: none;
     }
 
+    &__label > &__text,
+    &__target,
     &__result,
     &__undo {
       animation: none;
@@ -342,14 +369,14 @@
   }
 }
 
-@keyframes dnb-ai-agent-action-complete {
+@keyframes dnb-ai-agent-action-result {
   from {
     opacity: 0;
-    transform: translateY(0.25rem);
+    transform: translateX(-0.5rem);
   }
 
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateX(0);
   }
 }

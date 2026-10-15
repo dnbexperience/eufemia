@@ -500,6 +500,12 @@ export const AiAgentActionProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  announce: {
+    doc: 'Announce status, text, and Undo availability changes. Set to false for historical actions or when the application owns announcements.',
+    type: 'boolean',
+    defaultValue: 'true',
+    status: 'optional',
+  },
   '[Space](/uilib/layout/space/properties)':
     AiMessageProperties['[Space](/uilib/layout/space/properties)'],
 }

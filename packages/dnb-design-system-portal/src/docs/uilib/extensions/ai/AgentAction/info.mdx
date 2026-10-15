@@ -33,8 +33,14 @@ For a time-limited reversal, pass `undoUntil` as an absolute Unix timestamp in m
 
 ### Accessibility and motion
 
-The running label keeps its normal text color. The progress fill inside the pill indicates activity.
+The component announces status and text changes through Eufemia AriaLive, including changes to `children` while the status stays the same. Announcements are polite and atomic, with a one-second debounce. Keep the component mounted and update its props. Use short, complete status messages rather than streaming text into the action label.
 
-Progress has an accessible name and a percentage when known. In forced-colors mode, its fill has a contrasting boundary using the system text color. State and text changes are announced through Eufemia AriaLive; the countdown does not announce every second. The Undo control uses Eufemia Button and returns focus to the action status if it becomes disabled or expires while focused. It preserves focus elsewhere. Reduced motion disables the animation while preserving the state and percentage.
+When Undo becomes available, the announcement includes the button label and any remaining time limit. The button description gives a stable, localized expiry time. Expiry is announced once; countdown ticks and progress updates do not trigger live announcements. A progressbar exposes its name and percentage when known, or an indeterminate state when progress is unknown.
+
+Set `announce={false}` for historical actions or when your application owns announcements. This silences initial and subsequent announcements while preserving the content, progress semantics, and button description. Avoid wrapping AgentAction in another live region while its own announcements are enabled.
+
+The Undo control uses Eufemia Button and returns focus to the action status if it becomes disabled or expires while focused. It preserves focus elsewhere. In forced-colors mode, the fill has a boundary using the system text color. Reduced motion disables the animation while preserving the state and percentage. The running text keeps its normal color.
+
+Your application supplies meaningful, translated action and result text, changes the status when execution or reversal finishes, and presents any errors. It also owns confirmation, authorization, and enforcement of the Undo deadline. Assess whether a time limit is appropriate and provide a longer window or another reversal mechanism when needed. The component does not announce changes to other content elsewhere in your application.
 
 The `agentAvatar` identifies the agent to the left of the action row. It defaults to Aino; set `agentAvatar={false}` to hide it. The `targetVisual` appears beside the target text inside the progress pill and accepts an Avatar, icon, or image. A small [Avatar](/uilib/components/avatar/) with `hasLabel` works in either position. Both visuals are decorative; use the text to identify the action and result.

@@ -1,10 +1,21 @@
-import { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import {
+  useContext,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from 'react'
 import { clsx } from 'clsx'
 import AriaLive from '../../components/AriaLive'
 import Avatar from '../../components/Avatar'
 import Button from '../../components/Button'
+import Icon from '../../components/Icon'
+import { ErrorIcon } from '../../components/form-status/FormStatus'
 import { useSpacing } from '../../components/space/SpacingUtils'
 import { aino, undo } from '../../icons'
+import useId from '../../shared/helpers/useId'
+import Context from '../../shared/Context'
+import { formatDate } from '../../components/date-format/DateFormatUtils'
 import useTranslation from './hooks/useTranslation'
 import type { AiAgentActionProps } from './types'
 
@@ -27,26 +38,111 @@ function AiAgentAction(props: AiAgentActionProps) {
     undoUntil,
     undoLabel,
     undoDisabled,
+    announce = true,
     className,
     ...rest
   } = props
   const translation = useTranslation().Ai
+  const { locale } = useContext(Context)
   const statusRef = useRef<HTMLDivElement>(null)
   const undoRef = useRef<HTMLButtonElement>(null)
   const undoHasFocusRef = useRef(false)
+  const undoDescriptionId = useId() + '-undo-description'
+  const [undoMessage, setUndoMessage] = useState({
+    announcement: '',
+    description: '',
+  })
+  const wasUndoAvailableRef = useRef(false)
   const running = status === 'running'
-  const remaining = useUndoCountdown(
-    status === 'done' && !!onUndo,
-    undoUntil
+  const canUndo = status === 'done' && !!onUndo
+  const remaining = useUndoCountdown(canUndo, undoUntil)
+  const showUndo = canUndo && remaining !== 0
+  const undoText = undoLabel ?? translation.undo
+  const undoAvailable = translation.undoAvailable.replace(
+    '%action',
+    undoText
   )
-  const showUndo = status === 'done' && !!onUndo && remaining !== 0
+  const undoAvailableFor = translation.undoAvailableFor.replace(
+    '%action',
+    undoText
+  )
+  const undoAvailableForOneSecond =
+    translation.undoAvailableForOneSecond.replace('%action', undoText)
+  const undoUnavailable = translation.undoUnavailable.replace(
+    '%action',
+    undoText
+  )
+  const undoAvailableUntil = translation.undoAvailableUntil.replace(
+    '%action',
+    undoText
+  )
+
+  useEffect(() => {
+    if (!canUndo || undoDisabled) {
+      setUndoMessage({ announcement: '', description: '' })
+      wasUndoAvailableRef.current = false
+      return
+    }
+    if (!showUndo) {
+      setUndoMessage({
+        announcement: wasUndoAvailableRef.current ? undoUnavailable : '',
+        description: '',
+      })
+      wasUndoAvailableRef.current = false
+      return
+    }
+    const seconds =
+      undoUntil === undefined
+        ? undefined
+        : Math.max(0, Math.ceil((undoUntil - Date.now()) / 1000))
+    if (seconds === 0) {
+      setUndoMessage({ announcement: '', description: '' })
+      wasUndoAvailableRef.current = false
+      return
+    }
+    wasUndoAvailableRef.current = true
+    setUndoMessage({
+      announcement:
+        seconds === undefined
+          ? undoAvailable
+          : seconds === 1
+            ? undoAvailableForOneSecond
+            : undoAvailableFor.replace('%seconds', String(seconds)),
+      description:
+        undoUntil === undefined
+          ? undoAvailable
+          : undoAvailableUntil.replace(
+              '%time',
+              formatDate(new Date(undoUntil), {
+                locale,
+                options: { timeStyle: 'medium' },
+              })
+            ),
+    })
+  }, [
+    canUndo,
+    undoDisabled,
+    showUndo,
+    undoUntil,
+    undoAvailable,
+    undoAvailableFor,
+    undoAvailableForOneSecond,
+    undoUnavailable,
+    undoAvailableUntil,
+    locale,
+    children,
+    announce,
+  ])
   const value = Number.isFinite(progress)
     ? Math.min(100, Math.max(0, progress))
     : undefined
   const announcement =
     translation[statusTranslations[status]] +
     ': ' +
-    [running && actionLabel, children].filter(Boolean).join(' ')
+    [running && actionLabel, children].filter(Boolean).join(' ') +
+    (canUndo && !undoDisabled && undoMessage.announcement
+      ? (/[.!?…]$/.test(children) ? ' ' : '. ') + undoMessage.announcement
+      : '')
 
   useLayoutEffect(() => {
     const active = document.activeElement
@@ -146,11 +242,25 @@ function AiAgentAction(props: AiAgentActionProps) {
               </span>
             </div>
           ) : (
-            <span className="dnb-ai-agent-action__result">{children}</span>
+            <span className="dnb-ai-agent-action__result">
+              {status === 'error' && (
+                <Icon
+                  className="dnb-ai-agent-action__error-icon"
+                  icon={<ErrorIcon title={null} />}
+                  size={16}
+                  inheritColor={false}
+                  aria-hidden
+                />
+              )}
+              {status === 'error' ? <span>{children}</span> : children}
+            </span>
           )}
         </div>
         {showUndo && (
           <span className="dnb-ai-agent-action__undo">
+            <span id={undoDescriptionId} className="dnb-sr-only">
+              {undoMessage.description}
+            </span>
             {remaining !== undefined && (
               <span
                 className="dnb-ai-agent-action__countdown"
@@ -169,6 +279,7 @@ function AiAgentAction(props: AiAgentActionProps) {
               iconPosition="left"
               className="dnb-ai-agent-action__undo-button"
               disabled={undoDisabled}
+              aria-describedby={undoDescriptionId}
               onFocus={() => {
                 undoHasFocusRef.current = true
               }}
@@ -184,21 +295,24 @@ function AiAgentAction(props: AiAgentActionProps) {
                 }
               }}
             >
-              {undoLabel ?? translation.undo}
+              {undoText}
             </Button>
           </span>
         )}
       </div>
-      <AriaLive>{announcement}</AriaLive>
+      <AriaLive disabled={!announce}>{announcement}</AriaLive>
     </div>
   )
 }
 
 function useUndoCountdown(active: boolean, deadline?: number) {
   const [now, setNow] = useState<number>()
+  const validDeadline =
+    Number.isFinite(deadline) &&
+    Number.isFinite(new Date(deadline).getTime())
 
   useEffect(() => {
-    if (!active || !Number.isFinite(deadline)) {
+    if (!active || !validDeadline) {
       return undefined
     }
 
@@ -212,13 +326,13 @@ function useUndoCountdown(active: boolean, deadline?: number) {
     }
     update()
     return () => clearTimeout(timeout)
-  }, [active, deadline])
+  }, [active, deadline, validDeadline])
 
   if (deadline === undefined) {
     return undefined
   }
 
-  if (!Number.isFinite(deadline)) {
+  if (!validDeadline) {
     return 0
   }
 

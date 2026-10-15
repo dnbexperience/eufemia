@@ -11,9 +11,14 @@ import { AiAgentActionProperties } from '@dnb/eufemia/src/extensions/ai/AiDocs'
 
 ## Translations
 
-| Key            | nb-NO                 | en-GB / en-US     | sv-SE              | da-DK                       |
-| -------------- | --------------------- | ----------------- | ------------------ | --------------------------- |
-| `undo`         | Angre                 | Undo              | Ångra              | Fortryd                     |
-| `undoTimeLeft` | Tid igjen til å angre | Time left to undo | Tid kvar att ångra | Tid tilbage til at fortryde |
+| Key                         | Purpose                                                                                            |
+| --------------------------- | -------------------------------------------------------------------------------------------------- |
+| `undo`                      | Undo button label.                                                                                 |
+| `undoTimeLeft`              | Label for the quiet countdown.                                                                     |
+| `undoAvailable`             | Announces availability. `%action` is the button label.                                             |
+| `undoAvailableFor`          | Announces a time limit. `%action` is the button label and `%seconds` is the remaining time.        |
+| `undoAvailableForOneSecond` | Singular form of the time-limit announcement.                                                      |
+| `undoAvailableUntil`        | Stable button description. `%action` is the button label and `%time` is the localized expiry time. |
+| `undoUnavailable`           | Announces expiry. `%action` is the button label.                                                   |
 
 Status announcements reuse the [Ai.Tool translations](/uilib/extensions/ai/Tool/properties/#translations). Application-specific action and result text must be translated by the application. See [AI translations](/uilib/extensions/ai/translations/).

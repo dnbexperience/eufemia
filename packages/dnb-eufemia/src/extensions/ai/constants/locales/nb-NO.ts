@@ -2,6 +2,11 @@ export default {
   'nb-NO': {
     Ai: {
       undo: 'Angre',
+      undoAvailable: '%action er tilgjengelig.',
+      undoAvailableFor: '%action er tilgjengelig i %seconds sekunder.',
+      undoAvailableForOneSecond: '%action er tilgjengelig i 1 sekund.',
+      undoUnavailable: '%action er ikke lenger tilgjengelig.',
+      undoAvailableUntil: '%action er tilgjengelig frem til %time.',
       undoTimeLeft: 'Tid igjen til å angre',
       copyCode: 'Kopier kode',
       codeCopied: 'Kopiert',

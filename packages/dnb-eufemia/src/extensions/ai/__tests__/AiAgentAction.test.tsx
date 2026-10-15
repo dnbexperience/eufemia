@@ -85,6 +85,26 @@ describe('Ai.AgentAction', () => {
     }
   )
 
+  it('shows a decorative ErrorIcon beside the error text', () => {
+    render(<AgentAction status="error">Payment result</AgentAction>)
+    const icon = document.querySelector('.dnb-ai-agent-action__error-icon')
+    expect(icon).toHaveAttribute('aria-hidden', 'true')
+    expect(icon.querySelector('svg')).toBeInTheDocument()
+    expect(
+      document.querySelector('.dnb-ai-agent-action__result')
+    ).toHaveTextContent('Payment result')
+  })
+
+  it.each(['done', 'canceled'] as const)(
+    'does not show an ErrorIcon for %s',
+    (status) => {
+      render(<AgentAction status={status}>Payment result</AgentAction>)
+      expect(
+        document.querySelector('.dnb-ai-agent-action__error-icon')
+      ).toBeNull()
+    }
+  )
+
   it('supports a custom or omitted agent avatar and target visual', () => {
     const { rerender } = render(
       <AgentAction
@@ -295,6 +315,207 @@ describe('Ai.AgentAction', () => {
     })
     afterEach(() => vi.useRealTimers())
 
+    it('announces Undo availability and its deadline once and describes the button', () => {
+      render(
+        <Provider locale="en-GB">
+          <AgentAction status="done" onUndo={vi.fn()} undoUntil={120000}>
+            Paid
+          </AgentAction>
+        </Provider>
+      )
+      act(() => vi.advanceTimersByTime(1))
+      expect(document.querySelector('.dnb-aria-live')).toHaveTextContent(
+        'Completed: Paid. Undo available for 20 seconds.'
+      )
+      expect(undoButton()).toHaveAccessibleDescription(
+        /^Undo available until /
+      )
+      const description = document.getElementById(
+        undoButton().getAttribute('aria-describedby')
+      ).textContent
+      act(() => vi.advanceTimersByTime(2000))
+      expect(
+        document.querySelector('.dnb-aria-live')
+      ).toBeEmptyDOMElement()
+      expect(undoButton()).toHaveAccessibleDescription(description)
+      act(() => vi.advanceTimersByTime(18000))
+      act(() => vi.advanceTimersByTime(1))
+      expect(document.querySelector('.dnb-aria-live')).toHaveTextContent(
+        'Completed: Paid. Undo is no longer available.'
+      )
+    })
+
+    it('announces text changes even if the status stays the same', () => {
+      const view = (text: string) => (
+        <Provider locale="en-GB">
+          <AgentAction>{text}</AgentAction>
+        </Provider>
+      )
+      const { rerender } = render(view('Preparing payment'))
+      act(() => vi.advanceTimersByTime(1))
+      expect(document.querySelector('.dnb-aria-live')).toHaveTextContent(
+        'In progress: Preparing payment'
+      )
+      rerender(view('Sending payment'))
+      act(() => vi.advanceTimersByTime(1))
+      expect(document.querySelector('.dnb-aria-live')).toHaveTextContent(
+        'In progress: Sending payment'
+      )
+    })
+
+    it.each([
+      ['en-GB', undefined, 'Undo available for 1 second.'],
+      ['en-US', undefined, 'Undo available for 1 second.'],
+      ['nb-NO', undefined, 'Angre er tilgjengelig i 1 sekund.'],
+      ['sv-SE', svSE, 'Ångra är tillgängligt i 1 sekund.'],
+      ['da-DK', daDK, 'Fortryd er tilgængelig i 1 sekund.'],
+    ])(
+      'translates the Undo deadline in %s',
+      (locale, translations, text) => {
+        render(
+          <Provider locale={locale} translations={translations}>
+            <AgentAction status="done" onUndo={vi.fn()} undoUntil={101000}>
+              Paid.
+            </AgentAction>
+          </Provider>
+        )
+        act(() => vi.advanceTimersByTime(1))
+        expect(document.querySelector('.dnb-aria-live')).toHaveTextContent(
+          text
+        )
+        expect(
+          document.querySelector('.dnb-aria-live').textContent
+        ).not.toContain('..')
+      }
+    )
+
+    it('describes unlimited Undo with the custom button label', () => {
+      render(
+        <Provider locale="en-GB">
+          <AgentAction
+            status="done"
+            onUndo={vi.fn()}
+            undoLabel="Reverse payment"
+          >
+            Paid
+          </AgentAction>
+        </Provider>
+      )
+      act(() => vi.advanceTimersByTime(1))
+      expect(undoButton()).toHaveAccessibleDescription(
+        'Reverse payment available.'
+      )
+      expect(document.querySelector('.dnb-aria-live')).toHaveTextContent(
+        'Completed: Paid. Reverse payment available.'
+      )
+    })
+
+    it('does not announce expired or disabled Undo as available', () => {
+      const { rerender } = render(
+        <Provider locale="en-GB">
+          <AgentAction status="done" onUndo={vi.fn()} undoUntil={99999}>
+            Paid
+          </AgentAction>
+        </Provider>
+      )
+      act(() => vi.advanceTimersByTime(1))
+      expect(document.querySelector('.dnb-aria-live')).toHaveTextContent(
+        /^Completed: Paid$/
+      )
+      rerender(
+        <Provider locale="en-GB">
+          <AgentAction
+            status="done"
+            onUndo={vi.fn()}
+            undoDisabled
+            undoUntil={120000}
+          >
+            Paid
+          </AgentAction>
+        </Provider>
+      )
+      act(() => vi.advanceTimersByTime(1))
+      expect(
+        document.querySelector('.dnb-aria-live')
+      ).not.toHaveTextContent('available')
+    })
+
+    it('keeps historical actions silent while retaining progress semantics', () => {
+      const { rerender } = render(
+        <AgentAction announce={false} progress={20}>
+          Paying
+        </AgentAction>
+      )
+      act(() => vi.advanceTimersByTime(1000))
+      expect(
+        document.querySelector('.dnb-aria-live')
+      ).toBeEmptyDOMElement()
+      expect(progressbar()).toHaveAccessibleName('Paying')
+      expect(progressbar()).toHaveAttribute('aria-valuenow', '20')
+      rerender(
+        <AgentAction
+          announce={false}
+          status="done"
+          onUndo={vi.fn()}
+          undoUntil={120000}
+        >
+          Paid
+        </AgentAction>
+      )
+      act(() => vi.advanceTimersByTime(1))
+      expect(
+        document.querySelector('.dnb-aria-live')
+      ).toBeEmptyDOMElement()
+      expect(undoButton()).toHaveAccessibleName('Angre')
+      expect(root()).not.toHaveAttribute('announce')
+    })
+
+    it('updates a changed deadline without announcing each tick', () => {
+      const view = (deadline: number) => (
+        <Provider locale="en-GB">
+          <AgentAction status="done" onUndo={vi.fn()} undoUntil={deadline}>
+            Paid
+          </AgentAction>
+        </Provider>
+      )
+      const { rerender } = render(view(120000))
+      act(() => vi.advanceTimersByTime(1000))
+      rerender(view(111000))
+      act(() => vi.advanceTimersByTime(1))
+      expect(document.querySelector('.dnb-aria-live')).toHaveTextContent(
+        'Undo available for 10 seconds.'
+      )
+      act(() => vi.advanceTimersByTime(1000))
+      expect(
+        document.querySelector('.dnb-aria-live')
+      ).toBeEmptyDOMElement()
+    })
+
+    it('uses the current time when announcements are enabled after loading history', () => {
+      const view = (announce: boolean) => (
+        <Provider locale="en-GB">
+          <AgentAction
+            announce={announce}
+            status="done"
+            onUndo={vi.fn()}
+            undoUntil={120000}
+          >
+            Paid
+          </AgentAction>
+        </Provider>
+      )
+      const { rerender } = render(view(false))
+      act(() => vi.advanceTimersByTime(10000))
+      expect(
+        document.querySelector('.dnb-aria-live')
+      ).toBeEmptyDOMElement()
+      rerender(view(true))
+      act(() => vi.advanceTimersByTime(1))
+      expect(document.querySelector('.dnb-aria-live')).toHaveTextContent(
+        'Undo available for 10 seconds.'
+      )
+    })
+
     it('counts down from an absolute deadline and removes Undo when it expires', () => {
       render(
         <AgentAction status="done" onUndo={vi.fn()} undoUntil={120000}>
@@ -317,7 +538,7 @@ describe('Ai.AgentAction', () => {
       expect(root()).toHaveTextContent('Paid')
     })
 
-    it.each([99999, 100000, NaN, Infinity, -Infinity])(
+    it.each([99999, 100000, NaN, Infinity, -Infinity, 1e20])(
       'hides Undo for expired or invalid deadline %s',
       (undoUntil) => {
         render(

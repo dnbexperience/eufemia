@@ -17,6 +17,7 @@ export function States() {
         <Flex.Stack>
           <AgentAction
             actionLabel="Paying"
+            announce={false}
             progress={35}
             targetVisual={
               <Avatar size="small" src={spotifyAvatar} alt="" hasLabel />
@@ -26,6 +27,7 @@ export function States() {
           </AgentAction>
           <AgentAction
             actionLabel="Paying"
+            announce={false}
             progress={65}
             agentAvatar={
               <Avatar
@@ -41,12 +43,14 @@ export function States() {
           >
             Spotify Premium
           </AgentAction>
-          <AgentAction>Generating a graph…</AgentAction>
-          <AgentAction status="done">Spotify Premium paid.</AgentAction>
-          <AgentAction status="error">
+          <AgentAction announce={false}>Generating a graph…</AgentAction>
+          <AgentAction status="done" announce={false}>
+            Spotify Premium paid.
+          </AgentAction>
+          <AgentAction status="error" announce={false}>
             Payment failed. Please try again.
           </AgentAction>
-          <AgentAction status="canceled">
+          <AgentAction status="canceled" announce={false}>
             Graph generation canceled.
           </AgentAction>
         </Flex.Stack>
@@ -230,6 +234,23 @@ export function PendingUndo() {
         }
         return <UndoDemo />
       }}
+    </ComponentBox>
+  )
+}
+
+export function HistoricalActions() {
+  return (
+    <ComponentBox scope={scope}>
+      <Provider locale="en-GB">
+        <Flex.Stack>
+          <AgentAction status="done" announce={false}>
+            Earlier payment completed.
+          </AgentAction>
+          <AgentAction status="canceled" announce={false}>
+            Earlier graph generation canceled.
+          </AgentAction>
+        </Flex.Stack>
+      </Provider>
     </ComponentBox>
   )
 }

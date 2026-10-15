@@ -2,6 +2,233 @@ import { test, expect } from '@playwright/test'
 import waitForApp from './shared/waitForApp'
 
 test.describe('Ai.AgentAction', () => {
+  for (const reducedMotion of ['no-preference', 'reduce'] as const) {
+    test(
+      'staggers the running label and progress pill with ' + reducedMotion,
+      async ({ page }) => {
+        await page.clock.install()
+        await page.emulateMedia({ reducedMotion })
+        await page.goto(
+          '/uilib/extensions/ai/AgentAction/demos/#known-progress-and-timed-undo'
+        )
+        await waitForApp(page)
+        await page.clock.runFor(2250)
+        const replay = page.getByRole('button', {
+          name: 'Replay payment',
+          exact: true,
+        })
+        await replay.click()
+        const processing = replay
+          .locator('..')
+          .locator('.dnb-ai-agent-action__processing')
+        await expect(processing).toHaveAccessibleName(
+          'Paying Spotify Premium'
+        )
+        const label = processing.locator(
+          '.dnb-ai-agent-action__label > .dnb-ai-agent-action__text'
+        )
+        const target = processing.locator('.dnb-ai-agent-action__target')
+        if (reducedMotion === 'reduce') {
+          await expect(label).toHaveCSS('animation-name', 'none')
+          await expect(target).toHaveCSS('animation-name', 'none')
+          return
+        }
+        await expect(label).toHaveCSS('animation-duration', '0.3s')
+        await expect(label).toHaveCSS('animation-delay', '0s')
+        await expect(target).toHaveCSS('animation-duration', '0.3s')
+        await expect(target).toHaveCSS('animation-delay', '0.15s')
+        const samples = await processing.evaluate(async (element) => {
+          const label = element.querySelector(
+            '.dnb-ai-agent-action__label > .dnb-ai-agent-action__text'
+          )
+          const target = element.querySelector(
+            '.dnb-ai-agent-action__target'
+          )
+          const animations = [label, target].map(
+            (node) => node.getAnimations()[0]
+          )
+          animations.forEach((animation) => animation.pause())
+          const samples: Array<
+            Array<{ x: number; y: number; opacity: number }>
+          > = []
+          for (const time of [0, 150, 300, 450]) {
+            animations.forEach((animation) => {
+              animation.currentTime = time
+            })
+            await new Promise(requestAnimationFrame)
+            samples.push(
+              [label, target].map((node) => {
+                const style = getComputedStyle(node)
+                const matrix = new DOMMatrix(style.transform)
+                return {
+                  x: matrix.m41,
+                  y: matrix.m42,
+                  opacity: Number(style.opacity),
+                }
+              })
+            )
+          }
+          return samples
+        })
+        expect(samples[0][0].x).toBeLessThan(0)
+        expect(samples[0][0].opacity).toBe(0)
+        expect(samples[1][0].opacity).toBeGreaterThan(0)
+        expect(samples[1][1].opacity).toBe(0)
+        expect(samples[2][0]).toEqual({ x: 0, y: 0, opacity: 1 })
+        expect(samples[2][1].x).toBeLessThan(0)
+        expect(samples[2][1].opacity).toBeGreaterThan(0)
+        expect(samples[3][1]).toEqual({ x: 0, y: 0, opacity: 1 })
+        expect(
+          samples.every((frame) => frame.every(({ y }) => y === 0))
+        ).toBe(true)
+      }
+    )
+  }
+
+  test('brings the paid result and delayed Undo in from the left without vertical movement', async ({
+    page,
+  }) => {
+    await page.clock.install()
+    await page.emulateMedia({ reducedMotion: 'no-preference' })
+    await page.goto(
+      '/uilib/extensions/ai/AgentAction/demos/#known-progress-and-timed-undo'
+    )
+    await waitForApp(page)
+    await page.clock.runFor(2250)
+    const result = page
+      .getByRole('button', { name: 'Replay payment', exact: true })
+      .locator('..')
+      .locator('.dnb-ai-agent-action__result')
+    await expect(result).toHaveText('Spotify Premium paid.')
+    const frames = await result.evaluate(async (element) => {
+      const animation = element.getAnimations()[0]
+      animation.pause()
+      const frames: Array<{ x: number; y: number }> = []
+      for (const time of [
+        0,
+        Number(animation.effect.getTiming().duration),
+      ]) {
+        animation.currentTime = time
+        await new Promise(requestAnimationFrame)
+        const matrix = new DOMMatrix(getComputedStyle(element).transform)
+        frames.push({ x: matrix.m41, y: matrix.m42 })
+      }
+      return frames
+    })
+    expect(frames[0].x).toBeLessThan(0)
+    expect(frames[0].y).toBe(0)
+    expect(frames[frames.length - 1]).toEqual({ x: 0, y: 0 })
+    const undo = result
+      .locator('..')
+      .locator('..')
+      .locator('.dnb-ai-agent-action__undo')
+    await expect(undo).toHaveCSS('animation-duration', '0.3s')
+    await expect(undo).toHaveCSS('animation-delay', '0.15s')
+    const { opacity, positions } = await undo.evaluate(async (element) => {
+      const animation = element.getAnimations()[0]
+      animation.pause()
+      const opacity: number[] = []
+      const positions: Array<{ x: number; y: number }> = []
+      for (const time of [0, 150, 300, 450]) {
+        animation.currentTime = time
+        await new Promise(requestAnimationFrame)
+        opacity.push(Number(getComputedStyle(element).opacity))
+        const matrix = new DOMMatrix(getComputedStyle(element).transform)
+        positions.push({ x: matrix.m41, y: matrix.m42 })
+      }
+      return { opacity, positions }
+    })
+    expect(opacity[0]).toBe(0)
+    expect(opacity[1]).toBe(0)
+    expect(opacity[2]).toBeGreaterThan(0)
+    expect(opacity[2]).toBeLessThan(1)
+    expect(opacity[3]).toBe(1)
+    expect(positions[0].x).toBe(frames[0].x)
+    expect(positions[1].x).toBe(positions[0].x)
+    expect(positions[2].x).toBeGreaterThan(positions[1].x)
+    expect(positions[2].x).toBeLessThan(0)
+    expect(positions[3]).toEqual({ x: 0, y: 0 })
+    expect(positions.every(({ y }) => y === 0)).toBe(true)
+  })
+
+  test('announces Undo once and keeps countdown ticks quiet in the browser', async ({
+    page,
+  }) => {
+    await page.clock.install()
+    await page.goto('/uilib/extensions/ai/AgentAction/demos/#pending-undo')
+    await waitForApp(page)
+    const add = page.getByRole('button', {
+      name: 'Add Undo deadline',
+      exact: true,
+    })
+    const action = add
+      .locator('..')
+      .locator('..')
+      .locator('.dnb-ai-agent-action')
+    const undo = action.getByRole('button', { name: 'Undo', exact: true })
+    const live = action.locator('.dnb-aria-live')
+    await add.click()
+    await page.clock.fastForward(1100)
+    await expect(live).toContainText('Undo available for 20 seconds.')
+    await expect(undo).toHaveAccessibleDescription(
+      /^Undo available until /
+    )
+    const description = await action
+      .locator('.dnb-sr-only')
+      .first()
+      .textContent()
+    await page.clock.fastForward(4000)
+    await expect(live).toBeEmpty()
+    await expect(undo).toHaveAccessibleDescription(description)
+    await page.clock.fastForward(16000)
+    await page.clock.fastForward(1100)
+    await expect(live).toContainText('Undo is no longer available.')
+  })
+
+  test('keeps historical actions available without live announcements', async ({
+    page,
+  }) => {
+    await page.clock.install()
+    await page.goto(
+      '/uilib/extensions/ai/AgentAction/demos/#historical-actions'
+    )
+    await waitForApp(page)
+    await page.clock.fastForward(1100)
+    const history = page
+      .locator('.dnb-ai-agent-action')
+      .filter({ hasText: 'Earlier' })
+    await expect(history).toHaveCount(2)
+    for (const action of await history.all()) {
+      await expect(action.locator('.dnb-aria-live')).toBeEmpty()
+      await expect(
+        action.locator('.dnb-ai-agent-action__result')
+      ).toBeVisible()
+    }
+  })
+
+  for (const colorScheme of ['light', 'dark'] as const) {
+    test(
+      'keeps known progress free of a bottom line in ' + colorScheme,
+      async ({ page }) => {
+        await page.emulateMedia({ colorScheme })
+        await page.goto('/uilib/extensions/ai/AgentAction/demos/')
+        await waitForApp(page)
+        const fill = page.locator(
+          '[aria-valuenow="35"] .dnb-ai-agent-action__fill'
+        )
+        const indicator = await fill.evaluate((el) => {
+          const style = getComputedStyle(el, '::after')
+          return {
+            height: parseFloat(style.height),
+            color: style.backgroundColor,
+          }
+        })
+        expect(indicator.color).toBe('rgba(0, 0, 0, 0)')
+        await expect(fill).toHaveCSS('border-top-width', '0px')
+      }
+    )
+  }
+
   test('grows known progress from the initial pill width to the full target', async ({
     page,
   }) => {
@@ -44,6 +271,9 @@ test.describe('Ai.AgentAction', () => {
     const samples = await action
       .locator('.dnb-ai-agent-action__fill')
       .evaluate(async (fill) => {
+        for (const entrance of fill.parentElement.getAnimations()) {
+          entrance.finish()
+        }
         const animation = fill.getAnimations()[0]
         animation.pause()
         const duration = Number(animation.effect.getTiming().duration)
@@ -322,12 +552,12 @@ test.describe('Ai.AgentAction', () => {
                 const samples = new Set<string>()
                 const start = performance.now()
                 const sample = () => {
-                  const neutral = getComputedStyle(element).color
                   for (const text of Array.from(
-                    document.querySelectorAll(
+                    element.querySelectorAll(
                       '.dnb-ai-agent-action__text, .dnb-ai-agent-action__text *'
                     )
                   )) {
+                    const neutral = getComputedStyle(element).color
                     const style = getComputedStyle(text)
                     samples.add(
                       JSON.stringify({
@@ -337,7 +567,6 @@ test.describe('Ai.AgentAction', () => {
                             : style.color,
                         weight: style.fontWeight,
                         mask: style.maskImage,
-                        animation: style.animationName,
                       })
                     )
                   }
@@ -355,7 +584,6 @@ test.describe('Ai.AgentAction', () => {
               color: 'neutral',
               weight: '400',
               mask: 'none',
-              animation: 'none',
             }),
           ])
           const fill = page

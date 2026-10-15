@@ -27,3 +27,9 @@ Use indeterminate progress until the application receives a result. The controls
 Disable Undo while the application handles a reversal. Confirm the outcome before updating the result. This demo lets you simulate that response or add a deadline to an existing Undo control.
 
 <Examples.PendingUndo />
+
+### Historical actions
+
+Use `announce={false}` when rendering saved conversation history. The content stays available to screen-reader navigation without announcing each past action on mount.
+
+<Examples.HistoricalActions />

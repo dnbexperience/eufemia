@@ -279,6 +279,11 @@ export type AiAgentActionProps = {
   undoLabel?: string
   /** Disable Undo while the application handles the request. */
   undoDisabled?: boolean
+  /**
+   * Announce status, text, and Undo availability changes. Set to false for historical actions or when the application owns announcements.
+   * Default: `true`
+   */
+  announce?: boolean
   /** Called when Undo is clicked before its deadline. Receives the Button click event. Only available when `status` is `done`; the application handles the reversal and updates the display. */
   onUndo?: (event: ButtonClickEvent) => void
 } & SpacingProps &
