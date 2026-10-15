@@ -20,6 +20,8 @@ import mergeProps from '../../shared/helpers/mergeProps'
 import useCombinedRef from '../../shared/helpers/useCombinedRef'
 import Context, { type ContextProps } from '../../shared/Context'
 import useId from '../../shared/helpers/useId'
+import useCanUseDOM from '../../shared/helpers/useCanUseDOM'
+import { LOCALE } from '../../shared/defaults'
 import {
   warn,
   validateDOMAttributes,
@@ -313,8 +315,12 @@ function NumberFormatComponent(ownProps: NumberFormatAllProps) {
   if (currencyDisplay === 'code' && !usedCurrencyPosition) {
     usedCurrencyPosition = 'before'
   }
+
+  // The server cannot know the browser locale, so use the same default while hydrating
+  const canUseDOM = useCanUseDOM({ waitForHydration: locale === 'auto' })
+
   const formatOptions: NumberFormatOptionParams & { returnAria: true } = {
-    locale,
+    locale: locale === 'auto' && !canUseDOM ? LOCALE : locale,
     currency,
     currencyDisplay,
     currencyPosition: usedCurrencyPosition,
