@@ -5,7 +5,6 @@ import Avatar from '../../components/Avatar'
 import Button from '../../components/Button'
 import { useSpacing } from '../../components/space/SpacingUtils'
 import { aino, undo } from '../../icons'
-import AiActivityText from './AiActivityText'
 import useTranslation from './hooks/useTranslation'
 import type { AiAgentActionProps } from './types'
 
@@ -93,7 +92,11 @@ function AiAgentAction(props: AiAgentActionProps) {
               }
             >
               <span className="dnb-ai-agent-action__label">
-                {action && <ActionLabel>{action}</ActionLabel>}
+                {action && (
+                  <span className="dnb-ai-agent-action__text">
+                    {action}
+                  </span>
+                )}
                 <span
                   className={clsx(
                     'dnb-ai-agent-action__target',
@@ -117,7 +120,9 @@ function AiAgentAction(props: AiAgentActionProps) {
                       {icon}
                     </span>
                   )}
-                  <ActionLabel>{children}</ActionLabel>
+                  <span className="dnb-ai-agent-action__text">
+                    {children}
+                  </span>
                 </span>
               </span>
             </div>
@@ -163,20 +168,6 @@ function AiAgentAction(props: AiAgentActionProps) {
       </div>
       <AriaLive>{announcement}</AriaLive>
     </div>
-  )
-}
-
-function ActionLabel({ children }: Pick<AiAgentActionProps, 'children'>) {
-  return (
-    <span className="dnb-ai-agent-action__text">
-      <span>{children}</span>
-      <AiActivityText
-        className="dnb-ai-agent-action__activity"
-        aria-hidden
-      >
-        {children}
-      </AiActivityText>
-    </span>
   )
 }
 

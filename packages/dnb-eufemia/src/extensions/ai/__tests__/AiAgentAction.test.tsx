@@ -32,6 +32,11 @@ describe('Ai.AgentAction', () => {
     ).toBeInTheDocument()
   })
 
+  it('renders each running label once without a decorative text copy', () => {
+    render(<AgentAction action="Paying">Spotify Premium</AgentAction>)
+    expect(progressbar()).toHaveTextContent(/^PayingSpotify Premium$/)
+  })
+
   it.each([0, 37, 100, -1, 101])(
     'shows actual progress %s without completing the action',
     (progress) => {

@@ -2,17 +2,12 @@ import { test, expect } from '@playwright/test'
 import waitForApp from './shared/waitForApp'
 
 test.describe('Ai.AgentAction', () => {
-  test('uses regular action text, a narrow highlight, and medium Undo text', async ({
+  test('uses regular action text and medium Undo text', async ({
     page,
   }) => {
     await page.goto('/uilib/extensions/ai/AgentAction/demos/')
     await waitForApp(page)
     const text = page.locator('.dnb-ai-agent-action__text').first()
-    const activity = text.locator('.dnb-ai-agent-action__activity')
-    await expect(activity).toHaveCSS(
-      'mask-image',
-      'linear-gradient(90deg, rgba(0, 0, 0, 0) 40%, rgb(0, 0, 0) 50%, rgba(0, 0, 0, 0) 60%)'
-    )
     const action = page.locator('.dnb-ai-agent-action').first()
     await action.locator('..').evaluate((parent) => {
       parent.style.fontWeight = '700'
@@ -24,6 +19,84 @@ test.describe('Ai.AgentAction', () => {
     await expect(undo).toHaveCSS('font-weight', '500')
     await expect(undo).toHaveCSS('color', 'rgb(0, 123, 94)')
   })
+
+  for (const colorScheme of ['light', 'dark'] as const) {
+    for (const reducedMotion of ['no-preference', 'reduce'] as const) {
+      test(
+        'keeps running text steady in ' +
+          colorScheme +
+          ' mode with ' +
+          reducedMotion,
+        async ({ page }) => {
+          await page.emulateMedia({ colorScheme, reducedMotion })
+          await page.goto('/uilib/extensions/ai/AgentAction/demos/')
+          await waitForApp(page)
+          await page.evaluate(() => document.fonts.ready)
+
+          const action = page.locator('.dnb-ai-agent-action').first()
+          await expect(action).toHaveCSS(
+            'color',
+            colorScheme === 'dark'
+              ? 'rgb(255, 255, 255)'
+              : 'rgb(51, 51, 51)'
+          )
+          const samples = await action.evaluate(
+            (element) =>
+              new Promise<string[]>((resolve) => {
+                const samples = new Set<string>()
+                const start = performance.now()
+                const sample = () => {
+                  const neutral = getComputedStyle(element).color
+                  for (const text of Array.from(
+                    document.querySelectorAll(
+                      '.dnb-ai-agent-action__text, .dnb-ai-agent-action__text *'
+                    )
+                  )) {
+                    const style = getComputedStyle(text)
+                    samples.add(
+                      JSON.stringify({
+                        color:
+                          style.color === neutral
+                            ? 'neutral'
+                            : style.color,
+                        weight: style.fontWeight,
+                        mask: style.maskImage,
+                        animation: style.animationName,
+                      })
+                    )
+                  }
+                  if (performance.now() - start < 4000) {
+                    requestAnimationFrame(sample)
+                  } else {
+                    resolve(Array.from(samples))
+                  }
+                }
+                sample()
+              })
+          )
+          expect(samples).toEqual([
+            JSON.stringify({
+              color: 'neutral',
+              weight: '400',
+              mask: 'none',
+              animation: 'none',
+            }),
+          ])
+          const fill = page
+            .locator(
+              '.dnb-ai-agent-action--indeterminate .dnb-ai-agent-action__fill'
+            )
+            .first()
+          await expect(fill).toHaveCSS(
+            'animation-name',
+            reducedMotion === 'reduce'
+              ? 'none'
+              : 'dnb-ai-agent-action-progress'
+          )
+        }
+      )
+    }
+  }
 
   for (const reducedMotion of ['no-preference', 'reduce'] as const) {
     test(

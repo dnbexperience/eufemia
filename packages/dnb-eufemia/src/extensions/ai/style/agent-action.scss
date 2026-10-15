@@ -1,8 +1,6 @@
 @use '../../../style/core/utilities.scss' as utilities;
 
 .dnb-ai-agent-action {
-  --ai-agent-action-activity-color: #8248c8;
-
   display: flex;
   align-items: flex-start;
   gap: 0.5625rem;
@@ -107,26 +105,7 @@
 
   &__text {
     position: relative;
-    display: inline-grid;
     min-width: 0;
-
-    > span {
-      grid-area: 1 / 1;
-    }
-  }
-
-  &__activity.dnb-ai-activity-text {
-    color: var(--ai-agent-action-activity-color);
-    mask-image: linear-gradient(
-      90deg,
-      transparent 40%,
-      #000 50%,
-      transparent 60%
-    );
-
-    @include utilities.reducedMotion() {
-      display: none;
-    }
   }
 
   &__result {
