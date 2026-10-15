@@ -357,6 +357,26 @@ describe('Ai.AgentAction', () => {
       expect(other).toHaveFocus()
     })
 
+    it('keeps custom-locale announcements quiet while progress changes', () => {
+      const translations = { 'en-GB': { Ai: { toolRunning: 'Working' } } }
+      const view = (progress: number) => (
+        <Provider locale="en-GB" translations={translations}>
+          <AgentAction progress={progress}>Paying</AgentAction>
+        </Provider>
+      )
+      const { rerender } = render(view(20))
+      act(() => vi.advanceTimersByTime(1))
+      expect(document.querySelector('.dnb-aria-live')).toHaveTextContent(
+        'Working: Paying'
+      )
+      act(() => vi.advanceTimersByTime(100))
+      rerender(view(30))
+      act(() => vi.advanceTimersByTime(1))
+      expect(
+        document.querySelector('.dnb-aria-live')
+      ).toBeEmptyDOMElement()
+    })
+
     it('announces results without repeating announcements for progress or countdown ticks', () => {
       const { rerender } = render(
         <AgentAction progress={20}>Paying</AgentAction>

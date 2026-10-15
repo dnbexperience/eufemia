@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { clsx } from 'clsx'
 import AriaLive from '../../components/AriaLive'
 import Avatar from '../../components/Avatar'
@@ -43,15 +43,10 @@ function AiAgentAction(props: AiAgentActionProps) {
   const value = Number.isFinite(progress)
     ? Math.min(100, Math.max(0, progress))
     : undefined
-  const announcement = useMemo(
-    () => (
-      <>
-        {translation[statusTranslations[status]]}: {running && action}{' '}
-        {children}
-      </>
-    ),
-    [translation, status, running, action, children]
-  )
+  const announcement =
+    translation[statusTranslations[status]] +
+    ': ' +
+    [running && action, children].filter(Boolean).join(' ')
 
   useEffect(() => {
     if (!showUndo && undoHasFocusRef.current) {
