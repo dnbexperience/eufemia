@@ -66,10 +66,14 @@ jobs:
           git switch -C "$BRANCH" "origin/$BRANCH"
           git rebase origin/main
 
-      - name: Setup dependencies
-        uses: ./.github/actions/setup
+      - name: Use Node.js
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
         with:
-          cache-version: ${{ secrets.CACHE_VERSION }}
+          node-version-file: 'package.json'
+
+      # Not the shared setup action: its node_modules cache would be saved with the updated flag-icons under the old yarn.lock key
+      - name: Install dependencies
+        run: yarn install --immutable
 
       - name: Update flag-icons and sync the flags
         id: sync
