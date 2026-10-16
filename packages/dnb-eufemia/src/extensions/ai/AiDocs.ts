@@ -391,24 +391,6 @@ export const AiActivityTextProperties: PropertiesTableProps = {
   },
 }
 
-export const AiReasoningProperties: PropertiesTableProps = {
-  isStreaming: {
-    doc: 'Whether the reasoning is still streaming. It is open while streaming and closes when done, unless the user has opened or closed it.',
-    type: 'boolean',
-    status: 'optional',
-  },
-  children: {
-    doc: 'The reasoning, rendered as markdown.',
-    type: 'string',
-    status: 'optional',
-  },
-  '[Space](/uilib/layout/space/properties)': {
-    doc: 'Spacing properties like `top` or `bottom` are supported.',
-    type: ['string', 'object'],
-    status: 'optional',
-  },
-}
-
 export const AiConversationControls: PropertiesTableProps = {
   scrollToEnd: {
     doc: 'Scroll to the end and follow new content.',

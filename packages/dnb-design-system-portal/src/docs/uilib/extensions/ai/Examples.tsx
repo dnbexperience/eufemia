@@ -17,7 +17,6 @@ import {
   Message,
   MessageIndicator,
   PromptInput,
-  Reasoning,
   Response,
   Sources,
   Suggestion,
@@ -510,12 +509,6 @@ function DemoMessageContent({ message }: { message: DemoMessage }) {
                 {part.text}
               </Response>
             )
-          case 'reasoning':
-            return (
-              <Reasoning key={index} isStreaming={part.isStreaming}>
-                {part.text}
-              </Reasoning>
-            )
           case 'tool':
             return (
               <Tool
@@ -1000,64 +993,6 @@ export function AiToolStates() {
         errorText="The card could not be blocked. Try again later."
       />
       <Tool top title="Blocking your card" status="canceled" />
-    </ComponentBox>
-  )
-}
-
-const reasoning = `The customer asks about **food** in March.
-
-1. Find the transactions for groceries.
-2. Add up the amounts.`
-
-export function AiReasoningStreaming() {
-  return (
-    <ComponentBox scope={{ reasoning }}>
-      {() => {
-        const StreamingReasoning = () => {
-          const [length, setLength] = useState(0)
-          const [replays, setReplays] = useState(0)
-          const isStreaming = length < reasoning.length
-
-          useEffect(() => {
-            if (!isStreaming) {
-              return // stop here
-            }
-            const timeout = setTimeout(
-              () => setLength((current) => current + 2),
-              40
-            )
-            return () => clearTimeout(timeout)
-          }, [length, isStreaming])
-
-          return (
-            <>
-              <Button
-                variant="secondary"
-                bottom
-                onClick={() => {
-                  setLength(0)
-                  setReplays((current) => current + 1)
-                }}
-              >
-                Replay
-              </Button>
-              <Reasoning key={replays} isStreaming={isStreaming}>
-                {reasoning.slice(0, length)}
-              </Reasoning>
-            </>
-          )
-        }
-
-        return <StreamingReasoning />
-      }}
-    </ComponentBox>
-  )
-}
-
-export function AiReasoningDone() {
-  return (
-    <ComponentBox data-visual-test="ai-reasoning" scope={{ reasoning }}>
-      <Reasoning>{reasoning}</Reasoning>
     </ComponentBox>
   )
 }

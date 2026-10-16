@@ -2,7 +2,7 @@ import { useEffect, useId, useState } from 'react'
 import type { AiToolStatus } from '@dnb/eufemia/src/extensions/ai/types'
 
 export type DemoPart =
-  | { type: 'text' | 'reasoning'; text: string; isStreaming?: boolean }
+  | { type: 'text'; text: string; isStreaming?: boolean }
   | {
       type: 'tool'
       name: string
@@ -20,7 +20,7 @@ export type DemoMessage = {
 }
 
 type ScriptStep =
-  | { type: 'reasoning' | 'text'; text: string }
+  | { type: 'text'; text: string }
   | {
       type: 'tool'
       name: string
@@ -87,10 +87,6 @@ function createScript(prompt: string): Array<ScriptStep> {
 
   if (/block|visa|card/i.test(prompt)) {
     return [
-      {
-        type: 'reasoning',
-        text: 'The customer wants to block a **Visa card**. I look up the cards first, so I block the right one.',
-      },
       { type: 'tool', name: 'getCards', title: 'Looking up your cards' },
       { type: 'tool', name: 'blockCard', title: 'Blocking your card' },
       {
@@ -107,10 +103,6 @@ function createScript(prompt: string): Array<ScriptStep> {
 
   if (/spend|compare|budget/i.test(prompt)) {
     return [
-      {
-        type: 'reasoning',
-        text: 'The customer asks about spending. I compare this month with last month, grouped by category.',
-      },
       {
         type: 'tool',
         name: 'getSpending',
@@ -145,10 +137,6 @@ function createScript(prompt: string): Array<ScriptStep> {
 
   if (/loan|mortgage/i.test(prompt)) {
     return [
-      {
-        type: 'reasoning',
-        text: 'The customer asks about loans. I check the current offers.',
-      },
       {
         type: 'tool',
         name: 'getLoanOffers',
@@ -202,10 +190,8 @@ export function useChatSimulation() {
       delay = 0
     } else if (last.length < step.text.length) {
       changes = {
-        length: last.length + (step.type === 'reasoning' ? 6 : 3),
+        length: last.length + 3,
       }
-    } else if (step.type === 'reasoning') {
-      delay = 400
     }
 
     const timeout = setTimeout(() => updateLast(changes), delay)
