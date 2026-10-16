@@ -10,6 +10,7 @@ on:
       - 'packages/dnb-design-system-portal/src/docs/uilib/typography.mdx'
       - 'tools/assets/**'
       - '.github/workflows/assets.yml'
+      - '.github/workflows/cdn-health.yml'
   release:
     types: [published]
   workflow_dispatch:
@@ -50,6 +51,9 @@ jobs:
 
       - name: Lint
         run: yarn workspace eufemia-assets-hosting lint
+
+      - name: Type check
+        run: yarn workspace eufemia-assets-hosting test:types
 
       - name: Test
         run: yarn workspace eufemia-assets-hosting test
