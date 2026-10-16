@@ -98,11 +98,15 @@ export const InComponents = () => (
         variant="secondary"
       />
       <Input
+        label="Text"
+        labelSrOnly
         icon={<CountryFlag iso="NO" />}
         iconPosition="left"
         placeholder="Write something"
       />
       <Input
+        label="Text"
+        labelSrOnly
         icon={<CountryFlag iso="NO" />}
         iconPosition="left"
         size="large"
