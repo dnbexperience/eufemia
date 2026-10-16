@@ -1,8 +1,10 @@
-import { Fragment, memo, useMemo } from 'react'
+import { Fragment, memo, useContext, useMemo } from 'react'
 import type { ReactNode } from 'react'
 import { clsx } from 'clsx'
 import { useSpacing } from '../../components/space/SpacingUtils'
 import Anchor from '../../components/Anchor'
+import Currency from '../../components/number-format/Currency'
+import Context from '../../shared/Context'
 import Table from '../../components/Table'
 import { Th, Td, Tr } from '../../components/table/Table'
 import { Code, H, Hr, Li, Ol, P, Ul } from '../../elements'
@@ -17,6 +19,8 @@ import type {
 import { parseInline } from './markdown/parseInline'
 import type { Inline } from './markdown/parseInline'
 import { sanitizeUrl } from './markdown/sanitizeUrl'
+import { createCurrencyParser } from './markdown/parseCurrencyAmounts'
+import type { CurrencyTextContext } from './markdown/parseCurrencyAmounts'
 import type {
   AiResponseComponents,
   AiResponseElement,
@@ -29,6 +33,7 @@ type RenderContext = {
   blockCode: React.ElementType
   link: (href: string) => string | null
   image: (src: string) => string | null
+  currency: ReturnType<typeof createCurrencyParser> | null
 }
 
 const HEADING_SIZES: Record<number, HSize> = {
@@ -105,6 +110,7 @@ function AiResponse(props: AiResponseProps) {
   const {
     children = '',
     parseIncompleteMarkdown = true,
+    currencyFormatting = true,
     components,
     allowedLinkPrefixes,
     allowedImagePrefixes,
@@ -113,6 +119,23 @@ function AiResponse(props: AiResponseProps) {
     ...rest
   } = props
 
+  const provider = useContext(Context)
+  const sourceLocale =
+    (typeof currencyFormatting === 'object' &&
+      currencyFormatting.locale) ||
+    provider.locale
+  const sourceCurrency =
+    (typeof currencyFormatting === 'object' &&
+      currencyFormatting.currency) ||
+    (typeof provider.currency === 'string' ? provider.currency : '')
+  const formatCurrencies = currencyFormatting !== false
+  const currency = useMemo(
+    () =>
+      !formatCurrencies
+        ? null
+        : createCurrencyParser(sourceLocale, sourceCurrency),
+    [formatCurrencies, sourceLocale, sourceCurrency]
+  )
   const linkPrefixes = allowedLinkPrefixes?.join('\n')
   const imagePrefixes = allowedImagePrefixes?.join('\n')
 
@@ -120,6 +143,7 @@ function AiResponse(props: AiResponseProps) {
     () => ({
       get: (tag) => components?.[tag] ?? DEFAULT_COMPONENTS[tag],
       blockCode: components?.code ?? 'code',
+      currency,
       link: (href) =>
         sanitizeUrl(href, {
           allowedPrefixes: linkPrefixes?.split('\n'),
@@ -132,7 +156,7 @@ function AiResponse(props: AiResponseProps) {
           defaultOrigin,
         }),
     }),
-    [components, linkPrefixes, imagePrefixes, defaultOrigin]
+    [components, linkPrefixes, imagePrefixes, defaultOrigin, currency]
   )
 
   const blocks = useMemo(() => parseBlocks(children), [children])
@@ -205,7 +229,7 @@ function renderBlock(
 ): ReactNode {
   const { get } = context
   const inline = (text: string) =>
-    renderInline(parseInline(text, { incomplete }), context)
+    renderInline(parseInline(text, { incomplete }), context, incomplete)
 
   switch (block.type) {
     case 'paragraph': {
@@ -310,7 +334,8 @@ function renderBlock(
                               isLastRow(rowIndex) &&
                               index === row.length - 1,
                           }),
-                          context
+                          context,
+                          isLastRow(rowIndex) && index === row.length - 1
                         )}
                       </Cell>
                     ))}
@@ -369,14 +394,46 @@ function renderListItem(
 
 function renderInline(
   nodes: Array<Inline>,
-  context: RenderContext
+  context: RenderContext,
+  incomplete = false,
+  boundary: CurrencyTextContext = { before: '', after: '' }
 ): ReactNode {
   const { get } = context
+  const boundaries: Array<CurrencyTextContext> = []
+  if (context.currency) {
+    let before = boundary.before
+    for (const node of nodes) {
+      boundaries.push({ before, after: '' })
+      before = (before + inlineBoundary(node, true)).slice(-32)
+    }
+    let after = boundary.after
+    for (let index = nodes.length - 1; index >= 0; index--) {
+      boundaries[index].after = after
+      after = (inlineBoundary(nodes[index]) + after).slice(0, 32)
+    }
+  }
 
-  return nodes.map((node, index) => {
+  return nodes.flatMap((node, index) => {
     switch (node.type) {
       case 'text':
-        return node.value
+        return context.currency
+          ? context
+              .currency(node.value, incomplete, boundaries[index])
+              .map((part, amountIndex) =>
+                typeof part === 'string' ? (
+                  part
+                ) : (
+                  <Currency
+                    key={`${index}-${amountIndex}`}
+                    value={part.value}
+                    currency={part.currency}
+                    decimals={part.decimals}
+                    selectAll={false}
+                    copySelection={false}
+                  />
+                )
+              )
+          : node.value
 
       case 'br': {
         const Break = get('br')
@@ -394,14 +451,22 @@ function renderInline(
         const Element = get(node.type)
         return (
           <Element key={index}>
-            {renderInline(node.children, context)}
+            {renderInline(
+              node.children,
+              context,
+              incomplete,
+              boundaries[index]
+            )}
           </Element>
         )
       }
 
       case 'link': {
         const href = context.link(node.href)
-        const children = renderInline(node.children, context)
+        const children = renderInline(node.children, {
+          ...context,
+          currency: null,
+        })
         if (!href) {
           return <Fragment key={index}>{children}</Fragment>
         }
@@ -425,6 +490,27 @@ function renderInline(
       }
     }
   })
+}
+
+// A short boundary is enough to check adjacent words without reparsing siblings.
+function inlineBoundary(node: Inline, fromEnd = false): string {
+  if ('value' in node) {
+    const text = node.value.replace(/\s+/g, ' ')
+    return fromEnd ? text.slice(-32) : text.slice(0, 32)
+  }
+  if ('children' in node) {
+    let text = ''
+    for (let offset = 0; offset < node.children.length; offset++) {
+      const index = fromEnd ? node.children.length - 1 - offset : offset
+      const part = inlineBoundary(node.children[index], fromEnd)
+      text = fromEnd ? part + text : text + part
+      if (text.length >= 32) {
+        break
+      }
+    }
+    return fromEnd ? text.slice(-32) : text.slice(0, 32)
+  }
+  return node.type === 'image' ? '\ufffc' : '\n'
 }
 
 export default AiResponse
