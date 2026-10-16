@@ -1,2 +1,2 @@
 export { default } from '../Text'
-export type { TextProps } from '../Text'
+export type { StatTextProps } from '../Text'

@@ -5,7 +5,7 @@
 
 import type {
   HeadingAllProps,
-  InternalHeadingLevel,
+  HeadingInternalLevel,
   HeadingLevelSizeResolutions,
 } from './Heading'
 import type { ThemeNames } from '../../shared'
@@ -30,7 +30,7 @@ let counterCache = new WeakMap<
 type CorrectInternalHeadingLevel = {
   counter: HeadingCounter
   id?: string
-  level: InternalHeadingLevel
+  level: HeadingInternalLevel
   ref?: HeadingAllProps
   reset?: HeadingAllProps['reset']
   inherit?: boolean
@@ -76,7 +76,7 @@ export const correctInternalHeadingLevel = ({
     )
   }
 
-  const update = (level: InternalHeadingLevel) => {
+  const update = (level: HeadingInternalLevel) => {
     if (!isRerender) {
       counter.makeMeReady({ level })
     }
@@ -221,20 +221,20 @@ export const globalResetNextTime: { current: GlobalNextLevel } = {
   current: null,
 }
 export function resetLevels(
-  level: InternalHeadingLevel,
+  level: HeadingInternalLevel,
   { overwriteContext = false } = {}
 ) {
   globalResetNextTime.current = { level, overwriteContext }
 }
 type GlobalNextLevel = {
-  level: InternalHeadingLevel
+  level: HeadingInternalLevel
   overwriteContext: boolean
 }
 export const globalNextLevel: { current: GlobalNextLevel } = {
   current: null,
 }
 export function setNextLevel(
-  level: InternalHeadingLevel,
+  level: HeadingInternalLevel,
   { overwriteContext = false } = {}
 ) {
   globalNextLevel.current = {
@@ -301,7 +301,7 @@ export const getHeadingSize = (
 }
 
 export const getHeadingElement = (
-  level: InternalHeadingLevel
+  level: HeadingInternalLevel
 ): DynamicElement => {
   switch (level) {
     case 1:

@@ -31,19 +31,19 @@ import type {
   NumberFormatReturnValue,
   NumberFormatFunction,
   NumberFormatOptionParams,
-  InternalNumberFormatOptions,
-  FormatPartItem,
-  FormattedParts,
+  NumberFormatInternalOptions,
+  NumberFormatPartItem,
+  NumberFormatFormattedParts,
 } from './types'
 
 const returnValueParts = new WeakMap<
   NumberFormatReturnValue,
-  FormatPartItem[]
+  NumberFormatPartItem[]
 >()
 
 export function getReturnValueParts(
   value: NumberFormatReturnValue
-): FormatPartItem[] | undefined {
+): NumberFormatPartItem[] | undefined {
   return returnValueParts.get(value)
 }
 
@@ -75,10 +75,10 @@ export function prepareFormatOptions({
   options,
   signDisplay,
 }: {
-  options: string | InternalNumberFormatOptions | null
+  options: string | NumberFormatInternalOptions | null
   signDisplay: NumberFormatOptionParams['signDisplay'] | null
-}): InternalNumberFormatOptions {
-  const opts: InternalNumberFormatOptions =
+}): NumberFormatInternalOptions {
+  const opts: NumberFormatInternalOptions =
     (typeof options === 'string' && options[0] === '{'
       ? JSON.parse(options)
       : options) || {}
@@ -114,10 +114,10 @@ export function buildReturn({
   display: string
   aria: string
   type: NumberFormatType
-  opts: InternalNumberFormatOptions
+  opts: NumberFormatInternalOptions
   cleanCopyValue: boolean | null
   invalidAriaText: string | null
-  parts?: FormatPartItem[]
+  parts?: NumberFormatPartItem[]
 }): NumberFormatReturnValue {
   let cleanedValue
 
@@ -126,7 +126,7 @@ export function buildReturn({
       opts.style === 'percent' ? Number(value) / 100 : value,
       locale,
       opts,
-      (item: FormatPartItem) => {
+      (item: NumberFormatPartItem) => {
         switch (item.type) {
           case 'group':
           case 'literal':
@@ -186,7 +186,7 @@ export function applyDecimalsForPlain({
   value: NumberFormatValue
   decimals: number | string | null
   rounding: string | boolean | null | undefined
-  opts: InternalNumberFormatOptions
+  opts: NumberFormatInternalOptions
 }): NumberFormatValue {
   if (parseFloat(String(decimals)) >= 0) {
     return formatDecimals(value, decimals, rounding, opts)
@@ -218,7 +218,10 @@ export {
  */
 export function formatWith(
   type: NumberFormatType,
-  formatterFn: (value: NumberFormatValue, locale: string) => FormattedParts
+  formatterFn: (
+    value: NumberFormatValue,
+    locale: string
+  ) => NumberFormatFormattedParts
 ): NumberFormatFunction {
   function formatter(
     value: NumberFormatValue | null | undefined,

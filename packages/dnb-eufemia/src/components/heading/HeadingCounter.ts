@@ -3,21 +3,23 @@
  *
  */
 
-import type { HeadingAllProps, InternalHeadingLevel } from './Heading'
+import type { HeadingAllProps, HeadingInternalLevel } from './Heading'
 import { globalSyncCounter, globalHeadingCounter } from './HeadingHelpers'
 
 export type HeadingCounter = Counter
 export type HeadingDebugCounter = boolean | (() => void)
-export type ContextCounter = {
-  level: InternalHeadingLevel
-  entry: InternalHeadingLevel
+export type HeadingContextCounter = {
+  level: HeadingInternalLevel
+  entry: HeadingInternalLevel
   countHeadings: number
   _initCount: number
   _isReady: boolean
   isGlobal?: boolean
 }
 
-export const initCounter = (props: CounterProps = null): Counter => {
+export const initCounter = (
+  props: HeadingCounterProps = null
+): Counter => {
   if (!globalHeadingCounter.current) {
     globalHeadingCounter.current = new Counter({
       group: 'global',
@@ -32,32 +34,32 @@ export const initCounter = (props: CounterProps = null): Counter => {
   return new Counter(props)
 }
 
-export type CounterGroup = HeadingAllProps['group']
-export type CounterChildren = HeadingAllProps['children']
+export type HeadingCounterGroup = HeadingAllProps['group']
+export type HeadingCounterChildren = HeadingAllProps['children']
 
-export type CounterProps = {
+export type HeadingCounterProps = {
   isGlobal?: boolean
-  group?: CounterGroup
-  children?: CounterChildren
-  counter?: CounterProps
+  group?: HeadingCounterGroup
+  children?: HeadingCounterChildren
+  counter?: HeadingCounterProps
 }
 
 export class Counter {
-  level: InternalHeadingLevel = 0
-  entry: InternalHeadingLevel = 0
-  lastResetLevel: InternalHeadingLevel = null
+  level: HeadingInternalLevel = 0
+  entry: HeadingInternalLevel = 0
+  lastResetLevel: HeadingInternalLevel = null
   _isReady = false
   countHeadings = 0
   _initCount = 0
   isGlobal = false
   isHeading = false
   bypassChecks = false
-  contextCounter: ContextCounter = null
+  contextCounter: HeadingContextCounter = null
   reports = []
-  group: CounterGroup = null
-  children: CounterChildren = null
+  group: HeadingCounterGroup = null
+  children: HeadingCounterChildren = null
 
-  constructor(props: CounterProps = null) {
+  constructor(props: HeadingCounterProps = null) {
     props = props || {}
 
     // not required for now
@@ -106,7 +108,7 @@ export class Counter {
     return this._isReady
   }
 
-  setEntryLevel(level: InternalHeadingLevel = null) {
+  setEntryLevel(level: HeadingInternalLevel = null) {
     this.entry = parseFloat(String(level)) || 1
   }
 
@@ -114,7 +116,7 @@ export class Counter {
     return Boolean(this.contextCounter)
   }
 
-  setContextCounter(contextCounter: ContextCounter) {
+  setContextCounter(contextCounter: HeadingContextCounter) {
     this.contextCounter = contextCounter
   }
 
@@ -130,7 +132,7 @@ export class Counter {
     this.contextCounter._initCount--
   }
 
-  makeMeReady({ level }: { level?: InternalHeadingLevel } = {}) {
+  makeMeReady({ level }: { level?: HeadingInternalLevel } = {}) {
     if (!this.hasCorrection()) {
       if (this.contextCounter.level > 1) {
         this.level = this.contextCounter.level
@@ -187,7 +189,7 @@ export class Counter {
     return level
   }
 
-  setLevel(level: InternalHeadingLevel, action = 'set') {
+  setLevel(level: HeadingInternalLevel, action = 'set') {
     level = parseFloat(String(level))
 
     const report = []

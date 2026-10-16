@@ -21,8 +21,8 @@ import { isValid as isValidFn, parseISO } from 'date-fns'
 
 import { clsx } from 'clsx'
 import SegmentedField, {
-  type SegmentedFieldItem as MInputs,
-  type SegmentedFieldValue as MValues,
+  type InputMaskedSegmentedFieldItem as MInputs,
+  type InputMaskedSegmentedFieldValue as MValues,
 } from '../input-masked/segmented-field/SegmentedField'
 import Button from '../button/Button'
 import type { ButtonProps } from '../Button'

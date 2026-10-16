@@ -2,14 +2,14 @@ import { useContext } from 'react'
 import { render } from '@testing-library/react'
 import { axeComponent } from '../../../core/test-utils/testSetup'
 import Container from '../Container'
-import type { ItemContentProps } from '../ItemContent'
+import type { ListItemContentProps } from '../ItemContent'
 import ItemContent from '../ItemContent'
 import Context from '../../../shared/Context'
 import type { ComponentMarkers } from '../../../shared/helpers/withComponentMarkers'
 
 describe('ItemContent', () => {
   it('renders with props as an object', () => {
-    const props: ItemContentProps = {}
+    const props: ListItemContentProps = {}
 
     render(<ItemContent {...props}>Content</ItemContent>)
 

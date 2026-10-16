@@ -1,7 +1,7 @@
-import { AmountBase, type AmountProps } from './Amount'
+import { AmountBase, type StatAmountProps } from './Amount'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
-export type NumberProps = AmountProps
+export type StatNumberProps = StatAmountProps
 
 /**
  * Stat.Number — A general-purpose formatted number display.

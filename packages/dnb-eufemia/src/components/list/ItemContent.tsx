@@ -10,7 +10,7 @@ import type { DynamicElement } from '../../shared/types'
 import Context from '../../shared/Context'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
-export type ItemContentProps = {
+export type ListItemContentProps = {
   id?: string
   variant?: ListVariant
   selected?: boolean
@@ -24,7 +24,7 @@ export type ItemContentProps = {
   element?: DynamicElement
 } & FlexProps
 
-function ItemContent(props: ItemContentProps) {
+function ItemContent(props: ListItemContentProps) {
   const {
     className,
     children,

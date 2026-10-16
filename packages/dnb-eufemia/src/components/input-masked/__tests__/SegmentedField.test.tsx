@@ -3,51 +3,53 @@ import { axeComponent } from '../../../core/test-utils/testSetup'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import SegmentedField, {
-  type SegmentedFieldItem,
-  type SegmentedFieldProps,
+  type InputMaskedSegmentedFieldItem,
+  type InputMaskedSegmentedFieldProps,
 } from '../segmented-field/SegmentedField'
 
 const digit = /[0-9]/
 
-const twoDigitInputs: SegmentedFieldItem<'first' | 'second'>[] = [
-  {
-    id: 'first',
-    label: 'First',
-    mask: [digit, digit],
-    placeholder: 'ff',
-  },
-  {
-    id: 'second',
-    label: 'Second',
-    mask: [digit, digit],
-    placeholder: 'ss',
-  },
-]
-
-const threeSegmentInputs: SegmentedFieldItem<'day' | 'month' | 'year'>[] =
+const twoDigitInputs: InputMaskedSegmentedFieldItem<'first' | 'second'>[] =
   [
     {
-      id: 'day',
-      label: 'Day',
+      id: 'first',
+      label: 'First',
       mask: [digit, digit],
-      placeholder: 'dd',
+      placeholder: 'ff',
     },
     {
-      id: 'month',
-      label: 'Month',
+      id: 'second',
+      label: 'Second',
       mask: [digit, digit],
-      placeholder: 'mm',
-    },
-    {
-      id: 'year',
-      label: 'Year',
-      mask: [digit, digit, digit, digit],
-      placeholder: 'yyyy',
+      placeholder: 'ss',
     },
   ]
 
+const threeSegmentInputs: InputMaskedSegmentedFieldItem<
+  'day' | 'month' | 'year'
+>[] = [
+  {
+    id: 'day',
+    label: 'Day',
+    mask: [digit, digit],
+    placeholder: 'dd',
+  },
+  {
+    id: 'month',
+    label: 'Month',
+    mask: [digit, digit],
+    placeholder: 'mm',
+  },
+  {
+    id: 'year',
+    label: 'Year',
+    mask: [digit, digit, digit, digit],
+    placeholder: 'yyyy',
+  },
+]
+
 function renderSegmentedField(
-  props: Partial<SegmentedFieldProps<'first' | 'second'>> = {}
+  props: Partial<InputMaskedSegmentedFieldProps<'first' | 'second'>> = {}
 ) {
   return render(
     <SegmentedField inputs={twoDigitInputs} delimiter="/" {...props} />
@@ -1505,14 +1507,14 @@ describe('SegmentedField', () => {
             mask: [digit, digit],
             placeholder: 'ff',
             'data-section': 'month',
-          } as SegmentedFieldItem<'first' | 'second'>,
+          } as InputMaskedSegmentedFieldItem<'first' | 'second'>,
           {
             id: 'second',
             label: 'Second',
             mask: [digit, digit],
             placeholder: 'ss',
             'data-section': 'year',
-          } as SegmentedFieldItem<'first' | 'second'>,
+          } as InputMaskedSegmentedFieldItem<'first' | 'second'>,
         ],
       })
 

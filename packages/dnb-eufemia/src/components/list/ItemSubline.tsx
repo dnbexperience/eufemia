@@ -8,17 +8,17 @@ import type { SkeletonShow } from '../Skeleton'
 import Context from '../../shared/Context'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
-export type ItemSublineVariant = 'description'
+export type ListItemSublineVariant = 'description'
 
 /**
  * Props for List.Cell.Title.Subline (ItemSubline).
  * Secondary line under the title; pairs with List.Cell.Title.Overline (above the row).
  */
-export type ItemSublineProps = FlexItemProps & {
+export type ListItemSublineProps = FlexItemProps & {
   /**
    * Visual variant. Use `description` for smaller, muted text style.
    */
-  variant?: ItemSublineVariant
+  variant?: ListItemSublineVariant
   /**
    * Font size of the subline content. Defaults to `small`. When `variant="description"`, defaults to `x-small`.
    * Default: `"small"`
@@ -43,7 +43,7 @@ function ItemSubline({
   skeleton,
   children,
   ...rest
-}: ItemSublineProps) {
+}: ListItemSublineProps) {
   const context = useContext(Context)
   const inheritedSkeleton = useContext(ListContext)?.skeleton
   const appliedSkeleton = skeleton ?? inheritedSkeleton

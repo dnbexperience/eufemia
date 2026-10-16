@@ -1,4 +1,4 @@
-export type MaskParams = {
+export type InputMaskedMaskParams = {
   decimalSymbol?: string
   thousandsSeparatorSymbol?: string
   allowDecimal?: boolean
