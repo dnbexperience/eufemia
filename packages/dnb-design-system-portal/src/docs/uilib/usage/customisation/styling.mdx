@@ -73,7 +73,9 @@ To have the Eufemia Core styles inside a wrapper anyway, simply use the followin
 
 #### CSS Specificity
 
-Once you use the `.dnb-core-style` wrapper class, you may in some circumstances, need to use it to modify already given properties.
+Element resets use `:where(.dnb-core-style)` for their wrapper selector. A component class can override defaults such as font size, line height, and margins without adding `.dnb-core-style` to its selector.
+
+Some typography and spacing rules still include `.dnb-core-style` in their selectors. When overriding those rules, you may need to include it to match their specificity.
 
 For **Styled Components** you do it this way:
 
