@@ -12,6 +12,201 @@ beforeEach(() => {
 })
 
 describe('Ai.Response', () => {
+  it('uses the Norwegian currency display default', () => {
+    render(
+      <Provider locale="nb-NO">
+        <Response parseIncompleteMarkdown={false}>{'1 234 kr'}</Response>
+      </Provider>
+    )
+    expect(
+      document.querySelector('.dnb-number-format__visible')
+    ).toHaveTextContent('1 234 kr')
+  })
+
+  it('inherits the Provider currency display preference', () => {
+    render(
+      <Provider locale="nb-NO" NumberFormat={{ currencyDisplay: 'name' }}>
+        <Response parseIncompleteMarkdown={false}>{'1 234 kr'}</Response>
+      </Provider>
+    )
+    expect(
+      document.querySelector('.dnb-number-format__visible')
+    ).toHaveTextContent('1 234 kroner')
+  })
+
+  it.each([0x2007, 0x2009])(
+    'renders the full accessible currency value with grouping space %s',
+    (code) => {
+      render(
+        <Response parseIncompleteMarkdown={false}>
+          {'Pris kr 1' + String.fromCharCode(code) + '234.'}
+        </Response>
+      )
+      const amount = document.querySelector('.dnb-number-format')
+      expect(
+        amount.querySelector('.dnb-number-format__visible')
+      ).toHaveTextContent('1 234 kr')
+      expect(amount.querySelector('.dnb-sr-only')).toHaveAttribute(
+        'data-text',
+        expect.stringContaining('234')
+      )
+    }
+  )
+
+  it.each([
+    'NOK 1,5 milliarder',
+    'NOK 4,5 mill.',
+    '**NOK 1,5** milliarder',
+    'NOK 1,5 **milliarder**',
+    '**NOK 4,5** *mill.*',
+    '**NOK 1,5**' + ' '.repeat(100) + 'milliarder',
+    'EUR 1,5 Millionen',
+    '**EUR 1,5** millones',
+    'EUR 1,5 **milhões**',
+    '**NOK 150** betales nå.',
+  ])('does not expose an incorrect accessible value for %s', (text) => {
+    render(<Response parseIncompleteMarkdown={false}>{text}</Response>)
+    expect(document.querySelector('.dnb-number-format')).toBeNull()
+    expect(document.querySelector('p')).toHaveTextContent(
+      text.replace(/\*/g, '').replace(/\s+/g, ' ')
+    )
+  })
+
+  it('formats currency amounts in text, emphasis and tables', () => {
+    render(
+      <Response parseIncompleteMarkdown={false}>
+        {
+          'You spent **12 400,50 kr**.\n\n| Item | Price |\n|---|---|\n| Fee | EUR 19,95 |'
+        }
+      </Response>
+    )
+    const amounts = document.querySelectorAll(
+      '.dnb-number-format--currency'
+    )
+    expect(amounts).toHaveLength(2)
+    expect(
+      amounts[0].querySelector('.dnb-number-format__visible')
+    ).toHaveTextContent('12 400,50 kr')
+    expect(
+      amounts[1].querySelector('.dnb-number-format__visible')
+    ).toHaveTextContent('19,95 €')
+    expect(
+      document.querySelector('strong .dnb-number-format')
+    ).not.toBeNull()
+    expect(document.querySelector('td .dnb-number-format')).not.toBeNull()
+  })
+
+  it.each([
+    '**NOK 1,5** **milliarder**, og 200 kr betales nå.',
+    'NOK 1,5 **milliarder**, og **200 kr** betales nå.',
+  ])('only preserves the scaled amount in %s', (text) => {
+    render(<Response parseIncompleteMarkdown={false}>{text}</Response>)
+    expect(document.querySelectorAll('.dnb-number-format')).toHaveLength(1)
+    expect(
+      document.querySelector('.dnb-number-format__visible')
+    ).toHaveTextContent('200 kr')
+  })
+
+  it('waits for a streamed scale word after emphasized amounts', () => {
+    const { rerender } = render(<Response>{'**NOK 1,5** mi'}</Response>)
+    expect(document.querySelector('.dnb-number-format')).toBeNull()
+    rerender(<Response>{'**NOK 1,5** minimum.'}</Response>)
+    expect(document.querySelector('.dnb-number-format')).toBeNull()
+    rerender(<Response>{'**NOK 1,5**. Ferdig.'}</Response>)
+    expect(
+      document.querySelector('.dnb-number-format__visible')
+    ).toHaveTextContent('1,5 kr')
+  })
+
+  it.each(['NOK 1 **234**', '**1** 234 kr', '**NOK 1**,50'])(
+    'does not format a partial amount across emphasis in %s',
+    (text) => {
+      render(<Response parseIncompleteMarkdown={false}>{text}</Response>)
+      expect(document.querySelector('.dnb-number-format')).toBeNull()
+    }
+  )
+
+  it('parses the source locale independently of the display locale', () => {
+    const { rerender } = render(
+      <Provider locale="en-GB">
+        <Response
+          parseIncompleteMarkdown={false}
+          currencyFormatting={{ locale: 'nb-NO', currency: 'SEK' }}
+        >
+          {'1 234,50 kr'}
+        </Response>
+      </Provider>
+    )
+    expect(
+      document.querySelector('.dnb-number-format__visible')
+    ).toHaveTextContent('SEK 1,234.50')
+    rerender(
+      <Provider locale="nb-NO">
+        <Response
+          parseIncompleteMarkdown={false}
+          currencyFormatting={{ locale: 'nb-NO', currency: 'SEK' }}
+        >
+          {'1 234,50 kr'}
+        </Response>
+      </Provider>
+    )
+    expect(
+      document.querySelector('.dnb-number-format__visible')
+    ).toHaveTextContent('1 234,50 kr')
+  })
+
+  it('keeps code, links, ambiguous symbols and bare numbers unchanged', () => {
+    render(
+      <Response parseIncompleteMarkdown={false}>
+        {
+          '`100 kr` [NOK 100](https://dnb.no) $100 12345\n\n```text\nNOK 200\n```'
+        }
+      </Response>
+    )
+    expect(document.querySelector('.dnb-number-format')).toBeNull()
+    expect(document.querySelector('a')).toHaveTextContent('NOK 100')
+    expect(document.querySelector('pre')).toHaveTextContent('NOK 200')
+  })
+
+  it('can preserve the original text', () => {
+    render(<Response currencyFormatting={false}>{'NOK 100'}</Response>)
+    expect(document.querySelector('.dnb-number-format')).toBeNull()
+    expect(document.querySelector('p')).toHaveTextContent('NOK 100')
+  })
+
+  it('exposes currency meaning without enabling isolated selection or copy controls', async () => {
+    const result = render(
+      <Response parseIncompleteMarkdown={false}>
+        {'The refund is −250,50 kr.'}
+      </Response>
+    )
+    const amount = document.querySelector('.dnb-number-format')
+    expect(amount).not.toHaveClass('dnb-number-format--select-all')
+    expect(
+      amount.querySelector('.dnb-number-format__selection')
+    ).toBeNull()
+    expect(amount.querySelector('.dnb-sr-only')).toHaveAttribute(
+      'data-text',
+      expect.stringContaining('kroner')
+    )
+    expect(await axeComponent(result)).toHaveNoViolations()
+  })
+
+  it('waits for the amount to be complete while streaming', () => {
+    const { rerender } = render(<Response>{'NOK 12'}</Response>)
+    expect(document.querySelector('.dnb-number-format')).toBeNull()
+    rerender(<Response>{'NOK 12,50. Paid.'}</Response>)
+    expect(
+      document.querySelector('.dnb-number-format__visible')
+    ).toHaveTextContent('12,50 kr')
+    rerender(
+      <Response parseIncompleteMarkdown={false}>{'NOK 12,50'}</Response>
+    )
+    expect(
+      document.querySelector('.dnb-number-format__visible')
+    ).toHaveTextContent('12,50 kr')
+  })
+
   it('renders markdown with Eufemia elements', () => {
     render(
       <Response>
