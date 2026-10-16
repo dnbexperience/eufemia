@@ -512,9 +512,10 @@ describe('Slider component', () => {
       expect(sliderElement.innerHTML).not.toContain('dnb-slider__marker')
     })
 
-    it('should have html attributes to make it accessible', () => {
-      const { rerender } = render(
+    it('should have html attributes to make it accessible', async () => {
+      const { rerender, container } = render(
         <Slider
+          label="Label"
           extensions={{ marker: { instance: SliderMarker, value: 30 } }}
         />
       )
@@ -524,17 +525,24 @@ describe('Slider component', () => {
         '.dnb-slider__marker'
       )
       expect(markerElement).toHaveAttribute('style', 'left: 30%;')
-      expect(markerElement).toHaveAttribute('aria-label', '30')
+      expect(markerElement).not.toHaveAttribute('aria-label')
+      expect(
+        markerElement.querySelector('.dnb-sr-only')
+      ).toHaveTextContent('30')
       expect(markerElement).toHaveAttribute('tabIndex', '0')
+      expect(await axeComponent(container)).toHaveNoViolations()
 
       rerender(
         <Slider
+          label="Label"
           extensions={{ marker: { instance: SliderMarker, value: 120 } }}
         />
       )
 
       expect(markerElement).toHaveAttribute('style', 'left: 100%;')
-      expect(markerElement).toHaveAttribute('aria-label', '120')
+      expect(
+        markerElement.querySelector('.dnb-sr-only')
+      ).toHaveTextContent('120')
     })
 
     it('shows Tooltip with info', async () => {
