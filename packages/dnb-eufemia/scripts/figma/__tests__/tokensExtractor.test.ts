@@ -1,25 +1,33 @@
 import {
-  assertModesAreExported,
   convertVariablesToTokens,
   extractTokens,
-  TOKEN_EXPORTS,
+  TOKEN_COLLECTIONS,
+  toTokenFileName,
   type FigmaLocalVariables,
 } from '../tasks/tokensExtractor'
 import { createFigmaClient } from '../helpers/figmaClient'
-import { existsSync, readFileSync } from 'node:fs'
+import { readdirSync, readFileSync } from 'node:fs'
 import path from 'path'
 import fs from 'fs-extra'
 import { log } from '../../lib'
 
 vi.mock('../helpers/figmaClient', () => ({ createFigmaClient: vi.fn() }))
 vi.mock('fs-extra', () => ({
-  default: { outputFile: vi.fn() },
+  default: {
+    outputFile: vi.fn(),
+    pathExists: vi.fn(),
+    readdir: vi.fn(),
+    remove: vi.fn(),
+  },
 }))
+
+const COLORS_ID =
+  'VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080'
 
 const white = { r: 1, g: 1, b: 1, a: 1 }
 const green = { r: 0, g: 0.4470588266849518, b: 0.4470588266849518, a: 1 }
 
-/** The remaining brand modes only exist so every configured export can be written */
+/** The remaining brand modes only exist to show that every mode is written */
 const restModes = ['1:2', '1:3', '1:4', '1:5', '1:6']
 const inAllModes = <Value>(value: Value) =>
   Object.fromEntries(restModes.map((modeId) => [modeId, value]))
@@ -46,8 +54,8 @@ const meta: FigmaLocalVariables = {
         'VariableID:1:5',
       ],
     },
-    'VariableCollectionId:abc/5552:1080': {
-      id: 'VariableCollectionId:abc/5552:1080',
+    [COLORS_ID]: {
+      id: COLORS_ID,
       name: 'colors',
       modes: [{ modeId: '9:0', name: 'color' }],
       defaultModeId: '9:0',
@@ -110,7 +118,7 @@ const meta: FigmaLocalVariables = {
     'VariableID:def/5552:1666': {
       id: 'VariableID:def/5552:1666',
       name: 'dnb/greyscale/0',
-      variableCollectionId: 'VariableCollectionId:abc/5552:1080',
+      variableCollectionId: COLORS_ID,
       resolvedType: 'COLOR',
       valuesByMode: { '9:0': white },
       scopes: ['ALL_SCOPES'],
@@ -118,7 +126,7 @@ const meta: FigmaLocalVariables = {
     'VariableID:def/5552:1667': {
       id: 'VariableID:def/5552:1667',
       name: 'dnb/greyscale/0/40',
-      variableCollectionId: 'VariableCollectionId:abc/5552:1080',
+      variableCollectionId: COLORS_ID,
       resolvedType: 'COLOR',
       valuesByMode: { '9:0': { ...white, a: 0.4 } },
       scopes: ['ALL_SCOPES'],
@@ -129,6 +137,7 @@ const meta: FigmaLocalVariables = {
 beforeEach(() => {
   vi.clearAllMocks()
   vi.spyOn(log, 'info').mockImplementation(vi.fn())
+  vi.spyOn(log, 'warn').mockImplementation(vi.fn())
 })
 
 afterEach(() => {
@@ -155,15 +164,35 @@ const withDuplicateBrand: FigmaLocalVariables = {
   },
 }
 
-describe('TOKEN_EXPORTS', () => {
-  it('pins every brand export to the same collection id', () => {
-    const ids = new Set(
-      TOKEN_EXPORTS.filter(({ collection }) => collection === 'brand').map(
-        ({ collectionId }) => collectionId
-      )
-    )
+describe('TOKEN_COLLECTIONS', () => {
+  it('pins the brand collection by id', () => {
+    expect(
+      TOKEN_COLLECTIONS.find(({ collection }) => collection === 'brand')
+        ?.collectionId
+    ).toBe('VariableCollectionId:53684:1279')
+  })
 
-    expect(ids).toEqual(new Set(['VariableCollectionId:53684:1279']))
+  it('pins the colors collection by id', () => {
+    expect(
+      TOKEN_COLLECTIONS.find(({ collection }) => collection === 'colors')
+        ?.collectionId
+    ).toBe(COLORS_ID)
+  })
+})
+
+describe('toTokenFileName', () => {
+  it('keeps a plain mode name', () => {
+    expect(toTokenFileName('dnb-light')).toBe('dnb-light')
+  })
+
+  it('turns other characters into dashes', () => {
+    expect(toTokenFileName('DNB Eiendom-light (test)')).toBe(
+      'dnb-eiendom-light-test'
+    )
+  })
+
+  it('cannot leave the folder', () => {
+    expect(toTokenFileName('../../secret')).toBe('secret')
   })
 })
 
@@ -195,7 +224,7 @@ describe('convertVariablesToTokens', () => {
             'com.figma.aliasData': {
               targetVariableId: 'VariableID:def/5552:1666',
               targetVariableName: 'dnb/greyscale/0',
-              targetVariableSetId: 'VariableCollectionId:abc/5552:1080',
+              targetVariableSetId: COLORS_ID,
               targetVariableSetName: 'colors',
             },
           },
@@ -381,25 +410,55 @@ describe('convertVariablesToTokens', () => {
     )
   })
 
-  it('throws when an alias points outside of the response', () => {
-    expect(() =>
-      convertVariablesToTokens({
-        meta: {
-          ...meta,
-          variables: {
-            ...meta.variables,
-            'VariableID:1:2': {
-              ...meta.variables['VariableID:1:2'],
-              valuesByMode: {
-                '1:0': { type: 'VARIABLE_ALIAS', id: 'VariableID:9:9' },
-              },
+  it('skips a variable whose alias points outside of the response', () => {
+    const tokens = convertVariablesToTokens({
+      meta: {
+        ...meta,
+        variables: {
+          ...meta.variables,
+          'VariableID:1:2': {
+            ...meta.variables['VariableID:1:2'],
+            valuesByMode: {
+              '1:0': { type: 'VARIABLE_ALIAS', id: 'VariableID:9:9' },
             },
           },
         },
-        collection: 'brand',
-        mode: 'dnb-light',
-      })
-    ).toThrow('points to a variable that is not part of the response')
+      },
+      collection: 'brand',
+      mode: 'dnb-light',
+    })
+
+    expect(tokens.color).toBeUndefined()
+    expect(tokens.radius).toBeDefined()
+    expect(log.warn).toHaveBeenCalledWith(
+      expect.stringContaining(
+        'points to a variable that is not part of the response'
+      )
+    )
+  })
+
+  it('skips a variable with an unsupported type', () => {
+    const tokens = convertVariablesToTokens({
+      meta: {
+        ...meta,
+        variables: {
+          ...meta.variables,
+          'VariableID:1:3': {
+            ...meta.variables['VariableID:1:3'],
+            resolvedType: 'BOOLEAN',
+            valuesByMode: { '1:0': true },
+          },
+        },
+      },
+      collection: 'brand',
+      mode: 'dnb-light',
+    })
+
+    expect(tokens.radius).toBeUndefined()
+    expect(tokens.color).toBeDefined()
+    expect(log.warn).toHaveBeenCalledWith(
+      expect.stringContaining('has the unsupported type "BOOLEAN"')
+    )
   })
 
   const withColorValue = (value) => ({
@@ -465,7 +524,7 @@ describe('convertVariablesToTokens', () => {
         alias: {
           targetVariableId: 'VariableID:def/5552:1666',
           targetVariableName: 'dnb/greyscale/0',
-          targetVariableSetId: 'VariableCollectionId:abc/5552:1080',
+          targetVariableSetId: COLORS_ID,
           targetVariableSetName: 'colors',
         },
       },
@@ -484,60 +543,44 @@ describe('convertVariablesToTokens', () => {
     expect(tokens.$value.alpha).toBe(Math.fround(0.04))
   })
 
-  it('rejects a color value that is not plain sRGB components', () => {
-    expect(() => pageBackground(withColorValue({ r: 1, g: 1 }))).toThrow(
-      'has a color value that is not plain sRGB components'
+  it('skips a color value that is not plain sRGB components', () => {
+    const tokens = convertVariablesToTokens({
+      meta: withColorValue({ r: 1, g: 1 }),
+      collection: 'brand',
+      mode: 'dnb-light',
+    })
+
+    expect(tokens.color).toBeUndefined()
+    expect(log.warn).toHaveBeenCalledWith(
+      expect.stringContaining(
+        'has a color value that is not plain sRGB components'
+      )
     )
-  })
-})
-
-describe('assertModesAreExported', () => {
-  it('passes when Figma has no mode beyond the exported ones', () => {
-    expect(() => assertModesAreExported(meta)).not.toThrow()
-  })
-
-  it('throws when Figma has a mode that is not exported', () => {
-    expect(() =>
-      assertModesAreExported({
-        ...meta,
-        variableCollections: {
-          ...meta.variableCollections,
-          'VariableCollectionId:53684:1279': {
-            ...meta.variableCollections['VariableCollectionId:53684:1279'],
-            modes: [
-              ...meta.variableCollections[
-                'VariableCollectionId:53684:1279'
-              ].modes,
-              { modeId: '1:5', name: 'dnbcarnegie-dark' },
-            ],
-          },
-        },
-      })
-    ).toThrow(
-      'The Figma variable collection "brand" has modes that are not exported: dnbcarnegie-dark'
-    )
-  })
-
-  it('ignores a collection that is not exported', () => {
-    expect(() =>
-      assertModesAreExported({
-        ...meta,
-        variableCollections: {
-          ...meta.variableCollections,
-          'VariableCollectionId:3:1': {
-            id: 'VariableCollectionId:3:1',
-            name: 'screen-size',
-            modes: [{ modeId: '3:0', name: 'small' }],
-            defaultModeId: '3:0',
-            variableIds: [],
-          },
-        },
-      })
-    ).not.toThrow()
   })
 })
 
 describe('extractTokens', () => {
+  const mockResponse = (response: FigmaLocalVariables) => {
+    const get = vi.fn().mockResolvedValue({ data: { meta: response } })
+    vi.mocked(createFigmaClient).mockReturnValue({
+      client: { get },
+    } as unknown as ReturnType<typeof createFigmaClient>)
+
+    return get
+  }
+
+  const brand = meta.variableCollections['VariableCollectionId:53684:1279']
+
+  const withBrandModes = (
+    modes: FigmaLocalVariables['variableCollections'][string]['modes']
+  ): FigmaLocalVariables => ({
+    ...meta,
+    variableCollections: {
+      ...meta.variableCollections,
+      [brand.id]: { ...brand, modes },
+    },
+  })
+
   it('throws without a Figma file', async () => {
     await expect(extractTokens()).rejects.toThrow('FIGMA_TOKENS_FILE')
   })
@@ -557,11 +600,8 @@ describe('extractTokens', () => {
     expect(get).not.toHaveBeenCalled()
   })
 
-  it('writes one file per configured collection mode', async () => {
-    const get = vi.fn().mockResolvedValue({ data: { meta } })
-    vi.mocked(createFigmaClient).mockReturnValue({
-      client: { get },
-    } as unknown as ReturnType<typeof createFigmaClient>)
+  it('writes one file per collection mode', async () => {
+    const get = mockResponse(meta)
 
     const files = await extractTokens({
       figmaFile: 'filekey123',
@@ -582,34 +622,145 @@ describe('extractTokens', () => {
     expect(fs.outputFile).toHaveBeenCalledTimes(8)
   })
 
-  it('names the failing collection and mode', async () => {
-    const get = vi.fn().mockResolvedValue({
-      data: {
-        meta: {
-          ...meta,
-          variableCollections: {
-            ...meta.variableCollections,
-            'VariableCollectionId:53684:1279': {
-              ...meta.variableCollections[
-                'VariableCollectionId:53684:1279'
-              ],
-              modes: [{ modeId: '1:0', name: 'dnb-light' }],
-            },
-          },
+  it('writes a new or renamed mode without failing', async () => {
+    mockResponse(
+      withBrandModes([
+        { modeId: '1:0', name: 'dnb-light' },
+        { modeId: '1:5', name: 'dnbeiendom-light (test)' },
+      ])
+    )
+
+    const files = await extractTokens({
+      figmaFile: 'filekey123',
+      tokensDir: '/tokens',
+    })
+
+    expect(files).toEqual([
+      '/tokens/color.tokens.json',
+      '/tokens/brand/dnb-light.tokens.json',
+      '/tokens/brand/dnbeiendom-light-test.tokens.json',
+    ])
+  })
+
+  it('ignores collections it does not fetch', async () => {
+    mockResponse({
+      ...meta,
+      variableCollections: {
+        ...meta.variableCollections,
+        'VariableCollectionId:3:1': {
+          id: 'VariableCollectionId:3:1',
+          name: 'screen-size',
+          modes: [{ modeId: '3:0', name: 'small' }],
+          defaultModeId: '3:0',
+          variableIds: [],
         },
       },
     })
 
+    const files = await extractTokens({
+      figmaFile: 'filekey123',
+      tokensDir: '/tokens',
+    })
+
+    expect(files).not.toContain('/tokens/small.tokens.json')
+    expect(files).toHaveLength(8)
+  })
+
+  it('ignores a new collection that is also named "colors"', async () => {
+    mockResponse({
+      ...meta,
+      variableCollections: {
+        ...meta.variableCollections,
+        'VariableCollectionId:3:1': {
+          ...meta.variableCollections[COLORS_ID],
+          id: 'VariableCollectionId:3:1',
+          modes: [{ modeId: '3:0', name: 'colors-test' }],
+          variableIds: [],
+        },
+      },
+    })
+
+    const files = await extractTokens({
+      figmaFile: 'filekey123',
+      tokensDir: '/tokens',
+    })
+
+    expect(files).toContain('/tokens/color.tokens.json')
+    expect(files).not.toContain('/tokens/colors-test.tokens.json')
+    expect(log.warn).not.toHaveBeenCalled()
+  })
+
+  it('warns about a missing collection and writes the others', async () => {
+    const variableCollections = Object.fromEntries(
+      Object.entries(meta.variableCollections).filter(
+        ([id]) => id !== brand.id
+      )
+    )
+    mockResponse({ ...meta, variableCollections })
+
+    const files = await extractTokens({
+      figmaFile: 'filekey123',
+      tokensDir: '/tokens',
+    })
+
+    expect(files).toEqual(['/tokens/color.tokens.json'])
+    expect(log.warn).toHaveBeenCalledWith(
+      expect.stringContaining('named "brand"')
+    )
+  })
+
+  it('skips a mode whose file name is already taken', async () => {
+    mockResponse(
+      withBrandModes([
+        { modeId: '1:0', name: 'dnb-light' },
+        { modeId: '1:1', name: 'DNB light' },
+      ])
+    )
+
+    const files = await extractTokens({
+      figmaFile: 'filekey123',
+      tokensDir: '/tokens',
+    })
+
+    expect(files).toEqual([
+      '/tokens/color.tokens.json',
+      '/tokens/brand/dnb-light.tokens.json',
+    ])
+    expect(log.warn).toHaveBeenCalledWith(
+      expect.stringContaining('Skipped the mode "DNB light" of "brand"')
+    )
+  })
+
+  it('removes the token files of earlier fetches before writing', async () => {
+    mockResponse(meta)
+    vi.mocked(fs.pathExists).mockResolvedValue(true as never)
+    vi.mocked(fs.readdir).mockImplementation((async (dir: string) =>
+      dir === '/tokens'
+        ? ['color.tokens.json', 'brand', 'tokenValueUtils.ts']
+        : ['dnbeiendom-light.tokens.json']) as never)
+
+    await extractTokens({ figmaFile: 'filekey123', tokensDir: '/tokens' })
+
+    expect(vi.mocked(fs.remove).mock.calls).toEqual([
+      ['/tokens/color.tokens.json'],
+      ['/tokens/brand/dnbeiendom-light.tokens.json'],
+    ])
+    expect(vi.mocked(fs.remove).mock.invocationCallOrder[1]).toBeLessThan(
+      vi.mocked(fs.outputFile).mock.invocationCallOrder[0]
+    )
+  })
+
+  it('keeps the files when the request fails', async () => {
+    const get = vi.fn().mockRejectedValue(new Error('Forbidden'))
     vi.mocked(createFigmaClient).mockReturnValue({
       client: { get },
     } as unknown as ReturnType<typeof createFigmaClient>)
 
     await expect(
       extractTokens({ figmaFile: 'filekey123', tokensDir: '/tokens' })
-    ).rejects.toThrow(
-      'Failed to convert the Figma collection "brand" (mode "dnb-dark")'
-    )
+    ).rejects.toThrow('Forbidden')
 
+    expect(fs.remove).not.toHaveBeenCalled()
     expect(fs.outputFile).not.toHaveBeenCalled()
   })
 })
@@ -729,34 +880,32 @@ describe('the committed Figma exports', () => {
     return meta
   }
 
-  // A newly exported mode has no committed file until the next token sync
-  const committedExports = TOKEN_EXPORTS.filter(({ fileName }) =>
-    existsSync(
-      path.resolve(__dirname, '../../../src/style/themes/figma', fileName)
+  const tokensDir = path.resolve(
+    __dirname,
+    '../../../src/style/themes/figma'
+  )
+  const committedExports = TOKEN_COLLECTIONS.flatMap(({ dir }) =>
+    readdirSync(path.resolve(tokensDir, dir))
+      .filter((name) => name.endsWith('.tokens.json'))
+      .map((name) => ({ fileName: path.posix.join(dir, name) }))
+  )
+
+  it.each(committedExports)('reproduces $fileName', ({ fileName }) => {
+    const tokens = JSON.parse(
+      readFileSync(path.resolve(tokensDir, fileName), 'utf-8')
     )
-  )
+    const mode = tokens.$extensions['com.figma.modeName']
 
-  it.each(committedExports)(
-    'reproduces $fileName',
-    ({ fileName, mode }) => {
-      const file = path.resolve(
-        __dirname,
-        '../../../src/style/themes/figma',
-        fileName
+    expect(
+      JSON.stringify(
+        convertVariablesToTokens({
+          meta: toLocalVariables(tokens, mode),
+          collection: 'exported',
+          mode,
+        }),
+        null,
+        2
       )
-      const tokens = JSON.parse(readFileSync(file, 'utf-8'))
-
-      expect(
-        JSON.stringify(
-          convertVariablesToTokens({
-            meta: toLocalVariables(tokens, mode),
-            collection: 'exported',
-            mode,
-          }),
-          null,
-          2
-        )
-      ).toBe(JSON.stringify(tokens, null, 2))
-    }
-  )
+    ).toBe(JSON.stringify(tokens, null, 2))
+  })
 })

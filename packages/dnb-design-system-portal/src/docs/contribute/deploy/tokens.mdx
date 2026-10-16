@@ -23,49 +23,30 @@ The design tokens are synchronized from Figma with the "Design Tokens" GitHub Ac
 ### 1. Run the "Design Tokens" workflow
 
 1. Open [**Actions → Design Tokens**](https://github.com/dnbexperience/eufemia/actions/workflows/tokens-sync.yml), then select **Run workflow** on `main`.
-1. The workflow reads the Figma variables with the [variables REST API](https://developers.figma.com/docs/rest-api/variables-endpoints/), writes the `*.tokens.json` files listed below, regenerates the CSS files and their test snapshots, builds the library and Portal, updates the visual snapshots and opens or updates a draft pull request. Existing reviewer commits are preserved. If Figma and the pull request are already synchronized, it reports that no changes were found.
+1. The workflow runs in three steps:
+   1. **Fetch:** It reads the Figma variables with the [variables REST API](https://developers.figma.com/docs/rest-api/variables-endpoints/), writes one `*.tokens.json` file per mode of the fetched collections, and commits them to a draft pull request. Changes in Figma, such as a new mode or collection, do not make this step fail. Variables that cannot be converted are skipped, and the workflow lists them in a pull request comment.
+   1. **Verify:** It checks that the exports the themes are generated from are there and can be converted to CSS, such as variable names and the collections tokens point to. Exports that no theme uses are ignored.
+   1. **Generate:** It regenerates the CSS files and their test snapshots, builds the library and Portal, updates the visual snapshots and pushes the result to the same pull request.
+1. If the verify or generate step fails, the workflow comments on the pull request and moves it back to draft. The fetched exports stay in the pull request, so you can see what changed in Figma. Existing reviewer commits are preserved. If Figma and the pull request are already synchronized, it reports that no changes were found.
 1. Review the token values, removals and visual snapshots before marking the pull request ready.
 1. Review and (squash) merge the pull request.
 
-Every mode of the exported collections has to be listed in `TOKEN_EXPORTS` (`packages/dnb-eufemia/scripts/figma/tasks/tokensExtractor.ts`). If a mode is added in Figma, the workflow fails until the mode is added there, so a new mode cannot go unnoticed. A mode only becomes CSS once it is also added to the token files in `makePropertiesFile.ts`.
-
-The workflow writes `color.tokens.json` with only the foundation colors the brand collection actually uses, because the API returns the remote variables used in the file. A manual export contains the whole collection instead, so switching between the two shows up as a large diff in that one file without changing the generated CSS.
+The workflow is the only way to update the exports, so every update has the same format. The REST API differs from a manual "Export Modes" in Figma: it only returns the foundation colors the file uses, includes `hiddenFromPublishing`, and writes scopes such as `STROKE_COLOR` instead of `STROKE`.
 
 The workflow needs the repository secret `FIGMA_TOKEN` (a personal access token with the `file_variables:read` scope) and the repository variable `FIGMA_TOKENS_FILE` (the key of the "💻 Eufemia - Web" file). The Figma variables API is only available to Enterprise organizations.
 
-### 2. Exporting design tokens manually
+### Fetched collections and files
 
-As a fallback, the same files can be exported by hand.
-
-We currently export the Figma variable collections for:
+The fetched collections are listed in `TOKEN_COLLECTIONS` (`packages/dnb-eufemia/scripts/figma/tasks/tokensExtractor.ts`). They are found by id, because Figma allows several collections with the same name. Each mode is written to `packages/dnb-eufemia/src/style/themes/figma` with a file name made from the mode name, such as `dnbeiendom-light (test)` → `dnbeiendom-light-test.tokens.json`:
 
 - "Foundation" collection "colors" (`color.tokens.json`)
-- "💻 Eufemia - Web" collection "brand" with modes:
-  - "dnb-light" (`brand/dnb-light.tokens.json`)
-  - "dnb-dark" (`brand/dnb-dark.tokens.json`)
-  - "sbanken-light" (`brand/sbanken-light.tokens.json`)
-  - "sbanken-dark" (`brand/sbanken-dark.tokens.json`)
-  - "dnbcarnegie-light" (`brand/dnbcarnegie-light.tokens.json`)
-  - "dnbeiendom-light" (`brand/dnbeiendom-light.tokens.json`)
-  - "dnbeiendom-dark" (`brand/dnbeiendom-dark.tokens.json`)
+- "💻 Eufemia - Web" collection "brand", one file per mode in the `brand` subfolder, such as `brand/dnb-light.tokens.json`
 
-The Eiendom theme still uses the DNB tokens, so its exports do not generate CSS yet.
+The exports the themes need are listed in `DESIGN_TOKEN_FILES` and `FOUNDATION_TOKEN_FILES` (`packages/dnb-eufemia/scripts/prebuild/tasks/makePropertiesFile.ts`). The verify step checks them. To use a new mode in a theme, add it there.
 
-Place `color.tokens.json` directly in `packages/dnb-eufemia/src/style/themes/figma`, and place the brand-mode exports in its `brand` subfolder.
-
-Detailed steps:
-
-- Go to the "💻 Eufemia - Web" file in Figma. (You need edit permissions to see sub-collections)
-- Active "Design" mode.
-- Click the "Open variables" icon next to the label "Variables" in the right side-menu (must deselect elements to see the side-menu).
-- Click the "Collections options" icon next to the "Collections" heading and ensure "All collections" is selected.
-- Right click the collections "brand" and "colors" and select "Export Modes".
-- Unzip the downloaded JSON files and place them in `packages/dnb-eufemia/src/style/themes/figma`, using the relative filenames listed above.
-
-We export the collections from the same Figma file in order to ensure the collections are in sync.
 Each brand-mode export is a complete snapshot of the collection, so light and dark files also contain shared font and radius values. The generator produces one typography scale per brand from the light export. Dark mode does not change font sizes or line heights.
 
-### 3. Generate CSS files
+### 2. Generate CSS files
 
 The CSS files are automatically generated during the "Prebuild" step by the `makePropertiesFile.ts` script (`packages/dnb-eufemia/scripts/prebuild/tasks/makePropertiesFile.ts`).
 
@@ -73,7 +54,7 @@ The CSS files are automatically generated during the "Prebuild" step by the `mak
 
 To generate the files manually you can run the command `yarn workspace @dnb/eufemia make-properties`.
 
-To fetch the tokens from Figma locally, add `FIGMA_TOKEN` and `FIGMA_TOKENS_FILE` to your `.env` file and run `yarn workspace @dnb/eufemia figma:tokens`.
+To fetch the tokens from Figma locally, add `FIGMA_TOKEN` and `FIGMA_TOKENS_FILE` to your `.env` file and run `yarn workspace @dnb/eufemia figma:tokens`. Then run `yarn workspace @dnb/eufemia figma:tokens:verify` to check the exports.
 
 ## Naming conventions/transforms
 

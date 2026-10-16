@@ -935,23 +935,12 @@ export const syncTypographyProperties = (
   return source
 }
 
-const makeTypographyPropertiesSCSS = async ({
-  inputPath,
-  outputPath,
-  brand,
-}: {
-  inputPath: string
-  outputPath: string
-  brand: string
-}) => {
-  const tokenList = convertToTokenList(
-    JSON.parse(fs.readFileSync(path.resolve(inputPath), 'utf-8')),
-    TOKEN_SETS.brand.targetVariableSetId
-  )
+const makeTypographyDeclarations = (tokenList: TokenList) => {
   const tokenMap = new Map(
     tokenList.map((token) => [token.figmaPath.join('/'), token])
   )
-  const declarations = Object.entries(typographyProperties).map(
+
+  return Object.entries(typographyProperties).map(
     ([property, tokenPath]) => {
       const tokenPathName = tokenPath.join('/')
       const token = tokenMap.get(tokenPathName)
@@ -965,6 +954,23 @@ const makeTypographyPropertiesSCSS = async ({
       }
       return '  ' + property + ': ' + transformFigmaValue(token) + ';'
     }
+  )
+}
+
+const makeTypographyPropertiesSCSS = async ({
+  inputPath,
+  outputPath,
+  brand,
+}: {
+  inputPath: string
+  outputPath: string
+  brand: string
+}) => {
+  const declarations = makeTypographyDeclarations(
+    convertToTokenList(
+      JSON.parse(fs.readFileSync(path.resolve(inputPath), 'utf-8')),
+      TOKEN_SETS.brand.targetVariableSetId
+    )
   )
   const brandClasses = typographyBrandClasses(brand)
   const selector = [':root', ...brandClasses].join(', ')
@@ -997,113 +1003,135 @@ const makeTypographyPropertiesSCSS = async ({
   }
 }
 
+/** The Figma exports the themes are generated from */
+export const DESIGN_TOKEN_FILES: Array<{
+  theme: string
+  in: string
+  out: string
+  figmaSetId: FigmaSetId
+  prefix: string
+  scopeSelector?: string
+  appendToFile?: boolean
+  referencePrefixOverride?: string
+  colorScheme: 'light' | 'dark'
+}> = [
+  {
+    theme: 'ui',
+    in: './src/style/themes/figma/brand/dnb-light.tokens.json',
+    out: './src/style/themes/ui/tokens.scss',
+    figmaSetId: TOKEN_SETS.brand.targetVariableSetId,
+    prefix: 'token',
+    referencePrefixOverride: foundationPrefixMap.ui.css,
+    colorScheme: 'light',
+  },
+  {
+    theme: 'ui',
+    in: './src/style/themes/figma/brand/dnb-dark.tokens.json',
+    out: './src/style/themes/ui/tokens-dark.scss',
+    figmaSetId: TOKEN_SETS.brand.targetVariableSetId,
+    prefix: 'token',
+    scopeSelector: '.eufemia-theme__color-scheme--dark',
+    referencePrefixOverride: foundationPrefixMap.ui.css,
+    colorScheme: 'dark',
+  },
+
+  {
+    theme: 'sbanken',
+    in: './src/style/themes/figma/brand/sbanken-light.tokens.json',
+    out: './src/style/themes/sbanken/tokens.scss',
+    figmaSetId: TOKEN_SETS.brand.targetVariableSetId,
+    prefix: 'token',
+    referencePrefixOverride: foundationPrefixMap.sbanken.css,
+    colorScheme: 'light',
+  },
+  {
+    theme: 'sbanken',
+    in: './src/style/themes/figma/brand/sbanken-dark.tokens.json',
+    out: './src/style/themes/sbanken/tokens-dark.scss',
+    figmaSetId: TOKEN_SETS.brand.targetVariableSetId,
+    prefix: 'token',
+    scopeSelector: '.eufemia-theme__color-scheme--dark',
+    referencePrefixOverride: foundationPrefixMap.sbanken.css,
+    colorScheme: 'dark',
+  },
+  {
+    theme: 'carnegie',
+    in: './src/style/themes/figma/brand/dnbcarnegie-light.tokens.json',
+    out: './src/style/themes/carnegie/tokens.scss',
+    figmaSetId: TOKEN_SETS.brand.targetVariableSetId,
+    prefix: 'token',
+    referencePrefixOverride: foundationPrefixMap.carnegie.css,
+    colorScheme: 'light',
+  },
+]
+
+/** The foundation colors each theme is generated from */
+export const FOUNDATION_TOKEN_FILES: Array<{
+  theme: string
+  in: string
+  out: string
+  figmaSetId: FigmaSetId
+  filter: (json: FigmaExport) => FigmaNode
+}> = [
+  {
+    theme: 'ui',
+    in: `./src/style/themes/figma/${TOKEN_SETS.colors.fileName}`,
+    out: './src/style/themes/ui/foundation.scss',
+    figmaSetId: TOKEN_SETS.colors.targetVariableSetId,
+    filter: (json) => ({
+      [foundationPrefixMap.ui.figma]: json[foundationPrefixMap.ui.figma],
+    }),
+  },
+  {
+    theme: 'sbanken',
+    in: `./src/style/themes/figma/${TOKEN_SETS.colors.fileName}`,
+    out: './src/style/themes/sbanken/foundation.scss',
+    figmaSetId: TOKEN_SETS.colors.targetVariableSetId,
+    filter: (json) => ({
+      [foundationPrefixMap.sbanken.figma]:
+        json[foundationPrefixMap.sbanken.figma],
+    }),
+  },
+  {
+    theme: 'carnegie',
+    in: `./src/style/themes/figma/${TOKEN_SETS.colors.fileName}`,
+    out: './src/style/themes/carnegie/foundation.scss',
+    figmaSetId: TOKEN_SETS.colors.targetVariableSetId,
+    filter: (json) => ({
+      [foundationPrefixMap.carnegie.figma]:
+        json[foundationPrefixMap.carnegie.figma],
+    }),
+  },
+]
+
+/** Runs the conversions of `runDesignTokenFactory` without writing files */
+export const validateTokenExport = (
+  json: FigmaExport,
+  file:
+    | (typeof DESIGN_TOKEN_FILES)[number]
+    | (typeof FOUNDATION_TOKEN_FILES)[number]
+) => {
+  const tokenList = convertToTokenList(
+    'filter' in file ? file.filter(json) : json,
+    file.figmaSetId
+  )
+
+  generateCSSVariablesFromTokenList(tokenList)
+  generateColorMixFallback(tokenList, ':root')
+
+  if ('colorScheme' in file && file.colorScheme === 'light') {
+    makeTypographyDeclarations(tokenList)
+  }
+}
+
 const runDesignTokenFactory = async () => {
   log.start('> PrePublish: transforming figma variables to SCSS')
-
-  const tokenFiles: Array<{
-    theme: string
-    in: string
-    out: string
-    figmaSetId: FigmaSetId
-    prefix: string
-    scopeSelector?: string
-    appendToFile?: boolean
-    referencePrefixOverride?: string
-    colorScheme: 'light' | 'dark'
-  }> = [
-    {
-      theme: 'ui',
-      in: './src/style/themes/figma/brand/dnb-light.tokens.json',
-      out: './src/style/themes/ui/tokens.scss',
-      figmaSetId: TOKEN_SETS.brand.targetVariableSetId,
-      prefix: 'token',
-      referencePrefixOverride: foundationPrefixMap.ui.css,
-      colorScheme: 'light',
-    },
-    {
-      theme: 'ui',
-      in: './src/style/themes/figma/brand/dnb-dark.tokens.json',
-      out: './src/style/themes/ui/tokens-dark.scss',
-      figmaSetId: TOKEN_SETS.brand.targetVariableSetId,
-      prefix: 'token',
-      scopeSelector: '.eufemia-theme__color-scheme--dark',
-      referencePrefixOverride: foundationPrefixMap.ui.css,
-      colorScheme: 'dark',
-    },
-
-    {
-      theme: 'sbanken',
-      in: './src/style/themes/figma/brand/sbanken-light.tokens.json',
-      out: './src/style/themes/sbanken/tokens.scss',
-      figmaSetId: TOKEN_SETS.brand.targetVariableSetId,
-      prefix: 'token',
-      referencePrefixOverride: foundationPrefixMap.sbanken.css,
-      colorScheme: 'light',
-    },
-    {
-      theme: 'sbanken',
-      in: './src/style/themes/figma/brand/sbanken-dark.tokens.json',
-      out: './src/style/themes/sbanken/tokens-dark.scss',
-      figmaSetId: TOKEN_SETS.brand.targetVariableSetId,
-      prefix: 'token',
-      scopeSelector: '.eufemia-theme__color-scheme--dark',
-      referencePrefixOverride: foundationPrefixMap.sbanken.css,
-      colorScheme: 'dark',
-    },
-    {
-      theme: 'carnegie',
-      in: './src/style/themes/figma/brand/dnbcarnegie-light.tokens.json',
-      out: './src/style/themes/carnegie/tokens.scss',
-      figmaSetId: TOKEN_SETS.brand.targetVariableSetId,
-      prefix: 'token',
-      referencePrefixOverride: foundationPrefixMap.carnegie.css,
-      colorScheme: 'light',
-    },
-  ]
-
-  const foundationFiles: Array<{
-    theme: string
-    in: string
-    out: string
-    figmaSetId: FigmaSetId
-    filter: (json: FigmaExport) => FigmaNode
-  }> = [
-    {
-      theme: 'ui',
-      in: `./src/style/themes/figma/${TOKEN_SETS.colors.fileName}`,
-      out: './src/style/themes/ui/foundation.scss',
-      figmaSetId: TOKEN_SETS.colors.targetVariableSetId,
-      filter: (json) => ({
-        [foundationPrefixMap.ui.figma]: json[foundationPrefixMap.ui.figma],
-      }),
-    },
-    {
-      theme: 'sbanken',
-      in: `./src/style/themes/figma/${TOKEN_SETS.colors.fileName}`,
-      out: './src/style/themes/sbanken/foundation.scss',
-      figmaSetId: TOKEN_SETS.colors.targetVariableSetId,
-      filter: (json) => ({
-        [foundationPrefixMap.sbanken.figma]:
-          json[foundationPrefixMap.sbanken.figma],
-      }),
-    },
-    {
-      theme: 'carnegie',
-      in: `./src/style/themes/figma/${TOKEN_SETS.colors.fileName}`,
-      out: './src/style/themes/carnegie/foundation.scss',
-      figmaSetId: TOKEN_SETS.colors.targetVariableSetId,
-      filter: (json) => ({
-        [foundationPrefixMap.carnegie.figma]:
-          json[foundationPrefixMap.carnegie.figma],
-      }),
-    },
-  ]
 
   log.info(
     `> PrePublish: "makePropertiesFile" Generating Figma SCSS files:`
   )
 
-  for (const file of tokenFiles) {
+  for (const file of DESIGN_TOKEN_FILES) {
     await makeDesignTokenSCSS({
       inputPath: file.in,
       outputPath: file.out,
@@ -1125,7 +1153,7 @@ const runDesignTokenFactory = async () => {
 
   const referencedVariablesEntries: Array<[string, Set<string>]> =
     await Promise.all(
-      tokenFiles.map(async (file) => {
+      DESIGN_TOKEN_FILES.map(async (file) => {
         const tokensContent = await promises.readFile(file.out, 'utf-8')
         return [
           file.theme,
@@ -1149,7 +1177,7 @@ const runDesignTokenFactory = async () => {
   )
 
   await Promise.all(
-    foundationFiles.map(async (file) =>
+    FOUNDATION_TOKEN_FILES.map(async (file) =>
       makeDesignTokenSCSS({
         inputPath: file.in,
         outputPath: file.out,
@@ -1161,7 +1189,7 @@ const runDesignTokenFactory = async () => {
   )
 
   const uniqueTokenOutputs = Array.from(
-    new Set(tokenFiles.map((file) => file.out))
+    new Set(DESIGN_TOKEN_FILES.map((file) => file.out))
   )
 
   await Promise.all(
