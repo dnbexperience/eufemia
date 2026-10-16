@@ -1125,6 +1125,20 @@ describe('CodeBlock', () => {
       ).toBeTruthy()
     })
 
+    it('should render the toolbar as a labelled group, not as a landmark', () => {
+      const { container } = render(
+        <CodeBlock reactLive scope={{}} language="jsx">
+          {'<div>Hello</div>'}
+        </CodeBlock>
+      )
+
+      const toolbar = container.querySelector('.dnb-live-toolbar')
+      expect(toolbar.getAttribute('role')).toBe('group')
+      expect(toolbar.getAttribute('aria-label')).toBe(
+        'Customize appearance'
+      )
+    })
+
     it('should render the editor directly without a toggle when the toolbar is hidden', () => {
       const { container } = render(
         <CodeBlock reactLive hideToolbar scope={{}} language="jsx">
