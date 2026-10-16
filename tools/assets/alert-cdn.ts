@@ -1,7 +1,7 @@
 import { createHash } from 'node:crypto'
-import { readFileSync } from 'node:fs'
+import { appendFileSync, writeFileSync } from 'node:fs'
 import { pathToFileURL } from 'node:url'
-import { summarize } from './check-cdn.ts'
+import { checkCdn, summarize } from './check-cdn.ts'
 import type { Report } from './check-cdn.ts'
 
 const marker = '<!-- eufemia-cdn-health:'
@@ -153,14 +153,7 @@ if (
 ) {
   let report: Report
   try {
-    report = JSON.parse(readFileSync('cdn-health-report.json', 'utf8'))
-    if (
-      !['healthy', 'pending', 'unhealthy'].includes(report.status) ||
-      !Array.isArray(report.checks) ||
-      report.checks.length === 0
-    ) {
-      throw new Error('Invalid health report')
-    }
+    report = await checkCdn()
   } catch {
     report = {
       status: 'unhealthy',
@@ -170,11 +163,21 @@ if (
           name: 'monitor',
           ok: false,
           detail:
-            'The CDN monitor did not produce a report. See the workflow logs.',
+            'The CDN monitor could not complete its checks. See the workflow logs.',
         },
       ],
     }
   }
+  writeFileSync(
+    'cdn-health-report.json',
+    JSON.stringify(report, null, 2) + '\n'
+  )
+  const summary = summarize(report)
+  process.stdout.write(summary + '\n')
+  if (process.env.GITHUB_STEP_SUMMARY) {
+    appendFileSync(process.env.GITHUB_STEP_SUMMARY, summary + '\n')
+  }
+  process.exitCode = report.status === 'unhealthy' ? 1 : 0
   await alertCdn({
     report,
     repository: process.env.GITHUB_REPOSITORY ?? '',
