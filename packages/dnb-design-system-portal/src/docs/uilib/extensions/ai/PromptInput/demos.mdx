@@ -16,6 +16,18 @@ Enter sends the message and Shift+Enter adds a new line.
 
 <Examples.AiPromptInputCompact />
 
+### Inline compact prompt input
+
+Use `dropShadow={false}` for the flat inline surface.
+
+<Examples.AiPromptInputInline />
+
+### Prompt input with context
+
+Pass your context as children. The application owns the reference and its removal.
+
+<Examples.AiPromptInputContext />
+
 ### Stop while streaming
 
 Set `isBusy` and pass `onStop` to show a stop button while the reply streams in.

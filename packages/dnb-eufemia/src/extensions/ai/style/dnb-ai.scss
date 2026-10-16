@@ -192,7 +192,8 @@
 .dnb-ai-prompt-input {
   --ai-prompt-input-background: var(--token-color-background-neutral);
   --ai-prompt-input-border-color: var(--token-color-stroke-neutral-subtle);
-  --ai-prompt-input-radius: var(--token-radius-lg);
+  --ai-prompt-input-radius: var(--token-radius-xl);
+  --ai-prompt-input-shadow: 0 0.25rem 0.4375rem rgb(0 0 0 / 8%);
 
   display: flex;
   flex-direction: column;
@@ -205,25 +206,69 @@
 
   @include utilities.fakeBorder(var(--ai-prompt-input-border-color));
 
-  &:focus-within {
+  &:not(&--disabled):not(&--error):not(&--focus) {
+    @include utilities.hover() {
+      @include utilities.fakeBorder(
+        var(--token-color-stroke-action-hover),
+        0.125rem
+      );
+    }
+  }
+
+  &--focus:not(&--disabled) {
     @include utilities.fakeBorder(
-      var(--token-color-stroke-action-focus),
-      var(--focus-ring-width)
+      var(--token-color-stroke-action-pressed),
+      0.125rem
     );
   }
 
-  &--compact {
-    --ai-prompt-input-border-color: var(
-      --token-color-decorative-second-muted
-    );
-    --ai-prompt-input-radius: 1.5rem;
+  &--error:not(&--disabled) {
+    --border-color: var(--token-color-stroke-error);
+  }
 
-    flex-direction: row;
-    align-items: flex-end;
+  &--disabled {
+    --border-color: var(--token-color-stroke-action-disabled);
+  }
 
-    padding: 0.5rem 1rem;
+  &--focus,
+  &--drop-shadow {
+    filter: drop-shadow(var(--ai-prompt-input-shadow));
+  }
 
-    filter: drop-shadow(0 0.5rem 0.5rem rgb(51 51 51 / 8%));
+  &__compact-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    min-width: 0;
+    min-height: 2rem;
+  }
+
+  &__context {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  &__icon {
+    flex-shrink: 0;
+
+    color: var(--token-color-icon-action);
+  }
+
+  &--disabled &__icon {
+    color: var(--token-color-icon-neutral-alternative);
+  }
+
+  &--compact:not(&--drop-shadow):not(&--focus) {
+    .dnb-ai-prompt-input__icon {
+      color: var(--token-color-icon-neutral-alternative);
+    }
+
+    .dnb-ai-prompt-input__icon-button {
+      --button-color-icon--default: var(
+        --token-color-icon-neutral-alternative
+      );
+    }
   }
 
   // The card draws the border, so the textarea only shows its text
@@ -232,6 +277,7 @@
 
     flex: 1 1 auto;
     align-self: stretch;
+    min-width: 0;
 
     .dnb-textarea__state {
       display: none;
@@ -244,7 +290,6 @@
 
   &--compact &__textarea.dnb-textarea {
     align-self: center;
-    padding: 0 0.5rem;
   }
 
   &__field {

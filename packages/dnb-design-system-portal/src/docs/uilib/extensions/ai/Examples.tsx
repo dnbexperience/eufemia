@@ -3,6 +3,7 @@ import ComponentBox from '../../../../shared/tags/ComponentBox'
 import { useChatSimulation } from './useChatSimulation'
 import type { DemoMessage, Transaction } from './useChatSimulation'
 import styled from '@emotion/styled'
+import referenceAvatar from './assets/dnb-reference.svg'
 import svSE from '@dnb/eufemia/src/shared/locales/sv-SE'
 import aiSvSE from '@dnb/eufemia/src/extensions/ai/constants/locales/sv-SE'
 import daDK from '@dnb/eufemia/src/shared/locales/da-DK'
@@ -44,6 +45,7 @@ import {
   add,
   bank,
   card,
+  close,
   loan,
   pay_from,
   refresh,
@@ -353,17 +355,83 @@ export function AiPromptInputCompact() {
     <ComponentBox data-visual-test="ai-prompt-input-compact">
       <PromptInput
         variant="compact"
-        placeholder="Start typing here"
-        onAttachmentClick={() => null}
+        placeholder="Ask Aino"
         onMicrophoneClick={() => null}
       />
     </ComponentBox>
   )
 }
 
+export function AiPromptInputInline() {
+  return (
+    <ComponentBox data-visual-test="ai-prompt-input-inline">
+      <PromptInput
+        variant="compact"
+        dropShadow={false}
+        placeholder="Ask Aino"
+        onMicrophoneClick={() => null}
+      />
+    </ComponentBox>
+  )
+}
+
+export function AiPromptInputContext() {
+  return (
+    <ComponentBox
+      data-visual-test="ai-prompt-input-context"
+      scope={{ close, referenceAvatar }}
+    >
+      {() => {
+        const ContextChip = styled.div`
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          padding: 0.25rem 0.5rem;
+          background: var(--token-color-background-neutral-subtle);
+          border: 0.0625rem solid var(--token-color-stroke-neutral-subtle);
+          border-radius: 0.5rem;
+        `
+        const InputWithContext = () => {
+          const [hasReference, setHasReference] = useState(true)
+          const [value, setValue] = useState(
+            'Add the companies from the attached document to my watchlist.'
+          )
+          return (
+            <PromptInput
+              dropShadow
+              value={value}
+              onChange={({ value }) => setValue(value)}
+              onSubmit={() => setValue('')}
+              onAttachmentClick={() => setHasReference(true)}
+              onMicrophoneClick={() => null}
+            >
+              {hasReference && (
+                <ContextChip>
+                  <Avatar size="small" src={referenceAvatar} aria-hidden />
+                  <span>dnb.no/...Insurance</span>
+                  <Button
+                    type="button"
+                    variant="tertiary"
+                    size="small"
+                    icon={close}
+                    iconSize="default"
+                    aria-label="Remove reference"
+                    onClick={() => setHasReference(false)}
+                  />
+                </ContextChip>
+              )}
+            </PromptInput>
+          )
+        }
+        return <InputWithContext />
+      }}
+    </ComponentBox>
+  )
+}
+
 export function AiPromptInputBusy() {
   return (
-    <ComponentBox>
+    <ComponentBox data-visual-test="ai-prompt-input-busy">
       {() => {
         const Chat = () => {
           const [isBusy, setIsBusy] = useState(false)
@@ -378,6 +446,7 @@ export function AiPromptInputBusy() {
 
           return (
             <PromptInput
+              variant="compact"
               isBusy={isBusy}
               onSubmit={() => setIsBusy(true)}
               onStop={() => setIsBusy(false)}
