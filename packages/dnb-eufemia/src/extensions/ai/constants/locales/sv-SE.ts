@@ -29,8 +29,6 @@ export default {
       toolError: 'Misslyckades',
       toolAwaitingApproval: 'Väntar på bekräftelse',
       canceled: 'Avbruten',
-      thinking: 'Tänker …',
-      reasoning: 'Resonemang',
     },
   } satisfies (typeof nbNO)['nb-NO'],
 }
