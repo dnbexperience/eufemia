@@ -12,6 +12,34 @@ beforeEach(() => {
 })
 
 describe('Ai.Response', () => {
+  it.each([0x2007, 0x2009])(
+    'renders the full accessible currency value with grouping space %s',
+    (code) => {
+      render(
+        <Response parseIncompleteMarkdown={false}>
+          {'Pris kr 1' + String.fromCharCode(code) + '234 i dag.'}
+        </Response>
+      )
+      const amount = document.querySelector('.dnb-number-format')
+      expect(
+        amount.querySelector('.dnb-number-format__visible')
+      ).toHaveTextContent('NOK 1 234')
+      expect(amount.querySelector('.dnb-sr-only')).toHaveAttribute(
+        'data-text',
+        expect.stringContaining('234')
+      )
+    }
+  )
+
+  it.each(['NOK 1,5 milliarder', 'NOK 4,5 mill.'])(
+    'does not expose an incorrect accessible value for %s',
+    (text) => {
+      render(<Response parseIncompleteMarkdown={false}>{text}</Response>)
+      expect(document.querySelector('.dnb-number-format')).toBeNull()
+      expect(document.querySelector('p')).toHaveTextContent(text)
+    }
+  )
+
   it('formats currency amounts in text, emphasis and tables', () => {
     render(
       <Response parseIncompleteMarkdown={false}>

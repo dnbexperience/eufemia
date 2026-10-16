@@ -78,10 +78,7 @@ export function createCurrencyParser(
       while (previous >= from && /\s/.test(text[previous])) {
         previous--
       }
-      const right =
-        /^[ \t\u00a0\u202f]*([+−-]?[0-9][0-9., \u00a0\u202f]*)/.exec(
-          text.slice(markerEnd)
-        )
+      const right = RIGHT_AMOUNT.exec(text.slice(markerEnd))
       if (right && !/[0-9]/.test(text[previous] ?? '')) {
         number = right[1].trimEnd()
         // A final period/comma belongs to punctuation, not the amount.
@@ -92,10 +89,7 @@ export function createCurrencyParser(
           markerEnd + right[0].length - (right[1].length - number.length)
       } else {
         let index = markerStart - 1
-        while (
-          index >= from &&
-          /[0-9., +−\u00a0\u202f-]/.test(text[index])
-        ) {
+        while (index >= from && AMOUNT_CHARACTER.test(text[index])) {
           index--
         }
         const left = text.slice(index + 1, markerStart).trim()
@@ -121,17 +115,14 @@ export function createCurrencyParser(
         continue
       }
       if (
-        /(?:[A-Z]{3}|kr|€|£)[ \u00a0\u202f]+$/.test(
-          text.slice(Math.max(0, start - 8), start)
-        )
+        PREVIOUS_MARKER.test(text.slice(Math.max(0, start - 8), start))
       ) {
         continue
       }
-      if (
-        /^[ \u00a0\u202f]*(?:[A-Z]{3}|kr|€|£)(?![a-zA-Z])/.test(
-          text.slice(end)
-        )
-      ) {
+      if (NEXT_MARKER.test(text.slice(end))) {
+        continue
+      }
+      if (SCALE_WORD.test(text.slice(end))) {
         continue
       }
       const amount = parseAmount(number, decimal, group)
@@ -167,7 +158,7 @@ function parseAmount(source: string, decimal: string, group: string) {
   const decimals = parts[1]?.length ?? 0
   const integer = parts[0]
   // Space grouping is common in generated text, including English replies.
-  const normalized = integer.replace(/[\u00a0\u202f]/g, ' ')
+  const normalized = integer.replace(GROUPING_SPACE, ' ')
   const separator = normalized.includes(' ')
     ? ' '
     : normalized.includes(group)
@@ -203,6 +194,21 @@ function parseAmount(source: string, decimal: string, group: string) {
   return Number.isFinite(value) ? { value, decimals } : null
 }
 
+const RIGHT_AMOUNT = new RegExp(
+  '^[\\p{Zs}\\t]*([+−-]?[0-9][0-9.,\\p{Zs}]*)',
+  'u'
+)
+const AMOUNT_CHARACTER = new RegExp('[0-9.,+−\\p{Zs}-]', 'u')
+const PREVIOUS_MARKER = new RegExp('(?:[A-Z]{3}|kr|€|£)\\p{Zs}+$', 'u')
+const NEXT_MARKER = new RegExp(
+  '^\\p{Zs}*(?:[A-Z]{3}|kr|€|£)(?![a-zA-Z])',
+  'u'
+)
+const GROUPING_SPACE = new RegExp('\\p{Zs}', 'gu')
+const SCALE_WORD = new RegExp(
+  '^\\s+(?:thousands?|tusen|tusinde?|millions?|millioner|miljoner|milliards?|milliarder|miljarder|billions?|billioner|trillions?|trillioner|mill|mil|mrd|mia|mn|bn|tn|k|m|b)(?![\\p{L}\\p{N}_])',
+  'iu'
+)
 const WORD = new RegExp('[\\p{L}\\p{N}_]', 'u')
 function isWord(char?: string) {
   return char ? WORD.test(char) : false

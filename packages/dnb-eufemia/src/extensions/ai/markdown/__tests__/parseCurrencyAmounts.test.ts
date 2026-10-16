@@ -5,6 +5,62 @@ const amounts = (text: string) =>
   parse(text).filter((part) => typeof part !== 'string')
 
 describe('currency amounts', () => {
+  it.each([
+    0x20, 0xa0, 0x1680, 0x2000, 0x2001, 0x2002, 0x2003, 0x2004, 0x2005,
+    0x2006, 0x2007, 0x2008, 0x2009, 0x200a, 0x202f, 0x205f, 0x3000,
+  ])('keeps the whole amount with Unicode grouping space %s', (code) => {
+    const space = String.fromCharCode(code)
+    for (const text of [
+      'Pris 1' + space + '234 kr i dag.',
+      'Pris kr 1' + space + '234 i dag.',
+    ]) {
+      expect(amounts(text)).toEqual([
+        { value: 1234, currency: 'NOK', decimals: 0 },
+      ])
+    }
+    expect(parse('NOK 12' + space + '34')).toEqual([
+      'NOK 12' + space + '34',
+    ])
+  })
+
+  it.each([
+    'mill.',
+    'million',
+    'millioner',
+    'millions',
+    'miljoner',
+    'milliarder',
+    'milliard',
+    'mrd.',
+    'mia.',
+    'billion',
+    'billioner',
+    'bn',
+    'trillion',
+    'thousand',
+    'tusen',
+    'tusind',
+    'k',
+    'm',
+  ])('leaves scaled amounts with %s unchanged', (scale) => {
+    for (const text of [
+      'NOK 1,5 ' + scale,
+      '1,5 ' + scale + ' kr',
+      'NOK 1,5 ' + scale + ' i dag.',
+    ]) {
+      expect(parse(text)).toEqual([text])
+    }
+  })
+
+  it('preserves normal prose after an amount', () => {
+    expect(amounts('NOK 150 betales nå.')).toEqual([
+      { value: 150, currency: 'NOK', decimals: 0 },
+    ])
+    expect(amounts('NOK 150 minimum.')).toEqual([
+      { value: 150, currency: 'NOK', decimals: 0 },
+    ])
+  })
+
   it('recognizes explicit currencies before and after amounts', () => {
     expect(amounts('NOK 12 400,50 and 200 kr, EUR 19,95.')).toEqual([
       { value: 12400.5, currency: 'NOK', decimals: 2 },
