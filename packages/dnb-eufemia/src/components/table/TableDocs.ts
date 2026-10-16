@@ -181,19 +181,19 @@ export const ThProperties: PropertiesTableProps = {
     status: 'optional',
   },
   sortable: {
-    doc: 'Defines the table header as sortable if set to `true` (ascending).',
+    doc: 'Defines the table header as sortable if set to `true`. Use it together with `Th.SortButton`.',
     type: 'boolean',
     defaultValue: 'false',
     status: 'optional',
   },
   active: {
-    doc: 'Defines the sortable column as the current active (ascending).',
+    doc: 'Defines the sortable column as the currently sorted column. Shows the sort icon and sets `aria-sort`. The sort direction is ascending unless `reversed` is set.',
     type: 'boolean',
     defaultValue: 'false',
     status: 'optional',
   },
   reversed: {
-    doc: 'Defines the sortable column as in reversed order (descending).',
+    doc: 'Defines the sort direction of the active column as descending.',
     type: 'boolean',
     defaultValue: 'false',
     status: 'optional',

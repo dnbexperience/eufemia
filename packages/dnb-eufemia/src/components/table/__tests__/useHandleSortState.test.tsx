@@ -124,20 +124,6 @@ describe('useHandleSortState', () => {
       sortState: {
         one: {
           active: true,
-          reversed: true,
-          direction: 'desc',
-        },
-      },
-    })
-
-    simulate()
-
-    expect(result.current).toEqual({
-      activeSortName: 'one',
-      sortHandler,
-      sortState: {
-        one: {
-          active: true,
           reversed: false,
           direction: 'asc',
         },
@@ -157,6 +143,84 @@ describe('useHandleSortState', () => {
         },
       },
     })
+
+    simulate()
+
+    expect(result.current).toEqual({
+      activeSortName: 'one',
+      sortHandler,
+      sortState: {
+        one: {
+          active: true,
+          reversed: false,
+          direction: 'asc',
+        },
+      },
+    })
+  })
+
+  it('should start with the first mode when activating an unsorted column without "off" in modes', () => {
+    const { result } = renderHook(useHandleSortState, {
+      initialProps: {
+        one: { modes: ['asc', 'desc'] },
+      },
+    })
+
+    act(() => result.current.sortHandler.one())
+
+    expect(result.current.sortState.one).toEqual({
+      active: true,
+      reversed: false,
+      direction: 'asc',
+    })
+  })
+
+  it('should respect the order of the given column modes', () => {
+    const { result } = renderHook(useHandleSortState, {
+      initialProps: {
+        one: { modes: ['desc', 'asc', 'off'] },
+      },
+    })
+
+    const directions = []
+    for (let i = 0; i < 4; i++) {
+      act(() => result.current.sortHandler.one())
+      directions.push(result.current.sortState.one.direction)
+    }
+
+    expect(directions).toEqual(['desc', 'asc', 'off', 'desc'])
+  })
+
+  it('should respect the order of the given default modes', () => {
+    const config = { one: {} }
+    const defaults = { modes: ['desc', 'asc'] as Array<'asc' | 'desc'> }
+    const { result } = renderHook(() =>
+      useHandleSortState(config, defaults)
+    )
+
+    const directions = []
+    for (let i = 0; i < 3; i++) {
+      act(() => result.current.sortHandler.one())
+      directions.push(result.current.sortState.one.direction)
+    }
+
+    expect(directions).toEqual(['desc', 'asc', 'desc'])
+  })
+
+  it('should fall back to the default modes when defaults are given without modes', () => {
+    const config = { one: {} }
+    const defaults = { direction: 'off' as const }
+    const { result } = renderHook(() =>
+      useHandleSortState(config, defaults)
+    )
+
+    const directions = []
+    for (let i = 0; i < 3; i++) {
+      act(() => result.current.sortHandler.one())
+      directions.push(result.current.sortState.one.direction)
+    }
+
+    expect(directions).toEqual(['asc', 'desc', 'off'])
   })
 
   it('should not cycle through stages when dispatching handler', () => {
