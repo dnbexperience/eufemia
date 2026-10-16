@@ -1,6 +1,7 @@
 import { createContext } from 'react'
 
 type TableThContextProps = {
+  active?: boolean
   reversed?: boolean
 }
 
