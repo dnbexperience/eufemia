@@ -255,6 +255,40 @@ export type AiToolStatus =
   | 'error'
   | 'canceled'
 
+export type AiAgentActionStatus = 'running' | 'done' | 'error' | 'canceled'
+
+export type AiAgentActionProps = {
+  /**
+   * Display status supplied by the application. Progress never changes the status automatically.
+   * Default: `"running"`
+   */
+  status?: AiAgentActionStatus
+  /** The action verb shown before the progress pill while running, e.g. `Paying`. */
+  actionLabel?: string
+  /** The target text while running, or the action result, e.g. `Spotify Premium` while running and `Spotify Premium paid.` when done. */
+  children: string
+  /** Decorative agent avatar. Defaults to a small Aino Avatar. Use `false` to hide it. */
+  agentAvatar?: ReactNode
+  /** Decorative content beside the target text inside the progress pill, such as an Avatar, icon, or image. */
+  targetVisual?: ReactNode
+  /** Progress from 0 to 100. Omit it when progress is unknown. Values are clamped; non-finite values use indeterminate progress. */
+  progress?: number
+  /** Absolute Unix timestamp in milliseconds for the Undo deadline. Without it, Undo remains available until the application removes `onUndo`. */
+  undoUntil?: number
+  /** Undo button text. Defaults to a translated text. */
+  undoLabel?: string
+  /** Disable Undo while the application handles the request. */
+  undoDisabled?: boolean
+  /**
+   * Announce status, text, and Undo availability changes. Set to false for historical actions or when the application owns announcements.
+   * Default: `true`
+   */
+  announce?: boolean
+  /** Called when Undo is clicked before its deadline. Receives the Button click event. Only available when `status` is `done`; the application handles the reversal and updates the display. */
+  onUndo?: (event: ButtonClickEvent) => void
+} & SpacingProps &
+  Omit<HTMLAttributes<HTMLDivElement>, 'children'>
+
 export type AiToolProps = {
   /** What the tool does, e.g. `Looking up your transactions`. */
   title?: ReactNode
