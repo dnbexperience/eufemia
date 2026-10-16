@@ -177,11 +177,6 @@ export type AiSuggestionProps = {
   /** The suggested prompt. It is shown as the text, unless `children` is given, and is sent to `onClick`. */
   suggestion: string
   /**
-   * Use `chip` for a small round button, or `card` for a larger button with the icon above the text.
-   * Default: `"chip"`
-   */
-  variant?: 'chip' | 'card'
-  /**
    * Icon shown before the text.
    * Default: `ai`
    */

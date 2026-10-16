@@ -221,12 +221,6 @@ export const AiSuggestionProperties: PropertiesTableProps = {
     type: 'string',
     status: 'required',
   },
-  variant: {
-    doc: 'Use `chip` for a small round button, or `card` for a larger button with the icon above the text.',
-    type: ['"chip"', '"card"'],
-    defaultValue: '"chip"',
-    status: 'optional',
-  },
   icon: {
     doc: 'Icon shown before the text.',
     type: 'IconIcon',
