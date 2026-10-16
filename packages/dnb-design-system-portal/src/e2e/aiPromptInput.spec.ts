@@ -2,6 +2,45 @@ import { test, expect } from '@playwright/test'
 import waitForApp from './shared/waitForApp'
 
 test.describe('Ai.PromptInput interaction styles', () => {
+  for (const demo of ['compact', 'inline', 'busy']) {
+    test(`keeps the ${demo} prompt height when typing starts`, async ({
+      page,
+    }) => {
+      const form = page.locator(
+        `[data-visual-test="ai-prompt-input-${demo}"] .dnb-ai-prompt-input`
+      )
+      const textarea = form.locator('textarea')
+      const height = () =>
+        form.evaluate((element) => element.getBoundingClientRect().height)
+      await textarea.focus()
+      const emptyHeight = await height()
+
+      await textarea.fill('H')
+      await expect(
+        form.locator('.dnb-ai-prompt-input__submit')
+      ).toBeVisible()
+      await expect.poll(height).toBe(emptyHeight)
+
+      await textarea.fill('Hello')
+      await expect.poll(height).toBe(emptyHeight)
+
+      await textarea.fill(' ')
+      await expect(
+        form.locator('.dnb-ai-prompt-input__submit')
+      ).toHaveCount(0)
+      await expect.poll(height).toBe(emptyHeight)
+
+      await textarea.fill('Hello\nWorld')
+      await expect.poll(height).toBeGreaterThan(emptyHeight)
+
+      await textarea.fill('')
+      await expect(
+        form.locator('.dnb-ai-prompt-input__submit')
+      ).toHaveCount(0)
+      await expect.poll(height).toBe(emptyHeight)
+    })
+  }
+
   test('returns keyboard focus to the compact input after Stop disappears', async ({
     page,
   }) => {
