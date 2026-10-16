@@ -46,7 +46,7 @@ function fixture({
       if (response) {
         return response
       }
-      if (url.includes('api.github.com')) {
+      if (new URL(url).hostname === 'api.github.com') {
         return Response.json({
           workflow_runs: [
             {
@@ -316,7 +316,7 @@ describe('HTTP MCP production monitoring', () => {
     const report = await checkHttpMcp({
       fetch: fixture({
         change: (url) =>
-          url.includes('api.github.com')
+          new URL(url).hostname === 'api.github.com'
             ? new Response('', { status: 503 })
             : undefined,
       }),
@@ -338,7 +338,7 @@ describe('HTTP MCP production monitoring', () => {
     const report = await checkHttpMcp({
       fetch: fixture({
         change: (url) =>
-          url.includes('api.github.com')
+          new URL(url).hostname === 'api.github.com'
             ? Response.json({
                 workflow_runs: [
                   {
@@ -458,7 +458,7 @@ describe('deployment lifecycle and transport isolation', () => {
     const report = await checkHttpMcp({
       fetch: fixture({
         change: (url) =>
-          url.includes('api.github.com')
+          new URL(url).hostname === 'api.github.com'
             ? Response.json({
                 workflow_runs: [
                   {
@@ -484,7 +484,7 @@ describe('deployment lifecycle and transport isolation', () => {
     const report = await checkHttpMcp({
       fetch: fixture({
         change: (url) =>
-          url.includes('api.github.com')
+          new URL(url).hostname === 'api.github.com'
             ? Response.json({
                 workflow_runs: [
                   {
@@ -524,7 +524,7 @@ describe('deployment lifecycle and transport isolation', () => {
         init?.headers as Record<string, string> | undefined
       )?.Authorization
       expect(authorization).toBe(
-        String(url).includes('api.github.com')
+        new URL(String(url)).hostname === 'api.github.com'
           ? 'Bearer test-token'
           : undefined
       )
