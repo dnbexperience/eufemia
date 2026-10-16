@@ -2,7 +2,7 @@ name: Eufemia CDN health
 
 on:
   schedule:
-    - cron: '7,22,37,52 * * * *'
+    - cron: '7 * * * *'
   workflow_dispatch:
   workflow_run:
     workflows: ['Eufemia Assets']

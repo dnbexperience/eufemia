@@ -53,7 +53,7 @@ module.
 
 ## Production monitoring
 
-`.github/workflows/cdn-health.yml` checks the public CDN every 15 minutes,
+`.github/workflows/cdn-health.yml` checks the public CDN every hour,
 after the Eufemia Assets workflow completes, and on manual dispatch. It runs
 Node.js directly without installing dependencies or using deployment credentials.
 The report is attached to each run for 14 days.
