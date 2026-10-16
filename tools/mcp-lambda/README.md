@@ -187,7 +187,7 @@ tools/mcp-lambda/
 ## Production HTTP monitoring
 
 The **Eufemia HTTP MCP health** workflow checks
-https://server.eufemia.dnb.no/mcp/web every 15 minutes, after **MCP Lambda**
+https://server.eufemia.dnb.no/mcp/web every hour, after **MCP Lambda**
 completes, and on manual dispatch from the default branch. It executes Node.js
 directly without installing dependencies or receiving deployment credentials.
 
