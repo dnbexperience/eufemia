@@ -2,7 +2,7 @@ name: Eufemia HTTP MCP health
 
 on:
   schedule:
-    - cron: '11,26,41,56 * * * *'
+    - cron: '11 * * * *'
   workflow_dispatch:
   workflow_run:
     workflows: ['MCP Lambda']
