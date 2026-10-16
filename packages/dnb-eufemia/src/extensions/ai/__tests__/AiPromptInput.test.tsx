@@ -4,12 +4,13 @@ import userEvent from '@testing-library/user-event'
 import { axeComponent } from '../../../core/test-utils/testSetup'
 import Provider from '../../../shared/Provider'
 import { PromptInput } from '..'
+import { bank } from '../../../icons'
 
 const getTextarea = () => document.querySelector('textarea')
 const getSubmit = () =>
   document.querySelector<HTMLButtonElement>('.dnb-ai-prompt-input__submit')
 
-describe('Ai.PromptInput', () => {
+describe('PromptInput', () => {
   it('uses isBusy to show stop until the operation ends', () => {
     const onStop = vi.fn()
     const { rerender } = render(
@@ -227,6 +228,91 @@ describe('Ai.PromptInput', () => {
     ).toHaveAccessibleName('Stopp')
   })
 
+  it('shows the assistant icon and microphone without a send button when compact and empty', async () => {
+    render(<PromptInput variant="compact" onMicrophoneClick={vi.fn()} />)
+    expect(
+      document.querySelector('.dnb-ai-prompt-input__icon')
+    ).toHaveAttribute('aria-hidden', 'true')
+    expect(getSubmit()).toBeNull()
+    await userEvent.type(getTextarea(), 'Hello')
+    expect(getSubmit()).toHaveAccessibleName('Send')
+    await userEvent.clear(getTextarea())
+    expect(getSubmit()).toBeNull()
+  })
+
+  it('supports a custom compact icon and a flat surface', () => {
+    const { rerender } = render(
+      <PromptInput variant="compact" dropShadow={false} icon={bank} />
+    )
+    expect(document.querySelector('form')).not.toHaveClass(
+      'dnb-ai-prompt-input--drop-shadow'
+    )
+    expect(
+      document.querySelector('.dnb-ai-prompt-input__icon')
+    ).toBeInTheDocument()
+    rerender(<PromptInput variant="compact" icon={null} />)
+    expect(document.querySelector('.dnb-ai-prompt-input__icon')).toBeNull()
+    expect(document.querySelector('form')).toHaveClass(
+      'dnb-ai-prompt-input--drop-shadow'
+    )
+  })
+
+  it('keeps the stop button available when compact and empty', () => {
+    render(<PromptInput variant="compact" isBusy onStop={vi.fn()} />)
+    expect(
+      document.querySelector('.dnb-ai-prompt-input__stop')
+    ).toHaveAccessibleName('Stopp')
+  })
+
+  it('returns focus to the compact textarea when stopping removes the button', async () => {
+    const Demo = () => {
+      const [busy, setBusy] = useState(true)
+      return (
+        <PromptInput
+          variant="compact"
+          isBusy={busy}
+          onStop={() => setBusy(false)}
+        />
+      )
+    }
+    render(<Demo />)
+    const stop = document.querySelector<HTMLButtonElement>(
+      '.dnb-ai-prompt-input__stop'
+    )
+    stop.focus()
+    await userEvent.keyboard('{Enter}')
+    expect(document.querySelector('.dnb-ai-prompt-input__stop')).toBeNull()
+    expect(getTextarea()).toHaveFocus()
+  })
+
+  it('returns focus to the compact input after sending clears its value', async () => {
+    render(<PromptInput variant="compact" />)
+    await userEvent.type(getTextarea(), 'Hello')
+    await userEvent.click(getSubmit())
+    expect(getTextarea()).toHaveValue('')
+    expect(getTextarea()).toHaveFocus()
+    expect(getSubmit()).toBeNull()
+  })
+
+  it('renders removable context above the input without submitting', async () => {
+    const onRemove = vi.fn()
+    const onSubmit = vi.fn()
+    render(
+      <PromptInput value="Hello" onSubmit={onSubmit}>
+        <button type="button" onClick={onRemove}>
+          Remove reference
+        </button>
+      </PromptInput>
+    )
+    const context = document.querySelector('.dnb-ai-prompt-input__context')
+    expect(context.nextElementSibling).toHaveClass(
+      'dnb-ai-prompt-input__field'
+    )
+    await userEvent.click(context.querySelector('button'))
+    expect(onRemove).toHaveBeenCalledTimes(1)
+    expect(onSubmit).not.toHaveBeenCalled()
+  })
+
   it('renders a short character counter with a text for screen readers', async () => {
     render(
       <Provider locale="nb-NO">
@@ -283,6 +369,17 @@ describe('Ai.PromptInput', () => {
     })
   })
 
+  it('disables Stop as well as the input while disabled and busy', async () => {
+    const onStop = vi.fn()
+    render(<PromptInput disabled isBusy onStop={onStop} />)
+    const stop = document.querySelector<HTMLButtonElement>(
+      '.dnb-ai-prompt-input__stop'
+    )
+    expect(stop).toBeDisabled()
+    await userEvent.click(stop)
+    expect(onStop).not.toHaveBeenCalled()
+  })
+
   it('forwards textareaProps', () => {
     render(
       <PromptInput textareaProps={{ status: 'Something went wrong' }} />
@@ -313,6 +410,26 @@ describe('Ai.PromptInput', () => {
     expect(onSubmit).toHaveBeenCalledWith(
       expect.objectContaining({ value: 'Hello' })
     )
+  })
+
+  it('tracks textarea focus without treating toolbar focus as input focus', async () => {
+    const onFocus = vi.fn()
+    const onBlur = vi.fn()
+    render(
+      <PromptInput
+        onAttachmentClick={vi.fn()}
+        textareaProps={{ onFocus, onBlur }}
+      />
+    )
+    const form = document.querySelector('form')
+    await userEvent.click(getTextarea())
+    expect(form).toHaveClass('dnb-ai-prompt-input--focus')
+    expect(onFocus).toHaveBeenCalledOnce()
+    await userEvent.click(
+      document.querySelector('.dnb-ai-prompt-input__icon-button')
+    )
+    expect(form).not.toHaveClass('dnb-ai-prompt-input--focus')
+    expect(onBlur).toHaveBeenCalledOnce()
   })
 
   it('supports spacing props and forwards attributes', () => {
