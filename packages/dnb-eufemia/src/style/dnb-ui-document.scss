@@ -187,14 +187,19 @@
     .dnb-document__footer,
     .dnb-document__return-address
   ) {
-    --font-size-basis: var(--font-size-small);
-    --line-height-basis: var(--line-height-small);
+    font-size: var(--font-size-basis);
+    line-height: var(--line-height-basis);
+  }
 
-    font-size: var(--font-size-small);
-    line-height: var(--line-height-small);
+  :is(.dnb-document__footer, .dnb-document__return-address) {
+    --font-size-basis: var(--font-size-x-small);
+    --line-height-basis: 1.05rem;
   }
 
   .dnb-document__signature {
+    --font-size-basis: var(--font-size-small);
+    --line-height-basis: var(--line-height-small);
+
     &,
     .dnb-core-style & {
       &:not([class*='dnb-space__top']) {

@@ -69,9 +69,9 @@ test.describe('Document and print styles', () => {
           <p id="spaced" class="dnb-p dnb-space__top--large dnb-space__bottom--large">Explicit spacing</p>
           <h1 id="spaced-heading" class="dnb-h--xx-large dnb-space__top--large">Explicit heading spacing</h1>
           <p id="signature" class="dnb-p dnb-document__signature dnb-print__keep-together">Vennlig hilsen<br>DNB</p>
-          <footer class="dnb-document__footer"><div><p id="footer-paragraph" class="dnb-p">Footer text</p></div></footer>
+          <footer id="footer" class="dnb-document__footer"><div><p id="footer-paragraph" class="dnb-p">Footer text</p></div></footer>
           <div class="dnb-document__signature"><p id="signature-paragraph" class="dnb-p">Signature text</p></div>
-          <address class="dnb-document__return-address"><p id="return-address-paragraph">Return address</p></address>
+          <address id="return-address" class="dnb-document__return-address"><p id="return-address-paragraph">Return address</p></address>
           <table class="dnb-table"><thead><tr><th id="cell">Oversikt</th></tr></thead>
             <tbody><tr><td><p id="cell-paragraph" class="dnb-p">Beløp</p></td></tr>
               <tr><td id="right-cell" class="dnb-table__td" align="right">1 250,00</td></tr>
@@ -393,13 +393,38 @@ test.describe('Document and print styles', () => {
     })
   }
 
-  for (const role of ['footer', 'signature', 'return-address']) {
-    test(`applies ${role} typography to nested paragraphs`, async () => {
-      await render()
-      const paragraph = await styles(`#${role}-paragraph`)
-      expect(paragraph.fontSize).toBeCloseTo(13.3333, 2)
-      expect(paragraph.lineHeight).toBeCloseTo(18.6667, 2)
-    })
+  for (const brand of ['ui', 'sbanken', 'eiendom', 'carnegie']) {
+    for (const isolated of [false, true]) {
+      test(`uses 9pt footer and return-address text with 10pt signatures for ${brand} (isolated: ${isolated})`, async () => {
+        await render(brand, isolated, true)
+        const expectTypography = async (scale = 1) => {
+          for (const selector of [
+            '#footer',
+            '#footer-paragraph',
+            '#return-address',
+            '#return-address-paragraph',
+          ]) {
+            const text = await styles(selector)
+            expect(text.fontSize).toBeCloseTo(12 * scale, 2)
+            expect(text.lineHeight).toBeCloseTo(16.8 * scale, 2)
+          }
+          for (const selector of [
+            '#signature',
+            '#signature-paragraph',
+            '#cell',
+          ]) {
+            const text = await styles(selector)
+            expect(text.fontSize).toBeCloseTo(13.3333 * scale, 2)
+            expect(text.lineHeight).toBeCloseTo(18.6667 * scale, 2)
+          }
+        }
+        await expectTypography()
+        await page.emulateMedia({ media: 'print' })
+        await expectTypography()
+        await page.addStyleTag({ content: 'html { font-size: 125%; }' })
+        await expectTypography(1.25)
+      })
+    }
   }
 
   test('separates the import table and keeps code examples close to their introduction', async () => {

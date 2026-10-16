@@ -80,7 +80,7 @@ dialogs and other interactive content appear in print. The stylesheet does
 not hide controls automatically, expand collapsed content, render
 virtualized rows, or convert interactive components to static content.
 
-Page size, margins, repeated page footers and envelope geometry belong to
+Page size, margins, repeated page footers, page numbering and envelope geometry belong to
 the template and PDF renderer. The shared styles do not impose an `@page`
 size or margin. For example, an A4 template can add:
 
@@ -239,7 +239,8 @@ it fits.
 | Native `h1` / React `size="xx-large"`                            | 14pt                     | 1.25        |
 | Native `h2` / React `size="x-large"`                             | 13pt                     | 1.25        |
 | Native `h3`, `h4` / React `size="large"`, `size="medium"` / lead | 12pt                     | 1.3         |
-| Signature, table cells, footer and return address                | 10pt                     | 1.4         |
+| Signature and table cells                                        | 10pt                     | 1.4         |
+| Footer and return address                                        | 9pt                      | 1.4         |
 
 </Space>
 
@@ -263,11 +264,31 @@ normal PDF scaling. Browser font preferences still work. The profile does
 not change the root font size. Responsive typography modifiers use the
 document scale at every viewport size to keep pagination stable.
 
-Use `.dnb-document__signature`, `.dnb-document__footer` and
-`.dnb-document__return-address` for smaller text, including nested paragraphs. Greeting wording, logos,
-envelope calculations and positioning remain part of the template. Existing
-inline font sizes should be removed when migrating to the profile.
+Use `.dnb-document__signature` for 10pt signature text, and
+`.dnb-document__footer` and `.dnb-document__return-address` for 9pt text,
+including nested paragraphs. Greeting wording, logos, envelope calculations
+and positioning remain part of the template. Existing inline font sizes
+should be removed when migrating to the profile.
 Eufemia does not provide DNB Light or Noto Sans as part of this profile.
+
+### Footer layout and page numbers
+
+`.dnb-document__footer` controls typography only. It does not position the
+footer at the bottom of a page, repeat it across pages, or generate page
+numbers. The print rules for repeating `<tfoot>` apply to table footers,
+not document page footers.
+
+The template and PDF renderer own footer placement and page numbering.
+Align the footer with the document's content area and reserve enough space
+in the page margins for the footer and page numbers. Keep page numbers in
+a separate area from the footer text. Verify the layout with long content,
+multiple pages and each supported language.
+
+Use your PDF renderer's supported page-footer and page-counter features
+for output such as "Page 1 of 3". Support differs between renderers, so
+validate the result with the engine used in production. Reducing the font
+size does not correct a footer whose width or position exceeds the page's
+content area.
 
 ## Style preview
 

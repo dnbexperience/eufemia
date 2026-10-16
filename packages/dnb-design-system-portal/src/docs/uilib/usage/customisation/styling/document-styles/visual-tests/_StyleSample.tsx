@@ -14,6 +14,11 @@ export default function StyleSample({
       data-visual-test="style-sample"
     >
       <H1>{print ? 'Print styles' : 'Document styles'}</H1>
+      {!print && (
+        <p className="dnb-document__return-address">
+          Return address: Example Bank, Example Street 1, 0123 Oslo
+        </p>
+      )}
       <P>
         Branded text with <strong>emphasis</strong> and a{' '}
         <small>smaller annotation</small>.
