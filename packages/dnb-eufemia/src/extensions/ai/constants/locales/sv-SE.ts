@@ -3,6 +3,13 @@ import type nbNO from './nb-NO'
 export default {
   'sv-SE': {
     Ai: {
+      undo: 'Ångra',
+      undoAvailable: '%action är tillgängligt.',
+      undoAvailableFor: '%action är tillgängligt i %seconds sekunder.',
+      undoAvailableForOneSecond: '%action är tillgängligt i 1 sekund.',
+      undoUnavailable: '%action är inte längre tillgängligt.',
+      undoAvailableUntil: '%action är tillgängligt till %time.',
+      undoTimeLeft: 'Tid kvar att ångra',
       copyCode: 'Kopiera kod',
       codeCopied: 'Kopierat',
       loading: 'Skriver svar …',
