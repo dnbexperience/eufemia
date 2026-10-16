@@ -1,9 +1,12 @@
+import { useEffect, useState } from 'react'
 import type { CSSProperties } from 'react'
 import type { IconProps } from './Icon'
 import type { ContextProps } from '../../shared/Context'
 import { iconCase } from './IconHelpers'
+import { getVersion } from '../../shared/build-info/BuildInfo'
 
-const defaultDirectory = 'https://assets.eufemia.dnb.no/icons/dnb'
+const assetBaseUrl = 'https://assets.eufemia.dnb.no'
+const defaultDirectory = `${assetBaseUrl}/icons/dnb`
 
 export function renderCdnIcon({
   icon,
@@ -24,7 +27,15 @@ export function renderCdnIcon({
     return null
   }
 
-  const directory = iconBaseUrl ?? defaultDirectory
+  const version = getVersion()
+  const isRelease =
+    /^\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?$/.test(version) &&
+    version !== '0.0.0-development'
+  const directory =
+    iconBaseUrl ??
+    (isRelease
+      ? `${assetBaseUrl}/v${version}/icons/dnb`
+      : defaultDirectory)
   let url: URL
   try {
     url = new URL(directory, 'https://eufemia.dnb.no')
@@ -59,8 +70,51 @@ export function renderCdnIcon({
     color:
       typeof iconParams.color === 'string' ? iconParams.color : undefined,
   }
+  const fallbackSrc =
+    iconBaseUrl === undefined && isRelease
+      ? `${defaultDirectory}/${name}.svg`
+      : undefined
 
-  const image = `url("${src}")`
+  return (
+    <CdnIcon
+      key={`${src}:${fallbackSrc ?? ''}`}
+      src={src}
+      fallbackSrc={fallbackSrc}
+      inheritColor={inheritColor}
+      style={style}
+    />
+  )
+}
+
+function CdnIcon({
+  src,
+  fallbackSrc,
+  inheritColor,
+  style,
+}: {
+  src: string
+  fallbackSrc?: string
+  inheritColor?: boolean
+  style: CSSProperties
+}) {
+  const [failed, setFailed] = useState(false)
+
+  useEffect(() => {
+    if (!fallbackSrc) {
+      return undefined
+    }
+
+    // Versioned assets can become available shortly after the package release.
+    const image = new Image()
+    image.crossOrigin = 'anonymous'
+    image.onerror = () => setFailed(true)
+    image.src = src
+    return () => {
+      image.onerror = null
+    }
+  }, [src, fallbackSrc])
+
+  const image = `url("${failed ? fallbackSrc : src}")`
   return (
     <span
       className={`dnb-icon__cdn${inheritColor === false ? '' : ' dnb-icon__cdn--mask'}`}

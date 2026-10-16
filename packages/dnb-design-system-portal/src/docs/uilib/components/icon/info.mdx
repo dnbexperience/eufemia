@@ -59,20 +59,24 @@ import { Icon, IconPrimary, Button } from '@dnb/eufemia'
 - `IconPrimary` renders bundled primary names inline and falls back to the CDN for other names. Components such as Button use the same fallback for string icons.
 - Imported SVG components and React elements render directly in both components.
 
-The default asset directory is `https://assets.eufemia.dnb.no/icons/dnb`. Configure `iconBaseUrl` on Provider to pin an asset version or self-host the SVGs:
+No CDN configuration is needed. Released packages use their installed Eufemia version automatically: version `11.14.1` loads icons from `https://assets.eufemia.dnb.no/v11.14.1/icons/dnb`. Prereleases use their own versioned directory. Local and branch builds use `https://assets.eufemia.dnb.no/icons/dnb`.
+
+If a versioned asset is unavailable while release assets are being published, the icon falls back to the unversioned official CDN URL.
+
+Only set `iconBaseUrl` on Provider when your app needs a different asset directory, such as self-hosted SVGs:
 
 ```tsx
 import Provider from '@dnb/eufemia/shared/Provider'
 
 render(
-  <Provider iconBaseUrl="https://assets.eufemia.dnb.no/v11.14.1/icons/dnb">
+  <Provider iconBaseUrl="/assets/icons">
     <Icon icon="heart" />
     <Button text="Favorite" icon="heart" />
   </Provider>
 )
 ```
 
-HTTPS directories and same-origin paths starting with `/` are supported, for example `iconBaseUrl="/assets/icons"`. The nearest Provider controls the directory for remote icons. Bundled primary icons remain local regardless of this setting.
+HTTPS directories and same-origin paths starting with `/` are supported. The nearest Provider controls the directory for remote icons. An explicit directory is used as supplied, without falling back to the official CDN. Bundled primary icons remain local regardless of this setting.
 
 Set `iconBaseUrl={false}` to disable remote loading. Imported icons and bundled primary icons continue to render; other names render nothing. This applies to direct Icon usage and string icons in other components.
 
@@ -80,7 +84,7 @@ Use names from the [icon library](/icons), such as `bell`, `arrow_right`, or `be
 
 The browser loads the SVG as a CSS mask and applies `currentColor`, including hover and theme colours. Use `inheritColor={false}` to display the SVG's original colours as an image. Masks and images preserve the SVG's shape: the `fill`, `animate`, `animateWhen`, and `transitionState` features require imported inline SVG icons. Scaling an external SVG also scales its strokes.
 
-The icon reserves its dimensions during loading and renders the same markup on the server and client. The browser handles resource caching. An unavailable icon, a blocked request, or an unknown name leaves an empty icon area; CSS masks do not provide a load or error callback. Keep essential actions labelled with text, and use imported icons when immediate, offline, or guaranteed rendering is required. Use `alt` for a meaningful standalone icon; decorative icons are hidden from assistive technology by default.
+The icon reserves its dimensions during loading and renders the same initial markup on the server and client. The browser handles resource caching. If neither official URL is available, or a custom directory cannot provide an icon, its area remains empty. There is no public load or error callback. Keep essential actions labelled with text, and use imported icons when immediate, offline, or guaranteed rendering is required. Use `alt` for a meaningful standalone icon; decorative icons are hidden from assistive technology by default.
 
 For a Content Security Policy, allow the asset origin in `img-src`. The CDN supports cross-origin masks through CORS. Custom hosts must also return CORS headers when used across origins. Dimensions and mask URLs use React inline styles, so the app's style policy must permit them.
 

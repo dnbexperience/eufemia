@@ -35,10 +35,12 @@ You can also use the `value` property to define the component properties:
 
 ## Icon assets
 
-Named icons use the public Eufemia asset CDN when they are not resolved from bundled primary icons. Set `iconBaseUrl` to a versioned HTTPS directory or a same-origin directory such as `/assets/icons`. Set it to `false` to disable remote icon loading. Imported icons and bundled primary icons continue to render.
+Named icons work without provider configuration. Released packages automatically use the public asset CDN directory for their installed Eufemia version; development builds use the unversioned directory. Bundled primary icons render locally.
+
+Only set `iconBaseUrl` to override the default, for example with a self-hosted directory. Set it to `false` to disable remote icon loading. Imported icons and bundled primary icons continue to render.
 
 ```tsx
-<Provider iconBaseUrl="https://assets.eufemia.dnb.no/v11.14.1/icons/dnb">
+<Provider iconBaseUrl="/assets/icons">
   <Icon icon="heart" />
   <Button text="Favorite" icon="heart" />
 </Provider>

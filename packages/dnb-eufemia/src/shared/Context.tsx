@@ -143,7 +143,7 @@ export type ContextProps = ContextComponents & {
   skeleton?: SkeletonShow
 
   /**
-   * SVG directory for named icons. Defaults to the public Eufemia asset CDN. Set false to disable remote icon loading.
+   * Optional SVG directory override for named icons. Defaults to the public asset CDN for the installed Eufemia version, or the unversioned CDN in development. Set false to disable remote icon loading.
    */
   iconBaseUrl?: string | false
 
