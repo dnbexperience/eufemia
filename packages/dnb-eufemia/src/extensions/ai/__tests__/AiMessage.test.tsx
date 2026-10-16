@@ -3,7 +3,6 @@ import { expectTypeOf } from 'vitest'
 import type {
   AiMessageProps,
   AiPromptInputProps,
-  AiReasoningProps,
   AiSourcesProps,
   AiToolProps,
 } from '..'
@@ -102,7 +101,6 @@ describe('Ai.Message', () => {
     expectTypeOf<AiMessageProps>().not.toHaveProperty('message')
     expectTypeOf<AiSourcesProps>().not.toHaveProperty('message')
     expectTypeOf<AiToolProps>().not.toHaveProperty('part')
-    expectTypeOf<AiReasoningProps>().not.toHaveProperty('part')
     expectTypeOf<AiPromptInputProps>().not.toHaveProperty('status')
     expectTypeOf<AiPromptInputProps['isBusy']>().toEqualTypeOf<
       boolean | undefined
