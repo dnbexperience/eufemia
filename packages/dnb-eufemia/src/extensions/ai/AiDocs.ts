@@ -145,8 +145,23 @@ export const AiActionProperties: PropertiesTableProps = {
 }
 
 export const AiPromptInputProperties: PropertiesTableProps = {
+  dropShadow: {
+    doc: 'Add a drop shadow. Defaults to `true` for the compact variant and `false` for the default variant.',
+    type: 'boolean',
+    status: 'optional',
+  },
+  icon: {
+    doc: 'Leading icon in the compact variant. Set to `null` to hide it. Defaults to the Aino icon.',
+    type: 'IconIcon',
+    status: 'optional',
+  },
+  children: {
+    doc: 'Context shown above the input, such as removable attachment or reference chips.',
+    type: 'React.ReactNode',
+    status: 'optional',
+  },
   variant: {
-    doc: 'Use `default` for a multiline card with the send button below the text, or `compact` for a single line with round buttons.',
+    doc: 'Use `default` for a multiline card with the send button below the text, or `compact` for an input with a leading icon and inline actions. The compact send button is hidden while the input is empty.',
     type: ['"default"', '"compact"'],
     status: 'optional',
   },
