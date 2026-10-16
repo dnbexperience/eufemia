@@ -130,9 +130,15 @@ export type AiPromptInputSubmitEvent = {
 
 export type AiPromptInputProps = {
   /**
-   * Use `default` for a multiline card with the send button below the text, or `compact` for a single line with round buttons.
+   * Use `default` for a multiline card with the send button below the text, or `compact` for an input with a leading icon and inline actions. The compact send button is hidden while the input is empty.
    */
   variant?: 'default' | 'compact'
+  /** Leading icon in the compact variant. Set to `null` to hide it. Defaults to the Aino icon. */
+  icon?: IconIcon
+  /** Add a drop shadow. Defaults to `true` for the compact variant and `false` for the default variant. */
+  dropShadow?: boolean
+  /** Context shown above the input, such as removable attachment or reference chips. */
+  children?: ReactNode
   /** The text value. Use it together with `onChange` to control the value. Without it, the text is cleared after submit. */
   value?: string
   /** Placeholder text. Defaults to a translated text. */
@@ -167,7 +173,7 @@ export type AiPromptInputProps = {
 } & SpacingProps &
   Omit<
     HTMLAttributes<HTMLFormElement>,
-    'onChange' | 'onSubmit' | 'children' | 'placeholder'
+    'onChange' | 'onSubmit' | 'placeholder'
   >
 
 export type AiSuggestionsProps = SpacingProps &
