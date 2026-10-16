@@ -9,5 +9,9 @@ import { usePortalHead } from '../core/PortalHead'
 export default function Error500() {
   usePortalHead({ title: 'Server error', description: null })
 
-  return <GlobalError center statusCode="500" />
+  return (
+    <main>
+      <GlobalError center statusCode="500" />
+    </main>
+  )
 }
