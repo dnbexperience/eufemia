@@ -107,6 +107,26 @@
       min-height: var(--list-item-height);
       padding: calc(var(--list-item-padding)) 0;
     }
+
+    // Let adjacent text nodes share one grid cell and wrap together.
+    &:where(
+      :not(
+        [hidden],
+        :has(
+          .dnb-flex-item,
+          :not(.dnb-space, .dnb-list__item__pending),
+          .dnb-space[style]
+        )
+      )
+    ) {
+      grid-template: auto / minmax(0, 1fr);
+      padding-inline: var(--list-item-padding, 0);
+
+      > .dnb-space:not([hidden]) {
+        display: contents;
+      }
+    }
+
     &:has(#{&}__overline) &__center,
     &:has(#{&}__overline) &__end {
       @include utilities.allAbove(small) {

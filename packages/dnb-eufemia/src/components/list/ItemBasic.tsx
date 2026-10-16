@@ -1,4 +1,4 @@
-import { Children, type ReactNode } from 'react'
+import type { ReactNode } from 'react'
 import type { ItemContentProps } from './ItemContent'
 import ItemContent from './ItemContent'
 import ItemIcon from './ItemIcon'
@@ -14,15 +14,6 @@ export type ItemBasicProps = {
 
 function ItemBasic(props: ItemBasicProps) {
   const { icon, title, children, element, ...rest } = props
-  const childArray = title === undefined ? Children.toArray(children) : []
-  const hasPlainText =
-    title === undefined &&
-    childArray.length > 0 &&
-    childArray.every(
-      (child) => typeof child === 'string' || typeof child === 'number'
-    ) &&
-    childArray.join('') !== ''
-  const appliedTitle = hasPlainText ? children : title
 
   // The auto-rendered icon and title must be valid inside the row element.
   // When the row is a phrasing element (`element="span"`, e.g. for a Dropdown
@@ -34,10 +25,10 @@ function ItemBasic(props: ItemBasicProps) {
   return (
     <ItemContent element={element} {...rest}>
       {icon && <ItemIcon element={cellElement}>{icon}</ItemIcon>}
-      {appliedTitle !== undefined && (
-        <ItemTitle element={cellElement}>{appliedTitle}</ItemTitle>
+      {title !== undefined && (
+        <ItemTitle element={cellElement}>{title}</ItemTitle>
       )}
-      {!hasPlainText && children}
+      {children}
     </ItemContent>
   )
 }

@@ -77,34 +77,37 @@ describe('ItemBasic', () => {
   })
 
   it.each(['Normal row', 0])(
-    'renders plain content %s as a title cell',
+    'keeps plain content %s without an implicit title',
     (children) => {
       render(<ItemBasic>{children}</ItemBasic>)
 
-      const title = document.querySelector('.dnb-list__item__title')
+      const item = document.querySelector('.dnb-list__item')
 
-      expect(title).toBeInTheDocument()
-      expect(title.textContent).toBe(String(children))
+      expect(item.textContent).toBe(String(children))
+      expect(item.querySelector('.dnb-list__item__title')).toBeNull()
     }
   )
 
-  it('renders interpolated text as one title cell', () => {
+  it('keeps interpolated text without an implicit title', () => {
     render(<ItemBasic>Account {123}</ItemBasic>)
-
-    const titles = document.querySelectorAll('.dnb-list__item__title')
-
-    expect(titles).toHaveLength(1)
-    expect(titles[0].textContent).toBe('Account 123')
-  })
-
-  it('keeps the implicit title valid inside a span row', () => {
-    render(<ItemBasic element="span">Accounts</ItemBasic>)
 
     const item = document.querySelector('.dnb-list__item')
 
-    expect(item.querySelector('.dnb-list__item__title').tagName).toBe(
-      'SPAN'
+    expect(item.textContent).toBe('Account 123')
+    expect(item.querySelector('.dnb-list__item__title')).toBeNull()
+  })
+
+  it('keeps plain text inside a span row valid with the css layout engine', () => {
+    render(
+      <ItemBasic element="span" layoutEngine="css">
+        Accounts
+      </ItemBasic>
     )
+
+    const item = document.querySelector('.dnb-list__item')
+
+    expect(item.textContent).toBe('Accounts')
+    expect(item.querySelector('.dnb-list__item__title')).toBeNull()
     expect(item.querySelectorAll('div')).toHaveLength(0)
   })
 
