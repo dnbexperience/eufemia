@@ -1,0 +1,102 @@
+.preview {
+  padding: 3rem 1.5rem 1.5rem;
+  color: var(--token-color-text-neutral);
+  background: var(--token-color-background-neutral-subtle);
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+  max-width: 210mm;
+  margin: 0 auto 1.5rem;
+
+  > h1,
+  > p {
+    flex-basis: 100%;
+    margin: 0;
+  }
+}
+
+.letter {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 210mm;
+  min-height: 297mm;
+  margin: 0 auto;
+  padding: 20mm;
+  color: var(--token-color-text-neutral);
+  background: var(--token-color-background-neutral);
+  box-shadow: 0 0.125rem 0.5rem rgb(0 0 0 / 10%);
+}
+
+.letterHeader {
+  margin-bottom: 2rem;
+}
+
+.recipient {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+@media screen and (max-width: 40em) {
+  .preview {
+    padding: 3rem 0.5rem 0.5rem;
+  }
+  .letter {
+    min-height: 0;
+    padding: 1rem;
+  }
+  .recipient {
+    flex-wrap: wrap;
+  }
+}
+
+@page document-preview {
+  size: a4;
+  margin: 20mm;
+}
+
+@media print {
+  .preview {
+    padding: 0;
+    background: transparent;
+  }
+  .letter {
+    page: document-preview;
+    min-height: 0;
+    padding: 0;
+    margin: 0;
+    box-shadow: none;
+    print-color-adjust: exact;
+  }
+
+  :global {
+    // The Portal uses scrolling containers. Print the letter in page flow.
+    [skip-isolation] body:has([data-document-preview]) {
+      page: document-preview;
+
+      &,
+      :has(#letter) {
+        display: block;
+        position: static;
+        overflow: visible;
+        width: auto;
+        max-width: none;
+        height: auto;
+        min-height: 0;
+        max-height: none;
+        padding: 0;
+        margin: 0;
+        border: 0;
+      }
+
+      *:not(:has(#letter), #letter, #letter *) {
+        display: none !important;
+      }
+    }
+  }
+}

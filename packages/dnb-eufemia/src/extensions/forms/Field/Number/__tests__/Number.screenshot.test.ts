@@ -88,6 +88,8 @@ describe('Field.Number', () => {
   it('have to match widths', async () => {
     await makeScreenshot({
       selector: '[data-visual-test="number-widths"]',
+      // Keep the existing canvas height independent of the demo layout.
+      wrapperStyle: { height: '1040px' },
     })
   })
 })
