@@ -427,7 +427,6 @@ function renderInline(
                     key={`${index}-${amountIndex}`}
                     value={part.value}
                     currency={part.currency}
-                    currencyDisplay="code"
                     decimals={part.decimals}
                     selectAll={false}
                     copySelection={false}

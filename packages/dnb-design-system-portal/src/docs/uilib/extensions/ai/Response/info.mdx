@@ -30,7 +30,7 @@ Code blocks use [CopyOnClick.Button](/uilib/components/copy-on-click/) to copy t
 
 ## Currency amounts
 
-Recognized currency amounts use [NumberFormat.Currency](/uilib/components/number-format/) automatically, including in emphasis, lists and table cells. They inherit the Provider's display locale and use an explicit currency code to keep the currency clear. The number of written decimals is preserved. Formatting does not verify whether an AI-generated amount is correct.
+Recognized currency amounts use [NumberFormat.Currency](/uilib/components/number-format/) automatically, including in emphasis, lists and table cells. They inherit the Provider's display locale and NumberFormat settings, including the currency display. With Norwegian defaults, `1 234 kr` is displayed as `1 234 kr`. The number of written decimals is preserved. Formatting does not verify whether an AI-generated amount is correct.
 
 Supported uppercase codes are `NOK`, `SEK`, `DKK`, `ISK`, `EUR`, `USD`, `GBP`, `CHF`, `JPY`, `CAD`, `AUD`, `NZD`, `CNY`, `HKD`, `SGD`, `INR` and `PLN`, before or after an amount. `€` identifies EUR and `£` identifies GBP. `kr` uses the Provider currency only when it is NOK, SEK, DKK or ISK. Bare numbers, `$`, unsupported markers, malformed amounts and values that would lose numeric precision remain unchanged. Code, link labels, URLs, image alternatives and HTML attributes are not formatted.
 

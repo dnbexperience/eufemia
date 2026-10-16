@@ -183,7 +183,6 @@ export function AiResponseStructuredAmount() {
             <NumberFormat.Currency
               value={responseAmount.value}
               currency={responseAmount.currency}
-              currencyDisplay="code"
               decimals={0}
             />
           </P>
