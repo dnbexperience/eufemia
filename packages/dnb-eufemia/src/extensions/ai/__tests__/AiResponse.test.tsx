@@ -379,7 +379,6 @@ describe('Ai', () => {
       'Message',
       'MessageIndicator',
       'PromptInput',
-      'Reasoning',
       'Response',
       'Sources',
       'Suggestion',

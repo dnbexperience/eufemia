@@ -307,14 +307,6 @@ export type AiActivityTextProps = {
 } & SpacingProps &
   HTMLAttributes<HTMLSpanElement>
 
-export type AiReasoningProps = {
-  /** Whether the reasoning is still streaming. It is open while streaming and closes when done, unless the user has opened or closed it. */
-  isStreaming?: boolean
-  /** The reasoning, rendered as markdown. */
-  children?: string
-} & SpacingProps &
-  Omit<HTMLAttributes<HTMLDivElement>, 'children' | 'part'>
-
 export type AiConversationControls = {
   /** Scroll to the end and follow new content. */
   scrollToEnd: () => void
