@@ -13,6 +13,7 @@ import {
   NumberNationalIdentification,
   NumberOrganization,
   NumberLocales,
+  NumberBrowserLocale,
   NumberSpacing,
   NumberSignDisplay,
   NumberProvider,
@@ -69,6 +70,12 @@ By using `selectAll={false}` you disable the auto-select all feature.
 ### Numbers and currencies in different locales
 
 <NumberLocales />
+
+### Browser locale
+
+With `locale="auto"`, the value is formatted with the locale of the browser. A server-rendered page uses the default locale until it has hydrated.
+
+<NumberBrowserLocale />
 
 ### NumberFormat and spacing
 

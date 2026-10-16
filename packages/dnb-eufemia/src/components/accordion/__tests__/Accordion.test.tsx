@@ -3,8 +3,10 @@
  *
  */
 
-import { act, useEffect, useState } from 'react'
-import type { RefObject } from 'react'
+import { Profiler, act, useEffect, useState } from 'react'
+import type { ReactElement, RefObject } from 'react'
+import { renderToString } from 'react-dom/server'
+import { hydrateRoot } from 'react-dom/client'
 import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
 import type { AccordionProps } from '../Accordion'
 import Accordion from '../Accordion'
@@ -448,6 +450,41 @@ describe('Accordion group component', () => {
     expect(first).not.toHaveClass('dnb-accordion--expanded')
     expect(second).not.toHaveClass('dnb-accordion--expanded')
     expect(third).not.toHaveClass('dnb-accordion--expanded')
+  })
+
+  it('should not render Accordion props as DOM attributes', () => {
+    render(
+      <Accordion.Group
+        id="group"
+        variant="filled"
+        description="Description"
+        leftComponent="Left"
+        icon="bell"
+        element="span"
+        heading
+        headingLevel={3}
+        expandedSsr
+        preventRerenderConditional
+        skeleton
+        data-prop="group-value"
+      >
+        <Accordion title="Title">Content</Accordion>
+      </Accordion.Group>
+    )
+
+    const shell = document.querySelector('.dnb-accordion-group__shell')
+    expect(shell.getAttributeNames().sort()).toEqual([
+      'class',
+      'data-prop',
+      'id',
+      'role',
+    ])
+
+    const accordion = document.querySelector('.dnb-accordion')
+    expect(accordion).toHaveClass('dnb-accordion__variant--filled')
+    expect(
+      accordion.querySelector('.dnb-accordion__header__description')
+    ).toHaveTextContent('Description')
   })
 })
 
@@ -1357,9 +1394,117 @@ describe('Accordion tertiary variant', () => {
   })
 })
 
+describe('Accordion with server-rendered markup', () => {
+  const hydrate = (element: ReactElement) => {
+    const windowDescriptor = Object.getOwnPropertyDescriptor(
+      globalThis,
+      'window'
+    )
+    let html: string
+
+    try {
+      delete globalThis.window
+      html = renderToString(element)
+    } finally {
+      Object.defineProperty(globalThis, 'window', windowDescriptor)
+    }
+
+    const container = document.createElement('div')
+    container.innerHTML = html
+    document.body.appendChild(container)
+
+    const recoverableErrors = []
+    let root: ReturnType<typeof hydrateRoot>
+    act(() => {
+      root = hydrateRoot(container, element, {
+        onRecoverableError: (error) => recoverableErrors.push(error),
+      })
+    })
+
+    const unmount = () => {
+      act(() => root.unmount())
+      container.remove()
+    }
+
+    return {
+      html,
+      accordion: container.querySelector('.dnb-accordion'),
+      recoverableErrors,
+      unmount,
+    }
+  }
+
+  it('should hydrate expandedSsr and collapse afterwards', () => {
+    const { html, accordion, recoverableErrors, unmount } = hydrate(
+      <Accordion expandedSsr id="expanded-ssr" title="Title">
+        Content
+      </Accordion>
+    )
+
+    expect(html).toContain('dnb-accordion--expanded')
+    expect(html).toContain('Content')
+    expect(recoverableErrors).toEqual([])
+    expect(accordion).not.toHaveClass('dnb-accordion--expanded')
+
+    unmount()
+  })
+
+  it('should hydrate a remembered expanded state and expand afterwards', () => {
+    localStorage.setItem(
+      'dnb-accordion-remembered',
+      JSON.stringify({ expanded: true })
+    )
+
+    const { html, accordion, recoverableErrors, unmount } = hydrate(
+      <Accordion rememberState id="remembered" title="Title">
+        Content
+      </Accordion>
+    )
+
+    expect(html).not.toContain('dnb-accordion--expanded')
+    expect(recoverableErrors).toEqual([])
+    expect(accordion).toHaveClass('dnb-accordion--expanded')
+
+    unmount()
+    localStorage.removeItem('dnb-accordion-remembered')
+  })
+
+  it('should not render more often while hydrating than in a client render, without expandedSsr or rememberState', () => {
+    const clientRenders = vi.fn()
+    const { unmount: unmountClient } = render(
+      <Profiler id="client" onRender={clientRenders}>
+        <Accordion title="Title">Content</Accordion>
+      </Profiler>
+    )
+    unmountClient()
+
+    const hydrationRenders = vi.fn()
+    const { recoverableErrors, unmount } = hydrate(
+      <Profiler id="hydration" onRender={hydrationRenders}>
+        <Accordion title="Title">Content</Accordion>
+      </Profiler>
+    )
+
+    expect(recoverableErrors).toEqual([])
+    expect(hydrationRenders).toHaveBeenCalledTimes(
+      clientRenders.mock.calls.length
+    )
+
+    unmount()
+  })
+})
+
 describe('Accordion scss', () => {
   it('has to match style dependencies css', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
     expect(css).toMatchSnapshot()
+  })
+
+  it('shows the focus ring in forced colors mode', () => {
+    const css = loadScss(require.resolve('../style/dnb-accordion.scss'))
+
+    expect(css).toMatch(
+      /@media \(forced-colors: active\) \{[^{]*\.dnb-accordion__header:focus-visible:not\(\[disabled\]\)[^{]*\{\s*outline: var\(--focus-ring-width\) solid transparent;/
+    )
   })
 })

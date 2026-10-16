@@ -112,6 +112,8 @@ export const SliderExampleHorizontalSync = () => (
                 onChange={({ value }) => setValue(Number(value))}
               />
               <Input
+                label="Value"
+                labelSrOnly
                 align="center"
                 selectAll
                 value={String(value)}

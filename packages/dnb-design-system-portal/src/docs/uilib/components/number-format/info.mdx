@@ -240,7 +240,7 @@ const string = cleanNumber('prefix -12.345,678 suffix') // returns -12345.678
 Use `formatBankAccountNumberByType` to format bank account numbers with a specific type. It supports Norwegian BBAN, Swedish BBAN, Swedish Bankgiro, Swedish Plusgiro, and IBAN.
 
 ```ts
-import { formatBankAccountNumberByType } from '@dnb/eufemia/components/NumberFormat'
+import { formatBankAccountNumberByType } from '@dnb/eufemia/components/number-format/NumberUtils'
 
 formatBankAccountNumberByType('20001234567') // { number: '2000 12 34567', aria: '2 0 0 0 1 2 3 4 5 6 7' }
 formatBankAccountNumberByType('50001234567', 'swedishBban') // { number: '5000-1234567', aria: '5 0 0 0 1 2 3 4 5 6 7' }

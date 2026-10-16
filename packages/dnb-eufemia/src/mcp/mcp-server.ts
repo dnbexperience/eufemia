@@ -35,10 +35,10 @@ async function main() {
 
   await validateDocsRoot(tools.docsRoot)
 
-  // Anonymous, opt-out usage telemetry. Null when opted out; the first-run
-  // notice (to stderr) and beacon are handled inside the reporter. The known
-  // areas are computed once from the real docs, so a `path` the telemetry
-  // sends is always one that actually exists in this server's docs.
+  // Anonymous, opt-out usage telemetry. Null when opted out; the startup
+  // notice (to stderr) and the usage record are handled inside the reporter.
+  // The known areas are computed once from the real docs, so a `path` the
+  // telemetry sends is always one that actually exists in this server's docs.
   const knownAreas = computeKnownAreas(await tools.source.listMarkdown())
   const reporter = createUsageReporter({
     eufemiaVersion: readEufemiaVersion(),

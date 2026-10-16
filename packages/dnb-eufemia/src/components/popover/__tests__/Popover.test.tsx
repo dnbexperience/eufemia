@@ -1688,6 +1688,54 @@ describe('Popover', () => {
     focusSpy.mockRestore()
   })
 
+  it.each([
+    ['click', (element: HTMLElement) => userEvent.click(element)],
+    [
+      'tap',
+      (element: HTMLElement) => {
+        fireEvent.touchStart(element)
+        fireEvent.touchEnd(element)
+      },
+    ],
+  ])(
+    'does not move the focus back to the trigger when closed by a %s outside',
+    async (_, interact) => {
+      render(
+        <>
+          <Popover
+            trigger={({ ref, ...rest }) => (
+              <button type="button" ref={ref} {...rest}>
+                Toggle popover
+              </button>
+            )}
+          >
+            {contentText}
+          </Popover>
+          <input id="outside" />
+        </>
+      )
+
+      const trigger = document.querySelector(
+        'button[aria-controls]'
+      ) as HTMLButtonElement
+      await userEvent.click(trigger)
+      await waitFor(() =>
+        expect(trigger).toHaveAttribute('aria-expanded', 'true')
+      )
+
+      const focusSpy = vi.spyOn(trigger, 'focus')
+      await interact(document.getElementById('outside'))
+
+      await waitFor(() =>
+        expect(trigger).toHaveAttribute('aria-expanded', 'false')
+      )
+      await new Promise((resolve) => requestAnimationFrame(resolve))
+
+      expect(focusSpy).not.toHaveBeenCalled()
+      focusSpy.mockRestore()
+    }
+  )
+
   it('calls focus with preventScroll when opening', async () => {
     renderWithTrigger()
 

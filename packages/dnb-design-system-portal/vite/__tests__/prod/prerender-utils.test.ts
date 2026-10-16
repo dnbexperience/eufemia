@@ -156,6 +156,37 @@ describe('prerender-utils', () => {
       expect(meta.title).toBe('Button → Demos')
     })
 
+    it('constructs tab title when the tab keys are full paths', () => {
+      const fullPathNodes = [
+        {
+          fields: { slug: 'uilib/components/country-flag' },
+          frontmatter: {
+            title: 'CountryFlag',
+            description: '',
+            tabs: [
+              {
+                title: 'Info',
+                key: '/uilib/components/country-flag/info',
+              },
+              {
+                title: 'Demos',
+                key: '/uilib/components/country-flag/demos',
+              },
+            ],
+          },
+        },
+        {
+          fields: { slug: 'uilib/components/country-flag/demos' },
+          frontmatter: { title: '', description: '', showTabs: true },
+        },
+      ]
+      const meta = getPageMeta(
+        '/uilib/components/country-flag/demos/',
+        fullPathNodes
+      )
+      expect(meta.title).toBe('CountryFlag → Demos')
+    })
+
     it('inherits parent title without tab suffix when showTabs is not set', () => {
       const noTabNodes = [
         {
@@ -177,6 +208,24 @@ describe('prerender-utils', () => {
     it('returns empty strings for unknown routes', () => {
       const meta = getPageMeta('/unknown/', nodes)
       expect(meta).toEqual({ title: '', description: '' })
+    })
+
+    it('uses contentTitle when the page has no title', () => {
+      const contentTitleNodes = [
+        {
+          fields: { slug: 'uilib/intro' },
+          frontmatter: { title: 'Intro', description: '' },
+        },
+        {
+          fields: { slug: 'uilib/intro/03-accessibility' },
+          frontmatter: { contentTitle: 'Accessibility' },
+        },
+      ]
+      const meta = getPageMeta(
+        '/uilib/intro/03-accessibility/',
+        contentTitleNodes
+      )
+      expect(meta.title).toBe('Accessibility')
     })
 
     it('resolves root URL to index', () => {

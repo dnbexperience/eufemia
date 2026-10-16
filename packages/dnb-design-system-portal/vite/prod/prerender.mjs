@@ -24,6 +24,10 @@ import { fileURLToPath } from 'node:url'
 import { Worker } from 'node:worker_threads'
 import { collectMarkdownPaths, getMdPath } from './md-paths.mts'
 import { escapeHtml } from './html-escape.mts'
+import {
+  createCanonicalUrls,
+  createPortalSitemap,
+} from './portal-sitemap.mts'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const viteRoot = path.resolve(__dirname, '..')
@@ -136,6 +140,7 @@ async function prerender() {
 
   let rendered = 0
   let errors = 0
+  const renderedUrls = []
 
   // Render pages in parallel using worker threads.
   // renderToString is synchronous/CPU-bound, so worker threads
@@ -180,6 +185,7 @@ async function prerender() {
         themeCssPaths
       )
       writeHtml(url, html)
+      renderedUrls.push(url)
     }
 
     rendered++
@@ -195,7 +201,8 @@ async function prerender() {
         result404.value.html,
         { js: [], css: [] },
         contentScript,
-        result404.value.emotionCss
+        result404.value.emotionCss,
+        { url: '/404/', title: 'Page not found' }
       )
     )
   }
@@ -223,6 +230,16 @@ async function prerender() {
   fs.cpSync(fontsSource, fontsDest, { recursive: true })
   console.log(`\n✓ Copied fonts to ${fontsDest}`)
 
+  if (process.env.IS_E2E !== '1' && process.env.IS_VISUAL_TEST !== '1') {
+    const canonicalUrls = createCanonicalUrls(allMdxNodes)
+    const sitemap = createPortalSitemap(renderedUrls, canonicalUrls)
+
+    writeJson(path.resolve(outDir, 'sitemap.json'), sitemap)
+    console.log(
+      `✓ Generated sitemap for ${sitemap.pages.length} canonical pages`
+    )
+  }
+
   /**
    * Write HTML to the correct path in the output directory.
    */
@@ -231,6 +248,10 @@ async function prerender() {
     const dir = path.dirname(filePath)
     fs.mkdirSync(dir, { recursive: true })
     fs.writeFileSync(filePath, html)
+  }
+
+  function writeJson(filePath, value) {
+    fs.writeFileSync(filePath, `${JSON.stringify(value, null, 2)}\n`)
   }
 }
 
@@ -292,7 +313,7 @@ function getPageMeta(url, allMdxNodes) {
     return { title: '', description: '' }
   }
 
-  let title = node.frontmatter.title || ''
+  let title = node.frontmatter.title || node.frontmatter.contentTitle || ''
   let description = node.frontmatter.description || ''
 
   if (!title) {
@@ -305,7 +326,7 @@ function getPageMeta(url, allMdxNodes) {
       // For tab pages (showTabs but no own title), construct
       // "ParentTitle → TabTitle" to match the client-side title.
       if (node.frontmatter.showTabs) {
-        const tabKey = '/' + slug.split('/').pop()
+        const tabKey = slug.split('/').pop()
         const defaultTabs = [
           { title: 'Info', key: '/info' },
           { title: 'Demos', key: '/demos' },
@@ -313,7 +334,10 @@ function getPageMeta(url, allMdxNodes) {
           { title: 'Events', key: '/events' },
         ]
         const tabs = parent.frontmatter.tabs || defaultTabs
-        const tab = tabs.find((t) => t.key === tabKey)
+        // Keys can be relative (`/demos`) or full paths, like TabBar accepts
+        const tab = tabs.find(
+          (t) => t.key.split('/').filter(Boolean).pop() === tabKey
+        )
 
         if (tab?.title) {
           title = `${parent.frontmatter.title} → ${tab.title}`

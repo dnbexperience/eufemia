@@ -1,9 +1,18 @@
-import { screen, render, fireEvent, waitFor } from '@testing-library/react'
+import {
+  act,
+  screen,
+  render,
+  fireEvent,
+  waitFor,
+} from '@testing-library/react'
+import { renderToString } from 'react-dom/server'
+import { hydrateRoot } from 'react-dom/client'
 import { Value, Form, DataContext, Field } from '../../..'
 import { createMockFile } from '../../../../../components/upload/__tests__/testHelpers'
 import { wait } from '../../../../../core/test-utils/testSetup'
 
 global.URL.createObjectURL = vi.fn(() => 'url')
+global.URL.revokeObjectURL = vi.fn()
 
 const files = [
   {
@@ -528,6 +537,57 @@ describe('Value.Upload', () => {
       ) as HTMLAnchorElement
       expect(anchorElement.href).toMatch(mockUrl)
 
+      global.URL.createObjectURL = originalCreateObjectURL
+    })
+
+    it('creates one object URL per file and revokes it on unmount', () => {
+      const createObjectURL = vi.mocked(global.URL.createObjectURL)
+      const revokeObjectURL = vi.mocked(global.URL.revokeObjectURL)
+      createObjectURL.mockClear()
+      revokeObjectURL.mockClear()
+
+      const { rerender, unmount } = render(
+        <Value.Upload value={files} variant="ul" />
+      )
+      rerender(<Value.Upload value={files} variant="ul" download />)
+
+      expect(createObjectURL).toHaveBeenCalledTimes(3)
+      expect(revokeObjectURL).not.toHaveBeenCalled()
+
+      unmount()
+
+      expect(revokeObjectURL).toHaveBeenCalledTimes(3)
+    })
+
+    it('hydrates server-rendered HTML without a mismatch', () => {
+      let count = 0
+      const originalCreateObjectURL = global.URL.createObjectURL
+      global.URL.createObjectURL = vi.fn(() => `blob:url-${++count}`)
+
+      const element = <Value.Upload value={files.slice(0, 1)} />
+      const container = document.createElement('div')
+      container.innerHTML = renderToString(element)
+
+      const recoverableErrors = []
+      const consoleError = vi
+        .spyOn(console, 'error')
+        .mockImplementation(() => undefined)
+
+      let root: ReturnType<typeof hydrateRoot>
+      act(() => {
+        root = hydrateRoot(container, element, {
+          onRecoverableError: (error) => recoverableErrors.push(error),
+        })
+      })
+
+      expect(recoverableErrors).toEqual([])
+      expect(consoleError).not.toHaveBeenCalled()
+      expect(container.querySelector('a').getAttribute('href')).toBe(
+        'blob:url-1'
+      )
+
+      act(() => root.unmount())
+      consoleError.mockRestore()
       global.URL.createObjectURL = originalCreateObjectURL
     })
 

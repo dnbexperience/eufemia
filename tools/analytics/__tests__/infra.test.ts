@@ -69,8 +69,8 @@ describe('analytics infrastructure', () => {
           'm'
         )
       )?.[0]
-      expect(block, `${alarm} alarm block`).toContain(
-        'alarm_actions       = [aws_sns_topic.snapshot_alerts.arn]'
+      expect(block, `${alarm} alarm block`).toMatch(
+        /^\s+alarm_actions\s+= \[aws_sns_topic\.snapshot_alerts\.arn\]$/m
       )
     }
   })
@@ -98,16 +98,35 @@ describe('analytics infrastructure', () => {
     expect(terraform).not.toContain('prefix = "portal-views-daily/"')
   })
 
-  it('alarms on a persistent portal-view rollup-refresh failure', () => {
-    expect(terraform).toContain(
-      'resource "aws_cloudwatch_metric_alarm" "snapshot_portal_views_rollup_failed"'
+  it('points each snapshot metric alarm at a metric the generator emits', () => {
+    const snapshotSource = readFileSync(
+      path.resolve(dir, '../src/lambda/snapshot.ts'),
+      'utf8'
     )
-    const alarm = terraform.match(
-      /resource "aws_cloudwatch_metric_alarm" "snapshot_portal_views_rollup_failed" \{[\s\S]*?^\}/m
-    )?.[0]
-    expect(alarm).toContain(
-      'metric_name         = "PortalViewsRollupFailure"'
-    )
+
+    for (const [alarm, metric] of [
+      ['snapshot_empty', 'SnapshotPortalViewCount'],
+      ['snapshot_mcp_build_failed', 'McpUsageBuildFailure'],
+      [
+        'snapshot_component_usage_build_failed',
+        'ComponentUsageBuildFailure',
+      ],
+      ['snapshot_portal_views_rollup_failed', 'PortalViewsRollupFailure'],
+    ]) {
+      const block = terraform.match(
+        new RegExp(
+          `resource "aws_cloudwatch_metric_alarm" "${alarm}" \\{[\\s\\S]*?^\\}`,
+          'm'
+        )
+      )?.[0]
+
+      expect(block, `${alarm} metric_name`).toMatch(
+        new RegExp(`^\\s+metric_name\\s+= "${metric}"$`, 'm')
+      )
+      expect(snapshotSource, `${metric} emitted`).toMatch(
+        new RegExp(`^\\s*emitMetric\\('${metric}'`, 'm')
+      )
+    }
   })
 
   it('expires raw component-usage objects on the component-usage/ prefix', () => {

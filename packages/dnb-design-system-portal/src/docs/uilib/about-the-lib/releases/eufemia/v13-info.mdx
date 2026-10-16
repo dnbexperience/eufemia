@@ -11,6 +11,7 @@ draft: true
   - [CSS custom properties](#css-custom-properties)
   - [Component changes](#component-changes)
     - [Theme](#theme)
+    - [SidebarMenu](#sidebarmenu)
     - [Flex](#flex)
     - [Accordion](#accordion)
     - [Autocomplete](#autocomplete)
@@ -19,6 +20,7 @@ draft: true
     - [Img](#img)
     - [Popover](#popover)
     - [ScrollView](#scrollview)
+    - [Field.Name.Company](#fieldnamecompany)
 
 > **Note:** There is no `v12` release. The version `v12` was accidentally published to NPM and has since been removed. Because a published version number cannot be safely reused, `v12` has been skipped entirely, and these breaking changes are released as `v13` instead.
 
@@ -43,6 +45,12 @@ $ yarn add @dnb/eufemia@13
 - Replace `--sb-font-size-*` with `--font-size-*`
 - Replace `--sb-font-size-medium--plus` with `--font-size-medium`
 - Replace `--sb-line-height-*` with `--line-height-*`
+
+The font size and line height values now come from Figma brand tokens. Existing CSS variable names remain available. Carnegie's `xx-large` heading changes from 48px/56px to 56px/68px at the default root size. Responsive `xx-large` headings now use the matching line-height step: `x-large` on mobile and `xx-large` from tablet upward. Check layouts that constrain large headings, especially fixed heights and truncation.
+
+Theme-scoped typography variables now override values set on `:root`. If your application customizes `--font-size-*` or `--line-height-*` on `:root`, move those overrides to the element carrying the theme class around the affected content. Use a selector with enough specificity to override the theme stylesheet. The generated JavaScript `properties` exports keep their existing value format: concrete `rem` values for the size scale and aliases for `lead`.
+
+The deprecated Sbanken-prefixed properties are still emitted. Their values differ from the generic scale, so check the rendered result when replacing them.
 
 #### Tailwind
 
@@ -84,6 +92,19 @@ The deprecated `VisibilityByTheme.Name` component has been removed. Use `Visibil
 ```diff
 -<VisibilityByTheme.Name />
 +<VisibilityByTheme.Brand />
+```
+
+### [SidebarMenu](/uilib/extensions/sidebar-menu/)
+
+Replace `breakpoint` with `drawerAt` on `SidebarMenu.ResponsiveProvider`. The deprecated `breakpoint` alias is removed in v13.
+
+`SidebarMenu.Header` now uses `text` for its label and `children` for the nested menu items. Move the previous label children to `text`. The deprecated, no-effect `headingLevel` compatibility property is removed in v13 because Header is a visual menu label rather than a semantic page heading.
+
+```diff
+-<SidebarMenu.Header headingLevel={3}>Accounts</SidebarMenu.Header>
++<SidebarMenu.Header text="Accounts">
++  <SidebarMenu.Item id="overview" text="Overview" />
++</SidebarMenu.Header>
 ```
 
 ### [Flex](/uilib/layout/flex/)
@@ -258,18 +279,49 @@ Note that the `disable*` props invert, so a disabled feature becomes `false`:
 
 ### [InfoCard](/uilib/components/info-card/)
 
-- Replace `closeButtonAttributes` with `closeButtonProps`.
+Replace InfoCard with `Card.Info` and compose its content as children. Card.Info supplies the card surface, shadow, and padding. See [Card.Info](/uilib/components/card/#cardinfo) for layout, sizing, interaction, and dismissal guidance.
 
-```diff
--<InfoCard closeButtonAttributes={{ href: '/path' }} />
-+<InfoCard closeButtonProps={{ href: '/path' }} />
+Before:
+
+```tsx
+<InfoCard
+  title="Savings tip"
+  text="Save a little every month."
+  acceptButtonText="Start saving"
+  onAccept={onAccept}
+/>
 ```
 
-- Replace `acceptButtonAttributes` with `acceptButtonProps`.
+After:
+
+```tsx
+<Card.Info>
+  <Flex.Stack gap="x-small">
+    <P size="small" weight="medium">
+      Savings tip
+    </P>
+    <P size="small">Save a little every month.</P>
+  </Flex.Stack>
+  <Button variant="secondary" onClick={onAccept}>
+    Start saving
+  </Button>
+</Card.Info>
+```
+
+- Replace `text` with paragraph children. Use heading children or Card's `title` property for the title.
+- Replace `icon`, `src`, `alt`, and `imgProps` with IconPrimary, Img, or other graphic children. Include appropriate alternative text.
+- Replace accept and close button props, including the `*ButtonAttributes` aliases, with explicit Button children. For a top-corner close control, render `Card.Info.CloseButton` as a direct Card.Info child and pass the dismissal handler as `onClick`.
+- Replace `centered` with your content layout, for example `Flex.Stack align="center"` and centered text. Wrap loading content in `Provider skeleton`.
+- Remove `stretch` and control width through the containing layout. Other Card properties, including spacing and `dropShadow`, can be passed directly to Card.Info.
+
+### [Card](/uilib/components/card/)
+
+Replace `onClose` and `closeButtonProps` with a `Card.Info.CloseButton` child. Pass the dismissal handler as `onClick` and pass the remaining button properties directly to that child.
 
 ```diff
--<InfoCard acceptButtonAttributes={{ href: '/path' }} />
-+<InfoCard acceptButtonProps={{ href: '/path' }} />
+-<Card.Info onClose={dismissTip} closeButtonProps={{ title: 'Dismiss tip' }}>
++<Card.Info>
++  <Card.Info.CloseButton onClick={dismissTip} title="Dismiss tip" />
 ```
 
 ### [Img](/uilib/elements/image/)
@@ -309,4 +361,19 @@ Note that the `disable*` props invert, so a disabled feature becomes `false`:
 ```diff
 -import { ScrollView } from '@dnb/eufemia/fragments'
 +import { ScrollView } from '@dnb/eufemia'
+```
+
+### [Field.Name.Company](/uilib/extensions/forms/feature-fields/Name/)
+
+- The `onBlurValidator` property now only accepts a `CompanyNameValidator`, and its `validators` no longer include `nameValidator`. Use `companyValidator` instead.
+
+```diff
+-import type { NameValidator } from '@dnb/eufemia/extensions/forms/Field/Name'
++import type { CompanyNameValidator } from '@dnb/eufemia/extensions/forms/Field/Name'
+
+-const myValidator: NameValidator = (value, { validators }) => {
+-  return [validators.nameValidator]
++const myValidator: CompanyNameValidator = (value, { validators }) => {
++  return [validators.companyValidator]
+ }
 ```

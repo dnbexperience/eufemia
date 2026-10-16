@@ -27,6 +27,7 @@ import {
 import { Dialog } from '../../'
 import Input from '../../Input'
 import Button from '../../Button'
+import Dropdown from '../../Dropdown'
 import { Provider } from '../../../shared'
 import svSE from '../../../shared/locales/sv-SE'
 import nbNO from '../../../shared/locales/nb-NO'
@@ -165,6 +166,27 @@ describe('DatePicker component', () => {
     expect(getDatePickerRoot().getAttribute('class')).not.toContain(
       'dnb-date-picker--open'
     )
+  })
+
+  it('keeps the focus in another field that is clicked while the picker is open', async () => {
+    render(
+      <>
+        <DatePicker noAnimation />
+        <input id="other-field" />
+      </>
+    )
+
+    await userEvent.click(getDatePickerTriggerButton())
+    expect(getDatePickerRoot()).toHaveClass('dnb-date-picker--open')
+
+    const otherField = document.getElementById('other-field')
+    await userEvent.click(otherField)
+
+    expect(getDatePickerRoot()).not.toHaveClass('dnb-date-picker--open')
+
+    await new Promise((resolve) => requestAnimationFrame(resolve))
+
+    expect(document.activeElement).toBe(otherField)
   })
 
   it('stays open when clicking outside if preventClose is true', async () => {
@@ -313,6 +335,64 @@ describe('DatePicker component', () => {
     expect(getDatePickerRoot().getAttribute('class')).not.toContain(
       'dnb-date-picker--open'
     )
+  })
+
+  it.each([
+    ['inline', true],
+    ['in a portal', false],
+  ])(
+    'closes an open Dropdown (%s) in addonElement on mousedown elsewhere in the calendar',
+    (_, skipPortal) => {
+      render(
+        <DatePicker
+          noAnimation
+          addonElement={
+            <Dropdown
+              skipPortal={skipPortal}
+              noAnimation
+              data={['A', 'B']}
+            />
+          }
+        />
+      )
+
+      fireEvent.click(getDatePickerTriggerButton())
+      fireEvent.click(
+        document.querySelector('button.dnb-dropdown__trigger')
+      )
+
+      expect(document.querySelector('.dnb-dropdown')).toHaveClass(
+        'dnb-dropdown--open'
+      )
+
+      fireEvent.mouseDown(
+        document.querySelector('.dnb-date-picker__calendar table')
+      )
+
+      expect(document.querySelector('.dnb-dropdown')).not.toHaveClass(
+        'dnb-dropdown--open'
+      )
+      expect(getDatePickerRoot()).toHaveClass('dnb-date-picker--open')
+    }
+  )
+
+  it('stays open on mousedown in the list of a portaled Dropdown in addonElement', () => {
+    render(
+      <DatePicker
+        noAnimation
+        addonElement={<Dropdown noAnimation data={['A', 'B']} />}
+      />
+    )
+
+    fireEvent.click(getDatePickerTriggerButton())
+    fireEvent.click(document.querySelector('button.dnb-dropdown__trigger'))
+
+    const option = document.querySelector('li.dnb-drawer-list__option')
+    expect(option.closest('.dnb-date-picker__portal')).toBeNull()
+
+    fireEvent.mouseDown(option)
+
+    expect(getDatePickerRoot()).toHaveClass('dnb-date-picker--open')
   })
 
   it('will close the picker after selection', () => {

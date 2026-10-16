@@ -2728,6 +2728,36 @@ describe('DataContext.Provider', { retry: isCI ? 5 : 0 }, () => {
 
       removeItemSpy.mockRestore()
     })
+
+    it('should use defaultData when the browser blocks session storage', async () => {
+      const sessionStorageGetter = vi
+        .spyOn(window, 'sessionStorage', 'get')
+        .mockImplementation(() => {
+          throw new DOMException(
+            'The operation is insecure.',
+            'SecurityError'
+          )
+        })
+
+      render(
+        <DataContext.Provider
+          defaultData={{ foo: 'default' }}
+          sessionStorageId="blocked-session-storage"
+        >
+          <Field.String path="/foo" />
+        </DataContext.Provider>
+      )
+
+      const input = document.querySelector('input')
+      expect(input).toHaveValue('default')
+
+      await userEvent.type(input, '1')
+      await wait(10) // Let the debounced session storage write run
+
+      expect(input).toHaveValue('default1')
+
+      sessionStorageGetter.mockRestore()
+    })
   })
 
   describe('error handling', () => {

@@ -286,8 +286,14 @@ Copies the given string to the device's clipboard.
 ```js
 import { copyToClipboard } from '@dnb/eufemia/shared/helpers'
 
-copyToClipboard(string) // returns success: String|Boolean|Error
+const result = await copyToClipboard(string) // true|false|String|Error
+
+if (result === true) {
+  // The string was copied
+}
 ```
+
+The promise resolves to `true` only when the string was copied. It resolves to `false` outside the browser, and to an `Error` or a message when copying fails. Since an `Error` and a message are truthy, compare the result with `true` before you show a confirmation.
 
 ### Device functions
 

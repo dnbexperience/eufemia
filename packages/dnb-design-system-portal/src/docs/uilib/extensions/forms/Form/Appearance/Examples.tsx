@@ -60,7 +60,7 @@ export const Size = () => {
                   <Field.Name.Last />
                   <Field.DateOfBirth />
                   <Field.Password />
-                  <Field.Slider />
+                  <Field.Slider label="Slider" labelSrOnly />
                   <Field.Upload />
                   <Field.Address.Postal />
                   <Field.Address.Street />

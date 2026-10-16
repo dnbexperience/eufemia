@@ -230,6 +230,7 @@ export const Clear = () => {
   return (
     <ComponentBox>
       <Field.String
+        label="Label text"
         defaultValue="foo"
         onChange={(value) => console.log('onChange', value)}
         clear
@@ -404,6 +405,7 @@ export const MultipleEmpty = () => {
   return (
     <ComponentBox>
       <Field.String
+        label="Label text"
         onChange={(value) => console.log('onChange', value)}
         multiline
       />
@@ -429,6 +431,7 @@ export const MultiplePlaceholder = () => {
   return (
     <ComponentBox>
       <Field.String
+        label="Label text"
         placeholder="Enter text here"
         onChange={(value) => console.log('onChange', value)}
         multiline
@@ -554,7 +557,7 @@ export const OnInput = () => {
   return (
     <ComponentBox>
       {() => {
-        const forbiddenRegex = /\\d/
+        const forbiddenRegex = /\d/
 
         const onInput = (event: FormEvent<HTMLInputElement>) => {
           const inputEl = event.currentTarget

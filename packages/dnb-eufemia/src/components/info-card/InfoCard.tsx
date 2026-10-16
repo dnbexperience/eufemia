@@ -120,6 +120,7 @@ export const infoCardDefaultProps = {
   icon: LightbulbIcon,
 }
 
+/** @deprecated Use Card.Info with composed children instead. */
 const InfoCard = (localProps: InfoCardAllProps) => {
   // Every component should have a context
   const context = useContext(Context)

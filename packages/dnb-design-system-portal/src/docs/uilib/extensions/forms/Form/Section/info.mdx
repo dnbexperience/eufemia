@@ -245,14 +245,14 @@ You can optionally define which properties the nested fields should accept:
 
 ```tsx
 import { Form, Field, SectionProps } from '@dnb/eufemia/extensions/forms'
-import type { Props as PhoneNumberProps } from '@dnb/eufemia/extensions/forms/Field/PhoneNumber'
+import type { FieldPhoneNumberProps } from '@dnb/eufemia/extensions/forms/Field/PhoneNumber'
 
 const MySection = (
-  props: SectionProps<{ phoneNumber?: PhoneNumberProps }>
+  props: SectionProps<{ phoneNumber?: FieldPhoneNumberProps }>
 ) => {
   return (
     <Form.Section {...props}>
-      <Field.Name.Last path="/phoneNumber" required />
+      <Field.PhoneNumber path="/phoneNumber" required />
     </Form.Section>
   )
 }

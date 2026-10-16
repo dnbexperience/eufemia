@@ -4,9 +4,8 @@
 // registration receive a token (enforced by Entra "assignment required"), so
 // this also controls who can sign in.
 //
-// Scope note: on a static site this gates the UI. It does not, on its own,
-// protect a publicly served data file — real data protection requires the host
-// to enforce auth on the files, or serving data from a token-protected API.
+// Scope note: sign-in gates the UI. The data itself is protected by the data
+// API, which accepts only a valid Entra access token.
 
 export type DashboardConfig = {
   clientId?: string
@@ -37,7 +36,7 @@ async function loadConfig(): Promise<DashboardConfig> {
       return await response.json()
     }
   } catch {
-    // No configuration present; sign-in stays off for local preview.
+    // Missing or unreadable config.json counts as no configuration.
   }
 
   return {}
@@ -70,7 +69,7 @@ async function challengeFrom(verifier: string) {
   return base64Url(digest)
 }
 
-export function readSession(): Session | null {
+export function readSessionOrClear(): Session | null {
   try {
     const session: Session | null = JSON.parse(
       sessionStorage.getItem(SESSION_KEY) || 'null'
@@ -181,12 +180,18 @@ async function completeRedirect(): Promise<Session | null> {
 
 /**
  * Resolve the current session, running the redirect flow when needed.
- * Returns null when sign-in is not configured (local scaffold preview).
+ * Returns null in the dev server when sign-in is not configured; production builds throw.
  */
 export async function ensureSignedIn(): Promise<Session | null> {
   config = await loadConfig()
 
   if (!config.clientId || !config.tenantId) {
+    if (!import.meta.env.DEV) {
+      throw new Error(
+        'The dashboard has no sign-in configured. Please contact the dashboard owner.'
+      )
+    }
+
     return null
   }
 
@@ -197,7 +202,7 @@ export async function ensureSignedIn(): Promise<Session | null> {
 
   // The decision to grant access hinges on a validated session, not on any
   // raw URL parameter.
-  const session = (await completeRedirect()) || readSession()
+  const session = (await completeRedirect()) || readSessionOrClear()
   if (session) {
     return session
   }

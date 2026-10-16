@@ -13,7 +13,7 @@ export const TimeProperties: PropertiesTableProps = {
     status: 'optional',
   },
   onBlurValidator: {
-    doc: 'Custom validator function that is triggered when the user leaves a field (e.g., blurring a text input or closing a dropdown). The function can be either asynchronous or synchronous. The first parameter is the value, and the second parameter returns an object containing { errorMessages, connectWithPath, validators }. Defaults to validating invalid hours and minutes, using `timeValidator`.',
+    doc: 'Custom validator function that is triggered when the user leaves a field (e.g., blurring a text input or closing a dropdown). The function can be either asynchronous or synchronous. The first parameter is the value, and the second parameter returns an object containing { errorMessages, connectWithPath, validators }. Defaults to validating invalid hours and minutes (and seconds when `showSeconds` is set), using `timeValidator`.',
     type: 'function',
     status: 'optional',
   },

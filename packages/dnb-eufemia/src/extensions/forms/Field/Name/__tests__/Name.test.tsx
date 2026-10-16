@@ -1,7 +1,7 @@
 import { axeComponent } from '../../../../../core/test-utils/testSetup'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import type { FieldNameProps } from '../'
+import type { CompanyNameValidator, FieldNameProps } from '../'
 import { companyPattern, namePattern } from '../'
 import { Field, Form, FormError } from '../../..'
 import nbNO from '../../../constants/locales/nb-NO'
@@ -366,6 +366,34 @@ describe('Field.Name', () => {
         expect(
           document.querySelector('[role="alert"]')
         ).toBeInTheDocument()
+      })
+    })
+
+    it('should give the companyValidator to a CompanyNameValidator', async () => {
+      const onBlurValidator = vi.fn<CompanyNameValidator>(
+        (value, { validators }) => {
+          const { companyValidator } = validators
+          return [companyValidator]
+        }
+      )
+
+      render(
+        <Field.Name.Company
+          onBlurValidator={onBlurValidator}
+          validateInitially
+          value="Tech Solutions"
+        />
+      )
+
+      await waitFor(() => {
+        expect(onBlurValidator).toHaveBeenCalledWith(
+          'Tech Solutions',
+          expect.objectContaining({
+            validators: expect.objectContaining({
+              companyValidator: expect.any(Function),
+            }),
+          })
+        )
       })
     })
 

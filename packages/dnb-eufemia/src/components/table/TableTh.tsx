@@ -13,19 +13,19 @@ export type TableThChildren =
 
 export type TableThProps = {
   /**
-   * Defines the table header as sortable if set to `true` (ascending).
+   * Defines the table header as sortable if set to `true`. Use it together with `Th.SortButton`.
    * Default: `false`
    */
   sortable?: boolean
 
   /**
-   * Defines the sortable column as the current active (ascending).
+   * Defines the sortable column as the currently sorted column. Shows the sort icon and sets `aria-sort`. The sort direction is ascending unless `reversed` is set.
    * Default: `false`
    */
   active?: boolean
 
   /**
-   * Defines the sortable column as in reversed order (descending).
+   * Defines the sort direction of the active column as descending.
    * Default: `false`
    */
   reversed?: boolean
@@ -86,11 +86,12 @@ export default function Th(
       ? 'rowheader'
       : 'columnheader'
   const scope = props.scope === 'row' ? 'row' : props.scope || 'col'
-  const ariaSort = sortable
-    ? reversed
-      ? 'descending'
-      : 'ascending'
-    : undefined
+  const ariaSort =
+    sortable && active
+      ? reversed
+        ? 'descending'
+        : 'ascending'
+      : undefined
 
   return (
     <th

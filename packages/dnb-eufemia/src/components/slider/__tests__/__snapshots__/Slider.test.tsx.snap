@@ -576,6 +576,11 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disable
   );
   outline: none;
 }
+@media (forced-colors: active) {
+  html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disabled]), html:not([data-whatinput=touch]) .dnb-button--secondary:focus-visible:not([disabled]), html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible:not([disabled]) {
+    outline: var(--focus-ring-width) solid transparent;
+  }
+}
 .dnb-button--primary[disabled], .dnb-button--secondary[disabled], .dnb-button--tertiary[disabled] {
   --button-color-bg: var(--button-color-bg--disabled);
   --button-color-border: var(--button-color-border--disabled);
@@ -1262,6 +1267,11 @@ html[data-whatinput=keyboard] .dnb-slider__marker:focus {
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
+@media (forced-colors: active) {
+  html[data-whatinput=keyboard] .dnb-slider__marker:focus {
+    outline: var(--focus-ring-width) solid transparent;
+  }
+}
 .dnb-slider__marker::before {
   content: "";
   position: absolute;
@@ -1405,6 +1415,11 @@ html:not([data-whatinput=touch]) .dnb-slider__button-helper:focus-visible:not([d
   --border-width: var(--focus-ring-width);
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
+}
+@media (forced-colors: active) {
+  html:not([data-whatinput=touch]) .dnb-slider__button-helper:focus-visible:not([disabled]) ~ .dnb-button {
+    outline: var(--focus-ring-width) solid transparent;
+  }
 }
 .dnb-slider > .dnb-form-label {
   align-self: flex-start;

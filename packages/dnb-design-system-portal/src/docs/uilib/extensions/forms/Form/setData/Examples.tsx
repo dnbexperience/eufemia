@@ -11,7 +11,7 @@ export function Default() {
         const Component = () => {
           return (
             <Form.Handler id="default-id">
-              <Field.String path="/foo" />
+              <Field.String label="Foo" path="/foo" />
             </Form.Handler>
           )
         }
@@ -29,7 +29,7 @@ export function AfterFirstRender() {
         const Component = () => {
           return (
             <Form.Handler id="after-id">
-              <Field.String path="/foo" />
+              <Field.String label="Foo" path="/foo" />
             </Form.Handler>
           )
         }
@@ -53,7 +53,7 @@ export function UpdateValue() {
           return (
             <Form.Card>
               <Form.Handler id={myFormId}>
-                <Field.Number path="/foo" defaultValue={1} />
+                <Field.Number label="Foo" path="/foo" defaultValue={1} />
               </Form.Handler>
               <Button
                 onClick={() => {

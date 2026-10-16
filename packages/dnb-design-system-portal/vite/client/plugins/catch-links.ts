@@ -79,8 +79,13 @@ export function useCatchLinks() {
         return
       }
 
-      // Let the browser handle hash-only links natively (scroll to anchor)
+      // Keep hash navigation in sync with the router.
       if (href.startsWith('#')) {
+        if (href === window.location.hash) {
+          return
+        }
+        e.preventDefault()
+        navigateFn(window.location.pathname + window.location.search + href)
         return
       }
 

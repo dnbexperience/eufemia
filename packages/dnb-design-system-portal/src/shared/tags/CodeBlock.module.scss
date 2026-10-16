@@ -1,3 +1,4 @@
+@use '@dnb/eufemia/src/style/core/utilities.scss';
 @use './../parts/PortalStyle.mixins.scss' as PortalMixins;
 
 .codeBlockStyle {
@@ -12,6 +13,10 @@
     textarea {
       outline: inherit;
     }
+  }
+
+  > pre:focus-visible {
+    @include utilities.focusRing();
   }
 
   :global(.eufemia-theme) {

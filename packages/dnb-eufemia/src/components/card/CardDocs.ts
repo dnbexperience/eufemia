@@ -1,6 +1,11 @@
 import type { PropertiesTableProps } from '../../shared/types'
 
 export const CardProperties: PropertiesTableProps = {
+  closeButtonProps: {
+    doc: 'Deprecated: pass properties directly to Card.Info.CloseButton. Preserved for compatibility with onClose.',
+    type: 'ButtonProps',
+    status: 'optional',
+  },
   layoutEngine: {
     doc: 'Select the internal Flex layout engine. Defaults to `legacy` for backwards compatibility. Use `css` to opt in to native CSS gap.',
     type: ['"css"', '"legacy"'],
@@ -127,7 +132,7 @@ export const CardActionProperties: PropertiesTableProps = {
     status: 'required',
   },
   'Card properties': {
-    doc: 'All [Card](/uilib/components/card/properties) properties are supported.',
+    doc: '[Card](/uilib/components/card/properties) properties are supported. A whole-card action must not contain nested interactive controls.',
     type: 'Various',
     status: 'optional',
   },
@@ -137,6 +142,24 @@ export const CardActionEvents: PropertiesTableProps = {
   onClick: {
     doc: 'Click handler. When used without `href`/`to`, renders a button-like wrapper with keyboard support (Enter/Space).',
     type: 'function',
+    status: 'optional',
+  },
+}
+
+export const CardInfoProperties: PropertiesTableProps = {
+  children: {
+    doc: 'Freely composed content such as headings, text, graphics, or actions. Do not include interactive controls when the whole card is interactive.',
+    type: 'React.ReactNode',
+    status: 'required',
+  },
+  'Card properties': {
+    doc: 'All [Card](/uilib/components/card/properties) properties are supported. Defaults to responsive=false, dropShadow=true, stack=true, gap="small", and innerSpace="small" on small screens or "medium" on larger screens. All defaults can be overridden.',
+    type: 'Various',
+    status: 'optional',
+  },
+  'Card.Action properties': {
+    doc: '[Card.Action](/uilib/components/card/properties/#cardaction-properties) properties are supported for a whole-card link or action. Set href, to, or onClick to make Card.Info interactive. Do not nest Card.Info.CloseButton, Card.Info.MediaButton, or other interactive controls in an interactive card.',
+    type: 'Various',
     status: 'optional',
   },
 }
@@ -168,6 +191,102 @@ export const CardListItemProperties: PropertiesTableProps = {
   '[Space](/uilib/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],
+    status: 'optional',
+  },
+}
+
+export const CardCloseButtonProperties: PropertiesTableProps = {
+  title: {
+    doc: 'Accessible close label. Defaults to the translated Card.closeTitle.',
+    type: 'React.ReactNode',
+    status: 'optional',
+  },
+  'Button properties': {
+    doc: 'Button properties are supported, except href and type. Always renders a type="button" control. Compose directly inside a noninteractive Card or Card.Info.',
+    type: 'Various',
+    status: 'optional',
+  },
+}
+
+export const CardCloseButtonEvents: PropertiesTableProps = {
+  onClick: {
+    doc: 'Called when the close control is activated. The application controls dismissal and focus after removal.',
+    type: 'function',
+    status: 'optional',
+  },
+}
+
+export const CardEvents: PropertiesTableProps = {
+  onClose: {
+    doc: 'Deprecated: compose Card.Info.CloseButton with onClick instead. Still displays a close control for compatibility. The application controls dismissal and focus.',
+    type: 'function',
+    status: 'optional',
+  },
+}
+
+export const CardMediaButtonProperties: PropertiesTableProps = {
+  videoRef: {
+    doc: 'Stable ref attached to the video element. Mount the video and control together. After a render commits, the control detects replacement video elements, removes old listeners, and applies playback preferences to the new element. Native play, pause, ended, emptied, and error events update the control.',
+    type: 'React.RefObject<HTMLVideoElement | null>',
+    status: 'required',
+  },
+  autoPlay: {
+    doc: 'Automatically plays muted video when reduced motion is not requested. Enabling reduced motion pauses playback. Manual playback remains available. A browser may block autoplay.',
+    type: 'boolean',
+    defaultValue: 'true',
+    status: 'optional',
+  },
+  playTitle: {
+    doc: 'Accessible play label. Defaults to the translated Card.playTitle.',
+    type: 'string',
+    status: 'optional',
+  },
+  pauseTitle: {
+    doc: 'Accessible pause label. Defaults to the translated Card.pauseTitle.',
+    type: 'string',
+    status: 'optional',
+  },
+  title: {
+    doc: 'Override both playback labels with a fixed accessible label.',
+    type: 'React.ReactNode',
+    status: 'optional',
+  },
+  'Button properties': {
+    doc: 'Button properties are supported, except href, type, icon, and transitionState. Position defaults to the top-left corner of the nearest positioned container. The application owns the video element, sources, poster, and error fallback.',
+    type: 'Various',
+    status: 'optional',
+  },
+}
+
+export const CardMediaButtonEvents: PropertiesTableProps = {
+  onClick: {
+    doc: 'Runs before toggling playback. Return false or preventDefault() to cancel the toggle. Playback resumes from the current position.',
+    type: '(event: React.MouseEvent<HTMLButtonElement>) => void | boolean',
+    status: 'optional',
+  },
+}
+
+export const CardOverlayProperties: PropertiesTableProps = {
+  gradient: {
+    doc: 'Add a transparent-to-dark gradient behind the content.',
+    type: 'boolean',
+    defaultValue: 'true',
+    status: 'optional',
+  },
+  blur: {
+    doc: 'Add progressive backdrop blur behind the content. The gradient remains available in browsers without backdrop-filter support.',
+    type: 'boolean',
+    defaultValue: 'true',
+    status: 'optional',
+  },
+  children: {
+    doc: 'Accessible content and controls above the decorative effects. Headings and paragraphs automatically receive text shadows, including when nested in layout components. Provides dark-surface context for Buttons and other supporting components.',
+    type: 'React.ReactNode',
+    status: 'required',
+  },
+  'Flex.Stack properties': {
+    doc: 'All Flex.Stack properties are supported. Defaults to native CSS gaps, gap="small", and responsive padding: small on small screens and large on larger screens. Use spacing or style to position the overlay within the media container.',
+    type: 'Various',
     status: 'optional',
   },
 }

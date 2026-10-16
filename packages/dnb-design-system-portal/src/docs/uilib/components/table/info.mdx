@@ -98,7 +98,9 @@ Optionally, make use of the following React Hook to handle the `Th.SortButton` d
 
 It can be used as a "controller" for your own sorting logic of your data.
 
-By default, it will cycle through three stages `['asc', 'desc', 'off']`.
+By default, it will cycle through three stages `['asc', 'desc', 'off']`. The given `modes` are cycled through in the order you provide them, so `['desc', 'asc', 'off']` will sort descending on the first click.
+
+The returned `active` and `reversed` values describe the current sort state and can be passed directly to `Th`.
 
 <Details>
   <Summary>How to use the useHandleSortState React Hook.</Summary>
@@ -173,6 +175,7 @@ Use the `useTableKeyboardNavigation` hook to enable arrow-key navigation between
 
 ```jsx
 import Table, {
+  Td,
   useTableKeyboardNavigation,
 } from '@dnb/eufemia/components/Table'
 
@@ -183,12 +186,12 @@ function MyTable() {
     <Table ref={navRef}>
       <tbody>
         <tr>
-          <Table.Td>
+          <Td>
             <input />
-          </Table.Td>
-          <Table.Td>
+          </Td>
+          <Td>
             <input />
-          </Table.Td>
+          </Td>
         </tr>
       </tbody>
     </Table>

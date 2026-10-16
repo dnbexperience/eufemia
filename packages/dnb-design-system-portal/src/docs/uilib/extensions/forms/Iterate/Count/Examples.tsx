@@ -16,8 +16,22 @@ export const Interactive = () => {
   return (
     <ComponentBox>
       {() => {
+        const MyPushButton = () => {
+          const { count } = Iterate.useCount()
+          return (
+            <Iterate.PushButton
+              path="/myList"
+              pushValue={() => {
+                return Iterate.count({ id: 'myForm', path: '/myList' }) + 1
+              }}
+              top
+            >
+              Add item nr. {count('/myList') + 1}
+            </Iterate.PushButton>
+          )
+        }
+
         const MyForm = () => {
-          const { count } = Iterate.useCount('myForm')
           return (
             <Form.Handler id="myForm" data={{ myList: [1, 2] }}>
               <output>
@@ -34,17 +48,8 @@ export const Interactive = () => {
                   </Flex.Horizontal>
                 </Iterate.AnimatedContainer>
               </Iterate.Array>
-              <Iterate.PushButton
-                path="/myList"
-                pushValue={() => {
-                  return (
-                    Iterate.count({ id: 'myForm', path: '/myList' }) + 1
-                  )
-                }}
-                top
-              >
-                Add item nr. {count('/myList') + 1}
-              </Iterate.PushButton>
+
+              <MyPushButton />
             </Form.Handler>
           )
         }

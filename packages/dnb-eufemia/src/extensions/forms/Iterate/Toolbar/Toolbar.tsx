@@ -17,6 +17,9 @@ export type ToolbarParams = {
   value: unknown
 }
 export type IterateToolbarProps = Omit<SpaceAllProps, 'children'> & {
+  /**
+   * `React.ReactNode` or a function that receives an object with the `index`, `items` and `value` of the current item.
+   */
   children?: ReactNode | ((params: ToolbarParams) => ReactNode)
 }
 

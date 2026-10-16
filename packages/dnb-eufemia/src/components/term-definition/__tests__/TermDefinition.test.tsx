@@ -344,19 +344,16 @@ describe('TermDefinition', () => {
       expect(document.activeElement).toBe(tooltipContent)
     })
 
-    // Close the term definition
+    // Close the term definition by clicking into the input
     await userEvent.click(input)
     await waitFor(() => {
       expect(termTrigger).toHaveAttribute('aria-expanded', 'false')
-      expect(document.activeElement).toBe(termTrigger)
     })
-
-    // Verify the input is still functional by focusing and typing
-    await userEvent.click(input)
+    await new Promise((resolve) => requestAnimationFrame(resolve))
     expect(document.activeElement).toBe(input)
 
-    // Type into the input field
-    await userEvent.type(input, 'test')
+    // Type into the input field without clicking it again
+    await userEvent.keyboard('test')
     expect(input).toHaveValue('test')
   })
 

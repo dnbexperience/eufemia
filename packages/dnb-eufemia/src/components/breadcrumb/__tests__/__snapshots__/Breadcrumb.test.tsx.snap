@@ -576,6 +576,11 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disable
   );
   outline: none;
 }
+@media (forced-colors: active) {
+  html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disabled]), html:not([data-whatinput=touch]) .dnb-button--secondary:focus-visible:not([disabled]), html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible:not([disabled]) {
+    outline: var(--focus-ring-width) solid transparent;
+  }
+}
 .dnb-button--primary[disabled], .dnb-button--secondary[disabled], .dnb-button--tertiary[disabled] {
   --button-color-bg: var(--button-color-bg--disabled);
   --button-color-border: var(--button-color-border--disabled);
@@ -1385,7 +1390,7 @@ button.dnb-button::-moz-focus-inner {
   margin-right: 0.5rem;
 }
 .dnb-breadcrumb__item .dnb-anchor {
-  line-height: 1.5rem;
+  line-height: var(--line-height-basis);
   padding: 0;
   position: relative;
 }
@@ -1395,6 +1400,7 @@ button.dnb-button::-moz-focus-inner {
   inset: 0;
   transform: scale(1.25, 2);
   border: 0.5rem solid transparent;
+  forced-color-adjust: none;
 }
 .dnb-breadcrumb__item:first-child .dnb-anchor {
   border-left: none;

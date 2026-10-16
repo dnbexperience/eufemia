@@ -1,6 +1,8 @@
-import { useState } from 'react'
+import { StrictMode, useState } from 'react'
+import { renderToString } from 'react-dom/server'
 import { axeComponent } from '../../../../../core/test-utils/testSetup'
 import {
+  act,
   screen,
   render,
   within,
@@ -12,11 +14,559 @@ import DataContext from '../../../DataContext/Context'
 import DrawerListProvider from '../../../../../fragments/drawer-list/DrawerListProvider'
 import { createDrawerListVirtualization } from '../../../../../fragments/drawer-list/Virtualization'
 import { makeOptions } from '../Selection'
+import type { FieldSelectionProps } from '../Selection'
 import { Field, Form } from '../../..'
 import nbNO from '../../../constants/locales/nb-NO'
 const nb = nbNO['nb-NO']
 
 describe('Selection', () => {
+  describe('autoSelectSingleOption', () => {
+    it('selects and stores the only option when enabled', async () => {
+      const onChange = vi.fn()
+
+      render(
+        <Form.Handler onChange={onChange}>
+          <Field.Selection
+            path="/selection"
+            autoSelectSingleOption
+            data={[{ value: 'foo', title: 'Foo' }]}
+          />
+        </Form.Handler>
+      )
+
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-dropdown__text__inner')
+        ).toHaveTextContent('Foo')
+        expect(onChange).toHaveBeenLastCalledWith(
+          { selection: 'foo' },
+          expect.anything()
+        )
+      })
+    })
+
+    it.each([undefined, false])('is opt-in (%s)', async (enabled) => {
+      const onChange = vi.fn()
+
+      render(
+        <Field.Selection
+          autoSelectSingleOption={enabled}
+          data={[{ value: 'foo', title: 'Foo' }]}
+          onChange={onChange}
+        />
+      )
+
+      await act(async () => Promise.resolve())
+
+      expect(onChange).not.toHaveBeenCalled()
+      expect(
+        document.querySelector('.dnb-dropdown__text__inner')
+      ).not.toHaveTextContent('Foo')
+    })
+
+    it.each<FieldSelectionProps['variant']>([
+      'dropdown',
+      'autocomplete',
+      'radio',
+      'button',
+      'radio-button',
+    ])('supports the %s variant with children', async (variant) => {
+      const onChange = vi.fn()
+
+      render(
+        <Field.Selection
+          variant={variant}
+          autoSelectSingleOption
+          onChange={onChange}
+        >
+          <Field.Option value="foo">Foo</Field.Option>
+        </Field.Selection>
+      )
+
+      await waitFor(() => {
+        expect(onChange).toHaveBeenCalledTimes(1)
+        expect(onChange).toHaveBeenLastCalledWith('foo', expect.anything())
+
+        const selected =
+          variant === 'autocomplete'
+            ? document.querySelector('input')?.value === 'Foo'
+            : variant === 'radio'
+              ? document.querySelector('input')?.checked
+              : variant === 'dropdown'
+                ? document.querySelector('.dnb-dropdown__text__inner')
+                    ?.textContent === 'Foo'
+                : document
+                    .querySelector('[role="radio"]')
+                    ?.getAttribute('aria-checked') === 'true'
+
+        expect(selected).toBe(true)
+      })
+    })
+
+    it.each([
+      { data: [] },
+      {
+        data: [
+          { value: 'foo', title: 'Foo' },
+          { value: 'bar', title: 'Bar' },
+        ],
+      },
+      { data: [{ value: '', title: 'Choose' }] },
+    ])(
+      'does not select when there is no sole option (%j)',
+      async ({ data }) => {
+        const onChange = vi.fn()
+
+        render(
+          <Field.Selection
+            autoSelectSingleOption
+            data={data}
+            onChange={onChange}
+          />
+        )
+
+        await act(async () => Promise.resolve())
+
+        expect(onChange).not.toHaveBeenCalled()
+      }
+    )
+
+    it('counts options from data and children together', async () => {
+      const onChange = vi.fn()
+
+      render(
+        <Field.Selection
+          autoSelectSingleOption
+          data={[{ value: 'foo', title: 'Foo' }]}
+          onChange={onChange}
+        >
+          <Field.Option value="bar">Bar</Field.Option>
+        </Field.Selection>
+      )
+
+      await act(async () => Promise.resolve())
+
+      expect(onChange).not.toHaveBeenCalled()
+    })
+
+    it('ignores disabled and empty options and preserves numeric zero', async () => {
+      const onChange = vi.fn()
+
+      render(
+        <Field.Selection
+          autoSelectSingleOption
+          onChange={onChange}
+          emptyValue="empty"
+          data={[
+            { value: '', title: 'Choose' },
+            { value: 'empty', title: 'None' },
+            { value: 'bar', title: 'Bar', disabled: true },
+            { value: 0, title: 'Zero' },
+          ]}
+        />
+      )
+
+      await waitFor(() => {
+        expect(onChange).toHaveBeenLastCalledWith(0, expect.anything())
+        expect(
+          document.querySelector('.dnb-dropdown__text__inner')
+        ).toHaveTextContent('Zero')
+      })
+    })
+
+    it('does not select a disabled option', async () => {
+      const onChange = vi.fn()
+
+      render(
+        <Field.Selection autoSelectSingleOption onChange={onChange}>
+          <Field.Option value="foo" disabled>
+            Foo
+          </Field.Option>
+        </Field.Selection>
+      )
+
+      await act(async () => Promise.resolve())
+
+      expect(onChange).not.toHaveBeenCalled()
+    })
+
+    it('does not select while the field is disabled', async () => {
+      const onChange = vi.fn()
+      const data = [{ value: 'foo', title: 'Foo' }]
+      const { rerender } = render(
+        <Field.Selection
+          autoSelectSingleOption
+          disabled
+          data={data}
+          onChange={onChange}
+        />
+      )
+
+      await act(async () => Promise.resolve())
+
+      expect(onChange).not.toHaveBeenCalled()
+
+      rerender(
+        <Field.Selection
+          autoSelectSingleOption
+          data={data}
+          onChange={onChange}
+        />
+      )
+
+      await waitFor(() => {
+        expect(onChange).toHaveBeenLastCalledWith('foo', expect.anything())
+      })
+    })
+
+    it('respects autocomplete preventSelection', async () => {
+      const onChange = vi.fn()
+
+      render(
+        <Field.Selection
+          variant="autocomplete"
+          autoSelectSingleOption
+          data={[{ value: 'foo', title: 'Foo' }]}
+          autocompleteProps={{ preventSelection: true }}
+          onChange={onChange}
+        />
+      )
+
+      await act(async () => Promise.resolve())
+
+      expect(onChange).not.toHaveBeenCalled()
+    })
+
+    it.each(['value', 'defaultValue'])(
+      'does not overwrite an existing %s',
+      async (property) => {
+        const onChange = vi.fn()
+
+        render(
+          <Field.Selection
+            {...{ [property]: 'bar' }}
+            autoSelectSingleOption
+            data={[{ value: 'foo', title: 'Foo' }]}
+            onChange={onChange}
+          />
+        )
+
+        await act(async () => Promise.resolve())
+
+        expect(onChange).not.toHaveBeenCalled()
+      }
+    )
+
+    it('does not overwrite saved form data', async () => {
+      const onChange = vi.fn()
+
+      render(
+        <Form.Handler defaultData={{ selection: 'bar' }}>
+          <Field.Selection
+            path="/selection"
+            autoSelectSingleOption
+            data={[{ value: 'foo', title: 'Foo' }]}
+            onChange={onChange}
+          />
+        </Form.Handler>
+      )
+
+      await act(async () => Promise.resolve())
+
+      expect(onChange).not.toHaveBeenCalled()
+    })
+
+    it('selects when dynamically supplied options become a single option', async () => {
+      const onChange = vi.fn()
+      const { rerender } = render(
+        <Field.Selection
+          autoSelectSingleOption
+          data={[]}
+          onChange={onChange}
+        />
+      )
+
+      await act(async () => Promise.resolve())
+
+      expect(onChange).not.toHaveBeenCalled()
+
+      rerender(
+        <Field.Selection
+          autoSelectSingleOption
+          data={[
+            { value: 'foo', title: 'Foo' },
+            { value: 'bar', title: 'Bar' },
+          ]}
+          onChange={onChange}
+        />
+      )
+
+      await act(async () => Promise.resolve())
+
+      expect(onChange).not.toHaveBeenCalled()
+
+      rerender(
+        <Field.Selection
+          autoSelectSingleOption
+          data={[{ value: 'foo', title: 'Foo' }]}
+          onChange={onChange}
+        />
+      )
+
+      await waitFor(() => {
+        expect(onChange).toHaveBeenCalledTimes(1)
+        expect(onChange).toHaveBeenLastCalledWith('foo', expect.anything())
+      })
+    })
+
+    it('cancels selection when the option list changes before it runs', async () => {
+      const onChange = vi.fn()
+      const { rerender } = render(
+        <Field.Selection
+          autoSelectSingleOption
+          data={[{ value: 'foo', title: 'Foo' }]}
+          onChange={onChange}
+        />
+      )
+
+      rerender(
+        <Field.Selection
+          autoSelectSingleOption
+          data={[
+            { value: 'foo', title: 'Foo' },
+            { value: 'bar', title: 'Bar' },
+          ]}
+          onChange={onChange}
+        />
+      )
+
+      await act(async () => Promise.resolve())
+
+      expect(onChange).not.toHaveBeenCalled()
+    })
+
+    it('keeps the selection when more options become available', async () => {
+      const onChange = vi.fn()
+      const { rerender } = render(
+        <Field.Selection
+          autoSelectSingleOption
+          data={[{ value: 'foo', title: 'Foo' }]}
+          onChange={onChange}
+        />
+      )
+
+      await waitFor(() => {
+        expect(onChange).toHaveBeenCalledTimes(1)
+      })
+
+      rerender(
+        <Field.Selection
+          autoSelectSingleOption
+          data={[
+            { value: 'foo', title: 'Foo' },
+            { value: 'bar', title: 'Bar' },
+          ]}
+          onChange={onChange}
+        />
+      )
+
+      await act(async () => Promise.resolve())
+
+      expect(onChange).toHaveBeenCalledTimes(1)
+      expect(
+        document.querySelector('.dnb-dropdown__text__inner')
+      ).toHaveTextContent('Foo')
+    })
+
+    it('supports render prop children without counting source data twice', async () => {
+      const onChange = vi.fn()
+
+      render(
+        <Field.Selection
+          autoSelectSingleOption
+          data={[{ value: 'foo', title: 'Foo' }]}
+          onChange={onChange}
+        >
+          {({ options }) =>
+            options.map((option) => (
+              <Field.Option key={option.value} {...option} />
+            ))
+          }
+        </Field.Selection>
+      )
+
+      await waitFor(() => {
+        expect(onChange).toHaveBeenCalledTimes(1)
+        expect(onChange).toHaveBeenLastCalledWith('foo', expect.anything())
+      })
+    })
+
+    it('supports nested radio options', async () => {
+      const onChange = vi.fn()
+
+      render(
+        <Field.Selection
+          variant="radio"
+          autoSelectSingleOption
+          onChange={onChange}
+        >
+          <div>
+            <Field.Option value="foo">Foo</Field.Option>
+            <Field.Option value="bar" disabled>
+              Bar
+            </Field.Option>
+          </div>
+        </Field.Selection>
+      )
+
+      await waitFor(() => {
+        expect(onChange).toHaveBeenLastCalledWith('foo', expect.anything())
+      })
+    })
+
+    it('only notifies once under StrictMode', async () => {
+      const onChange = vi.fn()
+
+      render(
+        <StrictMode>
+          <Field.Selection
+            autoSelectSingleOption
+            data={[{ value: 'foo', title: 'Foo' }]}
+            onChange={onChange}
+          />
+        </StrictMode>
+      )
+
+      await waitFor(() => {
+        expect(onChange).toHaveBeenCalledTimes(1)
+        expect(
+          document.querySelector('.dnb-dropdown__text__inner')
+        ).toHaveTextContent('Foo')
+      })
+    })
+
+    it('updates form data for dynamic dataPath options and after clearing the value', async () => {
+      const onChange = vi.fn()
+      const Controls = () => {
+        const { data, update } = Form.useData<{
+          options: FieldSelectionProps['data']
+          selection?: FieldSelectionProps['value']
+        }>()
+
+        return (
+          <>
+            <button
+              type="button"
+              id="load-options"
+              onClick={() => {
+                update('/options', [{ value: 'foo', title: 'Foo' }])
+              }}
+            >
+              Load options
+            </button>
+            <button
+              type="button"
+              id="clear-selection"
+              onClick={() => {
+                update('/selection', undefined)
+              }}
+            >
+              Clear selection
+            </button>
+            <output>{data.selection}</output>
+          </>
+        )
+      }
+
+      render(
+        <Form.Handler defaultData={{ options: [] }}>
+          <Field.Selection
+            path="/selection"
+            dataPath="/options"
+            autoSelectSingleOption
+            onChange={onChange}
+          />
+          <Controls />
+        </Form.Handler>
+      )
+
+      expect(onChange).not.toHaveBeenCalled()
+
+      await userEvent.click(document.querySelector('#load-options'))
+
+      await waitFor(() => {
+        expect(document.querySelector('output')).toHaveTextContent('foo')
+        expect(onChange).toHaveBeenCalledTimes(1)
+      })
+
+      await userEvent.click(document.querySelector('#clear-selection'))
+
+      await waitFor(() => {
+        expect(document.querySelector('output')).toHaveTextContent('foo')
+        expect(onChange).toHaveBeenCalledTimes(2)
+      })
+    })
+
+    it('validates and submits the selected value', async () => {
+      const onSubmit = vi.fn()
+
+      render(
+        <Form.Handler onSubmit={onSubmit}>
+          <Field.Selection
+            path="/selection"
+            autoSelectSingleOption
+            required
+            data={[{ value: 'foo', title: 'Foo' }]}
+          />
+          <button type="submit">Submit</button>
+        </Form.Handler>
+      )
+
+      await waitFor(() => {
+        expect(
+          document.querySelector('.dnb-dropdown__text__inner')
+        ).toHaveTextContent('Foo')
+      })
+
+      await userEvent.click(
+        document.querySelector('button[type="submit"]')
+      )
+
+      expect(onSubmit).toHaveBeenLastCalledWith(
+        { selection: 'foo' },
+        expect.anything()
+      )
+    })
+
+    it('does not select during server rendering and selects after hydration', async () => {
+      const onChange = vi.fn()
+      const element = (
+        <Field.Selection
+          autoSelectSingleOption
+          data={[{ value: 'foo', title: 'Foo' }]}
+          onChange={onChange}
+        />
+      )
+      const container = document.createElement('div')
+      container.innerHTML = renderToString(element)
+      document.body.appendChild(container)
+
+      expect(onChange).not.toHaveBeenCalled()
+      expect(
+        container.querySelector('.dnb-dropdown__text__inner')
+      ).not.toHaveTextContent('Foo')
+
+      render(element, { container, hydrate: true })
+
+      await waitFor(() => {
+        expect(onChange).toHaveBeenCalledTimes(1)
+        expect(
+          container.querySelector('.dnb-dropdown__text__inner')
+        ).toHaveTextContent('Foo')
+      })
+    })
+  })
+
   it('forwards the virtualized list driver to dropdown and autocomplete variants', async () => {
     const listDriver = createDrawerListVirtualization({ overscan: 1 })
     const data = Array.from({ length: 100 }, (_, index) => ({

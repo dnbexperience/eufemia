@@ -4338,7 +4338,7 @@
       }
     }
   },
-  "dnbcarnegie": {
+  "dnb-carnegie": {
     "coldgreen": {
       "50": {
         "$type": "color",

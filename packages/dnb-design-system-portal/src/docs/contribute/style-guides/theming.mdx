@@ -134,7 +134,7 @@ Make sure your project can handle **\*.scss** files.
 
 **1.** make a copy of the [repository](https://github.com/dnbexperience/eufemia). Place it somewhere locally on your machine
 
-**2.** change your command line (Terminal) directory to the sub package `@dnb/eufemia` (_eufemia/packages/eufemia_)
+**2.** change your command line (Terminal) directory to the sub package `@dnb/eufemia` (_eufemia/packages/dnb-eufemia_)
 
 **3.** make the package ready for development by running:
 
@@ -151,10 +151,10 @@ $ yarn link "@dnb/eufemia"
 **5.** That's it. Now you can use (import/require) the NPM module in your application like:
 
 ```js
-import { Button } from 'dnb-eufemia/components'
+import { Button } from '@dnb/eufemia/components'
 
 // See the "src" in the path?
-import 'dnb-eufemia/src/style/themes/ui/ui-theme-[MY THEME].scss'
+import '@dnb/eufemia/src/style/themes/ui/ui-theme-[MY THEME].scss'
 ```
 
 **6.** Don't forget to add `"@dnb/eufemia": "*"` with the respective version (alongside React) to your dependencies:

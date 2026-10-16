@@ -1,4 +1,6 @@
 import type { RefObject } from 'react'
+import { renderToString } from 'react-dom/server'
+import { hydrateRoot } from 'react-dom/client'
 import {
   render,
   fireEvent,
@@ -853,6 +855,41 @@ describe('Table using mode="accordion" prop', () => {
     expect(document.querySelector('tr')).toHaveClass(
       'dnb-table__tr--expanded'
     )
+  })
+
+  it('should expand the row matching the location hash after hydration', () => {
+    const element = (
+      <Table mode="accordion">
+        <tbody>
+          <Tr id="row-1">
+            <Td>content</Td>
+            <Td.AccordionContent>accordion content</Td.AccordionContent>
+          </Tr>
+        </tbody>
+      </Table>
+    )
+
+    // The server cannot know the hash
+    window.history.replaceState({}, '', 'http://localhost/')
+    const container = document.createElement('div')
+    container.innerHTML = renderToString(element)
+    document.body.appendChild(container)
+
+    window.history.replaceState({}, '', 'http://localhost/#row-1')
+
+    const onRecoverableError = vi.fn()
+    let root: ReturnType<typeof hydrateRoot>
+    act(() => {
+      root = hydrateRoot(container, element, { onRecoverableError })
+    })
+
+    expect(onRecoverableError).not.toHaveBeenCalled()
+    expect(container.querySelector('tr')).toHaveClass(
+      'dnb-table__tr--expanded'
+    )
+
+    act(() => root.unmount())
+    container.remove()
   })
 
   describe('events', () => {

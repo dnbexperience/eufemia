@@ -87,7 +87,7 @@ describe('validateComponentUsage', () => {
 
     expect(result.ok).toBe(false)
     if (!result.ok) {
-      expect(result.errors[0]).toMatch(/app/)
+      expect(result.errors[0]).toMatch(/app .*at most 256 characters/)
     }
   })
 })

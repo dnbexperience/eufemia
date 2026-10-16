@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react'
 
 export type UseHandleSortStateOptions = {
   /**
-   * Defines the sortable column as the current active (ascending).
+   * Defines the sortable column as the currently sorted column.
    * Default: `false`
    */
   active?: boolean
@@ -14,7 +14,7 @@ export type UseHandleSortStateOptions = {
   direction?: UseHandleSortStateDirection
 
   /**
-   * Define the possible modes.
+   * Define the possible modes, in the order they are cycled through.
    * Defaults to `["asc", "desc", "off"]`.
    */
   modes?: Array<UseHandleSortStateMode>
@@ -54,22 +54,19 @@ type SortStateInternalEntry = Record<
   UseHandleSortStateName,
   SortStateInternalStateOptions
 >
-type GetNextMode = {
-  direction: UseHandleSortStateDirection
-  opts: SortStateInternalStateOptions
-  defaults: UseHandleSortStateOptions
+
+const defaultOptions: UseHandleSortStateOptions = {
+  direction: 'off',
+  modes: ['asc', 'desc', 'off'],
 }
 
 export function useHandleSortState(
   config: UseHandleSortStateConfig,
-  defaults: UseHandleSortStateOptions = {
-    direction: 'off',
-    modes: ['asc', 'desc', 'off'],
-  }
+  defaults?: UseHandleSortStateOptions
 ) {
   const initialState = useMemo(() => {
     return Object.entries(config).reduce((acc, [name, opts]) => {
-      acc[name] = { ...defaults, ...opts }
+      acc[name] = { ...defaultOptions, ...defaults, ...opts }
 
       return acc
     }, {})
@@ -91,11 +88,7 @@ export function useHandleSortState(
         } else if (!state.active && state.direction !== 'off') {
           state.active = true
         } else {
-          state.direction = getNextMode({
-            direction: state.direction,
-            opts,
-            defaults,
-          })
+          state.direction = getNextMode(state.direction, opts.modes)
           state.active = state.direction !== 'off'
         }
 
@@ -120,7 +113,7 @@ export function useHandleSortState(
 
       return acc
     }, {})
-  }, [internalState]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [internalState])
 
   let activeSortName = null
   const sortState: TableSortState = Object.entries(internalState).reduce(
@@ -146,33 +139,19 @@ export function useHandleSortState(
   )
 
   return { sortState, sortHandler, activeSortName }
+}
 
-  function getNextMode({ direction, opts, defaults }: GetNextMode) {
-    const modes = defaults.modes.filter((mode) => {
-      return opts.modes.includes(mode)
-    })
+function getNextMode(
+  direction: UseHandleSortStateDirection,
+  modes: Array<UseHandleSortStateMode>
+) {
+  const index = modes.indexOf(direction)
 
-    if (!modes.includes(direction)) {
-      direction = modes[0]
-    }
-
-    let next = direction
-
-    for (let i = 0, l = modes.length; i < l; i++) {
-      const mode = modes[i]
-
-      if (direction === mode) {
-        let c = i + 1
-        if (c >= l) {
-          c = 0
-        }
-        next = modes[c]
-        break
-      }
-    }
-
-    return next
+  if (index === -1) {
+    return modes[0]
   }
+
+  return modes[(index + 1) % modes.length]
 }
 
 export default useHandleSortState

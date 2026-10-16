@@ -55,7 +55,7 @@ export const MultiSelectionProperties: PropertiesTableProps = {
     status: 'optional',
   },
   selectedItemsCollapsibleThreshold: {
-    doc: 'When the number of selected items exceeds this threshold, the selected items are hidden by default and can be toggled with a header.',
+    doc: 'When the total number of items exceeds this threshold, the selected items are hidden by default and can be toggled with a header. Defaults to `10`.',
     type: ['number'],
     status: 'optional',
   },

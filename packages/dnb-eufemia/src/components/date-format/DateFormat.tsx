@@ -18,11 +18,14 @@ import {
   formatDuration,
   isValidDuration,
   getDateTimeSeparator,
+  convertNumberToDate,
+  isUTCDateString,
 } from './DateFormatUtils'
 import { format } from 'date-fns'
 import type { SpacingProps } from '../../shared/types'
 import { clsx } from 'clsx'
 import { useSpacing } from '../space/SpacingUtils'
+import useCanUseDOM from '../../shared/helpers/useCanUseDOM'
 import type { SkeletonShow } from '../Skeleton'
 import Tooltip from '../Tooltip'
 import {
@@ -82,6 +85,14 @@ function DateFormat(props: DateFormatProps) {
   const locale = localeProp || context.locale
   const ref = useRef<HTMLTimeElement>(undefined)
 
+  // The server cannot know the time and time zone of the browser, so keep the
+  // server text while hydrating and let React replace it right after
+  const canUseDOM = useCanUseDOM()
+  const isHydrating = !canUseDOM && typeof document !== 'undefined'
+  const hydrationProps = isHydrating
+    ? { suppressHydrationWarning: true, dateTime: undefined }
+    : undefined
+
   const date = useMemo(() => {
     // Always call getDate to maintain expected console.log behavior
     return getDate({ value, children })
@@ -128,13 +139,31 @@ function DateFormat(props: DateFormatProps) {
   })
   skeletonDOMAttributes(attributes, skeleton, context)
 
+  const isUTCValue = useMemo(() => {
+    const originalValue =
+      value !== undefined
+        ? value
+        : children !== undefined
+          ? convertJsxToString(children)
+          : undefined
+
+    return (
+      typeof originalValue === 'string' && isUTCDateString(originalValue)
+    )
+  }, [value, children])
+
   const getAbsoluteDateTime = useCallback(
-    (style = 'yyyy-MM-dd') => {
+    ({ withTime = false, inUTC = false } = {}) => {
       if (!date || isNaN(date.getTime())) {
         return undefined // stop here
       }
 
-      return format(date, style)
+      if (inUTC) {
+        const [day, time] = date.toISOString().split('T')
+        return withTime ? `${day} ${time.slice(0, 8)}Z` : day
+      }
+
+      return format(date, withTime ? 'yyyy-MM-dd HH:mm:ss' : 'yyyy-MM-dd')
     },
     [date]
   )
@@ -171,6 +200,8 @@ function DateFormat(props: DateFormatProps) {
         const formattedDate = formatDate(originalValue, {
           locale,
           options: { dateStyle: options.dateStyle },
+          // formatDate keeps the time of UTC values in UTC, so the date has to follow
+          timeZone: isUTCValue ? 'UTC' : undefined,
           hideCurrentYear:
             hideCurrentYearOverride !== undefined
               ? hideCurrentYearOverride
@@ -217,6 +248,7 @@ function DateFormat(props: DateFormatProps) {
       hideYear,
       value,
       children,
+      isUTCValue,
     ]
   )
 
@@ -311,10 +343,20 @@ function DateFormat(props: DateFormatProps) {
         <time
           {...attributes}
           dateTime={originalDurationString}
-          aria-label={hasAriaLabel ? durationFormattedFull : undefined}
+          aria-label={
+            hasAriaLabel && !isHydrating
+              ? durationFormattedFull
+              : undefined
+          }
+          suppressHydrationWarning={isHydrating || undefined}
           ref={showTooltip ? ref : undefined}
         >
-          <span aria-hidden={hasAriaLabel}>{durationFormatted}</span>
+          <span
+            aria-hidden={hasAriaLabel}
+            suppressHydrationWarning={isHydrating || undefined}
+          >
+            {isHydrating ? '' : durationFormatted}
+          </span>
         </time>
         {showTooltip && (
           <Tooltip
@@ -353,11 +395,15 @@ function DateFormat(props: DateFormatProps) {
     return (
       <>
         <time
-          dateTime={getAbsoluteDateTime('yyyy-MM-dd HH:mm:ss')}
+          dateTime={getAbsoluteDateTime({
+            withTime: true,
+            inUTC: isUTCValue,
+          })}
           {...attributes}
+          {...hydrationProps}
           ref={ref}
         >
-          {label}
+          {isHydrating ? '' : label}
         </time>
         <Tooltip
           targetElement={ref}
@@ -375,11 +421,15 @@ function DateFormat(props: DateFormatProps) {
   return (
     <>
       <time
-        dateTime={getAbsoluteDateTime()}
+        dateTime={getAbsoluteDateTime({
+          // The date of UTC values is only shown in UTC together with the time
+          inUTC: isUTCValue && Boolean(timeStyle),
+        })}
         {...attributes}
+        {...hydrationProps}
         ref={showTooltip ? ref : undefined}
       >
-        {displayedContent}
+        {isHydrating ? '' : displayedContent}
       </time>
       {showTooltip && (
         <Tooltip
@@ -407,8 +457,7 @@ function getDate({
     if (value instanceof Date) {
       return value
     }
-    // For numbers, convert to string first
-    return convertStringToDate(String(value))
+    return convertNumberToDate(value)
   }
 
   const childrenValue = convertJsxToString(children)

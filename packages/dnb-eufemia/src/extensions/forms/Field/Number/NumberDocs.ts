@@ -17,6 +17,11 @@ export const NumberProperties: PropertiesTableProps = {
     type: ['boolean', 'string'],
     status: 'optional',
   },
+  currencyDisplay: {
+    doc: 'How to display the currency symbol: `code` (e.g., USD), `symbol` (e.g., $), `narrowSymbol`, or `name`. Use `false` to hide it.',
+    type: ['"code"', '"symbol"', '"narrowSymbol"', '"name"', 'false'],
+    status: 'optional',
+  },
   allowNegative: {
     doc: 'Whether or not to allow negative numbers. Defaults to `true`.',
     type: 'boolean',
@@ -53,7 +58,7 @@ export const NumberProperties: PropertiesTableProps = {
     status: 'optional',
   },
   width: {
-    doc: '`false` for no width (use browser default), `small`, `medium` or `large` for predefined standard widths, `stretch` for fill available width.',
+    doc: '`false` for no width (use browser default), `small`, `medium` or `large` for predefined standard widths, `stretch` to fill available width. You can also set a custom width `{number}rem`.',
     type: ['string', 'false'],
     status: 'optional',
   },
@@ -104,6 +109,14 @@ export const NumberProperties: PropertiesTableProps = {
   mask: {
     doc: 'An array or a function returning an array of regexes to use as a mask for the input. If not given, the input will not be masked.',
     type: ['array', 'function'],
+    status: 'optional',
+  },
+}
+
+export const NumberEvents: PropertiesTableProps = {
+  onKeyDown: {
+    doc: 'Will be called when a key is pressed while the input has focus. Call `event.preventDefault()` to keep the key from being typed, e.g. to set the value with a keyboard shortcut. Check `event.metaKey` and `event.ctrlKey` to leave browser shortcuts alone. With `showStepControls`, the arrow keys step the value before it is called.',
+    type: '(event: React.KeyboardEvent<HTMLInputElement>) => void',
     status: 'optional',
   },
 }

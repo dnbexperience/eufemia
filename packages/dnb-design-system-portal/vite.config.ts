@@ -214,7 +214,7 @@ export default defineConfig({
   },
 
   define: {
-    // Some dependencies (e.g. react-live-ssr) reference Node's `global`
+    // Some dependencies reference Node's `global`
     global: 'globalThis',
 
     // Algolia search

@@ -109,6 +109,8 @@ export const InComponents = () => (
         placeholder="Write something"
       />
       <Dropdown
+        label="Country"
+        labelSrOnly
         value="NO"
         iconPosition="left"
         data={{
@@ -126,7 +128,12 @@ export const InComponents = () => (
           ),
         }}
       />
-      <Dropdown icon={<CountryFlag iso="NO" />} size="large" />
+      <Dropdown
+        label="Country"
+        labelSrOnly
+        icon={<CountryFlag iso="NO" />}
+        size="large"
+      />
 
       <Flex.Horizontal align="center" gap="x-small">
         In Icon component:

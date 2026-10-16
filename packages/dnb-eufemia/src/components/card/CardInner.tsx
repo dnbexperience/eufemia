@@ -1,6 +1,7 @@
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
-import { useContext } from 'react'
-import type { HTMLProps, ReactNode } from 'react'
+import { Children, isValidElement, useContext } from 'react'
+import type { ComponentMarkers } from '../../shared/helpers/withComponentMarkers'
+import type { HTMLProps, MouseEventHandler, ReactNode } from 'react'
 import { clsx } from 'clsx'
 import Flex from '../flex/Flex'
 import type { SectionProps } from '../section/Section'
@@ -9,6 +10,9 @@ import { combineLabelledBy } from '../../shared/component-helper'
 import CardContext from './CardContext'
 import Space from '../Space'
 import useId from '../../shared/helpers/useId'
+import CardCloseButton from './CardCloseButton'
+import type { ButtonProps } from '../button/Button'
+import mergeProps from '../../shared/helpers/mergeProps'
 
 import type { FlexContainerProps } from '../flex/Container'
 import type { FlexItemProps } from '../flex/Item'
@@ -16,6 +20,11 @@ import type { SpaceTypeMedia } from '../../shared/types'
 import type { SpaceProps } from '../Space'
 
 export type CardProps = {
+  /** @deprecated Compose Card.Info.CloseButton with onClick instead. */
+  onClose?: MouseEventHandler<HTMLButtonElement>
+  /** @deprecated Pass button properties directly to Card.Info.CloseButton instead. */
+  closeButtonProps?: ButtonProps
+
   /**
    * Define a title that appears on top of the Card.
    */
@@ -42,13 +51,18 @@ export type CardProps = {
   FlexItemProps & {
     stack?: boolean
   } & SpaceProps &
-  Omit<HTMLProps<HTMLElement>, 'ref' | 'wrap' | 'title' | 'span'>
+  Omit<
+    HTMLProps<HTMLElement>,
+    'ref' | 'wrap' | 'title' | 'span' | 'onClose'
+  >
 
 function Card(props: CardProps) {
   const nestedContext = useContext(CardContext)
 
   const {
     className,
+    onClose,
+    closeButtonProps,
     stack,
     direction,
     gap,
@@ -68,6 +82,26 @@ function Card(props: CardProps) {
     children,
     ...rest
   } = props
+  const content: ReactNode[] = []
+  const closeControls: ReactNode[] = []
+  Children.toArray(children).forEach((child) => {
+    if (
+      isValidElement(child) &&
+      (child.type as ComponentMarkers)._cardControl === 'close'
+    ) {
+      closeControls.push(child)
+    } else {
+      content.push(child)
+    }
+  })
+  if (onClose && closeControls.length === 0) {
+    closeControls.push(
+      <CardCloseButton
+        key="legacy-close"
+        {...mergeProps({ onClick: onClose }, closeButtonProps)}
+      />
+    )
+  }
 
   const titleId = useId()
   const falseWhenSmall = { small: false, medium: true, large: true }
@@ -92,6 +126,7 @@ function Card(props: CardProps) {
       className,
       responsive && 'dnb-card--responsive',
       filled && 'dnb-card--filled',
+      closeControls.length > 0 && 'dnb-card--closable',
       !innerSpace && innerSpace != null && 'dnb-card--no-inner-space'
     ),
     breakout: responsive ? trueWhenSmall : false,
@@ -134,8 +169,9 @@ function Card(props: CardProps) {
               {title}
             </Space>
           )}
-          {children}
+          {content}
         </Flex.Container>
+        {closeControls}
       </CardContext>
     </Flex.Item>
   )

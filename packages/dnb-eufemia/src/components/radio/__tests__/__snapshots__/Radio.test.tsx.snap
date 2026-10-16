@@ -504,6 +504,11 @@ html[data-whatinput=keyboard] .dnb-radio__input:focus ~ .dnb-radio__button {
   --radio-color-border: var(--radio-color-border--focus);
   --radio-color-background: var(--radio-color-background--focus);
 }
+@media (forced-colors: active) {
+  html[data-whatinput=keyboard] .dnb-radio__input:focus ~ .dnb-radio__button {
+    outline: var(--focus-ring-width) solid transparent;
+  }
+}
 html[data-whatinput=keyboard] .dnb-radio__input:focus ~ .dnb-radio__dot {
   --radio-color-dot-on: var(--radio-color-dot-on--focus);
 }

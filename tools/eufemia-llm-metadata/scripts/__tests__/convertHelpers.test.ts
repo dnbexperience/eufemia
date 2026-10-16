@@ -663,7 +663,7 @@ describe('convertMdxToMd', () => {
     expect(output).toContain(
       "const props = { enableAdditionalQuestions: ['daycare', 'joint-responsibility'] }"
     )
-    expect(output).toContain('<Blocks.ChildrenWithAge {...props} />')
+    expect(output).toContain('<ChildrenWithAgeBlock {...props} />')
   })
 
   it('replaces nested ColorsTable content with rendered markdown tables', async () => {

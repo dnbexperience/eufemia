@@ -12,7 +12,11 @@ export const SliderFieldProperties: PropertiesTableProps = {
   step: SliderProperties.step,
   vertical: SliderProperties.vertical,
   reverse: SliderProperties.reverse,
-  stretch: SliderProperties.stretch,
+  width: {
+    doc: '`false` for no width (use browser default), `small`, `medium` or `large` for predefined standard widths, `stretch` to fill available width. Defaults to `stretch`.',
+    type: ['string', 'false'],
+    status: 'optional',
+  },
   hideButtons: SliderProperties.hideButtons,
   multiThumbBehavior: SliderProperties.multiThumbBehavior,
   thumbTitle: SliderProperties.thumbTitle,

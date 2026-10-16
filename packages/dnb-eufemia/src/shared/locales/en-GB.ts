@@ -99,6 +99,11 @@ export default {
       selectedSr: 'Selected:',
       indicatorLabel: 'Getting data ...',
     },
+    Card: {
+      playTitle: 'Play background video',
+      pauseTitle: 'Pause background video',
+      closeTitle: 'Close',
+    },
     Modal: {
       dialogTitle: 'Dialog window',
       closeTitle: 'Close',
@@ -109,6 +114,7 @@ export default {
     },
     CopyOnClick: {
       clipboardCopy: 'Copied',
+      buttonTitle: 'Copy',
     },
     NumberFormat: {
       clipboardCopy: 'Copied',

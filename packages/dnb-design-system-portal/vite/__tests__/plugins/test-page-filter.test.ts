@@ -206,6 +206,16 @@ describe('test-page-filter plugin', () => {
   })
 
   describe('extractPageGotoUrls', () => {
+    it('keeps the Card close-button fixture in the E2E production build', () => {
+      const filePath = path.resolve(
+        __dirname,
+        '../../../../dnb-eufemia/src/components/card/__tests__/CardClose.e2e.spec.ts'
+      )
+      expect(extractPageGotoUrls(filePath)).toContain(
+        '/uilib/components/card/visual-tests/close-button-padding'
+      )
+    })
+
     let tmpDir: string
 
     function writeTsFile(name: string, content: string): string {

@@ -1,6 +1,7 @@
 import SidebarMenuAccordion from './SidebarMenuAccordion'
 import SidebarMenuItem from './SidebarMenuItem'
 import SidebarMenuGroup from './SidebarMenuGroup'
+import SidebarMenuHeader from './SidebarMenuHeader'
 import SidebarMenuDivider from './SidebarMenuDivider'
 import { clsx } from 'clsx'
 import type { SidebarMenuItemData } from './types'
@@ -24,6 +25,18 @@ export default function renderSidebarMenuItems(
         >
           {item.content}
         </li>
+      )
+    } else if (item.type === 'header') {
+      content = (
+        <SidebarMenuHeader
+          key={item.id}
+          id={item.id}
+          text={item.text}
+          className={item.className}
+          style={item.style}
+        >
+          {item.items ? renderSidebarMenuItems(item.items) : null}
+        </SidebarMenuHeader>
       )
     } else if (item.type === 'group') {
       content = (

@@ -3,15 +3,17 @@
  *
  */
 
-import { createRef, useRef, useState } from 'react'
-import type { Ref, RefObject } from 'react'
+import { createRef, StrictMode, useRef, useState } from 'react'
+import type { ReactElement, Ref, RefObject } from 'react'
 import {
   axeComponent,
   loadScss,
   wait,
 } from '../../../core/test-utils/testSetup'
-import { fireEvent, render } from '@testing-library/react'
+import { act, fireEvent, render } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { renderToString } from 'react-dom/server'
+import { hydrateRoot } from 'react-dom/client'
 import type { InputProps } from '../Input'
 import Input from '../Input'
 import { formatNumber } from '../../number-format/NumberUtils'
@@ -1174,6 +1176,187 @@ describe('Input icon memoization', () => {
       value: 'ProgressIndicator',
       configurable: true,
     })
+  })
+})
+
+describe('Input with server-rendered markup', () => {
+  const hydrate = (element: ReactElement, typedValue?: string) => {
+    const container = document.createElement('div')
+    container.innerHTML = renderToString(element)
+    document.body.appendChild(container)
+
+    const input = container.querySelector('input')
+    if (typeof typedValue === 'string') {
+      input.value = typedValue
+    }
+
+    const recoverableErrors = []
+    let root: ReturnType<typeof hydrateRoot>
+    act(() => {
+      root = hydrateRoot(container, element, {
+        onRecoverableError: (error) => recoverableErrors.push(error),
+      })
+    })
+
+    const unmount = () => {
+      act(() => root.unmount())
+      container.remove()
+    }
+
+    return { input, recoverableErrors, unmount }
+  }
+
+  it('should render the value in the server HTML', () => {
+    expect(renderToString(<Input value="Prefilled" />)).toContain(
+      'value="Prefilled"'
+    )
+  })
+
+  it('should not render the value of a password input in the server HTML', () => {
+    expect(
+      renderToString(<Input type="password" value="secret" />)
+    ).not.toContain('secret')
+  })
+
+  it.each([{ type: 'password' }, '{"type":"PASSWORD"}'])(
+    'should omit password values when the type is provided through input attributes: %j',
+    (inputAttributes) => {
+      expect(
+        renderToString(
+          <Input inputAttributes={inputAttributes} value="secret" />
+        )
+      ).not.toContain('secret')
+    }
+  )
+
+  it.each([
+    ['text', 'first\nsecond', 'firstsecond'],
+    ['email', ' user@example.com ', 'user@example.com'],
+    ['number', 'invalid', ''],
+  ])(
+    'should not report browser normalization of an initial %s value as typing',
+    (type, value, normalizedValue) => {
+      const onChange = vi.fn()
+      const element = (
+        <Input type={type} value={value} onChange={onChange} />
+      )
+      const { input, unmount } = hydrate(element)
+
+      expect(input).toHaveValue(type === 'number' ? null : normalizedValue)
+      expect(onChange).not.toHaveBeenCalled()
+      unmount()
+
+      const client = render(element)
+      expect(onChange).not.toHaveBeenCalled()
+      client.unmount()
+    }
+  )
+
+  it('should apply a change handler result equal to the initial value', () => {
+    const { input, unmount } = hydrate(
+      <Input value="ABC" onChange={({ value }) => value.toUpperCase()} />,
+      'abc'
+    )
+
+    expect(input).toHaveValue('ABC')
+    unmount()
+  })
+
+  it('should restore the initial value when the change handler rejects pre-hydration text', () => {
+    const { input, unmount } = hydrate(
+      <Input value="Prefilled" onChange={() => false} />,
+      'typed'
+    )
+
+    expect(input).toHaveValue('Prefilled')
+    unmount()
+  })
+
+  it('should preserve clearing a prefilled input before hydration', () => {
+    const onChange = vi.fn()
+    const { input, unmount } = hydrate(
+      <Input value="Prefilled" onChange={onChange} />,
+      ''
+    )
+
+    expect(input).toHaveValue('')
+    expect(onChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({ value: '' })
+    )
+    unmount()
+  })
+
+  it('should keep password text typed before hydration', () => {
+    const onChange = vi.fn()
+    const { input, unmount } = hydrate(
+      <Input type="password" value="secret" onChange={onChange} />,
+      'typed'
+    )
+
+    expect(input).toHaveValue('typed')
+    expect(input).not.toHaveAttribute('value')
+    expect(onChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({ value: 'typed' })
+    )
+    unmount()
+  })
+
+  it('should keep text typed before hydration in StrictMode', () => {
+    const onChange = vi.fn()
+    const { input, unmount } = hydrate(
+      <StrictMode>
+        <Input value="Prefilled" onChange={onChange} />
+      </StrictMode>,
+      'typed'
+    )
+
+    expect(input).toHaveValue('typed')
+    expect(onChange).toHaveBeenCalledTimes(1)
+    unmount()
+  })
+
+  it('should keep text typed before hydration and call onChange', () => {
+    const onChange = vi.fn()
+    const { input, recoverableErrors, unmount } = hydrate(
+      <Input onChange={onChange} />,
+      'typed'
+    )
+
+    expect(recoverableErrors).toEqual([])
+    expect(input).toHaveValue('typed')
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(onChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({ value: 'typed' })
+    )
+
+    unmount()
+  })
+
+  it('should keep a prefilled value changed before hydration', () => {
+    const onChange = vi.fn()
+    const { input, unmount } = hydrate(
+      <Input value="Prefilled" onChange={onChange} />,
+      'Prefilled and changed'
+    )
+
+    expect(input).toHaveValue('Prefilled and changed')
+    expect(onChange).toHaveBeenLastCalledWith(
+      expect.objectContaining({ value: 'Prefilled and changed' })
+    )
+
+    unmount()
+  })
+
+  it('should not call onChange when nothing was typed before hydration', () => {
+    const onChange = vi.fn()
+    const { input, unmount } = hydrate(
+      <Input value="Prefilled" onChange={onChange} />
+    )
+
+    expect(input).toHaveValue('Prefilled')
+    expect(onChange).not.toHaveBeenCalled()
+
+    unmount()
   })
 })
 

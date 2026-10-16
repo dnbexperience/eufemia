@@ -15,7 +15,7 @@ export const WithoutDataContext = () => {
   return (
     <ComponentBox>
       <Form.Section data={{ myField: 'Value' }} onChange={console.log}>
-        <Field.String path="/myField" />
+        <Field.String label="My field" path="/myField" />
       </Form.Section>
     </ComponentBox>
   )

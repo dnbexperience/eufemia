@@ -7,7 +7,10 @@ import useCombinedRef from '../../shared/helpers/useCombinedRef'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import { isDangerousHref } from '../../shared/helpers/isDangerousHref'
 
-export type CardActionProps = Omit<CardProps, 'onClick' | 'element'> & {
+export type CardActionProps = Omit<
+  CardProps,
+  'onClick' | 'element' | 'onClose' | 'closeButtonProps'
+> & {
   /**
    * The URL to navigate to. When set, renders an anchor element. Values using a script-executing protocol (`javascript:` or `vbscript:`) are removed.
    */

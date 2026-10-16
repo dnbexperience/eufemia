@@ -289,11 +289,14 @@ import {
   Field,
   makeAjvInstance,
 } from '@dnb/eufemia/extensions/forms'
+import Ajv from 'ajv/dist/2020'
 
-const ajv = makeAjvInstance({
-  strict: true,
-  allErrors: true,
-})
+const ajv = makeAjvInstance(
+  new Ajv({
+    strict: true,
+    allErrors: true,
+  })
+)
 
 ajv.addKeyword({
   keyword: 'notEmpty',

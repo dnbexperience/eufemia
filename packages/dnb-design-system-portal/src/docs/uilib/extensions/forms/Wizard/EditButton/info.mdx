@@ -26,7 +26,7 @@ import { Form, Wizard, Value } from '@dnb/eufemia/extensions/forms'
 
 render(
   <Form.Handler>
-    <Wizard.Layout>
+    <Wizard.Container>
       <Wizard.Step title="Summary">
         <Form.Card>
           <Value.Name.First path="/firstName" />
@@ -34,7 +34,7 @@ render(
           <Wizard.EditButton toStep={2} />
         </Form.Card>
       </Wizard.Step>
-    </Wizard.Layout>
+    </Wizard.Container>
   </Form.Handler>
 )
 ```

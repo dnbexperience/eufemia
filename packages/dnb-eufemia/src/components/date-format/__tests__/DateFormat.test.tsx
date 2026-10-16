@@ -1,6 +1,9 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { format } from 'date-fns'
-import { fireEvent, render, waitFor } from '@testing-library/react'
+import type { ReactElement } from 'react'
+import { act, fireEvent, render, waitFor } from '@testing-library/react'
+import { renderToString } from 'react-dom/server'
+import { hydrateRoot } from 'react-dom/client'
 import DateFormat from '../../DateFormat'
 import { axeComponent } from '../../../core/test-utils/testSetup'
 import { Provider } from '../../../../shared'
@@ -22,6 +25,17 @@ describe('DateFormat', () => {
     console.warn = originalWarn
   })
 
+  const OriginalDateTimeFormat = Intl.DateTimeFormat
+
+  const formatInTimeZone = (timeZone: string) => {
+    vi.spyOn(Intl, 'DateTimeFormat').mockImplementation(function (
+      locale: string,
+      options: Intl.DateTimeFormatOptions
+    ) {
+      return new OriginalDateTimeFormat(locale, { timeZone, ...options })
+    } as unknown as typeof Intl.DateTimeFormat)
+  }
+
   describe('absolute date', () => {
     it('should format the whole date based on `dateStyle`', () => {
       const { rerender } = render(
@@ -40,6 +54,35 @@ describe('DateFormat', () => {
 
       rerender(<DateFormat value="2025-08-01" dateStyle="short" />)
       expect(dateFormat).toHaveTextContent('01.08.2025')
+    })
+
+    it('should format a timestamp', () => {
+      const timestamp = new Date(2025, 7, 1, 14, 30).getTime()
+      const { rerender } = render(
+        <DateFormat value={timestamp} dateStyle="short" />
+      )
+
+      const dateFormat = document.querySelector('.dnb-date-format')
+
+      expect(dateFormat).toHaveTextContent('01.08.2025')
+
+      rerender(
+        <DateFormat
+          value={timestamp}
+          dateStyle="short"
+          timeStyle="short"
+        />
+      )
+      expect(dateFormat).toHaveTextContent('01.08.2025')
+      expect(dateFormat).toHaveTextContent('14:30')
+    })
+
+    it('should still format numbers that read as a date', () => {
+      render(<DateFormat value={20250801} dateStyle="short" />)
+
+      expect(document.querySelector('.dnb-date-format')).toHaveTextContent(
+        '01.08.2025'
+      )
     })
 
     it('should hide year for any dateStyle when hideCurrentYear and date is in current year', () => {
@@ -447,6 +490,78 @@ describe('DateFormat', () => {
 
       // The component should display "12:44" (UTC time), not the local timezone conversion
       expect(actualDisplayedTime).toBe(expectedUTCTime)
+    })
+
+    it('should show the UTC date together with the UTC time', () => {
+      // Format in a time zone where 22:30 UTC is already the next day
+      formatInTimeZone('Europe/Oslo')
+
+      render(
+        <DateFormat
+          value="2026-10-07T22:30:00Z"
+          dateStyle="short"
+          timeStyle="short"
+          dateTimeSeparator=" – "
+          locale="en-GB"
+        />
+      )
+
+      expect(document.querySelector('.dnb-date-format')).toHaveTextContent(
+        '07/10/2026 – 22:30'
+      )
+
+      vi.restoreAllMocks()
+    })
+
+    it('should use the UTC date in the `dateTime` attribute when the UTC time is shown', () => {
+      onTestFinished(() => {
+        vi.restoreAllMocks()
+      })
+
+      // Simulate Europe/Oslo (UTC+2 in October), since TZ can't be changed in worker threads
+      formatInTimeZone('Europe/Oslo')
+      for (const unit of ['FullYear', 'Month', 'Date'] as const) {
+        vi.spyOn(Date.prototype, `get${unit}`).mockImplementation(
+          function (this: Date) {
+            return new Date(this.getTime() + 2 * 3_600_000)[
+              `getUTC${unit}`
+            ]()
+          }
+        )
+      }
+
+      const { rerender } = render(
+        <DateFormat
+          value="2026-10-07T22:30:00Z"
+          dateStyle="short"
+          timeStyle="short"
+          locale="en-GB"
+        />
+      )
+
+      const dateFormat = () => document.querySelector('.dnb-date-format')
+
+      expect(dateFormat()).toHaveTextContent('07/10/2026, 22:30')
+      expect(dateFormat()).toHaveAttribute('dateTime', '2026-10-07')
+
+      rerender(<DateFormat value="2026-10-07T22:30:00Z" relativeTime />)
+
+      expect(dateFormat()).toHaveAttribute(
+        'dateTime',
+        '2026-10-07 22:30:00Z'
+      )
+
+      // Without timeStyle, the date is shown in the local time zone
+      rerender(
+        <DateFormat
+          value="2026-10-07T22:30:00Z"
+          dateStyle="short"
+          locale="en-GB"
+        />
+      )
+
+      expect(dateFormat()).toHaveTextContent('08/10/2026')
+      expect(dateFormat()).toHaveAttribute('dateTime', '2026-10-08')
     })
 
     it('should return an invalid date message if the date is invalid', () => {
@@ -1717,6 +1832,127 @@ describe('DateFormat', () => {
         // When the formats are the same, aria-label should not be present
         expect(dateFormat).not.toHaveAttribute('aria-label')
       })
+    })
+  })
+
+  describe('hydration', () => {
+    const renderOnServer = (element: ReactElement) => {
+      const originalDocument = globalThis.document
+
+      try {
+        delete globalThis.document
+        return renderToString(element)
+      } finally {
+        globalThis.document = originalDocument
+      }
+    }
+
+    const hydrate = (html: string, element: ReactElement) => {
+      const container = document.createElement('div')
+      container.innerHTML = html
+      document.body.appendChild(container)
+
+      const recoverableErrors = []
+      let root: ReturnType<typeof hydrateRoot>
+      act(() => {
+        root = hydrateRoot(container, element, {
+          onRecoverableError: (error) => recoverableErrors.push(error),
+        })
+      })
+
+      const unmount = () => {
+        act(() => root.unmount())
+        container.remove()
+      }
+
+      return {
+        time: container.querySelector('time'),
+        recoverableErrors,
+        unmount,
+      }
+    }
+
+    afterEach(() => {
+      vi.useRealTimers()
+      vi.restoreAllMocks()
+    })
+
+    it('should hydrate a date formatted in another time zone on the server and update it afterwards', () => {
+      const element = (
+        <DateFormat
+          value="2026-10-08T00:30:00+02:00"
+          dateStyle="short"
+          timeStyle="short"
+        />
+      )
+
+      formatInTimeZone('UTC')
+      const html = renderOnServer(element)
+      expect(html).toContain('07.10.2026')
+
+      vi.restoreAllMocks()
+      formatInTimeZone('Europe/Oslo')
+      const { time, recoverableErrors, unmount } = hydrate(html, element)
+
+      expect(recoverableErrors).toEqual([])
+      expect(time).toHaveTextContent('08.10.2026')
+      expect(time).toHaveTextContent('00:30')
+
+      unmount()
+    })
+
+    it('should hydrate relative time rendered earlier on the server and update it afterwards', () => {
+      const now = new Date('2026-10-08T10:00:00Z').getTime()
+      const element = (
+        <DateFormat value="2026-10-08T09:59:30Z" relativeTime />
+      )
+
+      vi.useFakeTimers({ now, toFake: ['Date'] })
+      const html = renderOnServer(element)
+      expect(html).toContain('30 sekunder')
+
+      vi.setSystemTime(now + 60_000)
+      const { time, recoverableErrors, unmount } = hydrate(html, element)
+
+      expect(recoverableErrors).toEqual([])
+      expect(time).toHaveTextContent('for 1 minutt siden')
+      expect(time).toHaveAttribute('datetime', '2026-10-08 09:59:30Z')
+
+      unmount()
+    })
+
+    it('should hydrate a duration formatted differently on the server and update it afterwards', () => {
+      const element = <DateFormat value="PT2H30M" dateStyle="short" />
+      const html = renderOnServer(element)
+      expect(html).toContain('2t, 30m')
+      expect(html).toContain('2 timer og 30 minutter')
+
+      // Like Safari, which spaces and joins some units differently
+      const OriginalDurationFormat = Intl.DurationFormat
+      vi.spyOn(Intl, 'DurationFormat').mockImplementation(function (
+        locale: string,
+        options: object
+      ) {
+        const formatter = new OriginalDurationFormat(locale, options)
+        return {
+          format: (duration: object) =>
+            formatter
+              .format(duration)
+              .replace(/(\d)([a-z])/g, '$1 $2')
+              .replace(' og ', ', '),
+        }
+      } as unknown as typeof Intl.DurationFormat)
+      const consoleError = vi.spyOn(console, 'error')
+
+      const { time, recoverableErrors, unmount } = hydrate(html, element)
+
+      expect(recoverableErrors).toEqual([])
+      expect(consoleError).not.toHaveBeenCalled()
+      expect(time).toHaveTextContent('2 t, 30 m')
+      expect(time).toHaveAttribute('aria-label', '2 timer, 30 minutter')
+      expect(time).toHaveAttribute('datetime', 'PT2H30M')
+
+      unmount()
     })
   })
 })

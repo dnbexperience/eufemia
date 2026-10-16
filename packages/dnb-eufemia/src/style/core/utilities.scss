@@ -85,6 +85,17 @@
   }
 }
 
+// Forced colors mode removes the box-shadow of focus rings, but shows this outline
+@mixin forcedColorsOutline($width: var(--focus-ring-width), $inset: null) {
+  @media (forced-colors: active) {
+    outline: $width solid transparent;
+
+    @if $inset != null {
+      outline-offset: calc(#{$width} * -1);
+    }
+  }
+}
+
 @mixin focusStyle(
   $bgColor: var(--token-color-background-action-focus-subtle),
   $textColor: var(--token-color-text-neutral-inverse),
@@ -106,6 +117,8 @@
       $extendShadow: $extendShadow
     );
   }
+
+  @include forcedColorsOutline($borderWidth, $inset);
 }
 
 @mixin focusRing(

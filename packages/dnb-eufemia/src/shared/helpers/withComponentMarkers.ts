@@ -13,6 +13,8 @@
 export type SpacingPropsVariant = boolean | 'children' | 'passthrough'
 
 export type ComponentMarkers = {
+  /** Identifies an optional close control without importing it in Card. */
+  _cardControl?: 'close'
   /** Identifies a SidebarMenu compound part without importing it in Root. */
   _sidebarMenuRole?: 'item' | 'accordion' | 'group' | 'section'
   /**

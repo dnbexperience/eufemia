@@ -637,6 +637,11 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disable
   );
   outline: none;
 }
+@media (forced-colors: active) {
+  html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disabled]), html:not([data-whatinput=touch]) .dnb-button--secondary:focus-visible:not([disabled]), html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible:not([disabled]) {
+    outline: var(--focus-ring-width) solid transparent;
+  }
+}
 .dnb-button--primary[disabled], .dnb-button--secondary[disabled], .dnb-button--tertiary[disabled] {
   --button-color-bg: var(--button-color-bg--disabled);
   --button-color-border: var(--button-color-border--disabled);
@@ -1369,6 +1374,11 @@ html[data-whatinput=keyboard] .dnb-checkbox__focus {
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
+@media (forced-colors: active) {
+  html[data-whatinput=keyboard] .dnb-checkbox__focus {
+    outline: var(--focus-ring-width) solid transparent;
+  }
+}
 .dnb-checkbox__focus, .dnb-checkbox__button {
   position: relative;
   z-index: 4;
@@ -1942,6 +1952,11 @@ html[data-whatinput=keyboard] .dnb-radio__input:focus ~ .dnb-radio__button {
   --radio-border-width: var(--radio-border-width--focus);
   --radio-color-border: var(--radio-color-border--focus);
   --radio-color-background: var(--radio-color-background--focus);
+}
+@media (forced-colors: active) {
+  html[data-whatinput=keyboard] .dnb-radio__input:focus ~ .dnb-radio__button {
+    outline: var(--focus-ring-width) solid transparent;
+  }
 }
 html[data-whatinput=keyboard] .dnb-radio__input:focus ~ .dnb-radio__dot {
   --radio-color-dot-on: var(--radio-color-dot-on--focus);

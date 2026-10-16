@@ -16,13 +16,16 @@ All additional HTML attributes will be returned as well.
 
 ```js
 {
-  date: null | 'date as `returnFormat` | `yyyy-MM-dd` ', /* Available if `range` is `false` */
+  date: null | 'date as `returnFormat` | `yyyy-MM-dd`', /* Available if `range` is `false` */
   startDate: null | 'date as `returnFormat` | `yyyy-MM-dd`', /* Available if `range` is `true` */
   endDate: null | 'date as `returnFormat` | `yyyy-MM-dd`', /* Available if `range` is `true` */
   invalidDate: null | 'date as `returnFormat` | `yyyy-MM-dd`', /* Available if `range` is `false` */
-  invalidStartDate: null | 'date as `returnFormat` | ´yyyy-MM-dd`', /* Available if `range` is `true` */
+  invalidStartDate: null | 'date as `returnFormat` | `yyyy-MM-dd`', /* Available if `range` is `true` */
   invalidEndDate: null | 'date as `returnFormat` | `yyyy-MM-dd`', /* Available if `range` is `true` */
-  daysBetween: number,
+  isValid: boolean, /* Available if `range` is `false` */
+  isValidStartDate: boolean, /* Available if `range` is `true` */
+  isValidEndDate: boolean, /* Available if `range` is `true` */
+  daysBetween: number, /* Available if `range` is `true` */
   attributes: { attributes },
   event: null | { native event }
 }

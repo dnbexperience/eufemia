@@ -49,7 +49,7 @@ For the secondary variant, the recommended sizes are `default` and `large`.
 
 #### Tertiary button sizes
 
-For the tertiary variant, the recommended size is `default`. A variant with `iconPosition="top"` is also available.
+For tertiary buttons with text, use `default` or `large`, with `default` as the recommended size. A variant with `iconPosition="top"` is also available.
 
 It is **not** recommended to use the tertiary button without an icon. Looking for a similar variant without an icon? Check out [Anchor](/uilib/components/anchor) instead.
 
@@ -57,7 +57,19 @@ It is **not** recommended to use the tertiary button without an icon. Looking fo
 
 #### Icon button sizes
 
-Icon buttons come in all sizes.
+Icon-only buttons support `small`, `medium`, `default` and `large`, including the tertiary variant. When `size` is omitted, an icon-only button uses `medium`.
+
+`size` controls the button dimensions, while `iconSize` controls the icon dimensions. For example, this small tertiary button is `1.5rem` square (24 px at the default root font size), with a `1rem` (16 px) icon:
+
+```tsx
+<Button
+  variant="tertiary"
+  size="small"
+  icon="add"
+  iconSize="default"
+  title="Add attachment"
+/>
+```
 
 <IconButtonSizes />
 

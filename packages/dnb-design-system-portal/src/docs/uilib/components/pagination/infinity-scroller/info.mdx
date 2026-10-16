@@ -5,7 +5,7 @@ showTabs: true
 ## Import
 
 ```tsx
-import { InfinityScroller } from '@dnb/eufemia/components/pagination/InfinityScroller'
+import InfinityScroller from '@dnb/eufemia/components/pagination/InfinityScroller'
 ```
 
 ## Description
@@ -52,7 +52,7 @@ Create the instance before using it.
 import { createPagination } from '@dnb/eufemia/components/Pagination'
 
 // create our Component instance
-const { Pagination, setContent, endInfinity, resetContent } =
+const [{ Pagination, setContent, endInfinity, resetContent }] =
   React.useState(createPagination)
 
 // Later we can do call this (make sure the page is set by listening to the events)
@@ -94,7 +94,7 @@ React.useEffect(() => {
 
 render(
   <InfinityScroller
-    setContentHandler={(fn) => (setContent = fn)}
+    setContentHandler={(fn) => (setContent.current = fn)}
     onChange={({ pageNumber }) => {
       setLocalPage(pageNumber)
     }}
@@ -112,7 +112,7 @@ Also, it adds an indicator at the bottom until next render, and as long as `page
 import { createPagination } from '@dnb/eufemia/components/Pagination'
 
 // create our Component instance
-const { InfinityMarker, endInfinity, resetInfinity } =
+const [{ InfinityMarker, endInfinity, resetInfinity }] =
   React.useState(createPagination)
 
 render(<InfinityMarker>ReactComponent</InfinityMarker>)

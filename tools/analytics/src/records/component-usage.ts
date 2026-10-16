@@ -47,7 +47,7 @@ const MAX_FIELD_LENGTH = 256
 /** A short lowercase environment token, e.g. `prod`, `dev`. */
 const ENV_PATTERN = /^[a-z][a-z0-9-]{0,31}$/
 
-function isNonEmptyString(value: unknown): value is string {
+function isNonEmptyBoundedString(value: unknown): value is string {
   return (
     typeof value === 'string' &&
     value.trim().length > 0 &&
@@ -124,16 +124,12 @@ export function validateComponentUsage(
 
     const record = entry as Record<string, unknown>
 
-    if (!isNonEmptyString(record.app)) {
-      errors.push(`record ${index}: app must be a non-empty string`)
-    }
-
-    if (!isNonEmptyString(record.component)) {
-      errors.push(`record ${index}: component must be a non-empty string`)
-    }
-
-    if (!isNonEmptyString(record.version)) {
-      errors.push(`record ${index}: version must be a non-empty string`)
+    for (const field of ['app', 'component', 'version'] as const) {
+      if (!isNonEmptyBoundedString(record[field])) {
+        errors.push(
+          `record ${index}: ${field} must be a non-empty string of at most ${MAX_FIELD_LENGTH} characters`
+        )
+      }
     }
 
     if (errors.length > 0) {

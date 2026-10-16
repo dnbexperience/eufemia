@@ -23,16 +23,15 @@ import {
   Flex,
   Space,
 } from '@dnb/eufemia/src/components'
+import CopyOnClick from '@dnb/eufemia/src/components/copy-on-click/CopyOnClick'
+import type { CopyOnClickButtonProps } from '@dnb/eufemia/src/components/copy-on-click/CopyOnClick'
 import {
-  copy as copyIcon,
-  check as checkIcon,
   fullscreen as focusModeIcon,
   close as focusModeCloseIcon,
   fullscreen as focusModePaddingIcon,
   layout_grid as focusModeCompactIcon,
   launch as launchIcon,
 } from '@dnb/eufemia/src/icons'
-import { copyToClipboard } from '@dnb/eufemia/src/shared/helpers'
 import Theme from '@dnb/eufemia/src/shared/Theme'
 import type {
   ThemeColorScheme,
@@ -51,12 +50,12 @@ import {
   toolbarStyle,
 } from './CodeBlock.module.scss'
 import {
-  LiveProvider,
   LiveEditor,
   LiveError,
   LivePreview,
   LiveContext,
-} from 'react-live-ssr' // we use this temporary version of until ssr is supported https://github.com/FormidableLabs/react-live/pull/322
+} from 'react-live'
+import { LiveProvider } from 'react-live-ssr-adapter'
 
 // This theme uses CSS custom properties, so actual colors are controlled via CSS
 import prismTheme from '@dnb/eufemia/src/style/themes/ui/prism/dnb-prism-theme'
@@ -83,6 +82,9 @@ export type CodeSectionProps = {
   omitWrapper?: boolean
   children: string | ReactNode | (() => ReactNode)
   'data-visual-test'?: string
+
+  /** Set to false to render the preview only in the browser, after hydration. */
+  ssr?: boolean
 
   /** Injected by the babel transform — enclosing export name, stable across HMR. */
   stableName?: string
@@ -132,11 +134,13 @@ const CodeBlock = ({
             )}
           >
             <CopyCodeButton
-              code={String(exampleCode)}
+              copyContent={String(exampleCode)}
+              variant="secondary"
               className={copyButtonStyle}
             />
 
-            <Tag as="pre" className={className}>
+            {/* Focusable, so keyboard users can scroll wide code */}
+            <Tag as="pre" className={className} tabIndex={0}>
               {cleanTokens(tokens).map((line, i) => {
                 const { key, ...lineProps } = getLineProps({
                   line,
@@ -164,55 +168,13 @@ const CodeBlock = ({
 
 export default CodeBlock
 
-/**
- * Hook for copy-to-clipboard functionality with feedback state.
- * Handles the copied state, timeout cleanup, and async clipboard operation.
- */
-function useCopyToClipboard(code: string) {
-  const [copied, setCopied] = useState(false)
-  const timeoutRef = useRef<ReturnType<typeof setTimeout>>(undefined)
-
-  const handleCopy = useCallback(async () => {
-    const success = await copyToClipboard(code)
-    if (success) {
-      setCopied(true)
-      clearTimeout(timeoutRef.current)
-      timeoutRef.current = setTimeout(() => setCopied(false), 2000)
-    }
-  }, [code])
-
-  useEffect(() => {
-    return () => clearTimeout(timeoutRef.current)
-  }, [])
-
-  return { copied, handleCopy }
-}
-
-type CopyCodeButtonProps = {
-  code: string
-  className?: string
-  variant?: 'tertiary'
-}
-
-/**
- * Reusable copy-to-clipboard button with visual feedback.
- * Used both for static code blocks (with copyButtonStyle) and live code toolbar.
- */
-function CopyCodeButton({
-  code,
-  className,
-  variant,
-}: CopyCodeButtonProps) {
-  const { copied, handleCopy } = useCopyToClipboard(code)
-
+function CopyCodeButton(props: CopyOnClickButtonProps) {
   return (
-    <Button
-      className={className}
-      variant={variant}
-      icon={copied ? checkIcon : copyIcon}
+    <CopyOnClick.Button
       title="Copy to clipboard"
-      tooltip={copied ? 'Copied!' : 'Copy to clipboard'}
-      onClick={handleCopy}
+      tooltip="Copy to clipboard"
+      tooltipContent="Copied!"
+      {...props}
     />
   )
 }
@@ -326,7 +288,7 @@ function LiveCode(props: LiveCodeProps) {
       current = parent
     }
 
-    window.scrollTo({ top: 0 })
+    window.scrollTo({ top: 0, behavior: 'instant' })
 
     // Remove the preload style now that sibling hiding has taken over
     document.getElementById('portal-preload-style')?.remove()
@@ -372,7 +334,7 @@ function LiveCode(props: LiveCodeProps) {
             // ignore
           }
 
-          window.scrollTo({ top: 0 })
+          window.scrollTo({ top: 0, behavior: 'instant' })
         }
 
         setFocusModeCodeId(isInFocusMode ? null : focusModeId)
@@ -385,7 +347,7 @@ function LiveCode(props: LiveCodeProps) {
   )
 
   const copyCodeButton = (
-    <CopyCodeButton code={editedCode ?? codeToUse} variant="tertiary" />
+    <CopyCodeButton copyContent={editedCode ?? codeToUse} />
   )
 
   const handleOpenInStackBlitz = useCallback(async () => {
@@ -505,6 +467,7 @@ function LiveCode(props: LiveCodeProps) {
     >
       {!anotherBlockIsInFocusMode && (
         <LiveProvider
+          ssr
           theme={prismTheme}
           code={codeToUse}
           scope={scope}

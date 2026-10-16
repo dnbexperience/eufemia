@@ -126,6 +126,9 @@ describe('Field.Toggle', () => {
           '.dnb-switch__suffix .dnb-help-button'
         )
         expect(helpButton).toBeInTheDocument()
+        expect(
+          document.querySelector('.dnb-forms-field-block__label')
+        ).not.toBeInTheDocument()
         expect(document.querySelector('input')).toHaveAttribute(
           'aria-describedby'
         )
@@ -1598,6 +1601,9 @@ describe('Field.Toggle', () => {
           '.dnb-checkbox__suffix .dnb-help-button'
         )
         expect(helpButton).toBeInTheDocument()
+        expect(
+          document.querySelector('.dnb-forms-field-block__label')
+        ).not.toBeInTheDocument()
         expect(document.querySelector('input')).toHaveAttribute(
           'aria-describedby'
         )
@@ -1857,4 +1863,32 @@ describe('Field.Toggle', () => {
       })
     })
   })
+
+  describe.each(['checkbox', 'switch'] as const)(
+    'variant: %s with labelDescription',
+    (variant) => {
+      it('shows the description without repeating the label id', () => {
+        render(
+          <Field.Toggle
+            valueOn="on"
+            valueOff="off"
+            variant={variant}
+            label="Toggle label"
+            labelDescription="Toggle description"
+          />
+        )
+
+        expect(
+          document.querySelector(
+            '.dnb-forms-field-block__label__description'
+          )
+        ).toHaveTextContent('Toggle description')
+
+        const ids = Array.from(document.querySelectorAll('[id]')).map(
+          (element) => element.id
+        )
+        expect(ids).toHaveLength(new Set(ids).size)
+      })
+    }
+  )
 })

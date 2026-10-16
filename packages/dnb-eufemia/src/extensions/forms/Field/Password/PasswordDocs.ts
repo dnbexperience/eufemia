@@ -4,7 +4,7 @@ import { StringProperties } from '../String/StringDocs'
 export const PasswordProperties: PropertiesTableProps = {
   ...StringProperties,
   pattern: {
-    doc: 'Validation based on regex pattern for the password field e.g. `pattern="w{8}d{4}"`.',
+    doc: 'Validation based on regex pattern for the password field e.g. `pattern="\\w{8}\\d{4}"`.',
     type: 'string',
     status: 'optional',
   },

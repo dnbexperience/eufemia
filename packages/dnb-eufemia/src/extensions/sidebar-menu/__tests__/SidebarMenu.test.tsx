@@ -57,9 +57,11 @@ describe('SidebarMenu', () => {
         'Root',
         'Section',
         'ResizeHandle',
+        'ResponsiveAside',
         'ResponsiveInline',
         'ResponsiveDrawer',
         'ResponsiveProvider',
+        'ResponsiveShell',
         'ResponsiveTrigger',
         'useResponsive',
         'getPreHydrationScript',
@@ -84,11 +86,12 @@ describe('SidebarMenu', () => {
   it('renders declarative items and nested accordions', () => {
     render(
       <SidebarMenu.Root aria-label="Main navigation">
-        <SidebarMenu.Header>Menu</SidebarMenu.Header>
-        <SidebarMenu.Item id="home" text="Home" href="/home" />
-        <SidebarMenu.Accordion id="products" text="Products">
-          <SidebarMenu.Item id="cards" text="Cards" href="/cards" />
-        </SidebarMenu.Accordion>
+        <SidebarMenu.Header text="Menu">
+          <SidebarMenu.Item id="home" text="Home" href="/home" />
+          <SidebarMenu.Accordion id="products" text="Products">
+            <SidebarMenu.Item id="cards" text="Cards" href="/cards" />
+          </SidebarMenu.Accordion>
+        </SidebarMenu.Header>
       </SidebarMenu.Root>
     )
 
@@ -197,7 +200,44 @@ describe('SidebarMenu', () => {
     )
   })
 
-  it('renders Header with heading semantics', () => {
+  it('renders Header as a visual menu label', () => {
+    render(
+      <SidebarMenu.Root>
+        <SidebarMenu.Header text="Accounts">
+          <SidebarMenu.Item id="overview" text="Overview" />
+        </SidebarMenu.Header>
+      </SidebarMenu.Root>
+    )
+
+    const header = document.querySelector('.dnb-sidebar-menu__header')
+
+    expect(header).toHaveTextContent('Accounts')
+    expect(header).not.toHaveAttribute('role', 'heading')
+    expect(
+      header.querySelector('[role="heading"]')
+    ).not.toBeInTheDocument()
+    const list = header.nextElementSibling
+
+    expect(list).toHaveAttribute('aria-labelledby', header.id)
+    expect(list).toHaveAccessibleName('Accounts')
+  })
+
+  it('supports legacy Header children as its label', () => {
+    render(
+      <SidebarMenu.Root>
+        <SidebarMenu.Header>Accounts</SidebarMenu.Header>
+      </SidebarMenu.Root>
+    )
+
+    const header = document.querySelector('.dnb-sidebar-menu__header')
+
+    expect(header).toHaveTextContent('Accounts')
+    expect(header).toHaveClass('dnb-sidebar-menu__header')
+    expect(header).toHaveProperty('tagName', 'LI')
+    expect(header.nextElementSibling).not.toBeInTheDocument()
+  })
+
+  it('does not forward the removed Header headingLevel prop', () => {
     render(
       <SidebarMenu.Root>
         <SidebarMenu.Header headingLevel={3}>Accounts</SidebarMenu.Header>
@@ -205,19 +245,22 @@ describe('SidebarMenu', () => {
     )
 
     expect(
-      document.querySelector(
-        '.dnb-sidebar-menu__header [role="heading"][aria-level="3"]'
-      )
-    ).toHaveTextContent('Accounts')
+      document.querySelector('.dnb-sidebar-menu__header')
+    ).not.toHaveAttribute('headingLevel')
   })
 
   it('renders dedicated icon containers for menu point geometry', () => {
     render(
       <SidebarMenu.Root>
-        <SidebarMenu.Header>Menu</SidebarMenu.Header>
-        <SidebarMenu.Accordion id="products" text="Products" icon={person}>
-          <SidebarMenu.Item id="cards" text="Cards" />
-        </SidebarMenu.Accordion>
+        <SidebarMenu.Header text="Menu">
+          <SidebarMenu.Accordion
+            id="products"
+            text="Products"
+            icon={person}
+          >
+            <SidebarMenu.Item id="cards" text="Cards" />
+          </SidebarMenu.Accordion>
+        </SidebarMenu.Header>
       </SidebarMenu.Root>
     )
 
@@ -297,6 +340,32 @@ describe('SidebarMenu', () => {
     expect(
       document.querySelector('[data-sidebar-menu-id="button"]')
     ).toBeInTheDocument()
+  })
+
+  it('renders headers from data', () => {
+    render(
+      <SidebarMenu.Data
+        data={[
+          {
+            id: 'heading',
+            type: 'header',
+            text: 'Heading',
+            items: [{ id: 'overview', text: 'Overview' }],
+          },
+        ]}
+      />
+    )
+
+    const header = document.querySelector('.dnb-sidebar-menu__header')
+
+    expect(header).toHaveTextContent('Heading')
+    expect(
+      header.querySelector('[role="heading"]')
+    ).not.toBeInTheDocument()
+    const list = header.nextElementSibling
+
+    expect(list).toHaveAttribute('aria-labelledby', header.id)
+    expect(list).toHaveAccessibleName('Heading')
   })
 
   it('renders a divider before a data item', () => {
@@ -1540,6 +1609,334 @@ describe('SidebarMenu', () => {
 
     fireEvent.click(link)
     expect(link).toHaveAttribute('aria-expanded', 'false')
+  })
+
+  it('scrolls newly opened accordion content into the visible menu area', () => {
+    vi.useFakeTimers()
+
+    render(
+      <ScrollView>
+        <SidebarMenu.Root>
+          <SidebarMenu.Accordion id="products" text="Products">
+            <SidebarMenu.Item id="accounts" text="Accounts" />
+          </SidebarMenu.Accordion>
+        </SidebarMenu.Root>
+      </ScrollView>
+    )
+
+    const scrollView = document.querySelector(
+      '.dnb-scroll-view'
+    ) as HTMLElement
+    const accordion = document.querySelector(
+      '[data-sidebar-menu-id="products"]'
+    ) as HTMLElement
+    const trigger = accordion.querySelector(
+      '.dnb-sidebar-menu__accordion__trigger'
+    ) as HTMLElement
+    const content = accordion.querySelector(
+      '.dnb-sidebar-menu__accordion__content'
+    ) as HTMLElement
+    const scrollTo = vi.fn()
+    scrollView.scrollTop = 20
+    Object.defineProperty(scrollView, 'scrollTo', {
+      configurable: true,
+      value: scrollTo,
+    })
+    vi.spyOn(scrollView, 'getBoundingClientRect').mockReturnValue({
+      top: 0,
+      bottom: 300,
+      height: 300,
+    } as DOMRect)
+    vi.spyOn(trigger, 'getBoundingClientRect').mockReturnValue({
+      top: 180,
+      bottom: 224,
+      height: 44,
+    } as DOMRect)
+    vi.spyOn(content, 'getBoundingClientRect').mockReturnValue({
+      top: 224,
+      bottom: 420,
+      height: 196,
+    } as DOMRect)
+
+    fireEvent.click(trigger)
+    act(() => vi.advanceTimersToNextTimer())
+
+    expect(scrollTo).toHaveBeenCalledWith({
+      top: 156,
+      behavior: 'smooth',
+    })
+
+    vi.useRealTimers()
+  })
+
+  it('does not scroll an accordion that is open on initial render', () => {
+    vi.useFakeTimers()
+    const scrollTo = vi.fn()
+    const originalScrollTo = HTMLElement.prototype.scrollTo
+    HTMLElement.prototype.scrollTo = scrollTo
+
+    render(
+      <ScrollView>
+        <SidebarMenu.Root>
+          <SidebarMenu.Accordion id="products" text="Products" defaultOpen>
+            <SidebarMenu.Item id="accounts" text="Accounts" />
+          </SidebarMenu.Accordion>
+        </SidebarMenu.Root>
+      </ScrollView>
+    )
+
+    act(() => vi.runAllTimers())
+
+    expect(scrollTo).not.toHaveBeenCalled()
+    HTMLElement.prototype.scrollTo = originalScrollTo
+    vi.useRealTimers()
+  })
+
+  it('does not scroll an accordion after restoring its open and scroll state', () => {
+    vi.useFakeTimers()
+    const openStorageKey = 'sidebar-menu-restored-open'
+    const scrollStorageKey = 'sidebar-menu-restored-scroll'
+    sessionStorage.setItem(openStorageKey, JSON.stringify(['products']))
+    sessionStorage.setItem(scrollStorageKey, '120')
+    const scrollTo = vi.fn(function (
+      this: HTMLElement,
+      { top }: ScrollToOptions
+    ) {
+      expect(this.style.scrollBehavior).toBe('auto')
+      this.scrollTop = top
+    })
+    Object.defineProperty(HTMLElement.prototype, 'scrollTo', {
+      configurable: true,
+      value: scrollTo,
+    })
+
+    render(
+      <ScrollView style={{ scrollBehavior: 'smooth' }}>
+        <SidebarMenu.Root
+          openItemsStorageKey={openStorageKey}
+          scrollPositionStorageKey={scrollStorageKey}
+        >
+          <SidebarMenu.Accordion id="products" text="Products">
+            <SidebarMenu.Item id="accounts" text="Accounts" />
+          </SidebarMenu.Accordion>
+        </SidebarMenu.Root>
+      </ScrollView>
+    )
+
+    const scrollView = document.querySelector(
+      '.dnb-scroll-view'
+    ) as HTMLElement
+    const accordion = document.querySelector(
+      '[data-sidebar-menu-id="products"]'
+    ) as HTMLElement
+    const trigger = accordion.querySelector(
+      '.dnb-sidebar-menu__accordion__trigger'
+    ) as HTMLElement
+    const content = accordion.querySelector(
+      '.dnb-sidebar-menu__accordion__content'
+    ) as HTMLElement
+    vi.spyOn(scrollView, 'getBoundingClientRect').mockReturnValue({
+      top: 0,
+      bottom: 300,
+      height: 300,
+    } as DOMRect)
+    vi.spyOn(trigger, 'getBoundingClientRect').mockReturnValue({
+      top: 180,
+      bottom: 224,
+      height: 44,
+    } as DOMRect)
+    vi.spyOn(content, 'getBoundingClientRect').mockReturnValue({
+      top: 224,
+      bottom: 420,
+      height: 196,
+    } as DOMRect)
+
+    act(() => vi.runAllTimers())
+
+    expect(scrollTo).toHaveBeenCalledTimes(1)
+    expect(scrollTo).toHaveBeenCalledWith({
+      top: 120,
+      behavior: 'auto',
+    })
+    expect(scrollView.scrollTop).toBe(120)
+    expect(scrollView.style.scrollBehavior).toBe('smooth')
+
+    delete HTMLElement.prototype.scrollTo
+    sessionStorage.removeItem(openStorageKey)
+    sessionStorage.removeItem(scrollStorageKey)
+    vi.useRealTimers()
+  })
+
+  it('scrolls opened accordion content when it contains the selected item', () => {
+    vi.useFakeTimers()
+
+    render(
+      <ScrollView>
+        <SidebarMenu.Root selectedItem="accounts">
+          <SidebarMenu.Accordion id="products" text="Products">
+            <SidebarMenu.Item id="accounts" text="Accounts" />
+          </SidebarMenu.Accordion>
+        </SidebarMenu.Root>
+      </ScrollView>
+    )
+
+    const scrollView = document.querySelector(
+      '.dnb-scroll-view'
+    ) as HTMLElement
+    const accordion = document.querySelector(
+      '[data-sidebar-menu-id="products"]'
+    ) as HTMLElement
+    const trigger = accordion.querySelector(
+      '.dnb-sidebar-menu__accordion__trigger'
+    ) as HTMLElement
+    const content = accordion.querySelector(
+      '.dnb-sidebar-menu__accordion__content'
+    ) as HTMLElement
+    const scrollTo = vi.fn()
+    Object.defineProperty(scrollView, 'scrollTo', {
+      configurable: true,
+      value: scrollTo,
+    })
+    vi.spyOn(scrollView, 'getBoundingClientRect').mockReturnValue({
+      top: 0,
+      bottom: 300,
+      height: 300,
+    } as DOMRect)
+    vi.spyOn(trigger, 'getBoundingClientRect').mockReturnValue({
+      top: 180,
+      bottom: 224,
+      height: 44,
+    } as DOMRect)
+    vi.spyOn(content, 'getBoundingClientRect').mockReturnValue({
+      top: 224,
+      bottom: 420,
+      height: 196,
+    } as DOMRect)
+
+    fireEvent.click(trigger)
+    fireEvent.click(trigger)
+    act(() => vi.advanceTimersToNextTimer())
+
+    expect(scrollTo).toHaveBeenCalledWith({
+      top: 136,
+      behavior: 'smooth',
+    })
+
+    vi.useRealTimers()
+  })
+
+  it('does not scroll when newly opened accordion content is visible', () => {
+    vi.useFakeTimers()
+    render(
+      <ScrollView>
+        <SidebarMenu.Root>
+          <SidebarMenu.Accordion id="products" text="Products">
+            <SidebarMenu.Item id="accounts" text="Accounts" />
+          </SidebarMenu.Accordion>
+        </SidebarMenu.Root>
+      </ScrollView>
+    )
+
+    const scrollView = document.querySelector(
+      '.dnb-scroll-view'
+    ) as HTMLElement
+    const accordion = document.querySelector(
+      '[data-sidebar-menu-id="products"]'
+    ) as HTMLElement
+    const trigger = accordion.querySelector(
+      '.dnb-sidebar-menu__accordion__trigger'
+    ) as HTMLElement
+    const content = accordion.querySelector(
+      '.dnb-sidebar-menu__accordion__content'
+    ) as HTMLElement
+    const scrollTo = vi.fn()
+    Object.defineProperty(scrollView, 'scrollTo', {
+      configurable: true,
+      value: scrollTo,
+    })
+    vi.spyOn(scrollView, 'getBoundingClientRect').mockReturnValue({
+      top: 0,
+      bottom: 300,
+      height: 300,
+    } as DOMRect)
+    vi.spyOn(trigger, 'getBoundingClientRect').mockReturnValue({
+      top: 100,
+      bottom: 144,
+      height: 44,
+    } as DOMRect)
+    vi.spyOn(content, 'getBoundingClientRect').mockReturnValue({
+      top: 144,
+      bottom: 260,
+      height: 116,
+    } as DOMRect)
+
+    fireEvent.click(trigger)
+    act(() => vi.advanceTimersToNextTimer())
+
+    expect(scrollTo).not.toHaveBeenCalled()
+    vi.useRealTimers()
+  })
+
+  it('uses the root font size for compact scroll insets', () => {
+    vi.useFakeTimers()
+    const originalRootFontSize = document.documentElement.style.fontSize
+    document.documentElement.style.fontSize = '20px'
+
+    render(
+      <div data-sidebar-menu-responsive-compact="true">
+        <ScrollView>
+          <SidebarMenu.Root>
+            <SidebarMenu.Accordion id="products" text="Products">
+              <SidebarMenu.Item id="accounts" text="Accounts" />
+            </SidebarMenu.Accordion>
+          </SidebarMenu.Root>
+        </ScrollView>
+      </div>
+    )
+
+    const scrollView = document.querySelector(
+      '.dnb-scroll-view'
+    ) as HTMLElement
+    const accordion = document.querySelector(
+      '[data-sidebar-menu-id="products"]'
+    ) as HTMLElement
+    const trigger = accordion.querySelector(
+      '.dnb-sidebar-menu__accordion__trigger'
+    ) as HTMLElement
+    const content = accordion.querySelector(
+      '.dnb-sidebar-menu__accordion__content'
+    ) as HTMLElement
+    const scrollTo = vi.fn()
+    Object.defineProperty(scrollView, 'scrollTo', {
+      configurable: true,
+      value: scrollTo,
+    })
+    vi.spyOn(scrollView, 'getBoundingClientRect').mockReturnValue({
+      top: 0,
+      bottom: 300,
+      height: 300,
+    } as DOMRect)
+    vi.spyOn(trigger, 'getBoundingClientRect').mockReturnValue({
+      top: 100,
+      bottom: 144,
+      height: 44,
+    } as DOMRect)
+    vi.spyOn(content, 'getBoundingClientRect').mockReturnValue({
+      top: 144,
+      bottom: 340,
+      height: 196,
+    } as DOMRect)
+
+    fireEvent.click(trigger)
+    act(() => vi.advanceTimersToNextTimer())
+
+    expect(scrollTo).toHaveBeenCalledWith({
+      top: 20,
+      behavior: 'smooth',
+    })
+
+    document.documentElement.style.fontSize = originalRootFontSize
+    vi.useRealTimers()
   })
 
   it('toggles a selected page accordion without navigating again', () => {
@@ -2907,18 +3304,19 @@ describe('SidebarMenu', () => {
     const component = render(
       <SidebarMenu.Root aria-label="Main navigation" selectedItem="cards">
         <SidebarMenu.Section id="personal" text="Personal">
-          <SidebarMenu.Header>Products</SidebarMenu.Header>
-          <SidebarMenu.Group id="accounts" text="Accounts">
-            <SidebarMenu.Accordion
-              id="products"
-              text="Products"
-              href="/products"
-            >
-              <SidebarMenu.Item id="cards" text="Cards" />
-            </SidebarMenu.Accordion>
-          </SidebarMenu.Group>
-          <SidebarMenu.Divider />
-          <SidebarMenu.Item id="disabled" text="Disabled" disabled />
+          <SidebarMenu.Header text="Products">
+            <SidebarMenu.Group id="accounts" text="Accounts">
+              <SidebarMenu.Accordion
+                id="products"
+                text="Products"
+                href="/products"
+              >
+                <SidebarMenu.Item id="cards" text="Cards" />
+              </SidebarMenu.Accordion>
+            </SidebarMenu.Group>
+            <SidebarMenu.Divider />
+            <SidebarMenu.Item id="disabled" text="Disabled" disabled />
+          </SidebarMenu.Header>
         </SidebarMenu.Section>
       </SidebarMenu.Root>
     )

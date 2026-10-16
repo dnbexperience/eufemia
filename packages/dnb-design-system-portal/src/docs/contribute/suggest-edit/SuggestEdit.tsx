@@ -8,7 +8,9 @@ import {
   Textarea,
 } from '@dnb/eufemia/src'
 import { Field, Form } from '@dnb/eufemia/src/extensions/forms'
+import { check, copy } from '@dnb/eufemia/src/icons'
 import { copyToClipboard } from '@dnb/eufemia/src/shared/helpers'
+import useCanUseDOM from '@dnb/eufemia/src/shared/helpers/useCanUseDOM'
 import { getGitHubEditUrl } from '../../../core/githubSource'
 import {
   createSuggestEditPrompt,
@@ -16,10 +18,10 @@ import {
 } from '../../../core/suggestEdit'
 
 export default function SuggestEdit() {
-  const params =
-    typeof window === 'undefined'
-      ? new URLSearchParams()
-      : new URLSearchParams(window.location.search)
+  // The page is prerendered without the query, so it is read after hydration
+  const params = useCanUseDOM()
+    ? new URLSearchParams(window.location.search)
+    : new URLSearchParams()
   const page = params.get('page') || '/'
   const sourcePath = params.get('source') || ''
   const pageUrl = new URL(page, 'https://eufemia.dnb.no').toString()
@@ -33,7 +35,9 @@ export default function SuggestEdit() {
     urgencyReason: '',
   }
   const [data, setData] = useState(defaultData)
-  const [copied, setCopied] = useState(false)
+  const [copyStatus, setCopyStatus] = useState<'copied' | 'failed'>(null)
+  const [copyCount, setCopyCount] = useState(0)
+  const copied = copyStatus === 'copied'
 
   const prompt = useMemo(() => {
     return createSuggestEditPrompt({
@@ -49,7 +53,10 @@ export default function SuggestEdit() {
       sourcePath,
       ...submittedData,
     })
-    setCopied(await copyToClipboard(submittedPrompt))
+    // copyToClipboard returns an error or a message when it fails
+    const success = (await copyToClipboard(submittedPrompt)) === true
+    setCopyStatus(success ? 'copied' : 'failed')
+    setCopyCount((count) => count + 1)
   }
 
   return (
@@ -62,7 +69,7 @@ export default function SuggestEdit() {
         defaultData={defaultData}
         onChange={(data) => {
           setData(data)
-          setCopied(false)
+          setCopyStatus(null)
         }}
         onSubmit={handleCopy}
       >
@@ -159,9 +166,17 @@ export default function SuggestEdit() {
           <Form.ButtonRow>
             <Form.SubmitButton
               text={copied ? 'Prompt copied' : 'Copy prompt'}
-              icon={copied ? 'check' : 'copy'}
+              icon={copied ? check : copy}
             />
           </Form.ButtonRow>
+
+          {copyStatus === 'failed' && (
+            // A new key per attempt lets screen readers announce it again
+            <FormStatus key={copyCount} state="error">
+              Could not copy the prompt. Open &quot;Preview prompt&quot;
+              and copy it from there.
+            </FormStatus>
+          )}
 
           {sourcePath && (
             <Button

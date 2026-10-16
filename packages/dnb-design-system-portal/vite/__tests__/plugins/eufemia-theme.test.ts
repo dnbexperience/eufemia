@@ -66,6 +66,31 @@ describe('eufemia-theme plugin', () => {
   })
 
   describe('plugin interface', () => {
+    it('includes theme imports from hidden worktree paths', async () => {
+      vi.resetModules()
+      vi.doMock('globby', async () => {
+        const actual = await vi.importActual<typeof GlobbyModule>('globby')
+        return {
+          ...actual,
+          sync: () => [
+            '/mock/.codex/worktrees/demo/packages/dnb-eufemia/src/style/themes/ui/ui-theme-components.scss',
+          ],
+        }
+      })
+      try {
+        const { default: createThemePlugin } =
+          await import('../../client/plugins/eufemia-theme')
+        const plugin = createThemePlugin()
+        const load = plugin.load as (id: string) => string | undefined
+        expect(load('\0virtual:eufemia-theme-ui')).toContain(
+          "import '/mock/.codex/"
+        )
+      } finally {
+        vi.doUnmock('globby')
+        vi.resetModules()
+      }
+    })
+
     it('returns a plugin with the correct name', () => {
       const plugin = eufemiaThemePlugin()
       expect(plugin.name).toBe('vite-plugin-eufemia-theme')

@@ -174,7 +174,7 @@ function isValidEnv(value: unknown): value is string {
   return typeof value === 'string' && ENV_PATTERN.test(value)
 }
 
-function validComponent(value: unknown): string {
+function parseComponentName(value: unknown): string {
   if (typeof value !== 'string' || value.length > MAX_COMPONENT_LENGTH) {
     return ''
   }
@@ -187,7 +187,7 @@ function validComponent(value: unknown): string {
     : ''
 }
 
-function validPath(value: unknown): string {
+function parseDocsPath(value: unknown): string {
   if (typeof value !== 'string') {
     return ''
   }
@@ -291,8 +291,8 @@ export function validateMcpUsage(
     }
 
     if (valid) {
-      const normalizedComponent = validComponent(component)
-      const normalizedPath = validPath(path)
+      const normalizedComponent = parseComponentName(component)
+      const normalizedPath = parseDocsPath(path)
 
       value.push({
         tool: tool as string,

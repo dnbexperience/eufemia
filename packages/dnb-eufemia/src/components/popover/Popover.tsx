@@ -371,10 +371,21 @@ export default function Popover(props: PopoverProps) {
         !!horizontalElement && horizontalElement.contains(target as Node)
 
       if (!insideContent && !insideTrigger && !insideHorizontal) {
-        toggle(false)
+        if (event instanceof KeyboardEvent) {
+          toggle(false)
+        } else {
+          // Leave the focus where the user clicked or tapped
+          setOpenState(false)
+        }
       }
     },
-    [preventClose, getCurrentTriggerElement, toggle, externalTargetElement]
+    [
+      preventClose,
+      getCurrentTriggerElement,
+      toggle,
+      setOpenState,
+      externalTargetElement,
+    ]
   )
 
   const handleDocumentTouchStart = useCallback((event: TouchEvent) => {

@@ -620,6 +620,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@axe-core/playwright@npm:4.13.0":
+  version: 4.13.0
+  resolution: "@axe-core/playwright@npm:4.13.0"
+  dependencies:
+    axe-core: "npm:~4.13.0"
+  peerDependencies:
+    playwright-core: ">= 1.0.0"
+  checksum: 10/2400e309d6f6d96b3f3f12b00a80e32cb0213726fcfc3c457b36d17f7136a3361f02a7523286024d7e8ceba9045a5f9c18edd8bc352f76b549faedce298fada2
+  languageName: node
+  linkType: hard
+
 "@babel/cli@npm:7.28.3":
   version: 7.28.3
   resolution: "@babel/cli@npm:7.28.3"
@@ -2878,6 +2889,7 @@ __metadata:
     eslint-plugin-react-hooks: "npm:7.1.1"
     eslint-plugin-security: "npm:4.0.0"
     express: "npm:5.2.1"
+    flag-icons: "npm:7.5.0"
     fonteditor-core: "npm:2.6.3"
     fs-extra: "npm:10.0.0"
     globals: "npm:17.6.0"
@@ -7099,10 +7111,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axe-core@npm:4.12.1, axe-core@npm:^4.10.0":
+"axe-core@npm:4.12.1":
   version: 4.12.1
   resolution: "axe-core@npm:4.12.1"
   checksum: 10/08c2ff348524b57dfb68f4e866b1a6363147203b721c734ed00090c16eb911cd015cf71fd96a8bafe42609715f649d21b2e188fae622ac8ef6144b144582f6c4
+  languageName: node
+  linkType: hard
+
+"axe-core@npm:^4.10.0, axe-core@npm:~4.13.0":
+  version: 4.13.0
+  resolution: "axe-core@npm:4.13.0"
+  checksum: 10/b9319bedc705fde00e4abd981d8724202cc20102e4ae6d8edfde33cb5265e0fb8f67f32adcb4ad33fbd4a2c8d7ad7ef5af1d933d9ad859bed90e3eae0ee8c52f
   languageName: node
   linkType: hard
 
@@ -8706,6 +8725,7 @@ __metadata:
   resolution: "dnb-design-system-portal@workspace:packages/dnb-design-system-portal"
   dependencies:
     "@11ty/gray-matter": "npm:2.1.0"
+    "@axe-core/playwright": "npm:4.13.0"
     "@babel/core": "npm:7.29.7"
     "@dnb/browserslist-config": "npm:1.4.1"
     "@dnb/eufemia": "workspace:*"
@@ -8739,13 +8759,15 @@ __metadata:
     micromatch: "npm:4.0.8"
     parse5: "npm:8.0.1"
     picomatch: "npm:4.0.4"
+    playwright-core: "npm:1.60.0"
     prettier: "npm:3.8.1"
     prettier-package-json: "npm:2.8.0"
     prism-react-renderer: "npm:2.4.1"
     prismjs: "npm:1.30.0"
     react: "npm:19.3.0"
     react-dom: "npm:19.3.0"
-    react-live-ssr: "workspace:*"
+    react-live: "npm:5.0.1"
+    react-live-ssr-adapter: "workspace:*"
     react-markdown: "npm:9.1.0"
     react-router: "npm:8.3.0"
     remark-frontmatter: "npm:5.0.0"
@@ -10476,6 +10498,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"flag-icons@npm:7.5.0":
+  version: 7.5.0
+  resolution: "flag-icons@npm:7.5.0"
+  checksum: 10/eb7caf5a77edc849c6edd2cefc59dc42b0f38f031949b167f363b8729e52281ecd1f3180d2df07c9642d06c39b0691432b8e0ed46ed9943f63bf06f3bee43821
+  languageName: node
+  linkType: hard
+
 "flat-cache@npm:^4.0.0":
   version: 4.0.1
   resolution: "flat-cache@npm:4.0.1"
@@ -11020,10 +11049,10 @@ __metadata:
   linkType: hard
 
 "handlebars@npm:^4.7.7":
-  version: 4.7.9
-  resolution: "handlebars@npm:4.7.9"
+  version: 4.7.10
+  resolution: "handlebars@npm:4.7.10"
   dependencies:
-    minimist: "npm:^1.2.5"
+    minimist: "npm:^1.2.8"
     neo-async: "npm:^2.6.2"
     source-map: "npm:^0.6.1"
     uglify-js: "npm:^3.1.4"
@@ -11033,7 +11062,7 @@ __metadata:
       optional: true
   bin:
     handlebars: bin/handlebars
-  checksum: 10/e755433d652e8a15fc02f83d7478e652359e7a4d354c4328818853ed4f8a39d4a09e1d22dad3c7213c5240864a65b3c840970b8b181745575dd957dd258f2b8d
+  checksum: 10/e7df9b9986594384de11ea27d2f9c694f90dca9ff768ac28851b4cf89f6268a3177ec50c9bb1601c8841f67bee25598b37bdcd53d1f7acd3744619f938ad1f53
   languageName: node
   linkType: hard
 
@@ -13962,7 +13991,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"minimist@npm:^1.1.3, minimist@npm:^1.2.0, minimist@npm:^1.2.5, minimist@npm:^1.2.6, minimist@npm:^1.2.8":
+"minimist@npm:^1.1.3, minimist@npm:^1.2.0, minimist@npm:^1.2.6, minimist@npm:^1.2.8":
   version: 1.2.8
   resolution: "minimist@npm:1.2.8"
   checksum: 10/908491b6cc15a6c440ba5b22780a0ba89b9810e1aea684e253e43c4e3b8d56ec1dcdd7ea96dde119c29df59c936cde16062159eae4225c691e19c70b432b6e6f
@@ -16098,7 +16127,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prism-react-renderer@npm:2.4.1":
+"prism-react-renderer@npm:2.4.1, prism-react-renderer@npm:^2.4.1":
   version: 2.4.1
   resolution: "prism-react-renderer@npm:2.4.1"
   dependencies:
@@ -16396,14 +16425,42 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-live-ssr@workspace:*, react-live-ssr@workspace:tools/react-live-ssr":
+"react-live-ssr-adapter@workspace:*, react-live-ssr-adapter@workspace:tools/react-live-ssr-adapter":
   version: 0.0.0-use.local
-  resolution: "react-live-ssr@workspace:tools/react-live-ssr"
+  resolution: "react-live-ssr-adapter@workspace:tools/react-live-ssr-adapter"
   dependencies:
-    prism-react-renderer: "npm:2.4.1"
-    sucrase: "npm:3.35.1"
+    "@dnb/eufemia": "workspace:*"
+    "@testing-library/dom": "npm:10.4.2"
+    "@testing-library/react": "npm:16.3.3"
+    "@types/react": "npm:19.3.0"
+    "@types/react-dom": "npm:19.3.0"
+    eslint: "npm:10.4.1"
+    jsdom: "npm:30.1.1"
+    react: "npm:19.3.0"
+    react-dom: "npm:19.3.0"
+    react-live: "npm:5.0.1"
+    typescript: "npm:5.9.3"
+    vitest: "npm:4.1.11"
+  peerDependencies:
+    react: ">=18.0.0"
+    react-dom: ">=18.0.0"
+    react-live: ">=5.0.1 <6"
   languageName: unknown
   linkType: soft
+
+"react-live@npm:5.0.1":
+  version: 5.0.1
+  resolution: "react-live@npm:5.0.1"
+  dependencies:
+    prism-react-renderer: "npm:^2.4.1"
+    sucrase: "npm:^3.35.1"
+    use-editable: "npm:^2.3.3"
+  peerDependencies:
+    react: ">=18.0.0"
+    react-dom: ">=18.0.0"
+  checksum: 10/9a40922432cfc2c18230d5619e9df07f45fd2fd15c479f007193a946ec19dbdae1dbd4365d74b4dd8017225b15a8e0835dab10882a7cb8f9ec2152221561a5fb
+  languageName: node
+  linkType: hard
 
 "react-markdown@npm:9.1.0":
   version: 9.1.0
@@ -18312,7 +18369,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sucrase@npm:3.35.1":
+"sucrase@npm:^3.35.1":
   version: 3.35.1
   resolution: "sucrase@npm:3.35.1"
   dependencies:
@@ -19321,6 +19378,15 @@ __metadata:
   version: 5.0.0
   resolution: "url-join@npm:5.0.0"
   checksum: 10/5921384a8ad4395b49ce4b50aa26efbc429cebe0bc8b3660ad693dd12fd859747b5369be0443e60e53a7850b2bc9d7d0687bcb94386662b40e743596bbf38101
+  languageName: node
+  linkType: hard
+
+"use-editable@npm:^2.3.3":
+  version: 2.3.3
+  resolution: "use-editable@npm:2.3.3"
+  peerDependencies:
+    react: ">= 16.8.0"
+  checksum: 10/626ae826f0d1258d71026d0fc8cc96613f0b8f38b7bb489d6376f678cddc7e37db008cf87e0653c40116be984266dbc93bd9603e55413b38de8ad91ec8882545
   languageName: node
   linkType: hard
 

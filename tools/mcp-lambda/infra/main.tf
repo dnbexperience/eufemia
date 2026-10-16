@@ -5,6 +5,9 @@ locals {
     CostAllocation = var.cost_allocation
     Environment    = var.environment
   }
+
+  # Built from the topic name so the MCP deploy role needs no SNS access.
+  analytics_alert_topic_arn = "arn:aws:sns:${var.aws_region}:${data.aws_caller_identity.current.account_id}:eufemia-${var.environment}-analytics-snapshot-alerts"
 }
 
 data "aws_caller_identity" "current" {}
@@ -155,6 +158,7 @@ resource "aws_cloudwatch_metric_alarm" "mcp_usage_queue_age" {
   threshold           = 600
   comparison_operator = "GreaterThanOrEqualToThreshold"
   treat_missing_data  = "notBreaching"
+  alarm_actions       = [local.analytics_alert_topic_arn]
 }
 
 resource "aws_cloudwatch_metric_alarm" "mcp_usage_dead_letter" {
@@ -169,6 +173,7 @@ resource "aws_cloudwatch_metric_alarm" "mcp_usage_dead_letter" {
   threshold           = 1
   comparison_operator = "GreaterThanOrEqualToThreshold"
   treat_missing_data  = "notBreaching"
+  alarm_actions       = [local.analytics_alert_topic_arn]
 }
 
 # API Gateway HTTP API

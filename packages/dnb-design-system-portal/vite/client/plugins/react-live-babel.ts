@@ -27,7 +27,7 @@ export default function reactLiveBabelPlugin(): Plugin {
           injectStableName,
           injectScope,
           [
-            require.resolve('babel-plugin-react-live'),
+            reactLiveWithEscapes,
             {
               componentName: 'ComponentBox',
               filesToMatch: ['Examples.tsx'],
@@ -45,6 +45,33 @@ export default function reactLiveBabelPlugin(): Plugin {
       return null
     },
   }
+}
+
+/**
+ * Runs babel-plugin-react-live, but also escapes backslashes in the
+ * template literal it creates, so `'\n'` in a demo stays as written.
+ */
+function reactLiveWithEscapes(
+  babel: { types: typeof BabelTypes },
+  options: Record<string, unknown>
+) {
+  const { types: t } = babel
+
+  const templateElement: typeof t.templateElement = (value, tail) => {
+    // The plugin only escapes backticks in `cooked`, so undo that first
+    const code = value.cooked.replace(/\\`/g, '`')
+    const raw = code
+      .replace(/\\/g, '\\\\')
+      .replace(/`/g, '\\`')
+      .replace(/\$\{/g, '\\${')
+
+    return t.templateElement({ raw, cooked: code }, tail)
+  }
+
+  return require('babel-plugin-react-live')(
+    { ...babel, types: { ...t, templateElement } },
+    options
+  )
 }
 
 /**

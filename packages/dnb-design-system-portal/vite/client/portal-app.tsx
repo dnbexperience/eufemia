@@ -13,12 +13,15 @@ import {
   Outlet,
   useLocation,
   useMatches,
+  useNavigationType,
   type RouteObject,
 } from 'react-router'
 import { CacheProvider } from '@emotion/react'
 import createEmotionCache from '@emotion/cache'
 import { Provider, Context, Theme } from '@dnb/eufemia/src/shared'
 import IsolatedStyleScope from '@dnb/eufemia/src/shared/IsolatedStyleScope'
+import useCanUseDOM from '@dnb/eufemia/src/shared/helpers/useCanUseDOM'
+import { LOCALE } from '@dnb/eufemia/src/shared/defaults'
 import { applyRouteFocus } from './route-focus'
 import { trackPageView, buildTrackedPath } from './track-page-view'
 import { MDXProvider } from '@mdx-js/react'
@@ -54,6 +57,10 @@ function RootLayout() {
     ...theme
   } = useThemeHandler()
 
+  // Pages are prerendered with the default settings, so the stored ones are
+  // applied after hydration
+  const canUseDOM = useCanUseDOM()
+
   const translationsLoader = useCallback(async (locale: string) => {
     try {
       return await loadTranslations(locale)
@@ -66,8 +73,8 @@ function RootLayout() {
     <CacheProvider value={emotionCache}>
       <FocusModeCodeProvider>
         <Provider
-          skeleton={getSkeletonEnabled()}
-          locale={getLang()}
+          skeleton={canUseDOM && getSkeletonEnabled()}
+          locale={canUseDOM ? getLang() : LOCALE}
           translationsLoader={translationsLoader}
         >
           <IsolatedStyleScope
@@ -153,41 +160,43 @@ function PageWrapper() {
  * the DOM.
  */
 function RouteFocusEffect() {
-  const location = useLocation()
-  const initialRouteRef = useRef<string | null>(null)
-  const hasLeftInitialRouteRef = useRef(false)
+  const { pathname, search, hash: routeHash } = useLocation()
+  const navigationType = useNavigationType()
+  const previousRouteRef = useRef<{
+    pathname: string
+    route: string
+  } | null>(null)
 
-  if (initialRouteRef.current === null && typeof window !== 'undefined') {
-    initialRouteRef.current =
-      window.location.pathname +
-      window.location.search +
-      window.location.hash
-  }
+  // Focus mode owns its scroll position.
+  const params = new URLSearchParams(search)
+  params.delete('focusmode')
+  const routeSearch = params.size ? '?' + params.toString() : ''
 
   useEffect(() => {
     const hash =
-      typeof window !== 'undefined' ? window.location.hash : location.hash
+      typeof window !== 'undefined' ? window.location.hash : routeHash
     const currentRoute =
       typeof window !== 'undefined'
-        ? window.location.pathname +
-          window.location.search +
-          window.location.hash
-        : location.pathname + location.hash
+        ? window.location.pathname + routeSearch + window.location.hash
+        : pathname + routeHash
 
-    if (
-      !hasLeftInitialRouteRef.current &&
-      currentRoute === initialRouteRef.current
-    ) {
-      if (hash) {
-        applyRouteFocus(hash)
-      }
-    } else {
-      hasLeftInitialRouteRef.current = true
-      applyRouteFocus(hash)
+    const previousRoute = previousRouteRef.current
+    if (previousRoute?.route === currentRoute) {
+      return
+    }
+    previousRouteRef.current = {
+      pathname,
+      route: currentRoute,
+    }
+
+    if (hash || previousRoute) {
+      const samePageClick =
+        navigationType === 'PUSH' && previousRoute?.pathname === pathname
+      applyRouteFocus(hash, samePageClick ? 'auto' : 'instant')
     }
 
     document.documentElement.setAttribute('data-portal-ready', 'true')
-  }, [location.hash, location.pathname, location.search])
+  }, [routeHash, pathname, routeSearch, navigationType])
 
   return null
 }
