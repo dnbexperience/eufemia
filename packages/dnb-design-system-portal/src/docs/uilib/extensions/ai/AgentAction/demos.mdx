@@ -1,0 +1,35 @@
+---
+showTabs: true
+---
+
+import * as Examples from './Examples'
+
+## Demos
+
+### Agent action states
+
+<Examples.States />
+
+### Known progress and timed Undo
+
+This example simulates a confirmed payment and a reversible result. Its timers belong to the demo application. Production progress and completion must come from the actual action.
+
+<Examples.KnownProgress />
+
+### Unknown progress and cancellation
+
+Use indeterminate progress until the application receives a result. The controls here simulate completion and cancellation.
+
+<Examples.UnknownProgress />
+
+### Pending Undo
+
+Disable Undo while the application handles a reversal. Confirm the outcome before updating the result. This demo lets you simulate that response or add a deadline to an existing Undo control.
+
+<Examples.PendingUndo />
+
+### Historical actions
+
+Use `announce={false}` when rendering saved conversation history. The content stays available to screen-reader navigation without announcing each past action on mount.
+
+<Examples.HistoricalActions />
