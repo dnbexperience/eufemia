@@ -1832,6 +1832,22 @@ describe('DateFormat', () => {
         // When the formats are the same, aria-label should not be present
         expect(dateFormat).not.toHaveAttribute('aria-label')
       })
+
+      it('should give screen readers the full duration as text instead of an aria-label', async () => {
+        const Component = render(
+          <DateFormat value="PT2H30M" dateStyle="short" />
+        )
+        const dateFormat = document.querySelector('.dnb-date-format')
+
+        expect(dateFormat).not.toHaveAttribute('aria-label')
+        expect(
+          dateFormat.querySelector('span[aria-hidden="true"]')
+        ).not.toHaveTextContent('2 timer og 30 minutter')
+        expect(dateFormat.querySelector('.dnb-sr-only')).toHaveTextContent(
+          '2 timer og 30 minutter'
+        )
+        expect(await axeComponent(Component)).toHaveNoViolations()
+      })
     })
   })
 
@@ -1948,8 +1964,13 @@ describe('DateFormat', () => {
 
       expect(recoverableErrors).toEqual([])
       expect(consoleError).not.toHaveBeenCalled()
-      expect(time).toHaveTextContent('2 t, 30 m')
-      expect(time).toHaveAttribute('aria-label', '2 timer, 30 minutter')
+      expect(time.querySelector('[aria-hidden="true"]')).toHaveTextContent(
+        '2 t, 30 m'
+      )
+      expect(time.querySelector('.dnb-sr-only')).toHaveTextContent(
+        '2 timer, 30 minutter'
+      )
+      expect(time).not.toHaveAttribute('aria-label')
       expect(time).toHaveAttribute('datetime', 'PT2H30M')
 
       unmount()
