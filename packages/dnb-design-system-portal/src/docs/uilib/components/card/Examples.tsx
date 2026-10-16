@@ -531,7 +531,10 @@ export const WithNestedSection = () => {
 
         <Card innerSpace={false} align="stretch">
           <P>no inner space</P>
-          <Section innerSpace backgroundColor="var(--color-lavender)">
+          <Section
+            innerSpace
+            backgroundColor="var(--token-color-background-neutral-alternative)"
+          >
             <Field.String
               width="medium"
               label="Card with no inner space"
@@ -548,7 +551,7 @@ export const InColoredSection = () => {
   return (
     <ComponentBox data-visual-test="card-in-colored-section">
       <Section
-        backgroundColor="var(--color-signal-orange)"
+        backgroundColor="var(--token-color-background-marketing-subtle)"
         innerSpace="large"
       >
         <Card>Card in colored Section</Card>
