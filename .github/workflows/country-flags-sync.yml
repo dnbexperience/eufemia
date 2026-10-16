@@ -1,0 +1,187 @@
+name: Country Flags
+
+on:
+  schedule:
+    - cron: '23 5 1 * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+# No job-wide secrets on purpose: they are scoped to the individual steps that
+# use them, so `yarn install` and the sync steps never receive credentials.
+
+env:
+  BRANCH: flags/automation-flag-icons-sync
+  SYNC_PATHS: >-
+    yarn.lock
+    packages/dnb-eufemia/package.json
+    packages/dnb-eufemia/assets/flags
+    packages/dnb-eufemia/src/components/country-flag/style/dnb-country-flag-icons.scss
+
+jobs:
+  sync-flags:
+    name: Sync flags from flag-icons
+
+    runs-on: ubuntu-latest
+
+    timeout-minutes: 30
+
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: main
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Find an open flag update pull request
+        id: existing-pr
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: |
+          url=$(gh pr list \
+            --head "$BRANCH" \
+            --base main \
+            --state open \
+            --json url \
+            --jq '.[0].url // empty')
+          if [ -n "$url" ]; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+            echo "url=$url" >> "$GITHUB_OUTPUT"
+            echo "A flag update pull request is already open: $url" >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Check out the existing flag update branch
+        if: steps.existing-pr.outputs.exists == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: |
+          gh auth setup-git
+          git fetch origin "refs/heads/$BRANCH:refs/remotes/origin/$BRANCH"
+          git switch -C "$BRANCH" "origin/$BRANCH"
+          git rebase origin/main
+
+      - name: Setup dependencies
+        uses: ./.github/actions/setup
+        with:
+          cache-version: ${{ secrets.CACHE_VERSION }}
+
+      - name: Update flag-icons and sync the flags
+        id: sync
+        env:
+          # Yarn makes installs immutable on CI, but this step updates the lockfile
+          YARN_ENABLE_IMMUTABLE_INSTALLS: 'false'
+        run: |
+          # The npmMinimalAgeGate in .yarnrc.yml keeps freshly published versions out
+          yarn up flag-icons
+          yarn workspace @dnb/eufemia flags:sync
+
+          version=$(node -p "require('./packages/dnb-eufemia/package.json').devDependencies['flag-icons']")
+          if ! [[ "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "Unexpected flag-icons version: $version"
+            exit 1
+          fi
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+
+      - name: Detect flag changes
+        id: changes
+        run: |
+          # shellcheck disable=SC2086 # SYNC_PATHS is a space-separated list
+          if [ -z "$(git status --porcelain -- $SYNC_PATHS)" ]; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Commit flag update
+        if: success() && steps.changes.outputs.changed == 'true'
+        run: |
+          gh auth setup-git
+          # The tip fetched at the start, so a commit pushed during the run makes the push fail instead of vanishing
+          remote_sha=$(git rev-parse --verify --quiet "refs/remotes/origin/$BRANCH" || true)
+
+          if [ "$EXISTING_PR" != true ]; then
+            git switch -c "$BRANCH"
+          fi
+          git config user.name "$GH_NAME"
+          git config user.email "$GH_EMAIL"
+          # shellcheck disable=SC2086 # SYNC_PATHS is a space-separated list
+          git add $SYNC_PATHS
+
+          git commit --no-verify -m "Update flag-icons to v$VERSION"
+          if [ -n "$remote_sha" ]; then
+            git push origin "HEAD:refs/heads/$BRANCH" \
+              --force-with-lease="refs/heads/$BRANCH:$remote_sha"
+          else
+            git push --set-upstream origin "$BRANCH"
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GH_NAME: ${{ secrets.GH_NAME }}
+          GH_EMAIL: ${{ secrets.GH_EMAIL }}
+          EXISTING_PR: ${{ steps.existing-pr.outputs.exists }}
+          VERSION: ${{ steps.sync.outputs.version }}
+
+      - name: Create draft flag update pull request
+        if: success() && steps.changes.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          EXISTING_PR: ${{ steps.existing-pr.outputs.exists }}
+          PR_URL: ${{ steps.existing-pr.outputs.url }}
+          VERSION: ${{ steps.sync.outputs.version }}
+        run: |
+          flag_names() {
+            git diff --name-only "origin/main...HEAD" --diff-filter="$1" \
+              -- 'packages/dnb-eufemia/assets/flags/1x1/*.svg' |
+              sed -E 's#.*/##; s/\.svg$//' |
+              sort -u | paste -sd, - | sed 's/,/, /g'
+          }
+
+          added=$(flag_names A)
+          removed=$(flag_names D)
+          changed=$(flag_names M)
+
+          if [ -n "$removed" ]; then
+            title="feat(CountryFlag)!: update flags to flag-icons v$VERSION"
+          elif [ -n "$added" ]; then
+            title="feat(CountryFlag): add flags from flag-icons v$VERSION"
+          elif [ -n "$changed" ]; then
+            title="fix(CountryFlag): update flags to flag-icons v$VERSION"
+          else
+            title="chore(CountryFlag): update flag-icons to v$VERSION"
+          fi
+
+          body=$(
+            echo "Updates the CountryFlag SVGs and styles to flag-icons v$VERSION with \`yarn flags:sync\`."
+            echo ""
+            echo "- Added: ${added:-None}"
+            echo "- Removed: ${removed:-None}"
+            echo "- Changed: ${changed:-None}"
+            echo ""
+            echo "Removing a flag is a breaking change for anyone using it. Review the flags and visual snapshots before marking the pull request ready."
+          )
+
+          printf '%s\n' "$body" >> "$GITHUB_STEP_SUMMARY"
+          if [ "$EXISTING_PR" = true ]; then
+            gh pr edit "$PR_URL" --title "$title" --body "$body"
+            is_draft=$(gh pr view "$PR_URL" --json isDraft --jq '.isDraft')
+            if [ "$is_draft" != true ]; then
+              gh pr ready "$PR_URL" --undo
+            fi
+          else
+            gh pr create \
+              --base main \
+              --head "$BRANCH" \
+              --title "$title" \
+              --body "$body" \
+              --draft
+          fi
+
+      - name: Report no flag changes
+        if: steps.changes.outputs.changed == 'false'
+        run: echo "The flags are already synchronized with flag-icons."
