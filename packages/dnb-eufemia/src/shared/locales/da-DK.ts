@@ -101,6 +101,8 @@ export default {
       indicatorLabel: 'Henter data ...',
     },
     Card: {
+      playTitle: 'Afspil baggrundsvideo',
+      pauseTitle: 'Sæt baggrundsvideo på pause',
       closeTitle: 'Luk',
     },
     Modal: {
