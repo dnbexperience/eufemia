@@ -3,6 +3,9 @@ import Card from './CardInner'
 import type { CardProps } from './CardInner'
 import CardAction from './CardAction'
 import type { CardActionProps } from './CardAction'
+import CardCloseButton from './CardCloseButton'
+import CardMediaButton from './CardMediaButton'
+import CardOverlay from './CardOverlay'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import { removeUndefinedProps } from '../../shared/component-helper'
 
@@ -12,10 +15,7 @@ export type CardInfoProps =
       href?: never
       to?: never
     })
-  | (CardActionProps & {
-      onClose?: never
-      closeButtonProps?: never
-    })
+  | (CardActionProps & { onClose?: never; closeButtonProps?: never })
 
 const defaults = {
   responsive: false,
@@ -44,4 +44,8 @@ function CardInfo(props: CardInfoProps) {
 
 withComponentMarkers(CardInfo, { _supportsSpacingProps: true })
 
-export default CardInfo
+export default Object.assign(CardInfo, {
+  CloseButton: CardCloseButton,
+  MediaButton: CardMediaButton,
+  Overlay: CardOverlay,
+})

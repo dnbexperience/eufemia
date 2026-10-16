@@ -100,6 +100,8 @@ export default {
       indicatorLabel: 'Getting data ...',
     },
     Card: {
+      playTitle: 'Play background video',
+      pauseTitle: 'Pause background video',
       closeTitle: 'Close',
     },
     Modal: {

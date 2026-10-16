@@ -7,6 +7,9 @@ import CardListItem from './CardListItem'
 export type { CardProps } from './CardInner'
 export type { CardInfoProps } from './CardInfo'
 export { Card }
+export type { CardCloseButtonProps } from './CardCloseButton'
+export type { CardMediaButtonProps } from './CardMediaButton'
+export type { CardOverlayProps } from './CardOverlay'
 
 const CardCompound = Object.assign(Card, {
   Action: CardAction,

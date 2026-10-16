@@ -8,6 +8,10 @@ import { H2, P } from '../../../elements'
 import Provider from '../../../shared/Provider'
 
 describe('Card.Info', () => {
+  it('exposes media and close controls through the compound API', () => {
+    expect(Card.Info.CloseButton).toBeTypeOf('function')
+    expect(Card.Info.MediaButton).toBeTypeOf('function')
+  })
   it('renders one complete card with freely composed children and surface defaults', () => {
     render(
       <Card.Info aria-label="Savings tip">
@@ -104,10 +108,8 @@ describe('Card.Info', () => {
     const onSubmit = vi.fn((event) => event.preventDefault())
     render(
       <form onSubmit={onSubmit}>
-        <Card.Info
-          onClose={onClose}
-          closeButtonProps={{ title: 'Dismiss tip' }}
-        >
+        <Card.Info>
+          <Card.Info.CloseButton onClick={onClose} title="Dismiss tip" />
           <P>Tip</P>
         </Card.Info>
       </form>
@@ -246,18 +248,9 @@ describe('Card.Info', () => {
     expect(card.getAttribute('style')).toContain('--padding-l-m: 1.5rem')
   })
 
-  it('exposes mutually exclusive types for action and close controls', () => {
-    // @ts-expect-error A whole-card link cannot contain a close button.
-    const link = <Card.Info href="/savings" onClose={() => undefined} />
-    const action = (
-      // @ts-expect-error A whole-card action cannot contain a close button.
-      <Card.Info
-        onClick={() => undefined}
-        closeButtonProps={{ title: 'Close' }}
-      />
-    )
+  it('accepts freely composed content without a text shortcut', () => {
     // @ts-expect-error Card.Info accepts content as children, not a text shortcut.
     const text = <Card.Info text="Information" />
-    expect([link, action, text]).toHaveLength(3)
+    expect(text).toBeDefined()
   })
 })

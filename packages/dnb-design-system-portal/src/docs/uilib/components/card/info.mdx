@@ -10,6 +10,8 @@ import * as Examples from './Examples'
 import { Card } from '@dnb/eufemia'
 ```
 
+The controls and media overlay are available as `Card.Info.CloseButton`, `Card.Info.MediaButton`, and `Card.Info.Overlay`. No additional imports are needed.
+
 ## Description
 
 `Card` is a block section element showing the white box with rounded gray borders, adding spacing automatically.
@@ -78,6 +80,18 @@ Width follows the containing layout. Constrain that layout when the card should 
 
 Content is supplied through children. Use `Flex.Horizontal` for a graphic beside text, or `Flex.Stack align="center"` with centered text for a centered layout. Use `Provider skeleton` for loading content. Card.Info has no separate graphic, text, icon, or button props. The optional `title` prop retains Card's title behavior; use a heading child when the page structure needs a semantic heading.
 
+### Images and video
+
+Compose media layouts with Card.Info and ordinary image or video elements. Its defaults provide shadow, rounded corners, and a stretched inner layout. Set `innerSpace={0}` for media that reaches the edges. Add padding around the content and clip media in an inner container so Card.Action's focus outline is preserved. Use Flex wrapping to stack media and content when the card itself becomes narrow.
+
+Set `href` on Card.Info for a whole-card link with no nested controls. Omit whole-card actions when it contains independent links, a close button, or video controls.
+
+Give meaningful images descriptive alternative text. Use `alt=""` for decorative artwork that adds no information beyond the text. Set image dimensions or an aspect ratio to reserve space before loading, and choose cropping that preserves important content.
+
+For decorative video, keep all information in the text, mute the video, and hide it from assistive technology. Provide a keyboard-accessible play/pause control and a poster matching the first video frame. Respect `prefers-reduced-motion`: disable autoplay and pause playback when the preference is enabled, while allowing playback on request. Keep text readable against every frame with a sufficiently dark overlay. For video that conveys information, use native `controls`, captions, and an accessible transcript instead of hiding it or using it as a background.
+
+See the [image](/uilib/components/card/demos/#image-beside-content), [centered image](/uilib/components/card/demos/#centered-image-card), and [video compositions](/uilib/components/card/demos/#full-media-with-video).
+
 ### Interactive information cards
 
 Set `href` or `to` for a whole-card link, or `onClick` for a whole-card action. Card.Info uses [Card.Action](/uilib/components/card/demos/#interactive-cards) for hover, focus, and keyboard behavior. Pass a router Link through `element` when using `to`.
@@ -95,8 +109,76 @@ Do not place buttons, links, inputs, or a close button inside a whole-card actio
 
 ### Close button
 
-Pass `onClose` to Card.Info or Card to display a close button. The callback controls dismissal; the card does not hide itself or move focus. When removing focused content, move focus to a suitable remaining control. Customize the button with `closeButtonProps`. Use HeightAnimation around Card.Info when dismissal should animate.
+Compose Card.Info.CloseButton as a direct child of a noninteractive Card or Card.Info. The control provides a translated label, a circular background, and top-right positioning. Padded cards reserve space beside the content automatically. Cards with `innerSpace={0}` or `innerSpace={false}` keep media at full width and place the close control over it; add padding to text inside these cards to avoid overlap. Use its `onClick` to dismiss the card, and move focus to a suitable remaining control when removing focused content. Use HeightAnimation around Card.Info when dismissal should animate.
+
+```tsx
+import { Card, P } from '@dnb/eufemia'
+
+function SavingsTip({ onDismiss }) {
+  return (
+    <Card.Info>
+      <Card.Info.CloseButton onClick={onDismiss} />
+      <P>Save a little every month.</P>
+    </Card.Info>
+  )
+}
+```
+
+Do not nest this control inside a whole-card link or action. See [Card.Info.CloseButton properties](/uilib/components/card/properties/#cardinfoclosebutton-properties).
+
+The previous `onClose` and `closeButtonProps` properties remain supported for compatibility. Prefer the composed control for new code. The close control uses a 24px circular button, and the media control uses a 32px circle. Both have a 16px icon and an extended click/tap area of at least 44px. Use the Button `size` and `bounding` properties to customize these defaults.
 
 See the [information card demos](/uilib/components/card/demos/#info-card-layout).
+
+## Optional media control
+
+Use Card.Info.MediaButton and pass a stable ref attached to your video. Mount the video and control together. The control tracks native playback events, provides translated play/pause labels, and animates the standard icons with reduced-motion support. It resumes playback from the current position. If a render replaces the video element, the control removes the old listeners, tracks the new element, and reapplies playback preferences after the commit. Use `playTitle` and `pauseTitle` to customize the labels.
+
+```tsx
+import { useRef } from 'react'
+import { Card, Flex } from '@dnb/eufemia'
+
+function DecorativeVideo() {
+  const videoRef = useRef<HTMLVideoElement>(null)
+
+  return (
+    <Flex.Stack style={{ position: 'relative' }}>
+      <video
+        ref={videoRef}
+        src="/video.mp4"
+        poster="/poster.webp"
+        muted
+        loop
+        playsInline
+        aria-hidden="true"
+        preload="none"
+      />
+      <Card.Info.MediaButton videoRef={videoRef} />
+    </Flex.Stack>
+  )
+}
+```
+
+The control defaults to autoplay for muted video when the user does not prefer reduced motion. Enabling reduced motion pauses playback; manual playback is still available. Set `autoPlay={false}` to require a request before playback starts. If the browser blocks autoplay, the play button remains available. Keep the video's native `autoPlay` attribute off so it does not bypass this preference handling.
+
+You own the video sources, poster, loading strategy, and error fallback. Use native controls and captions for informative video. See the [video example](/uilib/components/card/demos/#full-media-with-video) and [Card.Info.MediaButton properties](/uilib/components/card/properties/#cardinfomediabutton-properties).
+
+## Media content overlay
+
+Use `Card.Info.Overlay` for content over an image or decorative video. It provides responsive padding, a transparent-to-dark gradient, progressive backdrop blur, and dark-surface context for controls. Headings and paragraphs receive text shadows automatically, including inside nested layout components. Headings use a broader shadow than body text. Override `textShadow` on individual text elements when needed. The effects are decorative and do not hide the content from assistive technology or intercept pointer events.
+
+```tsx
+<Card.Info.Overlay align="center" style={{ textAlign: 'center' }}>
+  <H2>Spar til noe uventet</H2>
+  <P>Du vet aldri når du trenger litt ekstra penger.</P>
+  <Button href="/sparing">Start sparing</Button>
+</Card.Info.Overlay>
+```
+
+Place the overlay inside the media container after the image or video. Control its vertical placement through spacing or inline styles, as in the [video demo](/uilib/components/card/demos/#full-media-with-video). Set `blur={false}` to keep only the gradient, or `gradient={false}` to keep only the blur. Check text contrast against every media frame, especially when disabling either effect. See [Overlay properties](/uilib/components/card/properties/#cardinfooverlay-properties).
+
+### Bundles
+
+Card.Info includes CloseButton, MediaButton, and Overlay as compound components. Importing Card retains these helpers and their playback and icon dependencies in a typical production bundle. Applications that do not import Card can still omit the entire component through ESM tree shaking.
 
 <RelatedComponents />
