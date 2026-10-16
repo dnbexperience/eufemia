@@ -20,6 +20,8 @@ Unfinished markdown is closed while the text streams in. Finished blocks are not
 
 Explicit currencies in text, emphasis and table cells use `NumberFormat.Currency`. Bare numbers and ambiguous symbols remain text.
 
+Prefix amounts followed by a word also remain text. This includes scaled amounts in any language and ordinary prose such as `NOK 150 betales nå.` Suffix amounts such as `150 kr betales nå.` can still be formatted.
+
 <Examples.AiResponseCurrencies />
 
 ### Source locale
@@ -27,6 +29,12 @@ Explicit currencies in text, emphasis and table cells use `NumberFormat.Currency
 Set the source locale when the response uses different separators from the display locale. This example reads English amounts and displays them in Norwegian.
 
 <Examples.AiResponseCurrencyLocale />
+
+### Structured amount
+
+When the application knows the amount and currency, render `NumberFormat.Currency` directly. This example uses a numeric value from structured data alongside generated prose, without extracting or interpreting the amount from the text.
+
+<Examples.AiResponseStructuredAmount />
 
 ### Streaming currency amounts
 

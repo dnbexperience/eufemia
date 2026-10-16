@@ -17,7 +17,7 @@ describe('Ai.Response', () => {
     (code) => {
       render(
         <Response parseIncompleteMarkdown={false}>
-          {'Pris kr 1' + String.fromCharCode(code) + '234 i dag.'}
+          {'Pris kr 1' + String.fromCharCode(code) + '234.'}
         </Response>
       )
       const amount = document.querySelector('.dnb-number-format')
@@ -38,6 +38,10 @@ describe('Ai.Response', () => {
     'NOK 1,5 **milliarder**',
     '**NOK 4,5** *mill.*',
     '**NOK 1,5**' + ' '.repeat(100) + 'milliarder',
+    'EUR 1,5 Millionen',
+    '**EUR 1,5** millones',
+    'EUR 1,5 **milhões**',
+    '**NOK 150** betales nå.',
   ])('does not expose an incorrect accessible value for %s', (text) => {
     render(<Response parseIncompleteMarkdown={false}>{text}</Response>)
     expect(document.querySelector('.dnb-number-format')).toBeNull()
@@ -71,8 +75,8 @@ describe('Ai.Response', () => {
   })
 
   it.each([
-    '**NOK 1,5** **milliarder**, og NOK 200 betales nå.',
-    'NOK 1,5 **milliarder**, og **NOK 200** betales nå.',
+    '**NOK 1,5** **milliarder**, og 200 kr betales nå.',
+    'NOK 1,5 **milliarder**, og **200 kr** betales nå.',
   ])('only preserves the scaled amount in %s', (text) => {
     render(<Response parseIncompleteMarkdown={false}>{text}</Response>)
     expect(document.querySelectorAll('.dnb-number-format')).toHaveLength(1)
@@ -85,6 +89,8 @@ describe('Ai.Response', () => {
     const { rerender } = render(<Response>{'**NOK 1,5** mi'}</Response>)
     expect(document.querySelector('.dnb-number-format')).toBeNull()
     rerender(<Response>{'**NOK 1,5** minimum.'}</Response>)
+    expect(document.querySelector('.dnb-number-format')).toBeNull()
+    rerender(<Response>{'**NOK 1,5**. Ferdig.'}</Response>)
     expect(
       document.querySelector('.dnb-number-format__visible')
     ).toHaveTextContent('NOK 1,5')
@@ -167,7 +173,7 @@ describe('Ai.Response', () => {
   it('waits for the amount to be complete while streaming', () => {
     const { rerender } = render(<Response>{'NOK 12'}</Response>)
     expect(document.querySelector('.dnb-number-format')).toBeNull()
-    rerender(<Response>{'NOK 12,50 paid.'}</Response>)
+    rerender(<Response>{'NOK 12,50. Paid.'}</Response>)
     expect(
       document.querySelector('.dnb-number-format__visible')
     ).toHaveTextContent('NOK 12,50')

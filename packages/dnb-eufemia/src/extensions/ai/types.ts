@@ -50,7 +50,7 @@ export type AiResponseComponents = Partial<
 
 export type AiResponseProps = {
   /**
-   * Format recognized currency amounts with NumberFormat.Currency. Set to `false` to keep the original text, or provide the source `locale` and `currency` for amounts written as `kr`. Defaults to `true`, using Provider values.
+   * Format recognized currency amounts with NumberFormat.Currency. Prefix amounts followed by a word remain text. Set to `false` to keep the original text, or provide the source `locale` and `currency` for amounts written as `kr`. Defaults to `true`, using Provider values.
    * Default: `true`
    */
   currencyFormatting?: boolean | { locale?: string; currency?: string }

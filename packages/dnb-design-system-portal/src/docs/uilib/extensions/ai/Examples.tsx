@@ -134,7 +134,7 @@ export function AiResponseAllowedUrls() {
 }
 
 const currencyResponse =
-  'You spent **12 400,50 kr** and received a refund of **−250,00 NOK**.\n\n| Item | Amount |\n|---|---:|\n| Travel | EUR 199,95 |\n| Books | GBP 25 |\n\nBare numbers like 12345 and ambiguous symbols like $100 stay as text.'
+  'You spent **12 400,50 kr** and received a refund of **−250,00 NOK**.\n\n| Item | Amount |\n|---|---:|\n| Travel | EUR 199,95 |\n| Books | GBP 25 |\n\nBare numbers like 12345 and ambiguous symbols like $100 stay as text.\n\nPrefix amounts followed by words, such as **EUR 1,5** millones and NOK 150 payable today, also stay as text.'
 
 export function AiResponseCurrencies() {
   return (
@@ -159,8 +159,35 @@ export function AiResponseCurrencyLocale() {
           parseIncompleteMarkdown={false}
           currencyFormatting={{ locale: 'en-GB' }}
         >
-          {'The total is USD 1,234.50 and EUR 99.95.'}
+          {'The total is USD 1,234.50; the fee is EUR 99.95.'}
         </Response>
+      </Provider>
+    </ComponentBox>
+  )
+}
+
+const responseAmount = { value: 1500000000, currency: 'NOK' }
+
+export function AiResponseStructuredAmount() {
+  return (
+    <ComponentBox
+      data-visual-test="ai-response-structured-amount"
+      scope={{ responseAmount }}
+    >
+      <Provider locale="nb-NO">
+        <Message from="assistant">
+          <Response currencyFormatting={false}>
+            {'The confirmed amount is:'}
+          </Response>
+          <P>
+            <NumberFormat.Currency
+              value={responseAmount.value}
+              currency={responseAmount.currency}
+              currencyDisplay="code"
+              decimals={0}
+            />
+          </P>
+        </Message>
       </Provider>
     </ComponentBox>
   )

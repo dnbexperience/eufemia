@@ -12,7 +12,7 @@ describe('currency amounts', () => {
     const space = String.fromCharCode(code)
     for (const text of [
       'Pris 1' + space + '234 kr i dag.',
-      'Pris kr 1' + space + '234 i dag.',
+      'Pris kr 1' + space + '234.',
     ]) {
       expect(amounts(text)).toEqual([
         { value: 1234, currency: 'NOK', decimals: 0 },
@@ -21,6 +21,8 @@ describe('currency amounts', () => {
     expect(parse('NOK 12' + space + '34')).toEqual([
       'NOK 12' + space + '34',
     ])
+    const prefixWithProse = 'Pris kr 1' + space + '234 i dag.'
+    expect(parse(prefixWithProse)).toEqual([prefixWithProse])
   })
 
   it.each([
@@ -52,17 +54,27 @@ describe('currency amounts', () => {
     }
   })
 
-  it('preserves normal prose after an amount', () => {
-    expect(amounts('NOK 150 betales nå.')).toEqual([
-      { value: 150, currency: 'NOK', decimals: 0 },
-    ])
-    expect(amounts('NOK 150 minimum.')).toEqual([
+  it.each([
+    'EUR 1,5 Millionen',
+    'EUR 1,5 millones',
+    'EUR 1,5 milhões',
+    'NOK 150 betales nå.',
+    'NOK 150 minimum.',
+    'NOK 150 \u0301million',
+    'NOK 150 百万',
+    'NOK 150 \u{10400}',
+  ])('preserves prefix amounts followed by words in %s', (text) => {
+    expect(parse(text)).toEqual([text])
+  })
+
+  it('recognizes suffix amounts followed by normal prose', () => {
+    expect(amounts('150 kr betales nå.')).toEqual([
       { value: 150, currency: 'NOK', decimals: 0 },
     ])
   })
 
   it('recognizes explicit currencies before and after amounts', () => {
-    expect(amounts('NOK 12 400,50 and 200 kr, EUR 19,95.')).toEqual([
+    expect(amounts('NOK 12 400,50; 200 kr, EUR 19,95.')).toEqual([
       { value: 12400.5, currency: 'NOK', decimals: 2 },
       { value: 200, currency: 'NOK', decimals: 0 },
       { value: 19.95, currency: 'EUR', decimals: 2 },
@@ -116,13 +128,13 @@ describe('currency amounts', () => {
       createCurrencyParser(
         'en-GB',
         'NOK'
-      )('Pay €19.95, £20 and 100 USD today.')
+      )('Pay €19.95, £20; 100 USD today.')
     ).toEqual([
       'Pay ',
       { value: 19.95, currency: 'EUR', decimals: 2 },
       ', ',
       { value: 20, currency: 'GBP', decimals: 0 },
-      ' and ',
+      '; ',
       { value: 100, currency: 'USD', decimals: 0 },
       ' today.',
     ])
@@ -166,9 +178,9 @@ describe('currency amounts', () => {
   it('waits for a boundary when an amount is still streaming', () => {
     expect(parse('NOK 12', true)).toEqual(['NOK 12'])
     expect(parse('NOK 12,', true)).toEqual(['NOK 12,'])
-    expect(parse('NOK 12,50 paid', true)).toEqual([
+    expect(parse('NOK 12,50. Paid', true)).toEqual([
       { value: 12.5, currency: 'NOK', decimals: 2 },
-      ' paid',
+      '. Paid',
     ])
     expect(parse('100 kr', true)).toEqual(['100 kr'])
   })
@@ -181,10 +193,25 @@ describe('currency amounts', () => {
   })
 
   it('never formats a partially streamed scale word', () => {
-    for (const text of ['NOK 1,5 milliarder', 'NOK 4,5 billion']) {
+    for (const text of [
+      'NOK 1,5 milliarder',
+      'NOK 4,5 billion',
+      'EUR 1,5 Millionen',
+      'EUR 1,5 millones',
+      'NOK 150 betales nå.',
+    ]) {
       for (let i = 1; i <= text.length; i++) {
         expect(parse(text.slice(0, i), true)).toEqual([text.slice(0, i)])
       }
     }
+  })
+
+  it('does not reject other amounts when a prefix is followed by a word', () => {
+    expect(
+      amounts('EUR 1,5 millones; 200 kr betales nå. NOK 100.')
+    ).toEqual([
+      { value: 200, currency: 'NOK', decimals: 0 },
+      { value: 100, currency: 'NOK', decimals: 0 },
+    ])
   })
 })

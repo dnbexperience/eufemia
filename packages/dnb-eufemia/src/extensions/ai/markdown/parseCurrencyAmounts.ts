@@ -127,10 +127,8 @@ export function createCurrencyParser(
       if (NEXT_MARKER.test(after)) {
         continue
       }
-      if (
-        SCALE_WORD.test(after) ||
-        (incomplete && isIncompleteScale(after))
-      ) {
+      // A following word may qualify a prefix amount in any language.
+      if (end > markerEnd && FOLLOWING_WORD.test(after)) {
         continue
       }
       const amount = parseAmount(number, decimal, group)
@@ -213,48 +211,7 @@ const NEXT_MARKER = new RegExp(
   'u'
 )
 const GROUPING_SPACE = new RegExp('\\p{Zs}', 'gu')
-const SCALE_WORDS = [
-  'thousand',
-  'thousands',
-  'tusen',
-  'tusind',
-  'tusinde',
-  'million',
-  'millions',
-  'millioner',
-  'miljoner',
-  'milliard',
-  'milliards',
-  'milliarder',
-  'miljarder',
-  'billion',
-  'billions',
-  'billioner',
-  'trillion',
-  'trillions',
-  'trillioner',
-  'mill',
-  'mil',
-  'mrd',
-  'mia',
-  'mn',
-  'bn',
-  'tn',
-  'k',
-  'm',
-  'b',
-]
-const SCALE_WORD = new RegExp(
-  '^\\s+(?:' + SCALE_WORDS.join('|') + ')(?![\\p{L}\\p{N}_])',
-  'iu'
-)
-function isIncompleteScale(text: string) {
-  const match = /^\s+([a-z]+)$/i.exec(text)
-  return (
-    match &&
-    SCALE_WORDS.some((word) => word.startsWith(match[1].toLowerCase()))
-  )
-}
+const FOLLOWING_WORD = new RegExp('^\\s+[\\p{L}\\p{M}\\p{N}_]', 'u')
 const WORD = new RegExp('[\\p{L}\\p{N}_]', 'u')
 function isWord(char?: string) {
   return char ? WORD.test(char) : false
