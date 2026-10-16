@@ -10,20 +10,13 @@ const pin = (props?: IconSVGProps) => (
     viewBox="0 0 16 16"
     {...props}
   >
-    <g clipPath="url(#pin_svg__a)">
-      <path
-        stroke="#000"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth={1.5}
-        d="m1 14.999 4.984-4.982m0 0L3.427 7.46a.947.947 0 0 1 .187-1.466 4.68 4.68 0 0 1 3.449-.505l2.586-4.065a.948.948 0 0 1 1.448-.158l3.637 3.637a.948.948 0 0 1-.159 1.448l-4.064 2.586a4.68 4.68 0 0 1-.504 3.45c-.3.51-1.042.612-1.467.186z"
-      />
-    </g>
-    <defs>
-      <clipPath id="pin_svg__a">
-        <path fill="#fff" d="M0 0h16v16H0z" />
-      </clipPath>
-    </defs>
+    <path
+      stroke="#000"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={1.5}
+      d="m1 14.999 4.984-4.982m0 0L3.427 7.46a.947.947 0 0 1 .187-1.466 4.68 4.68 0 0 1 3.449-.505l2.586-4.065a.948.948 0 0 1 1.448-.158l3.637 3.637a.948.948 0 0 1-.159 1.448l-4.064 2.586a4.68 4.68 0 0 1-.504 3.45c-.3.51-1.042.612-1.467.186z"
+    />
   </svg>
 )
 export default pin

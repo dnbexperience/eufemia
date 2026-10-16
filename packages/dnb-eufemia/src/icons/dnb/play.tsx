@@ -10,20 +10,13 @@ const play = (props?: IconSVGProps) => (
     viewBox="0 0 16 16"
     {...props}
   >
-    <g clipPath="url(#play_svg__a)">
-      <path
-        stroke="#000"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth={1.5}
-        d="M1.5 2.02v11.96c0 .752.831 1.26 1.488.903l10.995-5.98c.68-.37.699-1.427 0-1.808L2.988 1.115C2.345.766 1.5 1.252 1.5 2.02"
-      />
-    </g>
-    <defs>
-      <clipPath id="play_svg__a">
-        <path fill="#fff" d="M0 0h16v16H0z" />
-      </clipPath>
-    </defs>
+    <path
+      stroke="#000"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={1.5}
+      d="M1.5 2.02v11.96c0 .752.831 1.26 1.488.903l10.995-5.98c.68-.37.699-1.427 0-1.808L2.988 1.115C2.345.766 1.5 1.252 1.5 2.02"
+    />
   </svg>
 )
 export default play
