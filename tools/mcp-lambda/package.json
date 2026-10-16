@@ -8,10 +8,11 @@
     "dev": "tsx src/transports/stdio.ts",
     "test": "vitest run",
     "audit:ci": "yarn npm audit --recursive --environment production --severity high",
-    "lint": "node ../../node_modules/.bin/eslint 'src/**/*.ts'",
+    "lint": "cd ../.. && node node_modules/.bin/eslint --config tools/mcp-lambda/eslint.config.mjs 'tools/mcp-lambda/src/**/*.ts' 'tools/monitoring/*.ts' && node node_modules/.bin/prettier --check 'tools/mcp-lambda/src/check-http.ts' 'tools/mcp-lambda/src/alert-http.ts' 'tools/mcp-lambda/src/__tests__/http*.test.ts' 'tools/monitoring/*.ts' '.github/workflows/mcp-health.yml'",
     "deploy": "yarn build && terraform -chdir=infra init && terraform -chdir=infra apply -auto-approve",
     "deploy:plan": "yarn build && terraform -chdir=infra init && terraform -chdir=infra plan",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "check:http": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON src/check-http.ts"
   },
   "type": "module",
   "dependencies": {
