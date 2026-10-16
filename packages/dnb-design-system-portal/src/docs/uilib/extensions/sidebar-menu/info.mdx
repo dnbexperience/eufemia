@@ -5,7 +5,7 @@ showTabs: true
 ## Import
 
 ```tsx
-import * as SidebarMenu from '@dnb/eufemia/extensions/sidebar-menu'
+import { SidebarMenu } from '@dnb/eufemia/extensions'
 import '@dnb/eufemia/extensions/sidebar-menu/style'
 ```
 
@@ -68,7 +68,7 @@ Use `openItemsStorageKey` to preserve manually opened and closed groups. When th
 `Root` and `Data` render storage metadata when `openItemsStorageKey` or `scrollPositionStorageKey` is set. Add `PreHydrationScript` after the prerendered menu markup and before the application hydration script to make persisted state visible on the first paint:
 
 ```tsx
-import * as SidebarMenu from '@dnb/eufemia/extensions/sidebar-menu'
+import { SidebarMenu } from '@dnb/eufemia/extensions'
 
 function Document({ children, nonce }) {
   return (

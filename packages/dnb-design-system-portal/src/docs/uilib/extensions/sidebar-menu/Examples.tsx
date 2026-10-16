@@ -1,7 +1,7 @@
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import { useState } from 'react'
 import { H2, P } from '@dnb/eufemia/src'
-import * as SidebarMenu from '@dnb/eufemia/src/extensions/sidebar-menu'
+import { SidebarMenu } from '@dnb/eufemia/src/extensions'
 import type {
   SidebarMenuItemData,
   SidebarMenuSectionData,

@@ -9,7 +9,7 @@ import {
 } from '@dnb/eufemia/src/extensions/forms'
 import type { GenerateRef as GeneratePropsRef } from '@dnb/eufemia/src/extensions/forms/Tools/ListAllProps'
 import type { GenerateRef as GenerateSchemaRef } from '@dnb/eufemia/src/extensions/forms/Tools/GenerateSchema'
-import * as Blocks from '@dnb/eufemia/src/extensions/forms/blocks'
+import { ChildrenWithAge as ChildrenWithAgeBlock } from '@dnb/eufemia/src/extensions/forms/blocks'
 import { useData } from '@dnb/eufemia/src/extensions/forms/Form'
 
 export const ChildrenWithAge = (props) => {
@@ -21,8 +21,8 @@ export const ChildrenWithAge = (props) => {
     >
       <WithToolbar>
         <Flex.Stack>
-          <Blocks.ChildrenWithAge {...props} />
-          <Blocks.ChildrenWithAge mode="summary" {...props} />
+          <ChildrenWithAgeBlock {...props} />
+          <ChildrenWithAgeBlock mode="summary" {...props} />
         </Flex.Stack>
       </WithToolbar>
     </Form.Handler>
@@ -31,7 +31,7 @@ export const ChildrenWithAge = (props) => {
 
 export const ChildrenWithAgeWizard = () => {
   return (
-    <ComponentBox scope={{ Blocks }}>
+    <ComponentBox scope={{ ChildrenWithAgeBlock }}>
       {() => {
         const MyForm = () => {
           const myTranslations = {
@@ -69,7 +69,7 @@ export const ChildrenWithAgeWizard = () => {
             >
               <Wizard.Container>
                 <Wizard.Step title="Step 1">
-                  <Blocks.ChildrenWithAge
+                  <ChildrenWithAgeBlock
                     enableAdditionalQuestions={[
                       'joint-responsibility',
                       'daycare',
@@ -79,10 +79,7 @@ export const ChildrenWithAgeWizard = () => {
                 </Wizard.Step>
 
                 <Wizard.Step title={summaryTitle}>
-                  <Blocks.ChildrenWithAge
-                    mode="summary"
-                    toWizardStep={0}
-                  />
+                  <ChildrenWithAgeBlock mode="summary" toWizardStep={0} />
 
                   <Form.ButtonRow>
                     <Wizard.Buttons />
@@ -195,7 +192,7 @@ export const ChildrenWithAgePrefilledYes = () => {
   return (
     <ComponentBox
       data-visual-test="children-with-age-prefilled"
-      scope={{ Blocks }}
+      scope={{ ChildrenWithAgeBlock }}
     >
       <Form.Handler
         data={{
@@ -208,7 +205,7 @@ export const ChildrenWithAgePrefilledYes = () => {
         }}
       >
         <Flex.Stack>
-          <Blocks.ChildrenWithAge
+          <ChildrenWithAgeBlock
             enableAdditionalQuestions={['joint-responsibility', 'daycare']}
           />
         </Flex.Stack>
@@ -236,13 +233,13 @@ export const ChildrenWithAgeSummaryMultipleNoAnswers = () => {
   return (
     <ComponentBox
       data-visual-test="children-with-age-summary-multiple-no-answers"
-      scope={{ Blocks, multipleChildrenNoJointAndDaycare }}
+      scope={{ ChildrenWithAgeBlock, multipleChildrenNoJointAndDaycare }}
     >
-      <Blocks.ChildrenWithAge
+      <ChildrenWithAgeBlock
         data={multipleChildrenNoJointAndDaycare}
         enableAdditionalQuestions={['joint-responsibility', 'daycare']}
       />
-      <Blocks.ChildrenWithAge
+      <ChildrenWithAgeBlock
         mode="summary"
         data={multipleChildrenNoJointAndDaycare}
         enableAdditionalQuestions={['joint-responsibility', 'daycare']}
@@ -272,13 +269,13 @@ export const ChildrenWithAgeSummaryMultipleChildren = () => {
   return (
     <ComponentBox
       data-visual-test="children-with-age-summary-multiple-children"
-      scope={{ Blocks, multipleChildren }}
+      scope={{ ChildrenWithAgeBlock, multipleChildren }}
     >
-      <Blocks.ChildrenWithAge
+      <ChildrenWithAgeBlock
         data={multipleChildren}
         enableAdditionalQuestions={['daycare', 'joint-responsibility']}
       />
-      <Blocks.ChildrenWithAge
+      <ChildrenWithAgeBlock
         mode="summary"
         data={multipleChildren}
         enableAdditionalQuestions={['daycare', 'joint-responsibility']}
@@ -294,10 +291,10 @@ export const ChildrenWithAgeSummaryNoChildren = () => {
   return (
     <ComponentBox
       data-visual-test="children-with-age-summary-no-children"
-      scope={{ Blocks, noChildren }}
+      scope={{ ChildrenWithAgeBlock, noChildren }}
     >
-      <Blocks.ChildrenWithAge data={noChildren} />
-      <Blocks.ChildrenWithAge mode="summary" data={noChildren} />
+      <ChildrenWithAgeBlock data={noChildren} />
+      <ChildrenWithAgeBlock mode="summary" data={noChildren} />
     </ComponentBox>
   )
 }
@@ -325,13 +322,13 @@ export const ChildrenWithAgeSummaryNoChildrenAfterFilledOutData = () => {
   return (
     <ComponentBox
       data-visual-test="children-with-age-summary-previously-filled-out-data"
-      scope={{ Blocks, noChildren }}
+      scope={{ ChildrenWithAgeBlock, noChildren }}
     >
-      <Blocks.ChildrenWithAge
+      <ChildrenWithAgeBlock
         data={noChildren}
         enableAdditionalQuestions={['joint-responsibility', 'daycare']}
       />
-      <Blocks.ChildrenWithAge
+      <ChildrenWithAgeBlock
         mode="summary"
         data={noChildren}
         enableAdditionalQuestions={['joint-responsibility', 'daycare']}

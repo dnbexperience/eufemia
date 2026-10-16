@@ -204,13 +204,19 @@ describe('injectScope babel plugin', () => {
     expect(output).toContain('@dnb/eufemia/src/extensions/forms')
   })
 
-  it('handles extension imports', async () => {
+  it.each([
+    ['Forms', 'String', 'forms/Forms'],
+    ['PaymentCard', '', 'payment-card/PaymentCard'],
+    ['SidebarMenu', 'Root', 'sidebar-menu/SidebarMenu'],
+    ['VippsWalletButton', '', 'vipps-wallet-button/VippsWalletButton'],
+  ])('uses the default export for %s', async (name, part, path) => {
+    const component = part ? `${name}.${part}` : name
     const input = `
       import ComponentBox from '../../shared/tags/ComponentBox'
       export function Demo() {
         return (
           <ComponentBox>
-            <SidebarMenu.Root />
+            <${component} />
           </ComponentBox>
         )
       }
@@ -218,11 +224,8 @@ describe('injectScope babel plugin', () => {
 
     const output = await transformWithFullPipeline(input)
 
-    expect(output).toContain('__scope_SidebarMenu')
-    expect(output).toContain('import * as __scope_SidebarMenu')
-    expect(output).toContain(
-      '@dnb/eufemia/src/extensions/sidebar-menu/SidebarMenu'
-    )
+    expect(output).toContain(`import __scope_${name} from`)
+    expect(output).toContain(`@dnb/eufemia/src/extensions/${path}`)
   })
 
   it('handles shared imports (Provider, Theme)', async () => {
