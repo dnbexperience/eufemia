@@ -264,6 +264,27 @@ describe('PromptInput', () => {
     ).toHaveAccessibleName('Stopp')
   })
 
+  it('returns focus to the compact textarea when stopping removes the button', async () => {
+    const Demo = () => {
+      const [busy, setBusy] = useState(true)
+      return (
+        <PromptInput
+          variant="compact"
+          isBusy={busy}
+          onStop={() => setBusy(false)}
+        />
+      )
+    }
+    render(<Demo />)
+    const stop = document.querySelector<HTMLButtonElement>(
+      '.dnb-ai-prompt-input__stop'
+    )
+    stop.focus()
+    await userEvent.keyboard('{Enter}')
+    expect(document.querySelector('.dnb-ai-prompt-input__stop')).toBeNull()
+    expect(getTextarea()).toHaveFocus()
+  })
+
   it('returns focus to the compact input after sending clears its value', async () => {
     render(<PromptInput variant="compact" />)
     await userEvent.type(getTextarea(), 'Hello')

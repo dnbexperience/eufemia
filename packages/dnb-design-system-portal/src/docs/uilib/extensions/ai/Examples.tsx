@@ -431,7 +431,7 @@ export function AiPromptInputContext() {
 
 export function AiPromptInputBusy() {
   return (
-    <ComponentBox>
+    <ComponentBox data-visual-test="ai-prompt-input-busy">
       {() => {
         const Chat = () => {
           const [isBusy, setIsBusy] = useState(false)
@@ -446,6 +446,7 @@ export function AiPromptInputBusy() {
 
           return (
             <PromptInput
+              variant="compact"
               isBusy={isBusy}
               onSubmit={() => setIsBusy(true)}
               onStop={() => setIsBusy(false)}

@@ -2,6 +2,23 @@ import { test, expect } from '@playwright/test'
 import waitForApp from './shared/waitForApp'
 
 test.describe('Ai.PromptInput interaction styles', () => {
+  test('returns keyboard focus to the compact input after Stop disappears', async ({
+    page,
+  }) => {
+    const stopDemo = page.locator(
+      '[data-visual-test="ai-prompt-input-busy"] .dnb-ai-prompt-input'
+    )
+    const textarea = stopDemo.locator('textarea')
+    await textarea.fill('Hello')
+    await textarea.press('Enter')
+    const stop = stopDemo.locator('.dnb-ai-prompt-input__stop')
+    await expect(stop).toBeVisible()
+    await stop.focus()
+    await stop.press('Enter')
+    await expect(stop).toHaveCount(0)
+    await expect(textarea).toBeFocused()
+  })
+
   test.beforeEach(async ({ page }) => {
     await page.goto('/uilib/extensions/ai/PromptInput/demos/')
     await waitForApp(page)

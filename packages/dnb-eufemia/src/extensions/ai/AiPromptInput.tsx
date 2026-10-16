@@ -190,7 +190,19 @@ function AiPromptInput(props: AiPromptInputProps) {
             }
           : { text: translation.stop })}
         disabled={disabled}
-        onClick={onStop}
+        onClick={({ event }) => {
+          if (
+            isCompact &&
+            isEmpty &&
+            document.activeElement === event.currentTarget
+          ) {
+            event.currentTarget
+              .closest('form')
+              ?.querySelector('textarea')
+              ?.focus()
+          }
+          onStop()
+        }}
       />
     ) : isCompact && isEmpty ? null : (
       <Button
