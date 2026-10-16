@@ -29,8 +29,6 @@ export default {
       toolError: 'Failed',
       toolAwaitingApproval: 'Waiting for confirmation',
       canceled: 'Cancelled',
-      thinking: 'Thinking …',
-      reasoning: 'Reasoning',
     },
   } satisfies (typeof nbNO)['nb-NO'],
 }
