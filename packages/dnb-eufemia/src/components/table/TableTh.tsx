@@ -111,7 +111,9 @@ export default function Th(
       )}
       {...props}
     >
-      <TableThContext value={{ reversed }}>{children}</TableThContext>
+      <TableThContext value={{ active, reversed }}>
+        {children}
+      </TableThContext>
     </th>
   )
 }
