@@ -31,14 +31,20 @@ describe('Ai.Response', () => {
     }
   )
 
-  it.each(['NOK 1,5 milliarder', 'NOK 4,5 mill.'])(
-    'does not expose an incorrect accessible value for %s',
-    (text) => {
-      render(<Response parseIncompleteMarkdown={false}>{text}</Response>)
-      expect(document.querySelector('.dnb-number-format')).toBeNull()
-      expect(document.querySelector('p')).toHaveTextContent(text)
-    }
-  )
+  it.each([
+    'NOK 1,5 milliarder',
+    'NOK 4,5 mill.',
+    '**NOK 1,5** milliarder',
+    'NOK 1,5 **milliarder**',
+    '**NOK 4,5** *mill.*',
+    '**NOK 1,5**' + ' '.repeat(100) + 'milliarder',
+  ])('does not expose an incorrect accessible value for %s', (text) => {
+    render(<Response parseIncompleteMarkdown={false}>{text}</Response>)
+    expect(document.querySelector('.dnb-number-format')).toBeNull()
+    expect(document.querySelector('p')).toHaveTextContent(
+      text.replace(/\*/g, '').replace(/\s+/g, ' ')
+    )
+  })
 
   it('formats currency amounts in text, emphasis and tables', () => {
     render(
@@ -63,6 +69,34 @@ describe('Ai.Response', () => {
     ).not.toBeNull()
     expect(document.querySelector('td .dnb-number-format')).not.toBeNull()
   })
+
+  it.each([
+    '**NOK 1,5** **milliarder**, og NOK 200 betales nå.',
+    'NOK 1,5 **milliarder**, og **NOK 200** betales nå.',
+  ])('only preserves the scaled amount in %s', (text) => {
+    render(<Response parseIncompleteMarkdown={false}>{text}</Response>)
+    expect(document.querySelectorAll('.dnb-number-format')).toHaveLength(1)
+    expect(
+      document.querySelector('.dnb-number-format__visible')
+    ).toHaveTextContent('NOK 200')
+  })
+
+  it('waits for a streamed scale word after emphasized amounts', () => {
+    const { rerender } = render(<Response>{'**NOK 1,5** mi'}</Response>)
+    expect(document.querySelector('.dnb-number-format')).toBeNull()
+    rerender(<Response>{'**NOK 1,5** minimum.'}</Response>)
+    expect(
+      document.querySelector('.dnb-number-format__visible')
+    ).toHaveTextContent('NOK 1,5')
+  })
+
+  it.each(['NOK 1 **234**', '**1** 234 kr', '**NOK 1**,50'])(
+    'does not format a partial amount across emphasis in %s',
+    (text) => {
+      render(<Response parseIncompleteMarkdown={false}>{text}</Response>)
+      expect(document.querySelector('.dnb-number-format')).toBeNull()
+    }
+  )
 
   it('parses the source locale independently of the display locale', () => {
     const { rerender } = render(

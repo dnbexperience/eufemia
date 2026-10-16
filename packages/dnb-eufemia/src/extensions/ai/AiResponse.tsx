@@ -20,6 +20,7 @@ import { parseInline } from './markdown/parseInline'
 import type { Inline } from './markdown/parseInline'
 import { sanitizeUrl } from './markdown/sanitizeUrl'
 import { createCurrencyParser } from './markdown/parseCurrencyAmounts'
+import type { CurrencyTextContext } from './markdown/parseCurrencyAmounts'
 import type {
   AiResponseComponents,
   AiResponseElement,
@@ -394,19 +395,30 @@ function renderListItem(
 function renderInline(
   nodes: Array<Inline>,
   context: RenderContext,
-  incomplete = false
+  incomplete = false,
+  boundary: CurrencyTextContext = { before: '', after: '' }
 ): ReactNode {
   const { get } = context
+  const boundaries: Array<CurrencyTextContext> = []
+  if (context.currency) {
+    let before = boundary.before
+    for (const node of nodes) {
+      boundaries.push({ before, after: '' })
+      before = (before + inlineBoundary(node, true)).slice(-32)
+    }
+    let after = boundary.after
+    for (let index = nodes.length - 1; index >= 0; index--) {
+      boundaries[index].after = after
+      after = (inlineBoundary(nodes[index]) + after).slice(0, 32)
+    }
+  }
 
   return nodes.flatMap((node, index) => {
     switch (node.type) {
       case 'text':
         return context.currency
           ? context
-              .currency(
-                node.value,
-                incomplete && index === nodes.length - 1
-              )
+              .currency(node.value, incomplete, boundaries[index])
               .map((part, amountIndex) =>
                 typeof part === 'string' ? (
                   part
@@ -443,7 +455,8 @@ function renderInline(
             {renderInline(
               node.children,
               context,
-              incomplete && index === nodes.length - 1
+              incomplete,
+              boundaries[index]
             )}
           </Element>
         )
@@ -478,6 +491,27 @@ function renderInline(
       }
     }
   })
+}
+
+// A short boundary is enough to check adjacent words without reparsing siblings.
+function inlineBoundary(node: Inline, fromEnd = false): string {
+  if ('value' in node) {
+    const text = node.value.replace(/\s+/g, ' ')
+    return fromEnd ? text.slice(-32) : text.slice(0, 32)
+  }
+  if ('children' in node) {
+    let text = ''
+    for (let offset = 0; offset < node.children.length; offset++) {
+      const index = fromEnd ? node.children.length - 1 - offset : offset
+      const part = inlineBoundary(node.children[index], fromEnd)
+      text = fromEnd ? part + text : text + part
+      if (text.length >= 32) {
+        break
+      }
+    }
+    return fromEnd ? text.slice(-32) : text.slice(0, 32)
+  }
+  return node.type === 'image' ? '\ufffc' : '\n'
 }
 
 export default AiResponse

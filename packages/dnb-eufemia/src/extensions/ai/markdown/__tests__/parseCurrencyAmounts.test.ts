@@ -179,4 +179,12 @@ describe('currency amounts', () => {
       expect(parse(text.slice(0, i), true)).toEqual([text.slice(0, i)])
     }
   })
+
+  it('never formats a partially streamed scale word', () => {
+    for (const text of ['NOK 1,5 milliarder', 'NOK 4,5 billion']) {
+      for (let i = 1; i <= text.length; i++) {
+        expect(parse(text.slice(0, i), true)).toEqual([text.slice(0, i)])
+      }
+    }
+  })
 })

@@ -4,6 +4,8 @@ export type CurrencyAmount = {
   decimals: number
 }
 
+export type CurrencyTextContext = { before: string; after: string }
+
 // Only markers that identify a currency without guessing from the text.
 const CURRENCIES = new Set([
   'NOK',
@@ -39,13 +41,15 @@ export function createCurrencyParser(
   } catch {
     return (
       text: string,
-      _incomplete = false
+      _incomplete = false,
+      _context?: CurrencyTextContext
     ): Array<string | CurrencyAmount> => [text]
   }
 
   return (
     text: string,
-    incomplete = false
+    incomplete = false,
+    context?: CurrencyTextContext
   ): Array<string | CurrencyAmount> => {
     if (/[<>]/.test(text)) {
       return [text]
@@ -102,27 +106,31 @@ export function createCurrencyParser(
           start++
         }
       }
+      const before = (context?.before ?? '') + text.slice(0, start)
+      const after = text.slice(end) + (context?.after ?? '')
       if (
         start < from ||
-        isWord(text[start - 1]) ||
-        isWord(text[end]) ||
-        /[.,/+:−–—$€£'’-]/.test(text[start - 1] ?? '') ||
-        /[/+:−–—%'’-]/.test(text[end] ?? '') ||
-        (/[.,]/.test(text[end] ?? '') &&
-          /[0-9]/.test(text[end + 1] ?? '')) ||
-        (incomplete && /^[\s.,]*$/.test(text.slice(end)))
+        isWord(before.slice(-1)) ||
+        isWord(after[0]) ||
+        /[.,/+:−–—$€£'’-]/.test(before.slice(-1)) ||
+        /[/+:−–—%'’-]/.test(after[0] ?? '') ||
+        (/[.,]/.test(after[0] ?? '') && /[0-9]/.test(after[1] ?? '')) ||
+        (start < markerStart && /[0-9][\s.,]*$/.test(before)) ||
+        (end > markerEnd && /^[\s.,]+[0-9]/.test(after)) ||
+        (incomplete && /^[\s.,]*$/.test(after))
       ) {
+        continue
+      }
+      if (PREVIOUS_MARKER.test(before.slice(-8))) {
+        continue
+      }
+      if (NEXT_MARKER.test(after)) {
         continue
       }
       if (
-        PREVIOUS_MARKER.test(text.slice(Math.max(0, start - 8), start))
+        SCALE_WORD.test(after) ||
+        (incomplete && isIncompleteScale(after))
       ) {
-        continue
-      }
-      if (NEXT_MARKER.test(text.slice(end))) {
-        continue
-      }
-      if (SCALE_WORD.test(text.slice(end))) {
         continue
       }
       const amount = parseAmount(number, decimal, group)
@@ -205,10 +213,48 @@ const NEXT_MARKER = new RegExp(
   'u'
 )
 const GROUPING_SPACE = new RegExp('\\p{Zs}', 'gu')
+const SCALE_WORDS = [
+  'thousand',
+  'thousands',
+  'tusen',
+  'tusind',
+  'tusinde',
+  'million',
+  'millions',
+  'millioner',
+  'miljoner',
+  'milliard',
+  'milliards',
+  'milliarder',
+  'miljarder',
+  'billion',
+  'billions',
+  'billioner',
+  'trillion',
+  'trillions',
+  'trillioner',
+  'mill',
+  'mil',
+  'mrd',
+  'mia',
+  'mn',
+  'bn',
+  'tn',
+  'k',
+  'm',
+  'b',
+]
 const SCALE_WORD = new RegExp(
-  '^\\s+(?:thousands?|tusen|tusinde?|millions?|millioner|miljoner|milliards?|milliarder|miljarder|billions?|billioner|trillions?|trillioner|mill|mil|mrd|mia|mn|bn|tn|k|m|b)(?![\\p{L}\\p{N}_])',
+  '^\\s+(?:' + SCALE_WORDS.join('|') + ')(?![\\p{L}\\p{N}_])',
   'iu'
 )
+function isIncompleteScale(text: string) {
+  const match = /^\s+([a-z]+)$/i.exec(text)
+  return (
+    match &&
+    SCALE_WORDS.some((word) => word.startsWith(match[1].toLowerCase()))
+  )
+}
 const WORD = new RegExp('[\\p{L}\\p{N}_]', 'u')
 function isWord(char?: string) {
   return char ? WORD.test(char) : false
