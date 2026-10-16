@@ -7,7 +7,11 @@ import { TableThContext } from './TableThContext'
 
 const sortIcon = Icon.transition({ asc: arrow_down, desc: arrow_up })
 
-export default function TableSortButton({ className = null, ...props }) {
+export default function TableSortButton({
+  className = null,
+  onClick = null,
+  ...props
+}) {
   const thContext = useContext(TableThContext)
 
   return (
@@ -17,6 +21,10 @@ export default function TableSortButton({ className = null, ...props }) {
       icon={sortIcon}
       transitionState={thContext?.reversed ? 'desc' : 'asc'}
       wrap
+      onClick={(...args) => {
+        thContext?.onSortClick?.()
+        return onClick?.(...args)
+      }}
       {...props}
     />
   )
