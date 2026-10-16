@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "test": "vitest run",
-    "lint": "node ../../node_modules/.bin/eslint '*.ts' '__tests__/*.ts' && node ../../node_modules/.bin/prettier --check '**/*.{js,json,md,ts,mjs,yml}' '../../.github/workflows/assets.yml' '../../.github/workflows/cdn-health.yml'",
+    "lint": "cd ../.. && node node_modules/.bin/eslint --config tools/assets/eslint.config.mjs 'tools/assets/*.ts' 'tools/assets/__tests__/*.ts' 'tools/monitoring/*.ts' && node node_modules/.bin/prettier --check 'tools/assets/**/*.{js,json,md,ts,mjs,yml}' '.github/workflows/assets.yml' '.github/workflows/cdn-health.yml' 'tools/monitoring/*.ts'",
     "check:cdn": "node check-cdn.ts",
     "test:types": "node ../../node_modules/.bin/tsc --noEmit"
   },
