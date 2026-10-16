@@ -24,12 +24,22 @@ describe('ensureSignedIn', () => {
   afterEach(() => {
     sessionStorage.clear()
     vi.unstubAllGlobals()
+    vi.unstubAllEnvs()
   })
 
-  it('returns null when sign-in is not configured', async () => {
+  it('returns null in the dev server when sign-in is not configured', async () => {
     serveConfig({})
 
     await expect(ensureSignedIn()).resolves.toBe(null)
+  })
+
+  it('throws in a production build when sign-in is not configured', async () => {
+    vi.stubEnv('DEV', false)
+    serveConfig({ apiBaseUrl: 'https://api.example.test' })
+
+    await expect(ensureSignedIn()).rejects.toThrow(
+      'The dashboard has no sign-in configured. Please contact the dashboard owner.'
+    )
   })
 
   it('refuses to sign in without an API scope', async () => {

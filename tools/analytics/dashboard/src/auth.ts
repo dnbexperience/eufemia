@@ -36,7 +36,7 @@ async function loadConfig(): Promise<DashboardConfig> {
       return await response.json()
     }
   } catch {
-    // No configuration present; sign-in stays off for local preview.
+    // Missing or unreadable config.json counts as no configuration.
   }
 
   return {}
@@ -180,12 +180,18 @@ async function completeRedirect(): Promise<Session | null> {
 
 /**
  * Resolve the current session, running the redirect flow when needed.
- * Returns null when sign-in is not configured (local scaffold preview).
+ * Returns null in the dev server when sign-in is not configured; production builds throw.
  */
 export async function ensureSignedIn(): Promise<Session | null> {
   config = await loadConfig()
 
   if (!config.clientId || !config.tenantId) {
+    if (!import.meta.env.DEV) {
+      throw new Error(
+        'The dashboard has no sign-in configured. Please contact the dashboard owner.'
+      )
+    }
+
     return null
   }
 
