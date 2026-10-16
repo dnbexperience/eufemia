@@ -526,28 +526,6 @@
   }
 }
 
-.dnb-ai-reasoning {
-  &__content {
-    margin-top: 0.5rem;
-    padding-left: 1rem;
-
-    font-size: var(--font-size-small);
-    line-height: var(--line-height-small);
-    color: var(--token-color-text-neutral-alternative);
-    border-left: 0.25rem solid var(--token-color-stroke-neutral-subtle);
-
-    .dnb-p,
-    .dnb-ul,
-    .dnb-ol,
-    .dnb-ul li,
-    .dnb-ol li {
-      font-size: inherit;
-      line-height: inherit;
-      color: inherit;
-    }
-  }
-}
-
 @keyframes dnb-ai-conversation-enter {
   from {
     opacity: 0;
