@@ -28,6 +28,9 @@ test.beforeEach(async ({ page }) => {
     })
   })
   await page.goto('/uilib/components/icon/demos#dynamic-cdn-icons')
+  await page.waitForFunction(() => {
+    return document.documentElement.hasAttribute('data-portal-ready')
+  })
   await expect(
     page.locator(demoSelector).getByLabel('Icon name', { exact: true })
   ).toBeVisible()
