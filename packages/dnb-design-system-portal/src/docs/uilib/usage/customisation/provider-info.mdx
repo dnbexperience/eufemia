@@ -33,6 +33,19 @@ You can also use the `value` property to define the component properties:
 </Provider>
 ```
 
+## Icon assets
+
+Named icons use the public Eufemia asset CDN when they are not resolved from bundled primary icons. Set `iconBaseUrl` to a versioned HTTPS directory or a same-origin directory such as `/assets/icons`. Set it to `false` to disable remote icon loading. Imported icons and bundled primary icons continue to render.
+
+```tsx
+<Provider iconBaseUrl="https://assets.eufemia.dnb.no/v11.14.1/icons/dnb">
+  <Icon icon="heart" />
+  <Button text="Favorite" icon="heart" />
+</Provider>
+```
+
+See [dynamic CDN icons](/uilib/components/icon#dynamic-cdn-icons) for loading, CSP and rendering guidance.
+
 ## Using useSharedContext hook
 
 If you want to pass custom values besides the built-in ones, the `useSharedContext` hook provides a type-safe way to access context values from the Provider.

@@ -2,7 +2,7 @@ import type { PropertiesTableProps } from '../../shared/types'
 
 export const IconPrimaryProperties: PropertiesTableProps = {
   icon: {
-    doc: 'Defines the [primary icon](/icons/primary) to be used, as a string.',
+    doc: 'Defines the icon name. Bundled [primary icons](/icons/primary) render inline; other names load from the asset CDN. See [dynamic CDN icons](/uilib/components/icon#dynamic-cdn-icons).',
     type: 'string',
     status: 'required',
   },
