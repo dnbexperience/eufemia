@@ -41,12 +41,7 @@ jobs:
         with:
           node-version-file: package.json
 
-      - name: Check production CDN
-        id: check
-        run: node tools/assets/check-cdn.ts
-
-      - name: Report incident or recovery
-        if: ${{ !cancelled() && steps.check.outcome != 'skipped' }}
+      - name: Check production CDN and report incident or recovery
         run: node tools/assets/alert-cdn.ts
         env:
           GH_TOKEN: ${{ github.token }}

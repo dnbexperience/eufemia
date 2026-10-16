@@ -84,7 +84,7 @@ An unhealthy result fails the workflow and opens one **Eufemia CDN incident**
 issue. A changed set of failed checks adds an update. The same failures stay
 quiet. Recovery adds a comment and closes the incident. An npm outage is reported
 as an npm check failure so it can be distinguished from CDN downtime. A monitor
-that crashes before writing its report is also reported as an incident.
+that throws while checking is also reported as an incident.
 
 For shared team alerts, create a Slack incoming webhook for the team's alert
 channel and store it as repository secret `CDN_ALERT_WEBHOOK`. The workflow sends
@@ -128,5 +128,5 @@ yarn workspace eufemia-assets-hosting check:cdn
 
 The last command only reads public npm/CDN endpoints. It writes
 `tools/assets/cdn-health-report.json` and exits nonzero on failure. To execute
-exactly the workflow's check command, run `node tools/assets/check-cdn.ts` from
+the same read-only production checks, run `node tools/assets/check-cdn.ts` from
 the root; its report is written in the current directory.

@@ -33,7 +33,7 @@ function fixture({
     if (changed) {
       return changed
     }
-    if (url.includes('registry.npmjs.org')) {
+    if (new URL(url).hostname === 'registry.npmjs.org') {
       return Response.json({
         'dist-tags': { latest: '11.15.2' },
         time: {
@@ -134,7 +134,7 @@ describe('production CDN checks', () => {
     const report = await checkCdn({
       fetch: fixture({
         change: (url) =>
-          url.includes('registry.npmjs.org')
+          new URL(url).hostname === 'registry.npmjs.org'
             ? new Response('', { status: 503 })
             : undefined,
       }),
@@ -267,7 +267,7 @@ describe('production CDN checks', () => {
     const report = await checkCdn({
       fetch: fixture({
         change: (url) =>
-          url.includes('registry.npmjs.org')
+          new URL(url).hostname === 'registry.npmjs.org'
             ? Response.json(metadata)
             : undefined,
       }),
