@@ -486,7 +486,7 @@ function LiveCode(props: LiveCodeProps) {
 
           {!global.IS_TEST && !hideToolbar && (
             <Space
-              element="section"
+              role="group"
               aria-label="Customize appearance"
               className={clsx('dnb-live-toolbar', toolbarStyle)}
             >
