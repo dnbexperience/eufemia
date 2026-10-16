@@ -1,4 +1,5 @@
 @use '../../../style/core/utilities.scss' as utilities;
+@use './agent-action.scss';
 
 .dnb-ai-response {
   > .dnb-table__scroll-view,
