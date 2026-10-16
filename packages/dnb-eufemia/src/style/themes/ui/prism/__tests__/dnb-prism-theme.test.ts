@@ -9,10 +9,10 @@ function readProperties(files: Array<string>) {
 
   for (const file of files) {
     const content = fs.readFileSync(path.join(uiDir, file), 'utf-8')
-    for (const [, name, value] of content.matchAll(
-      /(--[\w-]+):\s*([^;]+);/g
-    )) {
-      properties[name] = value.trim()
+    const pattern = /(--[\w-]+):\s*([^;]+);/g
+    let match: RegExpExecArray | null
+    while ((match = pattern.exec(content))) {
+      properties[match[1]] = match[2].trim()
     }
   }
 
@@ -31,7 +31,11 @@ function resolveColor(value: string, properties: Record<string, string>) {
 function luminance(hex: string) {
   const full =
     hex.length === 4
-      ? `#${[...hex.slice(1)].map((char) => char + char).join('')}`
+      ? `#${hex
+          .slice(1)
+          .split('')
+          .map((char) => char + char)
+          .join('')}`
       : hex
   const [r, g, b] = [1, 3, 5].map((index) => {
     const channel = parseInt(full.slice(index, index + 2), 16) / 255
