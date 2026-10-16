@@ -4,6 +4,7 @@ import { clsx } from 'clsx'
 import { useSpacing } from '../../components/space/SpacingUtils'
 import mergeProps from '../../shared/helpers/mergeProps'
 import Button from '../../components/Button'
+import Icon from '../../components/Icon'
 import Textarea from '../../components/Textarea'
 import TextCounter from '../../fragments/TextCounter'
 import type {
@@ -11,12 +12,14 @@ import type {
   TextareaKeyDownEvent,
 } from '../../components/textarea/types'
 import useTranslation from './hooks/useTranslation'
-import { add, arrow_up, microphone, stop } from '../../icons'
+import { add, aino_medium, arrow_up, microphone, stop } from '../../icons'
 import type { AiPromptInputProps, AiPromptInputSubmitEvent } from './types'
 
 function AiPromptInput(props: AiPromptInputProps) {
   const {
     variant = 'default',
+    icon = aino_medium,
+    dropShadow = variant === 'compact',
     value: valueProp,
     placeholder,
     label,
@@ -30,11 +33,16 @@ function AiPromptInput(props: AiPromptInputProps) {
     onAttachmentClick,
     onMicrophoneClick,
     className,
+    children,
     ...rest
   } = props
 
   const translation = useTranslation().Ai
   const [internalValue, setInternalValue] = useState('')
+  const [isFocused, setIsFocused] = useState(false)
+  const isError =
+    Boolean(textareaProps?.status) &&
+    (textareaProps.statusState ?? 'error') === 'error'
   const value = valueProp ?? internalValue
   const isCompact = variant === 'compact'
   const isEmpty = value.trim() === ''
@@ -72,6 +80,13 @@ function AiPromptInput(props: AiPromptInputProps) {
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     submit(event)
+    if (isCompact && !isSubmitDisabled) {
+      event.currentTarget
+        .querySelector<HTMLTextAreaElement>(
+          '.dnb-ai-prompt-input__textarea textarea'
+        )
+        ?.focus()
+    }
   }
 
   const rootProps = useSpacing(props, {
@@ -79,7 +94,10 @@ function AiPromptInput(props: AiPromptInputProps) {
     className: clsx(
       'dnb-ai-prompt-input',
       `dnb-ai-prompt-input--${variant}`,
+      dropShadow && 'dnb-ai-prompt-input--drop-shadow',
       disabled && 'dnb-ai-prompt-input--disabled',
+      isFocused && 'dnb-ai-prompt-input--focus',
+      isError && 'dnb-ai-prompt-input--error',
       className
     ),
   })
@@ -99,6 +117,8 @@ function AiPromptInput(props: AiPromptInputProps) {
           hideResizeHandle: true,
           stretch: true,
           disabled,
+          onFocus: () => setIsFocused(true),
+          onBlur: () => setIsFocused(false),
           onChange: handleChange,
           onKeyDown: handleKeyDown,
         },
@@ -127,12 +147,11 @@ function AiPromptInput(props: AiPromptInputProps) {
     </div>
   )
 
-  const iconButtonSize = isCompact ? 'medium' : 'small'
-
   const attachmentButton = onAttachmentClick && (
     <Button
       variant="tertiary"
-      size={iconButtonSize}
+      size="small"
+      iconSize="default"
       className="dnb-ai-prompt-input__icon-button"
       icon={add}
       aria-label={translation.addAttachment}
@@ -145,7 +164,8 @@ function AiPromptInput(props: AiPromptInputProps) {
   const microphoneButton = onMicrophoneClick && (
     <Button
       variant="tertiary"
-      size={iconButtonSize}
+      size="small"
+      iconSize="default"
       className="dnb-ai-prompt-input__icon-button"
       icon={microphone}
       aria-label={translation.useMicrophone}
@@ -169,9 +189,22 @@ function AiPromptInput(props: AiPromptInputProps) {
               tooltip: translation.stop,
             }
           : { text: translation.stop })}
-        onClick={onStop}
+        disabled={disabled}
+        onClick={({ event }) => {
+          if (
+            isCompact &&
+            isEmpty &&
+            document.activeElement === event.currentTarget
+          ) {
+            event.currentTarget
+              .closest('form')
+              ?.querySelector('textarea')
+              ?.focus()
+          }
+          onStop()
+        }}
       />
-    ) : (
+    ) : isCompact && isEmpty ? null : (
       <Button
         type="submit"
         size={isCompact ? 'medium' : undefined}
@@ -190,14 +223,25 @@ function AiPromptInput(props: AiPromptInputProps) {
 
   return (
     <form {...rootProps} onSubmit={handleSubmit}>
+      {children && (
+        <div className="dnb-ai-prompt-input__context">{children}</div>
+      )}
       {isCompact ? (
-        <>
+        <div className="dnb-ai-prompt-input__compact-row">
+          {icon && (
+            <Icon
+              icon={icon}
+              size="medium"
+              className="dnb-ai-prompt-input__icon"
+              aria-hidden
+            />
+          )}
           {attachmentButton}
           {textarea}
           {counter}
           {microphoneButton}
           {submitButton}
-        </>
+        </div>
       ) : (
         <>
           <div className="dnb-ai-prompt-input__field">
