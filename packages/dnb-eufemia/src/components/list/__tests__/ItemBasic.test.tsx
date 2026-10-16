@@ -3,6 +3,8 @@ import { axeComponent } from '../../../core/test-utils/testSetup'
 import Container from '../Container'
 import type { ItemBasicProps } from '../ItemBasic'
 import ItemBasic from '../ItemBasic'
+import ItemTitle from '../ItemTitle'
+import ItemEnd from '../ItemEnd'
 import { fish_medium } from '../../../icons'
 import type { ComponentMarkers } from '../../../shared/helpers/withComponentMarkers'
 
@@ -73,6 +75,68 @@ describe('ItemBasic', () => {
 
     expect(element.textContent).toContain(text)
   })
+
+  it.each(['Normal row', 0])(
+    'renders plain content %s as a title cell',
+    (children) => {
+      render(<ItemBasic>{children}</ItemBasic>)
+
+      const title = document.querySelector('.dnb-list__item__title')
+
+      expect(title).toBeInTheDocument()
+      expect(title.textContent).toBe(String(children))
+    }
+  )
+
+  it('renders interpolated text as one title cell', () => {
+    render(<ItemBasic>Account {123}</ItemBasic>)
+
+    const titles = document.querySelectorAll('.dnb-list__item__title')
+
+    expect(titles).toHaveLength(1)
+    expect(titles[0].textContent).toBe('Account 123')
+  })
+
+  it('keeps the implicit title valid inside a span row', () => {
+    render(<ItemBasic element="span">Accounts</ItemBasic>)
+
+    const item = document.querySelector('.dnb-list__item')
+
+    expect(item.querySelector('.dnb-list__item__title').tagName).toBe(
+      'SPAN'
+    )
+    expect(item.querySelectorAll('div')).toHaveLength(0)
+  })
+
+  it('leaves explicit cells unchanged', () => {
+    render(
+      <ItemBasic>
+        <ItemTitle>Account</ItemTitle>
+        <ItemEnd>123</ItemEnd>
+      </ItemBasic>
+    )
+
+    expect(
+      document.querySelectorAll('.dnb-list__item__title')
+    ).toHaveLength(1)
+    expect(
+      document.querySelector('.dnb-list__item__title .dnb-list__item__end')
+    ).not.toBeInTheDocument()
+    expect(
+      document.querySelector('.dnb-list__item > .dnb-list__item__end')
+    ).toBeInTheDocument()
+  })
+
+  it.each([undefined, null, false, true, ''])(
+    'does not create a title for empty content %s',
+    (children) => {
+      render(<ItemBasic>{children}</ItemBasic>)
+
+      expect(
+        document.querySelector('.dnb-list__item__title')
+      ).not.toBeInTheDocument()
+    }
+  )
 
   it('renders icon when icon prop is provided', () => {
     render(<ItemBasic icon={fish_medium}>Content</ItemBasic>)
