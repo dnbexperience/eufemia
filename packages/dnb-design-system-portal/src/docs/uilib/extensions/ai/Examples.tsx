@@ -380,30 +380,6 @@ export function AiSuggestionChips() {
   )
 }
 
-export function AiSuggestionCards() {
-  return (
-    <ComponentBox data-visual-test="ai-suggestion-cards" scope={{ bank }}>
-      <Suggestions>
-        <Suggestion
-          variant="card"
-          icon={bank}
-          suggestion="Explain my spending this month"
-        />
-        <Suggestion
-          variant="card"
-          icon={bank}
-          suggestion="Show my savings goals"
-        />
-        <Suggestion
-          variant="card"
-          icon={bank}
-          suggestion="When is my next bill due?"
-        />
-      </Suggestions>
-    </ComponentBox>
-  )
-}
-
 export function AiDateMarkerExample() {
   return (
     <ComponentBox data-visual-test="ai-date-marker">
@@ -576,7 +552,7 @@ export function AiChatExample() {
       }}
     >
       {() => {
-        const suggestionCards = [
+        const primarySuggestions = [
           { icon: card, prompt: 'Block my Visa card' },
           { icon: bank, prompt: 'Compare my spending with last month' },
           { icon: transfer, prompt: 'Show my latest transactions' },
@@ -663,10 +639,9 @@ export function AiChatExample() {
                       style={{ margin: 'auto 0' }}
                     >
                       <Suggestions>
-                        {suggestionCards.map(({ icon, prompt }) => (
+                        {primarySuggestions.map(({ icon, prompt }) => (
                           <Suggestion
                             key={prompt}
-                            variant="card"
                             icon={icon}
                             suggestion={prompt}
                             onClick={({ suggestion }) => send(suggestion)}
@@ -891,20 +866,11 @@ export function AiChatCompact() {
         />
         <Suggestions>
           <Suggestion
-            variant="card"
             icon={bank}
             suggestion="Explain my spending this month"
           />
-          <Suggestion
-            variant="card"
-            icon={bank}
-            suggestion="Show my savings goals"
-          />
-          <Suggestion
-            variant="card"
-            icon={bank}
-            suggestion="When is my next bill due?"
-          />
+          <Suggestion icon={bank} suggestion="Show my savings goals" />
+          <Suggestion icon={bank} suggestion="When is my next bill due?" />
         </Suggestions>
       </Welcome>
     </ComponentBox>
