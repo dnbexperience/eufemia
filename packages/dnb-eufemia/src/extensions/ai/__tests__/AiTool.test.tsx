@@ -22,9 +22,8 @@ describe('Ai.Tool', () => {
     expect(document.querySelector('.dnb-ai-tool')).toHaveClass(
       'dnb-ai-tool--running'
     )
-    expect(getStatus()).toHaveTextContent(
-      'Looking up your transactions' + 'Pågår'
-    )
+    expect(getStatus()).toHaveTextContent('Looking up your transactions')
+    expect(getStatus()).toHaveTextContent('Pågår')
     expect(
       document.querySelector('.dnb-ai-tool__icon .dnb-progress-indicator')
     ).toBeInTheDocument()

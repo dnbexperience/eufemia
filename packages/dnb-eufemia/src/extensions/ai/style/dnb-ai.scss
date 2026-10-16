@@ -291,49 +291,6 @@
   gap: 0.5rem;
 }
 
-.dnb-ai-suggestion--card {
-  display: flex;
-  flex: 0 1 10.75rem;
-  align-items: flex-start;
-  gap: 1rem;
-  min-width: 0;
-
-  padding: 1rem;
-  margin: 0;
-
-  font-family: inherit;
-  font-size: var(--font-size-small);
-  line-height: var(--line-height-small);
-  text-align: left;
-  color: var(--token-color-text-neutral);
-
-  cursor: pointer;
-  background-color: var(--token-color-background-neutral);
-  border: none;
-  border-radius: 1.5rem;
-
-  @include utilities.fakeBorder(var(--token-color-stroke-neutral-subtle));
-
-  @include utilities.hover() {
-    @include utilities.fakeBorder(var(--token-color-stroke-action));
-  }
-
-  @include utilities.focusVisible() {
-    @include utilities.fakeBorder(
-      var(--token-color-stroke-action-focus),
-      var(--focus-ring-width)
-    );
-  }
-
-  &:disabled {
-    color: var(--token-color-text-neutral-alternative);
-  }
-
-  .dnb-ai-suggestion__icon {
-    color: var(--token-color-icon-action);
-  }
-}
-
 .dnb-ai-welcome {
   display: flex;
   flex-direction: column;

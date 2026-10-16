@@ -1,9 +1,11 @@
 import { render } from '@testing-library/react'
+import { expectTypeOf } from 'vitest'
 import userEvent from '@testing-library/user-event'
 import { axeComponent } from '../../../core/test-utils/testSetup'
 import Provider from '../../../shared/Provider'
 import { bank } from '../../../icons'
 import { Suggestion, Suggestions } from '..'
+import type { AiSuggestionProps } from '..'
 
 describe('Ai.Suggestions', () => {
   it('renders a labeled group', () => {
@@ -39,13 +41,14 @@ describe('Ai.Suggestions', () => {
 })
 
 describe('Ai.Suggestion', () => {
-  it('renders a chip with the ai icon', async () => {
+  it('renders a default-size button with the ai icon', async () => {
+    expectTypeOf<AiSuggestionProps>().not.toHaveProperty('variant')
     const onClick = vi.fn()
     render(<Suggestion suggestion="Block my card" onClick={onClick} />)
 
     const button = document.querySelector('button')
     expect(button).toHaveClass(
-      'dnb-ai-suggestion--chip',
+      'dnb-ai-suggestion',
       'dnb-button--secondary'
     )
     expect(button).not.toHaveClass('dnb-button--size-medium')
@@ -55,31 +58,6 @@ describe('Ai.Suggestion', () => {
     await userEvent.click(button)
     expect(onClick).toHaveBeenCalledWith(
       expect.objectContaining({ suggestion: 'Block my card' })
-    )
-  })
-
-  it('renders a card', async () => {
-    const onClick = vi.fn()
-    render(
-      <Suggestion
-        variant="card"
-        icon={bank}
-        suggestion="Explain my spending"
-        onClick={onClick}
-      />
-    )
-
-    const button = document.querySelector('button')
-    expect(button).toHaveClass('dnb-ai-suggestion--card')
-    expect(button).toHaveAttribute('type', 'button')
-    expect(
-      button.querySelector('.dnb-ai-suggestion__text')
-    ).toHaveTextContent('Explain my spending')
-    expect(button.querySelector('[data-testid="bank icon"]')).toBeTruthy()
-
-    await userEvent.click(button)
-    expect(onClick).toHaveBeenCalledWith(
-      expect.objectContaining({ suggestion: 'Explain my spending' })
     )
   })
 
@@ -104,7 +82,7 @@ describe('Ai.Suggestion', () => {
     render(
       <>
         <Suggestion suggestion="A" disabled top="small" />
-        <Suggestion variant="card" suggestion="B" disabled top="small" />
+        <Suggestion suggestion="B" disabled top="small" />
       </>
     )
 
@@ -118,7 +96,7 @@ describe('Ai.Suggestion', () => {
     const result = render(
       <Suggestions>
         <Suggestion suggestion="Block my card" />
-        <Suggestion variant="card" icon={bank} suggestion="Spending" />
+        <Suggestion icon={bank} suggestion="Spending" />
       </Suggestions>
     )
     expect(await axeComponent(result)).toHaveNoViolations()
