@@ -181,14 +181,11 @@ export const DrawerListExampleInlineStyling = () => (
           >
             Item 1
           </DrawerList.Item>
-          <DrawerList.HorizontalItem
-            style={{ color: 'green' }}
-            key="B"
-            selected={false}
-            value="B"
-          >
-            Item 2
-          </DrawerList.HorizontalItem>
+          <DrawerList.Item key="B" selected={false} value="B">
+            <DrawerList.HorizontalItem style={{ color: 'green' }}>
+              Item 2
+            </DrawerList.HorizontalItem>
+          </DrawerList.Item>
         </DrawerList.Options>
       </DrawerList>
     </ComponentBox>

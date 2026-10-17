@@ -1556,6 +1556,26 @@ describe('DrawerList markup', () => {
     ).toHaveNoViolations()
   })
 
+  it('should validate DrawerList.Options given as children with ARIA rules', async () => {
+    const result = render(
+      <DrawerList open noAnimation skipPortal>
+        <DrawerList.Options aria-label="Options">
+          <DrawerList.Item value="A" selected>
+            A
+          </DrawerList.Item>
+          <DrawerList.Item value="B">B</DrawerList.Item>
+        </DrawerList.Options>
+      </DrawerList>
+    )
+
+    expect(
+      document
+        .querySelector('ul.dnb-drawer-list__options')
+        .getAttribute('role')
+    ).toBe('listbox')
+    expect(await axeComponent(result)).toHaveNoViolations()
+  })
+
   it('should have correct aria-activedescendant', async () => {
     render(<DrawerList {...props} value={undefined} data={mockData} />)
     const ul = document.querySelector('ul.dnb-drawer-list__options')
