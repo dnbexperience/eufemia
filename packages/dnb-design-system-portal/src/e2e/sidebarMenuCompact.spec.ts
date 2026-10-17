@@ -1009,3 +1009,59 @@ test('dismisses the full SidebarMenu by dragging and restores it', async ({
     .toBe(304)
   await expect(handle).toHaveAttribute('aria-valuenow', '304')
 })
+
+test('keeps the current page, notifications and dividers visible in forced colors mode', async ({
+  page,
+}) => {
+  await page.emulateMedia({ forcedColors: 'active' })
+  await page.setViewportSize({ width: 1400, height: 900 })
+  await page.goto('/uilib/extensions/sidebar-menu/demos/')
+  await waitForApp(page)
+
+  const shell = page.locator('[data-sidebar-menu-responsive-example]')
+  const getColors = () =>
+    shell.evaluate((element) => {
+      const resolve = (value: string) => {
+        const probe = document.createElement('span')
+        probe.style.color = value
+        document.body.appendChild(probe)
+        const color = getComputedStyle(probe).color
+        probe.remove()
+        return color
+      }
+      const style = (selector: string) =>
+        getComputedStyle(element.querySelector(selector))
+
+      return {
+        highlight: resolve('Highlight'),
+        highlightText: resolve('HighlightText'),
+        canvasText: resolve('CanvasText'),
+        currentBackground: style('[aria-current="page"]').backgroundColor,
+        currentText: style('[aria-current="page"]').color,
+        currentIcon: style(
+          '[aria-current="page"] .dnb-sidebar-menu__item__icon'
+        ).color,
+        notification: style(
+          '.dnb-sidebar-menu__accordion__notification-indicator'
+        ).backgroundColor,
+        divider: style('.dnb-sidebar-menu__divider').backgroundColor,
+      }
+    })
+
+  for (const width of [1400, 1200]) {
+    await page.setViewportSize({ width, height: 900 })
+    await expect(
+      shell.locator('.dnb-sidebar-menu-responsive-inline')
+    ).toHaveAttribute(
+      'data-sidebar-menu-responsive-compact',
+      String(width === 1200)
+    )
+    const colors = await getColors()
+
+    expect(colors.currentBackground).toBe(colors.highlight)
+    expect(colors.currentText).toBe(colors.highlightText)
+    expect(colors.currentIcon).toBe(colors.highlightText)
+    expect(colors.notification).toBe(colors.canvasText)
+    expect(colors.divider).toBe(colors.canvasText)
+  }
+})
