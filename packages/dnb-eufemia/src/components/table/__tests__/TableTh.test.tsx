@@ -284,6 +284,70 @@ describe('TableTh', () => {
     expect(TableTh.SortButton).toBe(TableSortButton)
   })
 
+  it('should show the sort icon when the column is not active', () => {
+    render(
+      <table>
+        <thead>
+          <tr>
+            <TableTh sortable>
+              <TableSortButton text="Column" />
+            </TableTh>
+          </tr>
+        </thead>
+      </table>
+    )
+
+    expect(
+      document.querySelector('[data-testid="sort icon"]')
+    ).toBeInTheDocument()
+    expect(
+      document.querySelector('[data-testid="arrow down icon"]')
+    ).not.toBeInTheDocument()
+  })
+
+  it('should show the direction arrow when the column is active', () => {
+    render(
+      <table>
+        <thead>
+          <tr>
+            <TableTh sortable active reversed>
+              <TableSortButton text="Column" />
+            </TableTh>
+          </tr>
+        </thead>
+      </table>
+    )
+
+    const icon = document.querySelector('[data-testid="arrow down icon"]')
+    expect(icon).toBeInTheDocument()
+    expect(
+      icon
+        .querySelector('.dnb-icon__state--active')
+        .getAttribute('data-icon-state')
+    ).toBe('desc')
+    expect(
+      document.querySelector('[data-testid="sort icon"]')
+    ).not.toBeInTheDocument()
+  })
+
+  it('should show the direction arrow when used without Th', () => {
+    render(
+      <table>
+        <thead>
+          <tr>
+            <th className="dnb-table--sortable dnb-table--active">
+              <TableSortButton text="Column" />
+            </th>
+          </tr>
+        </thead>
+      </table>
+    )
+
+    expect(
+      document.querySelector('[data-testid="arrow down icon"]')
+    ).toBeInTheDocument()
+  })
+
   it('should have Th.HelpButton', () => {
     expect(TableTh.HelpButton).toBe(TableHelpButton)
   })
