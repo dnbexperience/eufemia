@@ -26,15 +26,17 @@ export default function SliderMarker({ value, text }: SliderMarkerProps) {
 
     return {
       id: markerId,
-      'aria-label': aria,
       tabIndex: 0,
       style: {
         [`${isVertical ? 'top' : 'left'}`]: `${percent}%`,
       },
       children: (
-        <Tooltip targetSelector={idSelector(markerId)}>
-          {text || number}
-        </Tooltip>
+        <>
+          <span className="dnb-sr-only">{aria}</span>
+          <Tooltip targetSelector={idSelector(markerId)}>
+            {text || number}
+          </Tooltip>
+        </>
       ),
     }
   }, [
