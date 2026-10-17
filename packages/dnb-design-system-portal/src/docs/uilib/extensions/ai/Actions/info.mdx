@@ -1,0 +1,21 @@
+---
+showTabs: true
+---
+
+## Import
+
+```tsx
+import { Action, Actions } from '@dnb/eufemia/extensions/ai'
+import '@dnb/eufemia/extensions/ai/style'
+render(
+  <Actions>
+    <Action />
+  </Actions>
+)
+```
+
+## Description
+
+`Ai.Actions` with `Ai.Action` shows icon buttons below a message, like copy, feedback or regenerate. Give them to the `actions` property of [Ai.Message](/uilib/extensions/ai/Message/). Each `Ai.Action` is a tertiary [Button](/uilib/components/button/), and its `label` is used for the tooltip and for screen readers.
+
+For copying a response, place [CopyOnClick.Button](/uilib/components/copy-on-click/) inside `Ai.Actions`. Pass the text to copy as `copyContent`, and give it a descriptive `title`, such as "Copy response". It handles the clipboard and announces a confirmation only after a successful copy. The [message actions demo](/uilib/extensions/ai/Message/demos/#message-actions) shows this composition.

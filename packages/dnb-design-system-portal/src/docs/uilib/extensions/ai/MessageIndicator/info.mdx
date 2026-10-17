@@ -1,0 +1,17 @@
+---
+showTabs: true
+---
+
+## Import
+
+```tsx
+import { MessageIndicator } from '@dnb/eufemia/extensions/ai'
+import '@dnb/eufemia/extensions/ai/style'
+render(<MessageIndicator />)
+```
+
+## Description
+
+`Ai.MessageIndicator` indicates that an assistant message is being prepared, for example after the user sends a message and before the first response arrives. It has the same header as [Ai.Message](/uilib/extensions/ai/Message/), and screen readers announce a translated text. Remove it when the response starts or the request ends.
+
+Use [Ai.ActivityText](/uilib/extensions/ai/ActivityText/) when you want to describe a specific activity, such as “Searching” or “Preparing your answer”.

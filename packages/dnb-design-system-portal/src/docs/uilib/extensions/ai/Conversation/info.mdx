@@ -1,0 +1,39 @@
+---
+showTabs: true
+---
+
+## Import
+
+```tsx
+import { Conversation } from '@dnb/eufemia/extensions/ai'
+import '@dnb/eufemia/extensions/ai/style'
+render(<Conversation />)
+```
+
+## Description
+
+`Ai.Conversation` holds the messages, and takes care of the scrolling while new messages and replies stream in. Read more in [Message scroller](/uilib/extensions/ai/message-scroller/).
+
+By default, a new message from the user is scrolled near the top, with a peek of the previous reply above it. The reply then streams in below, and the view stays where it is, so the user can read in peace. When the reply goes below the view, a button to go to the latest message is shown. When the user scrolls to the end, or presses the button, the conversation follows the reply as it streams in.
+
+Use `scrollBehavior="end"` to always follow the end of the conversation instead, until the user scrolls up.
+
+The conversation only moves when the user sends a message or asks for it. Content that changes, like a reply that streams in or older messages that are added above, does not move what the user reads. Short conversations start at the bottom, like in most chats.
+
+Give it a height, e.g. with `style` or by placing it in a flex layout. The conversation can be scrolled with the keyboard when its content overflows.
+
+### Announcements while streaming
+
+The scroll view is a [log](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Roles/log_role) that announces additions by default. This does not guarantee that updates to a streaming message will be announced in full.
+
+The application owns streaming announcements because it knows when a reply finishes, stops or fails. Set `aria-live="off"` on the conversation and keep a separate [AriaLive](/uilib/components/aria-live/) mounted outside it. Update that region once when the operation ends. Clear its text when a new operation starts, so identical replies can be announced in separate turns. Keep partial replies visible after cancellation or failure, and provide a useful localized announcement for that outcome.
+
+See the [announcement recipe](/uilib/extensions/ai/integrations/#screen-reader-announcements) and [live demo](/uilib/extensions/ai/demos/#streamed-reply-announcements). Check the result with the screen readers your application supports; DOM attributes alone do not prove spoken behavior.
+
+### Scroll from elsewhere
+
+Give the conversation an `id`, and use `Ai.useConversation(id)` to scroll it, e.g. from a toolbar.
+
+### Customize the peek
+
+The part of the previous reply that is shown above a new turn is set with the `--ai-conversation-peek` CSS custom property, which defaults to `3rem`.

@@ -1,0 +1,47 @@
+---
+showTabs: true
+---
+
+## Import
+
+```tsx
+import { Response } from '@dnb/eufemia/extensions/ai'
+import '@dnb/eufemia/extensions/ai/style'
+render(<Response />)
+```
+
+## Description
+
+`Ai.Response` renders markdown from an AI model with Eufemia elements, such as [P](/uilib/elements/paragraph/), [Heading](/uilib/components/heading/), [Lists](/uilib/elements/lists/), [Code](/uilib/elements/code/), [Anchor](/uilib/components/anchor/) and [Table](/uilib/components/table/). It has no extra dependencies.
+
+It is made for streaming:
+
+- Unfinished markdown in the last block, like `**bold` or an open code span, is closed while it streams in. Unfinished links and images are hidden until they are complete.
+- Blocks that are finished are not rendered again when new text arrives.
+
+It is safe by default:
+
+- Raw HTML is never rendered, only shown as text.
+- Links and images with unsafe URLs (like `javascript:`) are rendered as text. Use `allowedLinkPrefixes` and `allowedImagePrefixes` to only allow known URLs.
+
+Supported markdown: headings, paragraphs, emphasis, strikethrough, inline code, fenced code blocks, ordered, unordered and task lists, blockquotes, thematic breaks, tables, links, autolinks and images.
+
+Code blocks use [CopyOnClick.Button](/uilib/components/copy-on-click/) to copy the code with a mouse, touch, or keyboard. The button keeps its translated "Copy code" label and announces the translated confirmation in a tooltip only when copying succeeds.
+
+## Currency amounts
+
+Recognized currency amounts use [NumberFormat.Currency](/uilib/components/number-format/) automatically, including in emphasis, lists and table cells. They inherit the Provider's display locale and NumberFormat settings, including the currency display. With Norwegian defaults, `1 234 kr` is displayed as `1 234 kr`. The number of written decimals is preserved. Formatting does not verify whether an AI-generated amount is correct.
+
+Supported uppercase codes are `NOK`, `SEK`, `DKK`, `ISK`, `EUR`, `USD`, `GBP`, `CHF`, `JPY`, `CAD`, `AUD`, `NZD`, `CNY`, `HKD`, `SGD`, `INR` and `PLN`, before or after an amount. `€` identifies EUR and `£` identifies GBP. `kr` uses the Provider currency only when it is NOK, SEK, DKK or ISK. Bare numbers, `$`, unsupported markers, malformed amounts and values that would lose numeric precision remain unchanged. Code, link labels, URLs, image alternatives and HTML attributes are not formatted.
+
+The source locale controls decimal and grouping separators. It defaults to the Provider locale. Standard three-digit grouping with Unicode space separators and the locale's grouping separator is supported. Dot grouping is also supported for comma-decimal locales. Amounts with more than two fractional digits remain text.
+
+Recognition is conservative. A prefix amount followed by a word stays text, including across emphasis. This preserves expressions such as `NOK 1,5 milliarder`, `EUR 1,5 millones` and ordinary prose such as `NOK 150 betales nå.` without trying to interpret the following word. A complete prefix amount such as `NOK 150.` or a suffix amount such as `150 kr betales nå.` can be formatted. Recognition stays within a single text segment, so `**100 NOK**` works while `**100** NOK` stays text. This is a limited text recognizer, not a financial expression parser.
+
+If the generated text uses another locale, set `currencyFormatting={{ locale: 'en-GB' }}`. You can also provide `currency` to interpret `kr`, for example `currencyFormatting={{ locale: 'sv-SE', currency: 'SEK' }}`. An invalid source locale leaves amounts unchanged. Set `currencyFormatting={false}` to preserve all original currency text.
+
+While streaming, an amount at the end of unfinished text remains unformatted until following content confirms its boundary. Whitespace alone is not enough because it could be a grouping separator. Set `parseIncompleteMarkdown={false}` when streaming finishes, stops or fails so a final amount can be formatted. Keep this setting specific to each message.
+
+When the application already knows the amount and currency, render [NumberFormat.Currency](/uilib/components/number-format/) directly from those values. Prefer this for financial content rather than extracting values from generated prose. See the [structured amount demo](/uilib/extensions/ai/Response/demos/#structured-amount).
+
+Not supported: syntax highlighting, math, diagrams, indented code blocks, HTML and HTML entities. You can add syntax highlighting by overriding the `code` element with `components`. Code blocks get a `language-*` class.
