@@ -280,5 +280,12 @@ export default {
       errorInvalidFiles: 'Remove all files with errors.',
       errorUploadFailed: 'The file could not be uploaded.',
     },
+    InstallmentDay: {
+      label: 'Instalment day',
+      errorRequired: 'You must select an instalment day.',
+      lastDayLabel: 'Last day of the month',
+      dayDisplay: '{day} day of the month',
+      placeholder: 'Select day',
+    },
   } satisfies (typeof nb)['nb-NO'],
 }
