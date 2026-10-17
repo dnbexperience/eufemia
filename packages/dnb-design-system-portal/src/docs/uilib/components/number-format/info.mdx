@@ -272,7 +272,7 @@ Pass negative values as numbers or with the keyboard-compatible `U+002D`, for ex
 
 **NVDA** also has [issues](https://github.com/nvaccess/nvda/issues/8874) reconciling the `lang` attribute, which makes it hard to have a solid and good solution for reading numbers. VoiceOver on desktop does a perfect job with this.
 
-**VoiceOver** on mobile devices (iOS) only supports numbers read out properly to a maximum of `99,999.00`. On amounts above this value, VO reads numbers digit by digit.
+The screen reader text keeps the thousand separators of the visible number, so screen readers and braille displays get the same digits as sighted users.
 
 To enhance the **Copy & Paste** experience of copying numbers into other applications (Excel), you may use the `cleanCopyValue` property. It will then provide a second number, without thousand separators and to have a comma/dot (depending on the locale) as the decimal separator. This number is not visible, but will be used when selecting & copying the whole number on the first click to the system clipboard.
 

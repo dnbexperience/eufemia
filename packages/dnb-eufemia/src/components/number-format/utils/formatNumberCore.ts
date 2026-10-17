@@ -4,7 +4,6 @@
 
 import { LOCALE } from '../../../shared/defaults'
 import { warn, escapeRegexChars } from '../../../shared/component-helper'
-import { IS_MAC } from '../../../shared/helpers'
 import {
   ABSENT_VALUE_FORMAT,
   NUMBER_MINUS,
@@ -207,21 +206,15 @@ export function prepareMinusParts(
 }
 
 /**
- * Enhance VoiceOver support on mobile devices.
- * Numbers under 99.999 are read out correctly, but only if we remove the spaces.
+ * Prepare the screen reader text.
+ * Keeps the grouping spaces, so screen readers and braille displays get the same digits as the visible number.
  */
 export const enhanceSR = (
   value: NumberFormatValue,
   aria: string,
   locale: string | null
 ): string => {
-  if (IS_MAC && Math.abs(parseFloat(String(value))) <= 99999) {
-    aria = String(aria).replace(/\s([0-9])/g, '$1')
-  }
-
-  aria = prepareMinus(aria, locale)
-
-  return aria
+  return prepareMinus(aria, locale)
 }
 
 function replaceNaNWithDash(number: string | number): string {
