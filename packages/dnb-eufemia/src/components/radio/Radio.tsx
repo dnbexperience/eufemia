@@ -123,6 +123,15 @@ function RadioComponent({ ref: externalRef, ...ownProps }: RadioProps) {
     [groupContext.value, ownProps.group]
   )
 
+  // A radio without a group or name can be unchecked again
+  const isSingle = useCallback(
+    () =>
+      !ownPropsRef.current.group &&
+      typeof ownPropsRef.current.name === 'undefined' &&
+      typeof groupContextRef.current.name === 'undefined',
+    []
+  )
+
   const callOnChange = useCallback(
     ({
       value,
@@ -160,7 +169,12 @@ function RadioComponent({ ref: externalRef, ...ownProps }: RadioProps) {
   )
 
   const onChangeHandler = useCallback(
-    (_event: ChangeEvent<HTMLInputElement> | KeyboardEvent) => {
+    (
+      _event:
+        | ChangeEvent<HTMLInputElement>
+        | KeyboardEvent
+        | MouseEvent<HTMLInputElement>
+    ) => {
       const event = _event
       if (ownPropsRef.current.readOnly) {
         return event.preventDefault()
@@ -193,6 +207,10 @@ function RadioComponent({ ref: externalRef, ...ownProps }: RadioProps) {
       if (isInNoGroup()) {
         if (key === 'Enter') {
           onChangeHandler(event)
+        } else if (key === ' ' && checkedState && isSingle()) {
+          // Browsers do not uncheck a checked native radio on Space
+          event.preventDefault()
+          onChangeHandler(event)
         }
       } else if (isContextGroupOrSingle()) {
         if (key === 'Enter' || key === ' ') {
@@ -221,7 +239,13 @@ function RadioComponent({ ref: externalRef, ...ownProps }: RadioProps) {
         }
       )
     },
-    [isInNoGroup, isContextGroupOrSingle, onChangeHandler]
+    [
+      isInNoGroup,
+      checkedState,
+      isSingle,
+      isContextGroupOrSingle,
+      onChangeHandler,
+    ]
   )
 
   const onClickHandler = useCallback(
@@ -229,6 +253,13 @@ function RadioComponent({ ref: externalRef, ...ownProps }: RadioProps) {
       if (ownPropsRef.current.readOnly) {
         return event.preventDefault()
       }
+
+      // A checked native radio does not fire a change event
+      if (isSingle() && checkedState) {
+        onChangeHandler(event)
+        return // stop here
+      }
+
       // only have click support if there are more plain radio
       if (!isPlainGroup()) {
         return // stop here
@@ -237,7 +268,7 @@ function RadioComponent({ ref: externalRef, ...ownProps }: RadioProps) {
       const isChecked = (event.target as HTMLInputElement).checked
       callOnChange({ value, checked: isChecked, event })
     },
-    [isPlainGroup, callOnChange]
+    [isSingle, checkedState, onChangeHandler, isPlainGroup, callOnChange]
   )
 
   const resolvedProps = {
@@ -333,12 +364,6 @@ function RadioComponent({ ref: externalRef, ...ownProps }: RadioProps) {
 
   let inputParams: Record<string, unknown> = {
     role: hasContext || group ? 'radio' : null,
-    type: hasContext || group ? 'radio' : 'checkbox', // overwriting the type
-  }
-
-  if (!group) {
-    inputParams.type = 'checkbox'
-    inputParams.role = 'radio' // breaks axe test
   }
 
   if (showStatus || suffix) {
