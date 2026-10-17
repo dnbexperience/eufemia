@@ -32,7 +32,7 @@ export const ProviderProperties: PropertiesTableProps = {
     status: 'optional',
   },
   asyncSubmitTimeout: {
-    doc: 'The maximum time to display the submit indicator before it changes back to normal. In case something went wrong during submission. It also limits how long a field waits for an async `onChange` or validator before it clears its pending state. A submit waiting for that field is canceled and must be retried. Defaults to 30s.',
+    doc: 'The maximum time to display the submit indicator before it changes back to normal. In case something went wrong during submission. It also limits how long a field waits for an async `onChange` or validator before it clears its pending state. A submit waiting for that field is canceled and must be retried. It likewise limits how long a file waits for an async `onFileDelete` or `onFileClick` in [Field.Upload](/uilib/extensions/forms/base-fields/Upload) and [Value.Upload](/uilib/extensions/forms/Value/Upload). Defaults to 30s.',
     type: 'number',
     status: 'optional',
   },

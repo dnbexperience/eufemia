@@ -198,6 +198,8 @@ export default {
       errorUnsupportedFile:
         'The file you are trying to upload is not supported.',
       errorDeleteFailed: 'The file could not be deleted.',
+      errorDeleteTimeout:
+        'The file could not be deleted. Please try again.',
       deleteButton: 'Delete',
       listAriaLabel: 'uploaded files',
     },

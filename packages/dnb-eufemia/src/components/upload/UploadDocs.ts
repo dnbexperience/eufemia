@@ -116,6 +116,11 @@ export const UploadProperties: PropertiesTableProps = {
     type: 'React.ReactNode',
     status: 'optional',
   },
+  errorDeleteTimeout: {
+    doc: 'Custom error message shown on a file whose deletion did not complete before its deadline. Overrides the default translation.',
+    type: 'React.ReactNode',
+    status: 'optional',
+  },
   loadingText: {
     doc: 'Custom text displayed during file loading. Overrides the default translation.',
     type: 'React.ReactNode',
@@ -158,12 +163,12 @@ export const UploadEvents: PropertiesTableProps = {
     status: 'optional',
   },
   onFileDelete: {
-    doc: 'Will be called once a file gets deleted by the user. Access the deleted file with `{ fileItem }`. If an async function throws or rejects, the file shows the error message, or the `errorDeleteFailed` translation when there is no message.',
+    doc: 'Will be called once a file gets deleted by the user. Access the deleted file with `{ fileItem }`. Return a Promise to keep the file in a loading state until it settles: the file is removed when the Promise resolves, and kept when it rejects, showing the error message, or the `errorDeleteFailed` translation when there is no message. When it does not settle before its deadline, the file is kept as well and a later settle is ignored.',
     type: 'function',
     status: 'optional',
   },
   onFileClick: {
-    doc: 'Will be called once a file gets clicked on by the user. Access the clicked file with `{ fileItem }`. When providing this property, the file will be rendered as a button instead of an anchor or plain text.',
+    doc: 'Will be called once a file gets clicked on by the user. Access the clicked file with `{ fileItem }`. When providing this property, the file will be rendered as a button instead of an anchor or plain text. Return a Promise to keep the file in a loading state until it settles. When it does not settle before its deadline, the loading state stops and a later settle is ignored.',
     type: 'function',
     status: 'optional',
   },

@@ -198,6 +198,7 @@ export default {
       errorUnsupportedFile:
         'Filen du prøver at uploade er ikke understøttet.',
       errorDeleteFailed: 'Filen kunne ikke slettes.',
+      errorDeleteTimeout: 'Filen kunne ikke slettes. Prøv igen.',
       deleteButton: 'Slet',
       listAriaLabel: 'uploadede filer',
     },

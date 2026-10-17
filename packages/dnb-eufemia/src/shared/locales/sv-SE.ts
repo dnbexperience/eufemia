@@ -197,6 +197,7 @@ export default {
         'Det är begränsat hur många filer du kan ladda upp (%amount).',
       errorUnsupportedFile: 'Filen du försöker ladda upp stöds inte.',
       errorDeleteFailed: 'Filen kunde inte raderas.',
+      errorDeleteTimeout: 'Filen kunde inte raderas. Försök igen.',
       deleteButton: 'Radera',
       listAriaLabel: 'uppladdade filer',
     },
