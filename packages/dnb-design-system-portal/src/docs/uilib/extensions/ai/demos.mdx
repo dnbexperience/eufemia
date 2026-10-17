@@ -14,6 +14,12 @@ The demo uses scripted replies and local chat state. Connect your own messages, 
 
 <Examples.AiChatExample />
 
+### Streamed reply announcements
+
+The application keeps a separate `AriaLive` region mounted and updates it once when the reply ends, including when Stop preserves a partial answer. The conversation's automatic live announcements are disabled to avoid duplicates. See [Screen reader announcements](/uilib/extensions/ai/integrations/#screen-reader-announcements) for the application helper and failure handling.
+
+<Examples.AiChatAnnouncements />
+
 ### Chat with compact input
 
 <Examples.AiChatCompact />

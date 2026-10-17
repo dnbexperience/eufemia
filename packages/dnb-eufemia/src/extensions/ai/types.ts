@@ -161,7 +161,7 @@ export type AiPromptInputProps = {
    */
   onChange?: (event: { value: string }) => void
   /**
-   * Called with the text when the user presses Enter or the send button. Receives `{ value, event }`. Empty text is not submitted. Shift+Enter adds a new line.
+   * Called with the text when the user presses Enter on desktop or the send button. Receives `{ value, event }`. Empty text is not submitted. Shift+Enter and Enter on touch-primary devices add a new line.
    */
   onSubmit?: (event: AiPromptInputSubmitEvent) => void
   /** Called when the user presses the stop button. */
