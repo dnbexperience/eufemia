@@ -629,6 +629,7 @@ DrawerList.Options = memo(
     cacheHash,
     hasGroups = false,
     renderDriver: _renderDriver,
+    role = 'listbox',
     ref,
     ...rest
   }: DrawerListOptionsProps & {
@@ -639,6 +640,7 @@ DrawerList.Options = memo(
         internalClass={false}
         as={hasGroups ? 'span' : 'ul'}
         className={clsx('dnb-drawer-list__options', className)}
+        role={role}
         {...rest}
         ref={ref}
       >
