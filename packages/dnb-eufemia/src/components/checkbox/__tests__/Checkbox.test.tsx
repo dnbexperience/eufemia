@@ -370,6 +370,19 @@ describe('Checkbox component', () => {
     ).toBe(true)
   })
 
+  it('sets aria-invalid when status is an error', () => {
+    const { rerender } = render(<Checkbox status="status" />)
+    expect(document.querySelector('input')).toHaveAttribute(
+      'aria-invalid',
+      'true'
+    )
+
+    rerender(<Checkbox status="status" statusState="warning" />)
+    expect(document.querySelector('input')).not.toHaveAttribute(
+      'aria-invalid'
+    )
+  })
+
   it('uses dark surface styling from Theme context', () => {
     render(
       <Provider theme={{ surface: 'dark' }}>

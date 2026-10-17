@@ -205,6 +205,19 @@ describe('Switch component', () => {
     expect(statusText).toHaveClass('dnb-form-status__text')
   })
 
+  it('sets aria-invalid when status is an error', () => {
+    const { rerender } = render(<Switch {...props} status="status" />)
+    expect(document.querySelector('input')).toHaveAttribute(
+      'aria-invalid',
+      'true'
+    )
+
+    rerender(<Switch {...props} status="status" statusState="warning" />)
+    expect(document.querySelector('input')).not.toHaveAttribute(
+      'aria-invalid'
+    )
+  })
+
   it('does not set aria-describedby when no status is given', () => {
     render(<Switch {...props} />)
 
