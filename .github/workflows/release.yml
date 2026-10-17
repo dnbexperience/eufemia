@@ -207,6 +207,10 @@ jobs:
     # publishes, so 30 minutes is generous.
     timeout-minutes: 30
 
+    # Deployments to this environment are limited to the release branches, and
+    # the npm trusted publisher only accepts tokens issued for it.
+    environment: npm-release
+
     permissions:
       contents: write # Required for semantic-release to push tags and changelog
       issues: write # Required for semantic-release to comment on issues
