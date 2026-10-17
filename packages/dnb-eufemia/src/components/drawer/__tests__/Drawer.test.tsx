@@ -383,12 +383,17 @@ describe('Drawer', () => {
     render(<Drawer noAnimation open title="Title" />)
 
     await waitFor(() => {
-      const title = document.querySelector(
-        '.dnb-modal__title'
-      ) as HTMLHeadingElement
-      expect(title).toBeInTheDocument()
-      // Focus remains on body element - this appears to be the expected behavior for Drawer
-      expect(document.activeElement).toBe(document.body)
+      expect(document.activeElement).toHaveAttribute('role', 'dialog')
+    })
+  })
+
+  it('moves focus to the close button when opened without a heading', async () => {
+    render(<Drawer noAnimation open />)
+
+    await waitFor(() => {
+      expect(document.activeElement).toBe(
+        document.querySelector('button.dnb-modal__close-button')
+      )
     })
   })
 

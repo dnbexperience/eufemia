@@ -179,12 +179,19 @@ export default function ModalContent(props: ModalContentProps) {
           try {
             let focusElement = elem as HTMLElement
 
-            const headerElem = elem.querySelector(
+            const dialogContainer = document.getElementById(
+              usedContentId
+            ) as HTMLElement
+
+            // Drawer renders its header and close button outside of contentRef
+            const root = dialogContainer || elem
+
+            const headerElem = root.querySelector(
               '.dnb-drawer__header, .dnb-dialog__header'
             )
             const firstHeading = (headerElem?.querySelector(
               'h1, h2, h3'
-            ) || elem.querySelector('h1, h2, h3')) as HTMLElement
+            ) || root.querySelector('h1, h2, h3')) as HTMLElement
 
             if (firstHeading) {
               if (firstHeading.tagName !== 'H1') {
@@ -196,21 +203,18 @@ export default function ModalContent(props: ModalContentProps) {
               // Focus the dialog container instead of the heading to
               // prevent VoiceOver from announcing the title twice —
               // once via aria-labelledby and once as the focused heading.
-              const dialogContainer = document.getElementById(
-                usedContentId
-              ) as HTMLElement
               if (dialogContainer) {
                 focusElement = dialogContainer
               }
             } else {
-              const focusHelper = elem.querySelector(
+              const focusHelper = root.querySelector(
                 '.dnb-modal__close-button, .dnb-modal__focus-helper'
               ) as HTMLElement
               focusElement = focusHelper
             }
 
             if (typeof focusSelector === 'string') {
-              focusElement = elem.querySelector(focusSelector)
+              focusElement = root.querySelector(focusSelector)
             }
 
             if (focusElement !== document.activeElement) {
