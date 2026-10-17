@@ -1,0 +1,85 @@
+.example {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+
+  padding: 1.5rem;
+
+  border-radius: var(--token-radius-md);
+
+  background-color: var(--token-color-background-neutral-subtle);
+}
+
+.group {
+  margin: 0;
+}
+
+.label {
+  margin: 0 0 0.5rem;
+
+  font-weight: var(--font-weight-medium);
+}
+
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+
+  margin: 0;
+  padding: 0;
+
+  list-style: none;
+}
+
+.item {
+  display: inline-flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.icon {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: var(--token-radius-full);
+
+  color: var(--status-icon-color);
+  background-color: var(--status-icon-background);
+}
+
+.large {
+  width: 2.5rem;
+  height: 2.5rem;
+}
+
+.medium {
+  width: 2rem;
+  height: 2rem;
+}
+
+.small {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.positive {
+  --status-icon-color: var(--token-color-text-neutral-inverse);
+  --status-icon-background: var(--token-color-background-positive);
+}
+
+.warning {
+  --status-icon-color: var(--token-color-text-neutral-onlight);
+  --status-icon-background: var(--token-color-background-warning);
+}
+
+.negative {
+  --status-icon-color: var(--token-color-text-neutral-ondark);
+  --status-icon-background: var(--token-color-background-error);
+}
+
+.neutral {
+  --status-icon-color: var(--token-color-text-neutral);
+  --status-icon-background: var(--token-color-background-neutral-bold);
+}
