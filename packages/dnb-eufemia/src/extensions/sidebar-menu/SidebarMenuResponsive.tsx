@@ -685,7 +685,7 @@ export function SidebarMenuResponsiveInline({
           isCompact &&
           document.documentElement.dataset.whatinput === 'keyboard' &&
           (event.target as Element).closest(
-            '.dnb-sidebar-menu__item__action'
+            '.dnb-sidebar-menu__item__action, .dnb-sidebar-menu__sections .dnb-dropdown__trigger'
           )
         ) {
           setCompactExpanded(true)
@@ -705,6 +705,19 @@ export function SidebarMenuResponsiveInline({
         if (isCompact && event.key === 'Escape') {
           setCompactExpanded(false)
           setCompactDismissed(true)
+        }
+
+        if (
+          isCompact &&
+          !compactOpen &&
+          ['Enter', ' ', 'ArrowDown', 'ArrowUp'].includes(event.key) &&
+          (event.target as Element).closest(
+            '.dnb-sidebar-menu__sections .dnb-dropdown__trigger'
+          )
+        ) {
+          setTooltipTarget(undefined)
+          setCompactExpanded(true)
+          setCompactDismissed(false)
         }
       }}
       onPointerEnter={(event) => {
