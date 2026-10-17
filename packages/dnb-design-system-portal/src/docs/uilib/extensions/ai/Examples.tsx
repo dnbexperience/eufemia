@@ -1,6 +1,7 @@
 import { Fragment, useEffect, useState } from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import { useChatSimulation } from './useChatSimulation'
+import ReplyAnnouncement from './ReplyAnnouncement'
 import type { DemoMessage, Transaction } from './useChatSimulation'
 import styled from '@emotion/styled'
 import referenceAvatar from './assets/dnb-reference.svg'
@@ -31,6 +32,7 @@ import {
 import '@dnb/eufemia/src/extensions/ai/style'
 import {
   ToggleButton,
+  AriaLive,
   Flex,
   Anchor,
   Avatar,
@@ -429,9 +431,20 @@ export function AiPromptInputContext() {
   )
 }
 
-export function AiPromptInputBusy() {
+export function AiPromptInputBusy({
+  variant = 'compact',
+}: {
+  variant?: 'default' | 'compact'
+}) {
   return (
-    <ComponentBox data-visual-test="ai-prompt-input-busy">
+    <ComponentBox
+      data-visual-test={
+        variant === 'compact'
+          ? 'ai-prompt-input-busy'
+          : 'ai-prompt-input-busy-default'
+      }
+      scope={{ variant }}
+    >
       {() => {
         const Chat = () => {
           const [isBusy, setIsBusy] = useState(false)
@@ -446,7 +459,7 @@ export function AiPromptInputBusy() {
 
           return (
             <PromptInput
-              variant="compact"
+              variant={variant}
               isBusy={isBusy}
               onSubmit={() => setIsBusy(true)}
               onStop={() => setIsBusy(false)}
@@ -462,11 +475,24 @@ export function AiPromptInputBusy() {
 
 export function AiPromptInputError() {
   return (
-    <ComponentBox>
+    <ComponentBox data-visual-test="ai-prompt-input-error">
       <PromptInput
         textareaProps={{
           status: 'The message could not be sent. Try again.',
         }}
+      />
+    </ComponentBox>
+  )
+}
+
+export function AiPromptInputDisabled() {
+  return (
+    <ComponentBox data-visual-test="ai-prompt-input-disabled">
+      <PromptInput
+        disabled
+        value="Message unavailable"
+        onAttachmentClick={() => null}
+        onMicrophoneClick={() => null}
       />
     </ComponentBox>
   )
@@ -698,6 +724,7 @@ export function AiChatExample() {
       data-visual-test="ai-chat"
       scope={{
         useChatSimulation,
+        ReplyAnnouncement,
         DemoMessageContent,
         chatStyle,
         ChatLayout,
@@ -828,6 +855,7 @@ export function AiChatExample() {
                   ) : (
                     <Conversation
                       id="banking-chat"
+                      aria-live="off"
                       scrollBehavior="end"
                       style={{ flex: '1 1 auto' }}
                     >
@@ -962,6 +990,14 @@ export function AiChatExample() {
                       )}
                     </Conversation>
                   )}
+                  <ReplyAnnouncement
+                    isBusy={status !== 'ready'}
+                    text={
+                      messages.at(-1)?.role === 'assistant'
+                        ? getText(messages.at(-1))
+                        : ''
+                    }
+                  />
 
                   <PromptInput
                     isBusy={
@@ -1131,6 +1167,96 @@ export function AiActivityTextExample() {
   return (
     <ComponentBox>
       <ActivityText>Looking up your transactions …</ActivityText>
+    </ComponentBox>
+  )
+}
+
+export function AiActivityTextAnnouncement() {
+  return (
+    <ComponentBox>
+      {() => {
+        const Activity = () => {
+          const [text, setText] = useState('Ready')
+          return (
+            <>
+              <AriaLive variant="content" atomic>
+                <ActivityText>{text}</ActivityText>
+              </AriaLive>
+              <Button
+                top
+                onClick={() =>
+                  setText(
+                    text === 'Ready'
+                      ? 'Looking up your transactions …'
+                      : 'Ready'
+                  )
+                }
+              >
+                Change activity
+              </Button>
+            </>
+          )
+        }
+        return <Activity />
+      }}
+    </ComponentBox>
+  )
+}
+
+export function AiChatAnnouncements() {
+  return (
+    <ComponentBox
+      data-visual-test="ai-chat-announcements"
+      scope={{
+        useChatSimulation,
+        DemoMessageContent,
+        getText,
+        ReplyAnnouncement,
+      }}
+    >
+      {() => {
+        const Chat = () => {
+          const { messages, status, sendMessage, stop } =
+            useChatSimulation()
+          const [stopped, setStopped] = useState(false)
+          const isBusy = status !== 'ready'
+          const reply = messages.at(-1)
+          return (
+            <>
+              <Conversation aria-live="off" style={{ height: '18rem' }}>
+                {messages.map((message) => (
+                  <Message
+                    key={message.id}
+                    id={message.id}
+                    from={message.role}
+                  >
+                    <DemoMessageContent message={message} />
+                  </Message>
+                ))}
+              </Conversation>
+              <ReplyAnnouncement
+                isBusy={isBusy}
+                text={
+                  (stopped ? 'Reply stopped. ' : '') +
+                  (reply?.role === 'assistant' ? getText(reply) : '')
+                }
+              />
+              <PromptInput
+                isBusy={isBusy}
+                onSubmit={({ value }) => {
+                  setStopped(false)
+                  sendMessage({ text: value })
+                }}
+                onStop={() => {
+                  setStopped(true)
+                  stop()
+                }}
+              />
+            </>
+          )
+        }
+        return <Chat />
+      }}
     </ComponentBox>
   )
 }

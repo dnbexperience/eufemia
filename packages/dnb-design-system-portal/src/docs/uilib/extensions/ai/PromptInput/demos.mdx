@@ -8,7 +8,7 @@ import * as Examples from '../Examples'
 
 ### Prompt input
 
-Enter sends the message and Shift+Enter adds a new line.
+On desktop, Enter sends the message and Shift+Enter adds a new line. On touch-primary devices, Enter adds a new line and the send button submits.
 
 <Examples.AiPromptInputDefault />
 
@@ -34,6 +34,12 @@ Set `isBusy` and pass `onStop` to show a stop button while the reply streams in.
 
 <Examples.AiPromptInputBusy />
 
+<Examples.AiPromptInputBusy variant="default" />
+
 ### Prompt input with an error
 
 <Examples.AiPromptInputError />
+
+### Disabled prompt input
+
+<Examples.AiPromptInputDisabled />

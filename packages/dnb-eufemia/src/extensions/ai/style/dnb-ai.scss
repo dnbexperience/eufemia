@@ -227,6 +227,9 @@
   }
 
   &--disabled {
+    --ai-prompt-input-background: var(
+      --token-color-background-neutral-subtle
+    );
     --border-color: var(--token-color-stroke-action-disabled);
   }
 
