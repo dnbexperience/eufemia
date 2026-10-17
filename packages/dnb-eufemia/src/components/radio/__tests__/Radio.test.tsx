@@ -44,6 +44,42 @@ describe('Radio component', () => {
     expect(myEvent.mock.calls[0][0].checked).toBe(true)
   })
 
+  it('can uncheck a single radio again', () => {
+    const onChange = vi.fn()
+    render(<Radio onChange={onChange} />)
+
+    const input = document.querySelector('input')
+    fireEvent.click(input)
+    fireEvent.click(input)
+
+    expect(input.checked).toBe(false)
+    expect(onChange).toHaveBeenCalledTimes(2)
+    expect(onChange.mock.calls[1][0].checked).toBe(false)
+  })
+
+  it('can uncheck a checked single radio with Space', () => {
+    render(<Radio checked />)
+
+    const input = document.querySelector('input')
+    fireEvent.keyDown(input, { key: ' ' })
+
+    expect(input.checked).toBe(false)
+  })
+
+  it('keeps a radio in a group checked when clicked again', () => {
+    render(
+      <Radio.Group label="Group">
+        <Radio value="a" label="A" />
+      </Radio.Group>
+    )
+
+    const input = document.querySelector('input')
+    fireEvent.click(input)
+    fireEvent.click(input)
+
+    expect(input.checked).toBe(true)
+  })
+
   it('does handle controlled vs uncontrolled state properly', () => {
     const ControlledVsUncontrolled = () => {
       const [checked, setChecked] = useState(true)
@@ -167,7 +203,6 @@ describe('Radio component', () => {
       'class',
       'aria-checked',
       'disabled',
-      'role',
       'aria-label',
       'type',
       'value',
@@ -180,17 +215,17 @@ describe('Radio component', () => {
 })
 
 describe('Radio ARIA', () => {
+  it('should render a single radio as a native radio', () => {
+    render(<Radio {...props} />)
+
+    const input = document.querySelector('input')
+    expect(input.getAttribute('type')).toBe('radio')
+    expect(input.hasAttribute('role')).toBe(false)
+  })
+
   it('should validate with ARIA rules for Radio', async () => {
     const Comp = render(<Radio {...props} />)
-    expect(
-      await axeComponent(Comp, {
-        rules: {
-          // NVDA fix
-          // because of the role="radio", we have to allow this
-          'aria-allowed-role': { enabled: false },
-        },
-      })
-    ).toHaveNoViolations()
+    expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 
   it('gets valid ref element', () => {
