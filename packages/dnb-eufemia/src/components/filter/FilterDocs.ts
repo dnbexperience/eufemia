@@ -470,12 +470,12 @@ export const UseFilterAsyncReturn: PropertiesTableProps = {
     status: 'required',
   },
   loading: {
-    doc: '`true` while a fetch is in progress.',
+    doc: '`true` while a fetch is in progress. Also cleared when the deadline passes, even though the fetch itself is not aborted.',
     type: 'boolean',
     status: 'required',
   },
   error: {
-    doc: 'The error thrown by the fetcher, if any. Reset to `undefined` on each new fetch.',
+    doc: "The error thrown by the fetcher, if any, or an `Error` with `name` `'TimeoutError'` when the fetcher did not settle within 30 seconds. Reset to `undefined` on each new fetch.",
     type: ['Error', 'undefined'],
     status: 'required',
   },

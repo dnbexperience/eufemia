@@ -9,6 +9,7 @@ import FilterResultCount from '../FilterResultCount'
 import FilterSearch from '../FilterSearch'
 import FilterSelection from '../FilterSelection'
 import { useFilterAsync } from '../hooks/useFilter'
+import { DEFAULT_ASYNC_SUBMIT_TIMEOUT } from '../../../shared/defaults'
 
 describe('useFilterAsync', () => {
   it('calls fetcher and returns data', async () => {
@@ -456,6 +457,239 @@ describe('useFilterAsync error handling', () => {
         document.querySelector('[data-testid="error"]').textContent
       ).toBe('string error')
     })
+  })
+})
+
+describe('useFilterAsync timeout', () => {
+  beforeEach(() => {
+    vi.useFakeTimers()
+  })
+
+  afterEach(() => {
+    vi.useRealTimers()
+  })
+
+  it('clears the loading state and sets an error when the fetcher never settles', async () => {
+    const fetcher = vi.fn().mockReturnValue(new Promise(() => {}))
+
+    function Consumer() {
+      const { error, loading } = useFilterAsync(
+        'async-timeout-test',
+        fetcher
+      )
+      return (
+        <>
+          <span data-testid="error">{error?.message ?? 'none'}</span>
+          <span data-testid="error-name">{error?.name ?? 'none'}</span>
+          <span data-testid="loading">{loading ? 'true' : 'false'}</span>
+        </>
+      )
+    }
+
+    render(
+      <>
+        <FilterRoot id="async-timeout-test" />
+        <Consumer />
+      </>
+    )
+
+    await act(async () => {})
+
+    expect(
+      document.querySelector('[data-testid="loading"]').textContent
+    ).toBe('true')
+
+    // Pinned because the documentation states this value in prose;
+    // `shared/defaults.ts` explains what needs updating.
+    expect(DEFAULT_ASYNC_SUBMIT_TIMEOUT).toBe(30000)
+
+    // Just short of the deadline, nothing has recovered the loading state yet
+    await act(async () => {
+      vi.advanceTimersByTime(DEFAULT_ASYNC_SUBMIT_TIMEOUT - 1)
+    })
+
+    expect(
+      document.querySelector('[data-testid="loading"]').textContent
+    ).toBe('true')
+    expect(
+      document.querySelector('[data-testid="error"]').textContent
+    ).toBe('none')
+
+    // The fetcher is what clears the loading state, so a Promise that never
+    // settles has to be recovered by the deadline
+    await act(async () => {
+      vi.advanceTimersByTime(1)
+    })
+
+    expect(
+      document.querySelector('[data-testid="loading"]').textContent
+    ).toBe('false')
+    expect(
+      document.querySelector('[data-testid="error"]').textContent
+    ).toBe(
+      'Filter.useFilterAsync(): the fetcher did not settle within 30000ms.'
+    )
+
+    // Named, so a deadline can be told apart from a fetcher rejection
+    expect(
+      document.querySelector('[data-testid="error-name"]').textContent
+    ).toBe('TimeoutError')
+  })
+
+  it('ignores a fetch that settles after the deadline', async () => {
+    let resolveFetch!: (value: string[]) => void
+    const fetcher = vi.fn().mockReturnValue(
+      new Promise<string[]>((resolve) => {
+        resolveFetch = resolve
+      })
+    )
+
+    function Consumer() {
+      const { data, error, loading } = useFilterAsync(
+        'async-late-settle-test',
+        fetcher
+      )
+      return (
+        <>
+          <span data-testid="data">{JSON.stringify(data)}</span>
+          <span data-testid="error">{error?.message ?? 'none'}</span>
+          <span data-testid="loading">{loading ? 'true' : 'false'}</span>
+        </>
+      )
+    }
+
+    render(
+      <>
+        <FilterRoot id="async-late-settle-test" />
+        <Consumer />
+      </>
+    )
+
+    await act(async () => {
+      vi.advanceTimersByTime(DEFAULT_ASYNC_SUBMIT_TIMEOUT)
+    })
+
+    expect(
+      document.querySelector('[data-testid="error"]').textContent
+    ).toContain('did not settle')
+
+    // The filter has moved on, so a late result must not replace what is shown
+    await act(async () => {
+      resolveFetch(['late'])
+    })
+
+    expect(
+      document.querySelector('[data-testid="data"]').textContent
+    ).toBe('')
+    expect(
+      document.querySelector('[data-testid="error"]').textContent
+    ).toContain('did not settle')
+    expect(
+      document.querySelector('[data-testid="loading"]').textContent
+    ).toBe('false')
+  })
+
+  it('does not cut off a fetcher that settles before the deadline', async () => {
+    let resolveFetch!: (value: string[]) => void
+    const fetcher = vi.fn().mockReturnValue(
+      new Promise<string[]>((resolve) => {
+        resolveFetch = resolve
+      })
+    )
+
+    function Consumer() {
+      const { data, error } = useFilterAsync('async-in-time-test', fetcher)
+      return (
+        <>
+          <span data-testid="data">{JSON.stringify(data)}</span>
+          <span data-testid="error">{error?.message ?? 'none'}</span>
+        </>
+      )
+    }
+
+    render(
+      <>
+        <FilterRoot id="async-in-time-test" />
+        <Consumer />
+      </>
+    )
+
+    await act(async () => {})
+    expect(fetcher).toHaveBeenCalledTimes(1)
+
+    await act(async () => {
+      resolveFetch(['in-time'])
+    })
+
+    expect(
+      document.querySelector('[data-testid="data"]').textContent
+    ).toBe('["in-time"]')
+
+    // A result that arrived in time must survive the deadline passing, which
+    // the claim guard covers even though the timer is also cleared on settle
+    await act(async () => {
+      vi.advanceTimersByTime(DEFAULT_ASYNC_SUBMIT_TIMEOUT)
+    })
+
+    expect(
+      document.querySelector('[data-testid="data"]').textContent
+    ).toBe('["in-time"]')
+    expect(
+      document.querySelector('[data-testid="error"]').textContent
+    ).toBe('none')
+  })
+
+  it('spends the deadline on the debounce as well as the fetch', async () => {
+    const debounce = 5000
+    const fetcher = vi.fn().mockReturnValue(new Promise(() => {}))
+
+    function Consumer() {
+      const { error } = useFilterAsync(
+        'async-timeout-debounce-test',
+        fetcher,
+        { debounce }
+      )
+      return <span data-testid="error">{error?.name ?? 'none'}</span>
+    }
+
+    render(
+      <FilterRoot id="async-timeout-debounce-test">
+        <FilterSearch label="Søk" />
+        <Consumer />
+      </FilterRoot>
+    )
+
+    await act(async () => {})
+    expect(fetcher).toHaveBeenCalledTimes(1)
+
+    fireEvent.change(document.querySelector('.dnb-filter__search input'), {
+      target: { value: 'hello' },
+    })
+
+    // The loading state starts at the change, so the deadline does too, even
+    // though the fetcher has not been invoked yet
+    expect(fetcher).toHaveBeenCalledTimes(1)
+
+    await act(async () => {
+      vi.advanceTimersByTime(debounce)
+    })
+    expect(fetcher).toHaveBeenCalledTimes(2)
+
+    // The debounce has already spent part of the deadline, so it lands that
+    // much earlier — not a full deadline after the fetcher was finally invoked
+    await act(async () => {
+      vi.advanceTimersByTime(DEFAULT_ASYNC_SUBMIT_TIMEOUT - debounce - 1)
+    })
+    expect(
+      document.querySelector('[data-testid="error"]').textContent
+    ).toBe('none')
+
+    await act(async () => {
+      vi.advanceTimersByTime(1)
+    })
+    expect(
+      document.querySelector('[data-testid="error"]').textContent
+    ).toBe('TimeoutError')
   })
 })
 
