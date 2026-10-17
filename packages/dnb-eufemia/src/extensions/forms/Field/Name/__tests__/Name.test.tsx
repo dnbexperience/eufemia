@@ -167,6 +167,20 @@ describe('Field.Name', () => {
     expect(input).toHaveValue('Foo-Bar')
   })
 
+  it.each([
+    ['First', Field.Name.First],
+    ['Last', Field.Name.Last],
+  ])(
+    '%s name should explain where hyphens and spaces are allowed',
+    (_, Component) => {
+      render(<Component validateInitially value="Hanne- Mari" />)
+
+      expect(document.querySelector('[role="alert"]')).toHaveTextContent(
+        'Bindestrek og mellomrom må stå mellom to bokstaver.'
+      )
+    }
+  )
+
   it('Company name should trim whitespace for entered value', async () => {
     const onSubmit = vi.fn()
 
