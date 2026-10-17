@@ -1918,6 +1918,18 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       mountedFieldsRefFieldBlock.current.set(identifier, true)
     }
 
+    // Register the messages during render, so they are part of the server-rendered HTML
+    for (const [type, content] of [
+      ['error', error],
+      ['warning', warning],
+      ['information', info],
+    ] as const) {
+      setBlockRecord?.(
+        { identifier, type, content, showInitially: true, show: true },
+        { skipUpdate: true }
+      )
+    }
+
     // Check if there are any state IDs to be added to the aria-describedby attribute
     const stateIds = fieldBlockContext.fieldStateIdsRef?.current
 

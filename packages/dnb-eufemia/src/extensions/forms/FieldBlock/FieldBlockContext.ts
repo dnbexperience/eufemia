@@ -36,14 +36,17 @@ export type StatusContent = {
 }
 
 export type FieldBlockContextProps = {
-  setBlockRecord?: ({
-    identifier,
-    type,
-    stateId,
-    content,
-    showInitially,
-    show,
-  }: StateBasis) => void
+  setBlockRecord?: (
+    {
+      identifier,
+      type,
+      stateId,
+      content,
+      showInitially,
+      show,
+    }: StateBasis,
+    options?: { skipUpdate?: boolean }
+  ) => void
   setFieldState?: (identifier: Identifier, fieldState: SubmitState) => void
   showFieldError?: (identifier: Identifier, showError: boolean) => void
   hasErrorProp?: boolean

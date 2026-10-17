@@ -1,4 +1,5 @@
 import { render, fireEvent, waitFor } from '@testing-library/react'
+import { renderToString } from 'react-dom/server'
 import userEvent from '@testing-library/user-event'
 import type { JSONSchema } from '../../..'
 import { Field, FieldBlock, Form, makeAjvInstance } from '../../..'
@@ -576,6 +577,39 @@ describe('Field.Composition', () => {
       nb.Field.errorSummary + blockError + firstError + secondError
     )
     toHaveWarningAndInfo()
+  })
+
+  it('should include messages from nested fields in the server-rendered HTML', () => {
+    const element = (
+      <Field.Composition info="FieldBlock info">
+        <Field.String warning="Warning message" />
+        <Field.Number info="Field info" />
+      </Field.Composition>
+    )
+    const container = document.createElement('div')
+    container.innerHTML = renderToString(element)
+    document.body.appendChild(container)
+
+    expect(
+      container.querySelector('.dnb-form-status--warning')
+    ).toHaveTextContent('Warning message')
+    expect(
+      Array.from(
+        container.querySelectorAll('.dnb-form-status--information li'),
+        (item) => item.textContent
+      )
+    ).toEqual(['FieldBlock info', 'Field info'])
+
+    const log = vi.spyOn(console, 'error').mockImplementation(vi.fn())
+    render(element, { container, hydrate: true })
+
+    expect(log).not.toHaveBeenCalled()
+    expect(
+      container.querySelector('.dnb-form-status--warning')
+    ).toHaveTextContent('Warning message')
+
+    log.mockRestore()
+    container.remove()
   })
 
   describe('schema', () => {
