@@ -4347,7 +4347,10 @@ describe('Popover', () => {
           {contentText}
         </Popover>
       )
-      expect(await axeComponent(Comp)).toHaveNoViolations()
+
+      expect(
+        await axeComponent(Comp, document.querySelector('.dnb-popover'))
+      ).toHaveNoViolations()
     })
   })
 })
