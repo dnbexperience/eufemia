@@ -2116,6 +2116,32 @@ describe('Dropdown markup', () => {
 
     expect(await axeComponent(CheckComponent)).toHaveNoViolations()
   })
+
+  it('should label the list with the label', () => {
+    render(<Dropdown label="Label" data={mockData} noAnimation />)
+
+    open()
+
+    expect(
+      document.querySelector('.dnb-drawer-list__options')
+    ).toHaveAttribute(
+      'aria-labelledby',
+      document.querySelector('.dnb-form-label').id
+    )
+  })
+
+  it('should label the list with the trigger when there is no label', () => {
+    render(<Dropdown data={mockData} noAnimation />)
+
+    open()
+
+    expect(
+      document.querySelector('.dnb-drawer-list__options')
+    ).toHaveAttribute(
+      'aria-labelledby',
+      document.querySelector('button.dnb-dropdown__trigger').id
+    )
+  })
 })
 
 describe('Dropdown with List item content', () => {

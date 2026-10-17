@@ -2394,6 +2394,24 @@ describe('variants', () => {
       expect(dropdownElement.classList).toContain('dnb-dropdown--large')
     })
 
+    it('should label the list with the field label', async () => {
+      render(
+        <Field.Selection label="Label" variant="dropdown">
+          <Field.Option value="foo">Foo</Field.Option>
+          <Field.Option value="bar">Bar</Field.Option>
+        </Field.Selection>
+      )
+
+      await openDropdown()
+
+      expect(
+        document.querySelector('.dnb-drawer-list__options')
+      ).toHaveAttribute(
+        'aria-labelledby',
+        document.querySelector('.dnb-forms-field-block__label').id
+      )
+    })
+
     it('has no selected value by default', async () => {
       render(
         <Field.Selection variant="dropdown">
