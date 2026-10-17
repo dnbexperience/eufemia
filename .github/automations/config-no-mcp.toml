@@ -1,0 +1,11 @@
+approval_policy = "never"
+default_permissions = "automation-read-only"
+project_doc_fallback_filenames = []
+web_search = "disabled"
+
+[features]
+apps = false
+
+[permissions.automation-read-only]
+description = "Read-only repository analysis."
+extends = ":read-only"

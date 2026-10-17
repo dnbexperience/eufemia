@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "runtime": {
+    "allowedGatewayPath": "/v1/responses",
+    "allowedModels": ["gpt-5.6-luna", "gpt-5.6-terra", "gpt-5.6-sol"]
+  },
+  "output": {
+    "maxBytes": 131072
+  },
+  "context": {
+    "maxFiles": 50,
+    "maxBytes": 10485760,
+    "allowedExtensions": [
+      ".json",
+      ".log",
+      ".patch",
+      ".png",
+      ".tsv",
+      ".txt"
+    ]
+  }
+}
