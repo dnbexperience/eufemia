@@ -1479,4 +1479,22 @@ describe('Tabs ARIA', () => {
     )
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
+
+  it('should validate with ARIA rules when a tab has a tooltip', async () => {
+    const Comp = render(
+      <Tabs
+        {...props}
+        data={[
+          { title: 'First', key: 'first', content: 'First content' },
+          { title: 'Second', key: 'second', tooltip: 'Tooltip' },
+        ]}
+        selectedKey="first"
+      />
+    )
+
+    expect(
+      document.querySelector('[role="tablist"] .dnb-aria-live')
+    ).toBeNull()
+    expect(await axeComponent(Comp)).toHaveNoViolations()
+  })
 })
