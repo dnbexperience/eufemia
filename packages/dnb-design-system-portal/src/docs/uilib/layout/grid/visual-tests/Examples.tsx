@@ -147,6 +147,11 @@ export function PageLayoutExample() {
               Toggle: () => (
                 <Button
                   icon={minimizedSidebar ? 'arrow_right' : 'arrow_left'}
+                  aria-label={
+                    minimizedSidebar
+                      ? 'Expand sidebar'
+                      : 'Collapse sidebar'
+                  }
                   space="x-small"
                   variant="secondary"
                   onClick={clickHandler}
