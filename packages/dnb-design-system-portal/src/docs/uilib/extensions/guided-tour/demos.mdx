@@ -1,0 +1,29 @@
+---
+showTabs: true
+---
+
+import * as Examples from './Examples'
+
+## Demos
+
+See the [demo case](/uilib/extensions/guided-tour/demo-cases/payment/) for a full-page example.
+
+### Basic
+
+A tour with an intro, steps and an outro.
+
+<Examples.GuidedTourBasicExample />
+
+### Centered step and hidden target
+
+A step without a `target` is centered on the screen. A step whose target is hidden is skipped, and is not counted in the progress.
+
+<Examples.GuidedTourCenteredExample />
+
+### Reveal hidden elements with onBeforeShow
+
+Use `onBeforeShow` when a step's target isn't visible yet, e.g. inside a collapsed Accordion. It runs right before the step is shown, so it can open the Accordion. Without it, the step would be skipped.
+
+The tour doesn't undo these changes. Reset them in `onOpenChange` if needed, as this example does.
+
+<Examples.GuidedTourOnBeforeShowExample />
