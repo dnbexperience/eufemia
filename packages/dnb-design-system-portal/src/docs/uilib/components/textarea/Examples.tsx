@@ -141,9 +141,27 @@ export const Sizes = () => (
   <Wrapper>
     <ComponentBox data-visual-test="textarea-sizes">
       <Flex.Stack>
-        <Textarea placeholder="Small size" size="small" rows={1} />
-        <Textarea placeholder="Medium size" size="medium" rows={1} />
-        <Textarea placeholder="Large size" size="large" rows={1} />
+        <Textarea
+          label="Small size"
+          labelSrOnly
+          placeholder="Small size"
+          size="small"
+          rows={1}
+        />
+        <Textarea
+          label="Medium size"
+          labelSrOnly
+          placeholder="Medium size"
+          size="medium"
+          rows={1}
+        />
+        <Textarea
+          label="Large size"
+          labelSrOnly
+          placeholder="Large size"
+          size="large"
+          rows={1}
+        />
       </Flex.Stack>
     </ComponentBox>
   </Wrapper>
