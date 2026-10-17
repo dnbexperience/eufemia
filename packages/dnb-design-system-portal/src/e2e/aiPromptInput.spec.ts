@@ -2,6 +2,59 @@ import { test, expect } from '@playwright/test'
 import waitForApp from './shared/waitForApp'
 
 test.describe('Ai.PromptInput interaction styles', () => {
+  test('keeps keyboard focus after sending with the default button', async ({
+    page,
+  }) => {
+    const form = page.locator(
+      '[data-visual-test="ai-prompt-input-default"] .dnb-ai-prompt-input'
+    )
+    const textarea = form.locator('textarea')
+    await textarea.fill('Hello')
+    const send = form.locator('button[type="submit"]')
+    await send.focus()
+    await send.press('Enter')
+    await expect(textarea).toHaveValue('')
+    await expect(textarea).toBeFocused()
+  })
+
+  test('keeps keyboard focus after Stop becomes disabled Send', async ({
+    page,
+  }) => {
+    const form = page.locator(
+      '[data-visual-test="ai-prompt-input-busy-default"] .dnb-ai-prompt-input'
+    )
+    const textarea = form.locator('textarea')
+    await textarea.fill('Hello')
+    await textarea.press('Enter')
+    const stop = form.locator('.dnb-ai-prompt-input__stop')
+    await expect(stop).toBeVisible()
+    await stop.focus()
+    await stop.press('Enter')
+    await expect(form.locator('button[type="submit"]')).toBeDisabled()
+    await expect(textarea).toBeFocused()
+  })
+
+  test('uses the Textarea disabled background on the whole card', async ({
+    page,
+  }) => {
+    const form = page.locator(
+      '[data-visual-test="ai-prompt-input-disabled"] .dnb-ai-prompt-input'
+    )
+    const expected = await form.evaluate((element) => {
+      const probe = document.createElement('div')
+      probe.style.backgroundColor =
+        'var(--token-color-background-neutral-subtle)'
+      element.append(probe)
+      const color = getComputedStyle(probe).backgroundColor
+      probe.remove()
+      return color
+    })
+    await expect(form).toHaveCSS('background-color', expected)
+    await expect(form.locator('textarea')).toBeDisabled()
+    for (const button of await form.locator('button').all()) {
+      await expect(button).toBeDisabled()
+    }
+  })
   for (const demo of ['compact', 'inline', 'busy']) {
     test(`keeps the ${demo} prompt height when typing starts`, async ({
       page,
@@ -116,7 +169,9 @@ test.describe('Ai.PromptInput interaction styles', () => {
   })
 
   test('keeps input error feedback on focus', async ({ page }) => {
-    const form = page.locator('.dnb-ai-prompt-input').last()
+    const form = page.locator(
+      '[data-visual-test="ai-prompt-input-error"] .dnb-ai-prompt-input'
+    )
     await form.locator('textarea').hover()
     await form.locator('textarea').focus()
     const border = await form.evaluate((element) =>
@@ -128,5 +183,31 @@ test.describe('Ai.PromptInput interaction styles', () => {
         .trim()
     )
     expect(border).toBe(error)
+  })
+})
+
+test.describe('Ai.PromptInput on touch-primary devices', () => {
+  test.use({ hasTouch: true })
+
+  test('keeps Enter for newlines and submits with the button', async ({
+    page,
+  }) => {
+    await page.goto('/uilib/extensions/ai/PromptInput/demos/')
+    await waitForApp(page)
+    expect(
+      await page.evaluate(
+        () => matchMedia('(hover: none) and (pointer: coarse)').matches
+      )
+    ).toBe(true)
+    const form = page.locator(
+      '[data-visual-test="ai-prompt-input-default"] .dnb-ai-prompt-input'
+    )
+    const textarea = form.locator('textarea')
+    await textarea.fill('Hello')
+    await textarea.press('Enter')
+    await textarea.pressSequentially('world')
+    await expect(textarea).toHaveValue('Hello\nworld')
+    await form.locator('button[type="submit"]').click()
+    await expect(textarea).toHaveValue('')
   })
 })

@@ -86,6 +86,49 @@ describe('PromptInput', () => {
     expect(getTextarea()).toHaveValue('a\nb')
   })
 
+  it('adds a new line on touch-primary devices and sends with the button', async () => {
+    const original = window.matchMedia
+    window.matchMedia = vi.fn((query) => ({
+      ...original?.(query),
+      matches: query === '(hover: none) and (pointer: coarse)',
+    }))
+    try {
+      const onSubmit = vi.fn()
+      render(<PromptInput onSubmit={onSubmit} />)
+      await userEvent.type(getTextarea(), 'Hello{Enter}world')
+      expect(onSubmit).not.toHaveBeenCalled()
+      expect(getTextarea()).toHaveValue('Hello\nworld')
+      await userEvent.click(getSubmit())
+      expect(onSubmit).toHaveBeenCalledWith(
+        expect.objectContaining({ value: 'Hello\nworld' })
+      )
+    } finally {
+      window.matchMedia = original
+    }
+  })
+
+  it('returns focus to the default input after sending clears its value', async () => {
+    render(<PromptInput />)
+    await userEvent.type(getTextarea(), 'Hello')
+    await userEvent.click(getSubmit())
+    expect(getTextarea()).toHaveValue('')
+    expect(getTextarea()).toHaveFocus()
+  })
+
+  it('returns focus to the default input when stopping disables Send', async () => {
+    const Demo = () => {
+      const [busy, setBusy] = useState(true)
+      return <PromptInput isBusy={busy} onStop={() => setBusy(false)} />
+    }
+    render(<Demo />)
+    document
+      .querySelector<HTMLButtonElement>('.dnb-ai-prompt-input__stop')
+      .focus()
+    await userEvent.keyboard('{Enter}')
+    expect(getSubmit()).toBeDisabled()
+    expect(getTextarea()).toHaveFocus()
+  })
+
   it('does not submit while composing text', () => {
     const onSubmit = vi.fn()
     render(<PromptInput value="Hei" onSubmit={onSubmit} />)
