@@ -4,6 +4,7 @@ import type { SharedStateId } from '../../../../shared/helpers/useSharedState'
 import {
   createReferenceKey,
   createSharedState,
+  useSharedStateStore,
 } from '../../../../shared/helpers/useSharedState'
 import { defaultContextState } from '../../DataContext/Context'
 import DataContextRefContext from '../../DataContext/DataContextRefContext'
@@ -30,13 +31,16 @@ export default function useDataWithoutSubscription<Data = JsonObject>(
     typeof createSharedState<SharedAttachments<Data>>
   > | null>(null)
 
+  const store = useSharedStateStore()
   sharedDataRef.current = id
-    ? createSharedState<Data>(id, initialData)
+    ? createSharedState<Data>(id, initialData, store)
     : null
 
   sharedAttachmentsRef.current = id
     ? createSharedState<SharedAttachments<Data>>(
-        createReferenceKey(id, 'attachments')
+        createReferenceKey(id, 'attachments', store),
+        undefined,
+        store
       )
     : null
 

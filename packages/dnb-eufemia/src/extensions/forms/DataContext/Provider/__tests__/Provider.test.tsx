@@ -6,7 +6,7 @@ import {
   useEffect,
   useReducer,
 } from 'react'
-import type { RefObject } from 'react'
+import type { ReactElement, RefObject } from 'react'
 import {
   act,
   fireEvent,
@@ -2642,6 +2642,90 @@ describe('DataContext.Provider', { retry: isCI ? 5 : 0 }, () => {
       container.remove()
       log.mockRestore()
       window.sessionStorage.removeItem(sessionStorageId)
+    })
+
+    describe('hydration of server-rendered markup with an id', () => {
+      const renderOnServer = (element: ReactElement) => {
+        const originalDocument = globalThis.document
+        try {
+          delete globalThis.document
+          return renderToString(element)
+        } finally {
+          globalThis.document = originalDocument
+        }
+      }
+
+      const hydrate = (element: ReactElement) => {
+        const html = renderOnServer(element)
+
+        const container = document.createElement('div')
+        container.innerHTML = html
+        document.body.appendChild(container)
+
+        const recoverableErrors = []
+        let root: ReturnType<typeof hydrateRoot>
+        act(() => {
+          root = hydrateRoot(container, element, {
+            onRecoverableError: (error) => recoverableErrors.push(error),
+          })
+        })
+
+        return {
+          html,
+          container,
+          recoverableErrors,
+          cleanup: () => {
+            act(() => root.unmount())
+            container.remove()
+          },
+        }
+      }
+
+      it('should hydrate data rendered inside Form.Handler', () => {
+        const element = (
+          <Form.Handler id="hydrate-scoped-data" data={{ foo: 'bar' }}>
+            <Field.String path="/foo" />
+            <Value.String path="/foo" />
+          </Form.Handler>
+        )
+
+        const { html, container, recoverableErrors, cleanup } =
+          hydrate(element)
+
+        expect(html).toContain('>bar<')
+        expect(recoverableErrors).toEqual([])
+        expect(container.querySelector('input')).toHaveValue('bar')
+
+        cleanup()
+      })
+
+      it('should hydrate data from Form.useData in a parent inside a Provider', () => {
+        const MyForm = () => {
+          const { data } = Form.useData('hydrate-parent-data', {
+            foo: 'bar',
+          })
+
+          return (
+            <Form.Handler id="hydrate-parent-data">
+              <Value.String path="/foo" label={`label-${data.foo}`} />
+            </Form.Handler>
+          )
+        }
+
+        const element = (
+          <SharedProvider>
+            <MyForm />
+          </SharedProvider>
+        )
+
+        const { html, recoverableErrors, cleanup } = hydrate(element)
+
+        expect(html).toContain('label-bar')
+        expect(html).toContain('>bar<')
+        expect(recoverableErrors).toEqual([])
+
+        cleanup()
+      })
     })
 
     it('should not re-render after hydration when sessionStorageId is not given', () => {

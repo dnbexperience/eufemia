@@ -18,6 +18,7 @@ import { LOCALE } from './defaults'
 import { prepareFormElementContext } from './helpers/filterValidProps'
 import { mergeTranslations } from './Translation'
 import { warn } from './component-helper'
+import SharedStateScope from './helpers/SharedStateScope'
 
 export type ProviderProps = {
   /**
@@ -144,7 +145,11 @@ export default function Provider<Props>(
     setCurrentLocale,
   ])
 
-  return <Context value={value}>{localProps.children}</Context>
+  return (
+    <Context value={value}>
+      <SharedStateScope>{localProps.children}</SharedStateScope>
+    </Context>
+  )
 }
 
 type MergeContextProps = {

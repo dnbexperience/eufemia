@@ -43,7 +43,9 @@ import SharedContext from '../../../shared/Context'
 import {
   createReferenceKey,
   createSharedState,
+  useSharedStateStore,
 } from '../../../shared/helpers/useSharedState'
+import { useFieldBlockPropsHandoff } from '../FieldBlock/useFieldBlockPropsHandoff'
 import { isAsync } from '../../../shared/helpers/isAsync'
 import useTranslation from './useTranslation'
 import useExternalValue from './useExternalValue'
@@ -1342,6 +1344,8 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     valueEqualsEmptyValue,
   ])
 
+  const sharedStateStore = useSharedStateStore()
+
   useEffect(() => {
     if (prerenderFieldProps || !dataContext?.id) {
       return undefined // stop here
@@ -1349,7 +1353,11 @@ export default function useFieldProps<Value, EmptyValue, Props>(
 
     const sharedAttachments = createSharedState<{
       fieldStatusRef?: RefObject<Record<Identifier, EventStateObject>>
-    }>(createReferenceKey(dataContext.id, 'attachments')).get?.()
+    }>(
+      createReferenceKey(dataContext.id, 'attachments', sharedStateStore),
+      undefined,
+      sharedStateStore
+    ).get?.()
 
     const status = sharedAttachments?.fieldStatusRef?.current?.[identifier]
     if (status) {
@@ -1361,6 +1369,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     locale,
     prerenderFieldProps,
     setEventResult,
+    sharedStateStore,
   ])
 
   // Context error handling
@@ -1425,7 +1434,11 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         typeof existingValue === 'undefined' &&
         typeof valueToStore === 'undefined'
       ) {
-        const sharedState = createSharedState(dataContext.id)
+        const sharedState = createSharedState(
+          dataContext.id,
+          undefined,
+          sharedStateStore
+        )
         const hasValue = pointer.has(sharedState.data, storePath)
         if (hasValue) {
           const sharedValue = pointer.get(sharedState.data, storePath)
@@ -1586,6 +1599,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       iterateIndex,
       makeIteratePath,
       nestedIteratePath,
+      sharedStateStore,
       transformers,
       updateContextDataInSync,
       updateDataValueDataContext,
@@ -1986,8 +2000,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       typeof props['size'] === 'string' ? props['size'] : undefined, // component/field size
   }
 
-  const sharedData = createSharedState('field-block-props-' + id)
-  sharedData.set(fieldBlockProps, { silent: true })
+  useFieldBlockPropsHandoff(id).set(fieldBlockProps)
 
   useEffect(() => {
     isInternalRerenderRef.current = undefined

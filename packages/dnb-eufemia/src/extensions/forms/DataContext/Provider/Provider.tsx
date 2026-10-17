@@ -42,11 +42,13 @@ import GlobalStatusProvider from '../../../../components/global-status/GlobalSta
 import { isAsync } from '../../../../shared/helpers/isAsync'
 import type { SharedStateId } from '../../../../shared/helpers/useSharedState'
 import {
+  SharedStateScopeContext,
   createReferenceKey,
   createSharedState,
   preSeedSharedState,
   shallowEqual,
   useSharedState,
+  useSharedStateStore,
 } from '../../../../shared/helpers/useSharedState'
 import type { ContextProps } from '../../../../shared/Context'
 import SharedContext from '../../../../shared/Context'
@@ -282,6 +284,8 @@ export default function Provider<Data extends JsonObject>(
 
   // - Element
   const formElementRef = useRef<HTMLFormElement>(null)
+
+  const sharedStateStore = useSharedStateStore()
 
   // - Locale
   const { locale: sharedLocale } = useContext(SharedContext) || {}
@@ -1005,12 +1009,16 @@ export default function Provider<Data extends JsonObject>(
   // hadInitialData stays false, allowing Form.useData(..., initialData) calls
   // to still merge their own initialData via useMountEffect.
   if (id && initialData !== undefined) {
-    preSeedSharedState<Data>(id, initialData)
+    preSeedSharedState<Data>(id, initialData, sharedStateStore)
   }
-  const sharedData = useSharedState<Data>(id)
+  const sharedData = useSharedState<Data>(id, undefined, undefined, {
+    store: sharedStateStore,
+  })
   const sharedAttachments = id
     ? createSharedState<SharedAttachments<Data>>(
-        createReferenceKey(id, 'attachments')
+        createReferenceKey(id, 'attachments', sharedStateStore),
+        undefined,
+        sharedStateStore
       )
     : null
   // Use createSharedState (non-reactive) instead of useSharedState here
@@ -1021,7 +1029,9 @@ export default function Provider<Data extends JsonObject>(
   // re-render — repeatedly.
   const sharedDataContext = id
     ? createSharedState<ContextState>(
-        createReferenceKey(id, 'data-context')
+        createReferenceKey(id, 'data-context', sharedStateStore),
+        undefined,
+        sharedStateStore
       )
     : null
 
@@ -2103,25 +2113,27 @@ export default function Provider<Data extends JsonObject>(
   ])
 
   return (
-    <DataContext value={contextValue}>
-      <DataContextRefContext value={contextValueRef}>
-        <FieldPropsProvider
-          FormStatus={formStatusConfig}
-          forceDisabled={forceDisabled || undefined}
-          formElement={disabled ? { disabled: true } : undefined}
-          locale={locale ? locale : undefined}
-          translations={translations ? translations : undefined}
-          translationsLoader={
-            translationsLoader ? translationsLoader : undefined
-          }
-          messageFormatter={
-            messageFormatter ? messageFormatter : undefined
-          }
-        >
-          {children}
-        </FieldPropsProvider>
-      </DataContextRefContext>
-    </DataContext>
+    <SharedStateScopeContext value={sharedStateStore}>
+      <DataContext value={contextValue}>
+        <DataContextRefContext value={contextValueRef}>
+          <FieldPropsProvider
+            FormStatus={formStatusConfig}
+            forceDisabled={forceDisabled || undefined}
+            formElement={disabled ? { disabled: true } : undefined}
+            locale={locale ? locale : undefined}
+            translations={translations ? translations : undefined}
+            translationsLoader={
+              translationsLoader ? translationsLoader : undefined
+            }
+            messageFormatter={
+              messageFormatter ? messageFormatter : undefined
+            }
+          >
+            {children}
+          </FieldPropsProvider>
+        </DataContextRefContext>
+      </DataContext>
+    </SharedStateScopeContext>
   )
 }
 
