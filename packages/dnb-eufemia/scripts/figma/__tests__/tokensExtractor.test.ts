@@ -35,8 +35,8 @@ const meta: FigmaLocalVariables = {
         { modeId: '1:2', name: 'sbanken-light' },
         { modeId: '1:3', name: 'sbanken-dark' },
         { modeId: '1:4', name: 'dnbcarnegie-light' },
-        { modeId: '1:5', name: 'dnbeiendom-light' },
-        { modeId: '1:6', name: 'dnbeiendom-dark' },
+        { modeId: '1:5', name: 'dnbeiendom-light (test)' },
+        { modeId: '1:6', name: 'dnbeiendom-dark (test)' },
       ],
       defaultModeId: '1:0',
       variableIds: [

@@ -169,13 +169,13 @@ export const TOKEN_EXPORTS: ReadonlyArray<{
   {
     collection: 'brand',
     collectionId: BRAND_COLLECTION_ID,
-    mode: 'dnbeiendom-light',
+    mode: 'dnbeiendom-light (test)',
     fileName: 'brand/dnbeiendom-light.tokens.json',
   },
   {
     collection: 'brand',
     collectionId: BRAND_COLLECTION_ID,
-    mode: 'dnbeiendom-dark',
+    mode: 'dnbeiendom-dark (test)',
     fileName: 'brand/dnbeiendom-dark.tokens.json',
   },
 ]

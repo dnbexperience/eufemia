@@ -77,7 +77,7 @@ export const fetchFigmaTokens = async ({
   ...args
 }: FetchFigmaTokensOptions = {}) => {
   try {
-    log.start('> Figma: Starting the design tokens fetch')
+    log.start('> Figma: Starting the design tokens fetch TEST')
     const files = await extractTokens({ figmaFile, ...args })
     log.succeed(
       `> Figma: Design tokens conversion done (${files.length} files)`
