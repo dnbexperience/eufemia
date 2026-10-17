@@ -151,7 +151,13 @@ test('allows selecting suggestions and retaining a manually entered name', async
     `url("${directory}/star.svg")`
   )
   await expect(input).toBeFocused()
+  await expect(page.locator('html')).not.toHaveAttribute(
+    'data-dnb-drawer-list-active'
+  )
   await input.fill('hea')
+  await expect(page.locator('html')).toHaveAttribute(
+    'data-dnb-drawer-list-active'
+  )
   await page.getByRole('option', { name: 'heart', exact: true }).click()
   await expect(input).toHaveValue('heart')
   await expect(icon).toHaveCSS(
@@ -159,6 +165,9 @@ test('allows selecting suggestions and retaining a manually entered name', async
     `url("${directory}/heart.svg")`
   )
   await expect(input).toBeFocused()
+  await expect(page.locator('html')).not.toHaveAttribute(
+    'data-dnb-drawer-list-active'
+  )
 
   await input.fill('home')
   await demo
