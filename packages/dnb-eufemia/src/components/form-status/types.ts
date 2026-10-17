@@ -81,7 +81,7 @@ export type FormStatusProps = {
    */
   iconSize?: IconSize
   /**
-   * Defines the visual appearance of the status. These are the statuses `error`, `warning`, `information` and `marketing`. The default status is `error`.
+   * Defines the visual appearance of the status. These are the statuses `error`, `warning`, `information`, `success` and `marketing`. The default status is `error`.
    */
   state?: FormStatusState
   /**
