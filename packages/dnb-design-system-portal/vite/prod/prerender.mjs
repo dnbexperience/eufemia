@@ -466,25 +466,6 @@ function injectHtml(
     ''
   )
 
-  // React's renderToString serializes CSS custom properties in inline
-  // styles without spaces (e.g. "--var:value") while the browser
-  // normalizes them with spaces ("--var: value;"). This causes
-  // hydration mismatches. Normalize the format to match the browser.
-  appHtml = appHtml.replace(/style="([^"]*)"/g, (_match, styleContent) => {
-    const normalized = styleContent
-      .split(';')
-      .filter(Boolean)
-      .map((decl) => {
-        const colonIdx = decl.indexOf(':')
-        if (colonIdx === -1) return decl
-        const prop = decl.slice(0, colonIdx).trim()
-        const value = decl.slice(colonIdx + 1).trim()
-        return `${prop}: ${value}`
-      })
-      .join('; ')
-    return normalized ? `style="${normalized};"` : 'style=""'
-  })
-
   // Restore sidebar scroll position before first paint.
   const scrollRestoreScript = `(function(){try{var el=document.getElementById('portal-sidebar-menu');if(el){var s=parseFloat(sessionStorage.getItem('scroll-#portal-sidebar-menu')||'0');if(s){el.style.scrollBehavior='auto';el.scrollTop=s;el.style.scrollBehavior=''}}}catch(e){}})()`
 

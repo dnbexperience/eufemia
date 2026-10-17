@@ -269,28 +269,6 @@ export function injectHtml(
     ''
   )
 
-  // React's renderToString serializes CSS custom properties in inline
-  // styles without spaces (e.g. "--var:value") while the browser
-  // normalizes them with spaces ("--var: value;"). This causes
-  // hydration mismatches. Normalize the format to match the browser.
-  appHtml = appHtml.replace(
-    /style="([^"]*)"/g,
-    (_match: string, styleContent: string) => {
-      const normalized = styleContent
-        .split(';')
-        .filter(Boolean)
-        .map((decl: string) => {
-          const colonIdx = decl.indexOf(':')
-          if (colonIdx === -1) return decl
-          const prop = decl.slice(0, colonIdx).trim()
-          const value = decl.slice(colonIdx + 1).trim()
-          return `${prop}: ${value}`
-        })
-        .join('; ')
-      return normalized ? `style="${normalized};"` : 'style=""'
-    }
-  )
-
   // Inject the prerendered HTML into the root div, followed by a
   // blocking script that swaps color-scheme classes on Theme elements
   // before the browser paints — preventing a dark-mode FOUC.

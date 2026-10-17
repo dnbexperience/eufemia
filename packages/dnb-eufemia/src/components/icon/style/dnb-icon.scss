@@ -20,6 +20,35 @@
   width: 1em;
   height: 1em;
 
+  &__cdn {
+    display: inline-block;
+    vertical-align: top;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    print-color-adjust: exact;
+
+    &--mask {
+      background-color: currentcolor;
+      mask-position: center;
+      mask-repeat: no-repeat;
+      mask-size: contain;
+      mask-mode: alpha;
+
+      /* Safari 14.1 requires prefixed mask properties. */
+      /* stylelint-disable property-no-vendor-prefix */
+      -webkit-mask-position: center;
+      -webkit-mask-repeat: no-repeat;
+      -webkit-mask-size: contain;
+      /* stylelint-enable property-no-vendor-prefix */
+
+      @media (forced-colors: active) {
+        background-color: CanvasText;
+        forced-color-adjust: none;
+      }
+    }
+  }
+
   // responsive
   img,
   svg {
