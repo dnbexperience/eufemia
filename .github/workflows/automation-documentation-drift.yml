@@ -1,0 +1,110 @@
+name: Automation - Documentation drift
+
+on:
+  schedule:
+    - cron: '23 5 * * 1'
+  workflow_dispatch:
+
+permissions:
+  actions: read # Download the context artifact in the reusable workflow.
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: true
+
+jobs:
+  prepare:
+    name: Collect recent change context
+    if: >-
+      vars.AUTOMATIONS_ENABLED == 'true' &&
+      github.repository == 'dnbexperience/eufemia'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    outputs:
+      artifact-name: ${{ steps.context.outputs.artifact-name }}
+      should-run: ${{ steps.context.outputs.should-run }}
+
+    steps:
+      - name: Check out default branch
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Collect context
+        id: context
+        run: |
+          context_dir="$RUNNER_TEMP/documentation-drift-context"
+          mkdir -p "$context_dir"
+
+          git log --since='7 days ago' --date=iso-strict \
+            --pretty=format:'%H%x09%ad%x09%s' > "$context_dir/commits.tsv"
+          git log --since='7 days ago' --name-status \
+            --pretty=format:'commit %H %s' > "$context_dir/changes.txt"
+          head -c 200000 "$context_dir/changes.txt" > "$context_dir/changes-bounded.txt"
+          mv "$context_dir/changes-bounded.txt" "$context_dir/changes.txt"
+
+          if [ ! -s "$context_dir/commits.tsv" ]; then
+            {
+              echo "## Documentation drift"
+              echo
+              echo "No commits in the last seven days."
+            } >> "$GITHUB_STEP_SUMMARY"
+            echo "should-run=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          artifact_name="documentation-drift-context-$GITHUB_RUN_ID"
+          {
+            echo "artifact-name=$artifact_name"
+            echo "should-run=true"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Upload context
+        if: steps.context.outputs.should-run == 'true'
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: ${{ steps.context.outputs.artifact-name }}
+          path: ${{ runner.temp }}/documentation-drift-context
+          retention-days: 14
+
+  analyze:
+    name: Detect documentation drift
+    needs: prepare
+    if: needs.prepare.outputs.should-run == 'true'
+    uses: ./.github/workflows/automation-run.yml
+    with:
+      context-artifact: ${{ needs.prepare.outputs.artifact-name }}
+      prompt-file: documentation-drift.md
+      report-name: documentation-drift-${{ github.run_id }}
+
+  notify:
+    name: Update documentation drift issue
+    needs: analyze
+    if: needs.analyze.outputs.report != ''
+    permissions:
+      contents: read
+      issues: write # Update the documentation drift tracking issue.
+    uses: ./.github/workflows/automation-notify.yml
+    with:
+      marker: eufemia-automation:documentation-drift
+      report: ${{ needs.analyze.outputs.report }}
+      target: documentation-drift
+      target-kind: issue
+      title: 'Automation report: documentation drift'
+
+  clear-notification:
+    name: Close resolved documentation drift issue
+    needs: prepare
+    if: needs.prepare.outputs.should-run == 'false'
+    permissions:
+      contents: read
+      issues: write # Close the documentation drift tracking issue.
+    uses: ./.github/workflows/automation-notify.yml
+    with:
+      marker: eufemia-automation:documentation-drift
+      report: '{"title":"Documentation drift","summary":"No recent changes require documentation review.","status":"ok","findings":[],"metrics":[]}'
+      target: documentation-drift
+      target-kind: issue
+      title: 'Automation report: documentation drift'
