@@ -215,7 +215,7 @@ export const AiPromptInputEvents: PropertiesTableProps = {
     status: 'optional',
   },
   onSubmit: {
-    doc: 'Called with the text when the user presses Enter or the send button. Receives `{ value, event }`. Empty text is not submitted. Shift+Enter adds a new line.',
+    doc: 'Called with the text when the user presses Enter on desktop or the send button. Receives `{ value, event }`. Empty text is not submitted. Shift+Enter and Enter on touch-primary devices add a new line.',
     type: 'function',
     status: 'optional',
   },

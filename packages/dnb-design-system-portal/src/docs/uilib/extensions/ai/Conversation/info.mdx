@@ -20,7 +20,15 @@ Use `scrollBehavior="end"` to always follow the end of the conversation instead,
 
 The conversation only moves when the user sends a message or asks for it. Content that changes, like a reply that streams in or older messages that are added above, does not move what the user reads. Short conversations start at the bottom, like in most chats.
 
-Give it a height, e.g. with `style` or by placing it in a flex layout. Screen readers announce new messages, but not every word of a reply that streams in, as it is a [log](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Roles/log_role) that only announces additions. The conversation can be scrolled with the keyboard when its content overflows.
+Give it a height, e.g. with `style` or by placing it in a flex layout. The conversation can be scrolled with the keyboard when its content overflows.
+
+### Announcements while streaming
+
+The scroll view is a [log](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Reference/Roles/log_role) that announces additions by default. This does not guarantee that updates to a streaming message will be announced in full.
+
+The application owns streaming announcements because it knows when a reply finishes, stops or fails. Set `aria-live="off"` on the conversation and keep a separate [AriaLive](/uilib/components/aria-live/) mounted outside it. Update that region once when the operation ends. Clear its text when a new operation starts, so identical replies can be announced in separate turns. Keep partial replies visible after cancellation or failure, and provide a useful localized announcement for that outcome.
+
+See the [announcement recipe](/uilib/extensions/ai/integrations/#screen-reader-announcements) and [live demo](/uilib/extensions/ai/demos/#streamed-reply-announcements). Check the result with the screen readers your application supports; DOM attributes alone do not prove spoken behavior.
 
 ### Scroll from elsewhere
 
