@@ -1,0 +1,196 @@
+name: Automation - Release announcement
+
+on:
+  # zizmor: ignore[dangerous-triggers] This trusted observer analyzes a published release and never executes release-branch code.
+  workflow_run:
+    workflows: [Release]
+    types: [completed]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.workflow_run.head_sha }}
+  cancel-in-progress: true
+
+jobs:
+  prepare:
+    name: Collect published release context
+    if: >-
+      vars.AUTOMATIONS_ENABLED == 'true' &&
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.head_branch == 'release' &&
+      github.event.workflow_run.head_repository.full_name == github.repository &&
+      startsWith(github.event.workflow_run.display_title, 'release of v')
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      actions: read # Read the successful Release workflow run.
+      contents: read
+      pull-requests: read # Resolve the merged release PR.
+    outputs:
+      artifact-name: ${{ steps.context.outputs.artifact-name }}
+      pull-number: ${{ steps.context.outputs.pull-number }}
+      version: ${{ steps.context.outputs.version }}
+
+    steps:
+      - name: Check out trusted release tooling
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Collect context
+        id: context
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RUN_ID: ${{ github.event.workflow_run.id }}
+        run: |
+          context_dir="$RUNNER_TEMP/release-announcement-context"
+          mkdir -p "$context_dir"
+          gh api "repos/$GITHUB_REPOSITORY/actions/runs/$RUN_ID" > "$context_dir/run.json"
+          node .github/automations/release/collect-release-context.mjs \
+            "$context_dir/run.json" \
+            "$context_dir/release-context.json"
+
+          artifact_name="release-announcement-context-$RUN_ID"
+          {
+            echo "artifact-name=$artifact_name"
+            echo "pull-number=$(jq --raw-output '.releasePullRequest.number' "$context_dir/release-context.json")"
+            echo "version=$(jq --raw-output '.version' "$context_dir/release-context.json")"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Upload context
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: ${{ steps.context.outputs.artifact-name }}
+          path: ${{ runner.temp }}/release-announcement-context/release-context.json
+          retention-days: 30
+
+  generate:
+    name: Generate announcement
+    needs: prepare
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    environment: automation
+    permissions:
+      actions: read # Download the release context artifact.
+      contents: read
+    outputs:
+      announcement: ${{ steps.codex.outputs.final-message }}
+
+    steps:
+      - name: Check out trusted automation
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Prepare trusted files
+        env:
+          CODEX_HOME: ${{ runner.temp }}/release-codex-home
+          TRUSTED_DIR: ${{ runner.temp }}/release-trusted
+        run: |
+          mkdir -p "$CODEX_HOME" "$TRUSTED_DIR"
+          cp .github/automations/config.toml "$CODEX_HOME/config.toml"
+          cp .github/automations/guardrails.json "$TRUSTED_DIR/guardrails.json"
+          cp .github/automations/mcp-contract.json "$TRUSTED_DIR/mcp-contract.json"
+          cp .github/automations/release/announcement.schema.json "$TRUSTED_DIR/announcement.schema.json"
+          cp .github/automations/prompts/release-announcement.md "$TRUSTED_DIR/prompt.md"
+          cp .github/automations/scripts/check-mcp-tools.sh "$TRUSTED_DIR/check-mcp-tools.sh"
+          cp .github/automations/scripts/validate-context.mjs "$TRUSTED_DIR/validate-context.mjs"
+          cp .github/automations/scripts/validate-runtime-config.sh "$TRUSTED_DIR/validate-runtime-config.sh"
+
+      - name: Download release context
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+        with:
+          name: ${{ needs.prepare.outputs.artifact-name }}
+          path: ${{ runner.temp }}/release-context
+
+      - name: Prepare model context
+        env:
+          API_GATEWAY: ${{ vars.API_GATEWAY }}
+          MODEL: ${{ vars.MODEL }}
+        run: |
+          node "$RUNNER_TEMP/release-trusted/validate-context.mjs" \
+            "$RUNNER_TEMP/release-context" \
+            "$RUNNER_TEMP/release-trusted/guardrails.json"
+          mkdir -p .automation-context
+          cp "$RUNNER_TEMP/release-context/release-context.json" \
+            .automation-context/release-context.json
+          bash "$RUNNER_TEMP/release-trusted/validate-runtime-config.sh" \
+            "$API_GATEWAY" \
+            "$MODEL" \
+            "$RUNNER_TEMP/release-trusted/guardrails.json"
+          mapfile -t required_tools < <(
+            jq --raw-output '.requiredTools[]' \
+              "$RUNNER_TEMP/release-trusted/mcp-contract.json"
+          )
+          bash "$RUNNER_TEMP/release-trusted/check-mcp-tools.sh" \
+            https://server.eufemia.dnb.no/mcp/web \
+            "${required_tools[@]}"
+
+      - name: Run announcement generator
+        id: codex
+        uses: openai/codex-action@86365089eb2b84e0a8fb0717b304f8bdcb13b20e # v1
+        with:
+          codex-home: ${{ runner.temp }}/release-codex-home
+          codex-version: 0.149.1
+          codex-args: '["--ephemeral"]'
+          effort: medium
+          model: ${{ vars.MODEL }}
+          openai-api-key: ${{ secrets.SECRET_API_KEY }}
+          allow-bots: true
+          output-schema-file: ${{ runner.temp }}/release-trusted/announcement.schema.json
+          permission-profile: automation-read-only
+          prompt-file: ${{ runner.temp }}/release-trusted/prompt.md
+          responses-api-endpoint: ${{ vars.API_GATEWAY }}
+          safety-strategy: drop-sudo
+
+  publish:
+    name: Publish Slack-ready comment
+    needs: [prepare, generate]
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      actions: read # Download the release context artifact.
+      contents: read
+      issues: write # Upsert the Slack-ready comment on the release PR.
+
+    steps:
+      - name: Check out trusted publisher
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          fetch-depth: 1
+          persist-credentials: false
+
+      - name: Download release context
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+        with:
+          name: ${{ needs.prepare.outputs.artifact-name }}
+          path: ${{ runner.temp }}/release-context
+
+      - name: Validate and publish comment
+        env:
+          ANNOUNCEMENT: ${{ needs.generate.outputs.announcement }}
+          GH_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ needs.prepare.outputs.pull-number }}
+          VERSION: ${{ needs.prepare.outputs.version }}
+        run: |
+          printf '%s' "$ANNOUNCEMENT" > "$RUNNER_TEMP/announcement.json"
+          node .github/automations/release/validate-announcement.mjs \
+            "$RUNNER_TEMP/announcement.json" \
+            "$RUNNER_TEMP/release-context/release-context.json" \
+            "$RUNNER_TEMP/comment.md"
+          node .github/automations/release/verify-docs-links.mjs \
+            "$RUNNER_TEMP/announcement.json" \
+            "$RUNNER_TEMP/release-context/release-context.json"
+          node .github/automations/release/upsert-comment.mjs \
+            "$GITHUB_REPOSITORY" \
+            "$PR_NUMBER" \
+            "eufemia-release-announcement:$VERSION" \
+            "$RUNNER_TEMP/comment.md"
+          cat "$RUNNER_TEMP/comment.md" >> "$GITHUB_STEP_SUMMARY"
