@@ -70,7 +70,8 @@ function AiPromptInput(props: AiPromptInputProps) {
     if (
       event.key === 'Enter' &&
       !event.shiftKey &&
-      !event.nativeEvent.isComposing
+      !event.nativeEvent.isComposing &&
+      !window.matchMedia?.('(hover: none) and (pointer: coarse)').matches
     ) {
       event.preventDefault()
       submit(event)
@@ -80,7 +81,7 @@ function AiPromptInput(props: AiPromptInputProps) {
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     submit(event)
-    if (isCompact && !isSubmitDisabled) {
+    if (!isSubmitDisabled) {
       event.currentTarget
         .querySelector<HTMLTextAreaElement>(
           '.dnb-ai-prompt-input__textarea textarea'
@@ -191,11 +192,7 @@ function AiPromptInput(props: AiPromptInputProps) {
           : { text: translation.stop })}
         disabled={disabled}
         onClick={({ event }) => {
-          if (
-            isCompact &&
-            isEmpty &&
-            document.activeElement === event.currentTarget
-          ) {
+          if (isEmpty && document.activeElement === event.currentTarget) {
             event.currentTarget
               .closest('form')
               ?.querySelector('textarea')
