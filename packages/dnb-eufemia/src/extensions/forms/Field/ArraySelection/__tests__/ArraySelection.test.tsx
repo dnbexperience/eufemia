@@ -1,4 +1,6 @@
-import { useState } from 'react'
+import { act, useState } from 'react'
+import { renderToString } from 'react-dom/server'
+import { hydrateRoot } from 'react-dom/client'
 import { render, fireEvent, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { axeComponent } from '../../../../../core/test-utils/testSetup'
@@ -814,6 +816,37 @@ describe('ArraySelection', () => {
         </Field.ArraySelection>
       )
       expect(await axeComponent(Comp)).toHaveNoViolations()
+    })
+
+    it('should keep all options checked before hydration', () => {
+      const onChange = vi.fn()
+      const element = (
+        <Field.ArraySelection onChange={onChange}>
+          <Field.Option value="foo">Foo</Field.Option>
+          <Field.Option value="bar">Bar</Field.Option>
+          <Field.Option value="baz">Baz</Field.Option>
+        </Field.ArraySelection>
+      )
+      const container = document.createElement('div')
+      container.innerHTML = renderToString(element)
+      document.body.appendChild(container)
+
+      const [foo, , baz] = Array.from(container.querySelectorAll('input'))
+      foo.checked = true
+      baz.checked = true
+
+      let root: ReturnType<typeof hydrateRoot>
+      act(() => {
+        root = hydrateRoot(container, element)
+      })
+
+      expect(onChange).toHaveBeenLastCalledWith(
+        ['foo', 'baz'],
+        expect.anything()
+      )
+
+      act(() => root.unmount())
+      container.remove()
     })
   })
 
