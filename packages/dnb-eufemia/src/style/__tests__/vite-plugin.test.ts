@@ -2,8 +2,6 @@ import fs from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
 
-// @ts-expect-error Vite requires a newer module-resolution mode than the
-// package's legacy typecheck; Vitest still resolves it through Vite itself.
 import { build } from 'vite'
 
 import { eufemiaCssOptimizer } from '../vite-plugin'
