@@ -62,6 +62,7 @@ function AiConversation(props: AiConversationProps) {
     id,
     label,
     scrollBehavior = 'turn',
+    'aria-live': ariaLive,
     className,
     children,
     ...rest
@@ -315,6 +316,7 @@ function AiConversation(props: AiConversationProps) {
           interactive="auto"
           className="dnb-ai-conversation__scroll"
           role="log"
+          aria-live={ariaLive}
           aria-label={label ?? translation.conversationLabel}
           aria-relevant="additions"
           onScroll={handleScroll}

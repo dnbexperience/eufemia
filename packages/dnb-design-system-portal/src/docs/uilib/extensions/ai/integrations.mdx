@@ -31,6 +31,43 @@ Track whether each response is still receiving content. Completed messages keep 
 
 Show a user-facing request error with [GlobalStatus](/uilib/components/global-status/). Keep any partial answer visible. Tool errors belong to the individual `Ai.Tool` with `status="error"` and a useful `errorText`. Use `textareaProps.status` for input validation, such as exceeding an application-specific limit.
 
+## Screen reader announcements
+
+The application owns announcements because it knows the request lifecycle. The conversation is a live log by default; text updates inside a streaming message are not guaranteed to be read in full. For completed-reply announcements, set `aria-live="off"` on `Conversation` and keep a separate `AriaLive` mounted outside it. Do not make every streaming token a live announcement.
+
+This application helper waits for a busy-to-idle transition. It does not announce restored history and clears its region when another operation starts, allowing an identical reply to be announced again. Pass a readable localized summary or plain reply text, including relevant tool results. On cancellation or failure, include that outcome and useful partial content; avoid duplicating an error already announced by `GlobalStatus`. This helper is example application code, not an Eufemia export.
+
+```tsx
+import { useEffect, useRef, useState } from 'react'
+import AriaLive from '@dnb/eufemia/components/AriaLive'
+
+export default function ReplyAnnouncement({
+  text,
+  isBusy,
+}: {
+  text: string
+  isBusy: boolean
+}) {
+  const wasBusy = useRef(false)
+  const [announcement, setAnnouncement] = useState('')
+
+  useEffect(() => {
+    if (isBusy) {
+      setAnnouncement('')
+    } else if (wasBusy.current) {
+      setAnnouncement(text)
+    }
+    wasBusy.current = isBusy
+  }, [isBusy, text])
+
+  return <AriaLive>{announcement}</AriaLive>
+}
+```
+
+Keep `isBusy` true from submission until completion, cancellation or failure. If your framework briefly reports idle between tool steps, use the application's operation state instead. Only pass text from the current assistant turn. The recipes below use text parts for brevity; adapt them to your message types and request errors. Test with the screen readers your application supports.
+
+See the [live announcement demo](/uilib/extensions/ai/demos/#streamed-reply-announcements).
+
 ## Tool statuses and confirmation
 
 | Status     | Meaning                                       |
@@ -51,6 +88,7 @@ The following client renders text, tool status/results and source URLs. A server
 
 ```tsx
 import { useId } from 'react'
+import ReplyAnnouncement from './ReplyAnnouncement'
 import { useChat } from '@ai-sdk/react'
 import { DefaultChatTransport, getToolName, isToolUIPart } from 'ai'
 import type { DynamicToolUIPart, ToolUIPart, UIMessage } from 'ai'
@@ -169,9 +207,17 @@ export function Chat() {
     transport,
   })
   const isBusy = status === 'submitted' || status === 'streaming'
+  const latest = messages.at(-1)
+  const reply =
+    latest?.role === 'assistant'
+      ? latest.parts
+          .flatMap((part) => (part.type === 'text' ? [part.text] : []))
+          .join('\n\n')
+      : ''
   return (
     <>
       <Conversation
+        aria-live="off"
         label="Chat with the assistant"
         style={{ height: '32rem' }}
       >
@@ -191,6 +237,7 @@ export function Chat() {
           ))}
         {status === 'submitted' && <MessageIndicator />}
       </Conversation>
+      <ReplyAnnouncement isBusy={isBusy} text={reply} />
       {error && (
         <GlobalStatus
           show
@@ -222,6 +269,7 @@ Text parts use `content`. Tool calls and results are separate records: pair them
 
 ```tsx
 import { useId } from 'react'
+import ReplyAnnouncement from './ReplyAnnouncement'
 import { useChat, fetchServerSentEvents } from '@tanstack/ai-react'
 import type { UIMessage } from '@tanstack/ai-react'
 import { GlobalStatus } from '@dnb/eufemia/components'
@@ -379,9 +427,17 @@ export function Chat({
   const prefix = useId()
   const { messages, isLoading, error, status, sendMessage, stop } =
     useChat({ connection })
+  const latest = messages.at(-1)
+  const reply =
+    latest?.role === 'assistant'
+      ? latest.parts
+          .flatMap((part) => (part.type === 'text' ? [part.content] : []))
+          .join('\n\n')
+      : ''
   return (
     <>
       <Conversation
+        aria-live="off"
         label="Chat with the assistant"
         style={{ height: '32rem' }}
       >
@@ -402,6 +458,7 @@ export function Chat({
           ))}
         {status === 'submitted' && <MessageIndicator />}
       </Conversation>
+      <ReplyAnnouncement isBusy={isLoading} text={reply} />
       {error && (
         <GlobalStatus
           show

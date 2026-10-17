@@ -67,6 +67,19 @@ describe('Ai.Conversation', () => {
     ).toBeInTheDocument()
   })
 
+  it('lets the application own announcements without a second live log', () => {
+    render(
+      <Conversation aria-live="off">
+        <Message>Hello</Message>
+      </Conversation>
+    )
+    expect(getScroll()).toHaveAttribute('aria-live', 'off')
+    expect(
+      document.querySelector('.dnb-ai-conversation')
+    ).not.toHaveAttribute('aria-live')
+    expect(getScroll()).toHaveAttribute('role', 'log')
+  })
+
   it('translates and supports a custom label', () => {
     const { rerender } = render(
       <Provider locale="en-GB">

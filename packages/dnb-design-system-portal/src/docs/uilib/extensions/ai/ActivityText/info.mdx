@@ -17,3 +17,5 @@ render(<ActivityText>Searching …</ActivityText>)
 The current visual treatment uses a moving highlight. When the user prefers reduced motion, the text is shown without animation.
 
 Use [Ai.MessageIndicator](/uilib/extensions/ai/MessageIndicator/) to indicate that an assistant message is being prepared before its content arrives. Use `Ai.ActivityText` when you have a specific activity to describe.
+
+`ActivityText` only provides presentation. It does not create a live region or announce text changes. When the activity needs to be announced, place it in [AriaLive](/uilib/components/aria-live/) with `variant="content"` and `atomic`. Keep that region mounted while its text changes, and avoid nesting it in another live region.
