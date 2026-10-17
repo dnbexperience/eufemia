@@ -78,7 +78,7 @@ const prismTheme = {
     {
       types: ['selector', 'doctype'],
       style: {
-        color: 'var(--token-color-decorative-first-base-static)',
+        color: 'var(--token-color-decorative-third-subtle-static)',
         fontStyle: italic,
       },
     },
@@ -103,7 +103,7 @@ const prismTheme = {
     {
       types: ['boolean'],
       style: {
-        color: 'var(--token-color-text-positive)',
+        color: 'var(--token-color-decorative-second-base-static)',
       },
     },
     {
