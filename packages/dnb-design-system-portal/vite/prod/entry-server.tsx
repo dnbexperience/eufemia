@@ -25,6 +25,7 @@ import { routes, allMdxNodes } from 'virtual:portal-pages'
 import { translations, getLang } from '../../src/core/portalRuntimeUtils'
 import tags from '../../src/shared/tags'
 import PortalLayout from '../../src/core/PortalLayout'
+import BranchBanner from '../../src/shared/menu/BranchBanner'
 
 // Cached resolved routes and static handler — populated by prepareRoutes()
 let resolvedRouteConfig: ReturnType<typeof buildRouteConfig> | null = null
@@ -124,6 +125,9 @@ export async function render(url: string) {
  * Root layout component for SSR.
  * Mirrors the browser RootLayout but without browser-only hooks
  * (scroll persistence, catch-links, skeleton URL detection).
+ *
+ * The siblings must match the browser tree, because `useId` derives ids
+ * from the position in the tree.
  */
 function RootLayout() {
   return (
@@ -136,6 +140,7 @@ function RootLayout() {
           <MDXProvider components={tags}>
             <SSRPageWrapper />
           </MDXProvider>
+          <BranchBanner />
         </Theme>
       </IsolatedStyleScope>
     </Provider>
@@ -153,10 +158,17 @@ function SSRPageWrapper() {
       <SSRErrorBoundary>
         <Suspense fallback={<div>Loading...</div>}>
           <Outlet />
+          {/* RouteFocusEffect and TrackPageView in the browser */}
+          <EffectOnly />
+          <EffectOnly />
         </Suspense>
       </SSRErrorBoundary>
     </PortalLayout>
   )
+}
+
+function EffectOnly() {
+  return null
 }
 
 /**
