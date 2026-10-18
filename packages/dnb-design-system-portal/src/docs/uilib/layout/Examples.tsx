@@ -401,7 +401,7 @@ const AllComponents = ({
         </>
       )}
       <Button text="Button" {...params} />
-      <Button icon="add" {...params} />
+      <Button icon="add" aria-label="Add" {...params} />
       <Input label={labels.input} {...params} />
       <Dropdown
         label={labels.dropdown}
