@@ -26,7 +26,7 @@ const colors = {
   },
   value: {
     default: 'var(--token-color-text-positive)',
-    undefined: 'var(--token-color-text-neutral-alternative)',
+    undefined: 'var(--token-color-text-neutral)',
     string: 'var(--token-color-text-error)',
   },
 }
