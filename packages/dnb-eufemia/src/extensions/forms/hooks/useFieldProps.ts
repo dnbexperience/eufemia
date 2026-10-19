@@ -360,9 +360,9 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   const hasZodSchema = isZodSchema(finalSchema)
   const {
     setBlockRecord,
+    registerRenderRecord,
     setFieldState: setFieldStateFieldBlock,
     showFieldError: showFieldErrorFieldBlock,
-    mountedFieldsRef: mountedFieldsRefFieldBlock,
   } = (inFieldBlock ? fieldBlockContext : {}) as FieldBlockContextProps
   const setFieldStateFieldBlockRef = useRef(setFieldStateFieldBlock)
   setFieldStateFieldBlockRef.current = setFieldStateFieldBlock
@@ -1782,7 +1782,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   }, [identifier, onSubmitHandler, setFieldEventListener])
 
   // Set the error in the field block context if this field is inside a field block
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (inFieldBlock) {
       setBlockRecord?.({
         identifier,
@@ -1805,26 +1805,23 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         showInitially: true,
         show: true,
       })
+    }
 
+    return undefined
+  }, [error, identifier, inFieldBlock, info, setBlockRecord, warning])
+
+  useLayoutEffect(() => {
+    if (inFieldBlock) {
       return () => {
-        // Unmount procedure
-        if (mountedFieldsRefFieldBlock) {
-          // eslint-disable-next-line react-hooks/exhaustive-deps
-          mountedFieldsRefFieldBlock.current.set(identifier, true)
-        }
+        setBlockRecord?.(
+          { identifier, type: 'error', content: undefined },
+          { remove: true }
+        )
       }
     }
 
     return undefined
-  }, [
-    error,
-    identifier,
-    inFieldBlock,
-    info,
-    mountedFieldsRefFieldBlock,
-    setBlockRecord,
-    warning,
-  ])
+  }, [identifier, inFieldBlock, setBlockRecord])
 
   // ─── Status change reporting ─────────────────────────────────────────
 
@@ -1913,49 +1910,34 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     htmlAttributes['aria-required'] = 'true'
   }
   if (inFieldBlock) {
-    // Mount the field in the field block context
-    if (mountedFieldsRefFieldBlock) {
-      mountedFieldsRefFieldBlock.current.set(identifier, true)
-    }
-
     // Register the messages during render, so they are part of the server-rendered HTML
     for (const [type, content] of [
       ['error', error],
       ['warning', warning],
       ['information', info],
     ] as const) {
-      setBlockRecord?.(
-        { identifier, type, content, showInitially: true, show: true },
-        { skipUpdate: true }
-      )
+      registerRenderRecord?.({
+        identifier,
+        type,
+        content,
+        showInitially: true,
+        show: true,
+      })
     }
+  }
 
-    // Check if there are any state IDs to be added to the aria-describedby attribute
-    const stateIds = fieldBlockContext.fieldStateIdsRef?.current
+  const statusId = inFieldBlock ? fieldBlockContext.statusId : id
+  const statusIds = [
+    (bufferedError || error) && `${statusId}-form-status--error`,
+    warning && `${statusId}-form-status--warning`,
+    info && `${statusId}-form-status--information`,
+  ].filter(Boolean)
 
-    if (stateIds) {
-      htmlAttributes['aria-describedby'] = combineDescribedBy(
-        htmlAttributes,
-        [
-          bufferedError && stateIds.error,
-          warning && stateIds.warning,
-          info && stateIds.information,
-        ].filter(Boolean)
-      )
-    }
-  } else {
-    const ids = [
-      (bufferedError || error) && `${id}-form-status--error`,
-      warning && `${id}-form-status--warning`,
-      info && `${id}-form-status--information`,
-    ].filter(Boolean)
-
-    if (ids.length) {
-      htmlAttributes['aria-describedby'] = combineDescribedBy(
-        htmlAttributes,
-        ids
-      )
-    }
+  if (statusIds.length) {
+    htmlAttributes['aria-describedby'] = combineDescribedBy(
+      htmlAttributes,
+      statusIds
+    )
   }
 
   const help = props.help

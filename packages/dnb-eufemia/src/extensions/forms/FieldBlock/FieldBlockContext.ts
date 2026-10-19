@@ -1,9 +1,7 @@
 import { createContext } from 'react'
-import type { ReactNode, RefObject } from 'react'
+import type { ReactNode } from 'react'
 import type { FieldProps, Identifier, SubmitState } from '../types'
 
-export type FieldErrorIdsRef = Record<FieldState, string>
-export type MountedFieldsRef = Map<Identifier, boolean>
 export type FieldState = 'error' | 'warning' | 'information'
 export type StateContent =
   | FieldProps<unknown>['error']
@@ -45,15 +43,15 @@ export type FieldBlockContextProps = {
       showInitially,
       show,
     }: StateBasis,
-    options?: { skipUpdate?: boolean }
+    options?: { remove?: boolean }
   ) => void
+  registerRenderRecord?: (record: StateBasis) => void
   setFieldState?: (identifier: Identifier, fieldState: SubmitState) => void
   showFieldError?: (identifier: Identifier, showError: boolean) => void
   hasErrorProp?: boolean
   composition?: true
   disableStatusSummary?: boolean
-  fieldStateIdsRef?: RefObject<FieldErrorIdsRef>
-  mountedFieldsRef?: RefObject<MountedFieldsRef>
+  statusId?: string
 }
 
 const FieldBlockContext = createContext<

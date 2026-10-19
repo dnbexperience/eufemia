@@ -1,4 +1,5 @@
-import { render, fireEvent, waitFor } from '@testing-library/react'
+import { StrictMode, Suspense, startTransition, useState } from 'react'
+import { act, render, fireEvent, waitFor } from '@testing-library/react'
 import { renderToString } from 'react-dom/server'
 import userEvent from '@testing-library/user-event'
 import type { JSONSchema } from '../../..'
@@ -610,6 +611,216 @@ describe('Field.Composition', () => {
 
     log.mockRestore()
     container.remove()
+  })
+
+  it('should link server-rendered fields to their status messages', () => {
+    const container = document.createElement('div')
+    container.innerHTML = renderToString(
+      <Field.Composition id="composition" info="Shared info">
+        <Field.String id="string" warning="Warning" />
+        <Field.Number id="number" info="Field info" />
+      </Field.Composition>
+    )
+
+    expect(container.querySelector('#string')).toHaveAttribute(
+      'aria-describedby',
+      'composition-form-status--warning'
+    )
+    expect(container.querySelector('#number')).toHaveAttribute(
+      'aria-describedby',
+      'composition-form-status--information'
+    )
+  })
+
+  it('should preserve messages and links when hydrating in StrictMode', () => {
+    const element = (
+      <StrictMode>
+        <Field.Composition id="composition" info="Shared info">
+          <Field.String id="string" error="Error" warning="Warning" />
+          <Field.Number id="number" info="Field info" />
+        </Field.Composition>
+      </StrictMode>
+    )
+    const container = document.createElement('div')
+    container.innerHTML = renderToString(element)
+    const messages = () =>
+      Array.from(
+        container.querySelectorAll('.dnb-form-status__text'),
+        (message) => message.textContent
+      )
+    const before = messages()
+    const onRecoverableError = vi.fn()
+    const { unmount } = render(element, {
+      container,
+      hydrate: true,
+      onRecoverableError,
+    })
+
+    expect(onRecoverableError).not.toHaveBeenCalled()
+    expect(messages()).toEqual(before)
+    for (const input of Array.from(container.querySelectorAll('input'))) {
+      for (const id of input.getAttribute('aria-describedby').split(' ')) {
+        expect(container.querySelector('[id="' + id + '"]')).not.toBeNull()
+      }
+    }
+    unmount()
+  })
+
+  it('should link the first revealed validation error without another interaction', async () => {
+    render(
+      <Field.Composition id="composition">
+        <Field.String id="string" required />
+      </Field.Composition>
+    )
+
+    const input = document.querySelector('input')
+    await userEvent.type(input, 'a{Backspace}')
+    fireEvent.blur(input)
+
+    await waitFor(() => {
+      expect(input).toHaveAttribute(
+        'aria-describedby',
+        'composition-form-status--error'
+      )
+    })
+    expect(
+      document.getElementById(input.getAttribute('aria-describedby'))
+    ).toHaveTextContent(nb.Field.errorRequired)
+  })
+
+  it('should not summarize messages from suspended fields', () => {
+    const pending = new Promise(() => undefined)
+    function Pending(): never {
+      throw pending
+    }
+
+    render(
+      <StrictMode>
+        <Field.Composition info="Visible info">
+          <Suspense fallback={<span>Loading</span>}>
+            <Field.String warning="Uncommitted warning" />
+            <Pending />
+          </Suspense>
+        </Field.Composition>
+      </StrictMode>
+    )
+
+    expect(document.querySelector('input')).toBeNull()
+    expect(document.querySelector('.dnb-form-status--warning')).toBeNull()
+    expect(
+      document.querySelector('.dnb-form-status--information')
+    ).toHaveTextContent('Visible info')
+  })
+
+  it('should retain committed messages in StrictMode and remove unmounted fields', () => {
+    const element = (show: boolean) => (
+      <StrictMode>
+        <Field.Composition id="composition">
+          <Field.String info="Visible info" />
+          {show && <Field.Number warning="Removed warning" />}
+        </Field.Composition>
+      </StrictMode>
+    )
+    const { rerender } = render(element(true))
+
+    expect(
+      document.querySelector('.dnb-form-status--warning')
+    ).toHaveTextContent('Removed warning')
+    expect(
+      document.querySelector('.dnb-form-status--information')
+    ).toHaveTextContent('Visible info')
+
+    rerender(element(false))
+
+    expect(document.querySelector('.dnb-form-status--warning')).toBeNull()
+    expect(
+      document.querySelector('.dnb-form-status--information')
+    ).toHaveTextContent('Visible info')
+  })
+
+  it('should use the outer status IDs through nested compositions', () => {
+    render(
+      <Field.Composition id="outer">
+        <Field.Composition id="inner">
+          <Field.String info="Nested info" />
+        </Field.Composition>
+      </Field.Composition>
+    )
+
+    expect(document.querySelector('input')).toHaveAttribute(
+      'aria-describedby',
+      'outer-form-status--information'
+    )
+    expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(1)
+  })
+
+  it('should retain the committed message when a transition suspends', async () => {
+    const pending = new Promise(() => undefined)
+    function Pending(): never {
+      throw pending
+    }
+    function Example() {
+      const [suspended, setSuspended] = useState(false)
+      return (
+        <>
+          <button
+            onClick={() => startTransition(() => setSuspended(true))}
+          >
+            Change
+          </button>
+          <Field.Composition>
+            <Suspense fallback="Loading">
+              <Field.String warning={suspended ? 'Draft' : 'Committed'} />
+              {suspended && <Pending />}
+            </Suspense>
+          </Field.Composition>
+        </>
+      )
+    }
+
+    render(<Example />)
+    await userEvent.click(document.querySelector('button'))
+
+    expect(document.querySelector('input')).toBeVisible()
+    expect(
+      document.querySelector('.dnb-form-status--warning')
+    ).toHaveTextContent('Committed')
+  })
+
+  it('should register messages when suspended fields commit', async () => {
+    let resolve: () => void
+    let ready = false
+    const pending = new Promise<void>((done) => {
+      resolve = done
+    })
+    function Pending() {
+      if (!ready) {
+        throw pending
+      }
+      return null
+    }
+
+    render(
+      <Field.Composition>
+        <Suspense fallback="Loading">
+          <Field.String warning="Committed warning" />
+          <Pending />
+        </Suspense>
+      </Field.Composition>
+    )
+
+    expect(document.querySelector('.dnb-form-status--warning')).toBeNull()
+    await act(async () => {
+      ready = true
+      resolve()
+      await pending
+    })
+
+    const input = document.querySelector('input')
+    expect(input).toBeVisible()
+    expect(
+      document.getElementById(input.getAttribute('aria-describedby'))
+    ).toHaveTextContent('Committed warning')
   })
 
   describe('schema', () => {
