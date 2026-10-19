@@ -1003,6 +1003,31 @@ describe('SidebarMenu responsive parts', () => {
     )
   })
 
+  it('keeps a custom scopeId inside the first-paint CSS selector', () => {
+    const scopeId = 'x"]{}body{display:none}[x="'
+    const html = renderToString(
+      <SidebarMenu.ResponsiveProvider scopeId={scopeId} compactAt="large">
+        <SidebarMenu.ResponsiveInline>
+          Inline menu
+        </SidebarMenu.ResponsiveInline>
+      </SidebarMenu.ResponsiveProvider>
+    )
+
+    const css = html.match(/<style[^>]*>([\s\S]*?)<\/style>/)[1]
+    const selector =
+      '[data-sidebar-menu-responsive-scope="x\\22 ]{}body{display:none}[x=\\22 "]'
+    expect(css).toContain(selector)
+    expect(css).not.toContain('x"]')
+
+    // The escaped selector still matches the element
+    const container = document.createElement('div')
+    container.innerHTML = html
+    expect(container.querySelector(selector)).toHaveAttribute(
+      'data-sidebar-menu-responsive-scope',
+      scopeId
+    )
+  })
+
   it('restores a collapsed inline menu from the desktop trigger', () => {
     setMedia({ width: '70em' })
 

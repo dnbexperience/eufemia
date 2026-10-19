@@ -862,6 +862,14 @@ function isEmValue(value: string) {
   return /^\d+(?:\.\d+)?em$/.test(value)
 }
 
+// Keeps a custom scopeId inside the quoted attribute selector
+function escapeCssString(value: string) {
+  return String(value).replace(
+    /["\\\n\r\f]/g,
+    (char) => `\\${char.charCodeAt(0).toString(16)} `
+  )
+}
+
 function getFirstPaintCss(
   scopeId: string,
   drawerAt: string,
@@ -873,7 +881,7 @@ function getFirstPaintCss(
   }
 
   const minWidth = `${Number((em + 0.00625).toFixed(5))}em`
-  const scope = `[data-sidebar-menu-responsive-scope="${scopeId}"]`
+  const scope = `[data-sidebar-menu-responsive-scope="${escapeCssString(scopeId)}"]`
   const unresolved = ':not([data-sidebar-menu-responsive-visible])'
 
   const drawerCss =
