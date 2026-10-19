@@ -1236,7 +1236,7 @@ export default function Provider<Data extends JsonObject>(
           data &&
           typeof data === 'object'
         ) {
-          dataToStore = structuredClone(data)
+          dataToStore = JSON.parse(JSON.stringify(data))
           credentialPaths.forEach((path) => {
             if (pointer.has(dataToStore, path)) {
               pointer.remove(dataToStore, path)
