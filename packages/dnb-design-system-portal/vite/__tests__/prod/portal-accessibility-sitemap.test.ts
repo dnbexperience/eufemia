@@ -6,6 +6,7 @@ import { execFileSync } from 'node:child_process'
 
 let fixtureDirectory: string | undefined
 afterEach(() => {
+  vi.unstubAllEnvs()
   if (fixtureDirectory) {
     fs.rmSync(fixtureDirectory, { recursive: true, force: true })
     fixtureDirectory = undefined
@@ -19,15 +20,16 @@ const workflow = fs.readFileSync(
   ),
   'utf8'
 )
-const sitemapStep = workflow.split(
-  '      - name: Download production sitemap'
-)[1]
-const script = sitemapStep
-  .split('          script: |\n')[1]
-  .split('\n      - name:')[0]
-  .split('\n')
-  .map((line) => line.slice(12))
-  .join('\n')
+const readStepScript = (name: string) =>
+  workflow
+    .split(`      - name: ${name}\n`)[1]
+    .split('          script: |\n')[1]
+    .split('\n      - name:')[0]
+    .split('\n')
+    .map((line) => line.slice(12))
+    .join('\n')
+const script = readStepScript('Download sitemap')
+const targetScript = readStepScript('Resolve scan target')
 const AsyncFunction = Object.getPrototypeOf(
   async function () {}
 ).constructor
@@ -35,6 +37,51 @@ const sitemap = {
   schemaVersion: 1,
   pages: ['/', '/uilib/components/button/'],
 }
+
+describe('Portal accessibility scan target', () => {
+  it('scans production when no base URL is given', async () => {
+    const outputs = await resolveTarget('')
+
+    expect(outputs).toEqual({
+      'base-url': 'https://eufemia.dnb.no',
+      production: 'true',
+    })
+  })
+
+  it('scans a Portal preview from its origin', async () => {
+    const outputs = await resolveTarget(
+      ' https://main.eufemia-e25.pages.dev/uilib/ '
+    )
+
+    expect(outputs).toEqual({
+      'base-url': 'https://main.eufemia-e25.pages.dev',
+      production: 'false',
+    })
+  })
+
+  it.each([
+    'https://example.com',
+    'http://main.eufemia-e25.pages.dev',
+    'https://main.eufemia-e25.pages.dev.example.com',
+    'https://main.eufemia-e25.pages.dev:8443',
+    'not a url',
+  ])('rejects %s', async (input) => {
+    await expect(resolveTarget(input)).rejects.toThrow('base URL')
+  })
+
+  it('keeps preview reports out of the rolling issue and the baseline', () => {
+    const issueStep = workflow.split(
+      '      - name: Update rolling issue\n'
+    )[1]
+
+    expect(issueStep).toMatch(
+      /^\s+if: steps\.target\.outputs\.production == 'true'\n/
+    )
+    expect(workflow).toContain(
+      "steps.target.outputs.production == 'false' && 'portal-accessibility-preview-report' || 'portal-accessibility-report'"
+    )
+  })
+})
 
 describe('Portal accessibility sitemap preparation', () => {
   it('uses the deployed sitemap without rebuilding the Portal', async () => {
@@ -81,6 +128,25 @@ describe('Portal accessibility sitemap preparation', () => {
     await expect(prepareSitemap(404, undefined, false)).rejects.toThrow(
       'No successful production deployment'
     )
+  })
+
+  it('downloads the sitemap of a Portal preview', async () => {
+    vi.stubEnv('BASE_URL', 'https://main.eufemia-e25.pages.dev')
+    vi.stubEnv('PRODUCTION', 'false')
+    const { fetch, files } = await prepareSitemap(200, sitemap)
+
+    expect(fetch).toHaveBeenCalledWith(
+      'https://main.eufemia-e25.pages.dev/sitemap.json',
+      expect.anything()
+    )
+    expect(files.writeFileSync).toHaveBeenCalled()
+  })
+
+  it('does not scan a production deployment instead of a preview', async () => {
+    vi.stubEnv('BASE_URL', 'https://main.eufemia-e25.pages.dev')
+    vi.stubEnv('PRODUCTION', 'false')
+
+    await expect(prepareSitemap(404)).rejects.toThrow('404')
   })
 
   it('generates paths from deployed docs using existing route rules', () => {
@@ -178,5 +244,19 @@ async function prepareSitemap(
     repo: { owner: 'owner', repo: 'repo' },
   })
 
-  return { core, files }
+  return { core, files, fetch }
+}
+
+async function resolveTarget(input: string) {
+  vi.stubEnv('BASE_URL_INPUT', input)
+  const outputs: Record<string, string> = {}
+  const core = {
+    setOutput: (name: string, value: string) => {
+      outputs[name] = value
+    },
+  }
+
+  await new AsyncFunction('core', targetScript)(core)
+
+  return outputs
 }
