@@ -146,20 +146,28 @@ function PageWrapper() {
       pageContext={{ frontmatter: {} }}
     >
       <Suspense fallback={<div>Loading...</div>}>
-        <Outlet />
-        <RouteFocusEffect />
-        <TrackPageView />
+        <RouteEffects>
+          <Outlet />
+        </RouteEffects>
       </Suspense>
     </PortalLayout>
   )
 }
 
 /**
- * Placed inside the Suspense boundary so its effect only fires once the
+ * Placed inside the Suspense boundary so its effects only fire once the
  * lazy MDX content has rendered and the hash target element exists in
- * the DOM.
+ * the DOM. It wraps the Outlet instead of being its sibling, so the
+ * content gets the same useId values as in the prerendered HTML.
  */
-function RouteFocusEffect() {
+function RouteEffects({ children }: { children: React.ReactNode }) {
+  useRouteFocus()
+  useTrackPageView()
+
+  return children
+}
+
+function useRouteFocus() {
   const { pathname, search, hash: routeHash } = useLocation()
   const navigationType = useNavigationType()
   const previousRouteRef = useRef<{
@@ -197,12 +205,10 @@ function RouteFocusEffect() {
 
     document.documentElement.setAttribute('data-portal-ready', 'true')
   }, [routeHash, pathname, routeSearch, navigationType])
-
-  return null
 }
 
 /** Records an anonymous page view on initial load and each navigation. */
-function TrackPageView() {
+function useTrackPageView() {
   const location = useLocation()
   const matches = useMatches()
 
@@ -217,8 +223,6 @@ function TrackPageView() {
       notFound ? 'not_found' : 'ok'
     )
   }, [location.pathname, location.search, location.hash, notFound])
-
-  return null
 }
 
 // Record a render error caught by the boundary against the path the user was on
