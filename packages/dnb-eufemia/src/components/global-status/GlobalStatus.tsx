@@ -570,6 +570,7 @@ function GlobalStatusComponent(ownProps: GlobalStatusProps) {
     }
 
     const useAutolink = item.itemId && item.statusAnchorUrl === true
+    const isCustomUrl = typeof item.statusAnchorUrl === 'string'
     const href = useAutolink
       ? `#${item.itemId}`
       : String(item.statusAnchorUrl)
@@ -586,8 +587,8 @@ function GlobalStatusComponent(ownProps: GlobalStatusProps) {
             aria-describedby={id}
             lang={lang}
             href={isDangerousHref(href) ? undefined : href}
-            onClick={useAutolink ? (e) => gotoItem(e, item) : undefined}
-            onKeyDown={useAutolink ? (e) => gotoItem(e, item) : undefined}
+            onClick={isCustomUrl ? undefined : (e) => gotoItem(e, item)}
+            onKeyDown={isCustomUrl ? undefined : (e) => gotoItem(e, item)}
           >
             {anchorText}
           </a>
