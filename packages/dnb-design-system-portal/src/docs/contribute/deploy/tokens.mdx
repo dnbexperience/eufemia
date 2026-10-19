@@ -23,9 +23,13 @@ The design tokens are synchronized from Figma with the "Design Tokens" GitHub Ac
 ### 1. Run the "Design Tokens" workflow
 
 1. Open [**Actions → Design Tokens**](https://github.com/dnbexperience/eufemia/actions/workflows/tokens-sync.yml), then select **Run workflow** on `main`.
-1. The workflow reads the Figma variables with the [variables REST API](https://developers.figma.com/docs/rest-api/variables-endpoints/), writes the `*.tokens.json` files listed below, regenerates the CSS files and their test snapshots, builds the library and Portal, updates the visual snapshots and opens or updates a draft pull request. Existing reviewer commits are preserved. If Figma and the pull request are already synchronized, it reports that no changes were found.
+1. The workflow reads the Figma variables with the [variables REST API](https://developers.figma.com/docs/rest-api/variables-endpoints/), writes the `*.tokens.json` files listed below, regenerates the CSS files and their test snapshots, builds the library and Portal, updates the visual snapshots and opens a draft pull request from a new `tokens/automation-figma-sync-YYYYMMDD-HHMMSS` branch. If Figma and the Eufemia design tokens are already synchronized, it reports that no changes were found.
 1. Review the token values, removals and visual snapshots before marking the pull request ready.
 1. Review and (squash) merge the pull request.
+
+Run on any other branch, the tokens are committed to that branch instead. The **Output branch** input overrides where the commit goes, and can name an existing branch or a new one, but not `main`. An existing branch is built on as it is, without being rebased. A draft pull request is opened for the branch unless it already has one, and an open pull request is never modified.
+
+The **Generate snapshots/screenshots** input is on by default. Turning it off skips the visual tests, so the image snapshots are left untouched and have to be updated separately.
 
 Every mode of the exported collections has to be listed in `TOKEN_EXPORTS` (`packages/dnb-eufemia/scripts/figma/tasks/tokensExtractor.ts`). If a mode is added in Figma, the workflow fails until the mode is added there, so a new mode cannot go unnoticed. A mode only becomes CSS once it is also added to the token files in `makePropertiesFile.ts`.
 

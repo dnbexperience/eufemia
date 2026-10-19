@@ -2,6 +2,14 @@ name: Design Tokens
 
 on:
   workflow_dispatch:
+    inputs:
+      output_branch:
+        description: Branch to commit the design tokens to. Defaults to the branch the workflow runs from, or a dated automation branch when that is main. Cannot be main.
+        type: string
+      generate_screenshots:
+        description: Generate snapshots/screenshots
+        type: boolean
+        default: true
 
 permissions:
   contents: read
@@ -14,7 +22,7 @@ concurrency:
 # use them, so `yarn install` and the build steps never receive credentials.
 
 env:
-  BRANCH: tokens/automation-figma-sync
+  AUTOMATION_BRANCH: tokens/automation-figma-sync
 
 jobs:
   process-tokens:
@@ -28,11 +36,36 @@ jobs:
       - name: Git checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
-          ref: main
           fetch-depth: 0
           persist-credentials: false
 
-      - name: Find an open design token pull request
+      - name: Resolve the design token branch
+        id: target
+        # Run from main, every run collects its tokens on a dated branch of its
+        # own. Run from any other branch, they are committed to that branch.
+        # The "output_branch" input overrides both.
+        env:
+          OUTPUT_BRANCH: ${{ inputs.output_branch }}
+        run: |
+          if [ -n "$OUTPUT_BRANCH" ]; then
+            branch=$OUTPUT_BRANCH
+          elif [ "$GITHUB_REF_NAME" = main ]; then
+            branch=$AUTOMATION_BRANCH-$(date -u +%Y%m%d-%H%M%S)
+          else
+            branch=$GITHUB_REF_NAME
+          fi
+
+          if [ "$branch" = main ]; then
+            echo "::error::The design tokens cannot be committed to main. Choose another output branch."
+            exit 1
+          fi
+
+          echo "BRANCH=$branch" >> "$GITHUB_ENV"
+          if git rev-parse --verify --quiet "refs/remotes/origin/$branch" > /dev/null; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Check if branch has PR
         id: existing-pr
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
@@ -45,19 +78,17 @@ jobs:
             --jq '.[0].url // empty')
           if [ -n "$url" ]; then
             echo "exists=true" >> "$GITHUB_OUTPUT"
-            echo "url=$url" >> "$GITHUB_OUTPUT"
-            echo "A design token pull request is already open: $url" >> "$GITHUB_STEP_SUMMARY"
+            echo "A pull request is already open for the branch: $url" >> "$GITHUB_STEP_SUMMARY"
           fi
 
-      - name: Check out the existing design token branch
-        if: steps.existing-pr.outputs.exists == 'true'
+      - name: Check out the design token branch
+        if: steps.target.outputs.exists == 'true'
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
           gh auth setup-git
           git fetch origin "refs/heads/$BRANCH:refs/remotes/origin/$BRANCH"
           git switch -C "$BRANCH" "origin/$BRANCH"
-          git rebase origin/main
 
       - name: Setup dependencies
         uses: ./.github/actions/setup
@@ -111,7 +142,7 @@ jobs:
         run: yarn workspace dnb-design-system-portal build
 
       - name: Run visual tests
-        if: steps.changes.outputs.changed == 'true'
+        if: steps.changes.outputs.changed == 'true' && inputs.generate_screenshots
         run: yarn workspace dnb-design-system-portal test:screenshots:ci:update
 
       - name: Store visual test artifacts
@@ -133,7 +164,7 @@ jobs:
           # The tip fetched at the start, so a commit pushed during the run makes the push fail instead of vanishing
           remote_sha=$(git rev-parse --verify --quiet "refs/remotes/origin/$BRANCH" || true)
 
-          if [ "$EXISTING_PR" != true ]; then
+          if [ "$BRANCH_EXISTS" != true ]; then
             git switch -c "$BRANCH"
           fi
           git config user.name "$GH_NAME"
@@ -154,14 +185,13 @@ jobs:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
           GH_NAME: ${{ secrets.GH_NAME }}
           GH_EMAIL: ${{ secrets.GH_EMAIL }}
-          EXISTING_PR: ${{ steps.existing-pr.outputs.exists }}
+          BRANCH_EXISTS: ${{ steps.target.outputs.exists }}
 
       - name: Create draft design token pull request
         if: success() && steps.changes.outputs.changed == 'true'
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
           EXISTING_PR: ${{ steps.existing-pr.outputs.exists }}
-          PR_URL: ${{ steps.existing-pr.outputs.url }}
         run: |
           token_scss='packages/dnb-eufemia/src/style/themes/*/tokens*.scss'
           foundation_scss='packages/dnb-eufemia/src/style/themes/*/foundation.scss'
@@ -214,13 +244,7 @@ jobs:
           )
 
           printf '%s\n' "$body" >> "$GITHUB_STEP_SUMMARY"
-          if [ "$EXISTING_PR" = true ]; then
-            gh pr edit "$PR_URL" --title "$title"
-            is_draft=$(gh pr view "$PR_URL" --json isDraft --jq '.isDraft')
-            if [ "$is_draft" != true ]; then
-              gh pr ready "$PR_URL" --undo
-            fi
-          else
+          if [ "$EXISTING_PR" != true ]; then
             gh pr create \
               --base main \
               --head "$BRANCH" \
