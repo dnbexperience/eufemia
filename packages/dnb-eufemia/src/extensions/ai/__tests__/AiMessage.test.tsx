@@ -192,6 +192,10 @@ describe('Ai.MessageIndicator', () => {
     expect(
       element.querySelector('.dnb-ai-message-indicator__dots')
     ).toHaveAttribute('aria-hidden', 'true')
+    expect(
+      element.querySelectorAll('.dnb-dots-indicator__dot')
+    ).toHaveLength(3)
+    expect(element.querySelectorAll('[role="status"]')).toHaveLength(1)
   })
 
   it('supports a custom label', () => {
