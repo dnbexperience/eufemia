@@ -29,6 +29,7 @@ export function renderCdnIcon({
 
   const version = getVersion()
   const isRelease =
+    // eslint-disable-next-line security/detect-unsafe-regex -- the optional group does not repeat
     /^\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?$/.test(version) &&
     version !== '0.0.0-development'
   const directory =

@@ -46,8 +46,12 @@ const restrictedSyntax = [
       'Do not use optional chaining on process (process?.env). Use process.env instead – optional chaining breaks Vite define replacements.',
   },
 ]
-const securityRecommendedRules =
-  securityPlugin.configs.recommended.rules || {}
+// The plugin's recommended rules are warnings, which `--quiet` hides in CI
+const securityRecommendedRules = Object.fromEntries(
+  Object.keys(securityPlugin.configs.recommended.rules || {}).map(
+    (rule) => [rule, 'error']
+  )
+)
 const nodeGlobals = globals.node || {}
 const browserGlobals = globals.browser || {}
 const esGlobals = globals.es2021 || {}

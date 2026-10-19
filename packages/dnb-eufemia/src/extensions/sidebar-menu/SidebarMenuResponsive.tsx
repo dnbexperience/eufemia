@@ -872,6 +872,7 @@ function addEmValues(first: string, second: string) {
 }
 
 function isEmValue(value: string) {
+  // eslint-disable-next-line security/detect-unsafe-regex -- the optional group does not repeat
   return /^\d+(?:\.\d+)?em$/.test(value)
 }
 
