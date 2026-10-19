@@ -104,10 +104,7 @@ function CdnIcon({
   const canFallBack = Boolean(fallbackSrc) && !failed
 
   useEffect(() => {
-    const isDevelopment =
-      typeof process !== 'undefined' &&
-      process.env.NODE_ENV === 'development'
-    if (!canFallBack && !isDevelopment) {
+    if (!canFallBack && process.env.NODE_ENV !== 'development') {
       return undefined
     }
 
