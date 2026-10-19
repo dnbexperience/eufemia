@@ -8,14 +8,16 @@
  * traversal), so nothing incidental in an argument can reach storage. A
  * component or path that passes is then checked against the docs through the
  * {@link UsageResolver}, so a name that does not exist is dropped and the event
- * degrades to a tool count. Component names and doc paths are stored in the form
- * the docs server resolves them to, so one component or document groups under
- * one key however the caller spelled it.
+ * degrades to a tool count plus a miss flag and the likely component, if any.
+ * Component names and doc paths are stored in the form the docs server resolves
+ * them to, so one component or document groups under one key however the
+ * caller spelled it.
  */
 
 /** Mirrors `UsageResolver` in mcp-docs-server; declared here to stay dependency-free. */
 export type UsageResolver = {
   component: (name: string) => Promise<boolean>
+  likelyComponent: (guess: string) => Promise<string | null>
   docsFile: (path: string) => Promise<boolean>
   docsDir: (path: string) => Promise<boolean>
 }
@@ -24,6 +26,8 @@ export type UsageResolver = {
 export type McpUsageRecord = {
   tool: string
   component: string
+  component_missed: boolean
+  likely_component: string
   path: string
   env: string
   transport: 'web'
@@ -159,6 +163,10 @@ async function recordFromMessage(
     rawComponent && (await resolver.component(rawComponent))
       ? normalizeComponent(rawComponent)
       : ''
+  const componentMissed = rawComponent !== '' && component === ''
+  const likelyComponent = componentMissed
+    ? ((await resolver.likelyComponent(rawComponent)) ?? '')
+    : ''
 
   const candidatePath =
     tool === 'docs_read'
@@ -174,6 +182,8 @@ async function recordFromMessage(
   return {
     tool,
     component,
+    component_missed: componentMissed,
+    likely_component: likelyComponent,
     path,
     env,
     // The web Lambda writes this producer's rows only; the local (stdio)

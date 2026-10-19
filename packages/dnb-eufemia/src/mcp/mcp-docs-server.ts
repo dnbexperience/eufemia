@@ -618,8 +618,19 @@ function createDocsContext(source: DocsSource) {
 export type UsageResolver = {
   /** Takes the name as the caller passed it, not lowercased. */
   component: (name: string) => Promise<boolean>
+  /**
+   * The lowercase name of the real component a guess matches when case and
+   * hyphens are ignored ('DatePicker' matches 'date-picker'), or null.
+   */
+  likelyComponent: (guess: string) => Promise<string | null>
   docsFile: (path: string) => Promise<boolean>
   docsDir: (path: string) => Promise<boolean>
+}
+
+const COMPONENT_DOC_FILE = /^\/uilib\/components\/([^/]+)\.md$/
+
+function ignoreCaseAndHyphens(name: string) {
+  return normalizeName(name).replaceAll('-', '')
 }
 
 export function createUsageResolver(source: DocsSource): UsageResolver {
@@ -628,6 +639,15 @@ export function createUsageResolver(source: DocsSource): UsageResolver {
   return {
     component: async (name) =>
       (await context.resolveComponentPaths(name)).docExists,
+    likelyComponent: async (guess) => {
+      const key = ignoreCaseAndHyphens(guess)
+      const files = await context.getMarkdownFilesCached()
+      const name = files
+        .map((file) => COMPONENT_DOC_FILE.exec(file)?.[1])
+        .find((name) => name && ignoreCaseAndHyphens(name) === key)
+
+      return name ? normalizeName(name) : null
+    },
     docsFile: async (path) => (await source.stat(path)).kind === 'file',
     docsDir: async (path) => (await source.stat(path)).kind === 'dir',
   }

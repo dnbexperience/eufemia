@@ -203,6 +203,8 @@ describe('isTelemetryDisabled', () => {
 describe('createUsageReporter', () => {
   const resolver = {
     component: async (name: string) => name === 'Button',
+    likelyComponent: async (guess: string) =>
+      guess === 'DatePicker' ? 'date-picker' : null,
     docsFile: async (path: string) =>
       path === '/uilib/components/button.md',
     docsDir: async (path: string) => path === '/uilib/components',
@@ -301,7 +303,7 @@ describe('createUsageReporter', () => {
     expect(body.path).toBeUndefined()
   })
 
-  it('drops a component the docs do not contain but still counts the tool', async () => {
+  it('drops a component the docs do not contain, flags the miss and still counts the tool', async () => {
     const fetchImpl = vi.fn().mockResolvedValue(new Response(null))
     const reporter = createUsageReporter({
       eufemiaVersion: VERSION,
@@ -318,6 +320,47 @@ describe('createUsageReporter', () => {
     const body = JSON.parse(fetchImpl.mock.calls[0][1].body)
     expect(body.tool).toBe('component_doc')
     expect(body.component).toBeUndefined()
+    expect(body.componentMissed).toBe(true)
+    expect(body.likelyComponent).toBeUndefined()
+  })
+
+  it('sends the likely component for a missed guess, never the guess', async () => {
+    const fetchImpl = vi.fn().mockResolvedValue(new Response(null))
+    const reporter = createUsageReporter({
+      eufemiaVersion: VERSION,
+      env: {},
+      resolver,
+      fetchImpl: fetchImpl as unknown as typeof fetch,
+      logNotice: () => undefined,
+    })
+
+    reporter?.onToolCall('component_doc', { name: 'DatePicker' })
+    await vi.runAllTimersAsync()
+
+    const { body } = fetchImpl.mock.calls[0][1]
+    expect(JSON.parse(body)).toMatchObject({
+      componentMissed: true,
+      likelyComponent: 'date-picker',
+    })
+    expect(body).not.toContain('DatePicker')
+  })
+
+  it('does not flag a miss for a component that resolves', async () => {
+    const fetchImpl = vi.fn().mockResolvedValue(new Response(null))
+    const reporter = createUsageReporter({
+      eufemiaVersion: VERSION,
+      env: {},
+      resolver,
+      fetchImpl: fetchImpl as unknown as typeof fetch,
+      logNotice: () => undefined,
+    })
+
+    reporter?.onToolCall('component_doc', { name: 'Button' })
+    await vi.runAllTimersAsync()
+
+    const body = JSON.parse(fetchImpl.mock.calls[0][1].body)
+    expect(body.componentMissed).toBeUndefined()
+    expect(body.likelyComponent).toBeUndefined()
   })
 
   it('sends no component or path without a resolver', async () => {
@@ -341,6 +384,7 @@ describe('createUsageReporter', () => {
     for (const [, init] of fetchImpl.mock.calls) {
       const body = JSON.parse(init.body)
       expect(body.component).toBeUndefined()
+      expect(body.componentMissed).toBeUndefined()
       expect(body.path).toBeUndefined()
     }
   })
