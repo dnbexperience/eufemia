@@ -220,6 +220,121 @@ describe('Eufemia agent skills', () => {
     ).rejects.toThrow('Agent skills target escapes the project')
   })
 
+  // process.cwd() returns the real path, but a target from the shell, like
+  // "$PWD/.agents/skills", can reach the project through a symlink
+  it('accepts an explicit target that reaches the project through a symlink', async () => {
+    const output: string[] = []
+    const cliPackageRoot = path.join(temporaryRoot, 'package')
+    const projectRoot = path.join(temporaryRoot, 'project')
+    const projectLink = path.join(temporaryRoot, 'project-link')
+    await fs.cp(sourceRoot, path.join(cliPackageRoot, 'agent-skills'), {
+      recursive: true,
+    })
+    await fs.writeFile(
+      path.join(cliPackageRoot, 'package.json'),
+      JSON.stringify({ version: packageVersion })
+    )
+    await fs.mkdir(projectRoot)
+    await fs.symlink(projectRoot, projectLink, 'dir')
+
+    const run = (command: string) =>
+      runAgentSkillsCli({
+        args: [
+          command,
+          '--target',
+          path.join(projectLink, '.claude/skills'),
+        ],
+        packageRoot: cliPackageRoot,
+        cwd: projectRoot,
+        output: (message) => output.push(message),
+      })
+
+    await expect(run('install')).resolves.toBe(0)
+    await expect(run('check')).resolves.toBe(0)
+    await expect(
+      fs.readFile(
+        path.join(
+          projectRoot,
+          '.claude/skills/eufemia-components/SKILL.md'
+        ),
+        'utf-8'
+      )
+    ).resolves.toContain('name: eufemia-components')
+    await expect(run('uninstall')).resolves.toBe(0)
+
+    expect(output).toEqual([
+      `Installed 6 Eufemia skills in ${path.join(projectRoot, '.claude/skills')}`,
+      `Eufemia agent skills are current in ${path.join(projectRoot, '.claude/skills')}`,
+      `Removed 6 Eufemia skill files from ${path.join(projectRoot, '.claude/skills')}`,
+    ])
+  })
+
+  it('rejects a symlink inside the project when the target uses a symlinked project path', async () => {
+    const cliPackageRoot = path.join(temporaryRoot, 'package')
+    const externalRoot = path.join(temporaryRoot, 'external-target')
+    const projectRoot = path.join(temporaryRoot, 'project')
+    const projectLink = path.join(temporaryRoot, 'project-link')
+    await fs.cp(sourceRoot, path.join(cliPackageRoot, 'agent-skills'), {
+      recursive: true,
+    })
+    await fs.writeFile(
+      path.join(cliPackageRoot, 'package.json'),
+      JSON.stringify({ version: packageVersion })
+    )
+    await fs.mkdir(externalRoot)
+    await fs.mkdir(projectRoot)
+    await fs.symlink(projectRoot, projectLink, 'dir')
+    await fs.symlink(
+      externalRoot,
+      path.join(projectRoot, '.claude'),
+      'dir'
+    )
+
+    await expect(
+      runAgentSkillsCli({
+        args: [
+          'install',
+          '--target',
+          path.join(projectLink, '.claude/skills'),
+        ],
+        packageRoot: cliPackageRoot,
+        cwd: projectRoot,
+        output: () => null,
+      })
+    ).rejects.toThrow('Agent skills target cannot contain symlinks')
+    await expect(fs.readdir(externalRoot)).resolves.toEqual([])
+  })
+
+  it('checks every symlink below the project in a symlinked target path', async () => {
+    const cliPackageRoot = path.join(temporaryRoot, 'package')
+    const projectRoot = path.join(temporaryRoot, 'project')
+    const projectLink = path.join(temporaryRoot, 'project-link')
+    await fs.cp(sourceRoot, path.join(cliPackageRoot, 'agent-skills'), {
+      recursive: true,
+    })
+    await fs.writeFile(
+      path.join(cliPackageRoot, 'package.json'),
+      JSON.stringify({ version: packageVersion })
+    )
+    await fs.mkdir(projectRoot)
+    await fs.symlink(projectRoot, projectLink, 'dir')
+    // A symlink inside the project that points to the project itself
+    await fs.symlink(projectRoot, path.join(projectRoot, 'current'), 'dir')
+
+    await expect(
+      runAgentSkillsCli({
+        args: [
+          'install',
+          '--target',
+          path.join(projectLink, 'current/.claude/skills'),
+        ],
+        packageRoot: cliPackageRoot,
+        cwd: projectRoot,
+        output: () => null,
+      })
+    ).rejects.toThrow('Agent skills target cannot contain symlinks')
+  })
+
   it('only removes files managed by the installer', async () => {
     const unrelatedPath = path.join(targetRoot, 'team-skill', 'SKILL.md')
     await fs.mkdir(path.dirname(unrelatedPath), { recursive: true })
