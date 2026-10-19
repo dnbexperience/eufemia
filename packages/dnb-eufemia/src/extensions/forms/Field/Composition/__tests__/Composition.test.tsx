@@ -688,6 +688,40 @@ describe('Field.Composition', () => {
     ).toHaveTextContent(nb.Field.errorRequired)
   })
 
+  it.each([false, true])(
+    'should hydrate messages inside Suspense with StrictMode=%s',
+    async (strict) => {
+      const element = (
+        <Field.Composition id="composition">
+          <Suspense fallback="Loading">
+            <Field.String warning="Warning" />
+          </Suspense>
+        </Field.Composition>
+      )
+      const contents = strict ? (
+        <StrictMode>{element}</StrictMode>
+      ) : (
+        element
+      )
+      const container = document.createElement('div')
+      container.innerHTML = renderToString(contents)
+      const onRecoverableError = vi.fn()
+      const { unmount } = render(contents, {
+        container,
+        hydrate: true,
+        onRecoverableError,
+      })
+      await waitFor(() => {
+        expect(container.querySelector('input')).not.toBeNull()
+      })
+      expect(onRecoverableError).not.toHaveBeenCalled()
+      expect(
+        container.querySelector('.dnb-form-status--warning')
+      ).toHaveTextContent('Warning')
+      unmount()
+    }
+  )
+
   it('should not summarize messages from suspended fields', () => {
     const pending = new Promise(() => undefined)
     function Pending(): never {

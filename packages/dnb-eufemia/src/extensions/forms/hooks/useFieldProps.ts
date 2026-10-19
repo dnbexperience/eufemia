@@ -29,6 +29,7 @@ import FieldProviderContext from '../Field/Provider/FieldProviderContext'
 import { combineDescribedBy, warn } from '../../../shared/component-helper'
 import useId from '../../../shared/helpers/useId'
 import useUpdateEffect from '../../../shared/helpers/useUpdateEffect'
+import useCanUseDOM from '../../../shared/helpers/useCanUseDOM'
 import type { FieldBlockContextProps } from '../FieldBlock/FieldBlockContext'
 import FieldBlockContext from '../FieldBlock/FieldBlockContext'
 import IterateItemContext from '../Iterate/IterateItemContext'
@@ -329,6 +330,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   const inFieldBlock = Boolean(
     fieldBlockContext && fieldBlockContext.disableStatusSummary !== true
   )
+  const canUseDOM = useCanUseDOM({ waitForHydration: inFieldBlock })
 
   // Support schema as a factory function evaluated after props are extended
   const resolvedSchema = useMemo(() => {
@@ -360,7 +362,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   const hasZodSchema = isZodSchema(finalSchema)
   const {
     setBlockRecord,
-    registerRenderRecord,
+    collectMessages,
     setFieldState: setFieldStateFieldBlock,
     showFieldError: showFieldErrorFieldBlock,
   } = (inFieldBlock ? fieldBlockContext : {}) as FieldBlockContextProps
@@ -1784,27 +1786,19 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   // Set the error in the field block context if this field is inside a field block
   useLayoutEffect(() => {
     if (inFieldBlock) {
-      setBlockRecord?.({
-        identifier,
-        type: 'error',
-        content: error,
-        showInitially: true,
-        show: true,
-      })
-      setBlockRecord?.({
-        identifier,
-        type: 'warning',
-        content: warning,
-        showInitially: true,
-        show: true,
-      })
-      setBlockRecord?.({
-        identifier,
-        type: 'information',
-        content: info,
-        showInitially: true,
-        show: true,
-      })
+      for (const [type, content] of [
+        ['error', error],
+        ['warning', warning],
+        ['information', info],
+      ] as const) {
+        setBlockRecord?.({
+          identifier,
+          type,
+          content,
+          showInitially: true,
+          show: true,
+        })
+      }
     }
 
     return undefined
@@ -1909,14 +1903,14 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   if (required) {
     htmlAttributes['aria-required'] = 'true'
   }
-  if (inFieldBlock) {
+  if (inFieldBlock && !canUseDOM) {
     // Register the messages during render, so they are part of the server-rendered HTML
     for (const [type, content] of [
       ['error', error],
       ['warning', warning],
       ['information', info],
     ] as const) {
-      registerRenderRecord?.({
+      collectMessages?.({
         identifier,
         type,
         content,

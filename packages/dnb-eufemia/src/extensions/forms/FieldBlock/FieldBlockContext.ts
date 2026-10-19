@@ -45,7 +45,7 @@ export type FieldBlockContextProps = {
     }: StateBasis,
     options?: { remove?: boolean }
   ) => void
-  registerRenderRecord?: (record: StateBasis) => void
+  collectMessages?: (record: StateBasis) => void
   setFieldState?: (identifier: Identifier, fieldState: SubmitState) => void
   showFieldError?: (identifier: Identifier, showError: boolean) => void
   hasErrorProp?: boolean

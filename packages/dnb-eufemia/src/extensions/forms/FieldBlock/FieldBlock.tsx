@@ -1,6 +1,7 @@
 import {
   Children,
   Fragment,
+  Suspense,
   isValidElement,
   useCallback,
   useContext,
@@ -54,7 +55,6 @@ import { FormError } from '../utils'
 import { useIterateItemNo } from '../Iterate/ItemNo/useIterateItemNo'
 import withComponentMarkers from '../../../shared/helpers/withComponentMarkers'
 import type { ComponentMarkers } from '../../../shared/helpers/withComponentMarkers'
-import useCanUseDOM from '../../../shared/helpers/useCanUseDOM'
 
 export const states: Array<FieldState> = [
   'error',
@@ -237,7 +237,6 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
   const fieldStatesRef = useRef<Map<Identifier, SubmitState>>(new Map())
   const stateRecordRef = useRef<StateRecord>({})
   const statusId = props.id || forId || blockId
-  const canUseDOM = useCanUseDOM()
   const renderRecords: StateRecord = {}
   const statusChildrenRef = useRef<
     Partial<
@@ -307,10 +306,9 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
 
   // Server and hydration records belong only to this render. Client records
   // are registered after commit so suspended fields cannot enter the summary.
-  const registerRenderRecord = canUseDOM
-    ? undefined
-    : (nestedFieldBlockContext?.registerRenderRecord ??
-      ((record: StateBasis) => setInternalRecord(record, renderRecords)))
+  const collectMessages =
+    nestedFieldBlockContext?.collectMessages ??
+    ((record: StateBasis) => setInternalRecord(record, renderRecords))
 
   const setFieldState = useCallback(
     (identifier: Identifier, fieldState: SubmitState) => {
@@ -607,7 +605,7 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
     <FieldBlockContext
       value={{
         setBlockRecord,
-        registerRenderRecord,
+        collectMessages,
         setFieldState,
         showFieldError,
         hasErrorProp: Boolean(error),
@@ -697,32 +695,35 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
             {children}
           </div>
 
-          <RenderAfterChildren
-            render={() => {
-              const statusContent = getStatusContent()
+          {/* Hydrate the summary after any deferred field boundaries. */}
+          <Suspense fallback={null}>
+            <RenderAfterChildren
+              render={() => {
+                const statusContent = getStatusContent()
 
-              return (
-                <div
-                  className={clsx(
-                    'dnb-forms-field-block__status',
+                return (
+                  <div
+                    className={clsx(
+                      'dnb-forms-field-block__status',
 
-                    // Handle the width of the status messages
-                    contentWidth &&
-                      contentWidth !== 'small' &&
-                      contentWidth !== 'medium' &&
-                      !(parseFloat(contentWidth) <= 11) &&
-                      `dnb-forms-field-block__contents--width-${
-                        hasCustomContentWidth ? 'custom' : contentWidth
-                      }`
-                  )}
-                >
-                  <FormStatus {...statusContent.error} />
-                  <FormStatus {...statusContent.warning} />
-                  <FormStatus {...statusContent.information} />
-                </div>
-              )
-            }}
-          />
+                      // Handle the width of the status messages
+                      contentWidth &&
+                        contentWidth !== 'small' &&
+                        contentWidth !== 'medium' &&
+                        !(parseFloat(contentWidth) <= 11) &&
+                        `dnb-forms-field-block__contents--width-${
+                          hasCustomContentWidth ? 'custom' : contentWidth
+                        }`
+                    )}
+                  >
+                    <FormStatus {...statusContent.error} />
+                    <FormStatus {...statusContent.warning} />
+                    <FormStatus {...statusContent.information} />
+                  </div>
+                )
+              }}
+            />
+          </Suspense>
 
           <SubmitIndicator
             state={
