@@ -230,7 +230,9 @@ function TransactionList() {
   const { data } = Filter.useFilterAsync(
     'my-filter',
     async ({ filters, search }) => {
-      const res = await fetch(`/api/transactions?q=${search}`)
+      const res = await fetch(
+        `/api/transactions?q=${encodeURIComponent(search)}`
+      )
       return res.json()
     },
     { initialData: [] }
