@@ -386,6 +386,7 @@ export const DrawerListGroups = () => (
         skipPortal
         open
         preventClose
+        focusable
         aria-label="Choose an item"
         observerElement=".dnb-live-preview" // prevents direction to change when scrolling in this example
         groups={[undefined, 'Pets', undefined, 'Cars']}
@@ -412,6 +413,7 @@ export const DrawerListNoDivider = () => (
         skipPortal
         open
         preventClose
+        focusable
         aria-label="Choose an item"
         observerElement=".dnb-live-preview" // prevents direction to change when scrolling in this example
         groups={[undefined, 'Pets', undefined, 'Cars']}
