@@ -487,6 +487,42 @@ describe('Form.Handler', () => {
     window.sessionStorage.removeItem('test-data')
   })
 
+  it('should not store password values in session storage', async () => {
+    render(
+      <Form.Handler sessionStorageId="test-data">
+        <Field.String path="/username" />
+        <Field.Password path="/password" />
+        <Field.Password
+          path="/user/newPassword"
+          autoComplete="new-password"
+        />
+        <Field.String path="/otp" autoComplete="one-time-code" />
+      </Form.Handler>
+    )
+
+    const [username, password, newPassword, otp] = Array.from(
+      document.querySelectorAll('input')
+    )
+    await userEvent.type(username, 'ola')
+    await userEvent.type(password, 'secret')
+    await userEvent.type(newPassword, 'new-secret')
+    await userEvent.type(otp, '123456')
+
+    // Revealing the password changes the input type to "text"
+    fireEvent.click(
+      document.querySelector('.dnb-forms-field-password button')
+    )
+    await userEvent.type(password, '!')
+
+    await waitFor(() => {
+      expect(
+        JSON.parse(window.sessionStorage.getItem('test-data'))
+      ).toEqual({ username: 'ola', user: {} })
+    })
+
+    window.sessionStorage.removeItem('test-data')
+  })
+
   it('should reset sessionStorage on "resetForm" call', async () => {
     const setItem = vi.spyOn(
       Object.getPrototypeOf(window.sessionStorage),

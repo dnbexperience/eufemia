@@ -57,6 +57,7 @@ import type {
   ContextState,
   EventListenerCall,
   FieldInternalsRef,
+  FieldInternalsValue,
   ValueInternalsRef,
   FilterData,
   FilterDataHandler,
@@ -1220,9 +1221,32 @@ export default function Provider<Data extends JsonObject>(
   const storeInSession = useMemo(() => {
     return debounce(
       () => {
+        const data = internalDataRef.current
+        const credentialPaths = Object.keys(
+          fieldInternalsRef.current
+        ).filter(
+          (path) =>
+            isPath(path) &&
+            isCredentialField(fieldInternalsRef.current[path]?.props)
+        )
+
+        let dataToStore = data
+        if (
+          credentialPaths.length > 0 &&
+          data &&
+          typeof data === 'object'
+        ) {
+          dataToStore = structuredClone(data)
+          credentialPaths.forEach((path) => {
+            if (pointer.has(dataToStore, path)) {
+              pointer.remove(dataToStore, path)
+            }
+          })
+        }
+
         getWebStorage('session')?.setItem(
           sessionStorageId,
-          JSON.stringify(internalDataRef.current)
+          JSON.stringify(dataToStore)
         )
       },
       process.env.NODE_ENV === 'test' ? 1 : 800
@@ -2256,3 +2280,17 @@ function useFormStatusBuffer(props: FormStatusBufferProps) {
 }
 
 export const clearedData = Object.freeze({})
+
+const credentialAutoComplete =
+  /(^|\s)(current-password|new-password|one-time-code)(\s|$)/
+
+function isCredentialField(props: FieldInternalsValue['props']) {
+  const { type, autoComplete } = (props ?? {}) as {
+    type?: unknown
+    autoComplete?: unknown
+  }
+  return (
+    type === 'password' ||
+    credentialAutoComplete.test(String(autoComplete ?? ''))
+  )
+}
