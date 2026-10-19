@@ -9,7 +9,7 @@ import {
   wait,
 } from '../../../../../core/test-utils/testSetup'
 import type { JSONSchema, JSONSchemaType, OnSubmit } from '../../..'
-import { Form, Field, makeAjvInstance } from '../../..'
+import { Form, Field, Iterate, makeAjvInstance } from '../../..'
 import type { FieldStringProps as StringFieldProps } from '../../../Field/String'
 import type { ContextProps } from '../../../../../shared/Context'
 import nbNO from '../../../constants/locales/nb-NO'
@@ -518,6 +518,37 @@ describe('Form.Handler', () => {
       expect(
         JSON.parse(window.sessionStorage.getItem('test-data'))
       ).toEqual({ username: 'ola', user: {} })
+    })
+
+    window.sessionStorage.removeItem('test-data')
+  })
+
+  it('should not store password values inside Iterate.Array or Form.Section', async () => {
+    render(
+      <Form.Handler
+        sessionStorageId="test-data"
+        defaultData={{ users: [{ name: 'ola' }] }}
+      >
+        <Iterate.Array path="/users">
+          <Field.String itemPath="/name" />
+          <Field.Password itemPath="/password" />
+        </Iterate.Array>
+        <Form.Section path="/account">
+          <Field.Password path="/password" />
+        </Form.Section>
+      </Form.Handler>
+    )
+
+    const [, itemPassword, sectionPassword] = Array.from(
+      document.querySelectorAll('input')
+    )
+    await userEvent.type(itemPassword, 'item-secret')
+    await userEvent.type(sectionPassword, 'section-secret')
+
+    await waitFor(() => {
+      expect(
+        JSON.parse(window.sessionStorage.getItem('test-data'))
+      ).toEqual({ users: [{ name: 'ola' }], account: {} })
     })
 
     window.sessionStorage.removeItem('test-data')
