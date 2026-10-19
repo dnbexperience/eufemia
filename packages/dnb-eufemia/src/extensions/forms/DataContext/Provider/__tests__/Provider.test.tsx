@@ -2773,8 +2773,16 @@ describe('DataContext.Provider', { retry: isCI ? 5 : 0 }, () => {
       )
 
       await userEvent.type(document.querySelector('input'), 'secret')
+      await wait(10)
 
-      // Submit before the debounced write has run
+      expect(window.sessionStorage.getItem(sessionStorageId)).toBe(
+        JSON.stringify({ foo: 'secret' })
+      )
+
+      // Submit while a debounced write is still pending
+      fireEvent.change(document.querySelector('input'), {
+        target: { value: 'secret2' },
+      })
       fireEvent.submit(document.querySelector('form'))
 
       await waitFor(() => {
@@ -2785,15 +2793,60 @@ describe('DataContext.Provider', { retry: isCI ? 5 : 0 }, () => {
       expect(window.sessionStorage.getItem(sessionStorageId)).toBeNull()
     })
 
-    it('should keep the stored data when submit returns an error', async () => {
-      const sessionStorageId = 'keep-on-submit-error'
+    it.each([
+      ['returns', () => new Error('Failed')],
+      [
+        'throws',
+        () => {
+          throw new Error('Failed')
+        },
+      ],
+    ])(
+      'should keep the stored data when submit %s an error',
+      async (_label, onSubmit) => {
+        const sessionStorageId = 'keep-on-submit-error'
+
+        render(
+          <Form.Handler
+            sessionStorageId={sessionStorageId}
+            onSubmit={onSubmit}
+          >
+            <Field.String path="/foo" />
+          </Form.Handler>
+        )
+
+        await userEvent.type(document.querySelector('input'), 'value')
+        await wait(10)
+
+        fireEvent.submit(document.querySelector('form'))
+        await wait(10)
+
+        expect(window.sessionStorage.getItem(sessionStorageId)).toBe(
+          JSON.stringify({ foo: 'value' })
+        )
+
+        window.sessionStorage.removeItem(sessionStorageId)
+      }
+    )
+
+    it('should keep the stored data when a Wizard goes to the next step', async () => {
+      const sessionStorageId = 'keep-on-wizard-step'
+      const onSubmit = vi.fn()
 
       render(
         <Form.Handler
           sessionStorageId={sessionStorageId}
-          onSubmit={() => new Error('Failed')}
+          onSubmit={onSubmit}
         >
-          <Field.String path="/foo" />
+          <Wizard.Container>
+            <Wizard.Step title="Step 1">
+              <Field.String path="/foo" />
+              <Wizard.Buttons />
+            </Wizard.Step>
+            <Wizard.Step title="Step 2">
+              <Wizard.Buttons />
+            </Wizard.Step>
+          </Wizard.Container>
         </Form.Handler>
       )
 
@@ -2803,6 +2856,7 @@ describe('DataContext.Provider', { retry: isCI ? 5 : 0 }, () => {
       fireEvent.submit(document.querySelector('form'))
       await wait(10)
 
+      expect(onSubmit).not.toHaveBeenCalled()
       expect(window.sessionStorage.getItem(sessionStorageId)).toBe(
         JSON.stringify({ foo: 'value' })
       )

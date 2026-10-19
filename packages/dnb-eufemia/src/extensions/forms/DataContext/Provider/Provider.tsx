@@ -190,7 +190,7 @@ export type DataContextProviderProps<Data extends JsonObject> =
      */
     scrollTopOnSubmit?: boolean
     /**
-     * Key for saving active data to session storage and loading it on mount.
+     * Key for saving active data to session storage and loading it on mount. The stored data is removed after a successful submit.
      */
     sessionStorageId?: string
     /**
