@@ -179,11 +179,31 @@ describe('computeKnownAreas', () => {
 })
 
 describe('isTelemetryDisabled', () => {
-  it.each(['0', 'false', 'FALSE', ' false '])(
+  it.each(['0', 'false', 'FALSE', ' false ', 'off', 'no', 'NO'])(
     'is disabled for %j',
     (value) => {
       expect(isTelemetryDisabled({ EUFEMIA_MCP_TELEMETRY: value })).toBe(
         true
+      )
+    }
+  )
+
+  it.each(['1', 'true', 'yes'])(
+    'is disabled when DO_NOT_TRACK is %j',
+    (value) => {
+      expect(isTelemetryDisabled({ DO_NOT_TRACK: value })).toBe(true)
+    }
+  )
+
+  it.each(['true', '1'])('is disabled when CI is %j', (value) => {
+    expect(isTelemetryDisabled({ CI: value })).toBe(true)
+  })
+
+  it.each(['', '0', 'false'])(
+    'stays enabled when DO_NOT_TRACK or CI is %j',
+    (value) => {
+      expect(isTelemetryDisabled({ DO_NOT_TRACK: value, CI: value })).toBe(
+        false
       )
     }
   )
