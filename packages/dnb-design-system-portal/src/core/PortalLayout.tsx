@@ -18,6 +18,7 @@ import { setPortalHeadData, usePortalHead } from './PortalHead'
 import { Breadcrumb, Button } from '@dnb/eufemia/src'
 import { resolveEditSourcePath } from './editSourcePath'
 import { getSuggestEditUrl } from './suggestEdit'
+import AiExperimentalNotice from '../docs/uilib/extensions/ai/ExperimentalNotice'
 import type { KnownFrontmatter } from '../../vite/client/plugins/portal-pages.shared'
 
 const ContentWrapper = TabBar.ContentWrapper
@@ -209,6 +210,11 @@ export default function PortalLayout(props: PortalLayoutProps) {
           pagePath={`${location.pathname}${location.hash || ''}`}
           showEditLink={!codeFocusMode && !fmData.hideEditLink}
         >
+          {!codeFocusMode &&
+            (slug === 'uilib/extensions/ai' ||
+              slug.startsWith('uilib/extensions/ai/')) && (
+              <AiExperimentalNotice />
+            )}
           {children}
         </Content>
       </Heading.Level>
