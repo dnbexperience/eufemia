@@ -64,6 +64,11 @@
   height: 1.5rem;
 }
 
+.defaultTriangle {
+  // Optically center the default triangle within the circle.
+  transform: translateY(-0.0625rem);
+}
+
 .positive {
   --status-icon-color: var(--token-color-text-neutral-inverse);
   --status-icon-background: var(--token-color-background-positive);

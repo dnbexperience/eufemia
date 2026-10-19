@@ -12,6 +12,7 @@ vi.mock('../../../docs/icons/StatusIcons.module.scss', () => ({
     large: 'large',
     medium: 'medium',
     small: 'small',
+    defaultTriangle: 'defaultTriangle',
     positive: 'positive',
     warning: 'warning',
     negative: 'negative',
@@ -91,6 +92,16 @@ describe('StatusIcons', () => {
       )
     ).toEqual(['Large (2.5rem)', 'Medium (2rem)', 'Small (1.5rem)'])
     expect(groups).toHaveLength(3)
+    const correctedIcons = document.querySelectorAll(
+      '.' + styles.defaultTriangle
+    )
+    expect(correctedIcons).toHaveLength(2)
+    expect(correctedIcons[0].closest('li')?.textContent).toBe(
+      'Status: Minor outage'
+    )
+    expect(correctedIcons[1].closest('li')?.textContent).toBe(
+      'Status: Minor outage'
+    )
     expect(
       document.querySelectorAll(
         '[data-visual-test="status-icons"] hr.dnb-hr'

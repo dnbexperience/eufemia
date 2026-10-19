@@ -109,6 +109,10 @@ If the application already configures `Theme` and imports its dark token stylesh
   height: 1.5rem;
 }
 
+.status__icon--triangle .dnb-icon {
+  transform: translateY(-0.0625rem);
+}
+
 .status__icon--positive {
   --status-icon-color: var(--token-color-text-neutral-inverse);
   --status-icon-background: var(--token-color-background-positive);
@@ -129,6 +133,19 @@ If the application already configures `Theme` and imports its dark token stylesh
   --status-icon-background: var(--token-color-background-neutral-bold);
 }
 ```
+
+For the default 16px triangle asset, add the optical-alignment modifier to its circle:
+
+```tsx
+<span
+  className="status__icon status__icon--small status__icon--negative status__icon--triangle"
+  aria-hidden
+>
+  <Icon icon={exclamation_triangle} />
+</span>
+```
+
+Import `exclamation_triangle` from `@dnb/eufemia/icons`. The modifier applies to Medium and Small circles; the 24px asset used in Large does not need this adjustment.
 
 ## Accessibility
 

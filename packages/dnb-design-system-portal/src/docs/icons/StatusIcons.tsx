@@ -77,7 +77,14 @@ function StatusList({ size }: { size: StatusSize }) {
               className={`${styles.icon} ${styles[size]} ${styles[status]}`}
               aria-hidden
             >
-              <Icon icon={size === 'large' ? mediumIcon : icon} />
+              <Icon
+                icon={size === 'large' ? mediumIcon : icon}
+                className={
+                  size !== 'large' && icon === exclamation_triangle
+                    ? styles.defaultTriangle
+                    : undefined
+                }
+              />
             </span>
             <VisuallyHidden>Status: </VisuallyHidden>
             {label}
