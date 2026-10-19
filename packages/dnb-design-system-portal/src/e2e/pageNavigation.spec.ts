@@ -177,7 +177,7 @@ test.describe('Page Navigation', () => {
       page,
     }) => {
       await markCurrentDocument(page)
-      await page.getByRole('link', { name: /Design/ }).click()
+      await page.getByRole('link', { name: /^Design/ }).click()
       await expect(page).toHaveURL('/quickguide-designer')
       await expectCurrentDocument(page)
     })
@@ -262,7 +262,7 @@ test.describe('Page Navigation', () => {
       const titleBeforeClick = await page.title()
       expect(titleBeforeClick).toContain('DNB Design System | Eufemia')
 
-      await page.getByRole('link', { name: /Design/ }).click()
+      await page.getByRole('link', { name: /^Design/ }).click()
       await expect(page).toHaveURL('/quickguide-designer')
       await waitForApp(page)
       await expect(
