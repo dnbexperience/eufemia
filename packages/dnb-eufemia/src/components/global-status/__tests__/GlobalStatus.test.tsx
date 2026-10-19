@@ -1288,6 +1288,42 @@ describe('GlobalStatus component', () => {
     const status = wrapper.querySelector('.dnb-global-status')
     expect(status).toHaveClass('dnb-global-status--error')
   })
+
+  it('should not render a script-executing statusAnchorUrl', () => {
+    render(
+      <GlobalStatus
+        items={[
+          {
+            text: 'Script',
+            statusAnchorUrl: 'javascript:alert(1)',
+            statusAnchorLabel: 'script',
+          },
+          {
+            text: 'VBScript',
+            statusAnchorUrl: 'vbscript:msgbox(1)',
+            statusAnchorLabel: 'vbscript',
+          },
+          {
+            text: 'Safe',
+            statusAnchorUrl: '/uilib/components/global-status',
+            statusAnchorLabel: 'safe',
+          },
+        ]}
+        show={true}
+        autoScroll={false}
+        noAnimation={true}
+      />
+    )
+
+    const links = document.querySelectorAll('.dnb-global-status a')
+    expect(links).toHaveLength(3)
+    expect(links[0]).not.toHaveAttribute('href')
+    expect(links[1]).not.toHaveAttribute('href')
+    expect(links[2]).toHaveAttribute(
+      'href',
+      '/uilib/components/global-status'
+    )
+  })
 })
 
 describe('GlobalStatus scss', () => {
