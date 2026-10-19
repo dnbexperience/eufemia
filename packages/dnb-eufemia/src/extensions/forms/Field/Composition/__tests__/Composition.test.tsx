@@ -857,6 +857,38 @@ describe('Field.Composition', () => {
     ).toHaveTextContent('Committed warning')
   })
 
+  it('should restore validation messages after a suspended field is revealed', async () => {
+    const pending = new Promise(() => undefined)
+    function Pending(): never {
+      throw pending
+    }
+    function Example() {
+      const [suspended, setSuspended] = useState(false)
+      return (
+        <>
+          <button onClick={() => setSuspended(!suspended)}>Toggle</button>
+          <Field.Composition>
+            <Suspense fallback="Loading">
+              <Field.String required validateInitially />
+              {suspended && <Pending />}
+            </Suspense>
+          </Field.Composition>
+        </>
+      )
+    }
+    render(<Example />)
+    expect(
+      document.querySelector('.dnb-form-status--error')
+    ).toHaveTextContent(nb.Field.errorRequired)
+    await userEvent.click(document.querySelector('button'))
+    expect(document.querySelector('.dnb-form-status--error')).toBeNull()
+    await userEvent.click(document.querySelector('button'))
+    expect(document.querySelector('input')).toBeVisible()
+    expect(
+      document.querySelector('.dnb-form-status--error')
+    ).toHaveTextContent(nb.Field.errorRequired)
+  })
+
   describe('schema', () => {
     it('should show required error on submit', () => {
       const schema: JSONSchema = {

@@ -41,7 +41,6 @@ import type {
   FieldProps,
   SubmitState,
   Identifier,
-  UseFieldProps,
 } from '../types'
 import type { FormLabelAllProps } from '../../../components/FormLabel'
 import type { HelpProps } from '../../../components/help-button/HelpButtonInline'
@@ -228,14 +227,11 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
   const hasCustomWidth = /\d(rem)$/.test(String(width))
   const hasCustomContentWidth = /\d(rem)$/.test(String(contentWidth))
 
-  const infoRef = useRef<UseFieldProps['info']>(undefined)
-  const warningRef = useRef<UseFieldProps['warning']>(undefined)
-  const errorRef = useRef<UseFieldProps['error']>(undefined)
-
   const blockId = useId(props.id)
   const [, forceUpdate] = useReducer(() => ({}), {})
   const fieldStatesRef = useRef<Map<Identifier, SubmitState>>(new Map())
   const stateRecordRef = useRef<StateRecord>({})
+  const hiddenFieldsRef = useRef(new Set<Identifier>())
   const statusId = props.id || forId || blockId
   const renderRecords: StateRecord = {}
   const statusChildrenRef = useRef<
@@ -294,8 +290,11 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
       }
 
       if (options?.remove) {
-        delete stateRecordRef.current[props.identifier]
+        hiddenFieldsRef.current.add(props.identifier)
       } else {
+        if (!props.stateId) {
+          hiddenFieldsRef.current.delete(props.identifier)
+        }
         setInternalRecord(props)
       }
 
@@ -358,34 +357,23 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
     [nestedFieldBlockContext]
   )
 
-  if (typeof error !== 'undefined' || errorRef.current) {
-    errorRef.current = error
-    setInternalRecord({
-      identifier: blockId,
-      showInitially: hasInitiallyErrorPropRef.current,
-      type: 'error',
-      content: error,
-    })
-  }
-
-  if (typeof warning !== 'undefined' || warningRef.current !== warning) {
-    warningRef.current = warning
-    setInternalRecord({
-      identifier: blockId,
-      showInitially: true,
-      type: 'warning',
-      content: warning,
-    })
-  }
-
-  if (typeof info !== 'undefined' || infoRef.current !== info) {
-    infoRef.current = info
-    setInternalRecord({
-      identifier: blockId,
-      showInitially: true,
-      type: 'information',
-      content: info,
-    })
+  for (const [type, content] of [
+    ['error', error],
+    ['warning', warning],
+    ['information', info],
+  ] as const) {
+    if (
+      content !== undefined ||
+      stateRecordRef.current[blockId]?.some((item) => item.type === type)
+    ) {
+      setInternalRecord({
+        identifier: blockId,
+        showInitially:
+          type !== 'error' || hasInitiallyErrorPropRef.current,
+        type,
+        content,
+      })
+    }
   }
 
   // Called after the children have rendered, so messages they register during render are included
@@ -393,6 +381,7 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
     const statesWithMessages: Array<StatesWithMessages> =
       // 1. Prepare the states for later use
       Object.entries({ ...stateRecordRef.current, ...renderRecords })
+        .filter(([identifier]) => !hiddenFieldsRef.current.has(identifier))
         .flatMap(([identifier, states]) =>
           states.map((props) => {
             return {
