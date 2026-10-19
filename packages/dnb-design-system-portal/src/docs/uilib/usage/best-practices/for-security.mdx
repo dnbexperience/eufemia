@@ -10,22 +10,23 @@ order: 5
 
 Eufemia works with a strict Content Security Policy. Depending on which features you use, the policy needs to allow the following:
 
-| Feature                                                                                                                                      | Directive                                                  |
-| -------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------- |
-| [Color scheme scripts](/uilib/usage/customisation/theming/theme/#content-security-policy-csp) (`ColorSchemeHeadScript` and the body scripts) | `script-src 'nonce-…'`: pass the nonce to each script      |
-| [`TextScaleHeadScript`](/uilib/typography/font-size/)                                                                                        | `script-src 'nonce-…'`: pass the nonce to the script       |
-| [`SidebarMenu.PreHydrationScript`](/uilib/extensions/sidebar-menu/)                                                                          | `script-src 'nonce-…'`: pass the nonce to the script       |
-| [SidebarMenu responsive first-paint CSS](/uilib/extensions/sidebar-menu/)                                                                    | `style-src 'nonce-…'`: pass it as `styleNonce`             |
-| [Icons loaded by name](/uilib/components/icon/#loading-icons-by-name)                                                                        | `img-src https://assets.eufemia.dnb.no`, or self-host them |
-| The `--isolated` style bundles                                                                                                               | `font-src https://assets.eufemia.dnb.no`                   |
-| [JSON Schema validation with Ajv](/uilib/extensions/forms/Form/schema-validation/) (`makeAjvInstance`)                                       | `script-src 'unsafe-eval'`                                 |
-| Server-side rendering                                                                                                                        | `style-src-attr 'unsafe-inline'`                           |
+| Feature                                                                                                                                      | Directive                                                            |
+| -------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------- |
+| [Color scheme scripts](/uilib/usage/customisation/theming/theme/#content-security-policy-csp) (`ColorSchemeHeadScript` and the body scripts) | `script-src 'nonce-…'`: pass the nonce to each script                |
+| [`TextScaleHeadScript`](/uilib/typography/font-size/)                                                                                        | `script-src 'nonce-…'`: pass the nonce to the script                 |
+| [`SidebarMenu.PreHydrationScript`](/uilib/extensions/sidebar-menu/)                                                                          | `script-src` and `style-src 'nonce-…'`: pass the nonce to the script |
+| [SidebarMenu responsive first-paint CSS](/uilib/extensions/sidebar-menu/)                                                                    | `style-src 'nonce-…'`: pass it as `styleNonce`                       |
+| [Icons loaded by name](/uilib/components/icon/#loading-icons-by-name)                                                                        | `img-src https://assets.eufemia.dnb.no`, or self-host them           |
+| The `--isolated` style bundles                                                                                                               | `font-src https://assets.eufemia.dnb.no`                             |
+| [JSON Schema validation with Ajv](/uilib/extensions/forms/Form/schema-validation/) (`makeAjvInstance`)                                       | `script-src 'unsafe-eval'`                                           |
+| Server-side rendering                                                                                                                        | `style-src-attr 'unsafe-inline'`                                     |
 
 Some notes on the table:
 
+- The `SidebarMenu.PreHydrationScript` also adds a `<style>` element with the same nonce, to apply the saved menu state before hydration.
 - The other style bundles reference the font files in the package, so your bundler serves them from your own origin.
 - Ajv compiles schemas into JavaScript functions at runtime, which the browser blocks without `'unsafe-eval'`. Use [Zod schemas](/uilib/extensions/forms/Form/schema-validation/#zod-schemas-and-typescript) instead when your policy can't allow it.
-- Many components set inline styles, such as sizes and positions. On the client, React applies them through the DOM, which a policy doesn't block. In server-rendered HTML, they are `style` attributes, and the browser ignores them unless the policy allows inline style attributes.
+- Many components set inline styles, such as sizes and positions. On the client, React applies them through the DOM, which a policy doesn't block. In server-rendered HTML, they are `style` attributes, and the browser ignores them unless the policy allows inline style attributes. Use `style-src-attr` for this: when `style-src` contains a nonce, browsers ignore `'unsafe-inline'` in it.
 
 ## Data in the browser
 
