@@ -4,7 +4,6 @@ export const ProgressIndicatorProperties: PropertiesTableProps = {
   progress: {
     doc: 'A number between 0-100, if not supplied a continuous loading-type animation will be used.',
     type: ['string', 'number'],
-    defaultValue: 'undefined',
     status: 'optional',
   },
   show: {
@@ -41,13 +40,11 @@ export const ProgressIndicatorProperties: PropertiesTableProps = {
   label: {
     doc: 'Content of a custom label (overrides `indicatorLabel` and `showDefaultLabel`).',
     type: 'React.ReactNode',
-    defaultValue: 'undefined',
     status: 'optional',
   },
   children: {
     doc: 'Same as `label` prop (`label` prop has priority).',
     type: 'React.ReactNode',
-    defaultValue: 'undefined',
     status: 'optional',
   },
   labelDirection: {
@@ -65,26 +62,22 @@ export const ProgressIndicatorProperties: PropertiesTableProps = {
   indicatorLabel: {
     doc: 'Use this to override the default label from text locales.',
     type: 'string',
-    defaultValue: 'undefined',
     status: 'optional',
   },
   title: {
     doc: 'Used to set title and `aria-label`. Defaults to the value of progress property, formatted as a percent.',
     type: 'string',
-    defaultValue: 'undefined',
     status: 'optional',
   },
   '[customColors](/uilib/components/progress-indicator/properties/#data-object-customcolors)':
     {
       doc: 'Send in custom CSS colors that override any CSS. See below for data structure.',
       type: 'object',
-      defaultValue: 'undefined',
       status: 'optional',
     },
   customCircleWidth: {
     doc: 'Send in custom CSS width for circle progress line. (`undefined` defaults to one eighth of the size).',
     type: 'string',
-    defaultValue: 'undefined',
     status: 'optional',
   },
   '[Space](/uilib/layout/space/properties)': {
@@ -98,19 +91,16 @@ export const CustomColorsData: PropertiesTableProps = {
   line: {
     doc: 'Override the moving line color.',
     type: 'string',
-    defaultValue: 'undefined',
     status: 'optional',
   },
   shaft: {
     doc: 'Override the background line color.',
     type: 'string',
-    defaultValue: 'undefined',
     status: 'optional',
   },
   background: {
     doc: 'Set a background color for the center of the circle.',
     type: 'string',
-    defaultValue: 'undefined',
     status: 'optional',
   },
 }
@@ -119,7 +109,6 @@ export const ProgressIndicatorEvents: PropertiesTableProps = {
   onComplete: {
     doc: "Will be called once it's no longer visible (`show=false`).",
     type: 'function',
-    defaultValue: 'undefined',
     status: 'optional',
   },
 }
