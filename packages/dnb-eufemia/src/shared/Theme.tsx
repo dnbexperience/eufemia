@@ -27,6 +27,9 @@ export type ContrastMode = boolean
  * Controls the color scheme. Use `'dark'` or `'light'` to set explicitly, or `'auto'` to follow the user's system preference. Defaults to `undefined`.
  */
 export type ThemeColorScheme = 'auto' | 'light' | 'dark'
+
+export type ThemeTypography = 'web' | 'native'
+
 /**
  * Adjusts component appearance based on background. Defaults to `undefined`.
  * Use `'initial'` to reset to the component's default behavior, ignoring any parent surface context.
@@ -49,6 +52,8 @@ export type ThemeProps = {
   size?: ThemeSizes
   contrastMode?: ContrastMode
   colorScheme?: ThemeColorScheme
+  /** Selects the brand's web or native typography. Inherits from the parent Theme. */
+  typography?: ThemeTypography
   surface?: ThemeSurface
   element?: DynamicElement | typeof Fragment | false
 }
@@ -68,6 +73,7 @@ export default function Theme(themeProps: ThemeAllProps) {
     size,
     contrastMode,
     colorScheme,
+    typography,
     surface,
     ...restProps
   } = themeProps
@@ -98,6 +104,7 @@ export default function Theme(themeProps: ThemeAllProps) {
       size: density ?? size,
       contrastMode,
       colorScheme: activeColorScheme,
+      typography,
       surface,
     },
     null,
@@ -153,7 +160,7 @@ export function ThemeWrapper({
   const ref = useRef<HTMLElement>(null)
 
   useSyncBodyColorScheme(theme, isNestedColorScheme)
-  useSyncElementColorScheme(ref, theme)
+  useSyncElementTheme(ref, theme)
 
   const classNames = getThemeClasses(theme, className)
   const { brand, variant, density } = theme
@@ -192,6 +199,7 @@ export function getThemeClasses(theme: ThemeProps, className = null) {
     size,
     contrastMode,
     colorScheme,
+    typography,
   } = theme
   const resolvedBrand = brand ?? name
   const resolvedDensity = density ?? size
@@ -205,34 +213,44 @@ export function getThemeClasses(theme: ThemeProps, className = null) {
       `eufemia-theme__${resolvedBrand}--${variant}`,
     contrastMode && 'eufemia-theme__contrast-mode',
     colorScheme && `eufemia-theme__color-scheme--${colorScheme}`,
+    typography && `eufemia-theme__typography--${typography}`,
     resolvedDensity && `eufemia-theme__density--${resolvedDensity}`,
     resolvedDensity && `eufemia-theme__size--${resolvedDensity}`
   )
 }
 
 /**
- * Imperatively sync the color-scheme class on the Theme wrapper element.
- * This is needed because legacy ReactDOM.hydrate() does not reconcile
- * className mismatches — it keeps the server-rendered value.
+ * Hydration can retain mismatched server classes on the Theme wrapper.
+ * Keep locally resolved theme settings in sync before paint.
  */
-function useSyncElementColorScheme(
+function useSyncElementTheme(
   ref: RefObject<HTMLElement>,
   theme: ThemeProps
 ) {
-  const colorScheme = theme?.colorScheme
+  const { colorScheme, typography } = theme || {}
 
   useIsomorphicLayoutEffect(() => {
     const el = ref.current
-    if (!el || !colorScheme) {
+    if (!el) {
       return // stop here
     }
 
+    if (colorScheme) {
+      el.classList.remove(
+        'eufemia-theme__color-scheme--light',
+        'eufemia-theme__color-scheme--dark'
+      )
+      el.classList.add(`eufemia-theme__color-scheme--${colorScheme}`)
+    }
+
     el.classList.remove(
-      'eufemia-theme__color-scheme--light',
-      'eufemia-theme__color-scheme--dark'
+      'eufemia-theme__typography--native',
+      'eufemia-theme__typography--web'
     )
-    el.classList.add(`eufemia-theme__color-scheme--${colorScheme}`)
-  }, [colorScheme])
+    if (typography) {
+      el.classList.add(`eufemia-theme__typography--${typography}`)
+    }
+  }, [colorScheme, typography])
 }
 
 function useSyncBodyColorScheme(
