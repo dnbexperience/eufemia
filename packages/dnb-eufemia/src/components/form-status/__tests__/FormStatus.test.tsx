@@ -478,7 +478,7 @@ describe('FormStatus icons', () => {
       Array.from(container.querySelectorAll('svg')).map(getColors)
 
     expect(error).toEqual([
-      ['var(--token-color-icon-error)'],
+      ['var(--token-color-background-error)'],
       ['var(--token-color-icon-neutral-ondark)'],
       ['var(--token-color-icon-neutral-ondark)'],
     ])

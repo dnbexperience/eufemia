@@ -458,7 +458,7 @@ export const ErrorIcon = (props: ErrorIconProps) => {
       <title>{title}</title>
       <path
         d="M23.625 17.864A3.547 3.547 0 0120.45 23H3.548a3.546 3.546 0 01-3.172-5.136l8.45-14.902a3.548 3.548 0 016.347 0l8.452 14.902z"
-        style={tokenFill('--token-color-icon-error')}
+        style={tokenFill('--token-color-background-error')}
       />
       <path
         d="M12 16.286a1.286 1.286 0 100 2.572 1.286 1.286 0 000-2.572z"
