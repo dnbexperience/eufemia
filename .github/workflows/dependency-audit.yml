@@ -156,3 +156,29 @@ jobs:
 
           # Generated file is gitignored; remove it so the tree stays clean.
           rm -f sbom.cdx.json
+
+  repository-advisories:
+    name: Check repository advisories
+
+    runs-on: ubuntu-latest
+
+    timeout-minutes: 15
+
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+
+      - name: Setup dependencies
+        uses: ./.github/actions/setup
+        with:
+          cache-version: ${{ secrets.CACHE_VERSION }}
+
+      - name: Check repository advisories
+        # Some packages publish advisories only in their own GitHub repository,
+        # which `yarn npm audit` and Snyk don't report (GHSA-rj75-hqrm-r3gf).
+        # The read-only token only raises the GitHub API rate limit.
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: yarn workspace @dnb/eufemia audit:repository-advisories
