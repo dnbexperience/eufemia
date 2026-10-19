@@ -1338,17 +1338,26 @@ describe('GlobalStatus component', () => {
             statusAnchorUrl: '/uilib/components/global-status',
             statusAnchorLabel: 'eksempel',
           },
+          {
+            itemId: 'other-field-id',
+            text: 'Other error',
+            statusAnchorUrl: true,
+            statusAnchorLabel: 'annet felt',
+          },
         ]}
       />
     )
 
-    const link = document.querySelector(
-      '.dnb-global-status__message a.dnb-anchor'
+    const [link, jumpLink] = Array.from(
+      document.querySelectorAll('.dnb-global-status__message a.dnb-anchor')
     )
     expect(link).toHaveAttribute('href', '/uilib/components/global-status')
 
     expect(fireEvent.click(link)).toBe(true)
     expect(fireEvent.keyDown(link, { key: 'Enter' })).toBe(true)
+
+    expect(jumpLink).toHaveAttribute('href', '#other-field-id')
+    expect(fireEvent.click(jumpLink)).toBe(false)
   })
 })
 
