@@ -111,7 +111,7 @@ const polyfillPlugin = [
     method: 'usage-pure',
     version: require('core-js-pure/package.json').version,
     // Every supported browser has these methods. The polyfills only fix rare
-    // spec edge cases that Eufemia does not depend on, so they add size only.
+    // spec edge cases that Eufemia does not depend on.
     // The plugin uses the "esnext" name for JSON.parse.
     exclude: [
       'es.array.includes',
