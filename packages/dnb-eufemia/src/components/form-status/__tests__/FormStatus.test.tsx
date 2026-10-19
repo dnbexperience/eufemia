@@ -5,7 +5,13 @@
 
 import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
 import type { FormStatusProps } from '../FormStatus'
-import FormStatus, { ErrorIcon } from '../FormStatus'
+import FormStatus, {
+  ErrorIcon,
+  InfoIcon,
+  MarketingIcon,
+  SuccessIcon,
+  WarnIcon,
+} from '../FormStatus'
 import Input from '../../input/Input'
 import { render, waitFor } from '@testing-library/react'
 import {
@@ -441,32 +447,76 @@ describe('FormStatus formElement', () => {
   })
 })
 
-describe('FormStatus icon theming', () => {
-  const firstPathFill = (result: { container: HTMLElement }) =>
-    result.container.querySelector('path')?.getAttribute('fill')
+describe('FormStatus icons', () => {
+  const getColors = (element: Element) =>
+    Array.from(element.querySelectorAll('path, circle')).map((el) => {
+      const style = (el as SVGElement).style
+      return [style.fill, style.stroke].filter(Boolean)
+    })
 
-  it('resolves the Sbanken theme from brand and the deprecated name', () => {
-    const uiFill = firstPathFill(render(<ErrorIcon />))
+  it('should render the success icon for the success state', () => {
+    render(<FormStatus text="Saved" state="success" />)
 
-    const brandFill = firstPathFill(
-      render(
-        <Provider theme={{ brand: 'sbanken' }}>
-          <ErrorIcon />
-        </Provider>
-      )
+    expect(
+      document.querySelector('[role="presentation"]')
+    ).toHaveAttribute('data-testid', 'SuccessIcon icon')
+  })
+
+  it('should use theme tokens for the icon colors', () => {
+    const { container } = render(
+      <>
+        <ErrorIcon />
+        <WarnIcon />
+        <InfoIcon />
+        <InfoIcon state="success" />
+        <SuccessIcon />
+        <MarketingIcon />
+      </>
     )
 
-    const nameFill = firstPathFill(
-      render(
-        <Provider theme={{ name: 'sbanken' }}>
-          <ErrorIcon />
-        </Provider>
-      )
+    const [error, warning, info, infoSuccess, success, marketing] =
+      Array.from(container.querySelectorAll('svg')).map(getColors)
+
+    expect(error).toEqual([
+      ['var(--token-color-icon-error)'],
+      ['var(--token-color-icon-error-subtle)'],
+      ['var(--token-color-icon-error-subtle)'],
+    ])
+    expect(warning).toEqual([
+      ['var(--token-color-icon-warning)'],
+      ['var(--token-color-icon-neutral-static)'],
+      ['var(--token-color-icon-neutral-static)'],
+    ])
+    expect(info).toEqual([
+      ['var(--token-color-icon-info)'],
+      [
+        'var(--token-color-icon-info-subtle)',
+        'var(--token-color-icon-info-subtle)',
+      ],
+      ['var(--token-color-icon-info-subtle)'],
+    ])
+    expect(infoSuccess[0]).toEqual(['var(--token-color-icon-positive)'])
+    expect(success).toEqual([
+      ['var(--token-color-icon-positive)'],
+      ['var(--token-color-icon-positive-subtle)'],
+    ])
+    expect(marketing).toEqual([['var(--token-color-icon-marketing)']])
+  })
+
+  it('should not use hardcoded colors', () => {
+    const { container } = render(
+      <Provider theme={{ brand: 'sbanken' }}>
+        <ErrorIcon />
+        <WarnIcon />
+        <InfoIcon />
+        <SuccessIcon />
+        <MarketingIcon />
+      </Provider>
     )
 
-    // Sbanken renders a different fill than the default DNB (ui) theme
-    expect(brandFill).not.toBe(uiFill)
-    // The new `brand` and the deprecated `name` resolve to the same theme
-    expect(nameFill).toBe(brandFill)
+    container.querySelectorAll('path, circle').forEach((el) => {
+      expect(el).not.toHaveAttribute('fill')
+      expect(el).not.toHaveAttribute('stroke')
+    })
   })
 })
