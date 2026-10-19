@@ -48,6 +48,7 @@ function mockIssues() {
     body: string
     title: string
     state: string
+    state_reason?: 'completed' | 'not_planned' | 'reopened' | null
     user: { login: string }
   }[] = []
   const calls: string[] = []
@@ -169,6 +170,35 @@ test('creates, suppresses unchanged reports, updates changes, closes and reopens
   )
   assert.equal(issues[0].state, 'open')
   assert.equal(calls.filter((call) => call === 'create').length, 1)
+})
+
+test('respects not-planned closures while allowing maintainers to reopen issues', async () => {
+  const { api, issues, calls } = mockIssues()
+  const report = fixtureReport()
+  await reportPortalHydration(report, api, 'https://github.com/run/1')
+  const issue = issues[0]
+  issue.state = 'closed'
+  issue.state_reason = 'not_planned'
+  report.visits.forEach((visit) => {
+    visit.findings[0].componentStack = 'at ChangedExample'
+  })
+  calls.length = 0
+
+  assert.deepEqual(
+    await reportPortalHydration(report, api, 'https://github.com/run/2'),
+    { created: 0, updated: 0, closed: 0 }
+  )
+  assert.equal(issue.state, 'closed')
+  assert.equal(issue.state_reason, 'not_planned')
+  assert.deepEqual(calls, ['list'])
+
+  issue.state = 'open'
+  issue.state_reason = 'reopened'
+  assert.equal(
+    (await reportPortalHydration(report, api, 'https://github.com/run/3'))
+      .updated,
+    1
+  )
 })
 
 test('incomplete scans cannot read or change issues', async () => {

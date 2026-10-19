@@ -12,9 +12,11 @@ report-only. This variable does not affect scanning or artifact collection.
 ## Coverage and results
 
 Chromium opens every URL directly in light and dark mode, waits for Portal
-readiness, and observes another 1.5 seconds. The scan captures React hydration
-warnings, recoverable errors (including production error codes), and component
-stacks. It does not exercise every demo interaction, browser, locale, or viewport.
+readiness, and observes another 1.5 seconds. The production scan captures React
+recoverable hydration errors and component stacks, including minified error codes.
+Production React omits development-only warnings, including attribute mismatches,
+so those cannot be detected on the published site. The scan does not exercise
+every demo interaction, browser, locale, or viewport.
 
 The workflow uses the production sitemap. Until that file is deployed, it generates
 the canonical page list from the latest successful GitHub Pages deployment, using
@@ -38,8 +40,9 @@ bug may affect several URLs, so maintainers can link related issues during triag
 
 The reporter manages only issues created by GitHub Actions with its stable page
 marker. Unchanged findings produce no updates or comments. Changed findings update
-the issue body; a recurrence reopens the existing issue. Asset filename changes
-alone do not count as changed findings.
+the issue body; a recurrence reopens an issue previously closed as completed.
+Issues closed as not planned stay closed unless a maintainer reopens them. Asset
+filename changes alone do not count as changed findings.
 
 An issue closes only when a complete scan successfully checks that page in both
 themes and finds no hydration errors. URLs absent from a later sitemap are left

@@ -40,7 +40,7 @@ export function readSitemap(value: unknown) {
     throw new Error('Expected a non-empty sitemap of canonical page paths')
   }
 
-  return [...new Set<string>(pages)].sort()
+  return Array.from(new Set<string>(pages)).sort()
 }
 
 export function assertCompleteReport(report: HydrationReport) {
@@ -75,20 +75,20 @@ export function hydrationIssues(report: HydrationReport) {
     }
   }
 
-  return [...pages]
+  return Array.from(pages)
     .sort(([a], [b]) => a.localeCompare(b))
     .map(([page, visits]) => {
       const marker = hydrationIssueMarker(page)
-      const errors = [
-        ...new Map(
+      const errors = Array.from(
+        new Map(
           visits
             .flatMap((visit) => visit.findings)
             .map((finding) => [
               finding.message.split('\n')[0] + finding.componentStack,
               finding,
             ])
-        ).values(),
-      ]
+        ).values()
+      )
       const body = [
         marker,
         `React reports hydration errors on [${page}](${new URL(page, report.baseUrl).href}).`,

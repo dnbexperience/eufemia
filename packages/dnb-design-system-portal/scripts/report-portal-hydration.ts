@@ -10,6 +10,7 @@ type Issue = {
   number: number
   body: string | null
   state: string
+  state_reason?: 'completed' | 'not_planned' | 'reopened' | null
   user?: { login: string }
 }
 export type IssueApi = {
@@ -51,6 +52,13 @@ export async function reportPortalHydration(
           candidate.state === 'open'
       ) ||
       issues.find((candidate) => candidate.body?.includes(draft.marker))
+    if (
+      issue?.state === 'closed' &&
+      issue.state_reason === 'not_planned'
+    ) {
+      continue
+    }
+
     const fingerprint =
       '<!-- portal-hydration-fingerprint:' +
       createHash('sha256')
