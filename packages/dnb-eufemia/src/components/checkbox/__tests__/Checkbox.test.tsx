@@ -565,6 +565,14 @@ describe('Checkbox scss', () => {
     expect(css).toMatch(
       /@media \(forced-colors: active\) \{\s*\.dnb-checkbox__input ~ \.dnb-checkbox__indeterminate \{\s*background-color: CanvasText !important;/
     )
+  })
+
+  it('shows disabled checkboxes with the disabled text color in forced colors mode', () => {
+    const css = loadScss(require.resolve('../style/dnb-checkbox.scss'))
+
+    expect(css).toMatch(
+      /@media \(forced-colors: active\) \{\s*\.dnb-checkbox__input\[disabled\] ~ \.dnb-checkbox__button \{\s*outline-color: GrayText;/
+    )
     expect(css).toMatch(
       /@media \(forced-colors: active\) \{\s*\.dnb-checkbox__input\[disabled\]:checked ~ \.dnb-checkbox__gfx,\s*\.dnb-checkbox__input\[disabled\]\[data-checked=['"]?true['"]?\] ~ \.dnb-checkbox__gfx \{\s*color: GrayText;/
     )

@@ -531,6 +531,11 @@ html[data-whatinput=keyboard] .dnb-radio__input:focus ~ .dnb-radio__dot {
 .dnb-radio__input[disabled] ~ .dnb-radio__button:not(.dnb-skeleton) {
   --radio-color-background: var(--radio-color-background--disabled);
 }
+@media (forced-colors: active) {
+  .dnb-radio__input[disabled] ~ .dnb-radio__button {
+    outline-color: GrayText;
+  }
+}
 .dnb-radio__input[disabled] ~ .dnb-radio__dot {
   --radio-color-dot-on: var(--radio-color-dot-on--disabled);
 }

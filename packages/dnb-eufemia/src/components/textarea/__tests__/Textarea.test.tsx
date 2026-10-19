@@ -866,6 +866,14 @@ describe('Textarea scss', () => {
     )
   })
 
+  it('shows disabled textareas with the disabled text color in forced colors mode', () => {
+    const css = loadScss(require.resolve('../style/dnb-textarea.scss'))
+
+    expect(css).toMatch(
+      /@media \(forced-colors: active\) \{\s*\.dnb-textarea--disabled \.dnb-textarea__state \{\s*outline-color: GrayText;/
+    )
+  })
+
   it('has to match style dependencies css', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
     expect(css).toMatchSnapshot()

@@ -1385,6 +1385,11 @@ legend.dnb-form-label {
   box-shadow: var(--input-border-inset--disabled, inset) 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
+@media (forced-colors: active) {
+  .dnb-input--disabled .dnb-input__border {
+    outline-color: GrayText;
+  }
+}
 .dnb-input__border:focus-within {
   --b-color: var(--input-border-color--active);
   --b-width: var(--input-border-width--active);

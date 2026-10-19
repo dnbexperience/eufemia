@@ -390,6 +390,12 @@
 
   /** Disabled state **/
 
+  &__input[disabled] ~ &__button {
+    @media (forced-colors: active) {
+      outline-color: GrayText;
+    }
+  }
+
   // On
   &__input[disabled]:checked ~ &__button,
   &__input[disabled][data-checked='true'] ~ &__button {

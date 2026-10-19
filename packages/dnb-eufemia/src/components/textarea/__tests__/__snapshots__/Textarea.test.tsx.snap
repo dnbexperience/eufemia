@@ -417,6 +417,11 @@ button .dnb-form-status__text {
 .dnb-textarea--disabled .dnb-textarea__textarea::-webkit-scrollbar, .dnb-textarea__textarea[disabled]::-webkit-scrollbar {
   width: 0;
 }
+@media (forced-colors: active) {
+  .dnb-textarea--disabled .dnb-textarea__state {
+    outline-color: GrayText;
+  }
+}
 .dnb-textarea__inner > .dnb-form-status {
   order: 2;
   margin-top: 0.5rem;

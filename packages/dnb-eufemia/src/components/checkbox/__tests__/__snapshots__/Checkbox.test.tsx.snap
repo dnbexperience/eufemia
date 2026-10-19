@@ -508,6 +508,11 @@ html[data-whatinput=keyboard] .dnb-checkbox__focus {
 .dnb-checkbox {
   /** Disabled state **/
 }
+@media (forced-colors: active) {
+  .dnb-checkbox__input[disabled] ~ .dnb-checkbox__button {
+    outline-color: GrayText;
+  }
+}
 .dnb-checkbox__input[disabled]:checked ~ .dnb-checkbox__button, .dnb-checkbox__input[disabled][data-checked=true] ~ .dnb-checkbox__button {
   --checkbox-color-border: var(--checkbox-color-border-on--disabled);
   background-color: var(--checkbox-color-background-on--disabled);

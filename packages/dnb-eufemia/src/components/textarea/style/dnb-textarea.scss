@@ -269,6 +269,12 @@
     }
   }
 
+  &--disabled &__state {
+    @media (forced-colors: active) {
+      outline-color: GrayText;
+    }
+  }
+
   &__inner > .dnb-form-status {
     order: 2;
     margin-top: 0.5rem;

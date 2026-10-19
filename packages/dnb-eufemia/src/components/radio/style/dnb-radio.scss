@@ -416,6 +416,10 @@
     &:not(.dnb-skeleton) {
       --radio-color-background: var(--radio-color-background--disabled);
     }
+
+    @media (forced-colors: active) {
+      outline-color: GrayText;
+    }
   }
   &__input[disabled] ~ &__dot {
     --radio-color-dot-on: var(--radio-color-dot-on--disabled);

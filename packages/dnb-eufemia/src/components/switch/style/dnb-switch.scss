@@ -400,6 +400,19 @@
     background-color: var(--switch-disabled-checked-button-background);
   }
 
+  @media (forced-colors: active) {
+    &:not(.dnb-skeleton) &__input[disabled] ~ &__background,
+    &:not(.dnb-skeleton) &__input[disabled]:checked ~ &__background {
+      border-color: GrayText;
+    }
+
+    &:not(.dnb-skeleton) &__input[disabled] ~ &__button,
+    &:not(.dnb-skeleton) &__input[disabled]:checked ~ &__button {
+      color: GrayText;
+      outline-color: GrayText;
+    }
+  }
+
   &--surface-dark {
     --switch-background: transparent;
     --switch-border: var(--token-color-stroke-action-alternative-ondark);

@@ -222,6 +222,10 @@
       var(--input-border-width--disabled),
       var(--input-border-inset--disabled, inset)
     );
+
+    @media (forced-colors: active) {
+      outline-color: GrayText;
+    }
   }
   &__border:focus-within {
     --b-color: var(--input-border-color--active);

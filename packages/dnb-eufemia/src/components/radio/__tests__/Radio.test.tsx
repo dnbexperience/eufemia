@@ -243,6 +243,14 @@ describe('Radio scss', () => {
     expect(css).toMatch(
       /@media \(forced-colors: active\) \{\s*\.dnb-radio__input:checked ~ \.dnb-radio__dot,\s*\.dnb-radio__input\[data-checked=['"]?true['"]?\] ~ \.dnb-radio__dot \{\s*background-color: CanvasText;/
     )
+  })
+
+  it('shows disabled radio buttons with the disabled text color in forced colors mode', () => {
+    const css = loadScss(require.resolve('../style/dnb-radio.scss'))
+
+    expect(css).toMatch(
+      /@media \(forced-colors: active\) \{\s*\.dnb-radio__input\[disabled\] ~ \.dnb-radio__button \{\s*outline-color: GrayText;/
+    )
     expect(css).toMatch(
       /@media \(forced-colors: active\) \{\s*\.dnb-radio__input\[disabled\] ~ \.dnb-radio__dot \{\s*background-color: GrayText;/
     )
