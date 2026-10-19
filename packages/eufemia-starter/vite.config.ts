@@ -34,7 +34,8 @@ function getHeaders() {
   return {
     'Content-Security-Policy': [
       "default-src 'self'",
-      "script-src 'self' 'unsafe-inline'", // Add 'unsafe-eval' to be able to run Ajv
+      // Ajv (JSON Schema validation) needs 'unsafe-eval'; Zod schemas don't
+      "script-src 'self'",
       "style-src 'self' 'unsafe-inline'",
       "img-src 'self' data:",
       "font-src 'self' data:",
@@ -44,5 +45,6 @@ function getHeaders() {
       "form-action 'self'",
       "frame-ancestors 'self'",
     ].join('; '),
+    'X-Content-Type-Options': 'nosniff',
   }
 }
