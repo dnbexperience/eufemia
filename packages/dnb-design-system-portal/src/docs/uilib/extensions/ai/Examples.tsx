@@ -540,13 +540,34 @@ export function AiWelcomeChips() {
     <ComponentBox data-visual-test="ai-welcome-chips" scope={{ aino }}>
       <Welcome
         greeting="Hi Matthias"
-        avatar={<Avatar size="small" icon={aino} aria-hidden />}
+        avatar={<Avatar size="small" icon={aino} hasLabel />}
         title="Where do you want to start today?"
       >
         <Suggestions>
           <Suggestion suggestion="Make a transfer" />
           <Suggestion suggestion="Look at my spendings" />
           <Suggestion suggestion="Pay a bill" />
+        </Suggestions>
+      </Welcome>
+    </ComponentBox>
+  )
+}
+
+export function AiWelcomeLongLabels() {
+  return (
+    <ComponentBox
+      data-visual-test="ai-welcome-long-labels"
+      scope={{ aino }}
+    >
+      <Welcome
+        style={{ width: '13.75rem', maxWidth: '100%' }}
+        greeting="Hei Matthias"
+        avatar={<Avatar size="small" icon={aino} hasLabel />}
+        title="Hva vil du gjøre i dag?"
+      >
+        <Suggestions>
+          <Suggestion suggestion="Vis betalingsoppdragsoversikten" />
+          <Suggestion suggestion="Hjelp meg å forstå forbruket mitt denne måneden" />
         </Suggestions>
       </Welcome>
     </ComponentBox>
@@ -826,9 +847,7 @@ export function AiChatExample() {
                   {messages.length === 0 ? (
                     <Welcome
                       greeting="Hello, Peter"
-                      avatar={
-                        <Avatar size="small" icon={aino} aria-hidden />
-                      }
+                      avatar={<Avatar size="small" icon={aino} hasLabel />}
                       title="Where do you want to start today?"
                       style={{ margin: 'auto 0' }}
                     >
@@ -1065,7 +1084,7 @@ export function AiChatCompact() {
     >
       <Welcome
         greeting="Hello, Peter"
-        avatar={<Avatar size="small" icon={aino} aria-hidden />}
+        avatar={<Avatar size="small" icon={aino} hasLabel />}
         title="Where do you want to start today?"
       >
         <PromptInput

@@ -21,14 +21,14 @@ function AiWelcome(props: AiWelcomeProps) {
 
   return (
     <div {...rootProps}>
-      {greeting != null && (
+      {Boolean(greeting) && (
         <div className="dnb-ai-welcome__greeting">
           {avatar && (
             <span className="dnb-ai-welcome__avatar" aria-hidden>
               {avatar}
             </span>
           )}
-          <span>{greeting}</span>
+          <div>{greeting}</div>
         </div>
       )}
       <H

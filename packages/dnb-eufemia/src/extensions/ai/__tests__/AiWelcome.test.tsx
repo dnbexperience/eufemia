@@ -27,10 +27,11 @@ describe('Ai.Welcome', () => {
     render(
       <Welcome
         greeting="Hi Matthias"
-        avatar={<Avatar size="small" icon={aino} aria-hidden />}
+        avatar={<Avatar size="small" icon={aino} hasLabel />}
         title="Where do you want to start today?"
       />
     )
+
     const greeting = document.querySelector('.dnb-ai-welcome__greeting')
     expect(greeting).toHaveTextContent('Hi Matthias')
     expect(greeting.nextElementSibling).toBe(document.querySelector('h2'))
@@ -46,15 +47,72 @@ describe('Ai.Welcome', () => {
     const { rerender } = render(
       <Welcome greeting="Hello" title="Start here" />
     )
+
     expect(
       document.querySelector('.dnb-ai-welcome__greeting')
     ).toHaveTextContent('Hello')
     expect(document.querySelector('.dnb-ai-welcome__avatar')).toBeNull()
+
     rerender(<Welcome avatar={<span>Unused</span>} title="Start here" />)
+
     expect(document.querySelector('.dnb-ai-welcome__greeting')).toBeNull()
     expect(
       document.querySelector('.dnb-ai-welcome')
     ).not.toHaveTextContent('Unused')
+  })
+
+  it.each(['', false, null, undefined])(
+    'omits an empty greeting (%s) and its avatar',
+    (greeting) => {
+      render(
+        <Welcome
+          greeting={greeting}
+          avatar={<span>Unused</span>}
+          title="Start here"
+        />
+      )
+
+      expect(
+        document.querySelector('.dnb-ai-welcome__greeting')
+      ).toBeNull()
+      expect(document.querySelector('.dnb-ai-welcome__avatar')).toBeNull()
+    }
+  )
+
+  it('supports block content in the greeting', () => {
+    render(<Welcome greeting={<p>Hello Matthias</p>} title="Start here" />)
+
+    const greeting = document.querySelector('.dnb-ai-welcome__greeting p')
+    expect(greeting).toHaveTextContent('Hello Matthias')
+    expect(greeting.parentElement.tagName).toBe('DIV')
+  })
+
+  it('uses a decorative standalone avatar without development warnings', () => {
+    const environment = process.env.NODE_ENV
+    const log = vi
+      .spyOn(console, 'log')
+      .mockImplementation(() => undefined)
+    process.env.NODE_ENV = 'development'
+
+    try {
+      render(
+        <Welcome
+          greeting="Hi Matthias"
+          avatar={<Avatar size="small" icon={aino} hasLabel />}
+          title="Start here"
+        />
+      )
+
+      expect(log.mock.calls.flat().join(' ')).not.toContain(
+        'Avatar group required'
+      )
+      expect(
+        document.querySelector('.dnb-ai-welcome__avatar')
+      ).toHaveAttribute('aria-hidden', 'true')
+    } finally {
+      process.env.NODE_ENV = environment
+      log.mockRestore()
+    }
   })
 
   it('supports a heading level', () => {
@@ -74,7 +132,7 @@ describe('Ai.Welcome', () => {
     const result = render(
       <Welcome
         greeting="Hi Matthias"
-        avatar={<Avatar size="small" icon={aino} aria-hidden />}
+        avatar={<Avatar size="small" icon={aino} hasLabel />}
         title="Where do you want to start today?"
       >
         <Suggestions>
@@ -82,6 +140,7 @@ describe('Ai.Welcome', () => {
         </Suggestions>
       </Welcome>
     )
+
     expect(await axeComponent(result)).toHaveNoViolations()
   })
 })

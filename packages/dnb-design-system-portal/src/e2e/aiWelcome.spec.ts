@@ -4,21 +4,27 @@ import waitForApp from './shared/waitForApp'
 test('aligns the welcome greeting, heading and suggestions with Figma', async ({
   page,
 }) => {
+  const warnings: string[] = []
+  page.on('console', (message) => {
+    if (message.text().includes('Avatar group required')) {
+      warnings.push(message.text())
+    }
+  })
+
   await page.goto('/uilib/extensions/ai/Welcome/demos/')
   await waitForApp(page)
+
   const welcome = page.locator(
     '[data-visual-test="ai-welcome-chips"] .dnb-ai-welcome'
   )
-  await welcome.evaluate((element) => {
-    element.style.width = '325px'
-    element.style.maxWidth = '100%'
-  })
   const greeting = welcome.locator('.dnb-ai-welcome__greeting')
   const avatar = greeting.locator('.dnb-avatar')
   const heading = welcome.getByRole('heading', {
     name: 'Where do you want to start today?',
   })
   const suggestions = welcome.locator('.dnb-ai-suggestions')
+
+  // Keep the measured Figma layout explicit; derive repeated geometry below.
   await expect(greeting).toHaveText('Hi Matthias')
   await expect(greeting).toHaveCSS('column-gap', '16px')
   await expect(avatar).toHaveCSS('width', '24px')
@@ -27,59 +33,83 @@ test('aligns the welcome greeting, heading and suggestions with Figma', async ({
   await expect(heading).toHaveCSS('line-height', '32px')
   await expect(welcome).toHaveCSS('row-gap', '20px')
   await expect(suggestions).toHaveCSS('row-gap', '16px')
+
   const buttons = suggestions.getByRole('button')
   await expect(buttons).toHaveCount(3)
-  const boxes = await buttons.evaluateAll((elements) =>
-    elements.map((element) => {
-      const { x, y, height } = element.getBoundingClientRect()
-      return { x, y, height }
-    })
-  )
+
+  const layout = await suggestions.evaluate((element) => ({
+    gap: parseFloat(getComputedStyle(element).rowGap),
+    buttons: Array.from(element.querySelectorAll('button')).map(
+      (button) => {
+        const { x, y, height } = button.getBoundingClientRect()
+        return { x, y, height }
+      }
+    ),
+  }))
+
   expect(
-    boxes.every((box) => box.x === boxes[0].x && box.height === 40)
+    layout.buttons.every((box) => box.x === layout.buttons[0].x)
   ).toBe(true)
-  expect(boxes[1].y - boxes[0].y).toBe(56)
-  expect(boxes[2].y - boxes[1].y).toBe(56)
+  for (let index = 1; index < layout.buttons.length; index++) {
+    const previous = layout.buttons[index - 1]
+    expect(
+      layout.buttons[index].y - previous.y - previous.height
+    ).toBeCloseTo(layout.gap)
+  }
+
   await buttons.first().focus()
   await expect(buttons.first()).toBeFocused()
+  expect(warnings).toEqual([])
 })
 
-test('wraps welcome content in a narrow container without changing standalone suggestions', async ({
+test('wraps real long labels without changing standalone suggestions', async ({
   page,
 }) => {
   await page.goto('/uilib/extensions/ai/Welcome/demos/')
   await waitForApp(page)
+
   const welcome = page.locator(
-    '[data-visual-test="ai-welcome-chips"] .dnb-ai-welcome'
+    '[data-visual-test="ai-welcome-long-labels"] .dnb-ai-welcome'
   )
-  await welcome.evaluate((element) => {
-    element.style.width = '220px'
+  await expect(welcome.getByRole('button').first()).toHaveText(
+    'Vis betalingsoppdragsoversikten'
+  )
+
+  const layout = await welcome.evaluate((element) => {
+    const suggestions = element.querySelector('.dnb-ai-suggestions')
+    return {
+      fits: element.scrollWidth <= element.clientWidth,
+      gap: parseFloat(getComputedStyle(suggestions).rowGap),
+      buttons: Array.from(suggestions.querySelectorAll('button')).map(
+        (button) => {
+          const { y, height } = button.getBoundingClientRect()
+          const text = button.querySelector('.dnb-button__text')
+          return {
+            y,
+            height,
+            fits:
+              button.scrollWidth <= button.clientWidth &&
+              button.scrollHeight <= button.clientHeight,
+            textHeight: text.getBoundingClientRect().height,
+            lineHeight: parseFloat(getComputedStyle(text).lineHeight),
+          }
+        }
+      ),
+    }
   })
-  await welcome
-    .getByRole('button')
-    .first()
-    .evaluate((element) => {
-      element.querySelector('.dnb-button__text').textContent =
-        'Please help me understand my spending for this month'
-    })
+
+  expect(layout.fits).toBe(true)
+  expect(layout.buttons.every((button) => button.fits)).toBe(true)
+  expect(layout.buttons[0].textHeight).toBeGreaterThan(
+    layout.buttons[0].lineHeight
+  )
   expect(
-    await welcome.evaluate(
-      (element) => element.scrollWidth <= element.clientWidth
-    )
-  ).toBe(true)
-  const firstButton = welcome.getByRole('button').first()
-  expect(
-    await firstButton.evaluate(
-      (element) => element.scrollHeight <= element.clientHeight
-    )
-  ).toBe(true)
-  const firstBox = await firstButton.boundingBox()
-  const nextBox = await welcome.getByRole('button').nth(1).boundingBox()
-  expect(nextBox.y - (firstBox.y + firstBox.height)).toBe(16)
-  const greeting = welcome.locator('.dnb-ai-welcome__greeting')
-  await expect(greeting.locator('.dnb-avatar')).toHaveCSS('width', '24px')
+    layout.buttons[1].y - layout.buttons[0].y - layout.buttons[0].height
+  ).toBeCloseTo(layout.gap)
+
   await page.goto('/uilib/extensions/ai/Suggestions/demos/')
   await waitForApp(page)
+
   await expect(
     page.locator(
       '[data-visual-test="ai-suggestion-chips"] .dnb-ai-suggestions'
