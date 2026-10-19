@@ -1324,6 +1324,32 @@ describe('GlobalStatus component', () => {
       '/uilib/components/global-status'
     )
   })
+
+  it('should let a custom statusAnchorUrl navigate', () => {
+    render(
+      <GlobalStatus
+        show
+        noAnimation
+        autoScroll={false}
+        items={[
+          {
+            itemId: 'field-id',
+            text: 'Error',
+            statusAnchorUrl: '/uilib/components/global-status',
+            statusAnchorLabel: 'eksempel',
+          },
+        ]}
+      />
+    )
+
+    const link = document.querySelector(
+      '.dnb-global-status__message a.dnb-anchor'
+    )
+    expect(link).toHaveAttribute('href', '/uilib/components/global-status')
+
+    expect(fireEvent.click(link)).toBe(true)
+    expect(fireEvent.keyDown(link, { key: 'Enter' })).toBe(true)
+  })
 })
 
 describe('GlobalStatus scss', () => {

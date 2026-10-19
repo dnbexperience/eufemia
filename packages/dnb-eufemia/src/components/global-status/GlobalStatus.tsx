@@ -586,8 +586,8 @@ function GlobalStatusComponent(ownProps: GlobalStatusProps) {
             aria-describedby={id}
             lang={lang}
             href={isDangerousHref(href) ? undefined : href}
-            onClick={(e) => gotoItem(e, item)}
-            onKeyDown={(e) => gotoItem(e, item)}
+            onClick={useAutolink ? (e) => gotoItem(e, item) : undefined}
+            onKeyDown={useAutolink ? (e) => gotoItem(e, item) : undefined}
           >
             {anchorText}
           </a>
