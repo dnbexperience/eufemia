@@ -12,6 +12,31 @@ export function getSuggestEditUrl(
   return `/contribute/suggest-edit/?${params}`
 }
 
+const PORTAL_ORIGIN = 'https://eufemia.dnb.no'
+const SOURCE_PATH_PATTERN = /^[\w.-][\w./-]*$/
+
+// The query is user-controlled, so only accept portal pages and repo file paths
+export function parseSuggestEditParams(search: string): {
+  page: string
+  sourcePath: string
+} {
+  const params = new URLSearchParams(search)
+  const page = params.get('page') || ''
+  const sourcePath = params.get('source') || ''
+
+  const isPortalPage =
+    page.startsWith('/') &&
+    new URL(page, PORTAL_ORIGIN).origin === PORTAL_ORIGIN
+  const isRepoPath =
+    SOURCE_PATH_PATTERN.test(sourcePath) &&
+    !sourcePath.split('/').includes('..')
+
+  return {
+    page: isPortalPage ? page : '/',
+    sourcePath: isRepoPath ? sourcePath : '',
+  }
+}
+
 type SuggestEditPrompt = {
   pageUrl: string
   sourcePath: string

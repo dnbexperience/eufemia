@@ -132,4 +132,25 @@ describe('SuggestEdit', () => {
 
     expect(document.querySelector('.dnb-form-status--error')).toBe(null)
   })
+
+  it('does not link to pages outside the portal', () => {
+    const initialUrl = window.location.href
+    window.history.pushState(
+      {},
+      '',
+      '/contribute/suggest-edit/?page=https%3A%2F%2Fevil.example%2Flogin&source=..%2Fother%2Frepo'
+    )
+
+    render(<SuggestEdit />)
+
+    expect(
+      document.querySelector('.dnb-form-status a').getAttribute('href')
+    ).toBe('/')
+    expect(document.body.textContent).not.toContain('evil.example')
+    expect(document.body.textContent).not.toContain(
+      'Edit source on GitHub'
+    )
+
+    window.history.pushState({}, '', initialUrl)
+  })
 })
