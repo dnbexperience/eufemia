@@ -18,6 +18,25 @@ import '@dnb/eufemia/extensions/ai/style'
 
 Import the components and hooks you use by name. The `Ai.` prefix in the documentation identifies the extension; the examples use named imports directly.
 
+### Isolated styles
+
+For applications using [style isolation](/uilib/usage/customisation/styling/style-isolation/), replace the regular AI style import with the isolated entry point:
+
+```tsx
+import '@dnb/eufemia/style/isolated'
+import '@dnb/eufemia/extensions/ai/style/isolated'
+import { IsolatedStyleScope } from '@dnb/eufemia/shared'
+import { Response } from '@dnb/eufemia/extensions/ai'
+
+render(
+  <IsolatedStyleScope>
+    <Response>{'Hello from the assistant.'}</Response>
+  </IsolatedStyleScope>
+)
+```
+
+The AI entry point adds only the extension styles. Keep the isolated basis and theme imports for the Eufemia components used inside it.
+
 ## Description
 
 `Ai` provides building blocks for AI chat experiences, built with Eufemia components. Use them to build a chat with an assistant, from the welcome screen with suggestions to the conversation and the prompt input.
