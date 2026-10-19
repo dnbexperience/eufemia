@@ -10,13 +10,23 @@ export function get<T = JsonObject>(obj: T, pointer: PointerPath) {
 
   for (let i = 0; i < refTokens.length; ++i) {
     const tok = refTokens[i]
-    if (!(typeof obj === 'object' && tok in obj)) {
+    if (
+      isPrototypeToken(tok) ||
+      !(typeof obj === 'object' && tok in obj)
+    ) {
       throw new Error('Invalid reference token: ' + tok)
     }
     obj = obj[tok] as T
   }
 
   return obj as T
+}
+
+// Like set(), never resolve these, so remove() can't delete from a prototype
+function isPrototypeToken(tok: unknown) {
+  return (
+    tok === '__proto__' || tok === 'constructor' || tok === 'prototype'
+  )
 }
 
 /**
@@ -41,11 +51,7 @@ export function set<T = JsonObject>(
     if (typeof tok !== 'string' && typeof tok !== 'number') {
       tok = String(tok)
     }
-    if (
-      tok === '__proto__' ||
-      tok === 'constructor' ||
-      tok === 'prototype'
-    ) {
+    if (isPrototypeToken(tok)) {
       continue
     }
     if (tok === '-' && Array.isArray(obj)) {
@@ -71,11 +77,7 @@ export function set<T = JsonObject>(
   }
 
   // Prevent prototype pollution via the final token (e.g. "/__proto__").
-  if (
-    nextTok === '__proto__' ||
-    nextTok === 'constructor' ||
-    nextTok === 'prototype'
-  ) {
+  if (isPrototypeToken(nextTok)) {
     return
   }
 

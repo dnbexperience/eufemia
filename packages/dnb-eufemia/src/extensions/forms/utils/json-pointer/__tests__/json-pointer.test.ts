@@ -111,6 +111,17 @@ describe('json-pointer', () => {
       expect(get(new O(), '/x')).toBe(10)
       expect(get(Object.create({ x: 10 }), '/x')).toBe(10)
     })
+
+    it.each(['/__proto__', '/constructor/prototype', '/prototype'])(
+      'should not resolve the prototype token in "%s"',
+      (p) => {
+        function O() {
+          // empty
+        }
+        expect(() => get(new O(), p)).toThrow('Invalid reference token')
+        expect(has(new O(), p)).toBe(false)
+      }
+    )
   })
 
   describe('set', () => {
@@ -276,6 +287,19 @@ describe('json-pointer', () => {
       const p = ['foo', '1']
       remove(rfcExample, p)
       expect(() => get(pointer, rfcExample)).toThrow(Error)
+    })
+
+    it.each([
+      '/__proto__/marker',
+      '/__proto__/__proto__/marker',
+      '/constructor/prototype/marker',
+    ])('should not delete from a prototype via "%s"', (p) => {
+      class WithPrototype {}
+      WithPrototype.prototype['marker'] = 'kept'
+      const obj = new WithPrototype()
+
+      expect(() => remove(obj, p)).toThrow('Invalid reference token')
+      expect(WithPrototype.prototype['marker']).toBe('kept')
     })
   })
 
