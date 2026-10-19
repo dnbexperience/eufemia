@@ -335,7 +335,7 @@ function DateFormat(props: DateFormatProps) {
   // Always handle duration strings first if they exist
   if (durationValue !== undefined) {
     const originalDurationString = String(value || children)
-    const hasAriaLabel = durationFormattedFull !== durationFormatted
+    const hasScreenReaderText = durationFormattedFull !== durationFormatted
     const showTooltip = durationFormattedFull !== durationFormatted
 
     return (
@@ -343,20 +343,23 @@ function DateFormat(props: DateFormatProps) {
         <time
           {...attributes}
           dateTime={originalDurationString}
-          aria-label={
-            hasAriaLabel && !isHydrating
-              ? durationFormattedFull
-              : undefined
-          }
           suppressHydrationWarning={isHydrating || undefined}
           ref={showTooltip ? ref : undefined}
         >
           <span
-            aria-hidden={hasAriaLabel}
+            aria-hidden={hasScreenReaderText}
             suppressHydrationWarning={isHydrating || undefined}
           >
             {isHydrating ? '' : durationFormatted}
           </span>
+          {hasScreenReaderText && (
+            <span
+              className="dnb-sr-only"
+              suppressHydrationWarning={isHydrating || undefined}
+            >
+              {isHydrating ? '' : durationFormattedFull}
+            </span>
+          )}
         </time>
         {showTooltip && (
           <Tooltip
