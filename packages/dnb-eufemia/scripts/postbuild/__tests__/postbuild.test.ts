@@ -316,6 +316,34 @@ describe('babel build', () => {
     }
   })
 
+  it.each(buildStages)(
+    'does not polyfill methods that every supported browser has on stage "%s"',
+    (stage) => {
+      stage = makeStagePathException(stage)
+
+      const polyfillsByFile = {
+        'components/accordion/Accordion.js': [
+          'instance/includes',
+          'instance/push',
+        ],
+        'components/input/Input.js': ['json/parse'],
+        'components/input-masked/TextMask.js': ['instance/flags'],
+        'components/table/TableContainer.js': ['instance/unshift'],
+      }
+
+      for (const [file, polyfills] of Object.entries(polyfillsByFile)) {
+        const content = fs.readFileSync(
+          path.resolve(PKG_ROOT, `build${stage}/${file}`),
+          'utf-8'
+        )
+
+        for (const polyfill of polyfills) {
+          expect(content).not.toContain(`core-js-pure/stable/${polyfill}`)
+        }
+      }
+    }
+  )
+
   it.each(buildStages)('has correctly compiled on stage "%s"', (stage) => {
     switch (stage) {
       case '/cjs':
