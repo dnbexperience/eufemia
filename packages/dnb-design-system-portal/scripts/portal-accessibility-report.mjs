@@ -77,6 +77,9 @@ export function formatPortalAccessibilityReport(report) {
     '',
     `- ${duplicateIds.length} duplicate ID groups`,
     `- ${axeFindings.length} page-level axe findings`,
+    ...(report.accepted?.length
+      ? [`- ${report.accepted.length} accepted findings (not counted)`]
+      : []),
     '',
     `## Duplicate IDs (${duplicateIds.length})`,
     '',

@@ -114,6 +114,9 @@ describe('Portal accessibility report', () => {
       reason: 'Shows link states on purpose.',
     })
     expect(formatPortalAccessibilityReport(current)).toContain(
+      '- 1 accepted findings (not counted)\n'
+    )
+    expect(formatPortalAccessibilityReport(current)).toContain(
       '## Accepted findings (1)\n'
     )
   })
