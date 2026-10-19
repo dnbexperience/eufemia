@@ -26,15 +26,17 @@ export default defineConfig({
 
   // For local testing of CSP. Does not work on StackBlitz
   // server: {
-  //   headers: getHeaders(),
+  //   headers: getHeaders({ dev: true }),
   // },
 })
 
-function getHeaders() {
+function getHeaders({ dev = false } = {}) {
   return {
     'Content-Security-Policy': [
       "default-src 'self'",
-      "script-src 'self' 'unsafe-inline'", // Add 'unsafe-eval' to be able to run Ajv
+      // Ajv (JSON Schema validation) needs 'unsafe-eval'; Zod schemas don't.
+      // The dev server injects an inline React Fast Refresh script.
+      `script-src 'self'${dev ? " 'unsafe-inline'" : ''}`,
       "style-src 'self' 'unsafe-inline'",
       "img-src 'self' data:",
       "font-src 'self' data:",
@@ -44,5 +46,6 @@ function getHeaders() {
       "form-action 'self'",
       "frame-ancestors 'self'",
     ].join('; '),
+    'X-Content-Type-Options': 'nosniff',
   }
 }
