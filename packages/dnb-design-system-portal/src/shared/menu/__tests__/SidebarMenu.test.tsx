@@ -2,7 +2,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest'
 import { cleanup } from '@testing-library/react'
 import { readFileSync, readdirSync } from 'node:fs'
 import { resolve } from 'node:path'
-import matter from 'gray-matter'
+import matter from '@11ty/gray-matter'
 import graphics from '../SidebarGraphics'
 import {
   applySidebarMenuPlacement,
