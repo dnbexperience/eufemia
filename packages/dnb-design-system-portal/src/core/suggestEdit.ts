@@ -24,9 +24,7 @@ export function parseSuggestEditParams(search: string): {
   const page = params.get('page') || ''
   const sourcePath = params.get('source') || ''
 
-  const isPortalPage =
-    page.startsWith('/') &&
-    new URL(page, PORTAL_ORIGIN).origin === PORTAL_ORIGIN
+  const isPortalPage = page.startsWith('/') && isSameOrigin(page)
   const isRepoPath =
     SOURCE_PATH_PATTERN.test(sourcePath) &&
     !sourcePath.split('/').includes('..')
@@ -34,6 +32,14 @@ export function parseSuggestEditParams(search: string): {
   return {
     page: isPortalPage ? page : '/',
     sourcePath: isRepoPath ? sourcePath : '',
+  }
+}
+
+function isSameOrigin(page: string) {
+  try {
+    return new URL(page, PORTAL_ORIGIN).origin === PORTAL_ORIGIN
+  } catch {
+    return false
   }
 }
 

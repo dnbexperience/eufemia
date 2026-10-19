@@ -25,6 +25,8 @@ describe('parseSuggestEditParams', () => {
     'https://evil.example/login',
     '//evil.example/x',
     '/\\evil.example/x',
+    '/\t/evil.example/x',
+    '//[',
     'javascript:alert(1)',
     'uilib/components/button/',
   ])('falls back to the front page for page "%s"', (page) => {
