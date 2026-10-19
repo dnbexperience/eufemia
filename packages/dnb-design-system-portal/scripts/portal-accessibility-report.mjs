@@ -4,6 +4,7 @@ export function createPortalAccessibilityReport({
   duplicateIdFindings,
   axeFindings,
   scannedPages,
+  colorSchemes = ['light'],
 }) {
   const findings = [...duplicateIdFindings, ...axeFindings].sort(
     compareFindings
@@ -13,6 +14,7 @@ export function createPortalAccessibilityReport({
     schemaVersion: 1,
     summary: {
       pages: scannedPages,
+      colorSchemes,
       duplicateIdGroups: duplicateIdFindings.length,
       axeGroups: axeFindings.length,
       findings: findings.length,
@@ -32,7 +34,11 @@ export function formatPortalAccessibilityReport(report) {
     '<!-- portal-accessibility-report -->',
     '# Portal accessibility and duplicate ID report',
     '',
-    `Scanned ${report.summary.pages} canonical pages.`,
+    `Scanned ${report.summary.pages} canonical pages${
+      report.summary.colorSchemes?.includes('dark')
+        ? ' in light and dark mode'
+        : ''
+    }.`,
     '',
     `- ${duplicateIds.length} duplicate ID groups`,
     `- ${axeFindings.length} page-level axe findings`,
@@ -66,7 +72,7 @@ export function formatPortalAccessibilityReport(report) {
     )
     for (const finding of findings) {
       lines.push(
-        `- ${finding.occurrences} nodes on [${finding.page}](https://eufemia.dnb.no${finding.page})`
+        `- ${finding.occurrences} nodes on [${finding.page}](https://eufemia.dnb.no${finding.page})${colorSchemeLabel(finding)}`
       )
       for (const node of finding.nodes || []) {
         lines.push(
@@ -160,7 +166,7 @@ export function formatPortalAccessibilityChanges(changes) {
             ? `${finding.previousOccurrences} → ${finding.occurrences} occurrences`
             : `${finding.occurrences} occurrences`
       lines.push(
-        `- ${findingLabel(finding)} – ${count} on ${finding.page}`
+        `- ${findingLabel(finding)} – ${count} on ${finding.page}${colorSchemeLabel(finding)}`
       )
       for (const node of key === 'changed' ? finding.nodes || [] : []) {
         lines.push(`  - \`${node.target.join(' → ')}\``)
@@ -211,7 +217,16 @@ export function findDuplicateIds(ids, page) {
 }
 
 function findingKey(finding) {
-  return [finding.check, finding.page, finding.id].join('\0')
+  return [
+    finding.check,
+    finding.page,
+    finding.id,
+    ...(finding.colorScheme ? [finding.colorScheme] : []),
+  ].join('\0')
+}
+
+function colorSchemeLabel(finding) {
+  return finding.colorScheme ? ` in ${finding.colorScheme} mode` : ''
 }
 
 function findingFingerprint(finding) {
@@ -229,7 +244,8 @@ function compareFindings(a, b) {
     impactOrder.indexOf(a.impact ?? null) -
       impactOrder.indexOf(b.impact ?? null) ||
     a.id.localeCompare(b.id) ||
-    a.page.localeCompare(b.page)
+    a.page.localeCompare(b.page) ||
+    (a.colorScheme ?? '').localeCompare(b.colorScheme ?? '')
   )
 }
 
