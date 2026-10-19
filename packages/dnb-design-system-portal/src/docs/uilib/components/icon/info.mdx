@@ -65,7 +65,7 @@ If a versioned asset is unavailable while release assets are being published, th
 
 Only set `iconBaseUrl` on Provider when your app needs a different asset directory, such as self-hosted SVGs.
 
-To self-host the icons, copy the SVGs that ship with the package from `node_modules/@dnb/eufemia/assets/icons/dnb` into a public folder of your app, for example as part of your build. The folder contains both sizes, such as `heart.svg` and `heart_medium.svg`. Then point `iconBaseUrl` to that folder:
+To self-host the icons, copy the SVGs that ship with the package from `node_modules/@dnb/eufemia/assets/icons/dnb` into a public folder of your app. Copy them as part of your build, so they match the installed Eufemia version. The folder contains both sizes, such as `heart.svg` and `heart_medium.svg`. Then point `iconBaseUrl` to that folder:
 
 ```tsx
 import Provider from '@dnb/eufemia/shared/Provider'
