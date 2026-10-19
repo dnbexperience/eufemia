@@ -105,9 +105,7 @@ export function hydrationIssues(report: HydrationReport) {
               `<details><summary>React hydration error</summary>\n\n<pre>${escapeHtml(message).slice(0, 3000)}${componentStack ? '\n\n' + escapeHtml(componentStack).slice(0, 6000) : ''}</pre>\n\n</details>`
           ),
         'The full scan, including repeated errors, is available in the workflow artifacts.',
-      ]
-        .join('\n\n')
-        .slice(0, 55000)
+      ].join('\n\n')
 
       return {
         page,
