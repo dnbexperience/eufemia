@@ -22,6 +22,7 @@ import { Breadcrumb, Button, P } from '@dnb/eufemia/src'
 import PropertiesUsage from '../docs/_shared/_properties-usage.mdx'
 import { resolveEditSourcePath } from './editSourcePath'
 import { getSuggestEditUrl } from './suggestEdit'
+import AiExperimentalNotice from '../docs/uilib/extensions/ai/ExperimentalNotice'
 import type { KnownFrontmatter } from '../../vite/client/plugins/portal-pages.shared'
 
 const ContentWrapper = TabBar.ContentWrapper
@@ -216,6 +217,11 @@ export default function PortalLayout(props: PortalLayoutProps) {
             slug.endsWith('/properties')
           }
         >
+          {!codeFocusMode &&
+            (slug === 'uilib/extensions/ai' ||
+              slug.startsWith('uilib/extensions/ai/')) && (
+              <AiExperimentalNotice />
+            )}
           {children}
         </Content>
       </Heading.Level>
