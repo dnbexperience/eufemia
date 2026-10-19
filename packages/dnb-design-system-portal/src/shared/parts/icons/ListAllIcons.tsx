@@ -105,12 +105,7 @@ function IconPreviewItem({
           />
         </figure>
 
-        <AutoLinkHeader
-          level={3}
-          size="medium"
-          element="figcaption"
-          useSlug={iconName}
-        >
+        <AutoLinkHeader level={3} size="medium" useSlug={iconName}>
           <CopyOnClick>{iconName}</CopyOnClick>
         </AutoLinkHeader>
 
