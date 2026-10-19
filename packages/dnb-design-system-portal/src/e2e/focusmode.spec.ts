@@ -266,7 +266,7 @@ test.describe('Focus mode', () => {
       await page.goBack()
 
       await expect(page).toHaveURL(previousUrl)
-      await expect(page.locator('nav#portal-sidebar-menu')).toBeVisible()
+      await expect(page.locator('#portal-sidebar-menu')).toBeVisible()
       await expect(
         page.locator('button[aria-label="Quit focus mode"]')
       ).toHaveCount(0)
