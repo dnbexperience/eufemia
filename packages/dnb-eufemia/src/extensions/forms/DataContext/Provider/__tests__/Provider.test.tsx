@@ -1585,6 +1585,9 @@ describe('DataContext.Provider', { retry: isCI ? 5 : 0 }, () => {
       // Wait before typing, to avoid issues with async validation
       await new Promise((resolve) => requestAnimationFrame(resolve))
 
+      await waitFor(() => {
+        expect(input).not.toBeDisabled()
+      })
       await userEvent.type(input, 'something')
 
       await waitFor(() => {
