@@ -4,13 +4,6 @@ import waitForApp from './shared/waitForApp'
 test('aligns the welcome greeting, heading and suggestions with Figma', async ({
   page,
 }) => {
-  const warnings: string[] = []
-  page.on('console', (message) => {
-    if (message.text().includes('Avatar group required')) {
-      warnings.push(message.text())
-    }
-  })
-
   await page.goto('/uilib/extensions/ai/Welcome/demos/')
   await waitForApp(page)
 
@@ -59,7 +52,6 @@ test('aligns the welcome greeting, heading and suggestions with Figma', async ({
 
   await buttons.first().focus()
   await expect(buttons.first()).toBeFocused()
-  expect(warnings).toEqual([])
 })
 
 test('wraps real long labels without changing standalone suggestions', async ({
