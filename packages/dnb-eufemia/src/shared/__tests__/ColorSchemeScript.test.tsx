@@ -1,3 +1,4 @@
+/* eslint-disable security/detect-eval-with-expression -- these tests run the generated inline script on purpose */
 import path from 'path'
 import { readFileSync } from 'fs'
 import { renderToStaticMarkup } from 'react-dom/server'
