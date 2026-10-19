@@ -231,6 +231,52 @@ describe('App (smoke)', () => {
     expect(container.textContent).not.toContain('Eufemia versions')
   })
 
+  it('renders missed component lookups in the Web MCP tab when there are misses', async () => {
+    vi.mocked(loadDashboardData).mockResolvedValue({
+      kind: 'data',
+      payload: {
+        ...populated,
+        mcpUsage: {
+          ...populated.mcpUsage,
+          web: {
+            ...populated.mcpUsage?.web,
+            missedLookups: 3,
+            perLikelyComponent: [{ name: 'date-picker', count: 2 }],
+          },
+        },
+      },
+    })
+
+    const { container } = render(<App />)
+
+    await waitFor(() =>
+      expect(container.textContent).toContain('Top URLs')
+    )
+    fireEvent.click(screen.getByRole('tab', { name: 'Web MCP' }))
+
+    expect(container.textContent).toContain('Missed component lookups')
+    expect(container.textContent).toContain(
+      '3 lookups named no component.'
+    )
+    expect(container.textContent).toContain('date-picker')
+  })
+
+  it('hides missed component lookups when there are none', async () => {
+    vi.mocked(loadDashboardData).mockResolvedValue({
+      kind: 'data',
+      payload: populated,
+    })
+
+    const { container } = render(<App />)
+
+    await waitFor(() =>
+      expect(container.textContent).toContain('Top URLs')
+    )
+    fireEvent.click(screen.getByRole('tab', { name: 'Web MCP' }))
+
+    expect(container.textContent).not.toContain('Missed component lookups')
+  })
+
   it('shows an empty message in the Component usage tab when there is no component data', async () => {
     vi.mocked(loadDashboardData).mockResolvedValue({
       kind: 'data',

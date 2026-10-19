@@ -36,14 +36,16 @@ export type PortalViewDaily = {
   count: number
 }
 
-// A daily MCP usage aggregate row (one per transport+tool+component+path per
-// day), read from and written to the durable mcp_usage_daily rollup.
+// A daily MCP usage aggregate row (one per transport+tool+component+path+miss
+// per day), read from and written to the durable mcp_usage_daily rollup.
 export type McpUsageDaily = {
   dt: string
   transport: string
   tool: string
   component: string
   path: string
+  component_missed: boolean
+  likely_component: string
   count: number
 }
 
@@ -51,12 +53,15 @@ export type McpUsageCount = { name: string; count: number }
 export type McpUsageDay = { date: string; count: number }
 
 // MCP usage for one transport: total plus ranked breakdowns and a daily series
-// for trend/year-over-year views.
+// for trend/year-over-year views. `missedLookups` counts component lookups that
+// named no component.
 export type McpTransportUsage = {
   total: number
   perTool: McpUsageCount[]
   perComponent: McpUsageCount[]
   perPath: McpUsageCount[]
+  missedLookups: number
+  perLikelyComponent: McpUsageCount[]
   daily: McpUsageDay[]
 }
 
@@ -73,6 +78,8 @@ const EMPTY_MCP_TRANSPORT_USAGE: McpTransportUsage = {
   perTool: [],
   perComponent: [],
   perPath: [],
+  missedLookups: 0,
+  perLikelyComponent: [],
   daily: [],
 }
 

@@ -364,6 +364,7 @@ function McpUsagePanel({
   const { label, intro, pathTitle, pathHeader, pathNote } =
     MCP_PANELS[transport]
   const total = usage?.total ?? 0
+  const missedLookups = usage?.missedLookups ?? 0
   const perVersion = usage?.perVersion ?? []
 
   if (total === 0) {
@@ -395,6 +396,22 @@ function McpUsagePanel({
           items={(usage?.perComponent ?? []).slice(0, 15)}
         />
       </Card>
+
+      {missedLookups > 0 && (
+        <Card stack>
+          <H2 size="medium">Missed component lookups</H2>
+          <P className="dashboard__meta">
+            {`${missedLookups.toLocaleString()} lookups named no component. Names are matched ignoring case and hyphens, e.g. DatePicker → date-picker.`}
+          </P>
+          <RankedTable
+            caption={`${label} missed component lookups`}
+            nameHeader="Likely component"
+            countHeader="Misses"
+            emptyText="No missed name matched a real component."
+            items={(usage?.perLikelyComponent ?? []).slice(0, 15)}
+          />
+        </Card>
+      )}
 
       <Card stack>
         <H2 size="medium">{pathTitle}</H2>

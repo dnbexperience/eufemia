@@ -300,6 +300,8 @@ describe('mcp usage section', () => {
       ],
       perComponent: [{ name: 'Button', count: 5 }],
       perPath: [],
+      missedLookups: 0,
+      perLikelyComponent: [],
       daily: [
         { date: '2026-09-09', count: 5 },
         { date: '2026-09-10', count: 3 },
@@ -310,9 +312,64 @@ describe('mcp usage section', () => {
       perTool: [{ name: 'docs_read', count: 2 }],
       perComponent: [],
       perPath: [{ name: '/uilib/components/', count: 2 }],
+      missedLookups: 0,
+      perLikelyComponent: [],
       daily: [{ date: '2026-09-10', count: 2 }],
       perVersion: [],
     })
+  })
+
+  it('counts missed component lookups and ranks the components they matched', async () => {
+    retrievePortalViews.mockResolvedValue([])
+    retrieveMcpUsageDaily.mockResolvedValue([
+      {
+        dt: '2026-10-14',
+        transport: 'web',
+        tool: 'component_doc',
+        component: '',
+        path: '',
+        component_missed: true,
+        likely_component: 'date-picker',
+        count: 4,
+      },
+      {
+        dt: '2026-10-14',
+        transport: 'web',
+        tool: 'component_doc',
+        component: '',
+        path: '',
+        component_missed: true,
+        likely_component: '',
+        count: 2,
+      },
+      {
+        dt: '2026-10-14',
+        transport: 'web',
+        tool: 'component_doc',
+        component: 'button',
+        path: '',
+        component_missed: false,
+        likely_component: '',
+        count: 5,
+      },
+    ])
+
+    await handler()
+
+    const snapshotPut = putCalls().find(
+      (call) =>
+        (call[0] as Command).input.Key === 'snapshots/dashboard.json'
+    )
+    const mcp = JSON.parse(
+      (snapshotPut?.[0] as Command).input.Body as string
+    ).mcpUsage
+
+    expect(mcp.web.total).toBe(11)
+    expect(mcp.web.missedLookups).toBe(6)
+    expect(mcp.web.perLikelyComponent).toEqual([
+      { name: 'date-picker', count: 4 },
+    ])
+    expect(mcp.local.missedLookups).toBe(0)
   })
 
   it('leaves rollup rows without a transport out of both sections and warns', async () => {
@@ -362,6 +419,8 @@ describe('mcp usage section', () => {
         tool: 'docs_search',
         component: '',
         path: '',
+        component_missed: false,
+        likely_component: '',
         count: 3,
       },
     ])
@@ -383,6 +442,8 @@ describe('mcp usage section', () => {
       tool: 'docs_search',
       component: '',
       path: '',
+      component_missed: false,
+      likely_component: '',
       count: 3,
     })
   })
@@ -410,6 +471,8 @@ describe('mcp usage section', () => {
         perTool: [],
         perComponent: [],
         perPath: [],
+        missedLookups: 0,
+        perLikelyComponent: [],
         daily: [],
       },
       local: {
@@ -417,6 +480,8 @@ describe('mcp usage section', () => {
         perTool: [],
         perComponent: [],
         perPath: [],
+        missedLookups: 0,
+        perLikelyComponent: [],
         daily: [],
         perVersion: [],
       },
