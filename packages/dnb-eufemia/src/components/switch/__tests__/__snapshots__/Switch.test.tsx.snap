@@ -312,6 +312,12 @@ button .dnb-form-status__text {
     transition-duration: 0.01ms;
   }
 }
+@media (forced-colors: active) {
+  .dnb-switch__button {
+    outline: 0.125rem solid transparent;
+    outline-offset: calc(0.125rem * -1);
+  }
+}
 .dnb-switch--large .dnb-switch__button {
   width: var(--switch-button-size-off--large);
   height: var(--switch-button-size-off--large);

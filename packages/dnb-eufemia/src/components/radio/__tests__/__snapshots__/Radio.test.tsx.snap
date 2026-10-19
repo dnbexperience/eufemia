@@ -292,6 +292,11 @@ button .dnb-form-status__text {
   height: calc(var(--radio-height--medium) - 0.25rem);
   border-radius: var(--token-radius-full);
 }
+@media (forced-colors: active) {
+  .dnb-radio__button {
+    outline: var(--radio-border-width, var(--radio-border-width--default)) solid transparent;
+  }
+}
 .dnb-radio--large .dnb-radio__button {
   width: var(--radio-width--large);
   height: var(--radio-height--large);
@@ -454,6 +459,11 @@ button .dnb-form-status__text {
   opacity: 1;
   transform: scale(1);
 }
+@media (forced-colors: active) {
+  .dnb-radio__input:checked ~ .dnb-radio__dot, .dnb-radio__input[data-checked=true] ~ .dnb-radio__dot {
+    background-color: CanvasText;
+  }
+}
 .dnb-radio__input:not(:checked):not([data-checked=true]) ~ .dnb-radio__dot {
   opacity: 0;
   transform: scale(0.8);
@@ -523,6 +533,11 @@ html[data-whatinput=keyboard] .dnb-radio__input:focus ~ .dnb-radio__dot {
 }
 .dnb-radio__input[disabled] ~ .dnb-radio__dot {
   --radio-color-dot-on: var(--radio-color-dot-on--disabled);
+}
+@media (forced-colors: active) {
+  .dnb-radio__input[disabled] ~ .dnb-radio__dot {
+    background-color: GrayText;
+  }
 }
 .dnb-radio__input[disabled] ~ .dnb-radio__button.dnb-skeleton {
   --radio-color-border: var(--skeleton-color);

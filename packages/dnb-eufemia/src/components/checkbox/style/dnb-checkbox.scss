@@ -168,6 +168,11 @@
       var(--checkbox-border-width, var(--checkbox-border-width--default))
       var(--checkbox-color-border, var(--checkbox-color-border-off));
     background-color: var(--checkbox-color-background-off);
+
+    // Forced colors mode removes the box-shadow border, but shows this outline
+    @include utilities.forcedColorsOutline(
+      var(--checkbox-border-width, var(--checkbox-border-width--default))
+    );
   }
 
   &__focus {
@@ -206,6 +211,12 @@
     transition:
       opacity 200ms ease-out,
       transform 200ms ease-out;
+
+    // The SVG keeps its own color in forced colors mode, which can make the
+    // check mark invisible. Let the browser use the system colors instead.
+    @media (forced-colors: active) {
+      forced-color-adjust: auto;
+    }
   }
 
   &--large {
@@ -349,6 +360,12 @@
     transition:
       opacity 200ms ease-out,
       transform 200ms ease-out;
+
+    // Forced colors mode removes background colors, so use the text color
+    // in every state
+    @media (forced-colors: active) {
+      background-color: CanvasText !important;
+    }
   }
 
   &__input:indeterminate ~ &__indeterminate {
@@ -383,6 +400,10 @@
   &__input[disabled]:checked ~ &__gfx,
   &__input[disabled][data-checked='true'] ~ &__gfx {
     color: var(--checkbox-color-gfx--disabled);
+
+    @media (forced-colors: active) {
+      color: GrayText;
+    }
   }
 
   // Off
@@ -394,6 +415,10 @@
   // indeterminate
   &__input[disabled]:indeterminate ~ &__indeterminate {
     background-color: var(--checkbox-color-gfx__indeterminate--disabled);
+
+    @media (forced-colors: active) {
+      background-color: GrayText !important;
+    }
   }
 
   &__input[disabled]:indeterminate ~ &__button {

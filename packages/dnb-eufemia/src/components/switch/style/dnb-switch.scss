@@ -125,6 +125,9 @@
       transition-duration: 0.01ms;
     }
 
+    // Forced colors mode removes the background color, but shows this outline
+    @include utilities.forcedColorsOutline(0.125rem, inset);
+
     .dnb-switch--large & {
       width: var(--switch-button-size-off--large);
       height: var(--switch-button-size-off--large);

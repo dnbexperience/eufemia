@@ -234,6 +234,20 @@ describe('Radio scss', () => {
     )
   })
 
+  it('shows the ring and the selected dot in forced colors mode', () => {
+    const css = loadScss(require.resolve('../style/dnb-radio.scss'))
+
+    expect(css).toMatch(
+      /@media \(forced-colors: active\) \{\s*\.dnb-radio__button \{\s*outline: var\(--radio-border-width, var\(--radio-border-width--default\)\) solid transparent;/
+    )
+    expect(css).toMatch(
+      /@media \(forced-colors: active\) \{\s*\.dnb-radio__input:checked ~ \.dnb-radio__dot,\s*\.dnb-radio__input\[data-checked=['"]?true['"]?\] ~ \.dnb-radio__dot \{\s*background-color: CanvasText;/
+    )
+    expect(css).toMatch(
+      /@media \(forced-colors: active\) \{\s*\.dnb-radio__input\[disabled\] ~ \.dnb-radio__dot \{\s*background-color: GrayText;/
+    )
+  })
+
   it('shows the focus ring in forced colors mode', () => {
     const css = loadScss(require.resolve('../style/dnb-radio.scss'))
 

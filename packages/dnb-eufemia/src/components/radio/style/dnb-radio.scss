@@ -118,6 +118,11 @@
     height: calc(var(--radio-height--medium) - 0.25rem);
     border-radius: var(--token-radius-full);
 
+    // Forced colors mode removes the box-shadow border, but shows this outline
+    @include utilities.forcedColorsOutline(
+      var(--radio-border-width, var(--radio-border-width--default))
+    );
+
     .dnb-radio--large & {
       width: var(--radio-width--large);
       height: var(--radio-height--large);
@@ -330,6 +335,11 @@
     );
     opacity: 1;
     transform: scale(1);
+
+    // Forced colors mode removes background colors, so use the text color
+    @media (forced-colors: active) {
+      background-color: CanvasText;
+    }
   }
 
   // Off
@@ -409,6 +419,10 @@
   }
   &__input[disabled] ~ &__dot {
     --radio-color-dot-on: var(--radio-color-dot-on--disabled);
+
+    @media (forced-colors: active) {
+      background-color: GrayText;
+    }
   }
 
   // Skeleton

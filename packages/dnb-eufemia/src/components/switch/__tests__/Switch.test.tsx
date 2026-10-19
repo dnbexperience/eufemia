@@ -343,6 +343,14 @@ describe('Switch component', () => {
 })
 
 describe('Switch scss', () => {
+  it('shows the knob in forced colors mode', () => {
+    const css = loadScss(require.resolve('../style/dnb-switch.scss'))
+
+    expect(css).toMatch(
+      /@media \(forced-colors: active\) \{\s*\.dnb-switch__button \{\s*outline: 0\.125rem solid transparent;\s*outline-offset: calc\(0\.125rem \* -1\);/
+    )
+  })
+
   it('uses the subtle stroke for disabled switches', () => {
     const css = loadScss(require.resolve('../style/dnb-switch.scss'))
 

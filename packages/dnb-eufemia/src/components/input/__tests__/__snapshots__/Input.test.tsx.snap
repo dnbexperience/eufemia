@@ -1369,6 +1369,12 @@ legend.dnb-form-label {
   box-shadow: var(--b-inset, var(--input-border-inset, inset)) 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
+@media (forced-colors: active) {
+  .dnb-input__border {
+    outline: var(--b-width, var(--input-border-width, var(--input-border-width--default))) solid transparent;
+    outline-offset: calc(var(--b-width, var(--input-border-width, var(--input-border-width--default))) * -1);
+  }
+}
 .dnb-input--disabled .dnb-input__border {
   --border-color: var(--input-border-color--disabled);
   --border-width: var(--input-border-width--disabled);
@@ -1379,6 +1385,12 @@ legend.dnb-form-label {
   --b-color: var(--input-border-color--active);
   --b-width: var(--input-border-width--active);
   --b-inset: var(--input-border-inset--active);
+}
+@media (forced-colors: active) {
+  .dnb-input__border:focus-within {
+    outline: var(--focus-ring-width) solid transparent;
+    outline-offset: calc(var(--focus-ring-width) * -1);
+  }
 }
 .dnb-input__border:hover, .dnb-input__border.hover {
   --b-color: var(--input-border-color--hover);
