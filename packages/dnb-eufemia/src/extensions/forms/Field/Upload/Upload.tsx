@@ -309,6 +309,7 @@ function UploadComponent(props: FieldUploadProps) {
           }))
           updateFiles([...filesRef.current, ...newFilesLoading])
 
+          const newValidFileIds = newValidFiles.map(({ id }) => id)
           let incomingFiles: UploadValue
           try {
             incomingFiles = await fileHandler(newValidFiles)
@@ -333,9 +334,7 @@ function UploadComponent(props: FieldUploadProps) {
           const updatedFiles = filesRef.current.flatMap<
             UploadValue[number]
           >((file) => {
-            const index = newValidFiles.findIndex(
-              ({ id }) => id === file.id
-            )
+            const index = newValidFileIds.indexOf(file.id)
             if (index < 0) {
               return [file]
             }
@@ -346,7 +345,7 @@ function UploadComponent(props: FieldUploadProps) {
               : []
           })
 
-          results.slice(newValidFiles.length).forEach((file) => {
+          results.slice(newValidFileIds.length).forEach((file) => {
             if (file) {
               updatedFiles.push({ ...file, isLoading: false })
             }

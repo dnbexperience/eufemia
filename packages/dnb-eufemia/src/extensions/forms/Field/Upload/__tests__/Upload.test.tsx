@@ -2788,6 +2788,54 @@ describe('Field.Upload', () => {
     ).not.toBeInTheDocument()
   })
 
+  it('should apply results when the fileHandler changes an input file ID in place', async () => {
+    const file1 = createMockFile('fileName-1.png', 100, 'image/png')
+    const file2 = createMockFile('fileName-2.png', 100, 'image/png')
+    const onChange = vi.fn()
+
+    render(
+      <Form.Handler onChange={onChange}>
+        <Field.Upload
+          path="/files"
+          fileHandler={async (newFiles) => {
+            newFiles[1].id = 'server-id-2'
+            return newFiles
+          }}
+        />
+      </Form.Handler>
+    )
+
+    fireEvent.drop(getRootElement(), {
+      dataTransfer: { files: [file1, file2] },
+    })
+
+    await waitFor(() => {
+      expect(onChange).toHaveBeenLastCalledWith(
+        {
+          files: [
+            expect.objectContaining({ file: file1, isLoading: false }),
+            expect.objectContaining({
+              file: file2,
+              id: 'server-id-2',
+              isLoading: false,
+            }),
+          ],
+        },
+        expect.anything()
+      )
+    })
+    expect(
+      document.querySelector(
+        '.dnb-upload__file-cell__text-container--loading'
+      )
+    ).not.toBeInTheDocument()
+    document
+      .querySelectorAll('.dnb-upload__file-cell button')
+      .forEach((button) => {
+        expect(button).not.toBeDisabled()
+      })
+  })
+
   it('should apply the results of uploads that settle at the same time', async () => {
     const file1 = createMockFile('fileName-1.png', 100, 'image/png')
     const file2 = createMockFile('fileName-2.png', 100, 'image/png')
