@@ -60,7 +60,7 @@ test.describe('Focus mode', () => {
 
     // Brand switch should be visible
     const brandSwitch = page.locator(
-      'section[aria-label="Customize appearance"] fieldset'
+      '[role="group"][aria-label="Customize appearance"] fieldset'
     )
     await expect(brandSwitch).toBeVisible()
   })
