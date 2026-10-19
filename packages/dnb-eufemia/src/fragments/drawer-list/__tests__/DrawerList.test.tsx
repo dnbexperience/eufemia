@@ -1617,6 +1617,24 @@ describe('DrawerList markup', () => {
     )
   })
 
+  it('should update the list aria-label when it changes', () => {
+    const { rerender } = render(
+      <DrawerList {...props} aria-label="Accounts" data={mockData} />
+    )
+
+    rerender(
+      <DrawerList
+        {...props}
+        aria-label="Savings accounts"
+        data={mockData}
+      />
+    )
+
+    expect(
+      document.querySelector('ul.dnb-drawer-list__options')
+    ).toHaveAttribute('aria-label', 'Savings accounts')
+  })
+
   it('should have correct aria-activedescendant', async () => {
     render(<DrawerList {...props} value={undefined} data={mockData} />)
     const ul = document.querySelector('ul.dnb-drawer-list__options')

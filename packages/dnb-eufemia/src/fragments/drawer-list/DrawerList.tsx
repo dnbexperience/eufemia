@@ -508,7 +508,9 @@ const DrawerListComponent = memo(function DrawerListComponent(
                 activeItem +
                 selectedItem +
                 direction +
-                maxHeight
+                maxHeight +
+                ariaLabel +
+                ariaLabelledBy
               }
               {...ulParams}
               renderDriver={activeListDriver}
