@@ -237,6 +237,27 @@ describe('SidebarMenu', () => {
     expect(header.nextElementSibling).not.toBeInTheDocument()
   })
 
+  it('does not render an empty list for a Header with only text', () => {
+    render(
+      <SidebarMenu.Root>
+        <SidebarMenu.Header text="Everyday banking" />
+        <SidebarMenu.Item id="overview" text="Overview" />
+      </SidebarMenu.Root>
+    )
+
+    const header = document.querySelector('.dnb-sidebar-menu__header')
+
+    expect(header).toHaveTextContent('Everyday banking')
+    expect(header).toHaveProperty('tagName', 'LI')
+    expect(
+      document.querySelector('.dnb-sidebar-menu__header-group')
+    ).not.toBeInTheDocument()
+    expect(
+      document.querySelector('ul[aria-labelledby]')
+    ).not.toBeInTheDocument()
+    expect(header.nextElementSibling).toHaveTextContent('Overview')
+  })
+
   it('does not forward the removed Header headingLevel prop', () => {
     render(
       <SidebarMenu.Root>
