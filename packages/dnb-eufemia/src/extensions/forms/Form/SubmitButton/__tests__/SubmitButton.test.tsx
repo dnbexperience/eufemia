@@ -275,8 +275,10 @@ describe('Form.SubmitButton', () => {
     const [firstButton, secondButton] = screen.getAllByRole('button')
     const isPending = (button: HTMLElement) =>
       button
-        .querySelector('.dnb-forms-submit-indicator')
-        .classList.contains('dnb-forms-submit-indicator--state-pending')
+        .querySelector('.dnb-forms-submit-indicator-glow__status')
+        .classList.contains(
+          'dnb-forms-submit-indicator-glow__status--state-pending'
+        )
 
     fireEvent.click(secondButton)
 
@@ -285,7 +287,7 @@ describe('Form.SubmitButton', () => {
       expect(onSubmit).toHaveBeenCalledTimes(1)
       expect(
         document.querySelector(
-          '.dnb-forms-submit-indicator[class*="--state-"]'
+          '.dnb-forms-submit-indicator-glow__status[class*="--state-"]'
         )
       ).toBeNull()
     })
@@ -321,8 +323,10 @@ describe('Form.SubmitButton', () => {
     const [firstButton, secondButton] = screen.getAllByRole('button')
     const isPending = (button: HTMLElement) =>
       button
-        .querySelector('.dnb-forms-submit-indicator')
-        .classList.contains('dnb-forms-submit-indicator--state-pending')
+        .querySelector('.dnb-forms-submit-indicator-glow__status')
+        .classList.contains(
+          'dnb-forms-submit-indicator-glow__status--state-pending'
+        )
 
     fireEvent.click(secondButton)
 
@@ -357,8 +361,10 @@ describe('Form.SubmitButton', () => {
     )
     const isPending = (button: HTMLElement) =>
       button
-        .querySelector('.dnb-forms-submit-indicator')
-        .classList.contains('dnb-forms-submit-indicator--state-pending')
+        .querySelector('.dnb-forms-submit-indicator-glow__status')
+        .classList.contains(
+          'dnb-forms-submit-indicator-glow__status--state-pending'
+        )
 
     fireEvent.click(secondButton)
 
@@ -395,8 +401,10 @@ describe('Form.SubmitButton', () => {
     )
     const isPending = (button: HTMLElement) =>
       button
-        .querySelector('.dnb-forms-submit-indicator')
-        .classList.contains('dnb-forms-submit-indicator--state-pending')
+        .querySelector('.dnb-forms-submit-indicator-glow__status')
+        .classList.contains(
+          'dnb-forms-submit-indicator-glow__status--state-pending'
+        )
 
     fireEvent.click(secondButton)
 
@@ -441,7 +449,7 @@ describe('Form.SubmitButton', () => {
     await waitFor(() => {
       expect(
         document.querySelector(
-          '.dnb-forms-next-button .dnb-forms-submit-indicator--state-pending'
+          '.dnb-forms-next-button .dnb-forms-submit-indicator-glow__status--state-pending'
         )
       ).toBeInTheDocument()
     })
@@ -477,7 +485,7 @@ describe('Form.SubmitButton', () => {
     const output = () => document.querySelector('output')
     const nextIndicator = () =>
       document.querySelector(
-        '.dnb-forms-next-button .dnb-forms-submit-indicator--state-pending'
+        '.dnb-forms-next-button .dnb-forms-submit-indicator-glow__status--state-pending'
       )
     const changeStep = async (selector: string, title: string) => {
       fireEvent.click(document.querySelector(selector))
