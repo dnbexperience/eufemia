@@ -174,10 +174,10 @@ export const IconInheritSized = () => (
     data-visual-test="icon-inherit-sized"
     scope={{ Bell, BellMedium }}
   >
-    <h1 className="dnb-h--xx-large">
-      h1 with auto sized <Icon icon={BellMedium} size="auto" aria-hidden />{' '}
-      icon
-    </h1>
+    <h4 className="dnb-h--xx-large">
+      Heading with auto sized{' '}
+      <Icon icon={BellMedium} size="auto" aria-hidden /> icon
+    </h4>
   </ComponentBox>
 )
 
