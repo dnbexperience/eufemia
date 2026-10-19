@@ -1,6 +1,7 @@
 import { clsx } from 'clsx'
 import useTranslation from './hooks/useTranslation'
 import AiMessage from './AiMessage'
+import DotsIndicator from '../../shared/internal/DotsIndicator'
 import type { AiMessageIndicatorProps } from './types'
 
 function AiMessageIndicator({
@@ -18,9 +19,7 @@ function AiMessageIndicator({
     >
       <span className="dnb-ai-message-indicator__status" role="status">
         <span className="dnb-ai-message-indicator__dots" aria-hidden>
-          <span />
-          <span />
-          <span />
+          <DotsIndicator />
         </span>
         <span className="dnb-sr-only">{label ?? translation.loading}</span>
       </span>
