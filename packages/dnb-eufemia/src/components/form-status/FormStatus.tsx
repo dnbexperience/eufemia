@@ -451,7 +451,7 @@ const tokenStroke = (token: string) => ({ stroke: `var(${token})` })
 
 export const ErrorIcon = (props: ErrorIconProps) => {
   const { title = 'error' } = props || {}
-  const line = '--token-color-icon-error-subtle'
+  const line = '--token-color-icon-neutral-ondark'
 
   return (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" {...props}>
@@ -505,11 +505,9 @@ export const InfoIcon = (props: InfoIconProps) => {
   const { title = 'information' } = props || {}
   const isSuccess = props?.state === 'success'
   const fill = isSuccess
-    ? '--token-color-icon-positive'
+    ? '--token-color-background-positive'
     : '--token-color-icon-info'
-  const line = isSuccess
-    ? '--token-color-icon-positive-subtle'
-    : '--token-color-icon-info-subtle'
+  const line = '--token-color-icon-neutral-inverse'
 
   return (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" {...props}>
@@ -546,12 +544,12 @@ export const SuccessIcon = (props: SuccessIconProps) => {
       <circle
         cx="12"
         cy="12"
-        r="11.25"
-        style={tokenFill('--token-color-icon-positive')}
+        r="12"
+        style={tokenFill('--token-color-background-positive')}
       />
       <path
-        d="m7 12.5 3.5 3.5L17 8.5"
-        style={tokenStroke('--token-color-icon-positive-subtle')}
+        d="M8 13.053 10.783 16 16 9"
+        style={tokenStroke('--token-color-icon-neutral-inverse')}
         strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"

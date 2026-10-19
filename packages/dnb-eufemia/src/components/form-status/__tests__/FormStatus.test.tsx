@@ -479,8 +479,8 @@ describe('FormStatus icons', () => {
 
     expect(error).toEqual([
       ['var(--token-color-icon-error)'],
-      ['var(--token-color-icon-error-subtle)'],
-      ['var(--token-color-icon-error-subtle)'],
+      ['var(--token-color-icon-neutral-ondark)'],
+      ['var(--token-color-icon-neutral-ondark)'],
     ])
     expect(warning).toEqual([
       ['var(--token-color-icon-warning)'],
@@ -490,15 +490,17 @@ describe('FormStatus icons', () => {
     expect(info).toEqual([
       ['var(--token-color-icon-info)'],
       [
-        'var(--token-color-icon-info-subtle)',
-        'var(--token-color-icon-info-subtle)',
+        'var(--token-color-icon-neutral-inverse)',
+        'var(--token-color-icon-neutral-inverse)',
       ],
-      ['var(--token-color-icon-info-subtle)'],
+      ['var(--token-color-icon-neutral-inverse)'],
     ])
-    expect(infoSuccess[0]).toEqual(['var(--token-color-icon-positive)'])
+    expect(infoSuccess[0]).toEqual([
+      'var(--token-color-background-positive)',
+    ])
     expect(success).toEqual([
-      ['var(--token-color-icon-positive)'],
-      ['var(--token-color-icon-positive-subtle)'],
+      ['var(--token-color-background-positive)'],
+      ['var(--token-color-icon-neutral-inverse)'],
     ])
     expect(marketing).toEqual([['var(--token-color-icon-marketing)']])
   })
