@@ -1815,6 +1815,15 @@ export default function Provider<Data extends JsonObject>(
               : completeResult
         }
 
+        if (
+          sessionStorageId &&
+          !(result instanceof Error) &&
+          !(result as EventStateObject | undefined)?.error
+        ) {
+          storeInSession.cancel()
+          getWebStorage('session')?.removeItem(sessionStorageId)
+        }
+
         if (scrollTopOnSubmit) {
           scrollToTop()
         }
@@ -1830,6 +1839,8 @@ export default function Provider<Data extends JsonObject>(
     onSubmitComplete,
     scrollToTop,
     scrollTopOnSubmit,
+    sessionStorageId,
+    storeInSession,
   ])
 
   // Collect listeners to be called during form submit

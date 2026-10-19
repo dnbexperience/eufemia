@@ -2758,6 +2758,57 @@ describe('DataContext.Provider', { retry: isCI ? 5 : 0 }, () => {
 
       sessionStorageGetter.mockRestore()
     })
+
+    it('should remove the stored data after a successful submit', async () => {
+      const sessionStorageId = 'flush-on-submit'
+      const onSubmit = vi.fn()
+
+      render(
+        <Form.Handler
+          sessionStorageId={sessionStorageId}
+          onSubmit={onSubmit}
+        >
+          <Field.String path="/foo" />
+        </Form.Handler>
+      )
+
+      await userEvent.type(document.querySelector('input'), 'secret')
+
+      // Submit before the debounced write has run
+      fireEvent.submit(document.querySelector('form'))
+
+      await waitFor(() => {
+        expect(onSubmit).toHaveBeenCalledTimes(1)
+      })
+      await wait(10)
+
+      expect(window.sessionStorage.getItem(sessionStorageId)).toBeNull()
+    })
+
+    it('should keep the stored data when submit returns an error', async () => {
+      const sessionStorageId = 'keep-on-submit-error'
+
+      render(
+        <Form.Handler
+          sessionStorageId={sessionStorageId}
+          onSubmit={() => new Error('Failed')}
+        >
+          <Field.String path="/foo" />
+        </Form.Handler>
+      )
+
+      await userEvent.type(document.querySelector('input'), 'value')
+      await wait(10)
+
+      fireEvent.submit(document.querySelector('form'))
+      await wait(10)
+
+      expect(window.sessionStorage.getItem(sessionStorageId)).toBe(
+        JSON.stringify({ foo: 'value' })
+      )
+
+      window.sessionStorage.removeItem(sessionStorageId)
+    })
   })
 
   describe('error handling', () => {
