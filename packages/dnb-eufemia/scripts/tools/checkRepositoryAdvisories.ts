@@ -205,9 +205,14 @@ export function findAdvisoryMatches(
 
 async function fetchJson(
   url: string,
-  headers: Record<string, string> = {}
+  headers: Record<string, string> = {},
+  { allowNotFound = false } = {}
 ) {
   const response = await fetch(url, { headers })
+  if (allowNotFound && response.status === 404) {
+    console.log(`Skipped ${url}: not found`)
+    return null
+  }
   if (!response.ok) {
     throw new Error(`${url} responded with ${response.status}`)
   }
@@ -248,10 +253,11 @@ export async function checkRepositoryAdvisories() {
     if (!advisoriesByRepository.has(repository)) {
       advisoriesByRepository.set(
         repository,
-        await fetchJson(
+        (await fetchJson(
           `https://api.github.com/repos/${repository}/security-advisories?state=published&per_page=100`,
-          githubHeaders
-        )
+          githubHeaders,
+          { allowNotFound: true }
+        )) ?? []
       )
     }
     matches.push(
