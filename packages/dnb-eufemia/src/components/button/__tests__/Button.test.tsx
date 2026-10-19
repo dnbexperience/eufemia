@@ -753,4 +753,35 @@ describe('Button scss', () => {
       /@media \(forced-colors: active\) \{[^{]*\.dnb-button--primary:focus-visible:not\(\[disabled\]\)[^{]*\{\s*outline: var\(--focus-ring-width\) solid transparent;/
     )
   })
+
+  it('shows the border in forced colors mode', () => {
+    const css = loadScss(require.resolve('../style/deps.scss'))
+
+    expect(css).toMatch(
+      /@media \(forced-colors: active\) \{\s*\.dnb-button--primary,\s*\.dnb-button--secondary \{\s*outline: var\(--button-border-width, var\(--button-border-width--default\)\) solid transparent;/
+    )
+  })
+
+  it('shows disabled buttons with the disabled text color in forced colors mode', () => {
+    const css = loadScss(require.resolve('../style/deps.scss'))
+
+    expect(css).toMatch(
+      /@media \(forced-colors: active\) \{\s*\.dnb-button--primary\[disabled\],\s*\.dnb-button--secondary\[disabled\] \{\s*outline: var\(--button-border-width, var\(--button-border-width--default\)\) solid transparent;/
+    )
+    expect(css).toMatch(
+      /@media \(forced-colors: active\) \{\s*\.dnb-button--primary\[disabled\],\s*\.dnb-button--secondary\[disabled\] \{\s*outline-color: GrayText;/
+    )
+  })
+
+  it('shows selected icon buttons with the selected system colors in forced colors mode', () => {
+    const css = loadScss(require.resolve('../style/deps.scss'))
+
+    expect(css).toMatch(
+      /@media \(forced-colors: active\) \{\s*\.dnb-button--icon-only\.dnb-button--selected \{\s*background-color: Highlight;\s*color: HighlightText;\s*\}\s*\.dnb-button--icon-only\.dnb-button--selected \.dnb-button__icon \{\s*color: HighlightText;/
+    )
+    // The focus ring would else have the same color as the background
+    expect(css).toMatch(
+      /@media \(forced-colors: active\) \{[^{]*\.dnb-button--icon-only\.dnb-button--selected:focus-visible:not\(\[disabled\]\) \{\s*outline-color: CanvasText;/
+    )
+  })
 })

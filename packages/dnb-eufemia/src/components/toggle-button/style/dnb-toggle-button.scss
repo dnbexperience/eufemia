@@ -278,6 +278,44 @@
     --button-color-text--focus: var(--button-color-text--default);
   }
 
+  // Forced colors mode removes the background color, so use the system
+  // colors for selected items. A checkbox or radio inside the button shows
+  // the state itself.
+  &--checked &__button:not(:has(.dnb-checkbox, .dnb-radio)) {
+    @media (forced-colors: active) {
+      background-color: Highlight;
+      color: HighlightText;
+
+      .dnb-button__icon {
+        color: HighlightText;
+      }
+
+      // Else the browser draws a backplate in the canvas color behind the
+      // text, which hides it
+      .dnb-button__text {
+        forced-color-adjust: none;
+      }
+
+      &[disabled] {
+        background-color: GrayText;
+        color: Canvas;
+
+        .dnb-button__icon {
+          color: Canvas;
+        }
+      }
+    }
+
+    // The focus ring would have the same color as the background
+    @include utilities.whatInputNot('touch') {
+      &:focus-visible:not([disabled]) {
+        @media (forced-colors: active) {
+          outline-color: CanvasText;
+        }
+      }
+    }
+  }
+
   &__status--error &__button {
     // Background
     --button-color-bg--default: var(--token-color-background-neutral);

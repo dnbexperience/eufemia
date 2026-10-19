@@ -164,6 +164,14 @@
     );
   }
 
+  &--primary,
+  &--secondary {
+    // Forced colors mode removes the box-shadow border, but shows this outline
+    @include utilities.forcedColorsOutline(
+      var(--button-border-width, var(--button-border-width--default))
+    );
+  }
+
   // Primary button
   &--primary {
     // Background
@@ -550,6 +558,26 @@
       --button-color-icon--default: var(--token-color-icon-selected);
       --button-border-width--default: 0.125rem;
       --button-border-inset--default: ; // Need empty value to override default `inset`
+
+      // Forced colors mode removes the background color, so use the system
+      // colors for selected items
+      @media (forced-colors: active) {
+        background-color: Highlight;
+        color: HighlightText;
+
+        .dnb-button__icon {
+          color: HighlightText;
+        }
+      }
+
+      // The focus ring would have the same color as the background
+      @include utilities.whatInputNot('touch') {
+        &:focus-visible:not([disabled]) {
+          @media (forced-colors: active) {
+            outline-color: CanvasText;
+          }
+        }
+      }
     }
 
     // Input-button
@@ -857,6 +885,18 @@
   &[disabled] {
     cursor: not-allowed;
     outline: none; // when state goes from enabled to disabled and the focus is set, the outline (Safari) will show up, because it already had focus
+  }
+
+  &--primary[disabled],
+  &--secondary[disabled] {
+    // Show the outline again in forced colors mode, with the disabled color
+    @include utilities.forcedColorsOutline(
+      var(--button-border-width, var(--button-border-width--default))
+    );
+
+    @media (forced-colors: active) {
+      outline-color: GrayText;
+    }
   }
 }
 

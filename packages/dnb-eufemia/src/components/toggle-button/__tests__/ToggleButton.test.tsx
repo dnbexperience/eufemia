@@ -440,4 +440,23 @@ describe('ToggleButton scss', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
     expect(css).toMatchSnapshot()
   })
+
+  it('shows the pressed state in forced colors mode', () => {
+    const css = loadScss(require.resolve('../style/deps.scss'))
+
+    expect(css).toMatch(
+      /@media \(forced-colors: active\) \{\s*\.dnb-toggle-button--checked \.dnb-toggle-button__button:not\(:has\(\.dnb-checkbox, \.dnb-radio\)\) \{\s*background-color: Highlight;\s*color: HighlightText;\s*\}\s*\.dnb-toggle-button--checked \.dnb-toggle-button__button:not\(:has\(\.dnb-checkbox, \.dnb-radio\)\) \.dnb-button__icon \{\s*color: HighlightText;\s*\}/
+    )
+    // Without it, the text is hidden behind a backplate in the canvas color
+    expect(css).toMatch(
+      /\.dnb-toggle-button--checked \.dnb-toggle-button__button:not\(:has\(\.dnb-checkbox, \.dnb-radio\)\) \.dnb-button__text \{\s*forced-color-adjust: none;/
+    )
+    expect(css).toMatch(
+      /\.dnb-toggle-button--checked \.dnb-toggle-button__button:not\(:has\(\.dnb-checkbox, \.dnb-radio\)\)\[disabled\] \{\s*background-color: GrayText;\s*color: Canvas;/
+    )
+    // The focus ring would else have the same color as the background
+    expect(css).toMatch(
+      /@media \(forced-colors: active\) \{[^{]*\.dnb-toggle-button--checked \.dnb-toggle-button__button:not\(:has\(\.dnb-checkbox, \.dnb-radio\)\):focus-visible:not\(\[disabled\]\) \{\s*outline-color: CanvasText;/
+    )
+  })
 })

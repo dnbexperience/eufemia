@@ -627,6 +627,11 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disable
   box-shadow: var(--button-border-inset, var(--button-border-inset--default)) 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
+@media (forced-colors: active) {
+  .dnb-button--primary, .dnb-button--secondary {
+    outline: var(--button-border-width, var(--button-border-width--default)) solid transparent;
+  }
+}
 .dnb-button--primary {
   --button-color-bg--default: var(
     --token-color-component-button-background-action
@@ -933,6 +938,20 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disable
   --button-border-width--default: 0.125rem;
   --button-border-inset--default: ;
 }
+@media (forced-colors: active) {
+  .dnb-button--icon-only.dnb-button--selected {
+    background-color: Highlight;
+    color: HighlightText;
+  }
+  .dnb-button--icon-only.dnb-button--selected .dnb-button__icon {
+    color: HighlightText;
+  }
+}
+@media (forced-colors: active) {
+  html:not([data-whatinput=touch]) .dnb-button--icon-only.dnb-button--selected:focus-visible:not([disabled]) {
+    outline-color: CanvasText;
+  }
+}
 .dnb-button--icon-only.dnb-button--input-button {
   --button-color-bg--default: transparent;
   --button-color-bg--hover: var(--token-color-background-action);
@@ -1170,6 +1189,16 @@ html:not([data-whatintent=touch]) .dnb-button--secondary:not(.dnb-button--has-te
 .dnb-button[disabled] {
   cursor: not-allowed;
   outline: none;
+}
+@media (forced-colors: active) {
+  .dnb-button--primary[disabled], .dnb-button--secondary[disabled] {
+    outline: var(--button-border-width, var(--button-border-width--default)) solid transparent;
+  }
+}
+@media (forced-colors: active) {
+  .dnb-button--primary[disabled], .dnb-button--secondary[disabled] {
+    outline-color: GrayText;
+  }
 }
 
 /* Firefox includes a hidden border which messes up button dimensions */
@@ -2677,6 +2706,30 @@ html:not([data-whatinput=touch]) .dnb-toggle-button__button:focus-visible:not([d
   --button-color-text--hover: var(--token-color-text-selected);
   --button-color-text--active: var(--token-color-text-selected);
   --button-color-text--focus: var(--button-color-text--default);
+}
+@media (forced-colors: active) {
+  .dnb-toggle-button--checked .dnb-toggle-button__button:not(:has(.dnb-checkbox, .dnb-radio)) {
+    background-color: Highlight;
+    color: HighlightText;
+  }
+  .dnb-toggle-button--checked .dnb-toggle-button__button:not(:has(.dnb-checkbox, .dnb-radio)) .dnb-button__icon {
+    color: HighlightText;
+  }
+  .dnb-toggle-button--checked .dnb-toggle-button__button:not(:has(.dnb-checkbox, .dnb-radio)) .dnb-button__text {
+    forced-color-adjust: none;
+  }
+  .dnb-toggle-button--checked .dnb-toggle-button__button:not(:has(.dnb-checkbox, .dnb-radio))[disabled] {
+    background-color: GrayText;
+    color: Canvas;
+  }
+  .dnb-toggle-button--checked .dnb-toggle-button__button:not(:has(.dnb-checkbox, .dnb-radio))[disabled] .dnb-button__icon {
+    color: Canvas;
+  }
+}
+@media (forced-colors: active) {
+  html:not([data-whatinput=touch]) .dnb-toggle-button--checked .dnb-toggle-button__button:not(:has(.dnb-checkbox, .dnb-radio)):focus-visible:not([disabled]) {
+    outline-color: CanvasText;
+  }
 }
 .dnb-toggle-button__status--error .dnb-toggle-button__button {
   --button-color-bg--default: var(--token-color-background-neutral);
