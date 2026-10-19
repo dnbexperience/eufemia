@@ -76,16 +76,16 @@ jobs:
         id: sitemap
         uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9
         env:
-          BASE_URL: ${{ steps.target.outputs.base-url }}
+          SCAN_BASE_URL: ${{ steps.target.outputs.base-url }}
           PRODUCTION: ${{ steps.target.outputs.production }}
         with:
           script: |
-            const baseUrl = process.env.BASE_URL || 'https://eufemia.dnb.no'
+            const baseUrl = process.env.SCAN_BASE_URL
             const response = await fetch(`${baseUrl}/sitemap.json`, {
               signal: AbortSignal.timeout(30000),
             })
 
-            if (response.status === 404 && process.env.PRODUCTION !== 'false') {
+            if (response.status === 404 && process.env.PRODUCTION === 'true') {
               const deployments = await github.paginate(github.rest.repos.listDeployments, {
                 owner: context.repo.owner,
                 repo: context.repo.repo,
@@ -214,7 +214,7 @@ jobs:
 
       - name: Scan all canonical pages
         env:
-          BASE_URL: ${{ steps.target.outputs.base-url }}
+          SCAN_BASE_URL: ${{ steps.target.outputs.base-url }}
         run: |
           previous=()
           if [ -f previous-report/portal-accessibility-report.json ]; then
@@ -222,7 +222,7 @@ jobs:
           fi
 
           yarn workspace dnb-design-system-portal scan:accessibility \
-            --base-url "$BASE_URL" \
+            --base-url "$SCAN_BASE_URL" \
             --sitemap public/sitemap.json \
             --output portal-accessibility-report.json \
             --issue-output portal-accessibility-issue.json \
@@ -232,7 +232,7 @@ jobs:
         if: steps.target.outputs.production == 'false'
         uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9
         env:
-          BASE_URL: ${{ steps.target.outputs.base-url }}
+          SCAN_BASE_URL: ${{ steps.target.outputs.base-url }}
           ISSUE_PATH: packages/dnb-design-system-portal/portal-accessibility-issue.json
         with:
           script: |
@@ -243,7 +243,7 @@ jobs:
             await core.summary
               .addRaw(
                 [
-                  `Scanned ${process.env.BASE_URL}. Changes are compared with the latest production scan.`,
+                  `Scanned ${process.env.SCAN_BASE_URL}. Changes are compared with the latest production scan.`,
                   chunks[0],
                   ...changeChunks,
                 ].join('\n\n')

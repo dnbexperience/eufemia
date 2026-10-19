@@ -85,8 +85,12 @@ describe('Portal accessibility scan target', () => {
 
 describe('Portal accessibility sitemap preparation', () => {
   it('uses the deployed sitemap without rebuilding the Portal', async () => {
-    const { core, files } = await prepareSitemap(200, sitemap)
+    const { core, files, fetch } = await prepareSitemap(200, sitemap)
 
+    expect(fetch).toHaveBeenCalledWith(
+      'https://eufemia.dnb.no/sitemap.json',
+      expect.anything()
+    )
     expect(files.writeFileSync).toHaveBeenCalledWith(
       'packages/dnb-design-system-portal/public/sitemap.json',
       expect.any(String)
@@ -131,7 +135,7 @@ describe('Portal accessibility sitemap preparation', () => {
   })
 
   it('downloads the sitemap of a Portal preview', async () => {
-    vi.stubEnv('BASE_URL', 'https://main.eufemia-e25.pages.dev')
+    vi.stubEnv('SCAN_BASE_URL', 'https://main.eufemia-e25.pages.dev')
     vi.stubEnv('PRODUCTION', 'false')
     const { fetch, files } = await prepareSitemap(200, sitemap)
 
@@ -143,7 +147,7 @@ describe('Portal accessibility sitemap preparation', () => {
   })
 
   it('does not scan a production deployment instead of a preview', async () => {
-    vi.stubEnv('BASE_URL', 'https://main.eufemia-e25.pages.dev')
+    vi.stubEnv('SCAN_BASE_URL', 'https://main.eufemia-e25.pages.dev')
     vi.stubEnv('PRODUCTION', 'false')
 
     await expect(prepareSitemap(404)).rejects.toThrow('404')
@@ -204,6 +208,10 @@ async function prepareSitemap(
   body: unknown = undefined,
   successful = true
 ) {
+  if (!process.env.SCAN_BASE_URL) {
+    vi.stubEnv('SCAN_BASE_URL', 'https://eufemia.dnb.no')
+    vi.stubEnv('PRODUCTION', 'true')
+  }
   const files = { mkdirSync: vi.fn(), writeFileSync: vi.fn() }
   const core = { setOutput: vi.fn(), notice: vi.fn() }
   const fetch = vi.fn(async () => ({
