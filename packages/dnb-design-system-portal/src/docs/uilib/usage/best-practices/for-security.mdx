@@ -1,0 +1,34 @@
+---
+title: 'Best Practices for security'
+contentTitle: 'Security'
+menuTitle: 'for security'
+description: 'What a Content Security Policy needs to allow for Eufemia, and how to handle user data in the browser.'
+order: 5
+---
+
+## Content Security Policy (CSP)
+
+Eufemia works with a strict Content Security Policy. Depending on which features you use, the policy needs to allow the following:
+
+| Feature                                                                                                                                      | Directive                                                  |
+| -------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------- |
+| [Color scheme scripts](/uilib/usage/customisation/theming/theme/#content-security-policy-csp) (`ColorSchemeHeadScript` and the body scripts) | `script-src 'nonce-…'`: pass the nonce to each script      |
+| [`TextScaleHeadScript`](/uilib/typography/font-size/)                                                                                        | `script-src 'nonce-…'`: pass the nonce to the script       |
+| [`SidebarMenu.PreHydrationScript`](/uilib/extensions/sidebar-menu/)                                                                          | `script-src 'nonce-…'`: pass the nonce to the script       |
+| [SidebarMenu responsive first-paint CSS](/uilib/extensions/sidebar-menu/)                                                                    | `style-src 'nonce-…'`: pass it as `styleNonce`             |
+| [Icons loaded by name](/uilib/components/icon/#loading-icons-by-name)                                                                        | `img-src https://assets.eufemia.dnb.no`, or self-host them |
+| The `--isolated` style bundles                                                                                                               | `font-src https://assets.eufemia.dnb.no`                   |
+| [JSON Schema validation with Ajv](/uilib/extensions/forms/Form/schema-validation/) (`makeAjvInstance`)                                       | `script-src 'unsafe-eval'`                                 |
+| Server-side rendering                                                                                                                        | `style-src-attr 'unsafe-inline'`                           |
+
+Some notes on the table:
+
+- The other style bundles reference the font files in the package, so your bundler serves them from your own origin.
+- Ajv compiles schemas into JavaScript functions at runtime, which the browser blocks without `'unsafe-eval'`. Use [Zod schemas](/uilib/extensions/forms/Form/schema-validation/#zod-schemas-and-typescript) instead when your policy can't allow it.
+- Many components set inline styles, such as sizes and positions. On the client, React applies them through the DOM, which a policy doesn't block. In server-rendered HTML, they are `style` attributes, and the browser ignores them unless the policy allows inline style attributes.
+
+## Data in the browser
+
+- **Temporary form storage:** with [`sessionStorageId`](/uilib/extensions/forms/Form/Handler/#temporary-storage), entered data is stored in the browser's session storage, where any script on the page can read it. Only use it for non-sensitive data.
+- **Validation:** field validation and the file checks in Upload help users enter correct data. They don't protect your backend, so validate all data again on the server.
+- **Links:** [Anchor](/uilib/components/anchor/#security) and the components built on it remove `javascript:` and `vbscript:` URLs. Still, check URLs that come from users or other systems before you render them.
