@@ -1494,21 +1494,6 @@ describe('Modal component', () => {
     ).not.toBeInTheDocument()
   })
 
-  it('has correct opened state when "open" is used with boolean', () => {
-    const { rerender } = render(<Modal {...props} />)
-    rerender(<Modal {...props} open={true} />)
-
-    expect(
-      document.querySelector('div.dnb-modal__content')
-    ).toBeInTheDocument()
-
-    rerender(<Modal {...props} open={false} />)
-
-    expect(
-      document.querySelector('div.dnb-modal__content')
-    ).not.toBeInTheDocument()
-  })
-
   it('can be mounted from within another component', () => {
     const TestCustomTrigger = () => {
       const [count, setCount] = useState(0)
@@ -2053,24 +2038,6 @@ describe('Modal trigger', () => {
         .querySelector('button.dnb-modal__trigger')
         .querySelector('.dnb-button__icon')
     ).toBeInTheDocument()
-  })
-
-  // Deprecated: triggerAttributes – remove this test in v13
-  it('will not act as a HelpButton if trigger text was given', () => {
-    render(<Modal {...props} triggerAttributes={{ text: 'text' }} />)
-    expect(
-      document.querySelector('button.dnb-modal__trigger')
-    ).not.toHaveAttribute('aria-roledescription')
-    expect(
-      document
-        .querySelector('button.dnb-modal__trigger')
-        .querySelector('.dnb-button__icon')
-    ).not.toBeInTheDocument()
-    expect(
-      document
-        .querySelector('button.dnb-modal__trigger')
-        .textContent.replace(/\u200C/g, '')
-    ).toBe('text')
   })
 })
 

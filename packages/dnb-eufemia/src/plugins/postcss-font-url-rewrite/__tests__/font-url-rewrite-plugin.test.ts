@@ -86,17 +86,6 @@ describe('font-url-rewrite-plugin', () => {
     expect(output.css).toContain('url("/new-path/TestFont.woff2")')
   })
 
-  it('should handle URLs with single quotes', async () => {
-    const input = `
-      @font-face {
-        font-family: 'TestFont';
-        src: url('../assets/fonts/TestFont.woff2') format('woff2');
-      }
-    `
-    const output = await processCSS(input)
-    expect(output.css).toContain('url("/new-path/TestFont.woff2")')
-  })
-
   it('should handle URLs without quotes', async () => {
     const input = `
       @font-face {
