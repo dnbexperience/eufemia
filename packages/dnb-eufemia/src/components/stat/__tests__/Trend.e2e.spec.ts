@@ -17,6 +17,10 @@ test('exposes the formatted trend percentage once before and after an update', a
 
   await expect(trend.locator('.dnb-stat__amount')).toHaveText('1,84')
   await expect(trend).toMatchAriaSnapshot('- text: Change +1,84 prosent')
+})
+
+test('preserves the currency trend label and unit', async ({ page }) => {
+  await page.goto('/uilib/components/stat/demos/#currency-within-a-trend')
 
   const currencyTrend = page.locator(
     '[data-visual-test="stat-currency-within-trend"] .dnb-stat__trend'

@@ -48,7 +48,7 @@ import { Stat } from '@dnb/eufemia'
 
 - `Currency` and `Percent` provide screen-reader text based on the formatted value. Percentages include the localized unit name, such as "prosent" in Norwegian.
 
-- `Trend` preserves the accessible content of composed children, including their locale, rounding, units and labels. A Trend `srLabel` is announced before the child content. Use `Stat.Percent` or `NumberFormat.Percent` inside `Stat.Trend` for localized percentages, and set `decimals` to the required precision. Plain text and numeric Trend values are displayed as supplied without percentage formatting.
+- `Trend` preserves the accessible content of composed children, including their locale, rounding, units and labels. A Trend `srLabel` is announced before the child content. Use `Stat.Percent` or `NumberFormat.Percent` inside `Stat.Trend` for localized percentages. Set `decimals` to the required precision and `signDisplay="always"` on the child formatter so direction is conveyed by a sign as well as color. Plain text and numeric Trend values are displayed as supplied without percentage formatting.
 
 - `Rating` uses an accessible label (`role="img"` + `aria-label`) that includes value and max.
 
