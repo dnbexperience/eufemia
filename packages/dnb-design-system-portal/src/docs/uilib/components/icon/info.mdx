@@ -10,7 +10,7 @@ import { Icon } from '@dnb/eufemia'
 
 ## Description
 
-The main Icon component is a wrapper for whatever icon you place within it. This means a `span` wrapping an inline `SVG`.
+The main Icon component is a wrapper for whatever icon you place within it. An imported SVG renders inline. An icon name renders a CSS mask or background image loaded from an SVG URL.
 
 You can use any content you like inside this `Icon` component.
 
@@ -41,6 +41,54 @@ import { bell as Bell } from '@dnb/eufemia/icons'
 // Default and explicit ES import
 import Bell from '@dnb/eufemia/icons/bell'
 ```
+
+### Loading icons by name
+
+Pass an icon name when it comes from application data, a CMS, or an API. No loading property is needed:
+
+```tsx
+import { Icon, IconPrimary, Button } from '@dnb/eufemia'
+
+<Icon icon="heart" />
+<Icon icon="heart" size="medium" color="var(--token-color-text-action)" />
+<IconPrimary icon="bell" />
+<Button text="Favorite" icon="heart" />
+```
+
+- `Icon` loads string names from the asset CDN without importing an icon catalogue.
+- `IconPrimary` renders bundled primary names inline and falls back to the CDN for other names. Components such as Button use the same fallback for string icons.
+- Imported SVG components and React elements render directly in both components.
+
+No CDN configuration is needed. Released packages use their installed Eufemia version automatically: version `11.14.1` loads icons from `https://assets.eufemia.dnb.no/v11.14.1/icons/dnb`. Prereleases use their own versioned directory. Local and branch builds use `https://assets.eufemia.dnb.no/icons/dnb`.
+
+If a versioned asset is unavailable while release assets are being published, the icon falls back to the unversioned official CDN URL.
+
+Only set `iconBaseUrl` on Provider when your app needs a different asset directory, such as self-hosted SVGs:
+
+```tsx
+import Provider from '@dnb/eufemia/shared/Provider'
+
+render(
+  <Provider iconBaseUrl="/assets/icons">
+    <Icon icon="heart" />
+    <Button text="Favorite" icon="heart" />
+  </Provider>
+)
+```
+
+HTTPS directories and same-origin paths starting with `/` are supported. The nearest Provider controls the directory for remote icons. An explicit directory is used as supplied, without falling back to the official CDN. Bundled primary icons remain local regardless of this setting.
+
+Set `iconBaseUrl={false}` to disable remote loading. Imported icons and bundled primary icons continue to render; other names render nothing. This applies to direct Icon usage and string icons in other components.
+
+Use names from the [icon library](/icons), such as `bell`, `arrow_right`, or `bell_medium`. CamelCase and hyphenated names are normalized to underscores. For CDN icons, `size="medium"` selects the `_medium` asset. For example, `<Icon icon="bell" size="medium" />` loads `bell_medium.svg`. An explicit `_medium` suffix is retained. `auto` scales with the surrounding font size and uses the default asset unless the name ends in `_medium`. Bundled primary icons retain their existing size selection.
+
+The browser loads the SVG as a CSS mask and applies `currentColor`, including hover and theme colours. Use `inheritColor={false}` to display the SVG's original colours as an image. Masks and images preserve the SVG's shape: the `fill`, `animate`, `animateWhen`, and `transitionState` features require imported inline SVG icons. Scaling an external SVG also scales its strokes.
+
+The icon reserves its dimensions during loading and renders the same initial markup on the server and client. The browser handles resource caching. If neither official URL is available, or a custom directory cannot provide an icon, its area remains empty. There is no public load or error callback. Keep essential actions labelled with text, and use imported icons when immediate, offline, or guaranteed rendering is required. Use `alt` for a meaningful standalone icon; decorative icons are hidden from assistive technology by default.
+
+For a Content Security Policy, allow the asset origin in `img-src`. The CDN supports cross-origin masks through CORS. Custom hosts must also return CORS headers when used across origins. Dimensions and mask URLs use React inline styles, so the app's style policy must permit them.
+
+See the [dynamic CDN demos](/uilib/components/icon/demos#dynamic-cdn-icons).
 
 ### Icon Sizes
 

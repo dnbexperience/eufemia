@@ -143,6 +143,11 @@ export type ContextProps = ContextComponents & {
   skeleton?: SkeletonShow
 
   /**
+   * Optional SVG directory override for named icons. Defaults to the public asset CDN for the installed Eufemia version, or the unversioned CDN in development. Set false to disable remote icon loading.
+   */
+  iconBaseUrl?: string | false
+
+  /**
    * Define what breakpoints should be used by the MediaQuery component and hook
    */
   breakpoints?: Record<string, string>
