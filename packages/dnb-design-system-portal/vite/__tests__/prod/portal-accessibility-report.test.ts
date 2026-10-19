@@ -7,6 +7,7 @@ import {
   formatPortalAccessibilityReport,
   splitIssueBody,
 } from '../../../scripts/portal-accessibility-report.mjs'
+import { acceptedFindings } from '../../../scripts/portal-accessibility-accepted.mjs'
 
 describe('Portal accessibility report', () => {
   it('combines hydrated duplicate IDs and axe findings', () => {
@@ -20,6 +21,7 @@ describe('Portal accessibility report', () => {
       pages: 2,
       duplicateIdGroups: 1,
       axeGroups: 1,
+      acceptedGroups: 0,
       findings: 2,
     })
     expect(formatPortalAccessibilityReport(report)).toContain(
@@ -76,6 +78,79 @@ describe('Portal accessibility report', () => {
         { ...report([]), schemaVersion: 2 }
       )
     ).toThrow('Cannot compare Portal accessibility report schema 1 with 2')
+  })
+
+  it('lists accepted nodes separately from open findings', () => {
+    const finding = axe('/typography/', 'link-in-text-block', 2)
+    finding.nodes = [
+      { target: ['.dnb-anchor--hover'], failureSummary: 'State example' },
+      { target: ['.dnb-anchor'], failureSummary: 'Real link' },
+    ]
+    const current = createPortalAccessibilityReport({
+      duplicateIdFindings: [],
+      axeFindings: [finding],
+      scannedPages: 1,
+      acceptedFindings: [
+        {
+          rule: 'link-in-text-block',
+          pages: ['/typography/'],
+          target: '.dnb-anchor--',
+          reason: 'Shows link states on purpose.',
+        },
+      ],
+    })
+
+    expect(current.summary).toMatchObject({
+      axeGroups: 1,
+      acceptedGroups: 1,
+      findings: 1,
+    })
+    expect(current.findings[0]).toMatchObject({
+      occurrences: 1,
+      nodes: [{ target: ['.dnb-anchor'] }],
+    })
+    expect(current.accepted[0]).toMatchObject({
+      occurrences: 1,
+      reason: 'Shows link states on purpose.',
+    })
+    expect(formatPortalAccessibilityReport(current)).toContain(
+      '## Accepted findings (1)\n'
+    )
+  })
+
+  it('does not report a finding as resolved when it becomes accepted', () => {
+    const previous = report([axe('/heading/', 'heading-order', 1)])
+    const current = createPortalAccessibilityReport({
+      duplicateIdFindings: [],
+      axeFindings: [axe('/heading/', 'heading-order', 1)],
+      scannedPages: 1,
+      acceptedFindings: [
+        {
+          rule: 'heading-order',
+          pages: ['/heading/'],
+          reason: 'Shows every heading level.',
+        },
+      ],
+    })
+
+    expect(current.summary.findings).toBe(0)
+    expect(formatPortalAccessibilityReport(current)).toContain(
+      'No findings. The Portal is clean.'
+    )
+    expect(
+      comparePortalAccessibilityReports(previous, current).resolved
+    ).toEqual([])
+  })
+
+  it('gives every accepted finding a rule, a scope and a reason', () => {
+    for (const accepted of acceptedFindings) {
+      expect(accepted.rule).toBeTruthy()
+      expect(accepted.reason).toBeTruthy()
+      expect(accepted.pages || accepted.target).toBeTruthy()
+      for (const page of accepted.pages || []) {
+        expect(page).toMatch(/^\/.*\/$/)
+      }
+    }
   })
 })
 

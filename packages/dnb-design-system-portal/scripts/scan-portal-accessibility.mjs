@@ -9,6 +9,7 @@ import {
   formatPortalAccessibilityReport,
   splitIssueBody,
 } from './portal-accessibility-report.mjs'
+import { acceptedFindings } from './portal-accessibility-accepted.mjs'
 
 main()
 
@@ -92,6 +93,7 @@ async function main() {
     duplicateIdFindings,
     axeFindings: findings,
     scannedPages: paths.length,
+    acceptedFindings,
   })
   const changes = args.previous
     ? formatPortalAccessibilityChanges(

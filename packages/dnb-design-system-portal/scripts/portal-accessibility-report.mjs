@@ -4,8 +4,47 @@ export function createPortalAccessibilityReport({
   duplicateIdFindings,
   axeFindings,
   scannedPages,
+  acceptedFindings = [],
 }) {
-  const findings = [...duplicateIdFindings, ...axeFindings].sort(
+  const accepted = []
+  const openAxeFindings = []
+
+  for (const finding of axeFindings) {
+    const openNodes = []
+    const acceptedNodes = new Map()
+
+    for (const node of finding.nodes || []) {
+      const rule = acceptedFindings.find((rule) =>
+        acceptsNode(rule, finding, node)
+      )
+      if (rule) {
+        acceptedNodes.set(rule.reason, [
+          ...(acceptedNodes.get(rule.reason) || []),
+          node,
+        ])
+      } else {
+        openNodes.push(node)
+      }
+    }
+
+    for (const [reason, nodes] of acceptedNodes) {
+      accepted.push({
+        ...finding,
+        occurrences: nodes.length,
+        nodes,
+        reason,
+      })
+    }
+    if (openNodes.length > 0 || !finding.nodes?.length) {
+      openAxeFindings.push(
+        acceptedNodes.size > 0
+          ? { ...finding, occurrences: openNodes.length, nodes: openNodes }
+          : finding
+      )
+    }
+  }
+
+  const findings = [...duplicateIdFindings, ...openAxeFindings].sort(
     compareFindings
   )
 
@@ -14,10 +53,12 @@ export function createPortalAccessibilityReport({
     summary: {
       pages: scannedPages,
       duplicateIdGroups: duplicateIdFindings.length,
-      axeGroups: axeFindings.length,
+      axeGroups: openAxeFindings.length,
+      acceptedGroups: accepted.length,
       findings: findings.length,
     },
     findings,
+    accepted: accepted.sort(compareFindings),
   }
 }
 
@@ -81,6 +122,32 @@ export function formatPortalAccessibilityReport(report) {
     lines.push('No findings. The Portal is clean.', '')
   }
 
+  const accepted = report.accepted || []
+  if (accepted.length > 0) {
+    lines.push(
+      `## Accepted findings (${accepted.length})`,
+      '',
+      'These findings are expected and are not counted above. They are listed in `scripts/portal-accessibility-accepted.mjs`.',
+      ''
+    )
+    const reasons = new Map()
+    for (const finding of accepted) {
+      reasons.set(finding.reason, [
+        ...(reasons.get(finding.reason) || []),
+        finding,
+      ])
+    }
+    for (const [reason, findings] of reasons) {
+      lines.push(`### ${reason}`, '')
+      for (const finding of findings) {
+        lines.push(
+          `- ${findingLabel(finding)} – ${finding.occurrences} nodes on [${finding.page}](https://eufemia.dnb.no${finding.page})`
+        )
+      }
+      lines.push('')
+    }
+  }
+
   return lines.join('\n')
 }
 
@@ -97,6 +164,7 @@ export function comparePortalAccessibilityReports(previous, current) {
   const currentFindings = new Map(
     current.findings.map((finding) => [findingKey(finding), finding])
   )
+  const acceptedKeys = new Set((current.accepted || []).map(findingKey))
   const changes = {
     new: [],
     worsened: [],
@@ -127,7 +195,7 @@ export function comparePortalAccessibilityReports(previous, current) {
   }
 
   for (const [key, finding] of previousFindings) {
-    if (!currentFindings.has(key)) {
+    if (!currentFindings.has(key) && !acceptedKeys.has(key)) {
       changes.resolved.push(finding)
     }
   }
@@ -212,6 +280,15 @@ export function findDuplicateIds(ids, page) {
 
 function findingKey(finding) {
   return [finding.check, finding.page, finding.id].join('\0')
+}
+
+function acceptsNode(rule, finding, node) {
+  return (
+    rule.rule === finding.id &&
+    (!rule.pages ||
+      rule.pages.some((page) => finding.page.startsWith(page))) &&
+    (!rule.target || node.target.join(' ').includes(rule.target))
+  )
 }
 
 function findingFingerprint(finding) {
