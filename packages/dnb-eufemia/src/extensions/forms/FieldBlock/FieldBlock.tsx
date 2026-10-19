@@ -19,7 +19,6 @@ import type {
 import { clsx } from 'clsx'
 import type {
   StateWithMessage,
-  StatesWithMessages,
   StateRecord,
   StateMessage,
   FieldState,
@@ -236,10 +235,7 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
   const renderRecords: StateRecord = {}
   const statusChildrenRef = useRef<
     Partial<
-      Record<
-        FieldState,
-        ReactElement<{ messages: Array<StateWithMessage> }>
-      >
+      Record<FieldState, ReactElement<{ messages: Array<StateMessage> }>>
     >
   >({})
   const contentsRef = useRef<HTMLDivElement>(null)
@@ -378,46 +374,13 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
 
   // Called after the children have rendered, so messages they register during render are included
   const getStatusContent = () => {
-    const statesWithMessages: Array<StatesWithMessages> =
-      // 1. Prepare the states for later use
-      Object.entries({ ...stateRecordRef.current, ...renderRecords })
-        .filter(([identifier]) => !hiddenFieldsRef.current.has(identifier))
-        .flatMap(([identifier, states]) =>
-          states.map((props) => {
-            return {
-              identifier,
-              ...props,
-            }
-          })
-        )
+    const records = Object.entries({
+      ...stateRecordRef.current,
+      ...renderRecords,
+    })
+      .filter(([identifier]) => !hiddenFieldsRef.current.has(identifier))
+      .flatMap(([, records]) => records)
 
-        // 2. Take states and group the same type together
-        .reduce((acc, cur) => {
-          const existing = acc.find((item) => {
-            return item.type === cur.type
-          })
-
-          const messages = getMessagesFromError(cur).map((message) => {
-            return {
-              ...cur,
-              message,
-            }
-          })
-
-          if (existing) {
-            existing.messages.push(...messages)
-          } else {
-            acc.push({
-              ...cur,
-              content: undefined,
-              messages,
-            })
-          }
-
-          return acc
-        }, [] as Array<StatesWithMessages>)
-
-    // 3. Return the grouped states/messages
     return states.reduce((acc, type) => {
       const id = `${statusId}-form-status--${type}`
       acc[type] = {
@@ -435,62 +398,43 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
               : false,
       }
 
-      const found = statesWithMessages.find((item) => {
-        return item.type === type
-      })
+      const messages = records
+        .filter(
+          (record) =>
+            record.type === type &&
+            (type !== 'error' || record.showInitially || record.show)
+        )
+        .flatMap(getMessagesFromError)
+        .filter(Boolean)
+        .filter(
+          (message, index, messages) =>
+            messages.findIndex(
+              (item) =>
+                convertJsxToString(item) === convertJsxToString(message)
+            ) === index
+        )
 
-      if (found?.messages) {
-        // Hide/remove messages that should be hidden and are not marked as to be shown initially
-        const messages = found.messages
-          .map((msg) => {
-            if (msg.type === 'error') {
-              if (!msg.showInitially && !msg.show) {
-                msg.message = null
-              }
-            }
+      // Combine the messages and put them in an ul/li list
+      if (messages.length > 0) {
+        const cached = statusChildrenRef.current[type]
 
-            return msg
-          })
-          .filter(({ message }) => message)
-          .reduce((acc, msg, i, arr) => {
-            const existingIndex = arr.findIndex((item) => {
-              return (
-                convertJsxToString(item.message) ===
-                convertJsxToString(msg.message)
-              )
-            })
+        // Reuse the children while the messages are unchanged, so FormStatus skips re-rendering
+        if (
+          cached?.props.messages.length !== messages.length ||
+          cached.props.messages.some(
+            (message, i) => message !== messages[i]
+          )
+        ) {
+          statusChildrenRef.current[type] = (
+            <CombineMessages type={type} messages={messages} />
+          )
+        }
 
-            // Remove duplicates, use the first found message
-            if (existingIndex === i) {
-              acc.push(msg)
-            }
-
-            return acc
-          }, [])
-
-        // Combine the messages and put them in an ul/li list
-        if (messages.length > 0) {
-          const cached = statusChildrenRef.current[type]
-
-          // Reuse the children while the messages are unchanged, so FormStatus skips re-rendering
-          if (
-            cached?.props.messages.length !== messages.length ||
-            cached.props.messages.some(
-              (msg, i) => msg.message !== messages[i].message
-            )
-          ) {
-            statusChildrenRef.current[type] = (
-              <CombineMessages type={type} messages={messages} />
-            )
-          }
-
-          acc[type] = {
-            ...acc[type],
-            children: statusChildrenRef.current[type],
-          }
+        acc[type] = {
+          ...acc[type],
+          children: statusChildrenRef.current[type],
         }
       }
-
       return acc
     }, {}) as StatusContent
   }
@@ -798,12 +742,12 @@ function CombineMessages({
   messages,
 }: {
   type: FieldState
-  messages: Array<StateWithMessage>
+  messages: Array<StateMessage>
 }) {
   const translations = useTranslation().Field
 
   if (messages.length === 1) {
-    return <>{messages[0].message}</>
+    return <>{messages[0]}</>
   }
 
   return (
@@ -812,7 +756,7 @@ function CombineMessages({
         ? translations.errorSummary
         : translations.stateSummary}
       <Ul>
-        {messages.map(({ message }, i) => {
+        {messages.map((message, i) => {
           return <Li key={i}>{message}</Li>
         })}
       </Ul>
