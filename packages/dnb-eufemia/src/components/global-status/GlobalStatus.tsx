@@ -29,6 +29,7 @@ import {
   dispatchCustomElementEvent,
 } from '../../shared/component-helper'
 import { extendPropsWithContext } from '../../shared/helpers/extendPropsWithContext'
+import { isDangerousHref } from '../../shared/helpers/isDangerousHref'
 import HeightAnimation from '../height-animation/HeightAnimation'
 import type {
   HeightAnimationOnStart,
@@ -569,6 +570,9 @@ function GlobalStatusComponent(ownProps: GlobalStatusProps) {
     }
 
     const useAutolink = item.itemId && item.statusAnchorUrl === true
+    const href = useAutolink
+      ? `#${item.itemId}`
+      : String(item.statusAnchorUrl)
 
     return (
       <li key={i}>
@@ -581,11 +585,7 @@ function GlobalStatusComponent(ownProps: GlobalStatusProps) {
             className="dnb-anchor"
             aria-describedby={id}
             lang={lang}
-            href={
-              useAutolink
-                ? `#${item.itemId}`
-                : String(item.statusAnchorUrl)
-            }
+            href={isDangerousHref(href) ? undefined : href}
             onClick={(e) => gotoItem(e, item)}
             onKeyDown={(e) => gotoItem(e, item)}
           >
