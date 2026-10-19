@@ -183,6 +183,13 @@ describe('verifyFiles', () => {
             'application/vnd.ms-excel.sheet.macroEnabled.12'
           ),
         },
+        {
+          file: createMockFile(
+            'report.docx',
+            100,
+            'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+          ),
+        },
         { file: createMockFile('image.pngx', 100, '') },
       ],
       {
@@ -193,6 +200,7 @@ describe('verifyFiles', () => {
     )
 
     expect(files.map(({ errorMessage }) => errorMessage)).toEqual([
+      'error unsupported file',
       'error unsupported file',
       'error unsupported file',
       'error unsupported file',
