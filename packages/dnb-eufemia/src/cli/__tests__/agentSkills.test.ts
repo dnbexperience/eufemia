@@ -562,4 +562,15 @@ describe('selectAgentSkillsTargets', () => {
       })
     ).rejects.toThrow('Pass --target <directory> for non-interactive use.')
   })
+
+  it('stops when the input ends without a selection', async () => {
+    const { input, output } = createTerminal()
+    const selection = selectAgentSkillsTargets(choices, { input, output })
+
+    input.end('9\n')
+
+    await expect(selection).rejects.toThrow(
+      'No Agent Skills location was selected.'
+    )
+  })
 })
