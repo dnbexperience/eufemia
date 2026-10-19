@@ -505,7 +505,7 @@ export function SidebarMenuResponsiveNavigation() {
               </SidebarMenu.ResponsiveAside>
 
               {/* A div, because the portal page already has a main landmark */}
-              <div className={styles.responsiveMain}>
+              <div className={styles.responsiveContent}>
                 <SidebarMenu.ResponsiveTrigger
                   controls="responsive-menu-drawer"
                   text="Menu"
