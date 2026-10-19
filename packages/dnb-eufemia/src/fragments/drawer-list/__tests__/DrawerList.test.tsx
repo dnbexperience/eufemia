@@ -1572,6 +1572,51 @@ describe('DrawerList markup', () => {
     ).toHaveNoViolations()
   })
 
+  it('should give the list the aria-label set on DrawerList', async () => {
+    const result = render(
+      <DrawerList
+        {...props}
+        skipPortal
+        aria-label="Accounts"
+        data={mockData}
+      />
+    )
+
+    const list = document.querySelector('ul.dnb-drawer-list__options')
+    expect(list).toHaveAttribute('aria-label', 'Accounts')
+    expect(list).not.toHaveAttribute('aria-labelledby')
+    expect(document.querySelector('.dnb-drawer-list')).not.toHaveAttribute(
+      'aria-label'
+    )
+    expect(
+      await axeComponent(result, {
+        rules: {
+          'aria-required-children': { enabled: false },
+        },
+      })
+    ).toHaveNoViolations()
+  })
+
+  it('should give the list the aria-labelledby set on DrawerList', () => {
+    render(
+      <>
+        <span id="custom-label">Accounts</span>
+        <DrawerList
+          {...props}
+          aria-labelledby="custom-label"
+          data={mockData}
+        />
+      </>
+    )
+
+    expect(
+      document.querySelector('ul.dnb-drawer-list__options')
+    ).toHaveAttribute('aria-labelledby', 'custom-label')
+    expect(document.querySelector('.dnb-drawer-list')).not.toHaveAttribute(
+      'aria-labelledby'
+    )
+  })
+
   it('should have correct aria-activedescendant', async () => {
     render(<DrawerList {...props} value={undefined} data={mockData} />)
     const ul = document.querySelector('ul.dnb-drawer-list__options')
