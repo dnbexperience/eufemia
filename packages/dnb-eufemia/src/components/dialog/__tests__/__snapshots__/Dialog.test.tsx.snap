@@ -1024,10 +1024,8 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disable
   text-align: left;
   font-size: var(--font-size-small);
   font-weight: var(--font-weight-regular);
-  text-decoration: none;
-}
-.dnb-button, .dnb-core-style .dnb-button {
   line-height: var(--button-height);
+  text-decoration: none;
 }
 .dnb-button__text {
   margin: 0.5rem 0;
