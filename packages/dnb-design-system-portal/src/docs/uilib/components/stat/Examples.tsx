@@ -98,6 +98,37 @@ export const CurrencyWithinTrend = () => (
   </ComponentBox>
 )
 
+export const PercentWithinTrend = () => (
+  <ComponentBox data-visual-test="stat-percent-within-trend">
+    {() => {
+      function Example() {
+        const [value, setValue] = useState(-1.55)
+
+        return (
+          <>
+            <Stat.Trend srLabel="Change">
+              <Stat.Percent
+                value={value}
+                decimals={2}
+                signDisplay="always"
+              />
+            </Stat.Trend>
+            <Button
+              text="Update change"
+              left
+              onClick={() =>
+                setValue(value < 0 ? 1.8422381750579178 : -1.55)
+              }
+            />
+          </>
+        )
+      }
+
+      return <Example />
+    }}
+  </ComponentBox>
+)
+
 export const CurrencyDefault = () => (
   <ComponentBox data-visual-test="stat-currency-default">
     <Stat.Root>
