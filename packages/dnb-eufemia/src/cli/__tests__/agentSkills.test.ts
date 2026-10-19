@@ -3,11 +3,13 @@
 import fs from 'node:fs/promises'
 import os from 'node:os'
 import path from 'node:path'
+import { PassThrough } from 'node:stream'
 import {
   AGENT_SKILLS_LOCK_FILE,
   checkAgentSkills,
   installAgentSkills,
   runAgentSkillsCli,
+  selectAgentSkillsTargets,
   uninstallAgentSkills,
   validateAgentSkills,
 } from '../agentSkills'
@@ -489,5 +491,75 @@ describe('Eufemia agent skills', () => {
       })
     ).resolves.toBe(0)
     expect(output).toEqual(['0.0.0-development'])
+  })
+})
+
+describe('selectAgentSkillsTargets', () => {
+  const choices = [
+    { label: 'GitHub Copilot', target: '.github/skills', checked: true },
+    { label: 'Claude', target: '.claude/skills', checked: false },
+    { label: 'Agents', target: '.agents/skills', checked: true },
+  ]
+
+  const createTerminal = () => {
+    const input = Object.assign(new PassThrough(), { isTTY: true })
+    const output = Object.assign(new PassThrough(), { isTTY: true })
+    let written = ''
+    output.on('data', (chunk) => {
+      written += String(chunk)
+    })
+    return { input, output, getWritten: () => written }
+  }
+
+  it('returns the targets of the entered numbers', async () => {
+    const { input, output, getWritten } = createTerminal()
+    const selection = selectAgentSkillsTargets(choices, { input, output })
+
+    input.write('2, 3 2\n')
+
+    await expect(selection).resolves.toEqual([
+      '.claude/skills',
+      '.agents/skills',
+    ])
+    expect(getWritten()).toContain('1) GitHub Copilot (.github/skills)')
+    expect(getWritten()).toContain('[1,3]')
+  })
+
+  it('uses the preselected targets when nothing is entered', async () => {
+    const { input, output } = createTerminal()
+    const selection = selectAgentSkillsTargets(choices, { input, output })
+
+    input.write('\n')
+
+    await expect(selection).resolves.toEqual([
+      '.github/skills',
+      '.agents/skills',
+    ])
+  })
+
+  it('asks again until only listed numbers are entered', async () => {
+    const { input, output, getWritten } = createTerminal()
+    const selection = selectAgentSkillsTargets(
+      choices.map((choice) => ({ ...choice, checked: false })),
+      { input, output }
+    )
+
+    input.write('\n')
+    input.write('4\n')
+    input.write('1\n')
+
+    await expect(selection).resolves.toEqual(['.github/skills'])
+    expect(
+      getWritten().match(/Select at least one of the listed numbers/g)
+    ).toHaveLength(2)
+  })
+
+  it('requires a terminal', async () => {
+    await expect(
+      selectAgentSkillsTargets(choices, {
+        input: new PassThrough(),
+        output: new PassThrough(),
+      })
+    ).rejects.toThrow('Pass --target <directory> for non-interactive use.')
   })
 })

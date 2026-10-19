@@ -79,18 +79,6 @@ describe('cleanupPackage', () => {
       purgecss: { optional: true },
     })
   })
-
-  it('preserves the interactive CLI dependency', async () => {
-    const filepath = path.resolve(PKG_ROOT, 'package.json')
-    const packageString = await fs.readFile(filepath, 'utf-8')
-    const cleanedPackage = await cleanupPackage({ packageString })
-    const dependencies = cleanedPackage.dependencies as Record<
-      string,
-      string
-    >
-
-    expect(dependencies['@inquirer/checkbox']).toBe('5.2.1')
-  })
 })
 
 describe('buildExportsMap', () => {

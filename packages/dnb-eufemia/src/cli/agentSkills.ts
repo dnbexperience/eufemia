@@ -1,6 +1,7 @@
 import { createHash } from 'node:crypto'
 import fs from 'node:fs/promises'
 import path from 'node:path'
+import { createInterface } from 'node:readline'
 
 export const AGENT_SKILLS_LOCK_FILE = '.eufemia-skills-lock.json'
 export const DEFAULT_AGENT_SKILLS_TARGET = '.claude/skills'
@@ -632,26 +633,63 @@ const findManagedTargetRoots = async (cwd: string) => {
   return managedTargetRoots
 }
 
-const selectAgentSkillsTargets: SelectAgentSkillsTargets = async (
-  choices
-) => {
-  if (!process.stdin.isTTY || !process.stdout.isTTY) {
+export const selectAgentSkillsTargets = async (
+  choices: AgentSkillsTargetChoice[],
+  {
+    input = process.stdin,
+    output = process.stdout,
+  }: {
+    input?: NodeJS.ReadableStream & { isTTY?: boolean }
+    output?: NodeJS.WritableStream & { isTTY?: boolean }
+  } = {}
+): Promise<string[]> => {
+  if (!input.isTTY || !output.isTTY) {
     throw new Error(
       'Interactive target selection requires a terminal. Pass --target <directory> for non-interactive use.'
     )
   }
 
-  const { default: checkbox } = await import('@inquirer/checkbox')
-  return checkbox({
-    message: 'Select one or more Agent Skills locations',
-    choices: choices.map(({ label, target, checked }) => ({
-      name: `${label} (${target})`,
-      value: target,
-      checked,
-    })),
-    validate: (targets) =>
-      targets.length > 0 || 'Select at least one target',
-  })
+  const defaults = choices.flatMap(({ checked }, index) =>
+    checked ? [index + 1] : []
+  )
+  const hint = defaults.length > 0 ? ` [${defaults.join(',')}]` : ''
+  const prompt = `Enter the numbers, separated by commas${hint}: `
+  const readline = createInterface({ input, terminal: false })
+
+  try {
+    output.write('Select one or more Agent Skills locations:\n')
+    choices.forEach(({ label, target }, index) => {
+      output.write(`  ${index + 1}) ${label} (${target})\n`)
+    })
+    output.write(prompt)
+
+    for await (const line of readline) {
+      const answer = line.trim()
+      const numbers = answer
+        ? answer.split(/[\s,]+/).map(Number)
+        : defaults
+
+      if (
+        numbers.length > 0 &&
+        numbers.every(
+          (number) =>
+            Number.isInteger(number) &&
+            number >= 1 &&
+            number <= choices.length
+        )
+      ) {
+        return Array.from(new Set(numbers)).map(
+          (number) => choices[number - 1].target
+        )
+      }
+
+      output.write(`Select at least one of the listed numbers.\n${prompt}`)
+    }
+
+    throw new Error('No Agent Skills location was selected.')
+  } finally {
+    readline.close()
+  }
 }
 
 const parseCliOptions = (args: string[], cwd: string) => {
