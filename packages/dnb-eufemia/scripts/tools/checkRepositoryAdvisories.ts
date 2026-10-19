@@ -241,7 +241,7 @@ export async function checkRepositoryAdvisories() {
 
   for (const entry of packages) {
     const metadata = await fetchJson(
-      `https://registry.npmjs.org/${entry.name.replace('/', '%2F')}/${entry.version}`
+      `https://registry.npmjs.org/${entry.name.replace(/\//g, '%2F')}/${entry.version}`
     )
     const repository = toGitHubRepository(
       metadata.repository?.url ?? metadata.repository
