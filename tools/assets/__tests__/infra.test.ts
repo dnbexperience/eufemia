@@ -49,6 +49,12 @@ describe('assets infrastructure', () => {
     expect(infra).toContain('items = ["*"]')
   })
 
+  it('blocks scripts in assets that are opened directly', () => {
+    expect(infra).toContain(
+      `content_security_policy = "default-src 'none'; style-src 'unsafe-inline'; sandbox"`
+    )
+  })
+
   it('publishes every GitHub release with its exact tag', () => {
     expect(publicWorkflow).toContain('release:\n    types: [published]')
     expect(publicWorkflow).toContain(
