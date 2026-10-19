@@ -4,7 +4,15 @@ import H from '../../elements/H'
 import type { AiWelcomeProps } from './types'
 
 function AiWelcome(props: AiWelcomeProps) {
-  const { title, level = 2, children, className, ...rest } = props
+  const {
+    title,
+    greeting,
+    avatar,
+    level = 2,
+    children,
+    className,
+    ...rest
+  } = props
 
   const rootProps = useSpacing(props, {
     ...rest,
@@ -13,9 +21,19 @@ function AiWelcome(props: AiWelcomeProps) {
 
   return (
     <div {...rootProps}>
+      {greeting != null && (
+        <div className="dnb-ai-welcome__greeting">
+          {avatar && (
+            <span className="dnb-ai-welcome__avatar" aria-hidden>
+              {avatar}
+            </span>
+          )}
+          <span>{greeting}</span>
+        </div>
+      )}
       <H
         element={`h${level}`}
-        size="x-large"
+        size="large"
         space={0}
         className="dnb-ai-welcome__title"
       >

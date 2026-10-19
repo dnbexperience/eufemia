@@ -1,6 +1,8 @@
 import { render } from '@testing-library/react'
 import { axeComponent } from '../../../core/test-utils/testSetup'
 import Provider from '../../../shared/Provider'
+import Avatar from '../../../components/Avatar'
+import { aino } from '../../../icons'
 import { DateMarker, Suggestion, Suggestions, Welcome } from '..'
 
 describe('Ai.Welcome', () => {
@@ -15,10 +17,44 @@ describe('Ai.Welcome', () => {
 
     const heading = document.querySelector('h2')
     expect(heading).toHaveTextContent('Hello, Peter')
-    expect(heading).toHaveClass('dnb-ai-welcome__title', 'dnb-h--x-large')
+    expect(heading).toHaveClass('dnb-ai-welcome__title', 'dnb-h--large')
     expect(
       document.querySelector('.dnb-ai-welcome .dnb-ai-suggestions')
     ).toBeInTheDocument()
+  })
+
+  it('renders a greeting with a decorative avatar before the heading', () => {
+    render(
+      <Welcome
+        greeting="Hi Matthias"
+        avatar={<Avatar size="small" icon={aino} aria-hidden />}
+        title="Where do you want to start today?"
+      />
+    )
+    const greeting = document.querySelector('.dnb-ai-welcome__greeting')
+    expect(greeting).toHaveTextContent('Hi Matthias')
+    expect(greeting.nextElementSibling).toBe(document.querySelector('h2'))
+    expect(
+      greeting.querySelector('.dnb-ai-welcome__avatar')
+    ).toHaveAttribute('aria-hidden', 'true')
+    expect(document.querySelector('h2')).toHaveAccessibleName(
+      'Where do you want to start today?'
+    )
+  })
+
+  it('supports a greeting without an avatar and omits an unused avatar', () => {
+    const { rerender } = render(
+      <Welcome greeting="Hello" title="Start here" />
+    )
+    expect(
+      document.querySelector('.dnb-ai-welcome__greeting')
+    ).toHaveTextContent('Hello')
+    expect(document.querySelector('.dnb-ai-welcome__avatar')).toBeNull()
+    rerender(<Welcome avatar={<span>Unused</span>} title="Start here" />)
+    expect(document.querySelector('.dnb-ai-welcome__greeting')).toBeNull()
+    expect(
+      document.querySelector('.dnb-ai-welcome')
+    ).not.toHaveTextContent('Unused')
   })
 
   it('supports a heading level', () => {
@@ -35,7 +71,17 @@ describe('Ai.Welcome', () => {
   })
 
   it('should validate with ARIA rules', async () => {
-    const result = render(<Welcome title="Hello, Peter" />)
+    const result = render(
+      <Welcome
+        greeting="Hi Matthias"
+        avatar={<Avatar size="small" icon={aino} aria-hidden />}
+        title="Where do you want to start today?"
+      >
+        <Suggestions>
+          <Suggestion suggestion="Make a transfer" />
+        </Suggestions>
+      </Welcome>
+    )
     expect(await axeComponent(result)).toHaveNoViolations()
   })
 })
