@@ -1,4 +1,6 @@
 import { act } from 'react'
+import { renderToString } from 'react-dom/server'
+import { hydrateRoot } from 'react-dom/client'
 import { axeComponent } from '../../../core/test-utils/testSetup'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
@@ -1521,6 +1523,35 @@ describe('SegmentedField', () => {
 
       expect(first).toHaveAttribute('data-section', 'month')
       expect(second).toHaveAttribute('data-section', 'year')
+    })
+  })
+
+  describe('with server-rendered markup', () => {
+    it('should make the sections editable only after hydration', () => {
+      const element = (
+        <SegmentedField inputs={twoDigitInputs} delimiter="/" />
+      )
+      const container = document.createElement('div')
+      container.innerHTML = renderToString(element)
+      document.body.appendChild(container)
+
+      getSections().forEach((section) => {
+        expect(section).toHaveAttribute('contenteditable', 'false')
+      })
+
+      const onRecoverableError = vi.fn()
+      let root: ReturnType<typeof hydrateRoot>
+      act(() => {
+        root = hydrateRoot(container, element, { onRecoverableError })
+      })
+
+      expect(onRecoverableError).not.toHaveBeenCalled()
+      getSections().forEach((section) => {
+        expect(section).toHaveAttribute('contenteditable', 'true')
+      })
+
+      act(() => root.unmount())
+      container.remove()
     })
   })
 })
