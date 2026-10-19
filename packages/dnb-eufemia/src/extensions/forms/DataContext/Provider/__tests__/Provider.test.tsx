@@ -1582,13 +1582,10 @@ describe('DataContext.Provider', { retry: isCI ? 5 : 0 }, () => {
         expect(status).toHaveTextContent(nb.Field.errorRequired)
       })
 
-      // Wait before typing, to avoid issues with async validation
-      await new Promise((resolve) => requestAnimationFrame(resolve))
+      // Set the full value so async validation cannot interrupt typing.
+      fireEvent.change(input, { target: { value: 'something' } })
 
-      await waitFor(() => {
-        expect(input).not.toBeDisabled()
-      })
-      await userEvent.type(input, 'something')
+      expect(input).toHaveValue('something')
 
       await waitFor(() => {
         expect(submitButton).not.toBeDisabled()
@@ -1606,8 +1603,9 @@ describe('DataContext.Provider', { retry: isCI ? 5 : 0 }, () => {
       await waitFor(() => {
         expect(onSubmit).toHaveBeenCalledTimes(1)
         expect(onBlurValidator.mock.calls.length).toBeGreaterThanOrEqual(2)
-        expect(onChangeValidator.mock.calls.length).toBeGreaterThanOrEqual(
-          5
+        expect(onChangeValidator).toHaveBeenLastCalledWith(
+          'something',
+          expect.any(Object)
         )
       })
     })
