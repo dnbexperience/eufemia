@@ -18,6 +18,7 @@
   "bin": "./cli/eufemia.js",
   "scripts": {
     "audit:ci": "yarn npm audit --recursive --environment production --severity high",
+    "audit:repository-advisories": "babel-node --extensions .js,.ts,.tsx ./scripts/tools/checkRepositoryAdvisories",
     "build": "./scripts/prebuild/local-prebuild.sh",
     "prebuild:ci": "yarn build:prebuild && yarn verify:generated-entries:ci",
     "build:ci": "yarn prebuild:ci && yarn postbuild:ci && yarn publish:prepare",
@@ -50,7 +51,6 @@
     "figma:reset": "babel-node --extensions .js,.ts,.tsx ./scripts/figma/resetIcons && babel-node --extensions .js,.ts,.tsx ./scripts/tools/convertIcons",
     "figma:tokens": "babel-node --extensions .js,.ts,.tsx ./scripts/figma/updateTokens",
     "flags:sync": "babel-node --extensions .js,.ts,.tsx ./scripts/tools/syncCountryFlags",
-    "audit:repository-advisories": "babel-node --extensions .js,.ts,.tsx ./scripts/tools/checkRepositoryAdvisories",
     "icons:commit": "babel-node --extensions .js,.ts,.tsx ./scripts/figma/tasks/commitChanges",
     "icons:convert": "babel-node --extensions .js,.ts,.tsx ./scripts/tools/convertIcons && babel-node --extensions .js,.ts,.tsx ./scripts/figma/updateIcons",
     "icons:dev": "nodemon --exec 'babel-node --extensions .js,.ts,.tsx ./scripts/tools/convertIcons' --ext ts --ignore '/icons/**' --ignore '*.json'",
