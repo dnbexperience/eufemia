@@ -4,12 +4,24 @@ import fs from 'node:fs'
 import os from 'node:os'
 import testPageFilterPlugin, {
   collectTestFiles,
+  collectE2eTestPages,
   extractVisualTestUrls,
   extractPageGotoUrls,
   normalizePagePath,
 } from '../../client/plugins/test-page-filter'
 
 describe('test-page-filter plugin', () => {
+  it('keeps both dedicated AI pages and their bookmark source in the partial build', () => {
+    const pages = collectE2eTestPages()
+    for (const path of [
+      '/working-with-ai/ai-skills',
+      '/working-with-ai/mcp-universe',
+      '/uilib/usage/first-steps/tools',
+      '/web/usage/first-steps/tools',
+    ]) {
+      expect(pages.has(path)).toBe(true)
+    }
+  })
   it('retains the canonical destination of a legacy URL used by a test', () => {
     vi.stubEnv('IS_E2E', '1')
     try {
