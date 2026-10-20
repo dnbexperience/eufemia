@@ -28,9 +28,9 @@ To ensure that the TermDefinition component is accessible, it uses semantic HTML
 - The trigger is aligned to the left side of the word for better readability (not centered).
 - Screen readers read the word (its children) first and then announce that the trigger can be activated to show more information.
 - When the TermDefinition opens, it receives focus and the screen reader announces its content.
-- When it closes, focus returns to the trigger so keyboard users keep their place in the document.
-- The close button is placed last in the tab order, making it easy for keyboard users to reach after reading the content.
-- It also closes automatically when focus moves outside the TermDefinition or when the Escape key is pressed.
+- Closing with Escape or the close button returns focus to the trigger so keyboard users keep their place in the document. Clicking or tapping another focusable element outside closes the TermDefinition and leaves focus on that element.
+- The close button follows the content in the tab order.
+- When keyboard focus moves past the TermDefinition content, it closes and returns focus to the trigger.
 - The trigger shows the hover style of an [Anchor](/uilib/components/anchor) when open.
 
 ## Root Element (React Portal)
