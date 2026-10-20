@@ -1,11 +1,69 @@
 import { expect, test } from '@playwright/test'
 import waitForApp from './shared/waitForApp'
 
-if (process.env.PLAYWRIGHT_BASE_URL) {
-  test.use({ baseURL: process.env.PLAYWRIGHT_BASE_URL })
-}
-
 for (const scheme of ['light', 'dark'] as const) {
+  test(
+    'keeps the section icon stationary while compact hover opens and closes in ' +
+      scheme,
+    async ({ page }) => {
+      await page.emulateMedia({
+        colorScheme: scheme,
+        reducedMotion: 'no-preference',
+      })
+      await page.setViewportSize({ width: 1200, height: 900 })
+      await page.goto('/uilib/extensions/sidebar-menu/demos/')
+      await waitForApp(page)
+      const shell = page.locator('[data-sidebar-menu-responsive-example]')
+      await shell.scrollIntoViewIfNeeded()
+      await page.mouse.move(1190, 10)
+      const inline = shell.locator('.dnb-sidebar-menu-responsive-inline')
+      const trigger = inline.locator(
+        '.dnb-sidebar-menu__sections .dnb-dropdown__trigger'
+      )
+      const icon = trigger.locator('.dnb-sidebar-menu__item__icon svg')
+      await expect(trigger).toHaveCSS('width', '44px')
+      const initial = await icon.boundingBox()
+      const measureMovement = () =>
+        icon.evaluate(async (element, initial) => {
+          const movement = { x: 0, y: 0 }
+          const start = performance.now()
+
+          while (performance.now() - start < 400) {
+            await new Promise(requestAnimationFrame)
+            const position = element.getBoundingClientRect()
+            movement.x = Math.max(
+              movement.x,
+              Math.abs(position.x - initial.x)
+            )
+            movement.y = Math.max(
+              movement.y,
+              Math.abs(position.y - initial.y)
+            )
+          }
+
+          return movement
+        }, initial)
+      const [opening] = await Promise.all([
+        measureMovement(),
+        inline.hover({ position: { x: 20, y: 80 } }),
+      ])
+
+      expect(opening.x).toBeLessThanOrEqual(0.1)
+      expect(opening.y).toBeLessThanOrEqual(0.1)
+      await expect(inline).toHaveClass(
+        /dnb-sidebar-menu-responsive-inline--expanded/
+      )
+      const [closing] = await Promise.all([
+        measureMovement(),
+        page.mouse.move(1190, 10),
+      ])
+
+      expect(closing.x).toBeLessThanOrEqual(0.1)
+      expect(closing.y).toBeLessThanOrEqual(0.1)
+      await expect(trigger).toHaveCSS('width', '44px')
+    }
+  )
+
   test(
     'keeps the compact section selector circular and its icon visible in ' +
       scheme,
@@ -66,7 +124,7 @@ for (const scheme of ['light', 'dark'] as const) {
       await trigger.focus()
       await page.keyboard.press('Enter')
       await expect(trigger).toHaveAttribute('aria-expanded', 'true')
-      await expect(trigger).toHaveCSS('height', '40px')
+      await expect(trigger).toHaveCSS('height', '44px')
       await expect(trigger).toContainText('Personal')
       await expect(trigger.locator('.dnb-dropdown__icon')).toBeVisible()
       const business = page.getByRole('option', {
@@ -91,6 +149,9 @@ for (const scheme of ['light', 'dark'] as const) {
       await page.mouse.move(1190, 890)
       await expect(trigger).toHaveCSS('width', '44px')
       await expect(trigger).toHaveCSS('height', '44px')
+
+      await page.setViewportSize({ width: 1600, height: 900 })
+      await expect(trigger).toHaveCSS('height', '40px')
     }
   )
 }

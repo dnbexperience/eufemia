@@ -757,22 +757,23 @@ test('keeps the section icon fixed while closing', async ({ page }) => {
     if (!icon || !inline || !toggle) {
       throw new Error('Expected compact section controls')
     }
-    const initialX = icon.getBoundingClientRect().x
-    const positions = [initialX]
+    const initial = icon.getBoundingClientRect()
+    const movement = { x: 0, y: 0 }
     toggle.click()
     const start = performance.now()
 
     while (performance.now() - start < 260) {
       await new Promise(requestAnimationFrame)
-      positions.push(icon.getBoundingClientRect().x)
+      const position = icon.getBoundingClientRect()
+      movement.x = Math.max(movement.x, Math.abs(position.x - initial.x))
+      movement.y = Math.max(movement.y, Math.abs(position.y - initial.y))
     }
 
-    return Math.max(
-      ...positions.map((position) => Math.abs(position - initialX))
-    )
+    return movement
   })
 
-  expect(maxMovement).toBeLessThanOrEqual(0.05)
+  expect(maxMovement.x).toBeLessThanOrEqual(0.05)
+  expect(maxMovement.y).toBeLessThanOrEqual(0.05)
 })
 
 test('keeps scaled compact labels clear of accordion indicators', async ({

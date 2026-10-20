@@ -51,7 +51,7 @@
       transition:
         width 240ms var(--easing-default),
         margin-inline-start 240ms var(--easing-default),
-        padding-inline 240ms var(--easing-default);
+        padding 240ms var(--easing-default);
 
       --button-color-bg--default: var(
         --token-color-background-neutral-base
@@ -910,6 +910,14 @@ html.dnb-sidebar-menu-resize-handle--resizing
 }
 
 .dnb-sidebar-menu--compact {
+  .dnb-sidebar-menu__sections .dnb-dropdown__trigger {
+    height: 2.75rem;
+  }
+
+  .dnb-sidebar-menu__sections--has-icon .dnb-dropdown__trigger {
+    justify-content: flex-start;
+  }
+
   .dnb-sidebar-menu__item {
     &__action {
       width: 2.75rem;
@@ -1021,7 +1029,6 @@ html.dnb-sidebar-menu-resize-handle--resizing
 
       .dnb-dropdown__trigger {
         width: 2.75rem;
-        height: 2.75rem;
         margin-inline-start: 0.375rem;
       }
 
