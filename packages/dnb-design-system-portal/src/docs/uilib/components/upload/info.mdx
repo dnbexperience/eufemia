@@ -77,9 +77,11 @@ It does not display information about:
 - `fileMaxSize`
 - `acceptedFileTypes`
 
-## JPG vs JPEG
+## Accepted file types
 
-When `jpg` is defined (most commonly used), the component will also accept `jpeg` files.
+`acceptedFileTypes` matches short entries against the file extension exactly and ignores letter case. For example, `doc` does not accept `.docx`; list both `doc` and `docx` when you need both formats. Full MIME entries, such as `application/pdf`, match the file MIME type. Files without an extension can match a short entry by their MIME subtype, such as `pdf` for `application/pdf`.
+
+When `jpg` is defined, the component also accepts `jpeg` files.
 
 ## Backend integration
 

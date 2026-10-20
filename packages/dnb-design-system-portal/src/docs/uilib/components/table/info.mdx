@@ -100,7 +100,7 @@ It can be used as a "controller" for your own sorting logic of your data.
 
 By default, it will cycle through three stages `['asc', 'desc', 'off']`. The given `modes` are cycled through in the order you provide them, so `['desc', 'asc', 'off']` will sort descending on the first click.
 
-The returned `active` and `reversed` values describe the current sort state and can be passed directly to `Th`.
+The returned `active` and `reversed` values describe the current sort state and can be passed directly to `Th`. Only the active sortable header sets `aria-sort`; inactive sortable headers omit the attribute so assistive technology does not announce them as sorted.
 
 <Details>
   <Summary>How to use the useHandleSortState React Hook.</Summary>
