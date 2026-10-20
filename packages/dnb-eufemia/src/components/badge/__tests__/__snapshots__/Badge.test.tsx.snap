@@ -85,7 +85,9 @@ exports[`Badge scss > should match style dependencies css 1`] = `
   );
 }
 .dnb-badge--status-neutral {
-  --badge-information-bg: var(--token-color-background-neutral-bold);
+  --badge-information-bg: var(
+    --token-color-background-neutral-alternative
+  );
   --badge-information-subtle-bg: var(
     --token-color-background-neutral-subtle
   );
