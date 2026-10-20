@@ -1,10 +1,12 @@
 name: Design Tokens
 
+run-name: Design Tokens → ${{ inputs.output_branch || (github.ref_name != 'main' && github.ref_name) || 'tokens/automation-figma-sync-*' }}
+
 on:
   workflow_dispatch:
     inputs:
       output_branch:
-        description: Branch to commit the design tokens to. Defaults to the branch the workflow runs from, or a dated automation branch when that is main. Cannot be main.
+        description: Target branch override (optional)
         type: string
       generate_screenshots:
         description: Generate snapshots/screenshots
