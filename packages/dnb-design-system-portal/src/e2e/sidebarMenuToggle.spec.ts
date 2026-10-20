@@ -2,6 +2,138 @@ import { test, expect } from '@playwright/test'
 import waitForApp from './shared/waitForApp'
 
 test.describe('SidebarMenu toggle', () => {
+  test('covers the full sidebar edge with the divider and resize target', async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1600, height: 1000 })
+    await page.goto(
+      '/uilib/extensions/sidebar-menu/demos/#toggle-navigation'
+    )
+    await waitForApp(page)
+    const example = page.locator('[data-sidebar-menu-toggle-example]')
+    const inline = example.locator('.dnb-sidebar-menu-responsive-inline')
+    const surface = inline.locator(
+      '.dnb-sidebar-menu-responsive-inline__content'
+    )
+    const handle = inline.getByRole('separator')
+    await example.scrollIntoViewIfNeeded()
+    const edge = await surface.boundingBox()
+    const target = await handle.boundingBox()
+    const divider = await surface.evaluate((element) => {
+      const style = getComputedStyle(element, '::after')
+      return {
+        top: style.top,
+        bottom: style.bottom,
+        width: style.width,
+        opacity: style.opacity,
+      }
+    })
+    expect(divider).toEqual({
+      top: '0px',
+      bottom: '0px',
+      width: '1px',
+      opacity: '1',
+    })
+    expect(target.y).toBeCloseTo(edge.y, 1)
+    expect(target.height).toBeCloseTo(edge.height, 1)
+    const x = edge.x + edge.width - 1
+    const y = edge.y + 16
+    await page.mouse.move(x, y)
+    await expect
+      .poll(() => handle.evaluate((element) => element.matches(':hover')))
+      .toBe(true)
+    await page.mouse.down()
+    await page.mouse.move(x + 32, y)
+    await page.mouse.up()
+    await expect(inline).toHaveCSS('width', '320px')
+    await handle.focus()
+    await expect(handle).toBeFocused()
+    await expect(handle).toHaveCSS('height', `${edge.height}px`)
+  })
+
+  test('lays out the embedded toggle above the menu with aligned icons and compact padding', async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1600, height: 1000 })
+    await page.goto(
+      '/uilib/extensions/sidebar-menu/demos/#toggle-navigation'
+    )
+    await waitForApp(page)
+    const example = page.locator('[data-sidebar-menu-toggle-example]')
+    const inline = example.locator('.dnb-sidebar-menu-responsive-inline')
+    const header = inline.locator(
+      '.dnb-sidebar-menu-responsive-inline__toggle-island'
+    )
+    await expect(header).toHaveCSS('position', 'relative')
+    const content = inline.locator(
+      '.dnb-sidebar-menu-responsive-aside__content'
+    )
+    await expect(content).toHaveCSS('padding-inline-start', '8px')
+    await expect(content).toHaveCSS('padding-inline-end', '8px')
+    const measure = () =>
+      inline.evaluate((element) => {
+        const toggle = element
+          .querySelector('.dnb-sidebar-menu-responsive-inline__toggle svg')
+          .getBoundingClientRect()
+        const home = element
+          .querySelector(
+            '[data-sidebar-menu-id="toggle-home"] .dnb-icon svg'
+          )
+          .getBoundingClientRect()
+        const header = element
+          .querySelector(
+            '.dnb-sidebar-menu-responsive-inline__toggle-island'
+          )
+          .getBoundingClientRect()
+        const body = element
+          .querySelector('.dnb-sidebar-menu-responsive-inline__body')
+          .getBoundingClientRect()
+        return {
+          toggleX: toggle.x + toggle.width / 2,
+          homeX: home.x + home.width / 2,
+          headerBottom: header.bottom,
+          bodyTop: body.top,
+        }
+      })
+    const full = await measure()
+    expect(full.toggleX).toBeCloseTo(full.homeX, 1)
+    expect(full.bodyTop).toBeGreaterThanOrEqual(full.headerBottom)
+    await header.evaluate((element) => {
+      ;(element as HTMLElement).style.height = '80px'
+    })
+    await expect
+      .poll(async () => (await measure()).bodyTop - full.bodyTop)
+      .toBe(32)
+    await header.evaluate((element) => {
+      ;(element as HTMLElement).style.height = ''
+    })
+    await page.setViewportSize({ width: 900, height: 1000 })
+    await page.mouse.move(850, 950)
+    await expect(inline).toHaveCSS('width', '64px')
+    await expect
+      .poll(async () => {
+        const compact = await measure()
+        return Math.abs(compact.toggleX - compact.homeX)
+      })
+      .toBeLessThan(0.1)
+    await inline
+      .locator('.dnb-sidebar-menu-responsive-inline__toggle')
+      .focus()
+    await inline
+      .locator('.dnb-sidebar-menu-responsive-inline__toggle')
+      .press('Enter')
+    await expect(inline).toHaveAttribute(
+      'data-sidebar-menu-responsive-expanded',
+      'true'
+    )
+    await expect
+      .poll(async () => {
+        const expanded = await measure()
+        return Math.abs(expanded.toggleX - expanded.homeX)
+      })
+      .toBeLessThan(0.1)
+  })
+
   test('remembers desktop dismissal after reload and leaves the mobile Drawer closed', async ({
     page,
   }) => {

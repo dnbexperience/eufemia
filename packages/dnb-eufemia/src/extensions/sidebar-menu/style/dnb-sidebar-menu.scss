@@ -747,6 +747,8 @@ html.dnb-sidebar-menu-resize-handle--resizing
 
   > .dnb-sidebar-menu-responsive-inline__content {
     display: flex;
+    flex-direction: column;
+    position: relative;
     width: var(--sidebar-menu-expanded-width);
     min-height: 100%;
 
@@ -758,6 +760,17 @@ html.dnb-sidebar-menu-resize-handle--resizing
 
     &:dir(rtl) {
       clip-path: inset(0 0 0 -2rem);
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      inset-block: 0;
+      inset-inline-end: 0;
+      width: 0.0625rem;
+
+      background-color: var(--token-color-stroke-neutral-subtle);
+      pointer-events: none;
     }
   }
 
@@ -771,6 +784,12 @@ html.dnb-sidebar-menu-resize-handle--resizing
     }
 
     width: var(--sidebar-menu-compact-width);
+
+    .dnb-sidebar-menu-responsive-inline__toggle-island {
+      margin-inline-start: calc(
+        0.5rem + var(--sidebar-menu-compact-offset)
+      );
+    }
 
     > .dnb-sidebar-menu-responsive-inline__content {
       clip-path: inset(
@@ -826,10 +845,12 @@ html.dnb-sidebar-menu-resize-handle--resizing
   }
 
   &__toggle-island {
-    position: absolute;
+    position: relative;
     z-index: 2;
-    inset-block-start: 0.5rem;
-    inset-inline-start: calc(0.5rem + var(--sidebar-menu-compact-offset));
+    align-self: flex-start;
+    flex-shrink: 0;
+    margin-block: 0.5rem;
+    margin-inline-start: 1rem;
 
     background-color: var(--token-color-background-neutral);
     border-radius: var(--token-radius-full);
@@ -843,8 +864,9 @@ html.dnb-sidebar-menu-resize-handle--resizing
 
   &__body {
     display: flex;
+    flex: 1;
     width: 100%;
-    min-height: 100%;
+    min-height: 0;
   }
 
   @include utilities.reducedMotion() {
@@ -1153,15 +1175,12 @@ html.dnb-sidebar-menu-resize-handle--resizing
   display: flex;
   flex-direction: column;
 
-  position: relative;
   align-self: stretch;
 
   width: var(--sidebar-menu-expanded-width, 18rem);
   min-height: 100%;
 
   background-color: var(--token-color-background-neutral);
-  border-inline-end: 0.0625rem solid
-    var(--token-color-stroke-neutral-subtle);
 
   &__scroll-view {
     width: 100%;
@@ -1171,8 +1190,8 @@ html.dnb-sidebar-menu-resize-handle--resizing
 
   &__content {
     min-height: 100%;
-    padding-block: 4rem 2.5rem;
-    padding-inline: 1.5rem;
+    padding-block: 0.25rem 2.5rem;
+    padding-inline: 0.5rem;
   }
 
   &[data-sidebar-menu-responsive-resizable='true'] &__content {
@@ -1200,7 +1219,7 @@ html.dnb-sidebar-menu-resize-handle--resizing
 .dnb-sidebar-menu-responsive-inline[data-sidebar-menu-responsive-compact='true']
   .dnb-sidebar-menu-responsive-aside {
   .dnb-sidebar-menu-responsive-aside__content {
-    padding: 4rem 0 2.5rem;
+    padding: 0 0 2.5rem;
   }
 
   &__resize-handle {

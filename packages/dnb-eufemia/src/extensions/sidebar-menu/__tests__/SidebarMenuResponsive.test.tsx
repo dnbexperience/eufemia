@@ -1241,7 +1241,7 @@ describe('SidebarMenu responsive parts', () => {
     expect(html).toContain('--sidebar-menu-default-expanded-width:18rem')
     expect(html).toContain('dnb-sidebar-menu-responsive-inline__content')
     expect(html).toContain(
-      'dnb-sidebar-menu-responsive-inline__toggle-island{display:inline-flex}'
+      'dnb-sidebar-menu-responsive-inline__toggle-island{margin-inline-start:calc(.5rem + var(--sidebar-menu-compact-offset))}'
     )
     expect(html).toContain(
       '.dnb-sidebar-menu-responsive-inline__content:dir(rtl)'
@@ -1258,7 +1258,7 @@ describe('SidebarMenu responsive parts', () => {
     expect(html).toContain(
       ':is(.dnb-sidebar-menu__group__title,.dnb-sidebar-menu__header){width:4rem;white-space:nowrap;opacity:.8'
     )
-    expect(html).toContain('padding:4rem 0 2.5rem')
+    expect(html).toContain('padding:0 0 2.5rem')
   })
 
   it('uses a stable first-paint CSS scope when provided', () => {

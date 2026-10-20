@@ -11,6 +11,14 @@ test('keeps selected nested accordion labels stable while closing', async ({
   await waitForApp(page)
 
   const shell = page.locator('[data-sidebar-menu-responsive-example]')
+  const handle = shell.locator('.dnb-sidebar-menu-resize-handle')
+  await handle.focus()
+  await handle.press('ArrowLeft')
+  await handle.press('ArrowLeft')
+  await expect(handle).toHaveAttribute('aria-valuenow', '272')
+  await expect(
+    shell.locator('.dnb-sidebar-menu-responsive-inline')
+  ).toHaveCSS('width', '272px')
   const products = shell.locator(
     '[data-sidebar-menu-id="responsive-products"] > .dnb-sidebar-menu__accordion__trigger'
   )
@@ -832,6 +840,11 @@ test('resizes the full SidebarMenu and restores that width', async ({
   await expect(moreProducts).toHaveCSS('white-space', 'normal')
   await expect(moreProductsText).toHaveCSS('overflow-wrap', 'normal')
   await expect(moreProductsText).toHaveCSS('hyphens', 'auto')
+  await handle.focus()
+  await handle.press('ArrowLeft')
+  await handle.press('ArrowLeft')
+  await expect(handle).toHaveAttribute('aria-valuenow', '272')
+  await expect(inline).toHaveCSS('width', '272px')
   await expect
     .poll(() =>
       moreProducts.evaluate(
@@ -854,6 +867,8 @@ test('resizes the full SidebarMenu and restores that width', async ({
     moreProductsIndicatorBox.x
   )
   expect(moreProductsIndicatorBox.y).toBe(moreProductsTextBox.y)
+  await handle.press('Enter')
+  await expect(handle).toHaveAttribute('aria-valuenow', '304')
   await handle.focus()
   await page.keyboard.press('ArrowRight')
   await expect(handle).toHaveAttribute('aria-valuenow', '320')
