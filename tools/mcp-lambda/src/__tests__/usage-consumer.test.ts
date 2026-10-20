@@ -14,6 +14,8 @@ function usageRecord(
   return {
     tool: 'component_props',
     component: 'Button',
+    component_missed: false,
+    likely_component: '',
     path: '',
     env: 'dev',
     transport: 'web',
@@ -101,6 +103,35 @@ describe('usage consumer', () => {
       usageRecord(),
     ])
     expect(errorSpy).toHaveBeenCalledTimes(2)
+  })
+
+  it('stores a record queued before the miss fields existed', async () => {
+    const queuedEarlier: Partial<McpUsageRecord> = usageRecord()
+    delete queuedEarlier.component_missed
+    delete queuedEarlier.likely_component
+
+    await handler(
+      event(sqsRecord('earlier', JSON.stringify([queuedEarlier])))
+    )
+
+    expect(storeMcpUsage).toHaveBeenCalledWith('my-bucket', [
+      queuedEarlier,
+    ])
+    expect(errorSpy).not.toHaveBeenCalled()
+  })
+
+  it('drops a message whose miss fields have the wrong type', async () => {
+    await handler(
+      event(
+        sqsRecord(
+          'bad',
+          JSON.stringify([{ ...usageRecord(), component_missed: 'yes' }])
+        )
+      )
+    )
+
+    expect(storeMcpUsage).toHaveBeenCalledWith('my-bucket', [])
+    expect(errorSpy).toHaveBeenCalledTimes(1)
   })
 
   it('retries the batch when S3 storage fails', async () => {

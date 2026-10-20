@@ -28,6 +28,8 @@ function record(overrides: Partial<McpUsageRecord> = {}): McpUsageRecord {
   return {
     tool: 'component_props',
     component: 'Button',
+    component_missed: false,
+    likely_component: '',
     path: '',
     env: 'dev',
     transport: 'web',

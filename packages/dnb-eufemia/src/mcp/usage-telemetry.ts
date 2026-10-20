@@ -125,21 +125,19 @@ export function computeKnownAreas(
 
 const NO_KNOWN_AREAS: ReadonlySet<string> = new Set()
 
-const NO_RESOLVER: UsageResolver = {
-  component: async () => false,
-  docsFile: async () => false,
-  docsDir: async () => false,
-}
-
 /**
  * The anonymous record sent to the ingest route. `transport` is stamped
  * server-side (always `local` here), so the client never sends it. `path` is
  * the leading documentation area (e.g. `/uilib/components/`), not the full
- * path the caller asked for.
+ * path the caller asked for. When a component name does not resolve,
+ * `componentMissed` is set and `likelyComponent` holds the likely component, if
+ * any; the name itself is never sent.
  */
 export type LocalMcpUsageRecord = {
   tool: string
   component?: string
+  componentMissed?: true
+  likelyComponent?: string
   path?: string
   eufemiaVersion: string
   timestamp: string
@@ -268,12 +266,18 @@ function isFlagSet(value: string | undefined) {
 }
 
 // Looks up the name as the caller passed it, the form the docs tools use.
-async function dropUnresolved(
+async function checkAgainstDocs(
   record: LocalMcpUsageRecord,
   toolName: string,
   input: unknown,
-  resolver: UsageResolver
+  resolver: UsageResolver | undefined
 ): Promise<LocalMcpUsageRecord> {
+  if (!resolver) {
+    delete record.component
+    delete record.path
+    return record
+  }
+
   const args = toArgs(input)
 
   if (record.component !== undefined) {
@@ -281,6 +285,12 @@ async function dropUnresolved(
 
     if (!(await resolver.component(name))) {
       delete record.component
+      record.componentMissed = true
+
+      const likely = await resolver.likelyComponent(name)
+      if (likely) {
+        record.likelyComponent = likely
+      }
     }
   }
 
@@ -384,7 +394,6 @@ export function createUsageReporter(
   }
 
   const knownAreas = options.knownAreas ?? NO_KNOWN_AREAS
-  const resolver = options.resolver ?? NO_RESOLVER
 
   return {
     onToolCall(toolName, input) {
@@ -403,7 +412,7 @@ export function createUsageReporter(
           void postUsageRecord(record, endpoint, fetchImpl)
           return
         }
-        void dropUnresolved(record, toolName, input, resolver)
+        void checkAgainstDocs(record, toolName, input, options.resolver)
           .then((resolved) =>
             postUsageRecord(resolved, endpoint, fetchImpl)
           )
