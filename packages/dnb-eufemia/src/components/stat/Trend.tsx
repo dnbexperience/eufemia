@@ -63,8 +63,7 @@ function Trend(props: TrendProps) {
     displayValue: string
   } = resolveTrendValue(rawValue)
 
-  const childText = hasCustomChildren ? convertJsxToString(children) : ''
-  const visibleText = childText || `${sign || ''}${displayValue}`
+  const visibleText = `${sign || ''}${displayValue}`
   const usedTone = tone || resolvedTone
   const srText = srLabel
     ? `${convertJsxToString(srLabel)}${' '}${visibleText}`
@@ -85,8 +84,17 @@ function Trend(props: TrendProps) {
       skeleton={skeleton}
       textClassName={false}
     >
+      {hasCustomChildren && srLabel && (
+        <span
+          className="dnb-sr-only"
+          data-text={convertJsxToString(srLabel)}
+        />
+      )}
       <StatValueContext value={trendContextValue}>
-        <span className="dnb-stat__trend-content" aria-hidden>
+        <span
+          className="dnb-stat__trend-content"
+          aria-hidden={hasCustomChildren ? undefined : true}
+        >
           {!hasCustomChildren && sign ? (
             <span className="dnb-stat__trend-sign">{sign}</span>
           ) : null}
@@ -95,7 +103,9 @@ function Trend(props: TrendProps) {
           </span>
         </span>
       </StatValueContext>
-      <span className="dnb-sr-only" data-text={srText} />
+      {!hasCustomChildren && (
+        <span className="dnb-sr-only" data-text={srText} />
+      )}
     </Text>
   )
 }

@@ -37,7 +37,7 @@ const DEFAULT_ENDPOINT =
 const POST_TIMEOUT_MS = 1000
 
 const STARTUP_NOTICE =
-  'Eufemia MCP collects anonymous usage stats; disable with EUFEMIA_MCP_TELEMETRY=0'
+  'Eufemia MCP collects anonymous usage stats; disable with EUFEMIA_MCP_TELEMETRY=0 or DO_NOT_TRACK=1'
 
 // The registered docs-server tools. A record is emitted only for a call to one
 // of these, so an unknown method never produces a record. Kept in sync with the
@@ -125,21 +125,19 @@ export function computeKnownAreas(
 
 const NO_KNOWN_AREAS: ReadonlySet<string> = new Set()
 
-const NO_RESOLVER: UsageResolver = {
-  component: async () => false,
-  docsFile: async () => false,
-  docsDir: async () => false,
-}
-
 /**
  * The anonymous record sent to the ingest route. `transport` is stamped
  * server-side (always `local` here), so the client never sends it. `path` is
  * the leading documentation area (e.g. `/uilib/components/`), not the full
- * path the caller asked for.
+ * path the caller asked for. When a component name does not resolve,
+ * `componentMissed` is set and `likelyComponent` holds the likely component, if
+ * any; the name itself is never sent.
  */
 export type LocalMcpUsageRecord = {
   tool: string
   component?: string
+  componentMissed?: true
+  likelyComponent?: string
   path?: string
   eufemiaVersion: string
   timestamp: string
@@ -237,21 +235,49 @@ export function buildUsageRecord(
   return record
 }
 
-/** True when telemetry is switched off via `EUFEMIA_MCP_TELEMETRY=0|false`. */
+const OFF_VALUES: ReadonlySet<string> = new Set([
+  '0',
+  'false',
+  'off',
+  'no',
+])
+
+/**
+ * True when telemetry is switched off: `EUFEMIA_MCP_TELEMETRY=0|false|off|no`,
+ * the cross-tool `DO_NOT_TRACK` convention, or a CI environment.
+ */
 export function isTelemetryDisabled(
   env: NodeJS.ProcessEnv = process.env
 ): boolean {
-  const value = (env.EUFEMIA_MCP_TELEMETRY ?? '').trim().toLowerCase()
-  return value === '0' || value === 'false'
+  return (
+    OFF_VALUES.has(normalize(env.EUFEMIA_MCP_TELEMETRY)) ||
+    isFlagSet(env.DO_NOT_TRACK) ||
+    isFlagSet(env.CI)
+  )
+}
+
+function normalize(value: string | undefined) {
+  return (value ?? '').trim().toLowerCase()
+}
+
+function isFlagSet(value: string | undefined) {
+  const normalized = normalize(value)
+  return normalized !== '' && !OFF_VALUES.has(normalized)
 }
 
 // Looks up the name as the caller passed it, the form the docs tools use.
-async function dropUnresolved(
+async function checkAgainstDocs(
   record: LocalMcpUsageRecord,
   toolName: string,
   input: unknown,
-  resolver: UsageResolver
+  resolver: UsageResolver | undefined
 ): Promise<LocalMcpUsageRecord> {
+  if (!resolver) {
+    delete record.component
+    delete record.path
+    return record
+  }
+
   const args = toArgs(input)
 
   if (record.component !== undefined) {
@@ -259,6 +285,12 @@ async function dropUnresolved(
 
     if (!(await resolver.component(name))) {
       delete record.component
+      record.componentMissed = true
+
+      const likely = await resolver.likelyComponent(name)
+      if (likely) {
+        record.likelyComponent = likely
+      }
     }
   }
 
@@ -362,7 +394,6 @@ export function createUsageReporter(
   }
 
   const knownAreas = options.knownAreas ?? NO_KNOWN_AREAS
-  const resolver = options.resolver ?? NO_RESOLVER
 
   return {
     onToolCall(toolName, input) {
@@ -381,7 +412,7 @@ export function createUsageReporter(
           void postUsageRecord(record, endpoint, fetchImpl)
           return
         }
-        void dropUnresolved(record, toolName, input, resolver)
+        void checkAgainstDocs(record, toolName, input, options.resolver)
           .then((resolved) =>
             postUsageRecord(resolved, endpoint, fetchImpl)
           )

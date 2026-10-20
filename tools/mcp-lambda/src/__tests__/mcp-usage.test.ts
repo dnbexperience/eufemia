@@ -63,6 +63,8 @@ describe('usageRecordsFromRequestBody', () => {
     expect(record).toEqual({
       tool: 'component_props',
       component: 'button',
+      component_missed: false,
+      likely_component: '',
       path: '',
       env: 'dev',
       transport: 'web',
@@ -216,8 +218,45 @@ describe('usageRecordsFromRequestBody', () => {
 
       expect(record?.tool).toBe(tool)
       expect(record?.component).toBe('')
+      expect(record?.component_missed).toBe(true)
+      expect(record?.likely_component).toBe('')
     }
   )
+
+  it.each(['DatePicker', 'datepicker', 'DATE-PICKER-'])(
+    'stores the likely component for the missed guess %s',
+    async (name) => {
+      const [record] = await usageRecordsFromRequestBody(
+        body(toolCall('component_doc', { name })),
+        { env: 'dev', now: NOW, resolver }
+      )
+
+      expect(record?.component).toBe('')
+      expect(record?.component_missed).toBe(true)
+      expect(record?.likely_component).toBe('date-picker')
+      expect(JSON.stringify(record)).not.toContain(name)
+    }
+  )
+
+  it('does not flag a miss for a component that resolves', async () => {
+    const [record] = await usageRecordsFromRequestBody(
+      body(toolCall('component_doc', { name: 'date-picker' })),
+      { env: 'dev', now: NOW, resolver }
+    )
+
+    expect(record?.component_missed).toBe(false)
+    expect(record?.likely_component).toBe('')
+  })
+
+  it('does not flag a miss for a tool without a component', async () => {
+    const [record] = await usageRecordsFromRequestBody(
+      body(toolCall('docs_search', { query: 'DatePicker' })),
+      { env: 'dev', now: NOW, resolver }
+    )
+
+    expect(record?.component_missed).toBe(false)
+    expect(record?.likely_component).toBe('')
+  })
 
   it('drops a compound component name that does not exist', async () => {
     const [record] = await usageRecordsFromRequestBody(

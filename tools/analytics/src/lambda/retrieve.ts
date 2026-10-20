@@ -215,24 +215,34 @@ export async function aggregatePortalViewsRaw(
   return readResults(queryExecutionId, toPortalViewDailyRow)
 }
 
-function toDailyRow([dt, transport, tool, component, path, count]: Array<
-  string | undefined
->): McpUsageDaily {
+function toDailyRow([
+  dt,
+  transport,
+  tool,
+  component,
+  path,
+  componentMissed,
+  likelyComponent,
+  count,
+]: Array<string | undefined>): McpUsageDaily {
   return {
     dt: dt ?? '',
     transport: transport ?? '',
     tool: tool ?? '',
     component: component ?? '',
     path: path ?? '',
+    component_missed: componentMissed === 'true',
+    likely_component: likelyComponent ?? '',
     count: Number(count ?? 0),
   }
 }
 
 /**
  * Aggregate raw MCP usage rows on or after `sinceDt` into per-day counts, grouped
- * by transport/tool/component/path. Used to recompute the recent tail of the
- * durable daily rollup on each generator run. Web rows written before the MCP
- * Lambda stamped `transport` read NULL, so they are counted as web.
+ * by transport/tool/component/path and component miss. Used to recompute the
+ * recent tail of the durable daily rollup on each generator run. Web rows
+ * written before the MCP Lambda stamped `transport` read NULL, so they are
+ * counted as web; rows written before misses were recorded count as no miss.
  */
 export async function aggregateMcpUsageRaw(
   sinceDt: string
@@ -245,7 +255,7 @@ export async function aggregateMcpUsageRaw(
   const table = requireEnv('GLUE_TABLE_MCP_USAGE')
   const workgroup = requireEnv('ATHENA_WORKGROUP')
 
-  const query = `SELECT dt, coalesce(transport, 'web') AS transport, tool, component, path, count(*) AS cnt FROM "${database}"."${table}" WHERE dt >= '${sinceDt}' GROUP BY dt, coalesce(transport, 'web'), tool, component, path`
+  const query = `SELECT dt, coalesce(transport, 'web') AS transport, tool, component, path, coalesce(component_missed, false) AS component_missed, coalesce(likely_component, '') AS likely_component, count(*) AS cnt FROM "${database}"."${table}" WHERE dt >= '${sinceDt}' GROUP BY dt, coalesce(transport, 'web'), tool, component, path, coalesce(component_missed, false), coalesce(likely_component, '')`
   const queryExecutionId = await startQuery(query, workgroup)
   await waitForQuery(queryExecutionId)
 
@@ -258,7 +268,7 @@ export async function retrieveMcpUsageDaily(): Promise<McpUsageDaily[]> {
   const table = requireEnv('GLUE_TABLE_MCP_USAGE_DAILY')
   const workgroup = requireEnv('ATHENA_WORKGROUP')
 
-  const query = `SELECT dt, transport, tool, component, path, count FROM "${database}"."${table}"`
+  const query = `SELECT dt, transport, tool, component, path, component_missed, likely_component, count FROM "${database}"."${table}"`
   const queryExecutionId = await startQuery(query, workgroup)
   await waitForQuery(queryExecutionId)
 

@@ -30,7 +30,7 @@ describe('Stat.Percent', () => {
     expect(percentSign.classList).toContain('dnb-t__size--large')
     expect(currency).not.toBeInTheDocument()
     expect(content.textContent).toBe('+0 %')
-    expect(sr.getAttribute('data-text')).toContain('+0 %')
+    expect(sr.getAttribute('data-text')).toBe('+0 prosent')
   })
 
   describe('compact', () => {

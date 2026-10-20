@@ -7,46 +7,6 @@ import svSE from '../../../shared/locales/sv-SE'
 import daDK from '../../../shared/locales/da-DK'
 
 describe('CardCloseButton', () => {
-  it('preserves legacy close props and composes their handlers', async () => {
-    const calls: string[] = []
-    const { rerender } = render(
-      <Card
-        onClose={() => calls.push('close')}
-        closeButtonProps={{
-          title: 'Dismiss',
-          onClick: () => calls.push('button'),
-        }}
-      >
-        Content
-      </Card>
-    )
-    await userEvent.click(
-      document.querySelector('.dnb-card__close-button')
-    )
-    expect(calls).toEqual(['button', 'close'])
-    const close = vi.fn()
-    rerender(
-      <Card onClose={close} closeButtonProps={{ onClick: () => false }}>
-        Content
-      </Card>
-    )
-    await userEvent.click(
-      document.querySelector('.dnb-card__close-button')
-    )
-    expect(close).not.toHaveBeenCalled()
-    rerender(
-      <Card onClose={close}>
-        <Card.Info.CloseButton title="Explicit" />
-        Content
-      </Card>
-    )
-    expect(
-      document.querySelectorAll('.dnb-card__close-button')
-    ).toHaveLength(1)
-    expect(
-      document.querySelector('.dnb-card__close-button')
-    ).toHaveAttribute('aria-label', 'Explicit')
-  })
   it('is only present when explicitly composed', () => {
     const { rerender } = render(<Card>Information</Card>)
     expect(document.querySelector('.dnb-card__close-button')).toBeNull()

@@ -615,6 +615,7 @@ const cleanTokens = (tokens) => {
 Prism.languages.insertBefore('jsx', 'template-string', {
   'styled-template-string': {
     pattern:
+      // eslint-disable-next-line security/detect-unsafe-regex -- each repetition starts with a literal "." or "(", and the input is our own code examples
       /(styled(\.\w+|\([^)]*\))(\.\w+(\([^)]*\))*)*|css|injectGlobal|keyframes|css={)`(?:\$\{[^}]+\}|\\\\|\\?[^\\])*?`/,
     lookbehind: true,
     greedy: true,
