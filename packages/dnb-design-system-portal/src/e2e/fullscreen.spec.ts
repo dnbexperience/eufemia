@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test'
 
 test.describe('Fullscreen', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/uilib/components/button/demos/')
+    await page.goto('/web/components/button/demos/')
   })
 
   test('click on fullscreen button should navigate to the fullscreen page', async ({
@@ -11,16 +11,16 @@ test.describe('Fullscreen', () => {
     await page.waitForSelector('#portal-sidebar-menu')
 
     await page.click('a.fullscreen')
-    await page.waitForURL('**/uilib/components/button/demos/?fullscreen')
+    await page.waitForURL('**/web/components/button/demos/?fullscreen')
 
     expect(page.url()).toContain(
-      '/uilib/components/button/demos/?fullscreen'
+      '/web/components/button/demos/?fullscreen'
     )
 
     await page.click('a.fullscreen')
-    await page.waitForURL('**/uilib/components/button/demos/')
+    await page.waitForURL('**/web/components/button/demos/')
 
-    expect(page.url()).toContain('/uilib/components/button/demos/')
+    expect(page.url()).toContain('/web/components/button/demos/')
   })
 
   test('should not produce hydration errors when visiting a fullscreen URL directly', async ({
@@ -33,7 +33,7 @@ test.describe('Fullscreen', () => {
       }
     })
 
-    await page.goto('/uilib/components/button/demos/?fullscreen')
+    await page.goto('/web/components/button/demos/?fullscreen')
     await page.waitForSelector('.dnb-app-content')
 
     const hydrationErrors = errors.filter(
@@ -46,7 +46,7 @@ test.describe('Fullscreen', () => {
   test('should show header and sidebar after quitting fullscreen from a direct fullscreen URL', async ({
     page,
   }) => {
-    await page.goto('/uilib/components/button/demos/?fullscreen')
+    await page.goto('/web/components/button/demos/?fullscreen')
     await page.waitForSelector('.dnb-app-content')
 
     // Header and sidebar should be hidden
@@ -55,7 +55,7 @@ test.describe('Fullscreen', () => {
 
     // Quit fullscreen
     await page.click('a.fullscreen')
-    await page.waitForURL('**/uilib/components/button/demos/')
+    await page.waitForURL('**/web/components/button/demos/')
 
     // Header and sidebar should reappear
     await expect(page.locator('header.sticky-menu')).toBeVisible()
@@ -65,7 +65,7 @@ test.describe('Fullscreen', () => {
   test('should highlight the correct tab when visiting a fullscreen URL directly', async ({
     page,
   }) => {
-    await page.goto('/uilib/components/heading/demos/?fullscreen')
+    await page.goto('/web/components/heading/demos/?fullscreen')
     await page.waitForSelector('.dnb-app-content')
 
     const selectedTab = page.locator(

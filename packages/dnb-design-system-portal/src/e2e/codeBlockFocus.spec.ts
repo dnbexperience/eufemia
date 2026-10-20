@@ -5,7 +5,7 @@ test('static code blocks show keyboard focus and scroll with arrow keys', async 
   page,
 }) => {
   await page.setViewportSize({ width: 375, height: 812 })
-  await page.goto('/uilib/components/pagination/properties/')
+  await page.goto('/web/components/pagination/properties/')
   await waitForApp(page)
 
   const code = page
@@ -34,7 +34,7 @@ test('static code blocks show keyboard focus and scroll with arrow keys', async 
 test('live code editors show only the existing outer focus ring', async ({
   page,
 }) => {
-  await page.goto('/uilib/components/copy-on-click/demos/')
+  await page.goto('/web/components/copy-on-click/demos/')
   await waitForApp(page)
 
   const editor = page.locator('.dnb-live-editor').first()

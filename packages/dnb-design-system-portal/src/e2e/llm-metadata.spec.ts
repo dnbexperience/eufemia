@@ -22,7 +22,7 @@ test.describe('LLM integration', () => {
     const body = await res.text()
     expect(body).toContain('# Eufemia')
     expect(body).toMatch(/GeneratedAt:\s*\d{4}-\d{2}-\d{2}T/) // ISO timestamp
-    expect(body).toContain('/uilib/usage/first-steps/quick-reference.md')
+    expect(body).toContain('/web/usage/first-steps/quick-reference.md')
     expect(body).toContain('## Machine-readable docs')
     // Ensure visual-tests entries are excluded from llms.txt
     expect(body).not.toContain('/visual-tests/')

@@ -92,7 +92,7 @@ for (const prefix of ['/uilib', '/web']) {
       )
       await waitForApp(page)
       await expect(page).toHaveURL(
-        '/working-with-ai/ai-skills?from=bookmark#agent-skills'
+        /\/working-with-ai\/ai-skills\/?\?from=bookmark#agent-skills$/
       )
       await expect(
         page.getByRole('heading', { name: 'AI skills', exact: true })
@@ -102,7 +102,7 @@ for (const prefix of ['/uilib', '/web']) {
       )
       await waitForApp(page)
       await expect(page).toHaveURL(
-        '/working-with-ai/mcp-universe#ai-assistance-and-mcp-server'
+        /\/working-with-ai\/mcp-universe\/?#ai-assistance-and-mcp-server$/
       )
       await expect(
         page.getByRole('heading', { name: 'MCP Universe', exact: true })

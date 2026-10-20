@@ -3,7 +3,7 @@ import waitForApp from './shared/waitForApp'
 
 test.describe('Focus mode', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/uilib/components/radio/demos/')
+    await page.goto('/web/components/radio/demos/')
     await waitForApp(page)
   })
 
@@ -122,7 +122,7 @@ test.describe('Focus mode', () => {
         (hash ? ' with a hash' : ''),
       async ({ page }) => {
         if (hash) {
-          await page.goto('/uilib/components/radio/demos/' + hash)
+          await page.goto('/web/components/radio/demos/' + hash)
           await waitForApp(page)
         }
 
@@ -244,7 +244,7 @@ test.describe('Focus mode', () => {
     })
 
     await page.goto(
-      '/uilib/components/radio/demos/?q=term#with-different-sizes'
+      '/web/components/radio/demos/?q=term#with-different-sizes'
     )
     await waitForApp(page)
 
@@ -299,7 +299,7 @@ test.describe('Focus mode', () => {
     page,
   }) => {
     await page.goto(
-      '/uilib/components/radio/demos/?focusmode=RadioExampleSizes'
+      '/web/components/radio/demos/?focusmode=RadioExampleSizes'
     )
     await waitForApp(page)
 

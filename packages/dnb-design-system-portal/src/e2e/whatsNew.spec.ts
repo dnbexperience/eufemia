@@ -64,7 +64,7 @@ test.describe("What's new", () => {
       .getByRole('link', { name: 'v11', exact: true })
       .click()
     await expect(page).toHaveURL(
-      '/uilib/about-the-lib/releases/eufemia/v11-info'
+      '/web/about-the-lib/releases/eufemia/v11-info'
     )
     await expect(page.getByRole('heading', { level: 1 })).toContainText(
       'v11'
@@ -136,9 +136,9 @@ test.describe("What's new", () => {
       '/uilib/about-the-lib/releases': 'Releases and versions',
     }
     for (const path of [
-      '/uilib/changelog',
+      '/web/changelog',
       '/design-system',
-      '/uilib/about-the-lib/releases',
+      '/web/about-the-lib/releases',
     ]) {
       await page.goto(path)
       await waitForApp(page)
@@ -155,7 +155,7 @@ test.describe("What's new", () => {
   test('keeps version guides directly accessible without sidebar entries', async ({
     page,
   }) => {
-    await page.goto('/uilib/about-the-lib/releases/eufemia/v11-info')
+    await page.goto('/web/about-the-lib/releases/eufemia/v11-info')
     await waitForApp(page)
     await expect(page.getByRole('heading', { level: 1 })).toContainText(
       'v11'

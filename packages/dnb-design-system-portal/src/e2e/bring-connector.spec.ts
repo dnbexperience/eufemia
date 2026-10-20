@@ -5,7 +5,7 @@ test.describe('Connector.Bring', () => {
   test('keeps an invalid Swedish postal code error after change, blur, and submit', async ({
     page,
   }) => {
-    await page.goto('/uilib/extensions/forms/Connectors/Bring/')
+    await page.goto('/web/extensions/forms/Connectors/Bring/')
     await waitForApp(page)
 
     const form = page
