@@ -499,7 +499,7 @@
       inset
     );
 
-    background-color: var(--token-color-background-neutral-bold);
+    background-color: var(--token-color-background-neutral-base);
 
     // Show the selected background of the DrawerList in forced colors mode
     @media (forced-colors: active) {
