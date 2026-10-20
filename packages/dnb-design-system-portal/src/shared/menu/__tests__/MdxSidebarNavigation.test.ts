@@ -86,6 +86,7 @@ describe('MDX-defined Portal navigation', () => {
       'HTML elements',
       'Layout',
       'Helpers',
+      'Patterns',
     ])
   })
 
@@ -164,6 +165,51 @@ describe('MDX-defined Portal navigation', () => {
         flatten(section.items).find(({ id }) => id === 'web-whats-new')
       ).toBeUndefined()
     }
+  })
+
+  it('orders Web getting started with updates first and requirements and CDN last', () => {
+    const web = tree().sections.find(({ id }) => id === 'web')
+    const gettingStarted = web.items.find(
+      ({ id }) => id === 'web-get-started'
+    )
+    expect(gettingStarted.subheadings.map(({ title }) => title)).toEqual([
+      "What's new",
+      'First steps',
+      'Customization',
+      'Best practices',
+      'Requirements',
+      'Asset CDN',
+    ])
+  })
+
+  it('groups Web patterns in a contentless accordion without an overview page', () => {
+    const { shared, sections } = tree('/web/patterns/status-icon')
+    const web = sections.find(({ id }) => id === 'web')
+    const patterns = web.items.find(({ id }) => id === 'web-patterns')
+    expect(patterns).toMatchObject({
+      title: 'Patterns',
+      isMenuLink: false,
+      isMenuGroup: false,
+    })
+    expect(patterns.subheadings).toEqual([
+      expect.objectContaining({
+        id: 'web-patterns-status-icon',
+        path: 'web/patterns/status-icon',
+        isMenuLink: true,
+        isActive: true,
+      }),
+    ])
+    const [data] = toSidebarMenuData([patterns], () => undefined)
+    expect(data).toMatchObject({ collapsible: true })
+    expect(data.to).toBeUndefined()
+    expect(
+      flatten([
+        ...shared,
+        ...sections
+          .filter(({ id }) => id !== 'web')
+          .flatMap(({ items }) => items),
+      ]).some(({ id }) => id === 'web-patterns-status-icon')
+    ).toBe(false)
   })
 
   it('preserves every visible document in the generated menu without duplicate ids', () => {
