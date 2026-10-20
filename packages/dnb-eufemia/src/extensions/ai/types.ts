@@ -258,7 +258,7 @@ export type AiSourcesProps = {
 } & SpacingProps &
   HTMLAttributes<HTMLDivElement>
 
-export type AiToolStatus =
+export type AiTaskStatus =
   | 'running'
   | 'awaiting'
   | 'done'
@@ -299,14 +299,14 @@ export type AiAgentActionProps = {
 } & SpacingProps &
   Omit<HTMLAttributes<HTMLDivElement>, 'children'>
 
-export type AiToolProps = {
-  /** What the tool does, e.g. `Looking up your transactions`. */
+export type AiTaskProps = {
+  /** What the task does, e.g. `Looking up your transactions`. */
   title?: ReactNode
-  /** Display status of the tool. Defaults to `running`. */
-  status?: AiToolStatus
+  /** Display status of the task. Defaults to `running`. */
+  status?: AiTaskStatus
   /** Error shown when the status is `error`. */
   errorText?: ReactNode
-  /** Content shown below the status, e.g. the result of the tool. */
+  /** Content shown below the status, e.g. the result of the task. */
   children?: ReactNode
 } & SpacingProps &
   Omit<HTMLAttributes<HTMLDivElement>, 'title' | 'part'>

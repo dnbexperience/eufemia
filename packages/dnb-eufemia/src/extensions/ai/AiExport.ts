@@ -19,5 +19,5 @@ export {
 export { default as DateMarker } from './AiDateMarker'
 export { default as Info } from './AiInfo'
 export { default as Sources } from './AiSources'
-export { default as Tool } from './AiTool'
+export { default as Task } from './AiTask'
 export { default as ActivityText } from './AiActivityText'
