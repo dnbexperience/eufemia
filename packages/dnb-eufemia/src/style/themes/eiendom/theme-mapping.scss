@@ -9,5 +9,5 @@
 
 .eufemia-theme__eiendom,
 :root {
-  // no overrides
+  --font-size-basis-native: var(--font-size-basis-web);
 }

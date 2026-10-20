@@ -5,6 +5,7 @@ order: 3
 
 import { PropValue, PropAsPx } from './_helpers.tsx'
 import ChangeStyleTheme from '../../../core/ChangeStyleTheme'
+import { NativeTypographyExample } from './Examples'
 
 <ChangeStyleTheme label="Change the brand:" bottom="large" />
 
@@ -23,6 +24,71 @@ Font sizes are the same in light and dark mode.
 | <PropAsPx name="--font-size-large" />    | `large`    | **<PropValue name="--font-size-large" />**    | `--font-size-large`     | `.dnb-t__size--large`    |                                 |
 | <PropAsPx name="--font-size-x-large" />  | `x-large`  | **<PropValue name="--font-size-x-large" />**  | `--font-size-x-large`   | `.dnb-t__size--x-large`  |                                 |
 | <PropAsPx name="--font-size-xx-large" /> | `xx-large` | **<PropValue name="--font-size-xx-large" />** | `--font-size-xx-large`  | `.dnb-t__size--xx-large` |                                 |
+
+## Typography for native app pages
+
+When a web page opens inside a native app, its text should fit the surrounding app. Wrap the embedded content in `<Theme typography="native">` to use the brand's native app font size for body text and control labels, such as buttons and inputs.
+
+Line heights, spacing, and control dimensions stay the same. Content outside this Theme keeps its current font size. Web font size remains the default.
+
+```tsx
+import { Theme } from '@dnb/eufemia/shared'
+```
+
+```tsx
+<Theme typography="native">
+  <App />
+</Theme>
+```
+
+Eufemia dialogs, dropdowns, and other content rendered through React portals also receive the setting. You do not need access to `<html>`. The brand determines the native app size; this setting does not detect whether the page is running inside an app.
+
+### Current sizes
+
+These values come from the selected brand's theme tokens at the default root size. Use the brand selector above to compare brands. Brands without a dedicated native app size keep their web font size.
+
+| Web body text                         | Native app body text                         |
+| ------------------------------------- | -------------------------------------------- |
+| <PropAsPx name="--font-size-basis" /> | <PropAsPx name="--font-size-basis-native" /> |
+
+### Try it
+
+Use **Native app font size** in Portal Tools to preview the setting across the Portal. This preference is saved across navigation and refresh. Themes that explicitly select a mode, such as the example below, keep their own setting.
+
+Toggle **Use native app font size** below to compare the native app and web sizes. Open the dialog to see the setting applied through a React portal. Its switch updates the same Theme while the dialog stays open.
+
+<NativeTypographyExample />
+
+### What text changes?
+
+The setting changes the default body text size, called `basis` in Eufemia. Paragraphs, lists, control labels, and other text using `--font-size-basis` follow it. Explicit sizes such as `<P size="medium">` keep their selected size.
+
+Heading and lead variants that use the basis token also follow the setting. Other heading sizes keep their existing scale; a complete native heading scale is not included.
+
+### Nested themes and micro-frontends
+
+Nested themes inherit the setting, including when changing brand. Use `typography="web"` to restore the web font size in part of the app:
+
+```tsx
+<Theme typography="native">
+  <P>Native app body text</P>
+  <Theme typography="web">
+    <P>Web body text</P>
+  </Theme>
+</Theme>
+```
+
+The app integration chooses the mode. Independently mounted micro-frontends receive the channel from their host and configure their own `Theme`; React context does not cross separate React roots or iframes. No shared document changes are required.
+
+Use `Theme` to wrap the styled content. `Theme.Context` and `Provider theme` values pass the setting to descendant themes and Eufemia portal roots, but do not create a CSS wrapper for ordinary DOM content.
+
+### Text scaling
+
+The theme selects the brand's default font size. Support for larger or smaller system text settings is a separate responsibility of the app shell. Native sizes use `rem`, so they follow the root text scale.
+
+On iOS, use the [text-scale script](#optional-javascript-root-scaling), or the shell's equivalent integration, to normalize the default root while preserving Dynamic Type. Apply scaling once and preserve the shell's system font scaling on Android.
+
+Keep responsive typography disabled when using the native basis size across phone and tablet widths. Inside an existing responsive context, use `<Typography.Context responsive={false}>` around the embedded content.
 
 ## Why text can be larger on iOS
 
