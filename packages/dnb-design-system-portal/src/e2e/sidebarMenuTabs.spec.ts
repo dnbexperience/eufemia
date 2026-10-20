@@ -352,6 +352,9 @@ test.describe('Portal SidebarMenu', () => {
     await expect(
       platform.getByRole('button', { name: /Liquid Glass/ })
     ).toBeVisible()
+    await expect(
+      menu.locator('.dnb-height-animation--animating')
+    ).toHaveCount(0)
     await platform.getByRole('combobox').click()
     await page
       .getByRole('option', { name: 'Android', exact: true })

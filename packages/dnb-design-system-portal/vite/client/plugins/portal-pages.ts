@@ -322,7 +322,6 @@ export default function portalPagesPlugin(
 
         // Generate lazy import statements and route definitions
         const routeDefs: string[] = []
-        const redirectDefs: string[] = []
 
         files.forEach((file) => {
           if (file.frontmatter.route === false) {
@@ -353,13 +352,7 @@ export default function portalPagesPlugin(
           }
         })
 
-        for (const { from, to, fragments } of getPageRedirects(files)) {
-          for (const alias of [from, from + '/']) {
-            redirectDefs.push(
-              `  { path: ${JSON.stringify(alias)}, Component: () => React.createElement(PageRedirect, { target: ${JSON.stringify(to)}, fragments: ${JSON.stringify(fragments)} }), handle: { redirectTo: ${JSON.stringify(to)} }, loader: typeof window === 'undefined' ? ({ request }) => redirect(resolvePageRedirect(${JSON.stringify(to)}, request.url)) : undefined },`
-            )
-          }
-        }
+        const redirectData = JSON.stringify(getPageRedirects(files))
 
         // Path matching helper, re-exported so page lists can select pages
         // with the same globs the content queries used.
@@ -382,15 +375,25 @@ import { resolvePageRedirect } from '${globModulePath}';
 
 function PageRedirect({ target, fragments }) {
   const source = useLocation();
-  const destination = fragments[source.hash.slice(1)] || target;
+  const key = source.hash.slice(1);
+  const destination = Object.prototype.hasOwnProperty.call(fragments, key) ? fragments[key] : target;
   return React.createElement(Navigate, {
     replace: true,
     to: resolvePageRedirect(destination, source.pathname + source.search + source.hash),
   });
 }
 
+const redirectRoutes = ${redirectData}.flatMap(({ from, to, fragments }) =>
+  [from, from + '/'].map(path => ({
+    path,
+    Component: () => React.createElement(PageRedirect, { target: to, fragments }),
+    handle: { redirectTo: to },
+    loader: typeof window === 'undefined' ? ({ request }) => redirect(resolvePageRedirect(to, request.url)) : undefined,
+  }))
+);
+
 export const routes = [
-${redirectDefs.join('\n')}
+...redirectRoutes,
 ${routeDefs.join('\n')}
 ];
 

@@ -436,7 +436,7 @@ export function buildRedirectHtml(
   const url = escapeHtml(redirectUrl)
   const target = JSON.stringify(redirectUrl).replaceAll('<', '\\u003c')
   const fragmentMap = JSON.stringify(fragments).replaceAll('<', '\\u003c')
-  const script = `<script>var target = new URL((${fragmentMap})[location.hash.slice(1)] || ${target}, location.href); target.search = target.search || location.search; target.hash = target.hash || location.hash; location.replace(target.href);</script>`
+  const script = `<script>var fragments = ${fragmentMap}; var key = location.hash.slice(1); var target = new URL(Object.prototype.hasOwnProperty.call(fragments, key) ? fragments[key] : ${target}, location.href); target.search = target.search || location.search; target.hash = target.hash || location.hash; location.replace(target.href);</script>`
 
   return [
     '<!DOCTYPE html>',

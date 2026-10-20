@@ -940,11 +940,25 @@ describe('prerender-utils', () => {
   })
 
   describe('buildRedirectHtml', () => {
+    it('preserves unmapped fragment names that also exist on Object.prototype', () => {
+      const html = buildRedirectHtml('/web/components/button/')
+      const script = html.match(/<script>([\s\S]*?)<\/script>/i)[1]
+      const replace = vi.fn()
+      new Function('location', script)({
+        href: 'https://eufemia.dnb.no/uilib/components/button#constructor',
+        search: '',
+        hash: '#constructor',
+        replace,
+      })
+      expect(replace).toHaveBeenCalledWith(
+        'https://eufemia.dnb.no/web/components/button/#constructor'
+      )
+    })
     it('forwards a moved section fragment to its new document', () => {
       const html = buildRedirectHtml('/web/usage/first-steps/tools/', {
         'agent-skills': '/working-with-ai/ai-skills#agent-skills',
       })
-      const script = html.match(/<script>([\s\S]*?)<\/script>/)[1]
+      const script = html.match(/<script>([\s\S]*?)<\/script>/i)[1]
       const replace = vi.fn()
       new Function('location', script)({
         href: 'https://eufemia.dnb.no/uilib/usage/first-steps/tools?from=bookmark#agent-skills',
@@ -961,12 +975,12 @@ describe('prerender-utils', () => {
       const html = buildRedirectHtml(
         '/target/</script><script>bad()</script>'
       )
-      expect(html.match(/<script>/g)).toHaveLength(1)
+      expect(html.match(/<script>/gi)).toHaveLength(1)
       expect(html).not.toContain('</script><script>bad()')
     })
     it('preserves the incoming query and fragment in a static redirect', () => {
       const html = buildRedirectHtml('/web/components/button/')
-      const script = html.match(/<script>([\s\S]*?)<\/script>/)?.[1]
+      const script = html.match(/<script>([\s\S]*?)<\/script>/i)?.[1]
       expect(script).toBeDefined()
       const replace = vi.fn()
       new Function('location', script)({

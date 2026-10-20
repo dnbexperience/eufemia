@@ -113,6 +113,7 @@ function toPortalDocsDirectory(
   context: RunnerContext,
   url: string
 ): string | null {
+  url = url.replace(/^\/uilib\//, PORTAL_DOCS_PATH_PREFIX)
   if (!url.startsWith(PORTAL_DOCS_PATH_PREFIX)) {
     return null
   }
