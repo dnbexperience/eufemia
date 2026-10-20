@@ -26,8 +26,9 @@ export type UsageResolver = {
 export type McpUsageRecord = {
   tool: string
   component: string
-  component_missed: boolean
-  likely_component: string
+  // Absent on records queued before these fields existed.
+  component_missed?: boolean
+  likely_component?: string
   path: string
   env: string
   transport: 'web'
