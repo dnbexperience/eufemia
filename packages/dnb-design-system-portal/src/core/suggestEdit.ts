@@ -14,8 +14,14 @@ export function parseSuggestEditQuery(search: string) {
   let page = '/'
   try {
     const url = new URL(params.get('page') || '/', PORTAL_ORIGIN)
-    if (url.origin === PORTAL_ORIGIN) {
-      page = url.pathname + url.hash
+    const path = url.pathname + url.hash
+
+    // A path such as "/..//example.org" becomes "//example.org", which a link opens as another site
+    if (
+      url.origin === PORTAL_ORIGIN &&
+      new URL(path, PORTAL_ORIGIN).origin === PORTAL_ORIGIN
+    ) {
+      page = path
     }
   } catch {
     // Keep the default for an invalid URL

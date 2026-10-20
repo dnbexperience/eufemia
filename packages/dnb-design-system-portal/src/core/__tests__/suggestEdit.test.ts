@@ -114,10 +114,17 @@ Keep the change focused, preserve the page's MDX structure and formatting, run o
     it.each([
       'https://example.org/',
       '//example.org/',
+      '/..//example.org/',
+      '/.//example.org/',
+      '/%2e%2e//example.org/',
+      '/a/..//example.org/x',
       'javascript:alert(1)',
       'https://[',
     ])('ignores the page %s', (page) => {
-      expect(parseSuggestEditQuery(query(page, '')).page).toBe('/')
+      expect(parseSuggestEditQuery(query(page, ''))).toMatchObject({
+        page: '/',
+        pageUrl: 'https://eufemia.dnb.no/',
+      })
     })
 
     it('drops the search part of the page', () => {
