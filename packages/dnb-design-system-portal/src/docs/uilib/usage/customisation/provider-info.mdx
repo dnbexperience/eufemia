@@ -37,9 +37,25 @@ You can also use the `value` property to define the component properties:
 
 Named icons work without provider configuration. Released packages automatically use the public asset CDN directory for their installed Eufemia version; development builds use the unversioned directory. Bundled primary icons render locally.
 
-Set `iconBaseUrl={false}` to disable remote icon loading. Imported icons and bundled primary icons continue to render.
+Use `iconBaseUrl` to point named icons to your own asset directory:
 
-See [dynamic CDN icons](/uilib/components/icon#loading-icons-by-name) for loading, CSP and rendering guidance.
+```tsx
+import { Button, Icon } from '@dnb/eufemia'
+import Provider from '@dnb/eufemia/shared/Provider'
+
+function App() {
+  return (
+    <Provider iconBaseUrl="/assets/icons">
+      <Icon icon="heart" />
+      <Button text="Favorite" icon="heart" />
+    </Provider>
+  )
+}
+```
+
+Set `iconBaseUrl={false}` to disable remote icon loading. Imported icons still render, as do bundled primary names in `IconPrimary` and components that use it.
+
+See the [Icon loading guidance](/uilib/components/icon#loading-icons-by-name) for self-hosting setup, supported URLs, fallback behavior, CSP and CORS.
 
 ## Using useSharedContext hook
 
