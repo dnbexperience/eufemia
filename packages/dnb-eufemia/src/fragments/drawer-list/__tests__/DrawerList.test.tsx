@@ -1533,6 +1533,22 @@ describe('DrawerList component', () => {
 })
 
 describe('DrawerList markup', () => {
+  it('should omit aria-labelledby when neither a label nor a trigger exists', () => {
+    render(
+      <DrawerList
+        {...props}
+        data={mockData}
+        direction="bottom"
+        maxHeight={10}
+        skipPortal
+      />
+    )
+
+    expect(
+      document.querySelector('.dnb-drawer-list__options')
+    ).not.toHaveAttribute('aria-labelledby')
+  })
+
   it('should validate with ARIA rules', async () => {
     const snapshotProps: DrawerListAllProps = {
       id: 'drawer-list-id',

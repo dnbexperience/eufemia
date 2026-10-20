@@ -646,6 +646,7 @@ DrawerList.Options = memo(
     }
     return (
       prevProps.cacheHash === nextProps.cacheHash &&
+      prevProps['aria-labelledby'] === nextProps['aria-labelledby'] &&
       prevProps.renderDriver === nextProps.renderDriver
     )
   }
