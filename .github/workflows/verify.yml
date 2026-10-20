@@ -108,8 +108,9 @@ jobs:
 
       # Same as the library cache above: ESLint does not see an upgrade of a
       # plugin without version metadata (eslint-plugin-react, -import and
-      # -workspaces here), or a change to a local rule, as a config change.
-      # The portal config extends the library config, so it uses the same hash.
+      # -workspaces here) as a config change. The portal config extends the
+      # library config, so the local rules are in the hash too, even though no
+      # portal file uses them today.
       - name: Use ESLint cache
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         with:
