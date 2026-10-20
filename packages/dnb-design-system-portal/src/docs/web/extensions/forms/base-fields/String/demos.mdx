@@ -1,0 +1,131 @@
+---
+showTabs: true
+redirect_from:
+  - /uilib/extensions/forms/base-fields/String/demos
+---
+
+import * as Examples from './Examples'
+
+## Demos
+
+### Label and value
+
+<Examples.LabelAndValue />
+
+### Label and description
+
+<Examples.LabelAndDescription />
+
+### With a horizontal layout
+
+This example uses [Field.Provider](/web/extensions/forms/feature-fields/Provider/) to set the `layout` to `horizontal` and `layoutOptions` to `{ width: 'medium' }` for all nested fields.
+
+The `width` of the horizontal label can be set to `small`, `medium`, `large` or a `rem` value.
+
+<Examples.HorizontalLayout />
+
+### Placeholder
+
+<Examples.Placeholder />
+
+### With a status
+
+This example demonstrates how the status message width adjusts according to the field width.
+
+<Examples.WithStatus />
+
+#### With help
+
+<Examples.WithHelp />
+
+### Capitalize each word
+
+<Examples.Capitalize />
+
+### Icons
+
+<Examples.Icons />
+
+### Clear
+
+<Examples.Clear />
+
+### Disabled
+
+<Examples.Disabled />
+
+### Validation - Required
+
+<Examples.ValidateRequired />
+
+### Validation - Minimum length
+
+<Examples.ValidateMinimumLength />
+
+### Validation - Maximum length and custom error message
+
+<Examples.ValidateMaximumLengthCustomError />
+
+### Validation - Maximum length with [TextCounter](/web/components/fragments/text-counter/)
+
+<Examples.MaximumLengthWithTextCounter />
+
+### Validation - Pattern
+
+<Examples.ValidatePattern />
+
+### Validation - Multiple Errors
+
+<Examples.WithMultipleError />
+
+### Synchronous external validator (called on every change)
+
+<Examples.SynchronousExternalChangeValidator />
+
+### Asynchronous external validator (called on every change)
+
+<Examples.AsynchronousExternalChangeValidator />
+
+### Synchronous external validator (called on blur)
+
+<Examples.SynchronousExternalBlurValidator />
+
+### Asynchronous external validator (called on blur)
+
+<Examples.AsynchronousExternalBlurValidator />
+
+### Multiline, empty
+
+<Examples.MultipleEmpty />
+
+### Multiline, placeholder
+
+<Examples.MultiplePlaceholder />
+
+### Multiline, label & value
+
+<Examples.MultipleLabelAndValue />
+
+### Multiline resize handle
+
+Multiline fields show a vertical resize handle by default, including when `autoResize` is enabled. Use `hideResizeHandle` to prevent users from manually resizing the field. The handle is hidden automatically on touch-primary devices, where native textarea resizing is unavailable.
+
+<Examples.MultipleResizeHandle />
+
+### Multiline, with help
+
+<Examples.MultipleWithHelp />
+
+### TransformIn and TransformOut
+
+<Examples.TransformInAndOut />
+
+### Prevent typing of invalid characters
+
+You can use the `onInput` property together with the `htmlAttributes` property to prevent typing of invalid characters. Read more about [how given attributes are merged](/web/extensions/forms/about-fields/#how-given-attributes-are-merged).
+
+<Examples.OnInput />
+
+### Widths
+
+<Examples.Widths />

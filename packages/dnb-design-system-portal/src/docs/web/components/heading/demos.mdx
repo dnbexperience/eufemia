@@ -1,0 +1,51 @@
+---
+showTabs: true
+redirect_from:
+  - /uilib/components/heading/demos
+---
+
+import {
+  HeadingDefault,
+  HeadingContext,
+  HeadingIsolation,
+  HeadingMix,
+  HeadingCustomElement,
+  HeadingProseMaxWidthExample,
+  HeadingProseMaxWidthProvider,
+} from 'Docs/web/components/heading/Examples'
+
+## Demos
+
+**NB:** Every demo uses `<Heading.Level reset={1} ...` to reset the global level handling. Client-only apps normally do not need this. Server-rendered apps should use the same boundary around each independently rendered tree.
+
+### Default headings
+
+<HeadingDefault />
+
+### Heading level context
+
+<HeadingContext />
+
+### Level isolation
+
+<HeadingIsolation />
+
+### Combine with manual heading
+
+<HeadingMix />
+
+### Custom heading element
+
+<HeadingCustomElement />
+
+### Prose max width
+
+The `proseMaxWidth` property allows you to limit the width of heading text based on character count, creating optimal reading line lengths:
+
+<HeadingProseMaxWidthExample />
+
+#### Using Typography.Context
+
+Use `Typography.Context` to apply `proseMaxWidth` to multiple headings at once:
+
+<HeadingProseMaxWidthProvider />

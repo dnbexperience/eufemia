@@ -170,7 +170,6 @@ function Layout(props: LayoutProps) {
           {!fs && !hideSidebar && (
             <SidebarMenu
               location={location}
-              showAll={false}
               onWidthChange={updateSidebarWidth}
             />
           )}

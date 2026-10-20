@@ -3,13 +3,12 @@
  *
  */
 
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { clsx } from 'clsx'
-import { useStaticQuery, graphql } from 'portal-query'
+import { allMdxNodes } from 'virtual:portal-pages'
 import * as SidebarMenu from '@dnb/eufemia/src/extensions/sidebar-menu'
 import '@dnb/eufemia/src/extensions/sidebar-menu/style'
 import { setPageFocusElement } from '@dnb/eufemia/src/shared/helpers'
-import { createOrderKey } from './SidebarMenuOrder'
 import {
   navStyle,
   mobileDrawerStyle,
@@ -17,87 +16,34 @@ import {
   scrollContentStyle,
   sidebarLogoStyle,
 } from './SidebarMenu.module.scss'
-import { defaultTabsValue } from '../tags/defaultValues'
 import {
-  applySidebarMenuPlacement,
-  createUilibSidebarStructure,
   findActiveSidebarItemId,
-  getSidebarMenuStorageKey,
-  groupComponentsByCategory,
-  shouldIncludeSidebarPrefix,
   themeTitles,
   toSidebarMenuData,
-  type NavItem,
-  type NavItemTabs,
 } from './SidebarMenuData'
+import {
+  createMdxSidebarNavigation,
+  type PortalPlatform,
+} from './MdxSidebarNavigation'
+import graphics from './SidebarGraphics'
+import {
+  getWebStorage,
+  readWebStorageJSON,
+} from '@dnb/eufemia/src/shared/helpers/webStorage'
 import { useTheme } from '@dnb/eufemia/src/shared'
 import PortalLogo from './graphics/logo'
 import { Link } from '../tags/Anchor'
 
-const showAlwaysMenuItems = [] // like "uilib" something like that
 type SidebarLayoutProps = {
   location: Location
-  showAll?: boolean
   onWidthChange?: (width: number) => void
 }
 
 export default function SidebarLayout({
   location,
-  showAll,
   onWidthChange,
 }: SidebarLayoutProps) {
   const { close: closeMenu } = SidebarMenu.useResponsive()
-
-  const {
-    allMdx,
-    site: { pathPrefix },
-  } = useStaticQuery(graphql`
-    query {
-      site {
-        pathPrefix
-      }
-      allMdx(filter: { frontmatter: { draft: { ne: true } } }) {
-        edges {
-          node {
-            fields {
-              slug
-            }
-            frontmatter {
-              title
-              menuTitle
-              hideInMenu
-              order
-              status
-              icon
-              showTabs
-              tabs {
-                key
-              }
-              theme
-              sidebarMenuPlacement
-              sidebarMenuDividerBefore
-              sidebarMenu {
-                id
-                path
-                parent
-                title
-                icon
-                order
-                root
-                includePageAs
-                pageParent
-                pageIcon
-                pageOrder
-                static
-                hideStatus
-              }
-              category
-            }
-          }
-        }
-      }
-    }
-  `)
 
   useEffect(() => {
     setPageFocusElement(
@@ -106,34 +52,74 @@ export default function SidebarLayout({
     )
   }, [])
 
-  /* Creation of menu items starts here */
-
-  const groupedNavItems = groupComponentsByCategory(
-    createUilibSidebarStructure(
-      applySidebarMenuPlacement(
-        groupNavItems(
-          prepareNav({
-            location,
-            allMdx,
-            showAll,
-            pathPrefix,
-          }),
-          location
-        ).filter(({ title, menuTitle }) => title || menuTitle)
-      ),
-      true
-    )
+  const { shared, sections } = createMdxSidebarNavigation(
+    allMdxNodes,
+    location.pathname
   )
-  const navItems = toSidebarMenuData(groupedNavItems, closeMenu)
-  const selectedItem = findActiveSidebarItemId(groupedNavItems)
+  const selectedItem = findActiveSidebarItemId(shared)
+  const platformSelectedItem = findActiveSidebarItemId(
+    sections.flatMap(({ items }) => items)
+  )
+  const [platform, setPlatform] = useState<PortalPlatform>('web')
+  useEffect(() => {
+    const stored = readWebStorageJSON('session', 'portal-sidebar-platform')
+    if (stored === 'ios' || stored === 'android') {
+      setPlatform(stored)
+    }
+  }, [])
+  useEffect(() => {
+    const selectedSection = sections.find(({ items }) =>
+      findActiveSidebarItemId(items)
+    )
+    if (selectedSection) {
+      setPlatform(selectedSection.id)
+      savePlatform(selectedSection.id)
+    }
+  }, [platformSelectedItem])
   const currentTheme = useTheme()?.name
-  const storageKey = getSidebarMenuStorageKey(groupedNavItems)
+  const storageKey = 'portal-sidebar-menu-open-items-shared'
   const menu = (withSpace = false) => (
     <SidebarMenu.Data
       aria-label="Section Content Menu"
       className="dev-grid"
-      data={addThemeBadges(navItems, currentTheme)}
-      selectedItem={selectedItem}
+      data={[
+        ...addThemeBadges(
+          toSidebarMenuData(shared, closeMenu),
+          currentTheme
+        ),
+        {
+          id: 'portal-platform-navigation',
+          type: 'custom',
+          className: 'portal-sidebar-menu__platform',
+          dividerBefore: true,
+          content: (
+            <SidebarMenu.Data
+              aria-label="Platform Content Menu"
+              sectionLabel="Platform"
+              sections={sections.map(({ icon, items, ...section }) => ({
+                ...section,
+                icon: graphics[icon],
+                items: addThemeBadges(
+                  toSidebarMenuData(items, closeMenu),
+                  currentTheme
+                ),
+              }))}
+              activeSection={platform}
+              onActiveSectionChange={(id) => {
+                if (id !== 'web' && id !== 'ios' && id !== 'android') {
+                  return
+                }
+                setPlatform(id)
+                savePlatform(id)
+              }}
+              selectedItem={platformSelectedItem ?? ''}
+              openItemsStorageKey="portal-sidebar-menu-open-items-platform"
+              scrollSelectedItemIntoView={false}
+            />
+          ),
+        },
+      ]}
+      selectedItem={selectedItem ?? platformSelectedItem ?? ''}
       openItemsStorageKey={storageKey}
       scrollPositionStorageKey={`${storageKey}-scroll-position`}
       {...(withSpace && { top: 'medium' })}
@@ -188,6 +174,17 @@ export default function SidebarLayout({
   )
 }
 
+function savePlatform(platform: PortalPlatform) {
+  try {
+    getWebStorage('session')?.setItem(
+      'portal-sidebar-platform',
+      JSON.stringify(platform)
+    )
+  } catch {
+    // Platform switching also works when browser storage is full.
+  }
+}
+
 function addThemeBadges(
   items: ReturnType<typeof toSidebarMenuData>,
   currentTheme: ReturnType<typeof useTheme>['name']
@@ -217,253 +214,4 @@ function ThemeBadge({
       )}
     />
   )
-}
-
-const prepareNav = ({
-  location,
-  allMdx,
-  showAll,
-  pathPrefix,
-}): NavItem[] => {
-  const pathname = location.pathname.replace(/(\/)$/, '')
-  let first = null
-  if (showAll === false) {
-    const prefix = pathPrefix ? pathPrefix.replace(/^(\/)/, '') : null
-    first =
-      pathname.split('/').filter((p) => p && p !== prefix)[0] || 'uilib'
-  }
-
-  const navItems = allMdx.edges
-    .map(
-      ({
-        node: {
-          fields: { slug },
-        },
-      }) => slug
-    )
-    .filter((slug) => slug !== '/')
-    // preorder
-    .sort()
-    .reduce(
-      (acc, cur) => {
-        const prefix = cur.split('/').filter(Boolean)[0]
-
-        if (showAll === false) {
-          if (shouldIncludeSidebarPrefix(first, prefix)) {
-            return { ...acc, items: [...acc.items, cur] }
-          } else {
-            return { ...acc, [cur]: [cur] }
-          }
-        } else {
-          if (showAlwaysMenuItems.find((url) => url === cur)) {
-            return { ...acc, [cur]: [cur] }
-          }
-
-          if (
-            prefix &&
-            showAlwaysMenuItems.find((url) => url === `/${prefix}`)
-          ) {
-            return {
-              ...acc,
-              [`/${prefix}`]: [...acc[`/${prefix}`], cur],
-            }
-          } else {
-            return { ...acc, items: [...acc.items, cur] }
-          }
-        }
-      },
-      { items: [] }
-    )
-
-  let countLevels = 0
-  const orderCache = {},
-    childCounts = {}
-
-  const list = showAlwaysMenuItems
-    .reduce((acc, cur) => acc.concat(navItems[cur]), []) // put in the sub parts
-    .concat(navItems.items) // put inn the main parts
-    .map((slugPath) => {
-      const {
-        node: {
-          fields: { slug },
-          frontmatter: { title, menuTitle, order, ...rest },
-        },
-      } = allMdx.edges.find(
-        ({
-          node: {
-            fields: { slug },
-          },
-        }) => slug === slugPath
-      )
-
-      const level = slug.split('/').filter(Boolean).length
-      if (level > countLevels) {
-        countLevels = level
-      }
-
-      return {
-        title: menuTitle || title,
-        path: slug,
-        level,
-        order,
-        _order: slug,
-        ...rest,
-      }
-    })
-    .filter(
-      ({ title, menuTitle, sidebarMenu }) =>
-        title || menuTitle || sidebarMenu?.title
-    )
-
-    // prepare items, make sure we forward order for sub paths, if needed
-    .map((item) => {
-      const parts = item.path.split('/').filter(Boolean)
-
-      // Handle ordering when no order field is given
-      const parentPath = parts.slice(0, -1).join('/')
-      childCounts[parentPath] = childCounts[parentPath] || 0
-      const count = childCounts[parentPath]++
-      item._order = parts
-        .reduce((acc, cur, i) => {
-          const mySub = parts.slice(0, i + 1).join('/')
-          if (!orderCache[mySub]) {
-            orderCache[mySub] = createOrderKey(item.order, count)
-          }
-          acc.push(orderCache[mySub])
-          return acc
-        }, [])
-        .join('/')
-
-      return item
-    })
-
-  list
-    // reorder regarding potential manually defined order
-    .sort(({ _order: oA }, { _order: oB }) =>
-      oA < oB ? -1 : oA > oB ? 1 : 0
-    )
-
-  return list
-}
-
-function groupNavItems(navItems: NavItem[], location: Location) {
-  const topLevelHeadings: NavItem[] = []
-
-  // Remove first and last slash from pathname to match path from graphql
-  const currentPathName = location.pathname
-    .replace(/\/$/g, '')
-    .replace(/^\//g, '')
-
-  const itemsByPath = new Map<string, NavItem>()
-  navItems.forEach((item) => {
-    const { isActive, isInsideActiveCategory, isInsideActivePath } =
-      getActiveStatusForItem(currentPathName, item)
-    itemsByPath.set(item.path.replace(/^\/+|\/+$/g, ''), {
-      ...item,
-      id: item.path.replace(/\//g, '-'),
-      isActive,
-      isInsideActiveCategory,
-      isInsideActivePath,
-      currentPathName,
-    })
-  })
-
-  itemsByPath.forEach((item, itemPath) => {
-    const pathParts = itemPath.split('/')
-    let parent: NavItem | undefined
-
-    while (pathParts.length > 1 && !parent) {
-      pathParts.pop()
-      parent = itemsByPath.get(pathParts.join('/'))
-    }
-
-    if (parent) {
-      parent.subheadings = [...(parent.subheadings ?? []), item]
-    } else {
-      topLevelHeadings.push(item)
-    }
-  })
-
-  return topLevelHeadings
-}
-
-function getActiveStatusForItem(
-  currentPath: string,
-  { path: itemPath, showTabs, tabs }: NavItem
-) {
-  const portalSlug = itemPath.split('/').filter(Boolean)[0] ?? ''
-  const categorySlug = itemPath.split('/').filter(Boolean)[1] ?? ''
-  const startOfCurrentPath = `${portalSlug}/${categorySlug}`
-
-  const isActive = checkIfActiveItem(currentPath, itemPath, showTabs, tabs)
-
-  const isInsideActivePath = checkIfActivePath(
-    currentPath,
-    itemPath,
-    isActive
-  )
-
-  const isInsideActiveCategory = checkIfActiveCategory(
-    currentPath,
-    startOfCurrentPath,
-    isInsideActivePath
-  )
-
-  return { isActive, isInsideActiveCategory, isInsideActivePath }
-}
-
-function checkIfActiveCategory(
-  currentPath: string,
-  startOfCurrentPath: string,
-  isInsideActivePath?: boolean
-) {
-  return (
-    !isInsideActivePath &&
-    (currentPath + '/').startsWith(startOfCurrentPath + '/')
-  )
-}
-
-function checkIfActivePath(
-  currentPath: string,
-  itemPath: string,
-  isActive?: boolean
-) {
-  return !isActive && (currentPath + '/').startsWith(itemPath + '/')
-}
-
-function checkIfActiveItem(
-  currentPath: string,
-  itemPath: string,
-  showTabs?: boolean,
-  tabs?: NavItemTabs[]
-): boolean {
-  if (!showTabs) {
-    return itemPath === currentPath
-  }
-
-  // There is no need to do the tab slug control if the currentPath and itemPath are matching
-  if (itemPath === currentPath) {
-    return true
-  }
-
-  // If a page exposes tabs, the last slug segment is usually the active tab.
-  // Remove it from currentPath to determine the active parent item.
-  const slugs = currentPath.split('/').filter(Boolean)
-  const lastSlug = slugs[slugs.length - 1]
-  const currentPathWithoutTabSlug = currentPath.replace(`/${lastSlug}`, '')
-
-  if (itemPath === currentPathWithoutTabSlug) {
-    // In addition, because we show the info.mdx without /info
-    // we don't want the "parent" to be marked as active as well.
-    // So we get tabs and check for that state as well
-    const found = (tabs || defaultTabsValue).some(({ key }) => {
-      return '/' + lastSlug === key
-    })
-
-    if (found) {
-      return true
-    }
-  }
-
-  return false
 }

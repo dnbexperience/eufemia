@@ -1,0 +1,30 @@
+---
+contentTitle: Tooltip after closing a modal
+fullscreen: true
+hideInMenu: true
+search: false
+redirect_from:
+  - /uilib/components/tooltip/visual-tests/modal-dismissal
+---
+
+import { Dialog, Drawer } from '@dnb/eufemia/src'
+
+<Dialog
+  title="Tooltip dialog"
+  triggerProps={{
+    text: 'Open dialog',
+    tooltip: 'Dialog trigger tooltip',
+  }}
+>
+  Dialog content
+</Dialog>
+
+<Drawer
+  title="Tooltip drawer"
+  triggerProps={{
+    text: 'Open drawer',
+    tooltip: 'Drawer trigger tooltip',
+  }}
+>
+  Drawer content
+</Drawer>

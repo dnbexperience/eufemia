@@ -1,0 +1,43 @@
+---
+showTabs: true
+redirect_from:
+  - /uilib/extensions/forms/blocks/ChildrenWithAge/demos
+---
+
+import * as Examples from './Examples'
+
+## Demos
+
+### In Wizard
+
+All features, and additional questions (`enableAdditionalQuestions`) and custom translations, are enabled in this example.
+
+<Examples.ChildrenWithAgeWizard />
+
+### Basic
+
+<Examples.ChildrenWithAge />
+
+### With `joint-responsibility` question
+
+<Examples.ChildrenWithAge
+  enableAdditionalQuestions={['joint-responsibility']}
+/>
+
+### With `daycare` question
+
+<Examples.ChildrenWithAge enableAdditionalQuestions={['daycare']} />
+
+### With `daycare` and `joint-responsibility` question
+
+<Examples.ChildrenWithAge
+  enableAdditionalQuestions={['daycare', 'joint-responsibility']}
+/>
+
+<VisibleWhenVisualTest>
+  <Examples.ChildrenWithAgePrefilledYes />
+  <Examples.ChildrenWithAgeSummaryNoChildren />
+  <Examples.ChildrenWithAgeSummaryMultipleChildren />
+  <Examples.ChildrenWithAgeSummaryMultipleNoAnswers />
+  <Examples.ChildrenWithAgeSummaryNoChildrenAfterFilledOutData />
+</VisibleWhenVisualTest>

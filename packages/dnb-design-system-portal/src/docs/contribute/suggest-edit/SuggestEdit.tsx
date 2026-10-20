@@ -140,11 +140,11 @@ export default function SuggestEdit() {
 
           <p>
             Paste the prompt into your coding agent. For Eufemia guidance,{' '}
-            <Anchor href="/uilib/usage/first-steps/tools/#install-project-skills">
+            <Anchor href="/working-with-ai/ai-skills#install-project-skills">
               install the Eufemia skills
             </Anchor>
             {' or '}
-            <Anchor href="/uilib/usage/first-steps/tools/#hosted-mcp-server">
+            <Anchor href="/working-with-ai/mcp-universe#hosted-mcp-server">
               connect the hosted Eufemia MCP server
             </Anchor>
             .

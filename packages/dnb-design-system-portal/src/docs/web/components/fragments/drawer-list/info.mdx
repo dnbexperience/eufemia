@@ -1,0 +1,78 @@
+---
+showTabs: true
+redirect_from:
+  - /uilib/components/fragments/drawer-list/info
+---
+
+import { DrawerListExampleOptionsRender } from 'Docs/web/components/fragments/drawer-list/Examples'
+
+## Import
+
+```tsx
+import { DrawerList } from '@dnb/eufemia/fragments'
+```
+
+## Description
+
+The DrawerList component is a fragment inside other components.
+
+It is used e.g. in the [Dropdown](/web/components/dropdown).
+
+When you use the DrawerList on its own, give the list an accessible name with `aria-label` or `aria-labelledby`.
+
+## Relevant links
+
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/fragments/drawer-list)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/components/fragments/drawer-list)
+
+## Data structure
+
+```js
+// as array
+const data = [
+  // Every data item can, beside "content" - contain what ever
+  {
+    // (optional) can be what ever
+    selectedKey: 'key_0',
+
+    // Item content as a string or array
+    content: 'Item 1 Content',
+  },
+
+  // more items ...
+  {
+    selectedKey: 'key_1',
+    content: ['Item 2 Value', 'Item 2 Content'],
+  },
+  {
+    selectedKey: 'key_2',
+    content: ['Item 3 Content A', 'Item 3 Content B'],
+  },
+  {
+    selectedKey: 'key_3',
+    content: ['Item 4 Content A', <>Custom Component</>],
+  },
+]
+
+// as object
+const data = {
+  a: 'A',
+  b: 'B',
+}
+```
+
+### Example usage of `optionsRender`
+
+<DrawerListExampleOptionsRender />
+
+### data-dnb-drawer-list-active
+
+When a DrawerList is open, it will set an HTML attribute on the main HTML Element called `data-dnb-drawer-list-active`. The attribute value will be the ID of the current DrawerList.
+
+This can be used to handle z-index issues from within CSS only:
+
+```css
+html[data-dnb-drawer-list-active='DrawerList-ID'] {
+  /* Your css */
+}
+```

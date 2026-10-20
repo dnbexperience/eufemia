@@ -38,6 +38,10 @@
     scroll-margin-block: 40vh;
   }
 
+  .portal-sidebar-menu__platform {
+    padding-inline: 0;
+  }
+
   [data-sidebar-menu-responsive-provider='portal-sidebar-menu']
     .dnb-sidebar-menu-responsive-inline[data-sidebar-menu-responsive-visible='true']:not(
       [data-sidebar-menu-responsive-compact='true']
@@ -46,12 +50,7 @@
     clip-path: inset(0 -2rem 0 0);
   }
 
-  :is(
-      [data-sidebar-menu-group-id^='uilib-components-category-'],
-      [data-sidebar-menu-group-id='uilib-design-language-web'],
-      [data-sidebar-menu-group-id='uilib-usage-web'],
-      [data-sidebar-menu-group-id='uilib-about-web']
-    )
+  [data-sidebar-menu-group-id^='web-components-categories-']
     > .dnb-sidebar-menu__group__title {
     color: var(--token-color-text-neutral-alternative);
   }

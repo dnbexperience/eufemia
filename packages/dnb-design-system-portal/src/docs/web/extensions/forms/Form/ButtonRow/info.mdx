@@ -1,0 +1,29 @@
+---
+showTabs: true
+redirect_from:
+  - /uilib/extensions/forms/Form/ButtonRow/info
+---
+
+## Import
+
+```tsx
+import { Form } from '@dnb/eufemia/extensions/forms'
+render(<Form.ButtonRow />)
+```
+
+## Description
+
+`Form.ButtonRow` is a wrapper for horizontally separated buttons. Use it when you place two or more buttons together; a single button can be rendered directly without a ButtonRow.
+
+```jsx
+import { Form } from '@dnb/eufemia/extensions/forms'
+render(
+  <Form.Handler onSubmit={submitHandler}>
+    ...
+    <Form.ButtonRow>
+      <Form.SubmitButton />
+      <Button variant="secondary">Other button</Button>
+    </Form.ButtonRow>
+  </Form.Handler>
+)
+```

@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, afterEach } from 'vitest'
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
 import path from 'node:path'
 import fs from 'node:fs'
 import os from 'node:os'
@@ -10,6 +10,32 @@ import testPageFilterPlugin, {
 } from '../../client/plugins/test-page-filter'
 
 describe('test-page-filter plugin', () => {
+  it('retains the canonical destination of a legacy URL used by a test', () => {
+    vi.stubEnv('IS_E2E', '1')
+    try {
+      const plugin = testPageFilterPlugin()
+      const transform = plugin.transform as (
+        code: string,
+        id: string
+      ) => { code: string }
+      const result = transform('', 'virtual:portal-pages')
+      const routes = [
+        {
+          path: '/uilib/components/button/demos/',
+          handle: { redirectTo: '/web/components/button/demos/' },
+        },
+        { path: '/web/components/button/demos/' },
+        { path: '/unrelated-page/' },
+      ]
+      new Function('routes', result.code)(routes)
+      expect(routes.map(({ path }) => path)).toEqual([
+        '/uilib/components/button/demos/',
+        '/web/components/button/demos/',
+      ])
+    } finally {
+      vi.unstubAllEnvs()
+    }
+  })
   describe('plugin interface', () => {
     it('returns a plugin with the correct name', () => {
       const plugin = testPageFilterPlugin()

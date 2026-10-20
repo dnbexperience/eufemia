@@ -324,13 +324,15 @@ function createEmptyTsDocs(): Awaited<ReturnType<typeof loadTsDocs>> {
 }
 
 export async function loadTsDocsForDocPath(rel: string) {
-  const uilibPrefix = `uilib${path.sep}`
+  const prefix = ['web', 'uilib']
+    .map((name) => name + path.sep)
+    .find((value) => rel.startsWith(value))
 
-  if (!rel.startsWith(uilibPrefix)) {
+  if (!prefix) {
     return createEmptyTsDocs()
   }
 
-  return loadTsDocs(rel.slice(uilibPrefix.length))
+  return loadTsDocs(rel.slice(prefix.length))
 }
 
 export function mergeDocs(
@@ -416,7 +418,7 @@ export function buildMetadata({
     description,
     group,
     slug,
-    docs: `${slug.replace(/\/$/, '')}.md`,
+    docs: `${slug === '/' ? '/home' : slug.replace(/\/$/, '')}.md`,
     props: propsList,
     events: eventsList,
     related: relatedList,
@@ -507,8 +509,14 @@ export function toWorkspacePath(abs: string, siteDir: string) {
 
 export function toSlugAndDir(
   rel: string,
-  slugBase: string = LLM_DOCS_SLUG_PREFIX
+  slugBase: string = LLM_DOCS_SLUG_PREFIX,
+  canonicalSlug?: string
 ) {
+  if (typeof canonicalSlug === 'string') {
+    const normalized = trimEdgeSlashes(canonicalSlug)
+    const slug = '/' + normalized + (normalized ? '/' : '')
+    return { slug, dirForExtras: slug.slice(1) }
+  }
   const noExt = rel.replace(/\.[^/.]+$/, '')
   const normalizedSlugBase = trimEdgeSlashes(slugBase)
   const slugSegments = [
@@ -624,6 +632,9 @@ async function isDraftMdx(file: string) {
   try {
     const src = await fs.readFile(file, 'utf-8')
     const { data: attributes } = fm(src)
+    if (attributes.route === false) {
+      return true
+    }
     const raw = attributes && attributes.draft
 
     if (raw === true) {
@@ -1399,11 +1410,12 @@ export async function createMarkdownCopies({
 
   for (const file of markdownEntryFiles) {
     const rel = path.relative(docsRoot, file)
-    const { slug } = toSlugAndDir(rel, slugBase)
+    const { data: attributes } = fm(await fs.readFile(file, 'utf8'))
+    const { slug } = toSlugAndDir(rel, slugBase, attributes.slug)
     const resolvedOutputRoot = outputRoot || path.join(siteDir, 'public')
     const mdOutputPath = path.join(
       resolvedOutputRoot,
-      slug.replace(/\/$/, '') + '.md'
+      (slug === '/' ? '/home' : slug.replace(/\/$/, '')) + '.md'
     )
     const outputDir = path.dirname(mdOutputPath)
     const entryLinks = {
@@ -1461,6 +1473,23 @@ export async function createMarkdownCopies({
       .join('\n\n')
     await fs.ensureDir(outputDir)
     await fs.writeFile(mdOutputPath, `${combinedMd.trim()}\n`, 'utf-8')
+
+    const aliases = [
+      ...(attributes.redirect_from ?? []),
+      ...(slug === '/' ? ['/index'] : []),
+    ]
+    for (const alias of aliases) {
+      const aliasSlug = String(alias).replace(/^\/+|\/+$/g, '')
+      if (
+        !aliasSlug ||
+        aliasSlug.split('/').some((part) => part === '.' || part === '..')
+      ) {
+        continue
+      }
+      const aliasPath = path.join(resolvedOutputRoot, aliasSlug + '.md')
+      await fs.ensureDir(path.dirname(aliasPath))
+      await fs.writeFile(aliasPath, `${combinedMd.trim()}\n`, 'utf8')
+    }
   }
 }
 

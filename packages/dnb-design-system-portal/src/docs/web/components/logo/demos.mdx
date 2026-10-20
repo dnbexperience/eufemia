@@ -1,0 +1,79 @@
+---
+showTabs: true
+redirect_from:
+  - /uilib/components/logo/demos
+---
+
+import {
+  LogoAllExample,
+  LogoChangeExample,
+  LogoInheritFontSizeExample,
+  LogoInheritHeightExample,
+  LogoFixedSizeExample,
+  LogoDefaultExample,
+  LogoColorExample,
+  LogoInTextExample,
+} from 'Docs/web/components/logo/Examples'
+
+## Demos
+
+### Importing a logo
+
+To use a logo, the svg must be imported and handed to the `Logo` components through the `svg` property.
+
+```jsx
+import {
+  DnbDefault,
+  CarnegieDefault,
+  EiendomDefault,
+  SbankenDefault,
+  SbankenHorizontal,
+  SbankenCompact,
+} from '@dnb/eufemia/components/Logo'
+```
+
+<LogoAllExample />
+
+If no svg is provided, the `DnbDefault` logo is used by default:
+
+<LogoDefaultExample />
+
+### Change logo based on theme
+
+The `svg` property can also accept a function that returns a logo svg based on the current [theme](/web/usage/customisation/theming/theme/) props.
+
+```tsx
+import type { ThemeProps } from '@dnb/eufemia/shared/Theme'
+```
+
+<LogoChangeExample />
+
+### Customization
+
+#### Default inherited height
+
+By default the logo will use the inherited `font-size` to set its height.
+
+<LogoInheritFontSizeExample />
+
+#### Alternative inherited height
+
+You can choose to let the height be set by the inherited `height` instead by setting the `inheritSize` property.
+
+<LogoInheritHeightExample />
+
+#### Fixed height and/or width
+
+The logo's `height` and `width` can be fixed depending on your needs.
+
+<LogoFixedSizeExample />
+
+#### Color
+
+You can choose to override the default colors by either inheriting the `currentcolor`, or set it directly.
+
+<LogoColorExample />
+
+<VisibleWhenVisualTest>
+  <LogoInTextExample />
+</VisibleWhenVisualTest>

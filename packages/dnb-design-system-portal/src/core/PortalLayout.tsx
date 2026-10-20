@@ -213,7 +213,7 @@ export default function PortalLayout(props: PortalLayoutProps) {
           showEditLink={!fmData.hideEditLink}
           showPropertiesUsage={
             !pageFm.hidePropertiesUsage &&
-            slug.startsWith('uilib/') &&
+            slug.startsWith('web/') &&
             slug.endsWith('/properties')
           }
         >

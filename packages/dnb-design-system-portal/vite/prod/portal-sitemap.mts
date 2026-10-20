@@ -1,6 +1,6 @@
 type MdxNode = {
   fields: { slug: string }
-  frontmatter?: { draft?: boolean }
+  frontmatter?: { draft?: boolean; route?: boolean }
 }
 
 export function createCanonicalUrls(allMdxNodes: MdxNode[]): Set<string> {
@@ -10,7 +10,9 @@ export function createCanonicalUrls(allMdxNodes: MdxNode[]): Set<string> {
     ...allMdxNodes
       .filter(
         ({ fields, frontmatter }) =>
-          fields.slug && frontmatter?.draft !== true
+          fields.slug &&
+          frontmatter?.draft !== true &&
+          frontmatter?.route !== false
       )
       .map(({ fields }) => `/${fields.slug}/`),
   ])

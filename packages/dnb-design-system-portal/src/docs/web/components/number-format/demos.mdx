@@ -1,0 +1,104 @@
+---
+showTabs: true
+redirect_from:
+  - /uilib/components/number-format/demos
+---
+
+import {
+  NumberDefault,
+  NumberCurrency,
+  NumberHeroStyleAmount,
+  NumberCompact,
+  NumberPercent,
+  NumberPhone,
+  NumberBankAccount,
+  NumberNationalIdentification,
+  NumberOrganization,
+  NumberLocales,
+  NumberBrowserLocale,
+  NumberSpacing,
+  NumberSignDisplay,
+  NumberProvider,
+  NumberMonospace,
+} from 'Docs/web/components/number-format/Examples'
+import ChangeLocale from 'dnb-design-system-portal/src/core/ChangeLocale'
+
+## Demos
+
+<ChangeLocale label="Locale used in the demos:" />
+
+### Default numbers
+
+<NumberDefault />
+
+### Currency
+
+<NumberCurrency />
+
+### Hero-style values
+
+For prominent values, use [Stat](/web/components/stat/) with `Stat.Currency` and `Stat.Percent`.
+
+<NumberHeroStyleAmount />
+
+### Compact (shorten) numbers
+
+Shorten numbers should only be used for numbers above 100 000. A small `k` for thousand is not a Norwegian standard, and should not be used in formal contexts.
+
+<NumberCompact />
+
+### Percentage
+
+<NumberPercent />
+
+### Phone
+
+By using `selectAll={false}` you disable the auto-select all feature.
+
+<NumberPhone />
+
+### Bank Account number (Kontonummer)
+
+<NumberBankAccount />
+
+### National Identification number (Fødselsnummer)
+
+<NumberNationalIdentification />
+
+### Organization number (Organisasjonsnummer)
+
+<NumberOrganization />
+
+### Numbers and currencies in different locales
+
+<NumberLocales />
+
+### Browser locale
+
+With `locale="auto"`, the value is formatted with the locale of the browser. A server-rendered page uses the default locale until it has hydrated.
+
+<NumberBrowserLocale />
+
+### NumberFormat and spacing
+
+The NumberFormat uses `display: inline-block;` in order to make the [spacing system](/web/layout/space) to work.
+
+<NumberSpacing />
+
+### Sign display
+
+Control when to display the sign for numbers using the `signDisplay` property. Options include `always`, `exceptZero`, `negative`, and `never`.
+
+<NumberSignDisplay />
+
+### Using the Provider with NumberFormat
+
+In this example every NumberFormat will receive the Provider defined properties, including `cleanCopyValue`.
+
+<NumberProvider />
+
+### Monospace
+
+By using the `monospace` property you can set the font to [DNB Mono Regular](/quickguide-designer/fonts)
+
+<NumberMonospace />

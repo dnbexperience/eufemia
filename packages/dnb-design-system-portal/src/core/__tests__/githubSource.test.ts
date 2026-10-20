@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 import { getGitHubEditTitle, getGitHubEditUrl } from '../githubSource'
 
 const sourcePath =
-  'packages/dnb-design-system-portal/src/docs/uilib/components/button/info.mdx'
+  'packages/dnb-design-system-portal/src/docs/web/components/button/info.mdx'
 
 describe('getGitHubEditUrl', () => {
   it('uses the provided pull request source repository and branch', () => {
