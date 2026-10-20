@@ -49,7 +49,6 @@ export type FieldUploadProps = Omit<
   | 'labelSize'
   | 'labelDescriptionInline'
   | 'labelSrOnly'
-  | 'labelSize'
 > &
   SpacingProps &
   Pick<
