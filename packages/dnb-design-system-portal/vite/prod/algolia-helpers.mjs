@@ -6,7 +6,7 @@
  */
 
 export const excludedSlugPartials = [
-  'uilib/about-the-lib/releases/',
+  'web/about-the-lib/releases/',
   'EUFEMIA_CHANGELOG',
 ]
 

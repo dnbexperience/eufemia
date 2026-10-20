@@ -1,0 +1,23 @@
+---
+showTabs: true
+redirect_from:
+  - /uilib/extensions/forms/DataContext/Provider/info
+---
+
+## Description
+
+`DataContext.Provider` is the context provider that has to wrap the features if components of Field and Value is to be used with a common source instead of distributing values and events individually.
+
+For a more complete feature set tailored to building forms, please use [Form.Handler](/web/extensions/forms/Form/Handler). It uses DataContext internally.
+
+## Relevant links
+
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/DataContext/Provider)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/extensions/forms/DataContext/Provider)
+
+```tsx
+import { DataContext } from '@dnb/eufemia/extensions/forms'
+render(
+  <DataContext.Provider data={existingData}>...</DataContext.Provider>
+)
+```

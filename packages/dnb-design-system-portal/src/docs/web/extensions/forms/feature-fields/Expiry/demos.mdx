@@ -1,0 +1,70 @@
+---
+showTabs: true
+redirect_from:
+  - /uilib/extensions/forms/feature-fields/Expiry/demos
+---
+
+import ChangeLocale from 'dnb-design-system-portal/src/core/ChangeLocale'
+import * as Examples from './Examples'
+
+## Demos
+
+The locale is what determines the components `placeholder` format .e.g. `mm/åå` in Norwegian, `mm/yy` in English.
+
+<ChangeLocale
+  bottom
+  label="Locale used in the demos:"
+  listUSLocale={true}
+/>
+
+English (US) is not included in Eufemia by default. You can include it like:
+
+```jsx
+import enUS from '@dnb/eufemia/shared/locales/en-US'
+<EufemiaProvider locale={enUS} ...>
+	App
+</EufemiaProvider>
+```
+
+### Empty
+
+<Examples.Empty />
+
+### Label
+
+<Examples.Label />
+
+### With a horizontal layout
+
+<Examples.HorizontalLayout />
+
+### With help
+
+<Examples.WithHelp />
+
+### Disabled
+
+<Examples.Disabled />
+
+### Error
+
+<Examples.WithError />
+
+### Validation - Required
+
+<Examples.ValidationRequired />
+
+### Transform in and out
+
+This example demonstrates how to transform data when it enters and leaves the form field.
+
+You can use the `transformIn` property to modify the incoming data before it is displayed in the field, and the `transformOut` property to adjust the data before it is submitted or processed.
+When `transformIn` one can either return a simple value `"0835"` or an object `{ month:"08", year:"35" }`.
+
+<Examples.TransformInAndOut />
+
+### Extend validation with custom validation function
+
+You can [extend the existing validation](/web/extensions/forms/create-component/useFieldProps/info/#validators) (`expiryValidator`) with your own validation function.
+
+<Examples.ValidationExtendValidator />

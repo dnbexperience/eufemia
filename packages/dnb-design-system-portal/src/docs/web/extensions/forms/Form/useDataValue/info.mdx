@@ -1,0 +1,71 @@
+---
+showTabs: true
+redirect_from:
+  - /uilib/extensions/forms/Form/useDataValue/info
+---
+
+## Import
+
+```tsx
+import { Form } from '@dnb/eufemia/extensions/forms'
+// Use Form.useDataValue
+```
+
+## Description
+
+`Form.useDataValue(path)` returns the current value at a [JSON Pointer](/web/extensions/forms/getting-started/#what-is-a-json-pointer) path and subscribes only to that path while used inside `Form.Handler`.
+
+Use it when rendered output depends on one form data value. It rerenders when that path, a parent path or a child path changes, but not when unrelated form data or other form context state changes.
+
+For custom field or value components, prefer [useFieldProps](/web/extensions/forms/create-component/useFieldProps/) or [useValueProps](/web/extensions/forms/create-component/useValueProps/) for the component's own path.
+
+Related helpers:
+
+- [Form.useData](/web/extensions/forms/Form/useData/)
+- [Form.useDataWithoutSubscription](/web/extensions/forms/Form/useData/#without-subscription)
+- [Form.getData](/web/extensions/forms/Form/getData/)
+
+## Relevant links
+
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Form/DataContext/useDataValue.ts)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/extensions/forms/Form/useDataValue)
+
+## Usage
+
+```tsx
+import { Form } from '@dnb/eufemia/extensions/forms'
+
+function MyComponent() {
+  const name = Form.useDataValue<string>('/customer/name')
+
+  return <output>{name}</output>
+}
+
+render(
+  <Form.Handler data={{ customer: { name: 'Ada' } }}>
+    <MyComponent />
+  </Form.Handler>
+)
+```
+
+## TypeScript support
+
+You can define the value type returned from the path.
+
+```tsx
+type MyData = { firstName: string }
+
+const MyComponent = () => {
+  const firstName = Form.useDataValue<MyData['firstName']>('/firstName')
+
+  return firstName
+}
+```
+
+## When to use it
+
+Use `Form.useDataValue` for rendered values inside `Form.Handler`.
+
+Use [Form.useData](/web/extensions/forms/Form/useData/) when rendered output depends on the whole form data object.
+
+Use [Form.useDataWithoutSubscription](/web/extensions/forms/Form/useData/#without-subscription) for non-subscribing imperative reads or writes in callbacks, effects or internal handlers.

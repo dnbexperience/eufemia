@@ -1,0 +1,28 @@
+---
+showTabs: true
+redirect_from:
+  - /uilib/extensions/forms/base-fields/Toggle/properties
+---
+
+import TranslationsTable from 'dnb-design-system-portal/src/shared/parts/TranslationsTable'
+import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
+import { FieldProperties } from '@dnb/eufemia/src/extensions/forms/Field/FieldDocs'
+import { ToggleProperties } from '@dnb/eufemia/src/extensions/forms/Field/Toggle/ToggleDocs'
+
+## Properties
+
+### Field-specific properties
+
+<PropertiesTable props={ToggleProperties} />
+
+### General properties
+
+<PropertiesTable
+  props={FieldProperties}
+  valueType="any"
+  omit={['layout', 'layoutOptions']}
+/>
+
+## Translations
+
+<TranslationsTable localeKey={['ToggleField', 'Field']} />

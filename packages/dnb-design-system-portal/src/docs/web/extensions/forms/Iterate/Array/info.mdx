@@ -1,0 +1,173 @@
+---
+showTabs: true
+hideInMenu: true
+redirect_from:
+  - /uilib/extensions/forms/Iterate/Array/info
+---
+
+## Import
+
+```tsx
+import { Iterate } from '@dnb/eufemia/extensions/forms'
+render(<Iterate.Array />)
+```
+
+## Description
+
+`Iterate.Array` works in many ways similar to field components. It has a `value` property that can receive an array, or you can give it a `path` if you want it to retrieve an array from a surrounding `DataContext`. All child components of `Iterate.Array` are rendered once per item the array value consists of.
+
+## Relevant links
+
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Iterate/Array)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/extensions/forms/Iterate/Array)
+
+```tsx
+import { Iterate, Field } from '@dnb/eufemia/extensions/forms'
+
+render(
+  <Iterate.Array value={['Iron Man', 'Captain America', 'The Hulk']}>
+    <Field.String itemPath="/" />
+  </Iterate.Array>
+)
+```
+
+## About `itemPath` and `path`
+
+`itemPath` points to the root of each iterated item, while `path` points to the root of the data source:
+
+```tsx
+import { Iterate, Field, Form } from '@dnb/eufemia/extensions/forms'
+
+render(
+  <Form.Handler
+    defaultData={{
+      listOfHeroes: [
+        { name: 'Iron Man' },
+        { name: 'Captain America' },
+        { name: 'The Hulk' },
+      ],
+    }}
+    onChange={console.log}
+  >
+    <Iterate.Array path="/listOfHeroes">
+      <Field.Name.Last itemPath="/name" />
+    </Iterate.Array>
+  </Form.Handler>
+)
+```
+
+## Individual values and dynamic paths
+
+Since `Iterate.Array` renders its children once per item, the field components inside must receive values based on the different items in the array. This can be done in two ways:
+
+### 1. itemPath
+
+If field components inside `Iterate.Array` are given an `itemPath` property, this will look for values based on the array item being the root of the structure, even if the array often comes from a surrounding data set. This means you do not need to think about which index the field should point to, because it is handled by `Iterate.Array` internally. You can treat the individual item as its own structure.
+
+To get autocomplete and compile-time checking on the `itemPath` prop, derive the item type from your registered root data with `TypedItemField`. See [Type-checked paths](/web/extensions/forms/typed-paths/#type-checking-itempath-inside-iterate).
+
+### 2. Function callback as children (render property)
+
+If you want to provide values to individual field components directly instead of pointing to them with paths, you can give `Iterate.Array` a render property. It works a bit like an array map call. The render function provides the value of the item as the first argument, the index of which item you are on as the second, and the internal array as the third.
+
+```tsx
+render(
+  <Iterate.Array path="/listOfHeroes">
+    {(itemValue, itemIndex, internalArray) => {
+      return <Field.Name.Last itemPath="/name" />
+    }}
+  </Iterate.Array>
+)
+```
+
+You can also get the index by using the `useItem` hook:
+
+```tsx
+const MyItem = () => {
+  const { index } = Iterate.useItem()
+
+  return <Field.Name.Last itemPath="/name" />
+}
+
+render(
+  <Iterate.Array path="/listOfHeroes">
+    <MyItem />
+  </Iterate.Array>
+)
+```
+
+## The item number in labels
+
+You can use the `{itemNo}` variable in the label to display the current item number. This is useful when you have a list of items and you want to display the item number in the label.
+
+```tsx
+import { Iterate, Field } from '@dnb/eufemia/extensions/forms'
+
+render(
+  <Iterate.Array value={['foo', 'bar']}>
+    <Field.String itemPath="/" label="Item no. {itemNo}" />
+  </Iterate.Array>
+)
+```
+
+The [Iterate.ViewContainer](/web/extensions/forms/Iterate/ViewContainer/) and the [Iterate.EditContainer](/web/extensions/forms/Iterate/EditContainer/) also support `{itemNo}` in the `title` property to display the current item number.
+
+```tsx
+import { Iterate, Field } from '@dnb/eufemia/extensions/forms'
+
+render(
+  <Iterate.Array value={['foo', 'bar']}>
+    <Iterate.ViewContainer title="Item no. {itemNo}">
+      ...
+    </Iterate.ViewContainer>
+  </Iterate.Array>
+)
+```
+
+### Initial container mode
+
+This section describes the behavior of the `EditContainer` and the `ViewContainer` components.
+
+By default, the container mode is set to `auto`. This means that the container will open (switch to `edit` mode) when there is an error in the container or the value is falsy (empty string, null, undefined, etc.).
+
+When a new item is added via the [Iterate.PushButton](/web/extensions/forms/Iterate/PushButton/) component, the item before it will change to `view` mode, if it had no validation errors.
+
+## Filter data
+
+You can filter data by paths specific or all paths.
+
+- `/myList/0` will filter out the first item of the list, including `foo` and `bar`.
+- `/myList/1/foo` will filter out `foo` inside the second item of the list.
+- `/myList/*/foo` will filter out all `foo` object keys from all items of the list.
+- `/myList/*/subList/*/foo` does support multi wildcard paths.
+
+In the example below, the data given in `onSubmit` will still have "foo2" and "bar2" of the list.
+
+```tsx
+import { Iterate, Form, Field } from '@dnb/eufemia/extensions/forms'
+
+const myFilter = {
+  '/myList/0': false,
+}
+
+render(
+  <Form.Handler
+    data={{
+      myList: [
+        { foo: 'foo1', bar: 'bar1' },
+        { foo: 'foo2', bar: 'bar2' },
+      ],
+    }}
+    onSubmit={(data, { filterData }) => {
+      console.log('onSubmit', filterData(myFilter))
+    }}
+  >
+    <Iterate.Array path="/myList">
+      <Field.String itemPath="/foo" label="Foo no. {itemNo}" />
+      <Field.String itemPath="/bar" label="Bar no. {itemNo}" />
+    </Iterate.Array>
+  </Form.Handler>
+)
+```
+
+Instead of `false` you can provide a function that returns `false` based on your logic.

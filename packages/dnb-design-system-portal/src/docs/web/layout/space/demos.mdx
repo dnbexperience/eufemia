@@ -1,0 +1,79 @@
+---
+showTabs: true
+redirect_from:
+  - /uilib/layout/space/demos
+---
+
+import * as Examples from './Examples'
+
+## Demos
+
+### Spacing method #1
+
+`Space` component. The RedBox is only to visualize the result.
+
+<Examples.Method1 />
+
+### Spacing method #2
+
+Define the space directly.
+
+<Examples.Method2 />
+
+### Spacing method #3
+
+Using the `useSpacing` hook.
+
+<Examples.Method3 />
+
+## Responsive `space`
+
+The `space` property supports [media query breakpoints](/web/layout/media-queries) (`small`, `medium`, `large`) for responsive spacing. Provide an object with breakpoint keys to apply different values at each screen size.
+
+<Examples.ResponsiveOuterSpace />
+
+### Responsive `innerSpace`
+
+The `innerSpace` property controls padding inside the Space component. It shares the same API as `space`.
+
+<Examples.InnerSpace />
+
+### `inline` and `block` shorthand
+
+Both `space` and `innerSpace` properties support `inline` and `block` shorthand properties for more semantic spacing control.
+
+- `inline` applies spacing to left and right (horizontal)
+- `block` applies spacing to top and bottom (vertical)
+
+<Examples.SpaceInlineBlock />
+
+### Responsive layout gap
+
+**NB**: This feature is in beta and may be subject to change.
+
+Use `Space.ResponsiveContext` to make spacing used in child components responsive. Does not affect `innerSpace` sizes.
+
+See the [responsive spacing](/web/layout/space#responsive-spacing) table for the specific values.
+
+In this example, `gap` and `space` values adjust automatically based on the viewport size (applies also to `inline`, `block`, `top`, `right`, `bottom`, and `left`).
+
+<Examples.ResponsiveSpacing />
+
+### Spacing with no margin collapse, due to the flex usage
+
+<Examples.MarginCollapse />
+
+### All four values will result in an equivalent margin
+
+<Examples.Margins />
+
+### Visual space testing
+
+<Examples.SpaceVisibleWhenVisualTestPatterns />
+
+<VisibleWhenVisualTest>
+  <Examples.SpaceVisibleWhenVisualTestElements />
+  <Examples.SpaceVisibleWhenVisualTestReset />
+  <Examples.SpaceMediaQueries />
+  <Examples.InnerSpaceMediaQueries />
+</VisibleWhenVisualTest>

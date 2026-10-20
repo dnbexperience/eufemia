@@ -1,0 +1,162 @@
+---
+showTabs: true
+redirect_from:
+  - /uilib/components/autocomplete/demos
+---
+
+import {
+  AutocompleteDefaultExample,
+  AutocompleteVirtualizedExample,
+  AutocompleteNumbersExample,
+  AutocompleteSearchOptionsExample,
+  AutocompleteWithCustomTitle,
+  AutocompleteDynamicallyUpdatedData,
+  AutocompleteFirstFocusUpdate,
+  AutocompleteToggleExample,
+  AutocompleteInlineExample,
+  AutocompletePredefinedInput,
+  AutocompleteDifferentSizes,
+  AutocompleteCustomWidth,
+  AutocompleteIconRightWithSubmitButton,
+  AutocompleteSuffix,
+  AutocompleteStatusInfoExample,
+  AutocompleteStatusErrorExample,
+  AutocompleteWithListItemContent,
+  AutocompleteGroups,
+  AutocompleteNoDivider,
+} from 'Docs/web/components/autocomplete/Examples'
+
+## Demos
+
+### Default autocomplete
+
+<AutocompleteDefaultExample />
+
+### Large data sets
+
+Virtualization is opt-in. Import the driver from `@dnb/eufemia/fragments/drawer-list/Virtualization` and pass it as `listDriver`. The default Autocomplete bundle does not import the virtualization dependency. Filtering and “Show all” continue to operate on the complete data set while only the visible options are rendered.
+
+Install the optional peer dependency before using the driver:
+
+```bash
+yarn add @tanstack/react-virtual
+```
+
+```tsx
+import { Autocomplete } from '@dnb/eufemia/components'
+import { createDrawerListVirtualization } from '@dnb/eufemia/fragments/drawer-list/Virtualization'
+
+const listDriver = createDrawerListVirtualization()
+
+<Autocomplete data={items} listDriver={listDriver} />
+```
+
+<AutocompleteVirtualizedExample />
+
+### Autocomplete with numbers
+
+This example uses `search={{ numbers: true }}` to enable number-optimized matching.
+
+<AutocompleteNumbersExample />
+
+### Search options
+
+Use the `search` prop to configure search behavior. This example uses `match: 'starts-with'` to only show results that begin with the typed text, and `highlight: false` to disable text highlighting.
+
+<AutocompleteSearchOptionsExample />
+
+### Autocomplete with a custom title
+
+- `keepValue` means the input value gets not removed after an input blur happens.
+- `showClearButton` means a clear button will show up when the input field contains a value.
+
+<AutocompleteWithCustomTitle />
+
+### Async usage, dynamically update data during typing
+
+This example simulates server delay with a timeout and - if it gets debounced, we cancel the timeout. Read more about the [debounce method](/web/components/autocomplete/events/#methods).
+
+Also, you may consider using `search={{ filter: false }}` if you have a backend doing the search operation.
+
+<AutocompleteDynamicallyUpdatedData />
+
+### Update data dynamically on the first focus
+
+<AutocompleteFirstFocusUpdate />
+
+### With a Button to toggle the open / close state
+
+**NB:** Just to show the possibility; the data is given as a function.
+
+<AutocompleteToggleExample />
+
+### With a predefined input/search value
+
+<AutocompletePredefinedInput />
+
+### Inline results
+
+Use the `inline` property to render the results list persistently open in normal document flow, instead of as an overlay. The toggle button is hidden, while filtering, highlighting, selection and keyboard navigation stay the same.
+
+<AutocompleteInlineExample />
+
+### Different sizes
+
+Four sizes are available: `small`, `default`, `medium` and `large`.
+
+<AutocompleteDifferentSizes />
+
+### Data suffix value
+
+Data is provided as such:
+
+```js
+const { locale } = React.useContext(Context)
+const data = [
+  {
+    suffixValue: (
+      <NumberFormat.Currency srLabel="Total:" locale={locale}>
+        {12345678}
+      </NumberFormat.Currency>
+    ),
+    selectedValue: `Brukskonto (${ban})`,
+    content: ['Brukskonto', ban],
+  },
+]
+```
+
+<AutocompleteSuffix />
+
+### Custom width
+
+<AutocompleteCustomWidth />
+
+<VisibleWhenVisualTest>
+  <AutocompleteIconRightWithSubmitButton />
+</VisibleWhenVisualTest>
+
+### Autocomplete with status message
+
+<AutocompleteStatusInfoExample />
+
+<VisibleWhenVisualTest>
+  <AutocompleteStatusErrorExample />
+</VisibleWhenVisualTest>
+
+### Autocomplete with List item content
+
+Reuse the [List](/web/components/list) row layout for rich option content. The option is already an `<li>` and wraps its content in `<span>` elements, so use `element="span"` on `List.Item.Basic` and its cells to keep the markup valid. Give the `Autocomplete` a width that fits both the title and the end value. Provide `selectedValue` with the plain text so the input shows a sensible value once an option is selected, and `searchContent` so typing still filters the options. See [rendering a row outside a `List.Container`](/web/components/list/#rendering-a-row-outside-a-listcontainer) for the details.
+
+<AutocompleteWithListItemContent />
+
+### Groups
+
+If an item has a `groupIndex` property, it will use the groups in the `groups` property. Only the first group can be without title, all other groups must have a title.
+
+<AutocompleteGroups />
+
+## No divider
+
+We can remove the divider between items with the `noDivider` prop. Beware that this can make information dense lists difficult to parse.
+
+<AutocompleteNoDivider />

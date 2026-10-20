@@ -1,0 +1,93 @@
+---
+showTabs: true
+redirect_from:
+  - /uilib/extensions/forms/Wizard/Step/info
+---
+
+## Import
+
+```tsx
+import { Wizard } from '@dnb/eufemia/extensions/forms'
+render(<Wizard.Step />)
+```
+
+## Description
+
+`Wizard.Step` shows child components when the surrounding [Wizard.Container](/web/extensions/forms/Wizard/Container/) has been navigated to this step. `Wizard.Container` keeps track of the active step, and navigating between wizard steps is done through callbacks on the `Wizard.Context`, e.g., using [navigation buttons](/web/extensions/forms/Wizard/Buttons/).
+
+## Relevant links
+
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Wizard/Step)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/extensions/forms/Wizard/Step)
+
+```tsx
+import { Form, Wizard } from '@dnb/eufemia/extensions/forms'
+
+const Step1 = () => {
+  return (
+    <Wizard.Step title="Step 1">
+      <Form.MainHeading>Heading</Form.MainHeading>
+      <Form.Card>
+        <P>Contents</P>
+      </Form.Card>
+      <Form.Card>
+        <P>Contents</P>
+      </Form.Card>
+
+      <Wizard.Buttons />
+    </Wizard.Step>
+  )
+}
+
+const MyForm = () => {
+  return (
+    <Form.Handler>
+      <Wizard.Container>
+        <Step1 />
+      </Wizard.Container>
+    </Form.Handler>
+  )
+}
+```
+
+It uses [Flex.Stack](/web/layout/flex/stack/), so you do not need to wrap your content additionally.
+
+## EditButton
+
+In order to navigate back to another step, you can use the [Wizard.EditButton](/web/extensions/forms/Wizard/EditButton/) component.
+
+## Events
+
+If you need an event to be triggered when the user changes the active step, you can use the `onStepChange` in the [Wizard.Container](/web/extensions/forms/Wizard/Container/).
+
+## Dynamic steps support
+
+You can use the `Wizard.Step` component to create dynamic steps. The `include` and `includeWhen` properties allow you to show or hide a step based on specific conditions.
+
+If a step is replaced by another step, the `onStepChange` event will trigger with `stepListModified` as the second argument. The current step index might remain the same. However, if the total number of steps becomes less than the current step, the index will adjust to the last step.
+
+To keep track of the current step, you can provide each step with an `id` property. This `id` can then be used to identify the current step and will be returned as part of an object in the `onStepChange` event.
+The same options object also provides `totalSteps`.
+
+```tsx
+<Wizard.Container
+  onStepChange={(index, mode, args) => {
+    const {
+      id,
+      totalSteps,
+      preventNavigation,
+      previousStep: { index },
+    } = args
+  }}
+>
+  <Wizard.Step
+    title="Step 1"
+    id="step-1"
+    includeWhen={{ path: '/myPath', hasValue: '...' }}
+  >
+    content
+  </Wizard.Step>
+</Wizard.Container>
+```
+
+In the demo section, you will find an example demonstrating how to use the `Wizard.Step` component with `includeWhen`.

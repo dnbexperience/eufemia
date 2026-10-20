@@ -1,0 +1,43 @@
+---
+showTabs: true
+redirect_from:
+  - /uilib/layout/demos
+---
+
+import * as Examples from './Examples'
+import { WithGrid } from 'Docs/web/components/card/Examples'
+import { AccordionInColumns } from 'Docs/web/components/accordion/Examples'
+
+## Demos
+
+### Horizontal aligned Cards
+
+Grid wraps the Cards nicely on smaller screens. More examples in the [Card](/web/components/card/) section.
+
+<WithGrid />
+
+### Accordion in two columns
+
+This is a demo of how to outline accordions in two columns, including the correct tab order.
+
+<AccordionInColumns />
+
+### Responsive application [Grid](/web/layout/grid/) usage
+
+<Examples.ResponsiveGridContainer />
+
+### Responsive [Flex](/web/layout/flex/) usage
+
+With the default `sizeCount` of 12 parts.
+
+<Examples.HorizontalFlexItemResponsiveSize />
+
+### Customized [Flex.Item](/web/layout/flex/item/) spans
+
+With a custom amount of 4 parts (`sizeCount`) as well as custom breakpoints and media queries.
+
+<Examples.HorizontalFlexItemResponsiveSizeCustomColumns />
+
+### [Flex](/web/layout/flex/) usage in [Forms](/web/extensions/forms/)
+
+<Examples.LayoutComponents />

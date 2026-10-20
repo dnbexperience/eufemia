@@ -1,0 +1,25 @@
+---
+showTabs: true
+redirect_from:
+  - /uilib/components/section/properties
+---
+
+import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
+import { SectionProperties } from '@dnb/eufemia/src/components/section/SectionDocs'
+
+## Properties
+
+<PropertiesTable props={SectionProperties} />
+
+## Variants
+
+| Variant       | Description                                                                                      |
+| ------------- | ------------------------------------------------------------------------------------------------ |
+| `information` | Neutral, informational.                                                                          |
+| `error`       | Indicates an erroneous state.                                                                    |
+| `warning`     | Draws attention to a potential problem that may or may not require an action on the user's part. |
+| `success`     | Indicates a successful state.                                                                    |
+| `divider`     | Neutral background with a border line on top and bottom.                                         |
+| `transparent` | Transparent background. Used when a Section is needed, but without a background color.           |
+
+To use another color, set `backgroundColor` (and `textColor`) instead of a `variant`.

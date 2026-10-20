@@ -1,0 +1,35 @@
+---
+showTabs: true
+redirect_from:
+  - /uilib/components/drawer/properties
+---
+
+import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
+import TranslationsTable from 'dnb-design-system-portal/src/shared/parts/TranslationsTable'
+import { DrawerProperties } from '@dnb/eufemia/src/components/drawer/DrawerDocs'
+import { ModalProperties } from '@dnb/eufemia/src/components/modal/ModalDocs'
+
+## Properties
+
+<PropertiesTable props={DrawerProperties} />
+
+### More properties
+
+The properties of [Modal](/web/components/modal) formatted as camel case are also provided.
+See the table below:
+
+<PropertiesTable props={ModalProperties} />
+
+## Translations
+
+<TranslationsTable localeKey="Modal" />
+
+### Drawer sizes
+
+The Drawer is responsive with the following properties:
+
+```css
+--drawer-width: 40vw;
+--drawer-min-width: 384px;
+--drawer-max-width: 40rem;
+```

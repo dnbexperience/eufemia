@@ -1,0 +1,70 @@
+---
+showTabs: true
+redirect_from:
+  - /uilib/extensions/payment-card/demos
+---
+
+import ChangeLocale from 'dnb-design-system-portal/src/core/ChangeLocale'
+import {
+  PaymentCardBasicExample,
+  PaymentCardCustomExample,
+  PaymentCardStatusExample,
+  PaymentCardCompactExample,
+  PaymentCardAllCardsExample,
+} from './Examples'
+
+## Demos
+
+<ChangeLocale label="Locale used in the demos:" />
+
+### Basic example
+
+Basic card using productCode.
+
+<PaymentCardBasicExample />
+
+### Custom card using rawData
+
+You may have to import the extra named exports:
+
+```
+import PaymentCard, {
+  getCardData,
+  Designs,
+  ProductType,
+  CardType,
+  BankAxeptType,
+} from '@dnb/eufemia/extensions/PaymentCard'
+```
+
+<PaymentCardCustomExample />
+
+### Basic card using a status
+
+<PaymentCardStatusExample />
+
+Basic card using product code and status.
+
+### Basic card in compact variant
+
+<PaymentCardCompactExample />
+
+### Demo cards
+
+All the different card products and PaymentCard designs.
+
+<PaymentCardAllCardsExample />
+
+#### Decommissioned Cards
+
+Decommissioned product codes that are still in circulation:
+
+```
+  'NK1', 'NK4', 'NK5',
+  'P101',
+  'VB1', 'VB2',
+  'VE1', 'VE2', 'VG1',
+  'VK2', 'VK4',
+  'VL2', 'VL3', 'VO3',
+  'VP2', 'VP3', 'VX3'
+```

@@ -3,7 +3,7 @@ import waitForApp from './shared/waitForApp'
 
 test.describe('SidebarMenu documentation tabs', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/uilib/extensions/sidebar-menu')
+    await page.goto('/web/extensions/sidebar-menu')
     await waitForApp(page)
   })
 
@@ -14,9 +14,7 @@ test.describe('SidebarMenu documentation tabs', () => {
     })
     await properties.click()
 
-    await expect(page).toHaveURL(
-      '/uilib/extensions/sidebar-menu/properties'
-    )
+    await expect(page).toHaveURL('/web/extensions/sidebar-menu/properties')
     await expect(properties).toHaveAttribute('aria-selected', 'true')
     await expect(
       page.getByRole('heading', {
@@ -31,7 +29,7 @@ test.describe('SidebarMenu documentation tabs', () => {
     })
     await events.click()
 
-    await expect(page).toHaveURL('/uilib/extensions/sidebar-menu/events')
+    await expect(page).toHaveURL('/web/extensions/sidebar-menu/events')
     await expect(events).toHaveAttribute('aria-selected', 'true')
     await expect(
       page.getByRole('heading', {
@@ -42,7 +40,7 @@ test.describe('SidebarMenu documentation tabs', () => {
   })
 
   test('loads properties and events directly', async ({ page }) => {
-    await page.goto('/uilib/extensions/sidebar-menu/properties')
+    await page.goto('/web/extensions/sidebar-menu/properties')
     await waitForApp(page)
     await expect(
       page.getByRole('heading', {
@@ -51,7 +49,7 @@ test.describe('SidebarMenu documentation tabs', () => {
       })
     ).toBeVisible()
 
-    await page.goto('/uilib/extensions/sidebar-menu/events')
+    await page.goto('/web/extensions/sidebar-menu/events')
     await waitForApp(page)
     await expect(
       page.getByRole('heading', {
@@ -66,53 +64,31 @@ test('reopens the selected page accordion after reload', async ({
   page,
 }) => {
   await page.setViewportSize({ width: 1440, height: 900 })
-  await page.goto('/uilib/layout')
+  await page.goto('/web/layout/flex')
   await waitForApp(page)
-
   const menu = page.getByRole('navigation', {
-    name: 'Section Content Menu',
+    name: 'Platform Content Menu',
   })
-  const layout = menu.getByRole('link', {
-    name: 'Layout & spacing',
+  const layout = menu.getByRole('button', { name: 'Layout', exact: true })
+  await expect(layout).toHaveAttribute('aria-expanded', 'true')
+  const flex = menu.getByRole('link', {
+    name: 'Flex overview',
     exact: true,
   })
-
-  await expect(
-    menu.getByRole('button', { name: 'Foundations' })
-  ).toHaveAttribute('aria-expanded', 'true')
-  await expect(layout).toHaveAttribute('aria-expanded', 'true')
-  await expect(layout).not.toHaveCSS(
-    'background-color',
-    'rgba(0, 0, 0, 0)'
-  )
-  await expect(layout).not.toHaveCSS('box-shadow', 'none')
-  await page.keyboard.press('Tab')
-  await layout.focus()
-  await expect(layout).toHaveCSS('color', 'rgb(39, 106, 206)')
-  await expect(menu.locator('#uilib-layout-content')).toBeVisible()
-
-  await layout.click()
-  await expect(layout).toHaveAttribute('aria-expanded', 'false')
-
+  await expect(flex).toHaveAttribute('aria-current', 'page')
+  await flex.click()
   await page.reload()
   await waitForApp(page)
-
-  const reloadedMenu = page.getByRole('navigation', {
-    name: 'Section Content Menu',
-  })
+  await expect(layout).toHaveAttribute('aria-expanded', 'true')
   await expect(
-    reloadedMenu.getByRole('link', {
-      name: 'Layout & spacing',
-      exact: true,
-    })
+    menu.getByRole('button', { name: 'Flex', exact: true })
   ).toHaveAttribute('aria-expanded', 'true')
-  await expect(reloadedMenu.locator('#uilib-layout-content')).toBeVisible()
 })
 
 test('opens Components on the first click from the Layout page', async ({
   page,
 }) => {
-  await page.goto('/uilib/layout')
+  await page.goto('/web/layout')
 
   const menu = page.getByRole('navigation', {
     name: 'Section Content Menu',
@@ -126,82 +102,129 @@ test('opens Components on the first click from the Layout page', async ({
   await components.click()
 
   await expect(components).toHaveAttribute('aria-expanded', 'true')
-  await expect(menu.locator('#uilib-components-content')).toBeVisible()
+  await expect(menu.locator('#web-components-content')).toBeVisible()
 })
 
 test.describe('Portal SidebarMenu', () => {
   test.beforeEach(async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 900 })
-    await page.goto('/uilib/components')
+    await page.goto('/web/components')
     await waitForApp(page)
   })
 
-  test('shows the requested navigation structure', async ({ page }) => {
+  test('shows the proposed shared and platform navigation', async ({
+    page,
+  }) => {
     const menu = page.getByRole('navigation', {
       name: 'Section Content Menu',
     })
-
-    await expect(menu.getByRole('link', { name: 'Home' })).toHaveAttribute(
-      'href',
-      '/'
-    )
-    await expect(
-      menu.getByRole('link', { name: "What's new" })
-    ).toHaveAttribute('href', '/uilib/changelog')
-    await expect(
-      menu.getByRole('button', { name: 'Expand Getting started' })
-    ).toHaveCount(0)
-
-    await menu.getByRole('button', { name: 'Foundations' }).click()
+    for (const name of [
+      'About',
+      'Getting started',
+      'Design language',
+      'Working with AI',
+      'Contribute',
+    ]) {
+      await expect(
+        menu.getByRole('button', { name, exact: true })
+      ).toBeVisible()
+    }
+    await menu
+      .getByRole('button', { name: 'Design language', exact: true })
+      .click()
     for (const name of [
       'Design tokens',
-      'Colors',
+      'Design principles',
+      'Motion',
+      'Color',
       'Typography',
-      'Icons',
-      'Theming & brands',
+      'Iconography',
       'Layout & spacing',
-    ]) {
-      await expect(
-        menu.getByRole('link', { name, exact: true })
-      ).toBeVisible()
-    }
-
-    await menu.getByRole('button', { name: 'Guides' }).click()
-    for (const name of [
-      'Quick intro',
-      'Developer guide',
-      'Requirements',
-      'Designer guide',
       'Accessibility',
-      'Best practices',
-      'Platform comparison',
+      'Brand & logos',
     ]) {
       await expect(
-        menu.getByRole('link', { name, exact: true })
+        menu.getByRole(
+          ['Design tokens', 'Design principles'].includes(name)
+            ? 'link'
+            : 'button',
+          { name, exact: true }
+        )
       ).toBeVisible()
     }
-
-    await menu.getByRole('button', { name: 'Contribute' }).click()
-    await expect(menu.locator('a[href="/contribute"]')).toHaveText(
-      'Getting started'
+    await menu
+      .getByRole('button', { name: 'Getting started', exact: true })
+      .click()
+    await expect(
+      menu.getByRole('link', { name: "What's new", exact: true })
+    ).toHaveAttribute('href', '/whats-new')
+    const platform = page.getByRole('navigation', {
+      name: 'Platform Content Menu',
+    })
+    await expect(platform.getByRole('combobox')).toHaveAccessibleName(
+      'Platform Web'
     )
     await expect(
-      menu.locator('a[href="/contribute/getting-started"]')
-    ).toHaveText('Development setup')
-
-    await menu.getByRole('button', { name: 'About Eufemia' }).click()
-    await expect(
-      menu.locator('a[href="/uilib/about-the-lib"]')
-    ).toHaveText('About the library')
+      platform.getByRole('button', { name: 'Extensions', exact: true })
+    ).toBeVisible()
   })
 
-  test('keeps the sidebar visible after navigating Home', async ({
+  test('keeps the moved pages accessible and versions out of the sidebar', async ({
     page,
   }) => {
-    const menuBeforeNavigation = page.getByRole('navigation', {
+    await page.goto('/whats-new/upgrade')
+    await waitForApp(page)
+    const menu = page.getByRole('navigation', {
       name: 'Section Content Menu',
     })
-    await menuBeforeNavigation.getByRole('link', { name: 'Home' }).click()
+    await expect(
+      menu.getByRole('link', { name: "What's new", exact: true })
+    ).toHaveAttribute('aria-current', 'page')
+    await menu
+      .getByRole('button', { name: 'Design language', exact: true })
+      .click()
+    await expect(
+      menu.getByRole('link', { name: 'Design tokens', exact: true })
+    ).toHaveAttribute(
+      'href',
+      '/web/usage/customisation/theming/design-tokens'
+    )
+    await menu
+      .getByRole('button', { name: 'Iconography', exact: true })
+      .click()
+    await expect(
+      menu.getByRole('link', { name: 'Icon details', exact: true })
+    ).toHaveAttribute('href', '/icons/details')
+    await menu
+      .getByRole('button', { name: 'Brand & logos', exact: true })
+      .click()
+    await expect(
+      menu.getByRole('button', { name: 'Collections', exact: true })
+    ).toHaveAttribute('aria-expanded', 'false')
+    await menu
+      .getByRole('button', { name: 'Contribute', exact: true })
+      .click()
+    await menu
+      .getByRole('button', { name: 'How to contribute', exact: true })
+      .click()
+    await expect(
+      menu.getByRole('link', { name: 'Reproduce an issue', exact: true })
+    ).toHaveAttribute('href', '/issue')
+    await expect(
+      menu.locator('a[href*="/releases/eufemia/"]')
+    ).toHaveCount(0)
+    await expect(
+      menu.locator('a[href*="/releases/dnb-ui-lib/"]')
+    ).toHaveCount(0)
+  })
+
+  test('keeps the sidebar visible after navigating Home with shared groups available', async ({
+    page,
+  }) => {
+    await page
+      .locator('#portal-sidebar-menu')
+      .getByRole('link', { name: 'Go to Eufemia home' })
+      .click()
 
     await expect(page).toHaveURL('/')
     const menuAfterNavigation = page.getByRole('navigation', {
@@ -209,14 +232,17 @@ test.describe('Portal SidebarMenu', () => {
     })
     await expect(menuAfterNavigation).toBeVisible()
     await expect(
-      menuAfterNavigation.getByRole('link', { name: 'Home' })
+      menuAfterNavigation.getByRole('button', {
+        name: 'About',
+        exact: true,
+      })
     ).toBeVisible()
   })
 
   test('keeps the sidebar visible throughout the intro', async ({
     page,
   }) => {
-    await page.goto('/uilib/intro')
+    await page.goto('/web/intro')
     await waitForApp(page)
 
     await expect(
@@ -226,13 +252,13 @@ test.describe('Portal SidebarMenu', () => {
       page.getByRole('heading', { name: 'Eufemia Design System' })
     ).toBeVisible()
     await expect(
-      page.getByRole('button', { name: 'Guides' })
+      page.getByRole('button', { name: 'Get started', exact: true })
     ).toHaveAttribute('aria-expanded', 'true')
 
     await page
       .getByRole('link', { name: 'Next - Common Design Patterns' })
       .click()
-    await expect(page).toHaveURL('/uilib/intro/02-common-patterns')
+    await expect(page).toHaveURL('/web/intro/02-common-patterns')
     await expect(
       page.getByRole('navigation', { name: 'Section Content Menu' })
     ).toBeVisible()
@@ -242,21 +268,21 @@ test.describe('Portal SidebarMenu', () => {
     page,
   }) => {
     await page.setViewportSize({ width: 1280, height: 900 })
-    await page.goto('/uilib/about-the-lib/')
+    await page.goto('/web/about-the-lib/')
     await waitForApp(page)
 
     const menu = page.getByRole('navigation', {
       name: 'Section Content Menu',
     })
     const guides = menu.getByRole('button', {
-      name: 'Guides',
+      name: 'Getting started',
       exact: true,
     })
     await guides.click()
     await expect(guides).toHaveAttribute('aria-expanded', 'true')
     await expect(
       menu.locator(
-        '[data-sidebar-menu-id="uilib-guides-menu"] > .dnb-height-animation'
+        '[data-sidebar-menu-id="getting-started"] > .dnb-height-animation'
       )
     ).not.toHaveClass(/dnb-height-animation--animating/)
 
@@ -286,13 +312,13 @@ test.describe('Portal SidebarMenu', () => {
       name: 'Section Content Menu',
     })
     const reloadedGuides = reloadedMenu.getByRole('button', {
-      name: 'Guides',
+      name: 'Getting started',
       exact: true,
     })
     await expect(reloadedGuides).toHaveAttribute('aria-expanded', 'true')
     await expect(
       reloadedMenu.locator(
-        '[data-sidebar-menu-id="uilib-guides-menu"] > .dnb-height-animation'
+        '[data-sidebar-menu-id="getting-started"] > .dnb-height-animation'
       )
     ).not.toHaveClass(/dnb-height-animation--animating/)
     await expect
@@ -300,24 +326,98 @@ test.describe('Portal SidebarMenu', () => {
       .toBe(89)
   })
 
-  test('omits the platform selector without other platforms', async ({
+  test('switches only the platform tree and keeps shared navigation open', async ({
     page,
   }) => {
     const menu = page.getByRole('navigation', {
       name: 'Section Content Menu',
     })
-
-    await expect(menu.getByRole('combobox')).toHaveCount(0)
+    const about = menu.getByRole('button', { name: 'About', exact: true })
+    await about.click()
+    const platform = page.getByRole('navigation', {
+      name: 'Platform Content Menu',
+    })
+    await platform.getByRole('combobox').click()
+    await page.getByRole('option', { name: 'iOS', exact: true }).click()
+    await expect(about).toHaveAttribute('aria-expanded', 'true')
     await expect(
-      menu.getByRole('button', { name: 'Components', exact: true })
+      menu.getByRole('link', { name: 'About Eufemia', exact: true })
     ).toBeVisible()
+    await platform
+      .getByRole('button', { name: 'Get started', exact: true })
+      .click()
+    await expect(
+      platform.getByRole('button', { name: 'Installation', exact: false })
+    ).toBeDisabled()
+    await expect(
+      platform.getByRole('button', { name: /Liquid Glass/ })
+    ).toBeVisible()
+    await platform.getByRole('combobox').click()
+    await page
+      .getByRole('option', { name: 'Android', exact: true })
+      .click()
+    await expect(
+      platform.getByRole('button', { name: /Liquid Glass/ })
+    ).toHaveCount(0)
+    await expect(about).toHaveAttribute('aria-expanded', 'true')
+    await menu
+      .getByRole('link', { name: 'About Eufemia', exact: true })
+      .click()
+    await expect(page).toHaveURL('/design-system/about')
+    await expect(
+      menu.getByRole('link', { name: 'About Eufemia', exact: true })
+    ).toHaveAttribute('aria-current', 'page')
+    await expect(platform.getByRole('combobox')).toHaveAccessibleName(
+      'Platform Android'
+    )
+    await page.reload()
+    await waitForApp(page)
+    await expect(platform.getByRole('combobox')).toHaveAccessibleName(
+      'Platform Android'
+    )
+    await page.goto('/web/components/button')
+    await waitForApp(page)
+    await expect(platform.getByRole('combobox')).toHaveAccessibleName(
+      'Platform Web'
+    )
+  })
+
+  test('switches platforms inside the mobile Drawer', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 })
+    await page.goto('/design-system/about')
+    await waitForApp(page)
+    await page.locator('#toggle-sidebar-menu').click()
+    const drawer = page.locator('.dnb-sidebar-menu-responsive-drawer')
+    const shared = drawer.getByRole('navigation', {
+      name: 'Section Content Menu',
+    })
+    const platform = drawer.getByRole('navigation', {
+      name: 'Platform Content Menu',
+    })
+    await platform.getByRole('combobox').click()
+    await page.getByRole('option', { name: 'iOS', exact: true }).click()
+    await platform
+      .getByRole('button', { name: 'Get started', exact: true })
+      .click()
+    await expect(
+      platform.getByRole('button', { name: /Installation/ })
+    ).toBeDisabled()
+    await expect(
+      shared.getByRole('link', { name: 'About Eufemia', exact: true })
+    ).toBeVisible()
+    await drawer.locator('.dnb-modal__close-button').click()
+    await expect(drawer).toHaveCount(0)
+    await page.locator('#toggle-sidebar-menu').click()
+    await expect(platform.getByRole('combobox')).toHaveAccessibleName(
+      'Platform iOS'
+    )
   })
 
   test('keeps Drawer scroll position across repeated opens', async ({
     page,
   }) => {
     await page.setViewportSize({ width: 390, height: 844 })
-    await page.goto('/uilib/extensions/sidebar-menu/demos/')
+    await page.goto('/web/extensions/sidebar-menu/demos/')
     await waitForApp(page)
 
     const trigger = page.locator('#toggle-sidebar-menu')
@@ -328,6 +428,13 @@ test.describe('Portal SidebarMenu', () => {
     for (let index = 0; index < 4; index += 1) {
       await trigger.click()
       await drawer.waitFor({ state: 'visible' })
+      await expect(drawer).toHaveCSS(
+        'transform',
+        'matrix(1, 0, 0, 1, 0, 0)'
+      )
+      await expect(
+        drawer.locator('.dnb-height-animation--animating')
+      ).toHaveCount(0)
       if (index === 0) {
         await drawer.evaluate((element, scrollTop) => {
           element.scrollTop = scrollTop
@@ -335,11 +442,13 @@ test.describe('Portal SidebarMenu', () => {
         }, expectedScrollTop)
       }
       await expect
-        .poll(() => drawer.evaluate((el) => el.scrollTop))
+        .poll(() => drawer.evaluate((el) => el.scrollTop), {
+          message: 'Drawer position on open ' + index,
+        })
         .toBe(expectedScrollTop)
       positions.push(await drawer.evaluate((el) => el.scrollTop))
       await drawer.locator('.dnb-modal__close-button').click()
-      await drawer.waitFor({ state: 'hidden' })
+      await expect(drawer).toHaveCount(0)
       await expect(trigger).toHaveAttribute('aria-expanded', 'false')
     }
 

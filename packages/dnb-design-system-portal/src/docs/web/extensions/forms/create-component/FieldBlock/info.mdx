@@ -1,0 +1,45 @@
+---
+showTabs: true
+redirect_from:
+  - /uilib/extensions/forms/create-component/FieldBlock/info
+---
+
+## Import
+
+```tsx
+import { FieldBlock } from '@dnb/eufemia/extensions/forms'
+render(<FieldBlock />)
+```
+
+## Description
+
+`FieldBlock` is a reusable wrapper [for building](/web/extensions/forms/create-component/) interactive [Field](/web/extensions/forms/feature-fields) components.
+
+It shows surrounding elements through properties from `FieldProps` like `label` and `error`, and ensure that spacing between different fields work as required when put into surrounding components like [Flex.Container](/web/layout/flex/container/) or [Form.Card](/web/extensions/forms/Form/Card/).
+
+## Relevant links
+
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/FieldBlock)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/extensions/forms/create-component/FieldBlock)
+
+It can also be used to group multiple inner FieldBlock components, composing status (error) messages together as one component. Check out the [Field.Composition](/web/extensions/forms/base-fields/Composition/) docs for that.
+
+`FieldBlock` renders status messages after its contents in the DOM. This order lets grouped messages include nested fields in server-rendered HTML. The `statusPosition="above"` property changes only the visual position; it does not change the DOM order.
+
+```tsx
+import { FieldBlock } from '@dnb/eufemia/extensions/forms'
+
+const YourFieldComponent = () => {
+  return (
+    <FieldBlock
+      forId="unique-id"
+      label="A label"
+      info="Info at the bottom"
+    >
+      <Input id="unique-id" />
+    </FieldBlock>
+  )
+}
+```
+
+More information about the usage can be found in the [create your own component](/web/extensions/forms/create-component/) section.

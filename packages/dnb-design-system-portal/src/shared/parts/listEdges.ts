@@ -22,8 +22,8 @@ import { excludedSlugs } from './componentCategories'
 export function getComponents(pages: MdxNode[]): MdxNode[] {
   return pages.filter(
     (node) =>
-      globPath(node, 'uilib/components/**/*') &&
-      !globPath(node, 'uilib/components/fragments/**') &&
+      globPath(node, 'web/components/**/*') &&
+      !globPath(node, 'web/components/fragments/**') &&
       !excludedSlugs.has(node.fields.slug) &&
       node.frontmatter.hideInMenu !== true
   )
@@ -33,7 +33,7 @@ export function getComponents(pages: MdxNode[]): MdxNode[] {
 export function getElements(pages: MdxNode[]): MdxNode[] {
   return pages.filter(
     (node) =>
-      globPath(node, 'uilib/elements/*') &&
+      globPath(node, 'web/elements/*') &&
       node.frontmatter.hideInMenu !== true
   )
 }
@@ -42,7 +42,7 @@ export function getElements(pages: MdxNode[]): MdxNode[] {
 export function getExtensions(pages: MdxNode[]): MdxNode[] {
   return pages.filter(
     (node) =>
-      globPath(node, 'uilib/extensions/*') &&
+      globPath(node, 'web/extensions/*') &&
       node.frontmatter.hideInMenu !== true
   )
 }
@@ -51,7 +51,7 @@ export function getExtensions(pages: MdxNode[]): MdxNode[] {
 export function getFragments(pages: MdxNode[]): MdxNode[] {
   return pages.filter(
     (node) =>
-      globPath(node, 'uilib/components/fragments/*') &&
+      globPath(node, 'web/components/fragments/*') &&
       node.frontmatter.hideInMenu !== true
   )
 }
@@ -59,7 +59,7 @@ export function getFragments(pages: MdxNode[]): MdxNode[] {
 /** The pages listed by `ListAllBlocks`. */
 export function getAllBlocks(pages: MdxNode[]): MdxNode[] {
   return pages.filter((node) =>
-    globPath(node, 'uilib/extensions/forms/blocks/*')
+    globPath(node, 'web/extensions/forms/blocks/*')
   )
 }
 
@@ -67,7 +67,7 @@ export function getAllBlocks(pages: MdxNode[]): MdxNode[] {
 export function getBaseFieldComponents(pages: MdxNode[]): MdxNode[] {
   return pages.filter(
     (node) =>
-      globPath(node, 'uilib/extensions/forms/base-fields/*') &&
+      globPath(node, 'web/extensions/forms/base-fields/*') &&
       node.frontmatter.componentType?.includes('base')
   )
 }
@@ -76,7 +76,7 @@ export function getBaseFieldComponents(pages: MdxNode[]): MdxNode[] {
 export function getFeatureFieldComponents(pages: MdxNode[]): MdxNode[] {
   return pages.filter(
     (node) =>
-      globPath(node, 'uilib/extensions/forms/feature-fields/*') &&
+      globPath(node, 'web/extensions/forms/feature-fields/*') &&
       node.frontmatter.showTabs
   )
 }
@@ -85,7 +85,7 @@ export function getFeatureFieldComponents(pages: MdxNode[]): MdxNode[] {
 export function getBaseInputComponents(pages: MdxNode[]): MdxNode[] {
   return pages.filter(
     (node) =>
-      globPath(node, 'uilib/extensions/forms/base-fields/*') &&
+      globPath(node, 'web/extensions/forms/base-fields/*') &&
       node.frontmatter.componentType === 'base-input'
   )
 }
@@ -94,7 +94,7 @@ export function getBaseInputComponents(pages: MdxNode[]): MdxNode[] {
 export function getBaseSelectionComponents(pages: MdxNode[]): MdxNode[] {
   return pages.filter(
     (node) =>
-      globPath(node, 'uilib/extensions/forms/base-fields/*') &&
+      globPath(node, 'web/extensions/forms/base-fields/*') &&
       node.frontmatter.componentType === 'base-selection'
   )
 }
@@ -103,7 +103,7 @@ export function getBaseSelectionComponents(pages: MdxNode[]): MdxNode[] {
 export function getBaseToggleComponents(pages: MdxNode[]): MdxNode[] {
   return pages.filter(
     (node) =>
-      globPath(node, 'uilib/extensions/forms/base-fields/*') &&
+      globPath(node, 'web/extensions/forms/base-fields/*') &&
       node.frontmatter.componentType === 'base-toggle'
   )
 }
@@ -112,7 +112,7 @@ export function getBaseToggleComponents(pages: MdxNode[]): MdxNode[] {
 export function getBaseValueComponents(pages: MdxNode[]): MdxNode[] {
   return pages.filter(
     (node) =>
-      globPath(node, 'uilib/extensions/forms/Value/**/*') &&
+      globPath(node, 'web/extensions/forms/Value/**/*') &&
       node.frontmatter.componentType?.includes('base')
   )
 }
@@ -121,7 +121,7 @@ export function getBaseValueComponents(pages: MdxNode[]): MdxNode[] {
 export function getFeatureValueComponents(pages: MdxNode[]): MdxNode[] {
   return pages.filter(
     (node) =>
-      globPath(node, 'uilib/extensions/forms/Value/**/*') &&
+      globPath(node, 'web/extensions/forms/Value/**/*') &&
       node.frontmatter.componentType?.includes('feature')
   )
 }
@@ -129,7 +129,7 @@ export function getFeatureValueComponents(pages: MdxNode[]): MdxNode[] {
 /** The pages listed by `ListDataContextComponents`. */
 export function getDataContextComponents(pages: MdxNode[]): MdxNode[] {
   return pages.filter((node) =>
-    globPath(node, 'uilib/extensions/forms/DataContext/**/*')
+    globPath(node, 'web/extensions/forms/DataContext/**/*')
   )
 }
 
@@ -137,7 +137,7 @@ export function getDataContextComponents(pages: MdxNode[]): MdxNode[] {
 export function getFormComponents(pages: MdxNode[]): MdxNode[] {
   return pages.filter(
     (node) =>
-      globPath(node, 'uilib/extensions/forms/Form/**/*') &&
+      globPath(node, 'web/extensions/forms/Form/**/*') &&
       node.frontmatter.componentType !== 'docs'
   )
 }
@@ -145,27 +145,27 @@ export function getFormComponents(pages: MdxNode[]): MdxNode[] {
 /** The pages listed by `ListIterateComponents`. */
 export function getIterateComponents(pages: MdxNode[]): MdxNode[] {
   return pages.filter((node) =>
-    globPath(node, 'uilib/extensions/forms/Iterate/**/*')
+    globPath(node, 'web/extensions/forms/Iterate/**/*')
   )
 }
 
 /** The pages listed by `ListWizardComponents`. */
 export function getWizardComponents(pages: MdxNode[]): MdxNode[] {
   return pages.filter((node) =>
-    globPath(node, 'uilib/extensions/forms/Wizard/**/*')
+    globPath(node, 'web/extensions/forms/Wizard/**/*')
   )
 }
 
 /** The pages listed by `ListEufemiaVersions`. */
 export function getEufemiaVersions(pages: MdxNode[]): MdxNode[] {
   return pages.filter((node) =>
-    globPath(node, 'uilib/about-the-lib/releases/eufemia/**/*')
+    globPath(node, 'web/about-the-lib/releases/eufemia/**/*')
   )
 }
 
 /** The pages listed by `ListUiLibVersions`. */
 export function getUiLibVersions(pages: MdxNode[]): MdxNode[] {
   return pages.filter((node) =>
-    globPath(node, 'uilib/about-the-lib/releases/dnb-ui-lib/**/*')
+    globPath(node, 'web/about-the-lib/releases/dnb-ui-lib/**/*')
   )
 }

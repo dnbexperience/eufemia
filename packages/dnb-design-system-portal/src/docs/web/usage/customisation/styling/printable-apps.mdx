@@ -1,0 +1,137 @@
+---
+title: Printable apps
+description: Make app content printable with Eufemia's optional print styles.
+status: 'beta'
+redirect_from:
+  - /uilib/usage/customisation/styling/printable-apps
+---
+
+Eufemia provides opt-in [print styles](/web/usage/customisation/styling/document-styles/#print-styles)
+for pagination and plain paper output. The Portal uses the same styles
+and adds rules for its own navigation and page layout.
+
+> **Beta:** The print classes and behavior are subject to change.
+
+## Enable print styles
+
+Import the print stylesheet after Eufemia core and your brand styles.
+You do not need the document typography stylesheet to print an app.
+
+```js
+import '@dnb/eufemia/style/dnb-ui-print.min.css'
+```
+
+Apply `dnb-print` to the printable area. Add `dnb-print--plain` for black
+text without CSS backgrounds, regardless of the screen's light or dark
+theme. Apply the scope to the app shell if the shell also needs this
+paper appearance. The import and classes do not change screen colors.
+
+```tsx
+render(
+  <div className="app-shell dnb-print dnb-print--plain">
+    <header className="dnb-print-hidden">{/* App navigation */}</header>
+    <aside className="dnb-print-hidden">{/* Sidebar */}</aside>
+    <main className="app-content">{/* Content to print */}</main>
+    <footer className="dnb-print-only">
+      Your app name and document reference
+    </footer>
+  </div>
+)
+```
+
+`dnb-print-hidden` hides an element during printing. `dnb-print-only`
+hides an element on screen and leaves its normal display intact in print.
+These helpers work without `dnb-print` on an ancestor. Use a visible title
+and a useful reference in the output so readers can identify the document.
+They do not reveal content hidden by `hidden`, `display: none`, an
+ancestor, or application state. Use `dnb-print-only` instead of a general
+visibility rule for content that should appear in print.
+
+## Let content flow across pages
+
+The app owns its shell layout. Fixed headers, sidebars, viewport heights
+and scrolling wrappers can reserve empty space or clip later pages even
+after navigation is hidden. Reset those constraints on the relevant app
+wrappers inside `@media print`. Avoid resetting every descendant, because
+tables and component layouts still need their normal display rules.
+
+```css
+@media print {
+  .app-shell,
+  .app-content {
+    display: block;
+    position: static;
+    overflow: visible;
+    width: auto;
+    max-width: none;
+    height: auto;
+    min-height: 0;
+    max-height: none;
+    margin: 0;
+    padding: 0;
+  }
+}
+
+@page {
+  margin: 15mm;
+}
+```
+
+Eufemia keeps headings with following content and requests repeating
+table headers and footers. Table scroll containers allow rendered rows to
+flow across pages. Wide tables may still need fewer columns or a landscape
+page. Long code and URLs may need wrapping in the app's print layout.
+
+Use `dnb-print__keep-together` for short groups and
+`dnb-print__page-break` to start a new page. Do not keep a large section
+together if it can exceed one page. Browser pagination rules are requests;
+oversized content must still be able to split.
+
+## Prepare interactive content
+
+Keep the printable content in the DOM. A menu or fullscreen overlay must
+not unmount the only copy of the content when someone prints. Render all
+rows needed for printing; CSS cannot reveal virtualized or unloaded data.
+Decide which accordion sections and tabs belong in the document, and
+provide a static summary for values that controls do not print clearly.
+
+Eufemia does not automatically hide all buttons, expand accordions, select
+tabs or alter application state. Mark app actions with `dnb-print-hidden`
+and provide a printable view when the screen representation is unsuitable.
+Prefer CSS media rules over changing the user's theme or saving a print
+preference in JavaScript. Test the browser's Print command as well as any
+app print button.
+
+## Paper appearance and footers
+
+Plain mode supplies a white surface, removes descendant CSS backgrounds,
+and makes foreground text black, including inside nested dark themes.
+It preserves selection indicators for Checkbox, Radio and Switch and
+outlines for Input. It does not convert artwork or
+produce a full light brand palette. Use a light printable view to retain
+brand colors. Essential meaning must not depend on color or background
+graphics, since users can disable background printing.
+
+A `dnb-print-only` footer stays in normal document flow, after the content.
+The Portal prints its page path and version this way. It does not repeat
+the footer on every page. Repeated footers and page counters depend on the
+PDF renderer; fixed-position footers can overlap content unless space is
+reserved. See [footer layout and page numbers](/web/usage/customisation/styling/document-styles/#footer-layout-and-page-numbers).
+
+The browser's optional date, URL and page-number headers and footers are
+controlled in the print dialog. Website CSS cannot reliably disable them.
+
+## Verify the result
+
+Check print preview in the browsers your app supports, in both screen
+color schemes. Try a long page, wide tables, long URLs, open navigation,
+and representative form values. Inspect the first and last pages and page
+boundaries for clipping, blank pages and overlapping content. Check output
+with background graphics both enabled and disabled.
+
+Also return to the app after canceling or completing printing. The theme,
+selected tab, expanded sections and entered values should remain intact.
+For automated PDFs, load fonts before export, use print media, and verify
+the actual production renderer rather than assuming browser parity.
+Wait for application data and loading states to finish before exporting;
+print styles cannot supply missing data or turn a skeleton into content.
