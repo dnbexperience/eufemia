@@ -172,7 +172,7 @@ test.describe('Portal SidebarMenu', () => {
       .click()
     await expect(
       menu.getByRole('link', { name: "What's new", exact: true })
-    ).toHaveAttribute('href', '/whats-new')
+    ).toHaveAttribute('href', '/web/whats-new')
     const platform = page.getByRole('navigation', {
       name: 'Platform Content Menu',
     })
