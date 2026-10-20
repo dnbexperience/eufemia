@@ -654,7 +654,7 @@ describe('Ai.AgentAction', () => {
     })
 
     it('keeps custom-locale announcements quiet while progress changes', () => {
-      const translations = { 'en-GB': { Ai: { toolRunning: 'Working' } } }
+      const translations = { 'en-GB': { Ai: { taskRunning: 'Working' } } }
       const view = (progress: number) => (
         <Provider locale="en-GB" translations={translations}>
           <AgentAction progress={progress}>Paying</AgentAction>

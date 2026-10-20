@@ -1,5 +1,5 @@
 import { useEffect, useId, useState } from 'react'
-import type { AiToolStatus } from '@dnb/eufemia/src/extensions/ai/types'
+import type { AiTaskStatus } from '@dnb/eufemia/src/extensions/ai/types'
 
 export type DemoPart =
   | { type: 'text'; text: string; isStreaming?: boolean }
@@ -7,7 +7,7 @@ export type DemoPart =
       type: 'tool'
       name: string
       title: string
-      status: AiToolStatus
+      status: AiTaskStatus
       output?: unknown
       errorText?: string
     }

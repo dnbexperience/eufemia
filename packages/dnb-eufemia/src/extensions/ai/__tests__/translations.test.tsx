@@ -5,7 +5,7 @@ import sharedGb from '../../../shared/locales/en-GB'
 import sharedUs from '../../../shared/locales/en-US'
 import sharedSv from '../../../shared/locales/sv-SE'
 import sharedDa from '../../../shared/locales/da-DK'
-import { MessageIndicator, PromptInput, Tool } from '..'
+import { MessageIndicator, PromptInput, Task } from '..'
 import nbNO from '../constants/locales/nb-NO'
 import enGB from '../constants/locales/en-GB'
 import enUS from '../constants/locales/en-US'
@@ -37,13 +37,13 @@ describe('Ai translations', () => {
       render(
         <Provider locale={locale} translations={translations}>
           <Labels />
-          <Tool status="canceled" />
+          <Task status="canceled" />
         </Provider>
       )
       expect(loading()).toBe(label)
       expect(placeholder()).toBe(prompt)
       expect(
-        document.querySelector('.dnb-ai-tool__state')
+        document.querySelector('.dnb-ai-task__state')
       ).toHaveTextContent(canceled)
     }
   )
