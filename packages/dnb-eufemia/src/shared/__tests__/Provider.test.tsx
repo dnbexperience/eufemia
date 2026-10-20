@@ -701,6 +701,7 @@ describe('Provider', () => {
 
       spy.mockRestore()
     })
+
     describe('isolation', () => {
       const getTitles = () =>
         Array.from(document.querySelectorAll('button')).map((button) =>
