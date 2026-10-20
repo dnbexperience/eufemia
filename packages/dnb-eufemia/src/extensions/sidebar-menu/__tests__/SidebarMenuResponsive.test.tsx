@@ -2801,6 +2801,11 @@ describe('SidebarMenu responsive parts', () => {
 
     expect(drawer.scrollTop).toBe(120)
     expect(innerScrollView.scrollTop).toBe(0)
+    await act(async () => {
+      await new Promise((resolve) => {
+        requestAnimationFrame(() => requestAnimationFrame(resolve))
+      })
+    })
 
     drawer.scrollTop = 240
     fireEvent.scroll(drawer)
