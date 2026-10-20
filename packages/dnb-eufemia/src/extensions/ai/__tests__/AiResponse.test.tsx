@@ -568,6 +568,7 @@ describe('Ai', () => {
       'Actions',
       'ActivityText',
       'AgentAction',
+      'Confirmation',
       'Conversation',
       'DateMarker',
       'Info',

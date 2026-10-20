@@ -1,0 +1,38 @@
+---
+showTabs: true
+---
+
+## Import
+
+```tsx
+import { Confirmation } from '@dnb/eufemia/extensions/ai'
+import '@dnb/eufemia/extensions/ai/style'
+
+render(
+  <Confirmation
+    title="Continue with this action?"
+    onConfirm={() => console.log('Confirmed')}
+    onDecline={() => console.log('Declined')}
+  >
+    Review the details before deciding.
+  </Confirmation>
+)
+```
+
+## Description
+
+`Ai.Confirmation` presents a question, details and two decision buttons in a [Card](/uilib/components/card/). Use it before proceeding with a proposed action, inside a conversation or on its own. For progress and optional Undo after an action starts, use [Ai.AgentAction](/uilib/extensions/ai/AgentAction/).
+
+Your application controls `status` and supplies the decision callbacks. `pending` offers a choice, `required` highlights that a decision is needed, and `confirmed`, `declined` and `expired` keep the content visible with both buttons disabled. Only set `confirmed` or `declined` after your application has accepted that decision. Confirmation does not mean that the resulting action has completed. Missing handlers disable the corresponding button.
+
+Set `disabled` while saving. Handle request failures in your application and show a useful message, for example with [FormStatus](/uilib/components/form-status/), while keeping the decision available for retry when appropriate. The component does not run requests, expire automatically, or execute the action. Your application owns expiry, authorization and protection against repeated execution.
+
+## Accessibility
+
+The question and description label the card. Use `level` to fit its heading into the surrounding document. There is no modal dialog or focus trap. Buttons use `type="button"`, so they do not submit surrounding forms.
+
+State changes are announced politely with [AriaLive](/uilib/components/aria-live/); updates to the details are not announced automatically. Set `announce={false}` if your application already announces the outcome. The initial state is available through the card's description and is not announced automatically. When a state change disables the focused decision, focus moves to the card content; focus elsewhere is preserved. If your application removes the card, it must move focus to the appropriate next location. Verify the final flow with your supported screen readers.
+
+## Labels and translations
+
+`confirmLabel` and `declineLabel` override the translated Yes and No labels. Choose specific labels when they make the decision clearer, such as “Add to watchlist” and “Keep current list”. Your application translates the question and details. Override the extension's state labels through Provider translations. See [AI translations](/uilib/extensions/ai/translations/) and [properties](/uilib/extensions/ai/Confirmation/properties/#translations).
