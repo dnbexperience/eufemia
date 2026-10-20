@@ -306,7 +306,7 @@ describe('makePropertiesFile', () => {
           .css.replace('@charset "UTF-8";', '')
         const selectors = Array.from(css.matchAll(/([^{}]+)\{([^{}]*)\}/g))
           .filter(([, , declarations]) =>
-            /--(?:font-size|line-height)-(?:x-small|small|basis|medium|large|x-large|xx-large):/.test(
+            /--(?:font-size|line-height)-(?:xx-small|x-small|small|basis|medium|large|x-large|xx-large):/.test(
               declarations
             )
           )
