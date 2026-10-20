@@ -1,4 +1,4 @@
-import ComponentBox from '../../shared/tags/ComponentBox'
+import ComponentBox from '../../../../shared/tags/ComponentBox'
 import StatusIcons from './StatusIcons'
 
 export const StatusIconsExample = () => (

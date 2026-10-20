@@ -1,27 +1,30 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { cleanup, render } from '@testing-library/react'
 
-vi.mock('../../../docs/icons/StatusIcons.module.scss', () => ({
-  default: {
-    example: 'example',
-    group: 'group',
-    label: 'label',
-    list: 'list',
-    item: 'item',
-    icon: 'icon',
-    large: 'large',
-    medium: 'medium',
-    small: 'small',
-    defaultTriangle: 'defaultTriangle',
-    positive: 'positive',
-    warning: 'warning',
-    negative: 'negative',
-    neutral: 'neutral',
-  },
-}))
+vi.mock(
+  '../../../docs/web/patterns/status-icon/StatusIcons.module.scss',
+  () => ({
+    default: {
+      example: 'example',
+      group: 'group',
+      label: 'label',
+      list: 'list',
+      item: 'item',
+      icon: 'icon',
+      large: 'large',
+      medium: 'medium',
+      small: 'small',
+      defaultTriangle: 'defaultTriangle',
+      positive: 'positive',
+      warning: 'warning',
+      negative: 'negative',
+      neutral: 'neutral',
+    },
+  })
+)
 
-import StatusIcons from '../../../docs/icons/StatusIcons'
-import styles from '../../../docs/icons/StatusIcons.module.scss'
+import StatusIcons from '../../../docs/web/patterns/status-icon/StatusIcons'
+import styles from '../../../docs/web/patterns/status-icon/StatusIcons.module.scss'
 
 afterEach(cleanup)
 
