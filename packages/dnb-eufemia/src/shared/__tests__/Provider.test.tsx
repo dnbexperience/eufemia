@@ -7,6 +7,7 @@ import { useContext } from 'react'
 import HelpButton from '../../components/help-button/HelpButton'
 import ToggleButton from '../../components/toggle-button/ToggleButton'
 import GlobalError from '../../components/global-error/GlobalError'
+import CardCloseButton from '../../components/card/CardCloseButton'
 
 import type {
   ContextProps,
@@ -18,6 +19,7 @@ import Context from '../Context'
 import type { ProviderProps } from '../Provider'
 import Provider from '../Provider'
 import { fireEvent, render, waitFor } from '@testing-library/react'
+import { renderToString } from 'react-dom/server'
 import locales from '../../shared/locales'
 import Translation from '../Translation'
 import useTranslation from '../useTranslation'
@@ -698,6 +700,59 @@ describe('Provider', () => {
       expect(spy).toHaveBeenCalledTimes(1)
 
       spy.mockRestore()
+    })
+    describe('isolation', () => {
+      const getTitles = () =>
+        Array.from(document.querySelectorAll('button')).map((button) =>
+          button.getAttribute('title')
+        )
+
+      it('should not change the translation of siblings of a nested provider', () => {
+        render(
+          <Provider locale="nb-NO">
+            <CardCloseButton />
+            <Provider locale="en-GB">
+              <CardCloseButton />
+            </Provider>
+            <CardCloseButton />
+          </Provider>
+        )
+
+        expect(getTitles()).toEqual(['Lukk', 'Close', 'Lukk'])
+      })
+
+      it('should not change the translation of components outside of any provider', () => {
+        const { unmount } = render(
+          <Provider locale="en-GB">
+            <CardCloseButton />
+          </Provider>
+        )
+        expect(getTitles()).toEqual(['Close'])
+        unmount()
+
+        render(<CardCloseButton />)
+
+        expect(getTitles()).toEqual(['Lukk'])
+      })
+
+      it('should not share translations between server renders', () => {
+        const getTitle = (html: string) => html.match(/title="([^"]*)"/)[1]
+
+        const first = renderToString(
+          <Provider
+            locale="nb-NO"
+            translations={{
+              'nb-NO': { 'Card.closeTitle': 'Custom title' },
+            }}
+          >
+            <CardCloseButton />
+          </Provider>
+        )
+        const second = renderToString(<CardCloseButton />)
+
+        expect(getTitle(first)).toBe('Custom title')
+        expect(getTitle(second)).toBe('Lukk')
+      })
     })
   })
 
