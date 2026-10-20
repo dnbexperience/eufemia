@@ -2,6 +2,7 @@ import { createHash } from 'node:crypto'
 import { describe, expect, it, vi } from 'vitest'
 import { checkCdn } from '../check-cdn.ts'
 import { alertCdn } from '../alert-cdn.ts'
+import { reportIncident } from '../../monitoring/report-incident.ts'
 import type { Report } from '../check-cdn.ts'
 
 const now = Date.parse('2026-10-16T10:00:00Z')
@@ -457,5 +458,27 @@ describe('CDN incident lifecycle', () => {
     await alertCdn({ ...options, webhook: undefined, report: failed })
     expect(request.mock.calls.some(([url]) => url === webhook)).toBe(false)
     expect(request.mock.calls.at(-1)?.[1]?.body).toContain('unhealthy')
+  })
+})
+
+describe('independent service incidents', () => {
+  it('keeps MCP recovery from closing a CDN incident', async () => {
+    const { options, issue, request } = incidentApi()
+    await alertCdn({ ...options, report: failed })
+    request.mockClear()
+    await reportIncident({ ...options, service: 'MCP', report: recovered })
+    expect(request.mock.calls).toHaveLength(1)
+    expect(issue.body).toContain('eufemia-cdn-health:')
+  })
+
+  it('reports MCP failures and recovery using the shared lifecycle', async () => {
+    const { options, issue, request } = incidentApi()
+    await reportIncident({ ...options, service: 'MCP', report: failed })
+    expect(issue.body).toContain('eufemia-mcp-health:')
+    expect(
+      request.mock.calls.find(([url]) => url === webhook)?.[1]?.body
+    ).toContain('Eufemia MCP checks failed')
+    await reportIncident({ ...options, service: 'MCP', report: recovered })
+    expect(request.mock.calls.at(-1)?.[1]?.body).toContain('closed')
   })
 })

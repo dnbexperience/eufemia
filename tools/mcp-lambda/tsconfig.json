@@ -15,8 +15,9 @@
     "forceConsistentCasingInFileNames": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
-    "noUncheckedIndexedAccess": true
+    "noUncheckedIndexedAccess": true,
+    "allowImportingTsExtensions": true
   },
-  "include": ["src"],
+  "include": ["src", "../monitoring/*.ts"],
   "exclude": ["node_modules", "dist"]
 }
