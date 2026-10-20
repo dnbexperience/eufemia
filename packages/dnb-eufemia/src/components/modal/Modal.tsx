@@ -209,14 +209,13 @@ function ModalComponent(ownProps: ModalAllProps) {
       if (isModalActive) {
         if (typeof closeModal === 'function') {
           const fn = closeModal(
-            ({
-              triggeredBy = 'handler',
-              triggeredByEvent = null,
-            } = {}) => {
-              // So onClose gets called with "triggeredBy"
-              modalContentCloseRef.current?.(triggeredByEvent, {
-                triggeredBy,
-              })
+            (params) => {
+              // So onClose gets called with "triggeredBy".
+              // The function may also be used as an event listener, or get null.
+              modalContentCloseRef.current?.(
+                params?.triggeredByEvent || null,
+                { triggeredBy: params?.triggeredBy || 'handler' }
+              )
               toggleOpenCloseRef.current(null, false)
             },
             { _id: _id.current, props: propsRef.current }

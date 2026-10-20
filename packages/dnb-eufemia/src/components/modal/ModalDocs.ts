@@ -67,12 +67,12 @@ export const ModalProperties: PropertiesTableProps = {
     status: 'optional',
   },
   openModal: {
-    doc: 'Set a function to call the callback function, once the modal should open: `openModal={(open) => open()}`.',
+    doc: 'Set a function that gets called when the modal should open. Call `open` to open it, e.g. after a delay: `openModal={(open) => open()}`. If it returns a function, that function gets called when the modal closes or unmounts.',
     type: 'function',
     status: 'optional',
   },
   closeModal: {
-    doc: 'Set a function to call the callback function, once the modal should close: `closeModal={(close) => close()}`.',
+    doc: 'Set a function that gets called when the modal opens. Call `close` to close it, e.g. after a timeout: `closeModal={(close) => { const timeout = setTimeout(close, 3e3); return () => clearTimeout(timeout) }}`. If it returns a function, that function gets called when the modal closes or unmounts.',
     type: 'function',
     status: 'optional',
   },

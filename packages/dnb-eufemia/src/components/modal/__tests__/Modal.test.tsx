@@ -2189,6 +2189,34 @@ describe('Modal openModal and closeModal', () => {
     expect(isOpen()).toBe(false)
   })
 
+  it('should close when the close function from closeModal gets an event or null', () => {
+    let closeModalHandler: (params: unknown) => void = null
+
+    render(
+      <Modal
+        {...props}
+        closeModal={(close) => {
+          closeModalHandler = close as (params: unknown) => void
+          return () => {
+            closeModalHandler = null
+          }
+        }}
+      >
+        <DialogContent />
+      </Modal>
+    )
+
+    openByTrigger()
+    expect(isOpen()).toBe(true)
+    act(() => closeModalHandler(new MouseEvent('click')))
+    expect(isOpen()).toBe(false)
+
+    openByTrigger()
+    expect(isOpen()).toBe(true)
+    act(() => closeModalHandler(null))
+    expect(isOpen()).toBe(false)
+  })
+
   it('should call onClose when closeModal closes the modal', () => {
     const onClose = vi.fn()
 
