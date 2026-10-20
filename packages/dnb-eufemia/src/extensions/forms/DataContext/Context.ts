@@ -183,7 +183,11 @@ export type ContextState = {
     options?: { keepPending?: boolean }
   ) => void
   setSubmitState?: (state: EventStateObject) => void
-  addOnChangeHandler?: (callback: OnChange) => void
+  /**
+   * Adds a change handler, and returns a function that removes it again.
+   * Handlers are called with the lowest order first.
+   */
+  addOnChangeHandler?: (callback: OnChange, order?: number) => () => void
   handleSubmitCall: ({
     onSubmit,
     enableAsyncBehavior,
