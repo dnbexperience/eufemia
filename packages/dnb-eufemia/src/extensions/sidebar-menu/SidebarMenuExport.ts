@@ -7,6 +7,8 @@ export { default as Header } from './SidebarMenuHeader'
 export { default as Divider } from './SidebarMenuDivider'
 export { default as Group } from './SidebarMenuGroup'
 export { default as ResizeHandle } from './SidebarMenuResizeHandle'
+export { default as Toggle } from './SidebarMenuToggle'
+export type { SidebarMenuToggleProps } from './SidebarMenuToggle'
 export { default as ResponsiveAside } from './SidebarMenuResponsiveAside'
 export { default as ResponsiveShell } from './SidebarMenuResponsiveShell'
 export {

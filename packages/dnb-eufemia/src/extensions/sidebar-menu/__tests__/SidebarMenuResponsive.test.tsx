@@ -9,6 +9,197 @@ import ScrollView from '../../../components/scroll-view/ScrollView'
 import Provider from '../../../shared/Provider'
 
 describe('SidebarMenu responsive parts', () => {
+  afterEach(() => {
+    sessionStorage.clear()
+    localStorage.clear()
+  })
+
+  it.each(['session', 'local'] as const)(
+    'persists inline dismissal in %s storage across remounts',
+    (storageType) => {
+      setMedia({ width: '100em' })
+      const storage =
+        storageType === 'local' ? localStorage : sessionStorage
+      const menu = (
+        <SidebarMenu.ResponsiveProvider
+          inlineCollapsedStorageKey="navigation"
+          inlineCollapsedStorage={storageType}
+        >
+          <SidebarMenu.Toggle />
+          <SidebarMenu.ResponsiveAside>Menu</SidebarMenu.ResponsiveAside>
+        </SidebarMenu.ResponsiveProvider>
+      )
+      const first = render(menu)
+      fireEvent.click(document.querySelector('.dnb-sidebar-menu-toggle'))
+      expect(storage.getItem('navigation')).toBe('true')
+      first.unmount()
+      const second = render(menu)
+      expect(
+        document.querySelector('.dnb-sidebar-menu-responsive-inline')
+      ).toHaveAttribute('inert')
+      fireEvent.click(document.querySelector('.dnb-sidebar-menu-toggle'))
+      expect(storage.getItem('navigation')).toBe('false')
+      second.unmount()
+      render(menu)
+      expect(
+        document.querySelector('.dnb-sidebar-menu-responsive-inline')
+      ).not.toHaveAttribute('inert')
+    }
+  )
+
+  it('loads each persistence key without overwriting the saved state', () => {
+    setMedia({ width: '100em' })
+    sessionStorage.setItem('first-menu', 'true')
+    sessionStorage.setItem('second-menu', 'false')
+    const menu = (key: string) => (
+      <SidebarMenu.ResponsiveProvider
+        inlineCollapsedStorageKey={key}
+        defaultInlineCollapsed
+      >
+        <SidebarMenu.Toggle />
+      </SidebarMenu.ResponsiveProvider>
+    )
+    const { rerender } = render(menu('first-menu'))
+    expect(
+      document.querySelector('.dnb-sidebar-menu-toggle')
+    ).toHaveAttribute('aria-expanded', 'false')
+    rerender(menu('second-menu'))
+    expect(
+      document.querySelector('.dnb-sidebar-menu-toggle')
+    ).toHaveAttribute('aria-expanded', 'true')
+    expect(sessionStorage.getItem('second-menu')).toBe('false')
+  })
+
+  it.each(['null', '"true"', '{}', 'invalid'])(
+    'uses the default for unsupported persisted state %s',
+    (stored) => {
+      setMedia({ width: '100em' })
+      sessionStorage.setItem('navigation', stored)
+      render(
+        <SidebarMenu.ResponsiveProvider
+          inlineCollapsedStorageKey="navigation"
+          defaultInlineCollapsed
+        >
+          <SidebarMenu.Toggle />
+        </SidebarMenu.ResponsiveProvider>
+      )
+      expect(
+        document.querySelector('.dnb-sidebar-menu-toggle')
+      ).toHaveAttribute('aria-expanded', 'false')
+    }
+  )
+
+  it('keeps controlled inline state independent of persistence', () => {
+    setMedia({ width: '100em' })
+    sessionStorage.setItem('navigation', 'true')
+    const onChange = vi.fn()
+    render(
+      <SidebarMenu.ResponsiveProvider
+        inlineCollapsed={false}
+        inlineCollapsedStorageKey="navigation"
+        onInlineCollapsedChange={onChange}
+      >
+        <SidebarMenu.Toggle />
+      </SidebarMenu.ResponsiveProvider>
+    )
+    const toggle = document.querySelector('.dnb-sidebar-menu-toggle')
+    expect(toggle).toHaveAttribute('aria-expanded', 'true')
+    fireEvent.click(toggle)
+    expect(onChange).toHaveBeenCalledWith(true)
+    expect(sessionStorage.getItem('navigation')).toBe('true')
+    expect(
+      document.querySelector('.dnb-sidebar-menu-responsive-provider')
+    ).not.toHaveAttribute('data-inline-collapsed-storage-key')
+  })
+
+  it('keeps toggling usable when storage writes are blocked', () => {
+    setMedia({ width: '100em' })
+    const setItem = vi
+      .spyOn(Storage.prototype, 'setItem')
+      .mockImplementation(() => {
+        throw new DOMException('Quota exceeded', 'QuotaExceededError')
+      })
+    try {
+      render(
+        <SidebarMenu.ResponsiveProvider inlineCollapsedStorageKey="navigation">
+          <SidebarMenu.Toggle />
+        </SidebarMenu.ResponsiveProvider>
+      )
+      const toggle = document.querySelector('.dnb-sidebar-menu-toggle')
+      fireEvent.click(toggle)
+      expect(toggle).toHaveAttribute('aria-expanded', 'false')
+      fireEvent.click(toggle)
+      expect(toggle).toHaveAttribute('aria-expanded', 'true')
+    } finally {
+      setItem.mockRestore()
+    }
+  })
+
+  it('hydrates stored inline dismissal without changing server markup or calling onChange', async () => {
+    setMedia({ width: '100em' })
+    const onChange = vi.fn()
+    const element = (
+      <SidebarMenu.ResponsiveProvider
+        inlineCollapsedStorageKey="navigation"
+        onInlineCollapsedChange={onChange}
+      >
+        <SidebarMenu.Toggle />
+        <SidebarMenu.ResponsiveAside>Menu</SidebarMenu.ResponsiveAside>
+      </SidebarMenu.ResponsiveProvider>
+    )
+    const container = document.createElement('div')
+    container.innerHTML = renderToString(element)
+    document.body.appendChild(container)
+    sessionStorage.setItem('navigation', 'true')
+    const style = document.createElement('style')
+    style.setAttribute(
+      'data-sidebar-menu-inline-pre-hydration',
+      'navigation'
+    )
+    document.head.appendChild(style)
+    const consoleError = vi
+      .spyOn(console, 'error')
+      .mockImplementation(() => undefined)
+    const root = hydrateRoot(container, element)
+    try {
+      await waitFor(() =>
+        expect(
+          container.querySelector('.dnb-sidebar-menu-responsive-inline')
+        ).toHaveAttribute('inert')
+      )
+      expect(consoleError).not.toHaveBeenCalled()
+      expect(onChange).not.toHaveBeenCalled()
+      expect(style).not.toBeInTheDocument()
+      expect(sessionStorage.getItem('navigation')).toBe('true')
+    } finally {
+      root.unmount()
+      consoleError.mockRestore()
+      container.remove()
+    }
+  })
+
+  it('ignores inaccessible storage when restoring inline dismissal', () => {
+    setMedia({ width: '100em' })
+    const getItem = vi
+      .spyOn(Storage.prototype, 'getItem')
+      .mockImplementation(() => {
+        throw new DOMException('Storage blocked', 'SecurityError')
+      })
+    try {
+      render(
+        <SidebarMenu.ResponsiveProvider inlineCollapsedStorageKey="navigation">
+          <SidebarMenu.Toggle />
+        </SidebarMenu.ResponsiveProvider>
+      )
+      const toggle = document.querySelector('.dnb-sidebar-menu-toggle')
+      expect(toggle).toHaveAttribute('aria-expanded', 'true')
+      fireEvent.click(toggle)
+      expect(toggle).toHaveAttribute('aria-expanded', 'false')
+    } finally {
+      getItem.mockRestore()
+    }
+  })
+
   it('localizes its accessible labels', () => {
     setMedia({ width: '30em' })
 
@@ -24,6 +215,97 @@ describe('SidebarMenu responsive parts', () => {
     expect(
       document.querySelector('[aria-label="Åpne meny"]')
     ).toBeInTheDocument()
+  })
+
+  it('preserves plain non-compact inline children without a dismiss button', () => {
+    setMedia({ width: '100em' })
+    render(
+      <SidebarMenu.ResponsiveProvider>
+        <SidebarMenu.ResponsiveInline>
+          <nav aria-label="Released navigation">Menu</nav>
+        </SidebarMenu.ResponsiveInline>
+        <SidebarMenu.ResponsiveDrawer>
+          Mobile menu
+        </SidebarMenu.ResponsiveDrawer>
+      </SidebarMenu.ResponsiveProvider>
+    )
+    const inline = document.querySelector(
+      '.dnb-sidebar-menu-responsive-inline'
+    )
+    expect(inline.firstElementChild).toBe(
+      document.querySelector('[aria-label="Released navigation"]')
+    )
+    expect(inline).not.toHaveAttribute(
+      'data-sidebar-menu-responsive-surface'
+    )
+    expect(
+      document.querySelector('.dnb-sidebar-menu-toggle')
+    ).not.toBeInTheDocument()
+  })
+
+  it('supports an explicit full-width inline toggle with an external restore control', () => {
+    setMedia({ width: '100em' })
+    render(
+      <SidebarMenu.ResponsiveProvider>
+        <SidebarMenu.ResponsiveTrigger />
+        <SidebarMenu.ResponsiveInline showToggle>
+          Menu
+        </SidebarMenu.ResponsiveInline>
+      </SidebarMenu.ResponsiveProvider>
+    )
+    fireEvent.click(
+      document.querySelector('.dnb-sidebar-menu-responsive-inline__toggle')
+    )
+    expect(
+      document.querySelector('.dnb-sidebar-menu-responsive-inline')
+    ).toHaveAttribute('inert')
+    fireEvent.click(
+      document.querySelector('.dnb-sidebar-menu-responsive-trigger')
+    )
+    expect(
+      document.querySelector('.dnb-sidebar-menu-responsive-inline')
+    ).not.toHaveAttribute('inert')
+  })
+
+  it('can omit the Aside toggle while preserving its collapsible sidebar surface', () => {
+    setMedia({ width: '100em' })
+    render(
+      <SidebarMenu.ResponsiveProvider>
+        <SidebarMenu.Toggle />
+        <SidebarMenu.ResponsiveAside showToggle={false}>
+          Menu
+        </SidebarMenu.ResponsiveAside>
+      </SidebarMenu.ResponsiveProvider>
+    )
+    expect(
+      document.querySelector('.dnb-sidebar-menu-responsive-inline__toggle')
+    ).not.toBeInTheDocument()
+    const inline = document.querySelector(
+      '.dnb-sidebar-menu-responsive-inline'
+    )
+    expect(inline).toHaveAttribute(
+      'data-sidebar-menu-responsive-surface',
+      'true'
+    )
+    fireEvent.click(document.querySelector('.dnb-sidebar-menu-toggle'))
+    expect(inline).toHaveAttribute('inert')
+  })
+
+  it('keeps the compact Inline toggle opt-in at full width', () => {
+    setMedia({ width: '100em' })
+    render(
+      <SidebarMenu.ResponsiveProvider compactAt="large">
+        <SidebarMenu.ResponsiveInline>Menu</SidebarMenu.ResponsiveInline>
+      </SidebarMenu.ResponsiveProvider>
+    )
+    expect(
+      document.querySelector(
+        '.dnb-sidebar-menu-responsive-inline__toggle-island'
+      )
+    ).not.toHaveAttribute('data-sidebar-menu-responsive-toggle-full-width')
+    expect(
+      document.querySelector('.dnb-sidebar-menu-responsive-inline')
+    ).toHaveAttribute('data-sidebar-menu-responsive-has-compact', 'true')
   })
 
   it('shows the inline content above the breakpoint', () => {
@@ -1050,7 +1332,7 @@ describe('SidebarMenu responsive parts', () => {
     expect(html).toContain('--sidebar-menu-default-expanded-width:18rem')
     expect(html).toContain('dnb-sidebar-menu-responsive-inline__content')
     expect(html).toContain(
-      'dnb-sidebar-menu-responsive-inline__toggle-island{display:inline-flex}'
+      'dnb-sidebar-menu-responsive-inline__toggle-island{display:inline-flex;margin-inline-start:calc(.5rem + var(--sidebar-menu-compact-offset))}'
     )
     expect(html).toContain(
       '.dnb-sidebar-menu-responsive-inline__content:dir(rtl)'
@@ -1067,7 +1349,7 @@ describe('SidebarMenu responsive parts', () => {
     expect(html).toContain(
       ':is(.dnb-sidebar-menu__group__title,.dnb-sidebar-menu__header){width:4rem;white-space:nowrap;opacity:.8'
     )
-    expect(html).toContain('padding:4rem 0 2.5rem')
+    expect(html).toContain('padding:0 0 2.5rem')
   })
 
   it('uses a stable first-paint CSS scope when provided', () => {
@@ -1113,6 +1395,183 @@ describe('SidebarMenu responsive parts', () => {
       'data-sidebar-menu-responsive-scope',
       scopeId
     )
+  })
+
+  it('toggles desktop navigation with the public Toggle', () => {
+    setMedia({ width: '100em' })
+    const onInlineCollapsedChange = vi.fn()
+
+    render(
+      <SidebarMenu.ResponsiveProvider
+        onInlineCollapsedChange={onInlineCollapsedChange}
+      >
+        <SidebarMenu.Toggle data-testid="toggle" />
+        <SidebarMenu.ResponsiveAside id="toggle-menu">
+          Menu
+        </SidebarMenu.ResponsiveAside>
+      </SidebarMenu.ResponsiveProvider>
+    )
+
+    const toggle = document.querySelector('[data-testid="toggle"]')
+    const inline = document.querySelector(
+      '.dnb-sidebar-menu-responsive-inline'
+    )
+    expect(toggle).toHaveAttribute('aria-controls', 'toggle-menu')
+    expect(toggle).toHaveAttribute('aria-expanded', 'true')
+    expect(toggle).toHaveAttribute('aria-label', 'Lukk meny')
+    expect(toggle).not.toHaveAttribute('aria-haspopup')
+
+    fireEvent.click(toggle)
+    expect(inline).toHaveAttribute('inert')
+    expect(toggle).toHaveAttribute('aria-expanded', 'false')
+    expect(toggle).toHaveAttribute('aria-label', 'Åpne meny')
+    expect(onInlineCollapsedChange).toHaveBeenLastCalledWith(true)
+
+    fireEvent.click(toggle)
+    expect(inline).not.toHaveAttribute('inert')
+    expect(toggle).toHaveAttribute('aria-expanded', 'true')
+    expect(onInlineCollapsedChange).toHaveBeenLastCalledWith(false)
+  })
+
+  it('hides a hover-expanded compact menu with an external Toggle', () => {
+    setMedia({ width: '65em' })
+    render(
+      <SidebarMenu.ResponsiveProvider compactAt="large">
+        <SidebarMenu.Toggle data-testid="external-toggle" />
+        <SidebarMenu.ResponsiveAside>Menu</SidebarMenu.ResponsiveAside>
+      </SidebarMenu.ResponsiveProvider>
+    )
+    const inline = document.querySelector(
+      '.dnb-sidebar-menu-responsive-inline'
+    )
+    const external = document.querySelector(
+      '[data-testid="external-toggle"]'
+    )
+    fireEvent.pointerEnter(inline, { pointerType: 'mouse' })
+    expect(inline).toHaveAttribute(
+      'data-sidebar-menu-responsive-expanded',
+      'true'
+    )
+    fireEvent.click(external)
+    expect(inline).toHaveAttribute('inert')
+    expect(inline).not.toHaveAttribute(
+      'data-sidebar-menu-responsive-expanded'
+    )
+    fireEvent.click(external)
+    expect(inline).not.toHaveAttribute('inert')
+    expect(inline).not.toHaveAttribute(
+      'data-sidebar-menu-responsive-expanded'
+    )
+  })
+
+  it('keeps controlled desktop state authoritative for Toggle', () => {
+    setMedia({ width: '100em' })
+    const onInlineCollapsedChange = vi.fn()
+    const renderMenu = (collapsed: boolean) => (
+      <SidebarMenu.ResponsiveProvider
+        inlineCollapsed={collapsed}
+        onInlineCollapsedChange={onInlineCollapsedChange}
+      >
+        <SidebarMenu.Toggle />
+      </SidebarMenu.ResponsiveProvider>
+    )
+    const { rerender } = render(renderMenu(false))
+    const toggle = document.querySelector('.dnb-sidebar-menu-toggle')
+    fireEvent.click(toggle)
+    expect(onInlineCollapsedChange).toHaveBeenLastCalledWith(true)
+    expect(toggle).toHaveAttribute('aria-expanded', 'true')
+    rerender(renderMenu(true))
+    expect(toggle).toHaveAttribute('aria-expanded', 'false')
+    fireEvent.click(toggle)
+    expect(onInlineCollapsedChange).toHaveBeenLastCalledWith(false)
+    expect(toggle).toHaveAttribute('aria-expanded', 'false')
+  })
+
+  it('uses visible Toggle text as its accessible name and forwards the ref', () => {
+    setMedia({ width: '100em' })
+    const ref = createRef<HTMLButtonElement>()
+    render(
+      <SidebarMenu.ResponsiveProvider>
+        <SidebarMenu.Toggle ref={ref} text="Menu" />
+      </SidebarMenu.ResponsiveProvider>
+    )
+    expect(ref.current).toHaveAccessibleName('Menu')
+  })
+
+  it('returns focus to the public Toggle when the Drawer closes', async () => {
+    setMedia({ width: '30em' })
+    render(
+      <SidebarMenu.ResponsiveProvider>
+        <SidebarMenu.Toggle />
+        <SidebarMenu.ResponsiveDrawer>Menu</SidebarMenu.ResponsiveDrawer>
+      </SidebarMenu.ResponsiveProvider>
+    )
+    const toggle = document.querySelector('.dnb-sidebar-menu-toggle')
+    fireEvent.click(toggle)
+    await waitFor(() =>
+      expect(document.querySelector('[role="dialog"]')).toBeInTheDocument()
+    )
+    fireEvent.keyDown(document, { key: 'Escape' })
+    await waitFor(() =>
+      expect(toggle).toHaveAttribute('aria-expanded', 'false')
+    )
+    expect(document.activeElement).toBe(toggle)
+  })
+
+  it('collapses desktop navigation with its embedded toggle', () => {
+    setMedia({ width: '100em' })
+    render(
+      <SidebarMenu.ResponsiveProvider>
+        <SidebarMenu.ResponsiveTrigger />
+        <SidebarMenu.ResponsiveAside>Menu</SidebarMenu.ResponsiveAside>
+      </SidebarMenu.ResponsiveProvider>
+    )
+
+    const toggle = document.querySelector<HTMLButtonElement>(
+      '.dnb-sidebar-menu-responsive-inline__toggle'
+    )
+    expect(toggle).toBeInTheDocument()
+    toggle.focus()
+    fireEvent.click(toggle)
+    expect(
+      document.querySelector('.dnb-sidebar-menu-responsive-inline')
+    ).toHaveAttribute('inert')
+    expect(document.activeElement).toBe(
+      document.querySelector('.dnb-sidebar-menu-responsive-trigger')
+    )
+  })
+
+  it('lets consumers prevent the default Toggle action', () => {
+    setMedia({ width: '100em' })
+    render(
+      <SidebarMenu.ResponsiveProvider>
+        <SidebarMenu.Toggle
+          onClick={({ event }) => event.preventDefault()}
+        />
+      </SidebarMenu.ResponsiveProvider>
+    )
+    const toggle = document.querySelector('.dnb-sidebar-menu-toggle')
+    fireEvent.click(toggle)
+    expect(toggle).toHaveAttribute('aria-expanded', 'true')
+  })
+
+  it('toggles the mobile Drawer with the public Toggle', () => {
+    setMedia({ width: '30em' })
+    render(
+      <SidebarMenu.ResponsiveProvider>
+        <SidebarMenu.Toggle controls="toggle-drawer" />
+        <SidebarMenu.ResponsiveDrawer id="toggle-drawer">
+          Menu
+        </SidebarMenu.ResponsiveDrawer>
+      </SidebarMenu.ResponsiveProvider>
+    )
+    const toggle = document.querySelector('.dnb-sidebar-menu-toggle')
+    expect(toggle).toHaveAttribute('aria-haspopup', 'dialog')
+    expect(toggle).toHaveAttribute('aria-controls', 'toggle-drawer')
+    fireEvent.click(toggle)
+    expect(toggle).toHaveAttribute('aria-expanded', 'true')
+    fireEvent.click(toggle)
+    expect(toggle).toHaveAttribute('aria-expanded', 'false')
   })
 
   it('restores a collapsed inline menu from the desktop trigger', () => {
@@ -1299,7 +1758,7 @@ describe('SidebarMenu responsive parts', () => {
     expect(html).toContain(':not([data-sidebar-menu-responsive-visible])')
     expect(html).toContain('{display:inline-flex}')
     expect(html).toContain('{display:none}')
-    expect(html).toContain('{display:contents}')
+    expect(html).toContain('{display:block}')
   })
 
   it('resolves named custom breakpoints for the first paint', () => {

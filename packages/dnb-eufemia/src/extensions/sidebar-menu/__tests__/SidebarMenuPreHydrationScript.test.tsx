@@ -10,9 +10,61 @@ import SidebarMenu from '../SidebarMenu'
 describe('SidebarMenuPreHydrationScript', () => {
   afterEach(() => {
     document
-      .querySelectorAll('[data-sidebar-menu-pre-hydration]')
+      .querySelectorAll(
+        '[data-sidebar-menu-pre-hydration], [data-sidebar-menu-inline-pre-hydration]'
+      )
       .forEach((element) => element.remove())
     sessionStorage.clear()
+    localStorage.clear()
+  })
+
+  it.each(['session', 'local'])(
+    'restores desktop dismissal before hydration from %s storage',
+    (type) => {
+      const storage = type === 'local' ? localStorage : sessionStorage
+      storage.setItem('navigation', 'true')
+      document.body.innerHTML = renderToString(
+        <SidebarMenu.ResponsiveProvider
+          inlineCollapsedStorageKey="navigation"
+          inlineCollapsedStorage={type as 'local' | 'session'}
+        >
+          <SidebarMenu.ResponsiveTrigger />
+          <SidebarMenu.ResponsiveAside>Menu</SidebarMenu.ResponsiveAside>
+        </SidebarMenu.ResponsiveProvider>
+      )
+      Function(getPreHydrationScript())()
+      const style = document.querySelector(
+        '[data-sidebar-menu-inline-pre-hydration]'
+      )
+      expect(style).toHaveAttribute(
+        'data-sidebar-menu-inline-pre-hydration',
+        'navigation'
+      )
+      expect(style.textContent).toContain('width:0!important')
+      expect(style.textContent).toContain('display:inline-flex!important')
+    }
+  )
+
+  it('leaves controlled and stored expanded navigation unchanged before hydration', () => {
+    sessionStorage.setItem('controlled', 'true')
+    sessionStorage.setItem('expanded', 'false')
+    document.body.innerHTML = renderToString(
+      <>
+        <SidebarMenu.ResponsiveProvider
+          inlineCollapsed={false}
+          inlineCollapsedStorageKey="controlled"
+        >
+          Menu
+        </SidebarMenu.ResponsiveProvider>
+        <SidebarMenu.ResponsiveProvider inlineCollapsedStorageKey="expanded">
+          Menu
+        </SidebarMenu.ResponsiveProvider>
+      </>
+    )
+    Function(getPreHydrationScript())()
+    expect(
+      document.querySelector('[data-sidebar-menu-inline-pre-hydration]')
+    ).not.toBeInTheDocument()
   })
 
   it('renders a blocking script with a CSP nonce', () => {

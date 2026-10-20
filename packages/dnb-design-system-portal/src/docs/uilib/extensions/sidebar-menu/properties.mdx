@@ -12,6 +12,7 @@ import {
   SidebarMenuGroupProperties,
   SidebarMenuHeaderProperties,
   SidebarMenuResizeHandleProperties,
+  SidebarMenuToggleProperties,
   SidebarMenuResponsiveProviderProperties,
   SidebarMenuResponsiveInlineProperties,
   SidebarMenuResponsiveAsideProperties,
@@ -54,7 +55,7 @@ Supports standard `HTMLAttributes<HTMLLIElement>`.
 
 ## SidebarMenu.PreHydrationScript
 
-Renders the blocking script that restores persisted SidebarMenu state before hydration. It supports standard `ScriptHTMLAttributes<HTMLScriptElement>` except `children` and `dangerouslySetInnerHTML`. Place it after the prerendered menu markup and before the application hydration script.
+Renders the blocking script that restores persisted open menu items, scroll position, and desktop dismissal before hydration. It supports standard `ScriptHTMLAttributes<HTMLScriptElement>` except `children` and `dangerouslySetInnerHTML`. Place it after the prerendered menu markup and before the application hydration script.
 
 ## SidebarMenu.getPreHydrationScript
 
@@ -79,6 +80,10 @@ Returns the same standalone script as a string for HTML templates assembled outs
 ## SidebarMenu.ResponsiveShell
 
 <PropertiesTable props={SidebarMenuResponsiveShellProperties} />
+
+## SidebarMenu.Toggle
+
+<PropertiesTable props={SidebarMenuToggleProperties} />
 
 ## SidebarMenu.ResponsiveTrigger
 

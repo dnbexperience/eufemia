@@ -149,6 +149,7 @@ Use the responsive compound parts when the same navigation should be inline on l
 
 - `ResponsiveProvider` owns the responsive thresholds and Drawer state.
 - `ResponsiveProvider` can also own a collapsible desktop inline state.
+- `Toggle` renders a button that hides and restores the desktop inline navigation by default. Inside the compact rail it expands and collapses the overlay. On small screens an external Toggle opens and closes the Drawer.
 - `ResponsiveTrigger` renders a hamburger button at or below `drawerAt`, or while the desktop inline navigation is collapsed. On desktop it restores the inline navigation instead of opening a Drawer.
 - When the built-in hamburger appears after desktop dismissal, its bars animate in sequentially. Custom trigger icons are not animated.
 - `ResponsiveInline` renders its children above `drawerAt`. Between `drawerAt` and the optional `compactAt` threshold, its SidebarMenu becomes a narrow icon rail that expands over adjacent content on hover, keyboard focus, or with its toggle button.
@@ -157,6 +158,8 @@ Use the responsive compound parts when the same navigation should be inline on l
 - `ResponsiveDrawer` renders a left-side Drawer at or below `drawerAt`. Its close button is placed on the left.
 - `useResponsive().close()` closes the Drawer after mobile navigation.
 
+Place an external `SidebarMenu.Toggle` or `ResponsiveTrigger` outside dismissible navigation so people can restore it after dismissal. `ResponsiveAside` includes its full-width toggle by default; use `showToggle={false}` to omit it. Plain `ResponsiveInline` preserves direct child rendering unless `compactAt` or `showToggle` is enabled. Set `showToggle` on `ResponsiveInline` to add a full-width embedded toggle. Compact mode keeps its existing expansion toggle. Desktop dismissal uses the same collapse state and width animation as dragging the resize divider all the way left.
+
 The trigger and Drawer do not need to be siblings. Place both under the same provider, for example with the trigger in an application header and the Drawer beside the desktop navigation.
 
 `drawerAt` defaults to `medium`. A custom Eufemia breakpoint name, explicit `em` value, or `compactAt` adds scoped first-paint CSS, so server-rendered visibility uses the same breakpoint before and after hydration. Pass `styleNonce` when your content security policy requires a nonce for inline styles.
@@ -164,6 +167,10 @@ The trigger and Drawer do not need to be siblings. Place both under the same pro
 Set `compactAt` when the inline menu should reduce to an icon rail before it becomes a Drawer. `compactAt` controls when the sidebar enters compact mode. `compactWidth` controls how wide the sidebar is in that mode. `compactOffset` adds an additional viewport width to the threshold, so `compactAt="large" compactOffset="10em"` becomes compact at `82em`. Set `expandedWidth` and `compactWidth` on `ResponsiveAside`; it reserves only the compact width and expands the full menu over adjacent content on hover, keyboard focus, or when its toggle button is activated. In compact mode, every interactive menu row must have an icon whenever a suitable icon exists. Text-only rows remain supported when an icon would not add meaningful value. Use `ResponsiveInline` directly only when the application needs to build a different sidebar surface.
 
 Use `inlineCollapsed` with `onInlineCollapsedChange` when application state controls desktop dismissal, or `defaultInlineCollapsed` for an uncontrolled initial state. `useResponsive()` exposes `inlineCollapsed`, `collapseInline()`, and `restoreInline()` to compound children.
+
+Set `inlineCollapsedStorageKey` on `ResponsiveProvider` to remember desktop dismissal across navigation and reloads. Session storage is the default, matching `openItemsStorageKey`; use `inlineCollapsedStorage="local"` to retain the choice across browser restarts. A saved boolean takes precedence over `defaultInlineCollapsed`. Controlled `inlineCollapsed` does not read or write storage. Compact hover expansion and the mobile Drawer remain temporary.
+
+Persistence uses the same shared Web Storage helpers as open menu items. The responsive parts share state through their provider's React context. For SSR or SSG, the same `PreHydrationScript` also restores desktop dismissal before the first paint.
 
 ### Dismissible desktop navigation
 

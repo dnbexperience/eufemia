@@ -23,17 +23,25 @@ import useMediaQuery from '../../shared/useMediaQuery'
 import Context from '../../shared/Context'
 import { defaultBreakpoints } from '../../shared/MediaQueryUtils'
 import type { MediaQuerySizes } from '../../shared/MediaQueryUtils'
-import { hamburger, sidebar } from '../../icons'
+import { hamburger } from '../../icons'
 import { clsx } from 'clsx'
 import useCombinedRef from '../../shared/helpers/useCombinedRef'
 import useIsomorphicLayoutEffect from '../../shared/helpers/useIsomorphicLayoutEffect'
+import {
+  getWebStorage,
+  readWebStorageJSON,
+} from '../../shared/helpers/webStorage'
+import type { WebStorageType } from '../../shared/helpers/webStorage'
 import useTranslation from '../../shared/useTranslation'
 import {
+  SidebarMenuInlineToggleContext,
+  SidebarMenuResponsiveAsideContext,
   SidebarMenuResponsiveInlineCompactContext,
   SidebarMenuResponsiveContext,
   useSidebarMenuResponsiveContext,
 } from './SidebarMenuResponsiveContext'
 import type { SidebarMenuResponsiveContextValue } from './SidebarMenuResponsiveContext'
+import SidebarMenuToggle from './SidebarMenuToggle'
 
 const animatedHamburger = (props?: IconSVGProps) => (
   <svg
@@ -102,6 +110,10 @@ export type SidebarMenuResponsiveProviderProps = {
   inlineCollapsed?: boolean
   /** Initial uncontrolled desktop inline navigation state. */
   defaultInlineCollapsed?: boolean
+  /** Storage key used to persist uncontrolled desktop dismissal. */
+  inlineCollapsedStorageKey?: string
+  /** Storage used for desktop dismissal. Default: session. */
+  inlineCollapsedStorage?: WebStorageType
   /** Called whenever the desktop inline navigation collapses or restores. */
   onInlineCollapsedChange?: (collapsed: boolean) => void
 }
@@ -118,6 +130,8 @@ export function SidebarMenuResponsiveProvider({
   onOpenChange,
   inlineCollapsed,
   defaultInlineCollapsed = false,
+  inlineCollapsedStorageKey,
+  inlineCollapsedStorage = 'session',
   onInlineCollapsedChange,
 }: SidebarMenuResponsiveProviderProps) {
   const { breakpoints } = useContext(Context)
@@ -164,6 +178,49 @@ export function SidebarMenuResponsiveProvider({
   const drawerOpeningRef = useRef(false)
   const resolvedInlineCollapsed =
     inlineCollapsed ?? internalInlineCollapsed
+  const persistedInlineStorageKey =
+    inlineCollapsed === undefined ? inlineCollapsedStorageKey : undefined
+  const inlineStorageId = persistedInlineStorageKey
+    ? `${inlineCollapsedStorage}:${persistedInlineStorageKey}`
+    : undefined
+  const loadedInlineStorageIdRef = useRef<string>(undefined)
+
+  useIsomorphicLayoutEffect(() => {
+    if (!inlineStorageId) {
+      loadedInlineStorageIdRef.current = undefined
+      return
+    }
+    if (loadedInlineStorageIdRef.current === inlineStorageId) {
+      return
+    }
+    const stored = readWebStorageJSON(
+      inlineCollapsedStorage,
+      persistedInlineStorageKey
+    )
+    loadedInlineStorageIdRef.current = inlineStorageId
+    setInternalInlineCollapsed(
+      typeof stored === 'boolean' ? stored : defaultInlineCollapsed
+    )
+  }, [
+    defaultInlineCollapsed,
+    inlineCollapsedStorage,
+    inlineStorageId,
+    persistedInlineStorageKey,
+  ])
+
+  useIsomorphicLayoutEffect(() => {
+    document
+      .querySelectorAll('[data-sidebar-menu-inline-pre-hydration]')
+      .forEach((element) => {
+        if (
+          element.getAttribute(
+            'data-sidebar-menu-inline-pre-hydration'
+          ) === persistedInlineStorageKey
+        ) {
+          element.remove()
+        }
+      })
+  }, [persistedInlineStorageKey])
 
   useIsomorphicLayoutEffect(() => {
     isSmallScreenRef.current = isSmallScreen
@@ -201,10 +258,20 @@ export function SidebarMenuResponsiveProvider({
     (collapsed: boolean) => {
       if (inlineCollapsed === undefined) {
         setInternalInlineCollapsed(collapsed)
+        if (inlineCollapsedStorageKey) {
+          try {
+            getWebStorage(inlineCollapsedStorage)?.setItem(
+              inlineCollapsedStorageKey,
+              JSON.stringify(collapsed)
+            )
+          } catch {
+            // Storage can become unavailable after it was resolved.
+          }
+        }
       }
       onInlineCollapsedChangeRef.current?.(collapsed)
     },
-    [inlineCollapsed]
+    [inlineCollapsed, inlineCollapsedStorage, inlineCollapsedStorageKey]
   )
   const collapseInline = useCallback(
     () => setInlineCollapsed(true),
@@ -296,6 +363,10 @@ export function SidebarMenuResponsiveProvider({
       <div
         className="dnb-sidebar-menu-responsive-provider"
         data-sidebar-menu-responsive-provider={scopeId}
+        data-inline-collapsed-storage-key={persistedInlineStorageKey}
+        data-inline-collapsed-storage={
+          persistedInlineStorageKey ? inlineCollapsedStorage : undefined
+        }
       >
         {firstPaintCss && (
           <style nonce={styleNonce}>{firstPaintCss}</style>
@@ -439,6 +510,8 @@ export type SidebarMenuResponsiveInlineProps = Omit<
   expandedWidth?: CSSProperties['width']
   /** Width reserved while the inline menu is compact. Minimum and default: 4rem. */
   compactWidth?: CSSProperties['width']
+  /** Show an embedded toggle at full width. Compact mode always includes its toggle. */
+  showToggle?: boolean
 }
 
 // The section list is portaled, so it is outside the inline menu in the DOM
@@ -457,6 +530,7 @@ export function SidebarMenuResponsiveInline({
   children,
   expandedWidth = '18rem',
   compactWidth = '4rem',
+  showToggle = false,
   ref,
   className,
   style,
@@ -477,7 +551,11 @@ export function SidebarMenuResponsiveInline({
     isHydrated,
     isSmallScreen,
     scopeId,
+    collapseInline,
+    triggerRef,
   } = useSidebarMenuResponsiveContext()
+  const isAside = useContext(SidebarMenuResponsiveAsideContext)
+  const hasSurface = isAside || hasCompact || showToggle
   const inlineRef = useRef<HTMLDivElement>(null)
   const combinedRef = useCombinedRef(ref, inlineRef)
   const [compactExpanded, setCompactExpanded] = useState(false)
@@ -492,7 +570,8 @@ export function SidebarMenuResponsiveInline({
   const [tooltipTarget, setTooltipTarget] = useState<HTMLElement>()
   const [tooltipLabel, setTooltipLabel] = useState('')
   const compactOpen =
-    compactExpanded || (compactHovered && !compactDismissed)
+    !inlineCollapsed &&
+    (compactExpanded || (compactHovered && !compactDismissed))
   const contentId = `${scopeId}-responsive-inline-content`
   const translation = useTranslation().SidebarMenu
   const compactOpenRef = useRef(compactOpen)
@@ -522,7 +601,8 @@ export function SidebarMenuResponsiveInline({
   }, [isHydrated])
 
   useEffect(() => {
-    if (!isCompact) {
+    if (!isCompact || inlineCollapsed) {
+      compactHoveredRef.current = false
       setCompactExpanded(false)
       setCompactDismissed(false)
       setCompactHovered(false)
@@ -530,7 +610,16 @@ export function SidebarMenuResponsiveInline({
       setCompactClosing(false)
       setTooltipTarget(undefined)
     }
-  }, [isCompact])
+  }, [isCompact, inlineCollapsed])
+
+  useIsomorphicLayoutEffect(() => {
+    if (
+      inlineCollapsed &&
+      inlineRef.current?.contains(document.activeElement)
+    ) {
+      triggerRef.current?.focus({ preventScroll: true })
+    }
+  }, [inlineCollapsed, triggerRef])
 
   useIsomorphicLayoutEffect(() => {
     if (compactOpen) {
@@ -597,6 +686,18 @@ export function SidebarMenuResponsiveInline({
     return null
   }
 
+  const toggleInline = () => {
+    setTooltipTarget(undefined)
+    if (!isCompact) {
+      collapseInline()
+      return
+    }
+    const wasOpen =
+      compactExpanded || (compactHoveredRef.current && !compactDismissed)
+    setCompactExpanded(!wasOpen)
+    setCompactDismissed(wasOpen)
+  }
+
   const responsiveChildren = (
     <SidebarMenuResponsiveInlineCompactContext value={isCompact}>
       {children}
@@ -622,6 +723,7 @@ export function SidebarMenuResponsiveInline({
         isHydrated ? String(isCompact) : undefined
       }
       data-sidebar-menu-responsive-has-compact={hasCompact || undefined}
+      data-sidebar-menu-responsive-surface={hasSurface || undefined}
       data-sidebar-menu-responsive-expanded={compactOpen || undefined}
       data-sidebar-menu-responsive-scope={scopeId}
       inert={isHydrated && inlineCollapsed}
@@ -769,60 +871,63 @@ export function SidebarMenuResponsiveInline({
         } as CSSProperties
       }
     >
-      {hasCompact ? (
-        <div className="dnb-sidebar-menu-responsive-inline__content">
-          <div
-            className="dnb-sidebar-menu-responsive-inline__toggle-island"
-            style={{
-              boxShadow: compactScrolled ? 'var(--shadow-sharp)' : 'none',
-            }}
-          >
-            <Button
-              ref={compactToggleRef}
-              className="dnb-sidebar-menu-responsive-inline__toggle"
-              icon={sidebar}
-              variant="tertiary"
-              aria-label={
-                compactOpen ? translation.closeMenu : translation.openMenu
-              }
-              aria-controls={contentId}
-              aria-expanded={compactOpen}
-              onClick={() => {
-                const wasOpen =
-                  compactExpanded ||
-                  (compactHoveredRef.current && !compactDismissed)
-                setTooltipTarget(undefined)
-                setCompactExpanded(!wasOpen)
-                setCompactDismissed(wasOpen)
-              }}
-            />
-            {isCompact && !compactOpen && compactToggleRef.current && (
-              <Tooltip
-                targetElement={compactToggleRef.current}
-                tooltip={translation.openMenu}
-                placement="right"
-                triggerOffset={8}
-                omitDescribedBy
-              />
+      {hasSurface ? (
+        <SidebarMenuInlineToggleContext
+          value={{
+            open: isCompact ? compactOpen : !inlineCollapsed,
+            controls: contentId,
+            toggle: toggleInline,
+          }}
+        >
+          <div className="dnb-sidebar-menu-responsive-inline__content">
+            {(hasCompact || showToggle) && (
+              <div
+                className="dnb-sidebar-menu-responsive-inline__toggle-island"
+                data-sidebar-menu-responsive-toggle-full-width={
+                  showToggle || undefined
+                }
+                style={{
+                  boxShadow: compactScrolled
+                    ? 'var(--shadow-sharp)'
+                    : 'none',
+                }}
+              >
+                <SidebarMenuToggle
+                  ref={compactToggleRef}
+                  className="dnb-sidebar-menu-responsive-inline__toggle"
+                />
+                {isCompact && !compactOpen && compactToggleRef.current && (
+                  <Tooltip
+                    targetElement={compactToggleRef.current}
+                    tooltip={translation.openMenu}
+                    placement="right"
+                    triggerOffset={8}
+                    omitDescribedBy
+                  />
+                )}
+              </div>
             )}
+            <div
+              id={contentId}
+              className="dnb-sidebar-menu-responsive-inline__body"
+            >
+              {responsiveChildren}
+            </div>
+            {isCompact &&
+              tooltipTarget &&
+              tooltipLabel &&
+              !compactOpen && (
+                <Tooltip
+                  open
+                  targetElement={tooltipTarget}
+                  tooltip={tooltipLabel}
+                  placement="right"
+                  triggerOffset={8}
+                  omitDescribedBy
+                />
+              )}
           </div>
-          <div
-            id={contentId}
-            className="dnb-sidebar-menu-responsive-inline__body"
-          >
-            {responsiveChildren}
-          </div>
-          {isCompact && tooltipTarget && tooltipLabel && !compactOpen && (
-            <Tooltip
-              open
-              targetElement={tooltipTarget}
-              tooltip={tooltipLabel}
-              placement="right"
-              triggerOffset={8}
-              omitDescribedBy
-            />
-          )}
-        </div>
+        </SidebarMenuInlineToggleContext>
       ) : (
         responsiveChildren
       )}
@@ -901,7 +1006,7 @@ function getFirstPaintCss(
   const drawerCss =
     drawerAt === defaultBreakpoints.medium
       ? ''
-      : `@media (max-width: ${drawerAt}){${scope}.dnb-sidebar-menu-responsive-trigger${unresolved}{display:inline-flex}${scope}.dnb-sidebar-menu-responsive-inline${unresolved}{display:none}}@media (min-width: ${minWidth}){${scope}.dnb-sidebar-menu-responsive-trigger${unresolved}{display:none}${scope}.dnb-sidebar-menu-responsive-inline${unresolved}{display:contents}}`
+      : `@media (max-width: ${drawerAt}){${scope}.dnb-sidebar-menu-responsive-trigger${unresolved}{display:inline-flex}${scope}.dnb-sidebar-menu-responsive-inline${unresolved}{display:none}}@media (min-width: ${minWidth}){${scope}.dnb-sidebar-menu-responsive-trigger${unresolved}{display:none}${scope}.dnb-sidebar-menu-responsive-inline${unresolved}{display:contents}${scope}.dnb-sidebar-menu-responsive-inline${unresolved}[data-sidebar-menu-responsive-surface]{display:block}}`
   const compactCss = compactAt
     ? getCompactFirstPaintCss(scope, minWidth, compactAt)
     : ''
@@ -926,7 +1031,7 @@ function getCompactFirstPaintCss(
   const textOnlySelected = `${menu} :is(.dnb-sidebar-menu__item--active,.dnb-sidebar-menu__item--selected)>.dnb-sidebar-menu__item__action:not(:has(.dnb-sidebar-menu__item__icon))`
   const media = `@media (min-width:${minWidth}) and (max-width:${compactAt})`
 
-  return `${media}{${inline}{display:block;width:var(--sidebar-menu-compact-width)}${inline}::after{opacity:1}${content}{clip-path:inset(0 calc(var(--sidebar-menu-expanded-width) - var(--sidebar-menu-compact-width)) 0 0)}${content}:dir(rtl){clip-path:inset(0 0 0 calc(var(--sidebar-menu-expanded-width) - var(--sidebar-menu-compact-width)))}${toggle}{display:inline-flex}${content} .dnb-sidebar-menu-responsive-aside__content{padding:4rem 0 2.5rem}${content} .dnb-sidebar-menu-responsive-aside .dnb-sidebar-menu{width:100%;margin-inline:0}${content} .dnb-sidebar-menu-responsive-aside__resize-handle{display:none}${menu} .dnb-sidebar-menu__item__action{width:2.75rem;margin-inline-start:calc(.375rem + var(--sidebar-menu-compact-offset));padding-inline:.625rem;border-radius:var(--sidebar-menu-action-border-radius)}${menu} .dnb-sidebar-menu__item__content{flex:0 0 auto}${menu} .dnb-sidebar-menu__item__text{max-width:0;overflow:hidden;white-space:nowrap;opacity:0}${menu} .dnb-sidebar-menu__item__action:not(:has(.dnb-sidebar-menu__item__icon)) .dnb-sidebar-menu__item__text{max-width:2.25rem;opacity:.8;mask-image:linear-gradient(to right,#000 35%,transparent 100%)}${menu} .dnb-sidebar-menu__item__action:not(:has(.dnb-sidebar-menu__item__icon)) .dnb-sidebar-menu__item__text:dir(rtl){mask-image:linear-gradient(to left,#000 35%,transparent 100%)}${textOnlySelected}{box-shadow:none;background-color:transparent;background-image:linear-gradient(to right,var(--sidebar-menu-action-background-color--selected) 0 35%,transparent 100%);border-radius:var(--sidebar-menu-action-border-radius) 0 0 var(--sidebar-menu-action-border-radius)}${textOnlySelected}:dir(rtl){background-image:linear-gradient(to left,var(--sidebar-menu-action-background-color--selected) 0 35%,transparent 100%);border-radius:0 var(--sidebar-menu-action-border-radius) var(--sidebar-menu-action-border-radius) 0}${menu} .dnb-sidebar-menu__accordion .dnb-sidebar-menu__list .dnb-sidebar-menu__item__action:not([aria-current]){opacity:var(--sidebar-menu-opacity)}${menu} .dnb-sidebar-menu__accordion__indicator{margin-inline-start:0}${menu} .dnb-sidebar-menu__accordion__expand-icon{width:0;overflow:hidden;opacity:0}${informationBadge}{display:none}${notificationBadge}{position:absolute;inset-block-start:-.25rem;inset-inline-end:-.375rem}${notificationIndicator}{position:absolute;inset-block-start:50%;inset-inline:auto -.125rem;transform:translateY(-50%)}${sections}{--dropdown-button-padding:.625rem;padding-inline:.25rem}${sections} .dnb-dropdown__trigger{width:2.75rem;margin-inline-start:.375rem}${sections}.dnb-sidebar-menu__sections--has-icon .dnb-dropdown__icon{width:0;overflow:hidden;opacity:0}${heading}{width:4rem;white-space:nowrap;opacity:.8;mask-image:linear-gradient(to right,#000 35%,transparent 100%)}${heading}:dir(rtl){mask-image:linear-gradient(to left,#000 35%,transparent 100%)}${menu} .dnb-sidebar-menu__divider{width:2.5rem;margin:1rem 0 1rem calc(.5rem + var(--sidebar-menu-compact-offset))}}`
+  return `${media}{${inline}{display:block;width:var(--sidebar-menu-compact-width)}${inline}::after{opacity:1}${content}{clip-path:inset(0 calc(var(--sidebar-menu-expanded-width) - var(--sidebar-menu-compact-width)) 0 0)}${content}:dir(rtl){clip-path:inset(0 0 0 calc(var(--sidebar-menu-expanded-width) - var(--sidebar-menu-compact-width)))}${toggle}{display:inline-flex;margin-inline-start:calc(.5rem + var(--sidebar-menu-compact-offset))}${content} .dnb-sidebar-menu-responsive-aside__content{padding:0 0 2.5rem}${content} .dnb-sidebar-menu-responsive-aside .dnb-sidebar-menu{width:100%;margin-inline:0}${content} .dnb-sidebar-menu-responsive-aside__resize-handle{display:none}${menu} .dnb-sidebar-menu__item__action{width:2.75rem;margin-inline-start:calc(.375rem + var(--sidebar-menu-compact-offset));padding-inline:.625rem;border-radius:var(--sidebar-menu-action-border-radius)}${menu} .dnb-sidebar-menu__item__content{flex:0 0 auto}${menu} .dnb-sidebar-menu__item__text{max-width:0;overflow:hidden;white-space:nowrap;opacity:0}${menu} .dnb-sidebar-menu__item__action:not(:has(.dnb-sidebar-menu__item__icon)) .dnb-sidebar-menu__item__text{max-width:2.25rem;opacity:.8;mask-image:linear-gradient(to right,#000 35%,transparent 100%)}${menu} .dnb-sidebar-menu__item__action:not(:has(.dnb-sidebar-menu__item__icon)) .dnb-sidebar-menu__item__text:dir(rtl){mask-image:linear-gradient(to left,#000 35%,transparent 100%)}${textOnlySelected}{box-shadow:none;background-color:transparent;background-image:linear-gradient(to right,var(--sidebar-menu-action-background-color--selected) 0 35%,transparent 100%);border-radius:var(--sidebar-menu-action-border-radius) 0 0 var(--sidebar-menu-action-border-radius)}${textOnlySelected}:dir(rtl){background-image:linear-gradient(to left,var(--sidebar-menu-action-background-color--selected) 0 35%,transparent 100%);border-radius:0 var(--sidebar-menu-action-border-radius) var(--sidebar-menu-action-border-radius) 0}${menu} .dnb-sidebar-menu__accordion .dnb-sidebar-menu__list .dnb-sidebar-menu__item__action:not([aria-current]){opacity:var(--sidebar-menu-opacity)}${menu} .dnb-sidebar-menu__accordion__indicator{margin-inline-start:0}${menu} .dnb-sidebar-menu__accordion__expand-icon{width:0;overflow:hidden;opacity:0}${informationBadge}{display:none}${notificationBadge}{position:absolute;inset-block-start:-.25rem;inset-inline-end:-.375rem}${notificationIndicator}{position:absolute;inset-block-start:50%;inset-inline:auto -.125rem;transform:translateY(-50%)}${sections}{--dropdown-button-padding:.625rem;padding-inline:.25rem}${sections} .dnb-dropdown__trigger{width:2.75rem;margin-inline-start:.375rem}${sections}.dnb-sidebar-menu__sections--has-icon .dnb-dropdown__icon{width:0;overflow:hidden;opacity:0}${heading}{width:4rem;white-space:nowrap;opacity:.8;mask-image:linear-gradient(to right,#000 35%,transparent 100%)}${heading}:dir(rtl){mask-image:linear-gradient(to left,#000 35%,transparent 100%)}${menu} .dnb-sidebar-menu__divider{width:2.5rem;margin:1rem 0 1rem calc(.5rem + var(--sidebar-menu-compact-offset))}}`
 }
 
 export type SidebarMenuResponsiveDrawerProps = Omit<
@@ -988,6 +1093,10 @@ export function SidebarMenuResponsiveDrawer({
       contentId={id}
       dialogTitle={dialogTitle ?? translation.menu}
       open={open}
+      restoreFocusTo={
+        props.restoreFocusTo ??
+        (() => (isSmallScreenRef.current ? triggerRef.current : null))
+      }
       onOpen={(event) => {
         drawerOpeningRef.current = false
         onOpen?.(event)

@@ -322,6 +322,61 @@ export function SidebarMenuData() {
   )
 }
 
+export function SidebarMenuToggle() {
+  return (
+    <ComponentBox hideCode scope={{ home, cog, H2, P, styles }}>
+      <SidebarMenu.ResponsiveProvider
+        drawerAt="40em"
+        compactAt="large"
+        inlineCollapsedStorageKey="sidebar-menu-toggle-example"
+      >
+        <SidebarMenu.ResponsiveShell
+          className={styles.responsiveShell}
+          data-sidebar-menu-toggle-example
+        >
+          <SidebarMenu.ResponsiveAside resizable>
+            <SidebarMenu.Root aria-label="Toggle example navigation">
+              <SidebarMenu.Item id="toggle-home" text="Home" icon={home} />
+              <SidebarMenu.Item
+                id="toggle-settings"
+                text="Settings"
+                icon={cog}
+              />
+            </SidebarMenu.Root>
+          </SidebarMenu.ResponsiveAside>
+          <div className={styles.responsiveContent}>
+            <SidebarMenu.Toggle
+              controls="toggle-example-drawer"
+              text="Menu"
+              bottom="medium"
+            />
+            <H2>Toggle the sidebar</H2>
+            <P>
+              Use either toggle to hide the sidebar. The Menu button
+              restores it. Your choice is remembered for this session,
+              including after a reload.
+            </P>
+          </div>
+          <SidebarMenu.ResponsiveDrawer id="toggle-example-drawer">
+            <SidebarMenu.Root aria-label="Toggle example navigation">
+              <SidebarMenu.Item
+                id="toggle-mobile-home"
+                text="Home"
+                icon={home}
+              />
+              <SidebarMenu.Item
+                id="toggle-mobile-settings"
+                text="Settings"
+                icon={cog}
+              />
+            </SidebarMenu.Root>
+          </SidebarMenu.ResponsiveDrawer>
+        </SidebarMenu.ResponsiveShell>
+      </SidebarMenu.ResponsiveProvider>
+    </ComponentBox>
+  )
+}
+
 export function SidebarMenuResponsiveNavigation() {
   return (
     <ComponentBox

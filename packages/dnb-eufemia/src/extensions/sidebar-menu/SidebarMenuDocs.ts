@@ -237,10 +237,27 @@ export const SidebarMenuResponsiveProviderProperties: PropertiesTableProps =
       defaultValue: 'false',
       status: 'optional',
     },
+    inlineCollapsedStorageKey: {
+      doc: 'Storage key used to remember desktop dismissal across navigation and reloads. A stored boolean takes precedence over defaultInlineCollapsed. Controlled inlineCollapsed does not read or write storage. Compact hover expansion and the mobile Drawer are not persisted.',
+      type: 'string',
+      status: 'optional',
+    },
+    inlineCollapsedStorage: {
+      doc: 'Storage used with inlineCollapsedStorageKey. Use local when the choice should survive browser restarts.',
+      type: ['"session"', '"local"'],
+      defaultValue: '"session"',
+      status: 'optional',
+    },
   }
 
 export const SidebarMenuResponsiveInlineProperties: PropertiesTableProps =
   {
+    showToggle: {
+      doc: 'Adds the full-width embedded toggle and sidebar surface. Keep an external Toggle or ResponsiveTrigger available to restore dismissed navigation. Without compactAt or showToggle, children render directly with display: contents. Compact mode retains its toggle independently.',
+      type: 'boolean',
+      defaultValue: 'false',
+      status: 'optional',
+    },
     expandedWidth: {
       doc: 'Width of the full inline menu.',
       type: 'CSSProperties["width"]',
@@ -261,6 +278,12 @@ export const SidebarMenuResponsiveInlineProperties: PropertiesTableProps =
   }
 
 export const SidebarMenuResponsiveAsideProperties: PropertiesTableProps = {
+  showToggle: {
+    doc: 'Shows the embedded full-width toggle. Keep an external Toggle or ResponsiveTrigger available to restore dismissed navigation. Compact mode retains its toggle independently.',
+    type: 'boolean',
+    defaultValue: 'true',
+    status: 'optional',
+  },
   id: {
     doc: 'Id used by ResponsiveTrigger inlineControls and the resize divider. Generated when omitted.',
     type: 'string',
@@ -328,6 +351,25 @@ export const SidebarMenuResponsiveProviderEvents: PropertiesTableProps = {
   onInlineCollapsedChange: {
     doc: 'Called whenever the desktop inline navigation collapses or restores.',
     type: '(collapsed: boolean) => void',
+    status: 'optional',
+  },
+}
+
+export const SidebarMenuToggleProperties: PropertiesTableProps = {
+  controls: {
+    doc: 'Id of the mobile Drawer controlled by the toggle.',
+    type: 'string',
+    defaultValue: '"sidebar-menu-responsive-drawer"',
+    status: 'optional',
+  },
+  inlineControls: {
+    doc: 'Id of the desktop navigation. Defaults to the ResponsiveAside id in the same provider. The embedded toggle controls its own inline content.',
+    type: 'string',
+    status: 'optional',
+  },
+  '[Button properties]': {
+    doc: 'Supports Button properties except aria-expanded, aria-haspopup, and aria-controls, which are managed automatically. The default icon is sidebar. Icon-only buttons use a localized accessible label. Calling event.preventDefault() in onClick cancels toggling. Place the toggle inside ResponsiveProvider.',
+    type: 'Various',
     status: 'optional',
   },
 }
