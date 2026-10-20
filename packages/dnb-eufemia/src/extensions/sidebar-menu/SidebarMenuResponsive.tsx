@@ -26,6 +26,7 @@ import type { MediaQuerySizes } from '../../shared/MediaQueryUtils'
 import { hamburger } from '../../icons'
 import { clsx } from 'clsx'
 import useCombinedRef from '../../shared/helpers/useCombinedRef'
+import useUniqueId from '../../shared/helpers/useId'
 import useIsomorphicLayoutEffect from '../../shared/helpers/useIsomorphicLayoutEffect'
 import {
   getWebStorage,
@@ -449,8 +450,37 @@ export function SidebarMenuResponsiveTrigger({
     inlineId,
   } = useSidebarMenuResponsiveContext()
   const translation = useTranslation().SidebarMenu
-  const combinedRef = useCombinedRef(ref, triggerRef)
-  const resolvedInlineControls = inlineControls ?? inlineId
+  const localTriggerRef = useRef<HTMLElement>(null)
+  const combinedRef = useCombinedRef(ref, triggerRef, localTriggerRef)
+  const [legacyInlineControls, setLegacyInlineControls] =
+    useState<string>()
+  const resolvedInlineControls =
+    inlineControls ?? inlineId ?? legacyInlineControls
+
+  // Legacy layouts can share one ID between the aside and the mobile Drawer.
+  useIsomorphicLayoutEffect(() => {
+    if (
+      !isHydrated ||
+      isSmallScreen ||
+      inlineControls !== undefined ||
+      inlineId !== undefined
+    ) {
+      setLegacyInlineControls(undefined)
+      return
+    }
+
+    const provider = localTriggerRef.current?.closest(
+      '.dnb-sidebar-menu-responsive-provider'
+    )
+    const target = document.getElementById(controls)
+    const isInlineAside =
+      target?.tagName === 'ASIDE' &&
+      provider &&
+      target
+        .closest('.dnb-sidebar-menu-responsive-inline')
+        ?.closest('.dnb-sidebar-menu-responsive-provider') === provider
+    setLegacyInlineControls(isInlineAside ? controls : undefined)
+  })
 
   return (
     <Button
@@ -572,7 +602,7 @@ export function SidebarMenuResponsiveInline({
   const compactOpen =
     !inlineCollapsed &&
     (compactExpanded || (compactHovered && !compactDismissed))
-  const contentId = `${scopeId}-responsive-inline-content`
+  const contentId = `responsive-inline-content-${useUniqueId()}`
   const translation = useTranslation().SidebarMenu
   const compactOpenRef = useRef(compactOpen)
 
