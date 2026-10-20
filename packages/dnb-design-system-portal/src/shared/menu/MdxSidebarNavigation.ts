@@ -18,7 +18,7 @@ export function createMdxSidebarNavigation(
       )
       .map((page) => [page.fields.slug, page] as const)
   )
-  const children = new Map<string, string[]>()
+  const children = new Map<string | undefined, string[]>()
 
   definitions.forEach(({ frontmatter: { navigation: nav } }, slug) => {
     const ancestors = new Set([slug])
@@ -34,7 +34,7 @@ export function createMdxSidebarNavigation(
       }
       parent = definition.frontmatter.navigation.parent
     }
-    const key = nav.parent ?? ''
+    const key = nav.parent
     children.set(key, [...(children.get(key) ?? []), slug])
   })
 
@@ -61,8 +61,8 @@ export function createMdxSidebarNavigation(
     const group =
       nav.kind === 'group' || nav.kind === 'category' || nested.length > 0
     const item: NavItem = {
-      id: slug.replaceAll('/', '-'),
-      path: slug,
+      id: slug ? slug.replaceAll('/', '-') : 'portal-home',
+      path: slug || '/',
       title: nav.title || fm.menuTitle || fm.title,
       order: nav.order ?? fm.order,
       icon: fm.icon,
@@ -100,7 +100,7 @@ export function createMdxSidebarNavigation(
       )
   }
 
-  const roots = children.get('') ?? []
+  const roots = children.get(undefined) ?? []
   return {
     shared: roots
       .filter(

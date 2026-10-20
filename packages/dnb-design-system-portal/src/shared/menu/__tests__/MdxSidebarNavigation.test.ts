@@ -25,6 +25,7 @@ describe('MDX-defined Portal navigation', () => {
   it('derives shared and platform trees from the documents', () => {
     const { shared, sections } = tree()
     expect(shared.map(({ title }) => title)).toEqual([
+      'Home',
       'About',
       'Getting started',
       'Design language',
@@ -44,6 +45,26 @@ describe('MDX-defined Portal navigation', () => {
       'Layout',
       'Helpers',
     ])
+  })
+
+  it('shows Home first as a selected root link without inheriting the other roots', () => {
+    const { shared } = tree('/')
+    const home = shared[0]
+    expect(home).toMatchObject({
+      id: 'portal-home',
+      path: '/',
+      title: 'Home',
+      icon: 'home',
+      isActive: true,
+      isMenuLink: true,
+    })
+    expect(home.subheadings).toBeUndefined()
+    expect(findActiveSidebarItemId(shared)).toBe('portal-home')
+    expect(toSidebarMenuData([home], () => undefined)[0]).toMatchObject({
+      to: '/',
+      text: 'Home',
+    })
+    expect(tree('/web/components/button').shared[0].isActive).toBe(false)
   })
 
   it('renders every accordion as a button, keeping its original content as a child link', () => {
@@ -88,7 +109,9 @@ describe('MDX-defined Portal navigation', () => {
     ])
     expect(new Set(items.map(({ id }) => id)).size).toBe(items.length)
     const links = new Set(
-      items.filter(({ isMenuLink }) => isMenuLink).map(({ path }) => path)
+      items
+        .filter(({ isMenuLink }) => isMenuLink)
+        .map(({ path }) => (path === '/' ? '' : path))
     )
     expect(
       pages
