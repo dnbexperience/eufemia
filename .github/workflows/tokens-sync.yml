@@ -9,7 +9,7 @@ on:
         description: Target branch override (optional)
         type: string
       generate_screenshots:
-        description: Generate snapshots/screenshots
+        description: Generate screenshots
         type: boolean
         default: true
 
@@ -48,6 +48,7 @@ jobs:
         # The "output_branch" input overrides both.
         env:
           OUTPUT_BRANCH: ${{ inputs.output_branch }}
+          GENERATE_SCREENSHOTS: ${{ inputs.generate_screenshots }}
         run: |
           if [ -n "$OUTPUT_BRANCH" ]; then
             branch=$OUTPUT_BRANCH
@@ -66,6 +67,14 @@ jobs:
           if git rev-parse --verify --quiet "refs/remotes/origin/$branch" > /dev/null; then
             echo "exists=true" >> "$GITHUB_OUTPUT"
           fi
+
+          {
+            echo "Attempting to synchronize the design tokens from Figma."
+            echo ""
+            echo "- Run from: \`$GITHUB_REF_NAME\`"
+            echo "- Target branch to commit to: \`$branch\`"
+            echo "- Generate screenshots: $GENERATE_SCREENSHOTS"
+          } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Check if branch has PR
         id: existing-pr
@@ -143,7 +152,7 @@ jobs:
         if: steps.changes.outputs.changed == 'true'
         run: yarn workspace dnb-design-system-portal build
 
-      - name: Run visual tests
+      - name: Generate screenshots
         if: steps.changes.outputs.changed == 'true' && inputs.generate_screenshots
         run: yarn workspace dnb-design-system-portal test:screenshots:ci:update
 
@@ -242,7 +251,7 @@ jobs:
             echo "- Added: $(as_list "$added")"
             echo "- Removed: $(as_list "$removed")"
             echo ""
-            echo "Review the token values, removals and visual snapshots before marking the pull request ready."
+            echo "Review the token values, removals, snapshots, and visual screenshots before marking the pull request ready."
           )
 
           printf '%s\n' "$body" >> "$GITHUB_STEP_SUMMARY"
