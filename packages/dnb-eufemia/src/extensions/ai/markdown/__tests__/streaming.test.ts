@@ -65,6 +65,9 @@ describe('streaming', () => {
       '> '.repeat(5000) + 'x',
       '- '.repeat(3000) + 'x',
       'https://'.repeat(5000),
+      '# Heading' + ' '.repeat(40000) + '!',
+      '- ' + ' '.repeat(40000) + '\u2028',
+      '| ---' + ' '.repeat(40000) + '!',
     ]
     const start = Date.now()
     for (const input of inputs) {

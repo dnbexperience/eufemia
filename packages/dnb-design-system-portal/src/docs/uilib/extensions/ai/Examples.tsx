@@ -23,7 +23,7 @@ import {
   Sources,
   Suggestion,
   Suggestions,
-  Tool,
+  Task,
   Welcome,
   useConversation,
   useConversationScrollState,
@@ -324,7 +324,7 @@ export function AiMessageComposition() {
     <ComponentBox>
       <Message from="user">What did I spend on food?</Message>
       <Message>
-        <Tool title="Checking your transactions" status="done" />
+        <Task title="Checking your transactions" status="done" />
         <Response parseIncompleteMarkdown={false}>
           You spent **4 200 kr** on groceries in March.
         </Response>
@@ -696,7 +696,7 @@ function DemoMessageContent({ message }: { message: DemoMessage }) {
             )
           case 'tool':
             return (
-              <Tool
+              <Task
                 key={index}
                 title={part.title}
                 status={part.status}
@@ -1176,18 +1176,21 @@ export function AiChatConversation() {
   )
 }
 
-export function AiToolStates() {
+export function AiTaskStates() {
   return (
-    <ComponentBox data-visual-test="ai-tool-states">
-      <Tool title="Looking up your transactions" status="running" />
-      <Tool top title="Looking up your transactions" status="done" />
-      <Tool
+    <ComponentBox data-visual-test="ai-task-states">
+      <Task title="Looking up your transactions" status="running" />
+      <Task top title="Blocking your card" status="awaiting" />
+      <Task top title="Looking up your transactions" status="done">
+        <P space={0}>Your latest transactions are ready.</P>
+      </Task>
+      <Task
         top
         title="Blocking your card"
         status="error"
         errorText="The card could not be blocked. Try again later."
       />
-      <Tool top title="Blocking your card" status="canceled" />
+      <Task top title="Blocking your card" status="canceled" />
     </ComponentBox>
   )
 }
