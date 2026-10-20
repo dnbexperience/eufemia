@@ -202,7 +202,11 @@ export type AiSuggestionProps = {
   Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'onClick' | 'children'>
 
 export type AiWelcomeProps = {
-  /** The heading, e.g. `Hello, Peter`. */
+  /** Greeting shown above the heading, e.g. `Hi Matthias`. Empty or false greetings are omitted. */
+  greeting?: ReactNode
+  /** Decorative avatar beside the greeting. It is hidden from screen readers and omitted when there is no greeting. Set `hasLabel` when using Avatar outside Avatar.Group. */
+  avatar?: ReactNode
+  /** The heading, e.g. `Where do you want to start today?`. */
   title: ReactNode
   /**
    * The heading level.
