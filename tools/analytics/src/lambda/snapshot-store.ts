@@ -3,6 +3,7 @@ import {
   PutObjectCommand,
   S3Client,
 } from '@aws-sdk/client-s3'
+import { warnOnce } from './log.js'
 
 const s3 = new S3Client({})
 
@@ -118,31 +119,6 @@ export const EMPTY_COMPONENT_USAGE: ComponentUsageSection = {
   perComponent: [],
   perApp: [],
   perVersion: [],
-}
-
-export function requireEnv(name: string): string {
-  const value = process.env[name]
-
-  if (!value) {
-    throw new Error(`${name} environment variable is not set`)
-  }
-
-  return value
-}
-
-// Logs a message at most once per process, so a persistent misconfiguration
-// (e.g. a missing s3:GetObject permission) surfaces in CloudWatch without
-// repeating on every request.
-const warned = new Set<string>()
-
-function warnOnce(message: string): void {
-  if (warned.has(message)) {
-    return
-  }
-
-  warned.add(message)
-  // eslint-disable-next-line no-console -- server-side logging to CloudWatch
-  console.error(message)
 }
 
 export async function readSnapshot(

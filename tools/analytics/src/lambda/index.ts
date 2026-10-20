@@ -6,6 +6,7 @@ import { isEdgeAuthorized, json } from './http.js'
 import { storePortalViews, storeMcpUsage } from './store.js'
 import { validatePortalViews } from '../records/portal-view.js'
 import { validateMcpUsage } from '../records/mcp-usage.js'
+import type { ValidationResult } from '../records/shared.js'
 
 function parseBody(event: APIGatewayProxyEventV2): unknown {
   if (!event.body) {
@@ -19,8 +20,10 @@ function parseBody(event: APIGatewayProxyEventV2): unknown {
   return JSON.parse(raw)
 }
 
-async function handlePortalViews(
-  event: APIGatewayProxyEventV2
+async function handleIngest<T>(
+  event: APIGatewayProxyEventV2,
+  validate: (payload: unknown) => ValidationResult<T>,
+  store: (events: T[]) => Promise<number>
 ): Promise<APIGatewayProxyResultV2> {
   let payload: unknown
   try {
@@ -29,7 +32,7 @@ async function handlePortalViews(
     return json(400, { error: 'Body must be valid JSON' })
   }
 
-  const validation = validatePortalViews(payload)
+  const validation = validate(payload)
   if (!validation.ok) {
     return json(400, {
       error: 'Validation failed',
@@ -37,32 +40,7 @@ async function handlePortalViews(
     })
   }
 
-  const accepted = await storePortalViews(validation.value)
-
-  return json(202, { accepted })
-}
-
-async function handleLocalMcpUsage(
-  event: APIGatewayProxyEventV2
-): Promise<APIGatewayProxyResultV2> {
-  let payload: unknown
-  try {
-    payload = parseBody(event)
-  } catch {
-    return json(400, { error: 'Body must be valid JSON' })
-  }
-
-  const validation = validateMcpUsage(payload)
-  if (!validation.ok) {
-    return json(400, {
-      error: 'Validation failed',
-      details: validation.errors,
-    })
-  }
-
-  // Stamp the transport server-side; the local ingest route can only ever
-  // write 'local' rows, regardless of what the client sends.
-  const accepted = await storeMcpUsage(validation.value, 'local')
+  const accepted = await store(validation.value)
 
   return json(202, { accepted })
 }
@@ -97,11 +75,15 @@ export async function handler(
   // Public ingest: relies on the edge lock above, so the browser never holds a
   // secret.
   if (method === 'POST' && path === '/collect-portal-views') {
-    return handlePortalViews(event)
+    return handleIngest(event, validatePortalViews, storePortalViews)
   }
 
   if (method === 'POST' && path === '/collect-local-mcp-usage') {
-    return handleLocalMcpUsage(event)
+    // Stamp the transport server-side; the local ingest route can only ever
+    // write 'local' rows, regardless of what the client sends.
+    return handleIngest(event, validateMcpUsage, (events) =>
+      storeMcpUsage(events, 'local')
+    )
   }
 
   return json(404, { error: 'Not found' })

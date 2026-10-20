@@ -7,17 +7,14 @@ import {
   retrieveMcpUsageDaily,
   retrievePortalViews,
 } from './retrieve.js'
+import { requireEnv } from './env.js'
 import {
   EMPTY_COMPONENT_USAGE,
   EMPTY_MCP_USAGE,
-  requireEnv,
   storeDailyRollup,
   writeSnapshot,
-  type ComponentUsageAggregate,
-  type ComponentUsageCount,
   type ComponentUsageSection,
   type McpTransportUsage,
-  type McpUsageCount,
   type McpUsageDaily,
   type McpUsageSection,
   type Snapshot,
@@ -144,10 +141,10 @@ async function refreshPortalViewsRollup(
   )
 }
 
-function sumBy(
-  rows: McpUsageDaily[],
-  key: 'tool' | 'component' | 'path' | 'likely_component'
-): McpUsageCount[] {
+function sumBy<Key extends string>(
+  rows: Array<Record<Key, string> & { count: number }>,
+  key: Key
+): Array<{ name: string; count: number }> {
   const counts = new Map<string, number>()
 
   for (const row of rows) {
@@ -283,26 +280,6 @@ const COMPONENT_TOP_LIMIT = 50
 // rows live far longer, so re-runs backfill).
 const COMPONENT_ROLLUP_DAYS = 7
 
-function sumComponentUsageBy(
-  rows: ComponentUsageAggregate[],
-  key: 'component' | 'app' | 'version'
-): ComponentUsageCount[] {
-  const counts = new Map<string, number>()
-
-  for (const row of rows) {
-    const name = row[key]
-    if (!name) {
-      continue
-    }
-
-    counts.set(name, (counts.get(name) ?? 0) + row.count)
-  }
-
-  return [...counts.entries()]
-    .map(([name, count]) => ({ name, count }))
-    .sort((a, b) => b.count - a.count)
-}
-
 /**
  * Build the component-usage dashboard section. First recomputes the recent tail
  * of raw usage into the durable daily rollup, then reads the full daily table.
@@ -355,15 +332,12 @@ export async function buildComponentUsage(
 
   return {
     total,
-    perComponent: sumComponentUsageBy(usageTotals, 'component').slice(
+    perComponent: sumBy(usageTotals, 'component').slice(
       0,
       COMPONENT_TOP_LIMIT
     ),
-    perApp: sumComponentUsageBy(usageTotals, 'app').slice(
-      0,
-      COMPONENT_TOP_LIMIT
-    ),
-    perVersion: sumComponentUsageBy(usageTotals, 'version').slice(
+    perApp: sumBy(usageTotals, 'app').slice(0, COMPONENT_TOP_LIMIT),
+    perVersion: sumBy(usageTotals, 'version').slice(
       0,
       COMPONENT_TOP_LIMIT
     ),

@@ -13,6 +13,8 @@
  * evolve while there is no producer and no stored data.
  */
 
+import { isValidEnv, type ValidationResult } from './shared.js'
+
 /** A single anonymous component-usage fact emitted by the bundler plugin. */
 export type ComponentUsageInput = {
   /** The consuming application name, e.g. `sbanken-nettbank`. */
@@ -35,17 +37,8 @@ export type ComponentUsageRecord = {
   created_at: string
 }
 
-type ValidationFailure = { ok: false; errors: string[] }
-
-export type ComponentUsageValidationResult =
-  | { ok: true; value: ComponentUsageInput[] }
-  | ValidationFailure
-
 const MAX_BATCH = 5000
 const MAX_FIELD_LENGTH = 256
-
-/** A short lowercase environment token, e.g. `prod`, `dev`. */
-const ENV_PATTERN = /^[a-z][a-z0-9-]{0,31}$/
 
 function isNonEmptyBoundedString(value: unknown): value is string {
   return (
@@ -53,10 +46,6 @@ function isNonEmptyBoundedString(value: unknown): value is string {
     value.trim().length > 0 &&
     value.length <= MAX_FIELD_LENGTH
   )
-}
-
-function isValidEnv(value: unknown): value is string {
-  return typeof value === 'string' && ENV_PATTERN.test(value)
 }
 
 // A clean ISO-8601 instant, e.g. `2026-09-16T12:00:00.000Z`. Validated with a
@@ -90,13 +79,11 @@ export function normalizeComponentName(name: string): string {
  *
  * Unlike the browser-facing portal-view ingest, this has no public endpoint, so
  * the check exists mainly as a shared runtime guard for the producer and its
- * tests. Structural problems (missing app/component/version) reject the row; an
- * unrecognised optional `env` is dropped by {@link buildComponentUsageRecord}
- * rather than failing the batch.
+ * tests.
  */
 export function validateComponentUsage(
   body: unknown
-): ComponentUsageValidationResult {
+): ValidationResult<ComponentUsageInput> {
   if (!Array.isArray(body)) {
     return { ok: false, errors: ['body must be an array of records'] }
   }

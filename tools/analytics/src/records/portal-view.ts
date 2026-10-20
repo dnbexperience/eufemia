@@ -8,6 +8,13 @@
  * module under `src/records/`, so its shape and validation live in one place.
  */
 
+import {
+  isIsoTimestamp,
+  isValidEnv,
+  parseIngestBatch,
+  type ValidationResult,
+} from './shared.js'
+
 /**
  * How the portal classified the view: a normal page, an unknown path that fell
  * through to the 404 page, or a render error caught by the error boundary.
@@ -118,60 +125,13 @@ export type PortalViewRecord = {
   created_at: string
 }
 
-type ValidationFailure = { ok: false; errors: string[] }
-
-export type PortalViewValidationResult =
-  | { ok: true; value: PortalViewInput[] }
-  | ValidationFailure
-
-const MAX_BATCH = 50
 const MAX_PATH_LENGTH = 2048
 
-/** A short lowercase environment token, e.g. `prod`, `dev`. */
-const ENV_PATTERN = /^[a-z][a-z0-9-]{0,31}$/
-
-// An unrecognised value for these optional dimensions is coerced to `unknown`
-// when the record is built (the field is dropped here), rather than rejecting
-// the whole batch — a stale or drifted value costs one dimension, not the view.
-function isValidEnv(value: unknown): value is string {
-  return typeof value === 'string' && ENV_PATTERN.test(value)
-}
-
-function isValidLocale(value: unknown): value is PortalViewLocale {
-  return (
-    typeof value === 'string' &&
-    PORTAL_VIEW_LOCALES.includes(value as PortalViewLocale)
-  )
-}
-
-function isValidTheme(value: unknown): value is PortalViewTheme {
-  return (
-    typeof value === 'string' &&
-    PORTAL_VIEW_THEMES.includes(value as PortalViewTheme)
-  )
-}
-
-function isValidColorScheme(
+function isOneOf<T extends string>(
+  values: readonly T[],
   value: unknown
-): value is PortalViewColorScheme {
-  return (
-    typeof value === 'string' &&
-    PORTAL_VIEW_COLOR_SCHEMES.includes(value as PortalViewColorScheme)
-  )
-}
-
-function isValidReferrer(value: unknown): value is PortalViewReferrer {
-  return (
-    typeof value === 'string' &&
-    PORTAL_VIEW_REFERRERS.includes(value as PortalViewReferrer)
-  )
-}
-
-function isValidViaSearch(value: unknown): value is PortalViewViaSearch {
-  return (
-    typeof value === 'string' &&
-    PORTAL_VIEW_VIA_SEARCH.includes(value as PortalViewViaSearch)
-  )
+): value is T {
+  return typeof value === 'string' && values.includes(value as T)
 }
 
 // Query params worth keeping because they change how the portal renders. Flags
@@ -179,7 +139,7 @@ function isValidViaSearch(value: unknown): value is PortalViewViaSearch {
 // dropped, so a docs search term can never be persisted.
 const TRACKED_FLAG_PARAMS = new Set(['fullscreen', 'focusmode'])
 const TRACKED_VALUE_PARAMS = new Set(['eufemia-theme'])
-// Same shape as ENV_PATTERN by coincidence, not shared intent — keep separate.
+// Same shape as the env pattern in shared.ts by coincidence; keep separate.
 const SAFE_PARAM_VALUE = /^[a-z][a-z0-9-]{0,31}$/
 // An anchor fragment is a slug, e.g. `#events`; anything else is dropped.
 const SAFE_FRAGMENT = /^#[\w-]+$/
@@ -220,49 +180,22 @@ export function normalizeTrackedPath(path: string): string {
 }
 
 /**
- * True only for a canonical ISO 8601 UTC timestamp (the form produced by
- * `Date.prototype.toISOString`), rejecting the looser inputs `Date.parse`
- * would otherwise accept, such as `"2026"` or `"March 5"`.
- */
-function isIsoTimestamp(value: string): boolean {
-  const date = new Date(value)
-  return !Number.isNaN(date.getTime()) && date.toISOString() === value
-}
-
-/**
- * Validate an untrusted ingest payload into a batch of portal views.
- *
- * Accepts either a single event object or an array of them. Portal views carry
- * no identifiers or personal data — only a `path` and an optional timestamp,
- * environment label, status, locale, theme, color scheme, referrer category and
- * whether it was reached via the in-app search box. Only the allow-listed keys
- * are returned here, and the path is minimised to a safe shape when the record
- * is built (see {@link buildPortalViewRecord} and {@link normalizeTrackedPath}),
- * so nothing incidental in the request can reach storage. An unrecognised
- * `env`, `locale`, `theme`, `color_scheme`, `referrer` or `via_search` is
- * dropped so the built record defaults it to `unknown`, rather than failing the
- * whole batch; `path`, `timestamp` and `status` still reject.
+ * Validate an untrusted ingest payload (one event or an array) into a batch of
+ * portal views. Only allow-listed keys are returned, so nothing incidental in
+ * the request can reach storage.
  */
 export function validatePortalViews(
   input: unknown
-): PortalViewValidationResult {
-  const events = Array.isArray(input) ? input : [input]
-
-  if (events.length === 0) {
-    return { ok: false, errors: ['Body must contain at least one event'] }
-  }
-
-  if (events.length > MAX_BATCH) {
-    return {
-      ok: false,
-      errors: [`A batch may contain at most ${MAX_BATCH} events`],
-    }
+): ValidationResult<PortalViewInput> {
+  const batch = parseIngestBatch(input)
+  if (!batch.ok) {
+    return batch
   }
 
   const errors: string[] = []
   const value: PortalViewInput[] = []
 
-  events.forEach((event, index) => {
+  batch.value.forEach((event, index) => {
     if (
       typeof event !== 'object' ||
       event === null ||
@@ -307,10 +240,7 @@ export function validatePortalViews(
     }
 
     if (status !== undefined) {
-      if (
-        typeof status !== 'string' ||
-        !PORTAL_VIEW_STATUSES.includes(status as PortalViewStatus)
-      ) {
+      if (!isOneOf(PORTAL_VIEW_STATUSES, status)) {
         errors.push(
           `Event ${index}: "status" must be one of ${PORTAL_VIEW_STATUSES.join(
             ', '
@@ -328,13 +258,17 @@ export function validatePortalViews(
         ...(typeof status === 'string'
           ? { status: status as PortalViewStatus }
           : {}),
-        ...(isValidLocale(locale) ? { locale } : {}),
-        ...(isValidTheme(theme) ? { theme } : {}),
-        ...(isValidColorScheme(colorScheme)
+        // An unrecognised dimension is dropped here (built as `unknown`), so a
+        // stale or drifted value costs one dimension, not the view.
+        ...(isOneOf(PORTAL_VIEW_LOCALES, locale) ? { locale } : {}),
+        ...(isOneOf(PORTAL_VIEW_THEMES, theme) ? { theme } : {}),
+        ...(isOneOf(PORTAL_VIEW_COLOR_SCHEMES, colorScheme)
           ? { color_scheme: colorScheme }
           : {}),
-        ...(isValidReferrer(referrer) ? { referrer } : {}),
-        ...(isValidViaSearch(viaSearch) ? { via_search: viaSearch } : {}),
+        ...(isOneOf(PORTAL_VIEW_REFERRERS, referrer) ? { referrer } : {}),
+        ...(isOneOf(PORTAL_VIEW_VIA_SEARCH, viaSearch)
+          ? { via_search: viaSearch }
+          : {}),
       })
     }
   })
