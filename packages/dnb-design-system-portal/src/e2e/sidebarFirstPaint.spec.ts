@@ -92,6 +92,7 @@ async function readLayout(page: Page) {
     return {
       asideWidth: aside.getBoundingClientRect().width,
       actionWidth: action.getBoundingClientRect().width,
+      actionTop: action.getBoundingClientRect().top,
       contentLeft: content.getBoundingClientRect().left,
       contentWidth: content.getBoundingClientRect().width,
       headerLeft: header.getBoundingClientRect().left,
