@@ -369,6 +369,42 @@ describe('Field.SelectCurrency', () => {
     ).not.toBeInTheDocument()
   })
 
+  it('should not change the form data when the locale changes', async () => {
+    const onChange = vi.fn()
+    const consoleErrorSpy = vi
+      .spyOn(console, 'error')
+      .mockImplementation(() => null)
+
+    const { rerender } = render(
+      <Provider locale="nb-NO">
+        <Form.Handler defaultData={{ value: 'NOK' }} onChange={onChange}>
+          <Field.SelectCurrency path="/value" />
+        </Form.Handler>
+      </Provider>
+    )
+
+    const inputElement: HTMLInputElement = document.querySelector(
+      '.dnb-forms-field-select-currency input'
+    )
+    expect(inputElement.value).toBe('Norsk krone (NOK)')
+
+    rerender(
+      <Provider locale="en-GB">
+        <Form.Handler defaultData={{ value: 'NOK' }} onChange={onChange}>
+          <Field.SelectCurrency path="/value" />
+        </Form.Handler>
+      </Provider>
+    )
+
+    await waitFor(() => {
+      expect(inputElement.value).toBe('Norwegian krone (NOK)')
+    })
+    expect(onChange).not.toHaveBeenCalled()
+    expect(consoleErrorSpy).not.toHaveBeenCalled()
+
+    consoleErrorSpy.mockRestore()
+  })
+
   it('should change locale', async () => {
     const { rerender } = render(
       <Provider>

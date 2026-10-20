@@ -334,6 +334,42 @@ describe('Field.SelectCountry', () => {
     ).not.toBeInTheDocument()
   })
 
+  it('should not change the form data when the locale changes', async () => {
+    const onChange = vi.fn()
+    const consoleErrorSpy = vi
+      .spyOn(console, 'error')
+      .mockImplementation(() => null)
+
+    const { rerender } = render(
+      <Provider locale="nb-NO">
+        <Form.Handler defaultData={{ value: 'NO' }} onChange={onChange}>
+          <Field.SelectCountry path="/value" />
+        </Form.Handler>
+      </Provider>
+    )
+
+    const inputElement: HTMLInputElement = document.querySelector(
+      '.dnb-forms-field-select-country input'
+    )
+    expect(inputElement.value).toBe('Norge')
+
+    rerender(
+      <Provider locale="en-GB">
+        <Form.Handler defaultData={{ value: 'NO' }} onChange={onChange}>
+          <Field.SelectCountry path="/value" />
+        </Form.Handler>
+      </Provider>
+    )
+
+    await waitFor(() => {
+      expect(inputElement.value).toBe('Norway')
+    })
+    expect(onChange).not.toHaveBeenCalled()
+    expect(consoleErrorSpy).not.toHaveBeenCalled()
+
+    consoleErrorSpy.mockRestore()
+  })
+
   it('should change locale', async () => {
     const { rerender } = render(
       <Provider>

@@ -1,6 +1,7 @@
-import { useCallback, useContext, useMemo, useRef } from 'react'
+import { useCallback, useContext, useMemo, useRef, useState } from 'react'
 import { clsx } from 'clsx'
 import SharedContext from '../../../../shared/Context'
+import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../../../shared/helpers/useIsomorphicLayoutEffect'
 import FieldBlockContext from '../../FieldBlock/FieldBlockContext'
 import { LOCALE } from '../../../../shared/defaults'
 import { Autocomplete } from '../../../../components'
@@ -142,7 +143,6 @@ function SelectCountry(props: FieldSelectCountryProps) {
     handleFocus,
     handleBlur,
     handleChange,
-    updateValue,
     setDisplayValue,
     forceUpdate,
     filterCountries,
@@ -180,16 +180,37 @@ function SelectCountry(props: FieldSelectCountryProps) {
           : filter,
         sort: ccFilter as Extract<CountryFilterSet, 'Prioritized'>,
       })
-
-      // To force Autocomplete to re-evaluate the internal data
-      if (isLangChange && value && typeof window !== 'undefined') {
-        updateValue(null)
-        window.requestAnimationFrame(() => {
-          updateValue(value)
-        })
-      }
     }
-  }, [lang, countries, filter, ccFilter, value, updateValue])
+  }, [lang, countries, filter, ccFilter, value])
+
+  /**
+   * The Autocomplete only updates its input text when its value changes.
+   * So when the language changes, we give it no value for one frame,
+   * which makes it show the country name in the new language.
+   * This only affects the Autocomplete, not the form data.
+   */
+  const [hideValueOnLangChange, setHideValueOnLangChange] = useState(false)
+  const prevLangRef = useRef(lang)
+  useLayoutEffect(() => {
+    if (lang === prevLangRef.current) {
+      return undefined // stop here
+    }
+    prevLangRef.current = lang
+
+    if (!value) {
+      return undefined // stop here
+    }
+
+    setHideValueOnLangChange(true)
+    const frame = window.requestAnimationFrame(() => {
+      setHideValueOnLangChange(false)
+    })
+
+    return () => {
+      window.cancelAnimationFrame(frame)
+      setHideValueOnLangChange(false)
+    }
+  }, [lang, value])
 
   const handleCountryChange = useCallback(
     (event: AutocompleteOnChangeParams) => {
@@ -272,7 +293,11 @@ function SelectCountry(props: FieldSelectCountryProps) {
         placeholder={placeholder}
         icon={false}
         data={dataRef.current}
-        value={typeof value === 'string' ? value : null}
+        value={
+          !hideValueOnLangChange && typeof value === 'string'
+            ? value
+            : null
+        }
         disabled={disabled}
         size={size}
         stretch
