@@ -3062,8 +3062,10 @@ describe('SidebarMenu', () => {
     const originalScrollTo = HTMLElement.prototype.scrollTo
     HTMLElement.prototype.scrollTo = vi.fn(function (
       this: HTMLElement,
-      { top }: ScrollToOptions
+      options?: ScrollToOptions | number
     ) {
+      const top =
+        typeof options === 'number' ? options : (options?.top ?? 0)
       this.scrollTop = Math.min(top, maximumScroll)
     })
 
