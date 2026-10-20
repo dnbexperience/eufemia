@@ -133,7 +133,17 @@ function ModalComponent(ownProps: ModalAllProps) {
   const modalContentCloseRef = useRef<
     ((event: Event, options: { triggeredBy?: string }) => void) | null
   >(null)
-  const onUnmountRef = useRef<Array<() => void>>([])
+  // Functions returned by openModal and closeModal
+  const callbackCleanupsRef = useRef<Array<() => void>>([])
+  const runCallbackCleanups = useCallback(() => {
+    const cleanups = callbackCleanupsRef.current
+    callbackCleanupsRef.current = []
+    cleanups.forEach((fn) => {
+      if (typeof fn === 'function') {
+        fn()
+      }
+    })
+  }, [])
   const activeElementRef = useRef<HTMLElement>(null)
   const isInTransitionRef = useRef(false)
   const openTimeoutRef = useRef<NodeJS.Timeout>(null)
@@ -199,13 +209,20 @@ function ModalComponent(ownProps: ModalAllProps) {
       if (isModalActive) {
         if (typeof closeModal === 'function') {
           const fn = closeModal(
-            () => {
+            ({
+              triggeredBy = 'handler',
+              triggeredByEvent = null,
+            } = {}) => {
+              // So onClose gets called with "triggeredBy"
+              modalContentCloseRef.current?.(triggeredByEvent, {
+                triggeredBy,
+              })
               toggleOpenCloseRef.current(null, false)
             },
             { _id: _id.current, props: propsRef.current }
           )
           if (fn) {
-            onUnmountRef.current.push(fn)
+            callbackCleanupsRef.current.push(fn)
           }
         }
         setActiveState(_id.current)
@@ -352,13 +369,19 @@ function ModalComponent(ownProps: ModalAllProps) {
       clearTimeout(closeTimeoutRef.current)
       clearTimeout(openTimeoutRef.current)
 
-      if (typeof openModal === 'function') {
+      if (!shouldOpen) {
+        // Stop e.g. a timeout set by closeModal, so it can't close the modal when it is opened again
+        runCallbackCleanups()
+
+        // openModal and openDelay are only for opening
+        toggleNow()
+      } else if (typeof openModal === 'function') {
         const fn = openModal(waitBeforeOpen, {
           _id: _id.current,
           props: propsRef.current,
         })
         if (fn) {
-          onUnmountRef.current.push(fn)
+          callbackCleanupsRef.current.push(fn)
         }
       } else {
         waitBeforeOpen()
@@ -370,6 +393,7 @@ function ModalComponent(ownProps: ModalAllProps) {
       openDelay,
       openModal,
       handleSideEffects,
+      runCallbackCleanups,
     ]
   )
 
@@ -492,11 +516,7 @@ function ModalComponent(ownProps: ModalAllProps) {
       clearTimeout(closeTimeoutRef.current)
       removeActiveState()
 
-      onUnmountRef.current.forEach((fn) => {
-        if (typeof fn === 'function') {
-          fn()
-        }
-      })
+      runCallbackCleanups()
     }
   })
 

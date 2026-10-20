@@ -2065,6 +2065,157 @@ describe('Modal component', () => {
   })
 })
 
+describe('Modal openModal and closeModal', () => {
+  beforeEach(() => {
+    vi.useFakeTimers()
+  })
+  afterEach(() => {
+    vi.useRealTimers()
+  })
+
+  const isOpen = () =>
+    Boolean(document.querySelector('.dnb-modal__content'))
+  const openByTrigger = () =>
+    fireEvent.click(document.querySelector('button.dnb-modal__trigger'))
+  const closeByButton = () =>
+    fireEvent.click(
+      document.querySelector('button.dnb-modal__close-button')
+    )
+  const wait = (ms: number) =>
+    act(() => {
+      vi.advanceTimersByTime(ms)
+    })
+
+  it('should not call openModal when the modal closes', () => {
+    const openModal = vi.fn<ModalProps['openModal']>((open) => {
+      const timeout = setTimeout(open, 1000)
+      return () => clearTimeout(timeout)
+    })
+
+    render(
+      <Modal {...props} openModal={openModal}>
+        <DialogContent />
+      </Modal>
+    )
+
+    openByTrigger()
+    expect(isOpen()).toBe(false)
+
+    wait(1000)
+    expect(isOpen()).toBe(true)
+    expect(openModal).toHaveBeenCalledTimes(1)
+
+    closeByButton()
+    expect(isOpen()).toBe(false)
+    expect(openModal).toHaveBeenCalledTimes(1)
+  })
+
+  it('should close, even when openModal does not open', () => {
+    let allowOpen = true
+
+    render(
+      <Modal
+        {...props}
+        openModal={(open) => {
+          if (!allowOpen) {
+            return undefined
+          }
+          const timeout = setTimeout(open, 100)
+          return () => clearTimeout(timeout)
+        }}
+      >
+        <DialogContent />
+      </Modal>
+    )
+
+    openByTrigger()
+    wait(100)
+    expect(isOpen()).toBe(true)
+
+    allowOpen = false
+    closeByButton()
+    expect(isOpen()).toBe(false)
+  })
+
+  it('should not use openDelay when the modal closes', () => {
+    render(
+      <Modal
+        {...props}
+        noAnimation={false}
+        openDelay={1000}
+        animationDuration={100}
+      >
+        <DialogContent />
+      </Modal>
+    )
+
+    openByTrigger()
+    wait(1000)
+    expect(isOpen()).toBe(true)
+
+    closeByButton()
+    wait(100)
+    expect(isOpen()).toBe(false)
+  })
+
+  it('should stop the closeModal timeout when the modal closes', () => {
+    render(
+      <Modal
+        {...props}
+        closeModal={(close) => {
+          const timeout = setTimeout(close, 3000)
+          return () => clearTimeout(timeout)
+        }}
+      >
+        <DialogContent />
+      </Modal>
+    )
+
+    openByTrigger()
+    wait(1000)
+    closeByButton()
+    expect(isOpen()).toBe(false)
+
+    wait(1000)
+    openByTrigger()
+    expect(isOpen()).toBe(true)
+
+    // The timeout from the first time it was opened
+    wait(1500)
+    expect(isOpen()).toBe(true)
+
+    // The timeout from the second time it was opened
+    wait(1500)
+    expect(isOpen()).toBe(false)
+  })
+
+  it('should call onClose when closeModal closes the modal', () => {
+    const onClose = vi.fn()
+
+    render(
+      <Modal
+        {...props}
+        onClose={onClose}
+        closeModal={(close) => {
+          const timeout = setTimeout(close, 1000)
+          return () => clearTimeout(timeout)
+        }}
+      >
+        <DialogContent />
+      </Modal>
+    )
+
+    openByTrigger()
+    wait(1000)
+
+    expect(isOpen()).toBe(false)
+    expect(onClose).toHaveBeenCalledTimes(1)
+    expect(onClose).toHaveBeenCalledWith(
+      expect.objectContaining({ triggeredBy: 'handler' })
+    )
+  })
+})
+
 describe('Modal trigger', () => {
   const roledescription = 'Hjelp-knapp'
 
