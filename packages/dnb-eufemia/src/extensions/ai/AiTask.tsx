@@ -9,7 +9,7 @@ import {
   exclamation_circled,
   information_circled,
 } from '../../icons'
-import type { AiToolProps } from './types'
+import type { AiTaskProps } from './types'
 
 const STATUS_ICONS = {
   awaiting: information_circled,
@@ -19,14 +19,14 @@ const STATUS_ICONS = {
 }
 
 const STATUS_TEXTS = {
-  running: 'toolRunning',
-  awaiting: 'toolAwaitingApproval',
-  done: 'toolDone',
-  error: 'toolError',
+  running: 'taskRunning',
+  awaiting: 'taskAwaitingConfirmation',
+  done: 'taskDone',
+  error: 'taskError',
   canceled: 'canceled',
 } as const
 
-function AiTool(props: AiToolProps) {
+function AiTask(props: AiTaskProps) {
   const {
     title,
     status = 'running',
@@ -40,27 +40,27 @@ function AiTool(props: AiToolProps) {
 
   const rootProps = useSpacing(props, {
     ...rest,
-    className: clsx('dnb-ai-tool', `dnb-ai-tool--${status}`, className),
+    className: clsx('dnb-ai-task', `dnb-ai-task--${status}`, className),
   })
 
   return (
     <div {...rootProps}>
-      <div className="dnb-ai-tool__status">
-        <span className="dnb-ai-tool__icon" aria-hidden>
+      <div className="dnb-ai-task__status">
+        <span className="dnb-ai-task__icon" aria-hidden>
           {status === 'running' ? (
             <ProgressIndicator size="small" />
           ) : (
             <Icon icon={STATUS_ICONS[status]} />
           )}
         </span>
-        <span className="dnb-ai-tool__title">{title}</span>
-        <span className="dnb-ai-tool__state">
+        <span className="dnb-ai-task__title">{title}</span>
+        <span className="dnb-ai-task__state">
           {translation[STATUS_TEXTS[status]]}
         </span>
       </div>
 
       {status === 'error' && errorText && (
-        <div className="dnb-ai-tool__error">{errorText}</div>
+        <div className="dnb-ai-task__error">{errorText}</div>
       )}
 
       {children}
@@ -68,4 +68,4 @@ function AiTool(props: AiToolProps) {
   )
 }
 
-export default AiTool
+export default AiTask

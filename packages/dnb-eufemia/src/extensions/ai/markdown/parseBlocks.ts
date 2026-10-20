@@ -31,13 +31,10 @@ export type BlockWithSource = Block & { source: string }
 const MAX_DEPTH = 32
 
 const FENCE_RE = /^ {0,3}(`{3,}|~{3,})[ \t]*([^\s`]*)[^`]*$/
-const HEADING_RE = /^ {0,3}(#{1,6})(?:[ \t]+(.*?))?(?:[ \t]+#+)?[ \t]*$/
-const HR_RE = /^ {0,3}([-*_])(?:[ \t]*\1){2,}[ \t]*$/
+const HEADING_RE = /^ {0,3}(#{1,6})(?=[ \t]|$)/
 const BLOCKQUOTE_RE = /^ {0,3}> ?/
-const LIST_RE = /^( {0,3})([-*+]|\d{1,9}[.)])(?:([ \t]+)(.*))?$/
+const LIST_RE = /^( {0,3})([-*+]|\d{1,9}[.)])(?=[ \t]|$)/
 const SETEXT_RE = /^ {0,3}(=+|-+)[ \t]*$/
-const TABLE_DELIMITER_RE =
-  /^ {0,3}\|?[ \t]*:?-+:?[ \t]*(?:\|[ \t]*:?-+:?[ \t]*)*\|?[ \t]*$/
 const TASK_RE = /^\[([ xX])\][ \t]+/
 
 /**
@@ -95,21 +92,14 @@ function parseLines(
       continue
     }
 
-    const heading = HEADING_RE.exec(line)
+    const heading = matchHeading(line)
     if (heading) {
       i++
-      push(
-        {
-          type: 'heading',
-          level: heading[1].length as 1,
-          text: heading[2] || '',
-        },
-        from
-      )
+      push({ type: 'heading', ...heading }, from)
       continue
     }
 
-    if (HR_RE.test(line)) {
+    if (isThematicBreak(line)) {
       i++
       push({ type: 'hr' }, from)
       continue
@@ -131,7 +121,7 @@ function parseLines(
       continue
     }
 
-    if (LIST_RE.test(line)) {
+    if (matchList(line)) {
       i = parseList(lines, i, depth, (block) => push(block, from))
       continue
     }
@@ -139,7 +129,7 @@ function parseLines(
     if (
       line.includes('|') &&
       i + 1 < lines.length &&
-      TABLE_DELIMITER_RE.test(lines[i + 1])
+      isTableDelimiter(lines[i + 1])
     ) {
       const header = splitRow(line)
       const align = splitRow(lines[i + 1]).map(toAlign)
@@ -203,7 +193,7 @@ function parseList(
   depth: number,
   push: (block: Block) => void
 ): number {
-  const first = LIST_RE.exec(lines[start])
+  const first = matchList(lines[start])
   const ordered = /\d/.test(first[2])
   const delimiter = first[2].slice(-1)
   const items: Array<{ lines: Array<string> }> = []
@@ -211,12 +201,12 @@ function parseList(
   let i = start
 
   while (i < lines.length) {
-    const match = LIST_RE.exec(lines[i])
+    const match = matchList(lines[i])
     if (
       !match ||
       /\d/.test(match[2]) !== ordered ||
       match[2].slice(-1) !== delimiter ||
-      HR_RE.test(lines[i])
+      isThematicBreak(lines[i])
     ) {
       break
     }
@@ -249,7 +239,7 @@ function parseList(
       // Lazy paragraph continuation
       if (
         !interruptsParagraph(next) &&
-        !LIST_RE.test(next) &&
+        !matchList(next) &&
         !isBlank(itemLines[itemLines.length - 1])
       ) {
         itemLines.push(next)
@@ -269,7 +259,7 @@ function parseList(
     if (i < lines.length && isBlank(lines[i])) {
       const following = lines.slice(i).findIndex((l) => !isBlank(l))
       const nextLine = following > -1 ? lines[i + following] : null
-      const nextMatch = nextLine && LIST_RE.exec(nextLine)
+      const nextMatch = nextLine && matchList(nextLine)
       if (
         nextMatch &&
         /\d/.test(nextMatch[2]) === ordered &&
@@ -302,15 +292,70 @@ function parseList(
 }
 
 function interruptsParagraph(line: string) {
-  const list = LIST_RE.exec(line)
+  const list = matchList(line)
   return (
     FENCE_RE.test(line) ||
-    HEADING_RE.test(line) ||
-    HR_RE.test(line) ||
+    matchHeading(line) ||
+    isThematicBreak(line) ||
     BLOCKQUOTE_RE.test(line) ||
     // Only non-empty lists that start at 1 may interrupt a paragraph
     (list && Boolean(list[4]) && /^(?:[-*+]|1[.)])$/.test(list[2]))
   )
+}
+
+function trimLineEnd(line: string) {
+  let end = line.length
+  while (line[end - 1] === ' ' || line[end - 1] === '\t') {
+    end--
+  }
+  return line.slice(0, end)
+}
+
+function matchHeading(line: string) {
+  const match = HEADING_RE.exec(line)
+  if (!match || /[\u2028\u2029]/.test(line)) {
+    return null
+  }
+
+  let text = trimLineEnd(
+    line.slice(match[0].length).replace(/^[ \t]+/, '')
+  )
+  let end = text.length
+  while (text[end - 1] === '#') {
+    end--
+  }
+  if (text[end - 1] === ' ' || text[end - 1] === '\t') {
+    text = trimLineEnd(text.slice(0, end))
+  }
+
+  return { level: match[1].length as 1, text }
+}
+
+function matchList(line: string) {
+  const match = LIST_RE.exec(line)
+  if (!match || /[\u2028\u2029]/.test(line)) {
+    return null
+  }
+
+  const rest = line.slice(match[0].length)
+  const spacing = /^[ \t]*/.exec(rest)[0]
+  return [...match, spacing || ' ', rest.slice(spacing.length)]
+}
+
+function isThematicBreak(line: string) {
+  return (
+    /^ {0,3}[-*_]/.test(line) &&
+    /^(?:-{3,}|\*{3,}|_{3,})$/.test(line.replace(/[ \t]/g, ''))
+  )
+}
+
+function isTableDelimiter(line: string) {
+  const prefix = /^ {0,3}\|?/.exec(line)[0]
+  let row = trimLineEnd(line.slice(prefix.length))
+  if (row.endsWith('|')) {
+    row = row.slice(0, -1)
+  }
+  return row.split('|').every((cell) => /^[ \t]*:?-+:?[ \t]*$/.test(cell))
 }
 
 function isClosingFence(line: string, marker: string) {
