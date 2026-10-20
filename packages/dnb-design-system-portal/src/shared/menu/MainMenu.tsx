@@ -41,6 +41,7 @@ function MainMenu() {
                   "icons"
                   "collections"
                   "design-system"
+                  "whats-new"
                   "brand"
                   "principles"
                   "contribute"
@@ -119,6 +120,12 @@ function MainMenu() {
                     </span>
                   </>
                 }
+                icon={DesignSystemSvg}
+              />
+              <Card
+                url={items['whats-new']?.url}
+                title={items['whats-new']?.title}
+                about={items['whats-new']?.description}
                 icon={DesignSystemSvg}
               />
               <Card

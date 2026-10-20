@@ -6,6 +6,18 @@ if (process.env.PLAYWRIGHT_BASE_URL) {
 }
 
 test.describe("What's new", () => {
+  test('links to the release overview from the main menu', async ({
+    page,
+  }) => {
+    await page.goto('/')
+    await waitForApp(page)
+    await page.locator('main nav a[href="/whats-new/"]').click()
+    await expect(page).toHaveURL(/\/whats-new\/?$/)
+    await expect(
+      page.getByRole('heading', { name: "What's new", exact: true })
+    ).toBeVisible()
+  })
+
   test('combines releases, change log and upgrade guides in route-based tabs', async ({
     page,
   }) => {
@@ -33,6 +45,12 @@ test.describe("What's new", () => {
       page.getByRole('tab', { name: 'Change log', exact: true })
     ).toHaveAttribute('aria-selected', 'true')
     await expect(page.locator('main')).toContainText('New component:')
+    await expect(
+      page
+        .locator('main')
+        .getByRole('link', { name: 'details about releases' })
+        .first()
+    ).toHaveAttribute('href', '/whats-new/upgrade')
     await page.getByRole('tab', { name: 'Upgrade', exact: true }).click()
     await expect(page).toHaveURL('/whats-new/upgrade')
     await expect(
@@ -48,6 +66,14 @@ test.describe("What's new", () => {
     await expect(page.getByRole('heading', { level: 1 })).toContainText(
       'v11'
     )
+    await expect(
+      page.locator('.dnb-breadcrumb [aria-current="page"]')
+    ).toHaveText('v11')
+    await page
+      .locator('.dnb-breadcrumb')
+      .getByRole('link', { name: 'Upgrade', exact: true })
+      .click()
+    await expect(page).toHaveURL('/whats-new/upgrade')
     const sidebar = page.locator('#portal-sidebar-menu')
     await expect(
       sidebar.locator('a[href*="/releases/eufemia/"]')
@@ -80,15 +106,25 @@ test.describe("What's new", () => {
   }
 
   test('keeps the previous page URLs available', async ({ page }) => {
+    const headings = {
+      '/uilib/changelog': "What's new",
+      '/design-system': 'Change log of Eufemia',
+      '/uilib/about-the-lib/releases': 'Releases and versions',
+    }
     for (const path of [
       '/uilib/changelog',
       '/design-system',
       '/uilib/about-the-lib/releases',
     ]) {
-      const response = await page.goto(path)
-      expect(response.status()).toBe(200)
+      await page.goto(path)
       await waitForApp(page)
-      await expect(page.locator('main')).not.toBeEmpty()
+      await expect(
+        page.getByRole('heading', {
+          level: 1,
+          name: headings[path],
+          exact: true,
+        })
+      ).toBeVisible()
     }
   })
 
