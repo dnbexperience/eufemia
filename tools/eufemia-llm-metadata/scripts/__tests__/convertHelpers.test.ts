@@ -2,6 +2,7 @@ import fs from 'fs'
 import os from 'os'
 import path from 'path'
 import { vi } from 'vitest'
+import matter from '@11ty/gray-matter'
 
 vi.mock('prettier', () => ({
   format: async (code: string) => code,
@@ -22,6 +23,45 @@ import {
 } from '../../src/convertHelpers.ts'
 
 describe('convertMdxToMd', () => {
+  it('keeps only top-level title and description in generated YAML', async () => {
+    const root = fs.mkdtempSync(
+      path.join(os.tmpdir(), 'mdx-navigation-yaml-')
+    )
+    try {
+      const inputPath = path.join(root, 'button.mdx')
+      fs.writeFileSync(
+        inputPath,
+        [
+          '---',
+          'title: Button',
+          'description: Use Button for actions.',
+          'navigation:',
+          '  title: Actions',
+          '  description: Menu description',
+          'tabs:',
+          '  - title: Info',
+          '    key: /info',
+          '---',
+          '',
+          'Button documentation.',
+        ].join('\n')
+      )
+      const output = await convertMdxToMd({
+        inputPath,
+        docsRoot: root,
+        docsBaseRoot: root,
+        prettierConfig: {},
+        includeFrontmatter: true,
+        state: { mdxCache: new Map(), inProgress: new Set() },
+      })
+      expect(matter(output).data).toEqual({
+        title: 'Button',
+        description: 'Use Button for actions.',
+      })
+    } finally {
+      fs.rmSync(root, { recursive: true, force: true })
+    }
+  })
   beforeEach(() => {
     resetUnhandledStandaloneMdxWarnings()
   })

@@ -9,6 +9,25 @@ export function createMdxSidebarNavigation(
   pages: MdxNode[],
   pathname: string
 ) {
+  for (const { fields, frontmatter: fm } of pages) {
+    if (fields.sourcePath.includes('/src/docs/uilib/')) {
+      throw new Error(
+        'Move legacy documentation into src/docs/web: ' + fields.sourcePath
+      )
+    }
+    if (
+      fm.title &&
+      !fm.draft &&
+      !fm.hideInMenu &&
+      fm.route !== false &&
+      !fm.navigation
+    ) {
+      throw new Error(
+        'Define navigation or navigation.hidden in MDX: ' +
+          fields.sourcePath
+      )
+    }
+  }
   const current = pathname.replace(/^\/+|\/+$/g, '')
   const definitions = new Map(
     pages
