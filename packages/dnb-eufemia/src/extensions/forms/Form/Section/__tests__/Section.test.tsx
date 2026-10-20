@@ -517,7 +517,7 @@ describe('Form.Section', () => {
       expect(calls).toEqual(['outer', 'inner', 'sibling'])
     })
 
-    it('should not call onChange after the section is removed', () => {
+    it('should not call onChange after the section is removed, and only once when it is shown again', () => {
       const onChange = vi.fn()
 
       const MyForm = ({ showSection }: { showSection: boolean }) => (
@@ -542,6 +542,12 @@ describe('Form.Section', () => {
 
       fireEvent.change(outside, { target: { value: 'bar' } })
       expect(onChange).toHaveBeenCalledTimes(1)
+
+      rerender(<MyForm showSection />)
+      expect(document.querySelectorAll('input')).toHaveLength(2)
+
+      fireEvent.change(outside, { target: { value: 'baz' } })
+      expect(onChange).toHaveBeenCalledTimes(2)
     })
   })
 
