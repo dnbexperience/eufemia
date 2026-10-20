@@ -738,6 +738,7 @@ test('keeps the section icon fixed while closing', async ({ page }) => {
   await waitForApp(page)
 
   const shell = page.locator('[data-sidebar-menu-responsive-example]')
+  await shell.scrollIntoViewIfNeeded()
   const sectionTrigger = shell.locator(
     '.dnb-sidebar-menu__sections .dnb-dropdown__trigger'
   )
