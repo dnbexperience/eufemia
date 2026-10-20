@@ -460,7 +460,7 @@ test.describe('Portal SidebarMenu', () => {
       ).toHaveCount(0)
       if (index === 0) {
         await drawer.evaluate((element, scrollTop) => {
-          element.scrollTop = scrollTop
+          element.scrollTo({ top: scrollTop, behavior: 'instant' })
           element.dispatchEvent(new Event('scroll'))
         }, expectedScrollTop)
       }
