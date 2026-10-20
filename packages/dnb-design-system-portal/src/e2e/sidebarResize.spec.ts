@@ -3,7 +3,7 @@ import waitForApp from './shared/waitForApp'
 
 test.describe('Sidebar resize', () => {
   async function gotoAndWait(page: Page) {
-    await page.goto('/uilib/components/button/demos/')
+    await page.goto('/web/components/button/demos/')
     await waitForApp(page)
   }
 
@@ -149,7 +149,7 @@ test.describe('Sidebar resize', () => {
     page,
   }) => {
     await page.setViewportSize({ width: 1440, height: 900 })
-    await page.goto('/uilib/extensions/sidebar-menu/demos/')
+    await page.goto('/web/extensions/sidebar-menu/demos/')
     await waitForApp(page)
 
     const menu = page.locator(
@@ -189,7 +189,7 @@ test.describe('Sidebar resize', () => {
     page,
   }) => {
     await page.setViewportSize({ width: 390, height: 844 })
-    await page.goto('/uilib/components/button/demos/')
+    await page.goto('/web/components/button/demos/')
     await waitForApp(page)
 
     const trigger = page.getByRole('button', {

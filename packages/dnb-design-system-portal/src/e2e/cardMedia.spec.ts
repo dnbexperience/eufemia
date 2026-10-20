@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test'
 import waitForApp from './shared/waitForApp'
 
 test('card demo code starts collapsed', async ({ page }) => {
-  await page.goto('/uilib/components/card/demos/')
+  await page.goto('/web/components/card/demos/')
   const toggles = page.getByRole('button', { name: 'Code', exact: true })
   expect(await toggles.count()).toBeGreaterThan(10)
   for (const toggle of await toggles.all()) {
@@ -13,7 +13,7 @@ test('card demo code starts collapsed', async ({ page }) => {
 test('composed close control dismisses the card and restores focus after animation', async ({
   page,
 }) => {
-  await page.goto('/uilib/components/card/demos/#closable-info-card')
+  await page.goto('/web/components/card/demos/#closable-info-card')
   await waitForApp(page)
   const close = page.getByRole('button', { name: 'Dismiss savings tip' })
   await close.press('Enter')
@@ -27,7 +27,7 @@ test('card controls have visible surfaces and centered icons', async ({
   page,
 }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' })
-  await page.goto('/uilib/components/card/demos/#full-media-with-video')
+  await page.goto('/web/components/card/demos/#full-media-with-video')
   const button = page.locator(
     '[data-visual-test="card-media-video"] .dnb-card__media-button'
   )
@@ -83,7 +83,7 @@ test('card controls have a 44px hit area outside their visible circles', async (
   page,
 }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' })
-  await page.goto('/uilib/components/card/demos/#full-media-with-video')
+  await page.goto('/web/components/card/demos/#full-media-with-video')
   await waitForApp(page)
   const example = page.locator('[data-visual-test="card-media-video"]')
   const video = example.locator('video')
@@ -110,7 +110,7 @@ test('card controls show interaction outlines on hover, press, and keyboard focu
   page,
 }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' })
-  await page.goto('/uilib/components/card/demos/#full-media-with-video')
+  await page.goto('/web/components/card/demos/#full-media-with-video')
   await waitForApp(page)
   const controls = page.locator(
     '[data-visual-test="card-media-video"] .dnb-card__media-button, [data-visual-test="card-media-video"] .dnb-card__close-button'
@@ -142,7 +142,7 @@ test('video autoplays unless reduced motion is enabled and pauses when the prefe
   page,
 }) => {
   await page.emulateMedia({ reducedMotion: 'no-preference' })
-  await page.goto('/uilib/components/card/demos/#full-media-with-video')
+  await page.goto('/web/components/card/demos/#full-media-with-video')
   const example = page.locator('[data-visual-test="card-media-video"]')
   const video = example.locator('video')
   await expect(video).toHaveJSProperty('paused', false)
@@ -169,7 +169,7 @@ test('video autoplays unless reduced motion is enabled and pauses when the prefe
 test('the video close button dismisses the card and restores focus', async ({
   page,
 }) => {
-  await page.goto('/uilib/components/card/demos/#full-media-with-video')
+  await page.goto('/web/components/card/demos/#full-media-with-video')
   const example = page.locator('[data-visual-test="card-media-video"]')
   const close = example.getByRole('button', { name: 'Dismiss video card' })
   await expect(close).toBeVisible()
@@ -198,7 +198,7 @@ test('poster uses the video first frame before playback', async ({
   page,
 }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' })
-  await page.goto('/uilib/components/card/demos/#full-media-with-video')
+  await page.goto('/web/components/card/demos/#full-media-with-video')
   const video = page.locator('[data-visual-test="card-media-video"] video')
   await expect(video).toHaveAttribute(
     'poster',
@@ -209,7 +209,7 @@ test('poster uses the video first frame before playback', async ({
 test('the supplied overlay keeps content readable and controls interactive', async ({
   page,
 }) => {
-  await page.goto('/uilib/components/card/demos/#full-media-with-video')
+  await page.goto('/web/components/card/demos/#full-media-with-video')
   const overlay = page.locator(
     '[data-visual-test="card-media-video"] .dnb-card__overlay'
   )
@@ -247,7 +247,7 @@ test('replacing the video with the same ref keeps the control in sync', async ({
   page,
 }) => {
   await page.emulateMedia({ reducedMotion: 'no-preference' })
-  await page.goto('/uilib/components/card/visual-tests/media-replacement/')
+  await page.goto('/web/components/card/visual-tests/media-replacement/')
   const fixture = page.locator(
     '[data-visual-test="card-media-replacement"]'
   )
@@ -270,7 +270,7 @@ for (const width of [375, 1280]) {
     page,
   }) => {
     await page.setViewportSize({ width, height: 900 })
-    await page.goto('/uilib/components/card/demos/#image-beside-content')
+    await page.goto('/web/components/card/demos/#image-beside-content')
     const example = page.locator('[data-visual-test="card-media-image"]')
     const image = example.locator('img')
     await image.scrollIntoViewIfNeeded()
@@ -337,7 +337,7 @@ test('background video starts on request and supports keyboard pause and resume'
       requests.push(request.url())
     }
   })
-  await page.goto('/uilib/components/card/demos/#full-media-with-video')
+  await page.goto('/web/components/card/demos/#full-media-with-video')
   const example = page.locator('[data-visual-test="card-media-video"]')
   const video = example.locator('video')
   await expect(video).toHaveJSProperty('paused', true)
@@ -373,7 +373,7 @@ test('video failure retains the poster, text, and independent action', async ({
   await page.route('**/media/card/savings-loop.mp4', (route) =>
     route.abort()
   )
-  await page.goto('/uilib/components/card/demos/#full-media-with-video')
+  await page.goto('/web/components/card/demos/#full-media-with-video')
   const example = page.locator('[data-visual-test="card-media-video"]')
   await example
     .getByRole('button', { name: 'Play background video' })

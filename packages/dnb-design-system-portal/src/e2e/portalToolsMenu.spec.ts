@@ -12,7 +12,7 @@ test.afterEach(async ({ page }) => {
 
 test.describe('Portal tools menu', () => {
   async function gotoAndWait(page: Page) {
-    await page.goto('/uilib/components/button/demos/')
+    await page.goto('/web/components/button/demos/')
     await waitForApp(page)
   }
 

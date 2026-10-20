@@ -5,7 +5,7 @@ import isDev from './shared/isDev'
 test.describe('Responsiveness', () => {
   test.beforeEach(async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 900 })
-    await page.goto('/uilib/components/')
+    await page.goto('/web/components/')
 
     // Check if app is mounted
     await waitForApp(page)
@@ -24,12 +24,21 @@ test.describe('Responsiveness', () => {
 
     await expect(drawer.getByText('Portal Tools')).toHaveCount(0)
 
-    await drawer.locator('a[href="/uilib/components"]').click()
+    const components = drawer.getByRole('button', {
+      name: 'Components',
+      exact: true,
+    })
+    if ((await components.getAttribute('aria-expanded')) !== 'true') {
+      await components.click()
+    }
+    await drawer
+      .getByRole('link', { name: 'All components A–Z', exact: true })
+      .click()
 
     // Check if app is mounted
     await waitForApp(page)
 
-    expect(page.url()).toContain('/uilib/components')
+    expect(page.url()).toContain('/web/components')
   })
 
   test('uses a full-height desktop sidebar shell', async ({ page }) => {
@@ -97,7 +106,7 @@ test.describe('Responsiveness', () => {
     page,
   }) => {
     await page.setViewportSize({ width: 1200, height: 500 })
-    await page.goto('/uilib/about-the-lib/living-system')
+    await page.goto('/web/about-the-lib/living-system')
     await waitForApp(page)
 
     const toggle = page.locator(

@@ -57,7 +57,7 @@ for (const oldChecklistUrl of [
   })
 }
 
-test('designer principles and motion are adjacent sibling pages with icons', async ({
+test('keeps principles and motion together in Design language', async ({
   page,
 }) => {
   await page.setViewportSize({ width: 1600, height: 1000 })
@@ -67,53 +67,33 @@ test('designer principles and motion are adjacent sibling pages with icons', asy
     page.getByRole('heading', { name: 'Principles & Values', level: 1 })
   ).toBeVisible()
   const menu = page.locator('#portal-sidebar-menu')
+  const designLanguage = menu.getByRole('button', {
+    name: 'Design language',
+    exact: true,
+  })
+  await expect(designLanguage).toHaveAttribute('aria-expanded', 'true')
+  await expect(designLanguage.locator('svg')).toBeVisible()
   const design = menu.getByRole('link', {
-    name: 'Design Principles',
+    name: 'Design principles',
     exact: true,
   })
-  const animation = menu.getByRole('link', {
-    name: 'Animation Principles',
-    exact: true,
-  })
-  const motion = menu.getByRole('link', { name: 'Motion', exact: true })
   await expect(design).toHaveAttribute(
     'href',
-    /\/quickguide-designer\/design-principles\/?$/
+    '/quickguide-designer/design-principles'
   )
-  await expect(animation).toHaveAttribute(
-    'href',
-    /\/quickguide-designer\/animation-principles\/?$/
-  )
-  await expect(motion).toHaveAttribute(
-    'href',
-    /\/quickguide-designer\/motion\/?$/
-  )
-  for (const link of [design, animation, motion]) {
-    await expect(link.locator('svg')).toBeVisible()
-  }
-  expect(
-    await design.evaluate((link) => {
-      const item = link.closest('li')
-      return [
-        item.nextElementSibling?.querySelector('a')?.getAttribute('href'),
-        item.nextElementSibling?.nextElementSibling
-          ?.querySelector('a')
-          ?.getAttribute('href'),
-      ].map((path) => path?.replace(/\/$/, ''))
-    })
-  ).toEqual([
-    '/quickguide-designer/animation-principles',
-    '/quickguide-designer/motion',
-  ])
-  await animation.click()
-  await expect(page).toHaveURL(
-    /\/quickguide-designer\/animation-principles\/?$/
-  )
+  const motion = menu.getByRole('button', { name: 'Motion', exact: true })
+  await motion.click()
+  await expect(page).toHaveURL('/quickguide-designer/design-principles/')
+  await menu
+    .getByRole('link', { name: 'Animation Principles', exact: true })
+    .click()
   await expect(
     page.getByRole('heading', { name: 'Animation Principles', level: 1 })
   ).toBeVisible()
-  await motion.click()
-  await expect(page).toHaveURL(/\/quickguide-designer\/motion\/?$/)
+  await menu
+    .getByRole('link', { name: 'Motion overview', exact: true })
+    .click()
+  await expect(page).toHaveURL('/quickguide-designer/motion')
   await expect(page.locator('.dnb-motion-demo')).toHaveCount(13)
 })
 

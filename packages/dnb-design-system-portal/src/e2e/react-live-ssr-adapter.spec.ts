@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
 import waitForApp from './shared/waitForApp'
 
-const route = '/uilib/components/button/demos/#primary-button'
+const route = '/web/components/button/demos/#primary-button'
 
 test('renders a scoped Eufemia preview without JavaScript', async ({
   browser,
