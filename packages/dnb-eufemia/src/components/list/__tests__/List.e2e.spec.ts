@@ -182,3 +182,74 @@ test.describe('List text layout compatibility', () => {
     await expect(rows.nth(1)).toBeVisible()
   })
 })
+
+test.describe('List nested row alignment', () => {
+  test.use({ viewport: { width: 1024, height: 900 } })
+
+  test.beforeEach(async ({ page }) => {
+    await page.goto(
+      '/uilib/components/list/visual-tests/nested-alignment/'
+    )
+    await page.evaluate(() => document.fonts.ready)
+  })
+
+  // A Subline or Overline in one row must not change the alignment of
+  // the other rows in the same nested list.
+  for (const testId of [
+    'subline-in-nested-row',
+    'subline-in-accordion-header',
+  ]) {
+    test(`aligns each nested row with its own title (${testId})`, async ({
+      page,
+    }) => {
+      const rows = page
+        .getByTestId(testId)
+        .locator('.dnb-list__item__accordion__content .dnb-list__item')
+      await expect(rows.first()).toBeVisible()
+
+      const offsets = await rows.evaluateAll((items) =>
+        items.map((item) => {
+          const middle = (rect: DOMRect) => rect.top + rect.height / 2
+          const textMiddle = (element: Element) => {
+            const range = document.createRange()
+            range.selectNodeContents(element)
+            return middle(range.getBoundingClientRect())
+          }
+
+          const titleText = Array.from(
+            item.querySelector('.dnb-list__item__title > span').childNodes
+          ).find((node) => node.nodeType === Node.TEXT_NODE)
+          const titleRange = document.createRange()
+          titleRange.selectNodeContents(titleText)
+          const title = middle(titleRange.getBoundingClientRect())
+
+          return {
+            icon:
+              middle(
+                item
+                  .querySelector('.dnb-list__item__icon .dnb-icon')
+                  .getBoundingClientRect()
+              ) - title,
+            end:
+              textMiddle(item.querySelector('.dnb-list__item__end')) -
+              title,
+            chevron:
+              middle(
+                item
+                  .querySelector('.dnb-list__item__chevron .dnb-icon')
+                  .getBoundingClientRect()
+              ) - title,
+          }
+        })
+      )
+
+      expect(offsets.length).toBeGreaterThan(0)
+
+      for (const offset of offsets) {
+        expect(Math.abs(offset.icon)).toBeLessThanOrEqual(1)
+        expect(Math.abs(offset.end)).toBeLessThanOrEqual(1)
+        expect(Math.abs(offset.chevron)).toBeLessThanOrEqual(1)
+      }
+    })
+  }
+})

@@ -127,25 +127,33 @@
       }
     }
 
-    &:has(#{&}__overline) &__center,
-    &:has(#{&}__overline) &__end {
+    // Align the cells with the title when the row has an overline or a
+    // subline. Only check the cells of the same row (the children of the cells'
+    // parent), so a nested list (e.g. inside an accordion) does not affect the
+    // alignment of other rows.
+    $footer: '#{&}__footer';
+    $row-with-overline: ':has(> #{&}__overline, > :not(#{$footer}) #{&}__overline)';
+    $row-with-subline: ':has(> #{&}__subline, > :not(#{$footer}) #{&}__subline)';
+
+    @at-root #{$row-with-overline} > #{&}__center,
+      #{$row-with-overline} > #{&}__end {
       @include utilities.allAbove(small) {
         place-self: end;
       }
     }
-    &:has(#{&}__overline) &__icon,
-    &:has(#{&}__overline) &__chevron {
+    @at-root #{$row-with-overline} > #{&}__icon,
+      #{$row-with-overline} > #{&}__chevron {
       place-self: end;
     }
-    &:has(#{&}__subline) &__center,
-    &:has(#{&}__subline) &__end {
+    @at-root #{$row-with-subline} > #{&}__center,
+      #{$row-with-subline} > #{&}__end {
       @include utilities.allAbove(small) {
         place-self: start;
       }
     }
-    &:has(#{&}__subline) &__title,
-    &:has(#{&}__subline) &__icon,
-    &:has(#{&}__subline) &__chevron {
+    @at-root #{$row-with-subline} > #{&}__title,
+      #{$row-with-subline} > #{&}__icon,
+      #{$row-with-subline} > #{&}__chevron {
       place-self: start;
     }
     &:has(#{&}__footer),

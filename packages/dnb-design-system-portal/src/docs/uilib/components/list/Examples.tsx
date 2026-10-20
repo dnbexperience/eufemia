@@ -1062,3 +1062,63 @@ export const CustomItemComponent = () => {
     </ComponentBox>
   )
 }
+
+const NestedRow = ({
+  overline,
+  subline,
+  twoLineEnd,
+}: {
+  overline?: boolean
+  subline?: boolean
+  twoLineEnd?: boolean
+}) => (
+  <List.Item.Action icon={fish_medium} onClick={() => null}>
+    <List.Cell.Title>
+      {overline && (
+        <List.Cell.Title.Overline>Overline</List.Cell.Title.Overline>
+      )}
+      Title
+      {subline && (
+        <List.Cell.Title.Subline>Subline</List.Cell.Title.Subline>
+      )}
+    </List.Cell.Title>
+    <List.Cell.End>
+      End
+      {twoLineEnd && <span>Second line</span>}
+    </List.Cell.End>
+  </List.Item.Action>
+)
+
+export const NestedAlignment = () => (
+  <>
+    <List.Container data-testid="subline-in-nested-row">
+      <List.Item.Accordion title="Accordion" open>
+        <List.Item.Accordion.Content>
+          <List.Container>
+            <NestedRow />
+            <NestedRow subline />
+            <NestedRow overline />
+            <NestedRow twoLineEnd />
+          </List.Container>
+        </List.Item.Accordion.Content>
+      </List.Item.Accordion>
+    </List.Container>
+
+    <List.Container data-testid="subline-in-accordion-header">
+      <List.Item.Accordion icon={fish_medium} open>
+        <List.Item.Accordion.Header>
+          <List.Cell.Title>
+            Accordion
+            <List.Cell.Title.Subline>Subline</List.Cell.Title.Subline>
+          </List.Cell.Title>
+        </List.Item.Accordion.Header>
+        <List.Item.Accordion.Content>
+          <List.Container>
+            <NestedRow overline />
+            <NestedRow twoLineEnd />
+          </List.Container>
+        </List.Item.Accordion.Content>
+      </List.Item.Accordion>
+    </List.Container>
+  </>
+)
