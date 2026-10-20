@@ -1,0 +1,107 @@
+import { expect, test } from '@playwright/test'
+import waitForApp from './shared/waitForApp'
+
+if (process.env.PLAYWRIGHT_BASE_URL) {
+  test.use({ baseURL: process.env.PLAYWRIGHT_BASE_URL })
+}
+
+test.describe("What's new", () => {
+  test('combines releases, change log and upgrade guides in route-based tabs', async ({
+    page,
+  }) => {
+    await page.goto('/whats-new')
+    await waitForApp(page)
+    await expect(
+      page.getByRole('heading', { name: "What's new", exact: true })
+    ).toBeVisible()
+    for (const name of ['Releases', 'Change log', 'Upgrade']) {
+      await expect(
+        page.getByRole('tab', { name, exact: true })
+      ).toBeVisible()
+    }
+    await expect(
+      page.getByRole('tab', { name: 'Releases', exact: true })
+    ).toHaveAttribute('aria-selected', 'true')
+    await expect(
+      page.getByRole('region', { name: 'Eufemia release history' })
+    ).toBeVisible()
+    await page
+      .getByRole('tab', { name: 'Change log', exact: true })
+      .click()
+    await expect(page).toHaveURL('/whats-new/change-log')
+    await expect(
+      page.getByRole('tab', { name: 'Change log', exact: true })
+    ).toHaveAttribute('aria-selected', 'true')
+    await expect(page.locator('main')).toContainText('New component:')
+    await page.getByRole('tab', { name: 'Upgrade', exact: true }).click()
+    await expect(page).toHaveURL('/whats-new/upgrade')
+    await expect(
+      page.locator('main').getByRole('link', { name: 'v11', exact: true })
+    ).toBeVisible()
+    await page
+      .locator('main')
+      .getByRole('link', { name: 'v11', exact: true })
+      .click()
+    await expect(page).toHaveURL(
+      '/uilib/about-the-lib/releases/eufemia/v11-info'
+    )
+    await expect(page.getByRole('heading', { level: 1 })).toContainText(
+      'v11'
+    )
+    const sidebar = page.locator('#portal-sidebar-menu')
+    await expect(
+      sidebar.locator('a[href*="/releases/eufemia/"]')
+    ).toHaveCount(0)
+    await expect(
+      sidebar.locator('a[href*="/releases/dnb-ui-lib/"]')
+    ).toHaveCount(0)
+  })
+
+  for (const path of ['/whats-new/change-log', '/whats-new/upgrade']) {
+    const tab = path.endsWith('/upgrade') ? 'Upgrade' : 'Change log'
+    test(
+      'loads ' + path + ' directly and after reload',
+      async ({ page }) => {
+        await page.goto(path)
+        await waitForApp(page)
+        await expect(
+          page.getByRole('heading', { name: "What's new", exact: true })
+        ).toBeVisible()
+        await expect(
+          page.getByRole('tab', { name: tab, exact: true })
+        ).toHaveAttribute('aria-selected', 'true')
+        await page.reload()
+        await waitForApp(page)
+        await expect(
+          page.getByRole('tab', { name: tab, exact: true })
+        ).toHaveAttribute('aria-selected', 'true')
+      }
+    )
+  }
+
+  test('keeps the previous page URLs available', async ({ page }) => {
+    for (const path of [
+      '/uilib/changelog',
+      '/design-system',
+      '/uilib/about-the-lib/releases',
+    ]) {
+      const response = await page.goto(path)
+      expect(response.status()).toBe(200)
+      await waitForApp(page)
+      await expect(page.locator('main')).not.toBeEmpty()
+    }
+  })
+
+  test('keeps version guides directly accessible without sidebar entries', async ({
+    page,
+  }) => {
+    await page.goto('/uilib/about-the-lib/releases/eufemia/v11-info')
+    await waitForApp(page)
+    await expect(page.getByRole('heading', { level: 1 })).toContainText(
+      'v11'
+    )
+    await expect(
+      page.locator('#portal-sidebar-menu a[href*="/releases/eufemia/"]')
+    ).toHaveCount(0)
+  })
+})
