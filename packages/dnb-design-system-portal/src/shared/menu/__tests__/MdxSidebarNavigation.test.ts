@@ -134,13 +134,36 @@ describe('MDX-defined Portal navigation', () => {
       'web-components-button'
     )
     expect(
-      findActiveSidebarItemId(tree('/web/whats-new/upgrade').shared)
+      findActiveSidebarItemId(
+        tree('/web/whats-new/upgrade').sections[0].items
+      )
     ).toBe('web-whats-new')
     expect(
       findActiveSidebarItemId(
         tree('/web/components/country-flag/properties').sections[0].items
       )
     ).toBe('web-components-country-flag')
+  })
+
+  it("places What's new under Web Get started, not shared navigation", () => {
+    const { shared, sections } = tree()
+    expect(
+      flatten(shared).find(({ id }) => id === 'web-whats-new')
+    ).toBeUndefined()
+    const web = sections.find(({ id }) => id === 'web')
+    expect(
+      web.items.find(({ id }) => id === 'web-get-started').subheadings
+    ).toContainEqual(
+      expect.objectContaining({
+        id: 'web-whats-new',
+        path: 'web/whats-new',
+      })
+    )
+    for (const section of sections.filter(({ id }) => id !== 'web')) {
+      expect(
+        flatten(section.items).find(({ id }) => id === 'web-whats-new')
+      ).toBeUndefined()
+    }
   })
 
   it('preserves every visible document in the generated menu without duplicate ids', () => {
