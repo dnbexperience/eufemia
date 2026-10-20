@@ -11,10 +11,10 @@
  * object with {@link buildMcpUsageRecord}.
  *
  * Only closed, validated fields are stored — the tool name (from the fixed
- * registered set), an optional component or doc path, a coarse environment
- * label and the Eufemia version (validated to a semver shape). No identifiers,
- * IP or free text are accepted, so nothing incidental in the request can reach
- * storage.
+ * registered set), an optional component or doc path, a miss flag with the
+ * real component a missed name matches, a coarse environment label and the
+ * Eufemia version (validated to a semver shape). No identifiers, IP or free
+ * text are accepted, so nothing incidental in the request can reach storage.
  *
  * This intentionally duplicates the server-side validator in
  * tools/mcp-lambda/src/records/mcp-usage.ts (`analytics` keeps its own
@@ -143,6 +143,8 @@ function isSemver(value: string): boolean {
 export type McpUsageInput = {
   tool: string
   component?: string
+  componentMissed?: true
+  likelyComponent?: string
   path?: string
   env?: string
   eufemiaVersion?: string
@@ -153,6 +155,8 @@ export type McpUsageInput = {
 export type McpUsageRecord = {
   tool: string
   component: string
+  component_missed: boolean
+  likely_component: string
   path: string
   env: string
   transport: McpUsageTransport
@@ -222,11 +226,11 @@ function isIsoTimestamp(value: string): boolean {
  * Accepts either a single event object or an array of them. `tool` is required
  * and must be one of the registered MCP tools, so an unknown method is rejected
  * rather than stored. An `eufemiaVersion` or `timestamp` with a bad shape also
- * rejects the event. An unrecognised `env`, `component` or `path` is dropped so
- * the built record defaults it, rather than failing the whole event — a stale
- * or malformed value never lets free text reach storage. `transport` is stamped
- * server-side (see {@link buildMcpUsageRecord}) and is ignored if the client
- * sends it.
+ * rejects the event. An unrecognised `env`, `component`, `componentMissed`,
+ * `likelyComponent` or `path` is dropped so the built record defaults it,
+ * rather than failing the whole event — a stale or malformed value never lets
+ * free text reach storage. `transport` is stamped server-side (see
+ * {@link buildMcpUsageRecord}) and is ignored if the client sends it.
  */
 export function validateMcpUsage(
   input: unknown
@@ -257,8 +261,16 @@ export function validateMcpUsage(
       return
     }
 
-    const { tool, component, path, env, eufemiaVersion, timestamp } =
-      event as Record<string, unknown>
+    const {
+      tool,
+      component,
+      componentMissed,
+      likelyComponent,
+      path,
+      env,
+      eufemiaVersion,
+      timestamp,
+    } = event as Record<string, unknown>
     let valid = true
 
     if (typeof tool !== 'string' || !KNOWN_TOOLS.has(tool)) {
@@ -292,11 +304,18 @@ export function validateMcpUsage(
 
     if (valid) {
       const normalizedComponent = parseComponentName(component)
+      const normalizedLikelyComponent = parseComponentName(likelyComponent)
       const normalizedPath = parseDocsPath(path)
 
       value.push({
         tool: tool as string,
         ...(normalizedComponent ? { component: normalizedComponent } : {}),
+        ...(componentMissed === true
+          ? { componentMissed: true as const }
+          : {}),
+        ...(normalizedLikelyComponent
+          ? { likelyComponent: normalizedLikelyComponent }
+          : {}),
         ...(normalizedPath ? { path: normalizedPath } : {}),
         ...(isValidEnv(env) ? { env } : {}),
         ...(typeof eufemiaVersion === 'string' ? { eufemiaVersion } : {}),
@@ -316,7 +335,8 @@ export function validateMcpUsage(
  * Build the stored record from a validated input. `transport` is supplied by
  * the caller (stamped server-side, never trusted from the client). A component
  * is kept only for a component tool and a path only for a path tool, so a
- * dimension can never be attributed to a tool it does not belong to; every
+ * dimension can never be attributed to a tool it does not belong to; a miss is
+ * kept only for a component tool call that resolved no component. Every
  * absent field defaults so the row shape is stable.
  */
 export function buildMcpUsageRecord(
@@ -324,11 +344,16 @@ export function buildMcpUsageRecord(
   createdAt: string,
   transport: McpUsageTransport
 ): McpUsageRecord {
+  const isComponentTool = COMPONENT_TOOLS.has(input.tool)
+  const component = isComponentTool ? (input.component ?? '') : ''
+  const componentMissed =
+    isComponentTool && component === '' && input.componentMissed === true
+
   return {
     tool: input.tool,
-    component: COMPONENT_TOOLS.has(input.tool)
-      ? (input.component ?? '')
-      : '',
+    component,
+    component_missed: componentMissed,
+    likely_component: componentMissed ? (input.likelyComponent ?? '') : '',
     path: PATH_TOOLS.has(input.tool) ? (input.path ?? '') : '',
     env: input.env ?? 'unknown',
     transport,

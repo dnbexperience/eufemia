@@ -228,9 +228,11 @@ describe('storeMcpUsage', () => {
     expect(line).not.toHaveProperty('id')
     expect(Object.keys(line).sort()).toEqual([
       'component',
+      'component_missed',
       'created_at',
       'env',
       'eufemia_version',
+      'likely_component',
       'path',
       'timestamp',
       'tool',

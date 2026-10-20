@@ -146,7 +146,7 @@ async function refreshPortalViewsRollup(
 
 function sumBy(
   rows: McpUsageDaily[],
-  key: 'tool' | 'component' | 'path'
+  key: 'tool' | 'component' | 'path' | 'likely_component'
 ): McpUsageCount[] {
   const counts = new Map<string, number>()
 
@@ -164,16 +164,22 @@ function sumBy(
     .sort((a, b) => b.count - a.count)
 }
 
+function sumCounts(rows: McpUsageDaily[]): number {
+  return rows.reduce((sum, row) => sum + row.count, 0)
+}
+
 function buildTransportUsage(
   daily: McpUsageDaily[],
   transport: 'web' | 'local'
 ): McpTransportUsage {
   const rows = daily.filter((row) => row.transport === transport)
-  const dayTotals = new Map<string, number>()
-  let total = 0
+  const total = sumCounts(rows)
+  const missedLookups = sumCounts(
+    rows.filter((row) => row.component_missed)
+  )
 
+  const dayTotals = new Map<string, number>()
   for (const row of rows) {
-    total += row.count
     dayTotals.set(row.dt, (dayTotals.get(row.dt) ?? 0) + row.count)
   }
 
@@ -182,6 +188,11 @@ function buildTransportUsage(
     perTool: sumBy(rows, 'tool').slice(0, MCP_TOP_LIMIT),
     perComponent: sumBy(rows, 'component').slice(0, MCP_TOP_LIMIT),
     perPath: sumBy(rows, 'path').slice(0, MCP_TOP_LIMIT),
+    missedLookups,
+    perLikelyComponent: sumBy(rows, 'likely_component').slice(
+      0,
+      MCP_TOP_LIMIT
+    ),
     daily: [...dayTotals.entries()]
       .map(([date, count]) => ({ date, count }))
       .sort((a, b) => a.date.localeCompare(b.date)),
@@ -213,11 +224,21 @@ async function buildMcpUsage(
       bucket,
       'mcp-usage-daily/',
       await aggregateMcpUsageRaw(from),
-      ({ transport, tool, component, path, count }) => ({
+      ({
         transport,
         tool,
         component,
         path,
+        component_missed,
+        likely_component,
+        count,
+      }) => ({
+        transport,
+        tool,
+        component,
+        path,
+        component_missed,
+        likely_component,
         count,
       })
     )
