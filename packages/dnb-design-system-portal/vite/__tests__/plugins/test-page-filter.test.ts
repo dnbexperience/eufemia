@@ -18,6 +18,7 @@ describe('test-page-filter plugin', () => {
       '/working-with-ai/mcp-universe',
       '/uilib/usage/first-steps/tools',
       '/web/usage/first-steps/tools',
+      '/web/components/button/properties',
     ]) {
       expect(pages.has(path)).toBe(true)
     }
