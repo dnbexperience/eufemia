@@ -1,0 +1,38 @@
+/**
+ * Optional print rules for a light brand theme. Layout belongs to the template.
+ */
+
+@media print {
+  .dnb-print {
+    orphans: 3;
+    widows: 3;
+
+    :is(h1, h2, h3, h4, h5, h6, .dnb-h, .dnb-lead) {
+      break-after: avoid;
+    }
+    :is(tr, .dnb-print__keep-together) {
+      break-inside: avoid;
+    }
+    thead {
+      display: table-header-group;
+    }
+    tfoot {
+      display: table-footer-group;
+    }
+    :is(.dnb-table__container, .dnb-table__scroll-view) {
+      overflow: visible;
+      max-height: none;
+      clip-path: none;
+    }
+    .dnb-table--outline {
+      clip-path: none;
+    }
+    .dnb-print__page-break {
+      break-before: page;
+    }
+  }
+
+  .dnb-print-hidden {
+    display: none !important;
+  }
+}
