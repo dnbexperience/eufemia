@@ -45,6 +45,7 @@ import {
 import { Provider } from '@dnb/eufemia/src/shared'
 import {
   add,
+  aino,
   bank,
   card,
   close,
@@ -536,19 +537,37 @@ export function AiConversationExample() {
 
 export function AiWelcomeChips() {
   return (
-    <ComponentBox data-visual-test="ai-welcome-chips">
-      <Welcome title="Welcome, Peter">
+    <ComponentBox data-visual-test="ai-welcome-chips" scope={{ aino }}>
+      <Welcome
+        greeting="Hi Matthias"
+        avatar={<Avatar size="small" icon={aino} hasLabel />}
+        title="Where do you want to start today?"
+      >
         <Suggestions>
-          <Suggestion suggestion="Block my Visa card">
-            block my visa
-          </Suggestion>
-          <Suggestion suggestion="Help me with Vipps">vipps</Suggestion>
-          <Suggestion suggestion="Show my latest transactions">
-            transactions
-          </Suggestion>
-          <Suggestion suggestion="Compare my spending with last month">
-            compare spending
-          </Suggestion>
+          <Suggestion suggestion="Make a transfer" />
+          <Suggestion suggestion="Look at my spendings" />
+          <Suggestion suggestion="Pay a bill" />
+        </Suggestions>
+      </Welcome>
+    </ComponentBox>
+  )
+}
+
+export function AiWelcomeLongLabels() {
+  return (
+    <ComponentBox
+      data-visual-test="ai-welcome-long-labels"
+      scope={{ aino }}
+    >
+      <Welcome
+        style={{ width: '13.75rem', maxWidth: '100%' }}
+        greeting="Hei Matthias"
+        avatar={<Avatar size="small" icon={aino} hasLabel />}
+        title="Hva vil du gjøre i dag?"
+      >
+        <Suggestions>
+          <Suggestion suggestion="Vis betalingsoppdragsoversikten" />
+          <Suggestion suggestion="Hjelp meg å forstå forbruket mitt denne måneden" />
         </Suggestions>
       </Welcome>
     </ComponentBox>
@@ -731,6 +750,7 @@ export function AiChatExample() {
         chatTranslations,
         getText,
         getTransactions,
+        aino,
         add,
         bank,
         card,
@@ -826,7 +846,9 @@ export function AiChatExample() {
 
                   {messages.length === 0 ? (
                     <Welcome
-                      title="Hello, Peter"
+                      greeting="Hello, Peter"
+                      avatar={<Avatar size="small" icon={aino} hasLabel />}
+                      title="Where do you want to start today?"
                       style={{ margin: 'auto 0' }}
                     >
                       <Suggestions>
@@ -1056,8 +1078,15 @@ export function AiChatExample() {
 
 export function AiChatCompact() {
   return (
-    <ComponentBox data-visual-test="ai-chat-compact" scope={{ bank }}>
-      <Welcome title="Hello, Peter">
+    <ComponentBox
+      data-visual-test="ai-chat-compact"
+      scope={{ bank, aino }}
+    >
+      <Welcome
+        greeting="Hello, Peter"
+        avatar={<Avatar size="small" icon={aino} hasLabel />}
+        title="Where do you want to start today?"
+      >
         <PromptInput
           variant="compact"
           placeholder="Start typing here"
