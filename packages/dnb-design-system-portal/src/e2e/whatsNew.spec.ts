@@ -54,6 +54,9 @@ test.describe("What's new", () => {
     await page.getByRole('tab', { name: 'Upgrade', exact: true }).click()
     await expect(page).toHaveURL('/whats-new/upgrade')
     await expect(
+      page.locator('main a[href*="form-set-row-deprecation-v11"]')
+    ).toHaveCount(0)
+    await expect(
       page.locator('main').getByRole('link', { name: 'v11', exact: true })
     ).toBeVisible()
     await page
@@ -139,5 +142,38 @@ test.describe("What's new", () => {
     await expect(
       page.locator('#portal-sidebar-menu a[href*="/releases/eufemia/"]')
     ).toHaveCount(0)
+  })
+
+  test('includes the FormSet and FormRow migration examples in v11', async ({
+    page,
+  }) => {
+    await page.goto(
+      '/uilib/about-the-lib/releases/eufemia/v11-info#removal-of-formrow-and-formset'
+    )
+    await waitForApp(page)
+    await expect(
+      page.getByRole('heading', { name: 'Removal of FormRow and FormSet' })
+    ).toBeVisible()
+    await expect(
+      page.locator('main').getByLabel('Label A', { exact: true })
+    ).toHaveCount(2)
+    await expect(
+      page.locator('main').getByLabel('Label B', { exact: true })
+    ).toHaveCount(2)
+  })
+
+  test('redirects the old FormSet and FormRow guide to v11', async ({
+    page,
+  }) => {
+    await page.goto(
+      '/uilib/about-the-lib/releases/eufemia/form-set-row-deprecation-v11#deprecation'
+    )
+    await expect(page).toHaveURL(
+      /\/uilib\/about-the-lib\/releases\/eufemia\/v11-info\/?(#deprecation)?$/
+    )
+    await waitForApp(page)
+    await expect(page.getByRole('heading', { level: 1 })).toContainText(
+      'v11'
+    )
   })
 })

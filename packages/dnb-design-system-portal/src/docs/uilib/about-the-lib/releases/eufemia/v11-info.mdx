@@ -3,6 +3,8 @@ title: 'v11'
 description: 'April 21, 2026'
 order: -11
 tocDepth: 1
+redirect_from:
+  - /uilib/about-the-lib/releases/eufemia/form-set-row-deprecation-v11
 breadcrumb:
   - text: "What's new"
     href: /whats-new
@@ -12,6 +14,10 @@ breadcrumb:
 ---
 
 import { Accordion } from '@dnb/eufemia/src'
+import {
+  FormSetAlternativeAfter,
+  FormSetAlternativeForms,
+} from 'Docs/uilib/layout/Examples'
 
 This is the migration guide for @dnb/eufemia v11. It covers all breaking changes, removals, and required code updates.
 
@@ -98,6 +104,7 @@ This is the migration guide for @dnb/eufemia v11. It covers all breaking changes
   - [GlobalStatus](#globalstatus)
   - [CopyOnClick](#copyonclick)
 - [Layout](#layout)
+  - [Removal of FormRow and FormSet](#removal-of-formrow-and-formset)
 - [Helpers](#helpers)
 - [Eufemia Forms](#eufemia-forms)
 - [SCSS mixin renames](#scss-mixin-renames)
@@ -2457,7 +2464,7 @@ The returned `parts` shape is unchanged. Standard Eufemia formatters preserve se
 
 ### Removal of FormRow and FormSet
 
-For more information on how to replace these, see [FormSet/FormRow deprecation](/uilib/about-the-lib/releases/eufemia/form-set-row-deprecation-v11#deprecation).
+To replace FormSet or FormRow, use the Eufemia [Provider](/uilib/usage/customisation/provider-info) and [Flex](/uilib/layout/flex) as well as the Eufemia [Forms Extension](/uilib/extensions/forms).
 
 - Replace `<FormRow>` with `<Flex.Horizontal align="baseline">`.
 - Replace `<FormRow vertical>` with `<Flex.Vertical>`.
@@ -2468,6 +2475,24 @@ For more information on how to replace these, see [FormSet/FormRow deprecation](
 - Replace `import { prepareFormRowContext } from '@dnb/eufemia/components/form-row/FormRowHelpers'` with `import { prepareFormElementContext } from '@dnb/eufemia/shared/helpers/filterValidProps'`.
 
 If you migrate a `FormSet` that relied on a native browser submit, such as `method="post"` with an `action`, you can use `preventDefaultOnSubmit={false}` on [Form.Handler](/uilib/extensions/forms/Form/Handler/) to keep the native submit behavior.
+
+**Before:**
+
+```tsx
+<FormSet label_direction="vertical">
+  <H2 top={0}>Heading</H2>
+  <FormRow label={<span className="dnb-h--medium">Legend</span>}>
+    <Input label="Label A" right />
+    <Input label="Label B" />
+  </FormRow>
+</FormSet>
+```
+
+**After (two alternatives):**
+
+<FormSetAlternativeAfter />
+
+<FormSetAlternativeForms />
 
 ## Helpers
 
