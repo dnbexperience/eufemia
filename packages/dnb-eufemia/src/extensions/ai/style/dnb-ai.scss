@@ -309,7 +309,38 @@
 .dnb-ai-welcome {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 1.25rem;
+
+  &__greeting {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+
+    font-size: var(--font-size-basis);
+    line-height: var(--line-height-basis);
+    color: var(--token-color-text-neutral);
+  }
+
+  &__avatar {
+    display: flex;
+    flex-shrink: 0;
+
+    .dnb-avatar {
+      --avatar-icon-size--small: 1rem;
+    }
+  }
+
+  > .dnb-ai-suggestions {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+
+    .dnb-ai-suggestion {
+      max-width: 100%;
+      overflow-wrap: break-word;
+      white-space: normal;
+    }
+  }
 }
 
 .dnb-ai-conversation {
