@@ -20,7 +20,7 @@ Eufemia provides the interface. Your application or chat framework owns message 
 | `Ai.Response`         | Markdown as children. Set `parseIncompleteMarkdown` while that text is streaming; set it to false when complete, stopped or failed. |
 | `Ai.PromptInput`      | `isBusy` while a reply is pending or streaming, `onSubmit` to send, and `onStop` to cancel.                                         |
 | `Ai.MessageIndicator` | Render while waiting for the first response, then remove it.                                                                        |
-| `Ai.Tool`             | A human-readable `title`, `status`, optional `errorText` and result UI as children.                                                 |
+| `Ai.Task`             | A human-readable `title`, `status`, optional `errorText` and result UI as children.                                                 |
 | `Ai.Sources`          | References as `{ url, title }` objects, placed where you want them in the message.                                                  |
 
 See [Usage](/uilib/extensions/ai/#usage) for a complete composition without a chat framework. Use [AI SDK](#ai-sdk) or [TanStack AI](#tanstack-ai) below to connect the same components to a framework. No chat SDK is required by Eufemia.
@@ -29,7 +29,7 @@ See [Usage](/uilib/extensions/ai/#usage) for a complete composition without a ch
 
 Track whether each response is still receiving content. Completed messages keep `parseIncompleteMarkdown={false}` even when a later answer starts streaming. Stopping ends the busy UI and the unfinished-markdown treatment. The framework determines whether cancellation also reaches your server and any running tools. Keep tool status tied to the server outcome: stopping the stream alone does not confirm that a tool was canceled. Set `canceled` when your application receives that outcome.
 
-Show a user-facing request error with [GlobalStatus](/uilib/components/global-status/). Keep any partial answer visible. Tool errors belong to the individual `Ai.Tool` with `status="error"` and a useful `errorText`. Use `textareaProps.status` for input validation, such as exceeding an application-specific limit.
+Show a user-facing request error with [GlobalStatus](/uilib/components/global-status/). Keep any partial answer visible. Tool errors belong to the individual `Ai.Task` with `status="error"` and a useful `errorText`. Use `textareaProps.status` for input validation, such as exceeding an application-specific limit.
 
 ## Screen reader announcements
 
@@ -68,7 +68,7 @@ Keep `isBusy` true from submission until completion, cancellation or failure. If
 
 See the [live announcement demo](/uilib/extensions/ai/demos/#streamed-reply-announcements).
 
-## Tool statuses and confirmation
+## Task statuses and confirmation
 
 | Status     | Meaning                                       |
 | ---------- | --------------------------------------------- |
@@ -78,7 +78,7 @@ See the [live announcement demo](/uilib/extensions/ai/demos/#streamed-reply-anno
 | `error`    | Work failed.                                  |
 | `canceled` | Work was canceled or permission was declined. |
 
-An `Ai.Tool` only displays status and children. For a tool requiring approval, render your confirmation controls as children and send the decision through your framework's approval API. Only show `done` when execution has completed. The examples below display approval states; add your application's decision controls before enabling tools that require approval.
+An `Ai.Task` only displays status and children. Map your framework's tool calls to a task; Eufemia does not run the tool. For a tool requiring approval, render your confirmation controls as children and send the decision through your framework's approval API. Only show `done` when execution has completed. The examples below display approval states; add your application's decision controls before enabling tools that require approval.
 
 ## AI SDK
 
@@ -101,14 +101,14 @@ import {
   PromptInput,
   Response,
   Sources,
-  Tool,
+  Task,
 } from '@dnb/eufemia/extensions/ai'
-import type { AiToolStatus } from '@dnb/eufemia/extensions/ai'
+import type { AiTaskStatus } from '@dnb/eufemia/extensions/ai'
 import '@dnb/eufemia/extensions/ai/style'
 
 const transport = new DefaultChatTransport({ api: '/api/chat' })
 
-function toolStatus(part: ToolUIPart | DynamicToolUIPart): AiToolStatus {
+function taskStatus(part: ToolUIPart | DynamicToolUIPart): AiTaskStatus {
   switch (part.state) {
     case 'approval-requested':
       return 'awaiting'
@@ -169,10 +169,10 @@ function MessageContent({
           )
         }
         if (isToolUIPart(part)) {
-          const status = toolStatus(part)
+          const status = taskStatus(part)
           const name = getToolName(part)
           return (
-            <Tool
+            <Task
               key={part.toolCallId}
               title={
                 part.title ??
@@ -185,7 +185,7 @@ function MessageContent({
                 part.state === 'output-available' && (
                   <BalanceResult output={part.output} />
                 )}
-            </Tool>
+            </Task>
           )
         }
         return null
@@ -265,7 +265,7 @@ export function Chat() {
 
 The example uses `@tanstack/ai@0.64.1` and `@tanstack/ai-react@0.29.4`. Install them in your application and create the streaming `/api/chat` endpoint from the [TanStack AI quick start](https://tanstack.com/ai/latest/docs/getting-started/quick-start).
 
-Text parts use `content`. Tool calls and results are separate records: pair them by call id and render a result once. This example uses `getBalance` as above and accepts validated citation data from the application through `sourcesByMessage`. TanStack source metadata depends on your provider and application; normalize it to `{ url, title }` when receiving the response. For user decisions, connect the framework's [interrupts](https://tanstack.com/ai/latest/docs/ui/react) to confirmation controls inside `Ai.Tool`.
+Text parts use `content`. Tool calls and results are separate records: pair them by call id and render a result once. This example uses `getBalance` as above and accepts validated citation data from the application through `sourcesByMessage`. TanStack source metadata depends on your provider and application; normalize it to `{ url, title }` when receiving the response. For user decisions, connect the framework's [interrupts](https://tanstack.com/ai/latest/docs/ui/react) to confirmation controls inside `Ai.Task`.
 
 ```tsx
 import { useId } from 'react'
@@ -281,9 +281,9 @@ import {
   PromptInput,
   Response,
   Sources,
-  Tool,
+  Task,
 } from '@dnb/eufemia/extensions/ai'
-import type { AiSource, AiToolStatus } from '@dnb/eufemia/extensions/ai'
+import type { AiSource, AiTaskStatus } from '@dnb/eufemia/extensions/ai'
 import '@dnb/eufemia/extensions/ai/style'
 
 const connection = fetchServerSentEvents('/api/chat')
@@ -293,10 +293,10 @@ type ToolResult = Extract<
   { type: 'tool-result' }
 >
 
-function toolStatus(
+function taskStatus(
   part: ToolCall,
   result: ToolResult | undefined
-): AiToolStatus {
+): AiTaskStatus {
   if (
     part.approval?.approved === false ||
     result?.outcome === 'denied' ||
@@ -366,9 +366,9 @@ function MessageContent({
               candidate.type === 'tool-result' &&
               candidate.toolCallId === part.id
           )
-          const status = toolStatus(part, result)
+          const status = taskStatus(part, result)
           return (
-            <Tool
+            <Task
               key={part.id}
               title={
                 part.name === 'getBalance'
@@ -381,7 +381,7 @@ function MessageContent({
               {part.name === 'getBalance' && status === 'done' && (
                 <BalanceResult output={part.output} />
               )}
-            </Tool>
+            </Task>
           )
         }
         if (
@@ -393,7 +393,7 @@ function MessageContent({
           )
         ) {
           return (
-            <Tool
+            <Task
               key={part.toolCallId}
               title={part.name ?? 'Tool result'}
               status={
@@ -409,7 +409,7 @@ function MessageContent({
             >
               {part.state === 'complete' &&
                 typeof part.content === 'string' && <P>{part.content}</P>}
-            </Tool>
+            </Task>
           )
         }
         return null

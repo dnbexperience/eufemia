@@ -4,7 +4,7 @@ import type {
   AiMessageProps,
   AiPromptInputProps,
   AiSourcesProps,
-  AiToolProps,
+  AiTaskProps,
 } from '..'
 
 import { axeComponent } from '../../../core/test-utils/testSetup'
@@ -100,12 +100,12 @@ describe('Ai.Message', () => {
   it('composes markdown inside a message', () => {
     expectTypeOf<AiMessageProps>().not.toHaveProperty('message')
     expectTypeOf<AiSourcesProps>().not.toHaveProperty('message')
-    expectTypeOf<AiToolProps>().not.toHaveProperty('part')
+    expectTypeOf<AiTaskProps>().not.toHaveProperty('part')
     expectTypeOf<AiPromptInputProps>().not.toHaveProperty('status')
     expectTypeOf<AiPromptInputProps['isBusy']>().toEqualTypeOf<
       boolean | undefined
     >()
-    expectTypeOf<AiToolProps['status']>().toEqualTypeOf<
+    expectTypeOf<AiTaskProps['status']>().toEqualTypeOf<
       'running' | 'awaiting' | 'done' | 'error' | 'canceled' | undefined
     >()
 
