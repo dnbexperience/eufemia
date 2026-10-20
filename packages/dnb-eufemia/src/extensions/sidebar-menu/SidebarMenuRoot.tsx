@@ -268,12 +268,19 @@ function SidebarMenuRoot(props: SidebarMenuRootProps) {
     ) {
       restoredScrollPositionRef.current = true
       scrollInstantly(scrollView, storedPosition)
-      if (scrollView.scrollTop !== storedPosition) {
-        restoreFrame = requestAnimationFrame(() => {
+      const restoreAfterLayout = () => {
+        if (scrollView.querySelector('.dnb-height-animation--animating')) {
+          restoreFrame = requestAnimationFrame(restoreAfterLayout)
+          return
+        }
+        if (scrollView.scrollTop !== storedPosition) {
           scrollInstantly(scrollView, storedPosition)
-          restoreFrame = undefined
-        })
+        }
+        restoreFrame = undefined
       }
+      restoreFrame = requestAnimationFrame(() => {
+        restoreFrame = requestAnimationFrame(restoreAfterLayout)
+      })
     }
 
     const persistPosition = () => {

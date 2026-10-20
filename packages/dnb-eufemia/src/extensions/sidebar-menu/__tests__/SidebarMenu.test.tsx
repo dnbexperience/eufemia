@@ -2803,7 +2803,7 @@ describe('SidebarMenu', () => {
     vi.useRealTimers()
   })
 
-  it('persists and restores its ScrollView position', () => {
+  it('persists and restores its ScrollView position', async () => {
     const storageKey = 'sidebar-menu-scroll-position'
     sessionStorage.setItem(storageKey, '120')
 
@@ -2822,6 +2822,11 @@ describe('SidebarMenu', () => {
       '.dnb-scroll-view'
     ) as HTMLElement
     expect(scrollView.scrollTop).toBe(120)
+    await act(async () => {
+      await new Promise((resolve) => {
+        requestAnimationFrame(() => requestAnimationFrame(resolve))
+      })
+    })
 
     scrollView.scrollTop = 240
     fireEvent.scroll(scrollView)
@@ -2831,44 +2836,48 @@ describe('SidebarMenu', () => {
     sessionStorage.removeItem(storageKey)
   })
 
-  it('restores its position after nested menu content finishes mounting', () => {
-    vi.useFakeTimers()
-    const storageKey = 'sidebar-menu-nested-scroll-position'
-    sessionStorage.setItem(storageKey, '120')
-    let maximumScroll = 93
-    const originalScrollTo = HTMLElement.prototype.scrollTo
-    HTMLElement.prototype.scrollTo = vi.fn(function (
-      this: HTMLElement,
-      options?: ScrollToOptions | number
-    ) {
-      const top =
-        typeof options === 'number' ? options : (options?.top ?? 0)
-      this.scrollTop = Math.min(top, maximumScroll)
-    })
+  it.each([93, 400])(
+    'restores its position after nested layout changes from %s',
+    (initialMaximum) => {
+      vi.useFakeTimers()
+      const storageKey = 'sidebar-menu-nested-scroll-position'
+      sessionStorage.setItem(storageKey, '120')
+      let maximumScroll = initialMaximum
+      const originalScrollTo = HTMLElement.prototype.scrollTo
+      HTMLElement.prototype.scrollTo = vi.fn(function (
+        this: HTMLElement,
+        options?: ScrollToOptions | number
+      ) {
+        const top =
+          typeof options === 'number' ? options : (options?.top ?? 0)
+        this.scrollTop = Math.min(top, maximumScroll)
+      })
 
-    try {
-      render(
-        <ScrollView>
-          <SidebarMenu.Root scrollPositionStorageKey={storageKey}>
-            <SidebarMenu.Item id="payments" text="Payments" />
-          </SidebarMenu.Root>
-        </ScrollView>
-      )
-      const scrollView =
-        document.querySelector<HTMLElement>('.dnb-scroll-view')
-      expect(scrollView.scrollTop).toBe(93)
-      maximumScroll = 400
+      try {
+        render(
+          <ScrollView>
+            <SidebarMenu.Root scrollPositionStorageKey={storageKey}>
+              <SidebarMenu.Item id="payments" text="Payments" />
+            </SidebarMenu.Root>
+          </ScrollView>
+        )
+        const scrollView =
+          document.querySelector<HTMLElement>('.dnb-scroll-view')
+        expect(scrollView.scrollTop).toBe(Math.min(120, initialMaximum))
+        scrollView.scrollTop = 93
+        maximumScroll = 400
 
-      act(() => vi.runAllTimers())
+        act(() => vi.runAllTimers())
 
-      expect(scrollView.scrollTop).toBe(120)
-      expect(sessionStorage.getItem(storageKey)).toBe('120')
-    } finally {
-      HTMLElement.prototype.scrollTo = originalScrollTo
-      sessionStorage.removeItem(storageKey)
-      vi.useRealTimers()
+        expect(scrollView.scrollTop).toBe(120)
+        expect(sessionStorage.getItem(storageKey)).toBe('120')
+      } finally {
+        HTMLElement.prototype.scrollTo = originalScrollTo
+        sessionStorage.removeItem(storageKey)
+        vi.useRealTimers()
+      }
     }
-  })
+  )
 
   it('does not center the selected item over a restored position', () => {
     vi.useFakeTimers()

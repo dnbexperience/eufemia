@@ -454,7 +454,7 @@ function ModalComponent(ownProps: ModalAllProps) {
       return // stop here
     }
 
-    if (isInTransitionRef.current) {
+    if (isInTransitionRef.current && !(open === true && !hide)) {
       return // stop here
     }
 
