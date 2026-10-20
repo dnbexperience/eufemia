@@ -63,12 +63,18 @@ jobs:
       # ESLint does not see a change to a local rule, or an upgrade of a plugin
       # without version metadata (such as eslint-plugin-react), as a config
       # change, so their hash starts a fresh cache when they change.
+      # ESLint also only re-lints a file when that file changes, but
+      # docs-types/sync-docs-jsdoc checks a component against its sibling
+      # *Docs files. So the *Docs files are part of the hash too, or a change
+      # to only a *Docs file is never checked (as with #9914). Keep these
+      # patterns in sync with the rule (`Docs\.[jt]sx?$`); hashFiles does not
+      # support {a,b} braces.
       - name: Use ESLint cache
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         with:
           path: packages/dnb-eufemia/.eslintcache
-          key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-eslint-eufemia-${{ hashFiles('yarn.lock', 'packages/dnb-eufemia/scripts/eslint/**/*.js') }}-${{ github.sha }}
-          restore-keys: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-eslint-eufemia-${{ hashFiles('yarn.lock', 'packages/dnb-eufemia/scripts/eslint/**/*.js') }}-
+          key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-eslint-eufemia-${{ hashFiles('yarn.lock', 'packages/dnb-eufemia/scripts/eslint/**/*.js', 'packages/dnb-eufemia/src/**/*Docs.[jt]s', 'packages/dnb-eufemia/src/**/*Docs.[jt]sx') }}-${{ github.sha }}
+          restore-keys: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-eslint-eufemia-${{ hashFiles('yarn.lock', 'packages/dnb-eufemia/scripts/eslint/**/*.js', 'packages/dnb-eufemia/src/**/*Docs.[jt]s', 'packages/dnb-eufemia/src/**/*Docs.[jt]sx') }}-
 
       - name: Run lint
         # Every workspace with a lint script runs here, except the Portal which
