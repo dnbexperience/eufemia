@@ -167,15 +167,15 @@ test.describe('Portal SidebarMenu', () => {
         )
       ).toBeVisible()
     }
-    await menu
-      .getByRole('button', { name: 'Getting started', exact: true })
-      .click()
-    await expect(
-      menu.getByRole('link', { name: "What's new", exact: true })
-    ).toHaveAttribute('href', '/web/whats-new')
     const platform = page.getByRole('navigation', {
       name: 'Platform Content Menu',
     })
+    await platform
+      .getByRole('button', { name: 'Get started', exact: true })
+      .click()
+    await expect(
+      platform.getByRole('link', { name: "What's new", exact: true })
+    ).toHaveAttribute('href', '/web/whats-new')
     await expect(platform.getByRole('combobox')).toHaveAccessibleName(
       'Platform Web'
     )
