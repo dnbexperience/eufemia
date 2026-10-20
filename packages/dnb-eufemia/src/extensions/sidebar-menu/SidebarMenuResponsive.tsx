@@ -43,6 +43,9 @@ import {
 import type { SidebarMenuResponsiveContextValue } from './SidebarMenuResponsiveContext'
 import SidebarMenuToggle from './SidebarMenuToggle'
 
+// Was exported from this module in v11.15, so keep the import path working.
+export { useOptionalSidebarMenuResponsive } from './SidebarMenuResponsiveContext'
+
 const animatedHamburger = (props?: IconSVGProps) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
