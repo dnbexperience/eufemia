@@ -69,6 +69,13 @@ function findDailyRollupPut(prefix: string): Command | undefined {
     .find((put) => String(put.input.Key).startsWith(prefix))
 }
 
+function utcDateDaysAgo(days: number): string {
+  const date = new Date()
+  date.setUTCDate(date.getUTCDate() - days)
+
+  return date.toISOString().slice(0, 10)
+}
+
 // Silence and capture the EMF metric line the handler logs, so it neither spams
 // test output nor needs a per-suite spy; assertions read logSpy.mock.calls.
 let logSpy: ReturnType<typeof vi.spyOn>
@@ -111,7 +118,9 @@ describe('snapshot generator handler', () => {
 
     const result = await handler()
 
-    expect(retrievePortalViews).toHaveBeenCalledWith({ limit: 1000 })
+    expect(retrievePortalViews).toHaveBeenCalledWith(utcDateDaysAgo(29), {
+      limit: 1000,
+    })
     expect(putCalls()).toHaveLength(1)
 
     const put = putCalls()[0][0] as Command
@@ -176,9 +185,7 @@ describe('snapshot generator handler', () => {
   it('recomputes only the recent tail on a scheduled run (no sinceDt)', async () => {
     retrievePortalViews.mockResolvedValue([])
 
-    const expectedTail = new Date()
-    expectedTail.setUTCDate(expectedTail.getUTCDate() - 6)
-    const expectedSince = expectedTail.toISOString().slice(0, 10)
+    const expectedSince = utcDateDaysAgo(6)
 
     await handler()
 

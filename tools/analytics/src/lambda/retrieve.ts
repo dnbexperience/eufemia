@@ -142,27 +142,6 @@ async function runQuery<Row>(
   return readResults(queryExecutionId, toRow)
 }
 
-/**
- * Retrieve the most recent portal page views for the dashboard, newest first.
- *
- * The portal_views table holds only portal views, so no type filter is needed.
- */
-export async function retrievePortalViews(
-  options: RetrieveOptions = {}
-): Promise<PortalView[]> {
-  const table = glueTable('GLUE_TABLE')
-  const limit = clampLimit(options.limit)
-
-  return runQuery(
-    `SELECT path, env, "timestamp" FROM ${table} ORDER BY "timestamp" DESC LIMIT ${limit}`,
-    ([path, env, timestamp]) => ({
-      path: path ?? '',
-      env: env ?? '',
-      timestamp: timestamp ?? '',
-    })
-  )
-}
-
 // A YYYY-MM-DD partition token is derived from the server clock, never user
 // input, so interpolating it into the query carries no injection risk.
 const DT_PATTERN = /^\d{4}-\d{2}-\d{2}$/
@@ -171,6 +150,31 @@ function assertPartitionDate(sinceDt: string): void {
   if (!DT_PATTERN.test(sinceDt)) {
     throw new Error(`sinceDt must be a YYYY-MM-DD date, got: ${sinceDt}`)
   }
+}
+
+/**
+ * Retrieve the most recent portal page views on or after `sinceDt` for the
+ * dashboard, newest first.
+ *
+ * The portal_views table holds only portal views, so no type filter is needed.
+ */
+export async function retrievePortalViews(
+  sinceDt: string,
+  options: RetrieveOptions = {}
+): Promise<PortalView[]> {
+  assertPartitionDate(sinceDt)
+
+  const table = glueTable('GLUE_TABLE')
+  const limit = clampLimit(options.limit)
+
+  return runQuery(
+    `SELECT path, env, "timestamp" FROM ${table} WHERE dt >= '${sinceDt}' ORDER BY "timestamp" DESC LIMIT ${limit}`,
+    ([path, env, timestamp]) => ({
+      path: path ?? '',
+      env: env ?? '',
+      timestamp: timestamp ?? '',
+    })
+  )
 }
 
 function toPortalViewDailyRow([

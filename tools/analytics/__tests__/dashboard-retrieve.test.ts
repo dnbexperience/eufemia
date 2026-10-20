@@ -95,7 +95,9 @@ describe('retrievePortalViews', () => {
       ['/uilib/components/button', 'prod', '2026-08-28T09:59:00.000Z'],
     ])
 
-    await expect(retrievePortalViews({ limit: 1000 })).resolves.toEqual([
+    await expect(
+      retrievePortalViews('2026-09-21', { limit: 1000 })
+    ).resolves.toEqual([
       {
         path: '/uilib/components/button',
         env: 'prod',
@@ -104,8 +106,15 @@ describe('retrievePortalViews', () => {
     ])
 
     expect(startedQueryString()).toBe(
-      `SELECT path, env, "timestamp" FROM "db"."portal_views" ORDER BY "timestamp" DESC LIMIT 1000`
+      `SELECT path, env, "timestamp" FROM "db"."portal_views" WHERE dt >= '2026-09-21' ORDER BY "timestamp" DESC LIMIT 1000`
     )
+  })
+
+  it('rejects a non-date sinceDt before running any query', async () => {
+    await expect(retrievePortalViews("2026'; DROP")).rejects.toThrow(
+      'YYYY-MM-DD'
+    )
+    expect(send).not.toHaveBeenCalled()
   })
 
   it.each([
@@ -120,7 +129,7 @@ describe('retrievePortalViews', () => {
   ])('turns limit %s into LIMIT %s', async (limit, expectedLimit) => {
     mockAthenaRows([])
 
-    await retrievePortalViews({ limit })
+    await retrievePortalViews('2026-09-21', { limit })
 
     expect(startedQueryString()).toMatch(
       new RegExp(` LIMIT ${expectedLimit}$`)

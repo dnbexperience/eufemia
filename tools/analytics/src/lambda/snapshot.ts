@@ -88,6 +88,9 @@ const MCP_VERSION_WINDOW_DAYS = 90
 // Recent-tail window for the retention rollup refresh (mirrors MCP_ROLLUP_DAYS).
 const PORTAL_VIEWS_ROLLUP_DAYS = 7
 
+// Holds SNAPSHOT_LIMIT views at current traffic; only bounds the Athena scan.
+const PORTAL_VIEWS_WINDOW_DAYS = 30
+
 // First day (YYYY-MM-DD, UTC) of the `days`-long window that ends today.
 function windowStart(days: number): string {
   const since = new Date()
@@ -323,7 +326,9 @@ export async function handler(event?: { sinceDt?: string }): Promise<{
   // not fail the run, so its failure is caught and surfaced via a metric; keeping
   // it concurrent with the read keeps the added Athena query within the timeout.
   const [portalViews] = await Promise.all([
-    retrievePortalViews({ limit: SNAPSHOT_LIMIT }),
+    retrievePortalViews(windowStart(PORTAL_VIEWS_WINDOW_DAYS), {
+      limit: SNAPSHOT_LIMIT,
+    }),
     refreshPortalViewsRollup(bucket, event?.sinceDt).catch((error) => {
       // eslint-disable-next-line no-console -- surface the failure in CloudWatch Logs
       console.error(
