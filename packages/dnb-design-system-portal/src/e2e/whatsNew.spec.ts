@@ -6,12 +6,18 @@ if (process.env.PLAYWRIGHT_BASE_URL) {
 }
 
 test.describe("What's new", () => {
-  test('links to the release overview from the main menu', async ({
+  test('links to the release overview from the sidebar menu', async ({
     page,
   }) => {
     await page.goto('/')
     await waitForApp(page)
-    await page.locator('main nav a[href="/web/whats-new/"]').click()
+    const menu = page.locator('#portal-sidebar-menu')
+    await menu
+      .getByRole('button', { name: 'Getting started', exact: true })
+      .click()
+    await menu
+      .getByRole('link', { name: "What's new", exact: true })
+      .click()
     await expect(page).toHaveURL(/\/web\/whats-new\/?$/)
     await expect(
       page.getByRole('heading', { name: "What's new", exact: true })
@@ -190,7 +196,7 @@ test.describe("What's new", () => {
       '/uilib/about-the-lib/releases/eufemia/form-set-row-deprecation-v11#deprecation'
     )
     await expect(page).toHaveURL(
-      /\/uilib\/about-the-lib\/releases\/eufemia\/v11-info\/?(#deprecation)?$/
+      /\/web\/about-the-lib\/releases\/eufemia\/v11-info\/?(#deprecation)?$/
     )
     await waitForApp(page)
     await expect(page.getByRole('heading', { level: 1 })).toContainText(

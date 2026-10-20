@@ -134,8 +134,8 @@ describe('MDX-defined Portal navigation', () => {
       'web-components-button'
     )
     expect(
-      findActiveSidebarItemId(tree('/whats-new/upgrade').shared)
-    ).toBe('whats-new')
+      findActiveSidebarItemId(tree('/web/whats-new/upgrade').shared)
+    ).toBe('web-whats-new')
     expect(
       findActiveSidebarItemId(
         tree('/web/components/country-flag/properties').sections[0].items
