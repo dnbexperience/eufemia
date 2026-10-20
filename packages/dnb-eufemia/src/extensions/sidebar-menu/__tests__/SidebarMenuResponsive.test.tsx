@@ -1909,7 +1909,13 @@ describe('SidebarMenu responsive parts', () => {
       '.dnb-sidebar-menu__badge:not(:has(.dnb-badge--variant-notification)){display:none}'
     )
     expect(html).toContain(
-      '.dnb-sidebar-menu__sections.dnb-dropdown{--dropdown-button-padding:.625rem;padding-inline:.25rem}'
+      '.dnb-sidebar-menu__sections.dnb-dropdown{--dropdown-border-radius:var(--token-radius-full);--dropdown-button-padding:.625rem;padding-inline:.25rem}'
+    )
+    expect(html).toContain(
+      '.dnb-dropdown__trigger{width:2.75rem;height:2.75rem;margin-inline-start:.375rem}'
+    )
+    expect(html).toContain(
+      '.dnb-sidebar-menu__sections--has-icon .dnb-dropdown__text{padding-inline:0}'
     )
     expect(html).toContain(
       ':is(.dnb-sidebar-menu__group__title,.dnb-sidebar-menu__header){width:4rem;white-space:nowrap;opacity:.8'
