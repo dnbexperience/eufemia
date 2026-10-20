@@ -11,9 +11,11 @@ test.describe("What's new", () => {
   }) => {
     await page.goto('/')
     await waitForApp(page)
-    const menu = page.locator('#portal-sidebar-menu')
+    const menu = page.getByRole('navigation', {
+      name: 'Platform Content Menu',
+    })
     await menu
-      .getByRole('button', { name: 'Getting started', exact: true })
+      .getByRole('button', { name: 'Get started', exact: true })
       .click()
     await menu
       .getByRole('link', { name: "What's new", exact: true })
