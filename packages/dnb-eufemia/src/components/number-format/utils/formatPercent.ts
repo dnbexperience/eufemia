@@ -24,6 +24,7 @@ import {
   resolveLocale,
 } from './formatCore'
 import { countDecimals } from './decimals'
+import { escapeRegexChars } from '../../../shared/component-helper'
 
 export function formatPercent(
   value: NumberFormatValue | null | undefined,
@@ -76,10 +77,37 @@ export function formatPercent(
     locale,
     opts
   )
-  const aria = display
 
   if (!returnAria) {
     return display
+  }
+
+  let aria = display
+
+  if (opts.style === 'percent' && Number.isFinite(Number(value))) {
+    const unitParts = formatNumberCoreParts(value, locale, {
+      ...opts,
+      style: 'unit',
+      unit: 'percent',
+      unitDisplay: 'long',
+    }).parts
+    const unit = unitParts.find(({ type }) => type === 'unit')?.value
+    const percentParts = parts.length
+      ? parts
+      : formatNumberCoreParts(0, locale, opts).parts
+    const percentSign = percentParts.find(
+      ({ type }) => type === 'percentSign'
+    )?.value
+
+    if (unit && percentSign) {
+      // Keep the displayed digits so speech cannot round the value differently.
+      aria = display
+        .replace(
+          new RegExp(`\\s*${escapeRegexChars(percentSign)}\\s*`),
+          ` ${unit} `
+        )
+        .trim()
+    }
   }
 
   return buildReturn({

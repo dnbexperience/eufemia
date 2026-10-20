@@ -158,4 +158,5 @@ credentials; the ingest route is locked down at the edge.
 ```
 
 A one-line notice is printed to `stderr` once per server start. Telemetry is
-disabled when `EUFEMIA_MCP_TELEMETRY` is `0` or `false`.
+disabled when `EUFEMIA_MCP_TELEMETRY` is `0`, `false`, `off` or `no`, when
+`DO_NOT_TRACK` is set (for example `DO_NOT_TRACK=1`), and when `CI` is set.

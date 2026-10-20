@@ -1288,6 +1288,77 @@ describe('GlobalStatus component', () => {
     const status = wrapper.querySelector('.dnb-global-status')
     expect(status).toHaveClass('dnb-global-status--error')
   })
+
+  it('should not render a script-executing statusAnchorUrl', () => {
+    render(
+      <GlobalStatus
+        items={[
+          {
+            text: 'Script',
+            statusAnchorUrl: 'javascript:alert(1)',
+            statusAnchorLabel: 'script',
+          },
+          {
+            text: 'VBScript',
+            statusAnchorUrl: 'vbscript:msgbox(1)',
+            statusAnchorLabel: 'vbscript',
+          },
+          {
+            text: 'Safe',
+            statusAnchorUrl: '/uilib/components/global-status',
+            statusAnchorLabel: 'safe',
+          },
+        ]}
+        show={true}
+        autoScroll={false}
+        noAnimation={true}
+      />
+    )
+
+    const links = document.querySelectorAll('.dnb-global-status a')
+    expect(links).toHaveLength(3)
+    expect(links[0]).not.toHaveAttribute('href')
+    expect(links[1]).not.toHaveAttribute('href')
+    expect(links[2]).toHaveAttribute(
+      'href',
+      '/uilib/components/global-status'
+    )
+  })
+
+  it('should let a custom statusAnchorUrl navigate', () => {
+    render(
+      <GlobalStatus
+        show
+        noAnimation
+        autoScroll={false}
+        items={[
+          {
+            itemId: 'field-id',
+            text: 'Error',
+            statusAnchorUrl: '/uilib/components/global-status',
+            statusAnchorLabel: 'eksempel',
+          },
+          {
+            itemId: 'other-field-id',
+            text: 'Other error',
+            statusAnchorUrl: true,
+            statusAnchorLabel: 'annet felt',
+          },
+        ]}
+      />
+    )
+
+    const [link, jumpLink] = Array.from(
+      document.querySelectorAll('.dnb-global-status__message a.dnb-anchor')
+    )
+    expect(link).toHaveAttribute('href', '/uilib/components/global-status')
+
+    expect(fireEvent.click(link)).toBe(true)
+    expect(fireEvent.keyDown(link, { key: 'Enter' })).toBe(true)
+
+    expect(jumpLink).toHaveAttribute('href', '#other-field-id')
+    expect(fireEvent.click(jumpLink)).toBe(false)
+  })
 })
 
 describe('GlobalStatus scss', () => {

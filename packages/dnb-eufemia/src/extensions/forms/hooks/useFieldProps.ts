@@ -29,6 +29,7 @@ import FieldProviderContext from '../Field/Provider/FieldProviderContext'
 import { combineDescribedBy, warn } from '../../../shared/component-helper'
 import useId from '../../../shared/helpers/useId'
 import useUpdateEffect from '../../../shared/helpers/useUpdateEffect'
+import useCanUseDOM from '../../../shared/helpers/useCanUseDOM'
 import type { FieldBlockContextProps } from '../FieldBlock/FieldBlockContext'
 import FieldBlockContext from '../FieldBlock/FieldBlockContext'
 import IterateItemContext from '../Iterate/IterateItemContext'
@@ -329,6 +330,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   const inFieldBlock = Boolean(
     fieldBlockContext && fieldBlockContext.disableStatusSummary !== true
   )
+  const canUseDOM = useCanUseDOM({ waitForHydration: inFieldBlock })
 
   // Support schema as a factory function evaluated after props are extended
   const resolvedSchema = useMemo(() => {
@@ -360,9 +362,9 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   const hasZodSchema = isZodSchema(finalSchema)
   const {
     setBlockRecord,
+    collectMessages,
     setFieldState: setFieldStateFieldBlock,
     showFieldError: showFieldErrorFieldBlock,
-    mountedFieldsRef: mountedFieldsRefFieldBlock,
   } = (inFieldBlock ? fieldBlockContext : {}) as FieldBlockContextProps
   const setFieldStateFieldBlockRef = useRef(setFieldStateFieldBlock)
   setFieldStateFieldBlockRef.current = setFieldStateFieldBlock
@@ -1782,49 +1784,38 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   }, [identifier, onSubmitHandler, setFieldEventListener])
 
   // Set the error in the field block context if this field is inside a field block
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (inFieldBlock) {
-      setBlockRecord?.({
-        identifier,
-        type: 'error',
-        content: error,
-        showInitially: true,
-        show: true,
-      })
-      setBlockRecord?.({
-        identifier,
-        type: 'warning',
-        content: warning,
-        showInitially: true,
-        show: true,
-      })
-      setBlockRecord?.({
-        identifier,
-        type: 'information',
-        content: info,
-        showInitially: true,
-        show: true,
-      })
-
-      return () => {
-        // Unmount procedure
-        if (mountedFieldsRefFieldBlock) {
-          // eslint-disable-next-line react-hooks/exhaustive-deps
-          mountedFieldsRefFieldBlock.current.set(identifier, true)
-        }
+      for (const [type, content] of [
+        ['error', error],
+        ['warning', warning],
+        ['information', info],
+      ] as const) {
+        setBlockRecord?.({
+          identifier,
+          type,
+          content,
+          showInitially: true,
+          show: true,
+        })
       }
     }
 
     return undefined
-  }, [
-    error,
-    identifier,
-    inFieldBlock,
-    info,
-    mountedFieldsRefFieldBlock,
-    setBlockRecord,
-    warning,
-  ])
+  }, [error, identifier, inFieldBlock, info, setBlockRecord, warning])
+
+  useLayoutEffect(() => {
+    if (inFieldBlock) {
+      return () => {
+        setBlockRecord?.(
+          { identifier, type: 'error', content: undefined },
+          { remove: true }
+        )
+      }
+    }
+
+    return undefined
+  }, [identifier, inFieldBlock, setBlockRecord])
 
   // ─── Status change reporting ─────────────────────────────────────────
 
@@ -1912,38 +1903,35 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   if (required) {
     htmlAttributes['aria-required'] = 'true'
   }
-  if (inFieldBlock) {
-    // Mount the field in the field block context
-    if (mountedFieldsRefFieldBlock) {
-      mountedFieldsRefFieldBlock.current.set(identifier, true)
+  if (inFieldBlock && !canUseDOM) {
+    // Register the messages during render, so they are part of the server-rendered HTML
+    for (const [type, content] of [
+      ['error', error],
+      ['warning', warning],
+      ['information', info],
+    ] as const) {
+      collectMessages?.({
+        identifier,
+        type,
+        content,
+        showInitially: true,
+        show: true,
+      })
     }
+  }
 
-    // Check if there are any state IDs to be added to the aria-describedby attribute
-    const stateIds = fieldBlockContext.fieldStateIdsRef?.current
+  const statusId = inFieldBlock ? fieldBlockContext.statusId : id
+  const statusIds = [
+    (bufferedError || error) && `${statusId}-form-status--error`,
+    warning && `${statusId}-form-status--warning`,
+    info && `${statusId}-form-status--information`,
+  ].filter(Boolean)
 
-    if (stateIds) {
-      htmlAttributes['aria-describedby'] = combineDescribedBy(
-        htmlAttributes,
-        [
-          bufferedError && stateIds.error,
-          warning && stateIds.warning,
-          info && stateIds.information,
-        ].filter(Boolean)
-      )
-    }
-  } else {
-    const ids = [
-      (bufferedError || error) && `${id}-form-status--error`,
-      warning && `${id}-form-status--warning`,
-      info && `${id}-form-status--information`,
-    ].filter(Boolean)
-
-    if (ids.length) {
-      htmlAttributes['aria-describedby'] = combineDescribedBy(
-        htmlAttributes,
-        ids
-      )
-    }
+  if (statusIds.length) {
+    htmlAttributes['aria-describedby'] = combineDescribedBy(
+      htmlAttributes,
+      statusIds
+    )
   }
 
   const help = props.help

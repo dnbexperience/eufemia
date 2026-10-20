@@ -56,7 +56,7 @@ export const PostalCode = () => {
         const { withConfig } = Connectors.createContext({
           fetchConfig: {
             url: async (value, { countryCode }) => {
-              const url = `[YOUR-API-URL]/postal-code/${value}`
+              const url = `[YOUR-API-URL]/postal-code/${encodeURIComponent(value)}`
               await mockFetch(url, getMockDataPostalCode(countryCode))
               return url
             },
@@ -108,7 +108,7 @@ export const Address = () => {
         const { withConfig } = Connectors.createContext({
           fetchConfig: {
             url: async (value, { countryCode }) => {
-              const url = `[YOUR-API-URL]/address/${value}`
+              const url = `[YOUR-API-URL]/address/${encodeURIComponent(value)}`
               await mockFetch(url, getMockDataAddress(countryCode))
               return url
             },

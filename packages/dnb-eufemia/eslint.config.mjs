@@ -37,8 +37,21 @@ const ignorePatterns = [
 ]
 
 const tsConfigFiles = ['**/*.ts', '**/*.tsx']
-const securityRecommendedRules =
-  securityPlugin.configs.recommended.rules || {}
+const restrictedSyntax = [
+  'IfStatement > ExpressionStatement > AssignmentExpression',
+  {
+    selector:
+      'ChainExpression MemberExpression[optional=true][object.name="process"]',
+    message:
+      'Do not use optional chaining on process (process?.env). Use process.env instead – optional chaining breaks Vite define replacements.',
+  },
+]
+// The plugin's recommended rules are warnings, which `--quiet` hides in CI
+const securityRecommendedRules = Object.fromEntries(
+  Object.keys(securityPlugin.configs.recommended.rules || {}).map(
+    (rule) => [rule, 'error']
+  )
+)
 const nodeGlobals = globals.node || {}
 const browserGlobals = globals.browser || {}
 const esGlobals = globals.es2021 || {}
@@ -165,16 +178,7 @@ export default [
       'no-console': 'warn',
       'spaced-comment': ['error', 'always', { markers: ['/'] }],
       'multiline-comment-style': ['error', 'separate-lines'],
-      'no-restricted-syntax': [
-        'error',
-        'IfStatement > ExpressionStatement > AssignmentExpression',
-        {
-          selector:
-            'ChainExpression MemberExpression[optional=true][object.name="process"]',
-          message:
-            'Do not use optional chaining on process (process?.env). Use process.env instead – optional chaining breaks Vite define replacements.',
-        },
-      ],
+      'no-restricted-syntax': ['error', ...restrictedSyntax],
       'import/export': 'off',
       'import/no-duplicates': 'error',
       'import/no-named-as-default': 'error',
@@ -426,6 +430,16 @@ export default [
                 'Do not import from src – but rather define correct relative paths!',
             },
           ],
+        },
+      ],
+      'no-restricted-syntax': [
+        'error',
+        ...restrictedSyntax,
+        {
+          selector:
+            'ExpressionStatement > CallExpression[callee.name="axeComponent"], ExpressionStatement > AwaitExpression > CallExpression[callee.name="axeComponent"]',
+          message:
+            'Assert the result: expect(await axeComponent(...)).toHaveNoViolations()',
         },
       ],
     },

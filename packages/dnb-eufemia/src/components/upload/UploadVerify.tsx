@@ -88,14 +88,17 @@ export function verifyFiles(
 
     const listOfAcceptedFilesTypes =
       getAcceptedFileTypesAsListOfStrings(acceptedFileTypes)
-    const fileType = getFileType(file, listOfAcceptedFilesTypes)
+    const fileType = getFileType(
+      file,
+      listOfAcceptedFilesTypes
+    )?.toLowerCase()
+    // A file without an extension falls back to its mime type, e.g. "image/svg+xml"
+    const mimeSubtype = fileType?.split('/')[1]?.split('+')[0]
     const foundType = extendWithAbbreviation(
       listOfAcceptedFilesTypes
     ).some((type) => {
-      /**
-       * "file.type" can be e.g. "image/png"
-       */
-      return fileType?.toLowerCase()?.includes(type.toLowerCase())
+      const acceptedType = type.toLowerCase()
+      return fileType === acceptedType || mimeSubtype === acceptedType
     })
     return !foundType ? errorUnsupportedFile : null
   }

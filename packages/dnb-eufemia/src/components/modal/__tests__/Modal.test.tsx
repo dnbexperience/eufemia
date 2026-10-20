@@ -2095,6 +2095,21 @@ describe('Modal ARIA', () => {
     const Comp = render(<Modal {...props} />)
     expect(await axeComponent(Comp)).toHaveNoViolations()
   })
+
+  it('should validate the open dialog with ARIA rules', async () => {
+    const Comp = render(
+      <Modal noAnimation open dialogTitle="Dialog title">
+        <p>Content</p>
+      </Modal>
+    )
+
+    expect(
+      await axeComponent(
+        Comp,
+        document.querySelector('.dnb-modal__content')
+      )
+    ).toHaveNoViolations()
+  })
 })
 
 describe('Modal scss', () => {
