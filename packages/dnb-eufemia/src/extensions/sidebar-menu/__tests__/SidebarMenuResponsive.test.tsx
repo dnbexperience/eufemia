@@ -5,6 +5,7 @@ import { renderToString } from 'react-dom/server'
 import { setMedia } from 'mock-match-media'
 import '../../../core/vitest/mockMatchMediaSetup'
 import SidebarMenu from '../SidebarMenu'
+import { useOptionalSidebarMenuResponsive } from '../SidebarMenuResponsive'
 import ScrollView from '../../../components/scroll-view/ScrollView'
 import Provider from '../../../shared/Provider'
 
@@ -198,6 +199,18 @@ describe('SidebarMenu responsive parts', () => {
     } finally {
       getItem.mockRestore()
     }
+  })
+
+  it('keeps exporting useOptionalSidebarMenuResponsive from the v11.15 module path', () => {
+    let value: ReturnType<typeof useOptionalSidebarMenuResponsive>
+    const Probe = () => {
+      value = useOptionalSidebarMenuResponsive()
+      return null
+    }
+
+    render(<Probe />)
+
+    expect(value).toBeUndefined()
   })
 
   it('localizes its accessible labels', () => {

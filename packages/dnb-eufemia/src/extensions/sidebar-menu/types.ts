@@ -303,10 +303,12 @@ type SidebarMenuHeaderBaseProps = Omit<
   headingLevel?: number
 }
 
-export type SidebarMenuHeaderProps = SidebarMenuHeaderBaseProps &
-  (
-    | { text: ReactNode; children?: ReactNode }
-    | { text?: undefined; children: ReactNode }
-  )
+// Both are optional, so code that compiled with v11.15 still compiles.
+export type SidebarMenuHeaderProps = SidebarMenuHeaderBaseProps & {
+  /** Visible label for the grouped menu items. Required when children contains menu items. */
+  text?: ReactNode
+  /** Menu items labelled by text, or the label itself when text is omitted. */
+  children?: ReactNode
+}
 
 export type SidebarMenuDividerProps = HTMLAttributes<HTMLLIElement>

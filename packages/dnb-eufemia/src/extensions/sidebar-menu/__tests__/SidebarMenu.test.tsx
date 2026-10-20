@@ -259,6 +259,19 @@ describe('SidebarMenu', () => {
     expect(header.nextElementSibling).toHaveTextContent('Overview')
   })
 
+  it('accepts a Header without text or children, as in v11.15', () => {
+    render(
+      <SidebarMenu.Root>
+        <SidebarMenu.Header className="custom-header" />
+      </SidebarMenu.Root>
+    )
+
+    const header = document.querySelector('.dnb-sidebar-menu__header')
+
+    expect(header).toHaveClass('custom-header')
+    expect(header).toBeEmptyDOMElement()
+  })
+
   it('does not forward the removed Header headingLevel prop', () => {
     render(
       <SidebarMenu.Root>
