@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach } from 'vitest'
+import { describe, it, expect, beforeEach, vi } from 'vitest'
 import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -236,11 +236,21 @@ describe('prerender-utils', () => {
   })
 
   describe('getRoutePreloads', () => {
+    it('uses the named home source for the root route', () => {
+      expect(
+        getRoutePreloads(
+          '/',
+          { '../../src/docs/home.mdx': ['/assets/home.js'] },
+          undefined,
+          'packages/dnb-design-system-portal/src/docs/home.mdx'
+        ).js
+      ).toEqual(['/assets/home.js'])
+    })
     const manifest: SSRManifest = {
-      '../../src/docs/uilib/components/button.mdx': [
+      '../../src/docs/web/components/button.mdx': [
         '/assets/button-abc123.js',
       ],
-      '../../src/docs/uilib/components/button/info.mdx': [
+      '../../src/docs/web/components/button/info.mdx': [
         '/assets/info-def456.js',
         '/assets/DNB-Regular.woff2',
       ],
@@ -249,7 +259,7 @@ describe('prerender-utils', () => {
         '/assets/index-abc.css',
         '/assets/logo.svg',
       ],
-      '../../src/docs/uilib/components/card/index.mdx': [
+      '../../src/docs/web/components/card/index.mdx': [
         '/assets/card-111.js',
         '/assets/card-icon.svg',
       ],
@@ -257,7 +267,7 @@ describe('prerender-utils', () => {
 
     it('resolves .mdx route to its JS chunk', () => {
       const preloads = getRoutePreloads(
-        '/uilib/components/button/',
+        '/web/components/button/',
         manifest
       )
       expect(preloads.js).toEqual(['/assets/button-abc123.js'])
@@ -266,7 +276,7 @@ describe('prerender-utils', () => {
 
     it('resolves nested route with trailing slash', () => {
       const preloads = getRoutePreloads(
-        '/uilib/components/button/info/',
+        '/web/components/button/info/',
         manifest
       )
       expect(preloads.js).toEqual(['/assets/info-def456.js'])
@@ -274,7 +284,7 @@ describe('prerender-utils', () => {
 
     it('filters out non-JS/CSS assets (fonts, SVGs)', () => {
       const preloads = getRoutePreloads(
-        '/uilib/components/button/info/',
+        '/web/components/button/info/',
         manifest
       )
       expect(preloads.js).not.toContain('/assets/DNB-Regular.woff2')
@@ -288,10 +298,7 @@ describe('prerender-utils', () => {
     })
 
     it('resolves index.mdx inside a directory', () => {
-      const preloads = getRoutePreloads(
-        '/uilib/components/card/',
-        manifest
-      )
+      const preloads = getRoutePreloads('/web/components/card/', manifest)
       expect(preloads.js).toEqual(['/assets/card-111.js'])
     })
 
@@ -301,7 +308,7 @@ describe('prerender-utils', () => {
     })
 
     it('returns empty arrays with empty manifest', () => {
-      const preloads = getRoutePreloads('/uilib/components/button/', {})
+      const preloads = getRoutePreloads('/web/components/button/', {})
       expect(preloads).toEqual({ js: [], css: [] })
     })
 
@@ -315,10 +322,7 @@ describe('prerender-utils', () => {
     })
 
     it('handles URL without slashes', () => {
-      const preloads = getRoutePreloads(
-        'uilib/components/button',
-        manifest
-      )
+      const preloads = getRoutePreloads('web/components/button', manifest)
       expect(preloads.js).toEqual(['/assets/button-abc123.js'])
     })
 
@@ -936,6 +940,45 @@ describe('prerender-utils', () => {
   })
 
   describe('buildRedirectHtml', () => {
+    it('forwards a moved section fragment to its new document', () => {
+      const html = buildRedirectHtml('/web/usage/first-steps/tools/', {
+        'agent-skills': '/working-with-ai/ai-skills#agent-skills',
+      })
+      const script = html.match(/<script>([\s\S]*?)<\/script>/)[1]
+      const replace = vi.fn()
+      new Function('location', script)({
+        href: 'https://eufemia.dnb.no/uilib/usage/first-steps/tools?from=bookmark#agent-skills',
+        search: '?from=bookmark',
+        hash: '#agent-skills',
+        replace,
+      })
+      expect(replace).toHaveBeenCalledWith(
+        'https://eufemia.dnb.no/working-with-ai/ai-skills?from=bookmark#agent-skills'
+      )
+    })
+
+    it('keeps script delimiters inside URLs as data', () => {
+      const html = buildRedirectHtml(
+        '/target/</script><script>bad()</script>'
+      )
+      expect(html.match(/<script>/g)).toHaveLength(1)
+      expect(html).not.toContain('</script><script>bad()')
+    })
+    it('preserves the incoming query and fragment in a static redirect', () => {
+      const html = buildRedirectHtml('/web/components/button/')
+      const script = html.match(/<script>([\s\S]*?)<\/script>/)?.[1]
+      expect(script).toBeDefined()
+      const replace = vi.fn()
+      new Function('location', script)({
+        href: 'https://eufemia.dnb.no/uilib/components/button?fullscreen#sizes',
+        search: '?fullscreen',
+        hash: '#sizes',
+        replace,
+      })
+      expect(replace).toHaveBeenCalledWith(
+        'https://eufemia.dnb.no/web/components/button/?fullscreen#sizes'
+      )
+    })
     it('includes meta refresh with the redirect URL', () => {
       const html = buildRedirectHtml('/new-page/')
       expect(html).toContain(

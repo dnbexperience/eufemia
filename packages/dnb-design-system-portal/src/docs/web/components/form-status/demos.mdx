@@ -1,0 +1,72 @@
+---
+showTabs: true
+redirect_from:
+  - /uilib/components/form-status/demos
+---
+
+import {
+  FormStatusDefault,
+  FormStatusWithRefresh,
+  FormStatusWithInformation,
+  FormStatusWithStretch,
+  FormStatusWithWarning,
+  FormStatusWithButton,
+  FormStatusWithMarketing,
+  FormStatusInput,
+  FormStatusCustom,
+  FormStatusLarge,
+  FormStatusWithIcons,
+  FormStatusAllVariants,
+} from 'Docs/web/components/form-status/Examples'
+
+## Demos
+
+### Displaying error status
+
+<FormStatusDefault />
+
+### With a refresh action
+
+<FormStatusWithRefresh />
+
+### Displaying information status
+
+<FormStatusWithInformation />
+
+### Displaying warning status
+
+<FormStatusWithWarning />
+
+### With a button as content
+
+<FormStatusWithButton />
+
+### Displaying marketing status
+
+<FormStatusWithMarketing />
+
+### Stretching the status message
+
+**NB:** The inner text has a max-width of `var(--prose-max-width)` (defaults to `60ch`) to ensure we do not exceed characters limit per line for accessibility reasons.
+
+<FormStatusWithStretch />
+
+### Used by the Input Component
+
+<FormStatusInput />
+
+### With a custom-styled content
+
+<FormStatusCustom />
+
+### Large variant
+
+<FormStatusLarge />
+
+### In combination with the Icon component
+
+<FormStatusWithIcons />
+
+<VisibleWhenVisualTest>
+  <FormStatusAllVariants />
+</VisibleWhenVisualTest>

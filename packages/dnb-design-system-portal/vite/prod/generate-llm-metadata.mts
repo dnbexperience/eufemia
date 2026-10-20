@@ -11,6 +11,8 @@
  */
 
 import path from 'path'
+import fs from 'node:fs'
+import matter from '@11ty/gray-matter'
 import { fileURLToPath } from 'url'
 import { getNextReleaseVersion } from 'eufemia-llm-metadata/src/getNextReleaseVersion.ts'
 import {
@@ -58,7 +60,11 @@ async function main() {
 
   for (const file of entryFiles) {
     const rel = path.relative(docsRoot, file)
-    const { slug } = toSlugAndDir(rel, '')
+    const { slug } = toSlugAndDir(
+      rel,
+      '',
+      matter(fs.readFileSync(file, 'utf8')).data.slug
+    )
 
     if (!isAllowed(slug, robots)) {
       continue

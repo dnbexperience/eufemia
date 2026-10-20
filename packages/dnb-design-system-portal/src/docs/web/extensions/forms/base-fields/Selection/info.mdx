@@ -1,0 +1,90 @@
+---
+showTabs: true
+redirect_from:
+  - /uilib/extensions/forms/base-fields/Selection/info
+---
+
+## Import
+
+```tsx
+import { Field } from '@dnb/eufemia/extensions/forms'
+render(<Field.Selection />)
+```
+
+## Description
+
+`Field.Selection` is a component for selecting between options using a dropdown or similar user experiences.
+
+Before using this component, ensure there is not a more specific [field component](/web/extensions/forms/feature-fields/) available that better suits your needs.
+
+Uses the [Field.Option](/web/extensions/forms/base-fields/Option/) pseudo-component to define options.
+
+There is a corresponding [Value.Selection](/web/extensions/forms/Value/Selection) component.
+
+```tsx
+import { Field } from '@dnb/eufemia/extensions/forms'
+
+render(
+  <Field.Selection placeholder="Select something...">
+    <Field.Option value="foo" title="Foo!" />
+    <Field.Option value="bar" title="Baar!" />
+  </Field.Selection>
+)
+```
+
+You can also use the `dataPath` property to provide the data to the component:
+
+```jsx
+import { Field } from '@dnb/eufemia/extensions/forms'
+
+render(
+  <Form.Handler
+    data={{
+      myDataPath: [
+        { title: 'Foo!', value: 'foo' },
+        { title: 'Bar!', value: 'bar' },
+      ],
+    }}
+  >
+    <Field.Selection dataPath="/myDataPath" />
+  </Form.Handler>
+)
+```
+
+## Automatically selecting a single option
+
+Set `autoSelectSingleOption` to select the only enabled option when the field is empty. It defaults to `false` and works with all variants and options provided through `data`, `dataPath`, or children.
+
+```tsx
+import { Field, Form } from '@dnb/eufemia/extensions/forms'
+
+render(
+  <Form.Handler>
+    <Field.Selection
+      path="/deliveryMethod"
+      label="Delivery method"
+      autoSelectSingleOption
+      data={[{ value: 'email', title: 'Email' }]}
+    />
+  </Form.Handler>
+)
+```
+
+Automatic selection updates the form value through normal field change handling, including validation and `onChange` callbacks. It does not count as a focus or blur interaction. Disabled options and options without a value or matching `emptyValue` are ignored. Disabled fields and Autocomplete with `preventSelection` are not automatically selected.
+
+Existing values are never overwritten. If more options become available, the selected value is retained. Resetting or clearing the field makes it eligible for automatic selection again. Disable the property if the user needs to leave a sole option unselected.
+
+For dynamic lists, enable the property only when loading has finished and the complete list is available, for example with `autoSelectSingleOption={!isLoading}`. Do not pass search-filtered results as the complete option list. Reset dependent values in application code when a parent selection changes; this property does not clear selections that become invalid.
+
+Use this behavior only when accepting the sole option does not require an explicit decision. A required field alone does not imply that selecting on the user's behalf is appropriate. For a one-time initial selection, use `defaultValue` instead.
+
+## Relevant links
+
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Field/Selection)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/extensions/forms/base-fields/Selection)
+
+## About the Autocomplete variant
+
+The autocomplete variant (`variant="autocomplete"`) is a special easy drop-in version – basically as a replacement for the Dropdown variant, but with a search capability.
+
+The [Autocomplete](/web/components/autocomplete/) by itself can be customized and used in various ways. If you need more control, you can use the `autocompleteProps` property to forward any additional properties (camelCase) to the [Autocomplete](/web/components/autocomplete/) component.

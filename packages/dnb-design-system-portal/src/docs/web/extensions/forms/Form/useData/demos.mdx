@@ -1,0 +1,39 @@
+---
+showTabs: true
+redirect_from:
+  - /uilib/extensions/forms/Form/useData/demos
+---
+
+import * as Examples from './Examples'
+
+## Demos
+
+### Set data outside of the form
+
+<Examples.Default />
+
+### Update the data outside of the form
+
+The update function `update('/count', (count) => count + 1)` has TypeScript support and returns the correct type for `count` (number).
+
+<Examples.Update />
+
+### Shared state without a Form.Handler
+
+<Examples.WithoutFormHandler />
+
+### Get only data of visible fields
+
+You can use the `reduceToVisibleFields` function to get only the data of visible (mounted) fields.
+
+<Examples.VisibleData />
+
+### Filter your data
+
+This example uses the `keepInDOM` property to keep the field in the DOM.
+
+But with the `filterData` method we can filter out all fields that have the `data-exclude-field` attribute.
+
+In this demo, the `data-exclude-field` attribute is added when the field is hidden.
+
+<Examples.FilterData />

@@ -1,0 +1,39 @@
+---
+showTabs: true
+redirect_from:
+  - /uilib/elements/lists/info
+---
+
+## Import
+
+```tsx
+import { Dd, Dl, Dt, Ol, Ul } from '@dnb/eufemia/elements'
+```
+
+## Description
+
+Lists are used to specify lists of information.
+
+## Relevant links
+
+- [Figma](https://www.figma.com/design/cdtwQD8IJ7pTeE45U148r1/%F0%9F%92%BB-Eufemia---Web?node-id=4314-724)
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/elements/lists)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/elements/lists)
+
+## List modifiers
+
+- `.dnb-ul--nested` / `.dnb-ol--nested` ensures a nested structure of several lists
+- `.dnb-ol--outside` (default) defines the position of the marker
+- `.dnb-ol--inside` defines the position of the marker
+
+With React, you can also send in the modifiers as booleans:
+
+```jsx
+import { Ol } from '@dnb/eufemia'
+
+render(
+  <Ol nested inside>
+    <li>Item</li>
+  </Ol>
+)
+```

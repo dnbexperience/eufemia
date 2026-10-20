@@ -1,0 +1,33 @@
+---
+showTabs: true
+redirect_from:
+  - /uilib/extensions/forms/create-component/ValueBlock/info
+---
+
+## Import
+
+```tsx
+import { ValueBlock } from '@dnb/eufemia/extensions/forms'
+render(<ValueBlock />)
+```
+
+## Description
+
+`ValueBlock` is a reusable wrapper for building [Value](/web/extensions/forms/Value) components.
+
+```tsx
+import { ValueBlock } from '@dnb/eufemia/extensions/forms'
+
+const MyValueComponent = ({ value }) => (
+  <ValueBlock label="Label">{value}</ValueBlock>
+)
+```
+
+## Relevant links
+
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/ValueBlock)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/extensions/forms/create-component/ValueBlock)
+
+Check out the docs for the [useValueProps](/web/extensions/forms/create-component/useValueProps/) hook. It will connect your value component to the data context.
+
+For combining several value components into one, you can use [Value.Composition](/web/extensions/forms/Value/Composition/).

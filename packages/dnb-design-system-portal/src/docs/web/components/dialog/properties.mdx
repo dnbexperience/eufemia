@@ -1,0 +1,25 @@
+---
+showTabs: true
+redirect_from:
+  - /uilib/components/dialog/properties
+---
+
+import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
+import TranslationsTable from 'dnb-design-system-portal/src/shared/parts/TranslationsTable'
+import { DialogProperties } from '@dnb/eufemia/src/components/dialog/DialogDocs'
+import { ModalProperties } from '@dnb/eufemia/src/components/modal/ModalDocs'
+
+## Properties
+
+<PropertiesTable props={DialogProperties} />
+
+### More properties
+
+The properties of [Modal](/web/components/modal) formatted as camel case are also provided.
+See the table below:
+
+<PropertiesTable props={ModalProperties} />
+
+## Translations
+
+<TranslationsTable localeKey={['Dialog', 'Modal']} />

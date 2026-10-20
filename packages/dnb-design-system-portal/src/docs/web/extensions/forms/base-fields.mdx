@@ -1,0 +1,31 @@
+---
+title: Base fields
+order: 14
+breadcrumb:
+  - text: Forms
+    href: /web/extensions/forms/
+  - text: Base fields
+    href: /web/extensions/forms/base-fields/
+redirect_from:
+  - /uilib/extensions/forms/base-fields
+navigation:
+  parent: web/extensions/forms
+  title: Base fields
+  order: 8
+  kind: group
+  platform: web
+  pageTitle: Base fields overview
+---
+
+import ListBaseFieldComponents from './base-fields/ListBaseFieldComponents'
+
+Base fields are data driven fields you choose depending on the type of input. You can use these directly in your application forms.
+
+```jsx
+import { Field } from '@dnb/eufemia/extensions/forms'
+render(<Field.String label="Text field" />)
+```
+
+Here is also a list of [all available fields](/web/extensions/forms/all-fields/).
+
+<ListBaseFieldComponents />

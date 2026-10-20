@@ -1,0 +1,34 @@
+---
+draft: true
+showTabs: true
+redirect_from:
+  - /uilib/extensions/forms/create-component/useFieldProps/demos
+---
+
+import * as Examples from './Examples'
+
+## Demos
+
+On the consumer side, we can use this custom component like so:
+
+```jsx
+<Form.Handler data={{ sliderValue: 50 }}>
+  <MySliderComponent
+    path="/sliderValue"
+    minimum={50}
+    maximum={80}
+    required
+    info="Info"
+  />
+</Form.Handler>
+```
+
+### Using a Zod schema
+
+It is recommended to use Zod schemas instead of JSON Schemas, as they provide better TypeScript integration.
+
+<Examples.CustomComponentWithZodSchemaExample />
+
+### Using an Ajv schema
+
+<Examples.CustomComponentWithAjvSchemaExample />

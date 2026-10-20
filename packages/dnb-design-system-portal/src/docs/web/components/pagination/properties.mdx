@@ -1,0 +1,29 @@
+---
+showTabs: true
+redirect_from:
+  - /uilib/components/pagination/properties
+---
+
+import TranslationsTable from 'dnb-design-system-portal/src/shared/parts/TranslationsTable'
+import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
+import { PaginationProperties } from '@dnb/eufemia/src/components/pagination/PaginationDocs'
+
+## Properties
+
+<PropertiesTable props={PaginationProperties} />
+
+## Translations
+
+<TranslationsTable localeKey="Pagination" />
+
+### Content as a render property
+
+The content can be either a function or a React Node. A function may be more useful if `infinity` mode is used.
+
+```jsx
+<Pagination
+  ...
+>
+  {({ pageNumber, setContent, resetContent, ...otherInternalMethods }) => <code>Page {pageNumber}</code>}
+</Pagination>
+```

@@ -1,0 +1,38 @@
+---
+showTabs: true
+redirect_from:
+  - /uilib/extensions/forms/Wizard/PreviousButton/info
+---
+
+## Import
+
+```tsx
+import { Wizard } from '@dnb/eufemia/extensions/forms'
+render(<Wizard.PreviousButton />)
+```
+
+## Description
+
+`Wizard.PreviousButton` connects to `Wizard.Context` to move the user to the previous step when clicked.
+
+## Relevant links
+
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Wizard/PreviousButton)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/extensions/forms/Wizard/PreviousButton)
+
+**Note:** This button is used in [Wizard.Buttons](/web/extensions/forms/Wizard/Buttons/), which is easier to integrate into most wizards.
+
+```jsx
+import { Form, Wizard } from '@dnb/eufemia/extensions/forms'
+
+render(
+  <Form.Handler>
+    <Wizard.Container>
+      <Wizard.Step title="Step 1">previous step</Wizard.Step>
+      <Wizard.Step title="Step 2">
+        <Wizard.PreviousButton />
+      </Wizard.Step>
+    </Wizard.Container>
+  </Form.Handler>
+)
+```

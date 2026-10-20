@@ -1,0 +1,68 @@
+---
+showTabs: true
+redirect_from:
+  - /uilib/extensions/forms/Value/Upload/demos
+---
+
+import * as Examples from './Examples'
+
+## Demos
+
+### Placeholder
+
+<Examples.Placeholder />
+
+### Value
+
+<Examples.WithValue />
+
+### With `displaySize` property
+
+<Examples.WithSize />
+
+### With `download` property
+
+<Examples.WithDownload />
+
+### Custom format
+
+<Examples.WithCustomFormat />
+
+### Label
+
+<Examples.Label />
+
+### Label and value
+
+<Examples.LabelAndValue />
+
+### Inline
+
+<Examples.Inline />
+
+### List variants
+
+<Examples.ListVariants />
+
+### List types
+
+<Examples.ListTypes />
+
+### Field.Upload path
+
+<Examples.FieldUploadSelectionPath />
+
+### Using `onFileClick`
+
+<Examples.OnFileClick />
+
+### Display files as non-clickable
+
+When file size is 0 or not given (`new File([], name, { type })`), the file is displayed as a span instead of an anchor. However, when `onFileClick` is given, the file will be clickable as a button.
+
+<Examples.DisplayFileAsNonClickable />
+
+<VisibleWhenVisualTest>
+  <Examples.LabelAndValueOnFileClick />
+  <Examples.ListVariantsOnFileClick />
+</VisibleWhenVisualTest>

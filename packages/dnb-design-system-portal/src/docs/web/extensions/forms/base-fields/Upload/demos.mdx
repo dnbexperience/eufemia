@@ -1,0 +1,85 @@
+---
+showTabs: true
+redirect_from:
+  - /uilib/extensions/forms/base-fields/Upload/demos
+---
+
+import * as Examples from './Examples'
+
+## Demos
+
+Consider taking a look at the demos for the [Upload component](/web/components/upload/demos/) as well.
+
+### Basic usage
+
+<Examples.BasicUsage />
+
+### Variant `compact`
+
+<Examples.CompactVariant />
+
+### Required
+
+<Examples.Required />
+
+### Path usage
+
+<Examples.WithPath />
+
+### With help
+
+<Examples.WithHelp />
+
+### Customized
+
+<Examples.Customized />
+
+### Session storage support
+
+The `sessionStorageId` property can be used to store the files in the session storage so they persist between page reloads.
+
+<Examples.SessionStorage />
+
+### With asynchronous file handler
+
+The `fileHandler` property supports an asynchronous function, and can be used for handling/validating files asynchronously, like to upload files to a virus checker and display errors based on the outcome:
+
+<Examples.WithAsyncFileHandler />
+
+### With synchronous file handler
+
+The `fileHandler` property supports a synchronous function, and can be used for handling/validating files synchronously, like to check for file names that's too long:
+
+<Examples.WithSyncFileHandler />
+
+### With asynchronous `onFileDelete`
+
+<Examples.WithAsyncOnFileDelete />
+
+### With asynchronous `onFileClick`
+
+<Examples.WithAsyncOnFileClick />
+
+### With [FileItem](/web/components/upload/properties/#fileitem) options
+
+<Examples.WithFileItemOptions />
+
+### With file size validation
+
+<Examples.WithFileSizeValidation />
+
+### With validation error handler
+
+The `onValidationError` property can be used to handle files that fail built-in validation (file size or file type). This allows you to customize the appearance and behavior of invalid files, such as removing the download link or adding custom descriptions:
+
+<Examples.WithOnValidationError />
+
+### With Iterate.Array
+
+<Examples.WithIterateArray />
+
+<VisibleWhenVisualTest>
+  <Examples.Width />
+  <Examples.WithHelpWithoutLabelDescription />
+  <Examples.CompactVariantHelpButton />
+</VisibleWhenVisualTest>

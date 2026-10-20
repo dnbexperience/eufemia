@@ -1,0 +1,76 @@
+---
+draft: true
+title: Forms for applications
+hideInMenu: true
+redirect_from:
+  - /uilib/extensions/forms/about-forms
+navigation:
+  hidden: true
+---
+
+import QuickStart from './quick-start.mdx'
+
+## Table of Contents
+
+- [Philosophy](#philosophy)
+- [Features](#features)
+- [Quick start](#quick-start)
+- [Create your own component](#create-your-own-component)
+
+## Philosophy
+
+Eufemia Forms is:
+
+- A framework for building form features
+- Designed for flexibility
+- Data-driven API
+- Standardized data handling
+- Loosely coupled components and building blocks
+- Focused on superior user experience, accessibility, and usability
+
+Eufemia Forms provides building blocks for form functionality. Components are built on an API with standardized properties that make it easier to integrate with surrounding data flow and to create custom components that work seamlessly with ready-made Eufemia Forms components.
+
+An important aspect is that the components are data-driven. They're built on the premise of source data rather than being tightly coupled to HTML elements used in their internal implementation.
+
+> The primary objective of Eufemia Forms is to simplify the process of building forms by leveraging a declarative API. This approach not only saves time but also reduces code and complexity.
+
+## Features
+
+Eufemia Forms consists of reusable components for data input, data display, and surrounding layout, simplifying user interface creation in React. All components are built on base Eufemia components.
+
+Key features:
+
+- Ready-to-use, data-driven form components
+- Tree-shakeable structure — unused code will not be included in the production bundle
+- All functionality in components can be controlled and overridden via properties
+- Data management using the declarative [JSON Pointer](/web/extensions/forms/getting-started/#what-is-a-json-pointer) directive (e.g., `path="/firstName"`), optionally [type-checked](/web/extensions/forms/typed-paths/) with TypeScript
+- Path-scoped form updates help large forms stay responsive by reducing unnecessary updates when unrelated data paths change
+- State can be handled outside [Form.Handler](/web/extensions/forms/Form/Handler) (Provider Context) with the [useData](/web/extensions/forms/Form/useData) hook
+- Support for both Zod and Ajv JSON Schema
+- Async form [submission](/web/extensions/forms/getting-started/#async-form-behavior) and [validation](/web/extensions/forms/getting-started/#async-validation) support
+- Theming of field sizes with [Form.Appearance](/web/extensions/forms/Form/Appearance/)
+- Easy-to-integrate [browser location](/web/extensions/forms/Wizard/location-hooks/) support
+- Static [value components](/web/extensions/forms/Value/) for displaying data with proper formatting
+- Use [Form.Section](/web/extensions/forms/Form/Section/) to quickly create reusable and flexible sections and blocks
+- Parts of your form can be isolated using [Form.Isolation](/web/extensions/forms/Form/Isolation/)
+- Building blocks for [creating custom field components](/web/extensions/forms/create-component)
+
+<QuickStart />
+
+More details in the [getting started](/web/extensions/forms/getting-started/) section.
+
+### Best practices on forms (accessibility, usability, and performance)
+
+When building forms, there are some best practices to keep in mind to ensure that your forms are accessible, usable, and performant. Read more about these best practices in the dedicated documentation on
+
+- [Best practices on forms](/web/extensions/forms/best-practices-on-forms/).
+
+## Create your own component
+
+Eufemia Forms provides helper components and tools to declaratively create interactive form components that integrate seamlessly with existing data and custom form components. This ensures a consistent look and feel, even when combining ready-made components with custom local components.
+
+Read more about [creating your own component](/web/extensions/forms/create-component).
+
+## Requirements
+
+Some internal logic requires support for importing JSON files. Meta-frameworks often support this by default.

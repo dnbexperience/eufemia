@@ -1,0 +1,205 @@
+---
+showTabs: true
+redirect_from:
+  - /uilib/extensions/forms/Wizard/Container/info
+---
+
+## Import
+
+```tsx
+import { Wizard } from '@dnb/eufemia/extensions/forms'
+render(<Wizard.Container />)
+```
+
+## Description
+
+The `Wizard.Container` is a container component for multi-step forms, including a [StepIndicator](/web/components/step-indicator/).
+
+## Relevant links
+
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Wizard/Container)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/extensions/forms/Wizard/Container)
+
+Use the [Wizard.Step](/web/extensions/forms/Wizard/Step/) component to define the wizard steps.
+
+```tsx
+import { Form, Wizard } from '@dnb/eufemia/extensions/forms'
+
+const MyForm = () => {
+  return (
+    <Form.Handler>
+      <Wizard.Container>
+        <Wizard.Step title="Step 1">...</Wizard.Step>
+      </Wizard.Container>
+    </Form.Handler>
+  )
+}
+```
+
+You can also split or separate the `Wizard.Step` and its content:
+
+```tsx
+import { Form, Wizard } from '@dnb/eufemia/extensions/forms'
+
+// You can use the `Wizard.Step` in an external component like this:
+const Step1 = () => (
+  <Wizard.Step title="Step 1">
+    <Form.MainHeading>Heading</Form.MainHeading>
+    <Form.Card>
+      <P>Contents</P>
+    </Form.Card>
+    <Form.Card>
+      <P>Contents</P>
+    </Form.Card>
+
+    <Wizard.Buttons />
+  </Wizard.Step>
+)
+
+const MyForm = () => {
+  return (
+    <Form.Handler>
+      <Wizard.Container>
+        <Step1 />
+      </Wizard.Container>
+    </Form.Handler>
+  )
+}
+```
+
+You can mix and match the usage of `Wizard.Step` and `Flex.Stack` depending on your needs:
+
+```tsx
+import { Form, Wizard } from '@dnb/eufemia/extensions/forms'
+
+const Step2 = () => (
+  <Flex.Stack>
+    <Form.Card>
+      <P>Contents</P>
+    </Form.Card>
+    <Form.Card>
+      <P>Contents</P>
+    </Form.Card>
+
+    <Wizard.Buttons />
+  </Flex.Stack>
+)
+
+const MyForm = () => {
+  return (
+    <Form.Handler>
+      <Wizard.Container>
+        <Wizard.Step title="Step 2">
+          <Form.MainHeading>Heading</Form.MainHeading>
+          <Step2 />
+          <Wizard.Buttons />
+        </Wizard.Step>
+      </Wizard.Container>
+    </Form.Handler>
+  )
+}
+```
+
+## Controlling the wizard steps
+
+To define a different initial index (other than 0), you can use the `initialActiveIndex` property.
+
+**Note:** Steps that are not shown are removed from the DOM, unless they use `keepInDOM`. On submit, the Wizard still checks their fields for errors from built-in rules like `required`, `pattern` and schemas. Validators like `onChangeValidator` and `onBlurValidator` only run on submit for fields that are in the DOM. This matters when the user has not completed all previous steps with the Next button, for example when using `initialActiveIndex` or the `loose` mode. Use `keepInDOM` on those steps so all their validation runs on submit.
+
+For controlling the wizard steps interactively, you can use the [Wizard.useStep](/web/extensions/forms/Wizard/useStep/) hook:
+
+```tsx
+import { Form, Wizard } from '@dnb/eufemia/extensions/forms'
+
+const MyStep = () => {
+  const { setActiveIndex, activeIndex } = Wizard.useStep()
+  return (
+    <Form.Card>
+      <Button onClick={() => setActiveIndex(1)}>Go to step 2</Button>
+    </Form.Card>
+  )
+}
+
+const MyForm = () => {
+  return (
+    <Form.Handler>
+      <Wizard.Container initialActiveIndex={3}>
+        <Wizard.Step>
+          <MyStep />
+        </Wizard.Step>
+      </Wizard.Container>
+    </Form.Handler>
+  )
+}
+```
+
+When using the `useStep` hook outside of the `Wizard.Container` context, you need to provide a unique `id` (string, function, object or React Context as the reference):
+
+```tsx
+import { Form, Wizard } from '@dnb/eufemia/extensions/forms'
+
+const myContainerId = 'unique-id' // or a function, object or React Context reference
+
+const MyForm = () => {
+  const { setActiveIndex, activeIndex } = Wizard.useStep(myContainerId)
+
+  return (
+    <Form.Handler>
+      <Wizard.Container id={myContainerId}>
+        <Wizard.Step>
+          <Button onClick={() => setActiveIndex(0)}>Step 1</Button>
+        </Wizard.Step>
+        <Wizard.Step>
+          <Button onClick={() => setActiveIndex(1)}>Step 2</Button>
+        </Wizard.Step>
+      </Wizard.Container>
+    </Form.Handler>
+  )
+}
+```
+
+You can also prevent the user from navigating to the next or previous step, by using the `preventNavigation` callback function found as the third parameter, in the `onStepChange` event.
+
+```tsx
+import { Form, Wizard } from '@dnb/eufemia/extensions/forms'
+
+const MyForm = () => {
+  return (
+    <Form.Handler>
+      <Wizard.Container
+        onStepChange={(step, type, { preventNavigation }) => {
+          if (step === 2 && type === 'next') {
+            preventNavigation()
+          }
+        }}
+      >
+        <Wizard.Step title="Step 1">
+          <P>Step 1</P>
+          <Wizard.Buttons />
+        </Wizard.Step>
+        <Wizard.Step title="Step 2">
+          <P>Step 2</P>
+          <Wizard.Buttons />
+        </Wizard.Step>
+        <Wizard.Step title="Step 3">
+          <P>Step 3</P>
+          <Wizard.Buttons />
+        </Wizard.Step>
+      </Wizard.Container>
+    </Form.Handler>
+  )
+}
+```
+
+## Modes
+
+- The `strict` mode is the default. The user can only navigate forward using the [Wizard.NextButton](/web/extensions/forms/Wizard/NextButton/), not via the menu. However, the previous step remains active, allowing the user to go back at any time—even if there are errors in the current step.
+- Use `loose` mode if the user should be able to navigate freely between all steps, including those that have not been visited before. When there is an error in the current step, the user can navigate to other steps via the menu but not via the [Wizard.NextButton](/web/extensions/forms/Wizard/NextButton/).
+
+## Accessibility
+
+The `Wizard.Step` component uses an `aria-label` attribute that matches the title property value. The step content is enclosed within a section element, which further enhances accessibility.
+
+Whenever a new step becomes active, it automatically receives focus, ensuring that screen readers convey the relevant information to users.
+
+Additionally, during a step change, the Wizard will scroll to the top of the form to ensure the user is aware of the new content.

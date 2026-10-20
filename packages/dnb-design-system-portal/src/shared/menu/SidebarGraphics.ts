@@ -33,11 +33,25 @@ import OverviewIcon from './graphics/OverviewIcon'
 import AnimationPrinciplesIcon from './graphics/AnimationPrinciplesIcon'
 import MotionIcon from './graphics/MotionIcon'
 import {
+  ai,
+  browser,
   brush,
+  cog,
+  download,
   edit,
+  history,
   home,
+  information_bubble,
+  layout_grid,
   lightbulb,
+  log_in,
+  mobile,
   newspaper,
+  people_2,
+  play,
+  table,
+  web,
+  widget_android,
 } from '@dnb/eufemia/src/icons'
 
 const SidebarGraphics = {
@@ -75,6 +89,20 @@ const SidebarGraphics = {
   home,
   lightbulb,
   newspaper,
+  ai,
+  browser,
+  cog,
+  download,
+  history,
+  information_bubble,
+  layout_grid,
+  log_in,
+  mobile,
+  people_2,
+  play,
+  table,
+  web,
+  widget_android,
 }
 
 export default SidebarGraphics

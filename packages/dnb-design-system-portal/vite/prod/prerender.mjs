@@ -170,9 +170,27 @@ async function prerender() {
     }
 
     if (result.redirect) {
-      writeHtml(url, buildRedirectHtml(result.redirect))
+      const target = allMdxNodes.find(
+        ({ fields }) =>
+          fields.slug === result.redirect.replace(/^\/+|\/+$/g, '')
+      )
+      writeHtml(
+        url,
+        buildRedirectHtml(
+          result.redirect,
+          target?.frontmatter?.legacyFragments
+        )
+      )
     } else {
-      const preloads = getRoutePreloads(url, ssrManifest, clientManifest)
+      const page = allMdxNodes.find(
+        ({ fields }) => fields.slug === url.replace(/^\/+|\/+$/g, '')
+      )
+      const preloads = getRoutePreloads(
+        url,
+        ssrManifest,
+        clientManifest,
+        page?.fields.sourcePath
+      )
       const meta = getPageMeta(url, allMdxNodes)
       const mdPath = getMdPath(url, mdPaths)
       const html = injectHtml(
@@ -356,10 +374,18 @@ function getPageMeta(url, allMdxNodes) {
   return { title, description }
 }
 
-function getRoutePreloads(url, ssrManifest, clientManifest) {
+function getRoutePreloads(url, ssrManifest, clientManifest, sourcePath) {
   const routePath = url.replace(/^\/|\/$/g, '') || 'index'
 
   const candidates = [
+    ...(sourcePath
+      ? [
+          sourcePath.replace(
+            'packages/dnb-design-system-portal/',
+            '../../'
+          ),
+        ]
+      : []),
     `../../src/docs/${routePath}.mdx`,
     `../../src/docs/${routePath}.tsx`,
     `../../src/docs/${routePath}/index.mdx`,
@@ -608,12 +634,16 @@ function injectHtml(
   return html
 }
 
-function buildRedirectHtml(redirectUrl) {
+function buildRedirectHtml(redirectUrl, fragments = {}) {
   const url = escapeHtml(redirectUrl)
+  const target = JSON.stringify(redirectUrl).replaceAll('<', '\\u003c')
+  const fragmentMap = JSON.stringify(fragments).replaceAll('<', '\\u003c')
+  const script = `<script>var target = new URL((${fragmentMap})[location.hash.slice(1)] || ${target}, location.href); target.search = target.search || location.search; target.hash = target.hash || location.hash; location.replace(target.href);</script>`
 
   return [
     '<!DOCTYPE html>',
     '<html><head>',
+    script,
     `<meta http-equiv="refresh" content="0;url=${url}">`,
     `<link rel="canonical" href="${url}">`,
     '</head><body></body></html>',

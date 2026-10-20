@@ -1,68 +1,50 @@
 ---
-title: 'Documentation'
+title: Documentation
 order: 3
+navigation:
+  parent: contribute/style-guides
+  title: Documentation
+  order: 3
 ---
 
 The documentation is written in enhanced Markdown, called MDX. It allows us to import other Markdown files along with React components and JavaScript logic.
 
-## Sidebar menu placement
+## Sidebar navigation
 
-Pages follow their URL hierarchy in the sidebar by default. To display a page immediately before another menu item while keeping its URL unchanged, provide the target item's absolute slug:
-
-```yaml
-sidebarMenuPlacement: '/uilib/components'
-```
-
-The page is removed from its URL-derived location and inserted immediately before the target. Use this for overview pages that should be siblings of the section they describe.
-
-To render a horizontal separator immediately before the page, add:
+Navigation is defined in each MDX document, independently of its URL. There is no separate menu configuration file. Use the parent document's slug to place a page:
 
 ```yaml
-sidebarMenuDividerBefore: true
+title: Installation
+navigation:
+  parent: web/get-started
+  order: 1
 ```
 
-This can be used independently or together with `sidebarMenuPlacement`.
-
-Use `sidebarMenu` to move a page into the Portal's curated navigation:
+A menu-only accordion has no content or route:
 
 ```yaml
-sidebarMenu:
-  parent: uilib/foundations-menu
-  title: Layout & spacing
-  order: 6
-  static: false
+title: Get started
+route: false
+navigation:
+  parent: web
+  kind: group
+  order: 1
 ```
 
-- `parent` identifies the configured root that owns the page.
-- `title` overrides the page title in the menu.
-- `icon` selects a registered sidebar graphic when the item needs one.
-- `order` controls the item's position within its parent.
-- `static: true` renders a non-collapsible group. Use `false` for a page that also owns child pages.
-- `hideStatus` hides the page's status badge in the sidebar.
+Use `kind: category` for a static category heading and `kind: placeholder` for disabled “To do” entries. A platform definition uses `kind: platform` and `platform: web`, `ios`, or `android`. Shared definitions have no platform parent and appear above the platform dropdown.
 
-A page can define a top-level menu with `root: true`. `id` and `path` can give a synthetic root its own identity, while `includePageAs`, `pageIcon`, and `pageOrder` add the source page itself as a child link:
+When an existing content page also has children, the accordion opens without navigating. Its content remains available as the first child. Give that child a clear name with `navigation.pageTitle`, such as “Typography overview”. `navigation.title` can shorten the menu label without changing the page heading. Use `navigation.hidden: true` to keep a page out of the sidebar.
+
+## Moving pages
+
+Use meaningful MDX filenames, not `index.mdx`. The home document is `home.mdx` with `slug: /`. When moving a page, retain its old URL in `redirect_from`:
 
 ```yaml
-sidebarMenu:
-  id: uilib-guides-menu
-  path: uilib/guides-menu
-  title: Guides
-  icon: lightbulb
-  order: 7
-  root: true
-  includePageAs: Platform comparison
-  pageOrder: 7
+redirect_from:
+  - /uilib/getting-started
 ```
 
-For a page that defines a synthetic root menu, `pageParent` places only the page link under another menu item while leaving the synthetic tree in place:
-
-```yaml
-sidebarMenu:
-  root: true
-  includePageAs: UI library
-  pageParent: uilib/about-the-lib
-  pageOrder: 2
-```
+Aliases preserve query strings and fragments. A section definition can declare `legacyPrefixes` for all descendant routes, including TSX demonstration pages. `legacyFragments` maps old section anchors to a new page when content is split.
 
 ## Handling themes
 
@@ -85,8 +67,8 @@ Text
 You can add a parameter called `eufemia-theme` to a url:
 
 ```md
-[Relative](/uilib/components/badge/demos/?eufemia-theme=sbanken)
-Absolute: https://eufemia.dnb.no/uilib/components/badge/demos/?eufemia-theme=sbanken
+[Relative](/web/components/badge/demos/?eufemia-theme=sbanken)
+Absolute: https://eufemia.dnb.no/web/components/badge/demos/?eufemia-theme=sbanken
 ```
 
 It will change and set the currently used theme once the user visits the related page.
@@ -98,7 +80,7 @@ Write the documentation in American English, such as _color_, _behavior_, _cance
 Keep the original spelling in:
 
 - Release notes and the changelog.
-- URLs, file paths, and public names, such as `/uilib/usage/customisation/`.
+- URLs, file paths, and public names, such as `/web/usage/customisation/`.
 - Names and titles of external sources.
 
 Translations follow their locale. See [Locale support](/contribute/getting-started/making-changes#locale-support).

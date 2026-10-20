@@ -1,0 +1,121 @@
+---
+showTabs: true
+redirect_from:
+  - /uilib/components/dropdown/demos
+---
+
+import {
+  DropdownFind,
+  DropdownNoValue,
+  DropdownDirections,
+  DropdownIconLeft,
+  DropdownTertiary,
+  DropdownTertiaryRight,
+  DropdownIndependentWidthLeft,
+  DropdownIndependentWidthRight,
+  DropdownDisabled,
+  DropdownDisabledOptions,
+  DropdownSizes,
+  DropdownCustomWidth,
+  DropdownStatusVertical,
+  DropdownListOpened,
+  DropdownDisabledTertiary,
+  DropdownEllipsisOverflow,
+  DropdownCustomizedLook,
+  DropdownWithListItemContent,
+  DropdownGroups,
+  DropdownNoDivider,
+} from 'Docs/web/components/dropdown/Examples'
+
+## Demos
+
+### Default dropdown
+
+No `value` is defined, but a `title` is given.
+
+<DropdownNoValue />
+
+### Dropdown with different item content directions
+
+<DropdownDirections />
+
+### Icon on left side
+
+<DropdownIconLeft />
+
+### Dropdown as tertiary variant
+
+<DropdownTertiary />
+<VisibleWhenVisualTest>
+  <DropdownTertiaryRight />
+</VisibleWhenVisualTest>
+
+### Dropdown in different sizes
+
+Four sizes are available: `small`, `default`, `medium` and `large`
+
+<DropdownSizes />
+
+### Custom width
+
+<DropdownCustomWidth />
+
+### Dropdown with status
+
+And vertical label layout.
+
+<DropdownStatusVertical />
+
+### Findable list
+
+With long list to make it scrollable and searchable
+
+<DropdownFind />
+
+### Disabled dropdown
+
+<DropdownDisabled />
+
+Individual options can also be disabled.
+
+<DropdownDisabledOptions />
+
+### Disabled tertiary dropdown
+
+<DropdownDisabledTertiary />
+
+### Customized Dropdown
+
+An example of how you can customize the look of your `Dropdown`
+
+<DropdownCustomizedLook />
+
+### Dropdown with List item content
+
+Reuse the [List](/web/components/list) row layout for rich option content. The option is already an `<li>` and wraps its content in `<span>` elements, so use `element="span"` on `List.Item.Basic` and its cells to keep the markup valid. Give the `Dropdown` a width that fits both the title and the end value, and provide `selectedValue` with the plain text to show once an option is selected. See [rendering a row outside a `List.Container`](/web/components/list/#rendering-a-row-outside-a-listcontainer) for the details.
+
+<DropdownWithListItemContent />
+
+### DrawerList opened
+
+Only to visualize and used for visual testing
+
+<DropdownListOpened />
+
+<VisibleWhenVisualTest>
+  <DropdownEllipsisOverflow />
+  <DropdownIndependentWidthLeft />
+  <DropdownIndependentWidthRight />
+</VisibleWhenVisualTest>
+
+### Groups
+
+If an item has a `groupIndex` property, it will use the groups in the `groups` property. Only the first group can be without title, all other groups must have a title.
+
+<DropdownGroups />
+
+## No divider
+
+We can remove the divider between items with the `noDivider` prop. Beware that this can make information dense lists difficult to parse.
+
+<DropdownNoDivider />

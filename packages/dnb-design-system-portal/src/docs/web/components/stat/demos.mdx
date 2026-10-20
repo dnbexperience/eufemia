@@ -1,0 +1,73 @@
+---
+showTabs: true
+redirect_from:
+  - /uilib/components/stat/demos
+---
+
+import * as Examples from './Examples'
+
+## Demos
+
+### Basic usage
+
+<Examples.BasicUsage />
+
+### Root and Label
+
+If the label acts as a section heading, place a heading element inside `Stat.Label` (for example `H3`).
+
+<Examples.RootAndLabel />
+
+#### Hidden Label
+
+Use a visually hidden label (`srOnly`) when the visible UI context already describes the statistic.
+
+<Examples.HiddenLabel />
+
+### Currency
+
+You can use `mainSize` and `auxiliarySize` to adjust the relative size of the currency symbol and the amount.
+
+<Examples.CurrencyDefault />
+
+### Currency within a Trend
+
+<Examples.CurrencyWithinTrend />
+
+### Percent within a Trend
+
+Compose a percentage formatter inside `Stat.Trend` to keep the displayed and accessible values aligned. Set `decimals` to the precision you need and `signDisplay="always"` on the child formatter to show the direction with a sign as well as color.
+
+<Examples.PercentWithinTrend />
+
+### Number
+
+<Examples.NumberDefault />
+
+### Percent
+
+<Examples.PercentDefault />
+
+### Percent colorized by sign
+
+<Examples.PercentColorizeBySign />
+
+### Rating
+
+<Examples.RatingDefault />
+
+### Text
+
+<Examples.TextDefault />
+
+### With Subtle Label
+
+Also, the order of the content and label can be switched for visual users (not screen readers), and the label is styled with the `subtle` variant to further de-emphasize it.
+
+<Examples.WithSubtleLabel />
+
+### With AriaLive
+
+Use the [AriaLive](/web/components/aria-live/) component to announce dynamic value updates to screen readers. Wrap `Stat.Root` with `AriaLive` so that changes are announced when the content updates.
+
+<Examples.WithAriaLive />

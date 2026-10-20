@@ -1,0 +1,137 @@
+---
+showTabs: true
+redirect_from:
+  - /uilib/components/autocomplete/info
+---
+
+import AutocompleteMethods from 'Docs/web/components/autocomplete/methods'
+import {
+  AutocompleteContentAsArrayExample,
+  AutocompleteContentAsFragmentExample,
+  AutocompleteContentDecoupledExample,
+} from 'Docs/web/components/autocomplete/Examples'
+import WhenToUseForms from 'Docs/web/extensions/forms/when-to-use-forms.mdx'
+
+## Import
+
+```tsx
+import { Autocomplete } from '@dnb/eufemia'
+```
+
+## Description
+
+The Autocomplete component is a combination of an [Input](/web/components/input) and a [Dropdown](/web/components/dropdown), also called **ComboBox**. During typing, matching data items get suggested in an option menu (listbox).
+
+## When to use Autocomplete vs Eufemia Forms
+
+<WhenToUseForms />
+
+The Eufemia Forms equivalent of `Autocomplete` is [Field.Selection](/web/extensions/forms/base-fields/Selection/) with the autocomplete variant (`variant="autocomplete"`), or [Field.ArraySelection](/web/extensions/forms/base-fields/ArraySelection/) for selecting multiple values.
+
+## Relevant links
+
+- [Figma](https://www.figma.com/design/cdtwQD8IJ7pTeE45U148r1/%F0%9F%92%BB-Eufemia---Web?node-id=48469-4820)
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/autocomplete)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/components/autocomplete)
+
+## Typeahead and ComboBox
+
+The Autocomplete component may also be known as _Typeahead_ or _ComboBox_. But autocomplete describes the purpose more precisely and descriptively, therefore Eufemia uses this term.
+
+### When to use it
+
+Use it for both small autocomplete purposes and large (async) data set searches. The component supports two ways of showing [ProgressIndicator](/web/components/progress-indicator).
+
+You may check out the [Dropdown](/web/components/dropdown) component for more details on how to use it. They both share the same [DrawerList](/web/components/fragments/drawer-list).
+
+### Highlighting
+
+Words found during typing are highlighted. The rules are:
+
+1. The first two words will match the beginning of a word
+1. The third word will match inside a word (can be changed with `search={{ matchInsideWordsFrom: number }}`)
+1. Case-insensitive
+
+To only match items that begin with the first typed word, set `search={{ match: "starts-with" }}`.
+
+#### Using Components inside content
+
+It is **not** possible to wrap them inside React Components. The reason is that the Autocomplete component needs to know what data it wants to search for before your React Component has rendered. Additionally, the component cannot update the HTML to make the bold highlighting after your component has rendered.
+
+That means you cannot run a component that will render as soon as it is displayed.
+
+If you need to format numbers, then do it before you send in the data content.
+
+It is possible to wrap your content inside one HTML Element. Nested elements are **not** supported.
+
+To wrap your content only visually, you can provide your wrappers inside an array:
+
+<AutocompleteContentAsArrayExample />
+
+or you can provide it inside a fragment:
+
+<AutocompleteContentAsFragmentExample />
+
+and if you need to decouple the searchable content from what's displayed, then you can put your searchable content inside `searchContent`:
+
+<AutocompleteContentDecoupledExample />
+
+## Re-render data
+
+For performance optimization, you should ensure the `data` array/object is memoized (with `useMemo`, `useState`, or `useRef`), so when the Autocomplete re-renders, it does not have to process the internal data unnecessarily.
+
+```tsx
+const MyComponent = () => {
+  const data = React.useMemo(() => ['Item 1', 'Item 2'], [])
+  return <Autocomplete data={data} />
+}
+```
+
+Or keep it outside the component:
+
+```tsx
+const data = ['Item 1', 'Item 2']
+const MyComponent = () => {
+  return <Autocomplete data={data} />
+}
+```
+
+### Numbers
+
+Numbers are often different from a word filter. You can use `search={{ numbers: true }}` to enable number-specialized filtering. See examples in the demos.
+
+Now the user could search for e.g. bank account numbers by just entering `201`, even if you format it like `2000 12 34567` (e.g. use `format(20001234567, { ban: true })` from `@dnb/eufemia/components/number-format/NumberUtils`).
+
+### Screen reader support
+
+To enhance screen reader usage, this component uses `aria-live` to announce the number of options found (`ariaLiveOptions`).
+
+## Custom size
+
+```css
+.dnb-autocomplete {
+  --autocomplete-width: 20rem; /* custom width */
+}
+```
+
+You can also set the width directly, but then it has to be defined like so (including `min-width`):
+
+```css
+/** Because of the included label/status etc. we target the "__shell" */
+.dnb-autocomplete__shell {
+  width: 10rem;
+}
+
+/** In order to change only the drawer-list width */
+.dnb-autocomplete .dnb-drawer-list__root {
+  width: 10rem;
+}
+```
+
+<AutocompleteMethods />
+
+## Root Element (React Portal)
+
+The Autocomplete component uses [PortalRoot](/web/components/portal-root) internally to render its option list. See the [PortalRoot documentation](/web/components/portal-root) for information on how to control where the portal content appears in the DOM, and for the [BrowserTranslate helper](/web/components/portal-root/#browsertranslate-helper-google-translate) when browser translation tools such as Google Translate should not modify content rendered through PortalRoot.
+
+<RelatedComponents />

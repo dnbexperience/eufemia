@@ -88,7 +88,7 @@ test.describe('Page Navigation', () => {
         return // stop here
       }
 
-      await page.goto('/uilib/components/')
+      await page.goto('/web/components/')
       await page.click('#portal-tools', { force: true })
       expect(await page.locator('#switch-grid').count()).toBe(0)
     })
@@ -98,7 +98,7 @@ test.describe('Page Navigation', () => {
         return // stop here
       }
 
-      await page.goto('/uilib/components/button/')
+      await page.goto('/web/components/button/')
 
       const title = await page.title()
       expect(title).toContain('Button | Eufemia')
@@ -114,7 +114,7 @@ test.describe('Page Navigation', () => {
         return // stop here
       }
 
-      await page.goto('/uilib/components/button/demos/')
+      await page.goto('/web/components/button/demos/')
 
       const title = await page.title()
       expect(title).toContain('Button → Demos | Eufemia')
@@ -130,13 +130,13 @@ test.describe('Page Navigation', () => {
         return // stop here
       }
 
-      await page.goto('/uilib/components/')
+      await page.goto('/web/components/')
 
       const heading = await page.textContent('h1')
       expect(heading).toContain('Components')
 
       const accordionLinkText = await page.textContent(
-        'a[href="/uilib/components/accordion/"]'
+        'a[href="/web/components/accordion/"]'
       )
       expect(accordionLinkText).toContain('Accordion')
     })
@@ -148,13 +148,13 @@ test.describe('Page Navigation', () => {
         return // stop here
       }
 
-      await page.goto('/uilib/components/')
+      await page.goto('/web/components/')
 
-      const href = '/uilib/components/button'
+      const href = '/web/components/button'
       const link = page.locator(`a[href="${href}"]`).first()
       await link.click()
 
-      await page.waitForURL('**/uilib/components/button/')
+      await page.waitForURL('**/web/components/button/')
 
       const title = await page.title()
       expect(title).toContain('Button | Eufemia')
@@ -177,7 +177,10 @@ test.describe('Page Navigation', () => {
       page,
     }) => {
       await markCurrentDocument(page)
-      await page.getByRole('link', { name: /^Design/ }).click()
+      await page
+        .getByRole('navigation', { name: 'Get started', exact: true })
+        .getByRole('link', { name: /^Design/ })
+        .click()
       await expect(page).toHaveURL('/quickguide-designer')
       await expectCurrentDocument(page)
     })
@@ -187,7 +190,7 @@ test.describe('Page Navigation', () => {
     }) => {
       await markCurrentDocument(page)
       await page.getByRole('link', { name: /Develop/ }).click()
-      await expect(page).toHaveURL('/uilib/getting-started/')
+      await expect(page).toHaveURL('/web/getting-started/')
       await expect(
         page.getByRole('heading', { name: 'Getting Started' })
       ).toBeVisible()
@@ -202,7 +205,7 @@ test.describe('Page Navigation', () => {
       }
 
       // Go directly to a sub-page (full page load, not SPA navigation)
-      await page.goto('/uilib/components/button/', {
+      await page.goto('/web/components/button/', {
         waitUntil: 'domcontentloaded',
       })
 
@@ -220,7 +223,7 @@ test.describe('Page Navigation', () => {
     }) => {
       const getConsoleErrors = captureConsoleErrors(page)
 
-      await page.goto('/uilib/components/button/')
+      await page.goto('/web/components/button/')
       await waitForApp(page)
 
       expect((await getConsoleErrors()).filter(isHydrationError)).toEqual(
@@ -234,10 +237,13 @@ test.describe('Page Navigation', () => {
       })
 
       await expect(
-        sidebar.getByRole('link', { name: 'Home' })
+        sidebar.getByRole('button', { name: 'About', exact: true })
       ).toBeVisible()
       await expect(
-        sidebar.getByRole('button', { name: 'Foundations' })
+        sidebar.getByRole('button', {
+          name: 'Design language',
+          exact: true,
+        })
       ).toBeVisible()
       await expect(
         page.getByRole('link', { name: 'Suggest an edit' })
@@ -245,14 +251,14 @@ test.describe('Page Navigation', () => {
     })
 
     test('should contain a Suggest an edit link', async ({ page }) => {
-      await page.goto('/uilib/components/button/')
+      await page.goto('/web/components/button/')
       await waitForApp(page)
 
       const editLink = page.getByRole('link', { name: 'Suggest an edit' })
 
       await expect(editLink).toHaveAttribute(
         'href',
-        '/contribute/suggest-edit/?page=%2Fuilib%2Fcomponents%2Fbutton%2F&source=packages%2Fdnb-design-system-portal%2Fsrc%2Fdocs%2Fuilib%2Fcomponents%2Fbutton%2Finfo.mdx'
+        '/contribute/suggest-edit/?page=%2Fweb%2Fcomponents%2Fbutton%2F&source=packages%2Fdnb-design-system-portal%2Fsrc%2Fdocs%2Fweb%2Fcomponents%2Fbutton%2Finfo.mdx'
       )
     })
 
@@ -262,7 +268,10 @@ test.describe('Page Navigation', () => {
       const titleBeforeClick = await page.title()
       expect(titleBeforeClick).toContain('DNB Design System | Eufemia')
 
-      await page.getByRole('link', { name: /^Design/ }).click()
+      await page
+        .getByRole('navigation', { name: 'Get started', exact: true })
+        .getByRole('link', { name: /^Design/ })
+        .click()
       await expect(page).toHaveURL('/quickguide-designer')
       await waitForApp(page)
       await expect(
@@ -270,11 +279,11 @@ test.describe('Page Navigation', () => {
       ).toBeVisible()
     })
 
-    test('click on button page should open /uilib/components/button', async ({
+    test('click on button page should open /web/components/button', async ({
       page,
     }) => {
       await page.setViewportSize({ width: 1440, height: 900 })
-      await page.goto('/uilib/components/')
+      await page.goto('/web/components/')
       await waitForApp(page)
 
       await page
@@ -285,13 +294,13 @@ test.describe('Page Navigation', () => {
           buttons.forEach((button) => button.click())
         })
 
-      const href = '/uilib/components/button'
+      const href = '/web/components/button'
       const buttonLink = page.locator(
         `#portal-sidebar-menu a[href="${href}"]`
       )
       await buttonLink.first().waitFor({ state: 'visible' })
       await buttonLink.first().click()
-      await page.waitForURL('**/uilib/components/button**')
+      await page.waitForURL('**/web/components/button**')
       await waitForApp(page)
 
       await page.waitForFunction(() => document.title.includes('Button'))
@@ -303,22 +312,22 @@ test.describe('Page Navigation', () => {
       expect(heading).toContain('Button')
     })
 
-    test.skip('click on demos tab should open /uilib/components/button/demos and include tab name in title', async ({
+    test.skip('click on demos tab should open /web/components/button/demos and include tab name in title', async ({
       page,
     }) => {
       // Vite renders all component content on a single page without tabs.
 
-      await page.goto('/uilib/components/button/')
+      await page.goto('/web/components/button/')
       await waitForApp(page)
       const demosLink = page.locator(
-        'a[href="/uilib/components/button/demos/"]'
+        'a[href="/web/components/button/demos/"]'
       )
       await demosLink.first().waitFor({
         state: 'visible',
         timeout: 10000,
       })
       await demosLink.first().click()
-      await page.waitForURL('**/uilib/components/button/demos/')
+      await page.waitForURL('**/web/components/button/demos/')
       await waitForApp(page)
 
       const title = await page.title()
@@ -333,14 +342,14 @@ test.describe('Page Navigation', () => {
     }) => {
       // Vite does not render component summary links on the listing page.
 
-      await page.goto('/uilib/components/')
+      await page.goto('/web/components/')
       await waitForApp(page)
 
       const heading = await page.textContent('h1')
       expect(heading).toContain('Components')
 
       const accordionLinkText = await page.textContent(
-        'a[href="/uilib/components/accordion/"]'
+        'a[href="/web/components/accordion/"]'
       )
       expect(accordionLinkText).toContain('Accordion')
     })

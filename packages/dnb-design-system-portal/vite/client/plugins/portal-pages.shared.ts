@@ -25,9 +25,26 @@ export type TableOfContentsItem = {
  * index signature that would turn picked fields into required ones.
  */
 export type KnownFrontmatter = {
+  /** Explicit canonical URL. Allows a named home.mdx instead of index.mdx. */
+  slug?: string
+  /** False for contentless navigation definitions that do not have a page. */
+  route?: boolean
+  navigation?: {
+    parent?: string
+    title?: string
+    pageTitle?: string
+    order?: number
+    kind?: 'group' | 'category' | 'platform' | 'placeholder'
+    platform?: 'web' | 'ios' | 'android'
+    hidden?: boolean
+  }
+  /** Old URL fragments that now belong to other pages. */
+  legacyFragments?: Record<string, string>
+  /** Former URL prefixes for all descendant pages, including TSX routes. */
+  legacyPrefixes?: string[]
   /**
    * If set:
-   * - adds page to the side menu (unless `hideInMenu` or `draft` is set)
+   * - labels the side menu entry when `navigation` is defined
    * - adds page to generated lists (unless `draft` is set)
    * - sets page's H1 text (unless `contentTitle` is set)
    * - sets browser tab title
@@ -40,8 +57,8 @@ export type KnownFrontmatter = {
    * - is not shown in side menu or generated lists
    * - If `showTabs` is `true`, the page inherits the H1 heading of its parent.
    *
-   * Side note: The side menu is ordered by the file path, which usually
-   * matches the title, but not always.
+   * The side menu uses `navigation.parent` and `navigation.order`,
+   * independently of the file path.
    */
   title?: string
 
@@ -163,6 +180,63 @@ export function isFirstTabPage(file: PageFileInfo): boolean {
 
 const orderGroup = (order?: number) => (!order ? 2 : order > 0 ? 1 : 3)
 
+export function resolvePageRedirect(target: string, source: string) {
+  const previous = new URL(source, 'https://eufemia.dnb.no')
+  const next = new URL(target, previous)
+  return (
+    next.pathname +
+    (next.search || previous.search) +
+    (next.hash || previous.hash)
+  )
+}
+
+export function getPageRedirects(files: PageFileInfo[]) {
+  const prefixes = files.flatMap(({ slug, frontmatter }) =>
+    (frontmatter.legacyPrefixes ?? []).map((prefix) => ({
+      from: prefix.replace(/^\/+|\/+$/g, ''),
+      to: slug,
+    }))
+  )
+  const redirects = new Map<
+    string,
+    { from: string; to: string; fragments: Record<string, string> }
+  >()
+  for (const file of files) {
+    if (file.frontmatter.route === false) {
+      continue
+    }
+    const aliases = [...(file.frontmatter.redirect_from ?? [])]
+    for (const prefix of prefixes) {
+      if (file.slug.startsWith(prefix.to + '/')) {
+        aliases.push('/' + prefix.from + file.slug.slice(prefix.to.length))
+      }
+    }
+    const targetSlug = isFirstTabPage(file)
+      ? file.slug.replace(/\/info$/, '')
+      : file.slug
+    if (isFirstTabPage(file)) {
+      aliases.push('/' + file.slug)
+    }
+    for (const alias of aliases) {
+      const from = '/' + alias.replace(/^\/+|\/+$/g, '')
+      const to = targetSlug ? '/' + targetSlug + '/' : '/'
+      if (from === to.replace(/\/$/, '')) {
+        continue
+      }
+      const previous = redirects.get(from)
+      if (previous && previous.to !== to) {
+        throw new Error('Conflicting MDX redirect: ' + from)
+      }
+      redirects.set(from, {
+        from,
+        to,
+        fragments: file.frontmatter.legacyFragments ?? {},
+      })
+    }
+  }
+  return Array.from(redirects.values())
+}
+
 /**
  * Orders pages by their frontmatter `order`, the same way the sidebar menu
  * does: a positive order first, unordered pages and 0 in the middle, and a
@@ -185,7 +259,7 @@ const matchers = new Map<string, (slug: string) => boolean>()
  * Does a page's slug match the glob pattern?
  *
  * `*` stays within one path segment and `**` spans any number of them, so
- * `uilib/elements/*` selects direct children while `uilib/elements/**\/*`
+ * `web/elements/*` selects direct children while `web/elements/**\/*`
  * selects pages at any depth below.
  */
 export function globPath(node: MdxNode, pattern: string) {

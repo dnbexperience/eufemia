@@ -1,6 +1,10 @@
 ---
-title: 'Make and run tests'
+title: Make and run tests
 order: 4
+navigation:
+  parent: contribute/getting-started
+  title: Make and run tests
+  order: 4
 ---
 
 Make tests for the new component (or for your current issue) and set up screenshot tests from the Eufemia portal. The tests should be located under `__tests__` in the component folder.
@@ -8,7 +12,7 @@ Make tests for the new component (or for your current issue) and set up screensh
 - Tip 1: Create tests for each _prop_ that change your component.
 - Tip 2: Always check and make the tests fail when you are writing tests.
 
-More on testing in the [UI Library](/uilib/usage/best-practices/for-testing#testing-frontend-code).
+More on testing in the [UI Library](/web/usage/best-practices/for-testing#testing-frontend-code).
 
 ## Running tests locally
 
@@ -90,7 +94,7 @@ describe.each(
 )('Button for %s', (themeName) => {
   setupPageScreenshot({
     themeName,
-    url: '/uilib/components/button/demos/',
+    url: '/web/components/button/demos/',
   })
 
   it('matches default state', async () => {

@@ -1,0 +1,189 @@
+---
+title: Typography
+description: DNB Headings and paragraphs, their properties and styling.
+icon: typography
+order: 5
+redirect_from:
+  - /uilib/typography
+navigation:
+  parent: design-language
+  title: Typography
+  order: 5
+  kind: group
+  pageTitle: Typography overview
+---
+
+import {
+  TypographyVariants,
+  ResponsiveTypographyExample,
+  ResponsiveTypographyFullExample,
+} from 'Docs/web/typography/Examples'
+
+## Relevant links
+
+- [Figma](https://www.figma.com/design/cdtwQD8IJ7pTeE45U148r1/%F0%9F%92%BB-Eufemia---Web?node-id=530-49)
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/style)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/typography)
+
+## Typography components
+
+The two main components used to set typography are:
+
+- [Span](/web/elements/span)
+- [P](/web/elements/paragraph)
+
+([Lead](/web/elements/lead) and [Ingress](uilib/elements/ingress) also work in the same way)
+
+## Typography in general
+
+Fonts are handled automatically once the CSS packages **dnb-ui-core** or **dnb-ui-basis** are loaded.
+
+Every typography HTML element, like headings and paragraphs, has a defined `height` and `line-height` so everything falls exactly into the **8-pixel grid**.
+
+You don't need to define the `font-family`, but rather use CSS Custom Properties for `font-weight`, `font-size`, and `line-height`.
+
+### Typography property tables
+
+- [font-weight](/web/typography/font-weight)
+- [font-size](/web/typography/font-size)
+- [line-height](/web/typography/line-height)
+
+For embedded app pages, use `<Theme typography="native">` to select the brand's native basis font size. See [native typography](/web/typography/font-size#typography-for-native-app-pages).
+
+### Typography Examples
+
+<TypographyVariants />
+
+## Line length
+
+For readable paragraphs and inline help text, keep line length constrained to a comfortable character count.
+
+- Use `var(--prose-max-width)` as the canonical token for maximum text width. Default is `60ch`.
+- Base styles and some components expose `var(--prose-max-width)`, which maps to `var(--prose-max-width)`.
+
+### Using the `proseMaxWidth` property (max width in characters)
+
+Prose refers to written text in its natural form, particularly paragraphs and other continuous writing. Typography components like `H2`, `H3`, and `P` support the `proseMaxWidth` property to limit text width based on character count:
+
+```tsx
+<H2 proseMaxWidth={80}>
+  This heading will be limited to approximately 80 characters wide
+</H2>
+<P proseMaxWidth={60}>
+  This paragraph will be limited to approximately 60 characters wide
+</P>
+```
+
+### Using `Typography.Context`
+
+```tsx
+import { Typography } from '@dnb/eufemia/elements'
+```
+
+#### Setting `proseMaxWidth`
+
+Use `Typography.Context` to apply `proseMaxWidth` to multiple typography components at once:
+
+```tsx
+<Typography.Context proseMaxWidth={60}>
+  <P>This paragraph will be limited to approximately 60 characters wide</P>
+  <P>
+    This paragraph will also be limited to approximately 60 characters wide
+  </P>
+  <H2 proseMaxWidth={80}>This heading overrides with its own value</H2>
+</Typography.Context>
+```
+
+CSS example:
+
+```css
+.prose {
+  max-width: var(--prose-max-width); /* 60ch by default */
+}
+```
+
+#### Setting `responsive`
+
+Use `Typography.Context` to make typography components, or all components use responsive font size and line heights.
+
+<ResponsiveTypographyExample />
+
+## Font Face
+
+The default DNB font family is `DNB`, loaded via `@font-face` in `@dnb/eufemia/src/style/themes/ui/fonts.scss`.
+
+- Sbanken uses its own fonts, declared and loaded in `@dnb/eufemia/src/style/themes/sbanken/fonts.scss` and applied via Sbanken-specific properties.
+- Carnegie uses the `ArizonaFlare` font family, declared and loaded in `@dnb/eufemia/src/style/themes/carnegie/fonts.scss`, and applied through the Carnegie theme’s typography variables.
+- Eiendom uses the default DNB font family.
+
+## Spacing and margin collapsing
+
+You can use the [Spacing properties](/web/layout/space/properties) inside every Eufemia React Element, but keep in mind that [margin collapsing](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Box_Model/Mastering_margin_collapsing) can sometimes be a little tricky to get right.
+
+```jsx
+import { H1, H2, ... } from '@dnb/eufemia'
+
+<H1 bottom="x-large">Heading with bottom margin: x-large</H1>
+<H2 top="x-large">Heading with top margin: x-large</H2>
+```
+
+## Anchor
+
+- `.dnb-anchor` -- <a href="/" className="dnb-anchor">Anchor with default style</a>
+- `.dnb-anchor--hover` -- <a href="/" className="dnb-anchor dnb-anchor--hover">Hover style</a>
+- `.dnb-anchor--active` -- <a href="/" className="dnb-anchor dnb-anchor--active">Active style</a>
+- `.dnb-anchor--focus` -- <a href="/" className="dnb-anchor dnb-anchor--focus">Focus style</a>
+
+Read more about the [Anchor / Text Link](/web/components/anchor).
+
+## DNB Mono (monospace)
+
+DNB has its own monospace typeface (`font-family`).
+
+Use it either by a CSS class `.dnb-t__family--monospace` or define your own like so:
+
+```css
+.css-selector {
+  font-family: var(--font-family-monospace);
+  font-weight: normal;
+  font-style: normal;
+}
+```
+
+## Hosted Fonts (CDN)
+
+New Eufemia releases load fonts from an immutable CDN path matching the package
+version, for example
+`https://assets.eufemia.dnb.no/v<version>/fonts/dnb/DNB-Regular.woff2`.
+
+The stable URLs below always serve the latest stable release and are convenient
+when linking fonts manually:
+
+### DNB
+
+- `https://assets.eufemia.dnb.no/fonts/dnb/DNB-Regular.woff2`
+- `https://assets.eufemia.dnb.no/fonts/dnb/DNB-Medium.woff2`
+- `https://assets.eufemia.dnb.no/fonts/dnb/DNB-Bold.woff2`
+- `https://assets.eufemia.dnb.no/fonts/dnb/DNBMono-Regular.woff2`
+- `https://assets.eufemia.dnb.no/fonts/dnb/DNBMono-Medium.woff2`
+- `https://assets.eufemia.dnb.no/fonts/dnb/DNBMono-Bold.woff2`
+
+### Sbanken
+
+- `https://assets.eufemia.dnb.no/fonts/sbanken/MaisonNeue.woff2`
+- `https://assets.eufemia.dnb.no/fonts/sbanken/Roboto-Regular.woff2`
+- `https://assets.eufemia.dnb.no/fonts/sbanken/Roboto-Medium.woff2`
+- `https://assets.eufemia.dnb.no/fonts/sbanken/Roboto-Bold.woff2`
+
+### DNB Carnegie
+
+- `https://assets.eufemia.dnb.no/fonts/carnegie/ArizonaFlare-Regular.woff2`
+- `https://assets.eufemia.dnb.no/fonts/carnegie/ArizonaFlare-Medium.woff2`
+- `https://assets.eufemia.dnb.no/fonts/carnegie/ArizonaFlare-Bold.woff2`
+
+See the [Asset CDN documentation](/web/usage/assets/) for the immutable URL
+contract and other published assets.
+
+<VisibleWhenVisualTest>
+  <ResponsiveTypographyFullExample />
+</VisibleWhenVisualTest>

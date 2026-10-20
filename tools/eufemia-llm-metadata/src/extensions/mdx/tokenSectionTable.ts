@@ -180,7 +180,7 @@ async function loadTokenSectionConfig(
   )
   const examplesPath = path.join(
     portalRoot,
-    'src/docs/uilib/usage/customisation/theming/design-tokens/Examples.tsx'
+    'src/docs/web/usage/customisation/theming/design-tokens/Examples.tsx'
   )
 
   const designTokensSource = await fs.readFile(designTokensPath, 'utf-8')

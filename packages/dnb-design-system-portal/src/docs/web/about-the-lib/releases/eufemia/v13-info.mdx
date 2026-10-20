@@ -1,0 +1,379 @@
+---
+title: v13
+description: TBA
+order: -13
+draft: true
+redirect_from:
+  - /uilib/about-the-lib/releases/eufemia/v13-info
+navigation:
+  hidden: true
+breadcrumb:
+  - text: "What's new"
+    href: /web/whats-new
+  - text: Upgrade
+    href: /web/whats-new/upgrade
+  - text: 'v13'
+---
+
+- [v13](#v13)
+  - [Migration](#migration)
+  - [Install](#install)
+  - [CSS custom properties](#css-custom-properties)
+  - [Component changes](#component-changes)
+    - [Theme](#theme)
+    - [SidebarMenu](#sidebarmenu)
+    - [Flex](#flex)
+    - [Accordion](#accordion)
+    - [Autocomplete](#autocomplete)
+    - [Modal, Dialog and Drawer](#modal-dialog-and-drawer)
+    - [InfoCard](#infocard)
+    - [Img](#img)
+    - [Popover](#popover)
+    - [ScrollView](#scrollview)
+    - [Field.Name.Company](#fieldnamecompany)
+
+> **Note:** There is no `v12` release. The version `v12` was accidentally published to NPM and has since been removed. Because a published version number cannot be safely reused, `v12` has been skipped entirely, and these breaking changes are released as `v13` instead.
+
+## Migration
+
+v13 of @dnb/eufemia contains _breaking changes_. As a migration process, you can simply search and replace:
+
+## Install
+
+To upgrade to @dnb/eufemia v13 with NPM, use:
+
+```bash
+$ npm i @dnb/eufemia@13
+# or
+$ yarn add @dnb/eufemia@13
+```
+
+## CSS custom properties
+
+### Typography: \{#css-custom-properties-typography\}
+
+- Replace `--sb-font-size-*` with `--font-size-*`
+- Replace `--sb-font-size-medium--plus` with `--font-size-medium`
+- Replace `--sb-line-height-*` with `--line-height-*`
+
+The font size and line height values now come from Figma brand tokens. Existing CSS variable names remain available. Carnegie's `xx-large` heading changes from 48px/56px to 56px/68px at the default root size. Responsive `xx-large` headings now use the matching line-height step: `x-large` on mobile and `xx-large` from tablet upward. Check layouts that constrain large headings, especially fixed heights and truncation.
+
+The generated JavaScript `properties` exports keep their existing value format: concrete `rem` values for the size scale and aliases for `lead`.
+
+The deprecated Sbanken-prefixed properties are still emitted. Their values differ from the generic scale, so check the rendered result when replacing them.
+
+#### Tailwind
+
+- Replace `--text-sb-*` with `--text-*`
+- Replace `--text-sb-medium--plus` with `--text-medium`
+- Replace `--leading-sb-*` with `--leading-*`
+
+## Component changes
+
+### [Theme](/web/usage/customisation/theming/theme)
+
+The deprecated `name` property and `data-name` attribute have been removed. Use `brand` and `data-brand` instead.
+
+```diff
+-<Theme name="carnegie">
++<Theme brand="carnegie">
+```
+
+Replace `useTheme().name` with `useTheme().brand`. For persisted theme state, replace `getTheme().name` and `setTheme({ name })` with `getTheme().brand` and `setTheme({ brand })`.
+
+`VisibilityByTheme` also matches on the theme object, so replace `name` there too:
+
+```diff
+-<VisibilityByTheme visible={[{ name: 'sbanken' }]}>
++<VisibilityByTheme visible={[{ brand: 'sbanken' }]}>
+```
+
+With `name` removed, TypeScript reports it as an unknown property here. Plain JavaScript gets no such warning — the filter simply stops matching, and the content silently disappears.
+
+The deprecated `size` property, `ThemeSizes` type, `data-size` attribute, and `eufemia-theme__size--*` CSS classes have also been removed. Use `density`, `ThemeDensities`, `data-density`, and `eufemia-theme__density--*` instead.
+
+```diff
+-<Theme size="basis">
++<Theme density="basis">
+```
+
+The deprecated `VisibilityByTheme.Name` component has been removed. Use `VisibilityByTheme.Brand` instead.
+
+```diff
+-<VisibilityByTheme.Name />
++<VisibilityByTheme.Brand />
+```
+
+### [SidebarMenu](/web/extensions/sidebar-menu/)
+
+Replace `breakpoint` with `drawerAt` on `SidebarMenu.ResponsiveProvider`. The deprecated `breakpoint` alias is removed in v13.
+
+`SidebarMenu.Header` now uses `text` for its label and `children` for the nested menu items. Move the previous label children to `text`. The deprecated, no-effect `headingLevel` compatibility property is removed in v13 because Header is a visual menu label rather than a semantic page heading.
+
+```diff
+-<SidebarMenu.Header headingLevel={3}>Accounts</SidebarMenu.Header>
++<SidebarMenu.Header text="Accounts">
++  <SidebarMenu.Item id="overview" text="Overview" />
++</SidebarMenu.Header>
+```
+
+### [Flex](/web/layout/flex/)
+
+Flex now uses native CSS gap and renders React children unchanged. The following legacy migration APIs are deprecated:
+
+- `Flex.withChildren`
+- `_supportsSpacingProps`
+- `wrapChildrenInSpace`
+- `layoutEngine="legacy"`
+
+#### Custom components
+
+The `_supportsSpacingProps` marker is no longer needed. A custom component becomes a flex item through its rendered root, so nothing needs to opt it in to the layout. When the component should accept [spacing properties](/web/layout/space/), apply them to its root with `useSpacing` so an author can still adjust the spacing per instance.
+
+**Before (v11):**
+
+```tsx
+import { clsx } from 'clsx'
+import { useSpacing } from '@dnb/eufemia/components/space/SpacingUtils'
+
+function MyComponent({ className, ...props }) {
+  const params = useSpacing(props, {
+    ...props,
+    className: clsx('my-component', className),
+  })
+
+  return <div {...params} />
+}
+
+// Opted the component in to receive spacing from Flex.Container.
+MyComponent._supportsSpacingProps = true
+```
+
+**After (v13):**
+
+```tsx
+import { clsx } from 'clsx'
+import { useSpacing } from '@dnb/eufemia/components/space/SpacingUtils'
+
+function MyComponent({ className, ...props }) {
+  const params = useSpacing(props, {
+    ...props,
+    className: clsx('my-component', className),
+  })
+
+  return <div {...params} />
+}
+```
+
+For a component that already applied spacing to its root, deleting the marker is the only change. The rendered `<div>` is now a flex item automatically, and `useSpacing` keeps the component's own `top`, `right`, `bottom`, and `left` props working — in CSS mode those values participate in pairwise spacing and may replace the adjacent container gap. If a component did not previously apply spacing to its root, adopt `useSpacing` as shown so authors can keep adjusting spacing per instance. A component that never needs per-instance spacing can simply drop the marker and receive the container gap.
+
+#### Wrapper components
+
+`Flex.withChildren` is deprecated. It never hoisted a wrapper's children into the outer container's flex line. When the HOC marked a wrapper, `Flex.Container` automatically injected a nested `Flex.Container` inside the wrapper's root — inheriting the outer container's props — and laid the wrapper's children out there. The rendered DOM was already outer container → wrapper root → inner container. To keep that layout in v13, render the inner `Flex.Container` yourself.
+
+**Before (v11):**
+
+```tsx
+import { Flex } from '@dnb/eufemia'
+
+// The HOC marked the wrapper, so Flex.Container injected a nested
+// Flex.Container inside it to lay out the wrapper's children.
+const Wrapper = Flex.withChildren(({ children }) => <div>{children}</div>)
+
+render(
+  <Flex.Container direction="vertical">
+    <Item />
+    <Wrapper>
+      <Item />
+      <Item />
+    </Wrapper>
+    <Item />
+  </Flex.Container>
+)
+```
+
+**After (v13):**
+
+```tsx
+import { Flex } from '@dnb/eufemia'
+
+// Render the inner Flex.Container yourself — this is the container
+// the HOC used to inject automatically.
+function Wrapper({ children }) {
+  return (
+    <div>
+      <Flex.Container direction="vertical">{children}</Flex.Container>
+    </div>
+  )
+}
+
+render(
+  <Flex.Container direction="vertical">
+    <Item />
+    <Wrapper>
+      <Item />
+      <Item />
+    </Wrapper>
+    <Item />
+  </Flex.Container>
+)
+```
+
+The DOM structure is unchanged from v11 — a wrapper root containing a nested `Flex.Container`. The only difference is that you now provide that inner container explicitly and set its own props (`direction`, `gap`, `divider`, …) instead of inheriting them from the outer container. If a wrapper renders no DOM of its own — for example a Fragment, a context provider, or another transparent component — its children already become direct flex items of the outer container and need no inner `Flex.Container`.
+
+When using `divider="line"` or `divider="line-framed"`, the CSS engine paints the divider without rendering `<hr>` elements. This removes the corresponding separator roles from the accessibility tree. If a divider conveys semantic separation, render explicit `Hr` elements instead of relying on the `divider` property.
+
+The previous child-inspection engine remains temporarily available during migration:
+
+```tsx
+<Flex.Container layoutEngine="legacy">...</Flex.Container>
+```
+
+Do not use the deprecated APIs for new integrations. See the [Flex.Container migration guidance](/web/layout/flex/container/#backwards-compatibility) for details.
+
+### [Accordion](/web/components/accordion/)
+
+- Replace `id` with `connectedTo` on `Accordion.Content` when connecting to a standalone tertiary button.
+
+### [Autocomplete](/web/components/autocomplete/)
+
+The individual search-related props are deprecated in favor of a single `search` object:
+
+- `disableFilter` → `search.filter`
+- `disableReorder` → `search.reorder`
+- `disableHighlighting` → `search.highlight`
+- `searchNumbers` → `search.numbers`
+- `searchInWordIndex` → `search.matchInsideWordsFrom`
+- `searchMatch` → `search.match`
+
+Note that the `disable*` props invert, so a disabled feature becomes `false`:
+
+```diff
+-<Autocomplete
+-  disableFilter
+-  disableReorder
+-  disableHighlighting
+-  searchNumbers
+-  searchInWordIndex={4}
+-  searchMatch="starts-with"
+-/>
++<Autocomplete
++  search={{
++    filter: false,
++    reorder: false,
++    highlight: false,
++    numbers: true,
++    matchInsideWordsFrom: 4,
++    match: 'starts-with',
++  }}
++/>
+```
+
+### [Modal](/web/components/modal/), [Dialog](/web/components/dialog/) and [Drawer](/web/components/drawer/)
+
+- Replace `closeButtonAttributes` with `closeButtonProps`.
+
+```diff
+-<Drawer closeButtonAttributes={{ text: 'Custom text' }} />
++<Drawer closeButtonProps={{ text: 'Custom text' }} />
+```
+
+- Replace `triggerAttributes` with `triggerProps`.
+
+```diff
+-<Dialog triggerAttributes={{ text: 'Open', variant: 'primary' }} />
++<Dialog triggerProps={{ text: 'Open', variant: 'primary' }} />
+```
+
+- The `ModalTriggerAttributes` type has been removed. Use `ButtonProps` from `@dnb/eufemia` instead.
+
+### [InfoCard](/web/components/info-card/)
+
+Replace InfoCard with `Card.Info` and compose its content as children. Card.Info supplies the card surface, shadow, and padding. See [Card.Info](/web/components/card/#cardinfo) for layout, sizing, interaction, and dismissal guidance.
+
+Before:
+
+```tsx
+<InfoCard
+  title="Savings tip"
+  text="Save a little every month."
+  acceptButtonText="Start saving"
+  onAccept={onAccept}
+/>
+```
+
+After:
+
+```tsx
+<Card.Info>
+  <Flex.Stack gap="x-small">
+    <P size="small" weight="medium">
+      Savings tip
+    </P>
+    <P size="small">Save a little every month.</P>
+  </Flex.Stack>
+  <Button variant="secondary" onClick={onAccept}>
+    Start saving
+  </Button>
+</Card.Info>
+```
+
+- Replace `text` with paragraph children. Use heading children or Card's `title` property for the title.
+- Replace `icon`, `src`, `alt`, and `imgProps` with IconPrimary, Img, or other graphic children. Include appropriate alternative text.
+- Replace accept and close button props, including the `*ButtonAttributes` aliases, with explicit Button children. For a top-corner close control, render `Card.Info.CloseButton` as a direct Card.Info child and pass the dismissal handler as `onClick`.
+- Replace `centered` with your content layout, for example `Flex.Stack align="center"` and centered text. Wrap loading content in `Provider skeleton`.
+- Remove `stretch` and control width through the containing layout. Other Card properties, including spacing and `dropShadow`, can be passed directly to Card.Info.
+
+### [Img](/web/elements/image/)
+
+- Replace `imgClass` with `imageClassName`.
+- The `element` prop is deprecated. Keep the default `figure` wrapper and use `figureProps` to pass native properties to it.
+
+```diff
+-<Img src="image.png" alt="Description" imgClass="image-class" />
++<Img src="image.png" alt="Description" imageClassName="image-class" />
+```
+
+### [Popover](/web/components/popover/)
+
+- Replace `triggerAttributes` with `triggerProps`.
+
+```diff
+-<Popover triggerAttributes={{ 'aria-haspopup': 'menu' }} />
++<Popover triggerProps={{ 'aria-haspopup': 'menu' }} />
+```
+
+- The `PopoverTriggerAttributes` type has been removed. Use `triggerProps` instead.
+
+### [Typography](/web/typography/)
+
+- Replace `<Typography.Provider>` with `<Typography.Context>`.
+
+```diff
+-<Typography.Provider/>
++<Typography.Context/>
+```
+
+### [ScrollView](/web/components/scroll-view/)
+
+- The deprecated `ScrollView` export from `@dnb/eufemia/fragments` has been removed. Import it from the main package instead.
+
+```diff
+-import { ScrollView } from '@dnb/eufemia/fragments'
++import { ScrollView } from '@dnb/eufemia'
+```
+
+### [Field.Name.Company](/web/extensions/forms/feature-fields/Name/)
+
+- The `onBlurValidator` property now only accepts a `CompanyNameValidator`, and its `validators` no longer include `nameValidator`. Use `companyValidator` instead.
+
+```diff
+-import type { NameValidator } from '@dnb/eufemia/extensions/forms/Field/Name'
++import type { CompanyNameValidator } from '@dnb/eufemia/extensions/forms/Field/Name'
+
+-const myValidator: NameValidator = (value, { validators }) => {
+-  return [validators.nameValidator]
++const myValidator: CompanyNameValidator = (value, { validators }) => {
++  return [validators.companyValidator]
+ }
+```

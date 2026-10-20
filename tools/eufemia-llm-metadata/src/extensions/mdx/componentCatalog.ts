@@ -74,8 +74,8 @@ const categoryIds = new Set<string>(
 )
 
 export const excludedSlugs = new Set([
-  'uilib/components/fragments',
-  'uilib/components/overview',
+  'web/components/fragments',
+  'web/components/overview',
 ])
 
 export type ComponentCatalogEntry = {
@@ -144,6 +144,8 @@ async function buildComponentCatalog(
   docsRoot: string
 ): Promise<ComponentCatalog> {
   const catalogRoots = [
+    path.join(docsRoot, 'web', 'components'),
+    path.join(docsRoot, 'web', 'extensions'),
     path.join(docsRoot, 'uilib', 'components'),
     path.join(docsRoot, 'uilib', 'extensions'),
   ]
@@ -167,7 +169,7 @@ async function buildComponentCatalog(
       .replace(/\\/g, '/')
     const noExt = relativePath.replace(/\.[^/.]+$/, '')
 
-    if (excludedSlugs.has(noExt)) {
+    if (excludedSlugs.has(noExt.replace(/^uilib\//, 'web/'))) {
       continue
     }
 
@@ -178,7 +180,7 @@ async function buildComponentCatalog(
     }
 
     if (
-      noExt.startsWith('uilib/extensions/') &&
+      /^(web|uilib)\/extensions\//.test(noExt) &&
       noExt.split('/').length !== 3
     ) {
       continue
@@ -190,6 +192,7 @@ async function buildComponentCatalog(
     if (
       !title ||
       frontmatter.draft === true ||
+      frontmatter.route === false ||
       frontmatter.hideInMenu === true
     ) {
       continue

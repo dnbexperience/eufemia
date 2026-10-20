@@ -152,11 +152,20 @@ export function getPageMeta(
 export function getRoutePreloads(
   url: string,
   ssrManifest: SSRManifest,
-  clientManifest?: ClientManifest | null
+  clientManifest?: ClientManifest | null,
+  sourcePath?: string
 ): { js: string[]; css: string[] } {
   const routePath = url.replace(/^\/|\/$/g, '') || 'index'
 
   const candidates = [
+    ...(sourcePath
+      ? [
+          sourcePath.replace(
+            'packages/dnb-design-system-portal/',
+            '../../'
+          ),
+        ]
+      : []),
     `../../src/docs/${routePath}.mdx`,
     `../../src/docs/${routePath}.tsx`,
     `../../src/docs/${routePath}/index.mdx`,
@@ -420,12 +429,19 @@ export function injectHtml(
  * Uses both `<meta http-equiv="refresh">` and a canonical link
  * so search engines follow the redirect correctly.
  */
-export function buildRedirectHtml(redirectUrl: string): string {
+export function buildRedirectHtml(
+  redirectUrl: string,
+  fragments: Record<string, string> = {}
+): string {
   const url = escapeHtml(redirectUrl)
+  const target = JSON.stringify(redirectUrl).replaceAll('<', '\\u003c')
+  const fragmentMap = JSON.stringify(fragments).replaceAll('<', '\\u003c')
+  const script = `<script>var target = new URL((${fragmentMap})[location.hash.slice(1)] || ${target}, location.href); target.search = target.search || location.search; target.hash = target.hash || location.hash; location.replace(target.href);</script>`
 
   return [
     '<!DOCTYPE html>',
     '<html><head>',
+    script,
     `<meta http-equiv="refresh" content="0;url=${url}">`,
     `<link rel="canonical" href="${url}">`,
     '</head><body></body></html>',

@@ -1,0 +1,34 @@
+---
+showTabs: true
+redirect_from:
+  - /uilib/extensions/forms/Value/Provider/info
+---
+
+## Import
+
+```tsx
+import { Value } from '@dnb/eufemia/extensions/forms'
+render(<Value.Provider />)
+```
+
+## Description
+
+The `Value.Provider` lets you pass generic properties to all nested Value.\* components.
+
+```tsx
+import { Field, Value } from '@dnb/eufemia/extensions/forms'
+render(
+  <>
+    <Field.Boolean path="/myPath" label="My label" />
+
+    <Value.Provider inheritLabel>
+      <Value.Boolean path="/myPath" />
+    </Value.Provider>
+  </>
+)
+```
+
+## Relevant links
+
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Value/Provider)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/extensions/forms/Value/Provider)

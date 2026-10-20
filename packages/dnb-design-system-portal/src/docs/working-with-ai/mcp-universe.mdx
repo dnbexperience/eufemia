@@ -1,0 +1,135 @@
+---
+title: MCP Universe
+description: Connect your AI tools to the Eufemia documentation.
+navigation:
+  parent: working-with-ai
+  title: MCP Universe
+  order: 2
+---
+
+## AI Assistance and MCP Server
+
+**NB:** This feature is experimental and may change in the future. Please give us feedback on your experience with it!
+
+The MCP server provides documentation context only; it does not execute code.
+
+If your AI coding agent supports the Model Context Protocol (MCP), you have two options:
+
+1. **Use the hosted MCP server** at `https://server.eufemia.dnb.no/mcp/web` — no installation needed, always serves the latest released docs.
+2. **Run a local MCP server** that exposes the packaged documentation from `/docs` — useful for offline / air-gapped work, and pinned to the exact `@dnb/eufemia` version installed in your project (so the docs the AI sees match the components you actually consume).
+
+### Hosted MCP server
+
+Point your MCP-aware client at the public Streamable HTTP endpoint:
+
+```txt
+https://server.eufemia.dnb.no/mcp/web
+```
+
+It supports the modern Streamable HTTP transport, and serves the same documentation tools (`docs_entry`, `docs_search`, `component_find`, etc.) as the local server below. A health endpoint is available at `https://server.eufemia.dnb.no/healthz`.
+It also provides `portal_content_workflow`, which gives an agent the complete
+workflow for editing Portal content and delivering a focused pull request.
+
+#### Version behavior
+
+The hosted endpoint is intentionally unversioned and always serves the latest
+released Eufemia documentation. It does not require Eufemia to be installed.
+Use `docs_meta` to identify the served version:
+
+- When it matches the project's installed `@dnb/eufemia` version, use the hosted
+  tools normally.
+- When it differs, use the local MCP server from the installed package before
+  relying on version-specific components, properties, or behavior.
+- When the project has no Eufemia dependency, treat the hosted version as the
+  proposed target and state it explicitly. Install that package version before
+  claiming the implementation is executable or verified.
+- When dependency installation is prohibited, the hosted server can still
+  support documentation and planning, but skills must not claim runtime
+  implementation or verification.
+
+Offline use requires a preinstalled package or pre-provisioned documentation;
+neither the hosted server nor a transient skill download is available without
+network access.
+
+#### Example: Claude CLI / raicode CLI
+
+```bash
+claude mcp add --transport http eufemia https://server.eufemia.dnb.no/mcp/web
+# or
+raicode mcp add --transport http eufemia https://server.eufemia.dnb.no/mcp/web
+```
+
+### Local MCP server (pinned to your installed Eufemia version)
+
+Run the local MCP server when you want the docs the AI sees to match the exact `@dnb/eufemia` version you have installed — for example to avoid suggestions that reference components or props from a newer release than your project consumes — or when the hosted server is unreachable (offline / air-gapped environments).
+
+But first, make sure you have installed `@dnb/eufemia` and `@modelcontextprotocol/server` in your project:
+
+```bash
+npm install @dnb/eufemia @modelcontextprotocol/server
+# or
+yarn add @dnb/eufemia @modelcontextprotocol/server
+# or
+pnpm add @dnb/eufemia @modelcontextprotocol/server
+```
+
+Run the server from your project (where `@dnb/eufemia` is installed):
+
+### Example MCP config (e.g. `.vscode/mcp.json`):
+
+```json
+{
+  "servers": {
+    "eufemia": {
+      "command": "node",
+      "args": [
+        "${workspaceFolder}/node_modules/@dnb/eufemia/mcp/mcp-server.js"
+      ]
+    }
+  }
+}
+```
+
+### Using Claude CLI with MCP:
+
+```bash
+claude mcp add --transport stdio eufemia -- node node_modules/@dnb/eufemia/mcp/mcp-server.js
+```
+
+### Using raicode CLI with MCP (using Claude):
+
+```bash
+raicode mcp add --transport stdio eufemia -- node node_modules/@dnb/eufemia/mcp/mcp-server.js
+```
+
+### How to use
+
+- The MCP server helps AI apply Eufemia patterns more accurately in code, but results can still be imperfect. So always review the output carefully!
+- Ask your AI tool to search or summarize Eufemia docs, e.g. "Find the spacing system rules in Eufemia."
+- If the server fails to start, confirm `@dnb/eufemia` is installed and the path points to `node_modules/@dnb/eufemia/mcp/mcp-server.js`.
+
+### Telemetry
+
+The local MCP server sends **anonymous, aggregate usage statistics** so we can see which tools, components and documentation areas are most used and improve the docs accordingly. It is **on by default** and **opt-out**.
+
+What is collected is a closed, public vocabulary only: the tool name, the component name for a component lookup (e.g. `Button`, `Field.Address`), a miss flag when that name is not in the docs (plus the real component it matches when case and hyphens are ignored, e.g. `date-picker` for `DatePicker`, but never the name itself), the leading documentation area for a doc read or list (e.g. `/web/components/`, gated against the areas actually present in the docs — a path outside the docs is dropped, not narrowed), and the `@dnb/eufemia` version you have installed. No machine identifier, user, session or correlation id, and no free text are in that payload — in particular a `docs_search` query is never collected (a search is recorded as a tool count only). The request's source IP is visible to the network layer like any HTTP call, but it is not part of this payload and is not stored on the ingest side.
+
+Each event is a fire-and-forget request with a short timeout, so it never blocks or affects a tool call, and the server holds no credentials.
+
+Turn it off by setting `EUFEMIA_MCP_TELEMETRY` to `0` in your MCP client config:
+
+```json
+{
+  "servers": {
+    "eufemia": {
+      "command": "node",
+      "args": [
+        "${workspaceFolder}/node_modules/@dnb/eufemia/mcp/mcp-server.js"
+      ],
+      "env": { "EUFEMIA_MCP_TELEMETRY": "0" }
+    }
+  }
+}
+```
+
+Telemetry is also off when `DO_NOT_TRACK` is set (for example `DO_NOT_TRACK=1`) and in CI environments (when `CI` is set). `EUFEMIA_MCP_TELEMETRY` accepts `0`, `false`, `off` or `no`.

@@ -1,0 +1,57 @@
+---
+showTabs: true
+redirect_from:
+  - /uilib/components/tooltip/info
+---
+
+## Import
+
+```tsx
+import { Tooltip } from '@dnb/eufemia'
+```
+
+## Description
+
+The Tooltip component is primarily meant to enhance the UX for various and additional information.
+
+## Relevant links
+
+- [Figma](https://www.figma.com/design/cdtwQD8IJ7pTeE45U148r1/%F0%9F%92%BB-Eufemia---Web?node-id=44531-1111)
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/tooltip)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/components/tooltip)
+
+### Tooltip accessibility problems
+
+Because tooltips are often triggered by hover actions, developers and UX designers need to find alternative ways to support access to that information.
+
+The Tooltip component is integrated into components like [Button](/web/components/button), which allows us to make tooltip information accessible to screen readers.
+
+- All content inside the Tooltip can be selected when it is open
+- When the mouse moves over the Tooltip content, the Tooltip remains open
+- Pressing Escape hides the Tooltip without moving focus. When you control the Tooltip with `open`, handle Escape yourself
+- Custom triggers receive the necessary ARIA attributes (`aria-describedby`) so assistive technologies can announce the tooltip content without hovering
+
+#### Touch devices and keyboard support
+
+To enhance accessibility for touch devices, we add `tabindex="0"` and a `touchstart` event handler.
+
+Opening a Modal, Dialog, or Drawer closes uncontrolled tooltips and cancels pending shows. Tooltips inside the opened overlay still work.
+
+## Links (anchor) with target blank
+
+The Eufemia [Anchor](/web/components/anchor) and [Button](/web/components/button) components display a Tooltip when the URL target is set to `_blank` to improve accessibility by informing users that a new window will open (out of context).
+
+## Controlled open
+
+When you pass the `open` property, the Tooltip becomes controlled:
+
+- `open={true}`: The Tooltip stays visible and ignores DOM events (hover, focus, touch). It will not auto-hide on `mouseleave`.
+- `open={false}`: The Tooltip stays hidden and ignores DOM events. It will not auto-show on `mouseenter` or focus.
+
+To use the built-in hover/focus/touch behavior, omit the `open` property and let the component manage visibility internally.
+
+## Root Element (React Portal)
+
+The Tooltip component uses [PortalRoot](/web/components/portal-root) internally through Popover to render its content. See the [PortalRoot documentation](/web/components/portal-root) for information on how to control where the portal content appears in the DOM, and for the [BrowserTranslate helper](/web/components/portal-root/#browsertranslate-helper-google-translate) when browser translation tools such as Google Translate should not modify content rendered through PortalRoot.
+
+<RelatedComponents />

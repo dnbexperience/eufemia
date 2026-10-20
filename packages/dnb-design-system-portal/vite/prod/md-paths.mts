@@ -38,23 +38,16 @@ export function getMdPath(
   url: string,
   mdPaths: Set<string>
 ): string | null {
-  // Must match LLM_DOCS_SLUG_PREFIX from eufemia-llm-metadata
-  const prefix = 'uilib'
-
-  if (!url.startsWith(`/${prefix}/`)) {
-    return null
-  }
-
   const slug = url.replace(/^\/|\/$/g, '')
-  const own = `/${slug}.md`
+  const own = slug ? `/${slug}.md` : '/home.md'
 
   if (mdPaths.has(own)) {
     return own
   }
 
   // A tab page inherits its entry's copy, which covers every tab. Nothing else
-  // borrows from its parent: /uilib/components/icon-primary/ is a component in
-  // its own right, not a view of /uilib/components.md, and an over-broad
+  // borrows from its parent: /web/components/icon-primary/ is a component in
+  // its own right, not a view of /web/components.md, and an over-broad
   // target would be as wrong as a dead one.
   const parts = slug.split('/')
 
