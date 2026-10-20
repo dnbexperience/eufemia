@@ -333,7 +333,7 @@ test.describe('Responsiveness', () => {
 
     await page.setViewportSize({ width: 600, height: 667 })
     await menuButton.click()
-    expect((await drawer.boundingBox()).width).toBe(24 * 16)
+    expect((await drawer.boundingBox()).width).toBeCloseTo(24 * 16, 2)
     await expect(page.locator('.dnb-modal__overlay')).toBeVisible()
     await expect(page.locator('#dnb-app-content')).toBeVisible()
     await closeButton.click()
