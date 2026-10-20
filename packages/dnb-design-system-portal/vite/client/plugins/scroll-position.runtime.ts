@@ -71,6 +71,8 @@ export function useScrollPosition() {
 
   // Restore on initial render and persist on unload
   useEffect(() => {
+    const previousScrollRestoration = window.history.scrollRestoration
+    window.history.scrollRestoration = 'manual'
     requestAnimationFrame(() => {
       restoreScrollPosition({ restoreWindow: !window.location.hash })
     })
@@ -83,6 +85,7 @@ export function useScrollPosition() {
     }
 
     return () => {
+      window.history.scrollRestoration = previousScrollRestoration
       window.removeEventListener('beforeunload', saveScrollPosition)
       window.removeEventListener('pagehide', saveScrollPosition)
     }
