@@ -22,6 +22,48 @@ function flatten(items: NavItem[]): NavItem[] {
 }
 
 describe('MDX-defined Portal navigation', () => {
+  it('rejects published titled pages without an explicit navigation definition', () => {
+    const page: MdxNode = {
+      fields: {
+        slug: 'web/components/new-component',
+        sourcePath:
+          'packages/dnb-design-system-portal/src/docs/web/components/new-component.mdx',
+      },
+      frontmatter: { title: 'New component', category: 'actions' },
+    }
+    expect(() => createMdxSidebarNavigation([page], '/')).toThrow(
+      'navigation'
+    )
+    expect(() =>
+      createMdxSidebarNavigation(
+        [
+          {
+            ...page,
+            frontmatter: {
+              ...page.frontmatter,
+              navigation: { hidden: true },
+            },
+          },
+        ],
+        '/'
+      )
+    ).not.toThrow()
+  })
+
+  it('rejects legacy documentation source paths even when a page declares navigation', () => {
+    const page: MdxNode = {
+      fields: {
+        slug: 'uilib/components/new-component',
+        sourcePath:
+          'packages/dnb-design-system-portal/src/docs/uilib/components/new-component.mdx',
+      },
+      frontmatter: {
+        title: 'New component',
+        navigation: { hidden: true },
+      },
+    }
+    expect(() => createMdxSidebarNavigation([page], '/')).toThrow('web')
+  })
   it('derives shared and platform trees from the documents', () => {
     const { shared, sections } = tree()
     expect(shared.map(({ title }) => title)).toEqual([
@@ -128,6 +170,15 @@ describe('MDX-defined Portal navigation', () => {
   })
 
   it('has real, separate AI pages and no MDX index files', () => {
+    expect(
+      readdirSync(docs, { recursive: true, withFileTypes: true }).filter(
+        (entry) =>
+          entry.isFile() &&
+          /(^|[/])uilib([/]|[.]mdx$)/.test(
+            resolve(entry.parentPath, entry.name).slice(docs.length + 1)
+          )
+      )
+    ).toEqual([])
     const ai = tree().shared.find(
       ({ title }) => title === 'Working with AI'
     )

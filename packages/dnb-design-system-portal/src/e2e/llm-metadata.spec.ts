@@ -1,8 +1,25 @@
 import { test, expect } from '@playwright/test'
 import fs from 'fs'
 import path from 'path'
+import matter from '@11ty/gray-matter'
 
 test.describe('LLM integration', () => {
+  test('all generated Markdown copies have parseable frontmatter', () => {
+    const publicDir = path.resolve(__dirname, '..', '..', 'public')
+    const copies = fs
+      .readdirSync(publicDir, { recursive: true, encoding: 'utf8' })
+      .filter((file) => file.endsWith('.md'))
+    expect(copies.length).toBeGreaterThan(300)
+    const invalid = copies.filter((file) => {
+      try {
+        matter(fs.readFileSync(path.join(publicDir, file), 'utf8'))
+        return false
+      } catch {
+        return true
+      }
+    })
+    expect(invalid).toEqual([])
+  })
   test('index exposes llms.txt via alternate link and is reachable', async ({
     page,
     request,

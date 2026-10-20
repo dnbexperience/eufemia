@@ -2407,7 +2407,7 @@ function addDocLinksToFrontmatter(
     if (!trimmed) {
       continue
     }
-    const keyMatch = /^([A-Za-z0-9_-]+):/.exec(trimmed)
+    const keyMatch = /^([A-Za-z0-9_-]+):/.exec(line)
 
     if (!keyMatch) {
       continue

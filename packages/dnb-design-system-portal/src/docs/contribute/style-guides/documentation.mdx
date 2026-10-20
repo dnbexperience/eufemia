@@ -33,6 +33,8 @@ navigation:
 
 Use `kind: category` for a static category heading and `kind: placeholder` for disabled “To do” entries. A platform definition uses `kind: platform` and `platform: web`, `ios`, or `android`. Shared definitions have no platform parent and appear above the platform dropdown.
 
+Published pages with a title must declare `navigation`, or explicitly use `navigation.hidden: true` when they should not appear in the sidebar. The navigation checks reject missing definitions and source files under the retired `src/docs/uilib/` directory. New web documentation belongs in `src/docs/web/`, including pages brought in from older branches.
+
 When an existing content page also has children, the accordion opens without navigating. Its content remains available as the first child. Give that child a clear name with `navigation.pageTitle`, such as “Typography overview”. `navigation.title` can shorten the menu label without changing the page heading. Use `navigation.hidden: true` to keep a page out of the sidebar.
 
 ## Moving pages
