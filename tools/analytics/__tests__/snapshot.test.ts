@@ -63,6 +63,12 @@ function putCalls() {
   )
 }
 
+function findDailyRollupPut(prefix: string): Command | undefined {
+  return putCalls()
+    .map((call) => call[0] as Command)
+    .find((put) => String(put.input.Key).startsWith(prefix))
+}
+
 // Silence and capture the EMF metric line the handler logs, so it neither spams
 // test output nor needs a per-suite spy; assertions read logSpy.mock.calls.
 let logSpy: ReturnType<typeof vi.spyOn>
@@ -140,27 +146,21 @@ describe('snapshot generator handler', () => {
       expect.stringMatching(/^\d{4}-\d{2}-\d{2}$/)
     )
 
-    const dailyPut = putCalls().find((call) =>
-      String((call[0] as Command).input.Key).startsWith(
-        'portal-views-daily/'
-      )
-    )
-    expect(dailyPut).toBeDefined()
-    expect((dailyPut![0] as Command).input.Key).toBe(
-      'portal-views-daily/dt=2026-09-20/agg.json'
-    )
-    expect(
-      JSON.parse((dailyPut![0] as Command).input.Body as string)
-    ).toEqual({
-      path: '/',
-      env: 'prod',
-      status: 'ok',
-      locale: 'en-GB',
-      theme: 'ui',
-      color_scheme: 'dark',
-      referrer: 'search',
-      via_search: 'yes',
-      count: 3,
+    expect(findDailyRollupPut('portal-views-daily/')).toMatchObject({
+      input: {
+        Key: 'portal-views-daily/dt=2026-09-20/agg.json',
+        Body: JSON.stringify({
+          path: '/',
+          env: 'prod',
+          status: 'ok',
+          locale: 'en-GB',
+          theme: 'ui',
+          color_scheme: 'dark',
+          referrer: 'search',
+          via_search: 'yes',
+          count: 3,
+        }),
+      },
     })
   })
 
@@ -428,23 +428,19 @@ describe('mcp usage section', () => {
 
     await handler()
 
-    const dailyPut = putCalls().find((call) =>
-      String((call[0] as Command).input.Key).startsWith('mcp-usage-daily/')
-    )
-    expect(dailyPut).toBeDefined()
-    expect((dailyPut![0] as Command).input.Key).toBe(
-      'mcp-usage-daily/dt=2026-09-10/agg.json'
-    )
-    expect(
-      JSON.parse((dailyPut![0] as Command).input.Body as string)
-    ).toEqual({
-      transport: 'local',
-      tool: 'docs_search',
-      component: '',
-      path: '',
-      component_missed: false,
-      likely_component: '',
-      count: 3,
+    expect(findDailyRollupPut('mcp-usage-daily/')).toMatchObject({
+      input: {
+        Key: 'mcp-usage-daily/dt=2026-09-10/agg.json',
+        Body: JSON.stringify({
+          transport: 'local',
+          tool: 'docs_search',
+          component: '',
+          path: '',
+          component_missed: false,
+          likely_component: '',
+          count: 3,
+        }),
+      },
     })
   })
 
@@ -638,22 +634,16 @@ describe('buildComponentUsage', () => {
 
     await buildComponentUsage('my-bucket')
 
-    const dailyPut = putCalls().find((call) =>
-      String((call[0] as Command).input.Key).startsWith(
-        'component-usage-daily/'
-      )
-    )
-    expect(dailyPut).toBeDefined()
-    expect((dailyPut![0] as Command).input.Key).toBe(
-      'component-usage-daily/dt=2026-09-16/agg.json'
-    )
-    expect(
-      JSON.parse((dailyPut![0] as Command).input.Body as string)
-    ).toEqual({
-      app: 'app-a',
-      component: 'button',
-      version: '10.72.0',
-      count: 4,
+    expect(findDailyRollupPut('component-usage-daily/')).toMatchObject({
+      input: {
+        Key: 'component-usage-daily/dt=2026-09-16/agg.json',
+        Body: JSON.stringify({
+          app: 'app-a',
+          component: 'button',
+          version: '10.72.0',
+          count: 4,
+        }),
+      },
     })
   })
 
@@ -730,12 +720,7 @@ describe('component usage section (currently unwired)', () => {
     expect(aggregateComponentUsageRaw).not.toHaveBeenCalled()
     expect(retrieveComponentUsageTotals).not.toHaveBeenCalled()
 
-    const dailyPut = putCalls().find((call) =>
-      String((call[0] as Command).input.Key).startsWith(
-        'component-usage-daily/'
-      )
-    )
-    expect(dailyPut).toBeUndefined()
+    expect(findDailyRollupPut('component-usage-daily/')).toBeUndefined()
   })
 })
 

@@ -119,28 +119,7 @@ async function refreshPortalViewsRollup(
   await storeDailyRollup(
     bucket,
     'portal-views-daily/',
-    await aggregatePortalViewsRaw(from),
-    ({
-      path,
-      env,
-      status,
-      locale,
-      theme,
-      color_scheme,
-      referrer,
-      via_search,
-      count,
-    }) => ({
-      path,
-      env,
-      status,
-      locale,
-      theme,
-      color_scheme,
-      referrer,
-      via_search,
-      count,
-    })
+    await aggregatePortalViewsRaw(from)
   )
 }
 
@@ -223,24 +202,7 @@ async function buildMcpUsage(
     await storeDailyRollup(
       bucket,
       'mcp-usage-daily/',
-      await aggregateMcpUsageRaw(from),
-      ({
-        transport,
-        tool,
-        component,
-        path,
-        component_missed,
-        likely_component,
-        count,
-      }) => ({
-        transport,
-        tool,
-        component,
-        path,
-        component_missed,
-        likely_component,
-        count,
-      })
+      await aggregateMcpUsageRaw(from)
     )
   } catch (error) {
     // eslint-disable-next-line no-console -- surface the failure in CloudWatch Logs
@@ -332,13 +294,7 @@ export async function buildComponentUsage(
     await storeDailyRollup(
       bucket,
       'component-usage-daily/',
-      await aggregateComponentUsageRaw(windowStart(COMPONENT_ROLLUP_DAYS)),
-      ({ app, component, version, count }) => ({
-        app,
-        component,
-        version,
-        count,
-      })
+      await aggregateComponentUsageRaw(windowStart(COMPONENT_ROLLUP_DAYS))
     )
   } catch (error) {
     // eslint-disable-next-line no-console -- surface the failure in CloudWatch Logs

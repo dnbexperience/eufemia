@@ -183,19 +183,18 @@ export async function writeSnapshot(
 }
 
 // The *-daily/ prefixes have no lifecycle rule, so rollups outlive the raw rows'
-// expiry. `projectRow` must emit exactly the Glue table's columns (minus `dt`).
-export async function storeDailyRollup<T extends { dt: string }>(
+// expiry. Rows must hold exactly the Glue table's columns plus `dt` (partition).
+export async function storeDailyRollup(
   bucket: string,
   prefix: `${string}/`,
-  rows: T[],
-  projectRow: (row: T) => Record<string, unknown>
+  rows: { dt: string }[]
 ): Promise<void> {
-  const byDt = new Map<string, T[]>()
+  const byDt = new Map<string, object[]>()
 
-  for (const row of rows) {
-    const list = byDt.get(row.dt) ?? []
+  for (const { dt, ...row } of rows) {
+    const list = byDt.get(dt) ?? []
     list.push(row)
-    byDt.set(row.dt, list)
+    byDt.set(dt, list)
   }
 
   for (const [dt, dtRows] of byDt) {
@@ -203,7 +202,7 @@ export async function storeDailyRollup<T extends { dt: string }>(
       new PutObjectCommand({
         Bucket: bucket,
         Key: `${prefix}dt=${dt}/agg.json`,
-        Body: dtRows.map((r) => JSON.stringify(projectRow(r))).join('\n'),
+        Body: dtRows.map((row) => JSON.stringify(row)).join('\n'),
         ContentType: 'application/x-ndjson',
       })
     )
