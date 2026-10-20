@@ -1,7 +1,7 @@
 import {
   useCallback,
   useContext,
-  useMemo,
+  useEffect,
   useReducer,
   useRef,
 } from 'react'
@@ -141,7 +141,7 @@ function SubmitConfirmation(props: ConfirmProps) {
     } satisfies ConfirmParams
   })
 
-  useMemo(() => {
+  useEffect(() => {
     if (Object.keys(removeUndefinedProps(submitState) || {}).length > 0) {
       submitStateRef.current = {
         ...submitState,

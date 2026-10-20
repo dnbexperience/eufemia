@@ -1,4 +1,11 @@
-import { act, useEffect, useLayoutEffect, useRef } from 'react'
+import {
+  act,
+  StrictMode,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from 'react'
 import type { RefObject } from 'react'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import { isCI } from 'repo-utils'
@@ -351,6 +358,76 @@ describe('Form.SubmitConfirmation', { retry: isCI ? 5 : 0 }, () => {
         expect(onStateChange).not.toHaveBeenCalled()
       }
     )
+
+    it('should call "onSubmitResult" once per submit result in StrictMode', async () => {
+      const onSubmit = vi
+        .fn()
+        .mockResolvedValue({ customStatus: 'custom' })
+      const onSubmitResult = vi.fn()
+
+      render(
+        <StrictMode>
+          <Form.Handler onSubmit={onSubmit}>
+            <Form.SubmitConfirmation onSubmitResult={onSubmitResult}>
+              <Form.SubmitButton />
+            </Form.SubmitConfirmation>
+          </Form.Handler>
+        </StrictMode>
+      )
+
+      await userEvent.click(
+        document.querySelector('button[type="submit"]')
+      )
+
+      await waitFor(() => {
+        expect(onSubmitResult).toHaveBeenCalledTimes(1)
+      })
+      expect(onSubmitResult).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          submitState: { customStatus: 'custom' },
+        })
+      )
+    })
+
+    it('should not warn when "onSubmitResult" updates the state of a parent', async () => {
+      const consoleErrorSpy = vi
+        .spyOn(console, 'error')
+        .mockImplementation(() => null)
+      const onSubmit = vi
+        .fn()
+        .mockResolvedValue({ customStatus: 'custom' })
+
+      function App() {
+        const [status, setStatus] = useState(null)
+        return (
+          <Form.Handler onSubmit={onSubmit}>
+            <output>{status}</output>
+            <Form.SubmitConfirmation
+              onSubmitResult={({ submitState }) => {
+                setStatus(submitState?.customStatus)
+              }}
+            >
+              <Form.SubmitButton />
+            </Form.SubmitConfirmation>
+          </Form.Handler>
+        )
+      }
+
+      render(<App />)
+
+      await userEvent.click(
+        document.querySelector('button[type="submit"]')
+      )
+
+      await waitFor(() => {
+        expect(document.querySelector('output')).toHaveTextContent(
+          'custom'
+        )
+      })
+      expect(consoleErrorSpy).not.toHaveBeenCalled()
+
+      consoleErrorSpy.mockRestore()
+    })
 
     it('should open the confirmation from "onSubmitResult" and submit again', async () => {
       const onSubmit = vi
