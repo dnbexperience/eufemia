@@ -402,6 +402,23 @@ describe('Switch with server-rendered markup', () => {
     unmount()
   })
 
+  it('should give the change handler the input as currentTarget', () => {
+    const onChange = vi.fn(({ event }) => event.currentTarget.checked)
+    const { input, unmount } = hydrateAfterChange(
+      <Switch label="Label" onChange={onChange} />
+    )
+
+    expect(onChange).toHaveBeenCalledTimes(1)
+    expect(onChange.mock.calls[0][0].event.target).toBe(input)
+    expect(onChange.mock.calls[0][0].event.currentTarget).toBe(input)
+    expect(onChange.mock.results[0]).toEqual({
+      type: 'return',
+      value: true,
+    })
+
+    unmount()
+  })
+
   it('should undo a change made before hydration when readOnly', () => {
     const onChange = vi.fn()
     const { input, unmount } = hydrateAfterChange(
