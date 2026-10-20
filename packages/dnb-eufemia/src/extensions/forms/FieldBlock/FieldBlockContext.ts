@@ -7,7 +7,12 @@ export type StateContent =
   | FieldProps<unknown>['error']
   | FieldProps<unknown>['warning']
   | FieldProps<unknown>['info']
+export type FieldBlockRecordOwner = {
+  records: StateRecord[Identifier]
+  mounted: boolean
+}
 export type StateBasis = {
+  owner?: FieldBlockRecordOwner
   identifier: Identifier
   type: FieldState
   content: StateContent
@@ -47,7 +52,11 @@ export type FieldBlockContextProps = {
   ) => void
   collectMessages?: (record: StateBasis) => void
   setFieldState?: (identifier: Identifier, fieldState: SubmitState) => void
-  showFieldError?: (identifier: Identifier, showError: boolean) => void
+  showFieldError?: (
+    identifier: Identifier,
+    showError: boolean,
+    owner?: FieldBlockRecordOwner
+  ) => void
   hasErrorProp?: boolean
   composition?: true
   disableStatusSummary?: boolean

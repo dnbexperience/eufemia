@@ -538,6 +538,8 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   // ─── useFieldError ───────────────────────────────────────────────────
 
   const {
+    fieldBlockIdentifier,
+    blockRecordOwner,
     error,
     warning,
     info,
@@ -1783,6 +1785,26 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     }
   }, [identifier, onSubmitHandler, setFieldEventListener])
 
+  useLayoutEffect(() => {
+    blockRecordOwner.mounted = inFieldBlock
+    return () => {
+      setBlockRecord?.(
+        {
+          owner: blockRecordOwner,
+          identifier: fieldBlockIdentifier,
+          type: 'error',
+          content: undefined,
+        },
+        { remove: true }
+      )
+    }
+  }, [
+    blockRecordOwner,
+    fieldBlockIdentifier,
+    inFieldBlock,
+    setBlockRecord,
+  ])
+
   // Set the error in the field block context if this field is inside a field block
   useLayoutEffect(() => {
     if (inFieldBlock) {
@@ -1792,7 +1814,8 @@ export default function useFieldProps<Value, EmptyValue, Props>(
         ['information', info],
       ] as const) {
         setBlockRecord?.({
-          identifier,
+          owner: blockRecordOwner,
+          identifier: fieldBlockIdentifier,
           type,
           content,
           showInitially: true,
@@ -1802,20 +1825,15 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     }
 
     return undefined
-  }, [error, identifier, inFieldBlock, info, setBlockRecord, warning])
-
-  useLayoutEffect(() => {
-    if (inFieldBlock) {
-      return () => {
-        setBlockRecord?.(
-          { identifier, type: 'error', content: undefined },
-          { remove: true }
-        )
-      }
-    }
-
-    return undefined
-  }, [identifier, inFieldBlock, setBlockRecord])
+  }, [
+    blockRecordOwner,
+    error,
+    fieldBlockIdentifier,
+    inFieldBlock,
+    info,
+    setBlockRecord,
+    warning,
+  ])
 
   // ─── Status change reporting ─────────────────────────────────────────
 
@@ -1911,7 +1929,7 @@ export default function useFieldProps<Value, EmptyValue, Props>(
       ['information', info],
     ] as const) {
       collectMessages?.({
-        identifier,
+        identifier: fieldBlockIdentifier,
         type,
         content,
         showInitially: true,
