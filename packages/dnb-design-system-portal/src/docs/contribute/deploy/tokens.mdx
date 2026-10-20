@@ -31,7 +31,7 @@ Run on any other branch, the tokens are committed to that branch instead. The **
 
 The **Generate snapshots/screenshots** input is on by default. Turning it off skips the visual tests, so the image snapshots are left untouched and have to be updated separately.
 
-Every mode of the exported collections has to be listed in `TOKEN_EXPORTS` (`packages/dnb-eufemia/scripts/figma/tasks/tokensExtractor.ts`). If a mode is added in Figma, the workflow fails until the mode is added there, so a new mode cannot go unnoticed. A mode only becomes CSS once it is also added to the token files in `makePropertiesFile.ts`.
+Every mode of the exported collections has to be listed in `TOKEN_EXPORTS` (`packages/dnb-eufemia/scripts/figma/tasks/tokensExtractor.ts`). A mode that is in Figma but not there is skipped with a warning, and only becomes CSS once it is added both to `TOKEN_EXPORTS` and to the token files in `makePropertiesFile.ts`. A mode that is listed but no longer in Figma fails the run.
 
 The workflow writes `color.tokens.json` with only the foundation colors the brand collection actually uses, because the API returns the remote variables used in the file. A manual export contains the whole collection instead, so switching between the two shows up as a large diff in that one file without changing the generated CSS.
 
