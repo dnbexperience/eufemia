@@ -469,7 +469,7 @@ function ModalComponent(ownProps: ModalAllProps) {
     } else if (isNewProps) {
       if (!hide && open === true) {
         toggleOpenClose(null, true)
-      } else if (hide && open === false) {
+      } else if (hide && open === false && modalActive) {
         toggleOpenClose(null, false)
       }
     }
