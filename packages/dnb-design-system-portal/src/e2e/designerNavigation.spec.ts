@@ -72,7 +72,9 @@ test('keeps principles and motion together in Design language', async ({
     exact: true,
   })
   await expect(designLanguage).toHaveAttribute('aria-expanded', 'true')
-  await expect(designLanguage.locator('svg')).toBeVisible()
+  await expect(
+    designLanguage.locator('.dnb-sidebar-menu__item__icon svg')
+  ).toBeVisible()
   const design = menu.getByRole('link', {
     name: 'Design principles',
     exact: true,
