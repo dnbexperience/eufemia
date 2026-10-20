@@ -301,9 +301,13 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
 
   // Server and hydration records belong only to this render. Client records
   // are registered after commit so suspended fields cannot enter the summary.
-  const collectMessages =
-    nestedFieldBlockContext?.collectMessages ??
-    ((record: StateBasis) => setInternalRecord(record, renderRecords))
+  // A status above the contents renders before the fields, so it cannot
+  // collect their messages during render.
+  const collectMessages = nestedFieldBlockContext
+    ? nestedFieldBlockContext.collectMessages
+    : statusPosition !== 'above'
+      ? (record: StateBasis) => setInternalRecord(record, renderRecords)
+      : undefined
 
   const setFieldState = useCallback(
     (identifier: Identifier, fieldState: SubmitState) => {

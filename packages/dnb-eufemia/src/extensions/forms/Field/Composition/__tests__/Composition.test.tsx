@@ -616,11 +616,12 @@ describe('Field.Composition', () => {
   it('should show nested messages after hydration when statusPosition is above', async () => {
     const element = (
       <FieldBlock
+        id="composition"
         composition
         statusPosition="above"
         info="FieldBlock info"
       >
-        <Field.String warning="Warning message" />
+        <Field.String id="string" warning="Warning message" />
       </FieldBlock>
     )
     const container = document.createElement('div')
@@ -633,6 +634,15 @@ describe('Field.Composition', () => {
       '.dnb-forms-field-block__contents'
     )
     expect(status().nextElementSibling).toBe(contents)
+
+    // The server-rendered status does not contain the warning yet,
+    // so the field must not point to it
+    expect(
+      container.querySelector('.dnb-form-status--warning')
+    ).not.toBeInTheDocument()
+    expect(container.querySelector('#string')).not.toHaveAttribute(
+      'aria-describedby'
+    )
 
     const onRecoverableError = vi.fn()
     const { unmount } = render(element, {
@@ -653,6 +663,13 @@ describe('Field.Composition', () => {
     expect(status().nextElementSibling).toBe(
       container.querySelector('.dnb-forms-field-block__contents')
     )
+    expect(container.querySelector('#string')).toHaveAttribute(
+      'aria-describedby',
+      'composition-form-status--warning'
+    )
+    expect(
+      container.querySelector('#composition-form-status--warning')
+    ).toHaveTextContent('Warning message')
 
     unmount()
     container.remove()
