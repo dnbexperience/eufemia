@@ -50,6 +50,7 @@ export default function ToggleGrid({
         label={label}
         checked={isGridVisible()}
         onChange={handleChange}
+        skeleton={false}
       />
       <GridActivator />
     </span>

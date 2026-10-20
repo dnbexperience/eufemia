@@ -156,6 +156,18 @@ Use `surface="initial"` to reset components back to their default behavior insid
 </Section>
 ```
 
+## Typography
+
+Set `typography="native"` when embedded web content should use the brand's native app font size for body text and control labels. Line heights and control dimensions stay the same. The setting also reaches Eufemia dialogs and other React portals.
+
+```tsx
+<Theme typography="native">
+  <App />
+</Theme>
+```
+
+Nested themes inherit the setting. Use `typography="web"` to restore the web font size in a nested theme. See [native app font sizes](/uilib/typography/font-size#typography-for-native-app-pages) for a live example, current sizes, micro-frontend setup, and text scaling guidance.
+
 ## The `colorScheme` property (Dark mode)
 
 The `Theme` component accepts a `colorScheme` prop that controls dark and light mode.

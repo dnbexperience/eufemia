@@ -10,6 +10,113 @@ test.afterEach(async ({ page }) => {
   await clearStorage(page)
 })
 
+for (const width of [390, 1024]) {
+  for (const theme of ['ui', 'sbanken']) {
+    test(
+      'Native typography for ' +
+        theme +
+        ' at ' +
+        width +
+        'px keeps controls and portals scoped',
+      async ({ page }) => {
+        await page.setViewportSize({ width, height: 900 })
+        if (theme === 'ui') {
+          await page.goto(
+            '/uilib/typography/font-size/?data-visual-test&eufemia-theme=ui#typography-for-native-app-pages'
+          )
+        } else {
+          await page.goto(
+            '/uilib/typography/font-size/?data-visual-test&eufemia-theme=sbanken#typography-for-native-app-pages'
+          )
+        }
+        const example = page.locator(
+          '[data-visual-test="native-typography"]'
+        )
+        const toggle = example.getByRole('switch', {
+          name: 'Use native app font size',
+        })
+        const button = example.getByRole('button', {
+          name: 'Continue',
+          exact: true,
+        })
+        const input = example.getByRole('textbox', { name: 'Amount' })
+        const nativeText = example.getByTestId('native-typography-text')
+        const webText = example.getByTestId('web-typography-text')
+        const outsideText = example.getByTestId('outside-typography')
+        const html = page.locator('html')
+        const nativeSize = theme === 'sbanken' ? '16px' : '17px'
+        await expect(html).toHaveAttribute('data-portal-ready', 'true')
+        await page.evaluate(() => document.fonts.ready)
+        const htmlClasses = await html.getAttribute('class')
+
+        await expect(toggle).toBeChecked()
+        await expect(nativeText).toHaveCSS('font-size', nativeSize)
+        await expect(button.locator('.dnb-button__text')).toHaveCSS(
+          'font-size',
+          nativeSize
+        )
+        await expect(button).toHaveCSS('height', '40px')
+        await expect(input).toHaveCSS('font-size', nativeSize)
+        await expect(input).toHaveCSS('height', '40px')
+        await expect(webText).toHaveCSS('font-size', '18px')
+        await expect(outsideText).toHaveCSS('font-size', '18px')
+        await input.fill('1250')
+        await expect(input).toHaveValue('1250')
+        await button.click()
+
+        await example.getByRole('button', { name: 'Open dialog' }).click()
+        const dialog = page.getByRole('dialog', {
+          name: 'Native app font size in a dialog',
+        })
+        await expect(
+          dialog.getByTestId('dialog-typography-text')
+        ).toHaveCSS('font-size', nativeSize)
+        await expect(
+          dialog.getByTestId('dialog-web-typography-text')
+        ).toHaveCSS('font-size', '18px')
+        await expect(example.getByRole('dialog')).toHaveCount(0)
+        const dialogToggle = dialog.getByRole('switch', {
+          name: 'Use native app font size in dialog',
+        })
+        await dialogToggle.uncheck()
+        await expect(
+          dialog.getByTestId('dialog-typography-text')
+        ).toHaveCSS('font-size', '18px')
+        await expect(nativeText).toHaveCSS('font-size', '18px')
+        await dialogToggle.check()
+        await expect(
+          dialog.getByTestId('dialog-typography-text')
+        ).toHaveCSS('font-size', nativeSize)
+        await expect(
+          dialog.getByTestId('dialog-web-typography-text')
+        ).toHaveCSS('font-size', '18px')
+        await page.keyboard.press('Escape')
+        await expect(dialog).toBeHidden()
+
+        await toggle.uncheck()
+        await expect(nativeText).toHaveCSS('font-size', '18px')
+        await expect(button.locator('.dnb-button__text')).toHaveCSS(
+          'font-size',
+          '18px'
+        )
+        await expect(input).toHaveCSS('height', '40px')
+        await expect(html).toHaveAttribute('class', htmlClasses)
+
+        await example.getByRole('button', { name: 'Open dialog' }).click()
+        await expect(
+          dialog.getByTestId('dialog-typography-text')
+        ).toHaveCSS('font-size', '18px')
+        await page.keyboard.press('Escape')
+        await toggle.check()
+        await expect(nativeText).toHaveCSS('font-size', nativeSize)
+        await expect(webText).toHaveCSS('font-size', '18px')
+        await expect(outsideText).toHaveCSS('font-size', '18px')
+        await expect(html).toHaveAttribute('class', htmlClasses)
+      }
+    )
+  }
+}
+
 test.describe('Typography for UI', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto(

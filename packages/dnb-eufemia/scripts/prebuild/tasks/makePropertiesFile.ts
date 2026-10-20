@@ -957,7 +957,14 @@ const makeTypographyPropertiesSCSS = async ({
             tokenPathName
         )
       }
-      return '  ' + property + ': ' + transformFigmaValue(token) + ';'
+      const declaration =
+        '  ' + property + ': ' + transformFigmaValue(token) + ';'
+      return property === '--font-size-basis'
+        ? declaration +
+            '\n  --font-size-basis-web: ' +
+            transformFigmaValue(token) +
+            ';'
+        : declaration
     }
   )
   // Only on :root, so apps can still override the scale on :root inside a

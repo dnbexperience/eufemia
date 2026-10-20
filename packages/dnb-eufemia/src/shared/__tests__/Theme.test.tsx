@@ -1,6 +1,8 @@
 import { Fragment, act, useContext } from 'react'
 import type { ReactNode, Ref } from 'react'
 import { render } from '@testing-library/react'
+import { renderToString } from 'react-dom/server'
+import { hydrateRoot } from 'react-dom/client'
 import Context from '../Context'
 import Provider from '../Provider'
 import type { ThemeAllProps } from '../Theme'
@@ -14,6 +16,127 @@ import {
 } from '../../components'
 
 describe('Theme', () => {
+  it('keeps independently mounted themes isolated', () => {
+    const native = render(<Theme typography="native">Native app</Theme>)
+    const web = render(<Theme>Web app</Theme>)
+
+    expect(native.container.firstElementChild).toHaveClass(
+      'eufemia-theme__typography--native'
+    )
+    expect(web.container.firstElementChild).not.toHaveClass(
+      'eufemia-theme__typography--native'
+    )
+    native.unmount()
+    expect(web.container.firstElementChild).not.toHaveClass(
+      'eufemia-theme__typography--native'
+    )
+  })
+
+  it('renders typography on the server and updates it after hydration', async () => {
+    const container = document.createElement('div')
+    const recoverableError = vi.fn()
+    const content = <Theme typography="native">Embedded app</Theme>
+    container.innerHTML = renderToString(content)
+    document.body.appendChild(container)
+    expect(container.firstElementChild).toHaveClass(
+      'eufemia-theme__typography--native'
+    )
+
+    let root: ReturnType<typeof hydrateRoot>
+    await act(async () => {
+      root = hydrateRoot(container, content, {
+        onRecoverableError: recoverableError,
+      })
+    })
+    await act(async () => {
+      root.render(<Theme typography="web">Embedded app</Theme>)
+    })
+    expect(container.firstElementChild).toHaveClass(
+      'eufemia-theme__typography--web'
+    )
+    expect(container.firstElementChild).not.toHaveClass(
+      'eufemia-theme__typography--native'
+    )
+    expect(recoverableError).not.toHaveBeenCalled()
+    await act(async () => root.unmount())
+    container.remove()
+  })
+
+  it('applies typography when the channel is only known during client hydration', async () => {
+    const container = document.createElement('div')
+    container.innerHTML = renderToString(
+      <Theme typography="web">Embedded app</Theme>
+    )
+    document.body.appendChild(container)
+    const consoleError = vi
+      .spyOn(console, 'error')
+      .mockImplementation(() => {})
+    let root: ReturnType<typeof hydrateRoot>
+
+    try {
+      await act(async () => {
+        root = hydrateRoot(
+          container,
+          <Theme typography="native">Embedded app</Theme>
+        )
+      })
+      expect(container.firstElementChild).toHaveClass(
+        'eufemia-theme__typography--native'
+      )
+      expect(container.firstElementChild).not.toHaveClass(
+        'eufemia-theme__typography--web'
+      )
+
+      await act(async () => {
+        root.render(<Theme>Embedded app</Theme>)
+      })
+      expect(container.firstElementChild).not.toHaveClass(
+        'eufemia-theme__typography--native'
+      )
+    } finally {
+      await act(async () => root?.unmount())
+      container.remove()
+      consoleError.mockRestore()
+    }
+  })
+
+  it('inherits typography and supports an explicit web override without changing the document', () => {
+    const htmlClass = document.documentElement.className
+    const bodyClass = document.body.className
+    const { rerender } = render(
+      <Theme typography="native" id="native">
+        <Theme id="inherited" brand="sbanken">
+          <Theme id="web" typography="web">
+            Content
+          </Theme>
+        </Theme>
+      </Theme>
+    )
+
+    expect(document.querySelector('#native')).toHaveClass(
+      'eufemia-theme__typography--native'
+    )
+    expect(document.querySelector('#inherited')).toHaveClass(
+      'eufemia-theme__typography--native'
+    )
+    expect(document.querySelector('#web')).toHaveClass(
+      'eufemia-theme__typography--web'
+    )
+    expect(document.querySelector('#web')).not.toHaveClass(
+      'eufemia-theme__typography--native'
+    )
+    expect(document.querySelector('#native')).not.toHaveAttribute(
+      'typography'
+    )
+    expect(document.documentElement.className).toBe(htmlClass)
+    expect(document.body.className).toBe(bodyClass)
+
+    rerender(<Theme id="native">Content</Theme>)
+    expect(document.querySelector('#native')).not.toHaveClass(
+      'eufemia-theme__typography--native'
+    )
+  })
+
   it('renders with props as an object', () => {
     const props: ThemeAllProps = {}
 

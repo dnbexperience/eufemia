@@ -312,8 +312,44 @@ describe('makePropertiesFile', () => {
           )
           .map(([, selector]) => selector.trim())
 
-        expect(selectors.length).toBeGreaterThan(0)
-        expect(new Set(selectors)).toEqual(new Set([':root']))
+        // Opt-in typography modes like `typography="native"` may set it on a
+        // Theme, but the brand classes must not.
+        expect(selectors).toContain(':root')
+        expect(
+          selectors.filter((selector) =>
+            /\.eufemia-theme__(?:ui|sbanken|carnegie|eiendom)\b/.test(
+              selector
+            )
+          )
+        ).toEqual([])
+      }
+    })
+
+    it('keeps the web override baseline aligned with each brand token source', async () => {
+      const fs = await import('fs')
+      const path = await import('path')
+      for (const [brand, source] of [
+        ['ui', 'dnb-light'],
+        ['sbanken', 'sbanken-light'],
+        ['carnegie', 'dnbcarnegie-light'],
+      ]) {
+        const tokens = JSON.parse(
+          fs.readFileSync(
+            path.resolve(
+              'src/style/themes/figma/brand/' + source + '.tokens.json'
+            ),
+            'utf-8'
+          )
+        )
+        const expected = tokens.font.size['text-basis'].$value / 16 + 'rem'
+        const css = fs.readFileSync(
+          path.resolve(
+            'src/style/themes/' + brand + '/typography-properties.scss'
+          ),
+          'utf-8'
+        )
+        expect(css).toContain('--font-size-basis: ' + expected + ';')
+        expect(css).toContain('--font-size-basis-web: ' + expected + ';')
       }
     })
 
@@ -976,6 +1012,12 @@ describe('makePropertiesFile', () => {
   })
 
   it('keeps the generated JavaScript typography values concrete by brand', () => {
+    expect(global.ui).toContain(`'--font-size-basis': '1.125rem'`)
+    expect(global.ui).toContain(`'--font-size-basis-web': '1.125rem'`)
+    expect(global.sbanken).toContain(`'--font-size-basis': '1.125rem'`)
+    expect(global.sbanken).toContain(`'--font-size-basis-web': '1.125rem'`)
+    expect(global.ui).toContain(`'--font-size-basis-native': '1.0625rem'`)
+    expect(global.sbanken).toContain(`'--font-size-basis-native': '1rem'`)
     expect(global.carnegie).toContain(`'--font-size-xx-large': '3.5rem'`)
     expect(global.carnegie).toContain(
       `'--line-height-xx-large': '4.25rem'`
