@@ -578,7 +578,7 @@ describe('Ai', () => {
       'Sources',
       'Suggestion',
       'Suggestions',
-      'Tool',
+      'Task',
       'Welcome',
       'useConversation',
       'useConversationScrollState',

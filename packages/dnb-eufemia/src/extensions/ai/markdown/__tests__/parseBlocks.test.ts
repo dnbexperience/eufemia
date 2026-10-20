@@ -35,6 +35,17 @@ describe('parseBlocks', () => {
     ])
   })
 
+  it.each([
+    ['#', ''],
+    ['#   \t', ''],
+    ['   #\tTitle  ### \t', 'Title'],
+    ['# Title#', 'Title#'],
+    ['# ###', '###'],
+    ['# ## ##', '##'],
+  ])('preserves heading content in %j', (markdown, text) => {
+    expect(strip(markdown)).toEqual([{ type: 'heading', level: 1, text }])
+  })
+
   it('parses fenced code with language', () => {
     expect(strip('```ts\nconst a = 1\n\nconst b = 2\n```\nAfter')).toEqual(
       [
@@ -63,6 +74,22 @@ describe('parseBlocks', () => {
       { type: 'hr' },
     ])
   })
+
+  it.each(['***', '   - \t- -  ', '_ _ _'])(
+    'parses a spaced thematic break in %j',
+    (markdown) => {
+      expect(strip(markdown)).toEqual([{ type: 'hr' }])
+    }
+  )
+
+  it.each(['****_', '    ***', '* *'])(
+    'does not treat %j as a thematic break',
+    (markdown) => {
+      expect(strip(markdown).some((block) => block.type === 'hr')).toBe(
+        false
+      )
+    }
+  )
 
   it('parses nested blockquotes', () => {
     expect(strip('> Quote\n> > Nested')).toEqual([
@@ -147,6 +174,15 @@ describe('parseBlocks', () => {
     ])
   })
 
+  it.each(['-', '-    ', '-\t'])(
+    'parses an empty list item in %j',
+    (markdown) => {
+      expect(strip(markdown)).toMatchObject([
+        { type: 'list', items: [{ checked: null, children: [] }] },
+      ])
+    }
+  )
+
   it('lets a list interrupt a paragraph only when it starts at 1', () => {
     expect(strip('Text\n- item').map((b) => b.type)).toEqual([
       'paragraph',
@@ -189,6 +225,31 @@ describe('parseBlocks', () => {
       { type: 'paragraph', text: '| A | B |' },
     ])
   })
+
+  it.each(['| -- | :--: |', '-- | :--:', '   | --\t|\t:--: |  '])(
+    'parses table delimiter cells in %j',
+    (delimiter) => {
+      expect(strip('A | B\n' + delimiter)).toEqual([
+        {
+          type: 'table',
+          align: [null, 'center'],
+          header: ['A', 'B'],
+          rows: [],
+        },
+      ])
+    }
+  )
+
+  it.each(['-- |', '-- || --', '-- | :--:!', '-- | : :'])(
+    'does not treat %j as a valid table delimiter',
+    (delimiter) => {
+      expect(
+        strip('A | B\n' + delimiter).some(
+          (block) => block.type === 'table'
+        )
+      ).toBe(false)
+    }
+  )
 
   it('renders nesting deeper than 32 levels as text', () => {
     let block = parseBlocks('> '.repeat(40) + 'deep')[0]

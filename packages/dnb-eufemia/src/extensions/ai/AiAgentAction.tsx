@@ -20,9 +20,9 @@ import useTranslation from './hooks/useTranslation'
 import type { AiAgentActionProps } from './types'
 
 const statusTranslations = {
-  running: 'toolRunning',
-  done: 'toolDone',
-  error: 'toolError',
+  running: 'taskRunning',
+  done: 'taskDone',
+  error: 'taskError',
   canceled: 'canceled',
 } as const
 
@@ -195,7 +195,7 @@ function AiAgentAction(props: AiAgentActionProps) {
               aria-valuemax={100}
               aria-valuenow={value}
               aria-valuetext={
-                value === undefined ? translation.toolRunning : undefined
+                value === undefined ? translation.taskRunning : undefined
               }
             >
               <span className="dnb-ai-agent-action__label">
