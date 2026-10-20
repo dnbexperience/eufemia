@@ -285,6 +285,7 @@
     @media (forced-colors: active) {
       background-color: Highlight;
       color: HighlightText;
+      outline-color: Highlight;
 
       .dnb-button__icon {
         color: HighlightText;
@@ -299,6 +300,7 @@
       &[disabled] {
         background-color: GrayText;
         color: Canvas;
+        outline-color: GrayText;
 
         .dnb-button__icon {
           color: Canvas;

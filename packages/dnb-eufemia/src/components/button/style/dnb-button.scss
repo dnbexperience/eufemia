@@ -140,6 +140,11 @@
       outline: none;
 
       @include utilities.forcedColorsOutline();
+
+      // Keep the focus ring outside. The outline for the border is inside.
+      @media (forced-colors: active) {
+        outline-offset: 0;
+      }
     }
 
     &[disabled] {
@@ -166,9 +171,12 @@
 
   &--primary,
   &--secondary {
-    // Forced colors mode removes the box-shadow border, but shows this outline
+    // Forced colors mode removes the box-shadow border, but shows this outline.
+    // Draw it inside, like the border, so that a neighbor, such as the input
+    // next to the step buttons of Field.Number, cannot cover it.
     @include utilities.forcedColorsOutline(
-      var(--button-border-width, var(--button-border-width--default))
+      var(--button-border-width, var(--button-border-width--default)),
+      inset
     );
   }
 
@@ -564,6 +572,7 @@
       @media (forced-colors: active) {
         background-color: Highlight;
         color: HighlightText;
+        outline-color: Highlight;
 
         .dnb-button__icon {
           color: HighlightText;
@@ -891,7 +900,8 @@
   &--secondary[disabled] {
     // Show the outline again in forced colors mode, with the disabled color
     @include utilities.forcedColorsOutline(
-      var(--button-border-width, var(--button-border-width--default))
+      var(--button-border-width, var(--button-border-width--default)),
+      inset
     );
 
     @media (forced-colors: active) {

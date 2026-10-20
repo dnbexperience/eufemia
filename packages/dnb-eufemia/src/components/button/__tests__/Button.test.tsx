@@ -757,8 +757,13 @@ describe('Button scss', () => {
   it('shows the border in forced colors mode', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
 
+    // Inside, like the border, so that a neighbor cannot cover it
     expect(css).toMatch(
-      /@media \(forced-colors: active\) \{\s*\.dnb-button--primary,\s*\.dnb-button--secondary \{\s*outline: var\(--button-border-width, var\(--button-border-width--default\)\) solid transparent;/
+      /@media \(forced-colors: active\) \{\s*\.dnb-button--primary,\s*\.dnb-button--secondary \{\s*outline: var\(--button-border-width, var\(--button-border-width--default\)\) solid transparent;\s*outline-offset: calc\(var\(--button-border-width, var\(--button-border-width--default\)\) \* -1\);/
+    )
+    // The focus ring stays outside
+    expect(css).toMatch(
+      /@media \(forced-colors: active\) \{[^{]*\.dnb-button--primary:focus-visible:not\(\[disabled\]\)[^{]*\{\s*outline-offset: 0;/
     )
   })
 
@@ -766,7 +771,7 @@ describe('Button scss', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
 
     expect(css).toMatch(
-      /@media \(forced-colors: active\) \{\s*\.dnb-button--primary\[disabled\],\s*\.dnb-button--secondary\[disabled\] \{\s*outline: var\(--button-border-width, var\(--button-border-width--default\)\) solid transparent;/
+      /@media \(forced-colors: active\) \{\s*\.dnb-button--primary\[disabled\],\s*\.dnb-button--secondary\[disabled\] \{\s*outline: var\(--button-border-width, var\(--button-border-width--default\)\) solid transparent;\s*outline-offset: calc\(var\(--button-border-width, var\(--button-border-width--default\)\) \* -1\);/
     )
     expect(css).toMatch(
       /@media \(forced-colors: active\) \{\s*\.dnb-button--primary\[disabled\],\s*\.dnb-button--secondary\[disabled\] \{\s*outline-color: GrayText;/
@@ -777,7 +782,7 @@ describe('Button scss', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
 
     expect(css).toMatch(
-      /@media \(forced-colors: active\) \{\s*\.dnb-button--icon-only\.dnb-button--selected \{\s*background-color: Highlight;\s*color: HighlightText;\s*\}\s*\.dnb-button--icon-only\.dnb-button--selected \.dnb-button__icon \{\s*color: HighlightText;/
+      /@media \(forced-colors: active\) \{\s*\.dnb-button--icon-only\.dnb-button--selected \{\s*background-color: Highlight;\s*color: HighlightText;\s*outline-color: Highlight;\s*\}\s*\.dnb-button--icon-only\.dnb-button--selected \.dnb-button__icon \{\s*color: HighlightText;/
     )
     // The focus ring would else have the same color as the background
     expect(css).toMatch(

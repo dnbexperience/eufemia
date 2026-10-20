@@ -608,6 +608,11 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disable
     outline: var(--focus-ring-width) solid transparent;
   }
 }
+@media (forced-colors: active) {
+  html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disabled]), html:not([data-whatinput=touch]) .dnb-button--secondary:focus-visible:not([disabled]), html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible:not([disabled]) {
+    outline-offset: 0;
+  }
+}
 .dnb-button--primary[disabled], .dnb-button--secondary[disabled], .dnb-button--tertiary[disabled] {
   --button-color-bg: var(--button-color-bg--disabled);
   --button-color-border: var(--button-color-border--disabled);
@@ -626,6 +631,7 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disable
 @media (forced-colors: active) {
   .dnb-button--primary, .dnb-button--secondary {
     outline: var(--button-border-width, var(--button-border-width--default)) solid transparent;
+    outline-offset: calc(var(--button-border-width, var(--button-border-width--default)) * -1);
   }
 }
 .dnb-button--primary {
@@ -938,6 +944,7 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disable
   .dnb-button--icon-only.dnb-button--selected {
     background-color: Highlight;
     color: HighlightText;
+    outline-color: Highlight;
   }
   .dnb-button--icon-only.dnb-button--selected .dnb-button__icon {
     color: HighlightText;
@@ -1189,6 +1196,7 @@ html:not([data-whatintent=touch]) .dnb-button--secondary:not(.dnb-button--has-te
 @media (forced-colors: active) {
   .dnb-button--primary[disabled], .dnb-button--secondary[disabled] {
     outline: var(--button-border-width, var(--button-border-width--default)) solid transparent;
+    outline-offset: calc(var(--button-border-width, var(--button-border-width--default)) * -1);
   }
 }
 @media (forced-colors: active) {
