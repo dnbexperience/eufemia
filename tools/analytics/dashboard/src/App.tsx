@@ -401,7 +401,7 @@ function McpUsagePanel({
         <Card stack>
           <H2 size="medium">Missed component lookups</H2>
           <P className="dashboard__meta">
-            {`${missedLookups.toLocaleString()} lookups named no component. Names are matched ignoring case and hyphens, e.g. DatePicker → date-picker.`}
+            {`${missedLookups.toLocaleString()} lookups named a component the docs don't have. Names are matched ignoring case and hyphens, e.g. DatePicker → date-picker.`}
           </P>
           <RankedTable
             caption={`${label} missed component lookups`}

@@ -33,6 +33,7 @@ import {
   aggregateLocalMcpUsageByVersion,
   aggregateMcpUsageRaw,
   aggregatePortalViewsRaw,
+  retrieveMcpUsageDaily,
   retrievePortalViews,
 } from '../src/lambda/retrieve.js'
 
@@ -43,6 +44,7 @@ beforeEach(() => {
   process.env.GLUE_DATABASE = 'db'
   process.env.GLUE_TABLE = 'portal_views'
   process.env.GLUE_TABLE_MCP_USAGE = 'mcp_usage'
+  process.env.GLUE_TABLE_MCP_USAGE_DAILY = 'mcp_usage_daily'
   process.env.ATHENA_WORKGROUP = 'wg'
 })
 
@@ -50,6 +52,7 @@ afterEach(() => {
   delete process.env.GLUE_DATABASE
   delete process.env.GLUE_TABLE
   delete process.env.GLUE_TABLE_MCP_USAGE
+  delete process.env.GLUE_TABLE_MCP_USAGE_DAILY
   delete process.env.ATHENA_WORKGROUP
 })
 
@@ -172,6 +175,72 @@ describe('aggregatePortalViewsRaw', () => {
     }
     expect(start.input.QueryString).toBe(
       `SELECT dt, path, env, status, locale, theme, color_scheme, referrer, via_search, count(*) AS cnt FROM "db"."portal_views" WHERE dt >= '2026-09-14' GROUP BY dt, path, env, status, locale, theme, color_scheme, referrer, via_search`
+    )
+  })
+})
+
+describe('retrieveMcpUsageDaily', () => {
+  it('reads a daily row written before misses were recorded as no miss', async () => {
+    send.mockImplementation((command: Command) => {
+      if (command.kind === 'start') {
+        return Promise.resolve({ QueryExecutionId: 'query-id' })
+      }
+      if (command.kind === 'status') {
+        return Promise.resolve({
+          QueryExecution: { Status: { State: 'SUCCEEDED' } },
+        })
+      }
+
+      return Promise.resolve({
+        ResultSet: {
+          Rows: [
+            {
+              Data: [
+                { VarCharValue: 'dt' },
+                { VarCharValue: 'transport' },
+                { VarCharValue: 'tool' },
+                { VarCharValue: 'component' },
+                { VarCharValue: 'path' },
+                { VarCharValue: 'component_missed' },
+                { VarCharValue: 'likely_component' },
+                { VarCharValue: 'count' },
+              ],
+            },
+            {
+              Data: [
+                { VarCharValue: '2026-09-20' },
+                { VarCharValue: 'web' },
+                { VarCharValue: 'component_doc' },
+                { VarCharValue: 'button' },
+                { VarCharValue: '' },
+                {},
+                {},
+                { VarCharValue: '5' },
+              ],
+            },
+          ],
+        },
+      })
+    })
+
+    await expect(retrieveMcpUsageDaily()).resolves.toEqual([
+      {
+        dt: '2026-09-20',
+        transport: 'web',
+        tool: 'component_doc',
+        component: 'button',
+        path: '',
+        component_missed: false,
+        likely_component: '',
+        count: 5,
+      },
+    ])
+
+    const start = send.mock.calls[0][0] as Command & {
+      input: { QueryString: string }
+    }
+    expect(start.input.QueryString).toBe(
+      `SELECT dt, transport, tool, component, path, component_missed, likely_component, count FROM "db"."mcp_usage_daily"`
     )
   })
 })

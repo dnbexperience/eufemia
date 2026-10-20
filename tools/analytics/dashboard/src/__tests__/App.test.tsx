@@ -256,7 +256,7 @@ describe('App (smoke)', () => {
 
     expect(container.textContent).toContain('Missed component lookups')
     expect(container.textContent).toContain(
-      '3 lookups named no component.'
+      "3 lookups named a component the docs don't have."
     )
     expect(container.textContent).toContain('date-picker')
   })

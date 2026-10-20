@@ -53,8 +53,7 @@ export type McpUsageCount = { name: string; count: number }
 export type McpUsageDay = { date: string; count: number }
 
 // MCP usage for one transport: total plus ranked breakdowns and a daily series
-// for trend/year-over-year views. `missedLookups` counts component lookups that
-// named no component.
+// for trend/year-over-year views.
 export type McpTransportUsage = {
   total: number
   perTool: McpUsageCount[]
