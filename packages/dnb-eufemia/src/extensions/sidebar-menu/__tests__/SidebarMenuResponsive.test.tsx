@@ -1,5 +1,5 @@
 import { act, fireEvent, render, waitFor } from '@testing-library/react'
-import { createRef } from 'react'
+import { createRef, useState } from 'react'
 import { hydrateRoot } from 'react-dom/client'
 import { renderToString } from 'react-dom/server'
 import { setMedia } from 'mock-match-media'
@@ -517,6 +517,7 @@ describe('SidebarMenu responsive parts', () => {
             scopeId="application-navigation"
             compactAt="80em"
           >
+            <SidebarMenu.ResponsiveTrigger controls="mobile-nav" />
             {['Primary', 'Secondary'].map((name) =>
               surface === 'aside' ? (
                 <SidebarMenu.ResponsiveAside key={name} id={`${name}-nav`}>
@@ -572,6 +573,9 @@ describe('SidebarMenu responsive parts', () => {
           )
           expect(toggles[0]).toHaveAttribute('aria-controls', serverIds[0])
           expect(toggles[1]).toHaveAttribute('aria-controls', serverIds[1])
+          expect(
+            container.querySelector('.dnb-sidebar-menu-responsive-trigger')
+          ).toHaveAttribute('aria-controls', 'Primary-nav')
           expect(consoleError).not.toHaveBeenCalled()
         } finally {
           if (root) {
@@ -613,19 +617,10 @@ describe('SidebarMenu responsive parts', () => {
             ids === 'shared' ? 1 : 0
           )
           expect(document.getElementById(inlineId).tagName).toBe('ASIDE')
-          expect(trigger.getAttribute('aria-controls')).toBe(
-            ids === 'distinct omitted'
-              ? null
-              : ids === 'shared'
-                ? 'legacy-nav'
-                : 'desktop-nav'
-          )
-          const targetId = trigger.getAttribute('aria-controls')
+          expect(trigger).toHaveAttribute('aria-controls', inlineId)
           expect(
-            targetId
-              ? document.getElementById(targetId)?.textContent
-              : null
-          ).toBe(ids === 'distinct omitted' ? null : 'Desktop menu')
+            document.getElementById(trigger.getAttribute('aria-controls'))
+          ).toHaveTextContent('Desktop menu')
         }
         checkDesktop()
         expect(trigger).toHaveAttribute('aria-expanded', 'false')
@@ -665,7 +660,7 @@ describe('SidebarMenu responsive parts', () => {
       }
     )
 
-    it('clears a legacy control target when its aside changes or unmounts', () => {
+    it('tracks a legacy control target when its aside changes or unmounts', async () => {
       setMedia({ width: '100em' })
       const element = (id?: string, controls = 'legacy-nav') => (
         <SidebarMenu.ResponsiveProvider defaultInlineCollapsed>
@@ -682,13 +677,17 @@ describe('SidebarMenu responsive parts', () => {
       expect(trigger).toHaveAttribute('aria-controls', 'legacy-nav')
 
       rerender(element('renamed-nav'))
-      expect(trigger).not.toHaveAttribute('aria-controls')
+      await waitFor(() =>
+        expect(trigger).toHaveAttribute('aria-controls', 'renamed-nav')
+      )
 
       rerender(element('renamed-nav', 'renamed-nav'))
       expect(trigger).toHaveAttribute('aria-controls', 'renamed-nav')
 
       rerender(element())
-      expect(trigger).not.toHaveAttribute('aria-controls')
+      await waitFor(() =>
+        expect(trigger).not.toHaveAttribute('aria-controls')
+      )
     })
 
     it('does not use a matching legacy target outside its inline provider', () => {
@@ -706,8 +705,247 @@ describe('SidebarMenu responsive parts', () => {
       )
       expect(
         document.querySelector('.dnb-sidebar-menu-responsive-trigger')
-      ).not.toHaveAttribute('aria-controls')
+      ).toHaveAttribute('aria-controls', 'desktop-nav')
     })
+
+    it('keeps one actual target registered when it moves between inline owners', async () => {
+      setMedia({ width: '100em' })
+      function Menus() {
+        const [first, setFirst] = useState(false)
+        return (
+          <>
+            <button
+              id="move-menu"
+              onClick={() => setFirst((value) => !value)}
+            >
+              Move menu
+            </button>
+            <SidebarMenu.ResponsiveInline>
+              {first && <aside id="desktop-nav">Desktop menu</aside>}
+            </SidebarMenu.ResponsiveInline>
+            <SidebarMenu.ResponsiveInline>
+              {!first && <aside id="desktop-nav">Desktop menu</aside>}
+            </SidebarMenu.ResponsiveInline>
+          </>
+        )
+      }
+      render(
+        <SidebarMenu.ResponsiveProvider>
+          <SidebarMenu.ResponsiveTrigger />
+          <Menus />
+        </SidebarMenu.ResponsiveProvider>
+      )
+      const trigger = document.querySelector(
+        '.dnb-sidebar-menu-responsive-trigger'
+      )
+      for (let step = 0; step < 3; step++) {
+        expect(document.querySelectorAll('#desktop-nav')).toHaveLength(1)
+        await act(async () => undefined)
+        expect(trigger).toHaveAttribute('aria-controls', 'desktop-nav')
+        fireEvent.click(document.getElementById('move-menu'))
+      }
+    })
+
+    it('registers initial aside IDs when MutationObserver is unavailable', () => {
+      setMedia({ width: '100em' })
+      const observer = globalThis.MutationObserver
+      try {
+        vi.stubGlobal('MutationObserver', undefined)
+        const { unmount } = render(
+          <SidebarMenu.ResponsiveProvider>
+            <SidebarMenu.ResponsiveTrigger />
+            <SidebarMenu.ResponsiveAside id="desktop-nav">
+              Desktop menu
+            </SidebarMenu.ResponsiveAside>
+          </SidebarMenu.ResponsiveProvider>
+        )
+        expect(
+          document.querySelector('.dnb-sidebar-menu-responsive-trigger')
+        ).toHaveAttribute('aria-controls', 'desktop-nav')
+        unmount()
+      } finally {
+        vi.stubGlobal('MutationObserver', observer)
+      }
+    })
+
+    it('does not register an aside owned by a nested provider', async () => {
+      setMedia({ width: '100em' })
+      render(
+        <SidebarMenu.ResponsiveProvider>
+          <SidebarMenu.ResponsiveTrigger id="outer-trigger" />
+          <SidebarMenu.ResponsiveInline>
+            <SidebarMenu.ResponsiveProvider>
+              <SidebarMenu.ResponsiveTrigger id="inner-trigger" />
+              <aside id="inner-nav">Nested menu</aside>
+            </SidebarMenu.ResponsiveProvider>
+          </SidebarMenu.ResponsiveInline>
+        </SidebarMenu.ResponsiveProvider>
+      )
+      await act(async () => undefined)
+      expect(document.getElementById('outer-trigger')).not.toHaveAttribute(
+        'aria-controls'
+      )
+      expect(document.getElementById('inner-trigger')).not.toHaveAttribute(
+        'aria-controls'
+      )
+    })
+
+    it('keeps remaining direct inline registrations and explicit targets', async () => {
+      setMedia({ width: '100em' })
+      function Menus() {
+        const [primary, setPrimary] = useState(true)
+        return (
+          <>
+            <button id="remove-primary" onClick={() => setPrimary(false)}>
+              Remove primary
+            </button>
+            {primary && (
+              <SidebarMenu.ResponsiveInline>
+                <aside id="primary-nav">Primary menu</aside>
+              </SidebarMenu.ResponsiveInline>
+            )}
+            <SidebarMenu.ResponsiveInline>
+              <aside id="secondary-nav">Secondary menu</aside>
+            </SidebarMenu.ResponsiveInline>
+          </>
+        )
+      }
+      render(
+        <SidebarMenu.ResponsiveProvider>
+          <SidebarMenu.ResponsiveTrigger id="automatic-trigger" />
+          <SidebarMenu.ResponsiveTrigger
+            id="explicit-trigger"
+            inlineControls="secondary-nav"
+          />
+          <Menus />
+        </SidebarMenu.ResponsiveProvider>
+      )
+      expect(document.getElementById('automatic-trigger')).toHaveAttribute(
+        'aria-controls',
+        'primary-nav'
+      )
+      expect(document.getElementById('explicit-trigger')).toHaveAttribute(
+        'aria-controls',
+        'secondary-nav'
+      )
+      fireEvent.click(document.getElementById('remove-primary'))
+      await waitFor(() =>
+        expect(
+          document.getElementById('automatic-trigger')
+        ).toHaveAttribute('aria-controls', 'secondary-nav')
+      )
+      expect(document.getElementById('explicit-trigger')).toHaveAttribute(
+        'aria-controls',
+        'secondary-nav'
+      )
+    })
+
+    it.each(['raw', 'wrapped', 'managed'])(
+      'tracks %s aside IDs changed only by child state',
+      async (surface) => {
+        setMedia({ width: '100em' })
+        function Menu() {
+          const [id, setId] = useState('legacy-nav')
+          const [mounted, setMounted] = useState(false)
+          const aside = mounted && <aside id={id}>Desktop menu</aside>
+          return (
+            <>
+              <button
+                id="mount-menu"
+                onClick={() => setMounted((value) => !value)}
+              >
+                Mount menu
+              </button>
+              <button
+                id="rename-menu"
+                onClick={() => setId('renamed-nav')}
+              >
+                Rename menu
+              </button>
+              {surface === 'managed' ? (
+                mounted && (
+                  <SidebarMenu.ResponsiveAside id={id}>
+                    Desktop menu
+                  </SidebarMenu.ResponsiveAside>
+                )
+              ) : surface === 'wrapped' ? (
+                <div>{aside}</div>
+              ) : (
+                aside
+              )}
+            </>
+          )
+        }
+        const element = (
+          <SidebarMenu.ResponsiveProvider defaultInlineCollapsed>
+            <SidebarMenu.ResponsiveTrigger controls="legacy-nav" />
+            {surface === 'managed' ? (
+              <Menu />
+            ) : (
+              <SidebarMenu.ResponsiveInline>
+                <Menu />
+              </SidebarMenu.ResponsiveInline>
+            )}
+            <SidebarMenu.ResponsiveDrawer id="legacy-nav">
+              Mobile menu
+            </SidebarMenu.ResponsiveDrawer>
+          </SidebarMenu.ResponsiveProvider>
+        )
+        const { rerender, unmount } = render(element)
+        const trigger = document.querySelector(
+          '.dnb-sidebar-menu-responsive-trigger'
+        )
+        expect(trigger).not.toHaveAttribute('aria-controls')
+        fireEvent.click(document.getElementById('mount-menu'))
+        await waitFor(() =>
+          expect(trigger).toHaveAttribute('aria-controls', 'legacy-nav')
+        )
+        fireEvent.click(document.getElementById('rename-menu'))
+        await waitFor(() =>
+          expect(trigger).toHaveAttribute('aria-controls', 'renamed-nav')
+        )
+        expect(
+          document.getElementById(trigger.getAttribute('aria-controls'))
+        ).toHaveTextContent('Desktop menu')
+        fireEvent.click(document.getElementById('mount-menu'))
+        await waitFor(() =>
+          expect(trigger).not.toHaveAttribute('aria-controls')
+        )
+        fireEvent.click(document.getElementById('mount-menu'))
+        await waitFor(() =>
+          expect(trigger).toHaveAttribute('aria-controls', 'renamed-nav')
+        )
+        setMedia({ width: '30em' })
+        rerender(element)
+        fireEvent.click(trigger)
+        await waitFor(() =>
+          expect(document.getElementById('legacy-nav')).toHaveTextContent(
+            'Mobile menu'
+          )
+        )
+        expect(trigger).toHaveAttribute('aria-controls', 'legacy-nav')
+        fireEvent.keyDown(document.querySelector('.dnb-drawer'), {
+          key: 'Escape',
+        })
+        await waitFor(() =>
+          expect(trigger).toHaveAttribute('aria-expanded', 'false')
+        )
+        setMedia({ width: '100em' })
+        rerender(element)
+        if (surface !== 'managed') {
+          // Raw children unmount on mobile; their local state starts again.
+          expect(trigger).not.toHaveAttribute('aria-controls')
+          fireEvent.click(document.getElementById('mount-menu'))
+        }
+        await waitFor(() =>
+          expect(trigger).toHaveAttribute(
+            'aria-controls',
+            surface === 'managed' ? 'renamed-nav' : 'legacy-nav'
+          )
+        )
+        unmount()
+      }
+    )
   })
 
   it('provides a responsive application shell', () => {
