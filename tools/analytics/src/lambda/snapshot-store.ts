@@ -189,20 +189,16 @@ export async function storeDailyRollup(
   prefix: `${string}/`,
   rows: { dt: string }[]
 ): Promise<void> {
-  const byDt = new Map<string, object[]>()
-
-  for (const { dt, ...row } of rows) {
-    const list = byDt.get(dt) ?? []
-    list.push(row)
-    byDt.set(dt, list)
-  }
+  const byDt = Map.groupBy(rows, (row) => row.dt)
 
   for (const [dt, dtRows] of byDt) {
     await s3.send(
       new PutObjectCommand({
         Bucket: bucket,
         Key: `${prefix}dt=${dt}/agg.json`,
-        Body: dtRows.map((row) => JSON.stringify(row)).join('\n'),
+        Body: dtRows
+          .map(({ dt, ...row }) => JSON.stringify(row))
+          .join('\n'),
         ContentType: 'application/x-ndjson',
       })
     )
