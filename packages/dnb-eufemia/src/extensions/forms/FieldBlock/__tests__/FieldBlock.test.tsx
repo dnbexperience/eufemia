@@ -945,6 +945,25 @@ describe('FieldBlock', () => {
         expect(element).toHaveTextContent(blockInfo)
       })
 
+      it('should not update the FormStatus while typing when the message is unchanged', async () => {
+        render(<Field.String info={blockInfo} />)
+
+        const input = document.querySelector('input')
+        await userEvent.type(input, 'a')
+
+        // FormStatus measures the width of the contents when its children change
+        const offsetWidth = vi.spyOn(
+          HTMLElement.prototype,
+          'offsetWidth',
+          'get'
+        )
+        await userEvent.type(input, 'bc')
+
+        expect(offsetWidth).not.toHaveBeenCalled()
+
+        offsetWidth.mockRestore()
+      })
+
       it('should render the given element', () => {
         render(
           <FieldBlock info={<strong>{blockInfo}</strong>}>
@@ -1206,12 +1225,13 @@ describe('FieldBlock', () => {
         expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(
           2
         )
+        // The status is rendered after the contents
         expect(
           document.querySelectorAll('.dnb-form-status')[0].textContent
-        ).toBe('Outer')
+        ).toBe('Nested')
         expect(
           document.querySelectorAll('.dnb-form-status')[1].textContent
-        ).toBe('Nested')
+        ).toBe('Outer')
       })
 
       it('should summarize errors when returned in onChangeValidator', () => {

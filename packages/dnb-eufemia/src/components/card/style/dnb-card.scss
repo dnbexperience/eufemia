@@ -12,16 +12,118 @@
   );
   --card-background-color: var(--token-color-background-neutral);
 
-  &--closable > .dnb-flex-container {
+  &--closable:not(#{&}--no-inner-space) > .dnb-flex-container {
     padding-inline-end: 3rem;
   }
 
-  &__close-button {
+  &__close-button.dnb-button,
+  &__media-button.dnb-button {
+    --button-color-border--default: transparent;
+    --button-color-border--hover: var(--token-color-stroke-action-hover);
+    --button-color-border--active: var(
+      --token-color-stroke-action-pressed
+    );
+
+    > .dnb-button__bounding {
+      inset: min(0rem, calc((var(--button-height) - 2.75rem) / 2));
+      transform: none;
+    }
+  }
+
+  &__close-button.dnb-button {
+    --button-color-bg--default: color-mix(
+      in srgb,
+      var(--token-color-background-neutral-subtle) 70%,
+      transparent
+    );
+    --button-color-icon--default: var(--token-color-icon-neutral);
+
     position: absolute;
     z-index: 2;
     top: calc(var(--padding-top, 0rem) + var(--line-height-small) / 2);
     right: 1rem;
     transform: translateY(-50%);
+
+    > .dnb-button__icon {
+      flex: none;
+      width: 1rem;
+      height: 1rem;
+    }
+  }
+
+  &__media-button.dnb-button {
+    --button-color-bg--default: color-mix(
+      in srgb,
+      var(--token-color-background-neutral-base) 60%,
+      transparent
+    );
+    --button-color-icon--default: var(--token-color-icon-neutral);
+
+    position: absolute;
+    z-index: 1;
+    top: 1rem;
+    left: 1rem;
+  }
+
+  &--no-inner-space > &__close-button.dnb-button {
+    top: 1rem;
+    transform: none;
+  }
+
+  &__overlay.dnb-flex-stack {
+    position: relative;
+    isolation: isolate;
+    color: var(--token-color-text-neutral-ondark);
+
+    :where(h1, h2, h3, h4, h5, h6, .dnb-heading) {
+      text-shadow: 0 0 0.8125rem rgb(0 0 0 / 25%);
+    }
+
+    :where(p, .dnb-p) {
+      text-shadow: 0 0 0.125rem rgb(0 0 0 / 25%);
+    }
+  }
+
+  &__overlay--gradient::before {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(transparent, rgb(0 0 0 / 70%));
+  }
+
+  &__overlay-blur {
+    position: absolute;
+    z-index: -2;
+    inset: 0;
+    pointer-events: none;
+
+    > span {
+      position: absolute;
+      inset: 0;
+    }
+
+    > span:nth-child(1) {
+      backdrop-filter: blur(0.1875rem);
+      mask-image: linear-gradient(transparent, #000 25%, transparent 50%);
+    }
+    > span:nth-child(2) {
+      backdrop-filter: blur(0.375rem);
+      mask-image: linear-gradient(
+        transparent 25%,
+        #000 50%,
+        transparent 75%
+      );
+    }
+    > span:nth-child(3) {
+      backdrop-filter: blur(0.5625rem);
+      mask-image: linear-gradient(transparent 50%, #000 75%, transparent);
+    }
+    > span:nth-child(4) {
+      backdrop-filter: blur(0.75rem);
+      mask-image: linear-gradient(transparent 75%, #000);
+    }
   }
 
   &__title {

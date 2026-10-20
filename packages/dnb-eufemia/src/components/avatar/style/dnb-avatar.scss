@@ -40,7 +40,7 @@
 
   border-radius: 50%;
   font-weight: var(--font-weight-medium);
-  line-height: 1;
+  line-height: var(--line-height-large);
   background-color: var(--avatar-background-color);
   color: var(--avatar-text-color);
 
@@ -57,22 +57,11 @@
     --avatar-text-color: var(--token-color-text-neutral);
   }
 
-  // Safari needs a correct CSS specificity
-  &,
-  .dnb-core-style & {
-    line-height: var(--line-height-large);
-  }
-
   &--size-small {
     width: var(--avatar-width--small);
     height: var(--avatar-height--small);
     font-size: var(--avatar-font-size--small);
-
-    // Safari needs a correct CSS specificity
-    &,
-    .dnb-core-style & {
-      line-height: var(--avatar-line-height--small);
-    }
+    line-height: var(--avatar-line-height--small);
 
     .dnb-icon--auto {
       font-size: var(--avatar-icon-size--small);
@@ -83,12 +72,8 @@
     width: var(--avatar-width--medium);
     height: var(--avatar-height--medium);
     font-size: var(--avatar-font-size--medium);
+    line-height: var(--avatar-line-height--medium);
 
-    // Safari needs a correct CSS specificity
-    &,
-    .dnb-core-style & {
-      line-height: var(--avatar-line-height--medium);
-    }
     .dnb-icon--auto {
       font-size: var(--avatar-icon-size--medium);
     }
@@ -98,12 +83,7 @@
     width: var(--avatar-width--large);
     height: var(--avatar-height--large);
     font-size: var(--avatar-font-size--large);
-
-    // Safari needs a correct CSS specificity
-    &,
-    .dnb-core-style & {
-      line-height: var(--avatar-line-height--large);
-    }
+    line-height: var(--avatar-line-height--large);
 
     .dnb-icon--auto {
       font-size: var(--avatar-icon-size--large);
@@ -114,12 +94,8 @@
     width: var(--avatar-width--x-large);
     height: var(--avatar-height--x-large);
     font-size: var(--avatar-font-size--x-large);
+    line-height: var(--avatar-line-height--x-large);
 
-    // Safari needs a correct CSS specificity
-    &,
-    .dnb-core-style & {
-      line-height: var(--avatar-line-height--x-large);
-    }
     .dnb-icon--auto {
       font-size: var(--avatar-icon-size--x-large);
     }

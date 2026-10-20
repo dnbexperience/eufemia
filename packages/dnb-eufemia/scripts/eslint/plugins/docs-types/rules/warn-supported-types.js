@@ -22,6 +22,7 @@ const LOWERCASE_LITERAL_PATTERN = /^[a-z][a-z0-9-]*$/
 // (`AriaAttributes & DataAttributes`), which are valid docs type values.
 const CAPITALIZED_TYPE_PATTERN = /^[A-Z][A-Za-z0-9_.,&<>()[\]/ -]*$/
 // Indexed access types, such as `BadgeProps["content"]`.
+// eslint-disable-next-line security/detect-unsafe-regex -- the optional group does not repeat, and the input is our own type docs
 const INDEXED_ACCESS_PATTERN = /^[A-Z][A-Za-z0-9_.]*(?:<.+>)?\[".+"\]$/
 // Template literal types, such as `` `${number}em` ``.
 const TEMPLATE_LITERAL_TYPE_PATTERN = /^`[^`]*\$\{.+\}[^`]*`$/

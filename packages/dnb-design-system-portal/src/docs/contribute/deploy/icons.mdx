@@ -23,6 +23,14 @@ To fetch new icons from the [Figma Icons Library](https://www.figma.com/file/2aN
 1. Review and (squash) merge the pull request.
    - The PR or commit needs an [appropriate title](/contribute/style-guides/git) e.g. `feat(Icons): add [icon names]` or `fix(Icon): fix cropped [icon name]`. You can either give the commit a good title during the squash merge of the PR or you may pull and rebase interactive `git pull && git rebase -i` or amend.
 
+## How to sync country flags?
+
+Country flags come from the pinned `flag-icons` development dependency. The [Country Flags workflow](https://github.com/dnbexperience/eufemia/actions/workflows/country-flags-sync.yml) checks for updates on the 2nd of each month at 06:23 UTC. It can also be run manually on `main`.
+
+The workflow respects Yarn's minimum package age, synchronizes the square SVGs and styles, and updates the CountryFlag and Avatar badge snapshots. It opens a draft pull request only when there are changes and reuses an existing update pull request, preserving reviewer commits. The run summary lists added, updated, and removed flags. Review the changes and visual snapshots before marking the pull request ready.
+
+To update locally, run `yarn up flag-icons --exact` followed by `yarn workspace @dnb/eufemia flags:sync`.
+
 ## How to fix icons?
 
 If you need to re-fetch one or several icons that got updated or changed in the [Figma Icons Library](https://www.figma.com/file/2aNwT4Lbyt9hFmDv8k34yN/Eufemia---Icons?node-id=1%3A9) you can force the icons to get re-processed before the cache timeout of 30 days:

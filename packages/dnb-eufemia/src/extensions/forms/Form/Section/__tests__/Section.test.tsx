@@ -120,7 +120,7 @@ describe('Form.Section', () => {
         "firstName": {
           "autoComplete": "given-name",
           "errorMessages": {
-            "Field.errorPattern": "Du må skrive inn et gyldig fornavn. Kun bokstaver, bindestrek og mellomrom er tillatt.",
+            "Field.errorPattern": "Du må skrive inn et gyldig fornavn. Kun bokstaver, bindestrek og mellomrom er tillatt. Bindestrek og mellomrom må stå mellom to bokstaver.",
             "Field.errorRequired": "Du må fylle inn fornavn.",
           },
           "exportValidators": {
@@ -144,7 +144,7 @@ describe('Form.Section', () => {
         "lastName": {
           "autoComplete": "family-name",
           "errorMessages": {
-            "Field.errorPattern": "Du må skrive inn et gyldig etternavn. Kun bokstaver, bindestrek og mellomrom er tillatt.",
+            "Field.errorPattern": "Du må skrive inn et gyldig etternavn. Kun bokstaver, bindestrek og mellomrom er tillatt. Bindestrek og mellomrom må stå mellom to bokstaver.",
             "Field.errorRequired": "Du må fylle inn etternavn.",
           },
           "exportValidators": {

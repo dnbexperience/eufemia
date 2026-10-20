@@ -27,6 +27,28 @@ const getBuildStages = (stages: string[]) => {
   return shouldSkipEs ? stages.filter((s) => s !== '/es') : stages
 }
 
+describe('SidebarMenu style imports', () => {
+  it.each(getBuildStages(['/es', '/esm', '/cjs']))(
+    'exposes SidebarMenu isolated styles on stage %s',
+    (stage) => {
+      const styleDir = path.resolve(
+        PKG_ROOT,
+        `build${makeStagePathException(stage)}/extensions/sidebar-menu/style`
+      )
+      const entry = fs.readFileSync(
+        path.join(styleDir, 'isolated.js'),
+        'utf-8'
+      )
+      const cssFile = 'dnb-sidebar-menu--isolated.min.css'
+
+      expect(entry).toContain(`./${cssFile}`)
+      expect(
+        fs.readFileSync(path.join(styleDir, cssFile), 'utf-8')
+      ).toContain('.eufemia-scope--')
+    }
+  )
+})
+
 describe('rebaseAssetUrls (copyStyles)', () => {
   const buildAbs = path.resolve(PKG_ROOT, 'build')
 
@@ -805,6 +827,7 @@ describe('tsdown build', () => {
               path.resolve(PKG_ROOT, `build${stage}/dnb-ui-lib.min.mjs`),
               'utf-8'
             )
+            // eslint-disable-next-line security/detect-unsafe-regex -- the optional group does not repeat
             expect(content).toMatch(/import\s*(?:\w+,)?\{.*\}from"react";/)
             expect(content).toContain('}from"react-dom";')
             expect(content).toMatch(
@@ -947,10 +970,10 @@ describe('style build', () => {
         'utf-8'
       )
       expect(content).toMatch(
-        /\.dnb-core-style {([\r\n][^}]*)+font-family: var\(--font-family-default\);/
+        /\.dnb-core-style {[\r\n][^}]*font-family: var\(--font-family-default\);/
       )
       expect(content).toMatch(
-        /html {([\r\n][^}]*)+line-height: var\(--line-height-basis\);/
+        /html {[\r\n][^}]*line-height: var\(--line-height-basis\);/
       )
     }
 
@@ -960,10 +983,10 @@ describe('style build', () => {
         'utf-8'
       )
       expect(content).toMatch(
-        /\.dnb-core-style {([\r\n][^}]*)+font-family: var\(--font-family-default\);/
+        /\.dnb-core-style {[\r\n][^}]*font-family: var\(--font-family-default\);/
       )
       expect(content).not.toMatch(
-        /html {([\r\n][^}]*)+line-height: var\(--line-height-basis\);/
+        /html {[\r\n][^}]*line-height: var\(--line-height-basis\);/
       )
     }
 

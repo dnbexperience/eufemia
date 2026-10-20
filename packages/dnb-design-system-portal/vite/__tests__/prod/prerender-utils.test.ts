@@ -541,6 +541,29 @@ describe('prerender-utils', () => {
       expect(emotionPos).toBeLessThan(headClosePos)
     })
 
+    it('preserves quoted CDN mask URLs in server-rendered styles', () => {
+      const style =
+        'mask-image:url(&quot;https://assets.eufemia.dnb.no/icons/dnb/bell_medium.svg&quot;);width:1em'
+      const result = injectHtml(
+        template,
+        `<span style="${style}"></span>`,
+        { js: [], css: [] }
+      )
+      const container = document.createElement('div')
+      container.innerHTML = result
+      expect(container.querySelector('span').style.maskImage).toBe(
+        'url("https://assets.eufemia.dnb.no/icons/dnb/bell_medium.svg")'
+      )
+    })
+
+    it('keeps React inline styles unchanged for hydration', () => {
+      const appHtml =
+        '<span style="--icon-size:1em;color:red;background-image:url(&quot;data:image/svg+xml;charset=utf-8,%3Csvg%3E%3C/svg%3E&quot;)"></span>'
+      expect(injectHtml(template, appHtml, { js: [], css: [] })).toContain(
+        appHtml
+      )
+    })
+
     it('does not modify head when emotionCss is empty', () => {
       const result = injectHtml(
         template,

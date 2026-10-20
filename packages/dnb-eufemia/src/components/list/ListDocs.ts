@@ -89,7 +89,7 @@ export const ItemContentProperties: PropertiesTableProps = {
     status: 'optional',
   },
   children: {
-    doc: 'Item content. Typically `List.Cell.Start`, `List.Cell.Center`, `List.Cell.End`, `List.Cell.Title` (use `List.Cell.Title.Overline`/`List.Cell.Title.Subline` for overline/subline text), or the drop-in `List.Cell.Title.Overline`/`List.Cell.Title.Subline` components, or `List.Cell.Footer`.',
+    doc: 'Item content. `List.Item.Basic` supports plain text children with horizontal padding. For more complex rows, use `List.Cell.Start`, `List.Cell.Center`, `List.Cell.End`, `List.Cell.Title` (with `List.Cell.Title.Overline`/`List.Cell.Title.Subline` for supporting text), or `List.Cell.Footer`.',
     type: 'React.ReactNode',
     status: 'required',
   },

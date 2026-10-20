@@ -564,7 +564,6 @@ function TabsComponent(ownProps: TabsProps) {
 
       if (
         !document.getElementById(`${_id}-content`) &&
-        typeof process !== 'undefined' &&
         process.env.NODE_ENV !== 'test'
       ) {
         warn(

@@ -3,6 +3,8 @@
  *
  */
 
+@use 'sass:selector';
+
 @mixin globalReset() {
   /**
    * 1. Use the default cursor in all browsers (opinionated).
@@ -70,6 +72,19 @@
 }
 
 @mixin reset() {
+  @if & {
+    // Keep the core wrapper from outweighing component classes.
+    @at-root #{selector.replace(&, '.dnb-core-style', ':where(.dnb-core-style)')} {
+      @include elementReset();
+    }
+  } @else {
+    @include elementReset();
+  }
+
+  @include interactionReset();
+}
+
+@mixin elementReset() {
   @include coreReset();
 
   /* Grouping content
@@ -306,7 +321,9 @@
   template {
     display: none;
   }
+}
 
+@mixin interactionReset() {
   /* User interaction
    */
 

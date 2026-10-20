@@ -21,6 +21,11 @@ export const HandlerProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  decoupleForm: {
+    doc: 'Will not render the form element, so you can place it yourself with `Form.Element`. Read more about [decoupling the form element](/uilib/extensions/forms/Form/Handler/#decoupling-the-form-element).',
+    type: 'boolean',
+    status: 'optional',
+  },
   preventDefaultOnSubmit: {
     doc: "Set to `false` to allow the browser's native form submission, such as a native `POST` to the given `action` URL.",
     type: 'boolean',

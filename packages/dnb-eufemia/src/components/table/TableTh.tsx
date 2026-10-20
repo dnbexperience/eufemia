@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import type { ReactNode, ThHTMLAttributes } from 'react'
 import { clsx } from 'clsx'
 import TableSortButton from './TableSortButton'
@@ -50,7 +50,6 @@ export type TableThProps = {
 
   /**
    * The content of the component.
-   * Default: `undefined`
    */
   children?: TableThChildren | Array<TableThChildren>
 
@@ -75,11 +74,16 @@ export default function Th(
     highlight: highlightProp,
     variant,
     sortedBefore,
+    onMouseEnter,
+    onMouseLeave,
     ...props
   } = componentProps
 
   const trContext = useContext(TableTrContext)
   const highlight = highlightProp || trContext?.highlight
+
+  // Hides the sort preview icon after a click until the pointer leaves the header
+  const [sortClicked, setSortClicked] = useState(false)
 
   const role =
     props.scope === 'row' || props.scope === 'rowgroup'
@@ -103,15 +107,27 @@ export default function Th(
         sortable && 'dnb-table--sortable',
         active && 'dnb-table--active',
         reversed && 'dnb-table--reversed',
-        sortedBefore && !active && 'dnb-table--sort-off',
+        (sortedBefore || sortClicked) && !active && 'dnb-table--sort-off',
         noWrap && 'dnb-table--no-wrap',
         highlight && 'dnb-table__th--highlight',
         variant && `dnb-table__th--${variant}`,
         className
       )}
+      onMouseEnter={(event) => {
+        setSortClicked(false)
+        onMouseEnter?.(event)
+      }}
+      onMouseLeave={(event) => {
+        setSortClicked(false)
+        onMouseLeave?.(event)
+      }}
       {...props}
     >
-      <TableThContext value={{ reversed }}>{children}</TableThContext>
+      <TableThContext
+        value={{ reversed, onSortClick: () => setSortClicked(true) }}
+      >
+        {children}
+      </TableThContext>
     </th>
   )
 }

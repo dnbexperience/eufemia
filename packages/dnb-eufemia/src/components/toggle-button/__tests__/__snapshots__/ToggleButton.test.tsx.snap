@@ -74,6 +74,33 @@ legend.dnb-form-label {
   width: 1em;
   height: 1em;
 }
+.dnb-icon__cdn {
+  display: inline-block;
+  vertical-align: top;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  print-color-adjust: exact;
+}
+.dnb-icon__cdn--mask {
+  background-color: currentcolor;
+  mask-position: center;
+  mask-repeat: no-repeat;
+  mask-size: contain;
+  mask-mode: alpha;
+  /* Safari 14.1 requires prefixed mask properties. */
+  /* stylelint-disable property-no-vendor-prefix */
+  -webkit-mask-position: center;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-size: contain;
+  /* stylelint-enable property-no-vendor-prefix */
+}
+@media (forced-colors: active) {
+  .dnb-icon__cdn--mask {
+    background-color: CanvasText;
+    forced-color-adjust: none;
+  }
+}
 .dnb-icon img, :where(.dnb-core-style) .dnb-icon img,
 .dnb-icon svg,
 :where(.dnb-core-style) .dnb-icon svg {
@@ -1050,10 +1077,8 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disable
   text-align: left;
   font-size: var(--font-size-small);
   font-weight: var(--font-weight-regular);
-  text-decoration: none;
-}
-.dnb-button, .dnb-core-style .dnb-button {
   line-height: var(--button-height);
+  text-decoration: none;
 }
 .dnb-button__text {
   margin: 0.5rem 0;

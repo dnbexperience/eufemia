@@ -3,6 +3,7 @@ import Context from '../../shared/Context'
 import { extendPropsWithContext } from '../../shared/component-helper'
 import type { IconAllProps, IconFunction, IconProps } from '../icon/Icon'
 import { prerenderIcon, prepareIcon } from '../icon/Icon'
+import { renderCdnIcon } from '../icon/IconCdn'
 import { transition, suppressTransitions } from '../icon/IconTransition'
 import { useSpacing } from '../space/SpacingUtils'
 import useCombinedRef from '../../shared/helpers/useCombinedRef'
@@ -54,6 +55,15 @@ export default function IconPrimary(localProps: IconAllProps) {
     alt,
     listOfIcons: icons,
   })
+  const cdnIcon =
+    !IconContainer && typeof icon === 'string'
+      ? renderCdnIcon({
+          ...props,
+          icon,
+          iconParams,
+          iconBaseUrl: context.iconBaseUrl,
+        })
+      : undefined
 
   const ref = useRef<HTMLSpanElement>(null)
   const isInitialMount = useRef(true)
@@ -87,16 +97,18 @@ export default function IconPrimary(localProps: IconAllProps) {
     }
   }, [transitionState, icon])
 
-  if (!IconContainer) {
+  if (!IconContainer && !cdnIcon) {
     return null
   }
 
   return (
     <span {...restWrapperParams} ref={combinedRef} {...spacingProps}>
-      <IconContainer
-        key={animationMode ? animationKey : undefined}
-        {...iconParams}
-      />
+      {cdnIcon ?? (
+        <IconContainer
+          key={animationMode ? animationKey : undefined}
+          {...iconParams}
+        />
+      )}
     </span>
   )
 }

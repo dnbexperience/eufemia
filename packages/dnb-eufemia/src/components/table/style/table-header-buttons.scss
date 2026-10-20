@@ -57,7 +57,7 @@
       }
 
       @include utilities.hover() {
-        &:not(:focus) .dnb-icon {
+        .dnb-icon {
           opacity: 1;
         }
       }
@@ -137,12 +137,12 @@
     }
   }
 
-  // sort-off: column was sorted before but returned to unsorted state
+  // sort-off: sorting was turned off, hide the preview icon while hovering
   & > thead > tr > th#{&}--sort-off,
   & &__th#{&}--sort-off {
     .dnb-table__sort-button.dnb-button {
       @include utilities.hover() {
-        &:not(:focus) .dnb-icon {
+        .dnb-icon {
           opacity: 0;
         }
       }

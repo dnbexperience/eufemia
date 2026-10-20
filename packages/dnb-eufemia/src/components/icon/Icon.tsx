@@ -2,7 +2,6 @@ import { isValidElement, useContext, useMemo, useRef } from 'react'
 import type { ComponentType } from 'react'
 import { clsx } from 'clsx'
 import {
-  warn,
   validateDOMAttributes,
   processChildren,
   extendPropsWithContext,
@@ -12,6 +11,7 @@ import Context from '../../shared/Context'
 import { useSpacing } from '../space/SpacingUtils'
 import { createSkeletonClass } from '../skeleton/SkeletonHelper'
 import { iconCase } from './IconHelpers'
+import { renderCdnIcon } from './IconCdn'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import useCombinedRef from '../../shared/helpers/useCombinedRef'
 import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../shared/helpers/useIsomorphicLayoutEffect'
@@ -91,27 +91,39 @@ export default function Icon(localProps: IconAllProps) {
     return null
   }
 
-  const IconContainer = prerenderIcon({ icon, size, alt })
+  const cdnIcon =
+    typeof icon === 'string'
+      ? renderCdnIcon({
+          ...props,
+          icon,
+          iconParams,
+          iconBaseUrl: context.iconBaseUrl,
+        })
+      : undefined
+  const IconContainer =
+    cdnIcon === undefined ? prerenderIcon({ icon, size, alt }) : null
 
   // make sure we return an empty span if we couldn't get the icon
-  if (!IconContainer) {
+  if (!IconContainer && !cdnIcon) {
     return null
   }
 
   return (
     <span {...restWrapperParams} ref={combinedRef}>
-      <IconContainer
-        key={animationMode ? animationKey : undefined}
-        {...iconParams}
-        {...(animationTrigger === 'hover' && {
-          onAnimationStart: ({ currentTarget, target }) =>
-            target === currentTarget &&
-            currentTarget.classList.add('dnb-icon--animation-active'),
-          onAnimationEnd: ({ currentTarget, target }) =>
-            target === currentTarget &&
-            currentTarget.classList.remove('dnb-icon--animation-active'),
-        })}
-      />
+      {cdnIcon ?? (
+        <IconContainer
+          key={animationMode ? animationKey : undefined}
+          {...iconParams}
+          {...(animationTrigger === 'hover' && {
+            onAnimationStart: ({ currentTarget, target }) =>
+              target === currentTarget &&
+              currentTarget.classList.add('dnb-icon--animation-active'),
+            onAnimationEnd: ({ currentTarget, target }) =>
+              target === currentTarget &&
+              currentTarget.classList.remove('dnb-icon--animation-active'),
+          })}
+        />
+      )}
     </span>
   )
 }
@@ -139,7 +151,10 @@ export function calcSize(props: IconProps) {
   // if there is no size, check if we can find the actual size in the name
   if (!size || size === DefaultIconSize) {
     // get the icon name - we use it for several things
-    const name = getIconNameFromComponent(icon)
+    const name =
+      typeof icon === 'string'
+        ? iconCase(icon)
+        : getIconNameFromComponent(icon)
 
     const nameParts = String(name || '').split('_')
 
@@ -319,11 +334,12 @@ export function prepareIcon(
     animationKey: _animationKey,
     ...attributes
   } = props
+  const iconToRender = getIcon(props)
 
   const { sizeAsString, iconParams } =
     cachedValues ||
     calcSize({
-      icon,
+      icon: iconToRender,
       size,
       width,
       height,
@@ -350,6 +366,13 @@ export function prepareIcon(
     title, // to show on hover, if defined
     ...attributes,
   })
+  if (
+    typeof iconToRender === 'string' &&
+    alt &&
+    !attributes['aria-label']
+  ) {
+    wrapperParams['aria-label'] = alt
+  }
   if (!alt && typeof wrapperParams['aria-hidden'] === 'undefined') {
     wrapperParams['aria-hidden'] = true
   }
@@ -375,7 +398,6 @@ export function prepareIcon(
     className
   )
 
-  const iconToRender = getIcon(props)
   const hasAnimation =
     typeof iconToRender === 'function' &&
     Boolean(iconToRender.__iconAnimation)
@@ -428,7 +450,7 @@ function usePrepareIcon(props: IconAllProps, context: ContextProps) {
   const { icon, size, width, height } = props
 
   const cachedCalcSize = calcSize({
-    icon,
+    icon: getIcon(props),
     size,
     width,
     height,
@@ -461,7 +483,9 @@ function usePrepareIcon(props: IconAllProps, context: ContextProps) {
 
 export function prerenderIcon(
   props: IconProps & {
-    listOfIcons?: Record<string, IconIcon>
+    listOfIcons?:
+      | Record<string, IconIcon>
+      | { dnbIcons: Record<string, IconIcon> }
   }
 ) {
   const { size = null, listOfIcons = null, alt = null } = props
@@ -492,12 +516,13 @@ export function prerenderIcon(
     ) {
       icon = `${icon}_${size}`
     }
-    const mod = (
-      listOfIcons.dnbIcons ? listOfIcons.dnbIcons : listOfIcons
-    )[icon]
+    const icons =
+      typeof listOfIcons?.dnbIcons === 'object'
+        ? listOfIcons.dnbIcons
+        : listOfIcons
+    const mod = icons && Object.hasOwn(icons, icon) ? icons[icon] : null
     return mod && mod.default ? mod.default : mod
-  } catch (e) {
-    warn(`Icon '${icon}' did not exist!`)
+  } catch {
     return null
   }
 }

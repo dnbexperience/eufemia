@@ -663,13 +663,8 @@
   text-align: left;
   font-size: var(--font-size-small); // reset
   font-weight: var(--font-weight-regular); // reset
+  line-height: var(--button-height);
   text-decoration: none;
-
-  // Safari needs a correct CSS specificity
-  &,
-  .dnb-core-style & {
-    line-height: var(--button-height);
-  }
 
   &__text {
     margin: 0.5rem 0;

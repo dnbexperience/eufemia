@@ -310,7 +310,7 @@ After:
 
 - Replace `text` with paragraph children. Use heading children or Card's `title` property for the title.
 - Replace `icon`, `src`, `alt`, and `imgProps` with IconPrimary, Img, or other graphic children. Include appropriate alternative text.
-- Replace accept and close button props, including the `*ButtonAttributes` aliases, with explicit Button children. For a top-corner close button, use `onClose` and `closeButtonProps` on Card.Info.
+- Replace accept and close button props, including the `*ButtonAttributes` aliases, with explicit Button children. For a top-corner close control, render `Card.Info.CloseButton` as a direct Card.Info child and pass the dismissal handler as `onClick`.
 - Replace `centered` with your content layout, for example `Flex.Stack align="center"` and centered text. Wrap loading content in `Provider skeleton`.
 - Remove `stretch` and control width through the containing layout. Other Card properties, including spacing and `dropShadow`, can be passed directly to Card.Info.
 

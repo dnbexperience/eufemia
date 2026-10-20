@@ -48,6 +48,52 @@ export const SimpleRows = () => {
   )
 }
 
+export const PlainTextRows = () => {
+  return (
+    <ComponentBox data-visual-test="list-plain-text">
+      <List.Container>
+        <List.Item.Basic>Normal row</List.Item.Basic>
+        <List.Item.Basic>
+          Another normal row with very very very long text
+        </List.Item.Basic>
+        <List.Item.Basic title="Another normal row with very very very long text" />
+        <List.Item.Basic>
+          <List.Cell.Title>
+            Another normal row with very very very long text
+          </List.Cell.Title>
+        </List.Item.Basic>
+      </List.Container>
+    </ComponentBox>
+  )
+}
+
+export const CustomTitleSpacing = () => {
+  return (
+    <ComponentBox
+      data-visual-test="list-title-spacing"
+      scope={{ fish_medium }}
+    >
+      <List.Container>
+        <List.Item.Basic icon={fish_medium} title="Title with an icon" />
+        <List.Item.Basic>
+          <List.Cell.Start>Start</List.Cell.Start>
+          <List.Cell.Title>Title after the leading cell</List.Cell.Title>
+        </List.Item.Basic>
+        <List.Item.Basic>
+          <List.Cell.Title innerSpace={{ left: 'small', right: 'large' }}>
+            Title with custom right padding
+          </List.Cell.Title>
+        </List.Item.Basic>
+        <List.Item.Basic>
+          <List.Cell.Title innerSpace={{ left: 'small', right: false }}>
+            Title without right padding
+          </List.Cell.Title>
+        </List.Item.Basic>
+      </List.Container>
+    </ComponentBox>
+  )
+}
+
 export const RowsWithSlots = () => {
   return (
     <ComponentBox data-visual-test="list-slots" scope={{ fish_medium }}>

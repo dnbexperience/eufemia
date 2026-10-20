@@ -19,11 +19,13 @@ export const PortalRootExample = () => (
           height: '8rem',
           placeContent: 'center',
           textAlign: 'center',
-          backgroundColor: 'red',
+          backgroundColor: 'var(--token-color-background-error)',
           zIndex: 4000,
         }}
       >
-        <P>My content</P>
+        <P style={{ color: 'var(--token-color-text-neutral-ondark)' }}>
+          My content
+        </P>
       </div>
     </PortalRoot>
     <P>Do you see the red box?</P>

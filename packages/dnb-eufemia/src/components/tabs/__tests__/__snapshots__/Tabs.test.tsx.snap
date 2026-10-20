@@ -166,7 +166,7 @@ exports[`Tabs scss > has to match style dependencies css 1`] = `
 .dnb-tabs--at-edge .dnb-tabs__tabs__tablist:focus-visible {
   border-radius: 0;
 }
-.dnb-tabs__button, .dnb-core-style .dnb-tabs__button {
+.dnb-tabs__button {
   --tab-title-background: transparent;
   --tab-title-border: transparent;
   --tab-title-border-height: 1px;
@@ -192,7 +192,7 @@ exports[`Tabs scss > has to match style dependencies css 1`] = `
   white-space: nowrap;
   transition: margin 400ms ease-out;
 }
-.dnb-tabs__button__title, .dnb-core-style .dnb-tabs__button__title {
+.dnb-tabs__button__title {
   font-weight: var(--tab-title-font-weight);
   font-size: var(--tab-title-font-size);
   text-align: center;
@@ -200,39 +200,39 @@ exports[`Tabs scss > has to match style dependencies css 1`] = `
   color: var(--tab-title-font-color);
   padding: 0.5rem 0 0.25rem;
 }
-.dnb-tabs__button__title .dnb-icon, .dnb-core-style .dnb-tabs__button__title .dnb-icon {
+.dnb-tabs__button__title .dnb-icon {
   font-size: var(--font-size-small);
   transform: translateY(-0.125rem);
 }
-html:not([data-whatintent=touch]) .dnb-tabs__button:hover[aria-disabled=true], html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button:hover[aria-disabled=true] {
+html:not([data-whatintent=touch]) .dnb-tabs__button:hover[aria-disabled=true] {
   cursor: not-allowed;
 }
-html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([aria-disabled=true]), html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button:hover:not([aria-disabled=true]) {
+html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([aria-disabled=true]) {
   --tab-title-background: var(--tab-title-background--hover);
   --tab-title-border: var(--tab-title-border--hover);
   --tab-title-border-height: 2px;
   background-color: var(--tab-button-background--hover);
 }
-html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([aria-disabled=true]) .dnb-tabs__button__title, html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button:hover:not([aria-disabled=true]) .dnb-tabs__button__title {
+html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([aria-disabled=true]) .dnb-tabs__button__title {
   color: var(--tab-title-color--hover);
 }
-html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([aria-disabled=true])::after, html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button:hover:not([aria-disabled=true])::after {
+html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([aria-disabled=true])::after {
   height: 2px;
   border-radius: var(--token-radius-sm);
   background-color: var(--tab-title-border--hover);
 }
-.dnb-tabs__button .dnb-dummy, .dnb-core-style .dnb-tabs__button .dnb-dummy {
+.dnb-tabs__button .dnb-dummy {
   display: flex;
   flex-direction: column;
   height: 0;
   visibility: hidden;
   overflow: hidden;
 }
-.dnb-tabs__button .dnb-dummy, .dnb-core-style .dnb-tabs__button .dnb-dummy {
+.dnb-tabs__button .dnb-dummy {
   margin-top: 0.25rem;
   flex-direction: row;
 }
-.dnb-tabs__button::after, .dnb-core-style .dnb-tabs__button::after {
+.dnb-tabs__button::after {
   content: "";
   position: absolute;
   z-index: -1;
@@ -242,19 +242,19 @@ html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([aria-disabled=tru
   width: 100%;
   height: 1px;
 }
-.dnb-tabs__button[aria-disabled=true], .dnb-core-style .dnb-tabs__button[aria-disabled=true] {
+.dnb-tabs__button[aria-disabled=true] {
   background-color: var(--tab-title-background--disabled);
 }
-.dnb-tabs__button[aria-disabled=true] .dnb-tabs__button__title, .dnb-tabs__button[aria-disabled=true] .dnb-core-style .dnb-tabs__button__title, .dnb-core-style .dnb-tabs__button[aria-disabled=true] .dnb-tabs__button__title, .dnb-core-style .dnb-tabs__button[aria-disabled=true] .dnb-core-style .dnb-tabs__button__title {
+.dnb-tabs__button[aria-disabled=true] .dnb-tabs__button__title {
   color: var(--tab-title-color--disabled);
 }
-.dnb-tabs__button span[hidden], .dnb-core-style .dnb-tabs__button span[hidden] {
+.dnb-tabs__button span[hidden] {
   font-weight: var(--tab-title-font-weight--selected);
 }
-.dnb-tabs__button, .dnb-core-style .dnb-tabs__button {
+.dnb-tabs__button {
   /* stylelint-disable no-descending-specificity */
 }
-.dnb-tabs__button:not([aria-disabled=true]):active, .dnb-core-style .dnb-tabs__button:not([aria-disabled=true]):active {
+.dnb-tabs__button:not([aria-disabled=true]):active {
   --tab-title-background: var(
     --token-color-background-action-pressed-subtle
   );
@@ -262,60 +262,60 @@ html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([aria-disabled=tru
   --tab-title-border-height: 2px;
   background-color: var(--tab-button-background--active);
 }
-.dnb-tabs__button:not([aria-disabled=true]):active::after, .dnb-core-style .dnb-tabs__button:not([aria-disabled=true]):active::after {
+.dnb-tabs__button:not([aria-disabled=true]):active::after {
   height: 2px;
   border-radius: var(--token-radius-sm);
   background-color: var(--tab-title-border--active);
 }
-html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([aria-disabled=true]):active, html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button:hover:not([aria-disabled=true]):active {
+html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([aria-disabled=true]):active {
   --tab-title-border: var(--tab-title-border--active);
   background-color: var(--tab-button-background--active);
 }
-html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([aria-disabled=true]):active::after, html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button:hover:not([aria-disabled=true]):active::after {
+html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([aria-disabled=true]):active::after {
   background-color: var(--tab-title-border--active);
 }
-.dnb-tabs__button:not([aria-disabled=true]):active .dnb-tabs__button__title, .dnb-tabs__button:not([aria-disabled=true]):active .dnb-core-style .dnb-tabs__button__title, .dnb-core-style .dnb-tabs__button:not([aria-disabled=true]):active .dnb-tabs__button__title, .dnb-core-style .dnb-tabs__button:not([aria-disabled=true]):active .dnb-core-style .dnb-tabs__button__title {
+.dnb-tabs__button:not([aria-disabled=true]):active .dnb-tabs__button__title {
   color: var(--tab-title-color--active);
 }
-.dnb-tabs__button:not([aria-disabled=true]).selected, .dnb-core-style .dnb-tabs__button:not([aria-disabled=true]).selected {
+.dnb-tabs__button:not([aria-disabled=true]).selected {
   --tab-title-border: var(--tab-title-border--selected);
   --tab-title-border-height: 2px;
 }
-.dnb-tabs__button:not([aria-disabled=true]).selected::after, .dnb-core-style .dnb-tabs__button:not([aria-disabled=true]).selected::after {
+.dnb-tabs__button:not([aria-disabled=true]).selected::after {
   height: 2px;
   border-radius: var(--token-radius-sm);
   background-color: var(--tab-title-border--selected);
 }
-html:not([data-whatintent=touch]) .dnb-tabs__button:not([aria-disabled=true]).selected:hover[disabled], html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button:not([aria-disabled=true]).selected:hover[disabled] {
+html:not([data-whatintent=touch]) .dnb-tabs__button:not([aria-disabled=true]).selected:hover[disabled] {
   cursor: not-allowed;
 }
-html:not([data-whatintent=touch]) .dnb-tabs__button:not([aria-disabled=true]).selected:hover:not([disabled]), html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button:not([aria-disabled=true]).selected:hover:not([disabled]) {
+html:not([data-whatintent=touch]) .dnb-tabs__button:not([aria-disabled=true]).selected:hover:not([disabled]) {
   --tab-title-background: var(--tab-title-background--hover);
   --tab-title-border: var(--token-color-stroke-action-hover);
   background-color: var(--tab-button-background--hover);
 }
-html:not([data-whatintent=touch]) .dnb-tabs__button:not([aria-disabled=true]).selected:hover:not([disabled])::after, html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button:not([aria-disabled=true]).selected:hover:not([disabled])::after {
+html:not([data-whatintent=touch]) .dnb-tabs__button:not([aria-disabled=true]).selected:hover:not([disabled])::after {
   background-color: var(--token-color-stroke-action-hover);
   opacity: 0.25;
 }
-html:not([data-whatintent=touch]) .dnb-tabs__button:not([aria-disabled=true]).selected:hover:not([disabled]):active, html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button:not([aria-disabled=true]).selected:hover:not([disabled]):active {
+html:not([data-whatintent=touch]) .dnb-tabs__button:not([aria-disabled=true]).selected:hover:not([disabled]):active {
   --tab-title-background: var(
     --token-color-background-action-pressed-subtle
   );
   --tab-title-border: var(--token-color-stroke-action-pressed);
   background-color: var(--tab-button-background--active);
 }
-html:not([data-whatintent=touch]) .dnb-tabs__button:not([aria-disabled=true]).selected:hover:not([disabled]):active::after, html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button:not([aria-disabled=true]).selected:hover:not([disabled]):active::after {
+html:not([data-whatintent=touch]) .dnb-tabs__button:not([aria-disabled=true]).selected:hover:not([disabled]):active::after {
   background-color: var(--token-color-stroke-action-pressed);
 }
-.dnb-tabs__button:not([aria-disabled=true]).selected .dnb-tabs__button__title, .dnb-tabs__button:not([aria-disabled=true]).selected .dnb-core-style .dnb-tabs__button__title, .dnb-core-style .dnb-tabs__button:not([aria-disabled=true]).selected .dnb-tabs__button__title, .dnb-core-style .dnb-tabs__button:not([aria-disabled=true]).selected .dnb-core-style .dnb-tabs__button__title {
+.dnb-tabs__button:not([aria-disabled=true]).selected .dnb-tabs__button__title {
   color: var(--tab-title-color--selected);
   font-weight: var(--tab-title-font-weight--selected);
 }
-.dnb-tabs__button:not([aria-disabled=true]).selected:active .dnb-tabs__button__title, .dnb-tabs__button:not([aria-disabled=true]).selected:active .dnb-core-style .dnb-tabs__button__title, .dnb-core-style .dnb-tabs__button:not([aria-disabled=true]).selected:active .dnb-tabs__button__title, .dnb-core-style .dnb-tabs__button:not([aria-disabled=true]).selected:active .dnb-core-style .dnb-tabs__button__title {
+.dnb-tabs__button:not([aria-disabled=true]).selected:active .dnb-tabs__button__title {
   color: var(--token-color-text-action-pressed);
 }
-.dnb-tabs__button:not(:hover):focus-visible::before, .dnb-core-style .dnb-tabs__button:not(:hover):focus-visible::before {
+.dnb-tabs__button:not(:hover):focus-visible::before {
   content: "";
   position: absolute;
   z-index: -1;
@@ -328,21 +328,21 @@ html:not([data-whatintent=touch]) .dnb-tabs__button:not([aria-disabled=true]).se
   background-color: var(--token-color-background-action-focus-subtle);
   outline: none;
 }
-html[data-whatinput=keyboard] .dnb-tabs__button:not(:hover):focus-visible::before, html[data-whatinput=keyboard] .dnb-core-style .dnb-tabs__button:not(:hover):focus-visible::before {
+html[data-whatinput=keyboard] .dnb-tabs__button:not(:hover):focus-visible::before {
   --border-color: var(--token-color-stroke-action-focus);
   --border-width: var(--focus-ring-width);
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
 @media (forced-colors: active) {
-  html[data-whatinput=keyboard] .dnb-tabs__button:not(:hover):focus-visible::before, html[data-whatinput=keyboard] .dnb-core-style .dnb-tabs__button:not(:hover):focus-visible::before {
+  html[data-whatinput=keyboard] .dnb-tabs__button:not(:hover):focus-visible::before {
     outline: var(--focus-ring-width) solid transparent;
   }
 }
-.dnb-tabs__button:not(:hover):focus-visible, .dnb-core-style .dnb-tabs__button:not(:hover):focus-visible {
+.dnb-tabs__button:not(:hover):focus-visible {
   overflow: visible;
 }
-.dnb-tabs__button:not([aria-disabled=true]):focus-visible .dnb-tabs__button__title, .dnb-tabs__button:not([aria-disabled=true]).selected:focus-visible .dnb-tabs__button__title, .dnb-tabs__button:not([aria-disabled=true]):focus-visible .dnb-core-style .dnb-tabs__button__title, .dnb-tabs__button:not([aria-disabled=true]).selected:focus-visible .dnb-core-style .dnb-tabs__button__title, .dnb-core-style .dnb-tabs__button:not([aria-disabled=true]):focus-visible .dnb-tabs__button__title, .dnb-core-style .dnb-tabs__button:not([aria-disabled=true]).selected:focus-visible .dnb-tabs__button__title, .dnb-core-style .dnb-tabs__button:not([aria-disabled=true]):focus-visible .dnb-core-style .dnb-tabs__button__title, .dnb-core-style .dnb-tabs__button:not([aria-disabled=true]).selected:focus-visible .dnb-core-style .dnb-tabs__button__title {
+.dnb-tabs__button:not([aria-disabled=true]):focus-visible .dnb-tabs__button__title, .dnb-tabs__button:not([aria-disabled=true]).selected:focus-visible .dnb-tabs__button__title {
   color: var(--token-color-text-action-focus);
 }
 .dnb-tabs__button__snap {
@@ -654,7 +654,7 @@ exports[`Tabs scss > have to match default theme snapshot 1`] = `
 .dnb-tabs--at-edge .dnb-tabs__tabs__tablist:focus-visible {
   border-radius: 0;
 }
-.dnb-tabs__button, .dnb-core-style .dnb-tabs__button {
+.dnb-tabs__button {
   --tab-title-background: transparent;
   --tab-title-border: transparent;
   --tab-title-border-height: 1px;
@@ -680,7 +680,7 @@ exports[`Tabs scss > have to match default theme snapshot 1`] = `
   white-space: nowrap;
   transition: margin 400ms ease-out;
 }
-.dnb-tabs__button__title, .dnb-core-style .dnb-tabs__button__title {
+.dnb-tabs__button__title {
   font-weight: var(--tab-title-font-weight);
   font-size: var(--tab-title-font-size);
   text-align: center;
@@ -688,39 +688,39 @@ exports[`Tabs scss > have to match default theme snapshot 1`] = `
   color: var(--tab-title-font-color);
   padding: 0.5rem 0 0.25rem;
 }
-.dnb-tabs__button__title .dnb-icon, .dnb-core-style .dnb-tabs__button__title .dnb-icon {
+.dnb-tabs__button__title .dnb-icon {
   font-size: var(--font-size-small);
   transform: translateY(-0.125rem);
 }
-html:not([data-whatintent=touch]) .dnb-tabs__button:hover[aria-disabled=true], html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button:hover[aria-disabled=true] {
+html:not([data-whatintent=touch]) .dnb-tabs__button:hover[aria-disabled=true] {
   cursor: not-allowed;
 }
-html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([aria-disabled=true]), html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button:hover:not([aria-disabled=true]) {
+html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([aria-disabled=true]) {
   --tab-title-background: var(--tab-title-background--hover);
   --tab-title-border: var(--tab-title-border--hover);
   --tab-title-border-height: 2px;
   background-color: var(--tab-button-background--hover);
 }
-html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([aria-disabled=true]) .dnb-tabs__button__title, html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button:hover:not([aria-disabled=true]) .dnb-tabs__button__title {
+html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([aria-disabled=true]) .dnb-tabs__button__title {
   color: var(--tab-title-color--hover);
 }
-html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([aria-disabled=true])::after, html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button:hover:not([aria-disabled=true])::after {
+html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([aria-disabled=true])::after {
   height: 2px;
   border-radius: var(--token-radius-sm);
   background-color: var(--tab-title-border--hover);
 }
-.dnb-tabs__button .dnb-dummy, .dnb-core-style .dnb-tabs__button .dnb-dummy {
+.dnb-tabs__button .dnb-dummy {
   display: flex;
   flex-direction: column;
   height: 0;
   visibility: hidden;
   overflow: hidden;
 }
-.dnb-tabs__button .dnb-dummy, .dnb-core-style .dnb-tabs__button .dnb-dummy {
+.dnb-tabs__button .dnb-dummy {
   margin-top: 0.25rem;
   flex-direction: row;
 }
-.dnb-tabs__button::after, .dnb-core-style .dnb-tabs__button::after {
+.dnb-tabs__button::after {
   content: "";
   position: absolute;
   z-index: -1;
@@ -730,19 +730,19 @@ html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([aria-disabled=tru
   width: 100%;
   height: 1px;
 }
-.dnb-tabs__button[aria-disabled=true], .dnb-core-style .dnb-tabs__button[aria-disabled=true] {
+.dnb-tabs__button[aria-disabled=true] {
   background-color: var(--tab-title-background--disabled);
 }
-.dnb-tabs__button[aria-disabled=true] .dnb-tabs__button__title, .dnb-tabs__button[aria-disabled=true] .dnb-core-style .dnb-tabs__button__title, .dnb-core-style .dnb-tabs__button[aria-disabled=true] .dnb-tabs__button__title, .dnb-core-style .dnb-tabs__button[aria-disabled=true] .dnb-core-style .dnb-tabs__button__title {
+.dnb-tabs__button[aria-disabled=true] .dnb-tabs__button__title {
   color: var(--tab-title-color--disabled);
 }
-.dnb-tabs__button span[hidden], .dnb-core-style .dnb-tabs__button span[hidden] {
+.dnb-tabs__button span[hidden] {
   font-weight: var(--tab-title-font-weight--selected);
 }
-.dnb-tabs__button, .dnb-core-style .dnb-tabs__button {
+.dnb-tabs__button {
   /* stylelint-disable no-descending-specificity */
 }
-.dnb-tabs__button:not([aria-disabled=true]):active, .dnb-core-style .dnb-tabs__button:not([aria-disabled=true]):active {
+.dnb-tabs__button:not([aria-disabled=true]):active {
   --tab-title-background: var(
     --token-color-background-action-pressed-subtle
   );
@@ -750,60 +750,60 @@ html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([aria-disabled=tru
   --tab-title-border-height: 2px;
   background-color: var(--tab-button-background--active);
 }
-.dnb-tabs__button:not([aria-disabled=true]):active::after, .dnb-core-style .dnb-tabs__button:not([aria-disabled=true]):active::after {
+.dnb-tabs__button:not([aria-disabled=true]):active::after {
   height: 2px;
   border-radius: var(--token-radius-sm);
   background-color: var(--tab-title-border--active);
 }
-html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([aria-disabled=true]):active, html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button:hover:not([aria-disabled=true]):active {
+html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([aria-disabled=true]):active {
   --tab-title-border: var(--tab-title-border--active);
   background-color: var(--tab-button-background--active);
 }
-html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([aria-disabled=true]):active::after, html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button:hover:not([aria-disabled=true]):active::after {
+html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([aria-disabled=true]):active::after {
   background-color: var(--tab-title-border--active);
 }
-.dnb-tabs__button:not([aria-disabled=true]):active .dnb-tabs__button__title, .dnb-tabs__button:not([aria-disabled=true]):active .dnb-core-style .dnb-tabs__button__title, .dnb-core-style .dnb-tabs__button:not([aria-disabled=true]):active .dnb-tabs__button__title, .dnb-core-style .dnb-tabs__button:not([aria-disabled=true]):active .dnb-core-style .dnb-tabs__button__title {
+.dnb-tabs__button:not([aria-disabled=true]):active .dnb-tabs__button__title {
   color: var(--tab-title-color--active);
 }
-.dnb-tabs__button:not([aria-disabled=true]).selected, .dnb-core-style .dnb-tabs__button:not([aria-disabled=true]).selected {
+.dnb-tabs__button:not([aria-disabled=true]).selected {
   --tab-title-border: var(--tab-title-border--selected);
   --tab-title-border-height: 2px;
 }
-.dnb-tabs__button:not([aria-disabled=true]).selected::after, .dnb-core-style .dnb-tabs__button:not([aria-disabled=true]).selected::after {
+.dnb-tabs__button:not([aria-disabled=true]).selected::after {
   height: 2px;
   border-radius: var(--token-radius-sm);
   background-color: var(--tab-title-border--selected);
 }
-html:not([data-whatintent=touch]) .dnb-tabs__button:not([aria-disabled=true]).selected:hover[disabled], html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button:not([aria-disabled=true]).selected:hover[disabled] {
+html:not([data-whatintent=touch]) .dnb-tabs__button:not([aria-disabled=true]).selected:hover[disabled] {
   cursor: not-allowed;
 }
-html:not([data-whatintent=touch]) .dnb-tabs__button:not([aria-disabled=true]).selected:hover:not([disabled]), html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button:not([aria-disabled=true]).selected:hover:not([disabled]) {
+html:not([data-whatintent=touch]) .dnb-tabs__button:not([aria-disabled=true]).selected:hover:not([disabled]) {
   --tab-title-background: var(--tab-title-background--hover);
   --tab-title-border: var(--token-color-stroke-action-hover);
   background-color: var(--tab-button-background--hover);
 }
-html:not([data-whatintent=touch]) .dnb-tabs__button:not([aria-disabled=true]).selected:hover:not([disabled])::after, html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button:not([aria-disabled=true]).selected:hover:not([disabled])::after {
+html:not([data-whatintent=touch]) .dnb-tabs__button:not([aria-disabled=true]).selected:hover:not([disabled])::after {
   background-color: var(--token-color-stroke-action-hover);
   opacity: 0.25;
 }
-html:not([data-whatintent=touch]) .dnb-tabs__button:not([aria-disabled=true]).selected:hover:not([disabled]):active, html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button:not([aria-disabled=true]).selected:hover:not([disabled]):active {
+html:not([data-whatintent=touch]) .dnb-tabs__button:not([aria-disabled=true]).selected:hover:not([disabled]):active {
   --tab-title-background: var(
     --token-color-background-action-pressed-subtle
   );
   --tab-title-border: var(--token-color-stroke-action-pressed);
   background-color: var(--tab-button-background--active);
 }
-html:not([data-whatintent=touch]) .dnb-tabs__button:not([aria-disabled=true]).selected:hover:not([disabled]):active::after, html:not([data-whatintent=touch]) .dnb-core-style .dnb-tabs__button:not([aria-disabled=true]).selected:hover:not([disabled]):active::after {
+html:not([data-whatintent=touch]) .dnb-tabs__button:not([aria-disabled=true]).selected:hover:not([disabled]):active::after {
   background-color: var(--token-color-stroke-action-pressed);
 }
-.dnb-tabs__button:not([aria-disabled=true]).selected .dnb-tabs__button__title, .dnb-tabs__button:not([aria-disabled=true]).selected .dnb-core-style .dnb-tabs__button__title, .dnb-core-style .dnb-tabs__button:not([aria-disabled=true]).selected .dnb-tabs__button__title, .dnb-core-style .dnb-tabs__button:not([aria-disabled=true]).selected .dnb-core-style .dnb-tabs__button__title {
+.dnb-tabs__button:not([aria-disabled=true]).selected .dnb-tabs__button__title {
   color: var(--tab-title-color--selected);
   font-weight: var(--tab-title-font-weight--selected);
 }
-.dnb-tabs__button:not([aria-disabled=true]).selected:active .dnb-tabs__button__title, .dnb-tabs__button:not([aria-disabled=true]).selected:active .dnb-core-style .dnb-tabs__button__title, .dnb-core-style .dnb-tabs__button:not([aria-disabled=true]).selected:active .dnb-tabs__button__title, .dnb-core-style .dnb-tabs__button:not([aria-disabled=true]).selected:active .dnb-core-style .dnb-tabs__button__title {
+.dnb-tabs__button:not([aria-disabled=true]).selected:active .dnb-tabs__button__title {
   color: var(--token-color-text-action-pressed);
 }
-.dnb-tabs__button:not(:hover):focus-visible::before, .dnb-core-style .dnb-tabs__button:not(:hover):focus-visible::before {
+.dnb-tabs__button:not(:hover):focus-visible::before {
   content: "";
   position: absolute;
   z-index: -1;
@@ -816,21 +816,21 @@ html:not([data-whatintent=touch]) .dnb-tabs__button:not([aria-disabled=true]).se
   background-color: var(--token-color-background-action-focus-subtle);
   outline: none;
 }
-html[data-whatinput=keyboard] .dnb-tabs__button:not(:hover):focus-visible::before, html[data-whatinput=keyboard] .dnb-core-style .dnb-tabs__button:not(:hover):focus-visible::before {
+html[data-whatinput=keyboard] .dnb-tabs__button:not(:hover):focus-visible::before {
   --border-color: var(--token-color-stroke-action-focus);
   --border-width: var(--focus-ring-width);
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
 @media (forced-colors: active) {
-  html[data-whatinput=keyboard] .dnb-tabs__button:not(:hover):focus-visible::before, html[data-whatinput=keyboard] .dnb-core-style .dnb-tabs__button:not(:hover):focus-visible::before {
+  html[data-whatinput=keyboard] .dnb-tabs__button:not(:hover):focus-visible::before {
     outline: var(--focus-ring-width) solid transparent;
   }
 }
-.dnb-tabs__button:not(:hover):focus-visible, .dnb-core-style .dnb-tabs__button:not(:hover):focus-visible {
+.dnb-tabs__button:not(:hover):focus-visible {
   overflow: visible;
 }
-.dnb-tabs__button:not([aria-disabled=true]):focus-visible .dnb-tabs__button__title, .dnb-tabs__button:not([aria-disabled=true]).selected:focus-visible .dnb-tabs__button__title, .dnb-tabs__button:not([aria-disabled=true]):focus-visible .dnb-core-style .dnb-tabs__button__title, .dnb-tabs__button:not([aria-disabled=true]).selected:focus-visible .dnb-core-style .dnb-tabs__button__title, .dnb-core-style .dnb-tabs__button:not([aria-disabled=true]):focus-visible .dnb-tabs__button__title, .dnb-core-style .dnb-tabs__button:not([aria-disabled=true]).selected:focus-visible .dnb-tabs__button__title, .dnb-core-style .dnb-tabs__button:not([aria-disabled=true]):focus-visible .dnb-core-style .dnb-tabs__button__title, .dnb-core-style .dnb-tabs__button:not([aria-disabled=true]).selected:focus-visible .dnb-core-style .dnb-tabs__button__title {
+.dnb-tabs__button:not([aria-disabled=true]):focus-visible .dnb-tabs__button__title, .dnb-tabs__button:not([aria-disabled=true]).selected:focus-visible .dnb-tabs__button__title {
   color: var(--token-color-text-action-focus);
 }
 .dnb-tabs__button__snap {

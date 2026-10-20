@@ -932,6 +932,7 @@ resource "aws_lambda_permission" "snapshot_events" {
 # (e.g. Slack via AWS Chatbot or a formatting Lambda — a raw incoming webhook
 # can't complete the SNS subscription handshake) just needs its own
 # aws_sns_topic_subscription pointed at this topic — alarm_actions never change.
+# The MCP usage alarms in tools/mcp-lambda/infra publish here by name.
 resource "aws_sns_topic" "snapshot_alerts" {
   name = "eufemia-${var.environment}-analytics-snapshot-alerts"
   tags = local.tags

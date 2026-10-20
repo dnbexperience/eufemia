@@ -36,6 +36,7 @@ import {
   Input,
   Section,
   Stat,
+  VisuallyHidden,
 } from '@dnb/eufemia/src/components'
 import TableContainer from '@dnb/eufemia/src/components/table/TableContainer'
 import useHandleSortState from '@dnb/eufemia/src/components/table/useHandleSortState'
@@ -238,7 +239,9 @@ export const VariantComplex = () => (
         <caption>A Table Caption</caption>
         <thead>
           <Tr noWrap>
-            <Th />
+            <Th>
+              <VisuallyHidden>Column 1</VisuallyHidden>
+            </Th>
             <Th>
               Column 2<br />
               newline
@@ -1960,7 +1963,9 @@ export const InCard = () => (
                   <Th variant="subtle" align="right">
                     Change
                   </Th>
-                  <Th aria-label="Actions" />
+                  <Th>
+                    <VisuallyHidden>Actions</VisuallyHidden>
+                  </Th>
                 </Tr>
               </thead>
 
@@ -2132,7 +2137,9 @@ export const ColumnHighlight = () => (
 
               <thead>
                 <Tr>
-                  <Th />
+                  <Th>
+                    <VisuallyHidden>Row headers</VisuallyHidden>
+                  </Th>
                   <Th highlight aria-label={label}>
                     Column A
                   </Th>

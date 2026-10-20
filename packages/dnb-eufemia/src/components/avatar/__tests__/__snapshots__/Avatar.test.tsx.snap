@@ -44,7 +44,7 @@ exports[`Avatar scss > should match style dependencies css 1`] = `
   white-space: nowrap;
   border-radius: 50%;
   font-weight: var(--font-weight-medium);
-  line-height: 1;
+  line-height: var(--line-height-large);
   background-color: var(--avatar-background-color);
   color: var(--avatar-text-color);
 }
@@ -58,15 +58,10 @@ exports[`Avatar scss > should match style dependencies css 1`] = `
   --avatar-background-color: var(--token-color-decorative-first-subtle);
   --avatar-text-color: var(--token-color-text-neutral);
 }
-.dnb-avatar, .dnb-core-style .dnb-avatar {
-  line-height: var(--line-height-large);
-}
 .dnb-avatar--size-small {
   width: var(--avatar-width--small);
   height: var(--avatar-height--small);
   font-size: var(--avatar-font-size--small);
-}
-.dnb-avatar--size-small, .dnb-core-style .dnb-avatar--size-small {
   line-height: var(--avatar-line-height--small);
 }
 .dnb-avatar--size-small .dnb-icon--auto {
@@ -76,8 +71,6 @@ exports[`Avatar scss > should match style dependencies css 1`] = `
   width: var(--avatar-width--medium);
   height: var(--avatar-height--medium);
   font-size: var(--avatar-font-size--medium);
-}
-.dnb-avatar--size-medium, .dnb-core-style .dnb-avatar--size-medium {
   line-height: var(--avatar-line-height--medium);
 }
 .dnb-avatar--size-medium .dnb-icon--auto {
@@ -87,8 +80,6 @@ exports[`Avatar scss > should match style dependencies css 1`] = `
   width: var(--avatar-width--large);
   height: var(--avatar-height--large);
   font-size: var(--avatar-font-size--large);
-}
-.dnb-avatar--size-large, .dnb-core-style .dnb-avatar--size-large {
   line-height: var(--avatar-line-height--large);
 }
 .dnb-avatar--size-large .dnb-icon--auto {
@@ -98,8 +89,6 @@ exports[`Avatar scss > should match style dependencies css 1`] = `
   width: var(--avatar-width--x-large);
   height: var(--avatar-height--x-large);
   font-size: var(--avatar-font-size--x-large);
-}
-.dnb-avatar--size-x-large, .dnb-core-style .dnb-avatar--size-x-large {
   line-height: var(--avatar-line-height--x-large);
 }
 .dnb-avatar--size-x-large .dnb-icon--auto {

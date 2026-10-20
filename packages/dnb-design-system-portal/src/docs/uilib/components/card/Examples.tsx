@@ -23,6 +23,7 @@ import { fish, lightbulb_medium } from '@dnb/eufemia/src/icons'
 
 export const InfoLayout = () => (
   <ComponentBox
+    hideCode
     scope={{ fish, lightbulb_medium }}
     data-visual-test="card-info-layout"
   >
@@ -69,7 +70,7 @@ export const InfoLayout = () => (
 )
 
 export const InfoCardActions = () => (
-  <ComponentBox data-visual-test="card-info-actions">
+  <ComponentBox hideCode data-visual-test="card-info-actions">
     <Flex.Stack>
       <Card.Info onClick={() => console.log('Start saving')}>
         <Flex.Stack gap="x-small">
@@ -94,7 +95,7 @@ export const InfoCardActions = () => (
 )
 
 export const ClosableInfoCard = () => (
-  <ComponentBox data-visual-test="card-info-close">
+  <ComponentBox hideCode data-visual-test="card-info-close">
     {() => {
       const Example = () => {
         const [visible, setVisible] = useState(true)
@@ -124,10 +125,11 @@ export const ClosableInfoCard = () => (
               }
             }}
           >
-            <Card.Info
-              onClose={() => setVisible(false)}
-              closeButtonProps={{ title: 'Dismiss savings tip' }}
-            >
+            <Card.Info>
+              <Card.Info.CloseButton
+                onClick={() => setVisible(false)}
+                title="Dismiss savings tip"
+              />
               <Flex.Stack gap="x-small">
                 <P size="small" weight="medium">
                   A little every month goes a long way
@@ -152,7 +154,7 @@ export const ClosableInfoCard = () => (
 )
 
 export const InfoCardGraphic = () => (
-  <ComponentBox data-visual-test="card-info-graphic">
+  <ComponentBox hideCode data-visual-test="card-info-graphic">
     <Flex.Stack>
       <Card.Info>
         <Flex.Horizontal wrap={false}>
@@ -209,13 +211,16 @@ export const InfoCardGraphic = () => (
 export const CloseButtonPadding = () => (
   <ComponentBox data-visual-test="card-close-padding" hideCode>
     <Flex.Stack>
-      <Card responsive={false} onClose={() => undefined}>
+      <Card responsive={false}>
+        <Card.Info.CloseButton />
         <P size="small">Plain Card with default padding</P>
       </Card>
-      <Card.Info onClose={() => undefined}>
+      <Card.Info>
+        <Card.Info.CloseButton />
         <P size="small">Card.Info with responsive padding</P>
       </Card.Info>
-      <Card.Info innerSpace="large" onClose={() => undefined}>
+      <Card.Info innerSpace="large">
+        <Card.Info.CloseButton />
         <P size="small">Card.Info with custom padding</P>
       </Card.Info>
       <Card.Info
@@ -225,11 +230,17 @@ export const CloseButtonPadding = () => (
           left: 'small',
           right: 'small',
         }}
-        onClose={() => undefined}
       >
+        <Card.Info.CloseButton />
         <P size="small">Card.Info with asymmetric padding</P>
       </Card.Info>
-      <Card.Info innerSpace={false} onClose={() => undefined}>
+      <Card.Info innerSpace={false}>
+        <Card.Info.CloseButton />
+        <img
+          src="/media/card/savings.webp"
+          alt=""
+          style={{ width: '100%', height: '8rem', objectFit: 'cover' }}
+        />
         <P size="small">Card.Info without padding</P>
       </Card.Info>
     </Flex.Stack>
@@ -238,7 +249,7 @@ export const CloseButtonPadding = () => (
 
 export const Default = () => {
   return (
-    <ComponentBox data-visual-test="layout-card-border">
+    <ComponentBox hideCode data-visual-test="layout-card-border">
       <Card>
         <P>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi
@@ -251,7 +262,7 @@ export const Default = () => {
 
 export const NestedCards = () => {
   return (
-    <ComponentBox data-visual-test="layout-card-nested">
+    <ComponentBox hideCode data-visual-test="layout-card-nested">
       <Card stack>
         <P>First Card</P>
         <Card stack>
@@ -267,7 +278,7 @@ export const NestedCards = () => {
 
 export const WithDropShadow = () => {
   return (
-    <ComponentBox data-visual-test="layout-card-drop-shadow">
+    <ComponentBox hideCode data-visual-test="layout-card-drop-shadow">
       <Card stack dropShadow>
         <Lead>Card 1</Lead>
         <Card stack top="2.5rem">
@@ -291,7 +302,7 @@ export const WithDropShadow = () => {
 
 export const WithTable = () => {
   return (
-    <ComponentBox data-visual-test="layout-card-table">
+    <ComponentBox hideCode data-visual-test="layout-card-table">
       {() => {
         const MyTable = () => (
           <Table.ScrollView>
@@ -341,7 +352,7 @@ export const WithTable = () => {
 
 export const WithTableOutline = () => {
   return (
-    <ComponentBox data-visual-test="layout-card-table-outline">
+    <ComponentBox hideCode data-visual-test="layout-card-table-outline">
       {() => {
         const MyTable = () => (
           <Table.ScrollView>
@@ -386,7 +397,7 @@ export const WithTableOutline = () => {
 
 export const WithGrid = () => {
   return (
-    <ComponentBox data-visual-test="layout-card-grid">
+    <ComponentBox hideCode data-visual-test="layout-card-grid">
       <Grid.Container
         columns={{
           small: 1,
@@ -416,7 +427,7 @@ export const WithGrid = () => {
 
 export const WithFlex = () => {
   return (
-    <ComponentBox data-visual-test="layout-card-flex">
+    <ComponentBox hideCode data-visual-test="layout-card-flex">
       <Flex.Container>
         <Card
           span={{
@@ -460,7 +471,7 @@ export const WithFlex = () => {
 
 export const Stack = () => {
   return (
-    <ComponentBox data-visual-test="layout-card-stack">
+    <ComponentBox hideCode data-visual-test="layout-card-stack">
       <Card stack>
         <P>Stacked content</P>
         <P>Stacked content</P>
@@ -471,7 +482,7 @@ export const Stack = () => {
 
 export const WithFormFields = () => {
   return (
-    <ComponentBox>
+    <ComponentBox hideCode>
       <Form.Card>
         <Field.String label="Label" value="Value" />
         <Field.String label="Label" value="Value" />
@@ -482,7 +493,7 @@ export const WithFormFields = () => {
 
 export const WithHeadingsAndAriaLabel = () => {
   return (
-    <ComponentBox hidePreview>
+    <ComponentBox hideCode hidePreview>
       <Card aria-labelledby="unique-id">
         <Form.SubHeading id="unique-id" space={0}>
           Heading
@@ -495,7 +506,7 @@ export const WithHeadingsAndAriaLabel = () => {
 
 export const WithoutPadding = () => {
   return (
-    <ComponentBox>
+    <ComponentBox hideCode>
       <Card innerSpace={false} align="stretch">
         <P>no inner space</P>
       </Card>
@@ -505,7 +516,7 @@ export const WithoutPadding = () => {
 
 export const WithNestedSection = () => {
   return (
-    <ComponentBox data-visual-test="card-nested-section">
+    <ComponentBox hideCode data-visual-test="card-nested-section">
       <Flex.Stack>
         <Card gap="x-small" align="stretch">
           <Form.SubHeading>Card with a nested Section</Form.SubHeading>
@@ -531,7 +542,10 @@ export const WithNestedSection = () => {
 
         <Card innerSpace={false} align="stretch">
           <P>no inner space</P>
-          <Section innerSpace backgroundColor="var(--color-lavender)">
+          <Section
+            innerSpace
+            backgroundColor="var(--token-color-background-neutral-alternative)"
+          >
             <Field.String
               width="medium"
               label="Card with no inner space"
@@ -546,9 +560,9 @@ export const WithNestedSection = () => {
 
 export const InColoredSection = () => {
   return (
-    <ComponentBox data-visual-test="card-in-colored-section">
+    <ComponentBox hideCode data-visual-test="card-in-colored-section">
       <Section
-        backgroundColor="var(--color-signal-orange)"
+        backgroundColor="var(--token-color-background-marketing-subtle)"
         innerSpace="large"
       >
         <Card>Card in colored Section</Card>
@@ -559,7 +573,7 @@ export const InColoredSection = () => {
 
 export const WithOutset = () => {
   return (
-    <ComponentBox data-visual-test="layout-card-outset">
+    <ComponentBox hideCode data-visual-test="layout-card-outset">
       <Flex.Vertical>
         <Form.MainHeading>I'm left aligned</Form.MainHeading>
         <Card stack outset>
@@ -576,7 +590,10 @@ export const WithOutset = () => {
 
 export const CustomBackgroundColorAndOutline = () => {
   return (
-    <ComponentBox data-visual-test="layout-card-background-color-outline">
+    <ComponentBox
+      hideCode
+      data-visual-test="layout-card-background-color-outline"
+    >
       <Flex.Vertical>
         <Form.MainHeading>I'm left aligned</Form.MainHeading>
         <Card
@@ -596,7 +613,7 @@ export const CustomBackgroundColorAndOutline = () => {
 
 export const InteractiveCards = () => {
   return (
-    <ComponentBox data-visual-test="layout-card-interactive">
+    <ComponentBox hideCode data-visual-test="layout-card-interactive">
       <Card.List style={{ maxWidth: '640px', margin: '0 auto' }}>
         <Card.ListItem center="when-small">
           <Card.Action

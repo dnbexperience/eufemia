@@ -770,8 +770,18 @@ describe('Drawer', () => {
 
 describe('Drawer aria', () => {
   it('should validate with ARIA rules as a drawer', async () => {
-    const Comp = render(<Drawer {...props} open={true} title="title" />)
-    expect(await axeComponent(Comp)).toHaveNoViolations()
+    const Comp = render(
+      <Drawer {...props} open title="Drawer title">
+        <p>Content</p>
+      </Drawer>
+    )
+
+    expect(
+      await axeComponent(
+        Comp,
+        document.querySelector('.dnb-modal__content')
+      )
+    ).toHaveNoViolations()
   })
 })
 

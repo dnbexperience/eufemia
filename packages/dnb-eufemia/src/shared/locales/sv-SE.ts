@@ -100,6 +100,8 @@ export default {
       indicatorLabel: 'Hämtar data ...',
     },
     Card: {
+      playTitle: 'Spela bakgrundsvideo',
+      pauseTitle: 'Pausa bakgrundsvideo',
       closeTitle: 'Stäng',
     },
     Modal: {

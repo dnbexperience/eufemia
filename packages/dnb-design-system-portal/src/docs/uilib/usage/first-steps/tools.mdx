@@ -136,6 +136,8 @@ Turn it off by setting `EUFEMIA_MCP_TELEMETRY` to `0` in your MCP client config:
 }
 ```
 
+Telemetry is also off when `DO_NOT_TRACK` is set (for example `DO_NOT_TRACK=1`) and in CI environments (when `CI` is set). `EUFEMIA_MCP_TELEMETRY` accepts `0`, `false`, `off` or `no`.
+
 ## Agent Skills
 
 `@dnb/eufemia` includes official [Agent Skills](https://agentskills.io/) for

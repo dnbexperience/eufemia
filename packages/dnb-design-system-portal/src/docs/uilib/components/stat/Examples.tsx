@@ -22,7 +22,9 @@ export const BasicUsage = () => (
       <Stat.Label>Revenue growth</Stat.Label>
       <Stat.Content direction="vertical">
         <Stat.Currency value={1234} signDisplay="always" />
-        <Stat.Trend srLabel="Change">+12.4%</Stat.Trend>
+        <Stat.Trend srLabel="Change">
+          <Stat.Percent value={12.4} decimals={1} signDisplay="always" />
+        </Stat.Trend>
         <Stat.Info>Some additional information.</Stat.Info>
       </Stat.Content>
     </Stat.Root>
@@ -41,14 +43,18 @@ export const RootAndLabel = () => (
           mainSize="x-large"
           auxiliarySize="x-small"
         />
-        <Stat.Trend srLabel="Growth trend">+12.4%</Stat.Trend>
+        <Stat.Trend srLabel="Growth trend">
+          <Stat.Percent value={12.4} decimals={1} signDisplay="always" />
+        </Stat.Trend>
       </Stat.Content>
 
       <Stat.Label top>Monthly change</Stat.Label>
       <Stat.Content direction="vertical">
         <Stat.Currency value={-1234} locale="en-GB" />
         <Stat.Inline>
-          <Stat.Trend srLabel="Change trend">-2.1%</Stat.Trend>
+          <Stat.Trend srLabel="Change trend">
+            <Stat.Percent value={-2.1} decimals={1} signDisplay="always" />
+          </Stat.Trend>
           <Stat.Info>(some additional information)</Stat.Info>
         </Stat.Inline>
       </Stat.Content>
@@ -95,6 +101,37 @@ export const CurrencyWithinTrend = () => (
         </Stat.Inline>
       </Stat.Content>
     </Stat.Root>
+  </ComponentBox>
+)
+
+export const PercentWithinTrend = () => (
+  <ComponentBox data-visual-test="stat-percent-within-trend">
+    {() => {
+      function Example() {
+        const [value, setValue] = useState(-1.55)
+
+        return (
+          <>
+            <Stat.Trend srLabel="Change">
+              <Stat.Percent
+                value={value}
+                decimals={2}
+                signDisplay="always"
+              />
+            </Stat.Trend>
+            <Button
+              text="Update change"
+              left
+              onClick={() =>
+                setValue(value < 0 ? 1.8422381750579178 : -1.55)
+              }
+            />
+          </>
+        )
+      }
+
+      return <Example />
+    }}
   </ComponentBox>
 )
 

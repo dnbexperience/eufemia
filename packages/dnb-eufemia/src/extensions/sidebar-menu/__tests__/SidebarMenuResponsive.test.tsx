@@ -661,6 +661,93 @@ describe('SidebarMenu responsive parts', () => {
     document.documentElement.removeAttribute('data-whatinput')
   })
 
+  it('expands the compact menu for keyboard focus on the section dropdown', () => {
+    setMedia({ width: '80em', hover: 'hover', pointer: 'fine' })
+    document.documentElement.dataset.whatinput = 'keyboard'
+
+    render(
+      <SidebarMenu.ResponsiveProvider
+        compactAt="large"
+        compactOffset="24em"
+      >
+        <SidebarMenu.ResponsiveInline>
+          <SidebarMenu.Root aria-label="Navigation">
+            <SidebarMenu.Section id="personal" text="Personal">
+              <SidebarMenu.Item id="home" text="Home" />
+            </SidebarMenu.Section>
+            <SidebarMenu.Section id="business" text="Business">
+              <SidebarMenu.Item id="payments" text="Payments" />
+            </SidebarMenu.Section>
+          </SidebarMenu.Root>
+        </SidebarMenu.ResponsiveInline>
+      </SidebarMenu.ResponsiveProvider>
+    )
+
+    const inline = document.querySelector(
+      '.dnb-sidebar-menu-responsive-inline'
+    )
+    const sectionTrigger = document.querySelector(
+      '.dnb-sidebar-menu__sections .dnb-dropdown__trigger'
+    )
+    fireEvent.focus(sectionTrigger)
+
+    expect(inline).toHaveAttribute(
+      'data-sidebar-menu-responsive-expanded',
+      'true'
+    )
+
+    fireEvent.keyDown(sectionTrigger, { key: 'Enter' })
+
+    expect(sectionTrigger).toHaveAttribute('aria-expanded', 'true')
+    expect(inline).toHaveAttribute(
+      'data-sidebar-menu-responsive-expanded',
+      'true'
+    )
+    document.documentElement.removeAttribute('data-whatinput')
+  })
+
+  it('expands the compact menu when the section dropdown opens with the keyboard', () => {
+    setMedia({ width: '80em', hover: 'hover', pointer: 'fine' })
+
+    render(
+      <SidebarMenu.ResponsiveProvider
+        compactAt="large"
+        compactOffset="24em"
+      >
+        <SidebarMenu.ResponsiveInline>
+          <SidebarMenu.Root aria-label="Navigation">
+            <SidebarMenu.Section id="personal" text="Personal">
+              <SidebarMenu.Item id="home" text="Home" />
+            </SidebarMenu.Section>
+            <SidebarMenu.Section id="business" text="Business">
+              <SidebarMenu.Item id="payments" text="Payments" />
+            </SidebarMenu.Section>
+          </SidebarMenu.Root>
+        </SidebarMenu.ResponsiveInline>
+      </SidebarMenu.ResponsiveProvider>
+    )
+
+    const inline = document.querySelector(
+      '.dnb-sidebar-menu-responsive-inline'
+    )
+    const sectionTrigger = document.querySelector(
+      '.dnb-sidebar-menu__sections .dnb-dropdown__trigger'
+    )
+    fireEvent.focus(sectionTrigger)
+
+    expect(inline).not.toHaveAttribute(
+      'data-sidebar-menu-responsive-expanded'
+    )
+
+    fireEvent.keyDown(sectionTrigger, { key: 'Enter' })
+
+    expect(sectionTrigger).toHaveAttribute('aria-expanded', 'true')
+    expect(inline).toHaveAttribute(
+      'data-sidebar-menu-responsive-expanded',
+      'true'
+    )
+  })
+
   it('opens a closed accordion when expanding the compact menu', () => {
     setMedia({ width: '80em', hover: 'none', pointer: 'coarse' })
 
@@ -1000,6 +1087,31 @@ describe('SidebarMenu responsive parts', () => {
     )
     expect(html).toContain(
       'data-sidebar-menu-responsive-scope="application-navigation"'
+    )
+  })
+
+  it('keeps a custom scopeId inside the first-paint CSS selector', () => {
+    const scopeId = 'x"]{}body{display:none}[x="'
+    const html = renderToString(
+      <SidebarMenu.ResponsiveProvider scopeId={scopeId} compactAt="large">
+        <SidebarMenu.ResponsiveInline>
+          Inline menu
+        </SidebarMenu.ResponsiveInline>
+      </SidebarMenu.ResponsiveProvider>
+    )
+
+    const css = html.match(/<style[^>]*>([\s\S]*?)<\/style>/)[1]
+    const selector =
+      '[data-sidebar-menu-responsive-scope="x\\22 ]{}body{display:none}[x=\\22 "]'
+    expect(css).toContain(selector)
+    expect(css).not.toContain('x"]')
+
+    // The escaped selector still matches the element
+    const container = document.createElement('div')
+    container.innerHTML = html
+    expect(container.querySelector(selector)).toHaveAttribute(
+      'data-sidebar-menu-responsive-scope',
+      scopeId
     )
   })
 

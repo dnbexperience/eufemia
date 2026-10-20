@@ -685,7 +685,7 @@ export function SidebarMenuResponsiveInline({
           isCompact &&
           document.documentElement.dataset.whatinput === 'keyboard' &&
           (event.target as Element).closest(
-            '.dnb-sidebar-menu__item__action'
+            '.dnb-sidebar-menu__item__action, .dnb-sidebar-menu__sections .dnb-dropdown__trigger'
           )
         ) {
           setCompactExpanded(true)
@@ -705,6 +705,19 @@ export function SidebarMenuResponsiveInline({
         if (isCompact && event.key === 'Escape') {
           setCompactExpanded(false)
           setCompactDismissed(true)
+        }
+
+        if (
+          isCompact &&
+          !compactOpen &&
+          ['Enter', ' ', 'ArrowDown', 'ArrowUp'].includes(event.key) &&
+          (event.target as Element).closest(
+            '.dnb-sidebar-menu__sections .dnb-dropdown__trigger'
+          )
+        ) {
+          setTooltipTarget(undefined)
+          setCompactExpanded(true)
+          setCompactDismissed(false)
         }
       }}
       onPointerEnter={(event) => {
@@ -859,7 +872,16 @@ function addEmValues(first: string, second: string) {
 }
 
 function isEmValue(value: string) {
+  // eslint-disable-next-line security/detect-unsafe-regex -- the optional group does not repeat
   return /^\d+(?:\.\d+)?em$/.test(value)
+}
+
+// Keeps a custom scopeId inside the quoted attribute selector
+function escapeCssString(value: string) {
+  return String(value).replace(
+    /["\\\n\r\f]/g,
+    (char) => `\\${char.charCodeAt(0).toString(16)} `
+  )
 }
 
 function getFirstPaintCss(
@@ -873,7 +895,7 @@ function getFirstPaintCss(
   }
 
   const minWidth = `${Number((em + 0.00625).toFixed(5))}em`
-  const scope = `[data-sidebar-menu-responsive-scope="${scopeId}"]`
+  const scope = `[data-sidebar-menu-responsive-scope="${escapeCssString(scopeId)}"]`
   const unresolved = ':not([data-sidebar-menu-responsive-visible])'
 
   const drawerCss =

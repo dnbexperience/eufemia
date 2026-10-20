@@ -28,7 +28,7 @@ export type IconSize =
 
 export type IconProps = {
   /**
-   * A React SVG Component.
+   * A React SVG component or an icon name. Names load from the asset CDN. Set `iconBaseUrl` on [Provider](/uilib/usage/customisation/provider) to use self-hosted SVGs. IconPrimary uses bundled primary icons before falling back to the CDN.
    */
   icon?: IconIcon
 

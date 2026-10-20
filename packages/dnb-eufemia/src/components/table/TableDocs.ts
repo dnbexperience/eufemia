@@ -63,13 +63,11 @@ export const TableProperties: PropertiesTableProps = {
   className: {
     doc: 'Custom `className` on the component root.',
     type: 'string',
-    defaultValue: 'undefined',
     status: 'optional',
   },
   skeleton: {
     doc: 'If set to `true`, an overlaying skeleton with animation will be shown.',
     type: 'boolean',
-    defaultValue: 'undefined',
     status: 'optional',
   },
   '[Space](/uilib/layout/space/properties)': {
@@ -83,7 +81,6 @@ export const TableEventProperties: PropertiesTableProps = {
   collapseAllHandleRef: {
     doc: 'Ref handle to collapse all expanded accordion rows. Send in a ref and use `.current()` to collapse all rows.',
     type: 'React.RefObject<() => void>',
-    defaultValue: 'undefined',
     status: 'optional',
   },
 }
@@ -95,7 +92,6 @@ export const TrProperties: PropertiesTableProps = {
   variant: {
     doc: 'Override the automatic variant of the current row. The next row one will continue with the opposite.',
     type: ['"even"', '"odd"'],
-    defaultValue: 'undefined',
     status: 'optional',
   },
   noWrap: {
@@ -107,7 +103,6 @@ export const TrProperties: PropertiesTableProps = {
   verticalAlign: {
     doc: 'Vertical alignment of all cell content in the row.',
     type: ['"top"', '"middle"', '"bottom"'],
-    defaultValue: 'undefined',
     status: 'optional',
   },
   expanded: {
@@ -156,19 +151,16 @@ export const TrEventProperties: PropertiesTableProps = {
   onClick: {
     doc: 'Will emit when user clicks/expands or on keydown space/enter (in `mode="accordion"` and `mode="navigation"`) in the table row. The second argument is an object with `trElement` (the `HTMLTableRowElement`).',
     type: '(event, { trElement }) => void',
-    defaultValue: 'undefined',
     status: 'optional',
   },
   onOpen: {
     doc: 'Will emit when table row is expanded. Returns an object with the table row as the target: `{ target }`.',
     type: '({ target }) => void',
-    defaultValue: 'undefined',
     status: 'optional',
   },
   onClose: {
     doc: 'Will emit when table row is closed (after it was open). Returns an object with the table row as the target: `{ target }`.',
     type: '({ target }) => void',
-    defaultValue: 'undefined',
     status: 'optional',
   },
 }
@@ -213,7 +205,6 @@ export const ThProperties: PropertiesTableProps = {
   children: {
     doc: 'The content of the component.',
     type: 'React.ReactNode',
-    defaultValue: 'undefined',
     status: 'optional',
   },
 }
@@ -228,13 +219,11 @@ export const TdProperties: PropertiesTableProps = {
   spacing: {
     doc: 'Set to `horizontal` for padding on left and right side.',
     type: '"horizontal"',
-    defaultValue: 'undefined',
     status: 'optional',
   },
   verticalAlign: {
     doc: 'Vertical alignment of the cell content.',
     type: ['"top"', '"middle"', '"bottom"'],
-    defaultValue: 'undefined',
     status: 'optional',
   },
   highlight: {
@@ -246,13 +235,11 @@ export const TdProperties: PropertiesTableProps = {
   selected: {
     doc: 'When `true`, the cell is styled as selected (highlighted background and selected icon/border). Requires `onClick` to take effect, since the selected styling targets the cell button. When provided (either `true` or `false`), the cell button is announced as a toggle button by screen readers via `aria-pressed`. Use `setSelected` from the `onClick` callback to toggle the state.',
     type: 'boolean',
-    defaultValue: 'undefined',
     status: 'optional',
   },
   children: {
     doc: 'The content of the component.',
     type: 'React.ReactNode',
-    defaultValue: 'undefined',
     status: 'optional',
   },
 }
@@ -261,7 +248,6 @@ export const TdEventProperties: PropertiesTableProps = {
   onClick: {
     doc: 'Will emit when user clicks the cell button. The second argument is an object with `trElement` (the parent `HTMLTableRowElement`), `tdElement` (the `HTMLTableCellElement`), `thElement` (the matching `<Th>` from `<thead>`, or `null` if not found), `isSelected` (current selected state), and `setSelected` (function to update the selected state — only effective when the `selected` prop is provided).',
     type: '(event, { trElement, tdElement, thElement, isSelected, setSelected }) => void',
-    defaultValue: 'undefined',
     status: 'optional',
   },
   icon: {

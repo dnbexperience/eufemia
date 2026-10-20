@@ -37,7 +37,7 @@ const DEFAULT_ENDPOINT =
 const POST_TIMEOUT_MS = 1000
 
 const STARTUP_NOTICE =
-  'Eufemia MCP collects anonymous usage stats; disable with EUFEMIA_MCP_TELEMETRY=0'
+  'Eufemia MCP collects anonymous usage stats; disable with EUFEMIA_MCP_TELEMETRY=0 or DO_NOT_TRACK=1'
 
 // The registered docs-server tools. A record is emitted only for a call to one
 // of these, so an unknown method never produces a record. Kept in sync with the
@@ -237,12 +237,34 @@ export function buildUsageRecord(
   return record
 }
 
-/** True when telemetry is switched off via `EUFEMIA_MCP_TELEMETRY=0|false`. */
+const OFF_VALUES: ReadonlySet<string> = new Set([
+  '0',
+  'false',
+  'off',
+  'no',
+])
+
+/**
+ * True when telemetry is switched off: `EUFEMIA_MCP_TELEMETRY=0|false|off|no`,
+ * the cross-tool `DO_NOT_TRACK` convention, or a CI environment.
+ */
 export function isTelemetryDisabled(
   env: NodeJS.ProcessEnv = process.env
 ): boolean {
-  const value = (env.EUFEMIA_MCP_TELEMETRY ?? '').trim().toLowerCase()
-  return value === '0' || value === 'false'
+  return (
+    OFF_VALUES.has(normalize(env.EUFEMIA_MCP_TELEMETRY)) ||
+    isFlagSet(env.DO_NOT_TRACK) ||
+    isFlagSet(env.CI)
+  )
+}
+
+function normalize(value: string | undefined) {
+  return (value ?? '').trim().toLowerCase()
+}
+
+function isFlagSet(value: string | undefined) {
+  const normalized = normalize(value)
+  return normalized !== '' && !OFF_VALUES.has(normalized)
 }
 
 // Looks up the name as the caller passed it, the form the docs tools use.
