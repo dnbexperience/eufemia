@@ -375,14 +375,14 @@ export const AiSourcesProperties: PropertiesTableProps = {
   },
 }
 
-export const AiToolProperties: PropertiesTableProps = {
+export const AiTaskProperties: PropertiesTableProps = {
   title: {
-    doc: 'What the tool does, e.g. `Looking up your transactions`.',
+    doc: 'What the task does, e.g. `Looking up your transactions`.',
     type: 'React.ReactNode',
     status: 'optional',
   },
   status: {
-    doc: 'Display status of the tool. Defaults to `running`.',
+    doc: 'Display status of the task. Defaults to `running`.',
     type: ['"running"', '"awaiting"', '"done"', '"error"', '"canceled"'],
     status: 'optional',
   },
@@ -392,7 +392,7 @@ export const AiToolProperties: PropertiesTableProps = {
     status: 'optional',
   },
   children: {
-    doc: 'Content shown below the status, e.g. the result of the tool.',
+    doc: 'Content shown below the status, e.g. the result of the task.',
     type: 'React.ReactNode',
     status: 'optional',
   },
