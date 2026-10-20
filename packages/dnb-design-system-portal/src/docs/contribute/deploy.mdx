@@ -16,7 +16,8 @@ The steps, from code changes to production builds, are:
 
 1. Make a _Pull Request_ to the `origin/main` branch.
 1. Check the results of the CI tests and builds.
-1. After the _Pull Request_ gets approved by one of the authorized [maintainers](https://github.com/dnbexperience/eufemia/graphs/contributors),
+1. Get the _Pull Request_ approved by one of the authorized [maintainers](https://github.com/dnbexperience/eufemia/graphs/contributors).
+   The approval must come after the most recent push, from someone other than the person who made that push. A new commit, a rebase or **Update branch** after an approval means the _Pull Request_ needs a new approval, so push your last changes before you ask for the final review.
 1. You can merge your _Pull Request_.
 1. A maintainer will create a _Pull Request_ into one of the release branches (`next`, `alpha`, `beta` or `release`).
 1. After a release _Pull Request_ got merged, the CI Server deploys the Portal
