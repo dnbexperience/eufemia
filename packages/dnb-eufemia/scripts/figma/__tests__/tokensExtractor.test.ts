@@ -1,8 +1,8 @@
 import {
-  assertModesAreExported,
   convertVariablesToTokens,
   extractTokens,
   TOKEN_EXPORTS,
+  warnAboutSkippedModes,
   type FigmaLocalVariables,
 } from '../tasks/tokensExtractor'
 import { createFigmaClient } from '../helpers/figmaClient'
@@ -129,6 +129,7 @@ const meta: FigmaLocalVariables = {
 beforeEach(() => {
   vi.clearAllMocks()
   vi.spyOn(log, 'info').mockImplementation(vi.fn())
+  vi.spyOn(log, 'warn').mockImplementation(vi.fn())
 })
 
 afterEach(() => {
@@ -491,49 +492,52 @@ describe('convertVariablesToTokens', () => {
   })
 })
 
-describe('assertModesAreExported', () => {
-  it('passes when Figma has no mode beyond the exported ones', () => {
-    expect(() => assertModesAreExported(meta)).not.toThrow()
+describe('warnAboutSkippedModes', () => {
+  it('stays quiet when Figma has no mode beyond the exported ones', () => {
+    warnAboutSkippedModes(meta)
+
+    expect(log.warn).not.toHaveBeenCalled()
   })
 
-  it('throws when Figma has a mode that is not exported', () => {
-    expect(() =>
-      assertModesAreExported({
-        ...meta,
-        variableCollections: {
-          ...meta.variableCollections,
-          'VariableCollectionId:53684:1279': {
-            ...meta.variableCollections['VariableCollectionId:53684:1279'],
-            modes: [
-              ...meta.variableCollections[
-                'VariableCollectionId:53684:1279'
-              ].modes,
-              { modeId: '1:5', name: 'dnbcarnegie-dark' },
-            ],
-          },
+  it('warns when Figma has a mode that is not exported', () => {
+    warnAboutSkippedModes({
+      ...meta,
+      variableCollections: {
+        ...meta.variableCollections,
+        'VariableCollectionId:53684:1279': {
+          ...meta.variableCollections['VariableCollectionId:53684:1279'],
+          modes: [
+            ...meta.variableCollections['VariableCollectionId:53684:1279']
+              .modes,
+            { modeId: '1:7', name: 'dnbcarnegie-dark' },
+          ],
         },
-      })
-    ).toThrow(
-      'The Figma variable collection "brand" has modes that are not exported: dnbcarnegie-dark'
+      },
+    })
+
+    expect(log.warn).toHaveBeenCalledWith(
+      expect.stringContaining(
+        'The variable collection "brand" has modes that are not exported: dnbcarnegie-dark'
+      )
     )
   })
 
   it('ignores a collection that is not exported', () => {
-    expect(() =>
-      assertModesAreExported({
-        ...meta,
-        variableCollections: {
-          ...meta.variableCollections,
-          'VariableCollectionId:3:1': {
-            id: 'VariableCollectionId:3:1',
-            name: 'screen-size',
-            modes: [{ modeId: '3:0', name: 'small' }],
-            defaultModeId: '3:0',
-            variableIds: [],
-          },
+    warnAboutSkippedModes({
+      ...meta,
+      variableCollections: {
+        ...meta.variableCollections,
+        'VariableCollectionId:3:1': {
+          id: 'VariableCollectionId:3:1',
+          name: 'screen-size',
+          modes: [{ modeId: '3:0', name: 'small' }],
+          defaultModeId: '3:0',
+          variableIds: [],
         },
-      })
-    ).not.toThrow()
+      },
+    })
+
+    expect(log.warn).not.toHaveBeenCalled()
   })
 })
 

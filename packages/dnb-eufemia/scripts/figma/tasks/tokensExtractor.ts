@@ -282,10 +282,11 @@ const findModeId = (collection: FigmaVariableCollection, name: string) => {
 }
 
 /**
- * A mode added in Figma would otherwise never reach the library, because
- * nothing outside of Figma shows that it exists.
+ * A mode added in Figma would otherwise go unnoticed, because nothing outside
+ * of Figma shows that it exists. The modes we do ask for are verified by
+ * `findModeId`, which fails when one of them is gone.
  */
-export const assertModesAreExported = (meta: FigmaLocalVariables) => {
+export const warnAboutSkippedModes = (meta: FigmaLocalVariables) => {
   const collections = TOKEN_EXPORTS.filter(
     ({ collection }, index) =>
       TOKEN_EXPORTS.findIndex((item) => item.collection === collection) ===
@@ -297,13 +298,13 @@ export const assertModesAreExported = (meta: FigmaLocalVariables) => {
       ({ collection }) => collection === collectionName
     ).map(({ mode }) => mode)
 
-    const missing = findCollection(meta, collectionName, collectionId)
+    const skipped = findCollection(meta, collectionName, collectionId)
       .modes.map((mode) => mode.name)
       .filter((name) => !exported.includes(name))
 
-    if (missing.length) {
-      throw new Error(
-        `The Figma variable collection "${collectionName}" has modes that are not exported: ${missing.join(
+    if (skipped.length) {
+      log.warn(
+        `> Figma: The variable collection "${collectionName}" has modes that are not exported: ${skipped.join(
           ', '
         )}. Add them to TOKEN_EXPORTS, and to the token files in makePropertiesFile.ts once a theme uses them.`
       )
@@ -587,7 +588,7 @@ export const extractTokens = async ({
 
   const meta = await fetchLocalVariables(figmaFile)
 
-  assertModesAreExported(meta)
+  warnAboutSkippedModes(meta)
 
   const exports = TOKEN_EXPORTS.map(
     ({ collection, collectionId, mode, fileName }) => {
