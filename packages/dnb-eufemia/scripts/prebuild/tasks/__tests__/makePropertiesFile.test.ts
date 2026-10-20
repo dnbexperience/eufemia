@@ -247,8 +247,10 @@ describe('makePropertiesFile', () => {
       expect(read('carnegie')).toContain(
         '--line-height-xx-large: 4.25rem;'
       )
-      expect(read('carnegie')).toContain('.eufemia-theme__carnegie')
-      expect(read('ui')).toContain('.eufemia-theme__eiendom')
+      for (const theme of ['ui', 'sbanken', 'carnegie']) {
+        expect(read(theme)).toContain('\n:root {\n')
+        expect(read(theme)).not.toContain('.eufemia-theme__')
+      }
       for (const theme of ['ui', 'sbanken']) {
         expect(
           fs.existsSync(
@@ -284,6 +286,35 @@ describe('makePropertiesFile', () => {
       expect(getValues('eiendom')).toEqual(['3rem', '3rem'])
       expect(getValues('sbanken')).toEqual(['3rem', '3rem'])
       expect(getValues('carnegie')).toEqual(['3rem', '3.5rem'])
+    })
+
+    it('declares the typography scale only on :root, so :root overrides also apply inside a theme', async () => {
+      const sass = await import('sass')
+      const path = await import('path')
+      for (const theme of ['ui', 'eiendom', 'sbanken', 'carnegie']) {
+        const css = sass
+          .compile(
+            path.resolve(
+              'src/style/themes/' +
+                theme +
+                '/' +
+                theme +
+                '-theme-basis.scss'
+            ),
+            { style: 'compressed' }
+          )
+          .css.replace('@charset "UTF-8";', '')
+        const selectors = Array.from(css.matchAll(/([^{}]+)\{([^{}]*)\}/g))
+          .filter(([, , declarations]) =>
+            /--(?:font-size|line-height)-(?:x-small|small|basis|medium|large|x-large|xx-large):/.test(
+              declarations
+            )
+          )
+          .map(([, selector]) => selector.trim())
+
+        expect(selectors.length).toBeGreaterThan(0)
+        expect(new Set(selectors)).toEqual(new Set([':root']))
+      }
     })
 
     it('pairs responsive xx-large headings with their line-height scale', async () => {
