@@ -1,5 +1,20 @@
 import { expect, test } from '@playwright/test'
 import waitForApp from './shared/waitForApp'
+import type { Page } from '@playwright/test'
+
+async function selectPlatform(page: Page, name: string) {
+  const option = page.getByRole('option', { name, exact: true })
+  await option.waitFor({ state: 'visible' })
+  await option.evaluate(async (element) => {
+    const list = element.closest('.dnb-drawer-list')
+    await Promise.all(
+      list
+        .getAnimations({ subtree: true })
+        .map((animation) => animation.finished.catch(() => undefined))
+    )
+  })
+  await option.click()
+}
 
 test.describe('SidebarMenu documentation tabs', () => {
   test.beforeEach(async ({ page }) => {
@@ -334,11 +349,14 @@ test.describe('Portal SidebarMenu', () => {
     })
     const about = menu.getByRole('button', { name: 'About', exact: true })
     await about.click()
+    await expect(
+      menu.locator('.dnb-height-animation--animating')
+    ).toHaveCount(0)
     const platform = page.getByRole('navigation', {
       name: 'Platform Content Menu',
     })
     await platform.getByRole('combobox').click()
-    await page.getByRole('option', { name: 'iOS', exact: true }).click()
+    await selectPlatform(page, 'iOS')
     await expect(about).toHaveAttribute('aria-expanded', 'true')
     await expect(
       menu.getByRole('link', { name: 'About Eufemia', exact: true })
@@ -356,9 +374,7 @@ test.describe('Portal SidebarMenu', () => {
       menu.locator('.dnb-height-animation--animating')
     ).toHaveCount(0)
     await platform.getByRole('combobox').click()
-    await page
-      .getByRole('option', { name: 'Android', exact: true })
-      .click()
+    await selectPlatform(page, 'Android')
     await expect(
       platform.getByRole('button', { name: /Liquid Glass/ })
     ).toHaveCount(0)
@@ -391,6 +407,10 @@ test.describe('Portal SidebarMenu', () => {
     await waitForApp(page)
     await page.locator('#toggle-sidebar-menu').click()
     const drawer = page.locator('.dnb-sidebar-menu-responsive-drawer')
+    await expect(drawer).toHaveCSS('transform', 'matrix(1, 0, 0, 1, 0, 0)')
+    await expect(
+      drawer.locator('.dnb-height-animation--animating')
+    ).toHaveCount(0)
     const shared = drawer.getByRole('navigation', {
       name: 'Section Content Menu',
     })
@@ -398,7 +418,7 @@ test.describe('Portal SidebarMenu', () => {
       name: 'Platform Content Menu',
     })
     await platform.getByRole('combobox').click()
-    await page.getByRole('option', { name: 'iOS', exact: true }).click()
+    await selectPlatform(page, 'iOS')
     await platform
       .getByRole('button', { name: 'Get started', exact: true })
       .click()
