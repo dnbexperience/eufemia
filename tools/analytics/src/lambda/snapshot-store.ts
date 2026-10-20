@@ -183,8 +183,8 @@ export async function writeSnapshot(
 }
 
 // The *-daily/ prefixes have no lifecycle rule, so rollups outlive the raw rows'
-// expiry. Rows hold the Glue table's columns plus `dt`; `dt` is the partition
-// key, so it goes in the S3 key and is left out of the stored row.
+// expiry. Rows must hold exactly the Glue table's columns plus `dt` (the
+// partition key).
 export async function storeDailyRollup(
   bucket: string,
   prefix: `${string}/`,
