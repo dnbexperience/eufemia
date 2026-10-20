@@ -79,7 +79,7 @@ function App() {
 }
 ```
 
-The nearest Provider that sets `iconBaseUrl` controls the directory for remote icons. An explicit directory is used as supplied and does not fall back to the official CDN. Other directory values are ignored and remote icon names render nothing.
+The nearest Provider that sets `iconBaseUrl` controls the directory for remote icons. An explicit directory is used as supplied and does not fall back to the official CDN. Invalid directory values are rejected, and remote icon names render nothing.
 
 Direct `Icon` string names use this directory. `IconPrimary` and components that use it, such as Button, continue to render bundled primary names locally.
 
