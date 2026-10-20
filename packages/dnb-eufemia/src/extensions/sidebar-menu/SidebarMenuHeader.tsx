@@ -1,3 +1,4 @@
+import { Children } from 'react'
 import { clsx } from 'clsx'
 import type { SidebarMenuHeaderProps } from './types'
 import useId from '../../shared/helpers/useId'
@@ -14,9 +15,9 @@ export default function SidebarMenuHeader(props: SidebarMenuHeaderProps) {
   const titleId = `${useId(id)}-title`
   const hasText = text !== undefined && text !== null
   const label = hasText ? text : children
-  const items = hasText ? children : undefined
+  const hasItems = hasText && Children.toArray(children).length > 0
 
-  if (!hasText) {
+  if (!hasItems) {
     return (
       <li
         {...rest}
@@ -44,7 +45,7 @@ export default function SidebarMenuHeader(props: SidebarMenuHeaderProps) {
         className="dnb-sidebar-menu__list dnb-sidebar-menu__group__list"
         aria-labelledby={titleId}
       >
-        {items}
+        {children}
       </ul>
     </li>
   )
