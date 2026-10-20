@@ -90,7 +90,7 @@ test.describe('Portal tools menu', () => {
           .first()
         await infoTab.focus()
         await infoTab.press('Enter')
-        await expect(page).toHaveURL(/\/uilib\/components\/button\/?$/)
+        await expect(page).toHaveURL(/\/web\/components\/button\/?$/)
         await expect
           .poll(() =>
             page.locator('.eufemia-theme__typography--native').count()
