@@ -149,7 +149,11 @@ function PageWrapper() {
     const fragments = allMdxNodes.find(
       ({ fields }) => fields.slug === slug
     )?.frontmatter.legacyFragments
-    const target = fragments?.[location.hash.slice(1)]
+    const key = location.hash.slice(1)
+    const target =
+      fragments && Object.prototype.hasOwnProperty.call(fragments, key)
+        ? fragments[key]
+        : undefined
     if (target) {
       navigate(resolvePageRedirect(target, window.location.href), {
         replace: true,
