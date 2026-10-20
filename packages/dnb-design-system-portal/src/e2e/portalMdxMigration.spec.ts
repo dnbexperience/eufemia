@@ -83,32 +83,50 @@ test('opens accordion headings without navigating and retains content links', as
   ).toBeVisible()
 })
 
-for (const prefix of ['/uilib', '/web']) {
+for (const path of [
+  '/uilib/usage/first-steps/tools?from=bookmark#agent-skills',
+  '/web/usage/first-steps/tools?from=bookmark#agent-skills',
+]) {
   test(
-    'redirects old AI section links from ' + prefix,
+    'redirects the old skills section from ' + path,
     async ({ page }) => {
-      await page.goto(
-        prefix + '/usage/first-steps/tools?from=bookmark#agent-skills'
-      )
+      await page.goto(path)
       await waitForApp(page)
       await expect(page).toHaveURL(
-        /\/working-with-ai\/ai-skills\/?\?from=bookmark#agent-skills$/
+        /[/]working-with-ai[/]ai-skills[/]?[?]from=bookmark#agent-skills$/
       )
       await expect(
         page.getByRole('heading', { name: 'AI skills', exact: true })
       ).toBeVisible()
-      await page.goto(
-        prefix + '/usage/first-steps/tools#ai-assistance-and-mcp-server'
-      )
-      await waitForApp(page)
-      await expect(page).toHaveURL(
-        /\/working-with-ai\/mcp-universe\/?#ai-assistance-and-mcp-server$/
-      )
-      await expect(
-        page.getByRole('heading', { name: 'MCP Universe', exact: true })
-      ).toBeVisible()
     }
   )
+}
+
+for (const path of [
+  '/uilib/usage/first-steps/tools#ai-assistance-and-mcp-server',
+  '/web/usage/first-steps/tools#ai-assistance-and-mcp-server',
+]) {
+  test('redirects the old MCP section from ' + path, async ({ page }) => {
+    await page.goto(path)
+    await waitForApp(page)
+    await expect(page).toHaveURL(
+      /[/]working-with-ai[/]mcp-universe[/]?#ai-assistance-and-mcp-server$/
+    )
+    await expect(
+      page.getByRole('heading', { name: 'MCP Universe', exact: true })
+    ).toBeVisible()
+  })
+}
+
+for (const path of [
+  '/working-with-ai/ai-skills',
+  '/working-with-ai/mcp-universe',
+]) {
+  test('opens the dedicated AI page ' + path, async ({ page }) => {
+    await page.goto(path)
+    await waitForApp(page)
+    await expect(page.locator('main h1')).toBeVisible()
+  })
 }
 
 test('keeps the introduction and first-tab aliases accessible', async ({
