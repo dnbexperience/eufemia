@@ -128,33 +128,32 @@
     }
 
     // Align the cells with the title when the row has an overline or a
-    // subline. Only check the cell itself and its siblings, so a nested list
-    // (e.g. inside an accordion) does not affect the alignment of other rows.
+    // subline. Only check the cells of the same row (the children of the cells'
+    // parent), so a nested list (e.g. inside an accordion) does not affect the
+    // alignment of other rows.
     $footer: '#{&}__footer';
-    $overline: '#{&}__overline';
-    $subline: '#{&}__subline';
-    $in-row-with-overline: ':is(:has(#{$overline}), :has(~ #{$overline}), :has(~ :not(#{$footer}) #{$overline}), #{$overline} ~ *, :not(#{$footer}):has(#{$overline}) ~ *)';
-    $in-row-with-subline: ':is(:has(#{$subline}), :has(~ #{$subline}), :has(~ :not(#{$footer}) #{$subline}), #{$subline} ~ *, :not(#{$footer}):has(#{$subline}) ~ *)';
+    $row-with-overline: ':has(> #{&}__overline, > :not(#{$footer}) #{&}__overline)';
+    $row-with-subline: ':has(> #{&}__subline, > :not(#{$footer}) #{&}__subline)';
 
-    &__center#{$in-row-with-overline},
-    &__end#{$in-row-with-overline} {
+    @at-root #{$row-with-overline} > #{&}__center,
+      #{$row-with-overline} > #{&}__end {
       @include utilities.allAbove(small) {
         place-self: end;
       }
     }
-    &__icon#{$in-row-with-overline},
-    &__chevron#{$in-row-with-overline} {
+    @at-root #{$row-with-overline} > #{&}__icon,
+      #{$row-with-overline} > #{&}__chevron {
       place-self: end;
     }
-    &__center#{$in-row-with-subline},
-    &__end#{$in-row-with-subline} {
+    @at-root #{$row-with-subline} > #{&}__center,
+      #{$row-with-subline} > #{&}__end {
       @include utilities.allAbove(small) {
         place-self: start;
       }
     }
-    &__title#{$in-row-with-subline},
-    &__icon#{$in-row-with-subline},
-    &__chevron#{$in-row-with-subline} {
+    @at-root #{$row-with-subline} > #{&}__title,
+      #{$row-with-subline} > #{&}__icon,
+      #{$row-with-subline} > #{&}__chevron {
       place-self: start;
     }
     &:has(#{&}__footer),

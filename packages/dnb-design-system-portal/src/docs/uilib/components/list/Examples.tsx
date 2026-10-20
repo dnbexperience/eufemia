@@ -1066,9 +1066,11 @@ export const CustomItemComponent = () => {
 const NestedRow = ({
   overline,
   subline,
+  twoLineEnd,
 }: {
   overline?: boolean
   subline?: boolean
+  twoLineEnd?: boolean
 }) => (
   <List.Item.Action icon={fish_medium} onClick={() => null}>
     <List.Cell.Title>
@@ -1080,7 +1082,10 @@ const NestedRow = ({
         <List.Cell.Title.Subline>Subline</List.Cell.Title.Subline>
       )}
     </List.Cell.Title>
-    <List.Cell.End>End</List.Cell.End>
+    <List.Cell.End>
+      End
+      {twoLineEnd && <span>Second line</span>}
+    </List.Cell.End>
   </List.Item.Action>
 )
 
@@ -1093,6 +1098,7 @@ export const NestedAlignment = () => (
             <NestedRow />
             <NestedRow subline />
             <NestedRow overline />
+            <NestedRow twoLineEnd />
           </List.Container>
         </List.Item.Accordion.Content>
       </List.Item.Accordion>
@@ -1108,8 +1114,8 @@ export const NestedAlignment = () => (
         </List.Item.Accordion.Header>
         <List.Item.Accordion.Content>
           <List.Container>
-            <NestedRow />
             <NestedRow overline />
+            <NestedRow twoLineEnd />
           </List.Container>
         </List.Item.Accordion.Content>
       </List.Item.Accordion>
