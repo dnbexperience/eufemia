@@ -22,6 +22,7 @@ import convertSvgToJsx from './tasks/convertSvgToJsx'
 import makeLibStyles from './tasks/makeLibStyles'
 import makeMainStyle from './tasks/makeMainStyle'
 import makePropertiesFile from './tasks/makePropertiesFile'
+import makeSidebarMenuFirstPaintCss from './tasks/makeSidebarMenuFirstPaintCss'
 
 export {
   log,
@@ -44,6 +45,7 @@ export const runPrepublishTasks = async ({
 
     await makeReleaseVersion()
     await makePropertiesFile()
+    await makeSidebarMenuFirstPaintCss()
     await runStyleFactory()
     await runThemeFactory()
     await makeLibStyles()
