@@ -269,8 +269,18 @@ export const AiSuggestionEvents: PropertiesTableProps = {
 }
 
 export const AiWelcomeProperties: PropertiesTableProps = {
+  greeting: {
+    doc: 'Greeting shown above the heading, e.g. `Hi Matthias`. Empty or false greetings are omitted.',
+    type: 'React.ReactNode',
+    status: 'optional',
+  },
+  avatar: {
+    doc: 'Decorative avatar beside the greeting. It is hidden from screen readers and omitted when there is no greeting. Set `hasLabel` when using Avatar outside Avatar.Group.',
+    type: 'React.ReactNode',
+    status: 'optional',
+  },
   title: {
-    doc: 'The heading, e.g. `Hello, Peter`.',
+    doc: 'The heading, e.g. `Where do you want to start today?`.',
     type: 'React.ReactNode',
     status: 'required',
   },
