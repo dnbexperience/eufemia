@@ -184,6 +184,44 @@ test.describe('Portal SidebarMenu', () => {
     ).toBeVisible()
   })
 
+  test('opens Patterns without navigating and selects the status icon page', async ({
+    page,
+  }) => {
+    const platform = page.getByRole('navigation', {
+      name: 'Platform Content Menu',
+    })
+    const patterns = platform.getByRole('button', {
+      name: 'Patterns',
+      exact: true,
+    })
+    await patterns.click()
+    await expect(page).toHaveURL(/\/web\/components\/?$/)
+    await expect(patterns).toHaveAttribute('aria-expanded', 'true')
+    await expect(
+      platform.getByRole('link', {
+        name: 'Patterns overview',
+        exact: true,
+      })
+    ).toHaveCount(0)
+    const statusIcon = platform.getByRole('link', {
+      name: 'Status icon pattern',
+      exact: true,
+    })
+    await statusIcon.click()
+    await expect(page).toHaveURL('/web/patterns/status-icon')
+    await expect(statusIcon).toHaveAttribute('aria-current', 'page')
+    await expect(
+      page.getByRole('heading', {
+        name: 'Status icon pattern',
+        exact: true,
+      })
+    ).toBeVisible()
+    await page.reload()
+    await waitForApp(page)
+    await expect(patterns).toHaveAttribute('aria-expanded', 'true')
+    await expect(statusIcon).toHaveAttribute('aria-current', 'page')
+  })
+
   test('keeps the moved pages accessible and versions out of the sidebar', async ({
     page,
   }) => {
