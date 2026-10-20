@@ -11,8 +11,8 @@ test.describe("What's new", () => {
   }) => {
     await page.goto('/')
     await waitForApp(page)
-    await page.locator('main nav a[href="/whats-new/"]').click()
-    await expect(page).toHaveURL(/\/whats-new\/?$/)
+    await page.locator('main nav a[href="/web/whats-new/"]').click()
+    await expect(page).toHaveURL(/\/web\/whats-new\/?$/)
     await expect(
       page.getByRole('heading', { name: "What's new", exact: true })
     ).toBeVisible()
@@ -21,7 +21,7 @@ test.describe("What's new", () => {
   test('combines releases, change log and upgrade guides in route-based tabs', async ({
     page,
   }) => {
-    await page.goto('/whats-new')
+    await page.goto('/web/whats-new')
     await waitForApp(page)
     await expect(
       page.getByRole('heading', { name: "What's new", exact: true })
@@ -40,7 +40,7 @@ test.describe("What's new", () => {
     await page
       .getByRole('tab', { name: 'Change log', exact: true })
       .click()
-    await expect(page).toHaveURL('/whats-new/change-log')
+    await expect(page).toHaveURL('/web/whats-new/change-log')
     await expect(
       page.getByRole('tab', { name: 'Change log', exact: true })
     ).toHaveAttribute('aria-selected', 'true')
@@ -50,9 +50,9 @@ test.describe("What's new", () => {
         .locator('main')
         .getByRole('link', { name: 'details about releases' })
         .first()
-    ).toHaveAttribute('href', '/whats-new/upgrade')
+    ).toHaveAttribute('href', '/web/whats-new/upgrade')
     await page.getByRole('tab', { name: 'Upgrade', exact: true }).click()
-    await expect(page).toHaveURL('/whats-new/upgrade')
+    await expect(page).toHaveURL('/web/whats-new/upgrade')
     await expect(
       page.locator('main a[href*="form-set-row-deprecation-v11"]')
     ).toHaveCount(0)
@@ -76,7 +76,7 @@ test.describe("What's new", () => {
       .locator('.dnb-breadcrumb')
       .getByRole('link', { name: 'Upgrade', exact: true })
       .click()
-    await expect(page).toHaveURL('/whats-new/upgrade')
+    await expect(page).toHaveURL('/web/whats-new/upgrade')
     const sidebar = page.locator('#portal-sidebar-menu')
     await expect(
       sidebar.locator('a[href*="/releases/eufemia/"]')
@@ -86,7 +86,10 @@ test.describe("What's new", () => {
     ).toHaveCount(0)
   })
 
-  for (const path of ['/whats-new/change-log', '/whats-new/upgrade']) {
+  for (const path of [
+    '/web/whats-new/change-log',
+    '/web/whats-new/upgrade',
+  ]) {
     const tab = path.endsWith('/upgrade') ? 'Upgrade' : 'Change log'
     test(
       'loads ' + path + ' directly and after reload',
@@ -106,6 +109,24 @@ test.describe("What's new", () => {
         ).toHaveAttribute('aria-selected', 'true')
       }
     )
+  }
+
+  for (const path of [
+    '/whats-new',
+    '/whats-new/info',
+    '/whats-new/change-log',
+    '/whats-new/upgrade',
+  ]) {
+    test('redirects ' + path + ' to the web section', async ({ page }) => {
+      await page.goto(path)
+      const target =
+        path === '/whats-new/info' ? '/web/whats-new' : '/web' + path
+      await expect(page).toHaveURL(new RegExp(target + '/?$'))
+      await waitForApp(page)
+      await expect(
+        page.getByRole('heading', { name: "What's new", exact: true })
+      ).toBeVisible()
+    })
   }
 
   test('keeps the previous page URLs available', async ({ page }) => {
