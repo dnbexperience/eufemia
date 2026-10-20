@@ -31,7 +31,10 @@ export default function useCheckedBeforeHydration({
     }
 
     const event = new Event('change', { bubbles: true })
-    Object.defineProperty(event, 'target', { value: input })
+    Object.defineProperties(event, {
+      target: { value: input },
+      currentTarget: { value: input },
+    })
     onChange(
       input.checked,
       event as unknown as ChangeEvent<HTMLInputElement>
