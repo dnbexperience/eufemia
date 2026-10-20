@@ -2,6 +2,77 @@ import { test, expect } from '@playwright/test'
 import waitForApp from './shared/waitForApp'
 
 test.describe('SidebarMenu toggle', () => {
+  test('preserves the released non-compact Inline layout without generated boxes', async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1600, height: 1000 })
+    await page.goto(
+      '/uilib/extensions/sidebar-menu/demos/#toggle-navigation'
+    )
+    await waitForApp(page)
+    const example = page.locator('[data-sidebar-menu-toggle-example]')
+    const layout = await example.evaluate((example) => {
+      const inline = document.createElement('div')
+      inline.className = 'dnb-sidebar-menu-responsive-inline'
+      inline.dataset.sidebarMenuResponsiveVisible = 'true'
+      const nav = document.createElement('nav')
+      nav.style.width = '432px'
+      inline.appendChild(nav)
+      example.appendChild(inline)
+      const result = {
+        display: getComputedStyle(inline).display,
+        before: getComputedStyle(inline, '::before').content,
+        after: getComputedStyle(inline, '::after').content,
+        childWidth: nav.getBoundingClientRect().width,
+      }
+      inline.remove()
+      return result
+    })
+    expect(layout).toEqual({
+      display: 'contents',
+      before: 'none',
+      after: 'none',
+      childWidth: 432,
+    })
+  })
+
+  test('restores desktop dismissal before the hydration bundle loads', async ({
+    page,
+  }) => {
+    const response = await page.request.get(
+      '/uilib/extensions/sidebar-menu/demos/'
+    )
+    const html = await response.text()
+    test.skip(
+      !html.includes('data-inline-collapsed-storage-key='),
+      'Requires prerendered Portal HTML'
+    )
+    expect(html).toContain('data-sidebar-menu-inline-pre-hydration')
+    await page.setViewportSize({ width: 1600, height: 1000 })
+    await page.addInitScript(() =>
+      sessionStorage.setItem('sidebar-menu-toggle-example', 'true')
+    )
+    await page.route('**/*.js', (route) => route.abort())
+    await page.goto(
+      '/uilib/extensions/sidebar-menu/demos/#toggle-navigation',
+      { waitUntil: 'domcontentloaded' }
+    )
+    const inline = page.locator(
+      '[data-sidebar-menu-toggle-example] .dnb-sidebar-menu-responsive-inline'
+    )
+    await expect(inline).not.toHaveAttribute(
+      'data-sidebar-menu-responsive-visible'
+    )
+    await expect(inline).toHaveCSS('width', '0px')
+    await expect(
+      page.locator(
+        '[data-sidebar-menu-inline-pre-hydration="sidebar-menu-toggle-example"]'
+      )
+    ).toHaveCount(1)
+    await page.setViewportSize({ width: 500, height: 900 })
+    await expect(inline).toHaveCSS('display', 'none')
+  })
+
   test('covers the full sidebar edge with the divider and resize target', async ({
     page,
   }) => {

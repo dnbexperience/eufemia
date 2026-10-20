@@ -252,6 +252,12 @@ export const SidebarMenuResponsiveProviderProperties: PropertiesTableProps =
 
 export const SidebarMenuResponsiveInlineProperties: PropertiesTableProps =
   {
+    showToggle: {
+      doc: 'Adds the full-width embedded toggle and sidebar surface. Keep an external Toggle or ResponsiveTrigger available to restore dismissed navigation. Without compactAt or showToggle, children render directly with display: contents. Compact mode retains its toggle independently.',
+      type: 'boolean',
+      defaultValue: 'false',
+      status: 'optional',
+    },
     expandedWidth: {
       doc: 'Width of the full inline menu.',
       type: 'CSSProperties["width"]',
@@ -272,6 +278,12 @@ export const SidebarMenuResponsiveInlineProperties: PropertiesTableProps =
   }
 
 export const SidebarMenuResponsiveAsideProperties: PropertiesTableProps = {
+  showToggle: {
+    doc: 'Shows the embedded full-width toggle. Keep an external Toggle or ResponsiveTrigger available to restore dismissed navigation. Compact mode retains its toggle independently.',
+    type: 'boolean',
+    defaultValue: 'true',
+    status: 'optional',
+  },
   id: {
     doc: 'Id used by ResponsiveTrigger inlineControls and the resize divider. Generated when omitted.',
     type: 'string',

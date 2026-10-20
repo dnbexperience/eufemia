@@ -158,7 +158,7 @@ Use the responsive compound parts when the same navigation should be inline on l
 - `ResponsiveDrawer` renders a left-side Drawer at or below `drawerAt`. Its close button is placed on the left.
 - `useResponsive().close()` closes the Drawer after mobile navigation.
 
-Place an external `SidebarMenu.Toggle` or `ResponsiveTrigger` outside the inline menu so people can restore it after dismissal. `ResponsiveInline` and `ResponsiveAside` include an embedded `Toggle` by default, including at full width. Desktop toggling uses the same collapse state and width animation as dragging the resize divider all the way left.
+Place an external `SidebarMenu.Toggle` or `ResponsiveTrigger` outside dismissible navigation so people can restore it after dismissal. `ResponsiveAside` includes its full-width toggle by default; use `showToggle={false}` to omit it. Plain `ResponsiveInline` preserves direct child rendering unless `compactAt` or `showToggle` is enabled. Set `showToggle` on `ResponsiveInline` to add a full-width embedded toggle. Compact mode keeps its existing expansion toggle. Desktop dismissal uses the same collapse state and width animation as dragging the resize divider all the way left.
 
 The trigger and Drawer do not need to be siblings. Place both under the same provider, for example with the trigger in an application header and the Drawer beside the desktop navigation.
 

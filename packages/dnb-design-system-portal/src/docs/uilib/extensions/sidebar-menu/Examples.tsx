@@ -353,7 +353,8 @@ export function SidebarMenuToggle() {
             <H2>Toggle the sidebar</H2>
             <P>
               Use either toggle to hide the sidebar. The Menu button
-              restores it. Reload to keep your choice for this session.
+              restores it. Your choice is remembered for this session,
+              including after a reload.
             </P>
           </div>
           <SidebarMenu.ResponsiveDrawer id="toggle-example-drawer">

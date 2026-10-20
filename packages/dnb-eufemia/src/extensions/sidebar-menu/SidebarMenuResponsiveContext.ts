@@ -32,6 +32,8 @@ export const SidebarMenuResponsiveContext = createContext<
 export const SidebarMenuResponsiveInlineCompactContext =
   createContext(false)
 
+export const SidebarMenuResponsiveAsideContext = createContext(false)
+
 export const SidebarMenuInlineToggleContext = createContext<
   { open: boolean; controls: string; toggle: () => void } | undefined
 >(undefined)

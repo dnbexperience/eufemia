@@ -217,6 +217,97 @@ describe('SidebarMenu responsive parts', () => {
     ).toBeInTheDocument()
   })
 
+  it('preserves plain non-compact inline children without a dismiss button', () => {
+    setMedia({ width: '100em' })
+    render(
+      <SidebarMenu.ResponsiveProvider>
+        <SidebarMenu.ResponsiveInline>
+          <nav aria-label="Released navigation">Menu</nav>
+        </SidebarMenu.ResponsiveInline>
+        <SidebarMenu.ResponsiveDrawer>
+          Mobile menu
+        </SidebarMenu.ResponsiveDrawer>
+      </SidebarMenu.ResponsiveProvider>
+    )
+    const inline = document.querySelector(
+      '.dnb-sidebar-menu-responsive-inline'
+    )
+    expect(inline.firstElementChild).toBe(
+      document.querySelector('[aria-label="Released navigation"]')
+    )
+    expect(inline).not.toHaveAttribute(
+      'data-sidebar-menu-responsive-surface'
+    )
+    expect(
+      document.querySelector('.dnb-sidebar-menu-toggle')
+    ).not.toBeInTheDocument()
+  })
+
+  it('supports an explicit full-width inline toggle with an external restore control', () => {
+    setMedia({ width: '100em' })
+    render(
+      <SidebarMenu.ResponsiveProvider>
+        <SidebarMenu.ResponsiveTrigger />
+        <SidebarMenu.ResponsiveInline showToggle>
+          Menu
+        </SidebarMenu.ResponsiveInline>
+      </SidebarMenu.ResponsiveProvider>
+    )
+    fireEvent.click(
+      document.querySelector('.dnb-sidebar-menu-responsive-inline__toggle')
+    )
+    expect(
+      document.querySelector('.dnb-sidebar-menu-responsive-inline')
+    ).toHaveAttribute('inert')
+    fireEvent.click(
+      document.querySelector('.dnb-sidebar-menu-responsive-trigger')
+    )
+    expect(
+      document.querySelector('.dnb-sidebar-menu-responsive-inline')
+    ).not.toHaveAttribute('inert')
+  })
+
+  it('can omit the Aside toggle while preserving its collapsible sidebar surface', () => {
+    setMedia({ width: '100em' })
+    render(
+      <SidebarMenu.ResponsiveProvider>
+        <SidebarMenu.Toggle />
+        <SidebarMenu.ResponsiveAside showToggle={false}>
+          Menu
+        </SidebarMenu.ResponsiveAside>
+      </SidebarMenu.ResponsiveProvider>
+    )
+    expect(
+      document.querySelector('.dnb-sidebar-menu-responsive-inline__toggle')
+    ).not.toBeInTheDocument()
+    const inline = document.querySelector(
+      '.dnb-sidebar-menu-responsive-inline'
+    )
+    expect(inline).toHaveAttribute(
+      'data-sidebar-menu-responsive-surface',
+      'true'
+    )
+    fireEvent.click(document.querySelector('.dnb-sidebar-menu-toggle'))
+    expect(inline).toHaveAttribute('inert')
+  })
+
+  it('keeps the compact Inline toggle opt-in at full width', () => {
+    setMedia({ width: '100em' })
+    render(
+      <SidebarMenu.ResponsiveProvider compactAt="large">
+        <SidebarMenu.ResponsiveInline>Menu</SidebarMenu.ResponsiveInline>
+      </SidebarMenu.ResponsiveProvider>
+    )
+    expect(
+      document.querySelector(
+        '.dnb-sidebar-menu-responsive-inline__toggle-island'
+      )
+    ).not.toHaveAttribute('data-sidebar-menu-responsive-toggle-full-width')
+    expect(
+      document.querySelector('.dnb-sidebar-menu-responsive-inline')
+    ).toHaveAttribute('data-sidebar-menu-responsive-has-compact', 'true')
+  })
+
   it('shows the inline content above the breakpoint', () => {
     setMedia({ width: '70em' })
 
@@ -1241,7 +1332,7 @@ describe('SidebarMenu responsive parts', () => {
     expect(html).toContain('--sidebar-menu-default-expanded-width:18rem')
     expect(html).toContain('dnb-sidebar-menu-responsive-inline__content')
     expect(html).toContain(
-      'dnb-sidebar-menu-responsive-inline__toggle-island{margin-inline-start:calc(.5rem + var(--sidebar-menu-compact-offset))}'
+      'dnb-sidebar-menu-responsive-inline__toggle-island{display:inline-flex;margin-inline-start:calc(.5rem + var(--sidebar-menu-compact-offset))}'
     )
     expect(html).toContain(
       '.dnb-sidebar-menu-responsive-inline__content:dir(rtl)'
@@ -1637,7 +1728,9 @@ describe('SidebarMenu responsive parts', () => {
 
     expect(html).toContain('dnb-sidebar-menu-responsive-trigger')
     expect(html).toContain('dnb-sidebar-menu-responsive-inline')
-    expect(html).toContain('dnb-sidebar-menu-responsive-inline__content')
+    expect(html).not.toContain(
+      'dnb-sidebar-menu-responsive-inline__content'
+    )
     expect(html).toContain('aria-label="Åpne meny"')
     expect(html).toContain('aria-controls="mobile-menu"')
     expect(html).toContain('aria-haspopup="dialog"')
