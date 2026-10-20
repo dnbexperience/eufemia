@@ -49,7 +49,9 @@ test('keeps old component routes, query strings, fragments and tabs working', as
     page.getByRole('heading', { name: 'Button', exact: true })
   ).toBeVisible()
   await page.getByRole('tab', { name: 'Properties', exact: true }).click()
-  await expect(page).toHaveURL(/\/web\/components\/button\/properties/)
+  await expect(page).toHaveURL(
+    '/web/components/button/properties?eufemia-theme=sbanken'
+  )
   await expect(
     page.getByRole('tab', { name: 'Properties', exact: true })
   ).toHaveAttribute('aria-selected', 'true')
