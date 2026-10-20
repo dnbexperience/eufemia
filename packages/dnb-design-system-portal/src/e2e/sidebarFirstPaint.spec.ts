@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test'
+import { expect, test, type Page } from '@playwright/test'
 import waitForApp from './shared/waitForApp'
 
 for (const javaScriptEnabled of [false, true]) {
@@ -81,4 +81,54 @@ for (const javaScriptEnabled of [false, true]) {
       }
     }
   )
+}
+
+async function readLayout(page: Page) {
+  return page.evaluate(() => {
+    const aside = document.querySelector('#portal-sidebar-menu')
+    const content = document.querySelector('.dnb-app-content')
+    const header = document.querySelector('header.sticky-menu')
+    const action = aside.querySelector('.dnb-sidebar-menu__item__action')
+    return {
+      asideWidth: aside.getBoundingClientRect().width,
+      actionWidth: action.getBoundingClientRect().width,
+      contentLeft: content.getBoundingClientRect().left,
+      contentWidth: content.getBoundingClientRect().width,
+      headerLeft: header.getBoundingClientRect().left,
+    }
+  })
+}
+
+for (const width of [1440, 1280]) {
+  for (const path of ['/', '/web/components/']) {
+    test(
+      'keeps the first-paint sidebar layout at ' + width + ' on ' + path,
+      async ({ browser, page, baseURL }) => {
+        const viewport = { width, height: 900 }
+        const context = await browser.newContext({
+          javaScriptEnabled: false,
+          viewport,
+        })
+        try {
+          const prerendered = await context.newPage()
+          await prerendered.goto(new URL(path, baseURL).href)
+          const before = await readLayout(prerendered)
+
+          await page.setViewportSize(viewport)
+          await page.goto(path)
+          await waitForApp(page)
+          const after = await readLayout(page)
+
+          expect(before.contentLeft).toBe(width === 1440 ? 384 : 64)
+          for (const key of Object.keys(before) as Array<
+            keyof typeof before
+          >) {
+            expect(after[key]).toBeCloseTo(before[key], 1)
+          }
+        } finally {
+          await context.close()
+        }
+      }
+    )
+  }
 }
