@@ -4,7 +4,8 @@
  */
 
 import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
-import { render, screen } from '@testing-library/react'
+import { StrictMode } from 'react'
+import { act, render, screen } from '@testing-library/react'
 import ProgressIndicator from '../ProgressIndicator'
 import type { ProgressIndicatorAllProps } from '../types'
 import { formatPercent } from '../../number-format/NumberUtils'
@@ -279,6 +280,84 @@ describe('Circular ProgressIndicator component', () => {
 
 describe('Linear ProgressIndicator component', () => {
   const mainLineSelector = '.dnb-progress-indicator__linear__bar'
+
+  describe('onComplete', () => {
+    beforeEach(() => {
+      vi.useFakeTimers()
+    })
+    afterEach(() => {
+      vi.useRealTimers()
+    })
+
+    it('should not call onComplete while it is shown', () => {
+      const onComplete = vi.fn()
+      render(
+        <ProgressIndicator type="linear" show onComplete={onComplete} />
+      )
+
+      act(() => {
+        vi.advanceTimersByTime(2000)
+      })
+
+      expect(onComplete).toHaveBeenCalledTimes(0)
+    })
+
+    it('should call onComplete once when show changes to false', () => {
+      const onComplete = vi.fn()
+      const { rerender } = render(
+        <ProgressIndicator type="linear" show onComplete={onComplete} />
+      )
+
+      act(() => {
+        vi.advanceTimersByTime(2000)
+      })
+      onComplete.mockClear()
+
+      rerender(
+        <ProgressIndicator
+          type="linear"
+          show={false}
+          onComplete={onComplete}
+        />
+      )
+
+      act(() => {
+        vi.advanceTimersByTime(2000)
+      })
+
+      expect(onComplete).toHaveBeenCalledTimes(1)
+    })
+
+    it('should call onComplete once when show changes to false in StrictMode', () => {
+      const onComplete = vi.fn()
+      const { rerender } = render(
+        <StrictMode>
+          <ProgressIndicator type="linear" show onComplete={onComplete} />
+        </StrictMode>
+      )
+
+      act(() => {
+        vi.advanceTimersByTime(2000)
+      })
+      onComplete.mockClear()
+
+      rerender(
+        <StrictMode>
+          <ProgressIndicator
+            type="linear"
+            show={false}
+            onComplete={onComplete}
+          />
+        </StrictMode>
+      )
+
+      act(() => {
+        vi.advanceTimersByTime(2000)
+      })
+
+      expect(onComplete).toHaveBeenCalledTimes(1)
+    })
+  })
 
   it('should have a transform of translateX(-50%) on 50%', () => {
     render(<ProgressIndicator {...props} type="linear" progress={50} />)

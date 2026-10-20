@@ -8,14 +8,6 @@ import { clsx } from 'clsx'
 import { validateDOMAttributes } from '../../shared/component-helper'
 import type { ProgressIndicatorLinearAllProps } from './types'
 
-function usePrevious<P>(value: P): [P, P] {
-  const ref = useRef<P>(undefined)
-  useEffect(() => {
-    ref.current = value
-  }, [value])
-  return [ref.current, value]
-}
-
 function ProgressIndicatorLine(props: ProgressIndicatorLinearAllProps) {
   const {
     size,
@@ -34,11 +26,14 @@ function ProgressIndicatorLine(props: ProgressIndicatorLinearAllProps) {
     typeof onComplete === 'function' &&
     typeof callOnCompleteHandler === 'function'
 
-  const [showCurrent, showPrev] = usePrevious(show)
-
-  if (onCompleteIsFn && !showCurrent && showPrev) {
-    callOnCompleteHandler()
-  }
+  // Call onComplete once the indicator is hidden (show changes from true to false)
+  const wasShownRef = useRef(show)
+  useEffect(() => {
+    if (onCompleteIsFn && wasShownRef.current && !show) {
+      callOnCompleteHandler()
+    }
+    wasShownRef.current = show
+  }, [show, onCompleteIsFn, callOnCompleteHandler])
 
   const hasProgressValue = progress > -1
 
