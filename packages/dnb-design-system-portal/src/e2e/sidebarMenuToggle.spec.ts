@@ -75,29 +75,30 @@ test.describe('SidebarMenu toggle', () => {
       .toBe(defaultWidth + 16)
     await embedded.focus()
     await inline.evaluate((element) => {
-      element.addEventListener(
-        'transitionrun',
-        (event: TransitionEvent) => {
-          if (event.target === element && event.propertyName === 'width') {
-            const widths = element
-              .getAnimations()
-              .filter(
-                (animation) =>
-                  animation instanceof CSSTransition &&
-                  animation.transitionProperty === 'width'
-              )
-              .flatMap((animation) =>
-                (animation.effect as KeyframeEffect)
-                  .getKeyframes()
-                  .map((frame) => frame.width)
-              )
-            element.setAttribute(
-              'data-test-collapse-widths',
-              JSON.stringify(widths)
+      element.addEventListener('transitionrun', (event) => {
+        if (
+          event instanceof TransitionEvent &&
+          event.target === element &&
+          event.propertyName === 'width'
+        ) {
+          const widths = element
+            .getAnimations()
+            .filter(
+              (animation) =>
+                animation instanceof CSSTransition &&
+                animation.transitionProperty === 'width'
             )
-          }
+            .flatMap((animation) =>
+              (animation.effect as KeyframeEffect)
+                .getKeyframes()
+                .map((frame) => frame.width)
+            )
+          element.setAttribute(
+            'data-test-collapse-widths',
+            JSON.stringify(widths)
+          )
         }
-      )
+      })
     })
     await embedded.press('Enter')
     await expect(inline).toHaveAttribute('inert', '')
