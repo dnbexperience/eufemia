@@ -66,8 +66,8 @@ jobs:
       # ESLint re-lints a file only when that file or the config changes, so
       # other files that a rule reads must be part of the hash too:
       # - docs-types/sync-docs-jsdoc checks a component against its sibling
-      #   *Docs files. Without them, a change to only a *Docs file is never
-      #   checked (as with #9914). The patterns mirror the rule
+      #   *Docs files. Without them, a change to only a *Docs file does not
+      #   re-check its component. The patterns mirror the rule
       #   (`Docs\.[jt]sx?$`), as hashFiles does not support {a,b} braces.
       # - compat/compat reads the browser targets from .browserslistrc.
       - name: Use ESLint cache
