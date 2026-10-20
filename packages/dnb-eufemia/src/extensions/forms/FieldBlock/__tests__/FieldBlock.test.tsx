@@ -1138,6 +1138,36 @@ describe('FieldBlock', () => {
         )
       })
 
+      it.each([
+        ['above', true],
+        ['below', false],
+      ] as const)(
+        'should keep the DOM order of the status in line with statusPosition="%s"',
+        (statusPosition, statusFirst) => {
+          render(
+            <Field.String
+              info={blockInfo}
+              statusPosition={statusPosition}
+            />
+          )
+
+          const status = document.querySelector(
+            '.dnb-forms-field-block__status'
+          )
+          const contents = document.querySelector(
+            '.dnb-forms-field-block__contents'
+          )
+
+          expect(status).toHaveTextContent(blockInfo)
+          expect(
+            Boolean(
+              status.compareDocumentPosition(contents) &
+              Node.DOCUMENT_POSITION_FOLLOWING
+            )
+          ).toBe(statusFirst)
+        }
+      )
+
       it('should forward statusPosition in Field.String', () => {
         render(<Field.String info={blockInfo} statusPosition="above" />)
 

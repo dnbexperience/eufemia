@@ -613,6 +613,51 @@ describe('Field.Composition', () => {
     container.remove()
   })
 
+  it('should show nested messages after hydration when statusPosition is above', async () => {
+    const element = (
+      <FieldBlock
+        composition
+        statusPosition="above"
+        info="FieldBlock info"
+      >
+        <Field.String warning="Warning message" />
+      </FieldBlock>
+    )
+    const container = document.createElement('div')
+    container.innerHTML = renderToString(element)
+    document.body.appendChild(container)
+
+    const status = () =>
+      container.querySelector('.dnb-forms-field-block__status')
+    const contents = container.querySelector(
+      '.dnb-forms-field-block__contents'
+    )
+    expect(status().nextElementSibling).toBe(contents)
+
+    const onRecoverableError = vi.fn()
+    const { unmount } = render(element, {
+      container,
+      hydrate: true,
+      onRecoverableError,
+    })
+
+    await waitFor(() => {
+      expect(
+        container.querySelector('.dnb-form-status--warning')
+      ).toHaveTextContent('Warning message')
+    })
+    expect(onRecoverableError).not.toHaveBeenCalled()
+    expect(
+      container.querySelector('.dnb-form-status--information')
+    ).toHaveTextContent('FieldBlock info')
+    expect(status().nextElementSibling).toBe(
+      container.querySelector('.dnb-forms-field-block__contents')
+    )
+
+    unmount()
+    container.remove()
+  })
+
   it('should link server-rendered fields to their status messages', () => {
     const container = document.createElement('div')
     container.innerHTML = renderToString(
