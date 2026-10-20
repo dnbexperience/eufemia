@@ -6,7 +6,7 @@
 import { StrictMode, useState } from 'react'
 import type { ReactNode, RefObject } from 'react'
 import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
-import { fireEvent, render, waitFor } from '@testing-library/react'
+import { act, fireEvent, render, waitFor } from '@testing-library/react'
 import Input from '../../input/Input'
 import Modal from '../Modal'
 import type { ModalProps, ModalContentProps } from '../types'
@@ -282,6 +282,92 @@ describe('Modal component', () => {
     await userEvent.keyboard('{Escape}')
     expect(onClose).toHaveBeenCalledTimes(1)
     expect(testTriggeredBy).toBe('keyboard')
+  })
+
+  it('should wait with opening until "openModal" calls open', () => {
+    let openModalHandler: () => void = null
+    const onOpen = vi.fn()
+
+    render(
+      <Modal
+        {...props}
+        onOpen={onOpen}
+        openModal={(open) => {
+          openModalHandler = () => open()
+        }}
+      />
+    )
+
+    fireEvent.click(document.querySelector('button'))
+    expect(onOpen).toHaveBeenCalledTimes(0)
+
+    act(() => openModalHandler())
+    expect(onOpen).toHaveBeenCalledTimes(1)
+  })
+
+  it('should open with the documented "openModal" usage', () => {
+    const onOpen = vi.fn()
+
+    render(
+      <Modal {...props} onOpen={onOpen} openModal={(open) => open()} />
+    )
+
+    fireEvent.click(document.querySelector('button'))
+    expect(onOpen).toHaveBeenCalledTimes(1)
+  })
+
+  it('should close when the close function given to "closeModal" is called', () => {
+    let closeModalHandler: () => void = null
+
+    render(
+      <Modal
+        {...props}
+        closeModal={(close) => {
+          closeModalHandler = () => close()
+        }}
+      />
+    )
+
+    fireEvent.click(document.querySelector('button'))
+    expect(
+      document.querySelector('.dnb-modal__content')
+    ).toBeInTheDocument()
+
+    act(() => closeModalHandler())
+    expect(
+      document.querySelector('.dnb-modal__content')
+    ).not.toBeInTheDocument()
+  })
+
+  it('should call the functions returned by "openModal" and "closeModal" on unmount', () => {
+    const onOpenCleanup = vi.fn()
+    const onCloseCleanup = vi.fn()
+
+    const { unmount } = render(
+      <Modal
+        {...props}
+        openModal={(open) => {
+          open()
+          return onOpenCleanup
+        }}
+        closeModal={(close) => {
+          const timeout = setTimeout(close, 1000)
+          return () => {
+            clearTimeout(timeout)
+            onCloseCleanup()
+          }
+        }}
+      />
+    )
+
+    fireEvent.click(document.querySelector('button'))
+    expect(onOpenCleanup).toHaveBeenCalledTimes(0)
+    expect(onCloseCleanup).toHaveBeenCalledTimes(0)
+
+    unmount()
+
+    expect(onOpenCleanup).toHaveBeenCalledTimes(1)
+    expect(onCloseCleanup).toHaveBeenCalledTimes(1)
   })
 
   it('will set focus on content div if no h1 and close button is given', async () => {
