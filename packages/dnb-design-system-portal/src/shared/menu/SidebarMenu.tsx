@@ -150,6 +150,7 @@ export default function SidebarLayout({
         className={navStyle}
         expandedWidth="24rem"
         compactWidth="4rem"
+        showToggle={false}
         resizable
         resizeHandleProps={{ minWidth: 240, maxWidth: 560 }}
         onWidthChange={onWidthChange}
