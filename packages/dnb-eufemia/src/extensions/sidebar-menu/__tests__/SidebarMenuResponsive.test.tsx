@@ -1115,6 +1115,183 @@ describe('SidebarMenu responsive parts', () => {
     )
   })
 
+  it('toggles desktop navigation with the public Toggle', () => {
+    setMedia({ width: '100em' })
+    const onInlineCollapsedChange = vi.fn()
+
+    render(
+      <SidebarMenu.ResponsiveProvider
+        onInlineCollapsedChange={onInlineCollapsedChange}
+      >
+        <SidebarMenu.Toggle data-testid="toggle" />
+        <SidebarMenu.ResponsiveAside id="toggle-menu">
+          Menu
+        </SidebarMenu.ResponsiveAside>
+      </SidebarMenu.ResponsiveProvider>
+    )
+
+    const toggle = document.querySelector('[data-testid="toggle"]')
+    const inline = document.querySelector(
+      '.dnb-sidebar-menu-responsive-inline'
+    )
+    expect(toggle).toHaveAttribute('aria-controls', 'toggle-menu')
+    expect(toggle).toHaveAttribute('aria-expanded', 'true')
+    expect(toggle).toHaveAttribute('aria-label', 'Lukk meny')
+    expect(toggle).not.toHaveAttribute('aria-haspopup')
+
+    fireEvent.click(toggle)
+    expect(inline).toHaveAttribute('inert')
+    expect(toggle).toHaveAttribute('aria-expanded', 'false')
+    expect(toggle).toHaveAttribute('aria-label', 'Åpne meny')
+    expect(onInlineCollapsedChange).toHaveBeenLastCalledWith(true)
+
+    fireEvent.click(toggle)
+    expect(inline).not.toHaveAttribute('inert')
+    expect(toggle).toHaveAttribute('aria-expanded', 'true')
+    expect(onInlineCollapsedChange).toHaveBeenLastCalledWith(false)
+  })
+
+  it('hides a hover-expanded compact menu with an external Toggle', () => {
+    setMedia({ width: '65em' })
+    render(
+      <SidebarMenu.ResponsiveProvider compactAt="large">
+        <SidebarMenu.Toggle data-testid="external-toggle" />
+        <SidebarMenu.ResponsiveAside>Menu</SidebarMenu.ResponsiveAside>
+      </SidebarMenu.ResponsiveProvider>
+    )
+    const inline = document.querySelector(
+      '.dnb-sidebar-menu-responsive-inline'
+    )
+    const external = document.querySelector(
+      '[data-testid="external-toggle"]'
+    )
+    fireEvent.pointerEnter(inline, { pointerType: 'mouse' })
+    expect(inline).toHaveAttribute(
+      'data-sidebar-menu-responsive-expanded',
+      'true'
+    )
+    fireEvent.click(external)
+    expect(inline).toHaveAttribute('inert')
+    expect(inline).not.toHaveAttribute(
+      'data-sidebar-menu-responsive-expanded'
+    )
+    fireEvent.click(external)
+    expect(inline).not.toHaveAttribute('inert')
+    expect(inline).not.toHaveAttribute(
+      'data-sidebar-menu-responsive-expanded'
+    )
+  })
+
+  it('keeps controlled desktop state authoritative for Toggle', () => {
+    setMedia({ width: '100em' })
+    const onInlineCollapsedChange = vi.fn()
+    const renderMenu = (collapsed: boolean) => (
+      <SidebarMenu.ResponsiveProvider
+        inlineCollapsed={collapsed}
+        onInlineCollapsedChange={onInlineCollapsedChange}
+      >
+        <SidebarMenu.Toggle />
+      </SidebarMenu.ResponsiveProvider>
+    )
+    const { rerender } = render(renderMenu(false))
+    const toggle = document.querySelector('.dnb-sidebar-menu-toggle')
+    fireEvent.click(toggle)
+    expect(onInlineCollapsedChange).toHaveBeenLastCalledWith(true)
+    expect(toggle).toHaveAttribute('aria-expanded', 'true')
+    rerender(renderMenu(true))
+    expect(toggle).toHaveAttribute('aria-expanded', 'false')
+    fireEvent.click(toggle)
+    expect(onInlineCollapsedChange).toHaveBeenLastCalledWith(false)
+    expect(toggle).toHaveAttribute('aria-expanded', 'false')
+  })
+
+  it('uses visible Toggle text as its accessible name and forwards the ref', () => {
+    setMedia({ width: '100em' })
+    const ref = createRef<HTMLButtonElement>()
+    render(
+      <SidebarMenu.ResponsiveProvider>
+        <SidebarMenu.Toggle ref={ref} text="Menu" />
+      </SidebarMenu.ResponsiveProvider>
+    )
+    expect(ref.current).toHaveAccessibleName('Menu')
+  })
+
+  it('returns focus to the public Toggle when the Drawer closes', async () => {
+    setMedia({ width: '30em' })
+    render(
+      <SidebarMenu.ResponsiveProvider>
+        <SidebarMenu.Toggle />
+        <SidebarMenu.ResponsiveDrawer>Menu</SidebarMenu.ResponsiveDrawer>
+      </SidebarMenu.ResponsiveProvider>
+    )
+    const toggle = document.querySelector('.dnb-sidebar-menu-toggle')
+    fireEvent.click(toggle)
+    await waitFor(() =>
+      expect(document.querySelector('[role="dialog"]')).toBeInTheDocument()
+    )
+    fireEvent.keyDown(document, { key: 'Escape' })
+    await waitFor(() =>
+      expect(toggle).toHaveAttribute('aria-expanded', 'false')
+    )
+    expect(document.activeElement).toBe(toggle)
+  })
+
+  it('collapses desktop navigation with its embedded toggle', () => {
+    setMedia({ width: '100em' })
+    render(
+      <SidebarMenu.ResponsiveProvider>
+        <SidebarMenu.ResponsiveTrigger />
+        <SidebarMenu.ResponsiveAside>Menu</SidebarMenu.ResponsiveAside>
+      </SidebarMenu.ResponsiveProvider>
+    )
+
+    const toggle = document.querySelector<HTMLButtonElement>(
+      '.dnb-sidebar-menu-responsive-inline__toggle'
+    )
+    expect(toggle).toBeInTheDocument()
+    toggle.focus()
+    fireEvent.click(toggle)
+    expect(
+      document.querySelector('.dnb-sidebar-menu-responsive-inline')
+    ).toHaveAttribute('inert')
+    expect(document.activeElement).toBe(
+      document.querySelector('.dnb-sidebar-menu-responsive-trigger')
+    )
+  })
+
+  it('lets consumers prevent the default Toggle action', () => {
+    setMedia({ width: '100em' })
+    render(
+      <SidebarMenu.ResponsiveProvider>
+        <SidebarMenu.Toggle
+          onClick={({ event }) => event.preventDefault()}
+        />
+      </SidebarMenu.ResponsiveProvider>
+    )
+    const toggle = document.querySelector('.dnb-sidebar-menu-toggle')
+    fireEvent.click(toggle)
+    expect(toggle).toHaveAttribute('aria-expanded', 'true')
+  })
+
+  it('toggles the mobile Drawer with the public Toggle', () => {
+    setMedia({ width: '30em' })
+    render(
+      <SidebarMenu.ResponsiveProvider>
+        <SidebarMenu.Toggle controls="toggle-drawer" />
+        <SidebarMenu.ResponsiveDrawer id="toggle-drawer">
+          Menu
+        </SidebarMenu.ResponsiveDrawer>
+      </SidebarMenu.ResponsiveProvider>
+    )
+    const toggle = document.querySelector('.dnb-sidebar-menu-toggle')
+    expect(toggle).toHaveAttribute('aria-haspopup', 'dialog')
+    expect(toggle).toHaveAttribute('aria-controls', 'toggle-drawer')
+    fireEvent.click(toggle)
+    expect(toggle).toHaveAttribute('aria-expanded', 'true')
+    fireEvent.click(toggle)
+    expect(toggle).toHaveAttribute('aria-expanded', 'false')
+  })
+
   it('restores a collapsed inline menu from the desktop trigger', () => {
     setMedia({ width: '70em' })
 
@@ -1269,9 +1446,7 @@ describe('SidebarMenu responsive parts', () => {
 
     expect(html).toContain('dnb-sidebar-menu-responsive-trigger')
     expect(html).toContain('dnb-sidebar-menu-responsive-inline')
-    expect(html).not.toContain(
-      'dnb-sidebar-menu-responsive-inline__content'
-    )
+    expect(html).toContain('dnb-sidebar-menu-responsive-inline__content')
     expect(html).toContain('aria-label="Åpne meny"')
     expect(html).toContain('aria-controls="mobile-menu"')
     expect(html).toContain('aria-haspopup="dialog"')
@@ -1299,7 +1474,7 @@ describe('SidebarMenu responsive parts', () => {
     expect(html).toContain(':not([data-sidebar-menu-responsive-visible])')
     expect(html).toContain('{display:inline-flex}')
     expect(html).toContain('{display:none}')
-    expect(html).toContain('{display:contents}')
+    expect(html).toContain('{display:block}')
   })
 
   it('resolves named custom breakpoints for the first paint', () => {

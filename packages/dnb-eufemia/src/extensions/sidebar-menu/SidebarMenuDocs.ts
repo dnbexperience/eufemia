@@ -332,6 +332,25 @@ export const SidebarMenuResponsiveProviderEvents: PropertiesTableProps = {
   },
 }
 
+export const SidebarMenuToggleProperties: PropertiesTableProps = {
+  controls: {
+    doc: 'Id of the mobile Drawer controlled by the toggle.',
+    type: 'string',
+    defaultValue: '"sidebar-menu-responsive-drawer"',
+    status: 'optional',
+  },
+  inlineControls: {
+    doc: 'Id of the desktop navigation. Defaults to the ResponsiveAside id in the same provider. The embedded toggle controls its own inline content.',
+    type: 'string',
+    status: 'optional',
+  },
+  '[Button properties]': {
+    doc: 'Supports Button properties except aria-expanded, aria-haspopup, and aria-controls, which are managed automatically. The default icon is sidebar. Icon-only buttons use a localized accessible label. Calling event.preventDefault() in onClick cancels toggling. Place the toggle inside ResponsiveProvider.',
+    type: 'Various',
+    status: 'optional',
+  },
+}
+
 export const SidebarMenuResponsiveTriggerProperties: PropertiesTableProps =
   {
     controls: {

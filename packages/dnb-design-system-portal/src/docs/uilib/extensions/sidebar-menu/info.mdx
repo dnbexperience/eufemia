@@ -149,6 +149,7 @@ Use the responsive compound parts when the same navigation should be inline on l
 
 - `ResponsiveProvider` owns the responsive thresholds and Drawer state.
 - `ResponsiveProvider` can also own a collapsible desktop inline state.
+- `Toggle` renders a button that hides and restores the desktop inline navigation by default. Inside the compact rail it expands and collapses the overlay. On small screens an external Toggle opens and closes the Drawer.
 - `ResponsiveTrigger` renders a hamburger button at or below `drawerAt`, or while the desktop inline navigation is collapsed. On desktop it restores the inline navigation instead of opening a Drawer.
 - When the built-in hamburger appears after desktop dismissal, its bars animate in sequentially. Custom trigger icons are not animated.
 - `ResponsiveInline` renders its children above `drawerAt`. Between `drawerAt` and the optional `compactAt` threshold, its SidebarMenu becomes a narrow icon rail that expands over adjacent content on hover, keyboard focus, or with its toggle button.
@@ -156,6 +157,8 @@ Use the responsive compound parts when the same navigation should be inline on l
 - `ResponsiveShell` provides the responsive two-column application layout for `ResponsiveAside` and page content, then switches to one column below `drawerAt`.
 - `ResponsiveDrawer` renders a left-side Drawer at or below `drawerAt`. Its close button is placed on the left.
 - `useResponsive().close()` closes the Drawer after mobile navigation.
+
+Place an external `SidebarMenu.Toggle` or `ResponsiveTrigger` outside the inline menu so people can restore it after dismissal. `ResponsiveInline` and `ResponsiveAside` include an embedded `Toggle` by default, including at full width. Desktop toggling uses the same collapse state and width animation as dragging the resize divider all the way left.
 
 The trigger and Drawer do not need to be siblings. Place both under the same provider, for example with the trigger in an application header and the Drawer beside the desktop navigation.
 

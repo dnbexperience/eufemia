@@ -23,17 +23,19 @@ import useMediaQuery from '../../shared/useMediaQuery'
 import Context from '../../shared/Context'
 import { defaultBreakpoints } from '../../shared/MediaQueryUtils'
 import type { MediaQuerySizes } from '../../shared/MediaQueryUtils'
-import { hamburger, sidebar } from '../../icons'
+import { hamburger } from '../../icons'
 import { clsx } from 'clsx'
 import useCombinedRef from '../../shared/helpers/useCombinedRef'
 import useIsomorphicLayoutEffect from '../../shared/helpers/useIsomorphicLayoutEffect'
 import useTranslation from '../../shared/useTranslation'
 import {
+  SidebarMenuInlineToggleContext,
   SidebarMenuResponsiveInlineCompactContext,
   SidebarMenuResponsiveContext,
   useSidebarMenuResponsiveContext,
 } from './SidebarMenuResponsiveContext'
 import type { SidebarMenuResponsiveContextValue } from './SidebarMenuResponsiveContext'
+import SidebarMenuToggle from './SidebarMenuToggle'
 
 const animatedHamburger = (props?: IconSVGProps) => (
   <svg
@@ -477,6 +479,8 @@ export function SidebarMenuResponsiveInline({
     isHydrated,
     isSmallScreen,
     scopeId,
+    collapseInline,
+    triggerRef,
   } = useSidebarMenuResponsiveContext()
   const inlineRef = useRef<HTMLDivElement>(null)
   const combinedRef = useCombinedRef(ref, inlineRef)
@@ -492,7 +496,8 @@ export function SidebarMenuResponsiveInline({
   const [tooltipTarget, setTooltipTarget] = useState<HTMLElement>()
   const [tooltipLabel, setTooltipLabel] = useState('')
   const compactOpen =
-    compactExpanded || (compactHovered && !compactDismissed)
+    !inlineCollapsed &&
+    (compactExpanded || (compactHovered && !compactDismissed))
   const contentId = `${scopeId}-responsive-inline-content`
   const translation = useTranslation().SidebarMenu
   const compactOpenRef = useRef(compactOpen)
@@ -522,7 +527,8 @@ export function SidebarMenuResponsiveInline({
   }, [isHydrated])
 
   useEffect(() => {
-    if (!isCompact) {
+    if (!isCompact || inlineCollapsed) {
+      compactHoveredRef.current = false
       setCompactExpanded(false)
       setCompactDismissed(false)
       setCompactHovered(false)
@@ -530,7 +536,16 @@ export function SidebarMenuResponsiveInline({
       setCompactClosing(false)
       setTooltipTarget(undefined)
     }
-  }, [isCompact])
+  }, [isCompact, inlineCollapsed])
+
+  useIsomorphicLayoutEffect(() => {
+    if (
+      inlineCollapsed &&
+      inlineRef.current?.contains(document.activeElement)
+    ) {
+      triggerRef.current?.focus({ preventScroll: true })
+    }
+  }, [inlineCollapsed, triggerRef])
 
   useIsomorphicLayoutEffect(() => {
     if (compactOpen) {
@@ -595,6 +610,18 @@ export function SidebarMenuResponsiveInline({
 
   if (isHydrated && isSmallScreen) {
     return null
+  }
+
+  const toggleInline = () => {
+    setTooltipTarget(undefined)
+    if (!isCompact) {
+      collapseInline()
+      return
+    }
+    const wasOpen =
+      compactExpanded || (compactHoveredRef.current && !compactDismissed)
+    setCompactExpanded(!wasOpen)
+    setCompactDismissed(wasOpen)
   }
 
   const responsiveChildren = (
@@ -769,7 +796,13 @@ export function SidebarMenuResponsiveInline({
         } as CSSProperties
       }
     >
-      {hasCompact ? (
+      <SidebarMenuInlineToggleContext
+        value={{
+          open: isCompact ? compactOpen : !inlineCollapsed,
+          controls: contentId,
+          toggle: toggleInline,
+        }}
+      >
         <div className="dnb-sidebar-menu-responsive-inline__content">
           <div
             className="dnb-sidebar-menu-responsive-inline__toggle-island"
@@ -777,24 +810,9 @@ export function SidebarMenuResponsiveInline({
               boxShadow: compactScrolled ? 'var(--shadow-sharp)' : 'none',
             }}
           >
-            <Button
+            <SidebarMenuToggle
               ref={compactToggleRef}
               className="dnb-sidebar-menu-responsive-inline__toggle"
-              icon={sidebar}
-              variant="tertiary"
-              aria-label={
-                compactOpen ? translation.closeMenu : translation.openMenu
-              }
-              aria-controls={contentId}
-              aria-expanded={compactOpen}
-              onClick={() => {
-                const wasOpen =
-                  compactExpanded ||
-                  (compactHoveredRef.current && !compactDismissed)
-                setTooltipTarget(undefined)
-                setCompactExpanded(!wasOpen)
-                setCompactDismissed(wasOpen)
-              }}
             />
             {isCompact && !compactOpen && compactToggleRef.current && (
               <Tooltip
@@ -823,9 +841,7 @@ export function SidebarMenuResponsiveInline({
             />
           )}
         </div>
-      ) : (
-        responsiveChildren
-      )}
+      </SidebarMenuInlineToggleContext>
     </div>
   )
 }
@@ -901,7 +917,7 @@ function getFirstPaintCss(
   const drawerCss =
     drawerAt === defaultBreakpoints.medium
       ? ''
-      : `@media (max-width: ${drawerAt}){${scope}.dnb-sidebar-menu-responsive-trigger${unresolved}{display:inline-flex}${scope}.dnb-sidebar-menu-responsive-inline${unresolved}{display:none}}@media (min-width: ${minWidth}){${scope}.dnb-sidebar-menu-responsive-trigger${unresolved}{display:none}${scope}.dnb-sidebar-menu-responsive-inline${unresolved}{display:contents}}`
+      : `@media (max-width: ${drawerAt}){${scope}.dnb-sidebar-menu-responsive-trigger${unresolved}{display:inline-flex}${scope}.dnb-sidebar-menu-responsive-inline${unresolved}{display:none}}@media (min-width: ${minWidth}){${scope}.dnb-sidebar-menu-responsive-trigger${unresolved}{display:none}${scope}.dnb-sidebar-menu-responsive-inline${unresolved}{display:block}}`
   const compactCss = compactAt
     ? getCompactFirstPaintCss(scope, minWidth, compactAt)
     : ''
@@ -988,6 +1004,10 @@ export function SidebarMenuResponsiveDrawer({
       contentId={id}
       dialogTitle={dialogTitle ?? translation.menu}
       open={open}
+      restoreFocusTo={
+        props.restoreFocusTo ??
+        (() => (isSmallScreenRef.current ? triggerRef.current : null))
+      }
       onOpen={(event) => {
         drawerOpeningRef.current = false
         onOpen?.(event)

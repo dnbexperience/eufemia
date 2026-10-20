@@ -56,6 +56,7 @@ describe('SidebarMenu', () => {
         'PreHydrationScript',
         'Root',
         'Section',
+        'Toggle',
         'ResizeHandle',
         'ResponsiveAside',
         'ResponsiveInline',
