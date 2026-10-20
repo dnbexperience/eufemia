@@ -27,6 +27,11 @@ import { hamburger } from '../../icons'
 import { clsx } from 'clsx'
 import useCombinedRef from '../../shared/helpers/useCombinedRef'
 import useIsomorphicLayoutEffect from '../../shared/helpers/useIsomorphicLayoutEffect'
+import {
+  getWebStorage,
+  readWebStorageJSON,
+} from '../../shared/helpers/webStorage'
+import type { WebStorageType } from '../../shared/helpers/webStorage'
 import useTranslation from '../../shared/useTranslation'
 import {
   SidebarMenuInlineToggleContext,
@@ -104,6 +109,10 @@ export type SidebarMenuResponsiveProviderProps = {
   inlineCollapsed?: boolean
   /** Initial uncontrolled desktop inline navigation state. */
   defaultInlineCollapsed?: boolean
+  /** Storage key used to persist uncontrolled desktop dismissal. */
+  inlineCollapsedStorageKey?: string
+  /** Storage used for desktop dismissal. Default: session. */
+  inlineCollapsedStorage?: WebStorageType
   /** Called whenever the desktop inline navigation collapses or restores. */
   onInlineCollapsedChange?: (collapsed: boolean) => void
 }
@@ -120,6 +129,8 @@ export function SidebarMenuResponsiveProvider({
   onOpenChange,
   inlineCollapsed,
   defaultInlineCollapsed = false,
+  inlineCollapsedStorageKey,
+  inlineCollapsedStorage = 'session',
   onInlineCollapsedChange,
 }: SidebarMenuResponsiveProviderProps) {
   const { breakpoints } = useContext(Context)
@@ -166,6 +177,49 @@ export function SidebarMenuResponsiveProvider({
   const drawerOpeningRef = useRef(false)
   const resolvedInlineCollapsed =
     inlineCollapsed ?? internalInlineCollapsed
+  const persistedInlineStorageKey =
+    inlineCollapsed === undefined ? inlineCollapsedStorageKey : undefined
+  const inlineStorageId = persistedInlineStorageKey
+    ? `${inlineCollapsedStorage}:${persistedInlineStorageKey}`
+    : undefined
+  const loadedInlineStorageIdRef = useRef<string>(undefined)
+
+  useIsomorphicLayoutEffect(() => {
+    if (!inlineStorageId) {
+      loadedInlineStorageIdRef.current = undefined
+      return
+    }
+    if (loadedInlineStorageIdRef.current === inlineStorageId) {
+      return
+    }
+    const stored = readWebStorageJSON(
+      inlineCollapsedStorage,
+      persistedInlineStorageKey
+    )
+    loadedInlineStorageIdRef.current = inlineStorageId
+    setInternalInlineCollapsed(
+      typeof stored === 'boolean' ? stored : defaultInlineCollapsed
+    )
+  }, [
+    defaultInlineCollapsed,
+    inlineCollapsedStorage,
+    inlineStorageId,
+    persistedInlineStorageKey,
+  ])
+
+  useIsomorphicLayoutEffect(() => {
+    document
+      .querySelectorAll('[data-sidebar-menu-inline-pre-hydration]')
+      .forEach((element) => {
+        if (
+          element.getAttribute(
+            'data-sidebar-menu-inline-pre-hydration'
+          ) === persistedInlineStorageKey
+        ) {
+          element.remove()
+        }
+      })
+  }, [persistedInlineStorageKey])
 
   useIsomorphicLayoutEffect(() => {
     isSmallScreenRef.current = isSmallScreen
@@ -203,10 +257,20 @@ export function SidebarMenuResponsiveProvider({
     (collapsed: boolean) => {
       if (inlineCollapsed === undefined) {
         setInternalInlineCollapsed(collapsed)
+        if (inlineCollapsedStorageKey) {
+          try {
+            getWebStorage(inlineCollapsedStorage)?.setItem(
+              inlineCollapsedStorageKey,
+              JSON.stringify(collapsed)
+            )
+          } catch {
+            // Storage can become unavailable after it was resolved.
+          }
+        }
       }
       onInlineCollapsedChangeRef.current?.(collapsed)
     },
-    [inlineCollapsed]
+    [inlineCollapsed, inlineCollapsedStorage, inlineCollapsedStorageKey]
   )
   const collapseInline = useCallback(
     () => setInlineCollapsed(true),
@@ -298,6 +362,10 @@ export function SidebarMenuResponsiveProvider({
       <div
         className="dnb-sidebar-menu-responsive-provider"
         data-sidebar-menu-responsive-provider={scopeId}
+        data-inline-collapsed-storage-key={persistedInlineStorageKey}
+        data-inline-collapsed-storage={
+          persistedInlineStorageKey ? inlineCollapsedStorage : undefined
+        }
       >
         {firstPaintCss && (
           <style nonce={styleNonce}>{firstPaintCss}</style>

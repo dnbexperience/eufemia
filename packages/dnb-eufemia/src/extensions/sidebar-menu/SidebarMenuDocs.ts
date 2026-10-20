@@ -237,6 +237,17 @@ export const SidebarMenuResponsiveProviderProperties: PropertiesTableProps =
       defaultValue: 'false',
       status: 'optional',
     },
+    inlineCollapsedStorageKey: {
+      doc: 'Storage key used to remember desktop dismissal across navigation and reloads. A stored boolean takes precedence over defaultInlineCollapsed. Controlled inlineCollapsed does not read or write storage. Compact hover expansion and the mobile Drawer are not persisted.',
+      type: 'string',
+      status: 'optional',
+    },
+    inlineCollapsedStorage: {
+      doc: 'Storage used with inlineCollapsedStorageKey. Use local when the choice should survive browser restarts.',
+      type: ['"session"', '"local"'],
+      defaultValue: '"session"',
+      status: 'optional',
+    },
   }
 
 export const SidebarMenuResponsiveInlineProperties: PropertiesTableProps =

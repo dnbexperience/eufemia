@@ -2,6 +2,39 @@ import { test, expect } from '@playwright/test'
 import waitForApp from './shared/waitForApp'
 
 test.describe('SidebarMenu toggle', () => {
+  test('remembers desktop dismissal after reload and leaves the mobile Drawer closed', async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1600, height: 1000 })
+    await page.goto(
+      '/uilib/extensions/sidebar-menu/demos/#toggle-navigation'
+    )
+    await waitForApp(page)
+    const example = page.locator('[data-sidebar-menu-toggle-example]')
+    const inline = example.locator('.dnb-sidebar-menu-responsive-inline')
+    const embedded = inline.locator('.dnb-sidebar-menu-toggle')
+    const external = example.locator('.dnb-sidebar-menu-toggle').last()
+    await embedded.click()
+    await expect(inline).toHaveCSS('width', '0px')
+    await page.reload()
+    await waitForApp(page)
+    await expect(inline).toHaveCSS('width', '0px')
+    await expect(inline).toHaveAttribute('inert', '')
+    await expect(external).toHaveAttribute('aria-expanded', 'false')
+    await external.click()
+    await expect(inline).toHaveCSS('width', '288px')
+    await page.reload()
+    await waitForApp(page)
+    await expect(inline).toHaveCSS('width', '288px')
+    await page.setViewportSize({ width: 500, height: 900 })
+    await external.click()
+    await expect(page.locator('#toggle-example-drawer')).toBeVisible()
+    await page.reload()
+    await waitForApp(page)
+    await expect(page.locator('#toggle-example-drawer')).not.toBeVisible()
+    await expect(external).toHaveAttribute('aria-expanded', 'false')
+  })
+
   test('keeps compact expansion separate from desktop dismissal', async ({
     page,
   }) => {

@@ -9,6 +9,197 @@ import ScrollView from '../../../components/scroll-view/ScrollView'
 import Provider from '../../../shared/Provider'
 
 describe('SidebarMenu responsive parts', () => {
+  afterEach(() => {
+    sessionStorage.clear()
+    localStorage.clear()
+  })
+
+  it.each(['session', 'local'] as const)(
+    'persists inline dismissal in %s storage across remounts',
+    (storageType) => {
+      setMedia({ width: '100em' })
+      const storage =
+        storageType === 'local' ? localStorage : sessionStorage
+      const menu = (
+        <SidebarMenu.ResponsiveProvider
+          inlineCollapsedStorageKey="navigation"
+          inlineCollapsedStorage={storageType}
+        >
+          <SidebarMenu.Toggle />
+          <SidebarMenu.ResponsiveAside>Menu</SidebarMenu.ResponsiveAside>
+        </SidebarMenu.ResponsiveProvider>
+      )
+      const first = render(menu)
+      fireEvent.click(document.querySelector('.dnb-sidebar-menu-toggle'))
+      expect(storage.getItem('navigation')).toBe('true')
+      first.unmount()
+      const second = render(menu)
+      expect(
+        document.querySelector('.dnb-sidebar-menu-responsive-inline')
+      ).toHaveAttribute('inert')
+      fireEvent.click(document.querySelector('.dnb-sidebar-menu-toggle'))
+      expect(storage.getItem('navigation')).toBe('false')
+      second.unmount()
+      render(menu)
+      expect(
+        document.querySelector('.dnb-sidebar-menu-responsive-inline')
+      ).not.toHaveAttribute('inert')
+    }
+  )
+
+  it('loads each persistence key without overwriting the saved state', () => {
+    setMedia({ width: '100em' })
+    sessionStorage.setItem('first-menu', 'true')
+    sessionStorage.setItem('second-menu', 'false')
+    const menu = (key: string) => (
+      <SidebarMenu.ResponsiveProvider
+        inlineCollapsedStorageKey={key}
+        defaultInlineCollapsed
+      >
+        <SidebarMenu.Toggle />
+      </SidebarMenu.ResponsiveProvider>
+    )
+    const { rerender } = render(menu('first-menu'))
+    expect(
+      document.querySelector('.dnb-sidebar-menu-toggle')
+    ).toHaveAttribute('aria-expanded', 'false')
+    rerender(menu('second-menu'))
+    expect(
+      document.querySelector('.dnb-sidebar-menu-toggle')
+    ).toHaveAttribute('aria-expanded', 'true')
+    expect(sessionStorage.getItem('second-menu')).toBe('false')
+  })
+
+  it.each(['null', '"true"', '{}', 'invalid'])(
+    'uses the default for unsupported persisted state %s',
+    (stored) => {
+      setMedia({ width: '100em' })
+      sessionStorage.setItem('navigation', stored)
+      render(
+        <SidebarMenu.ResponsiveProvider
+          inlineCollapsedStorageKey="navigation"
+          defaultInlineCollapsed
+        >
+          <SidebarMenu.Toggle />
+        </SidebarMenu.ResponsiveProvider>
+      )
+      expect(
+        document.querySelector('.dnb-sidebar-menu-toggle')
+      ).toHaveAttribute('aria-expanded', 'false')
+    }
+  )
+
+  it('keeps controlled inline state independent of persistence', () => {
+    setMedia({ width: '100em' })
+    sessionStorage.setItem('navigation', 'true')
+    const onChange = vi.fn()
+    render(
+      <SidebarMenu.ResponsiveProvider
+        inlineCollapsed={false}
+        inlineCollapsedStorageKey="navigation"
+        onInlineCollapsedChange={onChange}
+      >
+        <SidebarMenu.Toggle />
+      </SidebarMenu.ResponsiveProvider>
+    )
+    const toggle = document.querySelector('.dnb-sidebar-menu-toggle')
+    expect(toggle).toHaveAttribute('aria-expanded', 'true')
+    fireEvent.click(toggle)
+    expect(onChange).toHaveBeenCalledWith(true)
+    expect(sessionStorage.getItem('navigation')).toBe('true')
+    expect(
+      document.querySelector('.dnb-sidebar-menu-responsive-provider')
+    ).not.toHaveAttribute('data-inline-collapsed-storage-key')
+  })
+
+  it('keeps toggling usable when storage writes are blocked', () => {
+    setMedia({ width: '100em' })
+    const setItem = vi
+      .spyOn(Storage.prototype, 'setItem')
+      .mockImplementation(() => {
+        throw new DOMException('Quota exceeded', 'QuotaExceededError')
+      })
+    try {
+      render(
+        <SidebarMenu.ResponsiveProvider inlineCollapsedStorageKey="navigation">
+          <SidebarMenu.Toggle />
+        </SidebarMenu.ResponsiveProvider>
+      )
+      const toggle = document.querySelector('.dnb-sidebar-menu-toggle')
+      fireEvent.click(toggle)
+      expect(toggle).toHaveAttribute('aria-expanded', 'false')
+      fireEvent.click(toggle)
+      expect(toggle).toHaveAttribute('aria-expanded', 'true')
+    } finally {
+      setItem.mockRestore()
+    }
+  })
+
+  it('hydrates stored inline dismissal without changing server markup or calling onChange', async () => {
+    setMedia({ width: '100em' })
+    const onChange = vi.fn()
+    const element = (
+      <SidebarMenu.ResponsiveProvider
+        inlineCollapsedStorageKey="navigation"
+        onInlineCollapsedChange={onChange}
+      >
+        <SidebarMenu.Toggle />
+        <SidebarMenu.ResponsiveAside>Menu</SidebarMenu.ResponsiveAside>
+      </SidebarMenu.ResponsiveProvider>
+    )
+    const container = document.createElement('div')
+    container.innerHTML = renderToString(element)
+    document.body.appendChild(container)
+    sessionStorage.setItem('navigation', 'true')
+    const style = document.createElement('style')
+    style.setAttribute(
+      'data-sidebar-menu-inline-pre-hydration',
+      'navigation'
+    )
+    document.head.appendChild(style)
+    const consoleError = vi
+      .spyOn(console, 'error')
+      .mockImplementation(() => undefined)
+    const root = hydrateRoot(container, element)
+    try {
+      await waitFor(() =>
+        expect(
+          container.querySelector('.dnb-sidebar-menu-responsive-inline')
+        ).toHaveAttribute('inert')
+      )
+      expect(consoleError).not.toHaveBeenCalled()
+      expect(onChange).not.toHaveBeenCalled()
+      expect(style).not.toBeInTheDocument()
+      expect(sessionStorage.getItem('navigation')).toBe('true')
+    } finally {
+      root.unmount()
+      consoleError.mockRestore()
+      container.remove()
+    }
+  })
+
+  it('ignores inaccessible storage when restoring inline dismissal', () => {
+    setMedia({ width: '100em' })
+    const getItem = vi
+      .spyOn(Storage.prototype, 'getItem')
+      .mockImplementation(() => {
+        throw new DOMException('Storage blocked', 'SecurityError')
+      })
+    try {
+      render(
+        <SidebarMenu.ResponsiveProvider inlineCollapsedStorageKey="navigation">
+          <SidebarMenu.Toggle />
+        </SidebarMenu.ResponsiveProvider>
+      )
+      const toggle = document.querySelector('.dnb-sidebar-menu-toggle')
+      expect(toggle).toHaveAttribute('aria-expanded', 'true')
+      fireEvent.click(toggle)
+      expect(toggle).toHaveAttribute('aria-expanded', 'false')
+    } finally {
+      getItem.mockRestore()
+    }
+  })
+
   it('localizes its accessible labels', () => {
     setMedia({ width: '30em' })
 

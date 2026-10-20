@@ -168,6 +168,10 @@ Set `compactAt` when the inline menu should reduce to an icon rail before it bec
 
 Use `inlineCollapsed` with `onInlineCollapsedChange` when application state controls desktop dismissal, or `defaultInlineCollapsed` for an uncontrolled initial state. `useResponsive()` exposes `inlineCollapsed`, `collapseInline()`, and `restoreInline()` to compound children.
 
+Set `inlineCollapsedStorageKey` on `ResponsiveProvider` to remember desktop dismissal across navigation and reloads. Session storage is the default, matching `openItemsStorageKey`; use `inlineCollapsedStorage="local"` to retain the choice across browser restarts. A saved boolean takes precedence over `defaultInlineCollapsed`. Controlled `inlineCollapsed` does not read or write storage. Compact hover expansion and the mobile Drawer remain temporary.
+
+Persistence uses the same shared Web Storage helpers as open menu items. The responsive parts share state through their provider's React context. For SSR or SSG, the same `PreHydrationScript` also restores desktop dismissal before the first paint.
+
 ### Dismissible desktop navigation
 
 `ResponsiveAside` provides the complete inline sidebar surface, scrolling, spacing, optional resizing, drag-to-dismiss behavior, and hamburger restoration:

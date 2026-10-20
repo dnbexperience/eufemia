@@ -324,8 +324,12 @@ export function SidebarMenuData() {
 
 export function SidebarMenuToggle() {
   return (
-    <ComponentBox scope={{ home, cog, H2, P, styles }}>
-      <SidebarMenu.ResponsiveProvider drawerAt="40em" compactAt="large">
+    <ComponentBox hideCode scope={{ home, cog, H2, P, styles }}>
+      <SidebarMenu.ResponsiveProvider
+        drawerAt="40em"
+        compactAt="large"
+        inlineCollapsedStorageKey="sidebar-menu-toggle-example"
+      >
         <SidebarMenu.ResponsiveShell
           className={styles.responsiveShell}
           data-sidebar-menu-toggle-example
@@ -349,7 +353,7 @@ export function SidebarMenuToggle() {
             <H2>Toggle the sidebar</H2>
             <P>
               Use either toggle to hide the sidebar. The Menu button
-              restores it. Try resizing before collapsing.
+              restores it. Reload to keep your choice for this session.
             </P>
           </div>
           <SidebarMenu.ResponsiveDrawer id="toggle-example-drawer">

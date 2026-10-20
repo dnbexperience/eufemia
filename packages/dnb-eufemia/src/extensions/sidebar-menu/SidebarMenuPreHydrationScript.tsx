@@ -10,6 +10,52 @@ function applyPreHydrationState() {
       ?.nonce
 
     document
+      .querySelectorAll<HTMLElement>('[data-inline-collapsed-storage-key]')
+      .forEach((provider) => {
+        try {
+          const key = provider.getAttribute(
+            'data-inline-collapsed-storage-key'
+          )
+          const scopeId = provider.getAttribute(
+            'data-sidebar-menu-responsive-provider'
+          )
+          if (!key || !scopeId) {
+            return
+          }
+          const storage =
+            provider.getAttribute('data-inline-collapsed-storage') ===
+            'local'
+              ? localStorage
+              : sessionStorage
+          if (globalThis['JSON']['parse'](storage.getItem(key)) !== true) {
+            return
+          }
+          const scope =
+            '[data-sidebar-menu-responsive-scope="' +
+            CSS.escape(scopeId) +
+            '"]'
+          const inline = scope + '.dnb-sidebar-menu-responsive-inline'
+          const style = document.createElement('style')
+          style.setAttribute('data-sidebar-menu-inline-pre-hydration', key)
+          if (nonce) {
+            style.nonce = nonce
+          }
+          style.textContent =
+            inline +
+            '{width:0!important}' +
+            inline +
+            '>.dnb-sidebar-menu-responsive-inline__content{clip-path:inset(0 100% 0 0)!important}' +
+            inline +
+            ':dir(rtl)>.dnb-sidebar-menu-responsive-inline__content{clip-path:inset(0 0 0 100%)!important}' +
+            scope +
+            '.dnb-sidebar-menu-responsive-trigger{display:inline-flex!important}'
+          document.head.appendChild(style)
+        } catch {
+          // Storage can be unavailable or contain invalid data.
+        }
+      })
+
+    document
       .querySelectorAll<HTMLElement>('[data-open-items-storage-key]')
       .forEach((menu) => {
         try {
