@@ -47,6 +47,7 @@ import {
   useSharedStateStore,
 } from '../../../shared/helpers/useSharedState'
 import { useFieldBlockPropsHandoff } from '../FieldBlock/useFieldBlockPropsHandoff'
+import type { FieldBlockProps } from '../FieldBlock'
 import { isAsync } from '../../../shared/helpers/isAsync'
 import useTranslation from './useTranslation'
 import useExternalValue from './useExternalValue'
@@ -2011,7 +2012,9 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     /** Internal */
     fieldState: resolveValidatingState(fieldStateRef.current),
     labelHeight:
-      typeof props['size'] === 'string' ? props['size'] : undefined, // component/field size
+      typeof props['size'] === 'string'
+        ? (props['size'] as FieldBlockProps['labelHeight'])
+        : undefined, // component/field size
   }
 
   useFieldBlockPropsHandoff(id).set(fieldBlockProps)
@@ -2054,12 +2057,15 @@ export default function useFieldProps<Value, EmptyValue, Props>(
     forceUpdate,
 
     /** Internal */
+    fieldBlockProps,
     additionalArgs,
     dataContext,
   }
 }
 
 export type ReturnAdditional<Value> = {
+  /** Props to pass directly to FieldBlock, including during server rendering. */
+  fieldBlockProps: FieldBlockProps
   /**
    * The transformed value ready for display, or `undefined` if the associated field is not visible.
    */
