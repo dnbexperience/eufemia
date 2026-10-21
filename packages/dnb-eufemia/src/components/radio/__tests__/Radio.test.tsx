@@ -187,6 +187,29 @@ describe('Radio component', () => {
     ])
   })
 
+  it.each(['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'])(
+    'preserves the Provider group while handling %s',
+    (key) => {
+      vi.useFakeTimers()
+      try {
+        render(
+          <Provider Radio={{ group: 'inherited-group' }}>
+            <Radio label="A" value="a" />
+            <Radio label="B" value="b" />
+          </Provider>
+        )
+        const input = document.querySelector('input')
+        expect(input).toHaveAttribute('name', 'inherited-group')
+        fireEvent.keyDown(input, { key })
+        expect(input).toHaveAttribute('name', 'inherited-group')
+        act(() => vi.runOnlyPendingTimers())
+        expect(input).toHaveAttribute('name', 'inherited-group')
+      } finally {
+        vi.useRealTimers()
+      }
+    }
+  )
+
   it('keeps a radio in a group checked when clicked again', () => {
     render(
       <Radio.Group label="Group">

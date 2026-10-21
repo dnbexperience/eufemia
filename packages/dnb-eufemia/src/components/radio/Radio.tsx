@@ -246,7 +246,8 @@ function RadioComponent({ ref: externalRef, ...ownProps }: RadioProps) {
         key.startsWith('Arrow') &&
         !event.defaultPrevented &&
         isInNoGroup() &&
-        isSingle()
+        isSingle() &&
+        !inputRef.current?.name
       ) {
         // Browsers treat all radios without a name as one group, so an
         // arrow key would move to and check another radio on the page.
