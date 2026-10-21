@@ -1,0 +1,25 @@
+---
+showTabs: true
+---
+
+import * as Examples from '../Examples'
+
+## Demos
+
+### Confirmation states
+
+The four design states: pending, required, confirmed and expired. The application owns their state.
+
+<Examples.AiConfirmationStates />
+
+### Choose and reset
+
+Confirm or decline the request, then reset it to try again. A declined decision stays visible, with a text label rather than color alone.
+
+<Examples.AiConfirmationInteractive />
+
+### Application-owned expiry
+
+Start a timed request to see the application expire it after five seconds. Both decisions become unavailable.
+
+<Examples.AiConfirmationExpiry />

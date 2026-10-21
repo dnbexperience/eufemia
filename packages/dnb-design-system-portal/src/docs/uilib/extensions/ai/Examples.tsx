@@ -14,6 +14,7 @@ import {
   Actions,
   ActivityText,
   Conversation,
+  Confirmation,
   DateMarker,
   Info,
   Message,
@@ -1191,6 +1192,110 @@ export function AiTaskStates() {
         errorText="The card could not be blocked. Try again later."
       />
       <Task top title="Blocking your card" status="canceled" />
+    </ComponentBox>
+  )
+}
+
+export function AiConfirmationStates() {
+  return (
+    <ComponentBox data-visual-test="ai-confirmation-states">
+      <Provider locale="en-GB">
+        <Flex.Vertical gap="medium" style={{ maxWidth: '32.6875rem' }}>
+          {(['pending', 'required', 'confirmed', 'expired'] as const).map(
+            (status) => (
+              <Confirmation
+                key={status}
+                title="Share history?"
+                status={status}
+                onConfirm={() => null}
+                onDecline={() => null}
+              >
+                Do you want to give the customer advisor access to this
+                conversation’s history?
+              </Confirmation>
+            )
+          )}
+        </Flex.Vertical>
+      </Provider>
+    </ComponentBox>
+  )
+}
+
+export function AiConfirmationInteractive() {
+  return (
+    <ComponentBox data-visual-test="ai-confirmation-interactive">
+      {() => {
+        const Decision = () => {
+          const [status, setStatus] = useState<
+            'required' | 'confirmed' | 'declined'
+          >('required')
+
+          return (
+            <>
+              <Confirmation
+                title="Add these companies to your watchlist?"
+                status={status}
+                onConfirm={() => setStatus('confirmed')}
+                onDecline={() => setStatus('declined')}
+                confirmLabel="Add to watchlist"
+                declineLabel="Keep current list"
+              >
+                Review the companies from the attached document before
+                continuing.
+              </Confirmation>
+              <Button top onClick={() => setStatus('required')}>
+                Reset decision
+              </Button>
+            </>
+          )
+        }
+
+        return <Decision />
+      }}
+    </ComponentBox>
+  )
+}
+
+export function AiConfirmationExpiry() {
+  return (
+    <ComponentBox data-visual-test="ai-confirmation-expiry">
+      {() => {
+        const TimedDecision = () => {
+          const [status, setStatus] = useState<
+            'expired' | 'required' | 'confirmed' | 'declined'
+          >('expired')
+
+          useEffect(() => {
+            if (status !== 'required') {
+              return undefined
+            }
+            const timeout = setTimeout(() => setStatus('expired'), 5000)
+            return () => clearTimeout(timeout)
+          }, [status])
+
+          return (
+            <>
+              <Button
+                bottom
+                disabled={status === 'required'}
+                onClick={() => setStatus('required')}
+              >
+                Start a five-second request
+              </Button>
+              <Confirmation
+                title="Continue with this request?"
+                status={status}
+                onConfirm={() => setStatus('confirmed')}
+                onDecline={() => setStatus('declined')}
+              >
+                This example request expires after five seconds.
+              </Confirmation>
+            </>
+          )
+        }
+
+        return <TimedDecision />
+      }}
     </ComponentBox>
   )
 }

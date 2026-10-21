@@ -126,6 +126,77 @@ export const AiActionsProperties: PropertiesTableProps = {
   },
 }
 
+export const AiConfirmationProperties: PropertiesTableProps = {
+  title: {
+    doc: 'The question heading.',
+    type: 'string',
+    status: 'required',
+  },
+  children: {
+    doc: 'Explanation or details of the decision.',
+    type: 'React.ReactNode',
+    status: 'required',
+  },
+  status: {
+    doc: 'Controlled decision state. Completed or expired decisions disable both buttons.',
+    type: [
+      '"pending"',
+      '"required"',
+      '"confirmed"',
+      '"declined"',
+      '"expired"',
+    ],
+    defaultValue: "'pending'",
+    status: 'optional',
+  },
+  confirmLabel: {
+    doc: 'Confirm button text. Defaults to a translated Yes.',
+    type: 'string',
+    status: 'optional',
+  },
+  declineLabel: {
+    doc: 'Decline button text. Defaults to a translated No.',
+    type: 'string',
+    status: 'optional',
+  },
+  disabled: {
+    doc: 'Disable both buttons, for example while saving a decision.',
+    type: 'boolean',
+    defaultValue: 'false',
+    status: 'optional',
+  },
+  announce: {
+    doc: 'Announce decision-state changes politely. Disable when the application already announces the outcome.',
+    type: 'boolean',
+    defaultValue: 'true',
+    status: 'optional',
+  },
+  level: {
+    doc: 'Heading level.',
+    type: 'number',
+    defaultValue: '3',
+    status: 'optional',
+  },
+  '[Space](/uilib/layout/space/properties)': {
+    doc: 'Spacing properties like `top` or `bottom` are supported.',
+    type: ['string', 'object'],
+    status: 'optional',
+  },
+}
+
+export const AiConfirmationEvents: PropertiesTableProps = {
+  onConfirm: {
+    doc: 'Called when the user confirms. Receives the Button click event. The application owns the decision and resulting action. The button is disabled when no handler is provided.',
+    type: 'function',
+    status: 'optional',
+  },
+  onDecline: {
+    doc: 'Called when the user declines. Receives the Button click event. The application owns the decision and resulting action. The button is disabled when no handler is provided.',
+    type: 'function',
+    status: 'optional',
+  },
+}
+
 export const AiActionProperties: PropertiesTableProps = {
   label: {
     doc: 'Label used for the tooltip and for screen readers.',
