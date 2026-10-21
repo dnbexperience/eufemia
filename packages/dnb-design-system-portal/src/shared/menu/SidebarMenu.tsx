@@ -171,6 +171,7 @@ export default function SidebarLayout({
         </Link>
         {menu(true)}
       </SidebarMenu.ResponsiveAside>
+      <SidebarMenu.PreHydrationScript />
     </>
   )
 }
