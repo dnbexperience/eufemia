@@ -1,5 +1,6 @@
 import { createRef, useEffect } from 'react'
 import {
+  act,
   fireEvent,
   render,
   screen,
@@ -2722,6 +2723,45 @@ describe('Upload', () => {
           expect(result.current.files[0].isLoading).toBe(false)
         })
         expect(result.current.files).toHaveLength(1)
+      })
+
+      it('keeps newer store files when a deletion times out after unmount', async () => {
+        const id = 'delete-timeout-newer-files'
+        const first = {
+          file: createMockFile('first.png', 100, 'image/png'),
+          id: 'first',
+        }
+        const second = {
+          file: createMockFile('second.png', 100, 'image/png'),
+          id: 'second',
+        }
+        const { result } = renderHook(useUpload, { initialProps: id })
+        const { unmount } = render(
+          <Upload
+            {...defaultProps}
+            id={id}
+            _asyncFileOperationTimeout={100}
+            onFileDelete={() => new Promise(() => undefined)}
+          />
+        )
+        act(() => result.current.setFiles([first]))
+        fireEvent.click(
+          screen.getByRole('button', { name: nb.deleteButton })
+        )
+        await waitFor(() =>
+          expect(result.current.files[0].isLoading).toBe(true)
+        )
+        unmount()
+        act(() =>
+          result.current.setFiles([...result.current.files, second])
+        )
+        await waitFor(() => {
+          expect(result.current.files[0].isLoading).toBe(false)
+          expect(result.current.files.map(({ id }) => id)).toEqual([
+            'first',
+            'second',
+          ])
+        })
       })
 
       // Only Field.Upload and Value.Upload read the form's asyncSubmitTimeout.

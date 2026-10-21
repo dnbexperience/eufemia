@@ -1,9 +1,10 @@
-import { useContext, useEffect, useRef } from 'react'
+import { useContext, useRef } from 'react'
 import type { ReactNode } from 'react'
 import type { UploadFile } from './types'
 import { UploadContext } from './UploadContext'
 import UploadFileListCell from './UploadFileListCell'
 import useUpload from './useUpload'
+import { createSharedState } from '../../shared/helpers/useSharedState'
 import { isSameFile, getErrorMessage } from './uploadFileUtils'
 
 type FileOperation = {
@@ -30,11 +31,8 @@ function UploadFileList() {
 
   const { files, setFiles, setInternalFiles } = useUpload(id)
 
-  const filesRef = useRef<UploadFile[] | null>(null)
-
-  useEffect(() => {
-    filesRef.current = files
-  }, [files])
+  const getFiles = () =>
+    createSharedState<{ files?: UploadFile[] }>(id).get()?.files ?? []
 
   // Tracks in-flight operations so that exactly one outcome acts on a file.
   // Deliberately not cleared on unmount: the file list lives in a store that
@@ -47,7 +45,7 @@ function UploadFileList() {
   }
 
   const removeFile = (fileToBeRemoved: UploadFile) => {
-    return filesRef.current.filter(
+    return getFiles().filter(
       (fileListElement) => !isSameFile(fileListElement, fileToBeRemoved)
     )
   }
@@ -56,7 +54,7 @@ function UploadFileList() {
     fileToBeUpdated: UploadFile,
     props: Partial<UploadFile>
   ) => {
-    return filesRef.current.map((fileListElement: UploadFile) => {
+    return getFiles().map((fileListElement: UploadFile) => {
       return isSameFile(fileListElement, fileToBeUpdated)
         ? {
             ...fileListElement,
@@ -67,11 +65,6 @@ function UploadFileList() {
   }
 
   const updateFiles = (updatedFiles: UploadFile[]) => {
-    // Keep the ref in step synchronously. It is otherwise only refreshed by an
-    // effect, so two operations settling in the same tick would both compute
-    // from the same stale list, and the second would undo the first.
-    filesRef.current = updatedFiles
-
     setFiles(updatedFiles)
     setInternalFiles(updatedFiles)
 
