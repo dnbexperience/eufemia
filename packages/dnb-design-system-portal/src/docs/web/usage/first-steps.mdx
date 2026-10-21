@@ -1,27 +1,92 @@
 ---
-title: First Steps
+title: Installation and first steps
 order: 2
 redirect_from:
   - /uilib/usage/first-steps
+  - /web/usage
+  - /uilib/usage
 navigation:
   parent: web/get-started
   title: First steps
   order: 2
   kind: group
   platform: web
-  pageTitle: First steps overview
+  pageTitle: Installation and first steps
 ---
+
+import WatchingReleases from 'Docs/web/info/about-watching-releases.mdx'
+import {
+  SupportedBrowsersConfig,
+  SupportedBrowsersTable,
+} from 'Docs/web/assets/SupportedBrowsers'
+
+Set up Eufemia in your application, check browser support, and choose your next learning step. For a shorter introduction with a working component example, follow the [quick start](/web/getting-started).
+
+The library provides self-contained building blocks with the styles needed for display:
+
+- **HTML elements** are styled HTML tags.
+- **UI components** are styled and custom-built HTML elements.
+- **UI extensions** add reusable functionality to Eufemia.
+
+Each supports the customization properties shown in its documentation.
 
 ## Good to know
 
-To give you an overall picture of the Design System, you may read [Getting Started](/web/getting-started) as a first introduction.
+Read the [Web introduction](/web/introduction) for the library's purpose, capabilities, and design/development approach.
 
 ## Installation
 
-Check out the `@dnb/eufemia` **[Installation documentation](/web/usage/#installation)**.
+Install `@dnb/eufemia` together with [React](https://www.npmjs.com/package/react) and [React DOM](https://www.npmjs.com/package/react-dom):
+
+```bash
+npm i @dnb/eufemia react react-dom
+```
+
+This saves the packages in your **package.json** dependencies. Import the styles once in your application entry:
+
+```js
+import '@dnb/eufemia/style'
+```
+
+See [Importing CSS](/web/usage/customisation/styling/consume-styles) for more style-loading options.
 
 ## Continue
 
-Continue with [the basics](/web/usage/first-steps/the-basics).
+- Follow the [developer intro course](/web/intro) for a guided introduction.
+- Learn [the basics](/web/usage/first-steps/the-basics) of elements, styling, and components.
+- Use the [quick reference](/web/usage/first-steps/quick-reference) for a condensed, practical guide.
+- Set up [developer tools](/web/usage/first-steps/tools) for your workflow.
 
-For a condensed, practical overview, see the [quick reference](/web/usage/first-steps/quick-reference).
+## Technical foundation
+
+Eufemia's components are built with [React](https://react.dev/) for reusable, deeply tested interfaces. The library is published on [npm](https://www.npmjs.com/package/@dnb/eufemia) with versioned releases.
+
+Documentation examples use modern JavaScript syntax. The production JavaScript is transpiled for the [supported browsers and platforms](#supported-browsers-and-platforms) listed below.
+
+## License
+
+The `@dnb/eufemia` package is intended for internal DNB development only. Make sure you comply with the [license](/license).
+
+<WatchingReleases />
+
+## Public assets
+
+Use the [Asset CDN](/web/usage/assets/) when a web, native, or external consumer needs public URLs for Eufemia fonts, icons, images, flags, browser assets, or company logos.
+
+## Supported Browsers and Platforms
+
+<SupportedBrowsersTable />
+
+See the [DNB browser support report](https://browsers-support-report.pages.dnb.ghe.com/) for more information (DNB sign-in required).
+
+### Configuration and Browserslist
+
+Eufemia uses the [@dnb/browserslist-config](https://github.com/dnbexperience/browserslist-config) configuration for bundle output, defined in `.browserslistrc`:
+
+- `extends @dnb/browserslist-config`
+
+This configuration only affects the JavaScript bundle output, not the CSS bundle output.
+
+To see which browsers this config supports, paste the following config into the [Check compatible browsers](https://browsersl.ist/#q=defaults+and+supports+es6-module) tool:
+
+<SupportedBrowsersConfig />

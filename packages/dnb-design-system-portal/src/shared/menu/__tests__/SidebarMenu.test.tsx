@@ -18,7 +18,7 @@ describe('portal SidebarMenu data', () => {
       id: '-uilib',
       path: '/uilib',
       title: 'UI library',
-      icon: 'OverviewIcon',
+      icon: 'layout_grid',
       subheadings: [
         {
           id: '-uilib-components',
@@ -44,7 +44,7 @@ describe('portal SidebarMenu data', () => {
     },
   ]
 
-  it('maps nested portal navigation and preserves custom icons', () => {
+  it('maps nested portal navigation and preserves icons', () => {
     const closeMenu = vi.fn()
     const data = toSidebarMenuData(items, closeMenu)
 
@@ -52,7 +52,7 @@ describe('portal SidebarMenu data', () => {
       id: '-uilib',
       text: 'UI library',
       to: '/uilib',
-      icon: graphics.OverviewIcon,
+      icon: graphics.layout_grid,
     })
     expect(data[0].items?.[0]).toMatchObject({
       id: '-uilib-components',

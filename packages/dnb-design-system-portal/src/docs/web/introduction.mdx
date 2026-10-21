@@ -1,10 +1,22 @@
 ---
-title: UI Library
-contentTitle: UI library
+title: Web introduction
 description: Buttons, dropdowns, input fields, components, etc.
 redirect_from:
   - /uilib
   - /web
+  - /web/about-the-lib
+  - /uilib/about-the-lib
+legacyFragments:
+  license: /web/usage#license
+  only-html-elements-no: /web/introduction#design-and-development
+  the-library: /web/introduction#what-the-library-provides
+  developers--what-to-expect: /web/introduction#what-the-library-provides
+  developers-what-to-expect: /web/introduction#what-the-library-provides
+  collaboration: /web/introduction#design-and-development
+  technical-aspects: /web/usage#technical-foundation
+  production-ready: /web/usage#supported-browsers-and-platforms
+  components-elements-and-extensions: /web/introduction#what-the-library-provides
+  where-do-i-go-next: /web/getting-started
 navigation:
   parent: web/getting-started
   title: Web introduction
@@ -16,11 +28,32 @@ import WatchingReleases from 'Docs/web/info/about-watching-releases.mdx'
 
 The DNB UI library contains ready-to-use HTML elements ([components](/web/components) and [extensions](/web/extensions)) for existing and new web applications.
 
-Read more [about the library](/web/about-the-lib).
+The library is the application-development part of the Eufemia design system. It unifies commonly used HTML elements, components, and extensions at DNB and provides a platform for collaborative, continuous improvement.
+
+## What the library provides
+
+- [HTML elements](/web/elements) with DNB brand styles, fonts, and icons.
+- Ready-to-use [components](/web/components) for common interface needs.
+- [Extensions](/web/extensions) for reusable functionality that does not fit naturally into a standard component, such as Forms.
+- [Theming](/web/usage/customisation/theming) for existing and new applications.
+- [Accessibility guidance](/web/usage/accessibility) and components built with accessibility in mind.
+- Versioned releases and [upgrade guidance](/web/whats-new/upgrade) to help applications adopt changes.
+
+The code is automatically checked with integration, static, and snapshot tests, together with tools such as Axe, Stylelint, ESLint, and Prettier. See [Installation](/web/usage) for the technical foundation and supported browsers.
+
+## Design and development
+
+Designers and developers approach interface structure, layout, and sizing from different perspectives. Designers focus on grids, typography, and visual specifications, while developers also need reusability, modularity, flexibility, and scalability.
+
+Eufemia bridges these perspectives through consistent naming, spatial rules, and shared resources. Design resources are based on browser behavior so implemented interfaces closely resemble design handovers. Collaboration through Figma's API, npm, and GitHub keeps design and development connected.
 
 ---
 
 <WatchingReleases />
+
+## Next steps
+
+Follow [Getting started](/web/getting-started) to install the library and render your first component.
 
 ---
 

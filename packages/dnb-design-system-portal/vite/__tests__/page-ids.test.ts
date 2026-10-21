@@ -344,12 +344,9 @@ describe('portal page ids', () => {
     ).toBe('Table')
 
     // `contentTitle` replaces the title for the heading only.
-    expect(
-      resolvePageTitle(pagesBySlug.get('web/usage/first-steps/react'))
-    ).toBe(
+    expect(resolvePageTitle(pagesBySlug.get('design-system/about'))).toBe(
       String(
-        pagesBySlug.get('web/usage/first-steps/react').frontmatter
-          .contentTitle
+        pagesBySlug.get('design-system/about').frontmatter.contentTitle
       )
     )
 
