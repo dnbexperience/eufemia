@@ -155,7 +155,9 @@
     }
 
     &:not(:active):not(:hover):focus-visible {
-      &::before {
+      &::before,
+      // Take precedence over the selected border
+      .dnb-table__td--selected &::before {
         --border-width: var(--focus-ring-width);
         --border-color: var(--token-color-stroke-action-focus);
       }
@@ -220,9 +222,7 @@
     }
     /* stylelint-enable */
 
-    .dnb-table__td__button:not(:hover):not(:active):not(
-        :focus-visible
-      )::before {
+    .dnb-table__td__button:not(:hover):not(:active)::before {
       --border-width: var(--table-accordion-outline-width--active);
       --border-color: var(--token-color-stroke-selected);
     }
