@@ -19,7 +19,7 @@ jobs:
   scan:
     name: Scan production Portal
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 90
 
     steps:
       - name: Git checkout
@@ -179,6 +179,7 @@ jobs:
           yarn workspace dnb-design-system-portal scan:accessibility \
             --base-url https://eufemia.dnb.no \
             --sitemap public/sitemap.json \
+            --color-schemes light,dark \
             --output portal-accessibility-report.json \
             --issue-output portal-accessibility-issue.json \
             "${previous[@]}"
