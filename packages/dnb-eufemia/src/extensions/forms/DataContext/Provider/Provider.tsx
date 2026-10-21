@@ -190,7 +190,7 @@ export type DataContextProviderProps<Data extends JsonObject> =
      */
     scrollTopOnSubmit?: boolean
     /**
-     * Key for saving active data to session storage and loading it on mount.
+     * Key for saving active data to session storage and loading it on mount. The stored data is removed after a successful submit.
      */
     sessionStorageId?: string
     /**
@@ -1830,6 +1830,15 @@ export default function Provider<Data extends JsonObject>(
               : completeResult
         }
 
+        if (
+          sessionStorageId &&
+          !(result instanceof Error) &&
+          !(result as EventStateObject | undefined)?.error
+        ) {
+          storeInSession.cancel()
+          getWebStorage('session')?.removeItem(sessionStorageId)
+        }
+
         if (scrollTopOnSubmit) {
           scrollToTop()
         }
@@ -1845,6 +1854,8 @@ export default function Provider<Data extends JsonObject>(
     onSubmitComplete,
     scrollToTop,
     scrollTopOnSubmit,
+    sessionStorageId,
+    storeInSession,
   ])
 
   // Collect listeners to be called during form submit
