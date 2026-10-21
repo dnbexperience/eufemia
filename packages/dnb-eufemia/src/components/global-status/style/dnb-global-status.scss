@@ -106,10 +106,12 @@
   }
 
   // Underline colors
-  &--information &__shell,
-  // No designs for success state in Figma, treat as information until verified by design team
-  &--success &__shell {
+  &--information &__shell {
     --global-status-underline-color: var(--token-color-stroke-info);
+  }
+
+  &--success &__shell {
+    --global-status-underline-color: var(--token-color-stroke-positive);
   }
 
   &--warning &__shell {

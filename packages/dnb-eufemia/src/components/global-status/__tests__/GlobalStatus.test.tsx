@@ -1081,6 +1081,19 @@ describe('GlobalStatus component', () => {
     expect(document.querySelector('.dnb-icon')).not.toBeInTheDocument()
   })
 
+  it('should render the success icon and a tertiary close button in the success state', () => {
+    render(<GlobalStatus state="success" title="Saved" show noAnimation />)
+
+    expect(
+      document
+        .querySelector('.dnb-global-status__icon .dnb-icon')
+        .getAttribute('data-testid')
+    ).toBe('SuccessIcon icon')
+    expect(
+      document.querySelector('.dnb-global-status__close-button')
+    ).toHaveClass('dnb-button--tertiary')
+  })
+
   it('should support setting icon as Icon', () => {
     render(
       <GlobalStatus
