@@ -958,12 +958,20 @@ export default function Provider<Data extends JsonObject>(
   )
 
   const fieldInternalsRef = useRef<FieldInternalsRef>({})
+
+  // Paths of password-like fields, kept out of session storage.
+  // A path stays in here, so a revealed password (type="text") is still covered.
+  const credentialPathsRef = useRef<Set<Path>>(new Set())
+
   const setFieldInternals: ContextState['setFieldInternals'] = useCallback(
     (path, internals) => {
       fieldInternalsRef.current[path] = Object.assign(
         fieldInternalsRef.current[path] || {},
         internals
       )
+      if (isPath(path) && isCredentialField(internals?.props)) {
+        credentialPathsRef.current.add(path)
+      }
     },
     []
   )
@@ -1220,9 +1228,31 @@ export default function Provider<Data extends JsonObject>(
   const storeInSession = useMemo(() => {
     return debounce(
       () => {
+        const data = internalDataRef.current
+        const credentialPaths = credentialPathsRef.current
+
+        let dataToStore = data
+        if (credentialPaths.size > 0 && data && typeof data === 'object') {
+          dataToStore = JSON.parse(JSON.stringify(data))
+          const paths = Array.from(credentialPaths).flatMap((path) =>
+            resolveWildcardPath(dataToStore, path)
+          )
+          paths.forEach((path) => {
+            if (pointer.has(dataToStore, path)) {
+              const tokens = pointer.parse(path)
+              const parent = pointer.get(dataToStore, tokens.slice(0, -1))
+              if (Array.isArray(parent)) {
+                pointer.set(dataToStore, path, null)
+              } else {
+                pointer.remove(dataToStore, path)
+              }
+            }
+          })
+        }
+
         getWebStorage('session')?.setItem(
           sessionStorageId,
-          JSON.stringify(internalDataRef.current)
+          JSON.stringify(dataToStore)
         )
       },
       process.env.NODE_ENV === 'test' ? 1 : 800
@@ -2075,6 +2105,7 @@ export default function Provider<Data extends JsonObject>(
     fieldConnectionsRef,
     fieldDisplayValueRef,
     fieldInternalsRef,
+    credentialPathsRef,
     valueInternalsRef,
     mountedFieldsRef,
     snapshotsRef,
@@ -2282,3 +2313,41 @@ function useFormStatusBuffer(props: FormStatusBufferProps) {
 }
 
 export const clearedData = Object.freeze({})
+
+const credentialAutoComplete =
+  /(^|\s)(current-password|new-password|one-time-code)(\s|$)/
+
+// Resolves a "*" token to every index of the array it points into,
+// e.g. "/users/*/password" to "/users/0/password" and "/users/1/password".
+// On an object, "*" is used as a normal key.
+function resolveWildcardPath(data: unknown, path: Path): Array<Path> {
+  let paths: Array<Array<string>> = [[]]
+  for (const key of pointer.parse(path) as Array<string>) {
+    paths = paths.flatMap((keys) => {
+      if (key === '*') {
+        const value =
+          keys.length === 0
+            ? data
+            : pointer.has(data, keys)
+              ? pointer.get(data, keys)
+              : undefined
+        if (Array.isArray(value)) {
+          return value.map((_, index) => [...keys, String(index)])
+        }
+      }
+      return [[...keys, key]]
+    })
+  }
+  return paths.map((keys) => pointer.compile(keys) as Path)
+}
+
+function isCredentialField(props: unknown) {
+  const { type, autoComplete } = (props ?? {}) as {
+    type?: unknown
+    autoComplete?: unknown
+  }
+  return (
+    type === 'password' ||
+    credentialAutoComplete.test(String(autoComplete ?? ''))
+  )
+}
