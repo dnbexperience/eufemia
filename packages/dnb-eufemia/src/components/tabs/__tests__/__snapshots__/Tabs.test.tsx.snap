@@ -216,6 +216,9 @@ html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([aria-disabled=tru
 html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([aria-disabled=true]) .dnb-tabs__button__title {
   color: var(--tab-title-color--hover);
 }
+html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([aria-disabled=true]):active .dnb-tabs__button__title {
+  color: var(--tab-title-color--active);
+}
 html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([aria-disabled=true])::after {
   height: 2px;
   border-radius: var(--token-radius-sm);
@@ -703,6 +706,9 @@ html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([aria-disabled=tru
 }
 html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([aria-disabled=true]) .dnb-tabs__button__title {
   color: var(--tab-title-color--hover);
+}
+html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([aria-disabled=true]):active .dnb-tabs__button__title {
+  color: var(--tab-title-color--active);
 }
 html:not([data-whatintent=touch]) .dnb-tabs__button:hover:not([aria-disabled=true])::after {
   height: 2px;
