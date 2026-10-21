@@ -608,6 +608,11 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disable
     outline: var(--focus-ring-width) solid transparent;
   }
 }
+@media (forced-colors: active) {
+  html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disabled]), html:not([data-whatinput=touch]) .dnb-button--secondary:focus-visible:not([disabled]), html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible:not([disabled]) {
+    outline-offset: 0;
+  }
+}
 .dnb-button--primary[disabled], .dnb-button--secondary[disabled], .dnb-button--tertiary[disabled] {
   --button-color-bg: var(--button-color-bg--disabled);
   --button-color-border: var(--button-color-border--disabled);
@@ -622,6 +627,12 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disable
   --border-width: var(--button-border-width, var(--button-border-width--default));
   box-shadow: var(--button-border-inset, var(--button-border-inset--default)) 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
+}
+@media (forced-colors: active) {
+  .dnb-button--primary, .dnb-button--secondary {
+    outline: var(--button-border-width, var(--button-border-width--default)) solid transparent;
+    outline-offset: calc(var(--button-border-width, var(--button-border-width--default)) * -1);
+  }
 }
 .dnb-button--primary {
   --button-color-bg--default: var(
@@ -929,6 +940,21 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disable
   --button-border-width--default: 0.125rem;
   --button-border-inset--default: ;
 }
+@media (forced-colors: active) {
+  .dnb-button--icon-only.dnb-button--selected {
+    background-color: Highlight;
+    color: HighlightText;
+    outline-color: Highlight;
+  }
+  .dnb-button--icon-only.dnb-button--selected .dnb-button__icon {
+    color: HighlightText;
+  }
+}
+@media (forced-colors: active) {
+  html:not([data-whatinput=touch]) .dnb-button--icon-only.dnb-button--selected:focus-visible:not([disabled]) {
+    outline-color: CanvasText;
+  }
+}
 .dnb-button--icon-only.dnb-button--input-button {
   --button-color-bg--default: transparent;
   --button-color-bg--hover: var(--token-color-background-action);
@@ -1163,6 +1189,17 @@ html:not([data-whatintent=touch]) .dnb-button--secondary:not(.dnb-button--has-te
 .dnb-button[disabled] {
   cursor: not-allowed;
   outline: none;
+}
+@media (forced-colors: active) {
+  .dnb-button--primary[disabled], .dnb-button--secondary[disabled] {
+    outline: var(--button-border-width, var(--button-border-width--default)) solid transparent;
+    outline-offset: calc(var(--button-border-width, var(--button-border-width--default)) * -1);
+  }
+}
+@media (forced-colors: active) {
+  .dnb-button--primary[disabled], .dnb-button--secondary[disabled] {
+    outline-color: GrayText;
+  }
 }
 
 /* Firefox includes a hidden border which messes up button dimensions */
