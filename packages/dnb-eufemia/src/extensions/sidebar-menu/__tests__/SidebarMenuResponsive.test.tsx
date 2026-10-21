@@ -1920,7 +1920,7 @@ describe('SidebarMenu responsive parts', () => {
     expect(html).toContain(
       ':is(.dnb-sidebar-menu__group__title,.dnb-sidebar-menu__header){width:4rem;white-space:nowrap;opacity:.8'
     )
-    expect(html).toContain('padding:0 0 2.5rem')
+    expect(html).toContain('padding:.25rem 0 2.5rem')
   })
 
   it('uses a stable first-paint CSS scope when provided', () => {

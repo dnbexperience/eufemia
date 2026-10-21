@@ -627,6 +627,17 @@ export function SidebarMenuResponsiveNavigation() {
               href: '#without-icon',
             },
             {
+              id: 'more-services',
+              text: 'More services',
+              items: [
+                {
+                  id: 'contact-us',
+                  text: 'Contact us',
+                  href: '#contact-us',
+                },
+              ],
+            },
+            {
               id: 'settings',
               text: 'Settings',
               icon: cog,
@@ -642,6 +653,7 @@ export function SidebarMenuResponsiveNavigation() {
             loans: 'Loans',
             savings: 'Savings',
             'without-icon': 'Without icon',
+            'contact-us': 'Contact us',
             settings: 'Settings',
             'business-overview': 'Business overview',
             payments: 'Payments',

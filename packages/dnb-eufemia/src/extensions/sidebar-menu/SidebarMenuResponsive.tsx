@@ -665,7 +665,7 @@ export function SidebarMenuResponsiveInline({
     }
   }, [isHydrated, isSmallScreen, registerInlineId])
 
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     const wasOpen = compactOpenRef.current
     compactOpenRef.current = compactOpen
     if (compactOpen === wasOpen) {

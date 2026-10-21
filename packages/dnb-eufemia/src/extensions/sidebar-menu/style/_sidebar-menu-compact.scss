@@ -38,7 +38,7 @@
 
 @mixin aside {
   .dnb-sidebar-menu-responsive-aside__content {
-    padding: 0 0 2.5rem;
+    padding: 0.25rem 0 2.5rem;
   }
 
   .dnb-sidebar-menu-responsive-aside__resize-handle {
@@ -73,6 +73,13 @@
     overflow: hidden;
     white-space: var(--sidebar-menu-item-white-space, nowrap);
     opacity: 0;
+  }
+
+  .dnb-sidebar-menu__accordion__trigger:not(
+      :has(.dnb-sidebar-menu__item__icon)
+    )
+    > .dnb-sidebar-menu__item__text {
+    min-width: 2.25rem;
   }
 
   .dnb-sidebar-menu__item:is(
@@ -159,9 +166,15 @@
       }
 
       .dnb-dropdown__icon {
-        width: 0;
-        overflow: hidden;
-        opacity: 0;
+        position: absolute;
+        inset-block-end: 0;
+        inset-inline-end: calc(50% - 0.5rem);
+        width: 1rem;
+
+        .dnb-icon {
+          font-size: 0.75rem;
+          color: var(--token-color-icon-neutral-alternative);
+        }
       }
     }
 
@@ -187,6 +200,7 @@
 
   .dnb-sidebar-menu__item__action:not(:has(.dnb-sidebar-menu__item__icon))
     .dnb-sidebar-menu__item__text {
+    flex: 0 0 auto;
     max-width: 2.25rem;
     opacity: 0.8;
     mask-image: linear-gradient(to right, #000 35%, transparent 100%);

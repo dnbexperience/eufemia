@@ -94,6 +94,9 @@ for (const scheme of ['light', 'dark'] as const) {
         const iconWrapper = element.querySelector(
           '.dnb-sidebar-menu__item__icon'
         )
+        const chevron = element
+          .querySelector('.dnb-dropdown__icon svg')
+          .getBoundingClientRect()
         const rect = element.getBoundingClientRect()
         const textRect = text.getBoundingClientRect()
         const iconRect = icon.getBoundingClientRect()
@@ -105,6 +108,14 @@ for (const scheme of ['light', 'dark'] as const) {
           centerOffset: Math.abs(
             iconRect.left + iconRect.width / 2 - rect.left - rect.width / 2
           ),
+          chevronCenterOffset: Math.abs(
+            chevron.left + chevron.width / 2 - rect.left - rect.width / 2
+          ),
+          chevronBottomOffset: rect.bottom - chevron.bottom,
+          chevronColor: getComputedStyle(
+            element.querySelector('.dnb-dropdown__icon path')
+          ).stroke,
+          backgroundColor: getComputedStyle(element).backgroundColor,
           labelWidth: label.getBoundingClientRect().width,
           iconWrapperWidth: iconWrapper.getBoundingClientRect().width,
           radius: parseFloat(
@@ -118,8 +129,39 @@ for (const scheme of ['light', 'dark'] as const) {
       expect(geometry.clippingLeft).toBeLessThanOrEqual(0.1)
       expect(geometry.clippingRight).toBeLessThanOrEqual(0.1)
       expect(geometry.centerOffset).toBeLessThanOrEqual(0.1)
+      expect(geometry.chevronCenterOffset).toBeLessThanOrEqual(0.1)
+      expect(geometry.chevronBottomOffset).toBe(0)
+      const luminance = (color: string) =>
+        color
+          .match(/\d+/g)
+          .map(Number)
+          .map((value) => {
+            const channel = value / 255
+            return channel <= 0.04045
+              ? channel / 12.92
+              : ((channel + 0.055) / 1.055) ** 2.4
+          })
+          .reduce(
+            (sum, value, index) =>
+              sum + value * [0.2126, 0.7152, 0.0722][index],
+            0
+          )
+      const foreground = luminance(geometry.chevronColor)
+      const background = luminance(geometry.backgroundColor)
+      expect(
+        (Math.max(foreground, background) + 0.05) /
+          (Math.min(foreground, background) + 0.05)
+      ).toBeGreaterThanOrEqual(3)
       expect(geometry.labelWidth).toBeGreaterThanOrEqual(
         geometry.iconWrapperWidth
+      )
+      await expect(trigger.locator('.dnb-dropdown__icon')).toHaveCSS(
+        'opacity',
+        '1'
+      )
+      await expect(trigger.locator('.dnb-dropdown__icon')).toHaveCSS(
+        'width',
+        '16px'
       )
       await trigger.focus()
       await page.keyboard.press('Enter')
