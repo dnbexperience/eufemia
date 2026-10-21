@@ -1361,6 +1361,9 @@ button.dnb-button::-moz-focus-inner {
   display: flex;
   flex-direction: column;
 }
+.dnb-step-indicator__item--current .dnb-step-indicator__item-content__number, .dnb-step-indicator__item--current .dnb-step-indicator__item-content__wrapper > .dnb-step-indicator__button {
+  font-weight: var(--font-weight-medium);
+}
 .dnb-step-indicator__item__icon {
   opacity: 1;
   transition: opacity 400ms ease-in-out;
