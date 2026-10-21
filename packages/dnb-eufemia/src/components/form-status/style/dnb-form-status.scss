@@ -44,6 +44,13 @@
     --form-status-color-icon: var(--token-color-icon-info);
   }
 
+  &--success &__shell {
+    --form-status-color-background: var(
+      --token-color-background-positive-subtle
+    );
+    --form-status-color-icon: var(--token-color-icon-positive);
+  }
+
   &--marketing &__shell {
     --form-status-color-background: var(
       --token-color-background-marketing-subtle
@@ -67,6 +74,9 @@
   }
   &__variant--outlined#{&}--information &__shell {
     --form-status-color-outline: var(--token-color-stroke-info);
+  }
+  &__variant--outlined#{&}--success &__shell {
+    --form-status-color-outline: var(--token-color-stroke-positive);
   }
   &__variant--outlined#{&}--marketing &__shell {
     --form-status-color-outline: var(--token-color-stroke-marketing);
@@ -156,6 +166,48 @@
   &--error#{&}--attention-focus &__shell > .dnb-icon,
   &--error#{&}:focus &__shell > .dnb-icon {
     animation: attention-focus 2s ease-in-out 1 200ms;
+  }
+}
+
+// Colors of the status icons (ErrorIcon, WarnIcon, InfoIcon, SuccessIcon and
+// MarketingIcon), also used by GlobalStatus and StepIndicator.
+// Set here instead of in inline styles, because a strict Content Security Policy
+// blocks inline styles in server-rendered HTML.
+// Each part only colors the paint it has as an attribute (the fallback color).
+// `:where()` keeps the specificity low, so Icon `inheritColor` and app styles
+// can still override the colors.
+.dnb-form-status-icon-path {
+  &:where([fill]) {
+    fill: var(--form-status-icon-color);
+  }
+  &:where([stroke]) {
+    stroke: var(--form-status-icon-color);
+  }
+
+  &--error {
+    --form-status-icon-color: var(--token-color-background-error);
+  }
+  &--error-mark {
+    --form-status-icon-color: var(--token-color-icon-neutral-ondark);
+  }
+  &--warning {
+    --form-status-icon-color: var(--token-color-icon-warning);
+  }
+  &--warning-mark {
+    --form-status-icon-color: var(--token-color-icon-neutral-static);
+  }
+  &--information {
+    --form-status-icon-color: var(--token-color-icon-info);
+  }
+  &--information-mark,
+  &--success-mark {
+    --form-status-icon-color: var(--token-color-icon-neutral-inverse);
+  }
+  &--success {
+    --form-status-icon-color: var(--token-color-background-positive);
+  }
+  &--marketing {
+    --form-status-icon-color: var(--token-color-icon-marketing);
   }
 }
 

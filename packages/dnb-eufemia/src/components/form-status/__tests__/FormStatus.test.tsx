@@ -5,9 +5,16 @@
 
 import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
 import type { FormStatusProps } from '../FormStatus'
-import FormStatus, { ErrorIcon } from '../FormStatus'
+import FormStatus, {
+  ErrorIcon,
+  InfoIcon,
+  MarketingIcon,
+  SuccessIcon,
+  WarnIcon,
+} from '../FormStatus'
 import Input from '../../input/Input'
 import { render, waitFor } from '@testing-library/react'
+import { renderToStaticMarkup } from 'react-dom/server'
 import {
   initializeTestSetup,
   nextAnimationFrame,
@@ -441,32 +448,133 @@ describe('FormStatus formElement', () => {
   })
 })
 
-describe('FormStatus icon theming', () => {
-  const firstPathFill = (result: { container: HTMLElement }) =>
-    result.container.querySelector('path')?.getAttribute('fill')
+describe('FormStatus icons', () => {
+  const allIcons = (
+    <>
+      <ErrorIcon />
+      <WarnIcon />
+      <InfoIcon />
+      <InfoIcon state="success" />
+      <SuccessIcon />
+      <MarketingIcon />
+    </>
+  )
 
-  it('resolves the Sbanken theme from brand and the deprecated name', () => {
-    const uiFill = firstPathFill(render(<ErrorIcon />))
-
-    const brandFill = firstPathFill(
-      render(
-        <Provider theme={{ brand: 'sbanken' }}>
-          <ErrorIcon />
-        </Provider>
-      )
+  const getParts = (container: HTMLElement) =>
+    Array.from(container.querySelectorAll('svg')).map((svg) =>
+      Array.from(svg.querySelectorAll('path, circle'))
     )
 
-    const nameFill = firstPathFill(
-      render(
-        <Provider theme={{ name: 'sbanken' }}>
-          <ErrorIcon />
-        </Provider>
-      )
-    )
+  it('should render the success icon for the success state', () => {
+    render(<FormStatus text="Saved" state="success" />)
 
-    // Sbanken renders a different fill than the default DNB (ui) theme
-    expect(brandFill).not.toBe(uiFill)
-    // The new `brand` and the deprecated `name` resolve to the same theme
-    expect(nameFill).toBe(brandFill)
+    expect(
+      document.querySelector('[role="presentation"]')
+    ).toHaveAttribute('data-testid', 'SuccessIcon icon')
+  })
+
+  describe('with the stylesheet', () => {
+    let style: HTMLStyleElement
+
+    beforeAll(() => {
+      style = document.createElement('style')
+      style.textContent = String(
+        loadScss(require.resolve('../style/dnb-form-status.scss'))
+      )
+      document.head.appendChild(style)
+    })
+
+    afterAll(() => {
+      style.remove()
+    })
+
+    // [fill, stroke] token of every path and circle, null when not set
+    const getColors = (el: Element) => {
+      const computed = getComputedStyle(el)
+      const token = computed.getPropertyValue('--form-status-icon-color')
+      const fromToken = (value: string) =>
+        value === 'var(--form-status-icon-color)' ? token : null
+
+      return [fromToken(computed.fill), fromToken(computed.stroke)]
+    }
+
+    it('should use theme tokens for the icon colors', () => {
+      const { container } = render(allIcons)
+
+      const [error, warning, info, infoSuccess, success, marketing] =
+        getParts(container).map((parts) => parts.map(getColors))
+
+      expect(error).toEqual([
+        ['var(--token-color-background-error)', null],
+        ['var(--token-color-icon-neutral-ondark)', null],
+        [null, 'var(--token-color-icon-neutral-ondark)'],
+      ])
+      expect(warning).toEqual([
+        ['var(--token-color-icon-warning)', null],
+        ['var(--token-color-icon-neutral-static)', null],
+        [null, 'var(--token-color-icon-neutral-static)'],
+      ])
+      expect(info).toEqual([
+        ['var(--token-color-icon-info)', null],
+        [
+          'var(--token-color-icon-neutral-inverse)',
+          'var(--token-color-icon-neutral-inverse)',
+        ],
+        [null, 'var(--token-color-icon-neutral-inverse)'],
+      ])
+      expect(infoSuccess[0]).toEqual([
+        'var(--token-color-background-positive)',
+        null,
+      ])
+      expect(success).toEqual([
+        ['var(--token-color-background-positive)', null],
+        [null, 'var(--token-color-icon-neutral-inverse)'],
+      ])
+      expect(marketing).toEqual([
+        ['var(--token-color-icon-marketing)', null],
+      ])
+    })
+  })
+
+  // Used when the stylesheet is not loaded
+  it('should have DNB colors as fill and stroke attributes', () => {
+    const { container } = render(allIcons)
+
+    const [error, warning, info, infoSuccess, success, marketing] =
+      getParts(container).map((parts) =>
+        parts.map((el) => [
+          el.getAttribute('fill'),
+          el.getAttribute('stroke'),
+        ])
+      )
+
+    expect(error).toEqual([
+      ['#dc2a2a', null],
+      ['#fff', null],
+      [null, '#fff'],
+    ])
+    expect(warning).toEqual([
+      ['#fdbb31', null],
+      ['#333', null],
+      [null, '#333'],
+    ])
+    expect(info).toEqual([
+      ['#007272', null],
+      ['#fff', '#fff'],
+      [null, '#fff'],
+    ])
+    expect(infoSuccess[0]).toEqual(['#28b482', null])
+    expect(success).toEqual([
+      ['#28b482', null],
+      [null, '#fff'],
+    ])
+    expect(marketing).toEqual([['#333', null]])
+  })
+
+  // A strict Content Security Policy (style-src without 'unsafe-inline')
+  // blocks style attributes in server-rendered HTML. The icons were then
+  // invisible, because their paths inherit fill="none" from the svg.
+  it('should not use inline styles', () => {
+    expect(renderToStaticMarkup(allIcons)).not.toContain('style=')
   })
 })

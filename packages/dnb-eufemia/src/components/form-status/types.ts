@@ -151,6 +151,14 @@ export type InfoIconProps = SVGProps<SVGSVGElement> & {
   state?: FormStatusState
 }
 
+export type SuccessIconProps = SVGProps<SVGSVGElement> & {
+  /**
+   * The `title` attribute in the status.
+   */
+  title?: string
+  state?: FormStatusState
+}
+
 export type MarketingIconProps = SVGProps<SVGSVGElement> & {
   /**
    * The `title` attribute in the status.

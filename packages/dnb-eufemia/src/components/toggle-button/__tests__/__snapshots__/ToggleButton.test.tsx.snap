@@ -339,6 +339,12 @@ html[data-dnb-modal-active] .dnb-tooltip--hide {
   );
   --form-status-color-icon: var(--token-color-icon-info);
 }
+.dnb-form-status--success .dnb-form-status__shell {
+  --form-status-color-background: var(
+    --token-color-background-positive-subtle
+  );
+  --form-status-color-icon: var(--token-color-icon-positive);
+}
 .dnb-form-status--marketing .dnb-form-status__shell {
   --form-status-color-background: var(
     --token-color-background-marketing-subtle
@@ -359,6 +365,9 @@ html[data-dnb-modal-active] .dnb-tooltip--hide {
 }
 .dnb-form-status__variant--outlined.dnb-form-status--information .dnb-form-status__shell {
   --form-status-color-outline: var(--token-color-stroke-info);
+}
+.dnb-form-status__variant--outlined.dnb-form-status--success .dnb-form-status__shell {
+  --form-status-color-outline: var(--token-color-stroke-positive);
 }
 .dnb-form-status__variant--outlined.dnb-form-status--marketing .dnb-form-status__shell {
   --form-status-color-outline: var(--token-color-stroke-marketing);
@@ -429,6 +438,37 @@ button .dnb-form-status__text {
 }
 .dnb-form-status--error.dnb-form-status--attention-focus .dnb-form-status__shell > .dnb-icon, .dnb-form-status--error.dnb-form-status:focus .dnb-form-status__shell > .dnb-icon {
   animation: attention-focus 2s ease-in-out 1 200ms;
+}
+
+.dnb-form-status-icon-path:where([fill]) {
+  fill: var(--form-status-icon-color);
+}
+.dnb-form-status-icon-path:where([stroke]) {
+  stroke: var(--form-status-icon-color);
+}
+.dnb-form-status-icon-path--error {
+  --form-status-icon-color: var(--token-color-background-error);
+}
+.dnb-form-status-icon-path--error-mark {
+  --form-status-icon-color: var(--token-color-icon-neutral-ondark);
+}
+.dnb-form-status-icon-path--warning {
+  --form-status-icon-color: var(--token-color-icon-warning);
+}
+.dnb-form-status-icon-path--warning-mark {
+  --form-status-icon-color: var(--token-color-icon-neutral-static);
+}
+.dnb-form-status-icon-path--information {
+  --form-status-icon-color: var(--token-color-icon-info);
+}
+.dnb-form-status-icon-path--information-mark, .dnb-form-status-icon-path--success-mark {
+  --form-status-icon-color: var(--token-color-icon-neutral-inverse);
+}
+.dnb-form-status-icon-path--success {
+  --form-status-icon-color: var(--token-color-background-positive);
+}
+.dnb-form-status-icon-path--marketing {
+  --form-status-icon-color: var(--token-color-icon-marketing);
 }
 
 @keyframes attention-focus {
