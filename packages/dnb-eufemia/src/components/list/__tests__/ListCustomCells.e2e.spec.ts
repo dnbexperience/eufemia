@@ -8,7 +8,7 @@ for (const width of [1024, 360]) {
     test.use({ viewport: { width, height: 900 } })
 
     test.beforeEach(async ({ page }) => {
-      await page.goto('/uilib/components/list/visual-tests/custom-cells/')
+      await page.goto('/web/components/list/visual-tests/custom-cells/')
       await page.getByTestId('fragment').waitFor()
       await page.evaluate(() => document.fonts.ready)
       await page.waitForFunction(() => document.fonts.status === 'loaded')
