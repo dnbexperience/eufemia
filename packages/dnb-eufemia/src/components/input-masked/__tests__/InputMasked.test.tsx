@@ -29,6 +29,15 @@ describe('InputMasked component', () => {
     ).toBe('false')
   })
 
+  it('sets aria-invalid when status is an error', () => {
+    render(<InputMasked {...props} numberMask status="status" />)
+
+    expect(document.querySelector('input')).toHaveAttribute(
+      'aria-invalid',
+      'true'
+    )
+  })
+
   it('should format "numberMask" accordingly the defined properties', () => {
     render(
       <InputMasked

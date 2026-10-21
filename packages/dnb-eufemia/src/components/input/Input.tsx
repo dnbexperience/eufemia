@@ -504,6 +504,9 @@ function InputComponent({ ref, ...restProps }: InputProps) {
       suffix ? id + '-suffix' : null
     )
   }
+  if (status && statusState === 'error') {
+    inputParams['aria-invalid'] ??= true
+  }
   if (readOnly) {
     inputParams['aria-readonly'] = inputParams.readOnly = true
   }

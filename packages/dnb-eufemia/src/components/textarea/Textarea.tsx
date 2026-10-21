@@ -417,6 +417,9 @@ export function TextareaComponent({ ref, ...ownProps }: TextareaProps) {
       suffix ? id + '-suffix' : null
     )
   }
+  if (status && statusState === 'error') {
+    textareaParams['aria-invalid'] ??= true
+  }
   if (readOnly) {
     textareaParams['aria-readonly'] = textareaParams.readOnly = true
   }
