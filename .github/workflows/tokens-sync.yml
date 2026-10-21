@@ -169,6 +169,7 @@ jobs:
         run: echo '\n\n👉 Download the diff files as a ZIP file. \nIt is called "visual-test-artifact" and you find it in the test "Summary" under "Artifacts".\n\n\n'
 
       - name: Commit design tokens and updated snapshots
+        id: commit
         if: success() && steps.changes.outputs.changed == 'true'
         run: |
           gh auth setup-git
@@ -177,6 +178,7 @@ jobs:
 
           if [ "$BRANCH_EXISTS" != true ]; then
             git switch -c "$BRANCH"
+            echo "branch_created=true" >> "$GITHUB_OUTPUT"
           fi
           git config user.name "$GH_NAME"
           git config user.email "$GH_EMAIL"
@@ -266,4 +268,17 @@ jobs:
 
       - name: Report no design token changes
         if: steps.changes.outputs.changed == 'false'
-        run: echo "Figma and the Eufemia design tokens are already synchronized."
+        # If there is nothing to commit, the run stays green, but has to
+        #say so in the Actions list and the summary.
+        env:
+          BRANCH_EXISTS: ${{ steps.target.outputs.exists }}
+          BRANCH_CREATED: ${{ steps.commit.outputs.branch_created }}
+        run: |
+          message="Design tokens are already synchronized with Figma on branch \`$GITHUB_REF_NAME\`. Nothing was committed to \`$BRANCH\`."
+
+          if [ "$BRANCH_EXISTS" != true ] && [ "$BRANCH_CREATED" != true ]; then
+            message="$message Branch \`$BRANCH\` was not created."
+          fi
+
+          echo "::warning::$message"
+          echo "$message" >> "$GITHUB_STEP_SUMMARY"
