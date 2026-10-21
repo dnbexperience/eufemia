@@ -104,7 +104,8 @@ import '@dnb/eufemia/extensions/ai/style'
 render(
   <Task title="Checking your account balance" status="done">
     <P space={0}>
-      Available: <NumberFormat currency="NOK">12400</NumberFormat>
+      Available:{' '}
+      <NumberFormat.Currency currency="NOK">12400</NumberFormat.Currency>
     </P>
   </Task>
 )
