@@ -91,8 +91,14 @@ type FigmaAliasData = {
   targetVariableName?: string
 }
 
+type FigmaComposedColor = {
+  colorArg?: { type?: string; alias?: FigmaAliasData }
+  opacityArg?: { type?: string; value?: number }
+}
+
 type FigmaExtensions = {
   'com.figma.aliasData'?: FigmaAliasData
+  'com.figma.composedColor'?: FigmaComposedColor
 }
 
 type FigmaTokenLeaf = {
@@ -216,6 +222,14 @@ const readTokenReference = (node: FigmaTokenLeaf) => {
 }
 
 const readFoundationReference = (node: FigmaTokenLeaf) => {
+  const composed = node.$extensions?.['com.figma.composedColor']
+  const composedName = composed?.colorArg?.alias?.targetVariableName
+  const opacity = composed?.opacityArg?.value
+
+  if (composedName && typeof opacity === 'number') {
+    return `${composedName} (${opacity}%)`
+  }
+
   return (
     node.$extensions?.['com.figma.aliasData']?.targetVariableName || null
   )

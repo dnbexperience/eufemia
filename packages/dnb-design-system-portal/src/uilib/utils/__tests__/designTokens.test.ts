@@ -46,6 +46,37 @@ describe('design token docs data', () => {
     ])
   })
 
+  it('reads the foundation reference of a color with opacity', () => {
+    const [entry] = buildThemeTokenEntries({
+      color: {
+        component: {
+          dimmer: {
+            background: {
+              $type: 'color',
+              $value: {
+                components: [0, 0, 0],
+                alpha: 0.3,
+                hex: '#000000',
+              },
+              $extensions: {
+                'com.figma.composedColor': {
+                  colorArg: {
+                    type: 'alias',
+                    alias: { targetVariableName: 'dnb/greyscale/1000' },
+                  },
+                  opacityArg: { type: 'number', value: 30 },
+                },
+              },
+            },
+          },
+        },
+      },
+    })
+
+    expect(entry.reference).toBe('rgba(0 0 0 / 30%)')
+    expect(entry.foundationReference).toBe('dnb/greyscale/1000 (30%)')
+  })
+
   it('collects radius token entries from figma token data', () => {
     const result = buildThemeTokenEntries({
       radius: {

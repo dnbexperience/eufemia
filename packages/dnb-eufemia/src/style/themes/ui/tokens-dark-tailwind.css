@@ -40,7 +40,7 @@
   --color-background-neutral-subtle: var(--dnb-greyscale-900);
   --color-background-neutral-base: var(--dnb-greyscale-800);
   --color-background-neutral-bold: var(--dnb-greyscale-700);
-  --color-background-neutral-alternative: var(--dnb-greyscale-800);
+  --color-background-neutral-alternative: var(--dnb-greyscale-950);
   --color-background-info: var(--dnb-coldgreen-300);
   --color-background-info-subtle: var(--dnb-green-950);
   --color-background-positive: var(--dnb-green-500);
@@ -129,7 +129,8 @@
   --color-stroke-neutral: var(--dnb-greyscale-200);
   --color-stroke-neutral-ondark: var(--dnb-greyscale-0);
   --color-stroke-neutral-subtle: var(--dnb-greyscale-700);
-  --color-stroke-neutral-bold: var(--dnb-greyscale-700);
+  --color-stroke-neutral-base: var(--dnb-greyscale-700);
+  --color-stroke-neutral-bold: var(--dnb-greyscale-600);
   --color-stroke-neutral-alternative: var(--dnb-greyscale-800);
   --color-stroke-info: var(--dnb-coldgreen-300);
   --color-stroke-positive: var(--dnb-green-500);
@@ -235,9 +236,17 @@
   --color-component-button-stroke-action-destructive-pressed: var(
     --dnb-orange-500
   );
-  --color-component-button-stroke-selected: var(--dnb-coldgreen-300-40);
+  --color-component-button-stroke-selected: color-mix(
+    in srgb,
+    var(--dnb-coldgreen-300) 40%,
+    transparent
+  );
   --color-component-tooltip-background-neutral: var(--dnb-greyscale-100);
-  --color-component-dimmer-background: var(--dnb-greyscale-800-60);
+  --color-component-dimmer-background: color-mix(
+    in srgb,
+    var(--dnb-greyscale-800) 60%,
+    transparent
+  );
   --color-component-switch-action-disabled-ondark: var(
     --dnb-greyscale-800
   );
