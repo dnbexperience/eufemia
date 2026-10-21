@@ -1,8 +1,13 @@
 import type { ReactNode, Ref } from 'react'
+import { useContext } from 'react'
 import { render, fireEvent } from '@testing-library/react'
 import { axeComponent } from '../../../core/test-utils/testSetup'
 import ItemAction from '../ItemAction'
 import Container from '../Container'
+import ItemFooter from '../ItemFooter'
+import Button from '../../button/Button'
+import Anchor from '../../anchor/Anchor'
+import Context from '../../../shared/Context'
 
 describe('ItemAction', () => {
   it('renders with children', () => {
@@ -798,6 +803,239 @@ describe('ItemAction', () => {
       expect(anchor?.getAttribute('data-replace')).toBe('true')
     })
   })
+
+  describe.each([undefined, '#details'])('footer with href=%s', (href) => {
+    it('keeps footer controls outside the primary action in the same item', async () => {
+      const { container } = render(
+        <Container>
+          <ItemAction
+            title="Show details"
+            href={href}
+            footer={
+              <ItemFooter>
+                <Button text="Save" />
+                <Anchor href="#help">Help</Anchor>
+              </ItemFooter>
+            }
+          />
+        </Container>
+      )
+
+      const item = document.querySelector('li')
+      const trigger = item.querySelector('a, [role="button"]')
+      const footer = item.querySelector<HTMLElement>(
+        '.dnb-list__item__footer'
+      )
+
+      expect(document.querySelectorAll('li')).toHaveLength(1)
+      expect(footer).toBeInTheDocument()
+      expect(trigger).not.toContainElement(footer)
+      expect(item).toContainElement(footer)
+      expect(await axeComponent(container)).toHaveNoViolations()
+    })
+
+    it('does not activate the primary action from footer clicks or keys', () => {
+      const onClick = vi.fn()
+      const onKeyDown = vi.fn()
+      const onSave = vi.fn()
+
+      render(
+        <ItemAction
+          title="Show details"
+          href={href}
+          onClick={onClick}
+          onKeyDown={onKeyDown}
+          footer={
+            <ItemFooter>
+              <Button text="Save" onClick={onSave} />
+            </ItemFooter>
+          }
+        />
+      )
+
+      const button = document.querySelector('button')
+      const footer = document.querySelector('.dnb-list__item__footer')
+      const trigger = document.querySelector('a, [role="button"]')
+      trigger.addEventListener('click', (event) => event.preventDefault())
+
+      fireEvent.click(button)
+      fireEvent.click(footer)
+      fireEvent.keyDown(button, { key: 'Enter' })
+      fireEvent.keyDown(button, { key: ' ' })
+
+      expect(onSave).toHaveBeenCalledTimes(1)
+      expect(onClick).not.toHaveBeenCalled()
+      expect(onKeyDown).not.toHaveBeenCalled()
+
+      fireEvent.click(trigger)
+      fireEvent.keyDown(trigger, { key: ' ' })
+
+      expect(onClick).toHaveBeenCalledTimes(2)
+      expect(onKeyDown).toHaveBeenCalledTimes(1)
+    })
+
+    it.each(['disabled', 'pending'] as const)(
+      'makes the footer inert when %s',
+      (state) => {
+        render(
+          <ItemAction
+            title="Show details"
+            href={href}
+            {...{ [state]: true }}
+            footer={
+              <ItemFooter>
+                <Button text="Save" />
+              </ItemFooter>
+            }
+          />
+        )
+
+        const button = document.querySelector('button')
+
+        expect(button.closest('[inert]')).toBeInTheDocument()
+        expect(button).toBeDisabled()
+      }
+    )
+
+    it('inherits the disabled state for the footer', () => {
+      render(
+        <Container disabled>
+          <ItemAction
+            title="Show details"
+            href={href}
+            footer={
+              <ItemFooter>
+                <Button text="Save" />
+              </ItemFooter>
+            }
+          />
+        </Container>
+      )
+
+      expect(
+        document.querySelector('button').closest('[inert]')
+      ).toBeInTheDocument()
+    })
+
+    it('restores footer interaction after pending ends', () => {
+      const footer = (
+        <ItemFooter>
+          <Button text="Save" />
+        </ItemFooter>
+      )
+      const { rerender } = render(
+        <ItemAction
+          title="Show details"
+          href={href}
+          pending
+          footer={footer}
+        />
+      )
+
+      rerender(
+        <ItemAction title="Show details" href={href} footer={footer} />
+      )
+
+      expect(
+        document.querySelector('button').closest('[inert]')
+      ).toBeNull()
+      expect(document.querySelector('a, [role="button"]')).toHaveAttribute(
+        'tabindex',
+        '0'
+      )
+    })
+  })
+
+  it('preserves custom link handlers with an independent footer', () => {
+    const onClick = vi.fn()
+    const onKeyDown = vi.fn()
+    const linkClick = vi.fn()
+    const linkKeyDown = vi.fn()
+
+    function RouterLink({
+      to,
+      children,
+      ...rest
+    }: {
+      to?: string
+      children?: ReactNode
+    }) {
+      return (
+        <a href={to} {...rest}>
+          {children}
+        </a>
+      )
+    }
+
+    render(
+      <ItemAction
+        title="Route"
+        to="#route"
+        element={RouterLink}
+        elementProps={{ onClick: linkClick, onKeyDown: linkKeyDown }}
+        onClick={onClick}
+        onKeyDown={onKeyDown}
+        footer={
+          <ItemFooter>
+            <Button text="Save" />
+          </ItemFooter>
+        }
+      />
+    )
+
+    const link = document.querySelector('a')
+    link.addEventListener('click', (event) => event.preventDefault())
+    fireEvent.keyDown(link, { key: ' ' })
+
+    expect(link).toHaveAttribute('href', '#route')
+    expect(linkKeyDown).toHaveBeenCalledTimes(1)
+    expect(onKeyDown).toHaveBeenCalledTimes(1)
+    expect(linkClick).toHaveBeenCalledTimes(1)
+    expect(onClick).toHaveBeenCalledTimes(1)
+
+    fireEvent.click(document.querySelector('button'))
+
+    expect(linkClick).toHaveBeenCalledTimes(1)
+    expect(onClick).toHaveBeenCalledTimes(1)
+  })
+
+  it('inherits the item skeleton in footer controls', () => {
+    function FooterContent() {
+      const { skeleton } = useContext(Context)
+      return <span data-skeleton={String(skeleton)}>Save</span>
+    }
+
+    render(
+      <ItemAction
+        skeleton
+        title="Loading"
+        footer={
+          <ItemFooter>
+            <FooterContent />
+          </ItemFooter>
+        }
+      />
+    )
+
+    expect(document.querySelector('[data-skeleton]')).toHaveAttribute(
+      'data-skeleton',
+      'true'
+    )
+  })
+
+  it.each([undefined, null, false])(
+    'preserves the layout without a footer (%s)',
+    (footer) => {
+      render(<ItemAction title="Show details" footer={footer} />)
+
+      expect(
+        document.querySelector('.dnb-list__item__action--with-footer')
+      ).not.toBeInTheDocument()
+      expect(
+        document.querySelector('.dnb-list__item__action__footer')
+      ).not.toBeInTheDocument()
+    }
+  )
 
   describe('Accessibility', () => {
     it('action item (button) inside Container has no axe violations', async () => {

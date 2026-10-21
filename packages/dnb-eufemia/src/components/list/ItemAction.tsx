@@ -20,6 +20,7 @@ import type { IconIcon } from '../icon/Icon'
 import { chevron_down, chevron_up } from '../../icons'
 import FlexItem from '../flex/Item'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
+import Context from '../../shared/Context'
 
 export type ItemActionIconPosition = 'left' | 'right'
 
@@ -31,6 +32,10 @@ export type ItemActionProps<E extends ElementType = 'a'> = {
   chevronPosition?: ItemActionIconPosition
   icon?: IconIcon
   title?: ReactNode
+  /**
+   * Use `List.Cell.Footer` to place secondary actions outside the primary button or link, within the same list item and border. Clicking or using the keyboard in the footer does not activate the primary action. Footer controls are inert while the item is disabled or pending.
+   */
+  footer?: ReactNode
   href?: string
   to?: string
   element?: E
@@ -56,6 +61,7 @@ function ItemAction<E extends ElementType = 'a'>(
     onClick,
     onKeyDown,
     children,
+    footer,
     variant,
     selected,
     pending,
@@ -77,6 +83,8 @@ function ItemAction<E extends ElementType = 'a'>(
   const inheritedDisabled = useContext(ListContext)?.disabled
   const appliedDisabled = disabled ?? inheritedDisabled
   const isInactive = pending || appliedDisabled
+  const hasFooter =
+    footer !== undefined && footer !== null && footer !== false
 
   const handleClick = useCallback(
     (
@@ -93,7 +101,7 @@ function ItemAction<E extends ElementType = 'a'>(
   )
 
   const handleKeyDown = useCallback(
-    (event: KeyboardEvent<HTMLDivElement | HTMLAnchorElement>) => {
+    (event: KeyboardEvent<HTMLElement>) => {
       if (event.key === 'Enter' || event.key === ' ') {
         event.preventDefault()
         handleClick(
@@ -119,8 +127,8 @@ function ItemAction<E extends ElementType = 'a'>(
   )
 
   const handleLinkKeyDown = useCallback(
-    (event: KeyboardEvent<HTMLDivElement>) => {
-      onKeyDown?.(event)
+    (event: KeyboardEvent<HTMLElement>) => {
+      onKeyDown?.(event as KeyboardEvent<HTMLDivElement>)
 
       if (event.key === ' ') {
         event.preventDefault()
@@ -134,6 +142,7 @@ function ItemAction<E extends ElementType = 'a'>(
 
   const actionClassName = clsx(
     'dnb-list__item__action',
+    hasFooter && 'dnb-list__item__action--with-footer',
     chevronPosition === 'left' && 'dnb-list__item--chevron-left',
     (href || to) && 'dnb-list__item__action--href',
     className
@@ -148,13 +157,16 @@ function ItemAction<E extends ElementType = 'a'>(
       {chevronPosition === 'right' && <ChevronIcon />}
     </>
   )
+  const footerContent = hasFooter && (
+    <ActionFooter inactive={isInactive}>{footer}</ActionFooter>
+  )
 
   if (href || to) {
     return (
       <ItemContent
         className={actionClassName}
-        onClick={handleLinkClick}
-        onKeyDown={handleLinkKeyDown}
+        onClick={hasFooter ? undefined : handleLinkClick}
+        onKeyDown={hasFooter ? undefined : handleLinkKeyDown}
         variant={variant}
         selected={selected}
         skeleton={skeleton}
@@ -174,10 +186,21 @@ function ItemAction<E extends ElementType = 'a'>(
           tabIndex={isInactive ? -1 : 0}
           aria-disabled={isInactive ? true : undefined}
           {...elementProps}
+          {...(hasFooter && {
+            onClick: (event: ReactMouseEvent<HTMLAnchorElement>) => {
+              elementProps?.onClick?.(event)
+              handleLinkClick(event)
+            },
+            onKeyDown: (event: KeyboardEvent<HTMLAnchorElement>) => {
+              elementProps?.onKeyDown?.(event)
+              handleLinkKeyDown(event)
+            },
+          })}
           ref={anchorRef}
         >
           {content}
         </Anchor>
+        {footerContent}
       </ItemContent>
     )
   }
@@ -185,8 +208,8 @@ function ItemAction<E extends ElementType = 'a'>(
   return (
     <ItemContent
       className={actionClassName}
-      onClick={handleClick}
-      onKeyDown={onKeyDown}
+      onClick={hasFooter ? undefined : handleClick}
+      onKeyDown={hasFooter ? undefined : onKeyDown}
       variant={variant}
       selected={selected}
       skeleton={skeleton}
@@ -199,10 +222,17 @@ function ItemAction<E extends ElementType = 'a'>(
         role="button"
         tabIndex={isInactive ? -1 : 0}
         aria-disabled={isInactive ? true : undefined}
-        onKeyDown={handleKeyDown}
+        onClick={hasFooter ? handleClick : undefined}
+        onKeyDown={(event) => {
+          handleKeyDown(event)
+          if (hasFooter) {
+            onKeyDown?.(event as KeyboardEvent<HTMLDivElement>)
+          }
+        }}
       >
         {content}
       </FlexItem>
+      {footerContent}
     </ItemContent>
   )
 }
@@ -219,6 +249,39 @@ const listChevronIcon = Icon.transition({
 })
 
 export default ItemAction
+
+function ActionFooter({
+  inactive,
+  children,
+}: {
+  inactive?: boolean
+  children: ReactNode
+}) {
+  const context = useContext(Context)
+
+  return (
+    <FlexItem
+      className="dnb-list__item__action__footer"
+      inert={inactive || undefined}
+    >
+      <Context
+        value={
+          inactive
+            ? {
+                ...context,
+                Button: { ...context.Button, disabled: true },
+                Anchor: { ...context.Anchor, disabled: true },
+              }
+            : context
+        }
+      >
+        {children}
+      </Context>
+    </FlexItem>
+  )
+}
+
+withComponentMarkers(ActionFooter, { _supportsSpacingProps: true })
 
 export function ChevronIcon({ expanded }: { expanded?: boolean }) {
   const isAccordion = expanded !== undefined

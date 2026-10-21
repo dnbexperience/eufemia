@@ -1,0 +1,26 @@
+---
+fullscreen: true
+hideInMenu: true
+search: false
+---
+
+import { ActionWithFooter } from '../Examples'
+import { Button, List } from '@dnb/eufemia/src'
+
+<ActionWithFooter />
+
+{['disabled', 'pending', 'inherited-disabled'].map((state) => (
+
+  <List.Container key={state} disabled={state === 'inherited-disabled'} data-testid={state}>
+    <List.Item.Action
+      title={state}
+      disabled={state === 'disabled' ? true : undefined}
+      pending={state === 'pending'}
+      footer={
+        <List.Cell.Footer>
+          <Button text="Unavailable action" />
+        </List.Cell.Footer>
+      }
+    />
+  </List.Container>
+))}

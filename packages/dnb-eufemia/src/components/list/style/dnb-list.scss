@@ -131,7 +131,7 @@
     // subline. Only check the cells of the same row (the children of the cells'
     // parent), so a nested list (e.g. inside an accordion) does not affect the
     // alignment of other rows.
-    $footer: '#{&}__footer';
+    $footer: '#{&}__footer, #{&}__action__footer';
     $row-with-overline: ':has(> #{&}__overline, > :not(#{$footer}) #{&}__overline)';
     $row-with-subline: ':has(> #{&}__subline, > :not(#{$footer}) #{&}__subline)';
 
@@ -326,7 +326,7 @@
     }
 
     // Deal with chevron
-    &__action--href a .dnb-anchor__launch-icon,
+    &__action--href > a .dnb-anchor__launch-icon,
     &__chevron {
       display: flex;
       align-items: center;
@@ -334,7 +334,7 @@
       height: var(--list-item-chevron-height);
       margin-right: var(--list-item-chevron-margin);
     }
-    &--chevron-left &__action--href a .dnb-anchor__launch-icon,
+    &--chevron-left &__action--href > a .dnb-anchor__launch-icon,
     &--chevron-left &__chevron {
       grid-area: chevron-left;
       margin-right: 0;
@@ -366,7 +366,7 @@
       --radio-bounding--medium: 100;
     }
 
-    &:has(.dnb-anchor__launch-icon) &__chevron {
+    &:has(> a .dnb-anchor__launch-icon) &__chevron {
       display: none;
     }
 
@@ -376,13 +376,14 @@
       cursor: pointer;
       outline: none;
 
-      .dnb-icon {
+      > a .dnb-icon,
+      > .dnb-list__item__action__button .dnb-icon {
         color: var(--list-item-icon-color);
       }
 
       // Anchor/button wrap the slots and reproduce the item grid, spanning it
       // fully. Mirror its centering, else cells stretch and top-align (title/end).
-      &--href a,
+      &--href > a,
       &__button {
         display: grid;
         grid-template:
@@ -403,7 +404,7 @@
       }
 
       // Inherit the row's text styling, not default link styles.
-      &--href a {
+      &--href > a {
         text-decoration: none;
         color: inherit;
       }
@@ -426,6 +427,44 @@
         );
         --list-item-outline-width: 0.0625rem;
         z-index: 2;
+      }
+
+      &--with-footer {
+        grid-template: 'action' auto 'footer' auto / minmax(0, 1fr);
+        padding: 0;
+        cursor: auto;
+
+        // Keep the primary hit area above the independent footer controls.
+        > a,
+        > .dnb-list__item__action__button {
+          position: relative;
+          grid-area: action;
+          min-height: var(--list-item-height);
+          padding-block: var(--list-item-padding);
+          cursor: pointer;
+        }
+
+        &.dnb-list__item--disabled > a,
+        &.dnb-list__item--disabled > .dnb-list__item__action__button {
+          cursor: not-allowed;
+        }
+      }
+
+      &--with-footer:has(.dnb-list__item__end),
+      &--with-footer:has(.dnb-list__item__center) {
+        row-gap: 0;
+      }
+
+      &__footer {
+        display: grid;
+        grid-area: footer;
+        grid-template: 'footer' auto / minmax(0, 1fr);
+        min-width: 0;
+
+        > .dnb-list__item__footer,
+        > .dnb-list__item__footer-separator {
+          margin-top: 0;
+        }
       }
     }
 
@@ -519,7 +558,7 @@
       }
     }
 
-    &__action--href a:visited {
+    &__action--href > a:visited {
       color: inherit;
     }
     &__pending {

@@ -3,6 +3,7 @@
  */
 
 import ComponentBox from '../../../../shared/tags/ComponentBox'
+import { useState } from 'react'
 import {
   Anchor,
   Avatar,
@@ -10,6 +11,7 @@ import {
   Button,
   Code,
   DateFormat,
+  Drawer,
   Flex,
   Grid,
   Heading,
@@ -189,6 +191,80 @@ export const FooterWithButtons = () => {
     </ComponentBox>
   )
 }
+
+export const ActionWithFooter = () => (
+  <ComponentBox
+    data-visual-test="list-action-footer"
+    scope={{ fish_medium }}
+  >
+    {() => {
+      const Example = () => {
+        const [open, setOpen] = useState(false)
+        const [saved, setSaved] = useState(false)
+
+        return (
+          <>
+            <List.Container>
+              <List.Item.Accordion title="Payments" open>
+                <List.Item.Accordion.Content>
+                  <List.Container>
+                    <List.Item.Action
+                      icon={fish_medium}
+                      onClick={() => setOpen(true)}
+                      footer={
+                        <List.Cell.Footer
+                          style={{ justifyContent: 'flex-end' }}
+                        >
+                          <Flex.Horizontal>
+                            <Span role="status">{saved && 'Saved'}</Span>
+                            <Button
+                              variant="secondary"
+                              text="Save payment"
+                              onClick={() => setSaved(true)}
+                            />
+                          </Flex.Horizontal>
+                        </List.Cell.Footer>
+                      }
+                    >
+                      <List.Cell.Title>
+                        Payment details
+                        <List.Cell.Title.Subline>
+                          Due tomorrow
+                        </List.Cell.Title.Subline>
+                      </List.Cell.Title>
+                      <List.Cell.End>1 234 kr</List.Cell.End>
+                    </List.Item.Action>
+                    <List.Item.Action
+                      title="Payment history"
+                      href="#footer-details"
+                      footer={
+                        <List.Cell.Footer>
+                          <Anchor href="#footer-help">Payment help</Anchor>
+                        </List.Cell.Footer>
+                      }
+                    />
+                  </List.Container>
+                </List.Item.Accordion.Content>
+              </List.Item.Accordion>
+            </List.Container>
+            <Drawer
+              title="Payment details"
+              open={open}
+              onClose={() => setOpen(false)}
+              omitTriggerButton
+            >
+              <P>Details about the payment.</P>
+            </Drawer>
+            <P id="footer-details">Payment history details.</P>
+            <P id="footer-help">Help with payments.</P>
+          </>
+        )
+      }
+
+      return <Example />
+    }}
+  </ComponentBox>
+)
 
 export const NavigableItem = () => {
   return (

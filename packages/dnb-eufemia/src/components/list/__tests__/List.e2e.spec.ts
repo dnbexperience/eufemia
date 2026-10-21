@@ -6,6 +6,134 @@ for (const width of [400, 1024]) {
   test.describe(`List at ${width}px`, () => {
     test.use({ viewport: { width, height: 900 } })
 
+    test('keeps primary actions and footer controls independent', async ({
+      page,
+      browserName,
+    }) => {
+      await page.addInitScript(() => {
+        window['IS_TEST'] = true
+      })
+      await page.goto('/uilib/components/list/visual-tests/action-footer/')
+
+      const example = page.locator(
+        '[data-visual-test="list-action-footer"]'
+      )
+      const item = example.locator('.dnb-list__item__action').first()
+      const trigger = item.getByRole('button', { name: /Payment details/ })
+      const save = item.getByRole('button', { name: 'Save payment' })
+      const footer = item.locator('.dnb-list__item__footer')
+
+      await expect(save).toBeVisible()
+      await page.evaluate(() => document.fonts.ready)
+
+      const itemBox = await item.boundingBox()
+      const footerBox = await footer.boundingBox()
+      const triggerBox = await trigger.boundingBox()
+
+      expect(footerBox.y).toBeGreaterThanOrEqual(
+        triggerBox.y + triggerBox.height - 1
+      )
+      expect(footerBox.y + footerBox.height).toBeCloseTo(
+        itemBox.y + itemBox.height,
+        0
+      )
+      expect(footerBox.x).toBeCloseTo(itemBox.x, 0)
+      expect(footerBox.width).toBeCloseTo(itemBox.width, 0)
+
+      await footer.click({ position: { x: 8, y: 8 } })
+      await expect(page.getByRole('dialog')).toHaveCount(0)
+      await save.click()
+      await expect(item.getByRole('status')).toHaveText('Saved')
+      await expect(page.getByRole('dialog')).toHaveCount(0)
+
+      await trigger.focus()
+      await expect(item).toHaveCSS('--list-item-outline-width', '0.125rem')
+      await page.keyboard.press(
+        browserName === 'webkit' ? 'Alt+Tab' : 'Tab'
+      )
+      await expect(save).toBeFocused()
+      await page.keyboard.press('Enter')
+      await page.keyboard.press('Space')
+      await expect(page.getByRole('dialog')).toHaveCount(0)
+
+      for (const key of ['Enter', 'Space']) {
+        await trigger.focus()
+        await page.keyboard.press(key)
+        await expect(page.getByRole('dialog')).toBeVisible()
+        await page.keyboard.press('Escape')
+        await expect(page.getByRole('dialog')).toHaveCount(0)
+        await expect(page.locator('html')).not.toHaveAttribute(
+          'data-dnb-modal-active'
+        )
+      }
+
+      await trigger.click({ position: { x: 8, y: 8 } })
+      await expect(page.getByRole('dialog')).toBeVisible()
+    })
+
+    test('keeps footer links separate and rounds the entire last item', async ({
+      page,
+      browserName,
+    }) => {
+      await page.goto('/uilib/components/list/visual-tests/action-footer/')
+
+      const item = page
+        .locator(
+          '[data-visual-test="list-action-footer"] .dnb-list__item__action'
+        )
+        .last()
+      const trigger = item.locator(':scope > a')
+      const help = item.getByRole('link', { name: 'Payment help' })
+      const footer = item.locator('.dnb-list__item__footer')
+
+      await expect(help).toBeVisible()
+      await expect(help).not.toHaveCSS('display', 'grid')
+      await expect(footer).toHaveCSS(
+        'border-bottom-left-radius',
+        await item.evaluate(
+          (element) => getComputedStyle(element).borderBottomLeftRadius
+        )
+      )
+      await expect(footer).not.toHaveCSS(
+        'border-bottom-left-radius',
+        '0px'
+      )
+
+      await help.click()
+      await expect(page).toHaveURL(/#footer-help$/)
+      await trigger.focus()
+      await expect(trigger).toBeFocused()
+      await page.keyboard.press('Space')
+      await expect(page).toHaveURL(/#footer-details$/)
+      await trigger.focus()
+      await page.keyboard.press(
+        browserName === 'webkit' ? 'Alt+Tab' : 'Tab'
+      )
+      await expect(help).toBeFocused()
+      await page.keyboard.press('Enter')
+      await expect(page).toHaveURL(/#footer-help$/)
+    })
+
+    test('excludes disabled and pending footer controls from keyboard navigation', async ({
+      page,
+    }) => {
+      await page.goto('/uilib/components/list/visual-tests/action-footer/')
+
+      for (const state of ['disabled', 'pending', 'inherited-disabled']) {
+        const item = page.getByTestId(state)
+        const footerButton = item.locator('button')
+        await expect(footerButton).toBeVisible()
+        await footerButton.evaluate((element: HTMLElement) =>
+          element.focus()
+        )
+        await expect(footerButton).not.toBeFocused()
+        await expect(item.locator('[role="button"]')).toHaveAttribute(
+          'tabindex',
+          '-1'
+        )
+      }
+    })
+
     test('pads plain text and title-only rows on both sides', async ({
       page,
     }) => {
