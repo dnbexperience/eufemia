@@ -17,10 +17,12 @@
 import {
   COMPONENT_TOOLS,
   KNOWN_TOOLS,
+  isPathTool,
   normalizeComponent,
   parseComponentName,
   parseDocsPath,
   type McpUsageRecord,
+  type PathTool,
 } from 'eufemia-mcp-usage-record'
 
 /** Mirrors `UsageResolver` in mcp-docs-server; declared here so this module doesn't import the docs server. */
@@ -48,9 +50,8 @@ type JsonRpcMessage = {
   params?: { name?: unknown; arguments?: unknown }
 }
 
-// Which argument holds each path tool's doc path, and which docs check it needs.
 const PATH_TOOL_ARGUMENTS: Record<
-  string,
+  PathTool,
   { argument: string; check: 'docsFile' | 'docsDir' }
 > = {
   docs_read: { argument: 'path', check: 'docsFile' },
@@ -86,7 +87,7 @@ async function recordFromMessage(
     ? ((await resolver.likelyComponent(rawComponent)) ?? '')
     : ''
 
-  const pathTool = PATH_TOOL_ARGUMENTS[tool]
+  const pathTool = isPathTool(tool) ? PATH_TOOL_ARGUMENTS[tool] : undefined
   const candidatePath = pathTool
     ? parseDocsPath(args[pathTool.argument])
     : ''

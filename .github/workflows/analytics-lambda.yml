@@ -7,11 +7,12 @@ name: Analytics Lambda
 # repository where OIDC federation handles AWS authentication.
 #
 # Triggers:
-# - Push to `main` that touches `tools/analytics/**` (or this workflow) — deploys automatically.
+# - Push to `main` that touches `tools/analytics/**`, the shared
+#   `tools/mcp-usage-record/**` package (or this workflow) — deploys automatically.
 # - `workflow_dispatch` — manual deploy from the Actions tab (any branch).
 #
-# Analytics is self-contained (no Eufemia docs dependency), so it deploys on its
-# own code changes rather than on every Eufemia release like the MCP server.
+# Analytics has no Eufemia docs dependency, so it deploys on its own code changes
+# rather than on every Eufemia release like the MCP server.
 #
 # See tools/analytics/README.md for deploy details.
 

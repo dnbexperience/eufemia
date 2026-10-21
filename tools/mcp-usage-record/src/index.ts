@@ -45,10 +45,15 @@ export const COMPONENT_TOOLS: ReadonlySet<string> = new Set([
 ])
 
 // Tools whose event carries a doc path. A path on any other tool is dropped.
-export const PATH_TOOLS: ReadonlySet<string> = new Set([
-  'docs_read',
-  'docs_list',
-])
+const PATH_TOOL_NAMES = ['docs_read', 'docs_list'] as const
+
+export type PathTool = (typeof PATH_TOOL_NAMES)[number]
+
+export const PATH_TOOLS: ReadonlySet<string> = new Set(PATH_TOOL_NAMES)
+
+export function isPathTool(tool: string): tool is PathTool {
+  return PATH_TOOLS.has(tool)
+}
 
 const MAX_COMPONENT_LENGTH = 64
 const MAX_PATH_LENGTH = 512
@@ -58,10 +63,10 @@ const MAX_PATH_LENGTH = 512
 // PascalCase form ("DatePicker", "Field.Address") and the hyphenated doc-file
 // form ("date-picker") validate. A single character class keeps matching linear
 // (no nested-quantifier ReDoS).
-const COMPONENT_SEGMENT = /^[A-Za-z][A-Za-z0-9-]*$/
+export const COMPONENT_SEGMENT = /^[A-Za-z][A-Za-z0-9-]*$/
 
 // An absolute docs path with a restricted character set.
-const PATH_PATTERN = /^\/[A-Za-z0-9/_.-]*$/
+export const PATH_PATTERN = /^\/[A-Za-z0-9/_.-]*$/
 
 /**
  * Reduce a docs path to the shape the docs server resolves it to: forward
