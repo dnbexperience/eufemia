@@ -256,7 +256,7 @@
     "tsdown": "0.14.2",
     "typescript": "5.9.3",
     "vd-tool": "4.0.2",
-    "vite": "8.0.16",
+    "vite": "8.1.6",
     "vitest": "4.1.11"
   },
   "keywords": [
