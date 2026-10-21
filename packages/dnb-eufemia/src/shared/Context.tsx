@@ -9,6 +9,7 @@ import defaultLocales from './locales'
 import { extendDeep } from './component-helper'
 import pointer from '../extensions/forms/utils/json-pointer'
 import type { ICUFormatMessage } from './icuFormatMessage'
+import type { ResponsiveConfig } from './ResponsiveMediaQuery'
 
 // All TypeScript based Eufemia elements
 import type { ScrollViewProps } from '../components/scroll-view/ScrollView'
@@ -151,6 +152,8 @@ export type ContextProps = ContextComponents & {
    * Define what breakpoints should be used by the MediaQuery component and hook
    */
   breakpoints?: Record<string, string>
+  /** Width source used by structured media-query consumers in this application. */
+  responsive?: ResponsiveConfig
 
   /**
    * Defines the locale (internal translation) used by some components

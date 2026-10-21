@@ -32,6 +32,8 @@ const makeLayoutEffect = () => {
 }
 
 export type UseMediaProps = {
+  /** Use viewport width even inside a responsive application boundary. */
+  target?: 'viewport'
   /**
    * Give a initial value, that is used during SSR as well.
    * Default: `null`
@@ -116,6 +118,7 @@ export default function useMedia(
     breakpoints,
     queries = defaultQueries,
     log,
+    target,
   } = props
 
   const context = useContext(Context)
@@ -146,24 +149,43 @@ export default function useMedia(
       const mediaQueryList = makeMediaQueryList(
         { when },
         breakpoints || context.breakpoints,
-        { disabled, correctRange, log }
+        {
+          disabled,
+          correctRange,
+          log,
+          responsive: context.responsive,
+          target,
+        }
       )
 
-      const event = createMediaQueryListener(mediaQueryList, (match) => {
-        if (!isDisabledRef.current && match) {
-          const state = {
-            ...defaultsRef.current,
-            key,
-            isSSR: resultRef.current.isSSR,
-          } as UseMediaResult
-          state[name] = match
-          updateRerender(state)
-        }
-      })
+      const event = !isMountedRef.current
+        ? () => undefined
+        : createMediaQueryListener(mediaQueryList, (match) => {
+            if (!isDisabledRef.current && match) {
+              const state = {
+                ...defaultsRef.current,
+                key,
+                isSSR: resultRef.current.isSSR,
+              } as UseMediaResult
+              state[name] = match
+              updateRerender(state)
+            }
+          })
 
       return { event, mediaQueryList }
     },
-    [breakpoints, context.breakpoints, correctRange, disabled, log]
+    [
+      breakpoints,
+      context.breakpoints,
+      correctRange,
+      disabled,
+      log,
+      target,
+      context.responsive,
+      context.responsive?.target === 'container'
+        ? context.responsive.containerRef.current
+        : undefined,
+    ]
   )
 
   const makeResult = useCallback(() => {

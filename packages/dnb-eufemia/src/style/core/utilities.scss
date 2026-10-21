@@ -376,6 +376,33 @@ $breakpoint-offset: 0;
   }
 }
 
+// Container queries opt in separately from the viewport media-query mixins.
+@mixin containerAbove($size, $container: null, $list: $breakpoints) {
+  // stylelint-disable-next-line container-name-pattern -- Sass resolves the supplied container name.
+  @container #{$container} (width > #{breakpoint-value($size, $list)}) {
+    @content;
+  }
+}
+
+@mixin containerBelow($size, $container: null, $list: $breakpoints) {
+  // stylelint-disable-next-line container-name-pattern -- Sass resolves the supplied container name.
+  @container #{$container} (width <= #{breakpoint-value($size, $list)}) {
+    @content;
+  }
+}
+
+@mixin containerBetween(
+  $fromSize,
+  $toSize,
+  $container: null,
+  $list: $breakpoints
+) {
+  // stylelint-disable-next-line container-name-pattern -- Sass resolves the supplied container name.
+  @container #{$container} (#{breakpoint-value($fromSize, $list)} < width <= #{breakpoint-value($toSize, $list)}) {
+    @content;
+  }
+}
+
 // Vertical alignment helper
 @mixin alignmentHelper() {
   // Add a char to align the component

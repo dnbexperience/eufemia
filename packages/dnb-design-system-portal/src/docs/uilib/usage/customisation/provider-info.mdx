@@ -169,6 +169,12 @@ render(
 
 ## Provider and context troubleshooting
 
+### Responsive application boundaries
+
+Use `responsive={{ target: 'container', containerRef }}` when JavaScript width queries should use the app's available space, or `responsive={{ target: 'viewport', offset: reservedWidth }}` when the shell already knows its reserved width in CSS pixels. The setting applies within this Provider. Existing CSS media queries are unchanged. See [available-width examples and CSS setup](/uilib/layout/media-queries/#respond-to-the-space-your-app-has) for the support matrix, container-query Sass mixins, and server-rendering behavior.
+
+### Consistent module imports
+
 If there is a module format deviation, components do not share anymore the same provider and context. So, make sure you have a consistent import routine, not like this:
 
 ```js

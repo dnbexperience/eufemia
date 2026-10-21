@@ -1,6 +1,11 @@
 import type { ReactNode } from 'react'
 import { toKebabCase } from './component-helper'
 import { warn } from './helpers'
+import {
+  makeContainerQueryList,
+  offsetConditions,
+} from './ResponsiveMediaQuery'
+import type { ResponsiveConfig } from './ResponsiveMediaQuery'
 
 export type MediaQuerySizes =
   | 'small'
@@ -53,6 +58,10 @@ export type MediaQueryProperties = {
 } & MediaQueryCondition
 
 export type MediaQueryOptions = {
+  /** Application-level width source. Raw media-query strings remain viewport based. */
+  responsive?: ResponsiveConfig
+  /** Use viewport width even inside a responsive application boundary. */
+  target?: 'viewport'
   /**
    * If set to true, no MediaQuery will be used.
    */
@@ -137,6 +146,44 @@ export function makeMediaQueryList(
 
   if (options?.disabled || !isSupported) {
     return null
+  }
+
+  const responsive =
+    options?.target === 'viewport' ? undefined : options?.responsive
+  if (responsive && !when && query && typeof query !== 'string') {
+    when = query
+    query = undefined
+  }
+  const resolvedBreakpoints = { ...defaultBreakpoints, ...breakpoints }
+  const hasWidth = (condition: MediaQueryCondition): boolean =>
+    typeof condition === 'object' &&
+    ['min', 'max', 'minWidth', 'maxWidth'].some((key) => key in condition)
+  if (
+    responsive?.target === 'container' &&
+    when &&
+    typeof when !== 'string' &&
+    !query &&
+    (Array.isArray(when) ? when.some(hasWidth) : hasWidth(when))
+  ) {
+    return makeContainerQueryList(
+      responsive.containerRef.current,
+      { when, not },
+      resolvedBreakpoints,
+      options
+    )
+  }
+  if (
+    responsive?.target === 'viewport' &&
+    when &&
+    typeof when !== 'string' &&
+    !query
+  ) {
+    when = offsetConditions(
+      when,
+      responsive.offset ?? 0,
+      resolvedBreakpoints,
+      options?.correctRange !== false
+    )
   }
 
   if (when) {

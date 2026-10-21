@@ -18,6 +18,7 @@ import { LOCALE } from './defaults'
 import { prepareFormElementContext } from './helpers/filterValidProps'
 import { mergeTranslations } from './Translation'
 import { warn } from './component-helper'
+import useIsomorphicLayoutEffect from './helpers/useIsomorphicLayoutEffect'
 
 export type ProviderProps = {
   /**
@@ -139,7 +140,31 @@ export default function Provider<Props>(
     setCurrentLocale,
   ])
 
-  return <Context value={value}>{localProps.children}</Context>
+  const [containerTarget, setContainerTarget] = useState<HTMLElement>(null)
+  useIsomorphicLayoutEffect(() => {
+    const target =
+      value.responsive?.target === 'container'
+        ? value.responsive.containerRef.current
+        : null
+    if (target !== containerTarget) {
+      setContainerTarget(target)
+    }
+  })
+  // A ref can change during commit without changing its own identity.
+  const responsive = useMemo(
+    () =>
+      value.responsive?.target === 'container'
+        ? { ...value.responsive }
+        : value.responsive,
+    [value.responsive, containerTarget]
+  )
+  const contextValue = useMemo(
+    () =>
+      responsive === value.responsive ? value : { ...value, responsive },
+    [value, responsive]
+  )
+
+  return <Context value={contextValue}>{localProps.children}</Context>
 }
 
 type MergeContextProps = {

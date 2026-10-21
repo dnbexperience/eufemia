@@ -37,11 +37,17 @@ function MediaQuery(props: MediaQueryProps) {
 
     if (canMatch) {
       const { query, when, not } = props
-      const { disabled, correctRange = true, log } = props
+      const { disabled, correctRange = true, log, target } = props
       state.mediaQueryList = makeMediaQueryList(
         { query, when, not },
         context?.breakpoints,
-        { disabled, correctRange, log }
+        {
+          disabled,
+          correctRange,
+          log,
+          target,
+          responsive: context.responsive,
+        }
       )
 
       if (state.mediaQueryList?.matches) {
@@ -66,11 +72,25 @@ function MediaQuery(props: MediaQueryProps) {
       return undefined
     }
 
-    const { query, when, not, disabled, correctRange = true, log } = props
+    const {
+      query,
+      when,
+      not,
+      disabled,
+      correctRange = true,
+      log,
+      target,
+    } = props
     const mediaQueryList = makeMediaQueryList(
       { query, when, not },
       context?.breakpoints,
-      { disabled, correctRange, log }
+      {
+        disabled,
+        correctRange,
+        log,
+        target,
+        responsive: context.responsive,
+      }
     )
 
     setState({
@@ -102,6 +122,11 @@ function MediaQuery(props: MediaQueryProps) {
     props.correctRange,
     props.log,
     context?.breakpoints,
+    context.responsive,
+    context.responsive?.target === 'container'
+      ? context.responsive.containerRef.current
+      : undefined,
+    props.target,
   ])
 
   return <>{state.match ? props.children : null}</>
