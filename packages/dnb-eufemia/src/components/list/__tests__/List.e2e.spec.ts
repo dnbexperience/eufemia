@@ -336,6 +336,9 @@ for (const width of [400, 1024]) {
 test.describe('List text layout compatibility', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/uilib/components/list/visual-tests/text-layout/')
+    await page.waitForFunction(() =>
+      document.documentElement.hasAttribute('data-portal-ready')
+    )
   })
 
   for (const layoutEngine of ['legacy', 'css']) {
