@@ -7,6 +7,7 @@ import type {
   SidebarMenuContent,
   SidebarMenuContentTransform,
   SidebarMenuController,
+  SidebarMenuControllerProps,
 } from './types'
 
 type ContentRegistration<Value> = {
@@ -18,13 +19,16 @@ type ContentRegistration<Value> = {
 type ContentState = {
   replacements: ContentRegistration<SidebarMenuContent>[]
   transforms: ContentRegistration<SidebarMenuContentTransform>[]
+  props?: ContentRegistration<SidebarMenuControllerProps>[]
 }
 
 const scope = 'sidebar-menu-content/v1'
+// Keep prop registrations independent of content cleanup in older bundles.
+const propsScope = 'sidebar-menu-props/v1'
 const emptyState: ContentState = { replacements: [], transforms: [] }
 const getServerSnapshot = () => undefined
 
-/** Returns a controller that can update content before or after a menu mounts. */
+/** Returns a controller that can update props and content before or after a menu mounts. */
 export function getController(id: string): SidebarMenuController {
   if (!id) {
     throw new Error('SidebarMenu.getController requires a non-empty id')
@@ -41,16 +45,18 @@ export function getController(id: string): SidebarMenuController {
     }
     if (typeof window === 'undefined') {
       throw new Error(
-        'SidebarMenu content controllers update browser content. Use Data props for server rendering.'
+        'SidebarMenu controllers update browser props and content. Use component props for server rendering.'
       )
     }
 
-    const state = createSharedState<ContentState>(id, undefined, { scope })
+    const state = createSharedState<ContentState>(id, undefined, {
+      scope: collection === 'props' ? propsScope : scope,
+    })
     const current = state.get() ?? emptyState
     state.set({
       ...current,
       [collection]: [
-        ...current[collection].filter(
+        ...(current[collection] ?? []).filter(
           ({ key }) => key !== registration.key
         ),
         registration,
@@ -59,7 +65,9 @@ export function getController(id: string): SidebarMenuController {
 
     return () => {
       const current = state.get()
-      if (!current?.[collection].some((entry) => entry === registration)) {
+      if (
+        !current?.[collection]?.some((entry) => entry === registration)
+      ) {
         return
       }
 
@@ -70,7 +78,9 @@ export function getController(id: string): SidebarMenuController {
         ),
       }
       state.set(
-        next.replacements.length || next.transforms.length
+        next.replacements.length ||
+          next.transforms.length ||
+          next.props?.length
           ? next
           : undefined
       )
@@ -78,11 +88,66 @@ export function getController(id: string): SidebarMenuController {
   }
 
   return {
+    setProps: (props, { key }) =>
+      register('props', { key, value: { ...props } }),
     setContent: (content, { key }) =>
       register('replacements', { key, value: content }),
     transformContent: (transform, { key, order = 0 }) =>
       register('transforms', { key, value: transform, order }),
   }
+}
+
+const responsiveProps = [
+  'drawerAt',
+  'breakpoint',
+  'compactAt',
+  'compactOffset',
+  'open',
+  'defaultOpen',
+  'onOpenChange',
+  'inlineCollapsed',
+  'defaultInlineCollapsed',
+  'inlineCollapsedStorageKey',
+  'inlineCollapsedStorage',
+  'onInlineCollapsedChange',
+] as const
+
+const shellProps = [
+  'children',
+  'controllerId',
+  'scopeId',
+  'styleNonce',
+  'data',
+  'sections',
+  'dangerouslySetInnerHTML',
+]
+
+export function useSidebarMenuProps<Props>(
+  id: string | undefined,
+  props: Props,
+  target: 'menu' | 'responsive'
+): Props {
+  const { data: state } = useSharedState<ContentState>(
+    typeof window === 'undefined' ? undefined : id,
+    undefined,
+    undefined,
+    { scope: propsScope, getServerSnapshot }
+  )
+
+  return useMemo(() => {
+    const overrides = Object.fromEntries(
+      (state?.props ?? []).flatMap(({ value }) =>
+        Object.entries(value).filter(
+          ([key]) =>
+            !shellProps.includes(key) &&
+            (target === 'responsive'
+              ? responsiveProps.some((name) => name === key)
+              : !responsiveProps.some((name) => name === key))
+        )
+      )
+    )
+    return { ...props, ...overrides }
+  }, [props, state, target])
 }
 
 export function useSidebarMenuContent(

@@ -45,6 +45,7 @@ import {
 } from './SidebarMenuResponsiveContext'
 import type { SidebarMenuResponsiveContextValue } from './SidebarMenuResponsiveContext'
 import SidebarMenuToggle from './SidebarMenuToggle'
+import { useSidebarMenuProps } from './SidebarMenuController'
 
 // Was exported from this module in v11.15, so keep the import path working.
 export { useOptionalSidebarMenuResponsive } from './SidebarMenuResponsiveContext'
@@ -94,6 +95,8 @@ export type SidebarMenuResponsiveValue = Pick<
 
 export type SidebarMenuResponsiveProviderProps = {
   children: ReactNode
+  /** Named controller shared with other applications in the same window. */
+  controllerId?: string
   /** Unique scope used by first-paint CSS and Toggles outside this provider. */
   scopeId?: string
   /** Maximum viewport width at which the mobile Drawer is used. */
@@ -123,23 +126,26 @@ export type SidebarMenuResponsiveProviderProps = {
   /** Called whenever the desktop inline navigation collapses or restores. */
   onInlineCollapsedChange?: (collapsed: boolean) => void
 }
-export function SidebarMenuResponsiveProvider({
-  children,
-  scopeId: scopeIdProp,
-  drawerAt,
-  breakpoint,
-  compactAt,
-  compactOffset = '0em',
-  styleNonce,
-  open,
-  defaultOpen = false,
-  onOpenChange,
-  inlineCollapsed,
-  defaultInlineCollapsed = false,
-  inlineCollapsedStorageKey,
-  inlineCollapsedStorage = 'session',
-  onInlineCollapsedChange,
-}: SidebarMenuResponsiveProviderProps) {
+export function SidebarMenuResponsiveProvider(
+  props: SidebarMenuResponsiveProviderProps
+) {
+  const {
+    children,
+    scopeId: scopeIdProp,
+    drawerAt,
+    breakpoint,
+    compactAt,
+    compactOffset = '0em',
+    styleNonce,
+    open,
+    defaultOpen = false,
+    onOpenChange,
+    inlineCollapsed,
+    defaultInlineCollapsed = false,
+    inlineCollapsedStorageKey,
+    inlineCollapsedStorage = 'session',
+    onInlineCollapsedChange,
+  } = useSidebarMenuProps(props.controllerId, props, 'responsive')
   const { breakpoints } = useContext(Context)
   const resolvedDrawerAt = resolveBreakpoint(
     drawerAt ?? breakpoint ?? 'medium',

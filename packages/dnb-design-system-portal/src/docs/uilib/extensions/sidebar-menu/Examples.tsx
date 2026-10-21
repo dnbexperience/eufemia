@@ -301,6 +301,90 @@ export function SidebarMenuContentController() {
   )
 }
 
+export function SidebarMenuPropsController() {
+  return (
+    <ComponentBox hideCode scope={{ useId, home, pay_from, styles }}>
+      {() => {
+        function CurrentLayout() {
+          const { isCompact, isSmallScreen } = SidebarMenu.useResponsive()
+          return (
+            <P role="status">
+              Sidebar:{' '}
+              {isSmallScreen
+                ? 'Drawer'
+                : isCompact
+                  ? 'Compact'
+                  : 'Full width'}
+            </P>
+          )
+        }
+
+        function Example() {
+          const id = useId()
+          const [widePage, setWidePage] = useState(false)
+
+          useEffect(() => {
+            if (widePage) {
+              return SidebarMenu.getController(id).setProps(
+                { compactAt: '200em', selectedItem: 'payments' },
+                { key: 'payments:wide-page' }
+              )
+            }
+          }, [id, widePage])
+
+          return (
+            <Flex.Stack
+              layoutEngine="css"
+              data-sidebar-menu-props-controller-example
+            >
+              <Switch
+                label="Payments needs more space"
+                checked={widePage}
+                onChange={({ checked }) => setWidePage(checked)}
+              />
+              <SidebarMenu.ResponsiveProvider
+                controllerId={id}
+                drawerAt="20em"
+                compactAt="30em"
+              >
+                <SidebarMenu.ResponsiveShell
+                  className={styles.responsiveShell}
+                >
+                  <SidebarMenu.ResponsiveAside showToggle={false}>
+                    <SidebarMenu.Data
+                      controllerId={id}
+                      aria-label="Externally configured navigation"
+                      selectedItem="home"
+                      data={[
+                        { id: 'home', text: 'Home', icon: home },
+                        {
+                          id: 'payments',
+                          text: 'Payments',
+                          icon: pay_from,
+                        },
+                      ]}
+                    />
+                  </SidebarMenu.ResponsiveAside>
+                  <div className={styles.responsiveContent}>
+                    <P>
+                      The app changes the compact threshold and selects
+                      Payments. Turn the switch off to restore the shell's
+                      props.
+                    </P>
+                    <CurrentLayout />
+                  </div>
+                </SidebarMenu.ResponsiveShell>
+              </SidebarMenu.ResponsiveProvider>
+            </Flex.Stack>
+          )
+        }
+
+        return <Example />
+      }}
+    </ComponentBox>
+  )
+}
+
 export function SidebarMenuData() {
   return (
     <ComponentBox

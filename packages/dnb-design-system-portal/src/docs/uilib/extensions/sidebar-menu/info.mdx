@@ -125,6 +125,42 @@ Assign the same `controllerId` to the desktop and Drawer menus to share content 
 
 Use `Data` props for server-rendered content. Controller mutations run in the browser; server calls throw instead of retaining application content between requests. Hydration first uses the server's fallback content, then applies retained browser registrations. Content controllers do not synchronize across iframes or browser tabs. Prefer data objects across micro frontend boundaries; React elements and callbacks do not carry the originating application's providers with them.
 
+### Props controlled by micro frontends
+
+Use `setProps()` on the same controller to override menu and responsive properties. Give `Root` or `Data` and `ResponsiveProvider` the same `controllerId`:
+
+```tsx
+<SidebarMenu.ResponsiveProvider
+  controllerId="main-navigation"
+  drawerAt="medium"
+  compactAt="large"
+>
+  <SidebarMenu.Data
+    controllerId="main-navigation"
+    data={items}
+    selectedItem="home"
+  />
+</SidebarMenu.ResponsiveProvider>
+```
+
+```ts
+const restore = SidebarMenu.getController('main-navigation').setProps(
+  { compactOffset: '10em', selectedItem: 'payments' },
+  { key: 'payments' }
+)
+
+// When the app leaves, restore the previous props.
+restore()
+```
+
+Registrations work before mounting, across React roots and independently bundled Eufemia copies in the same window. Each component applies only the properties it owns. `ResponsiveProvider` applies thresholds, Drawer state, desktop dismissal, persistence, and their callbacks. `Root` and `Data` apply menu state, callbacks, spacing, styles, and navigation attributes.
+
+Props are shallowly merged over the component's current JSX props in registration order. The newest value for each property wins; omitted properties retain earlier registrations or JSX values. Calling `setProps()` again with the same key replaces that registration, including removing properties omitted from the new call. The returned cleanup is idempotent and cannot remove a newer registration under the same key. Cleanup recomputes props from the remaining registrations and current JSX values. Callback and `style` values replace earlier values as a whole.
+
+Default properties such as `defaultOpen` and `defaultSelectedItem` still apply only when the component initializes. Use controlled properties such as `open` and `selectedItem` for live updates. Breakpoint names resolve using the responsive provider's Eufemia configuration, and changes update both media queries and scoped responsive CSS.
+
+The shell owns `children`, `controllerId`, `scopeId`, `styleNonce`, and `dangerouslySetInnerHTML`. These are excluded from `setProps()`. Use `setContent()` or `transformContent()` for `data` and `sections`. Set server-rendered defaults in JSX; retained browser overrides apply after initial hydration and can change the initial layout. Controller mutations are browser-only.
+
 ### SSR and SSG without layout shift
 
 `Root` and `Data` render storage metadata when `openItemsStorageKey` or `scrollPositionStorageKey` is set. Add `PreHydrationScript` after the prerendered menu markup and before the application hydration script to make persisted state visible on the first paint:

@@ -20,6 +20,7 @@ import {
 import type { WebStorageType } from '../../shared/helpers/webStorage'
 import { SidebarMenuContext } from './SidebarMenuContext'
 import useTranslation from '../../shared/useTranslation'
+import { useSidebarMenuProps } from './SidebarMenuController'
 import type {
   SidebarMenuRootProps,
   SidebarMenuSectionProps,
@@ -33,6 +34,7 @@ function SidebarMenuRoot(props: SidebarMenuRootProps) {
   const {
     className,
     children,
+    controllerId,
     openItems,
     defaultOpenItems = [],
     openItemsStorageKey,
@@ -50,7 +52,7 @@ function SidebarMenuRoot(props: SidebarMenuRootProps) {
     defaultSelectedItem,
     onSelectedItemChange,
     ...rest
-  } = props
+  } = useSidebarMenuProps(props.controllerId, props, 'menu')
   const translation = useTranslation().SidebarMenu
   const responsive = useOptionalSidebarMenuResponsive()
   const responsiveInlineCompact = useSidebarMenuResponsiveInlineCompact()

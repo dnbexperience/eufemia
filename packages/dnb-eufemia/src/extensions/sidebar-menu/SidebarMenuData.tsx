@@ -16,6 +16,7 @@ export default function SidebarMenuData({
   return (
     <SidebarMenuRoot
       {...rootProps}
+      controllerId={controllerId}
       defaultActiveSection={
         defaultActiveSection ??
         content.sections?.find((section) => section.defaultActive)?.id
