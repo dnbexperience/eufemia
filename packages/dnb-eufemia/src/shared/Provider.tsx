@@ -128,11 +128,6 @@ export default function Provider<Props>(
     preparedContext.updateCurrent = updateCurrent
     preparedContext.setCurrentLocale = setCurrentLocale
 
-    nestedContext.updateTranslation(
-      preparedContext.locale,
-      preparedContext.translations
-    )
-
     return preparedContext
   }, [
     localProps,

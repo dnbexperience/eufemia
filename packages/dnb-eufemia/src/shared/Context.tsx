@@ -213,10 +213,6 @@ export type ContextProps = ContextComponents & {
 
   // -- For internal use --
   __context__?: Record<string, unknown>
-  updateTranslation?: (
-    locale: InternalLocale,
-    translation: Translation
-  ) => void
   getTranslation?: (props: GetTranslationProps) => Translation
 }
 
@@ -309,16 +305,6 @@ export function prepareContext<Props>(
 
   const context = {
     ...props,
-    updateTranslation: (locale, newTranslations) => {
-      context.translation = destructFlatTranslation(
-        extendDeep(
-          {},
-          defaultLocales[LOCALE],
-          newTranslations[locale] || newTranslations[LOCALE]
-        ) as TranslationFlat
-      )
-      context.translations = newTranslations
-    },
     getTranslation: (localProps) => {
       if (localProps) {
         const locale = localProps.lang || localProps.locale
@@ -340,7 +326,7 @@ export function prepareContext<Props>(
     },
 
     /**
-     * Make sure we set this after props, since we update this one!
+     * Make sure we set this after props, so the prepared values are used
      */
     translations,
     translation,
