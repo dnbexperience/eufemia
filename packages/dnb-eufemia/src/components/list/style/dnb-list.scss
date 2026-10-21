@@ -135,10 +135,11 @@
     $row-with-overline: ':has(> #{&}__overline, > :not(#{$footer}) #{&}__overline)';
     $row-with-subline: ':has(> #{&}__subline, > :not(#{$footer}) #{&}__subline)';
 
+    // Only align these cells vertically, so they keep their horizontal place.
     @at-root #{$row-with-overline} > #{&}__center,
       #{$row-with-overline} > #{&}__end {
       @include utilities.allAbove(small) {
-        place-self: end;
+        align-self: end;
       }
     }
     @at-root #{$row-with-overline} > #{&}__icon,
@@ -148,7 +149,7 @@
     @at-root #{$row-with-subline} > #{&}__center,
       #{$row-with-subline} > #{&}__end {
       @include utilities.allAbove(small) {
-        place-self: start;
+        align-self: start;
       }
     }
     @at-root #{$row-with-subline} > #{&}__title,
@@ -169,6 +170,41 @@
     &__accordion__header:has(#{&}__end) {
       @include utilities.allBelow(small) {
         row-gap: var(--list-item-row-gap);
+      }
+    }
+
+    // A row can show its title in the center cell (a List.Cell.Title inside
+    // a List.Cell.Center). Then the center cell takes the place of the title,
+    // so it fills the space after the icon and the start cell on all screen
+    // sizes.
+    $center: '#{&}__center';
+    $title: '#{&}__title';
+    $end: '#{&}__end';
+    $chevron: '#{&}__chevron';
+    $row-grid: ':is(#{&}, #{&}__accordion__header, #{&}__action__button, #{&}__action--href a)';
+    @at-root #{$row-grid}:has(> #{$center} > #{$title}) {
+      --list-item-grid-template-columns: auto auto auto minmax(0, 1fr) 0
+        auto auto;
+
+      > #{$center} {
+        grid-area: title;
+
+        // The center cell already has the start padding of the row
+        > #{$title} {
+          padding-left: 0;
+        }
+      }
+
+      // Like a title, keep space at the end when nothing follows
+      &:not(:has(> #{$end}, > #{$chevron})) > #{$center} {
+        padding-right: var(--list-item-padding, 0);
+      }
+
+      // Like a title, only add the small screen row gap for the end cell
+      &:not(:has(> #{$end})) {
+        @include utilities.allBelow(small) {
+          row-gap: 0;
+        }
       }
     }
 

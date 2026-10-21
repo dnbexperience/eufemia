@@ -1,0 +1,103 @@
+---
+fullscreen: true
+hideInMenu: true
+search: false
+---
+
+import { List } from '@dnb/eufemia/src'
+import { Value } from '@dnb/eufemia/src/extensions/forms'
+import { fish_medium } from '@dnb/eufemia/src/icons'
+
+export const Title = ({ overline, subline, long }) => (
+  <List.Cell.Title>
+    {overline && (
+      <List.Cell.Title.Overline>Overline</List.Cell.Title.Overline>
+    )}
+    <span>
+      {long
+        ? 'A long title that wraps onto more lines, so the space on both sides of it shows in where the lines break'
+        : 'Title'}
+    </span>
+    {subline && <List.Cell.Title.Subline>Subline</List.Cell.Title.Subline>}
+  </List.Cell.Title>
+)
+
+export const variants = {
+  plain: {},
+  overline: { overline: true },
+  subline: { subline: true },
+  both: { overline: true, subline: true },
+  long: { long: true },
+}
+
+export const TitleInCenter = () => (
+  <>
+    {Object.entries(variants).map(([name, props]) => (
+      <List.Container key={name} data-testid={name}>
+        <List.Item.Action icon={fish_medium} data-testid="title">
+          {Title(props)}
+          <List.Cell.End>
+            <Value.Currency value={1234} />
+          </List.Cell.End>
+        </List.Item.Action>
+        <List.Item.Action icon={fish_medium} data-testid="center">
+          <List.Cell.Center>{Title(props)}</List.Cell.Center>
+          <List.Cell.End>
+            <Value.Currency value={1234} />
+          </List.Cell.End>
+        </List.Item.Action>
+        <List.Item.Basic data-testid="title-only">
+          {Title(props)}
+        </List.Item.Basic>
+        <List.Item.Basic data-testid="center-only">
+          <List.Cell.Center>{Title(props)}</List.Cell.Center>
+        </List.Item.Basic>
+        <List.Item.Accordion
+          icon={fish_medium}
+          data-testid="accordion-title"
+        >
+          <List.Item.Accordion.Header>
+            {Title(props)}
+          </List.Item.Accordion.Header>
+          <List.Item.Accordion.Content>
+            Content
+          </List.Item.Accordion.Content>
+        </List.Item.Accordion>
+        <List.Item.Accordion
+          icon={fish_medium}
+          data-testid="accordion-center"
+        >
+          <List.Item.Accordion.Header>
+            <List.Cell.Center>{Title(props)}</List.Cell.Center>
+          </List.Item.Accordion.Header>
+          <List.Item.Accordion.Content>
+            Content
+          </List.Item.Accordion.Content>
+        </List.Item.Accordion>
+        <List.Item.Action
+          icon={fish_medium}
+          href="/"
+          data-testid="link-title"
+        >
+          {Title(props)}
+        </List.Item.Action>
+        <List.Item.Action
+          icon={fish_medium}
+          href="/"
+          data-testid="link-center"
+        >
+          <List.Cell.Center>{Title(props)}</List.Cell.Center>
+        </List.Item.Action>
+        <List.Item.Action icon={fish_medium} data-testid="center-content">
+          {Title(props)}
+          <List.Cell.Center>Center content</List.Cell.Center>
+          <List.Cell.End>
+            <Value.Currency value={1234} />
+          </List.Cell.End>
+        </List.Item.Action>
+      </List.Container>
+    ))}
+  </>
+)
+
+<TitleInCenter />
