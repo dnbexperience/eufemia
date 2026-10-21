@@ -7,9 +7,7 @@ for (const width of [1024, 600, 360]) {
     test.use({ viewport: { width, height: 900 } })
 
     test.beforeEach(async ({ page }) => {
-      await page.goto(
-        '/web/components/list/visual-tests/title-in-center/'
-      )
+      await page.goto('/web/components/list/visual-tests/title-in-center/')
       await page
         .getByTestId('long')
         .getByTestId('center-content')
