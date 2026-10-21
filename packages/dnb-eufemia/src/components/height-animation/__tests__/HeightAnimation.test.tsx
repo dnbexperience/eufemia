@@ -305,6 +305,39 @@ describe('HeightAnimation', () => {
       expect(getElement()).not.toHaveAttribute('aria-hidden')
     })
 
+    it('should make the content inert while it closes', () => {
+      const { rerender } = render(
+        <HeightAnimation keepInDOM open>
+          <button>Button</button>
+        </HeightAnimation>
+      )
+
+      expect(getElement()).not.toHaveAttribute('inert')
+
+      rerender(
+        <HeightAnimation keepInDOM open={false}>
+          <button>Button</button>
+        </HeightAnimation>
+      )
+
+      expect(getElement()).toHaveClass('dnb-height-animation--animating')
+      expect(getElement()).toHaveAttribute('inert')
+
+      simulateAnimationEnd()
+
+      expect(getElement()).toHaveClass('dnb-height-animation--hidden')
+      expect(getElement()).not.toHaveAttribute('inert')
+
+      rerender(
+        <HeightAnimation keepInDOM open>
+          <button>Button</button>
+        </HeightAnimation>
+      )
+
+      expect(getElement()).toHaveClass('dnb-height-animation--animating')
+      expect(getElement()).not.toHaveAttribute('inert')
+    })
+
     it('should set className "hidden" when closed and keepInDOM is true', () => {
       const { rerender } = render(
         <HeightAnimation open={false} keepInDOM />
