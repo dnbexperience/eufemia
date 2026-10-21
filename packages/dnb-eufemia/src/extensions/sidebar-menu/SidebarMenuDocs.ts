@@ -84,6 +84,11 @@ export const SidebarMenuRootProperties: PropertiesTableProps = {
 }
 
 export const SidebarMenuDataProperties: PropertiesTableProps = {
+  controllerId: {
+    doc: 'Named content controller shared with other applications in the same window.',
+    type: 'string',
+    status: 'optional',
+  },
   data: {
     doc: 'Recursive items used to render a menu from data.',
     type: 'Array<SidebarMenuItemData>',

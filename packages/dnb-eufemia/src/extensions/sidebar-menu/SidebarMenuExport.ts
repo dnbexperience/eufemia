@@ -1,5 +1,6 @@
 export { default as Root } from './SidebarMenuRoot'
 export { default as Data } from './SidebarMenuData'
+export { getController } from './SidebarMenuController'
 export { default as Item } from './SidebarMenuItem'
 export { default as Accordion } from './SidebarMenuAccordion'
 export { default as Section } from './SidebarMenuSection'

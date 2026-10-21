@@ -63,6 +63,68 @@ The selected destination is positioned within the visible browser or nearest `Sc
 
 Use `openItemsStorageKey` to preserve manually opened and closed groups. When the menu is inside a `ScrollView`, use `scrollPositionStorageKey` to restore its vertical position. A stored value takes precedence over the defaults, including an empty array. Use local storage only when the state should survive browser restarts; otherwise keep the default session storage.
 
+### Content controlled by micro frontends
+
+Connect `SidebarMenu.Data` to a named controller when another application needs to replace or transform its content. The controller works outside React, across separate React roots and independently bundled Eufemia copies in the same browser window. It retains registrations before the menu mounts, so callers do not need to check whether the sidebar is present.
+
+The shell supplies fallback content:
+
+```tsx
+<SidebarMenu.Data
+  controllerId="main-navigation"
+  aria-label="Main navigation"
+  data={defaultItems}
+/>
+```
+
+A micro frontend registers its content and cleans up when it leaves:
+
+```tsx
+const sidebar = SidebarMenu.getController('main-navigation')
+
+const releaseContent = sidebar.setContent(
+  {
+    data: [
+      { id: 'home', text: 'Home', href: '/' },
+      { id: 'payments', text: 'Payments', href: '/payments' },
+    ],
+  },
+  { key: 'payments' }
+)
+
+const removeTransform = sidebar.transformContent(
+  (content) => {
+    if (!content.data) {
+      return content
+    }
+
+    return {
+      data: content.data.map((item) =>
+        item.id === 'payments' ? { ...item, badge: 3 } : item
+      ),
+    }
+  },
+  { key: 'payments:notifications', order: 10 }
+)
+
+// When the micro frontend unmounts:
+removeTransform()
+releaseContent()
+
+// In a React effect, return the cleanup directly:
+useEffect(() => {
+  return sidebar.setContent({ data: paymentItems }, { key: 'payments' })
+}, [paymentItems])
+```
+
+Both methods use the existing `{ data }` or `{ sections }` content shapes. Use stable, app-specific registration keys. Calling the same method with the same key replaces that registration; an older cleanup cannot remove its replacement. With several content replacements, the latest registration wins. Removing it reveals the previous replacement, or the shell's current fallback content.
+
+Transformations run after the active content replacement, in ascending `order` (default `0`), then by key. They remain registered and run again when content changes. Return new content without mutating the input. Register an updated function under the same key when a captured value, such as a notification count, changes. The cleanup removes the transformation and restores the content computed without it.
+
+Assign the same `controllerId` to the desktop and Drawer menus to share content between them. Registration lifetimes belong to the calling application: unmounting a menu does not clear registrations, while a page reload does. The API uses `useSharedState` and `createSharedState` with a shared browser scope.
+
+Use `Data` props for server-rendered content. Controller mutations run in the browser; server calls throw instead of retaining application content between requests. Hydration first uses the server's fallback content, then applies retained browser registrations. Content controllers do not synchronize across iframes or browser tabs. Prefer data objects across micro frontend boundaries; React elements and callbacks do not carry the originating application's providers with them.
+
 ### SSR and SSG without layout shift
 
 `Root` and `Data` render storage metadata when `openItemsStorageKey` or `scrollPositionStorageKey` is set. Add `PreHydrationScript` after the prerendered menu markup and before the application hydration script to make persisted state visible on the first paint:

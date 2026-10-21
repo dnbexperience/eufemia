@@ -29,6 +29,24 @@ import {
 
 <PropertiesTable props={SidebarMenuDataProperties} />
 
+## SidebarMenu.getController
+
+```ts
+const sidebar = SidebarMenu.getController(controllerId)
+
+const releaseContent = sidebar.setContent(
+  { data: items }, // Or { sections }
+  { key: 'app-name' }
+)
+
+const removeTransform = sidebar.transformContent((content) => content, {
+  key: 'app-name:feature',
+  order: 0,
+})
+```
+
+Returns a controller for `SidebarMenu.Data` instances with the matching `controllerId`. It requires no provider and accepts calls before a menu mounts. Both methods return an idempotent cleanup function. Keys must be non-empty and should identify the owning app and feature. The latest content replacement wins. Transformations run in ascending order, then by key. See [Content controlled by micro frontends](/uilib/extensions/sidebar-menu#content-controlled-by-micro-frontends) for lifecycle and server-rendering behavior.
+
 ## SidebarMenu.Item
 
 <PropertiesTable props={SidebarMenuItemProperties} />
