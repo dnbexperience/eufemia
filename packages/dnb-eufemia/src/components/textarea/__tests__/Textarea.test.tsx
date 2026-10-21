@@ -851,6 +851,29 @@ describe('Textarea component', () => {
 })
 
 describe('Textarea scss', () => {
+  it('shows the border and the focus ring in forced colors mode', () => {
+    const css = loadScss(require.resolve('../style/dnb-textarea.scss'))
+
+    expect(css).toMatch(
+      /@media \(forced-colors: active\) \{\s*\.dnb-textarea__state \{\s*outline: var\(--textarea-border-width, var\(--textarea-border-width--default\)\) solid transparent;/
+    )
+    expect(css).toMatch(
+      /@media \(forced-colors: active\) \{\s*\.dnb-textarea__textarea:not\(\[disabled\]\):not\(\.dnb-textarea--disabled\):focus ~ \.dnb-textarea__state \{\s*outline: var\(--focus-ring-width\) solid transparent;/
+    )
+    // The textarea element also has the input border class
+    expect(css).toMatch(
+      /@media \(forced-colors: active\) \{\s*\.dnb-textarea__textarea\.dnb-input__border,\s*\.dnb-textarea__textarea\.dnb-input__border:focus-within \{\s*outline: none;/
+    )
+  })
+
+  it('shows disabled textareas with the disabled text color in forced colors mode', () => {
+    const css = loadScss(require.resolve('../style/dnb-textarea.scss'))
+
+    expect(css).toMatch(
+      /@media \(forced-colors: active\) \{\s*\.dnb-textarea--disabled \.dnb-textarea__state \{\s*outline-color: GrayText;/
+    )
+  })
+
   it('has to match style dependencies css', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
     expect(css).toMatchSnapshot()

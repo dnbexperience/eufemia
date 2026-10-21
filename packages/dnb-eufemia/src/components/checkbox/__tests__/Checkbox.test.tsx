@@ -553,6 +553,34 @@ describe('Checkbox component', () => {
 })
 
 describe('Checkbox scss', () => {
+  it('shows the box and the marks in forced colors mode', () => {
+    const css = loadScss(require.resolve('../style/dnb-checkbox.scss'))
+
+    expect(css).toMatch(
+      /@media \(forced-colors: active\) \{\s*\.dnb-checkbox__button \{\s*outline: var\(--checkbox-border-width, var\(--checkbox-border-width--default\)\) solid transparent;/
+    )
+    expect(css).toMatch(
+      /@media \(forced-colors: active\) \{\s*\.dnb-checkbox__gfx \{\s*forced-color-adjust: auto;/
+    )
+    expect(css).toMatch(
+      /@media \(forced-colors: active\) \{\s*\.dnb-checkbox__input ~ \.dnb-checkbox__indeterminate \{\s*background-color: CanvasText !important;/
+    )
+  })
+
+  it('shows disabled checkboxes with the disabled text color in forced colors mode', () => {
+    const css = loadScss(require.resolve('../style/dnb-checkbox.scss'))
+
+    expect(css).toMatch(
+      /@media \(forced-colors: active\) \{\s*\.dnb-checkbox__input\[disabled\] ~ \.dnb-checkbox__button \{\s*outline-color: GrayText;/
+    )
+    expect(css).toMatch(
+      /@media \(forced-colors: active\) \{\s*\.dnb-checkbox__input\[disabled\]:checked ~ \.dnb-checkbox__gfx,\s*\.dnb-checkbox__input\[disabled\]\[data-checked=['"]?true['"]?\] ~ \.dnb-checkbox__gfx \{\s*color: GrayText;/
+    )
+    expect(css).toMatch(
+      /@media \(forced-colors: active\) \{\s*\.dnb-checkbox__input\[disabled\]:indeterminate ~ \.dnb-checkbox__indeterminate \{\s*background-color: GrayText !important;/
+    )
+  })
+
   it('uses the subtle stroke for disabled unchecked checkboxes', () => {
     const css = loadScss(require.resolve('../style/dnb-checkbox.scss'))
 

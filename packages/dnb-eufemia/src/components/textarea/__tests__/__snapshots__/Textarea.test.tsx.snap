@@ -279,12 +279,23 @@ button .dnb-form-status__text {
   border-color: transparent;
   border-radius: var(--textarea-border-radius);
 }
+@media (forced-colors: active) {
+  .dnb-textarea__state {
+    outline: var(--textarea-border-width, var(--textarea-border-width--default)) solid transparent;
+    outline-offset: calc(var(--textarea-border-width, var(--textarea-border-width--default)) * -1);
+  }
+}
 .dnb-textarea__row {
   display: inline-flex;
   margin: var(--textarea-size-vertical) var(--textarea-size-vertical) var(--textarea-size-vertical) var(--textarea-size-horizontal);
 }
 .dnb-textarea__suffix.dnb-suffix {
   padding-left: 1rem;
+}
+@media (forced-colors: active) {
+  .dnb-textarea__textarea.dnb-input__border, .dnb-textarea__textarea.dnb-input__border:focus-within {
+    outline: none;
+  }
 }
 .dnb-textarea__textarea {
   position: relative;
@@ -406,6 +417,11 @@ button .dnb-form-status__text {
 .dnb-textarea--disabled .dnb-textarea__textarea::-webkit-scrollbar, .dnb-textarea__textarea[disabled]::-webkit-scrollbar {
   width: 0;
 }
+@media (forced-colors: active) {
+  .dnb-textarea--disabled .dnb-textarea__state {
+    outline-color: GrayText;
+  }
+}
 .dnb-textarea__inner > .dnb-form-status {
   order: 2;
   margin-top: 0.5rem;
@@ -478,6 +494,12 @@ html[data-visual-test] .dnb-textarea__textarea {
 }
 .dnb-textarea__textarea:not([disabled]):not(.dnb-textarea--disabled):focus ~ .dnb-textarea__state {
   --textarea-color-border: var(--token-color-stroke-action-pressed);
+}
+@media (forced-colors: active) {
+  .dnb-textarea__textarea:not([disabled]):not(.dnb-textarea--disabled):focus ~ .dnb-textarea__state {
+    outline: var(--focus-ring-width) solid transparent;
+    outline-offset: calc(var(--focus-ring-width) * -1);
+  }
 }
 .dnb-textarea__textarea:not([disabled]):not(.dnb-textarea--disabled):hover ~ .dnb-textarea__state {
   --textarea-color-border: var(--token-color-stroke-action-hover);

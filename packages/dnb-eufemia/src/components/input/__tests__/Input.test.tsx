@@ -1390,6 +1390,25 @@ describe('Input ARIA', () => {
 })
 
 describe('Input scss', () => {
+  it('shows the border and the focus ring in forced colors mode', () => {
+    const css = loadScss(require.resolve('../style/dnb-input.scss'))
+
+    expect(css).toMatch(
+      /@media \(forced-colors: active\) \{\s*\.dnb-input__border \{\s*outline: var\(--b-width, var\(--input-border-width, var\(--input-border-width--default\)\)\) solid transparent;/
+    )
+    expect(css).toMatch(
+      /@media \(forced-colors: active\) \{\s*\.dnb-input__border:focus-within \{\s*outline: var\(--focus-ring-width\) solid transparent;/
+    )
+  })
+
+  it('shows disabled inputs with the disabled text color in forced colors mode', () => {
+    const css = loadScss(require.resolve('../style/dnb-input.scss'))
+
+    expect(css).toMatch(
+      /@media \(forced-colors: active\) \{\s*\.dnb-input--disabled \.dnb-input__border \{\s*outline-color: GrayText;/
+    )
+  })
+
   it('has to match style dependencies css', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
     expect(css).toMatchSnapshot()

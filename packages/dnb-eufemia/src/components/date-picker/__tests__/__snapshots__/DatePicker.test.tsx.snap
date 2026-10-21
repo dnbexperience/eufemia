@@ -1373,16 +1373,33 @@ legend.dnb-form-label {
   box-shadow: var(--b-inset, var(--input-border-inset, inset)) 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
+@media (forced-colors: active) {
+  .dnb-input__border {
+    outline: var(--b-width, var(--input-border-width, var(--input-border-width--default))) solid transparent;
+    outline-offset: calc(var(--b-width, var(--input-border-width, var(--input-border-width--default))) * -1);
+  }
+}
 .dnb-input--disabled .dnb-input__border {
   --border-color: var(--input-border-color--disabled);
   --border-width: var(--input-border-width--disabled);
   box-shadow: var(--input-border-inset--disabled, inset) 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
+@media (forced-colors: active) {
+  .dnb-input--disabled .dnb-input__border {
+    outline-color: GrayText;
+  }
+}
 .dnb-input__border:focus-within {
   --b-color: var(--input-border-color--active);
   --b-width: var(--input-border-width--active);
   --b-inset: var(--input-border-inset--active);
+}
+@media (forced-colors: active) {
+  .dnb-input__border:focus-within {
+    outline: var(--focus-ring-width) solid transparent;
+    outline-offset: calc(var(--focus-ring-width) * -1);
+  }
 }
 .dnb-input__border:hover, .dnb-input__border.hover {
   --b-color: var(--input-border-color--hover);
@@ -1850,6 +1867,11 @@ html[data-visual-test] .dnb-input__input {
   box-shadow: var(--checkbox-border-inset) 0 0 0 var(--checkbox-border-width, var(--checkbox-border-width--default)) var(--checkbox-color-border, var(--checkbox-color-border-off));
   background-color: var(--checkbox-color-background-off);
 }
+@media (forced-colors: active) {
+  .dnb-checkbox__button {
+    outline: var(--checkbox-border-width, var(--checkbox-border-width--default)) solid transparent;
+  }
+}
 .dnb-checkbox__focus {
   display: none;
   outline: none;
@@ -1885,6 +1907,11 @@ html[data-whatinput=keyboard] .dnb-checkbox__focus {
   height: calc(var(--checkbox-height--medium) - 0.5rem);
   shape-rendering: geometricprecision;
   transition: opacity 200ms ease-out, transform 200ms ease-out;
+}
+@media (forced-colors: active) {
+  .dnb-checkbox__gfx {
+    forced-color-adjust: auto;
+  }
 }
 .dnb-checkbox--large {
   line-height: var(--checkbox-height--large);
@@ -1980,6 +2007,11 @@ html[data-whatinput=keyboard] .dnb-checkbox__focus {
   border-radius: var(--checkbox-gfx-border-radius__indeterminate);
   transition: opacity 200ms ease-out, transform 200ms ease-out;
 }
+@media (forced-colors: active) {
+  .dnb-checkbox__input ~ .dnb-checkbox__indeterminate {
+    background-color: CanvasText !important;
+  }
+}
 .dnb-checkbox__input:indeterminate ~ .dnb-checkbox__indeterminate {
   transform: scale(1);
   opacity: 1;
@@ -1998,6 +2030,11 @@ html[data-whatinput=keyboard] .dnb-checkbox__focus {
 .dnb-checkbox {
   /** Disabled state **/
 }
+@media (forced-colors: active) {
+  .dnb-checkbox__input[disabled] ~ .dnb-checkbox__button {
+    outline-color: GrayText;
+  }
+}
 .dnb-checkbox__input[disabled]:checked ~ .dnb-checkbox__button, .dnb-checkbox__input[disabled][data-checked=true] ~ .dnb-checkbox__button {
   --checkbox-color-border: var(--checkbox-color-border-on--disabled);
   background-color: var(--checkbox-color-background-on--disabled);
@@ -2005,12 +2042,22 @@ html[data-whatinput=keyboard] .dnb-checkbox__focus {
 .dnb-checkbox__input[disabled]:checked ~ .dnb-checkbox__gfx, .dnb-checkbox__input[disabled][data-checked=true] ~ .dnb-checkbox__gfx {
   color: var(--checkbox-color-gfx--disabled);
 }
+@media (forced-colors: active) {
+  .dnb-checkbox__input[disabled]:checked ~ .dnb-checkbox__gfx, .dnb-checkbox__input[disabled][data-checked=true] ~ .dnb-checkbox__gfx {
+    color: GrayText;
+  }
+}
 .dnb-checkbox__input[disabled]:not(:checked):not([data-checked=true]) ~ .dnb-checkbox__button {
   --checkbox-color-border: var(--checkbox-color-border-off--disabled);
   background-color: var(--checkbox-color-background-off--disabled);
 }
 .dnb-checkbox__input[disabled]:indeterminate ~ .dnb-checkbox__indeterminate {
   background-color: var(--checkbox-color-gfx__indeterminate--disabled);
+}
+@media (forced-colors: active) {
+  .dnb-checkbox__input[disabled]:indeterminate ~ .dnb-checkbox__indeterminate {
+    background-color: GrayText !important;
+  }
 }
 .dnb-checkbox__input[disabled]:indeterminate ~ .dnb-checkbox__button {
   background-color: var(--checkbox-color-background__indeterminate--disabled);
@@ -2219,6 +2266,11 @@ html[data-whatinput=keyboard] .dnb-checkbox__input:not([disabled]):focus ~ .dnb-
   height: calc(var(--radio-height--medium) - 0.25rem);
   border-radius: var(--token-radius-full);
 }
+@media (forced-colors: active) {
+  .dnb-radio__button {
+    outline: var(--radio-border-width, var(--radio-border-width--default)) solid transparent;
+  }
+}
 .dnb-radio--large .dnb-radio__button {
   width: var(--radio-width--large);
   height: var(--radio-height--large);
@@ -2381,6 +2433,11 @@ html[data-whatinput=keyboard] .dnb-checkbox__input:not([disabled]):focus ~ .dnb-
   opacity: 1;
   transform: scale(1);
 }
+@media (forced-colors: active) {
+  .dnb-radio__input:checked ~ .dnb-radio__dot, .dnb-radio__input[data-checked=true] ~ .dnb-radio__dot {
+    background-color: CanvasText;
+  }
+}
 .dnb-radio__input:not(:checked):not([data-checked=true]) ~ .dnb-radio__dot {
   opacity: 0;
   transform: scale(0.8);
@@ -2448,8 +2505,18 @@ html[data-whatinput=keyboard] .dnb-radio__input:focus ~ .dnb-radio__dot {
 .dnb-radio__input[disabled] ~ .dnb-radio__button:not(.dnb-skeleton) {
   --radio-color-background: var(--radio-color-background--disabled);
 }
+@media (forced-colors: active) {
+  .dnb-radio__input[disabled] ~ .dnb-radio__button {
+    outline-color: GrayText;
+  }
+}
 .dnb-radio__input[disabled] ~ .dnb-radio__dot {
   --radio-color-dot-on: var(--radio-color-dot-on--disabled);
+}
+@media (forced-colors: active) {
+  .dnb-radio__input[disabled] ~ .dnb-radio__dot {
+    background-color: GrayText;
+  }
 }
 .dnb-radio__input[disabled] ~ .dnb-radio__button.dnb-skeleton {
   --radio-color-border: var(--skeleton-color);

@@ -312,6 +312,12 @@ button .dnb-form-status__text {
     transition-duration: 0.01ms;
   }
 }
+@media (forced-colors: active) {
+  .dnb-switch__button {
+    outline: 0.125rem solid transparent;
+    outline-offset: calc(0.125rem * -1);
+  }
+}
 .dnb-switch--large .dnb-switch__button {
   width: var(--switch-button-size-off--large);
   height: var(--switch-button-size-off--large);
@@ -535,6 +541,15 @@ html[data-whatinput=keyboard] .dnb-switch__input:checked:not([disabled]):focus ~
 .dnb-switch:not(.dnb-skeleton) .dnb-switch__input[disabled]:checked ~ .dnb-switch__button {
   color: var(--switch-disabled-checked-icon);
   background-color: var(--switch-disabled-checked-button-background);
+}
+@media (forced-colors: active) {
+  .dnb-switch:not(.dnb-skeleton) .dnb-switch__input[disabled] ~ .dnb-switch__background, .dnb-switch:not(.dnb-skeleton) .dnb-switch__input[disabled]:checked ~ .dnb-switch__background {
+    border-color: GrayText;
+  }
+  .dnb-switch:not(.dnb-skeleton) .dnb-switch__input[disabled] ~ .dnb-switch__button, .dnb-switch:not(.dnb-skeleton) .dnb-switch__input[disabled]:checked ~ .dnb-switch__button {
+    color: GrayText;
+    outline-color: GrayText;
+  }
 }
 .dnb-switch--surface-dark {
   --switch-background: transparent;
