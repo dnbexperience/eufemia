@@ -83,6 +83,20 @@ describe('Radio component', () => {
     }
   )
 
+  it('does not give a single radio a name, so it is not sent with a native form', () => {
+    render(
+      <form>
+        <Radio checked label="A" />
+        <Radio checked label="B" value="b" />
+      </form>
+    )
+
+    // A generated name would also stop the arrow keys from moving between
+    // single radios, but it would add these radios to the form data.
+    const form = document.querySelector('form')
+    expect(Array.from(new FormData(form).entries())).toEqual([])
+  })
+
   it('keeps the native arrow keys for radios with a name or in a group', () => {
     render(
       <>
