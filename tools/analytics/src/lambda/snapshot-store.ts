@@ -197,7 +197,7 @@ export async function storeDailyRollup(
         Bucket: bucket,
         Key: `${prefix}dt=${dt}/agg.json`,
         Body: dtRows
-          .map(({ dt, ...row }) => JSON.stringify(row))
+          .map(({ dt: _dt, ...row }) => JSON.stringify(row))
           .join('\n'),
         ContentType: 'application/x-ndjson',
       })
