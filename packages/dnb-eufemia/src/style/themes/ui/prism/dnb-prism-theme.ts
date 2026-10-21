@@ -20,7 +20,9 @@ const prismTheme = {
     {
       types: ['deleted'],
       style: {
-        color: 'var(--token-color-icon-error)',
+        // No error token has enough contrast on the dark Pre background
+        color:
+          'color-mix(in srgb, var(--token-color-icon-error), var(--token-color-text-neutral-ondark))',
         fontStyle: italic,
       },
     },
