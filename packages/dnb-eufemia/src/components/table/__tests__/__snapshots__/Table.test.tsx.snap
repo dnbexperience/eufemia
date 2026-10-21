@@ -656,7 +656,7 @@ html:not([data-whatintent=touch]) .dnb-table__td__button:hover:not([disabled]) .
   /* stylelint-enable */
 }
 
-.dnb-table__td--selected .dnb-table__td__button:not(:hover):not(:active)::before {
+.dnb-table__td--selected .dnb-table__td__button:not(:hover):not(:active):not(:focus-visible)::before {
   --border-width: var(--table-accordion-outline-width--active);
   --border-color: var(--token-color-stroke-selected);
 }
