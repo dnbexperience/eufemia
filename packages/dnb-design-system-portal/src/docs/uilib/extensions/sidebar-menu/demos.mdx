@@ -40,3 +40,11 @@ Drag the demo viewport to the medium breakpoint or narrower to reveal the hambur
 This example remembers desktop dismissal in session storage using `inlineCollapsedStorageKey`. Reload the page to try it.
 
 <Examples.SidebarMenuToggle />
+
+### External content control
+
+Turn on the Payments app to add its navigation to the application shell. Receive notifications to update its badge, then turn the app off to remove its contribution. The shell's Home item stays in place.
+
+Open “Try loading order” to let the Payments app load before the sidebar. Its contribution appears when the sidebar mounts. The app uses `transformContent()` without a shared provider; the same calls work from a separate React root or bundle in the same window. See [Content controlled by micro frontends](/uilib/extensions/sidebar-menu#content-controlled-by-micro-frontends) for replacing the entire menu with `setContent()`.
+
+<Examples.SidebarMenuContentController />

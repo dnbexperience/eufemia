@@ -136,12 +136,44 @@ export type SidebarMenuRootProps = {
 } & SpacingProps &
   Omit<HTMLAttributes<HTMLElement>, 'children'>
 
-export type SidebarMenuDataProps = Omit<SidebarMenuRootProps, 'children'> &
-  (
-    | { data: SidebarMenuItemData[]; sections?: never }
-    | { sections: SidebarMenuSectionData[]; data?: never }
-    | { data?: never; sections?: never }
-  )
+export type SidebarMenuContent =
+  | { data: SidebarMenuItemData[]; sections?: never }
+  | { sections: SidebarMenuSectionData[]; data?: never }
+
+export type SidebarMenuContentOptions = {
+  /** Stable registration key owned by the calling application. */
+  key: string
+}
+
+export type SidebarMenuTransformOptions = SidebarMenuContentOptions & {
+  /** Transformations run in ascending order, then by key. Default: 0. */
+  order?: number
+}
+
+export type SidebarMenuContentTransform = (
+  content: SidebarMenuContent
+) => SidebarMenuContent
+
+export type SidebarMenuController = {
+  /** Replaces menu content until the returned cleanup function is called. */
+  setContent: (
+    content: SidebarMenuContent,
+    options: SidebarMenuContentOptions
+  ) => () => void
+  /** Registers a pure transformation until the returned cleanup function is called. */
+  transformContent: (
+    transform: SidebarMenuContentTransform,
+    options: SidebarMenuTransformOptions
+  ) => () => void
+}
+
+export type SidebarMenuDataProps = Omit<
+  SidebarMenuRootProps,
+  'children'
+> & {
+  /** Named content controller shared with other applications in the same window. */
+  controllerId?: string
+} & (SidebarMenuContent | { data?: never; sections?: never })
 
 export type SidebarMenuItemProps = {
   /**

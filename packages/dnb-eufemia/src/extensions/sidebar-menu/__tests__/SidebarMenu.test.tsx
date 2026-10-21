@@ -66,6 +66,7 @@ describe('SidebarMenu', () => {
         'ResponsiveTrigger',
         'useResponsive',
         'getPreHydrationScript',
+        'getController',
       ].sort()
     )
   })

@@ -1,6 +1,14 @@
 import ComponentBox from '../../../../shared/tags/ComponentBox'
-import { useState } from 'react'
-import { H2, P } from '@dnb/eufemia/src'
+import { useEffect, useId, useState } from 'react'
+import {
+  Accordion,
+  Button,
+  Card,
+  Flex,
+  H2,
+  P,
+  Switch,
+} from '@dnb/eufemia/src'
 import { SidebarMenu } from '@dnb/eufemia/src/extensions'
 import type {
   SidebarMenuItemData,
@@ -168,6 +176,127 @@ export function SidebarMenuDeclarative() {
           </SidebarMenu.Header>
         </SidebarMenu.Section>
       </SidebarMenu.Root>
+    </ComponentBox>
+  )
+}
+
+export function SidebarMenuContentController() {
+  return (
+    <ComponentBox hideCode scope={{ useId, home, pay_from, styles }}>
+      {() => {
+        function PaymentsApp({ controllerId }: { controllerId: string }) {
+          const [notifications, setNotifications] = useState(0)
+
+          useEffect(() => {
+            return SidebarMenu.getController(
+              controllerId
+            ).transformContent(
+              (content) => ({
+                data: [
+                  ...(content.data ?? []),
+                  {
+                    id: 'payments',
+                    text: 'Payments',
+                    icon: pay_from,
+                    badge: notifications || undefined,
+                    badgeProps: {
+                      variant: 'notification',
+                      label: 'Notifications:',
+                    },
+                  },
+                ],
+              }),
+              { key: 'payments:navigation' }
+            )
+          }, [controllerId, notifications])
+
+          return (
+            <Flex.Stack layoutEngine="css">
+              <P>The app adds Payments to the shell's navigation.</P>
+              <Button
+                text="Receive notification"
+                variant="secondary"
+                onClick={() => setNotifications((count) => count + 1)}
+              />
+              <P role="status">
+                {notifications === 0
+                  ? 'No new notifications.'
+                  : notifications +
+                    ' new notification' +
+                    (notifications === 1 ? '.' : 's.')}
+              </P>
+            </Flex.Stack>
+          )
+        }
+
+        function Example() {
+          const id = useId()
+          const [appActive, setAppActive] = useState(false)
+          const [showSidebar, setShowSidebar] = useState(true)
+
+          return (
+            <div
+              className={styles.contentControllerExample}
+              data-sidebar-menu-content-controller-example
+            >
+              <div className={styles.contentController}>
+                <Card
+                  layoutEngine="css"
+                  stack
+                  title="Application shell"
+                  alignSelf="flex-start"
+                  responsive={false}
+                >
+                  <P>The shell owns the sidebar and its Home item.</P>
+                  {showSidebar ? (
+                    <SidebarMenu.Data
+                      controllerId={id}
+                      aria-label="Application shell navigation"
+                      data={[{ id: 'home', text: 'Home', icon: home }]}
+                    />
+                  ) : (
+                    <P>The sidebar is not mounted.</P>
+                  )}
+                </Card>
+                <Card
+                  layoutEngine="css"
+                  stack
+                  title="Micro frontend"
+                  alignSelf="flex-start"
+                  responsive={false}
+                >
+                  <Switch
+                    label="Payments app"
+                    checked={appActive}
+                    onChange={({ checked }) => setAppActive(checked)}
+                  />
+                  {appActive ? (
+                    <PaymentsApp controllerId={id} />
+                  ) : (
+                    <P>Turn on the app to add Payments to the sidebar.</P>
+                  )}
+                </Card>
+              </div>
+              <Accordion title="Try loading order">
+                <Flex.Stack layoutEngine="css">
+                  <P>
+                    Hide the sidebar, turn on Payments, then show the
+                    sidebar again. The app's navigation is ready when the
+                    sidebar mounts.
+                  </P>
+                  <Switch
+                    label="Show sidebar"
+                    checked={showSidebar}
+                    onChange={({ checked }) => setShowSidebar(checked)}
+                  />
+                </Flex.Stack>
+              </Accordion>
+            </div>
+          )
+        }
+
+        return <Example />
+      }}
     </ComponentBox>
   )
 }

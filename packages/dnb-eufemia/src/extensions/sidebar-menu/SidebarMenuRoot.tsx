@@ -310,8 +310,15 @@ function SidebarMenuRoot(props: SidebarMenuRootProps) {
   const declarativeSections = findDeclarativeSections(children)
   const hasSections = Boolean(declarativeSections.length)
   const firstSectionId = declarativeSections[0]?.props.id
+  const hasSection = (id: string) =>
+    declarativeSections.some(({ props }) => props.id === id)
   const resolvedActiveSection =
-    activeSection ?? internalActiveSection ?? firstSectionId
+    activeSection ??
+    (hasSection(internalActiveSection)
+      ? internalActiveSection
+      : hasSection(defaultActiveSection)
+        ? defaultActiveSection
+        : firstSectionId)
 
   useEffect(() => {
     if (

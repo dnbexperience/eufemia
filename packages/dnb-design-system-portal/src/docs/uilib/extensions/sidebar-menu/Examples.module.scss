@@ -10,3 +10,15 @@
 .responsiveContent {
   padding: 2rem;
 }
+
+.contentControllerExample {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.contentController {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+  align-items: start;
+  gap: 1rem;
+}
