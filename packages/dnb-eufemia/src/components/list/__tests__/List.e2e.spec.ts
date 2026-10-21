@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test'
+import { PNG } from 'pngjs'
 
 for (const width of [400, 1024]) {
   const minimumLongRowHeight = width === 400 ? 80 : 64
@@ -46,7 +47,9 @@ for (const width of [400, 1024]) {
       await footer.click({ position: { x: 8, y: 8 } })
       await expect(page.getByRole('dialog')).toHaveCount(0)
       await save.click()
-      await expect(item.getByRole('status')).toHaveText('Saved')
+      await expect(example).not.toContainText('Saved')
+      await expect(example).not.toContainText('Payment history details.')
+      await expect(example).not.toContainText('Help with payments.')
       await expect(page.getByRole('dialog')).toHaveCount(0)
 
       await trigger.focus()
@@ -175,6 +178,263 @@ for (const width of [400, 1024]) {
           .first()
         await expect(first).not.toHaveCSS('border-top-left-radius', '0px')
         await expect(first).not.toHaveCSS('border-top-right-radius', '0px')
+      }
+    })
+
+    test('only highlights the primary action for keyboard focus', async ({
+      page,
+      browserName,
+    }) => {
+      await page.goto('/uilib/components/list/visual-tests/action-footer/')
+      await page.waitForFunction(() =>
+        document.documentElement.hasAttribute('data-portal-ready')
+      )
+      const rows = page.locator(
+        '[data-visual-test="list-action-footer"] .dnb-list__item__action'
+      )
+      await page.mouse.move(0, 0)
+
+      for (const row of [rows.first(), rows.last()]) {
+        const primary = row.locator(':scope > [role="button"], :scope > a')
+        const footer = row.locator(
+          '.dnb-list__item__footer button, .dnb-list__item__footer a'
+        )
+        await primary.focus()
+        await page.keyboard.press(
+          browserName === 'webkit' ? 'Alt+Tab' : 'Tab'
+        )
+        await expect(footer).toBeFocused()
+        expect(
+          await footer.evaluate((element) =>
+            element.matches(':focus-visible')
+          )
+        ).toBe(true)
+        expect(
+          await row.evaluate(
+            (element) =>
+              getComputedStyle(element, '::after').borderTopWidth
+          )
+        ).toBe('1px')
+
+        await page.keyboard.press(
+          browserName === 'webkit' ? 'Alt+Shift+Tab' : 'Shift+Tab'
+        )
+        await expect(primary).toBeFocused()
+        expect(
+          await row.evaluate(
+            (element) =>
+              getComputedStyle(element, '::after').borderTopWidth
+          )
+        ).toBe('2px')
+
+        await primary.evaluate((element: HTMLElement) => element.blur())
+        await footer.hover()
+        expect(
+          await row.evaluate(
+            (element) =>
+              getComputedStyle(element, '::after').borderTopWidth
+          )
+        ).toBe('2px')
+        await page.mouse.move(0, 0)
+      }
+    })
+
+    for (const colorScheme of ['light', 'dark']) {
+      test(
+        'keeps the accordion hover outline after mouse navigation in ' +
+          colorScheme,
+        async ({ page }) => {
+          await page.addInitScript((colorScheme) => {
+            window['IS_TEST'] = true
+            localStorage.setItem(
+              'eufemia-theme',
+              JSON.stringify({ colorScheme })
+            )
+          }, colorScheme)
+          await page.goto(
+            '/uilib/components/list/visual-tests/action-footer/'
+          )
+          await page.waitForFunction(() =>
+            document.documentElement.hasAttribute('data-portal-ready')
+          )
+          const example = page.locator(
+            '[data-visual-test="list-action-footer"]'
+          )
+          await expect(page.locator('body')).toHaveClass(
+            new RegExp('eufemia-theme__color-scheme--' + colorScheme)
+          )
+          const accordion = example
+            .locator('.dnb-list__item__accordion')
+            .first()
+          const header = example.getByRole('button', {
+            name: 'Payments',
+            exact: true,
+          })
+          const rows = example.locator('.dnb-list__item__action')
+
+          for (const [index, row] of [
+            rows.first(),
+            rows.last(),
+          ].entries()) {
+            await row
+              .locator(':scope > a, :scope > [role="button"]')
+              .click()
+            if (index === 0) {
+              const drawer = page.getByRole('dialog')
+              await expect(drawer).toBeVisible()
+              await drawer.getByRole('button').first().click()
+              await expect(drawer).toHaveCount(0)
+            } else {
+              await expect(page).toHaveURL(/#footer-details$/)
+            }
+
+            await header.hover()
+            expect(
+              await row.evaluate((element) =>
+                element.matches(':focus-within')
+              )
+            ).toBe(true)
+            expect(
+              await row.evaluate(
+                (element) =>
+                  element.matches(':focus-visible') ||
+                  !!element.querySelector(':focus-visible')
+              )
+            ).toBe(false)
+            const color = await accordion.evaluate(
+              (element) =>
+                getComputedStyle(element, '::after').borderLeftColor
+            )
+            const rgb = color
+              .match(/[0-9]+/g)
+              .slice(0, 3)
+              .map(Number)
+            const parentBox = await accordion.boundingBox()
+            const rowBox = await row.boundingBox()
+            const screenshot = PNG.sync.read(await accordion.screenshot())
+            const y = Math.round(
+              rowBox.y - parentBox.y + rowBox.height / 2
+            )
+            const { width, data } = screenshot
+
+            for (const x of [0, 1, width - 2, width - 1]) {
+              const offset = (y * width + x) * 4
+              expect(
+                Array.from(data.subarray(offset, offset + 3))
+              ).toEqual(rgb)
+            }
+          }
+        }
+      )
+    }
+
+    test('keeps the Payments header and chevron fixed when toggled', async ({
+      page,
+    }) => {
+      await page.goto('/uilib/components/list/visual-tests/action-footer/')
+      await page.waitForFunction(() =>
+        document.documentElement.hasAttribute('data-portal-ready')
+      )
+      const example = page.locator(
+        '[data-visual-test="list-action-footer"]'
+      )
+      const header = example.getByRole('button', {
+        name: 'Payments',
+        exact: true,
+      })
+      const measure = () =>
+        header.evaluate((element) => {
+          const header = element.getBoundingClientRect()
+          const chevron = element
+            .querySelector('.dnb-list__item__chevron')
+            .getBoundingClientRect()
+          return {
+            height: header.height,
+            chevron: chevron.top - header.top,
+          }
+        })
+      const open = await measure()
+
+      await header.click()
+      await expect(header).toHaveAttribute('aria-expanded', 'false')
+      await expect(example.locator('.dnb-list__item__action')).toHaveCount(
+        0
+      )
+      expect(await measure()).toEqual(open)
+
+      await header.click()
+      await expect(header).toHaveAttribute('aria-expanded', 'true')
+      await expect(
+        example.locator('.dnb-list__item__action').first()
+      ).toBeVisible()
+      expect(await measure()).toEqual(open)
+    })
+
+    test('paints the full nested side and bottom hover and focus outline', async ({
+      page,
+    }) => {
+      await page.goto('/uilib/components/list/visual-tests/action-footer/')
+      await page.waitForFunction(() =>
+        document.documentElement.hasAttribute('data-portal-ready')
+      )
+      const example = page.locator(
+        '[data-visual-test="list-action-footer"]'
+      )
+      const rows = example.locator('.dnb-list__item__action')
+
+      const accordion = example
+        .locator('.dnb-list__item__accordion')
+        .first()
+      for (const [index, row] of [
+        rows.first(),
+        rows.last(),
+        accordion,
+      ].entries()) {
+        for (const state of ['hover', 'focus']) {
+          if (state === 'hover') {
+            await row
+              .locator(':scope > [role="button"], :scope > a')
+              .hover()
+          } else {
+            await page.mouse.move(0, 0)
+            await row
+              .locator(':scope > [role="button"], :scope > a')
+              .focus()
+            await page.keyboard.press('Tab')
+            await row
+              .locator(':scope > [role="button"], :scope > a')
+              .focus()
+          }
+          const color = await row.evaluate(
+            (element) =>
+              getComputedStyle(element, '::after').borderLeftColor
+          )
+          const rgb = color
+            .match(/[0-9]+/g)
+            .slice(0, 3)
+            .map(Number)
+          const screenshot = PNG.sync.read(await row.screenshot())
+          const { width, height, data } = screenshot
+          const points = [
+            [0, Math.floor(height / 2)],
+            [1, Math.floor(height / 2)],
+            [width - 2, Math.floor(height / 2)],
+            [width - 1, Math.floor(height / 2)],
+          ]
+          if (index > 0) {
+            points.push(
+              [Math.floor(width / 2), height - 2],
+              [Math.floor(width / 2), height - 1]
+            )
+          }
+
+          for (const [x, y] of points) {
+            const offset = (y * width + x) * 4
+            expect(Array.from(data.subarray(offset, offset + 3))).toEqual(
+              rgb
+            )
+          }
+        }
       }
     })
 

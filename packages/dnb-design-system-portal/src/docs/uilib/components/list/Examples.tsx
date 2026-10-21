@@ -200,7 +200,6 @@ export const ActionWithFooter = () => (
     {() => {
       const Example = () => {
         const [open, setOpen] = useState(false)
-        const [saved, setSaved] = useState(false)
 
         return (
           <>
@@ -215,14 +214,10 @@ export const ActionWithFooter = () => (
                         <List.Cell.Footer
                           style={{ justifyContent: 'flex-end' }}
                         >
-                          <Flex.Horizontal>
-                            <Span role="status">{saved && 'Saved'}</Span>
-                            <Button
-                              variant="secondary"
-                              text="Save payment"
-                              onClick={() => setSaved(true)}
-                            />
-                          </Flex.Horizontal>
+                          <Button
+                            variant="secondary"
+                            text="Save payment"
+                          />
                         </List.Cell.Footer>
                       }
                     >
@@ -236,10 +231,13 @@ export const ActionWithFooter = () => (
                     </List.Item.Action>
                     <List.Item.Action
                       title="Payment history"
+                      id="footer-details"
                       href="#footer-details"
                       footer={
                         <List.Cell.Footer>
-                          <Anchor href="#footer-help">Payment help</Anchor>
+                          <Anchor id="footer-help" href="#footer-help">
+                            Payment help
+                          </Anchor>
                         </List.Cell.Footer>
                       }
                     />
@@ -255,8 +253,6 @@ export const ActionWithFooter = () => (
             >
               <P>Details about the payment.</P>
             </Drawer>
-            <P id="footer-details">Payment history details.</P>
-            <P id="footer-help">Help with payments.</P>
           </>
         )
       }

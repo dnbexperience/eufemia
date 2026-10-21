@@ -101,12 +101,32 @@ describe.each(['ui', 'sbanken'])(`List for %s`, (themeName) => {
     })
   })
 
+  it('have to match the last action footer focus', async () => {
+    await makeScreenshot({
+      style: { width: '30rem' },
+      selector: '[data-visual-test="list-action-footer"]',
+      simulateSelector:
+        '[data-visual-test="list-action-footer"] .dnb-list__item__action:last-child > a',
+      simulate: 'focus',
+    })
+  })
+
   it('have to match the independent footer button focus', async () => {
     await makeScreenshot({
       style: { width: '30rem' },
       selector: '[data-visual-test="list-action-footer"]',
       simulateSelector:
         '[data-visual-test="list-action-footer"] .dnb-list__item__footer button',
+      simulate: 'focus',
+    })
+  })
+
+  it('have to match the independent footer link focus', async () => {
+    await makeScreenshot({
+      style: { width: '30rem' },
+      selector: '[data-visual-test="list-action-footer"]',
+      simulateSelector:
+        '[data-visual-test="list-action-footer"] .dnb-list__item__footer a',
       simulate: 'focus',
     })
   })

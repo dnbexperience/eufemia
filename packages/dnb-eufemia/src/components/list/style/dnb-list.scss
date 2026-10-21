@@ -173,8 +173,11 @@
       }
     }
 
-    &:has(#{&}__footer),
-    &:has(#{&}__footer) &__accordion__header {
+    &:has(> #{&}__footer),
+    &__action:has(> #{&}__action__button > #{&}__footer),
+    &__action:has(> a > #{&}__footer),
+    &__accordion:has(> #{&}__footer) > #{&}__accordion__header,
+    &__accordion__header:has(> #{&}__footer) {
       padding-bottom: 0;
     }
 
@@ -411,7 +414,10 @@
 
       // Handle action states
       &:not(.dnb-list__item--disabled):hover,
-      &:not(.dnb-list__item--disabled):has(:focus-visible) {
+      &:not(.dnb-list__item--disabled):has(
+          > a:focus-visible,
+          > .dnb-list__item__action__button:focus-visible
+        ) {
         --list-item-outline-color: var(
           --list-item-navigation-outline-color
         );
@@ -532,6 +538,13 @@
           border-top-left-radius: 0;
           border-top-right-radius: 0;
         }
+      }
+
+      // Only raise a nested row when its own outline is visible.
+      &
+        > #{&}__content
+        .dnb-list__item:is(:hover, :has(> :focus-visible)) {
+        z-index: 11;
       }
     }
 
