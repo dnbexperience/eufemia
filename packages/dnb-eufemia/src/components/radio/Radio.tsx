@@ -211,6 +211,14 @@ function RadioComponent({ ref: externalRef, ...ownProps }: RadioProps) {
           // Browsers do not uncheck a checked native radio on Space
           event.preventDefault()
           onChangeHandler(event)
+        } else if (key.startsWith('Arrow') && isSingle()) {
+          // Browsers treat all radios without a name as one group, so an
+          // arrow key would move to and check another radio on the page.
+          // Trade-off: the arrow keys also do not scroll the page while this
+          // radio has focus (they did before #9959). A generated name per
+          // radio would keep the scroll, but it would send the radio with
+          // native form data, so we do not set one.
+          event.preventDefault()
         }
       } else if (isContextGroupOrSingle()) {
         if (key === 'Enter' || key === ' ') {
