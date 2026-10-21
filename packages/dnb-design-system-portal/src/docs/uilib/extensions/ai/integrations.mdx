@@ -78,7 +78,7 @@ See the [live announcement demo](/uilib/extensions/ai/demos/#streamed-reply-anno
 | `error`    | Work failed.                                  |
 | `canceled` | Work was canceled or permission was declined. |
 
-An `Ai.Task` only displays status and children. Map your framework's tool calls to a task; Eufemia does not run the tool. For a tool requiring approval, render your confirmation controls as children and send the decision through your framework's approval API. Only show `done` when execution has completed. The examples below display approval states; add your application's decision controls before enabling tools that require approval.
+An `Ai.Task` only displays status and children. Map your framework's tool calls to a task; Eufemia does not run the tool. For a tool requiring approval, render [Ai.Confirmation](/uilib/extensions/ai/Confirmation/) or your own confirmation controls as children and send the decision through your framework's approval API. Only show `done` when execution has completed. The examples below display approval states; add your application's decision controls before enabling tools that require approval.
 
 ## AI SDK
 

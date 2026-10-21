@@ -3,6 +3,14 @@ import type nbNO from './nb-NO'
 export default {
   'en-GB': {
     Ai: {
+      confirmationYes: 'Yes',
+      confirmationNo: 'No',
+      confirmationPending: 'Awaiting confirmation',
+      confirmationRequired: 'Required',
+      confirmationConfirmed: 'Confirmed',
+      confirmationDeclined: 'Declined',
+      confirmationExpired: 'Expired',
+
       undo: 'Undo',
       undoAvailable: '%action available.',
       undoAvailableFor: '%action available for %seconds seconds.',

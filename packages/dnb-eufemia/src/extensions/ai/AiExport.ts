@@ -1,5 +1,6 @@
 export * from './types'
 export { default as AgentAction } from './AiAgentAction'
+export { default as Confirmation } from './AiConfirmation'
 export { default as Response } from './AiResponse'
 export { default as Message } from './AiMessage'
 export { default as MessageIndicator } from './AiMessageIndicator'

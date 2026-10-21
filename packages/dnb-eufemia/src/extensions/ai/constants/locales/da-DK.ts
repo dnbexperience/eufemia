@@ -3,6 +3,14 @@ import type nbNO from './nb-NO'
 export default {
   'da-DK': {
     Ai: {
+      confirmationYes: 'Ja',
+      confirmationNo: 'Nej',
+      confirmationPending: 'Venter på bekræftelse',
+      confirmationRequired: 'Påkrævet',
+      confirmationConfirmed: 'Bekræftet',
+      confirmationDeclined: 'Afvist',
+      confirmationExpired: 'Udløbet',
+
       undo: 'Fortryd',
       undoAvailable: '%action er tilgængelig.',
       undoAvailableFor: '%action er tilgængelig i %seconds sekunder.',
