@@ -14,6 +14,9 @@ for (const width of [400, 1024]) {
         window['IS_TEST'] = true
       })
       await page.goto('/uilib/components/list/visual-tests/action-footer/')
+      await page.waitForFunction(() =>
+        document.documentElement.hasAttribute('data-portal-ready')
+      )
 
       const example = page.locator(
         '[data-visual-test="list-action-footer"]'
@@ -47,7 +50,11 @@ for (const width of [400, 1024]) {
       await expect(page.getByRole('dialog')).toHaveCount(0)
 
       await trigger.focus()
-      await expect(item).toHaveCSS('--list-item-outline-width', '0.125rem')
+      expect(
+        await item.evaluate(
+          (element) => getComputedStyle(element, '::after').borderTopWidth
+        )
+      ).toBe('2px')
       await page.keyboard.press(
         browserName === 'webkit' ? 'Alt+Tab' : 'Tab'
       )
@@ -76,6 +83,9 @@ for (const width of [400, 1024]) {
       browserName,
     }) => {
       await page.goto('/uilib/components/list/visual-tests/action-footer/')
+      await page.waitForFunction(() =>
+        document.documentElement.hasAttribute('data-portal-ready')
+      )
 
       const item = page
         .locator(
@@ -118,6 +128,9 @@ for (const width of [400, 1024]) {
       page,
     }) => {
       await page.goto('/uilib/components/list/visual-tests/action-footer/')
+      await page.waitForFunction(() =>
+        document.documentElement.hasAttribute('data-portal-ready')
+      )
 
       const example = page.locator(
         '[data-visual-test="list-action-footer"]'
@@ -165,12 +178,15 @@ for (const width of [400, 1024]) {
       }
     })
 
-    test('excludes disabled and pending footer controls from keyboard navigation', async ({
+    test('keeps disabled footer content available to screen readers', async ({
       page,
     }) => {
       await page.goto('/uilib/components/list/visual-tests/action-footer/')
+      await page.waitForFunction(() =>
+        document.documentElement.hasAttribute('data-portal-ready')
+      )
 
-      for (const state of ['disabled', 'pending', 'inherited-disabled']) {
+      for (const state of ['disabled', 'inherited-disabled']) {
         const item = page.getByTestId(state)
         const footerButton = item.locator('button')
         await expect(footerButton).toBeVisible()
@@ -178,11 +194,62 @@ for (const width of [400, 1024]) {
           element.focus()
         )
         await expect(footerButton).not.toBeFocused()
+        await expect(footerButton).toBeDisabled()
+        await expect(
+          item.getByRole('button', { name: 'Unavailable action' })
+        ).toHaveCount(1)
+        const snapshot = await item.ariaSnapshot()
+        expect(snapshot).toContain('Footer details')
+        expect(snapshot).toContain('Unavailable action')
+        expect(snapshot).toContain('Footer help')
+        await expect(item.locator('a')).not.toHaveAttribute('href')
         await expect(item.locator('[role="button"]')).toHaveAttribute(
           'tabindex',
           '-1'
         )
       }
+    })
+
+    test('preserves focus and footer interaction while the item is pending', async ({
+      page,
+      browserName,
+    }) => {
+      await page.goto('/uilib/components/list/visual-tests/action-footer/')
+      await page.waitForFunction(() =>
+        document.documentElement.hasAttribute('data-portal-ready')
+      )
+
+      const item = page.getByTestId('pending-footer')
+      const save = item.getByRole('button', { name: 'Save', exact: true })
+      const finish = item.getByRole('button', { name: 'Finish saving' })
+
+      await save.focus()
+      await page.keyboard.press('Enter')
+      await expect(item.locator('.dnb-list__item')).toHaveClass(
+        /dnb-list__item--pending/
+      )
+      await expect(save).toBeFocused()
+      await expect(save).toBeEnabled()
+      expect(await item.ariaSnapshot()).toContain('Finish saving')
+
+      await page.keyboard.press(
+        browserName === 'webkit' ? 'Alt+Tab' : 'Tab'
+      )
+      await expect(finish).toBeFocused()
+      await page.keyboard.press('Enter')
+      await expect(item.locator('.dnb-list__item')).not.toHaveClass(
+        /dnb-list__item--pending/
+      )
+      await expect(finish).toBeFocused()
+
+      await save.click()
+      await expect(item.locator('.dnb-list__item')).toHaveClass(
+        /dnb-list__item--pending/
+      )
+      await finish.click()
+      await expect(item.locator('.dnb-list__item')).not.toHaveClass(
+        /dnb-list__item--pending/
+      )
     })
 
     test('pads plain text and title-only rows on both sides', async ({

@@ -391,7 +391,7 @@ export const ItemActionProperties: PropertiesTableProps = {
     status: 'optional',
   },
   footer: {
-    doc: 'Use `List.Cell.Footer` to place secondary actions outside the primary button or link, within the same list item and border. Clicking or using the keyboard in the footer does not activate the primary action. Footer controls are inert while the item is disabled or pending.',
+    doc: "Use `List.Cell.Footer` to place secondary actions outside the primary button or link, within the same list item and border. Clicking or using the keyboard in the footer does not activate the primary action. Eufemia buttons and links inherit the item's disabled state. Footer controls remain available while pending; manage their loading and disabled states individually.",
     type: 'React.ReactNode',
     status: 'optional',
   },

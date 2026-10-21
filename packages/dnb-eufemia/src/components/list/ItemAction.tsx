@@ -33,7 +33,7 @@ export type ItemActionProps<E extends ElementType = 'a'> = {
   icon?: IconIcon
   title?: ReactNode
   /**
-   * Use `List.Cell.Footer` to place secondary actions outside the primary button or link, within the same list item and border. Clicking or using the keyboard in the footer does not activate the primary action. Footer controls are inert while the item is disabled or pending.
+   * Use `List.Cell.Footer` to place secondary actions outside the primary button or link, within the same list item and border. Clicking or using the keyboard in the footer does not activate the primary action. Eufemia buttons and links inherit the item's disabled state. Footer controls remain available while pending; manage their loading and disabled states individually.
    */
   footer?: ReactNode
   href?: string
@@ -158,7 +158,9 @@ function ItemAction<E extends ElementType = 'a'>(
     </>
   )
   const footerContent = hasFooter && (
-    <ActionFooter inactive={isInactive}>{footer}</ActionFooter>
+    <FlexItem className="dnb-list__item__action__footer">
+      <ActionFooter disabled={appliedDisabled}>{footer}</ActionFooter>
+    </FlexItem>
   )
 
   if (href || to) {
@@ -251,37 +253,30 @@ const listChevronIcon = Icon.transition({
 export default ItemAction
 
 function ActionFooter({
-  inactive,
+  disabled,
   children,
 }: {
-  inactive?: boolean
+  disabled?: boolean
   children: ReactNode
 }) {
   const context = useContext(Context)
 
   return (
-    <FlexItem
-      className="dnb-list__item__action__footer"
-      inert={inactive || undefined}
+    <Context
+      value={
+        disabled
+          ? {
+              ...context,
+              Button: { ...context.Button, disabled: true },
+              Anchor: { ...context.Anchor, disabled: true },
+            }
+          : context
+      }
     >
-      <Context
-        value={
-          inactive
-            ? {
-                ...context,
-                Button: { ...context.Button, disabled: true },
-                Anchor: { ...context.Anchor, disabled: true },
-              }
-            : context
-        }
-      >
-        {children}
-      </Context>
-    </FlexItem>
+      {children}
+    </Context>
   )
 }
-
-withComponentMarkers(ActionFooter, { _supportsSpacingProps: true })
 
 export function ChevronIcon({ expanded }: { expanded?: boolean }) {
   const isAccordion = expanded !== undefined

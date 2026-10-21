@@ -461,6 +461,10 @@
         grid-template: 'footer' auto / minmax(0, 1fr);
         min-width: 0;
 
+        .dnb-list__item--pending > & {
+          pointer-events: auto;
+        }
+
         > .dnb-list__item__footer,
         > .dnb-list__item__footer-separator {
           margin-top: 0;

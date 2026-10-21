@@ -874,28 +874,33 @@ describe('ItemAction', () => {
       expect(onKeyDown).toHaveBeenCalledTimes(1)
     })
 
-    it.each(['disabled', 'pending'] as const)(
-      'makes the footer inert when %s',
-      (state) => {
-        render(
-          <ItemAction
-            title="Show details"
-            href={href}
-            {...{ [state]: true }}
-            footer={
-              <ItemFooter>
-                <Button text="Save" />
-              </ItemFooter>
-            }
-          />
-        )
+    it('disables Eufemia footer controls without hiding its content', () => {
+      render(
+        <ItemAction
+          title="Show details"
+          href={href}
+          disabled
+          footer={
+            <ItemFooter>
+              Footer details
+              <Button text="Save" />
+              <Anchor href="#help">Help</Anchor>
+            </ItemFooter>
+          }
+        />
+      )
 
-        const button = document.querySelector('button')
+      const button = document.querySelector('button')
 
-        expect(button.closest('[inert]')).toBeInTheDocument()
-        expect(button).toBeDisabled()
-      }
-    )
+      expect(button.closest('[inert]')).toBeNull()
+      expect(button).toBeDisabled()
+      expect(
+        document.querySelector('.dnb-list__item__footer')
+      ).toHaveTextContent('Footer details')
+      expect(
+        document.querySelector('.dnb-list__item__footer a')
+      ).not.toHaveAttribute('href')
+    })
 
     it('inherits the disabled state for the footer', () => {
       render(
@@ -914,10 +919,11 @@ describe('ItemAction', () => {
 
       expect(
         document.querySelector('button').closest('[inert]')
-      ).toBeInTheDocument()
+      ).toBeNull()
+      expect(document.querySelector('button')).toBeDisabled()
     })
 
-    it('restores footer interaction after pending ends', () => {
+    it('keeps footer controls enabled while pending', () => {
       const footer = (
         <ItemFooter>
           <Button text="Save" />
@@ -932,9 +938,17 @@ describe('ItemAction', () => {
         />
       )
 
+      const button = document.querySelector('button')
+      button.focus()
+      expect(button).toBeEnabled()
+      expect(button.closest('[inert]')).toBeNull()
+
       rerender(
         <ItemAction title="Show details" href={href} footer={footer} />
       )
+
+      expect(document.activeElement).toBe(button)
+      expect(button).toBeEnabled()
 
       expect(
         document.querySelector('button').closest('[inert]')

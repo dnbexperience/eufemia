@@ -5,7 +5,8 @@ search: false
 ---
 
 import { ActionWithFooter } from '../Examples'
-import { Button, List } from '@dnb/eufemia/src'
+import { Anchor, Button, List } from '@dnb/eufemia/src'
+import { useState } from 'react'
 
 <ActionWithFooter />
 
@@ -36,9 +37,32 @@ import { Button, List } from '@dnb/eufemia/src'
       pending={state === 'pending'}
       footer={
         <List.Cell.Footer>
+          Footer details
           <Button text="Unavailable action" />
+          <Anchor href="#footer-help">Footer help</Anchor>
         </List.Cell.Footer>
       }
     />
   </List.Container>
 ))}
+
+export const PendingFooter = () => {
+  const [pending, setPending] = useState(false)
+
+return (
+<List.Container data-testid="pending-footer">
+<List.Item.Action
+title="Payment"
+pending={pending}
+footer={
+<List.Cell.Footer>
+<Button text="Save" onClick={() => setPending(true)} />
+<Button text="Finish saving" onClick={() => setPending(false)} />
+</List.Cell.Footer>
+}
+/>
+</List.Container>
+)
+}
+
+<PendingFooter />
