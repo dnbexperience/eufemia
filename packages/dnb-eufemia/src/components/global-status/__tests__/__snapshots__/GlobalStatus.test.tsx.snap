@@ -1357,9 +1357,13 @@ button.dnb-button::-moz-focus-inner {
   --text-color: var(--token-color-text-neutral);
   --background-color: var(--token-color-background-error-subtle);
 }
-.dnb-section--information, .dnb-section--success {
+.dnb-section--information {
   --text-color: var(--token-color-text-neutral);
   --background-color: var(--token-color-background-info-subtle);
+}
+.dnb-section--success {
+  --text-color: var(--token-color-text-neutral);
+  --background-color: var(--token-color-background-positive-subtle);
 }
 .dnb-section--warning {
   --text-color: var(--token-color-text-neutral);
@@ -1444,8 +1448,11 @@ button.dnb-button::-moz-focus-inner {
 .dnb-global-status__content .dnb-ul .dnb-anchor:last-of-type, .dnb-spacing .dnb-global-status__content .dnb-ul .dnb-anchor:last-of-type, .dnb-spacing .dnb-global-status__content .dnb-ul:not([class*=dnb-space]) .dnb-anchor:last-of-type {
   margin-left: 0.5rem;
 }
-.dnb-global-status--information .dnb-global-status__shell, .dnb-global-status--success .dnb-global-status__shell {
+.dnb-global-status--information .dnb-global-status__shell {
   --global-status-underline-color: var(--token-color-stroke-info);
+}
+.dnb-global-status--success .dnb-global-status__shell {
+  --global-status-underline-color: var(--token-color-stroke-positive);
 }
 .dnb-global-status--warning .dnb-global-status__shell {
   --global-status-underline-color: var(--token-color-stroke-warning);

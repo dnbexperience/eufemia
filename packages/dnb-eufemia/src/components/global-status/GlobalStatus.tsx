@@ -49,7 +49,12 @@ import GlobalStatusProvider, {
   type GlobalStatusResult,
 } from './GlobalStatusProvider'
 import Icon from '../icon/Icon'
-import { InfoIcon, ErrorIcon, WarnIcon } from '../form-status/FormStatus'
+import {
+  InfoIcon,
+  SuccessIcon,
+  ErrorIcon,
+  WarnIcon,
+} from '../form-status/FormStatus'
 import Section from '../section/Section'
 import Button from '../button/Button'
 import Space from '../space/Space'
@@ -106,8 +111,10 @@ function getIcon({
 
     switch (state) {
       case 'information':
-      case 'success':
         IconToLoad = InfoIcon
+        break
+      case 'success':
+        IconToLoad = SuccessIcon
         break
       case 'warning':
         IconToLoad = WarnIcon
@@ -620,7 +627,7 @@ function GlobalStatusComponent(ownProps: GlobalStatusProps) {
                 title={
                   typeof closeText === 'string' ? closeText : undefined
                 }
-                variant={state === 'success' ? 'secondary' : 'tertiary'}
+                variant="tertiary"
                 className="dnb-global-status__close-button"
                 icon="close"
                 onClick={closeHandler}
