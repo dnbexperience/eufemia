@@ -13,7 +13,14 @@ export type ItemBasicProps = {
 } & Omit<ItemContentProps, 'title'>
 
 function ItemBasic(props: ItemBasicProps) {
-  const { icon, title, children, element, ...rest } = props
+  const {
+    icon,
+    title,
+    children,
+    element,
+    layoutEngine = 'css',
+    ...rest
+  } = props
 
   // The auto-rendered icon and title must be valid inside the row element.
   // When the row is a phrasing element (`element="span"`, e.g. for a Dropdown
@@ -23,7 +30,14 @@ function ItemBasic(props: ItemBasicProps) {
   const cellElement = element === 'span' ? 'span' : undefined
 
   return (
-    <ItemContent element={element} {...rest}>
+    <ItemContent
+      element={element}
+      // Leave the children unchanged, so cells rendered by your own
+      // components are placed like cells used directly.
+      layoutEngine={layoutEngine}
+      rowGap={false}
+      {...rest}
+    >
       {icon && <ItemIcon element={cellElement}>{icon}</ItemIcon>}
       {title !== undefined && (
         <ItemTitle element={cellElement}>{title}</ItemTitle>
