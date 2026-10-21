@@ -6,6 +6,7 @@ import {
   createElement,
   isValidElement,
   useCallback,
+  useContext,
   useEffect,
   useMemo,
   useRef,
@@ -32,7 +33,9 @@ import {
 } from '../../shared/component-helper'
 import getRefElement from '../../shared/internal/getRefElement'
 import PopoverPortal from './PopoverPortal'
-import PopoverContainer from './PopoverContainer'
+import PopoverContainer, {
+  PopoverNestedEventsContext,
+} from './PopoverContainer'
 import type {
   PopoverProps,
   PopoverTriggerRenderProps,
@@ -122,6 +125,8 @@ export default function Popover(props: PopoverProps) {
   const focusRestoreAnimationRef = useRef<number | null>(null)
   const touchStartTargetRef = useRef<EventTarget | null>(null)
   const touchMovedRef = useRef(false)
+
+  const subscribeToParentEvents = useContext(PopoverNestedEventsContext)
 
   const tooltipId = useId(idProp)
   const descriptionId = `${tooltipId}-description`
@@ -404,7 +409,8 @@ export default function Popover(props: PopoverProps) {
       touchMovedRef.current = false
       touchStartTargetRef.current = null
 
-      if (moved) {
+      // No touchstart was seen, e.g. it was stopped in a nested Popover
+      if (moved || !target) {
         return undefined // stop here
       }
 
@@ -470,7 +476,16 @@ export default function Popover(props: PopoverProps) {
     // Use capture phase (true) to ensure we handle Escape before Modal/Dialog handlers
     document.addEventListener('keydown', handleDocumentKeyDown, true)
 
+    const unsubscribeFromParent = subscribeToParentEvents?.((event) => {
+      if (event.type === 'touchstart') {
+        handleDocumentTouchStart(event as TouchEvent)
+      } else {
+        handleDocumentInteraction(event as MouseEvent)
+      }
+    })
+
     return () => {
+      unsubscribeFromParent?.()
       document.documentElement.removeEventListener(
         'mousedown',
         handleDocumentInteraction
@@ -500,6 +515,7 @@ export default function Popover(props: PopoverProps) {
     handleDocumentTouchMove,
     handleDocumentTouchStart,
     isOpen,
+    subscribeToParentEvents,
   ])
 
   const handleTriggerKeyDown = useCallback(

@@ -2,7 +2,13 @@
  * Web Popover Component
  */
 
-import { useCallback, useEffect, useRef, useState } from 'react'
+import {
+  createContext,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react'
 import type {
   CSSProperties,
   HTMLAttributes,
@@ -50,6 +56,13 @@ type PopoverContainerProps = {
   arrowEdgeOffset?: number
   targetRefreshKey?: unknown
 }
+
+type NestedEventListener = (event: Event) => void
+
+// Nested Popovers get the events that a parent stops from reaching the document
+export const PopoverNestedEventsContext = createContext<
+  ((listener: NestedEventListener) => () => void) | null
+>(null)
 
 const isResolvedTargetRefsObject = (
   target?: PopoverResolvedTargetElement
@@ -862,6 +875,24 @@ function PopoverContainer(props: PopoverContainerProps) {
     event.stopPropagation()
   }, [])
 
+  const nestedListenersRef = useRef(new Set<NestedEventListener>())
+  const subscribeToEvents = useCallback(
+    (listener: NestedEventListener) => {
+      const listeners = nestedListenersRef.current
+      listeners.add(listener)
+      return () => {
+        listeners.delete(listener)
+      }
+    },
+    []
+  )
+  const handleRelayedPropagation = useCallback((event: SyntheticEvent) => {
+    nestedListenersRef.current.forEach((listener) =>
+      listener(event.nativeEvent)
+    )
+    event.stopPropagation()
+  }, [])
+
   const shouldRender = isInDOM || keepInDOMProp
   const mergedStyle = {
     ...(style || {}),
@@ -908,8 +939,8 @@ function PopoverContainer(props: PopoverContainerProps) {
       ref={combinedElementRef}
       {...{
         onMouseMove: handlePropagation,
-        onMouseDown: handlePropagation,
-        onTouchStart: handlePropagation,
+        onMouseDown: handleRelayedPropagation,
+        onTouchStart: handleRelayedPropagation,
       }}
       className={clsx(
         attributes?.className,
@@ -935,7 +966,9 @@ function PopoverContainer(props: PopoverContainerProps) {
         />
       )}
 
-      {children}
+      <PopoverNestedEventsContext value={subscribeToEvents}>
+        {children}
+      </PopoverNestedEventsContext>
     </span>
   )
 }
