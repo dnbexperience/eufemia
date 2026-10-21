@@ -1,5 +1,6 @@
 @use '../../../style/core/utilities.scss' as utilities;
 @use './agent-action.scss';
+@use './confirmation.scss';
 @use '../../../shared/internal/dots-indicator.scss';
 
 .dnb-ai-response {

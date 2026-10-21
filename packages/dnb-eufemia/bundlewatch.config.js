@@ -21,7 +21,7 @@ const cssBundles = [
   { path: 'build/style/dnb-ui-document.min.css', maxSize: '2kB' },
   { path: 'build/style/dnb-ui-elements.min.css', maxSize: '10kB' },
   { path: 'build/style/dnb-ui-extensions.min.css', maxSize: '15kB' },
-  { path: 'build/extensions/ai/style/dnb-ai.min.css', maxSize: '3.5kB' },
+  { path: 'build/extensions/ai/style/dnb-ai.min.css', maxSize: '3.6kB' },
   { path: 'build/style/dnb-ui-forms.min.css', maxSize: '10kB' },
   { path: 'build/style/dnb-ui-fragments.min.css', maxSize: '5kB' },
   { path: 'build/style/dnb-ui-print.min.css', maxSize: '1kB' },
