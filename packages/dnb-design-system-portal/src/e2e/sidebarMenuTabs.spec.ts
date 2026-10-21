@@ -184,6 +184,86 @@ test.describe('Portal SidebarMenu', () => {
     ).toBeVisible()
   })
 
+  test('organizes About pages and preserves the merged page URLs', async ({
+    page,
+  }) => {
+    const menu = page.getByRole('navigation', {
+      name: 'Section Content Menu',
+    })
+    await menu.getByRole('button', { name: 'About', exact: true }).click()
+    const about = menu.locator('[data-sidebar-menu-id="about"]')
+    const firstLink = about.getByRole('link').first()
+    await expect(firstLink).toHaveText('About the library')
+    for (const name of ['About the library', 'About Eufemia', 'Contact']) {
+      const link = about.getByRole('link', { name, exact: true })
+      await expect(
+        link.locator('.dnb-sidebar-menu__item__icon')
+      ).toHaveCount(0)
+      await expect(
+        about.getByRole('button', { name, exact: true })
+      ).toHaveCount(0)
+    }
+    await about
+      .getByRole('button', { name: 'Core principles', exact: true })
+      .click()
+    await expect(
+      about.getByRole('link', {
+        name: 'Living system overview',
+        exact: true,
+      })
+    ).toHaveCount(0)
+    await expect(
+      about.getByRole('link', { name: 'Living system', exact: true })
+    ).toHaveCount(1)
+    const license = about.locator('[data-sidebar-menu-id="license"]')
+    await license
+      .getByRole('button', { name: 'License & credits', exact: true })
+      .click()
+    await expect(
+      license.getByRole('link', { name: 'Licens', exact: true })
+    ).toHaveAttribute('href', '/license')
+    const privacy = license.getByRole('link', {
+      name: 'Privacy',
+      exact: true,
+    })
+    await expect(
+      privacy.locator('.dnb-sidebar-menu__item__icon')
+    ).toHaveCount(0)
+    await privacy.click()
+    await expect(page).toHaveURL('/design-system/privacy')
+    await page.goto('/contribute/contact?from=old#developers')
+    await waitForApp(page)
+    await expect(page).toHaveURL(
+      /\/design-system\/contact\/?\?from=old#developers$/
+    )
+    await expect(page.locator('main')).toContainText('tobias.hoegh@dnb.no')
+    for (const name of [
+      '#eufemia-web',
+      '#eufemia-web-announcements',
+      '#eufemia-design',
+      '#frontend',
+    ]) {
+      await expect(
+        page.locator('main').getByRole('link', { name, exact: true })
+      ).toHaveCount(1)
+    }
+    await page.goto('/contribute/contact?from=old#slack-channel')
+    await waitForApp(page)
+    await expect(page).toHaveURL(
+      /\/design-system\/contact\/?\?from=old#slack-channel-on-dnb-it$/
+    )
+    await page.goto(
+      '/design-system/about/living-system?from=old#consistency'
+    )
+    await waitForApp(page)
+    await expect(page).toHaveURL(
+      /\/web\/about-the-lib\/living-system\/?\?from=old#consistency$/
+    )
+    await expect(
+      page.getByRole('heading', { name: 'Consistency', exact: true })
+    ).toBeVisible()
+  })
+
   test('opens Patterns without navigating and selects the status icon page', async ({
     page,
   }) => {

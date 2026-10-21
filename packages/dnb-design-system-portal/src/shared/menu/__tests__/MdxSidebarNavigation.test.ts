@@ -4,6 +4,7 @@ import { resolve } from 'node:path'
 import { getPortalPages } from '../../../../vite/client/plugins/portal-pages'
 import type { MdxNode } from '../../../../vite/client/plugins/portal-pages.shared'
 import { createMdxSidebarNavigation } from '../MdxSidebarNavigation'
+import { getPageRedirects } from '../../../../vite/client/plugins/portal-pages.shared'
 import {
   findActiveSidebarItemId,
   toSidebarMenuData,
@@ -11,7 +12,7 @@ import {
 } from '../SidebarMenuData'
 
 const docs = resolve(__dirname, '../../../docs')
-const { allMdxNodes: pages } = getPortalPages(docs)
+const { files, allMdxNodes: pages } = getPortalPages(docs)
 const tree = (pathname = '/') =>
   createMdxSidebarNavigation(pages, pathname)
 function flatten(items: NavItem[]): NavItem[] {
@@ -88,6 +89,59 @@ describe('MDX-defined Portal navigation', () => {
       'Helpers',
       'Patterns',
     ])
+  })
+
+  it('keeps About concise without duplicate overview or contact entries', () => {
+    const about = tree().shared.find(({ id }) => id === 'about')
+    expect(about.subheadings.map(({ title }) => title)).toEqual([
+      'About the library',
+      'About Eufemia',
+      'Story',
+      'Core principles',
+      'Contact',
+      'License & credits',
+    ])
+    for (const path of [
+      'web/about-the-lib',
+      'design-system/about',
+      'design-system/contact',
+    ]) {
+      const item = about.subheadings.find((item) => item.path === path)
+      expect(item).toMatchObject({ isMenuLink: true })
+      expect(item.icon).toBeUndefined()
+      expect(item.subheadings).toBeUndefined()
+    }
+    const principles = about.subheadings.find(
+      ({ title }) => title === 'Core principles'
+    )
+    expect(principles.isMenuLink).toBe(false)
+    expect(principles.subheadings.map(({ title }) => title)).toEqual([
+      'Living system',
+      'Maintainability',
+    ])
+    const license = about.subheadings.find(
+      ({ path }) => path === 'license'
+    )
+    expect(license.subheadings.map(({ title }) => title)).toEqual([
+      'Licens',
+      'Credits',
+      'Privacy',
+    ])
+    expect(
+      license.subheadings.find(({ title }) => title === 'Privacy').icon
+    ).toBeUndefined()
+    expect(getPageRedirects(files)).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          from: '/contribute/contact',
+          to: '/design-system/contact/',
+        }),
+        expect.objectContaining({
+          from: '/design-system/about/living-system',
+          to: '/web/about-the-lib/living-system/',
+        }),
+      ])
+    )
   })
 
   it('shows Home first as a selected root link without inheriting the other roots', () => {
