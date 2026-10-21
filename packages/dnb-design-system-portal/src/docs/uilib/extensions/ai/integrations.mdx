@@ -80,6 +80,50 @@ See the [live announcement demo](/uilib/extensions/ai/demos/#streamed-reply-anno
 
 An `Ai.Task` only displays status and children. Map your framework's tool calls to a task; Eufemia does not run the tool. For a tool requiring approval, render [Ai.Confirmation](/uilib/extensions/ai/Confirmation/) or your own confirmation controls as children and send the decision through your framework's approval API. Only show `done` when execution has completed. The examples below display approval states; add your application's decision controls before enabling tools that require approval.
 
+## Choosing Task or AgentAction
+
+Both components show work in progress and its outcome. Choose based on the interaction you need, rather than whether the operation comes from a framework tool or an agent. A lookup, report or payment can use either presentation.
+
+| Need                                                                                                    | Use                                                                              |
+| ------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| A status row with details, structured results or decision controls below it                             | [Ai.Task](/uilib/extensions/ai/Task/)                                            |
+| An action label and target with known or unknown progress, followed by a short result and optional Undo | [Ai.AgentAction](/uilib/extensions/ai/AgentAction/)                              |
+| A decision before proceeding                                                                            | [Ai.Confirmation](/uilib/extensions/ai/Confirmation/), on its own or inside Task |
+
+Task accepts arbitrary React children and has an `awaiting` state. AgentAction takes a text result and adds progress semantics, optional agent/target visuals and an Undo lifecycle. Neither component executes work, and a confirmed decision does not mean the resulting work is done.
+
+### A lookup with a structured result
+
+Use Task when the result needs its own content. For example, show a balance after the lookup completes:
+
+```tsx
+import { Task } from '@dnb/eufemia/extensions/ai'
+import { NumberFormat, P } from '@dnb/eufemia'
+import '@dnb/eufemia/extensions/ai/style'
+
+render(
+  <Task title="Checking your account balance" status="done">
+    <P space={0}>
+      Available: <NumberFormat currency="NOK">12400</NumberFormat>
+    </P>
+  </Task>
+)
+```
+
+Update the same Task from `running` to `done` when the application receives the result. For a decision, use `awaiting` with Confirmation as children, then move to `running` if the accepted decision starts work. See [Task states](/uilib/extensions/ai/Task/demos/#task-states).
+
+### An action with progress and Undo
+
+Use AgentAction when the interaction centers on progress and a short outcome. For a payment, the application supplies the actual progress while running, then the completed result and an Undo callback only if reversal is supported. See [known progress and timed Undo](/uilib/extensions/ai/AgentAction/demos/#known-progress-and-timed-undo) for an interactive example. Its timers simulate an application; production progress and completion must come from the action itself.
+
+Usually render one component for an operation. Avoid showing Task and AgentAction with duplicate status text for the same work. If a flow changes presentation, keep a stable operation identity and ensure removing decision controls does not lose keyboard focus.
+
+### Announcements
+
+Task has no live region; the application supplies meaningful status/result announcements. AgentAction announces status, result text and Undo availability by default. Progress and countdown ticks are not announced. Set `announce={false}` when displaying historical AgentActions or when the application already announces the operation.
+
+Confirmation also announces decision-state changes by default. Choose one announcement owner for each update, including any surrounding conversation live region. Avoid announcing the same result through both a component and the [completed-reply helper](#screen-reader-announcements).
+
 ## AI SDK
 
 The example uses `ai@7.0.128` and `@ai-sdk/react@4.0.131`. Install them in your application, following the [AI SDK setup guide](https://ai-sdk.dev/docs/getting-started). Your `/api/chat` endpoint must return the SDK's UI message stream; see its [chatbot guide](https://ai-sdk.dev/docs/ai-sdk-ui/chatbot).

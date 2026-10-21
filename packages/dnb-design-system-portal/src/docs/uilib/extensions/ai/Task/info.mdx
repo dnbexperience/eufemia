@@ -18,6 +18,6 @@ Pass a human-readable `title` and a display `status`: `running`, `awaiting`, `do
 
 Use children for a useful result, such as a balance or a confirmation, and `errorText` for a user-facing error. The component does not execute work or make requests. For actions requiring confirmation, show `status="awaiting"`, render your confirmation controls as children, and pass the user's decision to your chat implementation.
 
-Use [Ai.AgentAction](/uilib/extensions/ai/AgentAction/) for a compact agent action with progress and optional Undo. Use `Ai.Task` when you need details, controls or a larger result below its status.
+Task and [Ai.AgentAction](/uilib/extensions/ai/AgentAction/) both show an operation and its outcome. Choose Task for a status row with details, decision controls or structured results below it. Choose AgentAction for progress followed by a short text result and optional Undo. The choice does not depend on whether the application uses an agent or a framework tool. See [Choosing Task or AgentAction](/uilib/extensions/ai/integrations/#choosing-task-or-agentaction) for a comparison and examples.
 
 `Ai.Task` does not create a live region. Your application owns announcements when status or results change. Use [AriaLive](/uilib/components/aria-live/) for meaningful updates, and avoid duplicating announcements from the surrounding conversation. See [screen reader announcements](/uilib/extensions/ai/integrations/#screen-reader-announcements).
