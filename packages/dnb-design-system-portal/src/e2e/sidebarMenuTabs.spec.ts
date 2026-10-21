@@ -550,6 +550,22 @@ test.describe('Portal SidebarMenu', () => {
     ).toBeVisible()
   })
 
+  test('keeps a quick pointer click on its compact accordion while the menu expands', async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1280, height: 900 })
+    await page.goto('/design-system/about')
+    await waitForApp(page)
+    const guides = page
+      .getByRole('navigation', { name: 'Section Content Menu' })
+      .getByRole('button', { name: 'Getting started', exact: true })
+    await expect(guides).toHaveAttribute('aria-expanded', 'false')
+
+    await guides.click()
+
+    await expect(guides).toHaveAttribute('aria-expanded', 'true')
+  })
+
   test('keeps the exact sidebar scroll position after reload', async ({
     page,
   }) => {

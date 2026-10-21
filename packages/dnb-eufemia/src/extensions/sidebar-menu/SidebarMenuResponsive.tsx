@@ -573,6 +573,7 @@ export function SidebarMenuResponsiveInline({
   onFocusCapture,
   onBlurCapture,
   onKeyDownCapture,
+  onPointerDownCapture,
   onPointerEnter,
   onPointerLeave,
   onPointerMove,
@@ -910,6 +911,23 @@ export function SidebarMenuResponsiveInline({
           setCompactExpanded(true)
           setCompactDismissed(false)
         }
+      }}
+      onPointerDownCapture={(event) => {
+        onPointerDownCapture?.(event)
+        if (
+          !isCompact ||
+          (compactOpen && !compactOpening) ||
+          event.defaultPrevented ||
+          event.button !== 0 ||
+          event.pointerType !== 'mouse'
+        ) {
+          return
+        }
+        const trigger = (event.target as Element).closest<HTMLElement>(
+          'button.dnb-sidebar-menu__accordion__trigger'
+        )
+        // Keep the click on its button when compact expansion moves the rows.
+        trigger?.setPointerCapture(event.pointerId)
       }}
       onPointerEnter={(event) => {
         onPointerEnter?.(event)

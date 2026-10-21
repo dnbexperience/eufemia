@@ -1285,6 +1285,54 @@ describe('SidebarMenu responsive parts', () => {
     expect(toggle).toHaveAttribute('aria-expanded', 'true')
   })
 
+  it('keeps a compact accordion as the pointer target while expansion moves it', () => {
+    setMedia({ width: '80em', hover: 'hover', pointer: 'fine' })
+    const onPointerDownCapture = vi.fn()
+    const { rerender } = render(
+      <SidebarMenu.ResponsiveProvider
+        compactAt="large"
+        compactOffset="24em"
+      >
+        <SidebarMenu.ResponsiveInline
+          onPointerDownCapture={onPointerDownCapture}
+        >
+          <SidebarMenu.Root>
+            <SidebarMenu.Accordion id="products" text="Products">
+              <SidebarMenu.Item id="accounts" text="Accounts" />
+            </SidebarMenu.Accordion>
+          </SidebarMenu.Root>
+        </SidebarMenu.ResponsiveInline>
+      </SidebarMenu.ResponsiveProvider>
+    )
+    const trigger = document.querySelector(
+      'button.dnb-sidebar-menu__accordion__trigger'
+    )
+    const capture = vi.fn()
+    trigger.setPointerCapture = capture
+
+    fireEvent.pointerDown(trigger, {
+      pointerType: 'mouse',
+      pointerId: 7,
+      button: 0,
+    })
+    expect(capture).toHaveBeenCalledWith(7)
+    expect(onPointerDownCapture).toHaveBeenCalledTimes(1)
+
+    capture.mockClear()
+    fireEvent.pointerDown(trigger, {
+      pointerType: 'touch',
+      pointerId: 8,
+      button: 0,
+    })
+    fireEvent.pointerDown(trigger, {
+      pointerType: 'mouse',
+      pointerId: 9,
+      button: 2,
+    })
+    expect(capture).not.toHaveBeenCalled()
+    rerender(<div />)
+  })
+
   it('shows item tooltips while compact hover expansion is dismissed', async () => {
     setMedia({ width: '80em', hover: 'hover', pointer: 'fine' })
 
