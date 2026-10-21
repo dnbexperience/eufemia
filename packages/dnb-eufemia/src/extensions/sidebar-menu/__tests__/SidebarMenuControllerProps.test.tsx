@@ -205,7 +205,7 @@ describe('SidebarMenu controller props', () => {
       document.querySelector(
         '[data-sidebar-menu-responsive-provider] style'
       )
-    ).toHaveTextContent('max-width:80em')
+    ).toHaveTextContent(/max-width:\s*80em/)
 
     act(() => {
       cleanups.push(
@@ -222,7 +222,7 @@ describe('SidebarMenu controller props', () => {
       document.querySelector(
         '[data-sidebar-menu-responsive-provider] style'
       )
-    ).toHaveTextContent('max-width: 90em')
+    ).toHaveTextContent(/max-width:\s*90em/)
   })
 
   it('restores responsive props on cleanup and preserves unrelated content registrations', () => {
