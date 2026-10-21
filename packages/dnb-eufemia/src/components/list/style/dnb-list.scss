@@ -156,6 +156,22 @@
       #{$row-with-subline} > #{&}__chevron {
       place-self: start;
     }
+
+    // With both an overline and a subline, the cells are placed at the top of
+    // the row. Move them down by the overline line, so they are aligned with
+    // the title line and not with the overline.
+    @at-root #{$row-with-overline}#{$row-with-subline} > #{&}__icon,
+      #{$row-with-overline}#{$row-with-subline} > #{&}__chevron {
+      margin-top: var(--line-height-basis);
+    }
+    @at-root #{$row-with-overline}#{$row-with-subline}
+        > #{&}__center:not(:has(> #{&}__title)),
+      #{$row-with-overline}#{$row-with-subline} > #{&}__end {
+      @include utilities.allAbove(small) {
+        margin-top: var(--line-height-basis);
+      }
+    }
+
     &:has(#{&}__footer),
     &:has(#{&}__footer) &__accordion__header {
       padding-bottom: 0;
