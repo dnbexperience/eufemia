@@ -88,6 +88,12 @@ export const ItemContentProperties: PropertiesTableProps = {
     defaultValue: `'li'`,
     status: 'optional',
   },
+  layoutEngine: {
+    doc: 'Select the internal Flex layout engine of the row. Defaults to `css`, which leaves the children unchanged, so cells rendered by your own components are placed like cells used directly. Use `legacy` only as a temporary compatibility fallback.',
+    type: ['"css"', '"legacy"'],
+    defaultValue: `'css'`,
+    status: 'optional',
+  },
   children: {
     doc: 'Item content. `List.Item.Basic` supports plain text children with horizontal padding. For more complex rows, use `List.Cell.Start`, `List.Cell.Center`, `List.Cell.End`, `List.Cell.Title` (with `List.Cell.Title.Overline`/`List.Cell.Title.Subline` for supporting text), or `List.Cell.Footer`.',
     type: 'React.ReactNode',
