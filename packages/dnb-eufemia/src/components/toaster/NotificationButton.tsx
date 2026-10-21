@@ -8,6 +8,8 @@ import Icon from '../icon/Icon'
 import PortalRoot from '../portal-root/PortalRoot'
 import { clock, close } from '../../icons'
 import useTranslation from '../../shared/useTranslation'
+import useCombinedRef from '../../shared/helpers/useCombinedRef'
+import mergeProps from '../../shared/helpers/mergeProps'
 
 const toggleIcon = Icon.transition({
   closed: clock,
@@ -50,22 +52,29 @@ function NotificationButton({
   const tr = useTranslation().Toaster
   const hidden =
     autoHide && ((!hasMessages && !isOpen) || allMessagesInStack)
+  const { ref: externalRef, ...buttonProps } =
+    notificationButtonProps || {}
+  const ref = useCombinedRef(notificationButtonRef, externalRef)
 
   const innerButton = (
     <Button
-      ref={notificationButtonRef}
-      className="dnb-toaster__notification-button"
+      ref={ref}
       variant="tertiary"
       icon={toggleIcon}
       iconPosition="left"
       transitionState={isOpen ? 'open' : 'closed'}
-      onClick={onNotificationButtonToggle}
-      onPointerDown={onPointerDown}
-      onFocus={onFocus}
       aria-expanded={isOpen}
       aria-haspopup="true"
       bounding
-      {...notificationButtonProps}
+      {...mergeProps(
+        {
+          className: 'dnb-toaster__notification-button',
+          onClick: onNotificationButtonToggle,
+          onPointerDown,
+          onFocus,
+        },
+        buttonProps
+      )}
     >
       {tr.systemMessages}
     </Button>
