@@ -115,6 +115,25 @@ describe('Radio component', () => {
     }
   })
 
+  it.each(['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'])(
+    'keeps %s available for a group inherited from Provider',
+    (key) => {
+      const onKeyDown = vi.fn()
+      render(
+        <Provider Radio={{ group: 'inherited-group' }}>
+          <Radio label="A" value="a" onKeyDown={onKeyDown} />
+          <Radio label="B" value="b" />
+        </Provider>
+      )
+
+      const input = document.querySelector('input')
+      expect(input).toHaveAttribute('name', 'inherited-group')
+      expect(fireEvent.keyDown(input, { key })).toBe(true)
+      expect(onKeyDown).toHaveBeenCalledTimes(1)
+      expect(onKeyDown.mock.calls[0][0].event.defaultPrevented).toBe(false)
+    }
+  )
+
   it('keeps a radio in a group checked when clicked again', () => {
     render(
       <Radio.Group label="Group">
