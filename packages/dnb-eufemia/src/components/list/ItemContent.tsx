@@ -34,6 +34,7 @@ function ItemContent(props: ItemContentProps) {
     disabled,
     skeleton,
     element = 'li',
+    layoutEngine = 'css',
     ...rest
   } = props
   const context = useContext(Context)
@@ -51,6 +52,8 @@ function ItemContent(props: ItemContentProps) {
       justify="space-between"
       wrap={false}
       gap={false}
+      rowGap={false}
+      layoutEngine={layoutEngine}
       className={clsx(
         'dnb-list__item',
         'dnb-t__size--basis',
