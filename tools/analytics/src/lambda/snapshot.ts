@@ -88,7 +88,8 @@ const MCP_VERSION_WINDOW_DAYS = 90
 // Recent-tail window for the retention rollup refresh (mirrors MCP_ROLLUP_DAYS).
 const PORTAL_VIEWS_ROLLUP_DAYS = 7
 
-// Holds SNAPSHOT_LIMIT views at current traffic; only bounds the Athena scan.
+// Bounds the Athena scan and the dashboard's data: at current traffic it holds
+// far more than SNAPSHOT_LIMIT views; 30 days without views trips snapshot_empty.
 const PORTAL_VIEWS_WINDOW_DAYS = 30
 
 // First day (YYYY-MM-DD, UTC) of the `days`-long window that ends today.
