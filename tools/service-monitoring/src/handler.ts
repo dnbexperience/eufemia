@@ -13,8 +13,13 @@ import { sendSlack } from './slack.ts'
 
 const dynamodb = new DynamoDBClient({
   maxAttempts: 2,
-  requestHandler: { connectionTimeout: 3000, requestTimeout: 10_000 },
+  requestHandler: {
+    connectionTimeout: 3000,
+    requestTimeout: 10_000,
+    throwOnRequestTimeout: true,
+  },
 })
+
 function required(name: string) {
   const value = process.env[name]
   if (!value) {

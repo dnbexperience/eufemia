@@ -5,7 +5,11 @@ import {
 
 const secrets = new SecretsManagerClient({
   maxAttempts: 2,
-  requestHandler: { connectionTimeout: 3000, requestTimeout: 10_000 },
+  requestHandler: {
+    connectionTimeout: 3000,
+    requestTimeout: 10_000,
+    throwOnRequestTimeout: true,
+  },
 })
 
 export async function readSecret(arn: string) {
