@@ -110,7 +110,7 @@ export const ToasterNotificationCenterListProperties: PropertiesTableProps =
     },
     order: {
       doc: 'Display order of messages. `asc` shows oldest first, `desc` shows newest first. Defaults to `asc`.',
-      type: [`'asc'`, `'desc'`],
+      type: ['"asc"', '"desc"'],
       status: 'optional',
     },
   }
