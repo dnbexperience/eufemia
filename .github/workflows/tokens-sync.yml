@@ -38,7 +38,10 @@ jobs:
       - name: Git checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
+          # Full history for the merge-base the pull request body diffs
+          # against, without the image snapshot blobs it never reads
           fetch-depth: 0
+          filter: blob:none
           persist-credentials: false
 
       - name: Resolve the design token branch
