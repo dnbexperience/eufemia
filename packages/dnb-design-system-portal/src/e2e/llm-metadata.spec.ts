@@ -83,7 +83,7 @@ test.describe('LLM integration', () => {
       path.join(publicDir, 'uilib.md'),
       'utf-8'
     )
-    expect(uilibBody).toContain('# UI library')
+    expect(uilibBody).toContain('# Web introduction')
     expect(uilibBody).toContain('The DNB UI library contains ready-to-use')
 
     const iconsMdFile = path.join(publicDir, 'icons.md')
@@ -95,7 +95,7 @@ test.describe('LLM integration', () => {
   }) => {
     await page.goto('/icons/primary/')
     await expect(
-      page.getByRole('heading', { name: 'Primary Icons', exact: true })
+      page.getByRole('heading', { name: 'Primary icons', exact: true })
     ).toBeVisible()
     await expect(page.getByRole('heading', { name: 'bell' })).toBeVisible()
 

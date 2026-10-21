@@ -4,6 +4,7 @@ import { resolve } from 'node:path'
 import { getPortalPages } from '../../../../vite/client/plugins/portal-pages'
 import type { MdxNode } from '../../../../vite/client/plugins/portal-pages.shared'
 import { createMdxSidebarNavigation } from '../MdxSidebarNavigation'
+import graphics from '../SidebarGraphics'
 import { getPageRedirects } from '../../../../vite/client/plugins/portal-pages.shared'
 import {
   findActiveSidebarItemId,
@@ -94,18 +95,13 @@ describe('MDX-defined Portal navigation', () => {
   it('keeps About concise without duplicate overview or contact entries', () => {
     const about = tree().shared.find(({ id }) => id === 'about')
     expect(about.subheadings.map(({ title }) => title)).toEqual([
-      'About the library',
       'About Eufemia',
       'Story',
       'Core principles',
       'Contact',
       'License & credits',
     ])
-    for (const path of [
-      'web/about-the-lib',
-      'design-system/about',
-      'design-system/contact',
-    ]) {
+    for (const path of ['design-system/about', 'design-system/contact']) {
       const item = about.subheadings.find((item) => item.path === path)
       expect(item).toMatchObject({ isMenuLink: true })
       expect(item.icon).toBeUndefined()
@@ -132,6 +128,14 @@ describe('MDX-defined Portal navigation', () => {
     ).toBeUndefined()
     expect(getPageRedirects(files)).toEqual(
       expect.arrayContaining([
+        expect.objectContaining({
+          from: '/web/about-the-lib',
+          to: '/web/introduction/',
+        }),
+        expect.objectContaining({
+          from: '/uilib/about-the-lib',
+          to: '/web/introduction/',
+        }),
         expect.objectContaining({
           from: '/contribute/contact',
           to: '/design-system/contact/',
@@ -162,6 +166,132 @@ describe('MDX-defined Portal navigation', () => {
       text: 'Home',
     })
     expect(tree('/web/components/button').shared[0].isActive).toBe(false)
+  })
+
+  it('keeps Getting started Design entries icon-free', () => {
+    const items = flatten(tree().shared)
+    const design = items.find(({ path }) => path === 'quickguide-designer')
+    expect(design.subheadings.map(({ title }) => title)).toEqual([
+      'Start designing',
+      'Design tools',
+      'UI Resources',
+      'Inspiration',
+    ])
+    expect(flatten([design]).every(({ icon }) => !icon)).toBe(true)
+  })
+
+  it('keeps icons only on top-level navigation entries', () => {
+    const { shared, sections } = tree()
+    for (const item of [
+      ...shared,
+      ...sections.flatMap(({ items }) => items),
+    ]) {
+      expect(
+        flatten(item.subheadings ?? []).filter(({ icon }) => icon)
+      ).toEqual([])
+    }
+    expect(shared.find(({ id }) => id === 'design-language').icon).toBe(
+      'brush'
+    )
+    expect(
+      sections[0].items.find(({ id }) => id === 'web-components').icon
+    ).toBe('layout_grid')
+  })
+
+  it('combines Installation and First steps without a duplicate menu page', () => {
+    const items = flatten(tree().sections[0].items)
+    expect(
+      items.find(({ id }) => id === 'web-usage-first-steps-page').title
+    ).toBe('Installation and first steps')
+    expect(items.find(({ path }) => path === 'web/usage')).toBeUndefined()
+    expect(getPageRedirects(files)).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          from: '/web/usage',
+          to: '/web/usage/first-steps/',
+        }),
+        expect.objectContaining({
+          from: '/uilib/usage',
+          to: '/web/usage/first-steps/',
+        }),
+      ])
+    )
+  })
+
+  it('keeps only sidebar graphics referenced by MDX definitions', () => {
+    const used = new Set(pages.map(({ frontmatter }) => frontmatter.icon))
+    expect(Object.keys(graphics).filter((key) => !used.has(key))).toEqual(
+      []
+    )
+    for (const icon of used) {
+      if (icon) {
+        expect(graphics[icon]).toBeDefined()
+      }
+    }
+  })
+
+  it('aligns editorial menu links and page headings', () => {
+    const { shared, sections } = tree()
+    const links = flatten([
+      ...shared,
+      ...sections.flatMap(({ items }) => items),
+    ]).filter(({ isMenuLink }) => isMenuLink)
+    for (const slug of [
+      'web/intro',
+      'web/getting-started',
+      'web/introduction',
+      'quickguide-designer',
+      'quickguide-designer/tools',
+      'web/usage/first-steps',
+      'web/usage/first-steps/react',
+      'web/usage/first-steps/module-formats',
+      'web/usage/first-steps/bundles',
+      'web/usage/first-steps/quick-reference',
+      'web/usage/first-steps/tools',
+      'web/components/overview',
+      'web/usage/best-practices/for-formatting',
+      'web/usage/best-practices/for-javascript',
+      'web/usage/best-practices/for-styling',
+      'web/usage/best-practices/for-testing',
+      'web/usage/best-practices/for-typography',
+      'contribute/first-contribution',
+      'contribute/getting-started',
+      'contribute/deploy',
+      'icons/primary',
+      'icons/secondary',
+      'brand',
+    ]) {
+      const page = pages.find(({ fields }) => fields.slug === slug)
+      expect(page.frontmatter.contentTitle || page.frontmatter.title).toBe(
+        links.find(({ path }) => path === slug).title
+      )
+    }
+  })
+
+  it('names content links by their purpose instead of generic overviews', () => {
+    const { shared, sections } = tree()
+    const links = flatten([
+      ...shared,
+      ...sections.flatMap(({ items }) => items),
+    ]).filter(({ isMenuLink }) => isMenuLink)
+    expect(links.filter(({ title }) => /overview/i.test(title))).toEqual(
+      []
+    )
+    for (const [path, title] of [
+      ['web/getting-started', 'Quick start'],
+      ['quickguide-designer', 'Start designing'],
+      ['brand', 'Brand guidelines'],
+      ['icons', 'Browse icons'],
+      ['quickguide-designer/motion', 'Motion examples'],
+      ['web/components/overview', 'Components by category'],
+      ['web/helpers', 'Shared utilities'],
+      ['web/typography', 'Using typography'],
+      ['web/layout/flex', 'Using Flex'],
+      ['contribute/first-contribution', 'Your first contribution'],
+      ['contribute/getting-started', 'Local development workflow'],
+    ]) {
+      expect(links.find((item) => item.path === path)?.title).toBe(title)
+    }
   })
 
   it('renders every accordion as a button, keeping its original content as a child link', () => {
