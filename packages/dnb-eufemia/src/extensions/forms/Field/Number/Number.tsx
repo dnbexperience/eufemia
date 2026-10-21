@@ -393,6 +393,7 @@ function NumberComponent(props: FieldNumberProps) {
   }
 
   const {
+    fieldBlockProps: sharedFieldBlockProps,
     id,
     name,
     className,
@@ -491,6 +492,7 @@ function NumberComponent(props: FieldNumberProps) {
   )
 
   const fieldBlockProps: FieldBlockProps = {
+    ...sharedFieldBlockProps,
     forId: id,
     className: clsx(
       'dnb-forms-field-number',

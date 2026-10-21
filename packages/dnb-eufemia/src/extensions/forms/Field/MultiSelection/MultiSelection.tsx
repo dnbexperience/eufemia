@@ -171,6 +171,7 @@ export type FieldMultiSelectionProps = FieldProps<
 
 function MultiSelection(props: FieldMultiSelectionProps) {
   const {
+    fieldBlockProps: sharedFieldBlockProps,
     id,
     path,
     dataPath,
@@ -872,6 +873,7 @@ function MultiSelection(props: FieldMultiSelectionProps) {
   }, [getSearchInput])
 
   const fieldBlockProps: FieldBlockProps = {
+    ...sharedFieldBlockProps,
     forId: id,
     className: clsx(
       'dnb-forms-field-multi-selection',
