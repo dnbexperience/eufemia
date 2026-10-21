@@ -815,4 +815,38 @@ describe('StepIndicator scss', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
     expect(css).toMatchSnapshot()
   })
+
+  it('should color the status icon with its own stylesheet', () => {
+    const style = document.createElement('style')
+    style.textContent = String(
+      loadScss(require.resolve('../style/dnb-step-indicator.scss'))
+    )
+    document.head.appendChild(style)
+
+    try {
+      render(
+        <StepIndicator
+          mode="loose"
+          expandedInitially
+          currentStep={1}
+          data={[
+            { title: 'Step A', status: 'Error', statusState: 'error' },
+            { title: 'Step B' },
+          ]}
+        />
+      )
+
+      const path = document.querySelector(
+        '.dnb-step-indicator__item__icon .dnb-form-status-icon-path--error'
+      )
+      const computed = getComputedStyle(path)
+
+      expect(computed.fill).toBe('var(--form-status-icon-color)')
+      expect(computed.getPropertyValue('--form-status-icon-color')).toBe(
+        'var(--token-color-background-error)'
+      )
+    } finally {
+      style.remove()
+    }
+  })
 })

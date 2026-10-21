@@ -3,7 +3,12 @@
  *
  */
 
+import fs from 'node:fs'
+import os from 'node:os'
+import path from 'node:path'
+
 import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
+import { eufemiaCssOptimizer } from '../../../style/vite-plugin'
 import type { FormStatusProps } from '../FormStatus'
 import FormStatus, {
   ErrorIcon,
@@ -13,6 +18,7 @@ import FormStatus, {
   WarnIcon,
 } from '../FormStatus'
 import Input from '../../input/Input'
+import Icon from '../../icon/Icon'
 import { render, waitFor } from '@testing-library/react'
 import { renderToStaticMarkup } from 'react-dom/server'
 import {
@@ -473,14 +479,53 @@ describe('FormStatus icons', () => {
     ).toHaveAttribute('data-testid', 'SuccessIcon icon')
   })
 
-  describe('with the stylesheet', () => {
+  const getStylesheet = () =>
+    String(loadScss(require.resolve('../style/dnb-form-status.scss')))
+
+  // The app source does not contain the words "fill" or "stroke", so
+  // PurgeCSS removes any rule that depends on them.
+  const getOptimizedStylesheet = async () => {
+    const root = fs.realpathSync(
+      fs.mkdtempSync(path.join(os.tmpdir(), 'eufemia-form-status-'))
+    )
+
+    try {
+      fs.mkdirSync(path.join(root, 'src'))
+      fs.writeFileSync(
+        path.join(root, 'src/App.tsx'),
+        `import { Input } from '@dnb/eufemia'
+        export const App = () => <Input status="Message" />`
+      )
+
+      const plugin = eufemiaCssOptimizer()
+      plugin.configResolved({ root, logger: { info: vi.fn() } })
+
+      const result = await plugin.transform(
+        getStylesheet(),
+        path.join(
+          root,
+          'node_modules/@dnb/eufemia/style/dnb-ui-components.css'
+        )
+      )
+
+      return result.code
+    } finally {
+      fs.rmSync(root, { recursive: true, force: true })
+    }
+  }
+
+  describe.each([
+    ['the stylesheet', getStylesheet],
+    [
+      'the stylesheet optimized by eufemiaCssOptimizer',
+      getOptimizedStylesheet,
+    ],
+  ])('with %s', (_, getCss) => {
     let style: HTMLStyleElement
 
-    beforeAll(() => {
+    beforeAll(async () => {
       style = document.createElement('style')
-      style.textContent = String(
-        loadScss(require.resolve('../style/dnb-form-status.scss'))
-      )
+      style.textContent = await getCss()
       document.head.appendChild(style)
     })
 
@@ -536,7 +581,38 @@ describe('FormStatus icons', () => {
     })
   })
 
-  // Used when the stylesheet is not loaded
+  // The FormStatus rules come last here, so only a lower specificity lets the
+  // Icon `inheritColor` rules win.
+  it('should let Icon inheritColor override the icon colors', () => {
+    const style = document.createElement('style')
+    style.textContent = [
+      '../../icon/style/dnb-icon.scss',
+      '../style/dnb-form-status.scss',
+    ]
+      .map((file) => String(loadScss(require.resolve(file))))
+      .join('\n')
+    document.head.appendChild(style)
+
+    try {
+      render(
+        <div style={{ color: 'rgb(1, 2, 3)' }}>
+          <Icon icon={<ErrorIcon />} />
+          <Icon icon={<ErrorIcon />} inheritColor={false} />
+        </div>
+      )
+
+      const [inherited, themed] = Array.from(
+        document.querySelectorAll('.dnb-form-status-icon-path--error')
+      ).map((el) => getComputedStyle(el).fill)
+
+      expect(inherited).toBe('rgb(1, 2, 3)')
+      expect(themed).toBe('var(--form-status-icon-color)')
+    } finally {
+      style.remove()
+    }
+  })
+
+  // Used when the stylesheet is not loaded. The same as the DNB light tokens.
   it('should have DNB colors as fill and stroke attributes', () => {
     const { container } = render(allIcons)
 
@@ -549,7 +625,7 @@ describe('FormStatus icons', () => {
       )
 
     expect(error).toEqual([
-      ['#dc2a2a', null],
+      ['#d52525', null],
       ['#fff', null],
       [null, '#fff'],
     ])
@@ -563,9 +639,9 @@ describe('FormStatus icons', () => {
       ['#fff', '#fff'],
       [null, '#fff'],
     ])
-    expect(infoSuccess[0]).toEqual(['#28b482', null])
+    expect(infoSuccess[0]).toEqual(['#007b5e', null])
     expect(success).toEqual([
-      ['#28b482', null],
+      ['#007b5e', null],
       [null, '#fff'],
     ])
     expect(marketing).toEqual([['#333', null]])

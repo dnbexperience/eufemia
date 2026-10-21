@@ -3,6 +3,8 @@
  *
  */
 
+@use '../../form-status/style/form-status-icon.scss';
+
 .dnb-global-status {
   &.dnb-section {
     display: block;
