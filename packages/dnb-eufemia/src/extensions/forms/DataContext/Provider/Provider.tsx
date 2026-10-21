@@ -1392,7 +1392,7 @@ export default function Provider<Data extends JsonObject>(
         ? mutateDataHandler(data, transformOut)
         : data
 
-      for (const cb of changeHandlerStackRef.current) {
+      for (const { callback: cb } of changeHandlerStackRef.current) {
         if (isAsync(onChange)) {
           await cb(transformedData, options)
         } else {
@@ -1417,15 +1417,30 @@ export default function Provider<Data extends JsonObject>(
     ]
   )
 
-  const changeHandlerStackRef = useRef<Array<OnChange<Data>>>([])
-  const addOnChangeHandler = useCallback((callback: OnChange<Data>) => {
-    const exists = changeHandlerStackRef.current.some((cb) => {
-      return callback === cb
-    })
-    if (!exists) {
-      changeHandlerStackRef.current.push(callback)
-    }
-  }, [])
+  const changeHandlerStackRef = useRef<
+    Array<{ callback: OnChange<Data>; order: number }>
+  >([])
+  const addOnChangeHandler = useCallback(
+    (callback: OnChange<Data>, order = Number.MAX_SAFE_INTEGER) => {
+      const exists = changeHandlerStackRef.current.some((handler) => {
+        return callback === handler.callback
+      })
+      if (!exists) {
+        changeHandlerStackRef.current = [
+          ...changeHandlerStackRef.current,
+          { callback, order },
+        ].sort((a, b) => a.order - b.order)
+      }
+
+      return () => {
+        changeHandlerStackRef.current =
+          changeHandlerStackRef.current.filter(
+            (handler) => handler.callback !== callback
+          )
+      }
+    },
+    []
+  )
 
   // - Mounted fields
   const setMountedFieldState = useCallback(

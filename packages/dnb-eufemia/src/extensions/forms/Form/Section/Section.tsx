@@ -1,4 +1,4 @@
-import { useCallback, useContext, useMemo, useRef } from 'react'
+import { useCallback, useContext, useMemo, useRef, useState } from 'react'
 import type { ReactNode } from 'react'
 import type { SectionContextState } from './SectionContext'
 import SectionContext from './SectionContext'
@@ -89,6 +89,9 @@ export type LocalProps<overwriteProps = OverwritePropsDefaults> =
     children: ReactNode
   }
 
+// Gives each section a number in the order they are first rendered
+let sectionRenderCount = 0
+
 function SectionComponent<overwriteProps = OverwritePropsDefaults>(
   props: LocalProps<overwriteProps>
 ) {
@@ -145,11 +148,20 @@ function SectionComponent<overwriteProps = OverwritePropsDefaults>(
     return combinedPath || '/'
   }, [isRootRelativePath, nestedPath, resolvedPath])
 
+  // Keep one handler per section, and let it call the latest onChange
+  const onChangeRef = useRef(onChange)
+  onChangeRef.current = onChange
   const handleChange = useCallback<OnChange>(
-    (...args) => onChange?.(...args),
-    [onChange]
+    (...args) => onChangeRef.current?.(...args),
+    []
   )
-  addOnChangeHandler?.(handleChange)
+
+  // Layout effects run for children first, so we use the render order
+  // to call the handler of an outer section before an inner section.
+  const [changeHandlerOrder] = useState(() => ++sectionRenderCount)
+  useLayoutEffect(() => {
+    return addOnChangeHandler?.(handleChange, changeHandlerOrder)
+  }, [addOnChangeHandler, handleChange, changeHandlerOrder])
 
   const resolvedSchema = useMemo(() => {
     if (!schema) {

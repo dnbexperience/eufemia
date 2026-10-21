@@ -456,6 +456,99 @@ describe('Form.Section', () => {
         expect.anything()
       )
     })
+    it('should only call the latest onChange once, after re-renders with a new onChange', () => {
+      const onChange = vi.fn()
+
+      const MyForm = ({ name }: { name: string }) => (
+        <Form.Handler>
+          <Form.Section path="/mySection" onChange={() => onChange(name)}>
+            <Field.String path="/firstName" />
+          </Form.Section>
+        </Form.Handler>
+      )
+
+      const { rerender } = render(<MyForm name="first" />)
+      rerender(<MyForm name="second" />)
+      rerender(<MyForm name="third" />)
+
+      fireEvent.change(document.querySelector('input'), {
+        target: { value: 'foo' },
+      })
+
+      expect(onChange).toHaveBeenCalledTimes(1)
+      expect(onChange).toHaveBeenCalledWith('third')
+    })
+
+    it('should call onChange of an outer section before an inner section', () => {
+      const calls: Array<string> = []
+
+      render(
+        <Form.Handler>
+          <Form.Section
+            path="/outer"
+            onChange={() => {
+              calls.push('outer')
+            }}
+          >
+            <Form.Section
+              path="/inner"
+              onChange={() => {
+                calls.push('inner')
+              }}
+            >
+              <Field.String path="/firstName" />
+            </Form.Section>
+          </Form.Section>
+          <Form.Section
+            path="/sibling"
+            onChange={() => {
+              calls.push('sibling')
+            }}
+          >
+            <Field.String path="/lastName" />
+          </Form.Section>
+        </Form.Handler>
+      )
+
+      fireEvent.change(document.querySelector('input'), {
+        target: { value: 'foo' },
+      })
+
+      expect(calls).toEqual(['outer', 'inner', 'sibling'])
+    })
+
+    it('should not call onChange after the section is removed, and only once when it is shown again', () => {
+      const onChange = vi.fn()
+
+      const MyForm = ({ showSection }: { showSection: boolean }) => (
+        <Form.Handler>
+          <Field.String path="/outside" />
+          {showSection && (
+            <Form.Section path="/mySection" onChange={onChange}>
+              <Field.String path="/firstName" />
+            </Form.Section>
+          )}
+        </Form.Handler>
+      )
+
+      const { rerender } = render(<MyForm showSection />)
+      const outside = document.querySelector('input')
+
+      fireEvent.change(outside, { target: { value: 'foo' } })
+      expect(onChange).toHaveBeenCalledTimes(1)
+
+      rerender(<MyForm showSection={false} />)
+      expect(document.querySelectorAll('input')).toHaveLength(1)
+
+      fireEvent.change(outside, { target: { value: 'bar' } })
+      expect(onChange).toHaveBeenCalledTimes(1)
+
+      rerender(<MyForm showSection />)
+      expect(document.querySelectorAll('input')).toHaveLength(2)
+
+      fireEvent.change(outside, { target: { value: 'baz' } })
+      expect(onChange).toHaveBeenCalledTimes(2)
+    })
   })
 
   describe('overwriteProps', () => {
