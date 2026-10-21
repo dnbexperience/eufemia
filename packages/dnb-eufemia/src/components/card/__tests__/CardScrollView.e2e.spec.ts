@@ -7,6 +7,10 @@ test.describe('Card inside a ScrollView', () => {
     await page.goto(
       '/uilib/components/card/visual-tests/inside-scroll-view/?data-visual-test'
     )
+    await expect(page.locator('html')).toHaveAttribute(
+      'data-portal-ready',
+      'true'
+    )
 
     const scrollView = page.locator(
       '[data-visual-test="card-scroll-view"] .dnb-scroll-view'

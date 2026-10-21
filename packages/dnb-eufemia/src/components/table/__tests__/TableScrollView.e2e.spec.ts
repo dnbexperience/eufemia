@@ -26,6 +26,10 @@ test.describe('Table.ScrollView focus ring', () => {
     // Make the tables wider than the scroll view, so it gets focusable
     await page.setViewportSize({ width: 375, height: 1024 })
     await page.goto('/uilib/components/table/demos/')
+    await expect(page.locator('html')).toHaveAttribute(
+      'data-portal-ready',
+      'true'
+    )
   })
 
   test('should not show a ring on clickable cells', async ({ page }) => {
