@@ -198,6 +198,11 @@ export const AiConfirmationEvents: PropertiesTableProps = {
 }
 
 export const AiActionProperties: PropertiesTableProps = {
+  selected: {
+    doc: 'Controlled feedback selection. When provided, exposes `aria-pressed`. Omit for ordinary actions such as regenerate.',
+    type: 'boolean',
+    status: 'optional',
+  },
   label: {
     doc: 'Label used for the tooltip and for screen readers.',
     type: 'string',
@@ -209,7 +214,7 @@ export const AiActionProperties: PropertiesTableProps = {
     status: 'required',
   },
   '[Button](/uilib/components/button/properties)': {
-    doc: 'Other Button properties like `onClick` or `disabled` are supported.',
+    doc: 'Other Button properties like `onClick` or `disabled` are supported. Defaults to small buttons with default-size icons and an expanded touch area.',
     type: 'Various',
     status: 'optional',
   },
