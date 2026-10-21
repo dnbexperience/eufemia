@@ -967,9 +967,10 @@ describe('MCP dependency configuration', () => {
     )
 
     expect(packageJson.devDependencies).toBeDefined()
+    // Any exact 2.x pin: this guards the v2 SDK, not one specific release.
     expect(
       packageJson.devDependencies['@modelcontextprotocol/server']
-    ).toBe('2.0.0')
+    ).toMatch(/^2\.\d+\.\d+$/)
   })
 
   it('has .vscode/mcp.json with correct eufemia server configuration', () => {
