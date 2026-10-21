@@ -298,7 +298,16 @@ function AccordionContent(props: ItemContentProps) {
         }}
       >
         <Hr bottom={false} />
-        <Space {...spacingProps}>{children}</Space>
+        <Space
+          className={clsx(
+            'dnb-list__item__accordion__inner',
+            !spacingProps.innerSpace &&
+              'dnb-list__item__accordion__inner--flush'
+          )}
+          {...spacingProps}
+        >
+          {children}
+        </Space>
       </HeightAnimation>
     </FlexItem>
   )

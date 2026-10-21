@@ -114,6 +114,57 @@ for (const width of [400, 1024]) {
       await expect(page).toHaveURL(/#footer-help$/)
     })
 
+    test('joins nested list corners to the accordion header', async ({
+      page,
+    }) => {
+      await page.goto('/uilib/components/list/visual-tests/action-footer/')
+
+      const example = page.locator(
+        '[data-visual-test="list-action-footer"]'
+      )
+      const row = example.locator('.dnb-list__item__action').first()
+      const trigger = row.locator('[role="button"]')
+      const footerButton = row.locator('button')
+
+      for (const target of [trigger, footerButton]) {
+        await target.focus()
+        await expect(row).toHaveCSS('border-top-left-radius', '0px')
+        await expect(row).toHaveCSS('border-top-right-radius', '0px')
+        expect(
+          await row.evaluate(
+            (element) =>
+              getComputedStyle(element, '::after').borderTopLeftRadius
+          )
+        ).toBe('0px')
+      }
+
+      const accordion = example
+        .locator('.dnb-list__item__accordion')
+        .first()
+      await expect(accordion).not.toHaveCSS(
+        'border-top-left-radius',
+        '0px'
+      )
+      const lastRow = example.locator('.dnb-list__item__action').last()
+      await expect(lastRow).not.toHaveCSS(
+        'border-bottom-left-radius',
+        '0px'
+      )
+
+      for (const testId of [
+        'inset-list',
+        'separated-list',
+        'standalone-list',
+      ]) {
+        const first = page
+          .getByTestId(testId)
+          .locator('.dnb-list__item')
+          .first()
+        await expect(first).not.toHaveCSS('border-top-left-radius', '0px')
+        await expect(first).not.toHaveCSS('border-top-right-radius', '0px')
+      }
+    })
+
     test('excludes disabled and pending footer controls from keyboard navigation', async ({
       page,
     }) => {

@@ -520,6 +520,14 @@
       &__content {
         display: flex;
         flex-direction: column;
+
+        // A flush nested list shares its top edge with the accordion header.
+        .dnb-list__item__accordion__inner--flush
+          > .dnb-list:not(.dnb-list--separated):first-child
+          > .dnb-list__item:first-of-type:not([hidden]) {
+          border-top-left-radius: 0;
+          border-top-right-radius: 0;
+        }
       }
     }
 
