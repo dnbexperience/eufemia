@@ -207,7 +207,10 @@ function InputComponent({ ref, ...restProps }: InputProps) {
 
         if (input.value !== initialInput.value) {
           const event = new Event('change')
-          Object.defineProperty(event, 'target', { value: input })
+          Object.defineProperties(event, {
+            target: { value: input },
+            currentTarget: { value: input },
+          })
           onChangeHandler(
             event as unknown as ChangeEvent<HTMLInputElement>
           )

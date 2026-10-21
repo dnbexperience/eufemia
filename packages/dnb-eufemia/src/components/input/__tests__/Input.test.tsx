@@ -1332,6 +1332,38 @@ describe('Input with server-rendered markup', () => {
     unmount()
   })
 
+  it.each([
+    ['', false],
+    ['Prefilled', false],
+    ['', true],
+    ['Prefilled', true],
+  ])(
+    'should give hydration change handlers the input as currentTarget (value: %s, StrictMode: %s)',
+    (value, strictMode) => {
+      const onChange = vi.fn(({ event }) =>
+        event.currentTarget?.value.toUpperCase()
+      )
+      const element = (
+        <Input id="hydrated-input" value={value} onChange={onChange} />
+      )
+      const { input, recoverableErrors, unmount } = hydrate(
+        strictMode ? <StrictMode>{element}</StrictMode> : element,
+        'typed'
+      )
+
+      try {
+        expect(onChange).toHaveBeenCalledTimes(1)
+        expect(onChange.mock.calls[0][0].event.target).toBe(input)
+        expect(onChange.mock.calls[0][0].event.currentTarget).toBe(input)
+        expect(onChange.mock.results[0].value).toBe('TYPED')
+        expect(input).toHaveValue('TYPED')
+        expect(recoverableErrors).toEqual([])
+      } finally {
+        unmount()
+      }
+    }
+  )
+
   it('should keep a prefilled value changed before hydration', () => {
     const onChange = vi.fn()
     const { input, unmount } = hydrate(
