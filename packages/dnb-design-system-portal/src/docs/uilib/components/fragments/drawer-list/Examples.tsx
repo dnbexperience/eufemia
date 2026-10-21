@@ -172,7 +172,7 @@ export const DrawerListExampleInlineStyling = () => (
         preventClose
         observerElement=".dnb-live-preview" // prevents direction to change when scrolling in this example
       >
-        <DrawerList.Options>
+        <DrawerList.Options aria-label="Items">
           <DrawerList.Item
             style={{ color: 'red' }}
             key="A"
@@ -184,14 +184,11 @@ export const DrawerListExampleInlineStyling = () => (
           >
             Item 1
           </DrawerList.Item>
-          <DrawerList.HorizontalItem
-            style={{ color: 'green' }}
-            key="B"
-            selected={false}
-            value="B"
-          >
-            Item 2
-          </DrawerList.HorizontalItem>
+          <DrawerList.Item key="B" selected={false} value="B">
+            <DrawerList.HorizontalItem style={{ color: 'green' }}>
+              Item 2
+            </DrawerList.HorizontalItem>
+          </DrawerList.Item>
         </DrawerList.Options>
       </DrawerList>
     </ComponentBox>
@@ -303,7 +300,7 @@ export const DrawerListExampleMarkup = () => (
 
           return (
             <CustomWidth skipPortal open preventClose>
-              <DrawerList.Options>
+              <DrawerList.Options aria-label="Items">
                 {list.map(({ value, ...props }, i) => (
                   <DrawerList.Item
                     key={i}
