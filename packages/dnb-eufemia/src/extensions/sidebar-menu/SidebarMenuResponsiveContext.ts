@@ -1,6 +1,11 @@
 import { createContext, useContext } from 'react'
 import type { RefObject } from 'react'
 
+export const sidebarMenuResponsiveStateOptions = {
+  scope: 'sidebar-menu-responsive/v1',
+  getServerSnapshot: () => undefined,
+}
+
 export type SidebarMenuResponsiveContextValue = {
   close: () => void
   drawerScrollElement: HTMLElement | null

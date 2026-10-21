@@ -28,6 +28,7 @@ import { clsx } from 'clsx'
 import useCombinedRef from '../../shared/helpers/useCombinedRef'
 import useUniqueId from '../../shared/helpers/useId'
 import useIsomorphicLayoutEffect from '../../shared/helpers/useIsomorphicLayoutEffect'
+import { useSharedState } from '../../shared/helpers/useSharedState'
 import {
   getWebStorage,
   readWebStorageJSON,
@@ -39,6 +40,7 @@ import {
   SidebarMenuResponsiveAsideContext,
   SidebarMenuResponsiveInlineCompactContext,
   SidebarMenuResponsiveContext,
+  sidebarMenuResponsiveStateOptions,
   useSidebarMenuResponsiveContext,
 } from './SidebarMenuResponsiveContext'
 import type { SidebarMenuResponsiveContextValue } from './SidebarMenuResponsiveContext'
@@ -92,7 +94,7 @@ export type SidebarMenuResponsiveValue = Pick<
 
 export type SidebarMenuResponsiveProviderProps = {
   children: ReactNode
-  /** Stable scope used by generated first-paint CSS. */
+  /** Unique scope used by first-paint CSS and Toggles outside this provider. */
   scopeId?: string
   /** Maximum viewport width at which the mobile Drawer is used. */
   drawerAt?: MediaQuerySizes | `${number}em`
@@ -367,6 +369,19 @@ export function SidebarMenuResponsiveProvider({
       scopeId,
     ]
   )
+
+  const { update } = useSharedState<SidebarMenuResponsiveContextValue>(
+    typeof window === 'undefined' ? undefined : scopeIdProp,
+    undefined,
+    null,
+    sidebarMenuResponsiveStateOptions
+  )
+
+  useIsomorphicLayoutEffect(() => {
+    update(value)
+  }, [update, value])
+
+  useIsomorphicLayoutEffect(() => () => update(undefined), [update])
 
   const firstPaintCss = useMemo(
     () => getFirstPaintCss(scopeId, resolvedDrawerAt, resolvedCompactAt),

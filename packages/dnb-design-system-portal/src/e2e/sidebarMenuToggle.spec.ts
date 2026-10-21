@@ -2,6 +2,54 @@ import { test, expect } from '@playwright/test'
 import waitForApp from './shared/waitForApp'
 
 test.describe('SidebarMenu toggle', () => {
+  test('controls desktop and mobile navigation from outside the provider', async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1600, height: 1000 })
+    await page.goto(
+      '/uilib/extensions/sidebar-menu/demos/#toggle-outside-the-provider'
+    )
+    await waitForApp(page)
+    const example = page.locator(
+      '[data-sidebar-menu-external-toggle-example]'
+    )
+    const toggle = example.locator('.dnb-sidebar-menu-toggle').first()
+    const inline = example.locator('.dnb-sidebar-menu-responsive-inline')
+    await expect(toggle).toBeEnabled()
+    await expect(toggle).toHaveAttribute('aria-expanded', 'true')
+    expect(
+      await toggle.evaluate((element) =>
+        element.closest('.dnb-sidebar-menu-responsive-provider')
+      )
+    ).toBeNull()
+    await toggle.click()
+    await expect(inline).toHaveAttribute('inert')
+    await expect(toggle).toHaveAttribute('aria-expanded', 'false')
+    await toggle.click()
+    await expect(inline).not.toHaveAttribute('inert')
+    await example
+      .locator('.dnb-sidebar-menu-responsive-inline__toggle')
+      .click()
+    await expect(toggle).toHaveAttribute('aria-expanded', 'false')
+    await toggle.click()
+    await expect(inline).not.toHaveAttribute('inert')
+
+    await page.setViewportSize({ width: 500, height: 900 })
+    await expect(toggle).toHaveAttribute('aria-haspopup', 'dialog')
+    await expect(toggle).toHaveAttribute(
+      'aria-controls',
+      'external-toggle-drawer'
+    )
+    await toggle.click()
+    const dialog = page.locator('#external-toggle-drawer[role="dialog"]')
+    await expect(dialog).toBeVisible()
+    await expect(toggle).toHaveAttribute('aria-hidden', 'true')
+    await page.keyboard.press('Escape')
+    await expect(dialog).not.toBeVisible()
+    await expect(toggle).toHaveAttribute('aria-expanded', 'false')
+    await expect(toggle).toBeFocused()
+  })
+
   test('preserves the released non-compact Inline layout without generated boxes', async ({
     page,
   }) => {

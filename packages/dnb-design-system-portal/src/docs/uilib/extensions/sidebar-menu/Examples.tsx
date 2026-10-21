@@ -506,6 +506,44 @@ export function SidebarMenuToggle() {
   )
 }
 
+export function SidebarMenuExternalToggle() {
+  return (
+    <ComponentBox scope={{ home, styles }}>
+      <div data-sidebar-menu-external-toggle-example>
+        <SidebarMenu.Toggle
+          scopeId="external-toggle-example"
+          controls="external-toggle-drawer"
+          text="Menu"
+          bottom="small"
+        />
+        <SidebarMenu.ResponsiveProvider scopeId="external-toggle-example">
+          <SidebarMenu.ResponsiveShell className={styles.responsiveShell}>
+            <SidebarMenu.ResponsiveAside>
+              <SidebarMenu.Root aria-label="External toggle navigation">
+                <SidebarMenu.Item
+                  id="external-home"
+                  text="Home"
+                  icon={home}
+                />
+              </SidebarMenu.Root>
+            </SidebarMenu.ResponsiveAside>
+            <div className={styles.responsiveContent}>Page content</div>
+            <SidebarMenu.ResponsiveDrawer id="external-toggle-drawer">
+              <SidebarMenu.Root aria-label="External toggle navigation">
+                <SidebarMenu.Item
+                  id="external-mobile-home"
+                  text="Home"
+                  icon={home}
+                />
+              </SidebarMenu.Root>
+            </SidebarMenu.ResponsiveDrawer>
+          </SidebarMenu.ResponsiveShell>
+        </SidebarMenu.ResponsiveProvider>
+      </div>
+    </ComponentBox>
+  )
+}
+
 export function SidebarMenuResponsiveNavigation() {
   return (
     <ComponentBox
