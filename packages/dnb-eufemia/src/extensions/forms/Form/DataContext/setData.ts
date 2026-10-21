@@ -9,6 +9,7 @@ import {
 } from '../../../../shared/helpers/useSharedState'
 import type { UseDataReturnUpdate } from './useData'
 import { structuredClone } from '../../../../shared/helpers/structuredClone'
+import { warnOnServer } from './warnOnServer'
 
 type SetDataReturn<Data> = {
   update: UseDataReturnUpdate<Data>
@@ -18,6 +19,12 @@ export default function setData<Data>(
   id: SharedStateId,
   data?: Data
 ): SetDataReturn<Data> {
+  warnOnServer(
+    'Form.setData',
+    id,
+    'has no effect during server rendering. Give the data to Form.Handler with "data" or "defaultData" instead.'
+  )
+
   // On the server, the process-wide store would share the data with other requests
   const sharedState = createSharedState(
     id,

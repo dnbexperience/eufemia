@@ -114,3 +114,7 @@ const filterDataHandler = ({ path, value, data, props, error }) => {
 const { filterData } = Form.getData(myFormId)
 const filteredData = filterData(filterDataHandler)
 ```
+
+## Server-side rendering (SSR)
+
+During server rendering, `Form.getData` does not get the form data, even inside a [Provider](/uilib/usage/customisation/provider/). The returned `data` is `undefined`. When the browser then renders the data, React reports a hydration mismatch. To read form data while a component renders, use [Form.useData](/uilib/extensions/forms/Form/useData/) or [Form.useDataWithoutSubscription](/uilib/extensions/forms/Form/useData/#without-subscription). In development, Eufemia logs a warning when `Form.getData` runs on the server.

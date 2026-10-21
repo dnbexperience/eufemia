@@ -248,7 +248,7 @@ render(
 )
 ```
 
-On the server, give the initial data to `Form.Handler` with `data` or `defaultData`. Data set with `Form.setData` is not used during server rendering.
+On the server, give the initial data to `Form.Handler` with `data` or `defaultData`. Data set with `Form.setData` is not used during server rendering, and `Form.getData` does not return form data there. To read form data while a component renders, use `Form.useData`.
 
 ### Filter data
 

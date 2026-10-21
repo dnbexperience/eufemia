@@ -13,6 +13,15 @@ describe('getData', () => {
     identifier = makeUniqueId()
   })
 
+  it('should not warn about server rendering in the browser', () => {
+    const log = vi.spyOn(console, 'log').mockImplementation(() => {})
+
+    getData(identifier)
+
+    expect(log).not.toHaveBeenCalled()
+    log.mockRestore()
+  })
+
   it('should be able to get data from form before render', () => {
     type Data = { foo: string }
     setData<Data>(identifier, { foo: 'bar' })

@@ -177,4 +177,110 @@ describe('DataContext.Provider SSR', () => {
     expect(html).toContain('label-bar')
     expect(html).toContain('>bar<')
   })
+
+  describe('imperative helpers', () => {
+    // warn() logs the "Eufemia" badge first and the message second
+    const getWarnings = (log: ReturnType<typeof vi.spyOn>) =>
+      log.mock.calls.map(([, message]) => message)
+
+    let log: ReturnType<typeof vi.spyOn>
+
+    beforeEach(() => {
+      log = vi.spyOn(console, 'log').mockImplementation(() => {})
+    })
+
+    afterEach(() => {
+      log.mockRestore()
+    })
+
+    it('should warn once when Form.getData runs during a server render', () => {
+      const Reader = () => {
+        const { data } = Form.getData<{ name?: string }>('ssr-get-data')
+        return <output>name:{data?.name}</output>
+      }
+      const element = (
+        <SharedProvider>
+          <Form.Handler id="ssr-get-data" data={{ name: 'Alice' }}>
+            <Reader />
+          </Form.Handler>
+        </SharedProvider>
+      )
+
+      const html = renderToString(element)
+      renderToString(element)
+
+      // Form.getData cannot reach the store of the render, also inside a Provider
+      expect(html).not.toContain('Alice')
+      expect(getWarnings(log)).toEqual([
+        "Form.getData('ssr-get-data') does not get form data during server rendering. Use Form.useData or Form.useDataWithoutSubscription inside the component instead.",
+      ])
+    })
+
+    it('should warn with its own name when Iterate.count runs during a server render', () => {
+      const Reader = () => (
+        <output>
+          count:{Iterate.count({ id: 'ssr-count-fn', path: '/list' })}
+        </output>
+      )
+
+      const html = renderToString(
+        <SharedProvider>
+          <Form.Handler id="ssr-count-fn" data={{ list: [1, 2, 3] }}>
+            <Reader />
+          </Form.Handler>
+        </SharedProvider>
+      )
+
+      expect(html).toContain('count:<!-- -->NaN')
+      expect(getWarnings(log)).toEqual([
+        "Iterate.count('ssr-count-fn') does not get form data during server rendering. Use Iterate.useCount inside the component instead.",
+      ])
+    })
+
+    it('should warn when Form.setData runs on the server', () => {
+      Form.setData('ssr-set-data-warning', { name: 'Alice' })
+
+      expect(getWarnings(log)).toEqual([
+        'Form.setData(\'ssr-set-data-warning\') has no effect during server rendering. Give the data to Form.Handler with "data" or "defaultData" instead.',
+      ])
+    })
+
+    it('should name only the helper, and warn once, when the id is not a string', () => {
+      const id = {}
+
+      Form.getData(id)
+      Form.getData(id)
+
+      expect(getWarnings(log)).toEqual([
+        'Form.getData does not get form data during server rendering. Use Form.useData or Form.useDataWithoutSubscription inside the component instead.',
+      ])
+    })
+
+    it('should give the data to the hooks that the warnings recommend', () => {
+      const Reader = () => {
+        const { data } = Form.useData<{ list: number[] }>('ssr-hooks')
+        const { getData } = Form.useDataWithoutSubscription<{
+          list: number[]
+        }>('ssr-hooks')
+        const { count } = Iterate.useCount('ssr-hooks')
+
+        return (
+          <output>
+            {`useData:${data.list.length} without:${getData().list.length} useCount:${count('/list')}`}
+          </output>
+        )
+      }
+
+      const html = renderToString(
+        <SharedProvider>
+          <Form.Handler id="ssr-hooks" data={{ list: [1, 2, 3] }}>
+            <Reader />
+          </Form.Handler>
+        </SharedProvider>
+      )
+
+      expect(html).toContain('useData:3 without:3 useCount:3')
+      expect(getWarnings(log)).toEqual([])
+    })
+  })
 })
