@@ -208,8 +208,10 @@ function ModalComponent(ownProps: ModalAllProps) {
     (isModalActive: boolean, currentPreventAutoFocus: boolean) => {
       if (isModalActive) {
         if (typeof closeModal === 'function') {
+          let closedSynchronously = false
           const fn = closeModal(
             (params) => {
+              closedSynchronously = true
               // So onClose gets called with "triggeredBy".
               // The function may also be used as an event listener, or get null.
               modalContentCloseRef.current?.(
@@ -220,8 +222,12 @@ function ModalComponent(ownProps: ModalAllProps) {
             },
             { _id: _id.current, props: propsRef.current }
           )
-          if (fn) {
-            callbackCleanupsRef.current.push(fn)
+          if (typeof fn === 'function') {
+            if (closedSynchronously) {
+              fn()
+            } else {
+              callbackCleanupsRef.current.push(fn)
+            }
           }
         }
         setActiveState(_id.current)

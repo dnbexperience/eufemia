@@ -2086,6 +2086,39 @@ describe('Modal openModal and closeModal', () => {
       vi.advanceTimersByTime(ms)
     })
 
+  it.each([true, false])(
+    'should run cleanup once when closeModal closes synchronously (noAnimation=%s)',
+    (noAnimation) => {
+      const cleanup = vi.fn()
+      const { unmount } = render(
+        <Modal
+          {...props}
+          noAnimation={noAnimation}
+          animationDuration={100}
+          closeModal={(close) => {
+            close()
+            return cleanup
+          }}
+        >
+          <DialogContent />
+        </Modal>
+      )
+
+      openByTrigger()
+      wait(100)
+      expect(isOpen()).toBe(false)
+      expect(cleanup).toHaveBeenCalledTimes(1)
+
+      openByTrigger()
+      wait(100)
+      expect(isOpen()).toBe(false)
+      expect(cleanup).toHaveBeenCalledTimes(2)
+
+      unmount()
+      expect(cleanup).toHaveBeenCalledTimes(2)
+    }
+  )
+
   it('should not call openModal when the modal closes', () => {
     const openModal = vi.fn<ModalProps['openModal']>((open) => {
       const timeout = setTimeout(open, 1000)
