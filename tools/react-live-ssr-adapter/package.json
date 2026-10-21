@@ -32,7 +32,7 @@
     "react-dom": "19.3.0",
     "react-live": "5.0.1",
     "typescript": "6.0.3",
-    "vitest": "4.1.11"
+    "vitest": "4.1.12"
   },
   "volta": {
     "extends": "../../package.json"
