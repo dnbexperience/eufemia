@@ -2839,7 +2839,7 @@ __metadata:
     "@maskito/react": "npm:5.6.0"
     "@modelcontextprotocol/node": "npm:2.0.0"
     "@modelcontextprotocol/server": "npm:2.3.0"
-    "@modelcontextprotocol/server-legacy": "npm:2.0.0"
+    "@modelcontextprotocol/server-legacy": "npm:2.3.1"
     "@navikt/fnrvalidator": "npm:2.2.1"
     "@playwright/test": "npm:1.60.0"
     "@semantic-release/changelog": "npm:6.0.3"
@@ -4311,21 +4311,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@modelcontextprotocol/core@npm:2.0.0":
-  version: 2.0.0
-  resolution: "@modelcontextprotocol/core@npm:2.0.0"
-  dependencies:
-    zod: "npm:^4.2.0"
-  checksum: 10/65d695e0fb8def8fcaa72f49866dcf6adaefb06b03bfb17691c11a07b147ef60cbb0076f38438c774dfa8ceff21b14a9c21aa1d30fa665fe83e4bb2a447a9d51
-  languageName: node
-  linkType: hard
-
 "@modelcontextprotocol/core@npm:2.3.0":
   version: 2.3.0
   resolution: "@modelcontextprotocol/core@npm:2.3.0"
   dependencies:
     zod: "npm:^4.2.0"
   checksum: 10/f6fa98eb4240036ba7954a3da3cdfff6137865c92eb27aef58539d29d28ae2061242704e39186e332ec53354120fd04a5accf69e99013505547f93db5bee9997
+  languageName: node
+  linkType: hard
+
+"@modelcontextprotocol/core@npm:2.3.1":
+  version: 2.3.1
+  resolution: "@modelcontextprotocol/core@npm:2.3.1"
+  dependencies:
+    zod: "npm:^4.2.0"
+  checksum: 10/ca30f0b162c3f8a04d0d8ca6f712a7c6aa19524178bc5eebd04b9e4738793346f8b280695da5fb30b5c371dda5fda47a3625272481b9c3b36682b12a6d639236
   languageName: node
   linkType: hard
 
@@ -4344,11 +4344,11 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@modelcontextprotocol/server-legacy@npm:2.0.0":
-  version: 2.0.0
-  resolution: "@modelcontextprotocol/server-legacy@npm:2.0.0"
+"@modelcontextprotocol/server-legacy@npm:2.3.1":
+  version: 2.3.1
+  resolution: "@modelcontextprotocol/server-legacy@npm:2.3.1"
   dependencies:
-    "@modelcontextprotocol/core": "npm:2.0.0"
+    "@modelcontextprotocol/core": "npm:2.3.1"
     content-type: "npm:^1.0.5"
     cors: "npm:^2.8.5"
     express-rate-limit: "npm:^8.2.1"
@@ -4360,7 +4360,7 @@ __metadata:
   peerDependenciesMeta:
     express:
       optional: true
-  checksum: 10/b6648532ff214f7ad363aa013aa52824ec0f3897deb28ee32da01521761c8231a35b1fcffd83afbe49adf0c2544ed836397a1f7e067174e5a6ee44ed9b70a337
+  checksum: 10/40927ac3e27610cee7fe9432d53ba868f71c426b5e7049c1509981febfaa1648a0d641219db13109c66cbbf7a81695ad5f475f248b2537a1c0308458ec925735
   languageName: node
   linkType: hard
 
