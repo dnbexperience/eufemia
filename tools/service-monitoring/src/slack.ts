@@ -1,0 +1,38 @@
+export async function sendSlack(
+  webhook: string,
+  text: string,
+  request: typeof fetch = fetch
+) {
+  try {
+    const url = new URL(webhook)
+    if (
+      url.protocol !== 'https:' ||
+      url.hostname !== 'hooks.slack.com' ||
+      url.port ||
+      url.username ||
+      url.password ||
+      url.search ||
+      url.hash ||
+      !/^\/services\/[^/]+\/[^/]+\/[^/]+$/.test(url.pathname)
+    ) {
+      throw new Error('Invalid webhook')
+    }
+    const response = await request(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        text,
+        unfurl_links: false,
+        unfurl_media: false,
+      }),
+      signal: AbortSignal.timeout(15_000),
+      redirect: 'error',
+    })
+    if (!response.ok || (await response.text()) !== 'ok') {
+      throw new Error('Rejected notification')
+    }
+  } catch {
+    // Request errors can contain the secret URL.
+    throw new Error('Slack notification could not be delivered')
+  }
+}

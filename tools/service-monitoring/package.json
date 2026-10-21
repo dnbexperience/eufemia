@@ -1,0 +1,25 @@
+{
+  "name": "eufemia-service-monitoring",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs",
+    "test": "vitest run",
+    "test:types": "tsc --noEmit",
+    "lint": "node ../../node_modules/.bin/eslint 'src/**/*.ts' '__tests__/**/*.ts' && node ../../node_modules/.bin/prettier --check '**/*.{ts,json,md,yml}' ../../.github/workflows/service-monitoring.yml",
+    "audit:ci": "yarn npm audit --recursive --environment production --severity high"
+  },
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "3.1075.0",
+    "@aws-sdk/client-secrets-manager": "3.1075.0"
+  },
+  "devDependencies": {
+    "esbuild": "0.25.5",
+    "typescript": "6.0.3",
+    "vitest": "4.1.11"
+  },
+  "volta": {
+    "extends": "../../package.json"
+  }
+}
