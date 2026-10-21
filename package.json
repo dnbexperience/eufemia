@@ -55,7 +55,7 @@
     "lodash": "4.18.1",
     "lodash-es": "4.18.1",
     "nanoid": "3.3.18",
-    "path-to-regexp": "8.4.0",
+    "path-to-regexp@npm:^8.0.0": "8.4.2",
     "postcss": "8.5.23",
     "qs": "6.16.0",
     "sharp": "0.35.5",
