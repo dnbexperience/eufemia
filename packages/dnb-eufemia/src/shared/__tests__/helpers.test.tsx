@@ -6,9 +6,6 @@
 import path from 'node:path'
 import vm from 'node:vm'
 import { fireEvent, render } from '@testing-library/react'
-
-// @ts-expect-error Vite requires a newer module-resolution mode than the
-// package's legacy typecheck; Vitest still resolves it through Vite itself.
 import { build } from 'vite'
 
 import {
@@ -407,6 +404,9 @@ describe('"warn" should', () => {
         },
       })
       const [output] = Array.isArray(result) ? result : [result]
+      if (!('output' in output)) {
+        throw new Error('Expected a build result, not a watcher')
+      }
       const log = vi.fn()
 
       vm.runInNewContext(
