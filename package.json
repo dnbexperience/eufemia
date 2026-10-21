@@ -38,7 +38,7 @@
     "@types/react-dom": "19.3.0",
     "fast-uri@npm:^3.0.1": "npm:3.1.8",
     "@babel/core": "7.29.7",
-    "@babel/plugin-transform-modules-systemjs": "7.29.4",
+    "@babel/plugin-transform-modules-systemjs": "7.29.7",
     "@babel/runtime": "7.26.10",
     "@hono/node-server@npm:^1.19.9": "1.19.17",
     "@xmldom/xmldom": "0.8.15",
