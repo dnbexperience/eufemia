@@ -468,7 +468,19 @@
 
   .dnb-drawer-list__option:not(.dnb-drawer-list__option--selected):hover
     .dnb-drawer-list__option__inner {
+    @include utilities.fakeBorder(
+      var(--token-color-stroke-neutral-bold),
+      0.0625rem,
+      inset
+    );
+
     background-color: var(--token-color-background-neutral-base);
+  }
+
+  .dnb-drawer-list__option:not(.dnb-drawer-list__option--selected):active
+    .dnb-drawer-list__option__inner {
+    box-shadow: none;
+    background-color: var(--token-color-background-neutral-alternative);
   }
 
   .dnb-drawer-list__option--selected {
@@ -513,6 +525,18 @@
     }
   }
 
+  .dnb-drawer-list__option--selected:hover
+    .dnb-drawer-list__option__inner {
+    --border-color: var(--token-color-stroke-neutral-bold);
+  }
+
+  .dnb-drawer-list__option--selected:active
+    .dnb-drawer-list__option__inner {
+    --border-color: var(--token-color-stroke-neutral-subtle);
+
+    background-color: var(--token-color-background-neutral-alternative);
+  }
+
   .dnb-drawer-list__option--selected:has(.dnb-sidebar-menu__badge)
     .dnb-drawer-list__option__inner {
     column-gap: 0.5rem;
@@ -534,9 +558,7 @@
 html[data-whatinput='keyboard']
   .dnb-sidebar-menu__sections-portal
   .dnb-drawer-list__option--focus {
-  --drawer-list-option-color-text--focus: var(
-    --token-color-text-action-focus
-  );
+  --drawer-list-option-color-text--focus: var(--token-color-text-neutral);
 
   box-shadow: none;
 
@@ -547,7 +569,7 @@ html[data-whatinput='keyboard']
       inset
     );
 
-    background-color: var(--token-color-background-action-focus-subtle);
+    background-color: var(--token-color-background-neutral-base);
   }
 }
 
