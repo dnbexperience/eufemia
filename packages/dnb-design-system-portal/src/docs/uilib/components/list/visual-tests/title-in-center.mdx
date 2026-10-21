@@ -52,6 +52,42 @@ export const TitleInCenter = () => (
         <List.Item.Basic data-testid="center-only">
           <List.Cell.Center>{Title(props)}</List.Cell.Center>
         </List.Item.Basic>
+        <List.Item.Accordion
+          icon={fish_medium}
+          data-testid="accordion-title"
+        >
+          <List.Item.Accordion.Header>
+            {Title(props)}
+          </List.Item.Accordion.Header>
+          <List.Item.Accordion.Content>
+            Content
+          </List.Item.Accordion.Content>
+        </List.Item.Accordion>
+        <List.Item.Accordion
+          icon={fish_medium}
+          data-testid="accordion-center"
+        >
+          <List.Item.Accordion.Header>
+            <List.Cell.Center>{Title(props)}</List.Cell.Center>
+          </List.Item.Accordion.Header>
+          <List.Item.Accordion.Content>
+            Content
+          </List.Item.Accordion.Content>
+        </List.Item.Accordion>
+        <List.Item.Action
+          icon={fish_medium}
+          href="/"
+          data-testid="link-title"
+        >
+          {Title(props)}
+        </List.Item.Action>
+        <List.Item.Action
+          icon={fish_medium}
+          href="/"
+          data-testid="link-center"
+        >
+          <List.Cell.Center>{Title(props)}</List.Cell.Center>
+        </List.Item.Action>
         <List.Item.Action icon={fish_medium} data-testid="center-content">
           {Title(props)}
           <List.Cell.Center>Center content</List.Cell.Center>

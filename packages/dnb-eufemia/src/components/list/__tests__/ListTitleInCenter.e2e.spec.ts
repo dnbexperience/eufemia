@@ -10,7 +10,12 @@ for (const width of [1024, 600, 360]) {
       await page.goto(
         '/uilib/components/list/visual-tests/title-in-center/'
       )
+      await page
+        .getByTestId('long')
+        .getByTestId('center-content')
+        .waitFor()
       await page.evaluate(() => document.fonts.ready)
+      await page.waitForFunction(() => document.fonts.status === 'loaded')
     })
 
     for (const variant of [
@@ -23,48 +28,55 @@ for (const width of [1024, 600, 360]) {
       for (const [reference, row] of [
         ['title', 'center'],
         ['title-only', 'center-only'],
+        ['accordion-title', 'accordion-center'],
+        ['link-title', 'link-center'],
       ]) {
         test(`places the title like a direct title (${variant}, ${row})`, async ({
           page,
         }) => {
-          const getLayout = (testId: string) =>
-            page
-              .getByTestId(variant)
-              .getByTestId(testId)
-              .evaluate((item) => {
-                const itemRect = item.getBoundingClientRect()
-                // Ignore sub-pixel noise between equal layouts
-                const round = (value: number) =>
-                  Math.round(value * 100) / 100
-                const box = (selector: string) => {
-                  const element = item.querySelector(selector)
-                  if (!element) {
-                    return null
+          // Measure both rows at once, so they share the same font state
+          const [expected, received] = await page
+            .getByTestId(variant)
+            .evaluate(
+              (container, testIds) =>
+                testIds.map((testId) => {
+                  const item = container.querySelector(
+                    `[data-testid="${testId}"]`
+                  )
+                  const itemRect = item.getBoundingClientRect()
+
+                  // Ignore sub-pixel noise between equal layouts
+                  const round = (value: number) =>
+                    Math.round(value * 100) / 100
+                  const box = (selector: string) => {
+                    const element = item.querySelector(selector)
+                    if (!element) {
+                      return null
+                    }
+                    const rect = element.getBoundingClientRect()
+                    return {
+                      top: round(rect.top - itemRect.top),
+                      left: round(rect.left - itemRect.left),
+                      width: round(rect.width),
+                      height: round(rect.height),
+                    }
                   }
-                  const rect = element.getBoundingClientRect()
+
                   return {
-                    top: round(rect.top - itemRect.top),
-                    left: round(rect.left - itemRect.left),
-                    width: round(rect.width),
-                    height: round(rect.height),
+                    height: round(itemRect.height),
+                    title: box('.dnb-list__item__title > span > span'),
+                    overline: box('.dnb-list__item__overline'),
+                    subline: box('.dnb-list__item__subline'),
+                    icon: box('.dnb-list__item__icon'),
+                    end: box('.dnb-list__item__end'),
+                    chevron: box('.dnb-list__item__chevron'),
                   }
-                }
+                }),
+              [reference, row]
+            )
 
-                return {
-                  height: round(itemRect.height),
-                  title: box('.dnb-list__item__title > span > span'),
-                  overline: box('.dnb-list__item__overline'),
-                  subline: box('.dnb-list__item__subline'),
-                  icon: box('.dnb-list__item__icon'),
-                  end: box('.dnb-list__item__end'),
-                  chevron: box('.dnb-list__item__chevron'),
-                }
-              })
-
-          const expected = await getLayout(reference)
           expect(expected.title).not.toBeNull()
-
-          expect(await getLayout(row)).toEqual(expected)
+          expect(received).toEqual(expected)
         })
       }
     }
@@ -75,11 +87,13 @@ for (const width of [1024, 600, 360]) {
       test(`keeps the center cell in place (${variant})`, async ({
         page,
       }) => {
-        const getCenter = (container: string) =>
-          page
-            .getByTestId(container)
-            .getByTestId('center-content')
-            .evaluate((item) => {
+        // Measure both rows at once, so they share the same font state
+        const [received, expected] = await page.evaluate(
+          (containers) =>
+            containers.map((container) => {
+              const item = document.querySelector(
+                `[data-testid="${container}"] [data-testid="center-content"]`
+              )
               const itemRect = item.getBoundingClientRect()
               const rect = item
                 .querySelector('.dnb-list__item__center')
@@ -88,9 +102,11 @@ for (const width of [1024, 600, 360]) {
                 left: Math.round(rect.left - itemRect.left),
                 width: Math.round(rect.width),
               }
-            })
+            }),
+          [variant, 'plain']
+        )
 
-        expect(await getCenter(variant)).toEqual(await getCenter('plain'))
+        expect(received).toEqual(expected)
       })
     }
   })
