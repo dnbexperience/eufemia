@@ -1951,7 +1951,7 @@ describe('Wizard.Container', () => {
       expect(nextButton()).toBeDisabled()
       expect(
         document.querySelector(
-          '.dnb-forms-submit-indicator--state-pending'
+          '.dnb-forms-submit-indicator-glow__status--state-pending'
         )
       ).toBeInTheDocument()
 
