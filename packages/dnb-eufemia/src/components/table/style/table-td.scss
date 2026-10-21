@@ -118,7 +118,12 @@
       z-index: 6; // to be above the table outline/border
       inset: 0;
       right: calc(var(--table-accordion-outline-width--active) * -1);
-      border: var(--border-width, 0) solid var(--border-color, transparent);
+      border: var(--border-width) solid var(--border-color);
+
+      // Declare the defaults here, so an ancestor's focus ring
+      // (e.g. a focused Table.ScrollView) is not inherited.
+      --border-width: 0;
+      --border-color: transparent;
     }
 
     @include utilities.hover() {
