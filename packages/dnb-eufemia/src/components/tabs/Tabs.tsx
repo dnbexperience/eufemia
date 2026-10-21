@@ -1310,17 +1310,23 @@ Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outs
               </span>
               <Dummy>{title as ReactNode}</Dummy>
             </TabElement>
-            {tooltip && (
-              <Tooltip
-                id={`${_id}-tab-${key}-tooltip`}
-                targetElement={getTabRef(key)}
-              >
-                {tooltip}
-              </Tooltip>
-            )}
           </div>
         )
       }
+    )
+
+    // Rendered outside the tablist, which may only contain tabs
+    const tooltips = currentData.map(
+      ({ key, tooltip }) =>
+        tooltip && (
+          <Tooltip
+            key={`tooltip-${key}`}
+            id={`${_id}-tab-${key}-tooltip`}
+            targetElement={getTabRef(key)}
+          >
+            {tooltip}
+          </Tooltip>
+        )
     )
 
     const params: Record<string, unknown> = {}
@@ -1334,22 +1340,25 @@ Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outs
       )
     }
     return (
-      <div
-        role="tablist"
-        className="dnb-tabs__tabs__tablist"
-        tabIndex={0}
-        onKeyDown={onTablistKeyDownHandler}
-        onWheelCapture={onTablistWheelHandler}
-        ref={tablistRef}
-        {...params}
-      >
-        {tabs}
-        <span
-          aria-hidden
-          className="dnb-tabs__selection"
-          ref={selectionRef}
-        />
-      </div>
+      <>
+        <div
+          role="tablist"
+          className="dnb-tabs__tabs__tablist"
+          tabIndex={0}
+          onKeyDown={onTablistKeyDownHandler}
+          onWheelCapture={onTablistWheelHandler}
+          ref={tablistRef}
+          {...params}
+        >
+          {tabs}
+          <span
+            aria-hidden
+            className="dnb-tabs__selection"
+            ref={selectionRef}
+          />
+        </div>
+        {tooltips}
+      </>
     )
   }
 
