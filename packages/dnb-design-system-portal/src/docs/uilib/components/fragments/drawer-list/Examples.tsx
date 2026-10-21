@@ -34,6 +34,7 @@ export const DrawerListExampleInteractive = () => (
               <DrawerList
                 wrapperElement="#state-toggle-button"
                 skipPortal
+                aria-label="Choose an item"
                 data={data}
                 open={open}
                 onClose={() => setOpen(false)}
@@ -121,6 +122,7 @@ export const DrawerListExampleDefault = () => (
         open
         preventClose
         arrowPosition="left"
+        aria-label="Choose an item"
         data={data}
         value={3}
         onChange={({ data: selectedDataItem }) => {
@@ -142,6 +144,7 @@ export const DrawerListExampleDisabled = () => (
         skipPortal
         open
         preventClose
+        aria-label="Choose an item"
         data={[
           {
             content: 'Item 1',
@@ -202,6 +205,7 @@ export const DrawerListExampleInlineStylingData = () => (
         skipPortal
         open
         preventClose
+        aria-label="Choose an item"
         data={[
           {
             content:
@@ -262,7 +266,7 @@ export const DrawerListExampleSingleItem = () => (
             open
             preventClose
             right
-            title="Choose an item"
+            aria-label="Choose an item"
             data={() => [
               <Link key="link" href="/">
                 Go to this Link
@@ -382,6 +386,8 @@ export const DrawerListGroups = () => (
         skipPortal
         open
         preventClose
+        focusable
+        aria-label="Choose an item"
         observerElement=".dnb-live-preview" // prevents direction to change when scrolling in this example
         groups={[undefined, 'Pets', undefined, 'Cars']}
         data={[
@@ -407,6 +413,8 @@ export const DrawerListNoDivider = () => (
         skipPortal
         open
         preventClose
+        focusable
+        aria-label="Choose an item"
         observerElement=".dnb-live-preview" // prevents direction to change when scrolling in this example
         groups={[undefined, 'Pets', undefined, 'Cars']}
         data={[

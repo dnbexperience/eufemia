@@ -215,6 +215,8 @@ const DrawerListComponent = memo(function DrawerListComponent(
     onSelect: _onSelect,
     onKeyDown: _onKeyDown,
     onItemMouseEnter: _onItemMouseEnter,
+    'aria-label': ariaLabel,
+    'aria-labelledby': ariaLabelledBy,
 
     ...attributes
   } = propsWithDefaults as DrawerListAllProps & {
@@ -312,7 +314,9 @@ const DrawerListComponent = memo(function DrawerListComponent(
     role,
     id: `${id}-ul`,
     'aria-expanded': open,
-    'aria-labelledby': labelledBy,
+    'aria-label': ariaLabel,
+    'aria-labelledby':
+      ariaLabelledBy ?? (ariaLabel ? undefined : labelledBy),
     tabIndex: -1,
     style: {
       maxHeight:
@@ -504,7 +508,9 @@ const DrawerListComponent = memo(function DrawerListComponent(
                 activeItem +
                 selectedItem +
                 direction +
-                maxHeight
+                maxHeight +
+                ariaLabel +
+                ariaLabelledBy
               }
               {...ulParams}
               renderDriver={activeListDriver}
