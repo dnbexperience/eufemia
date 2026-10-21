@@ -1921,11 +1921,18 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   }
 
   const statusId = inFieldBlock ? fieldBlockContext.statusId : id
-  const statusIds = [
-    (bufferedError || error) && `${statusId}-form-status--error`,
-    warning && `${statusId}-form-status--warning`,
-    info && `${statusId}-form-status--information`,
-  ].filter(Boolean)
+  // Before hydration, only link to messages that the summary can contain
+  const canLinkStatus =
+    !inFieldBlock || canUseDOM || Boolean(collectMessages)
+  const statusIds = (
+    canLinkStatus
+      ? [
+          (bufferedError || error) && `${statusId}-form-status--error`,
+          warning && `${statusId}-form-status--warning`,
+          info && `${statusId}-form-status--information`,
+        ]
+      : []
+  ).filter(Boolean)
 
   if (statusIds.length) {
     htmlAttributes['aria-describedby'] = combineDescribedBy(

@@ -301,9 +301,13 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
 
   // Server and hydration records belong only to this render. Client records
   // are registered after commit so suspended fields cannot enter the summary.
-  const collectMessages =
-    nestedFieldBlockContext?.collectMessages ??
-    ((record: StateBasis) => setInternalRecord(record, renderRecords))
+  // A status above the contents renders before the fields, so it cannot
+  // collect their messages during render.
+  const collectMessages = nestedFieldBlockContext
+    ? nestedFieldBlockContext.collectMessages
+    : statusPosition !== 'above'
+      ? (record: StateBasis) => setInternalRecord(record, renderRecords)
+      : undefined
 
   const setFieldState = useCallback(
     (identifier: Identifier, fieldState: SubmitState) => {
@@ -445,6 +449,31 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
       showFieldError(blockId, Boolean(error))
     }
   }, [error, blockId, showFieldError, nestedFieldBlockContext])
+
+  const renderStatus = () => {
+    const statusContent = getStatusContent()
+
+    return (
+      <div
+        className={clsx(
+          'dnb-forms-field-block__status',
+
+          // Handle the width of the status messages
+          contentWidth &&
+            contentWidth !== 'small' &&
+            contentWidth !== 'medium' &&
+            !(parseFloat(contentWidth) <= 11) &&
+            `dnb-forms-field-block__contents--width-${
+              hasCustomContentWidth ? 'custom' : contentWidth
+            }`
+        )}
+      >
+        <FormStatus {...statusContent.error} />
+        <FormStatus {...statusContent.warning} />
+        <FormStatus {...statusContent.information} />
+      </div>
+    )
+  }
 
   const mainClasses = clsx(
     'dnb-forms-field-block',
@@ -613,6 +642,10 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
             />
           )}
 
+          {/* Keep the DOM order in line with the visual order. Nested
+              fields add their messages to it after hydration. */}
+          {statusPosition === 'above' && renderStatus()}
+
           <div
             className={clsx(
               'dnb-forms-field-block__contents',
@@ -628,35 +661,12 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
             {children}
           </div>
 
-          {/* Hydrate the summary after any deferred field boundaries. */}
-          <Suspense fallback={null}>
-            <RenderAfterChildren
-              render={() => {
-                const statusContent = getStatusContent()
-
-                return (
-                  <div
-                    className={clsx(
-                      'dnb-forms-field-block__status',
-
-                      // Handle the width of the status messages
-                      contentWidth &&
-                        contentWidth !== 'small' &&
-                        contentWidth !== 'medium' &&
-                        !(parseFloat(contentWidth) <= 11) &&
-                        `dnb-forms-field-block__contents--width-${
-                          hasCustomContentWidth ? 'custom' : contentWidth
-                        }`
-                    )}
-                  >
-                    <FormStatus {...statusContent.error} />
-                    <FormStatus {...statusContent.warning} />
-                    <FormStatus {...statusContent.information} />
-                  </div>
-                )
-              }}
-            />
-          </Suspense>
+          {statusPosition !== 'above' && (
+            // Hydrate the summary after any deferred field boundaries.
+            <Suspense fallback={null}>
+              <RenderAfterChildren render={renderStatus} />
+            </Suspense>
+          )}
 
           <SubmitIndicator
             state={
