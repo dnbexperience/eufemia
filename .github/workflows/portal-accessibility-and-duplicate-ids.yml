@@ -89,6 +89,7 @@ jobs:
           ref: ${{ steps.sitemap.outputs.deployment }}
           path: portal-deployed-source
           persist-credentials: false
+          sparse-checkout: packages/dnb-design-system-portal/src/docs
 
       - name: Generate sitemap before its first production deployment
         if: steps.sitemap.outputs.deployment != ''

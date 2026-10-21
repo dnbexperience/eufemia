@@ -77,6 +77,7 @@ jobs:
         with:
           persist-credentials: false
           ref: ${{ github.event.repository.default_branch }}
+          sparse-checkout: tools/assets
 
       - name: Checkout published assets
         id: release-source
@@ -85,6 +86,7 @@ jobs:
           persist-credentials: false
           ref: ${{ github.event.release.tag_name || inputs.version }}
           path: release-source
+          sparse-checkout: packages/dnb-eufemia/assets
 
       - name: Require GHE credentials
         env:
