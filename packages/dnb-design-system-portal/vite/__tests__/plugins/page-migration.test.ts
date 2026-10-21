@@ -13,6 +13,32 @@ import {
 } from '../../client/plugins/portal-pages.shared'
 
 describe('MDX route migration', () => {
+  it.each(['custom-cells', 'overline-and-subline', 'title-in-center'])(
+    'keeps incoming List fixture %s under web with its legacy URL',
+    (name) => {
+      const files = scanPageFiles(
+        path.resolve(__dirname, '../../../src/docs')
+      )
+      const slug = 'web/components/list/visual-tests/' + name
+      const fixture = files.find((file) => file.slug === slug)
+      expect(fixture).toBeDefined()
+      expect(fixture.frontmatter).toMatchObject({
+        fullscreen: true,
+        hideInMenu: true,
+        search: false,
+      })
+      expect(files.some(({ slug }) => slug.startsWith('uilib/'))).toBe(
+        false
+      )
+      expect(getPageRedirects(files)).toContainEqual(
+        expect.objectContaining({
+          from: '/uilib/components/list/visual-tests/' + name,
+          to: '/' + slug + '/',
+        })
+      )
+    }
+  )
+
   it('keeps server redirects and client fragment navigation in the generated routes', async () => {
     const plugin = portalPagesPlugin()
     const load = plugin.load as (id: string) => string

@@ -9,7 +9,7 @@ for (const width of [1024, 360]) {
 
     test.beforeEach(async ({ page }) => {
       await page.goto(
-        '/uilib/components/list/visual-tests/overline-and-subline/'
+        '/web/components/list/visual-tests/overline-and-subline/'
       )
       await page.evaluate(() => document.fonts.ready)
     })
