@@ -26,6 +26,7 @@ import type { MediaQuerySizes } from '../../shared/MediaQueryUtils'
 import { hamburger } from '../../icons'
 import { clsx } from 'clsx'
 import useCombinedRef from '../../shared/helpers/useCombinedRef'
+import useUniqueId from '../../shared/helpers/useId'
 import useIsomorphicLayoutEffect from '../../shared/helpers/useIsomorphicLayoutEffect'
 import {
   getWebStorage,
@@ -170,6 +171,7 @@ export function SidebarMenuResponsiveProvider({
   const onInlineCollapsedChangeRef = useRef(onInlineCollapsedChange)
   const inlineResetRef = useRef<() => void>(undefined)
   const [inlineIds, setInlineIds] = useState<string[]>([])
+  const inlineIdCounts = useRef(new Map<string, number>())
   const [drawerScrollElement, setDrawerScrollElementState] =
     useState<HTMLElement | null>(null)
   const setDrawerScrollElement = useCallback(
@@ -289,11 +291,21 @@ export function SidebarMenuResponsiveProvider({
     }
   }, [])
   const registerInlineId = useCallback((id: string) => {
-    setInlineIds((current) =>
-      current.includes(id) ? current : [...current, id]
-    )
+    // Inline owners can briefly overlap when an aside moves between them.
+    const counts = inlineIdCounts.current
+    const count = counts.get(id) ?? 0
+    counts.set(id, count + 1)
+    if (count === 0) {
+      setInlineIds((current) => [...current, id])
+    }
     return () => {
-      setInlineIds((current) => current.filter((value) => value !== id))
+      const remaining = (counts.get(id) ?? 1) - 1
+      if (remaining > 0) {
+        counts.set(id, remaining)
+      } else {
+        counts.delete(id)
+        setInlineIds((current) => current.filter((value) => value !== id))
+      }
     }
   }, [])
   const restoreInline = useCallback(() => {
@@ -553,6 +565,7 @@ export function SidebarMenuResponsiveInline({
     isCompact,
     isHydrated,
     isSmallScreen,
+    registerInlineId,
     scopeId,
     collapseInline,
     triggerRef,
@@ -575,9 +588,63 @@ export function SidebarMenuResponsiveInline({
   const compactOpen =
     !inlineCollapsed &&
     (compactExpanded || (compactHovered && !compactDismissed))
-  const contentId = `${scopeId}-responsive-inline-content`
+  const contentId = `responsive-inline-content-${useUniqueId()}`
   const translation = useTranslation().SidebarMenu
   const compactOpenRef = useRef(compactOpen)
+
+  useIsomorphicLayoutEffect(() => {
+    const inline = inlineRef.current
+    if (!inline || !isHydrated || isSmallScreen) {
+      return undefined
+    }
+
+    const provider = inline.closest(
+      '.dnb-sidebar-menu-responsive-provider'
+    )
+    const registrations = new Map<string, () => void>()
+    const updateIds = () => {
+      const ids = new Set(
+        Array.from(inline.querySelectorAll<HTMLElement>('aside[id]'))
+          .filter(
+            (aside) =>
+              aside.closest('.dnb-sidebar-menu-responsive-inline') ===
+                inline &&
+              aside.closest('.dnb-sidebar-menu-responsive-provider') ===
+                provider
+          )
+          .map((aside) => aside.id)
+          .filter(Boolean)
+      )
+      registrations.forEach((unregister, id) => {
+        if (!ids.has(id)) {
+          unregister()
+          registrations.delete(id)
+        }
+      })
+      ids.forEach((id) => {
+        if (!registrations.has(id)) {
+          registrations.set(id, registerInlineId(id))
+        }
+      })
+    }
+    updateIds()
+
+    // A custom surface can change its aside from a child's local state.
+    const observer =
+      typeof MutationObserver === 'undefined'
+        ? undefined
+        : new MutationObserver(updateIds)
+    observer?.observe(inline, {
+      childList: true,
+      subtree: true,
+      attributes: true,
+      attributeFilter: ['id'],
+    })
+    return () => {
+      observer?.disconnect()
+      registrations.forEach((unregister) => unregister())
+    }
+  }, [isHydrated, isSmallScreen, registerInlineId])
 
   useEffect(() => {
     const wasOpen = compactOpenRef.current

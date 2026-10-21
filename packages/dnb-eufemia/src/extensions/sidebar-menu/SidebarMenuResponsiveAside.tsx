@@ -67,8 +67,7 @@ export default function SidebarMenuResponsiveAside({
     useState<HTMLDivElement | null>(null)
   const combinedRef = useCombinedRef(ref, asideRef)
   const internalId = useId(id)
-  const { collapseInline, registerInlineId, scopeId } =
-    useSidebarMenuResponsiveContext()
+  const { collapseInline, scopeId } = useSidebarMenuResponsiveContext()
   const {
     className: scrollViewClassName,
     interactive = 'auto',
@@ -83,11 +82,6 @@ export default function SidebarMenuResponsiveAside({
     onCollapse,
     ...restResizeHandleProps
   } = resizeHandleProps ?? {}
-
-  useIsomorphicLayoutEffect(
-    () => registerInlineId(internalId),
-    [internalId, registerInlineId]
-  )
 
   useIsomorphicLayoutEffect(() => {
     if (!onWidthChange) {
