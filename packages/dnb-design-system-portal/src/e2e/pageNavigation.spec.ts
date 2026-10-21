@@ -192,7 +192,7 @@ test.describe('Page Navigation', () => {
       await page.getByRole('link', { name: /Develop/ }).click()
       await expect(page).toHaveURL('/web/getting-started/')
       await expect(
-        page.getByRole('heading', { name: 'Getting Started' })
+        page.getByRole('heading', { name: 'Quick start', level: 1 })
       ).toBeVisible()
       await expectCurrentDocument(page)
     })
@@ -275,7 +275,7 @@ test.describe('Page Navigation', () => {
       await expect(page).toHaveURL('/quickguide-designer')
       await waitForApp(page)
       await expect(
-        page.getByRole('heading', { name: 'Quick Guide - Designers' })
+        page.getByRole('heading', { name: 'Start designing' })
       ).toBeVisible()
     })
 

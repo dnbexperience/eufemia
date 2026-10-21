@@ -87,7 +87,7 @@ test('reopens the selected page accordion after reload', async ({
   const layout = menu.getByRole('button', { name: 'Layout', exact: true })
   await expect(layout).toHaveAttribute('aria-expanded', 'true')
   const flex = menu.getByRole('link', {
-    name: 'Flex overview',
+    name: 'Using Flex',
     exact: true,
   })
   await expect(flex).toHaveAttribute('aria-current', 'page')
@@ -184,6 +184,153 @@ test.describe('Portal SidebarMenu', () => {
     ).toBeVisible()
   })
 
+  test('aligns editorial page headings with their sidebar links', async ({
+    page,
+  }) => {
+    async function expectTitle(title: string) {
+      await waitForApp(page)
+      await expect(
+        page.getByRole('heading', { level: 1 })
+      ).toHaveAccessibleName(title)
+      const link = page
+        .locator('.dnb-sidebar-menu')
+        .getByRole('link', { name: title, exact: true })
+      await expect(link).toHaveAttribute('aria-current', 'page')
+    }
+    await page.goto('/web/usage/best-practices/for-testing')
+    await expectTitle('Testing frontend code')
+    await page.goto('/contribute/first-contribution')
+    await expectTitle('Your first contribution')
+    await page.goto('/contribute/getting-started')
+    await expectTitle('Local development workflow')
+    await page.goto('/contribute/deploy')
+    await expectTitle('Release process')
+    await page.goto('/icons/primary')
+    await expectTitle('Primary icons')
+    await page.goto('/icons/secondary')
+    await expectTitle('Secondary icons')
+    await page.goto('/brand')
+    await expectTitle('Brand guidelines')
+  })
+
+  test('gives getting started pages descriptive names without overview labels', async ({
+    page,
+  }) => {
+    await page.goto('/web/getting-started')
+    await waitForApp(page)
+    const menu = page.getByRole('navigation', {
+      name: 'Section Content Menu',
+    })
+    const quickStart = menu.getByRole('link', {
+      name: 'Quick start',
+      exact: true,
+    })
+    await expect(quickStart).toHaveAttribute('aria-current', 'page')
+    await expect(quickStart).toHaveAttribute(
+      'href',
+      '/web/getting-started'
+    )
+    const design = menu.getByRole('button', {
+      name: 'Design',
+      exact: true,
+    })
+    await design.click()
+    await expect(
+      menu.getByRole('link', { name: 'Start designing', exact: true })
+    ).toHaveAttribute('href', '/quickguide-designer')
+    await expect(
+      menu.locator(
+        '[data-sidebar-menu-id=quickguide-designer] .dnb-sidebar-menu__item__icon'
+      )
+    ).toHaveCount(0)
+    await expect(
+      menu.getByRole('link', { name: /overview/i })
+    ).toHaveCount(0)
+  })
+
+  test('combines Installation and First steps with compatible URLs and no nested icons', async ({
+    page,
+  }) => {
+    await page.goto('/web/usage/first-steps')
+    await waitForApp(page)
+    await expect(
+      page.getByRole('heading', { level: 1 })
+    ).toHaveAccessibleName('Installation and first steps')
+    const platform = page.getByRole('navigation', {
+      name: 'Platform Content Menu',
+    })
+    await expect(
+      platform.getByRole('link', { name: 'Installation', exact: true })
+    ).toHaveCount(0)
+    await expect(
+      platform.getByRole('link', {
+        name: 'Installation and first steps',
+        exact: true,
+      })
+    ).toHaveAttribute('aria-current', 'page')
+    await expect(
+      platform.locator(
+        '[data-sidebar-menu-id=web-usage-first-steps] .dnb-sidebar-menu__item__icon'
+      )
+    ).toHaveCount(0)
+    await expect(page.locator('main')).toContainText(
+      'npm i @dnb/eufemia react react-dom'
+    )
+    await expect(page.locator('main')).toContainText(
+      'Supported Browsers and Platforms'
+    )
+    await page.goto('/uilib/usage#installation')
+    await waitForApp(page)
+    await expect(
+      page.getByRole('heading', { level: 1 })
+    ).toHaveAccessibleName('Installation and first steps')
+    for (const path of ['/web/usage', '/uilib/usage']) {
+      await page.goto(path + '?from=old#supported-browsers-and-platforms')
+      await waitForApp(page)
+      await expect(page).toHaveURL(
+        (url) =>
+          url.pathname.replace(/[/]$/, '') === '/web/usage/first-steps' &&
+          url.search === '?from=old' &&
+          url.hash === '#supported-browsers-and-platforms'
+      )
+    }
+  })
+
+  test('moves the library overview into existing Web pages and preserves old URLs', async ({
+    page,
+  }) => {
+    for (const path of ['/web/about-the-lib', '/uilib/about-the-lib']) {
+      await page.goto(path + '?from=old')
+      await waitForApp(page)
+      await expect(page).toHaveURL(
+        (url) =>
+          url.pathname.replace(/[/]$/, '') === '/web/introduction' &&
+          url.search === '?from=old'
+      )
+      await expect(page.locator('main')).toContainText(
+        'What the library provides'
+      )
+      await expect(page.locator('main')).toContainText(
+        'Design and development'
+      )
+    }
+    await page.goto('/web/usage')
+    await waitForApp(page)
+    await page.goto('/uilib/about-the-lib#technical-aspects')
+    await waitForApp(page)
+    await expect(page).toHaveURL(
+      (url) =>
+        url.pathname.replace(/[/]$/, '') === '/web/usage/first-steps' &&
+        url.hash === '#technical-foundation'
+    )
+    await expect(page.locator('main')).toContainText(
+      'intended for internal DNB development only'
+    )
+    await expect(page.locator('main')).toContainText(
+      'production JavaScript is transpiled'
+    )
+  })
+
   test('organizes About pages and preserves the merged page URLs', async ({
     page,
   }) => {
@@ -193,8 +340,11 @@ test.describe('Portal SidebarMenu', () => {
     await menu.getByRole('button', { name: 'About', exact: true }).click()
     const about = menu.locator('[data-sidebar-menu-id="about"]')
     const firstLink = about.getByRole('link').first()
-    await expect(firstLink).toHaveText('About the library')
-    for (const name of ['About the library', 'About Eufemia', 'Contact']) {
+    await expect(firstLink).toHaveText('About Eufemia')
+    await expect(
+      menu.getByRole('link', { name: 'About the library', exact: true })
+    ).toHaveCount(0)
+    for (const name of ['About Eufemia', 'Contact']) {
       const link = about.getByRole('link', { name, exact: true })
       await expect(
         link.locator('.dnb-sidebar-menu__item__icon')
@@ -382,7 +532,10 @@ test.describe('Portal SidebarMenu', () => {
       page.getByRole('navigation', { name: 'Section Content Menu' })
     ).toBeVisible()
     await expect(
-      page.getByRole('heading', { name: 'Eufemia Design System' })
+      page.getByRole('heading', {
+        name: 'Developer intro course',
+        level: 1,
+      })
     ).toBeVisible()
     await expect(
       page.getByRole('button', { name: 'Get started', exact: true })
@@ -401,7 +554,7 @@ test.describe('Portal SidebarMenu', () => {
     page,
   }) => {
     await page.setViewportSize({ width: 1280, height: 900 })
-    await page.goto('/web/about-the-lib/')
+    await page.goto('/design-system/about')
     await waitForApp(page)
 
     const menu = page.getByRole('navigation', {

@@ -93,7 +93,7 @@ test('keeps principles and motion together in Design language', async ({
     page.getByRole('heading', { name: 'Animation Principles', level: 1 })
   ).toBeVisible()
   await menu
-    .getByRole('link', { name: 'Motion overview', exact: true })
+    .getByRole('link', { name: 'Motion examples', exact: true })
     .click()
   await expect(page).toHaveURL('/quickguide-designer/motion')
   await expect(page.locator('.dnb-motion-demo')).toHaveCount(13)

@@ -77,7 +77,7 @@ test('opens accordion headings without navigating and retains content links', as
   await expect(page).toHaveURL('/')
   await expect(typography).toHaveAttribute('aria-expanded', 'true')
   await menu
-    .getByRole('link', { name: 'Typography overview', exact: true })
+    .getByRole('link', { name: 'Using typography', exact: true })
     .click()
   await expect(page).toHaveURL('/web/typography')
   await expect(
