@@ -144,7 +144,29 @@
 .dnb-ai-actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.25rem;
+  align-items: center;
+  gap: 0.375rem;
+
+  &__action.dnb-button--icon-only,
+  > .dnb-button--icon-only {
+    &.dnb-button--selected {
+      --button-color-bg--focus: var(
+        --token-color-background-selected-subtle
+      );
+      --button-color-icon--focus: var(--token-color-icon-selected);
+    }
+
+    &:not(.dnb-button--selected) {
+      --button-color-icon--default: var(
+        --token-color-icon-neutral-alternative
+      );
+    }
+
+    .dnb-button__icon {
+      width: var(--button-icon-size);
+      height: var(--button-icon-size);
+    }
+  }
 }
 
 .dnb-ai-message-indicator__dots {

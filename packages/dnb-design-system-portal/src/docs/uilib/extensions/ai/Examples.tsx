@@ -282,25 +282,57 @@ export function AiMessageActions() {
   return (
     <ComponentBox
       data-visual-test="ai-message-actions"
-      scope={{ thumbs_up, thumbs_down, refresh }}
+      scope={{ thumbs_up, thumbs_down }}
     >
-      <Message
-        name="Aino"
-        actions={
-          <Actions>
-            <CopyOnClick.Button
-              copyContent="Your card is now blocked."
-              title="Copy response"
-              tooltip="Copy response"
-            />
-            <Action icon={thumbs_up} label="Good answer" />
-            <Action icon={thumbs_down} label="Bad answer" />
-            <Action icon={refresh} label="Regenerate" />
-          </Actions>
+      {() => {
+        const Feedback = () => {
+          const [feedback, setFeedback] = useState<
+            'positive' | 'negative' | null
+          >(null)
+
+          return (
+            <Message
+              name="Aino"
+              actions={
+                <Actions role="group" aria-label="Answer feedback">
+                  <CopyOnClick.Button
+                    size="small"
+                    iconSize="default"
+                    bounding
+                    copyContent="Your card is now blocked."
+                    title="Copy answer"
+                    tooltip="Copy answer"
+                  />
+                  <Action
+                    icon={thumbs_up}
+                    label="Good answer"
+                    selected={feedback === 'positive'}
+                    onClick={() =>
+                      setFeedback(
+                        feedback === 'positive' ? null : 'positive'
+                      )
+                    }
+                  />
+                  <Action
+                    icon={thumbs_down}
+                    label="Bad answer"
+                    selected={feedback === 'negative'}
+                    onClick={() =>
+                      setFeedback(
+                        feedback === 'negative' ? null : 'negative'
+                      )
+                    }
+                  />
+                </Actions>
+              }
+            >
+              Your card is now blocked.
+            </Message>
+          )
         }
-      >
-        Your card is now blocked.
-      </Message>
+
+        return <Feedback />
+      }}
     </ComponentBox>
   )
 }
@@ -909,36 +941,41 @@ export function AiChatExample() {
                         const actions = isAssistant && isDone && (
                           <Actions>
                             <CopyOnClick.Button
+                              size="small"
+                              iconSize="default"
+                              bounding
                               copyContent={getText(message)}
                               title="Copy response"
                               tooltip="Copy response"
                             />
-                            {message.id in feedback ? (
-                              <P size="small">Thanks for your feedback!</P>
-                            ) : (
-                              <>
-                                <Action
-                                  icon={thumbs_up}
-                                  label="Good answer"
-                                  onClick={() =>
-                                    setFeedback((all) => ({
-                                      ...all,
-                                      [message.id]: true,
-                                    }))
-                                  }
-                                />
-                                <Action
-                                  icon={thumbs_down}
-                                  label="Bad answer"
-                                  onClick={() =>
-                                    setFeedback((all) => ({
-                                      ...all,
-                                      [message.id]: false,
-                                    }))
-                                  }
-                                />
-                              </>
-                            )}
+                            <Action
+                              icon={thumbs_up}
+                              label="Good answer"
+                              selected={feedback[message.id] === true}
+                              onClick={() =>
+                                setFeedback((all) => ({
+                                  ...all,
+                                  [message.id]:
+                                    all[message.id] === true
+                                      ? undefined
+                                      : true,
+                                }))
+                              }
+                            />
+                            <Action
+                              icon={thumbs_down}
+                              label="Bad answer"
+                              selected={feedback[message.id] === false}
+                              onClick={() =>
+                                setFeedback((all) => ({
+                                  ...all,
+                                  [message.id]:
+                                    all[message.id] === false
+                                      ? undefined
+                                      : false,
+                                }))
+                              }
+                            />
                             {isLast && (
                               <Action
                                 icon={refresh}

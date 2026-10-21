@@ -222,9 +222,78 @@ describe('Ai.Action', () => {
 
     const button = document.querySelector('button')
     expect(button).toHaveClass('dnb-button--tertiary')
+    expect(button).toHaveClass('dnb-button--size-small')
+    expect(
+      button.querySelector('.dnb-button__bounding')
+    ).toBeInTheDocument()
+    expect(button).not.toHaveAttribute('aria-pressed')
     expect(button).toHaveAccessibleName('Copy')
 
     button.click()
     expect(onClick).toHaveBeenCalledTimes(1)
+  })
+
+  it('exposes controlled feedback selection without changing its label', () => {
+    const { rerender } = render(
+      <Action icon={copy} label="Good answer" selected={false} />
+    )
+    const button = document.querySelector('button')
+
+    expect(button).toHaveAttribute('aria-pressed', 'false')
+    expect(button).not.toHaveClass('dnb-button--selected')
+
+    rerender(<Action icon={copy} label="Good answer" selected />)
+
+    expect(button).toHaveAttribute('aria-pressed', 'true')
+    expect(button).toHaveClass('dnb-button--selected')
+    expect(button).toHaveAccessibleName('Good answer')
+  })
+
+  it('retains explicit button options and disabled behavior', () => {
+    const onClick = vi.fn()
+    render(
+      <Action
+        icon={copy}
+        label="Good answer"
+        size="medium"
+        disabled
+        selected
+        onClick={onClick}
+      />
+    )
+    const button = document.querySelector('button')
+
+    expect(button).toHaveClass('dnb-button--size-medium')
+    button.click()
+    expect(onClick).not.toHaveBeenCalled()
+  })
+
+  it('forwards an explicit pressed state without changing selected styles', () => {
+    render(
+      <Action
+        icon={copy}
+        label="Good answer"
+        selected
+        aria-pressed="mixed"
+      />
+    )
+
+    expect(document.querySelector('button')).toHaveAttribute(
+      'aria-pressed',
+      'mixed'
+    )
+    expect(document.querySelector('button')).toHaveClass(
+      'dnb-button--selected'
+    )
+  })
+
+  it('validates feedback actions with ARIA rules', async () => {
+    const result = render(
+      <Actions role="group" aria-label="Answer feedback">
+        <Action icon={copy} label="Good answer" selected />
+      </Actions>
+    )
+
+    expect(await axeComponent(result)).toHaveNoViolations()
   })
 })

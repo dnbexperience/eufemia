@@ -168,7 +168,12 @@ export type AiConfirmationProps = {
 export type AiActionProps = {
   /** Label used for the tooltip and for screen readers. */
   label: string
-} & Omit<ButtonProps, 'text' | 'children' | 'title' | 'tooltip'>
+  /** Controlled feedback selection. When provided, exposes `aria-pressed`. Omit for ordinary actions such as regenerate. */
+  selected?: boolean
+} & Omit<
+  ButtonProps,
+  'text' | 'children' | 'title' | 'tooltip' | 'selected'
+>
 
 export type AiPromptInputSubmitEvent = {
   value: string
