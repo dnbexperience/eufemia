@@ -6,11 +6,11 @@ vi.mock('../usage-store.js', () => ({ storeMcpUsage }))
 
 import type { SQSEvent, SQSRecord } from 'aws-lambda'
 import { handler } from '../usage-consumer.js'
-import type { McpUsageRecord } from '../records/mcp-usage.js'
+import type { WebMcpUsageRecord } from '../records/mcp-usage.js'
 
 function usageRecord(
-  overrides: Partial<McpUsageRecord> = {}
-): McpUsageRecord {
+  overrides: Partial<WebMcpUsageRecord> = {}
+): WebMcpUsageRecord {
   return {
     tool: 'component_props',
     component: 'Button',
@@ -85,7 +85,7 @@ describe('usage consumer', () => {
   })
 
   it('drops a message whose record has no web transport', async () => {
-    const withoutTransport: Partial<McpUsageRecord> = usageRecord()
+    const withoutTransport: Partial<WebMcpUsageRecord> = usageRecord()
     delete withoutTransport.transport
 
     await handler(
@@ -106,7 +106,7 @@ describe('usage consumer', () => {
   })
 
   it('stores a record queued before the miss fields existed', async () => {
-    const queuedEarlier: Partial<McpUsageRecord> = usageRecord()
+    const queuedEarlier: Partial<WebMcpUsageRecord> = usageRecord()
     delete queuedEarlier.component_missed
     delete queuedEarlier.likely_component
 

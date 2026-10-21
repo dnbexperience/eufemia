@@ -1,5 +1,6 @@
 import { SendMessageCommand, SQSClient } from '@aws-sdk/client-sqs'
 import type { APIGatewayProxyEventV2 } from 'aws-lambda'
+import { decodeEventBody } from 'eufemia-mcp-usage-record'
 import {
   usageRecordsFromRequestBody,
   type UsageResolver,
@@ -24,9 +25,7 @@ export async function captureUsage(
   }
 
   try {
-    const body = event.isBase64Encoded
-      ? Buffer.from(event.body, 'base64').toString('utf8')
-      : event.body
+    const body = decodeEventBody(event.body, event.isBase64Encoded)
 
     const records = await usageRecordsFromRequestBody(body, {
       env: process.env.USAGE_ENV ?? 'unknown',

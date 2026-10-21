@@ -4,10 +4,8 @@ import {
   type DocsSource,
 } from '@dnb/eufemia/src/mcp/docs-source.js'
 import { createUsageResolver } from '@dnb/eufemia/src/mcp/mcp-docs-server.js'
-import {
-  usageRecordsFromRequestBody,
-  KNOWN_TOOLS,
-} from '../records/mcp-usage.js'
+import { KNOWN_TOOLS } from 'eufemia-mcp-usage-record'
+import { usageRecordsFromRequestBody } from '../records/mcp-usage.js'
 
 const NOW = '2026-09-10T12:00:00.000Z'
 
@@ -365,13 +363,14 @@ describe('usageRecordsFromRequestBody', () => {
     expect(KNOWN_TOOLS.size).toBe(12)
   })
 
-  // `canonicalDocsPath` reimplements the server's own path normalisation rather
-  // than importing it, so this pins the two together: if `normalizeDocsPath`
-  // changes how it collapses a path, this fails instead of silently splitting
-  // one document across several stored keys. Cover every shape the normaliser
-  // treats as significant — leading slash, repeated and `.` segments, trailing
-  // slash and back-slashes — since a list of forward-slash examples would let a
-  // divergence like the back-slashed form through.
+  // `canonicalDocsPath` in eufemia-mcp-usage-record reimplements the server's
+  // own path normalisation rather than importing it, so this pins the two
+  // together: if `normalizeDocsPath` changes how it collapses a path, this
+  // fails instead of silently splitting one document across several stored
+  // keys. Cover every shape the normaliser treats as significant — leading
+  // slash, repeated and `.` segments, trailing slash and back-slashes — since a
+  // list of forward-slash examples would let a divergence like the back-slashed
+  // form through.
   it.each([
     '/uilib/components/button.md',
     'uilib/components/button.md',

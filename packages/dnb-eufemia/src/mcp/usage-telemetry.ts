@@ -41,7 +41,7 @@ const STARTUP_NOTICE =
 
 // The registered docs-server tools. A record is emitted only for a call to one
 // of these, so an unknown method never produces a record. Kept in sync with the
-// ingest validator's KNOWN_TOOLS (tools/analytics/src/records/mcp-usage.ts).
+// ingest validator's KNOWN_TOOLS (tools/mcp-usage-record/src/index.ts).
 export const KNOWN_TOOLS: ReadonlySet<string> = new Set([
   'docs_entry',
   'docs_meta',
@@ -77,7 +77,7 @@ const MAX_PATH_LENGTH = 512
 // with a letter and may contain letters, digits, and hyphens, so both the
 // PascalCase form ("DatePicker", "Field.Address") and the hyphenated doc-file
 // form ("date-picker") the docs server actually resolves against validate. Kept
-// in sync with the same pattern in tools/analytics/src/records/mcp-usage.ts.
+// in sync with the same pattern in tools/mcp-usage-record/src/index.ts.
 const COMPONENT_SEGMENT = /^[A-Za-z][A-Za-z0-9-]*$/
 
 // An absolute docs path with a restricted character set.

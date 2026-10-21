@@ -1,0 +1,19 @@
+{
+  "name": "eufemia-mcp-usage-record",
+  "description": "The MCP usage record and its field rules, shared by the analytics ingest and the web MCP Lambda",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "author": "DNB Team",
+  "license": "SEE LICENSE IN LICENSE FILE",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "lint": "node ../../node_modules/.bin/eslint 'src/**/*.ts' && node ../../node_modules/.bin/prettier --check 'src/**/*.ts'",
+    "typecheck": "../../node_modules/.bin/tsc --noEmit"
+  },
+  "volta": {
+    "extends": "../../package.json"
+  }
+}

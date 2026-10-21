@@ -2,6 +2,7 @@ import type {
   APIGatewayProxyEventV2,
   APIGatewayProxyResultV2,
 } from 'aws-lambda'
+import { decodeEventBody } from 'eufemia-mcp-usage-record'
 import { isEdgeAuthorized, json } from './http.js'
 import { storePortalViews, storeMcpUsage } from './store.js'
 import { validatePortalViews } from '../records/portal-view.js'
@@ -13,11 +14,7 @@ function parseBody(event: APIGatewayProxyEventV2): unknown {
     return undefined
   }
 
-  const raw = event.isBase64Encoded
-    ? Buffer.from(event.body, 'base64').toString('utf8')
-    : event.body
-
-  return JSON.parse(raw)
+  return JSON.parse(decodeEventBody(event.body, event.isBase64Encoded))
 }
 
 async function handleIngest<T>(

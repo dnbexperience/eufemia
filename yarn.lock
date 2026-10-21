@@ -9956,6 +9956,7 @@ __metadata:
     "@aws-sdk/client-s3": "npm:3.1075.0"
     "@types/aws-lambda": "npm:8.10.161"
     esbuild: "npm:0.25.5"
+    eufemia-mcp-usage-record: "workspace:*"
     vitest: "npm:4.1.12"
   languageName: unknown
   linkType: soft
@@ -10007,9 +10008,16 @@ __metadata:
     "@modelcontextprotocol/server": "npm:2.3.1"
     "@types/aws-lambda": "npm:8.10.161"
     esbuild: "npm:0.25.5"
+    eufemia-mcp-usage-record: "workspace:*"
     tsx: "npm:4.22.4"
     typescript: "npm:6.0.3"
     vitest: "npm:4.1.12"
+  languageName: unknown
+  linkType: soft
+
+"eufemia-mcp-usage-record@workspace:*, eufemia-mcp-usage-record@workspace:tools/mcp-usage-record":
+  version: 0.0.0-use.local
+  resolution: "eufemia-mcp-usage-record@workspace:tools/mcp-usage-record"
   languageName: unknown
   linkType: soft
 

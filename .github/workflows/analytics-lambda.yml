@@ -21,6 +21,7 @@ on:
       - main
     paths:
       - 'tools/analytics/**'
+      - 'tools/mcp-usage-record/**'
       - '.github/workflows/analytics-lambda.yml'
   workflow_dispatch:
 
