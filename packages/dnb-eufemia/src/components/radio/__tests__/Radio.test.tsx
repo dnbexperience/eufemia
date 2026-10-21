@@ -66,6 +66,41 @@ describe('Radio component', () => {
     expect(input.checked).toBe(false)
   })
 
+  it.each(['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'])(
+    'prevents %s on a single radio, so it does not move to another radio',
+    (key) => {
+      const onChange = vi.fn()
+      const onKeyDown = vi.fn()
+      render(<Radio checked onChange={onChange} onKeyDown={onKeyDown} />)
+
+      // Browsers treat all radios without a name as one group. jsdom does not
+      // move between radios, so we check that the default action is prevented.
+      // fireEvent returns false when it is.
+      const input = document.querySelector('input')
+      expect(fireEvent.keyDown(input, { key })).toBe(false)
+      expect(onKeyDown).toHaveBeenCalledTimes(1)
+      expect(onChange).not.toHaveBeenCalled()
+    }
+  )
+
+  it('keeps the native arrow keys for radios with a name or in a group', () => {
+    render(
+      <>
+        <Radio label="Named" name="named" />
+        <Radio group="plain-group" label="Plain group" />
+        <Radio.Group label="Group">
+          <Radio value="a" label="A" />
+        </Radio.Group>
+      </>
+    )
+
+    const inputs = Array.from(document.querySelectorAll('input'))
+    expect(inputs).toHaveLength(3)
+    for (const input of inputs) {
+      expect(fireEvent.keyDown(input, { key: 'ArrowDown' })).toBe(true)
+    }
+  })
+
   it('keeps a radio in a group checked when clicked again', () => {
     render(
       <Radio.Group label="Group">

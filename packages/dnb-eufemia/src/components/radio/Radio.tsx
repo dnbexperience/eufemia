@@ -211,6 +211,10 @@ function RadioComponent({ ref: externalRef, ...ownProps }: RadioProps) {
           // Browsers do not uncheck a checked native radio on Space
           event.preventDefault()
           onChangeHandler(event)
+        } else if (key.startsWith('Arrow') && isSingle()) {
+          // Browsers treat all radios without a name as one group, so an
+          // arrow key would move to and check another radio on the page
+          event.preventDefault()
         }
       } else if (isContextGroupOrSingle()) {
         if (key === 'Enter' || key === ' ') {
