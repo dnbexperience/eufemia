@@ -320,8 +320,7 @@ export async function handler(event?: { sinceDt?: string }): Promise<{
 
   // Fetch the dashboard's portal-view rows (load-bearing) and refresh the durable
   // page-view rollup concurrently. The rollup refresh is retention only and must
-  // not fail the run, so its failure is caught and surfaced via a metric; keeping
-  // it concurrent with the read keeps the added Athena query within the timeout.
+  // not fail the run, so its failure is caught and surfaced via a metric.
   const [portalViews] = await Promise.all([
     retrievePortalViews({ limit: SNAPSHOT_LIMIT }),
     refreshPortalViewsRollup(bucket, event?.sinceDt).catch((error) => {
@@ -363,12 +362,8 @@ export async function handler(event?: { sinceDt?: string }): Promise<{
   //     emitMetric('ComponentUsageBuildFailure', 1)
   //     componentUsage = EMPTY_COMPONENT_USAGE
   //   }
-  // Also build it CONCURRENTLY with the other sections (Promise.all) — wiring it
-  // in adds two Athena queries, and run sequentially the total (portal read +
-  // rollup refresh + 2 MCP + 2 here) can exceed the Lambda timeout, killing the
-  // run before writeSnapshot. The infra "gives the snapshot generator enough
-  // timeout for its Athena queries" test assumes this is unwired; update it when
-  // re-enabling.
+  // It adds two Athena queries: update the infra "gives the snapshot generator
+  // enough timeout for its Athena queries" test when re-enabling.
   const componentUsage: ComponentUsageSection = EMPTY_COMPONENT_USAGE
 
   const snapshot: Snapshot = {
