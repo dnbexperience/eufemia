@@ -8,7 +8,7 @@ for (const width of [1024, 600, 360]) {
 
     test.beforeEach(async ({ page }) => {
       await page.goto(
-        '/uilib/components/list/visual-tests/title-in-center/'
+        '/web/components/list/visual-tests/title-in-center/'
       )
       await page
         .getByTestId('long')
