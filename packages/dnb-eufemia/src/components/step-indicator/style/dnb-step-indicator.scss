@@ -122,6 +122,11 @@
       }
     }
 
+    &--current &-content__number,
+    &--current &-content__wrapper > .dnb-step-indicator__button {
+      font-weight: var(--font-weight-medium);
+    }
+
     &__icon {
       opacity: 1;
       transition: opacity 400ms ease-in-out;
