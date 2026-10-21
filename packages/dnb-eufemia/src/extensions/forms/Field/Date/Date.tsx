@@ -227,6 +227,7 @@ function DateComponent(props: DateProps): ReactElement {
   }
 
   const {
+    fieldBlockProps: sharedFieldBlockProps,
     id,
     path,
     itemPath,
@@ -406,6 +407,7 @@ function DateComponent(props: DateProps): ReactElement {
   }, [itemPath, locale, path, setDisplayValue, value])
 
   const fieldBlockProps: FieldBlockProps = {
+    ...sharedFieldBlockProps,
     forId: id,
     label: label ?? defaultLabel,
     className: clsx('dnb-forms-field-string', className),

@@ -20,6 +20,8 @@ The `useFieldProps` hook standardizes handling of the value flow for a single co
 
 ## How to use
 
+When your custom field renders a `FieldBlock`, spread the returned `fieldBlockProps` onto it before any overrides: `<FieldBlock {...fieldBlockProps} forId={id}>...</FieldBlock>`. This passes its prepared label, messages, layout and pending state directly, including when the field renders on the server without a surrounding `Provider`.
+
 ```tsx
 import { useFieldProps } from '@dnb/eufemia/extensions/forms'
 

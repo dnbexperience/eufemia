@@ -283,6 +283,7 @@ function PhoneNumber(props: FieldPhoneNumberProps = {}) {
   } satisfies FieldPhoneNumberProps
 
   const {
+    fieldBlockProps: sharedFieldBlockProps,
     id,
     path,
     itemPath,
@@ -517,6 +518,7 @@ function PhoneNumber(props: FieldPhoneNumberProps = {}) {
   const isDefault = countryCodeRef.current?.includes(defaultCountryCode)
 
   const compositionFieldProps: CompositionFieldProps = {
+    ...sharedFieldBlockProps,
     id,
     className: clsx('dnb-forms-field-phone-number', className),
     width: 'stretch',
