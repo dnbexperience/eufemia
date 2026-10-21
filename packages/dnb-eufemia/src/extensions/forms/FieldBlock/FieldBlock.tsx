@@ -25,6 +25,7 @@ import type {
   StatusContent,
   FieldBlockContextProps,
   StateBasis,
+  FieldBlockRecordOwner,
 } from './FieldBlockContext'
 import FieldBlockContext from './FieldBlockContext'
 import DataContext from '../DataContext/Context'
@@ -52,6 +53,7 @@ import useTranslation from '../hooks/useTranslation'
 import { FormError } from '../utils'
 import { useIterateItemNo } from '../Iterate/ItemNo/useIterateItemNo'
 import withComponentMarkers from '../../../shared/helpers/withComponentMarkers'
+import useCanUseDOM from '../../../shared/helpers/useCanUseDOM'
 import type { ComponentMarkers } from '../../../shared/helpers/withComponentMarkers'
 
 export const states: Array<FieldState> = [
@@ -230,7 +232,6 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
   const [, forceUpdate] = useReducer(() => ({}), {})
   const fieldStatesRef = useRef<Map<Identifier, SubmitState>>(new Map())
   const stateRecordRef = useRef<StateRecord>({})
-  const hiddenFieldsRef = useRef(new Set<Identifier>())
   const statusId = props.id || forId || blockId
   const renderRecords: StateRecord = {}
   const statusChildrenRef = useRef<
@@ -248,14 +249,9 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
   })
 
   const setInternalRecord = useCallback(
-    (props: StateBasis, record = stateRecordRef.current) => {
-      const { stateId, identifier, type } = props
-
-      if (!record[identifier]) {
-        record[identifier] = []
-      }
-
-      const records = record[identifier]
+    (props: StateBasis, records: StateRecord[Identifier]) => {
+      const { owner: _owner, ...record } = props
+      const { stateId, type } = record
       const existingIndex = records.findIndex((item) => {
         return item.stateId === stateId && item.type === type
       })
@@ -263,14 +259,14 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
       if (existingIndex > -1) {
         records[existingIndex] = {
           ...records[existingIndex],
-          ...props,
+          ...record,
         }
       } else if (stateId) {
         // Keep validation messages before the messages given as props, which register during render
         const index = records.findIndex((item) => !item.stateId)
-        records.splice(index > -1 ? index : records.length, 0, props)
+        records.splice(index > -1 ? index : records.length, 0, record)
       } else {
-        records.push(props)
+        records.push(record)
       }
     },
     []
@@ -281,20 +277,32 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
     (props: StateBasis, options?: { remove?: boolean }) => {
       if (setBlockRecordNested) {
         // If this FieldBlock is inside another one, forward the call to the outer one
-        setBlockRecordNested(props, options)
-        return undefined
+        return setBlockRecordNested(props, options)
       }
 
+      const { identifier, owner } = props
       if (options?.remove) {
-        hiddenFieldsRef.current.add(props.identifier)
-      } else {
-        if (!props.stateId) {
-          hiddenFieldsRef.current.delete(props.identifier)
+        if (owner) {
+          owner.mounted = false
         }
-        setInternalRecord(props)
+        if (
+          !owner ||
+          stateRecordRef.current[identifier] === owner.records
+        ) {
+          delete stateRecordRef.current[identifier]
+        }
+      } else {
+        const records =
+          owner?.records ?? (stateRecordRef.current[identifier] ??= [])
+        setInternalRecord(props, records)
+        if (owner && !owner.mounted) {
+          return undefined
+        }
+        stateRecordRef.current[identifier] = records
       }
 
       forceUpdate()
+      return undefined
     },
     [setBlockRecordNested, setInternalRecord]
   )
@@ -306,7 +314,11 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
   const collectMessages = nestedFieldBlockContext
     ? nestedFieldBlockContext.collectMessages
     : statusPosition !== 'above'
-      ? (record: StateBasis) => setInternalRecord(record, renderRecords)
+      ? (record: StateBasis) =>
+          setInternalRecord(
+            record,
+            (renderRecords[record.identifier] ??= [])
+          )
       : undefined
 
   const setFieldState = useCallback(
@@ -330,28 +342,28 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
   )
 
   const showFieldError = useCallback(
-    (identifier: Identifier, show: boolean) => {
+    (
+      identifier: Identifier,
+      show: boolean,
+      owner?: FieldBlockRecordOwner
+    ) => {
       if (nestedFieldBlockContext) {
         // If this FieldBlock is inside another one, forward the call to the outer one
-        nestedFieldBlockContext.showFieldError(identifier, show)
+        nestedFieldBlockContext.showFieldError(identifier, show, owner)
         return undefined
       }
 
-      if (stateRecordRef.current[identifier]) {
-        stateRecordRef.current[identifier] = stateRecordRef.current[
-          identifier
-        ].map((item) => {
-          if (item.showInitially) {
-            return item
-          }
-
-          return {
-            ...item,
-            show,
+      const records = owner?.records ?? stateRecordRef.current[identifier]
+      if (records) {
+        records.forEach((item) => {
+          if (!item.showInitially) {
+            item.show = show
           }
         })
 
-        forceUpdate()
+        if (!owner || owner.mounted) {
+          forceUpdate()
+        }
       }
     },
     [nestedFieldBlockContext]
@@ -366,24 +378,26 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
       content !== undefined ||
       stateRecordRef.current[blockId]?.some((item) => item.type === type)
     ) {
-      setInternalRecord({
-        identifier: blockId,
-        showInitially:
-          type !== 'error' || hasInitiallyErrorPropRef.current,
-        type,
-        content,
-      })
+      setInternalRecord(
+        {
+          identifier: blockId,
+          showInitially:
+            type !== 'error' || hasInitiallyErrorPropRef.current,
+          type,
+          content,
+        },
+        (stateRecordRef.current[blockId] ??= [])
+      )
     }
   }
 
   // Called after the children have rendered, so messages they register during render are included
-  const getStatusContent = () => {
-    const records = Object.entries({
+  const getStatusContent = (canUseDOM: boolean) => {
+    // Each summary boundary keeps server messages until its own hydration.
+    const records = Object.values({
       ...stateRecordRef.current,
-      ...renderRecords,
-    })
-      .filter(([identifier]) => !hiddenFieldsRef.current.has(identifier))
-      .flatMap(([, records]) => records)
+      ...(!canUseDOM ? renderRecords : {}),
+    }).flat()
 
     return states.reduce((acc, type) => {
       const id = `${statusId}-form-status--${type}`
@@ -450,8 +464,8 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
     }
   }, [error, blockId, showFieldError, nestedFieldBlockContext])
 
-  const renderStatus = () => {
-    const statusContent = getStatusContent()
+  const renderStatus = (canUseDOM: boolean) => {
+    const statusContent = getStatusContent(canUseDOM)
 
     return (
       <div
@@ -644,7 +658,9 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
 
           {/* Keep the DOM order in line with the visual order. Nested
               fields add their messages to it after hydration. */}
-          {statusPosition === 'above' && renderStatus()}
+          {statusPosition === 'above' && (
+            <RenderAfterChildren render={renderStatus} />
+          )}
 
           <div
             className={clsx(
@@ -680,8 +696,12 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
   )
 }
 
-function RenderAfterChildren({ render }: { render: () => ReactNode }) {
-  return render()
+function RenderAfterChildren({
+  render,
+}: {
+  render: (canUseDOM: boolean) => ReactNode
+}) {
+  return render(useCanUseDOM())
 }
 
 const fieldStatePriority: Record<SubmitState, number> = {

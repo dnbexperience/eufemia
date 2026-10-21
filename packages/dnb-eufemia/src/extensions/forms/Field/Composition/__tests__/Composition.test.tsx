@@ -2,8 +2,14 @@ import { StrictMode, Suspense, startTransition, useState } from 'react'
 import { act, render, fireEvent, waitFor } from '@testing-library/react'
 import { renderToString } from 'react-dom/server'
 import userEvent from '@testing-library/user-event'
-import type { JSONSchema } from '../../..'
-import { Field, FieldBlock, Form, makeAjvInstance } from '../../..'
+import type { FieldStatus, JSONSchema } from '../../..'
+import {
+  Field,
+  FieldBlock,
+  Form,
+  Iterate,
+  makeAjvInstance,
+} from '../../..'
 import {
   axeComponent,
   wait,
@@ -808,6 +814,220 @@ describe('Field.Composition', () => {
     ).toHaveTextContent('Visible info')
   })
 
+  it.each([
+    ['error', { error: 'Amount error' }, ['Amount error']],
+    ['warning', { warning: 'Amount warning' }, ['Amount warning']],
+    ['information', { info: 'Amount info' }, ['Amount info']],
+    [
+      'error array',
+      { error: [new Error('First error'), new Error('Second error')] },
+      ['First error', 'Second error'],
+    ],
+    [
+      'warning array',
+      { warning: ['First warning', 'Second warning'] },
+      ['First warning', 'Second warning'],
+    ],
+    [
+      'information array',
+      { info: ['First info', 'Second info'] },
+      ['First info', 'Second info'],
+    ],
+    [
+      'required',
+      { required: true, validateInitially: true },
+      [nb.Field.errorRequired],
+    ],
+  ] satisfies Array<
+    [
+      string,
+      FieldStatus & { required?: boolean; validateInitially?: boolean },
+      string[],
+    ]
+  >)(
+    'should keep shared-path %s messages until the last field unmounts',
+    (_, statusProps, messages) => {
+      const element = (number: boolean, slider: boolean) => (
+        <Form.Handler>
+          <Field.Composition id="composition">
+            {number && (
+              <Field.Number id="number" path="/amount" {...statusProps} />
+            )}
+            {slider && (
+              <Field.Slider id="slider" path="/amount" {...statusProps} />
+            )}
+          </Field.Composition>
+        </Form.Handler>
+      )
+      const getMessages = () =>
+        Array.from(
+          document.querySelectorAll('.dnb-form-status__text'),
+          (status) => {
+            const items = Array.from(status.querySelectorAll('li'))
+            return items.length
+              ? items.map((item) => item.textContent)
+              : [status.textContent]
+          }
+        ).flat()
+      const { rerender } = render(element(true, true))
+
+      expect(document.querySelector('#slider-slider')).toBeInTheDocument()
+      expect(getMessages()).toEqual(messages)
+
+      rerender(element(true, false))
+
+      expect(document.querySelector('#slider-slider')).toBeNull()
+      const number = document.querySelector('#number')
+      expect(number).toBeInTheDocument()
+      expect(getMessages()).toEqual(messages)
+
+      rerender(element(false, false))
+
+      expect(document.querySelector('input')).toBeNull()
+      expect(document.querySelector('.dnb-form-status')).toBeNull()
+
+      rerender(element(false, true))
+
+      expect(getMessages()).toEqual(messages)
+
+      rerender(element(false, false))
+
+      expect(document.querySelector('.dnb-form-status')).toBeNull()
+    }
+  )
+
+  it('should keep shared-path messages in StrictMode', () => {
+    const element = (show: boolean) => (
+      <StrictMode>
+        <Form.Handler>
+          <Field.Composition>
+            <Field.Number path="/amount" required validateInitially />
+            {show && (
+              <Field.Slider path="/amount" required validateInitially />
+            )}
+          </Field.Composition>
+        </Form.Handler>
+      </StrictMode>
+    )
+    const { rerender } = render(element(true))
+    expect(
+      document.querySelector('.dnb-form-status--error')
+    ).toHaveTextContent(nb.Field.errorRequired)
+
+    rerender(element(false))
+
+    expect(
+      document.querySelector('.dnb-form-status--error')
+    ).toHaveTextContent(nb.Field.errorRequired)
+  })
+
+  it('should keep the remaining array item message after removing the first item', async () => {
+    render(
+      <Form.Handler data={{ amounts: [1, 2] }}>
+        <Field.Composition>
+          <Iterate.Array path="/amounts">
+            <Field.Number
+              itemPath="/"
+              warning={(value) => `Amount ${value}`}
+            />
+            <Iterate.RemoveButton />
+          </Iterate.Array>
+        </Field.Composition>
+      </Form.Handler>
+    )
+    expect(
+      document.querySelector('.dnb-form-status--warning')
+    ).toHaveTextContent('Amount 1')
+    expect(
+      document.querySelector('.dnb-form-status--warning')
+    ).toHaveTextContent('Amount 2')
+
+    await userEvent.click(
+      document.querySelector('.dnb-forms-iterate-remove-element-button')
+    )
+
+    expect(document.querySelectorAll('input')).toHaveLength(1)
+    expect(document.querySelector('input')).toHaveDisplayValue('2')
+    expect(
+      document.querySelector('.dnb-form-status--warning')
+    ).toHaveTextContent('Amount 2')
+    expect(
+      document.querySelector('.dnb-form-status--warning')
+    ).not.toHaveTextContent('Amount 1')
+
+    await userEvent.click(
+      document.querySelector('.dnb-forms-iterate-remove-element-button')
+    )
+
+    expect(document.querySelector('.dnb-form-status--warning')).toBeNull()
+  })
+
+  it('should remove only the unmounted shared-path field messages', () => {
+    const element = (show: boolean, path = '/amount') => (
+      <Form.Handler>
+        <Field.Composition>
+          <Field.Number path="/amount" info="Number info" />
+          {show && (
+            <Field.Slider
+              path={path}
+              warning="Slider warning"
+              error="Slider error"
+            />
+          )}
+        </Field.Composition>
+      </Form.Handler>
+    )
+    const { rerender } = render(element(true))
+    expect(
+      document.querySelector('.dnb-form-status--information')
+    ).toHaveTextContent('Number info')
+    expect(
+      document.querySelector('.dnb-form-status--warning')
+    ).toHaveTextContent('Slider warning')
+    expect(
+      document.querySelector('.dnb-form-status--error')
+    ).toHaveTextContent('Slider error')
+
+    rerender(element(false))
+
+    expect(
+      document.querySelector('.dnb-form-status--information')
+    ).toHaveTextContent('Number info')
+    expect(document.querySelector('.dnb-form-status--warning')).toBeNull()
+    expect(document.querySelector('.dnb-form-status--error')).toBeNull()
+
+    rerender(element(true, '/other'))
+    rerender(element(true, '/amount'))
+    rerender(element(false))
+
+    expect(
+      document.querySelector('.dnb-form-status--information')
+    ).toHaveTextContent('Number info')
+    expect(document.querySelector('.dnb-form-status--warning')).toBeNull()
+    expect(document.querySelector('.dnb-form-status--error')).toBeNull()
+  })
+
+  it('should not restore messages when the status summary is disabled', () => {
+    const element = (disabled: boolean, message: string) => (
+      <FieldBlock composition disableStatusSummary={disabled}>
+        <Field.String warning={message} />
+      </FieldBlock>
+    )
+    const { rerender } = render(element(false, 'Original'))
+    expect(
+      document.querySelector('.dnb-form-status--warning')
+    ).toHaveTextContent('Original')
+
+    rerender(element(true, 'Changed'))
+
+    expect(
+      document.querySelectorAll('.dnb-form-status--warning')
+    ).toHaveLength(1)
+    expect(
+      document.querySelector('.dnb-form-status--warning')
+    ).toHaveTextContent('Changed')
+  })
+
   it('should retain committed messages in StrictMode and remove unmounted fields', () => {
     const element = (show: boolean) => (
       <StrictMode>
@@ -949,6 +1169,80 @@ describe('Field.Composition', () => {
     expect(
       document.querySelector('.dnb-form-status--error')
     ).toHaveTextContent(nb.Field.errorRequired)
+  })
+
+  it('should preserve hidden and revealed validation messages through Suspense', async () => {
+    const pending = new Promise(() => undefined)
+    function Pending(): never {
+      throw pending
+    }
+    const element = (suspended: boolean) => (
+      <Field.Composition>
+        <Suspense fallback="Loading">
+          <Field.String required />
+          {suspended && <Pending />}
+        </Suspense>
+      </Field.Composition>
+    )
+    const { rerender } = render(element(false))
+    expect(document.querySelector('.dnb-form-status--error')).toBeNull()
+
+    rerender(element(true))
+    rerender(element(false))
+
+    expect(document.querySelector('.dnb-form-status--error')).toBeNull()
+    await userEvent.type(document.querySelector('input'), 'a{Backspace}')
+    fireEvent.blur(document.querySelector('input'))
+    expect(
+      document.querySelector('.dnb-form-status--error')
+    ).toHaveTextContent(nb.Field.errorRequired)
+
+    rerender(element(true))
+    expect(document.querySelector('.dnb-form-status--error')).toBeNull()
+    rerender(element(false))
+
+    expect(
+      document.querySelector('.dnb-form-status--error')
+    ).toHaveTextContent(nb.Field.errorRequired)
+  })
+
+  it('should keep async validation private while Suspense hides the field', async () => {
+    const pending = new Promise(() => undefined)
+    function Pending(): never {
+      throw pending
+    }
+    let resolve: (error: Error) => void
+    const validation = new Promise<Error>((done) => {
+      resolve = done
+    })
+    const validator = vi.fn(async (value) =>
+      value ? validation : undefined
+    )
+    const element = (suspended: boolean) => (
+      <Field.Composition info="Visible info">
+        <Field.Composition>
+          <Suspense fallback="Loading">
+            <Field.String value="a" onBlurValidator={validator} />
+            {suspended && <Pending />}
+          </Suspense>
+        </Field.Composition>
+      </Field.Composition>
+    )
+    const { rerender } = render(element(false))
+    await userEvent.type(document.querySelector('input'), 'a')
+    fireEvent.blur(document.querySelector('input'))
+    expect(validator).toHaveBeenCalled()
+    rerender(element(true))
+
+    await act(async () => {
+      resolve(new Error('Async error'))
+      await validation
+    })
+
+    expect(document.querySelector('.dnb-form-status--error')).toBeNull()
+    expect(
+      document.querySelector('.dnb-form-status--information')
+    ).toHaveTextContent('Visible info')
   })
 
   describe('schema', () => {
