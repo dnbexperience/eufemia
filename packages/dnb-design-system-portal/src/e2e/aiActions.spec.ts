@@ -152,3 +152,50 @@ test('shows feedback selection while retaining keyboard focus', async ({
   await expect(positive).toHaveAttribute('aria-pressed', 'false')
   await expect(positive).toHaveCSS('background-color', background)
 })
+
+test('preserves selected feedback and the focus outline in forced colors', async ({
+  page,
+}) => {
+  await page.emulateMedia({ forcedColors: 'active' })
+  test.skip(
+    !(await page.evaluate(
+      () => matchMedia('(forced-colors: active)').matches
+    )),
+    'Forced colors emulation is unavailable in this browser.'
+  )
+  const action = page
+    .locator('[data-visual-test="ai-message-actions"]')
+    .getByRole('button', { name: 'Good answer', exact: true })
+  const box = await action.boundingBox()
+
+  await action.focus()
+  await action.press('Space')
+  await expect(action).toBeFocused()
+  await expect(action).toHaveAttribute('aria-pressed', 'true')
+  const selectedBorder = () =>
+    action.evaluate((element) => {
+      const style = getComputedStyle(element, ':before')
+      return { width: style.borderTopWidth, style: style.borderTopStyle }
+    })
+  await expect
+    .poll(selectedBorder)
+    .toEqual({ width: '2px', style: 'solid' })
+  await expect(action).toHaveCSS('outline-style', 'solid')
+  await expect(action).toHaveCSS('outline-width', '4px')
+
+  await page.locator('h1').click()
+  await expect
+    .poll(selectedBorder)
+    .toEqual({ width: '2px', style: 'solid' })
+  const selectedBox = await action.boundingBox()
+  expect(selectedBox.width).toBe(box.width)
+  expect(selectedBox.height).toBe(box.height)
+
+  await action.focus()
+  await action.press('Enter')
+  await expect(action).toHaveAttribute('aria-pressed', 'false')
+  await expect
+    .poll(selectedBorder)
+    .not.toEqual({ width: '2px', style: 'solid' })
+  await expect(action).toHaveCSS('outline-width', '4px')
+})

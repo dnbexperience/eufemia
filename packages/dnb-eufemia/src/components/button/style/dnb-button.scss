@@ -550,6 +550,22 @@
       --button-color-icon--default: var(--token-color-icon-selected);
       --button-border-width--default: 0.125rem;
       --button-border-inset--default: ; // Need empty value to override default `inset`
+
+      @media (forced-colors: active) {
+        &::before {
+          content: '';
+          position: absolute;
+          inset: 0;
+
+          border: 0.125rem solid ButtonText;
+          border-radius: inherit;
+          pointer-events: none;
+        }
+
+        &[disabled]::before {
+          border-color: GrayText;
+        }
+      }
     }
 
     // Input-button

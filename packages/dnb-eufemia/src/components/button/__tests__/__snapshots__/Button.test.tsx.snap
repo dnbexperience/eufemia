@@ -925,6 +925,19 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disable
   --button-border-width--default: 0.125rem;
   --button-border-inset--default: ;
 }
+@media (forced-colors: active) {
+  .dnb-button--icon-only.dnb-button--selected::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border: 0.125rem solid ButtonText;
+    border-radius: inherit;
+    pointer-events: none;
+  }
+  .dnb-button--icon-only.dnb-button--selected[disabled]::before {
+    border-color: GrayText;
+  }
+}
 .dnb-button--icon-only.dnb-button--input-button {
   --button-color-bg--default: transparent;
   --button-color-bg--hover: var(--token-color-background-action);
