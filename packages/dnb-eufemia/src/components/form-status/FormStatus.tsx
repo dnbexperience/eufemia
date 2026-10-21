@@ -445,28 +445,33 @@ withComponentMarkers(FormStatus, { _supportsSpacingProps: true })
 
 export default FormStatus
 
-// CSS custom properties keep the icons in sync with the theme and color scheme
-const tokenFill = (token: string) => ({ fill: `var(${token})` })
-const tokenStroke = (token: string) => ({ stroke: `var(${token})` })
+// The icon colors are set in dnb-form-status.scss with theme tokens, so they
+// follow the theme and color scheme. Inline styles are not used, because a strict
+// Content Security Policy blocks them in server-rendered HTML. The fill and stroke
+// attributes are the fallback (DNB colors) when the stylesheet is not loaded.
+const iconPart = (part: string) =>
+  `dnb-form-status-icon-path dnb-form-status-icon-path--${part}`
 
 export const ErrorIcon = (props: ErrorIconProps) => {
   const { title = 'error' } = props || {}
-  const line = '--token-color-icon-neutral-ondark'
 
   return (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" {...props}>
       <title>{title}</title>
       <path
         d="M23.625 17.864A3.547 3.547 0 0120.45 23H3.548a3.546 3.546 0 01-3.172-5.136l8.45-14.902a3.548 3.548 0 016.347 0l8.452 14.902z"
-        style={tokenFill('--token-color-background-error')}
+        className={iconPart('error')}
+        fill="#dc2a2a"
       />
       <path
         d="M12 16.286a1.286 1.286 0 100 2.572 1.286 1.286 0 000-2.572z"
-        style={tokenFill(line)}
+        className={iconPart('error-mark')}
+        fill="#fff"
       />
       <path
         d="M12 13.818v-5"
-        style={tokenStroke(line)}
+        className={iconPart('error-mark')}
+        stroke="#fff"
         strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -477,22 +482,24 @@ export const ErrorIcon = (props: ErrorIconProps) => {
 
 export const WarnIcon = (props: WarnIconProps) => {
   const { title = 'error' } = props || {}
-  const line = '--token-color-icon-neutral-static'
 
   return (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" {...props}>
       <title>{title}</title>
       <path
         d="M23.625 17.864A3.547 3.547 0 0120.45 23H3.548a3.546 3.546 0 01-3.172-5.136l8.45-14.902a3.548 3.548 0 016.347 0l8.452 14.902z"
-        style={tokenFill('--token-color-icon-warning')}
+        className={iconPart('warning')}
+        fill="#fdbb31"
       />
       <path
         d="M12 16.286a1.286 1.286 0 100 2.572 1.286 1.286 0 000-2.572z"
-        style={tokenFill(line)}
+        className={iconPart('warning-mark')}
+        fill="#333"
       />
       <path
         d="M12 13.818v-5"
-        style={tokenStroke(line)}
+        className={iconPart('warning-mark')}
+        stroke="#333"
         strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -504,10 +511,6 @@ export const WarnIcon = (props: WarnIconProps) => {
 export const InfoIcon = (props: InfoIconProps) => {
   const { title = 'information' } = props || {}
   const isSuccess = props?.state === 'success'
-  const fill = isSuccess
-    ? '--token-color-background-positive'
-    : '--token-color-icon-info'
-  const line = '--token-color-icon-neutral-inverse'
 
   return (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" {...props}>
@@ -516,17 +519,21 @@ export const InfoIcon = (props: InfoIconProps) => {
         fillRule="evenodd"
         clipRule="evenodd"
         d="M11.268 0a11.25 11.25 0 105.566 21.017l6.112 2.91a.75.75 0 001-1l-2.911-6.112A11.234 11.234 0 0011.268 0z"
-        style={tokenFill(fill)}
+        className={iconPart(isSuccess ? 'success' : 'information')}
+        fill={isSuccess ? '#28b482' : '#007272'}
       />
       <circle
         cx="11"
         cy="6.5"
         r=".5"
-        style={{ ...tokenFill(line), ...tokenStroke(line) }}
+        className={iconPart('information-mark')}
+        fill="#fff"
+        stroke="#fff"
       />
       <path
         d="M13.75 16H13a1.5 1.5 0 01-1.5-1.5v-3.75a.75.75 0 00-.75-.75H10"
-        style={tokenStroke(line)}
+        className={iconPart('information-mark')}
+        stroke="#fff"
         strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -545,11 +552,13 @@ export const SuccessIcon = (props: SuccessIconProps) => {
         cx="12"
         cy="12"
         r="12"
-        style={tokenFill('--token-color-background-positive')}
+        className={iconPart('success')}
+        fill="#28b482"
       />
       <path
         d="M8 13.053 10.783 16 16 9"
-        style={tokenStroke('--token-color-icon-neutral-inverse')}
+        className={iconPart('success-mark')}
+        stroke="#fff"
         strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -572,7 +581,8 @@ export const MarketingIcon = (props: MarketingIconProps) => {
       <title>{title}</title>
       <path
         d="M6 15.25H4.5c-2.042 0-3.75-1.707-3.75-3.75S2.458 7.75 4.5 7.75H6v7.5ZM7.5 15.25c4.801 0 8.846 1.897 12.75 4.5V3.25c-3.904 2.603-7.949 4.5-12.75 4.5v7.5ZM23.25 10a.75.75 0 0 0-1.5 0h1.5Zm-1.5 3a.75.75 0 0 0 1.5 0h-1.5ZM8.483 21.043a.75.75 0 1 0 1.034-1.086l-1.034 1.086ZM21.75 10v3h1.5v-3h-1.5ZM6 15.25a8.058 8.058 0 0 0 2.483 5.793l1.034-1.086A6.559 6.559 0 0 1 7.5 15.25H6Z"
-        style={tokenFill('--token-color-icon-marketing')}
+        className={iconPart('marketing')}
+        fill="#333"
       />
     </svg>
   )
