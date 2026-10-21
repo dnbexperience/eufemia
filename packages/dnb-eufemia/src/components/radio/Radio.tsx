@@ -107,6 +107,9 @@ function RadioComponent({ ref: externalRef, ...ownProps }: RadioProps) {
   }
   skipNextPropSync.current = false
 
+  // The name a single radio has while the browser runs an arrow key
+  const [arrowKeyName, setArrowKeyName] = useState<string>(undefined)
+
   // Helper functions
   const isContextGroupOrSingle = useCallback(
     () => typeof groupContext.value !== 'undefined' && !ownProps.group,
@@ -211,14 +214,6 @@ function RadioComponent({ ref: externalRef, ...ownProps }: RadioProps) {
           // Browsers do not uncheck a checked native radio on Space
           event.preventDefault()
           onChangeHandler(event)
-        } else if (key.startsWith('Arrow') && isSingle()) {
-          // Browsers treat all radios without a name as one group, so an
-          // arrow key would move to and check another radio on the page.
-          // Trade-off: the arrow keys also do not scroll the page while this
-          // radio has focus (they did before #9959). A generated name per
-          // radio would keep the scroll, but it would send the radio with
-          // native form data, so we do not set one.
-          event.preventDefault()
         }
       } else if (isContextGroupOrSingle()) {
         if (key === 'Enter' || key === ' ') {
@@ -246,8 +241,32 @@ function RadioComponent({ ref: externalRef, ...ownProps }: RadioProps) {
           event,
         }
       )
+
+      if (
+        key.startsWith('Arrow') &&
+        !event.defaultPrevented &&
+        isInNoGroup() &&
+        isSingle()
+      ) {
+        // Browsers treat all radios without a name as one group, so an
+        // arrow key would move to and check another radio on the page.
+        // We give this radio its own name while the browser runs the key,
+        // so the key does what it did before #9959, e.g. scroll the page.
+        // The browser runs the key after all listeners and microtasks, so
+        // we remove the name in a new task. A permanent name would send
+        // the radio with native form data. React removes a name it did not
+        // render when it renders the input, so we also keep it in state.
+        const input = event.currentTarget as HTMLInputElement
+        input.name = id
+        setArrowKeyName(id)
+        setTimeout(() => {
+          input.removeAttribute('name')
+          setArrowKeyName(undefined)
+        }, 0)
+      }
     },
     [
+      id,
       isInNoGroup,
       checkedState,
       isSingle,
@@ -386,6 +405,10 @@ function RadioComponent({ ref: externalRef, ...ownProps }: RadioProps) {
   }
 
   inputParams = Object.assign(inputParams, rest)
+
+  if (arrowKeyName) {
+    inputParams.name = arrowKeyName
+  }
 
   skeletonDOMAttributes(inputParams, skeleton, context)
 
