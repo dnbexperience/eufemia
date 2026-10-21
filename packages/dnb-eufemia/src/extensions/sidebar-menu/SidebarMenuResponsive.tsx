@@ -43,6 +43,7 @@ import {
 } from './SidebarMenuResponsiveContext'
 import type { SidebarMenuResponsiveContextValue } from './SidebarMenuResponsiveContext'
 import SidebarMenuToggle from './SidebarMenuToggle'
+import { setSidebarMenuResponsiveTarget } from './useSidebarMenuResponsiveTarget'
 
 // Was exported from this module in v11.15, so keep the import path working.
 export { useOptionalSidebarMenuResponsive } from './SidebarMenuResponsiveContext'
@@ -92,7 +93,7 @@ export type SidebarMenuResponsiveValue = Pick<
 
 export type SidebarMenuResponsiveProviderProps = {
   children: ReactNode
-  /** Stable scope used by generated first-paint CSS. */
+  /** Unique scope used by first-paint CSS and Toggles outside this provider. */
   scopeId?: string
   /** Maximum viewport width at which the mobile Drawer is used. */
   drawerAt?: MediaQuerySizes | `${number}em`
@@ -366,6 +367,15 @@ export function SidebarMenuResponsiveProvider({
       restoreInline,
       scopeId,
     ]
+  )
+
+  useIsomorphicLayoutEffect(() => {
+    setSidebarMenuResponsiveTarget(scopeId, value)
+  }, [scopeId, value])
+
+  useIsomorphicLayoutEffect(
+    () => () => setSidebarMenuResponsiveTarget(scopeId, undefined),
+    [scopeId]
   )
 
   const firstPaintCss = useMemo(

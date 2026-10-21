@@ -48,3 +48,9 @@ Turn on the Payments app to add its navigation to the application shell. Receive
 Open “Try loading order” to let the Payments app load before the sidebar. Its contribution appears when the sidebar mounts. The app uses `transformContent()` without a shared provider; the same calls work from a separate React root or bundle in the same window. See [Content controlled by micro frontends](/uilib/extensions/sidebar-menu#content-controlled-by-micro-frontends) for replacing the entire menu with `setContent()`.
 
 <Examples.SidebarMenuContentController />
+
+### Toggle outside the provider
+
+Give `SidebarMenu.Toggle` and `ResponsiveProvider` the same unique `scopeId` to place the toggle elsewhere in your application, such as a header outside the navigation provider. The toggle controls desktop dismissal and the mobile Drawer.
+
+<Examples.SidebarMenuExternalToggle />

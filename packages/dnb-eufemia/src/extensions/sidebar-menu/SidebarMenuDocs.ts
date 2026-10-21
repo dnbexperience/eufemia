@@ -189,7 +189,7 @@ export const SidebarMenuResizeHandleEvents: PropertiesTableProps = {
 export const SidebarMenuResponsiveProviderProperties: PropertiesTableProps =
   {
     scopeId: {
-      doc: 'Stable scope for generated first-paint CSS. Set this when server and client render under different surrounding trees.',
+      doc: 'Unique scope for generated first-paint CSS and Toggle buttons outside this provider. Give Toggle the same scopeId to connect it. Set this when server and client render under different surrounding trees.',
       type: 'string',
       status: 'optional',
     },
@@ -361,6 +361,11 @@ export const SidebarMenuResponsiveProviderEvents: PropertiesTableProps = {
 }
 
 export const SidebarMenuToggleProperties: PropertiesTableProps = {
+  scopeId: {
+    doc: 'scopeId of the ResponsiveProvider to control. Allows the toggle to render outside the provider. Without it, the surrounding provider is used. The toggle is disabled until its provider mounts, including during server rendering.',
+    type: 'string',
+    status: 'optional',
+  },
   controls: {
     doc: 'Id of the mobile Drawer controlled by the toggle.',
     type: 'string',
@@ -373,7 +378,7 @@ export const SidebarMenuToggleProperties: PropertiesTableProps = {
     status: 'optional',
   },
   '[Button properties]': {
-    doc: 'Supports Button properties except aria-expanded, aria-haspopup, and aria-controls, which are managed automatically. The default icon is sidebar. Icon-only buttons use a localized accessible label. Calling event.preventDefault() in onClick cancels toggling. Place the toggle inside ResponsiveProvider.',
+    doc: 'Supports Button properties except aria-expanded, aria-haspopup, and aria-controls, which are managed automatically. The default icon is sidebar. Icon-only buttons use a localized accessible label. Calling event.preventDefault() in onClick cancels toggling. Place the toggle inside ResponsiveProvider or connect it using scopeId.',
     type: 'Various',
     status: 'optional',
   },

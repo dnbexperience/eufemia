@@ -224,6 +224,22 @@ Place an external `SidebarMenu.Toggle` or `ResponsiveTrigger` outside dismissibl
 
 The trigger and Drawer do not need to be siblings. Place both under the same provider, for example with the trigger in an application header and the Drawer beside the desktop navigation.
 
+`SidebarMenu.Toggle` can also render outside `ResponsiveProvider`. Give the provider a unique `scopeId` and pass the same value to the toggle. It stays in sync with desktop dismissal and the mobile Drawer, and is disabled until its provider mounts. During server rendering, an outside toggle renders disabled and connects after hydration. Keep `controls` matched to a custom Drawer id as usual.
+
+```tsx
+<>
+  <SidebarMenu.Toggle scopeId="app-navigation" />
+  <SidebarMenu.ResponsiveProvider scopeId="app-navigation">
+    <SidebarMenu.ResponsiveAside>
+      <Navigation />
+    </SidebarMenu.ResponsiveAside>
+    <SidebarMenu.ResponsiveDrawer>
+      <Navigation />
+    </SidebarMenu.ResponsiveDrawer>
+  </SidebarMenu.ResponsiveProvider>
+</>
+```
+
 All responsive parts (`ResponsiveTrigger`, `ResponsiveInline`, `ResponsiveAside`, `ResponsiveShell`, and `ResponsiveDrawer`) and `useResponsive()` must be inside `ResponsiveProvider`. The provider renders a `display: contents` wrapper. It does not affect layout, but CSS child selectors that expect these parts to be direct children of an element outside the provider no longer match across the wrapper.
 
 `drawerAt` defaults to `medium`. A custom Eufemia breakpoint name, explicit `em` value, or `compactAt` adds scoped first-paint CSS, so server-rendered visibility uses the same breakpoint before and after hydration. Pass `styleNonce` when your content security policy requires a nonce for inline styles.
