@@ -31,7 +31,7 @@ Make sure to **decorate** your commit messages with either [Conventional Commits
 
 - `fix: fix message` as the subject
 - `feat: feature message` as the subject
-- For a major change: `feat: message` + `BREAKING CHANGE:` in the footer of the commit. See example below.
+- For a major change: `feat!: message`, or `feat: message` + a `BREAKING CHANGE: description` footer. See example below.
 
 If you are working on a single component update, you can use a decoration and a scope in parenthesis:
 
@@ -62,9 +62,7 @@ feat: commit subject with optional decorator
 Body with text
 Several lines
 
-BREAKING CHANGE:
-
-Subject (will be a list item):
+BREAKING CHANGE: Subject (will be a list item)
 
 Markdown text over several lines.
 
@@ -73,6 +71,8 @@ Additional text such as:
 1. List item
 2. List item
 ```
+
+Write the description on the same line as `BREAKING CHANGE:`. A line that starts with "breaking change" but has no colon right after it, or that has nothing after the colon, does not mark a breaking change. Upper and lower case are the same, so do not start a line with "Breaking change:" in a commit that is not breaking.
 
 You can find more info in the [docs of semantic-release](https://github.com/semantic-release/semantic-release#how-does-it-work) and [Conventional Commits](https://www.conventionalcommits.org/).
 
