@@ -226,6 +226,8 @@ The trigger and Drawer do not need to be siblings. Place both under the same pro
 
 `SidebarMenu.Toggle` can also render outside `ResponsiveProvider`. Give the provider a unique `scopeId` and pass the same value to the toggle. It stays in sync with desktop dismissal and the mobile Drawer, and is disabled until its provider mounts. During server rendering, an outside toggle renders disabled and connects after hydration. Keep `controls` matched to a custom Drawer id as usual.
 
+The connection works across separate React roots and independently bundled Eufemia copies in the same browser window. Each provider needs its own `scopeId`. The provider owns the state and clears its registration when it unmounts; connected toggles then become disabled. The connection does not synchronize across iframes or browser tabs.
+
 ```tsx
 <>
   <SidebarMenu.Toggle scopeId="app-navigation" />

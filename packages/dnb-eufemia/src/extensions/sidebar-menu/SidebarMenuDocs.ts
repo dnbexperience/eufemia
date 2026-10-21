@@ -362,7 +362,7 @@ export const SidebarMenuResponsiveProviderEvents: PropertiesTableProps = {
 
 export const SidebarMenuToggleProperties: PropertiesTableProps = {
   scopeId: {
-    doc: 'scopeId of the ResponsiveProvider to control. Allows the toggle to render outside the provider. Without it, the surrounding provider is used. The toggle is disabled until its provider mounts, including during server rendering.',
+    doc: 'scopeId of the ResponsiveProvider to control. Allows the toggle to render outside the provider, including across separate React roots and independently bundled Eufemia copies in the same window. Without it, the surrounding provider is used. The toggle is disabled until its provider mounts, including during server rendering.',
     type: 'string',
     status: 'optional',
   },

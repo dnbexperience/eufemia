@@ -28,10 +28,7 @@ import { clsx } from 'clsx'
 import useCombinedRef from '../../shared/helpers/useCombinedRef'
 import useUniqueId from '../../shared/helpers/useId'
 import useIsomorphicLayoutEffect from '../../shared/helpers/useIsomorphicLayoutEffect'
-import {
-  createReferenceKey,
-  useSharedState,
-} from '../../shared/helpers/useSharedState'
+import { useSharedState } from '../../shared/helpers/useSharedState'
 import {
   getWebStorage,
   readWebStorageJSON,
@@ -43,6 +40,7 @@ import {
   SidebarMenuResponsiveAsideContext,
   SidebarMenuResponsiveInlineCompactContext,
   SidebarMenuResponsiveContext,
+  sidebarMenuResponsiveStateOptions,
   useSidebarMenuResponsiveContext,
 } from './SidebarMenuResponsiveContext'
 import type { SidebarMenuResponsiveContextValue } from './SidebarMenuResponsiveContext'
@@ -373,7 +371,10 @@ export function SidebarMenuResponsiveProvider({
   )
 
   const { update } = useSharedState<SidebarMenuResponsiveContextValue>(
-    createReferenceKey(SidebarMenuResponsiveContext, scopeId)
+    typeof window === 'undefined' ? undefined : scopeIdProp,
+    undefined,
+    null,
+    sidebarMenuResponsiveStateOptions
   )
 
   useIsomorphicLayoutEffect(() => {

@@ -7,6 +7,64 @@ import '../../../core/vitest/mockMatchMediaSetup'
 import SidebarMenu from '../SidebarMenu'
 
 describe('SidebarMenu.Toggle outside ResponsiveProvider', () => {
+  it('shares responsive state across independently loaded Eufemia copies', async () => {
+    vi.resetModules()
+    const { default: ShellSidebar } = await import('../SidebarMenu')
+    vi.resetModules()
+    const { default: HeaderSidebar } = await import('../SidebarMenu')
+    setMedia({ width: '100em' })
+    const provider = render(
+      <ShellSidebar.ResponsiveProvider scopeId="separate-bundles">
+        <ShellSidebar.ResponsiveAside id="separate-bundles-aside">
+          Menu
+        </ShellSidebar.ResponsiveAside>
+        <ShellSidebar.ResponsiveDrawer id="separate-bundles-drawer">
+          Menu
+        </ShellSidebar.ResponsiveDrawer>
+      </ShellSidebar.ResponsiveProvider>
+    )
+    const header = render(
+      <HeaderSidebar.Toggle
+        scopeId="separate-bundles"
+        controls="separate-bundles-drawer"
+      />
+    )
+    const toggle = header.container.querySelector(
+      '.dnb-sidebar-menu-toggle'
+    )
+    expect(toggle).toBeEnabled()
+    expect(toggle).toHaveAttribute(
+      'aria-controls',
+      'separate-bundles-aside'
+    )
+    fireEvent.click(toggle)
+    expect(
+      provider.container.querySelector(
+        '.dnb-sidebar-menu-responsive-inline'
+      )
+    ).toHaveAttribute('inert')
+    expect(toggle).toHaveAttribute('aria-expanded', 'false')
+    fireEvent.click(toggle)
+    expect(toggle).toHaveAttribute('aria-expanded', 'true')
+
+    act(() => setMedia({ width: '30em' }))
+    expect(toggle).toHaveAttribute(
+      'aria-controls',
+      'separate-bundles-drawer'
+    )
+    fireEvent.click(toggle)
+    await waitFor(() =>
+      expect(document.querySelector('[role="dialog"]')).toBeInTheDocument()
+    )
+    fireEvent.keyDown(document, { key: 'Escape' })
+    await waitFor(() =>
+      expect(toggle).toHaveAttribute('aria-expanded', 'false')
+    )
+    expect(document.activeElement).toBe(toggle)
+    provider.unmount()
+    expect(toggle).toBeDisabled()
+  })
+
   it('shares desktop state with its targeted provider in StrictMode', () => {
     setMedia({ width: '100em' })
     const ref = createRef<HTMLButtonElement>()
