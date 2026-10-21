@@ -92,6 +92,7 @@ jobs:
             --jq '.[0].url // empty')
           if [ -n "$url" ]; then
             echo "exists=true" >> "$GITHUB_OUTPUT"
+            echo "url=$url" >> "$GITHUB_OUTPUT"
             echo "A pull request is already open for the branch: $url" >> "$GITHUB_STEP_SUMMARY"
           fi
 
@@ -197,6 +198,9 @@ jobs:
 
           if ! git diff --cached --quiet; then
             git commit --no-verify -m "chore: update screenshots for the new design tokens"
+            echo "commits=2" >> "$GITHUB_OUTPUT"
+          else
+            echo "commits=1" >> "$GITHUB_OUTPUT"
           fi
 
           if [ -n "$remote_sha" ]; then
@@ -216,6 +220,9 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
           EXISTING_PR: ${{ steps.existing-pr.outputs.exists }}
+          PR_URL: ${{ steps.existing-pr.outputs.url }}
+          BRANCH_CREATED: ${{ steps.commit.outputs.branch_created }}
+          COMMITS: ${{ steps.commit.outputs.commits }}
         run: |
           token_scss='packages/dnb-eufemia/src/style/themes/*/tokens*.scss'
           foundation_scss='packages/dnb-eufemia/src/style/themes/*/foundation.scss'
@@ -274,8 +281,20 @@ jobs:
               --head "$BRANCH" \
               --title "$title" \
               --body "$body" \
-              --draft
+
+          if [ "$BRANCH_CREATED" = true ]; then
+            branch_action="Created branch"
+          else
+            branch_action="Updated branch"
           fi
+
+          {
+            echo ""
+            echo "# Summary:"
+            echo ""
+            echo "- $branch_action: [$BRANCH]($GITHUB_SERVER_URL/$GITHUB_REPOSITORY/tree/$BRANCH) with $COMMITS commit(s)"
+            echo "- $pr_action: [$pr_title]($pr_url)"
+          } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Report no design token changes
         if: steps.changes.outputs.changed == 'false'
