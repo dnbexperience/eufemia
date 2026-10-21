@@ -190,6 +190,7 @@ function Time(props: TimeProps = {}) {
   }
 
   const {
+    fieldBlockProps: sharedFieldBlockProps,
     id,
     path,
     itemPath,
@@ -254,6 +255,7 @@ function Time(props: TimeProps = {}) {
   }
 
   const fieldBlockProps: FieldBlockProps = {
+    ...sharedFieldBlockProps,
     id,
     forId: `${id}-input`,
     className: clsx('dnb-forms-field-time', className),

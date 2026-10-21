@@ -201,6 +201,7 @@ function Expiry(props: ExpiryProps = {}) {
   }
 
   const {
+    fieldBlockProps: sharedFieldBlockProps,
     id,
     path,
     itemPath,
@@ -253,6 +254,7 @@ function Expiry(props: ExpiryProps = {}) {
   }
 
   const fieldBlockProps: FieldBlockProps = {
+    ...sharedFieldBlockProps,
     id,
     forId: `${id}-input`,
     className: clsx('dnb-forms-field-expiry', className),
