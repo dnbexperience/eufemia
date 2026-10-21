@@ -96,19 +96,40 @@ describe('Lambda integration', () => {
     )
   })
 
-  it('reports the probe failures after the global request deadline', async () => {
+  it('bounds outgoing checks and lets their timeout report reach persistence', async () => {
+    const deadline = new AbortController()
+    vi.spyOn(AbortSignal, 'timeout').mockReturnValue(deadline.signal)
     vi.spyOn(process.stdout, 'write').mockReturnValue(true)
-    mocks.cdn.mockResolvedValue({
-      ...healthy(),
-      status: 'unhealthy',
-      checks: [
-        { name: 'npm latest', ok: false, detail: 'Request timed out' },
-      ],
+    const request = vi.fn(async (_input: unknown, init?: RequestInit) => {
+      expect(init?.signal?.aborted).toBe(true)
+      throw new Error('Request timed out')
     })
-    expect(await handler()).toEqual({
-      service: 'CDN',
-      status: 'unhealthy',
+    vi.stubGlobal('fetch', request)
+    mocks.cdn.mockImplementation(async (options) => {
+      deadline.abort()
+      await expect(
+        options.fetch('https://assets.eufemia.dnb.no')
+      ).rejects.toThrow('Request timed out')
+      await options.sleep(2000)
+      return {
+        ...healthy(),
+        status: 'unhealthy',
+        checks: [
+          { name: 'CDN asset', ok: false, detail: 'Request timed out' },
+        ],
+      }
     })
+    try {
+      expect(await handler()).toEqual({
+        service: 'CDN',
+        status: 'unhealthy',
+      })
+      expect(request).toHaveBeenCalledOnce()
+      expect(AbortSignal.timeout).toHaveBeenCalledWith(330_000)
+      expect(mocks.dynamodb).toHaveBeenCalledTimes(2)
+    } finally {
+      vi.unstubAllGlobals()
+    }
   })
 
   it('emits no completion heartbeat after a storage failure and sanitizes SDK errors', async () => {
