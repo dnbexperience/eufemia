@@ -390,6 +390,11 @@ export const ItemActionProperties: PropertiesTableProps = {
     type: 'IconIcon',
     status: 'optional',
   },
+  footer: {
+    doc: "Use `List.Cell.Footer` to place secondary actions outside the primary button or link, within the same list item and border. Clicking or using the keyboard in the footer does not activate the primary action. Eufemia buttons and links inherit the item's disabled state. Footer controls remain available while pending; manage their loading and disabled states individually.",
+    type: 'React.ReactNode',
+    status: 'optional',
+  },
   href: {
     doc: 'When set, renders as a native link (`<a>`) so the item navigates to the URL. Use for external or internal navigation. When not set, the item behaves as a button (use `onClick` for custom handling).',
     type: 'string',
