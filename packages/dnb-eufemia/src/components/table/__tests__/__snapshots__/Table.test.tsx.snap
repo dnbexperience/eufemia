@@ -14,7 +14,7 @@ exports[`Table scss > should match style dependencies css 1`] = `
  */
 .dnb-table {
   --table-th-background-color: var(--token-color-background-neutral);
-  --table-highlight-background: var(--token-color-decorative-first-muted);
+  --table-highlight-background: var(--token-color-decorative-first-subtle);
   --table-th-highlight-border: var(--token-color-decorative-first-subtle);
   display: table;
   table-layout: auto;
