@@ -261,7 +261,9 @@ function RadioComponent({ ref: externalRef, ...ownProps }: RadioProps) {
         input.name = id
         setArrowKeyName(id)
         setTimeout(() => {
-          input.removeAttribute('name')
+          if (input.name === id) {
+            input.removeAttribute('name')
+          }
           setArrowKeyName(undefined)
         }, 0)
       }
@@ -407,7 +409,7 @@ function RadioComponent({ ref: externalRef, ...ownProps }: RadioProps) {
 
   inputParams = Object.assign(inputParams, rest)
 
-  if (arrowKeyName) {
+  if (arrowKeyName && !group) {
     inputParams.name = arrowKeyName
   }
 

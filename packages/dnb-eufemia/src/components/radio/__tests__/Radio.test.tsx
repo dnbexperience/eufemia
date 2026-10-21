@@ -210,6 +210,21 @@ describe('Radio component', () => {
     }
   )
 
+  it('keeps a newly assigned group when the temporary arrow name expires', () => {
+    vi.useFakeTimers()
+    try {
+      const { rerender } = render(<Radio id="single" />)
+      const input = document.querySelector('input')
+      fireEvent.keyDown(input, { key: 'ArrowDown' })
+      rerender(<Radio id="single" group="new-group" />)
+      expect(input).toHaveAttribute('name', 'new-group')
+      act(() => vi.runOnlyPendingTimers())
+      expect(input).toHaveAttribute('name', 'new-group')
+    } finally {
+      vi.useRealTimers()
+    }
+  })
+
   it('keeps a radio in a group checked when clicked again', () => {
     render(
       <Radio.Group label="Group">
