@@ -1239,7 +1239,13 @@ export default function Provider<Data extends JsonObject>(
           dataToStore = JSON.parse(JSON.stringify(data))
           credentialPaths.forEach((path) => {
             if (pointer.has(dataToStore, path)) {
-              pointer.remove(dataToStore, path)
+              const tokens = pointer.parse(path)
+              const parent = pointer.get(dataToStore, tokens.slice(0, -1))
+              if (Array.isArray(parent)) {
+                pointer.set(dataToStore, path, null)
+              } else {
+                pointer.remove(dataToStore, path)
+              }
             }
           })
         }

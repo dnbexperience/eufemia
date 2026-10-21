@@ -554,6 +554,33 @@ describe('Form.Handler', () => {
     window.sessionStorage.removeItem('test-data')
   })
 
+  it('should redact every primitive credential without shifting array items', async () => {
+    render(
+      <Form.Handler
+        sessionStorageId="test-data"
+        defaultData={{ passwords: ['first', 'second'], name: 'Ola' }}
+      >
+        <Iterate.Array path="/passwords">
+          <Field.Password itemPath="/" />
+        </Iterate.Array>
+        <Field.String path="/name" />
+      </Form.Handler>
+    )
+
+    await userEvent.type(document.querySelector('input'), '!')
+
+    await waitFor(() => {
+      expect(
+        JSON.parse(window.sessionStorage.getItem('test-data'))
+      ).toEqual({
+        passwords: [null, null],
+        name: 'Ola',
+      })
+    })
+    expect(document.querySelectorAll('input')[1]).toHaveValue('second')
+    window.sessionStorage.removeItem('test-data')
+  })
+
   it('should reset sessionStorage on "resetForm" call', async () => {
     const setItem = vi.spyOn(
       Object.getPrototypeOf(window.sessionStorage),
