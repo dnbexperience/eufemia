@@ -1,6 +1,6 @@
 {
-  "name": "eufemia-mcp-usage-record",
-  "description": "The MCP usage record and its field rules, shared by the analytics ingest and the web MCP Lambda",
+  "name": "eufemia-usage-ingest",
+  "description": "The MCP usage record, its field rules and request-body decoding, shared by the analytics ingest and the web MCP Lambda",
   "version": "1.0.0",
   "private": true,
   "type": "module",

@@ -23,7 +23,7 @@ import {
   parseDocsPath,
   type McpUsageRecord,
   type PathTool,
-} from 'eufemia-mcp-usage-record'
+} from 'eufemia-usage-ingest'
 
 /** Mirrors `UsageResolver` in mcp-docs-server; declared here so this module doesn't import the docs server. */
 export type UsageResolver = {

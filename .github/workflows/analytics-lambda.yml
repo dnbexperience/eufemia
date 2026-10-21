@@ -8,7 +8,7 @@ name: Analytics Lambda
 #
 # Triggers:
 # - Push to `main` that touches `tools/analytics/**`, the shared
-#   `tools/mcp-usage-record/**` package (or this workflow) — deploys automatically.
+#   `tools/usage-ingest/**` package (or this workflow) — deploys automatically.
 # - `workflow_dispatch` — manual deploy from the Actions tab (any branch).
 #
 # Analytics has no Eufemia docs dependency, so it deploys on its own code changes
@@ -22,7 +22,7 @@ on:
       - main
     paths:
       - 'tools/analytics/**'
-      - 'tools/mcp-usage-record/**'
+      - 'tools/usage-ingest/**'
       - '.github/workflows/analytics-lambda.yml'
   workflow_dispatch:
 

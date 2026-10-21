@@ -40,9 +40,9 @@ const STARTUP_NOTICE =
   'Eufemia MCP collects anonymous usage stats; disable with EUFEMIA_MCP_TELEMETRY=0 or DO_NOT_TRACK=1'
 
 // The registered docs-server tools. A record is emitted only for a call to one
-// of these, so an unknown method never produces a record. This list, the tool
-// sets and the patterns below must equal those in tools/mcp-usage-record; a
-// test in tools/mcp-lambda checks it.
+// of these, so an unknown method never produces a record. This list and the
+// tool sets, length limits and patterns below must equal those in
+// tools/usage-ingest; a test in tools/mcp-lambda checks it.
 export const KNOWN_TOOLS: ReadonlySet<string> = new Set([
   'docs_entry',
   'docs_meta',
@@ -74,8 +74,8 @@ export const PATH_TOOLS: ReadonlySet<string> = new Set([
   'docs_list',
 ])
 
-const MAX_COMPONENT_LENGTH = 64
-const MAX_PATH_LENGTH = 512
+export const MAX_COMPONENT_LENGTH = 64
+export const MAX_PATH_LENGTH = 512
 
 // A component name is one or more dot-separated segments. Each segment starts
 // with a letter and may contain letters, digits, and hyphens, so both the

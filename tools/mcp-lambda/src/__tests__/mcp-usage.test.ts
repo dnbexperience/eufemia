@@ -5,7 +5,7 @@ import {
 } from '@dnb/eufemia/src/mcp/docs-source.js'
 import { createUsageResolver } from '@dnb/eufemia/src/mcp/mcp-docs-server.js'
 import * as localServer from '@dnb/eufemia/src/mcp/usage-telemetry.js'
-import * as usageRecord from 'eufemia-mcp-usage-record'
+import * as usageIngest from 'eufemia-usage-ingest'
 import { usageRecordsFromRequestBody } from '../records/mcp-usage.js'
 
 const NOW = '2026-09-10T12:00:00.000Z'
@@ -361,26 +361,33 @@ describe('usageRecordsFromRequestBody', () => {
   })
 
   it('registers exactly the twelve docs-server tools', () => {
-    expect(usageRecord.KNOWN_TOOLS.size).toBe(12)
+    expect(usageIngest.KNOWN_TOOLS.size).toBe(12)
   })
 
   it.each(['KNOWN_TOOLS', 'COMPONENT_TOOLS', 'PATH_TOOLS'] as const)(
     '%s matches the local stdio server',
     (name) => {
       expect([...localServer[name]].sort()).toEqual(
-        [...usageRecord[name]].sort()
+        [...usageIngest[name]].sort()
       )
+    }
+  )
+
+  it.each(['MAX_COMPONENT_LENGTH', 'MAX_PATH_LENGTH'] as const)(
+    '%s matches the local stdio server',
+    (name) => {
+      expect(localServer[name]).toBe(usageIngest[name])
     }
   )
 
   it.each(['COMPONENT_SEGMENT', 'PATH_PATTERN'] as const)(
     '%s matches the local stdio server',
     (name) => {
-      expect(String(localServer[name])).toBe(String(usageRecord[name]))
+      expect(String(localServer[name])).toBe(String(usageIngest[name]))
     }
   )
 
-  // `canonicalDocsPath` in eufemia-mcp-usage-record reimplements the server's
+  // `canonicalDocsPath` in eufemia-usage-ingest reimplements the server's
   // own path normalisation rather than importing it, so this pins the two
   // together: if `normalizeDocsPath` changes how it collapses a path, this
   // fails instead of silently splitting one document across several stored

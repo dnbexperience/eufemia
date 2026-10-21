@@ -1,5 +1,6 @@
-// The MCP usage record and the field rules shared by the analytics ingest
-// (tools/analytics) and the web MCP Lambda (tools/mcp-lambda).
+// The MCP usage record, its field rules and request-body decoding, shared by
+// the analytics ingest (tools/analytics) and the web MCP Lambda
+// (tools/mcp-lambda).
 
 /** Which MCP transport produced the event. Stamped server-side, never trusted from the client. */
 export type McpUsageTransport = 'local' | 'web'
@@ -55,8 +56,8 @@ export function isPathTool(tool: string): tool is PathTool {
   return PATH_TOOLS.has(tool)
 }
 
-const MAX_COMPONENT_LENGTH = 64
-const MAX_PATH_LENGTH = 512
+export const MAX_COMPONENT_LENGTH = 64
+export const MAX_PATH_LENGTH = 512
 
 // A component name is one or more dot-separated segments. Each segment starts
 // with a letter and may contain letters, digits, and hyphens, so both the

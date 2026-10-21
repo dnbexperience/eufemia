@@ -1,6 +1,6 @@
 import { SendMessageCommand, SQSClient } from '@aws-sdk/client-sqs'
 import type { APIGatewayProxyEventV2 } from 'aws-lambda'
-import { decodeEventBody } from 'eufemia-mcp-usage-record'
+import { decodeEventBody } from 'eufemia-usage-ingest'
 import {
   usageRecordsFromRequestBody,
   type UsageResolver,

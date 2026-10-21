@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { KNOWN_TOOLS } from 'eufemia-mcp-usage-record'
+import { KNOWN_TOOLS } from 'eufemia-usage-ingest'
 import {
   validateMcpUsage,
   buildMcpUsageRecord,

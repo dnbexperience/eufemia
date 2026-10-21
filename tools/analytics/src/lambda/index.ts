@@ -2,7 +2,7 @@ import type {
   APIGatewayProxyEventV2,
   APIGatewayProxyResultV2,
 } from 'aws-lambda'
-import { decodeEventBody } from 'eufemia-mcp-usage-record'
+import { decodeEventBody } from 'eufemia-usage-ingest'
 import { isEdgeAuthorized, json } from './http.js'
 import { storePortalViews, storeMcpUsage } from './store.js'
 import { validatePortalViews } from '../records/portal-view.js'

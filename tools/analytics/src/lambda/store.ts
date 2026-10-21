@@ -1,5 +1,5 @@
 import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3'
-import type { McpUsageTransport } from 'eufemia-mcp-usage-record'
+import type { McpUsageTransport } from 'eufemia-usage-ingest'
 import { randomUUID } from 'node:crypto'
 import {
   buildPortalViewRecord,

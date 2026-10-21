@@ -29,7 +29,7 @@ import {
   parseDocsPath,
   type McpUsageRecord,
   type McpUsageTransport,
-} from 'eufemia-mcp-usage-record'
+} from 'eufemia-usage-ingest'
 import {
   isIsoTimestamp,
   isValidEnv,
