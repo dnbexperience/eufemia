@@ -187,10 +187,18 @@ jobs:
           git config user.email "$GH_EMAIL"
           git add \
             packages/dnb-eufemia/src/style/themes \
-            packages/dnb-eufemia/scripts/prebuild/tasks/__tests__/__snapshots__/makePropertiesFile.test.ts.snap \
-            ':(glob)packages/dnb-eufemia/src/**/__image_snapshots__/**'
+            packages/dnb-eufemia/scripts/prebuild/tasks/__tests__/__snapshots__/makePropertiesFile.test.ts.snap
 
           git commit --no-verify -m "chore: synchronize design tokens from Figma"
+
+          # Kept apart from the token change, so the screenshot noise can be
+          # reviewed, or dropped, on its own
+          git add ':(glob)packages/dnb-eufemia/src/**/__image_snapshots__/**'
+
+          if ! git diff --cached --quiet; then
+            git commit --no-verify -m "chore: update screenshots for the new design tokens"
+          fi
+
           if [ -n "$remote_sha" ]; then
             git push origin "HEAD:refs/heads/$BRANCH" \
               --force-with-lease="refs/heads/$BRANCH:$remote_sha"
