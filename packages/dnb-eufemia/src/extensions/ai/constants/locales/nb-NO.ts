@@ -1,6 +1,14 @@
 export default {
   'nb-NO': {
     Ai: {
+      confirmationYes: 'Ja',
+      confirmationNo: 'Nei',
+      confirmationPending: 'Venter på bekreftelse',
+      confirmationRequired: 'Påkrevd',
+      confirmationConfirmed: 'Bekreftet',
+      confirmationDeclined: 'Avslått',
+      confirmationExpired: 'Utløpt',
+
       undo: 'Angre',
       undoAvailable: '%action er tilgjengelig.',
       undoAvailableFor: '%action er tilgjengelig i %seconds sekunder.',
