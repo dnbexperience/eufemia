@@ -2837,7 +2837,7 @@ __metadata:
     "@maskito/core": "npm:5.6.0"
     "@maskito/kit": "npm:5.6.0"
     "@maskito/react": "npm:5.6.0"
-    "@modelcontextprotocol/node": "npm:2.0.0"
+    "@modelcontextprotocol/node": "npm:2.1.1"
     "@modelcontextprotocol/server": "npm:2.3.0"
     "@modelcontextprotocol/server-legacy": "npm:2.3.1"
     "@navikt/fnrvalidator": "npm:2.2.1"
@@ -4329,18 +4329,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@modelcontextprotocol/node@npm:2.0.0":
-  version: 2.0.0
-  resolution: "@modelcontextprotocol/node@npm:2.0.0"
+"@modelcontextprotocol/node@npm:2.1.1":
+  version: 2.1.1
+  resolution: "@modelcontextprotocol/node@npm:2.1.1"
   dependencies:
     "@hono/node-server": "npm:^1.19.9"
+    hono: "npm:^4.11.4"
   peerDependencies:
-    "@modelcontextprotocol/server": ^2.0.0
-    hono: ^4.11.4
-  peerDependenciesMeta:
-    hono:
-      optional: true
-  checksum: 10/d214fcb52e4d2740840a54fd98b0ad8e835f79765d14611fca3778a537bd779ddce71073455aa7f459d5d479985401cd3239c8056cc8134061d2aba60d0d5709
+    "@modelcontextprotocol/server": ^2.3.0
+  checksum: 10/3d3c769ccaab86db70b471fca8d6793f28ed672671163a1a87f8c819bd82a5e346c82686c983a38c54a247f071b20338955b6af3fae76325a220fb8f6b4911df
   languageName: node
   linkType: hard
 
