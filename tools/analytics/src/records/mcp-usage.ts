@@ -23,6 +23,13 @@
  * local server) check that a component or path exists before sending it.
  */
 
+import {
+  isIsoTimestamp,
+  isValidEnv,
+  parseIngestBatch,
+  type ValidationResult,
+} from './shared.js'
+
 /** Which MCP transport produced the event. Stamped server-side, never trusted from the client. */
 export type McpUsageTransport = 'local' | 'web'
 
@@ -55,13 +62,9 @@ const COMPONENT_TOOLS: ReadonlySet<string> = new Set([
 // Tools whose event carries a doc path. A path on any other tool is dropped.
 const PATH_TOOLS: ReadonlySet<string> = new Set(['docs_read', 'docs_list'])
 
-const MAX_BATCH = 50
 const MAX_COMPONENT_LENGTH = 64
 const MAX_PATH_LENGTH = 512
 const MAX_VERSION_LENGTH = 64
-
-/** A short lowercase environment token, e.g. `prod`, `dev`. */
-const ENV_PATTERN = /^[a-z][a-z0-9-]{0,31}$/
 
 // A component name is one or more dot-separated segments. Each segment starts
 // with a letter and may contain letters, digits, and hyphens, so both the
@@ -165,19 +168,9 @@ export type McpUsageRecord = {
   created_at: string
 }
 
-type ValidationFailure = { ok: false; errors: string[] }
-
-export type McpUsageValidationResult =
-  | { ok: true; value: McpUsageInput[] }
-  | ValidationFailure
-
 // An unrecognised value for these optional dimensions is dropped here (so the
 // built record defaults it), rather than rejecting the whole event — a stale or
 // malformed value costs one dimension, never lets free text through.
-function isValidEnv(value: unknown): value is string {
-  return typeof value === 'string' && ENV_PATTERN.test(value)
-}
-
 function parseComponentName(value: unknown): string {
   if (typeof value !== 'string' || value.length > MAX_COMPONENT_LENGTH) {
     return ''
@@ -211,47 +204,22 @@ function parseDocsPath(value: unknown): string {
 }
 
 /**
- * True only for a canonical ISO 8601 UTC timestamp (the form produced by
- * `Date.prototype.toISOString`), rejecting the looser inputs `Date.parse`
- * would otherwise accept, such as `"2026"` or `"March 5"`.
- */
-function isIsoTimestamp(value: string): boolean {
-  const date = new Date(value)
-  return !Number.isNaN(date.getTime()) && date.toISOString() === value
-}
-
-/**
- * Validate an untrusted ingest payload into a batch of MCP usage events.
- *
- * Accepts either a single event object or an array of them. `tool` is required
- * and must be one of the registered MCP tools, so an unknown method is rejected
- * rather than stored. An `eufemiaVersion` or `timestamp` with a bad shape also
- * rejects the event. An unrecognised `env`, `component`, `componentMissed`,
- * `likelyComponent` or `path` is dropped so the built record defaults it,
- * rather than failing the whole event — a stale or malformed value never lets
- * free text reach storage. `transport` is stamped server-side (see
- * {@link buildMcpUsageRecord}) and is ignored if the client sends it.
+ * Validate an untrusted ingest payload (one event or an array) into a batch of
+ * MCP usage events. `transport` is stamped server-side by
+ * {@link buildMcpUsageRecord}, never taken from the client.
  */
 export function validateMcpUsage(
   input: unknown
-): McpUsageValidationResult {
-  const events = Array.isArray(input) ? input : [input]
-
-  if (events.length === 0) {
-    return { ok: false, errors: ['Body must contain at least one event'] }
-  }
-
-  if (events.length > MAX_BATCH) {
-    return {
-      ok: false,
-      errors: [`A batch may contain at most ${MAX_BATCH} events`],
-    }
+): ValidationResult<McpUsageInput> {
+  const batch = parseIngestBatch(input)
+  if (!batch.ok) {
+    return batch
   }
 
   const errors: string[] = []
   const value: McpUsageInput[] = []
 
-  events.forEach((event, index) => {
+  batch.value.forEach((event, index) => {
     if (
       typeof event !== 'object' ||
       event === null ||
