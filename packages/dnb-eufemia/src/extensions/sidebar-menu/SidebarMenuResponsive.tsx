@@ -29,6 +29,10 @@ import useCombinedRef from '../../shared/helpers/useCombinedRef'
 import useUniqueId from '../../shared/helpers/useId'
 import useIsomorphicLayoutEffect from '../../shared/helpers/useIsomorphicLayoutEffect'
 import {
+  createReferenceKey,
+  useSharedState,
+} from '../../shared/helpers/useSharedState'
+import {
   getWebStorage,
   readWebStorageJSON,
 } from '../../shared/helpers/webStorage'
@@ -43,7 +47,6 @@ import {
 } from './SidebarMenuResponsiveContext'
 import type { SidebarMenuResponsiveContextValue } from './SidebarMenuResponsiveContext'
 import SidebarMenuToggle from './SidebarMenuToggle'
-import { setSidebarMenuResponsiveTarget } from './useSidebarMenuResponsiveTarget'
 
 // Was exported from this module in v11.15, so keep the import path working.
 export { useOptionalSidebarMenuResponsive } from './SidebarMenuResponsiveContext'
@@ -369,14 +372,15 @@ export function SidebarMenuResponsiveProvider({
     ]
   )
 
-  useIsomorphicLayoutEffect(() => {
-    setSidebarMenuResponsiveTarget(scopeId, value)
-  }, [scopeId, value])
-
-  useIsomorphicLayoutEffect(
-    () => () => setSidebarMenuResponsiveTarget(scopeId, undefined),
-    [scopeId]
+  const { update } = useSharedState<SidebarMenuResponsiveContextValue>(
+    createReferenceKey(SidebarMenuResponsiveContext, scopeId)
   )
+
+  useIsomorphicLayoutEffect(() => {
+    update(value)
+  }, [update, value])
+
+  useIsomorphicLayoutEffect(() => () => update(undefined), [update])
 
   const firstPaintCss = useMemo(
     () => getFirstPaintCss(scopeId, resolvedDrawerAt, resolvedCompactAt),

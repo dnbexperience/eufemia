@@ -4,12 +4,17 @@ import Button from '../../components/button/Button'
 import type { ButtonProps } from '../../components/button/Button'
 import { sidebar } from '../../icons'
 import useCombinedRef from '../../shared/helpers/useCombinedRef'
+import {
+  createReferenceKey,
+  useSharedState,
+} from '../../shared/helpers/useSharedState'
 import useTranslation from '../../shared/useTranslation'
 import {
   SidebarMenuInlineToggleContext,
+  SidebarMenuResponsiveContext,
   useOptionalSidebarMenuResponsive,
 } from './SidebarMenuResponsiveContext'
-import useSidebarMenuResponsiveTarget from './useSidebarMenuResponsiveTarget'
+import type { SidebarMenuResponsiveContextValue } from './SidebarMenuResponsiveContext'
 
 export type SidebarMenuToggleProps = Omit<
   ButtonProps,
@@ -35,9 +40,15 @@ export default function SidebarMenuToggle({
   ...props
 }: SidebarMenuToggleProps) {
   const parentContext = useOptionalSidebarMenuResponsive()
-  const targetContext = useSidebarMenuResponsiveTarget(
-    scopeId && scopeId !== parentContext?.scopeId ? scopeId : undefined
-  )
+  const { data: targetContext } =
+    useSharedState<SidebarMenuResponsiveContextValue>(
+      scopeId && scopeId !== parentContext?.scopeId
+        ? createReferenceKey(SidebarMenuResponsiveContext, scopeId)
+        : undefined,
+      undefined,
+      null,
+      { getServerSnapshot: () => undefined }
+    )
   const context =
     !scopeId || scopeId === parentContext?.scopeId
       ? parentContext
