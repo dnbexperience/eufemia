@@ -457,9 +457,9 @@ describe('FormStatus icon theming', () => {
   it('uses the error tokens', () => {
     const { container } = render(<ErrorIcon />)
     expect(paintOf(container)).toEqual([
-      ['var(--token-color-icon-error)', ''],
-      ['var(--token-color-icon-neutral-inverse)', ''],
-      ['', 'var(--token-color-icon-neutral-inverse)'],
+      ['var(--token-color-background-error)', ''],
+      ['var(--token-color-icon-neutral-ondark)', ''],
+      ['', 'var(--token-color-icon-neutral-ondark)'],
     ])
   })
 
@@ -484,10 +484,10 @@ describe('FormStatus icon theming', () => {
     ])
   })
 
-  it('uses the positive token for the success state', () => {
+  it('uses the positive background token for the success state', () => {
     const { container } = render(<InfoIcon state="success" />)
     expect(paintOf(container)[0]).toEqual([
-      'var(--token-color-icon-positive)',
+      'var(--token-color-background-positive)',
       '',
     ])
   })

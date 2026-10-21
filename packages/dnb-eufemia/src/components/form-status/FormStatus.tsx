@@ -438,8 +438,8 @@ export default FormStatus
 
 export const ErrorIcon = (props: ErrorIconProps) => {
   const { title = 'error' } = props || {}
-  const fill = 'var(--token-color-icon-error)'
-  const line = 'var(--token-color-icon-neutral-inverse)'
+  const fill = 'var(--token-color-background-error)'
+  const line = 'var(--token-color-icon-neutral-ondark)'
 
   return (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" {...props}>
@@ -494,7 +494,7 @@ export const InfoIcon = (props: InfoIconProps) => {
   const { title = 'information' } = props || {}
   const fill =
     props?.state === 'success'
-      ? 'var(--token-color-icon-positive)'
+      ? 'var(--token-color-background-positive)'
       : 'var(--token-color-icon-info)'
   const line = 'var(--token-color-icon-neutral-inverse)'
 
