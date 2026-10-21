@@ -1,4 +1,11 @@
-import { useCallback, useContext, useMemo, useRef, useState } from 'react'
+import {
+  useCallback,
+  useContext,
+  useInsertionEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
 import type { ReactNode } from 'react'
 import type { SectionContextState } from './SectionContext'
 import SectionContext from './SectionContext'
@@ -156,10 +163,12 @@ function SectionComponent<overwriteProps = OverwritePropsDefaults>(
     []
   )
 
-  // Layout effects run for children first, so we use the render order
-  // to call the handler of an outer section before an inner section.
+  // Register in an insertion effect, so the handler is added before any
+  // layout effect runs. Then a change that a field makes while it mounts
+  // also calls onChange. Effects run for children first, so we use the
+  // render order to call an outer section before an inner section.
   const [changeHandlerOrder] = useState(() => ++sectionRenderCount)
-  useLayoutEffect(() => {
+  useInsertionEffect(() => {
     return addOnChangeHandler?.(handleChange, changeHandlerOrder)
   }, [addOnChangeHandler, handleChange, changeHandlerOrder])
 
