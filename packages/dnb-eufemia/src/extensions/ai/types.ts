@@ -118,6 +118,53 @@ export type AiMessageIndicatorProps = {
 
 export type AiActionsProps = SpacingProps & HTMLAttributes<HTMLDivElement>
 
+export type AiConfirmationStatus =
+  | 'pending'
+  | 'required'
+  | 'confirmed'
+  | 'declined'
+  | 'expired'
+
+export type AiConfirmationProps = {
+  /** The question heading. */
+  title: string
+  /** Explanation or details of the decision. */
+  children: ReactNode
+  /**
+   * Controlled decision state. Completed or expired decisions disable both buttons.
+   * Default: `'pending'`
+   */
+  status?: AiConfirmationStatus
+  /**
+   * Called when the user confirms. Receives the Button click event. The application owns the decision and resulting action. The button is disabled when no handler is provided.
+   */
+  onConfirm?: (event: ButtonClickEvent) => void
+  /**
+   * Called when the user declines. Receives the Button click event. The application owns the decision and resulting action. The button is disabled when no handler is provided.
+   */
+  onDecline?: (event: ButtonClickEvent) => void
+  /** Confirm button text. Defaults to a translated Yes. */
+  confirmLabel?: string
+  /** Decline button text. Defaults to a translated No. */
+  declineLabel?: string
+  /**
+   * Disable both buttons, for example while saving a decision.
+   * Default: `false`
+   */
+  disabled?: boolean
+  /**
+   * Announce decision-state changes politely. Disable when the application already announces the outcome.
+   * Default: `true`
+   */
+  announce?: boolean
+  /**
+   * Heading level.
+   * Default: `3`
+   */
+  level?: 1 | 2 | 3 | 4 | 5 | 6
+} & SpacingProps &
+  Omit<HTMLAttributes<HTMLDivElement>, 'title' | 'children'>
+
 export type AiActionProps = {
   /** Label used for the tooltip and for screen readers. */
   label: string
