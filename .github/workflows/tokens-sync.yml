@@ -281,6 +281,10 @@ jobs:
             echo "- Added: $(as_list "$added")"
             echo "- Removed: $(as_list "$removed")"
             echo ""
+            if [ "$EXISTING_PR" = true ]; then
+              echo "Suggested title: \`$title\`"
+              echo ""
+            fi
             echo "Review the token values, removals, snapshots, and visual screenshots before marking the pull request ready."
             echo "---"
             echo "$footer"
