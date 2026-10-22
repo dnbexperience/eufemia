@@ -1270,7 +1270,7 @@ button.dnb-button::-moz-focus-inner {
 *
 */
 .dnb-upload {
-  --upload-background: var(--token-color-background-page-background);
+  --upload-background: var(--token-color-background-neutral);
   --upload-background--active: var(--token-color-decorative-third-muted);
   --upload-border: var(--token-color-stroke-action);
   --upload-border--active: var(--token-color-stroke-action-pressed);
