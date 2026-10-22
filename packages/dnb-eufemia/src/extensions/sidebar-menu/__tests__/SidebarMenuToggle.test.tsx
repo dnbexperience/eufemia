@@ -65,7 +65,7 @@ describe('SidebarMenu.Toggle outside ResponsiveProvider', () => {
     expect(toggle).toBeDisabled()
   })
 
-  it('shares desktop state with its targeted provider in StrictMode', () => {
+  it('shares inline state with its targeted provider in StrictMode', () => {
     setMedia({ width: '100em' })
     const ref = createRef<HTMLButtonElement>()
     render(
@@ -97,13 +97,13 @@ describe('SidebarMenu.Toggle outside ResponsiveProvider', () => {
     expect(toggle).toHaveAttribute('aria-expanded', 'false')
   })
 
-  it('opens the mobile Drawer and restores focus after Escape', async () => {
+  it('opens the Drawer and restores focus after Escape', async () => {
     setMedia({ width: '30em' })
     render(
       <>
-        <SidebarMenu.Toggle scopeId="navigation" controls="mobile-menu" />
+        <SidebarMenu.Toggle scopeId="navigation" controls="drawer-menu" />
         <SidebarMenu.ResponsiveProvider scopeId="navigation">
-          <SidebarMenu.ResponsiveDrawer id="mobile-menu">
+          <SidebarMenu.ResponsiveDrawer id="drawer-menu">
             Menu
           </SidebarMenu.ResponsiveDrawer>
         </SidebarMenu.ResponsiveProvider>
@@ -111,7 +111,7 @@ describe('SidebarMenu.Toggle outside ResponsiveProvider', () => {
     )
     const toggle = document.querySelector('.dnb-sidebar-menu-toggle')
     expect(toggle).toHaveAttribute('aria-haspopup', 'dialog')
-    expect(toggle).toHaveAttribute('aria-controls', 'mobile-menu')
+    expect(toggle).toHaveAttribute('aria-controls', 'drawer-menu')
     fireEvent.click(toggle)
     await waitFor(() =>
       expect(document.querySelector('[role="dialog"]')).toBeInTheDocument()
