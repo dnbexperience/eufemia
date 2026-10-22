@@ -260,7 +260,7 @@ Place an external `SidebarMenu.Toggle` or `ResponsiveTrigger` outside dismissibl
 
 The trigger and Drawer do not need to be siblings. Place both under the same provider, for example with the trigger in an application header and the Drawer beside the inline navigation.
 
-`SidebarMenu.Toggle` can also render outside `ResponsiveProvider`. Give the provider a unique `scopeId` and pass the same value to the toggle. It stays in sync with inline dismissal and the Drawer, and is disabled until its provider mounts. During server rendering, an outside toggle renders disabled and connects after hydration. Keep `controls` matched to a custom Drawer id as usual.
+`SidebarMenu.Toggle` can also render outside `ResponsiveProvider`. Give the provider a unique `scopeId` and pass the same value to the toggle. It stays in sync with inline dismissal and the Drawer, and is disabled until its provider mounts. During server rendering, an outside toggle renders disabled and connects after hydration. The toggle's `aria-controls` follows the provider's `ResponsiveDrawer` id automatically.
 
 The connection works across separate React roots and independently bundled Eufemia copies in the same browser window. Each provider needs its own `scopeId`. The provider owns the state and clears its registration when it unmounts; connected toggles then become disabled. The connection does not synchronize across iframes or browser tabs.
 
@@ -313,13 +313,13 @@ function AppNavigation() {
 
         <div className="page">
           <header>
-            <SidebarMenu.ResponsiveTrigger controls="drawer-navigation" />
+            <SidebarMenu.ResponsiveTrigger />
             <a href="/">Brand</a>
           </header>
           <main>Page content</main>
         </div>
 
-        <SidebarMenu.ResponsiveDrawer id="drawer-navigation">
+        <SidebarMenu.ResponsiveDrawer>
           <SidebarMenu.Data aria-label="Main navigation" data={items} />
         </SidebarMenu.ResponsiveDrawer>
       </SidebarMenu.ResponsiveShell>

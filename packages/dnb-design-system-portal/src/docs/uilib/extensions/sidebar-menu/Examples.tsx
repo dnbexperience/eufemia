@@ -558,11 +558,7 @@ export function SidebarMenuToggle() {
             </SidebarMenu.Root>
           </SidebarMenu.ResponsiveAside>
           <div className={styles.responsiveContent}>
-            <SidebarMenu.Toggle
-              controls="toggle-example-drawer"
-              text="Menu"
-              bottom="medium"
-            />
+            <SidebarMenu.Toggle text="Menu" bottom="medium" />
             <H2>Toggle the sidebar</H2>
             <P>
               Use either toggle to hide the sidebar. The Menu button
@@ -596,7 +592,6 @@ export function SidebarMenuExternalToggle() {
       <div data-sidebar-menu-external-toggle-example>
         <SidebarMenu.Toggle
           scopeId="external-toggle-example"
-          controls="external-toggle-drawer"
           text="Menu"
           bottom="small"
         />
@@ -825,7 +820,6 @@ export function SidebarMenuResponsiveNavigation() {
               {/* A div, because the portal page already has a main landmark */}
               <div className={styles.responsiveContent}>
                 <SidebarMenu.ResponsiveTrigger
-                  controls="responsive-menu-drawer"
                   text="Menu"
                   bottom="medium"
                 />
