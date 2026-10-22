@@ -39,6 +39,7 @@ import {
 } from '../../shared/helpers/webStorage'
 import type { WebStorageType } from '../../shared/helpers/webStorage'
 import useTranslation from '../../shared/useTranslation'
+import { warn } from '../../shared/helpers'
 import {
   SidebarMenuInlineToggleContext,
   SidebarMenuResponsiveAsideContext,
@@ -97,20 +98,22 @@ export type SidebarMenuResponsiveValue = Pick<
   | 'toggle'
 >
 
+type BreakpointLength = `${number}em` | `${number}rem`
+
 export type SidebarMenuResponsiveProviderProps = {
   children: ReactNode
   /** Named controller shared with other applications in the same window. */
   controllerId?: string
   /** Unique scope used by first-paint CSS and Toggles outside this provider. */
   scopeId?: string
-  /** Maximum viewport width at which the Drawer is used. */
-  drawerAt?: MediaQuerySizes | `${number}em`
+  /** Maximum viewport width at which the mobile Drawer is used. */
+  drawerAt?: MediaQuerySizes | BreakpointLength
   /** @deprecated Use drawerAt instead. */
-  breakpoint?: MediaQuerySizes | `${number}em`
+  breakpoint?: MediaQuerySizes | BreakpointLength
   /** Maximum viewport width at which the inline menu becomes icon-only. */
-  compactAt?: MediaQuerySizes | `${number}em`
+  compactAt?: MediaQuerySizes | BreakpointLength
   /** Additional viewport width added to the compactAt threshold. */
-  compactOffset?: `${number}em`
+  compactOffset?: BreakpointLength
   /** CSP nonce forwarded to custom first-paint breakpoint CSS. */
   styleNonce?: string
   /** Controlled Drawer state. */
@@ -152,12 +155,16 @@ export function SidebarMenuResponsiveProvider(
   } = useSidebarMenuProps(props.controllerId, props, 'responsive')
   const { breakpoints } = useContext(Context)
   const resolvedDrawerAt = resolveBreakpoint(
+    !drawerAt && breakpoint ? 'breakpoint' : 'drawerAt',
     drawerAt ?? breakpoint ?? 'medium',
     breakpoints,
     defaultBreakpoints.medium ?? '60em'
   )
   const resolvedCompactAt = compactAt
-    ? addEmValues(resolveBreakpoint(compactAt, breakpoints), compactOffset)
+    ? addEmValues(
+        resolveBreakpoint('compactAt', compactAt, breakpoints),
+        compactOffset
+      )
     : undefined
   const isSmallScreen = useMediaQuery({
     when: { max: resolvedDrawerAt },
@@ -1047,16 +1054,39 @@ function getActionLabel(action: HTMLElement) {
 }
 
 function resolveBreakpoint(
-  value: MediaQuerySizes | `${number}em`,
+  name: string,
+  value: MediaQuerySizes | BreakpointLength,
   breakpoints?: Record<string, string>,
   fallback = defaultBreakpoints.large ?? '72em'
 ) {
-  const configured =
+  const configured = String(
     breakpoints?.[value] ??
-    defaultBreakpoints[value as MediaQuerySizes] ??
-    value
+      defaultBreakpoints[value as MediaQuerySizes] ??
+      value
+  )
+  const em = toEm(configured)
+  if (!em) {
+    warnUnsupported(name, configured)
+  }
 
-  return isEmValue(String(configured)) ? String(configured) : fallback
+  return em ?? fallback
+}
+
+const warnedValues = new Set<string>()
+
+function warnUnsupported(name: string, value: string) {
+  const key = `${name}=${value}`
+  if (warnedValues.has(key)) {
+    return // stop here
+  }
+  warnedValues.add(key)
+
+  // eslint-disable-next-line security/detect-unsafe-regex -- the optional group does not repeat
+  const px = /^(\d+(?:\.\d+)?)px$/.exec(value)?.[1]
+  warn(
+    `SidebarMenu.ResponsiveProvider: ${name}="${value}" is not supported. Use an Eufemia breakpoint name, or an em or rem value.` +
+      (px ? ` For example "${Number(px) / 16}em".` : '')
+  )
 }
 
 function toCssLength(value: CSSProperties['width']) {
@@ -1064,11 +1094,22 @@ function toCssLength(value: CSSProperties['width']) {
 }
 
 function addEmValues(first: string, second: string) {
-  if (!isEmValue(first) || !isEmValue(second)) {
+  const offset = toEm(second)
+  if (!offset) {
+    warnUnsupported('compactOffset', second)
+  }
+  if (!isEmValue(first) || !offset) {
     return first
   }
 
-  return `${Number.parseFloat(first) + Number.parseFloat(second)}em`
+  return `${Number.parseFloat(first) + Number.parseFloat(offset)}em`
+}
+
+// In media queries, rem and em both use the initial font size.
+function toEm(value: string) {
+  // eslint-disable-next-line security/detect-unsafe-regex -- the optional group does not repeat
+  const number = /^(\d+(?:\.\d+)?)r?em$/.exec(value)?.[1]
+  return number ? `${number}em` : undefined
 }
 
 function isEmValue(value: string) {
