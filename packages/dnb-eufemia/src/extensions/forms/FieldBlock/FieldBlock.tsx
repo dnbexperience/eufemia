@@ -53,6 +53,7 @@ import { getMessagesFromError } from './getMessagesFromError'
 import { useIterateItemNo } from '../Iterate/ItemNo/useIterateItemNo'
 import withComponentMarkers from '../../../shared/helpers/withComponentMarkers'
 import useCanUseDOM from '../../../shared/helpers/useCanUseDOM'
+import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../../shared/helpers/useIsomorphicLayoutEffect'
 import type { ComponentMarkers } from '../../../shared/helpers/withComponentMarkers'
 
 export const states: Array<FieldState> = [
@@ -232,7 +233,13 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
   const fieldStatesRef = useRef<Map<Identifier, SubmitState>>(new Map())
   const stateRecordRef = useRef<StateRecord>({})
   const statusId = props.id || forId || blockId
-  const renderRecords: StateRecord = {}
+  // Messages registered during the server render and hydration. They are
+  // kept until the summary has hydrated, because fields in a Suspense
+  // boundary can hydrate in a later pass than this component.
+  const renderRecordsRef = useRef<StateRecord>({})
+  const summaryHydratedRef = useRef(false)
+  const summaryElementRef = useRef<ReactElement>(null)
+  const summaryElementReusedRef = useRef(false)
   const statusChildrenRef = useRef<
     Partial<
       Record<FieldState, ReactElement<{ messages: Array<StateMessage> }>>
@@ -306,18 +313,22 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
     [setBlockRecordNested, setInternalRecord]
   )
 
-  // Server and hydration records belong only to this render. Client records
-  // are registered after commit so suspended fields cannot enter the summary.
+  // Only the server render and the hydration of the summary use these
+  // records. After hydration, the summary uses the records that fields
+  // register after commit, so suspended fields cannot enter it.
   // A status above the contents renders before the fields, so it cannot
   // collect their messages during render.
   const collectMessages = nestedFieldBlockContext
     ? nestedFieldBlockContext.collectMessages
     : statusPosition !== 'above'
-      ? (record: StateBasis) =>
-          setInternalRecord(
-            record,
-            (renderRecords[record.identifier] ??= [])
-          )
+      ? (record: StateBasis) => {
+          if (!summaryHydratedRef.current) {
+            setInternalRecord(
+              record,
+              (renderRecordsRef.current[record.identifier] ??= [])
+            )
+          }
+        }
       : undefined
 
   const setFieldState = useCallback(
@@ -395,7 +406,7 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
     // Each summary boundary keeps server messages until its own hydration.
     const records = Object.values({
       ...stateRecordRef.current,
-      ...(!canUseDOM ? renderRecords : {}),
+      ...(!canUseDOM ? renderRecordsRef.current : {}),
     }).flat()
 
     return states.reduce((acc, type) => {
@@ -419,7 +430,11 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
         .filter(
           (record) =>
             record.type === type &&
-            (type !== 'error' || record.showInitially || record.show)
+            (type !== 'error' ||
+              record.showInitially ||
+              // The server never shows a revealed error, so the summary
+              // must not show it while it hydrates
+              (canUseDOM && record.show))
         )
         .flatMap(getMessagesFromError)
         .filter(Boolean)
@@ -455,6 +470,18 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
       return acc
     }, {}) as StatusContent
   }
+
+  const handleSummaryHydrated = useCallback(() => {
+    if (!summaryHydratedRef.current) {
+      summaryHydratedRef.current = true
+      renderRecordsRef.current = {}
+
+      // Give the summary the props of the latest render
+      if (summaryElementReusedRef.current) {
+        forceUpdate()
+      }
+    }
+  }, [])
 
   // Handle the error prop from outside
   useEffect(() => {
@@ -562,6 +589,25 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
     layoutOptions,
     width,
   ])
+
+  // Hydrate the summary after any deferred field boundaries. Until then,
+  // keep the same element, so an update of this component does not make
+  // React hydrate the summary before these fields.
+  const getSummaryElement = () => {
+    if (summaryElementRef.current && !summaryHydratedRef.current) {
+      summaryElementReusedRef.current = true
+    } else {
+      summaryElementRef.current = (
+        <Suspense fallback={null}>
+          <RenderAfterChildren
+            render={renderStatus}
+            onHydrated={handleSummaryHydrated}
+          />
+        </Suspense>
+      )
+    }
+    return summaryElementRef.current
+  }
 
   if (dataContext?.prerenderFieldProps) {
     return null
@@ -676,12 +722,7 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
             {children}
           </div>
 
-          {statusPosition !== 'above' && (
-            // Hydrate the summary after any deferred field boundaries.
-            <Suspense fallback={null}>
-              <RenderAfterChildren render={renderStatus} />
-            </Suspense>
-          )}
+          {statusPosition !== 'above' && getSummaryElement()}
 
           <SubmitIndicator
             state={
@@ -697,10 +738,18 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
 
 function RenderAfterChildren({
   render,
+  onHydrated,
 }: {
   render: (canUseDOM: boolean) => ReactNode
+  onHydrated?: () => void
 }) {
-  return render(useCanUseDOM())
+  const canUseDOM = useCanUseDOM()
+  useLayoutEffect(() => {
+    if (canUseDOM) {
+      onHydrated?.()
+    }
+  }, [canUseDOM, onHydrated])
+  return render(canUseDOM)
 }
 
 const fieldStatePriority: Record<SubmitState, number> = {

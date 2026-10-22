@@ -1,10 +1,4 @@
-import {
-  act,
-  fireEvent,
-  render,
-  screen,
-  waitFor,
-} from '@testing-library/react'
+import { act, fireEvent, render, waitFor } from '@testing-library/react'
 import { hydrateRoot } from 'react-dom/client'
 import { renderToString } from 'react-dom/server'
 import { memo } from 'react'
@@ -208,7 +202,7 @@ describe('SidebarMenu', () => {
     )
   })
 
-  it('renders the Header label of grouped items as a heading', () => {
+  it('renders Header as a visual menu label', () => {
     render(
       <SidebarMenu.Root>
         <SidebarMenu.Header text="Accounts">
@@ -220,9 +214,10 @@ describe('SidebarMenu', () => {
     const header = document.querySelector('.dnb-sidebar-menu__header')
 
     expect(header).toHaveTextContent('Accounts')
+    expect(header).not.toHaveAttribute('role', 'heading')
     expect(
-      screen.getByRole('heading', { level: 2, name: 'Accounts' })
-    ).toBe(header)
+      header.querySelector('[role="heading"]')
+    ).not.toBeInTheDocument()
     const list = header.nextElementSibling
 
     expect(list).toHaveAttribute('aria-labelledby', header.id)
@@ -242,9 +237,6 @@ describe('SidebarMenu', () => {
     expect(header).toHaveClass('dnb-sidebar-menu__header')
     expect(header).toHaveProperty('tagName', 'LI')
     expect(header.nextElementSibling).not.toBeInTheDocument()
-    expect(
-      screen.getByRole('heading', { level: 2, name: 'Accounts' })
-    ).toBe(header.firstElementChild)
   })
 
   it('does not render an empty list for a Header with only text', () => {
@@ -259,10 +251,6 @@ describe('SidebarMenu', () => {
 
     expect(header).toHaveTextContent('Everyday banking')
     expect(header).toHaveProperty('tagName', 'LI')
-    expect(header).toHaveRole('listitem')
-    expect(
-      screen.getByRole('heading', { level: 2, name: 'Everyday banking' })
-    ).toBe(header.firstElementChild)
     expect(
       document.querySelector('.dnb-sidebar-menu__header-group')
     ).not.toBeInTheDocument()
@@ -285,31 +273,16 @@ describe('SidebarMenu', () => {
     expect(header).toBeEmptyDOMElement()
   })
 
-  it('uses headingLevel for the Header heading, as in v11.15', () => {
-    const { rerender } = render(
+  it('does not forward the removed Header headingLevel prop', () => {
+    render(
       <SidebarMenu.Root>
         <SidebarMenu.Header headingLevel={3}>Accounts</SidebarMenu.Header>
       </SidebarMenu.Root>
     )
 
     expect(
-      screen.getByRole('heading', { level: 3, name: 'Accounts' })
-    ).toBeInTheDocument()
-    expect(
       document.querySelector('.dnb-sidebar-menu__header')
     ).not.toHaveAttribute('headingLevel')
-
-    rerender(
-      <SidebarMenu.Root>
-        <SidebarMenu.Header text="Accounts" headingLevel={4}>
-          <SidebarMenu.Item id="overview" text="Overview" />
-        </SidebarMenu.Header>
-      </SidebarMenu.Root>
-    )
-
-    expect(
-      screen.getByRole('heading', { level: 4, name: 'Accounts' })
-    ).toBeInTheDocument()
   })
 
   it('renders dedicated icon containers for menu point geometry', () => {
@@ -423,8 +396,8 @@ describe('SidebarMenu', () => {
 
     expect(header).toHaveTextContent('Heading')
     expect(
-      screen.getByRole('heading', { level: 2, name: 'Heading' })
-    ).toBe(header)
+      header.querySelector('[role="heading"]')
+    ).not.toBeInTheDocument()
     const list = header.nextElementSibling
 
     expect(list).toHaveAttribute('aria-labelledby', header.id)

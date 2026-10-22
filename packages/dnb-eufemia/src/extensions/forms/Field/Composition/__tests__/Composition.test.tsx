@@ -1,4 +1,10 @@
-import { StrictMode, Suspense, startTransition, useState } from 'react'
+import {
+  StrictMode,
+  Suspense,
+  startTransition,
+  useEffect,
+  useState,
+} from 'react'
 import { act, render, fireEvent, waitFor } from '@testing-library/react'
 import { renderToString } from 'react-dom/server'
 import userEvent from '@testing-library/user-event'
@@ -813,6 +819,170 @@ describe('Field.Composition', () => {
       document.querySelector('.dnb-form-status--information')
     ).toHaveTextContent('Visible info')
   })
+
+  // An update of the composition during hydration (from its own message, or
+  // from a field that has already committed) must not make React hydrate the
+  // summary before the fields inside a Suspense boundary.
+  it.each([
+    [
+      'its own message',
+      <Field.Composition id="composition" info="Shared info" key="own">
+        <Suspense fallback="Loading">
+          <Field.String id="string" warning="Warning" />
+        </Suspense>
+      </Field.Composition>,
+      ['Warning', 'Shared info'],
+    ],
+    [
+      'a field outside the boundary',
+      <Field.Composition id="composition" key="outside">
+        <Field.Number id="number" warning="Outside warning" />
+        <Suspense fallback="Loading">
+          <Field.String id="string" warning="Warning" />
+        </Suspense>
+      </Field.Composition>,
+      ['Oppsummering:Outside warningWarning'],
+    ],
+  ])(
+    'should hydrate messages inside Suspense when the composition has %s',
+    async (_, element, expected) => {
+      const container = document.createElement('div')
+      container.innerHTML = renderToString(element)
+      document.body.appendChild(container)
+      const messages = () =>
+        Array.from(
+          container.querySelectorAll(
+            '.dnb-forms-field-block__status .dnb-form-status__text'
+          ),
+          (message) => message.textContent
+        )
+      expect(messages()).toEqual(expected)
+
+      const onRecoverableError = vi.fn()
+      const { unmount } = render(element, {
+        container,
+        hydrate: true,
+        onRecoverableError,
+      })
+      await waitFor(() => {
+        expect(
+          container
+            .querySelector('#string')
+            .getAttribute('aria-describedby')
+        ).toBe('composition-form-status--warning')
+      })
+
+      expect(onRecoverableError).not.toHaveBeenCalled()
+      expect(messages()).toEqual(expected)
+      unmount()
+      container.remove()
+    }
+  )
+
+  it('should give the summary the latest props once it has hydrated', async () => {
+    // The summary keeps its element while it waits for hydration
+    function Composition() {
+      const [wide, setWide] = useState(false)
+      useEffect(() => setWide(true), [])
+      return (
+        <FieldBlock
+          id="composition"
+          composition
+          contentWidth={wide ? 'large' : undefined}
+        >
+          <Field.String id="string" warning="Warning" />
+        </FieldBlock>
+      )
+    }
+    const container = document.createElement('div')
+    container.innerHTML = renderToString(<Composition />)
+    document.body.appendChild(container)
+    const status = () =>
+      container.querySelector(
+        '#composition > .dnb-forms-field-block__grid > .dnb-forms-field-block__status'
+      )
+    expect(status()).toBeInTheDocument()
+    expect(status()).not.toHaveClass(
+      'dnb-forms-field-block__contents--width-large'
+    )
+
+    const onRecoverableError = vi.fn()
+    const { unmount } = render(<Composition />, {
+      container,
+      hydrate: true,
+      onRecoverableError,
+    })
+    await waitFor(() => {
+      expect(status()).toHaveClass(
+        'dnb-forms-field-block__contents--width-large'
+      )
+    })
+    expect(onRecoverableError).not.toHaveBeenCalled()
+    expect(
+      container.querySelector('.dnb-form-status--warning')
+    ).toHaveTextContent('Warning')
+    unmount()
+    container.remove()
+  })
+
+  // The server cannot know that a boundary will not complete, so its HTML
+  // still contains the message. Hydration must match it, and then remove it.
+  it.each([
+    ['never resolves', false, ['Visible info']],
+    ['resolves on the client', true, ['Field warning', 'Visible info']],
+  ])(
+    'should hydrate without a mismatch when a suspended boundary %s',
+    async (_, resolvesOnClient, expected) => {
+      const pending = new Promise(() => undefined)
+      let resolved = false
+      function Pending() {
+        if (!resolved) {
+          throw pending
+        }
+        return null
+      }
+      const element = (
+        <Field.Composition id="composition" info="Visible info">
+          <Suspense fallback={<span>Loading</span>}>
+            <Field.String id="string" warning="Field warning" />
+            <Pending />
+          </Suspense>
+        </Field.Composition>
+      )
+      const container = document.createElement('div')
+      container.innerHTML = renderToString(element)
+      document.body.appendChild(container)
+      const messages = () =>
+        Array.from(
+          container.querySelectorAll(
+            '.dnb-forms-field-block__status .dnb-form-status__text'
+          ),
+          (message) => message.textContent
+        )
+      expect(container.querySelector('input')).toBeNull()
+
+      resolved = resolvesOnClient
+      const onRecoverableError = vi.fn()
+      const { unmount } = render(element, {
+        container,
+        hydrate: true,
+        onRecoverableError,
+      })
+      await waitFor(() => {
+        expect(messages()).toEqual(expected)
+      })
+
+      // React reports only that renderToString does not support Suspense
+      expect(
+        onRecoverableError.mock.calls.map(([error]) => error.message)
+      ).toEqual([expect.stringContaining('does not support Suspense')])
+      expect(Boolean(container.querySelector('input'))).toBe(
+        resolvesOnClient
+      )
+      unmount()
+      container.remove()
+    }
+  )
 
   it.each([
     ['error', { error: 'Amount error' }, ['Amount error']],

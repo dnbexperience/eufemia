@@ -1922,8 +1922,9 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   if (required) {
     htmlAttributes['aria-required'] = 'true'
   }
-  if (inFieldBlock && !canUseDOM) {
-    // Register the messages during render, so they are part of the server-rendered HTML
+  if (collectMessages) {
+    // Register the messages during render, so they are part of the server-rendered HTML.
+    // The field block ignores them after its summary has hydrated.
     for (const [type, content] of [
       ['error', error],
       ['warning', warning],
