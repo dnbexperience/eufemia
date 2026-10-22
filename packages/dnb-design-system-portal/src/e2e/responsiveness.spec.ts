@@ -358,6 +358,15 @@ test.describe('Responsiveness', () => {
     await prerenderedPage.goto(new URL('/', page.url()).toString(), {
       waitUntil: 'domcontentloaded',
     })
+    await expect
+      .poll(() =>
+        prerenderedPage
+          .locator('link[rel="stylesheet"]')
+          .evaluateAll((links: HTMLLinkElement[]) =>
+            links.every((link) => link.disabled || Boolean(link.sheet))
+          )
+      )
+      .toBe(true)
     const prerenderedLogo = prerenderedPage.locator(
       'header.sticky-menu a[href="/"]'
     )
