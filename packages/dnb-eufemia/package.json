@@ -175,7 +175,7 @@
     "@eslint/eslintrc": "3.3.5",
     "@eslint/js": "10.0.1",
     "@modelcontextprotocol/node": "2.1.1",
-    "@modelcontextprotocol/server": "2.3.0",
+    "@modelcontextprotocol/server": "2.3.1",
     "@modelcontextprotocol/server-legacy": "2.3.1",
     "@playwright/test": "1.60.0",
     "@semantic-release/changelog": "6.0.3",

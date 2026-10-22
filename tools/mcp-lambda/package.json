@@ -18,11 +18,11 @@
   "dependencies": {
     "@aws-sdk/client-s3": "3.1075.0",
     "@aws-sdk/client-sqs": "3.1075.0",
-    "@modelcontextprotocol/server": "2.3.0"
+    "@modelcontextprotocol/server": "2.3.1"
   },
   "devDependencies": {
     "@dnb/eufemia": "workspace:*",
-    "@modelcontextprotocol/client": "2.3.0",
+    "@modelcontextprotocol/client": "2.3.1",
     "@types/aws-lambda": "8.10.161",
     "esbuild": "0.25.5",
     "tsx": "4.22.4",
