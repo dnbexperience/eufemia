@@ -26,7 +26,7 @@ EventBridge Scheduler runs CDN at :07 and MCP at :11 hourly in UTC, with flexibl
 | MONITORING_NOTIFICATIONS_ENABLED   | false during verification, then true                              |
 | MONITORING_GITHUB_TOKEN_SECRET_ARN | Optional Secrets Manager ARN for a read-only GitHub Actions token |
 
-State is isolated at service-monitoring/terraform.tfstate with S3 native locking. The environment controls AWS resource naming; checks always target production. Use a separate state key for another environment. Secret values are read at runtime and are not managed in Terraform state. The optional GitHub credential is a secret string with read-only public workflow access, rather than an ephemeral Actions token.
+State uses the default Terraform workspace at service-monitoring/terraform.tfstate with S3 native locking. Workspace discovery is scoped to service-monitoring/workspaces/, matching the deployment role's monitoring-only bucket listing permission. The deployment role only has object access to the default workspace state and its lock. The environment controls AWS resource naming; checks always target production. Use a separate state key for another environment. Secret values are read at runtime and are not managed in Terraform state. After creation, description and KMS key changes are owned by the administrator and ignored by Terraform; the deployment role does not have UpdateSecret permission. The optional GitHub credential is a secret string with read-only public workflow access, rather than an ephemeral Actions token.
 
 Functions use Lambda's default network with outbound HTTPS. If account policy requires a VPC, provide approved outbound connectivity to the public edge, npm, GitHub, Slack and AWS services before deployment.
 

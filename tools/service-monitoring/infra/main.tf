@@ -40,6 +40,10 @@ resource "aws_secretsmanager_secret" "slack" {
   description             = "Slack incoming webhook for Eufemia service monitoring"
   recovery_window_in_days = 30
   tags                    = local.tags
+
+  lifecycle {
+    ignore_changes = [description, kms_key_id]
+  }
 }
 
 resource "aws_sqs_queue" "failures" {

@@ -1,7 +1,9 @@
 terraform {
   required_version = "~> 1.10"
 
-  backend "s3" {}
+  backend "s3" {
+    workspace_key_prefix = "service-monitoring/workspaces"
+  }
 
   required_providers {
     aws = {
