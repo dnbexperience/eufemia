@@ -1,0 +1,128 @@
+---
+showTabs: true
+redirect_from:
+  - /uilib/layout/flex/container/info
+---
+
+## Import
+
+```tsx
+import { Flex } from '@dnb/eufemia'
+render(<Flex.Container layoutEngine="css" />)
+```
+
+## Description
+
+`Flex.Container` is a building block for [CSS flexbox](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_flexible_box_layout) based layout of contents and components.
+
+## Relevant links
+
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/flex/Container.tsx)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/layout/flex/container)
+
+**NB:** For form layouts, use [Flex.Stack](/web/layout/flex/stack/) instead.
+
+You can also use [Flex.Item](/web/layout/flex/item) or [Card](/web/components/card) for you inner wrappers:
+
+```jsx
+import { Flex, Card } from '@dnb/eufemia'
+
+render(
+  <Flex.Container layoutEngine="css">
+    <Flex.Item>content</Flex.Item>
+    <Card>content</Card>
+  </Flex.Container>
+)
+```
+
+You can also use it with any element. With the CSS engine, each rendered element participates in the layout directly:
+
+```jsx
+import { Flex } from '@dnb/eufemia'
+
+render(
+  <Flex.Container layoutEngine="css">
+    <div>content</div>
+    <div>content</div>
+  </Flex.Container>
+)
+```
+
+### Align vs Justify
+
+`Flex.Container` has two props for positioning its children: `justify` and `align`. These map directly to CSS flexbox properties and their effect depends on the `direction` of the container:
+
+- **`justify`** controls placement along the **main axis** (CSS `justify-content`).
+- **`align`** controls alignment along the **cross axis** (CSS `align-items`).
+
+In practice, this means:
+
+| Goal                    | `Flex.Horizontal`  | `Flex.Vertical`    |
+| ----------------------- | ------------------ | ------------------ |
+| **Center horizontally** | `justify="center"` | `align="center"`   |
+| **Center vertically**   | `align="center"`   | `justify="center"` |
+
+The main axis follows the direction: horizontal for `Flex.Horizontal`, vertical for `Flex.Vertical`. The cross axis is always perpendicular.
+
+### Horizontal and Vertical aliases
+
+For shortening the usage of `direction="..."`, you can use:
+
+- `<Flex.Vertical>` instead of `<Flex.Container direction="vertical">`
+
+```jsx
+<Flex.Vertical layoutEngine="css">
+  <Flex.Item>part of vertical alignment</Flex.Item>
+  <Flex.Item>part of vertical alignment</Flex.Item>
+</Flex.Vertical>
+```
+
+- `<Flex.Horizontal>` instead of `<Flex.Container direction="horizontal">`
+
+```jsx
+<Flex.Horizontal layoutEngine="css">
+  <Flex.Item>part of horizontal alignment</Flex.Item>
+  <Flex.Item>part of horizontal alignment</Flex.Item>
+</Flex.Horizontal>
+```
+
+## How spacing is applied
+
+`Flex.Container` keeps the existing spacing behavior by default. This preserves layouts that depend on spacing props, generated `Space` wrappers, or `_supportsSpacingProps`.
+
+Set `layoutEngine="css"` to use native CSS flex gaps. In CSS mode, React children are rendered unchanged, so intrinsic elements and custom components participate automatically through their rendered DOM roots.
+
+```tsx
+const MyItem = () => (
+  <>
+    <Card>content</Card>
+    <Card>content</Card>
+  </>
+)
+
+render(
+  <Flex.Container direction="vertical" layoutEngine="css">
+    <MyItem />
+  </Flex.Container>
+)
+```
+
+Fragments and providers that render no DOM are transparent. In the example above, both Cards become flex items and receive the container gap.
+
+Components that support [spacing properties](/web/layout/space/) expose their requested spacing on the rendered root. An explicit start spacing overrides the previous item's end spacing for that pair. The first item's start and last item's end remain outer margins.
+
+Ordinary custom components do not need a marker or wrapper to receive the container gap. Use `Flex.Item` when you need an explicit layout item, span sizing, or spacing props around a component that does not expose spacing on its own root.
+
+### Divider accessibility
+
+In CSS mode, `divider="line"` and `divider="line-framed"` are painted visual lines. Unlike the legacy engine, they do not render `<hr>` elements and therefore do not add separator roles to the accessibility tree. If the separation is meaningful rather than decorative, render explicit `Hr` elements instead of relying on the `divider` property.
+
+## Backwards compatibility
+
+The existing React child-inspection engine remains the default, so applications do not need to annotate every established layout:
+
+```tsx
+<Flex.Container layoutEngine="legacy">...</Flex.Container>
+```
+
+Use `layoutEngine="css"` when migrating a layout to native gaps. The explicit `layoutEngine="legacy"` value is still supported when an integration needs to document that dependency.

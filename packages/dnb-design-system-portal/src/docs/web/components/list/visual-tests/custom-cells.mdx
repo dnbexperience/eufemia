@@ -1,0 +1,73 @@
+---
+fullscreen: true
+hideInMenu: true
+search: false
+redirect_from:
+  - /uilib/components/list/visual-tests/custom-cells
+---
+
+import { List } from '@dnb/eufemia/src'
+import { Value } from '@dnb/eufemia/src/extensions/forms'
+import { fish_medium } from '@dnb/eufemia/src/icons'
+
+export const MyTitle = () => (
+  <List.Cell.Title>
+    Title
+    <List.Cell.Title.Subline>Subline</List.Cell.Title.Subline>
+  </List.Cell.Title>
+)
+
+export const MyEnd = () => (
+  <List.Cell.End>
+    <Value.Currency value={1234} />
+  </List.Cell.End>
+)
+
+export const MyFooter = () => <List.Cell.Footer>Footer</List.Cell.Footer>
+
+export const MyCells = () => (
+  <>
+    <MyTitle />
+    <MyEnd />
+  </>
+)
+
+export const CustomCells = () => (
+  <List.Container>
+    <List.Item.Basic
+      icon={fish_medium}
+      layoutEngine="legacy"
+      data-testid="legacy"
+    >
+      <List.Cell.Title>
+        Title
+        <List.Cell.Title.Subline>Subline</List.Cell.Title.Subline>
+      </List.Cell.Title>
+      <List.Cell.End>
+        <Value.Currency value={1234} />
+      </List.Cell.End>
+      <List.Cell.Footer>Footer</List.Cell.Footer>
+    </List.Item.Basic>
+    <List.Item.Basic icon={fish_medium} data-testid="inline">
+      <List.Cell.Title>
+        Title
+        <List.Cell.Title.Subline>Subline</List.Cell.Title.Subline>
+      </List.Cell.Title>
+      <List.Cell.End>
+        <Value.Currency value={1234} />
+      </List.Cell.End>
+      <List.Cell.Footer>Footer</List.Cell.Footer>
+    </List.Item.Basic>
+    <List.Item.Basic icon={fish_medium} data-testid="components">
+      <MyTitle />
+      <MyEnd />
+      <MyFooter />
+    </List.Item.Basic>
+    <List.Item.Basic icon={fish_medium} data-testid="fragment">
+      <MyCells />
+      <MyFooter />
+    </List.Item.Basic>
+  </List.Container>
+)
+
+<CustomCells />

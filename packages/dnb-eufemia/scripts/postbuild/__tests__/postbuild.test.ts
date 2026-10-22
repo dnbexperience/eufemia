@@ -587,9 +587,7 @@ describeDocsBuild('docs build', () => {
     expect(fs.existsSync(llmsPath)).toBe(false)
 
     const content = fs.readFileSync(readmePath, 'utf-8')
-    expect(content).toContain(
-      '/uilib/usage/first-steps/quick-reference.md'
-    )
+    expect(content).toContain('/web/usage/first-steps/quick-reference.md')
     expect(content).toContain('/quickguide-designer/tools.md')
     expect(content).toContain('## Machine-readable docs')
     expect(content).not.toContain('https://eufemia.dnb.no')
@@ -623,7 +621,7 @@ describeDocsBuild('docs build', () => {
     expect(markdown).toContain('## `Breadcrumb.Item` events')
     expect(markdown).toMatch(/```json[\s\S]*```/)
     expect(markdown).toMatch(/```tsx[\s\S]*render\(/)
-    expect(nonUilibMarkdown).toContain('# Tools')
+    expect(nonUilibMarkdown).toContain('# Design tools')
   })
 
   it('does not write markdown copies for docs excluded by robots', () => {

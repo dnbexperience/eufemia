@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach } from 'vitest'
+import { describe, it, expect, beforeEach, vi } from 'vitest'
 import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -11,6 +11,7 @@ import {
   getOutputPath,
 } from '../../prod/prerender-utils'
 import { getContentScript } from '@dnb/eufemia/src/shared/ColorSchemeScript'
+import { getPreHydrationScript } from '@dnb/eufemia/src/extensions/sidebar-menu/SidebarMenuPreHydrationScript'
 import type {
   RouteEntry,
   SSRManifest,
@@ -235,11 +236,21 @@ describe('prerender-utils', () => {
   })
 
   describe('getRoutePreloads', () => {
+    it('uses the named home source for the root route', () => {
+      expect(
+        getRoutePreloads(
+          '/',
+          { '../../src/docs/home.mdx': ['/assets/home.js'] },
+          undefined,
+          'packages/dnb-design-system-portal/src/docs/home.mdx'
+        ).js
+      ).toEqual(['/assets/home.js'])
+    })
     const manifest: SSRManifest = {
-      '../../src/docs/uilib/components/button.mdx': [
+      '../../src/docs/web/components/button.mdx': [
         '/assets/button-abc123.js',
       ],
-      '../../src/docs/uilib/components/button/info.mdx': [
+      '../../src/docs/web/components/button/info.mdx': [
         '/assets/info-def456.js',
         '/assets/DNB-Regular.woff2',
       ],
@@ -248,7 +259,7 @@ describe('prerender-utils', () => {
         '/assets/index-abc.css',
         '/assets/logo.svg',
       ],
-      '../../src/docs/uilib/components/card/index.mdx': [
+      '../../src/docs/web/components/card/index.mdx': [
         '/assets/card-111.js',
         '/assets/card-icon.svg',
       ],
@@ -256,7 +267,7 @@ describe('prerender-utils', () => {
 
     it('resolves .mdx route to its JS chunk', () => {
       const preloads = getRoutePreloads(
-        '/uilib/components/button/',
+        '/web/components/button/',
         manifest
       )
       expect(preloads.js).toEqual(['/assets/button-abc123.js'])
@@ -265,7 +276,7 @@ describe('prerender-utils', () => {
 
     it('resolves nested route with trailing slash', () => {
       const preloads = getRoutePreloads(
-        '/uilib/components/button/info/',
+        '/web/components/button/info/',
         manifest
       )
       expect(preloads.js).toEqual(['/assets/info-def456.js'])
@@ -273,7 +284,7 @@ describe('prerender-utils', () => {
 
     it('filters out non-JS/CSS assets (fonts, SVGs)', () => {
       const preloads = getRoutePreloads(
-        '/uilib/components/button/info/',
+        '/web/components/button/info/',
         manifest
       )
       expect(preloads.js).not.toContain('/assets/DNB-Regular.woff2')
@@ -287,10 +298,7 @@ describe('prerender-utils', () => {
     })
 
     it('resolves index.mdx inside a directory', () => {
-      const preloads = getRoutePreloads(
-        '/uilib/components/card/',
-        manifest
-      )
+      const preloads = getRoutePreloads('/web/components/card/', manifest)
       expect(preloads.js).toEqual(['/assets/card-111.js'])
     })
 
@@ -300,7 +308,7 @@ describe('prerender-utils', () => {
     })
 
     it('returns empty arrays with empty manifest', () => {
-      const preloads = getRoutePreloads('/uilib/components/button/', {})
+      const preloads = getRoutePreloads('/web/components/button/', {})
       expect(preloads).toEqual({ js: [], css: [] })
     })
 
@@ -314,10 +322,7 @@ describe('prerender-utils', () => {
     })
 
     it('handles URL without slashes', () => {
-      const preloads = getRoutePreloads(
-        'uilib/components/button',
-        manifest
-      )
+      const preloads = getRoutePreloads('web/components/button', manifest)
       expect(preloads.js).toEqual(['/assets/button-abc123.js'])
     })
 
@@ -512,6 +517,38 @@ describe('prerender-utils', () => {
       const rootEnd = result.indexOf('</div>')
       const scriptPos = result.indexOf('__eufemiaColorScheme')
       expect(scriptPos).toBeGreaterThan(rootEnd)
+    })
+
+    it('positions a persisted SidebarMenu before the first paint', () => {
+      const result = injectHtml(
+        template,
+        '<div class="dnb-scroll-view"><nav data-scroll-position-storage-key="portal-menu-scroll" data-scroll-position-storage="session"><a aria-current="page">Current</a></nav></div>',
+        { js: [], css: [] }
+      )
+
+      expect(result).toContain('[data-scroll-position-storage-key]')
+      expect(result).toContain(getPreHydrationScript())
+      expect(result).toContain('localStorage')
+      expect(result).toContain('sessionStorage')
+      expect(result).toContain('storage.getItem')
+      expect(result).toContain('aria-current')
+      expect(result).toContain('scroll-behavior')
+      expect(result).toContain('important')
+    })
+
+    it('restores persisted SidebarMenu open state before hydration', () => {
+      const result = injectHtml(
+        template,
+        '<nav data-open-items-storage-key="portal-menu" data-open-items-storage="session"></nav>',
+        { js: [], css: [] }
+      )
+
+      expect(result).toContain('[data-open-items-storage-key]')
+      expect(result).toContain('data-sidebar-menu-pre-hydration')
+      expect(result).toContain('closedItems')
+      expect(result).toContain('display:block!important;height:auto')
+      expect(result).toContain('height:0!important')
+      expect(result).not.toContain('data-portal-ready')
     })
 
     it('does not add preload tags when lists are empty', () => {
@@ -903,6 +940,59 @@ describe('prerender-utils', () => {
   })
 
   describe('buildRedirectHtml', () => {
+    it('preserves unmapped fragment names that also exist on Object.prototype', () => {
+      const html = buildRedirectHtml('/web/components/button/')
+      const script = html.match(/<script>([\s\S]*?)<\/script>/i)[1]
+      const replace = vi.fn()
+      new Function('location', script)({
+        href: 'https://eufemia.dnb.no/uilib/components/button#constructor',
+        search: '',
+        hash: '#constructor',
+        replace,
+      })
+      expect(replace).toHaveBeenCalledWith(
+        'https://eufemia.dnb.no/web/components/button/#constructor'
+      )
+    })
+    it('forwards a moved section fragment to its new document', () => {
+      const html = buildRedirectHtml('/web/usage/first-steps/tools/', {
+        'agent-skills': '/working-with-ai/ai-skills#agent-skills',
+      })
+      const script = html.match(/<script>([\s\S]*?)<\/script>/i)[1]
+      const replace = vi.fn()
+      new Function('location', script)({
+        href: 'https://eufemia.dnb.no/uilib/usage/first-steps/tools?from=bookmark#agent-skills',
+        search: '?from=bookmark',
+        hash: '#agent-skills',
+        replace,
+      })
+      expect(replace).toHaveBeenCalledWith(
+        'https://eufemia.dnb.no/working-with-ai/ai-skills?from=bookmark#agent-skills'
+      )
+    })
+
+    it('keeps script delimiters inside URLs as data', () => {
+      const html = buildRedirectHtml(
+        '/target/</script><script>bad()</script>'
+      )
+      expect(html.match(/<script>/gi)).toHaveLength(1)
+      expect(html).not.toContain('</script><script>bad()')
+    })
+    it('preserves the incoming query and fragment in a static redirect', () => {
+      const html = buildRedirectHtml('/web/components/button/')
+      const script = html.match(/<script>([\s\S]*?)<\/script>/i)?.[1]
+      expect(script).toBeDefined()
+      const replace = vi.fn()
+      new Function('location', script)({
+        href: 'https://eufemia.dnb.no/uilib/components/button?fullscreen#sizes',
+        search: '?fullscreen',
+        hash: '#sizes',
+        replace,
+      })
+      expect(replace).toHaveBeenCalledWith(
+        'https://eufemia.dnb.no/web/components/button/?fullscreen#sizes'
+      )
+    })
     it('includes meta refresh with the redirect URL', () => {
       const html = buildRedirectHtml('/new-page/')
       expect(html).toContain(
@@ -1221,7 +1311,7 @@ describe('prerender-utils', () => {
     }
 
     it('escapes and injects page metadata the same way', () => {
-      const from = '// Inject per-page SEO meta tags'
+      const from = 'let html = template.replace('
       const to = '() => `${emotionCss}'
 
       expect(region('prerender.mjs', from, to)).toBe(

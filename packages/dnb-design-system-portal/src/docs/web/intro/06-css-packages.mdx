@@ -1,0 +1,32 @@
+---
+search: Intro - CSS Packages
+contentTitle: CSS Packages
+redirect_from:
+  - /uilib/intro/06-css-packages
+---
+
+import Intro, {
+  IntroFooter,
+} from 'dnb-design-system-portal/src/shared/tags/Intro'
+
+<Intro>
+
+All styles are inside of CSS files. In order to ensure flexibility with legacy code, styles are packed into [several combinable packages](/web/usage/customisation/styling) like:
+
+- **dnb-ui-core**
+- **dnb-ui-basis**
+- **ui-theme-basis**
+- **ui-theme-components**
+- etc.
+
+## CSS Reset
+
+The package **dnb-ui-core** loads by default a CSS `reset/normalize`, optimized for the DNB Eufemia styles and browser universalization.
+
+On [legacy code projects](/web/usage/customisation/styling#how-to-deal-with-existing-styles), rather use **dnb-ui-basis** [in combination with](/web/usage/customisation/styling#core-style) `.dnb-core-style`.
+
+---
+
+<IntroFooter href="/web/intro/07-typography" text="Next - Typography" />
+
+</Intro>

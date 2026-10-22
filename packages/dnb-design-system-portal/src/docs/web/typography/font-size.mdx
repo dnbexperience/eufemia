@@ -1,0 +1,211 @@
+---
+title: Font Size
+order: 3
+redirect_from:
+  - /uilib/typography/font-size
+navigation:
+  parent: web/typography
+  title: Font Size
+  order: 2
+---
+
+import { PropValue, PropAsPx } from './_helpers.tsx'
+import ChangeStyleTheme from '../../../core/ChangeStyleTheme'
+import { NativeTypographyExample } from './Examples'
+
+<ChangeStyleTheme label="Change the brand:" bottom="large" />
+
+The values below come from Figma for the selected brand, using Eufemia's existing CSS variable names. The [Fonts & Typography](/quickguide-designer/fonts#typographic-elements) guide shows the DNB scale.
+
+Font sizes are the same in light and dark mode.
+
+## Default `font-size` **rem** table
+
+| Pixel                                    | Type       | Rem                                           | CSS variable / property | CSS Classname            | Info                            |
+| ---------------------------------------- | ---------- | --------------------------------------------- | ----------------------- | ------------------------ | ------------------------------- |
+| <PropAsPx name="--font-size-x-small" />  | `x-small`  | **<PropValue name="--font-size-x-small" />**  | `--font-size-x-small`   | `.dnb-t__size--x-small`  | Do not use for texts            |
+| <PropAsPx name="--font-size-small" />    | `small`    | **<PropValue name="--font-size-small" />**    | `--font-size-small`     | `.dnb-t__size--small`    | [Fallback](#fallback-font-size) |
+| <PropAsPx name="--font-size-basis" />    | `basis`    | **<PropValue name="--font-size-basis" />**    | `--font-size-basis`     | `.dnb-t__size--basis`    | Default size                    |
+| <PropAsPx name="--font-size-medium" />   | `medium`   | **<PropValue name="--font-size-medium" />**   | `--font-size-medium`    | `.dnb-t__size--medium`   |                                 |
+| <PropAsPx name="--font-size-large" />    | `large`    | **<PropValue name="--font-size-large" />**    | `--font-size-large`     | `.dnb-t__size--large`    |                                 |
+| <PropAsPx name="--font-size-x-large" />  | `x-large`  | **<PropValue name="--font-size-x-large" />**  | `--font-size-x-large`   | `.dnb-t__size--x-large`  |                                 |
+| <PropAsPx name="--font-size-xx-large" /> | `xx-large` | **<PropValue name="--font-size-xx-large" />** | `--font-size-xx-large`  | `.dnb-t__size--xx-large` |                                 |
+
+## Typography for native app pages
+
+When a web page opens inside a native app, its text should fit the surrounding app. Wrap the embedded content in `<Theme typography="native">` to use the brand's native app font size for body text and control labels, such as buttons and inputs.
+
+Line heights, spacing, and control dimensions stay the same. Content outside this Theme keeps its current font size. Web font size remains the default.
+
+```tsx
+import { Theme } from '@dnb/eufemia/shared'
+```
+
+```tsx
+<Theme typography="native">
+  <App />
+</Theme>
+```
+
+Eufemia dialogs, dropdowns, and other content rendered through React portals also receive the setting. You do not need access to `<html>`. The brand determines the native app size; this setting does not detect whether the page is running inside an app.
+
+### Current sizes
+
+These values come from the selected brand's theme tokens at the default root size. Use the brand selector above to compare brands. Brands without a dedicated native app size keep their web font size.
+
+| Web body text                         | Native app body text                         |
+| ------------------------------------- | -------------------------------------------- |
+| <PropAsPx name="--font-size-basis" /> | <PropAsPx name="--font-size-basis-native" /> |
+
+### Try it
+
+Use **Native app font size** in Portal Tools to preview the setting across the Portal. This preference is saved across navigation and refresh. Themes that explicitly select a mode, such as the example below, keep their own setting.
+
+Toggle **Use native app font size** below to compare the native app and web sizes. Open the dialog to see the setting applied through a React portal. Its switch updates the same Theme while the dialog stays open.
+
+<NativeTypographyExample />
+
+### What text changes?
+
+The setting changes the default body text size, called `basis` in Eufemia. Paragraphs, lists, control labels, and other text using `--font-size-basis` follow it. Explicit sizes such as `<P size="medium">` keep their selected size.
+
+Heading and lead variants that use the basis token also follow the setting. Other heading sizes keep their existing scale; a complete native heading scale is not included.
+
+### Nested themes and micro-frontends
+
+Nested themes inherit the setting, including when changing brand. Use `typography="web"` to restore the web font size in part of the app:
+
+```tsx
+<Theme typography="native">
+  <P>Native app body text</P>
+  <Theme typography="web">
+    <P>Web body text</P>
+  </Theme>
+</Theme>
+```
+
+The app integration chooses the mode. Independently mounted micro-frontends receive the channel from their host and configure their own `Theme`; React context does not cross separate React roots or iframes. No shared document changes are required.
+
+Use `Theme` to wrap the styled content. `Theme.Context` and `Provider theme` values pass the setting to descendant themes and Eufemia portal roots, but do not create a CSS wrapper for ordinary DOM content.
+
+### Text scaling
+
+The theme selects the brand's default font size. Support for larger or smaller system text settings is a separate responsibility of the app shell. Native sizes use `rem`, so they follow the root text scale.
+
+On iOS, use the [text-scale script](#optional-javascript-root-scaling), or the shell's equivalent integration, to normalize the default root while preserving Dynamic Type. Apply scaling once and preserve the shell's system font scaling on Android.
+
+Keep responsive typography disabled when using the native basis size across phone and tablet widths. Inside an existing responsive context, use `<Typography.Context responsive={false}>` around the embedded content.
+
+## Why text can be larger on iOS
+
+On iPhone and iPad, Eufemia follows the user's system text-size setting. This
+means that text may not have exactly the same pixel size as it does on macOS or
+other desktop platforms.
+
+At the default text-size setting, the difference is:
+
+| Platform              | Root size (`1rem`) | DNB basis size (`1.125rem`) |
+| --------------------- | ------------------ | --------------------------- |
+| Most desktop browsers | 16px               | 18px                        |
+| Safari on iOS         | 17px               | 19.125px                    |
+
+Safari does not apply the iOS setting to ordinary web font sizes automatically.
+Eufemia therefore uses Apple's Dynamic Type
+[`Body` text style](https://webkit.org/blog/3709/using-the-system-font-in-web-content/)
+as the root font size. This allows text to grow or shrink when the user changes
+the system setting.
+
+Root-relative layout values follow the changed root size too. Test layouts with
+larger accessibility text sizes and avoid fixed heights around text.
+
+### Why not force the size to 18px?
+
+A fixed root size of 16px would make DNB's 1.125rem basis text exactly 18px. It
+would also stop the text from following the user's iOS text-size setting.
+
+### Why not use a smaller Apple text style?
+
+Apple's `Subheadline` style is 15px at the default setting, which would make
+DNB's basis text 16.875px instead of 18px. It also follows a different Dynamic
+Type scaling curve. This would make iOS smaller than desktop by default and
+change the difference at larger accessibility sizes. It would also reduce all
+root-relative layout values.
+
+### Optional JavaScript root scaling
+
+At the default iOS text size, this opt-in script uses the normal 16px root, so
+DNB basis text is 18px. It only sets the root font size when the user changes
+the system text size. Text and layout then scale together. If the user returns
+to the default setting, the script restores the original root size.
+
+Place the script after the viewport meta tag and before stylesheets to avoid a
+visible layout change.
+
+```tsx
+import { TextScaleHeadScript } from '@dnb/eufemia/shared/TextScaleScript'
+```
+
+```tsx
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <TextScaleHeadScript />
+  {/* stylesheets */}
+</head>
+```
+
+Pass the page's CSP nonce to `TextScaleHeadScript` when required.
+
+Client-rendered applications can use `TextScaleClient`, but server-rendered
+pages may show a layout change during hydration. Without the script, the root
+is 17px and DNB basis text is 19.125px at the default iOS setting. Text still
+follows the user's system text-size setting.
+
+The longer-term option is the standard
+[`env(preferred-text-scale)`](https://drafts.csswg.org/css-env-1/#text-zoom)
+environment variable and
+[`<meta name="text-scale" content="scale">`](https://drafts.csswg.org/css-fonts-5/#text-scale-meta).
+These are not yet supported by Safari.
+
+### Responsive typography (BETA)
+
+**NB**: This feature is in beta and may be subject to change.
+
+Wrap a section of your UI in `<Typography.Context responsive>` to enable typography that adapts automatically across breakpoints.
+Typography components inside the wrapper, like `H2`, `Span`, `P`, `Heading`, will start using the responsive variables in the table below.
+
+You can turn it off for a section using `<Typography.Context responsive={false}>`.
+
+| CSS Variable                      | `← small`                                 | `small → medium`                          | `medium →`                                |
+| --------------------------------- | ----------------------------------------- | ----------------------------------------- | ----------------------------------------- |
+| `--responsive-font-size-x-small`  | <PropValue name="--font-size-xx-small" /> | <PropValue name="--font-size-x-small" />  | <PropValue name="--font-size-x-small" />  |
+| `--responsive-font-size-small`    | <PropValue name="--font-size-x-small" />  | <PropValue name="--font-size-small" />    | <PropValue name="--font-size-small" />    |
+| `--responsive-font-size-basis`    | <PropValue name="--font-size-small" />    | <PropValue name="--font-size-basis" />    | <PropValue name="--font-size-basis" />    |
+| `--responsive-font-size-medium`   | <PropValue name="--font-size-basis" />    | <PropValue name="--font-size-medium" />   | <PropValue name="--font-size-medium" />   |
+| `--responsive-font-size-large`    | <PropValue name="--font-size-medium" />   | <PropValue name="--font-size-large" />    | <PropValue name="--font-size-large" />    |
+| `--responsive-font-size-x-large`  | <PropValue name="--font-size-large" />    | <PropValue name="--font-size-x-large" />  | <PropValue name="--font-size-x-large" />  |
+| `--responsive-font-size-xx-large` | <PropValue name="--font-size-x-large" />  | <PropValue name="--font-size-xx-large" /> | <PropValue name="--font-size-xx-large" /> |
+
+All `--responsive-font-size-*` CSS variables are scoped to typography components (`P`, `Heading`, `Span`, `Lead`, `H1`, `H2`, etc.) as of now. If you need to use them elsewhere use the `.dnb-t` class.
+
+### Code Editor Extensions
+
+You may be interested in installing an [Eufemia code editor extension](/web/usage/first-steps/tools/#code-editor-extensions) that allows you to quickly auto complete the correct `font-size`.
+
+## Additional `font-size` **em** table
+
+| Pixel | Type        | Em                                             | Custom Property         | Info |
+| ----- | ----------- | ---------------------------------------------- | ----------------------- | ---- |
+| 16px  | `basis--em` | **<PropValue name="--font-size-basis--em" />** | `--font-size-basis--em` |      |
+
+## How to use the sizes (CSS)
+
+```css
+/* I have a default size */
+.dnb-p {
+  font-size: var(--font-size-basis); /* 1.125rem = 18px (in Ui theme) */
+}
+```
+
+## Fallback font-size
+
+If no specific `font-size` is defined, we still use `1rem` as the basis. This is because we use the basis `font-size` for many other layout related purposes.

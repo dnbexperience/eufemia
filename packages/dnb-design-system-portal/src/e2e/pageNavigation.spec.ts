@@ -1,6 +1,68 @@
 import { test, expect } from '@playwright/test'
+import type { ConsoleMessage, Page } from '@playwright/test'
 import isDev from './shared/isDev'
 import waitForApp from './shared/waitForApp'
+
+function captureConsoleErrors(page: Page) {
+  const errors: Array<Promise<string[]>> = []
+  page.on('console', (message) => {
+    if (message.type() === 'error') {
+      errors.push(readConsoleMessage(message))
+    }
+  })
+
+  return async () => (await Promise.all(errors)).flat()
+}
+
+async function readConsoleMessage(message: ConsoleMessage) {
+  const args = message.args()
+  if (args.length === 0) {
+    return [message.text()]
+  }
+
+  return Promise.all(
+    args.map(async (argument) => {
+      try {
+        return await argument.evaluate((value) =>
+          value instanceof Error ? value.message : String(value)
+        )
+      } catch {
+        return message.text()
+      }
+    })
+  )
+}
+
+function isHydrationError(message: string) {
+  return message.includes('#418') || message.includes('Hydration failed')
+}
+
+async function markCurrentDocument(page) {
+  await page.evaluate(() => {
+    ;(
+      window as Window & { portalNavigationMarker?: boolean }
+    ).portalNavigationMarker = true
+  })
+}
+
+async function expectCurrentDocument(page) {
+  expect(
+    await page.evaluate(
+      () =>
+        (window as Window & { portalNavigationMarker?: boolean })
+          .portalNavigationMarker
+    )
+  ).toBe(true)
+}
+
+test('home page hydrates without recoverable errors', async ({ page }) => {
+  const getConsoleErrors = captureConsoleErrors(page)
+
+  await page.goto('/')
+  await waitForApp(page)
+
+  expect((await getConsoleErrors()).filter(isHydrationError)).toEqual([])
+})
 
 test.describe('Page Navigation', () => {
   test.describe('without JavaScript', () => {
@@ -26,7 +88,7 @@ test.describe('Page Navigation', () => {
         return // stop here
       }
 
-      await page.goto('/uilib/components/')
+      await page.goto('/web/components/')
       await page.click('#portal-tools', { force: true })
       expect(await page.locator('#switch-grid').count()).toBe(0)
     })
@@ -36,7 +98,7 @@ test.describe('Page Navigation', () => {
         return // stop here
       }
 
-      await page.goto('/uilib/components/button/')
+      await page.goto('/web/components/button/')
 
       const title = await page.title()
       expect(title).toContain('Button | Eufemia')
@@ -52,7 +114,7 @@ test.describe('Page Navigation', () => {
         return // stop here
       }
 
-      await page.goto('/uilib/components/button/demos/')
+      await page.goto('/web/components/button/demos/')
 
       const title = await page.title()
       expect(title).toContain('Button → Demos | Eufemia')
@@ -68,13 +130,13 @@ test.describe('Page Navigation', () => {
         return // stop here
       }
 
-      await page.goto('/uilib/components/')
+      await page.goto('/web/components/')
 
       const heading = await page.textContent('h1')
       expect(heading).toContain('Components')
 
       const accordionLinkText = await page.textContent(
-        'a[href="/uilib/components/accordion/"]'
+        'a[href="/web/components/accordion/"]'
       )
       expect(accordionLinkText).toContain('Accordion')
     })
@@ -86,13 +148,13 @@ test.describe('Page Navigation', () => {
         return // stop here
       }
 
-      await page.goto('/uilib/components/')
+      await page.goto('/web/components/')
 
-      const href = '/uilib/components/button'
+      const href = '/web/components/button'
       const link = page.locator(`a[href="${href}"]`).first()
       await link.click()
 
-      await page.waitForURL('**/uilib/components/button/')
+      await page.waitForURL('**/web/components/button/')
 
       const title = await page.title()
       expect(title).toContain('Button | Eufemia')
@@ -111,6 +173,30 @@ test.describe('Page Navigation', () => {
       await waitForApp(page)
     })
 
+    test('uses client-side navigation for the Design card', async ({
+      page,
+    }) => {
+      await markCurrentDocument(page)
+      await page
+        .getByRole('navigation', { name: 'Get started', exact: true })
+        .getByRole('link', { name: /^Design/ })
+        .click()
+      await expect(page).toHaveURL('/quickguide-designer')
+      await expectCurrentDocument(page)
+    })
+
+    test('uses client-side navigation for the Develop card', async ({
+      page,
+    }) => {
+      await markCurrentDocument(page)
+      await page.getByRole('link', { name: /Develop/ }).click()
+      await expect(page).toHaveURL('/web/getting-started/')
+      await expect(
+        page.getByRole('heading', { name: 'Quick start', level: 1 })
+      ).toBeVisible()
+      await expectCurrentDocument(page)
+    })
+
     test('prerendered content should stay visible during JS hydration', async ({
       page,
     }) => {
@@ -119,7 +205,7 @@ test.describe('Page Navigation', () => {
       }
 
       // Go directly to a sub-page (full page load, not SPA navigation)
-      await page.goto('/uilib/components/button/', {
+      await page.goto('/web/components/button/', {
         waitUntil: 'domcontentloaded',
       })
 
@@ -132,57 +218,89 @@ test.describe('Page Navigation', () => {
       expect(title).toContain('Button | Eufemia')
     })
 
+    test('hydrates a Portal page without recoverable errors', async ({
+      page,
+    }) => {
+      const getConsoleErrors = captureConsoleErrors(page)
+
+      await page.goto('/web/components/button/')
+      await waitForApp(page)
+
+      expect((await getConsoleErrors()).filter(isHydrationError)).toEqual(
+        []
+      )
+    })
+
+    test('home page should show the sidebar menu', async ({ page }) => {
+      const sidebar = page.getByRole('navigation', {
+        name: 'Section Content Menu',
+      })
+
+      await expect(
+        sidebar.getByRole('button', { name: 'About', exact: true })
+      ).toBeVisible()
+      await expect(
+        sidebar.getByRole('button', {
+          name: 'Design language',
+          exact: true,
+        })
+      ).toBeVisible()
+      await expect(
+        page.getByRole('link', { name: 'Suggest an edit' })
+      ).toHaveCount(0)
+    })
+
     test('should contain a Suggest an edit link', async ({ page }) => {
-      await page.goto('/uilib/components/button/')
+      await page.goto('/web/components/button/')
       await waitForApp(page)
 
       const editLink = page.getByRole('link', { name: 'Suggest an edit' })
 
       await expect(editLink).toHaveAttribute(
         'href',
-        '/contribute/suggest-edit/?page=%2Fuilib%2Fcomponents%2Fbutton%2F&source=packages%2Fdnb-design-system-portal%2Fsrc%2Fdocs%2Fuilib%2Fcomponents%2Fbutton%2Finfo.mdx'
+        '/contribute/suggest-edit/?page=%2Fweb%2Fcomponents%2Fbutton%2F&source=packages%2Fdnb-design-system-portal%2Fsrc%2Fdocs%2Fweb%2Fcomponents%2Fbutton%2Finfo.mdx'
       )
     })
 
-    test('click on first main menu card should open /design-system', async ({
+    test('click on Design should open the designer guide', async ({
       page,
     }) => {
       const titleBeforeClick = await page.title()
       expect(titleBeforeClick).toContain('DNB Design System | Eufemia')
 
-      await page.click('main nav a')
-      await page.waitForURL('**/design-system/')
+      await page
+        .getByRole('navigation', { name: 'Get started', exact: true })
+        .getByRole('link', { name: /^Design/ })
+        .click()
+      await expect(page).toHaveURL('/quickguide-designer')
       await waitForApp(page)
-
-      await page.waitForFunction(
-        () => !document.title.includes('DNB Design System')
-      )
-
-      const titleAfterClick = await page.title()
-      expect(titleAfterClick).toContain('About Eufemia | Eufemia')
+      await expect(
+        page.getByRole('heading', { name: 'Start designing' })
+      ).toBeVisible()
     })
 
-    test('click on button page should open /uilib/components/button', async ({
+    test('click on button page should open /web/components/button', async ({
       page,
     }) => {
-      await page.goto('/uilib/components/')
+      await page.setViewportSize({ width: 1440, height: 900 })
+      await page.goto('/web/components/')
       await waitForApp(page)
 
-      const expandButtons = page.locator(
-        '.dnb-sidebar-menu__expand-button'
-      )
-      const count = await expandButtons.count()
-      for (let i = 0; i < count; i++) {
-        await expandButtons.nth(i).click()
-      }
+      await page
+        .locator(
+          '.dnb-sidebar-menu__accordion__toggle[aria-expanded="false"]'
+        )
+        .evaluateAll((buttons: HTMLButtonElement[]) => {
+          buttons.forEach((button) => button.click())
+        })
 
-      const href = '/uilib/components/button'
+      const href = '/web/components/button'
       const buttonLink = page.locator(
         `#portal-sidebar-menu a[href="${href}"]`
       )
       await buttonLink.first().waitFor({ state: 'visible' })
       await buttonLink.first().click()
-      await page.waitForURL('**/uilib/components/button**')
+      await page.waitForURL('**/web/components/button**')
       await waitForApp(page)
 
       await page.waitForFunction(() => document.title.includes('Button'))
@@ -194,22 +312,22 @@ test.describe('Page Navigation', () => {
       expect(heading).toContain('Button')
     })
 
-    test.skip('click on demos tab should open /uilib/components/button/demos and include tab name in title', async ({
+    test.skip('click on demos tab should open /web/components/button/demos and include tab name in title', async ({
       page,
     }) => {
       // Vite renders all component content on a single page without tabs.
 
-      await page.goto('/uilib/components/button/')
+      await page.goto('/web/components/button/')
       await waitForApp(page)
       const demosLink = page.locator(
-        'a[href="/uilib/components/button/demos/"]'
+        'a[href="/web/components/button/demos/"]'
       )
       await demosLink.first().waitFor({
         state: 'visible',
         timeout: 10000,
       })
       await demosLink.first().click()
-      await page.waitForURL('**/uilib/components/button/demos/')
+      await page.waitForURL('**/web/components/button/demos/')
       await waitForApp(page)
 
       const title = await page.title()
@@ -224,14 +342,14 @@ test.describe('Page Navigation', () => {
     }) => {
       // Vite does not render component summary links on the listing page.
 
-      await page.goto('/uilib/components/')
+      await page.goto('/web/components/')
       await waitForApp(page)
 
       const heading = await page.textContent('h1')
       expect(heading).toContain('Components')
 
       const accordionLinkText = await page.textContent(
-        'a[href="/uilib/components/accordion/"]'
+        'a[href="/web/components/accordion/"]'
       )
       expect(accordionLinkText).toContain('Accordion')
     })

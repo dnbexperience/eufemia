@@ -1,0 +1,78 @@
+---
+showTabs: true
+redirect_from:
+  - /uilib/components/button/info
+---
+
+import {
+  PrimaryButtonSizes,
+  SecondaryButtonSizes,
+  TertiaryButtonSizes,
+  IconButtonSizes,
+} from 'Docs/web/components/button/Examples'
+
+## Import
+
+```tsx
+import { Button } from '@dnb/eufemia'
+```
+
+## Description
+
+The Button component should be used as the **primary call-to-action** in a form, or as a user interaction mechanism.
+
+## Relevant links
+
+- [Figma](https://www.figma.com/design/cdtwQD8IJ7pTeE45U148r1/%F0%9F%92%BB-Eufemia---Web?node-id=339-154)
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/button)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/components/button)
+
+## Accessibility
+
+Buttons are keyboard accessible and support standard interaction patterns. Use meaningful text or `aria-label` when using icon-only buttons. Avoid using disabled buttons when possible, as they don't communicate why an action is unavailable.
+
+### Variants and sizes
+
+There should never be more than one `primary` button in a given context. The `secondary` and `tertiary` button variants do not have this constraint. A button should not be used when a link would suffice.
+
+The Button component comes in different sizes.
+
+#### Primary button sizes
+
+For the primary variant, the recommended sizes are `default` and `large`.
+
+<PrimaryButtonSizes />
+
+#### Secondary button sizes
+
+For the secondary variant, the recommended sizes are `default` and `large`.
+
+<SecondaryButtonSizes />
+
+#### Tertiary button sizes
+
+For tertiary buttons with text, use `default` or `large`, with `default` as the recommended size. A variant with `iconPosition="top"` is also available.
+
+It is **not** recommended to use the tertiary button without an icon. Looking for a similar variant without an icon? Check out [Anchor](/web/components/anchor) instead.
+
+<TertiaryButtonSizes />
+
+#### Icon button sizes
+
+Icon-only buttons support `small`, `medium`, `default` and `large`, including the tertiary variant. When `size` is omitted, an icon-only button uses `medium`.
+
+`size` controls the button dimensions, while `iconSize` controls the icon dimensions. For example, this small tertiary button is `1.5rem` square (24 px at the default root font size), with a `1rem` (16 px) icon:
+
+```tsx
+<Button
+  variant="tertiary"
+  size="small"
+  icon="add"
+  iconSize="default"
+  title="Add attachment"
+/>
+```
+
+<IconButtonSizes />
+
+<RelatedComponents />

@@ -1,0 +1,129 @@
+---
+showTabs: true
+redirect_from:
+  - /uilib/components/upload/demos
+---
+
+import {
+  UploadBasic,
+  UploadBasicCompactVariant,
+  UploadCompactVariantFiles,
+  UploadCompactVariantWithoutLabels,
+  UploadPrefilledFileList,
+  UploadRemoveFile,
+  UploadSingleFile,
+  UploadFilesAmountMessage,
+  UploadFilesAmountLimit,
+  UploadIsLoading,
+  UploadErrorMessage,
+  UploadAcceptedFormats,
+  UploadDisabledFileMaxSize,
+  UploadFileMaxSizeBasedOnFileType,
+  UploadFileMaxSizeBasedOnFileTypeDisabled,
+  UploadNoTitleNoText,
+  UploadOnFileDeleteAsync,
+  UploadOnFileClick,
+  UploadClearFiles,
+  UploadFileEmptySize,
+  UploadDisabledDragAndDrop,
+  UploadDescription,
+  UploadRemoveDeleteButton,
+  UploadDisabled,
+} from 'Docs/web/components/upload/Examples'
+
+## Demos
+
+### Upload (default)
+
+<UploadBasic />
+
+### Upload `compact` variant
+
+<UploadBasicCompactVariant />
+
+### `useUpload` React Hook
+
+By using the `Upload.useUpload` you can remove or add files or the status displayed in the component.
+
+You can also use the file blob in combination with the [FileReader](https://developer.mozilla.org/en-US/docs/Web/API/File_API) API.
+
+<UploadRemoveFile />
+
+### Upload single file/fixed amount of files
+
+<UploadSingleFile />
+
+### Upload loading state
+
+When uploading the file you can set the loading state of the request using the `Upload.useUpload` hook and passing `isLoading` to the file that is being uploaded.
+
+<UploadIsLoading />
+
+### Upload error message
+
+The only file verification the Upload component does is for the file size and the file type. These errors are handled by the HTML element `input` so they are not selectable. If you want any other error messages you can use the `Upload.useUpload` hook the same way as with the loading state.
+
+<UploadErrorMessage />
+
+### Upload specific accepted file formats
+
+You can pass the file formats as a string array. This will restrict which files that can be selected.
+
+<UploadAcceptedFormats />
+
+### Upload with prefilled error
+
+<UploadPrefilledFileList />
+
+### Upload with file max size based on file type
+
+The table of accepted file types is sorted descending by `maxFileSize`. Multiple `fileType` for the same `maxFileSize` is sorted alphabetically ascending by `fileType`.
+
+<UploadFileMaxSizeBasedOnFileType />
+
+To disable `maxFileSize` Use either `0` or `false`. If `maxFileSize` is not provided, it defaults to the value of [Uploads](/web/components/upload/properties/#properties) `fileMaxSize` which defaults to 5 MB.
+
+<VisibleWhenNotVisualTest>
+  <UploadFileMaxSizeBasedOnFileTypeDisabled />
+</VisibleWhenNotVisualTest>
+
+### Upload without file max size
+
+You can disable the file max size, which will deactivate all file size verifications in the Upload component.
+This can also be used to manually implement more complex file max size verifications.
+
+<UploadDisabledFileMaxSize />
+
+### Upload without title and text
+
+<UploadNoTitleNoText />
+
+### Upload with async `onFileDelete`
+
+<UploadOnFileDeleteAsync />
+
+### Upload with `onFileClick`
+
+<UploadOnFileClick />
+
+### Upload programmatically clearing files using `clearFiles `
+
+<UploadClearFiles />
+
+### Upload with file description
+
+<UploadDescription />
+
+### Upload with file without delete button
+
+<UploadRemoveDeleteButton />
+
+<VisibleWhenVisualTest>
+  <UploadFileEmptySize />
+  <UploadDisabledDragAndDrop />
+  <UploadFilesAmountMessage />
+  <UploadFilesAmountLimit />
+  <UploadDisabled />
+  <UploadCompactVariantWithoutLabels />
+  <UploadCompactVariantFiles />
+</VisibleWhenVisualTest>

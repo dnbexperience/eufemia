@@ -15,6 +15,13 @@ describe('getMdPath', () => {
   ])
 
   it('returns the .md path for a page with its own copy', () => {
+    expect(getMdPath('/', new Set(['/home.md']))).toBe('/home.md')
+    expect(
+      getMdPath(
+        '/working-with-ai/ai-skills/',
+        new Set(['/working-with-ai/ai-skills.md'])
+      )
+    ).toBe('/working-with-ai/ai-skills.md')
     expect(getMdPath('/uilib/components/button/', mdPaths)).toBe(
       '/uilib/components/button.md'
     )
@@ -52,8 +59,10 @@ describe('getMdPath', () => {
     expect(getMdPath('/uilib/unknown/page/', mdPaths)).toBeNull()
   })
 
-  it('leaves pages outside uilib alone, even when a copy exists', () => {
-    expect(getMdPath('/quickguide-designer/', mdPaths)).toBeNull()
+  it('advertises existing Markdown for shared pages as well', () => {
+    expect(getMdPath('/quickguide-designer/', mdPaths)).toBe(
+      '/quickguide-designer.md'
+    )
   })
 
   it('handles URLs without trailing slashes', () => {

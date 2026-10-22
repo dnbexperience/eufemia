@@ -1,0 +1,37 @@
+---
+showTabs: true
+redirect_from:
+  - /uilib/components/popover/info
+---
+
+## Import
+
+```tsx
+import { Popover } from '@dnb/eufemia'
+```
+
+## Description
+
+Popover renders its own floating surface anchored to a trigger element.
+
+It is used in the [Tooltip](/web/components/tooltip) and [DatePicker](/web/components/date-picker) component, but can also be used directly when you need a more flexible trigger or richer content.
+
+## Relevant links
+
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/popover)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/components/popover)
+
+## Accessibility
+
+- Focus moves into the popover body once it opens (similar to TermDefinition). When `restoreFocus` is enabled, closing with Escape or the close button returns focus to the trigger. A click or tap outside closes the popover without moving focus back to the trigger.
+- The Popover does by default change its alignment initially, but not reposition itself during user scroll when opened, as this could be disorienting and confusing for users.
+- When you render a trigger via the provided render props, it receives ARIA attributes such as `aria-controls`, `aria-expanded`, and `aria-describedby` alongside keyboard handlers.
+- Set `hideCloseButton` if you want to remove the built-in close button and handle dismissal yourself (use the provided `close` helper when rendering custom content).
+- The popover can be dismissed with Escape, by clicking outside, or by using the close button.
+- Custom triggers receive the necessary ARIA attributes (`aria-controls`, `aria-expanded`, `aria-describedby`) and keyboard handlers so long as you spread the provided props.
+
+## Root Element (React Portal)
+
+The Popover component uses [PortalRoot](/web/components/portal-root) internally to render its content. See the [PortalRoot documentation](/web/components/portal-root) for information on how to control where the portal content appears in the DOM, and for the [BrowserTranslate helper](/web/components/portal-root/#browsertranslate-helper-google-translate) when browser translation tools such as Google Translate should not modify content rendered through PortalRoot.
+
+<RelatedComponents />

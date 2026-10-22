@@ -1,6 +1,10 @@
 ---
-title: 'Before getting started'
-contentTitle: 'What you should know before getting started'
+title: Before getting started
+contentTitle: What you should know before getting started
+navigation:
+  parent: contribute/first-contribution
+  title: Before getting started
+  order: 1
 ---
 
 import InlineImg from 'dnb-design-system-portal/src/shared/tags/Img'
@@ -88,7 +92,7 @@ If you have one `/properties.md` file, but e.g., two components share most or al
 | Accordion and AccordionProvider Properties | Description                                                           |
 | ------------------------------------------ | --------------------------------------------------------------------- |
 | `id`                                       | _(optional)_ docs.                                                    |
-| [Space](/uilib/layout/space/properties)    | _(optional)_ spacing properties like `top` or `bottom` are supported. |
+| [Space](/web/layout/space/properties)      | _(optional)_ spacing properties like `top` or `bottom` are supported. |
 
 | AccordionProvider Properties | Description                   |
 | ---------------------------- | ----------------------------- |
@@ -99,11 +103,11 @@ If you have one `/properties.md` file, but e.g., two components share most or al
 
 Eufemia has a couple of common parts, so every component behaves consistently:
 
-- [Locale](/uilib/usage/customisation/localization) support.
-- [Provider](/uilib/usage/customisation/provider) support for centralized property forwarding.
-- [Spacing](/uilib/layout/space) support.
-- [Skeleton](/uilib/components/skeleton) support.
-- [FormLabel](/uilib/components/form-label) / [FormStatus](/uilib/components/form-status) support if it's a form component.
+- [Locale](/web/usage/customisation/localization) support.
+- [Provider](/web/usage/customisation/provider) support for centralized property forwarding.
+- [Spacing](/web/layout/space) support.
+- [Skeleton](/web/components/skeleton) support.
+- [FormLabel](/web/components/form-label) / [FormStatus](/web/components/form-status) support if it's a form component.
 - Automatic id generation and linking of HTML elements to enhance accessibility.
 - Handling of `aria-describedby` with `combineDescribedBy` etc.
 

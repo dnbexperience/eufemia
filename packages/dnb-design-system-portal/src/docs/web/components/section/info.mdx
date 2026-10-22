@@ -1,0 +1,47 @@
+---
+showTabs: true
+redirect_from:
+  - /uilib/components/section/info
+---
+
+## Import
+
+```tsx
+import { Section } from '@dnb/eufemia'
+```
+
+## Description
+
+The Section component is a visual helper. It wraps content inside a visual section banner.
+
+## Relevant links
+
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/section)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/components/section)
+
+### Breakout / fullscreen
+
+Under the hood, it uses a couple of tricks to achieve an infinite fullscreen size. You do not need to do anything more than you normally would with your content. The background of the Section component will extend beyond a `max-width` when enabled with the `breakout` property.
+
+## Usage
+
+Many of the properties support [media queries](/web/layout/media-queries/). This makes this component well suited to change its look based on screen sizes.
+
+Each of these properties do support either a single value or an object containing one or more media query sizes:
+
+```js
+{
+  small: false,
+  medium: true,
+  large: true,
+}
+```
+
+- `breakout={boolean}` or e.g. `breakout={{ small: boolean }}`
+- `roundedCorner={boolean}` or e.g. `roundedCorner={{ small: boolean }}`
+- `outline={boolean|string}` or e.g. `outline={{ small: 'black' }}`
+- `backgroundColor={string}` or e.g. `backgroundColor={{ small: 'white' }}`
+- `textColor={string}` or e.g. `textColor={{ small: 'black-80' }}`
+- `innerSpace={string}` or e.g. `innerSpace={{ small: { top: 'small' } }}`
+
+<RelatedComponents />

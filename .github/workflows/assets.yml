@@ -7,7 +7,7 @@ on:
       - 'packages/dnb-eufemia/postcss.config.js'
       - 'packages/dnb-eufemia/src/plugins/postcss-font-url-rewrite/**'
       - 'packages/dnb-design-system-portal/postcss.config.js'
-      - 'packages/dnb-design-system-portal/src/docs/uilib/typography.mdx'
+      - 'packages/dnb-design-system-portal/src/docs/web/typography.mdx'
       - 'tools/assets/**'
       - 'tools/monitoring/**'
       - '.github/workflows/assets.yml'

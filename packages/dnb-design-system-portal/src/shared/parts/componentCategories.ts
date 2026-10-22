@@ -60,9 +60,22 @@ export const categoryIds = new Set<string>(
 )
 
 export const excludedSlugs = new Set([
-  'uilib/components/fragments',
-  'uilib/components/overview',
+  'web/components/fragments',
+  'web/components/overview',
 ])
+
+const categorizedExtensionSlugs = new Set([
+  'web/extensions/payment-card',
+  'web/extensions/sidebar-menu',
+  'web/extensions/vipps-wallet-button',
+])
+
+export function isCategorizedComponentSlug(slug: string) {
+  return (
+    slug.startsWith('web/components/') ||
+    categorizedExtensionSlugs.has(slug)
+  )
+}
 
 export function isCategoryId(
   category: CategoryValue

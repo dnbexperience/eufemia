@@ -1,0 +1,75 @@
+---
+title: Line Height
+order: 4
+redirect_from:
+  - /uilib/typography/line-height
+navigation:
+  parent: web/typography
+  title: Line Height
+  order: 4
+---
+
+import { PropValue, PropAsPx } from './_helpers.tsx'
+import ChangeStyleTheme from '../../../core/ChangeStyleTheme'
+
+<ChangeStyleTheme label="Change the brand:" bottom="large" />
+
+The values below come from Figma for the selected brand, using Eufemia's existing CSS variable names. The [Fonts & Typography](/quickguide-designer/fonts#typographic-elements) guide shows the DNB scale.
+
+Line heights are the same in light and dark mode.
+
+## Default `line-height` **rem** table
+
+| Pixel                                      | Type       | Rem                                             | CSS variable / property  | CSS Classname                   | Info             |
+| ------------------------------------------ | ---------- | ----------------------------------------------- | ------------------------ | ------------------------------- | ---------------- |
+| <PropAsPx name="--line-height-x-small" />  | `x-small`  | **<PropValue name="--line-height-x-small" />**  | `--line-height-x-small`  | `.dnb-t__line-height--x-small`  |                  |
+| <PropAsPx name="--line-height-small" />    | `small`    | **<PropValue name="--line-height-small" />**    | `--line-height-small`    | `.dnb-t__line-height--small`    |                  |
+| <PropAsPx name="--line-height-basis" />    | `basis`    | **<PropValue name="--line-height-basis" />**    | `--line-height-basis`    | `.dnb-t__line-height--basis`    |                  |
+| <PropAsPx name="--line-height-lead" />     | `lead`     | **<PropValue name="--line-height-lead" />**     | `--line-height-lead`     | `.dnb-t__line-height--lead`     | Same as `medium` |
+| <PropAsPx name="--line-height-medium" />   | `medium`   | **<PropValue name="--line-height-medium" />**   | `--line-height-medium`   | `.dnb-t__line-height--medium`   |                  |
+| <PropAsPx name="--line-height-large" />    | `large`    | **<PropValue name="--line-height-large" />**    | `--line-height-large`    | `.dnb-t__line-height--large`    |                  |
+| <PropAsPx name="--line-height-x-large" />  | `x-large`  | **<PropValue name="--line-height-x-large" />**  | `--line-height-x-large`  | `.dnb-t__line-height--x-large`  |                  |
+| <PropAsPx name="--line-height-xx-large" /> | `xx-large` | **<PropValue name="--line-height-xx-large" />** | `--line-height-xx-large` | `.dnb-t__line-height--xx-large` |                  |
+
+### Responsive typography (BETA)
+
+**NB**: This feature is in beta and may be subject to change.
+
+Wrap a section of your UI in `<Typography.Context responsive>` to enable typography that adapts automatically across breakpoints.
+Typography components inside the wrapper, like `H2`, `Span`, `P`, `Heading`, will start using the responsive variables in the table below.
+
+You can turn it off for a section using `<Typography.Context responsive={false}>`.
+
+| CSS Variable                        | `← small`                                  | `small → medium`                            | `medium →`                                  |
+| ----------------------------------- | ------------------------------------------ | ------------------------------------------- | ------------------------------------------- |
+| `--responsive-line-height-x-small`  | <PropValue name="--line-height-x-small" /> | <PropValue name="--line-height-x-small" />  | <PropValue name="--line-height-x-small" />  |
+| `--responsive-line-height-small`    | <PropValue name="--line-height-x-small" /> | <PropValue name="--line-height-small" />    | <PropValue name="--line-height-small" />    |
+| `--responsive-line-height-basis`    | <PropValue name="--line-height-small" />   | <PropValue name="--line-height-basis" />    | <PropValue name="--line-height-basis" />    |
+| `--responsive-line-height-medium`   | <PropValue name="--line-height-medium" />  | <PropValue name="--line-height-medium" />   | <PropValue name="--line-height-medium" />   |
+| `--responsive-line-height-large`    | <PropValue name="--line-height-large" />   | <PropValue name="--line-height-large" />    | <PropValue name="--line-height-large" />    |
+| `--responsive-line-height-x-large`  | <PropValue name="--line-height-large" />   | <PropValue name="--line-height-x-large" />  | <PropValue name="--line-height-x-large" />  |
+| `--responsive-line-height-xx-large` | <PropValue name="--line-height-x-large" /> | <PropValue name="--line-height-xx-large" /> | <PropValue name="--line-height-xx-large" /> |
+
+All `--responsive-line-height-*` CSS variables are scoped to typography components (`P`, `Heading`, `Span`, `Lead`, `H1`, `H2`, etc.) as of now. If you need to use them elsewhere you can use the `.dnb-t` class.
+
+### Code Editor Extensions
+
+You may be interested in installing an [Eufemia code editor extension](/web/usage/first-steps/tools/#code-editor-extensions) that allows you to quickly auto complete the correct `line-height`.
+
+## Additional `line-height` **em** table
+
+| Pixel | Type           | Em                                                  | Custom Property              | Info   |
+| ----- | -------------- | --------------------------------------------------- | ---------------------------- | ------ |
+| 16px  | `xx-small--em` | **<PropValue name="--line-height-xx-small--em" />** | `--line-height-xx-small--em` |        |
+| 24px  | `basis--em`    | **<PropValue name="--line-height-basis--em" />**    | `--line-height-basis--em`    | **\*** |
+
+**\*** For example: if we sum 1.33333333333\*18 we get 24. Browsers do round CSS values, so we do not need all the decimal numbers for now.
+
+### How to use the line heights (CSS)
+
+```css
+/* I have a default height */
+.dnb-p {
+  line-height: var(--line-height-basis); /* 1.5rem = 24px (in Ui theme) */
+}
+```

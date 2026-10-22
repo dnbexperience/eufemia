@@ -1,0 +1,318 @@
+---
+showTabs: true
+redirect_from:
+  - /uilib/extensions/sidebar-menu/info
+---
+
+## Import
+
+```tsx
+import { SidebarMenu } from '@dnb/eufemia/extensions'
+import '@dnb/eufemia/extensions/sidebar-menu/style'
+```
+
+## Description
+
+`SidebarMenu` provides persistent navigation with expandable groups and optional top-level sections. Its compound API is tree-shakeable: `SidebarMenu` itself is a namespace, while only the subcomponents you use are included.
+
+Compose a menu declaratively with `SidebarMenu.Root`, `SidebarMenu.Item`, `SidebarMenu.Accordion`, `SidebarMenu.Group`, `SidebarMenu.Section`, `SidebarMenu.Header`, and `SidebarMenu.Divider`. Use `SidebarMenu.Data` when the menu is generated from recursive `data` or `sections` objects. The declarative API keeps unused parts outside the bundle, while `Data` includes all parts needed to render arbitrary object trees.
+
+Fragments and memoized SidebarMenu parts are supported. Arbitrary wrapper components are opaque to Root's selected-route discovery; pass generated structures through `SidebarMenu.Data` instead.
+
+## Design goals
+
+- Work with SSR and SSG. Stable prerendered markup, storage metadata, and CSS-driven responsive visibility avoid layout shifts during hydration.
+- Provide accessible navigation defaults through landmarks, semantic lists, native links and buttons, keyboard support, focus restoration, and reduced-motion handling.
+- Stay modular and tree-shakeable through compound exports, so applications include only the parts they use.
+- Support both declarative composition and recursive `data` or `sections` objects with the same behavior.
+- Allow controlled, uncontrolled, and persisted state for routing, accordions, sections, selection, and scroll position.
+- Adapt to different application structures through nested groups, custom router links, responsive inline and Drawer layouts, resizing, badges, and custom content.
+- Allow resizable desktop navigation to be temporarily dismissed and restored without changing the small-screen Drawer behavior.
+- Preserve browser-native behavior, including find-in-page through collapsed content.
+
+## Key behaviors
+
+- Setting `selectedItem` reveals its ancestors and section. An active branch can still be collapsed; its label then uses medium font weight to indicate that it contains the current page.
+- An off-screen selected item is brought into view. Initial positioning and restored scroll positions happen without a visible animated jump.
+- `openItemsStorageKey` and `scrollPositionStorageKey` preserve navigation context between route changes. Session storage is used by default.
+- A linked accordion uses one action for navigation and expansion.
+- Collapsed content remains available to browser find-in-page through `hidden="until-found"`.
+- A notification badge on a nested item is summarized by a red dot on collapsible ancestor accordions. The dot remains visible when the accordion expands and takes priority over an informational badge on the same menu point. An explicit notification badge remains visible instead of the dot. Automatic detection follows direct SidebarMenu children and cannot inspect items hidden inside another React component.
+- Sections do not automatically summarize nested notifications. Set `badge` for the dropdown option and `triggerBadge` for the selected trigger when a section needs a notification count.
+- Section hover previews dim the current content only on devices with a fine pointer and hover support. Touch selection happens on the first tap without dimming.
+
+## Composition
+
+Accordion groups support deep nesting, but keep the hierarchy as shallow as possible. Use `SidebarMenu.Group` for a titled category whose items should always remain visible, or set `collapsible={false}` on an accordion. Groups can optionally navigate using `href` or `to`; in the data API, use `type: 'group'`.
+
+Menu point rows have a minimum height of 44px. Top-level rows have 16px between them, while nested rows have 8px. The first accordion level is indented by 48px and each deeper accordion level adds 16px.
+
+Menu labels wrap at normal word boundaries. Browsers may automatically hyphenate long words when the document or nearest ancestor declares the correct `lang`. Unbroken identifiers and URLs are not split character by character; use readable labels or add explicit break opportunities when those values must appear in navigation.
+
+Set `dividerBefore: true` on a data item to render a separator, or place `SidebarMenu.Divider` between declarative items. Set `openOnFind={false}` on Root or Data when collapsed content should not use `hidden="until-found"`.
+
+When an accordion also represents a page, provide `href` or `to`. The accordion becomes a navigation link that also controls expansion.
+
+## State and scrolling
+
+Use controlled properties when application routing or external state owns the menu:
+
+- `selectedItem` and `onSelectedItemChange` for the current destination.
+- `openItems` and `onOpenItemsChange` for expanded groups.
+- `activeSection` and `onActiveSectionChange` for the visible section.
+
+The selected destination is positioned within the visible browser or nearest `ScrollView`. Wrap the menu in `ScrollView` and set a fixed or viewport-based `maxHeight` when it needs its own scrolling region.
+
+Use `openItemsStorageKey` to preserve manually opened and closed groups. When the menu is inside a `ScrollView`, use `scrollPositionStorageKey` to restore its vertical position. A stored value takes precedence over the defaults, including an empty array. Use local storage only when the state should survive browser restarts; otherwise keep the default session storage.
+
+### Content controlled by micro frontends
+
+Connect `SidebarMenu.Data` to a named controller when another application needs to replace or transform its content. The controller works outside React, across separate React roots and independently bundled Eufemia copies in the same browser window. It retains registrations before the menu mounts, so callers do not need to check whether the sidebar is present.
+
+The shell supplies fallback content:
+
+```tsx
+<SidebarMenu.Data
+  controllerId="main-navigation"
+  aria-label="Main navigation"
+  data={defaultItems}
+/>
+```
+
+A micro frontend registers its content and cleans up when it leaves:
+
+```tsx
+const sidebar = SidebarMenu.getController('main-navigation')
+
+const releaseContent = sidebar.setContent(
+  {
+    data: [
+      { id: 'home', text: 'Home', href: '/' },
+      { id: 'payments', text: 'Payments', href: '/payments' },
+    ],
+  },
+  { key: 'payments' }
+)
+
+const removeTransform = sidebar.transformContent(
+  (content) => {
+    if (!content.data) {
+      return content
+    }
+
+    return {
+      data: content.data.map((item) =>
+        item.id === 'payments' ? { ...item, badge: 3 } : item
+      ),
+    }
+  },
+  { key: 'payments:notifications', order: 10 }
+)
+
+// When the micro frontend unmounts:
+removeTransform()
+releaseContent()
+
+// In a React effect, return the cleanup directly:
+useEffect(() => {
+  return sidebar.setContent({ data: paymentItems }, { key: 'payments' })
+}, [paymentItems])
+```
+
+Both methods use the existing `{ data }` or `{ sections }` content shapes. Use stable, app-specific registration keys. Calling the same method with the same key replaces that registration; an older cleanup cannot remove its replacement. With several content replacements, the latest registration wins. Removing it reveals the previous replacement, or the shell's current fallback content.
+
+Transformations run after the active content replacement, in ascending `order` (default `0`), then by key. They remain registered and run again when content changes. Return new content without mutating the input. Register an updated function under the same key when a captured value, such as a notification count, changes. The cleanup removes the transformation and restores the content computed without it.
+
+Assign the same `controllerId` to the desktop and Drawer menus to share content between them. Registration lifetimes belong to the calling application: unmounting a menu does not clear registrations, while a page reload does. The API uses `useSharedState` and `createSharedState` with a shared browser scope.
+
+Use `Data` props for server-rendered content. Controller mutations run in the browser; server calls throw instead of retaining application content between requests. Hydration first uses the server's fallback content, then applies retained browser registrations. Content controllers do not synchronize across iframes or browser tabs. Prefer data objects across micro frontend boundaries; React elements and callbacks do not carry the originating application's providers with them.
+
+### SSR and SSG without layout shift
+
+`Root` and `Data` render storage metadata when `openItemsStorageKey` or `scrollPositionStorageKey` is set. Add `PreHydrationScript` after the prerendered menu markup and before the application hydration script to make persisted state visible on the first paint:
+
+```tsx
+import { SidebarMenu } from '@dnb/eufemia/extensions'
+
+function Document({ children, nonce }) {
+  return (
+    <html>
+      <body>
+        <div id="app">{children}</div>
+        <SidebarMenu.PreHydrationScript nonce={nonce} />
+        <script src="/client.js" nonce={nonce} />
+      </body>
+    </html>
+  )
+}
+```
+
+The script reads the configured session or local storage, applies the persisted open and closed accordion state, and restores the nearest `ScrollView`. An exact stored scroll position, including the top position, takes priority over initially centering the selected item. Without a stored position, the selected item is kept visible. `Root` removes the temporary CSS during its layout effect after React has applied the same state. The script and generated style inherit the supplied CSP nonce.
+Render the script once per document; it handles every SidebarMenu with persistence metadata. Controlled `openItems` does not use storage and therefore does not emit open-state metadata.
+
+Use `getPreHydrationScript()` when the HTML template is assembled outside React. Insert its return value in a blocking script at the same location: after the menu markup and before the hydration bundle.
+
+A layout effect alone cannot prevent this shift in an SSG page. The browser can paint the static HTML before it downloads the application bundle and starts hydration. The blocking script runs while the HTML is parsed, so the first paint already matches storage. It is only needed when persisted state must affect the prerendered result.
+
+## Resizable layouts
+
+Use `SidebarMenu.ResizeHandle` when people should be able to resize a sidebar. These properties connect the handle to the layout:
+
+- `targetRef` points to the element being resized. Its rendered width is the starting value.
+- `cssProperty` receives the new width in pixels. The sidebar CSS must use the same custom property.
+- `scopeSelector` selects the closest shared layout ancestor on which the custom property is set. Use it when adjacent content also needs to respond to the sidebar width. Omit it when only the sidebar needs the value.
+- `minWidth` and `maxWidth` define the allowed resize range. They default to 240px and 560px and are also constrained by the viewport and the target's CSS `max-width`.
+
+The handle supports pointer dragging, arrow-key resizing, Shift for larger keyboard steps, and Enter or double-click to reset.
+When `onCollapse` is provided, dragging below `minWidth` adds resistance to communicate that the sidebar can continue towards dismissal. Releasing returns it to `minWidth`. Reaching `collapseThreshold` calls `onCollapse`; the threshold defaults to half of `minWidth`. Pair it with `useResponsive().collapseInline()` to dismiss desktop inline navigation and let `ResponsiveTrigger` restore it.
+
+The resistance moves the sidebar by 10% of the cursor distance below `minWidth`. For example, dragging 100px further moves the visible edge about 10px. Pointer resizing above the minimum stays immediate. Width easing belongs to the surrounding layout. Enable it after the handle adds `dnb-sidebar-menu-resize-handle--transition-ready`, and disable it while `dnb-sidebar-menu-resize-handle--dragging` is present. Both classes are added to the element matched by `scopeSelector`.
+
+The resize handle is optional and its styles are included with the SidebarMenu extension stylesheet. It does not persist width. The CSS-defined initial width is therefore used after a reload, and no script is needed before React renders.
+
+```tsx
+const sidebarRef = useRef<HTMLElement>(null)
+
+<div className="layout">
+  <aside
+    id="sidebar"
+    ref={sidebarRef}
+    className="sidebar"
+  >
+    <SidebarMenu.Root aria-label="Main navigation" />
+  </aside>
+  <SidebarMenu.ResizeHandle
+    targetRef={sidebarRef}
+    scopeSelector=".layout"
+    cssProperty="--sidebar-width"
+    aria-controls="sidebar"
+  />
+</div>
+```
+
+```css
+.layout {
+  --sidebar-width: 20rem;
+
+  display: grid;
+  grid-template-columns: var(--sidebar-width) 1fr;
+}
+
+.sidebar {
+  position: fixed;
+  inset-block: 0;
+  inset-inline-start: 0;
+  width: var(--sidebar-width);
+  overflow: hidden auto;
+}
+```
+
+## Responsive behavior
+
+Use the responsive compound parts when the same navigation should be inline on larger screens and available through a hamburger-triggered Drawer on smaller screens:
+
+- `ResponsiveProvider` owns the responsive thresholds and Drawer state.
+- `ResponsiveProvider` can also own a collapsible desktop inline state.
+- `Toggle` renders a button that hides and restores the desktop inline navigation by default. Inside the compact rail it expands and collapses the overlay. On small screens an external Toggle opens and closes the Drawer.
+- `ResponsiveTrigger` renders a hamburger button at or below `drawerAt`, or while the desktop inline navigation is collapsed. On desktop it restores the inline navigation instead of opening a Drawer.
+- When the built-in hamburger appears after desktop dismissal, its bars animate in sequentially. Custom trigger icons are not animated.
+- `ResponsiveInline` renders its children above `drawerAt`. Between `drawerAt` and the optional `compactAt` threshold, its SidebarMenu becomes a narrow icon rail that expands over adjacent content on hover, keyboard focus, or with its toggle button.
+- `ResponsiveAside` combines `ResponsiveInline`, the sidebar surface, `ScrollView`, spacing, and optional `ResizeHandle` into a ready-to-use navigation sidebar.
+- `ResponsiveShell` provides the responsive two-column application layout for `ResponsiveAside` and page content, then switches to one column below `drawerAt`.
+- `ResponsiveDrawer` renders a left-side Drawer at or below `drawerAt`. Its close button is placed on the left.
+- `useResponsive().close()` closes the Drawer after mobile navigation.
+
+Place an external `SidebarMenu.Toggle` or `ResponsiveTrigger` outside dismissible navigation so people can restore it after dismissal. `ResponsiveAside` includes its full-width toggle by default; use `showToggle={false}` to omit it. Plain `ResponsiveInline` preserves direct child rendering unless `compactAt` or `showToggle` is enabled. Set `showToggle` on `ResponsiveInline` to add a full-width embedded toggle. Compact mode keeps its existing expansion toggle. Desktop dismissal uses the same collapse state and width animation as dragging the resize divider all the way left.
+
+The trigger and Drawer do not need to be siblings. Place both under the same provider, for example with the trigger in an application header and the Drawer beside the desktop navigation.
+
+`SidebarMenu.Toggle` can also render outside `ResponsiveProvider`. Give the provider a unique `scopeId` and pass the same value to the toggle. It stays in sync with desktop dismissal and the mobile Drawer, and is disabled until its provider mounts. During server rendering, an outside toggle renders disabled and connects after hydration. Keep `controls` matched to a custom Drawer id as usual.
+
+The connection works across separate React roots and independently bundled Eufemia copies in the same browser window. Each provider needs its own `scopeId`. The provider owns the state and clears its registration when it unmounts; connected toggles then become disabled. The connection does not synchronize across iframes or browser tabs.
+
+```tsx
+<>
+  <SidebarMenu.Toggle scopeId="app-navigation" />
+  <SidebarMenu.ResponsiveProvider scopeId="app-navigation">
+    <SidebarMenu.ResponsiveAside>
+      <Navigation />
+    </SidebarMenu.ResponsiveAside>
+    <SidebarMenu.ResponsiveDrawer>
+      <Navigation />
+    </SidebarMenu.ResponsiveDrawer>
+  </SidebarMenu.ResponsiveProvider>
+</>
+```
+
+All responsive parts (`ResponsiveTrigger`, `ResponsiveInline`, `ResponsiveAside`, `ResponsiveShell`, and `ResponsiveDrawer`) and `useResponsive()` must be inside `ResponsiveProvider`. The provider renders a `display: contents` wrapper. It does not affect layout, but CSS child selectors that expect these parts to be direct children of an element outside the provider no longer match across the wrapper.
+
+`drawerAt` defaults to `medium`. A custom Eufemia breakpoint name, explicit `em` value, or `compactAt` adds scoped first-paint CSS, so server-rendered visibility uses the same breakpoint before and after hydration. Pass `styleNonce` when your content security policy requires a nonce for inline styles.
+
+Set `compactAt` when the inline menu should reduce to an icon rail before it becomes a Drawer. `compactAt` controls when the sidebar enters compact mode. `compactWidth` controls how wide the sidebar is in that mode. `compactOffset` adds an additional viewport width to the threshold, so `compactAt="large" compactOffset="10em"` becomes compact at `82em`. Set `expandedWidth` and `compactWidth` on `ResponsiveAside`; it reserves only the compact width and expands the full menu over adjacent content on hover, keyboard focus, or when its toggle button is activated. In compact mode, every interactive menu row must have an icon whenever a suitable icon exists. Text-only rows remain supported when an icon would not add meaningful value. Use `ResponsiveInline` directly only when the application needs to build a different sidebar surface.
+
+Use `inlineCollapsed` with `onInlineCollapsedChange` when application state controls desktop dismissal, or `defaultInlineCollapsed` for an uncontrolled initial state. `useResponsive()` exposes `inlineCollapsed`, `collapseInline()`, and `restoreInline()` to compound children.
+
+Set `inlineCollapsedStorageKey` on `ResponsiveProvider` to remember desktop dismissal across navigation and reloads. Session storage is the default, matching `openItemsStorageKey`; use `inlineCollapsedStorage="local"` to retain the choice across browser restarts. A saved boolean takes precedence over `defaultInlineCollapsed`. Controlled `inlineCollapsed` does not read or write storage. Compact hover expansion and the mobile Drawer remain temporary.
+
+Persistence uses the same shared Web Storage helpers as open menu items. The responsive parts share state through their provider's React context. For SSR or SSG, the same `PreHydrationScript` also restores desktop dismissal before the first paint.
+
+### Dismissible desktop navigation
+
+`ResponsiveAside` provides the complete inline sidebar surface, scrolling, spacing, optional resizing, drag-to-dismiss behavior, and hamburger restoration:
+
+```tsx
+function AppNavigation() {
+  return (
+    <SidebarMenu.ResponsiveProvider
+      drawerAt="medium"
+      compactAt="large"
+      compactOffset="10em"
+    >
+      <SidebarMenu.ResponsiveShell>
+        <SidebarMenu.ResponsiveAside
+          expandedWidth="18rem"
+          compactWidth="4rem"
+          resizable
+        >
+          <SidebarMenu.Data aria-label="Main navigation" data={items} />
+        </SidebarMenu.ResponsiveAside>
+
+        <div className="page">
+          <header>
+            <SidebarMenu.ResponsiveTrigger controls="mobile-navigation" />
+            <a href="/">Brand</a>
+          </header>
+          <main>Page content</main>
+        </div>
+
+        <SidebarMenu.ResponsiveDrawer id="mobile-navigation">
+          <SidebarMenu.Data aria-label="Main navigation" data={items} />
+        </SidebarMenu.ResponsiveDrawer>
+      </SidebarMenu.ResponsiveShell>
+    </SidebarMenu.ResponsiveProvider>
+  )
+}
+```
+
+The desktop trigger restores a dismissed sidebar at `expandedWidth`. Enter or double-click on the resize divider also restores that width. While dragging below `ResizeHandle`'s `minWidth`, the content keeps that minimum width and ScrollView provides horizontal overflow instead of rewrapping menu labels. Keep the trigger and brand together at the start of the header so they replace the dismissed sidebar's leading content. Below `drawerAt`, the same trigger controls the Drawer instead.
+
+## Relevant links
+
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/sidebar-menu)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/extensions/sidebar-menu)
+
+## Accessibility
+
+- Root and Data render a `nav` landmark. Give each menu a distinct `aria-label` or `aria-labelledby` value.
+- Navigation levels use semantic nested lists.
+- Items render as native links when `href` or `to` is supplied, and native buttons otherwise.
+- Accordion triggers use `aria-expanded` and `aria-controls`. They are native buttons unless `href` or `to` makes the trigger a link.
+- Selected destinations use `aria-current="page"`.
+- Disabled button items use the native `disabled` attribute. Disabled links use `aria-disabled`, have no destination, and are removed from the tab order.
+- Sections are selected through a labeled dropdown.
+- **Tab/Shift+Tab** moves through interactive elements. **Enter/Space** activates buttons and accordion triggers.
+- Expansion and dismiss/restore animations respect `prefers-reduced-motion`.
+
+The component has automated axe coverage. Always test the finished navigation with the screen readers supported by your product because labels and hierarchy depend on application content.
+
+<RelatedComponents />

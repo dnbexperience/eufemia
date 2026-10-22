@@ -340,18 +340,13 @@ describe('portal page ids', () => {
     // frontmatter silently skips the H1 for hundreds of pages, so assert the
     // inherited title is found rather than trusting it is.
     expect(
-      resolvePageTitle(
-        pagesBySlug.get('uilib/components/table/properties')
-      )
+      resolvePageTitle(pagesBySlug.get('web/components/table/properties'))
     ).toBe('Table')
 
     // `contentTitle` replaces the title for the heading only.
-    expect(
-      resolvePageTitle(pagesBySlug.get('uilib/usage/first-steps/react'))
-    ).toBe(
+    expect(resolvePageTitle(pagesBySlug.get('design-system/about'))).toBe(
       String(
-        pagesBySlug.get('uilib/usage/first-steps/react').frontmatter
-          .contentTitle
+        pagesBySlug.get('design-system/about').frontmatter.contentTitle
       )
     )
 

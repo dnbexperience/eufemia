@@ -14,7 +14,6 @@
   "bugs": {
     "url": "https://github.com/dnbexperience/eufemia/issues"
   },
-  "main": "src/docs/index.js",
   "scripts": {
     "build": "node vite/prod/prerender.mjs",
     "build:algolia": "node vite/prod/push-algolia.mjs",
@@ -120,7 +119,6 @@
     "wrangler": "4.102.0"
   },
   "buildVersion": "[LOCAL BUILD]",
-  "changelogVersion": "[LOCAL BUILD]",
   "releaseVersion": "[LOCAL BUILD]",
   "volta": {
     "extends": "../../package.json"

@@ -74,8 +74,8 @@ const categoryIds = new Set<string>(
 )
 
 export const excludedSlugs = new Set([
-  'uilib/components/fragments',
-  'uilib/components/overview',
+  'web/components/fragments',
+  'web/components/overview',
 ])
 
 export type ComponentCatalogEntry = {
@@ -143,16 +143,25 @@ export function loadComponentCatalog(
 async function buildComponentCatalog(
   docsRoot: string
 ): Promise<ComponentCatalog> {
-  const componentsRoot = path.join(docsRoot, 'uilib', 'components')
+  const catalogRoots = [
+    path.join(docsRoot, 'web', 'components'),
+    path.join(docsRoot, 'web', 'extensions'),
+    path.join(docsRoot, 'uilib', 'components'),
+    path.join(docsRoot, 'uilib', 'extensions'),
+  ]
   const entries: ComponentCatalogEntry[] = []
 
-  let files: string[]
-
-  try {
-    files = await findMdxFiles(componentsRoot)
-  } catch {
-    files = []
-  }
+  const files = (
+    await Promise.all(
+      catalogRoots.map(async (root) => {
+        try {
+          return await findMdxFiles(root)
+        } catch {
+          return []
+        }
+      })
+    )
+  ).flat()
 
   for (const filePath of files) {
     const relativePath = path
@@ -160,7 +169,7 @@ async function buildComponentCatalog(
       .replace(/\\/g, '/')
     const noExt = relativePath.replace(/\.[^/.]+$/, '')
 
-    if (excludedSlugs.has(noExt)) {
+    if (excludedSlugs.has(noExt.replace(/^uilib\//, 'web/'))) {
       continue
     }
 
@@ -170,12 +179,20 @@ async function buildComponentCatalog(
       continue
     }
 
+    if (
+      /^(web|uilib)\/extensions\//.test(noExt) &&
+      noExt.split('/').length !== 3
+    ) {
+      continue
+    }
+
     const title =
       typeof frontmatter.title === 'string' ? frontmatter.title.trim() : ''
 
     if (
       !title ||
       frontmatter.draft === true ||
+      frontmatter.route === false ||
       frontmatter.hideInMenu === true
     ) {
       continue

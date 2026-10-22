@@ -1,0 +1,65 @@
+---
+fullscreen: true
+hideInMenu: true
+search: false
+redirect_from:
+  - /uilib/components/list/visual-tests/text-layout
+---
+
+import { Button, Filter, List, Space } from '@dnb/eufemia/src'
+
+{['legacy', 'css'].map((layoutEngine) => (
+
+  <List.Container key={layoutEngine} data-testid={layoutEngine}>
+    <List.Item.Basic layoutEngine={layoutEngine} data-testid="interpolation">
+      Account {123} has {0} transactions
+    </List.Item.Basic>
+    <List.Item.Basic layoutEngine={layoutEngine} data-testid="fragment">
+      <>Account {123} has {0} transactions</>
+    </List.Item.Basic>
+    <List.Item.Basic layoutEngine={layoutEngine} pending data-testid="pending">
+      Account {123} has {0} transactions
+    </List.Item.Basic>
+    <List.Item.Basic layoutEngine={layoutEngine} innerSpace={{ left: 'large', right: 'large' }} data-testid="custom-padding">
+      Custom row padding
+    </List.Item.Basic>
+    <List.Item.Basic layoutEngine={layoutEngine} data-testid="custom-content">
+      <Space innerSpace="large" style={{ background: 'rgb(240, 240, 240)' }}>
+        <Button text="Custom content" />
+      </Space>
+    </List.Item.Basic>
+    <List.Item.Basic layoutEngine={layoutEngine} data-testid="custom-space">
+      <Space innerSpace="large">Custom spaced text</Space>
+    </List.Item.Basic>
+    <List.Item.Basic layoutEngine={layoutEngine} data-testid="filter">
+      <Filter.Root>
+        <Filter.Toolbar>
+          <Filter.Search label="Search" />
+        </Filter.Toolbar>
+      </Filter.Root>
+    </List.Item.Basic>
+    <List.Item.Basic layoutEngine={layoutEngine} data-testid="nested-cells">
+      <Space>
+        <List.Cell.Title>Nested title</List.Cell.Title>
+        <List.Cell.End>Value</List.Cell.End>
+      </Space>
+    </List.Item.Basic>
+    <List.Item.Basic layoutEngine={layoutEngine} data-testid="hidden" hidden>
+      Hidden row
+    </List.Item.Basic>
+  </List.Container>
+))}
+
+<List.Container id="text-layout-more" visibleCount={1} openOnFind={false}>
+  <List.Item.Basic>Visible row</List.Item.Basic>
+  <List.Item.Basic>Hidden by visibleCount</List.Item.Basic>
+</List.Container>
+<List.ShowMoreButton id={'text-layout-more'} />
+
+<List.Item.Basic
+  element="span"
+  layoutEngine="css"
+  data-testid="standalone"
+>
+  Standalone text
+</List.Item.Basic>

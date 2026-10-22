@@ -1,10 +1,15 @@
 ---
-title: 'WCAG Accessibility'
-contentTitle: 'Accessibility, Inclusiveness, and WCAG'
-icon: 'accessibility'
+title: WCAG Accessibility
+contentTitle: Accessibility, Inclusiveness, and WCAG
 redirect_from:
   - /quickguide-designer/checklist
   - /quickguide-designer/accessibility/checklist
+navigation:
+  parent: design-language
+  title: Accessibility
+  order: 8
+  kind: group
+  pageTitle: Accessible design
 ---
 
 Accessibility affects all users, not just those with stereotypical disabilities. The extra work that may be required to ensure good accessibility in DNB applications and services will be worth it.
@@ -100,8 +105,8 @@ Responsive components and layout design should be planned from the beginning and
 
 There are several situations where we need to help the user to overcome focus management. The two most important are:
 
-- If your page contains large parts of content (tables, lists, etc.), you need to give the user, when using a keyboard for navigation, the ability to skip these parts – similar to a Skip-Link. Use the [SkipContent](/uilib/components/skip-content) component to handle such situations.
-- If you open a context menu or something similar, you need to set focus actively via JavaScript in order to let the user continue the correct tab placement and order. You may consider if this [focus-helper](/uilib/usage/accessibility/focus/#focus-helper) could help you out with your focus management.
+- If your page contains large parts of content (tables, lists, etc.), you need to give the user, when using a keyboard for navigation, the ability to skip these parts – similar to a Skip-Link. Use the [SkipContent](/web/components/skip-content) component to handle such situations.
+- If you open a context menu or something similar, you need to set focus actively via JavaScript in order to let the user continue the correct tab placement and order. You may consider if this [focus-helper](/web/usage/accessibility/focus/#focus-helper) could help you out with your focus management.
 
 ### Where should the focus start on the first page initialization?
 

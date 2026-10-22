@@ -44,8 +44,8 @@ declare module 'virtual:portal-pages' {
    *
    * `*` matches within one path segment, `**` matches any number of them:
    *
-   *   globPath(node, 'uilib/elements/*')       direct children
-   *   globPath(node, 'uilib/elements/**')      any depth
+   *   globPath(node, 'web/elements/*')       direct children
+   *   globPath(node, 'web/elements/**')      any depth
    */
   export function globPath(node: MdxNode, pattern: string): boolean
 }
@@ -63,6 +63,7 @@ declare module 'virtual:scroll-position' {
   export function saveScrollPosition(): void
   export function restoreScrollPosition(options?: {
     smooth?: boolean
+    restoreWindow?: boolean
   }): void
   export function useScrollPosition(): void
 }

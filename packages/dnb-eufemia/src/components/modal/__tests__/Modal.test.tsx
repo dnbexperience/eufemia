@@ -1580,6 +1580,76 @@ describe('Modal component', () => {
     ).not.toBeInTheDocument()
   })
 
+  it('honors controlled opening during a pending close on an inactive modal', () => {
+    const wasTest = window['IS_TEST']
+    window['IS_TEST'] = false
+    vi.useFakeTimers()
+    try {
+      const { rerender, unmount } = render(
+        <Modal open={false} animationDuration={100} noAnimation={false}>
+          Initial content
+        </Modal>
+      )
+      rerender(
+        <Modal open={false} animationDuration={100} noAnimation={false}>
+          Menu content
+        </Modal>
+      )
+      expect(
+        document.querySelector('.dnb-modal__content')
+      ).not.toBeInTheDocument()
+      rerender(
+        <Modal open animationDuration={100} noAnimation={false}>
+          Menu content
+        </Modal>
+      )
+      act(() => {
+        vi.advanceTimersByTime(200)
+      })
+      expect(
+        document.querySelector('.dnb-modal__content')
+      ).toBeInTheDocument()
+      unmount()
+    } finally {
+      window['IS_TEST'] = wasTest
+      vi.useRealTimers()
+    }
+  })
+
+  it('honors controlled reopening during its close transition', () => {
+    const wasTest = window['IS_TEST']
+    window['IS_TEST'] = false
+    vi.useFakeTimers()
+    try {
+      const { rerender, unmount } = render(
+        <Modal open animationDuration={100} noAnimation={false}>
+          <DialogContent>Menu content</DialogContent>
+        </Modal>
+      )
+      act(() => vi.advanceTimersByTime(200))
+      fireEvent.click(document.querySelector('.dnb-modal__close-button'))
+      rerender(
+        <Modal open={false} animationDuration={100} noAnimation={false}>
+          <DialogContent>Menu content</DialogContent>
+        </Modal>
+      )
+      rerender(
+        <Modal open animationDuration={100} noAnimation={false}>
+          <DialogContent>Menu content</DialogContent>
+        </Modal>
+      )
+      act(() => vi.advanceTimersByTime(200))
+
+      expect(
+        document.querySelector('.dnb-modal__content')
+      ).toBeInTheDocument()
+      unmount()
+    } finally {
+      window['IS_TEST'] = wasTest
+      vi.useRealTimers()
+    }
+  })
+
   it('can be mounted from within another component', () => {
     const TestCustomTrigger = () => {
       const [count, setCount] = useState(0)

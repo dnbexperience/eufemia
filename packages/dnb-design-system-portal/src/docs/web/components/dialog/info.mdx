@@ -1,0 +1,66 @@
+---
+showTabs: true
+redirect_from:
+  - /uilib/components/dialog/info
+---
+
+import InlineImg from 'dnb-design-system-portal/src/shared/tags/Img'
+import DialogConfirmExample from 'Docs/web/components/dialog/assets/dialog_confirm.png'
+import DialogInformExample from 'Docs/web/components/dialog/assets/dialog_inform.png'
+
+## Import
+
+```tsx
+import { Dialog } from '@dnb/eufemia'
+```
+
+## Description
+
+The Dialog component is a [Modal](/web/components/modal) variation that appears at the center of the screen. The Dialog has similar functionality to a traditional popup window. Similar to Modal, it has to be triggered by the user to appear. Typical usage would be to read an explanation, then close it.
+
+See [Motion: enter and exit](/quickguide-designer/motion#enter-and-exit) for a visual study of Dialog movement.
+
+## Relevant links
+
+- [Figma](https://www.figma.com/design/cdtwQD8IJ7pTeE45U148r1/%F0%9F%92%BB-Eufemia---Web?node-id=21007-9783)
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/dialog)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/components/dialog)
+
+### Variants
+
+There are two variants of the Dialog component: `information` and `confirmation`.
+
+<InlineImg
+  height="230"
+  width="auto"
+  src={DialogInformExample}
+  caption="Example of an informational Dialog"
+/>
+<InlineImg
+  height="230"
+  width="auto"
+  src={DialogConfirmExample}
+  caption="Example of a confirmation Dialog"
+/>
+
+The informational variant (`information`) is used for informational purposes, for example explaining a word or something on the page. It has to be triggered by the user to appear. Typical usage would be to read an explanation, then close it.
+
+The confirmation variant (`confirmation`) is used when some action is needed, or if we need to inform the user of something without them triggering it. A couple of examples would be a scenario where the user confirms deleting something, or if the user has been logged out automatically and we need to inform them, or a cookie consent dialog.
+
+### Parts in Dialog
+
+To provide custom content to parts of the Dialog, a set of component parts are provided:
+
+- `<Dialog.Navigation>`: The navigation field at the top of the component, default with a close button (Equal to the property `navContent`).
+- `<Dialog.Header>`: The header field of the component, where the `title` will appear (Equal to the property `headerContent`).
+- `<Dialog.Action>`: An optional field for buttons at the bottom of the component. This field will appear by default for variant `confirmation`.
+
+### More detailed information
+
+For more details regarding the component functionality, check out the [Modal documentation](/web/components/modal).
+
+## Root Element (React Portal)
+
+The Dialog component uses [PortalRoot](/web/components/portal-root) internally through Modal to render its content. See the [PortalRoot documentation](/web/components/portal-root) for information on how to control where the portal content appears in the DOM, and for the [BrowserTranslate helper](/web/components/portal-root/#browsertranslate-helper-google-translate) when browser translation tools such as Google Translate should not modify content rendered through PortalRoot.
+
+<RelatedComponents />

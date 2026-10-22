@@ -1,0 +1,311 @@
+---
+title: Print and document styles
+description: Opt-in pagination for printable content and separate branded document typography.
+status: 'beta'
+redirect_from:
+  - /uilib/usage/customisation/styling/document-styles
+navigation:
+  parent: web/usage/customisation/styling
+  title: Print and document styles
+  order: 4
+  platform: web
+---
+
+import { DocumentLetter } from './document-styles/Examples'
+import { Space } from '@dnb/eufemia/src/components'
+
+> **Beta:** Print and document styles are subject to change. Class names,
+> typography, spacing and print behavior may change as we gather feedback
+> from document-production teams.
+
+Eufemia provides separate stylesheets for print behavior and document
+formatting. Use either on its own or combine them. Neither imports the
+other or is included in the default Eufemia bundle. Import the stylesheet
+and apply its scope to enable it. Both work without React.
+
+These styles provide pagination for selected printable content and an
+optional document typography profile. They do not make an entire app
+print-ready or provide print representations for every Eufemia component.
+Normal component styles do not automatically enable this print behavior.
+
+<Space bottom="large">
+
+| Need                                                   | Import                                 | Scope                     |
+| ------------------------------------------------------ | -------------------------------------- | ------------------------- |
+| Print behavior with existing typography and spacing    | `dnb-ui-print.min.css`                 | `.dnb-print`              |
+| Document typography and spacing on screen and in print | `dnb-ui-document.min.css`              | `.dnb-document`           |
+| Document formatting with print/PDF behavior            | Both, with `dnb-ui-print.min.css` last | `.dnb-document.dnb-print` |
+
+</Space>
+
+SCSS imports are also available through `@dnb/eufemia/style/print` and
+`@dnb/eufemia/style/document`. For [isolated styles](/web/usage/customisation/styling/style-isolation/),
+use the corresponding `--isolated.min.css` files within `IsolatedStyleScope`.
+
+## Print styles
+
+Import `dnb-ui-print` after Eufemia core and your selected brand styles:
+
+```js
+import '@dnb/eufemia/style/dnb-ui-core.min.css'
+import '@dnb/eufemia/style/themes/ui/ui-theme-basis.min.css'
+import '@dnb/eufemia/style/dnb-ui-print.min.css'
+```
+
+Wrap the content you want to apply pagination to in `.dnb-print`. This
+works with existing app typography and does not require `.dnb-document`
+or the document stylesheet:
+
+```html
+<section class="dnb-print">
+  <!-- Your existing content -->
+</section>
+```
+
+The print stylesheet preserves your existing typography, spacing, brand
+palette and wrapper layout. It works independently of `dnb-ui-document`
+and does not change screen styles.
+Configure your PDF renderer to use print media. The scope does not exclude
+content elsewhere in the app from printing; the app owns that selection.
+
+The print stylesheet only applies under `@media print`. Within `.dnb-print`,
+it keeps headings with following content, requests repeating table headers
+and footers, and asks that table rows stay together when they fit on a page.
+It removes scrolling and clipping from Eufemia Table containers so rendered
+rows can flow across pages. Long documents and tables can span pages;
+pagination depends on the browser or PDF renderer.
+
+- Add `.dnb-print-hidden` to controls and other screen-only content. This
+  helper works inside or outside `.dnb-print`.
+- Use `.dnb-print__keep-together` inside the scope for a short group, such
+  as a signature, that belongs together.
+- Use `.dnb-print__page-break` inside the scope to start a section on the
+  next page.
+
+The app decides how navigation, buttons, form values, expanded sections,
+dialogs and other interactive content appear in print. The stylesheet does
+not hide controls automatically, expand collapsed content, render
+virtualized rows, or convert interactive components to static content.
+
+Page size, margins, repeated page footers, page numbering and envelope geometry belong to
+the template and PDF renderer. The shared styles do not impose an `@page`
+size or margin. For example, an A4 template can add:
+
+```css
+@page letter {
+  size: A4;
+  margin: 20mm;
+}
+
+@media print {
+  .letter {
+    page: letter;
+  }
+}
+```
+
+### Color scheme and paper surface
+
+Print output requires a **light brand theme**. Importing `dnb-ui-print`
+does **not** disable dark mode or convert dark tokens to a light palette,
+even when the browser switches to print media. Setting the CSS
+`color-scheme` property alone does not replace those tokens.
+
+For React, set the scheme on a Theme wrapper around the printable content:
+
+```tsx
+<Theme colorScheme="light">
+  <section className="dnb-print">{/* Printable content */}</section>
+</Theme>
+```
+
+For HTML without React, apply `.eufemia-theme__color-scheme--light` on a
+wrapper around the printable content, with the selected brand's light
+theme stylesheet loaded. This wrapper uses the light scheme on screen
+as well as in print. A nested light wrapper lets the surrounding app keep
+its selected color scheme. The document preview uses this approach.
+
+If the same content must be dark on screen and light only during printing,
+the app must currently provide a dedicated light printable view or a
+complete brand-specific print theme. Automatic print-only theme conversion
+is outside this stylesheet's support. Do not reset only a few color tokens.
+
+The template owns the paper background, text color, width, overflow and
+shadows. Use the light theme's background and text tokens for the paper
+surface. Brand accents and logos retain their colors; background printing
+depends on the renderer's settings. Check that text, links, borders and
+status indicators remain readable with background graphics disabled and in
+grayscale. Essential meaning must not depend on color alone.
+Load fonts before generating the PDF and verify font embedding and page
+breaks in the actual production renderer.
+
+## Document styles
+
+For letters and document production, `dnb-ui-document` adds smaller
+typography and document spacing while retaining the selected brand's fonts,
+weights and colors. It applies on screen and in print.
+
+### Import document formatting
+
+Import it after Eufemia core and your brand styles:
+
+```js
+import '@dnb/eufemia/style/dnb-ui-core.min.css'
+import '@dnb/eufemia/style/themes/ui/ui-theme-basis.min.css'
+import '@dnb/eufemia/style/dnb-ui-document.min.css'
+```
+
+It works without `dnb-ui-print`. To combine document formatting with the
+print behavior described above, add the print stylesheet **after** the
+document stylesheet:
+
+```js
+import '@dnb/eufemia/style/dnb-ui-print.min.css'
+```
+
+Also add `.dnb-print` to the document wrapper:
+
+```html
+<article class="dnb-document dnb-print">
+  <!-- Document typography with print pagination -->
+</article>
+```
+
+### Document scope
+
+Wrap the document in `.dnb-document`, inside the selected brand's theme.
+Application content outside this wrapper retains its normal typography.
+`.dnb-document` activates document formatting only. Print pagination
+requires both the print import and `.dnb-print`. Neither scope imports
+styles or enables the other.
+
+### React teams
+
+Prefer Eufemia's `H1`, `H2`, `H3` and `P` components in React projects.
+They render semantic HTML and support Eufemia's spacing props, typography
+options and theme context. `H1` renders an `<h1>` by default; it is not a
+different heading level.
+
+Keep the brand on the existing Theme component. This example uses
+document formatting only:
+
+```tsx
+import { H1, H2, P } from '@dnb/eufemia/elements'
+import { Theme } from '@dnb/eufemia/shared'
+
+render(
+  <Theme brand="sbanken" colorScheme="light">
+    <article className="dnb-document" lang="nb">
+      <H1 bottom="small">Informasjon om avtalen din</H1>
+      <P>Hei Tobias,</P>
+      <H2 size="x-large">Dette gjelder for deg</H2>
+      <P>Takk for at du er kunde hos oss.</P>
+      <P className="dnb-document__signature">
+        Vennlig hilsen
+        <br />
+        Sbanken
+      </P>
+    </article>
+  </Theme>
+)
+```
+
+Choose heading levels for the document structure, not the desired font
+size. Use the `size` prop to select a visual size independently of the
+heading level. The example uses `bottom="small"` to add a `1rem` gap below
+the title.
+
+### HTML templates without React
+
+Use native `<h1>`, `<h2>` and `<p>` elements when your document renderer
+or templating system does not use React. The stylesheet supports these
+elements directly within `.dnb-document`, so React is not required:
+
+```html
+<article class="dnb-document" lang="nb">
+  <h1>Informasjon om avtalen din</h1>
+  <p>Hei Tobias,</p>
+  <p>Takk for at du er kunde hos oss.</p>
+  <p class="dnb-document__signature">Vennlig hilsen<br />DNB</p>
+</article>
+```
+
+Both approaches produce semantic headings. Use the approach that fits the
+project's rendering technology. To enable print pagination in either
+example, import `dnb-ui-print` and add `dnb-print` to the article's classes.
+Add `dnb-print__keep-together` to the signature to keep it on one page when
+it fits.
+
+### Typography and spacing
+
+<Space bottom="medium">
+
+| Role                                                             | Size at the default root | Line height |
+| ---------------------------------------------------------------- | ------------------------ | ----------- |
+| Body and salutation                                              | 11pt                     | 1.4         |
+| Native `h1` / React `size="xx-large"`                            | 14pt                     | 1.25        |
+| Native `h2` / React `size="x-large"`                             | 13pt                     | 1.25        |
+| Native `h3`, `h4` / React `size="large"`, `size="medium"` / lead | 12pt                     | 1.3         |
+| Signature and table cells                                        | 10pt                     | 1.4         |
+| Footer and return address                                        | 9pt                      | 1.4         |
+
+</Space>
+
+Paragraphs have a `0.75rem` bottom gap. Headings have `1.25rem` above and
+`0.5rem` below; a first heading has no top gap. Table cells use
+`0.375rem 0.5rem` padding. Explicit Eufemia Space properties take precedence
+over default paragraph and heading spacing.
+Explicit table alignment, vertical alignment and cell spacing options are
+also preserved. Table size variants use the document cell padding;
+`border={false}` (or `.dnb-table--no-border`) keeps cells borderless.
+
+React heading components retain their brand-specific default size mapping.
+For example, `H2` defaults to `large` for DNB and `x-large` for Sbanken.
+Set `size="x-large"` on `H2` to select the same 13pt document size across
+brands, as shown above. The native HTML heading sizes are fixed by the
+document profile; both approaches retain the selected brand's fonts.
+
+The profile reuses `--font-size-*` and `--line-height-*` variables. Values
+are expressed in `rem`, so the point equivalents assume a 16px root and
+normal PDF scaling. Browser font preferences still work. The profile does
+not change the root font size. Responsive typography modifiers use the
+document scale at every viewport size to keep pagination stable.
+
+Use `.dnb-document__signature` for 10pt signature text, and
+`.dnb-document__footer` and `.dnb-document__return-address` for 9pt text,
+including nested paragraphs. Greeting wording, logos, envelope calculations
+and positioning remain part of the template. Existing inline font sizes
+should be removed when migrating to the profile.
+Eufemia does not provide DNB Light or Noto Sans as part of this profile.
+
+### Footer layout and page numbers
+
+`.dnb-document__footer` controls typography only. It does not position the
+footer at the bottom of a page, repeat it across pages, or generate page
+numbers. The print rules for repeating `<tfoot>` apply to table footers,
+not document page footers.
+
+The template and PDF renderer own footer placement and page numbering.
+Align the footer with the document's content area and reserve enough space
+in the page margins for the footer and page numbers. Keep page numbers in
+a separate area from the footer text. Verify the layout with long content,
+multiple pages and each supported language.
+
+Use your PDF renderer's supported page-footer and page-counter features
+for output such as "Page 1 of 3". Support differs between renderers, so
+validate the result with the engine used in production. Reducing the font
+size does not correct a footer whose width or position exceeds the page's
+content area.
+
+## Style preview
+
+[Open the style preview](/web/usage/customisation/styling/document-styles/preview/)
+to switch brands, try a multi-page table and inspect print behavior. The
+fictional content and letter layout demonstrate the styles; they are not
+a document template. Eufemia provides the styles, while each project owns
+its document layout and content.
+
+These defaults are a proposed common baseline; final document design approval
+should use the production team's reference stylesheet.
+
+<DocumentLetter />

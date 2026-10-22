@@ -1,0 +1,74 @@
+---
+showTabs: true
+redirect_from:
+  - /uilib/elements/heading/demos
+---
+
+import {
+  HeadingBasicsExample,
+  HeadingTypographyExample,
+  HeadingTypographyXLargeExample,
+  HeadingVanillaHTMLExample,
+  HeadingModifiersExample,
+  HeadingProseMaxWidthExample,
+  HeadingProseMaxWidthProvider,
+  HeadingMarginCollapsingExample,
+  HeadingRegressionTest,
+  HeadingDarkSurfaceExample,
+} from 'Docs/web/elements/heading/Examples'
+
+## Demos
+
+### The most basic use of headings
+
+Just using the `H1, H2, etc.` components will give you the basic headings.
+
+<HeadingBasicsExample />
+
+### Heading typography using React JSX
+
+The visual size of a heading can be customized using the `size` property with values: `xx-large | x-large | large | medium | basis | small | x-small`
+
+<HeadingTypographyExample />
+
+By using the `<small>` element, we decrease the size one level (default size is `xx-large`):
+
+<HeadingTypographyXLargeExample />
+
+### Prose max width
+
+The `proseMaxWidth` property allows you to limit the width of heading text based on character count, creating optimal reading line lengths:
+
+<HeadingProseMaxWidthExample />
+
+#### Using Typography.Context
+
+Use `Typography.Context` to apply `proseMaxWidth` to multiple headings at once:
+
+<HeadingProseMaxWidthProvider />
+
+## Heading styles in vanilla HTML
+
+<HeadingVanillaHTMLExample />
+
+### Additional Heading modifiers
+
+<HeadingModifiersExample />
+
+### Example of margin collapsing
+
+Only the largest margin takes effect.
+
+<HeadingMarginCollapsingExample />
+
+### Dark surface
+
+Use [Section](/web/components/section/demos/#dark-surface) or [Theme.Context](/web/usage/customisation/theming/theme#surface-property) with `surface="dark"` to provide dark surface context to supporting components.
+
+Headings automatically adapt their color when rendered on a dark surface:
+
+<HeadingDarkSurfaceExample />
+
+<VisibleWhenVisualTest>
+  <HeadingRegressionTest />
+</VisibleWhenVisualTest>

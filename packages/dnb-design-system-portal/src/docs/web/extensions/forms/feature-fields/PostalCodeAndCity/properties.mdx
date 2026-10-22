@@ -1,0 +1,29 @@
+---
+showTabs: true
+redirect_from:
+  - /uilib/extensions/forms/feature-fields/PostalCodeAndCity/properties
+---
+
+import TranslationsTable from 'dnb-design-system-portal/src/shared/parts/TranslationsTable'
+import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
+import { FieldBlockProperties } from '@dnb/eufemia/src/extensions/forms/FieldBlock/FieldBlockDocs'
+import { PostalCodeAndCityProperties } from '@dnb/eufemia/src/extensions/forms/Field/PostalCodeAndCity/PostalCodeAndCityDocs'
+
+## Properties
+
+### Field-specific properties
+
+<PropertiesTable props={PostalCodeAndCityProperties} />
+
+### General properties
+
+<PropertiesTable
+  props={FieldBlockProperties}
+  pick={['width', 'help', '[Space](/web/layout/space/properties)']}
+/>
+
+## Translations
+
+<TranslationsTable
+  localeKey={['PostalCodeAndCity', 'PostalCode', 'City', 'Field']}
+/>

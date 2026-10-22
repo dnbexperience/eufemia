@@ -209,7 +209,7 @@ export default function PortalToolsMenu({
             labelDescription={
               <>
                 Read more about{' '}
-                <Anchor href="/uilib/usage/customisation/theming/">
+                <Anchor href="/web/usage/customisation/theming/">
                   theming
                 </Anchor>
               </>
@@ -219,7 +219,7 @@ export default function PortalToolsMenu({
             labelDescription={
               <>
                 Read more about{' '}
-                <Anchor href="/uilib/usage/customisation/localization/">
+                <Anchor href="/web/usage/customisation/localization/">
                   localization
                 </Anchor>
               </>
@@ -231,7 +231,7 @@ export default function PortalToolsMenu({
             labelDescription={
               <>
                 Read more about{' '}
-                <Anchor href="/uilib/usage/customisation/theming/">
+                <Anchor href="/web/usage/customisation/theming/">
                   theming
                 </Anchor>
               </>

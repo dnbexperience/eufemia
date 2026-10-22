@@ -12,7 +12,7 @@ This documentation reflects Eufemia **v{{VERSION}}**, generated {{GENERATED_AT}}
 
 ## Quick Reference
 
-- [Eufemia quick reference]({{BASE}}/uilib/usage/first-steps/quick-reference.md): A compact, practical guide with setup, components, forms, and key conventions.
+- [Eufemia quick reference]({{BASE}}/web/usage/first-steps/quick-reference.md): A compact, practical guide with setup, components, forms, and key conventions.
 
 ## Machine-readable docs
 
@@ -37,6 +37,6 @@ The docs links are referenced from each page's frontmatter and are intended for 
 
 For any page (component, field, value, etc.):
 
-- Open the page markdown (e.g. `/uilib/components/<name>.md`).
+- Open the page markdown (e.g. `/web/components/<name>.md`).
 - Look at the demos and examples how to use the component.
 - Read the JSON blocks in the markdown to get the API (props, events, translations).

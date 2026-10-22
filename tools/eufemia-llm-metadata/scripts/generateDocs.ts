@@ -1,5 +1,6 @@
 import path from 'path'
 import fs from 'fs-extra'
+import matter from '@11ty/gray-matter'
 import { fileURLToPath, pathToFileURL } from 'url'
 import { isAllowed, loadRobots } from '../src/robots.ts'
 import {
@@ -89,7 +90,11 @@ export async function generateDocs() {
   >()
   for (const file of entryFiles) {
     const rel = path.relative(docsRoot, file)
-    const { slug } = toSlugAndDir(rel, '')
+    const { slug } = toSlugAndDir(
+      rel,
+      '',
+      matter(await fs.readFile(file, 'utf8')).data.slug
+    )
 
     if (!isAllowed(slug, robots)) {
       continue

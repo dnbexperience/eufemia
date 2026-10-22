@@ -1,0 +1,94 @@
+---
+showTabs: true
+redirect_from:
+  - /uilib/components/button/demos
+---
+
+import {
+  ButtonPrimary,
+  ButtonSecondary,
+  ButtonDisabled,
+  ButtonErrorState,
+  ButtonPrimaryWithIcon,
+  ButtonPrimaryWithIconLeft,
+  ButtonTertiary,
+  ButtonTertiaryTop,
+  ButtonTertiaryWrap,
+  ButtonAnchor,
+  ButtonCustomContent,
+  ButtonIcon,
+  ButtonOnDarkSurface,
+  SvgInButton,
+} from 'Docs/web/components/button/Examples'
+
+## Demos
+
+### Primary button
+
+<ButtonPrimary />
+
+### Secondary button
+
+<ButtonSecondary />
+
+### Primary button with icon
+
+<ButtonPrimaryWithIcon />
+
+### Primary button with icon on left
+
+<ButtonPrimaryWithIconLeft />
+
+### Tertiary button
+
+The tertiary button variant does support newlines while the icon is placed top aligned. You can enable multiline support with the `wrap` property.
+
+<ButtonTertiary />
+
+Tertiary button with **top** placed icon.
+
+<ButtonTertiaryTop />
+
+Tertiary button with long text and text `wrap` enabled.
+
+<ButtonTertiaryWrap />
+
+### Anchor button
+
+<ButtonAnchor />
+
+### Disabled buttons
+
+<ButtonDisabled />
+
+### Icon button
+
+When the button has no text an `aria-label` attribute is required for accessibility. And a `title` attribute is recommended for mouse hover.
+
+We automatically add an `aria-label` with the same value as `title` if `text` and `children` properties are undefined. So in most cases you only have to set the `title` property.
+
+<ButtonIcon />
+
+### Custom button content
+
+This is, as all of the demos, only an example of how to achieve various needs, and not that you should do it.
+
+<ButtonCustomContent />
+
+### Button on dark surface
+
+Use [Section](/web/components/section/demos/#dark-surface) or [Theme.Context](/web/usage/customisation/theming/theme#surface-property) with `surface="dark"` to provide dark surface context to supporting components.
+
+<ButtonOnDarkSurface />
+
+### Button with custom SVG
+
+**NB:** Ensure you add an `aria-label` on the SVG for accessibility reasons.
+
+<SvgInButton />
+
+<VisibleWhenVisualTest>
+
+<ButtonErrorState />
+
+</VisibleWhenVisualTest>

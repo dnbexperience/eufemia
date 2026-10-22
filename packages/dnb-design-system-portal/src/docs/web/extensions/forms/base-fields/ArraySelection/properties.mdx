@@ -1,0 +1,22 @@
+---
+showTabs: true
+redirect_from:
+  - /uilib/extensions/forms/base-fields/ArraySelection/properties
+---
+
+import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
+import { ArraySelectionProperties } from '@dnb/eufemia/src/extensions/forms/Field/ArraySelection/ArraySelectionDocs'
+import { FieldProperties } from '@dnb/eufemia/src/extensions/forms/Field/FieldDocs'
+
+## Properties
+
+### Field-specific properties
+
+<PropertiesTable props={ArraySelectionProperties} showDefaultValue />
+
+### General properties
+
+<PropertiesTable
+  props={FieldProperties}
+  valueType="Array<string | number>"
+/>

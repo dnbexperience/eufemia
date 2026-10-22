@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
+import { describe, it, expect, vi } from 'vitest'
 
 vi.mock('vite', () => ({
   transformWithOxc: vi.fn(async (code: string) => ({ code })),
@@ -64,11 +64,11 @@ describe('scroll-position plugin', () => {
       return await load('\0virtual:scroll-position')
     }
 
-    it('configures the sidebar menu element', async () => {
+    it('leaves sidebar persistence to SidebarMenu', async () => {
       const code = await loadRuntimeCode()
 
-      expect(code).toContain('#portal-sidebar-menu')
-      expect(code).toContain('is-active')
+      expect(code).not.toContain('#portal-sidebar-menu')
+      expect(code).not.toContain('ensureInView')
     })
 
     it('exports saveScrollPosition function', async () => {
@@ -113,79 +113,7 @@ describe('scroll-position plugin', () => {
       const code = await loadRuntimeCode()
 
       expect(code).toContain('smooth')
-      expect(code).toContain('scrollBehavior')
-    })
-
-    it('has ensureInView logic for active menu items', async () => {
-      const code = await loadRuntimeCode()
-
-      expect(code).toContain('ensureInView')
-      expect(code).toContain('offsetTop')
-    })
-  })
-
-  describe('save/restore behavior', () => {
-    let sidebarEl: HTMLElement
-
-    beforeEach(() => {
-      sessionStorage.clear()
-
-      sidebarEl = document.createElement('nav')
-      sidebarEl.id = 'portal-sidebar-menu'
-      Object.defineProperty(sidebarEl, 'scrollTop', {
-        value: 0,
-        writable: true,
-      })
-      document.body.appendChild(sidebarEl)
-    })
-
-    afterEach(() => {
-      document.body.innerHTML = ''
-      sessionStorage.clear()
-    })
-
-    it('saves scrollTop to sessionStorage', () => {
-      sidebarEl.scrollTop = 150
-
-      // Simulate saveScrollPosition logic
-      const selector = '#portal-sidebar-menu'
-      const el = document.querySelector(selector)
-      if (el) {
-        sessionStorage.setItem('scroll-' + selector, String(el.scrollTop))
-      }
-
-      expect(sessionStorage.getItem('scroll-#portal-sidebar-menu')).toBe(
-        '150'
-      )
-    })
-
-    it('restores scrollTop from sessionStorage', () => {
-      sessionStorage.setItem('scroll-#portal-sidebar-menu', '200')
-
-      // Simulate restoreScrollPosition logic
-      const selector = '#portal-sidebar-menu'
-      const el = document.querySelector(selector)
-      if (el) {
-        const stored = parseFloat(
-          sessionStorage.getItem('scroll-' + selector) || '0'
-        )
-        ;(el as HTMLElement).scrollTop = stored
-      }
-
-      expect(sidebarEl.scrollTop).toBe(200)
-    })
-
-    it('defaults to 0 when no stored value exists', () => {
-      const selector = '#portal-sidebar-menu'
-      const el = document.querySelector(selector)
-      if (el) {
-        const stored = parseFloat(
-          sessionStorage.getItem('scroll-' + selector) || '0'
-        )
-        ;(el as HTMLElement).scrollTop = stored
-      }
-
-      expect(sidebarEl.scrollTop).toBe(0)
+      expect(code).toContain("behavior: smooth ? 'smooth' : 'auto'")
     })
   })
 

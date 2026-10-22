@@ -1,0 +1,31 @@
+---
+title: Feature fields
+order: 16
+breadcrumb:
+  - text: Forms
+    href: /web/extensions/forms/
+  - text: Feature fields
+    href: /web/extensions/forms/feature-fields/
+redirect_from:
+  - /uilib/extensions/forms/feature-fields
+navigation:
+  parent: web/extensions/forms
+  title: Feature fields
+  order: 12
+  kind: group
+  platform: web
+  pageTitle: Choosing feature fields
+---
+
+import ListFeatureFieldComponents from './feature-fields/ListFeatureFieldComponents'
+
+Feature fields are fields with data-specific functionality built on top of base [field components](/web/extensions/forms/base-fields/).
+
+```jsx
+import { Field } from '@dnb/eufemia/extensions/forms'
+render(<Field.Email />)
+```
+
+Here is also a list of [all available fields](/web/extensions/forms/all-fields/).
+
+<ListFeatureFieldComponents />

@@ -1,0 +1,183 @@
+---
+title: CSS classes
+order: 1
+redirect_from:
+  - /uilib/helpers/classes
+navigation:
+  parent: web/developer-helpers
+  title: CSS classes
+  order: 2
+  platform: web
+---
+
+import * as Examples from 'Docs/web/helpers/Examples'
+import { SkipLinkExample } from 'Docs/web/usage/accessibility/Examples'
+
+## CSS helper classes
+
+Reusing classes in the markup instead of using SCSS extends or _mixins_ will prevent duplication in `@dnb/eufemia`. This approach also benefits your application by reusing these helper classes.
+
+## Core style
+
+`dnb-core-style`
+
+Provides the core Body Style inside a wrapper, making it available for all its children. The Body Style includes the correct color, line-height, font, and a CSS reset, among other styles.
+
+<Examples.CoreStyle />
+
+## Tab focus
+
+`dnb-tab-focus`
+
+Removes the default focus outline from a focusable element and adds a custom visual focus state when focused by a tab key.
+There is also:
+
+- `dnb-mouse-focus`
+- `dnb-focus-ring`
+- `dnb-no-focus`
+
+<Examples.TabFocus />
+
+## Skip link
+
+`dnb-skip-link`
+
+A default Skip Link style for adding a link at the top of each page that goes directly to the main content area.
+
+<SkipLinkExample />
+
+```html
+<body>
+  <a class="dnb-skip-link" href="#content-id">Skip to content</a>
+  <header>
+    <nav>
+      <!-- Nav links or content to skip -->
+    </nav>
+  </header>
+  <main id="content-id">
+    <!-- Content goes here -->
+  </main>
+</body>
+```
+
+More details in the [Focus Section](/web/usage/accessibility/focus#skip-link).
+
+## Spacing
+
+`dnb-spacing`
+
+Sets default spacing (using _margin_) on all HTML elements inside the container with this style. The default spacing is `margin-bottom: 1.5rem`, but specific margins are defined for headings, lists, and tables.
+
+```html
+<article class="dnb-spacing">
+  <!-- DNB spacings -->
+  <h1 class="dnb-h--xx-large">
+    e.g. I have now the Eufemia spacing (margin)
+  </h1>
+  <p class="dnb-p">👉 Me as well</p>
+</article>
+```
+
+More details in [Styling](/web/usage/customisation/styling#spacing).
+
+## Scrollbar appearance
+
+`dnb-scrollbar-appearance`
+
+Define the DNB scrollbar appearance, including the color `--color-emerald-green` with `transparent`.
+
+NB: Browser support is not fully covered (2021).
+
+## Screen Reader (sr) only
+
+`dnb-sr-only`
+
+Visually hide an element while keeping it accessible to screen readers. (_sr_ stands for _Screen Reader_)
+
+<Examples.ScreenReaderOnly />
+
+## Page background
+
+`dnb-page-background`
+
+Sets the page background color using the `--token-color-background-page-background` design token. Use this class on a root element (such as `body` or a wrapper) to ensure a themed background color that adapts to light and dark modes.
+
+## Drop shadow
+
+`dnb-drop-shadow`
+
+Adds a default drop shadow (`box-shadow: 0 8px 16px rgba(51, 51, 51, 0.08)`) to the component. The current shadow specification is designed to be softer and more blurred.
+
+### CSS properties \{#drop-shadow-css-properties\}
+
+The DNB Drop shadow is also available as a CSS Custom Property:
+
+```ts
+import properties from '@dnb/eufemia/style/themes/ui/properties.js'
+
+const cssBoxShadow = properties['--shadow-default']
+```
+
+If you only want to apply parts of the property, these are available as well:
+
+- `--shadow-default-x: 0;`
+- `--shadow-default-y: 8px;`
+- `--shadow-default-blur-radius: 16px;`
+- `--shadow-default-color: rgba(51, 51, 51, 0.08);`
+
+## Sharp drop shadow
+
+`dnb-sharp-drop-shadow`
+
+Adds a smaller but sharper drop shadow (`box-shadow: 0 1px 6px rgba(0, 0, 0, 0.16)`) to the component. Designed for hovering elements such as dropdowns or calendars.
+
+### CSS properties \{#sharp-drop-shadow-css-properties\}
+
+The DNB Sharp drop shadow is also available as a CSS Custom Property:
+
+```ts
+import properties from '@dnb/eufemia/style/themes/ui/properties.js'
+
+const cssBoxShadow = properties['--shadow-sharp']
+```
+
+If you only want to apply parts of the property, these are available as well:
+
+- `--shadow-sharp-x: 0;`
+- `--shadow-sharp-y: 1px;`
+- `--shadow-sharp-blur-radius: 6px;`
+- `--shadow-sharp-color: rgba(0, 0, 0, 0.16);`
+
+## Responsive component
+
+`dnb-responsive-component`
+
+Makes some form components, like [Input](/web/components/input), react to small-sized screens. Since this can have negative effects when enabled by default, you can enable it optionally using this helper class.
+
+## Unstyled list
+
+`dnb-unstyled-list`
+
+Removes default styling for lists. Applies to the `ul` or `ol` elements.
+
+<Examples.UnstyledList />
+
+## Selection
+
+`dnb-selection`
+
+Applies custom `::selection` colors for better contrast and readability.
+
+This is automatically applied to every element whose class starts with `dnb-`. For other elements, you can add the `.dnb-selection` class manually to opt in.
+
+```scss
+background-color: var(--token-color-decorative-first-subtle);
+color: var(--token-color-text-neutral);
+text-shadow: none;
+```
+
+<Examples.Selection />
+
+## HTML class naming
+
+To ensure a consistent class structure and to ensure that the class is owned by the DNB UI Library, all classes in the UI Library are prefixed with `dnb-`. Read more about that in the [Naming conventions](/contribute/style-guides/naming).

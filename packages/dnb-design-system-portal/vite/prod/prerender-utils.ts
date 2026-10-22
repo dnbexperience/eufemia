@@ -152,11 +152,20 @@ export function getPageMeta(
 export function getRoutePreloads(
   url: string,
   ssrManifest: SSRManifest,
-  clientManifest?: ClientManifest | null
+  clientManifest?: ClientManifest | null,
+  sourcePath?: string
 ): { js: string[]; css: string[] } {
   const routePath = url.replace(/^\/|\/$/g, '') || 'index'
 
   const candidates = [
+    ...(sourcePath
+      ? [
+          sourcePath.replace(
+            'packages/dnb-design-system-portal/',
+            '../../'
+          ),
+        ]
+      : []),
     `../../src/docs/${routePath}.mdx`,
     `../../src/docs/${routePath}.tsx`,
     `../../src/docs/${routePath}/index.mdx`,
@@ -275,10 +284,6 @@ export function injectHtml(
   // before the browser paints — preventing a dark-mode FOUC.
   const contentScript = getContentScript()
 
-  // Restore sidebar scroll position before first paint so the menu
-  // doesn't flash at the top before jumping to the saved position.
-  const scrollRestoreScript = `(function(){try{var el=document.getElementById('portal-sidebar-menu');if(el){var s=parseFloat(sessionStorage.getItem('scroll-#portal-sidebar-menu')||'0');if(s){el.style.scrollBehavior='auto';el.scrollTop=s;el.style.scrollBehavior=''}}}catch(e){}})()`
-
   const persistedSidebarScript =
     /data-(?:inline-collapsed|open-items|scroll-position)-storage-key=/.test(
       appHtml
@@ -289,7 +294,7 @@ export function injectHtml(
   let html = template.replace(
     '<div id="root"></div>',
     () =>
-      `<div id="root">${appHtml}</div>\n\t<script>${contentScript};${scrollRestoreScript};${persistedSidebarScript}</script>`
+      `<div id="root">${appHtml}</div>\n\t<script>${contentScript};${persistedSidebarScript}</script>`
   )
 
   // Inject <link> tags for ALL brand theme CSS chunks.
@@ -424,12 +429,19 @@ export function injectHtml(
  * Uses both `<meta http-equiv="refresh">` and a canonical link
  * so search engines follow the redirect correctly.
  */
-export function buildRedirectHtml(redirectUrl: string): string {
+export function buildRedirectHtml(
+  redirectUrl: string,
+  fragments: Record<string, string> = {}
+): string {
   const url = escapeHtml(redirectUrl)
+  const target = JSON.stringify(redirectUrl).replaceAll('<', '\\u003c')
+  const fragmentMap = JSON.stringify(fragments).replaceAll('<', '\\u003c')
+  const script = `<script>var fragments = ${fragmentMap}; var key = location.hash.slice(1); var target = new URL(Object.prototype.hasOwnProperty.call(fragments, key) ? fragments[key] : ${target}, location.href); target.search = target.search || location.search; target.hash = target.hash || location.hash; location.replace(target.href);</script>`
 
   return [
     '<!DOCTYPE html>',
     '<html><head>',
+    script,
     `<meta http-equiv="refresh" content="0;url=${url}">`,
     `<link rel="canonical" href="${url}">`,
     '</head><body></body></html>',

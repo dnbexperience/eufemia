@@ -1,0 +1,71 @@
+---
+fullscreen: true
+hideInMenu: true
+search: false
+redirect_from:
+  - /uilib/components/list/visual-tests/action-footer
+---
+
+import { ActionWithFooter } from '../Examples'
+import { Anchor, Button, List } from '@dnb/eufemia/src'
+import { useState } from 'react'
+
+<ActionWithFooter />
+
+{[false, true].map((inset) => (
+
+  <List.Container key={String(inset)}>
+    <List.Item.Accordion title="Nested list" open>
+      <List.Item.Accordion.Content innerSpace={inset}>
+        <List.Container separated={!inset} data-testid={inset ? 'inset-list' : 'separated-list'}>
+          <List.Item.Action title="Row one" />
+          <List.Item.Action title="Row two" />
+        </List.Container>
+      </List.Item.Accordion.Content>
+    </List.Item.Accordion>
+  </List.Container>
+))}
+
+<List.Container data-testid="standalone-list">
+  <List.Item.Action title="Standalone row" />
+</List.Container>
+
+{['disabled', 'pending', 'inherited-disabled'].map((state) => (
+
+  <List.Container key={state} disabled={state === 'inherited-disabled'} data-testid={state}>
+    <List.Item.Action
+      title={state}
+      disabled={state === 'disabled' ? true : undefined}
+      pending={state === 'pending'}
+      footer={
+        <List.Cell.Footer>
+          Footer details
+          <Button text="Unavailable action" />
+          <Anchor href="/web/components/list/">Footer help</Anchor>
+        </List.Cell.Footer>
+      }
+    />
+  </List.Container>
+))}
+
+export const PendingFooter = () => {
+  const [pending, setPending] = useState(false)
+
+return (
+
+<List.Container data-testid="pending-footer">
+<List.Item.Action
+title="Payment"
+pending={pending}
+footer={
+<List.Cell.Footer>
+<Button text="Save" onClick={() => setPending(true)} />
+<Button text="Finish saving" onClick={() => setPending(false)} />
+</List.Cell.Footer>
+}
+/>
+</List.Container>
+)
+}
+
+<PendingFooter />

@@ -1,0 +1,92 @@
+---
+title: Checklist
+contentTitle: Accessibility Checklist
+description: Accessibility checklist to help you remember the most important tasks you have to follow during front end development.
+redirect_from:
+  - /uilib/usage/accessibility/checklist
+navigation:
+  parent: web/usage/accessibility
+  title: Checklist
+  order: 1
+---
+
+- [ ] Follow **semantics** properly, use **landmarks** ([landmark and semantic example](/web/usage/accessibility/checklist/#landmark--and-semantics-example)).
+- [ ] Ensure correct [heading levels](/web/usage/best-practices/for-typography#headings-and-styling).
+- [ ] Use different **screen readers** and test [regularly](/web/usage/accessibility/screenreader).
+- [ ] Make sure, [everything is responsive](/web/layout) - use mostly the `rem` [unit](/web/usage/best-practices/for-styling#css-units).
+- [ ] Make everything accessible for [keyboard navigation only](/web/usage/accessibility#keyboard-users) and handle [focus management](/web/usage/accessibility/focus#managing-focus-state) properly.
+- [ ] Group form elements inside `<fieldset />` and `<legend />`. The [FieldBlock](/web/extensions/forms/create-component/FieldBlock/) is doing this by default.
+- [ ] Do never expose a form element as `disabled` to the user. Use good UX instead.
+- [ ] Have a [Skip Link](/web/usage/accessibility/focus#skip-link) in place if the user has to tab many times to reach the main content.
+- [ ] Use the [SkipContent](/web/components/skip-content/) helper to let the user skip large parts of content, while using keyboard navigation.
+- [ ] Use the [AriaLive](/web/components/aria-live) component to automatically inform users using a screen reader, about changes on the screen that they didn't initiate.
+- [ ] Make good use of [`aria-label`](/web/usage/accessibility/screenreader#usage-of-aria-label-aria-labelledby-and-aria-describedby) and `aria-hidden`, e.g. of [decorative content](/web/usage/accessibility/icons#decorative-icons).
+- [ ] Make [images and illustrations](/web/usage/accessibility/screenreader#images-and-illustrations) accessible.
+- [ ] Have `aria-live` in place for dynamic content, like updates coming from the server.
+- [ ] Hide **invisible content** with `display: none;` or with the `hidden` attribute, or remove the markup entirely (with React States).
+- [ ] Make safely retained, collapsed content available to browser find-in-page with [`openOnFind`](#find-in-page-for-collapsed-content).
+- [ ] Properly use the `for="#id"` attribute on [labels](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/label#Attributes). Every [form component](/web/components) is supporting internal label usage, like `<Input label="Input label:" />`.
+- [ ] Allow viewport zooming in web pages. Example below.
+
+## Find-in-page for collapsed content
+
+Content that stays in the DOM while collapsed should be available to the browser's find-in-page feature when revealing it is safe and useful. Enable `openOnFind` on supported Eufemia components, especially when `keepInDOM` is enabled.
+
+Do not enable it for content retained only to preserve a workflow, validation state, focus, or an overlay. Finding a match must not expose content the user should not reach yet.
+
+`openOnFind` uses the native `hidden="until-found"` behavior. Unsupported browsers keep the content mounted and hidden, but cannot reveal it through find-in-page. See [HeightAnimation accessibility](/web/components/height-animation/#accessibility) for details.
+
+## Viewport
+
+Allow zooming in web pages, especially important on touch devices.
+
+```html
+<meta
+  name="viewport"
+  content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=yes"
+/>
+```
+
+## Landmark- and semantics example
+
+Example usage of HTML5 `landmarks` (e.g. `<nav>` or `<section>` etc.):
+
+```html
+<body>
+  <header>Header</header>
+  <nav>Main navigation landmark</nav>
+
+  <main>
+
+    <section aria-label="I need a label to be a region landmark">
+      <h1 class="dnb-h--large">h1 styled as h2</h1>
+      <p class="dnb-o">text</p>
+    </section>
+
+    <article aria-labelledby="article-1">
+      <h2 id="article-1" class="dnb-h--xx-large">h2 styled as h1</h2>
+      <h3 class="dnb-h--medium">h3</h2>
+      <h4 class="dnb-h--basis">h4</h2>
+      ...
+    </article>
+
+    <article aria-labelledby="article-2">
+      <header>I'm not a landmark anymore, because I'm inside article</header>
+      <h2 id="article-2" class="dnb-h--large">Another article h2</h2>
+      ...
+      <footer>I'm not a landmark anymore, because I'm inside article</footer>
+    </article>
+
+  </main>
+
+  <aside>Aside the main landmark</aside>
+
+  <footer>Footer landmark</footer>
+</body>
+```
+
+Read more about [HTML landmarks and sectioning elements](https://www.w3.org/TR/wai-aria-practices/examples/landmarks/HTML5.html).
+
+## Practical Support of ARIA labels
+
+You may be interested to read more about aria labels in the [Screen readers section](/web/usage/accessibility/screenreader#usage-of-aria-label-aria-labelledby-and-aria-describedby).

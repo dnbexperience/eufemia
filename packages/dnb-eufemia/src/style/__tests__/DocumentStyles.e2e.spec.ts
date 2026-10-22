@@ -543,6 +543,10 @@ test.describe('Document and print styles', () => {
       await page.goto(
         '/uilib/usage/customisation/styling/document-styles/preview/'
       )
+      await expect(page.locator('html')).toHaveAttribute(
+        'data-portal-ready',
+        'true'
+      )
       await expect(
         page.getByRole('heading', {
           name: 'Document style preview',

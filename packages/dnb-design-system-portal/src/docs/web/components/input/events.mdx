@@ -1,0 +1,45 @@
+---
+showTabs: true
+redirect_from:
+  - /uilib/components/input/events
+---
+
+import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
+import { InputEvents } from '@dnb/eufemia/src/components/input/InputDocs'
+
+## Events
+
+<PropertiesTable props={InputEvents} />
+
+### Manipulate the input value during typing
+
+You have two possibilities to manipulate the value while a user is typing. Either you handle the value with your own state, or you return a modified value in the `onChange` event listener:
+
+```jsx
+import { formatNumber } from '@dnb/eufemia/components/number-format/NumberUtils'
+
+function Component() {
+  const onChangeHandler = ({ value }) => {
+    return formatNumber(value)
+  }
+
+  return <Input onChange={onChangeHandler} />
+}
+```
+
+### Prevent setting a new value
+
+You can use e.g. `event.preventDefault()` during `onKeyDown`, or return false during `onChange`. They are not 100% the same user experience, but can both be useful in different use cases.
+
+```jsx
+function Component() {
+  const onKeyDownHandler = ({ event }) => {
+    event.preventDefault()
+  }
+  const onChangeHandler = ({ value }) => {
+    return false
+  }
+
+  return <Input onKeyDown={onKeyDownHandler} onChange={onChangeHandler} />
+}
+```

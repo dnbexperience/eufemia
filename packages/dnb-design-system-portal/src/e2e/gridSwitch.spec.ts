@@ -12,7 +12,7 @@ test.afterEach(async ({ page }) => {
 
 test.describe('Grid', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/uilib/components/')
+    await page.goto('/web/components/')
 
     // Check if app is mounted
     await waitForApp(page)
@@ -31,7 +31,7 @@ test.describe('Grid', () => {
   test('font weight example grid is dimmed in dark mode', async ({
     page,
   }) => {
-    await page.goto('/uilib/typography/font-weight')
+    await page.goto('/web/typography/font-weight')
     await waitForApp(page)
     await page.evaluate(() => {
       window.localStorage.setItem(

@@ -5,3 +5,4 @@ User-agent: *
 Disallow: /design-system/contact
 Disallow: /icons
 Disallow: /uilib/extensions/payment-card
+Disallow: /web/extensions/payment-card

@@ -11,7 +11,7 @@ for (const scheme of ['light', 'dark'] as const) {
         reducedMotion: 'no-preference',
       })
       await page.setViewportSize({ width: 1200, height: 900 })
-      await page.goto('/uilib/extensions/sidebar-menu/demos/')
+      await page.goto('/web/extensions/sidebar-menu/demos/')
       await waitForApp(page)
       const shell = page.locator('[data-sidebar-menu-responsive-example]')
       await shell.scrollIntoViewIfNeeded()
@@ -73,7 +73,7 @@ for (const scheme of ['light', 'dark'] as const) {
         reducedMotion: 'reduce',
       })
       await page.setViewportSize({ width: 1200, height: 900 })
-      await page.goto('/uilib/extensions/sidebar-menu/demos/')
+      await page.goto('/web/extensions/sidebar-menu/demos/')
       await waitForApp(page)
       const shell = page.locator('[data-sidebar-menu-responsive-example]')
       const trigger = shell.locator(
@@ -207,7 +207,7 @@ test.describe('compact selector before hydration', () => {
   test('renders a circular selector with a complete icon before JavaScript runs', async ({
     page,
   }) => {
-    await page.goto('/uilib/extensions/sidebar-menu/demos/')
+    await page.goto('/web/extensions/sidebar-menu/demos/')
     test.skip(
       (await page.title()).includes('Vite Dev'),
       'Requires prerendered output'

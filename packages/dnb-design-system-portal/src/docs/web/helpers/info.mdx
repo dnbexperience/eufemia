@@ -1,0 +1,73 @@
+---
+showTabs: true
+redirect_from:
+  - /uilib/helpers/info
+---
+
+## Description
+
+All the [components](/web/components) share a couple of commonly used helpers. Your application can also use these helpers, but it's optional.
+
+## Relevant links
+
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/shared)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/web/helpers)
+
+## CSS properties
+
+### Animation easing
+
+Eufemia provides reusable easing curves for consistent motion:
+
+- `--easing-default` for standard transitions.
+- `--easing-fast-bounce` for short interactions that should settle with a subtle overshoot.
+
+```css
+.animation-element {
+  transition: transform 400ms var(--easing-default);
+}
+
+.bouncing-animation-element {
+  transition: transform 180ms var(--easing-fast-bounce);
+}
+```
+
+## CSS classes
+
+- [dnb-core-style](/web/helpers/classes#core-style): A CSS-reset and core styling, including font, line-height and color.
+- [dnb-tab-focus](/web/helpers/classes#tab-focus): Adds a custom visual focus state on tab focus.
+- [dnb-skip-link](/web/helpers/classes#skip-link): For adding a link at the top of each page that goes directly to the main content area.
+- [dnb-spacing](/web/helpers/classes#spacing): Sets a default spacing on all nested HTML elements.
+- [dnb-scrollbar-appearance](/web/helpers/classes#scrollbar-appearance): Defines the DNB scrollbar appearance.
+- [dnb-sr-only](/web/helpers/classes#screen-reader-sr-only): An element that is reachable by screen readers, but is visually hidden.
+- [dnb-page-background](/web/helpers/classes#page-background): Sets the themed page background color.
+- [dnb-drop-shadow](/web/helpers/classes#drop-shadow): Adds the default drop shadow to the component.
+- [dnb-sharp-drop-shadow](/web/helpers/classes#sharp-drop-shadow): Adds the sharp drop shadow to the component.
+- [dnb-responsive-component](/web/helpers/classes#responsive-component): Makes the component react to small sized screens.
+- [dnb-unstyled-list](/web/helpers/classes#unstyled-list): Removes default styling for lists.
+- [dnb-selection](/web/helpers/classes#selection): Applies DNB selection colors to selected content.
+
+## Functions
+
+- [isTouchDevice](/web/helpers/functions#istouchdevice): Checks if the target device has touch support.
+- [toPascalCase](/web/helpers/functions#topascalcase): Transforms snake_case to PascalCase.
+- [toKebabCase](/web/helpers/functions#tokebabcase): Transforms PascalCase to kebab-case.
+- [filterProps](/web/helpers/functions#filterprops): Filter out unwanted entries from either an object or an array.
+- [makeUniqueId](/web/helpers/functions#makeuniqueid): Creates a unique hash string.
+- [slugify](/web/helpers/functions#slugify): Breaks down phrases of words to be URI compatible.
+- [checkIfHasScrollbar](/web/helpers/functions#checkifhasscrollbar): Check if an element has a scrollbar.
+- [convertJsxToString](/web/helpers/functions#convertjsxtostring): Convert one or more HTMLElements to a string.
+- [InteractionInvalidation](/web/helpers/functions#interactioninvalidation): Invalidates DOM elements so they are not accessible to keyboard or screen reader.
+- [scrollToLocationHashId](/web/helpers/functions#scrolltolocationhashid): Scroll to a given HashId with optional offset and delay.
+- [getOffsetTop](/web/helpers/functions#getoffsettop): Get the HTML Element offset to the top of the browser window.
+- [applyPageFocus](/web/helpers/functions#applypagefocus): Applies a page focus to an element given by the setPageFocusElement.
+- [setPageFocusElement](/web/helpers/functions#setpagefocuselement): Defines a focus element to applyPageFocus.
+- [debounce](/web/helpers/functions#debounce): Creates a debounced function that delays invoking func until after wait milliseconds have elapsed since the last time the debounced function was invoked.
+- [isModifiedClickEvent](/web/helpers/functions#ismodifiedclickevent): Checks if a click event uses modifier keys or a non-primary mouse button.
+- [copyToClipboard](/web/helpers/functions#copytoclipboard): Copies a given string to the clipboard.
+
+### Device checks
+
+Find out which device your user is currently on using the [Device functions](/web/helpers/functions#device-functions).
+
+Or use the built-in [Device constants](/web/helpers/functions#device-constants).

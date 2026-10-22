@@ -3,7 +3,7 @@ import waitForApp from './shared/waitForApp'
 
 test.describe('CodeBlock', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/uilib/components/textarea/demos/')
+    await page.goto('/web/components/textarea/demos/')
 
     // Check if app is mounted
     await waitForApp(page)

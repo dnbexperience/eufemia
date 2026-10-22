@@ -1,0 +1,198 @@
+---
+showTabs: true
+redirect_from:
+  - /uilib/components/table/demos
+---
+
+import * as Examples from './Examples'
+
+## Demos
+
+### Basic table
+
+**NB:** In this example, the sort buttons do react on your input. But will not change the table data.
+
+<Examples.VariantBasic />
+
+### Complex table
+
+You can force a row to overwrite the automated odd/even counting by providing e.g. `variant="even"` to a `<Tr />`. You can use this in combination with `rowSpan`.
+
+**NB:** The table header in the first column needs to have `scope="row"`!
+
+<Examples.VariantComplex />
+
+### Row scope headers only
+
+This table has only `scope="row"` and `scope="rowgroup"` headers – without the default `scope="col"`.
+
+<Examples.RowScopeOnly />
+
+### Disable striped rows
+
+Use `striped={false}` to disable alternating row background colors.
+
+<Examples.NoStriped />
+
+### Fixed table
+
+<Examples.VariantFixed />
+
+### Medium and small sized
+
+<Examples.SizeMedium />
+
+A `small` sized table is only for special circumstances, where a lot of data needs to be shown on the screen at the same time.
+
+<Examples.SizeSmall />
+
+### Table with accordion
+
+#### Expand a single container
+
+The second table uses both a `border` and an `outline`.
+
+<Examples.Accordion />
+
+#### Expand additional rows
+
+It's also possible to use accordion to expand the table with more rows.
+
+<Examples.AccordionRow />
+
+##### Collapse all rows at once
+
+You can collapse all expanded rows by sending a ref to the `collapseAllHandleRef` property and calling the `.current()` function on your ref.
+
+```jsx
+const myTableCollapseAll = React.useRef<(() => void) | undefined>(undefined)
+
+return (
+  <button onClick={() => myTableCollapseAll.current?.()}>
+    Close all rows
+  </button>
+
+  <Table mode="accordion" collapseAllHandleRef={myTableCollapseAll}>
+    {/* ... your table code */}
+  </Table>
+)
+```
+
+### Table with clickable rows (navigation mode)
+
+Use `mode="navigation"` on the `<Table>` and `onClick` on individual `<Tr>` rows to make them clickable. A chevron icon is rendered in an additional cell at the end of each clickable row for screen reader and keyboard accessibility. Rows respond to click as well as keyboard interaction with Space and Enter. Hover and focus indicators are sufficient to indicate interactivity per WCAG 1.4.1.
+
+<Examples.ClickableRows />
+
+### Table with clickable cells
+
+Use `onClick` on individual `<Td>` cells to make them clickable. A native `<button>` is rendered inside the cell for screen reader and keyboard accessibility. The chevron icon is included by default, but is only shown on hover, active, and keyboard focus. Use `icon={false}` to hide it entirely, or pass a custom icon. Hover and focus indicators are sufficient to indicate interactivity per WCAG 1.4.1.
+
+When the `selected` prop is provided (either `true` or `false`) together with `onClick`, the cell button is announced as a toggle button by screen readers, conveying its pressed state. The `selected` prop requires `onClick` to take effect, since the selected styling targets the cell button.
+
+<Examples.ClickableCells />
+
+### Table with keyboard navigation
+
+Use the `useTableKeyboardNavigation` hook to navigate between cells with arrow keys. Focusable elements inside cells (inputs, buttons) receive focus automatically.
+
+```jsx
+import Table, {
+  useTableKeyboardNavigation,
+} from '@dnb/eufemia/components/Table'
+```
+
+<Examples.KeyboardNavigation />
+
+### Table with sticky header
+
+<Examples.Sticky />
+
+### Table with a max height
+
+A sticky table header with `sticky="css-position"` and `max-height` on the `Table.ScrollView`.
+
+<Examples.StickyMaxHeight />
+
+### Table with a sticky header and an outline
+
+The `outline` is drawn on top of the sticky header, so the frame stays unbroken while the header is stuck.
+
+<Examples.StickyOutline />
+
+### Several tables in one container
+
+<Details>
+  <Summary>How the import and syntax is structured.</Summary>
+  <Examples.InOneContainer />
+</Details>
+
+<Examples.StackedContainer />
+
+With no (empty) `head` and `foot` content.
+
+<Examples.ContainerEmptyHeaderFooter />
+
+### Table with long header text (wrapping)
+
+<Examples.LongHeader />
+
+### Table with pagination
+
+<VisibilityByTheme visible="sbanken">
+  This example is not yet fully supported using the Sbanken theme.
+</VisibilityByTheme>
+
+<Examples.PaginationTable />
+
+## Table in Card
+
+Using the **subtle** `variant` on the `<Th>`.
+The first `<Tr>` has the property `variant="even"` which will ensure a border below it to visually separate it from the body rows.
+
+<Examples.InCard />
+
+### Responsive table in a Card
+
+**NB:** For tables with lots of content, it's best to avoid repeating the header for each row. This can be overwhelming for users who rely on screen readers.
+
+Also, it is important that the `<td>` without a `<th>` has a `aria-label={header.title}` to let users with screen readers know where "these tools" belong to.
+
+This example uses `scope="row"` with a table header (`<th>`) in each row.
+
+<Examples.ResponsiveInCard />
+
+### Cell highlighting
+
+Use `highlight` on `<Th>`, `<Tr>`, or `<Td>` to apply a subtle background and border. When set on a `<Tr>`, all cells in that row are highlighted. You can also set it on individual `<Td>` cells.
+
+**NB:** Highlighted cells should include an `aria-label` that conveys both the highlight state and the reason for it. Screen reader users cannot perceive the visual highlight, so this label is their only way to understand that a cell stands out and why.
+
+To adjust the border colors accordingly, use the `useTableHighlight` hook and pass the returned ref to `<Table>`.
+
+```tsx
+import Table, { useTableHighlight } from '@dnb/eufemia/components/Table'
+
+const highlightRef = useTableHighlight()
+render(<Table ref={highlightRef}>...</Table>)
+```
+
+<Examples.ColumnHighlight />
+
+### Multiple table body sections
+
+<Examples.MultipleTbody />
+
+### Example usage with classes
+
+<Examples.ClassHelpers />
+
+<VisibleWhenVisualTest>
+  <Examples.VariantCombinations />
+</VisibleWhenVisualTest>
+
+<VisibleWhenVisualTest>
+  <Examples.AccordionMixed />
+  <Examples.NavigationMixed />
+  <Examples.TableInAccordionTable />
+</VisibleWhenVisualTest>

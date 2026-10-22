@@ -1,6 +1,10 @@
 ---
-title: 'Making changes'
+title: Making changes
 order: 3
+navigation:
+  parent: contribute/getting-started
+  title: Making changes
+  order: 5
 ---
 
 ## Check out a new branch
@@ -63,11 +67,11 @@ Styles that belong to a "theming footprint" – like colors or individual varian
 
 - `./packages/dnb-eufemia/src/components/button/style/themes/dnb-button-theme-ui.scss`
 
-Theming file names ending with `-ui` will be packed into the global theming package during release. More details in the [theming section](/uilib/usage/customisation/theming).
+Theming file names ending with `-ui` will be packed into the global theming package during release. More details in the [theming section](/web/usage/customisation/theming).
 
 ### SCSS utilities
 
-Use the same SCSS setup as all the other components. You may reuse all the [helper classes](/uilib/helpers/classes):
+Use the same SCSS setup as all the other components. You may reuse all the [helper classes](/web/helpers/classes):
 
 - `./packages/dnb-eufemia/src/style/core/utilities.scss`
 
@@ -216,7 +220,7 @@ function FormComponent(props: Types) {
 
 ### Spacing support
 
-How you make [spacing](/uilib/layout/space) support available varies from case to case. But you may always allow the developer to pass in the spacing properties to the very root element of your component.
+How you make [spacing](/web/layout/space) support available varies from case to case. But you may always allow the developer to pass in the spacing properties to the very root element of your component.
 
 ```tsx
 import { Context } from '../../shared'
@@ -262,7 +266,7 @@ function MyComponent(props: ComponentAllProps) {
 
 ### Skeleton support
 
-How you make skeleton support available varies from case to case. There is also more info on how to create a [custom skeleton](/uilib/components/skeleton#create-a-custom-skeleton). But in case your component supports the `skeleton` boolean property, then you may ensure it both can be set locally on the component, and it reacts on the global Context.
+How you make skeleton support available varies from case to case. There is also more info on how to create a [custom skeleton](/web/components/skeleton#create-a-custom-skeleton). But in case your component supports the `skeleton` boolean property, then you may ensure it both can be set locally on the component, and it reacts on the global Context.
 
 ```tsx
 import { Context } from '../../shared'
@@ -330,6 +334,6 @@ function MyComponent(props: ComponentAllProps) {}
 
 All components have their own directory inside:
 
-- `./packages/dnb-design-system-portal/src/docs/uilib/...`
+- `./packages/dnb-design-system-portal/src/docs/web/...`
 
 You may have a look at the [Documentation guide](/contribute/style-guides/documentation) and existing docs in order to get the right structure.

@@ -7,7 +7,7 @@ const mockData = vi.hoisted(() => ({
     edges: [
       {
         node: {
-          fields: { slug: 'uilib/components/dropdown' },
+          fields: { slug: 'web/components/dropdown' },
           frontmatter: {
             title: 'Dropdown',
             description:
@@ -18,7 +18,7 @@ const mockData = vi.hoisted(() => ({
       },
       {
         node: {
-          fields: { slug: 'uilib/components/autocomplete' },
+          fields: { slug: 'web/components/autocomplete' },
           frontmatter: {
             title: 'Autocomplete',
             description:
@@ -29,7 +29,7 @@ const mockData = vi.hoisted(() => ({
       },
       {
         node: {
-          fields: { slug: 'uilib/components/radio' },
+          fields: { slug: 'web/components/radio' },
           frontmatter: {
             title: 'Radio',
             description:
@@ -40,7 +40,7 @@ const mockData = vi.hoisted(() => ({
       },
       {
         node: {
-          fields: { slug: 'uilib/components/checkbox' },
+          fields: { slug: 'web/components/checkbox' },
           frontmatter: {
             title: 'Checkbox',
             description:
@@ -51,7 +51,7 @@ const mockData = vi.hoisted(() => ({
       },
       {
         node: {
-          fields: { slug: 'uilib/components/input' },
+          fields: { slug: 'web/components/input' },
           frontmatter: {
             title: 'Input',
             description:
@@ -62,7 +62,7 @@ const mockData = vi.hoisted(() => ({
       },
       {
         node: {
-          fields: { slug: 'uilib/components/slider' },
+          fields: { slug: 'web/components/slider' },
           frontmatter: {
             title: 'Slider',
             description:
@@ -73,7 +73,7 @@ const mockData = vi.hoisted(() => ({
       },
       {
         node: {
-          fields: { slug: 'uilib/components/switch' },
+          fields: { slug: 'web/components/switch' },
           frontmatter: {
             title: 'Switch',
             description:
@@ -84,7 +84,7 @@ const mockData = vi.hoisted(() => ({
       },
       {
         node: {
-          fields: { slug: 'uilib/components/textarea' },
+          fields: { slug: 'web/components/textarea' },
           frontmatter: {
             title: 'Textarea',
             description:
@@ -95,7 +95,7 @@ const mockData = vi.hoisted(() => ({
       },
       {
         node: {
-          fields: { slug: 'uilib/components/anchor' },
+          fields: { slug: 'web/components/anchor' },
           frontmatter: {
             title: 'Anchor (Text Link)',
             description:
@@ -106,7 +106,7 @@ const mockData = vi.hoisted(() => ({
       },
       {
         node: {
-          fields: { slug: 'uilib/components/button' },
+          fields: { slug: 'web/components/button' },
           frontmatter: {
             title: 'Button',
             description:
@@ -117,7 +117,7 @@ const mockData = vi.hoisted(() => ({
       },
       {
         node: {
-          fields: { slug: 'uilib/components/breadcrumb' },
+          fields: { slug: 'web/components/breadcrumb' },
           frontmatter: {
             title: 'Breadcrumb',
             description: 'Use Breadcrumb to show where someone is.',
@@ -127,7 +127,7 @@ const mockData = vi.hoisted(() => ({
       },
       {
         node: {
-          fields: { slug: 'uilib/components/fragments/drawer-list' },
+          fields: { slug: 'web/components/fragments/drawer-list' },
           frontmatter: {
             title: 'DrawerList',
             description: 'Use DrawerList as an internal list pattern.',
@@ -170,7 +170,7 @@ function renderAt(pathname: string) {
 
 describe('RelatedComponents', () => {
   it('lists the other components in the same category, excluding itself', () => {
-    const { container } = renderAt('/uilib/components/dropdown')
+    const { container } = renderAt('/web/components/dropdown')
 
     expect(container.querySelector('h2')?.textContent).toBe(
       'Related components'
@@ -180,13 +180,13 @@ describe('RelatedComponents', () => {
       (a as HTMLAnchorElement).getAttribute('href')
     )
 
-    expect(links).toContain('/uilib/components/autocomplete')
-    expect(links).toContain('/uilib/components/radio')
-    expect(links).not.toContain('/uilib/components/dropdown')
+    expect(links).toContain('/web/components/autocomplete')
+    expect(links).toContain('/web/components/radio')
+    expect(links).not.toContain('/web/components/dropdown')
   })
 
   it('caps the inline list at six and links to the rest of the category', () => {
-    const { container } = renderAt('/uilib/components/dropdown')
+    const { container } = renderAt('/web/components/dropdown')
 
     const links = Array.from(container.querySelectorAll('li a')).map((a) =>
       (a as HTMLAnchorElement).getAttribute('href')
@@ -194,14 +194,14 @@ describe('RelatedComponents', () => {
 
     // Input has 7 siblings here; only the first six (alphabetical) show.
     expect(links).toEqual([
-      '/uilib/components/autocomplete',
-      '/uilib/components/checkbox',
-      '/uilib/components/input',
-      '/uilib/components/radio',
-      '/uilib/components/slider',
-      '/uilib/components/switch',
+      '/web/components/autocomplete',
+      '/web/components/checkbox',
+      '/web/components/input',
+      '/web/components/radio',
+      '/web/components/slider',
+      '/web/components/switch',
     ])
-    expect(links).not.toContain('/uilib/components/textarea')
+    expect(links).not.toContain('/web/components/textarea')
 
     const seeAll = Array.from(container.querySelectorAll('a')).find((a) =>
       a.textContent?.includes('See all')
@@ -209,13 +209,13 @@ describe('RelatedComponents', () => {
 
     expect(seeAll).toBeTruthy()
     expect(seeAll?.getAttribute('href')).toBe(
-      '/uilib/components/overview/#input'
+      '/web/components/overview/#input'
     )
     expect(seeAll?.textContent).toContain('Input')
   })
 
   it('omits the See all link when the whole category fits inline', () => {
-    const { container } = renderAt('/uilib/components/button')
+    const { container } = renderAt('/web/components/button')
 
     const hasSeeAll = Array.from(container.querySelectorAll('a')).some(
       (a) => a.textContent?.includes('See all')
@@ -225,10 +225,10 @@ describe('RelatedComponents', () => {
   })
 
   it('links to the matching overview category anchor', () => {
-    const { container } = renderAt('/uilib/components/dropdown')
+    const { container } = renderAt('/web/components/dropdown')
 
     const categoryLink = container.querySelector(
-      'a[href="/uilib/components/overview/#input"]'
+      'a[href="/web/components/overview/#input"]'
     )
 
     expect(categoryLink).not.toBeNull()
@@ -236,7 +236,7 @@ describe('RelatedComponents', () => {
   })
 
   it('shows a short reason derived from each description', () => {
-    const { container } = renderAt('/uilib/components/dropdown')
+    const { container } = renderAt('/web/components/dropdown')
 
     const items = Array.from(container.querySelectorAll('li')).map(
       (li) => li.textContent
@@ -251,17 +251,17 @@ describe('RelatedComponents', () => {
   })
 
   it('strips the parenthetical part of a related component title', () => {
-    const { container } = renderAt('/uilib/components/button')
+    const { container } = renderAt('/web/components/button')
 
     const anchorLink = container.querySelector(
-      'li a[href="/uilib/components/anchor"]'
+      'li a[href="/web/components/anchor"]'
     )
 
     expect(anchorLink?.textContent).toBe('Anchor')
   })
 
   it('resolves the current component when on a tab sub-route', () => {
-    const { container } = renderAt('/uilib/components/dropdown/info')
+    const { container } = renderAt('/web/components/dropdown/info')
 
     expect(container.querySelector('h2')?.textContent).toBe(
       'Related components'
@@ -269,21 +269,19 @@ describe('RelatedComponents', () => {
   })
 
   it('renders nothing when the category has no other members', () => {
-    const { container } = renderAt('/uilib/components/breadcrumb')
+    const { container } = renderAt('/web/components/breadcrumb')
 
     expect(container.innerHTML).toBe('')
   })
 
   it('renders nothing for a page with category false', () => {
-    const { container } = renderAt(
-      '/uilib/components/fragments/drawer-list'
-    )
+    const { container } = renderAt('/web/components/fragments/drawer-list')
 
     expect(container.innerHTML).toBe('')
   })
 
   it('renders nothing for an unknown page', () => {
-    const { container } = renderAt('/uilib/components/does-not-exist')
+    const { container } = renderAt('/web/components/does-not-exist')
 
     expect(container.innerHTML).toBe('')
   })

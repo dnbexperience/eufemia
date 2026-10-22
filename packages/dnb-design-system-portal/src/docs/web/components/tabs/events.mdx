@@ -1,0 +1,29 @@
+---
+showTabs: true
+redirect_from:
+  - /uilib/components/tabs/events
+---
+
+import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
+import { TabsEvents } from '@dnb/eufemia/src/components/tabs/TabsDocs'
+
+## Events
+
+<PropertiesTable props={TabsEvents} />
+
+### Prevent a change
+
+You can prevent a change from happening by returning false on the `onClick` event handler:
+
+```tsx
+<Tabs
+  onClick={() => {
+    if (condition === true) {
+      return false
+    }
+  }}
+  onChange={() => {
+    // Will not get emitted
+  }}
+/>
+```

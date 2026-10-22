@@ -42,7 +42,7 @@ describe('themeCapabilities', () => {
     const docs = fs.readFileSync(
       path.resolve(
         __dirname,
-        '../../../../../dnb-design-system-portal/src/docs/uilib/usage/customisation/theming.mdx'
+        '../../../../../dnb-design-system-portal/src/docs/web/usage/customisation/theming.mdx'
       ),
       'utf-8'
     )

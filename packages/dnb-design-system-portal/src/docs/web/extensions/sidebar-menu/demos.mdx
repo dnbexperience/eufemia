@@ -1,0 +1,58 @@
+---
+showTabs: true
+redirect_from:
+  - /uilib/extensions/sidebar-menu/demos
+---
+
+import * as Examples from './Examples'
+
+## Demos
+
+### Declarative composition
+
+Use compound React components when the menu structure is authored in JSX.
+This example persists manually opened and closed groups in session storage.
+
+<Examples.SidebarMenuDeclarative />
+
+### Data composition
+
+Use `sections` or `data` to render the same recursive structure from JavaScript objects.
+This example is placed inside a `ScrollView` with a viewport-aware maximum height and persists its scroll position in session storage.
+
+<Examples.SidebarMenuData />
+
+### Responsive navigation
+
+Compact mode is designed for menu items with icons and works best when every item has a suitable icon. Items without icons remain supported and use a faded text fallback, but this is less immediately recognizable in the narrow rail.
+
+The same data renders as a full inline menu on wide screens, a narrow icon rail that expands over the page on hover, keyboard focus, or with its toggle button at the compact threshold, and behind a hamburger button at the Drawer threshold. `ResponsiveProvider` owns these thresholds, Drawer state, and optional collapsed-inline state, while `ResponsiveDrawer` handles the dialog, focus trapping, Escape key, backdrop, left-side close button, and focus return.
+
+The full `ResponsiveAside` includes `ScrollView`, Portal-style menu spacing, and `ResizeHandle`. Drag its divider, use the arrow keys while it is focused, or press Enter to restore the default width.
+Accordion state and ScrollView position persist in session storage.
+
+Drag the demo viewport to the medium breakpoint or narrower to reveal the hamburger button and try the drawer.
+
+<Examples.SidebarMenuResponsiveNavigation />
+
+### Toggle navigation
+
+`SidebarMenu.Toggle` hides and restores the full desktop menu with the same width animation as dragging the divider to dismiss it. The embedded sidebar toggle uses the same component. Below `drawerAt`, the external toggle opens and closes the Drawer.
+
+This example remembers desktop dismissal in session storage using `inlineCollapsedStorageKey`. Reload the page to try it.
+
+<Examples.SidebarMenuToggle />
+
+### External content control
+
+Turn on the Payments app to add its navigation to the application shell. Receive notifications to update its badge, then turn the app off to remove its contribution. The shell's Home item stays in place.
+
+Open “Try loading order” to let the Payments app load before the sidebar. Its contribution appears when the sidebar mounts. The app uses `transformContent()` without a shared provider; the same calls work from a separate React root or bundle in the same window. See [Content controlled by micro frontends](/web/extensions/sidebar-menu#content-controlled-by-micro-frontends) for replacing the entire menu with `setContent()`.
+
+<Examples.SidebarMenuContentController />
+
+### Toggle outside the provider
+
+Give `SidebarMenu.Toggle` and `ResponsiveProvider` the same unique `scopeId` to place the toggle elsewhere in your application, such as a header outside the navigation provider. The toggle controls desktop dismissal and the mobile Drawer.
+
+<Examples.SidebarMenuExternalToggle />

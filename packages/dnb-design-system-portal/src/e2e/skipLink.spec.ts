@@ -3,7 +3,7 @@ import waitForApp from './shared/waitForApp'
 
 test.describe('Skip Link', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/uilib/components/')
+    await page.goto('/web/components/')
     await waitForApp(page)
   })
 

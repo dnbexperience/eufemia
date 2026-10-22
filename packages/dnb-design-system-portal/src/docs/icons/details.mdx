@@ -1,9 +1,12 @@
 ---
-title: 'Details'
-contentTitle: 'Icon Details'
-description: 'Technical details about Eufemia Icons.'
-icon: 'info'
+title: Details
+contentTitle: Icon Details
+description: Technical details about Eufemia Icons.
 order: 1
+navigation:
+  parent: icons
+  title: Icon details
+  order: 1
 ---
 
 import InlineImg from 'dnb-design-system-portal/src/shared/tags/Img'
@@ -19,7 +22,7 @@ At DNB we are using Streamline icons as our source for off-the-shelf vector icon
 The icons are in SVG format and are optimized for performance and to have the smallest footprint possible in the package build process.
 
 The sources are included in the `@dnb/eufemia` package and published as public
-[stable and immutable CDN files](/uilib/usage/assets/#stable-and-versioned-urls).
+[stable and immutable CDN files](/web/usage/assets/#stable-and-versioned-urls).
 For example:
 
 ```text
@@ -27,11 +30,11 @@ https://assets.eufemia.dnb.no/v11.14.1/icons/dnb/home.svg
 https://assets.eufemia.dnb.no/icons/dnb/home.svg
 ```
 
-They also exist as [React Components](/uilib/components/icon) to be easily integrated, without the need of an additional SVG file loader.
+They also exist as [React Components](/web/components/icon) to be easily integrated, without the need of an additional SVG file loader.
 
 ## Icon color
 
-Eufemia SVG icons simply inherit the current color. In case you do not use the [Icon component](/uilib/components/icon), you have to handle colors yourself.
+Eufemia SVG icons simply inherit the current color. In case you do not use the [Icon component](/web/components/icon), you have to handle colors yourself.
 
 For icons that communicate a state, follow the [status icon pattern](/web/patterns/status-icon) for sizing, semantic colors, dark mode and accessibility.
 

@@ -7,7 +7,7 @@ test.describe('SidebarMenu toggle', () => {
   }) => {
     await page.setViewportSize({ width: 1600, height: 1000 })
     await page.goto(
-      '/uilib/extensions/sidebar-menu/demos/#toggle-outside-the-provider'
+      '/web/extensions/sidebar-menu/demos/#toggle-outside-the-provider'
     )
     await waitForApp(page)
     const example = page.locator(
@@ -18,10 +18,14 @@ test.describe('SidebarMenu toggle', () => {
     await expect(toggle).toBeEnabled()
     await expect(toggle).toHaveAttribute('aria-expanded', 'true')
     expect(
-      await toggle.evaluate((element) =>
-        element.closest('.dnb-sidebar-menu-responsive-provider')
+      await example.evaluate((example) =>
+        example.contains(
+          example
+            .querySelector('.dnb-sidebar-menu-toggle')
+            .closest('.dnb-sidebar-menu-responsive-provider')
+        )
       )
-    ).toBeNull()
+    ).toBe(false)
     await toggle.click()
     await expect(inline).toHaveAttribute('inert')
     await expect(toggle).toHaveAttribute('aria-expanded', 'false')
