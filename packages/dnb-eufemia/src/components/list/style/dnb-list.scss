@@ -514,12 +514,12 @@
       }
     }
 
-    // Handle accordion states
-    &:not(.dnb-list__item--disabled):has(#{&}__accordion__header:hover) {
+    // Handle accordion states (own header only, not nested accordions)
+    &:not(.dnb-list__item--disabled):has(> #{&}__accordion__header:hover) {
       @include navigationOutline();
     }
     &:not(.dnb-list__item--disabled):has(
-        #{&}__accordion__header:focus-visible
+        > #{&}__accordion__header:focus-visible
       ) {
       @include navigationOutline();
     }
@@ -529,7 +529,9 @@
         @include focusFallbackOutline();
       }
     }
-    &:not(.dnb-list__item--disabled):has(#{&}__accordion__header:active) {
+    &:not(.dnb-list__item--disabled):has(
+        > #{&}__accordion__header:active
+      ) {
       --list-item-outline-color: var(
         --list-item-navigation-outline-color--active
       );
@@ -694,7 +696,7 @@
             var(--list-item-outline-color);
         }
         &.dnb-list__item__accordion:not(.dnb-list__item--disabled):has(
-            .dnb-list__item__accordion__header:hover
+            > .dnb-list__item__accordion__header:hover
           )::after {
           border: var(--list-item-outline-width) solid
             var(--list-item-outline-color);
@@ -704,7 +706,7 @@
             > .dnb-list__item__action__button:focus-visible
           )::after,
         &.dnb-list__item__accordion:not(.dnb-list__item--disabled):has(
-            .dnb-list__item__accordion__header:focus-visible
+            > .dnb-list__item__accordion__header:focus-visible
           )::after {
           border: var(--list-item-outline-width) solid
             var(--list-item-outline-color);

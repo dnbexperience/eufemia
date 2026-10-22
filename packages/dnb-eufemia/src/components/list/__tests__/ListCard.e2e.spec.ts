@@ -169,4 +169,23 @@ test.describe('List.Card outline', () => {
       '0px',
     ])
   })
+
+  test('should not show the parent outline when a nested accordion header is hovered or has focus', async ({
+    page,
+  }) => {
+    const restBorders = ['1px', '0px', '1px', '0px']
+    const parent = getRow(page, 'Parent accordion row')
+    // The parent row also contains the title of the nested row
+    const nested = getRow(page, 'Nested accordion row').last()
+    const header = nested.locator('.dnb-list__item__accordion__header')
+
+    await header.hover()
+    expect(await getBorderWidths(nested)).toEqual(fullOutline)
+    expect(await getBorderWidths(parent)).toEqual(restBorders)
+
+    await page.mouse.move(0, 0)
+    await tabTo(page, header)
+    expect(await getBorderWidths(nested)).toEqual(fullOutline)
+    expect(await getBorderWidths(parent)).toEqual(restBorders)
+  })
 })
