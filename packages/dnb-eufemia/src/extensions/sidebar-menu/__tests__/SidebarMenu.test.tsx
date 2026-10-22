@@ -1940,6 +1940,151 @@ describe('SidebarMenu', () => {
     vi.useRealTimers()
   })
 
+  it('scrolls the nearest scrollable wrapper instead of the window', () => {
+    vi.useFakeTimers()
+    const windowScrollTo = vi
+      .spyOn(window, 'scrollTo')
+      .mockImplementation(() => undefined)
+
+    render(
+      <aside id="app-aside" style={{ overflowY: 'auto' }}>
+        <SidebarMenu.Root>
+          <SidebarMenu.Accordion id="products" text="Products">
+            <SidebarMenu.Item id="accounts" text="Accounts" />
+          </SidebarMenu.Accordion>
+        </SidebarMenu.Root>
+      </aside>
+    )
+
+    const wrapper = document.getElementById('app-aside') as HTMLElement
+    const accordion = document.querySelector(
+      '[data-sidebar-menu-id="products"]'
+    ) as HTMLElement
+    const trigger = accordion.querySelector(
+      '.dnb-sidebar-menu__accordion__trigger'
+    ) as HTMLElement
+    const content = accordion.querySelector(
+      '.dnb-sidebar-menu__accordion__content'
+    ) as HTMLElement
+    const wrapperScrollTo = vi.fn()
+    wrapper.scrollTop = 20
+    Object.defineProperties(wrapper, {
+      scrollTo: { configurable: true, value: wrapperScrollTo },
+      scrollHeight: { configurable: true, value: 600 },
+      clientHeight: { configurable: true, value: 300 },
+    })
+    vi.spyOn(wrapper, 'getBoundingClientRect').mockReturnValue({
+      top: 0,
+      bottom: 300,
+      height: 300,
+    } as DOMRect)
+    vi.spyOn(trigger, 'getBoundingClientRect').mockReturnValue({
+      top: 180,
+      bottom: 224,
+      height: 44,
+    } as DOMRect)
+    vi.spyOn(content, 'getBoundingClientRect').mockReturnValue({
+      top: 224,
+      bottom: 420,
+      height: 196,
+    } as DOMRect)
+
+    fireEvent.click(trigger)
+    act(() => vi.advanceTimersToNextTimer())
+
+    expect(wrapperScrollTo).toHaveBeenCalledTimes(1)
+    expect(wrapperScrollTo).toHaveBeenCalledWith({
+      top: 156,
+      behavior: 'smooth',
+    })
+    expect(windowScrollTo).not.toHaveBeenCalled()
+
+    windowScrollTo.mockRestore()
+    vi.useRealTimers()
+  })
+
+  it('scrolls the window when no wrapper can scroll the menu', () => {
+    vi.useFakeTimers()
+    const windowScrollTo = vi
+      .spyOn(window, 'scrollTo')
+      .mockImplementation(() => undefined)
+
+    // The page scrolls through the window even when html sets overflow
+    const html = document.documentElement
+    html.style.overflowY = 'scroll'
+    Object.defineProperties(html, {
+      scrollHeight: { configurable: true, value: 2000 },
+      clientHeight: { configurable: true, value: 768 },
+    })
+
+    // The outer wrapper clips but is not a scroll container, and the inner
+    // wrapper could scroll but has no content to scroll
+    render(
+      <div id="clipping-wrapper" style={{ overflowY: 'hidden' }}>
+        <div id="fitting-wrapper" style={{ overflowY: 'auto' }}>
+          <SidebarMenu.Root>
+            <SidebarMenu.Accordion id="products" text="Products">
+              <SidebarMenu.Item id="accounts" text="Accounts" />
+            </SidebarMenu.Accordion>
+          </SidebarMenu.Root>
+        </div>
+      </div>
+    )
+
+    const clippingWrapper = document.getElementById(
+      'clipping-wrapper'
+    ) as HTMLElement
+    const fittingWrapper = document.getElementById(
+      'fitting-wrapper'
+    ) as HTMLElement
+    const accordion = document.querySelector(
+      '[data-sidebar-menu-id="products"]'
+    ) as HTMLElement
+    const trigger = accordion.querySelector(
+      '.dnb-sidebar-menu__accordion__trigger'
+    ) as HTMLElement
+    const content = accordion.querySelector(
+      '.dnb-sidebar-menu__accordion__content'
+    ) as HTMLElement
+    const wrapperScrollTo = vi.fn()
+    Object.defineProperties(clippingWrapper, {
+      scrollTo: { configurable: true, value: wrapperScrollTo },
+      scrollHeight: { configurable: true, value: 1200 },
+      clientHeight: { configurable: true, value: 300 },
+    })
+    Object.defineProperties(fittingWrapper, {
+      scrollTo: { configurable: true, value: wrapperScrollTo },
+      scrollHeight: { configurable: true, value: 1200 },
+      clientHeight: { configurable: true, value: 1200 },
+    })
+    vi.spyOn(trigger, 'getBoundingClientRect').mockReturnValue({
+      top: 600,
+      bottom: 644,
+      height: 44,
+    } as DOMRect)
+    vi.spyOn(content, 'getBoundingClientRect').mockReturnValue({
+      top: 644,
+      bottom: 900,
+      height: 256,
+    } as DOMRect)
+
+    fireEvent.click(trigger)
+    act(() => vi.advanceTimersToNextTimer())
+
+    expect(wrapperScrollTo).not.toHaveBeenCalled()
+    expect(windowScrollTo).toHaveBeenCalledTimes(1)
+    expect(windowScrollTo).toHaveBeenCalledWith({
+      top: 148,
+      behavior: 'smooth',
+    })
+
+    html.style.overflowY = ''
+    delete (html as { scrollHeight?: number }).scrollHeight
+    delete (html as { clientHeight?: number }).clientHeight
+    windowScrollTo.mockRestore()
+    vi.useRealTimers()
+  })
+
   it('uses the root font size for compact scroll insets', () => {
     vi.useFakeTimers()
     const originalRootFontSize = document.documentElement.style.fontSize
