@@ -702,7 +702,7 @@ export const SidebarMenuHeaderProperties: PropertiesTableProps = {
     status: 'optional',
   },
   headingLevel: {
-    doc: 'Deprecated compatibility property with no effect. Header is a visual menu label.',
+    doc: 'Semantic heading level of the label. Defaults to `2`. Removed in v13, where Header is a visual menu label and no longer a heading.',
     type: 'number',
     status: 'deprecated',
   },
