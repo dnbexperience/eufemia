@@ -32,6 +32,7 @@ import useUpdateEffect from '../../../shared/helpers/useUpdateEffect'
 import useCanUseDOM from '../../../shared/helpers/useCanUseDOM'
 import type { FieldBlockContextProps } from '../FieldBlock/FieldBlockContext'
 import FieldBlockContext from '../FieldBlock/FieldBlockContext'
+import { getMessagesFromError } from '../FieldBlock/getMessagesFromError'
 import IterateItemContext from '../Iterate/IterateItemContext'
 import SectionContext from '../Form/Section/SectionContext'
 import FieldBoundaryContext from '../DataContext/FieldBoundary/FieldBoundaryContext'
@@ -1942,15 +1943,20 @@ export default function useFieldProps<Value, EmptyValue, Props>(
   // Before hydration, only link to messages that the summary can contain
   const canLinkStatus =
     !inFieldBlock || canUseDOM || Boolean(collectMessages)
-  const statusIds = (
-    canLinkStatus
-      ? [
-          (bufferedError || error) && `${statusId}-form-status--error`,
-          warning && `${statusId}-form-status--warning`,
-          info && `${statusId}-form-status--information`,
-        ]
-      : []
-  ).filter(Boolean)
+  const statusIds = canLinkStatus
+    ? (
+        [
+          ['error', inFieldBlock ? bufferedError || error : bufferedError],
+          ['warning', warning],
+          ['information', info],
+        ] as const
+      ).flatMap(([type, content]) =>
+        // Use the summary's message extraction, so empty errors and arrays do not create dangling references.
+        getMessagesFromError({ content }).some(Boolean)
+          ? [`${statusId}-form-status--${type}`]
+          : []
+      )
+    : []
 
   if (statusIds.length) {
     htmlAttributes['aria-describedby'] = combineDescribedBy(

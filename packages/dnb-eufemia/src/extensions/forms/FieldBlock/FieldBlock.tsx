@@ -18,7 +18,6 @@ import type {
 } from 'react'
 import { clsx } from 'clsx'
 import type {
-  StateWithMessage,
   StateRecord,
   StateMessage,
   FieldState,
@@ -50,7 +49,7 @@ import HelpButtonInline, {
 import SubmitIndicator from '../Form/SubmitIndicator/SubmitIndicator'
 import { createSharedState } from '../../../shared/helpers/useSharedState'
 import useTranslation from '../hooks/useTranslation'
-import { FormError } from '../utils'
+import { getMessagesFromError } from './getMessagesFromError'
 import { useIterateItemNo } from '../Iterate/ItemNo/useIterateItemNo'
 import withComponentMarkers from '../../../shared/helpers/withComponentMarkers'
 import useCanUseDOM from '../../../shared/helpers/useCanUseDOM'
@@ -794,42 +793,7 @@ function CombineMessages({
   )
 }
 
-function getMessage(error: FormError | Error) {
-  if (error instanceof FormError) {
-    return error.formattedMessage ?? error.message
-  }
-
-  return error.message
-}
-
-export function getMessagesFromError(
-  item: Partial<StateWithMessage>
-): Array<StateMessage> {
-  const { content } = item
-
-  if (content instanceof FormError && Array.isArray(content.errors)) {
-    return content.errors.map((content) => {
-      return getMessage(content)
-    })
-  }
-
-  if (Array.isArray(content)) {
-    return content.map((content) => {
-      return content instanceof FormError || content instanceof Error
-        ? getMessage(content)
-        : content
-    })
-  }
-
-  if (content instanceof FormError || content instanceof Error) {
-    return [getMessage(content)]
-  }
-
-  return [
-    ((isValidElement(content) ? content : content?.toString()) ||
-      content) as StateMessage,
-  ]
-}
+export { getMessagesFromError } from './getMessagesFromError'
 
 function isFragment(fragment: ReactNode) {
   return isValidElement(fragment) && fragment.type === Fragment
