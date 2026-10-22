@@ -95,6 +95,7 @@ public GitHub (.github/workflows/analytics-lambda.yml)
 - **Triggers** (`analytics-lambda.yml`): a push to `main` touching `tools/analytics/**` (or the workflow), or a manual `workflow_dispatch` from any branch. Analytics deploys on its own code changes, not on every Eufemia release (it has no Eufemia docs dependency, unlike the MCP server).
 - The public workflow copies `ghe-deploy-workflow.yml` onto the GHE `deploy` branch, so the deploy job is self-installing — no manual workflow setup in the GHE repo.
 - On forks and PRs without deploy credentials, the build-and-push step is skipped (tests still run).
+- **Failure alerts** (`analytics-health.yml`): a green public run only means the hand-off worked. Every hour, and after each public deploy run, a workflow checks the public deploy run, the newest GHE `deploy` run, that the GHE deploy ran the newest public commit, the API health endpoint and the dashboard page. A failure, or a deploy still running or out of date after an hour, opens an `Eufemia Analytics incident` issue and posts to the shared Slack alert webhook. The issue closes when all checks pass again.
 
 ### Required configuration
 

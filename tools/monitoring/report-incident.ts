@@ -48,7 +48,7 @@ export async function reportIncident({
   request = fetch,
 }: {
   report: Report
-  service: 'CDN' | 'MCP'
+  service: 'CDN' | 'MCP' | 'Analytics'
   repository: string
   token: string
   runUrl: string
