@@ -402,7 +402,7 @@
 
     // background
     --accordion-color-bg--default: var(
-      --token-color-decorative-third-muted
+      --token-color-background-neutral-subtle
     );
     --accordion-color-bg--hover: var(--token-color-background-neutral);
     --accordion-color-bg--active: var(
@@ -411,6 +411,9 @@
 
     // border
     --accordion-color-border--default: var(
+      --token-color-stroke-neutral-subtle
+    );
+    --accordion-color-border--hover: var(
       --token-color-decorative-third-muted
     );
     --accordion-color-border--active: var(
@@ -418,7 +421,8 @@
     );
 
     // other
-    --accordion-border-width--default: 0.125rem;
+    --accordion-border-width--default: 0.0625rem;
+    --accordion-border-width--hover: 0.125rem;
   }
 
   // Shared variant color properties
