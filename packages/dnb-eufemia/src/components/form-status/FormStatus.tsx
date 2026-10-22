@@ -445,12 +445,24 @@ withComponentMarkers(FormStatus, { _supportsSpacingProps: true })
 
 export default FormStatus
 
-// The icon colors are set in dnb-form-status.scss with theme tokens, so they
+// The icon colors are set in form-status-icon.scss with theme tokens, so they
 // follow the theme and color scheme. Inline styles are not used, because a strict
 // Content Security Policy blocks them in server-rendered HTML. The fill and stroke
-// attributes are the fallback (DNB colors) when the stylesheet is not loaded.
-const iconPart = (part: string) =>
-  `dnb-form-status-icon-path dnb-form-status-icon-path--${part}`
+// attributes are the fallback (DNB light colors) when the stylesheet is not loaded.
+// Each paint also gets a class, because the CSS optimizer (PurgeCSS) removes
+// attribute selectors, such as [fill], when the app source does not contain them.
+const iconPaint = (
+  part: string,
+  paints: { fill?: string; stroke?: string }
+) => ({
+  ...paints,
+  className: clsx(
+    'dnb-form-status-icon-path',
+    `dnb-form-status-icon-path--${part}`,
+    paints.fill && 'dnb-form-status-icon-path--fill',
+    paints.stroke && 'dnb-form-status-icon-path--stroke'
+  ),
+})
 
 export const ErrorIcon = (props: ErrorIconProps) => {
   const { title = 'error' } = props || {}
@@ -460,18 +472,15 @@ export const ErrorIcon = (props: ErrorIconProps) => {
       <title>{title}</title>
       <path
         d="M23.625 17.864A3.547 3.547 0 0120.45 23H3.548a3.546 3.546 0 01-3.172-5.136l8.45-14.902a3.548 3.548 0 016.347 0l8.452 14.902z"
-        className={iconPart('error')}
-        fill="#dc2a2a"
+        {...iconPaint('error', { fill: '#d52525' })}
       />
       <path
         d="M12 16.286a1.286 1.286 0 100 2.572 1.286 1.286 0 000-2.572z"
-        className={iconPart('error-mark')}
-        fill="#fff"
+        {...iconPaint('error-mark', { fill: '#fff' })}
       />
       <path
         d="M12 13.818v-5"
-        className={iconPart('error-mark')}
-        stroke="#fff"
+        {...iconPaint('error-mark', { stroke: '#fff' })}
         strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -488,18 +497,15 @@ export const WarnIcon = (props: WarnIconProps) => {
       <title>{title}</title>
       <path
         d="M23.625 17.864A3.547 3.547 0 0120.45 23H3.548a3.546 3.546 0 01-3.172-5.136l8.45-14.902a3.548 3.548 0 016.347 0l8.452 14.902z"
-        className={iconPart('warning')}
-        fill="#fdbb31"
+        {...iconPaint('warning', { fill: '#fdbb31' })}
       />
       <path
         d="M12 16.286a1.286 1.286 0 100 2.572 1.286 1.286 0 000-2.572z"
-        className={iconPart('warning-mark')}
-        fill="#333"
+        {...iconPaint('warning-mark', { fill: '#333' })}
       />
       <path
         d="M12 13.818v-5"
-        className={iconPart('warning-mark')}
-        stroke="#333"
+        {...iconPaint('warning-mark', { stroke: '#333' })}
         strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -519,21 +525,22 @@ export const InfoIcon = (props: InfoIconProps) => {
         fillRule="evenodd"
         clipRule="evenodd"
         d="M11.268 0a11.25 11.25 0 105.566 21.017l6.112 2.91a.75.75 0 001-1l-2.911-6.112A11.234 11.234 0 0011.268 0z"
-        className={iconPart(isSuccess ? 'success' : 'information')}
-        fill={isSuccess ? '#28b482' : '#007272'}
+        {...iconPaint(isSuccess ? 'success' : 'information', {
+          fill: isSuccess ? '#007b5e' : '#007272',
+        })}
       />
       <circle
         cx="11"
         cy="6.5"
         r=".5"
-        className={iconPart('information-mark')}
-        fill="#fff"
-        stroke="#fff"
+        {...iconPaint('information-mark', {
+          fill: '#fff',
+          stroke: '#fff',
+        })}
       />
       <path
         d="M13.75 16H13a1.5 1.5 0 01-1.5-1.5v-3.75a.75.75 0 00-.75-.75H10"
-        className={iconPart('information-mark')}
-        stroke="#fff"
+        {...iconPaint('information-mark', { stroke: '#fff' })}
         strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -552,13 +559,11 @@ export const SuccessIcon = (props: SuccessIconProps) => {
         cx="12"
         cy="12"
         r="12"
-        className={iconPart('success')}
-        fill="#28b482"
+        {...iconPaint('success', { fill: '#007b5e' })}
       />
       <path
         d="M8 13.053 10.783 16 16 9"
-        className={iconPart('success-mark')}
-        stroke="#fff"
+        {...iconPaint('success-mark', { stroke: '#fff' })}
         strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -581,8 +586,7 @@ export const MarketingIcon = (props: MarketingIconProps) => {
       <title>{title}</title>
       <path
         d="M6 15.25H4.5c-2.042 0-3.75-1.707-3.75-3.75S2.458 7.75 4.5 7.75H6v7.5ZM7.5 15.25c4.801 0 8.846 1.897 12.75 4.5V3.25c-3.904 2.603-7.949 4.5-12.75 4.5v7.5ZM23.25 10a.75.75 0 0 0-1.5 0h1.5Zm-1.5 3a.75.75 0 0 0 1.5 0h-1.5ZM8.483 21.043a.75.75 0 1 0 1.034-1.086l-1.034 1.086ZM21.75 10v3h1.5v-3h-1.5ZM6 15.25a8.058 8.058 0 0 0 2.483 5.793l1.034-1.086A6.559 6.559 0 0 1 7.5 15.25H6Z"
-        className={iconPart('marketing')}
-        fill="#333"
+        {...iconPaint('marketing', { fill: '#333' })}
       />
     </svg>
   )

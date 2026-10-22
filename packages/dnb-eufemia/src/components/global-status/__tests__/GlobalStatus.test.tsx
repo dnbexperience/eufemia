@@ -1403,6 +1403,30 @@ describe('GlobalStatus scss', () => {
     expect(css).toMatchSnapshot()
   })
 
+  it('should color the status icon with its own stylesheet', () => {
+    const style = document.createElement('style')
+    style.textContent = String(
+      loadScss(require.resolve('../style/dnb-global-status.scss'))
+    )
+    document.head.appendChild(style)
+
+    try {
+      render(<GlobalStatus show text="Error" autoScroll={false} />)
+
+      const path = document.querySelector(
+        '.dnb-global-status .dnb-form-status-icon-path--error'
+      )
+      const computed = getComputedStyle(path)
+
+      expect(computed.fill).toBe('var(--form-status-icon-color)')
+      expect(computed.getPropertyValue('--form-status-icon-color')).toBe(
+        'var(--token-color-background-error)'
+      )
+    } finally {
+      style.remove()
+    }
+  })
+
   it('should render without errors during SSR', () => {
     const { renderToString } = require('react-dom/server')
     expect(() => {
