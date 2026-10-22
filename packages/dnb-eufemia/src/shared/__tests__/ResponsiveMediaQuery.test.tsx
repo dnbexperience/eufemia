@@ -375,6 +375,35 @@ describe('Available-width media queries', () => {
     document.documentElement.style.fontSize = original
   })
 
+  it('measures a container that wraps the Provider, as documented', () => {
+    // The container's ref is attached after the layout effects inside it run
+    const Read = () => <span data-key>{String(useMedia().key)}</span>
+    function Application() {
+      const containerRef = useRef<HTMLDivElement>(null)
+      return (
+        <div
+          ref={containerRef}
+          data-app
+          style={{ width: '300px', fontSize: '16px' }}
+        >
+          <Provider responsive={{ target: 'container', containerRef }}>
+            <Read />
+          </Provider>
+        </div>
+      )
+    }
+    render(<Application />)
+    const read = () => document.querySelector('[data-key]').textContent
+    expect(read()).toBe('small')
+
+    act(() => {
+      document.querySelector<HTMLElement>('[data-app]').style.width =
+        '1100px'
+      notify([], undefined)
+    })
+    expect(read()).toBe('large')
+  })
+
   it('fails explicitly for unsupported lengths and never substitutes the viewport when observation is unavailable', () => {
     const ref = container(700)
     expect(() =>

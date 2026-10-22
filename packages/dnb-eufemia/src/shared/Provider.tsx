@@ -141,7 +141,7 @@ export default function Provider<Props>(
   ])
 
   const [containerTarget, setContainerTarget] = useState<HTMLElement>(null)
-  useIsomorphicLayoutEffect(() => {
+  const syncContainerTarget = () => {
     const target =
       value.responsive?.target === 'container'
         ? value.responsive.containerRef.current
@@ -149,7 +149,12 @@ export default function Provider<Props>(
     if (target !== containerTarget) {
       setContainerTarget(target)
     }
-  })
+  }
+  // Finds a container rendered inside this Provider before paint.
+  useIsomorphicLayoutEffect(syncContainerTarget)
+  // A container that wraps this Provider gets its ref only after the
+  // layout effects inside it have run, so check again after the commit.
+  useEffect(syncContainerTarget)
   // A ref can change during commit without changing its own identity.
   const responsive = useMemo(
     () =>
