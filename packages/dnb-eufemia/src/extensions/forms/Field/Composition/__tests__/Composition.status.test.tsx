@@ -1,6 +1,6 @@
-import { StrictMode } from 'react'
+import { StrictMode, Suspense } from 'react'
 import type { ReactNode } from 'react'
-import { fireEvent, render } from '@testing-library/react'
+import { act, fireEvent, render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { renderToString } from 'react-dom/server'
 import { Field, FieldBlock, Form } from '../../..'
@@ -300,6 +300,77 @@ describe('Field.Composition status references', () => {
       container.querySelector('.dnb-form-status--error')
     ).toHaveTextContent('Actual error')
     expectReferences(container, ['string-form-status--error'])
+  })
+
+  it.each(emptyMessages)(
+    'should keep %s unlinked while a deferred field hydrates',
+    async (_, messages) => {
+      const element = (
+        <StrictMode>
+          <Field.Composition id="composition" info="Visible info">
+            <Suspense fallback="Loading">
+              <Field.String id="string" {...messages} />
+            </Suspense>
+          </Field.Composition>
+        </StrictMode>
+      )
+      const container = document.createElement('div')
+      container.innerHTML = renderToString(element)
+      const onRecoverableError = vi.fn()
+      expectReferences(container, [])
+      const { unmount } = render(element, {
+        container,
+        hydrate: true,
+        onRecoverableError,
+      })
+      await waitFor(() => {
+        expect(container.querySelector('input')).not.toBeNull()
+        expectReferences(container, [])
+        expect(
+          container.querySelectorAll('.dnb-form-status')
+        ).toHaveLength(1)
+      })
+      expect(
+        container.querySelector('.dnb-form-status')
+      ).toHaveTextContent('Visible info')
+      expect(onRecoverableError).not.toHaveBeenCalled()
+      unmount()
+    }
+  )
+
+  it('should link a nonempty message only after a suspended field commits', async () => {
+    let ready = false
+    let resolve: () => void
+    const pending = new Promise<void>((done) => {
+      resolve = done
+    })
+    function Pending() {
+      if (!ready) {
+        throw pending
+      }
+      return null
+    }
+    const { container } = render(
+      <StrictMode>
+        <Field.Composition id="composition" info="Visible info">
+          <Suspense fallback="Loading">
+            <Field.String id="string" warning="Actual warning" />
+            <Pending />
+          </Suspense>
+        </Field.Composition>
+      </StrictMode>
+    )
+    expect(container.querySelector('input')).toBeNull()
+    expect(container.querySelector('.dnb-form-status--warning')).toBeNull()
+    await act(async () => {
+      ready = true
+      resolve()
+      await pending
+    })
+    expectReferences(container, ['composition-form-status--warning'])
+    expect(
+      container.querySelector('.dnb-form-status--warning')
+    ).toHaveTextContent('Actual warning')
   })
 
   it('should preserve user descriptions when clearing status messages', () => {
