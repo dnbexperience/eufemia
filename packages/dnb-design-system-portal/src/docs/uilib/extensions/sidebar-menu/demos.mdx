@@ -49,6 +49,12 @@ Open “Try loading order” to let the Payments app load before the sidebar. It
 
 <Examples.SidebarMenuContentController />
 
+### External prop control
+
+Turn on “Payments needs more space” to make the sidebar compact and select Payments. Turn it off to restore the shell's responsive thresholds and selected item. The switch lives outside the responsive provider and uses `setProps()` on the same named controller as the menu and provider.
+
+<Examples.SidebarMenuPropsController />
+
 ### Toggle outside the provider
 
 Give `SidebarMenu.Toggle` and `ResponsiveProvider` the same unique `scopeId` to place the toggle elsewhere in your application, such as a header outside the navigation provider. The toggle controls desktop dismissal and the mobile Drawer.

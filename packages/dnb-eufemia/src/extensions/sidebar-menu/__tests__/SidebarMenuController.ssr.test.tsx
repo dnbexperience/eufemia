@@ -20,10 +20,13 @@ describe('SidebarMenu content controller on the server', () => {
   it('does not retain browser content or callbacks on the server', () => {
     const sidebar = SidebarMenu.getController('shared-navigation')
     expect(() => sidebar.setContent({ data: [] }, { key: 'app' })).toThrow(
-      'Use Data props for server rendering'
+      'Use component props for server rendering'
     )
     expect(() =>
       sidebar.transformContent((content) => content, { key: 'app' })
-    ).toThrow('Use Data props for server rendering')
+    ).toThrow('Use component props for server rendering')
+    expect(() =>
+      sidebar.setProps({ compactAt: '80em' }, { key: 'app' })
+    ).toThrow('Use component props for server rendering')
   })
 })

@@ -1,6 +1,11 @@
 import type { PropertiesTableProps } from '../../shared/types'
 
 export const SidebarMenuRootProperties: PropertiesTableProps = {
+  controllerId: {
+    doc: 'Named controller shared with other applications in the same window.',
+    type: 'string',
+    status: 'optional',
+  },
   children: {
     doc: 'Declarative menu content composed with SidebarMenu.Item, SidebarMenu.Accordion, SidebarMenu.Group, SidebarMenu.Section, SidebarMenu.Header, and SidebarMenu.Divider.',
     type: 'React.ReactNode',
@@ -188,6 +193,11 @@ export const SidebarMenuResizeHandleEvents: PropertiesTableProps = {
 
 export const SidebarMenuResponsiveProviderProperties: PropertiesTableProps =
   {
+    controllerId: {
+      doc: 'Named controller shared with other applications in the same window.',
+      type: 'string',
+      status: 'optional',
+    },
     scopeId: {
       doc: 'Unique scope for generated first-paint CSS and Toggle buttons outside this provider. Give Toggle the same scopeId to connect it. Set this when server and client render under different surrounding trees.',
       type: 'string',

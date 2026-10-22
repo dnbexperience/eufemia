@@ -8,6 +8,7 @@ import type { AnchorProps } from '../../components/anchor/Anchor'
 import type { BadgeProps } from '../../components/badge/Badge'
 import type { IconIcon } from '../../components/icon/Icon'
 import type { SpacingProps } from '../../shared/types'
+import type { SidebarMenuResponsiveProviderProps } from './SidebarMenuResponsive'
 
 export type SidebarMenuItemData = {
   /** Renders nested items as a static titled group, a heading, or custom content without item semantics. */
@@ -72,6 +73,8 @@ export type SidebarMenuSectionData = {
 }
 
 export type SidebarMenuRootProps = {
+  /** Named controller shared with other applications in the same window. */
+  controllerId?: string
   /**
    * Declarative menu content composed with SidebarMenu.Item, SidebarMenu.Accordion,
    * SidebarMenu.Group, SidebarMenu.Section, SidebarMenu.Header, and
@@ -154,7 +157,23 @@ export type SidebarMenuContentTransform = (
   content: SidebarMenuContent
 ) => SidebarMenuContent
 
+export type SidebarMenuControllerProps = Partial<
+  Omit<
+    SidebarMenuRootProps,
+    'children' | 'controllerId' | 'dangerouslySetInnerHTML'
+  > &
+    Omit<
+      SidebarMenuResponsiveProviderProps,
+      'children' | 'controllerId' | 'scopeId' | 'styleNonce' | 'breakpoint'
+    >
+>
+
 export type SidebarMenuController = {
+  /** Overrides menu and responsive props until the returned cleanup function is called. */
+  setProps: (
+    props: SidebarMenuControllerProps,
+    options: SidebarMenuContentOptions
+  ) => () => void
   /** Replaces menu content until the returned cleanup function is called. */
   setContent: (
     content: SidebarMenuContent,
@@ -167,13 +186,8 @@ export type SidebarMenuController = {
   ) => () => void
 }
 
-export type SidebarMenuDataProps = Omit<
-  SidebarMenuRootProps,
-  'children'
-> & {
-  /** Named content controller shared with other applications in the same window. */
-  controllerId?: string
-} & (SidebarMenuContent | { data?: never; sections?: never })
+export type SidebarMenuDataProps = Omit<SidebarMenuRootProps, 'children'> &
+  (SidebarMenuContent | { data?: never; sections?: never })
 
 export type SidebarMenuItemProps = {
   /**
