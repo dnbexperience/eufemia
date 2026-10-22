@@ -24,6 +24,10 @@
       .dnb-input {
         &__input {
           align-items: center;
+
+          // Square, like the border, so the browser's autofill background
+          // reaches the step buttons without rounded gaps.
+          border-radius: 0;
         }
 
         .dnb-input__border {
