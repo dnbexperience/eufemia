@@ -900,7 +900,7 @@ resource "aws_lambda_function" "snapshot" {
   role          = data.aws_iam_role.lambda.arn
   handler       = "index.snapshot"
   runtime       = "nodejs22.x"
-  timeout       = 90
+  timeout       = 900
   memory_size   = 256
 
   filename         = "${path.module}/../dist/lambda.zip"

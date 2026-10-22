@@ -19,10 +19,10 @@ const DEFAULT_LIMIT = 100
 const MAX_LIMIT = 1000
 
 const POLL_INTERVAL_MS = 500
-// Keep the total poll window (MAX_POLLS * POLL_INTERVAL_MS = 25s) below the
-// Lambda timeout (30s) so this loop surfaces a clear "timed out" error before
-// the platform kills the invocation.
-const MAX_POLLS = 50
+// Sized for the full 13-month retention; the snapshot Lambda timeout covers
+// its chain of waits.
+const MAX_WAIT_MS = 2 * 60 * 1000
+const MAX_POLLS = MAX_WAIT_MS / POLL_INTERVAL_MS
 
 export type RetrieveOptions = {
   limit?: number
