@@ -154,3 +154,9 @@ The dashboard API's CORS allows the dashboard's canonical origin (`DASHBOARD_PUB
 Prerequisites for sign-in and data to work end to end: the app registration must expose a `Dashboard.Read` scope under App ID URI `api://<clientId>` and issue v2 access tokens (`requestedAccessTokenVersion = 2`). The deploy role's CloudFront, S3, and SNS permissions are provisioned in the OIDC federation repo, alongside the Lambda execution role.
 
 Terraform state reuses the shared `eufemia-mcp-terraform-state` bucket under the `analytics/` key.
+
+## Production health monitor
+
+The analytics health workflow checks the public API and dashboard, then verifies the internal deployment run. Store its separate fine-grained credential as the public repository Actions secret GHE_MONITOR_PAT. Scope it to the internal analytics deployment repository with Actions read and the required Metadata read permission. It needs no Contents write or organization permissions. Keep GHE_DEPLOY_PAT reserved for deployment handoff.
+
+The token must be active and approved for the internal organization, and renewed before its expiration. A permission failure in deployment verification reports an unhealthy monitor even when the API and dashboard remain available; inspect the individual check results in the incident.
