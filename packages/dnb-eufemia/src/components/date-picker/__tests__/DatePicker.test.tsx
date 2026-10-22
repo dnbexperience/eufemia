@@ -1857,6 +1857,70 @@ describe('DatePicker component', () => {
 
     it.each<[string, Partial<DatePickerAllProps>, Array<string>]>([
       [
+        'minDate is after today',
+        { minDate: '2026-12-10' },
+        ['desember 2026'],
+      ],
+      [
+        'maxDate is before today',
+        { maxDate: '2026-08-15' },
+        ['august 2026'],
+      ],
+      [
+        'minDate is after today, in range mode',
+        { range: true, minDate: '2026-12-10' },
+        ['desember 2026', 'januar 2027'],
+      ],
+      [
+        'maxDate is before today, in range mode',
+        { range: true, maxDate: '2026-08-15' },
+        ['juli 2026', 'august 2026'],
+      ],
+      [
+        'minDate is after today, with onlyMonth',
+        { onlyMonth: true, minDate: '2026-12-10' },
+        ['desember'],
+      ],
+    ])(
+      'should open on the nearest month with selectable days when %s',
+      async (_, props, expectedTitles) => {
+        render(<DatePicker noAnimation {...props} />)
+
+        await userEvent.click(getDatePickerTriggerButton())
+
+        expect(getCalendarTitles()).toEqual(expectedTitles)
+      }
+    )
+
+    it.each<[string, Partial<DatePickerAllProps>, Array<string>]>([
+      [
+        'today is between minDate and maxDate',
+        { minDate: '2026-09-10', maxDate: '2026-11-10' },
+        ['oktober 2026'],
+      ],
+      [
+        'date is set',
+        { date: '2026-10-05', minDate: '2026-12-10' },
+        ['oktober 2026'],
+      ],
+      [
+        'month is set',
+        { month: '2026-09-01', minDate: '2026-12-10' },
+        ['september 2026'],
+      ],
+    ])(
+      'should keep the month when %s',
+      async (_, props, expectedTitles) => {
+        render(<DatePicker noAnimation {...props} />)
+
+        await userEvent.click(getDatePickerTriggerButton())
+
+        expect(getCalendarTitles()).toEqual(expectedTitles)
+      }
+    )
+
+    it.each<[string, Partial<DatePickerAllProps>, Array<string>]>([
+      [
         'startMonth is set',
         { startMonth: '2026-10-01' },
         ['oktober 2026', 'november 2026'],

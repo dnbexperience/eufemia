@@ -153,13 +153,21 @@ function mapDates(
         dateFormat,
       }) || undefined
 
+  const minDate = convertStringToDate(dateProps.minDate, {
+    dateFormat,
+  })
+
+  const maxDate = convertStringToDate(dateProps.maxDate, {
+    dateFormat,
+  })
+
   // Ensure that the calendar view displays the correct start and end months, and to prevent date flickering bug
   const startMonth =
     convertStringToDate(dateProps.startMonth, {
       dateFormat,
     }) ??
     startDate ??
-    new Date()
+    getDefaultMonth({ minDate, maxDate })
 
   // Check if startMonth was explicitly provided (not just derived from startDate)
   const hasExplicitStartMonth = typeof dateProps.startMonth !== 'undefined'
@@ -180,14 +188,6 @@ function mapDates(
           ? endDate
           : addMonths(startMonth, 1)
       : startMonth)
-
-  const minDate = convertStringToDate(dateProps.minDate, {
-    dateFormat,
-  })
-
-  const maxDate = convertStringToDate(dateProps.maxDate, {
-    dateFormat,
-  })
 
   const months =
     isRange &&
@@ -354,6 +354,30 @@ function updateMonths({
     startMonth,
     endMonth,
   }
+}
+
+/**
+ * Use the current month, or the nearest month within minDate and maxDate,
+ * so the calendar does not open on a month where no day can be selected.
+ */
+function getDefaultMonth({
+  minDate,
+  maxDate,
+}: {
+  minDate?: Date
+  maxDate?: Date
+}) {
+  const today = new Date()
+
+  if (maxDate && differenceInCalendarMonths(today, maxDate) > 0) {
+    return maxDate
+  }
+
+  if (minDate && differenceInCalendarMonths(today, minDate) < 0) {
+    return minDate
+  }
+
+  return today
 }
 
 /**

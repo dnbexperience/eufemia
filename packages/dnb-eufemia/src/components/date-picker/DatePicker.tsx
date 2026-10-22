@@ -159,7 +159,7 @@ export type DatePickerProps = {
    */
   hideAdjacentMonthDates?: boolean
   /**
-   * If set to `true`, the calendar only displays days belonging to the currently displayed month, and month navigation via buttons and keyboard is disabled. The displayed month is determined by the `month` or `startMonth` prop, and ultimately defaults to the current month. Use `'without-label'` to also hide the month label. Defaults to `false`.
+   * If set to `true`, the calendar only displays days belonging to the currently displayed month, and month navigation via buttons and keyboard is disabled. The displayed month is determined by the `month` or `startMonth` prop, and ultimately defaults to the current month, or the nearest month within `minDate` and `maxDate`. Use `'without-label'` to also hide the month label. Defaults to `false`.
    */
   onlyMonth?: boolean | 'without-label'
   /**
