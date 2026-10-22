@@ -261,13 +261,9 @@ export function validateMcpUsage(
       }
     }
 
-    if (timestamp !== undefined) {
-      if (typeof timestamp !== 'string' || !isIsoTimestamp(timestamp)) {
-        errors.push(
-          `Event ${index}: "timestamp" must be an ISO date string`
-        )
-        valid = false
-      }
+    if (timestamp !== undefined && !isIsoTimestamp(timestamp)) {
+      errors.push(`Event ${index}: "timestamp" must be an ISO date string`)
+      valid = false
     }
 
     if (valid) {
