@@ -5,7 +5,9 @@ import { loadScss } from '../../../core/test-utils/testSetup'
 
 // Safari before 15.4 and Firefox before 121 do not support :has().
 // These browsers drop the rules that show the outline of an item on
-// keyboard focus, so the styles have a fallback for them.
+// keyboard focus, so the styles have a fallback for them. It must target
+// only the primary focus targets, not the whole item. The behaviour is
+// tested in ListFocusFallback.e2e.spec.ts.
 function getFallbackSelectors() {
   const css = loadScss(require.resolve('../style/dnb-list.scss'))
   const selectors: string[] = []
@@ -24,10 +26,9 @@ function getFallbackSelectors() {
 describe('List scss', () => {
   it('should show the outline of a focused item in browsers without :has()', () => {
     expect(getFallbackSelectors()).toEqual([
-      '.dnb-list__item__action:not(.dnb-list__item--disabled):focus-within',
-      '.dnb-list__item__accordion:not(.dnb-list__item--disabled):focus-within',
-      '.dnb-card .dnb-list__container .dnb-list__item.dnb-list__item__action:not(.dnb-list__item--disabled):focus-within::after',
-      '.dnb-card .dnb-list__container .dnb-list__item.dnb-list__item__accordion:not(.dnb-list__item--disabled):focus-within::after',
+      '.dnb-list__item__action:not(.dnb-list__item--disabled) > a:focus::before',
+      '.dnb-list__item__action:not(.dnb-list__item--disabled) > .dnb-list__item__action__button:focus::before',
+      '.dnb-list__item__accordion:not(.dnb-list__item--disabled) > .dnb-list__item__accordion__header:focus::before',
     ])
   })
 

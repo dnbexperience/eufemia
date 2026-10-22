@@ -7,12 +7,24 @@
 }
 
 // Safari before 15.4 and Firefox before 121 do not support :has(), so
-// they drop the rules that show the outline on keyboard focus.
-// Show the outline while the item has focus instead.
+// they drop the rules that show the outline of an item on keyboard focus.
+// These browsers cannot style the item from its focused child. So the
+// fallback draws the outline on the focused primary target (the action
+// button or link, or the accordion header) instead. Footer controls and
+// nested items do not get it.
 @mixin withoutHasSupport() {
   @supports not (selector(:has(*))) {
     @content;
   }
+}
+
+@mixin focusFallbackOutline() {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 11; // Above the outline of the item (::after)
+  box-shadow: inset 0 0 0 0.125rem
+    var(--list-item-navigation-outline-color);
 }
 
 .dnb-list {
@@ -442,8 +454,10 @@
         @include navigationOutline();
       }
       @include withoutHasSupport() {
-        &:not(.dnb-list__item--disabled):focus-within {
-          @include navigationOutline();
+        &:not(.dnb-list__item--disabled) > a:focus::before,
+        &:not(.dnb-list__item--disabled)
+          > .dnb-list__item__action__button:focus::before {
+          @include focusFallbackOutline();
         }
       }
       &:not(.dnb-list__item--disabled):active {
@@ -510,8 +524,9 @@
       @include navigationOutline();
     }
     @include withoutHasSupport() {
-      &__accordion:not(.dnb-list__item--disabled):focus-within {
-        @include navigationOutline();
+      &__accordion:not(.dnb-list__item--disabled)
+        > #{&}__accordion__header:focus::before {
+        @include focusFallbackOutline();
       }
     }
     &:not(.dnb-list__item--disabled):has(#{&}__accordion__header:active) {
@@ -693,17 +708,6 @@
           )::after {
           border: var(--list-item-outline-width) solid
             var(--list-item-outline-color);
-        }
-        @include withoutHasSupport() {
-          &.dnb-list__item__action:not(
-              .dnb-list__item--disabled
-            ):focus-within::after,
-          &.dnb-list__item__accordion:not(
-              .dnb-list__item--disabled
-            ):focus-within::after {
-            border: var(--list-item-outline-width) solid
-              var(--list-item-outline-color);
-          }
         }
       }
     }

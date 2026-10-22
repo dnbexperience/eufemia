@@ -1,0 +1,38 @@
+---
+fullscreen: true
+hideInMenu: true
+search: false
+---
+
+import { Button, List } from '@dnb/eufemia/src'
+
+<List.Card data-testid="focus-fallback">
+  <List.Container>
+    <List.Item.Action title="Action row" onClick={() => null} />
+    <List.Item.Action title="Link row" href="/uilib/components/list/" />
+    <List.Item.Action
+      title="Footer row"
+      onClick={() => null}
+      footer={
+        <List.Cell.Footer>
+          <Button text="Footer action" />
+        </List.Cell.Footer>
+      }
+    />
+    <List.Item.Accordion title="Parent accordion" open>
+      <List.Item.Accordion.Content>
+        <List.Container>
+          <List.Item.Action
+            title="Nested action row"
+            onClick={() => null}
+          />
+          <List.Item.Accordion title="Nested accordion">
+            <List.Item.Accordion.Content>
+              Nested content
+            </List.Item.Accordion.Content>
+          </List.Item.Accordion>
+        </List.Container>
+      </List.Item.Accordion.Content>
+    </List.Item.Accordion>
+  </List.Container>
+</List.Card>
