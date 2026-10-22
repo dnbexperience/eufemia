@@ -1,0 +1,57 @@
+---
+fullscreen: true
+hideInMenu: true
+search: false
+---
+
+import { List, Avatar } from '@dnb/eufemia/src'
+import { Value } from '@dnb/eufemia/src/extensions/forms'
+import { fish_medium } from '@dnb/eufemia/src/icons'
+
+export const Cells = ({ start }) => (
+  <>
+    {start === 'avatar' && (
+      <List.Cell.Start>
+        <Avatar size="medium" hasLabel>
+          A
+        </Avatar>
+      </List.Cell.Start>
+    )}
+    <List.Cell.Title>
+      <span data-testid="title-text">Title</span>
+    </List.Cell.Title>
+    <List.Cell.End>
+      <Value.Currency value={1234} />
+    </List.Cell.End>
+  </>
+)
+
+export const ChevronLeft = () => (
+  <List.Container>
+    {['icon', 'avatar', 'title'].map((start) => (
+      <List.Item.Action
+        key={`action-${start}`}
+        icon={start === 'icon' ? fish_medium : undefined}
+        chevronPosition="left"
+        data-testid={`action-${start}`}
+      >
+        {Cells({ start })}
+      </List.Item.Action>
+    ))}
+    {['icon', 'avatar', 'title'].map((start) => (
+      <List.Item.Accordion
+        key={`accordion-${start}`}
+        icon={start === 'icon' ? fish_medium : undefined}
+        chevronPosition="left"
+        data-testid={`accordion-${start}`}
+      >
+        <List.Item.Accordion.Header>
+          {Cells({ start })}
+        </List.Item.Accordion.Header>
+        <List.Item.Accordion.Content>Content</List.Item.Accordion.Content>
+      </List.Item.Accordion>
+    ))}
+  </List.Container>
+)
+
+<ChevronLeft />
