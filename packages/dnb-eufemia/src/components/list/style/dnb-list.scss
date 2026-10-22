@@ -206,14 +206,47 @@
       padding-bottom: 0;
     }
 
-    // On small screens, add row-gap when center or end is used
-    // so we have spacing between the rows
-    &:not(#{&}__accordion):has(#{&}__center),
-    &:not(#{&}__accordion):has(#{&}__end),
-    &__accordion__header:has(#{&}__center),
-    &__accordion__header:has(#{&}__end) {
+    // On small screens, the end cell is placed below the title, and so is the
+    // center cell on x-small screens. Add the space above these cells on the
+    // cells themselves, so empty grid rows add no space, and the grids of
+    // action buttons and links get the same space as other rows.
+    @at-root :where(#{&}__end) {
       @include utilities.allBelow(small) {
-        row-gap: var(--list-item-row-gap);
+        margin-top: var(--list-item-row-gap);
+      }
+    }
+    @at-root :where(#{&}__center:not(:has(> #{&}__title))) {
+      @include utilities.allBelow(x-small) {
+        margin-top: var(--list-item-row-gap);
+      }
+    }
+
+    // Then, like in the design, the space is measured from the text above,
+    // not from the cell boxes next to it. The title takes only the space of
+    // its lines, and the cell boxes, which reach below the title line, do not
+    // push the cells below further down.
+    $end-below: ':has(> #{&}__end)';
+    $center-below: ':has(> #{&}__center):not(:has(> #{&}__center > #{&}__title))';
+    $slot-cell: ':where(#{&}__icon, #{&}__start, #{&}__chevron, .dnb-anchor__launch-icon)';
+    @at-root #{$end-below} > #{&}__title,
+      #{$end-below} > #{&}__center > #{&}__title {
+      @include utilities.allBelow(small) {
+        min-height: 0;
+      }
+    }
+    @at-root #{$center-below} > #{&}__title {
+      @include utilities.allBelow(x-small) {
+        min-height: 0;
+      }
+    }
+    @at-root :where(#{$end-below}) > #{$slot-cell} {
+      @include utilities.allBelow(small) {
+        margin-bottom: calc(#{$title-offset} * -1);
+      }
+    }
+    @at-root :where(#{$center-below}) > #{$slot-cell} {
+      @include utilities.allBelow(x-small) {
+        margin-bottom: calc(#{$title-offset} * -1);
       }
     }
 
@@ -244,13 +277,6 @@
       // Like a title, keep space at the end when nothing follows
       &:not(:has(> #{$end}, > #{$chevron})) > #{$center} {
         padding-right: var(--list-item-padding, 0);
-      }
-
-      // Like a title, only add the small screen row gap for the end cell
-      &:not(:has(> #{$end})) {
-        @include utilities.allBelow(small) {
-          row-gap: 0;
-        }
       }
     }
 
@@ -481,11 +507,6 @@
         &.dnb-list__item--disabled > .dnb-list__item__action__button {
           cursor: not-allowed;
         }
-      }
-
-      &--with-footer:has(.dnb-list__item__end),
-      &--with-footer:has(.dnb-list__item__center) {
-        row-gap: 0;
       }
 
       &__footer {
