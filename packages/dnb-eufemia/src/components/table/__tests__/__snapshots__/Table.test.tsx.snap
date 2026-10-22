@@ -559,7 +559,9 @@ html:not([data-whatintent=touch]) .dnb-table > thead > tr > th.dnb-table--active
   z-index: 6;
   inset: 0;
   right: calc(var(--table-accordion-outline-width--active) * -1);
-  border: var(--border-width, 0) solid var(--border-color, transparent);
+  border: var(--border-width) solid var(--border-color);
+  --border-width: 0;
+  --border-color: transparent;
 }
 
 html:not([data-whatintent=touch]) .dnb-table__td__button:hover[disabled] {
@@ -590,7 +592,7 @@ html:not([data-whatintent=touch]) .dnb-table__td__button:hover:not([disabled]) .
   right: 0;
 }
 
-.dnb-table__td__button:not(:active):not(:hover):focus-visible::before {
+.dnb-table__td__button:not(:active):not(:hover):focus-visible::before, .dnb-table__td--selected .dnb-table__td__button:not(:active):not(:hover):focus-visible::before {
   --border-width: var(--focus-ring-width);
   --border-color: var(--token-color-stroke-action-focus);
 }
@@ -1080,7 +1082,9 @@ html:not([data-whatintent=touch]) .dnb-table__td__button:hover:not([disabled]) .
   z-index: 3;
   inset: 0;
   pointer-events: none;
-  border: var(--border-width, var(--table-accordion-outline-width)) solid var(--border-color, transparent);
+  border: var(--border-width) solid var(--border-color);
+  --border-width: var(--table-accordion-outline-width);
+  --border-color: transparent;
 }
 
 .dnb-table__tr--clickable.dnb-table__tr:not(.dnb-table__tr--disabled) td:not(:first-of-type)::before {

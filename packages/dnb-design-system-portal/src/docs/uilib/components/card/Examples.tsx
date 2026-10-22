@@ -11,6 +11,7 @@ import {
   H2,
   Lead,
   P,
+  ScrollView,
   Section,
   Table,
   Td,
@@ -244,6 +245,21 @@ export const CloseButtonPadding = () => (
         <P size="small">Card.Info without padding</P>
       </Card.Info>
     </Flex.Stack>
+  </ComponentBox>
+)
+
+export const InsideScrollView = () => (
+  <ComponentBox data-visual-test="card-scroll-view" hideCode>
+    <ScrollView interactive aria-label="Cards">
+      <Flex.Horizontal wrap={false}>
+        <Card>
+          <P>First card</P>
+        </Card>
+        <Card>
+          <P>Second card</P>
+        </Card>
+      </Flex.Horizontal>
+    </ScrollView>
   </ComponentBox>
 )
 
