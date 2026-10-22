@@ -1,4 +1,4 @@
-import { test, expect, type Locator } from '@playwright/test'
+import { test, expect, type Locator, type Page } from '@playwright/test'
 
 function getBorderWidths(item: Locator) {
   return item.evaluate((element) => {
@@ -40,5 +40,53 @@ test.describe('List.Card', () => {
     await expect(button).toBeFocused()
 
     expect(await getBorderWidths(item)).toEqual(fullOutline)
+  })
+})
+
+test.describe('List.Card outline', () => {
+  const fullOutline = ['2px', '2px', '2px', '2px']
+
+  test.beforeEach(async ({ page }) => {
+    await page.goto('/uilib/components/list/visual-tests/card-outline/')
+    await expect(page.locator('html')).toHaveAttribute(
+      'data-portal-ready',
+      'true'
+    )
+    await page.mouse.move(0, 0)
+  })
+
+  function getRow(page: Page, title: string) {
+    return page
+      .getByTestId('card-outline')
+      .locator('.dnb-list__item')
+      .filter({ hasText: title })
+  }
+
+  // Press Tab from the button before the card until the target has focus,
+  // so the browser sets the focus the same way as for a keyboard user.
+  async function tabTo(page: Page, target: Locator) {
+    await page.getByTestId('before-card').focus()
+    for (let i = 0; i < 20; i++) {
+      await page.keyboard.press('Tab')
+      if (
+        await target.evaluate(
+          (element) => element === document.activeElement
+        )
+      ) {
+        return
+      }
+    }
+    throw new Error('Tab did not reach the target')
+  }
+
+  test('should show the full outline on the first, a middle and the last row on keyboard focus', async ({
+    page,
+  }) => {
+    for (const title of ['First row', 'Middle row', 'Last row']) {
+      const row = getRow(page, title)
+      await tabTo(page, row.locator('.dnb-list__item__action__button'))
+
+      expect(await getBorderWidths(row), title).toEqual(fullOutline)
+    }
   })
 })

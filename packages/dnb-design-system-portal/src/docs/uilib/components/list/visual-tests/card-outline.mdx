@@ -1,0 +1,17 @@
+---
+fullscreen: true
+hideInMenu: true
+search: false
+---
+
+import { Button, List } from '@dnb/eufemia/src'
+
+<Button text="Before the card" data-testid="before-card" />
+
+<List.Card data-testid="card-outline">
+  <List.Container>
+    <List.Item.Action title="First row" onClick={() => null} />
+    <List.Item.Action title="Middle row" onClick={() => null} />
+    <List.Item.Action title="Last row" onClick={() => null} />
+  </List.Container>
+</List.Card>
