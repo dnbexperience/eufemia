@@ -5,7 +5,7 @@ test.describe('Card inside a ScrollView', () => {
     page,
   }) => {
     await page.goto(
-      '/uilib/components/card/visual-tests/inside-scroll-view/?data-visual-test'
+      '/web/components/card/visual-tests/inside-scroll-view/?data-visual-test'
     )
     await expect(page.locator('html')).toHaveAttribute(
       'data-portal-ready',
