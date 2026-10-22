@@ -122,54 +122,79 @@
       grid-template: auto / minmax(0, 1fr);
       padding-inline: var(--list-item-padding, 0);
 
+      // Place the text like a title: its first line is centered in a 2rem
+      // box at the top of the row
+      padding-top: calc(
+        var(--list-item-padding) + (2rem - var(--line-height-basis)) / 2
+      );
+      align-content: start;
+
       > .dnb-space:not([hidden]) {
         display: contents;
       }
     }
 
-    // Align the cells with the title when the row has an overline or a
-    // subline. Only check the cells of the same row (the children of the cells'
+    // Align the cells with the first title line, like in the design. Each cell
+    // is placed at the top of the row, in a box as tall as the row content
+    // (2rem), and the first title line is centered in that box. This way a
+    // subline or a title that wraps onto more lines does not move the cells.
+    // In a row with an overline, the cells move down so they stay on the title
+    // line. Only check the cells of the same row (the children of the cells'
     // parent), so a nested list (e.g. inside an accordion) does not affect the
     // alignment of other rows.
+    $line-box: 2rem;
+    $title-offset: calc(($line-box - var(--line-height-basis)) / 2);
+    $overline-offset: calc(var(--line-height-basis) - #{$title-offset});
     $footer: '#{&}__footer, #{&}__action__footer';
     $row-with-overline: ':has(> #{&}__overline, > :not(#{$footer}) #{&}__overline)';
-    $row-with-subline: ':has(> #{&}__subline, > :not(#{$footer}) #{&}__subline)';
+    $launch-icon: '#{&}__action--href > a > .dnb-anchor__launch-icon';
+    $text-cell: ':is(#{&}__center:not(:has(> #{&}__title)), #{&}__end)';
+    $overline: '#{&}__overline';
+    $end-control: ':is(.dnb-avatar, .dnb-badge, .dnb-button, .dnb-flex-container--direction-horizontal, .dnb-icon, .dnb-switch, .dnb-tag, .dnb-toggle-button)';
 
-    // Only align these cells vertically, so they keep their horizontal place.
-    @at-root #{$row-with-overline} > #{&}__center,
-      #{$row-with-overline} > #{&}__end {
-      @include utilities.allAbove(small) {
-        align-self: end;
+    @at-root #{&}__icon,
+      #{&}__start,
+      #{&}__chevron,
+      #{$launch-icon},
+      #{$text-cell} {
+      align-self: start;
+      min-height: $line-box;
+    }
+    // The end cell is a column. Place its first text line on the title line,
+    // also when more lines follow. Controls are centered in the box instead.
+    @at-root #{&}__end {
+      justify-content: flex-start;
+
+      &:has(> #{$end-control}) {
+        justify-content: center;
       }
     }
-    @at-root #{$row-with-overline} > #{&}__icon,
-      #{$row-with-overline} > #{&}__chevron {
-      place-self: end;
+    @at-root :where(#{&}__end:not(:has(> #{$end-control}))),
+      :where(#{&}__title) {
+      padding-top: $title-offset;
     }
-    @at-root #{$row-with-subline} > #{&}__center,
-      #{$row-with-subline} > #{&}__end {
+    @at-root #{&}__title,
+      #{&}__center:has(> #{&}__title) {
+      align-self: start;
+    }
+    @at-root #{&}__title {
+      min-height: $line-box;
+    }
+    @at-root :where(#{&}__title:has(#{$overline})) {
+      padding-top: 0;
+    }
+    @at-root :where(#{$row-with-overline})
+        > :where(
+          #{&}__icon,
+          #{&}__start,
+          #{&}__chevron,
+          .dnb-anchor__launch-icon
+        ) {
+      margin-top: $overline-offset;
+    }
+    @at-root :where(#{$row-with-overline}) > :where(#{$text-cell}) {
       @include utilities.allAbove(small) {
-        align-self: start;
-      }
-    }
-    @at-root #{$row-with-subline} > #{&}__title,
-      #{$row-with-subline} > #{&}__icon,
-      #{$row-with-subline} > #{&}__chevron {
-      place-self: start;
-    }
-
-    // With both an overline and a subline, the cells are placed at the top of
-    // the row. Move them down by the overline line, so they are aligned with
-    // the title line and not with the overline.
-    @at-root #{$row-with-overline}#{$row-with-subline} > #{&}__icon,
-      #{$row-with-overline}#{$row-with-subline} > #{&}__chevron {
-      margin-top: var(--line-height-basis);
-    }
-    @at-root #{$row-with-overline}#{$row-with-subline}
-        > #{&}__center:not(:has(> #{&}__title)),
-      #{$row-with-overline}#{$row-with-subline} > #{&}__end {
-      @include utilities.allAbove(small) {
-        margin-top: var(--line-height-basis);
+        margin-top: $overline-offset;
       }
     }
 
