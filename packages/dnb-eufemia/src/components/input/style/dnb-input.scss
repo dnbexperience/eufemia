@@ -289,13 +289,8 @@
   }
 
   // Because of password managers
-  &--password &__placeholder,
-  &--password &__input {
-    margin-right: 2.5rem;
-    padding-right: 0;
-  }
-
   &--password &__placeholder {
+    margin-right: 2.5rem;
     padding-right: 4rem;
   }
 
@@ -626,6 +621,23 @@
   &--icon-position-right#{&}--has-icon#{&}--has-submit-element
     &__placeholder {
     padding-right: calc(var(--input-height-current) + 2.5rem);
+  }
+
+  // Password managers place their icon at the right edge of the input box,
+  // so keep the box clear of the button (e.g. show/hide password).
+  // Browsers paint their autofill background on the input box only,
+  // so end the box exactly where the button starts, in every size.
+  // The text keeps 0.5rem to the button, like in other inputs with a button.
+  // Field.Password uses the same box when the password is shown.
+  &--password#{&}--has-submit-element &__input {
+    margin-right: var(--input-height-current);
+    padding-right: 0.5rem;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+  &--password#{&}--icon-position-right#{&}--has-icon#{&}--has-submit-element
+    &__input {
+    padding-right: 2.5rem;
   }
 
   html[data-visual-test] &__input {

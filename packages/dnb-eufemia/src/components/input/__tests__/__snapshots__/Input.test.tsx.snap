@@ -1517,11 +1517,8 @@ html[data-whatinput=keyboard] .dnb-input__status--error .dnb-input__border:focus
 .dnb-input--has-submit-element .dnb-input__placeholder, .dnb-input--has-submit-element .dnb-input__input, .dnb-input--has-clear-button .dnb-input__placeholder, .dnb-input--has-clear-button .dnb-input__input {
   padding-right: calc(var(--input-padding) * 2.5);
 }
-.dnb-input--password .dnb-input__placeholder, .dnb-input--password .dnb-input__input {
-  margin-right: 2.5rem;
-  padding-right: 0;
-}
 .dnb-input--password .dnb-input__placeholder {
+  margin-right: 2.5rem;
   padding-right: 4rem;
 }
 .dnb-input--password .dnb-input__input {
@@ -1764,6 +1761,15 @@ html:not([data-whatintent=touch]) .dnb-input--clear.dnb-input__submit-element .d
 }
 .dnb-input--icon-position-right.dnb-input--has-icon.dnb-input--has-submit-element .dnb-input__input, .dnb-input--icon-position-right.dnb-input--has-icon.dnb-input--has-submit-element .dnb-input__placeholder {
   padding-right: calc(var(--input-height-current) + 2.5rem);
+}
+.dnb-input--password.dnb-input--has-submit-element .dnb-input__input {
+  margin-right: var(--input-height-current);
+  padding-right: 0.5rem;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.dnb-input--password.dnb-input--icon-position-right.dnb-input--has-icon.dnb-input--has-submit-element .dnb-input__input {
+  padding-right: 2.5rem;
 }
 html[data-visual-test] .dnb-input__input {
   caret-color: var(--token-color-background-neutral);
