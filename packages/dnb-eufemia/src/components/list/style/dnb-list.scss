@@ -667,26 +667,36 @@
         }
 
         // Interactive items show them on hover and keyboard focus.
+        // Use the same conditions as the outline states above, so
+        // disabled items do not show them.
         // Keep these rules separate, because a browser without support
         // for :has() or :focus-visible drops the whole rule.
-        &.dnb-list__item__action:hover::after,
-        &.dnb-list__item__accordion:hover::after {
+        &.dnb-list__item__action:not(
+            .dnb-list__item--disabled
+          ):hover::after,
+        &.dnb-list__item__accordion:not(
+            .dnb-list__item--disabled
+          ):hover::after {
           border: var(--list-item-outline-width) solid
             var(--list-item-outline-color);
         }
-        &.dnb-list__item__action:has(
+        &.dnb-list__item__action:not(.dnb-list__item--disabled):has(
             > a:focus-visible,
             > .dnb-list__item__action__button:focus-visible
           )::after,
-        &.dnb-list__item__accordion:has(
+        &.dnb-list__item__accordion:not(.dnb-list__item--disabled):has(
             .dnb-list__item__accordion__header:focus-visible
           )::after {
           border: var(--list-item-outline-width) solid
             var(--list-item-outline-color);
         }
         @include withoutHasSupport() {
-          &.dnb-list__item__action:focus-within::after,
-          &.dnb-list__item__accordion:focus-within::after {
+          &.dnb-list__item__action:not(
+              .dnb-list__item--disabled
+            ):focus-within::after,
+          &.dnb-list__item__accordion:not(
+              .dnb-list__item--disabled
+            ):focus-within::after {
             border: var(--list-item-outline-width) solid
               var(--list-item-outline-color);
           }

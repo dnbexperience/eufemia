@@ -59,7 +59,7 @@ test.describe('List.Card outline', () => {
     return page
       .getByTestId('card-outline')
       .locator('.dnb-list__item')
-      .filter({ hasText: title })
+      .filter({ has: page.getByText(title, { exact: true }) })
   }
 
   // Press Tab from the button before the card until the target has focus,
@@ -124,5 +124,32 @@ test.describe('List.Card outline', () => {
       '1px',
       '0px',
     ])
+  })
+
+  test('should not show the side borders on a disabled row', async ({
+    page,
+  }) => {
+    const restBorders = ['1px', '0px', '1px', '0px']
+
+    await getRow(page, 'Middle row').hover()
+    expect(await getBorderWidths(getRow(page, 'Middle row'))).toEqual(
+      fullOutline
+    )
+
+    const accordion = getRow(page, 'Disabled accordion row')
+    await accordion.hover()
+    expect(await getBorderWidths(accordion)).toEqual(restBorders)
+
+    const row = getRow(page, 'Disabled row')
+    await row.hover()
+    expect(await getBorderWidths(row)).toEqual(restBorders)
+
+    // The disabled button is out of the Tab order, but a script can focus it
+    await page.mouse.move(0, 0)
+    const button = row.locator('.dnb-list__item__action__button')
+    await page.keyboard.press('a')
+    await button.focus()
+    await expect(button).toBeFocused()
+    expect(await getBorderWidths(row)).toEqual(restBorders)
   })
 })

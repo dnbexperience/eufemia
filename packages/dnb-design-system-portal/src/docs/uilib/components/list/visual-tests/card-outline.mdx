@@ -27,6 +27,12 @@ import { Button, List } from '@dnb/eufemia/src'
         </List.Cell.Footer>
       }
     />
+    <List.Item.Action title="Disabled row" onClick={() => null} disabled />
+    <List.Item.Accordion title="Disabled accordion row" disabled>
+      <List.Item.Accordion.Content>
+        Disabled accordion content
+      </List.Item.Accordion.Content>
+    </List.Item.Accordion>
     <List.Item.Action title="Last row" onClick={() => null} />
   </List.Container>
 </List.Card>

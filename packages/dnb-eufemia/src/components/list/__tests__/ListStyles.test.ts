@@ -26,8 +26,8 @@ describe('List scss', () => {
     expect(getFallbackSelectors()).toEqual([
       '.dnb-list__item__action:not(.dnb-list__item--disabled):focus-within',
       '.dnb-list__item__accordion:not(.dnb-list__item--disabled):focus-within',
-      '.dnb-card .dnb-list__container .dnb-list__item.dnb-list__item__action:focus-within::after',
-      '.dnb-card .dnb-list__container .dnb-list__item.dnb-list__item__accordion:focus-within::after',
+      '.dnb-card .dnb-list__container .dnb-list__item.dnb-list__item__action:not(.dnb-list__item--disabled):focus-within::after',
+      '.dnb-card .dnb-list__container .dnb-list__item.dnb-list__item__accordion:not(.dnb-list__item--disabled):focus-within::after',
     ])
   })
 
