@@ -103,4 +103,26 @@ test.describe('List.Card outline', () => {
       expect(await getBorderWidths(row), title).toEqual(fullOutline)
     }
   })
+
+  test('should not show the row outline when a footer control has focus', async ({
+    page,
+  }) => {
+    const row = getRow(page, 'Footer row')
+
+    await tabTo(page, row.locator('.dnb-list__item__action__button'))
+    expect(await getBorderWidths(row)).toEqual(fullOutline)
+
+    // The footer button shows its own focus ring.
+    // WebKit on macOS skips buttons on Tab, so set the focus after a key press.
+    const footerButton = row.getByRole('button', { name: 'Footer action' })
+    await page.keyboard.press('a')
+    await footerButton.focus()
+    await expect(footerButton).toBeFocused()
+    expect(await getBorderWidths(row)).toEqual([
+      '1px',
+      '0px',
+      '1px',
+      '0px',
+    ])
+  })
 })

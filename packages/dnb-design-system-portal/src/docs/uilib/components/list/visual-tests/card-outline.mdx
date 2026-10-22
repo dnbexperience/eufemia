@@ -18,6 +18,15 @@ import { Button, List } from '@dnb/eufemia/src'
         Accordion content
       </List.Item.Accordion.Content>
     </List.Item.Accordion>
+    <List.Item.Action
+      title="Footer row"
+      onClick={() => null}
+      footer={
+        <List.Cell.Footer>
+          <Button text="Footer action" />
+        </List.Cell.Footer>
+      }
+    />
     <List.Item.Action title="Last row" onClick={() => null} />
   </List.Container>
 </List.Card>
