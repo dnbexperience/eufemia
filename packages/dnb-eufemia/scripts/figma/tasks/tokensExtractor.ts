@@ -303,11 +303,16 @@ export const warnAboutSkippedModes = (meta: FigmaLocalVariables) => {
       .filter((name) => !exported.includes(name))
 
     if (skipped.length) {
-      log.warn(
-        `> Figma: The variable collection "${collectionName}" has modes that are not exported: ${skipped.join(
-          ', '
-        )}. Add them to TOKEN_EXPORTS, and to the token files in makePropertiesFile.ts once a theme uses them.`
-      )
+      const message = `The variable collection "${collectionName}" has modes that are not exported: ${skipped.join(
+        ', '
+      )}. Add them to TOKEN_EXPORTS, and to the token files in makePropertiesFile.ts once a theme uses them.`
+
+      log.warn(`> Figma: ${message}`)
+
+      // Add warning to the GitHub Actions run's annotations
+      if (process.env.GITHUB_ACTIONS === 'true') {
+        process.stdout.write(`::warning::${message}\n`)
+      }
     }
   }
 }

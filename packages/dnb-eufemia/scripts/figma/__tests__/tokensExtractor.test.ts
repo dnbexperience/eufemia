@@ -134,6 +134,7 @@ beforeEach(() => {
 
 afterEach(() => {
   vi.restoreAllMocks()
+  vi.unstubAllEnvs()
 })
 
 /** A second collection named "brand", as Figma allows */
@@ -518,6 +519,34 @@ describe('warnAboutSkippedModes', () => {
     expect(log.warn).toHaveBeenCalledWith(
       expect.stringContaining(
         'The variable collection "brand" has modes that are not exported: dnbcarnegie-dark'
+      )
+    )
+  })
+
+  it('annotates the skipped modes when it runs in a workflow', () => {
+    const write = vi
+      .spyOn(process.stdout, 'write')
+      .mockImplementation(vi.fn())
+    vi.stubEnv('GITHUB_ACTIONS', 'true')
+
+    warnAboutSkippedModes({
+      ...meta,
+      variableCollections: {
+        ...meta.variableCollections,
+        'VariableCollectionId:53684:1279': {
+          ...meta.variableCollections['VariableCollectionId:53684:1279'],
+          modes: [
+            ...meta.variableCollections['VariableCollectionId:53684:1279']
+              .modes,
+            { modeId: '1:7', name: 'sbanken-new-light' },
+          ],
+        },
+      },
+    })
+
+    expect(write).toHaveBeenCalledWith(
+      expect.stringContaining(
+        '::warning::The variable collection "brand" has modes that are not exported: sbanken-new-light'
       )
     )
   })
