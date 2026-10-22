@@ -1,4 +1,5 @@
 import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3'
+import type { McpUsageTransport } from 'eufemia-usage-ingest'
 import { randomUUID } from 'node:crypto'
 import {
   buildPortalViewRecord,
@@ -7,7 +8,6 @@ import {
 import {
   buildMcpUsageRecord,
   type McpUsageInput,
-  type McpUsageTransport,
 } from '../records/mcp-usage.js'
 import { requireEnv } from './env.js'
 

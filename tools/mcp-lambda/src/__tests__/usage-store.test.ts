@@ -15,7 +15,7 @@ vi.mock('@aws-sdk/client-s3', () => ({
 }))
 
 import { storeMcpUsage } from '../usage-store.js'
-import type { McpUsageRecord } from '../records/mcp-usage.js'
+import type { WebMcpUsageRecord } from '../records/mcp-usage.js'
 
 type PutInput = {
   Bucket: string
@@ -24,7 +24,9 @@ type PutInput = {
   ContentType: string
 }
 
-function record(overrides: Partial<McpUsageRecord> = {}): McpUsageRecord {
+function record(
+  overrides: Partial<WebMcpUsageRecord> = {}
+): WebMcpUsageRecord {
   return {
     tool: 'component_props',
     component: 'Button',

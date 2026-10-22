@@ -9956,6 +9956,7 @@ __metadata:
     "@aws-sdk/client-s3": "npm:3.1075.0"
     "@types/aws-lambda": "npm:8.10.161"
     esbuild: "npm:0.25.5"
+    eufemia-usage-ingest: "workspace:*"
     vitest: "npm:4.1.12"
   languageName: unknown
   linkType: soft
@@ -10007,6 +10008,7 @@ __metadata:
     "@modelcontextprotocol/server": "npm:2.3.1"
     "@types/aws-lambda": "npm:8.10.161"
     esbuild: "npm:0.25.5"
+    eufemia-usage-ingest: "workspace:*"
     tsx: "npm:4.22.4"
     typescript: "npm:6.0.3"
     vitest: "npm:4.1.12"
@@ -10046,6 +10048,12 @@ __metadata:
     typescript: "npm:6.0.3"
     typescript-eslint: "npm:8.60.0"
     vite: "npm:8.1.6"
+  languageName: unknown
+  linkType: soft
+
+"eufemia-usage-ingest@workspace:*, eufemia-usage-ingest@workspace:tools/usage-ingest":
+  version: 0.0.0-use.local
+  resolution: "eufemia-usage-ingest@workspace:tools/usage-ingest"
   languageName: unknown
   linkType: soft
 

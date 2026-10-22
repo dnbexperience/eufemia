@@ -4,10 +4,9 @@ import {
   type DocsSource,
 } from '@dnb/eufemia/src/mcp/docs-source.js'
 import { createUsageResolver } from '@dnb/eufemia/src/mcp/mcp-docs-server.js'
-import {
-  usageRecordsFromRequestBody,
-  KNOWN_TOOLS,
-} from '../records/mcp-usage.js'
+import * as localServer from '@dnb/eufemia/src/mcp/usage-telemetry.js'
+import * as usageIngest from 'eufemia-usage-ingest'
+import { usageRecordsFromRequestBody } from '../records/mcp-usage.js'
 
 const NOW = '2026-09-10T12:00:00.000Z'
 
@@ -362,16 +361,40 @@ describe('usageRecordsFromRequestBody', () => {
   })
 
   it('registers exactly the twelve docs-server tools', () => {
-    expect(KNOWN_TOOLS.size).toBe(12)
+    expect(usageIngest.KNOWN_TOOLS.size).toBe(12)
   })
 
-  // `canonicalDocsPath` reimplements the server's own path normalisation rather
-  // than importing it, so this pins the two together: if `normalizeDocsPath`
-  // changes how it collapses a path, this fails instead of silently splitting
-  // one document across several stored keys. Cover every shape the normaliser
-  // treats as significant — leading slash, repeated and `.` segments, trailing
-  // slash and back-slashes — since a list of forward-slash examples would let a
-  // divergence like the back-slashed form through.
+  it.each(['KNOWN_TOOLS', 'COMPONENT_TOOLS', 'PATH_TOOLS'] as const)(
+    '%s matches the local stdio server',
+    (name) => {
+      expect([...localServer[name]].sort()).toEqual(
+        [...usageIngest[name]].sort()
+      )
+    }
+  )
+
+  it.each(['MAX_COMPONENT_LENGTH', 'MAX_PATH_LENGTH'] as const)(
+    '%s matches the local stdio server',
+    (name) => {
+      expect(localServer[name]).toBe(usageIngest[name])
+    }
+  )
+
+  it.each(['COMPONENT_SEGMENT', 'PATH_PATTERN'] as const)(
+    '%s matches the local stdio server',
+    (name) => {
+      expect(String(localServer[name])).toBe(String(usageIngest[name]))
+    }
+  )
+
+  // `canonicalDocsPath` in eufemia-usage-ingest reimplements the server's
+  // own path normalisation rather than importing it, so this pins the two
+  // together: if `normalizeDocsPath` changes how it collapses a path, this
+  // fails instead of silently splitting one document across several stored
+  // keys. Cover every shape the normaliser treats as significant — leading
+  // slash, repeated and `.` segments, trailing slash and back-slashes — since a
+  // list of forward-slash examples would let a divergence like the back-slashed
+  // form through.
   it.each([
     '/uilib/components/button.md',
     'uilib/components/button.md',

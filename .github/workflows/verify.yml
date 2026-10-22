@@ -87,6 +87,7 @@ jobs:
           yarn workspace @dnb/eufemia lint:ci
           yarn workspace @dnb/eufemia-mcp-legacy-proxy lint
           yarn workspace eufemia-mcp-lambda lint
+          yarn workspace eufemia-usage-ingest lint
           yarn workspace eufemia-raiwork-plugin lint
           yarn workspace eufemia-analytics lint
           yarn workspace eufemia-analytics-dashboard lint
@@ -177,6 +178,7 @@ jobs:
           yarn workspace eufemia-raiwork-plugin test:types
           yarn workspace @dnb/eufemia-mcp-legacy-proxy typecheck
           yarn workspace eufemia-mcp-lambda typecheck
+          yarn workspace eufemia-usage-ingest typecheck
           yarn workspace eufemia-analytics test:types
           yarn workspace eufemia-analytics-dashboard test:types
 

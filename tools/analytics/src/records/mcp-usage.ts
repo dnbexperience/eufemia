@@ -5,9 +5,8 @@
  * The local (stdio) Eufemia MCP server runs on public, open-source machines, so
  * it can hold neither a secret nor an IAM role. It therefore uses the browser
  * model — an edge-locked HTTP route (Akamai injects `X-Edge-Auth`) — instead of
- * the direct-S3 path the web Lambda uses. This module is the single source of
- * truth for the MCP-usage shape on the ingest side: the HTTP handler validates
- * an untrusted request body with {@link validateMcpUsage} and builds the stored
+ * the direct-S3 path the web Lambda uses. The HTTP handler validates an
+ * untrusted request body with {@link validateMcpUsage} and builds the stored
  * object with {@link buildMcpUsageRecord}.
  *
  * Only closed, validated fields are stored — the tool name (from the fixed
@@ -16,13 +15,21 @@
  * Eufemia version (validated to a semver shape). No identifiers, IP or free
  * text are accepted, so nothing incidental in the request can reach storage.
  *
- * This intentionally duplicates the server-side validator in
- * tools/mcp-lambda/src/records/mcp-usage.ts (`analytics` keeps its own
- * `src/records/`). The two copies must be kept in sync. Validation here is
- * structural only: this side has no docs, so the producers (web Lambda and
- * local server) check that a component or path exists before sending it.
+ * Validation here is structural only: this side has no docs, so the producers
+ * (web Lambda and local server) check that a component or path exists before
+ * sending it.
  */
 
+import {
+  COMPONENT_TOOLS,
+  KNOWN_TOOLS,
+  PATH_TOOLS,
+  normalizeComponent,
+  parseComponentName,
+  parseDocsPath,
+  type McpUsageRecord,
+  type McpUsageTransport,
+} from 'eufemia-usage-ingest'
 import {
   isIsoTimestamp,
   isValidEnv,
@@ -30,77 +37,7 @@ import {
   type ValidationResult,
 } from './shared.js'
 
-/** Which MCP transport produced the event. Stamped server-side, never trusted from the client. */
-export type McpUsageTransport = 'local' | 'web'
-
-// The registered docs-server tools. A record is accepted only for a call to one
-// of these, so an unknown or malformed method never reaches storage.
-export const KNOWN_TOOLS: ReadonlySet<string> = new Set([
-  'docs_entry',
-  'docs_meta',
-  'portal_content_workflow',
-  'review_rules',
-  'docs_index',
-  'docs_list',
-  'docs_read',
-  'docs_search',
-  'component_find',
-  'component_doc',
-  'component_api',
-  'component_props',
-])
-
-// Tools whose event carries a component (a closed, public vocabulary). A
-// component on any other tool is dropped when the record is built.
-const COMPONENT_TOOLS: ReadonlySet<string> = new Set([
-  'component_find',
-  'component_doc',
-  'component_api',
-  'component_props',
-])
-
-// Tools whose event carries a doc path. A path on any other tool is dropped.
-const PATH_TOOLS: ReadonlySet<string> = new Set(['docs_read', 'docs_list'])
-
-const MAX_COMPONENT_LENGTH = 64
-const MAX_PATH_LENGTH = 512
 const MAX_VERSION_LENGTH = 64
-
-// A component name is one or more dot-separated segments. Each segment starts
-// with a letter and may contain letters, digits, and hyphens, so both the
-// PascalCase form ("DatePicker", "Field.Address") and the hyphenated doc-file
-// form ("date-picker") validate. A single character class keeps matching linear
-// (no nested-quantifier ReDoS). Kept in sync with the same pattern in
-// tools/mcp-lambda/src/records/mcp-usage.ts.
-const COMPONENT_SEGMENT = /^[A-Za-z][A-Za-z0-9-]*$/
-
-// An absolute docs path with a restricted character set.
-const PATH_PATTERN = /^\/[A-Za-z0-9/_.-]*$/
-
-/**
- * Reduce a docs path to the shape the docs server resolves it to: forward
- * slashes, a single leading slash, and no empty, `.` or trailing segments.
- * Mirrors `canonicalDocsPath` in tools/mcp-lambda/src/records/mcp-usage.ts,
- * which mirrors the docs server's own `normalizeDocsPath` — so `/uilib/button.md`,
- * `uilib/button.md`, `/uilib/./button.md` and `\uilib\button.md` all name the
- * same document and must be stored under one key.
- */
-function canonicalDocsPath(value: string): string {
-  const segments = value
-    .replaceAll('\\', '/')
-    .split('/')
-    .filter((segment) => segment !== '' && segment !== '.')
-
-  return segments.length === 0 ? '' : `/${segments.join('/')}`
-}
-
-// Mirror the docs server's normalizeName (trim + lowercase) so the stored value
-// is the form a successful lookup resolves against, and casing variants of the
-// same component fold into a single aggregate. Kept in sync with the same
-// function in tools/mcp-lambda/src/records/mcp-usage.ts.
-function normalizeComponent(value: string): string {
-  return value.trim().toLowerCase()
-}
 
 // A semver shape (major.minor.patch with optional pre-release/build metadata).
 // This validates the shape, not membership of a real release, so an arbitrary
@@ -152,55 +89,6 @@ export type McpUsageInput = {
   env?: string
   eufemiaVersion?: string
   timestamp?: string
-}
-
-/** The stored MCP usage record (one row in the mcp_usage Glue table). */
-export type McpUsageRecord = {
-  tool: string
-  component: string
-  component_missed: boolean
-  likely_component: string
-  path: string
-  env: string
-  transport: McpUsageTransport
-  eufemia_version: string
-  timestamp: string
-  created_at: string
-}
-
-// An unrecognised value for these optional dimensions is dropped here (so the
-// built record defaults it), rather than rejecting the whole event — a stale or
-// malformed value costs one dimension, never lets free text through.
-function parseComponentName(value: unknown): string {
-  if (typeof value !== 'string' || value.length > MAX_COMPONENT_LENGTH) {
-    return ''
-  }
-
-  const trimmed = value.trim()
-
-  return trimmed.length > 0 &&
-    trimmed.split('.').every((segment) => COMPONENT_SEGMENT.test(segment))
-    ? normalizeComponent(trimmed)
-    : ''
-}
-
-function parseDocsPath(value: unknown): string {
-  if (typeof value !== 'string') {
-    return ''
-  }
-
-  // Drop any query string or fragment so no incidental data is stored.
-  const raw = value.split(/[?#]/)[0] ?? ''
-
-  // Bound and reject traversal on the raw value, before collapsing segments, so
-  // canonicalisation cannot mask a `..` the check would otherwise catch.
-  if (raw.length > MAX_PATH_LENGTH || raw.includes('..')) {
-    return ''
-  }
-
-  const path = canonicalDocsPath(raw)
-
-  return PATH_PATTERN.test(path) ? path : ''
 }
 
 /**
@@ -271,8 +159,14 @@ export function validateMcpUsage(
     }
 
     if (valid) {
-      const normalizedComponent = parseComponentName(component)
-      const normalizedLikelyComponent = parseComponentName(likelyComponent)
+      // An unrecognised optional dimension is dropped (the built record
+      // defaults it), so a stale or malformed value costs one dimension.
+      const normalizedComponent = normalizeComponent(
+        parseComponentName(component)
+      )
+      const normalizedLikelyComponent = normalizeComponent(
+        parseComponentName(likelyComponent)
+      )
       const normalizedPath = parseDocsPath(path)
 
       value.push({

@@ -40,8 +40,9 @@ const STARTUP_NOTICE =
   'Eufemia MCP collects anonymous usage stats; disable with EUFEMIA_MCP_TELEMETRY=0 or DO_NOT_TRACK=1'
 
 // The registered docs-server tools. A record is emitted only for a call to one
-// of these, so an unknown method never produces a record. Kept in sync with the
-// ingest validator's KNOWN_TOOLS (tools/analytics/src/records/mcp-usage.ts).
+// of these, so an unknown method never produces a record. This list and the
+// tool sets, length limits and patterns below must equal those in
+// tools/usage-ingest; a test in tools/mcp-lambda checks it.
 export const KNOWN_TOOLS: ReadonlySet<string> = new Set([
   'docs_entry',
   'docs_meta',
@@ -59,7 +60,7 @@ export const KNOWN_TOOLS: ReadonlySet<string> = new Set([
 
 // Tools whose event carries a component (a closed, public vocabulary). A
 // component on any other tool — including docs_search — is never sent.
-const COMPONENT_TOOLS: ReadonlySet<string> = new Set([
+export const COMPONENT_TOOLS: ReadonlySet<string> = new Set([
   'component_find',
   'component_doc',
   'component_api',
@@ -68,20 +69,22 @@ const COMPONENT_TOOLS: ReadonlySet<string> = new Set([
 
 // Tools whose event carries a doc path. docs_search is deliberately absent, so
 // neither its prefix nor its query text is ever captured.
-const PATH_TOOLS: ReadonlySet<string> = new Set(['docs_read', 'docs_list'])
+export const PATH_TOOLS: ReadonlySet<string> = new Set([
+  'docs_read',
+  'docs_list',
+])
 
-const MAX_COMPONENT_LENGTH = 64
-const MAX_PATH_LENGTH = 512
+export const MAX_COMPONENT_LENGTH = 64
+export const MAX_PATH_LENGTH = 512
 
 // A component name is one or more dot-separated segments. Each segment starts
 // with a letter and may contain letters, digits, and hyphens, so both the
 // PascalCase form ("DatePicker", "Field.Address") and the hyphenated doc-file
-// form ("date-picker") the docs server actually resolves against validate. Kept
-// in sync with the same pattern in tools/analytics/src/records/mcp-usage.ts.
-const COMPONENT_SEGMENT = /^[A-Za-z][A-Za-z0-9-]*$/
+// form ("date-picker") the docs server actually resolves against validate.
+export const COMPONENT_SEGMENT = /^[A-Za-z][A-Za-z0-9-]*$/
 
 // An absolute docs path with a restricted character set.
-const PATH_PATTERN = /^\/[A-Za-z0-9/_.-]*$/
+export const PATH_PATTERN = /^\/[A-Za-z0-9/_.-]*$/
 
 // Mirror the docs server's normalizeName (trim + lowercase) so a stored
 // component folds casing variants ('Button', 'button') into one aggregate.

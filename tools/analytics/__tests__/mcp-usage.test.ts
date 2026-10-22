@@ -1,8 +1,8 @@
 import { describe, it, expect } from 'vitest'
+import { KNOWN_TOOLS } from 'eufemia-usage-ingest'
 import {
   validateMcpUsage,
   buildMcpUsageRecord,
-  KNOWN_TOOLS,
 } from '../src/records/mcp-usage.js'
 
 describe('validateMcpUsage', () => {
