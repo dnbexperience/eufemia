@@ -63,6 +63,104 @@ The selected destination is positioned within the visible browser or nearest `Sc
 
 Use `openItemsStorageKey` to preserve manually opened and closed groups. When the menu is inside a `ScrollView`, use `scrollPositionStorageKey` to restore its vertical position. A stored value takes precedence over the defaults, including an empty array. Use local storage only when the state should survive browser restarts; otherwise keep the default session storage.
 
+### Content controlled by micro frontends
+
+Connect `SidebarMenu.Data` to a named controller when another application needs to replace or transform its content. The controller works outside React, across separate React roots and independently bundled Eufemia copies in the same browser window. It retains registrations before the menu mounts, so callers do not need to check whether the sidebar is present.
+
+The shell supplies fallback content:
+
+```tsx
+<SidebarMenu.Data
+  controllerId="main-navigation"
+  aria-label="Main navigation"
+  data={defaultItems}
+/>
+```
+
+A micro frontend registers its content and cleans up when it leaves:
+
+```tsx
+const sidebar = SidebarMenu.getController('main-navigation')
+
+const releaseContent = sidebar.setContent(
+  {
+    data: [
+      { id: 'home', text: 'Home', href: '/' },
+      { id: 'payments', text: 'Payments', href: '/payments' },
+    ],
+  },
+  { key: 'payments' }
+)
+
+const removeTransform = sidebar.transformContent(
+  (content) => {
+    if (!content.data) {
+      return content
+    }
+
+    return {
+      data: content.data.map((item) =>
+        item.id === 'payments' ? { ...item, badge: 3 } : item
+      ),
+    }
+  },
+  { key: 'payments:notifications', order: 10 }
+)
+
+// When the micro frontend unmounts:
+removeTransform()
+releaseContent()
+
+// In a React effect, return the cleanup directly:
+useEffect(() => {
+  return sidebar.setContent({ data: paymentItems }, { key: 'payments' })
+}, [paymentItems])
+```
+
+Both methods use the existing `{ data }` or `{ sections }` content shapes. Use stable, app-specific registration keys. Calling the same method with the same key replaces that registration; an older cleanup cannot remove its replacement. With several content replacements, the latest registration wins. Removing it reveals the previous replacement, or the shell's current fallback content.
+
+Transformations run after the active content replacement, in ascending `order` (default `0`), then by key. They remain registered and run again when content changes. Return new content without mutating the input. Register an updated function under the same key when a captured value, such as a notification count, changes. The cleanup removes the transformation and restores the content computed without it.
+
+Assign the same `controllerId` to the desktop and Drawer menus to share content between them. Registration lifetimes belong to the calling application: unmounting a menu does not clear registrations, while a page reload does. The API uses `useSharedState` and `createSharedState` with a shared browser scope.
+
+Use `Data` props for server-rendered content. Controller mutations run in the browser; server calls throw instead of retaining application content between requests. Hydration first uses the server's fallback content, then applies retained browser registrations. Content controllers do not synchronize across iframes or browser tabs. Prefer data objects across micro frontend boundaries; React elements and callbacks do not carry the originating application's providers with them.
+
+### Props controlled by micro frontends
+
+Use `setProps()` on the same controller to override menu and responsive properties. Give `Root` or `Data` and `ResponsiveProvider` the same `controllerId`:
+
+```tsx
+<SidebarMenu.ResponsiveProvider
+  controllerId="main-navigation"
+  drawerAt="medium"
+  compactAt="large"
+>
+  <SidebarMenu.Data
+    controllerId="main-navigation"
+    data={items}
+    selectedItem="home"
+  />
+</SidebarMenu.ResponsiveProvider>
+```
+
+```ts
+const restore = SidebarMenu.getController('main-navigation').setProps(
+  { compactOffset: '10em', selectedItem: 'payments' },
+  { key: 'payments' }
+)
+
+// When the app leaves, restore the previous props.
+restore()
+```
+
+Registrations work before mounting, across React roots and independently bundled Eufemia copies in the same window. Each component applies only the properties it owns. `ResponsiveProvider` applies thresholds, Drawer state, desktop dismissal, persistence, and their callbacks. `Root` and `Data` apply menu state, callbacks, spacing, styles, and navigation attributes.
+
+Props are shallowly merged over the component's current JSX props in registration order. The newest value for each property wins; omitted properties retain earlier registrations or JSX values. Calling `setProps()` again with the same key replaces that registration, including removing properties omitted from the new call. The returned cleanup is idempotent and cannot remove a newer registration under the same key. Cleanup recomputes props from the remaining registrations and current JSX values. Callback and `style` values replace earlier values as a whole.
+
+Default properties such as `defaultOpen` and `defaultSelectedItem` still apply only when the component initializes. Use controlled properties such as `open` and `selectedItem` for live updates. Breakpoint names resolve using the responsive provider's Eufemia configuration, and changes update both media queries and scoped responsive CSS.
+
+The shell owns `children`, `controllerId`, `scopeId`, `styleNonce`, and `dangerouslySetInnerHTML`. These are excluded from `setProps()`. Use `drawerAt` rather than the deprecated `breakpoint` alias in controller calls. Unknown component properties are ignored by bundles that do not support them; supported menu properties and navigation attributes still apply. Use `setContent()` or `transformContent()` for `data` and `sections`. Set server-rendered defaults in JSX; retained browser overrides apply after initial hydration and can change the initial layout. Controller mutations are browser-only.
+
 ### SSR and SSG without layout shift
 
 `Root` and `Data` render storage metadata when `openItemsStorageKey` or `scrollPositionStorageKey` is set. Add `PreHydrationScript` after the prerendered menu markup and before the application hydration script to make persisted state visible on the first paint:
@@ -149,6 +247,7 @@ Use the responsive compound parts when the same navigation should be inline on l
 
 - `ResponsiveProvider` owns the responsive thresholds and Drawer state.
 - `ResponsiveProvider` can also own a collapsible desktop inline state.
+- `Toggle` renders a button that hides and restores the desktop inline navigation by default. Inside the compact rail it expands and collapses the overlay. On small screens an external Toggle opens and closes the Drawer.
 - `ResponsiveTrigger` renders a hamburger button at or below `drawerAt`, or while the desktop inline navigation is collapsed. On desktop it restores the inline navigation instead of opening a Drawer.
 - When the built-in hamburger appears after desktop dismissal, its bars animate in sequentially. Custom trigger icons are not animated.
 - `ResponsiveInline` renders its children above `drawerAt`. Between `drawerAt` and the optional `compactAt` threshold, its SidebarMenu becomes a narrow icon rail that expands over adjacent content on hover, keyboard focus, or with its toggle button.
@@ -157,13 +256,39 @@ Use the responsive compound parts when the same navigation should be inline on l
 - `ResponsiveDrawer` renders a left-side Drawer at or below `drawerAt`. Its close button is placed on the left.
 - `useResponsive().close()` closes the Drawer after mobile navigation.
 
+Place an external `SidebarMenu.Toggle` or `ResponsiveTrigger` outside dismissible navigation so people can restore it after dismissal. `ResponsiveAside` includes its full-width toggle by default; use `showToggle={false}` to omit it. Plain `ResponsiveInline` preserves direct child rendering unless `compactAt` or `showToggle` is enabled. Set `showToggle` on `ResponsiveInline` to add a full-width embedded toggle. Compact mode keeps its existing expansion toggle. Desktop dismissal uses the same collapse state and width animation as dragging the resize divider all the way left.
+
 The trigger and Drawer do not need to be siblings. Place both under the same provider, for example with the trigger in an application header and the Drawer beside the desktop navigation.
+
+`SidebarMenu.Toggle` can also render outside `ResponsiveProvider`. Give the provider a unique `scopeId` and pass the same value to the toggle. It stays in sync with desktop dismissal and the mobile Drawer, and is disabled until its provider mounts. During server rendering, an outside toggle renders disabled and connects after hydration. Keep `controls` matched to a custom Drawer id as usual.
+
+The connection works across separate React roots and independently bundled Eufemia copies in the same browser window. Each provider needs its own `scopeId`. The provider owns the state and clears its registration when it unmounts; connected toggles then become disabled. The connection does not synchronize across iframes or browser tabs.
+
+```tsx
+<>
+  <SidebarMenu.Toggle scopeId="app-navigation" />
+  <SidebarMenu.ResponsiveProvider scopeId="app-navigation">
+    <SidebarMenu.ResponsiveAside>
+      <Navigation />
+    </SidebarMenu.ResponsiveAside>
+    <SidebarMenu.ResponsiveDrawer>
+      <Navigation />
+    </SidebarMenu.ResponsiveDrawer>
+  </SidebarMenu.ResponsiveProvider>
+</>
+```
+
+All responsive parts (`ResponsiveTrigger`, `ResponsiveInline`, `ResponsiveAside`, `ResponsiveShell`, and `ResponsiveDrawer`) and `useResponsive()` must be inside `ResponsiveProvider`. The provider renders a `display: contents` wrapper. It does not affect layout, but CSS child selectors that expect these parts to be direct children of an element outside the provider no longer match across the wrapper.
 
 `drawerAt` defaults to `medium`. A custom Eufemia breakpoint name, explicit `em` value, or `compactAt` adds scoped first-paint CSS, so server-rendered visibility uses the same breakpoint before and after hydration. Pass `styleNonce` when your content security policy requires a nonce for inline styles.
 
 Set `compactAt` when the inline menu should reduce to an icon rail before it becomes a Drawer. `compactAt` controls when the sidebar enters compact mode. `compactWidth` controls how wide the sidebar is in that mode. `compactOffset` adds an additional viewport width to the threshold, so `compactAt="large" compactOffset="10em"` becomes compact at `82em`. Set `expandedWidth` and `compactWidth` on `ResponsiveAside`; it reserves only the compact width and expands the full menu over adjacent content on hover, keyboard focus, or when its toggle button is activated. In compact mode, every interactive menu row must have an icon whenever a suitable icon exists. Text-only rows remain supported when an icon would not add meaningful value. Use `ResponsiveInline` directly only when the application needs to build a different sidebar surface.
 
 Use `inlineCollapsed` with `onInlineCollapsedChange` when application state controls desktop dismissal, or `defaultInlineCollapsed` for an uncontrolled initial state. `useResponsive()` exposes `inlineCollapsed`, `collapseInline()`, and `restoreInline()` to compound children.
+
+Set `inlineCollapsedStorageKey` on `ResponsiveProvider` to remember desktop dismissal across navigation and reloads. Session storage is the default, matching `openItemsStorageKey`; use `inlineCollapsedStorage="local"` to retain the choice across browser restarts. A saved boolean takes precedence over `defaultInlineCollapsed`. Controlled `inlineCollapsed` does not read or write storage. Compact hover expansion and the mobile Drawer remain temporary.
+
+Persistence uses the same shared Web Storage helpers as open menu items. The responsive parts share state through their provider's React context. For SSR or SSG, the same `PreHydrationScript` also restores desktop dismissal before the first paint.
 
 ### Dismissible desktop navigation
 

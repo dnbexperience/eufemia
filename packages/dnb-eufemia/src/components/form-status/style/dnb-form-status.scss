@@ -4,6 +4,7 @@
  */
 
 @use '../../../style/core/utilities.scss' as utilities;
+@use './form-status-icon.scss';
 
 .dnb-form-status {
   --form-status-radius: var(--token-radius-xl);
@@ -44,6 +45,13 @@
     --form-status-color-icon: var(--token-color-icon-info);
   }
 
+  &--success &__shell {
+    --form-status-color-background: var(
+      --token-color-background-positive-subtle
+    );
+    --form-status-color-icon: var(--token-color-icon-positive);
+  }
+
   &--marketing &__shell {
     --form-status-color-background: var(
       --token-color-background-marketing-subtle
@@ -67,6 +75,9 @@
   }
   &__variant--outlined#{&}--information &__shell {
     --form-status-color-outline: var(--token-color-stroke-info);
+  }
+  &__variant--outlined#{&}--success &__shell {
+    --form-status-color-outline: var(--token-color-stroke-positive);
   }
   &__variant--outlined#{&}--marketing &__shell {
     --form-status-color-outline: var(--token-color-stroke-marketing);

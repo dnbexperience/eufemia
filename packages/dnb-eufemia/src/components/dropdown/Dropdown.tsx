@@ -567,6 +567,10 @@ const DropdownComponent = memo(function DropdownComponent({
     )
   }
 
+  if (status && statusState === 'error') {
+    triggerParams['aria-invalid'] ??= true
+  }
+
   if (label) {
     triggerParams['aria-labelledby'] = combineLabelledBy(
       triggerParams,

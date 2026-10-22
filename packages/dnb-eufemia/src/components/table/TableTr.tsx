@@ -20,7 +20,6 @@ export type TableTrClickInfo = {
 export type TableTrProps = {
   /**
    * Override the automatic variant of the current row. The next row one will continue with the opposite.
-   * Default: `undefined`
    */
   variant?: 'even' | 'odd'
 
@@ -32,7 +31,6 @@ export type TableTrProps = {
 
   /**
    * Vertical alignment of all cell content in the row.
-   * Default: `undefined`
    */
   verticalAlign?: 'top' | 'middle' | 'bottom'
 
@@ -73,19 +71,16 @@ export type TableTrProps = {
 
   /**
    * Will emit when user clicks/expands or on keydown space/enter (in `mode="accordion"` and `mode="navigation"`) in the table row. The second argument is an object with `trElement` (the `HTMLTableRowElement`).
-   * Default: `undefined`
    */
   onClick?: (event: SyntheticEvent, info: TableTrClickInfo) => void
 
   /**
    * Will emit when table row is expanded. Returns an object with the table row as the target: `{ target }`.
-   * Default: `undefined`
    */
   onOpen?: ({ target }: { target: HTMLTableRowElement }) => void
 
   /**
    * Will emit when table row is closed (after it was open). Returns an object with the table row as the target: `{ target }`.
-   * Default: `undefined`
    */
   onClose?: ({ target }: { target: HTMLTableRowElement }) => void
 

@@ -205,6 +205,15 @@
       ),
       var(--b-inset, var(--input-border-inset, inset))
     );
+
+    // Forced colors mode removes the box-shadow border, but shows this outline
+    @include utilities.forcedColorsOutline(
+      var(
+        --b-width,
+        var(--input-border-width, var(--input-border-width--default))
+      ),
+      inset
+    );
   }
   &--disabled &__border {
     // Overwrite the border
@@ -213,11 +222,17 @@
       var(--input-border-width--disabled),
       var(--input-border-inset--disabled, inset)
     );
+
+    @media (forced-colors: active) {
+      outline-color: GrayText;
+    }
   }
   &__border:focus-within {
     --b-color: var(--input-border-color--active);
     --b-width: var(--input-border-width--active);
     --b-inset: var(--input-border-inset--active);
+
+    @include utilities.forcedColorsOutline($inset: inset);
   }
   &__border:hover,
   &__border.hover {

@@ -8,24 +8,26 @@
     "dev": "tsx src/transports/stdio.ts",
     "test": "vitest run",
     "audit:ci": "yarn npm audit --recursive --environment production --severity high",
-    "lint": "node ../../node_modules/.bin/eslint 'src/**/*.ts'",
+    "lint": "cd ../.. && node node_modules/.bin/eslint --config tools/mcp-lambda/eslint.config.mjs 'tools/{mcp-lambda/src,monitoring}/**/*.ts' && node node_modules/.bin/prettier --check 'tools/{mcp-lambda/src,monitoring}/**/*.ts' '.github/workflows/mcp-health.yml'",
     "deploy": "yarn build && terraform -chdir=infra init && terraform -chdir=infra apply -auto-approve",
     "deploy:plan": "yarn build && terraform -chdir=infra init && terraform -chdir=infra plan",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "check:http": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON src/check-http.ts"
   },
   "type": "module",
   "dependencies": {
     "@aws-sdk/client-s3": "3.1075.0",
     "@aws-sdk/client-sqs": "3.1075.0",
-    "@modelcontextprotocol/server": "2.0.0"
+    "@modelcontextprotocol/server": "2.3.1",
+    "eufemia-usage-ingest": "workspace:*"
   },
   "devDependencies": {
     "@dnb/eufemia": "workspace:*",
-    "@modelcontextprotocol/client": "2.2.0",
+    "@modelcontextprotocol/client": "2.3.1",
     "@types/aws-lambda": "8.10.161",
     "esbuild": "0.25.5",
     "tsx": "4.22.4",
-    "typescript": "5.9.3",
-    "vitest": "4.1.11"
+    "typescript": "6.0.3",
+    "vitest": "4.1.12"
   }
 }

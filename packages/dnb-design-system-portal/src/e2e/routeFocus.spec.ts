@@ -2,6 +2,54 @@ import { test, expect } from '@playwright/test'
 import waitForApp from './shared/waitForApp'
 
 test.describe('Route Focus', () => {
+  for (const reducedMotion of ['no-preference', 'reduce'] as const) {
+    test(`should position hash targets without client scripts (${reducedMotion})`, async ({
+      page,
+    }) => {
+      await page.route('**/*.js', (route) => {
+        return route.abort()
+      })
+      await page.addInitScript(() => {
+        const positions: number[] = []
+        Object.assign(window, { nativeHashPositions: positions })
+        window.addEventListener('scroll', () => {
+          const target = document.getElementById('responsive-navigation')
+          if (target && window.scrollY > 0) {
+            positions.push(target.getBoundingClientRect().top)
+          }
+        })
+      })
+      await page.emulateMedia({ reducedMotion })
+
+      await page.goto(
+        '/uilib/extensions/sidebar-menu/demos/#responsive-navigation'
+      )
+      await page.waitForFunction(
+        () =>
+          (window as unknown as { nativeHashPositions: number[] })
+            .nativeHashPositions.length > 0
+      )
+
+      expect(
+        await page.locator('html').getAttribute('data-portal-ready')
+      ).toBeNull()
+      const positions = await page.evaluate(
+        () =>
+          (window as unknown as { nativeHashPositions: number[] })
+            .nativeHashPositions
+      )
+      for (const top of positions) {
+        expect(top).toBeGreaterThanOrEqual(0)
+        expect(top).toBeLessThan(300)
+      }
+      expect(
+        await page.evaluate(
+          () => getComputedStyle(document.documentElement).scrollBehavior
+        )
+      ).toBe('auto')
+    })
+  }
+
   test('should keep smooth scrolling for links within the current page', async ({
     page,
   }) => {

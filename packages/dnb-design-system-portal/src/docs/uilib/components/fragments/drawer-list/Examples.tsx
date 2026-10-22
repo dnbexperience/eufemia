@@ -34,6 +34,7 @@ export const DrawerListExampleInteractive = () => (
               <DrawerList
                 wrapperElement="#state-toggle-button"
                 skipPortal
+                aria-label="Choose an item"
                 data={data}
                 open={open}
                 onClose={() => setOpen(false)}
@@ -121,6 +122,7 @@ export const DrawerListExampleDefault = () => (
         open
         preventClose
         arrowPosition="left"
+        aria-label="Choose an item"
         data={data}
         value={3}
         onChange={({ data: selectedDataItem }) => {
@@ -142,6 +144,7 @@ export const DrawerListExampleDisabled = () => (
         skipPortal
         open
         preventClose
+        aria-label="Choose an item"
         data={[
           {
             content: 'Item 1',
@@ -169,7 +172,7 @@ export const DrawerListExampleInlineStyling = () => (
         preventClose
         observerElement=".dnb-live-preview" // prevents direction to change when scrolling in this example
       >
-        <DrawerList.Options>
+        <DrawerList.Options aria-label="Items">
           <DrawerList.Item
             style={{ color: 'red' }}
             key="A"
@@ -181,14 +184,11 @@ export const DrawerListExampleInlineStyling = () => (
           >
             Item 1
           </DrawerList.Item>
-          <DrawerList.HorizontalItem
-            style={{ color: 'green' }}
-            key="B"
-            selected={false}
-            value="B"
-          >
-            Item 2
-          </DrawerList.HorizontalItem>
+          <DrawerList.Item key="B" selected={false} value="B">
+            <DrawerList.HorizontalItem style={{ color: 'green' }}>
+              Item 2
+            </DrawerList.HorizontalItem>
+          </DrawerList.Item>
         </DrawerList.Options>
       </DrawerList>
     </ComponentBox>
@@ -202,6 +202,7 @@ export const DrawerListExampleInlineStylingData = () => (
         skipPortal
         open
         preventClose
+        aria-label="Choose an item"
         data={[
           {
             content:
@@ -262,7 +263,7 @@ export const DrawerListExampleSingleItem = () => (
             open
             preventClose
             right
-            title="Choose an item"
+            aria-label="Choose an item"
             data={() => [
               <Link key="link" href="/">
                 Go to this Link
@@ -299,7 +300,7 @@ export const DrawerListExampleMarkup = () => (
 
           return (
             <CustomWidth skipPortal open preventClose>
-              <DrawerList.Options>
+              <DrawerList.Options aria-label="Items">
                 {list.map(({ value, ...props }, i) => (
                   <DrawerList.Item
                     key={i}
@@ -382,6 +383,8 @@ export const DrawerListGroups = () => (
         skipPortal
         open
         preventClose
+        focusable
+        aria-label="Choose an item"
         observerElement=".dnb-live-preview" // prevents direction to change when scrolling in this example
         groups={[undefined, 'Pets', undefined, 'Cars']}
         data={[
@@ -407,6 +410,8 @@ export const DrawerListNoDivider = () => (
         skipPortal
         open
         preventClose
+        focusable
+        aria-label="Choose an item"
         observerElement=".dnb-live-preview" // prevents direction to change when scrolling in this example
         groups={[undefined, 'Pets', undefined, 'Cars']}
         data={[
@@ -419,6 +424,36 @@ export const DrawerListNoDivider = () => (
           { groupIndex: 3, content: 'Van' },
           { content: 'No group' },
         ]}
+      />
+    </ComponentBox>
+  </Wrapper>
+)
+
+export const DrawerListSuffixValue = () => (
+  <Wrapper>
+    <ComponentBox data-visual-test="drawer-list-suffix-value">
+      <DrawerList
+        skipPortal
+        open
+        preventClose
+        direction="top"
+        value={1}
+        observerElement=".dnb-live-preview" // prevents direction to change when scrolling in this example
+        data={[
+          ['Brukskonto', '1234 56 78901', '1 234,00 kr'],
+          ['Sparekonto', '1234 56 78902', '12 345,00 kr'],
+          ['BSU', '1234 56 78903', '123 456,00 kr'],
+        ].map(([name, accountNumber, balance]) => ({
+          content: (
+            <DrawerList.HorizontalItem
+              style={{ justifyContent: 'space-between' }}
+            >
+              <span>{name}</span>
+              <span>{accountNumber}</span>
+            </DrawerList.HorizontalItem>
+          ),
+          suffixValue: balance,
+        }))}
       />
     </ComponentBox>
   </Wrapper>

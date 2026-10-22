@@ -56,6 +56,7 @@ describe('SidebarMenu', () => {
         'PreHydrationScript',
         'Root',
         'Section',
+        'Toggle',
         'ResizeHandle',
         'ResponsiveAside',
         'ResponsiveInline',
@@ -65,6 +66,7 @@ describe('SidebarMenu', () => {
         'ResponsiveTrigger',
         'useResponsive',
         'getPreHydrationScript',
+        'getController',
       ].sort()
     )
   })
@@ -235,6 +237,40 @@ describe('SidebarMenu', () => {
     expect(header).toHaveClass('dnb-sidebar-menu__header')
     expect(header).toHaveProperty('tagName', 'LI')
     expect(header.nextElementSibling).not.toBeInTheDocument()
+  })
+
+  it('does not render an empty list for a Header with only text', () => {
+    render(
+      <SidebarMenu.Root>
+        <SidebarMenu.Header text="Everyday banking" />
+        <SidebarMenu.Item id="overview" text="Overview" />
+      </SidebarMenu.Root>
+    )
+
+    const header = document.querySelector('.dnb-sidebar-menu__header')
+
+    expect(header).toHaveTextContent('Everyday banking')
+    expect(header).toHaveProperty('tagName', 'LI')
+    expect(
+      document.querySelector('.dnb-sidebar-menu__header-group')
+    ).not.toBeInTheDocument()
+    expect(
+      document.querySelector('ul[aria-labelledby]')
+    ).not.toBeInTheDocument()
+    expect(header.nextElementSibling).toHaveTextContent('Overview')
+  })
+
+  it('accepts a Header without text or children, as in v11.15', () => {
+    render(
+      <SidebarMenu.Root>
+        <SidebarMenu.Header className="custom-header" />
+      </SidebarMenu.Root>
+    )
+
+    const header = document.querySelector('.dnb-sidebar-menu__header')
+
+    expect(header).toHaveClass('custom-header')
+    expect(header).toBeEmptyDOMElement()
   })
 
   it('does not forward the removed Header headingLevel prop', () => {

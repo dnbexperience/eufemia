@@ -66,6 +66,11 @@ export const demoPayload: DashboardPayload = {
         { name: '/uilib/patterns/forms', count: 7 },
         { name: '/uilib/getting-started', count: 4 },
       ],
+      missedLookups: 7,
+      perLikelyComponent: [
+        { name: 'date-picker', count: 4 },
+        { name: 'input-masked', count: 1 },
+      ],
     },
     local: {
       total: 34,

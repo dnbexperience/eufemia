@@ -6,10 +6,7 @@
 }
 
 .dnb-card {
-  --card-outline-color: var(
-    --border-color,
-    var(--token-color-stroke-neutral-subtle)
-  );
+  --card-outline-color: var(--token-color-stroke-neutral-subtle);
   --card-background-color: var(--token-color-background-neutral);
 
   &--closable:not(#{&}--no-inner-space) > .dnb-flex-container {

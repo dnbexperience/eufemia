@@ -4,6 +4,11 @@ on:
   schedule:
     - cron: '17 5 * * 1'
   workflow_dispatch:
+    inputs:
+      base-url:
+        description: 'Portal preview to scan, such as https://main.eufemia-e25.pages.dev. Leave empty to scan production and update the rolling issue.'
+        required: false
+        default: ''
 
 permissions:
   actions: read
@@ -17,11 +22,46 @@ concurrency:
 
 jobs:
   scan:
-    name: Scan production Portal
+    name: Scan Portal
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 90
 
     steps:
+      - name: Resolve scan target
+        id: target
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9
+        env:
+          BASE_URL_INPUT: ${{ inputs.base-url }}
+        with:
+          script: |
+            const input = process.env.BASE_URL_INPUT?.trim()
+            if (!input) {
+              core.setOutput('base-url', 'https://eufemia.dnb.no')
+              core.setOutput('production', 'true')
+              return
+            }
+
+            let url
+            try {
+              url = new URL(input)
+            } catch {
+              throw new Error(`The base URL is not a valid URL: ${input}`)
+            }
+
+            const isPreview = url.hostname.endsWith('.eufemia-e25.pages.dev')
+            if (
+              url.protocol !== 'https:' ||
+              url.port !== '' ||
+              (url.hostname !== 'eufemia.dnb.no' && !isPreview)
+            ) {
+              throw new Error(
+                'The base URL must be https://eufemia.dnb.no or a Portal preview on eufemia-e25.pages.dev'
+              )
+            }
+
+            core.setOutput('base-url', url.origin)
+            core.setOutput('production', String(!isPreview))
+
       - name: Git checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
@@ -32,16 +72,20 @@ jobs:
         with:
           cache-version: ${{ secrets.CACHE_VERSION }}
 
-      - name: Download production sitemap
+      - name: Download sitemap
         id: sitemap
         uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9
+        env:
+          SCAN_BASE_URL: ${{ steps.target.outputs.base-url }}
+          PRODUCTION: ${{ steps.target.outputs.production }}
         with:
           script: |
-            const response = await fetch('https://eufemia.dnb.no/sitemap.json', {
+            const baseUrl = process.env.SCAN_BASE_URL
+            const response = await fetch(`${baseUrl}/sitemap.json`, {
               signal: AbortSignal.timeout(30000),
             })
 
-            if (response.status === 404) {
+            if (response.status === 404 && process.env.PRODUCTION === 'true') {
               const deployments = await github.paginate(github.rest.repos.listDeployments, {
                 owner: context.repo.owner,
                 repo: context.repo.repo,
@@ -67,12 +111,12 @@ jobs:
             }
 
             if (!response.ok) {
-              throw new Error(`Could not download production sitemap: ${response.status} ${response.statusText}`)
+              throw new Error(`Could not download the sitemap from ${baseUrl}: ${response.status} ${response.statusText}`)
             }
 
             const sitemap = await response.json()
             if (!Array.isArray(sitemap.pages) || sitemap.pages.length === 0) {
-              throw new Error('The production sitemap must contain a non-empty pages array')
+              throw new Error('The sitemap must contain a non-empty pages array')
             }
 
             const fs = require('fs')
@@ -89,6 +133,7 @@ jobs:
           ref: ${{ steps.sitemap.outputs.deployment }}
           path: portal-deployed-source
           persist-credentials: false
+          sparse-checkout: packages/dnb-design-system-portal/src/docs
 
       - name: Generate sitemap before its first production deployment
         if: steps.sitemap.outputs.deployment != ''
@@ -169,6 +214,8 @@ jobs:
         run: unzip -q previous-report.zip -d previous-report
 
       - name: Scan all canonical pages
+        env:
+          SCAN_BASE_URL: ${{ steps.target.outputs.base-url }}
         run: |
           previous=()
           if [ -f previous-report/portal-accessibility-report.json ]; then
@@ -176,13 +223,37 @@ jobs:
           fi
 
           yarn workspace dnb-design-system-portal scan:accessibility \
-            --base-url https://eufemia.dnb.no \
+            --base-url "$SCAN_BASE_URL" \
             --sitemap public/sitemap.json \
+            --color-schemes light,dark \
             --output portal-accessibility-report.json \
             --issue-output portal-accessibility-issue.json \
             "${previous[@]}"
 
+      - name: Summarize preview scan
+        if: steps.target.outputs.production == 'false'
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9
+        env:
+          SCAN_BASE_URL: ${{ steps.target.outputs.base-url }}
+          ISSUE_PATH: packages/dnb-design-system-portal/portal-accessibility-issue.json
+        with:
+          script: |
+            const fs = require('fs')
+            const { chunks, changeChunks } = JSON.parse(
+              fs.readFileSync(process.env.ISSUE_PATH)
+            )
+            await core.summary
+              .addRaw(
+                [
+                  `Scanned ${process.env.SCAN_BASE_URL}. Changes are compared with the latest production scan.`,
+                  chunks[0],
+                  ...changeChunks,
+                ].join('\n\n')
+              )
+              .write()
+
       - name: Update rolling issue
+        if: steps.target.outputs.production == 'true'
         uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9
         env:
           REPORT_PATH: packages/dnb-design-system-portal/portal-accessibility-report.json
@@ -283,7 +354,8 @@ jobs:
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
-          name: portal-accessibility-report
+          # Only production reports are used as the baseline for the next scan
+          name: ${{ steps.target.outputs.production == 'false' && 'portal-accessibility-preview-report' || 'portal-accessibility-report' }}
           path: |
             packages/dnb-design-system-portal/portal-accessibility-report.json
             packages/dnb-design-system-portal/portal-accessibility-issue.json

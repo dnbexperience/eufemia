@@ -18,6 +18,7 @@ describe('Portal accessibility report', () => {
 
     expect(report.summary).toEqual({
       pages: 2,
+      colorSchemes: ['light'],
       duplicateIdGroups: 1,
       axeGroups: 1,
       findings: 2,
@@ -67,6 +68,36 @@ describe('Portal accessibility report', () => {
     expect(
       findDuplicateIds(['content', 'example', '', 'example'], '/button/')
     ).toEqual([duplicateId('/button/', 'example', 2)])
+  })
+
+  it('keeps dark mode findings apart from the same rule in light mode', () => {
+    const previous = report([axe('/code/', 'color-contrast', 2)])
+    const current = createPortalAccessibilityReport({
+      duplicateIdFindings: [],
+      axeFindings: [
+        axe('/code/', 'color-contrast', 2),
+        { ...axe('/code/', 'color-contrast', 3), colorScheme: 'dark' },
+      ],
+      scannedPages: 1,
+      colorSchemes: ['light', 'dark'],
+    })
+
+    const changes = comparePortalAccessibilityReports(previous, current)
+    const markdown = formatPortalAccessibilityReport(current)
+
+    expect(changes.new).toEqual([
+      expect.objectContaining({ colorScheme: 'dark', occurrences: 3 }),
+    ])
+    expect(changes.resolved).toEqual([])
+    expect(markdown).toContain(
+      'Scanned 1 canonical pages in light and dark mode.'
+    )
+    expect(markdown).toContain(
+      '3 nodes on [/code/](https://eufemia.dnb.no/code/) in dark mode'
+    )
+    expect(formatPortalAccessibilityChanges(changes)).toContain(
+      '3 occurrences on /code/ in dark mode'
+    )
   })
 
   it('rejects comparisons across schema versions', () => {

@@ -444,6 +444,7 @@ export const handleNumberMask = ({
  * Returns the type of what inputMode or type attribute should be used
  *
  * @param {function} mask mask function
+ * @param {boolean} isIOS if the soft keyboard of iOS should be used
  * @returns undefined|decimal|numeric
  */
 export function getSoftKeyboardAttributes(
@@ -456,7 +457,8 @@ export function getSoftKeyboardAttributes(
           allowDecimal?: boolean
           decimalLimit?: number
         }
-      }
+      },
+  isIOS = IS_IOS
 ): undefined | { inputMode: 'decimal' | 'numeric' } {
   if (mask?.instanceOf !== 'createNumberMask') {
     return undefined
@@ -465,7 +467,7 @@ export function getSoftKeyboardAttributes(
   const maskParams = mask?.maskParams
 
   // because of the missing minus key, we still have to use text on iOS
-  if (IS_IOS && maskParams?.allowNegative !== false) {
+  if (isIOS && maskParams?.allowNegative !== false) {
     return undefined
   }
 

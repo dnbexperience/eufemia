@@ -1,6 +1,14 @@
 import ComponentBox from '../../../../shared/tags/ComponentBox'
-import { useState } from 'react'
-import { H2, P } from '@dnb/eufemia/src'
+import { useEffect, useId, useState } from 'react'
+import {
+  Accordion,
+  Button,
+  Card,
+  Flex,
+  H2,
+  P,
+  Switch,
+} from '@dnb/eufemia/src'
 import { SidebarMenu } from '@dnb/eufemia/src/extensions'
 import type {
   SidebarMenuItemData,
@@ -172,6 +180,211 @@ export function SidebarMenuDeclarative() {
   )
 }
 
+export function SidebarMenuContentController() {
+  return (
+    <ComponentBox hideCode scope={{ useId, home, pay_from, styles }}>
+      {() => {
+        function PaymentsApp({ controllerId }: { controllerId: string }) {
+          const [notifications, setNotifications] = useState(0)
+
+          useEffect(() => {
+            return SidebarMenu.getController(
+              controllerId
+            ).transformContent(
+              (content) => ({
+                data: [
+                  ...(content.data ?? []),
+                  {
+                    id: 'payments',
+                    text: 'Payments',
+                    icon: pay_from,
+                    badge: notifications || undefined,
+                    badgeProps: {
+                      variant: 'notification',
+                      label: 'Notifications:',
+                    },
+                  },
+                ],
+              }),
+              { key: 'payments:navigation' }
+            )
+          }, [controllerId, notifications])
+
+          return (
+            <Flex.Stack layoutEngine="css">
+              <P>The app adds Payments to the shell's navigation.</P>
+              <Button
+                text="Receive notification"
+                variant="secondary"
+                onClick={() => setNotifications((count) => count + 1)}
+              />
+              <P role="status">
+                {notifications === 0
+                  ? 'No new notifications.'
+                  : notifications +
+                    ' new notification' +
+                    (notifications === 1 ? '.' : 's.')}
+              </P>
+            </Flex.Stack>
+          )
+        }
+
+        function Example() {
+          const id = useId()
+          const [appActive, setAppActive] = useState(false)
+          const [showSidebar, setShowSidebar] = useState(true)
+
+          return (
+            <div
+              className={styles.contentControllerExample}
+              data-sidebar-menu-content-controller-example
+            >
+              <div className={styles.contentController}>
+                <Card
+                  layoutEngine="css"
+                  stack
+                  title="Application shell"
+                  alignSelf="flex-start"
+                  responsive={false}
+                >
+                  <P>The shell owns the sidebar and its Home item.</P>
+                  {showSidebar ? (
+                    <SidebarMenu.Data
+                      controllerId={id}
+                      aria-label="Application shell navigation"
+                      data={[{ id: 'home', text: 'Home', icon: home }]}
+                    />
+                  ) : (
+                    <P>The sidebar is not mounted.</P>
+                  )}
+                </Card>
+                <Card
+                  layoutEngine="css"
+                  stack
+                  title="Micro frontend"
+                  alignSelf="flex-start"
+                  responsive={false}
+                >
+                  <Switch
+                    label="Payments app"
+                    checked={appActive}
+                    onChange={({ checked }) => setAppActive(checked)}
+                  />
+                  {appActive ? (
+                    <PaymentsApp controllerId={id} />
+                  ) : (
+                    <P>Turn on the app to add Payments to the sidebar.</P>
+                  )}
+                </Card>
+              </div>
+              <Accordion title="Try loading order">
+                <Flex.Stack layoutEngine="css">
+                  <P>
+                    Hide the sidebar, turn on Payments, then show the
+                    sidebar again. The app's navigation is ready when the
+                    sidebar mounts.
+                  </P>
+                  <Switch
+                    label="Show sidebar"
+                    checked={showSidebar}
+                    onChange={({ checked }) => setShowSidebar(checked)}
+                  />
+                </Flex.Stack>
+              </Accordion>
+            </div>
+          )
+        }
+
+        return <Example />
+      }}
+    </ComponentBox>
+  )
+}
+
+export function SidebarMenuPropsController() {
+  return (
+    <ComponentBox hideCode scope={{ useId, home, pay_from, styles }}>
+      {() => {
+        function CurrentLayout() {
+          const { isCompact, isSmallScreen } = SidebarMenu.useResponsive()
+          return (
+            <P role="status">
+              Sidebar:{' '}
+              {isSmallScreen
+                ? 'Drawer'
+                : isCompact
+                  ? 'Compact'
+                  : 'Full width'}
+            </P>
+          )
+        }
+
+        function Example() {
+          const id = useId()
+          const [widePage, setWidePage] = useState(false)
+
+          useEffect(() => {
+            if (widePage) {
+              return SidebarMenu.getController(id).setProps(
+                { compactAt: '200em', selectedItem: 'payments' },
+                { key: 'payments:wide-page' }
+              )
+            }
+          }, [id, widePage])
+
+          return (
+            <Flex.Stack
+              layoutEngine="css"
+              data-sidebar-menu-props-controller-example
+            >
+              <Switch
+                label="Payments needs more space"
+                checked={widePage}
+                onChange={({ checked }) => setWidePage(checked)}
+              />
+              <SidebarMenu.ResponsiveProvider
+                controllerId={id}
+                drawerAt="20em"
+                compactAt="30em"
+              >
+                <SidebarMenu.ResponsiveShell
+                  className={styles.responsiveShell}
+                >
+                  <SidebarMenu.ResponsiveAside showToggle={false}>
+                    <SidebarMenu.Data
+                      controllerId={id}
+                      aria-label="Externally configured navigation"
+                      selectedItem="home"
+                      data={[
+                        { id: 'home', text: 'Home', icon: home },
+                        {
+                          id: 'payments',
+                          text: 'Payments',
+                          icon: pay_from,
+                        },
+                      ]}
+                    />
+                  </SidebarMenu.ResponsiveAside>
+                  <div className={styles.responsiveContent}>
+                    <P>
+                      The app changes the compact threshold and selects
+                      Payments. Turn the switch off to restore the shell's
+                      props.
+                    </P>
+                    <CurrentLayout />
+                  </div>
+                </SidebarMenu.ResponsiveShell>
+              </SidebarMenu.ResponsiveProvider>
+            </Flex.Stack>
+          )
+        }
+
+        return <Example />
+      }}
+    </ComponentBox>
+  )
+}
+
 export function SidebarMenuData() {
   return (
     <ComponentBox
@@ -322,6 +535,99 @@ export function SidebarMenuData() {
   )
 }
 
+export function SidebarMenuToggle() {
+  return (
+    <ComponentBox hideCode scope={{ home, cog, H2, P, styles }}>
+      <SidebarMenu.ResponsiveProvider
+        drawerAt="40em"
+        compactAt="large"
+        inlineCollapsedStorageKey="sidebar-menu-toggle-example"
+      >
+        <SidebarMenu.ResponsiveShell
+          className={styles.responsiveShell}
+          data-sidebar-menu-toggle-example
+        >
+          <SidebarMenu.ResponsiveAside resizable>
+            <SidebarMenu.Root aria-label="Toggle example navigation">
+              <SidebarMenu.Item id="toggle-home" text="Home" icon={home} />
+              <SidebarMenu.Item
+                id="toggle-settings"
+                text="Settings"
+                icon={cog}
+              />
+            </SidebarMenu.Root>
+          </SidebarMenu.ResponsiveAside>
+          <div className={styles.responsiveContent}>
+            <SidebarMenu.Toggle
+              controls="toggle-example-drawer"
+              text="Menu"
+              bottom="medium"
+            />
+            <H2>Toggle the sidebar</H2>
+            <P>
+              Use either toggle to hide the sidebar. The Menu button
+              restores it. Your choice is remembered for this session,
+              including after a reload.
+            </P>
+          </div>
+          <SidebarMenu.ResponsiveDrawer id="toggle-example-drawer">
+            <SidebarMenu.Root aria-label="Toggle example navigation">
+              <SidebarMenu.Item
+                id="toggle-mobile-home"
+                text="Home"
+                icon={home}
+              />
+              <SidebarMenu.Item
+                id="toggle-mobile-settings"
+                text="Settings"
+                icon={cog}
+              />
+            </SidebarMenu.Root>
+          </SidebarMenu.ResponsiveDrawer>
+        </SidebarMenu.ResponsiveShell>
+      </SidebarMenu.ResponsiveProvider>
+    </ComponentBox>
+  )
+}
+
+export function SidebarMenuExternalToggle() {
+  return (
+    <ComponentBox scope={{ home, styles }}>
+      <div data-sidebar-menu-external-toggle-example>
+        <SidebarMenu.Toggle
+          scopeId="external-toggle-example"
+          controls="external-toggle-drawer"
+          text="Menu"
+          bottom="small"
+        />
+        <SidebarMenu.ResponsiveProvider scopeId="external-toggle-example">
+          <SidebarMenu.ResponsiveShell className={styles.responsiveShell}>
+            <SidebarMenu.ResponsiveAside>
+              <SidebarMenu.Root aria-label="External toggle navigation">
+                <SidebarMenu.Item
+                  id="external-home"
+                  text="Home"
+                  icon={home}
+                />
+              </SidebarMenu.Root>
+            </SidebarMenu.ResponsiveAside>
+            <div className={styles.responsiveContent}>Page content</div>
+            <SidebarMenu.ResponsiveDrawer id="external-toggle-drawer">
+              <SidebarMenu.Root aria-label="External toggle navigation">
+                <SidebarMenu.Item
+                  id="external-mobile-home"
+                  text="Home"
+                  icon={home}
+                />
+              </SidebarMenu.Root>
+            </SidebarMenu.ResponsiveDrawer>
+          </SidebarMenu.ResponsiveShell>
+        </SidebarMenu.ResponsiveProvider>
+      </div>
+    </ComponentBox>
+  )
+}
+
 export function SidebarMenuResponsiveNavigation() {
   return (
     <ComponentBox
@@ -405,6 +711,17 @@ export function SidebarMenuResponsiveNavigation() {
               href: '#without-icon',
             },
             {
+              id: 'more-services',
+              text: 'More services',
+              items: [
+                {
+                  id: 'contact-us',
+                  text: 'Contact us',
+                  href: '#contact-us',
+                },
+              ],
+            },
+            {
               id: 'settings',
               text: 'Settings',
               icon: cog,
@@ -420,6 +737,7 @@ export function SidebarMenuResponsiveNavigation() {
             loans: 'Loans',
             savings: 'Savings',
             'without-icon': 'Without icon',
+            'contact-us': 'Contact us',
             settings: 'Settings',
             'business-overview': 'Business overview',
             payments: 'Payments',
@@ -504,7 +822,8 @@ export function SidebarMenuResponsiveNavigation() {
                 {navigationMenu}
               </SidebarMenu.ResponsiveAside>
 
-              <main className={styles.responsiveMain}>
+              {/* A div, because the portal page already has a main landmark */}
+              <div className={styles.responsiveContent}>
                 <SidebarMenu.ResponsiveTrigger
                   controls="responsive-menu-drawer"
                   text="Menu"
@@ -515,7 +834,7 @@ export function SidebarMenuResponsiveNavigation() {
                   The page content uses the space left by the responsive
                   navigation. Resize the viewport to see all three modes.
                 </P>
-              </main>
+              </div>
 
               <SidebarMenu.ResponsiveDrawer
                 id="responsive-menu-drawer"

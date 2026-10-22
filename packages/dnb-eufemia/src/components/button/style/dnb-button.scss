@@ -140,6 +140,11 @@
       outline: none;
 
       @include utilities.forcedColorsOutline();
+
+      // Keep the focus ring outside. The outline for the border is inside.
+      @media (forced-colors: active) {
+        outline-offset: 0;
+      }
     }
 
     &[disabled] {
@@ -161,6 +166,17 @@
       var(--button-color-border, var(--button-color-border--default)),
       var(--button-border-width, var(--button-border-width--default)),
       var(--button-border-inset, var(--button-border-inset--default))
+    );
+  }
+
+  &--primary,
+  &--secondary {
+    // Forced colors mode removes the box-shadow border, but shows this outline.
+    // Draw it inside, like the border, so that a neighbor, such as the input
+    // next to the step buttons of Field.Number, cannot cover it.
+    @include utilities.forcedColorsOutline(
+      var(--button-border-width, var(--button-border-width--default)),
+      inset
     );
   }
 
@@ -550,6 +566,27 @@
       --button-color-icon--default: var(--token-color-icon-selected);
       --button-border-width--default: 0.125rem;
       --button-border-inset--default: ; // Need empty value to override default `inset`
+
+      // Forced colors mode removes the background color, so use the system
+      // colors for selected items
+      @media (forced-colors: active) {
+        background-color: Highlight;
+        color: HighlightText;
+        outline-color: Highlight;
+
+        .dnb-button__icon {
+          color: HighlightText;
+        }
+      }
+
+      // The focus ring would have the same color as the background
+      @include utilities.whatInputNot('touch') {
+        &:focus-visible:not([disabled]) {
+          @media (forced-colors: active) {
+            outline-color: CanvasText;
+          }
+        }
+      }
     }
 
     // Input-button
@@ -674,10 +711,6 @@
 
     // vertical alignment
     transform: translateY(-0.03125rem); // 0.5px
-
-    [data-os='linux'] {
-      transform: translateY(-0.035rem); // 0.5px
-    }
   }
 
   &__alignment {
@@ -857,6 +890,19 @@
   &[disabled] {
     cursor: not-allowed;
     outline: none; // when state goes from enabled to disabled and the focus is set, the outline (Safari) will show up, because it already had focus
+  }
+
+  &--primary[disabled],
+  &--secondary[disabled] {
+    // Show the outline again in forced colors mode, with the disabled color
+    @include utilities.forcedColorsOutline(
+      var(--button-border-width, var(--button-border-width--default)),
+      inset
+    );
+
+    @media (forced-colors: active) {
+      outline-color: GrayText;
+    }
   }
 }
 

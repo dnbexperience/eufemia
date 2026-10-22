@@ -3,6 +3,12 @@ title: 'v13'
 description: 'TBA'
 order: -13
 draft: true
+breadcrumb:
+  - text: "What's new"
+    href: /web/whats-new
+  - text: Upgrade
+    href: /web/whats-new/upgrade
+  - text: 'v13'
 ---
 
 - [v13](#v13)
@@ -48,7 +54,7 @@ $ yarn add @dnb/eufemia@13
 
 The font size and line height values now come from Figma brand tokens. Existing CSS variable names remain available. Carnegie's `xx-large` heading changes from 48px/56px to 56px/68px at the default root size. Responsive `xx-large` headings now use the matching line-height step: `x-large` on mobile and `xx-large` from tablet upward. Check layouts that constrain large headings, especially fixed heights and truncation.
 
-Theme-scoped typography variables now override values set on `:root`. If your application customizes `--font-size-*` or `--line-height-*` on `:root`, move those overrides to the element carrying the theme class around the affected content. Use a selector with enough specificity to override the theme stylesheet. The generated JavaScript `properties` exports keep their existing value format: concrete `rem` values for the size scale and aliases for `lead`.
+The generated JavaScript `properties` exports keep their existing value format: concrete `rem` values for the size scale and aliases for `lead`.
 
 The deprecated Sbanken-prefixed properties are still emitted. Their values differ from the generic scale, so check the rendered result when replacing them.
 
@@ -313,16 +319,6 @@ After:
 - Replace accept and close button props, including the `*ButtonAttributes` aliases, with explicit Button children. For a top-corner close control, render `Card.Info.CloseButton` as a direct Card.Info child and pass the dismissal handler as `onClick`.
 - Replace `centered` with your content layout, for example `Flex.Stack align="center"` and centered text. Wrap loading content in `Provider skeleton`.
 - Remove `stretch` and control width through the containing layout. Other Card properties, including spacing and `dropShadow`, can be passed directly to Card.Info.
-
-### [Card](/uilib/components/card/)
-
-Replace `onClose` and `closeButtonProps` with a `Card.Info.CloseButton` child. Pass the dismissal handler as `onClick` and pass the remaining button properties directly to that child.
-
-```diff
--<Card.Info onClose={dismissTip} closeButtonProps={{ title: 'Dismiss tip' }}>
-+<Card.Info>
-+  <Card.Info.CloseButton onClick={dismissTip} title="Dismiss tip" />
-```
 
 ### [Img](/uilib/elements/image/)
 

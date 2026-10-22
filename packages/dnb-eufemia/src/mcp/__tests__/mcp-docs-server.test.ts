@@ -893,6 +893,10 @@ describe('createUsageResolver', () => {
   beforeAll(async () => {
     const fixture = createDocsFixture()
     cleanup = fixture.cleanup
+    fs.writeFileSync(
+      path.join(fixture.docsRoot, 'uilib', 'components', 'date-picker.md'),
+      '# DatePicker'
+    )
     resolver = createUsageResolver(
       await createNodeDocsSource(fixture.docsRoot)
     )
@@ -911,6 +915,26 @@ describe('createUsageResolver', () => {
     'does not resolve the missing component %s',
     async (name) => {
       expect(await resolver.component(name)).toBe(false)
+    }
+  )
+
+  it.each([
+    ['DatePicker', 'date-picker'],
+    ['datepicker', 'date-picker'],
+    ['Date-Picker', 'date-picker'],
+    ['TextField', 'textfield'],
+  ])(
+    'maps the guess %s to the likely component %s',
+    async (guess, name) => {
+      expect(await resolver.likelyComponent(guess)).toBe(name)
+      expect(await resolver.component(name)).toBe(true)
+    }
+  )
+
+  it.each(['NotAComponent', 'Date.Picker', 'Field.Address', 'button/x'])(
+    'finds no likely component for %s',
+    async (guess) => {
+      expect(await resolver.likelyComponent(guess)).toBeNull()
     }
   )
 
@@ -943,9 +967,10 @@ describe('MCP dependency configuration', () => {
     )
 
     expect(packageJson.devDependencies).toBeDefined()
+    // Any exact 2.x pin: this guards the v2 SDK, not one specific release.
     expect(
       packageJson.devDependencies['@modelcontextprotocol/server']
-    ).toBe('2.0.0')
+    ).toMatch(/^2\.\d+\.\d+$/)
   })
 
   it('has .vscode/mcp.json with correct eufemia server configuration', () => {

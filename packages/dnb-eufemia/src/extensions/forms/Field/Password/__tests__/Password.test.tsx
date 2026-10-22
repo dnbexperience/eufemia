@@ -299,6 +299,18 @@ describe('Password component', () => {
     expect(input).toHaveAttribute('autocomplete', 'new-password')
   })
 
+  it('should disable spellcheck and autocorrection when the password is shown', async () => {
+    render(<Field.Password />)
+
+    await userEvent.click(document.querySelector('button'))
+
+    const input = document.querySelector('input')
+    expect(input).toHaveAttribute('type', 'text')
+    expect(input).toHaveAttribute('spellcheck', 'false')
+    expect(input).toHaveAttribute('autocorrect', 'off')
+    expect(input).toHaveAttribute('autocapitalize', 'off')
+  })
+
   it('gets valid ref element', () => {
     let ref: RefObject<HTMLInputElement>
 

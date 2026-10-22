@@ -1,0 +1,69 @@
+name: Deploy Service Monitoring
+
+on:
+  push:
+    branches: [deploy]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: service-monitoring-deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@e7f100cf4c008499ea8adda475de1042d6975c7b # v6
+        with:
+          role-to-assume: ${{ vars.AWS_ROLE_ARN }}
+          aws-region: eu-north-1
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@b9cd54a3c349d3f38e8881555d616ced269862dd # v3
+        with:
+          terraform_version: '~> 1.10'
+
+      - name: Deploy monitoring
+        working-directory: infra
+        env:
+          STATE_BUCKET: ${{ vars.TF_STATE_BUCKET }}
+          TF_VAR_environment: ${{ vars.MONITORING_ENVIRONMENT || 'dev' }}
+          TF_VAR_cost_allocation: ${{ vars.COST_ALLOCATION }}
+          TF_VAR_notifications_enabled: ${{ vars.MONITORING_NOTIFICATIONS_ENABLED || 'false' }}
+          TF_VAR_github_token_secret_arn: ${{ vars.MONITORING_GITHUB_TOKEN_SECRET_ARN }}
+        run: |
+          set -euo pipefail
+          test -n "$STATE_BUCKET"
+          terraform init -input=false -lockfile=readonly \
+            -backend-config="bucket=$STATE_BUCKET" \
+            -backend-config="key=service-monitoring/terraform.tfstate" \
+            -backend-config="region=eu-north-1" \
+            -backend-config="encrypt=true" \
+            -backend-config="use_lockfile=true"
+          terraform apply -auto-approve -input=false
+
+      - name: Smoke test both monitors
+        working-directory: infra
+        run: |
+          set -euo pipefail
+          for SERVICE in CDN MCP; do
+            FUNCTION=$(terraform output -json function_names | jq -r --arg service "$SERVICE" '.[$service]')
+            RESULT=$(aws lambda invoke --cli-read-timeout 500 --function-name "$FUNCTION" --payload '{}' \
+              --cli-binary-format raw-in-base64-out /tmp/monitor-result.json)
+            if jq -e '.FunctionError' <<< "$RESULT" > /dev/null; then
+              echo "::error::$SERVICE monitoring invocation failed. Inspect its CloudWatch logs."
+              exit 1
+            fi
+            jq -e --arg service "$SERVICE" '.service == $service and (.status == "healthy" or .status == "pending")' /tmp/monitor-result.json
+          done

@@ -525,6 +525,28 @@ describe('Autocomplete component', () => {
       ).toHaveAttribute('id')
     })
 
+    it('sets aria-invalid when status is an error', () => {
+      const { rerender } = render(
+        <Autocomplete data={mockData} {...mockProps} status="status" />
+      )
+      expect(document.querySelector('input')).toHaveAttribute(
+        'aria-invalid',
+        'true'
+      )
+
+      rerender(
+        <Autocomplete
+          data={mockData}
+          {...mockProps}
+          status="status"
+          statusState="warning"
+        />
+      )
+      expect(document.querySelector('input')).not.toHaveAttribute(
+        'aria-invalid'
+      )
+    })
+
     it('keeps the submit button free of the given statusProps', () => {
       const onClick = vi.fn()
 
@@ -5812,6 +5834,19 @@ describe('Autocomplete markup', () => {
     )
 
     expect(await axeComponent(result)).toHaveNoViolations()
+  })
+
+  it('should label the list with the input when there is no label', () => {
+    render(<Autocomplete data={mockData} showSubmitButton noAnimation />)
+
+    toggle()
+
+    expect(
+      document.querySelector('.dnb-drawer-list__options')
+    ).toHaveAttribute(
+      'aria-labelledby',
+      document.querySelector('.dnb-input__input').id
+    )
   })
 
   it('should have correct aria-activedescendant', async () => {

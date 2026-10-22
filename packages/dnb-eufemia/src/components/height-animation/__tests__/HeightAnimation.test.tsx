@@ -100,6 +100,27 @@ describe('HeightAnimation', () => {
     expect(getElement()).toHaveAttribute('style', 'height: auto;')
   })
 
+  it('does not adjust from an unmeasured height when the delay expires during a render', () => {
+    const now = vi.spyOn(Date, 'now').mockReturnValue(1000)
+    const adjust = vi.spyOn(HeightAnimationInstance.prototype, 'adjustTo')
+    try {
+      const { rerender } = render(
+        <HeightAnimation>Initial content</HeightAnimation>
+      )
+      mockHeight(100)
+      now.mockReturnValueOnce(1005).mockReturnValue(1020)
+      rerender(<HeightAnimation>Updated content</HeightAnimation>)
+      expect(adjust).not.toHaveBeenCalled()
+      expect(getElement()).not.toHaveClass(
+        'dnb-height-animation--animating'
+      )
+      expect(getElement()).not.toHaveStyle({ height: '0px' })
+    } finally {
+      now.mockRestore()
+      adjust.mockRestore()
+    }
+  })
+
   it('should call onOpen', () => {
     const onOpen = vi.fn()
     const { rerender } = render(
@@ -303,6 +324,39 @@ describe('HeightAnimation', () => {
       simulateAnimationEnd()
 
       expect(getElement()).not.toHaveAttribute('aria-hidden')
+    })
+
+    it('should make the content inert while it closes', () => {
+      const { rerender } = render(
+        <HeightAnimation keepInDOM open>
+          <button>Button</button>
+        </HeightAnimation>
+      )
+
+      expect(getElement()).not.toHaveAttribute('inert')
+
+      rerender(
+        <HeightAnimation keepInDOM open={false}>
+          <button>Button</button>
+        </HeightAnimation>
+      )
+
+      expect(getElement()).toHaveClass('dnb-height-animation--animating')
+      expect(getElement()).toHaveAttribute('inert')
+
+      simulateAnimationEnd()
+
+      expect(getElement()).toHaveClass('dnb-height-animation--hidden')
+      expect(getElement()).not.toHaveAttribute('inert')
+
+      rerender(
+        <HeightAnimation keepInDOM open>
+          <button>Button</button>
+        </HeightAnimation>
+      )
+
+      expect(getElement()).toHaveClass('dnb-height-animation--animating')
+      expect(getElement()).not.toHaveAttribute('inert')
     })
 
     it('should set className "hidden" when closed and keepInDOM is true', () => {

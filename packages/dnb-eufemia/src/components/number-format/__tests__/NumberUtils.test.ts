@@ -626,6 +626,39 @@ describe('Currency format with dirty number', () => {
 })
 
 describe('NumberFormat percentage', () => {
+  it.each([
+    ['nb-NO', -1.55, '−1,55 prosent'],
+    ['nn-NO', 1.8422381750579178, '+1,84 prosent'],
+    ['en-GB', -1.55, '−1.55 per cent'],
+    ['en-US', 1.8422381750579178, '+1.84 percent'],
+    ['nb-NO', 0, '0,00 prosent'],
+    ['nb-NO', -0.001, '0,00 prosent'],
+    ['nb-NO', 1.005, '+1,00 prosent'],
+    ['nb-NO', -1.025, '−1,02 prosent'],
+  ])('localizes percent speech for %s and %s', (locale, value, aria) => {
+    expect(
+      formatPercent(value, {
+        locale,
+        decimals: 2,
+        signDisplay: 'exceptZero',
+        returnAria: true,
+      })
+    ).toMatchObject({ aria })
+  })
+
+  it('keeps percentage speech aligned with custom rounding', () => {
+    expect(
+      formatPercent(-4.165, {
+        decimals: 2,
+        rounding: 'omit',
+        returnAria: true,
+      })
+    ).toMatchObject({
+      number: '−4,16 %',
+      aria: '−4,16 prosent',
+    })
+  })
+
   const number = -123456789.56
 
   it('should format with default values', () => {
@@ -671,7 +704,7 @@ describe('NumberFormat percentage', () => {
         returnAria: true,
       })
     ).toMatchObject({
-      aria: '−123,456,789.6%',
+      aria: '−123,456,789.6 percent',
       cleanedValue: '-123456789.6%',
       locale: 'en-US',
       number: '−123,456,789.6%',
@@ -681,7 +714,7 @@ describe('NumberFormat percentage', () => {
     expect(
       formatPercent(12.34, { locale: 'en-US', returnAria: true })
     ).toMatchObject({
-      aria: '12.34%',
+      aria: '12.34 percent',
       cleanedValue: '12.34%',
       locale: 'en-US',
       number: '12.34%',
@@ -750,7 +783,7 @@ describe('NumberFormat minus sign', () => {
 
     expect(result).toMatchObject({
       number: '−0,9 %',
-      aria: '−0,9 %',
+      aria: '−0,9 prosent',
     })
   })
 

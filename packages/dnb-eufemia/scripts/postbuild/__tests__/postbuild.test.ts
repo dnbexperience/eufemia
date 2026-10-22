@@ -316,6 +316,34 @@ describe('babel build', () => {
     }
   })
 
+  it.each(buildStages)(
+    'does not polyfill methods that every supported browser has on stage "%s"',
+    (stage) => {
+      stage = makeStagePathException(stage)
+
+      const polyfillsByFile = {
+        'components/accordion/Accordion.js': [
+          'instance/includes',
+          'instance/push',
+        ],
+        'components/input/Input.js': ['json/parse'],
+        'components/input-masked/TextMask.js': ['instance/flags'],
+        'components/table/TableContainer.js': ['instance/unshift'],
+      }
+
+      for (const [file, polyfills] of Object.entries(polyfillsByFile)) {
+        const content = fs.readFileSync(
+          path.resolve(PKG_ROOT, `build${stage}/${file}`),
+          'utf-8'
+        )
+
+        for (const polyfill of polyfills) {
+          expect(content).not.toContain(`core-js-pure/stable/${polyfill}`)
+        }
+      }
+    }
+  )
+
   it.each(buildStages)('has correctly compiled on stage "%s"', (stage) => {
     switch (stage) {
       case '/cjs':
@@ -827,6 +855,7 @@ describe('tsdown build', () => {
               path.resolve(PKG_ROOT, `build${stage}/dnb-ui-lib.min.mjs`),
               'utf-8'
             )
+            // eslint-disable-next-line security/detect-unsafe-regex -- the optional group does not repeat
             expect(content).toMatch(/import\s*(?:\w+,)?\{.*\}from"react";/)
             expect(content).toContain('}from"react-dom";')
             expect(content).toMatch(
@@ -969,10 +998,10 @@ describe('style build', () => {
         'utf-8'
       )
       expect(content).toMatch(
-        /\.dnb-core-style {([\r\n][^}]*)+font-family: var\(--font-family-default\);/
+        /\.dnb-core-style {[\r\n][^}]*font-family: var\(--font-family-default\);/
       )
       expect(content).toMatch(
-        /html {([\r\n][^}]*)+line-height: var\(--line-height-basis\);/
+        /html {[\r\n][^}]*line-height: var\(--line-height-basis\);/
       )
     }
 
@@ -982,10 +1011,10 @@ describe('style build', () => {
         'utf-8'
       )
       expect(content).toMatch(
-        /\.dnb-core-style {([\r\n][^}]*)+font-family: var\(--font-family-default\);/
+        /\.dnb-core-style {[\r\n][^}]*font-family: var\(--font-family-default\);/
       )
       expect(content).not.toMatch(
-        /html {([\r\n][^}]*)+line-height: var\(--line-height-basis\);/
+        /html {[\r\n][^}]*line-height: var\(--line-height-basis\);/
       )
     }
 

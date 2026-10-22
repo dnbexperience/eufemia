@@ -1582,10 +1582,10 @@ describe('DataContext.Provider', { retry: isCI ? 5 : 0 }, () => {
         expect(status).toHaveTextContent(nb.Field.errorRequired)
       })
 
-      // Wait before typing, to avoid issues with async validation
-      await new Promise((resolve) => requestAnimationFrame(resolve))
+      // Set the full value so async validation cannot interrupt typing.
+      fireEvent.change(input, { target: { value: 'something' } })
 
-      await userEvent.type(input, 'something')
+      expect(input).toHaveValue('something')
 
       await waitFor(() => {
         expect(submitButton).not.toBeDisabled()
@@ -1603,8 +1603,9 @@ describe('DataContext.Provider', { retry: isCI ? 5 : 0 }, () => {
       await waitFor(() => {
         expect(onSubmit).toHaveBeenCalledTimes(1)
         expect(onBlurValidator.mock.calls.length).toBeGreaterThanOrEqual(2)
-        expect(onChangeValidator.mock.calls.length).toBeGreaterThanOrEqual(
-          5
+        expect(onChangeValidator).toHaveBeenLastCalledWith(
+          'something',
+          expect.any(Object)
         )
       })
     })
@@ -2757,6 +2758,111 @@ describe('DataContext.Provider', { retry: isCI ? 5 : 0 }, () => {
       expect(input).toHaveValue('default1')
 
       sessionStorageGetter.mockRestore()
+    })
+
+    it('should remove the stored data after a successful submit', async () => {
+      const sessionStorageId = 'flush-on-submit'
+      const onSubmit = vi.fn()
+
+      render(
+        <Form.Handler
+          sessionStorageId={sessionStorageId}
+          onSubmit={onSubmit}
+        >
+          <Field.String path="/foo" />
+        </Form.Handler>
+      )
+
+      await userEvent.type(document.querySelector('input'), 'secret')
+      await wait(10)
+
+      expect(window.sessionStorage.getItem(sessionStorageId)).toBe(
+        JSON.stringify({ foo: 'secret' })
+      )
+
+      // Submit while a debounced write is still pending
+      fireEvent.change(document.querySelector('input'), {
+        target: { value: 'secret2' },
+      })
+      fireEvent.submit(document.querySelector('form'))
+
+      await waitFor(() => {
+        expect(onSubmit).toHaveBeenCalledTimes(1)
+      })
+      await wait(10)
+
+      expect(window.sessionStorage.getItem(sessionStorageId)).toBeNull()
+    })
+
+    it.each([
+      ['returns', () => new Error('Failed')],
+      [
+        'throws',
+        () => {
+          throw new Error('Failed')
+        },
+      ],
+    ])(
+      'should keep the stored data when submit %s an error',
+      async (_label, onSubmit) => {
+        const sessionStorageId = 'keep-on-submit-error'
+
+        render(
+          <Form.Handler
+            sessionStorageId={sessionStorageId}
+            onSubmit={onSubmit}
+          >
+            <Field.String path="/foo" />
+          </Form.Handler>
+        )
+
+        await userEvent.type(document.querySelector('input'), 'value')
+        await wait(10)
+
+        fireEvent.submit(document.querySelector('form'))
+        await wait(10)
+
+        expect(window.sessionStorage.getItem(sessionStorageId)).toBe(
+          JSON.stringify({ foo: 'value' })
+        )
+
+        window.sessionStorage.removeItem(sessionStorageId)
+      }
+    )
+
+    it('should keep the stored data when a Wizard goes to the next step', async () => {
+      const sessionStorageId = 'keep-on-wizard-step'
+      const onSubmit = vi.fn()
+
+      render(
+        <Form.Handler
+          sessionStorageId={sessionStorageId}
+          onSubmit={onSubmit}
+        >
+          <Wizard.Container>
+            <Wizard.Step title="Step 1">
+              <Field.String path="/foo" />
+              <Wizard.Buttons />
+            </Wizard.Step>
+            <Wizard.Step title="Step 2">
+              <Wizard.Buttons />
+            </Wizard.Step>
+          </Wizard.Container>
+        </Form.Handler>
+      )
+
+      await userEvent.type(document.querySelector('input'), 'value')
+      await wait(10)
+
+      fireEvent.submit(document.querySelector('form'))
+      await wait(10)
+
+      expect(onSubmit).not.toHaveBeenCalled()
+      expect(window.sessionStorage.getItem(sessionStorageId)).toBe(
+        JSON.stringify({ foo: 'value' })
+      )
+
+      window.sessionStorage.removeItem(sessionStorageId)
     })
   })
 

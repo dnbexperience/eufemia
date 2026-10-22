@@ -329,7 +329,8 @@ resource "aws_glue_catalog_table" "portal_views_daily" {
 }
 
 # Raw MCP usage events (one row per validated tool call), written directly to S3
-# by the MCP Lambda. Anonymous: tool + optional allow-listed component/path only.
+# by the MCP Lambda. Anonymous: tool + optional allow-listed component/path, plus
+# a component-miss flag and the real component a missed name matches.
 resource "aws_glue_catalog_table" "mcp_usage" {
   name          = "mcp_usage"
   database_name = aws_glue_catalog_database.analytics.name
@@ -373,6 +374,16 @@ resource "aws_glue_catalog_table" "mcp_usage" {
 
     columns {
       name = "component"
+      type = "string"
+    }
+
+    columns {
+      name = "component_missed"
+      type = "boolean"
+    }
+
+    columns {
+      name = "likely_component"
       type = "string"
     }
 
@@ -465,6 +476,16 @@ resource "aws_glue_catalog_table" "mcp_usage_daily" {
 
     columns {
       name = "path"
+      type = "string"
+    }
+
+    columns {
+      name = "component_missed"
+      type = "boolean"
+    }
+
+    columns {
+      name = "likely_component"
       type = "string"
     }
 
@@ -879,7 +900,7 @@ resource "aws_lambda_function" "snapshot" {
   role          = data.aws_iam_role.lambda.arn
   handler       = "index.snapshot"
   runtime       = "nodejs22.x"
-  timeout       = 90
+  timeout       = 900
   memory_size   = 256
 
   filename         = "${path.module}/../dist/lambda.zip"

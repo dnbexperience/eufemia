@@ -64,6 +64,14 @@ Use `List.Cell.Footer` to place actions such as [Button](/uilib/components/butto
 
 <Examples.FooterWithButtons />
 
+### Action item with an independent footer
+
+Pass `List.Cell.Footer` through the `footer` prop on `List.Item.Action` when the footer contains buttons or links. It stays inside the item's border and rounded corners, outside the primary button or link. Each action has its own keyboard interaction. Eufemia buttons and links inherit the item's disabled state. Footer controls remain available while pending, so focus stays on the action that started the operation. Manage each footer control's loading and disabled state individually.
+
+Keep non-interactive footer content in `children` when it should activate the primary action along with the rest of the row.
+
+<Examples.ActionWithFooter />
+
 ### Responsive Grid Layout
 
 Using [Grid.Container](/uilib/layout/grid/container) with [Grid.Item](/uilib/layout/grid/item) for a 12-column responsive grid.

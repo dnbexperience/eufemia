@@ -240,6 +240,16 @@ function IsolationProvider<Data extends JsonObject>(
         return undefined // stop here
       }
 
+      // Let the outer form know which committed values are credentials,
+      // so it keeps them out of its session storage
+      dataContextRef.current?.credentialPathsRef?.current?.forEach(
+        (credentialPath) => {
+          outerContext?.credentialPathsRef?.current?.add(
+            path === '/' ? credentialPath : `${path}${credentialPath}`
+          )
+        }
+      )
+
       // Commit the internal data to the nested context data
       await handlePathChangeOuter?.(
         path,
@@ -258,6 +268,7 @@ function IsolationProvider<Data extends JsonObject>(
       handlePathChangeOuter,
       onCommitProp,
       removeSectionPath,
+      outerContext,
     ]
   )
 

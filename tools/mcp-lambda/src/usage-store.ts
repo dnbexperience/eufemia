@@ -1,6 +1,6 @@
 import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3'
 import { randomUUID } from 'node:crypto'
-import type { McpUsageRecord } from './records/mcp-usage.js'
+import type { WebMcpUsageRecord } from './records/mcp-usage.js'
 
 const s3 = new S3Client({})
 
@@ -12,13 +12,13 @@ const s3 = new S3Client({})
  */
 export async function storeMcpUsage(
   bucket: string,
-  records: McpUsageRecord[]
+  records: WebMcpUsageRecord[]
 ): Promise<void> {
   if (records.length === 0) {
     return
   }
 
-  const byDate = new Map<string, McpUsageRecord[]>()
+  const byDate = new Map<string, WebMcpUsageRecord[]>()
   for (const record of records) {
     const date = record.created_at.slice(0, 10)
     const dateRecords = byDate.get(date) ?? []

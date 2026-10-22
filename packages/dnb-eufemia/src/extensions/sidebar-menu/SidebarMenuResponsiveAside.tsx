@@ -15,7 +15,10 @@ import SidebarMenuResizeHandle from './SidebarMenuResizeHandle'
 import type { SidebarMenuResizeHandleProps } from './SidebarMenuResizeHandle'
 import { SidebarMenuResponsiveInline } from './SidebarMenuResponsive'
 import type { SidebarMenuResponsiveInlineProps } from './SidebarMenuResponsive'
-import { useSidebarMenuResponsiveContext } from './SidebarMenuResponsiveContext'
+import {
+  SidebarMenuResponsiveAsideContext,
+  useSidebarMenuResponsiveContext,
+} from './SidebarMenuResponsiveContext'
 
 export type SidebarMenuResponsiveAsideProps = Omit<
   ComponentPropsWithRef<'aside'>,
@@ -26,6 +29,8 @@ export type SidebarMenuResponsiveAsideProps = Omit<
   expandedWidth?: SidebarMenuResponsiveInlineProps['expandedWidth']
   /** Width reserved while the inline sidebar is compact. Minimum and default: 4rem. */
   compactWidth?: SidebarMenuResponsiveInlineProps['compactWidth']
+  /** Show the embedded full-width toggle. Default: true. Keep an external restore control available. */
+  showToggle?: SidebarMenuResponsiveInlineProps['showToggle']
   /** Enables the inline ResizeHandle. Default: false. */
   resizable?: boolean
   /** Properties forwarded to the ScrollView. */
@@ -45,6 +50,7 @@ export default function SidebarMenuResponsiveAside({
   children,
   expandedWidth = '18rem',
   compactWidth = '4rem',
+  showToggle = true,
   resizable = false,
   scrollViewProps,
   contentProps,
@@ -61,8 +67,7 @@ export default function SidebarMenuResponsiveAside({
     useState<HTMLDivElement | null>(null)
   const combinedRef = useCombinedRef(ref, asideRef)
   const internalId = useId(id)
-  const { collapseInline, registerInlineId, scopeId } =
-    useSidebarMenuResponsiveContext()
+  const { collapseInline, scopeId } = useSidebarMenuResponsiveContext()
   const {
     className: scrollViewClassName,
     interactive = 'auto',
@@ -77,11 +82,6 @@ export default function SidebarMenuResponsiveAside({
     onCollapse,
     ...restResizeHandleProps
   } = resizeHandleProps ?? {}
-
-  useIsomorphicLayoutEffect(
-    () => registerInlineId(internalId),
-    [internalId, registerInlineId]
-  )
 
   useIsomorphicLayoutEffect(() => {
     if (!onWidthChange) {
@@ -105,64 +105,67 @@ export default function SidebarMenuResponsiveAside({
   }, [inlineElement, onWidthChange])
 
   return (
-    <SidebarMenuResponsiveInline
-      ref={setInlineElement}
-      expandedWidth={expandedWidth}
-      compactWidth={compactWidth}
-    >
-      <aside
-        {...props}
-        id={internalId}
-        ref={combinedRef}
-        className={clsx('dnb-sidebar-menu-responsive-aside', className)}
-        data-sidebar-menu-responsive-resizable={resizable || undefined}
-        style={
-          {
-            '--sidebar-menu-resize-min-width': `${minWidth}px`,
-            ...style,
-          } as CSSProperties
-        }
+    <SidebarMenuResponsiveAsideContext value={true}>
+      <SidebarMenuResponsiveInline
+        ref={setInlineElement}
+        expandedWidth={expandedWidth}
+        compactWidth={compactWidth}
+        showToggle={showToggle}
       >
-        <ScrollView
-          {...restScrollViewProps}
-          className={clsx(
-            'dnb-sidebar-menu-responsive-aside__scroll-view',
-            scrollViewClassName
-          )}
-          interactive={interactive}
-          scrollbarGutter={scrollbarGutter}
+        <aside
+          {...props}
+          id={internalId}
+          ref={combinedRef}
+          className={clsx('dnb-sidebar-menu-responsive-aside', className)}
+          data-sidebar-menu-responsive-resizable={resizable || undefined}
+          style={
+            {
+              '--sidebar-menu-resize-min-width': `${minWidth}px`,
+              ...style,
+            } as CSSProperties
+          }
         >
-          <div
-            {...restContentProps}
+          <ScrollView
+            {...restScrollViewProps}
             className={clsx(
-              'dnb-sidebar-menu-responsive-aside__content',
-              contentClassName
+              'dnb-sidebar-menu-responsive-aside__scroll-view',
+              scrollViewClassName
             )}
+            interactive={interactive}
+            scrollbarGutter={scrollbarGutter}
           >
-            {children}
-          </div>
-        </ScrollView>
-        {resizable && (
-          <SidebarMenuResizeHandle
-            {...restResizeHandleProps}
-            className={clsx(
-              'dnb-sidebar-menu-responsive-aside__resize-handle',
-              resizeHandleClassName
-            )}
-            targetRef={asideRef}
-            scopeSelector={`[data-sidebar-menu-responsive-provider="${scopeId}"]`}
-            cssProperty="--sidebar-menu-runtime-expanded-width"
-            minWidth={minWidth}
-            aria-controls={
-              restResizeHandleProps['aria-controls'] ?? internalId
-            }
-            onCollapse={() => {
-              onCollapse?.()
-              collapseInline()
-            }}
-          />
-        )}
-      </aside>
-    </SidebarMenuResponsiveInline>
+            <div
+              {...restContentProps}
+              className={clsx(
+                'dnb-sidebar-menu-responsive-aside__content',
+                contentClassName
+              )}
+            >
+              {children}
+            </div>
+          </ScrollView>
+          {resizable && (
+            <SidebarMenuResizeHandle
+              {...restResizeHandleProps}
+              className={clsx(
+                'dnb-sidebar-menu-responsive-aside__resize-handle',
+                resizeHandleClassName
+              )}
+              targetRef={asideRef}
+              scopeSelector={`[data-sidebar-menu-responsive-provider="${scopeId}"]`}
+              cssProperty="--sidebar-menu-runtime-expanded-width"
+              minWidth={minWidth}
+              aria-controls={
+                restResizeHandleProps['aria-controls'] ?? internalId
+              }
+              onCollapse={() => {
+                onCollapse?.()
+                collapseInline()
+              }}
+            />
+          )}
+        </aside>
+      </SidebarMenuResponsiveInline>
+    </SidebarMenuResponsiveAsideContext>
   )
 }

@@ -23,6 +23,8 @@ import { List } from '@dnb/eufemia'
 
 All item components support [Space](/uilib/layout/space/properties) props (`top`, `bottom`, etc.) and forward standard HTML attributes.
 
+For secondary buttons or links in `List.Item.Action`, pass a `List.Cell.Footer` through its `footer` prop. The footer shares the item's border and rounded corners, but sits outside its primary button or link. See [Action item with an independent footer](/uilib/components/list/demos/#action-item-with-an-independent-footer).
+
 ## Relevant links
 
 - [Figma](https://www.figma.com/design/cdtwQD8IJ7pTeE45U148r1/%F0%9F%92%BB-Eufemia---Web?node-id=47195-2954)
@@ -97,6 +99,8 @@ render(
 `List.Container` uses CSS gap and leaves its React children unchanged. If you extract a row into your own component, render a `List.Item` from its root so the resulting `<li>` remains a direct child of the list. No marker or spacing-prop forwarding is needed:
 
 <Examples.CustomItemComponent />
+
+You can also extract cells such as `List.Cell.Title` or `List.Cell.End` into your own components. They are placed like cells used directly.
 
 ## Rendering a row outside a `List.Container`
 

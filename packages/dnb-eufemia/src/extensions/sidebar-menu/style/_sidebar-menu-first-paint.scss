@@ -1,0 +1,63 @@
+@use 'sidebar-menu-compact' as compact;
+
+// Runtime only supplies the instance scope and validated breakpoint values.
+$scope: '[data-sidebar-menu-responsive-scope="{{scope}}"]';
+$inline: '#{$scope}.dnb-sidebar-menu-responsive-inline:not([data-sidebar-menu-responsive-compact])';
+
+@mixin drawer {
+  @media (max-width: __DNB_SIDEBAR_DRAWER__) {
+    #{$scope}.dnb-sidebar-menu-responsive-trigger:not(
+        [data-sidebar-menu-responsive-visible]
+      ) {
+      display: inline-flex;
+    }
+
+    #{$scope}.dnb-sidebar-menu-responsive-inline:not(
+        [data-sidebar-menu-responsive-visible]
+      ) {
+      display: none;
+    }
+  }
+
+  @media (min-width: __DNB_SIDEBAR_MIN__) {
+    #{$scope}.dnb-sidebar-menu-responsive-trigger:not(
+        [data-sidebar-menu-responsive-visible]
+      ) {
+      display: none;
+    }
+
+    #{$scope}.dnb-sidebar-menu-responsive-inline:not(
+        [data-sidebar-menu-responsive-visible]
+      ) {
+      display: contents;
+
+      &[data-sidebar-menu-responsive-surface] {
+        display: block;
+      }
+    }
+  }
+}
+
+@mixin compact {
+  @media (min-width: __DNB_SIDEBAR_MIN__) and (max-width: __DNB_SIDEBAR_MAX__) {
+    #{$inline} {
+      display: block;
+      @include compact.inline();
+
+      > .dnb-sidebar-menu-responsive-inline__content {
+        @include compact.aside();
+
+        .dnb-sidebar-menu-responsive-aside .dnb-sidebar-menu {
+          width: 100%;
+          margin-inline: 0;
+        }
+
+        .dnb-sidebar-menu {
+          @include compact.menu();
+          @include compact.collapsed-menu();
+          @include compact.collapsed-section-text();
+        }
+      }
+    }
+  }
+}

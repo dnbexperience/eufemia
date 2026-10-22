@@ -13,6 +13,10 @@ import type {
   ReactNode,
   RefObject,
 } from 'react'
+import {
+  compactFirstPaintCss,
+  drawerFirstPaintCss,
+} from './SidebarMenuFirstPaintCss'
 import Button from '../../components/button/Button'
 import type { ButtonProps } from '../../components/button/Button'
 import type { IconSVGProps } from '../../components/icon/Icon'
@@ -23,17 +27,32 @@ import useMediaQuery from '../../shared/useMediaQuery'
 import Context from '../../shared/Context'
 import { defaultBreakpoints } from '../../shared/MediaQueryUtils'
 import type { MediaQuerySizes } from '../../shared/MediaQueryUtils'
-import { hamburger, sidebar } from '../../icons'
+import { hamburger } from '../../icons'
 import { clsx } from 'clsx'
 import useCombinedRef from '../../shared/helpers/useCombinedRef'
+import useUniqueId from '../../shared/helpers/useId'
 import useIsomorphicLayoutEffect from '../../shared/helpers/useIsomorphicLayoutEffect'
+import { useSharedState } from '../../shared/helpers/useSharedState'
+import {
+  getWebStorage,
+  readWebStorageJSON,
+} from '../../shared/helpers/webStorage'
+import type { WebStorageType } from '../../shared/helpers/webStorage'
 import useTranslation from '../../shared/useTranslation'
 import {
+  SidebarMenuInlineToggleContext,
+  SidebarMenuResponsiveAsideContext,
   SidebarMenuResponsiveInlineCompactContext,
   SidebarMenuResponsiveContext,
+  sidebarMenuResponsiveStateOptions,
   useSidebarMenuResponsiveContext,
 } from './SidebarMenuResponsiveContext'
 import type { SidebarMenuResponsiveContextValue } from './SidebarMenuResponsiveContext'
+import SidebarMenuToggle from './SidebarMenuToggle'
+import { useSidebarMenuProps } from './SidebarMenuController'
+
+// Was exported from this module in v11.15, so keep the import path working.
+export { useOptionalSidebarMenuResponsive } from './SidebarMenuResponsiveContext'
 
 const animatedHamburger = (props?: IconSVGProps) => (
   <svg
@@ -80,7 +99,9 @@ export type SidebarMenuResponsiveValue = Pick<
 
 export type SidebarMenuResponsiveProviderProps = {
   children: ReactNode
-  /** Stable scope used by generated first-paint CSS. */
+  /** Named controller shared with other applications in the same window. */
+  controllerId?: string
+  /** Unique scope used by first-paint CSS and Toggles outside this provider. */
   scopeId?: string
   /** Maximum viewport width at which the mobile Drawer is used. */
   drawerAt?: MediaQuerySizes | `${number}em`
@@ -102,24 +123,33 @@ export type SidebarMenuResponsiveProviderProps = {
   inlineCollapsed?: boolean
   /** Initial uncontrolled desktop inline navigation state. */
   defaultInlineCollapsed?: boolean
+  /** Storage key used to persist uncontrolled desktop dismissal. */
+  inlineCollapsedStorageKey?: string
+  /** Storage used for desktop dismissal. Default: session. */
+  inlineCollapsedStorage?: WebStorageType
   /** Called whenever the desktop inline navigation collapses or restores. */
   onInlineCollapsedChange?: (collapsed: boolean) => void
 }
-export function SidebarMenuResponsiveProvider({
-  children,
-  scopeId: scopeIdProp,
-  drawerAt,
-  breakpoint,
-  compactAt,
-  compactOffset = '0em',
-  styleNonce,
-  open,
-  defaultOpen = false,
-  onOpenChange,
-  inlineCollapsed,
-  defaultInlineCollapsed = false,
-  onInlineCollapsedChange,
-}: SidebarMenuResponsiveProviderProps) {
+export function SidebarMenuResponsiveProvider(
+  props: SidebarMenuResponsiveProviderProps
+) {
+  const {
+    children,
+    scopeId: scopeIdProp,
+    drawerAt,
+    breakpoint,
+    compactAt,
+    compactOffset = '0em',
+    styleNonce,
+    open,
+    defaultOpen = false,
+    onOpenChange,
+    inlineCollapsed,
+    defaultInlineCollapsed = false,
+    inlineCollapsedStorageKey,
+    inlineCollapsedStorage = 'session',
+    onInlineCollapsedChange,
+  } = useSidebarMenuProps(props.controllerId, props, 'responsive')
   const { breakpoints } = useContext(Context)
   const resolvedDrawerAt = resolveBreakpoint(
     drawerAt ?? breakpoint ?? 'medium',
@@ -153,6 +183,7 @@ export function SidebarMenuResponsiveProvider({
   const onInlineCollapsedChangeRef = useRef(onInlineCollapsedChange)
   const inlineResetRef = useRef<() => void>(undefined)
   const [inlineIds, setInlineIds] = useState<string[]>([])
+  const inlineIdCounts = useRef(new Map<string, number>())
   const [drawerScrollElement, setDrawerScrollElementState] =
     useState<HTMLElement | null>(null)
   const setDrawerScrollElement = useCallback(
@@ -164,6 +195,49 @@ export function SidebarMenuResponsiveProvider({
   const drawerOpeningRef = useRef(false)
   const resolvedInlineCollapsed =
     inlineCollapsed ?? internalInlineCollapsed
+  const persistedInlineStorageKey =
+    inlineCollapsed === undefined ? inlineCollapsedStorageKey : undefined
+  const inlineStorageId = persistedInlineStorageKey
+    ? `${inlineCollapsedStorage}:${persistedInlineStorageKey}`
+    : undefined
+  const loadedInlineStorageIdRef = useRef<string>(undefined)
+
+  useIsomorphicLayoutEffect(() => {
+    if (!inlineStorageId) {
+      loadedInlineStorageIdRef.current = undefined
+      return
+    }
+    if (loadedInlineStorageIdRef.current === inlineStorageId) {
+      return
+    }
+    const stored = readWebStorageJSON(
+      inlineCollapsedStorage,
+      persistedInlineStorageKey
+    )
+    loadedInlineStorageIdRef.current = inlineStorageId
+    setInternalInlineCollapsed(
+      typeof stored === 'boolean' ? stored : defaultInlineCollapsed
+    )
+  }, [
+    defaultInlineCollapsed,
+    inlineCollapsedStorage,
+    inlineStorageId,
+    persistedInlineStorageKey,
+  ])
+
+  useIsomorphicLayoutEffect(() => {
+    document
+      .querySelectorAll('[data-sidebar-menu-inline-pre-hydration]')
+      .forEach((element) => {
+        if (
+          element.getAttribute(
+            'data-sidebar-menu-inline-pre-hydration'
+          ) === persistedInlineStorageKey
+        ) {
+          element.remove()
+        }
+      })
+  }, [persistedInlineStorageKey])
 
   useIsomorphicLayoutEffect(() => {
     isSmallScreenRef.current = isSmallScreen
@@ -201,10 +275,20 @@ export function SidebarMenuResponsiveProvider({
     (collapsed: boolean) => {
       if (inlineCollapsed === undefined) {
         setInternalInlineCollapsed(collapsed)
+        if (inlineCollapsedStorageKey) {
+          try {
+            getWebStorage(inlineCollapsedStorage)?.setItem(
+              inlineCollapsedStorageKey,
+              JSON.stringify(collapsed)
+            )
+          } catch {
+            // Storage can become unavailable after it was resolved.
+          }
+        }
       }
       onInlineCollapsedChangeRef.current?.(collapsed)
     },
-    [inlineCollapsed]
+    [inlineCollapsed, inlineCollapsedStorage, inlineCollapsedStorageKey]
   )
   const collapseInline = useCallback(
     () => setInlineCollapsed(true),
@@ -219,11 +303,21 @@ export function SidebarMenuResponsiveProvider({
     }
   }, [])
   const registerInlineId = useCallback((id: string) => {
-    setInlineIds((current) =>
-      current.includes(id) ? current : [...current, id]
-    )
+    // Inline owners can briefly overlap when an aside moves between them.
+    const counts = inlineIdCounts.current
+    const count = counts.get(id) ?? 0
+    counts.set(id, count + 1)
+    if (count === 0) {
+      setInlineIds((current) => [...current, id])
+    }
     return () => {
-      setInlineIds((current) => current.filter((value) => value !== id))
+      const remaining = (counts.get(id) ?? 1) - 1
+      if (remaining > 0) {
+        counts.set(id, remaining)
+      } else {
+        counts.delete(id)
+        setInlineIds((current) => current.filter((value) => value !== id))
+      }
     }
   }, [])
   const restoreInline = useCallback(() => {
@@ -286,6 +380,19 @@ export function SidebarMenuResponsiveProvider({
     ]
   )
 
+  const { update } = useSharedState<SidebarMenuResponsiveContextValue>(
+    typeof window === 'undefined' ? undefined : scopeIdProp,
+    undefined,
+    null,
+    sidebarMenuResponsiveStateOptions
+  )
+
+  useIsomorphicLayoutEffect(() => {
+    update(value)
+  }, [update, value])
+
+  useIsomorphicLayoutEffect(() => () => update(undefined), [update])
+
   const firstPaintCss = useMemo(
     () => getFirstPaintCss(scopeId, resolvedDrawerAt, resolvedCompactAt),
     [scopeId, resolvedDrawerAt, resolvedCompactAt]
@@ -296,6 +403,10 @@ export function SidebarMenuResponsiveProvider({
       <div
         className="dnb-sidebar-menu-responsive-provider"
         data-sidebar-menu-responsive-provider={scopeId}
+        data-inline-collapsed-storage-key={persistedInlineStorageKey}
+        data-inline-collapsed-storage={
+          persistedInlineStorageKey ? inlineCollapsedStorage : undefined
+        }
       >
         {firstPaintCss && (
           <style nonce={styleNonce}>{firstPaintCss}</style>
@@ -439,6 +550,8 @@ export type SidebarMenuResponsiveInlineProps = Omit<
   expandedWidth?: CSSProperties['width']
   /** Width reserved while the inline menu is compact. Minimum and default: 4rem. */
   compactWidth?: CSSProperties['width']
+  /** Show an embedded toggle at full width. Compact mode always includes its toggle. */
+  showToggle?: boolean
 }
 
 // The section list is portaled, so it is outside the inline menu in the DOM
@@ -457,6 +570,7 @@ export function SidebarMenuResponsiveInline({
   children,
   expandedWidth = '18rem',
   compactWidth = '4rem',
+  showToggle = false,
   ref,
   className,
   style,
@@ -476,8 +590,13 @@ export function SidebarMenuResponsiveInline({
     isCompact,
     isHydrated,
     isSmallScreen,
+    registerInlineId,
     scopeId,
+    collapseInline,
+    triggerRef,
   } = useSidebarMenuResponsiveContext()
+  const isAside = useContext(SidebarMenuResponsiveAsideContext)
+  const hasSurface = isAside || hasCompact || showToggle
   const inlineRef = useRef<HTMLDivElement>(null)
   const combinedRef = useCombinedRef(ref, inlineRef)
   const [compactExpanded, setCompactExpanded] = useState(false)
@@ -492,12 +611,67 @@ export function SidebarMenuResponsiveInline({
   const [tooltipTarget, setTooltipTarget] = useState<HTMLElement>()
   const [tooltipLabel, setTooltipLabel] = useState('')
   const compactOpen =
-    compactExpanded || (compactHovered && !compactDismissed)
-  const contentId = `${scopeId}-responsive-inline-content`
+    !inlineCollapsed &&
+    (compactExpanded || (compactHovered && !compactDismissed))
+  const contentId = `responsive-inline-content-${useUniqueId()}`
   const translation = useTranslation().SidebarMenu
   const compactOpenRef = useRef(compactOpen)
 
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
+    const inline = inlineRef.current
+    if (!inline || !isHydrated || isSmallScreen) {
+      return undefined
+    }
+
+    const provider = inline.closest(
+      '.dnb-sidebar-menu-responsive-provider'
+    )
+    const registrations = new Map<string, () => void>()
+    const updateIds = () => {
+      const ids = new Set(
+        Array.from(inline.querySelectorAll<HTMLElement>('aside[id]'))
+          .filter(
+            (aside) =>
+              aside.closest('.dnb-sidebar-menu-responsive-inline') ===
+                inline &&
+              aside.closest('.dnb-sidebar-menu-responsive-provider') ===
+                provider
+          )
+          .map((aside) => aside.id)
+          .filter(Boolean)
+      )
+      registrations.forEach((unregister, id) => {
+        if (!ids.has(id)) {
+          unregister()
+          registrations.delete(id)
+        }
+      })
+      ids.forEach((id) => {
+        if (!registrations.has(id)) {
+          registrations.set(id, registerInlineId(id))
+        }
+      })
+    }
+    updateIds()
+
+    // A custom surface can change its aside from a child's local state.
+    const observer =
+      typeof MutationObserver === 'undefined'
+        ? undefined
+        : new MutationObserver(updateIds)
+    observer?.observe(inline, {
+      childList: true,
+      subtree: true,
+      attributes: true,
+      attributeFilter: ['id'],
+    })
+    return () => {
+      observer?.disconnect()
+      registrations.forEach((unregister) => unregister())
+    }
+  }, [isHydrated, isSmallScreen, registerInlineId])
+
+  useIsomorphicLayoutEffect(() => {
     const wasOpen = compactOpenRef.current
     compactOpenRef.current = compactOpen
     if (compactOpen === wasOpen) {
@@ -522,7 +696,8 @@ export function SidebarMenuResponsiveInline({
   }, [isHydrated])
 
   useEffect(() => {
-    if (!isCompact) {
+    if (!isCompact || inlineCollapsed) {
+      compactHoveredRef.current = false
       setCompactExpanded(false)
       setCompactDismissed(false)
       setCompactHovered(false)
@@ -530,7 +705,16 @@ export function SidebarMenuResponsiveInline({
       setCompactClosing(false)
       setTooltipTarget(undefined)
     }
-  }, [isCompact])
+  }, [isCompact, inlineCollapsed])
+
+  useIsomorphicLayoutEffect(() => {
+    if (
+      inlineCollapsed &&
+      inlineRef.current?.contains(document.activeElement)
+    ) {
+      triggerRef.current?.focus({ preventScroll: true })
+    }
+  }, [inlineCollapsed, triggerRef])
 
   useIsomorphicLayoutEffect(() => {
     if (compactOpen) {
@@ -597,6 +781,18 @@ export function SidebarMenuResponsiveInline({
     return null
   }
 
+  const toggleInline = () => {
+    setTooltipTarget(undefined)
+    if (!isCompact) {
+      collapseInline()
+      return
+    }
+    const wasOpen =
+      compactExpanded || (compactHoveredRef.current && !compactDismissed)
+    setCompactExpanded(!wasOpen)
+    setCompactDismissed(wasOpen)
+  }
+
   const responsiveChildren = (
     <SidebarMenuResponsiveInlineCompactContext value={isCompact}>
       {children}
@@ -622,6 +818,7 @@ export function SidebarMenuResponsiveInline({
         isHydrated ? String(isCompact) : undefined
       }
       data-sidebar-menu-responsive-has-compact={hasCompact || undefined}
+      data-sidebar-menu-responsive-surface={hasSurface || undefined}
       data-sidebar-menu-responsive-expanded={compactOpen || undefined}
       data-sidebar-menu-responsive-scope={scopeId}
       inert={isHydrated && inlineCollapsed}
@@ -685,7 +882,7 @@ export function SidebarMenuResponsiveInline({
           isCompact &&
           document.documentElement.dataset.whatinput === 'keyboard' &&
           (event.target as Element).closest(
-            '.dnb-sidebar-menu__item__action'
+            '.dnb-sidebar-menu__item__action, .dnb-sidebar-menu__sections .dnb-dropdown__trigger'
           )
         ) {
           setCompactExpanded(true)
@@ -705,6 +902,19 @@ export function SidebarMenuResponsiveInline({
         if (isCompact && event.key === 'Escape') {
           setCompactExpanded(false)
           setCompactDismissed(true)
+        }
+
+        if (
+          isCompact &&
+          !compactOpen &&
+          ['Enter', ' ', 'ArrowDown', 'ArrowUp'].includes(event.key) &&
+          (event.target as Element).closest(
+            '.dnb-sidebar-menu__sections .dnb-dropdown__trigger'
+          )
+        ) {
+          setTooltipTarget(undefined)
+          setCompactExpanded(true)
+          setCompactDismissed(false)
         }
       }}
       onPointerEnter={(event) => {
@@ -756,60 +966,63 @@ export function SidebarMenuResponsiveInline({
         } as CSSProperties
       }
     >
-      {hasCompact ? (
-        <div className="dnb-sidebar-menu-responsive-inline__content">
-          <div
-            className="dnb-sidebar-menu-responsive-inline__toggle-island"
-            style={{
-              boxShadow: compactScrolled ? 'var(--shadow-sharp)' : 'none',
-            }}
-          >
-            <Button
-              ref={compactToggleRef}
-              className="dnb-sidebar-menu-responsive-inline__toggle"
-              icon={sidebar}
-              variant="tertiary"
-              aria-label={
-                compactOpen ? translation.closeMenu : translation.openMenu
-              }
-              aria-controls={contentId}
-              aria-expanded={compactOpen}
-              onClick={() => {
-                const wasOpen =
-                  compactExpanded ||
-                  (compactHoveredRef.current && !compactDismissed)
-                setTooltipTarget(undefined)
-                setCompactExpanded(!wasOpen)
-                setCompactDismissed(wasOpen)
-              }}
-            />
-            {isCompact && !compactOpen && compactToggleRef.current && (
-              <Tooltip
-                targetElement={compactToggleRef.current}
-                tooltip={translation.openMenu}
-                placement="right"
-                triggerOffset={8}
-                omitDescribedBy
-              />
+      {hasSurface ? (
+        <SidebarMenuInlineToggleContext
+          value={{
+            open: isCompact ? compactOpen : !inlineCollapsed,
+            controls: contentId,
+            toggle: toggleInline,
+          }}
+        >
+          <div className="dnb-sidebar-menu-responsive-inline__content">
+            {(hasCompact || showToggle) && (
+              <div
+                className="dnb-sidebar-menu-responsive-inline__toggle-island"
+                data-sidebar-menu-responsive-toggle-full-width={
+                  showToggle || undefined
+                }
+                style={{
+                  boxShadow: compactScrolled
+                    ? 'var(--shadow-sharp)'
+                    : 'none',
+                }}
+              >
+                <SidebarMenuToggle
+                  ref={compactToggleRef}
+                  className="dnb-sidebar-menu-responsive-inline__toggle"
+                />
+                {isCompact && !compactOpen && compactToggleRef.current && (
+                  <Tooltip
+                    targetElement={compactToggleRef.current}
+                    tooltip={translation.openMenu}
+                    placement="right"
+                    triggerOffset={8}
+                    omitDescribedBy
+                  />
+                )}
+              </div>
             )}
+            <div
+              id={contentId}
+              className="dnb-sidebar-menu-responsive-inline__body"
+            >
+              {responsiveChildren}
+            </div>
+            {isCompact &&
+              tooltipTarget &&
+              tooltipLabel &&
+              !compactOpen && (
+                <Tooltip
+                  open
+                  targetElement={tooltipTarget}
+                  tooltip={tooltipLabel}
+                  placement="right"
+                  triggerOffset={8}
+                  omitDescribedBy
+                />
+              )}
           </div>
-          <div
-            id={contentId}
-            className="dnb-sidebar-menu-responsive-inline__body"
-          >
-            {responsiveChildren}
-          </div>
-          {isCompact && tooltipTarget && tooltipLabel && !compactOpen && (
-            <Tooltip
-              open
-              targetElement={tooltipTarget}
-              tooltip={tooltipLabel}
-              placement="right"
-              triggerOffset={8}
-              omitDescribedBy
-            />
-          )}
-        </div>
+        </SidebarMenuInlineToggleContext>
       ) : (
         responsiveChildren
       )}
@@ -859,7 +1072,16 @@ function addEmValues(first: string, second: string) {
 }
 
 function isEmValue(value: string) {
+  // eslint-disable-next-line security/detect-unsafe-regex -- the optional group does not repeat
   return /^\d+(?:\.\d+)?em$/.test(value)
+}
+
+// Keeps a custom scopeId inside the quoted attribute selector
+function escapeCssString(value: string) {
+  return String(value).replace(
+    /["\\\n\r\f]/g,
+    (char) => `\\${char.charCodeAt(0).toString(16)} `
+  )
 }
 
 function getFirstPaintCss(
@@ -872,39 +1094,23 @@ function getFirstPaintCss(
     return undefined
   }
 
-  const minWidth = `${Number((em + 0.00625).toFixed(5))}em`
-  const scope = `[data-sidebar-menu-responsive-scope="${scopeId}"]`
-  const unresolved = ':not([data-sidebar-menu-responsive-visible])'
+  const values = {
+    '{{scope}}': escapeCssString(scopeId),
+    __DNB_SIDEBAR_DRAWER__: drawerAt,
+    __DNB_SIDEBAR_MIN__: Number((em + 0.00625).toFixed(5)) + 'em',
+    __DNB_SIDEBAR_MAX__: compactAt,
+  }
+  const css = [
+    drawerAt !== defaultBreakpoints.medium ? drawerFirstPaintCss : '',
+    compactAt && isEmValue(compactAt) ? compactFirstPaintCss : '',
+  ].join('')
 
-  const drawerCss =
-    drawerAt === defaultBreakpoints.medium
-      ? ''
-      : `@media (max-width: ${drawerAt}){${scope}.dnb-sidebar-menu-responsive-trigger${unresolved}{display:inline-flex}${scope}.dnb-sidebar-menu-responsive-inline${unresolved}{display:none}}@media (min-width: ${minWidth}){${scope}.dnb-sidebar-menu-responsive-trigger${unresolved}{display:none}${scope}.dnb-sidebar-menu-responsive-inline${unresolved}{display:contents}}`
-  const compactCss = compactAt
-    ? getCompactFirstPaintCss(scope, minWidth, compactAt)
-    : ''
-
-  return drawerCss + compactCss || undefined
-}
-
-function getCompactFirstPaintCss(
-  scope: string,
-  minWidth: string,
-  compactAt: string
-) {
-  const inline = `${scope}.dnb-sidebar-menu-responsive-inline:not([data-sidebar-menu-responsive-compact])`
-  const content = `${inline}>.dnb-sidebar-menu-responsive-inline__content`
-  const menu = `${content} .dnb-sidebar-menu`
-  const toggle = `${content}>.dnb-sidebar-menu-responsive-inline__toggle-island`
-  const informationBadge = `${menu} .dnb-sidebar-menu__badge:not(:has(.dnb-badge--variant-notification))`
-  const notificationBadge = `${menu} .dnb-badge--variant-notification`
-  const notificationIndicator = `${menu} .dnb-sidebar-menu__accordion__notification-indicator`
-  const sections = `${menu} .dnb-sidebar-menu__sections.dnb-dropdown`
-  const heading = `${menu} :is(.dnb-sidebar-menu__group__title,.dnb-sidebar-menu__header)`
-  const textOnlySelected = `${menu} :is(.dnb-sidebar-menu__item--active,.dnb-sidebar-menu__item--selected)>.dnb-sidebar-menu__item__action:not(:has(.dnb-sidebar-menu__item__icon))`
-  const media = `@media (min-width:${minWidth}) and (max-width:${compactAt})`
-
-  return `${media}{${inline}{display:block;width:var(--sidebar-menu-compact-width)}${inline}::after{opacity:1}${content}{clip-path:inset(0 calc(var(--sidebar-menu-expanded-width) - var(--sidebar-menu-compact-width)) 0 0)}${content}:dir(rtl){clip-path:inset(0 0 0 calc(var(--sidebar-menu-expanded-width) - var(--sidebar-menu-compact-width)))}${toggle}{display:inline-flex}${content} .dnb-sidebar-menu-responsive-aside__content{padding:4rem 0 2.5rem}${content} .dnb-sidebar-menu-responsive-aside .dnb-sidebar-menu{width:100%;margin-inline:0}${content} .dnb-sidebar-menu-responsive-aside__resize-handle{display:none}${menu} .dnb-sidebar-menu__item__action{width:2.75rem;margin-inline-start:calc(.375rem + var(--sidebar-menu-compact-offset));padding-inline:.625rem;border-radius:var(--sidebar-menu-action-border-radius)}${menu} .dnb-sidebar-menu__item__content{flex:0 0 auto}${menu} .dnb-sidebar-menu__item__text{max-width:0;overflow:hidden;white-space:nowrap;opacity:0}${menu} .dnb-sidebar-menu__item__action:not(:has(.dnb-sidebar-menu__item__icon)) .dnb-sidebar-menu__item__text{max-width:2.25rem;opacity:.8;mask-image:linear-gradient(to right,#000 35%,transparent 100%)}${menu} .dnb-sidebar-menu__item__action:not(:has(.dnb-sidebar-menu__item__icon)) .dnb-sidebar-menu__item__text:dir(rtl){mask-image:linear-gradient(to left,#000 35%,transparent 100%)}${textOnlySelected}{box-shadow:none;background-color:transparent;background-image:linear-gradient(to right,var(--sidebar-menu-action-background-color--selected) 0 35%,transparent 100%);border-radius:var(--sidebar-menu-action-border-radius) 0 0 var(--sidebar-menu-action-border-radius)}${textOnlySelected}:dir(rtl){background-image:linear-gradient(to left,var(--sidebar-menu-action-background-color--selected) 0 35%,transparent 100%);border-radius:0 var(--sidebar-menu-action-border-radius) var(--sidebar-menu-action-border-radius) 0}${menu} .dnb-sidebar-menu__accordion .dnb-sidebar-menu__list .dnb-sidebar-menu__item__action:not([aria-current]){opacity:var(--sidebar-menu-opacity)}${menu} .dnb-sidebar-menu__accordion__indicator{margin-inline-start:0}${menu} .dnb-sidebar-menu__accordion__expand-icon{width:0;overflow:hidden;opacity:0}${informationBadge}{display:none}${notificationBadge}{position:absolute;inset-block-start:-.25rem;inset-inline-end:-.375rem}${notificationIndicator}{position:absolute;inset-block-start:50%;inset-inline:auto -.125rem;transform:translateY(-50%)}${sections}{--dropdown-button-padding:.625rem;padding-inline:.25rem}${sections} .dnb-dropdown__trigger{width:2.75rem;margin-inline-start:.375rem}${sections}.dnb-sidebar-menu__sections--has-icon .dnb-dropdown__icon{width:0;overflow:hidden;opacity:0}${heading}{width:4rem;white-space:nowrap;opacity:.8;mask-image:linear-gradient(to right,#000 35%,transparent 100%)}${heading}:dir(rtl){mask-image:linear-gradient(to left,#000 35%,transparent 100%)}${menu} .dnb-sidebar-menu__divider{width:2.5rem;margin:1rem 0 1rem calc(.5rem + var(--sidebar-menu-compact-offset))}}`
+  return (
+    css.replace(
+      /{{scope}}|__DNB_SIDEBAR_(DRAWER|MIN|MAX)__/g,
+      (key) => values[key]
+    ) || undefined
+  )
 }
 
 export type SidebarMenuResponsiveDrawerProps = Omit<
@@ -966,6 +1172,10 @@ export function SidebarMenuResponsiveDrawer({
       contentId={id}
       dialogTitle={dialogTitle ?? translation.menu}
       open={open}
+      restoreFocusTo={
+        props.restoreFocusTo ??
+        (() => (isSmallScreenRef.current ? triggerRef.current : null))
+      }
       onOpen={(event) => {
         drawerOpeningRef.current = false
         onOpen?.(event)

@@ -3,10 +3,16 @@
  *
  */
 
+import { useState } from 'react'
 import styled from '@emotion/styled'
 import ComponentBox from '../../../shared/tags/ComponentBox'
 import {
+  Button,
   Code,
+  Dialog,
+  Flex,
+  Input,
+  Switch,
   Heading,
   H1,
   H2,
@@ -20,7 +26,7 @@ import {
 } from '@dnb/eufemia/src'
 import { Typography } from '@dnb/eufemia/src/elements'
 
-import { useTheme } from '@dnb/eufemia/shared'
+import { Theme, useTheme } from '@dnb/eufemia/shared'
 
 import { TypographyBox } from '../../../shared/parts/TypographyBox'
 
@@ -249,3 +255,65 @@ export const ResponsiveTypographyFullExample = () => (
     </ComponentBox>
   </MarginReset>
 )
+
+export function NativeTypographyExample() {
+  return (
+    <ComponentBox data-visual-test="native-typography">
+      {() => {
+        function Example() {
+          const [enabled, setEnabled] = useState(true)
+
+          return (
+            <Flex.Stack>
+              <Switch
+                label="Use native app font size"
+                checked={enabled}
+                onChange={({ checked }) => setEnabled(checked)}
+              />
+              <P data-testid="outside-typography">
+                Text outside this Theme keeps its current font size.
+              </P>
+              <Theme typography={enabled ? 'native' : 'web'}>
+                <Flex.Stack>
+                  <H2>Payment details</H2>
+                  <P data-testid="native-typography-text">
+                    Body text follows the same size as the button label.
+                  </P>
+                  <Input label="Amount" size="medium" />
+                  <Button text="Continue" icon="chevron_right" />
+                  <Theme typography="web">
+                    <P data-testid="web-typography-text">
+                      This nested Theme uses the web font size.
+                    </P>
+                  </Theme>
+                  <Dialog
+                    title="Native app font size in a dialog"
+                    triggerProps={{ text: 'Open dialog' }}
+                  >
+                    <Switch
+                      label="Use native app font size in dialog"
+                      checked={enabled}
+                      onChange={({ checked }) => setEnabled(checked)}
+                      bottom="small"
+                    />
+                    <P data-testid="dialog-typography-text">
+                      Dialog text follows its theme through the portal.
+                    </P>
+                    <Theme typography="web">
+                      <P data-testid="dialog-web-typography-text">
+                        This text keeps the web font size inside the
+                        dialog.
+                      </P>
+                    </Theme>
+                  </Dialog>
+                </Flex.Stack>
+              </Theme>
+            </Flex.Stack>
+          )
+        }
+
+        return <Example />
+      }}
+    </ComponentBox>
+  )
+}

@@ -119,28 +119,8 @@ export const PopoverProperties: PropertiesTableProps = {
     defaultValue: 'false',
     status: 'optional',
   },
-  contentClassName: {
-    doc: 'Additional class name(s) merged into the popover content wrapper.',
-    type: 'string',
-    status: 'optional',
-  },
-  baseClassName: {
-    doc: 'Overrides the default BEM root block. Useful when mirroring Popover styles.',
-    type: 'string',
-    status: 'optional',
-  },
-  hideOutline: {
-    doc: 'Removes the outline/border that normally surrounds the popover surface.',
-    type: 'boolean',
-    status: 'optional',
-  },
   hideCloseButton: {
     doc: 'Removes the built-in close button.',
-    type: 'boolean',
-    status: 'optional',
-  },
-  disableFocusTrap: {
-    doc: 'Stops rendering the focus-trap button used to return focus to the trigger.',
     type: 'boolean',
     status: 'optional',
   },

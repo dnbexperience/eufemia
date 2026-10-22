@@ -473,6 +473,35 @@ describe('prerender-utils', () => {
       expect(result).toContain('<div id="root"><h1>Hello</h1></div>')
     })
 
+    it('restores persisted SidebarMenu state after markup and before hydration', () => {
+      const result = injectHtml(
+        template.replace(
+          '</head>',
+          '<script type="module" src="/entry.js"></script></head>'
+        ),
+        '<nav data-inline-collapsed-storage-key="navigation">Menu</nav>',
+        { js: [], css: [] }
+      )
+      const bootstrap = result.indexOf(
+        'data-sidebar-menu-inline-pre-hydration'
+      )
+      expect(bootstrap).toBeGreaterThan(result.indexOf('</nav></div>'))
+      expect(
+        result.slice(result.lastIndexOf('<script', bootstrap), bootstrap)
+      ).not.toContain('type="module"')
+      expect(result).toContain('data-open-items-storage-key')
+    })
+
+    it('omits the SidebarMenu bootstrap on pages without persisted navigation', () => {
+      const result = injectHtml(template, '<h1>Plain page</h1>', {
+        js: [],
+        css: [],
+      })
+      expect(result).not.toContain(
+        'data-sidebar-menu-inline-pre-hydration'
+      )
+    })
+
     it('includes color-scheme content script after root div', () => {
       const result = injectHtml(template, '<h1>Hello</h1>', {
         js: [],

@@ -478,6 +478,38 @@ describe('Input component', () => {
     ).toBe('status')
   })
 
+  it('sets aria-invalid when status is an error', () => {
+    const { rerender } = render(<Input status="status" />)
+    expect(document.querySelector('input')).toHaveAttribute(
+      'aria-invalid',
+      'true'
+    )
+
+    rerender(<Input status />)
+    expect(document.querySelector('input')).toHaveAttribute(
+      'aria-invalid',
+      'true'
+    )
+
+    rerender(<Input status="status" statusState="warning" />)
+    expect(document.querySelector('input')).not.toHaveAttribute(
+      'aria-invalid'
+    )
+
+    rerender(<Input />)
+    expect(document.querySelector('input')).not.toHaveAttribute(
+      'aria-invalid'
+    )
+  })
+
+  it('keeps a given aria-invalid', () => {
+    render(<Input status="status" aria-invalid="false" />)
+    expect(document.querySelector('input')).toHaveAttribute(
+      'aria-invalid',
+      'false'
+    )
+  })
+
   it('shows form-status with correct classes', () => {
     render(
       <Input
@@ -1332,6 +1364,38 @@ describe('Input with server-rendered markup', () => {
     unmount()
   })
 
+  it.each([
+    ['', false],
+    ['Prefilled', false],
+    ['', true],
+    ['Prefilled', true],
+  ])(
+    'should give hydration change handlers the input as currentTarget (value: %s, StrictMode: %s)',
+    (value, strictMode) => {
+      const onChange = vi.fn(({ event }) =>
+        event.currentTarget?.value.toUpperCase()
+      )
+      const element = (
+        <Input id="hydrated-input" value={value} onChange={onChange} />
+      )
+      const { input, recoverableErrors, unmount } = hydrate(
+        strictMode ? <StrictMode>{element}</StrictMode> : element,
+        'typed'
+      )
+
+      try {
+        expect(onChange).toHaveBeenCalledTimes(1)
+        expect(onChange.mock.calls[0][0].event.target).toBe(input)
+        expect(onChange.mock.calls[0][0].event.currentTarget).toBe(input)
+        expect(onChange.mock.results[0].value).toBe('TYPED')
+        expect(input).toHaveValue('TYPED')
+        expect(recoverableErrors).toEqual([])
+      } finally {
+        unmount()
+      }
+    }
+  )
+
   it('should keep a prefilled value changed before hydration', () => {
     const onChange = vi.fn()
     const { input, unmount } = hydrate(
@@ -1390,6 +1454,25 @@ describe('Input ARIA', () => {
 })
 
 describe('Input scss', () => {
+  it('shows the border and the focus ring in forced colors mode', () => {
+    const css = loadScss(require.resolve('../style/dnb-input.scss'))
+
+    expect(css).toMatch(
+      /@media \(forced-colors: active\) \{\s*\.dnb-input__border \{\s*outline: var\(--b-width, var\(--input-border-width, var\(--input-border-width--default\)\)\) solid transparent;/
+    )
+    expect(css).toMatch(
+      /@media \(forced-colors: active\) \{\s*\.dnb-input__border:focus-within \{\s*outline: var\(--focus-ring-width\) solid transparent;/
+    )
+  })
+
+  it('shows disabled inputs with the disabled text color in forced colors mode', () => {
+    const css = loadScss(require.resolve('../style/dnb-input.scss'))
+
+    expect(css).toMatch(
+      /@media \(forced-colors: active\) \{\s*\.dnb-input--disabled \.dnb-input__border \{\s*outline-color: GrayText;/
+    )
+  })
+
   it('has to match style dependencies css', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
     expect(css).toMatchSnapshot()

@@ -247,8 +247,10 @@ describe('makePropertiesFile', () => {
       expect(read('carnegie')).toContain(
         '--line-height-xx-large: 4.25rem;'
       )
-      expect(read('carnegie')).toContain('.eufemia-theme__carnegie')
-      expect(read('ui')).toContain('.eufemia-theme__eiendom')
+      for (const theme of ['ui', 'sbanken', 'carnegie']) {
+        expect(read(theme)).toContain('\n:root {\n')
+        expect(read(theme)).not.toContain('.eufemia-theme__')
+      }
       for (const theme of ['ui', 'sbanken']) {
         expect(
           fs.existsSync(
@@ -284,6 +286,71 @@ describe('makePropertiesFile', () => {
       expect(getValues('eiendom')).toEqual(['3rem', '3rem'])
       expect(getValues('sbanken')).toEqual(['3rem', '3rem'])
       expect(getValues('carnegie')).toEqual(['3rem', '3.5rem'])
+    })
+
+    it('declares the typography scale only on :root, so :root overrides also apply inside a theme', async () => {
+      const sass = await import('sass')
+      const path = await import('path')
+      for (const theme of ['ui', 'eiendom', 'sbanken', 'carnegie']) {
+        const css = sass
+          .compile(
+            path.resolve(
+              'src/style/themes/' +
+                theme +
+                '/' +
+                theme +
+                '-theme-basis.scss'
+            ),
+            { style: 'compressed' }
+          )
+          .css.replace('@charset "UTF-8";', '')
+        const selectors = Array.from(css.matchAll(/([^{}]+)\{([^{}]*)\}/g))
+          .filter(([, , declarations]) =>
+            /--(?:font-size|line-height)-(?:xx-small|x-small|small|basis|medium|large|x-large|xx-large):/.test(
+              declarations
+            )
+          )
+          .map(([, selector]) => selector.trim())
+
+        // Opt-in typography modes like `typography="native"` may set it on a
+        // Theme, but the brand classes must not.
+        expect(selectors).toContain(':root')
+        expect(
+          selectors.filter((selector) =>
+            /\.eufemia-theme__(?:ui|sbanken|carnegie|eiendom)\b/.test(
+              selector
+            )
+          )
+        ).toEqual([])
+      }
+    })
+
+    it('keeps the web override baseline aligned with each brand token source', async () => {
+      const fs = await import('fs')
+      const path = await import('path')
+      for (const [brand, source] of [
+        ['ui', 'dnb-light'],
+        ['sbanken', 'sbanken-light'],
+        ['carnegie', 'dnbcarnegie-light'],
+      ]) {
+        const tokens = JSON.parse(
+          fs.readFileSync(
+            path.resolve(
+              'src/style/themes/figma/brand/' + source + '.tokens.json'
+            ),
+            'utf-8'
+          )
+        )
+        const expected = tokens.font.size['text-basis'].$value / 16 + 'rem'
+        const css = fs.readFileSync(
+          path.resolve(
+            'src/style/themes/' + brand + '/typography-properties.scss'
+          ),
+          'utf-8'
+        )
+        expect(css).toContain('--font-size-basis: ' + expected + ';')
+        expect(css).toContain('--font-size-basis-web: ' + expected + ';')
+      }
     })
 
     it('pairs responsive xx-large headings with their line-height scale', async () => {
@@ -945,6 +1012,12 @@ describe('makePropertiesFile', () => {
   })
 
   it('keeps the generated JavaScript typography values concrete by brand', () => {
+    expect(global.ui).toContain(`'--font-size-basis': '1.125rem'`)
+    expect(global.ui).toContain(`'--font-size-basis-web': '1.125rem'`)
+    expect(global.sbanken).toContain(`'--font-size-basis': '1.125rem'`)
+    expect(global.sbanken).toContain(`'--font-size-basis-web': '1.125rem'`)
+    expect(global.ui).toContain(`'--font-size-basis-native': '1.0625rem'`)
+    expect(global.sbanken).toContain(`'--font-size-basis-native': '1rem'`)
     expect(global.carnegie).toContain(`'--font-size-xx-large': '3.5rem'`)
     expect(global.carnegie).toContain(
       `'--line-height-xx-large': '4.25rem'`

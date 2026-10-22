@@ -115,6 +115,7 @@ export default {
       placeholder: 'Vælg en eller flere',
       selectAll: 'Vælg alle',
       searchPlaceholder: 'Søg...',
+      searchLabel: 'Søg',
       noOptions: 'Ingen muligheder',
       skipToActions: 'Spring muligheder over, og gå til handlinger',
       confirmButton: 'Bekræft ({count} valgt)',

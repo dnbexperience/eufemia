@@ -17,6 +17,8 @@ export type McpTransportUsage = {
   perTool?: CountListItem[]
   perComponent?: CountListItem[]
   perPath?: CountListItem[]
+  missedLookups?: number
+  perLikelyComponent?: CountListItem[]
   perVersion?: CountListItem[]
 }
 

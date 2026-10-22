@@ -11,12 +11,11 @@ export default function useCopyToClipboard() {
   }, [])
 
   const copy = useCallback(async (str: string) => {
-    clearTimeout(timeoutRef.current)
-
     try {
       // copyToClipboard returns an error or a message when it fails
       const success = (await copyToClipboard(str)) === true
       if (success) {
+        clearTimeout(timeoutRef.current)
         setCopyCount((count) => count + 1)
         setActive(true)
 

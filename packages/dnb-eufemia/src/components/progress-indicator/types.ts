@@ -36,17 +36,14 @@ export type ProgressIndicatorProps = {
   size?: ValidSizes | ProgressIndicatorCustomSize
   /**
    * A number between 0-100, if not supplied a continuous loading-type animation will be used.
-   * Default: `undefined`
    */
   progress?: string | number
   /**
    * Content of a custom label (overrides `indicatorLabel` and `showDefaultLabel`).
-   * Default: `undefined`
    */
   label?: ReactNode
   /**
    * Same as `label` prop (`label` prop has priority).
-   * Default: `undefined`
    */
   children?: ReactNode
   /**
@@ -61,17 +58,14 @@ export type ProgressIndicatorProps = {
   showDefaultLabel?: boolean
   /**
    * Use this to override the default label from text locales.
-   * Default: `undefined`
    */
   indicatorLabel?: string
   /**
    * Used to set title and `aria-label`. Defaults to the value of progress property, formatted as a percent.
-   * Default: `undefined`
    */
   title?: string
   /**
    * Will be called once it's no longer visible (`show=false`).
-   * Default: `undefined`
    */
   onComplete?: () => void
   /**
@@ -96,7 +90,6 @@ export type ProgressIndicatorProps = {
   }
   /**
    * Send in custom CSS width for circle progress line. (`undefined` defaults to one eighth of the size).
-   * Default: `undefined`
    */
   customCircleWidth?: CSS.Property.StrokeWidth
 }

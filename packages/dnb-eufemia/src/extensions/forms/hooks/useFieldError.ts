@@ -26,7 +26,11 @@ import type { GetValueByPath } from './useDataValue'
 import type { FormsTranslation } from './useTranslation'
 import { convertJsxToString } from '../../../shared/component-helper'
 import useId from '../../../shared/helpers/useId'
-import type { FieldBlockContextProps } from '../FieldBlock/FieldBlockContext'
+import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../../shared/helpers/useIsomorphicLayoutEffect'
+import type {
+  FieldBlockContextProps,
+  FieldBlockRecordOwner,
+} from '../FieldBlock/FieldBlockContext'
 
 // eslint-disable-next-line security/detect-unsafe-regex -- the repeated group starts with '.', which the preceding character class cannot match, so the quantifiers cannot overlap (no ReDoS)
 const translationKeyPattern = /^[A-Za-z0-9_]+(?:\.[A-Za-z0-9_]+)+$/
@@ -178,6 +182,21 @@ export default function useFieldError<Value>({
   forceUpdate,
 }: UseFieldErrorParams<Value>) {
   const stateId = useId()
+  const previousBlockRecordOwnerRef =
+    useRef<FieldBlockRecordOwner>(undefined)
+  const blockRecordOwner = useMemo<FieldBlockRecordOwner>(
+    () => ({ records: [], mounted: false }),
+    [setBlockRecord, inFieldBlock]
+  )
+  useLayoutEffect(() => {
+    const previous = previousBlockRecordOwnerRef.current
+    if (previous && previous !== blockRecordOwner) {
+      blockRecordOwner.records = previous.records.map((record) => ({
+        ...record,
+      }))
+    }
+    previousBlockRecordOwnerRef.current = blockRecordOwner
+  }, [blockRecordOwner])
 
   // -- ensureErrorMessageObject --
 
@@ -576,17 +595,19 @@ export default function useFieldError<Value>({
         handleFieldAsVisible !== false ? hasError : undefined
       )
 
-      showFieldErrorFieldBlock?.(identifier, hasError)
+      showFieldErrorFieldBlock?.(stateId, hasError, blockRecordOwner)
       revealErrorBoundary?.(identifier, hasError)
       revealErrorDataContext?.(identifier, hasError)
     },
     [
+      blockRecordOwner,
       identifier,
       handleFieldAsVisible,
       revealErrorBoundary,
       revealErrorDataContext,
       setFieldErrorWizard,
       showFieldErrorFieldBlock,
+      stateId,
       wizardIndex,
     ]
   )
@@ -664,8 +685,9 @@ export default function useFieldError<Value>({
 
       // Set the visual states
       setBlockRecord?.({
+        owner: blockRecordOwner,
         stateId,
-        identifier,
+        identifier: stateId,
         type: 'error',
         content: currentError,
         showInitially: Boolean(inFieldBlock && validateInitially),
@@ -683,6 +705,7 @@ export default function useFieldError<Value>({
       forceUpdate()
     },
     [
+      blockRecordOwner,
       handleFieldAsVisible,
       identifier,
       inFieldBlock,
@@ -741,6 +764,10 @@ export default function useFieldError<Value>({
   }, [validateContinuously, hideError, revealError])
 
   return {
+    // Status records belong to the field instance, not its shared data path.
+    fieldBlockIdentifier: stateId,
+    blockRecordOwner,
+
     // Refs
     revealErrorRef,
     localErrorRef,

@@ -4,10 +4,9 @@ import {
   type DocsSource,
 } from '@dnb/eufemia/src/mcp/docs-source.js'
 import { createUsageResolver } from '@dnb/eufemia/src/mcp/mcp-docs-server.js'
-import {
-  usageRecordsFromRequestBody,
-  KNOWN_TOOLS,
-} from '../records/mcp-usage.js'
+import * as localServer from '@dnb/eufemia/src/mcp/usage-telemetry.js'
+import * as usageIngest from 'eufemia-usage-ingest'
+import { usageRecordsFromRequestBody } from '../records/mcp-usage.js'
 
 const NOW = '2026-09-10T12:00:00.000Z'
 
@@ -63,6 +62,8 @@ describe('usageRecordsFromRequestBody', () => {
     expect(record).toEqual({
       tool: 'component_props',
       component: 'button',
+      component_missed: false,
+      likely_component: '',
       path: '',
       env: 'dev',
       transport: 'web',
@@ -216,8 +217,45 @@ describe('usageRecordsFromRequestBody', () => {
 
       expect(record?.tool).toBe(tool)
       expect(record?.component).toBe('')
+      expect(record?.component_missed).toBe(true)
+      expect(record?.likely_component).toBe('')
     }
   )
+
+  it.each(['DatePicker', 'datepicker', 'DATE-PICKER-'])(
+    'stores the likely component for the missed guess %s',
+    async (name) => {
+      const [record] = await usageRecordsFromRequestBody(
+        body(toolCall('component_doc', { name })),
+        { env: 'dev', now: NOW, resolver }
+      )
+
+      expect(record?.component).toBe('')
+      expect(record?.component_missed).toBe(true)
+      expect(record?.likely_component).toBe('date-picker')
+      expect(JSON.stringify(record)).not.toContain(name)
+    }
+  )
+
+  it('does not flag a miss for a component that resolves', async () => {
+    const [record] = await usageRecordsFromRequestBody(
+      body(toolCall('component_doc', { name: 'date-picker' })),
+      { env: 'dev', now: NOW, resolver }
+    )
+
+    expect(record?.component_missed).toBe(false)
+    expect(record?.likely_component).toBe('')
+  })
+
+  it('does not flag a miss for a tool without a component', async () => {
+    const [record] = await usageRecordsFromRequestBody(
+      body(toolCall('docs_search', { query: 'DatePicker' })),
+      { env: 'dev', now: NOW, resolver }
+    )
+
+    expect(record?.component_missed).toBe(false)
+    expect(record?.likely_component).toBe('')
+  })
 
   it('drops a compound component name that does not exist', async () => {
     const [record] = await usageRecordsFromRequestBody(
@@ -323,16 +361,40 @@ describe('usageRecordsFromRequestBody', () => {
   })
 
   it('registers exactly the twelve docs-server tools', () => {
-    expect(KNOWN_TOOLS.size).toBe(12)
+    expect(usageIngest.KNOWN_TOOLS.size).toBe(12)
   })
 
-  // `canonicalDocsPath` reimplements the server's own path normalisation rather
-  // than importing it, so this pins the two together: if `normalizeDocsPath`
-  // changes how it collapses a path, this fails instead of silently splitting
-  // one document across several stored keys. Cover every shape the normaliser
-  // treats as significant — leading slash, repeated and `.` segments, trailing
-  // slash and back-slashes — since a list of forward-slash examples would let a
-  // divergence like the back-slashed form through.
+  it.each(['KNOWN_TOOLS', 'COMPONENT_TOOLS', 'PATH_TOOLS'] as const)(
+    '%s matches the local stdio server',
+    (name) => {
+      expect([...localServer[name]].sort()).toEqual(
+        [...usageIngest[name]].sort()
+      )
+    }
+  )
+
+  it.each(['MAX_COMPONENT_LENGTH', 'MAX_PATH_LENGTH'] as const)(
+    '%s matches the local stdio server',
+    (name) => {
+      expect(localServer[name]).toBe(usageIngest[name])
+    }
+  )
+
+  it.each(['COMPONENT_SEGMENT', 'PATH_PATTERN'] as const)(
+    '%s matches the local stdio server',
+    (name) => {
+      expect(String(localServer[name])).toBe(String(usageIngest[name]))
+    }
+  )
+
+  // `canonicalDocsPath` in eufemia-usage-ingest reimplements the server's
+  // own path normalisation rather than importing it, so this pins the two
+  // together: if `normalizeDocsPath` changes how it collapses a path, this
+  // fails instead of silently splitting one document across several stored
+  // keys. Cover every shape the normaliser treats as significant — leading
+  // slash, repeated and `.` segments, trailing slash and back-slashes — since a
+  // list of forward-slash examples would let a divergence like the back-slashed
+  // form through.
   it.each([
     '/uilib/components/button.md',
     'uilib/components/button.md',

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import { useContext, useEffect } from 'react'
+import { useContext, useEffect, useLayoutEffect } from 'react'
 import type { ReactNode, RefObject } from 'react'
 import { spyOnEufemiaWarn } from '../../../../../core/test-utils/testSetup'
 import { fireEvent, render, waitFor } from '@testing-library/react'
@@ -11,6 +11,7 @@ import FieldPropsProvider from '../../../Field/Provider'
 import type { GenerateRef as GeneratePropsRef } from '../../../Tools/ListAllProps'
 import type { GenerateRef as GenerateSchemaRef } from '../../../Tools/GenerateSchema'
 import DataContext from '../../../DataContext/Context'
+import useFieldProps from '../../../hooks/useFieldProps'
 
 import nbNO from '../../../constants/locales/nb-NO'
 import type { ComponentMarkers } from '../../../../../shared/helpers/withComponentMarkers'
@@ -455,6 +456,170 @@ describe('Form.Section', () => {
         },
         expect.anything()
       )
+    })
+    it('should only call the latest onChange once, after re-renders with a new onChange', () => {
+      const onChange = vi.fn()
+
+      const MyForm = ({ name }: { name: string }) => (
+        <Form.Handler>
+          <Form.Section path="/mySection" onChange={() => onChange(name)}>
+            <Field.String path="/firstName" />
+          </Form.Section>
+        </Form.Handler>
+      )
+
+      const { rerender } = render(<MyForm name="first" />)
+      rerender(<MyForm name="second" />)
+      rerender(<MyForm name="third" />)
+
+      fireEvent.change(document.querySelector('input'), {
+        target: { value: 'foo' },
+      })
+
+      expect(onChange).toHaveBeenCalledTimes(1)
+      expect(onChange).toHaveBeenCalledWith('third')
+    })
+
+    it('should call onChange of an outer section before an inner section', () => {
+      const calls: Array<string> = []
+
+      render(
+        <Form.Handler>
+          <Form.Section
+            path="/outer"
+            onChange={() => {
+              calls.push('outer')
+            }}
+          >
+            <Form.Section
+              path="/inner"
+              onChange={() => {
+                calls.push('inner')
+              }}
+            >
+              <Field.String path="/firstName" />
+            </Form.Section>
+          </Form.Section>
+          <Form.Section
+            path="/sibling"
+            onChange={() => {
+              calls.push('sibling')
+            }}
+          >
+            <Field.String path="/lastName" />
+          </Form.Section>
+        </Form.Handler>
+      )
+
+      fireEvent.change(document.querySelector('input'), {
+        target: { value: 'foo' },
+      })
+
+      expect(calls).toEqual(['outer', 'inner', 'sibling'])
+    })
+
+    it('should not call onChange after the section is removed, and only once when it is shown again', () => {
+      const onChange = vi.fn()
+
+      const MyForm = ({ showSection }: { showSection: boolean }) => (
+        <Form.Handler>
+          <Field.String path="/outside" />
+          {showSection && (
+            <Form.Section path="/mySection" onChange={onChange}>
+              <Field.String path="/firstName" />
+            </Form.Section>
+          )}
+        </Form.Handler>
+      )
+
+      const { rerender } = render(<MyForm showSection />)
+      const outside = document.querySelector('input')
+
+      fireEvent.change(outside, { target: { value: 'foo' } })
+      expect(onChange).toHaveBeenCalledTimes(1)
+
+      rerender(<MyForm showSection={false} />)
+      expect(document.querySelectorAll('input')).toHaveLength(1)
+
+      fireEvent.change(outside, { target: { value: 'bar' } })
+      expect(onChange).toHaveBeenCalledTimes(1)
+
+      rerender(<MyForm showSection />)
+      expect(document.querySelectorAll('input')).toHaveLength(2)
+
+      fireEvent.change(outside, { target: { value: 'baz' } })
+      expect(onChange).toHaveBeenCalledTimes(2)
+    })
+
+    // A custom field that changes its value while it mounts
+    const ChangeOnMount = ({
+      path,
+      value,
+    }: {
+      path: `/${string}`
+      value: string
+    }) => {
+      const { handleChange } = useFieldProps({ path })
+      useLayoutEffect(() => {
+        handleChange(value)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+      }, [])
+      return null
+    }
+
+    it('should call onChange for a change a child makes while it mounts', () => {
+      const onChange = vi.fn()
+      const onChangeHandler = vi.fn()
+
+      render(
+        <Form.Handler onChange={onChangeHandler}>
+          <Form.Section path="/mySection" onChange={onChange}>
+            <ChangeOnMount path="/firstName" value="foo" />
+          </Form.Section>
+        </Form.Handler>
+      )
+
+      expect(onChangeHandler).toHaveBeenCalledTimes(1)
+      expect(onChange).toHaveBeenCalledTimes(1)
+      expect(onChange).toHaveBeenLastCalledWith(
+        { mySection: { firstName: 'foo' } },
+        expect.anything()
+      )
+    })
+
+    it('should call onChange of all sections, in order, for a change made while they mount', () => {
+      const calls: Array<string> = []
+
+      render(
+        <Form.Handler>
+          <ChangeOnMount path="/before" value="foo" />
+          <Form.Section
+            path="/outer"
+            onChange={() => {
+              calls.push('outer')
+            }}
+          >
+            <Form.Section
+              path="/inner"
+              onChange={() => {
+                calls.push('inner')
+              }}
+            >
+              <Field.String path="/firstName" />
+            </Form.Section>
+          </Form.Section>
+          <Form.Section
+            path="/sibling"
+            onChange={() => {
+              calls.push('sibling')
+            }}
+          >
+            <Field.String path="/lastName" />
+          </Form.Section>
+        </Form.Handler>
+      )
+
+      expect(calls).toEqual(['outer', 'inner', 'sibling'])
     })
   })
 

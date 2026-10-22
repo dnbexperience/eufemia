@@ -127,8 +127,12 @@
 
       // Here we use border to support Safari v16 on macOS
       // but also to only have a border on specific sides
-      border: var(--border-width, var(--table-accordion-outline-width))
-        solid var(--border-color, transparent);
+      border: var(--border-width) solid var(--border-color);
+
+      // Declare the defaults here, so an ancestor's focus ring
+      // (e.g. a focused Table.ScrollView) is not inherited.
+      --border-width: var(--table-accordion-outline-width);
+      --border-color: transparent;
     }
     td:not(:first-of-type)::before {
       border-left: none;
