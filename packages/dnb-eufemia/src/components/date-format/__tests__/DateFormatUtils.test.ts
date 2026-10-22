@@ -11,6 +11,7 @@ import {
   formatDuration,
   isValidDuration,
   getDateTimeSeparator,
+  convertNumberToDate,
 } from '../DateFormatUtils'
 
 describe('DateFormatUtils', () => {
@@ -142,6 +143,40 @@ describe('DateFormatUtils', () => {
         hideYear: true,
       })
       expect(result).toBe('01/08')
+    })
+  })
+
+  describe('convertNumberToDate', () => {
+    beforeEach(() => {
+      vi.spyOn(console, 'log').mockImplementation(() => null)
+    })
+
+    afterEach(() => {
+      vi.restoreAllMocks()
+    })
+
+    it('reads a number with up to 8 digits as a date', () => {
+      expect(convertNumberToDate(20250801)).toEqual(new Date(2025, 7, 1))
+    })
+
+    it('does not read a number with up to 8 digits as a timestamp', () => {
+      expect(convertNumberToDate(20251301)).toBeNull()
+      expect(convertNumberToDate(99999999)).toBeNull()
+      expect(convertNumberToDate(1)).toBeNull()
+      expect(convertNumberToDate(-1)).toBeNull()
+      expect(convertNumberToDate(NaN)).toBeNull()
+    })
+
+    it('reads a number with more than 8 digits as a timestamp', () => {
+      expect(convertNumberToDate(100000000)?.toISOString()).toBe(
+        '1970-01-02T03:46:40.000Z'
+      )
+      expect(convertNumberToDate(1791412200000)?.toISOString()).toBe(
+        '2026-10-07T22:30:00.000Z'
+      )
+      expect(convertNumberToDate(-315619200000)?.toISOString()).toBe(
+        '1960-01-01T00:00:00.000Z'
+      )
     })
   })
 
