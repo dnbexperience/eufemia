@@ -235,7 +235,7 @@
     "ora": "5.4.1",
     "playwright": "1.60.0",
     "pngjs": "7.0.0",
-    "postcss": "8.5.30",
+    "postcss": "8.5.31",
     "postcss-preset-env": "11.2.1",
     "prettier": "3.8.1",
     "prettier-package-json": "2.8.0",
