@@ -9,11 +9,24 @@ import { convertStringToDate } from './DatePickerCalc'
 import Button from '../button/Button'
 import DatePickerContext from './DatePickerContext'
 
+type DatePickerShortcutDate =
+  | string
+  | Date
+  | ((...args: unknown[]) => Date)
+
 type DatePickerShortcut = {
   title?: string
-  date?: string | Date | ((...args: unknown[]) => Date)
-  startDate?: string | Date | ((...args: unknown[]) => Date)
-  endDate?: string | Date | ((...args: unknown[]) => Date)
+  date?: DatePickerShortcutDate
+  startDate?: DatePickerShortcutDate
+  endDate?: DatePickerShortcutDate
+  /**
+   * The month to show in the first calendar. Defaults to the month of `startDate`.
+   */
+  startMonth?: DatePickerShortcutDate
+  /**
+   * The month to show in the second calendar, in range mode. Defaults to the month of `endDate`. When it is not a later month than `startMonth`, the month after `startMonth` is shown.
+   */
+  endMonth?: DatePickerShortcutDate
   closeOnSelect?: boolean
 }
 
@@ -49,13 +62,22 @@ function DatePickerAddon(props: DatePickerAddonProps) {
     ({
       startDate,
       endDate,
+      startMonth,
+      endMonth,
       event = null,
     }: {
       startDate?: Date
       endDate?: Date
+      startMonth?: Date
+      endMonth?: Date
       event?: MouseEvent<HTMLButtonElement | HTMLAnchorElement>
     } = {}) => {
-      updateDates({ startDate, endDate })
+      updateDates({
+        startDate,
+        endDate,
+        ...(startMonth && { startMonth }),
+        ...(endMonth && { endMonth }),
+      })
 
       callOnChangeHandler({
         startDate,
@@ -74,26 +96,17 @@ function DatePickerAddon(props: DatePickerAddonProps) {
       shortcut: DatePickerShortcut
       event: MouseEvent<HTMLButtonElement | HTMLAnchorElement>
     }) => {
-      const usedStartDate = shortcut.date || shortcut.startDate
-      const usedEndDate = shortcut.endDate
-
-      const startDate =
-        typeof usedStartDate === 'function'
-          ? usedStartDate(currentDates)
-          : usedStartDate
-            ? convertStringToDate(usedStartDate)
-            : null
-
-      const endDate =
-        typeof usedEndDate === 'function'
-          ? usedEndDate(currentDates)
-          : usedEndDate
-            ? convertStringToDate(usedEndDate)
-            : null
+      const startDate = getShortcutDate(
+        shortcut.date || shortcut.startDate,
+        currentDates
+      )
+      const endDate = getShortcutDate(shortcut.endDate, currentDates)
 
       callOnChange({
         startDate,
         endDate: endDate || startDate,
+        startMonth: getShortcutDate(shortcut.startMonth, currentDates),
+        endMonth: getShortcutDate(shortcut.endMonth, currentDates),
         event,
       })
 
@@ -145,6 +158,17 @@ function DatePickerAddon(props: DatePickerAddonProps) {
       {shortcutElements}
     </div>
   )
+}
+
+function getShortcutDate(
+  date: DatePickerShortcutDate,
+  currentDates: Record<string, Date>
+) {
+  return typeof date === 'function'
+    ? date(currentDates)
+    : date
+      ? convertStringToDate(date)
+      : null
 }
 
 export default DatePickerAddon

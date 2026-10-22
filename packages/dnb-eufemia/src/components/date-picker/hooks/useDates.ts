@@ -1,6 +1,11 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { convertStringToDate } from '../DatePickerCalc'
-import { addMonths, isSameDay, isSameMonth } from 'date-fns'
+import {
+  addMonths,
+  differenceInCalendarMonths,
+  isSameDay,
+  isSameMonth,
+} from 'date-fns'
 import type { DatePickerDateType } from '../DatePickerContext'
 
 export type DatePickerDateProps = {
@@ -96,6 +101,7 @@ export default function useDates(
       const months = updateMonths({
         newDates,
         currentDates,
+        isRange,
       })
 
       const nextDates = {
@@ -110,7 +116,7 @@ export default function useDates(
 
       callback?.(nextDates)
     },
-    []
+    [isRange]
   )
 
   return {
@@ -274,14 +280,28 @@ function deriveDatesFromProps({
 function updateMonths({
   newDates,
   currentDates,
+  isRange,
 }: {
   newDates: DatePickerDates
   currentDates: DatePickerDates
+  isRange: boolean
 }) {
   const startMonth =
     newDates.startMonth ?? newDates.startDate ?? currentDates.startMonth
-  const endMonth =
+  let endMonth =
     newDates.endMonth ?? newDates.endDate ?? currentDates.endMonth
+
+  // The second calendar must show a later month than the first one.
+  // When it does not, show the month after the first one, the same as on
+  // mount (see mapDates)
+  if (
+    isRange &&
+    startMonth &&
+    endMonth &&
+    differenceInCalendarMonths(endMonth, startMonth) < 1
+  ) {
+    endMonth = addMonths(startMonth, 1)
+  }
 
   return {
     startMonth,
