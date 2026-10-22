@@ -152,4 +152,21 @@ test.describe('List.Card outline', () => {
     await expect(button).toBeFocused()
     expect(await getBorderWidths(row)).toEqual(restBorders)
   })
+
+  test('should show the side borders of an open accordion only when its header is hovered', async ({
+    page,
+  }) => {
+    const row = getRow(page, 'Accordion row')
+
+    await row.locator('.dnb-list__item__accordion__header').hover()
+    expect(await getBorderWidths(row)).toEqual(fullOutline)
+
+    await page.getByText('Accordion content', { exact: true }).hover()
+    expect(await getBorderWidths(row)).toEqual([
+      '1px',
+      '0px',
+      '1px',
+      '0px',
+    ])
+  })
 })
