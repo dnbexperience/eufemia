@@ -78,7 +78,7 @@ Supports standard `HTMLAttributes<HTMLLIElement>`.
 
 ## SidebarMenu.PreHydrationScript
 
-Renders the blocking script that restores persisted open menu items, scroll position, and desktop dismissal before hydration. It supports standard `ScriptHTMLAttributes<HTMLScriptElement>` except `children` and `dangerouslySetInnerHTML`. Place it after the prerendered menu markup and before the application hydration script.
+Renders the blocking script that restores persisted open menu items, scroll position, and inline dismissal before hydration. It supports standard `ScriptHTMLAttributes<HTMLScriptElement>` except `children` and `dangerouslySetInnerHTML`. Place it after the prerendered menu markup and before the application hydration script.
 
 ## SidebarMenu.getPreHydrationScript
 
@@ -123,4 +123,4 @@ Returns `SidebarMenuResponsiveValue` with:
 - `open`, `setOpen`, `toggle`, and `close` for the small-screen Drawer.
 - `isSmallScreen` for the active responsive mode.
 - `isCompact` for the icon-rail mode.
-- `inlineCollapsed`, `collapseInline`, and `restoreInline` for dismissible desktop navigation.
+- `inlineCollapsed`, `collapseInline`, and `restoreInline` for dismissible inline navigation.

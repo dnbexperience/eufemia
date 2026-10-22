@@ -573,12 +573,12 @@ export function SidebarMenuToggle() {
           <SidebarMenu.ResponsiveDrawer id="toggle-example-drawer">
             <SidebarMenu.Root aria-label="Toggle example navigation">
               <SidebarMenu.Item
-                id="toggle-mobile-home"
+                id="toggle-drawer-home"
                 text="Home"
                 icon={home}
               />
               <SidebarMenu.Item
-                id="toggle-mobile-settings"
+                id="toggle-drawer-settings"
                 text="Settings"
                 icon={cog}
               />
@@ -615,7 +615,7 @@ export function SidebarMenuExternalToggle() {
             <SidebarMenu.ResponsiveDrawer id="external-toggle-drawer">
               <SidebarMenu.Root aria-label="External toggle navigation">
                 <SidebarMenu.Item
-                  id="external-mobile-home"
+                  id="external-drawer-home"
                   text="Home"
                   icon={home}
                 />

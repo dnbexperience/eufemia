@@ -204,7 +204,7 @@ export const SidebarMenuResponsiveProviderProperties: PropertiesTableProps =
       status: 'optional',
     },
     drawerAt: {
-      doc: 'Maximum viewport width at which the mobile Drawer is used. Use an Eufemia breakpoint name or an explicit em value.',
+      doc: 'Maximum viewport width at which the Drawer is used. Use an Eufemia breakpoint name or an explicit em value.',
       type: ['MediaQuerySizes', '`${number}em`'],
       defaultValue: '"medium"',
       status: 'optional',
@@ -242,18 +242,18 @@ export const SidebarMenuResponsiveProviderProperties: PropertiesTableProps =
       status: 'optional',
     },
     inlineCollapsed: {
-      doc: 'Controlled desktop inline navigation state.',
+      doc: 'Controlled collapsed state of the inline navigation.',
       type: 'boolean',
       status: 'optional',
     },
     defaultInlineCollapsed: {
-      doc: 'Initial uncontrolled desktop inline navigation state.',
+      doc: 'Initial uncontrolled collapsed state of the inline navigation.',
       type: 'boolean',
       defaultValue: 'false',
       status: 'optional',
     },
     inlineCollapsedStorageKey: {
-      doc: 'Storage key used to remember desktop dismissal across navigation and reloads. A stored boolean takes precedence over defaultInlineCollapsed. Controlled inlineCollapsed does not read or write storage. Compact hover expansion and the mobile Drawer are not persisted.',
+      doc: "Storage key used to remember inline dismissal across navigation and reloads. A stored boolean takes precedence over defaultInlineCollapsed. Controlled inlineCollapsed does not read or write storage. Compact hover expansion and the Drawer's open state are not persisted.",
       type: 'string',
       status: 'optional',
     },
@@ -364,7 +364,7 @@ export const SidebarMenuResponsiveProviderEvents: PropertiesTableProps = {
     status: 'optional',
   },
   onInlineCollapsedChange: {
-    doc: 'Called whenever the desktop inline navigation collapses or restores.',
+    doc: 'Called whenever the inline navigation collapses or restores.',
     type: '(collapsed: boolean) => void',
     status: 'optional',
   },
@@ -377,13 +377,13 @@ export const SidebarMenuToggleProperties: PropertiesTableProps = {
     status: 'optional',
   },
   controls: {
-    doc: 'Id of the mobile Drawer controlled by the toggle.',
+    doc: 'Id of the Drawer controlled by the toggle.',
     type: 'string',
     defaultValue: '"sidebar-menu-responsive-drawer"',
     status: 'optional',
   },
   inlineControls: {
-    doc: 'Id of the desktop navigation. Defaults to the ResponsiveAside id in the same provider. The embedded toggle controls its own inline content.',
+    doc: 'Id of the inline navigation. Defaults to the ResponsiveAside id in the same provider. The embedded toggle controls its own inline content.',
     type: 'string',
     status: 'optional',
   },
@@ -403,7 +403,7 @@ export const SidebarMenuResponsiveTriggerProperties: PropertiesTableProps =
       status: 'optional',
     },
     inlineControls: {
-      doc: 'Id of the desktop inline navigation restored by the trigger. Defaults to the generated ResponsiveAside id in the same provider. Set it when ResponsiveAside uses a custom id.',
+      doc: 'Id of the inline navigation restored by the trigger. Defaults to the generated ResponsiveAside id in the same provider. Set it when ResponsiveAside uses a custom id.',
       type: 'string',
       status: 'optional',
     },
