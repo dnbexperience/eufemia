@@ -24,8 +24,8 @@ The public workflow `.github/workflows/assets.yml` copies the assets, Terraform
 configuration, and deploy workflow to the `deploy` branch of the private GitHub
 Enterprise repository configured by `GHE_ASSETS_DEPLOY_REPO`. That repository
 deploys through GitHub OIDC without AWS access keys. The public workflow then
-waits for the published version to answer and fails when it never does, so a
-version that does not reach the CDN cannot pass unnoticed.
+waits for a versioned font and SVG to return HTTP 200 with the expected Content
+Security Policy through the public hostname, and fails if either check times out.
 
 The infrastructure uses `environment=dev` because Eufemia currently has one AWS
 account, `DNB-EUFEMIA-Dev`. The production Akamai hostname is independent of
