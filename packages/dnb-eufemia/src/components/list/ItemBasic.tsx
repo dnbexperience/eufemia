@@ -13,14 +13,18 @@ export type ItemBasicProps = {
 } & Omit<ItemContentProps, 'title'>
 
 function ItemBasic(props: ItemBasicProps) {
-  const {
-    icon,
-    title,
-    children,
-    element,
-    layoutEngine = 'css',
-    ...rest
-  } = props
+  const { icon, title, children, element, layoutEngine, ...rest } = props
+
+  // The css engine leaves the children unchanged, so cells rendered by your
+  // own components are placed like cells used directly. But it turns these
+  // Flex props into CSS gaps on the row grid, where every empty grid column
+  // adds space. The legacy engine only adds space between the cells, so use
+  // it when one of these props is set. An explicit layoutEngine still wins.
+  const usesLegacySpacing = Boolean(
+    rest.gap || rest.rowGap || (rest.divider && rest.divider !== 'space')
+  )
+  const appliedLayoutEngine =
+    layoutEngine ?? (usesLegacySpacing ? 'legacy' : 'css')
 
   // The auto-rendered icon and title must be valid inside the row element.
   // When the row is a phrasing element (`element="span"`, e.g. for a Dropdown
@@ -32,10 +36,8 @@ function ItemBasic(props: ItemBasicProps) {
   return (
     <ItemContent
       element={element}
-      // Leave the children unchanged, so cells rendered by your own
-      // components are placed like cells used directly.
-      layoutEngine={layoutEngine}
-      rowGap={false}
+      layoutEngine={appliedLayoutEngine}
+      rowGap={appliedLayoutEngine === 'css' ? false : undefined}
       {...rest}
     >
       {icon && <ItemIcon element={cellElement}>{icon}</ItemIcon>}

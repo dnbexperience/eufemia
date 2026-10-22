@@ -130,6 +130,101 @@ describe('ItemBasic', () => {
     ).toBeInTheDocument()
   })
 
+  describe('layout engine', () => {
+    const renderRow = (props: ItemBasicProps = {}) => {
+      render(
+        <ItemBasic title="Title" {...props}>
+          <ItemEnd>End</ItemEnd>
+        </ItemBasic>
+      )
+      return document.querySelector('.dnb-list__item')
+    }
+
+    it('uses the css layout engine without gaps by default', () => {
+      const row = renderRow()
+
+      expect(Array.from(row.classList)).toEqual([
+        'dnb-space',
+        'dnb-flex-container',
+        'dnb-flex-container--css-gap',
+        'dnb-flex-container--direction-horizontal',
+        'dnb-flex-container--justify-space-between',
+        'dnb-flex-container--align-flex-start',
+        'dnb-flex-container--divider-space',
+        'dnb-list__item',
+        'dnb-t__size--basis',
+      ])
+    })
+
+    // The css engine would turn these props into CSS gaps on the row grid,
+    // where every empty grid column adds space. The legacy engine only
+    // adds space between the cells, like before.
+    it('uses the legacy layout engine when gap is set', () => {
+      const row = renderRow({ gap: 'large' })
+
+      expect(Array.from(row.classList)).toEqual([
+        'dnb-space',
+        'dnb-flex-container',
+        'dnb-flex-container--direction-horizontal',
+        'dnb-flex-container--justify-space-between',
+        'dnb-flex-container--align-flex-start',
+        'dnb-flex-container--spacing-large',
+        'dnb-flex-container--row-gap-small',
+        'dnb-flex-container--divider-space',
+        'dnb-list__item',
+        'dnb-t__size--basis',
+      ])
+      expect(
+        row.querySelector('.dnb-list__item__title').classList
+      ).toContain('dnb-space__right--large')
+    })
+
+    it('uses the legacy layout engine when rowGap is set', () => {
+      const row = renderRow({ rowGap: 'large' })
+
+      expect(Array.from(row.classList)).toEqual([
+        'dnb-space',
+        'dnb-flex-container',
+        'dnb-flex-container--direction-horizontal',
+        'dnb-flex-container--justify-space-between',
+        'dnb-flex-container--align-flex-start',
+        'dnb-flex-container--row-gap-large',
+        'dnb-flex-container--divider-space',
+        'dnb-list__item',
+        'dnb-t__size--basis',
+      ])
+    })
+
+    it('uses the legacy layout engine when divider is set', () => {
+      const row = renderRow({ divider: 'line' })
+
+      expect(row.classList).not.toContain('dnb-flex-container--css-gap')
+      expect(row.querySelectorAll(':scope > hr')).toHaveLength(1)
+    })
+
+    it.each([
+      ['gap', { gap: false }],
+      ['rowGap', { rowGap: false }],
+      ['divider', { divider: 'space' }],
+    ] as const)(
+      'keeps the css layout engine when %s adds no space',
+      (_, props) => {
+        const row = renderRow(props)
+
+        expect(row.classList).toContain('dnb-flex-container--css-gap')
+        expect(row.className).not.toContain('row-gap')
+        expect(row.className).not.toContain('--spacing-')
+      }
+    )
+
+    it('lets an explicit layoutEngine win over gap', () => {
+      const row = renderRow({ gap: 'large', layoutEngine: 'css' })
+
+      expect(row.classList).toContain('dnb-flex-container--css-gap')
+      expect(row.classList).toContain('dnb-flex-container--spacing-large')
+    })
+  })
+
   it.each([undefined, null, false, true, ''])(
     'does not create a title for empty content %s',
     (children) => {
