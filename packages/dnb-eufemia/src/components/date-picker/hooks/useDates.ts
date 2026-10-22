@@ -5,6 +5,7 @@ import {
   differenceInCalendarMonths,
   isSameDay,
   isSameMonth,
+  subMonths,
 } from 'date-fns'
 import type { DatePickerDateType } from '../DatePickerContext'
 
@@ -21,6 +22,7 @@ export type DatePickerDateProps = {
 type UseDatesOptions = {
   dateFormat: string
   isRange: boolean
+  rangeSingleCalendar?: boolean
 }
 
 export type DatePickerDates = {
@@ -35,13 +37,18 @@ export type DatePickerDates = {
 
 export default function useDates(
   dateProps: DatePickerDateProps,
-  { dateFormat, isRange = false }: UseDatesOptions
+  {
+    dateFormat,
+    isRange = false,
+    rangeSingleCalendar = false,
+  }: UseDatesOptions
 ) {
   const [previousDateProps, setPreviousDateProps] = useState(dateProps)
   const [dates, setDates] = useState<DatePickerDates>({
     ...mapDates(dateProps, {
       dateFormat,
       isRange,
+      rangeSingleCalendar,
     }),
   })
   const datesRef = useRef(dates)
@@ -102,6 +109,7 @@ export default function useDates(
         newDates,
         currentDates,
         isRange,
+        rangeSingleCalendar,
       })
 
       const nextDates = {
@@ -116,7 +124,7 @@ export default function useDates(
 
       callback?.(nextDates)
     },
-    [isRange]
+    [isRange, rangeSingleCalendar]
   )
 
   return {
@@ -128,7 +136,7 @@ export default function useDates(
 
 function mapDates(
   dateProps: DatePickerDateProps,
-  { dateFormat, isRange }: Omit<UseDatesOptions, 'isLinked'>
+  { dateFormat, isRange, rangeSingleCalendar }: UseDatesOptions
 ) {
   const date = dateProps.date
 
@@ -156,6 +164,11 @@ function mapDates(
   // Check if startMonth was explicitly provided (not just derived from startDate)
   const hasExplicitStartMonth = typeof dateProps.startMonth !== 'undefined'
 
+  const hasExplicitEndMonth = typeof dateProps.endMonth !== 'undefined'
+  const hasEndMonthFromEndDate = Boolean(
+    endDate && !isSameMonth(endDate, startMonth)
+  )
+
   const endMonth =
     convertStringToDate(dateProps.endMonth, {
       dateFormat: dateFormat,
@@ -163,7 +176,7 @@ function mapDates(
     (isRange
       ? hasExplicitStartMonth
         ? addMonths(startMonth, 1)
-        : endDate && !isSameMonth(endDate, startMonth)
+        : hasEndMonthFromEndDate
           ? endDate
           : addMonths(startMonth, 1)
       : startMonth)
@@ -176,12 +189,20 @@ function mapDates(
     dateFormat,
   })
 
+  const months =
+    isRange &&
+    !rangeSingleCalendar &&
+    !hasExplicitStartMonth &&
+    !hasExplicitEndMonth &&
+    !hasEndMonthFromEndDate
+      ? fitMonthsToMaxDate({ startMonth, endMonth, minDate, maxDate })
+      : { startMonth, endMonth }
+
   const dates = {
     date,
     startDate,
     endDate,
-    startMonth,
-    endMonth,
+    ...months,
     minDate,
     maxDate,
   }
@@ -281,15 +302,24 @@ function updateMonths({
   newDates,
   currentDates,
   isRange,
+  rangeSingleCalendar,
 }: {
   newDates: DatePickerDates
   currentDates: DatePickerDates
   isRange: boolean
+  rangeSingleCalendar: boolean
 }) {
   const startMonth =
     newDates.startMonth ?? newDates.startDate ?? currentDates.startMonth
   let endMonth =
     newDates.endMonth ?? newDates.endDate ?? currentDates.endMonth
+
+  const hasEndMonthFromEndDate = Boolean(
+    !newDates.endMonth &&
+    newDates.endDate &&
+    startMonth &&
+    differenceInCalendarMonths(newDates.endDate, startMonth) > 0
+  )
 
   // The second calendar must show a later month than the first one.
   // When it does not, show the month after the first one, the same as on
@@ -303,10 +333,61 @@ function updateMonths({
     endMonth = addMonths(startMonth, 1)
   }
 
+  if (
+    isRange &&
+    !rangeSingleCalendar &&
+    !newDates.startMonth &&
+    !newDates.endMonth &&
+    !hasEndMonthFromEndDate &&
+    startMonth &&
+    endMonth
+  ) {
+    return fitMonthsToMaxDate({
+      startMonth,
+      endMonth,
+      minDate: currentDates.minDate,
+      maxDate: currentDates.maxDate,
+    })
+  }
+
   return {
     startMonth,
     endMonth,
   }
+}
+
+/**
+ * When the first calendar shows the month of maxDate, the second calendar
+ * shows a month where no day can be selected. Show the month before in the
+ * first calendar instead, unless that month is before minDate.
+ */
+function fitMonthsToMaxDate({
+  startMonth,
+  endMonth,
+  minDate,
+  maxDate,
+}: {
+  startMonth: Date
+  endMonth: Date
+  minDate?: Date
+  maxDate?: Date
+}) {
+  if (
+    maxDate &&
+    isSameMonth(startMonth, maxDate) &&
+    differenceInCalendarMonths(endMonth, maxDate) > 0
+  ) {
+    const previousMonth = subMonths(startMonth, 1)
+
+    if (
+      !minDate ||
+      differenceInCalendarMonths(previousMonth, minDate) >= 0
+    ) {
+      return { startMonth: previousMonth, endMonth: startMonth }
+    }
+  }
+
+  return { startMonth, endMonth }
 }
 
 function getDate(date: DatePickerDateType, dateFormat: string) {

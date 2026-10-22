@@ -1694,6 +1694,207 @@ describe('DatePicker component', () => {
     )
   })
 
+  describe('calendar months with minDate and maxDate', () => {
+    beforeEach(() => {
+      vi.useFakeTimers({ toFake: ['Date'] })
+      vi.setSystemTime(new Date('2026-10-22T12:00:00'))
+    })
+
+    afterEach(() => {
+      vi.useRealTimers()
+    })
+
+    const getCalendarTitles = () =>
+      Array.from(
+        document.querySelectorAll('.dnb-date-picker__header__title')
+      ).map((element) => element.textContent)
+
+    const clickShortcut = async (title: string) => {
+      await userEvent.click(screen.getByRole('button', { name: title }))
+    }
+
+    it.each([
+      ['with', true],
+      ['without', false],
+    ])(
+      'should not show a month after maxDate in the second range calendar, %s link',
+      async (_, link) => {
+        render(
+          <DatePicker noAnimation range link={link} maxDate="2026-10-31" />
+        )
+
+        await userEvent.click(getDatePickerTriggerButton())
+
+        expect(getCalendarTitles()).toEqual([
+          'september 2026',
+          'oktober 2026',
+        ])
+      }
+    )
+
+    it('should show the month of maxDate in the second range calendar when the dates are in that month', async () => {
+      render(
+        <DatePicker
+          noAnimation
+          range
+          startDate="2026-10-05"
+          endDate="2026-10-22"
+          maxDate="2026-10-22"
+        />
+      )
+
+      await userEvent.click(getDatePickerTriggerButton())
+
+      expect(getCalendarTitles()).toEqual([
+        'september 2026',
+        'oktober 2026',
+      ])
+    })
+
+    it('should show the month of maxDate in the second range calendar after a shortcut', async () => {
+      render(
+        <DatePicker
+          noAnimation
+          range
+          link
+          startDate="2026-07-03"
+          endDate="2026-08-20"
+          maxDate="2026-10-31"
+          shortcuts={[
+            {
+              title: 'This month',
+              startDate: '2026-10-01',
+              endDate: '2026-10-31',
+            },
+          ]}
+        />
+      )
+
+      await userEvent.click(getDatePickerTriggerButton())
+
+      expect(getCalendarTitles()).toEqual(['juli 2026', 'august 2026'])
+
+      await clickShortcut('This month')
+
+      expect(getCalendarTitles()).toEqual([
+        'september 2026',
+        'oktober 2026',
+      ])
+    })
+
+    it.each<
+      [
+        string,
+        Record<string, unknown>,
+        Partial<DatePickerAllProps>,
+        Array<string>,
+      ]
+    >([
+      [
+        'endDate is after maxDate',
+        { startDate: '2026-10-05', endDate: '2026-11-10' },
+        {},
+        ['oktober 2026', 'november 2026'],
+      ],
+      [
+        'startMonth is set',
+        { startDate: '2026-10-22', startMonth: '2026-10-01' },
+        {},
+        ['oktober 2026', 'november 2026'],
+      ],
+      [
+        'rangeSingleCalendar is set',
+        { startDate: '2026-10-05', endDate: '2026-10-22' },
+        { rangeSingleCalendar: true },
+        ['oktober 2026'],
+      ],
+    ])(
+      'should keep the months after a shortcut when %s',
+      async (_, shortcut, props, expectedTitles) => {
+        render(
+          <DatePicker
+            noAnimation
+            range
+            startDate="2026-07-03"
+            endDate="2026-08-20"
+            maxDate="2026-10-31"
+            shortcuts={[{ title: 'Shortcut', ...shortcut }]}
+            {...props}
+          />
+        )
+
+        await userEvent.click(getDatePickerTriggerButton())
+        await clickShortcut('Shortcut')
+
+        expect(getCalendarTitles()).toEqual(expectedTitles)
+      }
+    )
+
+    it('should show the month of maxDate in the second range calendar after the user types a start date in that month', async () => {
+      render(
+        <DatePicker
+          noAnimation
+          range
+          showInput
+          startDate="2026-07-03"
+          endDate="2026-08-20"
+          maxDate="2026-10-31"
+        />
+      )
+
+      await userEvent.click(getDatePickerTriggerButton())
+
+      const [startDay] = getDatePickerInputs()
+
+      await userEvent.click(startDay)
+      await userEvent.keyboard('15102026')
+
+      expect(getCalendarTitles()).toEqual([
+        'september 2026',
+        'oktober 2026',
+      ])
+    })
+
+    it.each<[string, Partial<DatePickerAllProps>, Array<string>]>([
+      [
+        'startMonth is set',
+        { startMonth: '2026-10-01' },
+        ['oktober 2026', 'november 2026'],
+      ],
+      [
+        'endMonth is set',
+        { endMonth: '2026-11-01' },
+        ['oktober 2026', 'november 2026'],
+      ],
+      [
+        'the month before is before minDate',
+        { minDate: '2026-10-01' },
+        ['oktober 2026', 'november 2026'],
+      ],
+      [
+        'endDate is after maxDate',
+        { startDate: '2026-10-05', endDate: '2026-11-10' },
+        ['oktober 2026', 'november 2026'],
+      ],
+      [
+        'rangeSingleCalendar is set',
+        { rangeSingleCalendar: true },
+        ['oktober 2026'],
+      ],
+    ])(
+      'should keep the months when %s',
+      async (_, props, expectedTitles) => {
+        render(
+          <DatePicker noAnimation range maxDate="2026-10-31" {...props} />
+        )
+
+        await userEvent.click(getDatePickerTriggerButton())
+
+        expect(getCalendarTitles()).toEqual(expectedTitles)
+      }
+    )
+  })
+
   it('should receive all dates in the shortcut callback', async () => {
     const onShortcutClick = vi.fn()
 
