@@ -98,7 +98,8 @@
       color: var(--token-color-text-neutral);
     }
 
-    &--current &__content {
+    &--current &__content,
+    &--upcoming &__content {
       @include centerBorder(
         var(--timeline-icon-width--medium),
         var(--timeline-border-spacing)
@@ -112,7 +113,8 @@
       line-height: var(--line-height-basis);
     }
 
-    &--current &__label__icon {
+    &--current &__label__icon,
+    &--upcoming &__label__icon {
       width: var(--timeline-icon-width--medium);
       line-height: var(--timeline-icon-height--medium);
       border-radius: var(--timeline-icon-border-radius--medium);
@@ -123,16 +125,14 @@
       background-color: var(--token-color-background-selected);
     }
 
-    &--current {
+    &--current,
+    &--upcoming {
       margin-left: 0;
     }
 
     &--upcoming &__label__title {
+      margin-left: var(--timeline-border-spacing);
       font-weight: var(--font-weight-basis);
-      color: var(--token-color-text-neutral-alternative);
-    }
-
-    &--upcoming:not(.dnb-skeleton) &__label__icon {
       color: var(--token-color-text-neutral-alternative);
     }
 
