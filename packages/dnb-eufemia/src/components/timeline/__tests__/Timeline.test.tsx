@@ -385,6 +385,20 @@ describe('Timeline', () => {
           'Kommende'
         )
       })
+
+      // Like in Figma, only completed items have a small icon.
+      it('renders a small icon only when state is completed', () => {
+        const { rerender } = render(
+          <TimelineItem title="Complete" state="completed" />
+        )
+        expect(screen.queryByRole('img')).toHaveClass('dnb-icon--small')
+
+        rerender(<TimelineItem title="Current" state="current" />)
+        expect(screen.queryByRole('img')).toHaveClass('dnb-icon--default')
+
+        rerender(<TimelineItem title="Upcoming" state="upcoming" />)
+        expect(screen.queryByRole('img')).toHaveClass('dnb-icon--default')
+      })
     })
   })
 
