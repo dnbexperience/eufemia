@@ -21,6 +21,7 @@ import {
   Heading,
   Icon,
   Menu,
+  Dialog,
 } from '@dnb/eufemia/src'
 import {
   stop as stopIcon,
@@ -2256,5 +2257,22 @@ export const MultipleTbody = () => (
         </tbody>
       </Table>
     </Table.ScrollView>
+  </ComponentBox>
+)
+
+export const InsideDialog = () => (
+  <ComponentBox hideCode>
+    <Dialog open noAnimation title="Table inside a Dialog">
+      <Table mode="navigation" data-visual-test="table-inside-dialog">
+        <tbody>
+          <Tr onClick={() => null}>
+            <Td>Clickable row</Td>
+          </Tr>
+          <Tr>
+            <Td onClick={() => null}>Clickable cell</Td>
+          </Tr>
+        </tbody>
+      </Table>
+    </Dialog>
   </ComponentBox>
 )
