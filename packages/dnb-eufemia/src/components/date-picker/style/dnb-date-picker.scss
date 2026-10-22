@@ -392,10 +392,14 @@
 
     &--preview .dnb-button,
     &--inactive .dnb-button,
-    &--outside-month .dnb-button,
-    &--within-selection:not(#{&}--start-date):not(#{&}--end-date)
-      .dnb-button:not(:hover):not(:focus-visible) {
+    &--outside-month .dnb-button {
       background-color: transparent;
+    }
+    &--within-selection:not(#{&}--start-date):not(#{&}--end-date)
+      .dnb-button:not(:hover) {
+      @include utilities.notFocusVisible() {
+        background-color: transparent;
+      }
     }
 
     &--preview:not(#{&}--inactive):not(#{&}--outside-month):not(
@@ -516,11 +520,15 @@
   }
 
   &__header__nav {
-    .dnb-button:not(:hover):not(:focus-visible) {
-      box-shadow: none;
+    .dnb-button:not(:hover) {
+      @include utilities.notFocusVisible() {
+        box-shadow: none;
+      }
     }
-    .dnb-button:hover:not(:active):not(:focus-visible) {
-      background-color: var(--token-color-background-neutral);
+    .dnb-button:hover:not(:active) {
+      @include utilities.notFocusVisible() {
+        background-color: var(--token-color-background-neutral);
+      }
     }
   }
 

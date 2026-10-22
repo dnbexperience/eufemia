@@ -52,6 +52,7 @@
       }
     ],
     "eufemia/no-unused-use": true,
+    "eufemia/no-not-focus-visible": true,
     "eufemia/no-deprecated-color-variables": [
       true,
       { "severity": "warning" }

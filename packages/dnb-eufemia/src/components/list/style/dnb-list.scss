@@ -627,23 +627,37 @@
         }
 
         // Remove borders inside a Card (Card provides the boundary).
-        // Non-interactive items never show these borders.
-        // Interactive items show them only on hover/focus.
-        &:not(:hover):not(:focus-visible),
-        &:not(.dnb-list__item__action):not(.dnb-list__item__accordion) {
-          &::after {
-            border-right: none;
-            border-left: none;
-          }
+        &::after {
+          border-right: none;
+          border-left: none;
+        }
 
-          &:first-of-type:not([hidden])::after {
-            border-top: none;
-          }
+        &:first-of-type:not([hidden])::after {
+          border-top: none;
+        }
 
-          &:not([hidden]):has(+ [hidden])::after,
-          &:last-of-type:not([hidden])::after {
-            border-bottom: none;
-          }
+        &:not([hidden]):has(+ [hidden])::after,
+        &:last-of-type:not([hidden])::after {
+          border-bottom: none;
+        }
+
+        // Interactive items show them on hover and keyboard focus.
+        // Keep these rules separate, because a browser without support
+        // for :has() or :focus-visible drops the whole rule.
+        &.dnb-list__item__action:hover::after,
+        &.dnb-list__item__accordion:hover::after {
+          border: var(--list-item-outline-width) solid
+            var(--list-item-outline-color);
+        }
+        &.dnb-list__item__action:has(
+            > a:focus-visible,
+            > .dnb-list__item__action__button:focus-visible
+          )::after,
+        &.dnb-list__item__accordion:has(
+            .dnb-list__item__accordion__header:focus-visible
+          )::after {
+          border: var(--list-item-outline-width) solid
+            var(--list-item-outline-color);
         }
       }
     }

@@ -3256,8 +3256,16 @@ html[data-whatinput=keyboard] .dnb-date-picker__container table.dnb-no-focus:foc
   border-radius: 50%;
   background-color: currentcolor;
 }
-.dnb-date-picker__day--preview .dnb-button, .dnb-date-picker__day--inactive .dnb-button, .dnb-date-picker__day--outside-month .dnb-button, .dnb-date-picker__day--within-selection:not(.dnb-date-picker__day--start-date):not(.dnb-date-picker__day--end-date) .dnb-button:not(:hover):not(:focus-visible) {
+.dnb-date-picker__day--preview .dnb-button, .dnb-date-picker__day--inactive .dnb-button, .dnb-date-picker__day--outside-month .dnb-button {
   background-color: transparent;
+}
+.dnb-date-picker__day--within-selection:not(.dnb-date-picker__day--start-date):not(.dnb-date-picker__day--end-date) .dnb-button:not(:hover):not(:focus-visible) {
+  background-color: transparent;
+}
+@supports not (selector(:focus-visible)) {
+  .dnb-date-picker__day--within-selection:not(.dnb-date-picker__day--start-date):not(.dnb-date-picker__day--end-date) .dnb-button:not(:hover) {
+    background-color: transparent;
+  }
 }
 .dnb-date-picker__day--preview:not(.dnb-date-picker__day--inactive):not(.dnb-date-picker__day--outside-month):not(.dnb-date-picker__day--start-date):not(.dnb-date-picker__day--end-date), .dnb-date-picker__day--within-selection:not(.dnb-date-picker__day--inactive):not(.dnb-date-picker__day--outside-month):not(.dnb-date-picker__day--start-date):not(.dnb-date-picker__day--end-date) {
   background-color: var(--token-color-background-action-hover-subtle);
@@ -3316,8 +3324,18 @@ html:not([data-whatintent=touch]) .dnb-date-picker__day--inactive .dnb-button[di
 .dnb-date-picker__header__nav .dnb-button:not(:hover):not(:focus-visible) {
   box-shadow: none;
 }
+@supports not (selector(:focus-visible)) {
+  .dnb-date-picker__header__nav .dnb-button:not(:hover) {
+    box-shadow: none;
+  }
+}
 .dnb-date-picker__header__nav .dnb-button:hover:not(:active):not(:focus-visible) {
   background-color: var(--token-color-background-neutral);
+}
+@supports not (selector(:focus-visible)) {
+  .dnb-date-picker__header__nav .dnb-button:hover:not(:active) {
+    background-color: var(--token-color-background-neutral);
+  }
 }
 .dnb-date-picker .rtl {
   direction: rtl;
