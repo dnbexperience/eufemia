@@ -18,7 +18,7 @@ for (const javaScriptEnabled of [false, true]) {
           async ({ page }) => {
             await page.setViewportSize({ width, height: 900 })
             await page.goto(
-              '/uilib/extensions/sidebar-menu/visual-tests/first-paint'
+              '/web/extensions/sidebar-menu/visual-tests/first-paint'
             )
             if (javaScriptEnabled) {
               await waitForApp(page)
