@@ -4,8 +4,11 @@
 - [Card.Info](/uilib/components/card/#cardinfo): added composable information cards with image and video layouts, close buttons, and media controls. The previous InfoCard component is deprecated.
 - [CopyOnClick](/uilib/components/copy-on-click): added `CopyOnClick.Button` for keyboard-accessible copying with confirmation feedback.
 - [SidebarMenu](/uilib/extensions/sidebar-menu): added compact responsive navigation with an expandable icon rail and scrolling that reveals opened accordion content.
-- [Typography](/uilib/usage/customisation/theming/design-tokens/typography): aligned font sizes and line heights with Figma design tokens.
-- [Icon](/uilib/components/icon/#loading-icons-by-name): load icons dynamically by name from the asset CDN without importing the icon catalogue.
+- [Typography](/uilib/usage/customisation/theming/design-tokens/typography): aligned font sizes and line heights with Figma design tokens. Carnegie `xx-large` text, such as `h1`, is now 56px with a 68px line height (was 48px and 56px). Responsive `xx-large` headings get a larger line height in all brands.
+- [Icon](/uilib/components/icon/#loading-icons-by-name): load icons dynamically by name from the asset CDN without importing the icon catalogue. With a Content Security Policy, allow `https://assets.eufemia.dnb.no` in `img-src`, or turn remote loading off with `iconBaseUrl={false}`.
+- [List](/uilib/components/list): plain-text rows now get the same horizontal padding as rows with a title.
+- [Upload](/uilib/components/upload): `acceptedFileTypes` now matches the file extension exactly. To accept both `.doc` and `.docx`, list both.
+- [Forms](/uilib/extensions/forms/): Value labels inside a `dnb-core-style` wrapper now use the medium font weight, as they do without the wrapper. The FieldBlock status message now comes after the field in the DOM, in the same order as it is shown.
 
 ## September, 29. 2026
 
