@@ -49,7 +49,7 @@ jobs:
         run: node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON tools/analytics/src/monitor/alert-analytics.ts
         env:
           GH_TOKEN: ${{ github.token }}
-          GHE_TOKEN: ${{ secrets.GHE_DEPLOY_PAT }}
+          GHE_TOKEN: ${{ secrets.GHE_MONITOR_PAT }}
           GHE_REPO: ${{ vars.GHE_ANALYTICS_DEPLOY_REPO }}
           ANALYTICS_ALERT_WEBHOOK: ${{ secrets.ANALYTICS_ALERT_WEBHOOK || secrets.CDN_ALERT_WEBHOOK }}
 
