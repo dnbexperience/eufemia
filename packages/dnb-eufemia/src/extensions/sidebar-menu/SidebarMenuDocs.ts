@@ -204,7 +204,7 @@ export const SidebarMenuResponsiveProviderProperties: PropertiesTableProps =
       status: 'optional',
     },
     drawerAt: {
-      doc: 'Maximum viewport width at which the mobile Drawer is used. Above it, the inline navigation is shown. Use an Eufemia breakpoint name, or an em or rem value.',
+      doc: 'Maximum viewport width at which the Drawer is used. Above it, the inline navigation is shown. Use an Eufemia breakpoint name, or an em or rem value.',
       type: ['MediaQuerySizes', '`${number}em`', '`${number}rem`'],
       defaultValue: '"medium"',
       status: 'optional',

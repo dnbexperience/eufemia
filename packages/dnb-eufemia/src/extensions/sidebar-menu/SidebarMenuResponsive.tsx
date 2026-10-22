@@ -106,7 +106,7 @@ export type SidebarMenuResponsiveProviderProps = {
   controllerId?: string
   /** Unique scope used by first-paint CSS and Toggles outside this provider. */
   scopeId?: string
-  /** Maximum viewport width at which the mobile Drawer is used. */
+  /** Maximum viewport width at which the Drawer is used. */
   drawerAt?: MediaQuerySizes | BreakpointLength
   /** @deprecated Use drawerAt instead. */
   breakpoint?: MediaQuerySizes | BreakpointLength
