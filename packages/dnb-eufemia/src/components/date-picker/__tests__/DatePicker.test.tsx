@@ -1855,6 +1855,115 @@ describe('DatePicker component', () => {
       ])
     })
 
+    const getNavButtons = (calendarIndex: number, row = 0) => {
+      const calendar = document.querySelectorAll(
+        '.dnb-date-picker__calendar'
+      )[calendarIndex]
+      const header = calendar.querySelectorAll(
+        '.dnb-date-picker__header__row'
+      )[row]
+
+      return {
+        prev: header.querySelector('.dnb-date-picker__prev'),
+        next: header.querySelector('.dnb-date-picker__next'),
+      }
+    }
+
+    it('should not let linked calendars move past maxDate', async () => {
+      render(<DatePicker noAnimation range link maxDate="2026-12-31" />)
+
+      await userEvent.click(getDatePickerTriggerButton())
+      await userEvent.click(getNavButtons(0).next)
+
+      expect(getCalendarTitles()).toEqual([
+        'november 2026',
+        'desember 2026',
+      ])
+      expect(getNavButtons(0).next).toHaveClass('disabled')
+      expect(getNavButtons(1).next).toHaveClass('disabled')
+
+      await userEvent.click(getNavButtons(0).next)
+
+      expect(getCalendarTitles()).toEqual([
+        'november 2026',
+        'desember 2026',
+      ])
+    })
+
+    it('should not let linked calendars move before minDate', async () => {
+      render(<DatePicker noAnimation range link minDate="2026-09-10" />)
+
+      await userEvent.click(getDatePickerTriggerButton())
+      await userEvent.click(getNavButtons(1).prev)
+
+      expect(getCalendarTitles()).toEqual([
+        'september 2026',
+        'oktober 2026',
+      ])
+      expect(getNavButtons(0).prev).toHaveClass('disabled')
+      expect(getNavButtons(1).prev).toHaveClass('disabled')
+
+      await userEvent.click(getNavButtons(1).prev)
+
+      expect(getCalendarTitles()).toEqual([
+        'september 2026',
+        'oktober 2026',
+      ])
+    })
+
+    it('should only check its own calendar when calendars are not linked', async () => {
+      render(<DatePicker noAnimation range maxDate="2026-11-30" />)
+
+      await userEvent.click(getDatePickerTriggerButton())
+
+      expect(getCalendarTitles()).toEqual([
+        'oktober 2026',
+        'november 2026',
+      ])
+      expect(getNavButtons(0).next).not.toHaveClass('disabled')
+      expect(getNavButtons(1).next).toHaveClass('disabled')
+    })
+
+    it('should not let a calendar after maxDate move further away', async () => {
+      render(
+        <DatePicker
+          noAnimation
+          range
+          maxDate="2026-10-31"
+          endMonth="2026-11-01"
+        />
+      )
+
+      await userEvent.click(getDatePickerTriggerButton())
+
+      expect(getCalendarTitles()).toEqual([
+        'oktober 2026',
+        'november 2026',
+      ])
+      expect(getNavButtons(1).next).toHaveClass('disabled')
+      expect(getNavButtons(1).prev).not.toHaveClass('disabled')
+    })
+
+    it.each([
+      ['2027-03-10', true],
+      ['2027-10-01', false],
+    ])(
+      'should disable the next year button when it would show a month after maxDate %s: %s',
+      async (maxDate, disabled) => {
+        render(<DatePicker noAnimation yearNavigation maxDate={maxDate} />)
+
+        await userEvent.click(getDatePickerTriggerButton())
+
+        const { next } = getNavButtons(0, 1)
+
+        if (disabled) {
+          expect(next).toHaveClass('disabled')
+        } else {
+          expect(next).not.toHaveClass('disabled')
+        }
+      }
+    )
+
     it.each<[string, Partial<DatePickerAllProps>, Array<string>]>([
       [
         'minDate is after today',
