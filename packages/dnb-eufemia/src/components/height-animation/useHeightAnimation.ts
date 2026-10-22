@@ -255,7 +255,7 @@ function useOpenClose({ open, instRef, isInitialRenderRef, targetRef }) {
 }
 
 function useAdjust({ children, instRef, isInitialRenderRef, targetRef }) {
-  const fromHeight = useRef(0)
+  const fromHeight = useRef<number | null>(null)
 
   const [timer] = useState(() => Date.now())
 
@@ -278,13 +278,14 @@ function useAdjust({ children, instRef, isInitialRenderRef, targetRef }) {
   }
 
   useMemo(() => {
+    fromHeight.current = null
     if (shouldAdjust()) {
       fromHeight.current = instRef.current?.getHeight()
     }
   }, [children]) // eslint-disable-line react-hooks/exhaustive-deps
 
   useLayoutEffect(() => {
-    if (shouldAdjust()) {
+    if (fromHeight.current !== null && shouldAdjust()) {
       /**
        * In certain cases, the targetRef.current is outdated, so we need to set it again.
        * E.g. in Tabs.js, when we switch tabs, the targetRef.current is not updated.
