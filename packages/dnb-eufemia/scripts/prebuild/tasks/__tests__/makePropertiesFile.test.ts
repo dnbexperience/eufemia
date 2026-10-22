@@ -243,10 +243,10 @@ describe('makePropertiesFile', () => {
 
       expect(read('ui')).toContain('--font-size-xx-large: 3rem;')
       expect(read('sbanken')).toContain('--font-size-xx-large: 3rem;')
-      expect(read('carnegie')).toContain('--font-size-xx-large: 3.5rem;')
-      expect(read('carnegie')).toContain(
-        '--line-height-xx-large: 4.25rem;'
-      )
+      // Keep the released scale until the next major version. All brands share
+      // :root values so apps can override the scale there.
+      expect(read('carnegie')).toContain('--font-size-xx-large: 3rem;')
+      expect(read('carnegie')).toContain('--line-height-xx-large: 3.5rem;')
       for (const theme of ['ui', 'sbanken', 'carnegie']) {
         expect(read(theme)).toContain('\n:root {\n')
         expect(read(theme)).not.toContain('.eufemia-theme__')
@@ -285,7 +285,7 @@ describe('makePropertiesFile', () => {
       expect(getValues('ui')).toEqual(['3rem', '3rem'])
       expect(getValues('eiendom')).toEqual(['3rem', '3rem'])
       expect(getValues('sbanken')).toEqual(['3rem', '3rem'])
-      expect(getValues('carnegie')).toEqual(['3rem', '3.5rem'])
+      expect(getValues('carnegie')).toEqual(['3rem', '3rem'])
     })
 
     it('declares the typography scale only on :root, so :root overrides also apply inside a theme', async () => {
@@ -983,7 +983,7 @@ describe('makePropertiesFile', () => {
       ).css
 
       expect(brandProperties).not.toContain('--font-size-xx-large:')
-      expect(carnegieTheme).toContain('--font-size-xx-large: 3.5rem;')
+      expect(carnegieTheme).toContain('--font-size-xx-large: 3rem;')
     })
 
     it('has to validate', () => {
@@ -1018,10 +1018,8 @@ describe('makePropertiesFile', () => {
     expect(global.sbanken).toContain(`'--font-size-basis-web': '1.125rem'`)
     expect(global.ui).toContain(`'--font-size-basis-native': '1.0625rem'`)
     expect(global.sbanken).toContain(`'--font-size-basis-native': '1rem'`)
-    expect(global.carnegie).toContain(`'--font-size-xx-large': '3.5rem'`)
-    expect(global.carnegie).toContain(
-      `'--line-height-xx-large': '4.25rem'`
-    )
+    expect(global.carnegie).toContain(`'--font-size-xx-large': '3rem'`)
+    expect(global.carnegie).toContain(`'--line-height-xx-large': '3.5rem'`)
   })
 
   describe('Tailwind CSS Properties Generation', () => {

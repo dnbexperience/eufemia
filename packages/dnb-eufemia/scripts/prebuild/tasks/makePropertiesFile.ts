@@ -1118,7 +1118,12 @@ const runDesignTokenFactory = async () => {
     })
     if (file.colorScheme === 'light') {
       await makeTypographyPropertiesSCSS({
-        inputPath: file.in,
+        // Keep the released scale shared on :root until the next major version.
+        // A different Carnegie scale would also change other brands on the page.
+        inputPath:
+          file.theme === 'carnegie'
+            ? './src/style/themes/figma/brand/dnb-light.tokens.json'
+            : file.in,
         outputPath: file.out.replace('/tokens', '/typography-properties'),
         brand: file.theme,
       })
