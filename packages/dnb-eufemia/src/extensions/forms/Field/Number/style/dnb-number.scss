@@ -22,6 +22,12 @@
       }
 
       .dnb-input {
+        // The step buttons are 2rem high also in the small size,
+        // so let the input fill the same height.
+        &.dnb-input--small {
+          --input-height--small: 2rem;
+        }
+
         &__input {
           align-items: center;
 
