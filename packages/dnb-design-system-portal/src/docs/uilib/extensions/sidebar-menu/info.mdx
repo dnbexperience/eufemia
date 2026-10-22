@@ -252,7 +252,7 @@ Use the responsive compound parts when the same navigation should be inline on l
 - When the built-in hamburger appears after the inline navigation is dismissed, its bars animate in sequentially. Custom trigger icons are not animated.
 - `ResponsiveInline` renders its children above `drawerAt`. Between `drawerAt` and the optional `compactAt` threshold, its SidebarMenu becomes a narrow icon rail that expands over adjacent content on hover, keyboard focus, or with its toggle button.
 - `ResponsiveAside` combines `ResponsiveInline`, the sidebar surface, `ScrollView`, spacing, and optional `ResizeHandle` into a ready-to-use navigation sidebar.
-- `ResponsiveShell` provides the responsive two-column application layout for `ResponsiveAside` and page content, then switches to one column below `drawerAt`.
+- `ResponsiveShell` provides the responsive two-column application layout for `ResponsiveAside` and page content, then switches to one column at or below `drawerAt`.
 - `ResponsiveDrawer` renders a left-side Drawer at or below `drawerAt`. Its close button is placed on the left.
 - `useResponsive().close()` closes the Drawer after navigating from it.
 
@@ -328,7 +328,7 @@ function AppNavigation() {
 }
 ```
 
-Above `drawerAt`, the trigger restores a dismissed sidebar at `expandedWidth`. Enter or double-click on the resize divider also restores that width. While dragging below `ResizeHandle`'s `minWidth`, the content keeps that minimum width and ScrollView provides horizontal overflow instead of rewrapping menu labels. Keep the trigger and brand together at the start of the header so they replace the dismissed sidebar's leading content. Below `drawerAt`, the same trigger controls the Drawer instead.
+Above `drawerAt`, the trigger restores a dismissed sidebar at `expandedWidth`. Enter or double-click on the resize divider also restores that width. While dragging below `ResizeHandle`'s `minWidth`, the content keeps that minimum width and ScrollView provides horizontal overflow instead of rewrapping menu labels. Keep the trigger and brand together at the start of the header so they replace the dismissed sidebar's leading content. At or below `drawerAt`, the same trigger controls the Drawer instead.
 
 ## Relevant links
 
