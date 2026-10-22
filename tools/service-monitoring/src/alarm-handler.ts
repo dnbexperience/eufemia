@@ -1,5 +1,6 @@
 import { readSecret } from './secrets.ts'
 import { sendSlack } from './slack.ts'
+import { logFailure } from './diagnostics.ts'
 
 type Event = { Records: { Sns: { TopicArn: string; Message: string } }[] }
 
@@ -7,6 +8,7 @@ export async function handler(event: Event) {
   if (process.env.NOTIFICATIONS_ENABLED !== 'true') {
     return
   }
+  let stage = 'alarm input'
   try {
     const secretArn = process.env.SLACK_WEBHOOK_SECRET_ARN
     const topicArn = process.env.ALERT_TOPIC_ARN
@@ -18,8 +20,10 @@ export async function handler(event: Event) {
     ) {
       throw new Error('Invalid notification configuration or event')
     }
+    stage = 'webhook secret'
     const webhook = await readSecret(secretArn)
     for (const record of event.Records) {
+      stage = 'alarm input'
       if (record.Sns.TopicArn !== topicArn) {
         throw new Error('Unexpected notification topic')
       }
@@ -31,6 +35,7 @@ export async function handler(event: Event) {
       ) {
         throw new Error('Invalid CloudWatch alarm')
       }
+      stage = 'Slack delivery'
       await sendSlack(
         webhook,
         [
@@ -45,7 +50,9 @@ export async function handler(event: Event) {
         ].join('\n')
       )
     }
-  } catch {
+  } catch (error) {
+    logFailure('alarms', stage, error)
+    // eslint-disable-next-line preserve-caught-error -- Causes may contain the webhook URL.
     throw new Error('CloudWatch alarm could not be delivered to Slack')
   }
 }

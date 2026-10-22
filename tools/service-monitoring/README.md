@@ -13,7 +13,7 @@ EventBridge Scheduler runs CDN at :07 and MCP at :11 hourly in UTC, with flexibl
 ## One-time setup
 
 1. Create a dedicated internal deployment repository. Provision its OIDC deploy role through the internal federation repository, restricted to the deploy branch and verified repository IDs. Give it scoped access to this stack, its Terraform state key and permission to pass the three execution roles.
-2. Use the internal AWS bootstrap repository to create the Lambda, Scheduler and Slack notifier roles under the approved permissions boundary. Terraform only reads these roles. The check role needs log writes, DynamoDB item read/write, secret read and failure-queue writes. The notifier has no DynamoDB access. Scheduler trust restricts the source account and schedule group, and only invokes the two check functions.
+2. Use the internal AWS bootstrap repository to create the Lambda, Scheduler and Slack notifier roles under the approved permissions boundary. Terraform only reads these roles. The check role needs log writes, DynamoDB item read/write, secret read and failure-queue writes. The notifier needs its own log writes, webhook secret read and sqs:SendMessage for its failure destination; it has no DynamoDB access. Scheduler trust restricts the source account and schedule group. Its permissions are lambda:InvokeFunction for the two check functions and sqs:SendMessage for the schedule failure queue.
 3. Configure GHE_MONITORING_DEPLOY_REPO in the public repo and grant the existing GHE_DEPLOY_PAT access to it. Configure the internal variables below.
 4. Deploy with notifications disabled. Terraform creates an empty Secrets Manager secret. An operator populates its string value with the existing Slack webhook URL through Secrets Manager. Never place secret values in Terraform, repository variables, logs or committed files. GitHub cannot export an existing Actions secret.
 
@@ -26,7 +26,11 @@ EventBridge Scheduler runs CDN at :07 and MCP at :11 hourly in UTC, with flexibl
 | MONITORING_NOTIFICATIONS_ENABLED   | false during verification, then true                              |
 | MONITORING_GITHUB_TOKEN_SECRET_ARN | Optional Secrets Manager ARN for a read-only GitHub Actions token |
 
-State uses the default Terraform workspace at service-monitoring/terraform.tfstate with S3 native locking. Workspace discovery is scoped to service-monitoring/workspaces/, matching the deployment role's monitoring-only bucket listing permission. The deployment role only has object access to the default workspace state and its lock. The environment controls AWS resource naming; checks always target production. Use a separate state key for another environment. Secret values are read at runtime and are not managed in Terraform state. After creation, description and KMS key changes are owned by the administrator and ignored by Terraform; the deployment role does not have UpdateSecret permission. The optional GitHub credential is a secret string with read-only public workflow access, rather than an ephemeral Actions token.
+State uses the default Terraform workspace at service-monitoring/terraform.tfstate with S3 native locking. Workspace discovery is scoped to service-monitoring/workspaces/, matching the deployment role's monitoring-only bucket listing permission. The deployment role only has object access to the default workspace state and its lock.
+
+The environment controls AWS resource naming; checks always target production. Use a separate state key for another environment. Secret values are read at runtime and are not managed in Terraform state. After creation, description and KMS key changes are owned by the administrator and ignored by Terraform; the deployment role does not have UpdateSecret permission.
+
+The optional GitHub credential is a secret string with read-only public workflow access, rather than an ephemeral Actions token. Without it, GitHub source verification uses the unauthenticated API limit. A 403/429 makes the deployment-source check unhealthy while endpoint checks continue; unchanged failures are deduplicated. Provision a read-only token before enabling alerts if shadow runs encounter rate limiting.
 
 Functions use Lambda's default network with outbound HTTPS. If account policy requires a VPC, provide approved outbound connectivity to the public edge, npm, GitHub, Slack and AWS services before deployment.
 
@@ -36,7 +40,7 @@ Each service has a separate DynamoDB item containing the latest report, last ack
 
 Notification intent is persisted before delivery and acknowledged only after Slack accepts it. Pending notifications survive a failed send and are retried before subsequent recovery messages. Delivery is at least once: a crash after Slack accepts a message but before persistence can duplicate that message. One reserved concurrent execution serializes each service's state updates. Keep all invocations on the unqualified functions configured by this stack.
 
-CloudWatch reports persist for 30 days. DynamoDB retains the latest report with encryption, point-in-time recovery and deletion protection. Function-name metric dimensions keep environments isolated.
+CloudWatch reports persist for 30 days. Execution failures log the stage and an allowlisted error type; rejected Slack responses also include the HTTP status. Error messages, request URLs and credential values are excluded. DynamoDB retains the latest report with encryption, point-in-time recovery and deletion protection. Function-name metric dimensions keep environments isolated.
 
 Monitor-health alarms also go to Slack, using SNS and a separate notifier Lambda. They cover failed Lambda executions, missing completed checks in two consecutive hourly periods and exhausted Scheduler or asynchronous execution retries. This route does not require the check function or its DynamoDB table to work. Service failure and recovery messages come directly from the check functions, avoiding duplicate service alarms.
 

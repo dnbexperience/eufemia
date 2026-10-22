@@ -146,10 +146,55 @@ describe('Lambda integration', () => {
     expect(JSON.stringify(events)).not.toContain('secret credentials')
   })
 
+  it.each([
+    ['load', 'AccessDeniedException'],
+    ['save', 'ProvisionedThroughputExceededException'],
+    ['webhook secret', 'ResourceNotFoundException'],
+  ])(
+    'logs the %s failure without exposing the message',
+    async (stage, name) => {
+      const output = vi
+        .spyOn(process.stdout, 'write')
+        .mockReturnValue(true)
+      const error = Object.assign(
+        new Error('secret URL and credentials'),
+        { name }
+      )
+      if (stage === 'load') {
+        mocks.dynamodb.mockRejectedValueOnce(error)
+      } else if (stage === 'save') {
+        mocks.dynamodb
+          .mockResolvedValueOnce({})
+          .mockRejectedValueOnce(error)
+      } else {
+        vi.stubEnv('NOTIFICATIONS_ENABLED', 'true')
+        vi.stubEnv('SLACK_WEBHOOK_SECRET_ARN', 'test-webhook')
+        mocks.cdn.mockResolvedValue({
+          ...healthy(),
+          status: 'unhealthy',
+          checks: [],
+        })
+        mocks.secret.mockRejectedValueOnce(error)
+      }
+      await expect(handler()).rejects.toThrow(
+        /^Service monitor could not complete/
+      )
+      const events = output.mock.calls.map(([line]) =>
+        JSON.parse(String(line))
+      )
+      expect(events).toContainEqual(
+        expect.objectContaining({ stage, error: name })
+      )
+      expect(JSON.stringify(events)).not.toContain(
+        'secret URL and credentials'
+      )
+    }
+  )
+
   it('does not acknowledge an alert or emit completion after Slack rejects it', async () => {
     vi.stubEnv('NOTIFICATIONS_ENABLED', 'true')
     vi.stubEnv('SLACK_WEBHOOK_SECRET_ARN', 'test-webhook')
-    vi.spyOn(process.stdout, 'write').mockReturnValue(true)
+    const output = vi.spyOn(process.stdout, 'write').mockReturnValue(true)
     mocks.cdn.mockResolvedValue({
       ...healthy(),
       status: 'unhealthy',
@@ -170,6 +215,16 @@ describe('Lambda integration', () => {
     )?.[0].input.Item
     expect(JSON.parse(saved.state.S).pending.text).toContain('npm latest')
     expect(mocks.dynamodb).toHaveBeenCalledTimes(2)
+    const events = output.mock.calls.map(([line]) =>
+      JSON.parse(String(line))
+    )
+    expect(events).toContainEqual(
+      expect.objectContaining({
+        stage: 'Slack delivery',
+        error: 'SlackNotificationError',
+        httpStatus: 429,
+      })
+    )
     vi.unstubAllGlobals()
   })
 })

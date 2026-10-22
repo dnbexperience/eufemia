@@ -10,6 +10,7 @@ import { checkHttpMcp } from '../../mcp-lambda/src/check-http.ts'
 import { runMonitor } from './monitor.ts'
 import type { Service, State } from './monitor.ts'
 import { sendSlack } from './slack.ts'
+import { logFailure } from './diagnostics.ts'
 
 const dynamodb = new DynamoDBClient({
   maxAttempts: 2,
@@ -53,6 +54,7 @@ export async function handler() {
   if (service !== 'CDN' && service !== 'MCP') {
     throw new Error('Invalid monitor service')
   }
+  let stage = 'configuration'
   try {
     const table = required('STATE_TABLE')
     const notifications = required('NOTIFICATIONS_ENABLED') === 'true'
@@ -72,6 +74,7 @@ export async function handler() {
     }
     const report = await runMonitor(service, notifications, {
       load: async () => {
+        stage = 'load'
         const result = await dynamodb.send(
           new GetItemCommand({
             TableName: table,
@@ -84,6 +87,7 @@ export async function handler() {
           : {}
       },
       save: async (state) => {
+        stage = 'save'
         await dynamodb.send(
           new PutItemCommand({
             TableName: table,
@@ -92,6 +96,7 @@ export async function handler() {
         )
       },
       check: async () => {
+        stage = 'check'
         let githubToken: string | undefined
         let tokenUnavailable = false
         if (service === 'MCP' && process.env.GITHUB_TOKEN_SECRET_ARN) {
@@ -99,7 +104,8 @@ export async function handler() {
             githubToken = await readSecret(
               process.env.GITHUB_TOKEN_SECRET_ARN
             )
-          } catch {
+          } catch (error) {
+            logFailure(service, 'GitHub credential', error)
             tokenUnavailable = true
           }
         }
@@ -123,9 +129,11 @@ export async function handler() {
         return report
       },
       notify: async (text) => {
+        stage = 'webhook secret'
         const webhook = await readSecret(
           required('SLACK_WEBHOOK_SECRET_ARN')
         )
+        stage = 'Slack delivery'
         await sendSlack(webhook, text)
       },
       completed: (report) => {
@@ -134,9 +142,10 @@ export async function handler() {
       },
     })
     return { service, status: report.status }
-  } catch {
-    // SDK and HTTP errors may contain credentials or notification URLs.
+  } catch (error) {
+    logFailure(service, stage, error)
     metric(service, 'MonitorError', 1)
+    // eslint-disable-next-line preserve-caught-error -- Causes may contain secret URLs or credentials.
     throw new Error(
       'Service monitor could not complete. Check monitor configuration and alarms.'
     )

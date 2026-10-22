@@ -1,3 +1,10 @@
+export class SlackNotificationError extends Error {
+  constructor(public readonly httpStatus?: number) {
+    super('Slack notification could not be delivered')
+    this.name = 'SlackNotificationError'
+  }
+}
+
 export async function sendSlack(
   webhook: string,
   text: string,
@@ -29,10 +36,12 @@ export async function sendSlack(
       redirect: 'error',
     })
     if (!response.ok || (await response.text()) !== 'ok') {
-      throw new Error('Rejected notification')
+      throw new SlackNotificationError(response.status)
     }
-  } catch {
+  } catch (error) {
     // Request errors can contain the secret URL.
-    throw new Error('Slack notification could not be delivered')
+    throw error instanceof SlackNotificationError
+      ? error
+      : new SlackNotificationError()
   }
 }

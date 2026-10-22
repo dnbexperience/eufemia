@@ -2,7 +2,10 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 const mocks = vi.hoisted(() => ({ secret: vi.fn(), slack: vi.fn() }))
 vi.mock('../src/secrets.ts', () => ({ readSecret: mocks.secret }))
-vi.mock('../src/slack.ts', () => ({ sendSlack: mocks.slack }))
+vi.mock('../src/slack.ts', async (importOriginal) => ({
+  ...(await importOriginal<typeof import('../src/slack.ts')>()),
+  sendSlack: mocks.slack,
+}))
 import { handler } from '../src/alarm-handler.ts'
 
 const topic = 'arn:aws:sns:eu-north-1:000000000000:test-alerts'
