@@ -1579,6 +1579,49 @@ describe('DatePicker component', () => {
         'november 2026',
       ])
     })
+
+    it.each([
+      ['with', true],
+      ['without', false],
+    ])(
+      'should keep the second calendar after the first one when the user types a start date after it, %s link',
+      async (_, link) => {
+        render(
+          <DatePicker
+            noAnimation
+            range
+            link={link}
+            showInput
+            startMonth="2026-10-01"
+          />
+        )
+
+        await userEvent.click(getDatePickerTriggerButton())
+
+        expect(getCalendarTitles()).toEqual([
+          'oktober 2026',
+          'november 2026',
+        ])
+
+        const [startDay] = getDatePickerInputs()
+
+        await userEvent.click(startDay)
+        await userEvent.keyboard('05122026')
+
+        expect(getDatePickerInputs().map(({ value }) => value)).toEqual([
+          '05',
+          '12',
+          '2026',
+          'dd',
+          'mm',
+          'åååå',
+        ])
+        expect(getCalendarTitles()).toEqual([
+          'desember 2026',
+          'januar 2027',
+        ])
+      }
+    )
   })
 
   it('should receive all dates in the shortcut callback', async () => {
