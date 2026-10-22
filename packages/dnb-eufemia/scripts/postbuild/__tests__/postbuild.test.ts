@@ -262,7 +262,7 @@ describe('babel build', () => {
       '/token-name-policy.cjs',
       '/no-unused-use.cjs',
       '/no-undefined-custom-property.cjs',
-      '/no-not-focus-visible.cjs',
+      '/no-unsafe-focus-visible.cjs',
       '/dnb-ui-lib.min.mjs',
       '/dnb-ui-basis.min.mjs',
       '/dnb-ui-components.min.mjs',

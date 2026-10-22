@@ -1,5 +1,20 @@
 @use './../../../style/core/utilities.scss' as utilities;
 
+@mixin navigationOutline() {
+  --list-item-outline-color: var(--list-item-navigation-outline-color);
+  --list-item-outline-width: 0.125rem;
+  z-index: 2;
+}
+
+// Safari before 15.4 and Firefox before 121 do not support :has(), so
+// they drop the rules that show the outline on keyboard focus.
+// Show the outline while the item has focus instead.
+@mixin withoutHasSupport() {
+  @supports not (selector(:has(*))) {
+    @content;
+  }
+}
+
 .dnb-list {
   &--variant-basic {
     --list-item-padding: 1rem;
@@ -414,17 +429,22 @@
         color: inherit;
       }
 
-      // Handle action states
-      &:not(.dnb-list__item--disabled):hover,
+      // Handle action states. Keep :hover in its own rule, because a
+      // browser without support for :has() or :focus-visible drops the
+      // whole rule.
+      &:not(.dnb-list__item--disabled):hover {
+        @include navigationOutline();
+      }
       &:not(.dnb-list__item--disabled):has(
           > a:focus-visible,
           > .dnb-list__item__action__button:focus-visible
         ) {
-        --list-item-outline-color: var(
-          --list-item-navigation-outline-color
-        );
-        --list-item-outline-width: 0.125rem;
-        z-index: 2;
+        @include navigationOutline();
+      }
+      @include withoutHasSupport() {
+        &:not(.dnb-list__item--disabled):focus-within {
+          @include navigationOutline();
+        }
       }
       &:not(.dnb-list__item--disabled):active {
         --list-item-outline-color: var(
@@ -481,13 +501,18 @@
     }
 
     // Handle accordion states
-    &:not(.dnb-list__item--disabled):has(#{&}__accordion__header:hover),
+    &:not(.dnb-list__item--disabled):has(#{&}__accordion__header:hover) {
+      @include navigationOutline();
+    }
     &:not(.dnb-list__item--disabled):has(
         #{&}__accordion__header:focus-visible
       ) {
-      --list-item-outline-color: var(--list-item-navigation-outline-color);
-      --list-item-outline-width: 0.125rem;
-      z-index: 2;
+      @include navigationOutline();
+    }
+    @include withoutHasSupport() {
+      &__accordion:not(.dnb-list__item--disabled):focus-within {
+        @include navigationOutline();
+      }
     }
     &:not(.dnb-list__item--disabled):has(#{&}__accordion__header:active) {
       --list-item-outline-color: var(
@@ -658,6 +683,13 @@
           )::after {
           border: var(--list-item-outline-width) solid
             var(--list-item-outline-color);
+        }
+        @include withoutHasSupport() {
+          &.dnb-list__item__action:focus-within::after,
+          &.dnb-list__item__accordion:focus-within::after {
+            border: var(--list-item-outline-width) solid
+              var(--list-item-outline-color);
+          }
         }
       }
     }

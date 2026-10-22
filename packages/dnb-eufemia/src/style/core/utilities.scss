@@ -60,7 +60,7 @@
 // support `:focus-visible` and drops every rule that uses it, so those
 // browsers get the rule without the condition.
 @mixin notFocusVisible() {
-  // stylelint-disable-next-line eufemia/no-not-focus-visible
+  // stylelint-disable-next-line eufemia/no-unsafe-focus-visible
   &:not(:focus-visible) {
     @content;
   }

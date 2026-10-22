@@ -1,7 +1,7 @@
 // @vitest-environment node
 
 import stylelint from 'stylelint'
-const noNotFocusVisiblePlugin = require('../rules/no-not-focus-visible.cjs')
+const noUnsafeFocusVisiblePlugin = require('../rules/no-unsafe-focus-visible.cjs')
 
 const lintWithRule = async (code: string) => {
   const result = await stylelint.lint({
@@ -9,9 +9,9 @@ const lintWithRule = async (code: string) => {
     codeFilename: 'test.scss',
     customSyntax: 'postcss-scss',
     config: {
-      plugins: [noNotFocusVisiblePlugin],
+      plugins: [noUnsafeFocusVisiblePlugin],
       rules: {
-        [noNotFocusVisiblePlugin.ruleName]: true,
+        [noUnsafeFocusVisiblePlugin.ruleName]: true,
       },
     },
   })
@@ -19,7 +19,7 @@ const lintWithRule = async (code: string) => {
   return result.results?.[0]?.warnings || []
 }
 
-describe('no-not-focus-visible', () => {
+describe('no-unsafe-focus-visible', () => {
   it('should report :focus-visible inside :not()', async () => {
     const warnings = await lintWithRule(`
       .dnb-button:not(:hover):not(:focus-visible) {
@@ -52,6 +52,44 @@ describe('no-not-focus-visible', () => {
     `)
 
     expect(warnings).toHaveLength(1)
+  })
+
+  it('should report :focus-visible in a selector list with other selectors', async () => {
+    const warnings = await lintWithRule(`
+      .dnb-anchor--no-radius {
+        &,
+        &:hover,
+        &:focus-visible {
+          border-radius: 0;
+        }
+      }
+    `)
+
+    expect(warnings).toHaveLength(1)
+    expect(warnings[0].text).toContain('in a selector list')
+  })
+
+  it('should report :focus-visible inside :has() in a selector list with other selectors', async () => {
+    const warnings = await lintWithRule(`
+      .dnb-list__item:hover,
+      .dnb-list__item:has(> a:focus-visible, > button:focus-visible) {
+        z-index: 2;
+      }
+    `)
+
+    expect(warnings).toHaveLength(1)
+    expect(warnings[0].text).toContain('in a selector list')
+  })
+
+  it('should not report a selector list where every selector uses :focus-visible', async () => {
+    const warnings = await lintWithRule(`
+      .dnb-button:focus-visible,
+      .dnb-list__item:has(> a:focus-visible, > button:focus-visible) {
+        outline: none;
+      }
+    `)
+
+    expect(warnings).toHaveLength(0)
   })
 
   it('should not report :focus-visible outside of :not()', async () => {

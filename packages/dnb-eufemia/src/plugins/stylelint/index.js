@@ -2,7 +2,7 @@ const noDeprecatedColorVariables = require('./rules/no-deprecated-color-variable
 const tokenNamePolicy = require('./rules/token-name-policy.cjs')
 const noUnusedUse = require('./rules/no-unused-use.cjs')
 const noUndefinedCustomProperty = require('./rules/no-undefined-custom-property.cjs')
-const noNotFocusVisible = require('./rules/no-not-focus-visible.cjs')
+const noUnsafeFocusVisible = require('./rules/no-unsafe-focus-visible.cjs')
 const reviewRules = require('../review-rules.js')
 
 /**
@@ -19,7 +19,7 @@ const pluginPack = [
   tokenNamePolicy,
   noUnusedUse,
   noUndefinedCustomProperty,
-  noNotFocusVisible,
+  noUnsafeFocusVisible,
 ]
 
 pluginPack.reviewRules = reviewRules
