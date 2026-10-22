@@ -62,7 +62,7 @@ for (const dir of ['ltr', 'rtl']) {
       await page.emulateMedia({ reducedMotion: 'no-preference' })
       await page.setViewportSize({ width: 1200, height: 900 })
       await page.goto(
-        '/uilib/extensions/sidebar-menu/demos/?focusmode=SidebarMenuResponsiveNavigation'
+        '/web/extensions/sidebar-menu/demos/?focusmode=SidebarMenuResponsiveNavigation'
       )
       await waitForApp(page)
       const shell = page.locator('[data-sidebar-menu-responsive-example]')
@@ -560,7 +560,7 @@ for (const width of [1200, 1440]) {
   }) => {
     await page.setViewportSize({ width, height: 900 })
     await page.goto(
-      '/uilib/extensions/sidebar-menu/demos/?focusmode=SidebarMenuResponsiveNavigation'
+      '/web/extensions/sidebar-menu/demos/?focusmode=SidebarMenuResponsiveNavigation'
     )
     await waitForApp(page)
     const shell = page.locator('[data-sidebar-menu-responsive-example]')
@@ -890,7 +890,7 @@ test('keeps page content stable when compact expansion is interrupted', async ({
   await page.emulateMedia({ reducedMotion: 'no-preference' })
   await page.setViewportSize({ width: 1200, height: 900 })
   await page.goto(
-    '/uilib/extensions/sidebar-menu/demos/?focusmode=SidebarMenuResponsiveNavigation#without-icon'
+    '/web/extensions/sidebar-menu/demos/?focusmode=SidebarMenuResponsiveNavigation#without-icon'
   )
   await waitForApp(page)
   await page.mouse.move(1190, 890)

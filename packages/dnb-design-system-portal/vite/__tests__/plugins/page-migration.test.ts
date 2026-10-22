@@ -13,6 +13,31 @@ import {
 } from '../../client/plugins/portal-pages.shared'
 
 describe('MDX route migration', () => {
+  it.each([
+    'components/list/visual-tests/action-footer',
+    'components/card/visual-tests/inside-scroll-view',
+    'extensions/sidebar-menu/visual-tests/first-paint',
+  ])(
+    'preserves the incoming fixture %s and its legacy URL',
+    (fixturePath) => {
+      const files = scanPageFiles(
+        path.resolve(__dirname, '../../../src/docs')
+      )
+      expect(
+        files.find(({ slug }) => slug === 'web/' + fixturePath)
+      ).toBeDefined()
+      expect(
+        files.some(({ slug }) => slug === 'uilib/' + fixturePath)
+      ).toBe(false)
+      expect(getPageRedirects(files)).toContainEqual(
+        expect.objectContaining({
+          from: '/uilib/' + fixturePath,
+          to: '/web/' + fixturePath + '/',
+        })
+      )
+    }
+  )
+
   it.each(['custom-cells', 'overline-and-subline', 'title-in-center'])(
     'keeps incoming List fixture %s under web with its legacy URL',
     (name) => {
