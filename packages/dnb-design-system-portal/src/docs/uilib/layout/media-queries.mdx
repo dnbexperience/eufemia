@@ -83,14 +83,15 @@ Container mode is more accurate when the app also has a max-width wrapper, gutte
 
 ### What follows the Provider
 
-| API or style                                                           | Behavior inside the application boundary                                                               |
-| ---------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
-| `useMedia()`, `useMediaQuery()`, `MediaQuery`                          | Structured width conditions follow `responsive`                                                        |
-| Components using those APIs                                            | Their JavaScript decisions follow the nearest Provider; their static CSS does not automatically change |
-| `containerAbove/Below/Between` Sass mixins                             | Follow the named CSS container; configure the same thresholds as JavaScript                            |
-| Existing Grid/Flex, spacing, typography, and component media-query CSS | Keep existing viewport behavior unless explicitly converted to container styles                        |
-| Raw query strings, device and preference queries                       | Keep viewport/device semantics                                                                         |
-| `target: 'viewport'` on a hook or `MediaQuery`                         | Ignore inherited container/offset settings                                                             |
+| API or style                                                                                                   | Behavior inside the application boundary                                                               |
+| -------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
+| `useMedia()`, `useMediaQuery()`, `MediaQuery`                                                                  | Structured width conditions follow `responsive`                                                        |
+| Components using those APIs                                                                                    | Their JavaScript decisions follow the nearest Provider; their static CSS does not automatically change |
+| `containerAbove/Below/Between` Sass mixins                                                                     | Follow the named CSS container; configure the same thresholds as JavaScript                            |
+| `Flex.Container` with object `span` values, or with `layoutEngine="css"` and custom `breakpoints` or `queries` | Follow `responsive`, because `useMedia()` selects the spans                                            |
+| Grid, other `Flex.Container` layouts, spacing, typography, and component media-query CSS                       | Keep existing viewport behavior unless explicitly converted to container styles                        |
+| Raw query strings, device and preference queries                                                               | Keep viewport/device semantics                                                                         |
+| `target: 'viewport'` on a hook or `MediaQuery`                                                                 | Ignore inherited container/offset settings                                                             |
 
 Container mode supports structured width conditions with `min`/`max` or `minWidth`/`maxWidth`, named breakpoints, numeric `em` values, and `px`/`em`/`rem` lengths. Arrays and `not` retain their logical meaning; other structured media features are evaluated against the viewport. Use raw strings or `target: 'viewport'` for arbitrary media-query syntax.
 
