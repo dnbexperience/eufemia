@@ -101,3 +101,28 @@ export const TitleInCenter = () => (
 )
 
 <TitleInCenter />
+
+export const CenterTitle = () => (
+  <List.Cell.Center>
+    <List.Cell.Title>Center title</List.Cell.Title>
+  </List.Cell.Center>
+)
+
+<List.Container data-testid="mixed-titles">
+  <List.Item.Basic title="Direct title" data-testid="basic">
+    <CenterTitle />
+  </List.Item.Basic>
+  <List.Item.Action title="Direct title" data-testid="action">
+    <CenterTitle />
+  </List.Item.Action>
+  <List.Item.Action title="Direct title" href="/" data-testid="link">
+    <CenterTitle />
+  </List.Item.Action>
+  <List.Item.Accordion data-testid="accordion">
+    <List.Item.Accordion.Header>
+      <List.Cell.Title>Direct title</List.Cell.Title>
+      <CenterTitle />
+    </List.Item.Accordion.Header>
+    <List.Item.Accordion.Content>Content</List.Item.Accordion.Content>
+  </List.Item.Accordion>
+</List.Container>

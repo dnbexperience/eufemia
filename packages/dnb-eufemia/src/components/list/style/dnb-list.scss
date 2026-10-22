@@ -201,7 +201,9 @@
     $end: '#{&}__end';
     $chevron: '#{&}__chevron';
     $row-grid: ':is(#{&}, #{&}__accordion__header, #{&}__action__button, #{&}__action--href > a)';
-    @at-root #{$row-grid}:has(> #{$center} > #{$title}) {
+    @at-root #{$row-grid}:has(> #{$center} > #{$title}):not(
+          :has(> #{$title})
+        ) {
       --list-item-grid-template-columns: auto auto auto minmax(0, 1fr) 0
         auto auto;
 

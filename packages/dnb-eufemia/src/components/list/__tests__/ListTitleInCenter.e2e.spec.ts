@@ -81,6 +81,35 @@ for (const width of [1024, 600, 360]) {
       }
     }
 
+    for (const row of ['basic', 'action', 'link', 'accordion']) {
+      test(`keeps a center title separate from the direct title (${row})`, async ({
+        page,
+      }) => {
+        const layout = await page
+          .getByTestId('mixed-titles')
+          .getByTestId(row)
+          .evaluate((item) => {
+            const center = item.querySelector('.dnb-list__item__center')
+            const title = center.parentElement.querySelector(
+              ':scope > .dnb-list__item__title'
+            )
+            const centerRect = center.getBoundingClientRect()
+            const titleRect = title.getBoundingClientRect()
+            return {
+              area: getComputedStyle(center).gridArea,
+              overlaps:
+                centerRect.left < titleRect.right &&
+                titleRect.left < centerRect.right &&
+                centerRect.top < titleRect.bottom &&
+                titleRect.top < centerRect.bottom,
+            }
+          })
+
+        expect(layout.area).toBe('center')
+        expect(layout.overlaps).toBe(false)
+      })
+    }
+
     // An overline or subline must only change the vertical alignment of
     // the center cell, not its horizontal place or width.
     for (const variant of ['overline', 'subline', 'both']) {
