@@ -99,7 +99,6 @@ export function getController(id: string): SidebarMenuController {
 
 const responsiveProps = [
   'drawerAt',
-  'breakpoint',
   'compactAt',
   'compactOffset',
   'open',
@@ -113,6 +112,7 @@ const responsiveProps = [
 ] as const
 
 const shellProps = [
+  'breakpoint',
   'children',
   'controllerId',
   'scopeId',
@@ -121,6 +121,56 @@ const shellProps = [
   'sections',
   'dangerouslySetInnerHTML',
 ]
+
+const menuProps = new Set([
+  'openItems',
+  'defaultOpenItems',
+  'openItemsStorageKey',
+  'openItemsStorage',
+  'scrollPositionStorageKey',
+  'scrollPositionStorage',
+  'scrollSelectedItemIntoView',
+  'openOnFind',
+  'onOpenItemsChange',
+  'activeSection',
+  'defaultActiveSection',
+  'sectionLabel',
+  'onActiveSectionChange',
+  'selectedItem',
+  'defaultSelectedItem',
+  'onSelectedItemChange',
+  'space',
+  'innerSpace',
+  'top',
+  'right',
+  'bottom',
+  'left',
+  'style',
+  'role',
+  'autoFocus',
+  'suppressContentEditableWarning',
+  'suppressHydrationWarning',
+])
+
+let navigationElement: HTMLElement | undefined
+
+function isMenuProp(key: string) {
+  if (menuProps.has(key) || /^(aria|data)-[a-z][a-z0-9-]*$/.test(key)) {
+    return true
+  }
+  if (typeof document === 'undefined') {
+    return false
+  }
+  navigationElement ??= document.createElement('nav')
+  if (/^on[A-Z]/.test(key)) {
+    const event = key
+      .replace(/Capture$/, '')
+      .toLowerCase()
+      .replace('doubleclick', 'dblclick')
+    return event in navigationElement
+  }
+  return key in navigationElement
+}
 
 export function useSidebarMenuProps<Props>(
   id: string | undefined,
@@ -142,7 +192,7 @@ export function useSidebarMenuProps<Props>(
             !shellProps.includes(key) &&
             (target === 'responsive'
               ? responsiveProps.some((name) => name === key)
-              : !responsiveProps.some((name) => name === key))
+              : isMenuProp(key))
         )
       )
     )

@@ -159,7 +159,7 @@ Props are shallowly merged over the component's current JSX props in registratio
 
 Default properties such as `defaultOpen` and `defaultSelectedItem` still apply only when the component initializes. Use controlled properties such as `open` and `selectedItem` for live updates. Breakpoint names resolve using the responsive provider's Eufemia configuration, and changes update both media queries and scoped responsive CSS.
 
-The shell owns `children`, `controllerId`, `scopeId`, `styleNonce`, and `dangerouslySetInnerHTML`. These are excluded from `setProps()`. Use `setContent()` or `transformContent()` for `data` and `sections`. Set server-rendered defaults in JSX; retained browser overrides apply after initial hydration and can change the initial layout. Controller mutations are browser-only.
+The shell owns `children`, `controllerId`, `scopeId`, `styleNonce`, and `dangerouslySetInnerHTML`. These are excluded from `setProps()`. Use `drawerAt` rather than the deprecated `breakpoint` alias in controller calls. Unknown component properties are ignored by bundles that do not support them; supported menu properties and navigation attributes still apply. Use `setContent()` or `transformContent()` for `data` and `sections`. Set server-rendered defaults in JSX; retained browser overrides apply after initial hydration and can change the initial layout. Controller mutations are browser-only.
 
 ### SSR and SSG without layout shift
 

@@ -146,6 +146,64 @@ describe('SidebarMenu controller props', () => {
     ).toHaveLength(1)
   })
 
+  it('ignores newer component props while preserving navigation attributes and handlers', () => {
+    const onClick = vi.fn()
+    const error = vi.spyOn(console, 'error')
+    cleanups.push(
+      SidebarMenu.getController(id).setProps(
+        {
+          drawerSide: 'right',
+          'aria-label': 'App navigation',
+          'data-app': 'payments',
+          tabIndex: -1,
+          top: 'small',
+          onClick,
+        } as never,
+        { key: 'app' }
+      )
+    )
+    render(<SidebarMenu.Data controllerId={id} data={items} />)
+    const nav = document.querySelector('nav')
+    expect(nav).not.toHaveAttribute('drawerside')
+    expect(nav).toHaveAttribute('data-app', 'payments')
+    expect(nav).toHaveAttribute('tabindex', '-1')
+    expect(nav).toHaveClass('dnb-space__top--small')
+    expect(nav).toHaveAccessibleName('App navigation')
+    fireEvent.click(nav)
+    expect(onClick).toHaveBeenCalledOnce()
+    expect(error).not.toHaveBeenCalled()
+    error.mockRestore()
+  })
+
+  it('ignores the deprecated breakpoint controller prop and uses drawerAt', () => {
+    setMedia({ width: '75em' })
+    cleanups.push(
+      SidebarMenu.getController(id).setProps(
+        { breakpoint: '90em' } as never,
+        { key: 'legacy' }
+      )
+    )
+    render(
+      <SidebarMenu.ResponsiveProvider controllerId={id} drawerAt="50em">
+        <ResponsiveMenu />
+      </SidebarMenu.ResponsiveProvider>
+    )
+    expect(
+      document.querySelector('[data-testid="mode"]')
+    ).toHaveTextContent('full')
+    act(() => {
+      cleanups.push(
+        SidebarMenu.getController(id).setProps(
+          { drawerAt: '90em' },
+          { key: 'app' }
+        )
+      )
+    })
+    expect(
+      document.querySelector('[data-testid="mode"]')
+    ).toHaveTextContent('drawer')
+  })
+
   it('overrides callbacks until cleanup without calling both handlers', () => {
     const shell = vi.fn()
     const app = vi.fn()

@@ -164,7 +164,7 @@ export type SidebarMenuControllerProps = Partial<
   > &
     Omit<
       SidebarMenuResponsiveProviderProps,
-      'children' | 'controllerId' | 'scopeId' | 'styleNonce'
+      'children' | 'controllerId' | 'scopeId' | 'styleNonce' | 'breakpoint'
     >
 >
 
