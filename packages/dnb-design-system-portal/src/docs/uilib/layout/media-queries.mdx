@@ -98,6 +98,8 @@ Container `em` values use the container's font size and `rem` values use the doc
 
 Nested Providers inherit the nearest configuration. An explicit viewport configuration resets it. Offsets replace inherited offsets and are not added together. Observe the app's layout box so sidebar resizing, dismissal, and independently mounted apps do not need to share internal state.
 
+Container queries update when the container resizes or the document root font size changes. If only the container's own font size changes, its `em` thresholds update at the next resize. Eufemia adds no elements to the container. It adds one hidden probe element at the end of `<body>` to detect root font-size changes.
+
 ### Server rendering
 
 Use `initialValue` and `matchOnSSR` as before. Server output and initial hydration use the same initial result; measurements apply after mount. Prefer CSS container queries for visual reflow before hydration. Conditional React markup can still change after measurement, so no zero-layout-shift guarantee is made. Reflow should keep the same interactive elements mounted to preserve focus and form values.

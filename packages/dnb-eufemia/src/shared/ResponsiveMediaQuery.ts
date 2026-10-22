@@ -89,6 +89,41 @@ type ContainerObserver = {
 const observers = new WeakMap<HTMLElement, ContainerObserver>()
 const observedWidths = new WeakMap<HTMLElement, number>()
 
+const rootProbes = new WeakMap<
+  Document,
+  { element: HTMLElement; users: number }
+>()
+
+function acquireRootProbe(ownerDocument: Document): HTMLElement | null {
+  const existing = rootProbes.get(ownerDocument)
+  if (existing) {
+    existing.users++
+    if (!existing.element.isConnected) {
+      ownerDocument.body?.appendChild(existing.element)
+    }
+    return existing.element
+  }
+  if (!ownerDocument.body) {
+    return null
+  }
+  const element = ownerDocument.createElement('span')
+  element.setAttribute('aria-hidden', 'true')
+  element.setAttribute('data-dnb-responsive-probe', '')
+  element.style.cssText =
+    'position:fixed;top:0;left:0;visibility:hidden;pointer-events:none;box-sizing:content-box;padding:0;border:0;width:1rem;height:0;overflow:hidden;'
+  ownerDocument.body.appendChild(element)
+  rootProbes.set(ownerDocument, { element, users: 1 })
+  return element
+}
+
+function releaseRootProbe(ownerDocument: Document) {
+  const entry = rootProbes.get(ownerDocument)
+  if (entry && --entry.users === 0) {
+    entry.element.remove()
+    rootProbes.delete(ownerDocument)
+  }
+}
+
 function observeContainer(element: HTMLElement): ContainerObserver {
   const existing = observers.get(element)
   if (existing) {
@@ -106,18 +141,16 @@ function observeContainer(element: HTMLElement): ContainerObserver {
           }
           notify()
         })
-  // Observe an em-sized probe so font-size changes also update queries.
-  const probe = element.ownerDocument.createElement('span')
-  probe.setAttribute('aria-hidden', 'true')
-  probe.style.cssText =
-    'position:absolute;visibility:hidden;pointer-events:none;font:inherit;box-sizing:content-box;padding:0;border:0;width:1em;height:0;overflow:hidden;'
-  element.appendChild(probe)
+  // Never add elements to the application container itself: they would
+  // change which of its children match `:last-child` and similar selectors.
+  // A shared probe outside the application reports root font-size changes.
+  const rootProbe = observer
+    ? acquireRootProbe(element.ownerDocument)
+    : null
   observer?.observe(element)
-  observer?.observe(probe)
-  const rootProbe = probe.cloneNode() as HTMLElement
-  rootProbe.style.width = '1rem'
-  element.appendChild(rootProbe)
-  observer?.observe(rootProbe)
+  if (rootProbe) {
+    observer.observe(rootProbe)
+  }
   const store = {
     subscribe(listener: () => void) {
       listeners.add(listener)
@@ -125,8 +158,9 @@ function observeContainer(element: HTMLElement): ContainerObserver {
         listeners.delete(listener)
         if (!listeners.size) {
           observer?.disconnect()
-          probe.remove()
-          rootProbe.remove()
+          if (rootProbe) {
+            releaseRootProbe(element.ownerDocument)
+          }
           observers.delete(element)
           observedWidths.delete(element)
         }

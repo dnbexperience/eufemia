@@ -404,6 +404,44 @@ describe('Available-width media queries', () => {
     expect(read()).toBe('large')
   })
 
+  it('adds no elements to the application containers', () => {
+    const first = container(300)
+    const second = container(1100)
+    const Read = () => <p>{useMediaQuery({ when: { max: 'small' } })}</p>
+    const { unmount } = render(
+      <>
+        <Provider
+          responsive={{ target: 'container', containerRef: first }}
+        >
+          <Read />
+        </Provider>
+        <Provider
+          responsive={{ target: 'container', containerRef: second }}
+        >
+          <Read />
+        </Provider>
+      </>
+    )
+    expect(first.current.children).toHaveLength(0)
+    expect(second.current.children).toHaveLength(0)
+    const probes = document.querySelectorAll(
+      'body > [data-dnb-responsive-probe]'
+    )
+    expect(probes).toHaveLength(1)
+    expect(
+      observers.filter((observer) =>
+        observer.observe.mock.calls.some(
+          ([target]) => target === probes[0]
+        )
+      )
+    ).toHaveLength(2)
+
+    unmount()
+    expect(
+      document.querySelectorAll('[data-dnb-responsive-probe]')
+    ).toHaveLength(0)
+  })
+
   it('fails explicitly for unsupported lengths and never substitutes the viewport when observation is unavailable', () => {
     const ref = container(700)
     expect(() =>
