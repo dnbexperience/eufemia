@@ -65,6 +65,7 @@ export default function Popover(props: PopoverProps) {
     focusOnOpenElement,
     onFocusComplete,
     restoreFocus = true,
+    restoreFocusTo,
     preventClose = false,
     hideCloseButton = false,
     closeButtonProps,
@@ -123,6 +124,9 @@ export default function Popover(props: PopoverProps) {
   const previousTargetElementRef =
     useRef<PopoverResolvedTargetElement | null>(null)
   const focusRestoreAnimationRef = useRef<number | null>(null)
+  const wasOpenRef = useRef(false)
+  const activeElementRef = useRef<HTMLElement | null>(null)
+  const shouldRestoreFocusRef = useRef(true)
   const touchStartTargetRef = useRef<EventTarget | null>(null)
   const touchMovedRef = useRef(false)
 
@@ -227,24 +231,71 @@ export default function Popover(props: PopoverProps) {
       : focusOnOpenElement
   }, [focusOnOpenElement])
 
-  const focusTrigger = useCallback(() => {
-    if (!restoreFocus) {
-      return undefined
+  useEffect(() => {
+    if (wasOpenRef.current === isOpen) {
+      return
     }
-    const element = getCurrentTriggerElement()
-    if (!element || typeof element.focus !== 'function') {
-      return undefined
-    }
+    wasOpenRef.current = isOpen
 
     if (focusRestoreAnimationRef.current !== null) {
       cancelAnimationFrame(focusRestoreAnimationRef.current)
+      focusRestoreAnimationRef.current = null
+    }
+
+    if (isOpen) {
+      const activeElement = document.activeElement
+      activeElementRef.current =
+        activeElement instanceof HTMLElement &&
+        activeElement !== document.body
+          ? activeElement
+          : null
+      shouldRestoreFocusRef.current = true
+      return
+    }
+
+    const opener = activeElementRef.current
+    activeElementRef.current = null
+
+    if (!restoreFocus || !shouldRestoreFocusRef.current) {
+      return
     }
 
     focusRestoreAnimationRef.current = requestAnimationFrame(() => {
-      element.focus({ preventScroll: true })
       focusRestoreAnimationRef.current = null
+      let explicitTarget: HTMLElement | null = null
+      try {
+        explicitTarget =
+          typeof restoreFocusTo === 'function'
+            ? restoreFocusTo()
+            : getRefElement(restoreFocusTo || null)
+      } catch {
+        // Fall back to the trigger or opener if the custom target fails.
+      }
+
+      for (const element of [
+        explicitTarget,
+        getCurrentTriggerElement(),
+        opener,
+      ]) {
+        if (
+          !(element instanceof HTMLElement) ||
+          !element.isConnected ||
+          element === document.body
+        ) {
+          continue
+        }
+
+        try {
+          element.focus({ preventScroll: true })
+          if (document.activeElement === element) {
+            break
+          }
+        } catch {
+          // Try the next target if this element cannot receive focus.
+        }
+      }
     })
-  }, [getCurrentTriggerElement, restoreFocus])
+  }, [isOpen, getCurrentTriggerElement, restoreFocus, restoreFocusTo])
 
   useEffect(() => {
     return () => {
@@ -258,9 +309,9 @@ export default function Popover(props: PopoverProps) {
     if (preventClose) {
       return undefined // stop here
     }
+    shouldRestoreFocusRef.current = true
     setOpenState(false)
-    focusTrigger()
-  }, [focusTrigger, setOpenState, preventClose])
+  }, [setOpenState, preventClose])
 
   const openPopover = useCallback(() => {
     setOpenState(true)
@@ -380,6 +431,7 @@ export default function Popover(props: PopoverProps) {
           toggle(false)
         } else {
           // Leave the focus where the user clicked or tapped
+          shouldRestoreFocusRef.current = false
           setOpenState(false)
         }
       }
