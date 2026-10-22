@@ -20,8 +20,10 @@ function simulateNoHasSupport(page: Page) {
           removed++
         } else if (
           rule instanceof CSSSupportsRule &&
-          rule.conditionText.replace(/\s/g, '') ===
-            'not(selector(:has(*)))'
+          // The production build minifies it to "not selector(:has(*))"
+          /^not\s*\(?\s*selector\(:has\(\*\)\)\s*\)?$/.test(
+            rule.conditionText
+          )
         ) {
           const inner = [...rule.cssRules].map(({ cssText }) => cssText)
           list.deleteRule(i)
