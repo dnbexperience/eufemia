@@ -114,7 +114,7 @@ describe('HeightAnimation', () => {
       expect(getElement()).not.toHaveClass(
         'dnb-height-animation--animating'
       )
-      expect(getElement().style.height).not.toBe('0px')
+      expect(getElement()).not.toHaveStyle({ height: '0px' })
     } finally {
       now.mockRestore()
       adjust.mockRestore()
