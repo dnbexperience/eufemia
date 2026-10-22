@@ -1622,6 +1622,76 @@ describe('DatePicker component', () => {
         ])
       }
     )
+
+    it.each([
+      ['with', true],
+      ['without', false],
+    ])(
+      'should show the months set by a shortcut, %s link',
+      async (_, link) => {
+        render(
+          <DatePicker
+            noAnimation
+            range
+            link={link}
+            shortcuts={[
+              {
+                title: 'Today',
+                startDate: '2026-10-22',
+                endDate: '2026-10-22',
+                startMonth: '2026-09-01',
+              },
+              {
+                title: 'Same month',
+                startDate: '2026-10-05',
+                endDate: '2026-10-22',
+                endMonth: new Date('2026-12-01'),
+              },
+              {
+                title: 'From function',
+                startDate: '2026-10-05',
+                endDate: '2026-10-22',
+                startMonth: () => new Date('2026-08-01'),
+                endMonth: () => new Date('2026-09-01'),
+              },
+              {
+                title: 'Months in wrong order',
+                startDate: '2026-10-05',
+                endDate: '2026-10-22',
+                startMonth: '2026-10-01',
+                endMonth: '2026-09-01',
+              },
+            ]}
+          />
+        )
+
+        await userEvent.click(getDatePickerTriggerButton())
+
+        await clickShortcut('Today')
+        expect(getCalendarTitles()).toEqual([
+          'september 2026',
+          'oktober 2026',
+        ])
+
+        await clickShortcut('Same month')
+        expect(getCalendarTitles()).toEqual([
+          'oktober 2026',
+          'desember 2026',
+        ])
+
+        await clickShortcut('From function')
+        expect(getCalendarTitles()).toEqual([
+          'august 2026',
+          'september 2026',
+        ])
+
+        await clickShortcut('Months in wrong order')
+        expect(getCalendarTitles()).toEqual([
+          'oktober 2026',
+          'november 2026',
+        ])
+      }
+    )
   })
 
   it('should receive all dates in the shortcut callback', async () => {
