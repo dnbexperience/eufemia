@@ -415,9 +415,15 @@ function scrollExpandedContentIntoView(
     return
   }
 
-  const viewport = scrollView?.getBoundingClientRect() ?? {
-    top: 0,
-    bottom: window.innerHeight,
+  // A scroll container can reach beyond the window, for example a tall box
+  // on a page that also scrolls. Only the part inside the window is visible.
+  const containerRect = scrollView?.getBoundingClientRect()
+  const viewport = {
+    top: Math.max(containerRect?.top ?? 0, 0),
+    bottom: Math.min(
+      containerRect?.bottom ?? window.innerHeight,
+      window.innerHeight
+    ),
   }
   const contentRect = content.getBoundingClientRect()
   const hiddenBelow = contentRect.bottom - viewport.bottom

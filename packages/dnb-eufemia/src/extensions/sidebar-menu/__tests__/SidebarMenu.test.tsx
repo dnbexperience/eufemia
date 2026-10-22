@@ -2003,6 +2003,83 @@ describe('SidebarMenu', () => {
     vi.useRealTimers()
   })
 
+  it('scrolls a wrapper that is taller than the window until the content is inside the window', () => {
+    vi.useFakeTimers()
+    const windowScrollTo = vi
+      .spyOn(window, 'scrollTo')
+      .mockImplementation(() => undefined)
+    const innerHeight = window.innerHeight
+    Object.defineProperty(window, 'innerHeight', {
+      configurable: true,
+      value: 800,
+    })
+
+    try {
+      render(
+        <aside id="app-aside" style={{ overflowY: 'auto' }}>
+          <SidebarMenu.Root>
+            <SidebarMenu.Accordion id="products" text="Products">
+              <SidebarMenu.Item id="accounts" text="Accounts" />
+            </SidebarMenu.Accordion>
+          </SidebarMenu.Root>
+        </aside>
+      )
+
+      const wrapper = document.getElementById('app-aside') as HTMLElement
+      const accordion = document.querySelector(
+        '[data-sidebar-menu-id="products"]'
+      ) as HTMLElement
+      const trigger = accordion.querySelector(
+        '.dnb-sidebar-menu__accordion__trigger'
+      ) as HTMLElement
+      const content = accordion.querySelector(
+        '.dnb-sidebar-menu__accordion__content'
+      ) as HTMLElement
+      const wrapperScrollTo = vi.fn()
+      wrapper.scrollTop = 20
+      Object.defineProperties(wrapper, {
+        scrollTo: { configurable: true, value: wrapperScrollTo },
+        scrollHeight: { configurable: true, value: 2000 },
+        clientHeight: { configurable: true, value: 1400 },
+      })
+      // The wrapper ends 600px below the window, so the window hides the
+      // bottom 260px of the content, not the wrapper
+      vi.spyOn(wrapper, 'getBoundingClientRect').mockReturnValue({
+        top: 0,
+        bottom: 1400,
+        height: 1400,
+      } as DOMRect)
+      vi.spyOn(trigger, 'getBoundingClientRect').mockReturnValue({
+        top: 600,
+        bottom: 644,
+        height: 44,
+      } as DOMRect)
+      vi.spyOn(content, 'getBoundingClientRect').mockReturnValue({
+        top: 644,
+        bottom: 1060,
+        height: 416,
+      } as DOMRect)
+
+      fireEvent.click(trigger)
+      act(() => vi.advanceTimersToNextTimer())
+
+      // 260px hidden + 16px bottom inset, from scrollTop 20
+      expect(wrapperScrollTo).toHaveBeenCalledTimes(1)
+      expect(wrapperScrollTo).toHaveBeenCalledWith({
+        top: 296,
+        behavior: 'smooth',
+      })
+      expect(windowScrollTo).not.toHaveBeenCalled()
+    } finally {
+      Object.defineProperty(window, 'innerHeight', {
+        configurable: true,
+        value: innerHeight,
+      })
+      windowScrollTo.mockRestore()
+      vi.useRealTimers()
+    }
+  })
+
   it('scrolls the window when no wrapper can scroll the menu', () => {
     vi.useFakeTimers()
     const windowScrollTo = vi
