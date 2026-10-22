@@ -1,0 +1,148 @@
+---
+fullscreen: true
+hideInMenu: true
+search: false
+---
+
+import { List, Avatar, DateFormat } from '@dnb/eufemia/src'
+import { Field, Form, Value } from '@dnb/eufemia/src/extensions/forms'
+import { fish_medium } from '@dnb/eufemia/src/icons'
+
+export const longTitle =
+  'A long title that wraps onto more lines because it has more words than fit on one line of the row'
+
+export const texts = {
+  title: {},
+  subline: { subline: true },
+  overline: { overline: true },
+  'overline-subline': { overline: true, subline: true },
+  long: { long: true },
+  'overline-long': { overline: true, long: true },
+}
+
+export const Title = ({ overline, subline, long }) => (
+  <List.Cell.Title>
+    {overline && (
+      <List.Cell.Title.Overline>Overline</List.Cell.Title.Overline>
+    )}
+    <span data-testid="title-text">{long ? longTitle : 'Title'}</span>
+    {subline && <List.Cell.Title.Subline>Subline</List.Cell.Title.Subline>}
+  </List.Cell.Title>
+)
+
+export const Start = ({ start }) =>
+  start === 'avatar' ? (
+    <List.Cell.Start>
+      <Avatar size="medium" hasLabel>
+        A
+      </Avatar>
+    </List.Cell.Start>
+  ) : start === 'date' ? (
+    <List.Cell.Start fontSize="small">
+      <DateFormat
+        value={new Date('2026-02-07')}
+        dateStyle="medium"
+        hideCurrentYear
+      />
+    </List.Cell.Start>
+  ) : null
+
+export const Cells = ({ start, text }) => (
+  <>
+    {Start({ start })}
+    {Title(texts[text])}
+    <List.Cell.End>
+      <Value.Currency value={1234} />
+    </List.Cell.End>
+  </>
+)
+
+export const Row = ({ type, start, text }) => {
+  const testId = `${type}-${start}-${text}`
+  const icon = start === 'icon' ? fish_medium : undefined
+  switch (type) {
+    case 'basic':
+      return (
+        <List.Item.Basic icon={icon} data-testid={testId}>
+          {Cells({ start, text })}
+        </List.Item.Basic>
+      )
+    case 'action':
+      return (
+        <List.Item.Action icon={icon} data-testid={testId}>
+          {Cells({ start, text })}
+        </List.Item.Action>
+      )
+    case 'action-chevron-left':
+      return (
+        <List.Item.Action
+          icon={icon}
+          chevronPosition="left"
+          data-testid={testId}
+        >
+          {Cells({ start, text })}
+        </List.Item.Action>
+      )
+    case 'link':
+      return (
+        <List.Item.Action
+          icon={icon}
+          href="https://eufemia.dnb.no/"
+          target="_blank"
+          data-testid={testId}
+        >
+          {Cells({ start, text })}
+        </List.Item.Action>
+      )
+    case 'accordion':
+      return (
+        <List.Item.Accordion icon={icon} data-testid={testId}>
+          <List.Item.Accordion.Header>
+            {Cells({ start, text })}
+          </List.Item.Accordion.Header>
+          <List.Item.Accordion.Content>
+            Content
+          </List.Item.Accordion.Content>
+        </List.Item.Accordion>
+      )
+  }
+}
+
+export const TitleLine = () => (
+  <>
+    {['basic', 'action', 'action-chevron-left', 'link', 'accordion'].map(
+      (type) =>
+        ['icon', 'avatar', 'date'].map((start) => (
+          <List.Container key={`${type}-${start}`} bottom>
+            {Object.keys(texts).map((text) => (
+              <Row key={text} type={type} start={start} text={text} />
+            ))}
+          </List.Container>
+        ))
+    )}
+    <Form.Handler defaultData={{ selection: 'title' }}>
+      <Field.Selection variant="radio" path="/selection" label="Radio">
+        {() => (
+          <List.Container>
+            {Object.keys(texts).map((text) => (
+              <List.Item.Basic
+                key={text}
+                data-testid={`radio-radio-${text}`}
+              >
+                <List.Cell.Start>
+                  <Field.Option value={text} title="Option" />
+                </List.Cell.Start>
+                {Title(texts[text])}
+                <List.Cell.End>
+                  <Value.Currency value={1234} />
+                </List.Cell.End>
+              </List.Item.Basic>
+            ))}
+          </List.Container>
+        )}
+      </Field.Selection>
+    </Form.Handler>
+  </>
+)
+
+<TitleLine />
