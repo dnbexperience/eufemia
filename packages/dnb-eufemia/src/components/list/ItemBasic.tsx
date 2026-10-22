@@ -12,6 +12,16 @@ export type ItemBasicProps = {
   title?: ReactNode
 } & Omit<ItemContentProps, 'title'>
 
+function isSetGap(
+  props: Omit<ItemBasicProps, 'icon' | 'title' | 'children'>,
+  key: 'gap' | 'rowGap'
+) {
+  return (
+    Object.prototype.hasOwnProperty.call(props, key) &&
+    props[key] !== false
+  )
+}
+
 function ItemBasic(props: ItemBasicProps) {
   const { icon, title, children, element, layoutEngine, ...rest } = props
 
@@ -20,9 +30,13 @@ function ItemBasic(props: ItemBasicProps) {
   // Flex props into CSS gaps on the row grid, where every empty grid column
   // adds space. The legacy engine only adds space between the cells, so use
   // it when one of these props is set. An explicit layoutEngine still wins.
-  const usesLegacySpacing = Boolean(
-    rest.gap || rest.rowGap || (rest.divider && rest.divider !== 'space')
-  )
+  // A forwarded `gap={undefined}` or `rowGap={undefined}` counts as set: it
+  // replaces the `false` that ItemContent passes, so Flex uses its default
+  // small gap.
+  const usesLegacySpacing =
+    isSetGap(rest, 'gap') ||
+    isSetGap(rest, 'rowGap') ||
+    Boolean(rest.divider && rest.divider !== 'space')
   const appliedLayoutEngine =
     layoutEngine ?? (usesLegacySpacing ? 'legacy' : 'css')
 

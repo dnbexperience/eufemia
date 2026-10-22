@@ -195,6 +195,42 @@ describe('ItemBasic', () => {
       ])
     })
 
+    // A wrapper that forwards its own props passes `gap={undefined}`. That
+    // replaces the `gap={false}` of the row, so Flex uses its default small
+    // gap. The expected classes are the ones v11.15.2 rendered.
+    it('uses the legacy layout engine when gap is forwarded as undefined', () => {
+      const row = renderRow({ gap: undefined })
+
+      expect(Array.from(row.classList)).toEqual([
+        'dnb-space',
+        'dnb-flex-container',
+        'dnb-flex-container--direction-horizontal',
+        'dnb-flex-container--justify-space-between',
+        'dnb-flex-container--align-flex-start',
+        'dnb-flex-container--spacing-small',
+        'dnb-flex-container--row-gap-small',
+        'dnb-flex-container--divider-space',
+        'dnb-list__item',
+        'dnb-t__size--basis',
+      ])
+    })
+
+    it('uses the legacy layout engine when rowGap is forwarded as undefined', () => {
+      const row = renderRow({ rowGap: undefined })
+
+      expect(Array.from(row.classList)).toEqual([
+        'dnb-space',
+        'dnb-flex-container',
+        'dnb-flex-container--direction-horizontal',
+        'dnb-flex-container--justify-space-between',
+        'dnb-flex-container--align-flex-start',
+        'dnb-flex-container--row-gap-small',
+        'dnb-flex-container--divider-space',
+        'dnb-list__item',
+        'dnb-t__size--basis',
+      ])
+    })
+
     it('uses the legacy layout engine when divider is set', () => {
       const row = renderRow({ divider: 'line' })
 
