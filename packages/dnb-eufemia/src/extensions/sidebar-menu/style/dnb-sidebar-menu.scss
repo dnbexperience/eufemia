@@ -2,6 +2,11 @@
 @use 'sidebar-menu-compact' as compact;
 
 .dnb-sidebar-menu {
+  // When an accordion opens, the menu scrolls its scroll container. WebKit
+  // can use a menu item as the scroll anchor of the page, and then scrolls
+  // the page as well to keep that item in place.
+  overflow-anchor: none;
+
   --sidebar-menu-action-padding-inline: 1rem;
   --sidebar-menu-action-padding-block: 0.5rem;
   --sidebar-menu-action-gap: 0.5rem;
