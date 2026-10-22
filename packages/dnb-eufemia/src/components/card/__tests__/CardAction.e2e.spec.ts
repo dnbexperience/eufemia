@@ -1,9 +1,19 @@
-import { test, expect, type Locator } from '@playwright/test'
+import { test, expect, type Locator, type Page } from '@playwright/test'
 
 function getOutline(card: Locator) {
   return card.evaluate(
     (element) => getComputedStyle(element, '::before').boxShadow
   )
+}
+
+function getCards(page: Page) {
+  const action = page.locator(
+    '[data-visual-test="card-action-nested-card"] .dnb-card-action'
+  )
+  const ownCard = action.locator('> .dnb-card')
+  const nestedCard = ownCard.locator('.dnb-card')
+
+  return { action, ownCard, nestedCard }
 }
 
 test.describe('Card.Action with a nested Card', () => {
@@ -17,14 +27,10 @@ test.describe('Card.Action with a nested Card', () => {
     )
   })
 
-  test('should only change the outline of its own card', async ({
+  test('should only change the outline of its own card on hover and press', async ({
     page,
   }) => {
-    const action = page.locator(
-      '[data-visual-test="card-action-nested-card"] .dnb-card-action'
-    )
-    const ownCard = action.locator('> .dnb-card')
-    const nestedCard = ownCard.locator('.dnb-card')
+    const { action, ownCard, nestedCard } = getCards(page)
     await expect(nestedCard).toHaveCount(1)
 
     const ownOutlineAtRest = await getOutline(ownCard)
@@ -35,17 +41,27 @@ test.describe('Card.Action with a nested Card', () => {
     expect(await getOutline(ownCard)).not.toBe(ownOutlineAtRest)
     expect(await getOutline(nestedCard)).toBe(nestedOutlineAtRest)
 
-    // Active
+    // Press
     await page.mouse.down()
     expect(await getOutline(ownCard)).not.toBe(ownOutlineAtRest)
     expect(await getOutline(nestedCard)).toBe(nestedOutlineAtRest)
     await page.mouse.up()
+  })
 
-    // Keyboard focus
-    await page.mouse.move(0, 0)
+  test('should only change the outline of its own card on keyboard focus', async ({
+    page,
+  }) => {
+    const { action, ownCard, nestedCard } = getCards(page)
+    await expect(nestedCard).toHaveCount(1)
+
+    const ownOutlineAtRest = await getOutline(ownCard)
+    const nestedOutlineAtRest = await getOutline(nestedCard)
+
+    // Use the keyboard to focus the action
     await page.keyboard.press('a')
     await action.focus()
     await expect(action).toBeFocused()
+
     expect(await getOutline(ownCard)).not.toBe(ownOutlineAtRest)
     expect(await getOutline(nestedCard)).toBe(nestedOutlineAtRest)
   })
