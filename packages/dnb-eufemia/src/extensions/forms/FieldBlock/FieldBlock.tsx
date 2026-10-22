@@ -431,7 +431,11 @@ function FieldBlock<Value = unknown>(props: FieldBlockProps<Value>) {
         .filter(
           (record) =>
             record.type === type &&
-            (type !== 'error' || record.showInitially || record.show)
+            (type !== 'error' ||
+              record.showInitially ||
+              // The server never shows a revealed error, so the summary
+              // must not show it while it hydrates
+              (canUseDOM && record.show))
         )
         .flatMap(getMessagesFromError)
         .filter(Boolean)
