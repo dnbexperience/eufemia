@@ -61,10 +61,12 @@ jobs:
             branch=$GITHUB_REF_NAME
           fi
 
-          if [ "$branch" = main ]; then
-            echo "::error::The design tokens cannot be committed to main. Choose another output branch."
-            exit 1
-          fi
+          case "$branch" in
+            main | release | beta | alpha | next | *.x)
+              echo "::error::The design tokens cannot be committed to a branch named \"$branch\". Choose another output branch."
+              exit 1
+              ;;
+          esac
 
           echo "BRANCH=$branch" >> "$GITHUB_ENV"
           if git rev-parse --verify --quiet "refs/remotes/origin/$branch" > /dev/null; then
