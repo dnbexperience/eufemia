@@ -12,6 +12,12 @@ import { Button, List } from '@dnb/eufemia/src'
   <List.Container>
     <List.Item.Action title="First row" onClick={() => null} />
     <List.Item.Action title="Middle row" onClick={() => null} />
+    <List.Item.Action title="Link row" href="/uilib/components/list/" />
+    <List.Item.Accordion title="Accordion row">
+      <List.Item.Accordion.Content>
+        Accordion content
+      </List.Item.Accordion.Content>
+    </List.Item.Accordion>
     <List.Item.Action title="Last row" onClick={() => null} />
   </List.Container>
 </List.Card>

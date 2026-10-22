@@ -89,4 +89,18 @@ test.describe('List.Card outline', () => {
       expect(await getBorderWidths(row), title).toEqual(fullOutline)
     }
   })
+
+  test('should show the full outline on link and accordion rows on keyboard focus', async ({
+    page,
+  }) => {
+    for (const [title, focusable] of [
+      ['Link row', 'a'],
+      ['Accordion row', '.dnb-list__item__accordion__header'],
+    ]) {
+      const row = getRow(page, title)
+      await tabTo(page, row.locator(focusable))
+
+      expect(await getBorderWidths(row), title).toEqual(fullOutline)
+    }
+  })
 })
