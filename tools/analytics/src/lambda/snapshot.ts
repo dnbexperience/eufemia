@@ -5,7 +5,9 @@ import {
   aggregatePortalViewsRaw,
   retrieveComponentUsageTotals,
   retrieveMcpUsageDaily,
-  retrievePortalViews,
+  retrievePortalViewsPerDay,
+  retrievePortalViewsPerLocaleAndTheme,
+  retrieveTopPortalPathsPerMonth,
 } from './retrieve.js'
 import { requireEnv } from './env.js'
 import {
@@ -17,10 +19,9 @@ import {
   type McpTransportUsage,
   type McpUsageDaily,
   type McpUsageSection,
+  type PortalViewTrendsSection,
   type Snapshot,
 } from './snapshot-store.js'
-
-const SNAPSHOT_LIMIT = 1000
 
 const METRIC_NAMESPACE = 'Eufemia/Analytics'
 
@@ -39,9 +40,9 @@ type MetricName =
  * The namespace, metric name, and FunctionName dimension must stay in sync with
  * the matching alarm in infra/main.tf; a mismatch silently leaves the alarm at
  * INSUFFICIENT_DATA. Metrics and their alarms:
- * - SnapshotPortalViewCount (`snapshot_empty`): a sustained 0 catches a run
- *   that succeeds but writes a snapshot with no page views, which the
- *   Errors/Invocations alarms cannot see.
+ * - SnapshotPortalViewCount (`snapshot_empty`): page views in the last two
+ *   days. A sustained 0 catches a run that succeeds while page views stop
+ *   arriving, which the Errors/Invocations alarms cannot see.
  * - McpUsageBuildFailure (`snapshot_mcp_build_failed`): emitted when the
  *   durable rollup refresh fails or buildMcpUsage cannot build the section;
  *   neither increments Lambda Errors.
@@ -96,11 +97,10 @@ function windowStart(days: number): string {
   return since.toISOString().slice(0, 10)
 }
 
-// Recompute raw page views into the durable portal_views_daily rollup. This is
-// retention only — it preserves the anonymous view-dimension history (queryable
-// via Athena) beyond the raw rows' 13-month expiry; the dashboard does not read
-// it yet. Best-effort at the call site: a failure emits a metric but does not
-// fail the snapshot run.
+// Recompute raw page views into the durable portal_views_daily rollup, which
+// keeps the anonymous view-dimension history beyond the raw rows' 13-month
+// expiry and feeds the dashboard's page-view trends. Best-effort at the call
+// site: a failure emits a metric and the trends show the existing history.
 //
 // Scheduled runs pass no `sinceDt` and recompute only the recent tail. A one-time
 // historical backfill (for page-views recorded before this rollup existed) is a
@@ -118,6 +118,50 @@ async function refreshPortalViewsRollup(
     'portal-views-daily/',
     await aggregatePortalViewsRaw(from)
   )
+}
+
+const PORTAL_VIEW_TREND_MONTHS = 13
+const PORTAL_VIEW_TOP_PATHS = 20
+const RECENT_VIEW_DAYS = 2
+
+// First day of the month `months - 1` months back, so the range holds whole
+// calendar months, including the current one.
+function monthsWindowStart(months: number): string {
+  const now = new Date()
+
+  return new Date(
+    Date.UTC(now.getUTCFullYear(), now.getUTCMonth() - (months - 1), 1)
+  )
+    .toISOString()
+    .slice(0, 10)
+}
+
+/**
+ * Build the page-view trends section. First refreshes the recent tail of the
+ * durable rollup, so the trends include today, then reads up to 13 calendar
+ * months of it. A failed refresh still shows the existing history; a failed
+ * read propagates, so the previous snapshot stays in place.
+ */
+async function buildPortalViewTrends(
+  bucket: string,
+  sinceDt?: string
+): Promise<PortalViewTrendsSection> {
+  try {
+    await refreshPortalViewsRollup(bucket, sinceDt)
+  } catch (error) {
+    // eslint-disable-next-line no-console -- surface the failure in CloudWatch Logs
+    console.error('Failed to refresh the portal-view daily rollup', error)
+    emitMetric('PortalViewsRollupFailure', 1)
+  }
+
+  const from = monthsWindowStart(PORTAL_VIEW_TREND_MONTHS)
+  const [perDay, topPathsPerMonth, perLocaleAndTheme] = await Promise.all([
+    retrievePortalViewsPerDay(from),
+    retrieveTopPortalPathsPerMonth(from, PORTAL_VIEW_TOP_PATHS),
+    retrievePortalViewsPerLocaleAndTheme(from),
+  ])
+
+  return { perDay, topPathsPerMonth, perLocaleAndTheme }
 }
 
 function sumBy<Key extends string>(
@@ -303,8 +347,8 @@ export async function buildComponentUsage(
 /**
  * Scheduled dashboard snapshot generator (EventBridge, off the request path).
  *
- * Queries Athena for the latest anonymous page views and the MCP usage section,
- * refreshes the durable daily rollups, and writes the snapshot to S3. Runs
+ * Refreshes the durable daily rollups, reads the page-view trends and the MCP
+ * usage section from Athena, and writes the snapshot to S3. Runs
  * under the analytics execution role (Athena + S3 write); keeping it separate
  * from the read endpoint lets that endpoint run with a read-only role.
  *
@@ -314,27 +358,17 @@ export async function buildComponentUsage(
  */
 export async function handler(event?: { sinceDt?: string }): Promise<{
   generatedAt: string
-  count: number
+  recentViews: number
 }> {
   const bucket = requireEnv('DATA_BUCKET')
 
-  // Fetch the dashboard's portal-view rows (load-bearing) and refresh the durable
-  // page-view rollup concurrently. The rollup refresh is retention only and must
-  // not fail the run, so its failure is caught and surfaced via a metric.
-  const [portalViews] = await Promise.all([
-    retrievePortalViews({ limit: SNAPSHOT_LIMIT }),
-    refreshPortalViewsRollup(bucket, event?.sinceDt).catch((error) => {
-      // eslint-disable-next-line no-console -- surface the failure in CloudWatch Logs
-      console.error(
-        'Failed to refresh the portal-view daily rollup',
-        error
-      )
-      emitMetric('PortalViewsRollupFailure', 1)
-    }),
-  ])
+  const portalViewTrends = await buildPortalViewTrends(
+    bucket,
+    event?.sinceDt
+  )
 
   // The MCP section is additive; a failure here (e.g. a missing Glue grant or a
-  // slow query) must not discard the portal views that were just fetched. Fall
+  // slow query) must not discard the page-view trends that were just built. Fall
   // back to the empty section so the rest of the dashboard keeps updating.
   let mcpUsage: McpUsageSection
   try {
@@ -352,7 +386,7 @@ export async function handler(event?: { sinceDt?: string }): Promise<{
   // section. Ship the empty section until a producer exists.
   //
   // To re-enable once a producer lands, build it inside a try/catch so a failure
-  // here can't discard the portal views / MCP section already built (additive
+  // here can't discard the page-view trends / MCP section already built (additive
   // sections must fail independently):
   //   let componentUsage: ComponentUsageSection
   //   try {
@@ -368,17 +402,22 @@ export async function handler(event?: { sinceDt?: string }): Promise<{
 
   const snapshot: Snapshot = {
     generatedAt: new Date().toISOString(),
-    portalViews,
+    portalViewTrends,
     mcpUsage,
     componentUsage,
   }
 
   await writeSnapshot(bucket, snapshot)
 
-  emitMetric('SnapshotPortalViewCount', snapshot.portalViews.length)
+  const recentSince = windowStart(RECENT_VIEW_DAYS)
+  const recentViews = portalViewTrends.perDay
+    .filter((day) => day.dt >= recentSince)
+    .reduce((sum, day) => sum + day.count, 0)
+
+  emitMetric('SnapshotPortalViewCount', recentViews)
 
   return {
     generatedAt: snapshot.generatedAt,
-    count: snapshot.portalViews.length,
+    recentViews,
   }
 }

@@ -30,8 +30,9 @@ describe('analytics infrastructure', () => {
   })
 
   it('gives the snapshot generator enough timeout for its Athena queries', () => {
-    // Up to four Athena queries run one after another (portal read, then three
-    // MCP queries), each waiting up to 2 minutes.
+    // Up to five Athena queries run one after another (page-view rollup
+    // refresh, the concurrent trend reads, then three MCP queries), each
+    // waiting up to 2 minutes.
     const snapshotLambda = terraform.match(
       /resource "aws_lambda_function" "snapshot" \{[\s\S]*?^\}/m
     )?.[0]
@@ -39,7 +40,7 @@ describe('analytics infrastructure', () => {
       snapshotLambda?.match(/timeout\s+=\s+(\d+)/)?.[1]
     )
 
-    expect(timeout).toBeGreaterThanOrEqual(4 * 120)
+    expect(timeout).toBeGreaterThanOrEqual(5 * 120)
   })
 
   it('notifies an SNS topic from every snapshot alarm, with an optional email subscription', () => {

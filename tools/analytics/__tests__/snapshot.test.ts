@@ -2,8 +2,10 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 
 const {
   send,
-  retrievePortalViews,
   aggregatePortalViewsRaw,
+  retrievePortalViewsPerDay,
+  retrieveTopPortalPathsPerMonth,
+  retrievePortalViewsPerLocaleAndTheme,
   aggregateMcpUsageRaw,
   retrieveMcpUsageDaily,
   aggregateLocalMcpUsageByVersion,
@@ -11,8 +13,10 @@ const {
   retrieveComponentUsageTotals,
 } = vi.hoisted(() => ({
   send: vi.fn(),
-  retrievePortalViews: vi.fn(),
   aggregatePortalViewsRaw: vi.fn(),
+  retrievePortalViewsPerDay: vi.fn(),
+  retrieveTopPortalPathsPerMonth: vi.fn(),
+  retrievePortalViewsPerLocaleAndTheme: vi.fn(),
   aggregateMcpUsageRaw: vi.fn(),
   retrieveMcpUsageDaily: vi.fn(),
   aggregateLocalMcpUsageByVersion: vi.fn(),
@@ -41,8 +45,10 @@ vi.mock('@aws-sdk/client-s3', () => ({
 }))
 
 vi.mock('../src/lambda/retrieve.js', () => ({
-  retrievePortalViews,
   aggregatePortalViewsRaw,
+  retrievePortalViewsPerDay,
+  retrieveTopPortalPathsPerMonth,
+  retrievePortalViewsPerLocaleAndTheme,
   aggregateMcpUsageRaw,
   retrieveMcpUsageDaily,
   aggregateLocalMcpUsageByVersion,
@@ -69,6 +75,21 @@ function findDailyRollupPut(prefix: string): Command | undefined {
     .find((put) => String(put.input.Key).startsWith(prefix))
 }
 
+function snapshotBody() {
+  const put = putCalls()
+    .map((call) => call[0] as Command)
+    .find((command) => command.input.Key === 'snapshots/dashboard.json')
+
+  return JSON.parse(put?.input.Body as string)
+}
+
+function utcDate(daysAgo: number): string {
+  const date = new Date()
+  date.setUTCDate(date.getUTCDate() - daysAgo)
+
+  return date.toISOString().slice(0, 10)
+}
+
 // Silence and capture the EMF metric line the handler logs, so it neither spams
 // test output nor needs a per-suite spy; assertions read logSpy.mock.calls.
 let logSpy: ReturnType<typeof vi.spyOn>
@@ -77,8 +98,10 @@ let warnSpy: ReturnType<typeof vi.spyOn>
 
 beforeEach(() => {
   send.mockReset()
-  retrievePortalViews.mockReset()
   aggregatePortalViewsRaw.mockReset()
+  retrievePortalViewsPerDay.mockReset()
+  retrieveTopPortalPathsPerMonth.mockReset()
+  retrievePortalViewsPerLocaleAndTheme.mockReset()
   aggregateMcpUsageRaw.mockReset()
   retrieveMcpUsageDaily.mockReset()
   aggregateLocalMcpUsageByVersion.mockReset()
@@ -86,6 +109,9 @@ beforeEach(() => {
   retrieveComponentUsageTotals.mockReset()
   send.mockResolvedValue({})
   aggregatePortalViewsRaw.mockResolvedValue([])
+  retrievePortalViewsPerDay.mockResolvedValue([])
+  retrieveTopPortalPathsPerMonth.mockResolvedValue([])
+  retrievePortalViewsPerLocaleAndTheme.mockResolvedValue([])
   aggregateMcpUsageRaw.mockResolvedValue([])
   retrieveMcpUsageDaily.mockResolvedValue([])
   aggregateLocalMcpUsageByVersion.mockResolvedValue([])
@@ -105,26 +131,70 @@ afterEach(() => {
 })
 
 describe('snapshot generator handler', () => {
-  it('queries portal views and writes the snapshot to the expected key', async () => {
-    const records = [{ path: '/', env: 'prod', timestamp: 't' }]
-    retrievePortalViews.mockResolvedValue(records)
+  it('builds the page-view trends from the rollup and writes the snapshot to the expected key', async () => {
+    const perDay = [{ dt: '2026-09-20', env: 'prod', count: 5 }]
+    const topPathsPerMonth = [
+      { month: '2026-09', env: '', path: '/', count: 5 },
+    ]
+    const perLocaleAndTheme = [
+      { env: 'prod', locale: 'en-GB', theme: 'ui', count: 5 },
+    ]
+    retrievePortalViewsPerDay.mockResolvedValue(perDay)
+    retrieveTopPortalPathsPerMonth.mockResolvedValue(topPathsPerMonth)
+    retrievePortalViewsPerLocaleAndTheme.mockResolvedValue(
+      perLocaleAndTheme
+    )
 
     const result = await handler()
 
-    expect(retrievePortalViews).toHaveBeenCalledWith({ limit: 1000 })
     expect(putCalls()).toHaveLength(1)
-
-    const put = putCalls()[0][0] as Command
-    expect(put.input.Key).toBe('snapshots/dashboard.json')
-    expect(JSON.parse(put.input.Body as string).portalViews).toEqual(
-      records
+    expect((putCalls()[0][0] as Command).input.Key).toBe(
+      'snapshots/dashboard.json'
     )
-    expect(result.count).toBe(1)
+    expect(snapshotBody().portalViewTrends).toEqual({
+      perDay,
+      topPathsPerMonth,
+      perLocaleAndTheme,
+    })
+    expect(snapshotBody()).not.toHaveProperty('portalViews')
     expect(result.generatedAt).toEqual(expect.any(String))
   })
 
+  it('reads 13 whole calendar months, ranking the top 20 paths per month', async () => {
+    const now = new Date()
+    const expectedSince = new Date(
+      Date.UTC(now.getUTCFullYear(), now.getUTCMonth() - 12, 1)
+    )
+      .toISOString()
+      .slice(0, 10)
+
+    await handler()
+
+    expect(retrievePortalViewsPerDay).toHaveBeenCalledWith(expectedSince)
+    expect(retrieveTopPortalPathsPerMonth).toHaveBeenCalledWith(
+      expectedSince,
+      20
+    )
+    expect(retrievePortalViewsPerLocaleAndTheme).toHaveBeenCalledWith(
+      expectedSince
+    )
+  })
+
+  it('refreshes the rollup before reading the trends, so they include today', async () => {
+    aggregatePortalViewsRaw.mockResolvedValue([
+      { dt: utcDate(0), path: '/', env: 'prod', count: 1 },
+    ])
+
+    await handler()
+
+    const rollupPutOrder = send.mock.invocationCallOrder[0]
+    expect(findDailyRollupPut('portal-views-daily/')).toBeDefined()
+    expect(rollupPutOrder).toBeLessThan(
+      retrievePortalViewsPerDay.mock.invocationCallOrder[0]
+    )
+  })
+
   it('writes the recomputed page-view aggregates to the durable daily rollup prefix', async () => {
-    retrievePortalViews.mockResolvedValue([])
     aggregatePortalViewsRaw.mockResolvedValue([
       {
         dt: '2026-09-20',
@@ -165,8 +235,6 @@ describe('snapshot generator handler', () => {
   })
 
   it('backfills from an explicit sinceDt on the invocation event', async () => {
-    retrievePortalViews.mockResolvedValue([])
-
     await handler({ sinceDt: '2024-01-01' })
 
     expect(aggregatePortalViewsRaw).toHaveBeenCalledWith('2024-01-01')
@@ -174,8 +242,6 @@ describe('snapshot generator handler', () => {
   })
 
   it('recomputes only the recent tail on a scheduled run (no sinceDt)', async () => {
-    retrievePortalViews.mockResolvedValue([])
-
     const expectedTail = new Date()
     expectedTail.setUTCDate(expectedTail.getUTCDate() - 6)
     const expectedSince = expectedTail.toISOString().slice(0, 10)
@@ -187,19 +253,14 @@ describe('snapshot generator handler', () => {
     expect(aggregateMcpUsageRaw).toHaveBeenCalledWith(expectedSince)
   })
 
-  it('still writes the snapshot when the rollup refresh fails', async () => {
-    retrievePortalViews.mockResolvedValue([
-      { path: '/', env: 'prod', timestamp: 't' },
-    ])
+  it('still writes the snapshot from the existing history when the rollup refresh fails', async () => {
+    const perDay = [{ dt: '2026-09-20', env: 'prod', count: 5 }]
+    retrievePortalViewsPerDay.mockResolvedValue(perDay)
     aggregatePortalViewsRaw.mockRejectedValue(new Error('athena boom'))
 
     await handler()
 
-    const snapshotPut = putCalls().find(
-      (call) =>
-        (call[0] as Command).input.Key === 'snapshots/dashboard.json'
-    )
-    expect(snapshotPut).toBeDefined()
+    expect(snapshotBody().portalViewTrends.perDay).toEqual(perDay)
     expect(errorSpy).toHaveBeenCalled()
 
     const failureMetric = logSpy.mock.calls
@@ -218,8 +279,10 @@ describe('snapshot generator handler', () => {
     expect(failureMetric).toBeDefined()
   })
 
-  it('propagates a query failure so the schedule surfaces the error', async () => {
-    retrievePortalViews.mockRejectedValue(new Error('athena boom'))
+  it('propagates a trend read failure so the previous snapshot stays and the schedule surfaces the error', async () => {
+    retrieveTopPortalPathsPerMonth.mockRejectedValue(
+      new Error('athena boom')
+    )
 
     await expect(handler()).rejects.toThrow('athena boom')
     expect(
@@ -234,13 +297,12 @@ describe('snapshot generator handler', () => {
     delete process.env.DATA_BUCKET
 
     await expect(handler()).rejects.toThrow('DATA_BUCKET')
-    expect(retrievePortalViews).not.toHaveBeenCalled()
+    expect(retrievePortalViewsPerDay).not.toHaveBeenCalled()
   })
 })
 
 describe('mcp usage section', () => {
   it('recomputes the recent rollup and builds one section per transport from the daily table', async () => {
-    retrievePortalViews.mockResolvedValue([])
     aggregateMcpUsageRaw.mockResolvedValue([
       {
         dt: '2026-09-10',
@@ -320,7 +382,6 @@ describe('mcp usage section', () => {
   })
 
   it('counts missed component lookups and ranks the components they matched', async () => {
-    retrievePortalViews.mockResolvedValue([])
     retrieveMcpUsageDaily.mockResolvedValue([
       {
         dt: '2026-10-14',
@@ -373,7 +434,6 @@ describe('mcp usage section', () => {
   })
 
   it('leaves rollup rows without a transport out of both sections and warns', async () => {
-    retrievePortalViews.mockResolvedValue([])
     retrieveMcpUsageDaily.mockResolvedValue([
       {
         dt: '2026-09-01',
@@ -411,7 +471,6 @@ describe('mcp usage section', () => {
   })
 
   it('writes the recomputed aggregates to the durable daily rollup prefix', async () => {
-    retrievePortalViews.mockResolvedValue([])
     aggregateMcpUsageRaw.mockResolvedValue([
       {
         dt: '2026-09-10',
@@ -445,22 +504,14 @@ describe('mcp usage section', () => {
   })
 
   it('still writes the snapshot with an empty MCP section when the MCP query fails', async () => {
-    const records = [{ path: '/', env: 'prod', timestamp: 't' }]
-    retrievePortalViews.mockResolvedValue(records)
+    const perDay = [{ dt: '2026-09-20', env: 'prod', count: 5 }]
+    retrievePortalViewsPerDay.mockResolvedValue(perDay)
     retrieveMcpUsageDaily.mockRejectedValue(new Error('glue denied'))
 
     await handler()
 
-    const snapshotPut = putCalls().find(
-      (call) =>
-        (call[0] as Command).input.Key === 'snapshots/dashboard.json'
-    )
-    expect(snapshotPut).toBeDefined()
-
-    const body = JSON.parse(
-      (snapshotPut![0] as Command).input.Body as string
-    )
-    expect(body.portalViews).toEqual(records)
+    const body = snapshotBody()
+    expect(body.portalViewTrends.perDay).toEqual(perDay)
     expect(body.mcpUsage).toEqual({
       web: {
         total: 0,
@@ -501,7 +552,6 @@ describe('mcp usage section', () => {
   })
 
   it('serves existing daily history when the tail recompute fails', async () => {
-    retrievePortalViews.mockResolvedValue([])
     aggregateMcpUsageRaw.mockRejectedValue(new Error('athena blip'))
     retrieveMcpUsageDaily.mockResolvedValue([
       {
@@ -547,7 +597,6 @@ describe('mcp usage section', () => {
   })
 
   it('builds perVersion from local-only usage, ordered by count', async () => {
-    retrievePortalViews.mockResolvedValue([])
     aggregateLocalMcpUsageByVersion.mockResolvedValue([
       { name: '10.79.0', count: 9 },
       { name: '10.78.1', count: 3 },
@@ -697,8 +746,6 @@ describe('buildComponentUsage', () => {
 
 describe('component usage section (currently unwired)', () => {
   it('ships an empty section without querying component usage', async () => {
-    retrievePortalViews.mockResolvedValue([])
-
     await handler()
 
     const snapshotPut = putCalls().find(
@@ -741,17 +788,20 @@ describe('snapshot page-view count metric', () => {
     delete process.env.AWS_LAMBDA_FUNCTION_NAME
   })
 
-  it('emits the page-view count as an EMF metric after a successful run', async () => {
+  it('emits the page views of the last two days as an EMF metric after a successful run', async () => {
     process.env.AWS_LAMBDA_FUNCTION_NAME = 'eufemia-dev-analytics-snapshot'
-    retrievePortalViews.mockResolvedValue([
-      { path: '/', env: 'prod', timestamp: 't' },
+    retrievePortalViewsPerDay.mockResolvedValue([
+      { dt: utcDate(2), env: 'prod', count: 100 },
+      { dt: utcDate(1), env: 'prod', count: 3 },
+      { dt: utcDate(0), env: 'test', count: 2 },
     ])
 
-    await handler()
+    const result = await handler()
 
+    expect(result.recentViews).toBe(5)
     const emf = findEmfMetric()
     expect(emf).not.toBeNull()
-    expect(emf.SnapshotPortalViewCount).toBe(1)
+    expect(emf.SnapshotPortalViewCount).toBe(5)
     expect(emf.FunctionName).toBe('eufemia-dev-analytics-snapshot')
     expect(emf._aws.CloudWatchMetrics[0].Namespace).toBe(
       'Eufemia/Analytics'
@@ -762,12 +812,14 @@ describe('snapshot page-view count metric', () => {
     })
   })
 
-  it('emits a zero count when the snapshot has no page views', async () => {
-    retrievePortalViews.mockResolvedValue([])
+  it('emits a zero count when no page views arrived in the last two days', async () => {
+    retrievePortalViewsPerDay.mockResolvedValue([
+      { dt: utcDate(2), env: 'prod', count: 100 },
+    ])
 
     const result = await handler()
 
-    expect(result.count).toBe(0)
+    expect(result.recentViews).toBe(0)
     const emf = findEmfMetric()
     expect(emf).not.toBeNull()
     expect(emf.SnapshotPortalViewCount).toBe(0)

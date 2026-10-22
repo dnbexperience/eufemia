@@ -15,9 +15,39 @@ export const SNAPSHOT_KEY = 'snapshots/dashboard.json'
 // top-level key (e.g. mcpUsage) without reshaping the envelope or existing charts.
 export type Snapshot = {
   generatedAt: string
-  portalViews: unknown[]
+  portalViewTrends: PortalViewTrendsSection
   mcpUsage: McpUsageSection
   componentUsage: ComponentUsageSection
+}
+
+export type PortalViewDayCount = { dt: string; env: string; count: number }
+
+// An empty env is the ranking across all environments.
+export type PortalViewMonthPathCount = {
+  month: string
+  env: string
+  path: string
+  count: number
+}
+
+export type PortalViewLocaleThemeCount = {
+  env: string
+  locale: string
+  theme: string
+  count: number
+}
+
+// Page-view history read from the durable portal_views_daily rollup.
+export type PortalViewTrendsSection = {
+  perDay: PortalViewDayCount[]
+  topPathsPerMonth: PortalViewMonthPathCount[]
+  perLocaleAndTheme: PortalViewLocaleThemeCount[]
+}
+
+export const EMPTY_PORTAL_VIEW_TRENDS: PortalViewTrendsSection = {
+  perDay: [],
+  topPathsPerMonth: [],
+  perLocaleAndTheme: [],
 }
 
 // A daily portal page-view aggregate row (one per path+env+dimension combo per

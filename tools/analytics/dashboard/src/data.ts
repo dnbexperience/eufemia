@@ -4,12 +4,6 @@
 
 import { beginAuthRetry, clearAuthRetry, type Session } from './auth'
 
-export type PortalView = {
-  path?: string
-  env?: string
-  timestamp?: string
-}
-
 export type CountListItem = { name: string; count: number }
 
 export type McpTransportUsage = {
@@ -34,25 +28,27 @@ export type ComponentUsage = {
   perVersion?: CountListItem[]
 }
 
+export type PortalViewTrends = {
+  perDay?: Array<{ dt: string; env: string; count: number }>
+  topPathsPerMonth?: Array<{
+    month: string
+    env: string
+    path: string
+    count: number
+  }>
+  perLocaleAndTheme?: Array<{
+    env: string
+    locale: string
+    theme: string
+    count: number
+  }>
+}
+
 export type DashboardPayload = {
   generatedAt?: string
-  portalViews?: PortalView[]
+  portalViewTrends?: PortalViewTrends
   mcpUsage?: McpUsage
   componentUsage?: ComponentUsage
-}
-
-export type ViewRow = {
-  path: string
-  day: string
-  env: string
-}
-
-export function toViewRow(view: PortalView): ViewRow {
-  const path = view.path ?? '—'
-  const day = (view.timestamp ?? '').slice(0, 10)
-  const env = view.env ?? ''
-
-  return { path, day, env }
 }
 
 /**
@@ -161,22 +157,15 @@ export async function loadDashboardData(
   }
 }
 
-export function countBy(
-  items: ViewRow[],
-  key: keyof ViewRow
+function sumCounts<Row extends { count: number }>(
+  rows: Row[],
+  keyOf: (row: Row) => string
 ): Map<string, number> {
-  const counts = new Map<string, number>()
-
-  for (const item of items) {
-    const value = item[key]
-    if (!value) {
-      continue
-    }
-
-    counts.set(value, (counts.get(value) ?? 0) + 1)
-  }
-
-  return counts
+  return rows.reduce(
+    (counts, row) =>
+      counts.set(keyOf(row), (counts.get(keyOf(row)) ?? 0) + row.count),
+    new Map<string, number>()
+  )
 }
 
 /** Turn a counts map into a sorted, optionally limited list. */
@@ -196,41 +185,110 @@ export function rank(
 
 export type Kpi = { value: number; label: string }
 
-export type DashboardView = {
-  allRows: ViewRow[]
-  rows: ViewRow[]
+export type MonthTopPaths = { month: string; paths: CountListItem[] }
+
+export type PortalViewTrendsView = {
   envs: string[]
+  firstDay: string
+  lastDay: string
+  total: number
   kpis: Kpi[]
+  last30Days: CountListItem[]
+  perWeek: CountListItem[]
+  perMonth: CountListItem[]
+  topPathsPerMonth: MonthTopPaths[]
+  perLocale: CountListItem[]
+  perTheme: CountListItem[]
+}
+
+const DAY_MS = 24 * 60 * 60 * 1000
+
+function addDays(day: string, days: number): string {
+  return new Date(Date.parse(day) + days * DAY_MS)
+    .toISOString()
+    .slice(0, 10)
+}
+
+function mondayOf(day: string): string {
+  return addDays(day, -((new Date(day).getUTCDay() + 6) % 7))
+}
+
+function daysBetween(firstDay: string, lastDay: string): string[] {
+  const length = (Date.parse(lastDay) - Date.parse(firstDay)) / DAY_MS + 1
+
+  return Array.from({ length: Math.max(length, 0) }, (_, index) =>
+    addDays(firstDay, index)
+  )
 }
 
 /**
- * Derive the portal-view model the dashboard renders: the view rows, the
- * distinct environments for the filter, the rows scoped to the selected
- * environment, and the key figures for that scope. Kept pure so the filter and
- * gating behaviour can be tested without rendering.
+ * Derive the page-view trends for the selected environment ('' = all). Days
+ * without views count as 0 from the first day with data up to the snapshot
+ * day, so gaps show instead of being skipped.
  */
-export function dashboardView(
+export function portalViewTrendsView(
   payload: DashboardPayload | null,
   env: string
-): DashboardView {
-  const views = payload?.portalViews
-  const allRows = (Array.isArray(views) ? views : []).map(toViewRow)
-  const envs = [
-    ...new Set(allRows.map((r) => r.env).filter(Boolean)),
-  ].sort()
-  const rows = env ? allRows.filter((r) => r.env === env) : allRows
+): PortalViewTrendsView {
+  const trends = payload?.portalViewTrends
+  const perDay = trends?.perDay ?? []
+  const envs = [...new Set(perDay.map((row) => row.env))].sort()
+  const isInEnv = (row: { env: string }) => !env || row.env === env
 
-  const kpis: Kpi[] = [
-    { value: rows.length, label: 'Latest views' },
-    {
-      value: new Set(rows.map((r) => r.path).filter(Boolean)).size,
-      label: 'Unique URLs',
-    },
-    {
-      value: new Set(rows.map((r) => r.day).filter(Boolean)).size,
-      label: 'Days covered',
-    },
-  ]
+  const dayTotals = sumCounts(perDay.filter(isInEnv), (row) => row.dt)
+  const days = [...dayTotals.keys()].sort()
+  const firstDay = days[0] ?? ''
+  const lastDay =
+    payload?.generatedAt?.slice(0, 10) || days[days.length - 1] || ''
+  const daily = firstDay
+    ? daysBetween(firstDay, lastDay).map((day) => ({
+        name: day,
+        count: dayTotals.get(day) ?? 0,
+      }))
+    : []
 
-  return { allRows, rows, envs, kpis }
+  const total = daily.reduce((sum, day) => sum + day.count, 0)
+  const last30Days = daily.slice(-30)
+
+  // The all-environments ranking has an empty env, like the All option.
+  const topRows = (trends?.topPathsPerMonth ?? []).filter(
+    (row) => row.env === env
+  )
+  const months = [...new Set(topRows.map((row) => row.month))]
+    .sort()
+    .reverse()
+
+  const dimensions = (trends?.perLocaleAndTheme ?? []).filter(isInEnv)
+
+  return {
+    envs,
+    firstDay,
+    lastDay,
+    total,
+    kpis: [
+      {
+        value: last30Days.reduce((sum, day) => sum + day.count, 0),
+        label: 'Views, last 30 days',
+      },
+      { value: total, label: 'Views in total' },
+    ],
+    last30Days,
+    perWeek: rank(
+      sumCounts(daily, (day) => mondayOf(day.name)),
+      { sort: 'key' }
+    ),
+    perMonth: rank(
+      sumCounts(daily, (day) => day.name.slice(0, 7)),
+      { sort: 'key' }
+    ),
+    topPathsPerMonth: months.map((month) => ({
+      month,
+      paths: topRows
+        .filter((row) => row.month === month)
+        .map((row) => ({ name: row.path, count: row.count }))
+        .sort((a, b) => b.count - a.count),
+    })),
+    perLocale: rank(sumCounts(dimensions, (row) => row.locale)),
+    perTheme: rank(sumCounts(dimensions, (row) => row.theme)),
+  }
 }
