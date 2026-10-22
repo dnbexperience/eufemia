@@ -54,6 +54,137 @@ test('keeps selected nested accordion labels stable while closing', async ({
   await expect(savingsNotification).toHaveCSS('visibility', 'hidden')
 })
 
+for (const dir of ['ltr', 'rtl']) {
+  test(
+    'keeps text-only accordion labels visible during compact transitions in ' +
+      dir,
+    async ({ page }) => {
+      await page.emulateMedia({ reducedMotion: 'no-preference' })
+      await page.setViewportSize({ width: 1200, height: 900 })
+      await page.goto(
+        '/uilib/extensions/sidebar-menu/demos/?focusmode=SidebarMenuResponsiveNavigation'
+      )
+      await waitForApp(page)
+      const shell = page.locator('[data-sidebar-menu-responsive-example]')
+      await shell.evaluate((element, dir) => {
+        element.setAttribute('dir', dir)
+        element.setAttribute('lang', dir === 'rtl' ? 'ar' : 'en')
+      }, dir)
+      const inline = shell.locator('.dnb-sidebar-menu-responsive-inline')
+      await page.mouse.move(1190, 890)
+      await expect(inline).toHaveClass(/--transitions-ready/)
+      await expect(inline).not.toHaveClass(/--expanded|--closing/)
+      const accordion = shell.locator(
+        '[data-sidebar-menu-id="more-services"] > .dnb-sidebar-menu__accordion__trigger'
+      )
+      const measure = () =>
+        accordion.evaluate(async (element, dir) => {
+          const text = element.querySelector(
+            '.dnb-sidebar-menu__item__text'
+          )
+          const chevron = element.querySelector(
+            '.dnb-sidebar-menu__accordion__expand-icon'
+          )
+          let minWidth = text.getBoundingClientRect().width
+          let maxOverlap = 0
+          const start = performance.now()
+          while (performance.now() - start < 400) {
+            await new Promise(requestAnimationFrame)
+            const label = text.getBoundingClientRect()
+            const icon = chevron.getBoundingClientRect()
+            minWidth = Math.min(minWidth, label.width)
+            if (Number(getComputedStyle(chevron).opacity) > 0) {
+              maxOverlap = Math.max(
+                maxOverlap,
+                dir === 'rtl'
+                  ? icon.right - label.left
+                  : label.right - icon.left
+              )
+            }
+          }
+          return { minWidth, maxOverlap }
+        }, dir)
+      const [opening] = await Promise.all([measure(), accordion.hover()])
+      expect(opening.minWidth).toBeGreaterThanOrEqual(36)
+      expect(opening.maxOverlap).toBeLessThanOrEqual(0.1)
+      const [closing] = await Promise.all([
+        measure(),
+        page.mouse.move(1190, 890),
+      ])
+      expect(closing.minWidth).toBeGreaterThanOrEqual(36)
+      expect(closing.maxOverlap).toBeLessThanOrEqual(0.1)
+    }
+  )
+
+  test(
+    'shows text-only accordions like text-only items in compact ' +
+      dir +
+      ' navigation',
+    async ({ page }) => {
+      await page.emulateMedia({ reducedMotion: 'reduce' })
+      await page.setViewportSize({ width: 1200, height: 900 })
+      await page.goto(
+        '/uilib/extensions/sidebar-menu/demos/?focusmode=SidebarMenuResponsiveNavigation'
+      )
+      await waitForApp(page)
+      const shell = page.locator('[data-sidebar-menu-responsive-example]')
+      await shell.evaluate((element, dir) => {
+        element.setAttribute('dir', dir)
+        element.setAttribute('lang', dir === 'rtl' ? 'ar' : 'en')
+      }, dir)
+      await page.mouse.move(1190, 890)
+      const itemText = shell.locator(
+        '[data-sidebar-menu-id="without-icon"] .dnb-sidebar-menu__item__text'
+      )
+      const accordion = shell.locator(
+        '[data-sidebar-menu-id="more-services"] > .dnb-sidebar-menu__accordion__trigger'
+      )
+      const accordionText = accordion.locator(
+        '.dnb-sidebar-menu__item__text'
+      )
+      const textStyle = (element: Element) => {
+        const style = getComputedStyle(element)
+        return {
+          width: element.getBoundingClientRect().width,
+          opacity: style.opacity,
+          mask: style.maskImage,
+        }
+      }
+      const expectedStyle = await itemText.evaluate(textStyle)
+      expect(expectedStyle.width).toBe(36)
+      expect(await accordionText.evaluate(textStyle)).toEqual(
+        expectedStyle
+      )
+
+      const toggle = shell.locator(
+        '.dnb-sidebar-menu-responsive-inline__toggle'
+      )
+      await accordion.hover()
+      await expect(toggle).toHaveAttribute('aria-expanded', 'true')
+      await accordion.click()
+      await expect(accordion).toHaveAttribute('aria-expanded', 'true')
+      await expect(accordionText).toHaveCSS('opacity', '1')
+      await expect(accordionText).toHaveCSS('max-width', 'none')
+      await expect(
+        accordion.locator('.dnb-sidebar-menu__accordion__expand-icon')
+      ).toHaveCSS('width', '24px')
+      const contact = shell.getByRole('link', {
+        name: 'Contact us',
+        exact: true,
+      })
+      await contact.click()
+      await expect(contact).toHaveAttribute('aria-current', 'page')
+      await expect(
+        shell.getByRole('heading', { name: 'Contact us', exact: true })
+      ).toBeVisible()
+      await expect(toggle).toHaveAttribute('aria-expanded', 'false')
+      expect(await accordionText.evaluate(textStyle)).toEqual(
+        expectedStyle
+      )
+    }
+  )
+}
+
 test('keeps the compact SidebarMenu layout stable while expanding', async ({
   page,
 }) => {
@@ -293,10 +424,14 @@ test('keeps the compact SidebarMenu layout stable while expanding', async ({
     '0px'
   )
   await expect(expandedAsideContent).toHaveCSS('padding-inline-end', '0px')
-  const expandedHomeIconBox = await home
-    .locator('.dnb-sidebar-menu__item__icon')
-    .boundingBox()
-  expect(expandedHomeIconBox?.x).toBeCloseTo(closedHomeIconBox?.x ?? 0, 1)
+  await expect
+    .poll(async () => {
+      const expandedHomeIconBox = await home
+        .locator('.dnb-sidebar-menu__item__icon')
+        .boundingBox()
+      return expandedHomeIconBox?.x
+    })
+    .toBeCloseTo(closedHomeIconBox?.x ?? 0, 1)
 
   await shell
     .locator(
@@ -419,6 +554,55 @@ test('uses the active theme corner radius in compact mode', async ({
   ).toHaveCSS('border-radius', '8px')
 })
 
+for (const width of [1200, 1440]) {
+  test(`keeps the section dropdown hover and focus ring inside its scroll area at ${width}px`, async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width, height: 900 })
+    await page.goto(
+      '/uilib/extensions/sidebar-menu/demos/?focusmode=SidebarMenuResponsiveNavigation'
+    )
+    await waitForApp(page)
+    const shell = page.locator('[data-sidebar-menu-responsive-example]')
+    const trigger = shell.locator(
+      '.dnb-sidebar-menu__sections .dnb-dropdown__trigger'
+    )
+    await trigger.hover()
+    const ringClearance = () =>
+      trigger.evaluate((element) => {
+        const trigger = element.getBoundingClientRect()
+        const scrollView = element
+          .closest('.dnb-sidebar-menu-responsive-aside__scroll-view')
+          .getBoundingClientRect()
+        const style = getComputedStyle(element)
+        const shadowLengths = Array.from(
+          style.boxShadow.matchAll(/(-?[0-9.]+)px/g),
+          (match) => Number(match[1])
+        )
+        const spread = style.boxShadow.includes('inset')
+          ? 0
+          : shadowLengths[3] || 0
+        return trigger.top - spread - scrollView.top
+      })
+    const borderWidth = () =>
+      trigger.evaluate((element) =>
+        parseFloat(
+          getComputedStyle(element).getPropertyValue(
+            '--button-border-width'
+          )
+        )
+      )
+    await expect.poll(borderWidth).toBe(0.125)
+    await expect.poll(ringClearance).toBeGreaterThanOrEqual(0)
+    await page.mouse.move(width - 1, 899)
+    await page.keyboard.press('Tab')
+    await trigger.focus()
+    await expect(trigger).toBeFocused()
+    await expect.poll(borderWidth).toBe(0.25)
+    await expect.poll(ringClearance).toBeGreaterThanOrEqual(0)
+  })
+}
+
 test('supports section dropdowns and headings in compact mode', async ({
   page,
 }) => {
@@ -451,8 +635,8 @@ test('supports section dropdowns and headings in compact mode', async ({
     'width',
     '24px'
   )
-  await expect(chevron).toHaveCSS('width', '0px')
-  await expect(chevron).toHaveCSS('opacity', '0')
+  await expect(chevron).toHaveCSS('width', '16px')
+  await expect(chevron).toHaveCSS('opacity', '1')
   await expect(heading).toHaveCSS('max-height', 'none')
   await expect(heading).toHaveCSS('opacity', '0.8')
   await expect(heading).not.toHaveCSS('mask-image', 'none')
@@ -621,10 +805,10 @@ test('aligns nested button and link items in the Drawer', async ({
   await expect
     .poll(() =>
       moreProductsText.evaluate(
-        (element) => element.getBoundingClientRect().height
+        (element) => element.scrollHeight - element.clientHeight
       )
     )
-    .toBe(24)
+    .toBe(0)
   await expect
     .poll(async () => {
       const accountsBox = await accounts.boundingBox()
@@ -700,6 +884,71 @@ test('animates a selected first nested item from its compact background', async 
     .toBeGreaterThan(44)
 })
 
+test('keeps page content stable when compact expansion is interrupted', async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: 'no-preference' })
+  await page.setViewportSize({ width: 1200, height: 900 })
+  await page.goto(
+    '/uilib/extensions/sidebar-menu/demos/?focusmode=SidebarMenuResponsiveNavigation#without-icon'
+  )
+  await waitForApp(page)
+  await page.mouse.move(1190, 890)
+  const inline = page.locator(
+    '[data-sidebar-menu-responsive-example] .dnb-sidebar-menu-responsive-inline'
+  )
+  await expect(inline).toHaveClass(/--transitions-ready/)
+  const geometry = await inline.evaluate(async (element) => {
+    const toggle = element.querySelector<HTMLElement>(
+      '.dnb-sidebar-menu-responsive-inline__toggle'
+    )
+    const row = element.querySelector<HTMLElement>(
+      '[data-sidebar-menu-id="more-services"] > .dnb-sidebar-menu__accordion__trigger'
+    )
+    const below = element.querySelector<HTMLElement>(
+      '[data-sidebar-menu-id="settings"]'
+    )
+    const shell = element.closest('[data-sidebar-menu-responsive-example]')
+    const toolbar = document.querySelector('.dnb-live-toolbar')
+    const initialShellHeight = shell.getBoundingClientRect().height
+    const initialToolbarY = toolbar.getBoundingClientRect().y
+    const initialHeight = row.getBoundingClientRect().height
+    const initialY = below.getBoundingClientRect().y
+    let maxHeight = initialHeight
+    let movement = 0
+    let pageMovement = 0
+    const start = performance.now()
+    const clicks = [0, 60, 120, 180]
+    let next = 0
+    while (performance.now() - start < 600) {
+      if (
+        next < clicks.length &&
+        performance.now() - start >= clicks[next]
+      ) {
+        toggle.click()
+        next += 1
+      }
+      await new Promise(requestAnimationFrame)
+      maxHeight = Math.max(maxHeight, row.getBoundingClientRect().height)
+      movement = Math.max(
+        movement,
+        Math.abs(below.getBoundingClientRect().y - initialY)
+      )
+      pageMovement = Math.max(
+        pageMovement,
+        Math.abs(
+          shell.getBoundingClientRect().height - initialShellHeight
+        ),
+        Math.abs(toolbar.getBoundingClientRect().y - initialToolbarY)
+      )
+    }
+    return { initialHeight, maxHeight, movement, pageMovement }
+  })
+  expect(geometry.maxHeight).toBe(geometry.initialHeight)
+  expect(geometry.movement).toBeLessThanOrEqual(0.1)
+  expect(geometry.pageMovement).toBeLessThanOrEqual(0.1)
+})
+
 test('keeps compact labels on one line while opening', async ({
   page,
 }) => {
@@ -738,6 +987,7 @@ test('keeps the section icon fixed while closing', async ({ page }) => {
   await waitForApp(page)
 
   const shell = page.locator('[data-sidebar-menu-responsive-example]')
+  await shell.scrollIntoViewIfNeeded()
   const sectionTrigger = shell.locator(
     '.dnb-sidebar-menu__sections .dnb-dropdown__trigger'
   )
@@ -757,22 +1007,23 @@ test('keeps the section icon fixed while closing', async ({ page }) => {
     if (!icon || !inline || !toggle) {
       throw new Error('Expected compact section controls')
     }
-    const initialX = icon.getBoundingClientRect().x
-    const positions = [initialX]
+    const initial = icon.getBoundingClientRect()
+    const movement = { x: 0, y: 0 }
     toggle.click()
     const start = performance.now()
 
     while (performance.now() - start < 260) {
       await new Promise(requestAnimationFrame)
-      positions.push(icon.getBoundingClientRect().x)
+      const position = icon.getBoundingClientRect()
+      movement.x = Math.max(movement.x, Math.abs(position.x - initial.x))
+      movement.y = Math.max(movement.y, Math.abs(position.y - initial.y))
     }
 
-    return Math.max(
-      ...positions.map((position) => Math.abs(position - initialX))
-    )
+    return movement
   })
 
-  expect(maxMovement).toBeLessThanOrEqual(0.05)
+  expect(maxMovement.x).toBeLessThanOrEqual(0.05)
+  expect(maxMovement.y).toBeLessThanOrEqual(0.05)
 })
 
 test('keeps scaled compact labels clear of accordion indicators', async ({

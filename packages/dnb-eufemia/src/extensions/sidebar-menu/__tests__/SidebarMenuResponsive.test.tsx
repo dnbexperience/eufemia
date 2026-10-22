@@ -1892,7 +1892,7 @@ describe('SidebarMenu responsive parts', () => {
     )
 
     expect(html).not.toContain('(hover:hover) and (pointer:fine)')
-    expect(html).toContain('(max-width:82em)')
+    expect(html).toContain('(max-width: 82em)')
     expect(html).toContain('--sidebar-menu-compact-width:max(4rem, 5rem)')
     expect(html).toContain('--sidebar-menu-default-expanded-width:18rem')
     expect(html).toContain('dnb-sidebar-menu-responsive-inline__content')
@@ -1900,7 +1900,7 @@ describe('SidebarMenu responsive parts', () => {
       'dnb-sidebar-menu-responsive-inline__toggle-island{display:inline-flex;margin-inline-start:calc(.5rem + var(--sidebar-menu-compact-offset))}'
     )
     expect(html).toContain(
-      '.dnb-sidebar-menu-responsive-inline__content:dir(rtl)'
+      '.dnb-sidebar-menu-responsive-inline:not([data-sidebar-menu-responsive-compact]):dir(rtl)>.dnb-sidebar-menu-responsive-inline__content'
     )
     expect(html).toContain(
       'margin-inline-start:calc(.375rem + var(--sidebar-menu-compact-offset))'
@@ -1909,12 +1909,18 @@ describe('SidebarMenu responsive parts', () => {
       '.dnb-sidebar-menu__badge:not(:has(.dnb-badge--variant-notification)){display:none}'
     )
     expect(html).toContain(
-      '.dnb-sidebar-menu__sections.dnb-dropdown{--dropdown-button-padding:.625rem;padding-inline:.25rem}'
+      '.dnb-sidebar-menu__sections.dnb-dropdown{--dropdown-border-radius: var(--token-radius-full);--dropdown-button-padding: 0.625rem}'
+    )
+    expect(html).toContain(
+      '.dnb-dropdown__trigger{width:2.75rem;margin-inline-start:.375rem}'
+    )
+    expect(html).toContain(
+      '.dnb-sidebar-menu__sections--has-icon .dnb-dropdown__text{padding-inline:0}'
     )
     expect(html).toContain(
       ':is(.dnb-sidebar-menu__group__title,.dnb-sidebar-menu__header){width:4rem;white-space:nowrap;opacity:.8'
     )
-    expect(html).toContain('padding:0 0 2.5rem')
+    expect(html).toContain('padding:.25rem 0 2.5rem')
   })
 
   it('uses a stable first-paint CSS scope when provided', () => {
@@ -1934,6 +1940,56 @@ describe('SidebarMenu responsive parts', () => {
     )
     expect(html).toContain(
       'data-sidebar-menu-responsive-scope="application-navigation"'
+    )
+  })
+
+  it('replaces template values once and keeps a raw HTML end tag inside the scope', () => {
+    const scopeId =
+      '{{scope}}__DNB_SIDEBAR_MIN__$&</style><script>unsafe()</script>'
+    const html = renderToString(
+      <SidebarMenu.ResponsiveProvider
+        scopeId={scopeId}
+        compactAt="70em"
+        styleNonce="first-paint-nonce"
+      >
+        <SidebarMenu.ResponsiveInline>
+          Navigation
+        </SidebarMenu.ResponsiveInline>
+      </SidebarMenu.ResponsiveProvider>
+    )
+    const container = document.createElement('div')
+    container.innerHTML = html
+    expect(container.querySelectorAll('style')).toHaveLength(1)
+    expect(container.querySelectorAll('script')).toHaveLength(0)
+    expect(container.querySelector('style')).toHaveAttribute(
+      'nonce',
+      'first-paint-nonce'
+    )
+    expect(
+      container.querySelector('.dnb-sidebar-menu-responsive-inline')
+    ).toHaveAttribute('data-sidebar-menu-responsive-scope', scopeId)
+  })
+
+  it('does not reinterpret placeholder names or replacement patterns supplied in a scope', () => {
+    const scopeId = 'literal-__DNB_SIDEBAR_MIN__-$&'
+    const html = renderToString(
+      <SidebarMenu.ResponsiveProvider
+        scopeId={scopeId}
+        drawerAt="50em"
+        compactAt="70em"
+      >
+        <SidebarMenu.ResponsiveInline>
+          Navigation
+        </SidebarMenu.ResponsiveInline>
+      </SidebarMenu.ResponsiveProvider>
+    )
+    const container = document.createElement('div')
+    container.innerHTML = html
+    expect(container.querySelector('style').textContent).toContain(
+      '[data-sidebar-menu-responsive-scope="' + scopeId + '"]'
+    )
+    expect(container.querySelector('style').textContent).toContain(
+      '(min-width: 50.00625em)'
     )
   })
 
@@ -2316,8 +2372,8 @@ describe('SidebarMenu responsive parts', () => {
       </SidebarMenu.ResponsiveProvider>
     )
 
-    expect(html).toContain('@media (max-width: 50em)')
-    expect(html).toContain('@media (min-width: 50.00625em)')
+    expect(html).toContain('@media(max-width: 50em)')
+    expect(html).toContain('@media(min-width: 50.00625em)')
     expect(html).toContain('data-sidebar-menu-responsive-scope')
     expect(html).toContain('nonce="nonce-value"')
     expect(html).toContain(':not([data-sidebar-menu-responsive-visible])')
@@ -2333,7 +2389,7 @@ describe('SidebarMenu responsive parts', () => {
       </SidebarMenu.ResponsiveProvider>
     )
 
-    expect(html).toContain('@media (max-width: 40em)')
+    expect(html).toContain('@media(max-width: 40em)')
   })
 
   it('supports the deprecated breakpoint prop', () => {
@@ -2343,7 +2399,7 @@ describe('SidebarMenu responsive parts', () => {
       </SidebarMenu.ResponsiveProvider>
     )
 
-    expect(html).toContain('@media (max-width: 40em)')
+    expect(html).toContain('@media(max-width: 40em)')
   })
 
   it('prefers drawerAt over the deprecated breakpoint prop', () => {
@@ -2353,8 +2409,8 @@ describe('SidebarMenu responsive parts', () => {
       </SidebarMenu.ResponsiveProvider>
     )
 
-    expect(html).toContain('@media (max-width: 50em)')
-    expect(html).not.toContain('@media (max-width: 40em)')
+    expect(html).toContain('@media(max-width: 50em)')
+    expect(html).not.toContain('@media(max-width: 40em)')
   })
 
   it('resolves Provider breakpoint overrides for the first paint', () => {
@@ -2366,7 +2422,7 @@ describe('SidebarMenu responsive parts', () => {
       </Provider>
     )
 
-    expect(html).toContain('@media (max-width: 50em)')
+    expect(html).toContain('@media(max-width: 50em)')
   })
 
   it('uses the bundled medium first-paint CSS by default', () => {
@@ -2376,7 +2432,7 @@ describe('SidebarMenu responsive parts', () => {
       </SidebarMenu.ResponsiveProvider>
     )
 
-    expect(html).not.toContain('@media (max-width: 60em)')
+    expect(html).not.toContain('@media(max-width: 60em)')
   })
 
   it('falls back to medium for unsupported runtime values', () => {
@@ -2386,7 +2442,7 @@ describe('SidebarMenu responsive parts', () => {
       </SidebarMenu.ResponsiveProvider>
     )
 
-    expect(html).not.toContain('@media (max-width: 800px)')
+    expect(html).not.toContain('@media(max-width: 800px)')
   })
 
   it('uses a custom breakpoint after hydration', () => {

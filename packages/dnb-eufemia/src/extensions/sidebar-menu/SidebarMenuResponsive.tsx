@@ -13,6 +13,10 @@ import type {
   ReactNode,
   RefObject,
 } from 'react'
+import {
+  compactFirstPaintCss,
+  drawerFirstPaintCss,
+} from './SidebarMenuFirstPaintCss'
 import Button from '../../components/button/Button'
 import type { ButtonProps } from '../../components/button/Button'
 import type { IconSVGProps } from '../../components/icon/Icon'
@@ -661,7 +665,7 @@ export function SidebarMenuResponsiveInline({
     }
   }, [isHydrated, isSmallScreen, registerInlineId])
 
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     const wasOpen = compactOpenRef.current
     compactOpenRef.current = compactOpen
     if (compactOpen === wasOpen) {
@@ -1084,39 +1088,23 @@ function getFirstPaintCss(
     return undefined
   }
 
-  const minWidth = `${Number((em + 0.00625).toFixed(5))}em`
-  const scope = `[data-sidebar-menu-responsive-scope="${escapeCssString(scopeId)}"]`
-  const unresolved = ':not([data-sidebar-menu-responsive-visible])'
+  const values = {
+    '{{scope}}': escapeCssString(scopeId),
+    __DNB_SIDEBAR_DRAWER__: drawerAt,
+    __DNB_SIDEBAR_MIN__: Number((em + 0.00625).toFixed(5)) + 'em',
+    __DNB_SIDEBAR_MAX__: compactAt,
+  }
+  const css = [
+    drawerAt !== defaultBreakpoints.medium ? drawerFirstPaintCss : '',
+    compactAt && isEmValue(compactAt) ? compactFirstPaintCss : '',
+  ].join('')
 
-  const drawerCss =
-    drawerAt === defaultBreakpoints.medium
-      ? ''
-      : `@media (max-width: ${drawerAt}){${scope}.dnb-sidebar-menu-responsive-trigger${unresolved}{display:inline-flex}${scope}.dnb-sidebar-menu-responsive-inline${unresolved}{display:none}}@media (min-width: ${minWidth}){${scope}.dnb-sidebar-menu-responsive-trigger${unresolved}{display:none}${scope}.dnb-sidebar-menu-responsive-inline${unresolved}{display:contents}${scope}.dnb-sidebar-menu-responsive-inline${unresolved}[data-sidebar-menu-responsive-surface]{display:block}}`
-  const compactCss = compactAt
-    ? getCompactFirstPaintCss(scope, minWidth, compactAt)
-    : ''
-
-  return drawerCss + compactCss || undefined
-}
-
-function getCompactFirstPaintCss(
-  scope: string,
-  minWidth: string,
-  compactAt: string
-) {
-  const inline = `${scope}.dnb-sidebar-menu-responsive-inline:not([data-sidebar-menu-responsive-compact])`
-  const content = `${inline}>.dnb-sidebar-menu-responsive-inline__content`
-  const menu = `${content} .dnb-sidebar-menu`
-  const toggle = `${content}>.dnb-sidebar-menu-responsive-inline__toggle-island`
-  const informationBadge = `${menu} .dnb-sidebar-menu__badge:not(:has(.dnb-badge--variant-notification))`
-  const notificationBadge = `${menu} .dnb-badge--variant-notification`
-  const notificationIndicator = `${menu} .dnb-sidebar-menu__accordion__notification-indicator`
-  const sections = `${menu} .dnb-sidebar-menu__sections.dnb-dropdown`
-  const heading = `${menu} :is(.dnb-sidebar-menu__group__title,.dnb-sidebar-menu__header)`
-  const textOnlySelected = `${menu} :is(.dnb-sidebar-menu__item--active,.dnb-sidebar-menu__item--selected)>.dnb-sidebar-menu__item__action:not(:has(.dnb-sidebar-menu__item__icon))`
-  const media = `@media (min-width:${minWidth}) and (max-width:${compactAt})`
-
-  return `${media}{${inline}{display:block;width:var(--sidebar-menu-compact-width)}${inline}::after{opacity:1}${content}{clip-path:inset(0 calc(var(--sidebar-menu-expanded-width) - var(--sidebar-menu-compact-width)) 0 0)}${content}:dir(rtl){clip-path:inset(0 0 0 calc(var(--sidebar-menu-expanded-width) - var(--sidebar-menu-compact-width)))}${toggle}{display:inline-flex;margin-inline-start:calc(.5rem + var(--sidebar-menu-compact-offset))}${content} .dnb-sidebar-menu-responsive-aside__content{padding:0 0 2.5rem}${content} .dnb-sidebar-menu-responsive-aside .dnb-sidebar-menu{width:100%;margin-inline:0}${content} .dnb-sidebar-menu-responsive-aside__resize-handle{display:none}${menu} .dnb-sidebar-menu__item__action{width:2.75rem;margin-inline-start:calc(.375rem + var(--sidebar-menu-compact-offset));padding-inline:.625rem;border-radius:var(--sidebar-menu-action-border-radius)}${menu} .dnb-sidebar-menu__item__content{flex:0 0 auto}${menu} .dnb-sidebar-menu__item__text{max-width:0;overflow:hidden;white-space:nowrap;opacity:0}${menu} .dnb-sidebar-menu__item__action:not(:has(.dnb-sidebar-menu__item__icon)) .dnb-sidebar-menu__item__text{max-width:2.25rem;opacity:.8;mask-image:linear-gradient(to right,#000 35%,transparent 100%)}${menu} .dnb-sidebar-menu__item__action:not(:has(.dnb-sidebar-menu__item__icon)) .dnb-sidebar-menu__item__text:dir(rtl){mask-image:linear-gradient(to left,#000 35%,transparent 100%)}${textOnlySelected}{box-shadow:none;background-color:transparent;background-image:linear-gradient(to right,var(--sidebar-menu-action-background-color--selected) 0 35%,transparent 100%);border-radius:var(--sidebar-menu-action-border-radius) 0 0 var(--sidebar-menu-action-border-radius)}${textOnlySelected}:dir(rtl){background-image:linear-gradient(to left,var(--sidebar-menu-action-background-color--selected) 0 35%,transparent 100%);border-radius:0 var(--sidebar-menu-action-border-radius) var(--sidebar-menu-action-border-radius) 0}${menu} .dnb-sidebar-menu__accordion .dnb-sidebar-menu__list .dnb-sidebar-menu__item__action:not([aria-current]){opacity:var(--sidebar-menu-opacity)}${menu} .dnb-sidebar-menu__accordion__indicator{margin-inline-start:0}${menu} .dnb-sidebar-menu__accordion__expand-icon{width:0;overflow:hidden;opacity:0}${informationBadge}{display:none}${notificationBadge}{position:absolute;inset-block-start:-.25rem;inset-inline-end:-.375rem}${notificationIndicator}{position:absolute;inset-block-start:50%;inset-inline:auto -.125rem;transform:translateY(-50%)}${sections}{--dropdown-button-padding:.625rem;padding-inline:.25rem}${sections} .dnb-dropdown__trigger{width:2.75rem;margin-inline-start:.375rem}${sections}.dnb-sidebar-menu__sections--has-icon .dnb-dropdown__icon{width:0;overflow:hidden;opacity:0}${heading}{width:4rem;white-space:nowrap;opacity:.8;mask-image:linear-gradient(to right,#000 35%,transparent 100%)}${heading}:dir(rtl){mask-image:linear-gradient(to left,#000 35%,transparent 100%)}${menu} .dnb-sidebar-menu__divider{width:2.5rem;margin:1rem 0 1rem calc(.5rem + var(--sidebar-menu-compact-offset))}}`
+  return (
+    css.replace(
+      /{{scope}}|__DNB_SIDEBAR_(DRAWER|MIN|MAX)__/g,
+      (key) => values[key]
+    ) || undefined
+  )
 }
 
 export type SidebarMenuResponsiveDrawerProps = Omit<
