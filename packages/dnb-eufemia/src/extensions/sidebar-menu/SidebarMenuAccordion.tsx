@@ -403,9 +403,7 @@ function scrollExpandedContentIntoView(
   accordion: HTMLElement | null,
   drawerScrollElement: HTMLElement | null
 ) {
-  const scrollView =
-    drawerScrollElement ??
-    accordion?.closest<HTMLElement>('.dnb-scroll-view')
+  const scrollView = drawerScrollElement ?? getScrollParent(accordion)
   const trigger = accordion?.querySelector<HTMLElement>(
     ':scope > .dnb-sidebar-menu__accordion__trigger'
   )
@@ -453,6 +451,28 @@ function scrollExpandedContentIntoView(
     top: (scrollView?.scrollTop ?? window.scrollY) + scrollBy,
     behavior: prefersReducedMotion() ? 'auto' : 'smooth',
   })
+}
+
+function getScrollParent(element: HTMLElement | null) {
+  let parent = element?.parentElement
+
+  while (
+    parent &&
+    parent !== document.body &&
+    parent !== document.documentElement
+  ) {
+    const style = getComputedStyle(parent)
+    if (
+      parent.classList.contains('dnb-scroll-view') ||
+      (/(auto|scroll)/.test(style.overflowY) &&
+        parent.scrollHeight > parent.clientHeight)
+    ) {
+      return parent
+    }
+    parent = parent.parentElement
+  }
+
+  return null
 }
 
 function prefersReducedMotion() {
