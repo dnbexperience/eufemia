@@ -96,6 +96,7 @@ export default function useDates(
       const months = updateMonths({
         newDates,
         currentDates,
+        isRange,
       })
 
       const nextDates = {
@@ -110,7 +111,7 @@ export default function useDates(
 
       callback?.(nextDates)
     },
-    []
+    [isRange]
   )
 
   return {
@@ -274,14 +275,27 @@ function deriveDatesFromProps({
 function updateMonths({
   newDates,
   currentDates,
+  isRange,
 }: {
   newDates: DatePickerDates
   currentDates: DatePickerDates
+  isRange: boolean
 }) {
   const startMonth =
     newDates.startMonth ?? newDates.startDate ?? currentDates.startMonth
-  const endMonth =
+  let endMonth =
     newDates.endMonth ?? newDates.endDate ?? currentDates.endMonth
+
+  // When both dates are in the same month, show the next month in the
+  // second calendar, the same as on mount (see mapDates)
+  if (
+    isRange &&
+    startMonth &&
+    endMonth &&
+    isSameMonth(endMonth, startMonth)
+  ) {
+    endMonth = addMonths(startMonth, 1)
+  }
 
   return {
     startMonth,

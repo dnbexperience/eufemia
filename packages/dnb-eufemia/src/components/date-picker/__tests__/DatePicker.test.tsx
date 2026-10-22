@@ -1434,7 +1434,7 @@ describe('DatePicker component', () => {
     )
 
     expect(leftPickerTitle).toHaveTextContent('mai 2024')
-    expect(rightPickerTitle).toHaveTextContent('mai 2024')
+    expect(rightPickerTitle).toHaveTextContent('juni 2024')
 
     expect(starDay.value).toBe('17')
     expect(startMonth.value).toBe('05')
@@ -1446,7 +1446,7 @@ describe('DatePicker component', () => {
     await userEvent.click(week)
 
     expect(leftPickerTitle).toHaveTextContent('juni 2024')
-    expect(rightPickerTitle).toHaveTextContent('juni 2024')
+    expect(rightPickerTitle).toHaveTextContent('juli 2024')
 
     expect(starDay.value).toBe('03')
     expect(startMonth.value).toBe('06')
@@ -1458,7 +1458,7 @@ describe('DatePicker component', () => {
     await userEvent.click(month)
 
     expect(leftPickerTitle).toHaveTextContent('juli 2024')
-    expect(rightPickerTitle).toHaveTextContent('juli 2024')
+    expect(rightPickerTitle).toHaveTextContent('august 2024')
 
     expect(starDay.value).toBe('01')
     expect(startMonth.value).toBe('07')
@@ -1466,6 +1466,119 @@ describe('DatePicker component', () => {
     expect(endDay.value).toBe('31')
     expect(endMonth.value).toBe('07')
     expect(endYear.value).toBe('2024')
+  })
+
+  describe('range calendar months', () => {
+    const getCalendarTitles = () =>
+      Array.from(
+        document.querySelectorAll('.dnb-date-picker__header__title')
+      ).map((element) => element.textContent)
+
+    const clickShortcut = async (title: string) => {
+      await userEvent.click(
+        Array.from(
+          document
+            .querySelector('div.dnb-date-picker__addon')
+            .querySelectorAll('.dnb-button--secondary')
+        ).find((element) => element.textContent === title)
+      )
+    }
+
+    const shortcuts = [
+      {
+        title: 'Same month',
+        startDate: '2026-10-05',
+        endDate: '2026-10-22',
+      },
+      { title: 'One day', startDate: '2026-10-22' },
+      {
+        title: 'Three months',
+        startDate: '2026-10-05',
+        endDate: '2026-12-10',
+      },
+    ]
+
+    it.each([
+      ['with', true],
+      ['without', false],
+    ])(
+      'should show the next month in the second calendar when a shortcut sets dates in the same month, %s link',
+      async (_, link) => {
+        render(
+          <DatePicker
+            noAnimation
+            range
+            link={link}
+            shortcuts={shortcuts}
+          />
+        )
+
+        await userEvent.click(getDatePickerTriggerButton())
+
+        await clickShortcut('Same month')
+        expect(getCalendarTitles()).toEqual([
+          'oktober 2026',
+          'november 2026',
+        ])
+
+        await clickShortcut('Three months')
+        expect(getCalendarTitles()).toEqual([
+          'oktober 2026',
+          'desember 2026',
+        ])
+
+        await clickShortcut('One day')
+        expect(getCalendarTitles()).toEqual([
+          'oktober 2026',
+          'november 2026',
+        ])
+      }
+    )
+
+    it('should keep linked calendars on different months after a same-month shortcut', async () => {
+      render(<DatePicker noAnimation range link shortcuts={shortcuts} />)
+
+      await userEvent.click(getDatePickerTriggerButton())
+      await clickShortcut('Same month')
+
+      const [, rightCalendar] = Array.from(
+        document.querySelectorAll('.dnb-date-picker__calendar')
+      )
+      await userEvent.click(
+        rightCalendar.querySelector('.dnb-date-picker__next')
+      )
+
+      expect(getCalendarTitles()).toEqual([
+        'november 2026',
+        'desember 2026',
+      ])
+    })
+
+    it('should show the next month in the second calendar when the user types dates in the same month', async () => {
+      render(<DatePicker noAnimation range showInput />)
+
+      await userEvent.click(getDatePickerTriggerButton())
+
+      const [startDay, , , endDay] = getDatePickerInputs()
+
+      await userEvent.click(startDay)
+      await userEvent.keyboard('05102026')
+      await userEvent.click(endDay)
+      await userEvent.keyboard('22102026')
+
+      expect(getDatePickerInputs().map(({ value }) => value)).toEqual([
+        '05',
+        '10',
+        '2026',
+        '22',
+        '10',
+        '2026',
+      ])
+      expect(getCalendarTitles()).toEqual([
+        'oktober 2026',
+        'november 2026',
+      ])
+    })
   })
 
   it('should receive all dates in the shortcut callback', async () => {
