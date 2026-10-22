@@ -329,8 +329,8 @@ type SidebarMenuHeaderBaseProps = Omit<
   'title' | 'children'
 > & {
   /**
-   * Semantic heading level of the label. Default: `2`
-   * @deprecated Removed in v13, where Header is a visual menu label and no longer a heading.
+   * Kept for backwards compatibility and has no effect.
+   * @deprecated SidebarMenu.Header is a visual menu label.
    */
   headingLevel?: number
 }

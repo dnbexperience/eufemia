@@ -9,14 +9,13 @@ export default function SidebarMenuHeader(props: SidebarMenuHeaderProps) {
     className,
     text,
     children,
-    headingLevel = 2,
+    headingLevel: _headingLevel,
     ...rest
   } = props
   const titleId = `${useId(id)}-title`
   const hasText = text !== undefined && text !== null
   const label = hasText ? text : children
   const hasItems = hasText && Children.toArray(children).length > 0
-  const hasLabel = Children.toArray(label).length > 0
 
   if (!hasItems) {
     return (
@@ -25,11 +24,7 @@ export default function SidebarMenuHeader(props: SidebarMenuHeaderProps) {
         id={id}
         className={clsx('dnb-sidebar-menu__header', className)}
       >
-        {hasLabel && (
-          <span role="heading" aria-level={headingLevel}>
-            {label}
-          </span>
-        )}
+        {label}
       </li>
     )
   }
@@ -43,12 +38,7 @@ export default function SidebarMenuHeader(props: SidebarMenuHeaderProps) {
         className
       )}
     >
-      <div
-        id={titleId}
-        className="dnb-sidebar-menu__header"
-        role="heading"
-        aria-level={headingLevel}
-      >
+      <div id={titleId} className="dnb-sidebar-menu__header">
         {label}
       </div>
       <ul
