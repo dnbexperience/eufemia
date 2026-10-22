@@ -120,6 +120,46 @@ export const TitleLine = () => (
           </List.Container>
         ))
     )}
+    <List.Container bottom>
+      <List.Item.Basic icon={fish_medium} data-testid="basic-center">
+        {Title({})}
+        <List.Cell.Center>Center</List.Cell.Center>
+        <List.Cell.End>
+          <Value.Currency value={1234} />
+        </List.Cell.End>
+      </List.Item.Basic>
+      <List.Item.Action icon={fish_medium} data-testid="action-center">
+        {Title({})}
+        <List.Cell.Center>Center</List.Cell.Center>
+        <List.Cell.End>
+          <Value.Currency value={1234} />
+        </List.Cell.End>
+      </List.Item.Action>
+      <List.Item.Basic icon={fish_medium} data-testid="basic-center-only">
+        {Title({})}
+        <List.Cell.Center>Center</List.Cell.Center>
+      </List.Item.Basic>
+      <List.Item.Action
+        icon={fish_medium}
+        data-testid="action-center-only"
+      >
+        {Title({})}
+        <List.Cell.Center>Center</List.Cell.Center>
+      </List.Item.Action>
+      <List.Item.Accordion
+        icon={fish_medium}
+        data-testid="accordion-center"
+      >
+        <List.Item.Accordion.Header>
+          {Title({})}
+          <List.Cell.Center>Center</List.Cell.Center>
+          <List.Cell.End>
+            <Value.Currency value={1234} />
+          </List.Cell.End>
+        </List.Item.Accordion.Header>
+        <List.Item.Accordion.Content>Content</List.Item.Accordion.Content>
+      </List.Item.Accordion>
+    </List.Container>
     <Form.Handler defaultData={{ selection: 'title' }}>
       <Field.Selection variant="radio" path="/selection" label="Radio">
         {() => (
