@@ -377,7 +377,7 @@ export const SidebarMenuToggleProperties: PropertiesTableProps = {
     status: 'optional',
   },
   controls: {
-    doc: 'Overrides the `aria-controls` value used on small screens, which tells assistive technology which Drawer the toggle opens. It does not change which Drawer opens. Defaults to the `ResponsiveDrawer` id of the connected provider, so you rarely need it.',
+    doc: 'Overrides the `aria-controls` value used at or below `drawerAt`, which tells assistive technology which Drawer the toggle opens. It does not change which Drawer opens. Defaults to the `ResponsiveDrawer` id of the connected provider, so you rarely need it.',
     type: 'string',
     status: 'optional',
   },
@@ -396,7 +396,7 @@ export const SidebarMenuToggleProperties: PropertiesTableProps = {
 export const SidebarMenuResponsiveTriggerProperties: PropertiesTableProps =
   {
     controls: {
-      doc: 'Overrides the `aria-controls` value used on small screens, which tells assistive technology which Drawer the trigger opens. It does not change which Drawer opens. Defaults to the `ResponsiveDrawer` id in the same provider, so you rarely need it.',
+      doc: 'Overrides the `aria-controls` value used at or below `drawerAt`, which tells assistive technology which Drawer the trigger opens. It does not change which Drawer opens. Defaults to the `ResponsiveDrawer` id in the same provider, so you rarely need it.',
       type: 'string',
       status: 'optional',
     },
