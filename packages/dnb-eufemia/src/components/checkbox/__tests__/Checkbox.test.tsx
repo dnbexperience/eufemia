@@ -594,14 +594,40 @@ describe('Checkbox scss', () => {
     )
   })
 
-  it('uses the subtle stroke for disabled unchecked checkboxes', () => {
+  it('uses the Figma tokens for disabled checkboxes', () => {
     const css = loadScss(require.resolve('../style/dnb-checkbox.scss'))
 
     expect(css).toMatch(
       /--checkbox-color-border-off--disabled: var\(\s*--token-color-stroke-neutral-subtle\s*\)/
     )
     expect(css).toMatch(
-      /--checkbox-color-border-off--disabled: color-mix\(\s*in srgb,\s*var\(--token-color-stroke-neutral-ondark\) 50%,\s*transparent\s*\)/
+      /--checkbox-color-border__indeterminate--disabled: var\(\s*--token-color-stroke-action-disabled\s*\)/
+    )
+    expect(css).toMatch(
+      /\.dnb-checkbox__input\[disabled\]:indeterminate ~ \.dnb-checkbox__button \{\s*--checkbox-color-border: var\(\s*--checkbox-color-border__indeterminate--disabled\s*\);/
+    )
+  })
+
+  it('uses the Figma on-dark tokens for disabled checkboxes on dark surfaces', () => {
+    const css = loadScss(require.resolve('../style/dnb-checkbox.scss'))
+    const surfaceDark = css.match(
+      /\.dnb-checkbox--surface-dark \{[^}]*\}/
+    )[0]
+
+    expect(surfaceDark).toMatch(
+      /--checkbox-color-gfx--disabled: var\(\s*--token-color-icon-action-disabled-ondark\s*\)/
+    )
+    expect(surfaceDark).toMatch(
+      /--checkbox-color-background-on--disabled: var\(\s*--token-color-background-action-disabled-ondark\s*\)/
+    )
+    expect(surfaceDark).toMatch(
+      /--checkbox-color-background-off--disabled: transparent;/
+    )
+    expect(surfaceDark).toMatch(
+      /--checkbox-color-border-off--disabled: var\(\s*--token-color-stroke-action-disabled-ondark\s*\)/
+    )
+    expect(surfaceDark).toMatch(
+      /--checkbox-color-border__indeterminate--disabled: var\(\s*--token-color-stroke-action-disabled-ondark\s*\)/
     )
   })
 
