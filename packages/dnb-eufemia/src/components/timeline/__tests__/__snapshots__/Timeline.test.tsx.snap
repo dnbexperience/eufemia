@@ -82,7 +82,7 @@ exports[`Timeline scss > should match style dependencies css 1`] = `
 .dnb-timeline__item--completed .dnb-timeline__item__label__title {
   color: var(--token-color-text-neutral);
 }
-.dnb-timeline__item--current .dnb-timeline__item__content {
+.dnb-timeline__item--current .dnb-timeline__item__content, .dnb-timeline__item--upcoming .dnb-timeline__item__content {
   margin-left: calc(var(--timeline-icon-width--medium) / 2);
   padding-left: calc(var(--timeline-icon-width--medium) / 2 + var(--timeline-border-spacing));
 }
@@ -92,7 +92,7 @@ exports[`Timeline scss > should match style dependencies css 1`] = `
   font-size: var(--font-size-basis);
   line-height: var(--line-height-basis);
 }
-.dnb-timeline__item--current .dnb-timeline__item__label__icon {
+.dnb-timeline__item--current .dnb-timeline__item__label__icon, .dnb-timeline__item--upcoming .dnb-timeline__item__label__icon {
   width: var(--timeline-icon-width--medium);
   line-height: var(--timeline-icon-height--medium);
   border-radius: var(--timeline-icon-border-radius--medium);
@@ -101,14 +101,12 @@ exports[`Timeline scss > should match style dependencies css 1`] = `
   color: var(--token-color-icon-neutral-inverse);
   background-color: var(--token-color-background-selected);
 }
-.dnb-timeline__item--current {
+.dnb-timeline__item--current, .dnb-timeline__item--upcoming {
   margin-left: 0;
 }
 .dnb-timeline__item--upcoming .dnb-timeline__item__label__title {
+  margin-left: var(--timeline-border-spacing);
   font-weight: var(--font-weight-basis);
-  color: var(--token-color-text-neutral-alternative);
-}
-.dnb-timeline__item--upcoming:not(.dnb-skeleton) .dnb-timeline__item__label__icon {
   color: var(--token-color-text-neutral-alternative);
 }
 .dnb-timeline__item:last-child .dnb-timeline__item__content {
