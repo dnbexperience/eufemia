@@ -30,6 +30,9 @@
     --token-color-background-neutral
   );
   --radio-color-border--disabled: var(--token-color-stroke-neutral-subtle);
+  --radio-color-border-on--disabled: var(
+    --token-color-stroke-action-disabled
+  );
 
   // Active state
   --radio-border-inset--active: inset;
@@ -65,10 +68,15 @@
   --radio-bounding--large: 1.25, 1.12;
 
   &--surface-dark {
-    --radio-color-border--disabled: color-mix(
-      in srgb,
-      var(--token-color-stroke-neutral-ondark) 50%,
-      transparent
+    --radio-color-dot-on--disabled: var(
+      --token-color-background-action-disabled-ondark
+    );
+    --radio-color-background--disabled: transparent;
+    --radio-color-border--disabled: var(
+      --token-color-stroke-action-disabled-ondark
+    );
+    --radio-color-border-on--disabled: var(
+      --token-color-stroke-action-disabled-ondark
     );
   }
 
@@ -420,6 +428,10 @@
     @media (forced-colors: active) {
       outline-color: GrayText;
     }
+  }
+  &__input[disabled]:checked ~ &__button,
+  &__input[disabled][data-checked='true'] ~ &__button {
+    --radio-color-border: var(--radio-color-border-on--disabled);
   }
   &__input[disabled] ~ &__dot {
     --radio-color-dot-on: var(--radio-color-dot-on--disabled);

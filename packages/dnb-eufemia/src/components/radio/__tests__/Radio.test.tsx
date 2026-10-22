@@ -417,14 +417,35 @@ describe('Radio ARIA', () => {
 })
 
 describe('Radio scss', () => {
-  it('uses the subtle stroke for disabled radio buttons', () => {
+  it('uses the Figma tokens for disabled radio buttons', () => {
     const css = loadScss(require.resolve('../style/dnb-radio.scss'))
 
     expect(css).toMatch(
       /--radio-color-border--disabled: var\(\s*--token-color-stroke-neutral-subtle\s*\)/
     )
     expect(css).toMatch(
-      /--radio-color-border--disabled: color-mix\(\s*in srgb,\s*var\(--token-color-stroke-neutral-ondark\) 50%,\s*transparent\s*\)/
+      /--radio-color-border-on--disabled: var\(\s*--token-color-stroke-action-disabled\s*\)/
+    )
+    expect(css).toMatch(
+      /\.dnb-radio__input\[disabled\]:checked ~ \.dnb-radio__button,\s*\.dnb-radio__input\[disabled\]\[data-checked=['"]?true['"]?\] ~ \.dnb-radio__button \{\s*--radio-color-border: var\(--radio-color-border-on--disabled\);/
+    )
+  })
+
+  it('uses the Figma on-dark tokens for disabled radio buttons on dark surfaces', () => {
+    const css = loadScss(require.resolve('../style/dnb-radio.scss'))
+    const surfaceDark = css.match(/\.dnb-radio--surface-dark \{[^}]*\}/)[0]
+
+    expect(surfaceDark).toMatch(
+      /--radio-color-dot-on--disabled: var\(\s*--token-color-background-action-disabled-ondark\s*\)/
+    )
+    expect(surfaceDark).toMatch(
+      /--radio-color-background--disabled: transparent;/
+    )
+    expect(surfaceDark).toMatch(
+      /--radio-color-border--disabled: var\(\s*--token-color-stroke-action-disabled-ondark\s*\)/
+    )
+    expect(surfaceDark).toMatch(
+      /--radio-color-border-on--disabled: var\(\s*--token-color-stroke-action-disabled-ondark\s*\)/
     )
   })
 
