@@ -89,7 +89,7 @@ export const ItemContentProperties: PropertiesTableProps = {
     status: 'optional',
   },
   layoutEngine: {
-    doc: 'Select the internal Flex layout engine of the row. Defaults to `css`, which leaves the children unchanged, so cells rendered by your own components are placed like cells used directly. Use `legacy` only as a temporary compatibility fallback.',
+    doc: 'Select the internal Flex layout engine of the row. Defaults to `css`, which leaves the children unchanged, so cells rendered by your own components are placed like cells used directly. When `gap`, `rowGap` or `divider` is set, it defaults to `legacy`, so the row keeps the spacing it had before. Use `legacy` only as a temporary compatibility fallback.',
     type: ['"css"', '"legacy"'],
     defaultValue: `'css'`,
     status: 'optional',
