@@ -2043,6 +2043,65 @@ describe('DatePicker component', () => {
       }
     )
 
+    it.each<
+      [
+        string,
+        Partial<DatePickerAllProps>,
+        Partial<DatePickerAllProps>,
+        Array<string>,
+      ]
+    >([
+      ['minDate', {}, { minDate: '2026-12-10' }, ['desember 2026']],
+      ['maxDate', {}, { maxDate: '2026-08-15' }, ['august 2026']],
+      [
+        'minDate, in range mode',
+        { range: true },
+        { minDate: '2026-12-10' },
+        ['desember 2026', 'januar 2027'],
+      ],
+      [
+        'maxDate, in range mode',
+        { range: true },
+        { maxDate: '2026-08-15' },
+        ['juli 2026', 'august 2026'],
+      ],
+      [
+        'maxDate in the current month, in range mode',
+        { range: true },
+        { maxDate: '2026-10-31' },
+        ['september 2026', 'oktober 2026'],
+      ],
+      [
+        'maxDate in the current month, with rangeSingleCalendar',
+        { range: true, rangeSingleCalendar: true },
+        { maxDate: '2026-10-31' },
+        ['oktober 2026'],
+      ],
+    ])(
+      'should open on the nearest month with selectable days after mount, when setting %s',
+      async (_, props, limits, expectedTitles) => {
+        const { rerender } = render(<DatePicker noAnimation {...props} />)
+
+        rerender(<DatePicker noAnimation {...props} {...limits} />)
+        await userEvent.click(getDatePickerTriggerButton())
+
+        expect(getCalendarTitles()).toEqual(expectedTitles)
+      }
+    )
+
+    it('should keep the month of the date when minDate is set after mount', async () => {
+      const { rerender } = render(
+        <DatePicker noAnimation date="2026-10-05" />
+      )
+
+      rerender(
+        <DatePicker noAnimation date="2026-10-05" minDate="2026-12-10" />
+      )
+      await userEvent.click(getDatePickerTriggerButton())
+
+      expect(getCalendarTitles()).toEqual(['oktober 2026'])
+    })
+
     it.each<[string, Partial<DatePickerAllProps>, Array<string>]>([
       [
         'today is between minDate and maxDate',
@@ -4784,6 +4843,10 @@ describe('DatePicker component', () => {
   })
 
   it('should update calendar when changing minDate', async () => {
+    // Use a day in the middle of a month, so tomorrow is in the same month
+    vi.useFakeTimers({ toFake: ['Date'] })
+    vi.setSystemTime(new Date('2026-10-22T12:00:00'))
+
     const DatePickerComponent = () => {
       const today = new Date()
       const [minDate, setMinDate] = useState(today)
@@ -4804,23 +4867,27 @@ describe('DatePicker component', () => {
       )
     }
 
-    render(<DatePickerComponent />)
+    try {
+      render(<DatePickerComponent />)
 
-    const button = document.querySelector(
-      '.dnb-input__submit-element > button'
-    )
+      const button = document.querySelector(
+        '.dnb-input__submit-element > button'
+      )
 
-    await userEvent.click(button)
+      await userEvent.click(button)
 
-    const todayButton = document.querySelector(
-      '.dnb-date-picker__day--today > button'
-    )
+      const todayButton = document.querySelector(
+        '.dnb-date-picker__day--today > button'
+      )
 
-    expect(todayButton).not.toBeDisabled()
+      expect(todayButton).not.toBeDisabled()
 
-    await userEvent.click(screen.getByText('Click me'))
+      await userEvent.click(screen.getByText('Click me'))
 
-    expect(todayButton).toBeDisabled()
+      expect(todayButton).toBeDisabled()
+    } finally {
+      vi.useRealTimers()
+    }
   })
 
   it('should tab to next element after closing date picker', async () => {
