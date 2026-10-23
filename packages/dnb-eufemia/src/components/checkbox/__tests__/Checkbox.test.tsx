@@ -580,6 +580,37 @@ describe('Checkbox scss', () => {
     )
   })
 
+  it('uses the Figma on-dark tokens for enabled checkboxes on dark surfaces', () => {
+    const css = String(
+      loadScss(require.resolve('../style/dnb-checkbox.scss'))
+    )
+    const surfaceDark = css.match(
+      /\.dnb-checkbox--surface-dark \{[^}]*\}/
+    )[0]
+
+    expect(surfaceDark).toMatch(
+      /--checkbox-color-gfx-on: var\(--token-color-icon-neutral-static\);/
+    )
+    expect(surfaceDark).toMatch(
+      /--checkbox-color-background-off: transparent;/
+    )
+    expect(surfaceDark).toMatch(
+      /--checkbox-color-background-on: var\(\s*--token-color-background-selected-ondark\s*\)/
+    )
+    expect(surfaceDark).toMatch(
+      /--checkbox-color-border-off: var\(\s*--token-color-stroke-action-alternative-ondark\s*\)/
+    )
+    expect(surfaceDark).toMatch(
+      /--checkbox-color-background__indeterminate: var\(\s*--token-color-background-selected-subtle-ondark\s*\)/
+    )
+    expect(surfaceDark).toMatch(
+      /--checkbox-color-border--hover: var\(\s*--token-color-stroke-action-hover-ondark\s*\)/
+    )
+    expect(surfaceDark).toMatch(
+      /--checkbox-color-background-on--active: var\(\s*--token-color-background-action-pressed-ondark\s*\)/
+    )
+  })
+
   it('shows disabled checkboxes with the disabled text color in forced colors mode', () => {
     const css = loadScss(require.resolve('../style/dnb-checkbox.scss'))
 
