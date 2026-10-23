@@ -319,6 +319,50 @@ describe('Available-width media queries', () => {
     expect(result.current).toEqual({ or: true, and: true, not: true })
   })
 
+  it('accepts the conditions that viewport queries accept', () => {
+    const ref = container(700)
+    const wrapper = ({ children }) => (
+      <Provider responsive={{ target: 'container', containerRef: ref }}>
+        {children}
+      </Provider>
+    )
+    const { result } = renderHook(
+      () => ({
+        undefinedMax: useMediaQuery({
+          when: { min: '600px', max: undefined },
+        }),
+        rawString: useMediaQuery({
+          when: [{ max: '400px' }, '(min-width: 60em)'],
+        }),
+      }),
+      { wrapper }
+    )
+    expect(result.current).toEqual({ undefinedMax: true, rawString: true })
+
+    const matchMedia = vi.spyOn(window, 'matchMedia')
+    makeMediaQueryList(
+      { when: { min: 'medium', max: undefined } },
+      undefined,
+      {
+        correctRange: true,
+        responsive: { target: 'viewport', offset: 100 },
+      }
+    )
+    expect(matchMedia).toHaveBeenLastCalledWith(
+      '(min-width: calc(60.00625em + 100px))'
+    )
+    matchMedia.mockImplementation(
+      () => ({ matches: false }) as MediaQueryList
+    )
+    makeMediaQueryList({ when: { min: '50vw' } }, undefined, {
+      responsive: { target: 'viewport', offset: 100 },
+    })
+    expect(matchMedia).toHaveBeenLastCalledWith(
+      '(min-width: calc(50vw + 100px))'
+    )
+    matchMedia.mockRestore()
+  })
+
   it('does not re-render consumers on resize unless their query result changes', () => {
     const ref = container(700)
     const renders = vi.fn()
@@ -442,13 +486,22 @@ describe('Available-width media queries', () => {
     ).toHaveLength(0)
   })
 
-  it('fails explicitly for unsupported lengths and never substitutes the viewport when observation is unavailable', () => {
+  it('does not match unsupported lengths and never substitutes the viewport when observation is unavailable', () => {
     const ref = container(700)
-    expect(() =>
+    const log = vi
+      .spyOn(console, 'log')
+      .mockImplementation(() => undefined)
+    expect(
       makeMediaQueryList({ when: { min: '50vw' } }, undefined, {
         responsive: { target: 'container', containerRef: ref },
-      })
-    ).toThrow('px, em, or rem')
+      }).matches
+    ).toBe(false)
+    expect(log).toHaveBeenCalledWith(
+      expect.anything(),
+      expect.stringContaining('px, em, or rem'),
+      '50vw'
+    )
+    log.mockRestore()
     expect(() =>
       makeMediaQueryList({ when: { max: 'small' } }, undefined, {
         responsive: { target: 'viewport', offset: -1 },
