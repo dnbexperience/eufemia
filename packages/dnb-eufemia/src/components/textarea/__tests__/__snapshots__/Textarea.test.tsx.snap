@@ -449,10 +449,12 @@ button .dnb-form-status__text {
 }
 .dnb-textarea--disabled {
   --textarea-color-background: var(
-    --token-color-background-neutral-subtle
+    --token-color-background-action-disabled
   );
   --textarea-color-text: var(--token-color-text-neutral-alternative);
-  --textarea-color-placeholder: var(--token-color-text-action-disabled);
+  --textarea-color-placeholder: var(
+    --token-color-text-neutral-alternative
+  );
   --textarea-color-border: var(--token-color-stroke-action-disabled);
 }
 .dnb-textarea--disabled .dnb-textarea__textarea, .dnb-textarea__textarea[disabled] {
@@ -546,7 +548,7 @@ html[data-visual-test] .dnb-textarea__textarea {
   }
 }
 .dnb-textarea__textarea:not([disabled]):not(.dnb-textarea--disabled):hover ~ .dnb-textarea__state {
-  --textarea-color-border: var(--token-color-stroke-action-hover);
+  --textarea-color-border: var(--token-color-stroke-action-pressed);
 }
 .dnb-textarea__status--error .dnb-textarea__textarea:not([disabled]):not(.dnb-textarea--disabled) ~ .dnb-textarea__state {
   --textarea-color-border: var(--token-color-stroke-error);
