@@ -150,6 +150,22 @@ describe('buildComponentUsageRecord', () => {
 
     expect(record.timestamp).toBe('2026-09-16T12:00:00.000Z')
   })
+
+  it.each([
+    '2026-01-01T00:00:00+02:00',
+    '2026-01-01T00:00:00Z',
+    '2026-01-01T00:00:00',
+  ])(
+    'degrades a parseable but non-canonical timestamp %s to the write time',
+    (timestamp) => {
+      const record = buildComponentUsageRecord(
+        { app: 'app-a', component: 'Button', version: '1.0.0', timestamp },
+        now
+      )
+
+      expect(record.timestamp).toBe('2026-09-16T12:00:00.000Z')
+    }
+  )
 })
 
 describe('normalizeComponentName', () => {

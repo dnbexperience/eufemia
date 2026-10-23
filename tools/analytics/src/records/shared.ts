@@ -36,7 +36,11 @@ export function isValidEnv(value: unknown): value is string {
  * `Date.prototype.toISOString`), rejecting the looser inputs `Date.parse`
  * would otherwise accept, such as `"2026"` or `"March 5"`.
  */
-export function isIsoTimestamp(value: string): boolean {
+export function isIsoTimestamp(value: unknown): value is string {
+  if (typeof value !== 'string') {
+    return false
+  }
+
   const date = new Date(value)
   return !Number.isNaN(date.getTime()) && date.toISOString() === value
 }
