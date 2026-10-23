@@ -17,6 +17,11 @@ export type PopoverAlign = null | 'center' | 'right' | 'left'
 
 export type PopoverAutoAlignMode = 'initial' | 'scroll' | 'never'
 
+export type PopoverRestoreFocusTarget =
+  | HTMLElement
+  | RefObject<HTMLElement | null>
+  | (() => HTMLElement | null)
+
 export type PopoverTargetElementObject = {
   verticalRef?: PopoverTargetElement
   horizontalRef?: PopoverTargetElement
@@ -179,9 +184,13 @@ export type PopoverProps = PopoverOverlayProps & {
    */
   onFocusComplete?: () => void
   /**
-   * Moves focus back to the trigger element once the popover closes (defaults to `true`). A click or tap outside the popover leaves the focus where the user clicked or tapped.
+   * Moves focus back to the trigger or the element focused when the popover opened. Defaults to `true`. Outside clicks and taps preserve focus at the interaction target.
    */
   restoreFocus?: boolean
+  /**
+   * Provide a specific element, ref or function returning an element to receive focus when the popover closes. Takes precedence over the trigger and previously focused element.
+   */
+  restoreFocusTo?: PopoverRestoreFocusTarget
   /**
    * Prevent closing the popover when interacting outside of it or pressing Escape. Useful when the popover needs to stay open while other parts of the page are interacted with.
    */

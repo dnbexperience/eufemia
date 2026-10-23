@@ -1,6 +1,7 @@
 import { Popover, Button, P, Flex } from '@dnb/eufemia/src'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import styled from '@emotion/styled'
+import { useRef, useState } from 'react'
 
 export function PopoverExampleDefault() {
   return (
@@ -37,6 +38,50 @@ export function PopoverExampleWithoutCloseButton() {
           </Flex.Stack>
         )}
       />
+    </ComponentBox>
+  )
+}
+
+export function PopoverExampleControlled() {
+  return (
+    <ComponentBox data-visual-test="popover-controlled">
+      {() => {
+        const Example = () => {
+          const [open, setOpen] = useState(false)
+          const anchorRef = useRef<HTMLDivElement>(null)
+
+          return (
+            <Flex.Stack>
+              <div ref={anchorRef}>
+                <Button
+                  text="Open controlled popover"
+                  aria-expanded={open}
+                  aria-controls="controlled-popover-content"
+                  onClick={() => setOpen(!open)}
+                />
+              </div>
+              <Popover
+                id="controlled-popover-content"
+                open={open}
+                onOpenChange={setOpen}
+                targetElement={anchorRef}
+                title="Controlled state"
+              >
+                <Flex.Stack>
+                  <P>
+                    Closing also returns focus to the opener when the
+                    positioning target is a wrapper.
+                  </P>
+                  <Button text="Done" onClick={() => setOpen(false)} />
+                </Flex.Stack>
+              </Popover>
+              <Button text="Another action" variant="secondary" />
+            </Flex.Stack>
+          )
+        }
+
+        return <Example />
+      }}
     </ComponentBox>
   )
 }
