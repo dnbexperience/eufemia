@@ -2382,6 +2382,58 @@ describe('Field.Date', () => {
     expect(endYear.value).toBe('2025')
   })
 
+  describe('cancel without a value at open', () => {
+    const now = new Date()
+    const midMonth = `${now.getFullYear()}-${String(
+      now.getMonth() + 1
+    ).padStart(2, '0')}-15`
+
+    const getInputValues = () =>
+      Array.from(document.querySelectorAll('.dnb-date-picker__input')).map(
+        (input: HTMLInputElement) => input.value
+      )
+
+    const pickMidMonthAndCancel = async () => {
+      await userEvent.click(
+        document.querySelector('button.dnb-input__submit-button__button')
+      )
+      await userEvent.click(
+        document.querySelector(
+          `.dnb-date-picker__calendar td[data-date="${midMonth}"] button`
+        )
+      )
+
+      expect(getInputValues()[0]).toBe('15')
+
+      await userEvent.click(
+        document.querySelector('button[data-testid="cancel"]')
+      )
+    }
+
+    it('should empty the input fields of a picked date', async () => {
+      render(<Field.Date showInput />)
+
+      await pickMidMonthAndCancel()
+
+      expect(getInputValues()).toEqual(['dd', 'mm', 'åååå'])
+    })
+
+    it('should empty the input fields of a picked start date in range mode', async () => {
+      render(<Field.Date showInput range />)
+
+      await pickMidMonthAndCancel()
+
+      expect(getInputValues()).toEqual([
+        'dd',
+        'mm',
+        'åååå',
+        'dd',
+        'mm',
+        'åååå',
+      ])
+    })
+  })
+
   it('should be able to hide and show submit, cancel and reset buttons', async () => {
     const { rerender } = render(
       <Field.Date showSubmitButton showCancelButton showResetButton />

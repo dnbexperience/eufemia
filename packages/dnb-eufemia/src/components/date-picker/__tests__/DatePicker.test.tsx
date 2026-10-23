@@ -3231,6 +3231,137 @@ describe('DatePicker component', () => {
     expect(year).toHaveValue('2025')
   })
 
+  describe('cancel when there was no date at open', () => {
+    const now = new Date()
+    const midMonth = `${now.getFullYear()}-${String(
+      now.getMonth() + 1
+    ).padStart(2, '0')}-15`
+
+    const getInputValues = () =>
+      getDatePickerInputs().map((input) => input.value)
+
+    const clickCancel = () =>
+      userEvent.click(
+        document.querySelector('button[data-testid="cancel"]')
+      )
+
+    it('should empty the input fields of a picked date', async () => {
+      render(
+        <DatePicker date={null} showInput showCancelButton noAnimation />
+      )
+
+      await userEvent.click(getDatePickerTriggerButton())
+      await userEvent.click(
+        document.querySelector(`td[data-date="${midMonth}"] button`)
+      )
+
+      expect(getInputValues()[0]).toBe('15')
+
+      await clickCancel()
+
+      expect(getInputValues()).toEqual(['dd', 'mm', 'åååå'])
+    })
+
+    it('should empty the input fields of a picked start date in range mode', async () => {
+      render(
+        <DatePicker
+          startDate={null}
+          endDate={null}
+          range
+          showInput
+          noAnimation
+        />
+      )
+
+      await userEvent.click(getDatePickerTriggerButton())
+      await userEvent.click(
+        document.querySelector(
+          `.dnb-date-picker__calendar td[data-date="${midMonth}"] button`
+        )
+      )
+
+      expect(getInputValues()[0]).toBe('15')
+
+      await clickCancel()
+
+      expect(getInputValues()).toEqual([
+        'dd',
+        'mm',
+        'åååå',
+        'dd',
+        'mm',
+        'åååå',
+      ])
+    })
+
+    it('should empty a picked end date when only a part of it was typed at open', async () => {
+      const [year, month] = midMonth.split('-')
+
+      render(
+        <DatePicker
+          startDate={`${year}-${month}-10`}
+          endDate={null}
+          range
+          showInput
+          noAnimation
+        />
+      )
+
+      await typeInField(getDatePickerInputs()[3], '2')
+
+      expect(getInputValues()).toEqual([
+        '10',
+        month,
+        year,
+        '2d',
+        'mm',
+        'åååå',
+      ])
+
+      await userEvent.click(getDatePickerTriggerButton())
+      await userEvent.click(
+        document.querySelector(
+          `.dnb-date-picker__calendar td[data-date="${midMonth}"] button`
+        )
+      )
+
+      expect(getInputValues()).toEqual([
+        '10',
+        month,
+        year,
+        '15',
+        month,
+        year,
+      ])
+
+      await clickCancel()
+
+      expect(getInputValues()).toEqual([
+        '10',
+        month,
+        year,
+        'dd',
+        'mm',
+        'åååå',
+      ])
+    })
+
+    it('should keep a partly typed date when nothing was picked', async () => {
+      render(
+        <DatePicker date={null} showInput showCancelButton noAnimation />
+      )
+
+      await typeInField(getDatePickerInputs()[0], '15')
+
+      expect(getInputValues()).toEqual(['15', 'mm', 'åååå'])
+
+      await userEvent.click(getDatePickerTriggerButton())
+      await clickCancel()
+
+      expect(getInputValues()).toEqual(['15', 'mm', 'åååå'])
+    })
+  })
+
   it('should empty the input fields when clicking the reset button when `date` is `undefined`', async () => {
     const onReset = vi.fn()
 
