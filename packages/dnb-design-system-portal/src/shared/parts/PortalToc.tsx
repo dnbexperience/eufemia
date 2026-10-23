@@ -4,8 +4,6 @@ import { TableOfContent } from '@dnb/eufemia/src/extensions'
 import type { TableOfContentSection } from '@dnb/eufemia/src/extensions/table-of-content'
 import '@dnb/eufemia/src/extensions/table-of-content/style'
 
-// keep in sync with scroll-padding-top in shared/menu/StickyMenuBar.module.scss
-const CONTENT_AREA_OFFSET = 88
 const HEADING_SELECTOR = 'h1, h2, h3, h4, h5, h6'
 
 type PageHeading = {
@@ -17,7 +15,7 @@ type PageHeading = {
 }
 
 export default function PortalToc({ maxDepth }: { maxDepth?: number }) {
-  const headings = usePageHeadings()
+  const { headings, currentSectionOffset } = usePageHeadings()
 
   const sections = useMemo<TableOfContentSection[]>(
     () =>
@@ -32,7 +30,7 @@ export default function PortalToc({ maxDepth }: { maxDepth?: number }) {
   return (
     <TableOfContent.Data
       data={sections}
-      currentSectionOffset={CONTENT_AREA_OFFSET}
+      currentSectionOffset={currentSectionOffset}
       maxDepth={maxDepth}
     />
   )
@@ -44,6 +42,7 @@ export default function PortalToc({ maxDepth }: { maxDepth?: number }) {
  */
 function usePageHeadings() {
   const [headings, setHeadings] = useState<PageHeading[]>([])
+  const [currentSectionOffset, setCurrentSectionOffset] = useState(0)
 
   useEffect(() => {
     const content = document.querySelector('main')
@@ -55,6 +54,12 @@ function usePageHeadings() {
 
     const rescan = () => {
       animationFrameId = 0
+      const style = getComputedStyle(document.documentElement)
+      // Allow for browser rounding when an anchor settles below the sticky header.
+      setCurrentSectionOffset(
+        (parseFloat(style.scrollPaddingTop) || 0) +
+          (parseFloat(style.fontSize) || 16) / 2
+      )
       setHeadings((current) => {
         const found = readHeadings(content)
         return isSameHeadings(current, found) ? current : found
@@ -99,7 +104,7 @@ function usePageHeadings() {
     }
   }, [])
 
-  return headings
+  return { headings, currentSectionOffset }
 }
 
 function readHeadings(content: HTMLElement) {
