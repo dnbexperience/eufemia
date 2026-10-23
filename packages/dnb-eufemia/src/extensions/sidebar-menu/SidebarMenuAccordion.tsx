@@ -403,9 +403,7 @@ function scrollExpandedContentIntoView(
   accordion: HTMLElement | null,
   drawerScrollElement: HTMLElement | null
 ) {
-  const scrollView =
-    drawerScrollElement ??
-    accordion?.closest<HTMLElement>('.dnb-scroll-view')
+  const scrollView = drawerScrollElement ?? getScrollContainer(accordion)
   const trigger = accordion?.querySelector<HTMLElement>(
     ':scope > .dnb-sidebar-menu__accordion__trigger'
   )
@@ -417,9 +415,15 @@ function scrollExpandedContentIntoView(
     return
   }
 
-  const viewport = scrollView?.getBoundingClientRect() ?? {
-    top: 0,
-    bottom: window.innerHeight,
+  // A scroll container can reach beyond the window, for example a tall box
+  // on a page that also scrolls. Only the part inside the window is visible.
+  const containerRect = scrollView?.getBoundingClientRect()
+  const viewport = {
+    top: Math.max(containerRect?.top ?? 0, 0),
+    bottom: Math.min(
+      containerRect?.bottom ?? window.innerHeight,
+      window.innerHeight
+    ),
   }
   const contentRect = content.getBoundingClientRect()
   const hiddenBelow = contentRect.bottom - viewport.bottom
@@ -453,6 +457,32 @@ function scrollExpandedContentIntoView(
     top: (scrollView?.scrollTop ?? window.scrollY) + scrollBy,
     behavior: prefersReducedMotion() ? 'auto' : 'smooth',
   })
+}
+
+/**
+ * Returns the nearest ancestor that scrolls the menu vertically: a
+ * ScrollView, or any element with a scrollable overflow that has content
+ * to scroll. Returns null when the page itself scrolls the menu.
+ */
+function getScrollContainer(element: HTMLElement | null) {
+  for (
+    let node = element?.parentElement;
+    node && node !== document.body && node !== document.documentElement;
+    node = node.parentElement
+  ) {
+    if (node.classList.contains('dnb-scroll-view')) {
+      return node
+    }
+
+    if (
+      /^(auto|scroll|overlay)$/.test(getComputedStyle(node).overflowY) &&
+      node.scrollHeight > node.clientHeight
+    ) {
+      return node
+    }
+  }
+
+  return null
 }
 
 function prefersReducedMotion() {
