@@ -29,7 +29,7 @@ The design tokens are synchronized from Figma with the "Design Tokens" GitHub Ac
 
 Run on any other branch, the tokens are committed to that branch instead. The **Output branch** input overrides where the commit goes, and can name an existing branch or a new one, but not `main` or a release branch. An existing branch is built on as it is, without being rebased. A draft pull request is opened for the branch unless it already has one, and an open pull request is never modified.
 
-The tokens and their test snapshots are committed separately from the screenshots, so the screenshot commit can be reviewed, or dropped, on its own.
+The tokens and their test snapshots are committed separately from the screenshots, so the screenshot commit can be reviewed, or dropped, on its own. The commits are attributed to whoever started the run, and a new pull request is assigned to them.
 
 The **Generate screenshots** input is on by default. Turning it off skips the screenshot run, so the image snapshots are left untouched and have to be updated separately.
 
