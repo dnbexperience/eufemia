@@ -10,7 +10,15 @@ const CLASS_PREFIX = 'eufemia-theme__color-scheme--'
  * Place this in <head>.
  */
 export function getHeadScript(scopeHash: string) {
-  return `(function(){try{var t=JSON.parse(localStorage.getItem('${STORAGE_KEY}')||'{}');var s=t.colorScheme;if(s==='auto'||!s){s=matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'}document.documentElement.classList.add('${scopeHash}');if(s){globalThis.${GLOBAL_KEY}=s}}catch(e){}})()`
+  return `(function(){try{var t=JSON.parse(localStorage.getItem('${STORAGE_KEY}')||'{}');var s=t.colorScheme;if(s==='auto'||!s){s=matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'}document.documentElement.classList.add('${escapeForScriptString(scopeHash)}');if(s){globalThis.${GLOBAL_KEY}=s}}catch(e){}})()`
+}
+
+// Keeps a value inside a single-quoted string and the surrounding <script>
+function escapeForScriptString(value: string) {
+  return String(value).replace(
+    /[\\'<\n\r\u2028\u2029]/g,
+    (char) => `\\u${char.charCodeAt(0).toString(16).padStart(4, '0')}`
+  )
 }
 
 /**

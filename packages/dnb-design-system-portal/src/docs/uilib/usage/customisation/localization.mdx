@@ -54,19 +54,20 @@ import svSE_forms_countries from '@dnb/eufemia/shared/constants/locales/countrie
 import daDK from '@dnb/eufemia/shared/locales/da-DK'
 import daDK_forms from '@dnb/eufemia/extensions/forms/constants/locales/da-DK'
 import daDK_forms_countries from '@dnb/eufemia/shared/constants/locales/countries/da-DK'
+```
 
 Use `mergeTranslations` to combine the forms translations (and country translations when needed) before you pass them to `Form.Handler` or `Provider`.
 
+```js
 import { mergeTranslations } from '@dnb/eufemia/shared'
+import svSE from '@dnb/eufemia/shared/locales/sv-SE'
 import svSE_forms from '@dnb/eufemia/extensions/forms/constants/locales/sv-SE'
 import svSE_forms_countries from '@dnb/eufemia/shared/constants/locales/countries/sv-SE'
-import daDK_forms from '@dnb/eufemia/extensions/forms/constants/locales/da-DK'
-import daDK_forms_countries from '@dnb/eufemia/shared/constants/locales/countries/da-DK'
 
 const translations = mergeTranslations(
   svSE,
   svSE_forms,
-  svSE_forms_countries, // if needed
+  svSE_forms_countries // if needed
   // etc. for other locales you want to add
 )
 ```
@@ -1200,7 +1201,7 @@ You can provide the merged translations for fields and values in a few different
 You can provide forms translations to the `translations` property within the [Form.Handler](/uilib/extensions/forms/Form/Handler/) component like this:
 
 ```js
-import { Form } from '@dnb/eufemia/src/extensions/forms'
+import { Form } from '@dnb/eufemia/extensions/forms'
 import { mergeTranslations } from '@dnb/eufemia/shared'
 import svSE_forms from '@dnb/eufemia/extensions/forms/constants/locales/sv-SE'
 import svSE_forms_countries from '@dnb/eufemia/shared/constants/locales/countries/sv-SE'

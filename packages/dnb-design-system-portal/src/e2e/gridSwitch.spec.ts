@@ -27,4 +27,32 @@ test.describe('Grid', () => {
     const elem = page.locator('html[show-dev-grid="true"]')
     expect(elem).toBeAttached()
   })
+
+  test('font weight example grid is dimmed in dark mode', async ({
+    page,
+  }) => {
+    await page.goto('/uilib/typography/font-weight')
+    await waitForApp(page)
+    await page.evaluate(() => {
+      window.localStorage.setItem(
+        'eufemia-theme',
+        JSON.stringify({ brand: 'ui', colorScheme: 'dark' })
+      )
+    })
+    await page.reload()
+    await waitForApp(page)
+
+    const grid = page.locator('.typography-box').first()
+    const opacity = await grid.evaluate((element) => {
+      const style = getComputedStyle(element)
+
+      return {
+        lines: Number(style.getPropertyValue('--grid-opacity')),
+        boldLines: Number(style.getPropertyValue('--grid-opacity-bold')),
+      }
+    })
+
+    expect(opacity.lines).toBeLessThanOrEqual(0.05)
+    expect(opacity.boldLines).toBeLessThanOrEqual(0.1)
+  })
 })

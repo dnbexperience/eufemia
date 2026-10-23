@@ -194,7 +194,8 @@ export const NumberOrganization = () => (
 
 export const NumberLocales = () => (
   <Style>
-    <ComponentBox data-visual-test="number-format-locales">
+    {/* Node.js and the browsers format fr-CH differently */}
+    <ComponentBox data-visual-test="number-format-locales" ssr={false}>
       <H3>Numbers</H3>
       <P>
         <NumberFormat.Number locale="nb-NO" value="-12345678.9" />
@@ -211,6 +212,17 @@ export const NumberLocales = () => (
         <NumberFormat.Currency locale="de-DE" value="-12345.6" />
         <NumberFormat.Currency locale="de-CH" value="-12345.6" />
         <NumberFormat.Currency locale="fr-CH" value="-12345.6" />
+      </P>
+    </ComponentBox>
+  </Style>
+)
+
+export const NumberBrowserLocale = () => (
+  <Style>
+    <ComponentBox>
+      <P>
+        <NumberFormat.Number locale="auto" value="-12345678.9" />
+        <NumberFormat.Currency locale="auto" value="-12345.6" />
       </P>
     </ComponentBox>
   </Style>

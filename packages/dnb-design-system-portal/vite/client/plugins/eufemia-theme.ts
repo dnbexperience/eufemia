@@ -97,7 +97,7 @@ function collectThemeFiles(config: ThemeConfig): string[] {
       }
       if (config.includeFiles.length > 0) {
         return config.includeFiles.some((glob) =>
-          micromatch.isMatch(file, '**/' + glob)
+          micromatch.isMatch(file, '**/' + glob, { dot: true })
         )
       }
       return true

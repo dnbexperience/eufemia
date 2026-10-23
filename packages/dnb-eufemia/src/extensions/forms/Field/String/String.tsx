@@ -38,7 +38,7 @@ export type FieldStringProps = FieldProps<string, undefined | string> & {
    */
   ref?: RefObject<HTMLInputElement | HTMLTextAreaElement>
   /**
-   * `false` for no width (use browser default), `small`, `medium` or `large` for predefined standard widths, `stretch` to fill available width.
+   * `false` for no width (use browser default), `small`, `medium` or `large` for predefined standard widths, `stretch` to fill available width. You can also set a custom width `{number}rem`.
    */
   width?: FieldBlockWidth
   /** The size of the input. Available sizes: `small`, `medium` (default), `large`. */
@@ -135,7 +135,9 @@ export type FieldStringProps = FieldProps<string, undefined | string> & {
   autoCapitalize?: HTMLAttributes<HTMLInputElement>['autoCapitalize']
 
   // - Events
-  /** Callback fired when a key is pressed while the input has focus. */
+  /**
+   * Will be called when a key is pressed while the input has focus. Call `event.preventDefault()` to keep the key from being typed, e.g. to set the value with a keyboard shortcut. Check `event.metaKey` and `event.ctrlKey` to leave browser shortcuts alone.
+   */
   onKeyDown?: KeyboardEventHandler<HTMLInputElement>
 }
 
@@ -321,7 +323,10 @@ function StringComponent(props: FieldStringProps) {
         event.preventDefault?.() // And prevent the default form submit
       }
 
-      onKeyDown?.(event)
+      // InputMasked also calls onKeyDown with the beforeinput event on Android
+      if (event.type === 'keydown') {
+        onKeyDown?.(event)
+      }
     },
     [handleSubmit, dataContext?.props?.isolate, multiline, onKeyDown]
   )

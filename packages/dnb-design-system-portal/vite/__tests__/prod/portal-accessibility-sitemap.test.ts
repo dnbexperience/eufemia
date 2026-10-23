@@ -1,0 +1,270 @@
+import { afterEach, describe, expect, it, vi } from 'vitest'
+import fs from 'node:fs'
+import path from 'node:path'
+import os from 'node:os'
+import { execFileSync } from 'node:child_process'
+
+let fixtureDirectory: string | undefined
+afterEach(() => {
+  vi.unstubAllEnvs()
+  if (fixtureDirectory) {
+    fs.rmSync(fixtureDirectory, { recursive: true, force: true })
+    fixtureDirectory = undefined
+  }
+})
+
+const workflow = fs.readFileSync(
+  path.resolve(
+    __dirname,
+    '../../../../../.github/workflows/portal-accessibility-and-duplicate-ids.yml'
+  ),
+  'utf8'
+)
+const readStepScript = (name: string) =>
+  workflow
+    .split(`      - name: ${name}\n`)[1]
+    .split('          script: |\n')[1]
+    .split('\n      - name:')[0]
+    .split('\n')
+    .map((line) => line.slice(12))
+    .join('\n')
+const script = readStepScript('Download sitemap')
+const targetScript = readStepScript('Resolve scan target')
+const AsyncFunction = Object.getPrototypeOf(
+  async function () {}
+).constructor
+const sitemap = {
+  schemaVersion: 1,
+  pages: ['/', '/uilib/components/button/'],
+}
+
+describe('Portal accessibility scan target', () => {
+  it('scans production when no base URL is given', async () => {
+    const outputs = await resolveTarget('')
+
+    expect(outputs).toEqual({
+      'base-url': 'https://eufemia.dnb.no',
+      production: 'true',
+    })
+  })
+
+  it('scans a Portal preview from its origin', async () => {
+    const outputs = await resolveTarget(
+      ' https://main.eufemia-e25.pages.dev/uilib/ '
+    )
+
+    expect(outputs).toEqual({
+      'base-url': 'https://main.eufemia-e25.pages.dev',
+      production: 'false',
+    })
+  })
+
+  it.each([
+    'https://example.com',
+    'http://main.eufemia-e25.pages.dev',
+    'https://main.eufemia-e25.pages.dev.example.com',
+    'https://main.eufemia-e25.pages.dev:8443',
+    'not a url',
+  ])('rejects %s', async (input) => {
+    await expect(resolveTarget(input)).rejects.toThrow('base URL')
+  })
+
+  it('keeps preview reports out of the rolling issue and the baseline', () => {
+    const issueStep = workflow.split(
+      '      - name: Update rolling issue\n'
+    )[1]
+
+    expect(issueStep).toMatch(
+      /^\s+if: steps\.target\.outputs\.production == 'true'\n/
+    )
+    expect(workflow).toContain(
+      "steps.target.outputs.production == 'false' && 'portal-accessibility-preview-report' || 'portal-accessibility-report'"
+    )
+  })
+})
+
+describe('Portal accessibility sitemap preparation', () => {
+  it('uses the deployed sitemap without rebuilding the Portal', async () => {
+    const { core, files, fetch } = await prepareSitemap(200, sitemap)
+
+    expect(fetch).toHaveBeenCalledWith(
+      'https://eufemia.dnb.no/sitemap.json',
+      expect.anything()
+    )
+    expect(files.writeFileSync).toHaveBeenCalledWith(
+      'packages/dnb-design-system-portal/public/sitemap.json',
+      expect.any(String)
+    )
+    expect(core.setOutput).not.toHaveBeenCalledWith(
+      'deployment',
+      expect.anything()
+    )
+  })
+
+  it('selects the last successful deployment when no sitemap is published', async () => {
+    const { core, files } = await prepareSitemap(404)
+
+    expect(core.setOutput).toHaveBeenCalledWith(
+      'deployment',
+      'deployed-sha'
+    )
+    expect(files.writeFileSync).not.toHaveBeenCalled()
+  })
+
+  it('does not hide production errors behind a local build', async () => {
+    await expect(prepareSitemap(503)).rejects.toThrow('503')
+  })
+
+  it('rejects an empty sitemap instead of reporting a clean scan', async () => {
+    await expect(
+      prepareSitemap(200, { schemaVersion: 1, pages: [] })
+    ).rejects.toThrow('non-empty pages array')
+  })
+
+  it('wires the conditional build and scanner to the prepared sitemap', () => {
+    expect(workflow).toContain(
+      "if: steps.sitemap.outputs.deployment != ''"
+    )
+    expect(workflow).toContain('--sitemap public/sitemap.json')
+  })
+
+  it('requires a successful deployment when no sitemap is published', async () => {
+    await expect(prepareSitemap(404, undefined, false)).rejects.toThrow(
+      'No successful production deployment'
+    )
+  })
+
+  it('downloads the sitemap of a Portal preview', async () => {
+    vi.stubEnv('SCAN_BASE_URL', 'https://main.eufemia-e25.pages.dev')
+    vi.stubEnv('PRODUCTION', 'false')
+    const { fetch, files } = await prepareSitemap(200, sitemap)
+
+    expect(fetch).toHaveBeenCalledWith(
+      'https://main.eufemia-e25.pages.dev/sitemap.json',
+      expect.anything()
+    )
+    expect(files.writeFileSync).toHaveBeenCalled()
+  })
+
+  it('does not scan a production deployment instead of a preview', async () => {
+    vi.stubEnv('SCAN_BASE_URL', 'https://main.eufemia-e25.pages.dev')
+    vi.stubEnv('PRODUCTION', 'false')
+
+    await expect(prepareSitemap(404)).rejects.toThrow('404')
+  })
+
+  it('generates paths from deployed docs using existing route rules', () => {
+    fixtureDirectory = fs.mkdtempSync(
+      path.join(os.tmpdir(), 'portal-deployed-sitemap-')
+    )
+    const docs = path.join(fixtureDirectory, 'docs')
+    fs.mkdirSync(path.join(docs, 'button'), { recursive: true })
+    fs.writeFileSync(
+      path.join(docs, 'button.mdx'),
+      '---\ntitle: Button\n---\n'
+    )
+    fs.writeFileSync(
+      path.join(docs, 'button/info.mdx'),
+      '---\nshowTabs: true\n---\n'
+    )
+    fs.writeFileSync(
+      path.join(docs, 'button/demos.mdx'),
+      '---\nshowTabs: true\n---\n'
+    )
+    fs.writeFileSync(
+      path.join(docs, 'draft.mdx'),
+      '---\ndraft: true\n---\n'
+    )
+    fs.writeFileSync(
+      path.join(docs, 'Helper.tsx'),
+      'export default () => null'
+    )
+    const output = path.join(fixtureDirectory, 'sitemap.json')
+
+    execFileSync(
+      process.execPath,
+      [
+        path.resolve(
+          __dirname,
+          '../../prod/generate-accessibility-sitemap.mts'
+        ),
+        docs,
+        output,
+      ],
+      { cwd: path.resolve(__dirname, '../../..'), timeout: 20000 }
+    )
+
+    expect(JSON.parse(fs.readFileSync(output, 'utf8')).pages).toEqual([
+      '/',
+      '/500/',
+      '/button/',
+      '/button/demos/',
+    ])
+  }, 20000)
+})
+
+async function prepareSitemap(
+  status: number,
+  body: unknown = undefined,
+  successful = true
+) {
+  if (!process.env.SCAN_BASE_URL) {
+    vi.stubEnv('SCAN_BASE_URL', 'https://eufemia.dnb.no')
+    vi.stubEnv('PRODUCTION', 'true')
+  }
+  const files = { mkdirSync: vi.fn(), writeFileSync: vi.fn() }
+  const core = { setOutput: vi.fn(), notice: vi.fn() }
+  const fetch = vi.fn(async () => ({
+    status,
+    statusText: 'Response',
+    ok: status >= 200 && status < 300,
+    json: async () => body,
+  }))
+
+  const github = {
+    paginate: vi.fn(async () => [
+      { id: 2, sha: 'failed-sha' },
+      { id: 1, sha: 'deployed-sha' },
+    ]),
+    rest: {
+      repos: {
+        listDeployments: vi.fn(),
+        listDeploymentStatuses: vi.fn(async ({ deployment_id }) => ({
+          data: [
+            {
+              state:
+                successful && deployment_id === 1 ? 'success' : 'failure',
+            },
+          ],
+        })),
+      },
+    },
+  }
+
+  await new AsyncFunction(
+    'fetch',
+    'require',
+    'core',
+    'github',
+    'context',
+    script
+  )(fetch, () => files, core, github, {
+    repo: { owner: 'owner', repo: 'repo' },
+  })
+
+  return { core, files, fetch }
+}
+
+async function resolveTarget(input: string) {
+  vi.stubEnv('BASE_URL_INPUT', input)
+  const outputs: Record<string, string> = {}
+  const core = {
+    setOutput: (name: string, value: string) => {
+      outputs[name] = value
+    },
+  }
+
+  await new AsyncFunction('core', targetScript)(core)
+
+  return outputs
+}

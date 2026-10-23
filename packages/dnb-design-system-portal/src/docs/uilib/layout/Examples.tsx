@@ -168,14 +168,13 @@ export const HorizontalFlexItemResponsiveSizeCustomColumns = () => {
 }
 
 const useWindowWidth = () => {
-  const [innerWidth, setWidth] = useState(
-    typeof window !== 'undefined' ? window.innerWidth : 0
-  )
+  const [innerWidth, setWidth] = useState(0)
 
   useEffect(() => {
     const resizeHandler = () => {
       setWidth(window.innerWidth)
     }
+    resizeHandler()
     window.addEventListener('resize', resizeHandler)
     return () => window.removeEventListener('resize', resizeHandler)
   }, [])
@@ -402,7 +401,7 @@ const AllComponents = ({
         </>
       )}
       <Button text="Button" {...params} />
-      <Button icon="add" {...params} />
+      <Button icon="add" aria-label="Add" {...params} />
       <Input label={labels.input} {...params} />
       <Dropdown
         label={labels.dropdown}

@@ -134,7 +134,7 @@ export type FieldMultiSelectionProps = FieldProps<
   listDriver?: MultiSelectionListDriver
 
   /**
-   * When the number of selected items exceeds this threshold, the selected items are hidden by default and can be toggled with a header.
+   * When the total number of items exceeds this threshold, the selected items are hidden by default and can be toggled with a header. Defaults to `10`.
    */
   selectedItemsCollapsibleThreshold?: number
 
@@ -921,6 +921,7 @@ function MultiSelection(props: FieldMultiSelectionProps) {
   const searchContent = (
     <MultiSelectionSearch
       show={showSearchField}
+      label={translation.searchLabel}
       placeholder={translation.searchPlaceholder}
       value={searchValue}
       disabled={disabled}

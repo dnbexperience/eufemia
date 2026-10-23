@@ -114,6 +114,7 @@ export default {
       placeholder: 'Velg en eller flere',
       selectAll: 'Velg alle',
       searchPlaceholder: 'Søk...',
+      searchLabel: 'Søk',
       noOptions: 'Ingen alternativer',
       skipToActions: 'Hopp over alternativer og gå til handlinger',
       confirmButton: 'Bekreft ({count} valgt)',
@@ -178,13 +179,13 @@ export default {
       label: 'Fornavn',
       errorRequired: 'Du må fylle inn fornavn.',
       errorPattern:
-        'Du må skrive inn et gyldig fornavn. Kun bokstaver, bindestrek og mellomrom er tillatt.',
+        'Du må skrive inn et gyldig fornavn. Kun bokstaver, bindestrek og mellomrom er tillatt. Bindestrek og mellomrom må stå mellom to bokstaver.',
     },
     LastName: {
       label: 'Etternavn',
       errorRequired: 'Du må fylle inn etternavn.',
       errorPattern:
-        'Du må skrive inn et gyldig etternavn. Kun bokstaver, bindestrek og mellomrom er tillatt.',
+        'Du må skrive inn et gyldig etternavn. Kun bokstaver, bindestrek og mellomrom er tillatt. Bindestrek og mellomrom må stå mellom to bokstaver.',
     },
     CompanyName: {
       label: 'Firmanavn',

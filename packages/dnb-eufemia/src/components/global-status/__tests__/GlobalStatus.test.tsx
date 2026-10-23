@@ -1081,6 +1081,19 @@ describe('GlobalStatus component', () => {
     expect(document.querySelector('.dnb-icon')).not.toBeInTheDocument()
   })
 
+  it('should render the success icon and a tertiary close button in the success state', () => {
+    render(<GlobalStatus state="success" title="Saved" show noAnimation />)
+
+    expect(
+      document
+        .querySelector('.dnb-global-status__icon .dnb-icon')
+        .getAttribute('data-testid')
+    ).toBe('SuccessIcon icon')
+    expect(
+      document.querySelector('.dnb-global-status__close-button')
+    ).toHaveClass('dnb-button--tertiary')
+  })
+
   it('should support setting icon as Icon', () => {
     render(
       <GlobalStatus
@@ -1288,6 +1301,77 @@ describe('GlobalStatus component', () => {
     const status = wrapper.querySelector('.dnb-global-status')
     expect(status).toHaveClass('dnb-global-status--error')
   })
+
+  it('should not render a script-executing statusAnchorUrl', () => {
+    render(
+      <GlobalStatus
+        items={[
+          {
+            text: 'Script',
+            statusAnchorUrl: 'javascript:alert(1)',
+            statusAnchorLabel: 'script',
+          },
+          {
+            text: 'VBScript',
+            statusAnchorUrl: 'vbscript:msgbox(1)',
+            statusAnchorLabel: 'vbscript',
+          },
+          {
+            text: 'Safe',
+            statusAnchorUrl: '/uilib/components/global-status',
+            statusAnchorLabel: 'safe',
+          },
+        ]}
+        show={true}
+        autoScroll={false}
+        noAnimation={true}
+      />
+    )
+
+    const links = document.querySelectorAll('.dnb-global-status a')
+    expect(links).toHaveLength(3)
+    expect(links[0]).not.toHaveAttribute('href')
+    expect(links[1]).not.toHaveAttribute('href')
+    expect(links[2]).toHaveAttribute(
+      'href',
+      '/uilib/components/global-status'
+    )
+  })
+
+  it('should let a custom statusAnchorUrl navigate', () => {
+    render(
+      <GlobalStatus
+        show
+        noAnimation
+        autoScroll={false}
+        items={[
+          {
+            itemId: 'field-id',
+            text: 'Error',
+            statusAnchorUrl: '/uilib/components/global-status',
+            statusAnchorLabel: 'eksempel',
+          },
+          {
+            itemId: 'other-field-id',
+            text: 'Other error',
+            statusAnchorUrl: true,
+            statusAnchorLabel: 'annet felt',
+          },
+        ]}
+      />
+    )
+
+    const [link, jumpLink] = Array.from(
+      document.querySelectorAll('.dnb-global-status__message a.dnb-anchor')
+    )
+    expect(link).toHaveAttribute('href', '/uilib/components/global-status')
+
+    expect(fireEvent.click(link)).toBe(true)
+    expect(fireEvent.keyDown(link, { key: 'Enter' })).toBe(true)
+
+    expect(jumpLink).toHaveAttribute('href', '#other-field-id')
+    expect(fireEvent.click(jumpLink)).toBe(false)
+  })
 })
 
 describe('GlobalStatus scss', () => {
@@ -1317,6 +1401,30 @@ describe('GlobalStatus scss', () => {
   it('should match style dependencies css', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
     expect(css).toMatchSnapshot()
+  })
+
+  it('should color the status icon with its own stylesheet', () => {
+    const style = document.createElement('style')
+    style.textContent = String(
+      loadScss(require.resolve('../style/dnb-global-status.scss'))
+    )
+    document.head.appendChild(style)
+
+    try {
+      render(<GlobalStatus show text="Error" autoScroll={false} />)
+
+      const path = document.querySelector(
+        '.dnb-global-status .dnb-form-status-icon-path--error'
+      )
+      const computed = getComputedStyle(path)
+
+      expect(computed.fill).toBe('var(--form-status-icon-color)')
+      expect(computed.getPropertyValue('--form-status-icon-color')).toBe(
+        'var(--token-color-background-error)'
+      )
+    } finally {
+      style.remove()
+    }
   })
 
   it('should render without errors during SSR', () => {

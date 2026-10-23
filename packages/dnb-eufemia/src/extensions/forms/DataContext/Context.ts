@@ -166,7 +166,10 @@ export type ContextState = {
   setShowAllErrors: (showAllErrors: boolean) => void
   hasErrors: () => boolean
   hasFieldState: (state: SubmitState) => boolean
-  hasFieldError: (path: Path) => boolean
+  hasFieldError: (
+    path: Path,
+    options?: { withDescendants?: boolean }
+  ) => boolean
   hasFieldWithAsyncValidator?: () => boolean
   setFieldState?: (
     path: Path,
@@ -180,7 +183,11 @@ export type ContextState = {
     options?: { keepPending?: boolean }
   ) => void
   setSubmitState?: (state: EventStateObject) => void
-  addOnChangeHandler?: (callback: OnChange) => void
+  /**
+   * Adds a change handler, and returns a function that removes it again.
+   * Handlers are called with the lowest order first.
+   */
+  addOnChangeHandler?: (callback: OnChange, order?: number) => () => void
   handleSubmitCall: ({
     onSubmit,
     enableAsyncBehavior,
@@ -218,6 +225,11 @@ export type ContextState = {
     Record<Path, { type: 'field'; value?: ReactNode }>
   >
   fieldInternalsRef?: RefObject<FieldInternalsRef>
+  /**
+   * Paths of password-like fields. Their values are kept out of session storage.
+   * A "*" token matches every index of an array.
+   */
+  credentialPathsRef?: RefObject<Set<Path>>
   valueInternalsRef?: RefObject<ValueInternalsRef>
   fieldConnectionsRef?: RefObject<Record<Path, FieldConnections>>
   mountedFieldsRef?: RefObject<Map<Path, MountState>>

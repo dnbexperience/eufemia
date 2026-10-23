@@ -14,7 +14,7 @@ export type FormHandlerProps = FormElementProps & {
   autoComplete?: boolean
 
   /**
-   * Will decouple the form element from rendering
+   * Will not render the form element, so you can place it yourself with `Form.Element`. Read more about [decoupling the form element](/uilib/extensions/forms/Form/Handler/#decoupling-the-form-element).
    */
   decoupleForm?: boolean
 }

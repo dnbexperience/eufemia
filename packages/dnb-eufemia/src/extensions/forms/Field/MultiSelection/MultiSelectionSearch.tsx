@@ -2,6 +2,7 @@ import { Input } from '../../../../components'
 
 export type MultiSelectionSearchProps = {
   show: boolean
+  label: string
   placeholder: string
   value: string
   disabled?: boolean
@@ -10,6 +11,7 @@ export type MultiSelectionSearchProps = {
 
 export function MultiSelectionSearch({
   show,
+  label,
   placeholder,
   value,
   disabled,
@@ -23,6 +25,7 @@ export function MultiSelectionSearch({
     <Input
       type="search"
       label={false}
+      aria-label={label}
       icon="loupe"
       iconPosition="left"
       placeholder={placeholder}

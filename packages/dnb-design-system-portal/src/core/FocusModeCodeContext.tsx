@@ -35,6 +35,14 @@ export function FocusModeCodeProvider({
   >(null)
   const savedScrollY = useRef(0)
 
+  useEffect(() => {
+    const scrollRestoration = window.history.scrollRestoration
+
+    return () => {
+      window.history.scrollRestoration = scrollRestoration
+    }
+  }, [location.pathname])
+
   // Read the URL param on mount and on every navigation
   useEffect(() => {
     if (typeof window === 'undefined') {
@@ -44,8 +52,11 @@ export function FocusModeCodeProvider({
     const params = new URLSearchParams(location.search)
     const value = params.get(FOCUS_MODE_CODE_PARAM)
 
+    setFocusModeCodeIdState(value || null)
+
     if (value) {
-      setFocusModeCodeIdState(value)
+      // Focus mode restores its own position when history changes.
+      window.history.scrollRestoration = 'manual'
 
       // When loading directly into focusmode (e.g. page refresh),
       // restore the saved scroll position from sessionStorage so it
@@ -87,6 +98,7 @@ export function FocusModeCodeProvider({
 
   const setFocusModeCodeId = useCallback(
     (id: string | null) => {
+      window.history.scrollRestoration = 'manual'
       setFocusModeCodeIdState(id)
 
       const params = new URLSearchParams(location.search)
@@ -103,7 +115,7 @@ export function FocusModeCodeProvider({
           search: params.toString(),
           hash: location.hash,
         },
-        { replace: true }
+        { replace: !id }
       )
     },
     [location, navigate]

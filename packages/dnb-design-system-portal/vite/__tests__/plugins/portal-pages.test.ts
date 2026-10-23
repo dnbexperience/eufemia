@@ -33,10 +33,30 @@ describe('portal-pages plugin', () => {
       )
     })
 
-    it('ignores CardProductsTable.js', () => {
+    it('ignores helper components with PascalCase names', () => {
       expect(
-        shouldIgnore('/src/docs/extensions/CardProductsTable.js')
+        shouldIgnore('/src/docs/uilib/changelog/GitHubChangelog.tsx')
       ).toBe(true)
+      expect(
+        shouldIgnore(
+          '/src/docs/uilib/extensions/payment-card/CardProductsTable.tsx'
+        )
+      ).toBe(true)
+      expect(
+        shouldIgnore(
+          '/src/docs/uilib/extensions/forms/Form/ListFormComponents.tsx'
+        )
+      ).toBe(true)
+    })
+
+    it('keeps lowercase TSX pages', () => {
+      expect(shouldIgnore('/src/docs/404.tsx')).toBe(false)
+      expect(shouldIgnore('/src/docs/index.tsx')).toBe(false)
+      expect(
+        shouldIgnore(
+          '/src/docs/uilib/components/date-picker/visual-tests.tsx'
+        )
+      ).toBe(false)
     })
 
     it('ignores ColorTable.tsx', () => {

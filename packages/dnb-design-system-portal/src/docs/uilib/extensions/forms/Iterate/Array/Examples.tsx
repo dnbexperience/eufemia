@@ -20,7 +20,7 @@ export const PrimitiveItemsFields = () => {
         defaultValue={['Iron Man', 'Captain America', 'The Hulk']}
         onChange={console.log}
       >
-        <Field.String itemPath="/" />
+        <Field.String label="Item no. {itemNo}" itemPath="/" />
       </Iterate.Array>
     </ComponentBox>
   )
@@ -127,7 +127,9 @@ export const RenderPropsPrimitiveItems = () => {
         defaultValue={['foo', 'bar']}
         onChange={(value) => console.log('onChange', value)}
       >
-        {(elementValue) => <Field.String value={elementValue} />}
+        {(elementValue) => (
+          <Field.String label="Item no. {itemNo}" value={elementValue} />
+        )}
       </Iterate.Array>
     </ComponentBox>
   )
@@ -145,8 +147,16 @@ export const RenderPropsObjectItems = () => {
       >
         {({ num, txt }) => (
           <Field.Composition width="large">
-            <Field.Number value={num} width="small" />
-            <Field.String value={txt} width={false} />
+            <Field.Number
+              label="Number no. {itemNo}"
+              value={num}
+              width="small"
+            />
+            <Field.String
+              label="Text no. {itemNo}"
+              value={txt}
+              width={false}
+            />
           </Field.Composition>
         )}
       </Iterate.Array>
@@ -323,7 +333,12 @@ export const DynamicPathValue = () => {
     <ComponentBox>
       <Form.Handler defaultData={{ count: 0 }}>
         <Flex.Stack>
-          <Field.Number path="/count" width="small" showStepControls />
+          <Field.Number
+            label="Count"
+            path="/count"
+            width="small"
+            showStepControls
+          />
           <Iterate.Array
             path="/items"
             countPath="/count"

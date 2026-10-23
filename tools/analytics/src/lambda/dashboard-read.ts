@@ -1,8 +1,8 @@
 import type { APIGatewayProxyResultV2 } from 'aws-lambda'
+import { requireEnv } from './env.js'
 import { json } from './http.js'
 import {
   readSnapshot,
-  requireEnv,
   EMPTY_COMPONENT_USAGE,
   EMPTY_MCP_USAGE,
   type Snapshot,

@@ -137,7 +137,7 @@ describe('Anchor element', () => {
         </Anchor>
       )
       expect(
-        document.querySelector('.dnb-anchor--launch-icon')
+        document.querySelector('.dnb-anchor__launch-icon')
       ).not.toBeInTheDocument()
 
       rerender(
@@ -146,7 +146,7 @@ describe('Anchor element', () => {
         </Anchor>
       )
       expect(
-        document.querySelector('.dnb-anchor--launch-icon')
+        document.querySelector('.dnb-anchor__launch-icon')
       ).not.toBeInTheDocument()
 
       rerender(
@@ -155,9 +155,35 @@ describe('Anchor element', () => {
         </Anchor>
       )
       expect(
-        document.querySelector('.dnb-anchor--launch-icon')
+        document.querySelector('.dnb-anchor__launch-icon')
+      ).not.toBeInTheDocument()
+
+      rerender(
+        <Anchor href="MAILTO:test@dnb.no" target="_blank">
+          <span>text</span>
+        </Anchor>
+      )
+      expect(
+        document.querySelector('.dnb-anchor__launch-icon')
       ).not.toBeInTheDocument()
     })
+
+    it.each(['telemetry/page', 'smsinfo.html', 'mailto-guide/'])(
+      'treats "%s" as a link that opens a new tab',
+      (href) => {
+        render(
+          <Anchor href={href} target="_blank">
+            text
+          </Anchor>
+        )
+
+        const anchor = document.querySelector('a')
+        expect(anchor).toHaveAttribute('rel', 'noopener noreferrer')
+        expect(
+          document.querySelector('.dnb-anchor__launch-icon')
+        ).toBeInTheDocument()
+      }
+    )
 
     it('should automatically add rel="noopener noreferrer" when target="_blank" for security', () => {
       render(

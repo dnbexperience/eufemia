@@ -34,7 +34,7 @@ const portalViews = pages.flatMap((path, pageIndex) => {
     return {
       path,
       env: n % 3 === 0 ? 'test' : 'prod',
-      created_at: `${day}T${hour}:00:00Z`,
+      timestamp: `${day}T${hour}:00:00Z`,
     }
   })
 })
@@ -65,6 +65,11 @@ export const demoPayload: DashboardPayload = {
         { name: '/uilib/components/dropdown', count: 12 },
         { name: '/uilib/patterns/forms', count: 7 },
         { name: '/uilib/getting-started', count: 4 },
+      ],
+      missedLookups: 7,
+      perLikelyComponent: [
+        { name: 'date-picker', count: 4 },
+        { name: 'input-masked', count: 1 },
       ],
     },
     local: {

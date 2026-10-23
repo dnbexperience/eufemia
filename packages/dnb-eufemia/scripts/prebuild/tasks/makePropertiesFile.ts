@@ -80,8 +80,8 @@ const TOKEN_SETS = {
 const ROOT_DIR = path.resolve(__dirname, '../../..')
 
 export default async function makePropertiesFile() {
-  await runFactory()
   await runDesignTokenFactory()
+  await runFactory()
 
   log.succeed(
     '> PrePublish: "makePropertiesFile" creating properties file done'
@@ -109,10 +109,10 @@ export default ${JSON.stringify(variables, null, 2)}`,
 }
 
 const transformModulesContentCSS = async (content: string) => {
-  const variables = parseCSSVariables(content)
-
   // Convert --sb-* variables to Tailwind-compatible format
-  const convertedVariables = convertVariablesToTailwindFormat(variables)
+  const convertedVariables = convertVariablesToTailwindFormat(
+    parseCSSVariables(content)
+  )
 
   const cssContent = Object.entries(convertedVariables)
     .map(([key, value]) => `  ${key}: ${value};`)
@@ -239,17 +239,9 @@ type TokenItem = {
 } & FigmaValue
 
 const foundationPrefixMap = {
-  ui: { css: 'dnb', figma: ['dnb'] },
-  sbanken: { css: 'sbanken', figma: ['sbanken'] },
-  // Figma renamed the group, and exports synced before still use dnbcarnegie
-  carnegie: { css: 'carnegie', figma: ['dnb-carnegie', 'dnbcarnegie'] },
-}
-
-/** Keeps only the foundation group of one theme, under whichever name the export uses */
-const pickFoundationGroup = (json: FigmaExport, names: string[]) => {
-  const name = names.find((name) => name in json) ?? names[0]
-
-  return { [name]: json[name] }
+  ui: { css: 'dnb', figma: 'dnb' },
+  sbanken: { css: 'sbanken', figma: 'sbanken' },
+  carnegie: { css: 'carnegie', figma: 'dnb-carnegie' },
 }
 
 export const transformFigmaAlias = (alias: FigmaAlias) => {
@@ -262,7 +254,7 @@ export const transformFigmaAlias = (alias: FigmaAlias) => {
     let knownPrefix = false
     Object.values(foundationPrefixMap).forEach((prefix) => {
       // TODO: perhaps we should be even more strict and ensure that the prefix is from the correct theme
-      if (prefix.figma.includes(path[0])) {
+      if (path[0] === prefix.figma) {
         knownPrefix = true
       }
     })
@@ -339,9 +331,9 @@ const shouldTransformFigmaAlias = (value: FigmaValue) => {
     switch (alias.targetVariableSetId) {
       case TOKEN_SETS.colors.targetVariableSetId:
         return true
-      case TOKEN_SETS.sizes.targetVariableSetId: {
-        // Size aliases resolve to literal values instead of var() references
-        // because we do not import their foundation SCSS files.
+      case TOKEN_SETS.sizes.targetVariableSetId:
+      case TOKEN_SETS.typography.targetVariableSetId: {
+        // Numeric foundation aliases use the exported value directly.
         if (value.$type !== 'number') {
           const errorMessage = `Unexpected type : ${value.$type} for in variable set ${alias.targetVariableSetName}`
           log.fail(errorMessage)
@@ -441,7 +433,7 @@ export const transformFigmaPath = (
   if (value.figmaSetId === TOKEN_SETS.colors.targetVariableSetId) {
     Object.values(foundationPrefixMap).forEach((prefix) => {
       // TODO: perhaps we should be even more strict and ensure that the prefix is from the correct theme
-      if (prefix.figma.includes(cleanPath[0])) {
+      if (cleanPath[0] === prefix.figma) {
         cleanPath[0] = prefix.css
       }
     })
@@ -507,18 +499,8 @@ const keepOnlyReferencedVariableDeclarations = (
     .join('\n')
 }
 
-const shouldGenerateCSSVariable = (value: FigmaValue) => {
-  if (value.$type === 'string') {
-    return false // Exclude font-family and font weight
-  }
-  if (
-    value?.$extensions?.['com.figma.aliasData']?.targetVariableSetId ===
-    TOKEN_SETS.typography.targetVariableSetId
-  ) {
-    return false // Exclude typography
-  }
-  return true
-}
+const shouldGenerateCSSVariable = (value: TokenItem) =>
+  value.$type !== 'string' && value.figmaPath[0] !== 'font'
 
 /** Generates CSS variables as a SCSS string from a token list */
 export const generateCSSVariablesFromTokenList = (
@@ -904,6 +886,119 @@ export const convertToTokenList = (
   return tokenList
 }
 
+// Map Eufemia's public scale to the corresponding Figma typography values.
+const typographyProperties = {
+  '--font-size-xx-small': ['font', 'size', 'text-2xs'],
+  '--font-size-x-small': ['font', 'size', 'text-xs'],
+  '--font-size-small': ['font', 'size', 'text-sm'],
+  '--font-size-basis': ['font', 'size', 'text-basis'],
+  '--font-size-medium': ['font', 'size', 'text-lead'],
+  '--font-size-large': ['font', 'size', 'heading-lg'],
+  '--font-size-x-large': ['font', 'size', 'heading-xl'],
+  '--font-size-xx-large': ['font', 'size', 'heading-2xl'],
+  '--line-height-x-small': ['font', 'height', 'text-xs'],
+  '--line-height-small': ['font', 'height', 'text-sm'],
+  '--line-height-basis': ['font', 'height', 'text-basis'],
+  '--line-height-medium': ['font', 'height', 'text-lead'],
+  '--line-height-large': ['font', 'height', 'heading-large'],
+  '--line-height-x-large': ['font', 'height', 'heading-xl'],
+  '--line-height-xx-large': ['font', 'height', 'heading-2xl'],
+} as const
+
+export const syncTypographyProperties = (
+  source: string,
+  values: Record<string, string>
+) => {
+  for (const [property, value] of Object.entries(values)) {
+    const declaration = new RegExp(
+      '^([ \t]*' + property + ':\\s*)[^;]+;',
+      'gm'
+    )
+    if (Array.from(source.matchAll(declaration)).length !== 1) {
+      throw new Error(
+        'Expected one typography property declaration: ' + property
+      )
+    }
+
+    source = source.replace(
+      declaration,
+      (_match, prefix) => prefix + value + ';'
+    )
+  }
+
+  return source
+}
+
+const makeTypographyPropertiesSCSS = async ({
+  inputPath,
+  outputPath,
+  brand,
+}: {
+  inputPath: string
+  outputPath: string
+  brand: string
+}) => {
+  const tokenList = convertToTokenList(
+    JSON.parse(fs.readFileSync(path.resolve(inputPath), 'utf-8')),
+    TOKEN_SETS.brand.targetVariableSetId
+  )
+  const tokenMap = new Map(
+    tokenList.map((token) => [token.figmaPath.join('/'), token])
+  )
+  const declarations = Object.entries(typographyProperties).map(
+    ([property, tokenPath]) => {
+      const tokenPathName = tokenPath.join('/')
+      const token = tokenMap.get(tokenPathName)
+      if (!token || token.$type !== 'number') {
+        throw new Error(
+          'Missing numeric typography token for ' +
+            property +
+            ': ' +
+            tokenPathName
+        )
+      }
+      const declaration =
+        '  ' + property + ': ' + transformFigmaValue(token) + ';'
+      return property === '--font-size-basis'
+        ? declaration +
+            '\n  --font-size-basis-web: ' +
+            transformFigmaValue(token) +
+            ';'
+        : declaration
+    }
+  )
+  // Only on :root, so apps can still override the scale on :root inside a
+  // theme. A declaration on the theme class would block the override.
+  const selector = ':root'
+  const content = [
+    '/* This file is auto generated by makePropertiesFile.ts */',
+    '',
+    selector + ' {',
+    ...declarations,
+    '}',
+    '',
+  ].join('\n')
+  await promises.writeFile(
+    path.resolve(outputPath),
+    await prettier.format(content, { filepath: '*.scss', ...prettierrc })
+  )
+
+  if (brand === 'ui') {
+    const propertiesPath = path.resolve(
+      path.dirname(outputPath),
+      'properties.scss'
+    )
+    const source = await promises.readFile(propertiesPath, 'utf-8')
+    await promises.writeFile(
+      propertiesPath,
+      await prettier.format(
+        syncTypographyProperties(source, parseCSSVariables(content)),
+        { filepath: '*.scss', ...prettierrc }
+      )
+    )
+  }
+}
+
 const runDesignTokenFactory = async () => {
   log.start('> PrePublish: transforming figma variables to SCSS')
 
@@ -980,24 +1075,29 @@ const runDesignTokenFactory = async () => {
       in: `./src/style/themes/figma/${TOKEN_SETS.colors.fileName}`,
       out: './src/style/themes/ui/foundation.scss',
       figmaSetId: TOKEN_SETS.colors.targetVariableSetId,
-      filter: (json) =>
-        pickFoundationGroup(json, foundationPrefixMap.ui.figma),
+      filter: (json) => ({
+        [foundationPrefixMap.ui.figma]: json[foundationPrefixMap.ui.figma],
+      }),
     },
     {
       theme: 'sbanken',
       in: `./src/style/themes/figma/${TOKEN_SETS.colors.fileName}`,
       out: './src/style/themes/sbanken/foundation.scss',
       figmaSetId: TOKEN_SETS.colors.targetVariableSetId,
-      filter: (json) =>
-        pickFoundationGroup(json, foundationPrefixMap.sbanken.figma),
+      filter: (json) => ({
+        [foundationPrefixMap.sbanken.figma]:
+          json[foundationPrefixMap.sbanken.figma],
+      }),
     },
     {
       theme: 'carnegie',
       in: `./src/style/themes/figma/${TOKEN_SETS.colors.fileName}`,
       out: './src/style/themes/carnegie/foundation.scss',
       figmaSetId: TOKEN_SETS.colors.targetVariableSetId,
-      filter: (json) =>
-        pickFoundationGroup(json, foundationPrefixMap.carnegie.figma),
+      filter: (json) => ({
+        [foundationPrefixMap.carnegie.figma]:
+          json[foundationPrefixMap.carnegie.figma],
+      }),
     },
   ]
 
@@ -1016,6 +1116,13 @@ const runDesignTokenFactory = async () => {
       referencePrefixOverride: file.referencePrefixOverride,
       colorScheme: file.colorScheme,
     })
+    if (file.colorScheme === 'light') {
+      await makeTypographyPropertiesSCSS({
+        inputPath: file.in,
+        outputPath: file.out.replace('/tokens', '/typography-properties'),
+        brand: file.theme,
+      })
+    }
   }
 
   const referencedVariablesEntries: Array<[string, Set<string>]> =

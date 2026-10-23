@@ -10,7 +10,7 @@ export const StepProperties: PropertiesTableProps = {
   title: {
     doc: 'A unique title of the step.',
     type: 'React.ReactNode',
-    status: 'required',
+    status: 'optional',
   },
   inactive: {
     doc: 'Will treat the step as non-navigable if set to `true`.',

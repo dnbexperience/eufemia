@@ -33,13 +33,11 @@ export type TableProps = {
 
   /**
    * Custom `className` on the component root.
-   * Default: `undefined`
    */
   className?: string
 
   /**
    * If set to `true`, an overlaying skeleton with animation will be shown.
-   * Default: `undefined`
    */
   skeleton?: SkeletonShow
 

@@ -1,0 +1,49 @@
+---
+fullscreen: true
+hideInMenu: true
+search: false
+---
+
+import { Button, List } from '@dnb/eufemia/src'
+
+<Button text="Before the card" data-testid="before-card" />
+
+<List.Card data-testid="card-outline">
+  <List.Container>
+    <List.Item.Action title="First row" onClick={() => null} />
+    <List.Item.Action title="Middle row" onClick={() => null} />
+    <List.Item.Action title="Link row" href="/uilib/components/list/" />
+    <List.Item.Accordion title="Accordion row" open>
+      <List.Item.Accordion.Content>
+        Accordion content
+      </List.Item.Accordion.Content>
+    </List.Item.Accordion>
+    <List.Item.Action
+      title="Footer row"
+      onClick={() => null}
+      footer={
+        <List.Cell.Footer>
+          <Button text="Footer action" />
+        </List.Cell.Footer>
+      }
+    />
+    <List.Item.Accordion title="Parent accordion row" open>
+      <List.Item.Accordion.Content>
+        <List.Container>
+          <List.Item.Accordion title="Nested accordion row">
+            <List.Item.Accordion.Content>
+              Nested accordion content
+            </List.Item.Accordion.Content>
+          </List.Item.Accordion>
+        </List.Container>
+      </List.Item.Accordion.Content>
+    </List.Item.Accordion>
+    <List.Item.Action title="Disabled row" onClick={() => null} disabled />
+    <List.Item.Accordion title="Disabled accordion row" disabled>
+      <List.Item.Accordion.Content>
+        Disabled accordion content
+      </List.Item.Accordion.Content>
+    </List.Item.Accordion>
+    <List.Item.Action title="Last row" onClick={() => null} />
+  </List.Container>
+</List.Card>

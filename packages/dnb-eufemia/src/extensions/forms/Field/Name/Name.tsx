@@ -24,6 +24,26 @@ export type FieldNameProps = Omit<StringFieldProps, 'onBlurValidator'> & {
   onBlurValidator?: NameValidator | false
 }
 
+export type FieldNameCompanyProps = Omit<
+  StringFieldProps,
+  'onBlurValidator'
+> & {
+  // TODO: In v13, narrow this to `CompanyNameValidator | false`
+  onBlurValidator?:
+    | ValidatorWithCustomValidators<
+        string,
+        {
+          companyValidator: Validator<string>
+
+          /**
+           * @deprecated Not provided by `Field.Name.Company`, use `companyValidator` instead. Only typed so validators typed as `NameValidator` still compile. This will be removed in v13.
+           */
+          nameValidator: Validator<string>
+        }
+      >
+    | false
+}
+
 // Pattern for first and last names: must start and end with a letter (or be a single letter),
 // disallow consecutive hyphens/spaces, allow letters, spaces, and hyphens inside,
 // but do not allow digits, dots, or trailing punctuation (e.g. ending with '-').
@@ -138,7 +158,7 @@ Name.Last = function LastName(props: FieldNameProps) {
 }
 Name.Last['_supportsSpacingProps'] = true
 
-Name.Company = function CompanyName(props: FieldNameProps) {
+Name.Company = function CompanyName(props: FieldNameCompanyProps) {
   const translations = useTranslation().CompanyName
   const {
     onBlurValidator: onBlurValidatorProp,

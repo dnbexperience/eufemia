@@ -96,8 +96,8 @@ You can provide your component as the wrapper. This way no additional HTML Eleme
 ```tsx
 import { Theme } from '@dnb/eufemia/shared'
 
-const Component = ({ className ...props }) => {
-  return <div className={className+' more-classes'} {...props} />
+const Component = ({ className, ...props }) => {
+  return <div className={className + ' more-classes'} {...props} />
 }
 
 render(
@@ -155,6 +155,18 @@ Use `surface="initial"` to reset components back to their default behavior insid
   </Theme.Context>
 </Section>
 ```
+
+## Typography
+
+Set `typography="native"` when embedded web content should use the brand's native app font size for body text and control labels. Line heights and control dimensions stay the same. The setting also reaches Eufemia dialogs and other React portals.
+
+```tsx
+<Theme typography="native">
+  <App />
+</Theme>
+```
+
+Nested themes inherit the setting. Use `typography="web"` to restore the web font size in a nested theme. See [native app font sizes](/uilib/typography/font-size#typography-for-native-app-pages) for a live example, current sizes, micro-frontend setup, and text scaling guidance.
 
 ## The `colorScheme` property (Dark mode)
 

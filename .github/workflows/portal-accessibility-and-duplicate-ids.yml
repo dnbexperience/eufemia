@@ -1,0 +1,362 @@
+name: Portal accessibility and duplicate IDs
+
+on:
+  schedule:
+    - cron: '17 5 * * 1'
+  workflow_dispatch:
+    inputs:
+      base-url:
+        description: 'Portal preview to scan, such as https://main.eufemia-e25.pages.dev. Leave empty to scan production and update the rolling issue.'
+        required: false
+        default: ''
+
+permissions:
+  actions: read
+  contents: read
+  deployments: read
+  issues: write
+
+concurrency:
+  group: portal-accessibility-and-duplicate-ids
+  cancel-in-progress: false
+
+jobs:
+  scan:
+    name: Scan Portal
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+
+    steps:
+      - name: Resolve scan target
+        id: target
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9
+        env:
+          BASE_URL_INPUT: ${{ inputs.base-url }}
+        with:
+          script: |
+            const input = process.env.BASE_URL_INPUT?.trim()
+            if (!input) {
+              core.setOutput('base-url', 'https://eufemia.dnb.no')
+              core.setOutput('production', 'true')
+              return
+            }
+
+            let url
+            try {
+              url = new URL(input)
+            } catch {
+              throw new Error(`The base URL is not a valid URL: ${input}`)
+            }
+
+            const isPreview = url.hostname.endsWith('.eufemia-e25.pages.dev')
+            if (
+              url.protocol !== 'https:' ||
+              url.port !== '' ||
+              (url.hostname !== 'eufemia.dnb.no' && !isPreview)
+            ) {
+              throw new Error(
+                'The base URL must be https://eufemia.dnb.no or a Portal preview on eufemia-e25.pages.dev'
+              )
+            }
+
+            core.setOutput('base-url', url.origin)
+            core.setOutput('production', String(!isPreview))
+
+      - name: Git checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+
+      - name: Setup dependencies
+        uses: ./.github/actions/setup
+        with:
+          cache-version: ${{ secrets.CACHE_VERSION }}
+
+      - name: Download sitemap
+        id: sitemap
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9
+        env:
+          SCAN_BASE_URL: ${{ steps.target.outputs.base-url }}
+          PRODUCTION: ${{ steps.target.outputs.production }}
+        with:
+          script: |
+            const baseUrl = process.env.SCAN_BASE_URL
+            const response = await fetch(`${baseUrl}/sitemap.json`, {
+              signal: AbortSignal.timeout(30000),
+            })
+
+            if (response.status === 404 && process.env.PRODUCTION === 'true') {
+              const deployments = await github.paginate(github.rest.repos.listDeployments, {
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                environment: 'github-pages',
+                per_page: 100,
+              })
+
+              for (const deployment of deployments) {
+                const { data: statuses } = await github.rest.repos.listDeploymentStatuses({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  deployment_id: deployment.id,
+                  per_page: 1,
+                })
+                if (statuses[0]?.state !== 'success') continue
+
+                core.notice(`Production sitemap is not deployed yet; using documentation from deployment ${deployment.sha}.`)
+                core.setOutput('deployment', deployment.sha)
+                return
+              }
+
+              throw new Error('No successful production deployment found for sitemap generation')
+            }
+
+            if (!response.ok) {
+              throw new Error(`Could not download the sitemap from ${baseUrl}: ${response.status} ${response.statusText}`)
+            }
+
+            const sitemap = await response.json()
+            if (!Array.isArray(sitemap.pages) || sitemap.pages.length === 0) {
+              throw new Error('The sitemap must contain a non-empty pages array')
+            }
+
+            const fs = require('fs')
+            fs.mkdirSync('packages/dnb-design-system-portal/public', { recursive: true })
+            fs.writeFileSync(
+              'packages/dnb-design-system-portal/public/sitemap.json',
+              JSON.stringify(sitemap)
+            )
+
+      - name: Check out deployed documentation
+        if: steps.sitemap.outputs.deployment != ''
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: ${{ steps.sitemap.outputs.deployment }}
+          path: portal-deployed-source
+          persist-credentials: false
+          sparse-checkout: packages/dnb-design-system-portal/src/docs
+
+      - name: Generate sitemap before its first production deployment
+        if: steps.sitemap.outputs.deployment != ''
+        run: |
+          cd packages/dnb-design-system-portal
+          node vite/prod/generate-accessibility-sitemap.mts \
+            ../../portal-deployed-source/packages/dnb-design-system-portal/src/docs
+
+      - name: Use Playwright cache
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
+        id: playwright-cache
+        with:
+          path: |
+            ~/.cache/ms-playwright
+          key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-playwright-chromium-${{ hashFiles('**/yarn.lock') }}
+
+      - name: Install Playwright browser
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+        run: yarn workspace dnb-design-system-portal playwright install --with-deps chromium
+
+      - name: Install Playwright dependencies
+        if: steps.playwright-cache.outputs.cache-hit == 'true'
+        run: yarn workspace dnb-design-system-portal playwright install-deps chromium
+
+      - name: Download previous report
+        id: previous
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9
+        with:
+          script: |
+            const fs = require('fs')
+            const runs = await github.paginate(
+              github.rest.actions.listWorkflowRuns,
+              {
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                workflow_id: 'portal-accessibility-and-duplicate-ids.yml',
+                status: 'success',
+                per_page: 100,
+              }
+            )
+
+            for (const run of runs) {
+              if (run.id === context.runId) continue
+
+              const artifacts = await github.paginate(
+                github.rest.actions.listWorkflowRunArtifacts,
+                {
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  run_id: run.id,
+                  per_page: 100,
+                }
+              )
+              const report = artifacts.find(
+                (artifact) =>
+                  artifact.name === 'portal-accessibility-report'
+              )
+              if (!report) continue
+
+              const archive = await github.rest.actions.downloadArtifact({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                artifact_id: report.id,
+                archive_format: 'zip',
+              })
+              fs.writeFileSync(
+                'previous-report.zip',
+                Buffer.from(archive.data)
+              )
+              core.setOutput('found', 'true')
+              return
+            }
+
+            core.setOutput('found', 'false')
+
+      - name: Extract previous report
+        if: steps.previous.outputs.found == 'true'
+        run: unzip -q previous-report.zip -d previous-report
+
+      - name: Scan all canonical pages
+        env:
+          SCAN_BASE_URL: ${{ steps.target.outputs.base-url }}
+        run: |
+          previous=()
+          if [ -f previous-report/portal-accessibility-report.json ]; then
+            previous=(--previous ../../previous-report/portal-accessibility-report.json)
+          fi
+
+          yarn workspace dnb-design-system-portal scan:accessibility \
+            --base-url "$SCAN_BASE_URL" \
+            --sitemap public/sitemap.json \
+            --color-schemes light,dark \
+            --output portal-accessibility-report.json \
+            --issue-output portal-accessibility-issue.json \
+            "${previous[@]}"
+
+      - name: Summarize preview scan
+        if: steps.target.outputs.production == 'false'
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9
+        env:
+          SCAN_BASE_URL: ${{ steps.target.outputs.base-url }}
+          ISSUE_PATH: packages/dnb-design-system-portal/portal-accessibility-issue.json
+        with:
+          script: |
+            const fs = require('fs')
+            const { chunks, changeChunks } = JSON.parse(
+              fs.readFileSync(process.env.ISSUE_PATH)
+            )
+            await core.summary
+              .addRaw(
+                [
+                  `Scanned ${process.env.SCAN_BASE_URL}. Changes are compared with the latest production scan.`,
+                  chunks[0],
+                  ...changeChunks,
+                ].join('\n\n')
+              )
+              .write()
+
+      - name: Update rolling issue
+        if: steps.target.outputs.production == 'true'
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9
+        env:
+          REPORT_PATH: packages/dnb-design-system-portal/portal-accessibility-report.json
+          ISSUE_PATH: packages/dnb-design-system-portal/portal-accessibility-issue.json
+        with:
+          script: |
+            const fs = require('fs')
+            const report = JSON.parse(fs.readFileSync(process.env.REPORT_PATH))
+            const issueReport = JSON.parse(fs.readFileSync(process.env.ISSUE_PATH))
+            const title = 'Portal accessibility and duplicate IDs'
+            const runUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`
+            const marker = '<!-- portal-accessibility-current-details -->'
+            const issues = await github.paginate(github.rest.issues.listForRepo, {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              per_page: 100,
+            })
+            let issue = issues.find(
+              (candidate) => !candidate.pull_request && candidate.title === title
+            )
+            const body = `${issueReport.chunks[0]}\n\n[Full workflow report](${runUrl})`
+
+            if (!issue && report.summary.findings === 0) {
+              core.notice('Portal scan has no findings; no issue is needed.')
+              return
+            }
+
+            if (!issue) {
+              const created = await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title,
+                body,
+              })
+              issue = created.data
+            } else {
+              await github.rest.issues.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issue.number,
+                body,
+                ...(report.summary.findings === 0 ? { state: 'closed' } : {}),
+              })
+            }
+
+            const comments = await github.paginate(
+              github.rest.issues.listComments,
+              {
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issue.number,
+                per_page: 100,
+              }
+            )
+            const managed = comments.filter((comment) =>
+              comment.body?.includes(marker)
+            )
+            const detailChunks = issueReport.chunks.slice(1)
+
+            for (let index = 0; index < detailChunks.length; index++) {
+              const commentBody = `${marker}\n${detailChunks[index]}`
+              if (managed[index]) {
+                await github.rest.issues.updateComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  comment_id: managed[index].id,
+                  body: commentBody,
+                })
+              } else {
+                await github.rest.issues.createComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: issue.number,
+                  body: commentBody,
+                })
+              }
+            }
+
+            for (const comment of managed.slice(detailChunks.length)) {
+              await github.rest.issues.deleteComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: comment.id,
+              })
+            }
+
+            for (const changeChunk of issueReport.changeChunks) {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issue.number,
+                body: `${changeChunk}\n\n[Workflow run](${runUrl})`,
+              })
+            }
+
+      - name: Store accessibility report
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          # Only production reports are used as the baseline for the next scan
+          name: ${{ steps.target.outputs.production == 'false' && 'portal-accessibility-preview-report' || 'portal-accessibility-report' }}
+          path: |
+            packages/dnb-design-system-portal/portal-accessibility-report.json
+            packages/dnb-design-system-portal/portal-accessibility-issue.json
+          retention-days: 90

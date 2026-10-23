@@ -20,6 +20,17 @@ import { DatePickerProperties } from '@dnb/eufemia/src/components/date-picker/Da
 
 ## Shortcuts
 
+Each shortcut can have these properties:
+
+- `title`: the text on the shortcut button.
+- `date`: the date to set. In range mode, it is used as `startDate`.
+- `startDate` and `endDate`: the date range to set. When `endDate` is not set, `startDate` is used.
+- `startMonth`: the month to show in the first calendar. Defaults to the month of `startDate`.
+- `endMonth`: the month to show in the second calendar, in range mode. Defaults to the month of `endDate`. When it is not a later month than `startMonth`, the month after `startMonth` is shown.
+- `closeOnSelect`: if set to `true`, the picker closes when the shortcut is clicked.
+
+The date and month properties accept a date string, a `Date`, or a function that returns a `Date`. The function gets the current `date`, `startDate` and `endDate`.
+
 You may use [date-fns](https://date-fns.org) to make date calculations.
 
 <VisibleWhenNotVisualTest>

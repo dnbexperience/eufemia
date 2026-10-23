@@ -88,8 +88,14 @@ export const ItemContentProperties: PropertiesTableProps = {
     defaultValue: `'li'`,
     status: 'optional',
   },
+  layoutEngine: {
+    doc: 'Select the internal Flex layout engine of the row. Defaults to `css`, which leaves the children unchanged, so cells rendered by your own components are placed like cells used directly. When `gap`, `rowGap` or `divider` is set, it defaults to `legacy`, so the row keeps the spacing it had before. Use `legacy` only as a temporary compatibility fallback.',
+    type: ['"css"', '"legacy"'],
+    defaultValue: `'css'`,
+    status: 'optional',
+  },
   children: {
-    doc: 'Item content. Typically `List.Cell.Start`, `List.Cell.Center`, `List.Cell.End`, `List.Cell.Title` (use `List.Cell.Title.Overline`/`List.Cell.Title.Subline` for overline/subline text), or the drop-in `List.Cell.Title.Overline`/`List.Cell.Title.Subline` components, or `List.Cell.Footer`.',
+    doc: 'Item content. `List.Item.Basic` supports plain text children with horizontal padding. For more complex rows, use `List.Cell.Start`, `List.Cell.Center`, `List.Cell.End`, `List.Cell.Title` (with `List.Cell.Title.Overline`/`List.Cell.Title.Subline` for supporting text), or `List.Cell.Footer`.',
     type: 'React.ReactNode',
     status: 'required',
   },
@@ -382,6 +388,11 @@ export const ItemActionProperties: PropertiesTableProps = {
   icon: {
     doc: 'Optional icon for the action item (e.g. `fish_medium`).',
     type: 'IconIcon',
+    status: 'optional',
+  },
+  footer: {
+    doc: "Use `List.Cell.Footer` to place secondary actions outside the primary button or link, within the same list item and border. Clicking or using the keyboard in the footer does not activate the primary action. Eufemia buttons and links inherit the item's disabled state. Footer controls remain available while pending; manage their loading and disabled states individually.",
+    type: 'React.ReactNode',
     status: 'optional',
   },
   href: {

@@ -88,6 +88,12 @@ resource "aws_cloudfront_response_headers_policy" "assets" {
       override = true
     }
 
+    # Assets are only used as subresources; this applies when one is opened directly
+    content_security_policy {
+      content_security_policy = "default-src 'none'; style-src 'unsafe-inline'; sandbox"
+      override                = true
+    }
+
     frame_options {
       frame_option = "DENY"
       override     = true

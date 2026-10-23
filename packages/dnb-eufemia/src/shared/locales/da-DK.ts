@@ -100,6 +100,11 @@ export default {
       selectedSr: 'Valgt:',
       indicatorLabel: 'Henter data ...',
     },
+    Card: {
+      playTitle: 'Afspil baggrundsvideo',
+      pauseTitle: 'Sæt baggrundsvideo på pause',
+      closeTitle: 'Luk',
+    },
     Modal: {
       dialogTitle: 'Separat vindue',
       closeTitle: 'Luk',
@@ -110,6 +115,7 @@ export default {
     },
     CopyOnClick: {
       clipboardCopy: 'Kopieret',
+      buttonTitle: 'Kopiér',
     },
     NumberFormat: {
       clipboardCopy: 'Kopieret',

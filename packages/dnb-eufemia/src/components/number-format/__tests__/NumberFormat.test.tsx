@@ -3,7 +3,8 @@
  *
  */
 
-import { createRef } from 'react'
+import { Profiler, createRef } from 'react'
+import type { ReactElement } from 'react'
 import {
   axeComponent,
   loadScss,
@@ -11,8 +12,10 @@ import {
 } from '../../../core/test-utils/testSetup'
 import { act, fireEvent, render, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { renderToString } from 'react-dom/server'
+import { hydrateRoot } from 'react-dom/client'
 import { LOCALE } from '../../../shared/defaults'
-import { isMac } from '../../../shared/helpers'
+import { isMac, isWin } from '../../../shared/helpers'
 import Provider from '../../../shared/Provider'
 import type { NumberFormatProps } from '../NumberFormat'
 import NumberFormatBase from '../NumberFormatBase'
@@ -73,6 +76,158 @@ describe('NumberFormat component', () => {
     expect(document.querySelector(displaySelector).textContent).toBe(
       '12 345 678,9876'
     )
+  })
+
+  it('should hydrate locale="auto" with the server locale and use the browser locale afterwards', () => {
+    languageGetter.mockReturnValue('en-US')
+
+    const element = (
+      <p>
+        <Component locale="auto" value={1234.5} />
+      </p>
+    )
+
+    const windowDescriptor = Object.getOwnPropertyDescriptor(
+      globalThis,
+      'window'
+    )
+    let html: string
+
+    try {
+      delete globalThis.window
+      html = renderToString(element)
+    } finally {
+      Object.defineProperty(globalThis, 'window', windowDescriptor)
+    }
+
+    expect(html).toContain('lang="nb-NO"')
+
+    const container = document.createElement('div')
+    container.innerHTML = html
+    document.body.appendChild(container)
+
+    const recoverableErrors = []
+    let root: ReturnType<typeof hydrateRoot>
+    act(() => {
+      root = hydrateRoot(container, element, {
+        onRecoverableError: (error) => recoverableErrors.push(error),
+      })
+    })
+
+    expect(recoverableErrors).toEqual([])
+    expect(
+      container.querySelector('.dnb-number-format').getAttribute('lang')
+    ).toBe('en-US')
+    expect(
+      container.querySelector('.dnb-number-format__visible').textContent
+    ).toBe('1,234.5')
+
+    act(() => root.unmount())
+    container.remove()
+    languageGetter.mockReturnValue(locale)
+  })
+
+  it('should not render again after hydration when locale is not "auto"', () => {
+    // On Mac and Windows the screen reader text is updated after hydration
+    platformGetter.mockReturnValue('Linux x86_64')
+    isMac()
+    isWin()
+
+    const onRender = vi.fn()
+    const element = (
+      <Profiler id="number-format" onRender={onRender}>
+        <Component value={1234.5} />
+      </Profiler>
+    )
+
+    const html = renderToString(element)
+    onRender.mockClear()
+
+    const container = document.createElement('div')
+    container.innerHTML = html
+    document.body.appendChild(container)
+
+    let root: ReturnType<typeof hydrateRoot>
+    act(() => {
+      root = hydrateRoot(container, element)
+    })
+
+    expect(onRender).toHaveBeenCalledTimes(1)
+
+    act(() => root.unmount())
+    container.remove()
+    platformGetter.mockReturnValue('Mac')
+    isMac()
+    isWin()
+  })
+
+  describe('with server-rendered markup', () => {
+    // The server never runs on the platform of the browser
+    const hydrate = (element: ReactElement, browserPlatform: string) => {
+      platformGetter.mockReturnValue('Linux x86_64')
+      isMac()
+      isWin()
+      const html = renderToString(element)
+
+      platformGetter.mockReturnValue(browserPlatform)
+      isMac()
+      isWin()
+
+      const container = document.createElement('div')
+      container.innerHTML = html
+      document.body.appendChild(container)
+
+      const log = vi.spyOn(console, 'error')
+      const recoverableErrors = []
+      let root: ReturnType<typeof hydrateRoot>
+      act(() => {
+        root = hydrateRoot(container, element, {
+          onRecoverableError: (error) => recoverableErrors.push(error),
+        })
+      })
+
+      const result = {
+        recoverableErrors,
+        errorLogs: log.mock.calls,
+        srText: container
+          .querySelector('.dnb-sr-only')
+          .getAttribute('data-text'),
+      }
+
+      act(() => root.unmount())
+      container.remove()
+      log.mockRestore()
+
+      return result
+    }
+
+    afterEach(() => {
+      platformGetter.mockReturnValue('Mac')
+      isMac()
+      isWin()
+    })
+
+    it('should apply the screen reader text for VoiceOver after hydration', () => {
+      const { recoverableErrors, errorLogs, srText } = hydrate(
+        <Component value={1234.5} />,
+        'MacIntel'
+      )
+
+      expect(recoverableErrors).toEqual([])
+      expect(errorLogs).toEqual([])
+      expect(srText).toBe(formatNumber(1234.5, { returnAria: true }).aria)
+    })
+
+    it('should apply the screen reader text for NVDA after hydration', () => {
+      const { recoverableErrors, errorLogs, srText } = hydrate(
+        <NumberFormat.NationalIdentityNumber value="18089212345" />,
+        'Win32'
+      )
+
+      expect(recoverableErrors).toEqual([])
+      expect(errorLogs).toEqual([])
+      expect(srText).toBe('18. 08. 92. 1. 2. 3. 4. 5')
+    })
   })
 
   it('should preserve a formatted negative value when cleaning it', () => {

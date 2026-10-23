@@ -146,8 +146,7 @@
   }
 
   // Tab Button
-  &__button,
-  .dnb-core-style &__button {
+  &__button {
     --tab-title-background: transparent;
     --tab-title-border: transparent;
     --tab-title-border-height: 1px;

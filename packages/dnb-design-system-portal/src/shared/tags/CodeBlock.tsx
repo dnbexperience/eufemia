@@ -23,16 +23,15 @@ import {
   Flex,
   Space,
 } from '@dnb/eufemia/src/components'
+import CopyOnClick from '@dnb/eufemia/src/components/copy-on-click/CopyOnClick'
+import type { CopyOnClickButtonProps } from '@dnb/eufemia/src/components/copy-on-click/CopyOnClick'
 import {
-  copy as copyIcon,
-  check as checkIcon,
   fullscreen as focusModeIcon,
   close as focusModeCloseIcon,
   fullscreen as focusModePaddingIcon,
   layout_grid as focusModeCompactIcon,
   launch as launchIcon,
 } from '@dnb/eufemia/src/icons'
-import { copyToClipboard } from '@dnb/eufemia/src/shared/helpers'
 import Theme from '@dnb/eufemia/src/shared/Theme'
 import type {
   ThemeColorScheme,
@@ -51,12 +50,12 @@ import {
   toolbarStyle,
 } from './CodeBlock.module.scss'
 import {
-  LiveProvider,
   LiveEditor,
   LiveError,
   LivePreview,
   LiveContext,
-} from 'react-live-ssr' // we use this temporary version of until ssr is supported https://github.com/FormidableLabs/react-live/pull/322
+} from 'react-live'
+import { LiveProvider } from 'react-live-ssr-adapter'
 
 // This theme uses CSS custom properties, so actual colors are controlled via CSS
 import prismTheme from '@dnb/eufemia/src/style/themes/ui/prism/dnb-prism-theme'
@@ -71,6 +70,8 @@ export type CodeSectionProps = {
   noInline?: boolean
   hideToolbar?: boolean
   hideCode?: boolean
+  /** Show the preview without code actions or an editor. */
+  previewOnly?: boolean
   hidePreview?: boolean
   /**
    * Use surface="dark" to show the button to toggle surface, forcing it to be dark by default.
@@ -83,6 +84,9 @@ export type CodeSectionProps = {
   omitWrapper?: boolean
   children: string | ReactNode | (() => ReactNode)
   'data-visual-test'?: string
+
+  /** Set to false to render the preview only in the browser, after hydration. */
+  ssr?: boolean
 
   /** Injected by the babel transform — enclosing export name, stable across HMR. */
   stableName?: string
@@ -132,11 +136,13 @@ const CodeBlock = ({
             )}
           >
             <CopyCodeButton
-              code={String(exampleCode)}
+              copyContent={String(exampleCode)}
+              variant="secondary"
               className={copyButtonStyle}
             />
 
-            <Tag as="pre" className={className}>
+            {/* Focusable, so keyboard users can scroll wide code */}
+            <Tag as="pre" className={className} tabIndex={0}>
               {cleanTokens(tokens).map((line, i) => {
                 const { key, ...lineProps } = getLineProps({
                   line,
@@ -164,55 +170,13 @@ const CodeBlock = ({
 
 export default CodeBlock
 
-/**
- * Hook for copy-to-clipboard functionality with feedback state.
- * Handles the copied state, timeout cleanup, and async clipboard operation.
- */
-function useCopyToClipboard(code: string) {
-  const [copied, setCopied] = useState(false)
-  const timeoutRef = useRef<ReturnType<typeof setTimeout>>(undefined)
-
-  const handleCopy = useCallback(async () => {
-    const success = await copyToClipboard(code)
-    if (success) {
-      setCopied(true)
-      clearTimeout(timeoutRef.current)
-      timeoutRef.current = setTimeout(() => setCopied(false), 2000)
-    }
-  }, [code])
-
-  useEffect(() => {
-    return () => clearTimeout(timeoutRef.current)
-  }, [])
-
-  return { copied, handleCopy }
-}
-
-type CopyCodeButtonProps = {
-  code: string
-  className?: string
-  variant?: 'tertiary'
-}
-
-/**
- * Reusable copy-to-clipboard button with visual feedback.
- * Used both for static code blocks (with copyButtonStyle) and live code toolbar.
- */
-function CopyCodeButton({
-  code,
-  className,
-  variant,
-}: CopyCodeButtonProps) {
-  const { copied, handleCopy } = useCopyToClipboard(code)
-
+function CopyCodeButton(props: CopyOnClickButtonProps) {
   return (
-    <Button
-      className={className}
-      variant={variant}
-      icon={copied ? checkIcon : copyIcon}
+    <CopyOnClick.Button
       title="Copy to clipboard"
-      tooltip={copied ? 'Copied!' : 'Copy to clipboard'}
-      onClick={handleCopy}
+      tooltip="Copy to clipboard"
+      tooltipContent="Copied!"
+      {...props}
     />
   )
 }
@@ -242,7 +206,9 @@ function LiveCode(props: LiveCodeProps) {
   const codeAccordionId = `${baseId}-code`
   const previewAccordionId = `${baseId}-preview`
 
-  const [hideCode, setHideCode] = useState(props.hideCode)
+  const [hideCode, setHideCode] = useState(
+    props.hideCode || props.previewOnly
+  )
   const [hidePreview, setHidePreview] = useState(props.hidePreview)
   const [showFocusModePadding, setShowFocusModePadding] = useState(true)
   const [editedCode, setEditedCode] = useState<string | null>(null)
@@ -271,6 +237,7 @@ function LiveCode(props: LiveCodeProps) {
 
     code: codeProp,
     hideCode: hideCodeProp,
+    previewOnly,
     hidePreview: hidePreviewProp,
     surface: surfaceProp,
     'data-visual-test': visualTest,
@@ -326,7 +293,7 @@ function LiveCode(props: LiveCodeProps) {
       current = parent
     }
 
-    window.scrollTo({ top: 0 })
+    window.scrollTo({ top: 0, behavior: 'instant' })
 
     // Remove the preload style now that sibling hiding has taken over
     document.getElementById('portal-preload-style')?.remove()
@@ -372,7 +339,7 @@ function LiveCode(props: LiveCodeProps) {
             // ignore
           }
 
-          window.scrollTo({ top: 0 })
+          window.scrollTo({ top: 0, behavior: 'instant' })
         }
 
         setFocusModeCodeId(isInFocusMode ? null : focusModeId)
@@ -385,7 +352,7 @@ function LiveCode(props: LiveCodeProps) {
   )
 
   const copyCodeButton = (
-    <CopyCodeButton code={editedCode ?? codeToUse} variant="tertiary" />
+    <CopyCodeButton copyContent={editedCode ?? codeToUse} />
   )
 
   const handleOpenInStackBlitz = useCallback(async () => {
@@ -468,7 +435,8 @@ function LiveCode(props: LiveCodeProps) {
   // The code editor is collapsible via an Accordion whenever a toggle is
   // rendered in the toolbar (always for omitWrapper, or when hideCode is set).
   // Without a toolbar there is no toggle, so the editor renders directly.
-  const showCodeToggle = !hideToolbar && (omitWrapper || hideCodeProp)
+  const showCodeToggle =
+    !previewOnly && !hideToolbar && (omitWrapper || hideCodeProp)
 
   const codeToggleAccordion = (
     <Accordion
@@ -505,6 +473,7 @@ function LiveCode(props: LiveCodeProps) {
     >
       {!anotherBlockIsInFocusMode && (
         <LiveProvider
+          ssr
           theme={prismTheme}
           code={codeToUse}
           scope={scope}
@@ -523,15 +492,15 @@ function LiveCode(props: LiveCodeProps) {
 
           {!global.IS_TEST && !hideToolbar && (
             <Space
-              element="section"
+              role="group"
               aria-label="Customize appearance"
               className={clsx('dnb-live-toolbar', toolbarStyle)}
             >
               {omitWrapper ? (
-                codeToggleAccordion
+                !previewOnly && codeToggleAccordion
               ) : (
                 <>
-                  {hideCodeProp && codeToggleAccordion}
+                  {!previewOnly && hideCodeProp && codeToggleAccordion}
 
                   {isInFocusMode && (
                     <ChangeStyleTheme
@@ -578,9 +547,11 @@ function LiveCode(props: LiveCodeProps) {
                       />
                     )}
 
-                    {!isInFocusMode && copyCodeButton}
+                    {!previewOnly && !isInFocusMode && copyCodeButton}
 
-                    {!isInFocusMode && openInStackBlitzButton}
+                    {!previewOnly &&
+                      !isInFocusMode &&
+                      openInStackBlitzButton}
 
                     {focusModePaddingButton}
 
@@ -591,7 +562,8 @@ function LiveCode(props: LiveCodeProps) {
             </Space>
           )}
 
-          {!global.IS_TEST &&
+          {!previewOnly &&
+            !global.IS_TEST &&
             (showCodeToggle ? (
               <Accordion.Content connectedTo={codeAccordionId}>
                 {codeEditor}
@@ -652,6 +624,7 @@ const cleanTokens = (tokens) => {
 Prism.languages.insertBefore('jsx', 'template-string', {
   'styled-template-string': {
     pattern:
+      // eslint-disable-next-line security/detect-unsafe-regex -- each repetition starts with a literal "." or "(", and the input is our own code examples
       /(styled(\.\w+|\([^)]*\))(\.\w+(\([^)]*\))*)*|css|injectGlobal|keyframes|css={)`(?:\$\{[^}]+\}|\\\\|\\?[^\\])*?`/,
     lookbehind: true,
     greedy: true,

@@ -235,6 +235,10 @@ function HeightAnimation({
       )}
       style={{ ...firstPaintStyle, ...style }}
       aria-hidden={shouldKeepInDOM ? !resolvedOpen : undefined}
+      // aria-hidden content stays visible while it closes, so prevent focus in it
+      inert={
+        shouldKeepInDOM && !resolvedOpen && isAnimating ? true : undefined
+      }
       {...rest}
     >
       {compensateForGap ? (

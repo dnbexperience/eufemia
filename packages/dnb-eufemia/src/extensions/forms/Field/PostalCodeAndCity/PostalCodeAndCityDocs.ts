@@ -15,12 +15,12 @@ export const PostalCodeAndCityProperties: PropertiesTableProps = {
   postalCode: {
     doc: 'Properties for the [Field.String](/uilib/extensions/forms/base-fields/String/) component for postal code.',
     type: 'object',
-    status: 'required',
+    status: 'optional',
   },
   city: {
     doc: 'Properties for the [Field.String](/uilib/extensions/forms/base-fields/String/) component for city.',
     type: 'object',
-    status: 'required',
+    status: 'optional',
   },
   help: FieldProperties.help,
   size: StringProperties.size,

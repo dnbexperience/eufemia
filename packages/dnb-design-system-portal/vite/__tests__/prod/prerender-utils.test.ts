@@ -156,6 +156,37 @@ describe('prerender-utils', () => {
       expect(meta.title).toBe('Button → Demos')
     })
 
+    it('constructs tab title when the tab keys are full paths', () => {
+      const fullPathNodes = [
+        {
+          fields: { slug: 'uilib/components/country-flag' },
+          frontmatter: {
+            title: 'CountryFlag',
+            description: '',
+            tabs: [
+              {
+                title: 'Info',
+                key: '/uilib/components/country-flag/info',
+              },
+              {
+                title: 'Demos',
+                key: '/uilib/components/country-flag/demos',
+              },
+            ],
+          },
+        },
+        {
+          fields: { slug: 'uilib/components/country-flag/demos' },
+          frontmatter: { title: '', description: '', showTabs: true },
+        },
+      ]
+      const meta = getPageMeta(
+        '/uilib/components/country-flag/demos/',
+        fullPathNodes
+      )
+      expect(meta.title).toBe('CountryFlag → Demos')
+    })
+
     it('inherits parent title without tab suffix when showTabs is not set', () => {
       const noTabNodes = [
         {
@@ -177,6 +208,24 @@ describe('prerender-utils', () => {
     it('returns empty strings for unknown routes', () => {
       const meta = getPageMeta('/unknown/', nodes)
       expect(meta).toEqual({ title: '', description: '' })
+    })
+
+    it('uses contentTitle when the page has no title', () => {
+      const contentTitleNodes = [
+        {
+          fields: { slug: 'uilib/intro' },
+          frontmatter: { title: 'Intro', description: '' },
+        },
+        {
+          fields: { slug: 'uilib/intro/03-accessibility' },
+          frontmatter: { contentTitle: 'Accessibility' },
+        },
+      ]
+      const meta = getPageMeta(
+        '/uilib/intro/03-accessibility/',
+        contentTitleNodes
+      )
+      expect(meta.title).toBe('Accessibility')
     })
 
     it('resolves root URL to index', () => {
@@ -424,6 +473,35 @@ describe('prerender-utils', () => {
       expect(result).toContain('<div id="root"><h1>Hello</h1></div>')
     })
 
+    it('restores persisted SidebarMenu state after markup and before hydration', () => {
+      const result = injectHtml(
+        template.replace(
+          '</head>',
+          '<script type="module" src="/entry.js"></script></head>'
+        ),
+        '<nav data-inline-collapsed-storage-key="navigation">Menu</nav>',
+        { js: [], css: [] }
+      )
+      const bootstrap = result.indexOf(
+        'data-sidebar-menu-inline-pre-hydration'
+      )
+      expect(bootstrap).toBeGreaterThan(result.indexOf('</nav></div>'))
+      expect(
+        result.slice(result.lastIndexOf('<script', bootstrap), bootstrap)
+      ).not.toContain('type="module"')
+      expect(result).toContain('data-open-items-storage-key')
+    })
+
+    it('omits the SidebarMenu bootstrap on pages without persisted navigation', () => {
+      const result = injectHtml(template, '<h1>Plain page</h1>', {
+        js: [],
+        css: [],
+      })
+      expect(result).not.toContain(
+        'data-sidebar-menu-inline-pre-hydration'
+      )
+    })
+
     it('includes color-scheme content script after root div', () => {
       const result = injectHtml(template, '<h1>Hello</h1>', {
         js: [],
@@ -490,6 +568,29 @@ describe('prerender-utils', () => {
       const emotionPos = result.indexOf('data-emotion')
       const headClosePos = result.indexOf('</head>')
       expect(emotionPos).toBeLessThan(headClosePos)
+    })
+
+    it('preserves quoted CDN mask URLs in server-rendered styles', () => {
+      const style =
+        'mask-image:url(&quot;https://assets.eufemia.dnb.no/icons/dnb/bell_medium.svg&quot;);width:1em'
+      const result = injectHtml(
+        template,
+        `<span style="${style}"></span>`,
+        { js: [], css: [] }
+      )
+      const container = document.createElement('div')
+      container.innerHTML = result
+      expect(container.querySelector('span').style.maskImage).toBe(
+        'url("https://assets.eufemia.dnb.no/icons/dnb/bell_medium.svg")'
+      )
+    })
+
+    it('keeps React inline styles unchanged for hydration', () => {
+      const appHtml =
+        '<span style="--icon-size:1em;color:red;background-image:url(&quot;data:image/svg+xml;charset=utf-8,%3Csvg%3E%3C/svg%3E&quot;)"></span>'
+      expect(injectHtml(template, appHtml, { js: [], css: [] })).toContain(
+        appHtml
+      )
     })
 
     it('does not modify head when emotionCss is empty', () => {

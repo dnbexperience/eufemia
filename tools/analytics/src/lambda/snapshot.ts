@@ -3,21 +3,18 @@ import {
   aggregateLocalMcpUsageByVersion,
   aggregateMcpUsageRaw,
   aggregatePortalViewsRaw,
-  retrieveComponentUsageDaily,
+  retrieveComponentUsageTotals,
   retrieveMcpUsageDaily,
   retrievePortalViews,
 } from './retrieve.js'
+import { requireEnv } from './env.js'
 import {
   EMPTY_COMPONENT_USAGE,
   EMPTY_MCP_USAGE,
-  requireEnv,
   storeDailyRollup,
   writeSnapshot,
-  type ComponentUsageAggregate,
-  type ComponentUsageCount,
   type ComponentUsageSection,
   type McpTransportUsage,
-  type McpUsageCount,
   type McpUsageDaily,
   type McpUsageSection,
   type Snapshot,
@@ -28,7 +25,7 @@ const SNAPSHOT_LIMIT = 1000
 const METRIC_NAMESPACE = 'Eufemia/Analytics'
 
 type MetricName =
-  | 'SnapshotRecordCount'
+  | 'SnapshotPortalViewCount'
   | 'McpUsageBuildFailure'
   | 'ComponentUsageBuildFailure'
   | 'PortalViewsRollupFailure'
@@ -42,9 +39,9 @@ type MetricName =
  * The namespace, metric name, and FunctionName dimension must stay in sync with
  * the matching alarm in infra/main.tf; a mismatch silently leaves the alarm at
  * INSUFFICIENT_DATA. Metrics and their alarms:
- * - SnapshotRecordCount (`snapshot_empty`): a sustained 0 catches a run that
- *   succeeds but writes an empty snapshot, which the Errors/Invocations alarms
- *   cannot see.
+ * - SnapshotPortalViewCount (`snapshot_empty`): a sustained 0 catches a run
+ *   that succeeds but writes a snapshot with no page views, which the
+ *   Errors/Invocations alarms cannot see.
  * - McpUsageBuildFailure (`snapshot_mcp_build_failed`): emitted when the
  *   durable rollup refresh fails or buildMcpUsage cannot build the section;
  *   neither increments Lambda Errors.
@@ -119,35 +116,14 @@ async function refreshPortalViewsRollup(
   await storeDailyRollup(
     bucket,
     'portal-views-daily/',
-    await aggregatePortalViewsRaw(from),
-    ({
-      path,
-      env,
-      status,
-      locale,
-      theme,
-      color_scheme,
-      referrer,
-      via_search,
-      count,
-    }) => ({
-      path,
-      env,
-      status,
-      locale,
-      theme,
-      color_scheme,
-      referrer,
-      via_search,
-      count,
-    })
+    await aggregatePortalViewsRaw(from)
   )
 }
 
-function sumBy(
-  rows: McpUsageDaily[],
-  key: 'tool' | 'component' | 'path'
-): McpUsageCount[] {
+function sumBy<Key extends string>(
+  rows: Array<Record<Key, string> & { count: number }>,
+  key: Key
+): Array<{ name: string; count: number }> {
   const counts = new Map<string, number>()
 
   for (const row of rows) {
@@ -164,16 +140,22 @@ function sumBy(
     .sort((a, b) => b.count - a.count)
 }
 
+function sumCounts(rows: McpUsageDaily[]): number {
+  return rows.reduce((sum, row) => sum + row.count, 0)
+}
+
 function buildTransportUsage(
   daily: McpUsageDaily[],
   transport: 'web' | 'local'
 ): McpTransportUsage {
   const rows = daily.filter((row) => row.transport === transport)
-  const dayTotals = new Map<string, number>()
-  let total = 0
+  const total = sumCounts(rows)
+  const missedLookups = sumCounts(
+    rows.filter((row) => row.component_missed)
+  )
 
+  const dayTotals = new Map<string, number>()
   for (const row of rows) {
-    total += row.count
     dayTotals.set(row.dt, (dayTotals.get(row.dt) ?? 0) + row.count)
   }
 
@@ -182,6 +164,11 @@ function buildTransportUsage(
     perTool: sumBy(rows, 'tool').slice(0, MCP_TOP_LIMIT),
     perComponent: sumBy(rows, 'component').slice(0, MCP_TOP_LIMIT),
     perPath: sumBy(rows, 'path').slice(0, MCP_TOP_LIMIT),
+    missedLookups,
+    perLikelyComponent: sumBy(rows, 'likely_component').slice(
+      0,
+      MCP_TOP_LIMIT
+    ),
     daily: [...dayTotals.entries()]
       .map(([date, count]) => ({ date, count }))
       .sort((a, b) => a.date.localeCompare(b.date)),
@@ -212,14 +199,7 @@ async function buildMcpUsage(
     await storeDailyRollup(
       bucket,
       'mcp-usage-daily/',
-      await aggregateMcpUsageRaw(from),
-      ({ transport, tool, component, path, count }) => ({
-        transport,
-        tool,
-        component,
-        path,
-        count,
-      })
+      await aggregateMcpUsageRaw(from)
     )
   } catch (error) {
     // eslint-disable-next-line no-console -- surface the failure in CloudWatch Logs
@@ -262,26 +242,6 @@ const COMPONENT_TOP_LIMIT = 50
 // rows live far longer, so re-runs backfill).
 const COMPONENT_ROLLUP_DAYS = 7
 
-function sumComponentUsageBy(
-  rows: ComponentUsageAggregate[],
-  key: 'component' | 'app' | 'version'
-): ComponentUsageCount[] {
-  const counts = new Map<string, number>()
-
-  for (const row of rows) {
-    const name = row[key]
-    if (!name) {
-      continue
-    }
-
-    counts.set(name, (counts.get(name) ?? 0) + row.count)
-  }
-
-  return [...counts.entries()]
-    .map(([name, count]) => ({ name, count }))
-    .sort((a, b) => b.count - a.count)
-}
-
 /**
  * Build the component-usage dashboard section. First recomputes the recent tail
  * of raw usage into the durable daily rollup, then reads the full daily table.
@@ -311,13 +271,7 @@ export async function buildComponentUsage(
     await storeDailyRollup(
       bucket,
       'component-usage-daily/',
-      await aggregateComponentUsageRaw(windowStart(COMPONENT_ROLLUP_DAYS)),
-      ({ app, component, version, count }) => ({
-        app,
-        component,
-        version,
-        count,
-      })
+      await aggregateComponentUsageRaw(windowStart(COMPONENT_ROLLUP_DAYS))
     )
   } catch (error) {
     // eslint-disable-next-line no-console -- surface the failure in CloudWatch Logs
@@ -328,21 +282,18 @@ export async function buildComponentUsage(
     emitMetric('ComponentUsageBuildFailure', 1)
   }
 
-  const daily = await retrieveComponentUsageDaily()
+  const usageTotals = await retrieveComponentUsageTotals()
 
-  const total = daily.reduce((sum, row) => sum + row.count, 0)
+  const total = usageTotals.reduce((sum, row) => sum + row.count, 0)
 
   return {
     total,
-    perComponent: sumComponentUsageBy(daily, 'component').slice(
+    perComponent: sumBy(usageTotals, 'component').slice(
       0,
       COMPONENT_TOP_LIMIT
     ),
-    perApp: sumComponentUsageBy(daily, 'app').slice(
-      0,
-      COMPONENT_TOP_LIMIT
-    ),
-    perVersion: sumComponentUsageBy(daily, 'version').slice(
+    perApp: sumBy(usageTotals, 'app').slice(0, COMPONENT_TOP_LIMIT),
+    perVersion: sumBy(usageTotals, 'version').slice(
       0,
       COMPONENT_TOP_LIMIT
     ),
@@ -352,9 +303,10 @@ export async function buildComponentUsage(
 /**
  * Scheduled dashboard snapshot generator (EventBridge, off the request path).
  *
- * Queries Athena for the latest anonymous page views and writes the snapshot to
- * S3. Runs under the analytics execution role (Athena + S3 write); keeping it
- * separate from the read endpoint lets that endpoint run with a read-only role.
+ * Queries Athena for the latest anonymous page views and the MCP usage section,
+ * refreshes the durable daily rollups, and writes the snapshot to S3. Runs
+ * under the analytics execution role (Athena + S3 write); keeping it separate
+ * from the read endpoint lets that endpoint run with a read-only role.
  *
  * An optional `sinceDt` on the invocation event backfills the page-view and MCP
  * usage rollups from that date instead of the recent tail — used for one-time
@@ -368,8 +320,7 @@ export async function handler(event?: { sinceDt?: string }): Promise<{
 
   // Fetch the dashboard's portal-view rows (load-bearing) and refresh the durable
   // page-view rollup concurrently. The rollup refresh is retention only and must
-  // not fail the run, so its failure is caught and surfaced via a metric; keeping
-  // it concurrent with the read keeps the added Athena query within the timeout.
+  // not fail the run, so its failure is caught and surfaced via a metric.
   const [portalViews] = await Promise.all([
     retrievePortalViews({ limit: SNAPSHOT_LIMIT }),
     refreshPortalViewsRollup(bucket, event?.sinceDt).catch((error) => {
@@ -411,12 +362,8 @@ export async function handler(event?: { sinceDt?: string }): Promise<{
   //     emitMetric('ComponentUsageBuildFailure', 1)
   //     componentUsage = EMPTY_COMPONENT_USAGE
   //   }
-  // Also build it CONCURRENTLY with the other sections (Promise.all) — wiring it
-  // in adds two Athena queries, and run sequentially the total (portal read +
-  // rollup refresh + 2 MCP + 2 here) can exceed the Lambda timeout, killing the
-  // run before writeSnapshot. The infra "gives the snapshot generator enough
-  // timeout for its Athena queries" test assumes this is unwired; update it when
-  // re-enabling.
+  // It adds two Athena queries: update the infra "gives the snapshot generator
+  // enough timeout for its Athena queries" test when re-enabling.
   const componentUsage: ComponentUsageSection = EMPTY_COMPONENT_USAGE
 
   const snapshot: Snapshot = {
@@ -428,7 +375,7 @@ export async function handler(event?: { sinceDt?: string }): Promise<{
 
   await writeSnapshot(bucket, snapshot)
 
-  emitMetric('SnapshotRecordCount', snapshot.portalViews.length)
+  emitMetric('SnapshotPortalViewCount', snapshot.portalViews.length)
 
   return {
     generatedAt: snapshot.generatedAt,

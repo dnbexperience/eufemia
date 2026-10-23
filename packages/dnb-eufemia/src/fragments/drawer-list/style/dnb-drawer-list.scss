@@ -425,6 +425,8 @@
       --drawer-list-option-extra-border: var(
         --drawer-list-option-extra-border--focus
       );
+
+      @include utilities.forcedColorsOutline($inset: inset);
     }
 
     &__suffix {
@@ -435,6 +437,8 @@
 
         justify-self: end;
         align-self: center;
+
+        margin-inline-start: 0.5rem;
       }
     }
 
@@ -512,6 +516,22 @@
       &--selected &__suffix {
         z-index: 0; // over check icon
         align-self: center;
+      }
+    }
+
+    // Forced colors mode replaces the selected colors and the check icon color
+    @media (forced-colors: active) {
+      &--selected {
+        color: HighlightText;
+        background-color: Highlight;
+      }
+
+      &--selected &__inner::after {
+        background-color: HighlightText;
+      }
+
+      html[data-whatinput='keyboard'] &--selected#{&}--focus {
+        outline-color: HighlightText;
       }
     }
 

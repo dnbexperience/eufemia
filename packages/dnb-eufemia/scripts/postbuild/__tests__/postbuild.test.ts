@@ -27,6 +27,28 @@ const getBuildStages = (stages: string[]) => {
   return shouldSkipEs ? stages.filter((s) => s !== '/es') : stages
 }
 
+describe('SidebarMenu style imports', () => {
+  it.each(getBuildStages(['/es', '/esm', '/cjs']))(
+    'exposes SidebarMenu isolated styles on stage %s',
+    (stage) => {
+      const styleDir = path.resolve(
+        PKG_ROOT,
+        `build${makeStagePathException(stage)}/extensions/sidebar-menu/style`
+      )
+      const entry = fs.readFileSync(
+        path.join(styleDir, 'isolated.js'),
+        'utf-8'
+      )
+      const cssFile = 'dnb-sidebar-menu--isolated.min.css'
+
+      expect(entry).toContain(`./${cssFile}`)
+      expect(
+        fs.readFileSync(path.join(styleDir, cssFile), 'utf-8')
+      ).toContain('.eufemia-scope--')
+    }
+  )
+})
+
 describe('rebaseAssetUrls (copyStyles)', () => {
   const buildAbs = path.resolve(PKG_ROOT, 'build')
 
@@ -240,6 +262,7 @@ describe('babel build', () => {
       '/token-name-policy.cjs',
       '/no-unused-use.cjs',
       '/no-undefined-custom-property.cjs',
+      '/no-unsafe-focus-visible.cjs',
       '/dnb-ui-lib.min.mjs',
       '/dnb-ui-basis.min.mjs',
       '/dnb-ui-components.min.mjs',
@@ -293,6 +316,34 @@ describe('babel build', () => {
       )
     }
   })
+
+  it.each(buildStages)(
+    'does not polyfill methods that every supported browser has on stage "%s"',
+    (stage) => {
+      stage = makeStagePathException(stage)
+
+      const polyfillsByFile = {
+        'components/accordion/Accordion.js': [
+          'instance/includes',
+          'instance/push',
+        ],
+        'components/input/Input.js': ['json/parse'],
+        'components/input-masked/TextMask.js': ['instance/flags'],
+        'components/table/TableContainer.js': ['instance/unshift'],
+      }
+
+      for (const [file, polyfills] of Object.entries(polyfillsByFile)) {
+        const content = fs.readFileSync(
+          path.resolve(PKG_ROOT, `build${stage}/${file}`),
+          'utf-8'
+        )
+
+        for (const polyfill of polyfills) {
+          expect(content).not.toContain(`core-js-pure/stable/${polyfill}`)
+        }
+      }
+    }
+  )
 
   it.each(buildStages)('has correctly compiled on stage "%s"', (stage) => {
     switch (stage) {
@@ -805,6 +856,7 @@ describe('tsdown build', () => {
               path.resolve(PKG_ROOT, `build${stage}/dnb-ui-lib.min.mjs`),
               'utf-8'
             )
+            // eslint-disable-next-line security/detect-unsafe-regex -- the optional group does not repeat
             expect(content).toMatch(/import\s*(?:\w+,)?\{.*\}from"react";/)
             expect(content).toContain('}from"react-dom";')
             expect(content).toMatch(
@@ -897,6 +949,34 @@ describe('style build', () => {
       expect(content).toContain(`@use './fonts.scss';`)
       expect(content).toContain(`@use './ui-theme-elements.scss';`)
       expect(content).not.toContain(`@use '../../dnb-ui-elements.scss';`)
+
+      const properties = fs.readFileSync(
+        path.resolve(
+          PKG_ROOT,
+          `build${stage}/style/themes/ui/properties.scss`
+        ),
+        'utf-8'
+      )
+      expect(properties).not.toContain(
+        `@use './typography-properties.scss';`
+      )
+      expect(properties).toContain(`--font-size-xx-large: 3rem;`)
+      const mapping = fs.readFileSync(
+        path.resolve(
+          PKG_ROOT,
+          `build${stage}/style/themes/ui/theme-mapping.scss`
+        ),
+        'utf-8'
+      )
+      expect(mapping).toContain(`@use './typography-properties.scss';`)
+      expect(
+        fs.existsSync(
+          path.resolve(
+            PKG_ROOT,
+            `build${stage}/style/themes/ui/typography-properties.scss`
+          )
+        )
+      ).toBe(true)
     }
 
     {
@@ -919,10 +999,10 @@ describe('style build', () => {
         'utf-8'
       )
       expect(content).toMatch(
-        /\.dnb-core-style {([\r\n][^}]*)+font-family: var\(--font-family-default\);/
+        /\.dnb-core-style {[\r\n][^}]*font-family: var\(--font-family-default\);/
       )
       expect(content).toMatch(
-        /html {([\r\n][^}]*)+line-height: var\(--line-height-basis\);/
+        /html {[\r\n][^}]*line-height: var\(--line-height-basis\);/
       )
     }
 
@@ -932,10 +1012,10 @@ describe('style build', () => {
         'utf-8'
       )
       expect(content).toMatch(
-        /\.dnb-core-style {([\r\n][^}]*)+font-family: var\(--font-family-default\);/
+        /\.dnb-core-style {[\r\n][^}]*font-family: var\(--font-family-default\);/
       )
       expect(content).not.toMatch(
-        /html {([\r\n][^}]*)+line-height: var\(--line-height-basis\);/
+        /html {[\r\n][^}]*line-height: var\(--line-height-basis\);/
       )
     }
 

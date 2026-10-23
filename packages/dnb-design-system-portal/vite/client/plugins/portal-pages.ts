@@ -29,8 +29,7 @@ const PORTAL_DOCS_SOURCE_PATH =
 const IGNORE_PATTERNS = [
   /\/Examples\./,
   /_not_in_use/,
-  /\/CardProductsTable\.js$/,
-  /\/ColorTable\.tsx$/,
+  /\/[A-Z][^/]*\.tsx$/, // PascalCase TSX files are components that pages import
   /\/assets\//,
   /\/__utils__\//,
   /\/_[^/]+\.[^/]+$/, // underscore-prefixed files (e.g. _helpers.tsx)
@@ -367,28 +366,22 @@ export default function portalPagesPlugin(
           .join(__dirname, 'portal-pages.shared')
           .replace(/\\/g, '/')
 
-        // Add catch-all 404 route — wraps the 404 page component to inject location prop
+        // Add catch-all 404 route
         const notFoundPath = path
           .join(docsDir, '404.tsx')
           .replace(/\\/g, '/')
         routeDefs.push(
-          `  { path: '*', lazy: () => import('${notFoundPath}').then(m => ({ Component: () => React.createElement(WithLocationProps, { Component: m.default }) })) },`
+          `  { path: '*', lazy: () => import('${notFoundPath}').then(m => ({ Component: m.default })) },`
         )
 
         return `
 import React from 'react';
-import { redirect, useLocation } from 'react-router';
+import { redirect } from 'react-router';
 
 // No-op component for redirect routes so React Router does not warn
 // about a matched leaf route without an element or Component.
 function Noop() {
   return null;
-}
-
-// Wrapper for page components that expect Gatsby-style props (location, etc.)
-function WithLocationProps({ Component }) {
-  const location = useLocation();
-  return React.createElement(Component, { location });
 }
 
 export const routes = [

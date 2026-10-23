@@ -5,6 +5,7 @@ import userEvent from '@testing-library/user-event'
 import { axeComponent } from '../../../core/test-utils/testSetup'
 import { Dialog } from '../../'
 import Button from '../../button/Button'
+import Dropdown from '../../dropdown/Dropdown'
 import Popover from '../Popover'
 import * as PopoverContainerModule from '../PopoverContainer'
 import Provider from '../../../shared/Provider'
@@ -1147,6 +1148,165 @@ describe('Popover', () => {
     )
   })
 
+  describe('nested in another Popover', () => {
+    const renderNested = (innerProps = {}) =>
+      render(
+        <Popover
+          noAnimation
+          openInitially
+          trigger={({ ref, ...rest }) => (
+            <button type="button" id="outer-trigger" ref={ref} {...rest}>
+              Outer
+            </button>
+          )}
+        >
+          <span id="outer-content">Outer content</span>
+          <Popover
+            noAnimation
+            {...innerProps}
+            trigger={({ ref, ...rest }) => (
+              <button type="button" id="inner-trigger" ref={ref} {...rest}>
+                Inner
+              </button>
+            )}
+          >
+            <span id="inner-content">Inner content</span>
+          </Popover>
+        </Popover>
+      )
+
+    const openInner = async () => {
+      await userEvent.click(document.querySelector('#inner-trigger'))
+
+      await waitFor(() =>
+        expect(
+          document.querySelector('#inner-content')
+        ).toBeInTheDocument()
+      )
+    }
+
+    it('closes the inner Popover on mousedown elsewhere in the outer Popover', async () => {
+      renderNested()
+      await openInner()
+
+      fireEvent.mouseDown(document.querySelector('#outer-content'))
+
+      await waitFor(() =>
+        expect(document.querySelector('#inner-trigger')).toHaveAttribute(
+          'aria-expanded',
+          'false'
+        )
+      )
+      expect(document.querySelector('#outer-trigger')).toHaveAttribute(
+        'aria-expanded',
+        'true'
+      )
+    })
+
+    it('keeps both open on mousedown in the inner Popover', async () => {
+      renderNested()
+      await openInner()
+
+      fireEvent.mouseDown(document.querySelector('#inner-content'))
+
+      expect(document.querySelector('#inner-trigger')).toHaveAttribute(
+        'aria-expanded',
+        'true'
+      )
+      expect(document.querySelector('#outer-trigger')).toHaveAttribute(
+        'aria-expanded',
+        'true'
+      )
+    })
+
+    it('closes both on mousedown outside', async () => {
+      renderNested()
+      await openInner()
+
+      fireEvent.mouseDown(document.body)
+
+      await waitFor(() => {
+        expect(document.querySelector('#inner-trigger')).toBeNull()
+        expect(document.querySelector('#outer-trigger')).toHaveAttribute(
+          'aria-expanded',
+          'false'
+        )
+      })
+    })
+
+    it('keeps both open on a tap in the inner Popover', async () => {
+      renderNested()
+      await openInner()
+
+      const innerContent = document.querySelector('#inner-content')
+      fireEvent.touchStart(innerContent)
+      fireEvent.touchEnd(innerContent)
+
+      expect(document.querySelector('#inner-trigger')).toHaveAttribute(
+        'aria-expanded',
+        'true'
+      )
+      expect(document.querySelector('#outer-trigger')).toHaveAttribute(
+        'aria-expanded',
+        'true'
+      )
+    })
+
+    it('closes the inner Popover on a tap elsewhere in the outer Popover', async () => {
+      renderNested()
+      await openInner()
+
+      const outerContent = document.querySelector('#outer-content')
+      fireEvent.touchStart(outerContent)
+      fireEvent.touchEnd(outerContent)
+
+      await waitFor(() =>
+        expect(document.querySelector('#inner-trigger')).toHaveAttribute(
+          'aria-expanded',
+          'false'
+        )
+      )
+      expect(document.querySelector('#outer-trigger')).toHaveAttribute(
+        'aria-expanded',
+        'true'
+      )
+    })
+
+    it('stops listening to the outer Popover once closed', async () => {
+      const onOpenChange = vi.fn()
+      renderNested({ onOpenChange })
+      await openInner()
+      onOpenChange.mockClear()
+
+      const outerContent = document.querySelector('#outer-content')
+      fireEvent.mouseDown(outerContent)
+      fireEvent.mouseDown(outerContent)
+
+      expect(onOpenChange).toHaveBeenCalledTimes(1)
+      expect(onOpenChange).toHaveBeenCalledWith(false)
+    })
+  })
+
+  it('stays open on a tap in the list of a portaled Dropdown in it', () => {
+    renderWithTrigger({
+      noAnimation: true,
+      openInitially: true,
+      content: <Dropdown noAnimation data={['A', 'B']} />,
+    })
+
+    fireEvent.click(document.querySelector('button.dnb-dropdown__trigger'))
+
+    const option = document.querySelector('li.dnb-drawer-list__option')
+    expect(option.closest('.dnb-popover')).toBeNull()
+
+    fireEvent.touchStart(option)
+    fireEvent.touchEnd(option)
+
+    expect(
+      document.querySelector('.dnb-popover__trigger')
+    ).toHaveAttribute('aria-expanded', 'true')
+  })
+
   it('keeps dialog open when Popover handles Escape locally', async () => {
     render(
       <Dialog noAnimation open={true} title="Dialog">
@@ -1687,6 +1847,54 @@ describe('Popover', () => {
     expect(focusSpy).not.toHaveBeenCalled()
     focusSpy.mockRestore()
   })
+
+  it.each([
+    ['click', (element: HTMLElement) => userEvent.click(element)],
+    [
+      'tap',
+      (element: HTMLElement) => {
+        fireEvent.touchStart(element)
+        fireEvent.touchEnd(element)
+      },
+    ],
+  ])(
+    'does not move the focus back to the trigger when closed by a %s outside',
+    async (_, interact) => {
+      render(
+        <>
+          <Popover
+            trigger={({ ref, ...rest }) => (
+              <button type="button" ref={ref} {...rest}>
+                Toggle popover
+              </button>
+            )}
+          >
+            {contentText}
+          </Popover>
+          <input id="outside" />
+        </>
+      )
+
+      const trigger = document.querySelector(
+        'button[aria-controls]'
+      ) as HTMLButtonElement
+      await userEvent.click(trigger)
+      await waitFor(() =>
+        expect(trigger).toHaveAttribute('aria-expanded', 'true')
+      )
+
+      const focusSpy = vi.spyOn(trigger, 'focus')
+      await interact(document.getElementById('outside'))
+
+      await waitFor(() =>
+        expect(trigger).toHaveAttribute('aria-expanded', 'false')
+      )
+      await new Promise((resolve) => requestAnimationFrame(resolve))
+
+      expect(focusSpy).not.toHaveBeenCalled()
+      focusSpy.mockRestore()
+    }
+  )
 
   it('calls focus with preventScroll when opening', async () => {
     renderWithTrigger()
@@ -4299,7 +4507,10 @@ describe('Popover', () => {
           {contentText}
         </Popover>
       )
-      expect(await axeComponent(Comp)).toHaveNoViolations()
+
+      expect(
+        await axeComponent(Comp, document.querySelector('.dnb-popover'))
+      ).toHaveNoViolations()
     })
   })
 })

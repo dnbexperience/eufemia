@@ -1,0 +1,188 @@
+name: Country Flags
+
+on:
+  schedule:
+    - cron: '23 6 2 * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: country-flags-sync
+  cancel-in-progress: false
+
+# No job-wide secrets on purpose: they are scoped to the individual steps that
+# use them, so `yarn install` and the sync steps never receive credentials.
+
+env:
+  BRANCH: flags/automation-flag-icons-sync
+  SYNC_PATHS: >-
+    yarn.lock
+    packages/dnb-eufemia/package.json
+    packages/dnb-eufemia/assets/flags
+    packages/dnb-eufemia/src/components/country-flag/style/dnb-country-flag-icons.scss
+
+jobs:
+  sync-flags:
+    name: Sync flags from flag-icons
+    if: github.repository == 'dnbexperience/eufemia' && github.ref == 'refs/heads/main'
+
+    runs-on: macos-26
+
+    timeout-minutes: 40
+
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: main
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Find an open flag update pull request
+        id: existing-pr
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: |
+          url=$(gh pr list \
+            --head "$BRANCH" \
+            --base main \
+            --state open \
+            --json url \
+            --jq '.[0].url // empty')
+          if [ -n "$url" ]; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+            echo "url=$url" >> "$GITHUB_OUTPUT"
+            echo "A flag update pull request is already open: $url" >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Prepare update branch
+        id: branch
+        env:
+          PR_URL: ${{ steps.existing-pr.outputs.url }}
+          GH_NAME: ${{ secrets.GH_NAME }}
+          GH_EMAIL: ${{ secrets.GH_EMAIL }}
+        run: |
+          git config user.name "$GH_NAME"
+          git config user.email "$GH_EMAIL"
+          if [ -n "$PR_URL" ]; then
+            git fetch origin "refs/heads/$BRANCH:refs/remotes/origin/$BRANCH"
+            remote_sha=$(git rev-parse "origin/$BRANCH")
+            git switch -c "$BRANCH" "origin/$BRANCH"
+            git rebase origin/main
+          else
+            remote_sha=$(git ls-remote --heads origin "refs/heads/$BRANCH" | cut -f1)
+            git switch -c "$BRANCH"
+          fi
+          echo "remote_sha=$remote_sha" >> "$GITHUB_OUTPUT"
+
+      - name: Use Node.js
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        with:
+          node-version-file: 'package.json'
+
+      # Not the shared setup action: its node_modules cache would be saved with the updated flag-icons under the old yarn.lock key
+      - name: Install dependencies
+        run: yarn install --immutable
+
+      - name: Update flag-icons and sync the flags
+        env:
+          # Yarn makes installs immutable on CI, but this step updates the lockfile
+          YARN_ENABLE_IMMUTABLE_INSTALLS: 'false'
+        run: |
+          # The npmMinimalAgeGate in .yarnrc.yml keeps freshly published versions out
+          node -p "'FLAG_ICONS_VERSION=' + require('./packages/dnb-eufemia/package.json').devDependencies['flag-icons']" >> "$GITHUB_ENV"
+          yarn up flag-icons --exact
+          yarn workspace @dnb/eufemia flags:sync
+
+      - name: Summarize flag changes
+        id: update
+        run: |
+          git add --intent-to-add packages/dnb-eufemia/assets/flags
+          yarn workspace @dnb/eufemia exec babel-node --extensions .js,.ts,.tsx ./scripts/tools/prepareCountryFlagUpdate
+
+      - name: Detect flag changes
+        id: changes
+        run: |
+          # shellcheck disable=SC2086 # SYNC_PATHS is a space-separated list
+          if [ -z "$(git status --porcelain -- $SYNC_PATHS)" ]; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Verify flag synchronization
+        if: steps.changes.outputs.changed == 'true'
+        run: yarn workspace @dnb/eufemia test:scripts syncCountryFlags prepareCountryFlagUpdate
+
+      - name: Install Firefox
+        if: steps.changes.outputs.changed == 'true'
+        run: yarn workspace @dnb/eufemia playwright install --with-deps firefox
+
+      - name: Build library and Portal
+        if: steps.changes.outputs.changed == 'true'
+        run: |
+          yarn workspace @dnb/eufemia build:prebuild
+          yarn workspace dnb-design-system-portal build:visual-test
+
+      - name: Update CountryFlag and Avatar badge snapshots
+        if: steps.changes.outputs.changed == 'true'
+        run: >-
+          yarn workspace dnb-design-system-portal exec start-server-and-test
+          serve http://localhost:8000
+          'yarn workspace @dnb/eufemia test:screenshots CountryFlag Avatar --testNamePattern="CountryFlag|country flag as a badge" --update'
+
+      - name: Store visual test artifacts
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        if: failure()
+        with:
+          name: country-flags-visual-test-artifact
+          path: packages/dnb-eufemia/visual-diff-report/**
+          if-no-files-found: ignore
+
+      - name: Commit and push flag update
+        if: success() && steps.changes.outputs.changed == 'true'
+        run: |
+          if [ -n "$PR_URL" ]; then
+            is_draft=$(gh pr view "$PR_URL" --json isDraft --jq '.isDraft')
+            if [ "$is_draft" != true ]; then
+              gh pr ready "$PR_URL" --undo
+            fi
+          fi
+          gh auth setup-git
+          git config user.name "$GH_NAME"
+          git config user.email "$GH_EMAIL"
+          # shellcheck disable=SC2086 # SYNC_PATHS is a space-separated list
+          git add $SYNC_PATHS
+          git add \
+            ':(glob)packages/dnb-eufemia/src/components/country-flag/__tests__/__image_snapshots__/**' \
+            ':(glob)packages/dnb-eufemia/src/components/avatar/__tests__/__image_snapshots__/*country-flag-as-a-badge*.png'
+
+          git commit -m "Synchronize country flags from flag-icons"
+          git push origin "HEAD:refs/heads/$BRANCH" \
+            --force-with-lease="refs/heads/$BRANCH:$REMOTE_SHA"
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GH_NAME: ${{ secrets.GH_NAME }}
+          GH_EMAIL: ${{ secrets.GH_EMAIL }}
+          PR_URL: ${{ steps.existing-pr.outputs.url }}
+          REMOTE_SHA: ${{ steps.branch.outputs.remote_sha }}
+
+      - name: Create or update draft pull request
+        if: success() && steps.changes.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          PR_URL: ${{ steps.existing-pr.outputs.url }}
+          PR_TITLE: ${{ steps.update.outputs.title }}
+        run: |
+          if [ -n "$PR_URL" ]; then
+            gh pr edit "$PR_URL" --title "$PR_TITLE" --body-file "$RUNNER_TEMP/country-flags-pr.md"
+          else
+            gh pr create --base main --head "$BRANCH" \
+              --title "$PR_TITLE" --body-file "$RUNNER_TEMP/country-flags-pr.md" --draft
+          fi
+
+      - name: Report no flag changes
+        if: steps.changes.outputs.changed == 'false'
+        run: echo "The flags are already synchronized with flag-icons."

@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import type { ReactNode, ThHTMLAttributes } from 'react'
 import { clsx } from 'clsx'
 import TableSortButton from './TableSortButton'
@@ -13,19 +13,19 @@ export type TableThChildren =
 
 export type TableThProps = {
   /**
-   * Defines the table header as sortable if set to `true` (ascending).
+   * Defines the table header as sortable if set to `true`. Use it together with `Th.SortButton`.
    * Default: `false`
    */
   sortable?: boolean
 
   /**
-   * Defines the sortable column as the current active (ascending).
+   * Defines the sortable column as the currently sorted column. Shows the sort icon and sets `aria-sort`. The sort direction is ascending unless `reversed` is set.
    * Default: `false`
    */
   active?: boolean
 
   /**
-   * Defines the sortable column as in reversed order (descending).
+   * Defines the sort direction of the active column as descending.
    * Default: `false`
    */
   reversed?: boolean
@@ -50,7 +50,6 @@ export type TableThProps = {
 
   /**
    * The content of the component.
-   * Default: `undefined`
    */
   children?: TableThChildren | Array<TableThChildren>
 
@@ -75,22 +74,28 @@ export default function Th(
     highlight: highlightProp,
     variant,
     sortedBefore,
+    onMouseEnter,
+    onMouseLeave,
     ...props
   } = componentProps
 
   const trContext = useContext(TableTrContext)
   const highlight = highlightProp || trContext?.highlight
 
+  // Hides the sort preview icon after a click until the pointer leaves the header
+  const [sortClicked, setSortClicked] = useState(false)
+
   const role =
     props.scope === 'row' || props.scope === 'rowgroup'
       ? 'rowheader'
       : 'columnheader'
   const scope = props.scope === 'row' ? 'row' : props.scope || 'col'
-  const ariaSort = sortable
-    ? reversed
-      ? 'descending'
-      : 'ascending'
-    : undefined
+  const ariaSort =
+    sortable && active
+      ? reversed
+        ? 'descending'
+        : 'ascending'
+      : undefined
 
   return (
     <th
@@ -102,15 +107,27 @@ export default function Th(
         sortable && 'dnb-table--sortable',
         active && 'dnb-table--active',
         reversed && 'dnb-table--reversed',
-        sortedBefore && !active && 'dnb-table--sort-off',
+        (sortedBefore || sortClicked) && !active && 'dnb-table--sort-off',
         noWrap && 'dnb-table--no-wrap',
         highlight && 'dnb-table__th--highlight',
         variant && `dnb-table__th--${variant}`,
         className
       )}
+      onMouseEnter={(event) => {
+        setSortClicked(false)
+        onMouseEnter?.(event)
+      }}
+      onMouseLeave={(event) => {
+        setSortClicked(false)
+        onMouseLeave?.(event)
+      }}
       {...props}
     >
-      <TableThContext value={{ reversed }}>{children}</TableThContext>
+      <TableThContext
+        value={{ reversed, onSortClick: () => setSortClicked(true) }}
+      >
+        {children}
+      </TableThContext>
     </th>
   )
 }

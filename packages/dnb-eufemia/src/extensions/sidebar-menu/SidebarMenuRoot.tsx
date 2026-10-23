@@ -13,18 +13,28 @@ import { clsx } from 'clsx'
 import Space from '../../components/space/Space'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../shared/helpers/useIsomorphicLayoutEffect'
+import {
+  getWebStorage,
+  readWebStorageJSON,
+} from '../../shared/helpers/webStorage'
+import type { WebStorageType } from '../../shared/helpers/webStorage'
 import { SidebarMenuContext } from './SidebarMenuContext'
 import useTranslation from '../../shared/useTranslation'
+import { useSidebarMenuProps } from './SidebarMenuController'
 import type {
   SidebarMenuRootProps,
   SidebarMenuSectionProps,
 } from './types'
-import { useOptionalSidebarMenuResponsive } from './SidebarMenuResponsive'
+import {
+  useOptionalSidebarMenuResponsive,
+  useSidebarMenuResponsiveInlineCompact,
+} from './SidebarMenuResponsiveContext'
 
 function SidebarMenuRoot(props: SidebarMenuRootProps) {
   const {
     className,
     children,
+    controllerId,
     openItems,
     defaultOpenItems = [],
     openItemsStorageKey,
@@ -42,9 +52,10 @@ function SidebarMenuRoot(props: SidebarMenuRootProps) {
     defaultSelectedItem,
     onSelectedItemChange,
     ...rest
-  } = props
+  } = useSidebarMenuProps(props.controllerId, props, 'menu')
   const translation = useTranslation().SidebarMenu
   const responsive = useOptionalSidebarMenuResponsive()
+  const responsiveInlineCompact = useSidebarMenuResponsiveInlineCompact()
   const resolvedSectionLabel = sectionLabel ?? translation.sectionLabel
   const menuRef = useRef<HTMLElement>(null)
   const defaultOpenItemsKey = defaultOpenItems.join(',')
@@ -247,7 +258,7 @@ function SidebarMenuRoot(props: SidebarMenuRootProps) {
       return undefined
     }
 
-    const storage = getStorage(scrollPositionStorage)
+    const storage = getWebStorage(scrollPositionStorage)
     const storedValue = storage?.getItem(scrollPositionStorageKey)
     const storedPosition = Number(storedValue)
     if (
@@ -301,8 +312,15 @@ function SidebarMenuRoot(props: SidebarMenuRootProps) {
   const declarativeSections = findDeclarativeSections(children)
   const hasSections = Boolean(declarativeSections.length)
   const firstSectionId = declarativeSections[0]?.props.id
+  const hasSection = (id: string) =>
+    declarativeSections.some(({ props }) => props.id === id)
   const resolvedActiveSection =
-    activeSection ?? internalActiveSection ?? firstSectionId
+    activeSection ??
+    (hasSection(internalActiveSection)
+      ? internalActiveSection
+      : hasSection(defaultActiveSection)
+        ? defaultActiveSection
+        : firstSectionId)
 
   useEffect(() => {
     if (
@@ -576,6 +594,7 @@ function SidebarMenuRoot(props: SidebarMenuRootProps) {
       className={clsx(
         'dnb-sidebar-menu',
         !animate && 'dnb-sidebar-menu--restoring',
+        responsiveInlineCompact && 'dnb-sidebar-menu--compact',
         className
       )}
       data-open-items-storage-key={persistedOpenItemsStorageKey}
@@ -799,44 +818,38 @@ function readStoredOpenState({
   fallback,
 }: {
   key?: string
-  storage: 'session' | 'local'
+  storage: WebStorageType
   fallback: string[]
 }) {
   if (!key) {
     return { openItems: fallback, closedItems: [] }
   }
 
-  try {
-    const value = getStorage(storage)?.getItem(key)
-    if (!value) {
-      return { openItems: fallback, closedItems: [] }
-    }
-
-    const parsed = JSON.parse(value)
-    if (isStringArray(parsed)) {
-      return { openItems: parsed, closedItems: [] }
-    }
-
-    if (
-      parsed &&
-      typeof parsed === 'object' &&
-      isStringArray(parsed.openItems) &&
-      isStringArray(parsed.closedItems)
-    ) {
-      return {
-        openItems: parsed.openItems,
-        closedItems: parsed.closedItems,
-        selectedItem:
-          typeof parsed.selectedItem === 'string'
-            ? parsed.selectedItem
-            : undefined,
-      }
-    }
-
-    return { openItems: fallback, closedItems: [] }
-  } catch {
-    return { openItems: fallback, closedItems: [] }
+  const parsed = readWebStorageJSON<string[] | Partial<StoredOpenState>>(
+    storage,
+    key
+  )
+  if (isStringArray(parsed)) {
+    return { openItems: parsed, closedItems: [] }
   }
+
+  if (
+    parsed &&
+    typeof parsed === 'object' &&
+    isStringArray(parsed.openItems) &&
+    isStringArray(parsed.closedItems)
+  ) {
+    return {
+      openItems: parsed.openItems,
+      closedItems: parsed.closedItems,
+      selectedItem:
+        typeof parsed.selectedItem === 'string'
+          ? parsed.selectedItem
+          : undefined,
+    }
+  }
+
+  return { openItems: fallback, closedItems: [] }
 }
 
 function writeStoredOpenState({
@@ -846,7 +859,7 @@ function writeStoredOpenState({
   closedSelectionPath,
 }: {
   key: string
-  storage: 'session' | 'local'
+  storage: WebStorageType
   openItems: string[]
   closedSelectionPath: { selectedItem?: string; ids: string[] }
 }) {
@@ -859,7 +872,7 @@ function writeStoredOpenState({
     : openItems
 
   try {
-    getStorage(storage)?.setItem(key, JSON.stringify(value))
+    getWebStorage(storage)?.setItem(key, JSON.stringify(value))
   } catch {
     // Storage can be unavailable even after it was resolved.
   }
@@ -876,18 +889,4 @@ function isStringArray(value: unknown): value is string[] {
   return (
     Array.isArray(value) && value.every((item) => typeof item === 'string')
   )
-}
-
-function getStorage(storage: 'session' | 'local') {
-  if (typeof window === 'undefined') {
-    return undefined
-  }
-
-  try {
-    return storage === 'local'
-      ? window.localStorage
-      : window.sessionStorage
-  } catch {
-    return undefined
-  }
 }

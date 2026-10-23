@@ -35,11 +35,21 @@ import type {
 } from './TableAccordionContent'
 import type { TableTrProps } from '../TableTr'
 import decodeHashId from '../../../shared/helpers/decodeHashId'
+import useCanUseDOM from '../../../shared/helpers/useCanUseDOM'
 
 const accordionChevron = Icon.transition({
   collapsed: chevron_down,
   expanded: chevron_up,
 })
+
+function matchesLocationHash(id: string | undefined) {
+  if (!id || typeof location === 'undefined') {
+    return false
+  }
+
+  const hashId = location.hash.slice(1)
+  return id === hashId || id === decodeHashId(hashId)
+}
 
 // Extend the ViewTransition API types
 type DocumentWithViewTransition = Document & {
@@ -72,20 +82,24 @@ export function TableAccordionHead(allProps: TableAccordionHeadProps) {
     ...props
   } = allProps
   const tableContext = useContext(TableContext)
+  const canUseDOM = useCanUseDOM()
 
   const [trIsOpen, setOpen] = useState(() => {
     if (typeof expanded === 'boolean') {
       return expanded
-    } else if (typeof location !== 'undefined') {
-      const id = props?.id
-      const hashId = location.hash.slice(1)
-      if (id && (id === hashId || id === decodeHashId(hashId))) {
-        return true
-      }
     }
 
-    return false
+    // The server cannot know the hash, so it is applied after hydration
+    return canUseDOM && matchesLocationHash(props?.id)
   })
+
+  useEffect(() => {
+    if (typeof expanded !== 'boolean' && matchesLocationHash(props?.id)) {
+      setOpen(true)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- Only on mount, like the initial state
+  }, [])
+
   const [trIsHover, setHover] = useState(false)
   const [trHadClick, setHadClick] = useState(false)
   const openOnFind = openOnFindProp ?? keepInDOM ?? false

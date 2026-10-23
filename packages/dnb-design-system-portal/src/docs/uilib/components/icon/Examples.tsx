@@ -4,6 +4,7 @@
  */
 
 import { useState } from 'react'
+import useCanUseDOM from '@dnb/eufemia/src/shared/helpers/useCanUseDOM'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import {
   bell_medium as BellMedium,
@@ -31,6 +32,7 @@ import {
   Flex,
   Avatar,
   FormStatus,
+  Autocomplete,
 } from '@dnb/eufemia/src'
 import styled from '@emotion/styled'
 import { Field } from '@dnb/eufemia/src/extensions/forms'
@@ -44,6 +46,59 @@ export const IconDefault = () => (
     <Icon icon={BellMedium} aria-hidden />
     <Bell title="I'm not responsive!" />
     {/* <- Not responsive! */}
+  </ComponentBox>
+)
+
+export const IconCdn = () => (
+  <ComponentBox data-visual-test="icon-cdn">
+    {() => {
+      const iconNames = [
+        'bell',
+        'bell_medium',
+        'arrow_right',
+        'calendar',
+        'heart',
+        'star',
+        'bicycle',
+        'animal_print',
+      ]
+
+      const App = () => {
+        const [name, setName] = useState('bell')
+
+        return (
+          <Flex.Stack>
+            <Autocomplete
+              label="Icon name"
+              inputValue="bell"
+              keepValueAndSelection
+              data={iconNames}
+              onType={({ value }) => setName(value)}
+              onChange={({ data }) => {
+                if (data) {
+                  setName(
+                    typeof data === 'string' ? data : String(data.content)
+                  )
+                }
+              }}
+            />
+            <Flex.Horizontal align="center">
+              <Icon icon={name} title="Default size" />
+              <Icon
+                icon={name}
+                size="medium"
+                color="var(--token-color-text-action)"
+              />
+              <Icon icon={name} size="medium" border />
+              <Icon icon={name} inheritColor={false} />
+              <Button text="Notifications" icon={name} />
+            </Flex.Horizontal>
+          </Flex.Stack>
+        )
+      }
+
+      return <App />
+    }}
   </ComponentBox>
 )
 
@@ -119,10 +174,10 @@ export const IconInheritSized = () => (
     data-visual-test="icon-inherit-sized"
     scope={{ Bell, BellMedium }}
   >
-    <h1 className="dnb-h--xx-large">
-      h1 with auto sized <Icon icon={BellMedium} size="auto" aria-hidden />{' '}
-      icon
-    </h1>
+    <h4 className="dnb-h--xx-large">
+      Heading with auto sized{' '}
+      <Icon icon={BellMedium} size="auto" aria-hidden /> icon
+    </h4>
   </ComponentBox>
 )
 
@@ -278,7 +333,9 @@ export function AllIconsTest() {
 }
 
 export function IconTransitionExample() {
-  const notSupported = !Icon.transition.isSupported && (
+  // isSupported is always false on the server
+  const canUseDOM = useCanUseDOM()
+  const notSupported = canUseDOM && !Icon.transition.isSupported && (
     <FormStatus state="warning" top>
       Your browser does not support CSS <code>d</code> path interpolation,
       so the icon transition will fall back to a simple crossfade.

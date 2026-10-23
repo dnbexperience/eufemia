@@ -61,6 +61,41 @@ legend.dnb-form-label {
 /*
  * Utilities
  */
+/*
+ * Colors of the FormStatus icons
+ *
+ */
+.dnb-form-status-icon-path--fill {
+  fill: var(--form-status-icon-color);
+}
+.dnb-form-status-icon-path--stroke {
+  stroke: var(--form-status-icon-color);
+}
+.dnb-form-status-icon-path--error {
+  --form-status-icon-color: var(--token-color-background-error);
+}
+.dnb-form-status-icon-path--error-mark {
+  --form-status-icon-color: var(--token-color-icon-neutral-ondark);
+}
+.dnb-form-status-icon-path--warning {
+  --form-status-icon-color: var(--token-color-icon-warning);
+}
+.dnb-form-status-icon-path--warning-mark {
+  --form-status-icon-color: var(--token-color-icon-neutral-static);
+}
+.dnb-form-status-icon-path--information {
+  --form-status-icon-color: var(--token-color-icon-info);
+}
+.dnb-form-status-icon-path--information-mark, .dnb-form-status-icon-path--success-mark {
+  --form-status-icon-color: var(--token-color-icon-neutral-inverse);
+}
+.dnb-form-status-icon-path--success {
+  --form-status-icon-color: var(--token-color-background-positive);
+}
+.dnb-form-status-icon-path--marketing {
+  --form-status-icon-color: var(--token-color-icon-marketing);
+}
+
 .dnb-form-status {
   --form-status-radius: var(--token-radius-xl);
   display: flex;
@@ -94,6 +129,12 @@ legend.dnb-form-label {
   );
   --form-status-color-icon: var(--token-color-icon-info);
 }
+.dnb-form-status--success .dnb-form-status__shell {
+  --form-status-color-background: var(
+    --token-color-background-positive-subtle
+  );
+  --form-status-color-icon: var(--token-color-icon-positive);
+}
 .dnb-form-status--marketing .dnb-form-status__shell {
   --form-status-color-background: var(
     --token-color-background-marketing-subtle
@@ -114,6 +155,9 @@ legend.dnb-form-label {
 }
 .dnb-form-status__variant--outlined.dnb-form-status--information .dnb-form-status__shell {
   --form-status-color-outline: var(--token-color-stroke-info);
+}
+.dnb-form-status__variant--outlined.dnb-form-status--success .dnb-form-status__shell {
+  --form-status-color-outline: var(--token-color-stroke-positive);
 }
 .dnb-form-status__variant--outlined.dnb-form-status--marketing .dnb-form-status__shell {
   --form-status-color-outline: var(--token-color-stroke-marketing);
@@ -312,6 +356,12 @@ button .dnb-form-status__text {
     transition-duration: 0.01ms;
   }
 }
+@media (forced-colors: active) {
+  .dnb-switch__button {
+    outline: 0.125rem solid transparent;
+    outline-offset: calc(0.125rem * -1);
+  }
+}
 .dnb-switch--large .dnb-switch__button {
   width: var(--switch-button-size-off--large);
   height: var(--switch-button-size-off--large);
@@ -409,6 +459,11 @@ html[data-whatinput=keyboard] .dnb-switch__input:not([disabled]):focus ~ .dnb-sw
   --border-width: var(--focus-ring-width);
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
+}
+@media (forced-colors: active) {
+  html[data-whatinput=keyboard] .dnb-switch__input:not([disabled]):focus ~ .dnb-switch__background, html[data-whatinput=keyboard] .dnb-switch__input:not([disabled]):active ~ .dnb-switch__background {
+    outline: var(--focus-ring-width) solid transparent;
+  }
 }
 .dnb-switch .dnb-form-label {
   padding-right: 0.5rem;
@@ -530,6 +585,15 @@ html[data-whatinput=keyboard] .dnb-switch__input:checked:not([disabled]):focus ~
 .dnb-switch:not(.dnb-skeleton) .dnb-switch__input[disabled]:checked ~ .dnb-switch__button {
   color: var(--switch-disabled-checked-icon);
   background-color: var(--switch-disabled-checked-button-background);
+}
+@media (forced-colors: active) {
+  .dnb-switch:not(.dnb-skeleton) .dnb-switch__input[disabled] ~ .dnb-switch__background, .dnb-switch:not(.dnb-skeleton) .dnb-switch__input[disabled]:checked ~ .dnb-switch__background {
+    border-color: GrayText;
+  }
+  .dnb-switch:not(.dnb-skeleton) .dnb-switch__input[disabled] ~ .dnb-switch__button, .dnb-switch:not(.dnb-skeleton) .dnb-switch__input[disabled]:checked ~ .dnb-switch__button {
+    color: GrayText;
+    outline-color: GrayText;
+  }
 }
 .dnb-switch--surface-dark {
   --switch-background: transparent;

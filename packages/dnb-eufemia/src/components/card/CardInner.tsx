@@ -1,5 +1,6 @@
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
-import { useContext } from 'react'
+import { Children, isValidElement, useContext } from 'react'
+import type { ComponentMarkers } from '../../shared/helpers/withComponentMarkers'
 import type { HTMLProps, ReactNode } from 'react'
 import { clsx } from 'clsx'
 import Flex from '../flex/Flex'
@@ -68,6 +69,18 @@ function Card(props: CardProps) {
     children,
     ...rest
   } = props
+  const content: ReactNode[] = []
+  const closeControls: ReactNode[] = []
+  Children.toArray(children).forEach((child) => {
+    if (
+      isValidElement(child) &&
+      (child.type as ComponentMarkers)._cardControl === 'close'
+    ) {
+      closeControls.push(child)
+    } else {
+      content.push(child)
+    }
+  })
 
   const titleId = useId()
   const falseWhenSmall = { small: false, medium: true, large: true }
@@ -92,6 +105,7 @@ function Card(props: CardProps) {
       className,
       responsive && 'dnb-card--responsive',
       filled && 'dnb-card--filled',
+      closeControls.length > 0 && 'dnb-card--closable',
       !innerSpace && innerSpace != null && 'dnb-card--no-inner-space'
     ),
     breakout: responsive ? trueWhenSmall : false,
@@ -134,8 +148,9 @@ function Card(props: CardProps) {
               {title}
             </Space>
           )}
-          {children}
+          {content}
         </Flex.Container>
+        {closeControls}
       </CardContext>
     </Flex.Item>
   )

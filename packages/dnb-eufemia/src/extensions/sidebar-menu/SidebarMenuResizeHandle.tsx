@@ -10,7 +10,7 @@ import type {
 import { clsx } from 'clsx'
 import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../shared/helpers/useIsomorphicLayoutEffect'
 import useTranslation from '../../shared/useTranslation'
-import { useOptionalSidebarMenuResponsive } from './SidebarMenuResponsive'
+import { useOptionalSidebarMenuResponsive } from './SidebarMenuResponsiveContext'
 
 const collapseRubberBandRatio = 0.1
 
@@ -56,6 +56,7 @@ export default function SidebarMenuResizeHandle({
   const translation = useTranslation().SidebarMenu
   const cleanupResizeRef = useRef<() => void>(undefined)
   const resetFrameRef = useRef<number>(undefined)
+  const initialMeasureFrameRef = useRef<number>(undefined)
   const resetTransitionCleanupRef = useRef<() => void>(undefined)
   const handleRef = useRef<HTMLButtonElement>(null)
   const writtenWidthRef = useRef<number>(undefined)
@@ -73,6 +74,7 @@ export default function SidebarMenuResizeHandle({
     () => () => {
       cleanupResizeRef.current?.()
       cancelAnimationFrame(resetFrameRef.current)
+      cancelAnimationFrame(initialMeasureFrameRef.current)
       resetTransitionCleanupRef.current?.()
     },
     []
@@ -113,12 +115,21 @@ export default function SidebarMenuResizeHandle({
   }, [maxWidth, minWidth, targetRef])
 
   useLayoutEffect(() => {
-    if (targetRef.current) {
+    const measure = () => {
+      if (!targetRef.current) {
+        return
+      }
       const targetWidth = targetRef.current.getBoundingClientRect().width
-      writtenWidthRef.current = targetWidth
-      setHandlePosition(targetWidth)
-      setResolvedMaxWidth(getMaximumWidth())
+      if (targetWidth > 0) {
+        writtenWidthRef.current = targetWidth
+        setHandlePosition(targetWidth)
+        setResolvedMaxWidth(getMaximumWidth())
+      }
     }
+
+    measure()
+    initialMeasureFrameRef.current = requestAnimationFrame(measure)
+    return () => cancelAnimationFrame(initialMeasureFrameRef.current)
   }, [getMaximumWidth, targetRef])
 
   useEffect(() => {
@@ -236,6 +247,7 @@ export default function SidebarMenuResizeHandle({
     ) => () => void
   ) {
     cleanupResizeRef.current?.()
+    cancelAnimationFrame(initialMeasureFrameRef.current)
     cancelAnimationFrame(resetFrameRef.current)
     resetTransitionCleanupRef.current?.()
     const rootElement = getRootElement()
@@ -252,10 +264,9 @@ export default function SidebarMenuResizeHandle({
       const width = event.clientX - pointerOffset
       if (onCollapse && width <= collapseThreshold) {
         rubberBandActive = false
-        const minimumWidth = String(minWidth) + 'px'
-        getRootElement().style.setProperty(cssProperty, minimumWidth)
-        writtenWidthRef.current = minWidth
-        setHandlePosition(minWidth)
+        setRubberBandWidth(width)
+        // Commit the resisted width before enabling the collapse transition.
+        getTargetWidth()
         cleanup()
         onCollapse()
         return

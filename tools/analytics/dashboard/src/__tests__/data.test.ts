@@ -5,41 +5,25 @@ import {
   dashboardView,
   dataErrorMessage,
   loadDashboardData,
-  normalise,
   rank,
   snapshotMeta,
-  toRecords,
+  toViewRow,
   type DashboardPayload,
 } from '../data'
 import { beginAuthRetry } from '../auth'
 import type { Session } from '../auth'
 
-describe('normalise', () => {
-  it('prefers name, then path, then type, then id', () => {
-    expect(normalise({ name: 'A', path: '/b' }).label).toBe('A')
-    expect(normalise({ path: '/b' }).label).toBe('/b')
-    expect(normalise({ type: 'pageview' }).label).toBe('pageview')
-    expect(normalise({ id: '7' }).label).toBe('7')
-    expect(normalise({}).label).toBe('—')
+describe('toViewRow', () => {
+  it('uses the path, with a dash when it is missing', () => {
+    expect(toViewRow({ path: '/b' }).path).toBe('/b')
+    expect(toViewRow({}).path).toBe('—')
   })
 
-  it('derives the day from created_at or timestamp', () => {
-    expect(normalise({ created_at: '2026-09-16T10:00:00Z' }).day).toBe(
-      '2026-09-16'
-    )
-    expect(normalise({ timestamp: '2026-01-02T00:00:00Z' }).day).toBe(
+  it('derives the day from the timestamp', () => {
+    expect(toViewRow({ timestamp: '2026-01-02T00:00:00Z' }).day).toBe(
       '2026-01-02'
     )
-    expect(normalise({}).day).toBe('')
-  })
-})
-
-describe('toRecords', () => {
-  it('accepts an array or a payload with portalViews', () => {
-    expect(toRecords([{ path: '/a' }])).toHaveLength(1)
-    expect(toRecords({ portalViews: [{ path: '/a' }] })).toHaveLength(1)
-    expect(toRecords(null)).toEqual([])
-    expect(toRecords({})).toEqual([])
+    expect(toViewRow({}).day).toBe('')
   })
 })
 
@@ -71,25 +55,25 @@ describe('dataErrorMessage', () => {
 
 describe('countBy + rank', () => {
   const rows = [
-    normalise({
+    toViewRow({
       path: '/a',
       env: 'prod',
-      created_at: '2026-09-16T00:00:00Z',
+      timestamp: '2026-09-16T00:00:00Z',
     }),
-    normalise({
+    toViewRow({
       path: '/a',
       env: 'prod',
-      created_at: '2026-09-16T01:00:00Z',
+      timestamp: '2026-09-16T01:00:00Z',
     }),
-    normalise({
+    toViewRow({
       path: '/b',
       env: 'prod',
-      created_at: '2026-09-15T00:00:00Z',
+      timestamp: '2026-09-15T00:00:00Z',
     }),
   ]
 
   it('counts occurrences and ranks by count descending', () => {
-    const ranked = rank(countBy(rows, 'label'), { sort: 'desc' })
+    const ranked = rank(countBy(rows, 'path'), { sort: 'desc' })
     expect(ranked).toEqual([
       { name: '/a', count: 2 },
       { name: '/b', count: 1 },
@@ -105,9 +89,9 @@ describe('countBy + rank', () => {
 describe('dashboardView', () => {
   const payload: DashboardPayload = {
     portalViews: [
-      { path: '/a', env: 'prod', created_at: '2026-09-16T00:00:00Z' },
-      { path: '/a', env: 'prod', created_at: '2026-09-16T01:00:00Z' },
-      { path: '/b', env: 'test', created_at: '2026-09-15T00:00:00Z' },
+      { path: '/a', env: 'prod', timestamp: '2026-09-16T00:00:00Z' },
+      { path: '/a', env: 'prod', timestamp: '2026-09-16T01:00:00Z' },
+      { path: '/b', env: 'test', timestamp: '2026-09-15T00:00:00Z' },
     ],
   }
 
@@ -127,7 +111,7 @@ describe('dashboardView', () => {
     expect(view.rows).toHaveLength(3)
     expect(view.kpis).toEqual([
       { value: 3, label: 'Latest views' },
-      { value: 2, label: 'Unique pages' },
+      { value: 2, label: 'Unique URLs' },
       { value: 2, label: 'Days covered' },
     ])
   })
@@ -140,7 +124,7 @@ describe('dashboardView', () => {
     expect(view.rows.every((r) => r.env === 'prod')).toBe(true)
     expect(view.kpis).toEqual([
       { value: 2, label: 'Latest views' },
-      { value: 1, label: 'Unique pages' },
+      { value: 1, label: 'Unique URLs' },
       { value: 1, label: 'Days covered' },
     ])
   })
@@ -164,8 +148,11 @@ describe('loadDashboardData', () => {
     })
   })
 
-  it('returns the empty state when no API base URL is configured', async () => {
-    expect(await loadDashboardData(session, '')).toEqual({ kind: 'empty' })
+  it('reports an error when sign-in works but no API base URL is configured', async () => {
+    expect(await loadDashboardData(session, '')).toEqual({
+      kind: 'error',
+      message: expect.stringContaining('no data API address'),
+    })
   })
 
   it('sends the access token and returns fetched records', async () => {
@@ -176,7 +163,7 @@ describe('loadDashboardData', () => {
       return {
         status: 200,
         ok: true,
-        json: async () => ({ portalViews: [{ id: '1' }] }),
+        json: async () => ({ portalViews: [{ path: '/a' }] }),
       }
     })
 
@@ -188,7 +175,7 @@ describe('loadDashboardData', () => {
     ).toBe('Bearer token-abc')
     expect(result).toEqual({
       kind: 'data',
-      payload: { portalViews: [{ id: '1' }] },
+      payload: { portalViews: [{ path: '/a' }] },
     })
   })
 
@@ -219,7 +206,7 @@ describe('loadDashboardData', () => {
     expect(beginAuthRetry()).toBe(true)
   })
 
-  it('allows one retry on 401, then reports rejection', async () => {
+  it('allows one retry on 401, then reports an error', async () => {
     vi.stubGlobal('fetch', async () => ({ status: 401, ok: false }))
 
     expect(
@@ -230,7 +217,8 @@ describe('loadDashboardData', () => {
     expect(
       await loadDashboardData(session, 'https://api.example')
     ).toEqual({
-      kind: 'rejected',
+      kind: 'error',
+      message: expect.stringContaining('rejected your access'),
     })
   })
 
@@ -241,11 +229,11 @@ describe('loadDashboardData', () => {
       await loadDashboardData(session, 'https://api.example')
     ).toEqual({
       kind: 'error',
-      status: 403,
+      message: dataErrorMessage(403),
     })
   })
 
-  it('returns the empty state when the body is malformed', async () => {
+  it('reports an error when the body is malformed', async () => {
     vi.stubGlobal('fetch', async () => ({
       status: 200,
       ok: true,
@@ -257,11 +245,12 @@ describe('loadDashboardData', () => {
     expect(
       await loadDashboardData(session, 'https://api.example')
     ).toEqual({
-      kind: 'empty',
+      kind: 'error',
+      message: expect.stringContaining('could not read'),
     })
   })
 
-  it('returns the empty state when the request throws', async () => {
+  it('reports an error when the request throws', async () => {
     vi.stubGlobal('fetch', async () => {
       throw new Error('network down')
     })
@@ -269,7 +258,8 @@ describe('loadDashboardData', () => {
     expect(
       await loadDashboardData(session, 'https://api.example')
     ).toEqual({
-      kind: 'empty',
+      kind: 'error',
+      message: expect.stringContaining('Could not reach the data API'),
     })
   })
 })

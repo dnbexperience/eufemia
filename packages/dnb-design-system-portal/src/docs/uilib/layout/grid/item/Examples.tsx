@@ -95,7 +95,7 @@ export const ResponsiveAdvanced = () => {
 export const OrderHorizontal = () => {
   const Item = ({ children }) => {
     return (
-      <Input stretch selectAll>
+      <Input label={children} labelSrOnly stretch selectAll>
         {children}
       </Input>
     )
@@ -123,7 +123,7 @@ export const OrderHorizontal = () => {
 export const OrderVertical = () => {
   const Item = ({ children }) => {
     return (
-      <Input stretch selectAll>
+      <Input label={children} labelSrOnly stretch selectAll>
         {children}
       </Input>
     )

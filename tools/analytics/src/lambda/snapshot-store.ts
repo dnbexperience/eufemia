@@ -3,6 +3,7 @@ import {
   PutObjectCommand,
   S3Client,
 } from '@aws-sdk/client-s3'
+import { warnOnce } from './log.js'
 
 const s3 = new S3Client({})
 
@@ -36,14 +37,16 @@ export type PortalViewDaily = {
   count: number
 }
 
-// A daily MCP usage aggregate row (one per transport+tool+component+path per
-// day), read from and written to the durable mcp_usage_daily rollup.
+// A daily MCP usage aggregate row (one per transport+tool+component+path+miss
+// per day), read from and written to the durable mcp_usage_daily rollup.
 export type McpUsageDaily = {
   dt: string
   transport: string
   tool: string
   component: string
   path: string
+  component_missed: boolean
+  likely_component: string
   count: number
 }
 
@@ -57,6 +60,8 @@ export type McpTransportUsage = {
   perTool: McpUsageCount[]
   perComponent: McpUsageCount[]
   perPath: McpUsageCount[]
+  missedLookups: number
+  perLikelyComponent: McpUsageCount[]
   daily: McpUsageDay[]
 }
 
@@ -73,6 +78,8 @@ const EMPTY_MCP_TRANSPORT_USAGE: McpTransportUsage = {
   perTool: [],
   perComponent: [],
   perPath: [],
+  missedLookups: 0,
+  perLikelyComponent: [],
   daily: [],
 }
 
@@ -114,31 +121,6 @@ export const EMPTY_COMPONENT_USAGE: ComponentUsageSection = {
   perVersion: [],
 }
 
-export function requireEnv(name: string): string {
-  const value = process.env[name]
-
-  if (!value) {
-    throw new Error(`${name} environment variable is not set`)
-  }
-
-  return value
-}
-
-// Logs a message at most once per process, so a persistent misconfiguration
-// (e.g. a missing s3:GetObject permission) surfaces in CloudWatch without
-// repeating on every request.
-const warned = new Set<string>()
-
-function warnOnce(message: string): void {
-  if (warned.has(message)) {
-    return
-  }
-
-  warned.add(message)
-  // eslint-disable-next-line no-console -- server-side logging to CloudWatch
-  console.error(message)
-}
-
 export async function readSnapshot(
   bucket: string
 ): Promise<Snapshot | null> {
@@ -177,27 +159,22 @@ export async function writeSnapshot(
 }
 
 // The *-daily/ prefixes have no lifecycle rule, so rollups outlive the raw rows'
-// expiry. `projectRow` must emit exactly the Glue table's columns (minus `dt`).
-export async function storeDailyRollup<T extends { dt: string }>(
+// expiry. Rows must hold exactly the Glue table's columns plus `dt` (partition).
+export async function storeDailyRollup(
   bucket: string,
   prefix: `${string}/`,
-  rows: T[],
-  projectRow: (row: T) => Record<string, unknown>
+  rows: { dt: string }[]
 ): Promise<void> {
-  const byDt = new Map<string, T[]>()
-
-  for (const row of rows) {
-    const list = byDt.get(row.dt) ?? []
-    list.push(row)
-    byDt.set(row.dt, list)
-  }
+  const byDt = Map.groupBy(rows, (row) => row.dt)
 
   for (const [dt, dtRows] of byDt) {
     await s3.send(
       new PutObjectCommand({
         Bucket: bucket,
         Key: `${prefix}dt=${dt}/agg.json`,
-        Body: dtRows.map((r) => JSON.stringify(projectRow(r))).join('\n'),
+        Body: dtRows
+          .map(({ dt: _dt, ...row }) => JSON.stringify(row))
+          .join('\n'),
         ContentType: 'application/x-ndjson',
       })
     )

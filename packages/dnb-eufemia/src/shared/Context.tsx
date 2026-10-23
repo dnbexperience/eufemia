@@ -143,6 +143,11 @@ export type ContextProps = ContextComponents & {
   skeleton?: SkeletonShow
 
   /**
+   * Optional SVG directory override for named icons. Defaults to the public asset CDN for the installed Eufemia version, or the unversioned CDN in development. Set false to disable remote icon loading.
+   */
+  iconBaseUrl?: string | false
+
+  /**
    * Define what breakpoints should be used by the MediaQuery component and hook
    */
   breakpoints?: Record<string, string>
@@ -208,10 +213,6 @@ export type ContextProps = ContextComponents & {
 
   // -- For internal use --
   __context__?: Record<string, unknown>
-  updateTranslation?: (
-    locale: InternalLocale,
-    translation: Translation
-  ) => void
   getTranslation?: (props: GetTranslationProps) => Translation
 }
 
@@ -304,16 +305,6 @@ export function prepareContext<Props>(
 
   const context = {
     ...props,
-    updateTranslation: (locale, newTranslations) => {
-      context.translation = destructFlatTranslation(
-        extendDeep(
-          {},
-          defaultLocales[LOCALE],
-          newTranslations[locale] || newTranslations[LOCALE]
-        ) as TranslationFlat
-      )
-      context.translations = newTranslations
-    },
     getTranslation: (localProps) => {
       if (localProps) {
         const locale = localProps.lang || localProps.locale
@@ -335,7 +326,7 @@ export function prepareContext<Props>(
     },
 
     /**
-     * Make sure we set this after props, since we update this one!
+     * Make sure we set this after props, so the prepared values are used
      */
     translations,
     translation,

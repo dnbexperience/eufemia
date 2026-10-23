@@ -66,7 +66,15 @@ export type HeadingProps = {
    * If set to `true`, the heading level will be decremented by 1.
    */
   decrease?: boolean
+
+  /**
+   * Same as `increase`.
+   */
   up?: boolean
+
+  /**
+   * Same as `decrease`.
+   */
   down?: boolean
 
   /**

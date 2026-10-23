@@ -10,20 +10,13 @@ const unlock = (props?: IconSVGProps) => (
     viewBox="0 0 16 16"
     {...props}
   >
-    <g clipPath="url(#unlock_svg__a)">
-      <path
-        stroke="#000"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth={1.5}
-        d="M1 6.793V4.38a3.38 3.38 0 0 1 6.759 0v1.69M9.93 9.931v1.931M5.103 7.034c0-.533.433-.965.966-.965h7.966c.533 0 .965.432.965.965v7a.966.966 0 0 1-.966.966H6.07a.966.966 0 0 1-.966-.966z"
-      />
-    </g>
-    <defs>
-      <clipPath id="unlock_svg__a">
-        <path fill="#fff" d="M0 0h16v16H0z" />
-      </clipPath>
-    </defs>
+    <path
+      stroke="#000"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={1.5}
+      d="M1 6.793V4.38a3.38 3.38 0 0 1 6.759 0v1.69M9.93 9.931v1.931M5.103 7.034c0-.533.433-.965.966-.965h7.966c.533 0 .965.432.965.965v7a.966.966 0 0 1-.966.966H6.07a.966.966 0 0 1-.966-.966z"
+    />
   </svg>
 )
 export default unlock

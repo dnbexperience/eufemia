@@ -114,7 +114,7 @@ async function createNewChangelogVersion() {
     )
     const content = await fs.readFile(changelogFilePath, 'utf-8')
 
-    const changelogVersion = String(/^#+\s(.*)\n/g.exec(content)[0])
+    const changelogVersion = String(/^#+\s(.*)\n/m.exec(content)[0])
       .replace(/#+/, '')
       .trim()
 

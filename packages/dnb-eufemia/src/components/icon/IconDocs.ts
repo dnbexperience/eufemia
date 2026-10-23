@@ -2,8 +2,8 @@ import type { PropertiesTableProps } from '../../shared/types'
 
 export const IconProperties: PropertiesTableProps = {
   icon: {
-    doc: 'A React SVG Component.',
-    type: 'React.ReactNode',
+    doc: 'A React SVG component or an icon name. Names load from the asset CDN. Set `iconBaseUrl` on [Provider](/uilib/usage/customisation/provider) to use self-hosted SVGs. IconPrimary uses bundled primary icons before falling back to the CDN.',
+    type: ['React.ReactNode', 'string'],
     status: 'optional',
   },
   title: {

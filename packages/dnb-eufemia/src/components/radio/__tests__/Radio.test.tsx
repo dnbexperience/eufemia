@@ -3,7 +3,7 @@
  *
  */
 
-import { fireEvent, render } from '@testing-library/react'
+import { act, fireEvent, render } from '@testing-library/react'
 import { StrictMode, useRef, useState } from 'react'
 import type { RefObject } from 'react'
 import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
@@ -42,6 +42,201 @@ describe('Radio component', () => {
     fireEvent.click(document.querySelector('input'))
     expect(myEvent.mock.calls.length).toBe(1)
     expect(myEvent.mock.calls[0][0].checked).toBe(true)
+  })
+
+  it('can uncheck a single radio again', () => {
+    const onChange = vi.fn()
+    render(<Radio onChange={onChange} />)
+
+    const input = document.querySelector('input')
+    fireEvent.click(input)
+    fireEvent.click(input)
+
+    expect(input.checked).toBe(false)
+    expect(onChange).toHaveBeenCalledTimes(2)
+    expect(onChange.mock.calls[1][0].checked).toBe(false)
+  })
+
+  it('can uncheck a checked single radio with Space', () => {
+    render(<Radio checked />)
+
+    const input = document.querySelector('input')
+    fireEvent.keyDown(input, { key: ' ' })
+
+    expect(input.checked).toBe(false)
+  })
+
+  describe('arrow keys on a single radio', () => {
+    beforeEach(() => {
+      vi.useFakeTimers()
+    })
+    afterEach(() => {
+      vi.useRealTimers()
+    })
+
+    it.each(['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'])(
+      'gives a single radio its own name only while the browser runs %s',
+      async (key) => {
+        const onChange = vi.fn()
+        const onKeyDown = vi.fn()
+        render(
+          <Radio
+            id="single"
+            checked
+            onChange={onChange}
+            onKeyDown={onKeyDown}
+          />
+        )
+
+        // Browsers treat all radios without a name as one group, so an arrow
+        // key would move to and check another radio. jsdom does not move
+        // between radios, so we check the name the browser sees when it runs
+        // the key: after all listeners and microtasks, and before React
+        // renders. A key that is not prevented can still scroll the page.
+        const input = document.querySelector('input')
+        act(() => {
+          const event = new KeyboardEvent('keydown', {
+            key,
+            bubbles: true,
+            cancelable: true,
+          })
+          expect(input.dispatchEvent(event)).toBe(true)
+          expect(input).toHaveAttribute('name', 'single')
+        })
+
+        await Promise.resolve()
+        expect(input).toHaveAttribute('name', 'single')
+
+        act(() => {
+          vi.runOnlyPendingTimers()
+          expect(input).not.toHaveAttribute('name')
+        })
+        expect(input).not.toHaveAttribute('name')
+        expect(onKeyDown).toHaveBeenCalledTimes(1)
+        expect(onChange).not.toHaveBeenCalled()
+      }
+    )
+  })
+
+  it('keeps the name of a single radio when it renders during an arrow key', () => {
+    function Page() {
+      const [count, setCount] = useState(0)
+      return (
+        <Radio
+          id="single"
+          label={`Rendered ${count}`}
+          onKeyDown={() => setCount((count) => count + 1)}
+        />
+      )
+    }
+    render(<Page />)
+
+    // React removes a name it did not render when it renders the input
+    const input = document.querySelector('input')
+    fireEvent.keyDown(input, { key: 'ArrowDown' })
+    expect(document.querySelector('label')).toHaveTextContent('Rendered 1')
+    expect(input).toHaveAttribute('name', 'single')
+  })
+
+  it('does not give a single radio a name when the arrow key is prevented', () => {
+    render(
+      <div onKeyDownCapture={(event) => event.preventDefault()}>
+        <Radio id="single" />
+      </div>
+    )
+
+    const input = document.querySelector('input')
+    expect(fireEvent.keyDown(input, { key: 'ArrowDown' })).toBe(false)
+    expect(input).not.toHaveAttribute('name')
+  })
+
+  it('does not give a single radio a name, so it is not sent with a native form', () => {
+    render(
+      <form>
+        <Radio checked label="A" />
+        <Radio checked label="B" value="b" />
+      </form>
+    )
+
+    // A permanent name would also stop the arrow keys from moving between
+    // single radios, but it would add these radios to the form data.
+    const form = document.querySelector('form')
+    expect(Array.from(new FormData(form).entries())).toEqual([])
+  })
+
+  it('keeps the native arrow keys and names for radios with a name or in a group', () => {
+    render(
+      <>
+        <Radio label="Named" name="named" />
+        <Radio group="plain-group" label="Plain group" />
+        <Radio.Group label="Group" name="group">
+          <Radio value="a" label="A" />
+        </Radio.Group>
+      </>
+    )
+
+    const inputs = Array.from(document.querySelectorAll('input'))
+    expect(inputs).toHaveLength(3)
+    for (const input of inputs) {
+      expect(fireEvent.keyDown(input, { key: 'ArrowDown' })).toBe(true)
+    }
+    expect(inputs.map((input) => input.getAttribute('name'))).toEqual([
+      'named',
+      'plain-group',
+      'group',
+    ])
+  })
+
+  it.each(['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'])(
+    'preserves the Provider group while handling %s',
+    (key) => {
+      vi.useFakeTimers()
+      try {
+        render(
+          <Provider Radio={{ group: 'inherited-group' }}>
+            <Radio label="A" value="a" />
+            <Radio label="B" value="b" />
+          </Provider>
+        )
+        const input = document.querySelector('input')
+        expect(input).toHaveAttribute('name', 'inherited-group')
+        fireEvent.keyDown(input, { key })
+        expect(input).toHaveAttribute('name', 'inherited-group')
+        act(() => vi.runOnlyPendingTimers())
+        expect(input).toHaveAttribute('name', 'inherited-group')
+      } finally {
+        vi.useRealTimers()
+      }
+    }
+  )
+
+  it('keeps a newly assigned group when the temporary arrow name expires', () => {
+    vi.useFakeTimers()
+    try {
+      const { rerender } = render(<Radio id="single" />)
+      const input = document.querySelector('input')
+      fireEvent.keyDown(input, { key: 'ArrowDown' })
+      rerender(<Radio id="single" group="new-group" />)
+      expect(input).toHaveAttribute('name', 'new-group')
+      act(() => vi.runOnlyPendingTimers())
+      expect(input).toHaveAttribute('name', 'new-group')
+    } finally {
+      vi.useRealTimers()
+    }
+  })
+
+  it('keeps a radio in a group checked when clicked again', () => {
+    render(
+      <Radio.Group label="Group">
+        <Radio value="a" label="A" />
+      </Radio.Group>
+    )
+
+    const input = document.querySelector('input')
+    fireEvent.click(input)
+    fireEvent.click(input)
+
+    expect(input.checked).toBe(true)
   })
 
   it('does handle controlled vs uncontrolled state properly', () => {
@@ -167,7 +362,6 @@ describe('Radio component', () => {
       'class',
       'aria-checked',
       'disabled',
-      'role',
       'aria-label',
       'type',
       'value',
@@ -180,17 +374,17 @@ describe('Radio component', () => {
 })
 
 describe('Radio ARIA', () => {
+  it('should render a single radio as a native radio', () => {
+    render(<Radio {...props} />)
+
+    const input = document.querySelector('input')
+    expect(input.getAttribute('type')).toBe('radio')
+    expect(input.hasAttribute('role')).toBe(false)
+  })
+
   it('should validate with ARIA rules for Radio', async () => {
     const Comp = render(<Radio {...props} />)
-    expect(
-      await axeComponent(Comp, {
-        rules: {
-          // NVDA fix
-          // because of the role="radio", we have to allow this
-          'aria-allowed-role': { enabled: false },
-        },
-      })
-    ).toHaveNoViolations()
+    expect(await axeComponent(Comp)).toHaveNoViolations()
   })
 
   it('gets valid ref element', () => {
@@ -231,6 +425,36 @@ describe('Radio scss', () => {
     )
     expect(css).toMatch(
       /--radio-color-border--disabled: color-mix\(\s*in srgb,\s*var\(--token-color-stroke-neutral-ondark\) 50%,\s*transparent\s*\)/
+    )
+  })
+
+  it('shows the ring and the selected dot in forced colors mode', () => {
+    const css = loadScss(require.resolve('../style/dnb-radio.scss'))
+
+    expect(css).toMatch(
+      /@media \(forced-colors: active\) \{\s*\.dnb-radio__button \{\s*outline: var\(--radio-border-width, var\(--radio-border-width--default\)\) solid transparent;/
+    )
+    expect(css).toMatch(
+      /@media \(forced-colors: active\) \{\s*\.dnb-radio__input:checked ~ \.dnb-radio__dot,\s*\.dnb-radio__input\[data-checked=['"]?true['"]?\] ~ \.dnb-radio__dot \{\s*background-color: CanvasText;/
+    )
+  })
+
+  it('shows disabled radio buttons with the disabled text color in forced colors mode', () => {
+    const css = loadScss(require.resolve('../style/dnb-radio.scss'))
+
+    expect(css).toMatch(
+      /@media \(forced-colors: active\) \{\s*\.dnb-radio__input\[disabled\] ~ \.dnb-radio__button \{\s*outline-color: GrayText;/
+    )
+    expect(css).toMatch(
+      /@media \(forced-colors: active\) \{\s*\.dnb-radio__input\[disabled\] ~ \.dnb-radio__dot \{\s*background-color: GrayText;/
+    )
+  })
+
+  it('shows the focus ring in forced colors mode', () => {
+    const css = loadScss(require.resolve('../style/dnb-radio.scss'))
+
+    expect(css).toMatch(
+      /@media \(forced-colors: active\) \{[^{]*\.dnb-radio__input:focus ~ \.dnb-radio__button \{\s*outline: var\(--focus-ring-width\) solid transparent;/
     )
   })
 

@@ -22,7 +22,7 @@ import {
 
 export const AccordionDefaultExample = () => (
   <ComponentBox data-visual-test="accordion-default">
-    <Accordion expanded id="single-accordion" title="Accordion title">
+    <Accordion expanded id="default-accordion" title="Accordion title">
       <P>Accordion content</P>
     </Accordion>
     <Accordion.Provider top iconPosition="right">
@@ -61,7 +61,7 @@ export const AccordionLargeContentExample = () => (
 export const AccordionCustomisationExample = () => (
   <ComponentBox data-visual-test="accordion-custom" scope={{ bell }}>
     <Accordion group="unique-id" leftComponent={<Icon icon={bell} />}>
-      <Accordion.Header>Accordion title</Accordion.Header>
+      <Accordion.Header>Accordion with icon</Accordion.Header>
       <Accordion.Content>
         <P>
           Sociis sapien sociosqu vel sollicitudin accumsan laoreet gravida
@@ -71,7 +71,7 @@ export const AccordionCustomisationExample = () => (
       </Accordion.Content>
     </Accordion>
     <Accordion top expanded={true} group="unique-id">
-      <Accordion.Header>Accordion title</Accordion.Header>
+      <Accordion.Header>Accordion without icon</Accordion.Header>
       <Accordion.Content>
         <P>
           Nec sit mattis natoque interdum sagittis cubilia nibh nullam
@@ -86,7 +86,7 @@ export const AccordionGroupExample = () => (
   <ComponentBox data-visual-test="accordion-group">
     <Accordion.Group expanded allowCloseAll>
       <Accordion expanded={false}>
-        <Accordion.Header>Accordion title</Accordion.Header>
+        <Accordion.Header>First accordion in a group</Accordion.Header>
         <Accordion.Content top>
           <P>
             Sociis sapien sociosqu vel sollicitudin accumsan laoreet
@@ -96,7 +96,7 @@ export const AccordionGroupExample = () => (
         </Accordion.Content>
       </Accordion>
       <Accordion top>
-        <Accordion.Header>Accordion title</Accordion.Header>
+        <Accordion.Header>Second accordion in a group</Accordion.Header>
         <Accordion.Content>
           <P>
             Nec sit mattis natoque interdum sagittis cubilia nibh nullam
@@ -203,10 +203,10 @@ export const AccordionDescriptionExample = () => (
 
 export const AccordionFilledExample = () => (
   <ComponentBox data-visual-test="accordion-filled">
-    <Accordion expanded title="Accordion title" variant="filled">
+    <Accordion expanded title="First filled accordion" variant="filled">
       <P>Accordion content</P>
     </Accordion>
-    <Accordion top title="Accordion title" variant="filled">
+    <Accordion top title="Second filled accordion" variant="filled">
       <P>Accordion content</P>
     </Accordion>
   </ComponentBox>

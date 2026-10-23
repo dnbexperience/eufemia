@@ -4,7 +4,14 @@
  */
 
 import { GlobalError } from '@dnb/eufemia/src/components'
+import { usePortalHead } from '../core/PortalHead'
 
 export default function Error500() {
-  return <GlobalError center statusCode="500" />
+  usePortalHead({ title: 'Server error', description: null })
+
+  return (
+    <main>
+      <GlobalError center statusCode="500" />
+    </main>
+  )
 }

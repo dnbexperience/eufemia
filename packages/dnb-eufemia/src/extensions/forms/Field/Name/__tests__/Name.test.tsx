@@ -1,7 +1,7 @@
 import { axeComponent } from '../../../../../core/test-utils/testSetup'
 import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import type { FieldNameProps } from '../'
+import type { CompanyNameValidator, FieldNameProps } from '../'
 import { companyPattern, namePattern } from '../'
 import { Field, Form, FormError } from '../../..'
 import nbNO from '../../../constants/locales/nb-NO'
@@ -166,6 +166,20 @@ describe('Field.Name', () => {
     await userEvent.type(input, 'foo-BAR')
     expect(input).toHaveValue('Foo-Bar')
   })
+
+  it.each([
+    ['First', Field.Name.First],
+    ['Last', Field.Name.Last],
+  ])(
+    '%s name should explain where hyphens and spaces are allowed',
+    (_, Component) => {
+      render(<Component validateInitially value="Hanne- Mari" />)
+
+      expect(document.querySelector('[role="alert"]')).toHaveTextContent(
+        'Bindestrek og mellomrom må stå mellom to bokstaver.'
+      )
+    }
+  )
 
   it('Company name should trim whitespace for entered value', async () => {
     const onSubmit = vi.fn()
@@ -366,6 +380,34 @@ describe('Field.Name', () => {
         expect(
           document.querySelector('[role="alert"]')
         ).toBeInTheDocument()
+      })
+    })
+
+    it('should give the companyValidator to a CompanyNameValidator', async () => {
+      const onBlurValidator = vi.fn<CompanyNameValidator>(
+        (value, { validators }) => {
+          const { companyValidator } = validators
+          return [companyValidator]
+        }
+      )
+
+      render(
+        <Field.Name.Company
+          onBlurValidator={onBlurValidator}
+          validateInitially
+          value="Tech Solutions"
+        />
+      )
+
+      await waitFor(() => {
+        expect(onBlurValidator).toHaveBeenCalledWith(
+          'Tech Solutions',
+          expect.objectContaining({
+            validators: expect.objectContaining({
+              companyValidator: expect.any(Function),
+            }),
+          })
+        )
       })
     })
 

@@ -8,6 +8,8 @@ import {
   memo,
   useCallback,
   useContext,
+  useEffect,
+  useState,
 } from 'react'
 import type { KeyboardEvent, MouseEvent, Ref } from 'react'
 import useMountEffect from '../../shared/helpers/useMountEffect'
@@ -213,6 +215,8 @@ const DrawerListComponent = memo(function DrawerListComponent(
     onSelect: _onSelect,
     onKeyDown: _onKeyDown,
     onItemMouseEnter: _onItemMouseEnter,
+    'aria-label': ariaLabel,
+    'aria-labelledby': ariaLabelledBy,
 
     ...attributes
   } = propsWithDefaults as DrawerListAllProps & {
@@ -252,6 +256,22 @@ const DrawerListComponent = memo(function DrawerListComponent(
     _refUl,
     _refRoot,
   } = noNullNumbers(context.drawerList)
+
+  const [labelledBy, setLabelledBy] = useState(`${id}-label`)
+
+  // Dropdown and Autocomplete only render the label when they have one
+  useEffect(() => {
+    if (hidden === false) {
+      const labelId = `${id}-label`
+      setLabelledBy(
+        document.getElementById(labelId)
+          ? labelId
+          : document.getElementById(id)
+            ? id
+            : undefined
+      )
+    }
+  }, [hidden, id])
 
   const renderData = makeRenderData(
     data,
@@ -294,7 +314,9 @@ const DrawerListComponent = memo(function DrawerListComponent(
     role,
     id: `${id}-ul`,
     'aria-expanded': open,
-    'aria-labelledby': `${id}-label`,
+    'aria-label': ariaLabel,
+    'aria-labelledby':
+      ariaLabelledBy ?? (ariaLabel ? undefined : labelledBy),
     tabIndex: -1,
     style: {
       maxHeight:
@@ -486,7 +508,9 @@ const DrawerListComponent = memo(function DrawerListComponent(
                 activeItem +
                 selectedItem +
                 direction +
-                maxHeight
+                maxHeight +
+                ariaLabel +
+                ariaLabelledBy
               }
               {...ulParams}
               renderDriver={activeListDriver}
@@ -605,6 +629,7 @@ DrawerList.Options = memo(
     cacheHash,
     hasGroups = false,
     renderDriver: _renderDriver,
+    role = 'listbox',
     ref,
     ...rest
   }: DrawerListOptionsProps & {
@@ -615,6 +640,7 @@ DrawerList.Options = memo(
         internalClass={false}
         as={hasGroups ? 'span' : 'ul'}
         className={clsx('dnb-drawer-list__options', className)}
+        role={role}
         {...rest}
         ref={ref}
       >
@@ -628,6 +654,7 @@ DrawerList.Options = memo(
     }
     return (
       prevProps.cacheHash === nextProps.cacheHash &&
+      prevProps['aria-labelledby'] === nextProps['aria-labelledby'] &&
       prevProps.renderDriver === nextProps.renderDriver
     )
   }

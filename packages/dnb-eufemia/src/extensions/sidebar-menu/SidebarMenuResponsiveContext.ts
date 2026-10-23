@@ -1,0 +1,64 @@
+import { createContext, useContext } from 'react'
+import type { RefObject } from 'react'
+
+export const sidebarMenuResponsiveStateOptions = {
+  scope: 'sidebar-menu-responsive/v1',
+  getServerSnapshot: () => undefined,
+}
+
+export type SidebarMenuResponsiveContextValue = {
+  close: () => void
+  drawerScrollElement: HTMLElement | null
+  drawerOpeningRef: RefObject<boolean>
+  setDrawerScrollElement: (element: HTMLElement | null) => void
+  isHydrated: boolean
+  isCompact: boolean
+  hasCompact: boolean
+  inlineCollapsed: boolean
+  isSmallScreen: boolean
+  open: boolean
+  openRef: RefObject<boolean>
+  setOpen: (open: boolean) => void
+  toggle: () => void
+  collapseInline: () => void
+  restoreInline: () => void
+  triggerRef: RefObject<HTMLElement | null>
+  isSmallScreenRef: RefObject<boolean>
+  registerInlineReset: (reset: () => void) => () => void
+  inlineId?: string
+  registerInlineId: (id: string) => () => void
+  drawerId?: string
+  registerDrawerId: (id: string) => () => void
+  scopeId: string
+}
+
+export const SidebarMenuResponsiveContext = createContext<
+  SidebarMenuResponsiveContextValue | undefined
+>(undefined)
+
+export const SidebarMenuResponsiveInlineCompactContext =
+  createContext(false)
+
+export const SidebarMenuResponsiveAsideContext = createContext(false)
+
+export const SidebarMenuInlineToggleContext = createContext<
+  { open: boolean; controls: string; toggle: () => void } | undefined
+>(undefined)
+
+export function useSidebarMenuResponsiveContext() {
+  const context = useContext(SidebarMenuResponsiveContext)
+  if (!context) {
+    throw new Error(
+      'SidebarMenu responsive parts must be inside SidebarMenu.ResponsiveProvider'
+    )
+  }
+  return context
+}
+
+export function useOptionalSidebarMenuResponsive() {
+  return useContext(SidebarMenuResponsiveContext)
+}
+
+export function useSidebarMenuResponsiveInlineCompact() {
+  return useContext(SidebarMenuResponsiveInlineCompactContext)
+}

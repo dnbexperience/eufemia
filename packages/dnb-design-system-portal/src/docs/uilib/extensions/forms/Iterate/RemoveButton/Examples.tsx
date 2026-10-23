@@ -12,7 +12,11 @@ export const PrimitiveItems = () => {
         animate
       >
         <Flex.Horizontal align="center">
-          <Field.String itemPath="/" />
+          <Field.String
+            label="Item no. {itemNo}"
+            labelSrOnly
+            itemPath="/"
+          />
           <Iterate.RemoveButton
             icon={TrashIcon}
             onChange={(value) => console.log('onChange', value)}

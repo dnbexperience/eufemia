@@ -49,6 +49,33 @@ render(
 )
 ```
 
+## Automatically selecting a single option
+
+Set `autoSelectSingleOption` to select the only enabled option when the field is empty. It defaults to `false` and works with all variants and options provided through `data`, `dataPath`, or children.
+
+```tsx
+import { Field, Form } from '@dnb/eufemia/extensions/forms'
+
+render(
+  <Form.Handler>
+    <Field.Selection
+      path="/deliveryMethod"
+      label="Delivery method"
+      autoSelectSingleOption
+      data={[{ value: 'email', title: 'Email' }]}
+    />
+  </Form.Handler>
+)
+```
+
+Automatic selection updates the form value through normal field change handling, including validation and `onChange` callbacks. It does not count as a focus or blur interaction. Disabled options and options without a value or matching `emptyValue` are ignored. Disabled fields and Autocomplete with `preventSelection` are not automatically selected.
+
+Existing values are never overwritten. If more options become available, the selected value is retained. Resetting or clearing the field makes it eligible for automatic selection again. Disable the property if the user needs to leave a sole option unselected.
+
+For dynamic lists, enable the property only when loading has finished and the complete list is available, for example with `autoSelectSingleOption={!isLoading}`. Do not pass search-filtered results as the complete option list. Reset dependent values in application code when a parent selection changes; this property does not clear selections that become invalid.
+
+Use this behavior only when accepting the sole option does not require an explicit decision. A required field alone does not imply that selecting on the user's behalf is appropriate. For a one-time initial selection, use `defaultValue` instead.
+
 ## Relevant links
 
 - [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/forms/Field/Selection)

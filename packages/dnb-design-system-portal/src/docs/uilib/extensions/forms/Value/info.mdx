@@ -89,7 +89,9 @@ You can use `transformLabel` to transform the label before it gets displayed.
 ```tsx
 <Value.String
   label="The label"
-  transformLabel={(label) => label.toUpperCase()}
+  transformLabel={(label, convertJsxToString) =>
+    convertJsxToString(label).toUpperCase()
+  }
 />
 ```
 
@@ -98,7 +100,11 @@ You can combine it with `inheritLabel` to transform the label from the field wit
 And by using the [Value.Provider](/uilib/extensions/forms/Value/Provider/), you can transform the labels of all nested value components.
 
 ```tsx
-<Value.Provider transformLabel={(label) => label.replace(/\?$/, '')}>
+<Value.Provider
+  transformLabel={(label, convertJsxToString) =>
+    convertJsxToString(label).replace(/\?$/, '')
+  }
+>
   <Field.String path="/myPath" label="My label with a question mark?" />
   <Value.String path="/myPath" inheritLabel />
 </Value.Provider>

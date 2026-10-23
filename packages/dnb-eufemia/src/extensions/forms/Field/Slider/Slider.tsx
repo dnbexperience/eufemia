@@ -1,4 +1,4 @@
-import { useCallback, useContext, useMemo, useRef } from 'react'
+import { useCallback, useContext, useEffect, useMemo, useRef } from 'react'
 import type { MouseEvent } from 'react'
 import type { FieldBlockProps, FieldBlockWidth } from '../../FieldBlock'
 import FieldBlock from '../../FieldBlock'
@@ -41,7 +41,9 @@ export type FieldSliderProps = FieldProps<SliderValue> & {
   alwaysShowTooltip?: SliderProps['alwaysShowTooltip']
   extensions?: SliderProps['extensions']
 
-  /** Styling */
+  /**
+   * `false` for no width (use browser default), `small`, `medium` or `large` for predefined standard widths, `stretch` to fill available width. Defaults to `stretch`.
+   */
   width?: FieldBlockWidth
 }
 
@@ -85,6 +87,7 @@ function SliderComponent(props: FieldSliderProps) {
     path,
     itemPath,
     value,
+    label,
     step = 1,
     min = 0,
     max = 100,
@@ -117,7 +120,7 @@ function SliderComponent(props: FieldSliderProps) {
     ? getValues(props.paths)
     : (value as SliderValue)
 
-  useMemo(() => {
+  useEffect(() => {
     if ((path || itemPath) && numberFormat) {
       const { number } = getFormattedNumber(
         (sliderValue as number) ?? 0,
@@ -156,6 +159,10 @@ function SliderComponent(props: FieldSliderProps) {
         onChange: handleLocalChange,
         onDragStart: handleFocus,
         onDragEnd: handleBlur,
+
+        // The label's "for" only reaches the first thumb
+        'aria-labelledby':
+          label && Array.isArray(sliderValue) ? `${id}-label` : undefined,
       },
       htmlAttributes
     ),

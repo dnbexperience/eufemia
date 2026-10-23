@@ -22,12 +22,12 @@ const populated: DashboardPayload = {
     {
       path: '/uilib/button',
       env: 'prod',
-      created_at: '2026-09-16T10:00:00Z',
+      timestamp: '2026-09-16T10:00:00Z',
     },
     {
       path: '/uilib/input',
       env: 'test',
-      created_at: '2026-09-15T09:00:00Z',
+      timestamp: '2026-09-15T09:00:00Z',
     },
   ],
   mcpUsage: {
@@ -133,7 +133,7 @@ describe('App (smoke)', () => {
     await waitFor(() =>
       expect(container.textContent).toContain('No page views yet.')
     )
-    expect(container.textContent).not.toContain('Top pages')
+    expect(container.textContent).not.toContain('Top URLs')
   })
 
   it('renders portal, MCP and component sections across tabs when data is present', async () => {
@@ -146,7 +146,7 @@ describe('App (smoke)', () => {
 
     // "Page views" is the default-selected tab.
     await waitFor(() =>
-      expect(container.textContent).toContain('Top pages')
+      expect(container.textContent).toContain('Top URLs')
     )
     expect(container.querySelectorAll('table').length).toBeGreaterThan(0)
     expect(container.textContent).toContain('older views may be missing')
@@ -180,7 +180,7 @@ describe('App (smoke)', () => {
     const { container } = render(<App />)
 
     await waitFor(() =>
-      expect(container.textContent).toContain('Top pages')
+      expect(container.textContent).toContain('Top URLs')
     )
     fireEvent.click(screen.getByRole('tab', { name: 'Local MCP' }))
 
@@ -205,11 +205,13 @@ describe('App (smoke)', () => {
     const { container } = render(<App />)
 
     await waitFor(() =>
-      expect(container.textContent).toContain('Top pages')
+      expect(container.textContent).toContain('Top URLs')
     )
     fireEvent.click(screen.getByRole('tab', { name: 'Local MCP' }))
 
-    expect(container.textContent).toContain('Eufemia versions')
+    expect(container.textContent).toContain(
+      'Eufemia versions, last 90 days'
+    )
     expect(container.textContent).toContain('10.79.0')
   })
 
@@ -222,11 +224,57 @@ describe('App (smoke)', () => {
     const { container } = render(<App />)
 
     await waitFor(() =>
-      expect(container.textContent).toContain('Top pages')
+      expect(container.textContent).toContain('Top URLs')
     )
     fireEvent.click(screen.getByRole('tab', { name: 'Local MCP' }))
 
     expect(container.textContent).not.toContain('Eufemia versions')
+  })
+
+  it('renders missed component lookups in the Web MCP tab when there are misses', async () => {
+    vi.mocked(loadDashboardData).mockResolvedValue({
+      kind: 'data',
+      payload: {
+        ...populated,
+        mcpUsage: {
+          ...populated.mcpUsage,
+          web: {
+            ...populated.mcpUsage?.web,
+            missedLookups: 3,
+            perLikelyComponent: [{ name: 'date-picker', count: 2 }],
+          },
+        },
+      },
+    })
+
+    const { container } = render(<App />)
+
+    await waitFor(() =>
+      expect(container.textContent).toContain('Top URLs')
+    )
+    fireEvent.click(screen.getByRole('tab', { name: 'Web MCP' }))
+
+    expect(container.textContent).toContain('Missed component lookups')
+    expect(container.textContent).toContain(
+      "3 lookups named a component the docs don't have."
+    )
+    expect(container.textContent).toContain('date-picker')
+  })
+
+  it('hides missed component lookups when there are none', async () => {
+    vi.mocked(loadDashboardData).mockResolvedValue({
+      kind: 'data',
+      payload: populated,
+    })
+
+    const { container } = render(<App />)
+
+    await waitFor(() =>
+      expect(container.textContent).toContain('Top URLs')
+    )
+    fireEvent.click(screen.getByRole('tab', { name: 'Web MCP' }))
+
+    expect(container.textContent).not.toContain('Missed component lookups')
   })
 
   it('shows an empty message in the Component usage tab when there is no component data', async () => {
@@ -241,7 +289,7 @@ describe('App (smoke)', () => {
     const { container } = render(<App />)
 
     await waitFor(() =>
-      expect(container.textContent).toContain('Top pages')
+      expect(container.textContent).toContain('Top URLs')
     )
     fireEvent.click(screen.getByRole('tab', { name: 'Component usage' }))
 
@@ -252,16 +300,18 @@ describe('App (smoke)', () => {
     )
   })
 
-  it('surfaces a deploy-aware message on a 503', async () => {
+  it('shows the error message from the data layer', async () => {
     vi.mocked(loadDashboardData).mockResolvedValue({
       kind: 'error',
-      status: 503,
+      message: 'Could not reach the data API.',
     })
 
     const { container } = render(<App />)
 
     await waitFor(() =>
-      expect(container.textContent).toContain('being prepared')
+      expect(container.textContent).toContain(
+        'Could not reach the data API.'
+      )
     )
   })
 })

@@ -12,6 +12,8 @@ import {
   fireEvent,
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { renderToString } from 'react-dom/server'
+import { hydrateRoot } from 'react-dom/client'
 import SharedProvider from '../../../../../shared/Provider'
 import DataContext from '../../../DataContext/Context'
 import Provider from '../../../DataContext/Provider'
@@ -793,6 +795,46 @@ describe('Field.String', () => {
       )
     })
 
+    it('does not type the key when onKeyDown prevents it', async () => {
+      const onChange = vi.fn()
+      render(
+        <Field.String
+          onChange={onChange}
+          onKeyDown={(event) => {
+            if (event.key === '0') {
+              event.preventDefault()
+            }
+          }}
+        />
+      )
+
+      const input = document.querySelector('input')
+
+      await userEvent.type(input, '102')
+
+      expect(input).toHaveValue('12')
+      expect(onChange).toHaveBeenLastCalledWith('12', expect.anything())
+    })
+
+    it('does not call onKeyDown for the beforeinput event on Android keyboards when a mask is given', () => {
+      const onKeyDown = vi.fn()
+      render(
+        <Field.String mask={[/\d/, /\d/, /\d/]} onKeyDown={onKeyDown} />
+      )
+
+      const input = document.querySelector('input')
+
+      // Android sends key "Unidentified"; in jsdom, React makes beforeinput from the keypress
+      fireEvent.keyDown(input, { key: 'Unidentified', keyCode: 229 })
+      fireEvent.keyPress(input, { key: '1', charCode: 49, which: 49 })
+
+      expect(onKeyDown).toHaveBeenCalledTimes(1)
+      expect(onKeyDown.mock.calls[0][0]).toMatchObject({
+        type: 'keydown',
+        key: 'Unidentified',
+      })
+    })
+
     it('should show submit indicator on async onChange', async () => {
       const onChange = vi.fn(async () => {
         await wait(30)
@@ -1559,6 +1601,42 @@ describe('Field.String', () => {
   })
 
   describe('with data context', () => {
+    it('should render the value in the server HTML and keep text typed before hydration', () => {
+      const element = (
+        <Form.Handler
+          id="typed-before-hydration"
+          defaultData={{ name: 'Prefilled', email: undefined }}
+        >
+          <Field.String path="/name" />
+          <Field.String path="/email" />
+        </Form.Handler>
+      )
+
+      const html = renderToString(element)
+      expect(html).toContain('value="Prefilled"')
+
+      const container = document.createElement('div')
+      container.innerHTML = html
+      document.body.appendChild(container)
+      container.querySelectorAll('input')[1].value = 'typed@example.com'
+
+      let root: ReturnType<typeof hydrateRoot>
+      act(() => {
+        root = hydrateRoot(container, element)
+      })
+
+      expect(Form.getData('typed-before-hydration').data).toEqual({
+        name: 'Prefilled',
+        email: 'typed@example.com',
+      })
+      expect(container.querySelectorAll('input')[1]).toHaveValue(
+        'typed@example.com'
+      )
+
+      act(() => root.unmount())
+      container.remove()
+    })
+
     it('use target path value', () => {
       render(
         <Provider data={{ foo: 'data-context-value' }}>

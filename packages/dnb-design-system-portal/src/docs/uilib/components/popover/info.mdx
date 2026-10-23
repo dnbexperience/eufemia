@@ -10,8 +10,6 @@ import { Popover } from '@dnb/eufemia'
 
 ## Description
 
-**NB:** For internal use only.
-
 Popover renders its own floating surface anchored to a trigger element.
 
 It is used in the [Tooltip](/uilib/components/tooltip) and [DatePicker](/uilib/components/date-picker) component, but can also be used directly when you need a more flexible trigger or richer content.
@@ -23,11 +21,11 @@ It is used in the [Tooltip](/uilib/components/tooltip) and [DatePicker](/uilib/c
 
 ## Accessibility
 
-- Focus moves into the popover body once it opens (similar to TermDefinition), and it returns to the trigger when the popover closes.
+- Focus moves into the popover body once it opens (similar to TermDefinition). When `restoreFocus` is enabled, closing returns focus to the trigger, including when a controlled `open` prop changes to `false`. If the trigger cannot receive focus, Popover falls back to the element focused when it opened. A click or tap outside closes the popover without moving focus back to the trigger.
+- Use `restoreFocusTo` to choose a different focus destination after closing. It accepts an element, ref, or function returning an element. Set `restoreFocus={false}` when your application manages focus itself.
 - The Popover does by default change its alignment initially, but not reposition itself during user scroll when opened, as this could be disorienting and confusing for users.
 - When you render a trigger via the provided render props, it receives ARIA attributes such as `aria-controls`, `aria-expanded`, and `aria-describedby` alongside keyboard handlers.
 - Set `hideCloseButton` if you want to remove the built-in close button and handle dismissal yourself (use the provided `close` helper when rendering custom content).
-- Focus moves inside the popover content when it opens and returns to the trigger when it closes.
 - The popover can be dismissed with Escape, by clicking outside, or by using the close button.
 - Custom triggers receive the necessary ARIA attributes (`aria-controls`, `aria-expanded`, `aria-describedby`) and keyboard handlers so long as you spread the provided props.
 

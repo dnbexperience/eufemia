@@ -206,6 +206,16 @@ describe('test-page-filter plugin', () => {
   })
 
   describe('extractPageGotoUrls', () => {
+    it('keeps the Card close-button fixture in the E2E production build', () => {
+      const filePath = path.resolve(
+        __dirname,
+        '../../../../dnb-eufemia/src/components/card/__tests__/CardClose.e2e.spec.ts'
+      )
+      expect(extractPageGotoUrls(filePath)).toContain(
+        '/uilib/components/card/visual-tests/close-button-padding'
+      )
+    })
+
     let tmpDir: string
 
     function writeTsFile(name: string, content: string): string {
@@ -265,6 +275,33 @@ describe('test-page-filter plugin', () => {
 
       const urls = extractPageGotoUrls(filePath)
       expect(urls).toEqual(new Set(['/old-page', '/nested/old-page']))
+    })
+
+    it('extracts URLs from loops that reuse the same variable name', () => {
+      const filePath = writeTsFile(
+        'tabs.e2e.spec.ts',
+        `
+        for (const path of ['/whats-new/change-log', '/whats-new/upgrade']) {
+          test(path, async ({ page }) => {
+            await page.goto(path)
+          })
+        }
+        test('old pages', async ({ page }) => {
+          for (const path of ['/uilib/changelog', '/design-system']) {
+            await page.goto(path)
+          }
+        })
+        `
+      )
+
+      expect(extractPageGotoUrls(filePath)).toEqual(
+        new Set([
+          '/whats-new/change-log',
+          '/whats-new/upgrade',
+          '/uilib/changelog',
+          '/design-system',
+        ])
+      )
     })
 
     it('extracts multiple URLs from a single file', () => {

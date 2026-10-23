@@ -1,5 +1,5 @@
 import ComponentBox from '../../../../../shared/tags/ComponentBox'
-import { H1, Icon, H4 } from '@dnb/eufemia/src'
+import { H3, Icon, H4 } from '@dnb/eufemia/src'
 import styled from '@emotion/styled'
 import { bank_medium as BankIcon } from '@dnb/eufemia/src/icons'
 
@@ -11,11 +11,12 @@ export const IconsDecorativeExample = () => (
 
 export const IconsResponsiveExample = () => (
   <ComponentBox scope={{ BankIcon }}>
-    <H1>
-      My H1 with an icon <Icon icon={BankIcon} title="Beach" size="auto" />
-    </H1>
+    <H3 size="xx-large">
+      Large heading with an icon{' '}
+      <Icon icon={BankIcon} title="Beach" size="auto" />
+    </H3>
     <H4>
-      My H4 with the same icon{' '}
+      Smaller heading with the same icon{' '}
       <Icon icon={BankIcon} title="Beach" size="auto" />
     </H4>
   </ComponentBox>

@@ -107,7 +107,7 @@ export const Pattern = () => {
     <ComponentBox>
       <Field.Password
         value="password123"
-        pattern="\\w{8}[0-9]{2}"
+        pattern="\w{8}[0-9]{2}"
         onChange={(value) => console.log('onChange', value)}
         onHidePassword={(event) => console.log('onHidePassword', event)}
         onShowPassword={(event) => console.log('onShowPassword', event)}

@@ -15,7 +15,12 @@ export const CompositionWithLabel = () => (
   <ComponentBox data-visual-test="forms-field-block-composition-with-label">
     <Field.Composition label="A legend for the fieldset" width="large">
       <Field.String label="Field label" width="stretch" />
-      <Field.Number width="small" placeholder="0000" />
+      <Field.Number
+        label="Number label"
+        labelSrOnly
+        width="small"
+        placeholder="0000"
+      />
     </Field.Composition>
   </ComponentBox>
 )
@@ -60,11 +65,18 @@ export const CompositionMultipleStatuses = () => {
     <ComponentBox data-visual-test="forms-field-block-composition-statuses">
       <Field.Composition label="Label text" info="FieldBlock info">
         <Field.String
+          label="Text label"
+          labelSrOnly
           width="small"
           minLength={3}
           warning="Warning message"
         />
-        <Field.Number minimum={10} info="Field info" />
+        <Field.Number
+          label="Number label"
+          labelSrOnly
+          minimum={10}
+          info="Field info"
+        />
       </Field.Composition>
     </ComponentBox>
   )
@@ -74,7 +86,13 @@ export const Alignment = () => {
   return (
     <ComponentBox data-visual-test="forms-field-block-composition-alignment">
       <Field.Composition label="Label text" align="center">
-        <Field.Number width="small" defaultValue={0} showStepControls />
+        <Field.Number
+          label="Number label"
+          labelSrOnly
+          width="small"
+          defaultValue={0}
+          showStepControls
+        />
         <Field.Boolean />
       </Field.Composition>
     </ComponentBox>

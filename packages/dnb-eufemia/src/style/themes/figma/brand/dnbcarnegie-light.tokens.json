@@ -24,7 +24,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:0a2ed12b144c66fd5e02892cd2f38bb2ca64d92b/5552:2073",
-            "targetVariableName": "dnbcarnegie/greyscale/0",
+            "targetVariableName": "dnb-carnegie/greyscale/0",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -53,7 +53,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:6203c0169bd780b9bf062d88a9bafdf0796de04e/5552:2060",
-            "targetVariableName": "dnbcarnegie/greyscale/1000",
+            "targetVariableName": "dnb-carnegie/greyscale/1000",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -82,7 +82,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:a2e8c4f27f4f50b8965e01c3ac01d4f836354c59/5552:2063",
-            "targetVariableName": "dnbcarnegie/greyscale/800",
+            "targetVariableName": "dnb-carnegie/greyscale/800",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -111,7 +111,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:f9701d39b786424fce60f7aea4ab00547523e73c/5552:2077",
-            "targetVariableName": "dnbcarnegie/greyscale/1000/5",
+            "targetVariableName": "dnb-carnegie/greyscale/1000/5",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -140,7 +140,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:6203c0169bd780b9bf062d88a9bafdf0796de04e/5552:2060",
-            "targetVariableName": "dnbcarnegie/greyscale/1000",
+            "targetVariableName": "dnb-carnegie/greyscale/1000",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -169,7 +169,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:f245f101a1ff9981cddc6ef5bfdbae2b1d81dfab/5552:2078",
-            "targetVariableName": "dnbcarnegie/greyscale/1000/10",
+            "targetVariableName": "dnb-carnegie/greyscale/1000/10",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -198,7 +198,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:df6f47e13fdd4c9db05213cc34b7230e772da1a7/5552:2053",
-            "targetVariableName": "dnbcarnegie/blue/600",
+            "targetVariableName": "dnb-carnegie/blue/600",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -227,7 +227,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:2e2b5b366990ea6cfc16803758f41ffe11b1a3e2/5552:2059",
-            "targetVariableName": "dnbcarnegie/blue/50",
+            "targetVariableName": "dnb-carnegie/blue/50",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -256,7 +256,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:d2ced02c1c4ce7d4936841279aa0d225c1ed11ec/5552:2069",
-            "targetVariableName": "dnbcarnegie/greyscale/200",
+            "targetVariableName": "dnb-carnegie/greyscale/200",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -285,7 +285,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:98d58800060f1a8d4c3cbe1bc513c58945ba70e4/5552:2068",
-            "targetVariableName": "dnbcarnegie/greyscale/300",
+            "targetVariableName": "dnb-carnegie/greyscale/300",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -314,7 +314,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:98d58800060f1a8d4c3cbe1bc513c58945ba70e4/5552:2068",
-            "targetVariableName": "dnbcarnegie/greyscale/300",
+            "targetVariableName": "dnb-carnegie/greyscale/300",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -343,7 +343,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:6203c0169bd780b9bf062d88a9bafdf0796de04e/5552:2060",
-            "targetVariableName": "dnbcarnegie/greyscale/1000",
+            "targetVariableName": "dnb-carnegie/greyscale/1000",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -372,7 +372,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:a2e8c4f27f4f50b8965e01c3ac01d4f836354c59/5552:2063",
-            "targetVariableName": "dnbcarnegie/greyscale/800",
+            "targetVariableName": "dnb-carnegie/greyscale/800",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -401,7 +401,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:0a2ed12b144c66fd5e02892cd2f38bb2ca64d92b/5552:2073",
-            "targetVariableName": "dnbcarnegie/greyscale/0",
+            "targetVariableName": "dnb-carnegie/greyscale/0",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -430,7 +430,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:0a2ed12b144c66fd5e02892cd2f38bb2ca64d92b/5552:2073",
-            "targetVariableName": "dnbcarnegie/greyscale/0",
+            "targetVariableName": "dnb-carnegie/greyscale/0",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -459,7 +459,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:b472f18179ab446282a9cfcfa058469bfa528751/5552:2075",
-            "targetVariableName": "dnbcarnegie/greyscale/1000/30",
+            "targetVariableName": "dnb-carnegie/greyscale/1000/30",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -488,7 +488,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:0a2ed12b144c66fd5e02892cd2f38bb2ca64d92b/5552:2073",
-            "targetVariableName": "dnbcarnegie/greyscale/0",
+            "targetVariableName": "dnb-carnegie/greyscale/0",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -517,7 +517,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:c806e6a76d9ad25c958081198c3316b2417a4b84/5552:2076",
-            "targetVariableName": "dnbcarnegie/greyscale/1000/50",
+            "targetVariableName": "dnb-carnegie/greyscale/1000/50",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -546,7 +546,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:766b9bd4a60490bdaf0ff930942f2944de3527a3/5552:2064",
-            "targetVariableName": "dnbcarnegie/greyscale/700",
+            "targetVariableName": "dnb-carnegie/greyscale/700",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -575,7 +575,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:6203c0169bd780b9bf062d88a9bafdf0796de04e/5552:2060",
-            "targetVariableName": "dnbcarnegie/greyscale/1000",
+            "targetVariableName": "dnb-carnegie/greyscale/1000",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -604,7 +604,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:fbf121f2d836ddf02ee03a8bffc0e8a5d5148ae3/5552:2070",
-            "targetVariableName": "dnbcarnegie/greyscale/100",
+            "targetVariableName": "dnb-carnegie/greyscale/100",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -633,7 +633,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:6203c0169bd780b9bf062d88a9bafdf0796de04e/5552:2060",
-            "targetVariableName": "dnbcarnegie/greyscale/1000",
+            "targetVariableName": "dnb-carnegie/greyscale/1000",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -662,7 +662,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:6590d77b4de2c74f675179634f03d03a2b8833e0/5552:2011",
-            "targetVariableName": "dnbcarnegie/beige/200",
+            "targetVariableName": "dnb-carnegie/beige/200",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -691,7 +691,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:0a2ed12b144c66fd5e02892cd2f38bb2ca64d92b/5552:2073",
-            "targetVariableName": "dnbcarnegie/greyscale/0",
+            "targetVariableName": "dnb-carnegie/greyscale/0",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -720,7 +720,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:6203c0169bd780b9bf062d88a9bafdf0796de04e/5552:2060",
-            "targetVariableName": "dnbcarnegie/greyscale/1000",
+            "targetVariableName": "dnb-carnegie/greyscale/1000",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -749,7 +749,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:0a2ed12b144c66fd5e02892cd2f38bb2ca64d92b/5552:2073",
-            "targetVariableName": "dnbcarnegie/greyscale/0",
+            "targetVariableName": "dnb-carnegie/greyscale/0",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -778,7 +778,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:0a2ed12b144c66fd5e02892cd2f38bb2ca64d92b/5552:2073",
-            "targetVariableName": "dnbcarnegie/greyscale/0",
+            "targetVariableName": "dnb-carnegie/greyscale/0",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -807,7 +807,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:7c239d6a893c102375d3acdf4f94a9e4deaa4d41/5552:2071",
-            "targetVariableName": "dnbcarnegie/greyscale/50",
+            "targetVariableName": "dnb-carnegie/greyscale/50",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -836,7 +836,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:fbf121f2d836ddf02ee03a8bffc0e8a5d5148ae3/5552:2070",
-            "targetVariableName": "dnbcarnegie/greyscale/100",
+            "targetVariableName": "dnb-carnegie/greyscale/100",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -865,7 +865,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:d2ced02c1c4ce7d4936841279aa0d225c1ed11ec/5552:2069",
-            "targetVariableName": "dnbcarnegie/greyscale/200",
+            "targetVariableName": "dnb-carnegie/greyscale/200",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -894,7 +894,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:2e2b5b366990ea6cfc16803758f41ffe11b1a3e2/5552:2059",
-            "targetVariableName": "dnbcarnegie/blue/50",
+            "targetVariableName": "dnb-carnegie/blue/50",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -923,7 +923,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:aa80e244cf894230da8539976f50ad85c99d971a/5552:1973",
-            "targetVariableName": "dnbcarnegie/coldgreen/600",
+            "targetVariableName": "dnb-carnegie/coldgreen/600",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -952,7 +952,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:bde376ba3ee513ac64b4fab7b1bb0df51c21740b/5552:1991",
-            "targetVariableName": "dnbcarnegie/green/50",
+            "targetVariableName": "dnb-carnegie/green/50",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -981,7 +981,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:12f24b34c6b753bcc239aab1796cf39df5eae6de/5552:1984",
-            "targetVariableName": "dnbcarnegie/green/700",
+            "targetVariableName": "dnb-carnegie/green/700",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -1010,7 +1010,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:bde376ba3ee513ac64b4fab7b1bb0df51c21740b/5552:1991",
-            "targetVariableName": "dnbcarnegie/green/50",
+            "targetVariableName": "dnb-carnegie/green/50",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -1039,7 +1039,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:7cf0e8c452c05056a06fa08ead39b3db17897a2a/5552:2019",
-            "targetVariableName": "dnbcarnegie/yellow/500",
+            "targetVariableName": "dnb-carnegie/yellow/500",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -1068,7 +1068,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:7fadd7537df85c5ad5eae08f103243b783b4e191/5552:2024",
-            "targetVariableName": "dnbcarnegie/yellow/50",
+            "targetVariableName": "dnb-carnegie/yellow/50",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -1097,7 +1097,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:b6672aa9af52eaba97ed6f81a4b0f3234aaef571/5552:2041",
-            "targetVariableName": "dnbcarnegie/red/600",
+            "targetVariableName": "dnb-carnegie/red/600",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -1126,7 +1126,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:2de8e4757924f0cbd399cb36d2d88b486e49b212/5552:2047",
-            "targetVariableName": "dnbcarnegie/red/50",
+            "targetVariableName": "dnb-carnegie/red/50",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -1155,7 +1155,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:a2e8c4f27f4f50b8965e01c3ac01d4f836354c59/5552:2063",
-            "targetVariableName": "dnbcarnegie/greyscale/800",
+            "targetVariableName": "dnb-carnegie/greyscale/800",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -1184,7 +1184,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:2e2b5b366990ea6cfc16803758f41ffe11b1a3e2/5552:2059",
-            "targetVariableName": "dnbcarnegie/blue/50",
+            "targetVariableName": "dnb-carnegie/blue/50",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -1214,7 +1214,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:6203c0169bd780b9bf062d88a9bafdf0796de04e/5552:2060",
-            "targetVariableName": "dnbcarnegie/greyscale/1000",
+            "targetVariableName": "dnb-carnegie/greyscale/1000",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -1242,7 +1242,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:6203c0169bd780b9bf062d88a9bafdf0796de04e/5552:2060",
-            "targetVariableName": "dnbcarnegie/greyscale/1000",
+            "targetVariableName": "dnb-carnegie/greyscale/1000",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -1270,7 +1270,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:6203c0169bd780b9bf062d88a9bafdf0796de04e/5552:2060",
-            "targetVariableName": "dnbcarnegie/greyscale/1000",
+            "targetVariableName": "dnb-carnegie/greyscale/1000",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -1298,7 +1298,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:df6f47e13fdd4c9db05213cc34b7230e772da1a7/5552:2053",
-            "targetVariableName": "dnbcarnegie/blue/600",
+            "targetVariableName": "dnb-carnegie/blue/600",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -1326,7 +1326,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:d2ced02c1c4ce7d4936841279aa0d225c1ed11ec/5552:2069",
-            "targetVariableName": "dnbcarnegie/greyscale/200",
+            "targetVariableName": "dnb-carnegie/greyscale/200",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -1354,7 +1354,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:0a2ed12b144c66fd5e02892cd2f38bb2ca64d92b/5552:2073",
-            "targetVariableName": "dnbcarnegie/greyscale/0",
+            "targetVariableName": "dnb-carnegie/greyscale/0",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -1382,7 +1382,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:0a2ed12b144c66fd5e02892cd2f38bb2ca64d92b/5552:2073",
-            "targetVariableName": "dnbcarnegie/greyscale/0",
+            "targetVariableName": "dnb-carnegie/greyscale/0",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -1410,7 +1410,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:0a2ed12b144c66fd5e02892cd2f38bb2ca64d92b/5552:2073",
-            "targetVariableName": "dnbcarnegie/greyscale/0",
+            "targetVariableName": "dnb-carnegie/greyscale/0",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -1438,7 +1438,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:a2e8c4f27f4f50b8965e01c3ac01d4f836354c59/5552:2063",
-            "targetVariableName": "dnbcarnegie/greyscale/800",
+            "targetVariableName": "dnb-carnegie/greyscale/800",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -1466,7 +1466,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:0a2ed12b144c66fd5e02892cd2f38bb2ca64d92b/5552:2073",
-            "targetVariableName": "dnbcarnegie/greyscale/0",
+            "targetVariableName": "dnb-carnegie/greyscale/0",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -1494,7 +1494,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:0a2ed12b144c66fd5e02892cd2f38bb2ca64d92b/5552:2073",
-            "targetVariableName": "dnbcarnegie/greyscale/0",
+            "targetVariableName": "dnb-carnegie/greyscale/0",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -1522,7 +1522,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:0a2ed12b144c66fd5e02892cd2f38bb2ca64d92b/5552:2073",
-            "targetVariableName": "dnbcarnegie/greyscale/0",
+            "targetVariableName": "dnb-carnegie/greyscale/0",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -1550,7 +1550,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:ebec85cb6837f974e76cec0f561f157f3085b873/5552:2067",
-            "targetVariableName": "dnbcarnegie/greyscale/400",
+            "targetVariableName": "dnb-carnegie/greyscale/400",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -1578,7 +1578,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:0a2ed12b144c66fd5e02892cd2f38bb2ca64d92b/5552:2073",
-            "targetVariableName": "dnbcarnegie/greyscale/0",
+            "targetVariableName": "dnb-carnegie/greyscale/0",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -1606,7 +1606,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:6203c0169bd780b9bf062d88a9bafdf0796de04e/5552:2060",
-            "targetVariableName": "dnbcarnegie/greyscale/1000",
+            "targetVariableName": "dnb-carnegie/greyscale/1000",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -1634,7 +1634,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:6203c0169bd780b9bf062d88a9bafdf0796de04e/5552:2060",
-            "targetVariableName": "dnbcarnegie/greyscale/1000",
+            "targetVariableName": "dnb-carnegie/greyscale/1000",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -1662,7 +1662,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:64b1989952893e3183cb16d0516148218a07f288/5552:2066",
-            "targetVariableName": "dnbcarnegie/greyscale/500",
+            "targetVariableName": "dnb-carnegie/greyscale/500",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -1691,7 +1691,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:d2ced02c1c4ce7d4936841279aa0d225c1ed11ec/5552:2069",
-            "targetVariableName": "dnbcarnegie/greyscale/200",
+            "targetVariableName": "dnb-carnegie/greyscale/200",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -1719,7 +1719,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:0a2ed12b144c66fd5e02892cd2f38bb2ca64d92b/5552:2073",
-            "targetVariableName": "dnbcarnegie/greyscale/0",
+            "targetVariableName": "dnb-carnegie/greyscale/0",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -1747,7 +1747,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:0a2ed12b144c66fd5e02892cd2f38bb2ca64d92b/5552:2073",
-            "targetVariableName": "dnbcarnegie/greyscale/0",
+            "targetVariableName": "dnb-carnegie/greyscale/0",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -1775,7 +1775,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:d2ced02c1c4ce7d4936841279aa0d225c1ed11ec/5552:2069",
-            "targetVariableName": "dnbcarnegie/greyscale/200",
+            "targetVariableName": "dnb-carnegie/greyscale/200",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -1803,7 +1803,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:d2ced02c1c4ce7d4936841279aa0d225c1ed11ec/5552:2069",
-            "targetVariableName": "dnbcarnegie/greyscale/200",
+            "targetVariableName": "dnb-carnegie/greyscale/200",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -1831,7 +1831,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:b6672aa9af52eaba97ed6f81a4b0f3234aaef571/5552:2041",
-            "targetVariableName": "dnbcarnegie/red/600",
+            "targetVariableName": "dnb-carnegie/red/600",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -1859,7 +1859,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:03c1b4562f3222e414df3b5730c93db305c3341c/5552:2042",
-            "targetVariableName": "dnbcarnegie/red/500",
+            "targetVariableName": "dnb-carnegie/red/500",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -1887,7 +1887,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:bbdecc4ed1e645b3d233a13bf204e3a2cdd38c96/5552:2016",
-            "targetVariableName": "dnbcarnegie/yellow/800",
+            "targetVariableName": "dnb-carnegie/yellow/800",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -1915,7 +1915,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:7cf0e8c452c05056a06fa08ead39b3db17897a2a/5552:2019",
-            "targetVariableName": "dnbcarnegie/yellow/500",
+            "targetVariableName": "dnb-carnegie/yellow/500",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -1943,7 +1943,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:12f24b34c6b753bcc239aab1796cf39df5eae6de/5552:1984",
-            "targetVariableName": "dnbcarnegie/green/700",
+            "targetVariableName": "dnb-carnegie/green/700",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -1971,7 +1971,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:f88c50802ab59c0619985065cdb4ded79a364102/5552:1985",
-            "targetVariableName": "dnbcarnegie/green/600",
+            "targetVariableName": "dnb-carnegie/green/600",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -2002,7 +2002,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:6203c0169bd780b9bf062d88a9bafdf0796de04e/5552:2060",
-            "targetVariableName": "dnbcarnegie/greyscale/1000",
+            "targetVariableName": "dnb-carnegie/greyscale/1000",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -2031,7 +2031,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:6203c0169bd780b9bf062d88a9bafdf0796de04e/5552:2060",
-            "targetVariableName": "dnbcarnegie/greyscale/1000",
+            "targetVariableName": "dnb-carnegie/greyscale/1000",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -2060,7 +2060,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:6203c0169bd780b9bf062d88a9bafdf0796de04e/5552:2060",
-            "targetVariableName": "dnbcarnegie/greyscale/1000",
+            "targetVariableName": "dnb-carnegie/greyscale/1000",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -2089,7 +2089,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:df6f47e13fdd4c9db05213cc34b7230e772da1a7/5552:2053",
-            "targetVariableName": "dnbcarnegie/blue/600",
+            "targetVariableName": "dnb-carnegie/blue/600",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -2118,7 +2118,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:d2ced02c1c4ce7d4936841279aa0d225c1ed11ec/5552:2069",
-            "targetVariableName": "dnbcarnegie/greyscale/200",
+            "targetVariableName": "dnb-carnegie/greyscale/200",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -2147,7 +2147,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:0a2ed12b144c66fd5e02892cd2f38bb2ca64d92b/5552:2073",
-            "targetVariableName": "dnbcarnegie/greyscale/0",
+            "targetVariableName": "dnb-carnegie/greyscale/0",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -2176,7 +2176,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:0a2ed12b144c66fd5e02892cd2f38bb2ca64d92b/5552:2073",
-            "targetVariableName": "dnbcarnegie/greyscale/0",
+            "targetVariableName": "dnb-carnegie/greyscale/0",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -2205,7 +2205,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:0a2ed12b144c66fd5e02892cd2f38bb2ca64d92b/5552:2073",
-            "targetVariableName": "dnbcarnegie/greyscale/0",
+            "targetVariableName": "dnb-carnegie/greyscale/0",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -2234,7 +2234,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:6203c0169bd780b9bf062d88a9bafdf0796de04e/5552:2060",
-            "targetVariableName": "dnbcarnegie/greyscale/1000",
+            "targetVariableName": "dnb-carnegie/greyscale/1000",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -2263,7 +2263,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:fbf121f2d836ddf02ee03a8bffc0e8a5d5148ae3/5552:2070",
-            "targetVariableName": "dnbcarnegie/greyscale/100",
+            "targetVariableName": "dnb-carnegie/greyscale/100",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -2292,7 +2292,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:0a2ed12b144c66fd5e02892cd2f38bb2ca64d92b/5552:2073",
-            "targetVariableName": "dnbcarnegie/greyscale/0",
+            "targetVariableName": "dnb-carnegie/greyscale/0",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -2321,7 +2321,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:0a2ed12b144c66fd5e02892cd2f38bb2ca64d92b/5552:2073",
-            "targetVariableName": "dnbcarnegie/greyscale/0",
+            "targetVariableName": "dnb-carnegie/greyscale/0",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -2350,7 +2350,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:0a2ed12b144c66fd5e02892cd2f38bb2ca64d92b/5552:2073",
-            "targetVariableName": "dnbcarnegie/greyscale/0",
+            "targetVariableName": "dnb-carnegie/greyscale/0",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -2379,7 +2379,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:0a2ed12b144c66fd5e02892cd2f38bb2ca64d92b/5552:2073",
-            "targetVariableName": "dnbcarnegie/greyscale/0",
+            "targetVariableName": "dnb-carnegie/greyscale/0",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -2408,7 +2408,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:ebec85cb6837f974e76cec0f561f157f3085b873/5552:2067",
-            "targetVariableName": "dnbcarnegie/greyscale/400",
+            "targetVariableName": "dnb-carnegie/greyscale/400",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -2437,7 +2437,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:6203c0169bd780b9bf062d88a9bafdf0796de04e/5552:2060",
-            "targetVariableName": "dnbcarnegie/greyscale/1000",
+            "targetVariableName": "dnb-carnegie/greyscale/1000",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -2466,7 +2466,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:6203c0169bd780b9bf062d88a9bafdf0796de04e/5552:2060",
-            "targetVariableName": "dnbcarnegie/greyscale/1000",
+            "targetVariableName": "dnb-carnegie/greyscale/1000",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -2495,7 +2495,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:0a2ed12b144c66fd5e02892cd2f38bb2ca64d92b/5552:2073",
-            "targetVariableName": "dnbcarnegie/greyscale/0",
+            "targetVariableName": "dnb-carnegie/greyscale/0",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -2524,7 +2524,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:0a2ed12b144c66fd5e02892cd2f38bb2ca64d92b/5552:2073",
-            "targetVariableName": "dnbcarnegie/greyscale/0",
+            "targetVariableName": "dnb-carnegie/greyscale/0",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -2553,7 +2553,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:64b1989952893e3183cb16d0516148218a07f288/5552:2066",
-            "targetVariableName": "dnbcarnegie/greyscale/500",
+            "targetVariableName": "dnb-carnegie/greyscale/500",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -2582,7 +2582,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:aa80e244cf894230da8539976f50ad85c99d971a/5552:1973",
-            "targetVariableName": "dnbcarnegie/coldgreen/600",
+            "targetVariableName": "dnb-carnegie/coldgreen/600",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -2611,7 +2611,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:bde376ba3ee513ac64b4fab7b1bb0df51c21740b/5552:1991",
-            "targetVariableName": "dnbcarnegie/green/50",
+            "targetVariableName": "dnb-carnegie/green/50",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -2640,7 +2640,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:12f24b34c6b753bcc239aab1796cf39df5eae6de/5552:1984",
-            "targetVariableName": "dnbcarnegie/green/700",
+            "targetVariableName": "dnb-carnegie/green/700",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -2669,7 +2669,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:bde376ba3ee513ac64b4fab7b1bb0df51c21740b/5552:1991",
-            "targetVariableName": "dnbcarnegie/green/50",
+            "targetVariableName": "dnb-carnegie/green/50",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -2698,7 +2698,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:7cf0e8c452c05056a06fa08ead39b3db17897a2a/5552:2019",
-            "targetVariableName": "dnbcarnegie/yellow/500",
+            "targetVariableName": "dnb-carnegie/yellow/500",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -2727,7 +2727,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:7fadd7537df85c5ad5eae08f103243b783b4e191/5552:2024",
-            "targetVariableName": "dnbcarnegie/yellow/50",
+            "targetVariableName": "dnb-carnegie/yellow/50",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -2756,7 +2756,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:b6672aa9af52eaba97ed6f81a4b0f3234aaef571/5552:2041",
-            "targetVariableName": "dnbcarnegie/red/600",
+            "targetVariableName": "dnb-carnegie/red/600",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -2785,7 +2785,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:2de8e4757924f0cbd399cb36d2d88b486e49b212/5552:2047",
-            "targetVariableName": "dnbcarnegie/red/50",
+            "targetVariableName": "dnb-carnegie/red/50",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -2814,7 +2814,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:a2e8c4f27f4f50b8965e01c3ac01d4f836354c59/5552:2063",
-            "targetVariableName": "dnbcarnegie/greyscale/800",
+            "targetVariableName": "dnb-carnegie/greyscale/800",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -2843,7 +2843,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:2e2b5b366990ea6cfc16803758f41ffe11b1a3e2/5552:2059",
-            "targetVariableName": "dnbcarnegie/blue/50",
+            "targetVariableName": "dnb-carnegie/blue/50",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -2873,7 +2873,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:6203c0169bd780b9bf062d88a9bafdf0796de04e/5552:2060",
-            "targetVariableName": "dnbcarnegie/greyscale/1000",
+            "targetVariableName": "dnb-carnegie/greyscale/1000",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -2901,7 +2901,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:6203c0169bd780b9bf062d88a9bafdf0796de04e/5552:2060",
-            "targetVariableName": "dnbcarnegie/greyscale/1000",
+            "targetVariableName": "dnb-carnegie/greyscale/1000",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -2929,7 +2929,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:6203c0169bd780b9bf062d88a9bafdf0796de04e/5552:2060",
-            "targetVariableName": "dnbcarnegie/greyscale/1000",
+            "targetVariableName": "dnb-carnegie/greyscale/1000",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -2957,7 +2957,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:766b9bd4a60490bdaf0ff930942f2944de3527a3/5552:2064",
-            "targetVariableName": "dnbcarnegie/greyscale/700",
+            "targetVariableName": "dnb-carnegie/greyscale/700",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -2985,7 +2985,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:0a2ed12b144c66fd5e02892cd2f38bb2ca64d92b/5552:2073",
-            "targetVariableName": "dnbcarnegie/greyscale/0",
+            "targetVariableName": "dnb-carnegie/greyscale/0",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -3013,7 +3013,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:0a2ed12b144c66fd5e02892cd2f38bb2ca64d92b/5552:2073",
-            "targetVariableName": "dnbcarnegie/greyscale/0",
+            "targetVariableName": "dnb-carnegie/greyscale/0",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -3041,7 +3041,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:ebec85cb6837f974e76cec0f561f157f3085b873/5552:2067",
-            "targetVariableName": "dnbcarnegie/greyscale/400",
+            "targetVariableName": "dnb-carnegie/greyscale/400",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -3069,7 +3069,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:df6f47e13fdd4c9db05213cc34b7230e772da1a7/5552:2053",
-            "targetVariableName": "dnbcarnegie/blue/600",
+            "targetVariableName": "dnb-carnegie/blue/600",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -3097,7 +3097,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:0a2ed12b144c66fd5e02892cd2f38bb2ca64d92b/5552:2073",
-            "targetVariableName": "dnbcarnegie/greyscale/0",
+            "targetVariableName": "dnb-carnegie/greyscale/0",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -3125,7 +3125,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:98d58800060f1a8d4c3cbe1bc513c58945ba70e4/5552:2068",
-            "targetVariableName": "dnbcarnegie/greyscale/300",
+            "targetVariableName": "dnb-carnegie/greyscale/300",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -3153,7 +3153,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:6203c0169bd780b9bf062d88a9bafdf0796de04e/5552:2060",
-            "targetVariableName": "dnbcarnegie/greyscale/1000",
+            "targetVariableName": "dnb-carnegie/greyscale/1000",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -3181,7 +3181,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:98d58800060f1a8d4c3cbe1bc513c58945ba70e4/5552:2068",
-            "targetVariableName": "dnbcarnegie/greyscale/300",
+            "targetVariableName": "dnb-carnegie/greyscale/300",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -3209,7 +3209,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:0a2ed12b144c66fd5e02892cd2f38bb2ca64d92b/5552:2073",
-            "targetVariableName": "dnbcarnegie/greyscale/0",
+            "targetVariableName": "dnb-carnegie/greyscale/0",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -3237,7 +3237,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:d2ced02c1c4ce7d4936841279aa0d225c1ed11ec/5552:2069",
-            "targetVariableName": "dnbcarnegie/greyscale/200",
+            "targetVariableName": "dnb-carnegie/greyscale/200",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -3265,7 +3265,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:0a2ed12b144c66fd5e02892cd2f38bb2ca64d92b/5552:2073",
-            "targetVariableName": "dnbcarnegie/greyscale/0",
+            "targetVariableName": "dnb-carnegie/greyscale/0",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -3293,7 +3293,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:0a2ed12b144c66fd5e02892cd2f38bb2ca64d92b/5552:2073",
-            "targetVariableName": "dnbcarnegie/greyscale/0",
+            "targetVariableName": "dnb-carnegie/greyscale/0",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -3321,7 +3321,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:72e8d120c2c6e70e1414bb0c4e91975e19ce6bda/5552:2065",
-            "targetVariableName": "dnbcarnegie/greyscale/600",
+            "targetVariableName": "dnb-carnegie/greyscale/600",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -3349,7 +3349,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:ef3cc71083e94fd28a3f2c8e7e5465602a6f9176/5552:2010",
-            "targetVariableName": "dnbcarnegie/beige/300",
+            "targetVariableName": "dnb-carnegie/beige/300",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -3377,7 +3377,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:0a2ed12b144c66fd5e02892cd2f38bb2ca64d92b/5552:2073",
-            "targetVariableName": "dnbcarnegie/greyscale/0",
+            "targetVariableName": "dnb-carnegie/greyscale/0",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -3405,7 +3405,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:6590d77b4de2c74f675179634f03d03a2b8833e0/5552:2011",
-            "targetVariableName": "dnbcarnegie/beige/200",
+            "targetVariableName": "dnb-carnegie/beige/200",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -3433,7 +3433,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:6203c0169bd780b9bf062d88a9bafdf0796de04e/5552:2060",
-            "targetVariableName": "dnbcarnegie/greyscale/1000",
+            "targetVariableName": "dnb-carnegie/greyscale/1000",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -3461,7 +3461,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:d2ced02c1c4ce7d4936841279aa0d225c1ed11ec/5552:2069",
-            "targetVariableName": "dnbcarnegie/greyscale/200",
+            "targetVariableName": "dnb-carnegie/greyscale/200",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -3489,7 +3489,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:aa80e244cf894230da8539976f50ad85c99d971a/5552:1973",
-            "targetVariableName": "dnbcarnegie/coldgreen/600",
+            "targetVariableName": "dnb-carnegie/coldgreen/600",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -3517,7 +3517,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:12f24b34c6b753bcc239aab1796cf39df5eae6de/5552:1984",
-            "targetVariableName": "dnbcarnegie/green/700",
+            "targetVariableName": "dnb-carnegie/green/700",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -3545,7 +3545,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:7cf0e8c452c05056a06fa08ead39b3db17897a2a/5552:2019",
-            "targetVariableName": "dnbcarnegie/yellow/500",
+            "targetVariableName": "dnb-carnegie/yellow/500",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -3573,7 +3573,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:b6672aa9af52eaba97ed6f81a4b0f3234aaef571/5552:2041",
-            "targetVariableName": "dnbcarnegie/red/600",
+            "targetVariableName": "dnb-carnegie/red/600",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -3601,7 +3601,7 @@
           },
           "com.figma.aliasData": {
             "targetVariableId": "VariableID:a2e8c4f27f4f50b8965e01c3ac01d4f836354c59/5552:2063",
-            "targetVariableName": "dnbcarnegie/greyscale/800",
+            "targetVariableName": "dnb-carnegie/greyscale/800",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
           }
@@ -3632,7 +3632,7 @@
             },
             "com.figma.aliasData": {
               "targetVariableId": "VariableID:1a09367ad46cdc4592c9ebeba0473dedb96acfe0/5552:2013",
-              "targetVariableName": "dnbcarnegie/beige/50",
+              "targetVariableName": "dnb-carnegie/beige/50",
               "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
               "targetVariableSetName": "colors"
             }
@@ -3660,7 +3660,7 @@
             },
             "com.figma.aliasData": {
               "targetVariableId": "VariableID:1a09367ad46cdc4592c9ebeba0473dedb96acfe0/5552:2013",
-              "targetVariableName": "dnbcarnegie/beige/50",
+              "targetVariableName": "dnb-carnegie/beige/50",
               "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
               "targetVariableSetName": "colors"
             }
@@ -3688,7 +3688,7 @@
             },
             "com.figma.aliasData": {
               "targetVariableId": "VariableID:6590d77b4de2c74f675179634f03d03a2b8833e0/5552:2011",
-              "targetVariableName": "dnbcarnegie/beige/200",
+              "targetVariableName": "dnb-carnegie/beige/200",
               "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
               "targetVariableSetName": "colors"
             }
@@ -3716,7 +3716,7 @@
             },
             "com.figma.aliasData": {
               "targetVariableId": "VariableID:6590d77b4de2c74f675179634f03d03a2b8833e0/5552:2011",
-              "targetVariableName": "dnbcarnegie/beige/200",
+              "targetVariableName": "dnb-carnegie/beige/200",
               "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
               "targetVariableSetName": "colors"
             }
@@ -3744,7 +3744,7 @@
             },
             "com.figma.aliasData": {
               "targetVariableId": "VariableID:33eb45c9cccdc9f607ed8a28486f78369d09ca75/5552:2008",
-              "targetVariableName": "dnbcarnegie/beige/500",
+              "targetVariableName": "dnb-carnegie/beige/500",
               "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
               "targetVariableSetName": "colors"
             }
@@ -3772,7 +3772,7 @@
             },
             "com.figma.aliasData": {
               "targetVariableId": "VariableID:33eb45c9cccdc9f607ed8a28486f78369d09ca75/5552:2008",
-              "targetVariableName": "dnbcarnegie/beige/500",
+              "targetVariableName": "dnb-carnegie/beige/500",
               "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
               "targetVariableSetName": "colors"
             }
@@ -3800,7 +3800,7 @@
             },
             "com.figma.aliasData": {
               "targetVariableId": "VariableID:dd8830bab3b10b8a32fa054edae10fb482688d8c/5552:2005",
-              "targetVariableName": "dnbcarnegie/beige/800",
+              "targetVariableName": "dnb-carnegie/beige/800",
               "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
               "targetVariableSetName": "colors"
             }
@@ -3829,7 +3829,7 @@
             },
             "com.figma.aliasData": {
               "targetVariableId": "VariableID:dd8830bab3b10b8a32fa054edae10fb482688d8c/5552:2005",
-              "targetVariableName": "dnbcarnegie/beige/800",
+              "targetVariableName": "dnb-carnegie/beige/800",
               "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
               "targetVariableSetName": "colors"
             }
@@ -3857,7 +3857,7 @@
             },
             "com.figma.aliasData": {
               "targetVariableId": "VariableID:d456b16160aca5c81399b57473085ec76915aeed/5552:2003",
-              "targetVariableName": "dnbcarnegie/beige/950",
+              "targetVariableName": "dnb-carnegie/beige/950",
               "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
               "targetVariableSetName": "colors"
             }
@@ -3885,7 +3885,7 @@
             },
             "com.figma.aliasData": {
               "targetVariableId": "VariableID:d456b16160aca5c81399b57473085ec76915aeed/5552:2003",
-              "targetVariableName": "dnbcarnegie/beige/950",
+              "targetVariableName": "dnb-carnegie/beige/950",
               "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
               "targetVariableSetName": "colors"
             }
@@ -3915,7 +3915,7 @@
             },
             "com.figma.aliasData": {
               "targetVariableId": "VariableID:454c65625e8a052cb24289fcb38aee55d1bfc922/5552:2001",
-              "targetVariableName": "dnbcarnegie/burgundy/100",
+              "targetVariableName": "dnb-carnegie/burgundy/100",
               "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
               "targetVariableSetName": "colors"
             }
@@ -3943,7 +3943,7 @@
             },
             "com.figma.aliasData": {
               "targetVariableId": "VariableID:454c65625e8a052cb24289fcb38aee55d1bfc922/5552:2001",
-              "targetVariableName": "dnbcarnegie/burgundy/100",
+              "targetVariableName": "dnb-carnegie/burgundy/100",
               "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
               "targetVariableSetName": "colors"
             }
@@ -3971,7 +3971,7 @@
             },
             "com.figma.aliasData": {
               "targetVariableId": "VariableID:ed1865053b7cfc1b00244ff93b7895c6228e393a/5552:1999",
-              "targetVariableName": "dnbcarnegie/burgundy/300",
+              "targetVariableName": "dnb-carnegie/burgundy/300",
               "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
               "targetVariableSetName": "colors"
             }
@@ -3999,7 +3999,7 @@
             },
             "com.figma.aliasData": {
               "targetVariableId": "VariableID:ed1865053b7cfc1b00244ff93b7895c6228e393a/5552:1999",
-              "targetVariableName": "dnbcarnegie/burgundy/300",
+              "targetVariableName": "dnb-carnegie/burgundy/300",
               "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
               "targetVariableSetName": "colors"
             }
@@ -4027,7 +4027,7 @@
             },
             "com.figma.aliasData": {
               "targetVariableId": "VariableID:bc9a6d38b04bfef3fe9e821bacea0c2bc466b934/5552:1997",
-              "targetVariableName": "dnbcarnegie/burgundy/500",
+              "targetVariableName": "dnb-carnegie/burgundy/500",
               "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
               "targetVariableSetName": "colors"
             }
@@ -4055,7 +4055,7 @@
             },
             "com.figma.aliasData": {
               "targetVariableId": "VariableID:bc9a6d38b04bfef3fe9e821bacea0c2bc466b934/5552:1997",
-              "targetVariableName": "dnbcarnegie/burgundy/500",
+              "targetVariableName": "dnb-carnegie/burgundy/500",
               "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
               "targetVariableSetName": "colors"
             }
@@ -4083,7 +4083,7 @@
             },
             "com.figma.aliasData": {
               "targetVariableId": "VariableID:c68f36aa93c3aff829b88b06fb1ca1f297a05dd1/5552:1993",
-              "targetVariableName": "dnbcarnegie/burgundy/900",
+              "targetVariableName": "dnb-carnegie/burgundy/900",
               "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
               "targetVariableSetName": "colors"
             }
@@ -4111,7 +4111,7 @@
             },
             "com.figma.aliasData": {
               "targetVariableId": "VariableID:c68f36aa93c3aff829b88b06fb1ca1f297a05dd1/5552:1993",
-              "targetVariableName": "dnbcarnegie/burgundy/900",
+              "targetVariableName": "dnb-carnegie/burgundy/900",
               "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
               "targetVariableSetName": "colors"
             }
@@ -4139,7 +4139,7 @@
             },
             "com.figma.aliasData": {
               "targetVariableId": "VariableID:dc2d8a4deb13b13fa1b5db1989e7b63780c30547/5552:1992",
-              "targetVariableName": "dnbcarnegie/burgundy/950",
+              "targetVariableName": "dnb-carnegie/burgundy/950",
               "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
               "targetVariableSetName": "colors"
             }
@@ -4167,7 +4167,7 @@
             },
             "com.figma.aliasData": {
               "targetVariableId": "VariableID:dc2d8a4deb13b13fa1b5db1989e7b63780c30547/5552:1992",
-              "targetVariableName": "dnbcarnegie/burgundy/950",
+              "targetVariableName": "dnb-carnegie/burgundy/950",
               "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
               "targetVariableSetName": "colors"
             }
@@ -4197,7 +4197,7 @@
             },
             "com.figma.aliasData": {
               "targetVariableId": "VariableID:9a7037c3ab15b1dcb39776a4af69fee303878a75/5552:1978",
-              "targetVariableName": "dnbcarnegie/coldgreen/100",
+              "targetVariableName": "dnb-carnegie/coldgreen/100",
               "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
               "targetVariableSetName": "colors"
             }
@@ -4225,7 +4225,7 @@
             },
             "com.figma.aliasData": {
               "targetVariableId": "VariableID:974fc2df153c89ec4060d9e497fe5a9862998f16/5552:1990",
-              "targetVariableName": "dnbcarnegie/green/100",
+              "targetVariableName": "dnb-carnegie/green/100",
               "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
               "targetVariableSetName": "colors"
             }
@@ -4253,7 +4253,7 @@
             },
             "com.figma.aliasData": {
               "targetVariableId": "VariableID:6c2c8538c62924a180dad1b3d54a40099f299545/5552:1976",
-              "targetVariableName": "dnbcarnegie/coldgreen/300",
+              "targetVariableName": "dnb-carnegie/coldgreen/300",
               "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
               "targetVariableSetName": "colors"
             }
@@ -4281,7 +4281,7 @@
             },
             "com.figma.aliasData": {
               "targetVariableId": "VariableID:6c2c8538c62924a180dad1b3d54a40099f299545/5552:1976",
-              "targetVariableName": "dnbcarnegie/coldgreen/300",
+              "targetVariableName": "dnb-carnegie/coldgreen/300",
               "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
               "targetVariableSetName": "colors"
             }
@@ -4309,7 +4309,7 @@
             },
             "com.figma.aliasData": {
               "targetVariableId": "VariableID:8a1c0f06e698f26331f25abd15955a2f5d6370b8/5552:1974",
-              "targetVariableName": "dnbcarnegie/coldgreen/500",
+              "targetVariableName": "dnb-carnegie/coldgreen/500",
               "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
               "targetVariableSetName": "colors"
             }
@@ -4337,7 +4337,7 @@
             },
             "com.figma.aliasData": {
               "targetVariableId": "VariableID:8a1c0f06e698f26331f25abd15955a2f5d6370b8/5552:1974",
-              "targetVariableName": "dnbcarnegie/coldgreen/500",
+              "targetVariableName": "dnb-carnegie/coldgreen/500",
               "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
               "targetVariableSetName": "colors"
             }
@@ -4365,7 +4365,7 @@
             },
             "com.figma.aliasData": {
               "targetVariableId": "VariableID:61815eacc9cd20941ac95a12dd5cea656503097c/5552:1972",
-              "targetVariableName": "dnbcarnegie/coldgreen/700",
+              "targetVariableName": "dnb-carnegie/coldgreen/700",
               "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
               "targetVariableSetName": "colors"
             }
@@ -4393,7 +4393,7 @@
             },
             "com.figma.aliasData": {
               "targetVariableId": "VariableID:61815eacc9cd20941ac95a12dd5cea656503097c/5552:1972",
-              "targetVariableName": "dnbcarnegie/coldgreen/700",
+              "targetVariableName": "dnb-carnegie/coldgreen/700",
               "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
               "targetVariableSetName": "colors"
             }
@@ -4421,7 +4421,7 @@
             },
             "com.figma.aliasData": {
               "targetVariableId": "VariableID:eed2549e38dc9f2115e3edaee9cbfe7acb70da1e/5552:1969",
-              "targetVariableName": "dnbcarnegie/coldgreen/950",
+              "targetVariableName": "dnb-carnegie/coldgreen/950",
               "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
               "targetVariableSetName": "colors"
             }
@@ -4449,7 +4449,7 @@
             },
             "com.figma.aliasData": {
               "targetVariableId": "VariableID:eed2549e38dc9f2115e3edaee9cbfe7acb70da1e/5552:1969",
-              "targetVariableName": "dnbcarnegie/coldgreen/950",
+              "targetVariableName": "dnb-carnegie/coldgreen/950",
               "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
               "targetVariableSetName": "colors"
             }
@@ -4483,7 +4483,7 @@
               },
               "com.figma.aliasData": {
                 "targetVariableId": "VariableID:6203c0169bd780b9bf062d88a9bafdf0796de04e/5552:2060",
-                "targetVariableName": "dnbcarnegie/greyscale/1000",
+                "targetVariableName": "dnb-carnegie/greyscale/1000",
                 "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
                 "targetVariableSetName": "colors"
               }
@@ -4512,7 +4512,7 @@
               },
               "com.figma.aliasData": {
                 "targetVariableId": "VariableID:6203c0169bd780b9bf062d88a9bafdf0796de04e/5552:2060",
-                "targetVariableName": "dnbcarnegie/greyscale/1000",
+                "targetVariableName": "dnb-carnegie/greyscale/1000",
                 "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
                 "targetVariableSetName": "colors"
               }
@@ -4541,7 +4541,7 @@
               },
               "com.figma.aliasData": {
                 "targetVariableId": "VariableID:b6672aa9af52eaba97ed6f81a4b0f3234aaef571/5552:2041",
-                "targetVariableName": "dnbcarnegie/red/600",
+                "targetVariableName": "dnb-carnegie/red/600",
                 "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
                 "targetVariableSetName": "colors"
               }
@@ -4570,7 +4570,7 @@
               },
               "com.figma.aliasData": {
                 "targetVariableId": "VariableID:b6672aa9af52eaba97ed6f81a4b0f3234aaef571/5552:2041",
-                "targetVariableName": "dnbcarnegie/red/600",
+                "targetVariableName": "dnb-carnegie/red/600",
                 "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
                 "targetVariableSetName": "colors"
               }
@@ -4599,7 +4599,7 @@
               },
               "com.figma.aliasData": {
                 "targetVariableId": "VariableID:2de8e4757924f0cbd399cb36d2d88b486e49b212/5552:2047",
-                "targetVariableName": "dnbcarnegie/red/50",
+                "targetVariableName": "dnb-carnegie/red/50",
                 "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
                 "targetVariableSetName": "colors"
               }
@@ -4628,7 +4628,7 @@
               },
               "com.figma.aliasData": {
                 "targetVariableId": "VariableID:08d3914002f721e0549e9da5e588c93a6b8567c5/5552:2040",
-                "targetVariableName": "dnbcarnegie/red/700",
+                "targetVariableName": "dnb-carnegie/red/700",
                 "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
                 "targetVariableSetName": "colors"
               }
@@ -4657,7 +4657,7 @@
               },
               "com.figma.aliasData": {
                 "targetVariableId": "VariableID:ba6886ab368e102f31fee761ab3788b17e4a416c/5552:2046",
-                "targetVariableName": "dnbcarnegie/red/100",
+                "targetVariableName": "dnb-carnegie/red/100",
                 "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
                 "targetVariableSetName": "colors"
               }
@@ -4687,7 +4687,7 @@
               },
               "com.figma.aliasData": {
                 "targetVariableId": "VariableID:0a2ed12b144c66fd5e02892cd2f38bb2ca64d92b/5552:2073",
-                "targetVariableName": "dnbcarnegie/greyscale/0",
+                "targetVariableName": "dnb-carnegie/greyscale/0",
                 "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
                 "targetVariableSetName": "colors"
               }
@@ -4715,7 +4715,7 @@
               },
               "com.figma.aliasData": {
                 "targetVariableId": "VariableID:6203c0169bd780b9bf062d88a9bafdf0796de04e/5552:2060",
-                "targetVariableName": "dnbcarnegie/greyscale/1000",
+                "targetVariableName": "dnb-carnegie/greyscale/1000",
                 "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
                 "targetVariableSetName": "colors"
               }
@@ -4743,7 +4743,7 @@
               },
               "com.figma.aliasData": {
                 "targetVariableId": "VariableID:6203c0169bd780b9bf062d88a9bafdf0796de04e/5552:2060",
-                "targetVariableName": "dnbcarnegie/greyscale/1000",
+                "targetVariableName": "dnb-carnegie/greyscale/1000",
                 "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
                 "targetVariableSetName": "colors"
               }
@@ -4771,7 +4771,7 @@
               },
               "com.figma.aliasData": {
                 "targetVariableId": "VariableID:6203c0169bd780b9bf062d88a9bafdf0796de04e/5552:2060",
-                "targetVariableName": "dnbcarnegie/greyscale/1000",
+                "targetVariableName": "dnb-carnegie/greyscale/1000",
                 "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
                 "targetVariableSetName": "colors"
               }
@@ -4799,7 +4799,7 @@
               },
               "com.figma.aliasData": {
                 "targetVariableId": "VariableID:6203c0169bd780b9bf062d88a9bafdf0796de04e/5552:2060",
-                "targetVariableName": "dnbcarnegie/greyscale/1000",
+                "targetVariableName": "dnb-carnegie/greyscale/1000",
                 "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
                 "targetVariableSetName": "colors"
               }
@@ -4827,7 +4827,7 @@
               },
               "com.figma.aliasData": {
                 "targetVariableId": "VariableID:0a2ed12b144c66fd5e02892cd2f38bb2ca64d92b/5552:2073",
-                "targetVariableName": "dnbcarnegie/greyscale/0",
+                "targetVariableName": "dnb-carnegie/greyscale/0",
                 "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
                 "targetVariableSetName": "colors"
               }
@@ -4855,7 +4855,7 @@
               },
               "com.figma.aliasData": {
                 "targetVariableId": "VariableID:0a2ed12b144c66fd5e02892cd2f38bb2ca64d92b/5552:2073",
-                "targetVariableName": "dnbcarnegie/greyscale/0",
+                "targetVariableName": "dnb-carnegie/greyscale/0",
                 "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
                 "targetVariableSetName": "colors"
               }
@@ -4883,7 +4883,7 @@
               },
               "com.figma.aliasData": {
                 "targetVariableId": "VariableID:0a2ed12b144c66fd5e02892cd2f38bb2ca64d92b/5552:2073",
-                "targetVariableName": "dnbcarnegie/greyscale/0",
+                "targetVariableName": "dnb-carnegie/greyscale/0",
                 "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
                 "targetVariableSetName": "colors"
               }
@@ -4911,7 +4911,7 @@
               },
               "com.figma.aliasData": {
                 "targetVariableId": "VariableID:0a2ed12b144c66fd5e02892cd2f38bb2ca64d92b/5552:2073",
-                "targetVariableName": "dnbcarnegie/greyscale/0",
+                "targetVariableName": "dnb-carnegie/greyscale/0",
                 "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
                 "targetVariableSetName": "colors"
               }
@@ -4939,7 +4939,7 @@
               },
               "com.figma.aliasData": {
                 "targetVariableId": "VariableID:0a2ed12b144c66fd5e02892cd2f38bb2ca64d92b/5552:2073",
-                "targetVariableName": "dnbcarnegie/greyscale/0",
+                "targetVariableName": "dnb-carnegie/greyscale/0",
                 "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
                 "targetVariableSetName": "colors"
               }
@@ -4967,7 +4967,7 @@
               },
               "com.figma.aliasData": {
                 "targetVariableId": "VariableID:0a2ed12b144c66fd5e02892cd2f38bb2ca64d92b/5552:2073",
-                "targetVariableName": "dnbcarnegie/greyscale/0",
+                "targetVariableName": "dnb-carnegie/greyscale/0",
                 "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
                 "targetVariableSetName": "colors"
               }
@@ -4995,7 +4995,7 @@
               },
               "com.figma.aliasData": {
                 "targetVariableId": "VariableID:b6672aa9af52eaba97ed6f81a4b0f3234aaef571/5552:2041",
-                "targetVariableName": "dnbcarnegie/red/600",
+                "targetVariableName": "dnb-carnegie/red/600",
                 "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
                 "targetVariableSetName": "colors"
               }
@@ -5023,7 +5023,7 @@
               },
               "com.figma.aliasData": {
                 "targetVariableId": "VariableID:b6672aa9af52eaba97ed6f81a4b0f3234aaef571/5552:2041",
-                "targetVariableName": "dnbcarnegie/red/600",
+                "targetVariableName": "dnb-carnegie/red/600",
                 "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
                 "targetVariableSetName": "colors"
               }
@@ -5051,7 +5051,7 @@
               },
               "com.figma.aliasData": {
                 "targetVariableId": "VariableID:08d3914002f721e0549e9da5e588c93a6b8567c5/5552:2040",
-                "targetVariableName": "dnbcarnegie/red/700",
+                "targetVariableName": "dnb-carnegie/red/700",
                 "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
                 "targetVariableSetName": "colors"
               }
@@ -5082,7 +5082,7 @@
               },
               "com.figma.aliasData": {
                 "targetVariableId": "VariableID:0a2ed12b144c66fd5e02892cd2f38bb2ca64d92b/5552:2073",
-                "targetVariableName": "dnbcarnegie/greyscale/0",
+                "targetVariableName": "dnb-carnegie/greyscale/0",
                 "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
                 "targetVariableSetName": "colors"
               }
@@ -5111,7 +5111,7 @@
               },
               "com.figma.aliasData": {
                 "targetVariableId": "VariableID:6203c0169bd780b9bf062d88a9bafdf0796de04e/5552:2060",
-                "targetVariableName": "dnbcarnegie/greyscale/1000",
+                "targetVariableName": "dnb-carnegie/greyscale/1000",
                 "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
                 "targetVariableSetName": "colors"
               }
@@ -5140,7 +5140,7 @@
               },
               "com.figma.aliasData": {
                 "targetVariableId": "VariableID:6203c0169bd780b9bf062d88a9bafdf0796de04e/5552:2060",
-                "targetVariableName": "dnbcarnegie/greyscale/1000",
+                "targetVariableName": "dnb-carnegie/greyscale/1000",
                 "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
                 "targetVariableSetName": "colors"
               }
@@ -5169,7 +5169,7 @@
               },
               "com.figma.aliasData": {
                 "targetVariableId": "VariableID:6203c0169bd780b9bf062d88a9bafdf0796de04e/5552:2060",
-                "targetVariableName": "dnbcarnegie/greyscale/1000",
+                "targetVariableName": "dnb-carnegie/greyscale/1000",
                 "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
                 "targetVariableSetName": "colors"
               }
@@ -5198,7 +5198,7 @@
               },
               "com.figma.aliasData": {
                 "targetVariableId": "VariableID:0a2ed12b144c66fd5e02892cd2f38bb2ca64d92b/5552:2073",
-                "targetVariableName": "dnbcarnegie/greyscale/0",
+                "targetVariableName": "dnb-carnegie/greyscale/0",
                 "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
                 "targetVariableSetName": "colors"
               }
@@ -5227,7 +5227,7 @@
               },
               "com.figma.aliasData": {
                 "targetVariableId": "VariableID:0a2ed12b144c66fd5e02892cd2f38bb2ca64d92b/5552:2073",
-                "targetVariableName": "dnbcarnegie/greyscale/0",
+                "targetVariableName": "dnb-carnegie/greyscale/0",
                 "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
                 "targetVariableSetName": "colors"
               }
@@ -5256,7 +5256,7 @@
               },
               "com.figma.aliasData": {
                 "targetVariableId": "VariableID:b6672aa9af52eaba97ed6f81a4b0f3234aaef571/5552:2041",
-                "targetVariableName": "dnbcarnegie/red/600",
+                "targetVariableName": "dnb-carnegie/red/600",
                 "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
                 "targetVariableSetName": "colors"
               }
@@ -5285,7 +5285,7 @@
               },
               "com.figma.aliasData": {
                 "targetVariableId": "VariableID:b6672aa9af52eaba97ed6f81a4b0f3234aaef571/5552:2041",
-                "targetVariableName": "dnbcarnegie/red/600",
+                "targetVariableName": "dnb-carnegie/red/600",
                 "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
                 "targetVariableSetName": "colors"
               }
@@ -5314,7 +5314,7 @@
               },
               "com.figma.aliasData": {
                 "targetVariableId": "VariableID:08d3914002f721e0549e9da5e588c93a6b8567c5/5552:2040",
-                "targetVariableName": "dnbcarnegie/red/700",
+                "targetVariableName": "dnb-carnegie/red/700",
                 "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
                 "targetVariableSetName": "colors"
               }
@@ -5344,7 +5344,7 @@
               },
               "com.figma.aliasData": {
                 "targetVariableId": "VariableID:6203c0169bd780b9bf062d88a9bafdf0796de04e/5552:2060",
-                "targetVariableName": "dnbcarnegie/greyscale/1000",
+                "targetVariableName": "dnb-carnegie/greyscale/1000",
                 "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
                 "targetVariableSetName": "colors"
               }
@@ -5372,7 +5372,7 @@
               },
               "com.figma.aliasData": {
                 "targetVariableId": "VariableID:6203c0169bd780b9bf062d88a9bafdf0796de04e/5552:2060",
-                "targetVariableName": "dnbcarnegie/greyscale/1000",
+                "targetVariableName": "dnb-carnegie/greyscale/1000",
                 "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
                 "targetVariableSetName": "colors"
               }
@@ -5400,7 +5400,7 @@
               },
               "com.figma.aliasData": {
                 "targetVariableId": "VariableID:b6672aa9af52eaba97ed6f81a4b0f3234aaef571/5552:2041",
-                "targetVariableName": "dnbcarnegie/red/600",
+                "targetVariableName": "dnb-carnegie/red/600",
                 "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
                 "targetVariableSetName": "colors"
               }
@@ -5428,7 +5428,7 @@
               },
               "com.figma.aliasData": {
                 "targetVariableId": "VariableID:b6672aa9af52eaba97ed6f81a4b0f3234aaef571/5552:2041",
-                "targetVariableName": "dnbcarnegie/red/600",
+                "targetVariableName": "dnb-carnegie/red/600",
                 "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
                 "targetVariableSetName": "colors"
               }
@@ -5456,7 +5456,7 @@
               },
               "com.figma.aliasData": {
                 "targetVariableId": "VariableID:08d3914002f721e0549e9da5e588c93a6b8567c5/5552:2040",
-                "targetVariableName": "dnbcarnegie/red/700",
+                "targetVariableName": "dnb-carnegie/red/700",
                 "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
                 "targetVariableSetName": "colors"
               }
@@ -5484,7 +5484,7 @@
               },
               "com.figma.aliasData": {
                 "targetVariableId": "VariableID:cc547a3c7594fc73c09f63a6bfc228a4ca6b435b/5552:2006",
-                "targetVariableName": "dnbcarnegie/beige/700",
+                "targetVariableName": "dnb-carnegie/beige/700",
                 "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
                 "targetVariableSetName": "colors"
               }
@@ -5517,7 +5517,7 @@
               },
               "com.figma.aliasData": {
                 "targetVariableId": "VariableID:a2e8c4f27f4f50b8965e01c3ac01d4f836354c59/5552:2063",
-                "targetVariableName": "dnbcarnegie/greyscale/800",
+                "targetVariableName": "dnb-carnegie/greyscale/800",
                 "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
                 "targetVariableSetName": "colors"
               }
@@ -5548,7 +5548,7 @@
             },
             "com.figma.aliasData": {
               "targetVariableId": "VariableID:b472f18179ab446282a9cfcfa058469bfa528751/5552:2075",
-              "targetVariableName": "dnbcarnegie/greyscale/1000/30",
+              "targetVariableName": "dnb-carnegie/greyscale/1000/30",
               "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
               "targetVariableSetName": "colors"
             }
@@ -5578,7 +5578,7 @@
             },
             "com.figma.aliasData": {
               "targetVariableId": "VariableID:a2e8c4f27f4f50b8965e01c3ac01d4f836354c59/5552:2063",
-              "targetVariableName": "dnbcarnegie/greyscale/800",
+              "targetVariableName": "dnb-carnegie/greyscale/800",
               "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
               "targetVariableSetName": "colors"
             }
@@ -5608,7 +5608,7 @@
             },
             "com.figma.aliasData": {
               "targetVariableId": "VariableID:d2ced02c1c4ce7d4936841279aa0d225c1ed11ec/5552:2069",
-              "targetVariableName": "dnbcarnegie/greyscale/200",
+              "targetVariableName": "dnb-carnegie/greyscale/200",
               "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
               "targetVariableSetName": "colors"
             }

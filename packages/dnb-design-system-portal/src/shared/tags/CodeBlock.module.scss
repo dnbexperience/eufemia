@@ -1,3 +1,4 @@
+@use '@dnb/eufemia/src/style/core/utilities.scss';
 @use './../parts/PortalStyle.mixins.scss' as PortalMixins;
 
 .codeBlockStyle {
@@ -14,14 +15,18 @@
     }
   }
 
+  > pre:focus-visible {
+    @include utilities.focusRing();
+  }
+
   :global(.eufemia-theme) {
     background-color: transparent;
   }
 }
 
-.copyButtonStyle {
+button.copyButtonStyle {
   position: absolute;
-  top: 2.75rem;
+  top: 0.75rem;
   left: calc(100% - 2.75rem);
   z-index: 1;
   opacity: 0;

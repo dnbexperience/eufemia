@@ -116,12 +116,13 @@ export default {
   '--font-size-x-small': '0.875rem',
   '--font-size-small': '1rem',
   '--font-size-basis': '1.125rem',
+  '--font-size-basis-web': '1.125rem',
   '--font-size-basis--em': '1em',
   '--font-size-lead': 'var(--font-size-medium)',
   '--font-size-medium': '1.25rem',
   '--font-size-large': '1.625rem',
   '--font-size-x-large': '2.125rem',
-  '--font-size-xx-large': '3rem',
+  '--font-size-xx-large': '3.5rem',
   '--line-height-xx-small--em': '1em',
   '--line-height-x-small': '1.25rem',
   '--line-height-small': '1.25rem',
@@ -131,7 +132,7 @@ export default {
   '--line-height-medium': '1.5rem',
   '--line-height-large': '2rem',
   '--line-height-x-large': '2.5rem',
-  '--line-height-xx-large': '3.5rem',
+  '--line-height-xx-large': '4.25rem',
   '--color-mint-green-50': '#d2f0e9',
   '--color-mint-green-25': '#e9f8f4',
   '--color-mint-green-12': '#f4fbf9',
@@ -184,5 +185,6 @@ export default {
   '--shadow-sharp-color': 'rgb(0 0 0 / 16%)',
   '--easing-default': 'cubic-bezier(0.42, 0, 0, 1)',
   '--easing-fast-bounce': 'cubic-bezier(0.34, 1.56, 0.64, 1)',
-  '--focus-ring-width': '0.25rem'
+  '--focus-ring-width': '0.25rem',
+  '--font-size-basis-native': 'var(--font-size-basis-web)'
 }; // prettier-ignore

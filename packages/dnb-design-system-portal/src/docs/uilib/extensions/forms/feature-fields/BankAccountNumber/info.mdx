@@ -23,6 +23,8 @@ Use the `bankAccountType` prop to switch between formats:
 
 Only `norwegianBban` includes built-in validation. Use `onBlurValidator` for custom validation of other types.
 
+The `iban` type uses the `large` width, which fits IBANs up to 26 characters. For longer IBANs, set `width` to `stretch` or a custom width like `28rem`, which fits any IBAN.
+
 The value is always a string since account numbers can have leading zeros.
 
 There is a corresponding [Value.BankAccountNumber](/uilib/extensions/forms/Value/BankAccountNumber) component.

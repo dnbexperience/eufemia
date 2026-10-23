@@ -319,8 +319,9 @@
     transform: translateX(-50%);
   }
 
-  &:hover,
-  &:focus-visible {
+  // Keep :hover apart from :focus-visible, because Safari before 15.4
+  // drops every rule that uses :focus-visible
+  &:hover {
     color: var(--token-color-stroke-action);
 
     &::before {
@@ -330,8 +331,14 @@
   }
 
   &:focus-visible {
+    color: var(--token-color-stroke-action);
     outline: var(--focus-ring-width) solid
       var(--token-color-stroke-action-focus);
     outline-offset: -0.25rem;
+
+    &::before {
+      width: 2px;
+      opacity: 1;
+    }
   }
 }

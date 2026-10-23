@@ -115,6 +115,7 @@ export default {
       placeholder: 'Välj en eller flera',
       selectAll: 'Välj alla',
       searchPlaceholder: 'Sök...',
+      searchLabel: 'Sök',
       noOptions: 'Inga alternativ',
       skipToActions: 'Hoppa över alternativ och gå till åtgärder',
       confirmButton: 'Bekräfta ({count} valda)',
@@ -179,13 +180,13 @@ export default {
       label: 'Förnamn',
       errorRequired: 'Du måste fylla i förnamn.',
       errorPattern:
-        'Du måste ange ett giltigt förnamn. Endast bokstäver, bindestreck och mellanslag är tillåtna.',
+        'Du måste ange ett giltigt förnamn. Endast bokstäver, bindestreck och mellanslag är tillåtna. Bindestreck och mellanslag måste stå mellan två bokstäver.',
     },
     LastName: {
       label: 'Efternamn',
       errorRequired: 'Du måste fylla i efternamn.',
       errorPattern:
-        'Du måste ange ett giltigt efternamn. Endast bokstäver, bindestreck och mellanslag är tillåtna.',
+        'Du måste ange ett giltigt efternamn. Endast bokstäver, bindestreck och mellanslag är tillåtna. Bindestreck och mellanslag måste stå mellan två bokstäver.',
     },
     CompanyName: {
       label: 'Företagsnamn',

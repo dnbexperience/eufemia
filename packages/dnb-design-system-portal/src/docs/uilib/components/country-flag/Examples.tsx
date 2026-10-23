@@ -98,17 +98,23 @@ export const InComponents = () => (
         variant="secondary"
       />
       <Input
+        label="Text"
+        labelSrOnly
         icon={<CountryFlag iso="NO" />}
         iconPosition="left"
         placeholder="Write something"
       />
       <Input
+        label="Text"
+        labelSrOnly
         icon={<CountryFlag iso="NO" />}
         iconPosition="left"
         size="large"
         placeholder="Write something"
       />
       <Dropdown
+        label="Country"
+        labelSrOnly
         value="NO"
         iconPosition="left"
         data={{
@@ -126,7 +132,12 @@ export const InComponents = () => (
           ),
         }}
       />
-      <Dropdown icon={<CountryFlag iso="NO" />} size="large" />
+      <Dropdown
+        label="Country"
+        labelSrOnly
+        icon={<CountryFlag iso="NO" />}
+        size="large"
+      />
 
       <Flex.Horizontal align="center" gap="x-small">
         In Icon component:

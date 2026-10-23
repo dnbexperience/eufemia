@@ -33,6 +33,33 @@ exports[`DatePicker scss > should match style dependencies css 1`] = `
   width: 1em;
   height: 1em;
 }
+.dnb-icon__cdn {
+  display: inline-block;
+  vertical-align: top;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  print-color-adjust: exact;
+}
+.dnb-icon__cdn--mask {
+  background-color: currentcolor;
+  mask-position: center;
+  mask-repeat: no-repeat;
+  mask-size: contain;
+  mask-mode: alpha;
+  /* Safari 14.1 requires prefixed mask properties. */
+  /* stylelint-disable property-no-vendor-prefix */
+  -webkit-mask-position: center;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-size: contain;
+  /* stylelint-enable property-no-vendor-prefix */
+}
+@media (forced-colors: active) {
+  .dnb-icon__cdn--mask {
+    background-color: CanvasText;
+    forced-color-adjust: none;
+  }
+}
 .dnb-icon img, :where(.dnb-core-style) .dnb-icon img,
 .dnb-icon svg,
 :where(.dnb-core-style) .dnb-icon svg {
@@ -230,6 +257,41 @@ html[data-dnb-modal-active] .dnb-tooltip--hide {
  * FormStatus component
  *
  */
+/*
+ * Colors of the FormStatus icons
+ *
+ */
+.dnb-form-status-icon-path--fill {
+  fill: var(--form-status-icon-color);
+}
+.dnb-form-status-icon-path--stroke {
+  stroke: var(--form-status-icon-color);
+}
+.dnb-form-status-icon-path--error {
+  --form-status-icon-color: var(--token-color-background-error);
+}
+.dnb-form-status-icon-path--error-mark {
+  --form-status-icon-color: var(--token-color-icon-neutral-ondark);
+}
+.dnb-form-status-icon-path--warning {
+  --form-status-icon-color: var(--token-color-icon-warning);
+}
+.dnb-form-status-icon-path--warning-mark {
+  --form-status-icon-color: var(--token-color-icon-neutral-static);
+}
+.dnb-form-status-icon-path--information {
+  --form-status-icon-color: var(--token-color-icon-info);
+}
+.dnb-form-status-icon-path--information-mark, .dnb-form-status-icon-path--success-mark {
+  --form-status-icon-color: var(--token-color-icon-neutral-inverse);
+}
+.dnb-form-status-icon-path--success {
+  --form-status-icon-color: var(--token-color-background-positive);
+}
+.dnb-form-status-icon-path--marketing {
+  --form-status-icon-color: var(--token-color-icon-marketing);
+}
+
 .dnb-form-status {
   --form-status-radius: var(--token-radius-xl);
   display: flex;
@@ -263,6 +325,12 @@ html[data-dnb-modal-active] .dnb-tooltip--hide {
   );
   --form-status-color-icon: var(--token-color-icon-info);
 }
+.dnb-form-status--success .dnb-form-status__shell {
+  --form-status-color-background: var(
+    --token-color-background-positive-subtle
+  );
+  --form-status-color-icon: var(--token-color-icon-positive);
+}
 .dnb-form-status--marketing .dnb-form-status__shell {
   --form-status-color-background: var(
     --token-color-background-marketing-subtle
@@ -283,6 +351,9 @@ html[data-dnb-modal-active] .dnb-tooltip--hide {
 }
 .dnb-form-status__variant--outlined.dnb-form-status--information .dnb-form-status__shell {
   --form-status-color-outline: var(--token-color-stroke-info);
+}
+.dnb-form-status__variant--outlined.dnb-form-status--success .dnb-form-status__shell {
+  --form-status-color-outline: var(--token-color-stroke-positive);
 }
 .dnb-form-status__variant--outlined.dnb-form-status--marketing .dnb-form-status__shell {
   --form-status-color-outline: var(--token-color-stroke-marketing);
@@ -580,6 +651,16 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disable
   );
   outline: none;
 }
+@media (forced-colors: active) {
+  html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disabled]), html:not([data-whatinput=touch]) .dnb-button--secondary:focus-visible:not([disabled]), html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible:not([disabled]) {
+    outline: var(--focus-ring-width) solid transparent;
+  }
+}
+@media (forced-colors: active) {
+  html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disabled]), html:not([data-whatinput=touch]) .dnb-button--secondary:focus-visible:not([disabled]), html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible:not([disabled]) {
+    outline-offset: 0;
+  }
+}
 .dnb-button--primary[disabled], .dnb-button--secondary[disabled], .dnb-button--tertiary[disabled] {
   --button-color-bg: var(--button-color-bg--disabled);
   --button-color-border: var(--button-color-border--disabled);
@@ -594,6 +675,12 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disable
   --border-width: var(--button-border-width, var(--button-border-width--default));
   box-shadow: var(--button-border-inset, var(--button-border-inset--default)) 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
+}
+@media (forced-colors: active) {
+  .dnb-button--primary, .dnb-button--secondary {
+    outline: var(--button-border-width, var(--button-border-width--default)) solid transparent;
+    outline-offset: calc(var(--button-border-width, var(--button-border-width--default)) * -1);
+  }
 }
 .dnb-button--primary {
   --button-color-bg--default: var(
@@ -901,6 +988,21 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disable
   --button-border-width--default: 0.125rem;
   --button-border-inset--default: ;
 }
+@media (forced-colors: active) {
+  .dnb-button--icon-only.dnb-button--selected {
+    background-color: Highlight;
+    color: HighlightText;
+    outline-color: Highlight;
+  }
+  .dnb-button--icon-only.dnb-button--selected .dnb-button__icon {
+    color: HighlightText;
+  }
+}
+@media (forced-colors: active) {
+  html:not([data-whatinput=touch]) .dnb-button--icon-only.dnb-button--selected:focus-visible:not([disabled]) {
+    outline-color: CanvasText;
+  }
+}
 .dnb-button--icon-only.dnb-button--input-button {
   --button-color-bg--default: transparent;
   --button-color-bg--hover: var(--token-color-background-action);
@@ -988,10 +1090,8 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disable
   text-align: left;
   font-size: var(--font-size-small);
   font-weight: var(--font-weight-regular);
-  text-decoration: none;
-}
-.dnb-button, .dnb-core-style .dnb-button {
   line-height: var(--button-height);
+  text-decoration: none;
 }
 .dnb-button__text {
   margin: 0.5rem 0;
@@ -999,9 +1099,6 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disable
   line-height: var(--line-height-basis);
   color: inherit;
   transform: translateY(-0.03125rem);
-}
-.dnb-button__text [data-os=linux] {
-  transform: translateY(-0.035rem);
 }
 .dnb-button__alignment {
   display: inline-block;
@@ -1140,6 +1237,17 @@ html:not([data-whatintent=touch]) .dnb-button--secondary:not(.dnb-button--has-te
 .dnb-button[disabled] {
   cursor: not-allowed;
   outline: none;
+}
+@media (forced-colors: active) {
+  .dnb-button--primary[disabled], .dnb-button--secondary[disabled] {
+    outline: var(--button-border-width, var(--button-border-width--default)) solid transparent;
+    outline-offset: calc(var(--button-border-width, var(--button-border-width--default)) * -1);
+  }
+}
+@media (forced-colors: active) {
+  .dnb-button--primary[disabled], .dnb-button--secondary[disabled] {
+    outline-color: GrayText;
+  }
 }
 
 /* Firefox includes a hidden border which messes up button dimensions */
@@ -1343,16 +1451,33 @@ legend.dnb-form-label {
   box-shadow: var(--b-inset, var(--input-border-inset, inset)) 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
+@media (forced-colors: active) {
+  .dnb-input__border {
+    outline: var(--b-width, var(--input-border-width, var(--input-border-width--default))) solid transparent;
+    outline-offset: calc(var(--b-width, var(--input-border-width, var(--input-border-width--default))) * -1);
+  }
+}
 .dnb-input--disabled .dnb-input__border {
   --border-color: var(--input-border-color--disabled);
   --border-width: var(--input-border-width--disabled);
   box-shadow: var(--input-border-inset--disabled, inset) 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
+@media (forced-colors: active) {
+  .dnb-input--disabled .dnb-input__border {
+    outline-color: GrayText;
+  }
+}
 .dnb-input__border:focus-within {
   --b-color: var(--input-border-color--active);
   --b-width: var(--input-border-width--active);
   --b-inset: var(--input-border-inset--active);
+}
+@media (forced-colors: active) {
+  .dnb-input__border:focus-within {
+    outline: var(--focus-ring-width) solid transparent;
+    outline-offset: calc(var(--focus-ring-width) * -1);
+  }
 }
 .dnb-input__border:hover, .dnb-input__border.hover {
   --b-color: var(--input-border-color--hover);
@@ -1644,6 +1769,9 @@ html:not([data-whatintent=touch]) .dnb-input--clear.dnb-input__submit-element .d
 .dnb-input--icon-position-right.dnb-input--has-icon.dnb-input--has-submit-element .dnb-input__input, .dnb-input--icon-position-right.dnb-input--has-icon.dnb-input--has-submit-element .dnb-input__placeholder {
   padding-right: calc(var(--input-height-current) + 2.5rem);
 }
+.dnb-input--has-submit-element:where(:not(.dnb-input--has-clear-button, .dnb-input--has-inner-element, .dnb-input--password)) input.dnb-input__input {
+  clip-path: inset(0 var(--input-height-current) 0 0);
+}
 html[data-visual-test] .dnb-input__input {
   caret-color: var(--token-color-background-neutral);
 }
@@ -1820,6 +1948,11 @@ html[data-visual-test] .dnb-input__input {
   box-shadow: var(--checkbox-border-inset) 0 0 0 var(--checkbox-border-width, var(--checkbox-border-width--default)) var(--checkbox-color-border, var(--checkbox-color-border-off));
   background-color: var(--checkbox-color-background-off);
 }
+@media (forced-colors: active) {
+  .dnb-checkbox__button {
+    outline: var(--checkbox-border-width, var(--checkbox-border-width--default)) solid transparent;
+  }
+}
 .dnb-checkbox__focus {
   display: none;
   outline: none;
@@ -1829,6 +1962,11 @@ html[data-whatinput=keyboard] .dnb-checkbox__focus {
   --border-width: var(--focus-ring-width);
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
+}
+@media (forced-colors: active) {
+  html[data-whatinput=keyboard] .dnb-checkbox__focus {
+    outline: var(--focus-ring-width) solid transparent;
+  }
 }
 .dnb-checkbox__focus, .dnb-checkbox__button {
   position: relative;
@@ -1850,6 +1988,11 @@ html[data-whatinput=keyboard] .dnb-checkbox__focus {
   height: calc(var(--checkbox-height--medium) - 0.5rem);
   shape-rendering: geometricprecision;
   transition: opacity 200ms ease-out, transform 200ms ease-out;
+}
+@media (forced-colors: active) {
+  .dnb-checkbox__gfx {
+    forced-color-adjust: auto;
+  }
 }
 .dnb-checkbox--large {
   line-height: var(--checkbox-height--large);
@@ -1945,6 +2088,11 @@ html[data-whatinput=keyboard] .dnb-checkbox__focus {
   border-radius: var(--checkbox-gfx-border-radius__indeterminate);
   transition: opacity 200ms ease-out, transform 200ms ease-out;
 }
+@media (forced-colors: active) {
+  .dnb-checkbox__input ~ .dnb-checkbox__indeterminate {
+    background-color: CanvasText !important;
+  }
+}
 .dnb-checkbox__input:indeterminate ~ .dnb-checkbox__indeterminate {
   transform: scale(1);
   opacity: 1;
@@ -1963,6 +2111,11 @@ html[data-whatinput=keyboard] .dnb-checkbox__focus {
 .dnb-checkbox {
   /** Disabled state **/
 }
+@media (forced-colors: active) {
+  .dnb-checkbox__input[disabled] ~ .dnb-checkbox__button {
+    outline-color: GrayText;
+  }
+}
 .dnb-checkbox__input[disabled]:checked ~ .dnb-checkbox__button, .dnb-checkbox__input[disabled][data-checked=true] ~ .dnb-checkbox__button {
   --checkbox-color-border: var(--checkbox-color-border-on--disabled);
   background-color: var(--checkbox-color-background-on--disabled);
@@ -1970,12 +2123,22 @@ html[data-whatinput=keyboard] .dnb-checkbox__focus {
 .dnb-checkbox__input[disabled]:checked ~ .dnb-checkbox__gfx, .dnb-checkbox__input[disabled][data-checked=true] ~ .dnb-checkbox__gfx {
   color: var(--checkbox-color-gfx--disabled);
 }
+@media (forced-colors: active) {
+  .dnb-checkbox__input[disabled]:checked ~ .dnb-checkbox__gfx, .dnb-checkbox__input[disabled][data-checked=true] ~ .dnb-checkbox__gfx {
+    color: GrayText;
+  }
+}
 .dnb-checkbox__input[disabled]:not(:checked):not([data-checked=true]) ~ .dnb-checkbox__button {
   --checkbox-color-border: var(--checkbox-color-border-off--disabled);
   background-color: var(--checkbox-color-background-off--disabled);
 }
 .dnb-checkbox__input[disabled]:indeterminate ~ .dnb-checkbox__indeterminate {
   background-color: var(--checkbox-color-gfx__indeterminate--disabled);
+}
+@media (forced-colors: active) {
+  .dnb-checkbox__input[disabled]:indeterminate ~ .dnb-checkbox__indeterminate {
+    background-color: GrayText !important;
+  }
 }
 .dnb-checkbox__input[disabled]:indeterminate ~ .dnb-checkbox__button {
   background-color: var(--checkbox-color-background__indeterminate--disabled);
@@ -2184,6 +2347,11 @@ html[data-whatinput=keyboard] .dnb-checkbox__input:not([disabled]):focus ~ .dnb-
   height: calc(var(--radio-height--medium) - 0.25rem);
   border-radius: var(--token-radius-full);
 }
+@media (forced-colors: active) {
+  .dnb-radio__button {
+    outline: var(--radio-border-width, var(--radio-border-width--default)) solid transparent;
+  }
+}
 .dnb-radio--large .dnb-radio__button {
   width: var(--radio-width--large);
   height: var(--radio-height--large);
@@ -2346,6 +2514,11 @@ html[data-whatinput=keyboard] .dnb-checkbox__input:not([disabled]):focus ~ .dnb-
   opacity: 1;
   transform: scale(1);
 }
+@media (forced-colors: active) {
+  .dnb-radio__input:checked ~ .dnb-radio__dot, .dnb-radio__input[data-checked=true] ~ .dnb-radio__dot {
+    background-color: CanvasText;
+  }
+}
 .dnb-radio__input:not(:checked):not([data-checked=true]) ~ .dnb-radio__dot {
   opacity: 0;
   transform: scale(0.8);
@@ -2396,6 +2569,11 @@ html[data-whatinput=keyboard] .dnb-radio__input:focus ~ .dnb-radio__button {
   --radio-color-border: var(--radio-color-border--focus);
   --radio-color-background: var(--radio-color-background--focus);
 }
+@media (forced-colors: active) {
+  html[data-whatinput=keyboard] .dnb-radio__input:focus ~ .dnb-radio__button {
+    outline: var(--focus-ring-width) solid transparent;
+  }
+}
 html[data-whatinput=keyboard] .dnb-radio__input:focus ~ .dnb-radio__dot {
   --radio-color-dot-on: var(--radio-color-dot-on--focus);
 }
@@ -2408,8 +2586,18 @@ html[data-whatinput=keyboard] .dnb-radio__input:focus ~ .dnb-radio__dot {
 .dnb-radio__input[disabled] ~ .dnb-radio__button:not(.dnb-skeleton) {
   --radio-color-background: var(--radio-color-background--disabled);
 }
+@media (forced-colors: active) {
+  .dnb-radio__input[disabled] ~ .dnb-radio__button {
+    outline-color: GrayText;
+  }
+}
 .dnb-radio__input[disabled] ~ .dnb-radio__dot {
   --radio-color-dot-on: var(--radio-color-dot-on--disabled);
+}
+@media (forced-colors: active) {
+  .dnb-radio__input[disabled] ~ .dnb-radio__dot {
+    background-color: GrayText;
+  }
 }
 .dnb-radio__input[disabled] ~ .dnb-radio__button.dnb-skeleton {
   --radio-color-border: var(--skeleton-color);
@@ -2638,6 +2826,32 @@ html:not([data-whatinput=touch]) .dnb-toggle-button__button:focus-visible:not([d
   --button-color-text--active: var(--token-color-text-selected);
   --button-color-text--focus: var(--button-color-text--default);
 }
+@media (forced-colors: active) {
+  .dnb-toggle-button--checked .dnb-toggle-button__button:not(:has(.dnb-checkbox, .dnb-radio)) {
+    background-color: Highlight;
+    color: HighlightText;
+    outline-color: Highlight;
+  }
+  .dnb-toggle-button--checked .dnb-toggle-button__button:not(:has(.dnb-checkbox, .dnb-radio)) .dnb-button__icon {
+    color: HighlightText;
+  }
+  .dnb-toggle-button--checked .dnb-toggle-button__button:not(:has(.dnb-checkbox, .dnb-radio)) .dnb-button__text {
+    forced-color-adjust: none;
+  }
+  .dnb-toggle-button--checked .dnb-toggle-button__button:not(:has(.dnb-checkbox, .dnb-radio))[disabled] {
+    background-color: GrayText;
+    color: Canvas;
+    outline-color: GrayText;
+  }
+  .dnb-toggle-button--checked .dnb-toggle-button__button:not(:has(.dnb-checkbox, .dnb-radio))[disabled] .dnb-button__icon {
+    color: Canvas;
+  }
+}
+@media (forced-colors: active) {
+  html:not([data-whatinput=touch]) .dnb-toggle-button--checked .dnb-toggle-button__button:not(:has(.dnb-checkbox, .dnb-radio)):focus-visible:not([disabled]) {
+    outline-color: CanvasText;
+  }
+}
 .dnb-toggle-button__status--error .dnb-toggle-button__button {
   --button-color-bg--default: var(--token-color-background-neutral);
   --button-color-border--default: var(
@@ -2783,6 +2997,11 @@ html[data-whatinput=keyboard] .dnb-date-picker__container table.dnb-no-focus:foc
   --border-width: var(--focus-ring-width);
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
+}
+@media (forced-colors: active) {
+  html[data-whatinput=keyboard] .dnb-date-picker__container table.dnb-no-focus:focus {
+    outline: var(--focus-ring-width) solid transparent;
+  }
 }
 .dnb-date-picker__container table th {
   font-size: var(--font-size-medium);
@@ -3040,8 +3259,16 @@ html[data-whatinput=keyboard] .dnb-date-picker__container table.dnb-no-focus:foc
   border-radius: 50%;
   background-color: currentcolor;
 }
-.dnb-date-picker__day--preview .dnb-button, .dnb-date-picker__day--inactive .dnb-button, .dnb-date-picker__day--outside-month .dnb-button, .dnb-date-picker__day--within-selection:not(.dnb-date-picker__day--start-date):not(.dnb-date-picker__day--end-date) .dnb-button:not(:hover):not(:focus-visible) {
+.dnb-date-picker__day--preview .dnb-button, .dnb-date-picker__day--inactive .dnb-button, .dnb-date-picker__day--outside-month .dnb-button {
   background-color: transparent;
+}
+.dnb-date-picker__day--within-selection:not(.dnb-date-picker__day--start-date):not(.dnb-date-picker__day--end-date) .dnb-button:not(:hover):not(:focus-visible) {
+  background-color: transparent;
+}
+@supports not (selector(:focus-visible)) {
+  .dnb-date-picker__day--within-selection:not(.dnb-date-picker__day--start-date):not(.dnb-date-picker__day--end-date) .dnb-button:not(:hover) {
+    background-color: transparent;
+  }
 }
 .dnb-date-picker__day--preview:not(.dnb-date-picker__day--inactive):not(.dnb-date-picker__day--outside-month):not(.dnb-date-picker__day--start-date):not(.dnb-date-picker__day--end-date), .dnb-date-picker__day--within-selection:not(.dnb-date-picker__day--inactive):not(.dnb-date-picker__day--outside-month):not(.dnb-date-picker__day--start-date):not(.dnb-date-picker__day--end-date) {
   background-color: var(--token-color-background-action-hover-subtle);
@@ -3100,8 +3327,18 @@ html:not([data-whatintent=touch]) .dnb-date-picker__day--inactive .dnb-button[di
 .dnb-date-picker__header__nav .dnb-button:not(:hover):not(:focus-visible) {
   box-shadow: none;
 }
+@supports not (selector(:focus-visible)) {
+  .dnb-date-picker__header__nav .dnb-button:not(:hover) {
+    box-shadow: none;
+  }
+}
 .dnb-date-picker__header__nav .dnb-button:hover:not(:active):not(:focus-visible) {
   background-color: var(--token-color-background-neutral);
+}
+@supports not (selector(:focus-visible)) {
+  .dnb-date-picker__header__nav .dnb-button:hover:not(:active) {
+    background-color: var(--token-color-background-neutral);
+  }
 }
 .dnb-date-picker .rtl {
   direction: rtl;

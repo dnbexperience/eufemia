@@ -29,6 +29,33 @@ exports[`SkipContent > scss has to match snapshot 1`] = `
   width: 1em;
   height: 1em;
 }
+.dnb-icon__cdn {
+  display: inline-block;
+  vertical-align: top;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  print-color-adjust: exact;
+}
+.dnb-icon__cdn--mask {
+  background-color: currentcolor;
+  mask-position: center;
+  mask-repeat: no-repeat;
+  mask-size: contain;
+  mask-mode: alpha;
+  /* Safari 14.1 requires prefixed mask properties. */
+  /* stylelint-disable property-no-vendor-prefix */
+  -webkit-mask-position: center;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-size: contain;
+  /* stylelint-enable property-no-vendor-prefix */
+}
+@media (forced-colors: active) {
+  .dnb-icon__cdn--mask {
+    background-color: CanvasText;
+    forced-color-adjust: none;
+  }
+}
 .dnb-icon img, :where(.dnb-core-style) .dnb-icon img,
 .dnb-icon svg,
 :where(.dnb-core-style) .dnb-icon svg {
@@ -226,6 +253,41 @@ html[data-dnb-modal-active] .dnb-tooltip--hide {
  * FormStatus component
  *
  */
+/*
+ * Colors of the FormStatus icons
+ *
+ */
+.dnb-form-status-icon-path--fill {
+  fill: var(--form-status-icon-color);
+}
+.dnb-form-status-icon-path--stroke {
+  stroke: var(--form-status-icon-color);
+}
+.dnb-form-status-icon-path--error {
+  --form-status-icon-color: var(--token-color-background-error);
+}
+.dnb-form-status-icon-path--error-mark {
+  --form-status-icon-color: var(--token-color-icon-neutral-ondark);
+}
+.dnb-form-status-icon-path--warning {
+  --form-status-icon-color: var(--token-color-icon-warning);
+}
+.dnb-form-status-icon-path--warning-mark {
+  --form-status-icon-color: var(--token-color-icon-neutral-static);
+}
+.dnb-form-status-icon-path--information {
+  --form-status-icon-color: var(--token-color-icon-info);
+}
+.dnb-form-status-icon-path--information-mark, .dnb-form-status-icon-path--success-mark {
+  --form-status-icon-color: var(--token-color-icon-neutral-inverse);
+}
+.dnb-form-status-icon-path--success {
+  --form-status-icon-color: var(--token-color-background-positive);
+}
+.dnb-form-status-icon-path--marketing {
+  --form-status-icon-color: var(--token-color-icon-marketing);
+}
+
 .dnb-form-status {
   --form-status-radius: var(--token-radius-xl);
   display: flex;
@@ -259,6 +321,12 @@ html[data-dnb-modal-active] .dnb-tooltip--hide {
   );
   --form-status-color-icon: var(--token-color-icon-info);
 }
+.dnb-form-status--success .dnb-form-status__shell {
+  --form-status-color-background: var(
+    --token-color-background-positive-subtle
+  );
+  --form-status-color-icon: var(--token-color-icon-positive);
+}
 .dnb-form-status--marketing .dnb-form-status__shell {
   --form-status-color-background: var(
     --token-color-background-marketing-subtle
@@ -279,6 +347,9 @@ html[data-dnb-modal-active] .dnb-tooltip--hide {
 }
 .dnb-form-status__variant--outlined.dnb-form-status--information .dnb-form-status__shell {
   --form-status-color-outline: var(--token-color-stroke-info);
+}
+.dnb-form-status__variant--outlined.dnb-form-status--success .dnb-form-status__shell {
+  --form-status-color-outline: var(--token-color-stroke-positive);
 }
 .dnb-form-status__variant--outlined.dnb-form-status--marketing .dnb-form-status__shell {
   --form-status-color-outline: var(--token-color-stroke-marketing);
@@ -576,6 +647,16 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disable
   );
   outline: none;
 }
+@media (forced-colors: active) {
+  html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disabled]), html:not([data-whatinput=touch]) .dnb-button--secondary:focus-visible:not([disabled]), html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible:not([disabled]) {
+    outline: var(--focus-ring-width) solid transparent;
+  }
+}
+@media (forced-colors: active) {
+  html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disabled]), html:not([data-whatinput=touch]) .dnb-button--secondary:focus-visible:not([disabled]), html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible:not([disabled]) {
+    outline-offset: 0;
+  }
+}
 .dnb-button--primary[disabled], .dnb-button--secondary[disabled], .dnb-button--tertiary[disabled] {
   --button-color-bg: var(--button-color-bg--disabled);
   --button-color-border: var(--button-color-border--disabled);
@@ -590,6 +671,12 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disable
   --border-width: var(--button-border-width, var(--button-border-width--default));
   box-shadow: var(--button-border-inset, var(--button-border-inset--default)) 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
+}
+@media (forced-colors: active) {
+  .dnb-button--primary, .dnb-button--secondary {
+    outline: var(--button-border-width, var(--button-border-width--default)) solid transparent;
+    outline-offset: calc(var(--button-border-width, var(--button-border-width--default)) * -1);
+  }
 }
 .dnb-button--primary {
   --button-color-bg--default: var(
@@ -897,6 +984,21 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disable
   --button-border-width--default: 0.125rem;
   --button-border-inset--default: ;
 }
+@media (forced-colors: active) {
+  .dnb-button--icon-only.dnb-button--selected {
+    background-color: Highlight;
+    color: HighlightText;
+    outline-color: Highlight;
+  }
+  .dnb-button--icon-only.dnb-button--selected .dnb-button__icon {
+    color: HighlightText;
+  }
+}
+@media (forced-colors: active) {
+  html:not([data-whatinput=touch]) .dnb-button--icon-only.dnb-button--selected:focus-visible:not([disabled]) {
+    outline-color: CanvasText;
+  }
+}
 .dnb-button--icon-only.dnb-button--input-button {
   --button-color-bg--default: transparent;
   --button-color-bg--hover: var(--token-color-background-action);
@@ -984,10 +1086,8 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disable
   text-align: left;
   font-size: var(--font-size-small);
   font-weight: var(--font-weight-regular);
-  text-decoration: none;
-}
-.dnb-button, .dnb-core-style .dnb-button {
   line-height: var(--button-height);
+  text-decoration: none;
 }
 .dnb-button__text {
   margin: 0.5rem 0;
@@ -995,9 +1095,6 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disable
   line-height: var(--line-height-basis);
   color: inherit;
   transform: translateY(-0.03125rem);
-}
-.dnb-button__text [data-os=linux] {
-  transform: translateY(-0.035rem);
 }
 .dnb-button__alignment {
   display: inline-block;
@@ -1136,6 +1233,17 @@ html:not([data-whatintent=touch]) .dnb-button--secondary:not(.dnb-button--has-te
 .dnb-button[disabled] {
   cursor: not-allowed;
   outline: none;
+}
+@media (forced-colors: active) {
+  .dnb-button--primary[disabled], .dnb-button--secondary[disabled] {
+    outline: var(--button-border-width, var(--button-border-width--default)) solid transparent;
+    outline-offset: calc(var(--button-border-width, var(--button-border-width--default)) * -1);
+  }
+}
+@media (forced-colors: active) {
+  .dnb-button--primary[disabled], .dnb-button--secondary[disabled] {
+    outline-color: GrayText;
+  }
 }
 
 /* Firefox includes a hidden border which messes up button dimensions */
@@ -1318,9 +1426,13 @@ button.dnb-button::-moz-focus-inner {
   --text-color: var(--token-color-text-neutral);
   --background-color: var(--token-color-background-error-subtle);
 }
-.dnb-section--information, .dnb-section--success {
+.dnb-section--information {
   --text-color: var(--token-color-text-neutral);
   --background-color: var(--token-color-background-info-subtle);
+}
+.dnb-section--success {
+  --text-color: var(--token-color-text-neutral);
+  --background-color: var(--token-color-background-positive-subtle);
 }
 .dnb-section--warning {
   --text-color: var(--token-color-text-neutral);
@@ -1355,6 +1467,11 @@ html[data-whatinput=keyboard] .dnb-skip-content__focus:focus::before {
   --border-width: var(--focus-ring-width);
   box-shadow: 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
+}
+@media (forced-colors: active) {
+  html[data-whatinput=keyboard] .dnb-skip-content__focus:focus::before {
+    outline: var(--focus-ring-width) solid transparent;
+  }
 }
 .dnb-skip-content__return:not(.dnb-skip-content__return--active) button.dnb-sr-only {
   display: none;

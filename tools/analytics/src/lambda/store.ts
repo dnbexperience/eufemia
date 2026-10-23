@@ -1,4 +1,5 @@
 import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3'
+import type { McpUsageTransport } from 'eufemia-usage-ingest'
 import { randomUUID } from 'node:crypto'
 import {
   buildPortalViewRecord,
@@ -7,20 +8,10 @@ import {
 import {
   buildMcpUsageRecord,
   type McpUsageInput,
-  type McpUsageTransport,
 } from '../records/mcp-usage.js'
+import { requireEnv } from './env.js'
 
 const s3 = new S3Client({})
-
-function dataBucket(): string {
-  const bucket = process.env.DATA_BUCKET
-
-  if (!bucket) {
-    throw new Error('DATA_BUCKET environment variable is not set')
-  }
-
-  return bucket
-}
 
 /**
  * Write a batch as newline-delimited JSON (one record per line) under the
@@ -45,7 +36,7 @@ async function putBatch<T>(
 
   await s3.send(
     new PutObjectCommand({
-      Bucket: dataBucket(),
+      Bucket: requireEnv('DATA_BUCKET'),
       Key: key,
       Body: body,
       ContentType: 'application/x-ndjson',

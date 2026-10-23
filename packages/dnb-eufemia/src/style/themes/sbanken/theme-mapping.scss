@@ -5,9 +5,12 @@
 
 // WIP: Remove this import as soon as we have a mapping for all existing properties
 @use '../ui/properties.scss';
+@use './typography-properties.scss';
 
 .eufemia-theme__sbanken,
 :root {
+  --font-size-basis-native: 1rem;
+
   // font-family
   --font-family-default: var(--sb-font-family-default);
   --font-family-heading: var(--sb-font-family-heading);

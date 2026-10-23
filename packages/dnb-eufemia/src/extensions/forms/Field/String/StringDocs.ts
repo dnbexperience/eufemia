@@ -62,7 +62,7 @@ export const StringProperties: PropertiesTableProps = {
     status: 'optional',
   },
   width: {
-    doc: '`false` for no width (use browser default), `small`, `medium` or `large` for predefined standard widths, `stretch` to fill available width.',
+    doc: '`false` for no width (use browser default), `small`, `medium` or `large` for predefined standard widths, `stretch` to fill available width. You can also set a custom width `{number}rem`.',
     type: ['string', 'false'],
     status: 'optional',
   },
@@ -118,6 +118,14 @@ export const StringProperties: PropertiesTableProps = {
   submitElement: {
     doc: 'Accepts a React element which will show up where the "submit button" would do.',
     type: 'React.Element',
+    status: 'optional',
+  },
+}
+
+export const StringEvents: PropertiesTableProps = {
+  onKeyDown: {
+    doc: 'Will be called when a key is pressed while the input has focus. Call `event.preventDefault()` to keep the key from being typed, e.g. to set the value with a keyboard shortcut. Check `event.metaKey` and `event.ctrlKey` to leave browser shortcuts alone.',
+    type: '(event: React.KeyboardEvent<HTMLInputElement>) => void',
     status: 'optional',
   },
 }

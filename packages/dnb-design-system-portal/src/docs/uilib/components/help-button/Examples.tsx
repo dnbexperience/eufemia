@@ -25,6 +25,8 @@ export const HelpButtonDefaultExample = () => (
 export const HelpButtonSuffixExample = () => (
   <ComponentBox data-visual-test="help-button-suffix">
     <Input
+      label="Label"
+      labelSrOnly
       size={10}
       placeholder="Input ..."
       suffix={<HelpButton title="Custom title">Text</HelpButton>}

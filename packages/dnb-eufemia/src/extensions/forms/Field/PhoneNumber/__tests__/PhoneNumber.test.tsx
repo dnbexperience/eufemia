@@ -1438,7 +1438,7 @@ describe('Field.PhoneNumber', { retry: isCI ? 5 : 0 }, () => {
       (attr) => attr.name
     )
 
-    expect(attributes).toEqual(['class', 'aria-labelledby', 'id'])
+    expect(attributes).toEqual(['class', 'id'])
     expect(element).toHaveClass(
       'dnb-space dnb-space__top--large dnb-forms-field-block dnb-forms-field-phone-number dnb-forms-field-block__composition dnb-forms-field-block__composition--horizontal dnb-forms-field-block--width-stretch dnb-forms-field-block--content-width-stretch',
       { exact: true }

@@ -25,8 +25,8 @@ export const HeadingProperties: PropertiesTableProps = {
     status: 'optional',
   },
   level: {
-    doc: 'Overwrite the automated level handling to use a specific value to ensure correct level hierarchy.',
-    type: ['"1"', '"2"', '"3"', '"4"', '"5"', '"6"'],
+    doc: 'Overwrite the automated level handling to use a specific value to ensure correct level hierarchy. Accepts `1` to `6` as a string or number.',
+    type: ['"1"', '"2"', '"3"', '"4"', '"5"', '"6"', 'number'],
     status: 'optional',
   },
   increase: {
@@ -36,6 +36,16 @@ export const HeadingProperties: PropertiesTableProps = {
   },
   decrease: {
     doc: 'If set to `true`, the heading level will be decremented by 1.',
+    type: 'boolean',
+    status: 'optional',
+  },
+  up: {
+    doc: 'Same as `increase`.',
+    type: 'boolean',
+    status: 'optional',
+  },
+  down: {
+    doc: 'Same as `decrease`.',
     type: 'boolean',
     status: 'optional',
   },

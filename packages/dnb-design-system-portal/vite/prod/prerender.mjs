@@ -24,6 +24,10 @@ import { fileURLToPath } from 'node:url'
 import { Worker } from 'node:worker_threads'
 import { collectMarkdownPaths, getMdPath } from './md-paths.mts'
 import { escapeHtml } from './html-escape.mts'
+import {
+  createCanonicalUrls,
+  createPortalSitemap,
+} from './portal-sitemap.mts'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const viteRoot = path.resolve(__dirname, '..')
@@ -86,9 +90,8 @@ async function prerender() {
   // Load the SSR module for metadata only (routes, allMdxNodes, etc.).
   // Actual rendering is done in worker threads for parallelism.
   const serverEntry = path.resolve(outDir, 'server', 'entry-server.mjs')
-  const { routes, getContentScript, allMdxNodes } = await import(
-    serverEntry
-  )
+  const { routes, getContentScript, getSidebarMenuScript, allMdxNodes } =
+    await import(serverEntry)
 
   // Read the client HTML template
   const templatePath = path.resolve(outDir, 'index.html')
@@ -110,6 +113,7 @@ async function prerender() {
     : null
 
   const contentScript = getContentScript()
+  const sidebarMenuScript = getSidebarMenuScript()
   let urls = collectUrls(routes)
   console.log(`  ${urls.length} pages to prerender`)
 
@@ -136,6 +140,7 @@ async function prerender() {
 
   let rendered = 0
   let errors = 0
+  const renderedUrls = []
 
   // Render pages in parallel using worker threads.
   // renderToString is synchronous/CPU-bound, so worker threads
@@ -177,9 +182,11 @@ async function prerender() {
         contentScript,
         result.emotionCss,
         { url, title: meta.title, description: meta.description, mdPath },
-        themeCssPaths
+        themeCssPaths,
+        sidebarMenuScript
       )
       writeHtml(url, html)
+      renderedUrls.push(url)
     }
 
     rendered++
@@ -195,7 +202,10 @@ async function prerender() {
         result404.value.html,
         { js: [], css: [] },
         contentScript,
-        result404.value.emotionCss
+        result404.value.emotionCss,
+        { url: '/404/', title: 'Page not found' },
+        undefined,
+        sidebarMenuScript
       )
     )
   }
@@ -223,6 +233,16 @@ async function prerender() {
   fs.cpSync(fontsSource, fontsDest, { recursive: true })
   console.log(`\n✓ Copied fonts to ${fontsDest}`)
 
+  if (process.env.IS_E2E !== '1' && process.env.IS_VISUAL_TEST !== '1') {
+    const canonicalUrls = createCanonicalUrls(allMdxNodes)
+    const sitemap = createPortalSitemap(renderedUrls, canonicalUrls)
+
+    writeJson(path.resolve(outDir, 'sitemap.json'), sitemap)
+    console.log(
+      `✓ Generated sitemap for ${sitemap.pages.length} canonical pages`
+    )
+  }
+
   /**
    * Write HTML to the correct path in the output directory.
    */
@@ -231,6 +251,10 @@ async function prerender() {
     const dir = path.dirname(filePath)
     fs.mkdirSync(dir, { recursive: true })
     fs.writeFileSync(filePath, html)
+  }
+
+  function writeJson(filePath, value) {
+    fs.writeFileSync(filePath, `${JSON.stringify(value, null, 2)}\n`)
   }
 }
 
@@ -292,7 +316,7 @@ function getPageMeta(url, allMdxNodes) {
     return { title: '', description: '' }
   }
 
-  let title = node.frontmatter.title || ''
+  let title = node.frontmatter.title || node.frontmatter.contentTitle || ''
   let description = node.frontmatter.description || ''
 
   if (!title) {
@@ -305,7 +329,7 @@ function getPageMeta(url, allMdxNodes) {
       // For tab pages (showTabs but no own title), construct
       // "ParentTitle → TabTitle" to match the client-side title.
       if (node.frontmatter.showTabs) {
-        const tabKey = '/' + slug.split('/').pop()
+        const tabKey = slug.split('/').pop()
         const defaultTabs = [
           { title: 'Info', key: '/info' },
           { title: 'Demos', key: '/demos' },
@@ -313,7 +337,10 @@ function getPageMeta(url, allMdxNodes) {
           { title: 'Events', key: '/events' },
         ]
         const tabs = parent.frontmatter.tabs || defaultTabs
-        const tab = tabs.find((t) => t.key === tabKey)
+        // Keys can be relative (`/demos`) or full paths, like TabBar accepts
+        const tab = tabs.find(
+          (t) => t.key.split('/').filter(Boolean).pop() === tabKey
+        )
 
         if (tab?.title) {
           title = `${parent.frontmatter.title} → ${tab.title}`
@@ -421,7 +448,8 @@ function injectHtml(
   contentScript,
   emotionCss,
   meta,
-  themeCssPaths
+  themeCssPaths,
+  sidebarMenuScript = ''
 ) {
   // React 19 injects <link rel="preload"> elements inline during
   // renderToString for resources like images. Strip them from the app
@@ -442,32 +470,20 @@ function injectHtml(
     ''
   )
 
-  // React's renderToString serializes CSS custom properties in inline
-  // styles without spaces (e.g. "--var:value") while the browser
-  // normalizes them with spaces ("--var: value;"). This causes
-  // hydration mismatches. Normalize the format to match the browser.
-  appHtml = appHtml.replace(/style="([^"]*)"/g, (_match, styleContent) => {
-    const normalized = styleContent
-      .split(';')
-      .filter(Boolean)
-      .map((decl) => {
-        const colonIdx = decl.indexOf(':')
-        if (colonIdx === -1) return decl
-        const prop = decl.slice(0, colonIdx).trim()
-        const value = decl.slice(colonIdx + 1).trim()
-        return `${prop}: ${value}`
-      })
-      .join('; ')
-    return normalized ? `style="${normalized};"` : 'style=""'
-  })
-
   // Restore sidebar scroll position before first paint.
   const scrollRestoreScript = `(function(){try{var el=document.getElementById('portal-sidebar-menu');if(el){var s=parseFloat(sessionStorage.getItem('scroll-#portal-sidebar-menu')||'0');if(s){el.style.scrollBehavior='auto';el.scrollTop=s;el.style.scrollBehavior=''}}}catch(e){}})()`
+
+  const persistedSidebarScript =
+    /data-(?:inline-collapsed|open-items|scroll-position)-storage-key=/.test(
+      appHtml
+    )
+      ? sidebarMenuScript
+      : ''
 
   let html = template.replace(
     '<div id="root"></div>',
     () =>
-      `<div id="root">${appHtml}</div>\n\t<script>${contentScript};${scrollRestoreScript}</script>`
+      `<div id="root">${appHtml}</div>\n\t<script>${contentScript};${scrollRestoreScript};${persistedSidebarScript}</script>`
   )
 
   // Inject <link> tags for ALL brand theme CSS chunks.

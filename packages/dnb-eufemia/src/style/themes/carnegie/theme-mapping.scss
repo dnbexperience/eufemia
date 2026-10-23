@@ -5,9 +5,12 @@
 
 // WIP: Remove this import as soon as we have a mapping for all existing properties
 @use '../ui/properties.scss';
+@use './typography-properties.scss';
 
 .eufemia-theme__carnegie,
 :root {
+  --font-size-basis-native: var(--font-size-basis-web);
+
   // Ensure Carnegie headings use ArizonaFlare, even after UI variables are imported
   --font-family-heading: var(--ca-font-family-heading);
 

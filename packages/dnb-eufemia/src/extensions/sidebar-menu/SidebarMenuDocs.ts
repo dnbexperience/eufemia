@@ -1,6 +1,11 @@
 import type { PropertiesTableProps } from '../../shared/types'
 
 export const SidebarMenuRootProperties: PropertiesTableProps = {
+  controllerId: {
+    doc: 'Named controller shared with other applications in the same window.',
+    type: 'string',
+    status: 'optional',
+  },
   children: {
     doc: 'Declarative menu content composed with SidebarMenu.Item, SidebarMenu.Accordion, SidebarMenu.Group, SidebarMenu.Section, SidebarMenu.Header, and SidebarMenu.Divider.',
     type: 'React.ReactNode',
@@ -84,6 +89,11 @@ export const SidebarMenuRootProperties: PropertiesTableProps = {
 }
 
 export const SidebarMenuDataProperties: PropertiesTableProps = {
+  controllerId: {
+    doc: 'Named content controller shared with other applications in the same window.',
+    type: 'string',
+    status: 'optional',
+  },
   data: {
     doc: 'Recursive items used to render a menu from data.',
     type: 'Array<SidebarMenuItemData>',
@@ -183,10 +193,36 @@ export const SidebarMenuResizeHandleEvents: PropertiesTableProps = {
 
 export const SidebarMenuResponsiveProviderProperties: PropertiesTableProps =
   {
-    breakpoint: {
-      doc: 'Maximum viewport width at which the mobile navigation is used. Use an Eufemia breakpoint name or an explicit em value.',
-      type: ['MediaQuerySizes', '`${number}em`'],
+    controllerId: {
+      doc: 'Named controller shared with other applications in the same window.',
+      type: 'string',
+      status: 'optional',
+    },
+    scopeId: {
+      doc: 'Unique scope for generated first-paint CSS and Toggle buttons outside this provider. Give Toggle the same scopeId to connect it. Set this when server and client render under different surrounding trees.',
+      type: 'string',
+      status: 'optional',
+    },
+    drawerAt: {
+      doc: 'Maximum viewport width at which the Drawer is used. Above it, the inline navigation is shown. Use an Eufemia breakpoint name, or an em or rem value.',
+      type: ['MediaQuerySizes', '`${number}em`', '`${number}rem`'],
       defaultValue: '"medium"',
+      status: 'optional',
+    },
+    breakpoint: {
+      doc: 'Deprecated. Use `drawerAt` instead.',
+      type: ['MediaQuerySizes', '`${number}em`', '`${number}rem`'],
+      status: 'deprecated',
+    },
+    compactAt: {
+      doc: 'Maximum viewport width at which the inline menu becomes an icon rail that expands over adjacent content on hover or with its toggle button. Use an Eufemia breakpoint name, or an em or rem value.',
+      type: ['MediaQuerySizes', '`${number}em`', '`${number}rem`'],
+      status: 'optional',
+    },
+    compactOffset: {
+      doc: 'Additional viewport width added to the compactAt threshold.',
+      type: ['`${number}em`', '`${number}rem`'],
+      defaultValue: '"0em"',
       status: 'optional',
     },
     styleNonce: {
@@ -206,17 +242,120 @@ export const SidebarMenuResponsiveProviderProperties: PropertiesTableProps =
       status: 'optional',
     },
     inlineCollapsed: {
-      doc: 'Controlled desktop inline navigation state.',
+      doc: 'Controlled collapsed state of the inline navigation.',
       type: 'boolean',
       status: 'optional',
     },
     defaultInlineCollapsed: {
-      doc: 'Initial uncontrolled desktop inline navigation state.',
+      doc: 'Initial uncontrolled collapsed state of the inline navigation.',
       type: 'boolean',
       defaultValue: 'false',
       status: 'optional',
     },
+    inlineCollapsedStorageKey: {
+      doc: "Storage key used to remember inline dismissal across navigation and reloads. A stored boolean takes precedence over defaultInlineCollapsed. Controlled inlineCollapsed does not read or write storage. Compact hover expansion and the Drawer's open state are not persisted.",
+      type: 'string',
+      status: 'optional',
+    },
+    inlineCollapsedStorage: {
+      doc: 'Storage used with inlineCollapsedStorageKey. Use local when the choice should survive browser restarts.',
+      type: ['"session"', '"local"'],
+      defaultValue: '"session"',
+      status: 'optional',
+    },
   }
+
+export const SidebarMenuResponsiveInlineProperties: PropertiesTableProps =
+  {
+    showToggle: {
+      doc: 'Adds the full-width embedded toggle and sidebar surface. Keep an external Toggle or ResponsiveTrigger available to restore dismissed navigation. Without compactAt or showToggle, children render directly with display: contents. Compact mode retains its toggle independently.',
+      type: 'boolean',
+      defaultValue: 'false',
+      status: 'optional',
+    },
+    expandedWidth: {
+      doc: 'Width of the full inline menu.',
+      type: 'CSSProperties["width"]',
+      defaultValue: '"18rem"',
+      status: 'optional',
+    },
+    compactWidth: {
+      doc: 'Width reserved while the inline menu is compact. Values below 4rem use the 4rem minimum.',
+      type: 'CSSProperties["width"]',
+      defaultValue: '"4rem"',
+      status: 'optional',
+    },
+    '[HTML attributes]': {
+      doc: 'Supports HTML attributes for the responsive inline wrapper.',
+      type: 'Various',
+      status: 'optional',
+    },
+  }
+
+export const SidebarMenuResponsiveAsideProperties: PropertiesTableProps = {
+  showToggle: {
+    doc: 'Shows the embedded full-width toggle. Keep an external Toggle or ResponsiveTrigger available to restore dismissed navigation. Compact mode retains its toggle independently.',
+    type: 'boolean',
+    defaultValue: 'true',
+    status: 'optional',
+  },
+  id: {
+    doc: 'Id used by ResponsiveTrigger inlineControls and the resize divider. Generated when omitted.',
+    type: 'string',
+    status: 'optional',
+  },
+  expandedWidth: {
+    doc: 'Width of the full inline sidebar.',
+    type: 'CSSProperties["width"]',
+    defaultValue: '"18rem"',
+    status: 'optional',
+  },
+  compactWidth: {
+    doc: 'Width reserved while the inline sidebar is compact. Values below 4rem use the 4rem minimum.',
+    type: 'CSSProperties["width"]',
+    defaultValue: '"4rem"',
+    status: 'optional',
+  },
+  resizable: {
+    doc: 'Enables ResizeHandle for the full inline sidebar. Below minWidth, the content retains that minimum width and ScrollView provides horizontal overflow instead of rewrapping labels. Dragging past the collapse threshold dismisses the sidebar.',
+    type: 'boolean',
+    defaultValue: 'false',
+    status: 'optional',
+  },
+  scrollViewProps: {
+    doc: 'Properties forwarded to the internal ScrollView.',
+    type: 'ScrollViewAllProps',
+    status: 'optional',
+  },
+  contentProps: {
+    doc: 'Properties forwarded to the content wrapper inside ScrollView.',
+    type: 'HTMLAttributes<HTMLDivElement>',
+    status: 'optional',
+  },
+  resizeHandleProps: {
+    doc: 'Properties forwarded to ResizeHandle except targetRef, scopeSelector, and cssProperty.',
+    type: 'SidebarMenuResizeHandleProps',
+    status: 'optional',
+  },
+  onWidthChange: {
+    doc: 'Called when the width reserved by the inline sidebar changes.',
+    type: '(width: number) => void',
+    status: 'optional',
+  },
+  '[HTML attributes]': {
+    doc: 'Supports HTML attributes for the aside element.',
+    type: 'Various',
+    status: 'optional',
+  },
+}
+
+export const SidebarMenuResponsiveShellProperties: PropertiesTableProps = {
+  '[HTML attributes]': {
+    doc: 'Supports HTML attributes for the responsive two-column layout wrapper. The style property can override its grid defaults.',
+    type: 'Various',
+    status: 'optional',
+  },
+}
 
 export const SidebarMenuResponsiveProviderEvents: PropertiesTableProps = {
   onOpenChange: {
@@ -225,8 +364,31 @@ export const SidebarMenuResponsiveProviderEvents: PropertiesTableProps = {
     status: 'optional',
   },
   onInlineCollapsedChange: {
-    doc: 'Called whenever the desktop inline navigation collapses or restores.',
+    doc: 'Called whenever the inline navigation collapses or restores.',
     type: '(collapsed: boolean) => void',
+    status: 'optional',
+  },
+}
+
+export const SidebarMenuToggleProperties: PropertiesTableProps = {
+  scopeId: {
+    doc: 'scopeId of the ResponsiveProvider to control. Allows the toggle to render outside the provider, including across separate React roots and independently bundled Eufemia copies in the same window. Without it, the surrounding provider is used. The toggle is disabled until its provider mounts, including during server rendering.',
+    type: 'string',
+    status: 'optional',
+  },
+  controls: {
+    doc: 'Overrides the `aria-controls` value used at or below `drawerAt`, which tells assistive technology which Drawer the toggle opens. It does not change which Drawer opens. Defaults to the `ResponsiveDrawer` id of the connected provider, so you rarely need it.',
+    type: 'string',
+    status: 'optional',
+  },
+  inlineControls: {
+    doc: 'Id of the inline navigation. Defaults to the ResponsiveAside id in the same provider. The embedded toggle controls its own inline content.',
+    type: 'string',
+    status: 'optional',
+  },
+  '[Button properties]': {
+    doc: 'Supports Button properties except aria-expanded, aria-haspopup, and aria-controls, which are managed automatically. The default icon is sidebar. Icon-only buttons use a localized accessible label. Calling event.preventDefault() in onClick cancels toggling. Place the toggle inside ResponsiveProvider or connect it using scopeId.',
+    type: 'Various',
     status: 'optional',
   },
 }
@@ -234,13 +396,12 @@ export const SidebarMenuResponsiveProviderEvents: PropertiesTableProps = {
 export const SidebarMenuResponsiveTriggerProperties: PropertiesTableProps =
   {
     controls: {
-      doc: 'Id of the responsive Drawer controlled by the trigger.',
+      doc: 'Overrides the `aria-controls` value used at or below `drawerAt`, which tells assistive technology which Drawer the trigger opens. It does not change which Drawer opens. Defaults to the `ResponsiveDrawer` id in the same provider, so you rarely need it.',
       type: 'string',
-      defaultValue: '"sidebar-menu-responsive-drawer"',
       status: 'optional',
     },
     inlineControls: {
-      doc: 'Id of the desktop inline navigation restored by the trigger.',
+      doc: 'Id of the inline navigation restored by the trigger. Defaults to the generated ResponsiveAside id in the same provider. Set it when ResponsiveAside uses a custom id.',
       type: 'string',
       status: 'optional',
     },
@@ -254,7 +415,7 @@ export const SidebarMenuResponsiveTriggerProperties: PropertiesTableProps =
 export const SidebarMenuResponsiveDrawerProperties: PropertiesTableProps =
   {
     id: {
-      doc: 'Id matched by ResponsiveTrigger controls.',
+      doc: 'Id of the Drawer. Toggle and ResponsiveTrigger reference it with `aria-controls` automatically.',
       type: 'string',
       defaultValue: '"sidebar-menu-responsive-drawer"',
       status: 'optional',
@@ -539,19 +700,18 @@ export const SidebarMenuGroupProperties: PropertiesTableProps = {
 
 export const SidebarMenuHeaderProperties: PropertiesTableProps = {
   text: {
-    doc: 'Header text.',
+    doc: 'Visible label for the grouped menu items. Required when children contains menu items.',
     type: 'React.ReactNode',
     status: 'optional',
   },
   children: {
-    doc: 'Alternative to text.',
+    doc: 'Menu items labelled by text, or the label itself when text is omitted.',
     type: 'React.ReactNode',
     status: 'optional',
   },
   headingLevel: {
-    doc: 'Semantic heading level.',
+    doc: 'Deprecated compatibility property with no effect. Header is a visual menu label.',
     type: 'number',
-    defaultValue: '2',
-    status: 'optional',
+    status: 'deprecated',
   },
 }

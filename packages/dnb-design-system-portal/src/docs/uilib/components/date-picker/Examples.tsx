@@ -9,6 +9,7 @@ import {
   isSameDay,
   startOfMonth,
   lastDayOfMonth,
+  subMonths,
   startOfWeek,
   lastDayOfWeek,
   isWeekend,
@@ -81,7 +82,7 @@ export const DatePickerWithInput = () => (
   <ComponentBox>
     <DatePicker
       label="DatePicker"
-      date={new Date()}
+      date="2019-05-05"
       showInput
       showCancelButton
       showResetButton
@@ -157,7 +158,7 @@ export const DatePickerStatusMessage = () => (
   <ComponentBox>
     <DatePicker
       label="DatePicker"
-      date={new Date()}
+      date="2019-05-05"
       showInput
       status="Please select a valid date"
       statusState="information"
@@ -169,7 +170,7 @@ export const DatePickerSuffix = () => (
   <ComponentBox>
     <DatePicker
       label="DatePicker"
-      date={new Date()}
+      date="2019-05-05"
       showInput
       suffix={<HelpButton title="Modal Title">Modal content</HelpButton>}
     />
@@ -213,7 +214,7 @@ export const DatePickerErrorStatus = () => (
   <ComponentBox>
     <DatePicker
       label="DatePicker"
-      date={new Date()}
+      date="2019-05-05"
       hideNavigation
       status="error"
     />
@@ -243,11 +244,12 @@ export const DatePickerDateFns = () => (
 
 export const DatePickerDateFnsRange = () => (
   <ComponentBox
-    scope={{ startOfMonth, lastDayOfMonth }}
+    scope={{ startOfMonth, lastDayOfMonth, subMonths }}
     hidePreview
     hideToolbar
   >
     <DatePicker
+      range
       shortcuts={[
         {
           title: 'Set date period',
@@ -259,6 +261,12 @@ export const DatePickerDateFnsRange = () => (
           title: 'This month',
           startDate: startOfMonth(new Date()),
           endDate: lastDayOfMonth(new Date()),
+        },
+        {
+          title: 'Today',
+          startDate: new Date(),
+          endDate: new Date(),
+          startMonth: subMonths(new Date(), 1), // shows last month in the first calendar
         },
       ]}
     />

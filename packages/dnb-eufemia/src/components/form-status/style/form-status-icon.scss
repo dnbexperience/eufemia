@@ -1,0 +1,49 @@
+/*
+ * Colors of the FormStatus icons
+ *
+ */
+
+// Colors of the status icons (ErrorIcon, WarnIcon, InfoIcon, SuccessIcon and
+// MarketingIcon). GlobalStatus and StepIndicator also use these icons, so their
+// stylesheets include this file too.
+// Set here instead of in inline styles, because a strict Content Security Policy
+// blocks inline styles in server-rendered HTML.
+// Each part only colors the paint it has as an attribute (the fallback color),
+// marked with the `--fill` and `--stroke` classes. Classes are used instead of
+// attribute selectors, because the CSS optimizer (PurgeCSS) removes them.
+// The single class keeps the specificity low, so Icon `inheritColor` and app
+// styles can still override the colors.
+.dnb-form-status-icon-path {
+  &--fill {
+    fill: var(--form-status-icon-color);
+  }
+  &--stroke {
+    stroke: var(--form-status-icon-color);
+  }
+
+  &--error {
+    --form-status-icon-color: var(--token-color-background-error);
+  }
+  &--error-mark {
+    --form-status-icon-color: var(--token-color-icon-neutral-ondark);
+  }
+  &--warning {
+    --form-status-icon-color: var(--token-color-icon-warning);
+  }
+  &--warning-mark {
+    --form-status-icon-color: var(--token-color-icon-neutral-static);
+  }
+  &--information {
+    --form-status-icon-color: var(--token-color-icon-info);
+  }
+  &--information-mark,
+  &--success-mark {
+    --form-status-icon-color: var(--token-color-icon-neutral-inverse);
+  }
+  &--success {
+    --form-status-icon-color: var(--token-color-background-positive);
+  }
+  &--marketing {
+    --form-status-icon-color: var(--token-color-icon-marketing);
+  }
+}

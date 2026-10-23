@@ -1,11 +1,31 @@
 import ComponentBox from '../../../../shared/tags/ComponentBox'
-import * as SidebarMenu from '@dnb/eufemia/src/extensions/sidebar-menu'
+import { useEffect, useId, useState } from 'react'
+import {
+  Accordion,
+  Button,
+  Card,
+  Flex,
+  H2,
+  P,
+  Switch,
+} from '@dnb/eufemia/src'
+import { SidebarMenu } from '@dnb/eufemia/src/extensions'
+import type {
+  SidebarMenuItemData,
+  SidebarMenuSectionData,
+} from '@dnb/eufemia/src/extensions/sidebar-menu'
 import '@dnb/eufemia/src/extensions/sidebar-menu/style'
+import styles from './Examples.module.scss'
 import { ScrollView } from '@dnb/eufemia/src/fragments'
 import {
   account,
+  bank,
   card,
   cog,
+  coins_1,
+  file,
+  folder,
+  funds,
   home,
   office_buildings,
   pay_from,
@@ -51,55 +71,60 @@ export function SidebarMenuDeclarative() {
           triggerBadge={2}
           triggerBadgeProps={{ label: 'Notifications:' }}
         >
-          <SidebarMenu.Header text="Everyday banking" />
-          <SidebarMenu.Item
-            id="overview"
-            text="Overview"
-            icon={home}
-            badge="New"
-            badgeProps={{ status: 'positive', subtle: true }}
-          />
-          <SidebarMenu.Accordion
-            id="products"
-            text="Products"
-            badge={3}
-            badgeProps={{ label: 'Product groups:' }}
-          >
+          <SidebarMenu.Header text="Everyday banking">
             <SidebarMenu.Item
-              id="accounts"
-              text="Accounts"
-              icon={account}
+              id="overview"
+              text="Overview"
+              icon={home}
+              badge="New"
+              badgeProps={{ status: 'positive', subtle: true }}
             />
-            <SidebarMenu.Accordion id="cards" text="Cards" icon={card}>
-              <SidebarMenu.Item id="debit-card" text="Debit card" />
-              <SidebarMenu.Item id="credit-card" text="Credit card" />
-              <SidebarMenu.Accordion id="card-settings" text="Settings">
-                <SidebarMenu.Item id="limits" text="Limits" />
-                <SidebarMenu.Accordion id="security" text="Security">
-                  <SidebarMenu.Item id="biometrics" text="Biometrics" />
-                  <SidebarMenu.Item id="pin-code" text="PIN code" />
+            <SidebarMenu.Accordion
+              id="products"
+              text="Products"
+              badge={3}
+              badgeProps={{ label: 'Product groups:' }}
+            >
+              <SidebarMenu.Item
+                id="accounts"
+                text="Accounts"
+                icon={account}
+              />
+              <SidebarMenu.Accordion id="cards" text="Cards" icon={card}>
+                <SidebarMenu.Item id="debit-card" text="Debit card" />
+                <SidebarMenu.Item id="credit-card" text="Credit card" />
+                <SidebarMenu.Accordion id="card-settings" text="Settings">
+                  <SidebarMenu.Item id="limits" text="Limits" />
+                  <SidebarMenu.Accordion id="security" text="Security">
+                    <SidebarMenu.Item id="biometrics" text="Biometrics" />
+                    <SidebarMenu.Item id="pin-code" text="PIN code" />
+                  </SidebarMenu.Accordion>
                 </SidebarMenu.Accordion>
               </SidebarMenu.Accordion>
+              <SidebarMenu.Accordion
+                id="card-controls"
+                text="Controls"
+                icon={cog}
+              >
+                <SidebarMenu.Item id="freeze-card" text="Freeze card" />
+                <SidebarMenu.Item
+                  id="online-shopping"
+                  text="Online shopping"
+                  badge={2}
+                  badgeProps={{
+                    variant: 'notification',
+                    label: 'Notifications:',
+                  }}
+                />
+              </SidebarMenu.Accordion>
             </SidebarMenu.Accordion>
-            <SidebarMenu.Accordion
-              id="card-controls"
-              text="Controls"
-              icon={cog}
-            >
-              <SidebarMenu.Item id="freeze-card" text="Freeze card" />
-              <SidebarMenu.Item
-                id="online-shopping"
-                text="Online shopping"
-                badge={2}
-                badgeProps={{
-                  variant: 'notification',
-                  label: 'Notifications:',
-                }}
-              />
-            </SidebarMenu.Accordion>
-          </SidebarMenu.Accordion>
-          <SidebarMenu.Divider />
-          <SidebarMenu.Item id="disabled" text="Disabled item" disabled />
+            <SidebarMenu.Divider />
+            <SidebarMenu.Item
+              id="disabled"
+              text="Disabled item"
+              disabled
+            />
+          </SidebarMenu.Header>
         </SidebarMenu.Section>
 
         <SidebarMenu.Section
@@ -109,47 +134,253 @@ export function SidebarMenuDeclarative() {
           badge={9}
           badgeProps={{ label: 'Notifications:' }}
         >
-          <SidebarMenu.Header text="Company" />
-          <SidebarMenu.Item
-            id="business-overview"
-            text="Overview"
-            icon={home}
-          />
-          <SidebarMenu.Item
-            id="business-payments"
-            text="Payments"
-            icon={pay_from}
-          />
-          <SidebarMenu.Accordion id="business-services" text="Services">
+          <SidebarMenu.Header text="Company">
             <SidebarMenu.Item
-              id="business-accounts"
-              text="Accounts"
-              icon={account}
+              id="business-overview"
+              text="Overview"
+              icon={home}
             />
-            <SidebarMenu.Accordion
-              id="business-cards"
-              text="Company cards"
-              icon={card}
-            >
+            <SidebarMenu.Item
+              id="business-payments"
+              text="Payments"
+              icon={pay_from}
+            />
+            <SidebarMenu.Accordion id="business-services" text="Services">
               <SidebarMenu.Item
-                id="business-card-overview"
-                text="Card overview"
+                id="business-accounts"
+                text="Accounts"
+                icon={account}
               />
-              <SidebarMenu.Item
-                id="business-card-settings"
-                text="Card settings"
-              />
+              <SidebarMenu.Accordion
+                id="business-cards"
+                text="Company cards"
+                icon={card}
+              >
+                <SidebarMenu.Item
+                  id="business-card-overview"
+                  text="Card overview"
+                />
+                <SidebarMenu.Item
+                  id="business-card-settings"
+                  text="Card settings"
+                />
+              </SidebarMenu.Accordion>
+              <SidebarMenu.Accordion
+                id="business-financing"
+                text="Financing"
+              >
+                <SidebarMenu.Item id="business-loans" text="Loans" />
+                <SidebarMenu.Item id="business-credit" text="Credit" />
+              </SidebarMenu.Accordion>
             </SidebarMenu.Accordion>
-            <SidebarMenu.Accordion
-              id="business-financing"
-              text="Financing"
-            >
-              <SidebarMenu.Item id="business-loans" text="Loans" />
-              <SidebarMenu.Item id="business-credit" text="Credit" />
-            </SidebarMenu.Accordion>
-          </SidebarMenu.Accordion>
+          </SidebarMenu.Header>
         </SidebarMenu.Section>
       </SidebarMenu.Root>
+    </ComponentBox>
+  )
+}
+
+export function SidebarMenuContentController() {
+  return (
+    <ComponentBox hideCode scope={{ useId, home, pay_from, styles }}>
+      {() => {
+        function PaymentsApp({ controllerId }: { controllerId: string }) {
+          const [notifications, setNotifications] = useState(0)
+
+          useEffect(() => {
+            return SidebarMenu.getController(
+              controllerId
+            ).transformContent(
+              (content) => ({
+                data: [
+                  ...(content.data ?? []),
+                  {
+                    id: 'payments',
+                    text: 'Payments',
+                    icon: pay_from,
+                    badge: notifications || undefined,
+                    badgeProps: {
+                      variant: 'notification',
+                      label: 'Notifications:',
+                    },
+                  },
+                ],
+              }),
+              { key: 'payments:navigation' }
+            )
+          }, [controllerId, notifications])
+
+          return (
+            <Flex.Stack layoutEngine="css">
+              <P>The app adds Payments to the shell's navigation.</P>
+              <Button
+                text="Receive notification"
+                variant="secondary"
+                onClick={() => setNotifications((count) => count + 1)}
+              />
+              <P role="status">
+                {notifications === 0
+                  ? 'No new notifications.'
+                  : notifications +
+                    ' new notification' +
+                    (notifications === 1 ? '.' : 's.')}
+              </P>
+            </Flex.Stack>
+          )
+        }
+
+        function Example() {
+          const id = useId()
+          const [appActive, setAppActive] = useState(false)
+          const [showSidebar, setShowSidebar] = useState(true)
+
+          return (
+            <div
+              className={styles.contentControllerExample}
+              data-sidebar-menu-content-controller-example
+            >
+              <div className={styles.contentController}>
+                <Card
+                  layoutEngine="css"
+                  stack
+                  title="Application shell"
+                  alignSelf="flex-start"
+                  responsive={false}
+                >
+                  <P>The shell owns the sidebar and its Home item.</P>
+                  {showSidebar ? (
+                    <SidebarMenu.Data
+                      controllerId={id}
+                      aria-label="Application shell navigation"
+                      data={[{ id: 'home', text: 'Home', icon: home }]}
+                    />
+                  ) : (
+                    <P>The sidebar is not mounted.</P>
+                  )}
+                </Card>
+                <Card
+                  layoutEngine="css"
+                  stack
+                  title="Micro frontend"
+                  alignSelf="flex-start"
+                  responsive={false}
+                >
+                  <Switch
+                    label="Payments app"
+                    checked={appActive}
+                    onChange={({ checked }) => setAppActive(checked)}
+                  />
+                  {appActive ? (
+                    <PaymentsApp controllerId={id} />
+                  ) : (
+                    <P>Turn on the app to add Payments to the sidebar.</P>
+                  )}
+                </Card>
+              </div>
+              <Accordion title="Try loading order">
+                <Flex.Stack layoutEngine="css">
+                  <P>
+                    Hide the sidebar, turn on Payments, then show the
+                    sidebar again. The app's navigation is ready when the
+                    sidebar mounts.
+                  </P>
+                  <Switch
+                    label="Show sidebar"
+                    checked={showSidebar}
+                    onChange={({ checked }) => setShowSidebar(checked)}
+                  />
+                </Flex.Stack>
+              </Accordion>
+            </div>
+          )
+        }
+
+        return <Example />
+      }}
+    </ComponentBox>
+  )
+}
+
+export function SidebarMenuPropsController() {
+  return (
+    <ComponentBox hideCode scope={{ useId, home, pay_from, styles }}>
+      {() => {
+        function CurrentLayout() {
+          const { isCompact, isSmallScreen } = SidebarMenu.useResponsive()
+          return (
+            <P role="status">
+              Sidebar:{' '}
+              {isSmallScreen
+                ? 'Drawer'
+                : isCompact
+                  ? 'Compact'
+                  : 'Full width'}
+            </P>
+          )
+        }
+
+        function Example() {
+          const id = useId()
+          const [widePage, setWidePage] = useState(false)
+
+          useEffect(() => {
+            if (widePage) {
+              return SidebarMenu.getController(id).setProps(
+                { compactAt: '200em', selectedItem: 'payments' },
+                { key: 'payments:wide-page' }
+              )
+            }
+          }, [id, widePage])
+
+          return (
+            <Flex.Stack
+              layoutEngine="css"
+              data-sidebar-menu-props-controller-example
+            >
+              <Switch
+                label="Payments needs more space"
+                checked={widePage}
+                onChange={({ checked }) => setWidePage(checked)}
+              />
+              <SidebarMenu.ResponsiveProvider
+                controllerId={id}
+                drawerAt="20em"
+                compactAt="30em"
+              >
+                <SidebarMenu.ResponsiveShell
+                  className={styles.responsiveShell}
+                >
+                  <SidebarMenu.ResponsiveAside showToggle={false}>
+                    <SidebarMenu.Data
+                      controllerId={id}
+                      aria-label="Externally configured navigation"
+                      selectedItem="home"
+                      data={[
+                        { id: 'home', text: 'Home', icon: home },
+                        {
+                          id: 'payments',
+                          text: 'Payments',
+                          icon: pay_from,
+                        },
+                      ]}
+                    />
+                  </SidebarMenu.ResponsiveAside>
+                  <div className={styles.responsiveContent}>
+                    <P>
+                      The app changes the compact threshold and selects
+                      Payments. Turn the switch off to restore the shell's
+                      props.
+                    </P>
+                    <CurrentLayout />
+                  </div>
+                </SidebarMenu.ResponsiveShell>
+              </SidebarMenu.ResponsiveProvider>
+            </Flex.Stack>
+          )
+        }
+
+        return <Example />
+      }}
     </ComponentBox>
   )
 }
@@ -304,59 +535,318 @@ export function SidebarMenuData() {
   )
 }
 
-export function SidebarMenuResponsiveDrawer() {
+export function SidebarMenuToggle() {
   return (
-    <ComponentBox hideCode>
+    <ComponentBox hideCode scope={{ home, cog, H2, P, styles }}>
+      <SidebarMenu.ResponsiveProvider
+        drawerAt="40em"
+        compactAt="large"
+        inlineCollapsedStorageKey="sidebar-menu-toggle-example"
+      >
+        <SidebarMenu.ResponsiveShell
+          className={styles.responsiveShell}
+          data-sidebar-menu-toggle-example
+        >
+          <SidebarMenu.ResponsiveAside resizable>
+            <SidebarMenu.Root aria-label="Toggle example navigation">
+              <SidebarMenu.Item id="toggle-home" text="Home" icon={home} />
+              <SidebarMenu.Item
+                id="toggle-settings"
+                text="Settings"
+                icon={cog}
+              />
+            </SidebarMenu.Root>
+          </SidebarMenu.ResponsiveAside>
+          <div className={styles.responsiveContent}>
+            <SidebarMenu.Toggle text="Menu" bottom="medium" />
+            <H2>Toggle the sidebar</H2>
+            <P>
+              Use either toggle to hide the sidebar. The Menu button
+              restores it. Your choice is remembered for this session,
+              including after a reload.
+            </P>
+          </div>
+          <SidebarMenu.ResponsiveDrawer id="toggle-example-drawer">
+            <SidebarMenu.Root aria-label="Toggle example navigation">
+              <SidebarMenu.Item
+                id="toggle-drawer-home"
+                text="Home"
+                icon={home}
+              />
+              <SidebarMenu.Item
+                id="toggle-drawer-settings"
+                text="Settings"
+                icon={cog}
+              />
+            </SidebarMenu.Root>
+          </SidebarMenu.ResponsiveDrawer>
+        </SidebarMenu.ResponsiveShell>
+      </SidebarMenu.ResponsiveProvider>
+    </ComponentBox>
+  )
+}
+
+export function SidebarMenuExternalToggle() {
+  return (
+    <ComponentBox scope={{ home, styles }}>
+      <div data-sidebar-menu-external-toggle-example>
+        <SidebarMenu.Toggle
+          scopeId="external-toggle-example"
+          text="Menu"
+          bottom="small"
+        />
+        <SidebarMenu.ResponsiveProvider scopeId="external-toggle-example">
+          <SidebarMenu.ResponsiveShell className={styles.responsiveShell}>
+            <SidebarMenu.ResponsiveAside>
+              <SidebarMenu.Root aria-label="External toggle navigation">
+                <SidebarMenu.Item
+                  id="external-home"
+                  text="Home"
+                  icon={home}
+                />
+              </SidebarMenu.Root>
+            </SidebarMenu.ResponsiveAside>
+            <div className={styles.responsiveContent}>Page content</div>
+            <SidebarMenu.ResponsiveDrawer id="external-toggle-drawer">
+              <SidebarMenu.Root aria-label="External toggle navigation">
+                <SidebarMenu.Item
+                  id="external-drawer-home"
+                  text="Home"
+                  icon={home}
+                />
+              </SidebarMenu.Root>
+            </SidebarMenu.ResponsiveDrawer>
+          </SidebarMenu.ResponsiveShell>
+        </SidebarMenu.ResponsiveProvider>
+      </div>
+    </ComponentBox>
+  )
+}
+
+export function SidebarMenuResponsiveNavigation() {
+  return (
+    <ComponentBox
+      hideCode
+      scope={{
+        account,
+        bank,
+        card,
+        cog,
+        coins_1,
+        file,
+        folder,
+        funds,
+        H2,
+        home,
+        office_buildings,
+        P,
+        person,
+        styles,
+      }}
+    >
       {() => {
         const ResponsiveMenu = () => {
-          const items = [
-            { id: 'home', text: 'Home', href: '#home' },
+          const [selectedItem, setSelectedItem] = useState('home')
+          const items: SidebarMenuItemData[] = [
+            { id: 'home', text: 'Home', icon: home, href: '#home' },
             {
-              id: 'products',
+              id: 'responsive-products',
               text: 'Products',
+              icon: funds,
               items: [
-                { id: 'accounts', text: 'Accounts', href: '#accounts' },
-                { id: 'cards', text: 'Cards', href: '#cards' },
+                {
+                  id: 'accounts',
+                  text: 'Accounts',
+                  icon: account,
+                  href: '#accounts',
+                },
+                {
+                  id: 'cards',
+                  text: 'Payment cards',
+                  icon: card,
+                  href: '#cards',
+                  badge: 'New',
+                  badgeProps: { status: 'positive', subtle: true },
+                },
+                {
+                  id: 'statements',
+                  text: 'Statements',
+                  icon: file,
+                  href: '#statements',
+                },
+                {
+                  id: 'more-products',
+                  text: 'More products',
+                  icon: folder,
+                  items: [
+                    {
+                      id: 'loans',
+                      text: 'Loans',
+                      icon: bank,
+                      href: '#loans',
+                    },
+                    {
+                      id: 'savings',
+                      text: 'Savings',
+                      icon: coins_1,
+                      href: '#savings',
+                      badge: 2,
+                      badgeProps: {
+                        variant: 'notification',
+                        label: 'Notifications:',
+                      },
+                    },
+                  ],
+                },
+              ],
+            },
+            {
+              id: 'without-icon',
+              text: 'Without icon',
+              href: '#without-icon',
+            },
+            {
+              id: 'more-services',
+              text: 'More services',
+              items: [
+                {
+                  id: 'contact-us',
+                  text: 'Contact us',
+                  href: '#contact-us',
+                },
+              ],
+            },
+            {
+              id: 'settings',
+              text: 'Settings',
+              icon: cog,
+              href: '#settings',
+              dividerBefore: true,
+            },
+          ]
+          const itemTitles: Record<string, string> = {
+            home: 'Home',
+            accounts: 'Accounts',
+            cards: 'Payment cards',
+            statements: 'Statements',
+            loans: 'Loans',
+            savings: 'Savings',
+            'without-icon': 'Without icon',
+            'contact-us': 'Contact us',
+            settings: 'Settings',
+            'business-overview': 'Business overview',
+            payments: 'Payments',
+          }
+          const { close } = SidebarMenu.useResponsive()
+          const addCloseHandler = (
+            items: SidebarMenuItemData[]
+          ): SidebarMenuItemData[] =>
+            items.map((item) => ({
+              ...item,
+              onClick: item.href || item.to ? close : item.onClick,
+              items: item.items ? addCloseHandler(item.items) : undefined,
+            }))
+          const sections: SidebarMenuSectionData[] = [
+            {
+              id: 'personal',
+              text: 'Personal',
+              icon: person,
+              defaultActive: true,
+              items: [
+                {
+                  id: 'personal-heading',
+                  type: 'header',
+                  text: 'Everyday banking',
+                  items,
+                },
+              ],
+            },
+            {
+              id: 'business',
+              text: 'Business',
+              items: [
+                {
+                  id: 'business-heading',
+                  type: 'header',
+                  text: 'Business banking',
+                  items: [
+                    {
+                      id: 'business-overview',
+                      text: 'Business overview',
+                      icon: office_buildings,
+                      href: '#business-overview',
+                    },
+                    {
+                      id: 'payments',
+                      text: 'Payments',
+                      icon: funds,
+                      href: '#payments',
+                    },
+                  ],
+                },
               ],
             },
           ]
-          const { close } = SidebarMenu.useResponsive()
-          const menuItems = items.map((item) => ({
-            ...item,
-            onClick: item.href ? close : undefined,
-            items: item.items?.map((item) => ({
-              ...item,
-              onClick: close,
-            })),
+          const menuSections = sections.map((section) => ({
+            ...section,
+            items: addCloseHandler(section.items),
           }))
+          const navigationMenu = (
+            <SidebarMenu.Data
+              aria-label="Main navigation"
+              sections={menuSections}
+              selectedItem={selectedItem}
+              onSelectedItemChange={setSelectedItem}
+              openItemsStorageKey="sidebar-menu-responsive-example"
+              scrollPositionStorageKey="sidebar-menu-responsive-example-scroll"
+            />
+          )
 
           return (
-            <>
-              <SidebarMenu.ResponsiveTrigger
-                controls="responsive-menu-drawer"
-                text="Menu"
-              />
-              <SidebarMenu.ResponsiveInline>
-                <SidebarMenu.Data
-                  aria-label="Main navigation"
-                  data={menuItems}
+            <SidebarMenu.ResponsiveShell
+              className={styles.responsiveShell}
+              data-sidebar-menu-responsive-example
+              data-visual-test="sidebar-menu-responsive"
+            >
+              <SidebarMenu.ResponsiveAside
+                compactWidth="4rem"
+                expandedWidth="19rem"
+                resizable
+                resizeHandleProps={{ minWidth: 240, maxWidth: 480 }}
+              >
+                {navigationMenu}
+              </SidebarMenu.ResponsiveAside>
+
+              {/* A div, because the portal page already has a main landmark */}
+              <div className={styles.responsiveContent}>
+                <SidebarMenu.ResponsiveTrigger
+                  text="Menu"
+                  bottom="medium"
                 />
-              </SidebarMenu.ResponsiveInline>
+                <H2>{itemTitles[selectedItem]}</H2>
+                <P>
+                  The page content uses the space left by the responsive
+                  navigation. Resize the viewport to see all three modes.
+                </P>
+              </div>
+
               <SidebarMenu.ResponsiveDrawer
                 id="responsive-menu-drawer"
                 dialogTitle="Menu"
               >
-                <SidebarMenu.Data
-                  aria-label="Main navigation"
-                  data={menuItems}
-                />
+                {navigationMenu}
               </SidebarMenu.ResponsiveDrawer>
-            </>
+            </SidebarMenu.ResponsiveShell>
           )
         }
 
         return (
-          <SidebarMenu.ResponsiveProvider breakpoint="medium">
+          <SidebarMenu.ResponsiveProvider
+            scopeId="sidebar-menu-responsive-example"
+            drawerAt="medium"
+            compactAt="large"
+            compactOffset="10em"
+          >
             <ResponsiveMenu />
           </SidebarMenu.ResponsiveProvider>
         )

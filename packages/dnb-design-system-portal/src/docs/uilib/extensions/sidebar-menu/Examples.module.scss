@@ -1,0 +1,24 @@
+.responsiveShell {
+  min-height: 24rem;
+  overflow: hidden;
+
+  background-color: var(--token-color-background-page-background);
+  border: 0.0625rem solid var(--token-color-stroke-neutral-subtle);
+  border-radius: var(--token-radius-xl);
+}
+
+.responsiveContent {
+  padding: 2rem;
+}
+
+.contentControllerExample {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.contentController {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr));
+  align-items: start;
+  gap: 1rem;
+}

@@ -179,11 +179,31 @@ describe('computeKnownAreas', () => {
 })
 
 describe('isTelemetryDisabled', () => {
-  it.each(['0', 'false', 'FALSE', ' false '])(
+  it.each(['0', 'false', 'FALSE', ' false ', 'off', 'no', 'NO'])(
     'is disabled for %j',
     (value) => {
       expect(isTelemetryDisabled({ EUFEMIA_MCP_TELEMETRY: value })).toBe(
         true
+      )
+    }
+  )
+
+  it.each(['1', 'true', 'yes'])(
+    'is disabled when DO_NOT_TRACK is %j',
+    (value) => {
+      expect(isTelemetryDisabled({ DO_NOT_TRACK: value })).toBe(true)
+    }
+  )
+
+  it.each(['true', '1'])('is disabled when CI is %j', (value) => {
+    expect(isTelemetryDisabled({ CI: value })).toBe(true)
+  })
+
+  it.each(['', '0', 'false'])(
+    'stays enabled when DO_NOT_TRACK or CI is %j',
+    (value) => {
+      expect(isTelemetryDisabled({ DO_NOT_TRACK: value, CI: value })).toBe(
+        false
       )
     }
   )
@@ -203,6 +223,8 @@ describe('isTelemetryDisabled', () => {
 describe('createUsageReporter', () => {
   const resolver = {
     component: async (name: string) => name === 'Button',
+    likelyComponent: async (guess: string) =>
+      guess === 'DatePicker' ? 'date-picker' : null,
     docsFile: async (path: string) =>
       path === '/uilib/components/button.md',
     docsDir: async (path: string) => path === '/uilib/components',
@@ -268,7 +290,7 @@ describe('createUsageReporter', () => {
     expect(fetchImpl.mock.calls[0][0]).toBe('http://localhost:9999/x')
   })
 
-  it('does not beacon for an unknown tool', () => {
+  it('does not post a record for an unknown tool', () => {
     const fetchImpl = vi.fn().mockResolvedValue(new Response(null))
     const reporter = createUsageReporter({
       eufemiaVersion: VERSION,
@@ -301,7 +323,7 @@ describe('createUsageReporter', () => {
     expect(body.path).toBeUndefined()
   })
 
-  it('drops a component the docs do not contain but still counts the tool', async () => {
+  it('drops a component the docs do not contain, flags the miss and still counts the tool', async () => {
     const fetchImpl = vi.fn().mockResolvedValue(new Response(null))
     const reporter = createUsageReporter({
       eufemiaVersion: VERSION,
@@ -318,6 +340,47 @@ describe('createUsageReporter', () => {
     const body = JSON.parse(fetchImpl.mock.calls[0][1].body)
     expect(body.tool).toBe('component_doc')
     expect(body.component).toBeUndefined()
+    expect(body.componentMissed).toBe(true)
+    expect(body.likelyComponent).toBeUndefined()
+  })
+
+  it('sends the likely component for a missed guess, never the guess', async () => {
+    const fetchImpl = vi.fn().mockResolvedValue(new Response(null))
+    const reporter = createUsageReporter({
+      eufemiaVersion: VERSION,
+      env: {},
+      resolver,
+      fetchImpl: fetchImpl as unknown as typeof fetch,
+      logNotice: () => undefined,
+    })
+
+    reporter?.onToolCall('component_doc', { name: 'DatePicker' })
+    await vi.runAllTimersAsync()
+
+    const { body } = fetchImpl.mock.calls[0][1]
+    expect(JSON.parse(body)).toMatchObject({
+      componentMissed: true,
+      likelyComponent: 'date-picker',
+    })
+    expect(body).not.toContain('DatePicker')
+  })
+
+  it('does not flag a miss for a component that resolves', async () => {
+    const fetchImpl = vi.fn().mockResolvedValue(new Response(null))
+    const reporter = createUsageReporter({
+      eufemiaVersion: VERSION,
+      env: {},
+      resolver,
+      fetchImpl: fetchImpl as unknown as typeof fetch,
+      logNotice: () => undefined,
+    })
+
+    reporter?.onToolCall('component_doc', { name: 'Button' })
+    await vi.runAllTimersAsync()
+
+    const body = JSON.parse(fetchImpl.mock.calls[0][1].body)
+    expect(body.componentMissed).toBeUndefined()
+    expect(body.likelyComponent).toBeUndefined()
   })
 
   it('sends no component or path without a resolver', async () => {
@@ -341,6 +404,7 @@ describe('createUsageReporter', () => {
     for (const [, init] of fetchImpl.mock.calls) {
       const body = JSON.parse(init.body)
       expect(body.component).toBeUndefined()
+      expect(body.componentMissed).toBeUndefined()
       expect(body.path).toBeUndefined()
     }
   })
@@ -409,7 +473,7 @@ describe('createUsageReporter', () => {
   })
 })
 
-describe('first-run notice', () => {
+describe('startup notice', () => {
   beforeEach(() => {
     vi.resetModules()
   })

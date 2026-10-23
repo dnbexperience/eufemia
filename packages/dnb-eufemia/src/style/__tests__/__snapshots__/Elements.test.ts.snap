@@ -796,56 +796,56 @@ del .dnb-code {
 }
 @media screen and (max-width: 40em) {
   .dnb-lead, .dnb-h--xx-large, .dnb-h--x-large, .dnb-h--large, .dnb-h--medium, .dnb-h--basis, .dnb-h--small, .dnb-h--x-small, .dnb-core-style .dnb-lead, .dnb-core-style .dnb-h--xx-large, .dnb-core-style .dnb-h--x-large, .dnb-core-style .dnb-h--large, .dnb-core-style .dnb-h--medium, .dnb-core-style .dnb-h--basis, .dnb-core-style .dnb-h--small, .dnb-core-style .dnb-h--x-small, h1, h2, h3, h4, h5, h6, p, b, small, strong, .dnb-p, .dnb-small, .dnb-table, sub, sup, .dnb-t, [class^=dnb-t__], [class*=" dnb-t__"] {
-    --responsive-font-size-x-small: 0.8125rem;
-    --responsive-font-size-small: 0.875rem;
-    --responsive-font-size-basis: 1rem;
-    --responsive-font-size-medium: 1.125rem;
-    --responsive-font-size-large: 1.25rem;
-    --responsive-font-size-x-large: 1.625rem;
-    --responsive-font-size-xx-large: 2.125rem;
-    --responsive-line-height-x-small: 1.25rem;
-    --responsive-line-height-small: 1.25rem;
-    --responsive-line-height-basis: 1.25rem;
-    --responsive-line-height-medium: 1.5rem;
-    --responsive-line-height-large: 2rem;
-    --responsive-line-height-x-large: 2rem;
-    --responsive-line-height-xx-large: 2rem;
+    --responsive-font-size-x-small: var(--font-size-xx-small);
+    --responsive-font-size-small: var(--font-size-x-small);
+    --responsive-font-size-basis: var(--font-size-small);
+    --responsive-font-size-medium: var(--font-size-basis);
+    --responsive-font-size-large: var(--font-size-medium);
+    --responsive-font-size-x-large: var(--font-size-large);
+    --responsive-font-size-xx-large: var(--font-size-x-large);
+    --responsive-line-height-x-small: var(--line-height-x-small);
+    --responsive-line-height-small: var(--line-height-x-small);
+    --responsive-line-height-basis: var(--line-height-small);
+    --responsive-line-height-medium: var(--line-height-medium);
+    --responsive-line-height-large: var(--line-height-large);
+    --responsive-line-height-x-large: var(--line-height-large);
+    --responsive-line-height-xx-large: var(--line-height-x-large);
   }
 }
 @media screen and (max-width: 60em) and (min-width: 40.00625em) {
   .dnb-lead, .dnb-h--xx-large, .dnb-h--x-large, .dnb-h--large, .dnb-h--medium, .dnb-h--basis, .dnb-h--small, .dnb-h--x-small, .dnb-core-style .dnb-lead, .dnb-core-style .dnb-h--xx-large, .dnb-core-style .dnb-h--x-large, .dnb-core-style .dnb-h--large, .dnb-core-style .dnb-h--medium, .dnb-core-style .dnb-h--basis, .dnb-core-style .dnb-h--small, .dnb-core-style .dnb-h--x-small, h1, h2, h3, h4, h5, h6, p, b, small, strong, .dnb-p, .dnb-small, .dnb-table, sub, sup, .dnb-t, [class^=dnb-t__], [class*=" dnb-t__"] {
-    --responsive-font-size-x-small: 0.875rem;
-    --responsive-font-size-small: 1rem;
-    --responsive-font-size-basis: 1.125rem;
-    --responsive-font-size-medium: 1.25rem;
-    --responsive-font-size-large: 1.625rem;
-    --responsive-font-size-x-large: 2.125rem;
-    --responsive-font-size-xx-large: 3rem;
-    --responsive-line-height-x-small: 1.25rem;
-    --responsive-line-height-small: 1.25rem;
-    --responsive-line-height-basis: 1.5rem;
-    --responsive-line-height-medium: 1.5rem;
-    --responsive-line-height-large: 2rem;
-    --responsive-line-height-x-large: 2.5rem;
-    --responsive-line-height-xx-large: 2.5rem;
+    --responsive-font-size-x-small: var(--font-size-x-small);
+    --responsive-font-size-small: var(--font-size-small);
+    --responsive-font-size-basis: var(--font-size-basis);
+    --responsive-font-size-medium: var(--font-size-medium);
+    --responsive-font-size-large: var(--font-size-large);
+    --responsive-font-size-x-large: var(--font-size-x-large);
+    --responsive-font-size-xx-large: var(--font-size-xx-large);
+    --responsive-line-height-x-small: var(--line-height-x-small);
+    --responsive-line-height-small: var(--line-height-small);
+    --responsive-line-height-basis: var(--line-height-basis);
+    --responsive-line-height-medium: var(--line-height-medium);
+    --responsive-line-height-large: var(--line-height-large);
+    --responsive-line-height-x-large: var(--line-height-x-large);
+    --responsive-line-height-xx-large: var(--line-height-xx-large);
   }
 }
 @media screen and (min-width: 60.00625em) {
   .dnb-lead, .dnb-h--xx-large, .dnb-h--x-large, .dnb-h--large, .dnb-h--medium, .dnb-h--basis, .dnb-h--small, .dnb-h--x-small, .dnb-core-style .dnb-lead, .dnb-core-style .dnb-h--xx-large, .dnb-core-style .dnb-h--x-large, .dnb-core-style .dnb-h--large, .dnb-core-style .dnb-h--medium, .dnb-core-style .dnb-h--basis, .dnb-core-style .dnb-h--small, .dnb-core-style .dnb-h--x-small, h1, h2, h3, h4, h5, h6, p, b, small, strong, .dnb-p, .dnb-small, .dnb-table, sub, sup, .dnb-t, [class^=dnb-t__], [class*=" dnb-t__"] {
-    --responsive-font-size-x-small: 0.875rem;
-    --responsive-font-size-small: 1rem;
-    --responsive-font-size-basis: 1.125rem;
-    --responsive-font-size-medium: 1.25rem;
-    --responsive-font-size-large: 1.625rem;
-    --responsive-font-size-x-large: 2.125rem;
-    --responsive-font-size-xx-large: 3rem;
-    --responsive-line-height-x-small: 1.25rem;
-    --responsive-line-height-small: 1.25rem;
-    --responsive-line-height-basis: 1.5rem;
-    --responsive-line-height-medium: 1.5rem;
-    --responsive-line-height-large: 2rem;
-    --responsive-line-height-x-large: 2.5rem;
-    --responsive-line-height-xx-large: 3.5rem;
+    --responsive-font-size-x-small: var(--font-size-x-small);
+    --responsive-font-size-small: var(--font-size-small);
+    --responsive-font-size-basis: var(--font-size-basis);
+    --responsive-font-size-medium: var(--font-size-medium);
+    --responsive-font-size-large: var(--font-size-large);
+    --responsive-font-size-x-large: var(--font-size-x-large);
+    --responsive-font-size-xx-large: var(--font-size-xx-large);
+    --responsive-line-height-x-small: var(--line-height-x-small);
+    --responsive-line-height-small: var(--line-height-small);
+    --responsive-line-height-basis: var(--line-height-basis);
+    --responsive-line-height-medium: var(--line-height-medium);
+    --responsive-line-height-large: var(--line-height-large);
+    --responsive-line-height-x-large: var(--line-height-x-large);
+    --responsive-line-height-xx-large: var(--line-height-xx-large);
   }
 }
 

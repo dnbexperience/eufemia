@@ -99,6 +99,11 @@ export default {
       selectedSr: 'Vald:',
       indicatorLabel: 'Hämtar data ...',
     },
+    Card: {
+      playTitle: 'Spela bakgrundsvideo',
+      pauseTitle: 'Pausa bakgrundsvideo',
+      closeTitle: 'Stäng',
+    },
     Modal: {
       dialogTitle: 'Separat fönster',
       closeTitle: 'Stäng',
@@ -109,6 +114,7 @@ export default {
     },
     CopyOnClick: {
       clipboardCopy: 'Kopierad',
+      buttonTitle: 'Kopiera',
     },
     NumberFormat: {
       clipboardCopy: 'Kopierad',

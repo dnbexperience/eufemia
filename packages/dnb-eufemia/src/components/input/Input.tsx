@@ -94,6 +94,25 @@ function getValue(props: InputProps) {
 
 function InputComponent({ ref, ...restProps }: InputProps) {
   const context = useContext(Context)
+
+  // use only the props from context, who are available here anyway
+  const props = extendPropsWithContext(
+    {
+      ...inputDefaultProps,
+      ...removeUndefinedProps({ ...restProps }),
+    },
+    inputDefaultProps,
+    { skeleton: context?.skeleton },
+    context.getTranslation(restProps).Input,
+    pickFormElementProps(context?.formElement),
+    context.Input
+  )
+  const usedInputAttributes = props.inputAttributes
+    ? typeof props.inputAttributes === 'string'
+      ? JSON.parse(props.inputAttributes)
+      : props.inputAttributes
+    : {}
+
   const inputRef = useRef<HTMLInputElement | null>(null)
   const combinedRef = useCombinedRef(
     ref,
@@ -111,13 +130,22 @@ function InputComponent({ ref, ...restProps }: InputProps) {
 
   const selectAllTimeoutRef =
     useRef<ReturnType<typeof setTimeout>>(undefined)
+  const hasSyncedValueRef = useRef(false)
 
-  const initialValue = useMemo(() => {
+  const { initialValue, defaultValue } = useMemo(() => {
     const v = getValue(restProps)
-    if (v !== 'initval' && hasValue(v as string)) {
-      return v
+    const initialValue =
+      v !== 'initval' && hasValue(v as string) ? v : null
+    const type = usedInputAttributes.type ?? props.type
+
+    return {
+      initialValue,
+      // Render the initial value in server HTML, except for passwords
+      defaultValue:
+        String(type).toLowerCase() !== 'password' && initialValue !== null
+          ? String(initialValue)
+          : undefined,
     }
-    return null
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -129,19 +157,6 @@ function InputComponent({ ref, ...restProps }: InputProps) {
   )
   const prevValuePropRef = useRef<string | number | null | undefined>(
     restProps.value
-  )
-
-  // use only the props from context, who are available here anyway
-  const props = extendPropsWithContext(
-    {
-      ...inputDefaultProps,
-      ...removeUndefinedProps({ ...restProps }),
-    },
-    inputDefaultProps,
-    { skeleton: context?.skeleton },
-    context.getTranslation(restProps).Input,
-    pickFormElementProps(context?.formElement),
-    context.Input
   )
 
   // Sync value from props
@@ -175,6 +190,35 @@ function InputComponent({ ref, ...restProps }: InputProps) {
   // Autocomplete's delayed value sync) can mutate the DOM value, and this
   // effect re-applies the React state to keep them in sync.
   useEffect(() => {
+    const input = inputRef.current
+
+    // Keep what the user typed into the server-rendered input before hydration
+    if (!hasSyncedValueRef.current) {
+      hasSyncedValueRef.current = true
+
+      if (
+        input &&
+        !restProps.inputElement &&
+        input.value !== input.defaultValue
+      ) {
+        // Compare with the default after the browser applies value sanitization
+        const initialInput = input.cloneNode() as HTMLInputElement
+        initialInput.value = input.defaultValue
+
+        if (input.value !== initialInput.value) {
+          const event = new Event('change')
+          Object.defineProperties(event, {
+            target: { value: input },
+            currentTarget: { value: input },
+          })
+          onChangeHandler(
+            event as unknown as ChangeEvent<HTMLInputElement>
+          )
+          return // stop here
+        }
+      }
+    }
+
     updateInputValue()
   })
 
@@ -244,10 +288,10 @@ function InputComponent({ ref, ...restProps }: InputProps) {
         updateInputValue()
         return // stop here
       }
-      if (typeof result === 'string') {
-        setValue(result)
-      } else {
-        setValue(eventValue)
+      const nextValue = typeof result === 'string' ? result : eventValue
+      setValue(nextValue)
+      if (nextValue === value) {
+        updateInputValue()
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -323,7 +367,7 @@ function InputComponent({ ref, ...restProps }: InputProps) {
     autocomplete,
     readOnly,
     stretch,
-    inputAttributes,
+    inputAttributes: _inputAttributes, //eslint-disable-line
     icon,
     iconPosition,
     iconSize,
@@ -416,12 +460,6 @@ function InputComponent({ ref, ...restProps }: InputProps) {
   // pass along all props we wish to have as params
   let { inputElement: InputElement } = props
 
-  const usedInputAttributes = inputAttributes
-    ? typeof inputAttributes === 'string'
-      ? JSON.parse(inputAttributes)
-      : inputAttributes
-    : {}
-
   const inputParams = {
     autoComplete: autocomplete,
     type,
@@ -465,6 +503,9 @@ function InputComponent({ ref, ...restProps }: InputProps) {
       showStatus ? id + '-status' : null,
       suffix ? id + '-suffix' : null
     )
+  }
+  if (status && statusState === 'error') {
+    inputParams['aria-invalid'] ??= true
   }
   if (readOnly) {
     inputParams['aria-readonly'] = inputParams.readOnly = true
@@ -528,7 +569,11 @@ function InputComponent({ ref, ...restProps }: InputProps) {
         <span className="dnb-input__row">
           <span {...shellParams}>
             {(InputElement as ReactNode) || (
-              <input {...inputParams} ref={combinedRef} />
+              <input
+                {...inputParams}
+                defaultValue={defaultValue}
+                ref={combinedRef}
+              />
             )}
 
             {innerElement && (

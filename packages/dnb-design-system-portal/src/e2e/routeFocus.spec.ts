@@ -2,6 +2,162 @@ import { test, expect } from '@playwright/test'
 import waitForApp from './shared/waitForApp'
 
 test.describe('Route Focus', () => {
+  for (const reducedMotion of ['no-preference', 'reduce'] as const) {
+    test(`should position hash targets without client scripts (${reducedMotion})`, async ({
+      page,
+    }) => {
+      await page.route('**/*.js', (route) => {
+        return route.abort()
+      })
+      await page.addInitScript(() => {
+        const positions: number[] = []
+        Object.assign(window, { nativeHashPositions: positions })
+        window.addEventListener('scroll', () => {
+          const target = document.getElementById('responsive-navigation')
+          if (target && window.scrollY > 0) {
+            positions.push(target.getBoundingClientRect().top)
+          }
+        })
+      })
+      await page.emulateMedia({ reducedMotion })
+
+      await page.goto(
+        '/uilib/extensions/sidebar-menu/demos/#responsive-navigation'
+      )
+      await page.waitForFunction(
+        () =>
+          (window as unknown as { nativeHashPositions: number[] })
+            .nativeHashPositions.length > 0
+      )
+
+      expect(
+        await page.locator('html').getAttribute('data-portal-ready')
+      ).toBeNull()
+      const positions = await page.evaluate(
+        () =>
+          (window as unknown as { nativeHashPositions: number[] })
+            .nativeHashPositions
+      )
+      for (const top of positions) {
+        expect(top).toBeGreaterThanOrEqual(0)
+        expect(top).toBeLessThan(300)
+      }
+      expect(
+        await page.evaluate(
+          () => getComputedStyle(document.documentElement).scrollBehavior
+        )
+      ).toBe('auto')
+    })
+  }
+
+  test('should keep smooth scrolling for links within the current page', async ({
+    page,
+  }) => {
+    await page.addInitScript(() => {
+      const scrollIntoView = HTMLElement.prototype.scrollIntoView
+      HTMLElement.prototype.scrollIntoView = function (options) {
+        scrollIntoView.call(this, options)
+        if (this.id === 'scss-utilities') {
+          Object.assign(window, {
+            clickedHashTop: this.getBoundingClientRect().top,
+          })
+        }
+      }
+    })
+    await page.emulateMedia({ reducedMotion: 'no-preference' })
+    await page.goto('/contribute/getting-started/')
+    await waitForApp(page)
+
+    await page
+      .getByRole('link', { name: 'SCSS utilities', exact: true })
+      .click()
+    const target = page.locator('#scss-utilities')
+
+    await expect
+      .poll(() =>
+        target.evaluate((element) => element.getBoundingClientRect().top)
+      )
+      .toBeLessThan(300)
+    expect(
+      await page.evaluate(
+        () =>
+          (window as unknown as { clickedHashTop: number }).clickedHashTop
+      )
+    ).toBeGreaterThan(300)
+  })
+
+  test('should position hash targets immediately on arrival and refresh', async ({
+    page,
+  }) => {
+    await page.addInitScript(() => {
+      const positions: { scrollY: number; targetTop: number }[] = []
+      Object.assign(window, { hashScrollPositions: positions })
+      const scroll = window.scroll.bind(window)
+      window.scroll = ((options: ScrollToOptions) => {
+        scroll(options)
+        if (options?.top > 0) {
+          positions.push({
+            scrollY: window.scrollY,
+            targetTop: document
+              .getElementById('relevant-links')
+              ?.getBoundingClientRect().top,
+          })
+        }
+      }) as typeof window.scroll
+
+      const scrollIntoView = HTMLElement.prototype.scrollIntoView
+      HTMLElement.prototype.scrollIntoView = function (options) {
+        scrollIntoView.call(this, options)
+        if (this.id === 'relevant-links') {
+          positions.push({
+            scrollY: window.scrollY,
+            targetTop: this.getBoundingClientRect().top,
+          })
+        }
+      }
+    })
+
+    await page.goto('/uilib/components/accordion#relevant-links')
+
+    for (let i = 0; i < 3; i++) {
+      await waitForApp(page)
+      const target = page.locator('#relevant-links')
+      await expect
+        .poll(() =>
+          target.evaluate((element) => element.getBoundingClientRect().top)
+        )
+        .toBeLessThan(300)
+
+      const finalPosition = await page.evaluate(() => window.scrollY)
+      expect(finalPosition).toBeGreaterThan(300)
+      const positions = await page.evaluate(
+        () =>
+          (
+            window as unknown as {
+              hashScrollPositions: { scrollY: number; targetTop: number }[]
+            }
+          ).hashScrollPositions
+      )
+      expect(positions.length).toBeGreaterThan(0)
+      for (const position of positions) {
+        expect(position.scrollY).toBeGreaterThan(300)
+        expect(position.targetTop).toBeGreaterThanOrEqual(0)
+        expect(position.targetTop).toBeLessThan(300)
+      }
+
+      if (i === 0) {
+        await page.reload()
+      } else if (i === 1) {
+        await page.getByRole('tab', { name: 'Demos' }).click()
+        await expect(page).toHaveURL(/accordion.*demos/)
+        await expect(
+          page.locator('.dnb-app-content h1').first()
+        ).toBeFocused()
+        await page.goBack()
+      }
+    }
+  })
+
   test('should keep the next tab stop near the linked section on direct hash load', async ({
     page,
   }) => {

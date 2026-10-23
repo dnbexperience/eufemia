@@ -48,21 +48,36 @@ export const EditContainerWithError = () => {
         <Flex.Stack>
           <Iterate.Array path="/outsideOfCard">
             <Iterate.EditContainer title="Outside of card">
-              <Field.Name itemPath="/name" required />
+              <Field.Name
+                label="Name"
+                labelSrOnly
+                itemPath="/name"
+                required
+              />
             </Iterate.EditContainer>
           </Iterate.Array>
 
           <Form.Card>
             <Iterate.Array path="/insideOfCard">
               <Iterate.EditContainer title="Inside of card">
-                <Field.Name itemPath="/name" required />
+                <Field.Name
+                  label="Name"
+                  labelSrOnly
+                  itemPath="/name"
+                  required
+                />
               </Iterate.EditContainer>
             </Iterate.Array>
           </Form.Card>
 
           <Iterate.Array path="/withFilledVariant">
             <Iterate.EditContainer title="Filled variant" variant="filled">
-              <Field.Name itemPath="/name" required />
+              <Field.Name
+                label="Name"
+                labelSrOnly
+                itemPath="/name"
+                required
+              />
             </Iterate.EditContainer>
           </Iterate.Array>
 
@@ -72,14 +87,24 @@ export const EditContainerWithError = () => {
                 title="Filled variant inside of card"
                 variant="filled"
               >
-                <Field.Name itemPath="/name" required />
+                <Field.Name
+                  label="Name"
+                  labelSrOnly
+                  itemPath="/name"
+                  required
+                />
               </Iterate.EditContainer>
             </Iterate.Array>
           </Form.Card>
 
           <Iterate.Array path="/withBasicVariant">
             <Iterate.EditContainer title="Basic variant" variant="basic">
-              <Field.Name itemPath="/name" required />
+              <Field.Name
+                label="Name"
+                labelSrOnly
+                itemPath="/name"
+                required
+              />
             </Iterate.EditContainer>
           </Iterate.Array>
 
@@ -89,7 +114,12 @@ export const EditContainerWithError = () => {
                 title="Basic variant inside of card"
                 variant="basic"
               >
-                <Field.Name itemPath="/name" required />
+                <Field.Name
+                  label="Name"
+                  labelSrOnly
+                  itemPath="/name"
+                  required
+                />
               </Iterate.EditContainer>
             </Iterate.Array>
           </Form.Card>

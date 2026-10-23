@@ -575,4 +575,12 @@ describe('Breadcrumb scss', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
     expect(css).toMatchSnapshot()
   })
+
+  it('keeps the bigger click area invisible in forced colors mode', () => {
+    const css = loadScss(require.resolve('../style/dnb-breadcrumb.scss'))
+
+    expect(css).toMatch(
+      /\.dnb-anchor::after \{[^}]*border: 0\.5rem solid transparent;[^}]*forced-color-adjust: none;/
+    )
+  })
 })

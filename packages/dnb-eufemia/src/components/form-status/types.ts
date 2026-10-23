@@ -81,7 +81,7 @@ export type FormStatusProps = {
    */
   iconSize?: IconSize
   /**
-   * Defines the visual appearance of the status. These are the statuses `error`, `warning`, `information` and `marketing`. The default status is `error`.
+   * Defines the visual appearance of the status. These are the statuses `error`, `warning`, `information`, `success` and `marketing`. The default status is `error`.
    */
   state?: FormStatusState
   /**
@@ -144,6 +144,14 @@ export type WarnIconProps = SVGProps<SVGSVGElement> & {
 }
 
 export type InfoIconProps = SVGProps<SVGSVGElement> & {
+  /**
+   * The `title` attribute in the status.
+   */
+  title?: string
+  state?: FormStatusState
+}
+
+export type SuccessIconProps = SVGProps<SVGSVGElement> & {
   /**
    * The `title` attribute in the status.
    */

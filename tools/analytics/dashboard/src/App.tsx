@@ -24,7 +24,6 @@ import {
 import {
   countBy,
   dashboardView,
-  dataErrorMessage,
   loadDashboardData,
   rank,
   snapshotMeta,
@@ -125,21 +124,8 @@ function Content({
         return
       }
 
-      if (result.kind === 'rejected') {
-        setState({
-          status: 'error',
-          message:
-            'The data API rejected your access. Please try again later, or contact the dashboard owner if it persists.',
-        })
-
-        return
-      }
-
       if (result.kind === 'error') {
-        setState({
-          status: 'error',
-          message: dataErrorMessage(result.status),
-        })
+        setState({ status: 'error', message: result.message })
 
         return
       }
@@ -268,12 +254,12 @@ function Dashboard({
                 </Card>
 
                 <Card stack>
-                  <H2 size="medium">Top pages</H2>
+                  <H2 size="medium">Top URLs</H2>
                   <RankedTable
-                    caption="Top pages"
-                    nameHeader="Page"
+                    caption="Top URLs"
+                    nameHeader="URL"
                     countHeader="Views"
-                    items={rank(countBy(rows, 'label'), {
+                    items={rank(countBy(rows, 'path'), {
                       sort: 'desc',
                       limit: 15,
                     })}
@@ -378,6 +364,7 @@ function McpUsagePanel({
   const { label, intro, pathTitle, pathHeader, pathNote } =
     MCP_PANELS[transport]
   const total = usage?.total ?? 0
+  const missedLookups = usage?.missedLookups ?? 0
   const perVersion = usage?.perVersion ?? []
 
   if (total === 0) {
@@ -410,6 +397,22 @@ function McpUsagePanel({
         />
       </Card>
 
+      {missedLookups > 0 && (
+        <Card stack>
+          <H2 size="medium">Missed component lookups</H2>
+          <P className="dashboard__meta">
+            {`${missedLookups.toLocaleString()} lookups named a component the docs don't have. Names are matched ignoring case and hyphens, e.g. DatePicker → date-picker.`}
+          </P>
+          <RankedTable
+            caption={`${label} missed component lookups`}
+            nameHeader="Likely component"
+            countHeader="Misses"
+            emptyText="No missed name matched a real component."
+            items={(usage?.perLikelyComponent ?? []).slice(0, 15)}
+          />
+        </Card>
+      )}
+
       <Card stack>
         <H2 size="medium">{pathTitle}</H2>
         {pathNote && <P className="dashboard__meta">{pathNote}</P>}
@@ -423,9 +426,9 @@ function McpUsagePanel({
 
       {perVersion.length > 0 && (
         <Card stack>
-          <H2 size="medium">Eufemia versions</H2>
+          <H2 size="medium">Eufemia versions, last 90 days</H2>
           <RankedTable
-            caption={`${label} Eufemia versions`}
+            caption={`${label} Eufemia versions, last 90 days`}
             nameHeader="Version"
             countHeader="Requests"
             items={perVersion.slice(0, 15)}

@@ -1,0 +1,71 @@
+---
+fullscreen: true
+hideInMenu: true
+search: false
+---
+
+import { List } from '@dnb/eufemia/src'
+import { Value } from '@dnb/eufemia/src/extensions/forms'
+import { fish_medium } from '@dnb/eufemia/src/icons'
+
+export const Title = ({ subline = true, fontSize }) => (
+  <List.Cell.Title fontSize={fontSize}>
+    <List.Cell.Title.Overline>Overline</List.Cell.Title.Overline>
+    <span>Title</span>
+    {subline && <List.Cell.Title.Subline>Subline</List.Cell.Title.Subline>}
+  </List.Cell.Title>
+)
+
+export const End = ({ detail }) => (
+  <List.Cell.End>
+    <Value.Currency value={1234} />
+    {detail && (
+      <List.Cell.Title.Subline variant="description">
+        Detail
+      </List.Cell.Title.Subline>
+    )}
+  </List.Cell.End>
+)
+
+export const OverlineAndSubline = () => (
+  <List.Container>
+    <List.Item.Basic icon={fish_medium} data-testid="basic">
+      {Title({})}
+      {End({})}
+    </List.Item.Basic>
+    <List.Item.Action icon={fish_medium} data-testid="action">
+      {Title({})}
+      {End({})}
+    </List.Item.Action>
+    <List.Item.Action
+      icon={fish_medium}
+      chevronPosition="left"
+      data-testid="action-chevron-left"
+    >
+      {Title({})}
+      {End({})}
+    </List.Item.Action>
+    <List.Item.Accordion icon={fish_medium} data-testid="accordion">
+      <List.Item.Accordion.Header>
+        {Title({})}
+        {End({})}
+      </List.Item.Accordion.Header>
+      <List.Item.Accordion.Content>Content</List.Item.Accordion.Content>
+    </List.Item.Accordion>
+    <List.Item.Action icon={fish_medium} data-testid="center">
+      {Title({})}
+      <List.Cell.Center>Center</List.Cell.Center>
+      {End({})}
+    </List.Item.Action>
+    <List.Item.Action icon={fish_medium} data-testid="end-detail">
+      {Title({ subline: false })}
+      {End({ detail: true })}
+    </List.Item.Action>
+    <List.Item.Action icon={fish_medium} data-testid="small-title">
+      {Title({ fontSize: 'small' })}
+      {End({})}
+    </List.Item.Action>
+  </List.Container>
+)
+
+<OverlineAndSubline />

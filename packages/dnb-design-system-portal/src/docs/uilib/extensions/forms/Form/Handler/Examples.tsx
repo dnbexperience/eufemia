@@ -240,7 +240,7 @@ export const SessionStorage = () => {
         sessionStorageId="session-key"
       >
         <Form.Card>
-          <Field.Name path="/name" />
+          <Field.Name label="Name" path="/name" />
           <Field.Email path="/email" />
           <Form.ButtonRow>
             <Form.SubmitButton />

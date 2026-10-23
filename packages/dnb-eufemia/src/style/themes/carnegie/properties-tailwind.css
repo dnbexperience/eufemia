@@ -118,12 +118,13 @@
   --text-x-small: 0.875rem;
   --text-small: 1rem;
   --text-basis: 1.125rem;
+  --text-basis-web: 1.125rem;
   --text-basis--em: 1em;
   --text-lead: var(--font-size-medium);
   --text-medium: 1.25rem;
   --text-large: 1.625rem;
   --text-x-large: 2.125rem;
-  --text-xx-large: 3rem;
+  --text-xx-large: 3.5rem;
   --leading-xx-small--em: 1em;
   --leading-x-small: 1.25rem;
   --leading-small: 1.25rem;
@@ -133,7 +134,7 @@
   --leading-medium: 1.5rem;
   --leading-large: 2rem;
   --leading-x-large: 2.5rem;
-  --leading-xx-large: 3.5rem;
+  --leading-xx-large: 4.25rem;
   --color-mint-green-50: #d2f0e9;
   --color-mint-green-25: #e9f8f4;
   --color-mint-green-12: #f4fbf9;
@@ -187,4 +188,5 @@
   --ease-default: cubic-bezier(0.42, 0, 0, 1);
   --ease-fast-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
   --focus-ring-width: 0.25rem;
+  --text-basis-native: var(--font-size-basis-web);
 }

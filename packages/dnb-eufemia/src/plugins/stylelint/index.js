@@ -2,13 +2,24 @@ const noDeprecatedColorVariables = require('./rules/no-deprecated-color-variable
 const tokenNamePolicy = require('./rules/token-name-policy.cjs')
 const noUnusedUse = require('./rules/no-unused-use.cjs')
 const noUndefinedCustomProperty = require('./rules/no-undefined-custom-property.cjs')
+const noUnsafeFocusVisible = require('./rules/no-unsafe-focus-visible.cjs')
 const reviewRules = require('../review-rules.js')
 
+/**
+ * Inline the type, because a named typedef is not emitted into the
+ * declaration file and would leave it referencing an undeclared name.
+ *
+ * @type {import('stylelint').Plugin[] & {
+ *   reviewRules: Record<string, import('../review-rules.js').ReviewRuleMetadata>
+ *   recommended: import('stylelint').Config
+ * }}
+ */
 const pluginPack = [
   noDeprecatedColorVariables,
   tokenNamePolicy,
   noUnusedUse,
   noUndefinedCustomProperty,
+  noUnsafeFocusVisible,
 ]
 
 pluginPack.reviewRules = reviewRules

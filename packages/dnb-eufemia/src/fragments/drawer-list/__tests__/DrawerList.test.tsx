@@ -1533,6 +1533,22 @@ describe('DrawerList component', () => {
 })
 
 describe('DrawerList markup', () => {
+  it('should omit aria-labelledby when neither a label nor a trigger exists', () => {
+    render(
+      <DrawerList
+        {...props}
+        data={mockData}
+        direction="bottom"
+        maxHeight={10}
+        skipPortal
+      />
+    )
+
+    expect(
+      document.querySelector('.dnb-drawer-list__options')
+    ).not.toHaveAttribute('aria-labelledby')
+  })
+
   it('should validate with ARIA rules', async () => {
     const snapshotProps: DrawerListAllProps = {
       id: 'drawer-list-id',
@@ -1554,6 +1570,89 @@ describe('DrawerList markup', () => {
         },
       })
     ).toHaveNoViolations()
+  })
+
+  it('should give the list the aria-label set on DrawerList', async () => {
+    const result = render(
+      <DrawerList
+        {...props}
+        skipPortal
+        aria-label="Accounts"
+        data={mockData}
+      />
+    )
+
+    const list = document.querySelector('ul.dnb-drawer-list__options')
+    expect(list).toHaveAttribute('aria-label', 'Accounts')
+    expect(list).not.toHaveAttribute('aria-labelledby')
+    expect(document.querySelector('.dnb-drawer-list')).not.toHaveAttribute(
+      'aria-label'
+    )
+    expect(
+      await axeComponent(result, {
+        rules: {
+          'aria-required-children': { enabled: false },
+        },
+      })
+    ).toHaveNoViolations()
+  })
+
+  it('should give the list the aria-labelledby set on DrawerList', () => {
+    render(
+      <>
+        <span id="custom-label">Accounts</span>
+        <DrawerList
+          {...props}
+          aria-labelledby="custom-label"
+          data={mockData}
+        />
+      </>
+    )
+
+    expect(
+      document.querySelector('ul.dnb-drawer-list__options')
+    ).toHaveAttribute('aria-labelledby', 'custom-label')
+    expect(document.querySelector('.dnb-drawer-list')).not.toHaveAttribute(
+      'aria-labelledby'
+    )
+  })
+
+  it('should update the list aria-label when it changes', () => {
+    const { rerender } = render(
+      <DrawerList {...props} aria-label="Accounts" data={mockData} />
+    )
+
+    rerender(
+      <DrawerList
+        {...props}
+        aria-label="Savings accounts"
+        data={mockData}
+      />
+    )
+
+    expect(
+      document.querySelector('ul.dnb-drawer-list__options')
+    ).toHaveAttribute('aria-label', 'Savings accounts')
+  })
+
+  it('should validate DrawerList.Options given as children with ARIA rules', async () => {
+    const result = render(
+      <DrawerList open noAnimation skipPortal>
+        <DrawerList.Options aria-label="Options">
+          <DrawerList.Item value="A" selected>
+            A
+          </DrawerList.Item>
+          <DrawerList.Item value="B">B</DrawerList.Item>
+        </DrawerList.Options>
+      </DrawerList>
+    )
+
+    expect(
+      document
+        .querySelector('ul.dnb-drawer-list__options')
+        .getAttribute('role')
+    ).toBe('listbox')
+    expect(await axeComponent(result)).toHaveNoViolations()
   })
 
   it('should have correct aria-activedescendant', async () => {
@@ -1875,6 +1974,20 @@ describe('DrawerList scss', () => {
   it('have to match default theme snapshot', () => {
     const css = loadScss(require.resolve('../style/dnb-drawer-list.scss'))
     expect(css).toMatchSnapshot()
+  })
+
+  it('shows the selected and focused option in forced colors mode', () => {
+    const css = loadScss(require.resolve('../style/dnb-drawer-list.scss'))
+
+    expect(css).toMatch(
+      /@media \(forced-colors: active\) \{\s*\.dnb-drawer-list__option--selected \{[^}]*background-color: Highlight;/
+    )
+    expect(css).toMatch(
+      /@media \(forced-colors: active\) \{[^@]*\.dnb-drawer-list__option--selected \.dnb-drawer-list__option__inner::after \{\s*background-color: HighlightText;/
+    )
+    expect(css).toMatch(
+      /@media \(forced-colors: active\) \{\s*html\[data-whatinput=['"]?keyboard['"]?\] \.dnb-drawer-list__option--focus \{\s*outline: var\(--focus-ring-width\) solid transparent;/
+    )
   })
 })
 

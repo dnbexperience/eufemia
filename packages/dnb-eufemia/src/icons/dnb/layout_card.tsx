@@ -10,21 +10,14 @@ const layout_card = (props?: IconSVGProps) => (
     viewBox="0 0 16 16"
     {...props}
   >
-    <g
+    <path
       stroke="#000"
       strokeLinecap="round"
       strokeLinejoin="round"
       strokeWidth={1.5}
-      clipPath="url(#layout_card_svg__a)"
+      d="M1 2.448C1 1.648 1.648 1 2.448 1h11.104c.8 0 1.448.648 1.448 1.448v2.704c0 .8-.648 1.448-1.448 1.448H2.448C1.648 6.6 1 5.952 1 5.152zm0 8.4c0-.8.648-1.448 1.448-1.448h11.104c.8 0 1.448.649 1.448 1.448v2.704c0 .8-.648 1.448-1.448 1.448H2.448C1.648 15 1 14.352 1 13.552z"
       clipRule="evenodd"
-    >
-      <path d="M1 2.448C1 1.648 1.648 1 2.448 1h11.104c.8 0 1.448.648 1.448 1.448v2.704c0 .8-.648 1.448-1.448 1.448H2.448C1.648 6.6 1 5.952 1 5.152zm0 8.4c0-.8.648-1.448 1.448-1.448h11.104c.8 0 1.448.649 1.448 1.448v2.704c0 .8-.648 1.448-1.448 1.448H2.448C1.648 15 1 14.352 1 13.552z" />
-    </g>
-    <defs>
-      <clipPath id="layout_card_svg__a">
-        <path fill="#fff" d="M0 0h16v16H0z" />
-      </clipPath>
-    </defs>
+    />
   </svg>
 )
 export default layout_card

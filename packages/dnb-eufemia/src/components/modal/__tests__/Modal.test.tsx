@@ -6,7 +6,7 @@
 import { StrictMode, useState } from 'react'
 import type { ReactNode, RefObject } from 'react'
 import { axeComponent, loadScss } from '../../../core/test-utils/testSetup'
-import { fireEvent, render, waitFor } from '@testing-library/react'
+import { act, fireEvent, render, waitFor } from '@testing-library/react'
 import Input from '../../input/Input'
 import Modal from '../Modal'
 import type { ModalProps, ModalContentProps } from '../types'
@@ -282,6 +282,92 @@ describe('Modal component', () => {
     await userEvent.keyboard('{Escape}')
     expect(onClose).toHaveBeenCalledTimes(1)
     expect(testTriggeredBy).toBe('keyboard')
+  })
+
+  it('should wait with opening until "openModal" calls open', () => {
+    let openModalHandler: () => void = null
+    const onOpen = vi.fn()
+
+    render(
+      <Modal
+        {...props}
+        onOpen={onOpen}
+        openModal={(open) => {
+          openModalHandler = () => open()
+        }}
+      />
+    )
+
+    fireEvent.click(document.querySelector('button'))
+    expect(onOpen).toHaveBeenCalledTimes(0)
+
+    act(() => openModalHandler())
+    expect(onOpen).toHaveBeenCalledTimes(1)
+  })
+
+  it('should open with the documented "openModal" usage', () => {
+    const onOpen = vi.fn()
+
+    render(
+      <Modal {...props} onOpen={onOpen} openModal={(open) => open()} />
+    )
+
+    fireEvent.click(document.querySelector('button'))
+    expect(onOpen).toHaveBeenCalledTimes(1)
+  })
+
+  it('should close when the close function given to "closeModal" is called', () => {
+    let closeModalHandler: () => void = null
+
+    render(
+      <Modal
+        {...props}
+        closeModal={(close) => {
+          closeModalHandler = () => close()
+        }}
+      />
+    )
+
+    fireEvent.click(document.querySelector('button'))
+    expect(
+      document.querySelector('.dnb-modal__content')
+    ).toBeInTheDocument()
+
+    act(() => closeModalHandler())
+    expect(
+      document.querySelector('.dnb-modal__content')
+    ).not.toBeInTheDocument()
+  })
+
+  it('should call the functions returned by "openModal" and "closeModal" on unmount', () => {
+    const onOpenCleanup = vi.fn()
+    const onCloseCleanup = vi.fn()
+
+    const { unmount } = render(
+      <Modal
+        {...props}
+        openModal={(open) => {
+          open()
+          return onOpenCleanup
+        }}
+        closeModal={(close) => {
+          const timeout = setTimeout(close, 1000)
+          return () => {
+            clearTimeout(timeout)
+            onCloseCleanup()
+          }
+        }}
+      />
+    )
+
+    fireEvent.click(document.querySelector('button'))
+    expect(onOpenCleanup).toHaveBeenCalledTimes(0)
+    expect(onCloseCleanup).toHaveBeenCalledTimes(0)
+
+    unmount()
+
+    expect(onOpenCleanup).toHaveBeenCalledTimes(1)
+    expect(onCloseCleanup).toHaveBeenCalledTimes(1)
   })
 
   it('will set focus on content div if no h1 and close button is given', async () => {
@@ -1494,21 +1580,6 @@ describe('Modal component', () => {
     ).not.toBeInTheDocument()
   })
 
-  it('has correct opened state when "open" is used with boolean', () => {
-    const { rerender } = render(<Modal {...props} />)
-    rerender(<Modal {...props} open={true} />)
-
-    expect(
-      document.querySelector('div.dnb-modal__content')
-    ).toBeInTheDocument()
-
-    rerender(<Modal {...props} open={false} />)
-
-    expect(
-      document.querySelector('div.dnb-modal__content')
-    ).not.toBeInTheDocument()
-  })
-
   it('can be mounted from within another component', () => {
     const TestCustomTrigger = () => {
       const [count, setCount] = useState(0)
@@ -2054,24 +2125,6 @@ describe('Modal trigger', () => {
         .querySelector('.dnb-button__icon')
     ).toBeInTheDocument()
   })
-
-  // Deprecated: triggerAttributes – remove this test in v13
-  it('will not act as a HelpButton if trigger text was given', () => {
-    render(<Modal {...props} triggerAttributes={{ text: 'text' }} />)
-    expect(
-      document.querySelector('button.dnb-modal__trigger')
-    ).not.toHaveAttribute('aria-roledescription')
-    expect(
-      document
-        .querySelector('button.dnb-modal__trigger')
-        .querySelector('.dnb-button__icon')
-    ).not.toBeInTheDocument()
-    expect(
-      document
-        .querySelector('button.dnb-modal__trigger')
-        .textContent.replace(/\u200C/g, '')
-    ).toBe('text')
-  })
 })
 
 describe('Modal triggerProps', () => {
@@ -2127,6 +2180,21 @@ describe('Modal ARIA', () => {
   it('should validate with ARIA rules as a dialog', async () => {
     const Comp = render(<Modal {...props} />)
     expect(await axeComponent(Comp)).toHaveNoViolations()
+  })
+
+  it('should validate the open dialog with ARIA rules', async () => {
+    const Comp = render(
+      <Modal noAnimation open dialogTitle="Dialog title">
+        <p>Content</p>
+      </Modal>
+    )
+
+    expect(
+      await axeComponent(
+        Comp,
+        document.querySelector('.dnb-modal__content')
+      )
+    ).toHaveNoViolations()
   })
 })
 

@@ -16,7 +16,11 @@
  */
 
 import { useState, useEffect, useCallback } from 'react'
-import type { ThemeNames } from '@dnb/eufemia/src/shared/Theme'
+import type {
+  ThemeNames,
+  ThemeTypography,
+} from '@dnb/eufemia/src/shared/Theme'
+import useCanUseDOM from '@dnb/eufemia/src/shared/helpers/useCanUseDOM'
 
 declare global {
   // eslint-disable-next-line @typescript-eslint/consistent-type-definitions
@@ -50,6 +54,7 @@ export type ThemeState = {
   /** @deprecated Use `brand` instead. Removed in v13. */
   name?: ThemeNames
   colorScheme?: ThemeColorScheme
+  typography?: ThemeTypography
 }
 
 /** Mirror `brand` onto the deprecated `name` so every written payload has both. */
@@ -167,6 +172,10 @@ export function setTheme(
 export function useThemeHandler() {
   const [theme, setThemeState] = useState<ThemeState>(getTheme)
 
+  // Pages are prerendered with the default theme, so the selected theme is
+  // applied after hydration
+  const canUseDOM = useCanUseDOM()
+
   useEffect(() => {
     // Apply the initial theme styles.
     // In build mode, lazy-load non-default theme CSS first.
@@ -201,5 +210,8 @@ export function useThemeHandler() {
     []
   )
 
-  return { ...theme, setTheme: handleSetTheme }
+  return {
+    ...(canUseDOM ? theme : withBrand({}, DEFAULT_THEME)),
+    setTheme: handleSetTheme,
+  }
 }

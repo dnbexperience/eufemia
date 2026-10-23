@@ -142,6 +142,26 @@ test.describe('Theme', () => {
   })
 })
 
+test('should apply the brand from the URL after hydration', async ({
+  page,
+}) => {
+  const hydrationErrors: string[] = []
+  page.on('console', (message) => {
+    if (message.text().includes('hydration error')) {
+      hydrationErrors.push(message.text())
+    }
+  })
+
+  await page.goto('/uilib/components/logo/demos/?eufemia-theme=sbanken')
+  await waitForApp(page)
+
+  await expect(page.locator('#change-theme')).toHaveAttribute(
+    'title',
+    'Sbanken (WIP)'
+  )
+  expect(hydrationErrors).toEqual([])
+})
+
 test.describe('Dark mode', () => {
   const url = '/uilib/components/'
 

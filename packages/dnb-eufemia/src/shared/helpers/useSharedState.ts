@@ -43,25 +43,37 @@ export function useSharedState<Data>(
   {
     /** When set to `true`, the shared state will be deleted when all components have been unmounted. */
     weak = false,
+    scope,
+    getServerSnapshot,
+  }: {
+    weak?: boolean
+    /** Shares this named browser registry across independently bundled copies. */
+    scope?: string
+    /** Snapshot used during server rendering and initial hydration. */
+    getServerSnapshot?: () => Data
   } = {}
 ) {
   const instanceRef = useRef({})
 
   const sharedState = useMemo(() => {
     if (id) {
-      return createSharedState<Data>(id, initialData)
+      return createSharedState<Data>(id, initialData, { scope })
     }
 
     return undefined
-  }, [id, initialData])
+  }, [id, initialData, scope])
 
   const sharedAttachment = useMemo(() => {
     if (id) {
-      return createSharedState(createReferenceKey(id, 'oc'), { onChange })
+      return createSharedState(
+        createReferenceKey(id, 'oc', scope),
+        { onChange },
+        { scope }
+      )
     }
 
     return undefined
-  }, [id, onChange])
+  }, [id, onChange, scope])
 
   const syncAttachment = useCallback(
     (newData: Data | Partial<Data>) => {
@@ -101,7 +113,11 @@ export function useSharedState<Data>(
     return id ? (sharedState?.get?.() ?? undefined) : undefined
   }, [id, sharedState])
 
-  const data = useSyncExternalStore(subscribe, getSnapshot, getSnapshot)
+  const data = useSyncExternalStore(
+    subscribe,
+    getSnapshot,
+    getServerSnapshot ?? getSnapshot
+  )
 
   const get = useCallback(() => {
     if (id) {
@@ -197,10 +213,29 @@ type SharedStateInstance<Data> = {
   hadInitialData: boolean
 } & SharedStateReturn<Data>
 
-const sharedStates: Map<
-  SharedStateId,
-  SharedStateInstance<any>
-> = new Map()
+type SharedStateRegistry = {
+  states: Map<SharedStateId, SharedStateInstance<any>>
+  references: Map<unknown, Map<unknown, Record<string, never>>>
+}
+
+const sharedRegistry: SharedStateRegistry = {
+  states: new Map(),
+  references: new Map(),
+}
+
+function getSharedRegistry(scope?: string): SharedStateRegistry {
+  if (!scope || typeof window === 'undefined') {
+    return sharedRegistry
+  }
+
+  const key = Symbol.for('@dnb/eufemia/shared-state/v1/' + scope)
+  const registries = window as unknown as Record<
+    symbol,
+    SharedStateRegistry
+  >
+  registries[key] ??= { states: new Map(), references: new Map() }
+  return registries[key]
+}
 
 type Options = {
   preventSyncOfSameInstance?: boolean
@@ -216,8 +251,11 @@ export function createSharedState<Data>(
   /** The identifier for the shared state. */
   id: SharedStateId,
   /** The initial data for the shared state. */
-  initialData?: Data
+  initialData?: Data,
+  /** Optional named browser registry shared across independently bundled copies. */
+  { scope }: { scope?: string } = {}
 ): SharedStateInstance<Data> {
+  const sharedStates = getSharedRegistry(scope).states
   if (!sharedStates.get(id)) {
     const subscribersRef = {
       current: [] as Subscriber[],
@@ -359,7 +397,7 @@ export function preSeedSharedState<Data>(
 ): void {
   // Ensure the store exists with hadInitialData = false
   createSharedState<Data>(id)
-  const store = sharedStates.get(id)
+  const store = sharedRegistry.states.get(id)
   if (store && store.data === undefined && data !== undefined) {
     store.data = cloneData(data) as Data
   }
@@ -369,7 +407,8 @@ export function preSeedSharedState<Data>(
  * Creates a reference key for the shared state.
  * You can pass any JavaScript instance as the reference.
  */
-export function createReferenceKey(ref1, ref2) {
+export function createReferenceKey(ref1, ref2, scope?: string) {
+  const cache = getSharedRegistry(scope).references
   if (!cache.has(ref1)) {
     cache.set(ref1, new Map())
   }
@@ -382,7 +421,6 @@ export function createReferenceKey(ref1, ref2) {
 
   return innerMap.get(ref2)
 }
-const cache = new Map()
 
 function isObjectLike(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null

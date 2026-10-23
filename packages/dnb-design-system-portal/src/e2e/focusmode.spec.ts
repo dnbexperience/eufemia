@@ -60,7 +60,7 @@ test.describe('Focus mode', () => {
 
     // Brand switch should be visible
     const brandSwitch = page.locator(
-      'section[aria-label="Customize appearance"] fieldset'
+      '[role="group"][aria-label="Customize appearance"] fieldset'
     )
     await expect(brandSwitch).toBeVisible()
   })
@@ -116,37 +116,74 @@ test.describe('Focus mode', () => {
       .toBe('32px')
   })
 
-  test('should restore scroll position after exiting focusmode', async ({
-    page,
-  }) => {
-    const focusModeButton = page
-      .locator('button[aria-label="Focus mode"]')
-      .last()
+  for (const hash of ['', '#radio-group']) {
+    test(
+      'should restore scroll position immediately' +
+        (hash ? ' with a hash' : ''),
+      async ({ page }) => {
+        if (hash) {
+          await page.goto('/uilib/components/radio/demos/' + hash)
+          await waitForApp(page)
+        }
 
-    // Scroll down while keeping the button in view. Otherwise Playwright
-    // scrolls back to the button while clicking and changes the position
-    // this test is meant to restore.
-    await focusModeButton.scrollIntoViewIfNeeded()
+        const focusModeButton = page
+          .locator('button[aria-label="Focus mode"]')
+          .last()
 
-    const scrollBefore = await page.evaluate(() => window.scrollY)
-    expect(scrollBefore).toBeGreaterThan(0)
+        // Scroll down while keeping the button in view. Otherwise Playwright
+        // scrolls back to the button while clicking and changes the position
+        // this test is meant to restore.
+        await focusModeButton.scrollIntoViewIfNeeded()
 
-    // Enter focusmode
-    await focusModeButton.click()
-    await expect(page).toHaveURL(/focusmode=/)
+        const scrollBefore = await page.evaluate(() => window.scrollY)
+        expect(scrollBefore).toBeGreaterThan(0)
 
-    // Should scroll to top in focusmode
-    await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0)
+        const scrollPositions: number[] = []
+        await page.exposeFunction(
+          'recordFocusModeScroll',
+          (position: number) => {
+            scrollPositions.push(position)
+          }
+        )
+        await page.evaluate(() => {
+          const scrollTo = window.scrollTo.bind(window)
+          window.scrollTo = ((options: ScrollToOptions) => {
+            scrollTo(options)
+            const recordScroll = (
+              window as Window & {
+                recordFocusModeScroll?: (position: number) => Promise<void>
+              }
+            ).recordFocusModeScroll
+            void recordScroll?.(window.scrollY)
+          }) as typeof window.scrollTo
+        })
 
-    // Exit focusmode
-    await page.click('button[aria-label="Quit focus mode"]')
-    await expect(page).not.toHaveURL(/focusmode=/)
+        // Enter focusmode
+        await focusModeButton.click()
+        await expect(page).toHaveURL(/focusmode=/)
 
-    // Scroll should be restored
-    await expect
-      .poll(() => page.evaluate(() => window.scrollY))
-      .toBeGreaterThan(0)
-  })
+        // Should scroll to top in focusmode
+        await expect
+          .poll(() => page.evaluate(() => window.scrollY))
+          .toBe(0)
+
+        // Exit focusmode
+        await page.click('button[aria-label="Quit focus mode"]')
+        await expect(page).not.toHaveURL(/focusmode=/)
+
+        // Both entry scrolls and the restoration must take effect immediately.
+        await expect
+          .poll(() => scrollPositions)
+          .toEqual([0, 0, scrollBefore])
+
+        // Route focus must not scroll away again after restoration.
+        await page.waitForTimeout(2000)
+        await expect
+          .poll(() => page.evaluate(() => window.scrollY))
+          .toBe(scrollBefore)
+      }
+    )
+  }
 
   test('should restore scroll position after page refresh in focusmode', async ({
     page,
@@ -178,6 +215,82 @@ test.describe('Focus mode', () => {
     await expect
       .poll(() => page.evaluate(() => window.scrollY))
       .toBeGreaterThan(0)
+  })
+
+  test('should restore the previous page and position with Back and Forward', async ({
+    page,
+  }) => {
+    await page.addInitScript(() => {
+      const scrollTo = window.scrollTo.bind(window)
+      const restoredPositions: number[] = []
+      Object.assign(window, { restoredPositions })
+
+      window.scrollTo = (
+        options: ScrollToOptions | number,
+        y?: number
+      ) => {
+        if (typeof options === 'number') {
+          scrollTo(options, y ?? 0)
+        } else {
+          scrollTo(options)
+
+          if (options.top > 0) {
+            restoredPositions.push(window.scrollY)
+          }
+        }
+      }
+    })
+
+    await page.goto(
+      '/uilib/components/radio/demos/?q=term#with-different-sizes'
+    )
+    await waitForApp(page)
+
+    const focusModeButton = page
+      .locator('button[aria-label="Focus mode"]')
+      .last()
+    await focusModeButton.scrollIntoViewIfNeeded()
+
+    const previousUrl = page.url()
+    const scrollBefore = await page.evaluate(() => window.scrollY)
+    expect(scrollBefore).toBeGreaterThan(0)
+
+    await focusModeButton.click()
+    await expect(page).toHaveURL(/focusmode=/)
+    const focusUrl = page.url()
+    await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0)
+
+    for (let i = 0; i < 2; i++) {
+      await page.goBack()
+
+      await expect(page).toHaveURL(previousUrl)
+      await expect(page.locator('nav#portal-sidebar-menu')).toBeVisible()
+      await expect(
+        page.locator('button[aria-label="Quit focus mode"]')
+      ).toHaveCount(0)
+      await expect
+        .poll(async () =>
+          Math.abs(
+            (await page.evaluate(() => window.scrollY)) - scrollBefore
+          )
+        )
+        .toBeLessThan(2)
+      const restoredPosition = await page.evaluate(() => {
+        const { restoredPositions } = window as unknown as {
+          restoredPositions: number[]
+        }
+        return restoredPositions.at(-1)
+      })
+      expect(Math.abs(restoredPosition - scrollBefore)).toBeLessThan(2)
+
+      await page.goForward()
+
+      await expect(page).toHaveURL(focusUrl)
+      await expect(
+        page.locator('button[aria-label="Quit focus mode"]')
+      ).toBeVisible()
+      await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0)
+    }
   })
 
   test('should enter focusmode when visiting a focusmode URL directly', async ({

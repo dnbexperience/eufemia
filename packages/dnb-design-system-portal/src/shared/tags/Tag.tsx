@@ -10,6 +10,7 @@ import type { DynamicElement } from '@dnb/eufemia/src/shared/types'
 type Props = {
   as: DynamicElement
   className?: string
+  tabIndex?: number
   children: ReactNode
 }
 

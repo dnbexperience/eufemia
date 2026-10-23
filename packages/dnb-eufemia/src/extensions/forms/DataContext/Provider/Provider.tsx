@@ -5,7 +5,6 @@ import {
   useMemo,
   useReducer,
   useRef,
-  useSyncExternalStore,
 } from 'react'
 import type { ReactNode, RefObject } from 'react'
 import type { JsonObject } from '../../utils/json-pointer'
@@ -70,6 +69,11 @@ import type {
 import DataContext from '../Context'
 import DataContextRefContext from '../DataContextRefContext'
 import { structuredClone } from '../../../../shared/helpers/structuredClone'
+import useCanUseDOM from '../../../../shared/helpers/useCanUseDOM'
+import {
+  getWebStorage,
+  readWebStorageJSON,
+} from '../../../../shared/helpers/webStorage'
 
 import { useIsomorphicLayoutEffect as useLayoutEffect } from '../../../../shared/helpers/useIsomorphicLayoutEffect'
 
@@ -186,7 +190,7 @@ export type DataContextProviderProps<Data extends JsonObject> =
      */
     scrollTopOnSubmit?: boolean
     /**
-     * Key for saving active data to session storage and loading it on mount.
+     * Key for saving active data to session storage and loading it on mount. The stored data is removed after a successful submit.
      */
     sessionStorageId?: string
     /**
@@ -223,24 +227,6 @@ export type DataContextProviderProps<Data extends JsonObject> =
   }
 
 const isArrayJsonPointer = /^\/\d+(\/|$)/
-
-const subscribe = () => () => undefined
-const getClientSnapshot = () => typeof window !== 'undefined'
-const getServerSnapshot = () => false
-
-function getSessionData(sessionStorageId: string) {
-  const sessionDataJSON = window.sessionStorage?.getItem(sessionStorageId)
-  if (sessionDataJSON) {
-    try {
-      return JSON.parse(sessionDataJSON)
-    } catch (e) {
-      // If session storage data is corrupted, clear it and use default data
-      window.sessionStorage?.removeItem(sessionStorageId)
-    }
-  }
-
-  return undefined
-}
 
 export default function Provider<Data extends JsonObject>(
   props: DataContextProviderProps<Data>
@@ -477,15 +463,16 @@ export default function Provider<Data extends JsonObject>(
 
   // - Data
   // The server markup has no session data, so it may only be read after hydration
-  const canUseDOM = useSyncExternalStore(
-    subscribe,
-    getClientSnapshot,
-    sessionStorageId ? getServerSnapshot : getClientSnapshot
-  )
+  const canUseDOM = useCanUseDOM({
+    waitForHydration: Boolean(sessionStorageId),
+  })
   const hasReadSessionDataRef = useRef(canUseDOM)
   const initialData = useMemo<Data>(() => {
     if (sessionStorageId && canUseDOM) {
-      const sessionData = getSessionData(sessionStorageId)
+      const sessionData = readWebStorageJSON<Data>(
+        'session',
+        sessionStorageId
+      )
       if (sessionData !== undefined) {
         return sessionData
       }
@@ -676,14 +663,31 @@ export default function Provider<Data extends JsonObject>(
     },
     [checkFieldStateFor]
   )
-  const hasFieldError = useCallback(
-    (path: Path) => {
+  const hasFieldError: ContextState['hasFieldError'] = useCallback(
+    (path, { withDescendants = false } = {}) => {
+      // The trailing slash keeps "/foo" from matching siblings like "/fooBar"
+      const prefix = path?.endsWith('/') ? path : `${path}/`
+
+      if (
+        withDescendants &&
+        Object.entries(errorsRef.current ?? {}).some(
+          ([errorPath, error]) => {
+            return (
+              error instanceof Error &&
+              (errorPath === path || errorPath.startsWith(prefix))
+            )
+          }
+        )
+      ) {
+        return true
+      }
+
       return Array.from(mountedFieldsRef.current.entries()).some(
         ([p, item]) => {
           return (
             item.isMounted &&
-            p === path &&
-            checkFieldStateFor(path, 'error')
+            (p === path || (withDescendants && p.startsWith(prefix))) &&
+            checkFieldStateFor(p, 'error')
           )
         }
       )
@@ -954,12 +958,20 @@ export default function Provider<Data extends JsonObject>(
   )
 
   const fieldInternalsRef = useRef<FieldInternalsRef>({})
+
+  // Paths of password-like fields, kept out of session storage.
+  // A path stays in here, so a revealed password (type="text") is still covered.
+  const credentialPathsRef = useRef<Set<Path>>(new Set())
+
   const setFieldInternals: ContextState['setFieldInternals'] = useCallback(
     (path, internals) => {
       fieldInternalsRef.current[path] = Object.assign(
         fieldInternalsRef.current[path] || {},
         internals
       )
+      if (isPath(path) && isCredentialField(internals?.props)) {
+        credentialPathsRef.current.add(path)
+      }
     },
     []
   )
@@ -1216,9 +1228,31 @@ export default function Provider<Data extends JsonObject>(
   const storeInSession = useMemo(() => {
     return debounce(
       () => {
-        window.sessionStorage?.setItem(
+        const data = internalDataRef.current
+        const credentialPaths = credentialPathsRef.current
+
+        let dataToStore = data
+        if (credentialPaths.size > 0 && data && typeof data === 'object') {
+          dataToStore = JSON.parse(JSON.stringify(data))
+          const paths = Array.from(credentialPaths).flatMap((path) =>
+            resolveWildcardPath(dataToStore, path)
+          )
+          paths.forEach((path) => {
+            if (pointer.has(dataToStore, path)) {
+              const tokens = pointer.parse(path)
+              const parent = pointer.get(dataToStore, tokens.slice(0, -1))
+              if (Array.isArray(parent)) {
+                pointer.set(dataToStore, path, null)
+              } else {
+                pointer.remove(dataToStore, path)
+              }
+            }
+          })
+        }
+
+        getWebStorage('session')?.setItem(
           sessionStorageId,
-          JSON.stringify(internalDataRef.current)
+          JSON.stringify(dataToStore)
         )
       },
       process.env.NODE_ENV === 'test' ? 1 : 800
@@ -1388,7 +1422,7 @@ export default function Provider<Data extends JsonObject>(
         ? mutateDataHandler(data, transformOut)
         : data
 
-      for (const cb of changeHandlerStackRef.current) {
+      for (const { callback: cb } of changeHandlerStackRef.current) {
         if (isAsync(onChange)) {
           await cb(transformedData, options)
         } else {
@@ -1413,15 +1447,30 @@ export default function Provider<Data extends JsonObject>(
     ]
   )
 
-  const changeHandlerStackRef = useRef<Array<OnChange<Data>>>([])
-  const addOnChangeHandler = useCallback((callback: OnChange<Data>) => {
-    const exists = changeHandlerStackRef.current.some((cb) => {
-      return callback === cb
-    })
-    if (!exists) {
-      changeHandlerStackRef.current.push(callback)
-    }
-  }, [])
+  const changeHandlerStackRef = useRef<
+    Array<{ callback: OnChange<Data>; order: number }>
+  >([])
+  const addOnChangeHandler = useCallback(
+    (callback: OnChange<Data>, order = Number.MAX_SAFE_INTEGER) => {
+      const exists = changeHandlerStackRef.current.some((handler) => {
+        return callback === handler.callback
+      })
+      if (!exists) {
+        changeHandlerStackRef.current = [
+          ...changeHandlerStackRef.current,
+          { callback, order },
+        ].sort((a, b) => a.order - b.order)
+      }
+
+      return () => {
+        changeHandlerStackRef.current =
+          changeHandlerStackRef.current.filter(
+            (handler) => handler.callback !== callback
+          )
+      }
+    },
+    []
+  )
 
   // - Mounted fields
   const setMountedFieldState = useCallback(
@@ -1741,10 +1790,8 @@ export default function Provider<Data extends JsonObject>(
       resetForm: () => {
         formElement?.reset?.()
 
-        if (typeof window !== 'undefined') {
-          if (sessionStorageId) {
-            window.sessionStorage.removeItem(sessionStorageId)
-          }
+        if (sessionStorageId) {
+          getWebStorage('session')?.removeItem(sessionStorageId)
         }
 
         forceUpdate() // in order to fill "empty fields" again with their internal states
@@ -1813,6 +1860,15 @@ export default function Provider<Data extends JsonObject>(
               : completeResult
         }
 
+        if (
+          sessionStorageId &&
+          !(result instanceof Error) &&
+          !(result as EventStateObject | undefined)?.error
+        ) {
+          storeInSession.cancel()
+          getWebStorage('session')?.removeItem(sessionStorageId)
+        }
+
         if (scrollTopOnSubmit) {
           scrollToTop()
         }
@@ -1828,6 +1884,8 @@ export default function Provider<Data extends JsonObject>(
     onSubmitComplete,
     scrollToTop,
     scrollTopOnSubmit,
+    sessionStorageId,
+    storeInSession,
   ])
 
   // Collect listeners to be called during form submit
@@ -1896,7 +1954,7 @@ export default function Provider<Data extends JsonObject>(
     hasReadSessionDataRef.current = true
 
     const sessionData = sessionStorageId
-      ? getSessionData(sessionStorageId)
+      ? readWebStorageJSON<Data>('session', sessionStorageId)
       : undefined
     if (sessionData === undefined) {
       return undefined // stop here
@@ -2047,6 +2105,7 @@ export default function Provider<Data extends JsonObject>(
     fieldConnectionsRef,
     fieldDisplayValueRef,
     fieldInternalsRef,
+    credentialPathsRef,
     valueInternalsRef,
     mountedFieldsRef,
     snapshotsRef,
@@ -2254,3 +2313,41 @@ function useFormStatusBuffer(props: FormStatusBufferProps) {
 }
 
 export const clearedData = Object.freeze({})
+
+const credentialAutoComplete =
+  /(^|\s)(current-password|new-password|one-time-code)(\s|$)/
+
+// Resolves a "*" token to every index of the array it points into,
+// e.g. "/users/*/password" to "/users/0/password" and "/users/1/password".
+// On an object, "*" is used as a normal key.
+function resolveWildcardPath(data: unknown, path: Path): Array<Path> {
+  let paths: Array<Array<string>> = [[]]
+  for (const key of pointer.parse(path) as Array<string>) {
+    paths = paths.flatMap((keys) => {
+      if (key === '*') {
+        const value =
+          keys.length === 0
+            ? data
+            : pointer.has(data, keys)
+              ? pointer.get(data, keys)
+              : undefined
+        if (Array.isArray(value)) {
+          return value.map((_, index) => [...keys, String(index)])
+        }
+      }
+      return [[...keys, key]]
+    })
+  }
+  return paths.map((keys) => pointer.compile(keys) as Path)
+}
+
+function isCredentialField(props: unknown) {
+  const { type, autoComplete } = (props ?? {}) as {
+    type?: unknown
+    autoComplete?: unknown
+  }
+  return (
+    type === 'password' ||
+    credentialAutoComplete.test(String(autoComplete ?? ''))
+  )
+}

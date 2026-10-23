@@ -8,10 +8,11 @@ import type { AnchorProps } from '../../components/anchor/Anchor'
 import type { BadgeProps } from '../../components/badge/Badge'
 import type { IconIcon } from '../../components/icon/Icon'
 import type { SpacingProps } from '../../shared/types'
+import type { SidebarMenuResponsiveProviderProps } from './SidebarMenuResponsive'
 
 export type SidebarMenuItemData = {
-  /** Renders nested items as a static titled group, or renders custom content without item semantics. */
-  type?: 'group' | 'custom'
+  /** Renders nested items as a static titled group, a heading, or custom content without item semantics. */
+  type?: 'group' | 'header' | 'custom'
   /** Unique id used for selection and open state. */
   id: string
   /** Visible item or accordion label. */
@@ -72,6 +73,8 @@ export type SidebarMenuSectionData = {
 }
 
 export type SidebarMenuRootProps = {
+  /** Named controller shared with other applications in the same window. */
+  controllerId?: string
   /**
    * Declarative menu content composed with SidebarMenu.Item, SidebarMenu.Accordion,
    * SidebarMenu.Group, SidebarMenu.Section, SidebarMenu.Header, and
@@ -136,12 +139,55 @@ export type SidebarMenuRootProps = {
 } & SpacingProps &
   Omit<HTMLAttributes<HTMLElement>, 'children'>
 
+export type SidebarMenuContent =
+  | { data: SidebarMenuItemData[]; sections?: never }
+  | { sections: SidebarMenuSectionData[]; data?: never }
+
+export type SidebarMenuContentOptions = {
+  /** Stable registration key owned by the calling application. */
+  key: string
+}
+
+export type SidebarMenuTransformOptions = SidebarMenuContentOptions & {
+  /** Transformations run in ascending order, then by key. Default: 0. */
+  order?: number
+}
+
+export type SidebarMenuContentTransform = (
+  content: SidebarMenuContent
+) => SidebarMenuContent
+
+export type SidebarMenuControllerProps = Partial<
+  Omit<
+    SidebarMenuRootProps,
+    'children' | 'controllerId' | 'dangerouslySetInnerHTML'
+  > &
+    Omit<
+      SidebarMenuResponsiveProviderProps,
+      'children' | 'controllerId' | 'scopeId' | 'styleNonce' | 'breakpoint'
+    >
+>
+
+export type SidebarMenuController = {
+  /** Overrides menu and responsive props until the returned cleanup function is called. */
+  setProps: (
+    props: SidebarMenuControllerProps,
+    options: SidebarMenuContentOptions
+  ) => () => void
+  /** Replaces menu content until the returned cleanup function is called. */
+  setContent: (
+    content: SidebarMenuContent,
+    options: SidebarMenuContentOptions
+  ) => () => void
+  /** Registers a pure transformation until the returned cleanup function is called. */
+  transformContent: (
+    transform: SidebarMenuContentTransform,
+    options: SidebarMenuTransformOptions
+  ) => () => void
+}
+
 export type SidebarMenuDataProps = Omit<SidebarMenuRootProps, 'children'> &
-  (
-    | { data: SidebarMenuItemData[]; sections?: never }
-    | { sections: SidebarMenuSectionData[]; data?: never }
-    | { data?: never; sections?: never }
-  )
+  (SidebarMenuContent | { data?: never; sections?: never })
 
 export type SidebarMenuItemProps = {
   /**
@@ -292,11 +338,23 @@ export type SidebarMenuGroupProps = SidebarMenuGroupBaseProps &
     | { id?: string; href?: undefined; to?: undefined }
   )
 
-export type SidebarMenuHeaderProps = {
-  children?: ReactNode
-  text?: ReactNode
-  /** Semantic heading level. Default: `2` */
+type SidebarMenuHeaderBaseProps = Omit<
+  HTMLAttributes<HTMLLIElement>,
+  'title' | 'children'
+> & {
+  /**
+   * Kept for backwards compatibility and has no effect.
+   * @deprecated SidebarMenu.Header is a visual menu label.
+   */
   headingLevel?: number
-} & Omit<HTMLAttributes<HTMLLIElement>, 'title' | 'children'>
+}
+
+// Both are optional, so code that compiled with v11.15 still compiles.
+export type SidebarMenuHeaderProps = SidebarMenuHeaderBaseProps & {
+  /** Visible label for the grouped menu items. Required when children contains menu items. */
+  text?: ReactNode
+  /** Menu items labelled by text, or the label itself when text is omitted. */
+  children?: ReactNode
+}
 
 export type SidebarMenuDividerProps = HTMLAttributes<HTMLLIElement>

@@ -23,10 +23,7 @@ render(<Iterate.Array />)
 import { Iterate, Field } from '@dnb/eufemia/extensions/forms'
 
 render(
-  <Iterate.Array
-    label="Array label"
-    value={['Iron Man', 'Captain America', 'The Hulk']}
-  >
+  <Iterate.Array value={['Iron Man', 'Captain America', 'The Hulk']}>
     <Field.String itemPath="/" />
   </Iterate.Array>
 )

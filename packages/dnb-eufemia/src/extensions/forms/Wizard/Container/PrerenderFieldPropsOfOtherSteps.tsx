@@ -4,10 +4,10 @@ import {
   useEffect,
   useReducer,
   useRef,
-  useSyncExternalStore,
 } from 'react'
 import type { ReactNode } from 'react'
 import { createPortal } from 'react-dom'
+import useCanUseDOM from '../../../../shared/helpers/useCanUseDOM'
 import DataContext, {
   defaultContextState,
 } from '../../DataContext/Context'
@@ -20,17 +20,9 @@ type PrerenderProps = Pick<
   'prerenderFieldPropsRef' | 'stepsRef'
 >
 
-const subscribe = () => () => undefined
-const getClientSnapshot = () => typeof document !== 'undefined'
-const getServerSnapshot = () => false
-
 export function PrerenderFieldPropsOfOtherSteps(props: PrerenderProps) {
   // The portal has no server markup, so it may only mount after hydration
-  const canUseDOM = useSyncExternalStore(
-    subscribe,
-    getClientSnapshot,
-    getServerSnapshot
-  )
+  const canUseDOM = useCanUseDOM()
 
   if (!canUseDOM) {
     return null

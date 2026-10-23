@@ -56,6 +56,20 @@
   }
 }
 
+// Use instead of `:not(:focus-visible)`. Safari before 15.4 does not
+// support `:focus-visible` and drops every rule that uses it, so those
+// browsers get the rule without the condition.
+@mixin notFocusVisible() {
+  // stylelint-disable-next-line eufemia/no-unsafe-focus-visible
+  &:not(:focus-visible) {
+    @content;
+  }
+
+  @supports not (selector(:focus-visible)) {
+    @content;
+  }
+}
+
 @mixin focus() {
   &:focus {
     &[disabled] {
@@ -85,6 +99,17 @@
   }
 }
 
+// Forced colors mode removes the box-shadow of focus rings, but shows this outline
+@mixin forcedColorsOutline($width: var(--focus-ring-width), $inset: null) {
+  @media (forced-colors: active) {
+    outline: $width solid transparent;
+
+    @if $inset != null {
+      outline-offset: calc(#{$width} * -1);
+    }
+  }
+}
+
 @mixin focusStyle(
   $bgColor: var(--token-color-background-action-focus-subtle),
   $textColor: var(--token-color-text-neutral-inverse),
@@ -106,6 +131,8 @@
       $extendShadow: $extendShadow
     );
   }
+
+  @include forcedColorsOutline($borderWidth, $inset);
 }
 
 @mixin focusRing(

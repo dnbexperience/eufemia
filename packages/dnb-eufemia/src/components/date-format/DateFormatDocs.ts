@@ -2,8 +2,8 @@ import type { PropertiesTableProps } from '../../shared/types'
 
 export const DateFormatProperties: PropertiesTableProps = {
   value: {
-    doc: 'The date that will be formatted.',
-    type: ['Date', 'string'],
+    doc: 'The date that will be formatted. A number is read as a date (like `20250801`) or as a timestamp in milliseconds (like `Date.now()`). A number with up to 8 digits is only read as a date.',
+    type: ['Date', 'string', 'number'],
     status: 'optional',
   },
   dateStyle: {

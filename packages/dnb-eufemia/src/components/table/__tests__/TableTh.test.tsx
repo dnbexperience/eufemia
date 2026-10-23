@@ -1,8 +1,34 @@
-import { render } from '@testing-library/react'
+import { fireEvent, render } from '@testing-library/react'
 import type { TableThProps } from '../TableTh'
 import TableTh from '../TableTh'
 import TableSortButton from '../TableSortButton'
 import TableHelpButton from '../TableHelpButton'
+import useHandleSortState from '../useHandleSortState'
+
+const sortConfig = { one: {}, two: {} }
+
+function SortableHeader() {
+  const { sortState, sortHandler } = useHandleSortState(sortConfig)
+
+  return (
+    <table>
+      <thead>
+        <tr>
+          {Object.keys(sortConfig).map((name) => (
+            <TableTh
+              key={name}
+              sortable
+              active={sortState[name].active}
+              reversed={sortState[name].reversed}
+            >
+              <TableSortButton text={name} onClick={sortHandler[name]} />
+            </TableTh>
+          ))}
+        </tr>
+      </thead>
+    </table>
+  )
+}
 
 describe('TableTh', () => {
   it('renders with props as an object', () => {
@@ -135,7 +161,7 @@ describe('TableTh', () => {
 
     const element = document.querySelector('th')
     expect(Array.from(element.classList)).toContain('dnb-table--sortable')
-    expect(element.getAttribute('aria-sort')).toBe('ascending')
+    expect(element.hasAttribute('aria-sort')).toBe(false)
   })
 
   it('should set correct active class', () => {
@@ -171,22 +197,47 @@ describe('TableTh', () => {
 
     const element = document.querySelector('th')
     expect(Array.from(element.classList)).toContain('dnb-table--reversed')
-    expect(element.getAttribute('aria-sort')).toBe('descending')
+    expect(element.hasAttribute('aria-sort')).toBe(false)
   })
 
-  it('should set correct noWrap class', () => {
+  it('should set aria-sort to descending when active and reversed', () => {
     render(
       <table>
         <thead>
           <tr>
-            <TableTh noWrap>th content</TableTh>
+            <TableTh sortable active reversed>
+              th content
+            </TableTh>
           </tr>
         </thead>
       </table>
     )
 
     const element = document.querySelector('th')
-    expect(Array.from(element.classList)).toContain('dnb-table--no-wrap')
+    expect(element.getAttribute('aria-sort')).toBe('descending')
+  })
+
+  it('should set aria-sort only on the active column', () => {
+    render(
+      <table>
+        <thead>
+          <tr>
+            <TableTh sortable>one</TableTh>
+            <TableTh sortable active>
+              two
+            </TableTh>
+            <TableTh sortable reversed>
+              three
+            </TableTh>
+          </tr>
+        </thead>
+      </table>
+    )
+
+    const values = Array.from(document.querySelectorAll('th')).map((th) =>
+      th.getAttribute('aria-sort')
+    )
+    expect(values).toEqual([null, 'ascending', null])
   })
 
   it('should include custom classes', () => {
@@ -337,6 +388,85 @@ describe('TableTh', () => {
     expect(Array.from(element.classList)).not.toContain(
       'dnb-table--sort-off'
     )
+  })
+
+  it('should set sort-off class after sorting is turned off while hovering, until the pointer leaves', () => {
+    render(<SortableHeader />)
+
+    const th = document.querySelector('th')
+    const button = th.querySelector('button')
+
+    fireEvent.mouseEnter(th)
+    fireEvent.click(button) // asc
+    fireEvent.click(button) // desc
+    expect(th.classList).not.toContain('dnb-table--sort-off')
+
+    fireEvent.click(button) // off
+    expect(th.classList).not.toContain('dnb-table--active')
+    expect(th.classList).toContain('dnb-table--sort-off')
+
+    fireEvent.mouseLeave(th)
+    expect(th.classList).not.toContain('dnb-table--sort-off')
+
+    fireEvent.mouseEnter(th)
+    expect(th.classList).not.toContain('dnb-table--sort-off')
+  })
+
+  it('should not set sort-off class when deactivated by another column', () => {
+    render(<SortableHeader />)
+
+    const [first, second] = Array.from(document.querySelectorAll('th'))
+
+    fireEvent.mouseEnter(first)
+    fireEvent.click(first.querySelector('button'))
+    fireEvent.mouseLeave(first)
+
+    fireEvent.mouseEnter(second)
+    fireEvent.click(second.querySelector('button'))
+
+    expect(first.classList).not.toContain('dnb-table--active')
+    expect(first.classList).not.toContain('dnb-table--sort-off')
+  })
+
+  it('should not set sort-off class when sorting was turned off without hovering', () => {
+    render(<SortableHeader />)
+
+    const th = document.querySelector('th')
+    const button = th.querySelector('button')
+
+    fireEvent.click(button)
+    fireEvent.click(button)
+    fireEvent.click(button)
+    fireEvent.mouseEnter(th)
+
+    expect(th.classList).not.toContain('dnb-table--sort-off')
+  })
+
+  it('should call the given mouse enter and leave handlers', () => {
+    const onMouseEnter = vi.fn()
+    const onMouseLeave = vi.fn()
+
+    render(
+      <table>
+        <thead>
+          <tr>
+            <TableTh
+              onMouseEnter={onMouseEnter}
+              onMouseLeave={onMouseLeave}
+            >
+              th content
+            </TableTh>
+          </tr>
+        </thead>
+      </table>
+    )
+
+    const th = document.querySelector('th')
+    fireEvent.mouseEnter(th)
+    fireEvent.mouseLeave(th)
+
+    expect(onMouseEnter).toHaveBeenCalledTimes(1)
+    expect(onMouseLeave).toHaveBeenCalledTimes(1)
   })
 
   it('should not set sort-off class without sortedBefore', () => {

@@ -48,8 +48,8 @@ export function FilterData() {
           return (
             <Form.Handler id="filter-data">
               <Flex.Stack>
-                <Field.String path="/foo" value="foo" />
-                <Field.String path="/bar" value="bar" />
+                <Field.String label="Foo" path="/foo" value="foo" />
+                <Field.String label="Bar" path="/bar" value="bar" />
               </Flex.Stack>
             </Form.Handler>
           )

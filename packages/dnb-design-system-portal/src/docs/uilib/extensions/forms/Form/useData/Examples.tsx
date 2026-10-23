@@ -48,7 +48,11 @@ export function Update() {
           return (
             <Form.Handler id="update-id">
               <Flex.Horizontal>
-                <Field.Number path="/count" showStepControls />
+                <Field.Number
+                  label="Count"
+                  path="/count"
+                  showStepControls
+                />
                 <Form.SubmitButton
                   onClick={increment}
                   text={`Increment ${data.count}`}
@@ -187,18 +191,6 @@ export const VisibleData = () => {
     <ComponentBox>
       {() => {
         const MyForm = () => {
-          const { data, reduceToVisibleFields } = Form.useData()
-
-          // Use useEffect to ensure we get the latest data
-          useEffect(() => {
-            console.log(
-              'Result of reduceToVisibleFields:\n',
-              reduceToVisibleFields(data, {
-                removePaths: ['/isVisible'],
-              })
-            )
-          }, [data, reduceToVisibleFields])
-
           return (
             <Form.Handler>
               <Flex.Stack>
@@ -226,9 +218,27 @@ export const VisibleData = () => {
                   inheritLabel
                   inheritVisibility
                 />
+
+                <Output />
               </Flex.Stack>
             </Form.Handler>
           )
+        }
+
+        const Output = () => {
+          const { data, reduceToVisibleFields } = Form.useData()
+
+          // Use useEffect to ensure we get the latest data
+          useEffect(() => {
+            console.log(
+              'Result of reduceToVisibleFields:\n',
+              reduceToVisibleFields(data, {
+                removePaths: ['/isVisible'],
+              })
+            )
+          }, [data, reduceToVisibleFields])
+
+          return null
         }
 
         return <MyForm />

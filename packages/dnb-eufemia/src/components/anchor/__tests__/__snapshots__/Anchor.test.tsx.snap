@@ -25,6 +25,33 @@ exports[`Anchor scss > should match style dependencies css 1`] = `
   width: 1em;
   height: 1em;
 }
+.dnb-icon__cdn {
+  display: inline-block;
+  vertical-align: top;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  print-color-adjust: exact;
+}
+.dnb-icon__cdn--mask {
+  background-color: currentcolor;
+  mask-position: center;
+  mask-repeat: no-repeat;
+  mask-size: contain;
+  mask-mode: alpha;
+  /* Safari 14.1 requires prefixed mask properties. */
+  /* stylelint-disable property-no-vendor-prefix */
+  -webkit-mask-position: center;
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-size: contain;
+  /* stylelint-enable property-no-vendor-prefix */
+}
+@media (forced-colors: active) {
+  .dnb-icon__cdn--mask {
+    background-color: CanvasText;
+    forced-color-adjust: none;
+  }
+}
 .dnb-icon img, :where(.dnb-core-style) .dnb-icon img,
 .dnb-icon svg,
 :where(.dnb-core-style) .dnb-icon svg {
@@ -278,6 +305,11 @@ sup :where(:not(.dnb-anchor--no-style)).dnb-anchor, sub :where(:not(.dnb-anchor-
   box-shadow: 0 0 0 var(--border-width) var(--border-color), inset 100vw 100vw 0 0 var(--token-color-background-action-focus-subtle), calc(var(--anchor-background-gutter-left, 0.125rem) * -1) 0 0 0 var(--token-color-background-action-focus-subtle), var(--anchor-background-gutter-right, 0.125rem) 0 0 0 var(--token-color-background-action-focus-subtle);
   border-color: transparent;
 }
+@media (forced-colors: active) {
+  :where(:not(.dnb-anchor--no-style)).dnb-anchor:focus-visible {
+    outline: var(--focus-ring-width) solid transparent;
+  }
+}
 :where(:not(.dnb-anchor--no-style)).dnb-anchor:hover:where(:not(.dnb-anchor--no-hover)) {
   --anchor-color: var(--anchor-color--hover);
   --anchor-icon-color: var(--anchor-icon-color--hover);
@@ -419,6 +451,11 @@ sup :where(:not(.dnb-anchor--no-style)).dnb-anchor, sub :where(:not(.dnb-anchor-
     box-shadow: 0 0 0 var(--border-width) var(--border-color), inset 100vw 100vw 0 0 var(--token-color-background-action-focus-subtle), calc(var(--anchor-background-gutter-left, 0.125rem) * -1) 0 0 0 var(--token-color-background-action-focus-subtle), var(--anchor-background-gutter-right, 0.125rem) 0 0 0 var(--token-color-background-action-focus-subtle);
     border-color: transparent;
   }
+  @media (forced-colors: active) {
+    :not(.dnb-anchor--no-style).dnb-anchor:focus-visible {
+      outline: var(--focus-ring-width) solid transparent;
+    }
+  }
   :not(.dnb-anchor--no-style).dnb-anchor:hover:where(:not(.dnb-anchor--no-hover)) {
     --anchor-color: var(--anchor-color--hover);
     --anchor-icon-color: var(--anchor-icon-color--hover);
@@ -542,12 +579,20 @@ sup :where(:not(.dnb-anchor--no-style)).dnb-anchor, sub :where(:not(.dnb-anchor-
   box-shadow: 0 0 0 var(--border-width) var(--border-color), inset 100vw 100vw 0 0 var(--token-color-background-action-focus-subtle), calc(var(--anchor-background-gutter-left, 0.125rem) * -1) 0 0 0 var(--token-color-background-action-focus-subtle), var(--anchor-background-gutter-right, 0.125rem) 0 0 0 var(--token-color-background-action-focus-subtle);
   border-color: transparent;
 }
+@media (forced-colors: active) {
+  .dnb-anchor--focus {
+    outline: var(--focus-ring-width) solid transparent;
+  }
+}
 
 .dnb-anchor--no-underline, .dnb-section .dnb-anchor--no-underline.dnb-anchor {
   text-decoration: none;
 }
 
-.dnb-anchor--no-radius, .dnb-anchor--no-radius:hover, .dnb-anchor--no-radius:active, .dnb-anchor--no-radius:focus-visible {
+.dnb-anchor--no-radius, .dnb-anchor--no-radius:hover, .dnb-anchor--no-radius:active {
+  border-radius: 0;
+}
+.dnb-anchor--no-radius:focus-visible {
   border-radius: 0;
 }
 

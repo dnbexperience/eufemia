@@ -119,28 +119,8 @@ export const PopoverProperties: PropertiesTableProps = {
     defaultValue: 'false',
     status: 'optional',
   },
-  contentClassName: {
-    doc: 'Additional class name(s) merged into the popover content wrapper.',
-    type: 'string',
-    status: 'optional',
-  },
-  baseClassName: {
-    doc: 'Overrides the default BEM root block. Useful when mirroring Popover styles.',
-    type: 'string',
-    status: 'optional',
-  },
-  hideOutline: {
-    doc: 'Removes the outline/border that normally surrounds the popover surface.',
-    type: 'boolean',
-    status: 'optional',
-  },
   hideCloseButton: {
     doc: 'Removes the built-in close button.',
-    type: 'boolean',
-    status: 'optional',
-  },
-  disableFocusTrap: {
-    doc: 'Stops rendering the focus-trap button used to return focus to the trigger.',
     type: 'boolean',
     status: 'optional',
   },
@@ -155,8 +135,17 @@ export const PopoverProperties: PropertiesTableProps = {
     status: 'optional',
   },
   restoreFocus: {
-    doc: 'Moves focus back to the trigger element once the popover closes (defaults to `true`).',
+    doc: 'Moves focus back to the trigger or the element focused when the popover opened. Defaults to `true`. Outside clicks and taps preserve focus at the interaction target.',
     type: 'boolean',
+    status: 'optional',
+  },
+  restoreFocusTo: {
+    doc: 'Provide a specific element, ref or function returning an element to receive focus when the popover closes. Takes precedence over the trigger and previously focused element.',
+    type: [
+      'HTMLElement',
+      'React.RefObject<HTMLElement>',
+      '() => HTMLElement',
+    ],
     status: 'optional',
   },
   preventClose: {

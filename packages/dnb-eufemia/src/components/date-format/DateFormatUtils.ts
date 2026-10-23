@@ -53,10 +53,26 @@ export type DateFormatOptions = {
 type FormatDateInput = DatePickerDateType | number | string
 
 /**
+ * Reads a number as a date first (like 20250801), and as a timestamp in milliseconds otherwise.
+ * A number with up to 8 digits is only read as a date, so an invalid one, such as 20251301, stays invalid.
+ */
+export function convertNumberToDate(value: number): Date {
+  // Up to 8 digits can only be a date like 20250801 (NaN is handled here too)
+  if (!(Math.abs(value) > 99999999)) {
+    return convertStringToDate(String(value))
+  }
+
+  return (
+    convertStringToDate(String(value), { strictDateFormat: true }) ??
+    new Date(value)
+  )
+}
+
+/**
  * Detects if a date string represents a UTC date
  * by checking if it ends with 'Z' or contains a timezone offset
  */
-function isUTCDateString(dateValue: string): boolean {
+export function isUTCDateString(dateValue: string): boolean {
   // Check for UTC indicator 'Z' at the end
   if (dateValue.endsWith('Z')) {
     return true
@@ -183,12 +199,10 @@ export function formatDate(
         ? String(dateValue)
         : null
 
-  // Convert to DateType (Date | string) for convertStringToDate
-  // Numbers are converted to strings to preserve UTC detection
-  const dateInput: DatePickerDateType =
-    typeof dateValue === 'number' ? String(dateValue) : dateValue
-
-  const date = convertStringToDate(dateInput)
+  const date =
+    typeof dateValue === 'number'
+      ? convertNumberToDate(dateValue)
+      : convertStringToDate(dateValue)
 
   // If timeZone is explicitly provided, use it
   // Otherwise, if formatting time and input is UTC, use UTC timezone
@@ -204,16 +218,23 @@ export function formatDate(
     finalOptions.timeZone = 'UTC'
   }
 
+  if (typeof Intl === 'undefined') {
+    return date.toLocaleString(locale, finalOptions)
+  }
+
   // Hide year: always hide when hideYear is true, or hide when hideCurrentYear is true and date is in current year
   const dateStyle = finalOptions.dateStyle
   const shouldHideYear =
     dateStyle &&
     (hideYear ||
-      (hideCurrentYear && date.getFullYear() === new Date().getFullYear()))
-
-  if (typeof Intl === 'undefined') {
-    return date.toLocaleString(locale, finalOptions)
-  }
+      (hideCurrentYear &&
+        // Use the year of the formatted date, which may be in another time zone
+        Number(
+          new Intl.DateTimeFormat('en-US', {
+            year: 'numeric',
+            timeZone: finalOptions.timeZone,
+          }).format(date)
+        ) === new Date().getFullYear()))
 
   if (shouldHideYear) {
     const datePart = formatDateWithoutYear(

@@ -29,7 +29,7 @@ export const DatePickerProperties: PropertiesTableProps = {
     status: 'optional',
   },
   endMonth: {
-    doc: 'To display what month should be shown in the second calendar by default. Defaults to the `date` respective `startDate`.',
+    doc: 'To display what month should be shown in the second calendar by default. Defaults to the month after `startMonth`. When `startMonth` is not set, the month of `endDate` is used if it differs from the first calendar.',
     type: dateType,
     status: 'optional',
   },
@@ -194,7 +194,7 @@ export const DatePickerProperties: PropertiesTableProps = {
     status: 'optional',
   },
   onlyMonth: {
-    doc: "If set to `true`, the calendar only displays days belonging to the currently displayed month, and month navigation via buttons and keyboard is disabled. The displayed month is determined by the `month` or `startMonth` prop, and ultimately defaults to the current month. Use `'without-label'` to also hide the month label. Defaults to `false`.",
+    doc: "If set to `true`, the calendar only displays days belonging to the currently displayed month, and month navigation via buttons and keyboard is disabled. The displayed month is determined by the `month` or `startMonth` prop, and ultimately defaults to the current month, or the nearest month within `minDate` and `maxDate`. Use `'without-label'` to also hide the month label. Defaults to `false`.",
     type: ['boolean', '"without-label"'],
     status: 'optional',
   },

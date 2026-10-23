@@ -114,13 +114,16 @@ export default function PortalLayout(props: PortalLayoutProps) {
 
   // For tab pages without their own title, construct a title like "ComponentName → TabName"
   const headData = {
-    title: fmData.title,
+    title: pageFm.title ?? pageFm.contentTitle ?? fmData.title,
     description: fmData.description,
   }
   if (!pageFm.title && pageFm.showTabs && parentFm.title) {
     const tabs = fmData.tabs || defaultTabsValue
-    const currentTabKey = '/' + slug.split('/').pop()
-    const currentTab = tabs.find(({ key }) => key === currentTabKey)
+    const currentTabKey = slug.split('/').pop()
+    // Keys can be relative (`/demos`) or full paths, like TabBar accepts
+    const currentTab = tabs.find(
+      ({ key }) => key.split('/').filter(Boolean).pop() === currentTabKey
+    )
     if (currentTab?.title) {
       headData.title = `${parentFm.title} → ${currentTab.title}`
     }

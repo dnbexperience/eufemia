@@ -15,9 +15,10 @@ yarn workspace eufemia-analytics-dashboard dev
 Other scripts: `build` (production build to `dist/`), `preview` (serve the built
 output), `test`, `test:types`, and `lint`.
 
-With no `config.json` present the page renders without sign-in for local preview,
-so the data API is not called. Use `preview` when testing sign-in, so the port
-matches a redirect URI registered on the app registration.
+Without `config.json`, `dev` shows sample data and skips sign-in. A production
+build (including `preview`) shows a sign-in error, so copy `config.json` into
+`dist/` after building. Use `preview` when testing sign-in, so the port matches a
+redirect URI registered on the app registration.
 
 ## Sign-in
 

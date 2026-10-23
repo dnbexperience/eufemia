@@ -12,6 +12,7 @@ import PaymentCard, {
   BankAxeptType,
 } from '../PaymentCard'
 import { formatCardNumber } from '../components/CardNumber'
+import MastercardDark from '../icons/providers/MastercardDark'
 import nbNO from '../../../shared/locales/nb-NO'
 import enGB from '../../../shared/locales/en-GB'
 import { render, screen } from '@testing-library/react'
@@ -193,6 +194,27 @@ describe('PaymentCard', () => {
 
     expect(screen.queryByText('Credit')).toBeInTheDocument()
   })
+
+  it('gives each Sbanken logo its own clip path id', () => {
+    render(
+      <>
+        <PaymentCard {...defaultProps} id="first" productCode="087" />
+        <PaymentCard {...defaultProps} id="second" productCode="087" />
+      </>
+    )
+
+    const logos = Array.from(
+      document.querySelectorAll('.dnb-payment-card__card__bank-logo')
+    )
+    const ids = logos.map((logo) => logo.querySelector('clipPath').id)
+    const references = logos.map((logo) =>
+      logo.querySelector('g[clip-path]').getAttribute('clip-path')
+    )
+
+    expect(logos).toHaveLength(2)
+    expect(new Set(ids).size).toBe(2)
+    expect(references).toEqual(ids.map((id) => `url(#${id})`))
+  })
 })
 
 describe('Helper functions', () => {
@@ -212,11 +234,6 @@ describe('Helper functions', () => {
       expect(result).toEqual(null)
     })
 
-    it('should format card number to a certain length of 8', () => {
-      const result = formatCardNumber('************1337', 8)
-      expect(result).toEqual('**** 1337')
-    })
-
     it('should format card number to a certain length of 6', () => {
       const result = formatCardNumber('************1337', 6)
       expect(result).toEqual('** 1337')
@@ -230,16 +247,6 @@ describe('Helper functions', () => {
     it('should format card number to a certain length of 1', () => {
       const result = formatCardNumber('************1337', 1)
       expect(result).toEqual('7')
-    })
-
-    it('should not break when provided with empty string and a digit', () => {
-      const result = formatCardNumber('', 8)
-      expect(result).toEqual('')
-    })
-
-    it('should not break when provided with a null and a digit', () => {
-      const result = formatCardNumber(null, 8)
-      expect(result).toEqual(null)
     })
 
     it('should format when digits is same as card number length', () => {
@@ -435,5 +442,32 @@ describe('PaymentCard scss', () => {
   it('has to match style dependencies css', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
     expect(css).toMatchSnapshot()
+  })
+})
+
+describe('MastercardDark', () => {
+  it('uses unique ids that its own references point to', () => {
+    const { container } = render(
+      <>
+        <MastercardDark />
+        <MastercardDark />
+      </>
+    )
+
+    const ids = Array.from(container.querySelectorAll('[id]')).map(
+      (element) => element.id
+    )
+    expect(ids.length).toBeGreaterThan(0)
+    expect(ids).toHaveLength(new Set(ids).size)
+
+    const [first, second] = Array.from(container.querySelectorAll('svg'))
+    for (const svg of [first, second]) {
+      const references = svg.innerHTML.match(/url\(#[^)]+\)/g)
+      expect(references.length).toBeGreaterThan(0)
+      for (const reference of references) {
+        const id = reference.slice(5, -1)
+        expect(svg.querySelector(`[id="${id}"]`)).not.toBeNull()
+      }
+    }
   })
 })

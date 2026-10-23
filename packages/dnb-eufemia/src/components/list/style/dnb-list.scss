@@ -1,5 +1,32 @@
 @use './../../../style/core/utilities.scss' as utilities;
 
+@mixin navigationOutline() {
+  --list-item-outline-color: var(--list-item-navigation-outline-color);
+  --list-item-outline-width: 0.125rem;
+  z-index: 2;
+}
+
+// Safari before 15.4 and Firefox before 121 do not support :has(), so
+// they drop the rules that show the outline of an item on keyboard focus.
+// These browsers cannot style the item from its focused child. So the
+// fallback draws the outline on the focused primary target (the action
+// button or link, or the accordion header) instead. Footer controls and
+// nested items do not get it.
+@mixin withoutHasSupport() {
+  @supports not (selector(:has(*))) {
+    @content;
+  }
+}
+
+@mixin focusFallbackOutline() {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 11; // Above the outline of the item (::after)
+  box-shadow: inset 0 0 0 0.125rem
+    var(--list-item-navigation-outline-color);
+}
+
 .dnb-list {
   &--variant-basic {
     --list-item-padding: 1rem;
@@ -107,29 +134,77 @@
       min-height: var(--list-item-height);
       padding: calc(var(--list-item-padding)) 0;
     }
-    &:has(#{&}__overline) &__center,
-    &:has(#{&}__overline) &__end {
-      @include utilities.allAbove(small) {
-        place-self: end;
+
+    // Let adjacent text nodes share one grid cell and wrap together.
+    &:where(
+      :not(
+        [hidden],
+        :has(
+          .dnb-flex-item,
+          :not(.dnb-space, .dnb-list__item__pending),
+          .dnb-space[style]
+        )
+      )
+    ) {
+      grid-template: auto / minmax(0, 1fr);
+      padding-inline: var(--list-item-padding, 0);
+
+      > .dnb-space:not([hidden]) {
+        display: contents;
       }
     }
-    &:has(#{&}__overline) &__icon,
-    &:has(#{&}__overline) &__chevron {
+
+    // Align the cells with the title when the row has an overline or a
+    // subline. Only check the cells of the same row (the children of the cells'
+    // parent), so a nested list (e.g. inside an accordion) does not affect the
+    // alignment of other rows.
+    $footer: '#{&}__footer, #{&}__action__footer';
+    $row-with-overline: ':has(> #{&}__overline, > :not(#{$footer}) #{&}__overline)';
+    $row-with-subline: ':has(> #{&}__subline, > :not(#{$footer}) #{&}__subline)';
+
+    // Only align these cells vertically, so they keep their horizontal place.
+    @at-root #{$row-with-overline} > #{&}__center,
+      #{$row-with-overline} > #{&}__end {
+      @include utilities.allAbove(small) {
+        align-self: end;
+      }
+    }
+    @at-root #{$row-with-overline} > #{&}__icon,
+      #{$row-with-overline} > #{&}__chevron {
       place-self: end;
     }
-    &:has(#{&}__subline) &__center,
-    &:has(#{&}__subline) &__end {
+    @at-root #{$row-with-subline} > #{&}__center,
+      #{$row-with-subline} > #{&}__end {
       @include utilities.allAbove(small) {
-        place-self: start;
+        align-self: start;
       }
     }
-    &:has(#{&}__subline) &__title,
-    &:has(#{&}__subline) &__icon,
-    &:has(#{&}__subline) &__chevron {
+    @at-root #{$row-with-subline} > #{&}__title,
+      #{$row-with-subline} > #{&}__icon,
+      #{$row-with-subline} > #{&}__chevron {
       place-self: start;
     }
-    &:has(#{&}__footer),
-    &:has(#{&}__footer) &__accordion__header {
+
+    // With both an overline and a subline, the cells are placed at the top of
+    // the row. Move them down by the overline line, so they are aligned with
+    // the title line and not with the overline.
+    @at-root #{$row-with-overline}#{$row-with-subline} > #{&}__icon,
+      #{$row-with-overline}#{$row-with-subline} > #{&}__chevron {
+      margin-top: var(--line-height-basis);
+    }
+    @at-root #{$row-with-overline}#{$row-with-subline}
+        > #{&}__center:not(:has(> #{&}__title)),
+      #{$row-with-overline}#{$row-with-subline} > #{&}__end {
+      @include utilities.allAbove(small) {
+        margin-top: var(--line-height-basis);
+      }
+    }
+
+    &:has(> #{&}__footer),
+    &__action:has(> #{&}__action__button > #{&}__footer),
+    &__action:has(> a > #{&}__footer),
+    &__accordion:has(> #{&}__footer) > #{&}__accordion__header,
+    &__accordion__header:has(> #{&}__footer) {
       padding-bottom: 0;
     }
 
@@ -141,6 +216,43 @@
     &__accordion__header:has(#{&}__end) {
       @include utilities.allBelow(small) {
         row-gap: var(--list-item-row-gap);
+      }
+    }
+
+    // A row can show its title in the center cell (a List.Cell.Title inside
+    // a List.Cell.Center). Then the center cell takes the place of the title,
+    // so it fills the space after the icon and the start cell on all screen
+    // sizes.
+    $center: '#{&}__center';
+    $title: '#{&}__title';
+    $end: '#{&}__end';
+    $chevron: '#{&}__chevron';
+    $row-grid: ':is(#{&}, #{&}__accordion__header, #{&}__action__button, #{&}__action--href > a)';
+    @at-root #{$row-grid}:has(> #{$center} > #{$title}):not(
+          :has(> #{$title})
+        ) {
+      --list-item-grid-template-columns: auto auto auto minmax(0, 1fr) 0
+        auto auto;
+
+      > #{$center} {
+        grid-area: title;
+
+        // The center cell already has the start padding of the row
+        > #{$title} {
+          padding-left: 0;
+        }
+      }
+
+      // Like a title, keep space at the end when nothing follows
+      &:not(:has(> #{$end}, > #{$chevron})) > #{$center} {
+        padding-right: var(--list-item-padding, 0);
+      }
+
+      // Like a title, only add the small screen row gap for the end cell
+      &:not(:has(> #{$end})) {
+        @include utilities.allBelow(small) {
+          row-gap: 0;
+        }
       }
     }
 
@@ -192,6 +304,11 @@
     }
 
     // Grid areas and specific styles for each slot
+    &:where(:not(:has(> #{&}__center, > #{&}__end, > #{&}__chevron)))
+      > :where(#{&}__title) {
+      padding-right: var(--list-item-padding, 0);
+    }
+
     &__title {
       grid-area: title;
       flex-direction: column;
@@ -241,7 +358,7 @@
     }
 
     // Deal with chevron
-    &__action--href a .dnb-anchor__launch-icon,
+    &__action--href > a .dnb-anchor__launch-icon,
     &__chevron {
       display: flex;
       align-items: center;
@@ -249,7 +366,7 @@
       height: var(--list-item-chevron-height);
       margin-right: var(--list-item-chevron-margin);
     }
-    &--chevron-left &__action--href a .dnb-anchor__launch-icon,
+    &--chevron-left &__action--href > a .dnb-anchor__launch-icon,
     &--chevron-left &__chevron {
       grid-area: chevron-left;
       margin-right: 0;
@@ -281,7 +398,7 @@
       --radio-bounding--medium: 100;
     }
 
-    &:has(.dnb-anchor__launch-icon) &__chevron {
+    &:has(> a .dnb-anchor__launch-icon) &__chevron {
       display: none;
     }
 
@@ -291,13 +408,14 @@
       cursor: pointer;
       outline: none;
 
-      .dnb-icon {
+      > a .dnb-icon,
+      > .dnb-list__item__action__button .dnb-icon {
         color: var(--list-item-icon-color);
       }
 
       // Anchor/button wrap the slots and reproduce the item grid, spanning it
       // fully. Mirror its centering, else cells stretch and top-align (title/end).
-      &--href a,
+      &--href > a,
       &__button {
         display: grid;
         grid-template:
@@ -318,19 +436,29 @@
       }
 
       // Inherit the row's text styling, not default link styles.
-      &--href a {
+      &--href > a {
         text-decoration: none;
         color: inherit;
       }
 
-      // Handle action states
-      &:not(.dnb-list__item--disabled):hover,
-      &:not(.dnb-list__item--disabled):has(:focus-visible) {
-        --list-item-outline-color: var(
-          --list-item-navigation-outline-color
-        );
-        --list-item-outline-width: 0.125rem;
-        z-index: 2;
+      // Handle action states. Keep :hover in its own rule, because a
+      // browser without support for :has() or :focus-visible drops the
+      // whole rule.
+      &:not(.dnb-list__item--disabled):hover {
+        @include navigationOutline();
+      }
+      &:not(.dnb-list__item--disabled):has(
+          > a:focus-visible,
+          > .dnb-list__item__action__button:focus-visible
+        ) {
+        @include navigationOutline();
+      }
+      @include withoutHasSupport() {
+        &:not(.dnb-list__item--disabled) > a:focus::before,
+        &:not(.dnb-list__item--disabled)
+          > .dnb-list__item__action__button:focus::before {
+          @include focusFallbackOutline();
+        }
       }
       &:not(.dnb-list__item--disabled):active {
         --list-item-outline-color: var(
@@ -342,18 +470,68 @@
         --list-item-outline-width: 0.0625rem;
         z-index: 2;
       }
+
+      &--with-footer {
+        grid-template: 'action' auto 'footer' auto / minmax(0, 1fr);
+        padding: 0;
+        cursor: auto;
+
+        // Keep the primary hit area above the independent footer controls.
+        > a,
+        > .dnb-list__item__action__button {
+          position: relative;
+          grid-area: action;
+          min-height: var(--list-item-height);
+          padding-block: var(--list-item-padding);
+          cursor: pointer;
+        }
+
+        &.dnb-list__item--disabled > a,
+        &.dnb-list__item--disabled > .dnb-list__item__action__button {
+          cursor: not-allowed;
+        }
+      }
+
+      &--with-footer:has(.dnb-list__item__end),
+      &--with-footer:has(.dnb-list__item__center) {
+        row-gap: 0;
+      }
+
+      &__footer {
+        display: grid;
+        grid-area: footer;
+        grid-template: 'footer' auto / minmax(0, 1fr);
+        min-width: 0;
+
+        .dnb-list__item--pending > & {
+          pointer-events: auto;
+        }
+
+        > .dnb-list__item__footer,
+        > .dnb-list__item__footer-separator {
+          margin-top: 0;
+        }
+      }
     }
 
-    // Handle accordion states
-    &:not(.dnb-list__item--disabled):has(#{&}__accordion__header:hover),
-    &:not(.dnb-list__item--disabled):has(
-        #{&}__accordion__header:focus-visible
-      ) {
-      --list-item-outline-color: var(--list-item-navigation-outline-color);
-      --list-item-outline-width: 0.125rem;
-      z-index: 2;
+    // Handle accordion states (own header only, not nested accordions)
+    &:not(.dnb-list__item--disabled):has(> #{&}__accordion__header:hover) {
+      @include navigationOutline();
     }
-    &:not(.dnb-list__item--disabled):has(#{&}__accordion__header:active) {
+    &:not(.dnb-list__item--disabled):has(
+        > #{&}__accordion__header:focus-visible
+      ) {
+      @include navigationOutline();
+    }
+    @include withoutHasSupport() {
+      &__accordion:not(.dnb-list__item--disabled)
+        > #{&}__accordion__header:focus::before {
+        @include focusFallbackOutline();
+      }
+    }
+    &:not(.dnb-list__item--disabled):has(
+        > #{&}__accordion__header:active
+      ) {
       --list-item-outline-color: var(
         --list-item-navigation-outline-color--active
       );
@@ -396,6 +574,21 @@
       &__content {
         display: flex;
         flex-direction: column;
+
+        // A flush nested list shares its top edge with the accordion header.
+        .dnb-list__item__accordion__inner--flush
+          > .dnb-list:not(.dnb-list--separated):first-child
+          > .dnb-list__item:first-of-type:not([hidden]) {
+          border-top-left-radius: 0;
+          border-top-right-radius: 0;
+        }
+      }
+
+      // Only raise a nested row when its own outline is visible.
+      &
+        > #{&}__content
+        .dnb-list__item:is(:hover, :has(> :focus-visible)) {
+        z-index: 11;
       }
     }
 
@@ -434,7 +627,7 @@
       }
     }
 
-    &__action--href a:visited {
+    &__action--href > a:visited {
       color: inherit;
     }
     &__pending {
@@ -476,23 +669,47 @@
         }
 
         // Remove borders inside a Card (Card provides the boundary).
-        // Non-interactive items never show these borders.
-        // Interactive items show them only on hover/focus.
-        &:not(:hover):not(:focus-visible),
-        &:not(.dnb-list__item__action):not(.dnb-list__item__accordion) {
-          &::after {
-            border-right: none;
-            border-left: none;
-          }
+        &::after {
+          border-right: none;
+          border-left: none;
+        }
 
-          &:first-of-type:not([hidden])::after {
-            border-top: none;
-          }
+        &:first-of-type:not([hidden])::after {
+          border-top: none;
+        }
 
-          &:not([hidden]):has(+ [hidden])::after,
-          &:last-of-type:not([hidden])::after {
-            border-bottom: none;
-          }
+        &:not([hidden]):has(+ [hidden])::after,
+        &:last-of-type:not([hidden])::after {
+          border-bottom: none;
+        }
+
+        // Interactive items show them on hover and keyboard focus.
+        // Use the same conditions as the outline states above, so
+        // disabled items do not show them, and an open accordion
+        // shows them only when its header is hovered.
+        // Keep these rules separate, because a browser without support
+        // for :has() or :focus-visible drops the whole rule.
+        &.dnb-list__item__action:not(
+            .dnb-list__item--disabled
+          ):hover::after {
+          border: var(--list-item-outline-width) solid
+            var(--list-item-outline-color);
+        }
+        &.dnb-list__item__accordion:not(.dnb-list__item--disabled):has(
+            > .dnb-list__item__accordion__header:hover
+          )::after {
+          border: var(--list-item-outline-width) solid
+            var(--list-item-outline-color);
+        }
+        &.dnb-list__item__action:not(.dnb-list__item--disabled):has(
+            > a:focus-visible,
+            > .dnb-list__item__action__button:focus-visible
+          )::after,
+        &.dnb-list__item__accordion:not(.dnb-list__item--disabled):has(
+            > .dnb-list__item__accordion__header:focus-visible
+          )::after {
+          border: var(--list-item-outline-width) solid
+            var(--list-item-outline-color);
         }
       }
     }
