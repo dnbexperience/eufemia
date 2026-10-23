@@ -155,14 +155,35 @@ export default function Provider<Props>(
   // A container that wraps this Provider gets its ref only after the
   // layout effects inside it have run, so check again after the commit.
   useEffect(syncContainerTarget)
-  // A ref can change during commit without changing its own identity.
-  const responsive = useMemo(
-    () =>
-      value.responsive?.target === 'container'
-        ? { ...value.responsive }
-        : value.responsive,
-    [value.responsive, containerTarget]
-  )
+  // Keyed on the values, so an inline `responsive` object does not make
+  // every consumer subscribe again. A ref can also change during commit
+  // without changing its own identity.
+  const responsiveTarget = value.responsive?.target
+  const responsiveContainerRef =
+    value.responsive?.target === 'container'
+      ? value.responsive.containerRef
+      : undefined
+  const responsiveOffset =
+    value.responsive?.target === 'viewport'
+      ? value.responsive.offset
+      : undefined
+  const responsive = useMemo<ContextProps['responsive']>(() => {
+    if (responsiveTarget === 'container') {
+      return {
+        target: responsiveTarget,
+        containerRef: responsiveContainerRef,
+      }
+    }
+    if (responsiveTarget === 'viewport') {
+      return { target: responsiveTarget, offset: responsiveOffset }
+    }
+    return undefined
+  }, [
+    responsiveTarget,
+    responsiveContainerRef,
+    responsiveOffset,
+    containerTarget,
+  ])
   const contextValue = useMemo(
     () =>
       responsive === value.responsive ? value : { ...value, responsive },
