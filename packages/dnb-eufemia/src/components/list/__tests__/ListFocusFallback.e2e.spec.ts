@@ -1,12 +1,39 @@
 import { test, expect, type Locator, type Page } from '@playwright/test'
 
-// Safari before 15.4 and Firefox before 121 do not support :has(). This
-// simulates them: it removes every rule that uses :has() and applies the
-// rules inside `@supports not (selector(:has(*)))`.
-function simulateNoHasSupport(page: Page) {
-  return page.evaluate(() => {
+type Browser = 'firefox-before-121' | 'safari-before-15.4'
+
+// Simulates an older browser: removes every rule that uses a selector it
+// does not support, and applies the `@supports` rules as it would.
+function simulate(page: Page, browser: Browser) {
+  return page.evaluate((browser) => {
+    const unsupported =
+      browser === 'safari-before-15.4'
+        ? [':has(', ':focus-visible']
+        : [':has(']
+    const supportsSelector = (selector: string) =>
+      !unsupported.some((pseudo) => selector.startsWith(pseudo))
+
+    // Only handles the conditions these styles use
+    const evaluate = (condition: string) => {
+      const js = condition
+        .replaceAll('selector(:has(*))', String(supportsSelector(':has(')))
+        .replaceAll(
+          'selector(:focus-visible)',
+          String(supportsSelector(':focus-visible'))
+        )
+        .replace(/\bnot\b/g, '!')
+        .replace(/\band\b/g, '&&')
+        .replace(/\bor\b/g, '||')
+
+      if (!/^[\s!&|()a-z]*$/.test(js)) {
+        return null // Not a selector condition
+      }
+
+      return Boolean(new Function(`return ${js}`)())
+    }
+
     let removed = 0
-    let fallbacks = 0
+    let applied = 0
 
     const walk = (list: CSSStyleSheet | CSSGroupingRule) => {
       for (let i = list.cssRules.length - 1; i >= 0; i--) {
@@ -14,21 +41,21 @@ function simulateNoHasSupport(page: Page) {
 
         if (
           rule instanceof CSSStyleRule &&
-          rule.selectorText.includes(':has(')
+          unsupported.some((pseudo) => rule.selectorText.includes(pseudo))
         ) {
           list.deleteRule(i)
           removed++
-        } else if (
-          rule instanceof CSSSupportsRule &&
-          // The production build minifies it to "not selector(:has(*))"
-          /^not\s*\(?\s*selector\(:has\(\*\)\)\s*\)?$/.test(
-            rule.conditionText
-          )
-        ) {
-          const inner = [...rule.cssRules].map(({ cssText }) => cssText)
-          list.deleteRule(i)
-          inner.reverse().forEach((text) => list.insertRule(text, i))
-          fallbacks += inner.length
+        } else if (rule instanceof CSSSupportsRule) {
+          const result = evaluate(rule.conditionText)
+
+          if (result === true) {
+            const inner = [...rule.cssRules].map(({ cssText }) => cssText)
+            list.deleteRule(i)
+            inner.reverse().forEach((text) => list.insertRule(text, i))
+            applied += inner.length
+          } else if (result === false) {
+            list.deleteRule(i)
+          }
         } else if ('cssRules' in rule) {
           walk(rule as CSSGroupingRule)
         }
@@ -43,8 +70,8 @@ function simulateNoHasSupport(page: Page) {
       }
     }
 
-    return { removed, fallbacks }
-  })
+    return { removed, applied }
+  }, browser)
 }
 
 // Returns true when the item shows the navigation outline, either on the
@@ -79,84 +106,106 @@ async function focusWithKeyboard(page: Page, target: Locator) {
   await expect(target).toBeFocused()
 }
 
-test.describe('List focus outline without :has() support', () => {
-  test.beforeEach(async ({ page }) => {
-    await page.goto('/uilib/components/list/visual-tests/focus-fallback/')
-    await expect(page.locator('html')).toHaveAttribute(
-      'data-portal-ready',
-      'true'
-    )
+// The last match is the innermost item, because a parent accordion also
+// contains the titles of its nested items
+const row = (page: Page, title: string) =>
+  page
+    .locator('[data-testid="focus-fallback"] .dnb-list__item')
+    .filter({ has: page.getByText(title, { exact: true }) })
+    .last()
+const primaryTarget = (item: Locator) =>
+  item.locator(
+    '> .dnb-list__item__action__button, > a, > .dnb-list__item__accordion__header'
+  )
 
-    const { removed, fallbacks } = await simulateNoHasSupport(page)
-    expect(removed).toBeGreaterThan(0)
-    expect(fallbacks).toBeGreaterThan(0)
-  })
+async function openPage(page: Page) {
+  await page.goto('/uilib/components/list/visual-tests/focus-fallback/')
+  await expect(page.locator('html')).toHaveAttribute(
+    'data-portal-ready',
+    'true'
+  )
+}
 
-  // The last match is the innermost item, because a parent accordion
-  // also contains the titles of its nested items
-  const row = (page: Page, title: string) =>
-    page
-      .locator('[data-testid="focus-fallback"] .dnb-list__item')
-      .filter({ has: page.getByText(title, { exact: true }) })
-      .last()
-  const parentAccordion = (page: Page) => row(page, 'Parent accordion')
-  const primaryTarget = (item: Locator) =>
-    item.locator(
-      '> .dnb-list__item__action__button, > a, > .dnb-list__item__accordion__header'
-    )
+for (const browser of [
+  'firefox-before-121',
+  'safari-before-15.4',
+] as const) {
+  test.describe(`List focus outline in ${browser}`, () => {
+    test.beforeEach(async ({ page }) => {
+      await openPage(page)
 
-  test('should show the outline on a focused action row', async ({
-    page,
-  }) => {
-    const item = row(page, 'Action row')
-    await focusWithKeyboard(page, primaryTarget(item))
+      const { removed, applied } = await simulate(page, browser)
+      expect(removed).toBeGreaterThan(0)
+      expect(applied).toBeGreaterThan(0)
+    })
 
-    expect(await hasOutline(item)).toBe(true)
-  })
+    for (const title of ['Action row', 'Link row', 'Parent accordion']) {
+      test(`should show the outline on keyboard focus of "${title}"`, async ({
+        page,
+      }) => {
+        const item = row(page, title)
+        await focusWithKeyboard(page, primaryTarget(item))
 
-  test('should show the outline on a focused link row', async ({
-    page,
-  }) => {
-    const item = row(page, 'Link row')
-    await focusWithKeyboard(page, primaryTarget(item))
+        expect(await hasOutline(item)).toBe(true)
+      })
+    }
 
-    expect(await hasOutline(item)).toBe(true)
-  })
-
-  test('should show the outline on a focused accordion header', async ({
-    page,
-  }) => {
-    const item = parentAccordion(page)
-    await focusWithKeyboard(page, primaryTarget(item))
-
-    expect(await hasOutline(item)).toBe(true)
-  })
-
-  test('should not show the row outline when a footer control has focus', async ({
-    page,
-  }) => {
-    const item = row(page, 'Footer row')
-    await focusWithKeyboard(
+    test('should not show a bottom border on the last row in a Card', async ({
       page,
-      item.getByRole('button', { name: 'Footer action' })
-    )
+    }) => {
+      const lastRow = page
+        .locator('[data-testid="focus-fallback"] .dnb-list__container')
+        .first()
+        .locator('> .dnb-list__item')
+        .last()
 
-    expect(await hasOutline(item)).toBe(false)
+      expect(
+        await lastRow.evaluate(
+          (element) =>
+            getComputedStyle(element, '::after').borderBottomWidth
+        )
+      ).toBe('0px')
+    })
+
+    test('should not show the row outline when a footer control has focus', async ({
+      page,
+    }) => {
+      const item = row(page, 'Footer row')
+      await focusWithKeyboard(
+        page,
+        item.getByRole('button', { name: 'Footer action' })
+      )
+
+      expect(await hasOutline(item)).toBe(false)
+    })
+
+    test('should not show the parent outline when a nested item has focus', async ({
+      page,
+    }) => {
+      const parent = row(page, 'Parent accordion')
+      const nestedRow = row(page, 'Nested action row')
+      const nestedAccordion = row(page, 'Nested accordion')
+
+      await focusWithKeyboard(page, primaryTarget(nestedRow))
+      expect(await hasOutline(nestedRow)).toBe(true)
+      expect(await hasOutline(parent)).toBe(false)
+
+      await focusWithKeyboard(page, primaryTarget(nestedAccordion))
+      expect(await hasOutline(nestedAccordion)).toBe(true)
+      expect(await hasOutline(parent)).toBe(false)
+    })
+
+    if (browser === 'firefox-before-121') {
+      test('should not show the outline after a mouse click', async ({
+        page,
+      }) => {
+        const item = row(page, 'Action row')
+        await primaryTarget(item).click()
+        await page.mouse.move(0, 0)
+        await expect(primaryTarget(item)).toBeFocused()
+
+        expect(await hasOutline(item)).toBe(false)
+      })
+    }
   })
-
-  test('should not show the parent outline when a nested item has focus', async ({
-    page,
-  }) => {
-    const parent = parentAccordion(page)
-    const nestedRow = row(page, 'Nested action row')
-    const nestedAccordion = row(page, 'Nested accordion')
-
-    await focusWithKeyboard(page, primaryTarget(nestedRow))
-    expect(await hasOutline(nestedRow)).toBe(true)
-    expect(await hasOutline(parent)).toBe(false)
-
-    await focusWithKeyboard(page, primaryTarget(nestedAccordion))
-    expect(await hasOutline(nestedAccordion)).toBe(true)
-    expect(await hasOutline(parent)).toBe(false)
-  })
-})
+}
