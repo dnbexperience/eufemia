@@ -12,6 +12,7 @@ import {
   Flex,
   IconPrimary,
   NumberFormat,
+  Section,
 } from '@dnb/eufemia/src'
 
 export const ProgressIndicatorDefaultExample = () => (
@@ -362,6 +363,25 @@ export const ProgressIndicatorCustomHorizontal = () => (
 
       return <MyProgressIndicator />
     }}
+  </ComponentBox>
+)
+
+export const ProgressIndicatorLinearOnSubtleExample = () => (
+  <ComponentBox>
+    <Section
+      breakout={false}
+      innerSpace
+      backgroundColor="var(--token-color-background-neutral-subtle)"
+    >
+      <ProgressIndicator
+        type="linear"
+        progress={50}
+        customColors={{
+          shaft:
+            'var(--token-color-component-progressbar-neutral-onsubtle)',
+        }}
+      />
+    </Section>
   </ComponentBox>
 )
 
