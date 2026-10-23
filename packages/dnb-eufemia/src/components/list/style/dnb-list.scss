@@ -369,8 +369,11 @@
     &--chevron-left &__action--href > a .dnb-anchor__launch-icon,
     &--chevron-left &__chevron {
       grid-area: chevron-left;
-      margin-right: 0;
       margin-left: var(--list-item-chevron-margin);
+
+      // Like in the design, the content starts 0.5rem after the chevron.
+      // The next cell has its own start padding, so move it closer.
+      margin-right: calc(0.5rem - var(--list-item-padding));
     }
 
     // Handle form elements alignment
