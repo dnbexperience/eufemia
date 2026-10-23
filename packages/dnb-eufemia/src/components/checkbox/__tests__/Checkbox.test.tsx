@@ -609,7 +609,9 @@ describe('Checkbox scss', () => {
   })
 
   it('uses the Figma on-dark tokens for disabled checkboxes on dark surfaces', () => {
-    const css = loadScss(require.resolve('../style/dnb-checkbox.scss'))
+    const css = String(
+      loadScss(require.resolve('../style/dnb-checkbox.scss'))
+    )
     const surfaceDark = css.match(
       /\.dnb-checkbox--surface-dark \{[^}]*\}/
     )[0]
