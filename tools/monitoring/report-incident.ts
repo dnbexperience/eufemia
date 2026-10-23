@@ -30,6 +30,31 @@ export function summarize(report: Report, service: string) {
   ].join('\n')
 }
 
+export async function postSlack(
+  webhook: string,
+  message: string,
+  request: typeof fetch = fetch
+) {
+  if (!/^https:\/\/hooks\.slack\.com\/services\//.test(webhook)) {
+    throw new Error('Alert webhook must be a Slack incoming webhook URL')
+  }
+  // Do not include request errors: their URL may contain the webhook secret.
+  try {
+    const response = await request(webhook, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ text: message, unfurl_links: false }),
+      signal: AbortSignal.timeout(15_000),
+      redirect: 'error',
+    })
+    if (!response.ok || (await response.text()) !== 'ok') {
+      throw new Error('Notification rejected')
+    }
+  } catch {
+    throw new Error('Slack incident notification could not be delivered')
+  }
+}
+
 type Issue = {
   number: number
   body: string
@@ -88,26 +113,8 @@ export async function reportIncident({
   }
 
   async function slack(message: string) {
-    if (!webhook) {
-      return
-    }
-    if (!/^https:\/\/hooks\.slack\.com\/services\//.test(webhook)) {
-      throw new Error('Alert webhook must be a Slack incoming webhook URL')
-    }
-    // Do not include request errors: their URL may contain the webhook secret.
-    try {
-      const response = await request(webhook, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text: message, unfurl_links: false }),
-        signal: AbortSignal.timeout(15_000),
-        redirect: 'error',
-      })
-      if (!response.ok || (await response.text()) !== 'ok') {
-        throw new Error('Notification rejected')
-      }
-    } catch {
-      throw new Error('Slack incident notification could not be delivered')
+    if (webhook) {
+      await postSlack(webhook, message, request)
     }
   }
 

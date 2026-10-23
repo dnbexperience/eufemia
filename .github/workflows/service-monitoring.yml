@@ -7,6 +7,8 @@ on:
       - 'tools/assets/check-cdn.ts'
       - 'tools/mcp-lambda/src/check-http.ts'
       - 'tools/monitoring/report-incident.ts'
+      - 'tools/monitoring/alert-token-expiry.ts'
+      - 'tools/monitoring/token-expiry.ts'
       - '.github/workflows/service-monitoring.yml'
       - 'yarn.lock'
   push:
