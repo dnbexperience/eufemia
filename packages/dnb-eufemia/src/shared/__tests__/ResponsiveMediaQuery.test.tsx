@@ -107,6 +107,27 @@ describe('Available-width media queries', () => {
     expect(result.current).toEqual({ below: false, above: true })
   })
 
+  it('matches a min length at the threshold like a viewport query', () => {
+    const useQueries = () => ({
+      pixels: useMediaQuery({ when: { min: '600px' } }),
+      ems: useMediaQuery({ when: { min: '37.5em' } }),
+      breakpoint: useMediaQuery({ when: { min: 37.5 } }),
+    })
+    setMedia({ width: '600px', type: 'screen' })
+    const viewport = renderHook(useQueries).result.current
+
+    const ref = container(600)
+    const wrapper = ({ children }) => (
+      <Provider responsive={{ target: 'container', containerRef: ref }}>
+        {children}
+      </Provider>
+    )
+    const inContainer = renderHook(useQueries, { wrapper }).result.current
+
+    expect(viewport).toEqual({ pixels: true, ems: true, breakpoint: true })
+    expect(inContainer).toEqual(viewport)
+  })
+
   it('uses the content box and container font size', () => {
     const ref = container(1000, 20)
     ref.current.style.cssText +=

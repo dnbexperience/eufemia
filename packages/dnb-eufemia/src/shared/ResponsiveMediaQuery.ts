@@ -243,9 +243,13 @@ export function makeContainerQueryList(
             value *
             (unit === 'em' ? fontSize : unit === 'rem' ? rootFontSize : 1)
           if (key === 'min' || key === 'minWidth') {
-            return options.correctRange !== false && threshold > 0
-              ? width > threshold
-              : width >= threshold
+            // Like viewport queries, only whole em values get the range correction
+            const correctRange =
+              options.correctRange !== false &&
+              unit === 'em' &&
+              Number.isInteger(value) &&
+              value > 0
+            return correctRange ? width > threshold : width >= threshold
           }
           return width <= threshold
         })
