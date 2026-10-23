@@ -75,7 +75,7 @@ const getDatePickerTriggerButton = () =>
   ) as HTMLButtonElement
 
 const getAnnouncementElement = () =>
-  document.querySelector('p.dnb-sr-only[aria-live="assertive"]')
+  document.querySelector('p.dnb-sr-only[aria-live="polite"]')
 
 describe('DatePicker component', () => {
   it('renders with props as an object', () => {
@@ -6610,6 +6610,24 @@ describe('DatePicker ARIA', () => {
       />
     )
     expect(await axeComponent(Comp)).toHaveNoViolations()
+  })
+
+  it('should announce the month when the calendar moves to another month', async () => {
+    render(<DatePicker noAnimation date="2025-04-01" yearNavigation />)
+
+    await userEvent.click(getDatePickerTriggerButton())
+
+    const [monthTitle, yearTitle] = Array.from(
+      document.querySelectorAll('.dnb-date-picker__header__title')
+    )
+
+    expect(monthTitle).toHaveAttribute('aria-live', 'polite')
+    expect(yearTitle).toHaveAttribute('aria-live', 'polite')
+
+    await userEvent.click(document.querySelector('.dnb-date-picker__next'))
+
+    expect(monthTitle).toHaveTextContent('mai')
+    expect(yearTitle).toHaveTextContent('2025')
   })
 
   it('should announce selected date', async () => {
