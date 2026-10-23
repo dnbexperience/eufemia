@@ -1777,6 +1777,84 @@ describe('DatePicker component', () => {
       }
     )
 
+    const getMarkedDates = (selector: string) =>
+      Array.from(
+        document.querySelectorAll('.dnb-date-picker__calendar')
+      ).map((calendar) =>
+        Array.from(calendar.querySelectorAll(selector)).map((element) =>
+          element.closest('td').getAttribute('data-date')
+        )
+      )
+
+    it.each<[string, Partial<DatePickerAllProps>, Array<Array<string>>]>([
+      [
+        'in the second calendar',
+        {
+          startDate: '2026-10-05',
+          endDate: '2026-10-10',
+          maxDate: '2026-10-31',
+        },
+        [[], ['2026-10-05', '2026-10-10']],
+      ],
+      [
+        'in the first calendar',
+        { startDate: '2026-10-05', endDate: '2026-10-10' },
+        [['2026-10-05', '2026-10-10'], []],
+      ],
+      [
+        'in both calendars',
+        { startDate: '2026-10-20', endDate: '2026-11-03' },
+        [['2026-10-20'], ['2026-11-03']],
+      ],
+    ])(
+      'should mark the start and end dates as selected %s',
+      async (_, props, expectedDates) => {
+        render(<DatePicker noAnimation range {...props} />)
+
+        await userEvent.click(getDatePickerTriggerButton())
+
+        expect(getMarkedDates('td[aria-selected="true"]')).toEqual(
+          expectedDates
+        )
+        expect(getMarkedDates('button[aria-current="date"]')).toEqual(
+          expectedDates
+        )
+      }
+    )
+
+    it('should not mark a focused day as selected before the end date is chosen', async () => {
+      render(
+        <DatePicker
+          noAnimation
+          range
+          startDate="2026-10-05"
+          maxDate="2026-10-31"
+        />
+      )
+
+      await userEvent.click(getDatePickerTriggerButton())
+      await waitFor(() =>
+        expect(document.activeElement.closest('td')).toHaveAttribute(
+          'data-date',
+          '2026-10-05'
+        )
+      )
+      await userEvent.keyboard('{ArrowRight}')
+
+      expect(document.activeElement.closest('td')).toHaveAttribute(
+        'data-date',
+        '2026-10-06'
+      )
+      expect(getMarkedDates('td[aria-selected="true"]')).toEqual([
+        [],
+        ['2026-10-05'],
+      ])
+      expect(getMarkedDates('button[aria-current="date"]')).toEqual([
+        [],
+        ['2026-10-05'],
+      ])
+    })
+
     it('should show the month of maxDate in the second range calendar when the dates are in that month', async () => {
       render(
         <DatePicker
