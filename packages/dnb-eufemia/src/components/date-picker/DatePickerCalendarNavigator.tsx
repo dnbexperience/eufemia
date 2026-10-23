@@ -4,6 +4,8 @@ import {
   addMonths,
   addYears,
   differenceInCalendarMonths,
+  max,
+  min,
   subMonths,
   subYears,
 } from 'date-fns'
@@ -102,6 +104,19 @@ export function DatePickerCalendarNav({
       )
     : date
 
+  // Calendars that are not linked can not reach the month of the other one
+  const otherViewMonth = isLinkedCalendars
+    ? undefined
+    : views.find((view) => view.nr !== nr)?.month
+  const prevLimit =
+    nr === 1 && otherViewMonth
+      ? max([minDate, addMonths(otherViewMonth, 1)].filter(Boolean))
+      : minDate
+  const nextLimit =
+    nr === 0 && otherViewMonth
+      ? min([maxDate, subMonths(otherViewMonth, 1)].filter(Boolean))
+      : maxDate
+
   const onNav = useCallback(
     ({ nr, type: navigationType }: DatePickerCalendarNavigationEvent) => {
       const handlerType = type === 'year' ? 'year' : 'month'
@@ -135,7 +150,7 @@ export function DatePickerCalendarNav({
           nr={nr}
           date={date}
           edgeDate={firstViewMonth}
-          dateLimit={minDate}
+          dateLimit={prevLimit}
           dateType={buttonDateType}
           dateFormat={titleFormat}
           locale={locale}
@@ -160,7 +175,7 @@ export function DatePickerCalendarNav({
           nr={nr}
           date={date}
           edgeDate={lastViewMonth}
-          dateLimit={maxDate}
+          dateLimit={nextLimit}
           dateFormat={titleFormat}
           locale={locale}
           onClick={onNav}

@@ -772,7 +772,11 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
                     : undefined
                   const isSelectedDate =
                     !isHiddenAdjacentMonthDate &&
-                    (nr === 0 ? day.isStartDate : day.isEndDate)
+                    !isDuplicateAdjacentMonth &&
+                    Boolean(
+                      (startDate && isSameDay(day.date, startDate)) ||
+                      (endDate && isSameDay(day.date, endDate))
+                    )
 
                   // cell params
                   const paramsCell = {

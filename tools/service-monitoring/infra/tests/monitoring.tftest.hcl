@@ -52,10 +52,20 @@ run "shadow_rollout" {
   }
 }
 
+run "reject_missing_bot_secret" {
+  command = plan
+  variables {
+    notifications_enabled = true
+    slack_bot_secret_arn  = ""
+  }
+  expect_failures = [aws_lambda_function.notifier]
+}
+
 run "enable_slack" {
   command = apply
   variables {
     notifications_enabled = true
+    slack_bot_secret_arn  = "arn:aws:secretsmanager:eu-north-1:123456789012:secret:test-bot-abcdef"
   }
   assert {
     condition = (

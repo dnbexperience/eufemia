@@ -4,7 +4,7 @@ Hourly AWS checks of the public CDN and HTTP MCP server, independent of GitHub's
 
 ## Deployment
 
-The public Service Monitoring Lambda workflow tests and bundles the checks, then copies the ZIP, Terraform and internal deployment workflow to the repository configured by GHE_MONITORING_DEPLOY_REPO. Only main can perform the handoff. The internal workflow uses OIDC to apply Terraform and invokes both monitors as a smoke test. Until the handoff variable is configured, CI still validates and produces a downloadable deployment artifact.
+The public Service Monitoring Lambda workflow tests and bundles the checks, then copies the ZIP, Terraform and internal deployment workflow to the repository configured by GHE_MONITORING_DEPLOY_REPO. Only main can perform the handoff. The internal workflow uses OIDC to apply Terraform and invokes both monitors as a smoke test. Until the handoff variable is configured, CI still validates and produces a downloadable deployment artifact. Root dependency and Yarn configuration changes also trigger validation. The handoff compares the complete deployment package with the internal deploy branch and skips the push when its contents are unchanged; dependency changes that affect the bundle still deploy.
 
 Each service has a separate Node.js 22 Lambda using the same bundle, with 256 MB memory and one reserved concurrent execution. The HTTP budget is 330 seconds; Lambda allows 480 seconds for checks, persistence and notifications. There is no public inbound endpoint, runtime checkout, docs build or package installation. The production checks always use the public edge, including npm and GitHub for freshness verification.
 
@@ -13,18 +13,25 @@ EventBridge Scheduler runs CDN at :07 and MCP at :11 hourly in UTC, with flexibl
 ## One-time setup
 
 1. Create a dedicated internal deployment repository. Provision its OIDC deploy role through the internal federation repository, restricted to the deploy branch and verified repository IDs. Give it scoped access to this stack, its Terraform state key and permission to pass the three execution roles.
-2. Use the internal AWS bootstrap repository to create the Lambda, Scheduler and Slack notifier roles under the approved permissions boundary. Terraform only reads these roles. The check role needs log writes, DynamoDB item read/write, secret read and failure-queue writes. The notifier needs its own log writes, webhook secret read and sqs:SendMessage for its failure destination; it has no DynamoDB access. Scheduler trust restricts the source account and schedule group. Its permissions are lambda:InvokeFunction for the two check functions and sqs:SendMessage for the schedule failure queue.
-3. Configure GHE_MONITORING_DEPLOY_REPO in the public repo and grant the existing GHE_DEPLOY_PAT access to it. Configure the internal variables below.
-4. Deploy with notifications disabled. Terraform creates an empty Secrets Manager secret. An operator populates its string value with the existing Slack webhook URL through Secrets Manager. Never place secret values in Terraform, repository variables, logs or committed files. GitHub cannot export an existing Actions secret.
+2. Use the internal AWS bootstrap repository to create the Lambda, Scheduler and Slack notifier roles under the approved permissions boundary. Terraform only reads these roles. The check role needs log writes, DynamoDB item read/write, secret read, sns:Publish to the monitoring topic and failure-queue writes. The notifier needs its own log writes, bot configuration secret read, monitoring-table item read/write and sqs:SendMessage for its failure destination. Scheduler trust restricts the source account and schedule group. Its permissions are lambda:InvokeFunction for the two check functions and sqs:SendMessage for the schedule failure queue.
+3. Configure GHE_MONITORING_DEPLOY_REPO in the public repo and a monitoring-only GHE_MONITORING_DEPLOY_PAT credential with Contents read/write, Workflows read/write and required Metadata read for that internal repository only. The handoff writes .github/workflows/deploy.yml, so workflow-file access is required. Configure the internal variables below.
+4. Configure the Slack bot secret and deploy with notifications disabled. Follow the Slack app setup below before enabling notifications. The existing webhook secret remains for rollback; never put secret values in Terraform, repository variables, logs or committed files.
 
-| Internal variable                  | Value                                                             |
-| ---------------------------------- | ----------------------------------------------------------------- |
-| AWS_ROLE_ARN                       | Provisioned monitoring OIDC deploy role                           |
-| COST_ALLOCATION                    | Approved ServiceNow cost allocation                               |
-| TF_STATE_BUCKET                    | Existing encrypted Terraform state bucket                         |
-| MONITORING_ENVIRONMENT             | Account environment, defaults to dev                              |
-| MONITORING_NOTIFICATIONS_ENABLED   | false during verification, then true                              |
-| MONITORING_GITHUB_TOKEN_SECRET_ARN | Optional Secrets Manager ARN for a read-only GitHub Actions token |
+The deployment token must remain active for automatic updates. Record its owner
+and expiration in the internal deployment repository, renew it before expiration,
+and replace GHE_MONITORING_DEPLOY_PAT. Then dispatch Service Monitoring Lambda
+from main and verify both the public handoff and internal deployment. The deployed
+AWS schedules continue running independently if a deployment credential expires.
+
+| Internal variable                  | Value                                                                |
+| ---------------------------------- | -------------------------------------------------------------------- |
+| AWS_ROLE_ARN                       | Provisioned monitoring OIDC deploy role                              |
+| COST_ALLOCATION                    | Approved ServiceNow cost allocation                                  |
+| TF_STATE_BUCKET                    | Existing encrypted Terraform state bucket                            |
+| MONITORING_ENVIRONMENT             | Account environment, defaults to dev                                 |
+| MONITORING_SLACK_BOT_SECRET_ARN    | Required bot configuration secret ARN when notifications are enabled |
+| MONITORING_NOTIFICATIONS_ENABLED   | false during verification, then true                                 |
+| MONITORING_GITHUB_TOKEN_SECRET_ARN | Optional Secrets Manager ARN for a read-only GitHub Actions token    |
 
 State uses the default Terraform workspace at service-monitoring/terraform.tfstate with S3 native locking. Workspace discovery is scoped to service-monitoring/workspaces/, matching the deployment role's monitoring-only bucket listing permission. The deployment role only has object access to the default workspace state and its lock.
 
@@ -34,28 +41,76 @@ The optional GitHub credential is a secret string with read-only public workflow
 
 Functions use Lambda's default network with outbound HTTPS. If account policy requires a VPC, provide approved outbound connectivity to the public edge, npm, GitHub, Slack and AWS services before deployment.
 
-## Slack alerts and recovery
+## Quiet Slack notifications
 
-Each service has a separate DynamoDB item containing the latest report, last acknowledged fingerprint and pending notification. Slack alerts on a new or changed failure and once on recovery. A pending rollout does not close an incident. Shadow runs save reports and metrics without sending or acknowledging notifications.
+A single notifier owns all AWS CDN/MCP posts. Check functions save their health
+reports and publish observations to SNS. CloudWatch alarm transitions enter the
+same notifier. Reserved concurrency of one serializes shared notification state.
+Each check retains its pending observation until SNS accepts it. A later run
+publishes that observation before checking again, so an SNS failure cannot erase
+an observed outage when the service recovers.
 
-Notification intent is persisted before delivery and acknowledged only after Slack accepts it. Pending notifications survive a failed send and are retried before subsequent recovery messages. Delivery is at least once: a crash after Slack accepts a message but before persistence can duplicate that message. One reserved concurrent execution serializes each service's state updates. Keep all invocations on the unqualified functions configured by this stack.
+The bot creates one shared monitoring overview, then edits that same message
+using chat.update. Healthy checks do not create new channel messages. The overview
+shows each service's latest observation, accepted check observations, incident count and
+observed incident time. Statistics start with this notifier's first observation;
+they do not reconstruct earlier outages. Stale events are ignored for state and counters, so these are accepted observations rather than an exact Lambda invocation count. The latest 50 recovered intervals are
+retained in DynamoDB alongside cumulative counters.
 
-CloudWatch reports persist for 30 days. Execution failures log the stage and an allowlisted error type; rejected Slack responses also include the HTTP status. Error messages, request URLs and credential values are excluded. DynamoDB retains the latest report with encryption, point-in-time recovery and deletion protection. Function-name metric dimensions keep environments isolated.
+A new outage creates one channel post. Repeated failures and changes to the set
+of failed checks update the summary only. A pending rollout does not recover an
+open outage. Recovery posts once as a reply to the recorded outage thread, with
+reply_broadcast disabled. Multiple active monitor-health alarms form one grouped
+Monitoring incident; it recovers after every known alarm has cleared. An alarm
+that was already active before deployment is learned on its next transition;
+inspect existing alarm state as part of migration. Timestamp checks deduplicate accepted observations and hourly repeated failures. They do not guarantee exactly-once Slack delivery.
 
-Monitor-health alarms also go to Slack, using SNS and a separate notifier Lambda. They cover failed Lambda executions, missing completed checks in two consecutive hourly periods and exhausted Scheduler or asynchronous execution retries. This route does not require the check function or its DynamoDB table to work. Service failure and recovery messages come directly from the check functions, avoiding duplicate service alarms.
+Observed incident time is the window between the first failed check and first
+healthy check. Hourly sampling cannot determine exact downtime, and a freshness
+or monitoring failure need not mean the service was unavailable. Reports and raw
+check results remain in CloudWatch Logs for 30 days. Missing-check alarms still
+detect a broken scheduler separately from service health.
 
-No email subscriptions are created. If Slack is unavailable, delivery fails visibly in AWS and failed events are retained for 14 days in the failure queue after retries. Slack cannot receive an alert while Slack itself is unavailable. Inspect logs and queued events before replaying or removing failures. SNS alarm notifications may be duplicated by retry delivery and include the alarm name and state.
+Notification intent is stored before delivery. The returned Slack timestamp is
+stored before recovery can be sent. Stable client message IDs are reused on retries as a best-effort hint. Slack does not document a deduplication guarantee for this argument, and repeated-ID behavior has not been verified with live posts. Retries may be deduplicated or may create duplicate messages. A rejected request remains unacknowledged and enters the normal retry/failure-queue path. Slack delivery and DynamoDB persistence are not one transaction. The notifier never searches private-channel history.
 
-GitHub issues remain owned by the existing Actions monitors during migration. AWS alert delivery does not depend on GitHub issue writes. Adding issue synchronization later requires a dedicated GitHub App and explicit incident ownership. Unavailable MCP freshness verification appears separately from endpoint failures in the report. A configured GitHub secret that cannot be read does not prevent endpoint checks.
+The summary is best-effort and runs after incident delivery. Summary failures are logged with the summary update stage without failing an otherwise completed observation or creating replacement posts. If the overview was deleted, an operator can remove only the summary timestamp from the notifications state item while the notifier is paused, then resume it to create one replacement. Preserve incident threads, counters and pending delivery. A missing outage parent remains a delivery failure and needs operator investigation.
 
-## Verify and switch over
+All notifications, including monitor-health alarms, require the monitoring DynamoDB table and Secrets Manager. A table outage delays Slack delivery; retries and the failure queue retain failed events within their configured retention limits. CloudWatch alarms and AWS logs remain available independently of the table. There is no stateless Slack fallback, so storage failures cannot cause untracked repeated posts. Inspect AWS directly during a notification-path failure; Slack is not an independent alert channel for an AWS regional outage.
 
-1. Run tests, types, lint, bundle import checks, Terraform validation and live checks. CI repeats offline validation and never sends test Slack messages.
-2. Deploy with notifications disabled. Inspect both smoke tests and at least two actual hourly executions per service. Confirm the secret is populated and metrics use the expected function dimensions.
-3. In an isolated test stack with a test webhook, verify a failed check, unchanged failure, recovery, rejected Slack request, storage failure and stopped schedule. Confirm service alerts and monitor-health alarms. Offline tests inject check dependencies and do not alter production endpoints.
-4. Enable AWS notifications and verify Slack delivery with an authorized test. Then retire Actions cron triggers and automatic incident reporting for these services in a follow-up PR. Preserve useful manual and post-deployment checks while assigning alert ownership to one system.
+### Slack app setup
 
-Existing Actions schedules remain active until verification is complete. Roll back alert ownership by disabling AWS notifications and restoring Actions reporting. A regional AWS outage needs an external uptime service for independent paging.
+Incoming webhooks return no message timestamp and cannot update messages. Use the
+included slack-app-manifest.json to configure a bot with chat:write only. Install
+it in the approved workspace and add it to the private alert channel. Reading
+channel history, managing channels and broad workspace permissions are not
+required.
+
+An authorized operator must create a Secrets Manager secret with a JSON string
+containing token (the xoxb bot token) and channel (the private channel ID). Put only
+its ARN in MONITORING_SLACK_BOT_SECRET_ARN in the internal deployment repo. Never
+put token values in source, Terraform, repository variables or logs. Apply the
+internal bootstrap permission update before deploying the new notifier. The
+existing incoming-webhook secret is retained for rollback.
+
+The deployment fails before enabling notifications unless slack_bot_secret_arn is
+configured. The notifier validates the secret at runtime. The API uses only fixed
+Slack endpoints and refuses redirects; logs include only allowlisted error names, HTTP status and Slack error codes, excluding tokens and raw response bodies. SNS and Lambda failure destinations preserve rejected deliveries.
+
+### Migration and tests
+
+Use mocked Slack API calls for development and CI. No test messages go to the
+production team channel. If a live check is necessary, use a separate test channel
+with an explicitly approved destination. Do not manufacture service failures in
+the production incident state.
+
+Install/configure the bot and apply the bootstrap role update first. Verify the notifier with notifications disabled or in a test stack, then deploy and assign CDN/MCP alert ownership to AWS. Keep the Actions diagnostics available without duplicate scheduled alerting. Existing open GitHub incidents need explicit handoff; the notifier does
+not write GitHub issues. Analytics and Portal monitors remain separate workflows
+and need their own integration before they can share this overview.
+
+The sendSlack helper and alert-cdn.ts / alert-http.ts entrypoints remain for rollback and are not called by the production notifier or diagnostic workflows. Rollback uses the previous notifier package and webhook configuration, followed
+by restoring the previous Actions alert ownership if needed. A regional AWS
+outage still needs an external uptime service for independent paging.
 
 ## Local validation
 

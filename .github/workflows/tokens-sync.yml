@@ -1,7 +1,17 @@
 name: Design Tokens
 
+run-name: Design Tokens → ${{ inputs.output_branch || (github.ref_name != 'main' && github.ref_name) || 'tokens/automation-figma-sync-*' }}
+
 on:
   workflow_dispatch:
+    inputs:
+      output_branch:
+        description: Target branch override (optional)
+        type: string
+      generate_screenshots:
+        description: Generate screenshots
+        type: boolean
+        default: true
 
 permissions:
   contents: read
@@ -14,7 +24,7 @@ concurrency:
 # use them, so `yarn install` and the build steps never receive credentials.
 
 env:
-  BRANCH: tokens/automation-figma-sync
+  AUTOMATION_BRANCH: tokens/automation-figma-sync
 
 jobs:
   process-tokens:
@@ -28,11 +38,50 @@ jobs:
       - name: Git checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
-          ref: main
+          # Full history for the merge-base the pull request body diffs
+          # against, without the image snapshot blobs it never reads
           fetch-depth: 0
+          filter: blob:none
           persist-credentials: false
 
-      - name: Find an open design token pull request
+      - name: Resolve the design token branch
+        id: target
+        # Run from main, every run collects its tokens on a dated branch of its
+        # own. Run from any other branch, they are committed to that branch.
+        # The "output_branch" input overrides both.
+        env:
+          OUTPUT_BRANCH: ${{ inputs.output_branch }}
+          GENERATE_SCREENSHOTS: ${{ inputs.generate_screenshots }}
+        run: |
+          if [ -n "$OUTPUT_BRANCH" ]; then
+            branch=$OUTPUT_BRANCH
+          elif [ "$GITHUB_REF_NAME" = main ]; then
+            branch=$AUTOMATION_BRANCH-$(date -u +%Y%m%d-%H%M%S)
+          else
+            branch=$GITHUB_REF_NAME
+          fi
+
+          case "$branch" in
+            main | release | beta | alpha | next | *.x)
+              echo "::error::The design tokens cannot be committed to a branch named \"$branch\". Choose another output branch."
+              exit 1
+              ;;
+          esac
+
+          echo "BRANCH=$branch" >> "$GITHUB_ENV"
+          if git rev-parse --verify --quiet "refs/remotes/origin/$branch" > /dev/null; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+          fi
+
+          {
+            echo "Attempting to synchronize the design tokens from Figma."
+            echo ""
+            echo "- Run from: \`$GITHUB_REF_NAME\`"
+            echo "- Target branch to commit to: \`$branch\`"
+            echo "- Generate screenshots: $GENERATE_SCREENSHOTS"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Check if branch has PR
         id: existing-pr
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
@@ -46,18 +95,17 @@ jobs:
           if [ -n "$url" ]; then
             echo "exists=true" >> "$GITHUB_OUTPUT"
             echo "url=$url" >> "$GITHUB_OUTPUT"
-            echo "A design token pull request is already open: $url" >> "$GITHUB_STEP_SUMMARY"
+            echo "A pull request is already open for the branch: $url" >> "$GITHUB_STEP_SUMMARY"
           fi
 
-      - name: Check out the existing design token branch
-        if: steps.existing-pr.outputs.exists == 'true'
+      - name: Check out the design token branch
+        if: steps.target.outputs.exists == 'true'
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
           gh auth setup-git
           git fetch origin "refs/heads/$BRANCH:refs/remotes/origin/$BRANCH"
           git switch -C "$BRANCH" "origin/$BRANCH"
-          git rebase origin/main
 
       - name: Setup dependencies
         uses: ./.github/actions/setup
@@ -110,8 +158,8 @@ jobs:
         if: steps.changes.outputs.changed == 'true'
         run: yarn workspace dnb-design-system-portal build
 
-      - name: Run visual tests
-        if: steps.changes.outputs.changed == 'true'
+      - name: Generate screenshots
+        if: steps.changes.outputs.changed == 'true' && inputs.generate_screenshots
         run: yarn workspace dnb-design-system-portal test:screenshots:ci:update
 
       - name: Store visual test artifacts
@@ -127,23 +175,36 @@ jobs:
         run: echo '\n\n👉 Download the diff files as a ZIP file. \nIt is called "visual-test-artifact" and you find it in the test "Summary" under "Artifacts".\n\n\n'
 
       - name: Commit design tokens and updated snapshots
+        id: commit
         if: success() && steps.changes.outputs.changed == 'true'
         run: |
           gh auth setup-git
           # The tip fetched at the start, so a commit pushed during the run makes the push fail instead of vanishing
           remote_sha=$(git rev-parse --verify --quiet "refs/remotes/origin/$BRANCH" || true)
 
-          if [ "$EXISTING_PR" != true ]; then
+          if [ "$BRANCH_EXISTS" != true ]; then
             git switch -c "$BRANCH"
+            echo "branch_created=true" >> "$GITHUB_OUTPUT"
           fi
           git config user.name "$GH_NAME"
           git config user.email "$GH_EMAIL"
           git add \
             packages/dnb-eufemia/src/style/themes \
-            packages/dnb-eufemia/scripts/prebuild/tasks/__tests__/__snapshots__/makePropertiesFile.test.ts.snap \
-            ':(glob)packages/dnb-eufemia/src/**/__image_snapshots__/**'
+            packages/dnb-eufemia/scripts/prebuild/tasks/__tests__/__snapshots__/makePropertiesFile.test.ts.snap
 
           git commit --no-verify -m "chore: synchronize design tokens from Figma"
+
+          # Kept apart from the token change, so the screenshot noise can be
+          # reviewed, or dropped, on its own
+          git add ':(glob)packages/dnb-eufemia/src/**/__image_snapshots__/**'
+
+          if ! git diff --cached --quiet; then
+            git commit --no-verify -m "chore: update screenshots for the new design tokens"
+            echo "commits=2" >> "$GITHUB_OUTPUT"
+          else
+            echo "commits=1" >> "$GITHUB_OUTPUT"
+          fi
+
           if [ -n "$remote_sha" ]; then
             git push origin "HEAD:refs/heads/$BRANCH" \
               --force-with-lease="refs/heads/$BRANCH:$remote_sha"
@@ -154,14 +215,16 @@ jobs:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
           GH_NAME: ${{ secrets.GH_NAME }}
           GH_EMAIL: ${{ secrets.GH_EMAIL }}
-          EXISTING_PR: ${{ steps.existing-pr.outputs.exists }}
+          BRANCH_EXISTS: ${{ steps.target.outputs.exists }}
 
-      - name: Create draft design token pull request
+      - name: Create or comment on the design token pull request
         if: success() && steps.changes.outputs.changed == 'true'
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
           EXISTING_PR: ${{ steps.existing-pr.outputs.exists }}
           PR_URL: ${{ steps.existing-pr.outputs.url }}
+          BRANCH_CREATED: ${{ steps.commit.outputs.branch_created }}
+          COMMITS: ${{ steps.commit.outputs.commits }}
         run: |
           token_scss='packages/dnb-eufemia/src/style/themes/*/tokens*.scss'
           foundation_scss='packages/dnb-eufemia/src/style/themes/*/foundation.scss'
@@ -203,32 +266,89 @@ jobs:
             title="fix(Theme): update $subject"
           fi
 
+          run_url="$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+
+          if [ "$EXISTING_PR" = true ]; then
+            intro="Updated design tokens from Figma."
+            footer="This comment was generated by the [Design tokens git action]($run_url)."
+          else
+            intro="Synchronizes the Eufemia design tokens with Figma for review before release."
+            footer="This PR was generated by the [Design tokens git action]($run_url)."
+          fi
+
           body=$(
-            echo "Synchronizes the Eufemia design tokens with Figma for review before release."
+            echo "$intro"
             echo ""
             echo "- Themes: ${themes:-None}"
             echo "- Added: $(as_list "$added")"
             echo "- Removed: $(as_list "$removed")"
             echo ""
-            echo "Review the token values, removals and visual snapshots before marking the pull request ready."
+            if [ "$EXISTING_PR" = true ]; then
+              echo "Suggested title: \`$title\`"
+              echo ""
+            fi
+            echo "Review the token values, removals, snapshots, and visual screenshots before marking the pull request ready."
+            echo "---"
+            echo "$footer"
           )
 
           printf '%s\n' "$body" >> "$GITHUB_STEP_SUMMARY"
+
+          # An open pull request is left alone, so the run reports itself in a
+          # comment instead of rewriting someone else's description
           if [ "$EXISTING_PR" = true ]; then
-            gh pr edit "$PR_URL" --title "$title"
-            is_draft=$(gh pr view "$PR_URL" --json isDraft --jq '.isDraft')
-            if [ "$is_draft" != true ]; then
-              gh pr ready "$PR_URL" --undo
-            fi
+            gh pr comment "$PR_URL" --body "$body"
+            pr_url=$PR_URL
+            pr_title=$(gh pr view "$PR_URL" --json title --jq '.title')
+            pr_action="Commented on PR"
           else
-            gh pr create \
+            pr_url=$(gh pr create \
               --base main \
               --head "$BRANCH" \
               --title "$title" \
               --body "$body" \
-              --draft
+              --draft)
+            pr_title=$title
+            pr_action="Created PR"
           fi
+
+          if [ "$BRANCH_CREATED" = true ]; then
+            branch_action="Created branch"
+          else
+            branch_action="Updated branch"
+          fi
+
+          {
+            echo ""
+            echo "# Summary:"
+            echo ""
+            echo "- $branch_action: [$BRANCH]($GITHUB_SERVER_URL/$GITHUB_REPOSITORY/tree/$BRANCH) with $COMMITS commit(s)"
+            echo "- $pr_action: [$pr_title]($pr_url)"
+          } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Report no design token changes
         if: steps.changes.outputs.changed == 'false'
-        run: echo "Figma and the Eufemia design tokens are already synchronized."
+        # If there is nothing to commit, the run stays green, but has to
+        #say so in the Actions list and the summary.
+        env:
+          BRANCH_EXISTS: ${{ steps.target.outputs.exists }}
+          BRANCH_CREATED: ${{ steps.commit.outputs.branch_created }}
+        run: |
+          if [ "$BRANCH_EXISTS" = true ]; then
+            synced_branch=$BRANCH
+          else
+            synced_branch=$GITHUB_REF_NAME
+          fi
+
+          message="Design tokens are already synchronized with Figma on branch \`$synced_branch\`. Nothing was committed to \`$BRANCH\`."
+
+          if [ "$BRANCH_EXISTS" != true ] && [ "$BRANCH_CREATED" != true ]; then
+            message="$message Branch \`$BRANCH\` was not created."
+          fi
+
+          echo "::warning::$message"
+          {
+            echo "# Summary:"
+            echo ""
+            echo "⚠️ $message"
+          } >> "$GITHUB_STEP_SUMMARY"

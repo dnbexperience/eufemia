@@ -41,6 +41,7 @@ jobs:
           TF_VAR_environment: ${{ vars.MONITORING_ENVIRONMENT || 'dev' }}
           TF_VAR_cost_allocation: ${{ vars.COST_ALLOCATION }}
           TF_VAR_notifications_enabled: ${{ vars.MONITORING_NOTIFICATIONS_ENABLED || 'false' }}
+          TF_VAR_slack_bot_secret_arn: ${{ vars.MONITORING_SLACK_BOT_SECRET_ARN }}
           TF_VAR_github_token_secret_arn: ${{ vars.MONITORING_GITHUB_TOKEN_SECRET_ARN }}
         run: |
           set -euo pipefail

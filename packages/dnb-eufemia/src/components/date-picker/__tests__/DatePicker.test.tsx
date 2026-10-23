@@ -1777,6 +1777,84 @@ describe('DatePicker component', () => {
       }
     )
 
+    const getMarkedDates = (selector: string) =>
+      Array.from(
+        document.querySelectorAll('.dnb-date-picker__calendar')
+      ).map((calendar) =>
+        Array.from(calendar.querySelectorAll(selector)).map((element) =>
+          element.closest('td').getAttribute('data-date')
+        )
+      )
+
+    it.each<[string, Partial<DatePickerAllProps>, Array<Array<string>>]>([
+      [
+        'in the second calendar',
+        {
+          startDate: '2026-10-05',
+          endDate: '2026-10-10',
+          maxDate: '2026-10-31',
+        },
+        [[], ['2026-10-05', '2026-10-10']],
+      ],
+      [
+        'in the first calendar',
+        { startDate: '2026-10-05', endDate: '2026-10-10' },
+        [['2026-10-05', '2026-10-10'], []],
+      ],
+      [
+        'in both calendars',
+        { startDate: '2026-10-20', endDate: '2026-11-03' },
+        [['2026-10-20'], ['2026-11-03']],
+      ],
+    ])(
+      'should mark the start and end dates as selected %s',
+      async (_, props, expectedDates) => {
+        render(<DatePicker noAnimation range {...props} />)
+
+        await userEvent.click(getDatePickerTriggerButton())
+
+        expect(getMarkedDates('td[aria-selected="true"]')).toEqual(
+          expectedDates
+        )
+        expect(getMarkedDates('button[aria-current="date"]')).toEqual(
+          expectedDates
+        )
+      }
+    )
+
+    it('should not mark a focused day as selected before the end date is chosen', async () => {
+      render(
+        <DatePicker
+          noAnimation
+          range
+          startDate="2026-10-05"
+          maxDate="2026-10-31"
+        />
+      )
+
+      await userEvent.click(getDatePickerTriggerButton())
+      await waitFor(() =>
+        expect(document.activeElement.closest('td')).toHaveAttribute(
+          'data-date',
+          '2026-10-05'
+        )
+      )
+      await userEvent.keyboard('{ArrowRight}')
+
+      expect(document.activeElement.closest('td')).toHaveAttribute(
+        'data-date',
+        '2026-10-06'
+      )
+      expect(getMarkedDates('td[aria-selected="true"]')).toEqual([
+        [],
+        ['2026-10-05'],
+      ])
+      expect(getMarkedDates('button[aria-current="date"]')).toEqual([
+        [],
+        ['2026-10-05'],
+      ])
+    })
+
     it('should show the month of maxDate in the second range calendar when the dates are in that month', async () => {
       render(
         <DatePicker
@@ -1958,16 +2036,55 @@ describe('DatePicker component', () => {
     })
 
     it('should only check its own calendar when calendars are not linked', async () => {
-      render(<DatePicker noAnimation range maxDate="2026-11-30" />)
+      render(
+        <DatePicker
+          noAnimation
+          range
+          maxDate="2026-12-31"
+          endMonth="2026-12-01"
+        />
+      )
 
       await userEvent.click(getDatePickerTriggerButton())
 
       expect(getCalendarTitles()).toEqual([
         'oktober 2026',
-        'november 2026',
+        'desember 2026',
       ])
       expect(getNavButtons(0).next).not.toHaveClass('disabled')
       expect(getNavButtons(1).next).toHaveClass('disabled')
+    })
+
+    it('should not let calendars that are not linked show the same month', async () => {
+      render(<DatePicker noAnimation range yearNavigation />)
+
+      await userEvent.click(getDatePickerTriggerButton())
+
+      expect(getNavButtons(0).next).toHaveClass('disabled')
+      expect(getNavButtons(0, 1).next).toHaveClass('disabled')
+      expect(getNavButtons(1).prev).toHaveClass('disabled')
+      expect(getNavButtons(1, 1).prev).toHaveClass('disabled')
+
+      await userEvent.click(getNavButtons(0).next)
+      await userEvent.click(getNavButtons(1).prev)
+
+      expect(getCalendarTitles()).toEqual([
+        'oktober',
+        '2026',
+        'november',
+        '2026',
+      ])
+
+      await userEvent.click(getNavButtons(1).next)
+
+      expect(getCalendarTitles()).toEqual([
+        'oktober',
+        '2026',
+        'desember',
+        '2026',
+      ])
+      expect(getNavButtons(0).next).not.toHaveClass('disabled')
+      expect(getNavButtons(1).prev).not.toHaveClass('disabled')
     })
 
     it('should not let a calendar after maxDate move further away', async () => {
@@ -1976,7 +2093,7 @@ describe('DatePicker component', () => {
           noAnimation
           range
           maxDate="2026-10-31"
-          endMonth="2026-11-01"
+          endMonth="2026-12-01"
         />
       )
 
@@ -1984,7 +2101,7 @@ describe('DatePicker component', () => {
 
       expect(getCalendarTitles()).toEqual([
         'oktober 2026',
-        'november 2026',
+        'desember 2026',
       ])
       expect(getNavButtons(1).next).toHaveClass('disabled')
       expect(getNavButtons(1).prev).not.toHaveClass('disabled')
@@ -2042,6 +2159,65 @@ describe('DatePicker component', () => {
         expect(getCalendarTitles()).toEqual(expectedTitles)
       }
     )
+
+    it.each<
+      [
+        string,
+        Partial<DatePickerAllProps>,
+        Partial<DatePickerAllProps>,
+        Array<string>,
+      ]
+    >([
+      ['minDate', {}, { minDate: '2026-12-10' }, ['desember 2026']],
+      ['maxDate', {}, { maxDate: '2026-08-15' }, ['august 2026']],
+      [
+        'minDate, in range mode',
+        { range: true },
+        { minDate: '2026-12-10' },
+        ['desember 2026', 'januar 2027'],
+      ],
+      [
+        'maxDate, in range mode',
+        { range: true },
+        { maxDate: '2026-08-15' },
+        ['juli 2026', 'august 2026'],
+      ],
+      [
+        'maxDate in the current month, in range mode',
+        { range: true },
+        { maxDate: '2026-10-31' },
+        ['september 2026', 'oktober 2026'],
+      ],
+      [
+        'maxDate in the current month, with rangeSingleCalendar',
+        { range: true, rangeSingleCalendar: true },
+        { maxDate: '2026-10-31' },
+        ['oktober 2026'],
+      ],
+    ])(
+      'should open on the nearest month with selectable days after mount, when setting %s',
+      async (_, props, limits, expectedTitles) => {
+        const { rerender } = render(<DatePicker noAnimation {...props} />)
+
+        rerender(<DatePicker noAnimation {...props} {...limits} />)
+        await userEvent.click(getDatePickerTriggerButton())
+
+        expect(getCalendarTitles()).toEqual(expectedTitles)
+      }
+    )
+
+    it('should keep the month of the date when minDate is set after mount', async () => {
+      const { rerender } = render(
+        <DatePicker noAnimation date="2026-10-05" />
+      )
+
+      rerender(
+        <DatePicker noAnimation date="2026-10-05" minDate="2026-12-10" />
+      )
+      await userEvent.click(getDatePickerTriggerButton())
+
+      expect(getCalendarTitles()).toEqual(['oktober 2026'])
+    })
 
     it.each<[string, Partial<DatePickerAllProps>, Array<string>]>([
       [
@@ -4784,6 +4960,10 @@ describe('DatePicker component', () => {
   })
 
   it('should update calendar when changing minDate', async () => {
+    // Use a day in the middle of a month, so tomorrow is in the same month
+    vi.useFakeTimers({ toFake: ['Date'] })
+    vi.setSystemTime(new Date('2026-10-22T12:00:00'))
+
     const DatePickerComponent = () => {
       const today = new Date()
       const [minDate, setMinDate] = useState(today)
@@ -4804,23 +4984,27 @@ describe('DatePicker component', () => {
       )
     }
 
-    render(<DatePickerComponent />)
+    try {
+      render(<DatePickerComponent />)
 
-    const button = document.querySelector(
-      '.dnb-input__submit-element > button'
-    )
+      const button = document.querySelector(
+        '.dnb-input__submit-element > button'
+      )
 
-    await userEvent.click(button)
+      await userEvent.click(button)
 
-    const todayButton = document.querySelector(
-      '.dnb-date-picker__day--today > button'
-    )
+      const todayButton = document.querySelector(
+        '.dnb-date-picker__day--today > button'
+      )
 
-    expect(todayButton).not.toBeDisabled()
+      expect(todayButton).not.toBeDisabled()
 
-    await userEvent.click(screen.getByText('Click me'))
+      await userEvent.click(screen.getByText('Click me'))
 
-    expect(todayButton).toBeDisabled()
+      expect(todayButton).toBeDisabled()
+    } finally {
+      vi.useRealTimers()
+    }
   })
 
   it('should tab to next element after closing date picker', async () => {
@@ -5471,6 +5655,68 @@ describe('DatePicker component', () => {
     expect(screen.getByLabelText('lørdag 26. april 2025')).toBeDisabled()
   })
 
+  it('should show the months of range dates set after mount', async () => {
+    const { rerender } = render(
+      <DatePicker
+        noAnimation
+        range
+        startDate="2025-01-10"
+        endDate="2025-01-20"
+      />
+    )
+
+    rerender(
+      <DatePicker
+        noAnimation
+        range
+        startDate="2025-06-10"
+        endDate="2025-08-05"
+      />
+    )
+    await userEvent.click(getDatePickerTriggerButton())
+
+    const titles = Array.from(
+      document.querySelectorAll('.dnb-date-picker__header__title')
+    ).map((element) => element.textContent)
+
+    expect(titles).toEqual(['juni 2025', 'august 2025'])
+    await waitFor(() =>
+      expect(document.activeElement.closest('td')).toHaveAttribute(
+        'data-date',
+        '2025-06-10'
+      )
+    )
+  })
+
+  it('should keep startMonth when range dates are set after mount', async () => {
+    const { rerender } = render(
+      <DatePicker
+        noAnimation
+        range
+        startMonth="2025-01-01"
+        startDate="2025-01-10"
+        endDate="2025-01-20"
+      />
+    )
+
+    rerender(
+      <DatePicker
+        noAnimation
+        range
+        startMonth="2025-01-01"
+        startDate="2025-06-10"
+        endDate="2025-06-20"
+      />
+    )
+    await userEvent.click(getDatePickerTriggerButton())
+
+    const titles = Array.from(
+      document.querySelectorAll('.dnb-date-picker__header__title')
+    ).map((element) => element.textContent)
+
+    expect(titles).toEqual(['januar 2025', 'februar 2025'])
+  })
+
   it('should not select invalid dates when navigating the calendar using the arrow keys', async () => {
     render(
       <DatePicker
@@ -5777,10 +6023,10 @@ describe('DatePicker component', () => {
       'Neste måned juni'
     )
 
-    await userEvent.click(leftNextYearButton)
-    await userEvent.click(leftNextYearButton)
     await userEvent.click(rightNextYearButton)
     await userEvent.click(rightNextYearButton)
+    await userEvent.click(leftNextYearButton)
+    await userEvent.click(leftNextYearButton)
 
     // Verify years
     // Left

@@ -1,8 +1,6 @@
 name: Eufemia HTTP MCP health
 
 on:
-  schedule:
-    - cron: '11 * * * *'
   workflow_dispatch:
   workflow_run:
     workflows: ['MCP Lambda']
@@ -19,8 +17,7 @@ jobs:
   monitor:
     if: >-
       github.repository == 'dnbexperience/eufemia' &&
-      (github.event_name == 'schedule' ||
-       (github.event_name == 'workflow_dispatch' && github.ref_name == github.event.repository.default_branch) ||
+      ((github.event_name == 'workflow_dispatch' && github.ref_name == github.event.repository.default_branch) ||
        (github.event_name == 'workflow_run' &&
         (github.event.workflow_run.event == 'push' || github.event.workflow_run.event == 'workflow_dispatch') &&
         github.event.workflow_run.repository.full_name == github.repository))
@@ -29,7 +26,6 @@ jobs:
     permissions:
       actions: read
       contents: read
-      issues: write
     steps:
       - name: Git checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
@@ -45,11 +41,10 @@ jobs:
         with:
           node-version-file: package.json
 
-      - name: Check production HTTP MCP and report incident or recovery
-        run: node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON tools/mcp-lambda/src/alert-http.ts
+      - name: Check production HTTP MCP
+        run: node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON tools/mcp-lambda/src/check-http.ts
         env:
           GH_TOKEN: ${{ github.token }}
-          MCP_ALERT_WEBHOOK: ${{ secrets.MCP_ALERT_WEBHOOK || secrets.CDN_ALERT_WEBHOOK }}
 
       - name: Store health report
         if: ${{ !cancelled() }}

@@ -186,10 +186,14 @@ tools/mcp-lambda/
 
 ## Production HTTP monitoring
 
-The **Eufemia HTTP MCP health** workflow checks
-https://server.eufemia.dnb.no/mcp/web every hour, after **MCP Lambda**
-completes, and on manual dispatch from the default branch. It executes Node.js
-directly without installing dependencies or receiving deployment credentials.
+Hourly checks of https://server.eufemia.dnb.no/mcp/web and Slack notifications
+run in AWS EventBridge Scheduler and Lambda. See [service monitoring](../service-monitoring/README.md)
+for deployment, incident handling and rollback.
+
+The **Eufemia HTTP MCP health** Actions workflow retains manual and
+post-deployment diagnostics. It executes Node.js directly, fails on unhealthy
+checks and attaches reports for 14 days. It does not send Slack notifications
+or write incident issues.
 
 Each run checks:
 
@@ -219,28 +223,13 @@ tool calls. They pass through the existing anonymous usage tracking and are
 not unique-user activity. The check does not verify the telemetry consumer,
 all documentation files, every edge location or deployment infrastructure.
 
-An unhealthy run opens one **Eufemia MCP incident** and fails the workflow.
-The shared incident reporter keeps MCP and CDN incidents separate. It alerts
-on new or changed failures and recovery, with no messages for identical
-failures. Recovery comments on and closes the incident; pending deployments
-do not close it. Failed notification delivery is retried on the next run.
-Reports are attached as workflow artifacts for 14 days.
+AWS keeps shared notification state for MCP and CDN, posts one alert per incident, and replies with recovery in the incident thread. Repeated or changed failures only update the shared overview. Pending delivery is retained for retries. Slack bot configuration is read from Secrets Manager.
+The diagnostic Actions workflow only receives its built-in token to read public deployment metadata.
 
-Slack uses the existing repository secret `CDN_ALERT_WEBHOOK` by default, so
-these alerts reach the same team channel. Set `MCP_ALERT_WEBHOOK` to a separate
-Slack incoming webhook to use a different channel. The workflow's built-in
-GitHub token reads public deployment status and manages the incident issue;
-no personal token or AWS credentials are needed.
-
-After merging, dispatch **Eufemia HTTP MCP health** from the default branch
-and inspect the report. Verify controlled failure and recovery in a test
-repository/channel before relying on the notification route. Local tests
-cover the incident lifecycle without creating issues or sending Slack messages.
-GitHub schedules can be delayed or dropped and stop after 60 days without
-repository activity. For prompt paging and regional coverage, pair this with
-an independent multi-region uptime check of the public health endpoint every
-1–5 minutes. See
-[GitHub's schedule limitations](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#schedule).
+For prompt paging and regional coverage, pair the hourly AWS checks with an
+independent multi-region uptime check of the public health endpoint. Verify
+failure and recovery delivery as described in the service-monitoring README
+before changing alert ownership.
 
 Run the production check locally from the repository root:
 

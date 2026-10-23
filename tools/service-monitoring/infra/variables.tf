@@ -23,12 +23,18 @@ variable "cost_allocation" {
 
 variable "notifications_enabled" {
   type        = bool
-  description = "Enable Slack after verifying shadow runs and populating the webhook secret."
+  description = "Enable Slack after verifying shadow runs and configuring the Slack bot secret."
   default     = false
 }
 
 variable "github_token_secret_arn" {
   type        = string
   description = "Optional Secrets Manager ARN containing a read-only public GitHub Actions token."
+  default     = ""
+}
+
+variable "slack_bot_secret_arn" {
+  type        = string
+  description = "Secrets Manager ARN containing the Slack bot token and private channel ID as JSON."
   default     = ""
 }

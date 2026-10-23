@@ -1,14 +1,25 @@
 import { afterEach, beforeAll, describe, it, expect, vi } from 'vitest'
-import { cleanup, fireEvent, render } from '@testing-library/react'
+import {
+  cleanup,
+  fireEvent,
+  render,
+  waitFor,
+} from '@testing-library/react'
 import { renderToString } from 'react-dom/server'
+import { MemoryRouter } from 'react-router'
 import { Autocomplete } from '@dnb/eufemia/src/components'
+import { Provider } from '@dnb/eufemia/src/shared'
 import { formatSearchResultMarkdown } from '../SearchBarMarkdown'
 import { SearchBarInput } from '../SearchBar'
+
+const { search } = vi.hoisted(() => ({
+  search: vi.fn().mockResolvedValue({ hits: [] }),
+}))
 
 vi.mock('algoliasearch/lite', () => ({
   default: () => ({
     initIndex: () => ({
-      search: vi.fn().mockResolvedValue({ hits: [] }),
+      search,
     }),
   }),
 }))
@@ -45,6 +56,13 @@ beforeAll(() => {
 afterEach(cleanup)
 
 describe('SearchBar', () => {
+  it.each([false, true, 42, {}, null, undefined])(
+    'ignores non-string search metadata: %s',
+    (value) => {
+      expect(formatSearchResultMarkdown(value)).toBeNull()
+    }
+  )
+
   it('formats inline markdown code in search results', () => {
     const { container } = render(
       <>{formatSearchResultMarkdown('Use `--z-index-dropdown`')}</>
@@ -131,6 +149,64 @@ describe('SearchBar', () => {
 })
 
 describe('SearchBarInput', () => {
+  it('shows List results without pages marked search: false', async () => {
+    search.mockResolvedValueOnce({
+      hits: [
+        { slug: 'uilib/components/list', title: 'List' },
+        {
+          slug: 'uilib/components/list/visual-tests/custom-cells',
+          title: 'List visual test',
+          search: false,
+        },
+      ],
+    })
+    render(
+      <MemoryRouter>
+        <SearchBarInput />
+      </MemoryRouter>
+    )
+
+    const input = document.querySelector('#portal-search')
+    fireEvent.focus(input)
+    fireEvent.change(input, { target: { value: 'list' } })
+
+    await waitFor(() => {
+      expect(
+        document.querySelector('a[href="/uilib/components/list"]')
+      ).not.toBeNull()
+    })
+    expect(document.body.textContent).not.toContain('List visual test')
+    expect(document.body.textContent).not.toContain(
+      'includes is not a function'
+    )
+  })
+
+  it('shows no options when every result is marked search: false', async () => {
+    search.mockResolvedValueOnce({
+      hits: [
+        {
+          slug: 'uilib/components/list/visual-tests/custom-cells',
+          title: 'List visual test',
+          search: false,
+        },
+      ],
+    })
+    render(
+      <Provider locale="en-GB">
+        <SearchBarInput />
+      </Provider>
+    )
+
+    const input = document.querySelector('#portal-search')
+    fireEvent.focus(input)
+    fireEvent.change(input, { target: { value: 'list' } })
+
+    await waitFor(() => {
+      expect(document.body.textContent).toContain('No options')
+    })
+    expect(document.body.textContent).not.toContain('List visual test')
+  })
+
   it('renders the search input', () => {
     render(<SearchBarInput />)
 

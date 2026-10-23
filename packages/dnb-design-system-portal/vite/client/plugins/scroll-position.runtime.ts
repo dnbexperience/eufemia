@@ -105,6 +105,20 @@ export function useScrollPosition() {
   const location = useLocation()
   const prevPathRef = useRef(location.pathname)
 
+  useEffect(() => {
+    if (!location.hash) {
+      return
+    }
+
+    // Route focus positions hash targets; native restoration can override it.
+    const scrollRestoration = window.history.scrollRestoration
+    window.history.scrollRestoration = 'manual'
+
+    return () => {
+      window.history.scrollRestoration = scrollRestoration
+    }
+  }, [location.hash])
+
   // Save and restore on route changes
   useEffect(() => {
     const prevPath = prevPathRef.current

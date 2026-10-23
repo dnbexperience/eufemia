@@ -60,7 +60,7 @@ describe('validatePortalViews', () => {
   })
 
   it('rejects an invalid timestamp', () => {
-    for (const timestamp of ['nope', '2026', 'March 5', '2026-08-20']) {
+    for (const timestamp of ['nope', '2026', 'March 5', '2026-08-20', 0]) {
       const result = validatePortalViews({ path: '/a', timestamp })
 
       expect(result.ok).toBe(false)

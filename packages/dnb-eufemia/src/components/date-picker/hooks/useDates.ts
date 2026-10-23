@@ -91,6 +91,7 @@ export default function useDates(
       previousDateProps,
       dateFormat,
       isRange,
+      rangeSingleCalendar,
     })
 
     setDates((currentDates) => ({ ...currentDates, ...derivedDates }))
@@ -218,12 +219,14 @@ function deriveDatesFromProps({
   previousDateProps,
   dateFormat,
   isRange,
+  rangeSingleCalendar,
 }: {
   dates: DatePickerDates
   dateProps: DatePickerDateProps
   previousDateProps: DatePickerDateProps
   dateFormat: UseDatesOptions['dateFormat']
   isRange: UseDatesOptions['isRange']
+  rangeSingleCalendar: UseDatesOptions['rangeSingleCalendar']
 }) {
   const derivedDates: DatePickerDates = {}
 
@@ -257,6 +260,36 @@ function deriveDatesFromProps({
       convertStringToDate(dateProps.endDate, {
         dateFormat,
       }) || undefined
+  }
+
+  // In range mode, show the months of dates set from outside, like on mount.
+  // Dates picked in the calendar come back as the same days, and should not
+  // move the calendars while the user is picking.
+  if (
+    isRange &&
+    (('startDate' in derivedDates &&
+      !isSameDate(derivedDates.startDate, dates.startDate)) ||
+      ('endDate' in derivedDates &&
+        !isSameDate(derivedDates.endDate, dates.endDate)))
+  ) {
+    const { startMonth, endMonth } = mapDates(
+      {
+        startDate:
+          'startDate' in derivedDates
+            ? derivedDates.startDate
+            : dates.startDate,
+        endDate:
+          'endDate' in derivedDates ? derivedDates.endDate : dates.endDate,
+        startMonth: dateProps.startMonth,
+        endMonth: dateProps.endMonth,
+        minDate: dateProps.minDate ?? dates.minDate,
+        maxDate: dateProps.maxDate ?? dates.maxDate,
+      },
+      { dateFormat, isRange, rangeSingleCalendar }
+    )
+
+    derivedDates.startMonth = startMonth
+    derivedDates.endMonth = endMonth
   }
 
   // Handle startMonth/endMonth
@@ -293,6 +326,37 @@ function deriveDatesFromProps({
     derivedDates.maxDate = convertStringToDate(dateProps.maxDate, {
       dateFormat,
     })
+  }
+
+  // Like on mount, open on the nearest month within minDate and maxDate
+  // when neither a date nor a month is given
+  const hasNewLimit =
+    'minDate' in derivedDates || 'maxDate' in derivedDates
+  const selectedStartDate =
+    'startDate' in derivedDates ? derivedDates.startDate : dates.startDate
+  if (
+    hasNewLimit &&
+    !selectedStartDate &&
+    typeof dateProps.startMonth === 'undefined' &&
+    typeof dateProps.endMonth === 'undefined'
+  ) {
+    const minDate =
+      'minDate' in derivedDates ? derivedDates.minDate : dates.minDate
+    const maxDate =
+      'maxDate' in derivedDates ? derivedDates.maxDate : dates.maxDate
+    const startMonth = getDefaultMonth({ minDate, maxDate })
+    const endMonth = isRange ? addMonths(startMonth, 1) : startMonth
+    const months =
+      isRange && !rangeSingleCalendar
+        ? fitMonthsToMaxDate({ startMonth, endMonth, minDate, maxDate })
+        : { startMonth, endMonth }
+
+    if (
+      !isSameMonth(months.startMonth, dates.startMonth) ||
+      !isSameMonth(months.endMonth, dates.endMonth)
+    ) {
+      Object.assign(derivedDates, months)
+    }
   }
 
   return derivedDates
@@ -412,6 +476,12 @@ function fitMonthsToMaxDate({
   }
 
   return { startMonth, endMonth }
+}
+
+function isSameDate(date?: Date, otherDate?: Date) {
+  return date && otherDate
+    ? isSameDay(date, otherDate)
+    : !date && !otherDate
 }
 
 function getDate(date: DatePickerDateType, dateFormat: string) {

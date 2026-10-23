@@ -78,11 +78,11 @@ resource "aws_lambda_function" "monitor" {
   source_code_hash               = filebase64sha256("${path.module}/../dist/lambda.zip")
   environment {
     variables = {
-      SERVICE                  = each.key
-      STATE_TABLE              = aws_dynamodb_table.state.name
-      SLACK_WEBHOOK_SECRET_ARN = aws_secretsmanager_secret.slack.arn
-      NOTIFICATIONS_ENABLED    = tostring(var.notifications_enabled)
-      GITHUB_TOKEN_SECRET_ARN  = each.key == "MCP" ? var.github_token_secret_arn : ""
+      SERVICE                 = each.key
+      STATE_TABLE             = aws_dynamodb_table.state.name
+      ALERT_TOPIC_ARN         = aws_sns_topic.alerts.arn
+      NOTIFICATIONS_ENABLED   = tostring(var.notifications_enabled)
+      GITHUB_TOKEN_SECRET_ARN = each.key == "MCP" ? var.github_token_secret_arn : ""
     }
   }
   depends_on = [aws_cloudwatch_log_group.monitor]
@@ -161,6 +161,7 @@ resource "aws_cloudwatch_metric_alarm" "errors" {
   comparison_operator = "GreaterThanOrEqualToThreshold"
   treat_missing_data  = "notBreaching"
   alarm_actions       = var.notifications_enabled ? [aws_sns_topic.alerts.arn] : []
+  ok_actions          = var.notifications_enabled ? [aws_sns_topic.alerts.arn] : []
   tags                = local.tags
 }
 
@@ -177,6 +178,7 @@ resource "aws_cloudwatch_metric_alarm" "failures" {
   comparison_operator = "GreaterThanOrEqualToThreshold"
   treat_missing_data  = "notBreaching"
   alarm_actions       = var.notifications_enabled ? [aws_sns_topic.alerts.arn] : []
+  ok_actions          = var.notifications_enabled ? [aws_sns_topic.alerts.arn] : []
   tags                = local.tags
 }
 
@@ -195,16 +197,23 @@ resource "aws_lambda_function" "notifier" {
   role                           = data.aws_iam_role.notifier.arn
   handler                        = "alarms.handler"
   runtime                        = "nodejs22.x"
-  timeout                        = 60
+  timeout                        = 120
   memory_size                    = 128
   reserved_concurrent_executions = 1
   filename                       = "${path.module}/../dist/lambda.zip"
   source_code_hash               = filebase64sha256("${path.module}/../dist/lambda.zip")
   environment {
     variables = {
-      ALERT_TOPIC_ARN          = aws_sns_topic.alerts.arn
-      SLACK_WEBHOOK_SECRET_ARN = aws_secretsmanager_secret.slack.arn
-      NOTIFICATIONS_ENABLED    = tostring(var.notifications_enabled)
+      ALERT_TOPIC_ARN       = aws_sns_topic.alerts.arn
+      SLACK_BOT_SECRET_ARN  = var.slack_bot_secret_arn
+      STATE_TABLE           = aws_dynamodb_table.state.name
+      NOTIFICATIONS_ENABLED = tostring(var.notifications_enabled)
+    }
+  }
+  lifecycle {
+    precondition {
+      condition     = !var.notifications_enabled || var.slack_bot_secret_arn != ""
+      error_message = "Configure the Slack bot secret before enabling threaded notifications."
     }
   }
   depends_on = [aws_cloudwatch_log_group.notifier]
