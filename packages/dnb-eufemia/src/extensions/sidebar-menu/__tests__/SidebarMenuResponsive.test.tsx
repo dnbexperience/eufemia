@@ -2459,7 +2459,11 @@ describe('SidebarMenu responsive parts', () => {
     expect(html).not.toContain('@media(max-width: 60em)')
   })
 
-  it('falls back to medium for unsupported runtime values', () => {
+  it('falls back to medium without warning for unsupported runtime values', () => {
+    const log = vi
+      .spyOn(console, 'log')
+      .mockImplementation(() => undefined)
+
     const html = renderToString(
       <SidebarMenu.ResponsiveProvider drawerAt={'800px' as '50em'}>
         <SidebarMenu.ResponsiveTrigger />
@@ -2467,6 +2471,28 @@ describe('SidebarMenu responsive parts', () => {
     )
 
     expect(html).not.toContain('@media(max-width: 800px)')
+    expect(log).not.toHaveBeenCalled()
+
+    log.mockRestore()
+  })
+
+  it('accepts rem values like em values', () => {
+    const html = renderToString(
+      <SidebarMenu.ResponsiveProvider
+        drawerAt="45rem"
+        compactAt="70rem"
+        compactOffset="2.5rem"
+      >
+        <SidebarMenu.ResponsiveTrigger />
+        <SidebarMenu.ResponsiveInline>
+          Inline menu
+        </SidebarMenu.ResponsiveInline>
+      </SidebarMenu.ResponsiveProvider>
+    )
+
+    expect(html).toContain('@media(max-width: 45em)')
+    expect(html).toContain('@media(min-width: 45.00625em)')
+    expect(html).toContain('and (max-width: 72.5em)')
   })
 
   it('uses a custom breakpoint after hydration', () => {

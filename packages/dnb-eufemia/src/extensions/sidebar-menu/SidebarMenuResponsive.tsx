@@ -97,6 +97,8 @@ export type SidebarMenuResponsiveValue = Pick<
   | 'toggle'
 >
 
+type BreakpointLength = `${number}em` | `${number}rem`
+
 export type SidebarMenuResponsiveProviderProps = {
   children: ReactNode
   /** Named controller shared with other applications in the same window. */
@@ -104,13 +106,13 @@ export type SidebarMenuResponsiveProviderProps = {
   /** Unique scope used by first-paint CSS and Toggles outside this provider. */
   scopeId?: string
   /** Maximum viewport width at which the Drawer is used. */
-  drawerAt?: MediaQuerySizes | `${number}em`
+  drawerAt?: MediaQuerySizes | BreakpointLength
   /** @deprecated Use drawerAt instead. */
-  breakpoint?: MediaQuerySizes | `${number}em`
+  breakpoint?: MediaQuerySizes | BreakpointLength
   /** Maximum viewport width at which the inline menu becomes icon-only. */
-  compactAt?: MediaQuerySizes | `${number}em`
+  compactAt?: MediaQuerySizes | BreakpointLength
   /** Additional viewport width added to the compactAt threshold. */
-  compactOffset?: `${number}em`
+  compactOffset?: BreakpointLength
   /** CSP nonce forwarded to custom first-paint breakpoint CSS. */
   styleNonce?: string
   /** Controlled Drawer state. */
@@ -1062,16 +1064,19 @@ function getActionLabel(action: HTMLElement) {
 }
 
 function resolveBreakpoint(
-  value: MediaQuerySizes | `${number}em`,
+  value: MediaQuerySizes | BreakpointLength,
   breakpoints?: Record<string, string>,
   fallback = defaultBreakpoints.large ?? '72em'
 ) {
-  const configured =
+  const configured = String(
     breakpoints?.[value] ??
-    defaultBreakpoints[value as MediaQuerySizes] ??
-    value
-
-  return isEmValue(String(configured)) ? String(configured) : fallback
+      defaultBreakpoints[value as MediaQuerySizes] ??
+      value
+  )
+  // In media queries, rem and em both use the initial font size.
+  return isBreakpointLength(configured)
+    ? configured.replace('rem', 'em')
+    : fallback
 }
 
 function toCssLength(value: CSSProperties['width']) {
@@ -1079,16 +1084,16 @@ function toCssLength(value: CSSProperties['width']) {
 }
 
 function addEmValues(first: string, second: string) {
-  if (!isEmValue(first) || !isEmValue(second)) {
+  if (!isBreakpointLength(first) || !isBreakpointLength(second)) {
     return first
   }
 
   return `${Number.parseFloat(first) + Number.parseFloat(second)}em`
 }
 
-function isEmValue(value: string) {
+function isBreakpointLength(value: string) {
   // eslint-disable-next-line security/detect-unsafe-regex -- the optional group does not repeat
-  return /^\d+(?:\.\d+)?em$/.test(value)
+  return /^\d+(?:\.\d+)?r?em$/.test(value)
 }
 
 // Keeps a custom scopeId inside the quoted attribute selector
@@ -1105,7 +1110,7 @@ function getFirstPaintCss(
   compactAt?: string
 ) {
   const em = Number.parseFloat(drawerAt)
-  if (!isEmValue(drawerAt) || !Number.isFinite(em)) {
+  if (!isBreakpointLength(drawerAt) || !Number.isFinite(em)) {
     return undefined
   }
 
@@ -1117,7 +1122,7 @@ function getFirstPaintCss(
   }
   const css = [
     drawerAt !== defaultBreakpoints.medium ? drawerFirstPaintCss : '',
-    compactAt && isEmValue(compactAt) ? compactFirstPaintCss : '',
+    compactAt && isBreakpointLength(compactAt) ? compactFirstPaintCss : '',
   ].join('')
 
   return (
