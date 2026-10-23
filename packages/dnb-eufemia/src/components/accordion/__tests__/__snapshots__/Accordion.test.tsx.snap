@@ -497,6 +497,7 @@ html:not([data-whatintent=touch]) .dnb-accordion__header--outlined:hover:not([di
   --accordion-color-text--active: var(--token-color-text-action);
   --accordion-color-bg--default: var(--token-color-background-action);
   --accordion-color-border--default: var(--accordion-color-bg);
+  --accordion-border-width--active: 0.0625rem;
 }
 .dnb-accordion__variant--filled {
   --accordion-color-text--default: var(--token-color-text-action);
