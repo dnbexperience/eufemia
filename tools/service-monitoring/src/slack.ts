@@ -20,7 +20,9 @@ export async function sendSlack(
       url.password ||
       url.search ||
       url.hash ||
-      !/^\/services\/[^/]+\/[^/]+\/[^/]+$/.test(url.pathname)
+      !/^\/services\/[A-Za-z0-9_-]+\/[A-Za-z0-9_-]+\/[A-Za-z0-9_-]+$/.test(
+        url.pathname
+      )
     ) {
       throw new Error('Invalid webhook')
     }
