@@ -1,5 +1,4 @@
 import { useMemo } from 'react'
-import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import TableOfContentItem from './TableOfContentItem'
 import TableOfContentNavigation from './TableOfContentNavigation'
 import { buildTocTree, itemsToRender } from './tableOfContentTree'
@@ -33,5 +32,3 @@ export default function TableOfContentData({
     </TableOfContentNavigation>
   )
 }
-
-withComponentMarkers(TableOfContentData, { _supportsSpacingProps: true })
