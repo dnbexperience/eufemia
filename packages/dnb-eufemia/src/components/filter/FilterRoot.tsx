@@ -22,6 +22,7 @@ import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
 export type FilterRootProps = {
   id?: string
+  'aria-label'?: string
   behavior?: 'realtime' | 'manual'
   defaultFilters?: Record<string, FilterValue>
   defaultPanelOpen?: boolean
@@ -67,6 +68,7 @@ function deriveAccordionState(
 
 function FilterRoot({
   id,
+  'aria-label': ariaLabelProp,
   behavior = 'realtime',
   defaultFilters,
   defaultPanelOpen,
@@ -446,7 +448,11 @@ function FilterRoot({
 
   return (
     <FilterContext value={contextValue}>
-      <div {...spacingProps} role="search" aria-label={ariaLabel}>
+      <div
+        {...spacingProps}
+        role="search"
+        aria-label={ariaLabelProp ?? ariaLabel}
+      >
         {children}
       </div>
     </FilterContext>
