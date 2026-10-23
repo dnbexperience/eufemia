@@ -160,6 +160,48 @@ describe('Available-width media queries', () => {
     expect(observers[1].disconnect).toHaveBeenCalled()
   })
 
+  it('keeps the subscriptions when an inline responsive object is recreated', () => {
+    const ref = container(700)
+    let rerender: () => void
+    const Read = () => <span>{useMedia().key}</span>
+    function App({ offset }: { offset?: number }) {
+      const [, setCount] = useState(0)
+      rerender = () => setCount((count) => count + 1)
+      return (
+        <Provider
+          responsive={
+            offset === undefined
+              ? { target: 'container', containerRef: ref }
+              : { target: 'viewport', offset }
+          }
+        >
+          <Read />
+        </Provider>
+      )
+    }
+
+    const { unmount } = render(<App />)
+    const created = observers.length
+    const disconnects = () =>
+      observers.reduce(
+        (sum, observer) => sum + observer.disconnect.mock.calls.length,
+        0
+      )
+    const disconnectedOnMount = disconnects()
+    act(() => rerender())
+    act(() => rerender())
+    expect(observers).toHaveLength(created)
+    expect(disconnects()).toBe(disconnectedOnMount)
+    unmount()
+
+    render(<App offset={100} />)
+    const matchMedia = vi.spyOn(window, 'matchMedia')
+    act(() => rerender())
+    act(() => rerender())
+    expect(matchMedia).not.toHaveBeenCalled()
+    matchMedia.mockRestore()
+  })
+
   it('reconnects when React replaces the target during commit', () => {
     const Read = () => (
       <span>
