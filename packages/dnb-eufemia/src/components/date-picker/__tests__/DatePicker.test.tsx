@@ -2004,6 +2004,14 @@ describe('DatePicker component', () => {
       await userEvent.click(startDay)
       await userEvent.keyboard('07102026')
 
+      expect(getDatePickerInputs().map(({ value }) => value)).toEqual([
+        '07',
+        '10',
+        '2026',
+        '10',
+        '11',
+        '2026',
+      ])
       expect(getCalendarTitles()).toEqual([
         'oktober 2026',
         'november 2026',
@@ -2031,6 +2039,14 @@ describe('DatePicker component', () => {
       await userEvent.click(endDay)
       await userEvent.keyboard('05112026')
 
+      expect(getDatePickerInputs().map(({ value }) => value)).toEqual([
+        '05',
+        '10',
+        '2026',
+        '05',
+        '11',
+        '2026',
+      ])
       expect(getCalendarTitles()).toEqual([
         'oktober 2026',
         'november 2026',
