@@ -18,9 +18,13 @@
   --radio-border-width--default: 0.0625rem;
   --radio-color-dot-on--default: var(--token-color-background-selected);
   --radio-color-background--default: var(--token-color-background-neutral);
+  --radio-color-background-on--default: var(
+    --token-color-background-selected-subtle
+  );
   --radio-color-border--default: var(
     --token-color-stroke-action-alternative
   );
+  --radio-color-border-on--default: var(--token-color-stroke-selected);
 
   // Disabled state
   --radio-color-dot-on--disabled: var(
@@ -69,6 +73,41 @@
       in srgb,
       var(--token-color-stroke-neutral-ondark) 50%,
       transparent
+    );
+  }
+
+  // Checked and error ToggleButtons keep a light background on dark surfaces
+  &--surface-dark:where(:not(.dnb-toggle-button *)) {
+    --radio-color-dot-on--default: var(
+      --token-color-background-selected-ondark
+    );
+    --radio-color-background--default: transparent;
+    --radio-color-background-on--default: var(
+      --token-color-background-selected-subtle-ondark
+    );
+    --radio-color-border--default: var(
+      --token-color-stroke-action-alternative-ondark
+    );
+    --radio-color-border-on--default: var(
+      --token-color-stroke-selected-ondark
+    );
+    --radio-color-dot-on--active: var(
+      --token-color-background-action-pressed-ondark
+    );
+    --radio-color-background--active: var(
+      --token-color-background-action-pressed-subtle-ondark
+    );
+    --radio-color-border--active: var(
+      --token-color-stroke-action-pressed-ondark
+    );
+    --radio-color-dot-on--hover: var(
+      --token-color-background-action-hover-ondark
+    );
+    --radio-color-background--hover: var(
+      --token-color-background-action-hover-subtle-ondark
+    );
+    --radio-color-border--hover: var(
+      --token-color-stroke-action-hover-ondark
     );
   }
 
@@ -322,9 +361,9 @@
   &__input[data-checked='true'] ~ &__button {
     --radio-border-width--default: 0.09375rem;
     --radio-border-width--active: 0.09375rem;
-    --radio-color-border--default: var(--token-color-stroke-selected);
+    --radio-color-border--default: var(--radio-color-border-on--default);
     --radio-color-background--default: var(
-      --token-color-background-selected-subtle
+      --radio-color-background-on--default
     );
   }
   &__input:checked ~ &__dot,
