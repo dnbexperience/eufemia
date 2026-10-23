@@ -719,10 +719,12 @@ test.describe('List nested row alignment', () => {
       const offsets = await rows.evaluateAll((items) =>
         items.map((item) => {
           const middle = (rect: DOMRect) => rect.top + rect.height / 2
-          const textMiddle = (element: Element) => {
+          // Like in the design, the first line of the end cell is placed
+          // on the title line, also when more lines follow
+          const firstLineMiddle = (element: Element) => {
             const range = document.createRange()
             range.selectNodeContents(element)
-            return middle(range.getBoundingClientRect())
+            return middle(range.getClientRects()[0])
           }
 
           const titleText = Array.from(
@@ -740,7 +742,7 @@ test.describe('List nested row alignment', () => {
                   .getBoundingClientRect()
               ) - title,
             end:
-              textMiddle(item.querySelector('.dnb-list__item__end')) -
+              firstLineMiddle(item.querySelector('.dnb-list__item__end')) -
               title,
             chevron:
               middle(
