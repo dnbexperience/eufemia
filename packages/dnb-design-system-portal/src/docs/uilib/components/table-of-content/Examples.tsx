@@ -1,8 +1,14 @@
 import { useLayoutEffect, useRef, useState } from 'react'
-import { H2, H3, P, ScrollView, Switch } from '@dnb/eufemia/src'
-import { TableOfContent } from '@dnb/eufemia/src/extensions'
+import {
+  H2,
+  H3,
+  P,
+  ScrollView,
+  Switch,
+  TableOfContent,
+} from '@dnb/eufemia/src'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
-import '@dnb/eufemia/src/extensions/table-of-content/style'
+import '@dnb/eufemia/src/components/table-of-content/style'
 import styles from './Examples.module.scss'
 
 export function Declarative() {

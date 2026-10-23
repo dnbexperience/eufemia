@@ -3,7 +3,7 @@ import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import TableOfContentItem from './TableOfContentItem'
 import TableOfContentNavigation from './TableOfContentNavigation'
 import { buildTocTree, itemsToRender } from './tableOfContentTree'
-import type { TocNode } from './tableOfContentTree'
+import type { TableOfContentNode } from './tableOfContentTree'
 import type { TableOfContentDataProps } from './types'
 
 export default function TableOfContentData({
@@ -16,7 +16,7 @@ export default function TableOfContentData({
     [data, maxDepth]
   )
 
-  const renderItems = (nodes: TocNode[]) =>
+  const renderItems = (nodes: TableOfContentNode[]) =>
     itemsToRender(nodes).map((item) => (
       <TableOfContentItem key={item.id} id={item.id} text={item.text}>
         {renderItems(item.subTree)}

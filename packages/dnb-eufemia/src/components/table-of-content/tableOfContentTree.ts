@@ -1,9 +1,9 @@
 import type { TableOfContentSection } from './types'
 
-export type TocNode = TableOfContentSection & {
+export type TableOfContentNode = TableOfContentSection & {
   /** Distinguishes the rendered list items from one another. */
   key: number
-  subTree: TocNode[]
+  subTree: TableOfContentNode[]
   /** Left out of the rendered list for being deeper than `maxDepth`. */
   isRendered: boolean
 }
@@ -15,18 +15,18 @@ export type TocNode = TableOfContentSection & {
 export function buildTocTree(
   sections: TableOfContentSection[],
   maxDepth: number
-): TocNode[] {
+): TableOfContentNode[] {
   const levelsBelowTitle = sections
     .filter(({ level }) => level > 1)
     .map(({ level }) => level)
   const firstTocLevel = Math.min(...levelsBelowTitle)
 
-  const tocTree: TocNode[] = []
+  const tocTree: TableOfContentNode[] = []
 
-  const potentialParents: TocNode[] = []
+  const potentialParents: TableOfContentNode[] = []
 
   sections.forEach((section, index) => {
-    const tocItem: TocNode = {
+    const tocItem: TableOfContentNode = {
       ...section,
       key: index,
       subTree: [],
@@ -56,7 +56,9 @@ export function buildTocTree(
 }
 
 /** The items to render in place of the given ones, where a page title is replaced by the sections below it. */
-export function itemsToRender(tocTree: TocNode[]): TocNode[] {
+export function itemsToRender(
+  tocTree: TableOfContentNode[]
+): TableOfContentNode[] {
   return tocTree
     .flatMap((tocItem) =>
       tocItem.level === 1 ? tocItem.subTree : [tocItem]
@@ -70,9 +72,9 @@ export function itemsToRender(tocTree: TocNode[]): TocNode[] {
  * the first then it returns the first rendered section.
  */
 export function resolveCurrentId(
-  tocTree: TocNode[],
+  tocTree: TableOfContentNode[],
   currentId?: string | null,
-  closestRenderedAncestor?: TocNode
+  closestRenderedAncestor?: TableOfContentNode
 ): string | null {
   for (const tocItem of tocTree) {
     const closestRendered = tocItem.isRendered

@@ -1,8 +1,8 @@
 import { test, expect } from '@playwright/test'
 
-test.describe('TableOfContent extension', () => {
+test.describe('TableOfContent component', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/uilib/extensions/table-of-content/demos/')
+    await page.goto('/uilib/components/table-of-content/demos/')
   })
 
   test('tracks a nested scroll container and keeps native fragment navigation and destination focus', async ({
