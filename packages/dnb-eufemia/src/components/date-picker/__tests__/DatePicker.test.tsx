@@ -2650,6 +2650,52 @@ describe('DatePicker component', () => {
     ).toBe('2024-10-31')
   })
 
+  it.each([
+    {
+      key: '{ArrowLeft}',
+      from: '2024-10-01',
+      to: '2024-09-30',
+      titles: ['september 2024', 'oktober 2024'],
+    },
+    {
+      key: '{ArrowRight}',
+      from: '2024-11-30',
+      to: '2024-12-01',
+      titles: ['november 2024', 'desember 2024'],
+    },
+  ])(
+    'should move linked calendars together when arrow keys leave the calendars: $key',
+    async ({ key, from, to, titles }) => {
+      render(
+        <DatePicker
+          noAnimation
+          range
+          link
+          startDate="2024-10-01"
+          endDate="2024-11-30"
+        />
+      )
+
+      await userEvent.click(getDatePickerTriggerButton())
+
+      const fromButton = document.querySelector(
+        `td[data-date="${from}"]:not(.dnb-date-picker__day--outside-month) button`
+      ) as HTMLButtonElement
+      fromButton.focus()
+      await userEvent.keyboard(key)
+
+      expect(
+        Array.from(
+          document.querySelectorAll('.dnb-date-picker__header__title')
+        ).map((element) => element.textContent)
+      ).toEqual(titles)
+      expect(document.activeElement.closest('td')).toHaveAttribute(
+        'data-date',
+        to
+      )
+    }
+  )
+
   it('should show only one calendar in range mode when rangeSingleCalendar is true', async () => {
     render(
       <DatePicker
