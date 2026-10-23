@@ -2129,7 +2129,7 @@ describe('DatePicker component', () => {
 
       await userEvent.click(getDatePickerTriggerButton())
 
-      const { next } = getNavButtons(1)
+      const next = getNavButtons(1).next as HTMLButtonElement
 
       expect(next).not.toHaveAttribute('aria-disabled')
 
