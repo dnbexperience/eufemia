@@ -12,12 +12,6 @@
 
 import picomatch from 'picomatch'
 
-export type TableOfContentsItem = {
-  url: string
-  title: string
-  items?: TableOfContentsItem[]
-}
-
 /**
  * The documented frontmatter fields, for autocompletion and type safety.
  *
@@ -112,6 +106,10 @@ export type KnownFrontmatter = {
   accordion?: boolean
   search?: string
   redirect_from?: string[]
+  /** Hides the table of contents for the page. */
+  hideToc?: boolean
+  /** How many heading levels the table of contents should include, counting from the highest level on the page (excluding h1). Default is `2`. */
+  tocDepth?: number
 }
 
 /**
@@ -128,9 +126,6 @@ export type MdxNode = {
     sourcePath: string
   }
   frontmatter: MdxFrontmatter
-  tableOfContents?: {
-    items: TableOfContentsItem[]
-  }
   /** Parent pages, nearest first. Only present when a consumer asks for them. */
   siblings?: MdxNode[]
 }
@@ -141,7 +136,6 @@ export type PageFileInfo = {
   sourcePath: string
   slug: string
   frontmatter: MdxFrontmatter
-  tableOfContents?: { items: TableOfContentsItem[] }
   type: 'mdx' | 'tsx'
 }
 
