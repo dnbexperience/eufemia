@@ -35,9 +35,9 @@ Drag the demo viewport to the medium breakpoint or narrower to reveal the hambur
 
 ### Toggle navigation
 
-`SidebarMenu.Toggle` hides and restores the full desktop menu with the same width animation as dragging the divider to dismiss it. The embedded sidebar toggle uses the same component. Below `drawerAt`, the external toggle opens and closes the Drawer.
+`SidebarMenu.Toggle` hides and restores the full inline menu with the same width animation as dragging the divider to dismiss it. The embedded sidebar toggle uses the same component. At or below `drawerAt`, the external toggle opens and closes the Drawer.
 
-This example remembers desktop dismissal in session storage using `inlineCollapsedStorageKey`. Reload the page to try it.
+This example remembers inline dismissal in session storage using `inlineCollapsedStorageKey`. Reload the page to try it.
 
 <Examples.SidebarMenuToggle />
 
@@ -57,6 +57,6 @@ Turn on “Payments needs more space” to make the sidebar compact and select P
 
 ### Toggle outside the provider
 
-Give `SidebarMenu.Toggle` and `ResponsiveProvider` the same unique `scopeId` to place the toggle elsewhere in your application, such as a header outside the navigation provider. The toggle controls desktop dismissal and the mobile Drawer.
+Give `SidebarMenu.Toggle` and `ResponsiveProvider` the same unique `scopeId` to place the toggle elsewhere in your application, such as a header outside the navigation provider. The toggle controls inline dismissal and the Drawer.
 
 <Examples.SidebarMenuExternalToggle />

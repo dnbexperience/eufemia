@@ -103,7 +103,7 @@ export type SidebarMenuResponsiveProviderProps = {
   controllerId?: string
   /** Unique scope used by first-paint CSS and Toggles outside this provider. */
   scopeId?: string
-  /** Maximum viewport width at which the mobile Drawer is used. */
+  /** Maximum viewport width at which the Drawer is used. */
   drawerAt?: MediaQuerySizes | `${number}em`
   /** @deprecated Use drawerAt instead. */
   breakpoint?: MediaQuerySizes | `${number}em`
@@ -119,15 +119,15 @@ export type SidebarMenuResponsiveProviderProps = {
   defaultOpen?: boolean
   /** Called whenever the responsive Drawer opens or closes. */
   onOpenChange?: (open: boolean) => void
-  /** Controlled desktop inline navigation state. */
+  /** Controlled collapsed state of the inline navigation. */
   inlineCollapsed?: boolean
-  /** Initial uncontrolled desktop inline navigation state. */
+  /** Initial uncontrolled collapsed state of the inline navigation. */
   defaultInlineCollapsed?: boolean
-  /** Storage key used to persist uncontrolled desktop dismissal. */
+  /** Storage key used to persist uncontrolled inline dismissal. */
   inlineCollapsedStorageKey?: string
-  /** Storage used for desktop dismissal. Default: session. */
+  /** Storage used for inline dismissal. Default: session. */
   inlineCollapsedStorage?: WebStorageType
-  /** Called whenever the desktop inline navigation collapses or restores. */
+  /** Called whenever the inline navigation collapses or restores. */
   onInlineCollapsedChange?: (collapsed: boolean) => void
 }
 export function SidebarMenuResponsiveProvider(
@@ -463,7 +463,7 @@ export type SidebarMenuResponsiveTriggerProps = Omit<
 > & {
   /** Id of the responsive Drawer controlled by this button. */
   controls?: string
-  /** Id of the desktop inline navigation restored by this button. */
+  /** Id of the inline navigation restored by this button. */
   inlineControls?: string
 }
 

@@ -19,9 +19,9 @@ export type SidebarMenuToggleProps = Omit<
 > & {
   /** scopeId of the ResponsiveProvider to control from outside its context. */
   scopeId?: string
-  /** Id of the mobile Drawer. Default: sidebar-menu-responsive-drawer. */
+  /** Id of the Drawer. Default: sidebar-menu-responsive-drawer. */
   controls?: string
-  /** Id of the desktop navigation. Defaults to the ResponsiveAside id. */
+  /** Id of the inline navigation. Defaults to the ResponsiveAside id. */
   inlineControls?: string
 }
 
