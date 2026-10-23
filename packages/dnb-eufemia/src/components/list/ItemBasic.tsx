@@ -1,19 +1,19 @@
 import type { ReactNode } from 'react'
-import type { ItemContentProps } from './ItemContent'
+import type { ListItemContentProps } from './ItemContent'
 import ItemContent from './ItemContent'
 import ItemIcon from './ItemIcon'
 import ItemTitle from './ItemTitle'
 import type { IconIcon } from '../icon/Icon'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 
-export type ItemBasicProps = {
+export type ListItemBasicProps = {
   id?: string
   icon?: IconIcon
   title?: ReactNode
-} & Omit<ItemContentProps, 'title'>
+} & Omit<ListItemContentProps, 'title'>
 
 function isSetGap(
-  props: Omit<ItemBasicProps, 'icon' | 'title' | 'children'>,
+  props: Omit<ListItemBasicProps, 'icon' | 'title' | 'children'>,
   key: 'gap' | 'rowGap'
 ) {
   return (
@@ -22,7 +22,7 @@ function isSetGap(
   )
 }
 
-function ItemBasic(props: ItemBasicProps) {
+function ItemBasic(props: ListItemBasicProps) {
   const { icon, title, children, element, layoutEngine, ...rest } = props
 
   // The css engine leaves the children unchanged, so cells rendered by your

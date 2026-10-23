@@ -86,7 +86,7 @@ export type DatePickerEvent<T> = DatePickerReturnObject<T>
 
 type FocusOnClose = { focusOnClose?: boolean | string }
 
-export type DisplayPickerEvent = (
+export type DatePickerDisplayEvent = (
   | MouseEvent<HTMLButtonElement | HTMLAnchorElement | HTMLElement>
   | MouseEvent
   | KeyboardEvent
@@ -321,11 +321,11 @@ export type DatePickerProps = {
   /**
    * Will be called once date-picker is visible.
    */
-  onOpen?: (event: DatePickerEvent<DisplayPickerEvent>) => void
+  onOpen?: (event: DatePickerEvent<DatePickerDisplayEvent>) => void
   /**
    * Will be called once date-picker is hidden.
    */
-  onClose?: (event: DatePickerEvent<DisplayPickerEvent>) => void
+  onClose?: (event: DatePickerEvent<DatePickerDisplayEvent>) => void
   /**
    * Will be called once a user presses the submit button.
    */
@@ -472,7 +472,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
   }
 
   const hidePicker = useCallback(
-    (args?: DisplayPickerEvent) => {
+    (args?: DatePickerDisplayEvent) => {
       if (preventClose) {
         return // stop here
       }
@@ -505,7 +505,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
   )
 
   const showPicker = useCallback(
-    (event?: DisplayPickerEvent) => {
+    (event?: DatePickerDisplayEvent) => {
       if (hideTimeout.current) {
         clearTimeout(hideTimeout.current)
       }

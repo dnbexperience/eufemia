@@ -18,7 +18,7 @@ import type {
   FormsTranslationLocale,
 } from './hooks/useTranslation'
 import type { GetValueByPath } from './hooks/useDataValue'
-import type { HelpProps } from '../../components/help-button/HelpButtonInline'
+import type { HelpButtonHelpProps } from '../../components/help-button/HelpButtonInline'
 import type { RegisteredPath } from './typed-paths'
 
 export type * from 'json-schema'
@@ -593,7 +593,7 @@ interface ValuePropsInterface<
   /**
    * Provide help content for the value.
    */
-  help?: HelpProps
+  help?: HelpButtonHelpProps
 
   /**
    * Transforms the label before it gets displayed. Receives the label as the first parameter. The second parameter is an object containing the `convertJsxToString` function.

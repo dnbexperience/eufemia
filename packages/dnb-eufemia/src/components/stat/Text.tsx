@@ -26,7 +26,7 @@ type TextOwnProps = {
   skeleton?: SkeletonShow
 }
 
-export type TextProps = Omit<
+export type StatTextProps = Omit<
   HTMLProps<HTMLElement>,
   keyof TextOwnProps | 'ref'
 > &
@@ -34,12 +34,12 @@ export type TextProps = Omit<
   SpacingProps
 
 /** @internal */
-export type TextInternalProps = TextProps & {
+export type StatTextInternalProps = StatTextProps & {
   textClassName?: string | false
   skeletonMethod?: SkeletonMethods
 }
 
-function TextInternal(props: TextInternalProps) {
+function TextInternal(props: StatTextInternalProps) {
   const {
     children,
     element: Element = 'span',
@@ -96,7 +96,7 @@ withComponentMarkers(TextInternal, {
   _supportsSpacingProps: true,
 })
 
-function Text(props: TextProps) {
+function Text(props: StatTextProps) {
   return <TextInternal {...props} />
 }
 
@@ -105,7 +105,7 @@ withComponentMarkers(Text, {
 })
 
 function resolveSignTone(
-  colorizeBySign: TextProps['colorizeBySign'],
+  colorizeBySign: StatTextProps['colorizeBySign'],
   children: ReactNode
 ): 'positive' | 'negative' | null {
   if (colorizeBySign === false || colorizeBySign === null) {

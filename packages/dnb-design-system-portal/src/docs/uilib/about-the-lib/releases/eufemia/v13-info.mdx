@@ -27,6 +27,7 @@ breadcrumb:
     - [Popover](#popover)
     - [ScrollView](#scrollview)
     - [Field.Name.Company](#fieldnamecompany)
+  - [TypeScript type exports](#typescript-type-exports)
 
 > **Note:** There is no `v12` release. The version `v12` was accidentally published to NPM and has since been removed. Because a published version number cannot be safely reused, `v12` has been skipped entirely, and these breaking changes are released as `v13` instead.
 
@@ -373,3 +374,108 @@ After:
 +  return [validators.companyValidator]
  }
 ```
+
+## TypeScript type exports
+
+Several exported type names now carry their component prefix, to make them consistent and unambiguous across the library. These are type-only renames — the runtime API (components, hooks and constants) is unchanged. Update `import type` statements and type references as follows:
+
+```diff
+-import type { DisplayPickerEvent } from '@dnb/eufemia/components/DatePicker'
++import type { DatePickerDisplayEvent } from '@dnb/eufemia/components/DatePicker'
+```
+
+| Component         | Before                              | After                                   |
+| ----------------- | ----------------------------------- | --------------------------------------- |
+| Checkbox          | `CheckIconProps`                    | `CheckboxCheckIconProps`                |
+| DatePicker        | `DisplayPickerEvent`                | `DatePickerDisplayEvent`                |
+| DatePicker        | `CalendarNavButtonProps`            | `DatePickerCalendarNavButtonProps`      |
+| DatePicker        | `GetReturnObjectParams`             | `DatePickerGetReturnObjectParams`       |
+| DrawerList        | `ItemContentChildren`               | `DrawerListItemContentChildren`         |
+| Flex              | `HorizontalProps`                   | `FlexHorizontalProps`                   |
+| Flex              | `StackProps`                        | `FlexStackProps`                        |
+| Flex              | `VerticalProps`                     | `FlexVerticalProps`                     |
+| Flex              | `WithChildrenProps`                 | `FlexWithChildrenProps`                 |
+| FormStatus        | `ErrorIconProps`                    | `FormStatusErrorIconProps`              |
+| FormStatus        | `WarnIconProps`                     | `FormStatusWarnIconProps`               |
+| FormStatus        | `InfoIconProps`                     | `FormStatusInfoIconProps`               |
+| FormStatus        | `SuccessIconProps`                  | `FormStatusSuccessIconProps`            |
+| FormStatus        | `MarketingIconProps`                | `FormStatusMarketingIconProps`          |
+| Heading           | `InternalHeadingLevel`              | `HeadingInternalLevel`                  |
+| Heading           | `ContextCounter`                    | `HeadingContextCounter`                 |
+| Heading           | `CounterChildren`                   | `HeadingCounterChildren`                |
+| Heading           | `CounterGroup`                      | `HeadingCounterGroup`                   |
+| Heading           | `CounterProps`                      | `HeadingCounterProps`                   |
+| HeightAnimation   | `UseHeightAnimationOptions`         | `HeightAnimationOptions`                |
+| HelpButton        | `HelpProps`                         | `HelpButtonHelpProps`                   |
+| Icon              | `DefaultIconSizes`                  | `IconDefaultSizes`                      |
+| Icon              | `ValidIconType`                     | `IconValidType`                         |
+| Icon              | `ValidIconNumericSize`              | `IconValidNumericSize`                  |
+| Icon              | `FilledIconName`                    | `IconFilledName`                        |
+| InputMasked       | `InputMaskParams`                   | `InputMaskedInputMaskParams`            |
+| InputMasked       | `MaskParams`                        | `InputMaskedMaskParams`                 |
+| InputMasked       | `OverwriteMode`                     | `InputMaskedOverwriteMode`              |
+| InputMasked       | `SectionSelectionMode`              | `InputMaskedSectionSelectionMode`       |
+| InputMasked       | `SegmentedFieldInputConfig`         | `InputMaskedSegmentedFieldInputConfig`  |
+| InputMasked       | `SegmentedFieldItem`                | `InputMaskedSegmentedFieldItem`         |
+| InputMasked       | `SegmentedFieldProps`               | `InputMaskedSegmentedFieldProps`        |
+| InputMasked       | `SegmentedFieldSectionProps`        | `InputMaskedSegmentedFieldSectionProps` |
+| InputMasked       | `SegmentedFieldSpinButton`          | `InputMaskedSegmentedFieldSpinButton`   |
+| InputMasked       | `SegmentedFieldValue`               | `InputMaskedSegmentedFieldValue`        |
+| InputMasked       | `TextMaskInputElement`              | `InputMaskedTextMaskInputElement`       |
+| InputMasked       | `TextMaskMask`                      | `InputMaskedTextMaskMask`               |
+| InputMasked       | `TextMaskProps`                     | `InputMaskedTextMaskProps`              |
+| InputMasked       | `TextMaskValue`                     | `InputMaskedTextMaskValue`              |
+| List              | `ItemAccordionIconPosition`         | `ListItemAccordionIconPosition`         |
+| List              | `ItemAccordionProps`                | `ListItemAccordionProps`                |
+| List              | `ItemActionIconPosition`            | `ListItemActionIconPosition`            |
+| List              | `ItemActionProps`                   | `ListItemActionProps`                   |
+| List              | `ItemBasicProps`                    | `ListItemBasicProps`                    |
+| List              | `ItemCenterProps`                   | `ListItemCenterProps`                   |
+| List              | `ItemContentProps`                  | `ListItemContentProps`                  |
+| List              | `ItemEndProps`                      | `ListItemEndProps`                      |
+| List              | `ItemFooterProps`                   | `ListItemFooterProps`                   |
+| List              | `ItemIconProps`                     | `ListItemIconProps`                     |
+| List              | `ItemOverlineProps`                 | `ListItemOverlineProps`                 |
+| List              | `ItemStartProps`                    | `ListItemStartProps`                    |
+| List              | `ItemSublineProps`                  | `ListItemSublineProps`                  |
+| List              | `ItemSublineVariant`                | `ListItemSublineVariant`                |
+| List              | `ItemTitleProps`                    | `ListItemTitleProps`                    |
+| Logo              | `Svg`                               | `LogoSvgInput`                          |
+| Logo              | `SvgComponent`                      | `LogoSvgComponentType`                  |
+| Logo              | `CustomLogoSvg`                     | `LogoCustomSvg`                         |
+| Modal             | `CloseButtonProps`                  | `ModalCloseButtonProps`                 |
+| NumberFormat      | `NumberFormatter`                   | `NumberFormatFormatter`                 |
+| NumberFormat      | `BankAccountType`                   | `NumberFormatBankAccountType`           |
+| NumberFormat      | `CurrencyDisplayValue`              | `NumberFormatCurrencyDisplayValue`      |
+| NumberFormat      | `FormatNumberCoreResult`            | `NumberFormatCoreResult`                |
+| NumberFormat      | `FormatPartItem`                    | `NumberFormatPartItem`                  |
+| NumberFormat      | `FormattedParts`                    | `NumberFormatFormattedParts`            |
+| NumberFormat      | `InternalNumberFormatOptions`       | `NumberFormatInternalOptions`           |
+| NumberFormat      | `PartFormatter`                     | `NumberFormatPartFormatter`             |
+| Pagination        | `InfinityScrollerProps`             | `PaginationInfinityScrollerProps`       |
+| Pagination        | `NavigationItemProps`               | `PaginationNavigationItemProps`         |
+| ProgressIndicator | `ValidSizes`                        | `ProgressIndicatorValidSizes`           |
+| Stat              | `AmountProps`                       | `StatAmountProps`                       |
+| Stat              | `ContentProps`                      | `StatContentProps`                      |
+| Stat              | `CurrencyProps`                     | `StatCurrencyProps`                     |
+| Stat              | `InfoProps`                         | `StatInfoProps`                         |
+| Stat              | `InlineProps`                       | `StatInlineProps`                       |
+| Stat              | `LabelProps`                        | `StatLabelProps`                        |
+| Stat              | `NumberProps`                       | `StatNumberProps`                       |
+| Stat              | `PercentProps`                      | `StatPercentProps`                      |
+| Stat              | `RatingProps`                       | `StatRatingProps`                       |
+| Stat              | `RootProps`                         | `StatRootProps`                         |
+| Stat              | `TextInternalProps`                 | `StatTextInternalProps`                 |
+| Stat              | `TextProps`                         | `StatTextProps`                         |
+| Stat              | `TrendProps`                        | `StatTrendProps`                        |
+| Table             | `UseHandleSortStateConfig`          | `TableHandleSortStateConfig`            |
+| Table             | `UseHandleSortStateDirection`       | `TableHandleSortStateDirection`         |
+| Table             | `UseHandleSortStateMode`            | `TableHandleSortStateMode`              |
+| Table             | `UseHandleSortStateName`            | `TableHandleSortStateName`              |
+| Table             | `UseHandleSortStateOptions`         | `TableHandleSortStateOptions`           |
+| Table             | `UseTableAnimationHandlerProps`     | `TableAnimationHandlerProps`            |
+| Table             | `UseTableHighlightOptions`          | `TableHighlightOptions`                 |
+| Table             | `UseTableKeyboardNavigationOptions` | `TableKeyboardNavigationOptions`        |
+| Upload            | `UseUploadReturn`                   | `UploadReturn`                          |
+
+The `Icon` renames affect only the types. The `ValidIconType` and `DefaultIconSizes` runtime constants keep their names.
