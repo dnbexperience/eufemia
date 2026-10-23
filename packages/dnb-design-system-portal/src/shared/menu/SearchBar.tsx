@@ -82,9 +82,14 @@ export const SearchBarInput = () => {
         searchIndex.current
           ?.search(value)
           .then(({ hits }) => {
-            updateData(makeHitsHumanFriendly({ hits, setHidden }))
+            const searchableHits = hits.filter(
+              ({ search }) => search !== false
+            )
+            updateData(
+              makeHitsHumanFriendly({ hits: searchableHits, setHidden })
+            )
             hideIndicator()
-            if (hits?.length === 0) {
+            if (searchableHits.length === 0) {
               showNoOptionsItem()
             }
           })

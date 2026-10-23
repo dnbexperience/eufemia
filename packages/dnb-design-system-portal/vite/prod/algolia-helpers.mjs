@@ -32,6 +32,10 @@ export function buildAlgoliaRecord({
   recordHeadings,
   ...rest
 }) {
+  if (frontmatter.search === false) {
+    return null
+  }
+
   let nextFrontmatter = { ...frontmatter }
   let nextHeadings = recordHeadings
 
