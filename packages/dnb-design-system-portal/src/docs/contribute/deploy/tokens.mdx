@@ -31,7 +31,7 @@ Run on any other branch, the tokens are committed to that branch instead. The **
 
 The tokens and their test snapshots are committed separately from the screenshots, so the screenshot commit can be reviewed, or dropped, on its own.
 
-The person who runs the workflow is the author of the commits, and a new pull request is assigned to them. GitHub still shows the automation account as the creator of the pull request.
+The person who runs the workflow is the author of the commits on the branch, and a new pull request is assigned to them. GitHub still shows the automation account as the creator of the pull request, so a squash merge makes that account the author of the commit on `main`, with the person who ran the workflow as a co-author.
 
 The **Generate screenshots** input is on by default. Turning it off skips the screenshot run, so the image snapshots are left untouched and have to be updated separately.
 
