@@ -104,12 +104,11 @@ production team channel. If a live check is necessary, use a separate test chann
 with an explicitly approved destination. Do not manufacture service failures in
 the production incident state.
 
-Install/configure the bot and apply the bootstrap role update first. Verify the notifier with notifications disabled or in a test stack, then deploy and assign CDN/MCP alert ownership to AWS. Keep the Actions diagnostics available without duplicate scheduled alerting. Existing open GitHub incidents need explicit handoff; the notifier does
+Install/configure the bot and apply the bootstrap role update first. Verify the notifier with notifications disabled or in a test stack, then deploy and assign CDN/MCP alert ownership to AWS. Production CDN/MCP checks and alert ownership stay in AWS. Use the local diagnostic commands for on-demand checks. Existing open GitHub incidents need explicit handoff; the notifier does
 not write GitHub issues. Analytics and Portal monitors remain separate workflows
 and need their own integration before they can share this overview.
 
-The sendSlack helper and alert-cdn.ts / alert-http.ts entrypoints remain for rollback and are not called by the production notifier or diagnostic workflows. Rollback uses the previous notifier package and webhook configuration, followed
-by restoring the previous Actions alert ownership if needed. A regional AWS
+The retired CDN/MCP Actions workflows and alert entrypoints are removed. The shared GitHub incident reporter remains in use by Analytics. Rollback requires a previous notifier package and its matching configuration; the legacy webhook secret is retained for this purpose. A regional AWS
 outage still needs an external uptime service for independent paging.
 
 ## Local validation

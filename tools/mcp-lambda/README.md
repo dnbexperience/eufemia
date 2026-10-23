@@ -190,10 +190,9 @@ Hourly checks of https://server.eufemia.dnb.no/mcp/web and Slack notifications
 run in AWS EventBridge Scheduler and Lambda. See [service monitoring](../service-monitoring/README.md)
 for deployment, incident handling and rollback.
 
-The **Eufemia HTTP MCP health** Actions workflow retains manual and
-post-deployment diagnostics. It executes Node.js directly, fails on unhealthy
-checks and attaches reports for 14 days. It does not send Slack notifications
-or write incident issues.
+GitHub Actions builds and validates the monitoring package, but does not run a
+separate HTTP MCP health workflow. For an on-demand diagnosis, use the read-only
+local command below.
 
 Each run checks:
 
@@ -224,7 +223,6 @@ not unique-user activity. The check does not verify the telemetry consumer,
 all documentation files, every edge location or deployment infrastructure.
 
 AWS keeps shared notification state for MCP and CDN, posts one alert per incident, and replies with recovery in the incident thread. Repeated or changed failures only update the shared overview. Pending delivery is retained for retries. Slack bot configuration is read from Secrets Manager.
-The diagnostic Actions workflow only receives its built-in token to read public deployment metadata.
 
 For prompt paging and regional coverage, pair the hourly AWS checks with an
 independent multi-region uptime check of the public health endpoint. Verify
