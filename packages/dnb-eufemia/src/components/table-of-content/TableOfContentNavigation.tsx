@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react'
 import { clsx } from 'clsx'
 import Button from '../button/Button'
 import HeightAnimation from '../height-animation/HeightAnimation'
+import Icon from '../icon/Icon'
 import Space from '../space/Space'
 import ScrollView from '../scroll-view/ScrollView'
 import useMediaQuery from '../../shared/useMediaQuery'
@@ -16,10 +17,16 @@ import {
 } from './tableOfContentTree'
 import useCurrentSectionId from './useCurrentSectionId'
 import useMarkerStyle from './useMarkerStyle'
+import { chevron_down, chevron_up } from '../../icons'
 import type {
   TableOfContentRootProps,
   TableOfContentSection,
 } from './types'
+
+const chevronIcon = Icon.transition({
+  collapsed: chevron_down,
+  expanded: chevron_up,
+})
 
 export default function TableOfContentNavigation({
   sections,
@@ -149,7 +156,8 @@ export default function TableOfContentNavigation({
             type="button"
             className="dnb-table-of-content__toggle"
             variant="tertiary"
-            icon={isExpanded ? 'chevron_up' : 'chevron_down'}
+            icon={chevronIcon}
+            transitionState={isExpanded ? 'expanded' : 'collapsed'}
             aria-expanded={isExpanded}
             aria-controls={listId}
             onClick={() => setExpanded(!isExpanded)}

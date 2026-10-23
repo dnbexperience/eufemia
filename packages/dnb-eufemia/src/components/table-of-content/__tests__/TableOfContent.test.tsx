@@ -129,6 +129,11 @@ it('connects the mobile disclosure to its content and preserves its chosen state
     />
   )
   const toggle = document.querySelector('button')
+  const chevron = toggle.querySelector('.dnb-icon--transition-fallback')
+  expect(chevron).not.toBeNull()
+  expect(
+    chevron.querySelector('.dnb-icon__state--active')
+  ).toHaveAttribute('data-icon-state', 'collapsed')
   expect(toggle).toHaveAttribute('aria-expanded', 'false')
   expect(
     document.getElementById(toggle.getAttribute('aria-controls'))
@@ -136,6 +141,12 @@ it('connects the mobile disclosure to its content and preserves its chosen state
   fireEvent.click(toggle)
   expect(toggle).toHaveAttribute('aria-expanded', 'true')
   expect(onExpandedChange).toHaveBeenCalledWith(true)
+  expect(toggle.querySelector('.dnb-icon--transition-fallback')).toBe(
+    chevron
+  )
+  expect(
+    chevron.querySelector('.dnb-icon__state--active')
+  ).toHaveAttribute('data-icon-state', 'expanded')
   act(() => setMedia({ width: '1400px' }))
   expect(document.querySelector('button')).toBeNull()
   act(() => setMedia({ width: '600px' }))
