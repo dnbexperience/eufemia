@@ -315,17 +315,26 @@ jobs:
             pr_title=$(gh pr view "$PR_URL" --json title --jq '.title')
             pr_action="Commented on PR"
           else
-            # The token account opens the pull request, so it is assigned to
-            # the person who started the run
             pr_url=$(gh pr create \
               --base main \
               --head "$BRANCH" \
               --title "$title" \
               --body "$body" \
-              --assignee "$GITHUB_ACTOR" \
               --draft)
             pr_title=$title
             pr_action="Created PR"
+
+            # The token account opens the pull request, so it is assigned to
+            # the person who started the run. This is done after it is opened,
+            # so a failed assignment cannot stop the pull request. GitHub skips
+            # a user it cannot assign without an error, so the reply is checked.
+            assignees=$(gh api --method POST \
+              "repos/$GITHUB_REPOSITORY/issues/${pr_url##*/}/assignees" \
+              -f "assignees[]=$GITHUB_ACTOR" \
+              --jq '.assignees[].login' || true)
+            if ! grep -qixF "$GITHUB_ACTOR" <<< "$assignees"; then
+              echo "::warning::The pull request could not be assigned to @$GITHUB_ACTOR."
+            fi
           fi
 
           if [ "$BRANCH_CREATED" = true ]; then
