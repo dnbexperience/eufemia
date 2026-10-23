@@ -268,6 +268,11 @@ export const DatePickerProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  enableKeyboardNav: {
+    doc: 'Has no effect. Keyboard navigation in the calendar is always enabled. **Deprecated**: Remove this property.',
+    type: 'boolean',
+    status: 'deprecated',
+  },
   globalStatus: {
     doc: 'The [configuration](/uilib/components/global-status/properties/#configuration-object) used for the target [GlobalStatus](/uilib/components/global-status).',
     type: 'object',
