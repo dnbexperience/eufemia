@@ -146,11 +146,7 @@ describe('PreviousButton', () => {
 
   describe('submit indicator', () => {
     const isPending = (selector: string) =>
-      Boolean(
-        document.querySelector(
-          `${selector} .dnb-forms-submit-indicator--state-pending`
-        )
-      )
+      Boolean(document.querySelector(`${selector} [aria-busy="true"]`))
     const output = () => document.querySelector('output')
     const waitForStep = async (title: string) => {
       await waitFor(
@@ -162,9 +158,7 @@ describe('PreviousButton', () => {
             )
           ).toBeNull()
           expect(
-            document.querySelector(
-              '.dnb-forms-submit-indicator[class*="--state-"]'
-            )
+            document.querySelector('.dnb-forms-buttons [aria-busy="true"]')
           ).toBeNull()
         },
         { timeout: 2000 }

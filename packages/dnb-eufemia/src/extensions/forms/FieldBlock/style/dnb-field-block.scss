@@ -31,7 +31,6 @@ fieldset.dnb-forms-field-block {
       'label'
       'help'
       'contents'
-      'indicator'
       'status';
   }
 
@@ -144,7 +143,6 @@ fieldset.dnb-forms-field-block {
       grid-template-areas:
         'label contents'
         '. help'
-        '. indicator'
         '. status';
 
       .dnb-help-button__content {
@@ -158,15 +156,6 @@ fieldset.dnb-forms-field-block {
       .dnb-forms-field-block__contents {
         align-self: end;
       }
-    }
-  }
-
-  &__indicator {
-    grid-area: indicator;
-
-    position: relative;
-    .dnb-forms-submit-indicator__content {
-      position: absolute;
     }
   }
 
@@ -214,8 +203,7 @@ fieldset.dnb-forms-field-block {
       'label'
       'help'
       'status'
-      'contents'
-      'indicator';
+      'contents';
   }
 
   &--status-position-above {
@@ -228,8 +216,7 @@ fieldset.dnb-forms-field-block {
       grid-template-areas:
         'label status'
         '. contents'
-        '. help'
-        '. indicator';
+        '. help';
     }
   }
 
@@ -307,10 +294,5 @@ fieldset.dnb-forms-field-block {
       row-gap: 0.5rem;
       flex-flow: column;
     }
-  }
-
-  // Composition wrappers delegate async indicators to their fields.
-  &__composition > &__grid > .dnb-forms-field-block__indicator {
-    display: none;
   }
 }
