@@ -17,6 +17,8 @@ import useMountEffect from '../../shared/helpers/useMountEffect'
 // date-fns
 import {
   format,
+  startOfWeek,
+  endOfWeek,
   addMonths,
   addWeeks,
   addDays,
@@ -133,7 +135,15 @@ const datePickerCalendarDefaultProps: DatePickerCalendarProps = {
 }
 
 const arrowKeys = ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown']
-const keysToHandle = ['Enter', 'Space', ...arrowKeys]
+const keysToHandle = [
+  'Enter',
+  'Space',
+  'PageUp',
+  'PageDown',
+  'Home',
+  'End',
+  ...arrowKeys,
+]
 
 function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
   const props = { ...datePickerCalendarDefaultProps, ...restOfProps }
@@ -303,19 +313,35 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
     ]
   )
 
-  const keyNavCalc = useCallback((date: Date, keyCode: string) => {
-    // Return date if arrow keys are not pressed
-    if (!arrowKeys.includes(keyCode)) {
-      return date
-    }
+  const keyNavCalc = useCallback(
+    (date: Date, keyCode: string, shiftKey = false) => {
+      if (keyCode === 'PageUp' || keyCode === 'PageDown') {
+        const months =
+          (shiftKey ? 12 : 1) * (keyCode === 'PageUp' ? -1 : 1)
+        return addMonths(date, months)
+      }
 
-    const dateHandler = /(ArrowLeft|ArrowRight)/g.test(keyCode)
-      ? addDays
-      : addWeeks
-    const shiftAmount = /(ArrowLeft|ArrowUp)/g.test(keyCode) ? -1 : 1
+      if (keyCode === 'Home' || keyCode === 'End') {
+        const weekStartsOn = dayOffset(firstDayOfWeek)
+        return keyCode === 'Home'
+          ? startOfWeek(date, { weekStartsOn })
+          : startOfDay(endOfWeek(date, { weekStartsOn }))
+      }
 
-    return dateHandler(date, shiftAmount)
-  }, [])
+      // Return date if arrow keys are not pressed
+      if (!arrowKeys.includes(keyCode)) {
+        return date
+      }
+
+      const dateHandler = /(ArrowLeft|ArrowRight)/g.test(keyCode)
+        ? addDays
+        : addWeeks
+      const shiftAmount = /(ArrowLeft|ArrowUp)/g.test(keyCode) ? -1 : 1
+
+      return dateHandler(date, shiftAmount)
+    },
+    [firstDayOfWeek]
+  )
 
   const findValid = useCallback(
     (date: Date, keyCode: string) => {
@@ -503,24 +529,38 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
       const currentFocused =
         focusedDateRef.current || currentDates[`${dateType}Date`]
       const viewMonth = views.find((v) => v.nr === nr)?.month
+      const isArrowKey = arrowKeys.includes(pressedKey)
 
       let newDate = currentFocused
-        ? keyNavCalc(currentFocused, pressedKey)
+        ? keyNavCalc(currentFocused, pressedKey, event.shiftKey)
         : viewMonth ||
           (isRange && nr === 1 ? addMonths(new Date(), 1) : new Date())
 
       if (
         // in case we don't have a focused date, then we use the current view month
         (viewMonth && !currentFocused) ||
-        // if we have a larger gap between the new date and the current view month
+        // if we have a larger gap between the focused date and the current view month
         (viewMonth &&
           currentFocused &&
-          Math.abs(differenceInMonths(newDate, viewMonth)) > 1)
+          Math.abs(
+            differenceInMonths(
+              isArrowKey ? newDate : currentFocused,
+              viewMonth
+            )
+          ) > 1)
       ) {
         newDate = !isRange ? viewMonth : setDate(viewMonth, 1)
       }
 
-      newDate = findValid(newDate, pressedKey)
+      // Skip days that cannot be selected: forward for PageDown and Home, backward for PageUp and End
+      newDate = findValid(
+        newDate,
+        isArrowKey
+          ? pressedKey
+          : pressedKey === 'PageUp' || pressedKey === 'End'
+            ? 'ArrowLeft'
+            : 'ArrowRight'
+      )
 
       if (hasReachedEnd(newDate)) {
         return // stop here
@@ -531,6 +571,19 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
         if (viewMonth && !isSameMonth(newDate, viewMonth)) {
           return
         }
+      }
+
+      // Calendars without link cannot pass each other
+      const otherMonth =
+        isRange && !isLinkedCalendars
+          ? views.find((v) => v.nr !== nr)?.month
+          : undefined
+      if (
+        otherMonth &&
+        !isSameMonth(newDate, otherMonth) &&
+        (nr === 0 ? newDate > otherMonth : newDate < otherMonth)
+      ) {
+        return // stop here
       }
 
       focusedDateRef.current = newDate
@@ -593,6 +646,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
       setHasClickedCalendarDay,
       views,
       setViews,
+      isLinkedCalendars,
     ]
   )
 
