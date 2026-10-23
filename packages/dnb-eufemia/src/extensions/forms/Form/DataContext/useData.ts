@@ -15,6 +15,7 @@ import {
   createReferenceKey,
   createSharedState,
   useSharedState,
+  useSharedStateStore,
 } from '../../../../shared/helpers/useSharedState'
 import useMountEffect from '../../../../shared/helpers/useMountEffect'
 import type { Path } from '../../types'
@@ -141,13 +142,23 @@ export default function useData<Data = JsonObject>(
     typeof createSharedState<SharedAttachments<Data>>
   > | null>(null)
 
-  sharedDataRef.current = useSharedState<Data>(id, initialData)
+  const store = useSharedStateStore()
+  sharedDataRef.current = useSharedState<Data>(
+    id,
+    initialData,
+    undefined,
+    {
+      store,
+    }
+  )
 
   // Use createSharedState (non-reactive) for attachments — we only ever access
   // them imperatively, so subscribing to changes would cause unnecessary re-renders.
   sharedAttachmentsRef.current = id
     ? createSharedState<SharedAttachments<Data>>(
-        createReferenceKey(id, 'attachments')
+        createReferenceKey(id, 'attachments', store),
+        undefined,
+        store
       )
     : null
 

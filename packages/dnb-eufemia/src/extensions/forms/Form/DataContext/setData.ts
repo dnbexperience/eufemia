@@ -2,9 +2,14 @@ import type { JsonObject } from '../../utils/json-pointer'
 import pointer from '../../utils/json-pointer'
 import type { Path } from '../../types'
 import type { SharedStateId } from '../../../../shared/helpers/useSharedState'
-import { createSharedState } from '../../../../shared/helpers/useSharedState'
+import {
+  createSharedState,
+  createSharedStateStore,
+  isServerEnvironment,
+} from '../../../../shared/helpers/useSharedState'
 import type { UseDataReturnUpdate } from './useData'
 import { structuredClone } from '../../../../shared/helpers/structuredClone'
+import { warnOnServer } from './warnOnServer'
 
 type SetDataReturn<Data> = {
   update: UseDataReturnUpdate<Data>
@@ -14,7 +19,18 @@ export default function setData<Data>(
   id: SharedStateId,
   data?: Data
 ): SetDataReturn<Data> {
-  const sharedState = createSharedState(id)
+  warnOnServer(
+    'Form.setData',
+    id,
+    'has no effect during server rendering. Give the data to Form.Handler with "data" or "defaultData" instead.'
+  )
+
+  // On the server, the process-wide store would share the data with other requests
+  const sharedState = createSharedState(
+    id,
+    undefined,
+    isServerEnvironment() ? createSharedStateStore() : undefined
+  )
 
   if (data) {
     sharedState.extend(data)

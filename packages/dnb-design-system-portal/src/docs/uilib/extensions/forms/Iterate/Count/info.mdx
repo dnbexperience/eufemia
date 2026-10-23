@@ -101,3 +101,5 @@ function MyForm() {
   )
 }
 ```
+
+During server rendering, the `Iterate.count` function does not get the form data and returns `NaN`. In components that render on the server, use `Iterate.useCount` or `Iterate.Count` instead. In development, Eufemia logs a warning when `Iterate.count` runs on the server.

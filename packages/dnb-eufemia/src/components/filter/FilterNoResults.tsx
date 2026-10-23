@@ -3,7 +3,10 @@ import { clsx } from 'clsx'
 import SharedContext from '../../shared/Context'
 import { FilterContext, FilterConnectedIdContext } from './FilterContext'
 import type { FilterState } from './FilterContext'
-import { useSharedState } from '../../shared/helpers/useSharedState'
+import {
+  useSharedState,
+  useSharedStateStore,
+} from '../../shared/helpers/useSharedState'
 import { useSpacing } from '../space/SpacingUtils'
 import type { SpacingProps } from '../../shared/types'
 import { ListContext } from '../list/ListContext'
@@ -30,7 +33,13 @@ function FilterNoResults({
   const context = useContext(FilterContext)
   const connectedId = useContext(FilterConnectedIdContext)
   const resolvedId = connectedTo ?? connectedId ?? context?.id
-  const { data: sharedData } = useSharedState<FilterState>(resolvedId)
+  const store = useSharedStateStore()
+  const { data: sharedData } = useSharedState<FilterState>(
+    resolvedId,
+    undefined,
+    undefined,
+    { store }
+  )
   const listContext = useContext(ListContext)
 
   const resultCount =

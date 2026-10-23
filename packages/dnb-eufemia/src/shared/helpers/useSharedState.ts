@@ -1,5 +1,7 @@
 import {
+  createContext,
   useCallback,
+  useContext,
   useEffect,
   useMemo,
   useRef,
@@ -13,6 +15,52 @@ export type SharedStateId =
   | Promise<() => void>
   | Context<any>
   | Record<string, unknown>
+
+export type SharedStateStore = {
+  states: Map<SharedStateId, SharedStateInstance<any>>
+  references: Map<unknown, Map<unknown, Record<string, never>>>
+}
+
+export function createSharedStateStore(): SharedStateStore {
+  return { states: new Map(), references: new Map() }
+}
+
+const globalStore = createSharedStateStore()
+
+/**
+ * Holds the store of the current server render.
+ */
+export const SharedStateScopeContext =
+  createContext<SharedStateStore | null>(null)
+
+export function isServerEnvironment() {
+  return typeof window === 'undefined' || typeof document === 'undefined'
+}
+
+/**
+ * Returns the store to use for shared state.
+ * In the browser, this is always the process-wide store.
+ * On the server, it is the store of the current render,
+ * so data never reaches another request.
+ */
+export function useSharedStateStore(): SharedStateStore {
+  const scope = useContext(SharedStateScopeContext)
+  const isolatedRef = useRef<SharedStateStore>(null)
+
+  if (!isServerEnvironment()) {
+    return globalStore
+  }
+
+  if (scope) {
+    return scope
+  }
+
+  if (!isolatedRef.current) {
+    isolatedRef.current = createSharedStateStore()
+  }
+
+  return isolatedRef.current
+}
 
 /**
  * The shared state will be deleted when all components have been unmounted.
@@ -43,10 +91,13 @@ export function useSharedState<Data>(
   {
     /** When set to `true`, the shared state will be deleted when all components have been unmounted. */
     weak = false,
+    /** The store to use. Defaults to the process-wide store. */
+    store,
     scope,
     getServerSnapshot,
   }: {
     weak?: boolean
+    store?: SharedStateStore
     /** Shares this named browser registry across independently bundled copies. */
     scope?: string
     /** Snapshot used during server rendering and initial hydration. */
@@ -57,23 +108,23 @@ export function useSharedState<Data>(
 
   const sharedState = useMemo(() => {
     if (id) {
-      return createSharedState<Data>(id, initialData, { scope })
+      return createSharedState<Data>(id, initialData, { store, scope })
     }
 
     return undefined
-  }, [id, initialData, scope])
+  }, [id, initialData, store, scope])
 
   const sharedAttachment = useMemo(() => {
     if (id) {
       return createSharedState(
-        createReferenceKey(id, 'oc', scope),
+        createReferenceKey(id, 'oc', store ?? scope),
         { onChange },
-        { scope }
+        { store, scope }
       )
     }
 
     return undefined
-  }, [id, onChange, scope])
+  }, [id, onChange, store, scope])
 
   const syncAttachment = useCallback(
     (newData: Data | Partial<Data>) => {
@@ -213,27 +264,14 @@ type SharedStateInstance<Data> = {
   hadInitialData: boolean
 } & SharedStateReturn<Data>
 
-type SharedStateRegistry = {
-  states: Map<SharedStateId, SharedStateInstance<any>>
-  references: Map<unknown, Map<unknown, Record<string, never>>>
-}
-
-const sharedRegistry: SharedStateRegistry = {
-  states: new Map(),
-  references: new Map(),
-}
-
-function getSharedRegistry(scope?: string): SharedStateRegistry {
+function getSharedRegistry(scope?: string): SharedStateStore {
   if (!scope || typeof window === 'undefined') {
-    return sharedRegistry
+    return globalStore
   }
 
   const key = Symbol.for('@dnb/eufemia/shared-state/v1/' + scope)
-  const registries = window as unknown as Record<
-    symbol,
-    SharedStateRegistry
-  >
-  registries[key] ??= { states: new Map(), references: new Map() }
+  const registries = window as unknown as Record<symbol, SharedStateStore>
+  registries[key] ??= createSharedStateStore()
   return registries[key]
 }
 
@@ -252,10 +290,17 @@ export function createSharedState<Data>(
   id: SharedStateId,
   /** The initial data for the shared state. */
   initialData?: Data,
-  /** Optional named browser registry shared across independently bundled copies. */
-  { scope }: { scope?: string } = {}
+  /** A render store or options for a named browser registry. */
+  options:
+    | SharedStateStore
+    | { store?: SharedStateStore; scope?: string } = {}
 ): SharedStateInstance<Data> {
-  const sharedStates = getSharedRegistry(scope).states
+  const store =
+    'states' in options
+      ? options
+      : (options.store ?? getSharedRegistry(options.scope))
+  const sharedStates = store.states
+
   if (!sharedStates.get(id)) {
     const subscribersRef = {
       current: [] as Subscriber[],
@@ -393,13 +438,13 @@ export function createSharedState<Data>(
  */
 export function preSeedSharedState<Data>(
   id: SharedStateId,
-  data: Data
+  data: Data,
+  store: SharedStateStore = globalStore
 ): void {
   // Ensure the store exists with hadInitialData = false
-  createSharedState<Data>(id)
-  const store = sharedRegistry.states.get(id)
-  if (store && store.data === undefined && data !== undefined) {
-    store.data = cloneData(data) as Data
+  const sharedState = createSharedState<Data>(id, undefined, store)
+  if (sharedState.data === undefined && data !== undefined) {
+    sharedState.data = cloneData(data) as Data
   }
 }
 
@@ -407,8 +452,17 @@ export function preSeedSharedState<Data>(
  * Creates a reference key for the shared state.
  * You can pass any JavaScript instance as the reference.
  */
-export function createReferenceKey(ref1, ref2, scope?: string) {
-  const cache = getSharedRegistry(scope).references
+export function createReferenceKey(
+  ref1: unknown,
+  ref2: unknown,
+  scopeOrStore?: string | SharedStateStore
+) {
+  const store =
+    typeof scopeOrStore === 'string'
+      ? getSharedRegistry(scopeOrStore)
+      : (scopeOrStore ?? globalStore)
+  const cache = store.references
+
   if (!cache.has(ref1)) {
     cache.set(ref1, new Map())
   }

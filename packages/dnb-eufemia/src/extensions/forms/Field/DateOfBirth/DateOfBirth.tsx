@@ -169,6 +169,7 @@ function DateOfBirth(props: FieldDateOfBirthProps) {
   )
 
   const {
+    fieldBlockProps: sharedFieldBlockProps,
     emptyValue,
     label: labelProp,
     width = 'large',
@@ -370,6 +371,7 @@ function DateOfBirth(props: FieldDateOfBirthProps) {
   }, [callOnBlurOrFocus])
 
   const compositionFieldProps: CompositionFieldProps = {
+    ...sharedFieldBlockProps,
     className: 'dnb-forms-field-date-of-birth',
     error,
     label: labelWithItemNo,
