@@ -38,7 +38,7 @@ import {
       <Space innerSpace="large">Custom spaced text</Space>
     </List.Item.Basic>
     <List.Item.Basic layoutEngine={layoutEngine} data-testid="filter">
-      <Filter.Root>
+      <Filter.Root aria-label={`${layoutEngine} layout filter`}>
         <Filter.Toolbar>
           <Filter.Search label="Search" />
         </Filter.Toolbar>
