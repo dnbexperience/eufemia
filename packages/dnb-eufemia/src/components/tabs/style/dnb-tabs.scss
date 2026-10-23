@@ -213,6 +213,12 @@
         color: var(--tab-title-color--hover);
       }
 
+      // A mouse press is also a hover, so the pressed color has to be set
+      // here to win over the hover color above.
+      &:active .dnb-tabs__button__title {
+        color: var(--tab-title-color--active);
+      }
+
       &::after {
         height: 2px;
         border-radius: var(--token-radius-sm);
