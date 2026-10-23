@@ -432,7 +432,9 @@ describe('Radio scss', () => {
   })
 
   it('uses the Figma on-dark tokens for disabled radio buttons on dark surfaces', () => {
-    const css = loadScss(require.resolve('../style/dnb-radio.scss'))
+    const css = String(
+      loadScss(require.resolve('../style/dnb-radio.scss'))
+    )
     const surfaceDark = css.match(/\.dnb-radio--surface-dark \{[^}]*\}/)[0]
 
     expect(surfaceDark).toMatch(
