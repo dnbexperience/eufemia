@@ -481,6 +481,57 @@ describe('Popover focus restoration', () => {
     expect(outside).toHaveFocus()
   })
 
+  it('keeps focus on an element focused before the restoration runs', async () => {
+    const props = { noAnimation: true, trigger: <button>Open</button> }
+    const { rerender } = render(
+      <>
+        <Popover {...props} open>
+          Content
+        </Popover>
+        <input id="outside" />
+      </>
+    )
+    await waitFor(() =>
+      expect(document.querySelector('.dnb-popover__content')).toHaveFocus()
+    )
+    rerender(
+      <>
+        <Popover {...props} open={false}>
+          Content
+        </Popover>
+        <input id="outside" />
+      </>
+    )
+    const outside = document.querySelector<HTMLElement>('#outside')
+    outside.focus()
+    await nextFrame()
+    expect(outside).toHaveFocus()
+  })
+
+  it('returns focus to the trigger when tabbing out closes the popover', async () => {
+    render(
+      <>
+        <Popover
+          focusOnOpen={false}
+          noAnimation
+          trigger={<button>Open</button>}
+        >
+          Content
+        </Popover>
+        <button id="next">Next</button>
+      </>
+    )
+    const trigger = document.querySelector('button[aria-controls]')
+    await userEvent.click(trigger)
+    await userEvent.tab()
+
+    await waitFor(() =>
+      expect(trigger).toHaveAttribute('aria-expanded', 'false')
+    )
+    await nextFrame()
+    expect(trigger).toHaveFocus()
+  })
+
   it('restores focus when the positioning target becomes null', async () => {
     const opener = document.createElement('button')
     const anchor = document.createElement('div')
