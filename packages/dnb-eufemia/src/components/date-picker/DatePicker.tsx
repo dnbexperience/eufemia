@@ -170,6 +170,10 @@ export type DatePickerProps = {
    * Once the date picker gets opened, there is a focus handling to ensure good accessibility. This can be disabled with this property. Defaults to `false`.
    */
   disableAutofocus?: boolean
+  /**
+   * Has no effect. Keyboard navigation in the calendar is always enabled. **Deprecated**: Remove this property.
+   * @deprecated Has no effect. Remove this property.
+   */
   enableKeyboardNav?: boolean
   /**
    * If the input fields with the mask should be visible. Defaults to `false`.
