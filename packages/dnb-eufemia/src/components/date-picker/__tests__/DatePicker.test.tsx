@@ -1991,10 +1991,11 @@ describe('DatePicker component', () => {
     })
 
     it.each([
-      ['2027-03-10', true],
+      ['2026-12-31', true],
+      ['2027-03-10', false],
       ['2027-10-01', false],
     ])(
-      'should disable the next year button when it would show a month after maxDate %s: %s',
+      'should disable the next year button when maxDate is in the same year %s: %s',
       async (maxDate, disabled) => {
         render(<DatePicker noAnimation yearNavigation maxDate={maxDate} />)
 
@@ -2106,6 +2107,30 @@ describe('DatePicker component', () => {
         await userEvent.click(getDatePickerTriggerButton())
 
         expect(getCalendarTitles()).toEqual(expectedTitles)
+      }
+    )
+
+    it.each<
+      [string, Partial<DatePickerAllProps>, 'prev' | 'next', Array<string>]
+    >([
+      ['maxDate', { maxDate: '2027-03-10' }, 'next', ['mars', '2027']],
+      ['minDate', { minDate: '2025-11-15' }, 'prev', ['november', '2025']],
+      [
+        'maxDate with linked calendars',
+        { range: true, link: true, maxDate: '2027-03-10' },
+        'next',
+        ['februar', '2027', 'mars', '2027'],
+      ],
+    ])(
+      'should move the year buttons to the month of %s when one year would pass it',
+      async (_, props, type, expectedTitles) => {
+        render(<DatePicker noAnimation yearNavigation {...props} />)
+
+        await userEvent.click(getDatePickerTriggerButton())
+        await userEvent.click(getNavButtons(0, 1)[type])
+
+        expect(getCalendarTitles()).toEqual(expectedTitles)
+        expect(getNavButtons(0, 1)[type]).toHaveClass('disabled')
       }
     )
   })
