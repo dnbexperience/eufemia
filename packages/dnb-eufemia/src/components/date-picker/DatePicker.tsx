@@ -932,7 +932,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
           </span>
         </span>
 
-        <p className="dnb-sr-only" aria-live="assertive">
+        <p className="dnb-sr-only" aria-live="polite">
           {selectedDateTitle}
         </p>
       </span>
