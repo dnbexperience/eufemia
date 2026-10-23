@@ -1,10 +1,12 @@
 import type { ReactNode } from 'react'
 import { Code } from '@dnb/eufemia/src'
 
-export function formatSearchResultMarkdown(
-  value: string | null | undefined
-): ReactNode {
-  if (!value?.includes('`')) {
+export function formatSearchResultMarkdown(value: unknown): ReactNode {
+  if (typeof value !== 'string') {
+    return null
+  }
+
+  if (!value.includes('`')) {
     return value
   }
 

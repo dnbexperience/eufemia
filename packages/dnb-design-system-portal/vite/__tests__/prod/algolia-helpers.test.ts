@@ -76,6 +76,24 @@ describe('algolia-helpers', () => {
   })
 
   describe('buildAlgoliaRecord', () => {
+    it('excludes pages marked search: false even when they inherit a title', () => {
+      expect(
+        buildAlgoliaRecord({
+          fields: {
+            slug: 'uilib/components/list/visual-tests/custom-cells',
+          },
+          frontmatter: { search: false },
+          recordHeadings: [],
+          siblings: [
+            {
+              fields: { slug: 'uilib/components/list' },
+              frontmatter: { title: 'List' },
+            },
+          ],
+        })
+      ).toBeNull()
+    })
+
     it('should return null when no title or description exists', () => {
       expect(
         buildAlgoliaRecord({
