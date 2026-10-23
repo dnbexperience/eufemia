@@ -1,8 +1,15 @@
 /* eslint-disable vitest/expect-expect */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import { StrictMode } from 'react'
+import { StrictMode, useEffect, useState } from 'react'
 import type { RefObject } from 'react'
-import { fireEvent, render, screen, waitFor } from '@testing-library/react'
+import {
+  act,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+} from '@testing-library/react'
+import { flushSync } from 'react-dom'
 import userEvent from '@testing-library/user-event'
 import {
   spyOnEufemiaWarn,
@@ -858,6 +865,132 @@ describe('Form.Handler', () => {
     })
     afterEach(() => {
       log.mockRestore()
+    })
+
+    it.each([false, true])(
+      'should not submit rejected data after unmounting before the retry (async validator: %s)',
+      async (asyncValidator) => {
+        const onSubmit = vi.fn(async () => undefined)
+        const onSubmitComplete = vi.fn()
+        const error = new Error('Phone number must be 8 digits')
+        const onBlurValidator = vi.fn(
+          asyncValidator ? async () => error : () => error
+        )
+        const onSubmitRequest = vi.fn()
+
+        function Example() {
+          const [editing, setEditing] = useState(true)
+
+          return editing ? (
+            <Form.Handler
+              defaultData={{ phone: '12345', name: 'Updated name' }}
+              onSubmit={onSubmit}
+              onSubmitComplete={onSubmitComplete}
+              onSubmitRequest={({ getErrors }) => {
+                onSubmitRequest(getErrors())
+                requestAnimationFrame(() => {
+                  flushSync(() => setEditing(false))
+                })
+              }}
+            >
+              <Field.String
+                path="/phone"
+                onBlurValidator={onBlurValidator}
+              />
+              <Field.String path="/name" />
+              <Form.SubmitButton />
+            </Form.Handler>
+          ) : null
+        }
+
+        render(
+          <StrictMode>
+            <Example />
+          </StrictMode>
+        )
+
+        expect(onBlurValidator).not.toHaveBeenCalled()
+        fireEvent.submit(document.querySelector('form'))
+
+        await waitFor(() => {
+          expect(onSubmitRequest).toHaveBeenCalledWith([
+            expect.objectContaining({ path: '/phone', error }),
+          ])
+          expect(document.querySelector('form')).toBeNull()
+        })
+
+        await act(async () => {
+          await new Promise(requestAnimationFrame)
+          await new Promise(requestAnimationFrame)
+        })
+
+        expect(onBlurValidator).toHaveBeenCalledTimes(1)
+        expect(onSubmit).not.toHaveBeenCalled()
+        expect(onSubmitComplete).not.toHaveBeenCalled()
+      }
+    )
+
+    it.each([undefined, new Error('Invalid phone number')])(
+      'should not submit after unmounting while validation is running (result: %s)',
+      async (result) => {
+        let resolveValidator: () => void
+        const onSubmit = vi.fn(async () => undefined)
+        const onBlurValidator = vi.fn(async () => {
+          await new Promise<void>((resolve) => {
+            resolveValidator = resolve
+          })
+          return result
+        })
+        const { unmount } = render(
+          <Form.Handler
+            defaultData={{ phone: '12345678' }}
+            onSubmit={onSubmit}
+          >
+            <Field.String
+              path="/phone"
+              onBlurValidator={onBlurValidator}
+            />
+            <Form.SubmitButton />
+          </Form.Handler>
+        )
+
+        fireEvent.submit(document.querySelector('form'))
+
+        await waitFor(() => {
+          expect(onBlurValidator).toHaveBeenCalledTimes(1)
+        })
+        unmount()
+
+        await act(async () => {
+          resolveValidator()
+          await new Promise(requestAnimationFrame)
+        })
+
+        expect(onSubmit).not.toHaveBeenCalled()
+      }
+    )
+
+    it('should allow submitting from a child effect on mount', async () => {
+      const onSubmit = vi.fn()
+
+      function SubmitOnMount() {
+        const { submit } = Form.useSubmit()
+
+        useEffect(() => {
+          submit()
+          // eslint-disable-next-line react-hooks/exhaustive-deps -- Submit only on mount.
+        }, [])
+
+        return null
+      }
+
+      render(
+        <Form.Handler onSubmit={onSubmit}>
+          <SubmitOnMount />
+        </Form.Handler>
+      )
+
+      await waitFor(() => expect(onSubmit).toHaveBeenCalledTimes(1))
     })
 
     it('should disable form elements during submit indicator when formStatus is pending', () => {
