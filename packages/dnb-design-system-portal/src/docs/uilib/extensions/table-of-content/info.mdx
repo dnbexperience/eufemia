@@ -1,0 +1,54 @@
+---
+showTabs: true
+---
+
+## Import
+
+```tsx
+import { TableOfContent } from '@dnb/eufemia/extensions'
+import '@dnb/eufemia/extensions/table-of-content/style'
+```
+
+## Description
+
+Use TableOfContent to help readers find their way around a long page. It provides nested section links, a moving current-section indicator and a disclosure on smaller screens.
+
+Compose links with TableOfContent.Root and TableOfContent.Item. Use TableOfContent.Data for a flat list of headings from a CMS, Markdown processor or application state. Both approaches share navigation, responsive behavior and accessibility. The compound exports allow unused parts to stay outside the application bundle.
+
+## Composition
+
+Use clear labels that match the destination headings. Put an id on each destination and supply that same id to the item. Ids belong to the destination, so the component does not create duplicate document ids.
+
+The data API accepts { id, text, level } entries in document order. Level is the heading level from 1 to 6. Page titles at level 1 are omitted, while their sections are included. The first heading level below 1 becomes the top list level. maxDepth defaults to two visible levels. Deeper headings still participate in current-section tracking and mark their nearest visible ancestor.
+
+Keep heading ids stable and unique. Inline formatting such as code is supported in text; avoid buttons or links inside link labels. Root inspects direct Item children, including fragments and memoized items. Arbitrary wrapper components are opaque to this discovery; use Data when generating content through another component.
+
+## Responsive layout and scrolling
+
+Above breakpoint, the list is always expanded with a width of 12rem. Below it, readers can open and close the disclosure. Use stretch to fill the available width, and expanded with onExpandedChange when application state controls the disclosure. The component remembers its disclosure state while moving between screen sizes.
+
+The component leaves placement and sticky positioning to the application. Constrain its height in a flex container when a long table of contents needs its own scrolling area. The current link is revealed inside that area without moving keyboard focus as the reader scrolls.
+
+Set currentSectionOffset to the height of a fixed header. Add scroll-margin-top to the destination headings so native fragment links leave them visible. The offset changes section detection; it does not change browser scrolling.
+
+Automatic tracking responds to window and nested-container scrolling, resizing, DOM replacements, and visibility changes. Missing or hidden headings do not become current. The component uses the supplied data as its list; update that data when sections should be added to or removed from navigation. It does not scan the page or generate ids.
+
+For server rendering, the complete expanded navigation is present in the HTML. After hydration, the disclosure follows the viewport breakpoint. Heading detection starts in the browser. Supply currentId to control the current section, or null to clear the indicator and disable automatic tracking.
+
+## Accessibility
+
+- The navigation is a named nav landmark, using its localized title by default. Give multiple tables of contents distinct titles or aria-label values.
+- Links use native fragments and semantic nested lists. The current section uses aria-current="location".
+- Tab and Shift+Tab move between links. Enter follows a link and moves focus to its destination, preserving the browser URL, history and modified-click behavior. Destination focus does not add it to the normal tab order.
+- The small-screen button exposes aria-expanded and aria-controls. Enter or Space opens it. Collapsed links are hidden from the accessibility tree and keyboard navigation; browser find-in-page can reveal them where supported.
+- The current marker and disclosure animation respect the reader's reduced-motion preference. Scrolling never moves keyboard focus.
+- Link rows have a minimum height of 44px and visible keyboard focus. Labels wrap so content remains readable with text zoom.
+
+Use correct heading hierarchy in the page itself. A table of contents supports navigation but cannot repair that hierarchy. Check the finished page with the screen readers and zoom settings supported by your application.
+
+## Relevant links
+
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/extensions/table-of-content)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/extensions/table-of-content)
+
+<RelatedComponents />

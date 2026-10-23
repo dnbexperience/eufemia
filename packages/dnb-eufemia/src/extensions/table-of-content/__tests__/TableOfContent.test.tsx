@@ -1,0 +1,267 @@
+import '../../../core/vitest/mockMatchMediaSetup'
+import { act, fireEvent, render, waitFor } from '@testing-library/react'
+import { renderToString } from 'react-dom/server'
+import { hydrateRoot } from 'react-dom/client'
+import { memo } from 'react'
+import { setMedia } from 'mock-match-media'
+import { axeComponent } from '../../../core/test-utils/testSetup'
+import Provider from '../../../shared/Provider'
+import TableOfContent from '../TableOfContent'
+
+const data = [
+  { id: 'title', text: 'Page title', level: 1 },
+  { id: 'overview', text: 'Overview', level: 2 },
+  { id: 'details', text: 'Details', level: 3 },
+  { id: 'deep', text: 'Deep details', level: 4 },
+  { id: 'next', text: 'Next steps', level: 2 },
+]
+
+beforeEach(() => setMedia({ width: '1400px' }))
+
+it('renders named navigation and nested lists with the current location', () => {
+  render(
+    <Provider locale="en-GB">
+      <TableOfContent.Data data={data} currentId="deep" />
+    </Provider>
+  )
+  expect(document.querySelector('nav')).toHaveAccessibleName(
+    'On this page'
+  )
+  expect(document.querySelectorAll('a')).toHaveLength(3)
+  expect(document.querySelector('li > ul a')).toHaveTextContent('Details')
+  expect(document.querySelector('a[aria-current]')).toHaveAttribute(
+    'href',
+    '#details'
+  )
+  expect(document.querySelector('a[aria-current]')).toHaveAttribute(
+    'aria-current',
+    'location'
+  )
+  expect(document.querySelector('#overview')).toBeNull()
+})
+
+it('supports declarative composition, fragments, memoized items and controlled updates', () => {
+  const Item = memo(TableOfContent.Item)
+  const content = (
+    <>
+      <Item id="overview" text="Overview">
+        <TableOfContent.Item id="details" text={<code>Details</code>} />
+      </Item>
+      <TableOfContent.Item id="next" text="Next steps" />
+    </>
+  )
+  const { rerender } = render(
+    <TableOfContent.Root currentId="details">
+      {content}
+    </TableOfContent.Root>
+  )
+  expect(document.querySelector('a[aria-current] code')).toHaveTextContent(
+    'Details'
+  )
+  rerender(
+    <TableOfContent.Root currentId={null}>{content}</TableOfContent.Root>
+  )
+  expect(document.querySelector('a[aria-current]')).toBeNull()
+})
+
+it('forwards HTML, spacing, width and ref properties without duplicate ids', () => {
+  const ref = { current: null as HTMLElement }
+  render(
+    <TableOfContent.Data
+      id="toc"
+      ref={ref}
+      data={data}
+      currentId={null}
+      aria-label="Article sections"
+      className="custom"
+      top="large"
+      stretch
+      data-example="value"
+    />
+  )
+  const nav = document.querySelector('nav')
+  expect(nav).toBe(ref.current)
+  expect(nav).toHaveAccessibleName('Article sections')
+  expect(nav).toHaveClass(
+    'custom',
+    'dnb-space__top--large',
+    'dnb-table-of-content--stretch'
+  )
+  expect(nav).toHaveAttribute('data-example', 'value')
+})
+
+it('uses localized and custom titles', () => {
+  const { rerender } = render(
+    <Provider locale="nb-NO">
+      <TableOfContent.Data data={data} currentId={null} />
+    </Provider>
+  )
+  expect(document.querySelector('nav')).toHaveAccessibleName(
+    'På denne siden'
+  )
+  rerender(
+    <TableOfContent.Data
+      data={data}
+      currentId={null}
+      title="Article contents"
+    />
+  )
+  expect(document.querySelector('nav')).toHaveAccessibleName(
+    'Article contents'
+  )
+})
+
+it('renders nothing when no headings can be displayed', () => {
+  const { container, rerender } = render(<TableOfContent.Data data={[]} />)
+  expect(container).toBeEmptyDOMElement()
+  rerender(<TableOfContent.Data data={data} maxDepth={0} />)
+  expect(container).toBeEmptyDOMElement()
+})
+
+it('connects the mobile disclosure to its content and preserves its chosen state across breakpoints', async () => {
+  setMedia({ width: '600px' })
+  const onExpandedChange = vi.fn()
+  render(
+    <TableOfContent.Data
+      data={data}
+      currentId={null}
+      onExpandedChange={onExpandedChange}
+    />
+  )
+  const toggle = document.querySelector('button')
+  expect(toggle).toHaveAttribute('aria-expanded', 'false')
+  expect(
+    document.getElementById(toggle.getAttribute('aria-controls'))
+  ).toHaveAttribute('aria-hidden', 'true')
+  fireEvent.click(toggle)
+  expect(toggle).toHaveAttribute('aria-expanded', 'true')
+  expect(onExpandedChange).toHaveBeenCalledWith(true)
+  act(() => setMedia({ width: '1400px' }))
+  expect(document.querySelector('button')).toBeNull()
+  act(() => setMedia({ width: '600px' }))
+  await waitFor(() =>
+    expect(document.querySelector('button')).toHaveAttribute(
+      'aria-expanded',
+      'true'
+    )
+  )
+})
+
+it('supports controlled disclosure state and browser find', () => {
+  setMedia({ width: '600px' })
+  const onExpandedChange = vi.fn()
+  const { rerender } = render(
+    <TableOfContent.Data
+      data={data}
+      currentId={null}
+      expanded={false}
+      onExpandedChange={onExpandedChange}
+    />
+  )
+  fireEvent.click(document.querySelector('button'))
+  expect(document.querySelector('button')).toHaveAttribute(
+    'aria-expanded',
+    'false'
+  )
+  expect(onExpandedChange).toHaveBeenCalledWith(true)
+  fireEvent(
+    document.querySelector('.dnb-height-animation'),
+    new Event('beforematch')
+  )
+  expect(onExpandedChange).toHaveBeenCalledWith(true)
+  rerender(
+    <TableOfContent.Data
+      data={data}
+      currentId={null}
+      expanded
+      onExpandedChange={onExpandedChange}
+    />
+  )
+  expect(document.querySelector('button')).toHaveAttribute(
+    'aria-expanded',
+    'true'
+  )
+})
+
+it('moves focus to the fragment destination and preserves native links', () => {
+  const destination = document.createElement('h2')
+  destination.id = 'a/b #c'
+  document.body.append(destination)
+  render(
+    <TableOfContent.Root currentId={null}>
+      <TableOfContent.Item id={destination.id} text="Destination" />
+    </TableOfContent.Root>
+  )
+  const link = document.querySelector('a')
+  expect(link).toHaveAttribute('href', '#a%2Fb%20%23c')
+  fireEvent.click(link, { ctrlKey: true })
+  expect(destination).not.toHaveFocus()
+  fireEvent.click(link)
+  expect(destination).toHaveFocus()
+  expect(destination).toHaveAttribute('tabindex', '-1')
+  act(() => destination.blur())
+  expect(destination).not.toHaveAttribute('tabindex')
+})
+
+it('honors prevented navigation', () => {
+  const destination = document.createElement('h2')
+  destination.id = 'overview'
+  document.body.append(destination)
+  render(
+    <TableOfContent.Root currentId={null}>
+      <TableOfContent.Item
+        id="overview"
+        text="Overview"
+        onClick={(event) => event.preventDefault()}
+      />
+    </TableOfContent.Root>
+  )
+  fireEvent.click(document.querySelector('a'))
+  expect(destination).not.toHaveFocus()
+})
+
+it.each(['390px', '1400px'])(
+  'renders complete SSR markup and hydrates at %s without mismatches',
+  async (width) => {
+    setMedia({ width })
+    const element = (
+      <TableOfContent.Data data={data} currentId="overview" />
+    )
+    const container = document.createElement('div')
+    container.innerHTML = renderToString(element)
+    document.body.append(container)
+    expect(container.querySelectorAll('a')).toHaveLength(3)
+    const onRecoverableError = vi.fn()
+    let root: ReturnType<typeof hydrateRoot>
+    await act(async () => {
+      root = hydrateRoot(container, element, { onRecoverableError })
+    })
+    expect(onRecoverableError).not.toHaveBeenCalled()
+    act(() => root.unmount())
+  }
+)
+
+it('has accessible desktop and collapsed mobile navigation', async () => {
+  const { rerender } = render(
+    <TableOfContent.Data data={data} currentId="details" />
+  )
+  expect(
+    await axeComponent(document.querySelector('nav'))
+  ).toHaveNoViolations()
+  act(() => setMedia({ width: '600px' }))
+  rerender(<TableOfContent.Data data={data} currentId="details" />)
+  expect(
+    await axeComponent(document.querySelector('nav'))
+  ).toHaveNoViolations()
+})
+
+beforeEach(() => {
+  vi.stubGlobal(
+    'ResizeObserver',
+    class {
+      observe() {}
+      disconnect() {}
+    }
+  )
+})
+afterEach(() => vi.unstubAllGlobals())
