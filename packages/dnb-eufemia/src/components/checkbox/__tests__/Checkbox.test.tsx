@@ -585,7 +585,7 @@ describe('Checkbox scss', () => {
       loadScss(require.resolve('../style/dnb-checkbox.scss'))
     )
     const surfaceDark = css.match(
-      /\.dnb-checkbox--surface-dark \{[^}]*\}/
+      /\.dnb-checkbox--surface-dark:where\(:not\(\.dnb-toggle-button \*\)\) \{[^}]*\}/
     )[0]
 
     expect(surfaceDark).toMatch(

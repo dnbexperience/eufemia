@@ -130,6 +130,10 @@
       var(--token-color-stroke-neutral-ondark) 50%,
       transparent
     );
+  }
+
+  // Checked and error ToggleButtons keep a light background on dark surfaces
+  &--surface-dark:where(:not(.dnb-toggle-button *)) {
     // Figma's icon-neutral-inverse is white and has no contrast on these backgrounds
     --checkbox-color-gfx-on: var(--token-color-icon-neutral-static);
     --checkbox-color-gfx-off: transparent;
