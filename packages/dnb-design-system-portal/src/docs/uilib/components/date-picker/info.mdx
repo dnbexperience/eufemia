@@ -28,6 +28,17 @@ The Eufemia Forms equivalent of `DatePicker` is [Field.Date](/uilib/extensions/f
 
 By default, DatePicker shows dates from the previous and next month to provide context around month boundaries. Set `hideAdjacentMonthDates` when the extra dates could cause confusion or when a simpler calendar would reduce cognitive load. The grid cells remain in place, so the calendar layout does not change.
 
+## Keyboard navigation
+
+When a calendar has focus, these keys move between days:
+
+- **Arrow keys** move one day or one week.
+- **PageUp** and **PageDown** move to the same day in the previous or next month. Hold **Shift** to move one year.
+- **Home** and **End** move to the first or last day of the week.
+- **Enter** and **Space** select the focused day.
+
+Days that cannot be selected are skipped. A key that would move the focus past `minDate` or `maxDate` does nothing.
+
 ## Relevant links
 
 - [Figma](https://www.figma.com/design/cdtwQD8IJ7pTeE45U148r1/%F0%9F%92%BB-Eufemia---Web?node-id=4243-1497)
