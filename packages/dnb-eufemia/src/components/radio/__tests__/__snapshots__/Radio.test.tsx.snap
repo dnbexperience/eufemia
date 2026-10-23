@@ -307,6 +307,8 @@ button .dnb-form-status__text {
     var(--token-color-stroke-neutral-ondark) 50%,
     transparent
   );
+}
+.dnb-radio--surface-dark:where(:not(.dnb-toggle-button *)) {
   --radio-color-dot-on--default: var(
     --token-color-background-selected-ondark
   );

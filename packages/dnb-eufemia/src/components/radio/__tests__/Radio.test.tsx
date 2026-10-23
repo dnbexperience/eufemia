@@ -462,7 +462,9 @@ describe('Radio scss', () => {
     const css = String(
       loadScss(require.resolve('../style/dnb-radio.scss'))
     )
-    const surfaceDark = css.match(/\.dnb-radio--surface-dark \{[^}]*\}/)[0]
+    const surfaceDark = css.match(
+      /\.dnb-radio--surface-dark:where\(:not\(\.dnb-toggle-button \*\)\) \{[^}]*\}/
+    )[0]
 
     expect(surfaceDark).toMatch(
       /--radio-color-dot-on--default: var\(\s*--token-color-background-selected-ondark\s*\)/
