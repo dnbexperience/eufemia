@@ -74,6 +74,10 @@
       var(--token-color-stroke-neutral-ondark) 50%,
       transparent
     );
+  }
+
+  // Checked and error ToggleButtons keep a light background on dark surfaces
+  &--surface-dark:where(:not(.dnb-toggle-button *)) {
     --radio-color-dot-on--default: var(
       --token-color-background-selected-ondark
     );
