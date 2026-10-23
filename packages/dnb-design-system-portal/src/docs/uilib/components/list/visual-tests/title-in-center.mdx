@@ -4,9 +4,11 @@ hideInMenu: true
 search: false
 ---
 
-import { List } from '@dnb/eufemia/src'
+import { VisuallyHidden, List } from '@dnb/eufemia/src'
 import { Value } from '@dnb/eufemia/src/extensions/forms'
 import { fish_medium } from '@dnb/eufemia/src/icons'
+
+<VisuallyHidden element="h1">List: Title in center</VisuallyHidden>
 
 export const Title = ({ overline, subline, long }) => (
   <List.Cell.Title>
