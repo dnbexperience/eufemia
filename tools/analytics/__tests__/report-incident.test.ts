@@ -77,8 +77,7 @@ describe('Analytics incident lifecycle', () => {
       runUrl: 'https://github.com/example/repo/actions/runs/1',
       request: request as typeof fetch,
     })
-    expect(request).toHaveBeenCalledOnce()
-    expect(request).toHaveBeenCalledWith(
+    expect(request).toHaveBeenCalledExactlyOnceWith(
       expect.stringContaining('/issues?state=open'),
       expect.objectContaining({ method: 'GET' })
     )
