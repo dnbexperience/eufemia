@@ -1,4 +1,4 @@
-import { useId, useLayoutEffect, useRef, useState } from 'react'
+import { useLayoutEffect, useRef, useState } from 'react'
 import { H2, H3, P, ScrollView, Switch } from '@dnb/eufemia/src'
 import { TableOfContent } from '@dnb/eufemia/src/extensions'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
@@ -125,7 +125,7 @@ export function ScrollableArticle() {
 }
 
 function ArticleExample() {
-  const id = useId().replace(/[^a-zA-Z0-9-]/g, '')
+  const id = 'toc-article'
   const articleRef = useRef<HTMLDivElement>(null)
   const [offset, setOffset] = useState(0)
 
