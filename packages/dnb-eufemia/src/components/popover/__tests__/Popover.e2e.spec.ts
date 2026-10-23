@@ -1,9 +1,22 @@
 import { expect, test } from '@playwright/test'
 import type { Locator } from '@playwright/test'
 
+// A click during the open animation is retried with a smooth scroll and can miss
+function waitForOpenAnimation(content: Locator) {
+  return content.evaluate(async (element) => {
+    const animations =
+      element.closest('.dnb-popover')?.getAnimations() ?? []
+    await Promise.all(animations.map((animation) => animation.finished))
+  })
+}
+
 test.describe('Popover focus restoration', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/uilib/components/popover/demos/#controlled-state')
+    await expect(page.locator('html')).toHaveAttribute(
+      'data-portal-ready',
+      'true'
+    )
   })
 
   const closeMethods: Array<
@@ -31,6 +44,7 @@ test.describe('Popover focus restoration', () => {
       await trigger.focus()
       await trigger.press('Enter')
       await expect(content).toBeFocused()
+      await waitForOpenAnimation(content)
       await close(content)
 
       await expect(content).toBeHidden()
@@ -51,6 +65,7 @@ test.describe('Popover focus restoration', () => {
     await trigger.focus()
     await trigger.press('Enter')
     await expect(content).toBeFocused()
+    await waitForOpenAnimation(content)
     await outside.click()
 
     await expect(content).toBeHidden()
