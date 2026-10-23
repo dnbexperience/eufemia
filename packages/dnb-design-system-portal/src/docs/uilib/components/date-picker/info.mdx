@@ -112,7 +112,7 @@ import { getOsloDate } from '@dnb/eufemia/components/date-format/DateFormatUtils
 
 The `minDate` and `maxDate` props restrict which dates can be selected in the calendar view. Dates outside the given range will be disabled, both for single dates and ranges. However, the user can still type a date outside these limits directly in the input field — `minDate` and `maxDate` do **not** validate typed input.
 
-Without a date or month, the calendar opens on the current month, or on the nearest month within `minDate` and `maxDate`. In range mode, the second calendar does not show a month after `maxDate` by default. The navigation buttons do not move a calendar to a month outside the limits.
+Without a date or month, the calendar opens on the current month, or on the nearest month within `minDate` and `maxDate`. In range mode, the second calendar does not show a month after `maxDate` by default, unless `minDate` is in the same month. The navigation buttons do not move a calendar to a month outside the limits.
 
 If `minDate` or `maxDate` is given, the return object also contains information about whether the date is within the given limits:
 

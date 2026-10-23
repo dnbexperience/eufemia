@@ -456,7 +456,10 @@ function DatePicker(externalProps: DatePickerAllProps) {
   const focusCalendarTable = useCallback(
     () =>
       calendarContainerRef.current?.querySelector<HTMLElement>(
-        'td[aria-selected="true"] button'
+        'td.dnb-date-picker__day--start-date:not(.dnb-date-picker__day--outside-month) button:not([disabled])'
+      ) ||
+      calendarContainerRef.current?.querySelector<HTMLElement>(
+        'td[aria-selected="true"] button:not([disabled])'
       ) ||
       calendarContainerRef.current?.querySelector<HTMLElement>('table'),
     []

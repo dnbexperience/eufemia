@@ -1558,6 +1558,7 @@ describe('DatePicker component', () => {
       render(<DatePicker noAnimation range showInput />)
 
       await userEvent.click(getDatePickerTriggerButton())
+      await new Promise((resolve) => requestAnimationFrame(resolve))
 
       const [startDay, , , endDay] = getDatePickerInputs()
 
@@ -1605,6 +1606,7 @@ describe('DatePicker component', () => {
 
         const [startDay] = getDatePickerInputs()
 
+        await new Promise((resolve) => requestAnimationFrame(resolve))
         await userEvent.click(startDay)
         await userEvent.keyboard('05122026')
 
@@ -1732,6 +1734,49 @@ describe('DatePicker component', () => {
       }
     )
 
+    it.each([
+      { startDate: '2026-10-05', endDate: '2026-10-10', link: true },
+      { startDate: '2026-10-05', endDate: '2026-10-10', link: false },
+      { startDate: '2026-10-15', endDate: '2026-10-20', link: true },
+      { startDate: '2026-10-15', endDate: '2026-10-20', link: false },
+      {
+        startDate: '2026-10-02',
+        endDate: '2026-10-09',
+        showInput: true,
+      },
+      {
+        startDate: '2026-10-05',
+        endDate: '2026-10-10',
+        hideAdjacentMonthDates: true,
+      },
+    ])(
+      'should focus the start date in the second range calendar and allow arrow navigation: %j',
+      async (props) => {
+        render(
+          <DatePicker noAnimation range maxDate="2026-10-31" {...props} />
+        )
+
+        await userEvent.click(getDatePickerTriggerButton())
+
+        const [, calendar] = document.querySelectorAll(
+          '.dnb-date-picker__calendar'
+        )
+        const startButton = calendar.querySelector(
+          `td[data-date="${props.startDate}"] button`
+        )
+
+        expect(startButton).not.toBeDisabled()
+        await waitFor(() => expect(startButton).toHaveFocus())
+
+        await userEvent.keyboard('{ArrowRight}')
+
+        expect(document.activeElement.closest('td')).toHaveAttribute(
+          'data-date',
+          addDays(new Date(props.startDate), 1).toISOString().slice(0, 10)
+        )
+      }
+    )
+
     it('should show the month of maxDate in the second range calendar when the dates are in that month', async () => {
       render(
         <DatePicker
@@ -1846,6 +1891,7 @@ describe('DatePicker component', () => {
 
       const [startDay] = getDatePickerInputs()
 
+      await new Promise((resolve) => requestAnimationFrame(resolve))
       await userEvent.click(startDay)
       await userEvent.keyboard('15102026')
 
@@ -1956,11 +2002,7 @@ describe('DatePicker component', () => {
 
         const { next } = getNavButtons(0, 1)
 
-        if (disabled) {
-          expect(next).toHaveClass('disabled')
-        } else {
-          expect(next).not.toHaveClass('disabled')
-        }
+        expect(next.classList.contains('disabled')).toBe(disabled)
       }
     )
 
