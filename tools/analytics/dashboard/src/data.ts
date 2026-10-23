@@ -161,11 +161,11 @@ function sumCounts<Row extends { count: number }>(
   rows: Row[],
   keyOf: (row: Row) => string
 ): Map<string, number> {
-  return rows.reduce(
-    (counts, row) =>
-      counts.set(keyOf(row), (counts.get(keyOf(row)) ?? 0) + row.count),
-    new Map<string, number>()
-  )
+  return rows.reduce((counts, row) => {
+    const key = keyOf(row)
+
+    return counts.set(key, (counts.get(key) ?? 0) + row.count)
+  }, new Map<string, number>())
 }
 
 /** Turn a counts map into a sorted, optionally limited list. */

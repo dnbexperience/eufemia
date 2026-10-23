@@ -1003,16 +1003,17 @@ resource "aws_cloudwatch_metric_alarm" "snapshot_not_running" {
 
 # A run can succeed (Invocations >= 1, Errors = 0) while page views stop arriving,
 # e.g. the collect path breaks or the rollup refresh keeps failing. The generator
-# emits the page views of the last two days as an EMF metric
+# emits the page views of today and yesterday (UTC) as an EMF metric
 # (SnapshotPortalViewCount), so this is caught here, even if the snapshot has MCP
-# data. The Lambda alarms above only see the run, not its content. The
+# data. It fires after 24 to 48 hours without page views, plus up to 6 hours of
+# evaluation. The Lambda alarms above only see the run, not its content. The
 # not-running alarm owns the "stopped firing" case, so missing data here does not
 # breach. The namespace/metric/dimension must match those emitted in
 # src/lambda/snapshot.ts. Notifies snapshot_alerts above. Note that a genuinely
 # idle environment (no traffic) can sit at 0 and trip this.
 resource "aws_cloudwatch_metric_alarm" "snapshot_empty" {
   alarm_name          = "eufemia-${var.environment}-analytics-snapshot-empty"
-  alarm_description   = "Dashboard snapshot generator found no page views in the last two days"
+  alarm_description   = "Dashboard snapshot generator found no page views today or yesterday (UTC)"
   namespace           = "Eufemia/Analytics"
   metric_name         = "SnapshotPortalViewCount"
   dimensions          = { FunctionName = aws_lambda_function.snapshot.function_name }

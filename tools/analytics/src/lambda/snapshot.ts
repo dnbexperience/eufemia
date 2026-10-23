@@ -40,8 +40,8 @@ type MetricName =
  * The namespace, metric name, and FunctionName dimension must stay in sync with
  * the matching alarm in infra/main.tf; a mismatch silently leaves the alarm at
  * INSUFFICIENT_DATA. Metrics and their alarms:
- * - SnapshotPortalViewCount (`snapshot_empty`): page views in the last two
- *   days. A sustained 0 catches a run that succeeds while page views stop
+ * - SnapshotPortalViewCount (`snapshot_empty`): page views today and yesterday
+ *   (UTC). A sustained 0 catches a run that succeeds while page views stop
  *   arriving, which the Errors/Invocations alarms cannot see.
  * - McpUsageBuildFailure (`snapshot_mcp_build_failed`): emitted when the
  *   durable rollup refresh fails or buildMcpUsage cannot build the section;
@@ -136,12 +136,7 @@ function monthsWindowStart(months: number): string {
     .slice(0, 10)
 }
 
-/**
- * Build the page-view trends section. First refreshes the recent tail of the
- * durable rollup, so the trends include today, then reads up to 13 calendar
- * months of it. A failed refresh still shows the existing history; a failed
- * read propagates, so the previous snapshot stays in place.
- */
+// Refresh the rollup tail first so trends include today; a failed read keeps the previous snapshot.
 async function buildPortalViewTrends(
   bucket: string,
   sinceDt?: string

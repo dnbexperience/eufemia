@@ -788,7 +788,7 @@ describe('snapshot page-view count metric', () => {
     delete process.env.AWS_LAMBDA_FUNCTION_NAME
   })
 
-  it('emits the page views of the last two days as an EMF metric after a successful run', async () => {
+  it('emits the page views of today and yesterday as an EMF metric after a successful run', async () => {
     process.env.AWS_LAMBDA_FUNCTION_NAME = 'eufemia-dev-analytics-snapshot'
     retrievePortalViewsPerDay.mockResolvedValue([
       { dt: utcDate(2), env: 'prod', count: 100 },
@@ -812,7 +812,7 @@ describe('snapshot page-view count metric', () => {
     })
   })
 
-  it('emits a zero count when no page views arrived in the last two days', async () => {
+  it('emits a zero count when no page views arrived today or yesterday', async () => {
     retrievePortalViewsPerDay.mockResolvedValue([
       { dt: utcDate(2), env: 'prod', count: 100 },
     ])
