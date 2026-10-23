@@ -20,9 +20,15 @@
     }
   }
 
+  // Keep :focus-visible in its own rule, because Safari before 15.4
+  // drops every rule that uses it
   :global(.anchor-hash:hover),
-  :global(.anchor-hash:focus-visible),
   &:hover :global(.anchor-hash) {
+    transition-delay: 0s;
+    opacity: 1;
+    pointer-events: auto;
+  }
+  :global(.anchor-hash:focus-visible) {
     transition-delay: 0s;
     opacity: 1;
     pointer-events: auto;

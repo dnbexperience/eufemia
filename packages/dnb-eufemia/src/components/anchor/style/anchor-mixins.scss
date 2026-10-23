@@ -47,7 +47,12 @@
 @mixin resetBorderRadius() {
   &,
   &:hover,
-  &:active,
+  &:active {
+    border-radius: 0;
+  }
+
+  // Keep :focus-visible in its own rule, because Safari before 15.4
+  // drops every rule that uses it
   &:focus-visible {
     border-radius: 0;
   }
