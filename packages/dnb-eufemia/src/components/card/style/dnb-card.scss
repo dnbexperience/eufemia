@@ -284,19 +284,19 @@
     color: inherit;
   }
 
-  &:hover .dnb-card {
+  &:hover > .dnb-card {
     --card-outline-color: var(--token-color-stroke-action-hover);
     --outline-color: var(--token-color-stroke-action-hover);
     --outline-width: 0.125rem;
   }
 
-  &:active .dnb-card {
+  &:active > .dnb-card {
     --card-outline-color: var(--token-color-stroke-action-pressed);
     --outline-color: var(--token-color-stroke-action-pressed);
     --outline-width: 0.0625rem;
   }
 
-  &:focus-visible .dnb-card {
+  &:focus-visible > .dnb-card {
     --card-outline-color: var(--token-color-stroke-action-focus);
     --outline-color: var(--token-color-stroke-action-focus);
     --outline-width: var(--focus-ring-width);
