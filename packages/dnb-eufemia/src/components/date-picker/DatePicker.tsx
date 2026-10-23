@@ -111,11 +111,11 @@ export type DatePickerProps = {
    */
   endDate?: DatePickerDateType
   /**
-   * To display what month should be shown in the first calendar by default. Defaults to the `date` respective `startDate`.
+   * To display what month should be shown in the first calendar by default. Defaults to the `date` respective `startDate`, or the current month, or the nearest month within `minDate` and `maxDate`. In range mode, the month before is used when the second calendar would otherwise show a month after `maxDate`, unless `minDate` is in the same month.
    */
   month?: DatePickerDateType
   /**
-   * To display what month should be shown in the first calendar by default. Defaults to the `date` respective `startDate`.
+   * To display what month should be shown in the first calendar by default. Defaults to the `date` respective `startDate`, or the current month, or the nearest month within `minDate` and `maxDate`. In range mode, the month before is used when the second calendar would otherwise show a month after `maxDate`, unless `minDate` is in the same month.
    */
   startMonth?: DatePickerDateType
   /**
