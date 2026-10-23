@@ -6,6 +6,7 @@ import type {
   MediaQueryProperties,
 } from './MediaQueryUtils'
 import { makeMediaQueryList } from './MediaQueryUtils'
+import { warn } from './helpers'
 
 export type ResponsiveConfig =
   | { target: 'viewport'; offset?: number }
@@ -15,9 +16,7 @@ const widthProperties = new Set(['min', 'max', 'minWidth', 'maxWidth'])
 
 function length(value: unknown, breakpoints: MediaQueryBreakpoints) {
   if (typeof value !== 'string' && typeof value !== 'number') {
-    throw new Error(
-      'Responsive width conditions require a breakpoint name, px, em, or rem value.'
-    )
+    return null
   }
   const resolved = breakpoints?.[value] ?? value
   const text =
@@ -27,11 +26,16 @@ function length(value: unknown, breakpoints: MediaQueryBreakpoints) {
   }
   const match = /^([0-9]*[.]?[0-9]+)(px|em|rem)$/.exec(text)
   if (!match) {
-    throw new Error(
-      'Responsive width conditions require a breakpoint name, px, em, or rem value.'
-    )
+    return null
   }
   return { value: Number(match[1]), unit: match[2] }
+}
+
+function warnUnsupportedWidth(value: unknown) {
+  warn(
+    'Container queries need a breakpoint name, px, em, or rem value. This condition does not match:',
+    value
+  )
 }
 
 export function offsetConditions(
@@ -55,10 +59,16 @@ export function offsetConditions(
   }
   return Object.fromEntries(
     Object.entries(when).map(([key, value]) => {
-      if (!widthProperties.has(key)) {
+      // Viewport queries leave out undefined values
+      if (!widthProperties.has(key) || value === undefined) {
         return [key, value]
       }
       const size = length(value, breakpoints)
+      if (!size) {
+        // Media queries support calc() with any CSS length
+        const resolved = breakpoints?.[value as string] ?? value
+        return [key, 'calc(' + resolved + ' + ' + offset + 'px)']
+      }
       if (!size.value && (key === 'min' || key === 'minWidth')) {
         return [key, '0px']
       }
@@ -201,16 +211,36 @@ export function makeContainerQueryList(
   options: MediaQueryOptions
 ): MediaQueryList {
   const lists: MediaQueryList[] = []
+  const viewportCondition = (condition: MediaQueryCondition) => {
+    const list = makeMediaQueryList({ when: condition }, breakpoints, {
+      ...options,
+      responsive: undefined,
+    })
+    if (list) {
+      lists.push(list)
+    }
+    return () => Boolean(list?.matches)
+  }
   const compile = (condition: MediaQueryCondition): (() => boolean) => {
+    // Raw media-query strings stay viewport based
     if (typeof condition === 'string') {
-      throw new Error(
-        'Container queries require structured width conditions. Use target="viewport" for raw media queries.'
-      )
+      return viewportCondition(condition)
     }
     const { not: conditionNot, ...conditions } = condition
-    const widths = Object.entries(conditions)
-      .filter(([key]) => widthProperties.has(key))
-      .map(([key, value]) => ({ key, ...length(value, breakpoints) }))
+    const widthEntries = Object.entries(conditions).filter(
+      ([key, value]) => widthProperties.has(key) && value !== undefined
+    )
+    const unsupported = widthEntries.find(
+      ([, value]) => !length(value, breakpoints)
+    )
+    if (unsupported) {
+      warnUnsupportedWidth(unsupported[1])
+      return () => false
+    }
+    const widths = widthEntries.map(([key, value]) => ({
+      key,
+      ...length(value, breakpoints),
+    }))
     const device = Object.fromEntries(
       Object.entries(conditions).filter(
         ([key]) => !widthProperties.has(key)
