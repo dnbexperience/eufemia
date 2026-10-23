@@ -157,6 +157,9 @@ async function loadPage(page, url) {
       if (attempt === 3) {
         throw error
       }
+      process.stdout.write(
+        `Retrying ${url}: ${error.message.split('\n')[0]}\n`
+      )
       await page.waitForTimeout(attempt * 5000)
     }
   }
