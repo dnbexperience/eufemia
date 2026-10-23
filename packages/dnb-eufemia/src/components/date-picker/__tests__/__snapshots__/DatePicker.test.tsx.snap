@@ -1918,6 +1918,8 @@ html[data-visual-test] .dnb-input__input {
     var(--token-color-stroke-neutral-ondark) 50%,
     transparent
   );
+}
+.dnb-checkbox--surface-dark:where(:not(.dnb-toggle-button *)) {
   --checkbox-color-gfx-on: var(--token-color-icon-neutral-static);
   --checkbox-color-gfx-off: transparent;
   --checkbox-color-background-off: transparent;
