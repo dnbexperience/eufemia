@@ -140,16 +140,32 @@ export default function Provider<Props>(
     setCurrentLocale,
   ])
 
+  const containerRef =
+    value.responsive?.target === 'container'
+      ? value.responsive.containerRef
+      : undefined
   const [containerTarget, setContainerTarget] = useState<HTMLElement>(null)
-  const syncContainerTarget = () => {
-    const target =
-      value.responsive?.target === 'container'
-        ? value.responsive.containerRef.current
-        : null
-    if (target !== containerTarget) {
+  const containerTargetRef = useRef<HTMLElement>(null)
+  const syncContainerTarget = useCallback(() => {
+    const target = containerRef?.current ?? null
+    if (target !== containerTargetRef.current) {
+      containerTargetRef.current = target
       setContainerTarget(target)
     }
-  }
+  }, [containerRef])
+  // A descendant can mount or replace the container without this Provider
+  // rendering again.
+  useEffect(() => {
+    if (!containerRef || typeof MutationObserver === 'undefined') {
+      return undefined
+    }
+    const observer = new MutationObserver(syncContainerTarget)
+    observer.observe(document.documentElement, {
+      childList: true,
+      subtree: true,
+    })
+    return () => observer.disconnect()
+  }, [containerRef, syncContainerTarget])
   // Finds a container rendered inside this Provider before paint.
   useIsomorphicLayoutEffect(syncContainerTarget)
   // A container that wraps this Provider gets its ref only after the
