@@ -13,7 +13,11 @@
  * evolve while there is no producer and no stored data.
  */
 
-import { isValidEnv, type ValidationResult } from './shared.js'
+import {
+  isIsoTimestamp,
+  isValidEnv,
+  type ValidationResult,
+} from './shared.js'
 
 /** A single anonymous component-usage fact emitted by the bundler plugin. */
 export type ComponentUsageInput = {
@@ -45,19 +49,6 @@ function isNonEmptyBoundedString(value: unknown): value is string {
     typeof value === 'string' &&
     value.trim().length > 0 &&
     value.length <= MAX_FIELD_LENGTH
-  )
-}
-
-// A clean ISO-8601 instant, e.g. `2026-09-16T12:00:00.000Z`. Validated with a
-// parse plus a tiny date-time shape check (no unbounded quantifiers) so the
-// stored `timestamp` column stays queryable rather than holding a free-form
-// string, and to reject values Date.parse would loosely accept (e.g. a bare
-// `2026-09-16` or `yesterday`).
-function isValidTimestamp(value: unknown): value is string {
-  return (
-    typeof value === 'string' &&
-    /\dT\d\d:\d\d:\d\d/.test(value) &&
-    !Number.isNaN(Date.parse(value))
   )
 }
 
@@ -144,9 +135,9 @@ export function validateComponentUsage(
 
 /**
  * Build the stored record from one validated fact. Component names are
- * canonicalised; an unrecognised `env` degrades to `unknown` and a non-ISO
- * `timestamp` degrades to the write time, so a drifted producer value costs one
- * dimension, not the row.
+ * canonicalised; an unrecognised `env` degrades to `unknown` and a `timestamp`
+ * that isn't in canonical ISO form degrades to the write time, so a drifted
+ * producer value costs one dimension, not the row.
  */
 export function buildComponentUsageRecord(
   input: ComponentUsageInput,
@@ -159,7 +150,7 @@ export function buildComponentUsageRecord(
     component: normalizeComponentName(input.component),
     version: input.version.trim(),
     env: isValidEnv(input.env) ? input.env : 'unknown',
-    timestamp: isValidTimestamp(input.timestamp)
+    timestamp: isIsoTimestamp(input.timestamp)
       ? input.timestamp
       : createdAt,
     created_at: createdAt,

@@ -25,7 +25,7 @@ Fragments and memoized SidebarMenu parts are supported. Arbitrary wrapper compon
 - Support both declarative composition and recursive `data` or `sections` objects with the same behavior.
 - Allow controlled, uncontrolled, and persisted state for routing, accordions, sections, selection, and scroll position.
 - Adapt to different application structures through nested groups, custom router links, responsive inline and Drawer layouts, resizing, badges, and custom content.
-- Allow resizable desktop navigation to be temporarily dismissed and restored without changing the small-screen Drawer behavior.
+- Allow resizable inline navigation to be temporarily dismissed and restored without changing the small-screen Drawer behavior.
 - Preserve browser-native behavior, including find-in-page through collapsed content.
 
 ## Key behaviors
@@ -121,7 +121,7 @@ Both methods use the existing `{ data }` or `{ sections }` content shapes. Use s
 
 Transformations run after the active content replacement, in ascending `order` (default `0`), then by key. They remain registered and run again when content changes. Return new content without mutating the input. Register an updated function under the same key when a captured value, such as a notification count, changes. The cleanup removes the transformation and restores the content computed without it.
 
-Assign the same `controllerId` to the desktop and Drawer menus to share content between them. Registration lifetimes belong to the calling application: unmounting a menu does not clear registrations, while a page reload does. The API uses `useSharedState` and `createSharedState` with a shared browser scope.
+Assign the same `controllerId` to the inline and Drawer menus to share content between them. Registration lifetimes belong to the calling application: unmounting a menu does not clear registrations, while a page reload does. The API uses `useSharedState` and `createSharedState` with a shared browser scope.
 
 Use `Data` props for server-rendered content. Controller mutations run in the browser; server calls throw instead of retaining application content between requests. Hydration first uses the server's fallback content, then applies retained browser registrations. Content controllers do not synchronize across iframes or browser tabs. Prefer data objects across micro frontend boundaries; React elements and callbacks do not carry the originating application's providers with them.
 
@@ -153,7 +153,7 @@ const restore = SidebarMenu.getController('main-navigation').setProps(
 restore()
 ```
 
-Registrations work before mounting, across React roots and independently bundled Eufemia copies in the same window. Each component applies only the properties it owns. `ResponsiveProvider` applies thresholds, Drawer state, desktop dismissal, persistence, and their callbacks. `Root` and `Data` apply menu state, callbacks, spacing, styles, and navigation attributes.
+Registrations work before mounting, across React roots and independently bundled Eufemia copies in the same window. Each component applies only the properties it owns. `ResponsiveProvider` applies thresholds, Drawer state, inline dismissal, persistence, and their callbacks. `Root` and `Data` apply menu state, callbacks, spacing, styles, and navigation attributes.
 
 Props are shallowly merged over the component's current JSX props in registration order. The newest value for each property wins; omitted properties retain earlier registrations or JSX values. Calling `setProps()` again with the same key replaces that registration, including removing properties omitted from the new call. The returned cleanup is idempotent and cannot remove a newer registration under the same key. Cleanup recomputes props from the remaining registrations and current JSX values. Callback and `style` values replace earlier values as a whole.
 
@@ -198,7 +198,7 @@ Use `SidebarMenu.ResizeHandle` when people should be able to resize a sidebar. T
 - `minWidth` and `maxWidth` define the allowed resize range. They default to 240px and 560px and are also constrained by the viewport and the target's CSS `max-width`.
 
 The handle supports pointer dragging, arrow-key resizing, Shift for larger keyboard steps, and Enter or double-click to reset.
-When `onCollapse` is provided, dragging below `minWidth` adds resistance to communicate that the sidebar can continue towards dismissal. Releasing returns it to `minWidth`. Reaching `collapseThreshold` calls `onCollapse`; the threshold defaults to half of `minWidth`. Pair it with `useResponsive().collapseInline()` to dismiss desktop inline navigation and let `ResponsiveTrigger` restore it.
+When `onCollapse` is provided, dragging below `minWidth` adds resistance to communicate that the sidebar can continue towards dismissal. Releasing returns it to `minWidth`. Reaching `collapseThreshold` calls `onCollapse`; the threshold defaults to half of `minWidth`. Pair it with `useResponsive().collapseInline()` to dismiss the inline navigation and let `ResponsiveTrigger` restore it.
 
 The resistance moves the sidebar by 10% of the cursor distance below `minWidth`. For example, dragging 100px further moves the visible edge about 10px. Pointer resizing above the minimum stays immediate. Width easing belongs to the surrounding layout. Enable it after the handle adds `dnb-sidebar-menu-resize-handle--transition-ready`, and disable it while `dnb-sidebar-menu-resize-handle--dragging` is present. Both classes are added to the element matched by `scopeSelector`.
 
@@ -246,21 +246,21 @@ const sidebarRef = useRef<HTMLElement>(null)
 Use the responsive compound parts when the same navigation should be inline on larger screens and available through a hamburger-triggered Drawer on smaller screens:
 
 - `ResponsiveProvider` owns the responsive thresholds and Drawer state.
-- `ResponsiveProvider` can also own a collapsible desktop inline state.
-- `Toggle` renders a button that hides and restores the desktop inline navigation by default. Inside the compact rail it expands and collapses the overlay. On small screens an external Toggle opens and closes the Drawer.
-- `ResponsiveTrigger` renders a hamburger button at or below `drawerAt`, or while the desktop inline navigation is collapsed. On desktop it restores the inline navigation instead of opening a Drawer.
-- When the built-in hamburger appears after desktop dismissal, its bars animate in sequentially. Custom trigger icons are not animated.
+- `ResponsiveProvider` can also own a collapsible inline navigation state.
+- `Toggle` renders a button that hides and restores the inline navigation by default. Inside the compact rail it expands and collapses the overlay. At or below `drawerAt`, an external Toggle opens and closes the Drawer.
+- `ResponsiveTrigger` renders a hamburger button at or below `drawerAt`, or while the inline navigation is collapsed. Above `drawerAt`, it restores the inline navigation instead of opening a Drawer.
+- When the built-in hamburger appears after the inline navigation is dismissed, its bars animate in sequentially. Custom trigger icons are not animated.
 - `ResponsiveInline` renders its children above `drawerAt`. Between `drawerAt` and the optional `compactAt` threshold, its SidebarMenu becomes a narrow icon rail that expands over adjacent content on hover, keyboard focus, or with its toggle button.
 - `ResponsiveAside` combines `ResponsiveInline`, the sidebar surface, `ScrollView`, spacing, and optional `ResizeHandle` into a ready-to-use navigation sidebar.
-- `ResponsiveShell` provides the responsive two-column application layout for `ResponsiveAside` and page content, then switches to one column below `drawerAt`.
+- `ResponsiveShell` provides the responsive two-column application layout for `ResponsiveAside` and page content, then switches to one column at or below `drawerAt`.
 - `ResponsiveDrawer` renders a left-side Drawer at or below `drawerAt`. Its close button is placed on the left.
-- `useResponsive().close()` closes the Drawer after mobile navigation.
+- `useResponsive().close()` closes the Drawer after navigating from it.
 
-Place an external `SidebarMenu.Toggle` or `ResponsiveTrigger` outside dismissible navigation so people can restore it after dismissal. `ResponsiveAside` includes its full-width toggle by default; use `showToggle={false}` to omit it. Plain `ResponsiveInline` preserves direct child rendering unless `compactAt` or `showToggle` is enabled. Set `showToggle` on `ResponsiveInline` to add a full-width embedded toggle. Compact mode keeps its existing expansion toggle. Desktop dismissal uses the same collapse state and width animation as dragging the resize divider all the way left.
+Place an external `SidebarMenu.Toggle` or `ResponsiveTrigger` outside dismissible navigation so people can restore it after dismissal. `ResponsiveAside` includes its full-width toggle by default; use `showToggle={false}` to omit it. Plain `ResponsiveInline` preserves direct child rendering unless `compactAt` or `showToggle` is enabled. Set `showToggle` on `ResponsiveInline` to add a full-width embedded toggle. Compact mode keeps its existing expansion toggle. Inline dismissal uses the same collapse state and width animation as dragging the resize divider all the way left.
 
-The trigger and Drawer do not need to be siblings. Place both under the same provider, for example with the trigger in an application header and the Drawer beside the desktop navigation.
+The trigger and Drawer do not need to be siblings. Place both under the same provider, for example with the trigger in an application header and the Drawer beside the inline navigation.
 
-`SidebarMenu.Toggle` can also render outside `ResponsiveProvider`. Give the provider a unique `scopeId` and pass the same value to the toggle. It stays in sync with desktop dismissal and the mobile Drawer, and is disabled until its provider mounts. During server rendering, an outside toggle renders disabled and connects after hydration. Keep `controls` matched to a custom Drawer id as usual.
+`SidebarMenu.Toggle` can also render outside `ResponsiveProvider`. Give the provider a unique `scopeId` and pass the same value to the toggle. It stays in sync with inline dismissal and the Drawer, and is disabled until its provider mounts. During server rendering, an outside toggle renders disabled and connects after hydration. The toggle's `aria-controls` follows the provider's `ResponsiveDrawer` id automatically.
 
 The connection works across separate React roots and independently bundled Eufemia copies in the same browser window. Each provider needs its own `scopeId`. The provider owns the state and clears its registration when it unmounts; connected toggles then become disabled. The connection does not synchronize across iframes or browser tabs.
 
@@ -280,17 +280,21 @@ The connection works across separate React roots and independently bundled Eufem
 
 All responsive parts (`ResponsiveTrigger`, `ResponsiveInline`, `ResponsiveAside`, `ResponsiveShell`, and `ResponsiveDrawer`) and `useResponsive()` must be inside `ResponsiveProvider`. The provider renders a `display: contents` wrapper. It does not affect layout, but CSS child selectors that expect these parts to be direct children of an element outside the provider no longer match across the wrapper.
 
-`drawerAt` defaults to `medium`. A custom Eufemia breakpoint name, explicit `em` value, or `compactAt` adds scoped first-paint CSS, so server-rendered visibility uses the same breakpoint before and after hydration. Pass `styleNonce` when your content security policy requires a nonce for inline styles.
+`drawerAt` defaults to `medium`. A custom Eufemia breakpoint name, explicit `em` or `rem` value, or `compactAt` adds scoped first-paint CSS, so server-rendered visibility uses the same breakpoint before and after hydration. Pass `styleNonce` when your content security policy requires a nonce for inline styles.
+
+`drawerAt` is a maximum width, like the Eufemia breakpoint names and the `allBelow()` SCSS mixin: the Drawer is used at viewport widths up to and including the value, and the inline navigation from `0.00625em` (about `0.1px`) above it. With the default `medium`, the inline navigation matches `allAbove(medium)`. To match a mobile-first stylesheet that starts its wide layout at `min-width: 64rem`, set `drawerAt="63.99375em"`. In media queries, `rem` and `em` both refer to the browser's initial font size, so the two units are interchangeable. Pixel values are not supported, because they ignore the user's font size setting.
+
+The value must be set on the provider, not only in your CSS. It decides whether the Drawer is mounted, and how the trigger is announced and handles focus. CSS custom properties cannot be used in media queries, so keep the value in one shared constant, or configure the named breakpoints on the Eufemia `Provider` using `breakpoints`.
 
 Set `compactAt` when the inline menu should reduce to an icon rail before it becomes a Drawer. `compactAt` controls when the sidebar enters compact mode. `compactWidth` controls how wide the sidebar is in that mode. `compactOffset` adds an additional viewport width to the threshold, so `compactAt="large" compactOffset="10em"` becomes compact at `82em`. Set `expandedWidth` and `compactWidth` on `ResponsiveAside`; it reserves only the compact width and expands the full menu over adjacent content on hover, keyboard focus, or when its toggle button is activated. In compact mode, every interactive menu row must have an icon whenever a suitable icon exists. Text-only rows remain supported when an icon would not add meaningful value. Use `ResponsiveInline` directly only when the application needs to build a different sidebar surface.
 
-Use `inlineCollapsed` with `onInlineCollapsedChange` when application state controls desktop dismissal, or `defaultInlineCollapsed` for an uncontrolled initial state. `useResponsive()` exposes `inlineCollapsed`, `collapseInline()`, and `restoreInline()` to compound children.
+Use `inlineCollapsed` with `onInlineCollapsedChange` when application state controls inline dismissal, or `defaultInlineCollapsed` for an uncontrolled initial state. `useResponsive()` exposes `inlineCollapsed`, `collapseInline()`, and `restoreInline()` to compound children.
 
-Set `inlineCollapsedStorageKey` on `ResponsiveProvider` to remember desktop dismissal across navigation and reloads. Session storage is the default, matching `openItemsStorageKey`; use `inlineCollapsedStorage="local"` to retain the choice across browser restarts. A saved boolean takes precedence over `defaultInlineCollapsed`. Controlled `inlineCollapsed` does not read or write storage. Compact hover expansion and the mobile Drawer remain temporary.
+Set `inlineCollapsedStorageKey` on `ResponsiveProvider` to remember inline dismissal across navigation and reloads. Session storage is the default, matching `openItemsStorageKey`; use `inlineCollapsedStorage="local"` to retain the choice across browser restarts. A saved boolean takes precedence over `defaultInlineCollapsed`. Controlled `inlineCollapsed` does not read or write storage. Compact hover expansion and the Drawer's open state remain temporary.
 
-Persistence uses the same shared Web Storage helpers as open menu items. The responsive parts share state through their provider's React context. For SSR or SSG, the same `PreHydrationScript` also restores desktop dismissal before the first paint.
+Persistence uses the same shared Web Storage helpers as open menu items. The responsive parts share state through their provider's React context. For SSR or SSG, the same `PreHydrationScript` also restores inline dismissal before the first paint.
 
-### Dismissible desktop navigation
+### Dismissible inline navigation
 
 `ResponsiveAside` provides the complete inline sidebar surface, scrolling, spacing, optional resizing, drag-to-dismiss behavior, and hamburger restoration:
 
@@ -313,13 +317,13 @@ function AppNavigation() {
 
         <div className="page">
           <header>
-            <SidebarMenu.ResponsiveTrigger controls="mobile-navigation" />
+            <SidebarMenu.ResponsiveTrigger />
             <a href="/">Brand</a>
           </header>
           <main>Page content</main>
         </div>
 
-        <SidebarMenu.ResponsiveDrawer id="mobile-navigation">
+        <SidebarMenu.ResponsiveDrawer>
           <SidebarMenu.Data aria-label="Main navigation" data={items} />
         </SidebarMenu.ResponsiveDrawer>
       </SidebarMenu.ResponsiveShell>
@@ -328,7 +332,7 @@ function AppNavigation() {
 }
 ```
 
-The desktop trigger restores a dismissed sidebar at `expandedWidth`. Enter or double-click on the resize divider also restores that width. While dragging below `ResizeHandle`'s `minWidth`, the content keeps that minimum width and ScrollView provides horizontal overflow instead of rewrapping menu labels. Keep the trigger and brand together at the start of the header so they replace the dismissed sidebar's leading content. Below `drawerAt`, the same trigger controls the Drawer instead.
+Above `drawerAt`, the trigger restores a dismissed sidebar at `expandedWidth`. Enter or double-click on the resize divider also restores that width. While dragging below `ResizeHandle`'s `minWidth`, the content keeps that minimum width and ScrollView provides horizontal overflow instead of rewrapping menu labels. Keep the trigger and brand together at the start of the header so they replace the dismissed sidebar's leading content. At or below `drawerAt`, the same trigger controls the Drawer instead.
 
 ## Relevant links
 

@@ -1765,6 +1765,9 @@ html:not([data-whatintent=touch]) .dnb-input--clear.dnb-input__submit-element .d
 .dnb-input--icon-position-right.dnb-input--has-icon.dnb-input--has-submit-element .dnb-input__input, .dnb-input--icon-position-right.dnb-input--has-icon.dnb-input--has-submit-element .dnb-input__placeholder {
   padding-right: calc(var(--input-height-current) + 2.5rem);
 }
+.dnb-input--has-submit-element:where(:not(.dnb-input--has-clear-button, .dnb-input--has-inner-element, .dnb-input--password)) input.dnb-input__input {
+  clip-path: inset(0 var(--input-height-current) 0 0);
+}
 html[data-visual-test] .dnb-input__input {
   caret-color: var(--token-color-background-neutral);
 }

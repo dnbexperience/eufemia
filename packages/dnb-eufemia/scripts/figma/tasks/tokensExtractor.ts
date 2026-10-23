@@ -169,13 +169,13 @@ export const TOKEN_EXPORTS: ReadonlyArray<{
   {
     collection: 'brand',
     collectionId: BRAND_COLLECTION_ID,
-    mode: 'dnbeiendom-light',
+    mode: 'dnbeiendom-light (test)',
     fileName: 'brand/dnbeiendom-light.tokens.json',
   },
   {
     collection: 'brand',
     collectionId: BRAND_COLLECTION_ID,
-    mode: 'dnbeiendom-dark',
+    mode: 'dnbeiendom-dark (test)',
     fileName: 'brand/dnbeiendom-dark.tokens.json',
   },
 ]
@@ -282,10 +282,11 @@ const findModeId = (collection: FigmaVariableCollection, name: string) => {
 }
 
 /**
- * A mode added in Figma would otherwise never reach the library, because
- * nothing outside of Figma shows that it exists.
+ * A mode added in Figma would otherwise go unnoticed, because nothing outside
+ * of Figma shows that it exists. The modes we do ask for are verified by
+ * `findModeId`, which fails when one of them is gone.
  */
-export const assertModesAreExported = (meta: FigmaLocalVariables) => {
+export const warnAboutSkippedModes = (meta: FigmaLocalVariables) => {
   const collections = TOKEN_EXPORTS.filter(
     ({ collection }, index) =>
       TOKEN_EXPORTS.findIndex((item) => item.collection === collection) ===
@@ -297,16 +298,21 @@ export const assertModesAreExported = (meta: FigmaLocalVariables) => {
       ({ collection }) => collection === collectionName
     ).map(({ mode }) => mode)
 
-    const missing = findCollection(meta, collectionName, collectionId)
+    const skipped = findCollection(meta, collectionName, collectionId)
       .modes.map((mode) => mode.name)
       .filter((name) => !exported.includes(name))
 
-    if (missing.length) {
-      throw new Error(
-        `The Figma variable collection "${collectionName}" has modes that are not exported: ${missing.join(
-          ', '
-        )}. Add them to TOKEN_EXPORTS, and to the token files in makePropertiesFile.ts once a theme uses them.`
-      )
+    if (skipped.length) {
+      const message = `The variable collection "${collectionName}" has modes that are not exported: ${skipped.join(
+        ', '
+      )}. Add them to TOKEN_EXPORTS, and to the token files in makePropertiesFile.ts once a theme uses them.`
+
+      log.warn(`> Figma: ${message}`)
+
+      // Add warning to the GitHub Actions run's annotations
+      if (process.env.GITHUB_ACTIONS === 'true') {
+        process.stdout.write(`::warning::${message}\n`)
+      }
     }
   }
 }
@@ -587,7 +593,7 @@ export const extractTokens = async ({
 
   const meta = await fetchLocalVariables(figmaFile)
 
-  assertModesAreExported(meta)
+  warnAboutSkippedModes(meta)
 
   const exports = TOKEN_EXPORTS.map(
     ({ collection, collectionId, mode, fileName }) => {

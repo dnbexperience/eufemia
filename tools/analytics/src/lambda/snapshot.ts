@@ -20,6 +20,7 @@ import {
   type McpUsageDaily,
   type McpUsageSection,
   type PortalViewTrendsSection,
+  type RankedCount,
   type Snapshot,
 } from './snapshot-store.js'
 
@@ -162,7 +163,7 @@ async function buildPortalViewTrends(
 function sumBy<Key extends string>(
   rows: Array<Record<Key, string> & { count: number }>,
   key: Key
-): Array<{ name: string; count: number }> {
+): RankedCount[] {
   const counts = new Map<string, number>()
 
   for (const row of rows) {

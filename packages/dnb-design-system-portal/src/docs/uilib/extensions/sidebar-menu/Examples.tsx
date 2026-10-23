@@ -558,11 +558,7 @@ export function SidebarMenuToggle() {
             </SidebarMenu.Root>
           </SidebarMenu.ResponsiveAside>
           <div className={styles.responsiveContent}>
-            <SidebarMenu.Toggle
-              controls="toggle-example-drawer"
-              text="Menu"
-              bottom="medium"
-            />
+            <SidebarMenu.Toggle text="Menu" bottom="medium" />
             <H2>Toggle the sidebar</H2>
             <P>
               Use either toggle to hide the sidebar. The Menu button
@@ -573,12 +569,12 @@ export function SidebarMenuToggle() {
           <SidebarMenu.ResponsiveDrawer id="toggle-example-drawer">
             <SidebarMenu.Root aria-label="Toggle example navigation">
               <SidebarMenu.Item
-                id="toggle-mobile-home"
+                id="toggle-drawer-home"
                 text="Home"
                 icon={home}
               />
               <SidebarMenu.Item
-                id="toggle-mobile-settings"
+                id="toggle-drawer-settings"
                 text="Settings"
                 icon={cog}
               />
@@ -596,7 +592,6 @@ export function SidebarMenuExternalToggle() {
       <div data-sidebar-menu-external-toggle-example>
         <SidebarMenu.Toggle
           scopeId="external-toggle-example"
-          controls="external-toggle-drawer"
           text="Menu"
           bottom="small"
         />
@@ -615,7 +610,7 @@ export function SidebarMenuExternalToggle() {
             <SidebarMenu.ResponsiveDrawer id="external-toggle-drawer">
               <SidebarMenu.Root aria-label="External toggle navigation">
                 <SidebarMenu.Item
-                  id="external-mobile-home"
+                  id="external-drawer-home"
                   text="Home"
                   icon={home}
                 />
@@ -825,7 +820,6 @@ export function SidebarMenuResponsiveNavigation() {
               {/* A div, because the portal page already has a main landmark */}
               <div className={styles.responsiveContent}>
                 <SidebarMenu.ResponsiveTrigger
-                  controls="responsive-menu-drawer"
                   text="Menu"
                   bottom="medium"
                 />

@@ -263,6 +263,17 @@ export const InsideScrollView = () => (
   </ComponentBox>
 )
 
+export const ActionWithNestedCard = () => (
+  <ComponentBox data-visual-test="card-action-nested-card" hideCode>
+    <Card.Action onClick={() => null} stack>
+      <P>Clickable card</P>
+      <Card>
+        <P>Nested card</P>
+      </Card>
+    </Card.Action>
+  </ComponentBox>
+)
+
 export const Default = () => {
   return (
     <ComponentBox hideCode data-visual-test="layout-card-border">

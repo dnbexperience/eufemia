@@ -12,3 +12,7 @@ The Figma brand exports supply Eufemia's font sizes and line heights. Use the ex
 - [Typography for designers](/quickguide-designer/fonts#typographic-elements) – DNB typographic examples.
 
 Responsive typography uses these brand values at Eufemia's existing breakpoints. See the font-size and line-height tables for the values used by `<Typography.Context responsive>`.
+
+### One brand stylesheet per page
+
+Each brand stylesheet sets its font sizes and line heights on `:root`, so that apps can override them there. When a page loads the stylesheets of several brands, the brand that loads last sets the sizes for the whole page. For example, Carnegie's larger `xx-large` size then also applies to content inside `<Theme brand="ui">`. Colors and font families still follow each Theme.

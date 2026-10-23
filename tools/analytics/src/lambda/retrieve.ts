@@ -8,12 +8,12 @@ import { requireEnv } from './env.js'
 import type {
   ComponentUsageAggregate,
   ComponentUsageDaily,
-  McpUsageCount,
   McpUsageDaily,
   PortalViewDaily,
   PortalViewDayCount,
   PortalViewLocaleThemeCount,
   PortalViewMonthPathCount,
+  RankedCount,
 } from './snapshot-store.js'
 
 const athena = new AthenaClient({})
@@ -310,7 +310,7 @@ export async function retrieveMcpUsageDaily(): Promise<McpUsageDaily[]> {
  */
 export async function aggregateLocalMcpUsageByVersion(
   sinceDt: string
-): Promise<McpUsageCount[]> {
+): Promise<RankedCount[]> {
   assertPartitionDate(sinceDt)
 
   const table = glueTable('GLUE_TABLE_MCP_USAGE')

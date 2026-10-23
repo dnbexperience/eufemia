@@ -20,6 +20,8 @@ export type Snapshot = {
   componentUsage: ComponentUsageSection
 }
 
+export type RankedCount = { name: string; count: number }
+
 export type PortalViewDayCount = { dt: string; env: string; count: number }
 
 // An empty env is the ranking across all environments.
@@ -80,18 +82,17 @@ export type McpUsageDaily = {
   count: number
 }
 
-export type McpUsageCount = { name: string; count: number }
 export type McpUsageDay = { date: string; count: number }
 
 // MCP usage for one transport: total plus ranked breakdowns and a daily series
 // for trend/year-over-year views.
 export type McpTransportUsage = {
   total: number
-  perTool: McpUsageCount[]
-  perComponent: McpUsageCount[]
-  perPath: McpUsageCount[]
+  perTool: RankedCount[]
+  perComponent: RankedCount[]
+  perPath: RankedCount[]
   missedLookups: number
-  perLikelyComponent: McpUsageCount[]
+  perLikelyComponent: RankedCount[]
   daily: McpUsageDay[]
 }
 
@@ -100,7 +101,7 @@ export type McpTransportUsage = {
 // Eufemia version, so only `local` has `perVersion`.
 export type McpUsageSection = {
   web: McpTransportUsage
-  local: McpTransportUsage & { perVersion: McpUsageCount[] }
+  local: McpTransportUsage & { perVersion: RankedCount[] }
 }
 
 const EMPTY_MCP_TRANSPORT_USAGE: McpTransportUsage = {
@@ -118,11 +119,6 @@ export const EMPTY_MCP_USAGE: McpUsageSection = {
   local: { ...EMPTY_MCP_TRANSPORT_USAGE, perVersion: [] },
 }
 
-// The component usage dashboard section: overall total plus ranked breakdowns by
-// component, consuming app, and resolved Eufemia version. Populated once the
-// Nucleus bundler plugin (the producer) lands; empty until then.
-export type ComponentUsageCount = { name: string; count: number }
-
 // A component-usage count keyed by app+component+version, summed across days.
 // This is what the durable rollup returns for the dashboard section (Athena does
 // the GROUP BY, so the read stays bounded regardless of how many days accrue).
@@ -137,11 +133,14 @@ export type ComponentUsageAggregate = {
 // written to the durable component_usage_daily rollup and recomputed from raw.
 export type ComponentUsageDaily = ComponentUsageAggregate & { dt: string }
 
+// The component usage dashboard section: overall total plus ranked breakdowns by
+// component, consuming app, and resolved Eufemia version. Populated once the
+// Nucleus bundler plugin (the producer) lands; empty until then.
 export type ComponentUsageSection = {
   total: number
-  perComponent: ComponentUsageCount[]
-  perApp: ComponentUsageCount[]
-  perVersion: ComponentUsageCount[]
+  perComponent: RankedCount[]
+  perApp: RankedCount[]
+  perVersion: RankedCount[]
 }
 
 export const EMPTY_COMPONENT_USAGE: ComponentUsageSection = {

@@ -97,20 +97,22 @@ export type SidebarMenuResponsiveValue = Pick<
   | 'toggle'
 >
 
+type BreakpointLength = `${number}em` | `${number}rem`
+
 export type SidebarMenuResponsiveProviderProps = {
   children: ReactNode
   /** Named controller shared with other applications in the same window. */
   controllerId?: string
   /** Unique scope used by first-paint CSS and Toggles outside this provider. */
   scopeId?: string
-  /** Maximum viewport width at which the mobile Drawer is used. */
-  drawerAt?: MediaQuerySizes | `${number}em`
+  /** Maximum viewport width at which the Drawer is used. */
+  drawerAt?: MediaQuerySizes | BreakpointLength
   /** @deprecated Use drawerAt instead. */
-  breakpoint?: MediaQuerySizes | `${number}em`
+  breakpoint?: MediaQuerySizes | BreakpointLength
   /** Maximum viewport width at which the inline menu becomes icon-only. */
-  compactAt?: MediaQuerySizes | `${number}em`
+  compactAt?: MediaQuerySizes | BreakpointLength
   /** Additional viewport width added to the compactAt threshold. */
-  compactOffset?: `${number}em`
+  compactOffset?: BreakpointLength
   /** CSP nonce forwarded to custom first-paint breakpoint CSS. */
   styleNonce?: string
   /** Controlled Drawer state. */
@@ -119,15 +121,15 @@ export type SidebarMenuResponsiveProviderProps = {
   defaultOpen?: boolean
   /** Called whenever the responsive Drawer opens or closes. */
   onOpenChange?: (open: boolean) => void
-  /** Controlled desktop inline navigation state. */
+  /** Controlled collapsed state of the inline navigation. */
   inlineCollapsed?: boolean
-  /** Initial uncontrolled desktop inline navigation state. */
+  /** Initial uncontrolled collapsed state of the inline navigation. */
   defaultInlineCollapsed?: boolean
-  /** Storage key used to persist uncontrolled desktop dismissal. */
+  /** Storage key used to persist uncontrolled inline dismissal. */
   inlineCollapsedStorageKey?: string
-  /** Storage used for desktop dismissal. Default: session. */
+  /** Storage used for inline dismissal. Default: session. */
   inlineCollapsedStorage?: WebStorageType
-  /** Called whenever the desktop inline navigation collapses or restores. */
+  /** Called whenever the inline navigation collapses or restores. */
   onInlineCollapsedChange?: (collapsed: boolean) => void
 }
 export function SidebarMenuResponsiveProvider(
@@ -184,6 +186,7 @@ export function SidebarMenuResponsiveProvider(
   const inlineResetRef = useRef<() => void>(undefined)
   const [inlineIds, setInlineIds] = useState<string[]>([])
   const inlineIdCounts = useRef(new Map<string, number>())
+  const [drawerId, setDrawerId] = useState<string>()
   const [drawerScrollElement, setDrawerScrollElementState] =
     useState<HTMLElement | null>(null)
   const setDrawerScrollElement = useCallback(
@@ -320,6 +323,11 @@ export function SidebarMenuResponsiveProvider(
       }
     }
   }, [])
+  const registerDrawerId = useCallback((id: string) => {
+    setDrawerId(id)
+    return () =>
+      setDrawerId((current) => (current === id ? undefined : current))
+  }, [])
   const restoreInline = useCallback(() => {
     inlineResetRef.current?.()
     setInlineCollapsed(false)
@@ -346,12 +354,14 @@ export function SidebarMenuResponsiveProvider(
       hasCompact,
       inlineCollapsed: resolvedInlineCollapsed,
       inlineId: inlineIds[0],
+      drawerId,
       isSmallScreen,
       isSmallScreenRef,
       open: resolvedOpen,
       openRef,
       registerInlineReset,
       registerInlineId,
+      registerDrawerId,
       setOpen,
       setDrawerScrollElement,
       toggle,
@@ -368,10 +378,12 @@ export function SidebarMenuResponsiveProvider(
       hasCompact,
       resolvedInlineCollapsed,
       inlineIds,
+      drawerId,
       isSmallScreen,
       resolvedOpen,
       registerInlineReset,
       registerInlineId,
+      registerDrawerId,
       setDrawerScrollElement,
       setOpen,
       toggle,
@@ -461,14 +473,14 @@ export type SidebarMenuResponsiveTriggerProps = Omit<
   ButtonProps,
   'aria-expanded' | 'aria-haspopup'
 > & {
-  /** Id of the responsive Drawer controlled by this button. */
+  /** Overrides the aria-controls Drawer id. Defaults to the ResponsiveDrawer id. */
   controls?: string
-  /** Id of the desktop inline navigation restored by this button. */
+  /** Id of the inline navigation restored by this button. */
   inlineControls?: string
 }
 
 export function SidebarMenuResponsiveTrigger({
-  controls = 'sidebar-menu-responsive-drawer',
+  controls,
   inlineControls,
   icon,
   ref,
@@ -487,9 +499,12 @@ export function SidebarMenuResponsiveTrigger({
     triggerRef,
     scopeId,
     inlineId,
+    drawerId,
   } = useSidebarMenuResponsiveContext()
   const translation = useTranslation().SidebarMenu
   const combinedRef = useCombinedRef(ref, triggerRef)
+  const resolvedControls =
+    controls ?? drawerId ?? 'sidebar-menu-responsive-drawer'
   const resolvedInlineControls = inlineControls ?? inlineId
 
   return (
@@ -522,7 +537,9 @@ export function SidebarMenuResponsiveTrigger({
       }
       aria-haspopup={!isHydrated || isSmallScreen ? 'dialog' : undefined}
       aria-controls={
-        !isHydrated || isSmallScreen ? controls : resolvedInlineControls
+        !isHydrated || isSmallScreen
+          ? resolvedControls
+          : resolvedInlineControls
       }
       aria-expanded={
         !isHydrated || isSmallScreen ? open : !inlineCollapsed
@@ -1047,16 +1064,19 @@ function getActionLabel(action: HTMLElement) {
 }
 
 function resolveBreakpoint(
-  value: MediaQuerySizes | `${number}em`,
+  value: MediaQuerySizes | BreakpointLength,
   breakpoints?: Record<string, string>,
   fallback = defaultBreakpoints.large ?? '72em'
 ) {
-  const configured =
+  const configured = String(
     breakpoints?.[value] ??
-    defaultBreakpoints[value as MediaQuerySizes] ??
-    value
-
-  return isEmValue(String(configured)) ? String(configured) : fallback
+      defaultBreakpoints[value as MediaQuerySizes] ??
+      value
+  )
+  // In media queries, rem and em both use the initial font size.
+  return isBreakpointLength(configured)
+    ? configured.replace('rem', 'em')
+    : fallback
 }
 
 function toCssLength(value: CSSProperties['width']) {
@@ -1064,16 +1084,16 @@ function toCssLength(value: CSSProperties['width']) {
 }
 
 function addEmValues(first: string, second: string) {
-  if (!isEmValue(first) || !isEmValue(second)) {
+  if (!isBreakpointLength(first) || !isBreakpointLength(second)) {
     return first
   }
 
   return `${Number.parseFloat(first) + Number.parseFloat(second)}em`
 }
 
-function isEmValue(value: string) {
+function isBreakpointLength(value: string) {
   // eslint-disable-next-line security/detect-unsafe-regex -- the optional group does not repeat
-  return /^\d+(?:\.\d+)?em$/.test(value)
+  return /^\d+(?:\.\d+)?r?em$/.test(value)
 }
 
 // Keeps a custom scopeId inside the quoted attribute selector
@@ -1090,7 +1110,7 @@ function getFirstPaintCss(
   compactAt?: string
 ) {
   const em = Number.parseFloat(drawerAt)
-  if (!isEmValue(drawerAt) || !Number.isFinite(em)) {
+  if (!isBreakpointLength(drawerAt) || !Number.isFinite(em)) {
     return undefined
   }
 
@@ -1102,7 +1122,7 @@ function getFirstPaintCss(
   }
   const css = [
     drawerAt !== defaultBreakpoints.medium ? drawerFirstPaintCss : '',
-    compactAt && isEmValue(compactAt) ? compactFirstPaintCss : '',
+    compactAt && isBreakpointLength(compactAt) ? compactFirstPaintCss : '',
   ].join('')
 
   return (
@@ -1142,9 +1162,16 @@ export function SidebarMenuResponsiveDrawer({
     isSmallScreen,
     isSmallScreenRef,
     open,
+    registerDrawerId,
     setDrawerScrollElement,
     triggerRef,
   } = useSidebarMenuResponsiveContext()
+
+  useIsomorphicLayoutEffect(
+    () => registerDrawerId(id),
+    [id, registerDrawerId]
+  )
+
   const combinedScrollRef = useMemo<RefObject<HTMLElement>>(() => {
     let current: HTMLElement | null = null
 

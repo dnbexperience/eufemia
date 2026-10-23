@@ -27,6 +27,8 @@ export type SidebarMenuResponsiveContextValue = {
   registerInlineReset: (reset: () => void) => () => void
   inlineId?: string
   registerInlineId: (id: string) => () => void
+  drawerId?: string
+  registerDrawerId: (id: string) => () => void
   scopeId: string
 }
 

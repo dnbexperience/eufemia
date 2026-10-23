@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test'
 import waitForApp from './shared/waitForApp'
 
 test.describe('SidebarMenu toggle', () => {
-  test('controls desktop and mobile navigation from outside the provider', async ({
+  test('controls inline and Drawer navigation from outside the provider', async ({
     page,
   }) => {
     await page.setViewportSize({ width: 1600, height: 1000 })
@@ -84,7 +84,7 @@ test.describe('SidebarMenu toggle', () => {
     })
   })
 
-  test('restores desktop dismissal before the hydration bundle loads', async ({
+  test('restores inline dismissal before the hydration bundle loads', async ({
     page,
   }) => {
     const response = await page.request.get(
@@ -253,7 +253,7 @@ test.describe('SidebarMenu toggle', () => {
       .toBeLessThan(0.1)
   })
 
-  test('remembers desktop dismissal after reload and leaves the mobile Drawer closed', async ({
+  test('remembers inline dismissal after reload and leaves the Drawer closed', async ({
     page,
   }) => {
     await page.setViewportSize({ width: 1600, height: 1000 })
@@ -286,7 +286,7 @@ test.describe('SidebarMenu toggle', () => {
     await expect(external).toHaveAttribute('aria-expanded', 'false')
   })
 
-  test('keeps compact expansion separate from desktop dismissal', async ({
+  test('keeps compact expansion separate from inline dismissal', async ({
     page,
   }) => {
     await page.setViewportSize({ width: 900, height: 1000 })
@@ -312,7 +312,7 @@ test.describe('SidebarMenu toggle', () => {
     await expect(embedded).toHaveAttribute('aria-expanded', 'false')
   })
 
-  test('opens the mobile Drawer and returns focus on dismissal', async ({
+  test('opens the Drawer and returns focus on dismissal', async ({
     page,
   }) => {
     await page.setViewportSize({ width: 500, height: 900 })

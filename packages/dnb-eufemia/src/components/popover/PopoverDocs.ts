@@ -135,8 +135,17 @@ export const PopoverProperties: PropertiesTableProps = {
     status: 'optional',
   },
   restoreFocus: {
-    doc: 'Moves focus back to the trigger element once the popover closes (defaults to `true`). A click or tap outside the popover leaves the focus where the user clicked or tapped.',
+    doc: 'Moves focus back to the trigger or the element focused when the popover opened. Defaults to `true`. Outside clicks and taps preserve focus at the interaction target.',
     type: 'boolean',
+    status: 'optional',
+  },
+  restoreFocusTo: {
+    doc: 'Provide a specific element, ref or function returning an element to receive focus when the popover closes. Takes precedence over the trigger and previously focused element.',
+    type: [
+      'HTMLElement',
+      'React.RefObject<HTMLElement>',
+      '() => HTMLElement',
+    ],
     status: 'optional',
   },
   preventClose: {

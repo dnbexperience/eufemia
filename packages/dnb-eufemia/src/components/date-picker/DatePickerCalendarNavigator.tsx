@@ -3,8 +3,7 @@ import type { HTMLProps, KeyboardEvent } from 'react'
 import {
   addMonths,
   addYears,
-  isSameMonth,
-  isSameYear,
+  differenceInCalendarMonths,
   subMonths,
   subYears,
 } from 'date-fns'
@@ -87,6 +86,22 @@ export function DatePickerCalendarNav({
   const titleFormat = titleFormats[type]
   const buttonDateType = type === 'year' ? 'year' : 'month'
 
+  // Linked calendars move together, so the first and the last calendar
+  // decide if they can move further
+  const viewMonths = isLinkedCalendars
+    ? views.map((view) => view.month).filter(Boolean)
+    : []
+  const firstViewMonth = viewMonths.length
+    ? viewMonths.reduce((first, month) =>
+        differenceInCalendarMonths(month, first) < 0 ? month : first
+      )
+    : date
+  const lastViewMonth = viewMonths.length
+    ? viewMonths.reduce((last, month) =>
+        differenceInCalendarMonths(month, last) > 0 ? month : last
+      )
+    : date
+
   const onNav = useCallback(
     ({ nr, type: navigationType }: DatePickerCalendarNavigationEvent) => {
       const handlerType = type === 'year' ? 'year' : 'month'
@@ -119,6 +134,7 @@ export function DatePickerCalendarNav({
           type="prev"
           nr={nr}
           date={date}
+          edgeDate={firstViewMonth}
           dateLimit={minDate}
           dateType={buttonDateType}
           dateFormat={titleFormat}
@@ -143,6 +159,7 @@ export function DatePickerCalendarNav({
           dateType={buttonDateType}
           nr={nr}
           date={date}
+          edgeDate={lastViewMonth}
           dateLimit={maxDate}
           dateFormat={titleFormat}
           locale={locale}
@@ -161,6 +178,10 @@ export type CalendarNavButtonProps = {
   nr: number
   dateFormat: Intl.DateTimeFormatOptions
   date: Date
+  /**
+   * The month that decides if the button is disabled. Defaults to `date`.
+   */
+  edgeDate?: Date
   dateLimit: Date
   locale: InternalLocale
   onClick: ({
@@ -173,21 +194,13 @@ export type CalendarNavButtonProps = {
   onKeyDown?: (event: KeyboardEvent<HTMLButtonElement>) => void
 }
 
-type NavButtonDisabledHandlerMap = {
-  [_T in CalendarNavigationDateType]: typeof isSameMonth
-}
-
-const navButtonDisabledHandlers: NavButtonDisabledHandlerMap = {
-  month: isSameMonth,
-  year: isSameYear,
-}
-
 function CalendarNavButton({
   type,
   dateType,
   dateFormat,
   nr,
   date,
+  edgeDate = date,
   dateLimit,
   locale,
   onClick,
@@ -206,8 +219,13 @@ function CalendarNavButton({
     })
   )
 
+  // Disable the button when it would show a month after maxDate or
+  // before minDate, where no day can be selected
+  const monthsFromLimit = dateLimit
+    ? differenceInCalendarMonths(dateHandler(edgeDate, 1), dateLimit)
+    : 0
   const disabled =
-    dateLimit && navButtonDisabledHandlers[dateType](date, dateLimit)
+    type === 'next' ? monthsFromLimit > 0 : monthsFromLimit < 0
 
   const icon = type === 'prev' ? 'chevron_left' : 'chevron_right'
 

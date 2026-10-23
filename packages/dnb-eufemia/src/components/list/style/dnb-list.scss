@@ -1,5 +1,32 @@
 @use './../../../style/core/utilities.scss' as utilities;
 
+@mixin navigationOutline() {
+  --list-item-outline-color: var(--list-item-navigation-outline-color);
+  --list-item-outline-width: 0.125rem;
+  z-index: 2;
+}
+
+// Safari before 15.4 and Firefox before 121 do not support :has(), so
+// they drop the rules that show the outline of an item on keyboard focus.
+// These browsers cannot style the item from its focused child. So the
+// fallback draws the outline on the focused primary target (the action
+// button or link, or the accordion header) instead. Footer controls and
+// nested items do not get it.
+@mixin withoutHasSupport() {
+  @supports not (selector(:has(*))) {
+    @content;
+  }
+}
+
+@mixin focusFallbackOutline() {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 11; // Above the outline of the item (::after)
+  box-shadow: inset 0 0 0 0.125rem
+    var(--list-item-navigation-outline-color);
+}
+
 .dnb-list {
   &--variant-basic {
     --list-item-padding: 1rem;
@@ -414,17 +441,24 @@
         color: inherit;
       }
 
-      // Handle action states
-      &:not(.dnb-list__item--disabled):hover,
+      // Handle action states. Keep :hover in its own rule, because a
+      // browser without support for :has() or :focus-visible drops the
+      // whole rule.
+      &:not(.dnb-list__item--disabled):hover {
+        @include navigationOutline();
+      }
       &:not(.dnb-list__item--disabled):has(
           > a:focus-visible,
           > .dnb-list__item__action__button:focus-visible
         ) {
-        --list-item-outline-color: var(
-          --list-item-navigation-outline-color
-        );
-        --list-item-outline-width: 0.125rem;
-        z-index: 2;
+        @include navigationOutline();
+      }
+      @include withoutHasSupport() {
+        &:not(.dnb-list__item--disabled) > a:focus::before,
+        &:not(.dnb-list__item--disabled)
+          > .dnb-list__item__action__button:focus::before {
+          @include focusFallbackOutline();
+        }
       }
       &:not(.dnb-list__item--disabled):active {
         --list-item-outline-color: var(
@@ -480,16 +514,24 @@
       }
     }
 
-    // Handle accordion states
-    &:not(.dnb-list__item--disabled):has(#{&}__accordion__header:hover),
-    &:not(.dnb-list__item--disabled):has(
-        #{&}__accordion__header:focus-visible
-      ) {
-      --list-item-outline-color: var(--list-item-navigation-outline-color);
-      --list-item-outline-width: 0.125rem;
-      z-index: 2;
+    // Handle accordion states (own header only, not nested accordions)
+    &:not(.dnb-list__item--disabled):has(> #{&}__accordion__header:hover) {
+      @include navigationOutline();
     }
-    &:not(.dnb-list__item--disabled):has(#{&}__accordion__header:active) {
+    &:not(.dnb-list__item--disabled):has(
+        > #{&}__accordion__header:focus-visible
+      ) {
+      @include navigationOutline();
+    }
+    @include withoutHasSupport() {
+      &__accordion:not(.dnb-list__item--disabled)
+        > #{&}__accordion__header:focus::before {
+        @include focusFallbackOutline();
+      }
+    }
+    &:not(.dnb-list__item--disabled):has(
+        > #{&}__accordion__header:active
+      ) {
       --list-item-outline-color: var(
         --list-item-navigation-outline-color--active
       );
@@ -627,23 +669,47 @@
         }
 
         // Remove borders inside a Card (Card provides the boundary).
-        // Non-interactive items never show these borders.
-        // Interactive items show them only on hover/focus.
-        &:not(:hover):not(:focus-visible),
-        &:not(.dnb-list__item__action):not(.dnb-list__item__accordion) {
-          &::after {
-            border-right: none;
-            border-left: none;
-          }
+        &::after {
+          border-right: none;
+          border-left: none;
+        }
 
-          &:first-of-type:not([hidden])::after {
-            border-top: none;
-          }
+        &:first-of-type:not([hidden])::after {
+          border-top: none;
+        }
 
-          &:not([hidden]):has(+ [hidden])::after,
-          &:last-of-type:not([hidden])::after {
-            border-bottom: none;
-          }
+        &:not([hidden]):has(+ [hidden])::after,
+        &:last-of-type:not([hidden])::after {
+          border-bottom: none;
+        }
+
+        // Interactive items show them on hover and keyboard focus.
+        // Use the same conditions as the outline states above, so
+        // disabled items do not show them, and an open accordion
+        // shows them only when its header is hovered.
+        // Keep these rules separate, because a browser without support
+        // for :has() or :focus-visible drops the whole rule.
+        &.dnb-list__item__action:not(
+            .dnb-list__item--disabled
+          ):hover::after {
+          border: var(--list-item-outline-width) solid
+            var(--list-item-outline-color);
+        }
+        &.dnb-list__item__accordion:not(.dnb-list__item--disabled):has(
+            > .dnb-list__item__accordion__header:hover
+          )::after {
+          border: var(--list-item-outline-width) solid
+            var(--list-item-outline-color);
+        }
+        &.dnb-list__item__action:not(.dnb-list__item--disabled):has(
+            > a:focus-visible,
+            > .dnb-list__item__action__button:focus-visible
+          )::after,
+        &.dnb-list__item__accordion:not(.dnb-list__item--disabled):has(
+            > .dnb-list__item__accordion__header:focus-visible
+          )::after {
+          border: var(--list-item-outline-width) solid
+            var(--list-item-outline-color);
         }
       }
     }

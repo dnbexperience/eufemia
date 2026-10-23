@@ -220,7 +220,7 @@ describe('SidebarMenu responsive parts', () => {
       <SidebarMenu.ResponsiveProvider>
         <SidebarMenu.ResponsiveTrigger />
         <SidebarMenu.ResponsiveDrawer>
-          Mobile menu
+          Drawer menu
         </SidebarMenu.ResponsiveDrawer>
       </SidebarMenu.ResponsiveProvider>
     )
@@ -238,7 +238,7 @@ describe('SidebarMenu responsive parts', () => {
           <nav aria-label="Released navigation">Menu</nav>
         </SidebarMenu.ResponsiveInline>
         <SidebarMenu.ResponsiveDrawer>
-          Mobile menu
+          Drawer menu
         </SidebarMenu.ResponsiveDrawer>
       </SidebarMenu.ResponsiveProvider>
     )
@@ -331,7 +331,7 @@ describe('SidebarMenu responsive parts', () => {
           Inline menu
         </SidebarMenu.ResponsiveInline>
         <SidebarMenu.ResponsiveDrawer>
-          Mobile menu
+          Drawer menu
         </SidebarMenu.ResponsiveDrawer>
       </SidebarMenu.ResponsiveProvider>
     )
@@ -340,7 +340,7 @@ describe('SidebarMenu responsive parts', () => {
     expect(
       document.querySelector('[aria-label="Åpne meny"]')
     ).toHaveAttribute('data-sidebar-menu-responsive-visible', 'false')
-    expect(document.body).not.toHaveTextContent('Mobile menu')
+    expect(document.body).not.toHaveTextContent('Drawer menu')
     expect(
       document.querySelector('.dnb-sidebar-menu-responsive-inline')
     ).toHaveAttribute('data-sidebar-menu-responsive-visible', 'true')
@@ -351,7 +351,7 @@ describe('SidebarMenu responsive parts', () => {
 
     render(
       <SidebarMenu.ResponsiveProvider compactAt="large">
-        <SidebarMenu.ResponsiveTrigger controls="mobile-navigation" />
+        <SidebarMenu.ResponsiveTrigger controls="drawer-navigation" />
         <SidebarMenu.ResponsiveAside resizable>
           <SidebarMenu.Root aria-label="Navigation">
             <SidebarMenu.Item id="home" text="Home" />
@@ -530,7 +530,7 @@ describe('SidebarMenu responsive parts', () => {
             scopeId="application-navigation"
             compactAt="80em"
           >
-            <SidebarMenu.ResponsiveTrigger controls="mobile-nav" />
+            <SidebarMenu.ResponsiveTrigger controls="drawer-nav" />
             {['Primary', 'Secondary'].map((name) =>
               surface === 'aside' ? (
                 <SidebarMenu.ResponsiveAside key={name} id={`${name}-nav`}>
@@ -601,23 +601,23 @@ describe('SidebarMenu responsive parts', () => {
     )
 
     it.each(['shared', 'distinct explicit', 'distinct omitted'])(
-      'keeps legacy %s targets valid through desktop and mobile round trips',
+      'keeps legacy %s targets valid through inline and Drawer round trips',
       async (ids) => {
         setMedia({ width: '100em' })
-        const inlineId = ids === 'shared' ? 'legacy-nav' : 'desktop-nav'
+        const inlineId = ids === 'shared' ? 'legacy-nav' : 'inline-nav'
         const element = (
           <SidebarMenu.ResponsiveProvider defaultInlineCollapsed>
             <SidebarMenu.ResponsiveTrigger
               controls="legacy-nav"
               inlineControls={
-                ids === 'distinct explicit' ? 'desktop-nav' : undefined
+                ids === 'distinct explicit' ? 'inline-nav' : undefined
               }
             />
             <SidebarMenu.ResponsiveInline>
-              <aside id={inlineId}>Desktop menu</aside>
+              <aside id={inlineId}>Inline menu</aside>
             </SidebarMenu.ResponsiveInline>
             <SidebarMenu.ResponsiveDrawer id="legacy-nav">
-              Mobile menu
+              Drawer menu
             </SidebarMenu.ResponsiveDrawer>
           </SidebarMenu.ResponsiveProvider>
         )
@@ -625,7 +625,7 @@ describe('SidebarMenu responsive parts', () => {
         const trigger = document.querySelector(
           '.dnb-sidebar-menu-responsive-trigger'
         )
-        const checkDesktop = () => {
+        const checkInline = () => {
           expect(document.querySelectorAll('#legacy-nav')).toHaveLength(
             ids === 'shared' ? 1 : 0
           )
@@ -633,23 +633,23 @@ describe('SidebarMenu responsive parts', () => {
           expect(trigger).toHaveAttribute('aria-controls', inlineId)
           expect(
             document.getElementById(trigger.getAttribute('aria-controls'))
-          ).toHaveTextContent('Desktop menu')
+          ).toHaveTextContent('Inline menu')
         }
-        checkDesktop()
+        checkInline()
         expect(trigger).toHaveAttribute('aria-expanded', 'false')
         fireEvent.click(trigger)
         expect(trigger).toHaveAttribute('aria-expanded', 'true')
         expect(
           document.querySelector('.dnb-sidebar-menu-responsive-inline')
         ).not.toHaveAttribute('aria-hidden')
-        checkDesktop()
+        checkInline()
 
         setMedia({ width: '30em' })
         rerender(element)
         fireEvent.click(trigger)
         await waitFor(() =>
           expect(document.getElementById('legacy-nav')).toHaveTextContent(
-            'Mobile menu'
+            'Drawer menu'
           )
         )
         expect(document.querySelectorAll('#legacy-nav')).toHaveLength(1)
@@ -669,7 +669,7 @@ describe('SidebarMenu responsive parts', () => {
             document.querySelector('.dnb-sidebar-menu-responsive-inline')
           ).toBeInTheDocument()
         )
-        checkDesktop()
+        checkInline()
       }
     )
 
@@ -679,7 +679,7 @@ describe('SidebarMenu responsive parts', () => {
         <SidebarMenu.ResponsiveProvider defaultInlineCollapsed>
           <SidebarMenu.ResponsiveTrigger controls={controls} />
           <SidebarMenu.ResponsiveInline>
-            {id && <aside id={id}>Desktop menu</aside>}
+            {id && <aside id={id}>Inline menu</aside>}
           </SidebarMenu.ResponsiveInline>
         </SidebarMenu.ResponsiveProvider>
       )
@@ -711,14 +711,14 @@ describe('SidebarMenu responsive parts', () => {
           <SidebarMenu.ResponsiveProvider defaultInlineCollapsed>
             <SidebarMenu.ResponsiveTrigger controls="legacy-nav" />
             <SidebarMenu.ResponsiveInline>
-              <aside id="desktop-nav">Desktop menu</aside>
+              <aside id="inline-nav">Inline menu</aside>
             </SidebarMenu.ResponsiveInline>
           </SidebarMenu.ResponsiveProvider>
         </>
       )
       expect(
         document.querySelector('.dnb-sidebar-menu-responsive-trigger')
-      ).toHaveAttribute('aria-controls', 'desktop-nav')
+      ).toHaveAttribute('aria-controls', 'inline-nav')
     })
 
     it('keeps one actual target registered when it moves between inline owners', async () => {
@@ -734,10 +734,10 @@ describe('SidebarMenu responsive parts', () => {
               Move menu
             </button>
             <SidebarMenu.ResponsiveInline>
-              {first && <aside id="desktop-nav">Desktop menu</aside>}
+              {first && <aside id="inline-nav">Inline menu</aside>}
             </SidebarMenu.ResponsiveInline>
             <SidebarMenu.ResponsiveInline>
-              {!first && <aside id="desktop-nav">Desktop menu</aside>}
+              {!first && <aside id="inline-nav">Inline menu</aside>}
             </SidebarMenu.ResponsiveInline>
           </>
         )
@@ -752,9 +752,9 @@ describe('SidebarMenu responsive parts', () => {
         '.dnb-sidebar-menu-responsive-trigger'
       )
       for (let step = 0; step < 3; step++) {
-        expect(document.querySelectorAll('#desktop-nav')).toHaveLength(1)
+        expect(document.querySelectorAll('#inline-nav')).toHaveLength(1)
         await act(async () => undefined)
-        expect(trigger).toHaveAttribute('aria-controls', 'desktop-nav')
+        expect(trigger).toHaveAttribute('aria-controls', 'inline-nav')
         fireEvent.click(document.getElementById('move-menu'))
       }
     })
@@ -767,14 +767,14 @@ describe('SidebarMenu responsive parts', () => {
         const { unmount } = render(
           <SidebarMenu.ResponsiveProvider>
             <SidebarMenu.ResponsiveTrigger />
-            <SidebarMenu.ResponsiveAside id="desktop-nav">
-              Desktop menu
+            <SidebarMenu.ResponsiveAside id="inline-nav">
+              Inline menu
             </SidebarMenu.ResponsiveAside>
           </SidebarMenu.ResponsiveProvider>
         )
         expect(
           document.querySelector('.dnb-sidebar-menu-responsive-trigger')
-        ).toHaveAttribute('aria-controls', 'desktop-nav')
+        ).toHaveAttribute('aria-controls', 'inline-nav')
         unmount()
       } finally {
         vi.stubGlobal('MutationObserver', observer)
@@ -860,7 +860,7 @@ describe('SidebarMenu responsive parts', () => {
         function Menu() {
           const [id, setId] = useState('legacy-nav')
           const [mounted, setMounted] = useState(false)
-          const aside = mounted && <aside id={id}>Desktop menu</aside>
+          const aside = mounted && <aside id={id}>Inline menu</aside>
           return (
             <>
               <button
@@ -878,7 +878,7 @@ describe('SidebarMenu responsive parts', () => {
               {surface === 'managed' ? (
                 mounted && (
                   <SidebarMenu.ResponsiveAside id={id}>
-                    Desktop menu
+                    Inline menu
                   </SidebarMenu.ResponsiveAside>
                 )
               ) : surface === 'wrapped' ? (
@@ -900,7 +900,7 @@ describe('SidebarMenu responsive parts', () => {
               </SidebarMenu.ResponsiveInline>
             )}
             <SidebarMenu.ResponsiveDrawer id="legacy-nav">
-              Mobile menu
+              Drawer menu
             </SidebarMenu.ResponsiveDrawer>
           </SidebarMenu.ResponsiveProvider>
         )
@@ -919,7 +919,7 @@ describe('SidebarMenu responsive parts', () => {
         )
         expect(
           document.getElementById(trigger.getAttribute('aria-controls'))
-        ).toHaveTextContent('Desktop menu')
+        ).toHaveTextContent('Inline menu')
         fireEvent.click(document.getElementById('mount-menu'))
         await waitFor(() =>
           expect(trigger).not.toHaveAttribute('aria-controls')
@@ -933,7 +933,7 @@ describe('SidebarMenu responsive parts', () => {
         fireEvent.click(trigger)
         await waitFor(() =>
           expect(document.getElementById('legacy-nav')).toHaveTextContent(
-            'Mobile menu'
+            'Drawer menu'
           )
         )
         expect(trigger).toHaveAttribute('aria-controls', 'legacy-nav')
@@ -946,7 +946,7 @@ describe('SidebarMenu responsive parts', () => {
         setMedia({ width: '100em' })
         rerender(element)
         if (surface !== 'managed') {
-          // Raw children unmount on mobile; their local state starts again.
+          // Raw children unmount in Drawer mode; their local state starts again.
           expect(trigger).not.toHaveAttribute('aria-controls')
           fireEvent.click(document.getElementById('mount-menu'))
         }
@@ -2018,7 +2018,7 @@ describe('SidebarMenu responsive parts', () => {
     )
   })
 
-  it('toggles desktop navigation with the public Toggle', () => {
+  it('toggles the inline navigation with the public Toggle', () => {
     setMedia({ width: '100em' })
     const onInlineCollapsedChange = vi.fn()
 
@@ -2085,7 +2085,7 @@ describe('SidebarMenu responsive parts', () => {
     )
   })
 
-  it('keeps controlled desktop state authoritative for Toggle', () => {
+  it('keeps controlled inline state authoritative for Toggle', () => {
     setMedia({ width: '100em' })
     const onInlineCollapsedChange = vi.fn()
     const renderMenu = (collapsed: boolean) => (
@@ -2139,7 +2139,7 @@ describe('SidebarMenu responsive parts', () => {
     expect(document.activeElement).toBe(toggle)
   })
 
-  it('collapses desktop navigation with its embedded toggle', () => {
+  it('collapses the inline navigation with its embedded toggle', () => {
     setMedia({ width: '100em' })
     render(
       <SidebarMenu.ResponsiveProvider>
@@ -2176,7 +2176,7 @@ describe('SidebarMenu responsive parts', () => {
     expect(toggle).toHaveAttribute('aria-expanded', 'true')
   })
 
-  it('toggles the mobile Drawer with the public Toggle', () => {
+  it('toggles the Drawer with the public Toggle', () => {
     setMedia({ width: '30em' })
     render(
       <SidebarMenu.ResponsiveProvider>
@@ -2195,7 +2195,31 @@ describe('SidebarMenu responsive parts', () => {
     expect(toggle).toHaveAttribute('aria-expanded', 'false')
   })
 
-  it('restores a collapsed inline menu from the desktop trigger', () => {
+  it('references the ResponsiveDrawer id without controls', () => {
+    setMedia({ width: '30em' })
+    const element = (id: string) => (
+      <SidebarMenu.ResponsiveProvider>
+        <SidebarMenu.Toggle />
+        <SidebarMenu.ResponsiveTrigger />
+        <SidebarMenu.ResponsiveDrawer id={id}>
+          Menu
+        </SidebarMenu.ResponsiveDrawer>
+      </SidebarMenu.ResponsiveProvider>
+    )
+    const { rerender } = render(element('custom-drawer'))
+    const toggle = document.querySelector('.dnb-sidebar-menu-toggle')
+    const trigger = document.querySelector(
+      '.dnb-sidebar-menu-responsive-trigger'
+    )
+    expect(toggle).toHaveAttribute('aria-controls', 'custom-drawer')
+    expect(trigger).toHaveAttribute('aria-controls', 'custom-drawer')
+
+    rerender(element('renamed-drawer'))
+    expect(toggle).toHaveAttribute('aria-controls', 'renamed-drawer')
+    expect(trigger).toHaveAttribute('aria-controls', 'renamed-drawer')
+  })
+
+  it('restores a collapsed inline menu from the trigger above drawerAt', () => {
     setMedia({ width: '70em' })
 
     function CollapseButton() {
@@ -2206,7 +2230,7 @@ describe('SidebarMenu responsive parts', () => {
     render(
       <SidebarMenu.ResponsiveProvider>
         <SidebarMenu.ResponsiveTrigger
-          controls="mobile-menu"
+          controls="drawer-menu"
           inlineControls="inline-menu"
         />
         <CollapseButton />
@@ -2338,7 +2362,7 @@ describe('SidebarMenu responsive parts', () => {
     const html = renderToString(
       <SidebarMenu.ResponsiveProvider>
         <SidebarMenu.ResponsiveTrigger
-          controls="mobile-menu"
+          controls="drawer-menu"
           inlineControls="inline-menu"
         />
         <SidebarMenu.ResponsiveInline>
@@ -2353,7 +2377,7 @@ describe('SidebarMenu responsive parts', () => {
       'dnb-sidebar-menu-responsive-inline__content'
     )
     expect(html).toContain('aria-label="Åpne meny"')
-    expect(html).toContain('aria-controls="mobile-menu"')
+    expect(html).toContain('aria-controls="drawer-menu"')
     expect(html).toContain('aria-haspopup="dialog"')
     expect(html).not.toContain('aria-controls="inline-menu"')
     expect(html).not.toContain('data-sidebar-menu-responsive-visible')
@@ -2435,7 +2459,11 @@ describe('SidebarMenu responsive parts', () => {
     expect(html).not.toContain('@media(max-width: 60em)')
   })
 
-  it('falls back to medium for unsupported runtime values', () => {
+  it('falls back to medium without warning for unsupported runtime values', () => {
+    const log = vi
+      .spyOn(console, 'log')
+      .mockImplementation(() => undefined)
+
     const html = renderToString(
       <SidebarMenu.ResponsiveProvider drawerAt={'800px' as '50em'}>
         <SidebarMenu.ResponsiveTrigger />
@@ -2443,6 +2471,28 @@ describe('SidebarMenu responsive parts', () => {
     )
 
     expect(html).not.toContain('@media(max-width: 800px)')
+    expect(log).not.toHaveBeenCalled()
+
+    log.mockRestore()
+  })
+
+  it('accepts rem values like em values', () => {
+    const html = renderToString(
+      <SidebarMenu.ResponsiveProvider
+        drawerAt="45rem"
+        compactAt="70rem"
+        compactOffset="2.5rem"
+      >
+        <SidebarMenu.ResponsiveTrigger />
+        <SidebarMenu.ResponsiveInline>
+          Inline menu
+        </SidebarMenu.ResponsiveInline>
+      </SidebarMenu.ResponsiveProvider>
+    )
+
+    expect(html).toContain('@media(max-width: 45em)')
+    expect(html).toContain('@media(min-width: 45.00625em)')
+    expect(html).toContain('and (max-width: 72.5em)')
   })
 
   it('uses a custom breakpoint after hydration', () => {
@@ -2526,18 +2576,18 @@ describe('SidebarMenu responsive parts', () => {
 
     render(
       <SidebarMenu.ResponsiveProvider>
-        <SidebarMenu.ResponsiveTrigger controls="mobile-menu" />
+        <SidebarMenu.ResponsiveTrigger controls="drawer-menu" />
         <SidebarMenu.ResponsiveInline>
           Inline menu
         </SidebarMenu.ResponsiveInline>
-        <SidebarMenu.ResponsiveDrawer id="mobile-menu">
-          Mobile menu
+        <SidebarMenu.ResponsiveDrawer id="drawer-menu">
+          Drawer menu
         </SidebarMenu.ResponsiveDrawer>
       </SidebarMenu.ResponsiveProvider>
     )
 
     const trigger = document.querySelector(
-      '[aria-controls="mobile-menu"]'
+      '[aria-controls="drawer-menu"]'
     ) as HTMLButtonElement
 
     expect(trigger).toHaveAttribute(
@@ -2550,8 +2600,8 @@ describe('SidebarMenu responsive parts', () => {
     ).not.toBeInTheDocument()
     fireEvent.click(trigger)
     expect(trigger).toHaveAttribute('aria-expanded', 'true')
-    expect(document.body).toHaveTextContent('Mobile menu')
-    expect(document.getElementById('mobile-menu')).toBeInTheDocument()
+    expect(document.body).toHaveTextContent('Drawer menu')
+    expect(document.getElementById('drawer-menu')).toBeInTheDocument()
 
     fireEvent.keyDown(document.querySelector('.dnb-drawer'), {
       key: 'Escape',
@@ -2679,7 +2729,7 @@ describe('SidebarMenu responsive parts', () => {
       <SidebarMenu.ResponsiveProvider onOpenChange={onOpenChange}>
         <SidebarMenu.ResponsiveTrigger />
         <SidebarMenu.ResponsiveDrawer>
-          Mobile menu
+          Drawer menu
         </SidebarMenu.ResponsiveDrawer>
       </SidebarMenu.ResponsiveProvider>
     )
@@ -2703,7 +2753,7 @@ describe('SidebarMenu responsive parts', () => {
       <SidebarMenu.ResponsiveProvider>
         <SidebarMenu.ResponsiveTrigger />
         <SidebarMenu.ResponsiveDrawer>
-          Mobile menu
+          Drawer menu
         </SidebarMenu.ResponsiveDrawer>
       </SidebarMenu.ResponsiveProvider>
     )

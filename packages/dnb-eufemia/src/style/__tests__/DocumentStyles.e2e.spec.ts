@@ -549,6 +549,10 @@ test.describe('Document and print styles', () => {
           exact: true,
         })
       ).toBeVisible()
+      await expect(page.locator('#letter')).toHaveCSS(
+        'background-color',
+        'rgb(255, 255, 255)'
+      )
       const colors = await page
         .locator('[data-document-preview]')
         .evaluate((preview) => {
@@ -591,7 +595,6 @@ test.describe('Document and print styles', () => {
       expect(
         contrast(colors.controlText, colors.controlBackground)
       ).toBeGreaterThanOrEqual(4.5)
-      expect(colors.paper).toBe('rgb(255, 255, 255)')
       expect(
         contrast(colors.paperText, colors.paper)
       ).toBeGreaterThanOrEqual(4.5)

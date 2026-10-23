@@ -628,6 +628,20 @@
     padding-right: calc(var(--input-height-current) + 2.5rem);
   }
 
+  // Browsers paint their autofill background on the whole input box, which
+  // runs under the submit button. Clip the painting where the button
+  // starts. This does not change the layout.
+  // Only real inputs, as segmented fields use this class on their sections.
+  // Not for inputs that set their own box end: with a clear button, an
+  // inner element (e.g. Autocomplete suffixValue), or a password input
+  // (Field.Password has its own rule).
+  &--has-submit-element:where(
+      :not(#{&}--has-clear-button, #{&}--has-inner-element, #{&}--password)
+    )
+    input#{&}__input {
+    clip-path: inset(0 var(--input-height-current) 0 0);
+  }
+
   html[data-visual-test] &__input {
     caret-color: var(--token-color-background-neutral);
   }

@@ -19,7 +19,7 @@ describe('SidebarMenuPreHydrationScript', () => {
   })
 
   it.each(['session', 'local'])(
-    'restores desktop dismissal before hydration from %s storage',
+    'restores inline dismissal before hydration from %s storage',
     (type) => {
       const storage = type === 'local' ? localStorage : sessionStorage
       storage.setItem('navigation', 'true')

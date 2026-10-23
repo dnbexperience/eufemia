@@ -8,6 +8,10 @@ async function focusScrollViewWithKeyboard(page: Page, example: string) {
     .first()
   await expect(scrollView).toHaveAttribute('tabindex', '0')
 
+  await expect(page.locator('html')).toHaveAttribute(
+    'data-whatinput',
+    /initial|keyboard|mouse|touch/
+  )
   await scrollView.locator('th').first().click()
   await page.keyboard.press('a')
 
