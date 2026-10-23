@@ -193,6 +193,13 @@ function contentWidth(element: HTMLElement) {
   )
 }
 
+const listsWaitingForContainer = new WeakSet<MediaQueryList>()
+
+/** True for a container query list that was made before its container was attached. */
+export function isWaitingForContainer(list: MediaQueryList | null) {
+  return Boolean(list) && listsWaitingForContainer.has(list)
+}
+
 /** A MediaQueryList-compatible subscription for structured container width conditions. */
 export function makeContainerQueryList(
   element: HTMLElement | null,
@@ -274,7 +281,7 @@ export function makeContainerQueryList(
     EventListenerOrEventListenerObject,
     () => void
   >()
-  return {
+  const list = {
     get matches() {
       return evaluate()
     },
@@ -316,4 +323,8 @@ export function makeContainerQueryList(
       subscriptions.delete(listener)
     },
   } as unknown as MediaQueryList
+  if (!element) {
+    listsWaitingForContainer.add(list)
+  }
+  return list
 }

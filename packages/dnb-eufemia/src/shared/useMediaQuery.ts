@@ -11,6 +11,7 @@ import type {
 } from './MediaQueryUtils'
 import { useIsomorphicLayoutEffect as useLayoutEffect } from './helpers/useIsomorphicLayoutEffect'
 import useCanUseDOM from './helpers/useCanUseDOM'
+import { isWaitingForContainer } from './ResponsiveMediaQuery'
 
 export type { MediaQueryProps }
 
@@ -71,7 +72,11 @@ export default function useMediaQuery(props: MediaQueryProps) {
       }
     )
 
-    if (mediaQueryList.current) {
+    // Keep the current result until the container is attached
+    if (
+      mediaQueryList.current &&
+      !isWaitingForContainer(mediaQueryList.current)
+    ) {
       matchUpdate(mediaQueryList.current.matches)
     }
 
