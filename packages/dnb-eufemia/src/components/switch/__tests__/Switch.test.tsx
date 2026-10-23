@@ -387,7 +387,9 @@ describe('Switch scss', () => {
   })
 
   it('uses the Figma on-dark tokens for disabled switches on dark surfaces', () => {
-    const css = loadScss(require.resolve('../style/dnb-switch.scss'))
+    const css = String(
+      loadScss(require.resolve('../style/dnb-switch.scss'))
+    )
     const surfaceDark = css.match(
       /\.dnb-switch--surface-dark \{[^}]*\}/
     )[0]
