@@ -1958,16 +1958,55 @@ describe('DatePicker component', () => {
     })
 
     it('should only check its own calendar when calendars are not linked', async () => {
-      render(<DatePicker noAnimation range maxDate="2026-11-30" />)
+      render(
+        <DatePicker
+          noAnimation
+          range
+          maxDate="2026-12-31"
+          endMonth="2026-12-01"
+        />
+      )
 
       await userEvent.click(getDatePickerTriggerButton())
 
       expect(getCalendarTitles()).toEqual([
         'oktober 2026',
-        'november 2026',
+        'desember 2026',
       ])
       expect(getNavButtons(0).next).not.toHaveClass('disabled')
       expect(getNavButtons(1).next).toHaveClass('disabled')
+    })
+
+    it('should not let calendars that are not linked show the same month', async () => {
+      render(<DatePicker noAnimation range yearNavigation />)
+
+      await userEvent.click(getDatePickerTriggerButton())
+
+      expect(getNavButtons(0).next).toHaveClass('disabled')
+      expect(getNavButtons(0, 1).next).toHaveClass('disabled')
+      expect(getNavButtons(1).prev).toHaveClass('disabled')
+      expect(getNavButtons(1, 1).prev).toHaveClass('disabled')
+
+      await userEvent.click(getNavButtons(0).next)
+      await userEvent.click(getNavButtons(1).prev)
+
+      expect(getCalendarTitles()).toEqual([
+        'oktober',
+        '2026',
+        'november',
+        '2026',
+      ])
+
+      await userEvent.click(getNavButtons(1).next)
+
+      expect(getCalendarTitles()).toEqual([
+        'oktober',
+        '2026',
+        'desember',
+        '2026',
+      ])
+      expect(getNavButtons(0).next).not.toHaveClass('disabled')
+      expect(getNavButtons(1).prev).not.toHaveClass('disabled')
     })
 
     it('should not let a calendar after maxDate move further away', async () => {
@@ -1976,7 +2015,7 @@ describe('DatePicker component', () => {
           noAnimation
           range
           maxDate="2026-10-31"
-          endMonth="2026-11-01"
+          endMonth="2026-12-01"
         />
       )
 
@@ -1984,7 +2023,7 @@ describe('DatePicker component', () => {
 
       expect(getCalendarTitles()).toEqual([
         'oktober 2026',
-        'november 2026',
+        'desember 2026',
       ])
       expect(getNavButtons(1).next).toHaveClass('disabled')
       expect(getNavButtons(1).prev).not.toHaveClass('disabled')
@@ -5839,10 +5878,10 @@ describe('DatePicker component', () => {
       'Neste måned juni'
     )
 
-    await userEvent.click(leftNextYearButton)
-    await userEvent.click(leftNextYearButton)
     await userEvent.click(rightNextYearButton)
     await userEvent.click(rightNextYearButton)
+    await userEvent.click(leftNextYearButton)
+    await userEvent.click(leftNextYearButton)
 
     // Verify years
     // Left
