@@ -24,6 +24,7 @@ import {
   isSameMonth,
   startOfDay,
   differenceInCalendarDays,
+  differenceInCalendarMonths,
   differenceInMonths,
   setDate,
 } from 'date-fns'
@@ -564,9 +565,13 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
         // Keep focus on the table during re-render to prevent the Popover from closing
         tableRef.current?.focus({ preventScroll: true })
 
+        const monthOffset = differenceInCalendarMonths(newDate, viewMonth)
         const updatedViews = views.map((view) => {
           if (view.nr === nr) {
             return { ...view, month: newDate }
+          }
+          if (isLinkedCalendars) {
+            return { ...view, month: addMonths(view.month, monthOffset) }
           }
           return view
         })
@@ -593,6 +598,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
       setHasClickedCalendarDay,
       views,
       setViews,
+      isLinkedCalendars,
     ]
   )
 
