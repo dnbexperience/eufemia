@@ -12,9 +12,18 @@
 // fallback draws the outline on the focused primary target (the action
 // button or link, or the accordion header) instead. Footer controls and
 // nested items do not get it.
-@mixin withoutHasSupport() {
-  @supports not (selector(:has(*))) {
-    @content;
+// Firefox 115–120 support :focus-visible, so a mouse click shows no
+// outline there. Safari before 15.4 does not, so it uses :focus.
+@mixin focusFallback() {
+  @supports (not (selector(:has(*)))) and (selector(:focus-visible)) {
+    &:focus-visible::before {
+      @include focusFallbackOutline();
+    }
+  }
+  @supports (not (selector(:has(*)))) and (not (selector(:focus-visible))) {
+    &:focus::before {
+      @include focusFallbackOutline();
+    }
   }
 }
 
@@ -453,12 +462,9 @@
         ) {
         @include navigationOutline();
       }
-      @include withoutHasSupport() {
-        &:not(.dnb-list__item--disabled) > a:focus::before,
-        &:not(.dnb-list__item--disabled)
-          > .dnb-list__item__action__button:focus::before {
-          @include focusFallbackOutline();
-        }
+      &:not(.dnb-list__item--disabled) > a,
+      &:not(.dnb-list__item--disabled) > .dnb-list__item__action__button {
+        @include focusFallback();
       }
       &:not(.dnb-list__item--disabled):active {
         --list-item-outline-color: var(
@@ -523,11 +529,8 @@
       ) {
       @include navigationOutline();
     }
-    @include withoutHasSupport() {
-      &__accordion:not(.dnb-list__item--disabled)
-        > #{&}__accordion__header:focus::before {
-        @include focusFallbackOutline();
-      }
+    &__accordion:not(.dnb-list__item--disabled) > #{&}__accordion__header {
+      @include focusFallback();
     }
     &:not(.dnb-list__item--disabled):has(
         > #{&}__accordion__header:active
@@ -678,8 +681,12 @@
           border-top: none;
         }
 
-        &:not([hidden]):has(+ [hidden])::after,
+        // Keep :has() in its own rule, because a browser without
+        // support for it drops the whole rule
         &:last-of-type:not([hidden])::after {
+          border-bottom: none;
+        }
+        &:not([hidden]):has(+ [hidden])::after {
           border-bottom: none;
         }
 
