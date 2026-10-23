@@ -19,7 +19,7 @@ export type SidebarMenuToggleProps = Omit<
 > & {
   /** scopeId of the ResponsiveProvider to control from outside its context. */
   scopeId?: string
-  /** Id of the Drawer. Default: sidebar-menu-responsive-drawer. */
+  /** Overrides the aria-controls Drawer id. Defaults to the ResponsiveDrawer id. */
   controls?: string
   /** Id of the inline navigation. Defaults to the ResponsiveAside id. */
   inlineControls?: string
@@ -27,7 +27,7 @@ export type SidebarMenuToggleProps = Omit<
 
 export default function SidebarMenuToggle({
   scopeId,
-  controls = 'sidebar-menu-responsive-drawer',
+  controls,
   inlineControls,
   icon = sidebar,
   variant = 'tertiary',
@@ -89,7 +89,9 @@ export default function SidebarMenuToggle({
       aria-controls={
         inline?.controls ??
         (context?.isSmallScreen
-          ? controls
+          ? (controls ??
+            context.drawerId ??
+            'sidebar-menu-responsive-drawer')
           : (inlineControls ?? context?.inlineId))
       }
       onClick={(event) => {

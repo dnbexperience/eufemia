@@ -184,6 +184,7 @@ export function SidebarMenuResponsiveProvider(
   const inlineResetRef = useRef<() => void>(undefined)
   const [inlineIds, setInlineIds] = useState<string[]>([])
   const inlineIdCounts = useRef(new Map<string, number>())
+  const [drawerId, setDrawerId] = useState<string>()
   const [drawerScrollElement, setDrawerScrollElementState] =
     useState<HTMLElement | null>(null)
   const setDrawerScrollElement = useCallback(
@@ -320,6 +321,11 @@ export function SidebarMenuResponsiveProvider(
       }
     }
   }, [])
+  const registerDrawerId = useCallback((id: string) => {
+    setDrawerId(id)
+    return () =>
+      setDrawerId((current) => (current === id ? undefined : current))
+  }, [])
   const restoreInline = useCallback(() => {
     inlineResetRef.current?.()
     setInlineCollapsed(false)
@@ -346,12 +352,14 @@ export function SidebarMenuResponsiveProvider(
       hasCompact,
       inlineCollapsed: resolvedInlineCollapsed,
       inlineId: inlineIds[0],
+      drawerId,
       isSmallScreen,
       isSmallScreenRef,
       open: resolvedOpen,
       openRef,
       registerInlineReset,
       registerInlineId,
+      registerDrawerId,
       setOpen,
       setDrawerScrollElement,
       toggle,
@@ -368,10 +376,12 @@ export function SidebarMenuResponsiveProvider(
       hasCompact,
       resolvedInlineCollapsed,
       inlineIds,
+      drawerId,
       isSmallScreen,
       resolvedOpen,
       registerInlineReset,
       registerInlineId,
+      registerDrawerId,
       setDrawerScrollElement,
       setOpen,
       toggle,
@@ -461,14 +471,14 @@ export type SidebarMenuResponsiveTriggerProps = Omit<
   ButtonProps,
   'aria-expanded' | 'aria-haspopup'
 > & {
-  /** Id of the responsive Drawer controlled by this button. */
+  /** Overrides the aria-controls Drawer id. Defaults to the ResponsiveDrawer id. */
   controls?: string
   /** Id of the inline navigation restored by this button. */
   inlineControls?: string
 }
 
 export function SidebarMenuResponsiveTrigger({
-  controls = 'sidebar-menu-responsive-drawer',
+  controls,
   inlineControls,
   icon,
   ref,
@@ -487,9 +497,12 @@ export function SidebarMenuResponsiveTrigger({
     triggerRef,
     scopeId,
     inlineId,
+    drawerId,
   } = useSidebarMenuResponsiveContext()
   const translation = useTranslation().SidebarMenu
   const combinedRef = useCombinedRef(ref, triggerRef)
+  const resolvedControls =
+    controls ?? drawerId ?? 'sidebar-menu-responsive-drawer'
   const resolvedInlineControls = inlineControls ?? inlineId
 
   return (
@@ -522,7 +535,9 @@ export function SidebarMenuResponsiveTrigger({
       }
       aria-haspopup={!isHydrated || isSmallScreen ? 'dialog' : undefined}
       aria-controls={
-        !isHydrated || isSmallScreen ? controls : resolvedInlineControls
+        !isHydrated || isSmallScreen
+          ? resolvedControls
+          : resolvedInlineControls
       }
       aria-expanded={
         !isHydrated || isSmallScreen ? open : !inlineCollapsed
@@ -1142,9 +1157,16 @@ export function SidebarMenuResponsiveDrawer({
     isSmallScreen,
     isSmallScreenRef,
     open,
+    registerDrawerId,
     setDrawerScrollElement,
     triggerRef,
   } = useSidebarMenuResponsiveContext()
+
+  useIsomorphicLayoutEffect(
+    () => registerDrawerId(id),
+    [id, registerDrawerId]
+  )
+
   const combinedScrollRef = useMemo<RefObject<HTMLElement>>(() => {
     let current: HTMLElement | null = null
 

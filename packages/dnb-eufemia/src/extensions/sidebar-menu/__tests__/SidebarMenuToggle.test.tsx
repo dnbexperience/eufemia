@@ -123,6 +123,23 @@ describe('SidebarMenu.Toggle outside ResponsiveProvider', () => {
     expect(document.activeElement).toBe(toggle)
   })
 
+  it('references the Drawer id of its targeted provider', () => {
+    setMedia({ width: '30em' })
+    render(
+      <>
+        <SidebarMenu.Toggle scopeId="navigation" />
+        <SidebarMenu.ResponsiveProvider scopeId="navigation">
+          <SidebarMenu.ResponsiveDrawer id="mobile-menu">
+            Menu
+          </SidebarMenu.ResponsiveDrawer>
+        </SidebarMenu.ResponsiveProvider>
+      </>
+    )
+    expect(
+      document.querySelector('.dnb-sidebar-menu-toggle')
+    ).toHaveAttribute('aria-controls', 'mobile-menu')
+  })
+
   it('waits for its provider and disconnects when it unmounts or changes scope', () => {
     setMedia({ width: '100em' })
     const menu = (scopeId?: string) => (

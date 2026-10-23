@@ -2195,6 +2195,30 @@ describe('SidebarMenu responsive parts', () => {
     expect(toggle).toHaveAttribute('aria-expanded', 'false')
   })
 
+  it('references the ResponsiveDrawer id without controls', () => {
+    setMedia({ width: '30em' })
+    const element = (id: string) => (
+      <SidebarMenu.ResponsiveProvider>
+        <SidebarMenu.Toggle />
+        <SidebarMenu.ResponsiveTrigger />
+        <SidebarMenu.ResponsiveDrawer id={id}>
+          Menu
+        </SidebarMenu.ResponsiveDrawer>
+      </SidebarMenu.ResponsiveProvider>
+    )
+    const { rerender } = render(element('custom-drawer'))
+    const toggle = document.querySelector('.dnb-sidebar-menu-toggle')
+    const trigger = document.querySelector(
+      '.dnb-sidebar-menu-responsive-trigger'
+    )
+    expect(toggle).toHaveAttribute('aria-controls', 'custom-drawer')
+    expect(trigger).toHaveAttribute('aria-controls', 'custom-drawer')
+
+    rerender(element('renamed-drawer'))
+    expect(toggle).toHaveAttribute('aria-controls', 'renamed-drawer')
+    expect(trigger).toHaveAttribute('aria-controls', 'renamed-drawer')
+  })
+
   it('restores a collapsed inline menu from the trigger above drawerAt', () => {
     setMedia({ width: '70em' })
 

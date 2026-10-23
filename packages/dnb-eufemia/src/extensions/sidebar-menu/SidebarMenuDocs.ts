@@ -377,9 +377,8 @@ export const SidebarMenuToggleProperties: PropertiesTableProps = {
     status: 'optional',
   },
   controls: {
-    doc: 'Id of the Drawer controlled by the toggle.',
+    doc: 'Overrides the `aria-controls` value used at or below `drawerAt`, which tells assistive technology which Drawer the toggle opens. It does not change which Drawer opens. Defaults to the `ResponsiveDrawer` id of the connected provider, so you rarely need it.',
     type: 'string',
-    defaultValue: '"sidebar-menu-responsive-drawer"',
     status: 'optional',
   },
   inlineControls: {
@@ -397,9 +396,8 @@ export const SidebarMenuToggleProperties: PropertiesTableProps = {
 export const SidebarMenuResponsiveTriggerProperties: PropertiesTableProps =
   {
     controls: {
-      doc: 'Id of the responsive Drawer controlled by the trigger.',
+      doc: 'Overrides the `aria-controls` value used at or below `drawerAt`, which tells assistive technology which Drawer the trigger opens. It does not change which Drawer opens. Defaults to the `ResponsiveDrawer` id in the same provider, so you rarely need it.',
       type: 'string',
-      defaultValue: '"sidebar-menu-responsive-drawer"',
       status: 'optional',
     },
     inlineControls: {
@@ -417,7 +415,7 @@ export const SidebarMenuResponsiveTriggerProperties: PropertiesTableProps =
 export const SidebarMenuResponsiveDrawerProperties: PropertiesTableProps =
   {
     id: {
-      doc: 'Id matched by ResponsiveTrigger controls.',
+      doc: 'Id of the Drawer. Toggle and ResponsiveTrigger reference it with `aria-controls` automatically.',
       type: 'string',
       defaultValue: '"sidebar-menu-responsive-drawer"',
       status: 'optional',
