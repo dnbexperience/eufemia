@@ -4,6 +4,7 @@ import type {
   NotificationState,
   Observation,
 } from '../src/notifications.ts'
+import { SlackNotificationError } from '../src/slack.ts'
 
 function setup() {
   let stored: NotificationState = { sources: {} }
@@ -52,7 +53,7 @@ describe('quiet notifications', () => {
     await test.run(check('healthy', 0))
     await test.run(check('healthy', 1))
     expect(test.dependencies.post).toHaveBeenCalledTimes(1)
-    expect(test.dependencies.update).toHaveBeenCalledTimes(2)
+    expect(test.dependencies.update).toHaveBeenCalledTimes(1)
     expect(test.state().sources.MCP?.checks).toBe(2)
   })
   it('sends one outage post, no changed-failure post and one recovery reply', async () => {
@@ -150,14 +151,49 @@ describe('quiet notifications', () => {
     expect(test.state().sources.MCP?.incidents).toBe(1)
   })
 
-  it('does not recreate a summary after an update failure', async () => {
+  it('keeps incident delivery working when the summary was deleted', async () => {
     const test = setup()
-    test.dependencies.update.mockRejectedValueOnce(
-      new Error('Slack unavailable')
-    )
-    await expect(test.run(check('healthy', 0))).rejects.toThrow()
     await test.run(check('healthy', 0))
-    expect(test.dependencies.post).toHaveBeenCalledTimes(1)
-    expect(test.state().sources.MCP?.checks).toBe(1)
+    const summary = test.state().summary
+    test.dependencies.update.mockRejectedValue(
+      new SlackNotificationError(undefined, 'message_not_found')
+    )
+    const output = vi.spyOn(process.stdout, 'write').mockReturnValue(true)
+    try {
+      await test.run(check('unhealthy', 1))
+      const thread = test.state().sources.MCP?.outage?.thread
+      await test.run(check('unhealthy', 2))
+      await test.run(check('healthy', 3))
+      expect(test.dependencies.post).toHaveBeenCalledTimes(3)
+      expect(test.dependencies.post).toHaveBeenLastCalledWith(
+        expect.stringContaining('recovered'),
+        expect.any(String),
+        thread
+      )
+      expect(test.state().summary).toBe(summary)
+      expect(test.state().pending).toBeUndefined()
+      expect(
+        output.mock.calls.map(([line]) => String(line)).join('')
+      ).toContain('summary update')
+    } finally {
+      output.mockRestore()
+    }
+  })
+  it('delivers an incident before attempting to create the summary', async () => {
+    const test = setup()
+    test.dependencies.post
+      .mockResolvedValueOnce('123.001')
+      .mockRejectedValueOnce(new Error('Summary failed'))
+    const output = vi.spyOn(process.stdout, 'write').mockReturnValue(true)
+    try {
+      await test.run(check('unhealthy', 1))
+      expect(test.dependencies.post.mock.calls[0]?.[0]).toContain(
+        'incident detected'
+      )
+      expect(test.state().sources.MCP?.outage?.thread).toBe('123.001')
+      expect(test.state().pending).toBeUndefined()
+    } finally {
+      output.mockRestore()
+    }
   })
 })

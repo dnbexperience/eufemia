@@ -359,7 +359,7 @@ if (
           name: 'monitor',
           ok: false,
           detail:
-            'The MCP diagnostic could not complete its checks. See the workflow logs.',
+            'The MCP diagnostic could not complete its checks. No exception details were recorded.',
         },
       ],
     }

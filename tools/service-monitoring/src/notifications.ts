@@ -1,5 +1,6 @@
 import { createHash } from 'node:crypto'
 import type { Report } from '../../monitoring/report-incident.ts'
+import { logFailure } from './diagnostics.ts'
 
 export type Observation =
   | { kind: 'service'; service: 'CDN' | 'MCP'; report: Report }
@@ -131,14 +132,6 @@ export async function processNotification(
     await dependencies.save(state)
   }
   await deliver()
-  if (!state.summary) {
-    const id = messageId('eufemia-monitoring-summary')
-    state.summary = await dependencies.post(
-      '*Eufemia monitoring overview*\nInitializing observed incident statistics.',
-      id
-    )
-    await dependencies.save(state)
-  }
 
   const name = event.kind === 'service' ? event.service : 'Monitoring'
   const at = event.kind === 'service' ? event.report.checkedAt : event.at
@@ -227,6 +220,18 @@ export async function processNotification(
     await dependencies.save(state)
     await deliver()
   }
-  // chat.update edits the same summary without posting another channel message.
-  await dependencies.update(state.summary, summaryText(state))
+  // The overview must not interrupt incident delivery or create replacement posts.
+  try {
+    if (!state.summary) {
+      state.summary = await dependencies.post(
+        summaryText(state),
+        messageId('eufemia-monitoring-summary')
+      )
+      await dependencies.save(state)
+    } else {
+      await dependencies.update(state.summary, summaryText(state))
+    }
+  } catch (error) {
+    logFailure('notifications', 'summary update', error)
+  }
 }

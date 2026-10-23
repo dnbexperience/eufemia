@@ -32,11 +32,10 @@ export function slackApi(config: Config, request: typeof fetch = fetch) {
         throw new SlackNotificationError(response.status)
       }
       const data = await response.json()
-      if (
-        data.ok !== true ||
-        typeof data.ts !== 'string' ||
-        !/^\d+\.\d+$/.test(data.ts)
-      ) {
+      if (data.ok !== true) {
+        throw new SlackNotificationError(response.status, data.error)
+      }
+      if (typeof data.ts !== 'string' || !/^\d+\.\d+$/.test(data.ts)) {
         throw new SlackNotificationError()
       }
       return data.ts as string

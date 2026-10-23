@@ -84,15 +84,12 @@ they do not independently compare the entire npm tarball with the CDN.
 
 ### Alerts
 
-AWS owns new/changed-failure and recovery notifications. Its incident state
-suppresses unchanged failures and preserves pending delivery for retries. Slack
-webhooks are read from AWS Secrets Manager; the diagnostic Actions workflow does
-not receive them. Unavailable npm metadata is reported separately from CDN
+AWS owns one new-incident alert and one recovery reply in the incident thread. Its shared overview updates quietly; repeated or changed failures do not create new posts. Pending delivery is retained for retries. Slack bot configuration is read from AWS Secrets Manager; the diagnostic Actions workflow does not receive it. Unavailable npm metadata is reported separately from CDN
 availability in each report.
 
 The hourly AWS checks run from one region. For faster paging and regional
 coverage, pair them with an independent multi-region uptime check of a stable
-asset URL. See the [monitoring rollout and rollback instructions](../service-monitoring/README.md#verify-and-switch-over).
+asset URL. See the [monitoring rollout and rollback instructions](../service-monitoring/README.md#migration-and-tests).
 
 ### Local verification
 

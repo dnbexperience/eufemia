@@ -269,7 +269,7 @@ if (
           name: 'monitor',
           ok: false,
           detail:
-            'The CDN diagnostic could not complete its checks. See the workflow logs.',
+            'The CDN diagnostic could not complete its checks. No exception details were recorded.',
         },
       ],
     }
