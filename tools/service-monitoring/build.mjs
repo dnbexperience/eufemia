@@ -1,5 +1,5 @@
 import { build } from 'esbuild'
-import { rm } from 'node:fs/promises'
+import { rm, utimes } from 'node:fs/promises'
 import { execFileSync } from 'node:child_process'
 
 await rm('dist', { recursive: true, force: true })
@@ -25,6 +25,16 @@ execFileSync(
   ],
   { stdio: 'inherit' }
 )
-execFileSync('zip', ['-q', 'lambda.zip', 'index.mjs', 'alarms.mjs'], {
-  cwd: 'dist',
-})
+// Stable ZIP metadata lets the handoff skip identical deployment packages.
+const archiveTime = new Date('2000-01-01T00:00:00Z')
+for (const file of ['index.mjs', 'alarms.mjs']) {
+  await utimes('dist/' + file, archiveTime, archiveTime)
+}
+execFileSync(
+  'zip',
+  ['-X', '-q', 'lambda.zip', 'index.mjs', 'alarms.mjs'],
+  {
+    cwd: 'dist',
+    env: { ...process.env, TZ: 'UTC' },
+  }
+)

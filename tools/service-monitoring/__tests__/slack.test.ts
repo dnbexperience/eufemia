@@ -26,6 +26,8 @@ describe('Slack delivery', () => {
     'http://hooks.slack.com/services/TEST/ONLY/EXAMPLE',
     webhook + '?secret=example',
     'https://user@hooks.slack.com/services/TEST/ONLY/EXAMPLE',
+    webhook + '{}',
+    webhook + '%7B%7D',
     'not a URL',
   ])(
     'rejects an invalid webhook without making a request',

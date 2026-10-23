@@ -2,6 +2,7 @@ import { SlackNotificationError } from './slack.ts'
 
 const errorNames = new Set([
   'AccessDeniedException',
+  'AuthorizationErrorException',
   'ResourceNotFoundException',
   'ProvisionedThroughputExceededException',
   'ThrottlingException',
@@ -30,6 +31,9 @@ export function logFailure(
       error: name,
       ...(error instanceof SlackNotificationError && error.httpStatus
         ? { httpStatus: error.httpStatus }
+        : {}),
+      ...(error instanceof SlackNotificationError && error.code
+        ? { code: error.code }
         : {}),
     }) + '\n'
   )
