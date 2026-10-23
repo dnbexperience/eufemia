@@ -33,4 +33,57 @@ describe.each(['ui', 'sbanken'])('TableOfContent for %s', (themeName) => {
         '[data-visual-test="table-of-content-declarative"] a',
     })
   })
+
+  it('matches a hovered row', async () => {
+    await makeScreenshot({
+      selector: '[data-visual-test="table-of-content-declarative"]',
+      style: { width: '18rem' },
+      simulate: 'hover',
+      simulateSelector:
+        '[data-visual-test="table-of-content-declarative"] a',
+    })
+  })
+
+  it('matches dark navigation', async () => {
+    await makeScreenshot({
+      selector: '[data-visual-test="table-of-content-declarative"]',
+      style: { width: '18rem' },
+      colorScheme: 'dark',
+      wrapperStyle: {
+        background: 'var(--token-color-background-neutral)',
+      },
+    })
+  })
+
+  it('matches expanded mobile text links', async () => {
+    await makeScreenshot({
+      selector: '[data-visual-test="table-of-content-declarative"]',
+      pageViewport: { width: 600, height: 900 },
+      simulate: 'click',
+      simulateSelector:
+        '[data-visual-test="table-of-content-declarative"] button',
+    })
+  })
+
+  it('matches mobile keyboard focus in dark mode', async () => {
+    await makeScreenshot({
+      selector: '[data-visual-test="table-of-content-declarative"]',
+      pageViewport: { width: 600, height: 900 },
+      colorScheme: 'dark',
+      wrapperStyle: {
+        background: 'var(--token-color-background-neutral)',
+      },
+      simulate: [
+        {
+          action: 'click',
+          selector:
+            '[data-visual-test="table-of-content-declarative"] button',
+        },
+        {
+          action: 'focus',
+          selector: '[data-visual-test="table-of-content-declarative"] a',
+        },
+      ],
+    })
+  })
 })
