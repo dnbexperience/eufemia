@@ -1845,6 +1845,8 @@ html[data-whatinput=keyboard] .dnb-checkbox__input:not([disabled]):focus ~ .dnb-
     var(--token-color-stroke-neutral-ondark) 50%,
     transparent
   );
+}
+.dnb-radio--surface-dark:where(:not(.dnb-toggle-button *)) {
   --radio-color-dot-on--default: var(
     --token-color-background-selected-ondark
   );
