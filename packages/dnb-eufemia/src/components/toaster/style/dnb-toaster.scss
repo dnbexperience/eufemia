@@ -1,0 +1,530 @@
+/*
+* Toaster component
+*
+*/
+
+@use '../../../style/core/utilities.scss' as utilities;
+
+// Item enter/exit animations
+
+@keyframes toaster-item-enter {
+  from {
+    opacity: 0;
+    transform: translate3d(0, -0.5rem, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes toaster-item-enter-bottom {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 0.5rem, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes toaster-item-exit {
+  from {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    opacity: 0;
+    transform: translate3d(1rem, 0, 0);
+  }
+}
+
+// Notification center panel animations (slide from right)
+// Handled by HeightAnimation – keyframes kept for potential future use
+
+// Legacy panel animations (kept for inline mode)
+
+@keyframes toaster-panel-enter {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 0.5rem, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes toaster-panel-exit {
+  from {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    opacity: 0;
+    transform: translate3d(0, 0.5rem, 0);
+  }
+}
+
+@keyframes toaster-notification-button-pulse {
+  0% {
+    transform: scale(1);
+  }
+
+  30% {
+    transform: scale(1.12);
+  }
+
+  60% {
+    transform: scale(0.97);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+.dnb-toaster {
+  position: relative;
+
+  &--inline {
+    width: 100%;
+  }
+
+  // Floating notification button (fixed bottom-right)
+
+  &__notification-button-floating {
+    position: fixed;
+    z-index: var(--z-index-toaster);
+
+    bottom: 1rem;
+    right: 1rem;
+
+    padding: 0.5rem 1.5rem;
+
+    background-color: var(--token-color-background-neutral-subtle);
+    border-radius: var(--token-radius-full);
+    transition: opacity 300ms var(--easing-default);
+
+    @include utilities.defaultDropShadow();
+
+    &--pulse {
+      animation: toaster-notification-button-pulse 600ms
+        var(--easing-default) 1;
+    }
+
+    @include utilities.reducedMotion() {
+      &--pulse {
+        animation: none;
+      }
+    }
+
+    &--hidden {
+      opacity: 0;
+      max-height: 0;
+      padding: 0;
+      overflow: hidden;
+      pointer-events: none;
+      transition:
+        opacity 300ms var(--easing-default),
+        max-height 300ms var(--easing-default),
+        padding 300ms var(--easing-default);
+
+      &:has(.dnb-toaster__notification-button:focus) {
+        opacity: 1;
+        max-height: 3rem;
+        padding: 0.5rem 1.5rem;
+        overflow: visible;
+        pointer-events: auto;
+      }
+    }
+  }
+
+  &__badge {
+    // .dnb-badge__root {
+    //   padding-right: 0.5rem;
+    // }
+
+    .dnb-badge {
+      background-color: var(--token-color-decorative-first-subtle);
+
+      &--horizontal-right {
+        right: -0.5rem;
+      }
+    }
+  }
+
+  &__badge:has(.dnb-badge) &__notification-button .dnb-button__text {
+    padding-right: 1rem;
+  }
+
+  &__notification-button-inline {
+    display: block;
+    max-height: 3rem;
+    transition:
+      opacity 300ms var(--easing-default),
+      max-height 300ms var(--easing-default);
+
+    &--pulse {
+      animation: toaster-notification-button-pulse 600ms
+        var(--easing-default) 1;
+    }
+
+    @include utilities.reducedMotion() {
+      &--pulse {
+        animation: none;
+      }
+    }
+
+    &--hidden {
+      opacity: 0;
+      max-height: 0;
+      pointer-events: none;
+
+      &:has(.dnb-toaster__notification-button:focus) {
+        opacity: 1;
+        max-height: 3rem;
+        overflow: visible;
+        pointer-events: auto;
+      }
+    }
+  }
+
+  // Notification center (right-side panel, toggled via button)
+
+  &__notification-center {
+    position: fixed;
+    z-index: var(--z-index-toaster);
+
+    display: flex;
+    flex-direction: column;
+
+    bottom: 0;
+    right: 0;
+    width: 24rem;
+    max-width: calc(100vw - 2rem);
+    max-height: 100dvh;
+
+    pointer-events: none;
+
+    > * {
+      pointer-events: auto;
+    }
+  }
+
+  // Toast stack (configurable placement)
+
+  &__toast-stack {
+    position: fixed;
+    z-index: calc(var(--z-index-toaster) + 1);
+
+    width: 48rem;
+    max-width: min(70vw, calc(100vw - 2rem));
+
+    pointer-events: none;
+
+    > * {
+      pointer-events: auto;
+    }
+
+    // Horizontal alignment
+
+    &--bottom-center,
+    &--top-center {
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    &--bottom-left,
+    &--top-left {
+      left: 1rem;
+    }
+
+    &--bottom-right,
+    &--top-right {
+      right: 1rem;
+    }
+
+    // Vertical alignment
+
+    &--bottom-center,
+    &--bottom-left,
+    &--bottom-right {
+      bottom: 1rem;
+    }
+
+    &--top-center,
+    &--top-left,
+    &--top-right {
+      top: 1rem;
+    }
+  }
+
+  &__toast-stack__list {
+    display: grid;
+    grid-template: 1fr / 1fr;
+
+    // Shift the whole stack up to compensate for items peeking below
+    transform: translateY(calc((var(--stack-count, 1) - 1) * -1rem));
+    transition: transform 0.3s ease;
+
+    // Stacked card effect: all items in the same grid cell, newest on top
+    > * {
+      grid-area: 1 / 1;
+      align-self: start;
+      z-index: calc(100 - var(--stack-index, 0));
+      transform: translateY(calc(var(--stack-index, 0) * 1rem))
+        scale(calc(1 - var(--stack-index, 0) * 0.03));
+      transform-origin: top center;
+      transition:
+        transform 0.3s ease,
+        opacity 0.3s ease;
+    }
+
+    > *:not(:first-child) {
+      opacity: calc(1 - var(--stack-index, 1) * 0.15);
+      pointer-events: none;
+    }
+  }
+
+  // Panel (used in notification center and inline mode)
+
+  &__panel {
+    display: flex;
+    flex-direction: column;
+
+    padding: 1rem 0.5rem;
+    padding-bottom: 5rem;
+
+    &--notification-center {
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
+
+    &--enter {
+      animation: toaster-panel-enter 300ms ease-out;
+    }
+
+    &--exit {
+      animation: toaster-panel-exit 300ms ease-in forwards;
+    }
+
+    @include utilities.reducedMotion() {
+      &--enter,
+      &--exit {
+        animation-duration: 0.01ms !important;
+      }
+    }
+  }
+
+  // Shared neutral appearance (used by __item--neutral and __empty-message)
+  &__neutral {
+    --toaster-neutral-bg: #222;
+    --toaster-neutral-outline: transparent;
+
+    color: var(--token-color-text-neutral-ondark);
+
+    :where(
+        .eufemia-theme__color-scheme--dark,
+        .eufemia-theme__color-scheme--auto
+      )
+      & {
+      --toaster-neutral-bg: #111;
+      --toaster-neutral-outline: var(--token-color-stroke-neutral-subtle);
+    }
+  }
+
+  &__empty-message {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    min-height: 6rem;
+    padding: 1.5rem;
+
+    &.dnb-p:not([class*='space__top']) {
+      margin: 1rem;
+      margin-bottom: 5rem;
+    }
+
+    background-color: var(--toaster-neutral-bg);
+    border: 1px solid var(--toaster-neutral-outline);
+    border-radius: var(--token-radius-xl);
+
+    &--enter {
+      animation: toaster-panel-enter 300ms ease-out;
+    }
+
+    &--exit {
+      animation: toaster-panel-exit 300ms ease-in forwards;
+    }
+
+    @include utilities.reducedMotion() {
+      &--enter,
+      &--exit {
+        animation-duration: 0.01ms !important;
+      }
+    }
+  }
+
+  // List (for inline mode)
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  // Individual message item
+
+  &__item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+
+    position: relative;
+    padding: 1.5rem;
+    margin-top: 0.5rem;
+
+    border-radius: var(--token-radius-xl);
+    background-color: var(--toaster-item-background);
+
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      border: 1px solid var(--toaster-item-outline);
+      border-radius: inherit;
+    }
+
+    // Variant colors
+
+    &--info {
+      --toaster-item-background: var(--token-color-background-info-subtle);
+      --toaster-item-outline: var(--token-color-stroke-info);
+      --toaster-item-icon-color: var(--token-color-icon-info);
+    }
+
+    &--success {
+      --toaster-item-background: var(
+        --token-color-background-positive-subtle
+      );
+      --toaster-item-outline: var(--token-color-stroke-positive);
+      --toaster-item-icon-color: var(--token-color-icon-positive);
+    }
+
+    &--warning {
+      --toaster-item-background: var(
+        --token-color-background-warning-subtle
+      );
+      --toaster-item-outline: var(--token-color-stroke-warning);
+      --toaster-item-icon-color: var(--token-color-icon-warning);
+    }
+
+    &--error {
+      --toaster-item-background: var(
+        --token-color-background-error-subtle
+      );
+      --toaster-item-outline: var(--token-color-stroke-error);
+      --toaster-item-icon-color: var(--token-color-icon-error);
+    }
+
+    &--neutral {
+      --toaster-item-background: var(--toaster-neutral-bg);
+      --toaster-item-outline: var(--toaster-neutral-outline);
+    }
+
+    // States
+
+    &--dismissed,
+    &--expired {
+      opacity: 0.6;
+    }
+
+    // Enter / exit animations
+
+    &--enter {
+      animation: toaster-item-enter 300ms ease-out;
+    }
+
+    &--exit {
+      animation: toaster-item-exit 300ms ease-in forwards;
+    }
+
+    @include utilities.reducedMotion() {
+      &--enter,
+      &--exit {
+        animation-duration: 0.01ms !important;
+      }
+    }
+  }
+
+  &__item__icon {
+    flex-shrink: 0;
+    color: var(--toaster-item-icon-color, var(--token-color-icon-info));
+  }
+
+  &__item__content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+
+    min-width: 0;
+  }
+
+  &__item__title {
+    font-size: var(--font-size-basis);
+    font-weight: var(--font-weight-medium);
+  }
+
+  &__item__text {
+    font-size: var(--font-size-basis);
+
+    .dnb-toaster__item--neutral & {
+      color: var(--token-color-text-neutral-subtle-ondark);
+    }
+  }
+
+  &__item__actions {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    gap: 1rem;
+
+    margin-top: 0.5rem;
+  }
+
+  &__item__dismiss-action {
+    margin-left: auto;
+  }
+
+  &__item__dismiss {
+    flex-shrink: 0;
+    align-self: flex-start;
+  }
+
+  // Toast-stack overrides (placed after &__item to satisfy specificity order)
+
+  &__toast-stack__list &__item {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  &__toast-stack--bottom-center &__item--enter,
+  &__toast-stack--bottom-left &__item--enter,
+  &__toast-stack--bottom-right &__item--enter {
+    animation-name: toaster-item-enter-bottom;
+  }
+}
