@@ -235,6 +235,7 @@ function CalendarNavButton({
       icon={icon}
       size="small"
       aria-label={title}
+      aria-disabled={disabled || undefined}
       onClick={() => onClick && !disabled && onClick({ nr, type })}
       onKeyDown={onKeyDown}
     />

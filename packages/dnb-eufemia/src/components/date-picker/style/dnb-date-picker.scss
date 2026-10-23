@@ -520,14 +520,23 @@
   }
 
   &__header__nav {
-    .dnb-button:not(:hover) {
+    .dnb-button:not(:hover),
+    .dnb-button[aria-disabled='true'] {
       @include utilities.notFocusVisible() {
         box-shadow: none;
       }
     }
-    .dnb-button:hover:not(:active) {
+    .dnb-button:hover:not(:active),
+    .dnb-button[aria-disabled='true'] {
       @include utilities.notFocusVisible() {
         background-color: var(--token-color-background-neutral);
+      }
+    }
+    .dnb-button[aria-disabled='true'] .dnb-button__icon {
+      color: var(--button-color-icon--disabled);
+
+      @media (forced-colors: active) {
+        color: GrayText;
       }
     }
   }

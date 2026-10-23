@@ -2003,8 +2003,38 @@ describe('DatePicker component', () => {
         const { next } = getNavButtons(0, 1)
 
         expect(next.classList.contains('disabled')).toBe(disabled)
+        expect(next.hasAttribute('aria-disabled')).toBe(disabled)
       }
     )
+
+    it('should keep focus on a navigation button when it becomes disabled', async () => {
+      render(<DatePicker noAnimation range link maxDate="2026-12-31" />)
+
+      await userEvent.click(getDatePickerTriggerButton())
+
+      const { next } = getNavButtons(1)
+
+      expect(next).not.toHaveAttribute('aria-disabled')
+
+      next.focus()
+      await userEvent.keyboard('{Enter}')
+
+      expect(getCalendarTitles()).toEqual([
+        'november 2026',
+        'desember 2026',
+      ])
+      expect(getNavButtons(0).next).toHaveAttribute(
+        'aria-disabled',
+        'true'
+      )
+      expect(getNavButtons(1).next).toHaveAttribute(
+        'aria-disabled',
+        'true'
+      )
+      expect(getNavButtons(0).prev).not.toHaveAttribute('aria-disabled')
+      expect(getNavButtons(1).prev).not.toHaveAttribute('aria-disabled')
+      expect(getNavButtons(1).next).toHaveFocus()
+    })
 
     it.each<[string, Partial<DatePickerAllProps>, Array<string>]>([
       [

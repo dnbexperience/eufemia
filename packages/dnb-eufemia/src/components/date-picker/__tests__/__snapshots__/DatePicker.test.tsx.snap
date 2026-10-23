@@ -3324,20 +3324,32 @@ html:not([data-whatintent=touch]) .dnb-date-picker__day--end-date:not(.dnb-date-
 html:not([data-whatintent=touch]) .dnb-date-picker__day--inactive .dnb-button[disabled] {
   cursor: default;
 }
-.dnb-date-picker__header__nav .dnb-button:not(:hover):not(:focus-visible) {
+.dnb-date-picker__header__nav .dnb-button:not(:hover):not(:focus-visible),
+.dnb-date-picker__header__nav .dnb-button[aria-disabled=true]:not(:focus-visible) {
   box-shadow: none;
 }
 @supports not (selector(:focus-visible)) {
-  .dnb-date-picker__header__nav .dnb-button:not(:hover) {
+  .dnb-date-picker__header__nav .dnb-button:not(:hover),
+  .dnb-date-picker__header__nav .dnb-button[aria-disabled=true] {
     box-shadow: none;
   }
 }
-.dnb-date-picker__header__nav .dnb-button:hover:not(:active):not(:focus-visible) {
+.dnb-date-picker__header__nav .dnb-button:hover:not(:active):not(:focus-visible),
+.dnb-date-picker__header__nav .dnb-button[aria-disabled=true]:not(:focus-visible) {
   background-color: var(--token-color-background-neutral);
 }
 @supports not (selector(:focus-visible)) {
-  .dnb-date-picker__header__nav .dnb-button:hover:not(:active) {
+  .dnb-date-picker__header__nav .dnb-button:hover:not(:active),
+  .dnb-date-picker__header__nav .dnb-button[aria-disabled=true] {
     background-color: var(--token-color-background-neutral);
+  }
+}
+.dnb-date-picker__header__nav .dnb-button[aria-disabled=true] .dnb-button__icon {
+  color: var(--button-color-icon--disabled);
+}
+@media (forced-colors: active) {
+  .dnb-date-picker__header__nav .dnb-button[aria-disabled=true] .dnb-button__icon {
+    color: GrayText;
   }
 }
 .dnb-date-picker .rtl {
