@@ -14,6 +14,11 @@ export const HeaderProperties: PropertiesTableProps = {
 }
 
 export const RootProperties: PropertiesTableProps = {
+  'aria-label': {
+    doc: 'Accessible name for the search landmark. Give each Filter.Root a descriptive name when a page contains multiple search landmarks. Defaults to the translated Filter label.',
+    type: 'string',
+    status: 'optional',
+  },
   id: {
     doc: 'Unique identifier that links the filter UI to `Filter.useFilter(id)` consumers via shared state.',
     type: 'string',
