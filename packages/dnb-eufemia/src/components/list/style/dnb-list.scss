@@ -188,14 +188,29 @@
     $overline: '#{&}__overline';
     $end-control: ':is(.dnb-avatar, .dnb-badge, .dnb-button, .dnb-flex-container--direction-horizontal, .dnb-icon, .dnb-switch, .dnb-tag, .dnb-toggle-button)';
 
+    // Safari before 15.4 does not support `:has()`. It drops every rule that
+    // uses it, also the other selectors in the same selector list. So keep
+    // the selectors without `:has()` in their own rules.
     @at-root #{&}__icon,
       #{&}__start,
       #{&}__chevron,
       #{$launch-icon},
-      #{$text-cell} {
+      #{&}__end {
       align-self: start;
       min-height: $line-box;
     }
+    @at-root #{&}__center:not(:has(> #{&}__title)) {
+      align-self: start;
+      min-height: $line-box;
+    }
+    @at-root #{&}__title {
+      align-self: start;
+      min-height: $line-box;
+    }
+    @at-root #{&}__center:has(> #{&}__title) {
+      align-self: start;
+    }
+
     // The end cell is a column. Place its first text line on the title line,
     // also when more lines follow. Controls are centered in the box instead.
     @at-root #{&}__end {
@@ -205,18 +220,12 @@
         justify-content: center;
       }
     }
-    @at-root :where(#{&}__end:not(:has(> #{$end-control}))),
-      :where(#{&}__title) {
+    @at-root :where(#{&}__title),
+      :where(#{&}__end) {
       padding-top: $title-offset;
     }
-    @at-root #{&}__title,
-      #{&}__center:has(> #{&}__title) {
-      align-self: start;
-    }
-    @at-root #{&}__title {
-      min-height: $line-box;
-    }
-    @at-root :where(#{&}__title:has(#{$overline})) {
+    @at-root :where(#{&}__end:has(> #{$end-control})),
+      :where(#{&}__title:has(#{$overline})) {
       padding-top: 0;
     }
     @at-root :where(#{$row-with-overline})
