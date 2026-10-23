@@ -20,7 +20,7 @@
 
 .dnb-tabs {
   --tablist-border-color--default: var(
-    --token-color-stroke-neutral-subtle
+    --token-color-background-neutral-base
   );
   --tab-title-font-color: var(--token-color-text-neutral-alternative);
   --tab-title-font-weight: var(--font-weight-regular);
@@ -29,12 +29,12 @@
     --token-color-background-action-hover-subtle
   );
   --tab-title-color--hover: var(--token-color-text-action-hover);
-  --tab-title-border--hover: var(--token-color-stroke-action-hover);
+  --tab-title-border--hover: var(--token-color-background-action-hover);
   --tab-title-background--disabled: inherit;
   --tab-title-color--disabled: var(--token-color-text-action-disabled);
-  --tab-title-border--active: var(--token-color-stroke-action-pressed);
+  --tab-title-border--active: var(--token-color-background-action-pressed);
   --tab-title-color--active: var(--token-color-text-action-pressed);
-  --tab-title-border--selected: var(--token-color-stroke-selected);
+  --tab-title-border--selected: var(--token-color-background-selected);
   --tab-title-color--selected: var(--token-color-text-selected);
   --tab-title-font-weight--selected: var(--font-weight-medium);
 
@@ -299,12 +299,12 @@
 
       @include utilities.hover() {
         --tab-title-background: var(--tab-title-background--hover);
-        --tab-title-border: var(--token-color-stroke-action-hover);
+        --tab-title-border: var(--token-color-background-action-hover);
 
         background-color: var(--tab-button-background--hover);
 
         &::after {
-          background-color: var(--token-color-stroke-action-hover);
+          background-color: var(--token-color-background-action-hover);
           opacity: 0.25;
         }
 
@@ -312,12 +312,12 @@
           --tab-title-background: var(
             --token-color-background-action-pressed-subtle
           );
-          --tab-title-border: var(--token-color-stroke-action-pressed);
+          --tab-title-border: var(--token-color-background-action-pressed);
 
           background-color: var(--tab-button-background--active);
 
           &::after {
-            background-color: var(--token-color-stroke-action-pressed);
+            background-color: var(--token-color-background-action-pressed);
           }
         }
       }
@@ -421,16 +421,16 @@
 
   &__button__snap.selected {
     &:has(.dnb-tabs__button:active) ~ .dnb-tabs__selection {
-      background-color: var(--token-color-stroke-action-pressed);
+      background-color: var(--token-color-background-action-pressed);
     }
 
     @include utilities.hover() {
       ~ .dnb-tabs__selection {
-        background-color: var(--token-color-stroke-action-hover);
+        background-color: var(--token-color-background-action-hover);
       }
 
       &:has(.dnb-tabs__button:active) ~ .dnb-tabs__selection {
-        background-color: var(--token-color-stroke-action-pressed);
+        background-color: var(--token-color-background-action-pressed);
       }
     }
   }
