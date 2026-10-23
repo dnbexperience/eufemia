@@ -309,6 +309,26 @@ function updateMonths({
   isRange: boolean
   rangeSingleCalendar: boolean
 }) {
+  const startDate =
+    'startDate' in newDates ? newDates.startDate : currentDates.startDate
+  const endDate =
+    'endDate' in newDates ? newDates.endDate : currentDates.endDate
+
+  // When the end date is after maxDate, show both months, as on mount
+  if (
+    isRange &&
+    !rangeSingleCalendar &&
+    !newDates.startMonth &&
+    !newDates.endMonth &&
+    startDate &&
+    endDate &&
+    currentDates.maxDate &&
+    isSameMonth(startDate, currentDates.maxDate) &&
+    differenceInCalendarMonths(endDate, startDate) > 0
+  ) {
+    return { startMonth: startDate, endMonth: endDate }
+  }
+
   const startMonth =
     newDates.startMonth ?? newDates.startDate ?? currentDates.startMonth
   let endMonth =

@@ -1901,6 +1901,64 @@ describe('DatePicker component', () => {
       ])
     })
 
+    it('should keep showing an end date after maxDate when the user types a start date', async () => {
+      render(
+        <DatePicker
+          noAnimation
+          range
+          showInput
+          startDate="2026-10-05"
+          endDate="2026-11-10"
+          maxDate="2026-10-31"
+        />
+      )
+
+      await userEvent.click(getDatePickerTriggerButton())
+
+      expect(getCalendarTitles()).toEqual([
+        'oktober 2026',
+        'november 2026',
+      ])
+
+      const [startDay] = getDatePickerInputs()
+
+      await new Promise((resolve) => requestAnimationFrame(resolve))
+      await userEvent.click(startDay)
+      await userEvent.keyboard('07102026')
+
+      expect(getCalendarTitles()).toEqual([
+        'oktober 2026',
+        'november 2026',
+      ])
+    })
+
+    it('should show the month of the start date when the user types an end date after maxDate', async () => {
+      render(
+        <DatePicker noAnimation range showInput maxDate="2026-10-31" />
+      )
+
+      await userEvent.click(getDatePickerTriggerButton())
+
+      const [startDay, , , endDay] = getDatePickerInputs()
+
+      await new Promise((resolve) => requestAnimationFrame(resolve))
+      await userEvent.click(startDay)
+      await userEvent.keyboard('05102026')
+
+      expect(getCalendarTitles()).toEqual([
+        'september 2026',
+        'oktober 2026',
+      ])
+
+      await userEvent.click(endDay)
+      await userEvent.keyboard('05112026')
+
+      expect(getCalendarTitles()).toEqual([
+        'oktober 2026',
+        'november 2026',
+      ])
+    })
+
     const getNavButtons = (calendarIndex: number, row = 0) => {
       const calendar = document.querySelectorAll(
         '.dnb-date-picker__calendar'
