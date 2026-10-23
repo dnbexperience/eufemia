@@ -328,6 +328,37 @@ function deriveDatesFromProps({
     })
   }
 
+  // Like on mount, open on the nearest month within minDate and maxDate
+  // when neither a date nor a month is given
+  const hasNewLimit =
+    'minDate' in derivedDates || 'maxDate' in derivedDates
+  const selectedStartDate =
+    'startDate' in derivedDates ? derivedDates.startDate : dates.startDate
+  if (
+    hasNewLimit &&
+    !selectedStartDate &&
+    typeof dateProps.startMonth === 'undefined' &&
+    typeof dateProps.endMonth === 'undefined'
+  ) {
+    const minDate =
+      'minDate' in derivedDates ? derivedDates.minDate : dates.minDate
+    const maxDate =
+      'maxDate' in derivedDates ? derivedDates.maxDate : dates.maxDate
+    const startMonth = getDefaultMonth({ minDate, maxDate })
+    const endMonth = isRange ? addMonths(startMonth, 1) : startMonth
+    const months =
+      isRange && !rangeSingleCalendar
+        ? fitMonthsToMaxDate({ startMonth, endMonth, minDate, maxDate })
+        : { startMonth, endMonth }
+
+    if (
+      !isSameMonth(months.startMonth, dates.startMonth) ||
+      !isSameMonth(months.endMonth, dates.endMonth)
+    ) {
+      Object.assign(derivedDates, months)
+    }
+  }
+
   return derivedDates
 }
 
