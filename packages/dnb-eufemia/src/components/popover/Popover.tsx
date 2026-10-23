@@ -262,6 +262,21 @@ export default function Popover(props: PopoverProps) {
 
     focusRestoreAnimationRef.current = requestAnimationFrame(() => {
       focusRestoreAnimationRef.current = null
+
+      const triggerElement = getCurrentTriggerElement()
+      const activeElement = document.activeElement
+      if (
+        activeElement instanceof HTMLElement &&
+        activeElement !== document.body &&
+        activeElement !== triggerElement &&
+        activeElement !== opener &&
+        !(externalContentRef || tooltipRef).current?.contains(
+          activeElement
+        )
+      ) {
+        return // stop here, focus was moved elsewhere after closing
+      }
+
       let explicitTarget: HTMLElement | null = null
       try {
         explicitTarget =
@@ -272,11 +287,7 @@ export default function Popover(props: PopoverProps) {
         // Fall back to the trigger or opener if the custom target fails.
       }
 
-      for (const element of [
-        explicitTarget,
-        getCurrentTriggerElement(),
-        opener,
-      ]) {
+      for (const element of [explicitTarget, triggerElement, opener]) {
         if (
           !(element instanceof HTMLElement) ||
           !element.isConnected ||
@@ -295,7 +306,13 @@ export default function Popover(props: PopoverProps) {
         }
       }
     })
-  }, [isOpen, getCurrentTriggerElement, restoreFocus, restoreFocusTo])
+  }, [
+    isOpen,
+    getCurrentTriggerElement,
+    restoreFocus,
+    restoreFocusTo,
+    externalContentRef,
+  ])
 
   useEffect(() => {
     return () => {
