@@ -188,6 +188,16 @@ jobs:
           fi
           git config user.name "$GH_NAME"
           git config user.email "$GH_EMAIL"
+
+          # The person who started the run is the author of the commits. The
+          # token account above stays the committer. The noreply address links
+          # the commits to their GitHub profile.
+          if ! actor_name=$(gh api "users/$GITHUB_ACTOR" --jq '.name // empty'); then
+            actor_name=
+          fi
+          export GIT_AUTHOR_NAME="${actor_name:-$GITHUB_ACTOR}"
+          export GIT_AUTHOR_EMAIL="$GITHUB_ACTOR_ID+$GITHUB_ACTOR@users.noreply.github.com"
+
           git add \
             packages/dnb-eufemia/src/style/themes \
             packages/dnb-eufemia/scripts/prebuild/tasks/__tests__/__snapshots__/makePropertiesFile.test.ts.snap
@@ -288,6 +298,9 @@ jobs:
               echo ""
             fi
             echo "Review the token values, removals, snapshots, and visual screenshots before marking the pull request ready."
+            echo ""
+            echo "Started by @$GITHUB_ACTOR."
+            echo ""
             echo "---"
             echo "$footer"
           )
@@ -302,11 +315,14 @@ jobs:
             pr_title=$(gh pr view "$PR_URL" --json title --jq '.title')
             pr_action="Commented on PR"
           else
+            # The token account opens the pull request, so it is assigned to
+            # the person who started the run
             pr_url=$(gh pr create \
               --base main \
               --head "$BRANCH" \
               --title "$title" \
               --body "$body" \
+              --assignee "$GITHUB_ACTOR" \
               --draft)
             pr_title=$title
             pr_action="Created PR"
