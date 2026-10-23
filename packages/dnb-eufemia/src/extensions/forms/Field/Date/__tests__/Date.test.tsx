@@ -3034,10 +3034,10 @@ describe('Field.Date', () => {
       'Neste måned juni'
     )
 
-    await userEvent.click(leftNextYearButton)
-    await userEvent.click(leftNextYearButton)
     await userEvent.click(rightNextYearButton)
     await userEvent.click(rightNextYearButton)
+    await userEvent.click(leftNextYearButton)
+    await userEvent.click(leftNextYearButton)
 
     // Verify years
     // Left
@@ -3348,7 +3348,7 @@ describe('Field.Date', () => {
         '.dnb-date-picker__next'
       )
       const leftPrev = leftCalendar.querySelector('.dnb-date-picker__prev')
-      const leftNext = leftCalendar.querySelector('dnb-date-picker__next')
+      const leftNext = leftCalendar.querySelector('.dnb-date-picker__next')
 
       expect(
         rightCalendar.querySelector('.dnb-date-picker__header__title')
@@ -3382,7 +3382,7 @@ describe('Field.Date', () => {
       ).toHaveTextContent('oktober 2024')
       expect(
         leftCalendar.querySelector('.dnb-date-picker__header__title')
-      ).toHaveTextContent('oktober 2024')
+      ).toHaveTextContent('november 2024')
 
       await userEvent.click(leftNext)
 
@@ -3391,7 +3391,7 @@ describe('Field.Date', () => {
       ).toHaveTextContent('oktober 2024')
       expect(
         leftCalendar.querySelector('.dnb-date-picker__header__title')
-      ).toHaveTextContent('oktober 2024')
+      ).toHaveTextContent('november 2024')
 
       expect(
         screen.getAllByLabelText('mandag 30. september 2024')[0]
