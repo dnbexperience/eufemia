@@ -1,5 +1,11 @@
 import { useState } from 'react'
-import { render, waitFor, screen, fireEvent } from '@testing-library/react'
+import {
+  act,
+  render,
+  waitFor,
+  screen,
+  fireEvent,
+} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { axeComponent } from '../../../../../core/test-utils/testSetup'
 import {
@@ -303,6 +309,62 @@ describe('Field.Date', () => {
     expect(endDay).toHaveValue('01')
     expect(endMonth).toHaveValue('04')
     expect(endYear).toHaveValue('2024')
+  })
+
+  describe('calendar months of a range value', () => {
+    const getTitles = () =>
+      Array.from(
+        document.querySelectorAll('.dnb-date-picker__header__title')
+      ).map((element) => element.textContent)
+    const openPicker = () =>
+      userEvent.click(
+        document.querySelector('button.dnb-input__submit-button__button')
+      )
+
+    it('should show the months of a value set after mount', async () => {
+      const { rerender } = render(<Field.Date range />)
+
+      rerender(<Field.Date range value="2025-03-10|2025-03-20" />)
+      await openPicker()
+
+      expect(getTitles()).toEqual(['mars 2025', 'april 2025'])
+    })
+
+    it('should show the months of form data set after mount', async () => {
+      render(
+        <Form.Handler id="range-months">
+          <Field.Date path="/period" range />
+        </Form.Handler>
+      )
+
+      act(() => {
+        Form.setData('range-months', { period: '2025-03-10|2025-03-20' })
+      })
+      await openPicker()
+
+      expect(getTitles()).toEqual(['mars 2025', 'april 2025'])
+    })
+
+    it('should not move the calendars when picking dates', async () => {
+      render(<Field.Date range value="2025-04-08|2025-04-10" />)
+
+      await openPicker()
+      expect(getTitles()).toEqual(['april 2025', 'mai 2025'])
+
+      const [, rightTable] = Array.from(
+        document.querySelectorAll('.dnb-date-picker__calendar table')
+      )
+
+      await userEvent.click(
+        rightTable.querySelector('td[data-date="2025-05-05"] button')
+      )
+      expect(getTitles()).toEqual(['april 2025', 'mai 2025'])
+
+      await userEvent.click(
+        rightTable.querySelector('td[data-date="2025-05-20"] button')
+      )
+      expect(getTitles()).toEqual(['april 2025', 'mai 2025'])
+    })
   })
 
   it('should support keyboard interactions in range mode when id includes start or end', async () => {
