@@ -209,7 +209,15 @@ function DateComponent(props: DateProps): ReactElement {
         invalidEndDate,
       })
 
-      return props.range ? `${startDate}|${endDate}` : date
+      if (props.range) {
+        if (!startDate && !endDate) {
+          return undefined
+        }
+
+        return `${startDate || ''}|${endDate || ''}`
+      }
+
+      return date
     },
     [props.range, setInvalidDates]
   )
@@ -461,7 +469,9 @@ export function parseRangeValue(
     String(value)
       .split('|')
       // Assign to null if falsy value, to properly clear input values
-      .map((value) => (/(undefined|null)/.test(value) ? null : value))
+      .map((value) =>
+        !value || /(undefined|null)/.test(value) ? null : value
+      )
   )
 }
 

@@ -1989,6 +1989,85 @@ describe('Field.Date', () => {
     })
   })
 
+  it('should not put the text "null" or "undefined" into range values', async () => {
+    const onChange = vi.fn()
+    let dataContext = null
+
+    render(
+      <Form.Handler>
+        <Field.Date path="/date" range onChange={onChange} />
+        <DataContext.Consumer>
+          {(context) => {
+            dataContext = context
+            return null
+          }}
+        </DataContext.Consumer>
+      </Form.Handler>
+    )
+
+    const now = new Date()
+    const midMonth = `${now.getFullYear()}-${String(
+      now.getMonth() + 1
+    ).padStart(2, '0')}-15`
+    const openButton = document.querySelector(
+      'button.dnb-input__submit-button__button'
+    )
+    const [startDay]: Array<HTMLInputElement> = Array.from(
+      document.querySelectorAll('.dnb-date-picker__input')
+    )
+
+    // Pick only a start date
+    await userEvent.click(openButton)
+    await userEvent.click(
+      document.querySelector(
+        `.dnb-date-picker__calendar td[data-date="${midMonth}"] button`
+      )
+    )
+
+    expect(onChange).toHaveBeenLastCalledWith(
+      `${midMonth}|`,
+      expect.anything()
+    )
+    expect(dataContext.internalDataRef.current).toEqual({
+      date: `${midMonth}|`,
+    })
+    expect(startDay).toHaveValue('15')
+
+    // Cancel back to the empty value
+    await userEvent.click(screen.getByText('Avbryt'))
+
+    expect(onChange).toHaveBeenLastCalledWith(undefined, expect.anything())
+    expect(dataContext.internalDataRef.current).toEqual({
+      date: undefined,
+    })
+
+    // Type only a start date
+    await userEvent.click(startDay)
+    await userEvent.keyboard('01082025')
+
+    expect(onChange).toHaveBeenLastCalledWith(
+      '2025-08-01|',
+      expect.anything()
+    )
+
+    // Reset without an initial value
+    await userEvent.click(openButton)
+    await userEvent.click(
+      document.querySelector('button[data-testid="reset"]')
+    )
+
+    expect(onChange).toHaveBeenLastCalledWith(undefined, expect.anything())
+    expect(dataContext.internalDataRef.current).toEqual({
+      date: undefined,
+    })
+    expect(startDay).toHaveValue('dd')
+    expect(
+      onChange.mock.calls.filter(([value]) =>
+        /null|undefined/.test(String(value ?? ''))
+      )
+    ).toEqual([])
+  })
+
   it('should not change value when clicking cancel after reset and typing', async () => {
     render(<Field.Date value="2023-01-16" showInput />)
 
