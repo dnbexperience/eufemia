@@ -1,6 +1,5 @@
 import { Children, Fragment, isValidElement, useMemo } from 'react'
 import type { ReactNode } from 'react'
-import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import TableOfContentNavigation from './TableOfContentNavigation'
 import type {
   TableOfContentItemProps,
@@ -46,7 +45,5 @@ function readItems(
     return [{ id, text, level }, ...readItems(nested, level + 1)]
   })
 }
-
-withComponentMarkers(TableOfContentRoot, { _supportsSpacingProps: true })
 
 export default TableOfContentRoot
