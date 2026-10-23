@@ -2,6 +2,7 @@ import {
   applyPageFocus,
   setPageFocusElement,
 } from '@dnb/eufemia/src/shared/helpers'
+import decodeHashId from '@dnb/eufemia/src/shared/helpers/decodeHashId'
 
 function getFocusTarget(element: HTMLElement) {
   if (
@@ -21,7 +22,10 @@ export function applyRouteFocus(
   behavior: ScrollBehavior = 'instant'
 ) {
   if (hash) {
-    const element = document.getElementById(hash.slice(1))
+    const id = hash.slice(1)
+    const element =
+      document.getElementById(id) ??
+      document.getElementById(decodeHashId(id))
 
     if (element) {
       setPageFocusElement(getFocusTarget(element), 'route-hash')

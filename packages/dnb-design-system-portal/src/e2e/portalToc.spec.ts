@@ -1,6 +1,27 @@
 import { test, expect } from '@playwright/test'
 
 test.describe('Portal table of contents', () => {
+  test('follows headings with non-ASCII ids', async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 1000 })
+    await page.goto('/uilib/components/number-format/demos/')
+    const link = page
+      .locator('#content-grid-sidebar')
+      .getByRole('link', {
+        name: 'National Identification number (Fødselsnummer)',
+        exact: true,
+      })
+    await link.click()
+    await expect(page).toHaveURL(
+      /national-identification-number-f%C3%B8dselsnummer$/
+    )
+    await expect(link).toHaveAttribute('aria-current', 'location')
+    await expect(
+      page.getByRole('heading', {
+        name: 'National Identification number (Fødselsnummer)',
+        exact: true,
+      })
+    ).toBeFocused()
+  })
   test('navigates to headings and updates after a tab route change', async ({
     page,
   }) => {
