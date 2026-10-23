@@ -127,6 +127,7 @@ export default function Popover(props: PopoverProps) {
   const wasOpenRef = useRef(false)
   const activeElementRef = useRef<HTMLElement | null>(null)
   const shouldRestoreFocusRef = useRef(true)
+  const closedByPopoverRef = useRef(false)
   const touchStartTargetRef = useRef<EventTarget | null>(null)
   const touchMovedRef = useRef(false)
 
@@ -250,11 +251,14 @@ export default function Popover(props: PopoverProps) {
           ? activeElement
           : null
       shouldRestoreFocusRef.current = true
+      closedByPopoverRef.current = false
       return
     }
 
     const opener = activeElementRef.current
     activeElementRef.current = null
+    const closedByPopover = closedByPopoverRef.current
+    closedByPopoverRef.current = false
 
     if (!restoreFocus || !shouldRestoreFocusRef.current) {
       return
@@ -266,6 +270,7 @@ export default function Popover(props: PopoverProps) {
       const triggerElement = getCurrentTriggerElement()
       const activeElement = document.activeElement
       if (
+        !closedByPopover &&
         activeElement instanceof HTMLElement &&
         activeElement !== document.body &&
         activeElement !== triggerElement &&
@@ -274,7 +279,7 @@ export default function Popover(props: PopoverProps) {
           activeElement
         )
       ) {
-        return // stop here, focus was moved elsewhere after closing
+        return // stop here, focus moved elsewhere after a controlled close
       }
 
       let explicitTarget: HTMLElement | null = null
@@ -327,6 +332,7 @@ export default function Popover(props: PopoverProps) {
       return undefined // stop here
     }
     shouldRestoreFocusRef.current = true
+    closedByPopoverRef.current = true
     setOpenState(false)
   }, [setOpenState, preventClose])
 

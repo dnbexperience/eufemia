@@ -508,6 +508,30 @@ describe('Popover focus restoration', () => {
     expect(outside).toHaveFocus()
   })
 
+  it('returns focus to the trigger when tabbing out closes the popover', async () => {
+    render(
+      <>
+        <Popover
+          focusOnOpen={false}
+          noAnimation
+          trigger={<button>Open</button>}
+        >
+          Content
+        </Popover>
+        <button id="next">Next</button>
+      </>
+    )
+    const trigger = document.querySelector('button[aria-controls]')
+    await userEvent.click(trigger)
+    await userEvent.tab()
+
+    await waitFor(() =>
+      expect(trigger).toHaveAttribute('aria-expanded', 'false')
+    )
+    await nextFrame()
+    expect(trigger).toHaveFocus()
+  })
+
   it('restores focus when the positioning target becomes null', async () => {
     const opener = document.createElement('button')
     const anchor = document.createElement('div')
