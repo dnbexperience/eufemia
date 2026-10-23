@@ -2,7 +2,7 @@ import { it, expect, vi } from 'vitest'
 import { act, render, waitFor } from '@testing-library/react'
 import PortalToc from '../PortalToc'
 
-vi.mock('@dnb/eufemia/src/extensions', () => ({
+vi.mock('@dnb/eufemia/src', () => ({
   TableOfContent: {
     Data: ({ data: sections }) => (
       <nav>
@@ -15,7 +15,7 @@ vi.mock('@dnb/eufemia/src/extensions', () => ({
     ),
   },
 }))
-vi.mock('@dnb/eufemia/src/extensions/table-of-content/style', () => ({}))
+vi.mock('@dnb/eufemia/src/components/table-of-content/style', () => ({}))
 
 function heading(id: string, text: string) {
   const element = document.createElement('h2')

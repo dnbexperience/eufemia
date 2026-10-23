@@ -1,8 +1,8 @@
 import { createElement, useEffect, useMemo, useState } from 'react'
 import type { ReactNode } from 'react'
-import { TableOfContent } from '@dnb/eufemia/src/extensions'
-import type { TableOfContentSection } from '@dnb/eufemia/src/extensions/table-of-content'
-import '@dnb/eufemia/src/extensions/table-of-content/style'
+import { TableOfContent } from '@dnb/eufemia/src'
+import type { TableOfContentSection } from '@dnb/eufemia/src/components/table-of-content'
+import '@dnb/eufemia/src/components/table-of-content/style'
 
 const HEADING_SELECTOR = 'h1, h2, h3, h4, h5, h6'
 

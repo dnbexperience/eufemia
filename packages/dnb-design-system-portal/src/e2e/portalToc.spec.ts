@@ -4,12 +4,10 @@ test.describe('Portal table of contents', () => {
   test('follows headings with non-ASCII ids', async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 1000 })
     await page.goto('/uilib/components/number-format/demos/')
-    const link = page
-      .locator('#content-grid-sidebar')
-      .getByRole('link', {
-        name: 'National Identification number (Fødselsnummer)',
-        exact: true,
-      })
+    const link = page.locator('#content-grid-sidebar').getByRole('link', {
+      name: 'National Identification number (Fødselsnummer)',
+      exact: true,
+    })
     await link.click()
     await expect(page).toHaveURL(
       /national-identification-number-f%C3%B8dselsnummer$/
@@ -53,7 +51,7 @@ test.describe('Portal table of contents', () => {
     page,
   }) => {
     await page.setViewportSize({ width: 1440, height: 1000 })
-    await page.goto('/uilib/extensions/table-of-content/properties/')
+    await page.goto('/uilib/components/table-of-content/properties/')
     await expect(
       page.locator('#content-grid-sidebar a').first()
     ).toBeVisible()
