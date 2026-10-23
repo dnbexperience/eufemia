@@ -1,0 +1,88 @@
+---
+title: 'Shared state'
+description: 'Lightweight state management for sharing data between components and code outside React.'
+order: 4
+---
+
+import * as Examples from './shared-state/Examples'
+
+Share state between components using a common identifier. Each component receives updates automatically, without a Context provider.
+
+Use it when components need the same state but live in different parts of your application. For state used by one component, React's `useState` is usually enough.
+
+## Import
+
+```tsx
+import {
+  useSharedState,
+  useWeakSharedState,
+  createSharedState,
+} from '@dnb/eufemia/shared'
+```
+
+The hook also has a default export, so you can choose your own name:
+
+```tsx
+import useStore from '@dnb/eufemia/shared/useSharedState'
+```
+
+## Share between components
+
+Both components below use the same ID. Increase the counter and the summary updates too.
+
+<Examples.SharedCounter />
+
+`initialData` seeds an empty store. Joining an existing store keeps its current value. Use the same TypeScript data type wherever you use an ID.
+
+## Read and update
+
+`useSharedState(id, initialData?)` returns:
+
+| Member          | Purpose                                                                          |
+| --------------- | -------------------------------------------------------------------------------- |
+| `data`          | Current value. The component re-renders when it changes.                         |
+| `get()`         | Read the latest value immediately, including inside callbacks.                   |
+| `set(value)`    | Replace the whole value.                                                         |
+| `extend(value)` | Shallow-merge object properties. Replace arrays and other values.                |
+| `update(value)` | Replace the value, like `set`, without calling the optional `onChange` callback. |
+
+```tsx
+const { data, get, set, extend } = useSharedState('app-preferences', {
+  currency: 'NOK',
+  language: 'en',
+})
+
+extend({ currency: 'EUR' }) // Keeps language
+set({ currency: 'NOK', language: 'nb' }) // Replaces the whole object
+```
+
+Call updates in event handlers or effects. Pass values directly; updater functions such as `set(previous => ...)` are not supported. Replace nested objects and arrays when changing them.
+
+`set` and `extend` return `true` when the value changes. Shallow-equal values do not trigger another update. If needed, pass `onChange` as the third hook argument to handle changes made through the hook's `set` or `extend`.
+
+## Update outside React
+
+`createSharedState(id, initialData?)` accesses the same store without subscribing. Use its `get`, `set`, `extend`, or `update` methods in regular functions, such as an API response handler. Mounted hooks receive the updates.
+
+<Examples.OutsideReact />
+
+## Keep or clear state
+
+`useSharedState` keeps its value after components unmount. Use `useWeakSharedState` in every subscriber for an ID when the value should reset after the last subscriber unmounts.
+
+<Examples.ClearOnUnmount />
+
+## Choose an ID
+
+- Use a stable, non-empty string unique to the feature, such as `'my-app:preferences'`. Matching IDs share state, even across separate React roots using the same module instance.
+- A stable object reference also works. Create it outside the component or keep it in a ref.
+- An absent ID disables the hook: `data` is `undefined` and updates do nothing.
+
+State lives in memory and is not persisted across reloads or shared between browser tabs. By default, each loaded copy of Eufemia has its own store. To share state across independently bundled copies in the same browser window, use the same ID and `scope`:
+
+```tsx
+useSharedState('preferences', initialData, undefined, { scope: 'my-app' })
+createSharedState('preferences', initialData, { scope: 'my-app' })
+```
+
+During server rendering, keep user-specific state request-scoped; fixed IDs in a long-lived server module can share data between requests. For hydration, the hook's fourth argument also accepts `getServerSnapshot`, which should return the same initial value on the server and client.
