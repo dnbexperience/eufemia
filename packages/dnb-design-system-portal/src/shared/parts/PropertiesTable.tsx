@@ -19,7 +19,7 @@ const StyledTable = styled(Table)`
 `
 
 const stringColor =
-  'color-mix(in srgb, var(--token-color-text-error) 70%, var(--token-color-text-neutral))'
+  'color-mix(in srgb, var(--token-color-text-error) 60%, var(--token-color-text-neutral))'
 
 const colors = {
   type: {
