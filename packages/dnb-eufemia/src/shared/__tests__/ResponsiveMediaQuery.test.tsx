@@ -189,6 +189,37 @@ describe('Available-width media queries', () => {
     expect(document.querySelector('span')).toHaveTextContent('wide')
   })
 
+  it('finds a container that a descendant renders later', async () => {
+    const Read = () => <span>{String(useMedia().key)}</span>
+    let finishLoading: () => void
+    function Page({ containerRef }) {
+      const [loading, setLoading] = useState(true)
+      finishLoading = () => setLoading(false)
+      if (loading) {
+        return <p>Loading</p>
+      }
+      return (
+        <main
+          ref={containerRef}
+          style={{ width: '1100px', fontSize: '16px' }}
+        >
+          <Read />
+        </main>
+      )
+    }
+    function App() {
+      const containerRef = useRef<HTMLElement>(null)
+      return (
+        <Provider responsive={{ target: 'container', containerRef }}>
+          <Page containerRef={containerRef} />
+        </Provider>
+      )
+    }
+    render(<App />)
+    await act(async () => finishLoading())
+    expect(document.querySelector('span')).toHaveTextContent('large')
+  })
+
   it('leaves raw strings and device queries as viewport queries', () => {
     const ref = container(300)
     const wrapper = ({ children }) => (
