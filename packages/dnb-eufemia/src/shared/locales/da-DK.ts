@@ -36,6 +36,8 @@ export default {
       nextYear: 'Næste år %s',
       prevYear: 'Forrige år %s',
       openPickerText: 'Åbn datovælger',
+      today: 'I dag',
+      withinSelectedRange: 'Inden for det valgte datointerval',
       maskOrder: 'dd/mm/yyyy',
       maskPlaceholder: 'dd.mm.åååå', // have to be same setup as "mask" - but can be like: dd/mm/åååå
       dateFormat: 'yyyy-MM-dd', // in v1 of date-fns we were more flexible in terms of the format
