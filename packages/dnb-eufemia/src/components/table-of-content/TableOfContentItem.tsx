@@ -27,7 +27,9 @@ function TableOfContentItem({
       className={clsx('dnb-table-of-content__item', className)}
     >
       <Anchor
-        noStyle
+        noStyle={context.isSidebar}
+        noUnderline={context.isSidebar}
+        noHover={context.isSidebar}
         href={'#' + encodeURIComponent(id)}
         aria-current={isCurrent ? 'location' : undefined}
         className={clsx(

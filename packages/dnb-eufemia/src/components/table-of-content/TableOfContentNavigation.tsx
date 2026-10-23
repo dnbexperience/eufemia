@@ -127,7 +127,7 @@ export default function TableOfContentNavigation({
 
   return (
     <TableOfContentContext.Provider
-      value={{ currentId: resolvedId, maxDepth, depth: 1 }}
+      value={{ currentId: resolvedId, maxDepth, depth: 1, isSidebar }}
     >
       <Space
         {...rest}

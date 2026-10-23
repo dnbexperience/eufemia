@@ -129,6 +129,9 @@ it('connects the mobile disclosure to its content and preserves its chosen state
     />
   )
   const toggle = document.querySelector('button')
+  expect(document.querySelector('a')).not.toHaveClass(
+    'dnb-anchor--no-style'
+  )
   const chevron = toggle.querySelector('.dnb-icon--transition-fallback')
   expect(chevron).not.toBeNull()
   expect(
@@ -149,6 +152,11 @@ it('connects the mobile disclosure to its content and preserves its chosen state
   ).toHaveAttribute('data-icon-state', 'expanded')
   act(() => setMedia({ width: '1400px' }))
   expect(document.querySelector('button')).toBeNull()
+  expect(document.querySelector('a')).toHaveClass(
+    'dnb-anchor--no-style',
+    'dnb-anchor--no-underline',
+    'dnb-anchor--no-hover'
+  )
   act(() => setMedia({ width: '600px' }))
   await waitFor(() =>
     expect(document.querySelector('button')).toHaveAttribute(
