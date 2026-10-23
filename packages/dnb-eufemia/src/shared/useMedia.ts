@@ -21,6 +21,7 @@ import type {
 } from './MediaQueryUtils'
 import { toPascalCase } from './component-helper'
 import useCanUseDOM from './helpers/useCanUseDOM'
+import { isWaitingForContainer } from './ResponsiveMediaQuery'
 
 const makeLayoutEffect = () => {
   // SSR warning fix: https://gist.github.com/gaearon/e7d97cdf38a2907924ea12e4ebdf3c85
@@ -255,7 +256,11 @@ export default function useMedia(
       const hasChanged = resultKeys.some(
         (key) => resultRef.current[key] !== result[key]
       )
-      if (hasChanged) {
+      // Keep the current result until the container is attached
+      const isWaiting = Object.values(refs.current).some((item) =>
+        isWaitingForContainer((item as UseMediaItem)?.mediaQueryList)
+      )
+      if (hasChanged && !isWaiting) {
         updateRerender(result)
       }
     }

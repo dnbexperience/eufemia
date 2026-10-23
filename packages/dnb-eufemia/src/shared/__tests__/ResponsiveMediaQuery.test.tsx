@@ -263,6 +263,39 @@ describe('Available-width media queries', () => {
     act(() => root.unmount())
   })
 
+  it('keeps the current result until a wrapping container is attached', () => {
+    const results: string[] = []
+    const Read = () => {
+      const key = useMedia({ initialValue: { isLarge: true } }).key
+      const wide = useMediaQuery({ when: { min: 'medium' } })
+      results.push(`${key}:${wide}`)
+      return (
+        <MediaQuery when={{ min: 'medium' }}>
+          <span>large container</span>
+        </MediaQuery>
+      )
+    }
+    function App() {
+      const containerRef = useRef<HTMLDivElement>(null)
+      return (
+        <div
+          ref={containerRef}
+          style={{ width: '1100px', fontSize: '16px' }}
+        >
+          <Provider responsive={{ target: 'container', containerRef }}>
+            <Read />
+          </Provider>
+        </div>
+      )
+    }
+    render(<App />)
+    expect(results.filter((result) => result.startsWith('null'))).toEqual(
+      []
+    )
+    expect(results.at(-1)).toBe('large:true')
+    expect(document.body).toHaveTextContent('large container')
+  })
+
   it('supports the MediaQuery component inside the same boundary', () => {
     const ref = container(300)
     render(

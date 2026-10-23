@@ -12,6 +12,7 @@ import type {
   MediaQueryListener,
 } from './MediaQueryUtils'
 import useCanUseDOM from './helpers/useCanUseDOM'
+import { isWaitingForContainer } from './ResponsiveMediaQuery'
 
 export type { MediaQueryProps }
 
@@ -93,10 +94,13 @@ function MediaQuery(props: MediaQueryProps) {
       }
     )
 
-    setState({
-      match: mediaQueryList?.matches,
+    // Keep the current result until the container is attached
+    setState((previous) => ({
+      match: isWaitingForContainer(mediaQueryList)
+        ? previous.match
+        : mediaQueryList?.matches,
       mediaQueryList,
-    })
+    }))
 
     // Bind listener
     if (mediaQueryList) {
