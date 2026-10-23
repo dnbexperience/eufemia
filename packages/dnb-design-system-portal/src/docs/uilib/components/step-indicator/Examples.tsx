@@ -10,6 +10,7 @@ import { StepIndicator, Space, Button, Section } from '@dnb/eufemia/src'
 export const StepIndicatorStatic = () => (
   <ComponentBox data-visual-test="step-indicator-static">
     <StepIndicator
+      overviewTitle="Static steps example"
       mode="static"
       currentStep={1}
       onChange={({ currentStep }) => {
@@ -34,6 +35,7 @@ export const StepIndicatorStatic = () => (
 export const StepIndicatorStrict = () => (
   <ComponentBox data-visual-test="step-indicator-strict">
     <StepIndicator
+      overviewTitle="Strict steps example"
       mode="strict"
       currentStep={1}
       onChange={({ currentStep }) => {
@@ -68,6 +70,7 @@ export const StepIndicatorLoose = () => (
           <div style={{ display: 'flex' }}>
             <Space stretch>
               <StepIndicator
+                overviewTitle="Loose steps example"
                 mode="loose"
                 currentStep={step}
                 onChange={({ currentStep }) => {
@@ -111,6 +114,7 @@ export const StepIndicatorCustomized = () => (
         return (
           <>
             <StepIndicator
+              overviewTitle="Custom steps example"
               mode="loose"
               data={data}
               currentStep={step}
@@ -158,6 +162,7 @@ export const StepIndicatorCustomized = () => (
 export const StepIndicatorTextOnly = () => (
   <ComponentBox data-visual-test="step-indicator-expanded">
     <StepIndicator
+      overviewTitle="Expanded steps example"
       expandedInitially
       mode="static"
       currentStep={1}
@@ -185,6 +190,7 @@ export const StepIndicatorRouter = () => (
         return (
           <>
             <StepIndicator
+              overviewTitle="Router steps example"
               mode="loose"
               currentStep={currentStep - 1}
               onChange={({ currentStep }) => {
@@ -215,6 +221,7 @@ export const StepIndicatorRouter = () => (
 export const StepIndicatorStatuses = () => (
   <ComponentBox data-visual-test="step-indicator-statuses">
     <StepIndicator
+      overviewTitle="Step status example"
       mode="loose"
       currentStep={0}
       data={[
@@ -244,6 +251,7 @@ export const StepIndicatorStatuses = () => (
 export const StepIndicatorSkeleton = () => (
   <ComponentBox data-visual-test="step-indicator-skeleton">
     <StepIndicator
+      overviewTitle="Skeleton steps example"
       mode="static"
       skeleton
       currentStep={1}

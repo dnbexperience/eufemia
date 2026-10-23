@@ -350,7 +350,10 @@ export function SidebarMenuPropsController() {
                 <SidebarMenu.ResponsiveShell
                   className={styles.responsiveShell}
                 >
-                  <SidebarMenu.ResponsiveAside showToggle={false}>
+                  <SidebarMenu.ResponsiveAside
+                    aria-label="Externally configured sidebar example"
+                    showToggle={false}
+                  >
                     <SidebarMenu.Data
                       controllerId={id}
                       aria-label="Externally configured navigation"
@@ -547,7 +550,10 @@ export function SidebarMenuToggle() {
           className={styles.responsiveShell}
           data-sidebar-menu-toggle-example
         >
-          <SidebarMenu.ResponsiveAside resizable>
+          <SidebarMenu.ResponsiveAside
+            aria-label="Toggle sidebar example"
+            resizable
+          >
             <SidebarMenu.Root aria-label="Toggle example navigation">
               <SidebarMenu.Item id="toggle-home" text="Home" icon={home} />
               <SidebarMenu.Item
@@ -597,7 +603,7 @@ export function SidebarMenuExternalToggle() {
         />
         <SidebarMenu.ResponsiveProvider scopeId="external-toggle-example">
           <SidebarMenu.ResponsiveShell className={styles.responsiveShell}>
-            <SidebarMenu.ResponsiveAside>
+            <SidebarMenu.ResponsiveAside aria-label="External toggle sidebar example">
               <SidebarMenu.Root aria-label="External toggle navigation">
                 <SidebarMenu.Item
                   id="external-home"
@@ -793,7 +799,7 @@ export function SidebarMenuResponsiveNavigation() {
           }))
           const navigationMenu = (
             <SidebarMenu.Data
-              aria-label="Main navigation"
+              aria-label="Responsive banking navigation example"
               sections={menuSections}
               selectedItem={selectedItem}
               onSelectedItemChange={setSelectedItem}
@@ -809,6 +815,7 @@ export function SidebarMenuResponsiveNavigation() {
               data-visual-test="sidebar-menu-responsive"
             >
               <SidebarMenu.ResponsiveAside
+                aria-label="Responsive banking sidebar example"
                 compactWidth="4rem"
                 expandedWidth="19rem"
                 resizable

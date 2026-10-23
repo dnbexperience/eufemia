@@ -1,3 +1,4 @@
+import { Provider } from '@dnb/eufemia/src/shared'
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
 import { useLocation } from 'react-router'
 import { navigate } from 'portal-query'
@@ -13,18 +14,27 @@ export const Default = () => {
 
           return (
             <Form.Handler>
-              <Wizard.Container id="unique-id">
-                <MyStep title="Step 1" />
-                <MyStep title="Step 2" />
-                <MyStep title="Step 3" />
-              </Wizard.Container>
+              <Provider
+                StepIndicator={{
+                  overviewTitle: 'Query parameters wizard steps',
+                }}
+              >
+                <Wizard.Container id="unique-id">
+                  <MyStep title="Step 1" />
+                  <MyStep title="Step 2" />
+                  <MyStep title="Step 3" />
+                </Wizard.Container>
+              </Provider>
             </Form.Handler>
           )
         }
 
         const MyStep = ({ title }) => {
           return (
-            <Wizard.Step title={title}>
+            <Wizard.Step
+              aria-label={`Query parameters wizard: ${title}`}
+              title={title}
+            >
               <Form.Card>
                 <P>Contents of {title}</P>
               </Form.Card>
@@ -51,18 +61,25 @@ export const ReachRouter = () => {
 
           return (
             <Form.Handler>
-              <Wizard.Container id="wizard-with-router">
-                <MyStep title="Step 1" />
-                <MyStep title="Step 2" />
-                <MyStep title="Step 3" />
-              </Wizard.Container>
+              <Provider
+                StepIndicator={{ overviewTitle: 'Router wizard steps' }}
+              >
+                <Wizard.Container id="wizard-with-router">
+                  <MyStep title="Step 1" />
+                  <MyStep title="Step 2" />
+                  <MyStep title="Step 3" />
+                </Wizard.Container>
+              </Provider>
             </Form.Handler>
           )
         }
 
         const MyStep = ({ title }) => {
           return (
-            <Wizard.Step title={title}>
+            <Wizard.Step
+              aria-label={`Router wizard: ${title}`}
+              title={title}
+            >
               <Form.Card>
                 <P>Contents of {title}</P>
               </Form.Card>

@@ -15,7 +15,7 @@ import { useState } from 'react'
 {[false, true].map((inset) => (
 
   <List.Container key={String(inset)}>
-    <List.Item.Accordion title="Nested list" open>
+    <List.Item.Accordion title={<>Nested list<VisuallyHidden>{inset ? ' with inset' : ' with separated rows'}</VisuallyHidden></>} open>
       <List.Item.Accordion.Content innerSpace={inset}>
         <List.Container separated={!inset} data-testid={inset ? 'inset-list' : 'separated-list'}>
           <List.Item.Action title="Row one" />

@@ -236,9 +236,12 @@ test('keeps the compact SidebarMenu layout stable while expanding', async ({
   await expect(
     shell.locator('.dnb-height-animation--animating')
   ).toHaveCount(0)
-  await expect(page.locator('[aria-label="Main navigation"]')).toHaveCount(
-    1
-  )
+  await expect(
+    page.getByRole('navigation', {
+      name: 'Responsive banking navigation example',
+      exact: true,
+    })
+  ).toHaveCount(1)
 
   await expect(inline).toHaveAttribute(
     'data-sidebar-menu-responsive-compact',
@@ -784,9 +787,12 @@ test('aligns nested button and link items in the Drawer', async ({
   await shell.locator('.dnb-sidebar-menu-responsive-trigger').click()
 
   const drawer = page.locator('.dnb-sidebar-menu-responsive-drawer')
-  await expect(page.locator('[aria-label="Main navigation"]')).toHaveCount(
-    1
-  )
+  await expect(
+    page.getByRole('navigation', {
+      name: 'Responsive banking navigation example',
+      exact: true,
+    })
+  ).toHaveCount(1)
   const accounts = drawer.locator(
     '[data-sidebar-menu-id="accounts"] > .dnb-sidebar-menu__item__action'
   )

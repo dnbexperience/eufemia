@@ -1,3 +1,4 @@
+import { Provider } from '@dnb/eufemia/src/shared'
 import { Button, Flex } from '@dnb/eufemia/src'
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
 import { Wizard } from '@dnb/eufemia/src/extensions/forms'
@@ -49,19 +50,32 @@ export const Default = () => {
         }
 
         return (
-          <Wizard.Container mode="loose">
-            <Wizard.Step title="Step 1">
-              <Step1 />
-            </Wizard.Step>
+          <Provider
+            StepIndicator={{ overviewTitle: 'Step hook wizard steps' }}
+          >
+            <Wizard.Container mode="loose">
+              <Wizard.Step
+                aria-label="Step hook wizard: Step 1"
+                title="Step 1"
+              >
+                <Step1 />
+              </Wizard.Step>
 
-            <Wizard.Step title="Step 2">
-              <Step2 />
-            </Wizard.Step>
+              <Wizard.Step
+                aria-label="Step hook wizard: Step 2"
+                title="Step 2"
+              >
+                <Step2 />
+              </Wizard.Step>
 
-            <Wizard.Step title="Step 3">
-              <Step3 />
-            </Wizard.Step>
-          </Wizard.Container>
+              <Wizard.Step
+                aria-label="Step hook wizard: Step 3"
+                title="Step 3"
+              >
+                <Step3 />
+              </Wizard.Step>
+            </Wizard.Container>
+          </Provider>
         )
       }}
     </ComponentBox>
@@ -103,7 +117,10 @@ export const OnStepChange = () => {
           Wizard.useStep(undefined, { onStepChange: onStepChange1 })
 
           return (
-            <Wizard.Step title="Step 1">
+            <Wizard.Step
+              aria-label="Step change hook wizard: Step 1"
+              title="Step 1"
+            >
               <Wizard.Buttons />
             </Wizard.Step>
           )
@@ -113,7 +130,10 @@ export const OnStepChange = () => {
           Wizard.useStep(undefined, { onStepChange: onStepChange2 })
 
           return (
-            <Wizard.Step title="Step 2">
+            <Wizard.Step
+              aria-label="Step change hook wizard: Step 2"
+              title="Step 2"
+            >
               <Wizard.Buttons />
             </Wizard.Step>
           )
@@ -123,18 +143,27 @@ export const OnStepChange = () => {
           Wizard.useStep(undefined, { onStepChange: onStepChange3 })
 
           return (
-            <Wizard.Step title="Step 3">
+            <Wizard.Step
+              aria-label="Step change hook wizard: Step 3"
+              title="Step 3"
+            >
               <Wizard.Buttons />
             </Wizard.Step>
           )
         }
 
         return (
-          <Wizard.Container mode="loose">
-            <Step1 />
-            <Step2 />
-            <Step3 />
-          </Wizard.Container>
+          <Provider
+            StepIndicator={{
+              overviewTitle: 'Step change hook wizard steps',
+            }}
+          >
+            <Wizard.Container mode="loose">
+              <Step1 />
+              <Step2 />
+              <Step3 />
+            </Wizard.Container>
+          </Provider>
         )
       }}
     </ComponentBox>
@@ -178,19 +207,34 @@ export const OutsideOfContext = () => {
         return (
           <Flex.Stack>
             <RenderBefore />
-            <Wizard.Container id="unique-id" mode="loose">
-              <Wizard.Step title="Step 1">
-                <output>Step 1</output>
-              </Wizard.Step>
+            <Provider
+              StepIndicator={{
+                overviewTitle: 'External step controls wizard steps',
+              }}
+            >
+              <Wizard.Container id="unique-id" mode="loose">
+                <Wizard.Step
+                  aria-label="External step controls wizard: Step 1"
+                  title="Step 1"
+                >
+                  <output>Step 1</output>
+                </Wizard.Step>
 
-              <Wizard.Step title="Step 2">
-                <output>Step 2</output>
-              </Wizard.Step>
+                <Wizard.Step
+                  aria-label="External step controls wizard: Step 2"
+                  title="Step 2"
+                >
+                  <output>Step 2</output>
+                </Wizard.Step>
 
-              <Wizard.Step title="Step 1">
-                <output>Step 3</output>
-              </Wizard.Step>
-            </Wizard.Container>
+                <Wizard.Step
+                  aria-label="External step controls wizard: Step 3"
+                  title="Step 3"
+                >
+                  <output>Step 3</output>
+                </Wizard.Step>
+              </Wizard.Container>
+            </Provider>
             <RenderAfter />
           </Flex.Stack>
         )
