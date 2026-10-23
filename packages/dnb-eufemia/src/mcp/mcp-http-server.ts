@@ -8,6 +8,9 @@
  * - Streamable HTTP (modern, default at `/mcp`) — recommended.
  * - Legacy SSE (`GET /sse` for the stream and `POST /messages` for client → server)
  *   for compatibility with clients like Claude Desktop's "SSE" server type.
+ *   Optional: it needs `@modelcontextprotocol/server-legacy`, which is
+ *   deprecated upstream. Without that package, `/sse` and `/messages`
+ *   answer 501 and only Streamable HTTP is served.
  *
  * Designed to be deployable behind any Node.js host (Fly.io, Render, Railway,
  * a Claude flair / proxy server, etc.) by listening on `process.env.PORT`.
@@ -42,7 +45,7 @@ import {
   toNodeHandler,
   toWebRequest,
 } from '@modelcontextprotocol/node'
-import { SSEServerTransport } from '@modelcontextprotocol/server-legacy'
+import type { SSEServerTransport } from '@modelcontextprotocol/server-legacy'
 
 import {
   createServerInfo,
@@ -51,6 +54,7 @@ import {
   registerDocsTools,
   validateDocsRoot,
 } from './mcp-docs-server'
+import { LEGACY_SSE_PACKAGE, loadLegacySse } from './legacy-sse'
 
 // Light local typings so this file compiles without @types/express.
 // Express runtime objects are compatible with these shapes.
@@ -303,6 +307,8 @@ export async function startHttpServer(
   const meta = await readDocsMeta(startupTools.source)
   const serverInfo = createServerInfo(meta.eufemiaVersion)
 
+  const legacySse = await loadLegacySse()
+
   const app = express()
   app.disable('x-powered-by')
   // Header-only guards run before the body parser, so a rejected request
@@ -316,7 +322,9 @@ export async function startHttpServer(
       ok: true,
       name: serverInfo.name,
       version: serverInfo.version,
-      transports: ['streamable-http', 'sse'],
+      transports: legacySse
+        ? ['streamable-http', 'sse']
+        : ['streamable-http'],
     })
   })
 
@@ -427,14 +435,36 @@ export async function startHttpServer(
   // GET /sse opens an SSE stream that delivers an `endpoint` event with the
   // POST URL, including the session id. The client then POSTs JSON-RPC
   // messages to /messages?sessionId=<id>.
+  //
+  // Both routes need the optional `@modelcontextprotocol/server-legacy`
+  // package. Without it they answer 501 and point to Streamable HTTP.
   const sseTransports = new Map<string, SSEServerTransport>()
+
+  const sendLegacySseUnavailable = (res: ExpressResponse) => {
+    res.status(501).json({
+      jsonrpc: '2.0',
+      error: {
+        code: -32000,
+        message: `Legacy SSE transport is not available: install ${LEGACY_SSE_PACKAGE}, or use Streamable HTTP at /mcp`,
+      },
+      id: null,
+    })
+  }
 
   app.get(
     '/sse',
     authMiddleware(authToken),
     async (req: ExpressRequest, res: ExpressResponse) => {
+      if (!legacySse) {
+        sendLegacySseUnavailable(res)
+        return
+      }
+
       try {
-        const transport = new SSEServerTransport('/messages', res)
+        const transport = new legacySse.SSEServerTransport(
+          '/messages',
+          res
+        )
         sseTransports.set(transport.sessionId, transport)
 
         transport.onclose = () => {
@@ -465,6 +495,11 @@ export async function startHttpServer(
     '/messages',
     authMiddleware(authToken),
     async (req: ExpressRequest, res: ExpressResponse) => {
+      if (!legacySse) {
+        sendLegacySseUnavailable(res)
+        return
+      }
+
       const sessionId = String(
         (req.query as { sessionId?: string } | undefined)?.sessionId ?? ''
       )
@@ -507,7 +542,9 @@ export async function startHttpServer(
   const url = `http://${host}:${boundPort}`
 
   logErr(
-    `[eufemia] http listening on ${url} (streamable: /mcp, sse: /sse, post: /messages)`
+    legacySse
+      ? `[eufemia] http listening on ${url} (streamable: /mcp, sse: /sse, post: /messages)`
+      : `[eufemia] http listening on ${url} (streamable: /mcp; legacy SSE is off, install ${LEGACY_SSE_PACKAGE} to serve /sse)`
   )
   logErr(`[eufemia] docsRoot: ${docsRootAbs}`)
 
