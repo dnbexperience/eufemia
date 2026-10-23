@@ -5471,6 +5471,68 @@ describe('DatePicker component', () => {
     expect(screen.getByLabelText('lørdag 26. april 2025')).toBeDisabled()
   })
 
+  it('should show the months of range dates set after mount', async () => {
+    const { rerender } = render(
+      <DatePicker
+        noAnimation
+        range
+        startDate="2025-01-10"
+        endDate="2025-01-20"
+      />
+    )
+
+    rerender(
+      <DatePicker
+        noAnimation
+        range
+        startDate="2025-06-10"
+        endDate="2025-08-05"
+      />
+    )
+    await userEvent.click(getDatePickerTriggerButton())
+
+    const titles = Array.from(
+      document.querySelectorAll('.dnb-date-picker__header__title')
+    ).map((element) => element.textContent)
+
+    expect(titles).toEqual(['juni 2025', 'august 2025'])
+    await waitFor(() =>
+      expect(document.activeElement.closest('td')).toHaveAttribute(
+        'data-date',
+        '2025-06-10'
+      )
+    )
+  })
+
+  it('should keep startMonth when range dates are set after mount', async () => {
+    const { rerender } = render(
+      <DatePicker
+        noAnimation
+        range
+        startMonth="2025-01-01"
+        startDate="2025-01-10"
+        endDate="2025-01-20"
+      />
+    )
+
+    rerender(
+      <DatePicker
+        noAnimation
+        range
+        startMonth="2025-01-01"
+        startDate="2025-06-10"
+        endDate="2025-06-20"
+      />
+    )
+    await userEvent.click(getDatePickerTriggerButton())
+
+    const titles = Array.from(
+      document.querySelectorAll('.dnb-date-picker__header__title')
+    ).map((element) => element.textContent)
+
+    expect(titles).toEqual(['januar 2025', 'februar 2025'])
+  })
+
   it('should not select invalid dates when navigating the calendar using the arrow keys', async () => {
     render(
       <DatePicker
