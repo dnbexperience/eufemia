@@ -15,6 +15,7 @@ on:
 
 permissions:
   contents: read
+  pull-requests: write
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -84,7 +85,7 @@ jobs:
       - name: Check if branch has PR
         id: existing-pr
         env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           url=$(gh pr list \
             --head "$BRANCH" \
@@ -101,7 +102,7 @@ jobs:
       - name: Check out the design token branch
         if: steps.target.outputs.exists == 'true'
         env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           gh auth setup-git
           git fetch origin "refs/heads/$BRANCH:refs/remotes/origin/$BRANCH"
@@ -221,6 +222,9 @@ jobs:
             git push --set-upstream origin "$BRANCH"
           fi
         env:
+          # For push we use the personal token instead of the built-in
+          # GITHUB_TOKEN, because the built-in token does not trigger the
+          # push verification workflows
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
           # The commits are attributed to whoever started the run
           GH_NAME: ${{ github.actor }}
@@ -230,7 +234,7 @@ jobs:
       - name: Create or comment on the design token pull request
         if: success() && steps.changes.outputs.changed == 'true'
         env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           EXISTING_PR: ${{ steps.existing-pr.outputs.exists }}
           PR_URL: ${{ steps.existing-pr.outputs.url }}
           BRANCH_CREATED: ${{ steps.commit.outputs.branch_created }}
