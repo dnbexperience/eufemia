@@ -96,7 +96,7 @@ jobs:
 
       - name: Push to internal deployment repository
         env:
-          GHE_PAT: ${{ secrets.GHE_DEPLOY_PAT }}
+          GHE_PAT: ${{ secrets.GHE_MONITORING_DEPLOY_PAT }}
           GHE_REPO: ${{ vars.GHE_MONITORING_DEPLOY_REPO }}
           SOURCE_SHA: ${{ github.sha }}
         run: |

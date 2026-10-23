@@ -14,7 +14,7 @@ EventBridge Scheduler runs CDN at :07 and MCP at :11 hourly in UTC, with flexibl
 
 1. Create a dedicated internal deployment repository. Provision its OIDC deploy role through the internal federation repository, restricted to the deploy branch and verified repository IDs. Give it scoped access to this stack, its Terraform state key and permission to pass the three execution roles.
 2. Use the internal AWS bootstrap repository to create the Lambda, Scheduler and Slack notifier roles under the approved permissions boundary. Terraform only reads these roles. The check role needs log writes, DynamoDB item read/write, secret read and failure-queue writes. The notifier needs its own log writes, webhook secret read and sqs:SendMessage for its failure destination; it has no DynamoDB access. Scheduler trust restricts the source account and schedule group. Its permissions are lambda:InvokeFunction for the two check functions and sqs:SendMessage for the schedule failure queue.
-3. Configure GHE_MONITORING_DEPLOY_REPO in the public repo and grant the existing GHE_DEPLOY_PAT access to it. Configure the internal variables below.
+3. Configure GHE_MONITORING_DEPLOY_REPO in the public repo and store a dedicated token as GHE_MONITORING_DEPLOY_PAT with Contents read/write, Workflows read/write and required Metadata read permissions for that repository only. Configure the internal variables below.
 4. Deploy with notifications disabled. Terraform creates an empty Secrets Manager secret. An operator populates its string value with the existing Slack webhook URL through Secrets Manager. Never place secret values in Terraform, repository variables, logs or committed files. GitHub cannot export an existing Actions secret.
 
 | Internal variable                  | Value                                                             |
@@ -46,16 +46,16 @@ Monitor-health alarms also go to Slack, using SNS and a separate notifier Lambda
 
 No email subscriptions are created. If Slack is unavailable, delivery fails visibly in AWS and failed events are retained for 14 days in the failure queue after retries. Slack cannot receive an alert while Slack itself is unavailable. Inspect logs and queued events before replaying or removing failures. SNS alarm notifications may be duplicated by retry delivery and include the alarm name and state.
 
-GitHub issues remain owned by the existing Actions monitors during migration. AWS alert delivery does not depend on GitHub issue writes. Adding issue synchronization later requires a dedicated GitHub App and explicit incident ownership. Unavailable MCP freshness verification appears separately from endpoint failures in the report. A configured GitHub secret that cannot be read does not prevent endpoint checks.
+AWS owns CDN and MCP incident notifications. GitHub Actions retain manual and post-deployment diagnostics without Slack notifications or issue writes. AWS alert delivery does not depend on GitHub issue writes. Adding issue synchronization later requires a dedicated GitHub App and explicit incident ownership. Unavailable MCP freshness verification appears separately from endpoint failures in the report. A configured GitHub secret that cannot be read does not prevent endpoint checks.
 
 ## Verify and switch over
 
 1. Run tests, types, lint, bundle import checks, Terraform validation and live checks. CI repeats offline validation and never sends test Slack messages.
 2. Deploy with notifications disabled. Inspect both smoke tests and at least two actual hourly executions per service. Confirm the secret is populated and metrics use the expected function dimensions.
 3. In an isolated test stack with a test webhook, verify a failed check, unchanged failure, recovery, rejected Slack request, storage failure and stopped schedule. Confirm service alerts and monitor-health alarms. Offline tests inject check dependencies and do not alter production endpoints.
-4. Enable AWS notifications and verify Slack delivery with an authorized test. Then retire Actions cron triggers and automatic incident reporting for these services in a follow-up PR. Preserve useful manual and post-deployment checks while assigning alert ownership to one system.
+4. Enable AWS notifications and verify Slack delivery with an authorized test before merging the cutover that removes the duplicate Actions cron triggers and incident reporting. The Actions workflows retain manual and post-deployment diagnostics.
 
-Existing Actions schedules remain active until verification is complete. Roll back alert ownership by disabling AWS notifications and restoring Actions reporting. A regional AWS outage needs an external uptime service for independent paging.
+The cutover must only be merged after verification is complete. Roll back alert ownership by restoring the previous Actions schedules and reporting, then disabling AWS notifications. A regional AWS outage needs an external uptime service for independent paging.
 
 ## Local validation
 

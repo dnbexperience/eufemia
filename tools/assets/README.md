@@ -53,10 +53,14 @@ module.
 
 ## Production monitoring
 
-`.github/workflows/cdn-health.yml` checks the public CDN every hour,
-after the Eufemia Assets workflow completes, and on manual dispatch. It runs
-Node.js directly without installing dependencies or using deployment credentials.
-The report is attached to each run for 14 days.
+Hourly production checks and Slack incident/recovery notifications run in AWS
+EventBridge Scheduler and Lambda. See [service monitoring](../service-monitoring/README.md)
+for deployment, alert ownership and rollback.
+
+The cdn-health Actions workflow retains manual and post-deployment diagnostics.
+It runs Node.js directly without dependencies or deployment credentials, stores
+reports for 14 days and fails on unhealthy checks. It does not send Slack
+notifications or manage incidents.
 
 The monitor checks:
 
@@ -80,40 +84,15 @@ they do not independently compare the entire npm tarball with the CDN.
 
 ### Alerts
 
-An unhealthy result fails the workflow and opens one **Eufemia CDN incident**
-issue. A changed set of failed checks adds an update. The same failures stay
-quiet. Recovery adds a comment and closes the incident. An npm outage is reported
-as an npm check failure so it can be distinguished from CDN downtime. A monitor
-that throws while checking is also reported as an incident.
+AWS owns new/changed-failure and recovery notifications. Its incident state
+suppresses unchanged failures and preserves pending delivery for retries. Slack
+webhooks are read from AWS Secrets Manager; the diagnostic Actions workflow does
+not receive them. Unavailable npm metadata is reported separately from CDN
+availability in each report.
 
-For shared team alerts, create a Slack incoming webhook for the team's alert
-channel and store it as repository secret `CDN_ALERT_WEBHOOK`. The workflow sends
-failure, changed-incident, and recovery messages with issue and workflow links.
-The secret is optional; GitHub issue tracking works without it. Failed Slack
-delivery fails the workflow and is retried on the next run before the incident
-transition is recorded. Delivery is at least once: an interrupted run can send a
-duplicate notification. No AWS credentials or personal GitHub token are needed.
-
-Subscribe responsible maintainers to the incident and enable GitHub Actions
-failure notifications as a fallback. GitHub issue creation alone does not
-page an on-call team. To activate and verify:
-
-1. Merge the workflow and scripts onto the default branch.
-2. Configure `CDN_ALERT_WEBHOOK` and an owner for the alert channel.
-3. Dispatch **Eufemia CDN health** from the default branch and inspect its report.
-4. Verify a controlled failure and recovery in a test repository/channel before
-   relying on the alert route. Local tests simulate this lifecycle without
-   creating issues or sending Slack messages.
-
-GitHub schedules can be delayed or dropped, and public-repository schedules are
-disabled after 60 days without activity. For timely production paging, pair this
-version monitor with an independent uptime service checking the stable font URL
-from multiple regions every 1–5 minutes, with two consecutive failures before
-paging and a recovery notification. This keeps availability monitoring working
-when GitHub Actions itself is unavailable. A regional outage can also be missed
-by the single GitHub-hosted runner. See the official
-[GitHub schedule documentation](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#schedule)
-and [Slack webhook setup](https://docs.slack.dev/messaging/sending-messages-using-incoming-webhooks/).
+The hourly AWS checks run from one region. For faster paging and regional
+coverage, pair them with an independent multi-region uptime check of a stable
+asset URL. See the [monitoring rollout and rollback instructions](../service-monitoring/README.md#verify-and-switch-over).
 
 ### Local verification
 
