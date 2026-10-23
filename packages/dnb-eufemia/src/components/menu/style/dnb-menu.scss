@@ -2,10 +2,10 @@
 
 .dnb-menu {
   --menu-action-padding-inline: 1rem;
-  --menu-action-padding-block: 0.75rem;
-  --menu-action-gap: 1rem;
-  --menu-action-min-height: 2.5rem;
-  --menu-action-border-radius: var(--token-radius-md);
+  --menu-action-padding-block: 1rem;
+  --menu-action-gap: 0.5rem;
+  --menu-action-min-height: 3.5rem;
+  --menu-action-border-radius: var(--token-radius-sm);
   --menu-action-background-color: transparent;
   --menu-action-background-color--hover: var(
     --token-color-background-neutral-subtle
@@ -142,6 +142,10 @@
     &--has-submenu {
       .dnb-menu__action__submenu-indicator {
         margin-inline-start: auto;
+
+        // Keep a wider space between the text and the arrow,
+        // because the menu width fits its content.
+        padding-inline-start: var(--menu-action-gap);
       }
     }
   }
@@ -188,6 +192,7 @@
       align-items: center;
       flex-shrink: 0;
       margin-inline-start: auto;
+      padding-inline-start: var(--menu-action-gap);
     }
 
     &--open > &__trigger &__indicator .dnb-icon {
