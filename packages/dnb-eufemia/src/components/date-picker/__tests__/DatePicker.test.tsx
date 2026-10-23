@@ -1975,6 +1975,33 @@ describe('DatePicker component', () => {
       ])
     })
 
+    it('should show the current month when the user types an end date after maxDate without a start date', async () => {
+      render(
+        <DatePicker noAnimation range showInput maxDate="2026-10-31" />
+      )
+
+      await userEvent.click(getDatePickerTriggerButton())
+
+      const [, , , endDay] = getDatePickerInputs()
+
+      await new Promise((resolve) => requestAnimationFrame(resolve))
+      await userEvent.click(endDay)
+      await userEvent.keyboard('05112026')
+
+      expect(getDatePickerInputs().map(({ value }) => value)).toEqual([
+        'dd',
+        'mm',
+        'åååå',
+        '05',
+        '11',
+        '2026',
+      ])
+      expect(getCalendarTitles()).toEqual([
+        'oktober 2026',
+        'november 2026',
+      ])
+    })
+
     const getNavButtons = (calendarIndex: number, row = 0) => {
       const calendar = document.querySelectorAll(
         '.dnb-date-picker__calendar'

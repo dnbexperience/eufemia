@@ -309,8 +309,10 @@ function updateMonths({
   isRange: boolean
   rangeSingleCalendar: boolean
 }) {
-  const startDate =
-    'startDate' in newDates ? newDates.startDate : currentDates.startDate
+  const firstMonth =
+    ('startDate' in newDates
+      ? newDates.startDate
+      : currentDates.startDate) ?? getDefaultMonth(currentDates)
   const endDate =
     'endDate' in newDates ? newDates.endDate : currentDates.endDate
 
@@ -320,13 +322,12 @@ function updateMonths({
     !rangeSingleCalendar &&
     !newDates.startMonth &&
     !newDates.endMonth &&
-    startDate &&
     endDate &&
     currentDates.maxDate &&
-    isSameMonth(startDate, currentDates.maxDate) &&
-    differenceInCalendarMonths(endDate, startDate) > 0
+    isSameMonth(firstMonth, currentDates.maxDate) &&
+    differenceInCalendarMonths(endDate, firstMonth) > 0
   ) {
-    return { startMonth: startDate, endMonth: endDate }
+    return { startMonth: firstMonth, endMonth: endDate }
   }
 
   const startMonth =
