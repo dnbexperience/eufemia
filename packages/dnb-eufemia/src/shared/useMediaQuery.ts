@@ -25,6 +25,7 @@ export default function useMediaQuery(props: MediaQueryProps) {
     disabled,
     correctRange = true,
     log,
+    target,
   } = props
 
   const matches = useMemo(() => {
@@ -41,6 +42,8 @@ export default function useMediaQuery(props: MediaQueryProps) {
       disabled,
       correctRange,
       log,
+      responsive: context.responsive,
+      target,
     })
   )
 
@@ -59,7 +62,13 @@ export default function useMediaQuery(props: MediaQueryProps) {
     mediaQueryList.current = makeMediaQueryList(
       { query, when, not },
       context.breakpoints,
-      { disabled, correctRange, log }
+      {
+        disabled,
+        correctRange,
+        log,
+        responsive: context.responsive,
+        target,
+      }
     )
 
     if (mediaQueryList.current) {
@@ -72,7 +81,20 @@ export default function useMediaQuery(props: MediaQueryProps) {
     )
 
     return listenerRef.current
-  }, [query, when, not, disabled]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [
+    query,
+    when,
+    not,
+    disabled,
+    correctRange,
+    log,
+    target,
+    context.breakpoints,
+    context.responsive,
+    context.responsive?.target === 'container'
+      ? context.responsive.containerRef.current
+      : undefined,
+  ]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return Boolean(match)
 }

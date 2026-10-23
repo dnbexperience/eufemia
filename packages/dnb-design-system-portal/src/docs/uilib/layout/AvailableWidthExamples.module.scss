@@ -1,0 +1,63 @@
+@use '@dnb/eufemia/src/style/core/utilities.scss' as utilities;
+
+.example {
+  display: grid;
+  gap: 1rem;
+}
+
+.shell {
+  display: grid;
+  overflow: hidden;
+  border: 0.0625rem solid var(--token-color-stroke-neutral-subtle);
+  border-radius: var(--token-radius-lg);
+}
+
+.sidebar {
+  min-width: 0;
+  overflow: hidden;
+  background: var(--token-color-background-neutral-subtle);
+
+  > p {
+    padding: 1rem;
+  }
+}
+
+.application {
+  container: available-width / inline-size;
+  min-width: 0;
+}
+
+.summary {
+  padding: 1rem;
+  overflow-wrap: anywhere;
+
+  input {
+    max-width: 100%;
+  }
+}
+
+.accounts {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1rem;
+  margin-bottom: 1rem;
+
+  > div {
+    padding: 1rem;
+    background: var(--token-color-background-neutral-subtle);
+  }
+
+  @include utilities.containerAbove(
+    medium,
+    $container: available-width,
+    $list: (medium: 40em)
+  ) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.viewportComparison .accounts {
+  @include utilities.allAbove(medium, $list: (medium: 40em)) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

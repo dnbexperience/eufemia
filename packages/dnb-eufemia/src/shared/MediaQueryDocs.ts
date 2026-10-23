@@ -1,6 +1,11 @@
 import type { PropertiesTableProps } from '../shared/types'
 
 export const MediaQueryProperties: PropertiesTableProps = {
+  target: {
+    doc: 'Use "viewport" to ignore the nearest Provider responsive container or offset configuration.',
+    type: '"viewport"',
+    status: 'optional',
+  },
   when: {
     doc: "Define a list of sizes to match, given as an object `{ min: 'small', max: 'medium' }` or as an array `[{ min: 'small', max: 'medium' }, { min: 'medium', max: 'large' }]`.",
     type: 'object',

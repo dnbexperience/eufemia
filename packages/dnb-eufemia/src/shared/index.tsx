@@ -24,3 +24,4 @@ export { icu } from './icuFormatMessage'
 
 export type { ThemeNames } from './Theme'
 export type { ICUFormatMessage } from './icuFormatMessage'
+export type { ResponsiveConfig } from './ResponsiveMediaQuery'

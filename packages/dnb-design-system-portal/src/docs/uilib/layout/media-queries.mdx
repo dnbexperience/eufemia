@@ -11,8 +11,99 @@ breadcrumb:
 
 import BreakpointRanges from './assets/breakpoint-ranges.svg'
 import { MediaQueryLiveExample, MediaQueryUseMedia } from './Examples'
+import {
+  AvailableWidthComparison,
+  AvailableWidthOffset,
+} from './AvailableWidthExamples'
 
 To make media queries more declarative and easier to handle from JavaScript, you may be interested in using both the `MediaQuery` React component and the `useMediaQuery` React hook.
+
+## Respond to the space your app has
+
+A wide browser does not always mean a wide app. A sidebar or split view can leave your app with much less room. Wrap the app in a Provider that uses its container, and its structured JavaScript width queries respond to that space. Use container-query Sass mixins for the corresponding CSS layout.
+
+Move the sidebar width slider without resizing the browser. The account cards switch between stacked and side-by-side layouts when the app crosses 40em. This example deliberately uses the same custom threshold in the JavaScript and Sass configuration.
+
+<AvailableWidthComparison />
+
+### Container setup
+
+```tsx
+import { useRef } from 'react'
+import { Provider, useMedia, useMediaQuery } from '@dnb/eufemia/shared'
+
+function Application() {
+  const containerRef = useRef<HTMLDivElement>(null)
+
+  return (
+    <div ref={containerRef} className="application">
+      <Provider responsive={{ target: 'container', containerRef }}>
+        <App />
+      </Provider>
+    </div>
+  )
+}
+
+function App() {
+  const { isSmall, isMedium, isLarge } = useMedia()
+  const hasRoom = useMediaQuery({ when: { min: 'medium' } })
+  // These results describe the application container's width.
+}
+```
+
+```scss
+@use '@dnb/eufemia/style/core/utilities' as utilities;
+
+.application {
+  container: application / inline-size;
+  min-inline-size: 0;
+}
+
+.account-cards {
+  display: grid;
+  gap: 1rem;
+
+  @include utilities.containerAbove(medium, $container: application) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+```
+
+`containerAbove()`, `containerBelow()`, and `containerBetween()` use the same named thresholds as the viewport mixins. Above excludes the threshold; below includes it. Container mixins accept an optional `$container` name and `$list` breakpoint map. Existing `allAbove()`, `allBelow()`, and `allBetween()` keep using viewport width.
+
+The parent layout must determine the container's width. Set `container-type: inline-size` on that element and apply container-query styles to its descendants. The example uses horizontal writing mode, matching its physical width queries. Use matching JavaScript and Sass breakpoint maps when customizing thresholds. A runtime Provider value cannot rewrite compiled CSS thresholds.
+
+### When the shell already knows its width
+
+An alternative is `responsive={{ target: 'viewport', offset: reservedWidth }}`. The offset is a finite, non-negative number of CSS pixels. A viewport of 1200px with a 288px sidebar leaves 912px; the JavaScript queries act on that remaining width. Update the offset when the shell reserves a different width. Compact hover overlays and a mobile Drawer do not reserve extra inline space.
+
+<AvailableWidthOffset />
+
+Container mode is more accurate when the app also has a max-width wrapper, gutters, or other neighbors. Offset mode is useful when the shell passes its reserved width to independent micro frontend roots. Each app configures its own Provider; sharing React context or one Eufemia bundle is unnecessary.
+
+### What follows the Provider
+
+| API or style                                                                                                   | Behavior inside the application boundary                                                               |
+| -------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
+| `useMedia()`, `useMediaQuery()`, `MediaQuery`                                                                  | Structured width conditions follow `responsive`                                                        |
+| Components using those APIs                                                                                    | Their JavaScript decisions follow the nearest Provider; their static CSS does not automatically change |
+| `containerAbove/Below/Between` Sass mixins                                                                     | Follow the named CSS container; configure the same thresholds as JavaScript                            |
+| `Flex.Container` with object `span` values, or with `layoutEngine="css"` and custom `breakpoints` or `queries` | Follow `responsive`, because `useMedia()` selects the spans                                            |
+| Grid, other `Flex.Container` layouts, spacing, typography, and component media-query CSS                       | Keep existing viewport behavior unless explicitly converted to container styles                        |
+| Raw query strings, device and preference queries                                                               | Keep viewport/device semantics                                                                         |
+| `target: 'viewport'` on a hook or `MediaQuery`                                                                 | Ignore inherited container/offset settings                                                             |
+
+Container mode supports structured width conditions with `min`/`max` or `minWidth`/`maxWidth`, named breakpoints, numeric `em` values, and `px`/`em`/`rem` lengths. Arrays and `not` retain their logical meaning; other structured media features are evaluated against the viewport. Use raw strings or `target: 'viewport'` for arbitrary media-query syntax.
+
+Container `em` values use the container's font size and `rem` values use the document root font size, as CSS container queries do. Viewport media queries preserve native browser unit handling. Missing container targets and browsers without ResizeObserver produce no container matches; they do not silently use viewport width. A mounted container with zero width matches the smallest range. Container mode requires modern CSS container-query and ResizeObserver support.
+
+Nested Providers inherit the nearest configuration. An explicit viewport configuration resets it. Offsets replace inherited offsets and are not added together. Observe the app's layout box so sidebar resizing, dismissal, and independently mounted apps do not need to share internal state.
+
+Container queries update when the container resizes or the document root font size changes. If only the container's own font size changes, its `em` thresholds update at the next resize. Eufemia adds no elements to the container. It adds one hidden probe element at the end of `<body>` to detect root font-size changes.
+
+### Server rendering
+
+Use `initialValue` and `matchOnSSR` as before. Server output and initial hydration use the same initial result; measurements apply after mount. Prefer CSS container queries for visual reflow before hydration. Conditional React markup can still change after measurement, so no zero-layout-shift guarantee is made. Reflow should keep the same interactive elements mounted to preserve focus and form values.
 
 ## Media Queries Properties Table
 
