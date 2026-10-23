@@ -1,0 +1,66 @@
+.dnb-ai-confirmation {
+  width: 100%;
+  max-width: 100%;
+
+  &__body {
+    min-width: 0;
+    width: 100%;
+
+    color: var(--token-color-text-neutral);
+  }
+
+  &__header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+
+  &__title {
+    min-width: 0;
+
+    font-size: var(--font-size-lead);
+    line-height: var(--line-height-lead);
+    color: inherit;
+    overflow-wrap: anywhere;
+  }
+
+  &__badge {
+    padding: 0.25rem 0.5rem;
+
+    line-height: var(--line-height-x-small);
+  }
+
+  &__description {
+    padding-top: 0.75rem;
+    padding-bottom: 0.5rem;
+
+    overflow-wrap: anywhere;
+
+    > :first-child {
+      margin-top: 0;
+    }
+
+    > :last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 0.625rem;
+
+    > .dnb-button {
+      max-width: 100%;
+    }
+  }
+
+  &--confirmed &__body,
+  &--declined &__body,
+  &--expired &__body {
+    color: var(--token-color-text-neutral-alternative);
+  }
+}

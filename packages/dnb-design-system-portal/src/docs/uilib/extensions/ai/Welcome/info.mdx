@@ -1,0 +1,27 @@
+---
+showTabs: true
+---
+
+## Import
+
+```tsx
+import { Welcome } from '@dnb/eufemia/extensions/ai'
+import { Avatar } from '@dnb/eufemia/components'
+import { aino } from '@dnb/eufemia/icons'
+import '@dnb/eufemia/extensions/ai/style'
+render(
+  <Welcome
+    greeting="Hi Matthias"
+    avatar={<Avatar size="small" icon={aino} hasLabel />}
+    title="Where do you want to start today?"
+  />
+)
+```
+
+## Description
+
+`Ai.Welcome` greets the user before the conversation starts, with a heading and content below, like [Ai.Suggestions](/uilib/extensions/ai/Suggestions/) or a compact [Ai.PromptInput](/uilib/extensions/ai/PromptInput/).
+
+Use `greeting` for the introduction above the heading and `avatar` for an optional decorative avatar beside it. For the Aino avatar, use `<Avatar size="small" icon={aino} hasLabel />`. Welcome hides the decorative avatar from screen readers; `hasLabel` tells Avatar that its accessible context is provided here rather than by an Avatar.Group. The greeting and avatar are omitted for an empty or false greeting. Keep meaningful identity in the greeting text. Your application provides and translates the greeting and title.
+
+The title uses Eufemia's large heading typography. Keep `level` aligned with the surrounding heading structure; it defaults to `2`. Sections have `1.25rem` spacing. Suggestions placed directly inside Welcome are stacked with `1rem` between buttons and can wrap long labels on narrow screens. Standalone Suggestions retain their horizontal wrapping layout.

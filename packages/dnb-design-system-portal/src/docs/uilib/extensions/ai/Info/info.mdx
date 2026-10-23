@@ -1,0 +1,20 @@
+---
+showTabs: true
+---
+
+## Import
+
+```tsx
+import { Info } from '@dnb/eufemia/extensions/ai'
+import '@dnb/eufemia/extensions/ai/style'
+
+render(<Info>Learn how this assistant works.</Info>)
+```
+
+## Description
+
+`Ai.Info` shows supporting information that helps users understand the conversation, such as how the chat works, privacy guidance, or the limitations of AI-generated answers.
+
+Place it near the content it explains, for example before the first message in a [Conversation](/uilib/extensions/ai/Conversation/). It accepts paragraphs, links, and other content, using smaller text and a secondary text color.
+
+This is static supporting content. Use [FormStatus](/uilib/components/form-status/) for errors or other status messages that require attention.

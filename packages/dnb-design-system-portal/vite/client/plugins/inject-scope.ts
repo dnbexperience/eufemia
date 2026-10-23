@@ -8,7 +8,7 @@
  *
  * For each ComponentBox:
  * 1. Serialize children to a code string
- * 2. Extract PascalCase identifiers matching known scope symbols
+ * 2. Extract identifiers matching known scope symbols
  * 3. Add file-level imports for any missing symbols
  * 4. Inject a __buildScope prop with the resolved bindings
  *
@@ -187,7 +187,7 @@ export function injectScope(babel: { types: typeof BabelTypes }) {
 }
 
 /**
- * Extract PascalCase identifiers from a code string that match
+ * Extract identifiers from a code string that match
  * known Eufemia scope symbols (excluding builtins like React hooks).
  */
 export function extractScopeIdentifiers(code: string): string[] {
@@ -205,7 +205,7 @@ export function extractScopeIdentifiers(code: string): string[] {
     }
   )
 
-  const matches = cleaned.match(/\b([A-Z][a-zA-Z0-9]*)\b/g) || []
+  const matches = cleaned.match(/\b([a-zA-Z][a-zA-Z0-9]*)\b/g) || []
 
   return Array.from(new Set(matches)).filter(
     (name) => allScopeNames.has(name) && !builtinScopeNames.has(name)

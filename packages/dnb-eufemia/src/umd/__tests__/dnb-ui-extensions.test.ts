@@ -17,6 +17,10 @@ describe('UMD Web Extensions package', () => {
     expect(typeof dnbExtensions.PaymentCard).toBe('function')
   })
 
+  it('has to have an Ai extension', () => {
+    expect(typeof dnbExtensions.Ai.Response).toBe('function')
+  })
+
   it('has to have a SidebarMenu extension', () => {
     expect(typeof dnbExtensions.SidebarMenu.Root).toBe('function')
   })
