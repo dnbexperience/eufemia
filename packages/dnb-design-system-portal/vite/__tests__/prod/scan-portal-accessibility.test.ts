@@ -118,6 +118,9 @@ it('retries a page that fails to load', async () => {
     expect(mocks.goto).toHaveBeenCalledTimes(3)
     expect(mocks.waitForTimeout).toHaveBeenCalledTimes(2)
     expect(stdout).toHaveBeenCalledWith(
+      'Retrying https://eufemia.dnb.no/: Page returned HTTP 503\n'
+    )
+    expect(stdout).toHaveBeenCalledWith(
       expect.stringContaining('0 axe findings and 0 errors')
     )
   } finally {
