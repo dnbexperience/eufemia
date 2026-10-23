@@ -8,7 +8,9 @@ on:
       - 'tools/mcp-lambda/src/check-http.ts'
       - 'tools/monitoring/report-incident.ts'
       - '.github/workflows/service-monitoring.yml'
+      - 'package.json'
       - 'yarn.lock'
+      - '.yarnrc.yml'
   push:
     branches: [main]
     paths:
@@ -17,6 +19,9 @@ on:
       - 'tools/mcp-lambda/src/check-http.ts'
       - 'tools/monitoring/report-incident.ts'
       - '.github/workflows/service-monitoring.yml'
+      - 'package.json'
+      - 'yarn.lock'
+      - '.yarnrc.yml'
   workflow_dispatch:
 
 permissions:

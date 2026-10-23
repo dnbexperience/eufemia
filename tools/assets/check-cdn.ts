@@ -257,7 +257,23 @@ if (
   process.argv[1] &&
   import.meta.url === pathToFileURL(process.argv[1]).href
 ) {
-  const report = await checkCdn()
+  let report: Report
+  try {
+    report = await checkCdn()
+  } catch {
+    report = {
+      status: 'unhealthy',
+      checkedAt: new Date().toISOString(),
+      checks: [
+        {
+          name: 'monitor',
+          ok: false,
+          detail:
+            'The CDN diagnostic could not complete its checks. See the workflow logs.',
+        },
+      ],
+    }
+  }
   writeFileSync(
     'cdn-health-report.json',
     JSON.stringify(report, null, 2) + '\n'

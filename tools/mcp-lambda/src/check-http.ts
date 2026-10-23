@@ -347,7 +347,23 @@ if (
   process.argv[1] &&
   import.meta.url === pathToFileURL(process.argv[1]).href
 ) {
-  const report = await checkHttpMcp({ githubToken: process.env.GH_TOKEN })
+  let report: Report
+  try {
+    report = await checkHttpMcp({ githubToken: process.env.GH_TOKEN })
+  } catch {
+    report = {
+      status: 'unhealthy',
+      checkedAt: new Date().toISOString(),
+      checks: [
+        {
+          name: 'monitor',
+          ok: false,
+          detail:
+            'The MCP diagnostic could not complete its checks. See the workflow logs.',
+        },
+      ],
+    }
+  }
   writeFileSync(
     'mcp-health-report.json',
     JSON.stringify(report, null, 2) + '\n'

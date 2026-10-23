@@ -56,6 +56,7 @@ run "enable_slack" {
   command = apply
   variables {
     notifications_enabled = true
+    slack_bot_secret_arn  = "arn:aws:secretsmanager:eu-north-1:123456789012:secret:test-bot-abcdef"
   }
   assert {
     condition = (

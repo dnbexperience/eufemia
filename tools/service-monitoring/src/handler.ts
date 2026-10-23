@@ -9,7 +9,7 @@ import { checkCdn } from '../../assets/check-cdn.ts'
 import { checkHttpMcp } from '../../mcp-lambda/src/check-http.ts'
 import { runMonitor } from './monitor.ts'
 import type { Service, State } from './monitor.ts'
-import { sendSlack } from './slack.ts'
+import { publishObservation } from './publish-observation.ts'
 import { logFailure } from './diagnostics.ts'
 
 const dynamodb = new DynamoDBClient({
@@ -72,7 +72,7 @@ export async function handler() {
         await setTimeout(ms, undefined, { signal }).catch(() => {})
       }
     }
-    const report = await runMonitor(service, notifications, {
+    const report = await runMonitor(notifications, {
       load: async () => {
         stage = 'load'
         const result = await dynamodb.send(
@@ -128,13 +128,13 @@ export async function handler() {
         process.stdout.write(JSON.stringify({ service, report }) + '\n')
         return report
       },
-      notify: async (text) => {
-        stage = 'webhook secret'
-        const webhook = await readSecret(
-          required('SLACK_WEBHOOK_SECRET_ARN')
-        )
-        stage = 'Slack delivery'
-        await sendSlack(webhook, text)
+      publish: async (report) => {
+        stage = 'publish observation'
+        await publishObservation(required('ALERT_TOPIC_ARN'), {
+          kind: 'service',
+          service,
+          report,
+        })
       },
       completed: (report) => {
         metric(service, 'Completed', 1)
