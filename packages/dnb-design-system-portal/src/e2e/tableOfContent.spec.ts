@@ -1,6 +1,23 @@
 import { test, expect } from '@playwright/test'
 
 test.describe('TableOfContent component', () => {
+  test('renders the info page with literal API examples', async ({
+    page,
+  }) => {
+    await page.goto('/uilib/components/table-of-content/')
+    await expect(
+      page.getByText('Something went wrong', { exact: true })
+    ).toHaveCount(0)
+    await expect(page.locator('#tab-bar-content')).toContainText(
+      '{ id, text, level }'
+    )
+    await expect(page.locator('#tab-bar-content')).toContainText(
+      'sticky={false}'
+    )
+    await expect(
+      page.locator('[data-visual-test="table-of-content-article"] nav')
+    ).toBeVisible()
+  })
   test('moves the selected outline while scrolling the generated-heading example', async ({
     page,
   }) => {
