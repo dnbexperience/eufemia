@@ -1,6 +1,68 @@
 import { test, expect } from '@playwright/test'
 
 test.describe('Portal table of contents', () => {
+  for (const height of [1000, 1600]) {
+    test(
+      'keeps the clicked destination selected on a short page at height ' +
+        height,
+      async ({ page }) => {
+        await page.setViewportSize({ width: 1440, height })
+        await page.goto('/uilib/components/table-of-content/events')
+        const toc = page.locator('#content-grid-sidebar nav')
+        const link = toc.getByRole('link', {
+          name: 'TableOfContent.Item',
+          exact: true,
+        })
+        if (height === 1600) {
+          await link.focus()
+          await page.keyboard.press('Enter')
+        } else {
+          await link.click()
+        }
+        await expect(link).toHaveAttribute('aria-current', 'location')
+        const selected = await toc.evaluate(async (element) => {
+          const result = new Set<string>()
+          const start = performance.now()
+          await new Promise<void>((resolve) => {
+            const sample = () => {
+              result.add(
+                element.querySelector('a[aria-current]')?.textContent
+              )
+              if (performance.now() - start < 1500) {
+                requestAnimationFrame(sample)
+              } else {
+                resolve()
+              }
+            }
+            requestAnimationFrame(sample)
+          })
+          return [...result]
+        })
+        expect(selected).toEqual(['TableOfContent.Item'])
+        expect(
+          await page.evaluate(
+            () =>
+              Math.abs(
+                window.scrollY +
+                  innerHeight -
+                  document.documentElement.scrollHeight
+              ) < 2
+          )
+        ).toBe(true)
+        await expect(
+          page.getByRole('heading', {
+            name: 'TableOfContent.Item',
+            exact: true,
+          })
+        ).toBeFocused()
+        if (height === 1600) {
+          expect(await page.evaluate(() => window.scrollY)).toBe(0)
+        }
+        await page.mouse.wheel(0, -500)
+        await expect(link).not.toHaveAttribute('aria-current', 'location')
+      }
+    )
+  }
   test('keeps a clicked section selected throughout smooth scrolling and below the header', async ({
     page,
   }) => {
