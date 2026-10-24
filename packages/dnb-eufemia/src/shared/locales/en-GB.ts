@@ -157,6 +157,10 @@ export default {
       addTitle: 'Increase (%s)',
       subtractTitle: 'Decrease (%s)',
     },
+    TableOfContent: {
+      showAll: 'Show all',
+      title: 'On this page',
+    },
     VippsWalletButton: {
       text: 'Add to',
     },

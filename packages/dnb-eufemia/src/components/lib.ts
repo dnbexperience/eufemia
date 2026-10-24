@@ -63,6 +63,7 @@ import Stat from './stat/Stat'
 import StepIndicator from './step-indicator/StepIndicator'
 import Switch from './switch/Switch'
 import Table from './table/Table'
+import TableOfContent from './table-of-content/TableOfContent'
 import Tabs from './tabs/Tabs'
 import Tag from './tag/Tag'
 import TermDefinition from './term-definition/TermDefinition'
@@ -128,6 +129,7 @@ export {
   StepIndicator,
   Switch,
   Table,
+  TableOfContent,
   Tabs,
   Tag,
   TermDefinition,
