@@ -12,12 +12,6 @@
 
 import picomatch from 'picomatch'
 
-export type TableOfContentsItem = {
-  url: string
-  title: string
-  items?: TableOfContentsItem[]
-}
-
 /**
  * The documented frontmatter fields, for autocompletion and type safety.
  *
@@ -128,9 +122,6 @@ export type MdxNode = {
     sourcePath: string
   }
   frontmatter: MdxFrontmatter
-  tableOfContents?: {
-    items: TableOfContentsItem[]
-  }
   /** Parent pages, nearest first. Only present when a consumer asks for them. */
   siblings?: MdxNode[]
 }
@@ -141,7 +132,6 @@ export type PageFileInfo = {
   sourcePath: string
   slug: string
   frontmatter: MdxFrontmatter
-  tableOfContents?: { items: TableOfContentsItem[] }
   type: 'mdx' | 'tsx'
 }
 
