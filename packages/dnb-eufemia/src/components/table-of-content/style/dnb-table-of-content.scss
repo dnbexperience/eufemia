@@ -27,6 +27,7 @@
   }
 
   &__title {
+    display: none;
     flex-shrink: 0;
     margin: 0 0 0.25rem;
 
@@ -34,6 +35,14 @@
     font-size: var(--font-size-basis);
     font-weight: var(--font-weight-regular);
     line-height: var(--line-height-basis);
+  }
+
+  &--sidebar &__title {
+    display: block;
+  }
+
+  &--sidebar &__toggle.dnb-button {
+    display: none;
   }
 
   &__toggle.dnb-button--tertiary {

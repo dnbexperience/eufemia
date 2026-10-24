@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useContext, useEffect, useMemo, useRef, useState } from 'react'
 import type { CSSProperties } from 'react'
 import { clsx } from 'clsx'
 import Button from '../button/Button'
@@ -7,6 +7,9 @@ import Icon from '../icon/Icon'
 import Space from '../space/Space'
 import ScrollView from '../scroll-view/ScrollView'
 import useMediaQuery from '../../shared/useMediaQuery'
+import Context from '../../shared/Context'
+import { buildQuery } from '../../shared/MediaQueryUtils'
+import useCanUseDOM from '../../shared/helpers/useCanUseDOM'
 import useId from '../../shared/helpers/useId'
 import useTranslation from '../../shared/useTranslation'
 import useLayoutEffect from '../../shared/helpers/useIsomorphicLayoutEffect'
@@ -72,6 +75,8 @@ export default function TableOfContentNavigation({
     when: { min: breakpoint },
     matchOnSSR: true,
   })
+  const canUseDOM = useCanUseDOM()
+  const { breakpoints } = useContext(Context)
   const [internalExpanded, setInternalExpanded] = useState(defaultExpanded)
   const isExpanded = expanded ?? internalExpanded
   const [animateReady, setAnimateReady] = useState(false)
@@ -83,9 +88,21 @@ export default function TableOfContentNavigation({
   const markerStyle = useMarkerStyle(isSidebar ? currentLink : null)
   const rootId = useId(id)
   const titleId = rootId + '-title'
+  const desktopTitleId = titleId + '-text'
   const listId = rootId + '-list'
   const translation = useTranslation().TableOfContent
   const label = title ?? translation.title
+  const scope =
+    '[id="' +
+    String(rootId).replace(
+      /["\\\n\r\f]/g,
+      (char) => '\\' + char.charCodeAt(0).toString(16) + ' '
+    ) +
+    '"]'
+  const mobileQuery = buildQuery(
+    { when: { min: breakpoint }, not: true },
+    breakpoints
+  )
 
   const setExpanded = (value: boolean) => {
     if (expanded === undefined) {
@@ -159,7 +176,8 @@ export default function TableOfContentNavigation({
         }
         aria-label={ariaLabel}
         aria-labelledby={
-          ariaLabelledBy ?? (ariaLabel ? undefined : titleId)
+          ariaLabelledBy ??
+          (ariaLabel ? undefined : isSidebar ? desktopTitleId : titleId)
         }
         className={clsx(
           'dnb-table-of-content',
@@ -169,26 +187,31 @@ export default function TableOfContentNavigation({
           className
         )}
       >
-        {isSidebar ? (
-          <p id={titleId} className="dnb-table-of-content__title">
-            {label}
-          </p>
-        ) : (
-          <Button
-            ref={toggleRef}
-            id={titleId}
-            type="button"
-            className="dnb-table-of-content__toggle"
-            variant="tertiary"
-            icon={chevronIcon}
-            transitionState={isExpanded ? 'expanded' : 'collapsed'}
-            aria-expanded={isExpanded}
-            aria-controls={listId}
-            onClick={() => setExpanded(!isExpanded)}
-          >
-            {label}
-          </Button>
+        {!canUseDOM && (
+          <style>{`@media ${mobileQuery}{
+            ${scope}{display:block;position:static;width:auto;max-height:none}
+            ${scope} .dnb-table-of-content__title{display:none}
+            ${scope} .dnb-table-of-content__toggle{display:inline-flex}
+            ${!isExpanded ? `${scope} .dnb-table-of-content__list-wrapper{display:none}` : ''}
+          }`}</style>
         )}
+        <p id={desktopTitleId} className="dnb-table-of-content__title">
+          {label}
+        </p>
+        <Button
+          ref={toggleRef}
+          id={titleId}
+          type="button"
+          className="dnb-table-of-content__toggle"
+          variant="tertiary"
+          icon={chevronIcon}
+          transitionState={isExpanded ? 'expanded' : 'collapsed'}
+          aria-expanded={isExpanded}
+          aria-controls={listId}
+          onClick={() => setExpanded(!isExpanded)}
+        >
+          {label}
+        </Button>
         <ScrollView
           className="dnb-table-of-content__scroll"
           aria-labelledby={titleId}
