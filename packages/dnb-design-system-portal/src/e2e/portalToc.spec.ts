@@ -1,6 +1,56 @@
 import { test, expect } from '@playwright/test'
 
 test.describe('Portal table of contents', () => {
+  test('avoids destination tooltip flashes and preserves direct anchor focus', async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1440, height: 1000 })
+    await page.goto('/uilib/components/table-of-content/events')
+    const link = page.locator('#content-grid-sidebar').getByRole('link', {
+      name: 'TableOfContent.Item',
+      exact: true,
+    })
+    await link.waitFor()
+    const observedTooltips = page.evaluate(
+      () =>
+        new Promise<string[]>((resolve) => {
+          const shown = new Set<string>()
+          const observer = new MutationObserver(() => {
+            document
+              .querySelectorAll('.dnb-tooltip--active')
+              .forEach((tooltip) => shown.add(tooltip.textContent))
+          })
+          observer.observe(document.body, {
+            subtree: true,
+            childList: true,
+            attributes: true,
+            attributeFilter: ['class'],
+          })
+          setTimeout(() => {
+            observer.disconnect()
+            resolve([...shown])
+          }, 1500)
+        })
+    )
+    await link.click()
+    await expect(
+      page.getByRole('heading', {
+        name: 'TableOfContent.Item',
+        exact: true,
+      })
+    ).toBeFocused()
+    // A repeated fragment uses native navigation without a route change.
+    await link.click()
+    expect(await observedTooltips).toEqual([])
+    await expect(page.locator('#tableofcontentitem')).toBeFocused()
+    await page.locator('#tableofcontentitem').blur()
+    await page.locator('#tableofcontentitem').focus()
+    await expect(
+      page.locator('.dnb-tooltip--active', {
+        hasText: 'Click to set an Anchor URL',
+      })
+    ).toBeVisible()
+  })
   for (const height of [1000, 1600]) {
     test(
       'keeps the clicked destination selected on a short page at height ' +
