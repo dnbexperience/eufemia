@@ -1,6 +1,47 @@
 import { test, expect } from '@playwright/test'
 
 test.describe('Portal table of contents', () => {
+  test('keeps content in place while the TOC hydrates', async ({
+    page,
+  }) => {
+    const hydrationErrors: string[] = []
+    page.on('console', (message) => {
+      if (/hydration|did not match/i.test(message.text())) {
+        hydrationErrors.push(message.text())
+      }
+    })
+    for (const width of [390, 768, 1440]) {
+      await page.setViewportSize({ width, height: 1000 })
+      let resume: () => void
+      const hydration = new Promise<void>((resolve) => {
+        resume = resolve
+      })
+      await page.route(/\.m?js(?:\?|$)/, async (route) => {
+        await hydration
+        await route.continue()
+      })
+      await page.goto('/uilib/components/table-of-content/demos/', {
+        waitUntil: 'commit',
+      })
+      const content = page.locator('#tab-bar-content')
+      await content.waitFor()
+      await expect(content).toHaveCSS('line-height', '24px')
+      await page.evaluate(() =>
+        document.fonts.load(
+          '16px ' + getComputedStyle(document.body).fontFamily
+        )
+      )
+      const before = await content.boundingBox()
+      resume()
+      await expect(page.locator('#content-grid-sidebar nav')).toBeVisible()
+      const after = await content.boundingBox()
+      expect(after.y).toBeCloseTo(before.y, 0)
+      expect(after.x).toBeCloseTo(before.x, 0)
+      expect(after.width).toBeCloseTo(before.width, 0)
+      await page.unrouteAll({ behavior: 'wait' })
+    }
+    expect(hydrationErrors).toEqual([])
+  })
   test('balances the mobile TOC between the tabs and content', async ({
     page,
   }) => {

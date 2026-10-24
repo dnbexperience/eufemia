@@ -1,5 +1,6 @@
-import { createElement, useEffect, useMemo, useState } from 'react'
+import { createElement, useMemo, useState } from 'react'
 import type { ReactNode } from 'react'
+import useLayoutEffect from '@dnb/eufemia/src/shared/helpers/useIsomorphicLayoutEffect'
 import { TableOfContent } from '@dnb/eufemia/src'
 import type { TableOfContentSection } from '@dnb/eufemia/src/components/table-of-content'
 import '@dnb/eufemia/src/components/table-of-content/style'
@@ -45,7 +46,7 @@ function usePageHeadings() {
   const [headings, setHeadings] = useState<PageHeading[]>([])
   const [currentSectionOffset, setCurrentSectionOffset] = useState(0)
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const content = document.querySelector('main')
     if (!content) {
       return
