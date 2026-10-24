@@ -1,4 +1,5 @@
 import { useLayoutEffect, useRef, useState } from 'react'
+import type { MouseEvent } from 'react'
 import {
   H2,
   H3,
@@ -10,6 +11,46 @@ import {
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import '@dnb/eufemia/src/components/table-of-content/style'
 import styles from './Examples.module.scss'
+
+function navigateExample(
+  event: MouseEvent<HTMLElement>,
+  article: HTMLDivElement | null
+) {
+  if (
+    event.defaultPrevented ||
+    event.button !== 0 ||
+    event.metaKey ||
+    event.ctrlKey ||
+    event.shiftKey ||
+    event.altKey ||
+    !article
+  ) {
+    return
+  }
+  const link = (event.target as Element).closest<HTMLAnchorElement>(
+    '.dnb-table-of-content a[href^="#"]'
+  )
+  const target =
+    link && document.getElementById(decodeURIComponent(link.hash.slice(1)))
+  if (!target || !article.contains(target)) {
+    return
+  }
+
+  event.preventDefault()
+  const padding =
+    parseFloat(getComputedStyle(article).scrollPaddingTop) || 0
+  article.scrollTo({
+    top:
+      article.scrollTop +
+      target.getBoundingClientRect().top -
+      article.getBoundingClientRect().top -
+      article.clientTop -
+      padding,
+    behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      ? 'instant'
+      : 'smooth',
+  })
+}
 
 export function Declarative() {
   return (
@@ -69,6 +110,7 @@ function IntegrationExample() {
   return (
     <div className={styles.example}>
       <TableOfContent.Data
+        onClick={(event) => navigateExample(event, articleRef.current)}
         title="Integration guide"
         currentSectionOffset={offset}
         maxDepth={2}
@@ -213,6 +255,7 @@ function ArticleExample() {
   return (
     <div className={styles.example}>
       <TableOfContent.Data
+        onClick={(event) => navigateExample(event, articleRef.current)}
         title="Plan your savings"
         defaultExpanded
         currentSectionOffset={offset}
