@@ -114,10 +114,14 @@ for (const width of [400, 1024]) {
 
       await help.click()
       await expect(page).toHaveURL(/#footer-help$/)
+      // Wait for Portal's hash focus before starting keyboard navigation.
+      await expect(footer).toHaveClass(/focus/)
+      await expect(help).toBeFocused()
       await trigger.focus()
       await expect(trigger).toBeFocused()
       await page.keyboard.press('Space')
       await expect(page).toHaveURL(/#footer-details$/)
+      await expect(item).toBeFocused()
       await trigger.focus()
       await page.keyboard.press(
         browserName === 'webkit' ? 'Alt+Tab' : 'Tab'

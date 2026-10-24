@@ -347,12 +347,7 @@ html[data-whatinput=keyboard] .dnb-tabs__button:not(:hover):focus-visible::befor
 }
 .dnb-tabs__button__snap {
   display: flex;
-  padding: 0 1rem 0 1.5rem;
-}
-@media screen and (max-width: 40em) {
-  .dnb-tabs__button__snap {
-    padding: 0 1rem;
-  }
+  padding: 0 1rem;
 }
 .dnb-tabs__button__snap:first-of-type {
   padding-left: 0;
@@ -835,12 +830,7 @@ html[data-whatinput=keyboard] .dnb-tabs__button:not(:hover):focus-visible::befor
 }
 .dnb-tabs__button__snap {
   display: flex;
-  padding: 0 1rem 0 1.5rem;
-}
-@media screen and (max-width: 40em) {
-  .dnb-tabs__button__snap {
-    padding: 0 1rem;
-  }
+  padding: 0 1rem;
 }
 .dnb-tabs__button__snap:first-of-type {
   padding-left: 0;
