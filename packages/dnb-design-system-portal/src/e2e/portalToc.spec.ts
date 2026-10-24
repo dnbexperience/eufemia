@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
 
 test.describe('Portal table of contents', () => {
-  test('aligns the desktop TOC with the page title and keeps a compact content gap', async ({
+  test('aligns the desktop TOC with the title and matches the left sidebar gap', async ({
     page,
   }) => {
     for (const width of [1280, 1440, 1920]) {
@@ -12,10 +12,12 @@ test.describe('Portal table of contents', () => {
       const title = await page.locator('h1').boundingBox()
       const navigation = await toc.boundingBox()
       const content = await page.locator('#tab-bar-content').boundingBox()
+      const sidebar = await page
+        .locator('#portal-sidebar-menu')
+        .boundingBox()
       expect(Math.abs(navigation.y - title.y)).toBeLessThanOrEqual(1)
       const gap = navigation.x - (content.x + content.width)
-      expect(gap).toBeGreaterThanOrEqual(24)
-      expect(gap).toBeLessThanOrEqual(48)
+      expect(gap).toBeCloseTo(content.x - (sidebar.x + sidebar.width), 0)
     }
   })
   test('keeps the desktop TOC at its starting position from the first scroll', async ({
