@@ -4,7 +4,7 @@
   gap: 2rem;
   align-items: flex-start;
 
-  > nav {
+  > :global(.dnb-table-of-content.dnb-table-of-content--sidebar) {
     flex: 0 0 auto;
     max-width: 100%;
   }
