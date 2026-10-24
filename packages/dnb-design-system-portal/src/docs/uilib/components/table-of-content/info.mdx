@@ -1,0 +1,80 @@
+---
+showTabs: true
+---
+
+## Import
+
+```tsx
+import { TableOfContent } from '@dnb/eufemia'
+import '@dnb/eufemia/components/table-of-content/style'
+```
+
+## Description
+
+Use TableOfContent to help readers find their way around a long page. It provides nested section links, a moving current-section indicator and a disclosure on smaller screens.
+
+Compose links with TableOfContent.Root and TableOfContent.Item. Use TableOfContent.Data for a flat list of headings from a CMS, Markdown processor or application state. Both approaches share navigation, responsive behavior and accessibility. The compound exports allow unused parts to stay outside the application bundle.
+
+## Composition
+
+Use clear labels that match the destination headings. Put an id on each destination and supply that same id to the item. Ids belong to the destination, so the component does not create duplicate document ids.
+
+The data API accepts `{ id, text, level }` entries in document order. Level is the heading level from 1 to 6. Page titles at level 1 are omitted, while their sections are included. The first heading level below 1 becomes the top list level. maxDepth defaults to two visible levels. Deeper headings still participate in current-section tracking and mark their nearest visible ancestor.
+
+Keep heading ids stable and unique. Inline formatting such as code is supported in text; avoid buttons or links inside link labels. Root inspects direct Item children, including fragments and memoized items. Arbitrary wrapper components are opaque to this discovery; use Data when generating content through another component.
+
+## Responsive layout and scrolling
+
+Above breakpoint, the list is always expanded with a width of 12rem. Below it, readers can open and close the disclosure. Use stretch to fill the available width, and expanded with onExpandedChange when application state controls the disclosure. The component remembers its disclosure state while moving between screen sizes.
+
+Desktop navigation is sticky by default within its containing block. Set stickyOffset to clear a fixed header, or `sticky={false}` when the application owns positioning. Align its initial position with stickyOffset when it should remain stationary from the first scroll. Mobile disclosure remains in normal document flow. Constrain its height in a flex container when a long table of contents needs its own scrolling area. The current link is revealed inside that area without moving keyboard focus as the reader scrolls.
+
+Use currentSectionOffset for the point where a heading becomes selected, stickyOffset for the TOC position, and CSS scroll-padding-top on the scrolling container for anchor destinations. Set these to the same header clearance to keep headings visible and selected. For example, with a 96px header clearance:
+
+```tsx
+<TableOfContent.Data
+  data={headings}
+  stickyOffset={96}
+  currentSectionOffset={96}
+/>
+```
+
+```scss
+html {
+  scroll-padding-top: 6rem;
+}
+```
+
+For a nested scrolling region, apply scroll-padding-top to that region instead of html and measure currentSectionOffset from the viewport top. Use scroll-margin-top on individual destination headings when you cannot style the scrolling container. Scroll padding and scroll margin add together, so avoid applying the full header clearance to both.
+
+## Navigation and current section
+
+Following a section link moves the indicator directly to that destination while the browser scrolls, without stopping at the headings passed along the way. The destination stays selected even when there is not enough content below it to reach the selection offset. Automatic tracking resumes on the next scroll, resize, or pointer, touch, wheel or keyboard input. The selected link keeps its text color on hover and activation. The outline follows wrapped labels and changes to their size or content.
+
+Automatic tracking responds to window and nested-container scrolling, resizing, DOM replacements, and visibility changes. Missing or hidden headings do not become current. The component uses the supplied data as its list; update that data when sections should be added to or removed from navigation. It does not scan the page or generate ids.
+
+Links retain native fragment navigation, browser history and modified-click behavior. TableOfContent.Item's onClick runs before navigation and destination focus; call event.preventDefault() when the application needs to handle both itself. The scrollable documentation examples contain navigation inside their article panels so trying them does not change the surrounding page position or URL.
+
+For server rendering, all links and the disclosure are present in the HTML. Responsive styles show the desktop list or mobile disclosure before hydration, including custom breakpoints. Supply the heading data during the initial render so the navigation appears with the content. Heading detection starts in the browser. Supply currentId to control the current section, or null to clear the indicator and disable automatic tracking.
+
+## Accessibility
+
+- The navigation is a named nav landmark, using its localized title by default. Give multiple tables of contents distinct titles or aria-label values.
+- Links use native fragments and semantic nested lists. The current section uses aria-current="location".
+- Tab and Shift+Tab move between links. Enter follows a link and moves focus to its destination so keyboard and screen reader users can continue reading there. Pointer activation also moves destination focus. Focus uses preventScroll so it does not interrupt the anchor scroll.
+- Automatic destination focus suppresses the destination's Eufemia tooltip, avoiding a tooltip flash on heading permalinks. Direct keyboard focus and pointer hover still show the tooltip normally. This behavior is built into the component.
+- Destinations without a tabindex receive a temporary tabindex of -1, removed on blur. Existing focus order is preserved. Heading ids are never duplicated on navigation items.
+- The small-screen button exposes aria-expanded and aria-controls. Enter or Space opens it. Collapsed links are hidden from the accessibility tree and keyboard navigation; browser find-in-page can reveal them where supported.
+- If resizing hides a list that contains keyboard focus, focus moves to its disclosure button. Its chosen expanded state is preserved across breakpoints, and applications can also control that state.
+- The current marker and disclosure animation respect the reader's reduced-motion preference. Scrolling never moves keyboard focus.
+- Desktop rows use compact 36px targets with 8px between them. Small screens use standard text links. Both layouts have visible keyboard focus, and labels wrap with text zoom.
+
+Use correct heading hierarchy in the page itself. A table of contents supports navigation but cannot repair that hierarchy. Check the finished page with the screen readers and zoom settings supported by your application.
+
+## Relevant links
+
+- [Figma design](https://www.figma.com/design/cdtwQD8IJ7pTeE45U148r1/?node-id=68514-395)
+- [Source code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-eufemia/src/components/table-of-content)
+- [Docs code](https://github.com/dnbexperience/eufemia/tree/main/packages/dnb-design-system-portal/src/docs/uilib/components/table-of-content)
+
+<RelatedComponents />

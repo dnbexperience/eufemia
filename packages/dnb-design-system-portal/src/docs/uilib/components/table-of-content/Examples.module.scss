@@ -1,0 +1,26 @@
+.example {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  align-items: flex-start;
+
+  > :global(.dnb-table-of-content.dnb-table-of-content--sidebar) {
+    flex: 0 0 auto;
+    max-width: 100%;
+  }
+}
+
+.article {
+  flex: 1 1 16rem;
+  min-width: 0;
+  max-height: 24rem;
+  padding: 1rem;
+  overflow: auto;
+  border: 0.0625rem solid var(--token-color-stroke-neutral-subtle);
+  border-radius: 0.5rem;
+  scroll-padding-top: 1rem;
+
+  section {
+    min-height: 24rem;
+  }
+}

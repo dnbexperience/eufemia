@@ -156,6 +156,9 @@ export default {
       addTitle: 'Forøg (%s)',
       subtractTitle: 'Reducer (%s)',
     },
+    TableOfContent: {
+      title: 'På denne side',
+    },
     VippsWalletButton: {
       text: 'Tilføj til',
     },

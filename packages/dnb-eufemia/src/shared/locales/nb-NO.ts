@@ -154,6 +154,9 @@ export default {
       addTitle: 'Øk (%s)',
       subtractTitle: 'Reduser (%s)',
     },
+    TableOfContent: {
+      title: 'På denne siden',
+    },
     VippsWalletButton: {
       text: 'Legg til i',
     },
