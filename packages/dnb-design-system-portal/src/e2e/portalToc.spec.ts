@@ -65,6 +65,11 @@ test.describe('Portal table of contents', () => {
       }
       const linksBefore = await navigation.locator('a').allTextContents()
       resume()
+      await expect(page.locator('html')).toHaveAttribute(
+        'data-portal-ready',
+        'true'
+      )
+      await expect(navigation.locator('style')).toHaveCount(0)
       await expect(page.locator('#content-grid-sidebar nav')).toBeVisible()
       await expect(navigation.locator('a')).toHaveText(linksBefore)
       const after = await content.boundingBox()

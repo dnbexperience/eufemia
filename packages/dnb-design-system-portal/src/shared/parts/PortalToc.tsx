@@ -52,6 +52,7 @@ export default function PortalToc({
         />
       )}
       <TableOfContent.Data
+        id="portal-page-toc"
         data={sections}
         currentSectionOffset={currentSectionOffset}
         maxDepth={maxDepth}
