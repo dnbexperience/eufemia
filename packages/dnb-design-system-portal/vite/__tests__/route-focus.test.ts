@@ -79,4 +79,17 @@ describe('applyRouteFocus', () => {
     expect(setPageFocusElement).not.toHaveBeenCalled()
     expect(applyPageFocus).not.toHaveBeenCalled()
   })
+
+  it('resolves encoded heading ids from table of contents links', () => {
+    const element = document.createElement('h3')
+    element.id = 'fødselsnummer'
+    document.body.append(element)
+    element.scrollIntoView = vi.fn()
+
+    applyRouteFocus('#f%C3%B8dselsnummer')
+
+    expect(element.scrollIntoView).toHaveBeenCalledWith({
+      behavior: 'instant',
+    })
+  })
 })

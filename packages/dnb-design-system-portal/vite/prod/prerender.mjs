@@ -97,7 +97,7 @@ async function prerender() {
   // Load the SSR module for metadata only (routes, allMdxNodes, etc.).
   // Actual rendering is done in worker threads for parallelism.
   const serverEntry = path.resolve(outDir, 'server', 'entry-server.mjs')
-  const { routes, getContentScript, getSidebarMenuScript, allMdxNodes } =
+  const { routes, getContentScript, getNavigationScript, allMdxNodes } =
     await import(serverEntry)
 
   // Read the client HTML template
@@ -120,7 +120,7 @@ async function prerender() {
     : null
 
   const contentScript = getContentScript()
-  const sidebarMenuScript = getSidebarMenuScript()
+  const navigationScript = getNavigationScript()
   let urls = collectUrls(routes)
   console.log(`  ${urls.length} pages to prerender`)
 
@@ -190,7 +190,7 @@ async function prerender() {
         result.emotionCss,
         { url, title: meta.title, description: meta.description, mdPath },
         themeCssPaths,
-        sidebarMenuScript
+        navigationScript
       )
       writeHtml(url, html)
       renderedUrls.push(url)
@@ -212,7 +212,7 @@ async function prerender() {
         result404.value.emotionCss,
         { url: '/404/', title: 'Page not found' },
         undefined,
-        sidebarMenuScript
+        navigationScript
       )
     )
   }
@@ -456,7 +456,7 @@ function injectHtml(
   emotionCss,
   meta,
   themeCssPaths,
-  sidebarMenuScript = ''
+  navigationScript = ''
 ) {
   // React 19 injects <link rel="preload"> elements inline during
   // renderToString for resources like images. Strip them from the app
@@ -480,17 +480,17 @@ function injectHtml(
   // Restore sidebar scroll position before first paint.
   const scrollRestoreScript = `(function(){try{var el=document.getElementById('portal-sidebar-menu');if(el){var s=parseFloat(sessionStorage.getItem('scroll-#portal-sidebar-menu')||'0');if(s){el.style.scrollBehavior='auto';el.scrollTop=s;el.style.scrollBehavior=''}}}catch(e){}})()`
 
-  const persistedSidebarScript =
-    /data-(?:inline-collapsed|open-items|scroll-position)-storage-key=/.test(
+  const persistedNavigationScript =
+    /data-(?:inline-collapsed|open-items|scroll-position|table-of-content-expanded)-storage-key=/.test(
       appHtml
     )
-      ? sidebarMenuScript
+      ? navigationScript
       : ''
 
   let html = template.replace(
     '<div id="root"></div>',
     () =>
-      `<div id="root">${appHtml}</div>\n\t<script>${contentScript};${scrollRestoreScript};${persistedSidebarScript}</script>`
+      `<div id="root">${appHtml}</div>\n\t<script>${contentScript};${scrollRestoreScript};${persistedNavigationScript}</script>`
   )
 
   // Inject <link> tags for ALL brand theme CSS chunks.

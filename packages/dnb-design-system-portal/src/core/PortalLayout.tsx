@@ -239,7 +239,10 @@ export default function PortalLayout(props: PortalLayoutProps) {
               className={pageLayoutStyles['content-grid__sidebar']}
               id="content-grid-sidebar"
             >
-              <PortalToc maxDepth={tocDepth} />
+              <PortalToc
+                pathname={location.pathname}
+                maxDepth={tocDepth}
+              />
             </div>
           )}
 
@@ -262,10 +265,10 @@ export default function PortalLayout(props: PortalLayoutProps) {
 }
 
 function Content({
-  sourcePath,
-  pagePath,
-  showEditLink,
-  showPropertiesUsage,
+  sourcePath = undefined,
+  pagePath = undefined,
+  showEditLink = false,
+  showPropertiesUsage = false,
   children,
 }) {
   return (

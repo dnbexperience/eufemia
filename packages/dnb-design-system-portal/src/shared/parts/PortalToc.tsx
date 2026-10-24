@@ -1,120 +1,99 @@
-import { useEffect, useMemo, useState } from 'react'
-import PageToc from './PageToc/PageToc'
-import type { PageTocHeading } from './PageToc/PageToc'
+import { createElement, useContext, useMemo, useState } from 'react'
+import type { ReactNode } from 'react'
+import useLayoutEffect from '@dnb/eufemia/src/shared/helpers/useIsomorphicLayoutEffect'
+import { TableOfContent } from '@dnb/eufemia/src'
+import type { TableOfContentSection } from '@dnb/eufemia/src/components/table-of-content'
+import '@dnb/eufemia/src/components/table-of-content/style'
+import { PortalTocData, readInitialToc } from './PortalTocData'
+import type { PortalTocSnapshot } from './PortalTocData'
 
-const CONTENT_AREA_OFFSET = 56
 const HEADING_SELECTOR = 'h1, h2, h3, h4, h5, h6'
 
 type PageHeading = {
-  element: HTMLElement
+  element?: HTMLElement
   id: string
-  text: string
+  text: ReactNode
+  signature: string
   level: number
 }
 
-export default function PortalToc({ maxDepth }: { maxDepth?: number }) {
-  const headings = usePageHeadings()
+export default function PortalToc({
+  maxDepth,
+  pathname = '',
+}: {
+  maxDepth?: number
+  pathname?: string
+}) {
+  const serverData = useContext(PortalTocData)
+  const [initialData] = useState(
+    () => serverData ?? readInitialToc(pathname)
+  )
+  const { headings, currentSectionOffset, resolvedPath } = usePageHeadings(
+    initialData,
+    pathname
+  )
 
-  const [currentIndex, setCurrentIndex] = useState<number | null>(null)
-
-  useEffect(() => {
-    if (headings.length === 0) {
-      return
-    }
-
-    let animationFrameId = 0
-
-    const updateCurrent = () => {
-      animationFrameId = 0
-
-      const headingPositions = headings.map(({ element }) => ({
-        top: element.getBoundingClientRect().top,
-        marginTop: parseFloat(getComputedStyle(element).marginTop) || 0,
-      }))
-
-      setCurrentIndex(
-        computeTocHighlight(
-          headingPositions.map((position) => position.top),
-          CONTENT_AREA_OFFSET,
-          headingPositions.map((position) => position.marginTop)
-        )
-      )
-    }
-
-    const scheduleUpdate = () => {
-      if (!animationFrameId) {
-        animationFrameId = requestAnimationFrame(updateCurrent)
-      }
-    }
-
-    updateCurrent()
-    window.addEventListener('scroll', scheduleUpdate, {
-      passive: true,
-    })
-    window.addEventListener('resize', scheduleUpdate)
-
-    return () => {
-      window.removeEventListener('scroll', scheduleUpdate)
-      window.removeEventListener('resize', scheduleUpdate)
-      if (animationFrameId) {
-        cancelAnimationFrame(animationFrameId)
-      }
-    }
-  }, [headings])
-
-  const items = useMemo<PageTocHeading[]>(
+  const sections = useMemo<TableOfContentSection[]>(
     () =>
       headings.map(({ text, id, level }) => ({
-        title: text,
-        url: `#${id}`,
+        text,
+        id,
         level,
       })),
     [headings]
   )
 
   return (
-    <PageToc
-      headings={items}
-      currentIndex={currentIndex}
-      maxDepth={maxDepth}
-    />
+    <>
+      {initialData && (
+        <script
+          id="portal-toc-data"
+          type="application/json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(initialData).replace(/</g, '\\u003c'),
+          }}
+        />
+      )}
+      <TableOfContent.Data
+        key={resolvedPath}
+        id="portal-page-toc"
+        locale="en-GB"
+        includeH1
+        expandedStorageKey="portal-toc-expanded"
+        data={sections}
+        currentSectionOffset={currentSectionOffset}
+        maxDepth={maxDepth}
+        sticky={false}
+        animateChanges={false}
+      />
+    </>
   )
-}
-
-/**
- * Index of the last heading to have passed the top of the content area, or
- * the first heading while none has reached it.
- */
-export function computeTocHighlight(
-  headingTops: number[],
-  contentAreaOffset: number,
-  headingTopMargins: number[] = []
-): number | null {
-  if (headingTops.length === 0) {
-    return null
-  }
-
-  const headingRegionTop = (index: number) =>
-    headingTops[index] - (headingTopMargins[index] ?? 0)
-
-  let currentIndex = 0
-  for (let index = 0; index < headingTops.length; index++) {
-    if (headingRegionTop(index) <= contentAreaOffset) {
-      currentIndex = index
-    }
-  }
-
-  return currentIndex
 }
 
 /**
  * Every heading the page offers an anchor link to, in document order,
  * kept in step with content that mounts after the first render.
  */
-function usePageHeadings() {
-  const [headings, setHeadings] = useState<PageHeading[]>([])
+function usePageHeadings(
+  initialData: PortalTocSnapshot | null,
+  pathname: string
+) {
+  const [resolvedPath, setResolvedPath] = useState(pathname)
+  const [headings, setHeadings] = useState<PageHeading[]>(
+    () =>
+      initialData?.headings.map(({ text, ...heading }) => ({
+        ...heading,
+        signature: JSON.stringify(text),
+        text: text.map((part, index) =>
+          typeof part === 'string'
+            ? part
+            : createElement('code', { key: index }, part.code)
+        ),
+      })) ?? []
+  )
+  const [currentSectionOffset, setCurrentSectionOffset] = useState(0)
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const content = document.querySelector('main')
     if (!content) {
       return
@@ -124,10 +103,17 @@ function usePageHeadings() {
 
     const rescan = () => {
       animationFrameId = 0
+      const style = getComputedStyle(document.documentElement)
+      // Allow for browser rounding when an anchor settles below the sticky header.
+      setCurrentSectionOffset(
+        (parseFloat(style.scrollPaddingTop) || 0) +
+          (parseFloat(style.fontSize) || 16) / 2
+      )
       setHeadings((current) => {
         const found = readHeadings(content)
         return isSameHeadings(current, found) ? current : found
       })
+      setResolvedPath(pathname)
     }
 
     const scheduleRescan = () => {
@@ -138,18 +124,37 @@ function usePageHeadings() {
 
     rescan()
 
-    const observer = new MutationObserver(scheduleRescan)
-    observer.observe(content, { childList: true, subtree: true })
+    const observer = new MutationObserver((mutations) => {
+      if (
+        mutations.some(
+          ({ target }) =>
+            !(
+              target instanceof Element ? target : target.parentElement
+            )?.closest('.dnb-table-of-content')
+        )
+      ) {
+        scheduleRescan()
+      }
+    })
+    observer.observe(content, {
+      childList: true,
+      subtree: true,
+      characterData: true,
+      attributes: true,
+      attributeFilter: ['id', 'hidden', 'aria-hidden', 'class', 'style'],
+    })
+    window.addEventListener('resize', scheduleRescan)
 
     return () => {
       observer.disconnect()
+      window.removeEventListener('resize', scheduleRescan)
       if (animationFrameId) {
         cancelAnimationFrame(animationFrameId)
       }
     }
-  }, [])
+  }, [pathname])
 
-  return headings
+  return { headings, currentSectionOffset, resolvedPath }
 }
 
 function readHeadings(content: HTMLElement) {
@@ -160,13 +165,24 @@ function readHeadings(content: HTMLElement) {
   )
 
   for (const element of elements) {
-    const anchor = element.querySelector<HTMLAnchorElement>('a[id]')
+    if (
+      !element.getClientRects().length ||
+      element.closest(
+        '[hidden], [aria-hidden="true"], .dnb-live-code-editor, .dnb-table-of-content'
+      ) ||
+      getComputedStyle(element).visibility === 'hidden'
+    ) {
+      continue
+    }
+    const anchor = element.querySelector<HTMLAnchorElement>(
+      'a.anchor-hash[id]'
+    )
 
     if (anchor) {
       headings.push({
         element,
         id: anchor.id,
-        text: titleOf(element),
+        ...titleOf(element),
         level: Number(element.tagName[1]),
       })
     }
@@ -183,7 +199,21 @@ function titleOf(heading: HTMLElement) {
     .querySelectorAll('.anchor-hash, .dnb-aria-live')
     .forEach((element) => element.remove())
 
-  return title.textContent.trim()
+  const readText = (node: Node): ReactNode => {
+    if (node.nodeType === Node.TEXT_NODE) {
+      return node.textContent
+    }
+    if (node instanceof HTMLElement && node.tagName === 'CODE') {
+      return createElement(
+        'code',
+        { key: Array.from(node.parentNode.childNodes).indexOf(node) },
+        node.textContent
+      )
+    }
+    return Array.from(node.childNodes).map(readText)
+  }
+
+  return { text: readText(title), signature: title.innerHTML }
 }
 
 function isSameHeadings(current: PageHeading[], found: PageHeading[]) {
@@ -192,7 +222,9 @@ function isSameHeadings(current: PageHeading[], found: PageHeading[]) {
     current.every(
       (heading, index) =>
         heading.element === found[index].element &&
-        heading.text === found[index].text
+        heading.signature === found[index].signature &&
+        heading.id === found[index].id &&
+        heading.level === found[index].level
     )
   )
 }
