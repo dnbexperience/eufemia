@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
+import type { CSSProperties } from 'react'
 import { clsx } from 'clsx'
 import Button from '../button/Button'
 import HeightAnimation from '../height-animation/HeightAnimation'
@@ -37,6 +38,9 @@ export default function TableOfContentNavigation({
   breakpoint = 'large',
   title,
   stretch,
+  sticky = true,
+  stickyOffset = 0,
+  style,
   expanded,
   defaultExpanded = false,
   onExpandedChange,
@@ -134,6 +138,15 @@ export default function TableOfContentNavigation({
         element="nav"
         id={rootId}
         ref={ref}
+        style={
+          {
+            ...style,
+            '--table-of-content-sticky-offset':
+              typeof stickyOffset === 'number'
+                ? stickyOffset + 'px'
+                : stickyOffset,
+          } as CSSProperties
+        }
         aria-label={ariaLabel}
         aria-labelledby={
           ariaLabelledBy ?? (ariaLabel ? undefined : titleId)
@@ -142,6 +155,7 @@ export default function TableOfContentNavigation({
           'dnb-table-of-content',
           isSidebar && 'dnb-table-of-content--sidebar',
           stretch && 'dnb-table-of-content--stretch',
+          sticky && 'dnb-table-of-content--sticky',
           className
         )}
       >

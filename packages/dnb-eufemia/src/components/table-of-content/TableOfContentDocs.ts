@@ -46,6 +46,18 @@ export const TableOfContentRootProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  sticky: {
+    doc: 'Keep the desktop navigation visible while its containing content scrolls. Set false when the application positions it.',
+    type: 'boolean',
+    defaultValue: 'true',
+    status: 'optional',
+  },
+  stickyOffset: {
+    doc: 'Distance from the top of the scroll container. Numbers use pixels; strings accept CSS lengths.',
+    type: ['number', 'string'],
+    defaultValue: '0',
+    status: 'optional',
+  },
   defaultExpanded: {
     doc: 'Initial disclosure state below the breakpoint.',
     type: 'boolean',

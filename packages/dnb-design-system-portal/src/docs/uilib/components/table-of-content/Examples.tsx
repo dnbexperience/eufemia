@@ -39,10 +39,38 @@ export function Declarative() {
 
 export function FromData() {
   return (
-    <ComponentBox data-visual-test="table-of-content-data">
+    <ComponentBox
+      hideCode
+      scope={{ IntegrationExample }}
+      data-visual-test="table-of-content-data"
+    >
+      <IntegrationExample />
+    </ComponentBox>
+  )
+}
+
+function IntegrationExample() {
+  const articleRef = useRef<HTMLDivElement>(null)
+  const [offset, setOffset] = useState(0)
+  useLayoutEffect(() => {
+    const update = () =>
+      setOffset(articleRef.current.getBoundingClientRect().top + 18)
+    update()
+    window.addEventListener('scroll', update, {
+      capture: true,
+      passive: true,
+    })
+    window.addEventListener('resize', update)
+    return () => {
+      window.removeEventListener('scroll', update, { capture: true })
+      window.removeEventListener('resize', update)
+    }
+  }, [])
+  return (
+    <div className={styles.example}>
       <TableOfContent.Data
         title="Integration guide"
-        currentId="toc-data-internals"
+        currentSectionOffset={offset}
         maxDepth={2}
         data={[
           { id: 'toc-data-title', text: 'Integration guide', level: 1 },
@@ -73,7 +101,38 @@ export function FromData() {
           },
         ]}
       />
-    </ComponentBox>
+      <ScrollView
+        ref={articleRef}
+        className={styles.article}
+        interactive
+        role="region"
+        aria-label="Example integration guide"
+      >
+        <section>
+          <H2 id="toc-data-install">Install the package</H2>
+          <P>Add Eufemia to your application and load its styles.</P>
+        </section>
+        <section>
+          <H2 id="toc-data-root">TableOfContent.Root</H2>
+          <P>Compose section links or supply a flat list of headings.</P>
+        </section>
+        <section>
+          <H3 id="toc-data-props">Properties and configuration</H3>
+          <P>Adjust the depth and sticky offset to fit your page.</P>
+          <H3 id="toc-data-internals">Implementation details</H3>
+          <P>
+            Headings below the visible depth highlight their nearest
+            visible ancestor.
+          </P>
+        </section>
+        <section>
+          <H2 id="toc-data-accessibility">
+            Test accessibility in your application
+          </H2>
+          <P>Check keyboard navigation and descriptive section labels.</P>
+        </section>
+      </ScrollView>
+    </div>
   )
 }
 
