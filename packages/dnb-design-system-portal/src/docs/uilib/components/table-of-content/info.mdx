@@ -47,7 +47,7 @@ html {
 
 For a nested scrolling region, apply scroll-padding-top to that region instead of html and measure currentSectionOffset from the viewport top. Use scroll-margin-top on individual destination headings when you cannot style the scrolling container. Scroll padding and scroll margin add together, so avoid applying the full header clearance to both.
 
-Following a section link moves the indicator directly to that destination while the browser scrolls. Automatic section tracking resumes when scrolling finishes, or immediately when readers interrupt it with pointer, touch, wheel or keyboard input.
+Following a section link moves the indicator directly to that destination while the browser scrolls. The destination stays selected even when there is not enough content below it to reach the selection offset. Automatic tracking resumes on the next scroll, resize, or pointer, touch, wheel or keyboard input.
 
 Automatic tracking responds to window and nested-container scrolling, resizing, DOM replacements, and visibility changes. Missing or hidden headings do not become current. The component uses the supplied data as its list; update that data when sections should be added to or removed from navigation. It does not scan the page or generate ids.
 
