@@ -3,9 +3,9 @@
 .content-grid {
   --content-sidebar-width: auto;
   --content-gutter-size: 2rem;
-  --content-sidebar-gap: min(10rem, 10vw);
+  --content-sidebar-gap: clamp(1.5rem, 3vw, 3rem);
   /* stylelint-disable-next-line eufemia/no-undefined-custom-property */
-  --content-sidebar-top: calc(var(--portal-sidebar-top, 3.5rem) + 1rem);
+  --content-sidebar-top: calc(var(--portal-sidebar-top, 3.5rem) + 3.5rem);
 
   @include utilities.allAbove(large) {
     display: grid;
@@ -43,7 +43,7 @@
 
     position: sticky;
     top: var(--content-sidebar-top);
-    max-height: calc(100dvh - var(--content-sidebar-top));
+    max-height: calc(100dvh - var(--content-sidebar-top) - 1rem);
 
     display: flex;
     flex-direction: column;

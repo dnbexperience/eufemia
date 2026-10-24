@@ -1,6 +1,23 @@
 import { test, expect } from '@playwright/test'
 
 test.describe('Portal table of contents', () => {
+  test('aligns the desktop TOC with the page title and keeps a compact content gap', async ({
+    page,
+  }) => {
+    for (const width of [1280, 1440, 1920]) {
+      await page.setViewportSize({ width, height: 1000 })
+      await page.goto('/uilib/components/table-of-content/')
+      const toc = page.locator('#content-grid-sidebar nav')
+      await expect(toc.locator('a').first()).toBeVisible()
+      const title = await page.locator('h1').boundingBox()
+      const navigation = await toc.boundingBox()
+      const content = await page.locator('#tab-bar-content').boundingBox()
+      expect(Math.abs(navigation.y - title.y)).toBeLessThanOrEqual(1)
+      const gap = navigation.x - (content.x + content.width)
+      expect(gap).toBeGreaterThanOrEqual(24)
+      expect(gap).toBeLessThanOrEqual(48)
+    }
+  })
   test('keeps the desktop TOC at its starting position from the first scroll', async ({
     page,
   }) => {
