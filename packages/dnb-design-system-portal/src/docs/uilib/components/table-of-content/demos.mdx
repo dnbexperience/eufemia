@@ -1,0 +1,34 @@
+---
+showTabs: true
+---
+
+import {
+  Declarative,
+  FromData,
+  ScrollableArticle,
+  DesktopArticle,
+} from './Examples'
+
+## Explore a desktop article
+
+Scroll inside the savings guide to follow the animated selection outline through three heading levels. The TOC stays on the right below a sticky header. stickyOffset and currentSectionOffset share the header clearance, while scroll-padding-top keeps linked headings visible. This example uses the translated default title, “On this page”. Link clicks scroll only this example. On small screens, the TOC becomes a disclosure above the article.
+
+<DesktopArticle />
+
+## Follow a scrollable article
+
+Scroll inside the article or follow a section link. The current link follows visible headings inside the scroll container, and keyboard focus moves to the destination when a link is activated.
+
+<ScrollableArticle />
+
+## Generate links from headings
+
+Data accepts a flat list in document order. Level 1 represents the page title and does not appear in the navigation. Scroll the example article to move the selected outline. A deeper current section marks its closest visible ancestor.
+
+<FromData />
+
+## Compose section links
+
+Use Root and nested Item elements when you own the markup. The selected section below is controlled so the example stays independent of the documentation page's scrolling.
+
+<Declarative />
