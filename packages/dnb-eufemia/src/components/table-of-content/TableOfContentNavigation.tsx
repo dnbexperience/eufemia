@@ -92,9 +92,8 @@ export default function TableOfContentNavigation({
   const listId = rootId + '-list'
   const translation = useTranslation().TableOfContent
   const label = title ?? translation.title
-  const mobileQuery = buildQuery(
-    { when: { min: breakpoint }, not: true },
-    breakpoints
+  const mobileQuery = String(
+    buildQuery({ when: { min: breakpoint }, not: true }, breakpoints)
   )
   const scope =
     '[data-table-of-content-query="' +
