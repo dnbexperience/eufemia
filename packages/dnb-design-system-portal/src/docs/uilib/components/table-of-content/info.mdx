@@ -19,7 +19,7 @@ Compose links with TableOfContent.Root and TableOfContent.Item. Use TableOfConte
 
 Use clear labels that match the destination headings. Put an id on each destination and supply that same id to the item. Ids belong to the destination, so the component does not create duplicate document ids.
 
-The data API accepts { id, text, level } entries in document order. Level is the heading level from 1 to 6. Page titles at level 1 are omitted, while their sections are included. The first heading level below 1 becomes the top list level. maxDepth defaults to two visible levels. Deeper headings still participate in current-section tracking and mark their nearest visible ancestor.
+The data API accepts `{ id, text, level }` entries in document order. Level is the heading level from 1 to 6. Page titles at level 1 are omitted, while their sections are included. The first heading level below 1 becomes the top list level. maxDepth defaults to two visible levels. Deeper headings still participate in current-section tracking and mark their nearest visible ancestor.
 
 Keep heading ids stable and unique. Inline formatting such as code is supported in text; avoid buttons or links inside link labels. Root inspects direct Item children, including fragments and memoized items. Arbitrary wrapper components are opaque to this discovery; use Data when generating content through another component.
 
@@ -27,7 +27,7 @@ Keep heading ids stable and unique. Inline formatting such as code is supported 
 
 Above breakpoint, the list is always expanded with a width of 12rem. Below it, readers can open and close the disclosure. Use stretch to fill the available width, and expanded with onExpandedChange when application state controls the disclosure. The component remembers its disclosure state while moving between screen sizes.
 
-Desktop navigation is sticky by default within its containing block. Set stickyOffset to clear a fixed header, or sticky={false} when the application owns positioning. Align its initial position with stickyOffset when it should remain stationary from the first scroll. Mobile disclosure remains in normal document flow. Constrain its height in a flex container when a long table of contents needs its own scrolling area. The current link is revealed inside that area without moving keyboard focus as the reader scrolls.
+Desktop navigation is sticky by default within its containing block. Set stickyOffset to clear a fixed header, or `sticky={false}` when the application owns positioning. Align its initial position with stickyOffset when it should remain stationary from the first scroll. Mobile disclosure remains in normal document flow. Constrain its height in a flex container when a long table of contents needs its own scrolling area. The current link is revealed inside that area without moving keyboard focus as the reader scrolls.
 
 Set currentSectionOffset to the height of a fixed header. Add scroll-margin-top to the destination headings so native fragment links leave them visible. The offset changes section detection; it does not change browser scrolling.
 
