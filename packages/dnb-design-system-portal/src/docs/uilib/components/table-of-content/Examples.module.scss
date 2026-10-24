@@ -3,6 +3,11 @@
   flex-wrap: wrap;
   gap: 2rem;
   align-items: flex-start;
+
+  > nav {
+    flex: 0 0 auto;
+    max-width: 100%;
+  }
 }
 
 .article {
