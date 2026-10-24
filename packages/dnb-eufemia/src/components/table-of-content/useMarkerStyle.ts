@@ -16,13 +16,35 @@ export default function useMarkerStyle(target: HTMLElement | null) {
       return undefined
     }
 
-    const coverTarget = () => setStyle(styleCovering(target))
+    const coverTarget = () => {
+      const next = styleCovering(target)
+      setStyle((current) =>
+        current &&
+        current.left === next.left &&
+        current.translate === next.translate &&
+        current.width === next.width &&
+        current.height === next.height
+          ? current
+          : next
+      )
+    }
     coverTarget()
 
+    const space = coordinateSpaceOf(target)
     const resizeObserver = new ResizeObserver(coverTarget)
-    resizeObserver.observe(coordinateSpaceOf(target))
+    resizeObserver.observe(space)
+    resizeObserver.observe(target)
+    const observer = new MutationObserver(coverTarget)
+    observer.observe(space, {
+      childList: true,
+      subtree: true,
+      characterData: true,
+    })
 
-    return () => resizeObserver.disconnect()
+    return () => {
+      resizeObserver.disconnect()
+      observer.disconnect()
+    }
   }, [target])
 
   return style

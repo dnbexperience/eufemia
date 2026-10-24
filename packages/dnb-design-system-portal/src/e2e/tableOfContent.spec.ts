@@ -1,6 +1,39 @@
 import { test, expect } from '@playwright/test'
 
 test.describe('TableOfContent component', () => {
+  for (const colorScheme of ['light', 'dark']) {
+    test(
+      'keeps the selected color after clicking with the pointer still over the item in ' +
+        colorScheme +
+        ' mode',
+      async ({ page }) => {
+        await page.setViewportSize({ width: 1440, height: 1000 })
+        await page.goto(
+          '/uilib/components/table-of-content/demos/?eufemia-color-scheme=' +
+            colorScheme
+        )
+        const example = page.locator(
+          '[data-visual-test="table-of-content-data"]'
+        )
+        const title = example.locator('.dnb-table-of-content__title')
+        const link = example.getByRole('link', {
+          name: 'TableOfContent.Root',
+          exact: true,
+        })
+        await link.click()
+        await expect(link).toHaveAttribute('aria-current', 'location')
+        expect(
+          await link.evaluate((element) => element.matches(':hover'))
+        ).toBe(true)
+        const selectedColor = await title.evaluate(
+          (element) => getComputedStyle(element).color
+        )
+        await expect(link).toHaveCSS('color', selectedColor)
+        await page.mouse.move(0, 0)
+        await expect(link).toHaveCSS('color', selectedColor)
+      }
+    )
+  }
   test('moves directly to a clicked section during smooth scrolling and resumes tracking after interruption', async ({
     page,
   }) => {
@@ -209,9 +242,6 @@ test.describe('TableOfContent component', () => {
     await expect(link).toHaveCSS('font-size', '16px')
     await expect(link).toHaveCSS('line-height', '20px')
     expect((await link.boundingBox()).height).toBe(36)
-    const mutedColor = await link.evaluate(
-      (element) => getComputedStyle(element).color
-    )
     const neutralColor = await title.evaluate(
       (element) => getComputedStyle(element).color
     )
@@ -225,10 +255,11 @@ test.describe('TableOfContent component', () => {
       await link.evaluate((element) => getComputedStyle(element).boxShadow)
     ).not.toBe('none')
     await current.hover()
-    await expect(current).toHaveCSS('color', mutedColor)
+    await expect(current).toHaveCSS('color', neutralColor)
     await page.mouse.down()
     await expect(current).toHaveCSS('color', neutralColor)
     await page.mouse.up()
+    await expect(current).toHaveCSS('color', neutralColor)
   })
 
   test('uses text links with their normal typography on small screens', async ({

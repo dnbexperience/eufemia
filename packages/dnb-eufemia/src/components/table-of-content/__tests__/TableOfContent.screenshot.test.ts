@@ -55,6 +55,20 @@ describe.each(['ui', 'sbanken'])('TableOfContent for %s', (themeName) => {
     })
   })
 
+  it('keeps a selected row highlighted while hovered in dark mode', async () => {
+    await makeScreenshot({
+      selector: '[data-visual-test="table-of-content-declarative"]',
+      style: { width: '18rem' },
+      colorScheme: 'dark',
+      wrapperStyle: {
+        background: 'var(--token-color-background-neutral)',
+      },
+      simulate: 'hover',
+      simulateSelector:
+        '[data-visual-test="table-of-content-declarative"] a[aria-current]',
+    })
+  })
+
   it('matches expanded mobile text links', async () => {
     await makeScreenshot({
       selector: '[data-visual-test="table-of-content-declarative"]',
