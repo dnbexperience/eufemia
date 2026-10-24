@@ -167,8 +167,25 @@ test.describe('TableOfContent component', () => {
       'location'
     )
     const focusedId = await page.evaluate(() => document.activeElement.id)
-    await article.hover()
-    await page.mouse.wheel(0, 1000)
+    await expect
+      .poll(() =>
+        article.evaluate((element, id) => {
+          const target = document.getElementById(id)
+          return Math.abs(
+            target.getBoundingClientRect().top -
+              element.getBoundingClientRect().top -
+              element.clientTop -
+              parseFloat(getComputedStyle(element).scrollPaddingTop)
+          )
+        }, focusedId)
+      )
+      .toBeLessThan(2)
+    await expect(page).toHaveURL(pageUrl)
+    expect(await page.evaluate(() => window.scrollY)).toBe(pageScroll)
+    await article.evaluate((element) => {
+      element.dispatchEvent(new WheelEvent('wheel', { bubbles: true }))
+      element.scrollTop = element.scrollHeight
+    })
     await expect(
       navigation.getByRole('link', { name: 'Review your progress' })
     ).toHaveAttribute('aria-current', 'location')
