@@ -189,10 +189,10 @@ export default function TableOfContentNavigation({
       >
         {!canUseDOM && (
           <style>{`@media ${mobileQuery}{
-            ${scope}{display:block;position:static;width:auto;max-height:none}
-            ${scope} .dnb-table-of-content__title{display:none}
-            ${scope} .dnb-table-of-content__toggle{display:inline-flex}
-            ${!isExpanded ? `${scope} .dnb-table-of-content__list-wrapper{display:none}` : ''}
+            ${scope}{display:block!important;position:static!important;width:auto!important;max-height:none!important}
+            ${scope} .dnb-table-of-content__title{display:none!important}
+            ${scope} .dnb-table-of-content__toggle.dnb-button{display:inline-flex!important}
+            ${!isExpanded ? `${scope} .dnb-table-of-content__list-wrapper{display:none!important}` : ''}
           }`}</style>
         )}
         <p id={desktopTitleId} className="dnb-table-of-content__title">
