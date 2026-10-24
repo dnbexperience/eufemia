@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useState } from 'react'
 
 export default function useNavigationTarget(enabled: boolean) {
-  const [targetId, setTargetId] = useState<string | null>(null)
+  const [target, setTarget] = useState<{ id: string } | null>(null)
   const navigate = useCallback(
     (id: string) => {
       if (enabled) {
-        setTargetId(id)
+        setTarget({ id })
       }
     },
     [enabled]
@@ -13,17 +13,23 @@ export default function useNavigationTarget(enabled: boolean) {
 
   useEffect(() => {
     if (!enabled) {
-      setTargetId(null)
+      setTarget(null)
       return undefined
     }
-    if (!targetId) {
+    if (!target) {
       return undefined
     }
 
-    const finish = () => setTargetId(null)
+    const finish = () => setTarget(null)
+    let settled = false
+    const settle = () => {
+      // Short pages may stop before the destination reaches the selection offset.
+      // Keep that destination selected until scrolling resumes or is interrupted.
+      settled = true
+    }
     let scrollTarget: EventTarget | null = null
     // A same-fragment click may not scroll at all.
-    let timeout = setTimeout(finish, 1000)
+    let timeout = setTimeout(settle, 1000)
     const onScroll = (event: Event) => {
       if (
         event.target instanceof Element &&
@@ -31,16 +37,20 @@ export default function useNavigationTarget(enabled: boolean) {
       ) {
         return
       }
+      if (settled) {
+        finish()
+        return
+      }
       scrollTarget = event.target
       clearTimeout(timeout)
       // Fallback for browsers without scrollend.
-      timeout = setTimeout(finish, 150)
+      timeout = setTimeout(settle, 150)
     }
     const onScrollEnd = (event: Event) => {
       if (event.target === scrollTarget) {
         // A route's focus restoration can end before its smooth scroll starts.
         clearTimeout(timeout)
-        timeout = setTimeout(finish, 150)
+        timeout = setTimeout(settle, 150)
       }
     }
 
@@ -59,6 +69,7 @@ export default function useNavigationTarget(enabled: boolean) {
     })
     window.addEventListener('pointerdown', finish, true)
     window.addEventListener('keydown', finish, true)
+    window.addEventListener('resize', finish)
 
     return () => {
       clearTimeout(timeout)
@@ -68,8 +79,9 @@ export default function useNavigationTarget(enabled: boolean) {
       window.removeEventListener('touchstart', finish, true)
       window.removeEventListener('pointerdown', finish, true)
       window.removeEventListener('keydown', finish, true)
+      window.removeEventListener('resize', finish)
     }
-  }, [targetId, enabled])
+  }, [target, enabled])
 
-  return { targetId: enabled ? targetId : null, navigate }
+  return { targetId: enabled ? (target?.id ?? null) : null, navigate }
 }

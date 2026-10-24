@@ -54,16 +54,20 @@ it('selects a clicked destination without stopping at headings passed during scr
       '#overview'
     )
   )
-  fireEvent.click(document.querySelector('a[href="#next"]'))
-  nextTop = -10
-  fireEvent.scroll(window)
-  fireEvent(window, new Event('scrollend'))
-  await waitFor(() =>
+  vi.useFakeTimers()
+  try {
+    fireEvent.click(document.querySelector('a[href="#next"]'))
+    nextTop = -10
+    fireEvent.scroll(window)
+    fireEvent(window, new Event('scrollend'))
+    act(() => vi.advanceTimersByTime(200))
     expect(document.querySelector('a[aria-current]')).toHaveAttribute(
       'href',
       '#next'
     )
-  )
+  } finally {
+    vi.useRealTimers()
+  }
   nextTop = 600
   fireEvent.scroll(window)
   await waitFor(() =>
