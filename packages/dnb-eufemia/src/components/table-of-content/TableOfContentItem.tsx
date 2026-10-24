@@ -51,6 +51,7 @@ function TableOfContentItem({
 
           const target = document.getElementById(id)
           if (target) {
+            context.navigate(id)
             // Keep native fragment navigation and move keyboard reading order to its destination.
             const hadTabIndex = target.hasAttribute('tabindex')
             if (!hadTabIndex) {

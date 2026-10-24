@@ -18,6 +18,62 @@ const data = [
 
 beforeEach(() => setMedia({ width: '1400px' }))
 
+it('selects a clicked destination without stopping at headings passed during scrolling', async () => {
+  let nextTop = 600
+  const overview = document.createElement('h2')
+  overview.id = 'overview'
+  overview.getClientRects = () => [{}] as unknown as DOMRectList
+  overview.getBoundingClientRect = () => ({ top: -20 }) as DOMRect
+  const next = document.createElement('h2')
+  next.id = 'next'
+  next.getClientRects = () => [{}] as unknown as DOMRectList
+  next.getBoundingClientRect = () => ({ top: nextTop }) as DOMRect
+  document.body.append(overview, next)
+  render(<TableOfContent.Data data={data} />)
+  expect(document.querySelector('a[aria-current]')).toHaveAttribute(
+    'href',
+    '#overview'
+  )
+
+  fireEvent.click(document.querySelector('a[href="#next"]'))
+  expect(document.querySelector('a[aria-current]')).toHaveAttribute(
+    'href',
+    '#next'
+  )
+  fireEvent.scroll(window)
+  await new Promise((resolve) => requestAnimationFrame(resolve))
+  expect(document.querySelector('a[aria-current]')).toHaveAttribute(
+    'href',
+    '#next'
+  )
+
+  fireEvent.wheel(window)
+  await waitFor(() =>
+    expect(document.querySelector('a[aria-current]')).toHaveAttribute(
+      'href',
+      '#overview'
+    )
+  )
+  fireEvent.click(document.querySelector('a[href="#next"]'))
+  nextTop = -10
+  fireEvent.scroll(window)
+  fireEvent(window, new Event('scrollend'))
+  await waitFor(() =>
+    expect(document.querySelector('a[aria-current]')).toHaveAttribute(
+      'href',
+      '#next'
+    )
+  )
+  nextTop = 600
+  fireEvent.scroll(window)
+  await waitFor(() =>
+    expect(document.querySelector('a[aria-current]')).toHaveAttribute(
+      'href',
+      '#overview'
+    )
+  )
+})
+
 it('defaults to sticky positioning and supports an offset or application-owned positioning', () => {
   const { rerender } = render(
     <TableOfContent.Data data={data} currentId={null} />

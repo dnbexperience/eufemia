@@ -18,6 +18,7 @@ import {
 } from './tableOfContentTree'
 import useCurrentSectionId from './useCurrentSectionId'
 import useMarkerStyle from './useMarkerStyle'
+import useNavigationTarget from './useNavigationTarget'
 import { chevron_down, chevron_up } from '../../icons'
 import type {
   TableOfContentRootProps,
@@ -60,9 +61,12 @@ export default function TableOfContentNavigation({
     currentSectionOffset,
     currentId === undefined
   )
+  const { targetId, navigate } = useNavigationTarget(
+    currentId === undefined
+  )
   const resolvedId = resolveCurrentId(
     tree,
-    currentId === undefined ? detectedId : currentId
+    currentId === undefined ? (targetId ?? detectedId) : currentId
   )
   const isSidebar = useMediaQuery({
     when: { min: breakpoint },
@@ -131,7 +135,13 @@ export default function TableOfContentNavigation({
 
   return (
     <TableOfContentContext.Provider
-      value={{ currentId: resolvedId, maxDepth, depth: 1, isSidebar }}
+      value={{
+        currentId: resolvedId,
+        maxDepth,
+        depth: 1,
+        isSidebar,
+        navigate,
+      }}
     >
       <Space
         {...rest}

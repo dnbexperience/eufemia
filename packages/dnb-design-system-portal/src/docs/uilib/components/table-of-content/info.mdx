@@ -29,7 +29,25 @@ Above breakpoint, the list is always expanded with a width of 12rem. Below it, r
 
 Desktop navigation is sticky by default within its containing block. Set stickyOffset to clear a fixed header, or `sticky={false}` when the application owns positioning. Align its initial position with stickyOffset when it should remain stationary from the first scroll. Mobile disclosure remains in normal document flow. Constrain its height in a flex container when a long table of contents needs its own scrolling area. The current link is revealed inside that area without moving keyboard focus as the reader scrolls.
 
-Set currentSectionOffset to the height of a fixed header. Add scroll-margin-top to the destination headings so native fragment links leave them visible. The offset changes section detection; it does not change browser scrolling.
+Use currentSectionOffset for the point where a heading becomes selected, stickyOffset for the TOC position, and CSS scroll-padding-top on the scrolling container for anchor destinations. Set these to the same header clearance to keep headings visible and selected. For example, with a 96px header clearance:
+
+```tsx
+<TableOfContent.Data
+  data={headings}
+  stickyOffset={96}
+  currentSectionOffset={96}
+/>
+```
+
+```scss
+html {
+  scroll-padding-top: 6rem;
+}
+```
+
+For a nested scrolling region, apply scroll-padding-top to that region instead of html and measure currentSectionOffset from the viewport top. Use scroll-margin-top on individual destination headings when you cannot style the scrolling container. Scroll padding and scroll margin add together, so avoid applying the full header clearance to both.
+
+Following a section link moves the indicator directly to that destination while the browser scrolls. Automatic section tracking resumes when scrolling finishes, or immediately when readers interrupt it with pointer, touch, wheel or keyboard input.
 
 Automatic tracking responds to window and nested-container scrolling, resizing, DOM replacements, and visibility changes. Missing or hidden headings do not become current. The component uses the supplied data as its list; update that data when sections should be added to or removed from navigation. It does not scan the page or generate ids.
 

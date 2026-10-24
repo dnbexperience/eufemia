@@ -5,4 +5,5 @@ export const TableOfContentContext = createContext({
   maxDepth: 2,
   depth: 1,
   isSidebar: false,
+  navigate: (_id: string) => {},
 })
