@@ -1,7 +1,7 @@
 @use '@dnb/eufemia/src/style/core/utilities.scss' as utilities;
 
 .content-grid {
-  --content-sidebar-width: 12rem;
+  --content-sidebar-width: auto;
   --content-gutter-size: 2rem;
   --content-sidebar-gap: var(--content-gutter-size);
   /* stylelint-disable-next-line eufemia/no-undefined-custom-property */
@@ -29,8 +29,6 @@
 }
 
 .content-grid__sidebar {
-  // Reserve the collapsed disclosure before the rendered headings are scanned.
-  min-height: calc(var(--line-height-basis) + 0.75rem);
   margin: 3rem 0 1.5rem;
 
   :global(.fullscreen-page) & {
@@ -41,7 +39,6 @@
     grid-column: 2;
     grid-row: 1 / span 2;
     align-self: start;
-    min-height: 0;
     margin: 0;
 
     position: sticky;

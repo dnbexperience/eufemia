@@ -1,22 +1,34 @@
-import { createElement, useMemo, useState } from 'react'
+import { createElement, useContext, useMemo, useState } from 'react'
 import type { ReactNode } from 'react'
 import useLayoutEffect from '@dnb/eufemia/src/shared/helpers/useIsomorphicLayoutEffect'
 import { TableOfContent } from '@dnb/eufemia/src'
 import type { TableOfContentSection } from '@dnb/eufemia/src/components/table-of-content'
 import '@dnb/eufemia/src/components/table-of-content/style'
+import { PortalTocData, readInitialToc } from './PortalTocData'
+import type { PortalTocSnapshot } from './PortalTocData'
 
 const HEADING_SELECTOR = 'h1, h2, h3, h4, h5, h6'
 
 type PageHeading = {
-  element: HTMLElement
+  element?: HTMLElement
   id: string
   text: ReactNode
   signature: string
   level: number
 }
 
-export default function PortalToc({ maxDepth }: { maxDepth?: number }) {
-  const { headings, currentSectionOffset } = usePageHeadings()
+export default function PortalToc({
+  maxDepth,
+  pathname = '',
+}: {
+  maxDepth?: number
+  pathname?: string
+}) {
+  const serverData = useContext(PortalTocData)
+  const [initialData] = useState(
+    () => serverData ?? readInitialToc(pathname)
+  )
+  const { headings, currentSectionOffset } = usePageHeadings(initialData)
 
   const sections = useMemo<TableOfContentSection[]>(
     () =>
@@ -29,12 +41,23 @@ export default function PortalToc({ maxDepth }: { maxDepth?: number }) {
   )
 
   return (
-    <TableOfContent.Data
-      data={sections}
-      currentSectionOffset={currentSectionOffset}
-      maxDepth={maxDepth}
-      sticky={false}
-    />
+    <>
+      {initialData && (
+        <script
+          id="portal-toc-data"
+          type="application/json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(initialData).replace(/</g, '\\u003c'),
+          }}
+        />
+      )}
+      <TableOfContent.Data
+        data={sections}
+        currentSectionOffset={currentSectionOffset}
+        maxDepth={maxDepth}
+        sticky={false}
+      />
+    </>
   )
 }
 
@@ -42,8 +65,19 @@ export default function PortalToc({ maxDepth }: { maxDepth?: number }) {
  * Every heading the page offers an anchor link to, in document order,
  * kept in step with content that mounts after the first render.
  */
-function usePageHeadings() {
-  const [headings, setHeadings] = useState<PageHeading[]>([])
+function usePageHeadings(initialData: PortalTocSnapshot | null) {
+  const [headings, setHeadings] = useState<PageHeading[]>(
+    () =>
+      initialData?.headings.map(({ text, ...heading }) => ({
+        ...heading,
+        signature: JSON.stringify(text),
+        text: text.map((part, index) =>
+          typeof part === 'string'
+            ? part
+            : createElement('code', { key: index }, part.code)
+        ),
+      })) ?? []
+  )
   const [currentSectionOffset, setCurrentSectionOffset] = useState(0)
 
   useLayoutEffect(() => {

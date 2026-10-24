@@ -25,6 +25,11 @@ import { routes, allMdxNodes } from 'virtual:portal-pages'
 import { translations, getLang } from '../../src/core/portalRuntimeUtils'
 import tags from '../../src/shared/tags'
 import PortalLayout from '../../src/core/PortalLayout'
+import {
+  PortalTocData,
+  type PortalTocSnapshot,
+} from '../../src/shared/parts/PortalTocData'
+import { readRenderedToc } from './portal-toc'
 
 // Cached resolved routes and static handler — populated by prepareRoutes()
 let resolvedRouteConfig: ReturnType<typeof buildRouteConfig> | null = null
@@ -91,13 +96,21 @@ export async function render(url: string) {
 
   // Create a fresh Emotion cache for this render to ensure clean
   // style extraction per page.
-  const emotionCache = createEmotionCache({ key: 'css' })
-
-  let appHtml = renderToString(
-    <CacheProvider value={emotionCache}>
-      <StaticRouterProvider router={router} context={context} />
-    </CacheProvider>
-  )
+  const renderPage = (toc: PortalTocSnapshot | null = null) =>
+    renderToString(
+      <CacheProvider value={createEmotionCache({ key: 'css' })}>
+        <PortalTocData value={toc}>
+          <StaticRouterProvider router={router} context={context} />
+        </PortalTocData>
+      </CacheProvider>
+    )
+  let appHtml = renderPage()
+  if (appHtml.includes('id="content-grid-sidebar"')) {
+    appHtml = renderPage({
+      pathname: new URL(fetchRequest.url).pathname,
+      headings: readRenderedToc(appHtml),
+    })
+  }
 
   // Extract Emotion <style> tags from the rendered HTML and collect
   // them for injection into <head>. Emotion 11 SSR inlines <style>

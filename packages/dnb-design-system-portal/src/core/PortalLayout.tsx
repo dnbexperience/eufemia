@@ -231,7 +231,11 @@ export default function PortalLayout(props: PortalLayoutProps) {
               className={pageLayoutStyles['content-grid__sidebar']}
               id="content-grid-sidebar"
             >
-              <PortalToc maxDepth={tocDepth} />
+              <PortalToc
+                key={location.pathname}
+                pathname={location.pathname}
+                maxDepth={tocDepth}
+              />
             </div>
           )}
 

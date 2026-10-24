@@ -1,6 +1,28 @@
 import { test, expect } from '@playwright/test'
 
 test.describe('Portal table of contents', () => {
+  test('renders the TOC in the first frame containing page headings', async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 390, height: 844 })
+    await page.addInitScript(() => {
+      const sample = () => {
+        if (document.querySelector('#tab-bar-content h2 .anchor-hash')) {
+          document.documentElement.dataset.tocAtFirstContentPaint = String(
+            Boolean(document.querySelector('#content-grid-sidebar nav'))
+          )
+        } else {
+          requestAnimationFrame(sample)
+        }
+      }
+      requestAnimationFrame(sample)
+    })
+    await page.goto('/uilib/components/table-of-content/demos/')
+    await expect(page.locator('html')).toHaveAttribute(
+      'data-toc-at-first-content-paint',
+      'true'
+    )
+  })
   test('keeps content in place while the TOC hydrates', async ({
     page,
   }) => {
@@ -32,8 +54,19 @@ test.describe('Portal table of contents', () => {
         )
       )
       const before = await content.boundingBox()
+      const navigation = page.locator('#content-grid-sidebar nav')
+      expect(await navigation.count()).toBe(1)
+      await expect(navigation).toBeVisible()
+      if (width < 1152) {
+        await expect(navigation.getByRole('button')).toBeVisible()
+        await expect(navigation.getByRole('link')).toHaveCount(0)
+      } else {
+        await expect(navigation.getByRole('link').first()).toBeVisible()
+      }
+      const linksBefore = await navigation.locator('a').allTextContents()
       resume()
       await expect(page.locator('#content-grid-sidebar nav')).toBeVisible()
+      await expect(navigation.locator('a')).toHaveText(linksBefore)
       const after = await content.boundingBox()
       expect(after.y).toBeCloseTo(before.y, 0)
       expect(after.x).toBeCloseTo(before.x, 0)

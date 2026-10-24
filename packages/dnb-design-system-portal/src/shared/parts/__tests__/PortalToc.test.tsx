@@ -1,6 +1,8 @@
 import { it, expect, vi } from 'vitest'
 import { act, render, waitFor } from '@testing-library/react'
+import { renderToString } from 'react-dom/server'
 import PortalToc from '../PortalToc'
+import { PortalTocData, readInitialToc } from '../PortalTocData'
 
 vi.mock('@dnb/eufemia/src', () => ({
   TableOfContent: {
@@ -26,6 +28,31 @@ function heading(id: string, text: string) {
       : ([{}] as unknown as DOMRectList)
   return element
 }
+
+it('renders links on the server and reuses their escaped heading data on the matching route', () => {
+  const snapshot = {
+    pathname: '/article/',
+    headings: [
+      { id: 'api', level: 2, text: ['Use <', { code: 'API' }, '>'] },
+    ],
+  }
+  const container = document.createElement('div')
+  container.innerHTML = renderToString(
+    <PortalTocData value={snapshot}>
+      <PortalToc pathname="/article/" />
+    </PortalTocData>
+  )
+  document.body.append(container)
+  expect(container.querySelector('nav a code').textContent).toBe('API')
+  expect(container.querySelector('nav a').textContent).toBe('Use <API>')
+  expect(
+    JSON.parse(container.querySelector('script').textContent)
+  ).toEqual(snapshot)
+  expect(container.querySelector('script').textContent).not.toContain('<')
+  expect(readInitialToc('/article/')).toEqual(snapshot)
+  expect(readInitialToc('/other/')).toBeNull()
+  container.remove()
+})
 
 it('updates links when destinations are hidden, remounted or renamed', async () => {
   const main = document.createElement('main')

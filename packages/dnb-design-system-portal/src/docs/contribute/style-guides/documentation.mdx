@@ -36,6 +36,8 @@ It will change and set the currently used theme once the user visits the related
 
 Portal builds a table of contents from visible documentation headings and their anchor links. Headings inside component demos are excluded. Keep headings descriptive and their anchor ids unique, including when importing MDX partials.
 
+The static HTML includes the table of contents and its heading data alongside the page content. Hydration reuses that data, then tracks headings that are added, removed or changed in the browser. The mobile disclosure and desktop links are styled for the viewport before hydration.
+
 The table of contents is sticky on wide screens and a disclosure above the content on smaller screens. It is hidden in focus mode and fullscreen pages.
 
 Use frontmatter to adjust individual pages:
