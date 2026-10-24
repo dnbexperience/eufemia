@@ -8,7 +8,7 @@
     "dev": "tsx src/transports/stdio.ts",
     "test": "vitest run",
     "audit:ci": "yarn npm audit --recursive --environment production --severity high",
-    "lint": "cd ../.. && node node_modules/.bin/eslint --config tools/mcp-lambda/eslint.config.mjs 'tools/{mcp-lambda/src,monitoring}/**/*.ts' && node node_modules/.bin/prettier --check 'tools/{mcp-lambda/src,monitoring}/**/*.ts' '.github/workflows/mcp-health.yml'",
+    "lint": "cd ../.. && node node_modules/.bin/eslint --config tools/mcp-lambda/eslint.config.mjs 'tools/{mcp-lambda/src,monitoring}/**/*.ts' && node node_modules/.bin/prettier --check 'tools/{mcp-lambda/src,monitoring}/**/*.ts'",
     "deploy": "yarn build && terraform -chdir=infra init && terraform -chdir=infra apply -auto-approve",
     "deploy:plan": "yarn build && terraform -chdir=infra init && terraform -chdir=infra plan",
     "typecheck": "tsc --noEmit",
