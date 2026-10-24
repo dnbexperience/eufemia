@@ -38,7 +38,9 @@ export default function useNavigationTarget(enabled: boolean) {
     }
     const onScrollEnd = (event: Event) => {
       if (event.target === scrollTarget) {
-        finish()
+        // A route's focus restoration can end before its smooth scroll starts.
+        clearTimeout(timeout)
+        timeout = setTimeout(finish, 150)
       }
     }
 
