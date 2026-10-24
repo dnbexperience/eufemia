@@ -1,6 +1,25 @@
 import { test, expect } from '@playwright/test'
 
 test.describe('Portal table of contents', () => {
+  test('balances the mobile TOC between the tabs and content', async ({
+    page,
+  }) => {
+    for (const width of [390, 768]) {
+      await page.setViewportSize({ width, height: 1000 })
+      await page.goto('/uilib/components/table-of-content/demos/')
+      const toc = page.locator('#content-grid-sidebar')
+      await expect(toc.locator('nav')).toBeVisible()
+      const header = await page
+        .locator('#content-grid-header')
+        .boundingBox()
+      const navigation = await toc.boundingBox()
+      const content = await page.locator('#tab-bar-content').boundingBox()
+      const above = navigation.y - header.y - header.height
+      const below = content.y - navigation.y - navigation.height
+      expect(above).toBe(48)
+      expect(above).toBeCloseTo(below, 0)
+    }
+  })
   test('avoids destination tooltip flashes and preserves direct anchor focus', async ({
     page,
   }) => {
