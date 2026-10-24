@@ -32,6 +32,7 @@ export default function PortalToc({ maxDepth }: { maxDepth?: number }) {
       data={sections}
       currentSectionOffset={currentSectionOffset}
       maxDepth={maxDepth}
+      sticky={false}
     />
   )
 }

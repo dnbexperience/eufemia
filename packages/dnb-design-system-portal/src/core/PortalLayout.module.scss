@@ -38,12 +38,11 @@
   @include utilities.allAbove(large) {
     grid-column: 2;
     grid-row: 1 / span 2;
-    align-self: stretch;
+    align-self: start;
     margin: 0;
-    padding-top: var(--content-sidebar-top);
 
     position: sticky;
-    top: 1rem;
+    top: var(--content-sidebar-top);
     max-height: calc(100dvh - var(--content-sidebar-top));
 
     display: flex;

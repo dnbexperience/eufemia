@@ -1,6 +1,24 @@
 import { test, expect } from '@playwright/test'
 
 test.describe('Portal table of contents', () => {
+  test('keeps the desktop TOC at its starting position from the first scroll', async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1440, height: 1000 })
+    await page.goto('/uilib/components/button/')
+    const toc = page.locator('#content-grid-sidebar nav')
+    await expect(toc.locator('a').first()).toBeVisible()
+    const initialTop = (await toc.boundingBox()).y
+    for (const top of [16, 48, 160, 500]) {
+      await page.evaluate(
+        (top) => window.scrollTo({ top, behavior: 'instant' }),
+        top
+      )
+      await expect
+        .poll(async () => (await toc.boundingBox()).y)
+        .toBeCloseTo(initialTop, 0)
+    }
+  })
   test('follows headings with non-ASCII ids', async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 1000 })
     await page.goto('/uilib/components/number-format/demos/')
