@@ -200,10 +200,14 @@ test.describe('TableOfContent component', () => {
     await page.evaluate(() => {
       document.documentElement.style.fontSize = '200%'
     })
-    expect(
-      await example
-        .locator('nav')
-        .evaluate((element) => element.scrollWidth <= element.clientWidth)
-    ).toBe(true)
+    await expect
+      .poll(() =>
+        example
+          .locator('nav')
+          .evaluate(
+            (element) => element.scrollWidth <= element.clientWidth
+          )
+      )
+      .toBe(true)
   })
 })
