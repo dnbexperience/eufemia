@@ -21,6 +21,7 @@ html {
 }
 .dnb-app-content {
   margin-left: 0 !important;
+  overflow: hidden;
 }
 
 [data-visual-test-wrapper] {
