@@ -18,6 +18,43 @@ const data = [
 
 beforeEach(() => setMedia({ width: '1400px' }))
 
+it('defaults to sticky positioning and supports an offset or application-owned positioning', () => {
+  const { rerender } = render(
+    <TableOfContent.Data data={data} currentId={null} />
+  )
+  expect(document.querySelector('nav')).toHaveClass(
+    'dnb-table-of-content--sticky'
+  )
+  rerender(
+    <TableOfContent.Data
+      data={data}
+      currentId={null}
+      stickyOffset="5.5rem"
+    />
+  )
+  expect(
+    document
+      .querySelector('nav')
+      .style.getPropertyValue('--table-of-content-sticky-offset')
+  ).toBe('5.5rem')
+  rerender(
+    <TableOfContent.Data
+      data={data}
+      currentId={null}
+      sticky={false}
+      stickyOffset={88}
+    />
+  )
+  expect(document.querySelector('nav')).not.toHaveClass(
+    'dnb-table-of-content--sticky'
+  )
+  expect(
+    document
+      .querySelector('nav')
+      .style.getPropertyValue('--table-of-content-sticky-offset')
+  ).toBe('88px')
+})
+
 it('renders named navigation and nested lists with the current location', () => {
   render(
     <Provider locale="en-GB">

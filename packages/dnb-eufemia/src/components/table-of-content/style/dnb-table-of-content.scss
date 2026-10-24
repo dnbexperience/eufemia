@@ -10,6 +10,13 @@
 
   min-width: 0;
 
+  &--sidebar#{&}--sticky {
+    position: sticky;
+    top: var(--table-of-content-sticky-offset, 0);
+    align-self: flex-start;
+    max-height: calc(100dvh - var(--table-of-content-sticky-offset, 0px));
+  }
+
   &--sidebar {
     display: flex;
     flex-direction: column;

@@ -50,6 +50,16 @@ export type TableOfContentRootProps = {
    * Default: `false`
    */
   stretch?: boolean
+  /**
+   * Keep the desktop navigation visible while its containing content scrolls. Set false when the application positions it.
+   * Default: `true`
+   */
+  sticky?: boolean
+  /**
+   * Distance from the top of the scroll container. Numbers use pixels; strings accept CSS lengths.
+   * Default: `0`
+   */
+  stickyOffset?: number | string
   /** Controlled disclosure state below the breakpoint. */
   expanded?: boolean
   /**

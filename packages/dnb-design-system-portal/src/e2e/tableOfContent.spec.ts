@@ -1,6 +1,35 @@
 import { test, expect } from '@playwright/test'
 
 test.describe('TableOfContent component', () => {
+  test('moves the selected outline while scrolling the generated-heading example', async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1440, height: 1000 })
+    const example = page.locator(
+      '[data-visual-test="table-of-content-data"]'
+    )
+    const article = example.getByRole('region', {
+      name: 'Example integration guide',
+    })
+    const navigation = example.getByRole('navigation', {
+      name: 'Integration guide',
+    })
+    const marker = navigation.locator('.dnb-table-of-content__marker')
+    await expect(article).toBeVisible()
+    await expect(navigation.locator('a[aria-current]')).toHaveText(
+      'Install the package'
+    )
+    const firstMarkerTop = (await marker.boundingBox()).y
+    await article.evaluate((element) => {
+      element.scrollTop = element.scrollHeight
+    })
+    await expect(navigation.locator('a[aria-current]')).toHaveText(
+      'Test accessibility in your application'
+    )
+    await expect
+      .poll(async () => (await marker.boundingBox()).y)
+      .toBeGreaterThan(firstMarkerTop)
+  })
   test.beforeEach(async ({ page }) => {
     await page.goto('/uilib/components/table-of-content/demos/')
   })
