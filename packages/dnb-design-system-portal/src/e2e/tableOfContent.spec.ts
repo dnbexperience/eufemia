@@ -136,7 +136,7 @@ test.describe('TableOfContent component', () => {
     await page.goto('/uilib/components/table-of-content/demos/')
   })
 
-  test('tracks a nested scroll container and keeps native fragment navigation and destination focus', async ({
+  test('scrolls only the example article and preserves destination focus', async ({
     page,
   }) => {
     await page.setViewportSize({ width: 1440, height: 1000 })
@@ -153,9 +153,12 @@ test.describe('TableOfContent component', () => {
       name: 'Find the right account',
     })
     await destinationLink.focus()
+    const pageUrl = page.url()
+    const pageScroll = await page.evaluate(() => window.scrollY)
     await page.keyboard.press('Enter')
     const hash = await destinationLink.getAttribute('href')
-    await expect(page).toHaveURL(new RegExp(hash + '$'))
+    await expect(page).toHaveURL(pageUrl)
+    expect(await page.evaluate(() => window.scrollY)).toBe(pageScroll)
     await expect(
       page.locator('[id="' + decodeURIComponent(hash.slice(1)) + '"]')
     ).toBeFocused()
