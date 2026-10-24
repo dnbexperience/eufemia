@@ -294,9 +294,19 @@ for (const width of [375, 1280]) {
         })
       expect(geometry).toEqual({ stacked, fits: true, noOverflow: true })
     }
-    await checkLayout(width < 600)
+    const cardWidth = await example
+      .locator('.dnb-card')
+      .evaluate((card) => card.getBoundingClientRect().width)
+    const rootFontSize = await page.evaluate(() =>
+      parseFloat(getComputedStyle(document.documentElement).fontSize)
+    )
+    await checkLayout(cardWidth < 36 * rootFontSize)
 
     if (width > 600) {
+      await example.locator('.dnb-card').evaluate((card: HTMLElement) => {
+        card.style.width = '640px'
+      })
+      await checkLayout(false)
       await example.locator('.dnb-card').evaluate((card: HTMLElement) => {
         card.style.width = '320px'
       })

@@ -60,5 +60,11 @@
     margin-right: calc(var(--content-gutter-size) * -1);
     padding: 0 var(--content-gutter-size);
     overflow: hidden;
+
+    :global(.fullscreen-page) & {
+      margin: 0;
+      padding: 0;
+      overflow: visible;
+    }
   }
 }
