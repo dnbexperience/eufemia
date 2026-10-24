@@ -2327,9 +2327,11 @@ describe('Field.Date', () => {
     ).padStart(2, '0')}-15`
 
     const getInputValues = () =>
-      Array.from(document.querySelectorAll('.dnb-date-picker__input')).map(
-        (input: HTMLInputElement) => input.value
-      )
+      Array.from(
+        document.querySelectorAll<HTMLInputElement>(
+          '.dnb-date-picker__input'
+        )
+      ).map((input) => input.value)
 
     const pickMidMonthAndCancel = async () => {
       await userEvent.click(
