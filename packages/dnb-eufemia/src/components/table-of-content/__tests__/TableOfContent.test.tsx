@@ -423,6 +423,35 @@ it.each(['390px', '1400px'])(
   }
 )
 
+it('uses stable initial styles for custom breakpoints and independently expanded instances', () => {
+  const markup = (id: string, defaultExpanded: boolean) => {
+    const container = document.createElement('div')
+    container.innerHTML = renderToString(
+      <Provider breakpoints={{ large: '64em' }}>
+        <TableOfContent.Data
+          id={id}
+          data={data}
+          defaultExpanded={defaultExpanded}
+        />
+      </Provider>
+    )
+    return container
+  }
+  const first = markup('first', false)
+  const second = markup('second', true)
+  expect(first.querySelector('style').textContent).toBe(
+    second.querySelector('style').textContent
+  )
+  expect(first.querySelector('style').textContent).toContain('64em')
+  expect(first.querySelector('nav')).not.toHaveAttribute(
+    'data-table-of-content-expanded'
+  )
+  expect(second.querySelector('nav')).toHaveAttribute(
+    'data-table-of-content-expanded',
+    'true'
+  )
+})
+
 it('has accessible desktop and collapsed mobile navigation', async () => {
   const { rerender } = render(
     <TableOfContent.Data data={data} currentId="details" />
