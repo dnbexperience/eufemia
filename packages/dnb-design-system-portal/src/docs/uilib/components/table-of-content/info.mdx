@@ -47,9 +47,13 @@ html {
 
 For a nested scrolling region, apply scroll-padding-top to that region instead of html and measure currentSectionOffset from the viewport top. Use scroll-margin-top on individual destination headings when you cannot style the scrolling container. Scroll padding and scroll margin add together, so avoid applying the full header clearance to both.
 
-Following a section link moves the indicator directly to that destination while the browser scrolls. The destination stays selected even when there is not enough content below it to reach the selection offset. Automatic tracking resumes on the next scroll, resize, or pointer, touch, wheel or keyboard input.
+## Navigation and current section
+
+Following a section link moves the indicator directly to that destination while the browser scrolls, without stopping at the headings passed along the way. The destination stays selected even when there is not enough content below it to reach the selection offset. Automatic tracking resumes on the next scroll, resize, or pointer, touch, wheel or keyboard input. The selected link keeps its text color on hover and activation. The outline follows wrapped labels and changes to their size or content.
 
 Automatic tracking responds to window and nested-container scrolling, resizing, DOM replacements, and visibility changes. Missing or hidden headings do not become current. The component uses the supplied data as its list; update that data when sections should be added to or removed from navigation. It does not scan the page or generate ids.
+
+Links retain native fragment navigation, browser history and modified-click behavior. TableOfContent.Item's onClick runs before navigation and destination focus; call event.preventDefault() when the application needs to handle both itself. The scrollable documentation examples contain navigation inside their article panels so trying them does not change the surrounding page position or URL.
 
 For server rendering, the complete expanded navigation is present in the HTML. After hydration, the disclosure follows the viewport breakpoint. Heading detection starts in the browser. Supply currentId to control the current section, or null to clear the indicator and disable automatic tracking.
 
@@ -57,8 +61,11 @@ For server rendering, the complete expanded navigation is present in the HTML. A
 
 - The navigation is a named nav landmark, using its localized title by default. Give multiple tables of contents distinct titles or aria-label values.
 - Links use native fragments and semantic nested lists. The current section uses aria-current="location".
-- Tab and Shift+Tab move between links. Enter follows a link and moves focus to its destination, preserving the browser URL, history and modified-click behavior. Destination focus does not add it to the normal tab order.
+- Tab and Shift+Tab move between links. Enter follows a link and moves focus to its destination so keyboard and screen reader users can continue reading there. Pointer activation also moves destination focus. Focus uses preventScroll so it does not interrupt the anchor scroll.
+- Automatic destination focus suppresses the destination's Eufemia tooltip, avoiding a tooltip flash on heading permalinks. Direct keyboard focus and pointer hover still show the tooltip normally. This behavior is built into the component.
+- Destinations without a tabindex receive a temporary tabindex of -1, removed on blur. Existing focus order is preserved. Heading ids are never duplicated on navigation items.
 - The small-screen button exposes aria-expanded and aria-controls. Enter or Space opens it. Collapsed links are hidden from the accessibility tree and keyboard navigation; browser find-in-page can reveal them where supported.
+- If resizing hides a list that contains keyboard focus, focus moves to its disclosure button. Its chosen expanded state is preserved across breakpoints, and applications can also control that state.
 - The current marker and disclosure animation respect the reader's reduced-motion preference. Scrolling never moves keyboard focus.
 - Desktop rows use compact 36px targets with 8px between them. Small screens use standard text links. Both layouts have visible keyboard focus, and labels wrap with text zoom.
 

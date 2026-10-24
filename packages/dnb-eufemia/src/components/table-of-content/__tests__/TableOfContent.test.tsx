@@ -6,6 +6,7 @@ import { memo } from 'react'
 import { setMedia } from 'mock-match-media'
 import { axeComponent } from '../../../core/test-utils/testSetup'
 import Provider from '../../../shared/Provider'
+import Anchor from '../../anchor/Anchor'
 import TableOfContent from '../TableOfContent'
 
 const data = [
@@ -317,6 +318,63 @@ it('moves focus to the fragment destination and preserves native links', () => {
   expect(destination).toHaveAttribute('tabindex', '-1')
   act(() => destination.blur())
   expect(destination).not.toHaveAttribute('tabindex')
+})
+
+it('focuses destinations without opening their Eufemia tooltip and keeps direct focus available', async () => {
+  render(
+    <Provider Tooltip={{ noAnimation: true }}>
+      <TableOfContent.Data
+        currentId={null}
+        data={[{ id: 'destination', text: 'Destination', level: 2 }]}
+      />
+      <h2>
+        Destination
+        <Anchor id="destination" href="#destination" tooltip="Copy link">
+          #
+        </Anchor>
+      </h2>
+    </Provider>
+  )
+  const destination = document.getElementById('destination')
+  await act(async () => {
+    fireEvent.click(document.querySelector('.dnb-table-of-content a'))
+  })
+  expect(destination).toHaveFocus()
+  expect(destination).not.toHaveAttribute('data-autofocus')
+  expect(document.querySelector('.dnb-tooltip--active')).toBeNull()
+
+  act(() => destination.blur())
+  act(() => destination.focus())
+  await waitFor(() =>
+    expect(
+      document.querySelector('.dnb-tooltip--active')
+    ).toHaveTextContent('Copy link')
+  )
+})
+
+it('preserves destination attributes after automatic focus', () => {
+  render(
+    <>
+      <TableOfContent.Data
+        currentId={null}
+        data={[{ id: 'destination', text: 'Destination', level: 2 }]}
+      />
+      <a
+        id="destination"
+        href="#destination"
+        tabIndex={0}
+        data-autofocus="existing"
+      >
+        Destination
+      </a>
+    </>
+  )
+  const destination = document.getElementById('destination')
+  fireEvent.click(document.querySelector('.dnb-table-of-content a'))
+  expect(destination).toHaveFocus()
+  expect(destination).toHaveAttribute('data-autofocus', 'existing')
+  act(() => destination.blur())
+  expect(destination).toHaveAttribute('tabindex', '0')
 })
 
 it('honors prevented navigation', () => {

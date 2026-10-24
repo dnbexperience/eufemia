@@ -62,7 +62,18 @@ function TableOfContentItem({
                 { once: true }
               )
             }
-            target.focus({ preventScroll: true })
+            // Suppress Eufemia tooltips during automatic destination focus.
+            const autofocus = target.getAttribute('data-autofocus')
+            target.setAttribute('data-autofocus', 'true')
+            try {
+              target.focus({ preventScroll: true })
+            } finally {
+              if (autofocus === null) {
+                target.removeAttribute('data-autofocus')
+              } else {
+                target.setAttribute('data-autofocus', autofocus)
+              }
+            }
           }
         }}
       >
