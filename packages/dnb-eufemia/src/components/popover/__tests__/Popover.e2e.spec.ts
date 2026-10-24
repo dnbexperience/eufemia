@@ -62,6 +62,9 @@ test.describe('Popover focus restoration', () => {
     const outside = example.getByRole('button', { name: 'Another action' })
     const content = page.locator('#controlled-popover-content')
 
+    await outside.evaluate((element) => {
+      element.style.marginTop = '16rem'
+    })
     await trigger.focus()
     await trigger.press('Enter')
     await expect(content).toBeFocused()
@@ -69,6 +72,7 @@ test.describe('Popover focus restoration', () => {
     await outside.click()
 
     await expect(content).toBeHidden()
+    await expect(outside).toBeFocused()
     await expect(trigger).not.toBeFocused()
   })
 })

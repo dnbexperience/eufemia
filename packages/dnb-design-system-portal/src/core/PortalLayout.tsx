@@ -231,7 +231,10 @@ export default function PortalLayout(props: PortalLayoutProps) {
               className={pageLayoutStyles['content-grid__sidebar']}
               id="content-grid-sidebar"
             >
-              <PortalToc maxDepth={tocDepth} />
+              <PortalToc
+                pathname={location.pathname}
+                maxDepth={tocDepth}
+              />
             </div>
           )}
 
@@ -252,7 +255,12 @@ export default function PortalLayout(props: PortalLayoutProps) {
   )
 }
 
-function Content({ sourcePath, pagePath, showEditLink, children }) {
+function Content({
+  sourcePath = undefined,
+  pagePath = undefined,
+  showEditLink = false,
+  children,
+}) {
   return (
     <ContentWrapper>
       <MDXProvider components={tags}>{children}</MDXProvider>

@@ -108,7 +108,7 @@ export type KnownFrontmatter = {
   redirect_from?: string[]
   /** Hides the table of contents for the page. */
   hideToc?: boolean
-  /** Number of visible section heading levels below H1. Defaults to 2. */
+  /** How many heading levels the table of contents should include, counting from the highest level on the page (excluding h1). Default is `2`. */
   tocDepth?: number
 }
 

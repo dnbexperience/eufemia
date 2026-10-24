@@ -33,6 +33,29 @@ Absolute: https://eufemia.dnb.no/uilib/components/badge/demos/?eufemia-theme=sba
 
 It will change and set the currently used theme once the user visits the related page.
 
+## Page table of contents
+
+Portal builds a table of contents from visible documentation headings and their anchor links. Headings inside component demos are excluded. Keep headings descriptive and their anchor ids unique, including when importing MDX partials.
+
+The page title is included as the first link, using TableOfContent.Data's includeH1 option. It links back to the introduction and becomes current before the first section. The configured tocDepth still counts section levels below H1.
+
+The static HTML includes the table of contents and its heading data alongside the page content. Hydration reuses that data, then tracks headings that are added, removed or changed in the browser. The mobile disclosure and desktop links are styled for the viewport before hydration.
+
+Portal disables heading-list replacement animation with animateChanges set to false. Applications can opt in through TableOfContent.Root or TableOfContent.Data; see the component documentation.
+
+The table of contents is sticky on wide screens and a disclosure above the content on smaller screens. On narrow screens it initially shows up to 10 links, including the page title, with a translated “Show all” button that disappears after revealing the remaining links. The component's maxVisibleItems property configures this limit. Browser find-in-page also reveals the full list when it matches a hidden link, where hidden="until-found" is supported. Its open or closed choice is stored in session storage with expandedStorageKey, so it survives page navigation, reloads and viewport changes within the same tab. The saved state is restored before first paint. It is hidden in focus mode and fullscreen pages.
+
+Use frontmatter to adjust individual pages:
+
+```md
+---
+hideToc: true
+tocDepth: 1
+---
+```
+
+Use hideToc to hide the navigation and tocDepth to limit its visible heading levels. The default depth is two levels below the page title. A tab page inherits these settings from its parent unless it supplies its own value.
+
 ## Language
 
 Write the documentation in American English, such as _color_, _behavior_, _canceled_, and _customize_.
