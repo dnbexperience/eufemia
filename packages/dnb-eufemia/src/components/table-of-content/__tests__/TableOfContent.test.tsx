@@ -249,7 +249,9 @@ it('connects the mobile disclosure to its content and preserves its chosen state
     chevron.querySelector('.dnb-icon__state--active')
   ).toHaveAttribute('data-icon-state', 'expanded')
   act(() => setMedia({ width: '1400px' }))
-  expect(document.querySelector('button')).toBeNull()
+  expect(document.querySelector('nav')).toHaveClass(
+    'dnb-table-of-content--sidebar'
+  )
   expect(document.querySelector('a')).toHaveClass(
     'dnb-anchor--no-style',
     'dnb-anchor--no-underline',
@@ -405,6 +407,12 @@ it.each(['390px', '1400px'])(
     container.innerHTML = renderToString(element)
     document.body.append(container)
     expect(container.querySelectorAll('a')).toHaveLength(3)
+    expect(
+      container.querySelector('.dnb-table-of-content__toggle')
+    ).not.toBeNull()
+    expect(container.querySelector('style')?.textContent).toContain(
+      '@media'
+    )
     const onRecoverableError = vi.fn()
     let root: ReturnType<typeof hydrateRoot>
     await act(async () => {

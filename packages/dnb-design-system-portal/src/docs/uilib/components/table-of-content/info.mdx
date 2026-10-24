@@ -55,7 +55,7 @@ Automatic tracking responds to window and nested-container scrolling, resizing, 
 
 Links retain native fragment navigation, browser history and modified-click behavior. TableOfContent.Item's onClick runs before navigation and destination focus; call event.preventDefault() when the application needs to handle both itself. The scrollable documentation examples contain navigation inside their article panels so trying them does not change the surrounding page position or URL.
 
-For server rendering, the complete expanded navigation is present in the HTML. After hydration, the disclosure follows the viewport breakpoint. Heading detection starts in the browser. Supply currentId to control the current section, or null to clear the indicator and disable automatic tracking.
+For server rendering, all links and the disclosure are present in the HTML. Responsive styles show the desktop list or mobile disclosure before hydration, including custom breakpoints. Supply the heading data during the initial render so the navigation appears with the content. Heading detection starts in the browser. Supply currentId to control the current section, or null to clear the indicator and disable automatic tracking.
 
 ## Accessibility
 
