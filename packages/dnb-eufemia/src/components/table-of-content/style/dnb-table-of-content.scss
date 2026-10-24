@@ -134,11 +134,11 @@
       color: var(--token-color-text-neutral);
     }
 
-    &:active,
-    &[aria-current]:hover {
+    &:active {
       color: var(--token-color-text-neutral-alternative);
     }
 
+    &[aria-current]:hover,
     &[aria-current]:active {
       color: var(--token-color-text-neutral);
     }
