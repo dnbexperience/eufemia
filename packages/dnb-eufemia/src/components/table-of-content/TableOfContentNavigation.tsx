@@ -92,17 +92,17 @@ export default function TableOfContentNavigation({
   const listId = rootId + '-list'
   const translation = useTranslation().TableOfContent
   const label = title ?? translation.title
-  const scope =
-    '[id="' +
-    String(rootId).replace(
-      /["\\\n\r\f]/g,
-      (char) => '\\' + char.charCodeAt(0).toString(16) + ' '
-    ) +
-    '"]'
   const mobileQuery = buildQuery(
     { when: { min: breakpoint }, not: true },
     breakpoints
   )
+  const scope =
+    '[data-table-of-content-query="' +
+    mobileQuery.replace(
+      /["\\\n\r\f]/g,
+      (char) => '\\' + char.charCodeAt(0).toString(16) + ' '
+    ) +
+    '"]'
 
   const setExpanded = (value: boolean) => {
     if (expanded === undefined) {
@@ -164,6 +164,8 @@ export default function TableOfContentNavigation({
         {...rest}
         element="nav"
         id={rootId}
+        data-table-of-content-query={!canUseDOM ? mobileQuery : undefined}
+        data-table-of-content-expanded={isExpanded || undefined}
         ref={ref}
         style={
           {
@@ -192,7 +194,7 @@ export default function TableOfContentNavigation({
             ${scope}{display:block!important;position:static!important;width:auto!important;max-height:none!important}
             ${scope} .dnb-table-of-content__title{display:none!important}
             ${scope} .dnb-table-of-content__toggle.dnb-button{display:inline-flex!important}
-            ${!isExpanded ? `${scope} .dnb-table-of-content__list-wrapper{display:none!important}` : ''}
+            ${scope}:not([data-table-of-content-expanded]) .dnb-table-of-content__list-wrapper{display:none!important}
           }`}</style>
         )}
         <p id={desktopTitleId} className="dnb-table-of-content__title">
