@@ -43,8 +43,8 @@
   --color-background-neutral-base: var(--sbanken-greyscale-700);
   --color-background-neutral-bold: var(--sbanken-greyscale-600);
   --color-background-neutral-alternative: var(--sbanken-greyscale-950);
-  --color-background-info: var(--sbanken-green-400);
-  --color-background-info-subtle: var(--sbanken-green-900);
+  --color-background-info: var(--sbanken-blue-300);
+  --color-background-info-subtle: var(--sbanken-blue-950);
   --color-background-positive: var(--sbanken-green-400);
   --color-background-positive-subtle: var(--sbanken-green-900);
   --color-background-warning: var(--sbanken-yellow-600);
@@ -101,8 +101,8 @@
   --color-icon-neutral-inverse: var(--sbanken-purple-1000);
   --color-icon-neutral-ondark: var(--sbanken-greyscale-0);
   --color-icon-neutral-alternative: var(--sbanken-greyscale-500);
-  --color-icon-info: var(--sbanken-green-400);
-  --color-icon-info-subtle: var(--sbanken-green-950);
+  --color-icon-info: var(--sbanken-blue-300);
+  --color-icon-info-subtle: var(--sbanken-blue-950);
   --color-icon-positive: var(--sbanken-green-400);
   --color-icon-positive-subtle: var(--sbanken-green-900);
   --color-icon-warning: var(--sbanken-yellow-600);
@@ -131,9 +131,10 @@
   --color-stroke-neutral: var(--sbanken-greyscale-400);
   --color-stroke-neutral-ondark: var(--sbanken-greyscale-0);
   --color-stroke-neutral-subtle: var(--sbanken-greyscale-800);
-  --color-stroke-neutral-bold: var(--sbanken-greyscale-800);
-  --color-stroke-neutral-alternative: var(--sbanken-greyscale-900);
-  --color-stroke-info: var(--sbanken-green-700);
+  --color-stroke-neutral-base: var(--sbanken-greyscale-800);
+  --color-stroke-neutral-bold: var(--sbanken-greyscale-600);
+  --color-stroke-neutral-alternative: var(--sbanken-greyscale-700);
+  --color-stroke-info: var(--sbanken-blue-300);
   --color-stroke-positive: var(--sbanken-green-400);
   --color-stroke-warning: var(--sbanken-yellow-600);
   --color-stroke-error: var(--sbanken-red-600);
@@ -247,11 +248,19 @@
   --color-component-button-stroke-action-destructive-pressed: var(
     --sbanken-orange-400
   );
-  --color-component-button-stroke-selected: var(--sbanken-green-300-40);
+  --color-component-button-stroke-selected: color-mix(
+    in srgb,
+    var(--sbanken-green-300) 40%,
+    transparent
+  );
   --color-component-tooltip-background-neutral: var(
     --sbanken-greyscale-100
   );
-  --color-component-dimmer-background: var(--sbanken-greyscale-800-60);
+  --color-component-dimmer-background: color-mix(
+    in srgb,
+    var(--sbanken-greyscale-800) 60%,
+    transparent
+  );
   --color-component-switch-action-disabled-ondark: var(
     --sbanken-purple-1000
   );
