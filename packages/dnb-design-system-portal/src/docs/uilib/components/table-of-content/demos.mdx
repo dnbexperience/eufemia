@@ -9,11 +9,11 @@ import {
   ScrollableArticle,
 } from './Examples'
 
-## Compose section links
+## Follow a scrollable article
 
-Use Root and nested Item elements when you own the markup. The selected section below is controlled so the example stays independent of the documentation page's scrolling.
+Scroll inside the article or follow a section link. The current link follows visible headings inside the scroll container, and keyboard focus moves to the destination when a link is activated.
 
-<Declarative />
+<ScrollableArticle />
 
 ## Generate links from headings
 
@@ -21,14 +21,14 @@ Data accepts a flat list in document order. Level 1 represents the page title an
 
 <FromData />
 
+## Compose section links
+
+Use Root and nested Item elements when you own the markup. The selected section below is controlled so the example stays independent of the documentation page's scrolling.
+
+<Declarative />
+
 ## Control the disclosure
 
 Resize below the large breakpoint to use the disclosure. External state can control expansion, while stretch makes the navigation fill its container.
 
 <Controlled />
-
-## Follow a scrollable article
-
-Scroll inside the article or follow a section link. The current link follows visible headings inside the scroll container, and keyboard focus moves to the destination when a link is activated.
-
-<ScrollableArticle />
