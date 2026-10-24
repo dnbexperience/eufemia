@@ -167,9 +167,8 @@ test.describe('TableOfContent component', () => {
       'location'
     )
     const focusedId = await page.evaluate(() => document.activeElement.id)
-    await article.evaluate((element) => {
-      element.scrollTop = element.scrollHeight
-    })
+    await article.hover()
+    await page.mouse.wheel(0, 1000)
     await expect(
       navigation.getByRole('link', { name: 'Review your progress' })
     ).toHaveAttribute('aria-current', 'location')
