@@ -1,6 +1,58 @@
 import { test, expect } from '@playwright/test'
 
 test.describe('TableOfContent component', () => {
+  test('moves directly to a clicked section during smooth scrolling and resumes tracking after interruption', async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1440, height: 1000 })
+    const example = page.locator(
+      '[data-visual-test="table-of-content-data"]'
+    )
+    const article = example.getByRole('region', {
+      name: 'Example integration guide',
+    })
+    await article.scrollIntoViewIfNeeded()
+    await article.evaluate((element) => {
+      element.style.scrollBehavior = 'smooth'
+    })
+    const link = example.getByRole('link', {
+      name: 'Test accessibility in your application',
+    })
+    await link.click()
+    await expect(link).toHaveAttribute('aria-current', 'location')
+    const selectedDuringScroll = await article.evaluate(
+      async (element) => {
+        const selected = new Set<string>()
+        const start = performance.now()
+        await new Promise<void>((resolve) => {
+          const sample = () => {
+            selected.add(
+              element.parentElement.querySelector('a[aria-current]')
+                ?.textContent
+            )
+            if (performance.now() - start < 700) {
+              requestAnimationFrame(sample)
+            } else {
+              resolve()
+            }
+          }
+          requestAnimationFrame(sample)
+        })
+        return [...selected]
+      }
+    )
+    expect(selectedDuringScroll).toEqual([
+      'Test accessibility in your application',
+    ])
+    await article.evaluate((element) => {
+      element.dispatchEvent(new WheelEvent('wheel', { bubbles: true }))
+      element.style.scrollBehavior = 'auto'
+      element.scrollTop = 0
+    })
+    await expect(example.locator('a[aria-current]')).toHaveText(
+      'Install the package'
+    )
+  })
   test('renders the info page with literal API examples', async ({
     page,
   }) => {
