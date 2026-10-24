@@ -1,6 +1,43 @@
 import { test, expect } from '@playwright/test'
 
 test.describe('Portal table of contents', () => {
+  test('keeps a clicked section selected throughout smooth scrolling and below the header', async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1440, height: 1000 })
+    await page.goto('/uilib/components/table-of-content/')
+    const toc = page.locator('#content-grid-sidebar nav')
+    const link = toc.getByRole('link', {
+      name: 'Accessibility',
+      exact: true,
+    })
+    await link.click()
+    await expect(link).toHaveAttribute('aria-current', 'location')
+    const selected = await toc.evaluate(async (element) => {
+      const result = new Set<string>()
+      const start = performance.now()
+      await new Promise<void>((resolve) => {
+        const sample = () => {
+          result.add(element.querySelector('a[aria-current]')?.textContent)
+          if (performance.now() - start < 1000) {
+            requestAnimationFrame(sample)
+          } else {
+            resolve()
+          }
+        }
+        requestAnimationFrame(sample)
+      })
+      return [...result]
+    })
+    expect(selected).toEqual(['Accessibility'])
+    const heading = page.getByRole('heading', {
+      name: 'Accessibility',
+      exact: true,
+    })
+    expect((await heading.boundingBox()).y).toBeGreaterThanOrEqual(56)
+    await page.mouse.wheel(0, -1500)
+    await expect(link).not.toHaveAttribute('aria-current', 'location')
+  })
   test('aligns the desktop TOC with the title and matches the left sidebar gap', async ({
     page,
   }) => {
