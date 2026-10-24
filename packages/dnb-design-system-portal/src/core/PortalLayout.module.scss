@@ -3,7 +3,7 @@
 .content-grid {
   --content-sidebar-width: auto;
   --content-gutter-size: 2rem;
-  --content-sidebar-gap: 10rem;
+  --content-sidebar-gap: min(10rem, 10vw);
   /* stylelint-disable-next-line eufemia/no-undefined-custom-property */
   --content-sidebar-top: calc(var(--portal-sidebar-top, 3.5rem) + 1rem);
 
