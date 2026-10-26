@@ -30,5 +30,5 @@ export default function BranchBanner() {
     return null
   }
 
-  return <div className={branchBanner}>{branch}</div>
+  return <div className={`${branchBanner} dnb-print-hidden`}>{branch}</div>
 }

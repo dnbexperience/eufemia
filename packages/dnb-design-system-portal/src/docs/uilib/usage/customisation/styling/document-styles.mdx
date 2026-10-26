@@ -1,6 +1,6 @@
 ---
 title: Print and document styles
-description: Opt-in pagination for printable content and separate branded document typography.
+description: Print apps and format branded documents with independent opt-in stylesheets.
 status: 'beta'
 ---
 
@@ -9,7 +9,7 @@ import { Space } from '@dnb/eufemia/src/components'
 
 > **Beta:** Print and document styles are subject to change. Class names,
 > typography, spacing and print behavior may change as we gather feedback
-> from document-production teams.
+> from app and document-production teams.
 
 Eufemia provides separate stylesheets for print behavior and document
 formatting. Use either on its own or combine them. Neither imports the
@@ -21,13 +21,18 @@ optional document typography profile. They do not make an entire app
 print-ready or provide print representations for every Eufemia component.
 Normal component styles do not automatically enable this print behavior.
 
+For an app, start with the [printable apps guide](/uilib/usage/customisation/styling/printable-apps/).
+Use the [document profile](#document-styles) for letters and other documents
+that need smaller typography on screen as well as in print.
+
 <Space bottom="large">
 
-| Need                                                   | Import                                 | Scope                     |
-| ------------------------------------------------------ | -------------------------------------- | ------------------------- |
-| Print behavior with existing typography and spacing    | `dnb-ui-print.min.css`                 | `.dnb-print`              |
-| Document typography and spacing on screen and in print | `dnb-ui-document.min.css`              | `.dnb-document`           |
-| Document formatting with print/PDF behavior            | Both, with `dnb-ui-print.min.css` last | `.dnb-document.dnb-print` |
+| Need                                                    | Import                                 | Scope                         |
+| ------------------------------------------------------- | -------------------------------------- | ----------------------------- |
+| Print behavior with existing typography and spacing     | `dnb-ui-print.min.css`                 | `.dnb-print`                  |
+| Black text on white paper in either screen color scheme | `dnb-ui-print.min.css`                 | `.dnb-print.dnb-print--plain` |
+| Document typography and spacing on screen and in print  | `dnb-ui-document.min.css`              | `.dnb-document`               |
+| Document formatting with print/PDF behavior             | Both, with `dnb-ui-print.min.css` last | `.dnb-document.dnb-print`     |
 
 </Space>
 
@@ -55,13 +60,15 @@ or the document stylesheet:
 </section>
 ```
 
-The print stylesheet preserves your existing typography, spacing, brand
-palette and wrapper layout. It works independently of `dnb-ui-document`
-and does not change screen styles.
+The base `.dnb-print` scope preserves your existing typography, spacing,
+brand palette and wrapper layout. Add the optional plain mode described
+below to change paper colors. The print stylesheet works independently of
+`dnb-ui-document`. Screen styles remain unchanged except for elements
+explicitly marked `dnb-print-only`.
 Configure your PDF renderer to use print media. The scope does not exclude
 content elsewhere in the app from printing; the app owns that selection.
 
-The print stylesheet only applies under `@media print`. Within `.dnb-print`,
+Pagination applies under `@media print`. Within `.dnb-print`,
 it keeps headings with following content, requests repeating table headers
 and footers, and asks that table rows stay together when they fit on a page.
 It removes scrolling and clipping from Eufemia Table containers so rendered
@@ -70,6 +77,8 @@ pagination depends on the browser or PDF renderer.
 
 - Add `.dnb-print-hidden` to controls and other screen-only content. This
   helper works inside or outside `.dnb-print`.
+- Add `.dnb-print-only` to content that should appear only in print. It
+  keeps its normal display in print and is hidden on screen.
 - Use `.dnb-print__keep-together` inside the scope for a short group, such
   as a signature, that belongs together.
 - Use `.dnb-print__page-break` inside the scope to start a section on the
@@ -80,9 +89,9 @@ dialogs and other interactive content appear in print. The stylesheet does
 not hide controls automatically, expand collapsed content, render
 virtualized rows, or convert interactive components to static content.
 
-Page size, margins, repeated page footers, page numbering and envelope geometry belong to
-the template and PDF renderer. The shared styles do not impose an `@page`
-size or margin. For example, an A4 template can add:
+Page size, margins, repeated page footers, page numbering and envelope
+geometry belong to the app or template and PDF renderer. The shared styles
+do not impose an `@page` size or margin. For example, an A4 template can add:
 
 ```css
 @page letter {
@@ -97,12 +106,37 @@ size or margin. For example, an A4 template can add:
 }
 ```
 
+### Plain paper output
+
+For background-free output, add `.dnb-print--plain` to the print scope:
+
+```html
+<section class="dnb-print dnb-print--plain">
+  <!-- Black text without CSS backgrounds, in either screen color scheme -->
+</section>
+```
+
+This opt-in mode applies only during printing. It makes text and links
+black on a white paper surface, removes descendant CSS backgrounds,
+gradients and shadows, uses gray borders, and disables transitions and
+animations in the scope. Fonts and the type scale remain unchanged.
+Text inputs, checkboxes, radio buttons and switches retain visible
+boundaries and selection indicators without background graphics. The
+screen retains its selected theme and control state.
+
+Image pixels, fixed SVG fills, canvas and video are not recolored. Inline
+SVGs that use `currentColor` follow the black text color. Provide a printable
+alternative for graphics that depend on a dark background. CSS background
+images are removed, so essential graphics should use an image element or
+a separate printable representation.
+Status information must remain understandable without color.
+
 ### Color scheme and paper surface
 
-Print output requires a **light brand theme**. Importing `dnb-ui-print`
-does **not** disable dark mode or convert dark tokens to a light palette,
-even when the browser switches to print media. Setting the CSS
-`color-scheme` property alone does not replace those tokens.
+For output that retains brand colors, omit `.dnb-print--plain` and use a
+**light brand theme**. The base `.dnb-print` scope does not convert dark
+tokens to a light palette. Setting the CSS `color-scheme` property alone
+does not replace those tokens.
 
 For React, set the scheme on a Theme wrapper around the printable content:
 
@@ -118,19 +152,24 @@ theme stylesheet loaded. This wrapper uses the light scheme on screen
 as well as in print. A nested light wrapper lets the surrounding app keep
 its selected color scheme. The document preview uses this approach.
 
-If the same content must be dark on screen and light only during printing,
-the app must currently provide a dedicated light printable view or a
-complete brand-specific print theme. Automatic print-only theme conversion
-is outside this stylesheet's support. Do not reset only a few color tokens.
+For dark content on screen with black text on paper, use `.dnb-print--plain`.
+Automatic conversion to a complete light brand palette remains outside
+this stylesheet's support. Use a dedicated light printable view if you
+need branded colors in print. Do not reset only a few color tokens.
 
-The template owns the paper background, text color, width, overflow and
-shadows. Use the light theme's background and text tokens for the paper
-surface. Brand accents and logos retain their colors; background printing
-depends on the renderer's settings. Check that text, links, borders and
-status indicators remain readable with background graphics disabled and in
+In the base mode, the template owns the paper background and text color.
+Use the light theme's background and text tokens for that paper surface.
+Plain mode supplies white paper and black text. Both modes leave wrapper
+width and overflow to the app or template. Brand artwork retains fixed
+colors; background printing depends on the renderer's settings. Check that
+text, links, borders and status indicators remain readable with background
+graphics disabled and in
 grayscale. Essential meaning must not depend on color alone.
 Load fonts before generating the PDF and verify font embedding and page
 breaks in the actual production renderer.
+
+See the [printable apps guide](/uilib/usage/customisation/styling/printable-apps/)
+for app layout, print-only content, and browser testing.
 
 ## Document styles
 
@@ -163,6 +202,12 @@ Also add `.dnb-print` to the document wrapper:
   <!-- Document typography with print pagination -->
 </article>
 ```
+
+Add `.dnb-print--plain` to the same wrapper if the document should print
+with black text on white paper. This changes print colors while
+`dnb-ui-document` continues to supply document typography. The letter
+preview uses a light brand theme with the base print mode to retain its
+brand colors.
 
 ### Document scope
 

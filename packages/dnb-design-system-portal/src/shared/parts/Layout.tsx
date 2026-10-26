@@ -17,8 +17,10 @@ import ToggleGrid, { GridActivator } from '../menu/ToggleGrid'
 import { setPageFocusElement } from '@dnb/eufemia/src/shared/helpers'
 import { P, Logo, GlobalStatus, Section } from '@dnb/eufemia/src'
 import './PortalStyle.scss'
+import '@dnb/eufemia/src/style/dnb-ui-print.scss'
 import {
   portalStyle,
+  portalPrintStyle,
   mainStyle,
   footerStyle,
   contentStyle,
@@ -55,6 +57,7 @@ function restoreSidebarScroll() {
 type LayoutProps = {
   fullscreen?: boolean
   hideSidebar?: boolean
+  printLayout?: 'default' | 'custom'
   children: ReactNode
   location: Location
 }
@@ -62,7 +65,10 @@ type LayoutProps = {
 function Layout(props: LayoutProps) {
   const mainRef = useRef<HTMLElement>(undefined)
 
-  const { fullscreen, location, hideSidebar, children } = props
+  const { fullscreen, location, hideSidebar, printLayout, children } =
+    props
+  const portalPrintEnabled =
+    printLayout !== 'custom' && !globalThis.IS_TEST
 
   // Prop-based and IS_TEST fullscreen are known at SSR time
   const ssrFullscreen = fullscreen || globalThis.IS_TEST
@@ -147,15 +153,20 @@ function Layout(props: LayoutProps) {
 
   return (
     <div
+      data-portal-print-layout={portalPrintEnabled || undefined}
       className={clsx(
         portalStyle,
+        portalPrintEnabled && [
+          portalPrintStyle,
+          'dnb-print dnb-print--plain',
+        ],
         fs && fullscreenStyle,
         hideSidebar && hideSidebarStyle,
         codeFocusMode && 'focusmode'
       )}
     >
       <a
-        className="dnb-skip-link"
+        className="dnb-skip-link dnb-print-hidden"
         href="#dnb-app-content"
         onClick={skipToContentHandler}
       >
@@ -180,6 +191,14 @@ function Layout(props: LayoutProps) {
             </MainContent>
 
             {!codeFocusMode && <Footer />}
+            {portalPrintEnabled && !codeFocusMode && (
+              <footer
+                className="dnb-print-only dnb-print__keep-together"
+                data-portal-print-footer
+              >
+                Eufemia · {location.pathname} · Version {releaseVersion}
+              </footer>
+            )}
           </Content>
 
           {fs && <ToggleGrid hidden />}
@@ -202,12 +221,9 @@ const Content = ({
 }: ContentProps) => {
   const { isOpen, isClosing } = useContext(SidebarMenuContext)
 
-  if (isOpen || isClosing) {
-    return null
-  }
-
   return (
     <div
+      hidden={isOpen || isClosing}
       className={clsx(
         contentStyle,
         'dnb-app-content',

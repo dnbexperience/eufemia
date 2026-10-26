@@ -247,3 +247,144 @@
 .hideSidebarStyle {
   --aside-width: 0;
 }
+
+@media screen {
+  .contentStyle[hidden] {
+    display: none;
+  }
+}
+
+@page {
+  margin: 15mm;
+}
+
+@media print {
+  :global {
+    [skip-isolation]
+      body:has([data-portal-print-layout])
+      .eufemia-portal-root:has(#dnb-modal-portal-tools) {
+      display: none !important;
+    }
+
+    [skip-isolation] html:has([data-portal-print-layout]),
+    [skip-isolation] body:has([data-portal-print-layout]),
+    [skip-isolation] #root:has([data-portal-print-layout]) {
+      height: auto;
+      min-height: 0;
+      overflow: visible;
+      background: #fff !important;
+    }
+  }
+
+  .portalPrintStyle {
+    &,
+    .wrapperStyle,
+    .contentStyle,
+    .mainStyle,
+    .mainStyle > :global(.dev-grid) {
+      display: block;
+      position: static;
+      overflow: visible;
+      width: auto;
+      max-width: none;
+      height: auto;
+      min-height: 0;
+      max-height: none;
+      margin: 0;
+      padding: 0;
+      box-shadow: none;
+    }
+
+    .contentStyle[hidden] {
+      display: block !important;
+    }
+
+    .footerStyle {
+      display: none !important;
+    }
+
+    :global {
+      .sticky-menu,
+      #portal-sidebar-menu,
+      .dnb-live-toolbar,
+      .anchor-hash,
+      .dnb-copy-on-click__button {
+        display: none !important;
+      }
+
+      .dnb-tab-bar,
+      [data-portal-page-content] {
+        width: auto;
+        max-width: none;
+        min-height: 0;
+        margin: 0;
+        padding: 0;
+        overflow: visible;
+      }
+
+      pre,
+      code {
+        white-space: pre-wrap;
+        overflow-wrap: anywhere;
+      }
+
+      table {
+        width: 100%;
+        table-layout: auto;
+        font-size: 0.875rem;
+        line-height: 1.4;
+      }
+
+      table:has(td.type) {
+        table-layout: fixed;
+
+        th:first-child {
+          width: 22%;
+        }
+        th:nth-child(2) {
+          width: 24%;
+        }
+      }
+
+      .dnb-table--outline {
+        border: 0.0625rem solid;
+        border-radius: 0;
+
+        &::after {
+          display: none;
+        }
+      }
+
+      table td {
+        white-space: normal;
+        overflow-wrap: anywhere;
+      }
+
+      table th,
+      table td,
+      table code {
+        font-size: inherit;
+        line-height: inherit;
+      }
+
+      table code {
+        padding: 0;
+        margin: 0;
+      }
+
+      img,
+      svg {
+        max-width: 100%;
+      }
+
+      [data-portal-print-footer] {
+        margin-top: 2rem;
+        padding-top: 0.5rem;
+        border-top: 0.0625rem solid;
+        font-size: 0.75rem;
+        line-height: 1.4;
+        overflow-wrap: anywhere;
+      }
+    }
+  }
+}

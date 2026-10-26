@@ -1,16 +1,25 @@
 import { H1, H2, P } from '@dnb/eufemia/src/elements'
-import { Anchor, Table } from '@dnb/eufemia/src/components'
+import {
+  Anchor,
+  Checkbox,
+  Input,
+  Radio,
+  Switch,
+  Table,
+} from '@dnb/eufemia/src/components'
 import { Th, Td, Tr } from '@dnb/eufemia/src/components/Table'
 import styles from './sample.module.scss'
 
 export default function StyleSample({
   print = false,
+  plain = false,
 }: {
   print?: boolean
+  plain?: boolean
 }) {
   return (
     <article
-      className={`${print ? 'dnb-print' : 'dnb-document'} ${styles.sample}`}
+      className={`${print ? 'dnb-print' : 'dnb-document'} ${plain ? 'dnb-print--plain' : ''} ${styles.sample}`}
       data-visual-test="style-sample"
     >
       <H1>{print ? 'Print styles' : 'Document styles'}</H1>
@@ -57,6 +66,24 @@ export default function StyleSample({
         </tbody>
       </Table>
       <P className="dnb-print-hidden">Visible on screen only.</P>
+      {plain && <P className="dnb-print-only">Visible in print only.</P>}
+      {plain && (
+        <div className={styles.controls}>
+          <Input label="Reference" value="12345" readOnly bottom />
+          <Checkbox label="Selected" checked readOnly right />
+          <Checkbox label="Not selected" checked={false} readOnly right />
+          <Checkbox label="Partial" indeterminate readOnly bottom />
+          <Radio label="Selected option" checked readOnly right />
+          <Radio label="Other option" checked={false} readOnly bottom />
+          <Switch label="Enabled setting" checked readOnly right />
+          <Switch
+            label="Disabled setting"
+            checked={false}
+            readOnly
+            bottom
+          />
+        </div>
+      )}
       <div className="dnb-document__signature dnb-print__keep-together">
         <P>
           Kind regards
