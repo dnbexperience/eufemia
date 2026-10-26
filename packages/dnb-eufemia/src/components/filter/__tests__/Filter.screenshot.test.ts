@@ -69,3 +69,39 @@ describe.each(['ui'])(`Filter for %s`, (themeName) => {
     })
   })
 })
+
+describe.each([960, 375])('Filter panel actions at %spx', (width) => {
+  setupPageScreenshot({
+    themeName: 'ui',
+    url: '/uilib/components/filter/visual-tests/panel-actions/',
+    pageViewport: { width, height: 800 },
+  })
+
+  it('matches a short panel without a bottom close button', async () => {
+    await makeScreenshot({
+      selector: '[data-visual-test="filter-short-panel"]',
+    })
+  })
+
+  it('matches a tall panel with a bottom close button', async () => {
+    await makeScreenshot({
+      selector: '[data-visual-test="filter-tall-panel"]',
+    })
+  })
+
+  it('matches collapsed active filters with a text-only clear button', async () => {
+    await makeScreenshot({
+      selector: '[data-visual-test="filter-collapsible-active"]',
+    })
+  })
+
+  it('matches expanded active filters with a text-only clear button', async () => {
+    await makeScreenshot({
+      selector: '[data-visual-test="filter-collapsible-active"]',
+      simulate: 'click',
+      simulateSelector:
+        '[data-visual-test="filter-collapsible-active"] .dnb-filter__active-filters__header .dnb-accordion__tertiary-button',
+      recalculateHeightAfterSimulate: true,
+    })
+  })
+})

@@ -349,6 +349,7 @@ describe('Filter.ActiveFilters collapsible', () => {
     )
 
     expect(clearButton).toBeInTheDocument()
+    expect(clearButton.querySelector('.dnb-icon')).not.toBeInTheDocument()
   })
 
   it('uses the CSS gap layout engine for the header', () => {
@@ -527,6 +528,7 @@ describe('Filter.ActiveFilters collapsible', () => {
     )
 
     expect(clearButton).toBeInTheDocument()
+    expect(clearButton.querySelector('.dnb-icon')).not.toBeInTheDocument()
   })
 
   it('clears all filters when clear all is clicked', () => {
