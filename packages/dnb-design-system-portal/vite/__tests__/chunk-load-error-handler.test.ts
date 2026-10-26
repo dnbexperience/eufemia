@@ -1,8 +1,84 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import {
   isChunkLoadError,
+  reloadAfterResourceRetry,
   setupChunkLoadErrorHandler,
 } from '../client/chunk-load-error-handler'
+
+describe('reloadAfterResourceRetry', () => {
+  afterEach(() => {
+    vi.unstubAllGlobals()
+    vi.useRealTimers()
+  })
+
+  it('refreshes a failed module resource before reloading', async () => {
+    let resolveFetch: (response: Response) => void
+    const fetchResource = vi.fn(
+      () =>
+        new Promise<Response>((resolve) => {
+          resolveFetch = resolve
+        })
+    )
+    vi.stubGlobal('fetch', fetchResource)
+    const reload = vi.fn()
+
+    const recovery = reloadAfterResourceRetry('/assets/layout.js', reload)
+
+    expect(fetchResource).toHaveBeenCalledWith('/assets/layout.js', {
+      cache: 'reload',
+      signal: expect.any(AbortSignal),
+    })
+    expect(reload).not.toHaveBeenCalled()
+
+    resolveFetch(new Response(''))
+    await recovery
+
+    expect(reload).toHaveBeenCalledTimes(1)
+  })
+
+  it('reloads even when the resource retry fails', async () => {
+    vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new Error('offline')))
+    const reload = vi.fn()
+
+    await reloadAfterResourceRetry('/assets/layout.js', reload)
+
+    expect(reload).toHaveBeenCalledTimes(1)
+  })
+
+  it('bounds a stalled retry before reloading', async () => {
+    vi.useFakeTimers()
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(
+        (_url, { signal }) =>
+          new Promise((_resolve, reject) => {
+            signal.addEventListener('abort', () =>
+              reject(new Error('aborted'))
+            )
+          })
+      )
+    )
+    const reload = vi.fn()
+
+    const recovery = reloadAfterResourceRetry('/assets/layout.js', reload)
+    await vi.advanceTimersByTimeAsync(3000)
+    await recovery
+
+    expect(reload).toHaveBeenCalledTimes(1)
+    expect(vi.getTimerCount()).toBe(0)
+  })
+
+  it('reloads directly when no resource URL is available', async () => {
+    const fetchResource = vi.fn()
+    vi.stubGlobal('fetch', fetchResource)
+    const reload = vi.fn()
+
+    await reloadAfterResourceRetry(undefined, reload)
+
+    expect(fetchResource).not.toHaveBeenCalled()
+    expect(reload).toHaveBeenCalledTimes(1)
+  })
+})
 
 describe('isChunkLoadError', () => {
   it('matches errors with name ChunkLoadError', () => {
@@ -78,6 +154,8 @@ describe('setupChunkLoadErrorHandler', () => {
   afterEach(() => {
     cleanup?.()
     cleanup = undefined
+    document.body.innerHTML = ''
+    vi.restoreAllMocks()
   })
 
   function dispatchRejection(reason: unknown) {
@@ -122,11 +200,6 @@ describe('setupChunkLoadErrorHandler', () => {
       reload,
     })
 
-    // The handler clears the flag on successful boot — simulate the
-    // case where the second boot ALSO encounters a chunk error by
-    // setting the flag again before dispatching.
-    storage.set('eufemia-portal:chunk-error-reloaded', '1')
-
     dispatchRejection(new Error('Loading chunk 1 failed'))
 
     expect(reload).not.toHaveBeenCalled()
@@ -140,7 +213,65 @@ describe('setupChunkLoadErrorHandler', () => {
       reload,
     })
 
+    expect(storage.has('eufemia-portal:chunk-error-reloaded')).toBe(true)
+    window.dispatchEvent(new Event('portal:ready'))
+
     expect(storage.has('eufemia-portal:chunk-error-reloaded')).toBe(false)
+  })
+
+  it.each([
+    '<script type="module" src="/assets/entry.js"></script>',
+    '<link rel="modulepreload" href="/assets/layout.js">',
+  ])('captures non-bubbling resource errors for %s', (html) => {
+    cleanup = setupChunkLoadErrorHandler({ storage: storageLike, reload })
+    document.body.innerHTML = html
+
+    document.body.firstElementChild.dispatchEvent(new Event('error'))
+
+    expect(reload).toHaveBeenCalledTimes(1)
+  })
+
+  it.each([
+    '<img src="/missing.png">',
+    '<script src="/analytics.js"></script>',
+    '<script type="module" src="https://example.com/analytics.js"></script>',
+    '<link rel="stylesheet" href="/missing.css">',
+  ])('ignores unrelated resource errors for %s', (html) => {
+    cleanup = setupChunkLoadErrorHandler({ storage: storageLike, reload })
+    document.body.innerHTML = html
+
+    document.body.firstElementChild.dispatchEvent(new Event('error'))
+
+    expect(reload).not.toHaveBeenCalled()
+  })
+
+  it('handles Vite preload errors even when the import rejection is caught', () => {
+    cleanup = setupChunkLoadErrorHandler({ storage: storageLike, reload })
+    const event = new Event('vite:preloadError', { cancelable: true })
+    Object.defineProperty(event, 'payload', {
+      value: new Error('Failed to fetch dynamically imported module'),
+    })
+
+    window.dispatchEvent(event)
+    expect(reload).toHaveBeenCalledTimes(1)
+    dispatchRejection(
+      new Error('Failed to fetch dynamically imported module')
+    )
+
+    expect(reload).toHaveBeenCalledTimes(1)
+    expect(event.defaultPrevented).toBe(false)
+  })
+
+  it('does not treat unrelated Vite preload errors as network failures', () => {
+    cleanup = setupChunkLoadErrorHandler({ storage: storageLike, reload })
+    const event = new Event('vite:preloadError')
+    Object.defineProperty(event, 'payload', {
+      value: new Error('Render failed'),
+    })
+
+    window.dispatchEvent(event)
+
+    expect(reload).not.toHaveBeenCalled()
   })
 
   it('reacts to window error events with a chunk load error', () => {
@@ -168,6 +299,14 @@ describe('setupChunkLoadErrorHandler', () => {
     dispose()
 
     dispatchRejection(new Error('Loading chunk 1 failed'))
+    const event = new Event('vite:preloadError')
+    Object.defineProperty(event, 'payload', {
+      value: new Error('Failed to fetch dynamically imported module'),
+    })
+    window.dispatchEvent(event)
+    document.body.innerHTML =
+      '<script type="module" src="/assets/entry.js"></script>'
+    document.body.firstElementChild.dispatchEvent(new Event('error'))
 
     expect(reload).not.toHaveBeenCalled()
   })
@@ -194,6 +333,36 @@ describe('setupChunkLoadErrorHandler', () => {
       dispatchRejection(new Error('Loading chunk 1 failed'))
     ).not.toThrow()
 
-    expect(reload).toHaveBeenCalledTimes(1)
+    expect(reload).not.toHaveBeenCalled()
+  })
+
+  it('survives a throwing sessionStorage getter without reloading', () => {
+    vi.spyOn(window, 'sessionStorage', 'get').mockImplementation(() => {
+      throw new Error('blocked')
+    })
+
+    expect(() => {
+      cleanup = setupChunkLoadErrorHandler({ reload })
+    }).not.toThrow()
+    dispatchRejection(new Error('Loading chunk 1 failed'))
+
+    expect(reload).not.toHaveBeenCalled()
+  })
+
+  it('does not clear the guard while a recovery reload is pending', () => {
+    cleanup = setupChunkLoadErrorHandler({ storage: storageLike, reload })
+    dispatchRejection(new Error('Loading chunk 1 failed'))
+
+    window.dispatchEvent(new Event('portal:ready'))
+
+    expect(storage.get('eufemia-portal:chunk-error-reloaded')).toBe('1')
+  })
+
+  it('does not reload without persistent storage', () => {
+    cleanup = setupChunkLoadErrorHandler({ storage: null, reload })
+
+    dispatchRejection(new Error('Loading chunk 1 failed'))
+
+    expect(reload).not.toHaveBeenCalled()
   })
 })
