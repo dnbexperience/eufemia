@@ -89,7 +89,6 @@ jobs:
         run: |
           url=$(gh pr list \
             --head "$BRANCH" \
-            --base main \
             --state open \
             --json url \
             --jq '.[0].url // empty')
@@ -253,13 +252,20 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           EXISTING_PR: ${{ steps.existing-pr.outputs.exists }}
           PR_URL: ${{ steps.existing-pr.outputs.url }}
+          BRANCH_CREATED: ${{ steps.commit.outputs.branch_created }}
         run: |
+          if [ "$BRANCH_CREATED" = true ]; then
+            base=$GITHUB_REF_NAME
+          else
+            base=main
+          fi
+
           token_scss='packages/dnb-eufemia/src/style/themes/*/tokens*.scss'
           foundation_scss='packages/dnb-eufemia/src/style/themes/*/foundation.scss'
 
           # Declarations on the added (+) or removed (-) side of the diff
           token_names() {
-            git diff -U0 "origin/main...HEAD" -- "$token_scss" |
+            git diff -U0 "origin/$base...HEAD" -- "$token_scss" |
               sed -n "s/^$1[[:space:]]*\(--token-[a-z0-9-]*\):.*/\1/p" |
               sort -u
           }
@@ -274,7 +280,7 @@ jobs:
 
           added=$(comm -23 <(token_names '+') <(token_names '-'))
           removed=$(comm -13 <(token_names '+') <(token_names '-'))
-          themes=$(git diff --name-only "origin/main...HEAD" \
+          themes=$(git diff --name-only "origin/$base...HEAD" \
             -- "$token_scss" "$foundation_scss" |
             cut -d/ -f6 |
             sed 's/^ui$/DNB/; s/^sbanken$/Sbanken/; s/^carnegie$/Carnegie/' |
@@ -329,7 +335,7 @@ jobs:
             pr_action="Commented on PR"
           else
             pr_url=$(gh pr create \
-              --base main \
+              --base "$base" \
               --head "$BRANCH" \
               --title "$title" \
               --body "$body" \
