@@ -25,6 +25,7 @@ import {
 } from '@dnb/eufemia/src/components'
 import CopyOnClick from '@dnb/eufemia/src/components/copy-on-click/CopyOnClick'
 import type { CopyOnClickButtonProps } from '@dnb/eufemia/src/components/copy-on-click/CopyOnClick'
+import PortalRoot from '@dnb/eufemia/src/components/PortalRoot'
 import {
   fullscreen as focusModeIcon,
   close as focusModeCloseIcon,
@@ -79,6 +80,8 @@ export type CodeSectionProps = {
   surface?: ThemeSurface
   reactLive?: boolean
   language?: string
+  /** Language of the preview. Defaults to the selected component locale. */
+  lang?: string
   className?: string
   background?: 'grid' | 'plain'
   omitWrapper?: boolean
@@ -231,6 +234,7 @@ function LiveCode(props: LiveCodeProps) {
     noInline,
     noFragments = true,
     language = 'jsx',
+    lang = context.locale,
     background,
     omitWrapper,
     hideToolbar,
@@ -407,29 +411,33 @@ function LiveCode(props: LiveCodeProps) {
   )
 
   const previewContent = (
-    <Theme colorScheme={colorScheme} surface={surface}>
-      {omitWrapper ? (
-        <LivePreview
-          className={clsx('dnb-live-preview')}
-          data-visual-test={visualTest}
-          data-link-check="ignore"
-        />
-      ) : (
-        <div
-          data-link-check="ignore"
-          className={clsx(
-            'example-box',
-            exampleBoxStyle,
-            showFocusModePadding && showFocusModePaddingStyle
-          )}
-        >
+    <PortalRoot.Provider lang={lang}>
+      <Theme colorScheme={colorScheme} surface={surface}>
+        {omitWrapper ? (
           <LivePreview
+            lang={lang}
             className={clsx('dnb-live-preview')}
             data-visual-test={visualTest}
+            data-link-check="ignore"
           />
-        </div>
-      )}
-    </Theme>
+        ) : (
+          <div
+            data-link-check="ignore"
+            className={clsx(
+              'example-box',
+              exampleBoxStyle,
+              showFocusModePadding && showFocusModePaddingStyle
+            )}
+          >
+            <LivePreview
+              lang={lang}
+              className={clsx('dnb-live-preview')}
+              data-visual-test={visualTest}
+            />
+          </div>
+        )}
+      </Theme>
+    </PortalRoot.Provider>
   )
 
   // The code editor is collapsible via an Accordion whenever a toggle is
