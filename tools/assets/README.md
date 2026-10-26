@@ -57,10 +57,10 @@ Hourly production checks and Slack incident/recovery notifications run in AWS
 EventBridge Scheduler and Lambda. See [service monitoring](../service-monitoring/README.md)
 for deployment, alert ownership and rollback.
 
-The cdn-health Actions workflow retains manual and post-deployment diagnostics.
-It runs Node.js directly without dependencies or deployment credentials, stores
-reports for 14 days and fails on unhealthy checks. It does not send Slack
-notifications or manage incidents.
+GitHub Actions builds and validates the monitoring package, but does not run a
+separate CDN health workflow. Release-time asset and CSP verification remains
+in the publishing workflow. For an on-demand diagnosis, use the read-only
+local command below.
 
 The monitor checks:
 
@@ -84,7 +84,7 @@ they do not independently compare the entire npm tarball with the CDN.
 
 ### Alerts
 
-AWS owns one new-incident alert and one recovery reply in the incident thread. Its shared overview updates quietly; repeated or changed failures do not create new posts. Pending delivery is retained for retries. Slack bot configuration is read from AWS Secrets Manager; the diagnostic Actions workflow does not receive it. Unavailable npm metadata is reported separately from CDN
+AWS owns one new-incident alert and one recovery reply in the incident thread. Its shared overview updates quietly; repeated or changed failures do not create new posts. Pending delivery is retained for retries. Slack bot configuration is read from AWS Secrets Manager; local diagnostic commands do not receive it. Unavailable npm metadata is reported separately from CDN
 availability in each report.
 
 The hourly AWS checks run from one region. For faster paging and regional

@@ -11,7 +11,6 @@ on:
       - 'tools/assets/**'
       - 'tools/monitoring/**'
       - '.github/workflows/assets.yml'
-      - '.github/workflows/cdn-health.yml'
   release:
     types: [published]
   workflow_dispatch:
