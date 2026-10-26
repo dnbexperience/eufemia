@@ -306,8 +306,6 @@ jobs:
             echo "$footer"
           )
 
-          printf '%s\n' "$body" >> "$GITHUB_STEP_SUMMARY"
-
           # An open pull request is left alone, so the run reports itself in a
           # comment instead of rewriting someone else's description
           if [ "$EXISTING_PR" = true ]; then
@@ -342,6 +340,8 @@ jobs:
             echo ""
             echo "- $branch_action: [$BRANCH]($GITHUB_SERVER_URL/$GITHUB_REPOSITORY/tree/$BRANCH) with $COMMITS commit(s)"
             echo "- $pr_action: [$pr_title]($pr_url)"
+            echo ""
+            printf '%s\n' "$body"
           } >> "$GITHUB_STEP_SUMMARY"
 
       - name: Report no design token changes
