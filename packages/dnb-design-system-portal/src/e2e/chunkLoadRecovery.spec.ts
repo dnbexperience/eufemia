@@ -25,24 +25,6 @@ test.describe('Chunk load recovery', () => {
   test('does not reload healthy pages during hydration', async ({
     page,
   }) => {
-    const errors: string[] = []
-    await page.exposeFunction('recordResourceError', (error: string) => {
-      errors.push(error)
-    })
-    await page.addInitScript(() => {
-      window.addEventListener(
-        'error',
-        (event) => {
-          const target = event.target as HTMLElement
-          void (
-            window as unknown as {
-              recordResourceError: (error: string) => Promise<void>
-            }
-          ).recordResourceError(target?.outerHTML || event.message)
-        },
-        true
-      )
-    })
     const documents = countDocuments(page)
     let expectedDocuments = 0
     for (const path of [
@@ -53,7 +35,7 @@ test.describe('Chunk load recovery', () => {
       await page.goto(path)
       await waitForApp(page)
       expectedDocuments++
-      expect(documents(), JSON.stringify(errors)).toBe(expectedDocuments)
+      expect(documents()).toBe(expectedDocuments)
     }
   })
 

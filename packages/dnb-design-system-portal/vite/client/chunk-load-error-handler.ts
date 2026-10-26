@@ -80,11 +80,13 @@ export function setupChunkLoadErrorHandler({
   }
 
   let reloading = false
+  let failedPreloadUrl: string | undefined
 
   const onReady = () => {
     if (reloading) {
       return
     }
+    failedPreloadUrl = undefined
 
     try {
       const reloadStorage =
@@ -119,7 +121,7 @@ export function setupChunkLoadErrorHandler({
 
   const handleReason = (reason: unknown) => {
     if (isChunkLoadError(reason)) {
-      reloadOnce()
+      reloadOnce(failedPreloadUrl)
     }
   }
 
@@ -141,7 +143,12 @@ export function setupChunkLoadErrorHandler({
       resourceUrl &&
       new URL(resourceUrl).origin === window.location.origin
     ) {
-      reloadOnce(resourceUrl)
+      if (target instanceof HTMLLinkElement) {
+        // Preloads are speculative. Recover only if a module import also fails.
+        failedPreloadUrl = resourceUrl
+        return
+      }
+      reloadOnce(failedPreloadUrl ?? resourceUrl)
       return
     }
 

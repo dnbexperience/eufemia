@@ -219,16 +219,47 @@ describe('setupChunkLoadErrorHandler', () => {
     expect(storage.has('eufemia-portal:chunk-error-reloaded')).toBe(false)
   })
 
-  it.each([
-    '<script type="module" src="/assets/entry.js"></script>',
-    '<link rel="modulepreload" href="/assets/layout.js">',
-  ])('captures non-bubbling resource errors for %s', (html) => {
+  it('captures non-bubbling module script errors', () => {
     cleanup = setupChunkLoadErrorHandler({ storage: storageLike, reload })
-    document.body.innerHTML = html
+    document.body.innerHTML =
+      '<script type="module" src="/assets/entry.js"></script>'
 
     document.body.firstElementChild.dispatchEvent(new Event('error'))
 
     expect(reload).toHaveBeenCalledTimes(1)
+  })
+
+  it('does not reload for a speculative preload error', () => {
+    cleanup = setupChunkLoadErrorHandler({
+      storage: storageLike,
+      reload,
+    })
+    document.body.innerHTML =
+      '<link rel="modulepreload" href="/assets/layout.js">'
+
+    document.body.firstElementChild.dispatchEvent(new Event('error'))
+    expect(reload).not.toHaveBeenCalled()
+  })
+
+  it('refreshes the failed preload when the entry module also fails', () => {
+    cleanup = setupChunkLoadErrorHandler({
+      storage: storageLike,
+      reload,
+    })
+    document.body.innerHTML =
+      '<link rel="modulepreload" href="/assets/layout.js">'
+
+    document.body.firstElementChild.dispatchEvent(new Event('error'))
+    const failedPreload = document.body
+      .firstElementChild as HTMLLinkElement
+    const script = document.createElement('script')
+    script.type = 'module'
+    script.src = '/assets/entry.js'
+    document.body.appendChild(script)
+    script.dispatchEvent(new Event('error'))
+
+    expect(reload).toHaveBeenCalledTimes(1)
+    expect(reload).toHaveBeenCalledWith(failedPreload.href)
   })
 
   it.each([
