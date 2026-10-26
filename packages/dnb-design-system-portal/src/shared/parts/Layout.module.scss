@@ -254,12 +254,16 @@
   }
 }
 
-@page {
+@page portal-print {
   margin: 15mm;
 }
 
 @media print {
   :global {
+    [skip-isolation] body:has([data-portal-print-layout]) {
+      page: portal-print;
+    }
+
     [skip-isolation]
       body:has([data-portal-print-layout])
       .eufemia-portal-root:has(#dnb-modal-portal-tools) {

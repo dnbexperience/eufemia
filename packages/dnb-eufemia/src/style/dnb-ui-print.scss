@@ -74,6 +74,10 @@
       text-decoration: underline;
     }
 
+    .dnb-input__placeholder {
+      display: none !important;
+    }
+
     .dnb-tabs__button[aria-selected='true'] .dnb-tabs__button__title {
       text-decoration: underline;
       text-underline-offset: 0.25em;

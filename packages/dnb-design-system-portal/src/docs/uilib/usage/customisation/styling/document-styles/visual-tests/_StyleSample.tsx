@@ -1,4 +1,5 @@
 import { H1, H2, P } from '@dnb/eufemia/src/elements'
+import { clsx } from 'clsx'
 import {
   Anchor,
   Checkbox,
@@ -19,7 +20,11 @@ export default function StyleSample({
 }) {
   return (
     <article
-      className={`${print ? 'dnb-print' : 'dnb-document'} ${plain ? 'dnb-print--plain' : ''} ${styles.sample}`}
+      className={clsx(
+        print ? 'dnb-print' : 'dnb-document',
+        plain && 'dnb-print--plain',
+        styles.sample
+      )}
       data-visual-test="style-sample"
     >
       <H1>{print ? 'Print styles' : 'Document styles'}</H1>
@@ -70,18 +75,20 @@ export default function StyleSample({
       {plain && (
         <div className={styles.controls}>
           <Input label="Reference" value="12345" readOnly bottom />
+          <Input
+            label="Empty reference"
+            value=""
+            placeholder="12345"
+            readOnly
+            bottom
+          />
           <Checkbox label="Selected" checked readOnly right />
           <Checkbox label="Not selected" checked={false} readOnly right />
           <Checkbox label="Partial" indeterminate readOnly bottom />
           <Radio label="Selected option" checked readOnly right />
           <Radio label="Other option" checked={false} readOnly bottom />
           <Switch label="Enabled setting" checked readOnly right />
-          <Switch
-            label="Disabled setting"
-            checked={false}
-            readOnly
-            bottom
-          />
+          <Switch label="Off setting" checked={false} readOnly bottom />
         </div>
       )}
       <div className="dnb-document__signature dnb-print__keep-together">

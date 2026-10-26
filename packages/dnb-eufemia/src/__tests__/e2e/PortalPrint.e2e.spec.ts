@@ -1,5 +1,64 @@
 import { test, expect } from '@playwright/test'
 
+test('prints an empty Input without its placeholder and restores the hint on screen', async ({
+  page,
+}) => {
+  await page.goto(
+    '/uilib/usage/customisation/styling/document-styles/visual-tests/plain/'
+  )
+  const input = page.getByLabel('Empty reference', { exact: true })
+  const placeholder = page
+    .locator('.dnb-input')
+    .filter({ has: input })
+    .locator('.dnb-input__placeholder')
+  await expect(input).toHaveValue('')
+  await expect(placeholder).toBeVisible()
+  await page.emulateMedia({ media: 'print' })
+  await expect(placeholder).toBeHidden()
+  await expect(input).toHaveValue('')
+  await expect(page.getByLabel('Reference', { exact: true })).toHaveValue(
+    '12345'
+  )
+  await page.emulateMedia({ media: 'screen' })
+  await expect(placeholder).toBeVisible()
+})
+
+test('scopes Portal page margins to its named page', async ({ page }) => {
+  await page.goto('/uilib/usage/customisation/styling/printable-apps/')
+  await expect(page.locator('[data-portal-print-layout]')).toBeVisible()
+  await page.emulateMedia({ media: 'print' })
+  await expect(page.locator('body')).toHaveCSS('page', 'portal-print')
+  await page.goto(
+    '/uilib/usage/customisation/styling/document-styles/visual-tests/plain/'
+  )
+  await expect(
+    page.locator('[data-visual-test="style-sample"]')
+  ).toBeVisible()
+  await expect(page.locator('body')).toHaveCSS('page', 'auto')
+  const unscopedMargins = await page.evaluate(() => {
+    const result: string[] = []
+    function inspect(rules: CSSRuleList) {
+      for (const rule of Array.from(rules)) {
+        if (
+          rule instanceof CSSPageRule &&
+          !rule.selectorText &&
+          rule.style.margin
+        ) {
+          result.push(rule.style.margin)
+        }
+        if ('cssRules' in rule) {
+          inspect((rule as CSSGroupingRule).cssRules)
+        }
+      }
+    }
+    for (const sheet of Array.from(document.styleSheets)) {
+      inspect(sheet.cssRules)
+    }
+    return result
+  })
+  expect(unscopedMargins).toEqual([])
+})
+
 test('prints documentation while Portal Tools is open', async ({
   page,
 }) => {
