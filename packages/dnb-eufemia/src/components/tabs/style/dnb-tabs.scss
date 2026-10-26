@@ -364,11 +364,7 @@
   &__button__snap {
     display: flex;
 
-    padding: 0 1rem 0 1.5rem;
-
-    @include utilities.allBelow(small) {
-      padding: 0 1rem;
-    }
+    padding: 0 1rem;
 
     &:first-of-type {
       padding-left: 0;
