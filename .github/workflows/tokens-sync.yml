@@ -210,10 +210,11 @@ jobs:
             git commit --no-verify \
               -m "chore: update screenshots for the new design tokens" \
               -m "$footer"
-            echo "commits=2" >> "$GITHUB_OUTPUT"
+            commits=2
           else
-            echo "commits=1" >> "$GITHUB_OUTPUT"
+            commits=1
           fi
+          echo "commits=$commits" >> "$GITHUB_OUTPUT"
 
           if [ -n "$remote_sha" ]; then
             git push origin "HEAD:refs/heads/$BRANCH" \
@@ -221,6 +222,21 @@ jobs:
           else
             git push --set-upstream origin "$BRANCH"
           fi
+
+          # Reported as soon as it is true, so a later failure cannot leave a
+          # pushed branch unmentioned
+          if [ "$BRANCH_EXISTS" != true ]; then
+            branch_action="Created branch"
+          else
+            branch_action="Updated branch"
+          fi
+
+          {
+            echo ""
+            echo "# Summary:"
+            echo ""
+            echo "- $branch_action: [$BRANCH]($GITHUB_SERVER_URL/$GITHUB_REPOSITORY/tree/$BRANCH) with $commits commit(s)"
+          } >> "$GITHUB_STEP_SUMMARY"
         env:
           # For push we use the personal token instead of the built-in
           # GITHUB_TOKEN, because the built-in token does not trigger the
@@ -237,8 +253,6 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           EXISTING_PR: ${{ steps.existing-pr.outputs.exists }}
           PR_URL: ${{ steps.existing-pr.outputs.url }}
-          BRANCH_CREATED: ${{ steps.commit.outputs.branch_created }}
-          COMMITS: ${{ steps.commit.outputs.commits }}
         run: |
           token_scss='packages/dnb-eufemia/src/style/themes/*/tokens*.scss'
           foundation_scss='packages/dnb-eufemia/src/style/themes/*/foundation.scss'
@@ -328,17 +342,7 @@ jobs:
               echo "::warning::Could not assign the pull request to $GITHUB_ACTOR."
           fi
 
-          if [ "$BRANCH_CREATED" = true ]; then
-            branch_action="Created branch"
-          else
-            branch_action="Updated branch"
-          fi
-
           {
-            echo ""
-            echo "# Summary:"
-            echo ""
-            echo "- $branch_action: [$BRANCH]($GITHUB_SERVER_URL/$GITHUB_REPOSITORY/tree/$BRANCH) with $COMMITS commit(s)"
             echo "- $pr_action: [$pr_title]($pr_url)"
             echo ""
             printf '%s\n' "$body"
