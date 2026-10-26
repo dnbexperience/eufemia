@@ -146,7 +146,7 @@ exports[`Tabs scss > has to match style dependencies css 1`] = `
   display: none;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 600ms ease-out;
+  transition: opacity 400ms ease-out;
 }
 .dnb-tabs__scroll-nav-button--visible {
   display: flex;
@@ -629,7 +629,7 @@ exports[`Tabs scss > have to match default theme snapshot 1`] = `
   display: none;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 600ms ease-out;
+  transition: opacity 400ms ease-out;
 }
 .dnb-tabs__scroll-nav-button--visible {
   display: flex;

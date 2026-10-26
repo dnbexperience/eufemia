@@ -441,6 +441,17 @@ function TabsComponent(ownProps: TabsProps) {
     }
   }
 
+  const updateScrollNavigation = useCallback(() => {
+    const { scrollLeft, scrollWidth, clientWidth } = tablistRef.current
+    const data = dataRef.current
+    const key = selectedKeyRef.current
+    setIsFirst(scrollLeft <= 1 || key === data[0]?.key)
+    setIsLast(
+      scrollLeft + clientWidth >= scrollWidth - 1 ||
+        key === data[data.length - 1]?.key
+    )
+  }, [])
+
   const scrollToTab = useCallback(
     ({
       type,
@@ -510,8 +521,7 @@ function TabsComponent(ownProps: TabsProps) {
               })
             }
 
-            setIsFirst(isFirstItem)
-            setIsLast(isLastItem)
+            updateScrollNavigation()
           }
         } catch (e) {
           warn('Tabs: Failed to scroll to tab:', e)
@@ -526,7 +536,7 @@ function TabsComponent(ownProps: TabsProps) {
         window.requestAnimationFrame(delay)
       }
     },
-    []
+    [updateScrollNavigation]
   )
 
   const handleVerticalScroll = () => {
@@ -758,20 +768,12 @@ function TabsComponent(ownProps: TabsProps) {
     hasScrollbarRef.current = scrollbarVisible
 
     if (scrollbarVisible) {
-      // Set button visibility state synchronously from data to avoid
-      // the extra render cycle that rAF-based scrollToTab causes.
-      const data = dataRef.current
-      const key = selectedKeyRef.current
-      if (data.length > 0) {
-        setIsFirst(key === data[0].key)
-        setIsLast(key === data[data.length - 1].key)
-      }
-
+      updateScrollNavigation()
       scrollToTab({ type: 'selected' })
     }
 
     updateSelection()
-  }, [scrollToTab, updateSelection])
+  }, [scrollToTab, updateScrollNavigation, updateSelection])
 
   // Synchronous shared state initialization (must happen during render, not in useEffect).
   // Use silent: true to avoid triggering subscribers during render, which would cause
@@ -806,15 +808,7 @@ function TabsComponent(ownProps: TabsProps) {
         }
 
         if (scrollbarVisible) {
-          // Set button visibility state synchronously from data to avoid
-          // the extra render cycle that rAF-based scrollToTab causes.
-          const data = dataRef.current
-          const key = selectedKeyRef.current
-          if (data.length > 0) {
-            setIsFirst(key === data[0].key)
-            setIsLast(key === data[data.length - 1].key)
-          }
-
+          updateScrollNavigation()
           scrollToTab({
             type: 'selected',
             behavior: hasLP ? 'smooth' : 'auto',
@@ -1347,6 +1341,7 @@ Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outs
           tabIndex={0}
           onKeyDown={onTablistKeyDownHandler}
           onWheelCapture={onTablistWheelHandler}
+          onScroll={updateScrollNavigation}
           ref={tablistRef}
           {...params}
         >

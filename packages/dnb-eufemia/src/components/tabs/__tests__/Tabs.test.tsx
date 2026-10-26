@@ -452,6 +452,73 @@ describe('Tabs component', () => {
     )
   })
 
+  it('reveals the edge tabs when scrolling without changing the selection', () => {
+    vi.spyOn(HTMLElement.prototype, 'scrollWidth', 'get').mockReturnValue(
+      300
+    )
+    vi.spyOn(HTMLElement.prototype, 'clientWidth', 'get').mockReturnValue(
+      100
+    )
+    vi.spyOn(HTMLElement.prototype, 'offsetWidth', 'get').mockReturnValue(
+      100
+    )
+    const onChange = vi.fn()
+
+    render(
+      <Tabs
+        {...props}
+        data={tablistData}
+        selectedKey="second"
+        onChange={onChange}
+      >
+        {contentWrapperData}
+      </Tabs>
+    )
+
+    const tablist = document.querySelector<HTMLElement>(
+      '.dnb-tabs__tabs__tablist'
+    )
+    const [previous, next] = document.querySelectorAll(
+      '.dnb-tabs__scroll-nav-button'
+    )
+    const hiddenClass = 'dnb-tabs__scroll-nav-button--hide'
+
+    expect(previous).toHaveClass(hiddenClass)
+    expect(next).not.toHaveClass(hiddenClass)
+
+    fireEvent.scroll(tablist, { target: { scrollLeft: 50 } })
+    expect(previous).not.toHaveClass(hiddenClass)
+    expect(next).not.toHaveClass(hiddenClass)
+
+    fireEvent.scroll(tablist, { target: { scrollLeft: -10 } })
+    expect(previous).toHaveClass(hiddenClass)
+    expect(next).not.toHaveClass(hiddenClass)
+
+    fireEvent.scroll(tablist, { target: { scrollLeft: 199.5 } })
+    expect(previous).not.toHaveClass(hiddenClass)
+    expect(next).toHaveClass(hiddenClass)
+
+    fireEvent.scroll(tablist, { target: { scrollLeft: 50 } })
+    expect(previous).not.toHaveClass(hiddenClass)
+    expect(next).not.toHaveClass(hiddenClass)
+    expect(
+      document.querySelector('[aria-selected="true"]')
+    ).toHaveAttribute('data-tab-key', 'second')
+    expect(onChange).not.toHaveBeenCalled()
+
+    fireEvent.click(document.querySelector('[data-tab-key="first"]'))
+    fireEvent.scroll(tablist, { target: { scrollLeft: 50 } })
+    expect(previous).toHaveClass(hiddenClass)
+    expect(next).not.toHaveClass(hiddenClass)
+
+    fireEvent.click(document.querySelector('[data-tab-key="third"]'))
+    fireEvent.scroll(tablist, { target: { scrollLeft: 50 } })
+    expect(previous).not.toHaveClass(hiddenClass)
+    expect(next).toHaveClass(hiddenClass)
+
+    vi.restoreAllMocks()
+  })
+
   it('translates the scroll navigation button labels', () => {
     const translations = defaultLocales['en-GB'].Tabs
 
