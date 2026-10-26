@@ -62,13 +62,13 @@ Tertiary button with long text and text `wrap` enabled.
 
 ### Icon button
 
-Use icon-only buttons for familiar actions in compact areas, such as toolbars and list rows. People should understand the action and what it affects before selecting the button.
+**Use buttons with visible text by default.** Only use an icon-only button when the action and what it affects are immediately clear to your users, without a tooltip. If there is any doubt, keep the text label.
 
 #### Choose an icon that fits the context
 
-Use an existing [Eufemia icon](/icons) and keep its meaning consistent throughout your application. These examples depend on context, not just the icon:
+Use an existing [Eufemia icon](/icons) and keep its meaning consistent throughout your application. Even in the contexts below, only omit the text label if the action and its scope are unambiguous to your users.
 
-|                   Icon                   | Action | Icon-only can work when…            |
+|                   Icon                   | Action | Context to check                    |
 | :--------------------------------------: | ------ | ----------------------------------- |
 | <IconPrimary icon="close" aria-hidden /> | Close  | In the dialog or panel it closes.   |
 | <IconPrimary icon="trash" aria-hidden /> | Delete | Beside the attachment it deletes.   |
@@ -82,7 +82,7 @@ Use an existing [Eufemia icon](/icons) and keep its meaning consistent throughou
 - **The icon could mean several things.** A plus could mean add an item, create an account, or zoom in. Use a label such as "Add account".
 - **People need a tooltip to understand the action.** Tooltips can help, but should not be the only explanation, especially on touch screens.
 
-Do not remove a useful text label just to fit a smaller screen.
+Limited space, including on smaller screens, is not enough reason to remove a text label.
 
 #### Name the action
 
