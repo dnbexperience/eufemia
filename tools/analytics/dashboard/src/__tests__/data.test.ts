@@ -1,31 +1,15 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 import {
-  countBy,
-  dashboardView,
   dataErrorMessage,
   loadDashboardData,
+  portalViewTrendsView,
   rank,
   snapshotMeta,
-  toViewRow,
   type DashboardPayload,
 } from '../data'
 import { beginAuthRetry } from '../auth'
 import type { Session } from '../auth'
-
-describe('toViewRow', () => {
-  it('uses the path, with a dash when it is missing', () => {
-    expect(toViewRow({ path: '/b' }).path).toBe('/b')
-    expect(toViewRow({}).path).toBe('—')
-  })
-
-  it('derives the day from the timestamp', () => {
-    expect(toViewRow({ timestamp: '2026-01-02T00:00:00Z' }).day).toBe(
-      '2026-01-02'
-    )
-    expect(toViewRow({}).day).toBe('')
-  })
-})
 
 describe('snapshotMeta', () => {
   const payload: DashboardPayload = { generatedAt: '2026-09-16T10:00:00Z' }
@@ -53,80 +37,141 @@ describe('dataErrorMessage', () => {
   })
 })
 
-describe('countBy + rank', () => {
-  const rows = [
-    toViewRow({
-      path: '/a',
-      env: 'prod',
-      timestamp: '2026-09-16T00:00:00Z',
-    }),
-    toViewRow({
-      path: '/a',
-      env: 'prod',
-      timestamp: '2026-09-16T01:00:00Z',
-    }),
-    toViewRow({
-      path: '/b',
-      env: 'prod',
-      timestamp: '2026-09-15T00:00:00Z',
-    }),
-  ]
+describe('rank', () => {
+  const counts = new Map([
+    ['2026-09-16', 2],
+    ['2026-09-15', 1],
+  ])
 
-  it('counts occurrences and ranks by count descending', () => {
-    const ranked = rank(countBy(rows, 'path'), { sort: 'desc' })
-    expect(ranked).toEqual([
-      { name: '/a', count: 2 },
-      { name: '/b', count: 1 },
+  it('ranks by count descending', () => {
+    expect(rank(counts, { sort: 'desc' })).toEqual([
+      { name: '2026-09-16', count: 2 },
+      { name: '2026-09-15', count: 1 },
     ])
   })
 
   it('sorts by key and respects a limit', () => {
-    const ranked = rank(countBy(rows, 'day'), { sort: 'key', limit: 1 })
-    expect(ranked).toEqual([{ name: '2026-09-15', count: 1 }])
+    expect(rank(counts, { sort: 'key', limit: 1 })).toEqual([
+      { name: '2026-09-15', count: 1 },
+    ])
   })
 })
 
-describe('dashboardView', () => {
+describe('portalViewTrendsView', () => {
   const payload: DashboardPayload = {
-    portalViews: [
-      { path: '/a', env: 'prod', timestamp: '2026-09-16T00:00:00Z' },
-      { path: '/a', env: 'prod', timestamp: '2026-09-16T01:00:00Z' },
-      { path: '/b', env: 'test', timestamp: '2026-09-15T00:00:00Z' },
-    ],
+    generatedAt: '2026-10-06T08:00:00Z',
+    portalViewTrends: {
+      perDay: [
+        { dt: '2026-09-29', env: 'prod', count: 10 },
+        { dt: '2026-09-29', env: 'test', count: 1 },
+        { dt: '2026-10-01', env: 'prod', count: 20 },
+        { dt: '2026-10-05', env: 'prod', count: 5 },
+      ],
+      topPathsPerMonth: [
+        { month: '2026-09', env: '', path: '/a', count: 11 },
+        { month: '2026-09', env: 'prod', path: '/a', count: 10 },
+        { month: '2026-10', env: '', path: '/a', count: 10 },
+        { month: '2026-10', env: '', path: '/b', count: 15 },
+        { month: '2026-10', env: 'prod', path: '/b', count: 15 },
+      ],
+      perLocaleAndTheme: [
+        { env: 'prod', locale: 'nb-NO', theme: 'ui', count: 30 },
+        { env: 'prod', locale: 'en-GB', theme: 'sbanken', count: 5 },
+        { env: 'test', locale: 'en-GB', theme: 'ui', count: 1 },
+      ],
+    },
   }
 
-  it('returns empty rows, envs and zeroed kpis for no payload', () => {
-    const view = dashboardView(null, '')
+  it('returns an empty view for no payload', () => {
+    const view = portalViewTrendsView(null, '')
 
-    expect(view.allRows).toEqual([])
-    expect(view.rows).toEqual([])
+    expect(view.total).toBe(0)
     expect(view.envs).toEqual([])
-    expect(view.kpis.map((k) => k.value)).toEqual([0, 0, 0])
+    expect(view.last30Days).toEqual([])
+    expect(view.topPathsPerMonth).toEqual([])
   })
 
-  it('derives distinct sorted envs and key figures across all rows', () => {
-    const view = dashboardView(payload, '')
+  it('fills days without views with 0 up to the snapshot day', () => {
+    const view = portalViewTrendsView(payload, '')
 
-    expect(view.envs).toEqual(['prod', 'test'])
-    expect(view.rows).toHaveLength(3)
+    expect(view.firstDay).toBe('2026-09-29')
+    expect(view.lastDay).toBe('2026-10-06')
+    expect(view.last30Days).toEqual([
+      { name: '2026-09-29', count: 11 },
+      { name: '2026-09-30', count: 0 },
+      { name: '2026-10-01', count: 20 },
+      { name: '2026-10-02', count: 0 },
+      { name: '2026-10-03', count: 0 },
+      { name: '2026-10-04', count: 0 },
+      { name: '2026-10-05', count: 5 },
+      { name: '2026-10-06', count: 0 },
+    ])
     expect(view.kpis).toEqual([
-      { value: 3, label: 'Latest views' },
-      { value: 2, label: 'Unique URLs' },
-      { value: 2, label: 'Days covered' },
+      { value: 36, label: 'Views, last 30 days' },
+      { value: 36, label: 'Views in total' },
     ])
   })
 
-  it('filters rows by the selected environment but keeps the full env list', () => {
-    const view = dashboardView(payload, 'prod')
+  it('groups days into weeks starting on Monday and into calendar months', () => {
+    const view = portalViewTrendsView(payload, '')
+
+    expect(view.perWeek).toEqual([
+      { name: '2026-09-28', count: 31 },
+      { name: '2026-10-05', count: 5 },
+    ])
+    expect(view.perMonth).toEqual([
+      { name: '2026-09', count: 11 },
+      { name: '2026-10', count: 25 },
+    ])
+  })
+
+  it('keeps only the last 30 days in the daily list', () => {
+    const view = portalViewTrendsView(
+      { ...payload, generatedAt: '2026-11-30T00:00:00Z' },
+      ''
+    )
+
+    expect(view.last30Days).toHaveLength(30)
+    expect(view.last30Days[0].name).toBe('2026-11-01')
+    expect(view.total).toBe(36)
+  })
+
+  it('ranks top URLs per month, newest month first, using the all-environments ranking for All', () => {
+    const view = portalViewTrendsView(payload, '')
+
+    expect(view.topPathsPerMonth).toEqual([
+      {
+        month: '2026-10',
+        paths: [
+          { name: '/b', count: 15 },
+          { name: '/a', count: 10 },
+        ],
+      },
+      { month: '2026-09', paths: [{ name: '/a', count: 11 }] },
+    ])
+  })
+
+  it('sums locales and themes across the whole range', () => {
+    const view = portalViewTrendsView(payload, '')
+
+    expect(view.perLocale).toEqual([
+      { name: 'nb-NO', count: 30 },
+      { name: 'en-GB', count: 6 },
+    ])
+    expect(view.perTheme).toEqual([
+      { name: 'ui', count: 31 },
+      { name: 'sbanken', count: 5 },
+    ])
+  })
+
+  it('scopes every list to the selected environment but keeps the full env list', () => {
+    const view = portalViewTrendsView(payload, 'test')
 
     expect(view.envs).toEqual(['prod', 'test'])
-    expect(view.rows).toHaveLength(2)
-    expect(view.rows.every((r) => r.env === 'prod')).toBe(true)
-    expect(view.kpis).toEqual([
-      { value: 2, label: 'Latest views' },
-      { value: 1, label: 'Unique URLs' },
-      { value: 1, label: 'Days covered' },
-    ])
+    expect(view.total).toBe(1)
+    expect(view.firstDay).toBe('2026-09-29')
+    expect(view.topPathsPerMonth).toEqual([])
+    expect(view.perLocale).toEqual([{ name: 'en-GB', count: 1 }])
   })
 })
 
@@ -163,7 +208,7 @@ describe('loadDashboardData', () => {
       return {
         status: 200,
         ok: true,
-        json: async () => ({ portalViews: [{ path: '/a' }] }),
+        json: async () => ({ generatedAt: 't' }),
       }
     })
 
@@ -175,7 +220,7 @@ describe('loadDashboardData', () => {
     ).toBe('Bearer token-abc')
     expect(result).toEqual({
       kind: 'data',
-      payload: { portalViews: [{ path: '/a' }] },
+      payload: { generatedAt: 't' },
     })
   })
 

@@ -10,38 +10,19 @@ import type {
   ComponentUsageDaily,
   McpUsageDaily,
   PortalViewDaily,
+  PortalViewDayCount,
+  PortalViewLocaleThemeCount,
+  PortalViewMonthPathCount,
   RankedCount,
 } from './snapshot-store.js'
 
 const athena = new AthenaClient({})
-
-const DEFAULT_LIMIT = 100
-const MAX_LIMIT = 1000
 
 const POLL_INTERVAL_MS = 500
 // Sized for the full 13-month retention; the snapshot Lambda timeout covers
 // its chain of waits.
 const MAX_WAIT_MS = 2 * 60 * 1000
 const MAX_POLLS = MAX_WAIT_MS / POLL_INTERVAL_MS
-
-export type RetrieveOptions = {
-  limit?: number
-}
-
-/** A portal page view as read back for the dashboard. */
-export type PortalView = {
-  path: string
-  env: string
-  timestamp: string
-}
-
-function clampLimit(limit: number | undefined): number {
-  if (limit === undefined || !Number.isFinite(limit)) {
-    return DEFAULT_LIMIT
-  }
-
-  return Math.min(Math.max(Math.trunc(limit), 1), MAX_LIMIT)
-}
 
 function delay(ms: number): Promise<void> {
   return new Promise((resolve) => setTimeout(resolve, ms))
@@ -142,27 +123,6 @@ async function runQuery<Row>(
   return readResults(queryExecutionId, toRow)
 }
 
-/**
- * Retrieve the most recent portal page views for the dashboard, newest first.
- *
- * The portal_views table holds only portal views, so no type filter is needed.
- */
-export async function retrievePortalViews(
-  options: RetrieveOptions = {}
-): Promise<PortalView[]> {
-  const table = glueTable('GLUE_TABLE')
-  const limit = clampLimit(options.limit)
-
-  return runQuery(
-    `SELECT path, env, "timestamp" FROM ${table} ORDER BY "timestamp" DESC LIMIT ${limit}`,
-    ([path, env, timestamp]) => ({
-      path: path ?? '',
-      env: env ?? '',
-      timestamp: timestamp ?? '',
-    })
-  )
-}
-
 // A YYYY-MM-DD partition token is derived from the server clock, never user
 // input, so interpolating it into the query carries no injection risk.
 const DT_PATTERN = /^\d{4}-\d{2}-\d{2}$/
@@ -216,6 +176,72 @@ export async function aggregatePortalViewsRaw(
   return runQuery(
     `SELECT dt, path, env, status, locale, theme, color_scheme, referrer, via_search, count(*) AS cnt FROM ${table} WHERE dt >= '${sinceDt}' GROUP BY dt, path, env, status, locale, theme, color_scheme, referrer, via_search`,
     toPortalViewDailyRow
+  )
+}
+
+// Missing values read as 'unknown', like the record defaults, so an empty env
+// stays reserved for the all-environments ranking.
+const ENV_COLUMN = "coalesce(env, 'unknown')"
+const LOCALE_COLUMN = "coalesce(locale, 'unknown')"
+const THEME_COLUMN = "coalesce(theme, 'unknown')"
+
+/** Read total portal views per day and environment from the durable rollup. */
+export async function retrievePortalViewsPerDay(
+  sinceDt: string
+): Promise<PortalViewDayCount[]> {
+  assertPartitionDate(sinceDt)
+
+  const table = glueTable('GLUE_TABLE_PORTAL_VIEWS_DAILY')
+
+  return runQuery(
+    `SELECT dt, ${ENV_COLUMN} AS env, sum(count) AS views FROM ${table} WHERE dt >= '${sinceDt}' GROUP BY dt, ${ENV_COLUMN} ORDER BY dt`,
+    ([dt, env, views]) => ({
+      dt: dt ?? '',
+      env: env ?? '',
+      count: Number(views ?? 0),
+    })
+  )
+}
+
+/**
+ * Read the most viewed paths per month from the durable rollup, ranked per
+ * environment and across all environments (empty env).
+ */
+export async function retrieveTopPortalPathsPerMonth(
+  sinceDt: string,
+  limit: number
+): Promise<PortalViewMonthPathCount[]> {
+  assertPartitionDate(sinceDt)
+
+  const table = glueTable('GLUE_TABLE_PORTAL_VIEWS_DAILY')
+
+  return runQuery(
+    `SELECT month, env, path, views FROM (SELECT month, env, path, views, row_number() OVER (PARTITION BY month, env ORDER BY views DESC, path) AS position FROM (SELECT month, CASE WHEN grouping(env) = 1 THEN '' ELSE env END AS env, path, sum(count) AS views FROM (SELECT substr(dt, 1, 7) AS month, ${ENV_COLUMN} AS env, path, count FROM ${table} WHERE dt >= '${sinceDt}') GROUP BY GROUPING SETS ((month, env, path), (month, path)))) WHERE position <= ${limit} ORDER BY month, env, views DESC`,
+    ([month, env, path, views]) => ({
+      month: month ?? '',
+      env: env ?? '',
+      path: path ?? '',
+      count: Number(views ?? 0),
+    })
+  )
+}
+
+/** Read total portal views per environment, locale and theme from the durable rollup. */
+export async function retrievePortalViewsPerLocaleAndTheme(
+  sinceDt: string
+): Promise<PortalViewLocaleThemeCount[]> {
+  assertPartitionDate(sinceDt)
+
+  const table = glueTable('GLUE_TABLE_PORTAL_VIEWS_DAILY')
+
+  return runQuery(
+    `SELECT ${ENV_COLUMN} AS env, ${LOCALE_COLUMN} AS locale, ${THEME_COLUMN} AS theme, sum(count) AS views FROM ${table} WHERE dt >= '${sinceDt}' GROUP BY ${ENV_COLUMN}, ${LOCALE_COLUMN}, ${THEME_COLUMN}`,
+    ([env, locale, theme, views]) => ({
+      env: env ?? '',
+      locale: locale ?? '',
+      theme: theme ?? '',
+      count: Number(views ?? 0),
+    })
   )
 }
 
