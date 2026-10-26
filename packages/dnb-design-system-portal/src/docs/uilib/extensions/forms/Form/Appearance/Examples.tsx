@@ -87,7 +87,10 @@ export const Size = () => {
 
 export const NestedSize = () => {
   return (
-    <ComponentBox data-visual-test="form-appearance-size-nested">
+    <ComponentBox
+      socialPreview
+      data-visual-test="form-appearance-size-nested"
+    >
       <Form.Appearance size="medium">
         <Form.Handler>
           <Flex.Stack>

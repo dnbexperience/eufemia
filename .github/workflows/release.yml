@@ -74,6 +74,12 @@ jobs:
       - name: Prebuild Library
         run: yarn workspace @dnb/eufemia prebuild:ci
 
+      - name: Restore Portal social images
+        if: github.ref == 'refs/heads/release'
+        run: |
+          node packages/dnb-design-system-portal/scripts/og-images/cdn.mts
+          node packages/dnb-design-system-portal/scripts/og-images/install.mts
+
       - name: Build portal
         if: github.ref == 'refs/heads/release'
         run: yarn workspace dnb-design-system-portal build:ci
@@ -94,6 +100,20 @@ jobs:
           ALGOLIA_APP_ID: ${{ secrets.ALGOLIA_APP_ID }}
           ALGOLIA_API_KEY: ${{ secrets.ALGOLIA_API_KEY }}
           ALGOLIA_INDEX_NAME: ${{ secrets.ALGOLIA_INDEX_NAME }}
+
+      - name: Record Portal snapshot
+        if: github.ref == 'refs/heads/release'
+        run: node packages/dnb-design-system-portal/scripts/og-images/deployment.mts stamp
+
+      - name: Preserve Portal snapshot for OG updates
+        if: github.ref == 'refs/heads/release'
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: portal-og-site
+          path: ./packages/dnb-design-system-portal/public
+          include-hidden-files: true
+          retention-days: 90
+          if-no-files-found: error
 
       - name: Upload portal artifact
         if: github.ref == 'refs/heads/release'

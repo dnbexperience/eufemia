@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach } from 'vitest'
+import { describe, it, expect, beforeEach, vi } from 'vitest'
 import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -16,6 +16,16 @@ import type {
   SSRManifest,
   ClientManifest,
 } from '../../prod/prerender-utils'
+
+vi.mock('../../../static/og/manifest.json', () => ({
+  default: {
+    '/uilib/components/button/': {
+      kind: 'screenshot',
+      file: 'images/' + 'a'.repeat(64) + '.png',
+      alt: 'Button example',
+    },
+  },
+}))
 
 describe('prerender-utils', () => {
   describe('collectUrls', () => {
@@ -642,6 +652,34 @@ describe('prerender-utils', () => {
       )
     })
 
+    it('uses the preview page origin and shared CDN image URLs', () => {
+      vi.stubEnv(
+        'PORTAL_PUBLIC_ORIGIN',
+        'https://pr-42.eufemia-e25.pages.dev'
+      )
+      try {
+        const result = injectHtml(
+          template,
+          '<h1>Button</h1>',
+          { js: [], css: [] },
+          '',
+          {
+            url: '/uilib/components/button/',
+            title: 'Button',
+            description: 'A button',
+          }
+        )
+        expect(result).toContain(
+          'content="https://pr-42.eufemia-e25.pages.dev/uilib/components/button/"'
+        )
+        expect(result).toContain(
+          'content="https://assets.eufemia.dnb.no/og/images/'
+        )
+      } finally {
+        vi.unstubAllEnvs()
+      }
+    })
+
     it('uses default description when meta.description is empty', () => {
       const result = injectHtml(
         template,
@@ -651,6 +689,27 @@ describe('prerender-utils', () => {
         { url: '/', title: 'Home', description: '' }
       )
       expect(result).toContain('Eufemia Design System is the go-to place')
+    })
+
+    it('omits images on pages without a screenshot', () => {
+      const result = injectHtml(
+        template,
+        '<h1>Guide</h1>',
+        { js: [], css: [] },
+        '',
+        {
+          url: '/guide/',
+          title: 'Guide',
+          description: 'Helpful guidance.',
+        }
+      )
+      expect(result).not.toContain('property="og:image"')
+      expect(result).not.toContain('name="twitter:image"')
+      expect(result).not.toContain('twitter:label')
+      expect(result).not.toContain('name="twitter:card"')
+      expect(result).toContain(
+        '<meta name="twitter:description" content="Helpful guidance.">'
+      )
     })
 
     it('injects llms.txt link only on root page', () => {

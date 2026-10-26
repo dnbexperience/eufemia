@@ -20,7 +20,7 @@ export const Placeholder = () => {
 
 export const WithValue = () => {
   return (
-    <ComponentBox>
+    <ComponentBox socialPreview>
       <Value.OrganizationNumber value="123456789" />
     </ComponentBox>
   )

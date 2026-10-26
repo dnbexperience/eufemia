@@ -106,3 +106,7 @@ The last command only reads public npm/CDN endpoints. It writes
 `tools/assets/cdn-health-report.json` and exits nonzero on failure. To execute
 the same read-only production checks, run `node tools/assets/check-cdn.ts` from
 the root; its report is written in the current directory.
+
+## Portal social images
+
+The independently published og/ namespace contains content-addressed PNGs, reusable crops, and the current catalogue. The internal social-images.yml workflow publishes it on weekly or manual requests from the public Portal workflow, using the existing AWS OIDC role. Set ASSETS_BUCKET_NAME and ASSETS_DISTRIBUTION_ID in the internal assets repository. Immutable images use one-year cache headers; og/manifest.json uses a short cache lifetime. Uploads never delete old images or touch fonts, versioned packages, or logos/.

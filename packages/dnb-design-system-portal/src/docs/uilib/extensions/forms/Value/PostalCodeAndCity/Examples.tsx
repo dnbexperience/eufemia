@@ -20,7 +20,7 @@ export const Placeholder = () => {
 
 export const WithValue = () => {
   return (
-    <ComponentBox>
+    <ComponentBox socialPreview>
       <Value.PostalCodeAndCity value="0010 Oslo" />
     </ComponentBox>
   )

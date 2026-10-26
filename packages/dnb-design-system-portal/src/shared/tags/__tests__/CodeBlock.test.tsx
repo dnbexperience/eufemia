@@ -359,6 +359,64 @@ describe('CodeBlock', () => {
     ).toBeTruthy()
   })
 
+  it.each([false, true])(
+    'marks the selected social preview with omitWrapper=%s',
+    (omitWrapper) => {
+      const { rerender } = render(
+        <CodeBlock reactLive socialPreview omitWrapper={omitWrapper}>
+          {'<div>Chosen</div>'}
+        </CodeBlock>
+      )
+      expect(
+        document
+          .querySelector('.dnb-live-preview')
+          .getAttribute('data-social-preview')
+      ).toBe('true')
+      expect(document.querySelector('[socialpreview]')).toBeNull()
+      rerender(
+        <CodeBlock reactLive omitWrapper={omitWrapper}>
+          {'<div>Chosen</div>'}
+        </CodeBlock>
+      )
+      expect(
+        document
+          .querySelector('.dnb-live-preview')
+          .hasAttribute('data-social-preview')
+      ).toBe(false)
+    }
+  )
+
+  it.each([false, true])(
+    'declares a capture-only stacked layout with omitWrapper=%s',
+    (omitWrapper) => {
+      render(
+        <CodeBlock
+          reactLive
+          socialPreview="stack"
+          omitWrapper={omitWrapper}
+        >
+          {'<div>Variants</div>'}
+        </CodeBlock>
+      )
+      const preview = document.querySelector('.dnb-live-preview')
+      expect(preview.getAttribute('data-social-preview')).toBe('true')
+      expect(preview.getAttribute('data-social-preview-layout')).toBe(
+        'stack'
+      )
+      expect(preview.hasAttribute('style')).toBe(false)
+    }
+  )
+
+  it('includes the social preview marker in server-rendered HTML', () => {
+    const html = renderToString(
+      <CodeBlock reactLive socialPreview>
+        {'<div>Chosen</div>'}
+      </CodeBlock>
+    )
+    expect(html).toContain('data-social-preview="true"')
+    expect(html).not.toContain('socialPreview=')
+  })
+
   describe('preview language', () => {
     it.each([false, true])(
       'should follow the component locale with omitWrapper=%s',
