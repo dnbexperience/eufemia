@@ -35,14 +35,11 @@ resource "aws_dynamodb_table" "state" {
   tags                        = local.tags
 }
 
-resource "aws_secretsmanager_secret" "slack" {
-  name                    = "eufemia/${var.environment}/monitoring/slack"
-  description             = "Slack incoming webhook for Eufemia service monitoring"
-  recovery_window_in_days = 30
-  tags                    = local.tags
-
+# Kept for rollback.
+removed {
+  from = aws_secretsmanager_secret.slack
   lifecycle {
-    ignore_changes = [description, kms_key_id]
+    destroy = false
   }
 }
 
