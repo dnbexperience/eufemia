@@ -108,7 +108,7 @@ Install/configure the bot and apply the bootstrap role update first. Verify the 
 not write GitHub issues. Analytics and Portal monitors remain separate workflows
 and need their own integration before they can share this overview.
 
-The sendSlack helper and alert-cdn.ts / alert-http.ts entrypoints remain for rollback and are not called by the production notifier or diagnostic workflows. Rollback uses the previous notifier package and webhook configuration, referencing the existing webhook secret by ARN instead of recreating it, followed
+The sendSlack helper and alert-cdn.ts / alert-http.ts entrypoints remain for rollback and are not called by the production notifier or diagnostic workflows. Rollback uses the previous notifier package and webhook configuration, referencing the existing eufemia/dev/monitoring/slack secret by ARN instead of recreating it, followed
 by restoring the previous Actions alert ownership if needed. A regional AWS
 outage still needs an external uptime service for independent paging.
 
