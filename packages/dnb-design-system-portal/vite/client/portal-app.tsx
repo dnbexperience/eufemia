@@ -196,6 +196,7 @@ function RouteFocusEffect() {
     }
 
     document.documentElement.setAttribute('data-portal-ready', 'true')
+    window.dispatchEvent(new Event('portal:ready'))
   }, [routeHash, pathname, routeSearch, navigationType])
 
   return null
