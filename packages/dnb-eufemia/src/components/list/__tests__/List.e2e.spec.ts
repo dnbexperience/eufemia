@@ -290,8 +290,10 @@ for (const width of [400, 1024]) {
               await expect(drawer).toHaveCount(0)
             } else {
               await expect(page).toHaveURL(/#footer-details$/)
+              await expect(row).toBeFocused()
             }
 
+            await accordion.scrollIntoViewIfNeeded()
             await header.hover()
             expect(
               await row.evaluate((element) =>
