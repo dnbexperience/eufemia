@@ -18,6 +18,7 @@ import {
   ButtonOnDarkSurface,
   SvgInButton,
 } from 'Docs/uilib/components/button/Examples'
+import { IconPrimary } from '@dnb/eufemia/src'
 
 ## Demos
 
@@ -61,9 +62,39 @@ Tertiary button with long text and text `wrap` enabled.
 
 ### Icon button
 
-When the button has no text an `aria-label` attribute is required for accessibility. And a `title` attribute is recommended for mouse hover.
+**Use buttons with visible text by default.** Only use an icon-only button when the action and what it affects are immediately clear to your users, without a tooltip. If there is any doubt, keep the text label.
 
-We automatically add an `aria-label` with the same value as `title` if `text` and `children` properties are undefined. So in most cases you only have to set the `title` property.
+#### Choose an icon that fits the context
+
+Use an existing [Eufemia icon](/icons) and keep its meaning consistent throughout your application. Even in the contexts below, only omit the text label if the action and its scope are unambiguous to your users.
+
+|                   Icon                   | Action | Context to check                    |
+| :--------------------------------------: | ------ | ----------------------------------- |
+| <IconPrimary icon="close" aria-hidden /> | Close  | In the dialog or panel it closes.   |
+| <IconPrimary icon="trash" aria-hidden /> | Delete | Beside the attachment it deletes.   |
+| <IconPrimary icon="loupe" aria-hidden /> | Search | Beside a labeled search field.      |
+| <IconPrimary icon="edit" aria-hidden />  | Edit   | In the row of the item it edits.    |
+|  <IconPrimary icon="add" aria-hidden />  | Add    | In a list that shows what is added. |
+
+#### Use visible text when
+
+- **The action is important or difficult to undo**, such as "Send payment" or "Delete account". A trash icon does not explain the scope of a deletion.
+- **The icon could mean several things.** A plus could mean add an item, create an account, or zoom in. Use a label such as "Add account".
+- **People need a tooltip to understand the action.** Tooltips can help, but should not be the only explanation, especially on touch screens.
+
+Limited space, including on smaller screens, is not enough reason to remove a text label.
+
+#### Name the action
+
+Every icon-only button needs an accessible name. Describe the action, such as "Delete invoice.pdf", rather than the shape, such as "Trash icon".
+
+Set `aria-label` and add a matching `tooltip` for hover and keyboard focus. A `tooltip` alone does not provide an accessible name in Eufemia.
+
+```tsx
+<Button icon="close" aria-label="Close" tooltip="Close" />
+```
+
+Alternatively, `title` supplies the accessible name automatically for icon-only buttons.
 
 <ButtonIcon />
 
