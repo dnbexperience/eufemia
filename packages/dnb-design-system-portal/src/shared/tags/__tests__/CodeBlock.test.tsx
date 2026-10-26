@@ -13,6 +13,10 @@ import type {
   ReactNode,
 } from 'react'
 import { act, render, waitFor } from '@testing-library/react'
+import { renderToString } from 'react-dom/server'
+import { Context } from '@dnb/eufemia/src/shared'
+import type { InternalLocale } from '@dnb/eufemia/src/shared/Context'
+import PortalRoot from '@dnb/eufemia/src/components/PortalRoot'
 import * as FocusModeCodeContext from '../../../core/FocusModeCodeContext'
 
 // Mock CSS modules
@@ -215,6 +219,7 @@ vi.mock('@dnb/eufemia/src/shared', async (importOriginal) => {
 // Store the latest LiveEditor onChange and LiveProvider code for assertions
 let mockLiveEditorOnChange: ((code: string) => void) | undefined
 let mockLiveProviderCode: string | undefined
+let mockLivePreviewContent: ReactNode
 const mockLiveContextOnChange = vi.hoisted(() => vi.fn())
 
 vi.mock('react-live', async () => {
@@ -263,10 +268,11 @@ vi.mock('react-live', async () => {
     },
     LiveError: () => null,
     LivePreview: ({ ...rest }: Record<string, unknown>) =>
-      createElement('div', {
-        'data-testid': 'live-preview',
-        ...rest,
-      }),
+      createElement(
+        'div',
+        { 'data-testid': 'live-preview', ...rest },
+        mockLivePreviewContent
+      ),
     LiveContext: MockLiveContext,
   }
 })
@@ -288,6 +294,7 @@ describe('CodeBlock', () => {
   beforeEach(() => {
     mockLiveEditorOnChange = undefined
     mockLiveProviderCode = undefined
+    mockLivePreviewContent = undefined
     mockLiveContextOnChange.mockClear()
     mockCopyToClipboard?.mockClear()
     vi.restoreAllMocks()
@@ -350,6 +357,94 @@ describe('CodeBlock', () => {
     expect(
       container.querySelector('[data-testid="live-preview"]')
     ).toBeTruthy()
+  })
+
+  describe('preview language', () => {
+    it.each([false, true])(
+      'should follow the component locale with omitWrapper=%s',
+      (omitWrapper) => {
+        const example = (locale: InternalLocale) => (
+          <Context.Provider value={{ locale }}>
+            <CodeBlock reactLive omitWrapper={omitWrapper}>
+              {'<div>Live</div>'}
+            </CodeBlock>
+          </Context.Provider>
+        )
+        const { rerender } = render(example('nb-NO'))
+        const preview = document.querySelector('.dnb-live-preview')
+
+        expect(preview.getAttribute('lang')).toBe('nb-NO')
+        expect(
+          document.querySelector('.dnb-live-toolbar').closest('[lang]')
+        ).toBeNull()
+        expect(
+          document.querySelector('.dnb-live-editor').closest('[lang]')
+        ).toBeNull()
+
+        rerender(example('en-GB'))
+
+        expect(preview.getAttribute('lang')).toBe('en-GB')
+      }
+    )
+
+    it('should allow a fixed preview language', () => {
+      render(
+        <Context.Provider value={{ locale: 'nb-NO' }}>
+          <CodeBlock reactLive lang="en">
+            {'<div>English example</div>'}
+          </CodeBlock>
+        </Context.Provider>
+      )
+
+      expect(
+        document.querySelector('.dnb-live-preview').getAttribute('lang')
+      ).toBe('en')
+    })
+
+    it('should declare the component locale in server-rendered previews', () => {
+      const html = renderToString(
+        <Context.Provider value={{ locale: 'nb-NO' }}>
+          <CodeBlock reactLive>{'<div>Live</div>'}</CodeBlock>
+        </Context.Provider>
+      )
+      const container = document.createElement('div')
+      container.innerHTML = html
+
+      expect(
+        container.querySelector('.dnb-live-preview').getAttribute('lang')
+      ).toBe('nb-NO')
+    })
+
+    it('should apply the preview language to portaled content and update it with the locale', async () => {
+      mockLivePreviewContent = (
+        <PortalRoot>
+          <span data-testid="example-popup">Popup</span>
+        </PortalRoot>
+      )
+      const example = (locale: InternalLocale, lang?: string) => (
+        <Context.Provider value={{ locale }}>
+          <CodeBlock reactLive lang={lang}>
+            {'<div>Live</div>'}
+          </CodeBlock>
+        </Context.Provider>
+      )
+      const { rerender } = render(example('nb-NO'))
+      const popup = () =>
+        document.querySelector('[data-testid="example-popup"]')
+
+      await waitFor(() => {
+        expect(popup()?.closest('[lang]')?.getAttribute('lang')).toBe(
+          'nb-NO'
+        )
+      })
+      expect(popup().closest('.dnb-live-preview')).toBeNull()
+
+      rerender(example('en-GB'))
+      expect(popup().closest('[lang]').getAttribute('lang')).toBe('en-GB')
+
+      rerender(example('nb-NO', 'en'))
+      expect(popup().closest('[lang]').getAttribute('lang')).toBe('en')
+    })
   })
 
   it('should show "No Code provided" when code is empty', () => {
