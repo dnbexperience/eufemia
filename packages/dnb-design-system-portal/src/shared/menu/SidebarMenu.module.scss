@@ -266,6 +266,7 @@
   }
 
   @include utilities.allAbove(medium) {
+    top: 0;
     width: var(--aside-width); // has to be the same value as margin-left
     height: calc(100vh - var(--portal-sidebar-top));
   }
