@@ -35,6 +35,12 @@ test('hydrates, edits, pastes, and restores code through upstream LiveEditor', a
   const preview = page.locator('#ButtonPrimary .dnb-live-preview button')
   await expect(preview).toHaveText('Primary button with text only')
   await expect(preview).toHaveCSS('font-family', /DNB/)
+  const codeToggle = page
+    .locator('#ButtonPrimary')
+    .getByRole('button', { name: 'Code', exact: true })
+  await expect(codeToggle).toHaveAttribute('aria-expanded', 'false')
+  await codeToggle.click()
+  await expect(codeToggle).toHaveAttribute('aria-expanded', 'true')
   const original = await editor.textContent()
 
   await editor.click()

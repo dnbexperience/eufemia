@@ -3,6 +3,7 @@ showTabs: true
 ---
 
 import {
+  ButtonVariants,
   ButtonPrimary,
   ButtonSecondary,
   ButtonDisabled,
@@ -22,43 +23,59 @@ import { IconPrimary } from '@dnb/eufemia/src'
 
 ## Demos
 
-### Primary button
+### Choose a variant
+
+Use a button to perform an action. Use [Anchor](/uilib/components/anchor) for ordinary navigation.
+
+<ButtonVariants />
+
+- **Primary:** the main action. Use at most one in a given context.
+- **Secondary:** other actions alongside the primary action.
+- **Tertiary:** a less prominent action with an icon.
+
+Expand **Code** below each example to edit it or copy the implementation.
+
+### Text buttons
+
+Use a short label that describes the action. Set `variant="secondary"` for a secondary action.
+
+#### Primary button
 
 <ButtonPrimary />
 
-### Secondary button
+#### Secondary button
 
 <ButtonSecondary />
 
-### Primary button with icon
+### Buttons with icons
+
+Set `icon` to add an icon. Icons appear on the right by default. Use `iconPosition="left"` to place one before the label.
+
+#### Primary button with icon
 
 <ButtonPrimaryWithIcon />
 
-### Primary button with icon on left
+#### Primary button with icon on left
 
 <ButtonPrimaryWithIconLeft />
 
 ### Tertiary button
 
-The tertiary button variant does support newlines while the icon is placed top aligned. You can enable multiline support with the `wrap` property.
+Use `variant="tertiary"` with an icon for a less prominent action. The label can be plain text or a React element.
 
 <ButtonTertiary />
 
-Tertiary button with **top** placed icon.
+#### Icon above the label
+
+Use `iconPosition="top"` to place the icon above the label.
 
 <ButtonTertiaryTop />
 
-Tertiary button with long text and text `wrap` enabled.
+#### Wrapping long labels
+
+Set `wrap` to allow the label to span multiple lines. The icon stays aligned with the top of the text.
 
 <ButtonTertiaryWrap />
-
-### Anchor button
-
-<ButtonAnchor />
-
-### Disabled buttons
-
-<ButtonDisabled />
 
 ### Icon button
 
@@ -96,13 +113,31 @@ Set `aria-label` and add a matching `tooltip` for hover and keyboard focus. A `t
 
 Alternatively, `title` supplies the accessible name automatically for icon-only buttons.
 
+The labels above the buttons identify the sizes and states.
+
 <ButtonIcon />
 
-### Custom button content
+### Sizes
 
-This is, as all of the demos, only an example of how to achieve various needs, and not that you should do it.
+Use `default` or `large` for primary and secondary buttons. Icon-only buttons also support `small` and `medium`. See [Variants and sizes](/uilib/components/button/#variants-and-sizes) for the size comparisons.
 
-<ButtonCustomContent />
+### Anchor button
+
+Set `href` when navigation needs the visual emphasis of a button. Button renders an anchor element in this case. Prefer [Anchor](/uilib/components/anchor) for ordinary links.
+
+<ButtonAnchor />
+
+### Disabled buttons
+
+Set `disabled` to make an action unavailable. Prefer keeping actions available where possible. A disabled button alone does not explain what the user needs to do next.
+
+<ButtonDisabled />
+
+### Error state
+
+Set `status="error"` to indicate an error state. When an action fails, also explain the problem and how to recover. A color change alone is not enough.
+
+<ButtonErrorState />
 
 ### Button on dark surface
 
@@ -110,14 +145,14 @@ Use [Section](/uilib/components/section/demos/#dark-surface) or [Theme.Context](
 
 <ButtonOnDarkSurface />
 
+### Custom button content
+
+Use `customContent` when the standard label and icon do not cover the content you need. You are responsible for aligning custom content.
+
+<ButtonCustomContent />
+
 ### Button with custom SVG
 
-**NB:** Ensure you add an `aria-label` on the SVG for accessibility reasons.
+A custom SVG can be part of the button's children. Give meaningful graphics an accessible name and hide decorative graphics from assistive technology. The button still needs a meaningful accessible name.
 
 <SvgInButton />
-
-<VisibleWhenVisualTest>
-
-<ButtonErrorState />
-
-</VisibleWhenVisualTest>
