@@ -147,20 +147,42 @@ for (const width of [390, 1440]) {
       ).toHaveClass(/divider/)
       const selector = platform.getByRole('combobox')
       await selector.click()
-      await expect(page.locator('html')).toHaveAttribute(
-        'data-dnb-drawer-list-active',
-        await selector.getAttribute('id')
-      )
+      await expect
+        .poll(
+          async () =>
+            (await page
+              .locator('html')
+              .getAttribute('data-dnb-drawer-list-active')) ===
+            (
+              await page
+                .locator(
+                  '.dnb-sidebar-menu__sections-portal .dnb-drawer-list'
+                )
+                .getAttribute('id')
+            )?.replace(/-drawer-list$/, '')
+        )
+        .toBe(true)
       await page.keyboard.press('Home')
       await page.keyboard.press('ArrowDown')
       await page.keyboard.press('Enter')
       await expect(figma).toHaveCount(0)
       await expect(github).toHaveCount(0)
       await selector.click()
-      await expect(page.locator('html')).toHaveAttribute(
-        'data-dnb-drawer-list-active',
-        await selector.getAttribute('id')
-      )
+      await expect
+        .poll(
+          async () =>
+            (await page
+              .locator('html')
+              .getAttribute('data-dnb-drawer-list-active')) ===
+            (
+              await page
+                .locator(
+                  '.dnb-sidebar-menu__sections-portal .dnb-drawer-list'
+                )
+                .getAttribute('id')
+            )?.replace(/-drawer-list$/, '')
+        )
+        .toBe(true)
       await page.keyboard.press('Home')
       await page.keyboard.press('Enter')
       await expect(github).toBeAttached()
