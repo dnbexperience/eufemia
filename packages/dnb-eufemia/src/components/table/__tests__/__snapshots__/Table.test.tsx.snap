@@ -961,7 +961,8 @@ html:not([data-whatintent=touch]) .dnb-table__td__button:hover:not([disabled]) .
 }
 
 .dnb-table__container .dnb-table__scroll-view {
-  clip-path: inset(0 round 0 0 var(--table-outline-radius) var(--table-outline-radius));
+  margin-bottom: max(0rem, var(--table-outline-radius) - 0.5rem);
+  clip-path: inset(0 round 0 0 min(var(--table-outline-radius), 0.5rem) min(var(--table-outline-radius), 0.5rem));
 }
 
 @supports (-webkit-appearance: none) and (not (-moz-appearance: meterbar)) {
@@ -974,6 +975,7 @@ html:not([data-whatintent=touch]) .dnb-table__td__button:hover:not([disabled]) .
 }
 .dnb-modal__content .dnb-table__container .dnb-table__scroll-view {
   overflow: visible;
+  margin-bottom: 0;
 }
 
 .dnb-card .dnb-table__container {

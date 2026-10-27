@@ -80,10 +80,15 @@
   }
 
   .dnb-table__scroll-view {
+    // Lift the native scrollbar above the rounded bottom corners,
+    // so a large radius does not cut off its ends.
+    margin-bottom: max(0rem, var(--table-outline-radius) - 0.5rem);
+
     // Clip the native Scrollbar as per defined by UX.
     // We can't use "overflow: clip" here, because we want overflow to be auto/scroll.
     clip-path: inset(
-      0 round 0 0 var(--table-outline-radius) var(--table-outline-radius)
+      0 round 0 0 min(var(--table-outline-radius), 0.5rem)
+        min(var(--table-outline-radius), 0.5rem)
     );
   }
 
@@ -103,6 +108,7 @@
   // When placed inside a Modal/Drawer, let the parent scroll-bar do its job.
   .dnb-modal__content & .dnb-table__scroll-view {
     overflow: visible;
+    margin-bottom: 0;
   }
 
   // When used in a Card
