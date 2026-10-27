@@ -144,44 +144,6 @@ export const DropdownWidths = () => {
   )
 }
 
-export const DropdownLongSelection = () => (
-  <ComponentBox data-visual-test="selection-dropdown-long-selection">
-    <div
-      data-testid="selection-long-text-container"
-      style={{ width: '21.4375rem', maxWidth: '100%' }}
-    >
-      <Flex.Stack>
-        {(['vertical', 'horizontal'] as const).map((layout) =>
-          (
-            [
-              undefined,
-              'small',
-              'medium',
-              'large',
-              'stretch',
-              '12rem',
-            ] as const
-          ).map((width) => (
-            <Field.Selection
-              key={`${layout}-${width}`}
-              label={`${layout}, ${width ?? 'default'} width`}
-              layout={layout}
-              width={width}
-              value="long"
-            >
-              <Field.Option
-                value="long"
-                title="A very long selected option that should be truncated with an ellipsis and stay within the available space"
-              />
-              <Field.Option value="short" title="Short option" />
-            </Field.Selection>
-          ))
-        )}
-      </Flex.Stack>
-    </div>
-  </ComponentBox>
-)
-
 export const DropdownDisabled = () => (
   <ComponentBox>
     <Field.Selection
