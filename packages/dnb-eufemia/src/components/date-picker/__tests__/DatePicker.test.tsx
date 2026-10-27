@@ -6175,6 +6175,66 @@ describe('DatePicker component', () => {
     ])
   })
 
+  it('should keep the picked dates when the date props are new Date objects and another date prop changes', async () => {
+    const renderPicker = (minDate: string) => (
+      <DatePicker
+        noAnimation
+        range
+        showInput
+        startDate={new Date('2025-04-08T00:00:00')}
+        endDate={new Date('2025-04-10T00:00:00')}
+        minDate={minDate}
+      />
+    )
+
+    const { rerender } = render(renderPicker('2025-04-01'))
+
+    await userEvent.click(getDatePickerTriggerButton())
+    await userEvent.click(
+      document.querySelector('td[data-date="2025-04-14"] button')
+    )
+    await userEvent.click(
+      document.querySelector('td[data-date="2025-04-18"] button')
+    )
+
+    rerender(renderPicker('2025-04-02'))
+
+    expect(getDatePickerInputs().map(({ value }) => value)).toEqual([
+      '14',
+      '04',
+      '2025',
+      '18',
+      '04',
+      '2025',
+    ])
+  })
+
+  it('should keep the picked date when the date prop is a new Date object and another date prop changes', async () => {
+    const renderPicker = (minDate: string) => (
+      <DatePicker
+        noAnimation
+        showInput
+        date={new Date('2025-04-08T00:00:00')}
+        minDate={minDate}
+      />
+    )
+
+    const { rerender } = render(renderPicker('2025-04-01'))
+
+    await userEvent.click(getDatePickerTriggerButton())
+    await userEvent.click(
+      document.querySelector('td[data-date="2025-04-14"] button')
+    )
+
+    rerender(renderPicker('2025-04-02'))
+
+    expect(getDatePickerInputs().map(({ value }) => value)).toEqual([
+      '14',
+      '04',
+      '2025',
+    ])
+  })
+
   it('should not select invalid dates when navigating the calendar using the arrow keys', async () => {
     render(
       <DatePicker
