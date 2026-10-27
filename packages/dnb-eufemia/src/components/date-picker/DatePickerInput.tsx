@@ -42,6 +42,7 @@ import type {
 import { Context, useTranslation } from '../../shared'
 import type { DatePickerInputDates } from './hooks/useInputDates'
 import useInputDates from './hooks/useInputDates'
+import useSelectedDateTitle from './hooks/useSelectedDateTitle'
 import { formatDate } from '../date-format/DateFormatUtils'
 
 type DatePickerInputProps = Omit<
@@ -56,7 +57,6 @@ type DatePickerInputProps = Omit<
   | 'label'
 > &
   FormStatusBaseProps & {
-    selectedDateTitle?: string
     maskOrder?: DatePickerProps['maskOrder']
     maskPlaceholder?: DatePickerProps['maskPlaceholder']
     separatorRegExp?: RegExp
@@ -139,7 +139,6 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
     onSubmit,
     onKeyDown,
     onKeyUp,
-    selectedDateTitle,
     showInput,
     inputElement,
     lang,
@@ -891,6 +890,12 @@ function DatePickerInput(externalProps: DatePickerInputProps) {
     onMultiChangeStart,
     onMultiChangeEnd,
   ])
+
+  const selectedDateTitle = useSelectedDateTitle({
+    startDate,
+    endDate,
+    isRange,
+  })
 
   const ariaLabel = useMemo(
     () =>
