@@ -108,7 +108,7 @@ Install/configure the bot and apply the bootstrap role update first. Verify the 
 not write GitHub issues. Analytics and Portal monitors remain separate workflows
 and need their own integration before they can share this overview.
 
-The retired CDN/MCP Actions workflows and alert entrypoints are removed. The shared GitHub incident reporter remains in use by Analytics. Rollback requires a previous notifier package and its matching configuration; the legacy eufemia/dev/monitoring/slack webhook secret is retained for this purpose and is referenced by ARN instead of recreated. A regional AWS
+The retired CDN/MCP Actions workflows and alert entrypoints are removed. The shared GitHub incident reporter remains in use by Analytics. Rollback requires a previous notifier package and its matching configuration, referencing the retained eufemia/dev/monitoring/slack webhook secret by ARN instead of recreating it. A regional AWS
 outage still needs an external uptime service for independent paging.
 
 ## Local validation
