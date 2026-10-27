@@ -99,7 +99,7 @@ describe('analytics infrastructure', () => {
     expect(terraform).not.toMatch(/prefix\s+=\s+"portal-views-daily\/"/)
   })
 
-  it('alarms on every metric the snapshot generator emits', () => {
+  it('pairs every emitted metric with an alarm, and every custom-metric alarm with an emitted metric', () => {
     const snapshotSource = readFileSync(
       path.resolve(dir, '../src/lambda/snapshot.ts'),
       'utf8'
@@ -112,6 +112,10 @@ describe('analytics infrastructure', () => {
     const metricNames = [...metricType.matchAll(/'(\w+)'/g)].map(
       ([, name]) => name
     )
+    const namespaceLine = new RegExp(
+      `^\\s+namespace\\s+=\\s+"${namespace}"$`,
+      'm'
+    )
 
     expect(metricNames.length).toBeGreaterThan(0)
 
@@ -122,14 +126,20 @@ describe('analytics infrastructure', () => {
         )
       )
 
-      expect(alarm, `${metric} alarm`).toMatch(
-        new RegExp(`^\\s+namespace\\s+=\\s+"${namespace}"$`, 'm')
-      )
+      expect(alarm, `${metric} alarm`).toMatch(namespaceLine)
       expect(alarm, `${metric} alarm`).toMatch(
         /^\s+dimensions\s+=\s+\{\s*FunctionName\s+=\s+aws_lambda_function\.snapshot\.function_name\s*\}$/m
       )
       expect(snapshotSource, `${metric} emitted`).toMatch(
         new RegExp(`^\\s*emitMetric\\('${metric}'`, 'm')
+      )
+    }
+
+    for (const alarm of alarms.filter((block) =>
+      namespaceLine.test(block)
+    )) {
+      expect(metricNames, `${alarm.split('\n')[0]}`).toContain(
+        alarm.match(/^\s+metric_name\s+=\s+"(\w+)"$/m)?.[1]
       )
     }
   })
