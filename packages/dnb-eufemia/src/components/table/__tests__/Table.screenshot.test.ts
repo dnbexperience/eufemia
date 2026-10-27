@@ -581,6 +581,17 @@ describe('Table', () => {
     })
   })
 
+  it('have to match table in card when the table scrolls', async () => {
+    await makeScreenshot({
+      ...defaults,
+      style: {
+        width: '20rem',
+      },
+      url: '/uilib/components/table/demos/',
+      selector: '[data-visual-test="table-in-card"]',
+    })
+  })
+
   it('have to match column highlight', async () => {
     await makeScreenshot({
       ...defaults,
