@@ -434,6 +434,36 @@ describe('Button component', () => {
     expect(global.console.log).toHaveBeenCalled()
   })
 
+  it('will warn when a tertiary link without an icon opens in the same tab', () => {
+    process.env.NODE_ENV = 'development'
+    global.console.log = vi.fn()
+    render(<Button text="Button" variant="tertiary" href="https://url" />)
+    expect(global.console.log).toHaveBeenCalledWith(
+      expect.anything(),
+      expect.anything(),
+      expect.stringContaining('Icon required')
+    )
+  })
+
+  it('will not warn when a tertiary link opens a new tab, because it gets a launch icon', () => {
+    process.env.NODE_ENV = 'development'
+    global.console.log = vi.fn()
+    render(
+      <Button
+        text="Button"
+        variant="tertiary"
+        href="https://url"
+        target="_blank"
+      />
+    )
+    expect(document.querySelector('.dnb-icon')).toBeInTheDocument()
+    expect(global.console.log).not.toHaveBeenCalledWith(
+      expect.anything(),
+      expect.anything(),
+      expect.stringContaining('Icon required')
+    )
+  })
+
   it('will warn when icon-only button has no title or aria-label', () => {
     process.env.NODE_ENV = 'development'
     global.console.log = vi.fn()

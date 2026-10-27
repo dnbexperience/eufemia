@@ -141,18 +141,6 @@ function Button({ ref, transitionState, ...restProps }: ButtonProps) {
   let usedIconSize = iconSize
   const content = getContent(restProps)
 
-  if (
-    variant === 'tertiary' &&
-    (text || content) &&
-    !usedIcon &&
-    usedIcon !== false
-  ) {
-    warn(
-      `Icon required: A Tertiary Button requires an icon to be WCAG compliant in most cases, because variant tertiary has no underline.
-(Override this warning using icon={false}, or consider using one of the other variants)`
-    )
-  }
-
   // if only has Icon, then resize it and define it as secondary
   const isIconOnly = Boolean(!text && !content && usedIcon)
   if (isIconOnly) {
@@ -200,6 +188,19 @@ function Button({ ref, transitionState, ...restProps }: ButtonProps) {
     if (opensNewTab(props.target, props.href) && !usedIcon) {
       usedIcon = LaunchIcon
     }
+  }
+
+  // Check after the launch icon is added, so new tab links do not warn
+  if (
+    variant === 'tertiary' &&
+    (text || content) &&
+    !usedIcon &&
+    usedIcon !== false
+  ) {
+    warn(
+      `Icon required: A Tertiary Button requires an icon to be WCAG compliant in most cases, because variant tertiary has no underline.
+(Override this warning using icon={false}, or consider using one of the other variants)`
+    )
   }
 
   const titleString = convertJsxToString(title) || undefined
