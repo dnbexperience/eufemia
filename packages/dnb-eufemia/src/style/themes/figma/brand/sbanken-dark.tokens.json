@@ -3818,7 +3818,7 @@
             "alpha": 1,
             "hex": "#4E08BC"
           },
-          "$description": "Standard background color for \"ondark\" components",
+          "$description": "Standard background color for &quot;ondark&quot; components",
           "$extensions": {
             "com.figma.variableId": "VariableID:53820:6408",
             "com.figma.scopes": [
@@ -6136,7 +6136,7 @@
           },
           "com.figma.type": "string",
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:1364872f02b610d6ff638d1c621197e705cd4d44/5552:1049",
+            "targetVariableId": "VariableID:1364872f02b610d6ff638d1c621197e705cd4d44/6341:3",
             "targetVariableName": "Font/Weight/Regular",
             "targetVariableSetId": "VariableCollectionId:d00e91884fb9b3877858490e6b8fd6fcb0c60111/5552:1045",
             "targetVariableSetName": "typography"
@@ -6156,7 +6156,7 @@
           },
           "com.figma.type": "string",
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:21df6617f4f4afcdfd60d3211bafd6a6c22a90dd/5552:1050",
+            "targetVariableId": "VariableID:21df6617f4f4afcdfd60d3211bafd6a6c22a90dd/6341:7",
             "targetVariableName": "Font/Weight/Medium",
             "targetVariableSetId": "VariableCollectionId:d00e91884fb9b3877858490e6b8fd6fcb0c60111/5552:1045",
             "targetVariableSetName": "typography"
@@ -6176,7 +6176,7 @@
           },
           "com.figma.type": "string",
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:1364872f02b610d6ff638d1c621197e705cd4d44/5552:1049",
+            "targetVariableId": "VariableID:1364872f02b610d6ff638d1c621197e705cd4d44/6341:3",
             "targetVariableName": "Font/Weight/Regular",
             "targetVariableSetId": "VariableCollectionId:d00e91884fb9b3877858490e6b8fd6fcb0c60111/5552:1045",
             "targetVariableSetName": "typography"
@@ -6196,7 +6196,7 @@
           },
           "com.figma.type": "string",
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:21df6617f4f4afcdfd60d3211bafd6a6c22a90dd/5552:1050",
+            "targetVariableId": "VariableID:21df6617f4f4afcdfd60d3211bafd6a6c22a90dd/6341:7",
             "targetVariableName": "Font/Weight/Medium",
             "targetVariableSetId": "VariableCollectionId:d00e91884fb9b3877858490e6b8fd6fcb0c60111/5552:1045",
             "targetVariableSetName": "typography"
@@ -6216,7 +6216,7 @@
           },
           "com.figma.type": "string",
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:1364872f02b610d6ff638d1c621197e705cd4d44/5552:1049",
+            "targetVariableId": "VariableID:1364872f02b610d6ff638d1c621197e705cd4d44/6341:3",
             "targetVariableName": "Font/Weight/Regular",
             "targetVariableSetId": "VariableCollectionId:d00e91884fb9b3877858490e6b8fd6fcb0c60111/5552:1045",
             "targetVariableSetName": "typography"
@@ -6236,7 +6236,7 @@
           },
           "com.figma.type": "string",
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:21df6617f4f4afcdfd60d3211bafd6a6c22a90dd/5552:1050",
+            "targetVariableId": "VariableID:21df6617f4f4afcdfd60d3211bafd6a6c22a90dd/6341:7",
             "targetVariableName": "Font/Weight/Medium",
             "targetVariableSetId": "VariableCollectionId:d00e91884fb9b3877858490e6b8fd6fcb0c60111/5552:1045",
             "targetVariableSetName": "typography"
@@ -6258,7 +6258,7 @@
           },
           "com.figma.type": "string",
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:e674d4fc7828917d19c3031ae2cf6b2787ff0b7c/5552:1047",
+            "targetVariableId": "VariableID:e674d4fc7828917d19c3031ae2cf6b2787ff0b7c/6380:631",
             "targetVariableName": "Font/Family/Sbanken/Primary",
             "targetVariableSetId": "VariableCollectionId:d00e91884fb9b3877858490e6b8fd6fcb0c60111/5552:1045",
             "targetVariableSetName": "typography"
@@ -6278,7 +6278,7 @@
           },
           "com.figma.type": "string",
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:f10bc59cd7348fb1b332d147c0fc319c26c08772/5552:1048",
+            "targetVariableId": "VariableID:f10bc59cd7348fb1b332d147c0fc319c26c08772/6380:633",
             "targetVariableName": "Font/Family/Sbanken/Secondary",
             "targetVariableSetId": "VariableCollectionId:d00e91884fb9b3877858490e6b8fd6fcb0c60111/5552:1045",
             "targetVariableSetName": "typography"
