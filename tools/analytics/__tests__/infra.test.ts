@@ -135,9 +135,10 @@ describe('analytics infrastructure', () => {
       )
     }
 
-    for (const alarm of alarms.filter((block) =>
+    const customMetricAlarms = alarms.filter((block) =>
       namespaceLine.test(block)
-    )) {
+    )
+    for (const alarm of customMetricAlarms) {
       expect(metricNames, `${alarm.split('\n')[0]}`).toContain(
         alarm.match(/^\s+metric_name\s+=\s+"(\w+)"$/m)?.[1]
       )
