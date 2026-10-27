@@ -4,10 +4,9 @@
   "main": "index.js",
   "sideEffects": [
     "*.css",
-    "*.min.css",
     "*.scss",
     "extensions/**/style.*",
-    "umd/*",
-    "style/**/*"
+    "**/style/**/*",
+    "umd/*"
   ]
 }
