@@ -5,8 +5,8 @@ test('Filter examples have distinguishable landmarks', async ({
   page,
 }) => {
   for (const path of [
-    '/uilib/components/filter/',
-    '/uilib/components/filter/demos/',
+    '/web/components/filter/',
+    '/web/components/filter/demos/',
   ]) {
     await page.goto(path)
     await expect(page.locator('.dnb-live-preview').first()).toBeVisible()

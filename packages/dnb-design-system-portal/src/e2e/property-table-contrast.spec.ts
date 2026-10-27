@@ -12,8 +12,8 @@ for (const brand of ['ui', 'sbanken']) {
       }, brand)
 
       for (const path of [
-        '/uilib/components/button/properties/',
-        '/uilib/components/stat/properties/',
+        '/web/components/button/properties/',
+        '/web/components/stat/properties/',
       ]) {
         await page.goto(path)
         await expect(page.locator('.dnb-table').first()).toBeVisible()

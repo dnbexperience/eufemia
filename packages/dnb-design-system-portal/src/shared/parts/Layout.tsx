@@ -215,14 +215,8 @@ const Content = ({
   className = null,
   children,
 }: ContentProps) => {
-<<<<<<< HEAD
-  const { isOpen, isClosing } = useContext(SidebarMenuContext)
-
-=======
->>>>>>> 5fb42707523 (Integrate SidebarMenu in the Portal)
   return (
     <div
-      hidden={isOpen || isClosing}
       className={clsx(
         contentStyle,
         'dnb-app-content',

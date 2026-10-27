@@ -1,3 +1,4 @@
+import { Provider } from '@dnb/eufemia/src/shared'
 import { useCallback } from 'react'
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
 import { debounceAsync } from '@dnb/eufemia/src/shared/helpers/debounce'
@@ -386,4 +387,3 @@ export const OnSubmitRequest = () => {
     </ComponentBox>
   )
 }
-import { Provider } from '@dnb/eufemia/src/shared'

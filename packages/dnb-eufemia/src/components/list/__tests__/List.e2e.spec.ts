@@ -14,7 +14,7 @@ for (const width of [400, 1024]) {
       await page.addInitScript(() => {
         window['IS_TEST'] = true
       })
-      await page.goto('/uilib/components/list/visual-tests/action-footer/')
+      await page.goto('/web/components/list/visual-tests/action-footer/')
       await page.waitForFunction(() =>
         document.documentElement.hasAttribute('data-portal-ready')
       )
@@ -258,7 +258,7 @@ for (const width of [400, 1024]) {
             )
           }, colorScheme)
           await page.goto(
-            '/uilib/components/list/visual-tests/action-footer/'
+            '/web/components/list/visual-tests/action-footer/'
           )
           await page.waitForFunction(() =>
             document.documentElement.hasAttribute('data-portal-ready')
@@ -523,7 +523,7 @@ for (const width of [400, 1024]) {
     test('pads plain text and title-only rows on both sides', async ({
       page,
     }) => {
-      await page.goto('/uilib/components/list/demos/?data-visual-test')
+      await page.goto('/web/components/list/demos/?data-visual-test')
 
       const list = page.locator(
         '[data-visual-test="list-plain-text"] .dnb-list'
@@ -603,7 +603,7 @@ for (const width of [400, 1024]) {
 
 test.describe('List text layout compatibility', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/uilib/components/list/visual-tests/text-layout/')
+    await page.goto('/web/components/list/visual-tests/text-layout/')
     await page.waitForFunction(() =>
       document.documentElement.hasAttribute('data-portal-ready')
     )
@@ -704,9 +704,7 @@ test.describe('List nested row alignment', () => {
   test.use({ viewport: { width: 1024, height: 900 } })
 
   test.beforeEach(async ({ page }) => {
-    await page.goto(
-      '/uilib/components/list/visual-tests/nested-alignment/'
-    )
+    await page.goto('/web/components/list/visual-tests/nested-alignment/')
     await page.evaluate(() => document.fonts.ready)
   })
 

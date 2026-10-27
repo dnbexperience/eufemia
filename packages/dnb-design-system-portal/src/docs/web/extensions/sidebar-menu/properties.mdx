@@ -36,6 +36,11 @@ import {
 ```ts
 const sidebar = SidebarMenu.getController(controllerId)
 
+const restoreProps = sidebar.setProps(
+  { compactOffset: '10em', selectedItem: 'payments' },
+  { key: 'app-name' }
+)
+
 const releaseContent = sidebar.setContent(
   { data: items }, // Or { sections }
   { key: 'app-name' }
@@ -121,8 +126,3 @@ Returns `SidebarMenuResponsiveValue` with:
 - `isSmallScreen` for the active responsive mode.
 - `isCompact` for the icon-rail mode.
 - `inlineCollapsed`, `collapseInline`, and `restoreInline` for dismissible inline navigation.
-const restoreProps = sidebar.setProps(
-  { compactOffset: '10em', selectedItem: 'payments' },
-  { key: 'app-name' }
-)
-

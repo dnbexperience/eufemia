@@ -28,7 +28,7 @@ export const BreadcrumbDefault = () => (
         },
         {
           text: 'UI Library',
-          href: '/web',
+          href: '/uilib',
         },
         {
           text: 'Components',
@@ -87,7 +87,7 @@ export const BreadcrumbCollapse = () => (
         },
         {
           text: 'UI Library',
-          href: '/web',
+          href: '/uilib',
         },
         {
           text: 'Components',
@@ -117,7 +117,7 @@ export const BreadcrumbMultiple = () => (
         },
         {
           text: 'UI Library',
-          href: '/web',
+          href: '/uilib',
         },
         {
           text: 'Components',

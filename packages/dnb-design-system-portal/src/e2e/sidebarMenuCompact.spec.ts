@@ -124,7 +124,7 @@ for (const dir of ['ltr', 'rtl']) {
       await page.emulateMedia({ reducedMotion: 'reduce' })
       await page.setViewportSize({ width: 1200, height: 900 })
       await page.goto(
-        '/uilib/extensions/sidebar-menu/demos/?focusmode=SidebarMenuResponsiveNavigation'
+        '/web/extensions/sidebar-menu/demos/?focusmode=SidebarMenuResponsiveNavigation'
       )
       await waitForApp(page)
       const shell = page.locator('[data-sidebar-menu-responsive-example]')

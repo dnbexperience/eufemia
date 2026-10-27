@@ -1,3 +1,4 @@
+import { Provider } from '@dnb/eufemia/src/shared'
 import { Button, Flex } from '@dnb/eufemia/src'
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
 import { Wizard } from '@dnb/eufemia/src/extensions/forms'
@@ -241,4 +242,3 @@ export const OutsideOfContext = () => {
     </ComponentBox>
   )
 }
-import { Provider } from '@dnb/eufemia/src/shared'
