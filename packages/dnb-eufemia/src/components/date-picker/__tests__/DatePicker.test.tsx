@@ -3059,6 +3059,41 @@ describe('DatePicker component', () => {
     expect(focusedDate()).toBe('2025-11-15')
   })
 
+  it('should move linked calendars together with PageDown and Shift+PageUp', async () => {
+    render(
+      <DatePicker
+        noAnimation
+        range
+        link
+        startDate="2024-10-01"
+        endDate="2024-11-30"
+      />
+    )
+
+    await userEvent.click(getDatePickerTriggerButton())
+
+    const getTitles = () =>
+      Array.from(
+        document.querySelectorAll('.dnb-date-picker__header__title')
+      ).map((element) => element.textContent)
+    const focusedDate = () =>
+      document.activeElement.closest('td')?.getAttribute('data-date')
+
+    document
+      .querySelector<HTMLButtonElement>(
+        'td[data-date="2024-11-15"]:not(.dnb-date-picker__day--outside-month) button'
+      )
+      .focus()
+
+    await userEvent.keyboard('{PageDown}')
+    expect(getTitles()).toEqual(['november 2024', 'desember 2024'])
+    expect(focusedDate()).toBe('2024-12-15')
+
+    await userEvent.keyboard('{Shift>}{PageUp}{/Shift}')
+    expect(getTitles()).toEqual(['november 2023', 'desember 2023'])
+    expect(focusedDate()).toBe('2023-12-15')
+  })
+
   it('should jump focus to the other calendar when arrow key crosses into its month', async () => {
     render(
       <DatePicker range startDate="2024-10-31" endDate="2024-11-05" />
