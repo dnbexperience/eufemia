@@ -82,8 +82,9 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
   }
 
   const markHideAnimationStarted = useCallback(() => {
-    isHideAnimationRunning.current = !noAnimation && !globalThis.IS_TEST
-  }, [noAnimation])
+    isHideAnimationRunning.current =
+      (isOpen || isOverlayHovered) && !noAnimation && !globalThis.IS_TEST
+  }, [isOpen, isOverlayHovered, noAnimation])
 
   const resumeHideAnimation = useCallback(() => {
     if (!isHideAnimationRunning.current) {
@@ -180,13 +181,11 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
   const dismiss = useCallback(() => {
     clearTimers()
     clearOverlayTimers()
+    isHideAnimationRunning.current = false
     setSkipShowAnimation(false)
     setOverlayHovered(false)
     setIsOpen(false)
-    if (isOpen || isOverlayHovered) {
-      markHideAnimationStarted()
-    }
-  }, [isOpen, isOverlayHovered, markHideAnimationStarted])
+  }, [])
 
   const addEvents = useCallback(
     (element: HTMLElement) => {

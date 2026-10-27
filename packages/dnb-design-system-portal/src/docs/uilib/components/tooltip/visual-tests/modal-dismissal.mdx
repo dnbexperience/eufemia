@@ -1,0 +1,29 @@
+---
+fullscreen: true
+hideInMenu: true
+search: false
+---
+
+import { Dialog, Drawer } from '@dnb/eufemia/src'
+
+# Tooltip after closing a modal
+
+<Dialog
+  title="Tooltip dialog"
+  triggerProps={{
+    text: 'Open dialog',
+    tooltip: 'Dialog trigger tooltip',
+  }}
+>
+  Dialog content
+</Dialog>
+
+<Drawer
+  title="Tooltip drawer"
+  triggerProps={{
+    text: 'Open drawer',
+    tooltip: 'Drawer trigger tooltip',
+  }}
+>
+  Drawer content
+</Drawer>
