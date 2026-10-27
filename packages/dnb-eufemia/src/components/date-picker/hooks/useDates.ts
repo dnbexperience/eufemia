@@ -59,27 +59,13 @@ export default function useDates(
 
   const hasDatePropChanges = useMemo(
     () =>
-      Object.keys(dateProps).some((date) => {
-        const dateProp = dateProps[date]
-        const previousDate = previousDateProps[date]
-
-        const convertedDateProp = convertStringToDate(dateProp, {
-          dateFormat,
-        })
-        const convertedPreviousDate = convertStringToDate(previousDate, {
-          dateFormat,
-        })
-        // Make sure that same dates does not trigger a change
-        // i.e. 2021-01-01 and new Date('2021-01-01')
-        if (
-          convertedDateProp instanceof Date &&
-          convertedPreviousDate instanceof Date
-        ) {
-          return !isSameDay(convertedDateProp, convertedPreviousDate)
-        }
-
-        return dateProp !== previousDate
-      }),
+      Object.keys(dateProps).some((date) =>
+        hasDatePropChanged(
+          dateProps[date],
+          previousDateProps[date],
+          dateFormat
+        )
+      ),
     [dateProps, previousDateProps, dateFormat]
   )
 
@@ -230,7 +216,7 @@ function deriveDatesFromProps({
 }) {
   const derivedDates: DatePickerDates = {}
 
-  const startDate = getStartDate(dateProps, previousDateProps)
+  const startDate = getStartDate(dateProps, previousDateProps, dateFormat)
 
   // Handle updates related to date and startDate changes when not in range mode
   if (typeof startDate !== 'undefined' && startDate !== dates.startDate) {
@@ -254,6 +240,11 @@ function deriveDatesFromProps({
   if (
     isRange &&
     typeof dateProps.endDate !== 'undefined' &&
+    hasDatePropChanged(
+      dateProps.endDate,
+      previousDateProps.endDate,
+      dateFormat
+    ) &&
     dateProps.endDate !== dates.endDate
   ) {
     derivedDates.endDate =
@@ -515,22 +506,48 @@ function getDate(date: DatePickerDateType, dateFormat: string) {
 
 function getStartDate(
   dateProps: DatePickerDateProps,
-  previousDateProps: DatePickerDateProps
+  previousDateProps: DatePickerDateProps,
+  dateFormat: UseDatesOptions['dateFormat']
 ) {
   // prioritize startDate over date if provided
   if (
     typeof dateProps.startDate !== 'undefined' &&
-    dateProps.startDate !== previousDateProps.startDate
+    hasDatePropChanged(
+      dateProps.startDate,
+      previousDateProps.startDate,
+      dateFormat
+    )
   ) {
     return dateProps.startDate
   }
 
   if (
     typeof dateProps.date !== 'undefined' &&
-    dateProps.date !== previousDateProps.date
+    hasDatePropChanged(dateProps.date, previousDateProps.date, dateFormat)
   ) {
     return dateProps.date
   }
 
   return undefined
+}
+
+// Same days don't count as a change, e.g. 2021-01-01 and new Date('2021-01-01')
+function hasDatePropChanged(
+  dateProp: DatePickerDateType,
+  previousDate: DatePickerDateType,
+  dateFormat: UseDatesOptions['dateFormat']
+) {
+  const convertedDateProp = convertStringToDate(dateProp, { dateFormat })
+  const convertedPreviousDate = convertStringToDate(previousDate, {
+    dateFormat,
+  })
+
+  if (
+    convertedDateProp instanceof Date &&
+    convertedPreviousDate instanceof Date
+  ) {
+    return !isSameDay(convertedDateProp, convertedPreviousDate)
+  }
+
+  return dateProp !== previousDate
 }
