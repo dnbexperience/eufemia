@@ -170,6 +170,7 @@ export function DatePickerCalendarNav({
           formatDate(date, { locale, options: titleFormat })
         )}
         tabIndex={-1}
+        aria-live="polite"
       >
         {formatDate(date, { locale, options: titleFormat })}
       </span>
