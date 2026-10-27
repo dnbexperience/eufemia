@@ -574,7 +574,7 @@
             "WEB": "--token-color-background-action-alternative"
           },
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:f036ba9eb768742f5ba961410ea18895a917ae78/5552:1659",
+            "targetVariableId": "VariableID:f036ba9eb768742f5ba961410ea18895a917ae78/6493:0",
             "targetVariableName": "dnb/greyscale/500",
             "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
             "targetVariableSetName": "colors"
@@ -3818,7 +3818,7 @@
             "alpha": 1,
             "hex": "#14555A"
           },
-          "$description": "Standard background color for \"ondark\" components",
+          "$description": "Standard background color for &quot;ondark&quot; components",
           "$extensions": {
             "com.figma.variableId": "VariableID:53820:6408",
             "com.figma.scopes": [
@@ -4627,7 +4627,7 @@
                 "WEB": "--token-color-component-button-background-action-destructive-pressed"
               },
               "com.figma.aliasData": {
-                "targetVariableId": "VariableID:7f9baf946ea77b1b3beed96bf00735952bee29f1/5552:1588",
+                "targetVariableId": "VariableID:7f9baf946ea77b1b3beed96bf00735952bee29f1/5719:0",
                 "targetVariableName": "dnb/red/500",
                 "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
                 "targetVariableSetName": "colors"
@@ -4938,7 +4938,7 @@
                 "WEB": "--token-color-component-button-text-action-disabled"
               },
               "com.figma.aliasData": {
-                "targetVariableId": "VariableID:f036ba9eb768742f5ba961410ea18895a917ae78/5552:1659",
+                "targetVariableId": "VariableID:f036ba9eb768742f5ba961410ea18895a917ae78/6493:0",
                 "targetVariableName": "dnb/greyscale/500",
                 "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
                 "targetVariableSetName": "colors"
@@ -5197,7 +5197,7 @@
                 "WEB": "--token-color-component-button-icon-action-disabled"
               },
               "com.figma.aliasData": {
-                "targetVariableId": "VariableID:f036ba9eb768742f5ba961410ea18895a917ae78/5552:1659",
+                "targetVariableId": "VariableID:f036ba9eb768742f5ba961410ea18895a917ae78/6493:0",
                 "targetVariableName": "dnb/greyscale/500",
                 "targetVariableSetId": "VariableCollectionId:e5cc40ef8bbcdb0b7df7793463523846b0a81d09/5552:1080",
                 "targetVariableSetName": "colors"
@@ -6056,7 +6056,7 @@
           },
           "com.figma.type": "string",
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:21df6617f4f4afcdfd60d3211bafd6a6c22a90dd/5552:1050",
+            "targetVariableId": "VariableID:21df6617f4f4afcdfd60d3211bafd6a6c22a90dd/6341:7",
             "targetVariableName": "Font/Weight/Medium",
             "targetVariableSetId": "VariableCollectionId:d00e91884fb9b3877858490e6b8fd6fcb0c60111/5552:1045",
             "targetVariableSetName": "typography"
@@ -6076,7 +6076,7 @@
           },
           "com.figma.type": "string",
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:21df6617f4f4afcdfd60d3211bafd6a6c22a90dd/5552:1050",
+            "targetVariableId": "VariableID:21df6617f4f4afcdfd60d3211bafd6a6c22a90dd/6341:7",
             "targetVariableName": "Font/Weight/Medium",
             "targetVariableSetId": "VariableCollectionId:d00e91884fb9b3877858490e6b8fd6fcb0c60111/5552:1045",
             "targetVariableSetName": "typography"
@@ -6096,7 +6096,7 @@
           },
           "com.figma.type": "string",
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:21df6617f4f4afcdfd60d3211bafd6a6c22a90dd/5552:1050",
+            "targetVariableId": "VariableID:21df6617f4f4afcdfd60d3211bafd6a6c22a90dd/6341:7",
             "targetVariableName": "Font/Weight/Medium",
             "targetVariableSetId": "VariableCollectionId:d00e91884fb9b3877858490e6b8fd6fcb0c60111/5552:1045",
             "targetVariableSetName": "typography"
@@ -6116,7 +6116,7 @@
           },
           "com.figma.type": "string",
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:21df6617f4f4afcdfd60d3211bafd6a6c22a90dd/5552:1050",
+            "targetVariableId": "VariableID:21df6617f4f4afcdfd60d3211bafd6a6c22a90dd/6341:7",
             "targetVariableName": "Font/Weight/Medium",
             "targetVariableSetId": "VariableCollectionId:d00e91884fb9b3877858490e6b8fd6fcb0c60111/5552:1045",
             "targetVariableSetName": "typography"
@@ -6136,7 +6136,7 @@
           },
           "com.figma.type": "string",
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:1364872f02b610d6ff638d1c621197e705cd4d44/5552:1049",
+            "targetVariableId": "VariableID:1364872f02b610d6ff638d1c621197e705cd4d44/6341:3",
             "targetVariableName": "Font/Weight/Regular",
             "targetVariableSetId": "VariableCollectionId:d00e91884fb9b3877858490e6b8fd6fcb0c60111/5552:1045",
             "targetVariableSetName": "typography"
@@ -6156,7 +6156,7 @@
           },
           "com.figma.type": "string",
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:21df6617f4f4afcdfd60d3211bafd6a6c22a90dd/5552:1050",
+            "targetVariableId": "VariableID:21df6617f4f4afcdfd60d3211bafd6a6c22a90dd/6341:7",
             "targetVariableName": "Font/Weight/Medium",
             "targetVariableSetId": "VariableCollectionId:d00e91884fb9b3877858490e6b8fd6fcb0c60111/5552:1045",
             "targetVariableSetName": "typography"
@@ -6176,7 +6176,7 @@
           },
           "com.figma.type": "string",
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:1364872f02b610d6ff638d1c621197e705cd4d44/5552:1049",
+            "targetVariableId": "VariableID:1364872f02b610d6ff638d1c621197e705cd4d44/6341:3",
             "targetVariableName": "Font/Weight/Regular",
             "targetVariableSetId": "VariableCollectionId:d00e91884fb9b3877858490e6b8fd6fcb0c60111/5552:1045",
             "targetVariableSetName": "typography"
@@ -6196,7 +6196,7 @@
           },
           "com.figma.type": "string",
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:21df6617f4f4afcdfd60d3211bafd6a6c22a90dd/5552:1050",
+            "targetVariableId": "VariableID:21df6617f4f4afcdfd60d3211bafd6a6c22a90dd/6341:7",
             "targetVariableName": "Font/Weight/Medium",
             "targetVariableSetId": "VariableCollectionId:d00e91884fb9b3877858490e6b8fd6fcb0c60111/5552:1045",
             "targetVariableSetName": "typography"
@@ -6216,7 +6216,7 @@
           },
           "com.figma.type": "string",
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:1364872f02b610d6ff638d1c621197e705cd4d44/5552:1049",
+            "targetVariableId": "VariableID:1364872f02b610d6ff638d1c621197e705cd4d44/6341:3",
             "targetVariableName": "Font/Weight/Regular",
             "targetVariableSetId": "VariableCollectionId:d00e91884fb9b3877858490e6b8fd6fcb0c60111/5552:1045",
             "targetVariableSetName": "typography"
@@ -6236,7 +6236,7 @@
           },
           "com.figma.type": "string",
           "com.figma.aliasData": {
-            "targetVariableId": "VariableID:21df6617f4f4afcdfd60d3211bafd6a6c22a90dd/5552:1050",
+            "targetVariableId": "VariableID:21df6617f4f4afcdfd60d3211bafd6a6c22a90dd/6341:7",
             "targetVariableName": "Font/Weight/Medium",
             "targetVariableSetId": "VariableCollectionId:d00e91884fb9b3877858490e6b8fd6fcb0c60111/5552:1045",
             "targetVariableSetName": "typography"
