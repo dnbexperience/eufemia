@@ -96,6 +96,17 @@ let logSpy: ReturnType<typeof vi.spyOn>
 let errorSpy: ReturnType<typeof vi.spyOn>
 let warnSpy: ReturnType<typeof vi.spyOn>
 
+function findEmittedMetric(name: string) {
+  const line = logSpy.mock.calls
+    .map((call: unknown[]) => call[0])
+    .find(
+      (arg: unknown): arg is string =>
+        typeof arg === 'string' && arg.includes(`"${name}":`)
+    )
+
+  return line ? JSON.parse(line) : undefined
+}
+
 beforeEach(() => {
   send.mockReset()
   aggregatePortalViewsRaw.mockReset()
@@ -262,21 +273,10 @@ describe('snapshot generator handler', () => {
 
     expect(snapshotBody().portalViewTrends.perDay).toEqual(perDay)
     expect(errorSpy).toHaveBeenCalled()
-
-    const failureMetric = logSpy.mock.calls
-      .map((call: unknown[]) => call[0])
-      .map((line: unknown) => {
-        try {
-          return JSON.parse(line as string) as Record<string, unknown>
-        } catch {
-          return null
-        }
-      })
-      .find(
-        (entry: Record<string, unknown> | null) =>
-          entry?.PortalViewsRollupFailure === 1
-      )
-    expect(failureMetric).toBeDefined()
+    expect(
+      findEmittedMetric('PortalViewsRollupFailure')
+        ?.PortalViewsRollupFailure
+    ).toBe(1)
   })
 
   it('propagates a trend read failure so the previous snapshot stays and the schedule surfaces the error', async () => {
@@ -346,13 +346,7 @@ describe('mcp usage section', () => {
       expect.stringMatching(/^\d{4}-\d{2}-\d{2}$/)
     )
 
-    const snapshotPut = putCalls().find(
-      (call) =>
-        (call[0] as Command).input.Key === 'snapshots/dashboard.json'
-    )
-    const mcp = JSON.parse(
-      (snapshotPut![0] as Command).input.Body as string
-    ).mcpUsage
+    const mcp = snapshotBody().mcpUsage
 
     expect(mcp.web).toEqual({
       total: 8,
@@ -417,13 +411,7 @@ describe('mcp usage section', () => {
 
     await handler()
 
-    const snapshotPut = putCalls().find(
-      (call) =>
-        (call[0] as Command).input.Key === 'snapshots/dashboard.json'
-    )
-    const mcp = JSON.parse(
-      (snapshotPut?.[0] as Command).input.Body as string
-    ).mcpUsage
+    const mcp = snapshotBody().mcpUsage
 
     expect(mcp.web.total).toBe(11)
     expect(mcp.web.missedLookups).toBe(6)
@@ -455,13 +443,7 @@ describe('mcp usage section', () => {
 
     await handler()
 
-    const snapshotPut = putCalls().find(
-      (call) =>
-        (call[0] as Command).input.Key === 'snapshots/dashboard.json'
-    )
-    const mcp = JSON.parse(
-      (snapshotPut?.[0] as Command).input.Body as string
-    ).mcpUsage
+    const mcp = snapshotBody().mcpUsage
 
     expect(mcp.web.total).toBe(2)
     expect(mcp.local.total).toBe(0)
@@ -534,21 +516,9 @@ describe('mcp usage section', () => {
       },
     })
     expect(errorSpy).toHaveBeenCalled()
-
-    const failureMetric = logSpy.mock.calls
-      .map((call: unknown[]) => call[0])
-      .map((line: unknown) => {
-        try {
-          return JSON.parse(line as string) as Record<string, unknown>
-        } catch {
-          return null
-        }
-      })
-      .find(
-        (entry: Record<string, unknown> | null) =>
-          entry?.McpUsageBuildFailure === 1
-      )
-    expect(failureMetric).toBeDefined()
+    expect(
+      findEmittedMetric('McpUsageBuildFailure')?.McpUsageBuildFailure
+    ).toBe(1)
   })
 
   it('serves existing daily history when the tail recompute fails', async () => {
@@ -566,34 +536,16 @@ describe('mcp usage section', () => {
 
     await handler()
 
-    const snapshotPut = putCalls().find(
-      (call) =>
-        (call[0] as Command).input.Key === 'snapshots/dashboard.json'
-    )
-    const mcp = JSON.parse(
-      (snapshotPut![0] as Command).input.Body as string
-    ).mcpUsage
+    const mcp = snapshotBody().mcpUsage
 
     // A transient recompute failure must NOT blank the section: the durable
     // history is still read and shown.
     expect(mcp.web.total).toBe(5)
     expect(mcp.web.perComponent).toEqual([{ name: 'Button', count: 5 }])
     expect(errorSpy).toHaveBeenCalled()
-
-    const failureMetric = logSpy.mock.calls
-      .map((call: unknown[]) => call[0])
-      .map((line: unknown) => {
-        try {
-          return JSON.parse(line as string) as Record<string, unknown>
-        } catch {
-          return null
-        }
-      })
-      .find(
-        (entry: Record<string, unknown> | null) =>
-          entry?.McpUsageBuildFailure === 1
-      )
-    expect(failureMetric).toBeDefined()
+    expect(
+      findEmittedMetric('McpUsageBuildFailure')?.McpUsageBuildFailure
+    ).toBe(1)
   })
 
   it('builds perVersion from local-only usage, ordered by count', async () => {
@@ -608,13 +560,7 @@ describe('mcp usage section', () => {
       expect.stringMatching(/^\d{4}-\d{2}-\d{2}$/)
     )
 
-    const snapshotPut = putCalls().find(
-      (call) =>
-        (call[0] as Command).input.Key === 'snapshots/dashboard.json'
-    )
-    const mcp = JSON.parse(
-      (snapshotPut![0] as Command).input.Body as string
-    ).mcpUsage
+    const mcp = snapshotBody().mcpUsage
 
     expect(mcp.local.perVersion).toEqual([
       { name: '10.79.0', count: 9 },
@@ -716,21 +662,10 @@ describe('buildComponentUsage', () => {
       { name: 'button', count: 2 },
     ])
     expect(errorSpy).toHaveBeenCalled()
-
-    const failureMetric = logSpy.mock.calls
-      .map((call: unknown[]) => call[0])
-      .map((line: unknown) => {
-        try {
-          return JSON.parse(line as string) as Record<string, unknown>
-        } catch {
-          return null
-        }
-      })
-      .find(
-        (entry: Record<string, unknown> | null) =>
-          entry?.ComponentUsageBuildFailure === 1
-      )
-    expect(failureMetric).toBeDefined()
+    expect(
+      findEmittedMetric('ComponentUsageBuildFailure')
+        ?.ComponentUsageBuildFailure
+    ).toBe(1)
   })
 
   it('propagates a durable-read failure so the caller can fall back to empty', async () => {
@@ -744,46 +679,67 @@ describe('buildComponentUsage', () => {
   })
 })
 
-describe('component usage section (currently unwired)', () => {
-  it('ships an empty section without querying component usage', async () => {
+describe('component usage section', () => {
+  afterEach(() => {
+    delete process.env.COMPONENT_USAGE_ENABLED
+  })
+
+  it('ships an empty section without querying component usage by default', async () => {
     await handler()
 
-    const snapshotPut = putCalls().find(
-      (call) =>
-        (call[0] as Command).input.Key === 'snapshots/dashboard.json'
-    )
-    const body = JSON.parse(
-      (snapshotPut![0] as Command).input.Body as string
-    )
-
-    expect(body.componentUsage).toEqual({
+    expect(snapshotBody().componentUsage).toEqual({
       total: 0,
       perComponent: [],
       perApp: [],
       perVersion: [],
     })
-
-    // No producer yet: the generator must not query the empty component tables.
     expect(aggregateComponentUsageRaw).not.toHaveBeenCalled()
     expect(retrieveComponentUsageTotals).not.toHaveBeenCalled()
-
     expect(findDailyRollupPut('component-usage-daily/')).toBeUndefined()
+  })
+
+  it('builds the section when COMPONENT_USAGE_ENABLED is true', async () => {
+    process.env.COMPONENT_USAGE_ENABLED = 'true'
+    retrieveComponentUsageTotals.mockResolvedValue([
+      {
+        app: 'app-a',
+        component: 'button',
+        version: '10.72.0',
+        count: 6,
+      },
+    ])
+
+    await handler()
+
+    expect(snapshotBody().componentUsage).toEqual({
+      total: 6,
+      perComponent: [{ name: 'button', count: 6 }],
+      perApp: [{ name: 'app-a', count: 6 }],
+      perVersion: [{ name: '10.72.0', count: 6 }],
+    })
+  })
+
+  it('falls back to the empty section and still publishes when the build fails', async () => {
+    process.env.COMPONENT_USAGE_ENABLED = 'true'
+    retrieveComponentUsageTotals.mockRejectedValue(
+      new Error('glue denied')
+    )
+
+    await handler()
+
+    expect(snapshotBody().componentUsage.total).toBe(0)
+    expect(errorSpy).toHaveBeenCalledWith(
+      'Failed to build component usage section',
+      expect.any(Error)
+    )
+    expect(
+      findEmittedMetric('ComponentUsageBuildFailure')
+        ?.ComponentUsageBuildFailure
+    ).toBe(1)
   })
 })
 
 describe('snapshot page-view count metric', () => {
-  function findEmfMetric() {
-    const line = logSpy.mock.calls
-      .map((call: unknown[]) => call[0])
-      .find(
-        (arg: unknown): arg is string =>
-          typeof arg === 'string' &&
-          arg.includes('SnapshotPortalViewCount')
-      )
-
-    return line ? JSON.parse(line) : null
-  }
-
   afterEach(() => {
     delete process.env.AWS_LAMBDA_FUNCTION_NAME
   })
@@ -799,8 +755,8 @@ describe('snapshot page-view count metric', () => {
     const result = await handler()
 
     expect(result.recentViews).toBe(5)
-    const emf = findEmfMetric()
-    expect(emf).not.toBeNull()
+    const emf = findEmittedMetric('SnapshotPortalViewCount')
+    expect(emf).toBeDefined()
     expect(emf.SnapshotPortalViewCount).toBe(5)
     expect(emf.FunctionName).toBe('eufemia-dev-analytics-snapshot')
     expect(emf._aws.CloudWatchMetrics[0].Namespace).toBe(
@@ -820,8 +776,8 @@ describe('snapshot page-view count metric', () => {
     const result = await handler()
 
     expect(result.recentViews).toBe(0)
-    const emf = findEmfMetric()
-    expect(emf).not.toBeNull()
+    const emf = findEmittedMetric('SnapshotPortalViewCount')
+    expect(emf).toBeDefined()
     expect(emf.SnapshotPortalViewCount).toBe(0)
   })
 })
