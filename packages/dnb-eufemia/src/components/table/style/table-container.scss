@@ -79,11 +79,15 @@
     }
   }
 
-  .dnb-table__scroll-view {
-    // Lift the native scrollbar halfway out of the rounded bottom corners,
-    // so a large radius does not cut off its ends, but they still follow the corner.
+  // Lift the native scrollbar halfway out of the rounded bottom corners,
+  // so a large radius does not cut off its ends, but they still follow the corner.
+  // Only the container's own ScrollView: a Table.ScrollView inside
+  // Table.ContainerBody is inside it, so it is lifted with it.
+  & > .dnb-table__scroll-view {
     margin-bottom: max(0rem, (var(--table-outline-radius) - 0.5rem) / 2);
+  }
 
+  .dnb-table__scroll-view {
     // Clip the native Scrollbar as per defined by UX.
     // We can't use "overflow: clip" here, because we want overflow to be auto/scroll.
     clip-path: inset(
