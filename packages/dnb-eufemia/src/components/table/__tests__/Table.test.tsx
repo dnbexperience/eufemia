@@ -324,4 +324,14 @@ describe('Table scss', () => {
     expect(outline).toBeGreaterThan(stickyHeader)
     expect(accordionOutline).toBeGreaterThan(outline)
   })
+
+  it('should keep the scrollbar above the rounded bottom corners of a Card without inner space', () => {
+    const css = loadScss(require.resolve('../style/deps.scss'))
+
+    // Only when the ScrollView is the last element of the Card,
+    // and only when it scrolls (then it is focusable)
+    expect(css).toContain(
+      '.dnb-card--no-inner-space > .dnb-flex-container > .dnb-table__scroll-view[tabindex="0"]:last-child, .dnb-card--no-inner-space > .dnb-flex-container > .dnb-space:last-child > .dnb-table__scroll-view[tabindex="0"]:only-child {\n  margin-bottom: max(0rem, var(--rounded-corner) - 0.5rem);\n  clip-path: inset(0 round 0 0 min(var(--rounded-corner), 0.5rem) min(var(--rounded-corner), 0.5rem));\n}'
+    )
+  })
 })

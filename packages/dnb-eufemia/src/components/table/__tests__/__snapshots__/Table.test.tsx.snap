@@ -105,6 +105,10 @@ exports[`Table scss > should match style dependencies css 1`] = `
 .dnb-card--filled .dnb-table__scroll-view {
   clip-path: inset(0 0 0 0 round 0 0 var(--rounded-corner) var(--rounded-corner));
 }
+.dnb-card--no-inner-space > .dnb-flex-container > .dnb-table__scroll-view[tabindex="0"]:last-child, .dnb-card--no-inner-space > .dnb-flex-container > .dnb-space:last-child > .dnb-table__scroll-view[tabindex="0"]:only-child {
+  margin-bottom: max(0rem, var(--rounded-corner) - 0.5rem);
+  clip-path: inset(0 round 0 0 min(var(--rounded-corner), 0.5rem) min(var(--rounded-corner), 0.5rem));
+}
 .dnb-spacing .dnb-table p,
 .dnb-spacing .dnb-table ul,
 .dnb-spacing .dnb-table ol,
