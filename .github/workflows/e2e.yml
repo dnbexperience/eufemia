@@ -72,7 +72,7 @@ jobs:
       - name: Install Playwright dependencies
         timeout-minutes: 10
         run: |
-          if ! timeout 12s yarn workspace dnb-design-system-portal playwright install-deps firefox chromium webkit; then
+          if ! timeout 3m yarn workspace dnb-design-system-portal playwright install-deps firefox chromium webkit; then
             # A slow azure.archive.ubuntu.com node never trips apt's stall timeout (actions/runner-images#14823)
             # timeout can't reach the apt-get that sudo started, so stop it unless dpkg is already installing
             pgrep -x dpkg > /dev/null || sudo pkill -x apt-get || true
