@@ -15,7 +15,7 @@ EventBridge Scheduler runs CDN at :07 and MCP at :11 hourly in UTC, with flexibl
 1. Create a dedicated internal deployment repository. Provision its OIDC deploy role through the internal federation repository, restricted to the deploy branch and verified repository IDs. Give it scoped access to this stack, its Terraform state key and permission to pass the three execution roles.
 2. Use the internal AWS bootstrap repository to create the Lambda, Scheduler and Slack notifier roles under the approved permissions boundary. Terraform only reads these roles. The check role needs log writes, DynamoDB item read/write, secret read, sns:Publish to the monitoring topic and failure-queue writes. The notifier needs its own log writes, bot configuration secret read, monitoring-table item read/write and sqs:SendMessage for its failure destination. Scheduler trust restricts the source account and schedule group. Its permissions are lambda:InvokeFunction for the two check functions and sqs:SendMessage for the schedule failure queue.
 3. Configure GHE_MONITORING_DEPLOY_REPO in the public repo and a monitoring-only GHE_MONITORING_DEPLOY_PAT credential with Contents read/write, Workflows read/write and required Metadata read for that internal repository only. The handoff writes .github/workflows/deploy.yml, so workflow-file access is required. Configure the internal variables below.
-4. Configure the Slack bot secret and deploy with notifications disabled. Follow the Slack app setup below before enabling notifications. The existing webhook secret remains for rollback; never put secret values in Terraform, repository variables, logs or committed files.
+4. Configure the Slack bot secret and deploy with notifications disabled. Follow the Slack app setup below before enabling notifications. Never put secret values in Terraform, repository variables, logs or committed files.
 
 The deployment token must remain active for automatic updates. Record its owner
 and expiration in the internal deployment repository, renew it before expiration,
@@ -89,9 +89,7 @@ required.
 An authorized operator must create a Secrets Manager secret with a JSON string
 containing token (the xoxb bot token) and channel (the private channel ID). Put only
 its ARN in MONITORING_SLACK_BOT_SECRET_ARN in the internal deployment repo. Never
-put token values in source, Terraform, repository variables or logs. Apply the
-internal bootstrap permission update before deploying the new notifier. The
-existing incoming-webhook secret is retained for rollback.
+put token values in source, Terraform, repository variables or logs.
 
 The deployment fails before enabling notifications unless slack_bot_secret_arn is
 configured. The notifier validates the secret at runtime. The API uses only fixed
@@ -108,7 +106,7 @@ Install/configure the bot and apply the bootstrap role update first. Verify the 
 not write GitHub issues. Analytics and Portal monitors remain separate workflows
 and need their own integration before they can share this overview.
 
-The retired CDN/MCP Actions workflows and alert entrypoints are removed. The shared GitHub incident reporter remains in use by Analytics. Rollback requires a previous notifier package and its matching configuration, referencing the retained eufemia/dev/monitoring/slack webhook secret by ARN instead of recreating it. A regional AWS
+The shared GitHub incident reporter remains in use by Analytics. A regional AWS
 outage still needs an external uptime service for independent paging.
 
 ## Local validation
