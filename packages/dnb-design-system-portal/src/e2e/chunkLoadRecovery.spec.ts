@@ -29,8 +29,8 @@ test.describe('Chunk load recovery', () => {
     let expectedDocuments = 0
     for (const path of [
       '/contribute/getting-started/',
-      '/uilib/components/button/properties/',
-      '/uilib/components/stat/properties/',
+      '/web/components/button/properties/',
+      '/web/components/stat/properties/',
     ]) {
       await page.goto(path)
       await waitForApp(page)
@@ -69,7 +69,7 @@ test.describe('Chunk load recovery', () => {
         : route.continue()
     })
 
-    await page.goto('/uilib/extensions/forms/Value/BankAccountNumber/', {
+    await page.goto('/web/extensions/forms/Value/BankAccountNumber/', {
       waitUntil: 'commit',
     })
     await waitForApp(page)
@@ -113,7 +113,7 @@ test.describe('Chunk load recovery', () => {
       })
 
       await page.goto(
-        '/uilib/extensions/forms/Value/BankAccountNumber/?recovery-test#bankaccountnumber',
+        '/web/extensions/forms/Value/BankAccountNumber/?recovery-test#bankaccountnumber',
         { waitUntil: 'commit' }
       )
       await waitForApp(page)
@@ -149,7 +149,7 @@ test.describe('Chunk load recovery', () => {
         })
       })
 
-      await page.goto('/uilib/extensions/forms/Value/BankAccountNumber/', {
+      await page.goto('/web/extensions/forms/Value/BankAccountNumber/', {
         waitUntil: 'commit',
       })
       await expect.poll(() => failures).toBeGreaterThanOrEqual(2)

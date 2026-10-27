@@ -22,7 +22,7 @@ test.describe('Route Focus', () => {
       await page.emulateMedia({ reducedMotion })
 
       await page.goto(
-        '/uilib/extensions/sidebar-menu/demos/#responsive-navigation'
+        '/web/extensions/sidebar-menu/demos/#responsive-navigation'
       )
       await page.waitForFunction(
         () =>

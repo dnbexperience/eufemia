@@ -149,7 +149,7 @@ describe('useScrollPosition', () => {
     expect(window.history.scrollRestoration).toBe('auto')
   })
 
-  it('preserves native scroll restoration without a hash', () => {
+  it('owns restoration without a hash and restores the previous setting on unmount', () => {
     window.history.scrollRestoration = 'auto'
     vi.spyOn(window, 'requestAnimationFrame').mockReturnValue(1)
 
@@ -158,7 +158,12 @@ describe('useScrollPosition', () => {
       return null
     }
 
-    render(createElement(MemoryRouter, null, createElement(Consumer)))
+    const { unmount } = render(
+      createElement(MemoryRouter, null, createElement(Consumer))
+    )
+
+    expect(window.history.scrollRestoration).toBe('manual')
+    unmount()
 
     expect(window.history.scrollRestoration).toBe('auto')
   })

@@ -12,7 +12,7 @@ function waitForOpenAnimation(content: Locator) {
 
 test.describe('Popover focus restoration', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/uilib/components/popover/demos/#controlled-state')
+    await page.goto('/web/components/popover/demos/#controlled-state')
     await expect(page.locator('html')).toHaveAttribute(
       'data-portal-ready',
       'true'

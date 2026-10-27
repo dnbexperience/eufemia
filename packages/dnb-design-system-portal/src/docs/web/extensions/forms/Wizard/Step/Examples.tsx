@@ -1,3 +1,4 @@
+import { Provider } from '@dnb/eufemia/src/shared'
 import { P } from '@dnb/eufemia/src'
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
 import {
@@ -197,4 +198,3 @@ export const EditButton = () => {
     </ComponentBox>
   )
 }
-import { Provider } from '@dnb/eufemia/src/shared'

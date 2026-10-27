@@ -548,7 +548,7 @@ test.describe('Document and print styles', () => {
   }
 
   test('separates the import table and keeps code examples close to their introduction', async () => {
-    await page.goto('/uilib/usage/customisation/styling/document-styles/')
+    await page.goto('/web/usage/customisation/styling/document-styles/')
     await expect(
       page.getByText(/^SCSS imports are also available/)
     ).toBeVisible()
@@ -587,7 +587,7 @@ test.describe('Document and print styles', () => {
 
   test('uses Eufemia preview controls and leaves space above the title', async () => {
     await page.goto(
-      '/uilib/usage/customisation/styling/document-styles/preview/'
+      '/web/usage/customisation/styling/document-styles/preview/'
     )
     await expect(
       page.locator('[data-document-preview] .dnb-dropdown')
@@ -663,7 +663,7 @@ test.describe('Document and print styles', () => {
         )
       }, colorScheme)
       await page.goto(
-        '/uilib/usage/customisation/styling/document-styles/preview/'
+        '/web/usage/customisation/styling/document-styles/preview/'
       )
       await expect(page.locator('html')).toHaveAttribute(
         'data-portal-ready',

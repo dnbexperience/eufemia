@@ -1,3 +1,4 @@
+import { Provider } from '@dnb/eufemia/src/shared'
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
 import { useLocation } from 'react-router'
 import { navigate } from 'portal-query'
@@ -92,4 +93,3 @@ export const ReachRouter = () => {
     </ComponentBox>
   )
 }
-import { Provider } from '@dnb/eufemia/src/shared'

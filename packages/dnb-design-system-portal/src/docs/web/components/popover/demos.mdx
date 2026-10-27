@@ -16,6 +16,13 @@ import * as Examples from './Examples'
 
 <Examples.PopoverExampleWithoutCloseButton />
 
+### Controlled state
+
+An external trigger can control `open`. Focus returns to the trigger after
+closing, including when the content updates the state directly.
+
+<Examples.PopoverExampleControlled />
+
 <VisibleWhenVisualTest>
   <Examples.PopoverExampleBasic />
   <Examples.PopoverExampleArrowLeft />
@@ -38,10 +45,3 @@ import * as Examples from './Examples'
   <Examples.PopoverExamplePlacementLeftArrowBottom />
   <Examples.PopoverExamplePlacementLeftArrowRight />
 </VisibleWhenVisualTest>
-### Controlled state
-
-An external trigger can control `open`. Focus returns to the trigger after
-closing, including when the content updates the state directly.
-
-<Examples.PopoverExampleControlled />
-

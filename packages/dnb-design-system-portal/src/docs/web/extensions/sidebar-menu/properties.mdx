@@ -37,6 +37,11 @@ import {
 ```ts
 const sidebar = SidebarMenu.getController(controllerId)
 
+const restoreProps = sidebar.setProps(
+  { compactOffset: '10em', selectedItem: 'payments' },
+  { key: 'app-name' }
+)
+
 const releaseContent = sidebar.setContent(
   { data: items }, // Or { sections }
   { key: 'app-name' }
