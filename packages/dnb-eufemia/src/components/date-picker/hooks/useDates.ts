@@ -282,8 +282,8 @@ function deriveDatesFromProps({
           'endDate' in derivedDates ? derivedDates.endDate : dates.endDate,
         startMonth: dateProps.startMonth,
         endMonth: dateProps.endMonth,
-        minDate: dateProps.minDate ?? dates.minDate,
-        maxDate: dateProps.maxDate ?? dates.maxDate,
+        minDate: dateProps.minDate,
+        maxDate: dateProps.maxDate,
       },
       { dateFormat, isRange, rangeSingleCalendar }
     )

@@ -5439,6 +5439,34 @@ describe('DatePicker component', () => {
     }
   )
 
+  it('should not fit the range months to a removed maxDate', async () => {
+    const { rerender } = render(
+      <DatePicker
+        noAnimation
+        range
+        startDate="2025-01-10"
+        endDate="2025-01-20"
+        maxDate="2025-06-30"
+      />
+    )
+
+    rerender(
+      <DatePicker
+        noAnimation
+        range
+        startDate="2025-06-10"
+        endDate="2025-06-20"
+      />
+    )
+    await userEvent.click(getDatePickerTriggerButton())
+
+    const titles = Array.from(
+      document.querySelectorAll('.dnb-date-picker__header__title')
+    ).map((element) => element.textContent)
+
+    expect(titles).toEqual(['juni 2025', 'juli 2025'])
+  })
+
   it('should tab to next element after closing date picker', async () => {
     render(
       <>
