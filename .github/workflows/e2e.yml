@@ -42,7 +42,8 @@ jobs:
     # A skipped job counts as success for the required check; it still runs if detection fails.
     if: ${{ !cancelled() && needs.changes.outputs.standalone-tools-only != 'true' }}
 
-    runs-on: ubuntu-latest
+    # Pinned until Playwright can install its system dependencies on Ubuntu 26.04
+    runs-on: ubuntu-24.04
 
     timeout-minutes: 40
 
