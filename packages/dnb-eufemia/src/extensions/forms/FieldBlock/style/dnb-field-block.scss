@@ -269,7 +269,8 @@ fieldset.dnb-forms-field-block {
         &-small,
         &-medium,
         &-large {
-          width: min(100%, var(--field-block-content-width, 100%));
+          width: var(--field-block-content-width, max-content);
+          max-width: 100%;
         }
       }
     }
