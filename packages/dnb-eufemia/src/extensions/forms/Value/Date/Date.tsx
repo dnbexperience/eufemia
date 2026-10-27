@@ -38,6 +38,13 @@ function DateComponent(props: ValueDateProps) {
       if (isRange) {
         const [startDate, endDate] = parseRangeValue(value)
 
+        // Show the date that is set, when the range only has one of them
+        if (!startDate || !endDate) {
+          const date = startDate || endDate
+
+          return date ? formatDate(date, { locale, options }) : undefined
+        }
+
         return formatDateRange({ startDate, endDate }, { locale, options })
       }
 
