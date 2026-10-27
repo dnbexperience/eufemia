@@ -61,7 +61,10 @@ for (const width of [390, 1440]) {
         exact: true,
       })
       await github.scrollIntoViewIfNeeded()
-      await expect(figma).toHaveAttribute('href', /figma.com/)
+      await expect(figma).toHaveAttribute(
+        'href',
+        'https://www.figma.com/design/cdtwQD8IJ7pTeE45U148r1/%F0%9F%92%BB-Eufemia---Web'
+      )
       await expect(github).toHaveAttribute(
         'href',
         'https://github.com/dnbexperience/eufemia/'
