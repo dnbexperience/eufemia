@@ -43,7 +43,6 @@ jobs:
             '^tools/analytics/'
             '^tools/assets/'
             '^tools/eufemia-raiwork-plugin/'
-            '^tools/markdown-tables-utils/'
             '^tools/mcp-lambda/'
             '^tools/mcp-legacy-proxy/'
             '^tools/monitoring/'
@@ -60,8 +59,12 @@ jobs:
 
           changed=$(git diff --name-only --no-renames origin/main...HEAD)
 
-          if [[ -z "$changed" ]] || grep -q -v -E -f <(printf '%s\n' "${standalone_tool_paths[@]}") <<< "$changed"; then
-            echo "standalone-tools-only=false" >> "$GITHUB_OUTPUT"
-          else
+          grep_status=0
+          grep -q -v -E -f <(printf '%s\n' "${standalone_tool_paths[@]}") <<< "$changed" || grep_status=$?
+
+          # grep exits 0 when a file is outside the list, 1 when all files are in it, 2 on error.
+          if [[ -n "$changed" && "$grep_status" -eq 1 ]]; then
             echo "standalone-tools-only=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "standalone-tools-only=false" >> "$GITHUB_OUTPUT"
           fi
