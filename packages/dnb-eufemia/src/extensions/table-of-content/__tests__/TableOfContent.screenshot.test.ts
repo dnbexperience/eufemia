@@ -62,6 +62,16 @@ describe.each(['ui', 'sbanken'])('TableOfContent for %s', (themeName) => {
     })
   })
 
+  it('matches the selected row outline on hover', async () => {
+    await makeScreenshot({
+      selector: '[data-visual-test="table-of-content-declarative"]',
+      style: { width: '18rem' },
+      simulate: 'hover',
+      simulateSelector:
+        '[data-visual-test="table-of-content-declarative"] a[aria-current]',
+    })
+  })
+
   it('keeps a selected row highlighted while hovered in dark mode', async () => {
     await makeScreenshot({
       selector: '[data-visual-test="table-of-content-declarative"]',
