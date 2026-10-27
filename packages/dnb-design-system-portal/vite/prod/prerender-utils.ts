@@ -15,7 +15,7 @@ import {
 } from '../../src/shared/social-image.mjs'
 import { getContentScript } from '@dnb/eufemia/src/shared/ColorSchemeScript'
 import { getPreHydrationScript as getSidebarMenuScript } from '@dnb/eufemia/src/extensions/sidebar-menu/SidebarMenuPreHydrationScript'
-import { getPreHydrationScript as getTableOfContentScript } from '@dnb/eufemia/src/components/table-of-content/TableOfContentPreHydrationScript'
+import { getPreHydrationScript as getTableOfContentScript } from '@dnb/eufemia/src/extensions/table-of-content/TableOfContentPreHydrationScript'
 import { escapeHtml } from './html-escape.mts'
 import type { MdxNode as PortalMdxNode } from '../client/plugins/portal-pages.shared'
 

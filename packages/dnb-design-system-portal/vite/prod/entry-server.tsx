@@ -31,7 +31,7 @@ import {
   type PortalTocSnapshot,
 } from '../../src/shared/parts/PortalTocData'
 import { getPreHydrationScript as getSidebarMenuScript } from '@dnb/eufemia/src/extensions/sidebar-menu/SidebarMenuPreHydrationScript'
-import { getPreHydrationScript as getTableOfContentScript } from '@dnb/eufemia/src/components/table-of-content/TableOfContentPreHydrationScript'
+import { getPreHydrationScript as getTableOfContentScript } from '@dnb/eufemia/src/extensions/table-of-content/TableOfContentPreHydrationScript'
 import { readRenderedToc } from './portal-toc'
 
 // Cached resolved routes and static handler — populated by prepareRoutes()
