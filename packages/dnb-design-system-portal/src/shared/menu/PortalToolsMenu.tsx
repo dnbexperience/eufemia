@@ -12,6 +12,7 @@ import { Anchor, Flex } from '@dnb/eufemia/src'
 import { getTheme } from '../../../vite/client/shims/theme-handler'
 import ToggleGrid from './ToggleGrid'
 import { Context, useTheme } from '@dnb/eufemia/src/shared'
+import useCanUseDOM from '@dnb/eufemia/src/shared/helpers/useCanUseDOM'
 import { cog } from '@dnb/eufemia/src/icons'
 import { themeTitles } from './SidebarMenuData'
 import PortalSkeleton from '../../core/PortalSkeleton'
@@ -86,8 +87,9 @@ export default function PortalToolsMenu({
   const [isOpen, setIsOpen] = useState(false)
   const { brand, colorScheme } = getTheme()
   const activeTheme = useTheme()
+  const canUseDOM = useCanUseDOM()
   const triggerText = `${themeTitles[activeTheme?.brand] || 'DNB'} - ${
-    activeTheme?.colorScheme === 'dark' ? 'Dark' : 'Light'
+    canUseDOM && activeTheme?.colorScheme === 'dark' ? 'Dark' : 'Light'
   }`
   const themeKey = `${brand}:${colorScheme || 'auto'}`
   // Start with animation disabled so the initial open=false render

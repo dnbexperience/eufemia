@@ -3,6 +3,10 @@
 :global {
   html {
     scroll-padding-top: 5.5rem;
+
+    @include utilities.allBelow(medium) {
+      scroll-padding-top: 7.5rem;
+    }
   }
 }
 

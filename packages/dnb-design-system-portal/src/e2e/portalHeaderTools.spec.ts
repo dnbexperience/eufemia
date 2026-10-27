@@ -1,6 +1,78 @@
 import { expect, test } from '@playwright/test'
 import waitForApp from './shared/waitForApp'
 
+for (const width of [320, 390, 430]) {
+  test(
+    'keeps hash headings clear of the labeled phone toolbar at ' + width,
+    async ({ page }) => {
+      await page.setViewportSize({ width, height: 844 })
+      await page.goto('/web/components/button/demos/#demos')
+      await waitForApp(page)
+      const header = page.locator('header.sticky-menu')
+      const target = page.locator('#demos')
+      await expect
+        .poll(async () => {
+          const heading = await target.boundingBox()
+          const toolbar = await header.boundingBox()
+          return heading.y - toolbar.y - toolbar.height
+        })
+        .toBeGreaterThanOrEqual(0)
+    }
+  )
+}
+
+for (const path of [
+  '/',
+  '/web/components/button/',
+  '/web/getting-started/',
+]) {
+  for (const storedDark of [false, true]) {
+    test(
+      'hydrates the tools label on ' +
+        path +
+        ' with stored dark ' +
+        storedDark,
+      async ({ page }) => {
+        await page.emulateMedia({
+          colorScheme: storedDark ? 'light' : 'dark',
+        })
+        if (storedDark) {
+          await page.addInitScript(() =>
+            localStorage.setItem(
+              'eufemia-theme',
+              JSON.stringify({ brand: 'ui', colorScheme: 'dark' })
+            )
+          )
+        }
+        const errors: Array<Promise<string>> = []
+        page.on('console', (message) => {
+          if (message.type() === 'error') {
+            for (const argument of message.args()) {
+              errors.push(
+                argument
+                  .evaluate((value) =>
+                    value instanceof Error ? value.message : String(value)
+                  )
+                  .catch(() => message.text())
+              )
+            }
+          }
+        })
+        await page.goto(path)
+        await waitForApp(page)
+        await expect(page.locator('button#portal-tools')).toHaveText(
+          'DNB - Dark'
+        )
+        expect(
+          (await Promise.all(errors)).filter((message) =>
+            /#418|Hydration failed|hydration.*match/i.test(message)
+          )
+        ).toEqual([])
+      }
+    )
+  }
+}
+
 for (const width of [390, 1440]) {
   test(
     'shows brand settings and Web resource links at ' + width + 'px',
