@@ -254,6 +254,7 @@ function deriveDatesFromProps({
   if (
     isRange &&
     typeof dateProps.endDate !== 'undefined' &&
+    dateProps.endDate !== previousDateProps.endDate &&
     dateProps.endDate !== dates.endDate
   ) {
     derivedDates.endDate =
