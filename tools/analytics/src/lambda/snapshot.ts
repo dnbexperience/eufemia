@@ -38,19 +38,7 @@ type MetricName =
  * pre-provisioned execution role stays as-is (it cannot be granted
  * cloudwatch:PutMetricData in Terraform, ADR 0004).
  *
- * The namespace, metric name, and FunctionName dimension must stay in sync with
- * the matching alarm in infra/main.tf; a mismatch silently leaves the alarm at
- * INSUFFICIENT_DATA. Metrics and their alarms:
- * - SnapshotPortalViewCount (`snapshot_empty`): page views today and yesterday
- *   (UTC). A sustained 0 catches a run that succeeds while page views stop
- *   arriving, which the Errors/Invocations alarms cannot see.
- * - McpUsageBuildFailure (`snapshot_mcp_build_failed`): emitted when the
- *   durable rollup refresh fails or buildMcpUsage cannot build the section;
- *   neither increments Lambda Errors.
- * - ComponentUsageBuildFailure (`snapshot_component_usage_build_failed`): emitted
- *   when the durable rollup cannot be refreshed or the section cannot be built.
- * - PortalViewsRollupFailure (`snapshot_portal_views_rollup_failed`): the
- *   best-effort rollup refresh is swallowed, so its failure is otherwise silent.
+ * Each metric has an alarm in infra/main.tf that describes what it catches.
  */
 function emitMetric(name: MetricName, value: number): void {
   const functionName = process.env.AWS_LAMBDA_FUNCTION_NAME ?? 'unknown'
@@ -74,10 +62,10 @@ function emitMetric(name: MetricName, value: number): void {
   )
 }
 
-// The number of recent days recomputed into the durable daily rollup on each
+// The number of recent days recomputed into each durable daily rollup on every
 // run. Wider than the hourly cadence so a short generator outage cannot leave a
 // day permanently un-aggregated (raw rows live far longer, so re-runs backfill).
-const MCP_ROLLUP_DAYS = 7
+const ROLLUP_RECOMPUTE_DAYS = 7
 const MCP_TOP_LIMIT = 20
 
 // Recent window for the local-by-version breakdown. Unlike the daily-rollup
@@ -86,9 +74,6 @@ const MCP_TOP_LIMIT = 20
 // bound to stay cheap as the table's 13-month retention fills; it also keeps
 // the metric focused on currently-relevant versions rather than all-time history.
 const MCP_VERSION_WINDOW_DAYS = 90
-
-// Recent-tail window for the retention rollup refresh (mirrors MCP_ROLLUP_DAYS).
-const PORTAL_VIEWS_ROLLUP_DAYS = 7
 
 // First day (YYYY-MM-DD, UTC) of the `days`-long window that ends today.
 function windowStart(days: number): string {
@@ -112,7 +97,7 @@ async function refreshPortalViewsRollup(
   bucket: string,
   sinceDt?: string
 ): Promise<void> {
-  const from = sinceDt || windowStart(PORTAL_VIEWS_ROLLUP_DAYS)
+  const from = sinceDt || windowStart(ROLLUP_RECOMPUTE_DAYS)
 
   await storeDailyRollup(
     bucket,
@@ -233,7 +218,7 @@ async function buildMcpUsage(
   bucket: string,
   sinceDt?: string
 ): Promise<McpUsageSection> {
-  const from = sinceDt || windowStart(MCP_ROLLUP_DAYS)
+  const from = sinceDt || windowStart(ROLLUP_RECOMPUTE_DAYS)
 
   try {
     await storeDailyRollup(
@@ -277,22 +262,11 @@ async function buildMcpUsage(
 
 const COMPONENT_TOP_LIMIT = 50
 
-// Like MCP_ROLLUP_DAYS: recompute a recent tail wider than the hourly cadence so
-// a short generator outage cannot leave a day permanently un-aggregated (raw
-// rows live far longer, so re-runs backfill).
-const COMPONENT_ROLLUP_DAYS = 7
-
 /**
  * Build the component-usage dashboard section. First recomputes the recent tail
  * of raw usage into the durable daily rollup, then reads the full daily table.
  * The rollup outlives the raw rows' expiry, so long-range adoption history stays
  * available without holding raw events forever.
- *
- * NOT currently called by the generator — the section ships empty until a
- * producer (the Nucleus bundler plugin) exists, to avoid querying empty tables.
- * Exported and tested so re-wiring means restoring the try/catch snippet in the
- * handler (it must catch, since this throws on a durable-read failure — falling
- * back to the empty section so one section can't blank the whole snapshot).
  *
  * The tail recompute is best-effort: a transient Athena/S3 failure there is
  * logged and flagged (the rollup misses the newest tail until the next run) but
@@ -311,7 +285,7 @@ export async function buildComponentUsage(
     await storeDailyRollup(
       bucket,
       'component-usage-daily/',
-      await aggregateComponentUsageRaw(windowStart(COMPONENT_ROLLUP_DAYS))
+      await aggregateComponentUsageRaw(windowStart(ROLLUP_RECOMPUTE_DAYS))
     )
   } catch (error) {
     // eslint-disable-next-line no-console -- surface the failure in CloudWatch Logs
@@ -343,10 +317,11 @@ export async function buildComponentUsage(
 /**
  * Scheduled dashboard snapshot generator (EventBridge, off the request path).
  *
- * Refreshes the durable daily rollups, reads the page-view trends and the MCP
- * usage section from Athena, and writes the snapshot to S3. Runs
- * under the analytics execution role (Athena + S3 write); keeping it separate
- * from the read endpoint lets that endpoint run with a read-only role.
+ * Refreshes the durable daily rollups, reads the page-view trends, the MCP
+ * usage section and (when enabled) the component usage section from Athena, and
+ * writes the snapshot to S3. Runs under the analytics execution role (Athena +
+ * S3 write); keeping it separate from the read endpoint lets that endpoint run
+ * with a read-only role.
  *
  * An optional `sinceDt` on the invocation event backfills the page-view and MCP
  * usage rollups from that date instead of the recent tail — used for one-time
@@ -376,25 +351,18 @@ export async function handler(event?: { sinceDt?: string }): Promise<{
     mcpUsage = EMPTY_MCP_USAGE
   }
 
-  // The component-usage section is deliberately NOT wired to Athena yet: there
-  // is no producer (the Nucleus bundler plugin) writing to component-usage/, so
-  // querying the empty tables every run would only add Athena cost and an empty
-  // section. Ship the empty section until a producer exists.
-  //
-  // To re-enable once a producer lands, build it inside a try/catch so a failure
-  // here can't discard the page-view trends / MCP section already built (additive
-  // sections must fail independently):
-  //   let componentUsage: ComponentUsageSection
-  //   try {
-  //     componentUsage = await buildComponentUsage(bucket)
-  //   } catch (error) {
-  //     console.error('Failed to build component usage section', error)
-  //     emitMetric('ComponentUsageBuildFailure', 1)
-  //     componentUsage = EMPTY_COMPONENT_USAGE
-  //   }
-  // It adds two Athena queries: update the infra "gives the snapshot generator
-  // enough timeout for its Athena queries" test when re-enabling.
-  const componentUsage: ComponentUsageSection = EMPTY_COMPONENT_USAGE
+  // Off until a producer (the Nucleus bundler plugin) writes component-usage/;
+  // querying the empty tables would only add Athena cost.
+  let componentUsage = EMPTY_COMPONENT_USAGE
+  if (process.env.COMPONENT_USAGE_ENABLED === 'true') {
+    try {
+      componentUsage = await buildComponentUsage(bucket)
+    } catch (error) {
+      // eslint-disable-next-line no-console -- surface the failure in CloudWatch Logs
+      console.error('Failed to build component usage section', error)
+      emitMetric('ComponentUsageBuildFailure', 1)
+    }
+  }
 
   const snapshot: Snapshot = {
     generatedAt: new Date().toISOString(),

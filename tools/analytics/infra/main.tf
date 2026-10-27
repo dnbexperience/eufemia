@@ -909,6 +909,8 @@ resource "aws_lambda_function" "snapshot" {
       GLUE_TABLE_COMPONENT_USAGE       = aws_glue_catalog_table.component_usage.name
       GLUE_TABLE_COMPONENT_USAGE_DAILY = aws_glue_catalog_table.component_usage_daily.name
       ATHENA_WORKGROUP                 = aws_athena_workgroup.analytics.name
+      # Set to "true" once a producer writes to component-usage/.
+      COMPONENT_USAGE_ENABLED = "false"
     }
   }
 
@@ -999,9 +1001,8 @@ resource "aws_cloudwatch_metric_alarm" "snapshot_not_running" {
 # data. It fires after 24 to 48 hours without page views, plus up to 6 hours of
 # evaluation. The Lambda alarms above only see the run, not its content. The
 # not-running alarm owns the "stopped firing" case, so missing data here does not
-# breach. The namespace/metric/dimension must match those emitted in
-# src/lambda/snapshot.ts. Notifies snapshot_alerts above. Note that a genuinely
-# idle environment (no traffic) can sit at 0 and trip this.
+# breach. Notifies snapshot_alerts above. Note that a genuinely idle environment
+# (no traffic) can sit at 0 and trip this.
 resource "aws_cloudwatch_metric_alarm" "snapshot_empty" {
   alarm_name          = "eufemia-${var.environment}-analytics-snapshot-empty"
   alarm_description   = "Dashboard snapshot generator found no page views today or yesterday (UTC)"
@@ -1023,9 +1024,7 @@ resource "aws_cloudwatch_metric_alarm" "snapshot_empty" {
 # and falls back to empty so portal views still publish. Both are invisible to
 # the Lambda Errors/Invocations and SnapshotPortalViewCount alarms, so the
 # generator emits a McpUsageBuildFailure EMF metric on either path and this
-# alarm surfaces it.
-# The namespace/metric/dimension must match those emitted in src/lambda/snapshot.ts.
-# Notifies snapshot_alerts above.
+# alarm surfaces it. Notifies snapshot_alerts above.
 resource "aws_cloudwatch_metric_alarm" "snapshot_mcp_build_failed" {
   alarm_name          = "eufemia-${var.environment}-analytics-snapshot-mcp-build-failed"
   alarm_description   = "Dashboard snapshot generator failed to refresh or build the MCP usage section"
@@ -1045,11 +1044,9 @@ resource "aws_cloudwatch_metric_alarm" "snapshot_mcp_build_failed" {
 # the durable daily rollup cannot be refreshed (a transient tail recompute still
 # serves existing history) or the section cannot be built at all (falls back to
 # empty). Both are invisible to the Lambda/SnapshotPortalViewCount alarms, so
-# this alarm surfaces them. The namespace/metric/dimension must match those
-# emitted in src/lambda/snapshot.ts. DORMANT until buildComponentUsage is wired
-# into the generator (no producer yet), so the metric is not emitted and the
-# alarm stays at INSUFFICIENT_DATA/OK; kept so re-wiring needs no infra change.
-# Notifies snapshot_alerts above once live.
+# this alarm surfaces them. Dormant while COMPONENT_USAGE_ENABLED is off on the
+# snapshot Lambda: the metric is not emitted and the alarm stays at
+# INSUFFICIENT_DATA/OK. Notifies snapshot_alerts above once live.
 resource "aws_cloudwatch_metric_alarm" "snapshot_component_usage_build_failed" {
   alarm_name          = "eufemia-${var.environment}-analytics-snapshot-component-usage-build-failed"
   alarm_description   = "Dashboard snapshot generator failed to refresh or build the component usage section"
@@ -1070,8 +1067,7 @@ resource "aws_cloudwatch_metric_alarm" "snapshot_component_usage_build_failed" {
 # snapshot, so it is invisible to the Lambda/SnapshotPortalViewCount alarms. The
 # generator emits a PortalViewsRollupFailure EMF metric on the catch path and this
 # alarm surfaces a persistent failure (which would silently stop the durable
-# history accruing). The namespace/metric/dimension must match those emitted in
-# src/lambda/snapshot.ts.
+# history accruing).
 resource "aws_cloudwatch_metric_alarm" "snapshot_portal_views_rollup_failed" {
   alarm_name          = "eufemia-${var.environment}-analytics-snapshot-portal-views-rollup-failed"
   alarm_description   = "Dashboard snapshot generator failed to refresh the portal-view daily rollup"
