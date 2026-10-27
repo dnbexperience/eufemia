@@ -423,6 +423,12 @@ test.describe('TableOfContent extension', () => {
         ' mode',
       async ({ page }) => {
         await page.setViewportSize({ width: 1440, height: 1000 })
+        await page.addInitScript((colorScheme) => {
+          localStorage.setItem(
+            'eufemia-theme',
+            JSON.stringify({ colorScheme })
+          )
+        }, colorScheme)
         await page.goto(
           '/uilib/extensions/table-of-content/demos/?eufemia-color-scheme=' +
             colorScheme
@@ -444,8 +450,20 @@ test.describe('TableOfContent extension', () => {
           (element) => getComputedStyle(element).color
         )
         await expect(link).toHaveCSS('color', selectedColor)
+        const marker = example.locator('.dnb-table-of-content__marker')
+        const hoverOutline = await marker.evaluate((element) => {
+          const probe = document.createElement('span')
+          probe.style.boxShadow =
+            'inset 0 0 0 0.0625rem var(--token-color-stroke-action-alternative)'
+          element.appendChild(probe)
+          const shadow = getComputedStyle(probe).boxShadow
+          probe.remove()
+          return shadow
+        })
+        await expect(marker).toHaveCSS('box-shadow', hoverOutline)
         await page.mouse.move(0, 0)
         await expect(link).toHaveCSS('color', selectedColor)
+        await expect(marker).not.toHaveCSS('box-shadow', hoverOutline)
       }
     )
   }
