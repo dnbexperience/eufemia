@@ -1661,6 +1661,7 @@ html[data-dnb-modal-active] .eufemia-portal-root {
   left: 0;
   right: 0;
   bottom: 0;
+  height: auto;
   box-shadow: var(--shadow-default);
 }
 .dnb-dialog .dnb-dialog__navigation:not(.dnb-dialog__navigation--sticky)::after {

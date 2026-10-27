@@ -1739,6 +1739,7 @@ html[data-dnb-modal-active] .eufemia-portal-root {
   left: 0;
   right: 0;
   bottom: 0;
+  height: auto;
   box-shadow: var(--shadow-default);
 }
 .dnb-drawer .dnb-drawer__navigation:not(.dnb-drawer__navigation--sticky)::after {

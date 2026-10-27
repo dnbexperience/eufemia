@@ -444,6 +444,23 @@ describe('HeightAnimation', () => {
       expect(getElement()).toHaveClass('dnb-height-animation--animating')
     })
 
+    it('should keep content findable after closing without animation', () => {
+      const { rerender } = render(
+        <HeightAnimation animate={false} openOnFind>
+          content
+        </HeightAnimation>
+      )
+
+      rerender(
+        <HeightAnimation open={false} animate={false} openOnFind>
+          content
+        </HeightAnimation>
+      )
+
+      expect(getElement()).toHaveClass('dnb-height-animation--hidden')
+      expect(getElement()).toHaveAttribute('hidden', 'until-found')
+    })
+
     it('should hide content only after the closing animation', () => {
       const { rerender } = render(
         <HeightAnimation openOnFind>content</HeightAnimation>
