@@ -2061,6 +2061,7 @@ html[data-visual-test] .dnb-input__input {
 .dnb-dropdown--stretch {
   display: flex;
   flex-grow: 1;
+  min-width: 0;
 }
 .dnb-dropdown--stretch .dnb-dropdown__inner {
   flex-grow: 1;
