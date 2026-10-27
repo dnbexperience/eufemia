@@ -42,7 +42,7 @@
     "@babel/runtime": "7.26.10",
     "@hono/node-server@npm:^1.19.9": "1.19.17",
     "@xmldom/xmldom": "0.8.15",
-    "body-parser": "2.3.0",
+    "body-parser": "2.4.0",
     "defu": "6.1.7",
     "diff": "8.0.4",
     "express-rate-limit": "8.2.2",
