@@ -1,6 +1,6 @@
 import { Children, useContext } from 'react'
 import { clsx } from 'clsx'
-import Anchor from '../anchor/Anchor'
+import Anchor from '../../components/anchor/Anchor'
 import withComponentMarkers from '../../shared/helpers/withComponentMarkers'
 import { TableOfContentContext } from './TableOfContentContext'
 import type { TableOfContentItemProps } from './types'

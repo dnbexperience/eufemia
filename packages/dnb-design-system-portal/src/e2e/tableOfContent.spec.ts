@@ -1,6 +1,35 @@
 import { test, expect } from '@playwright/test'
 
-test.describe('TableOfContent component', () => {
+test.describe('TableOfContent extension', () => {
+  test('redirects existing documentation links to the extension pages', async ({
+    page,
+  }) => {
+    for (const path of [
+      '/uilib/components/table-of-content/',
+      '/uilib/components/table-of-content/info/',
+      '/uilib/components/table-of-content/demos/',
+      '/uilib/components/table-of-content/properties/',
+      '/uilib/components/table-of-content/events/',
+    ]) {
+      await page.goto(path)
+      await expect(page).toHaveURL(
+        new RegExp(
+          path
+            .replace('/components/', '/extensions/')
+            .replace('/info/', '/') + '$'
+        )
+      )
+      await expect(
+        page.getByRole('heading', { name: 'TableOfContent', exact: true })
+      ).toBeVisible()
+      await expect(page.locator('html')).toHaveAttribute(
+        'data-portal-ready',
+        'true'
+      )
+      await page.waitForLoadState('load')
+    }
+  })
+
   test('keeps complete article implementations inspectable in collapsed code panels', async ({
     page,
   }) => {
@@ -395,7 +424,7 @@ test.describe('TableOfContent component', () => {
       async ({ page }) => {
         await page.setViewportSize({ width: 1440, height: 1000 })
         await page.goto(
-          '/uilib/components/table-of-content/demos/?eufemia-color-scheme=' +
+          '/uilib/extensions/table-of-content/demos/?eufemia-color-scheme=' +
             colorScheme
         )
         const example = page.locator(
@@ -475,7 +504,7 @@ test.describe('TableOfContent component', () => {
   test('renders the info page with literal API examples', async ({
     page,
   }) => {
-    await page.goto('/uilib/components/table-of-content/')
+    await page.goto('/uilib/extensions/table-of-content/')
     await expect(
       page.getByText('Something went wrong', { exact: true })
     ).toHaveCount(0)
@@ -525,7 +554,7 @@ test.describe('TableOfContent component', () => {
       .toBeGreaterThan(firstMarkerTop)
   })
   test.beforeEach(async ({ page }) => {
-    await page.goto('/uilib/components/table-of-content/demos/')
+    await page.goto('/uilib/extensions/table-of-content/demos/')
   })
 
   test('scrolls only the example article and preserves destination focus', async ({
