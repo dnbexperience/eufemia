@@ -16,7 +16,7 @@ describe.each(['ui', 'sbanken', 'carnegie'])(
     })
     setupPageScreenshot({
       themeName,
-      url: '/uilib/components/input/demos/',
+      url: '/web/components/input/demos/',
     })
 
     it('have to match input with placeholder', async () => {

@@ -6,7 +6,7 @@ import {
 
 describe('Paragraph', () => {
   setupPageScreenshot({
-    url: '/uilib/elements/paragraph/demos/',
+    url: '/web/elements/paragraph/demos/',
   })
 
   it('matches prose max width', async () => {
@@ -19,7 +19,7 @@ describe('Paragraph', () => {
 describe.each(['ui', 'sbanken'])(`Paragraph for %s`, (themeName) => {
   setupPageScreenshot({
     themeName,
-    url: '/uilib/elements/paragraph/demos/',
+    url: '/web/elements/paragraph/demos/',
   })
 
   it('have to match the paragraph with weight modifiers', async () => {
@@ -81,7 +81,7 @@ describe.each(['ui', 'sbanken'])(`Paragraph for %s`, (themeName) => {
 describe.each(['ui', 'sbanken'])(`Paragraph for %s`, (themeName) => {
   setupPageScreenshot({
     themeName,
-    url: '/uilib/elements/paragraph/demos/',
+    url: '/web/elements/paragraph/demos/',
   })
 
   it('matches all sizes and weights', async () => {

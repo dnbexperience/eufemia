@@ -7,7 +7,7 @@ import {
 describe.each(['ui', 'sbanken'])(`Popover for %s`, (themeName) => {
   setupPageScreenshot({
     themeName,
-    url: '/uilib/components/popover/demos/',
+    url: '/web/components/popover/demos/',
   })
 
   it('matches the basic style', async () => {
@@ -27,7 +27,7 @@ describe.each(['ui', 'sbanken'])(`Popover for %s`, (themeName) => {
 describe.each(['ui'])(`Popover alignment for %s`, (themeName) => {
   setupPageScreenshot({
     themeName,
-    url: '/uilib/components/popover/demos/',
+    url: '/web/components/popover/demos/',
   })
 
   it('have to match align center and arrow center', async () => {

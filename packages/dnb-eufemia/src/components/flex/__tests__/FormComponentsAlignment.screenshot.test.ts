@@ -9,7 +9,7 @@ describe.each(['ui', 'sbanken'])(
   (themeName) => {
     setupPageScreenshot({
       themeName,
-      url: '/uilib/layout/visual-tests/',
+      url: '/web/layout/visual-tests/',
     })
 
     it('have to match vertical direction', async () => {

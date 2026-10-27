@@ -6,7 +6,7 @@ import {
 
 describe('Field.SelectCountry', () => {
   setupPageScreenshot({
-    url: '/uilib/extensions/forms/feature-fields/SelectCountry/demos/',
+    url: '/web/extensions/forms/feature-fields/SelectCountry/demos/',
   })
 
   it('matches vertical layout', async () => {

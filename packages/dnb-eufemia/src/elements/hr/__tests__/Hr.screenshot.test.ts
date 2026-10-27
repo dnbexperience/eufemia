@@ -6,7 +6,7 @@ import {
 
 describe('Horizontal rule', () => {
   setupPageScreenshot({
-    url: '/uilib/elements/horizontal-rule/demos/',
+    url: '/web/elements/horizontal-rule/demos/',
   })
 
   it('have to match default horizontal rule', async () => {

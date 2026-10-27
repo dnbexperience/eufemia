@@ -5,7 +5,7 @@ import {
 } from '../../../core/vitest-screenshots/setupVitestScreenshots'
 
 describe('VisuallyHidden', () => {
-  setupPageScreenshot({ url: '/uilib/components/visually-hidden/demos/' })
+  setupPageScreenshot({ url: '/web/components/visually-hidden/demos/' })
 
   it('have to match VisuallyHidden default', async () => {
     await makeScreenshot({

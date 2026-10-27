@@ -6,7 +6,7 @@ import {
 
 describe('MultiSelection', () => {
   setupPageScreenshot({
-    url: '/uilib/extensions/forms/base-fields/MultiSelection/demos/',
+    url: '/web/extensions/forms/base-fields/MultiSelection/demos/',
   })
 
   it('should match trigger button', async () => {

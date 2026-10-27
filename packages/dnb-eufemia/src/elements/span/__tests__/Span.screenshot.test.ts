@@ -7,7 +7,7 @@ import {
 describe.each(['ui', 'sbanken'])(`Span for %s`, (themeName) => {
   setupPageScreenshot({
     themeName,
-    url: '/uilib/elements/span/demos/',
+    url: '/web/elements/span/demos/',
   })
 
   it('basics', async () => {

@@ -6,7 +6,7 @@ import {
 
 describe('Value.Composition', () => {
   setupPageScreenshot({
-    url: '/uilib/extensions/forms/Value/Composition/demos/',
+    url: '/web/extensions/forms/Value/Composition/demos/',
   })
 
   it('have to match forms-value-composition-default', async () => {
@@ -50,7 +50,7 @@ describe('Value.Composition', () => {
 
   describe('small', () => {
     setupPageScreenshot({
-      url: '/uilib/extensions/forms/Value/Composition/demos/',
+      url: '/web/extensions/forms/Value/Composition/demos/',
       pageViewport: {
         width: 600,
       },
@@ -73,7 +73,7 @@ describe('Value.Composition', () => {
 
   describe('x-small', () => {
     setupPageScreenshot({
-      url: '/uilib/extensions/forms/Value/Composition/demos/',
+      url: '/web/extensions/forms/Value/Composition/demos/',
       pageViewport: {
         width: 400,
       },

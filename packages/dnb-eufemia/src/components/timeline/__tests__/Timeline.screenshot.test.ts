@@ -5,7 +5,7 @@ import {
 } from '../../../core/vitest-screenshots/setupVitestScreenshots'
 
 describe('Timeline', () => {
-  setupPageScreenshot({ url: '/uilib/components/timeline/demos/' })
+  setupPageScreenshot({ url: '/web/components/timeline/demos/' })
 
   it('have to match Timeline single completed', async () => {
     await makeScreenshot({
