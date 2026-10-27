@@ -40,6 +40,8 @@ Published pages with a title must declare `navigation`, or explicitly use `navig
 
 When an existing content page also has children, the accordion opens without navigating. Its content remains available as the first child. Give that child a name that describes what the page offers with `navigation.pageTitle`, such as “Quick start” or “Using typography”, rather than repeating the accordion name with “overview”. `navigation.title` can shorten the menu label without changing the page heading. Use `navigation.hidden: true` to keep a page out of the sidebar.
 
+For an external resource, use a contentless MDX file with `route: false` and `navigation.href`. It renders as a link in its parent menu without creating a local page. Set `navigation.dividerBefore: true` to separate it from the preceding items.
+
 ## Moving pages
 
 Use meaningful MDX filenames, not `index.mdx`. The home document is `home.mdx` with `slug: /`. When moving a page, retain its old URL in `redirect_from`:
