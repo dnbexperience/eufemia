@@ -10,6 +10,10 @@ test.describe('TableOfContent extension', () => {
       '/uilib/components/table-of-content/demos/',
       '/uilib/components/table-of-content/properties/',
       '/uilib/components/table-of-content/events/',
+      '/uilib/extensions/table-of-content/',
+      '/uilib/extensions/table-of-content/demos/',
+      '/uilib/extensions/table-of-content/properties/',
+      '/uilib/extensions/table-of-content/events/',
     ]) {
       await page.goto(path)
       await expect(page).toHaveURL(
