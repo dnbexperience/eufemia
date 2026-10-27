@@ -109,21 +109,6 @@ export type DatePickerCalendarProps = Omit<
   resetDate?: boolean
 }
 
-type DayObject = {
-  date: Date
-  isToday: boolean
-  isLastMonth: boolean
-  isNextMonth: boolean
-  isStartDate: boolean
-  isEndDate: boolean
-  isWithinSelection: boolean
-  isPreview: boolean
-  isDisabled: boolean
-  isSelectable: boolean
-  isInactive: boolean
-  className?: string
-}
-
 const datePickerCalendarDefaultProps: DatePickerCalendarProps = {
   hideNavigation: false,
   hideDays: false,
@@ -266,8 +251,8 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
   )
 
   const getDays = useCallback(
-    (month: Date): DayObject[] => {
-      let daysFromCalendar = getCalendar(
+    (month: Date): DatePickerCalendarDay[] => {
+      let daysFromCalendar: Array<DatePickerCalendarDay> = getCalendar(
         month || new Date(),
         dayOffset(firstDayOfWeek),
         {
@@ -364,7 +349,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
   )
 
   const navigateToAdjacentMonth = useCallback(
-    (day: DayObject) => {
+    (day: DatePickerCalendarDay) => {
       if (!isRange || (!day.isLastMonth && !day.isNextMonth)) {
         return
       }
@@ -749,7 +734,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
                 role="row"
                 className="dnb-date-picker__days"
               >
-                {(week as DayObject[]).map((day, i) => {
+                {(week as DatePickerCalendarDay[]).map((day, i) => {
                   const isOutsideMonth = day.isLastMonth || day.isNextMonth
                   const isDuplicateAdjacentMonth =
                     isRange &&
@@ -911,7 +896,7 @@ type SelectRangeEvent = Pick<
   DatePickerContextValue,
   'setHasClickedCalendarDay'
 > & {
-  day: DayObject
+  day: DatePickerCalendarDay
   event?: MouseEvent<HTMLButtonElement>
   startDate?: Date
   endDate?: Date
@@ -993,7 +978,7 @@ function onHoverDay({
   }
 }
 
-function buildDayClassNames(day: DayObject) {
+function buildDayClassNames(day: DatePickerCalendarDay) {
   return clsx(
     {
       'dnb-date-picker__day--start-date': day.isStartDate,

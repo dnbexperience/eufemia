@@ -1296,6 +1296,37 @@ describe('DatePicker component', () => {
     expect(screen.getByLabelText('lørdag 2. februar 2019')).toBeDisabled()
   })
 
+  it('will render the days changed in place by "onDaysRender"', () => {
+    render(
+      <DatePicker
+        noAnimation
+        showInput
+        date="2019-01-15"
+        onDaysRender={(days) => {
+          days.forEach((dayObject) => {
+            dayObject.className = 'custom-day'
+          })
+        }}
+      />
+    )
+
+    fireEvent.click(
+      document.querySelector('button.dnb-input__submit-button__button')
+    )
+
+    expect(document.querySelectorAll('td.custom-day')).toHaveLength(42)
+  })
+
+  it('only accepts an array of days or nothing as the return value of "onDaysRender"', () => {
+    const element = (
+      <DatePicker
+        // @ts-expect-error -- an array of dates makes the calendar throw "Invalid time value"
+        onDaysRender={(days) => days.map((dayObject) => dayObject.date)}
+      />
+    )
+    expect(element).toBeDefined()
+  })
+
   it('will render the result of "onDaysRender" using getOsloDate', () => {
     const osloDate = getOsloDate()
 
