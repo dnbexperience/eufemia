@@ -830,6 +830,13 @@ function TabsComponent(ownProps: TabsProps) {
       window.addEventListener('load', init)
     }
 
+    void document.fonts?.ready.then(() => {
+      if (isMounted) {
+        onResizeHandler()
+      }
+    })
+    document.fonts?.addEventListener('loadingdone', onResizeHandler)
+
     let resizeObserver: ResizeObserver | undefined
     if (tabsRef.current && typeof ResizeObserver !== 'undefined') {
       resizeObserver = new ResizeObserver(onResizeHandler)
@@ -840,6 +847,7 @@ function TabsComponent(ownProps: TabsProps) {
       isMounted = false
       sharedStateRef.current = null
       resizeObserver?.disconnect()
+      document.fonts?.removeEventListener('loadingdone', onResizeHandler)
       if (typeof window !== 'undefined') {
         window.removeEventListener('load', init)
       }
