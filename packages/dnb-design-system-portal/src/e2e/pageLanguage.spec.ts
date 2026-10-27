@@ -71,10 +71,7 @@ test('keeps documentation in English and follows Portal Tools for previews and p
   await expectPopupLanguage('nb-NO')
   await input.press('Escape')
 
-  await page
-    .getByRole('button', { name: 'Portal Tools', exact: true })
-    .first()
-    .click()
+  await page.locator('button#portal-tools').click()
   await page.getByLabel('Change components language').click()
   await page
     .locator('li.dnb-drawer-list__option')
