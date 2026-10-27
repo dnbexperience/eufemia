@@ -667,7 +667,7 @@ data "aws_iam_role" "lambda" {
 # Its inline policy grants a single permission:
 #   - s3:GetObject on the snapshot prefix (snapshots/*)
 # so the internet-facing read surface has no write or Athena access. See the
-# "One-time bootstrap" section in README.md for the exact policy document.
+# "One-time bootstrap" section in README.md for the policy.
 data "aws_iam_role" "dashboard" {
   name = "eufemia-${var.environment}-dashboard-role"
 }
