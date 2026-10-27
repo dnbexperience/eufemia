@@ -532,11 +532,17 @@
         background-color: var(--token-color-background-neutral);
       }
     }
-    .dnb-button[aria-disabled='true'] .dnb-button__icon {
-      color: var(--button-color-icon--disabled);
-
+    .dnb-button[aria-disabled='true'] {
       @media (forced-colors: active) {
-        color: GrayText;
+        outline-color: GrayText;
+      }
+
+      .dnb-button__icon {
+        color: var(--button-color-icon--disabled);
+
+        @media (forced-colors: active) {
+          color: GrayText;
+        }
       }
     }
   }

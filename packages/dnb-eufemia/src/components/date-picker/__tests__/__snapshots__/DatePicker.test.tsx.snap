@@ -3344,6 +3344,11 @@ html:not([data-whatintent=touch]) .dnb-date-picker__day--inactive .dnb-button[di
     background-color: var(--token-color-background-neutral);
   }
 }
+@media (forced-colors: active) {
+  .dnb-date-picker__header__nav .dnb-button[aria-disabled=true] {
+    outline-color: GrayText;
+  }
+}
 .dnb-date-picker__header__nav .dnb-button[aria-disabled=true] .dnb-button__icon {
   color: var(--button-color-icon--disabled);
 }
