@@ -311,9 +311,18 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
   }, [])
 
   const findValid = useCallback(
-    (date: Date, keyCode: string) => {
-      if (!onDaysRender || !days.current) {
+    (date: Date, keyCode: string, steps = 0): Date | null => {
+      if (
+        !onDaysRender ||
+        !days.current ||
+        isDisabled(date, minDate, maxDate)
+      ) {
         return date
+      }
+
+      // Stop after 366 steps without a selectable day, so the search always ends
+      if (steps > 366) {
+        return null
       }
 
       const month = format(date, 'yyyy-MM')
@@ -335,7 +344,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
             foundDate.isInactive)
         ) {
           const nextDate = keyNavCalc(foundDate.date, keyCode)
-          return findValid(nextDate, keyCode)
+          return findValid(nextDate, keyCode, steps + 1)
         }
 
         if (foundDate?.date) {
@@ -345,7 +354,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
 
       return date
     },
-    [onDaysRender, getDays, keyNavCalc]
+    [onDaysRender, getDays, keyNavCalc, minDate, maxDate]
   )
 
   const navigateToAdjacentMonth = useCallback(
@@ -515,7 +524,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
 
       newDate = findValid(newDate, pressedKey)
 
-      if (hasReachedEnd(newDate)) {
+      if (!newDate || hasReachedEnd(newDate)) {
         return // stop here
       }
 

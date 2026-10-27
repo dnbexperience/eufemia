@@ -6203,6 +6203,91 @@ describe('DatePicker component', () => {
     ).toBeInTheDocument()
   })
 
+  it.each<[string, Partial<DatePickerAllProps>, string, string]>([
+    [
+      'ArrowRight on maxDate',
+      { date: '2025-04-28', maxDate: '2025-04-30' },
+      '2025-04-30',
+      '{ArrowRight}',
+    ],
+    [
+      'ArrowLeft on minDate',
+      { date: '2025-04-03', minDate: '2025-04-01' },
+      '2025-04-01',
+      '{ArrowLeft}',
+    ],
+    [
+      'ArrowRight before days that onDaysRender disables without end',
+      {
+        date: '2025-04-28',
+        onDaysRender: (days) =>
+          days.map((day) =>
+            day.date > new Date('2025-04-30T00:00:00')
+              ? { ...day, isDisabled: true }
+              : day
+          ),
+      },
+      '2025-04-30',
+      '{ArrowRight}',
+    ],
+  ])(
+    'should keep the focus with onDaysRender when pressing %s',
+    async (_, props, focusedDate, key) => {
+      const onError = vi.fn((event: ErrorEvent) => event.preventDefault())
+      window.addEventListener('error', onError)
+
+      render(
+        <DatePicker noAnimation onDaysRender={(days) => days} {...props} />
+      )
+
+      await userEvent.click(getDatePickerTriggerButton())
+      document
+        .querySelector<HTMLButtonElement>(
+          `td[data-date="${focusedDate}"] button`
+        )
+        .focus()
+      await userEvent.keyboard(key)
+
+      window.removeEventListener('error', onError)
+
+      expect(onError).not.toHaveBeenCalled()
+      expect(document.activeElement.closest('td')).toHaveAttribute(
+        'data-date',
+        focusedDate
+      )
+    }
+  )
+
+  it('should not render months after maxDate when pressing ArrowRight on maxDate', async () => {
+    const onDaysRender = vi.fn((days) => days)
+
+    render(
+      <DatePicker
+        noAnimation
+        date="2025-04-28"
+        maxDate="2025-04-30"
+        onDaysRender={onDaysRender}
+      />
+    )
+
+    await userEvent.click(getDatePickerTriggerButton())
+    document
+      .querySelector<HTMLButtonElement>(
+        'td[data-date="2025-04-30"] button'
+      )
+      .focus()
+    onDaysRender.mockClear()
+    await userEvent.keyboard('{ArrowRight}')
+
+    // The April calendar shows days up to 11 May, so a June day means a later month was rendered
+    const renderedDays = onDaysRender.mock.calls.flatMap(([days]) => days)
+    expect(
+      renderedDays.some(
+        ({ date }) => date > new Date('2025-05-31T00:00:00')
+      )
+    ).toBe(false)
+  })
+
   it('should enable navigation by year in the calendar when `yearNavigation` is set to `true`', async () => {
     const onChange = vi.fn()
 
