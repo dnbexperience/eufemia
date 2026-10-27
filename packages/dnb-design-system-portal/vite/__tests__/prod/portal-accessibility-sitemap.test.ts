@@ -2,7 +2,7 @@ import { afterEach, describe, expect, it, vi } from 'vitest'
 import fs from 'node:fs'
 import path from 'node:path'
 import os from 'node:os'
-import { execFileSync } from 'node:child_process'
+import { spawnSync } from 'node:child_process'
 
 let fixtureDirectory: string | undefined
 afterEach(() => {
@@ -181,7 +181,7 @@ describe('Portal accessibility sitemap preparation', () => {
     )
     const output = path.join(fixtureDirectory, 'sitemap.json')
 
-    execFileSync(
+    const { error, status, stderr } = spawnSync(
       process.execPath,
       [
         path.resolve(
@@ -191,8 +191,17 @@ describe('Portal accessibility sitemap preparation', () => {
         docs,
         output,
       ],
-      { cwd: path.resolve(__dirname, '../../..'), timeout: 20000 }
+      {
+        cwd: path.resolve(__dirname, '../../..'),
+        timeout: 20000,
+        encoding: 'utf8',
+      }
     )
+
+    expect(error).toBeUndefined()
+    expect(status, stderr).toBe(0)
+    // Node warns when it loads a .ts file of this typeless package itself
+    expect(stderr).not.toContain('MODULE_TYPELESS_PACKAGE_JSON')
 
     expect(JSON.parse(fs.readFileSync(output, 'utf8')).pages).toEqual([
       '/',
