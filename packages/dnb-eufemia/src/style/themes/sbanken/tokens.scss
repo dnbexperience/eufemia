@@ -55,8 +55,8 @@
   --token-color-background-neutral-alternative: var(
     --sbanken-greyscale-200
   );
-  --token-color-background-info: var(--sbanken-green-600);
-  --token-color-background-info-subtle: var(--sbanken-green-50);
+  --token-color-background-info: var(--sbanken-blue-700);
+  --token-color-background-info-subtle: var(--sbanken-blue-100);
   --token-color-background-positive: var(--sbanken-green-700);
   --token-color-background-positive-subtle: var(--sbanken-green-100);
   --token-color-background-warning: var(--sbanken-yellow-600);
@@ -115,8 +115,8 @@
   --token-color-icon-neutral-inverse: var(--sbanken-greyscale-0);
   --token-color-icon-neutral-ondark: var(--sbanken-greyscale-0);
   --token-color-icon-neutral-alternative: var(--sbanken-greyscale-600);
-  --token-color-icon-info: var(--sbanken-green-600);
-  --token-color-icon-info-subtle: var(--sbanken-green-50);
+  --token-color-icon-info: var(--sbanken-blue-700);
+  --token-color-icon-info-subtle: var(--sbanken-blue-100);
   --token-color-icon-positive: var(--sbanken-green-700);
   --token-color-icon-positive-subtle: var(--sbanken-green-100);
   --token-color-icon-warning: var(--sbanken-yellow-600);
@@ -149,9 +149,10 @@
   --token-color-stroke-neutral: var(--sbanken-purple-900);
   --token-color-stroke-neutral-ondark: var(--sbanken-greyscale-0);
   --token-color-stroke-neutral-subtle: var(--sbanken-greyscale-300);
+  --token-color-stroke-neutral-base: var(--sbanken-greyscale-300);
   --token-color-stroke-neutral-bold: var(--sbanken-greyscale-300);
   --token-color-stroke-neutral-alternative: var(--sbanken-greyscale-300);
-  --token-color-stroke-info: var(--sbanken-green-600);
+  --token-color-stroke-info: var(--sbanken-blue-700);
   --token-color-stroke-positive: var(--sbanken-green-700);
   --token-color-stroke-warning: var(--sbanken-yellow-600);
   --token-color-stroke-error: var(--sbanken-red-700);
@@ -281,14 +282,18 @@
   --token-color-component-button-stroke-action-destructive-pressed: var(
     --sbanken-orange-500
   );
-  --token-color-component-button-stroke-selected: var(
-    --sbanken-purple-700-40
+  --token-color-component-button-stroke-selected: color-mix(
+    in srgb,
+    var(--sbanken-purple-700) 40%,
+    transparent
   );
   --token-color-component-tooltip-background-neutral: var(
     --sbanken-greyscale-800
   );
-  --token-color-component-dimmer-background: var(
-    --sbanken-greyscale-1000-30
+  --token-color-component-dimmer-background: color-mix(
+    in srgb,
+    var(--sbanken-greyscale-1000) 30%,
+    transparent
   );
   --token-color-component-switch-action-disabled-ondark: var(
     --sbanken-purple-1000
@@ -303,4 +308,11 @@
   --token-radius-lg: 1rem;
   --token-radius-xl: 1.5rem;
   --token-radius-full: 9999px;
+}
+@supports not (color: color-mix(in srgb, red, red)) {
+  :root,
+  .eufemia-theme__color-scheme--light {
+    --token-color-component-button-stroke-selected: rgba(78 8 188 / 40%);
+    --token-color-component-dimmer-background: rgba(0 0 0 / 30%);
+  }
 }
