@@ -33,6 +33,9 @@ export type KnownFrontmatter = {
     parent?: string
     title?: string
     pageTitle?: string
+    /** External navigation destination, without a local content page. */
+    href?: string
+    dividerBefore?: boolean
     order?: number
     kind?: 'group' | 'category' | 'platform' | 'placeholder'
     platform?: 'web' | 'ios' | 'android'

@@ -1,9 +1,7 @@
 @use '@dnb/eufemia/src/style/core/utilities.scss' as utilities;
 
 .buttonStyle {
-  @include utilities.allBelow(medium) {
-    display: none;
-  }
+  flex-shrink: 0;
 
   &:global(.hideWhenMediaLarge) {
     @include utilities.allBelow(medium) {
