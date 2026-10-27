@@ -4,6 +4,7 @@ import {
   addMonths,
   addYears,
   differenceInCalendarMonths,
+  differenceInCalendarYears,
   max,
   min,
   subMonths,
@@ -118,14 +119,18 @@ export function DatePickerCalendarNav({
       : maxDate
 
   const onNav = useCallback(
-    ({ nr, type: navigationType }: DatePickerCalendarNavigationEvent) => {
+    ({
+      nr,
+      type: navigationType,
+      months,
+    }: DatePickerCalendarNavigationEvent) => {
       const handlerType = type === 'year' ? 'year' : 'month'
       const updatedViews = views.map((view) => {
         if (view.nr === nr || isLinkedCalendars) {
-          const month = dateHandlers[handlerType][navigationType](
-            view.month,
-            1
-          )
+          const month =
+            typeof months === 'number'
+              ? addMonths(view.month, months)
+              : dateHandlers[handlerType][navigationType](view.month, 1)
 
           return { ...view, month }
         }
@@ -202,9 +207,11 @@ export type CalendarNavButtonProps = {
   onClick: ({
     nr,
     type,
+    months,
   }: {
     nr: number
     type: CalendarNavButtonProps['type']
+    months?: number
   }) => void
   onKeyDown?: (event: KeyboardEvent<HTMLButtonElement>) => void
 }
@@ -239,8 +246,22 @@ function CalendarNavButton({
   const monthsFromLimit = dateLimit
     ? differenceInCalendarMonths(dateHandler(edgeDate, 1), dateLimit)
     : 0
-  const disabled =
+  const passesLimit =
     type === 'next' ? monthsFromLimit > 0 : monthsFromLimit < 0
+
+  // A year step stops at the month of the limit, so it is only disabled
+  // when the limit is in the same year
+  const yearsToLimit = dateLimit
+    ? differenceInCalendarYears(dateLimit, edgeDate)
+    : 0
+  const disabled =
+    dateType === 'year' && dateLimit
+      ? type === 'next'
+        ? yearsToLimit <= 0
+        : yearsToLimit >= 0
+      : passesLimit
+  const step = (dateType === 'year' ? 12 : 1) * (type === 'next' ? 1 : -1)
+  const months = passesLimit ? step - monthsFromLimit : step
 
   const icon = type === 'prev' ? 'chevron_left' : 'chevron_right'
 
@@ -250,7 +271,7 @@ function CalendarNavButton({
       icon={icon}
       size="small"
       aria-label={title}
-      onClick={() => onClick && !disabled && onClick({ nr, type })}
+      onClick={() => onClick && !disabled && onClick({ nr, type, months })}
       onKeyDown={onKeyDown}
     />
   )

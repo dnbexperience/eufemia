@@ -67,6 +67,7 @@ export type DatePickerCalendarDay = {
 export type DatePickerCalendarNavigationEvent = {
   nr: number
   type?: CalendarNavButtonProps['type']
+  months?: number
 }
 
 export type DatePickerCalendarProps = Omit<
