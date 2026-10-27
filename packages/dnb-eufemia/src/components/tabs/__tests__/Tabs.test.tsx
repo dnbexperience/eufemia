@@ -200,6 +200,72 @@ describe('Tabs component', () => {
     expect(underline).toHaveClass('dnb-tabs__selection--animated')
   })
 
+  it('updates the selection underline when fonts finish loading', async () => {
+    let finishLoading: () => void
+    const fonts = new EventTarget()
+    Object.defineProperty(fonts, 'ready', {
+      value: new Promise<void>((resolve) => {
+        finishLoading = resolve
+      }),
+    })
+    const originalFonts = Object.getOwnPropertyDescriptor(
+      document,
+      'fonts'
+    )
+    Object.defineProperty(document, 'fonts', {
+      configurable: true,
+      value: fonts,
+    })
+
+    let width = 40
+    vi.spyOn(
+      HTMLElement.prototype,
+      'getBoundingClientRect'
+    ).mockImplementation(function (this: HTMLElement) {
+      return {
+        left: this.hasAttribute('data-tab-key') ? width : 0,
+        width: this.hasAttribute('data-tab-key') ? width : 0,
+      } as DOMRect
+    })
+
+    try {
+      const { unmount } = render(<Tabs {...props} data={tablistData} />)
+      const underline = document.querySelector<HTMLElement>(
+        '.dnb-tabs__selection'
+      )
+      const getWidth = () =>
+        underline.style.getPropertyValue('--tabs-selection-width')
+
+      expect(getWidth()).toBe('40px')
+
+      width = 50
+      await act(async () => {
+        finishLoading()
+      })
+      expect(getWidth()).toBe('50px')
+      expect(underline.style.getPropertyValue('--tabs-selection-x')).toBe(
+        '50px'
+      )
+
+      width = 60
+      act(() => {
+        fonts.dispatchEvent(new Event('loadingdone'))
+      })
+      expect(getWidth()).toBe('60px')
+
+      unmount()
+      width = 70
+      fonts.dispatchEvent(new Event('loadingdone'))
+      expect(getWidth()).toBe('60px')
+    } finally {
+      if (originalFonts) {
+        Object.defineProperty(document, 'fonts', originalFonts)
+      } else {
+        Reflect.deleteProperty(document, 'fonts')
+      }
+    }
+  })
+
   it('has working "onChange" and "onClick" event handler', () => {
     let preventChange = false
     const onChange = vi.fn((e) => {
