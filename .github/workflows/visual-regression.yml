@@ -36,8 +36,14 @@ env:
   PLAYWRIGHT_SCREENSHOT_WORKERS: 100%
 
 jobs:
+  changes:
+    uses: ./.github/workflows/detect-standalone-tools-only.yml
+
   visual-regression:
     name: Run visual-regression tests
+    needs: changes
+    # A skipped job counts as success for the required check; it still runs if detection fails.
+    if: ${{ !cancelled() && needs.changes.outputs.standalone-tools-only != 'true' }}
 
     runs-on: macos-26
 

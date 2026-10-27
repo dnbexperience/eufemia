@@ -33,8 +33,14 @@ env:
   RUN_POST_BUILD: ${{ startsWith(github.ref, 'refs/heads/main') || startsWith(github.ref, 'refs/heads/v') }}
 
 jobs:
+  changes:
+    uses: ./.github/workflows/detect-standalone-tools-only.yml
+
   e2e:
     name: Run e2e tests
+    needs: changes
+    # A skipped job counts as success for the required check; it still runs if detection fails.
+    if: ${{ !cancelled() && needs.changes.outputs.standalone-tools-only != 'true' }}
 
     runs-on: ubuntu-latest
 
