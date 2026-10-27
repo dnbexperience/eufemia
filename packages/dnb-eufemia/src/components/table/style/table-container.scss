@@ -82,7 +82,7 @@
   // Lift the native scrollbar above the rounded bottom corners,
   // so a large radius does not cut off its ends.
   // Only the container's own ScrollView: a Table.ScrollView inside
-  // Table.ContainerBody is already above the bottom corners.
+  // Table.ContainerBody is inside it, so it is lifted with it.
   & > .dnb-table__scroll-view {
     margin-bottom: max(0rem, var(--table-outline-radius) - 0.5rem);
   }
