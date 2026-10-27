@@ -44,6 +44,10 @@ jobs:
             ref: '{1}'
           - workflow: Consumer smoke tests
             ref: 'refs/pull/{1}/merge'
+          - workflow: Eufemia Assets
+            ref: 'refs/pull/{1}/merge'
+          - workflow: Service Monitoring Lambda
+            ref: 'refs/pull/{1}/merge'
 
     concurrency:
       group: ${{ matrix.workflow }}-${{ format(matrix.ref, github.head_ref, github.event.pull_request.number) }}
