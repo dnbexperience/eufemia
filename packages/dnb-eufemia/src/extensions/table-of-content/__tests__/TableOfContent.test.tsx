@@ -12,10 +12,10 @@ import { memo } from 'react'
 import { setMedia } from 'mock-match-media'
 import { axeComponent } from '../../../core/test-utils/testSetup'
 import Provider from '../../../shared/Provider'
-import Anchor from '../../anchor/Anchor'
+import Anchor from '../../../components/anchor/Anchor'
 import TableOfContent from '../TableOfContent'
 import useDisclosureState from '../useDisclosureState'
-import * as HeightAnimationModule from '../../height-animation/HeightAnimation'
+import * as HeightAnimationModule from '../../../components/height-animation/HeightAnimation'
 
 const data = [
   { id: 'title', text: 'Page title', level: 1 },

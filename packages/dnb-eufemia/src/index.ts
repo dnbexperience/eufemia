@@ -91,7 +91,6 @@ import Stat from './components/stat/Stat'
 import StepIndicator from './components/step-indicator/StepIndicator'
 import Switch from './components/switch/Switch'
 import Table from './components/table/Table'
-import TableOfContent from './components/table-of-content/TableOfContent'
 import Tabs from './components/tabs/Tabs'
 import Tag from './components/tag/Tag'
 import TermDefinition from './components/term-definition/TermDefinition'
@@ -185,7 +184,6 @@ export {
   StepIndicator,
   Switch,
   Table,
-  TableOfContent,
   Tabs,
   Tag,
   TermDefinition,

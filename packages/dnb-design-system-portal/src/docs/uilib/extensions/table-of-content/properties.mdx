@@ -1,5 +1,7 @@
 ---
 showTabs: true
+redirect_from:
+  - /uilib/components/table-of-content/properties
 ---
 
 import PropertiesTable from 'dnb-design-system-portal/src/shared/parts/PropertiesTable'
@@ -8,7 +10,7 @@ import {
   TableOfContentRootProperties,
   TableOfContentDataProperties,
   TableOfContentItemProperties,
-} from '@dnb/eufemia/src/components/table-of-content/TableOfContentDocs'
+} from '@dnb/eufemia/src/extensions/table-of-content/TableOfContentDocs'
 
 ## TableOfContent.Root
 
@@ -24,9 +26,9 @@ import {
 
 ## TableOfContentPreHydrationScript
 
-Import this helper from `@dnb/eufemia/components/table-of-content/TableOfContentPreHydrationScript`. It restores the saved disclosure styling before first paint in SSR and static pages. Place it after the navigation markup and before application hydration. It accepts standard script attributes, including nonce, except children and dangerouslySetInnerHTML.
+Import this helper from `@dnb/eufemia/extensions/table-of-content/TableOfContentPreHydrationScript`. It restores the saved disclosure styling before first paint in SSR and static pages. Place it after the navigation markup and before application hydration. It accepts standard script attributes, including nonce, except children and dangerouslySetInnerHTML.
 
-The same module exports getPreHydrationScript for HTML templates assembled outside React. See [disclosure persistence](/uilib/components/table-of-content/#responsive-layout-and-scrolling) for placement and usage.
+The same module exports getPreHydrationScript for HTML templates assembled outside React. See [disclosure persistence](/uilib/extensions/table-of-content/#responsive-layout-and-scrolling) for placement and usage.
 
 ## Translations
 

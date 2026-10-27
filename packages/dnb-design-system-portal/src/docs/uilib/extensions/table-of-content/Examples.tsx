@@ -1,15 +1,9 @@
 import { useLayoutEffect, useRef, useState } from 'react'
 import type { MouseEvent, RefObject } from 'react'
-import {
-  H2,
-  H3,
-  H4,
-  P,
-  ScrollView,
-  TableOfContent,
-} from '@dnb/eufemia/src'
+import { H2, H3, H4, P, ScrollView } from '@dnb/eufemia/src'
+import { TableOfContent } from '@dnb/eufemia/src/extensions'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
-import '@dnb/eufemia/src/components/table-of-content/style'
+import '@dnb/eufemia/src/extensions/table-of-content/style'
 import styles from './Examples.module.scss'
 
 export function Declarative() {
