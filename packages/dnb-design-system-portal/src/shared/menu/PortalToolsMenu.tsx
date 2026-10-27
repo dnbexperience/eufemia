@@ -7,7 +7,7 @@ import {
   useState,
 } from 'react'
 import { clsx } from 'clsx'
-import { Drawer, ToggleButton, Tooltip } from '@dnb/eufemia/src/components'
+import { Button, Drawer, Tooltip } from '@dnb/eufemia/src/components'
 import { Anchor, Flex } from '@dnb/eufemia/src'
 import { getTheme } from '../../../vite/client/shims/theme-handler'
 import ToggleGrid from './ToggleGrid'
@@ -22,12 +22,12 @@ import ChangeLocale from '../../core/ChangeLocale'
 import ChangeStyleTheme from '../../core/ChangeStyleTheme'
 import { buttonStyle } from './PortalToolsMenu.module.scss'
 import type { TooltipPlacement } from '@dnb/eufemia/src/components/tooltip/types'
-import type { ToggleButtonProps } from '@dnb/eufemia/src/components/ToggleButton'
+import type { ButtonProps } from '@dnb/eufemia/src/components/Button'
 
 type Props = {
   className?: string
   tooltipPosition?: TooltipPlacement
-  triggerProps?: ToggleButtonProps
+  triggerProps?: ButtonProps
   hideWhenMediaLarge?: boolean
 }
 
@@ -77,7 +77,7 @@ function setStoredPortalToolsOpen(isOpen: boolean, storageKey: string) {
 
 export default function PortalToolsMenu({
   className = null,
-  tooltipPosition = 'left',
+  tooltipPosition = 'bottom',
   triggerProps = null,
   hideWhenMediaLarge = false,
   ...props
@@ -179,7 +179,7 @@ export default function PortalToolsMenu({
 
   return (
     <>
-      <ToggleButton
+      <Button
         id="portal-tools"
         className={clsx(
           className,
@@ -187,9 +187,10 @@ export default function PortalToolsMenu({
           hideWhenMediaLarge && 'hideWhenMediaLarge'
         )}
         text={triggerText}
+        variant="secondary"
         icon={cog}
         iconPosition="right"
-        iconSize="medium"
+        iconSize="default"
         skeleton={false}
         left="x-small"
         title="Portal Tools"
@@ -207,12 +208,11 @@ export default function PortalToolsMenu({
           </Tooltip>
         }
         {...triggerProps}
-        checked={isOpen}
-        onChange={({ checked }) => {
-          if (checked) {
-            handleOpen()
-          } else {
+        onClick={() => {
+          if (isOpen) {
             handleClose()
+          } else {
+            handleOpen()
           }
         }}
       />

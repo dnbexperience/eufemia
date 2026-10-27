@@ -168,6 +168,16 @@
 }
 
 @media (min-width: 60.00625em) and (max-width: 82em) {
+  :global(
+      .dnb-sidebar-menu-responsive-inline:not(
+        .dnb-sidebar-menu-responsive-inline--expanded
+      )
+    )
+    .navStyle
+    :global(.dnb-anchor__launch-icon) {
+    visibility: hidden;
+  }
+
   :global([data-sidebar-menu-responsive-provider='portal-sidebar-menu'])
     :global(
       .dnb-sidebar-menu-responsive-inline:not(
