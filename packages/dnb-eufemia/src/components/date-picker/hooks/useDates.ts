@@ -499,7 +499,7 @@ function fitMonthsToMaxDate({
   return { startMonth, endMonth }
 }
 
-function isSameDate(date?: Date, otherDate?: Date) {
+export function isSameDate(date?: Date, otherDate?: Date) {
   return date && otherDate
     ? isSameDay(date, otherDate)
     : !date && !otherDate

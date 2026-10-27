@@ -335,7 +335,7 @@ describe('DatePicker component', () => {
 
     render(<Component />)
 
-    await userEvent.click(screen.getByLabelText('Åpne datovelger'))
+    await userEvent.click(getDatePickerTriggerButton())
     expect(onOpen).toHaveBeenCalledTimes(1)
 
     expect(
@@ -3547,7 +3547,7 @@ describe('DatePicker component', () => {
     expect(year.value).toBe('2025')
 
     // Open the date picker and select a date.
-    await userEvent.click(screen.getByLabelText('Åpne datovelger'))
+    await userEvent.click(getDatePickerTriggerButton())
     await userEvent.click(screen.getByLabelText('torsdag 14. august 2025'))
 
     // Verify that the date is correct
@@ -4554,7 +4554,7 @@ describe('DatePicker component', () => {
 
     await userEvent.click(dayInput)
     await userEvent.keyboard('10022001')
-    await userEvent.click(screen.getByLabelText('Åpne datovelger'))
+    await userEvent.click(getDatePickerTriggerButton())
 
     const startMonth = document.querySelector(
       '.dnb-date-picker__header__title'
@@ -4581,7 +4581,7 @@ describe('DatePicker component', () => {
     await userEvent.keyboard('01032001')
     await userEvent.click(endDayInput)
     await userEvent.keyboard('06042003')
-    await userEvent.click(screen.getByLabelText('Åpne datovelger'))
+    await userEvent.click(getDatePickerTriggerButton())
 
     const [startMonth, endMonth] = Array.from(
       document.querySelectorAll('.dnb-date-picker__header__title')
@@ -5968,7 +5968,7 @@ describe('DatePicker component', () => {
 
     render(<Component />)
 
-    await userEvent.click(screen.getByLabelText('Åpne datovelger'))
+    await userEvent.click(getDatePickerTriggerButton())
 
     // Check date
     expect(
@@ -6012,7 +6012,7 @@ describe('DatePicker component', () => {
       </StrictMode>
     )
 
-    await userEvent.click(screen.getByLabelText('Åpne datovelger'))
+    await userEvent.click(getDatePickerTriggerButton())
 
     // Check date
     expect(
@@ -6115,7 +6115,7 @@ describe('DatePicker component', () => {
       />
     )
 
-    await userEvent.click(screen.getByLabelText('Åpne datovelger'))
+    await userEvent.click(getDatePickerTriggerButton())
 
     const [day, month, year] = Array.from(
       document.querySelectorAll('.dnb-date-picker__input')
@@ -6184,7 +6184,7 @@ describe('DatePicker component', () => {
       />
     )
 
-    await userEvent.click(screen.getByLabelText('Åpne datovelger'))
+    await userEvent.click(getDatePickerTriggerButton())
 
     const [monthTitle, yearTitle] = Array.from(
       document.querySelectorAll('.dnb-date-picker__header__title')
@@ -6283,7 +6283,7 @@ describe('DatePicker component', () => {
       />
     )
 
-    await userEvent.click(screen.getByLabelText('Åpne datovelger'))
+    await userEvent.click(getDatePickerTriggerButton())
 
     const [
       leftMonthTitle,
@@ -6498,7 +6498,7 @@ describe('DatePicker component', () => {
       />
     )
 
-    await userEvent.click(screen.getByLabelText('Åpne datovelger'))
+    await userEvent.click(getDatePickerTriggerButton())
 
     const [, yearTitle] = Array.from(
       document.querySelectorAll('.dnb-date-picker__header__title')
@@ -6769,7 +6769,7 @@ describe('DatePicker calc', () => {
         />
       )
 
-      await userEvent.click(screen.getByLabelText('Åpne datovelger'))
+      await userEvent.click(getDatePickerTriggerButton())
       await userEvent.click(screen.getByText('Correct'))
 
       expect(onChange).toHaveBeenCalledTimes(1)
@@ -6810,7 +6810,7 @@ describe('DatePicker calc', () => {
         />
       )
 
-      await userEvent.click(screen.getByLabelText('Åpne datovelger'))
+      await userEvent.click(getDatePickerTriggerButton())
       await userEvent.click(screen.getByText('Correct'))
 
       expect(onChange).toHaveBeenCalledTimes(1)
@@ -7287,7 +7287,10 @@ describe('DatePicker ARIA', () => {
       '.dnb-button'
     ) as HTMLButtonElement
 
-    expect(openButton).toHaveAttribute('aria-label', 'Open date picker')
+    expect(openButton).toHaveAttribute(
+      'aria-label',
+      'Selected date: Tuesday, 1 April 2025, Open date picker'
+    )
 
     await userEvent.click(openButton)
     await userEvent.click(screen.getByLabelText('Friday, 25 April 2025'))
@@ -7400,7 +7403,7 @@ describe('DatePicker ARIA', () => {
 
     expect(getOpenButton()).toHaveAttribute(
       'aria-label',
-      'Open date picker'
+      'Selected dates: Tuesday 1 April\u2009–\u2009Saturday 31 May 2025, Open date picker'
     )
 
     await userEvent.click(getOpenButton())
@@ -7493,6 +7496,115 @@ describe('DatePicker ARIA', () => {
       'aria-label',
       'Valgte datoer: fredag 4.–lørdag 19. april 2025, Åbn datovælger'
     )
+  })
+
+  describe('label of the open-picker button', () => {
+    const getDayButton = (date: string) =>
+      document.querySelector(
+        `td[data-date="${date}"]:not(.dnb-date-picker__day--outside-month) button`
+      )
+
+    it('should include a date from props', () => {
+      render(<DatePicker date="2025-04-01" />)
+
+      expect(getDatePickerTriggerButton()).toHaveAttribute(
+        'aria-label',
+        'Valgt dato: tirsdag 1. april 2025, Åpne datovelger'
+      )
+    })
+
+    it('should follow a typed date without announcing it', async () => {
+      render(<DatePicker showInput date="2025-04-01" />)
+
+      const openButton = getDatePickerTriggerButton()
+
+      await userEvent.click(openButton)
+      await userEvent.click(getDayButton('2025-04-25'))
+
+      expect(openButton).toHaveAttribute(
+        'aria-label',
+        'Valgt dato: fredag 25. april 2025, Åpne datovelger'
+      )
+      expect(getAnnouncementElement()).toHaveTextContent(
+        'Valgt dato: fredag 25. april 2025'
+      )
+
+      await typeInField(getDatePickerInputs()[0], '20')
+
+      expect(openButton).toHaveAttribute(
+        'aria-label',
+        'Valgt dato: søndag 20. april 2025, Åpne datovelger'
+      )
+      expect(getAnnouncementElement()).toBeEmptyDOMElement()
+    })
+
+    it('should follow Cancel and Reset', async () => {
+      render(
+        <DatePicker
+          showInput
+          showCancelButton
+          showResetButton
+          date="2025-04-01"
+        />
+      )
+
+      const openButton = getDatePickerTriggerButton()
+
+      await userEvent.click(openButton)
+      await userEvent.click(getDayButton('2025-04-25'))
+
+      expect(openButton).toHaveAttribute(
+        'aria-label',
+        'Valgt dato: fredag 25. april 2025, Åpne datovelger'
+      )
+
+      await userEvent.click(
+        document.querySelector('button[data-testid="cancel"]')
+      )
+
+      expect(openButton).toHaveAttribute(
+        'aria-label',
+        'Valgt dato: tirsdag 1. april 2025, Åpne datovelger'
+      )
+      expect(getAnnouncementElement()).toBeEmptyDOMElement()
+
+      await userEvent.click(openButton)
+      await userEvent.click(getDayButton('2025-04-25'))
+      await userEvent.click(
+        document.querySelector('button[data-testid="reset"]')
+      )
+
+      // Reset goes back to the date from props
+      expect(openButton).toHaveAttribute(
+        'aria-label',
+        'Valgt dato: tirsdag 1. april 2025, Åpne datovelger'
+      )
+    })
+
+    it('should follow typed dates in range mode', async () => {
+      render(
+        <DatePicker
+          range
+          showInput
+          startDate="2025-04-01"
+          endDate="2025-04-10"
+        />
+      )
+
+      const openButton = getDatePickerTriggerButton()
+
+      expect(openButton).toHaveAttribute(
+        'aria-label',
+        'Valgte datoer: tirsdag 1.–torsdag 10. april 2025, Åpne datovelger'
+      )
+
+      await typeInField(getDatePickerInputs()[3], '20')
+
+      expect(openButton).toHaveAttribute(
+        'aria-label',
+        'Valgte datoer: tirsdag 1.–søndag 20. april 2025, Åpne datovelger'
+      )
+    })
   })
 
   describe('inline', () => {

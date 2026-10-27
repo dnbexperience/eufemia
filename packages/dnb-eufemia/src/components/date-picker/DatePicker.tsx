@@ -63,14 +63,11 @@ import type {
   DatePickerContextValue,
   DatePickerDateType,
 } from './DatePickerContext'
+import DatePickerContext from './DatePickerContext'
 import type { DatePickerDates } from './hooks/useDates'
-import { useTranslation } from '../../shared'
+import { isSameDate } from './hooks/useDates'
+import useSelectedDateTitle from './hooks/useSelectedDateTitle'
 import Popover from '../popover/Popover'
-import type { DateFormatOptions } from '../date-format/DateFormatUtils'
-import {
-  formatDate,
-  formatDateRange,
-} from '../date-format/DateFormatUtils'
 import useId from '../../shared/helpers/useId'
 import idSelector from '../../shared/helpers/idSelector'
 
@@ -455,8 +452,6 @@ function DatePicker(externalProps: DatePickerAllProps) {
 
   const calendarContainerRef = useRef<HTMLSpanElement>(null)
 
-  const translation = useTranslation().DatePicker
-
   const focusCalendarTable = useCallback(
     () =>
       calendarContainerRef.current?.querySelector<HTMLElement>(
@@ -675,29 +670,6 @@ function DatePicker(externalProps: DatePickerAllProps) {
   const { onSubmit: statusOnSubmit, ...remainingStatusProps } =
     statusProps ?? {}
 
-  const selectedDateTitle = useMemo(() => {
-    const { selectedDate, selectedDateRange } = translation
-    const { startDate, endDate } = dates
-
-    if (!startDate) {
-      return ''
-    }
-
-    const options: DateFormatOptions = {
-      locale: context.locale,
-      options: {
-        dateStyle: 'full',
-      },
-    }
-
-    return range && endDate
-      ? selectedDateRange.replace(
-          /%s/,
-          formatDateRange({ startDate, endDate }, options)
-        )
-      : selectedDate.replace(/%s/, formatDate(startDate, options))
-  }, [range, translation, dates, context.locale])
-
   const mainParams = useSpacing(props, {
     className: clsx(
       'dnb-date-picker',
@@ -832,7 +804,6 @@ function DatePicker(externalProps: DatePickerAllProps) {
                   maskPlaceholder={resolvedMaskPlaceholder}
                   isRange={range}
                   showInput={showInput}
-                  selectedDateTitle={selectedDateTitle}
                   inputElement={inputElement}
                   open={open}
                   hidden={hidden}
@@ -936,11 +907,31 @@ function DatePicker(externalProps: DatePickerAllProps) {
           </span>
         </span>
 
-        <p className="dnb-sr-only" aria-live="polite">
-          {selectedDateTitle}
-        </p>
+        <SelectedDateAnnouncement pickedDates={dates} isRange={range} />
       </span>
     </DatePickerProvider>
+  )
+}
+
+function SelectedDateAnnouncement({
+  pickedDates,
+  isRange,
+}: {
+  pickedDates: Pick<DatePickerDates, 'startDate' | 'endDate'>
+  isRange: boolean
+}) {
+  const { startDate, endDate } = useContext(DatePickerContext)
+  const title = useSelectedDateTitle({ startDate, endDate, isRange })
+
+  // Only announce dates picked in the calendar, and only while they are the value
+  const isPicked =
+    isSameDate(pickedDates.startDate, startDate) &&
+    isSameDate(pickedDates.endDate, endDate)
+
+  return (
+    <p className="dnb-sr-only" aria-live="polite">
+      {isPicked ? title : null}
+    </p>
   )
 }
 
