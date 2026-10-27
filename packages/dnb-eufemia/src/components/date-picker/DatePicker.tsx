@@ -308,7 +308,7 @@ export type DatePickerProps = {
   onDaysRender?: (
     days: Array<DatePickerCalendarDay>,
     nr?: DatePickerCalendarProps['nr']
-  ) => void
+  ) => Array<DatePickerCalendarDay> | void
   /**
    * Will be called on a date change event. Returns an object. See Returned Object below.
    */
