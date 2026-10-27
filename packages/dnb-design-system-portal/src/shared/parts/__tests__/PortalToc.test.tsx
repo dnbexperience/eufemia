@@ -4,7 +4,7 @@ import { renderToString } from 'react-dom/server'
 import PortalToc from '../PortalToc'
 import { PortalTocData, readInitialToc } from '../PortalTocData'
 
-vi.mock('@dnb/eufemia/src', () => ({
+vi.mock('@dnb/eufemia/src/extensions', () => ({
   TableOfContent: {
     Data: ({ data: sections, locale }) => (
       <nav lang={locale}>
@@ -17,7 +17,7 @@ vi.mock('@dnb/eufemia/src', () => ({
     ),
   },
 }))
-vi.mock('@dnb/eufemia/src/components/table-of-content/style', () => ({}))
+vi.mock('@dnb/eufemia/src/extensions/table-of-content/style', () => ({}))
 
 afterEach(() =>
   document.querySelectorAll('main').forEach((main) => main.remove())

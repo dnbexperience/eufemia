@@ -1,9 +1,9 @@
 import { createElement, useContext, useMemo, useState } from 'react'
 import type { ReactNode } from 'react'
 import useLayoutEffect from '@dnb/eufemia/src/shared/helpers/useIsomorphicLayoutEffect'
-import { TableOfContent } from '@dnb/eufemia/src'
-import type { TableOfContentSection } from '@dnb/eufemia/src/components/table-of-content'
-import '@dnb/eufemia/src/components/table-of-content/style'
+import { TableOfContent } from '@dnb/eufemia/src/extensions'
+import type { TableOfContentSection } from '@dnb/eufemia/src/extensions/table-of-content'
+import '@dnb/eufemia/src/extensions/table-of-content/style'
 import { PortalTocData, readInitialToc } from './PortalTocData'
 import type { PortalTocSnapshot } from './PortalTocData'
 
