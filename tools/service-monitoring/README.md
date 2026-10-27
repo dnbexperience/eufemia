@@ -35,7 +35,7 @@ AWS schedules continue running independently if a deployment credential expires.
 
 State uses the default Terraform workspace at service-monitoring/terraform.tfstate with S3 native locking. Workspace discovery is scoped to service-monitoring/workspaces/, matching the deployment role's monitoring-only bucket listing permission. The deployment role only has object access to the default workspace state and its lock.
 
-The environment controls AWS resource naming; checks always target production. Use a separate state key for another environment. Secret values are read at runtime and are not managed in Terraform state. After creation, description and KMS key changes are owned by the administrator and ignored by Terraform; the deployment role does not have UpdateSecret permission.
+The environment controls AWS resource naming; checks always target production. Use a separate state key for another environment. Secrets are created by an administrator and passed to Terraform only by ARN; the Lambdas read their values at runtime.
 
 The optional GitHub credential is a secret string with read-only public workflow access, rather than an ephemeral Actions token. Without it, GitHub source verification uses the unauthenticated API limit. A 403/429 makes the deployment-source check unhealthy while endpoint checks continue; unchanged failures are deduplicated. Provision a read-only token before enabling alerts if shadow runs encounter rate limiting.
 
@@ -108,7 +108,7 @@ Install/configure the bot and apply the bootstrap role update first. Verify the 
 not write GitHub issues. Analytics and Portal monitors remain separate workflows
 and need their own integration before they can share this overview.
 
-The retired CDN/MCP Actions workflows and alert entrypoints are removed. The shared GitHub incident reporter remains in use by Analytics. Rollback requires a previous notifier package and its matching configuration; the legacy webhook secret is retained for this purpose. A regional AWS
+The retired CDN/MCP Actions workflows and alert entrypoints are removed. The shared GitHub incident reporter remains in use by Analytics. Rollback requires a previous notifier package and its matching configuration, referencing the retained eufemia/dev/monitoring/slack webhook secret by ARN instead of recreating it. A regional AWS
 outage still needs an external uptime service for independent paging.
 
 ## Local validation

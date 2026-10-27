@@ -17,9 +17,6 @@ mock_provider "aws" {
   mock_resource "aws_sqs_queue" {
     defaults = { arn = "arn:aws:sqs:eu-north-1:123456789012:test-failures", url = "https://sqs.eu-north-1.amazonaws.com/123456789012/test-failures" }
   }
-  mock_resource "aws_secretsmanager_secret" {
-    defaults = { arn = "arn:aws:secretsmanager:eu-north-1:123456789012:secret:test-webhook-abcdef" }
-  }
 }
 
 variables {
