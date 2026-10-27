@@ -7,7 +7,7 @@ import {
 describe.each(['ui'])(`Filter for %s`, (themeName) => {
   setupPageScreenshot({
     themeName,
-    url: '/uilib/components/filter/demos/',
+    url: '/web/components/filter/demos/',
   })
 
   it('have to match date and selection filter', async () => {
@@ -73,7 +73,7 @@ describe.each(['ui'])(`Filter for %s`, (themeName) => {
 describe.each([960, 375])('Filter panel actions at %spx', (width) => {
   setupPageScreenshot({
     themeName: 'ui',
-    url: '/uilib/components/filter/visual-tests/panel-actions/',
+    url: '/web/components/filter/visual-tests/panel-actions/',
     pageViewport: { width, height: 800 },
   })
 

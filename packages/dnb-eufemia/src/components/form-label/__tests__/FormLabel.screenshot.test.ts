@@ -9,7 +9,7 @@ describe.each(['ui', 'sbanken', 'carnegie'])(
   (themeName) => {
     setupPageScreenshot({
       themeName,
-      url: '/uilib/components/form-label/demos/',
+      url: '/web/components/form-label/demos/',
     })
 
     it('have to match default form-label', async () => {

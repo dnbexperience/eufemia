@@ -9,7 +9,7 @@ describe.each(['ui', 'sbanken', 'carnegie'])(
   (themeName) => {
     setupPageScreenshot({
       themeName,
-      url: '/uilib/components/badge/demos/',
+      url: '/web/components/badge/demos/',
     })
 
     describe('variant', () => {

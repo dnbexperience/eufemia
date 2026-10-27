@@ -6,7 +6,7 @@ import {
 
 describe('Image', () => {
   setupPageScreenshot({
-    url: '/uilib/elements/image/demos/',
+    url: '/web/elements/image/demos/',
   })
 
   it('have to match default image element', async () => {

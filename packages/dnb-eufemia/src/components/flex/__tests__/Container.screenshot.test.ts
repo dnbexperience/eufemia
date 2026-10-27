@@ -4,7 +4,7 @@ import { makeScreenshot } from '../../../core/vitest-screenshots/setupVitestScre
 describe('Flex.Container', () => {
   it('should preserve additive item spacing in CSS gap mode', async () => {
     await makeScreenshot({
-      url: '/uilib/layout/flex/container/demos/',
+      url: '/web/layout/flex/container/demos/',
       selector:
         '[data-visual-test="flex-container-css-additive-spacing"].dnb-flex-container',
       executeBeforeSimulate: () => {
@@ -98,7 +98,7 @@ describe('Flex.Container', () => {
 
   it('should match legacy divider geometry without inserting hr elements', async () => {
     await makeScreenshot({
-      url: '/uilib/layout/flex/container/demos/',
+      url: '/web/layout/flex/container/demos/',
       selector:
         '[data-visual-test="flex-container-css-divider-parity"][data-css-divider-parity]',
       executeBeforeSimulate: () => {
@@ -161,7 +161,7 @@ describe('Flex.Container', () => {
 
   it('should preserve horizontal dividers with cross-axis alignment', async () => {
     await makeScreenshot({
-      url: '/uilib/layout/flex/container/demos/',
+      url: '/web/layout/flex/container/demos/',
       selector:
         '[data-visual-test="flex-container-css-horizontal-divider-alignment"]',
       executeBeforeSimulate: () => {
@@ -202,7 +202,7 @@ describe('Flex.Container', () => {
 
   it('should account for native gap in CSS span widths', async () => {
     await makeScreenshot({
-      url: '/uilib/layout/flex/container/demos/',
+      url: '/web/layout/flex/container/demos/',
       pageViewport: {
         width: 1000,
       },
@@ -243,7 +243,7 @@ describe('Flex.Container', () => {
 
   it('should not reserve CSS gap for hidden items', async () => {
     await makeScreenshot({
-      url: '/uilib/layout/flex/container/demos/',
+      url: '/web/layout/flex/container/demos/',
       selector:
         '[data-visual-test="flex-container-css-hidden-gap-geometry"].dnb-flex-container',
       executeBeforeSimulate: () => {
@@ -278,7 +278,7 @@ describe('Flex.Container', () => {
 
   it('should preserve wrapper roots and nested CSS spacing', async () => {
     await makeScreenshot({
-      url: '/uilib/layout/flex/container/demos/',
+      url: '/web/layout/flex/container/demos/',
       selector:
         '[data-visual-test="flex-container-css-wrapper-geometry"].dnb-flex-container',
       executeBeforeSimulate: () => {
@@ -336,7 +336,7 @@ describe('Flex.Container', () => {
 
   it('should apply item gap overrides on both main axes', async () => {
     await makeScreenshot({
-      url: '/uilib/layout/flex/container/demos/',
+      url: '/web/layout/flex/container/demos/',
       selector: '[data-visual-test="flex-item-gap-override-geometry"]',
       executeBeforeSimulate: () => {
         const root = document.querySelector(
@@ -381,7 +381,7 @@ describe('Flex.Container', () => {
 
   it('have to match divider', async () => {
     await makeScreenshot({
-      url: '/uilib/layout/flex/container/demos/',
+      url: '/web/layout/flex/container/demos/',
       selector:
         '[data-visual-test="flex-container-divider"] .dnb-flex-container',
     })
@@ -389,7 +389,7 @@ describe('Flex.Container', () => {
 
   it('have to match with children', async () => {
     await makeScreenshot({
-      url: '/uilib/layout/flex/container/demos/',
+      url: '/web/layout/flex/container/demos/',
       selector:
         '[data-visual-test="flex-container-with-children"] .dnb-flex-container',
     })
@@ -397,7 +397,7 @@ describe('Flex.Container', () => {
 
   it('have to match bookend line', async () => {
     await makeScreenshot({
-      url: '/uilib/layout/flex/container/demos/',
+      url: '/web/layout/flex/container/demos/',
       selector:
         '[data-visual-test="flex-container-line-framed"] .dnb-flex-container',
     })
@@ -405,7 +405,7 @@ describe('Flex.Container', () => {
 
   it('have to match wrapped bookend line', async () => {
     await makeScreenshot({
-      url: '/uilib/layout/flex/container/demos/',
+      url: '/web/layout/flex/container/demos/',
       pageViewport: {
         width: 240,
       },
@@ -416,7 +416,7 @@ describe('Flex.Container', () => {
 
   it('have to match field on large viewport', async () => {
     await makeScreenshot({
-      url: '/uilib/layout/flex/container/demos/',
+      url: '/web/layout/flex/container/demos/',
       selector:
         '[data-visual-test="flex-container-field"] .dnb-flex-container',
     })
@@ -424,7 +424,7 @@ describe('Flex.Container', () => {
 
   it('have to match field on small viewport', async () => {
     await makeScreenshot({
-      url: '/uilib/layout/flex/container/demos/',
+      url: '/web/layout/flex/container/demos/',
       pageViewport: {
         width: 600,
       },
@@ -435,7 +435,7 @@ describe('Flex.Container', () => {
 
   it('have to match field on x-small viewport', async () => {
     await makeScreenshot({
-      url: '/uilib/layout/flex/container/demos/',
+      url: '/web/layout/flex/container/demos/',
       pageViewport: {
         width: 300,
       },

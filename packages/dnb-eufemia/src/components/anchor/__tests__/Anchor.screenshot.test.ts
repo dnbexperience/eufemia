@@ -9,7 +9,7 @@ describe.each(['ui', 'sbanken', 'carnegie', 'eiendom'])(
   (themeName) => {
     setupPageScreenshot({
       themeName,
-      url: '/uilib/components/anchor/demos/',
+      url: '/web/components/anchor/demos/',
     })
 
     it('have to match the preview states', async () => {
@@ -313,7 +313,7 @@ describe.each(['ui', 'sbanken'])(
   (themeName) => {
     setupPageScreenshot({
       themeName,
-      url: '/uilib/components/anchor/demos/',
+      url: '/web/components/anchor/demos/',
     })
 
     it('have to match blank target anchor in heading', async () => {

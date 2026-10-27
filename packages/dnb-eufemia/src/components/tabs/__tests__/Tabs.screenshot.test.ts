@@ -7,7 +7,7 @@ import {
 describe.each(['ui', 'sbanken'])(`Tabs for %s`, (themeName) => {
   setupPageScreenshot({
     themeName,
-    url: '/uilib/components/tabs/demos/',
+    url: '/web/components/tabs/demos/',
   })
 
   it('have to match the "Tablist"', async () => {
@@ -159,7 +159,7 @@ describe.each(['ui', 'sbanken'])(`Tabs for %s`, (themeName) => {
 describe.each(['ui', 'sbanken'])(`Tabs for %s`, (themeName) => {
   setupPageScreenshot({
     themeName,
-    url: '/uilib/components/tabs/demos/',
+    url: '/web/components/tabs/demos/',
     pageViewport: {
       width: 480, // 30rem
     },
@@ -180,7 +180,7 @@ describe.each(['ui', 'sbanken'])(`Tabs for %s`, (themeName) => {
 describe.each(['ui', 'sbanken'])(`Tabs for %s`, (themeName) => {
   setupPageScreenshot({
     themeName,
-    url: '/uilib/components/tabs/demos/',
+    url: '/web/components/tabs/demos/',
     pageViewport: {
       width: 800, // 50rem
     },
@@ -224,7 +224,7 @@ describe.each(['ui', 'sbanken'])(`Tabs for %s`, (themeName) => {
 describe.each(['ui'])(`Tabs for %s`, (themeName) => {
   setupPageScreenshot({
     themeName,
-    url: '/uilib/components/tabs/demos/',
+    url: '/web/components/tabs/demos/',
   })
 
   it('have to match last scrollable tabs', async () => {

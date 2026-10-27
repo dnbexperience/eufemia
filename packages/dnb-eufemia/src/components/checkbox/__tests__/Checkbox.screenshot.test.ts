@@ -8,7 +8,7 @@ describe.each(['ui', 'sbanken'])(`Checkbox for %s`, (themeName) => {
   describe('unchecked', () => {
     setupPageScreenshot({
       themeName,
-      url: '/uilib/components/checkbox/demos/',
+      url: '/web/components/checkbox/demos/',
     })
 
     it('have to match checkbox in unchecked state', async () => {

@@ -6,7 +6,7 @@ import {
 
 describe('Flex.Stack', () => {
   setupPageScreenshot({
-    url: '/uilib/layout/flex/stack/demos/',
+    url: '/web/layout/flex/stack/demos/',
   })
 
   it('have to match flex-stack-form', async () => {

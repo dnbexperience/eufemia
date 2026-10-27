@@ -9,7 +9,7 @@ describe.each(['ui', 'sbanken', 'eiendom', 'carnegie'])(
   (themeName) => {
     setupPageScreenshot({
       themeName,
-      url: '/uilib/typography/',
+      url: '/web/typography/',
     })
 
     it('have to match all the typography variants', async () => {

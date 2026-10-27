@@ -7,7 +7,7 @@ import {
 describe.each(['ui', 'sbanken'])(`Form.Appearance for %s`, (themeName) => {
   setupPageScreenshot({
     themeName,
-    url: '/uilib/extensions/forms/Form/Appearance/demos/',
+    url: '/web/extensions/forms/Form/Appearance/demos/',
   })
 
   it('have to match size', async () => {

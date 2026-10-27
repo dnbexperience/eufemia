@@ -5,7 +5,7 @@ import {
 } from '../../../core/vitest-screenshots/setupVitestScreenshots'
 
 describe.each(['ui', 'sbanken'])(`Tag for %s`, (themeName) => {
-  setupPageScreenshot({ themeName, url: '/uilib/components/tag/demos/' })
+  setupPageScreenshot({ themeName, url: '/web/components/tag/demos/' })
 
   it('have to match Tag default', async () => {
     await makeScreenshot({

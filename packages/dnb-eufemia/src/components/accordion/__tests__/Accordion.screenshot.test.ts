@@ -9,7 +9,7 @@ describe.each(['ui', 'sbanken', 'carnegie'])(
   (themeName) => {
     setupPageScreenshot({
       themeName,
-      url: '/uilib/components/accordion/demos/',
+      url: '/web/components/accordion/demos/',
     })
 
     it('have to match in closed state', async () => {

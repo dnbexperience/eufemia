@@ -6,7 +6,7 @@ import {
 
 describe('Field.SelectCurrency', () => {
   setupPageScreenshot({
-    url: '/uilib/extensions/forms/feature-fields/SelectCurrency/demos/',
+    url: '/web/extensions/forms/feature-fields/SelectCurrency/demos/',
   })
 
   it('match vertical layout', async () => {

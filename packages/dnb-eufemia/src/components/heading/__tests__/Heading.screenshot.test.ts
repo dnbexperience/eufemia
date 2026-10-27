@@ -9,7 +9,7 @@ describe.each(['ui', 'sbanken', 'eiendom'])(
   (themeName) => {
     setupPageScreenshot({
       themeName,
-      url: '/uilib/components/heading/demos/',
+      url: '/web/components/heading/demos/',
     })
 
     it('have to match default headings', async () => {

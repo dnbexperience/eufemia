@@ -7,7 +7,7 @@ import {
 describe.each(['ui', 'sbanken'])(`Currency field for %s`, (themeName) => {
   setupPageScreenshot({
     themeName,
-    url: '/uilib/extensions/forms/feature-fields/Currency/demos/',
+    url: '/web/extensions/forms/feature-fields/Currency/demos/',
   })
 
   describe('with step control buttons', () => {

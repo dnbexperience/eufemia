@@ -7,7 +7,7 @@ import {
 describe.each(['ui', 'sbanken'])(`Input for %s`, (themeName) => {
   setupPageScreenshot({
     themeName,
-    url: '/uilib/components/input-masked/demos/',
+    url: '/web/components/input-masked/demos/',
   })
 
   it('have to match currency_mask', async () => {

@@ -7,7 +7,7 @@ import {
 describe.each(['ui'])(`VippsWalletButton for %s`, (themeName) => {
   setupPageScreenshot({
     themeName,
-    url: '/uilib/extensions/vipps-wallet-button/',
+    url: '/web/extensions/vipps-wallet-button/',
   })
 
   it('have to match default state', async () => {

@@ -2,7 +2,7 @@ import { it, describe } from 'vitest'
 import { makeScreenshot } from '../../../core/vitest-screenshots/setupVitestScreenshots'
 
 describe('Modal', () => {
-  const url = '/uilib/components/modal/demos/'
+  const url = '/web/components/modal/demos/'
 
   it('have to match the default modal trigger button', async () => {
     await makeScreenshot({
