@@ -310,19 +310,13 @@ function deriveDatesFromProps({
     })
   }
 
-  // Handle minDate/maxDate
-  if (
-    typeof dateProps.minDate !== 'undefined' &&
-    dateProps.minDate !== previousDateProps.minDate
-  ) {
+  // Handle minDate/maxDate, also when they are removed
+  if (dateProps.minDate !== previousDateProps.minDate) {
     derivedDates.minDate = convertStringToDate(dateProps.minDate, {
       dateFormat,
     })
   }
-  if (
-    typeof dateProps.maxDate !== 'undefined' &&
-    dateProps.maxDate !== previousDateProps.maxDate
-  ) {
+  if (dateProps.maxDate !== previousDateProps.maxDate) {
     derivedDates.maxDate = convertStringToDate(dateProps.maxDate, {
       dateFormat,
     })

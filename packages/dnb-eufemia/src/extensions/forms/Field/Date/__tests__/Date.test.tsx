@@ -3715,6 +3715,21 @@ describe('Field.Date', () => {
       ).toHaveAttribute('disabled')
     })
 
+    it('should enable the days again when `minDate` is removed', async () => {
+      const { rerender } = render(
+        <Field.Date value="2026-10-15" minDate="2026-10-10" />
+      )
+
+      rerender(<Field.Date value="2026-10-15" />)
+      await userEvent.click(
+        document.querySelector('button.dnb-input__submit-button__button')
+      )
+
+      expect(
+        document.querySelector('td[data-date="2026-10-05"] button')
+      ).not.toBeDisabled()
+    })
+
     describe('validation', () => {
       it('should display error message if `value` is before `minDate`', async () => {
         const minDate = '2025-01-01'
