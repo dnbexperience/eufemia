@@ -11,6 +11,10 @@ for (const viewportWidth of [375, 500, 1024]) {
       await page.goto(
         '/uilib/extensions/forms/base-fields/Selection/demos/'
       )
+      await expect(page.locator('html')).toHaveAttribute(
+        'data-portal-ready',
+        'true'
+      )
       await page
         .locator(
           '[data-visual-test="selection-dropdown-long-selection"] button'
@@ -68,6 +72,10 @@ for (const viewportWidth of [375, 500, 1024]) {
           expect(dimensions.textOverflow).toBe('ellipsis')
 
           await trigger.click()
+          await expect(page.locator('html')).toHaveAttribute(
+            'data-dnb-drawer-list-active',
+            await trigger.getAttribute('id')
+          )
           await expect(
             page.getByRole('option', {
               name: /A very long selected option/,
