@@ -175,14 +175,6 @@ jobs:
           path: |
             ./packages/dnb-eufemia/visual-diff-report/**
 
-      - name: Capture Filter baselines
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
-        if: always()
-        with:
-          name: filter-screenshot-baselines
-          path: ./packages/dnb-eufemia/src/components/filter/__tests__/__image_snapshots__/*.png
-          retention-days: 1
-
       # The visual diff report is a self-contained folder (index.html +
       # images/). Only proceed when it actually exists (a non-screenshot
       # failure produces none), and detect whether Cloudflare credentials are
