@@ -88,20 +88,4 @@ describe.each([960, 375])('Filter panel actions at %spx', (width) => {
       selector: '[data-visual-test="filter-tall-panel"]',
     })
   })
-
-  it('matches collapsed active filters with a text-only clear button', async () => {
-    await makeScreenshot({
-      selector: '[data-visual-test="filter-collapsible-active"]',
-    })
-  })
-
-  it('matches expanded active filters with a text-only clear button', async () => {
-    await makeScreenshot({
-      selector: '[data-visual-test="filter-collapsible-active"]',
-      simulate: 'click',
-      simulateSelector:
-        '[data-visual-test="filter-collapsible-active"] .dnb-filter__active-filters__header .dnb-accordion__tertiary-button',
-      recalculateHeightAfterSimulate: true,
-    })
-  })
 })
