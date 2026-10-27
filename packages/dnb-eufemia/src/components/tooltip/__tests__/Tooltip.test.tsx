@@ -95,11 +95,11 @@ describe('Tooltip', () => {
     })
   })
 
-  it('fades out when a modal opens and reopens on a new hover', async () => {
+  it('fades out when a modal opens and restores the show delay and animation', async () => {
     render(
       <OriginalTooltip
         targetElement={<button>Button</button>}
-        showDelay={0}
+        showDelay={100}
         hideDelay={500}
       >
         Tooltip content
@@ -124,10 +124,52 @@ describe('Tooltip', () => {
     fireEvent.mouseLeave(button)
     fireEvent.mouseEnter(button)
 
+    expect(document.querySelector('.dnb-tooltip--active')).toBeNull()
+    await wait(50)
+    expect(document.querySelector('.dnb-tooltip--active')).toBeNull()
+
     await waitFor(() => {
       expect(getMainElem()).toHaveClass('dnb-tooltip--active')
     })
-    expect(getMainElem()).toHaveClass('dnb-tooltip--no-animation')
+    expect(getMainElem()).not.toHaveClass('dnb-tooltip--no-animation')
+  })
+
+  it('restores the show delay after leaving an already dismissed target', async () => {
+    render(
+      <OriginalTooltip
+        targetElement={<button>Button</button>}
+        showDelay={100}
+        hideDelay={0}
+      >
+        Tooltip content
+      </OriginalTooltip>
+    )
+
+    const button = document.querySelector('button')
+    fireEvent.mouseEnter(button)
+
+    await waitFor(() => {
+      expect(getMainElem()).toHaveClass('dnb-tooltip--active')
+    })
+
+    act(() => document.dispatchEvent(new Event(MODAL_OPEN_EVENT)))
+
+    await waitFor(() => {
+      expect(getMainElem()).toBeNull()
+    })
+
+    fireEvent.blur(button)
+    fireEvent.mouseLeave(button)
+    fireEvent.mouseEnter(button)
+
+    expect(document.querySelector('.dnb-tooltip--active')).toBeNull()
+    await wait(50)
+    expect(document.querySelector('.dnb-tooltip--active')).toBeNull()
+
+    await waitFor(() => {
+      expect(getMainElem()).toHaveClass('dnb-tooltip--active')
+    })
+    expect(getMainElem()).not.toHaveClass('dnb-tooltip--no-animation')
   })
 
   it('cancels a pending tooltip show when a modal opens', async () => {
