@@ -1133,10 +1133,10 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disable
   width: var(--input-border-width);
   background-color: var(--button-input-separator-color, var(--button-input-separator-color--default));
 }
-.dnb-button--icon-only.dnb-button--input-button:active[disabled], html:not([data-whatintent=touch]) .dnb-button--icon-only.dnb-button--input-button:active[disabled] {
+.dnb-button--icon-only.dnb-button--input-button:not([aria-disabled=true]):active[disabled], html:not([data-whatintent=touch]) .dnb-button--icon-only.dnb-button--input-button:not([aria-disabled=true]):active[disabled] {
   cursor: not-allowed;
 }
-.dnb-button--icon-only.dnb-button--input-button:active:not([disabled])::after, html:not([data-whatintent=touch]) .dnb-button--icon-only.dnb-button--input-button:active:not([disabled])::after {
+.dnb-button--icon-only.dnb-button--input-button:not([aria-disabled=true]):active:not([disabled])::after, html:not([data-whatintent=touch]) .dnb-button--icon-only.dnb-button--input-button:not([aria-disabled=true]):active:not([disabled])::after {
   top: var(--input-border-width);
   bottom: var(--input-border-width);
 }

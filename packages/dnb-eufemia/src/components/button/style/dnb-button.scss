@@ -689,10 +689,12 @@
         );
       }
 
-      @include utilities.active() {
-        &::after {
-          top: var(--input-border-width);
-          bottom: var(--input-border-width);
+      &:not([aria-disabled='true']) {
+        @include utilities.active() {
+          &::after {
+            top: var(--input-border-width);
+            bottom: var(--input-border-width);
+          }
         }
       }
     }
