@@ -656,23 +656,14 @@ resource "aws_athena_workgroup" "analytics" {
 
 # Pre-created out-of-band: the OIDC deploy role's permissions boundary forbids
 # iam:CreateRole (ADR 0004), so an account admin provisions the execution role
-# (trust policy + AWSLambdaBasicExecutionRole) and it is only referenced here.
-#
-# The role additionally needs an inline/attached policy granting:
-#   - s3:GetObject, s3:PutObject, s3:ListBucket on the data bucket (portal-views/*)
-#   - s3:PutObject on the data bucket (snapshots/dashboard.json) — the
-#     scheduled snapshot generator reuses this role to refresh the snapshot
-#   - s3:GetObject, s3:PutObject on the data bucket (athena-results/*)
-#   - athena:StartQueryExecution, athena:GetQueryExecution,
-#     athena:GetQueryResults on the analytics workgroup
-#   - glue:GetTable, glue:GetDatabase, glue:GetPartitions on the analytics db/table
+# and it is only referenced here. See the "One-time bootstrap" section in
+# README.md for its trust policy and permissions.
 data "aws_iam_role" "lambda" {
   name = "${local.function_name}-role"
 }
 
 # Read-only execution role for the browser-facing dashboard-read Lambda.
-# Pre-created out-of-band for the same reason as above (iam:CreateRole is
-# forbidden by the deploy role's boundary, ADR 0004) and only referenced here.
+# Pre-created out-of-band for the same reason as above and only referenced here.
 # Its inline policy grants a single permission:
 #   - s3:GetObject on the snapshot prefix (snapshots/*)
 # so the internet-facing read surface has no write or Athena access. See the
