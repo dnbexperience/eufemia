@@ -464,27 +464,27 @@ html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible[disabled] {
 html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible:not([disabled]) .dnb-button__text {
   text-decoration: none;
 }
-html:not([data-whatintent=touch]) .dnb-button--tertiary:hover[disabled] {
+html:not([data-whatintent=touch]) .dnb-button--tertiary:not([aria-disabled=true]):hover[disabled] {
   cursor: not-allowed;
 }
-html:not([data-whatintent=touch]) .dnb-button--tertiary:hover:not([disabled]) .dnb-button__text {
+html:not([data-whatintent=touch]) .dnb-button--tertiary:not([aria-disabled=true]):hover:not([disabled]) .dnb-button__text {
   text-decoration-color: var(--button-color-underline, var(--button-color-underline--default));
 }
-.dnb-button--tertiary:active[disabled], html:not([data-whatintent=touch]) .dnb-button--tertiary:active[disabled] {
+.dnb-button--tertiary:not([aria-disabled=true]):active[disabled], html:not([data-whatintent=touch]) .dnb-button--tertiary:not([aria-disabled=true]):active[disabled] {
   cursor: not-allowed;
 }
-.dnb-button--tertiary:active:not([disabled]), html:not([data-whatintent=touch]) .dnb-button--tertiary:active:not([disabled]) {
+.dnb-button--tertiary:not([aria-disabled=true]):active:not([disabled]), html:not([data-whatintent=touch]) .dnb-button--tertiary:not([aria-disabled=true]):active:not([disabled]) {
   outline: initial;
 }
-html[data-whatinput=keyboard] .dnb-button--tertiary:active:not([disabled]), html[data-whatinput=keyboard] html:not([data-whatintent=touch]) .dnb-button--tertiary:active:not([disabled]) {
+html[data-whatinput=keyboard] .dnb-button--tertiary:not([aria-disabled=true]):active:not([disabled]), html[data-whatinput=keyboard] html:not([data-whatintent=touch]) .dnb-button--tertiary:not([aria-disabled=true]):active:not([disabled]) {
   box-shadow: none;
 }
-html[data-whatintent=touch] .dnb-button--tertiary:active:not([disabled]) .dnb-button__text, html[data-whatintent=touch] html:not([data-whatintent=touch]) .dnb-button--tertiary:active:not([disabled]) .dnb-button__text {
+html[data-whatintent=touch] .dnb-button--tertiary:not([aria-disabled=true]):active:not([disabled]) .dnb-button__text, html[data-whatintent=touch] html:not([data-whatintent=touch]) .dnb-button--tertiary:not([aria-disabled=true]):active:not([disabled]) .dnb-button__text {
   --button-color-underline: var(--button-color-underline--hover);
   transition: none;
   text-decoration-color: var(--button-color-underline, var(--button-color-underline--default));
 }
-html:not([data-whatintent=touch]) .dnb-button--tertiary:active:not([disabled]) .dnb-button__text, html:not([data-whatintent=touch]) html:not([data-whatintent=touch]) .dnb-button--tertiary:active:not([disabled]) .dnb-button__text {
+html:not([data-whatintent=touch]) .dnb-button--tertiary:not([aria-disabled=true]):active:not([disabled]) .dnb-button__text, html:not([data-whatintent=touch]) html:not([data-whatintent=touch]) .dnb-button--tertiary:not([aria-disabled=true]):active:not([disabled]) .dnb-button__text {
   text-decoration: none;
 }
 .dnb-button--tertiary.dnb-button--has-text {
@@ -605,10 +605,10 @@ html:not([data-whatintent=touch]) .dnb-button--tertiary:active:not([disabled]) .
 .dnb-button--primary .dnb-button__icon, .dnb-button--secondary .dnb-button__icon, .dnb-button--tertiary .dnb-button__icon {
   color: var(--button-color-icon, var(--button-color-icon--default));
 }
-html:not([data-whatintent=touch]) .dnb-button--primary:hover[disabled], html:not([data-whatintent=touch]) .dnb-button--secondary:hover[disabled], html:not([data-whatintent=touch]) .dnb-button--tertiary:hover[disabled] {
+html:not([data-whatintent=touch]) .dnb-button--primary:not([aria-disabled=true]):hover[disabled], html:not([data-whatintent=touch]) .dnb-button--secondary:not([aria-disabled=true]):hover[disabled], html:not([data-whatintent=touch]) .dnb-button--tertiary:not([aria-disabled=true]):hover[disabled] {
   cursor: not-allowed;
 }
-html:not([data-whatintent=touch]) .dnb-button--primary:hover:not([disabled]), html:not([data-whatintent=touch]) .dnb-button--secondary:hover:not([disabled]), html:not([data-whatintent=touch]) .dnb-button--tertiary:hover:not([disabled]) {
+html:not([data-whatintent=touch]) .dnb-button--primary:not([aria-disabled=true]):hover:not([disabled]), html:not([data-whatintent=touch]) .dnb-button--secondary:not([aria-disabled=true]):hover:not([disabled]), html:not([data-whatintent=touch]) .dnb-button--tertiary:not([aria-disabled=true]):hover:not([disabled]) {
   --button-color-bg: var(--button-color-bg--hover);
   --button-color-border: var(--button-color-border--hover);
   --button-color-icon: var(--button-color-icon--hover);
@@ -620,10 +620,10 @@ html:not([data-whatintent=touch]) .dnb-button--primary:hover:not([disabled]), ht
     --button-input-separator-color--hover
   );
 }
-.dnb-button--primary:active[disabled], html:not([data-whatintent=touch]) .dnb-button--primary:active[disabled], .dnb-button--secondary:active[disabled], html:not([data-whatintent=touch]) .dnb-button--secondary:active[disabled], .dnb-button--tertiary:active[disabled], html:not([data-whatintent=touch]) .dnb-button--tertiary:active[disabled] {
+.dnb-button--primary:not([aria-disabled=true]):active[disabled], html:not([data-whatintent=touch]) .dnb-button--primary:not([aria-disabled=true]):active[disabled], .dnb-button--secondary:not([aria-disabled=true]):active[disabled], html:not([data-whatintent=touch]) .dnb-button--secondary:not([aria-disabled=true]):active[disabled], .dnb-button--tertiary:not([aria-disabled=true]):active[disabled], html:not([data-whatintent=touch]) .dnb-button--tertiary:not([aria-disabled=true]):active[disabled] {
   cursor: not-allowed;
 }
-.dnb-button--primary:active:not([disabled]), html:not([data-whatintent=touch]) .dnb-button--primary:active:not([disabled]), .dnb-button--secondary:active:not([disabled]), html:not([data-whatintent=touch]) .dnb-button--secondary:active:not([disabled]), .dnb-button--tertiary:active:not([disabled]), html:not([data-whatintent=touch]) .dnb-button--tertiary:active:not([disabled]) {
+.dnb-button--primary:not([aria-disabled=true]):active:not([disabled]), html:not([data-whatintent=touch]) .dnb-button--primary:not([aria-disabled=true]):active:not([disabled]), .dnb-button--secondary:not([aria-disabled=true]):active:not([disabled]), html:not([data-whatintent=touch]) .dnb-button--secondary:not([aria-disabled=true]):active:not([disabled]), .dnb-button--tertiary:not([aria-disabled=true]):active:not([disabled]), html:not([data-whatintent=touch]) .dnb-button--tertiary:not([aria-disabled=true]):active:not([disabled]) {
   --button-color-bg: var(--button-color-bg--active);
   --button-color-border: var(--button-color-border--active);
   --button-color-icon: var(--button-color-icon--active);
@@ -661,7 +661,12 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disable
     outline-offset: 0;
   }
 }
-.dnb-button--primary[disabled], .dnb-button--secondary[disabled], .dnb-button--tertiary[disabled] {
+html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disabled])[aria-disabled=true], html:not([data-whatinput=touch]) .dnb-button--secondary:focus-visible:not([disabled])[aria-disabled=true], html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible:not([disabled])[aria-disabled=true] {
+  --button-color-bg: var(--button-color-bg--disabled);
+  --button-color-icon: var(--button-color-icon--disabled);
+  --button-color-text: var(--button-color-text--disabled);
+}
+.dnb-button--primary[disabled], .dnb-button--primary[aria-disabled=true], .dnb-button--secondary[disabled], .dnb-button--secondary[aria-disabled=true], .dnb-button--tertiary[disabled], .dnb-button--tertiary[aria-disabled=true] {
   --button-color-bg: var(--button-color-bg--disabled);
   --button-color-border: var(--button-color-border--disabled);
   --button-color-icon: var(--button-color-icon--disabled);
@@ -1239,14 +1244,19 @@ html:not([data-whatintent=touch]) .dnb-button--secondary:not(.dnb-button--has-te
   outline: none;
 }
 @media (forced-colors: active) {
-  .dnb-button--primary[disabled], .dnb-button--secondary[disabled] {
+  .dnb-button--primary[disabled], .dnb-button--secondary[disabled], .dnb-button--primary[aria-disabled=true], .dnb-button--secondary[aria-disabled=true] {
     outline: var(--button-border-width, var(--button-border-width--default)) solid transparent;
     outline-offset: calc(var(--button-border-width, var(--button-border-width--default)) * -1);
   }
 }
 @media (forced-colors: active) {
-  .dnb-button--primary[disabled], .dnb-button--secondary[disabled] {
+  .dnb-button--primary[disabled], .dnb-button--secondary[disabled], .dnb-button--primary[aria-disabled=true], .dnb-button--secondary[aria-disabled=true] {
     outline-color: GrayText;
+  }
+}
+@media (forced-colors: active) {
+  .dnb-button[aria-disabled=true], .dnb-button[aria-disabled=true] .dnb-button__icon {
+    color: GrayText;
   }
 }
 

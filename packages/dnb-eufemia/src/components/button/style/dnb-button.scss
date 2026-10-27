@@ -99,30 +99,34 @@
     }
 
     // Template modifiers
-    @include utilities.hover() {
-      --button-color-bg: var(--button-color-bg--hover);
-      --button-color-border: var(--button-color-border--hover);
-      --button-color-icon: var(--button-color-icon--hover);
-      --button-color-text: var(--button-color-text--hover);
-      --button-color-underline: var(--button-color-underline--hover);
-      --button-border-inset: var(--button-border-inset--hover);
-      --button-border-width: var(--button-border-width--hover);
-      --button-input-separator-color: var(
-        --button-input-separator-color--hover
-      );
-    }
+    // A Button with aria-disabled has no hover or active state, the same
+    // as a disabled Button
+    &:not([aria-disabled='true']) {
+      @include utilities.hover() {
+        --button-color-bg: var(--button-color-bg--hover);
+        --button-color-border: var(--button-color-border--hover);
+        --button-color-icon: var(--button-color-icon--hover);
+        --button-color-text: var(--button-color-text--hover);
+        --button-color-underline: var(--button-color-underline--hover);
+        --button-border-inset: var(--button-border-inset--hover);
+        --button-border-width: var(--button-border-width--hover);
+        --button-input-separator-color: var(
+          --button-input-separator-color--hover
+        );
+      }
 
-    @include utilities.active() {
-      --button-color-bg: var(--button-color-bg--active);
-      --button-color-border: var(--button-color-border--active);
-      --button-color-icon: var(--button-color-icon--active);
-      --button-color-text: var(--button-color-text--active);
-      --button-color-underline: var(--button-color-underline--default);
-      --button-border-inset: var(--button-border-inset--default);
-      --button-border-width: var(--button-border-width--active);
-      --button-input-separator-color: var(
-        --button-input-separator-color--active
-      );
+      @include utilities.active() {
+        --button-color-bg: var(--button-color-bg--active);
+        --button-color-border: var(--button-color-border--active);
+        --button-color-icon: var(--button-color-icon--active);
+        --button-color-text: var(--button-color-text--active);
+        --button-color-underline: var(--button-color-underline--default);
+        --button-border-inset: var(--button-border-inset--default);
+        --button-border-width: var(--button-border-width--active);
+        --button-input-separator-color: var(
+          --button-input-separator-color--active
+        );
+      }
     }
 
     @include utilities.focusVisible() {
@@ -145,9 +149,18 @@
       @media (forced-colors: active) {
         outline-offset: 0;
       }
+
+      // A Button with aria-disabled can get focus. Show the focus ring, but
+      // keep the disabled colors.
+      &[aria-disabled='true'] {
+        --button-color-bg: var(--button-color-bg--disabled);
+        --button-color-icon: var(--button-color-icon--disabled);
+        --button-color-text: var(--button-color-text--disabled);
+      }
     }
 
-    &[disabled] {
+    &[disabled],
+    &[aria-disabled='true'] {
       --button-color-bg: var(--button-color-bg--disabled);
       --button-color-border: var(--button-color-border--disabled);
       --button-color-icon: var(--button-color-icon--disabled);
@@ -893,7 +906,9 @@
   }
 
   &--primary[disabled],
-  &--secondary[disabled] {
+  &--secondary[disabled],
+  &--primary[aria-disabled='true'],
+  &--secondary[aria-disabled='true'] {
     // Show the outline again in forced colors mode, with the disabled color
     @include utilities.forcedColorsOutline(
       var(--button-border-width, var(--button-border-width--default)),
@@ -902,6 +917,14 @@
 
     @media (forced-colors: active) {
       outline-color: GrayText;
+    }
+  }
+
+  // Forced colors mode only shows the disabled color for the disabled attribute
+  &[aria-disabled='true'],
+  &[aria-disabled='true'] &__icon {
+    @media (forced-colors: active) {
+      color: GrayText;
     }
   }
 }

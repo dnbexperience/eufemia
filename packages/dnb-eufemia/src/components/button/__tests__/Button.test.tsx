@@ -801,10 +801,58 @@ describe('Button scss', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
 
     expect(css).toMatch(
-      /@media \(forced-colors: active\) \{\s*\.dnb-button--primary\[disabled\],\s*\.dnb-button--secondary\[disabled\] \{\s*outline: var\(--button-border-width, var\(--button-border-width--default\)\) solid transparent;\s*outline-offset: calc\(var\(--button-border-width, var\(--button-border-width--default\)\) \* -1\);/
+      /@media \(forced-colors: active\) \{\s*\.dnb-button--primary\[disabled\],\s*\.dnb-button--secondary\[disabled\],[^{]*\{\s*outline: var\(--button-border-width, var\(--button-border-width--default\)\) solid transparent;\s*outline-offset: calc\(var\(--button-border-width, var\(--button-border-width--default\)\) \* -1\);/
     )
     expect(css).toMatch(
-      /@media \(forced-colors: active\) \{\s*\.dnb-button--primary\[disabled\],\s*\.dnb-button--secondary\[disabled\] \{\s*outline-color: GrayText;/
+      /@media \(forced-colors: active\) \{\s*\.dnb-button--primary\[disabled\],\s*\.dnb-button--secondary\[disabled\],[^{]*\{\s*outline-color: GrayText;/
+    )
+  })
+
+  it('styles buttons with aria-disabled like disabled buttons', () => {
+    const css = loadScss(require.resolve('../style/deps.scss'))
+    const ariaDisabled = `\\[aria-disabled=["']?true["']?\\]`
+
+    // Disabled colors
+    expect(css).toMatch(
+      new RegExp(
+        `\\.dnb-button--primary\\[disabled\\],\\s*\\.dnb-button--primary${ariaDisabled},[^{]*\\{\\s*--button-color-bg: var\\(--button-color-bg--disabled\\);`
+      )
+    )
+
+    // No hover or active state
+    expect(css).toMatch(
+      new RegExp(
+        `\\.dnb-button--primary:not\\(${ariaDisabled}\\):hover:not\\(\\[disabled\\]\\)[^{]*\\{\\s*--button-color-bg: var\\(--button-color-bg--hover\\);`
+      )
+    )
+    expect(css).toMatch(
+      new RegExp(
+        `\\.dnb-button--primary:not\\(${ariaDisabled}\\):active:not\\(\\[disabled\\]\\)[^{]*\\{\\s*--button-color-bg: var\\(--button-color-bg--active\\);`
+      )
+    )
+    expect(css).toMatch(
+      new RegExp(
+        `\\.dnb-button--tertiary:not\\(${ariaDisabled}\\):hover:not\\(\\[disabled\\]\\) \\.dnb-button__text \\{\\s*text-decoration-color:`
+      )
+    )
+
+    // Keeps the disabled colors with the focus ring
+    expect(css).toMatch(
+      new RegExp(
+        `\\.dnb-button--primary:focus-visible:not\\(\\[disabled\\]\\)${ariaDisabled}[^{]*\\{\\s*--button-color-bg: var\\(--button-color-bg--disabled\\);\\s*--button-color-icon: var\\(--button-color-icon--disabled\\);\\s*--button-color-text: var\\(--button-color-text--disabled\\);\\s*\\}`
+      )
+    )
+
+    // Forced colors mode
+    expect(css).toMatch(
+      new RegExp(
+        `@media \\(forced-colors: active\\) \\{[^{]*\\.dnb-button--primary${ariaDisabled},\\s*\\.dnb-button--secondary${ariaDisabled} \\{\\s*outline-color: GrayText;`
+      )
+    )
+    expect(css).toMatch(
+      new RegExp(
+        `@media \\(forced-colors: active\\) \\{\\s*\\.dnb-button${ariaDisabled},\\s*\\.dnb-button${ariaDisabled} \\.dnb-button__icon \\{\\s*color: GrayText;`
+      )
     )
   })
 

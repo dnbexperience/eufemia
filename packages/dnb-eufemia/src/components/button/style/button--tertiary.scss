@@ -26,30 +26,34 @@
       }
     }
 
-    @include utilities.hover() {
-      .dnb-button__text {
-        text-decoration-color: var(
-          --button-color-underline,
-          var(--button-color-underline--default)
-        );
-      }
-    }
-
-    @include utilities.active() {
-      @include utilities.removeFocusRing('keyboard');
-
-      .dnb-button__text {
-        html[data-whatintent='touch'] & {
-          --button-color-underline: var(--button-color-underline--hover);
-          transition: none;
+    // A Button with aria-disabled has no hover or active state, the same
+    // as a disabled Button
+    &:not([aria-disabled='true']) {
+      @include utilities.hover() {
+        .dnb-button__text {
           text-decoration-color: var(
             --button-color-underline,
             var(--button-color-underline--default)
           );
         }
+      }
 
-        html:not([data-whatintent='touch']) & {
-          text-decoration: none;
+      @include utilities.active() {
+        @include utilities.removeFocusRing('keyboard');
+
+        .dnb-button__text {
+          html[data-whatintent='touch'] & {
+            --button-color-underline: var(--button-color-underline--hover);
+            transition: none;
+            text-decoration-color: var(
+              --button-color-underline,
+              var(--button-color-underline--default)
+            );
+          }
+
+          html:not([data-whatintent='touch']) & {
+            text-decoration: none;
+          }
         }
       }
     }
