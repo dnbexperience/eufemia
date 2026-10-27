@@ -303,7 +303,7 @@ export type DatePickerProps = {
   yearNavigation?: boolean
   className?: string
   /**
-   * Will be called right before every new calendar view gets rendered. See the example above.
+   * Will be called before the days of each calendar view are rendered, and again on interactions such as hover and selection. Receives the `days` array and the calendar number (`0` for the first calendar, `1` for the second in range mode). Change the day objects, or return a new array, to customize the days. See [Manipulate the days in the calendar view](/uilib/components/date-picker/#manipulate-the-days-in-the-calendar-view).
    */
   onDaysRender?: (
     days: Array<DatePickerCalendarDay>,
