@@ -23,7 +23,10 @@ fieldset.dnb-forms-field-block {
     display: grid;
 
     // Vertical layout
-    grid-template-columns: minmax(0, var(--block-content-width, auto));
+    grid-template-columns: minmax(
+      var(--field-block-grid-min-width, min-content),
+      var(--block-content-width, auto)
+    );
     grid-template-areas:
       'label'
       'help'

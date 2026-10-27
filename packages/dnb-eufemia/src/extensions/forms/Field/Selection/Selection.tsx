@@ -96,7 +96,7 @@ export type FieldSelectionProps = FieldProps<IOption['value']> & {
   autoSelectSingleOption?: boolean
 
   /**
-   * `small`, `medium` or `large` for predefined standard widths, `stretch` to fill available width. You can also set a custom width `{number}rem`.
+   * `small`, `medium` or `large` for predefined standard widths, `stretch` to fill available width. The dropdown variant adds space for its icon to predefined widths. You can also set a custom width `{number}rem`.
    */
   width?: FieldBlockWidth
 
