@@ -126,6 +126,7 @@ describe('MDX-defined Portal navigation', () => {
       {
         href: 'https://www.figma.com/design/cdtwQD8IJ7pTeE45U148r1/%F0%9F%92%BB-Eufemia---Web',
         dividerBefore: true,
+        icon: expect.any(Function),
         target: '_blank',
         rel: 'noopener noreferrer',
         to: undefined,
@@ -133,6 +134,7 @@ describe('MDX-defined Portal navigation', () => {
       },
       {
         href: 'https://github.com/dnbexperience/eufemia/',
+        icon: expect.any(Function),
         target: '_blank',
         rel: 'noopener noreferrer',
       },

@@ -22,8 +22,12 @@ import {
   web,
   widget_android,
 } from '@dnb/eufemia/src/icons'
+import FigmaLogo from '../../docs/contribute/assets/figma-logo'
+import GithubLogo from '../../docs/contribute/assets/github-logo'
 
 const SidebarGraphics = {
+  figma: FigmaLogo,
+  github: GithubLogo,
   brush,
   home,
   lightbulb,
