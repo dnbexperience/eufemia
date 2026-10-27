@@ -960,8 +960,11 @@ html:not([data-whatintent=touch]) .dnb-table__td__button:hover:not([disabled]) .
   min-height: 1rem;
 }
 
-.dnb-table__container .dnb-table__scroll-view {
+.dnb-table__container > .dnb-table__scroll-view {
   margin-bottom: max(0rem, var(--table-outline-radius) - 0.5rem);
+}
+
+.dnb-table__container .dnb-table__scroll-view {
   clip-path: inset(0 round 0 0 min(var(--table-outline-radius), 0.5rem) min(var(--table-outline-radius), 0.5rem));
 }
 

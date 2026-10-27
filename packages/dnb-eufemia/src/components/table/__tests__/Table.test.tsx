@@ -305,7 +305,15 @@ describe('Table scss', () => {
 
     // A large corner radius would otherwise cut off the ends of the scrollbar
     expect(css).toContain(
-      '.dnb-table__container .dnb-table__scroll-view {\n  margin-bottom: max(0rem, var(--table-outline-radius) - 0.5rem);\n  clip-path: inset(0 round 0 0 min(var(--table-outline-radius), 0.5rem) min(var(--table-outline-radius), 0.5rem));\n}'
+      '.dnb-table__container > .dnb-table__scroll-view {\n  margin-bottom: max(0rem, var(--table-outline-radius) - 0.5rem);\n}'
+    )
+    expect(css).toContain(
+      '.dnb-table__container .dnb-table__scroll-view {\n  clip-path: inset(0 round 0 0 min(var(--table-outline-radius), 0.5rem) min(var(--table-outline-radius), 0.5rem));\n}'
+    )
+
+    // A Table.ScrollView inside Table.ContainerBody does not get the space too
+    expect(css).not.toMatch(
+      /^\.dnb-table__container \.dnb-table__scroll-view \{[^}]*margin-bottom: max/m
     )
 
     // In a Modal/Drawer the container does not scroll, so no space is needed
