@@ -67,11 +67,18 @@ jobs:
             %USERPROFILE%\AppData\Local\ms-playwright
           key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-playwright-firefox-chromium-webkit-${{ hashFiles('**/yarn.lock') }}
       - name: Install Playwright browsers
-        run: yarn workspace dnb-design-system-portal playwright install --with-deps firefox chromium webkit
+        run: yarn workspace dnb-design-system-portal playwright install firefox chromium webkit
         if: steps.playwright-cache.outputs.cache-hit != 'true'
       - name: Install Playwright dependencies
-        run: yarn workspace dnb-design-system-portal playwright install-deps firefox chromium webkit
-        if: steps.playwright-cache.outputs.cache-hit == 'true'
+        timeout-minutes: 10
+        run: |
+          if ! timeout 3m yarn workspace dnb-design-system-portal playwright install-deps firefox chromium webkit; then
+            # A slow azure.archive.ubuntu.com node never trips apt's stall timeout (actions/runner-images#14823)
+            while pgrep -x 'apt-get|dpkg' > /dev/null; do sleep 1; done
+            sudo dpkg --configure -a
+            sudo sed -i '/azure\.archive\.ubuntu\.com/d' /etc/apt/apt-mirrors.txt
+            yarn workspace dnb-design-system-portal playwright install-deps firefox chromium webkit
+          fi
 
       - name: Prebuild Library
         if: env.RUN_POST_BUILD == 'true'
