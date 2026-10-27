@@ -157,7 +157,7 @@ test('keeps short values visible at predefined widths in a parent sized to its c
       })
     )
   expect(dimensions.map(({ width }) => width)).toEqual([
-    360, 104, 200, 360,
+    336, 104, 176, 336,
   ])
   for (const { text, fullText } of dimensions) {
     expect(text).toBeGreaterThanOrEqual(fullText)

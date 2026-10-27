@@ -3,12 +3,10 @@
     --field-block-grid-min-width: 0;
 
     // Reserve space for the icon and the gap beside the selected text.
-    @each $width in small, medium, large {
-      .dnb-forms-field-block__contents--width-#{$width} {
-        --field-block-content-width: calc(
-          var(--forms-field-width--#{$width}) + 1.5rem
-        );
-      }
+    .dnb-forms-field-block__contents--width-small {
+      --field-block-content-width: calc(
+        var(--forms-field-width--small) + 1.5rem
+      );
     }
 
     .dnb-forms-field-block {
