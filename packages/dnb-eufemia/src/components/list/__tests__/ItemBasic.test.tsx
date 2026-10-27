@@ -131,7 +131,7 @@ describe('ItemBasic', () => {
   })
 
   describe('layout engine', () => {
-    const renderRow = (props: ItemBasicProps = {}) => {
+    const renderRow = (props: ListItemBasicProps = {}) => {
       render(
         <ItemBasic title="Title" {...props}>
           <ItemEnd>End</ItemEnd>
