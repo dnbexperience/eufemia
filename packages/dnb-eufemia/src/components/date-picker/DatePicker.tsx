@@ -991,6 +991,8 @@ const NonAttributes = [
   'preventClose',
   'selectedDateRange',
   'yearNavigation',
+  'today',
+  'withinSelectedRange',
 ]
 
 function filterOutNonAttributes(props: DatePickerProps) {

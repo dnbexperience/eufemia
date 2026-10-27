@@ -5292,6 +5292,53 @@ describe('DatePicker component', () => {
     expect(todayButton).not.toBeDisabled()
   })
 
+  it('should describe the button of today for screen readers', async () => {
+    render(<DatePicker noAnimation />)
+
+    await userEvent.click(getDatePickerTriggerButton())
+
+    const todayButton = document.querySelector(
+      '.dnb-date-picker__day--today > button'
+    )
+    const otherButton = document.querySelector(
+      '.dnb-date-picker__day:not(.dnb-date-picker__day--today) > button'
+    )
+
+    expect(todayButton).toHaveAccessibleDescription('I dag')
+    expect(todayButton.getAttribute('aria-label')).not.toContain('I dag')
+    expect(otherButton).not.toHaveAttribute('aria-describedby')
+  })
+
+  it('should describe the buttons within the selected range for screen readers', async () => {
+    render(
+      <DatePicker
+        noAnimation
+        range
+        startDate="2025-04-08"
+        endDate="2025-04-10"
+      />
+    )
+
+    await userEvent.click(getDatePickerTriggerButton())
+
+    const [leftTable] = Array.from(
+      document.querySelectorAll('.dnb-date-picker__calendar table')
+    )
+    const getButton = (date: string) =>
+      leftTable.querySelector(`td[data-date="${date}"] button`)
+
+    expect(getButton('2025-04-09')).toHaveAccessibleDescription(
+      'Innenfor valgt datoperiode'
+    )
+    expect(getButton('2025-04-09')).toHaveAttribute(
+      'aria-label',
+      'onsdag 9. april 2025'
+    )
+    expect(getButton('2025-04-08')).not.toHaveAttribute('aria-describedby')
+    expect(getButton('2025-04-10')).not.toHaveAttribute('aria-describedby')
+    expect(getButton('2025-04-11')).not.toHaveAttribute('aria-describedby')
+  })
+
   it('should update calendar when changing minDate', async () => {
     // Use a day in the middle of a month, so tomorrow is in the same month
     vi.useFakeTimers({ toFake: ['Date'] })

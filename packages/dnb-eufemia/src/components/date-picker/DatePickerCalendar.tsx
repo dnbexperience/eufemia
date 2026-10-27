@@ -13,6 +13,7 @@ import type {
 } from 'react'
 import { clsx } from 'clsx'
 import useMountEffect from '../../shared/helpers/useMountEffect'
+import { combineDescribedBy } from '../../shared/component-helper'
 
 // date-fns
 import {
@@ -156,7 +157,12 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
     setViews,
     props: { link: isLinkedCalendars, onDaysRender, yearNavigation },
     translation: {
-      DatePicker: { firstDay: defaultFirstDayOfWeek, selectedMonth },
+      DatePicker: {
+        firstDay: defaultFirstDayOfWeek,
+        selectedMonth,
+        today: todayText,
+        withinSelectedRange,
+      },
     },
   } = useContext(DatePickerContext)
 
@@ -826,6 +832,13 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
                         aria-disabled={handleAsDisabled}
                         aria-hidden={isDuplicateAdjacentMonth || undefined}
                         aria-label={title}
+                        aria-describedby={combineDescribedBy(
+                          day.isToday && `${id}--today`,
+                          day.isWithinSelection &&
+                            !day.isStartDate &&
+                            !day.isEndDate &&
+                            `${id}--within-range`
+                        )}
                         {...paramsButton}
                         onClick={
                           handleAsDisabled
@@ -882,6 +895,12 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
           })}
         </tbody>
       </table>
+      <span id={`${id}--today`} hidden>
+        {todayText}
+      </span>
+      <span id={`${id}--within-range`} hidden>
+        {withinSelectedRange}
+      </span>
     </div>
   )
 }
