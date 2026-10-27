@@ -249,8 +249,8 @@ function CalendarNavButton({
       className={clsx(`dnb-date-picker__${type}`, { disabled })}
       icon={icon}
       size="small"
-      aria-label={title}
       aria-disabled={disabled || undefined}
+      aria-label={title}
       onClick={() => onClick && !disabled && onClick({ nr, type })}
       onKeyDown={onKeyDown}
     />
