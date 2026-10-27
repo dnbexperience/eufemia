@@ -6,7 +6,7 @@ on:
   workflow_call:
     outputs:
       standalone-tools-only:
-        description: "'true' when only such tools changed, otherwise 'false'."
+        description: "'true' when only standalone tools changed."
         value: ${{ jobs.detect.outputs.standalone-tools-only }}
 
 permissions:
@@ -58,7 +58,7 @@ jobs:
             '^\.github/workflows/service-monitoring\.yml$'
           )
 
-          changed=$(git diff --name-only origin/main...HEAD)
+          changed=$(git diff --name-only --no-renames origin/main...HEAD)
 
           if [[ -z "$changed" ]] || grep -q -v -E -f <(printf '%s\n' "${standalone_tool_paths[@]}") <<< "$changed"; then
             echo "standalone-tools-only=false" >> "$GITHUB_OUTPUT"
