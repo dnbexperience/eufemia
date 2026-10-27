@@ -6,10 +6,8 @@ import {
   createCanonicalUrls,
   createPortalSitemap,
 } from './portal-sitemap.mts'
-import {
-  isFirstTabPage,
-  type PageFileInfo,
-} from '../client/plugins/portal-pages.shared.ts'
+// Type-only, so Node does not load this typeless .ts file
+import type { PageFileInfo } from '../client/plugins/portal-pages.shared.ts'
 
 main()
 
@@ -32,6 +30,14 @@ async function main() {
       new URL('../client/plugins/portal-pages.ts', import.meta.url)
     )
     const { getPortalPages } = await server.ssrLoadModule(pluginPath)
+    const { isFirstTabPage } = await server.ssrLoadModule(
+      fileURLToPath(
+        new URL(
+          '../client/plugins/portal-pages.shared.ts',
+          import.meta.url
+        )
+      )
+    )
     const { files, allMdxNodes } = getPortalPages(
       path.resolve(docsDirectory)
     )
