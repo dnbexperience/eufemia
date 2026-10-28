@@ -822,17 +822,17 @@ describe('Button scss', () => {
     // No hover or active state
     expect(css).toMatch(
       new RegExp(
-        `\\.dnb-button--primary:not\\(${ariaDisabled}\\):hover:not\\(\\[disabled\\]\\)[^{]*\\{\\s*--button-color-bg: var\\(--button-color-bg--hover\\);`
+        `\\.dnb-button--primary:where\\(:not\\(${ariaDisabled}\\)\\):hover:not\\(\\[disabled\\]\\)[^{]*\\{\\s*--button-color-bg: var\\(--button-color-bg--hover\\);`
       )
     )
     expect(css).toMatch(
       new RegExp(
-        `\\.dnb-button--primary:not\\(${ariaDisabled}\\):active:not\\(\\[disabled\\]\\)[^{]*\\{\\s*--button-color-bg: var\\(--button-color-bg--active\\);`
+        `\\.dnb-button--primary:where\\(:not\\(${ariaDisabled}\\)\\):active:not\\(\\[disabled\\]\\)[^{]*\\{\\s*--button-color-bg: var\\(--button-color-bg--active\\);`
       )
     )
     expect(css).toMatch(
       new RegExp(
-        `\\.dnb-button--tertiary:not\\(${ariaDisabled}\\):hover:not\\(\\[disabled\\]\\) \\.dnb-button__text \\{\\s*text-decoration-color:`
+        `\\.dnb-button--tertiary:where\\(:not\\(${ariaDisabled}\\)\\):hover:not\\(\\[disabled\\]\\) \\.dnb-button__text \\{\\s*text-decoration-color:`
       )
     )
 

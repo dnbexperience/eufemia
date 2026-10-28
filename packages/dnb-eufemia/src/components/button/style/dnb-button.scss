@@ -101,7 +101,7 @@
     // Template modifiers
     // A Button with aria-disabled has no hover or active state, the same
     // as a disabled Button
-    &:not([aria-disabled='true']) {
+    &:where(:not([aria-disabled='true'])) {
       @include utilities.hover() {
         --button-color-bg: var(--button-color-bg--hover);
         --button-color-border: var(--button-color-border--hover);
@@ -689,7 +689,7 @@
         );
       }
 
-      &:not([aria-disabled='true']) {
+      &:where(:not([aria-disabled='true'])) {
         @include utilities.active() {
           &::after {
             top: var(--input-border-width);
