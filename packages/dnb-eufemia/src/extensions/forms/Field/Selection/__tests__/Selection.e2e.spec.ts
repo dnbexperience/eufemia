@@ -91,7 +91,6 @@ test('keeps long dropdown text inside a narrow container', async ({
     '[data-visual-test="selection-dropdown-widths"]'
   )
   await example.evaluate((element) => {
-    element.style.width = '343px'
     element.style.maxWidth = '100%'
     for (const text of element.querySelectorAll(
       '.dnb-dropdown__text__inner'
@@ -100,9 +99,15 @@ test('keeps long dropdown text inside a narrow container', async ({
         'A very long selected option that should be truncated with an ellipsis and stay within the available space'
     }
   })
-  for (const viewportWidth of [375, 1280]) {
+
+  // On wider screens, the container leaves room for the label and the predefined widths.
+  for (const [viewportWidth, containerWidth] of [
+    [375, 343],
+    [1280, 600],
+  ]) {
     await page.setViewportSize({ width: viewportWidth, height: 900 })
-    await example.evaluate((element) => {
+    await example.evaluate((element, containerWidth) => {
+      element.style.width = `${containerWidth}px`
       for (const grid of element.querySelectorAll(
         '.dnb-forms-field-block__grid'
       )) {
@@ -116,7 +121,7 @@ test('keeps long dropdown text inside a narrow container', async ({
       )) {
         label.textContent = 'Choice'
       }
-    })
+    }, containerWidth)
     const widths = await example
       .getByRole('combobox')
       .evaluateAll((buttons) =>
@@ -141,6 +146,48 @@ test('keeps long dropdown text inside a narrow container', async ({
       expect(width.overflow).toBe('ellipsis')
     }
   }
+})
+
+test('keeps predefined widths in the horizontal layout when the label wraps', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1280, height: 900 })
+  await page.goto('/uilib/extensions/forms/base-fields/Selection/demos/')
+  await expect(page.locator('html')).toHaveAttribute(
+    'data-portal-ready',
+    'true'
+  )
+  const example = page.locator(
+    '[data-visual-test="selection-dropdown-widths"]'
+  )
+  await example.evaluate((element) => {
+    element.style.width = '500px'
+    for (const grid of element.querySelectorAll(
+      '.dnb-forms-field-block__grid'
+    )) {
+      grid.classList.replace(
+        'dnb-forms-field-block--layout-vertical',
+        'dnb-forms-field-block--layout-horizontal'
+      )
+    }
+    for (const label of element.querySelectorAll(
+      '.dnb-forms-field-block__label__content'
+    )) {
+      label.textContent =
+        'A long field label that needs to wrap beside the dropdown'
+    }
+  })
+  await page.evaluate(() => document.fonts.ready)
+  const widths = await example
+    .getByRole('combobox')
+    .evaluateAll((buttons) =>
+      buttons
+        .slice(0, 4)
+        .map((button) => button.getBoundingClientRect().width)
+    )
+
+  // Default, small, medium and large, the same as other fields
+  expect(widths).toEqual([336, 104, 176, 336])
 })
 
 test('keeps short values visible at predefined widths in a parent sized to its content', async ({
