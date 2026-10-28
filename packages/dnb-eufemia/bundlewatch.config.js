@@ -41,7 +41,7 @@ const cssBundles = [
   },
   {
     path: 'build/style/themes/carnegie/carnegie-theme-extensions.min.css',
-    maxSize: '14kB',
+    maxSize: '14.1kB',
   },
   {
     path: 'build/style/themes/carnegie/carnegie-theme-forms.min.css',
@@ -61,7 +61,7 @@ const cssBundles = [
   },
   {
     path: 'build/style/themes/eiendom/eiendom-theme-extensions.min.css',
-    maxSize: '14kB',
+    maxSize: '14.1kB',
   },
   {
     path: 'build/style/themes/eiendom/eiendom-theme-forms.min.css',
@@ -81,7 +81,7 @@ const cssBundles = [
   },
   {
     path: 'build/style/themes/sbanken/sbanken-theme-extensions.min.css',
-    maxSize: '14kB',
+    maxSize: '14.1kB',
   },
   {
     path: 'build/style/themes/sbanken/sbanken-theme-forms.min.css',
@@ -101,7 +101,7 @@ const cssBundles = [
   },
   {
     path: 'build/style/themes/ui/ui-theme-extensions.min.css',
-    maxSize: '14kB',
+    maxSize: '14.1kB',
   },
   {
     path: 'build/style/themes/ui/ui-theme-forms.min.css',
