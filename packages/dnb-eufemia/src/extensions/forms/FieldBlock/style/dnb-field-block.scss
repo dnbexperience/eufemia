@@ -136,7 +136,7 @@ fieldset.dnb-forms-field-block {
           var(--dnb-forms-field-block-layout-width-min, min-content),
           var(--dnb-forms-field-block-layout-width-max, max-content)
         )
-        minmax(0, auto);
+        minmax(var(--field-block-grid-min-width, auto), auto);
 
       // When stretching the "help" over two columns,
       // it influences the "label" width when shown,

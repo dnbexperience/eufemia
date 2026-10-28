@@ -100,28 +100,46 @@ test('keeps long dropdown text inside a narrow container', async ({
         'A very long selected option that should be truncated with an ellipsis and stay within the available space'
     }
   })
-  const widths = await example
-    .getByRole('combobox')
-    .evaluateAll((buttons) =>
-      buttons.map((button) => {
-        const text = button.querySelector(
-          '.dnb-dropdown__text__inner'
-        ) as HTMLElement
-        return {
-          button: button.getBoundingClientRect().right,
-          container: button
-            .closest('[data-visual-test]')
-            .getBoundingClientRect().right,
-          text: text.clientWidth,
-          fullText: text.scrollWidth,
-          overflow: getComputedStyle(text).textOverflow,
-        }
-      })
-    )
-  for (const width of widths) {
-    expect(width.button).toBeLessThanOrEqual(width.container + 1)
-    expect(width.text).toBeLessThan(width.fullText)
-    expect(width.overflow).toBe('ellipsis')
+  for (const viewportWidth of [375, 1280]) {
+    await page.setViewportSize({ width: viewportWidth, height: 900 })
+    await example.evaluate((element) => {
+      for (const grid of element.querySelectorAll(
+        '.dnb-forms-field-block__grid'
+      )) {
+        grid.classList.replace(
+          'dnb-forms-field-block--layout-vertical',
+          'dnb-forms-field-block--layout-horizontal'
+        )
+      }
+      for (const label of element.querySelectorAll(
+        '.dnb-forms-field-block__label__content'
+      )) {
+        label.textContent = 'Choice'
+      }
+    })
+    const widths = await example
+      .getByRole('combobox')
+      .evaluateAll((buttons) =>
+        buttons.map((button) => {
+          const text = button.querySelector(
+            '.dnb-dropdown__text__inner'
+          ) as HTMLElement
+          return {
+            button: button.getBoundingClientRect().right,
+            container: button
+              .closest('[data-visual-test]')
+              .getBoundingClientRect().right,
+            text: text.clientWidth,
+            fullText: text.scrollWidth,
+            overflow: getComputedStyle(text).textOverflow,
+          }
+        })
+      )
+    for (const width of widths) {
+      expect(width.button).toBeLessThanOrEqual(width.container + 1)
+      expect(width.text).toBeLessThan(width.fullText)
+      expect(width.overflow).toBe('ellipsis')
+    }
   }
 })
 
@@ -162,4 +180,35 @@ test('keeps short values visible at predefined widths in a parent sized to its c
   for (const { text, fullText } of dimensions) {
     expect(text).toBeGreaterThanOrEqual(fullText)
   }
+})
+
+test('preserves the width of horizontal string fields in narrow containers', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1280, height: 900 })
+  await page.goto('/uilib/extensions/forms/base-fields/String/demos/')
+  await expect(page.locator('html')).toHaveAttribute(
+    'data-portal-ready',
+    'true'
+  )
+  const example = page.locator('[data-visual-test="string-widths"]')
+  await example.evaluate((element) => {
+    const field = element.querySelector('.dnb-forms-field-string')
+    const grid = field.querySelector('.dnb-forms-field-block__grid')
+    grid.classList.replace(
+      'dnb-forms-field-block--layout-vertical',
+      'dnb-forms-field-block--layout-horizontal'
+    )
+    field.querySelector(
+      '.dnb-forms-field-block__label__content'
+    ).textContent =
+      'A long field label that needs to wrap beside the input'
+    element.replaceChildren(field)
+    element.style.width = '500px'
+  })
+  await page.evaluate(() => document.fonts.ready)
+  const width = await example
+    .locator('input')
+    .evaluate((input) => input.getBoundingClientRect().width)
+  expect(width).toBe(336)
 })
