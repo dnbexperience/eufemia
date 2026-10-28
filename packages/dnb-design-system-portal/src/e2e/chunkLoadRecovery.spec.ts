@@ -88,6 +88,18 @@ test.describe('Chunk load recovery', () => {
     }) => {
       const documents = countDocuments(page)
       let requests = 0
+      // Exercise the module import, not a speculative preload Firefox can retry.
+      await page.route(
+        '**/Value/BankAccountNumber/?recovery-test',
+        async (route) => {
+          const response = await route.fetch()
+          const body = (await response.text()).replace(
+            /<link rel="modulepreload"[^>]+>/g,
+            ''
+          )
+          await route.fulfill({ response, body })
+        }
+      )
       await page.route(pattern, (route) => {
         requests++
         return requests === 1
