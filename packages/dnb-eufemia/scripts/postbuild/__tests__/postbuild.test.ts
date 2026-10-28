@@ -56,12 +56,14 @@ describe('published style entries', () => {
       const missingImports: string[] = []
 
       for (const entry of entries) {
+        const packagePath = stage === '/es' ? `es/${entry}` : entry
+
         if (
           !sideEffects.some((pattern: string) =>
-            path.matchesGlob(entry, pattern)
+            path.matchesGlob(packagePath, pattern)
           )
         ) {
-          unmarkedEntries.push(entry)
+          unmarkedEntries.push(packagePath)
         }
 
         const content = await fs.readFile(
