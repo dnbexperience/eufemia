@@ -584,6 +584,8 @@ describe('Table', () => {
   it('have to match table in card when the table scrolls', async () => {
     await makeScreenshot({
       ...defaults,
+      // Reserve the scrollbar space even when macOS overlays it.
+      wrapperStyle: { height: '38rem' },
       style: {
         width: '20rem',
       },
