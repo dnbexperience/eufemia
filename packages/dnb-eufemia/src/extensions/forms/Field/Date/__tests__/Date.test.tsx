@@ -2130,6 +2130,22 @@ describe('Field.Date', () => {
     ).toEqual([])
   })
 
+  it('should keep the start side empty in a range with only an end date', async () => {
+    const onChange = vi.fn()
+
+    render(<Field.Date range onChange={onChange} />)
+
+    const endDay = document.querySelectorAll('.dnb-date-picker__input')[3]
+
+    await userEvent.click(endDay)
+    await userEvent.keyboard('30092024')
+
+    expect(onChange).toHaveBeenLastCalledWith(
+      '|2024-09-30',
+      expect.anything()
+    )
+  })
+
   it('should not change value when clicking cancel after reset and typing', async () => {
     render(<Field.Date value="2023-01-16" showInput />)
 
