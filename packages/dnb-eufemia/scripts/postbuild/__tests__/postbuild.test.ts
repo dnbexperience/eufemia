@@ -8,6 +8,7 @@
 
 import fs from 'fs-extra'
 import path from 'path'
+import globby from 'globby'
 import { pathToFileURL } from 'node:url'
 import { getCommittedFiles } from '../../tools/cliTools'
 import { rebaseAssetUrls } from '../copyStyles'
@@ -26,6 +27,72 @@ const getBuildStages = (stages: string[]) => {
   const shouldSkipEs = process.env.BUILD_MINI
   return shouldSkipEs ? stages.filter((s) => s !== '/es') : stages
 }
+
+describe('published style entries', () => {
+  it.each(getBuildStages(['/es', '/esm', '/cjs']))(
+    'preserves style entries and resolves their imports on stage %s',
+    async (stage) => {
+      const buildDir = path.resolve(
+        PKG_ROOT,
+        `build${makeStagePathException(stage)}`
+      )
+      const { sideEffects } = await fs.readJson(
+        path.resolve(
+          PKG_ROOT,
+          stage === '/cjs' ? 'src/cjs/package.json' : 'package.json'
+        )
+      )
+      const entries = await globby(
+        [
+          '{components,elements,extensions,fragments}/**/style.js',
+          '{components,elements,extensions,fragments}/**/style/**/*.js',
+        ],
+        { cwd: buildDir }
+      )
+
+      expect(entries.length).toBeGreaterThan(50)
+
+      const unmarkedEntries: string[] = []
+      const missingImports: string[] = []
+
+      for (const entry of entries) {
+        if (
+          !sideEffects.some((pattern: string) =>
+            path.matchesGlob(entry, pattern)
+          )
+        ) {
+          unmarkedEntries.push(entry)
+        }
+
+        const content = await fs.readFile(
+          path.join(buildDir, entry),
+          'utf8'
+        )
+        const imports = content.matchAll(
+          /(?:import\s*|require\(\s*)['"](\.[^'"]+)['"]/g
+        )
+
+        for (const [, imported] of imports) {
+          const target = path.resolve(
+            buildDir,
+            path.dirname(entry),
+            imported
+          )
+          if (
+            ![target, `${target}.js`, path.join(target, 'index.js')].some(
+              (file) => fs.existsSync(file) && fs.statSync(file).isFile()
+            )
+          ) {
+            missingImports.push(`${entry} imports ${imported}`)
+          }
+        }
+      }
+
+      expect(unmarkedEntries).toEqual([])
+      expect(missingImports).toEqual([])
+    }
+  )
+})
 
 describe('SidebarMenu style imports', () => {
   it.each(getBuildStages(['/es', '/esm', '/cjs']))(

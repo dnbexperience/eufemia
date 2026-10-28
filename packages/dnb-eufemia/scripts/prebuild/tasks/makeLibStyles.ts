@@ -24,13 +24,22 @@ import postcssConfig from '../config/postcssConfig'
 
 const ROOT_DIR = path.resolve(__dirname, '../../..')
 
+export const libStylePatterns = [
+  './src/components/**/style/**/dnb-*.scss',
+  './src/elements/**/style/**/dnb-*.scss',
+  './src/extensions/**/style/**/dnb-*.scss',
+  './src/extensions/forms/Field/style/field-sizes.scss',
+  './src/fragments/**/style/**/dnb-*.scss',
+  './src/icons/animated/**/style/**/dnb-*.scss',
+]
+
 export default async function makeLibStyles() {
   log.info('> PrePublish: converting sass to css')
 
   try {
-    await runFactory('./src/components/**/style/**/dnb-*.scss')
-    await runFactory('./src/extensions/**/style/**/dnb-*.scss')
-    await runFactory('./src/icons/animated/**/style/**/dnb-*.scss')
+    for (const pattern of libStylePatterns) {
+      await runFactory(pattern)
+    }
     log.succeed(
       `> PrePublish: "makeLibStyles" converting sass to css done`
     )

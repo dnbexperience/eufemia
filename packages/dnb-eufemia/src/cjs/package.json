@@ -5,7 +5,10 @@
   "sideEffects": [
     "*.css",
     "*.scss",
+    "components/**/style.*",
+    "elements/**/style.*",
     "extensions/**/style.*",
+    "fragments/**/style.*",
     "**/style/**/*",
     "umd/*"
   ]
