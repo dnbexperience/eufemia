@@ -96,6 +96,9 @@ jobs:
             yarn workspace dnb-design-system-portal playwright install-deps firefox chromium webkit
           fi
 
+      - name: Run Portal social image regression tests
+        run: yarn workspace dnb-design-system-portal test:og-images
+
       - name: Prebuild Library
         if: env.RUN_POST_BUILD == 'true'
         run: yarn workspace @dnb/eufemia prebuild:ci

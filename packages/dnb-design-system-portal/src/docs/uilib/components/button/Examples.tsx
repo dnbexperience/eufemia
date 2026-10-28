@@ -9,7 +9,7 @@ import { Button, Flex, IconPrimary, P, Section } from '@dnb/eufemia/src'
 import { VippsLogo } from '@dnb/eufemia/src/extensions/vipps-wallet-button/VippsWalletButton'
 
 export const ButtonVariants = () => (
-  <ComponentBox hideCode>
+  <ComponentBox hideCode socialPreview="stack">
     <Flex.Container gap="medium" align="center">
       <Button text="Primary" />
       <Button text="Secondary" variant="secondary" />

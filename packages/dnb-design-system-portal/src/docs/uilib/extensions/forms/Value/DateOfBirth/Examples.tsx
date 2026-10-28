@@ -20,7 +20,7 @@ export const Placeholder = () => {
 
 export const WithValue = () => {
   return (
-    <ComponentBox>
+    <ComponentBox socialPreview>
       <Value.DateOfBirth value="2023-01-16" />
     </ComponentBox>
   )

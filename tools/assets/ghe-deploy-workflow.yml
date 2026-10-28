@@ -87,7 +87,7 @@ jobs:
             for ASSET_DIR in assets/*/; do
               ASSET_PREFIX=$(basename "$ASSET_DIR")
               case "$ASSET_PREFIX" in
-                logos|v*)
+                logos|og|v*)
                   echo "Reserved asset prefix: $ASSET_PREFIX" >&2
                   exit 1 ;;
               esac

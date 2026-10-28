@@ -74,6 +74,8 @@ export type CodeSectionProps = {
   /** Show the preview without code actions or an editor. */
   previewOnly?: boolean
   hidePreview?: boolean
+  /** Use this demo as the social preview; stack its flex group only during capture. */
+  socialPreview?: boolean | 'stack'
   /**
    * Use surface="dark" to show the button to toggle surface, forcing it to be dark by default.
    */
@@ -242,6 +244,7 @@ function LiveCode(props: LiveCodeProps) {
     code: codeProp,
     hideCode: hideCodeProp,
     previewOnly,
+    socialPreview,
     hidePreview: hidePreviewProp,
     surface: surfaceProp,
     'data-visual-test': visualTest,
@@ -418,6 +421,10 @@ function LiveCode(props: LiveCodeProps) {
             lang={lang}
             className={clsx('dnb-live-preview')}
             data-visual-test={visualTest}
+            data-social-preview={socialPreview ? true : undefined}
+            data-social-preview-layout={
+              socialPreview === 'stack' ? 'stack' : undefined
+            }
             data-link-check="ignore"
           />
         ) : (
@@ -433,6 +440,10 @@ function LiveCode(props: LiveCodeProps) {
               lang={lang}
               className={clsx('dnb-live-preview')}
               data-visual-test={visualTest}
+              data-social-preview={socialPreview ? true : undefined}
+              data-social-preview-layout={
+                socialPreview === 'stack' ? 'stack' : undefined
+              }
             />
           </div>
         )}

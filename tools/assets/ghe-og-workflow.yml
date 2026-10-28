@@ -1,0 +1,78 @@
+name: Publish Portal OG images
+on:
+  repository_dispatch:
+    types: [portal-og-images]
+  workflow_dispatch:
+    inputs:
+      source_ref:
+        description: Reviewed public Eufemia revision containing the OG renderer
+        required: true
+        type: string
+      publication:
+        description: Identifier used by the requesting workflow to verify publication
+        required: true
+        type: string
+      mode:
+        type: choice
+        options: [refresh, missing]
+        default: refresh
+permissions:
+  contents: read
+  id-token: write
+concurrency:
+  group: portal-og-images
+  cancel-in-progress: false
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Fetch the public renderer revision without deployment credentials
+        env:
+          EXPECTED_SHA: ${{ inputs.source_ref || github.event.client_payload.source_ref }}
+        run: |
+          [[ "$EXPECTED_SHA" =~ ^[a-f0-9]{40}$ ]]
+          git init .
+          git remote add origin https://github.com/dnbexperience/eufemia.git
+          git fetch --depth=1 origin "$EXPECTED_SHA"
+          git checkout --detach FETCH_HEAD
+      - name: Require the reviewed current public main revision
+        env:
+          EXPECTED_SHA: ${{ inputs.source_ref || github.event.client_payload.source_ref }}
+        run: |
+          actual=$(git ls-remote https://github.com/dnbexperience/eufemia.git refs/heads/main | cut -f1)
+          test "$actual" = "$EXPECTED_SHA"
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        with:
+          node-version-file: package.json
+          package-manager-cache: false
+      - name: Install renderer dependencies
+        run: |
+          corepack enable
+          yarn install --immutable
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd # v6
+        with:
+          role-to-assume: ${{ vars.AWS_ROLE_ARN }}
+          aws-region: eu-north-1
+      - name: Restore reusable S3 catalogue
+        run: node packages/dnb-design-system-portal/scripts/og-images/s3.mts restore
+        env:
+          ASSETS_BUCKET_NAME: ${{ vars.ASSETS_BUCKET_NAME }}
+      - name: Plan captures
+        id: plan
+        run: node packages/dnb-design-system-portal/scripts/og-images/generate.mts plan
+        env:
+          OG_MODE: ${{ inputs.mode || github.event.client_payload.mode || 'refresh' }}
+      - name: Install Chromium when needed
+        if: steps.plan.outputs.captures != '0'
+        run: yarn workspace dnb-design-system-portal exec playwright install --with-deps chromium
+      - name: Render changed images
+        if: steps.plan.outputs.changed == 'true'
+        run: node packages/dnb-design-system-portal/scripts/og-images/generate.mts render
+      - name: Publish immutable images before the catalogue
+        run: node packages/dnb-design-system-portal/scripts/og-images/s3.mts publish
+        env:
+          ASSETS_BUCKET_NAME: ${{ vars.ASSETS_BUCKET_NAME }}
+          ASSETS_DISTRIBUTION_ID: ${{ vars.ASSETS_DISTRIBUTION_ID }}
+          OG_PUBLICATION_ID: ${{ inputs.publication || github.event.client_payload.publication }}
