@@ -555,14 +555,26 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
       }
 
       // Skip days that cannot be selected: forward for PageDown and Home, backward for PageUp and End
+      const skipBackward = pressedKey === 'PageUp' || pressedKey === 'End'
+      const targetDate = newDate
       newDate = findValid(
-        newDate,
-        isArrowKey
-          ? pressedKey
-          : pressedKey === 'PageUp' || pressedKey === 'End'
-            ? 'ArrowLeft'
-            : 'ArrowRight'
+        targetDate,
+        isArrowKey ? pressedKey : skipBackward ? 'ArrowLeft' : 'ArrowRight'
       )
+
+      // Stay in the target month when PageUp or PageDown would skip out of it
+      if (
+        (pressedKey === 'PageUp' || pressedKey === 'PageDown') &&
+        (!newDate || !isSameMonth(newDate, targetDate))
+      ) {
+        const fallbackDate = findValid(
+          targetDate,
+          skipBackward ? 'ArrowRight' : 'ArrowLeft'
+        )
+        if (fallbackDate && isSameMonth(fallbackDate, targetDate)) {
+          newDate = fallbackDate
+        }
+      }
 
       if (!newDate || hasReachedEnd(newDate)) {
         return // stop here

@@ -3081,6 +3081,34 @@ describe('DatePicker component', () => {
     }
   )
 
+  it.each([
+    ['2025-12-01', '{PageUp}', '2025-11-03'],
+    ['2025-10-31', '{PageDown}', '2025-11-28'],
+    ['2025-01-31', '{Shift>}{PageDown}{/Shift}', '2026-01-30'],
+  ])(
+    'should keep page navigation from %s with %s in the target month when the day cannot be selected',
+    async (date, key, expected) => {
+      render(
+        <DatePicker
+          noAnimation
+          date={date}
+          onDaysRender={(days) =>
+            days.map((day) =>
+              isWeekend(day.date) ? { ...day, isInactive: true } : day
+            )
+          }
+        />
+      )
+      await userEvent.click(getDatePickerTriggerButton())
+      await userEvent.keyboard(key)
+
+      expect(document.activeElement.closest('td')).toHaveAttribute(
+        'data-date',
+        expected
+      )
+    }
+  )
+
   it('should use the locale week start for Home and End and skip unselectable days', async () => {
     render(
       <Provider locale="en-US" translations={enUS}>
