@@ -3,13 +3,11 @@ import {
   graphql,
   type StaticQueryConnection,
 } from 'portal-query'
-import { Card, Hr, Li, P, Span, Ul } from '@dnb/eufemia/src'
+import { Hr, Li, P, Span, Ul } from '@dnb/eufemia/src'
 import ReactMarkdown from 'react-markdown'
 import Anchor from '../tags/Anchor'
 import AutoLinkHeader from '../tags/AutoLinkHeader'
 import { basicComponents } from '../../shared/tags'
-import { getSlugFromText } from '../../uilib/utils/slug.mjs'
-import { cardItemStyle } from '../menu/MainMenu.module.scss'
 import {
   categoryOrder,
   excludedSlugs,
@@ -107,8 +105,6 @@ export default function ListComponentsOverview() {
 
   return (
     <>
-      <CategoriesTableOfContents categories={categories} />
-
       {categories.map(({ id, title, description, entries }: Category) => (
         <section key={id}>
           <Hr top="x-large" />
@@ -124,32 +120,6 @@ export default function ListComponentsOverview() {
         </section>
       ))}
     </>
-  )
-}
-
-function CategoriesTableOfContents({
-  categories,
-}: {
-  categories: Category[]
-}) {
-  return (
-    <nav aria-label="Component categories">
-      <Card.List bottom="large">
-        {categories.map(({ id, title, description }) => (
-          <Card.ListItem
-            key={id}
-            center="when-small"
-            className={cardItemStyle}
-          >
-            <Card.Action href={`#${getSlugFromText(id)}`} stack dropShadow>
-              <Span size="x-large">{title}</Span>
-
-              <P top="small">{description}</P>
-            </Card.Action>
-          </Card.ListItem>
-        ))}
-      </Card.List>
-    </nav>
   )
 }
 

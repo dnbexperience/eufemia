@@ -2,29 +2,6 @@
 showTabs: true
 ---
 
-## Guide contents
-
-- [Guide contents](#guide-contents)
-- [Choosing the right token](#choosing-the-right-token)
-- [Token selection by role](#token-selection-by-role)
-- [Token selection by state](#token-selection-by-state)
-  - [Interaction states](#interaction-states)
-  - [Status states](#status-states)
-  - [Modifiers](#modifiers)
-- [Practical examples](#practical-examples)
-  - [Custom action card](#custom-action-card)
-  - [Status banner](#status-banner)
-  - [Input-like field](#input-like-field)
-- [Patterns learned from Eufemia components](#patterns-learned-from-eufemia-components)
-  - [Use local CSS variables to simplify state handling](#use-local-css-variables-to-simplify-state-handling)
-  - [Use semantic tokens, not component tokens](#use-semantic-tokens-not-component-tokens)
-  - [Focus uses the shared action-focus tokens](#focus-uses-the-shared-action-focus-tokens)
-  - [Use decorative tokens only for decoration](#use-decorative-tokens-only-for-decoration)
-  - [Dark surfaces use `ondark` tokens](#dark-surfaces-use-ondark-tokens)
-- [Radius tokens](#radius-tokens)
-- [Decision checklist](#decision-checklist)
-- [Common mistakes](#common-mistakes)
-
 ## Choosing the right token
 
 When building application components with Eufemia design tokens, think semantically. Do not ask "which token has the same color value as the one I want?" Ask "what role does this color play in this component and state?"
