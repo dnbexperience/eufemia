@@ -14,7 +14,8 @@ import {
   socialDetailTags,
 } from '../../src/shared/social-image.mjs'
 import { getContentScript } from '@dnb/eufemia/src/shared/ColorSchemeScript'
-import { getPreHydrationScript } from '@dnb/eufemia/src/extensions/sidebar-menu/SidebarMenuPreHydrationScript'
+import { getPreHydrationScript as getSidebarMenuScript } from '@dnb/eufemia/src/extensions/sidebar-menu/SidebarMenuPreHydrationScript'
+import { getPreHydrationScript as getTableOfContentScript } from '@dnb/eufemia/src/extensions/table-of-content/TableOfContentPreHydrationScript'
 import { escapeHtml } from './html-escape.mts'
 import type { MdxNode as PortalMdxNode } from '../client/plugins/portal-pages.shared'
 
@@ -284,17 +285,17 @@ export function injectHtml(
   // doesn't flash at the top before jumping to the saved position.
   const scrollRestoreScript = `(function(){try{var el=document.getElementById('portal-sidebar-menu');if(el){var s=parseFloat(sessionStorage.getItem('scroll-#portal-sidebar-menu')||'0');if(s){el.style.scrollBehavior='auto';el.scrollTop=s;el.style.scrollBehavior=''}}}catch(e){}})()`
 
-  const persistedSidebarScript =
-    /data-(?:inline-collapsed|open-items|scroll-position)-storage-key=/.test(
+  const persistedNavigationScript =
+    /data-(?:inline-collapsed|open-items|scroll-position|table-of-content-expanded)-storage-key=/.test(
       appHtml
     )
-      ? getPreHydrationScript()
+      ? getSidebarMenuScript() + ';' + getTableOfContentScript()
       : ''
 
   let html = template.replace(
     '<div id="root"></div>',
     () =>
-      `<div id="root">${appHtml}</div>\n\t<script>${contentScript};${scrollRestoreScript};${persistedSidebarScript}</script>`
+      `<div id="root">${appHtml}</div>\n\t<script>${contentScript};${scrollRestoreScript};${persistedNavigationScript}</script>`
   )
 
   // Inject <link> tags for ALL brand theme CSS chunks.
