@@ -1,6 +1,6 @@
 # Portal social images
 
-Component, extension and element pages with a visible, compact live demo are eligible. The Demos tab is preferred when available. Mark one ComponentBox with socialPreview to choose its specimen explicitly. Otherwise, the first demo is used. The selected demo is tried at compact, wider and native widths before it is rejected. Selection never falls through to a later demo or a nested field group. Hidden or clipped examples get no image and are reported in the generator output. Choose a populated example explicitly for Value pages, or a suitable static example for animated components. Tabs reuse their parent image.
+Component, extension and element pages with a visible, compact live demo are eligible. The Demos tab is preferred when available. Mark one ComponentBox with socialPreview to choose its specimen explicitly. Otherwise, the first demo is used. The selected demo is tried at compact, wider and native widths before it is rejected. Selection never falls through to a later demo or a nested field group. Hidden or clipped examples get no screenshot and are reported in the generator output. Choose a populated example explicitly for Value pages, or a suitable static example for animated components. Tabs reuse their parent image.
 
     <ComponentBox socialPreview>
       <Button text="Continue" />
@@ -10,7 +10,7 @@ Use socialPreview="stack" for a horizontal flex group that should stack only in 
 
 Only one demo per page may be marked. Multiple markers are reported as an error. Reordering other examples does not change an explicitly marked preview.
 
-Pages provide their title and description through Open Graph and Twitter Card metadata. An image is included only when a real component screenshot is available. Other pages have text previews. No logo fallback or extra label/value fields are emitted.
+Pages provide their title and description through Open Graph and Twitter Card metadata. Pages with a component screenshot use it. Other pages use the shared Eufemia wordmark at /dnb/og-image.png. The 1200 × 630 fallback keeps its 480px-wide wordmark centered for square and landscape crops. The fallback is a static Portal asset, so it changes with normal Portal deployments and does not need weekly generation. No extra label/value fields are emitted.
 
 Demos are captured at 4× resolution. Unused outer space is trimmed. Screenshots are centered on a 1200 × 630 canvas with the light demo grid, with the complete specimen inside a central 534 × 534 area. This retains the specimen in centered crops from 1:1 through 2:1. Receiving apps control the actual crop. Small specimens can grow up to 2× their normal size in a 600px-wide preview; large specimens shrink proportionally. Transparent captures preserve the component over the grid, including its opaque surfaces. PNGs are optimized losslessly.
 
@@ -20,7 +20,7 @@ Generated PNGs and captures are not committed to the code branch or an assets br
 
 The CDN catalogue at /og/manifest.json has a short cache lifetime. PNGs use content hashes and old image URLs are retained. The publisher uploads PNGs with a one-year immutable cache policy. The internal GitHub Enterprise assets repository publishes through AWS OIDC. Only its restore and publish jobs can use AWS, and they run Node built-ins and the AWS CLI. The renderer and its workspace dependencies run in a separate job without AWS access, and the publish job validates the rendered catalogue and PNGs before uploading them. The public workflow dispatches the internal publisher using GHE_ASSETS_DEPLOY_REPO and GHE_DEPLOY_PAT; the public workflow has no AWS credentials. The internal publisher requires the requested source revision to match current public main before running the renderer. The main asset publisher reserves og/ and cannot delete it while syncing fonts, icons or release assets.
 
-Release and PR preview builds fetch the CDN manifest and install only its image references. PNGs are not downloaded into the Portal build. If the manifest cannot be fetched, the build reports a warning and its pages use text previews; the next OG publication adds the images to the deployed Portal. The checked-in static/og/manifest.json is empty. Actions artifacts are retained for review reports and the deployed Portal snapshot, not as the authoritative image catalogue.
+Release and PR preview builds fetch the CDN manifest and install only its image references. PNGs are not downloaded into the Portal build. If the manifest cannot be fetched, the build reports a warning and its pages use the default image; the next OG publication adds the images to the deployed Portal. The checked-in static/og/manifest.json is empty. Actions artifacts are retained for review reports and the deployed Portal snapshot, not as the authoritative image catalogue.
 
 ## Weekly and manual updates
 

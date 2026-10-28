@@ -1,7 +1,42 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import sharp from 'sharp'
+import { fileURLToPath } from 'node:url'
 import { renderScreenshot } from './image.mts'
+
+test('keeps the default wordmark complete in square and landscape center crops', async () => {
+  const { data, info } = await sharp(
+    fileURLToPath(
+      new URL('../../static/dnb/og-image.png', import.meta.url)
+    )
+  )
+    .removeAlpha()
+    .raw()
+    .toBuffer({ resolveWithObject: true })
+  assert.equal(info.width, 1200)
+  assert.equal(info.height, 630)
+  let left = info.width,
+    right = 0,
+    top = info.height,
+    bottom = 0
+  for (let y = 0; y < info.height; y++) {
+    for (let x = 0; x < info.width; x++) {
+      const offset = (y * info.width + x) * info.channels
+      if (data[offset] < 200) {
+        left = Math.min(left, x)
+        right = Math.max(right, x)
+        top = Math.min(top, y)
+        bottom = Math.max(bottom, y)
+      }
+    }
+  }
+  assert.ok(right > left && bottom > top)
+  assert.ok(right - left <= 480)
+  assert.ok(Math.abs((left + right) / 2 - 600) <= 1)
+  assert.ok(Math.abs((top + bottom) / 2 - 315) <= 1)
+  assert.ok(left >= 285 && right <= 915)
+  assert.ok(top >= 15 && bottom <= 615)
+})
 
 async function inspect(width: number, height: number) {
   const crop = await sharp({

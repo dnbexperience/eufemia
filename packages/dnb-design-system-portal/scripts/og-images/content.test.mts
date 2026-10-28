@@ -42,7 +42,7 @@ test('discovers a Demos tab even when the parent page has no live example', () =
   assert.equal(card.captureSelector, '.dnb-live-preview')
 })
 
-test('keeps guides and pages without demos text-only', () => {
+test('does not select screenshots for guides or pages without demos', () => {
   assert.equal(
     extractCard(
       '<main><h1>Guide</h1><div class="dnb-live-preview">Example</div></main>',

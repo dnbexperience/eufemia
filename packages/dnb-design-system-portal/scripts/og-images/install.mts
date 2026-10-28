@@ -37,7 +37,7 @@ try {
     }
     await writeFile(path.join(target, 'manifest.json'), '{}\n')
   }
-  console.log('No catalogue artifact; pages use text previews.')
+  console.log('No catalogue artifact; pages use the default image.')
   process.exit(0)
 }
 const entries: Record<

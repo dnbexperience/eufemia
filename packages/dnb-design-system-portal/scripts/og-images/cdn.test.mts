@@ -115,7 +115,7 @@ test('retries temporary CDN failures', async () => {
     await rm(root, { recursive: true, force: true })
   }
 })
-test('fails strict restores but lets optional restores fall back to text previews', async () => {
+test('fails strict restores but lets optional restores use the default image', async () => {
   const root = await mkdtemp(path.join(tmpdir(), 'og-cdn-optional-')),
     original = globalThis.fetch,
     warn = console.warn
