@@ -51,6 +51,7 @@ const {
   cleanupBrowserPool,
   resetPoolCleanedUp,
   takeScreenshot,
+  hardResetPage,
 } = _testing
 
 // ── helpers ──────────────────────────────────────────────────────────
@@ -61,6 +62,10 @@ const makeMockPage = (closed = false) => ({
   addInitScript: vi.fn(async () => undefined),
   evaluate: vi.fn(async () => undefined),
   addStyleTag: vi.fn(async () => undefined),
+  goto: vi.fn(async () => undefined),
+  reload: vi.fn(async () => undefined),
+  setViewportSize: vi.fn(async () => undefined),
+  setExtraHTTPHeaders: vi.fn(async () => undefined),
 })
 
 const makeMockBrowser = () => ({
@@ -75,6 +80,49 @@ const makeMockContext = () => ({
 })
 
 // ── tests ────────────────────────────────────────────────────────────
+
+describe('hardResetPage', () => {
+  it('replaces the page to release resources from repeated reloads', async () => {
+    const context = makeMockContext()
+    const previousPage = {
+      ...makeMockPage(),
+      context: () => context,
+      url: () => 'http://localhost:8000/demos/?eufemia-theme=sbanken',
+    }
+    const state = {
+      page: previousPage,
+      vitestPage: makeMockPage(),
+      navigatedUrl: previousPage.url(),
+      mutationKind: 'structural',
+      currentRootClassName: 'previous-test',
+    }
+
+    await hardResetPage(
+      state as never,
+      { width: 400, height: 600 },
+      { 'User-Agent': 'visual-test' }
+    )
+
+    const page = await context.newPage.mock.results[0]?.value
+    expect(previousPage.close).toHaveBeenCalledOnce()
+    expect(previousPage.reload).not.toHaveBeenCalled()
+    expect(state.page).toBe(page)
+    expect(page.addInitScript).toHaveBeenCalledTimes(2)
+    expect(page.goto).toHaveBeenCalledWith(previousPage.url(), {
+      waitUntil: 'load',
+      timeout: 30000,
+    })
+    expect(page.setViewportSize).toHaveBeenCalledWith({
+      width: 400,
+      height: 600,
+    })
+    expect(page.setExtraHTTPHeaders).toHaveBeenCalledWith({
+      'User-Agent': 'visual-test',
+    })
+    expect(state.currentRootClassName).toBeNull()
+    expect(state.mutationKind).toBe('none')
+  })
+})
 
 describe('takeScreenshot', () => {
   afterEach(() => {

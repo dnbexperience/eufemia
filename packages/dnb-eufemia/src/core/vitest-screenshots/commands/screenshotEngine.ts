@@ -395,6 +395,15 @@ const applyScreenshotColorScheme = () => {
   }
 }
 
+const createScreenshotPage = async (context: BrowserContext) => {
+  const page = await context.newPage()
+  await page.addInitScript(() => {
+    ;(globalThis as Record<string, unknown>).IS_TEST = true
+  })
+  await page.addInitScript(applyScreenshotColorScheme)
+  return page
+}
+
 const ensureSession = async (
   sessionId: string,
   vitestPage: Page
@@ -441,15 +450,7 @@ const ensureSession = async (
     })
   }
 
-  const page = await slot.context.newPage()
-
-  // Match the original setup: set IS_TEST before any page script
-  // runs so VisibleWhenVisualTest renders its children on the
-  // initial React render.
-  await page.addInitScript(() => {
-    ;(globalThis as Record<string, unknown>).IS_TEST = true
-  })
-  await page.addInitScript(applyScreenshotColorScheme)
+  const page = await createScreenshotPage(slot.context)
 
   state = {
     page,
@@ -885,18 +886,17 @@ const hardResetPage = async (
   headers: Record<string, string> | null | undefined
 ) => {
   await clearBrowserStorage(state.page)
-  await state.page.reload({
+  const url = state.page.url()
+  const context = state.page.context()
+  resetPageBootstrapMemo(state.page)
+  await state.page.close()
+  // Fresh pages release resources retained by repeated Firefox reloads.
+  state.page = await createScreenshotPage(context)
+  await applyPageSettings(state.page, pageViewport, headers)
+  await state.page.goto(url, {
     waitUntil: config.waitUntil,
     timeout: config.timeout,
   })
-  await applyPageSettings(state.page, pageViewport, headers)
-
-  // Clear the bootstrap memo BEFORE re-injecting. A reload destroys
-  // the injected stylesheet and test configuration, so the WeakSets
-  // must be cleared first — otherwise the bootstrap helpers see a
-  // stale "already done" flag and return early.
-  resetPageBootstrapMemo(state.page)
-
   await applyTestConfiguration(state.page)
   await addTestStylesheet(state.page)
   await waitForVisualStability(state.page)
@@ -1548,7 +1548,7 @@ async function performScreenshot(
   const effectiveWithWrapper = payload.withWrapper ?? true
 
   // Match the original Playwright setup: any simulate, script
-  // execution, or rootClassName triggers a page reload before the
+  // execution, or rootClassName triggers a fresh page before the
   // next test. This avoids fragile cleanup logic and stale state.
   const shouldReloadAfter = Boolean(
     payload.simulate ||
@@ -1564,11 +1564,12 @@ async function performScreenshot(
   let lastMouseAction: ActionName | undefined
   let delaySimulation: number
   let wrapperWasAdded = false
-  const { page } = state
+  let { page } = state
 
   try {
-    await page.emulateMedia({ media: payload.media ?? 'screen' })
     await makePageReady(state, payload)
+    page = state.page
+    await page.emulateMedia({ media: payload.media ?? 'screen' })
     await page.waitForFunction(() =>
       document.documentElement.hasAttribute('data-portal-ready')
     )
@@ -1897,6 +1898,7 @@ export const _testing = {
   getBrowserSlot,
   cleanupBrowserPool,
   takeScreenshot,
+  hardResetPage,
   resetPoolCleanedUp: () => {
     poolCleanedUp = false
   },
