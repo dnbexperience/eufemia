@@ -303,17 +303,26 @@ describe('Table scss', () => {
   it('should keep the container scrollbar ends visible in the rounded bottom corners', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
 
-    // A large corner radius would otherwise cut off the ends of the scrollbar
+    // A large corner radius would otherwise cut off the ends of the scrollbar.
+    // Only when it scrolls (then the ScrollView is focusable).
     expect(css).toContain(
-      '.dnb-table__container > .dnb-table__scroll-view {\n  margin-bottom: max(0rem, (var(--table-outline-radius) - 0.5rem) / 2);\n}'
+      '.dnb-table__container > .dnb-table__scroll-view[tabindex="0"] {\n  margin-bottom: max(0rem, (var(--table-outline-radius) - 0.5rem) / 2);\n}'
     )
     expect(css).toContain(
-      '.dnb-table__container .dnb-table__scroll-view {\n  clip-path: inset(0 round 0 0 min(var(--table-outline-radius), (var(--table-outline-radius) + 0.5rem) / 2) min(var(--table-outline-radius), (var(--table-outline-radius) + 0.5rem) / 2));\n}'
+      '.dnb-table__container .dnb-table__scroll-view[tabindex="0"] {\n  clip-path: inset(0 round 0 0 min(var(--table-outline-radius), (var(--table-outline-radius) + 0.5rem) / 2) min(var(--table-outline-radius), (var(--table-outline-radius) + 0.5rem) / 2));\n}'
+    )
+
+    // A table that fits keeps its bottom space and the full corner radius
+    expect(css).toContain(
+      '.dnb-table__container .dnb-table__scroll-view {\n  clip-path: inset(0 round 0 0 var(--table-outline-radius) var(--table-outline-radius));\n}'
+    )
+    expect(css).not.toMatch(
+      /^\.dnb-table__container > \.dnb-table__scroll-view \{[^}]*margin-bottom/m
     )
 
     // A Table.ScrollView inside Table.ContainerBody does not get the space too
     expect(css).not.toMatch(
-      /^\.dnb-table__container \.dnb-table__scroll-view \{[^}]*margin-bottom: max/m
+      /^\.dnb-table__container \.dnb-table__scroll-view(\[tabindex="0"\])? \{[^}]*margin-bottom: max/m
     )
 
     // In a Modal/Drawer the container does not scroll, so no space is needed
