@@ -96,7 +96,13 @@ export async function restoreCatalogue(
     )
     // The asset origin answers 403 for a key that does not exist yet.
     if (!publication && [403, 404].includes(response.status)) {
-      console.log('No CDN catalogue published yet.')
+      if (optional) {
+        console.warn(
+          '::warning::No social image catalogue is published, so pages use text previews.'
+        )
+      } else {
+        console.log('No CDN catalogue published yet.')
+      }
       return false
     }
     if (!response.ok) {
