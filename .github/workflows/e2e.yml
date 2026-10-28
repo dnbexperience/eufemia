@@ -57,6 +57,19 @@ jobs:
         with:
           cache-version: ${{ secrets.CACHE_VERSION }}
 
+      - name: Prepare apt package cache
+        run: |
+          # Let actions/cache restore into apt's root-owned archive directory
+          sudo chown "$(id -un)" /var/cache/apt/archives
+          # Expressions can't read runner variables like ImageOS
+          echo "IMAGE_OS=$ImageOS" >> "$GITHUB_ENV"
+
+      - name: Use apt package cache
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
+        with:
+          path: /var/cache/apt/archives/*.deb
+          key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-${{ env.IMAGE_OS }}-apt-playwright-${{ hashFiles('node_modules/playwright-core/package.json') }}
+
       - name: Use Playwright cache
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         id: playwright-cache
