@@ -147,11 +147,17 @@ export async function captureSpecimen(
         const margin = 2
         let rect = element.getBoundingClientRect()
         // A specimen scrolled in from across the fold ends flush with the
-        // viewport edge, which would cut that margin off.
+        // viewport edge, which would cut that margin off. When both margins
+        // cannot fit, keep the top one; switching between the two would
+        // never give a stable position.
+        const top = rect.top - margin
+        const bottom = rect.bottom + margin
         const overflow =
-          rect.bottom + margin > window.innerHeight
-            ? rect.bottom + margin - window.innerHeight
-            : Math.min(0, rect.top - margin)
+          bottom - top > window.innerHeight
+            ? top
+            : bottom > window.innerHeight
+              ? bottom - window.innerHeight
+              : Math.min(0, top)
         if (overflow) {
           window.scrollBy(0, overflow)
           rect = element.getBoundingClientRect()
