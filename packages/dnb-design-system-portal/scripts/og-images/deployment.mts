@@ -1,6 +1,7 @@
 import { writeFile } from 'node:fs/promises'
 import path from 'node:path'
-import { fileURLToPath } from 'node:url'
+import { realpathSync } from 'node:fs'
+import { fileURLToPath, pathToFileURL } from 'node:url'
 
 export async function stampSite(site: string, runId: number) {
   if (!Number.isSafeInteger(runId) || runId <= 0) {
@@ -29,7 +30,7 @@ export async function checkDeployment(runId: number) {
 
 if (
   process.argv[1] &&
-  path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)
+  import.meta.url === pathToFileURL(realpathSync(process.argv[1])).href
 ) {
   if (process.argv[2] === 'check') {
     await checkDeployment(Number(process.env.OG_EXPECTED_RUN_ID))

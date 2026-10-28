@@ -77,7 +77,7 @@ jobs:
       - name: Restore Portal social images
         if: github.ref == 'refs/heads/release'
         run: |
-          node packages/dnb-design-system-portal/scripts/og-images/cdn.mts
+          node packages/dnb-design-system-portal/scripts/og-images/cdn.mts --optional
           node packages/dnb-design-system-portal/scripts/og-images/install.mts
 
       - name: Build portal

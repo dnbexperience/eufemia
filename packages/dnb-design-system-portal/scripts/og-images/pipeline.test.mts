@@ -191,6 +191,9 @@ test('plans without Chromium, renders, reuses unchanged images, repairs missing 
     )
     assert.equal(png.readUInt32BE(16), 1200)
     assert.equal(png.readUInt32BE(20), 630)
+    const crop = manifest.entries['/uilib/components/button/'].crop
+    assert.match(crop, /^crops\/[a-f0-9]{64}\.png$/)
+    assert.ok((await readFile(path.join(root, crop))).length > 0)
     assert.equal(manifest.entries['/guide/'], undefined)
     assert.equal(manifest.entries['/'], undefined)
     assert.equal(

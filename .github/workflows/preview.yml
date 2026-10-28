@@ -40,7 +40,7 @@ jobs:
 
       - name: Restore Portal social images
         run: |
-          node packages/dnb-design-system-portal/scripts/og-images/cdn.mts
+          node packages/dnb-design-system-portal/scripts/og-images/cdn.mts --optional
           node packages/dnb-design-system-portal/scripts/og-images/install.mts
 
       - name: Build

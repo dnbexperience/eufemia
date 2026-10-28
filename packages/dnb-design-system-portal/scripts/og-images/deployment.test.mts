@@ -1,6 +1,14 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
-import { mkdtemp, readFile, writeFile, rm } from 'node:fs/promises'
+import {
+  mkdtemp,
+  mkdir,
+  readFile,
+  realpath,
+  symlink,
+  writeFile,
+  rm,
+} from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import path from 'node:path'
 import { execFile } from 'node:child_process'
@@ -65,4 +73,64 @@ test('checks the deployed snapshot in the publish job without workspace dependen
   } finally {
     await rm(root, { recursive: true, force: true })
   }
+})
+
+test('runs the scripts when they are started through a symlinked path', async () => {
+  const root = await realpath(
+    await mkdtemp(path.join(tmpdir(), 'og-symlink-'))
+  )
+  try {
+    const scripts = path.join(root, 'scripts')
+    await mkdir(scripts)
+    await writeFile(
+      path.join(scripts, 'deployment.mts'),
+      await readFile(new URL('./deployment.mts', import.meta.url), 'utf8')
+    )
+    await symlink(scripts, path.join(root, 'linked'))
+    const site = path.join(root, 'site')
+    await mkdir(site)
+    await exec(
+      process.execPath,
+      [path.join(root, 'linked', 'deployment.mts'), 'stamp'],
+      { env: { ...process.env, OG_SITE_OUTPUT: site, GITHUB_RUN_ID: '7' } }
+    )
+    assert.deepEqual(
+      JSON.parse(
+        await readFile(path.join(site, 'og-deployment.json'), 'utf8')
+      ),
+      { runId: 7 }
+    )
+    // The other entry scripts need network or gh, so they share the checked guard.
+    for (const name of ['artifacts', 'cdn', 'deployment', 'site']) {
+      const source = await readFile(
+        new URL('./' + name + '.mts', import.meta.url),
+        'utf8'
+      )
+      assert.ok(source.includes('realpathSync(process.argv[1])'), name)
+    }
+  } finally {
+    await rm(root, { recursive: true, force: true })
+  }
+})
+
+test('holds the Pages deployment queue only while publishing', async () => {
+  const workflow = await readFile(
+    new URL(
+      '../../../../.github/workflows/portal-og-images.yml',
+      import.meta.url
+    ),
+    'utf8'
+  )
+  const [header, jobs] = workflow.split('\njobs:\n')
+  const [generate, publish] = jobs.split('\n  publish:\n')
+  assert.match(header, /concurrency:\n {2}group: portal-og-images\n/)
+  assert.doesNotMatch(header + generate, /group: pages/)
+  assert.match(
+    publish,
+    /\n {4}concurrency:\n {6}group: pages\n {6}cancel-in-progress: false\n/
+  )
+  assert.ok(
+    publish.indexOf('group: pages') <
+      publish.indexOf('Check that the source Portal is still deployed')
+  )
 })

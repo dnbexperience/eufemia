@@ -24,6 +24,22 @@ const deployWorkflow = fs.readFileSync(
   path.resolve(import.meta.dirname, '../ghe-deploy-workflow.yml'),
   'utf8'
 )
+const socialImageWorkflow = fs.readFileSync(
+  path.resolve(import.meta.dirname, '../ghe-og-workflow.yml'),
+  'utf8'
+)
+
+function workflowJobs(workflow: string) {
+  const [header, body] = workflow.split('\njobs:\n')
+  return {
+    header,
+    jobs: Object.fromEntries(
+      body
+        .split(/\n(?= {2}[a-z-]+:\n)/)
+        .map((job) => [job.trim().split(':')[0], job])
+    ),
+  }
+}
 
 describe('assets infrastructure', () => {
   it('keeps the bucket private behind a CloudFront OAC', () => {
@@ -96,5 +112,26 @@ describe('assets infrastructure', () => {
       'Reserved asset prefix: $ASSET_PREFIX'
     )
     expect(deployWorkflow).not.toContain("--paths '/*'")
+  })
+
+  it('renders social images in a job without AWS access', () => {
+    const { header, jobs } = workflowJobs(socialImageWorkflow)
+
+    expect(header).not.toContain('id-token')
+    expect(Object.keys(jobs)).toEqual(['restore', 'render', 'publish'])
+    expect(jobs.render).not.toContain('id-token')
+    expect(jobs.render).not.toContain('configure-aws-credentials')
+    expect(jobs.render).toContain('yarn install --immutable')
+    expect(jobs.render).toContain('generate.mts render')
+
+    for (const name of ['restore', 'publish']) {
+      expect(jobs[name]).toContain('id-token: write')
+      expect(jobs[name]).toContain('configure-aws-credentials')
+      expect(jobs[name]).not.toContain('yarn')
+      expect(jobs[name]).not.toContain('playwright')
+      expect(jobs[name]).not.toContain('generate.mts')
+    }
+    expect(jobs.restore).toContain('s3.mts restore')
+    expect(jobs.publish).toContain('s3.mts publish')
   })
 })

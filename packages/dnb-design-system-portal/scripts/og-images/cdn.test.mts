@@ -56,6 +56,137 @@ test('restores a CDN manifest without downloading image files', async () => {
     await rm(root, { recursive: true, force: true })
   }
 })
+test('treats a missing CDN key as an unpublished catalogue', async () => {
+  const root = await mkdtemp(path.join(tmpdir(), 'og-cdn-missing-')),
+    original = globalThis.fetch
+  try {
+    // The asset origin answers 403, not 404, for a key that does not exist.
+    globalThis.fetch = async () => new Response('', { status: 403 })
+    assert.equal(await restoreCatalogue(root), false)
+    await assert.rejects(readFile(path.join(root, 'manifest.json')))
+  } finally {
+    globalThis.fetch = original
+    await rm(root, { recursive: true, force: true })
+  }
+})
+test('requires a verified publication to be present', async () => {
+  const root = await mkdtemp(path.join(tmpdir(), 'og-cdn-publication-')),
+    original = globalThis.fetch,
+    previous = process.env.OG_PUBLICATION_ID
+  try {
+    process.env.OG_PUBLICATION_ID = '42-1'
+    for (const status of [403, 404]) {
+      globalThis.fetch = async () => new Response('', { status })
+      await assert.rejects(
+        restoreCatalogue(root, { optional: true, retryDelay: 0 }),
+        /Could not restore the CDN catalogue/
+      )
+    }
+  } finally {
+    globalThis.fetch = original
+    if (previous === undefined) {
+      delete process.env.OG_PUBLICATION_ID
+    } else {
+      process.env.OG_PUBLICATION_ID = previous
+    }
+    await rm(root, { recursive: true, force: true })
+  }
+})
+test('retries temporary CDN failures', async () => {
+  const root = await mkdtemp(path.join(tmpdir(), 'og-cdn-retry-')),
+    original = globalThis.fetch
+  try {
+    const responses = [
+      () => Promise.reject(new TypeError('fetch failed')),
+      () => Promise.resolve(new Response('', { status: 503 })),
+      () =>
+        Promise.resolve(
+          new Response(
+            JSON.stringify({ version: 1, entries: { '/button/': entry } })
+          )
+        ),
+    ]
+    let calls = 0
+    globalThis.fetch = () => responses[calls++]()
+    assert.equal(await restoreCatalogue(root, { retryDelay: 0 }), true)
+    assert.equal(calls, 3)
+  } finally {
+    globalThis.fetch = original
+    await rm(root, { recursive: true, force: true })
+  }
+})
+test('fails strict restores but lets optional restores fall back to text previews', async () => {
+  const root = await mkdtemp(path.join(tmpdir(), 'og-cdn-optional-')),
+    original = globalThis.fetch,
+    warn = console.warn
+  const failures: Array<() => Promise<Response>> = [
+    () => Promise.reject(new TypeError('fetch failed')),
+    () => Promise.resolve(new Response('', { status: 503 })),
+    () => Promise.resolve(new Response('not json')),
+    () =>
+      Promise.resolve(
+        new Response(JSON.stringify({ version: 1, entries: [] }))
+      ),
+  ]
+  const warnings: string[] = []
+  try {
+    console.warn = (message: string) => warnings.push(message)
+    for (const failure of failures) {
+      globalThis.fetch = failure
+      await assert.rejects(restoreCatalogue(root, { retryDelay: 0 }))
+      assert.equal(
+        await restoreCatalogue(root, { optional: true, retryDelay: 0 }),
+        false
+      )
+      await assert.rejects(readFile(path.join(root, 'manifest.json')))
+    }
+    assert.equal(warnings.length, failures.length)
+    assert.ok(
+      warnings.every((message) => message.startsWith('::warning::'))
+    )
+  } finally {
+    globalThis.fetch = original
+    console.warn = warn
+    await rm(root, { recursive: true, force: true })
+  }
+})
+test('does not let the catalogue download block release or preview builds', async () => {
+  for (const workflow of ['release.yml', 'preview.yml']) {
+    const source = await readFile(
+      new URL(
+        '../../../../.github/workflows/' + workflow,
+        import.meta.url
+      ),
+      'utf8'
+    )
+    const restores = source.match(/node \S+\/og-images\/cdn\.mts.*/g)
+    assert.deepEqual(restores, [
+      'node packages/dnb-design-system-portal/scripts/og-images/cdn.mts --optional',
+    ])
+  }
+})
+test('rejects crop references outside the crop cache', () => {
+  const crop = 'crops/' + 'b'.repeat(64) + '.png'
+  assert.equal(
+    validateCatalogue({
+      version: 1,
+      entries: { '/button/': { ...entry, crop } },
+    }).entries['/button/'].crop,
+    crop
+  )
+  for (const value of [
+    '../crops/' + 'b'.repeat(64) + '.png',
+    'images/' + 'b'.repeat(64) + '.png',
+    1,
+  ]) {
+    assert.throws(() =>
+      validateCatalogue({
+        version: 1,
+        entries: { '/button/': { ...entry, crop: value } },
+      })
+    )
+  }
+})
 
 import { execFile } from 'node:child_process'
 import { promisify } from 'node:util'

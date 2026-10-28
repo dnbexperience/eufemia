@@ -6,7 +6,8 @@ import {
   mkdir,
 } from 'node:fs/promises'
 import path from 'node:path'
-import { fileURLToPath } from 'node:url'
+import { realpathSync } from 'node:fs'
+import { fileURLToPath, pathToFileURL } from 'node:url'
 import { parse } from 'parse5'
 import { socialImageTags } from '../../src/shared/social-image.mjs'
 import { stampSite } from './deployment.mts'
@@ -112,7 +113,7 @@ export async function prepareSite(
 
 if (
   process.argv[1] &&
-  path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)
+  import.meta.url === pathToFileURL(realpathSync(process.argv[1])).href
 ) {
   const portal = path.resolve(
     path.dirname(fileURLToPath(import.meta.url)),
