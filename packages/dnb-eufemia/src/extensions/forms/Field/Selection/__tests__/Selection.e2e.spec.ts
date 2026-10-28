@@ -214,6 +214,11 @@ test('keeps short values visible at predefined widths in a parent sized to its c
     const stack = element.firstElementChild as HTMLElement
     stack.style.display = 'inline-flex'
     stack.style.alignItems = 'flex-start'
+    for (const text of element.querySelectorAll(
+      '.dnb-dropdown__text__inner'
+    )) {
+      text.textContent = 'Foo!'
+    }
   })
   await page.evaluate(() => document.fonts.ready)
   await expect(async () => {
