@@ -101,7 +101,9 @@
   }
 
   &--status-neutral {
-    --badge-information-bg: var(--token-color-background-neutral-bold);
+    --badge-information-bg: var(
+      --token-color-background-neutral-alternative
+    );
 
     // subtle
     --badge-information-subtle-bg: var(
