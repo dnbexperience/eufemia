@@ -247,9 +247,16 @@ describe('ScreenshotReporter.onTestRunEnd', () => {
       },
     ] as never
 
+    const log = vi.spyOn(console, 'log').mockImplementation(() => {})
+
     new ScreenshotReporter().onTestRunEnd(modules, [], 'failed' as never)
 
     const reportDir = path.join(tmpDir, 'visual-diff-report')
+    expect(log).toHaveBeenCalledWith(
+      expect.stringContaining(
+        `file://${tmpDir}/visual-diff-report/index.html`
+      )
+    )
     const html = fs.readFileSync(
       path.join(reportDir, 'index.html'),
       'utf-8'
