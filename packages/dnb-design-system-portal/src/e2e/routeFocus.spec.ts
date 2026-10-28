@@ -153,7 +153,12 @@ test.describe('Route Focus', () => {
         await expect(
           page.locator('.dnb-app-content h1').first()
         ).toBeFocused()
-        await page.goBack({ waitUntil: 'networkidle' })
+        await page.goBack({ waitUntil: 'commit' })
+        await expect(page).toHaveURL(
+          (url) =>
+            url.pathname === '/web/components/accordion/' &&
+            url.hash === '#relevant-links'
+        )
       }
     }
   })
