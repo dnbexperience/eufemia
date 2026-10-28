@@ -7,7 +7,7 @@ const ALERT_DAYS = [14, 7, 3, 1, 0]
 
 async function checkToken(
   name: string
-): Promise<Check & { daysLeft?: number }> {
+): Promise<Check & { daysLeft?: number; unreachable?: boolean }> {
   const token = process.env[name]
   if (!token) {
     return { name, ok: false, detail: 'secret is not set' }
@@ -31,14 +31,21 @@ async function checkToken(
         name,
         ok: false,
         detail: `HTTP ${response.status} from GHE`,
+        unreachable: true,
       }
     }
+    const now = Date.now()
     return {
-      ...tokenExpiryCheck(name, response.headers),
-      daysLeft: daysUntilExpiry(response.headers),
+      ...tokenExpiryCheck(name, response.headers, now),
+      daysLeft: daysUntilExpiry(response.headers, now),
     }
   } catch {
-    return { name, ok: false, detail: 'GHE could not be reached' }
+    return {
+      name,
+      ok: false,
+      detail: 'GHE could not be reached',
+      unreachable: true,
+    }
   }
 }
 
@@ -80,7 +87,11 @@ async function main() {
       text: [
         'GHE access tokens need attention:',
         ...alerts.map((check) => `• ${check.name}: ${check.detail}`),
-        `Update the secrets: ${process.env.GITHUB_SERVER_URL}/${process.env.GITHUB_REPOSITORY}/settings/secrets/actions`,
+        ...(alerts.every((check) => check.unreachable)
+          ? []
+          : [
+              `Update the secrets: ${process.env.GITHUB_SERVER_URL}/${process.env.GITHUB_REPOSITORY}/settings/secrets/actions`,
+            ]),
       ].join('\n'),
       unfurl_links: false,
     }),

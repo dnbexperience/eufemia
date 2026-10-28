@@ -84,6 +84,8 @@ async function runAlert(env: Record<string, string>) {
         if (url.hostname !== 'api.dnb.ghe.com') throw new Error('Unexpected request')
         const auth = new Headers(options.headers).get('Authorization')
         if (auth === 'Bearer expired') return new Response('{}', { status: 401 })
+        if (auth === 'Bearer unavailable') return new Response('{}', { status: 503 })
+        if (auth === 'Bearer unreachable') throw new TypeError('fetch failed')
         const days = Number(auth.match(/^Bearer days-(\\d+)$/)?.[1] ?? 30)
         const expiry = new Date(Date.now() + days * 86400000 + 3600000)
         return new Response('{}', { headers: {
@@ -132,6 +134,23 @@ it('posts one Slack message for expired and missing tokens', async () => {
       'Update the secrets: https://github.com/dnbexperience/eufemia/settings/secrets/actions',
     ].join('\n')
   )
+})
+
+it('leaves out the secrets link when only GHE is unavailable', async () => {
+  const { stdout } = await runAlert({
+    GHE_DEPLOY_PAT: 'unavailable',
+    GHE_MONITORING_DEPLOY_PAT: 'unreachable',
+    TOKEN_EXPIRY_WEBHOOK: webhook,
+  })
+
+  expect(stdout).toContain(
+    [
+      'SLACK GHE access tokens need attention:',
+      '• GHE_DEPLOY_PAT: HTTP 503 from GHE',
+      '• GHE_MONITORING_DEPLOY_PAT: GHE could not be reached',
+    ].join('\n') + '\n'
+  )
+  expect(stdout).not.toContain('Update the secrets')
 })
 
 it('stays quiet while both tokens are far from expiry', async () => {
