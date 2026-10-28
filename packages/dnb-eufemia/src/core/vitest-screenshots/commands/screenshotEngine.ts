@@ -1146,7 +1146,6 @@ const handleWrapper = async (
     wrapperStyle ?? null,
     background
   )
-  const yDecimals = initialBox.y.toString().split('.')[1] || 0
 
   // Snap dimensions to an 8 px grid. Firefox's font shaping can
   // shift text metrics by a few sub-pixels between runs (even with
@@ -1158,7 +1157,7 @@ const handleWrapper = async (
   const styleStr = makeStyles({
     display: 'inline-block',
     background: background ?? '',
-    top: `0.${yDecimals}px`,
+    top: '0px',
     'min-width': measuredWidth
       ? `${Math.ceil(measuredWidth / 8) * 8}px`
       : null,
@@ -1177,6 +1176,10 @@ const handleWrapper = async (
       element.parentNode.insertBefore(wrapperEl, element)
       wrapperEl.appendChild(element)
       wrapperEl.setAttribute('style', style)
+
+      // Align in document coordinates, independent of the current scroll.
+      const top = wrapperEl.getBoundingClientRect().top + window.scrollY
+      wrapperEl.style.top = `${Math.floor(top) - top}px`
 
       const elRec = element.getBoundingClientRect()
       const wrRec = wrapperEl.getBoundingClientRect()
@@ -1491,7 +1494,20 @@ const takeScreenshot = async (
   const target = screenshotSelector || screenshotTargetSelector || selector
   if (target) {
     await page.waitForSelector(target, { state: 'attached' })
-    return await page.locator(target).first().screenshot()
+    const locator = page.locator(target).first()
+    await locator.scrollIntoViewIfNeeded()
+    // Fractional scrolling can clip inset borders in Firefox screenshots.
+    await page.evaluate(() => {
+      window.scrollTo({
+        left: Math.floor(window.scrollX),
+        top: Math.floor(window.scrollY),
+        behavior: 'instant',
+      })
+      return new Promise<void>((resolve) =>
+        requestAnimationFrame(() => requestAnimationFrame(() => resolve()))
+      )
+    })
+    return await locator.screenshot()
   }
 
   const isAttached = await screenshotElement
@@ -1545,6 +1561,9 @@ async function performScreenshot(
   try {
     await page.emulateMedia({ media: payload.media ?? 'screen' })
     await makePageReady(state, payload)
+    await page.waitForFunction(() =>
+      document.documentElement.hasAttribute('data-portal-ready')
+    )
 
     const elementResult = await handleElement(state, payload)
     styleCleanup = elementResult.styleCleanup
@@ -1869,6 +1888,7 @@ export const _testing = {
   sessionToSlot,
   getBrowserSlot,
   cleanupBrowserPool,
+  takeScreenshot,
   resetPoolCleanedUp: () => {
     poolCleanedUp = false
   },

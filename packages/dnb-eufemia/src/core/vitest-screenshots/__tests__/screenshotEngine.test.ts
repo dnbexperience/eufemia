@@ -50,6 +50,7 @@ const {
   getBrowserSlot,
   cleanupBrowserPool,
   resetPoolCleanedUp,
+  takeScreenshot,
 } = _testing
 
 // ── helpers ──────────────────────────────────────────────────────────
@@ -71,6 +72,48 @@ const makeMockContext = () => ({
 })
 
 // ── tests ────────────────────────────────────────────────────────────
+
+describe('takeScreenshot', () => {
+  afterEach(() => {
+    vi.unstubAllGlobals()
+  })
+
+  it('aligns fractional scroll offsets before capturing inset borders', async () => {
+    const scrollTo = vi.fn()
+    vi.stubGlobal('window', { scrollX: 12.5, scrollY: 12333.5, scrollTo })
+    vi.stubGlobal('requestAnimationFrame', (callback) => callback())
+    const screenshot = vi.fn(async () => {
+      expect(scrollTo).toHaveBeenCalledWith({
+        left: 12,
+        top: 12333,
+        behavior: 'instant',
+      })
+      return Buffer.from('screenshot')
+    })
+    const locator = {
+      scrollIntoViewIfNeeded: vi.fn(async () => undefined),
+      screenshot,
+    }
+    const page = {
+      waitForSelector: vi.fn(async () => undefined),
+      locator: vi.fn(() => ({ first: () => locator })),
+      evaluate: vi.fn(async (callback) => {
+        expect(locator.scrollIntoViewIfNeeded).toHaveBeenCalled()
+        return callback()
+      }),
+    }
+
+    expect(
+      await takeScreenshot(
+        page as never,
+        null,
+        '.wrapper',
+        null,
+        '.target'
+      )
+    ).toEqual(Buffer.from('screenshot'))
+  })
+})
 
 describe('buildUrl', () => {
   it('creates a URL with data-visual-test param', () => {
