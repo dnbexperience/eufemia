@@ -331,7 +331,16 @@ describe('Table scss', () => {
     // Only when the ScrollView is the last element of the Card,
     // and only when it scrolls (then it is focusable)
     expect(css).toContain(
-      '.dnb-card--no-inner-space > .dnb-flex-container > .dnb-table__scroll-view[tabindex="0"]:last-child, .dnb-card--no-inner-space > .dnb-flex-container > .dnb-space:last-child > .dnb-table__scroll-view[tabindex="0"]:only-child {\n  margin-bottom: max(0rem, var(--rounded-corner) - 0.5rem);\n  clip-path: inset(0 round 0 0 min(var(--rounded-corner), 0.5rem) min(var(--rounded-corner), 0.5rem));\n}'
+      '.dnb-card--no-inner-space > .dnb-flex-container > .dnb-table__scroll-view[tabindex="0"]:last-child, .dnb-card--no-inner-space > .dnb-flex-container > .dnb-space:last-child > .dnb-table__scroll-view[tabindex="0"]:only-child {\n  margin-bottom: max(0rem, var(--rounded-corner) - 0.5rem);\n}'
+    )
+
+    // A smaller clip only in a filled Card, which clips the ScrollView anyway.
+    // In other Cards a clip would hide the focus ring.
+    expect(css).toContain(
+      '.dnb-card--filled.dnb-card--no-inner-space > .dnb-flex-container > .dnb-table__scroll-view[tabindex="0"]:last-child, .dnb-card--filled.dnb-card--no-inner-space > .dnb-flex-container > .dnb-space:last-child > .dnb-table__scroll-view[tabindex="0"]:only-child {\n  clip-path: inset(0 round 0 0 min(var(--rounded-corner), 0.5rem) min(var(--rounded-corner), 0.5rem));\n}'
+    )
+    expect(css).not.toMatch(
+      /^\.dnb-card--no-inner-space > [^{]*\{[^}]*clip-path/m
     )
   })
 })
