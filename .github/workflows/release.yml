@@ -235,6 +235,7 @@ jobs:
 
     outputs:
       released: ${{ steps.release-info.outputs.released }}
+      notifications: ${{ steps.release.outputs.notifications }}
       tarball: ${{ steps.pack.outputs.tarball }}
 
     steps:
@@ -303,6 +304,7 @@ jobs:
         run: yarn workspace @dnb/eufemia validate:package
 
       - name: Release
+        id: release
         if: github.repository == 'dnbexperience/eufemia' &&
           (github.ref == 'refs/heads/release' ||
           github.ref == 'refs/heads/beta' ||
@@ -316,6 +318,7 @@ jobs:
           # stored publish secret is needed. Requires a Trusted Publisher for
           # @dnb/eufemia configured on npmjs.com pointing at this workflow.
           # GH_* are for the GitHub release and the changelog/tag commit push.
+          RELEASE_NOTIFICATION_FILE: ${{ runner.temp }}/release-notification.json
           GH_EMAIL: ${{ secrets.GH_EMAIL }}
           GH_NAME: ${{ secrets.GH_NAME }}
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
@@ -324,6 +327,16 @@ jobs:
           # tampered artifact from running an npm lifecycle hook in this
           # credentialed job.
           NPM_CONFIG_IGNORE_SCRIPTS: 'true'
+
+      - name: Upload release notification details
+        continue-on-error: true
+        if: steps.release.outputs.notifications == 'true'
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: release-notification
+          path: ${{ runner.temp }}/release-notification.json
+          if-no-files-found: error
+          retention-days: 7
 
       # Capture the published version so the least-privilege SBOM job below can
       # target the matching GitHub Release and stamp the SBOM. Empty or the
@@ -366,6 +379,66 @@ jobs:
           name: release-tarball
           path: packages/dnb-eufemia/${{ steps.pack.outputs.tarball }}
           retention-days: 1
+
+  # Notifications can be retried without publishing or deploying again.
+  notify-release:
+    name: Notify released PRs and issues
+    needs: action
+    if: needs.action.outputs.notifications == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    permissions:
+      contents: read
+      pull-requests: write
+      issues: write
+
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+
+      - name: Use Node.js
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        with:
+          node-version-file: 'package.json'
+          package-manager-cache: false
+
+      - name: Install notification dependencies
+        run: yarn install --immutable --mode=skip-build
+
+      - name: Download release notification details
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: release-notification
+          path: ${{ runner.temp }}/release-notification
+
+      - name: Notify released PRs and issues
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9
+        env:
+          RELEASE_NOTIFICATION_FILE: ${{ runner.temp }}/release-notification/release-notification.json
+        with:
+          retries: 3
+          script: |
+            const { readFileSync } = require('node:fs')
+            const { pathToFileURL } = require('node:url')
+            const { resolve } = require('node:path')
+            const { notifyRelease } = await import(pathToFileURL(resolve(
+              'packages/dnb-eufemia/scripts/postbuild/notifyRelease.ts'
+            )).href)
+            const notifications = JSON.parse(readFileSync(process.env.RELEASE_NOTIFICATION_FILE, 'utf8'))
+            const errors = []
+            for (const release of notifications) {
+              try {
+                await notifyRelease({ github, ...context.repo, release })
+              } catch (error) {
+                errors.push(error)
+              }
+            }
+            if (errors.length > 0) {
+              throw new AggregateError(errors, 'Some release notifications failed')
+            }
 
   # Generate the CycloneDX SBOM and vulnerability report. This runs untrusted
   # third-party code (the CycloneDX generator via `yarn dlx`), so it lives in
