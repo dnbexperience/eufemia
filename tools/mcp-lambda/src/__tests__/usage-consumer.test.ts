@@ -122,18 +122,22 @@ describe('usage consumer', () => {
     expect(errorSpy).not.toHaveBeenCalled()
   })
 
-  it('drops a message whose miss fields have the wrong type', async () => {
+  it('drops a message whose version or miss fields have the wrong type', async () => {
     await handler(
       event(
         sqsRecord(
-          'bad',
+          'bad-miss',
           JSON.stringify([{ ...usageRecord(), component_missed: 'yes' }])
+        ),
+        sqsRecord(
+          'bad-version',
+          JSON.stringify([{ ...usageRecord(), eufemia_version: 11 }])
         )
       )
     )
 
     expect(storeMcpUsage).toHaveBeenCalledWith('my-bucket', [])
-    expect(errorSpy).toHaveBeenCalledTimes(1)
+    expect(errorSpy).toHaveBeenCalledTimes(2)
   })
 
   it('retries the batch when S3 storage fails', async () => {

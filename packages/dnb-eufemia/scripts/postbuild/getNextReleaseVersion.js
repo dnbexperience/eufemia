@@ -65,28 +65,42 @@ async function getNextReleaseVersion({ cwd = eufemiaRoot } = {}) {
 
 const STABLE_RELEASE_TAG = /^v(\d+\.\d+\.\d+)$/
 
+function latestStableRelease(tags) {
+  return tags
+    .split('\n')
+    .map((tag) => STABLE_RELEASE_TAG.exec(tag)?.[1])
+    .find(Boolean)
+}
+
 /**
  * The version of the checked-out code, for when `getNextReleaseVersion` returns
- * `null`. On a release branch that is its latest release, as nothing since
- * warrants a new one. Code on any other branch is unreleased, so the branch and
- * commit are added as semver build metadata. `null` when there are no release
- * tags, as in a shallow clone.
+ * `null`. A commit with a release tag, or a release branch, is its latest
+ * release, as nothing since warrants a new one. Code on any other branch is
+ * unreleased, so the branch and commit are added as semver build metadata.
+ * `null` when there are no release tags, as in a shallow clone.
  */
 function getCheckedOutVersion({ cwd = eufemiaRoot } = {}) {
+  const releaseAtHead = latestStableRelease(
+    git(cwd, ['tag', '--points-at', 'HEAD', '--sort=-v:refname'])
+  )
+
+  if (releaseAtHead) {
+    return releaseAtHead
+  }
+
   const branchName = git(cwd, ['rev-parse', '--abbrev-ref', 'HEAD'])
   const onReleaseBranch = isReleaseBranch(branchName, { cwd })
 
   // A maintenance branch reports its own line, not the newest release
-  const latestRelease = git(cwd, [
-    'tag',
-    '--list',
-    'v*',
-    '--sort=-v:refname',
-    ...(onReleaseBranch ? ['--merged', 'HEAD'] : []),
-  ])
-    .split('\n')
-    .map((tag) => STABLE_RELEASE_TAG.exec(tag)?.[1])
-    .find(Boolean)
+  const latestRelease = latestStableRelease(
+    git(cwd, [
+      'tag',
+      '--list',
+      'v*',
+      '--sort=-v:refname',
+      ...(onReleaseBranch ? ['--merged', 'HEAD'] : []),
+    ])
+  )
 
   if (!latestRelease) {
     return null

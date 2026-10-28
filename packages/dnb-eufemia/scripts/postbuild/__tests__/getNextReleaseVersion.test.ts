@@ -251,6 +251,13 @@ describe('getCheckedOutVersion', () => {
     )
   })
 
+  it('returns the release a detached checkout points at', () => {
+    const { cwd, git } = createRepository()
+    git('checkout', '--quiet', '--detach', 'v1.0.0')
+
+    expect(getCheckedOutVersion({ cwd })).toBe('1.0.0')
+  })
+
   it('returns null without release tags', () => {
     const { cwd, git } = createRepository()
     git('tag', '--delete', 'v1.0.0')

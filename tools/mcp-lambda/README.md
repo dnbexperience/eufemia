@@ -209,7 +209,7 @@ Each run checks:
   deployment workflows and runs stalled for an hour are reported separately.
 
 The hosted docs are rebuilt independently of npm and report the release the
-deployed code builds on, such as `11.16.0`, or `11.16.0+main.4c04cde` for a
+deployed code builds on, such as `11.16.0`, or `11.16.0+main.4c04cde117a` for a
 deploy from a branch other than `release`. The source commit is the deployment
 freshness signal; this monitor does not claim npm version equality. The public
 deployment workflow hands artifacts to a separate deploy pipeline, so its
