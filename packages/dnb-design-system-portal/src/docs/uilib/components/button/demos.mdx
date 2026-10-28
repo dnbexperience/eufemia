@@ -18,6 +18,10 @@ import {
   ButtonIcon,
   ButtonOnDarkSurface,
   SvgInButton,
+  PrimaryButtonSizes,
+  SecondaryButtonSizes,
+  TertiaryButtonSizes,
+  IconButtonSizes,
 } from 'Docs/uilib/components/button/Examples'
 import { IconPrimary } from '@dnb/eufemia/src'
 
@@ -25,7 +29,7 @@ import { IconPrimary } from '@dnb/eufemia/src'
 
 ### Choose a variant
 
-Use a button to perform an action. Use [Anchor](/uilib/components/anchor) for ordinary navigation.
+Choose the visual emphasis to match the importance of the action.
 
 <ButtonVariants />
 
@@ -117,9 +121,47 @@ The labels above the buttons identify the sizes and states.
 
 <ButtonIcon />
 
+<span id="variants-and-sizes" />
+
 ### Sizes
 
-Use `default` or `large` for primary and secondary buttons. Icon-only buttons also support `small` and `medium`. See [Variants and sizes](/uilib/components/button/#variants-and-sizes) for the size comparisons.
+Use `size` to set the button dimensions.
+
+#### Primary button sizes
+
+Use `default` or `large` for primary buttons.
+
+<PrimaryButtonSizes />
+
+#### Secondary button sizes
+
+Use `default` or `large` for secondary buttons.
+
+<SecondaryButtonSizes />
+
+#### Tertiary button sizes
+
+Use `default` (recommended) or `large` for tertiary buttons with text.
+
+<TertiaryButtonSizes />
+
+#### Icon button sizes
+
+Icon-only buttons support `small`, `medium`, `default` and `large`, including the tertiary variant. When `size` is omitted, an icon-only button uses `medium`.
+
+<IconButtonSizes />
+
+`size` controls the button dimensions, while `iconSize` controls the icon dimensions. For example, this small tertiary button is `1.5rem` square (24 px at the default root font size), with a `1rem` (16 px) icon:
+
+```tsx
+<Button
+  variant="tertiary"
+  size="small"
+  icon="add"
+  iconSize="default"
+  title="Add attachment"
+/>
+```
 
 ### Anchor button
 
