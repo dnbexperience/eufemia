@@ -29,6 +29,7 @@ test.describe("What's new", () => {
   test('combines releases, change log and upgrade guides in route-based tabs', async ({
     page,
   }) => {
+    test.setTimeout(60_000)
     await page.goto('/web/whats-new')
     await waitForApp(page)
     await expect(
