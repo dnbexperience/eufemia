@@ -1,8 +1,10 @@
 import { test, expect } from '@playwright/test'
+import waitForApp from './shared/waitForApp'
 
 test.describe('Fullscreen', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/uilib/components/button/demos/')
+    await waitForApp(page)
   })
 
   test('click on fullscreen button should navigate to the fullscreen page', async ({
@@ -34,7 +36,7 @@ test.describe('Fullscreen', () => {
     })
 
     await page.goto('/uilib/components/button/demos/?fullscreen')
-    await page.waitForSelector('.dnb-app-content')
+    await waitForApp(page)
 
     const hydrationErrors = errors.filter(
       (e) =>
@@ -47,7 +49,7 @@ test.describe('Fullscreen', () => {
     page,
   }) => {
     await page.goto('/uilib/components/button/demos/?fullscreen')
-    await page.waitForSelector('.dnb-app-content')
+    await waitForApp(page)
 
     // Header and sidebar should be hidden
     await expect(page.locator('header.sticky-menu')).toHaveCount(0)
@@ -66,7 +68,7 @@ test.describe('Fullscreen', () => {
     page,
   }) => {
     await page.goto('/uilib/components/heading/demos/?fullscreen')
-    await page.waitForSelector('.dnb-app-content')
+    await waitForApp(page)
 
     const selectedTab = page.locator(
       '.dnb-tabs .dnb-tabs__button.selected'

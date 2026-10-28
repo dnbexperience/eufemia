@@ -46,21 +46,7 @@ async function main() {
           const path = paths[cursor++]
 
           try {
-            const response = await page.goto(
-              new URL(path, args.baseUrl).href,
-              {
-                waitUntil: 'load',
-                timeout: 30000,
-              }
-            )
-            if (!response?.ok()) {
-              throw new Error(
-                `Page returned HTTP ${response?.status() ?? 'unknown'}`
-              )
-            }
-            await page
-              .locator('html[data-portal-ready="true"]')
-              .waitFor({ state: 'attached', timeout: 10000 })
+            await loadPage(page, new URL(path, args.baseUrl).href)
             if (isLight) {
               const ids = await page
                 .locator('[id]')
@@ -148,6 +134,32 @@ async function main() {
 
 async function readJson(location) {
   return JSON.parse(await fs.readFile(location, 'utf8'))
+}
+
+// The host sometimes fails or stalls a request, so retry the page
+async function loadPage(page, url) {
+  for (let attempt = 1; ; attempt++) {
+    try {
+      const response = await page.goto(url, {
+        waitUntil: 'load',
+        timeout: 30000,
+      })
+      if (!response?.ok()) {
+        throw new Error(
+          `Page returned HTTP ${response?.status() ?? 'unknown'}`
+        )
+      }
+      await page
+        .locator('html[data-portal-ready="true"]')
+        .waitFor({ state: 'attached', timeout: 10000 })
+      return
+    } catch (error) {
+      if (attempt === 3) {
+        throw error
+      }
+      await page.waitForTimeout(attempt * 5000)
+    }
+  }
 }
 
 function parseArgs(values) {

@@ -110,6 +110,44 @@ describe('Value.Date', () => {
       expect(valueBlock).toHaveTextContent('1.–30. september 2024')
     })
 
+    it('should show the date that is set when a range has only one date', () => {
+      const getContent = () =>
+        document.querySelector('.dnb-forms-value-block__content')
+          .textContent
+
+      const { rerender } = render(<Value.Date value="2024-09-01|" />)
+
+      expect(getContent()).toBe('1. september 2024')
+
+      rerender(<Value.Date value="|2024-09-30" />)
+
+      expect(getContent()).toBe('30. september 2024')
+
+      rerender(<Value.Date value="2024-09-01|null" variant="numeric" />)
+
+      expect(getContent()).toBe('01.09.2024')
+
+      rerender(<Value.Date value="2024-09-01|undefined" />)
+
+      expect(getContent()).toBe('1. september 2024')
+    })
+
+    it('renders without value when a range has no dates', () => {
+      const { rerender } = render(
+        <Value.Date value="undefined|undefined" />
+      )
+
+      expect(document.body.textContent).toBe('')
+
+      rerender(<Value.Date value="null|null" />)
+
+      expect(document.body.textContent).toBe('')
+
+      rerender(<Value.Date value="|" />)
+
+      expect(document.body.textContent).toBe('')
+    })
+
     describe('formats with different locale', () => {
       it('given as prop', () => {
         render(<Value.Date value="2023-01-16" locale="en-GB" />)

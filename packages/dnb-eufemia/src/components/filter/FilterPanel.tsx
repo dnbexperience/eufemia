@@ -1,4 +1,11 @@
-import { useCallback, useContext, useMemo, useRef } from 'react'
+import {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
 import type { ReactNode } from 'react'
 import { clsx } from 'clsx'
 import Button from '../button/Button'
@@ -57,6 +64,54 @@ function FilterPanel({
   }, [commitFilters, setPanelOpen, panelButtonRef])
 
   const panelDivRef = useRef<HTMLDivElement>(null)
+  const [contentElement, setContentElement] =
+    useState<HTMLDivElement>(null)
+  const [showCloseButton, setShowCloseButton] = useState(false)
+
+  useEffect(() => {
+    const panel = panelDivRef.current
+    if (!panelOpen || isManual || !panel || !contentElement) {
+      return undefined
+    }
+
+    const updateCloseButton = () => {
+      const panelStyle = window.getComputedStyle(panel)
+      const panelTop = panel.getBoundingClientRect().top
+      const buttonTop =
+        panelButtonRef.current?.getBoundingClientRect().top ?? panelTop
+      // Measure from the toggle so scrolling does not change the result.
+      const height =
+        panelTop -
+        buttonTop +
+        contentElement.getBoundingClientRect().height +
+        (parseFloat(panelStyle.paddingTop) || 0) +
+        (parseFloat(panelStyle.paddingBottom) || 0)
+      const needsCloseButton =
+        !panelButtonRef.current || height > window.innerHeight
+
+      if (
+        !needsCloseButton &&
+        document.activeElement ===
+          panel.querySelector('.dnb-filter__panel-close')
+      ) {
+        panelButtonRef.current?.focus()
+      }
+      setShowCloseButton(needsCloseButton)
+    }
+
+    updateCloseButton()
+    const observer =
+      typeof ResizeObserver !== 'undefined'
+        ? new ResizeObserver(updateCloseButton)
+        : undefined
+    observer?.observe(contentElement)
+    window.addEventListener('resize', updateCloseButton)
+
+    return () => {
+      observer?.disconnect()
+      window.removeEventListener('resize', updateCloseButton)
+    }
+  }, [panelOpen, isManual, contentElement, panelButtonRef])
 
   const itemContextValue = useMemo(() => ({ panelRef: panelDivRef }), [])
 
@@ -71,9 +126,16 @@ function FilterPanel({
           ref={panelDivRef}
           className={clsx('dnb-filter__panel', className)}
         >
-          {children}
+          <div
+            ref={setContentElement}
+            className="dnb-filter__panel-content"
+          >
+            {children}
+          </div>
 
-          <Hr className="dnb-filter__hr" space={0} />
+          {(isManual || showCloseButton) && (
+            <Hr className="dnb-filter__hr" space={0} />
+          )}
 
           {isManual ? (
             <div className="dnb-filter__panel-actions">
@@ -88,7 +150,7 @@ function FilterPanel({
                 {cancelFilterLabel}
               </Button>
             </div>
-          ) : (
+          ) : showCloseButton ? (
             <Button
               variant="tertiary"
               icon={close}
@@ -98,7 +160,7 @@ function FilterPanel({
             >
               {hideFilterLabel}
             </Button>
-          )}
+          ) : null}
         </div>
       </FilterItemContext>
     </HeightAnimation>

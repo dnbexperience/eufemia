@@ -656,27 +656,18 @@ resource "aws_athena_workgroup" "analytics" {
 
 # Pre-created out-of-band: the OIDC deploy role's permissions boundary forbids
 # iam:CreateRole (ADR 0004), so an account admin provisions the execution role
-# (trust policy + AWSLambdaBasicExecutionRole) and it is only referenced here.
-#
-# The role additionally needs an inline/attached policy granting:
-#   - s3:GetObject, s3:PutObject, s3:ListBucket on the data bucket (portal-views/*)
-#   - s3:PutObject on the data bucket (snapshots/dashboard.json) — the
-#     scheduled snapshot generator reuses this role to refresh the snapshot
-#   - s3:GetObject, s3:PutObject on the data bucket (athena-results/*)
-#   - athena:StartQueryExecution, athena:GetQueryExecution,
-#     athena:GetQueryResults on the analytics workgroup
-#   - glue:GetTable, glue:GetDatabase, glue:GetPartitions on the analytics db/table
+# and it is only referenced here. See the "One-time bootstrap" section in
+# README.md for its trust policy and permissions.
 data "aws_iam_role" "lambda" {
   name = "${local.function_name}-role"
 }
 
 # Read-only execution role for the browser-facing dashboard-read Lambda.
-# Pre-created out-of-band for the same reason as above (iam:CreateRole is
-# forbidden by the deploy role's boundary, ADR 0004) and only referenced here.
+# Pre-created out-of-band for the same reason as above and only referenced here.
 # Its inline policy grants a single permission:
 #   - s3:GetObject on the snapshot prefix (snapshots/*)
 # so the internet-facing read surface has no write or Athena access. See the
-# "One-time bootstrap" section in README.md for the exact policy document.
+# "One-time bootstrap" section in README.md for the policy.
 data "aws_iam_role" "dashboard" {
   name = "eufemia-${var.environment}-dashboard-role"
 }
@@ -918,6 +909,8 @@ resource "aws_lambda_function" "snapshot" {
       GLUE_TABLE_COMPONENT_USAGE       = aws_glue_catalog_table.component_usage.name
       GLUE_TABLE_COMPONENT_USAGE_DAILY = aws_glue_catalog_table.component_usage_daily.name
       ATHENA_WORKGROUP                 = aws_athena_workgroup.analytics.name
+      # Set to "true" once a producer writes to component-usage/.
+      COMPONENT_USAGE_ENABLED = "false"
     }
   }
 
@@ -1001,18 +994,18 @@ resource "aws_cloudwatch_metric_alarm" "snapshot_not_running" {
   alarm_actions       = [aws_sns_topic.snapshot_alerts.arn]
 }
 
-# A run can succeed (Invocations >= 1, Errors = 0) yet write a snapshot with no
-# page views, e.g. the Athena query stops matching partitions. The generator
-# emits the page-view count as an EMF metric (SnapshotPortalViewCount), so a
-# snapshot with no page views is caught here, even if it has MCP data. The
-# Lambda alarms above only see the run, not its content. The not-running alarm
-# owns the "stopped firing" case, so missing data here does not breach. The
-# namespace/metric/dimension must match those emitted in src/lambda/snapshot.ts.
-# Notifies snapshot_alerts above. Note that a genuinely idle environment (no
-# traffic) can sit at 0 and trip this.
+# A run can succeed (Invocations >= 1, Errors = 0) while page views stop arriving,
+# e.g. the collect path breaks or the rollup refresh keeps failing. The generator
+# emits the page views of today and yesterday (UTC) as an EMF metric
+# (SnapshotPortalViewCount), so this is caught here, even if the snapshot has MCP
+# data. It fires after 24 to 48 hours without page views, plus up to 6 hours of
+# evaluation. The Lambda alarms above only see the run, not its content. The
+# not-running alarm owns the "stopped firing" case, so missing data here does not
+# breach. Notifies snapshot_alerts above. Note that a genuinely idle environment
+# (no traffic) can sit at 0 and trip this.
 resource "aws_cloudwatch_metric_alarm" "snapshot_empty" {
   alarm_name          = "eufemia-${var.environment}-analytics-snapshot-empty"
-  alarm_description   = "Dashboard snapshot generator wrote a snapshot with no page views"
+  alarm_description   = "Dashboard snapshot generator found no page views today or yesterday (UTC)"
   namespace           = "Eufemia/Analytics"
   metric_name         = "SnapshotPortalViewCount"
   dimensions          = { FunctionName = aws_lambda_function.snapshot.function_name }
@@ -1031,9 +1024,7 @@ resource "aws_cloudwatch_metric_alarm" "snapshot_empty" {
 # and falls back to empty so portal views still publish. Both are invisible to
 # the Lambda Errors/Invocations and SnapshotPortalViewCount alarms, so the
 # generator emits a McpUsageBuildFailure EMF metric on either path and this
-# alarm surfaces it.
-# The namespace/metric/dimension must match those emitted in src/lambda/snapshot.ts.
-# Notifies snapshot_alerts above.
+# alarm surfaces it. Notifies snapshot_alerts above.
 resource "aws_cloudwatch_metric_alarm" "snapshot_mcp_build_failed" {
   alarm_name          = "eufemia-${var.environment}-analytics-snapshot-mcp-build-failed"
   alarm_description   = "Dashboard snapshot generator failed to refresh or build the MCP usage section"
@@ -1053,11 +1044,9 @@ resource "aws_cloudwatch_metric_alarm" "snapshot_mcp_build_failed" {
 # the durable daily rollup cannot be refreshed (a transient tail recompute still
 # serves existing history) or the section cannot be built at all (falls back to
 # empty). Both are invisible to the Lambda/SnapshotPortalViewCount alarms, so
-# this alarm surfaces them. The namespace/metric/dimension must match those
-# emitted in src/lambda/snapshot.ts. DORMANT until buildComponentUsage is wired
-# into the generator (no producer yet), so the metric is not emitted and the
-# alarm stays at INSUFFICIENT_DATA/OK; kept so re-wiring needs no infra change.
-# Notifies snapshot_alerts above once live.
+# this alarm surfaces them. Dormant while COMPONENT_USAGE_ENABLED is off on the
+# snapshot Lambda: the metric is not emitted and the alarm stays at
+# INSUFFICIENT_DATA/OK. Notifies snapshot_alerts above once live.
 resource "aws_cloudwatch_metric_alarm" "snapshot_component_usage_build_failed" {
   alarm_name          = "eufemia-${var.environment}-analytics-snapshot-component-usage-build-failed"
   alarm_description   = "Dashboard snapshot generator failed to refresh or build the component usage section"
@@ -1078,8 +1067,7 @@ resource "aws_cloudwatch_metric_alarm" "snapshot_component_usage_build_failed" {
 # snapshot, so it is invisible to the Lambda/SnapshotPortalViewCount alarms. The
 # generator emits a PortalViewsRollupFailure EMF metric on the catch path and this
 # alarm surfaces a persistent failure (which would silently stop the durable
-# history accruing). The namespace/metric/dimension must match those emitted in
-# src/lambda/snapshot.ts.
+# history accruing).
 resource "aws_cloudwatch_metric_alarm" "snapshot_portal_views_rollup_failed" {
   alarm_name          = "eufemia-${var.environment}-analytics-snapshot-portal-views-rollup-failed"
   alarm_description   = "Dashboard snapshot generator failed to refresh the portal-view daily rollup"

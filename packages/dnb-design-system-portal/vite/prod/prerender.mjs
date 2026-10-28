@@ -22,6 +22,10 @@ import os from 'node:os'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { Worker } from 'node:worker_threads'
+import {
+  socialImageTags,
+  socialDetailTags,
+} from '../../src/shared/social-image.mjs'
 import { collectMarkdownPaths, getMdPath } from './md-paths.mts'
 import { escapeHtml } from './html-escape.mts'
 import {
@@ -33,6 +37,9 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const viteRoot = path.resolve(__dirname, '..')
 const portalRoot = path.resolve(viteRoot, '..')
 const outDir = path.resolve(portalRoot, 'public')
+const socialImages = JSON.parse(
+  fs.readFileSync(path.join(portalRoot, 'static/og/manifest.json'), 'utf8')
+)
 
 async function prerender() {
   const startTime = Date.now()
@@ -524,7 +531,8 @@ function injectHtml(
 
   // Inject per-page SEO meta tags (title, description, Open Graph)
   if (meta) {
-    const siteUrl = 'https://eufemia.dnb.no'
+    const siteUrl =
+      process.env.PORTAL_PUBLIC_ORIGIN || 'https://eufemia.dnb.no'
     const defaultDescription =
       'Eufemia Design System is the go-to place for all who has to design, develop and make digital WEB applications for DNB.'
     const formattedTitle = meta.title
@@ -532,7 +540,6 @@ function injectHtml(
       : 'Eufemia'
     const desc = escapeHtml(meta.description || defaultDescription)
     const fullUrl = escapeHtml(`${siteUrl}${meta.url}`)
-    const ogImage = `${siteUrl}/dnb/og-image.png`
 
     // Replace existing title and meta description from the template
     html = html.replace(
@@ -551,10 +558,11 @@ function injectHtml(
       `<meta property="og:title" content="${formattedTitle}">`,
       `<meta property="og:description" content="${desc}">`,
       `<meta property="og:url" content="${fullUrl}">`,
-      `<meta property="og:image" content="${ogImage}">`,
-      `<meta property="og:image:width" content="1200">`,
-      `<meta property="og:image:height" content="630">`,
-      `<meta property="og:image:alt" content="Eufemia Design System">`,
+      ...socialImageTags(meta.url, socialImages, siteUrl),
+      ...socialDetailTags(
+        meta.title ? meta.title + ' | Eufemia' : 'Eufemia',
+        meta.description || defaultDescription
+      ),
     ]
 
     if (meta.url === '/') {

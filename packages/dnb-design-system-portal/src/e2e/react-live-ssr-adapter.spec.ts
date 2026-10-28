@@ -22,6 +22,35 @@ test('renders a scoped Eufemia preview without JavaScript', async ({
   }
 })
 
+test('keeps labels and tab panels linked after hydration', async ({
+  page,
+}) => {
+  const findBrokenReferences = () =>
+    page
+      .locator(
+        '.dnb-live-preview label[for], .dnb-live-preview [role="tabpanel"]'
+      )
+      .evaluateAll((elements) =>
+        elements
+          .flatMap((element) =>
+            (
+              element.getAttribute('for') ??
+              element.getAttribute('aria-labelledby') ??
+              ''
+            ).split(' ')
+          )
+          .filter((id) => !document.getElementById(id))
+      )
+
+  await page.goto('/uilib/extensions/forms/Connectors/Bring/demos/')
+  await waitForApp(page)
+  expect(await findBrokenReferences()).toEqual([])
+
+  await page.goto('/uilib/components/tabs/demos/')
+  await waitForApp(page)
+  expect(await findBrokenReferences()).toEqual([])
+})
+
 test('hydrates, edits, pastes, and restores code through upstream LiveEditor', async ({
   page,
   browserName,
@@ -35,6 +64,12 @@ test('hydrates, edits, pastes, and restores code through upstream LiveEditor', a
   const preview = page.locator('#ButtonPrimary .dnb-live-preview button')
   await expect(preview).toHaveText('Primary button with text only')
   await expect(preview).toHaveCSS('font-family', /DNB/)
+  const codeToggle = page
+    .locator('#ButtonPrimary')
+    .getByRole('button', { name: 'Code', exact: true })
+  await expect(codeToggle).toHaveAttribute('aria-expanded', 'false')
+  await codeToggle.click()
+  await expect(codeToggle).toHaveAttribute('aria-expanded', 'true')
   const original = await editor.textContent()
 
   await editor.click()

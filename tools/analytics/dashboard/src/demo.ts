@@ -4,14 +4,6 @@ import type { DashboardPayload } from './data'
 // backend. Loaded lazily and only when running under Vite dev with no API
 // configured (see App.tsx), so it never reaches the production bundle.
 
-const days = [
-  '2026-09-13',
-  '2026-09-14',
-  '2026-09-15',
-  '2026-09-16',
-  '2026-09-17',
-]
-
 const pages = [
   '/uilib/components/button',
   '/uilib/components/input',
@@ -21,27 +13,52 @@ const pages = [
   '/uilib/getting-started',
 ]
 
-// Rough per-page view totals, so the ranking and bars have visible spread.
-const perPageTotals = [18, 12, 9, 7, 5, 3]
+// About four months of daily totals ending today, with a weekly rhythm.
+const perDay = Array.from({ length: 120 }, (_, index) => {
+  const date = new Date()
+  date.setUTCDate(date.getUTCDate() - (119 - index))
+  const dt = date.toISOString().slice(0, 10)
+  const weekend = [0, 6].includes(date.getUTCDay())
+  const prod = (weekend ? 120 : 420) + index * 2
 
-const portalViews = pages.flatMap((path, pageIndex) => {
-  const total = perPageTotals[pageIndex]
+  return [
+    { dt, env: 'prod', count: prod },
+    { dt, env: 'test', count: Math.round(prod / 10) },
+  ]
+}).flat()
 
-  return Array.from({ length: total }, (_, n) => {
-    const day = days[(n + pageIndex) % days.length]
-    const hour = String(8 + (n % 10)).padStart(2, '0')
+const months = [...new Set(perDay.map((row) => row.dt.slice(0, 7)))]
 
-    return {
+const topPathsPerMonth = months.flatMap((month, monthIndex) =>
+  ['', 'prod', 'test'].flatMap((env) =>
+    pages.map((path, pageIndex) => ({
+      month,
+      env,
       path,
-      env: n % 3 === 0 ? 'test' : 'prod',
-      timestamp: `${day}T${hour}:00:00Z`,
-    }
-  })
-})
+      count:
+        (6 - pageIndex) * (env === 'test' ? 40 : 400) + monthIndex * 50,
+    }))
+  )
+)
+
+const localeThemeCounts = [
+  { locale: 'nb-NO', theme: 'ui', count: 9000 },
+  { locale: 'en-GB', theme: 'ui', count: 4000 },
+  { locale: 'nb-NO', theme: 'sbanken', count: 2500 },
+  { locale: 'sv-SE', theme: 'carnegie', count: 900 },
+]
+
+const perLocaleAndTheme = ['prod', 'test'].flatMap((env) =>
+  localeThemeCounts.map((row) => ({
+    ...row,
+    env,
+    count: env === 'test' ? row.count / 10 : row.count,
+  }))
+)
 
 export const demoPayload: DashboardPayload = {
   generatedAt: new Date().toISOString(),
-  portalViews,
+  portalViewTrends: { perDay, topPathsPerMonth, perLocaleAndTheme },
   mcpUsage: {
     web: {
       total: 94,

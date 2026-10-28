@@ -69,6 +69,7 @@ export const WithDateAndSelection = () => {
             <>
               <Filter.Root
                 id="date-selection-demo"
+                aria-label="Filter transactions by date and payment type"
                 resultCount={filtered.length}
               >
                 <Filter.Header>
@@ -179,6 +180,7 @@ export const WithPredefinedFilters = () => {
             <>
               <Filter.Root
                 id="predefined-demo"
+                aria-label="Filter transactions with predefined filters"
                 resultCount={filtered.length}
                 defaultFilters={{
                   '/type/card': {
@@ -396,7 +398,11 @@ export const CustomFilter = () => {
 
           return (
             <>
-              <Filter.Root id="custom-demo" resultCount={filtered.length}>
+              <Filter.Root
+                id="custom-demo"
+                aria-label="Filter transactions by category"
+                resultCount={filtered.length}
+              >
                 <Filter.Header>
                   <Filter.Toolbar>
                     <Filter.Search
@@ -506,7 +512,10 @@ export const DecoupledHook = () => {
 
         return (
           <>
-            <Filter.Root id="decoupled-demo">
+            <Filter.Root
+              id="decoupled-demo"
+              aria-label="Filter the separate results list"
+            >
               <Filter.Search
                 label="Search"
                 placeholder="Search results..."
@@ -575,7 +584,10 @@ export const AsyncResults = () => {
 
           return (
             <>
-              <Filter.Root id="async-demo">
+              <Filter.Root
+                id="async-demo"
+                aria-label="Filter orders loaded asynchronously"
+              >
                 <Filter.Header>
                   <Filter.Toolbar>
                     <Filter.Search
@@ -683,7 +695,11 @@ export const ManualBehavior = () => {
 
           return (
             <>
-              <Filter.Root id="manual-demo" behavior="manual">
+              <Filter.Root
+                id="manual-demo"
+                aria-label="Filter transactions with Apply"
+                behavior="manual"
+              >
                 <Filter.Header>
                   <Filter.Toolbar>
                     <Filter.Search
@@ -832,6 +848,7 @@ export const WithMultiSelection = () => {
                 </Heading>
                 <Filter.Root
                   id="multi-selection-demo"
+                  aria-label="Filter invoices by client"
                   resultCount={filtered.length}
                 >
                   <Filter.Toolbar>
@@ -958,6 +975,7 @@ export const QuickFilters = () => {
             <>
               <Filter.Root
                 id="quick-filters-demo"
+                aria-label="Filter transactions with quick filters"
                 resultCount={filtered.length}
               >
                 <Filter.Header>
@@ -1011,7 +1029,10 @@ export const ToolbarActionsOnly = () => {
 
           return (
             <>
-              <Filter.Root id="actions-only-demo">
+              <Filter.Root
+                id="actions-only-demo"
+                aria-label="Filter toolbar actions"
+              >
                 <Filter.Header>
                   <Filter.Toolbar>
                     <Filter.Toolbar.Actions>
@@ -1124,6 +1145,7 @@ export const SearchOnly = () => {
             <>
               <Filter.Root
                 id="search-only-demo"
+                aria-label="Search transactions"
                 resultCount={filtered.length}
               >
                 <Filter.Header>
@@ -1216,7 +1238,11 @@ export const WithSortButton = () => {
 
           return (
             <>
-              <Filter.Root id="sort-demo" resultCount={filtered.length}>
+              <Filter.Root
+                id="sort-demo"
+                aria-label="Filter and sort transactions"
+                resultCount={filtered.length}
+              >
                 <Filter.Header>
                   <Filter.Toolbar>
                     <Filter.Search
@@ -1314,6 +1340,7 @@ export const WithQueryLocator = () => {
             <>
               <Filter.Root
                 id="query-locator-demo"
+                aria-label="Filter transactions with URL state"
                 resultCount={filtered.length}
               >
                 <Filter.Header>

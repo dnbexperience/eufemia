@@ -15,6 +15,7 @@ export const Placeholder = () => {
 export const WithValue = () => {
   return (
     <ComponentBox
+      socialPreview
       scope={{ createMockFile }}
       data-visual-test="upload-value-default"
     >

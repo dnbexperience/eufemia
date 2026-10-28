@@ -1,0 +1,26 @@
+---
+fullscreen: true
+hideInMenu: true
+search: false
+---
+
+import { Heading } from '@dnb/eufemia/src'
+import PanelActions from './PanelActions'
+
+<Heading level="1">Filter actions</Heading>
+
+<Heading level="2" id="short-panel">
+  Short filter panel
+</Heading>
+
+<div data-visual-test="filter-short-panel">
+  <PanelActions />
+</div>
+
+<Heading level="2" id="tall-panel" top="large">
+  Tall filter panel
+</Heading>
+
+<div data-visual-test="filter-tall-panel">
+  <PanelActions count={24} />
+</div>

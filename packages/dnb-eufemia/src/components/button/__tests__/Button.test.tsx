@@ -434,6 +434,36 @@ describe('Button component', () => {
     expect(global.console.log).toHaveBeenCalled()
   })
 
+  it('will warn when a tertiary link without an icon opens in the same tab', () => {
+    process.env.NODE_ENV = 'development'
+    global.console.log = vi.fn()
+    render(<Button text="Button" variant="tertiary" href="https://url" />)
+    expect(global.console.log).toHaveBeenCalledWith(
+      expect.anything(),
+      expect.anything(),
+      expect.stringContaining('Icon required')
+    )
+  })
+
+  it('will not warn when a tertiary link opens a new tab, because it gets a launch icon', () => {
+    process.env.NODE_ENV = 'development'
+    global.console.log = vi.fn()
+    render(
+      <Button
+        text="Button"
+        variant="tertiary"
+        href="https://url"
+        target="_blank"
+      />
+    )
+    expect(document.querySelector('.dnb-icon')).toBeInTheDocument()
+    expect(global.console.log).not.toHaveBeenCalledWith(
+      expect.anything(),
+      expect.anything(),
+      expect.stringContaining('Icon required')
+    )
+  })
+
   it('will warn when icon-only button has no title or aria-label', () => {
     process.env.NODE_ENV = 'development'
     global.console.log = vi.fn()
@@ -771,10 +801,58 @@ describe('Button scss', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
 
     expect(css).toMatch(
-      /@media \(forced-colors: active\) \{\s*\.dnb-button--primary\[disabled\],\s*\.dnb-button--secondary\[disabled\] \{\s*outline: var\(--button-border-width, var\(--button-border-width--default\)\) solid transparent;\s*outline-offset: calc\(var\(--button-border-width, var\(--button-border-width--default\)\) \* -1\);/
+      /@media \(forced-colors: active\) \{\s*\.dnb-button--primary\[disabled\],\s*\.dnb-button--secondary\[disabled\],[^{]*\{\s*outline: var\(--button-border-width, var\(--button-border-width--default\)\) solid transparent;\s*outline-offset: calc\(var\(--button-border-width, var\(--button-border-width--default\)\) \* -1\);/
     )
     expect(css).toMatch(
-      /@media \(forced-colors: active\) \{\s*\.dnb-button--primary\[disabled\],\s*\.dnb-button--secondary\[disabled\] \{\s*outline-color: GrayText;/
+      /@media \(forced-colors: active\) \{\s*\.dnb-button--primary\[disabled\],\s*\.dnb-button--secondary\[disabled\],[^{]*\{\s*outline-color: GrayText;/
+    )
+  })
+
+  it('styles buttons with aria-disabled like disabled buttons', () => {
+    const css = loadScss(require.resolve('../style/deps.scss'))
+    const ariaDisabled = `\\[aria-disabled=["']?true["']?\\]`
+
+    // Disabled colors
+    expect(css).toMatch(
+      new RegExp(
+        `\\.dnb-button--primary\\[disabled\\],\\s*\\.dnb-button--primary${ariaDisabled},[^{]*\\{\\s*--button-color-bg: var\\(--button-color-bg--disabled\\);`
+      )
+    )
+
+    // No hover or active state
+    expect(css).toMatch(
+      new RegExp(
+        `\\.dnb-button--primary:where\\(:not\\(${ariaDisabled}\\)\\):hover:not\\(\\[disabled\\]\\)[^{]*\\{\\s*--button-color-bg: var\\(--button-color-bg--hover\\);`
+      )
+    )
+    expect(css).toMatch(
+      new RegExp(
+        `\\.dnb-button--primary:where\\(:not\\(${ariaDisabled}\\)\\):active:not\\(\\[disabled\\]\\)[^{]*\\{\\s*--button-color-bg: var\\(--button-color-bg--active\\);`
+      )
+    )
+    expect(css).toMatch(
+      new RegExp(
+        `\\.dnb-button--tertiary:where\\(:not\\(${ariaDisabled}\\)\\):hover:not\\(\\[disabled\\]\\) \\.dnb-button__text \\{\\s*text-decoration-color:`
+      )
+    )
+
+    // Keeps the disabled colors with the focus ring
+    expect(css).toMatch(
+      new RegExp(
+        `\\.dnb-button--primary:focus-visible:not\\(\\[disabled\\]\\)${ariaDisabled}[^{]*\\{\\s*--button-color-bg: var\\(--button-color-bg--disabled\\);\\s*--button-color-icon: var\\(--button-color-icon--disabled\\);\\s*--button-color-text: var\\(--button-color-text--disabled\\);\\s*\\}`
+      )
+    )
+
+    // Forced colors mode
+    expect(css).toMatch(
+      new RegExp(
+        `@media \\(forced-colors: active\\) \\{[^{]*\\.dnb-button--primary${ariaDisabled},\\s*\\.dnb-button--secondary${ariaDisabled} \\{\\s*outline-color: GrayText;`
+      )
+    )
+    expect(css).toMatch(
+      new RegExp(
+        `@media \\(forced-colors: active\\) \\{\\s*\\.dnb-button${ariaDisabled},\\s*\\.dnb-button${ariaDisabled} \\.dnb-button__icon \\{\\s*color: GrayText;`
+      )
     )
   })
 

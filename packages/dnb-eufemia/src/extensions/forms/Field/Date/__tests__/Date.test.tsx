@@ -1,5 +1,11 @@
 import { useState } from 'react'
-import { render, waitFor, screen, fireEvent } from '@testing-library/react'
+import {
+  act,
+  render,
+  waitFor,
+  screen,
+  fireEvent,
+} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { axeComponent } from '../../../../../core/test-utils/testSetup'
 import {
@@ -303,6 +309,62 @@ describe('Field.Date', () => {
     expect(endDay).toHaveValue('01')
     expect(endMonth).toHaveValue('04')
     expect(endYear).toHaveValue('2024')
+  })
+
+  describe('calendar months of a range value', () => {
+    const getTitles = () =>
+      Array.from(
+        document.querySelectorAll('.dnb-date-picker__header__title')
+      ).map((element) => element.textContent)
+    const openPicker = () =>
+      userEvent.click(
+        document.querySelector('button.dnb-input__submit-button__button')
+      )
+
+    it('should show the months of a value set after mount', async () => {
+      const { rerender } = render(<Field.Date range />)
+
+      rerender(<Field.Date range value="2025-03-10|2025-03-20" />)
+      await openPicker()
+
+      expect(getTitles()).toEqual(['mars 2025', 'april 2025'])
+    })
+
+    it('should show the months of form data set after mount', async () => {
+      render(
+        <Form.Handler id="range-months">
+          <Field.Date path="/period" range />
+        </Form.Handler>
+      )
+
+      act(() => {
+        Form.setData('range-months', { period: '2025-03-10|2025-03-20' })
+      })
+      await openPicker()
+
+      expect(getTitles()).toEqual(['mars 2025', 'april 2025'])
+    })
+
+    it('should not move the calendars when picking dates', async () => {
+      render(<Field.Date range value="2025-04-08|2025-04-10" />)
+
+      await openPicker()
+      expect(getTitles()).toEqual(['april 2025', 'mai 2025'])
+
+      const [, rightTable] = Array.from(
+        document.querySelectorAll('.dnb-date-picker__calendar table')
+      )
+
+      await userEvent.click(
+        rightTable.querySelector('td[data-date="2025-05-05"] button')
+      )
+      expect(getTitles()).toEqual(['april 2025', 'mai 2025'])
+
+      await userEvent.click(
+        rightTable.querySelector('td[data-date="2025-05-20"] button')
+      )
+      expect(getTitles()).toEqual(['april 2025', 'mai 2025'])
+    })
   })
 
   it('should support keyboard interactions in range mode when id includes start or end', async () => {
@@ -1989,6 +2051,101 @@ describe('Field.Date', () => {
     })
   })
 
+  it('should not put the text "null" or "undefined" into range values', async () => {
+    const onChange = vi.fn()
+    let dataContext = null
+
+    render(
+      <Form.Handler>
+        <Field.Date path="/date" range onChange={onChange} />
+        <DataContext.Consumer>
+          {(context) => {
+            dataContext = context
+            return null
+          }}
+        </DataContext.Consumer>
+      </Form.Handler>
+    )
+
+    const now = new Date()
+    const midMonth = `${now.getFullYear()}-${String(
+      now.getMonth() + 1
+    ).padStart(2, '0')}-15`
+    const openButton = document.querySelector(
+      'button.dnb-input__submit-button__button'
+    )
+    const [startDay]: Array<HTMLInputElement> = Array.from(
+      document.querySelectorAll('.dnb-date-picker__input')
+    )
+
+    // Pick only a start date
+    await userEvent.click(openButton)
+    await userEvent.click(
+      document.querySelector(
+        `.dnb-date-picker__calendar td[data-date="${midMonth}"] button`
+      )
+    )
+
+    expect(onChange).toHaveBeenLastCalledWith(
+      `${midMonth}|`,
+      expect.anything()
+    )
+    expect(dataContext.internalDataRef.current).toEqual({
+      date: `${midMonth}|`,
+    })
+    expect(startDay).toHaveValue('15')
+
+    // Cancel back to the empty value
+    await userEvent.click(screen.getByText('Avbryt'))
+
+    expect(onChange).toHaveBeenLastCalledWith(undefined, expect.anything())
+    expect(dataContext.internalDataRef.current).toEqual({
+      date: undefined,
+    })
+
+    // Type only a start date
+    await userEvent.click(startDay)
+    await userEvent.keyboard('01082025')
+
+    expect(onChange).toHaveBeenLastCalledWith(
+      '2025-08-01|',
+      expect.anything()
+    )
+
+    // Reset without an initial value
+    await userEvent.click(openButton)
+    await userEvent.click(
+      document.querySelector('button[data-testid="reset"]')
+    )
+
+    expect(onChange).toHaveBeenLastCalledWith(undefined, expect.anything())
+    expect(dataContext.internalDataRef.current).toEqual({
+      date: undefined,
+    })
+    expect(startDay).toHaveValue('dd')
+    expect(
+      onChange.mock.calls.filter(([value]) =>
+        /null|undefined/.test(String(value ?? ''))
+      )
+    ).toEqual([])
+  })
+
+  it('should keep the start side empty in a range with only an end date', async () => {
+    const onChange = vi.fn()
+
+    render(<Field.Date range onChange={onChange} />)
+
+    const endDay = document.querySelectorAll('.dnb-date-picker__input')[3]
+
+    await userEvent.click(endDay)
+    await userEvent.keyboard('30092024')
+
+    expect(onChange).toHaveBeenLastCalledWith(
+      '|2024-09-30',
+      expect.anything()
+    )
+  })
+
   it('should not change value when clicking cancel after reset and typing', async () => {
     render(<Field.Date value="2023-01-16" showInput />)
 
@@ -2318,6 +2475,60 @@ describe('Field.Date', () => {
     expect(endDay.value).toBe('20')
     expect(endMonth.value).toBe('07')
     expect(endYear.value).toBe('2025')
+  })
+
+  describe('cancel without a value at open', () => {
+    const now = new Date()
+    const midMonth = `${now.getFullYear()}-${String(
+      now.getMonth() + 1
+    ).padStart(2, '0')}-15`
+
+    const getInputValues = () =>
+      Array.from(
+        document.querySelectorAll<HTMLInputElement>(
+          '.dnb-date-picker__input'
+        )
+      ).map((input) => input.value)
+
+    const pickMidMonthAndCancel = async () => {
+      await userEvent.click(
+        document.querySelector('button.dnb-input__submit-button__button')
+      )
+      await userEvent.click(
+        document.querySelector(
+          `.dnb-date-picker__calendar td[data-date="${midMonth}"] button`
+        )
+      )
+
+      expect(getInputValues()[0]).toBe('15')
+
+      await userEvent.click(
+        document.querySelector('button[data-testid="cancel"]')
+      )
+    }
+
+    it('should empty the input fields of a picked date', async () => {
+      render(<Field.Date showInput />)
+
+      await pickMidMonthAndCancel()
+
+      expect(getInputValues()).toEqual(['dd', 'mm', 'åååå'])
+    })
+
+    it('should empty the input fields of a picked start date in range mode', async () => {
+      render(<Field.Date showInput range />)
+
+      await pickMidMonthAndCancel()
+
+      expect(getInputValues()).toEqual([
+        'dd',
+        'mm',
+        'åååå',
+        'dd',
+        'mm',
+        'åååå',
+      ])
+    })
   })
 
   it('should be able to hide and show submit, cancel and reset buttons', async () => {
@@ -3034,10 +3245,10 @@ describe('Field.Date', () => {
       'Neste måned juni'
     )
 
-    await userEvent.click(leftNextYearButton)
-    await userEvent.click(leftNextYearButton)
     await userEvent.click(rightNextYearButton)
     await userEvent.click(rightNextYearButton)
+    await userEvent.click(leftNextYearButton)
+    await userEvent.click(leftNextYearButton)
 
     // Verify years
     // Left
@@ -3348,7 +3559,7 @@ describe('Field.Date', () => {
         '.dnb-date-picker__next'
       )
       const leftPrev = leftCalendar.querySelector('.dnb-date-picker__prev')
-      const leftNext = leftCalendar.querySelector('dnb-date-picker__next')
+      const leftNext = leftCalendar.querySelector('.dnb-date-picker__next')
 
       expect(
         rightCalendar.querySelector('.dnb-date-picker__header__title')
@@ -3382,7 +3593,7 @@ describe('Field.Date', () => {
       ).toHaveTextContent('oktober 2024')
       expect(
         leftCalendar.querySelector('.dnb-date-picker__header__title')
-      ).toHaveTextContent('oktober 2024')
+      ).toHaveTextContent('november 2024')
 
       await userEvent.click(leftNext)
 
@@ -3391,7 +3602,7 @@ describe('Field.Date', () => {
       ).toHaveTextContent('oktober 2024')
       expect(
         leftCalendar.querySelector('.dnb-date-picker__header__title')
-      ).toHaveTextContent('oktober 2024')
+      ).toHaveTextContent('november 2024')
 
       expect(
         screen.getAllByLabelText('mandag 30. september 2024')[0]
@@ -3518,6 +3729,21 @@ describe('Field.Date', () => {
       expect(
         screen.getByLabelText('tirsdag 1. april 2025')
       ).toHaveAttribute('disabled')
+    })
+
+    it('should enable the days again when `minDate` is removed', async () => {
+      const { rerender } = render(
+        <Field.Date value="2026-10-15" minDate="2026-10-10" />
+      )
+
+      rerender(<Field.Date value="2026-10-15" />)
+      await userEvent.click(
+        document.querySelector('button.dnb-input__submit-button__button')
+      )
+
+      expect(
+        document.querySelector('td[data-date="2026-10-05"] button')
+      ).not.toBeDisabled()
     })
 
     describe('validation', () => {

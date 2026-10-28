@@ -12,7 +12,10 @@ export default defineConfig({
     include: ['scripts/**/__tests__/**/*.test.{ts,tsx,js,jsx}'],
     exclude: ['**/scripts/postbuild/**', '**/node_modules/**'],
 
-    setupFiles: ['./src/core/vitest/setupVitest.ts'],
+    setupFiles: [
+      './src/core/vitest/setupVitest.ts',
+      './scripts/tools/vitest/setupScriptsVitest.ts',
+    ],
 
     restoreMocks: false,
     mockReset: false,

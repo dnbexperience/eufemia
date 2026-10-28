@@ -8,6 +8,7 @@ import {
   H2,
   P,
   Tabs,
+  ToggleButton,
 } from '@dnb/eufemia/src'
 import Theme, {
   getTheme,
@@ -22,13 +23,12 @@ import {
   type Session,
 } from './auth'
 import {
-  countBy,
-  dashboardView,
   loadDashboardData,
-  rank,
+  portalViewTrendsView,
   snapshotMeta,
   type DashboardPayload,
   type McpTransportUsage,
+  type PortalViewTrendsView,
 } from './data'
 import Kpis from './components/Kpis'
 import BarList from './components/BarList'
@@ -181,8 +181,8 @@ function Dashboard({
   colorScheme: ThemeColorScheme
   onColorSchemeChange: (colorScheme: ThemeColorScheme) => void
 }) {
-  const { allRows, rows, envs, kpis } = useMemo(
-    () => dashboardView(payload, env),
+  const trends = useMemo(
+    () => portalViewTrendsView(payload, env),
     [payload, env]
   )
 
@@ -192,7 +192,7 @@ function Dashboard({
   const componentTotal = component?.total ?? 0
   const meta = snapshotMeta(
     payload,
-    allRows.length + mcpTotal + componentTotal
+    trends.total + mcpTotal + componentTotal
   )
 
   return (
@@ -200,14 +200,17 @@ function Dashboard({
       <Flex.Horizontal justify="space-between" align="center" wrap>
         <H1 size="large">Eufemia Analytics</H1>
         <Flex.Horizontal align="center" gap="small">
-          {envs.length > 0 && (
+          {trends.envs.length > 0 && (
             <Dropdown
               label="Environment"
               labelDirection="horizontal"
               value={env}
               data={[
                 { selectedKey: '', content: 'All' },
-                ...envs.map((e) => ({ selectedKey: e, content: e })),
+                ...trends.envs.map((e) => ({
+                  selectedKey: e,
+                  content: e,
+                })),
               ]}
               onChange={({ data }) =>
                 onEnvChange(String(data?.selectedKey ?? ''))
@@ -236,40 +239,7 @@ function Dashboard({
 
       <Tabs>
         <Tabs.Content title="Page views" key="pages">
-          <Flex.Stack gap="large">
-            {rows.length > 0 ? (
-              <>
-                <P className="dashboard__meta">
-                  Shows only the most recent page views, so older views may
-                  be missing.
-                </P>
-
-                <Kpis items={kpis} />
-
-                <Card stack>
-                  <H2 size="medium">Views per day</H2>
-                  <BarList
-                    items={rank(countBy(rows, 'day'), { sort: 'key' })}
-                  />
-                </Card>
-
-                <Card stack>
-                  <H2 size="medium">Top URLs</H2>
-                  <RankedTable
-                    caption="Top URLs"
-                    nameHeader="URL"
-                    countHeader="Views"
-                    items={rank(countBy(rows, 'path'), {
-                      sort: 'desc',
-                      limit: 15,
-                    })}
-                  />
-                </Card>
-              </>
-            ) : (
-              <P className="dashboard__meta">No page views yet.</P>
-            )}
-          </Flex.Stack>
+          <PortalViewTrendsPanel trends={trends} />
         </Tabs.Content>
 
         <Tabs.Content title="Web MCP" key="mcp-web">
@@ -324,6 +294,103 @@ function Dashboard({
           </Flex.Stack>
         </Tabs.Content>
       </Tabs>
+    </Flex.Stack>
+  )
+}
+
+function PortalViewTrendsPanel({
+  trends,
+}: {
+  trends: PortalViewTrendsView
+}) {
+  const [period, setPeriod] = useState<'week' | 'month'>('month')
+  const [month, setMonth] = useState('')
+
+  if (trends.total === 0) {
+    return <P className="dashboard__meta">No page views yet.</P>
+  }
+
+  const selectedMonth =
+    trends.topPathsPerMonth.find((item) => item.month === month) ??
+    trends.topPathsPerMonth[0]
+
+  return (
+    <Flex.Stack gap="large">
+      <P className="dashboard__meta">
+        {`From ${trends.firstDay} to ${trends.lastDay}. Weeks start on Monday; the first and last week or month can be partial.`}
+      </P>
+
+      <Kpis items={trends.kpis} />
+
+      <Card stack>
+        <H2 size="medium">Views per day, last 30 days</H2>
+        <BarList items={trends.last30Days} />
+      </Card>
+
+      <Card stack>
+        <H2 size="medium">Views over time</H2>
+        <ToggleButton.Group
+          label="Group by"
+          value={period}
+          onChange={({ value }) =>
+            setPeriod(value === 'week' ? 'week' : 'month')
+          }
+        >
+          <ToggleButton text="Month" value="month" />
+          <ToggleButton text="Week" value="week" />
+        </ToggleButton.Group>
+        <BarList
+          items={period === 'week' ? trends.perWeek : trends.perMonth}
+        />
+      </Card>
+
+      <Card stack>
+        <H2 size="medium">Top URLs per month</H2>
+        {selectedMonth ? (
+          <>
+            <Dropdown
+              label="Month"
+              labelDirection="horizontal"
+              value={selectedMonth.month}
+              data={trends.topPathsPerMonth.map((item) => ({
+                selectedKey: item.month,
+                content: item.month,
+              }))}
+              onChange={({ data }) =>
+                setMonth(String(data?.selectedKey ?? ''))
+              }
+            />
+            <RankedTable
+              caption={`Top URLs in ${selectedMonth.month}`}
+              nameHeader="URL"
+              countHeader="Views"
+              items={selectedMonth.paths}
+            />
+          </>
+        ) : (
+          <P className="dashboard__meta">No data.</P>
+        )}
+      </Card>
+
+      <Card stack>
+        <H2 size="medium">Locales</H2>
+        <RankedTable
+          caption="Views per locale"
+          nameHeader="Locale"
+          countHeader="Views"
+          items={trends.perLocale}
+        />
+      </Card>
+
+      <Card stack>
+        <H2 size="medium">Themes</H2>
+        <RankedTable
+          caption="Views per theme"
+          nameHeader="Theme"
+          countHeader="Views"
+          items={trends.perTheme}
+        />
+      </Card>
     </Flex.Stack>
   )
 }

@@ -4,6 +4,7 @@ import { renderToString } from 'react-dom/server'
 import { memo } from 'react'
 import ScrollView from '../../../fragments/scroll-view/ScrollView'
 import { axeComponent } from '../../../core/test-utils/testSetup'
+import { clickLink } from '../../../core/test-utils/clickLink'
 import SidebarMenu from '../SidebarMenu'
 import { SidebarMenuRootProperties } from '../SidebarMenuDocs'
 import { office_buildings, person } from '../../../icons'
@@ -514,7 +515,7 @@ describe('SidebarMenu', () => {
       link.querySelector('.dnb-sidebar-menu__item__selection-icon')
     ).not.toBeInTheDocument()
 
-    fireEvent.click(link)
+    clickLink(link)
 
     expect(onSelectedItemChange).toHaveBeenCalledWith('typography')
   })
@@ -2247,7 +2248,7 @@ describe('SidebarMenu', () => {
       )
 
       const link = document.querySelector('[href="/components"]')
-      expect(fireEvent.click(link, { [modifier]: true })).toBe(true)
+      expect(clickLink(link, { [modifier]: true })).toBe(true)
       expect(link).toHaveAttribute('aria-expanded', 'true')
       expect(onClick).toHaveBeenCalledTimes(1)
     }
@@ -2311,7 +2312,7 @@ describe('SidebarMenu', () => {
     expect(action).toBe(link)
     expect(action.querySelectorAll('a, button')).toHaveLength(0)
 
-    fireEvent.click(link)
+    clickLink(link)
 
     expect(link).toHaveAttribute('aria-expanded', 'false')
     expect(onOpenChange).toHaveBeenCalledWith(true)

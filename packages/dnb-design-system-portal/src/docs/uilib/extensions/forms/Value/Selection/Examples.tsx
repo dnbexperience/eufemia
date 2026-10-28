@@ -12,7 +12,7 @@ export const Placeholder = () => {
 
 export const WithValue = () => {
   return (
-    <ComponentBox>
+    <ComponentBox socialPreview>
       <Value.Selection value="Bar" />
     </ComponentBox>
   )

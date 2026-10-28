@@ -282,6 +282,15 @@ export default function Provider<Data extends JsonObject>(
 
   // - Element
   const formElementRef = useRef<HTMLFormElement>(null)
+  const mountedRef = useRef(true)
+
+  useLayoutEffect(() => {
+    mountedRef.current = true
+
+    return () => {
+      mountedRef.current = false
+    }
+  }, [])
 
   // - Locale
   const { locale: sharedLocale } = useContext(SharedContext) || {}
@@ -1616,6 +1625,10 @@ export default function Provider<Data extends JsonObject>(
             }
           }
         }
+      }
+
+      if (!mountedRef.current) {
+        return undefined
       }
 
       // A validator can reveal its async behavior only after it has been called.

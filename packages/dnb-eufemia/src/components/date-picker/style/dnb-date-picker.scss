@@ -520,7 +520,8 @@
   }
 
   &__header__nav {
-    .dnb-button:not(:hover) {
+    .dnb-button:not(:hover),
+    .dnb-button[aria-disabled='true'] {
       @include utilities.notFocusVisible() {
         box-shadow: none;
       }

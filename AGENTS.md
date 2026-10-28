@@ -49,6 +49,7 @@
 
 - Never commit directly to `main` or release branches such as `release`. Create a branch and open a pull request.
 - Name branches according to the change type, such as `fix/...`, `feat/...`, `chore/...`, or `refactor/...`.
+- Rebase a pull request branch only to resolve merge conflicts, when the user asks, or right before merging, and never rebase draft pull requests in bulk. Every push restarts the full CI, and a branch does not need to be up to date with `main` to be merged.
 
 ### Commits
 

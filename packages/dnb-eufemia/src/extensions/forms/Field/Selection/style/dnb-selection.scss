@@ -1,8 +1,35 @@
+@use '../../../../../style/core/utilities.scss' as utilities;
+
 .dnb-forms-field-selection {
   &__variant--dropdown {
+    --field-block-grid-min-width: 0;
+    --selection-dropdown-icon-space: 1.5rem;
+
+    // Reserve space for the icon and the gap beside the selected text.
+    .dnb-forms-field-block__contents--width-small {
+      --field-block-content-width: calc(
+        var(--forms-field-width--small) +
+          var(--selection-dropdown-icon-space)
+      );
+    }
+
     .dnb-forms-field-block {
       &--layout-horizontal .dnb-form-label {
         align-self: center;
+      }
+    }
+
+    // A fixed width keeps long text inside its own box, so the label wraps
+    // first, the same as for other fields. Without a fixed width (stretch or
+    // width={false}), the dropdown keeps the zero minimum.
+    &.dnb-forms-field-block--content-width-small,
+    &.dnb-forms-field-block--content-width-medium,
+    &.dnb-forms-field-block--content-width-large,
+    &.dnb-forms-field-block--content-width-custom {
+      @include utilities.allAbove(small) {
+        .dnb-forms-field-block--layout-horizontal {
+          --field-block-grid-min-width: auto;
+        }
       }
     }
   }

@@ -18,18 +18,22 @@ vi.mock('../data', async (importActual) => {
 
 const populated: DashboardPayload = {
   generatedAt: '2026-09-16T10:00:00Z',
-  portalViews: [
-    {
-      path: '/uilib/button',
-      env: 'prod',
-      timestamp: '2026-09-16T10:00:00Z',
-    },
-    {
-      path: '/uilib/input',
-      env: 'test',
-      timestamp: '2026-09-15T09:00:00Z',
-    },
-  ],
+  portalViewTrends: {
+    perDay: [
+      { dt: '2026-08-31', env: 'prod', count: 7 },
+      { dt: '2026-09-16', env: 'prod', count: 3 },
+      { dt: '2026-09-15', env: 'test', count: 1 },
+    ],
+    topPathsPerMonth: [
+      { month: '2026-08', env: '', path: '/uilib/august', count: 7 },
+      { month: '2026-09', env: '', path: '/uilib/button', count: 3 },
+      { month: '2026-09', env: '', path: '/uilib/input', count: 1 },
+    ],
+    perLocaleAndTheme: [
+      { env: 'prod', locale: 'nb-NO', theme: 'sbanken', count: 10 },
+      { env: 'test', locale: 'sv-SE', theme: 'carnegie', count: 1 },
+    ],
+  },
   mcpUsage: {
     web: { total: 4, perTool: [{ name: 'docs_read', count: 4 }] },
     local: { total: 2, perTool: [{ name: 'component_props', count: 2 }] },
@@ -116,12 +120,12 @@ describe('App (smoke)', () => {
     ).toBeNull()
   })
 
-  it('shows an empty message in the Page views tab when there are no portal views', async () => {
+  it('shows an empty message in the Page views tab when there are no page views', async () => {
     vi.mocked(loadDashboardData).mockResolvedValue({
       kind: 'data',
       payload: {
         generatedAt: '2026-09-16T10:00:00Z',
-        portalViews: [],
+        portalViewTrends: {},
         mcpUsage: populated.mcpUsage,
         componentUsage: { total: 0, perComponent: [] },
       },
@@ -149,7 +153,11 @@ describe('App (smoke)', () => {
       expect(container.textContent).toContain('Top URLs')
     )
     expect(container.querySelectorAll('table').length).toBeGreaterThan(0)
-    expect(container.textContent).toContain('older views may be missing')
+    expect(container.textContent).toContain(
+      'From 2026-08-31 to 2026-09-16. Weeks start on Monday;'
+    )
+    expect(container.textContent).toContain('Views, last 30 days')
+    expect(container.textContent).toContain('sbanken')
 
     fireEvent.click(screen.getByRole('tab', { name: 'Web MCP' }))
     expect(container.textContent).toContain('4 requests to the hosted')
@@ -166,6 +174,53 @@ describe('App (smoke)', () => {
     fireEvent.click(screen.getByRole('tab', { name: 'Component usage' }))
     expect(container.textContent).toContain('Top components')
     expect(container.textContent).toContain('12 component usages')
+  })
+
+  it('switches the trend between months and weeks', async () => {
+    vi.mocked(loadDashboardData).mockResolvedValue({
+      kind: 'data',
+      payload: populated,
+    })
+
+    const { container } = render(<App />)
+
+    await waitFor(() =>
+      expect(container.textContent).toContain('Views over time')
+    )
+    const trendCard = () =>
+      screen.getByRole('heading', { name: 'Views over time' })
+        .parentElement as HTMLElement
+    expect(trendCard().textContent).toContain('2026-08')
+    expect(trendCard().textContent).not.toContain('2026-09-07')
+
+    fireEvent.click(screen.getByRole('button', { name: 'Week' }))
+
+    expect(trendCard().textContent).toContain('2026-08-31')
+    expect(trendCard().textContent).toContain('2026-09-07')
+    expect(trendCard().textContent).toContain('2026-09-14')
+  })
+
+  it('shows the newest month of top URLs first and switches month', async () => {
+    vi.mocked(loadDashboardData).mockResolvedValue({
+      kind: 'data',
+      payload: populated,
+    })
+
+    const { container } = render(<App />)
+
+    await waitFor(() =>
+      expect(container.textContent).toContain('Top URLs per month')
+    )
+    expect(container.textContent).toContain('/uilib/button')
+    expect(container.textContent).not.toContain('/uilib/august')
+
+    fireEvent.click(screen.getByRole('combobox', { name: /Month/ }))
+    fireEvent.click(screen.getByRole('option', { name: '2026-08' }))
+
+    await waitFor(() =>
+      expect(container.textContent).toContain('/uilib/august')
+    )
+    expect(container.textContent).not.toContain('/uilib/button')
   })
 
   it('shows an empty message in an MCP tab with no usage for that transport', async () => {

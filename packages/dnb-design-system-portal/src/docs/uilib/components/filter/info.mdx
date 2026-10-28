@@ -273,7 +273,9 @@ The Filter component includes several accessibility features out of the box:
 
 ### Focus management
 
-When the filter panel is closed — via the "Hide filter" button, the "Apply" button, or the "Cancel" button in manual mode — focus is automatically returned to the `Filter.PanelButton`. This ensures keyboard users don't lose their place in the page.
+The bottom "Hide filter" button appears when the filter options and the distance from the panel toggle exceed the viewport height. It updates when categories expand or collapse, content changes size, or the viewport resizes. Scrolling alone does not change its visibility, but mobile browser toolbars may resize the viewport while scrolling and trigger an update. Short panels can be closed with `Filter.PanelButton`. If no panel toggle is rendered, the bottom close button remains available. Manual mode always shows the Apply and Cancel buttons.
+
+When the filter panel is closed with the bottom "Hide filter" button, the "Apply" button, or the "Cancel" button in manual mode, focus returns to `Filter.PanelButton`. This ensures keyboard users don't lose their place in the page.
 
 ### ARIA attributes
 

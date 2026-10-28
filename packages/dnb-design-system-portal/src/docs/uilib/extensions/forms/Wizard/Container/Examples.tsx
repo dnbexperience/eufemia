@@ -1,3 +1,4 @@
+import { Provider } from '@dnb/eufemia/src/shared'
 import { useCallback } from 'react'
 import ComponentBox from '../../../../../../shared/tags/ComponentBox'
 import { debounceAsync } from '@dnb/eufemia/src/shared/helpers/debounce'
@@ -24,7 +25,7 @@ export const Default = () => {
         }
 
         const Step1 = () => (
-          <Wizard.Step title="Step 1">
+          <Wizard.Step aria-label="Basic wizard: Step 1" title="Step 1">
             <Form.MainHeading>Heading</Form.MainHeading>
             <Form.Card>
               <P>Contents</P>
@@ -38,7 +39,7 @@ export const Default = () => {
         )
 
         const Step2 = () => (
-          <Wizard.Step title="Step 2">
+          <Wizard.Step aria-label="Basic wizard: Step 2" title="Step 2">
             <Form.MainHeading>Heading</Form.MainHeading>
             <Form.Card>
               <P>Contents</P>
@@ -55,7 +56,10 @@ export const Default = () => {
           const { summaryTitle } = Form.useTranslation().Step
 
           return (
-            <Wizard.Step title={summaryTitle}>
+            <Wizard.Step
+              aria-label={`Basic wizard: ${summaryTitle}`}
+              title={summaryTitle}
+            >
               <Form.MainHeading>Summary</Form.MainHeading>
               <Form.Card>
                 <Form.SubHeading>Deliver address</Form.SubHeading>
@@ -106,11 +110,18 @@ export const Default = () => {
 
           return (
             <Form.Handler data={initialData} onSubmit={onSubmit}>
-              <Wizard.Container id="my-wizard" onStepChange={onStepChange}>
-                <Step1 />
-                <Step2 />
-                <Summary />
-              </Wizard.Container>
+              <Provider
+                StepIndicator={{ overviewTitle: 'Basic wizard steps' }}
+              >
+                <Wizard.Container
+                  id="my-wizard"
+                  onStepChange={onStepChange}
+                >
+                  <Step1 />
+                  <Step2 />
+                  <Summary />
+                </Wizard.Container>
+              </Provider>
             </Form.Handler>
           )
         }
@@ -180,7 +191,10 @@ export const AsyncWizardContainer = () => {
 
           const Step1 = () => {
             return (
-              <Wizard.Step title="Step 1">
+              <Wizard.Step
+                aria-label="Asynchronous wizard: Step 1"
+                title="Step 1"
+              >
                 <Form.Card>
                   <Field.String
                     label="Required field with async validator"
@@ -202,7 +216,10 @@ export const AsyncWizardContainer = () => {
 
           const Step2 = () => {
             return (
-              <Wizard.Step title="Step 2">
+              <Wizard.Step
+                aria-label="Asynchronous wizard: Step 2"
+                title="Step 2"
+              >
                 <Form.MainHeading>Heading</Form.MainHeading>
 
                 <Form.Card>
@@ -219,10 +236,16 @@ export const AsyncWizardContainer = () => {
 
           return (
             <Form.Handler onSubmit={onSubmit}>
-              <Wizard.Container onStepChange={onStepChange}>
-                <Step1 />
-                <Step2 />
-              </Wizard.Container>
+              <Provider
+                StepIndicator={{
+                  overviewTitle: 'Asynchronous wizard steps',
+                }}
+              >
+                <Wizard.Container onStepChange={onStepChange}>
+                  <Step1 />
+                  <Step2 />
+                </Wizard.Container>
+              </Provider>
             </Form.Handler>
           )
         }
@@ -237,22 +260,29 @@ export const WithStatusMessage = () => {
   return (
     <ComponentBox data-visual-test="wizard-with-status-message">
       <Form.Handler>
-        <Wizard.Container
-          onStepChange={async (index, mode, { preventNavigation }) => {
-            preventNavigation()
-
-            return {
-              info: 'Info message.',
-              warning: 'Warning message.',
-            }
-          }}
+        <Provider
+          StepIndicator={{ overviewTitle: 'Wizard status message steps' }}
         >
-          <Wizard.Step title="Step 1">
-            <Form.MainHeading>Step 1</Form.MainHeading>
-            <P>Content</P>
-            <Wizard.NextButton text="Press me to see the status message" />
-          </Wizard.Step>
-        </Wizard.Container>
+          <Wizard.Container
+            onStepChange={async (index, mode, { preventNavigation }) => {
+              preventNavigation()
+
+              return {
+                info: 'Info message.',
+                warning: 'Warning message.',
+              }
+            }}
+          >
+            <Wizard.Step
+              aria-label="Wizard status message: Step 1"
+              title="Step 1"
+            >
+              <Form.MainHeading>Step 1</Form.MainHeading>
+              <P>Content</P>
+              <Wizard.NextButton text="Press me to see the status message" />
+            </Wizard.Step>
+          </Wizard.Container>
+        </Provider>
       </Form.Handler>
     </ComponentBox>
   )
@@ -266,28 +296,41 @@ export const WithStatusMessageInMenu = () => {
           console.log('onSubmit', data)
         }}
       >
-        <Wizard.Container
-          onStepChange={async (index, mode) => {
-            console.log('onStepChange', index, mode)
-          }}
-          mode="loose"
-          initialActiveIndex={2}
+        <Provider
+          StepIndicator={{ overviewTitle: 'Wizard menu status steps' }}
         >
-          <Wizard.Step title="Step 1">
-            <Field.String label="Step 1" path="/step1" required />
-            <Wizard.Buttons />
-          </Wizard.Step>
+          <Wizard.Container
+            onStepChange={async (index, mode) => {
+              console.log('onStepChange', index, mode)
+            }}
+            mode="loose"
+            initialActiveIndex={2}
+          >
+            <Wizard.Step
+              aria-label="Wizard menu status: Step 1"
+              title="Step 1"
+            >
+              <Field.String label="Step 1" path="/step1" required />
+              <Wizard.Buttons />
+            </Wizard.Step>
 
-          <Wizard.Step title="Step 2">
-            <Field.String label="Step 2" path="/step2" required />
-            <Wizard.Buttons />
-          </Wizard.Step>
+            <Wizard.Step
+              aria-label="Wizard menu status: Step 2"
+              title="Step 2"
+            >
+              <Field.String label="Step 2" path="/step2" required />
+              <Wizard.Buttons />
+            </Wizard.Step>
 
-          <Wizard.Step title="Step 3">
-            <Field.String label="Step 3" path="/step3" />
-            <Wizard.Buttons />
-          </Wizard.Step>
-        </Wizard.Container>
+            <Wizard.Step
+              aria-label="Wizard menu status: Step 3"
+              title="Step 3"
+            >
+              <Field.String label="Step 3" path="/step3" />
+              <Wizard.Buttons />
+            </Wizard.Step>
+          </Wizard.Container>
+        </Provider>
 
         <Form.SubmitButton />
       </Form.Handler>
@@ -305,31 +348,41 @@ export const OnSubmitRequest = () => {
           })
         }}
       >
-        <Wizard.Container mode="loose">
-          <Wizard.Step title="Step 1">
-            <Form.Card>
-              <Field.String
-                path="/foo"
-                label="Foo"
-                defaultValue="With default value"
-                required
-              />
-              <Field.String path="/bar" label="Bar" required />
-            </Form.Card>
+        <Provider
+          StepIndicator={{ overviewTitle: 'Wizard submit request steps' }}
+        >
+          <Wizard.Container mode="loose">
+            <Wizard.Step
+              aria-label="Wizard submit request: Step 1"
+              title="Step 1"
+            >
+              <Form.Card>
+                <Field.String
+                  path="/foo"
+                  label="Foo"
+                  defaultValue="With default value"
+                  required
+                />
+                <Field.String path="/bar" label="Bar" required />
+              </Form.Card>
 
-            <Wizard.Buttons />
-          </Wizard.Step>
+              <Wizard.Buttons />
+            </Wizard.Step>
 
-          <Wizard.Step title="Step 2">
-            <Form.Card>
-              <Field.String path="/baz" label="Baz" required />
-            </Form.Card>
+            <Wizard.Step
+              aria-label="Wizard submit request: Step 2"
+              title="Step 2"
+            >
+              <Form.Card>
+                <Field.String path="/baz" label="Baz" required />
+              </Form.Card>
 
-            <Wizard.Buttons />
+              <Wizard.Buttons />
 
-            <Form.SubmitButton />
-          </Wizard.Step>
-        </Wizard.Container>
+              <Form.SubmitButton />
+            </Wizard.Step>
+          </Wizard.Container>
+        </Provider>
       </Form.Handler>
     </ComponentBox>
   )

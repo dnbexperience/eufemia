@@ -17,9 +17,6 @@ mock_provider "aws" {
   mock_resource "aws_sqs_queue" {
     defaults = { arn = "arn:aws:sqs:eu-north-1:123456789012:test-failures", url = "https://sqs.eu-north-1.amazonaws.com/123456789012/test-failures" }
   }
-  mock_resource "aws_secretsmanager_secret" {
-    defaults = { arn = "arn:aws:secretsmanager:eu-north-1:123456789012:secret:test-webhook-abcdef" }
-  }
 }
 
 variables {
@@ -52,10 +49,20 @@ run "shadow_rollout" {
   }
 }
 
+run "reject_missing_bot_secret" {
+  command = plan
+  variables {
+    notifications_enabled = true
+    slack_bot_secret_arn  = ""
+  }
+  expect_failures = [aws_lambda_function.notifier]
+}
+
 run "enable_slack" {
   command = apply
   variables {
     notifications_enabled = true
+    slack_bot_secret_arn  = "arn:aws:secretsmanager:eu-north-1:123456789012:secret:test-bot-abcdef"
   }
   assert {
     condition = (

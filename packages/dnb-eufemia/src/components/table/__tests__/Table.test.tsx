@@ -300,6 +300,37 @@ describe('Table scss', () => {
     )
   })
 
+  it('should keep the container scrollbar ends visible in the rounded bottom corners', () => {
+    const css = loadScss(require.resolve('../style/deps.scss'))
+
+    // A large corner radius would otherwise cut off the ends of the scrollbar.
+    // Only when it scrolls (then the ScrollView is focusable).
+    expect(css).toContain(
+      '.dnb-table__container > .dnb-table__scroll-view[tabindex="0"] {\n  margin-bottom: max(0rem, (var(--table-outline-radius) - 0.5rem) / 2);\n}'
+    )
+    expect(css).toContain(
+      '.dnb-table__container .dnb-table__scroll-view[tabindex="0"] {\n  clip-path: inset(0 round 0 0 min(var(--table-outline-radius), (var(--table-outline-radius) + 0.5rem) / 2) min(var(--table-outline-radius), (var(--table-outline-radius) + 0.5rem) / 2));\n}'
+    )
+
+    // A table that fits keeps its bottom space and the full corner radius
+    expect(css).toContain(
+      '.dnb-table__container .dnb-table__scroll-view {\n  clip-path: inset(0 round 0 0 var(--table-outline-radius) var(--table-outline-radius));\n}'
+    )
+    expect(css).not.toMatch(
+      /^\.dnb-table__container > \.dnb-table__scroll-view \{[^}]*margin-bottom/m
+    )
+
+    // A Table.ScrollView inside Table.ContainerBody does not get the space too
+    expect(css).not.toMatch(
+      /^\.dnb-table__container \.dnb-table__scroll-view(\[tabindex="0"\])? \{[^}]*margin-bottom: max/m
+    )
+
+    // In a Modal/Drawer the container does not scroll, so no space is needed
+    expect(css).toContain(
+      '.dnb-modal__content .dnb-table__container .dnb-table__scroll-view {\n  overflow: visible;\n  margin-bottom: 0;\n}'
+    )
+  })
+
   it('should match style dependencies css', () => {
     const css = loadScss(require.resolve('../style/deps.scss'))
     expect(css).toMatchSnapshot()
@@ -323,5 +354,24 @@ describe('Table scss', () => {
 
     expect(outline).toBeGreaterThan(stickyHeader)
     expect(accordionOutline).toBeGreaterThan(outline)
+  })
+
+  it('should keep the scrollbar above the rounded bottom corners of a Card without inner space', () => {
+    const css = loadScss(require.resolve('../style/deps.scss'))
+
+    // Only when the ScrollView is the last element of the Card,
+    // and only when it scrolls (then it is focusable)
+    expect(css).toContain(
+      '.dnb-card--no-inner-space > .dnb-flex-container > .dnb-table__scroll-view[tabindex="0"]:last-child, .dnb-card--no-inner-space > .dnb-flex-container > .dnb-space:last-child > .dnb-table__scroll-view[tabindex="0"]:only-child {\n  margin-bottom: max(0rem, var(--rounded-corner) - 0.5rem);\n}'
+    )
+
+    // A smaller clip only in a filled Card, which clips the ScrollView anyway.
+    // In other Cards a clip would hide the focus ring.
+    expect(css).toContain(
+      '.dnb-card--filled.dnb-card--no-inner-space > .dnb-flex-container > .dnb-table__scroll-view[tabindex="0"]:last-child, .dnb-card--filled.dnb-card--no-inner-space > .dnb-flex-container > .dnb-space:last-child > .dnb-table__scroll-view[tabindex="0"]:only-child {\n  clip-path: inset(0 round 0 0 min(var(--rounded-corner), 0.5rem) min(var(--rounded-corner), 0.5rem));\n}'
+    )
+    expect(css).not.toMatch(
+      /^\.dnb-card--no-inner-space > [^{]*\{[^}]*clip-path/m
+    )
   })
 })

@@ -56,7 +56,8 @@ export type DateProps = Omit<
   pattern?: string
   /**
    * Defines if the Date field should support a value of two dates (starting and ending date).
-   * The value needs to be a string containing two dates, separated by a pipe character (`|`) e.g. (`01-09-2024|30-09-2024`) when this is set to `true`.
+   * The value needs to be a string containing two dates, separated by a pipe character (`|`) e.g. (`2024-09-01|2024-09-30`) when this is set to `true`.
+   * A range with only one date is stored as `2024-09-01|` or `|2024-09-30`, and an empty range as `undefined`.
    * Defaults to `false`.
    */
   range?: DatePickerProps['range']
@@ -209,7 +210,15 @@ function DateComponent(props: DateProps): ReactElement {
         invalidEndDate,
       })
 
-      return props.range ? `${startDate}|${endDate}` : date
+      if (props.range) {
+        if (!startDate && !endDate) {
+          return undefined
+        }
+
+        return `${startDate || ''}|${endDate || ''}`
+      }
+
+      return date
     },
     [props.range, setInvalidDates]
   )
@@ -461,7 +470,9 @@ export function parseRangeValue(
     String(value)
       .split('|')
       // Assign to null if falsy value, to properly clear input values
-      .map((value) => (/(undefined|null)/.test(value) ? null : value))
+      .map((value) =>
+        !value || /(undefined|null)/.test(value) ? null : value
+      )
   )
 }
 

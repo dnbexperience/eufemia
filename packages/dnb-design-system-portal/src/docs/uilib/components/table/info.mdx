@@ -74,6 +74,8 @@ render(
 )
 ```
 
+If you place a `Table.ScrollView` at the bottom of your own element with rounded corners and `overflow: hidden` or `overflow: clip`, the rounded corners can cut off the ends of the horizontal scrollbar. Give the `Table.ScrollView` space below it, e.g. `margin-bottom: 1rem`, or use a [Table.Container](/uilib/components/table/demos/#several-tables-in-one-container), which keeps the scrollbar clear of its rounded corners.
+
 ### Sticky header
 
 You have two options (both have their downsides):

@@ -39,19 +39,16 @@ import {
 
 const MAX_VERSION_LENGTH = 64
 
-// A semver shape (major.minor.patch with optional pre-release/build metadata).
-// This validates the shape, not membership of a real release, so an arbitrary
-// free-text string cannot be stored in the version field.
+// Checks the shape, not that the release exists, so free text can't be stored
+// in the version field.
 const SEMVER_CORE = /^\d+\.\d+\.\d+$/
 const SEMVER_IDENTIFIER = /^[0-9A-Za-z-]+$/
 
 /**
  * True only for a semver-shaped string: `major.minor.patch`, each a plain
  * number, with optional dot-separated pre-release (after `-`) and build
- * (after `+`) identifiers. Split on the separators first and validate each
- * identifier with a single, non-quantified character class, rather than one
- * regex with multiple optional quantified groups (avoids a ReDoS-shaped
- * pattern for a negligible-benefit optimisation).
+ * (after `+`) identifiers. Splits on the separators instead of using one regex
+ * with several optional quantified groups, which would be ReDoS-prone.
  */
 function isSemver(value: string): boolean {
   const buildSplit = value.split('+')
@@ -149,13 +146,9 @@ export function validateMcpUsage(
       }
     }
 
-    if (timestamp !== undefined) {
-      if (typeof timestamp !== 'string' || !isIsoTimestamp(timestamp)) {
-        errors.push(
-          `Event ${index}: "timestamp" must be an ISO date string`
-        )
-        valid = false
-      }
+    if (timestamp !== undefined && !isIsoTimestamp(timestamp)) {
+      errors.push(`Event ${index}: "timestamp" must be an ISO date string`)
+      valid = false
     }
 
     if (valid) {

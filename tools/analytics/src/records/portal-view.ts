@@ -230,24 +230,16 @@ export function validatePortalViews(
       valid = false
     }
 
-    if (timestamp !== undefined) {
-      if (typeof timestamp !== 'string' || !isIsoTimestamp(timestamp)) {
-        errors.push(
-          `Event ${index}: "timestamp" must be an ISO date string`
-        )
-        valid = false
-      }
+    if (timestamp !== undefined && !isIsoTimestamp(timestamp)) {
+      errors.push(`Event ${index}: "timestamp" must be an ISO date string`)
+      valid = false
     }
 
-    if (status !== undefined) {
-      if (!isOneOf(PORTAL_VIEW_STATUSES, status)) {
-        errors.push(
-          `Event ${index}: "status" must be one of ${PORTAL_VIEW_STATUSES.join(
-            ', '
-          )}`
-        )
-        valid = false
-      }
+    if (status !== undefined && !isOneOf(PORTAL_VIEW_STATUSES, status)) {
+      errors.push(
+        `Event ${index}: "status" must be one of ${PORTAL_VIEW_STATUSES.join(', ')}`
+      )
+      valid = false
     }
 
     if (valid) {

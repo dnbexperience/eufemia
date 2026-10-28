@@ -25,7 +25,7 @@ vi.mock('@aws-sdk/client-s3', () => ({
 import { handler } from '../src/lambda/dashboard-read.js'
 
 type Command = { kind: 'get' | 'put'; input: Record<string, unknown> }
-type Snapshot = { generatedAt: string; portalViews: unknown[] }
+type Snapshot = { generatedAt: string; portalViewTrends: unknown }
 type Result = { statusCode: number; body: string }
 
 class NoSuchKey extends Error {
@@ -62,9 +62,11 @@ describe('dashboard-read handler', () => {
   it('serves the stored snapshot without ever writing', async () => {
     const snapshot: Snapshot = {
       generatedAt: new Date().toISOString(),
-      portalViews: [
-        { type: 'pageview', path: '/', env: 'prod', timestamp: 't' },
-      ],
+      portalViewTrends: {
+        perDay: [{ dt: '2026-09-16', env: 'prod', count: 3 }],
+        topPathsPerMonth: [],
+        perLocaleAndTheme: [],
+      },
     }
     send.mockResolvedValue(getResult(snapshot))
 
@@ -77,7 +79,7 @@ describe('dashboard-read handler', () => {
 
   it('reads the snapshot from the expected key', async () => {
     send.mockResolvedValue(
-      getResult({ generatedAt: 't', portalViews: [] })
+      getResult({ generatedAt: 't', portalViewTrends: {} })
     )
 
     await handler()
@@ -95,7 +97,11 @@ describe('dashboard-read handler', () => {
     expect(res.statusCode).toBe(200)
     expect(JSON.parse(res.body)).toEqual({
       generatedAt: '',
-      portalViews: [],
+      portalViewTrends: {
+        perDay: [],
+        topPathsPerMonth: [],
+        perLocaleAndTheme: [],
+      },
       mcpUsage: {
         web: {
           total: 0,

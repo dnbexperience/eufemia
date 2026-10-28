@@ -5,12 +5,13 @@ import {
   readSnapshot,
   EMPTY_COMPONENT_USAGE,
   EMPTY_MCP_USAGE,
+  EMPTY_PORTAL_VIEW_TRENDS,
   type Snapshot,
 } from './snapshot-store.js'
 
 const EMPTY: Snapshot = {
   generatedAt: '',
-  portalViews: [],
+  portalViewTrends: EMPTY_PORTAL_VIEW_TRENDS,
   mcpUsage: EMPTY_MCP_USAGE,
   componentUsage: EMPTY_COMPONENT_USAGE,
 }

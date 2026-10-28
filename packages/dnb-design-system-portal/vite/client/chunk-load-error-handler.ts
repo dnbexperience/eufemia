@@ -1,15 +1,6 @@
 /**
- * Recover from stale dynamic imports after a deploy.
- *
- * When the production build is updated, returning users may still have
- * the previous app shell in memory (or restored from Firefox's bfcache
- * on a soft reload). Their cached JS will then try to `import()` a
- * chunk URL that no longer exists, throwing `ChunkLoadError` or
- * `Failed to fetch dynamically imported module`.
- *
- * To rescue these users we listen for those specific errors and force
- * a single hard reload. A sessionStorage flag prevents reload loops in
- * the unlikely case the error keeps reproducing on the fresh page.
+ * Recover once from failed Portal modules, including entry dependencies.
+ * Inlined in the head so recovery works before the entry can execute.
  */
 
 const RELOAD_FLAG = 'eufemia-portal:chunk-error-reloaded'
@@ -26,8 +17,33 @@ type StorageLike = Pick<Storage, 'getItem' | 'setItem' | 'removeItem'>
 
 type ChunkLoadErrorHandlerOptions = {
   storage?: StorageLike | null
-  reload?: () => void
+  reload?: (resourceUrl?: string) => void
   onReload?: () => void
+}
+
+export async function reloadAfterResourceRetry(
+  resourceUrl?: string,
+  reload = () => window.location.reload()
+) {
+  if (resourceUrl) {
+    // WebKit can retain a failed module preload across a reload.
+    // Refresh that resource first, with a timeout for an unavailable host.
+    const controller = new AbortController()
+    const timeout = setTimeout(() => controller.abort(), 3000)
+    try {
+      const response = await fetch(resourceUrl, {
+        cache: 'reload',
+        signal: controller.signal,
+      })
+      await response.arrayBuffer()
+    } catch {
+      // The guarded reload also handles failed retries.
+    } finally {
+      clearTimeout(timeout)
+    }
+  }
+
+  reload()
 }
 
 export function isChunkLoadError(reason: unknown): boolean {
@@ -55,56 +71,58 @@ export function isChunkLoadError(reason: unknown): boolean {
 }
 
 export function setupChunkLoadErrorHandler({
-  storage = typeof sessionStorage !== 'undefined' ? sessionStorage : null,
-  reload = () => window.location.reload(),
+  storage,
+  reload = reloadAfterResourceRetry,
   onReload,
 }: ChunkLoadErrorHandlerOptions = {}) {
   if (typeof window === 'undefined') {
     return () => {}
   }
 
-  const safeGet = (key: string) => {
+  let reloading = false
+  let failedPreloadUrl: string | undefined
+
+  const onReady = () => {
+    if (reloading) {
+      return
+    }
+    failedPreloadUrl = undefined
+
     try {
-      return storage?.getItem(key) ?? null
+      const reloadStorage =
+        storage === undefined ? window.sessionStorage : storage
+      reloadStorage?.removeItem(RELOAD_FLAG)
     } catch {
-      return null
+      // Storage may be unavailable.
     }
   }
 
-  const safeSet = (key: string, value: string) => {
-    try {
-      storage?.setItem(key, value)
-    } catch {
-      // Ignore storage write errors (private mode, quota, etc.)
+  const reloadOnce = (resourceUrl?: string) => {
+    if (reloading) {
+      return
     }
-  }
 
-  const safeRemove = (key: string) => {
     try {
-      storage?.removeItem(key)
+      const reloadStorage =
+        storage === undefined ? window.sessionStorage : storage
+      if (!reloadStorage || reloadStorage.getItem(RELOAD_FLAG)) {
+        return
+      }
+      reloadStorage.setItem(RELOAD_FLAG, '1')
     } catch {
-      // Ignore
+      // Reload only when the guard can be persisted across page loads.
+      return
     }
-  }
 
-  // Clear the flag once the new page has booted successfully so a
-  // future stale-cache event can recover again.
-  safeRemove(RELOAD_FLAG)
+    reloading = true
+    onReload?.()
+    reload(resourceUrl)
+  }
 
   const handleReason = (reason: unknown) => {
-    if (!isChunkLoadError(reason)) {
-      return
+    if (isChunkLoadError(reason)) {
+      reloadOnce(failedPreloadUrl)
     }
-
-    if (safeGet(RELOAD_FLAG)) {
-      // Already reloaded once for this kind of error in this session —
-      // do not loop. Let the user see the actual error.
-      return
-    }
-
-    safeSet(RELOAD_FLAG, '1')
-    onReload?.()
-    reload()
   }
 
   const onUnhandledRejection = (event: PromiseRejectionEvent) => {
@@ -112,14 +130,44 @@ export function setupChunkLoadErrorHandler({
   }
 
   const onError = (event: ErrorEvent) => {
+    const target = event.target
+    const resourceUrl =
+      target instanceof HTMLScriptElement && target.type === 'module'
+        ? target.src
+        : target instanceof HTMLLinkElement &&
+            target.relList.contains('modulepreload')
+          ? target.href
+          : ''
+
+    if (
+      resourceUrl &&
+      new URL(resourceUrl).origin === window.location.origin
+    ) {
+      if (target instanceof HTMLLinkElement) {
+        // Preloads are speculative. Recover only if a module import also fails.
+        failedPreloadUrl = resourceUrl
+        return
+      }
+      reloadOnce(failedPreloadUrl ?? resourceUrl)
+      return
+    }
+
     handleReason(event.error ?? event.message)
   }
 
+  const onPreloadError = (event: Event & { payload?: unknown }) => {
+    handleReason(event.payload)
+  }
+
+  window.addEventListener('portal:ready', onReady)
   window.addEventListener('unhandledrejection', onUnhandledRejection)
-  window.addEventListener('error', onError)
+  window.addEventListener('error', onError, true)
+  window.addEventListener('vite:preloadError', onPreloadError)
 
   return () => {
+    window.removeEventListener('portal:ready', onReady)
     window.removeEventListener('unhandledrejection', onUnhandledRejection)
-    window.removeEventListener('error', onError)
+    window.removeEventListener('error', onError, true)
+    window.removeEventListener('vite:preloadError', onPreloadError)
   }
 }

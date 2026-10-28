@@ -35,10 +35,14 @@ test.describe('Connector.Bring', () => {
     await expect(countryInput).toHaveValue('Sverige')
 
     await postalCodeInput.fill('12345')
-    await expect(form.getByRole('alert')).toHaveText('Ugyldig postnummer.')
-    await expect(postalCodeIndicator).not.toHaveClass(
+    await expect(postalCodeIndicator).toHaveClass(
       /dnb-forms-submit-indicator--state-pending/
     )
+    await expect(postalCodeIndicator).not.toHaveClass(
+      /dnb-forms-submit-indicator--state-pending/,
+      { timeout: 10_000 }
+    )
+    await expect(form.getByRole('alert')).toHaveText('Ugyldig postnummer.')
 
     await postalCodeInput.press('Backspace')
     await postalCodeInput.press('4')
@@ -47,7 +51,8 @@ test.describe('Connector.Bring', () => {
     )
     await postalCodeInput.blur()
     await expect(postalCodeIndicator).not.toHaveClass(
-      /dnb-forms-submit-indicator--state-pending/
+      /dnb-forms-submit-indicator--state-pending/,
+      { timeout: 10_000 }
     )
     await expect(form.getByRole('alert')).toHaveText('Ugyldig postnummer.')
 

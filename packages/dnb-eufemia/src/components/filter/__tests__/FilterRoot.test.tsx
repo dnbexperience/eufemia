@@ -38,6 +38,28 @@ describe('Filter.Root', () => {
     expect(element).toHaveAttribute('role', 'search')
   })
 
+  it('uses the translated search landmark name by default', () => {
+    render(<FilterRoot />)
+
+    expect(document.querySelector('.dnb-filter')).toHaveAttribute(
+      'aria-label',
+      'Filter'
+    )
+  })
+
+  it('allows each search landmark to have a descriptive name', () => {
+    render(
+      <>
+        <FilterRoot aria-label="Transactions" />
+        <FilterRoot aria-label="Invoices" />
+      </>
+    )
+
+    const landmarks = document.querySelectorAll('[role="search"]')
+    expect(landmarks[0]).toHaveAccessibleName('Transactions')
+    expect(landmarks[1]).toHaveAccessibleName('Invoices')
+  })
+
   it('merges custom className', () => {
     render(
       <FilterRoot className="my-custom">

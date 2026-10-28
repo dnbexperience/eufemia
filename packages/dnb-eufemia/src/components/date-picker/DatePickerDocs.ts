@@ -4,27 +4,27 @@ const dateType = ['string', 'Date']
 
 export const DatePickerProperties: PropertiesTableProps = {
   date: {
-    doc: 'Defines the pre-filled date by either a JavaScript `Date` instance or (ISO 8601) like `date="2019-05-05"`.',
-    type: dateType,
+    doc: 'Defines the pre-filled date by either a JavaScript `Date` instance or (ISO 8601) like `date="2019-05-05"`. To clear the date, set it to `null` or an empty string. Changing it to `undefined` keeps the current date.',
+    type: [...dateType, 'null'],
     status: 'optional',
   },
   startDate: {
-    doc: 'To set the pre-filled starting date. Is used if `range={true}` is set to `true`. Defaults to `null`, showing the `maskPlaceholder`.',
-    type: dateType,
+    doc: 'To set the pre-filled starting date. Is used if `range={true}` is set to `true`. Defaults to `null`, showing the `maskPlaceholder`. To clear the date, set it to `null` or an empty string. Changing it to `undefined` keeps the current date.',
+    type: [...dateType, 'null'],
     status: 'optional',
   },
   endDate: {
-    doc: 'To set the pre-filled ending date. Is used if `range={true}` is set to `true`. Defaults to `null`, showing the `maskPlaceholder`.',
-    type: dateType,
+    doc: 'To set the pre-filled ending date. Is used if `range={true}` is set to `true`. Defaults to `null`, showing the `maskPlaceholder`. To clear the date, set it to `null` or an empty string. Changing it to `undefined` keeps the current date.',
+    type: [...dateType, 'null'],
     status: 'optional',
   },
   month: {
-    doc: 'To display what month should be shown in the first calendar by default. Defaults to the `date` respective `startDate`.',
+    doc: 'To display what month should be shown in the first calendar by default. Defaults to the `date` respective `startDate`, or the current month, or the nearest month within `minDate` and `maxDate`. In range mode, the month before is used when the second calendar would otherwise show a month after `maxDate`, unless `minDate` is in the same month.',
     type: dateType,
     status: 'optional',
   },
   startMonth: {
-    doc: 'To display what month should be shown in the first calendar by default. Defaults to the `date` respective `startDate`.',
+    doc: 'To display what month should be shown in the first calendar by default. Defaults to the `date` respective `startDate`, or the current month, or the nearest month within `minDate` and `maxDate`. In range mode, the month before is used when the second calendar would otherwise show a month after `maxDate`, unless `minDate` is in the same month.',
     type: dateType,
     status: 'optional',
   },
@@ -268,6 +268,11 @@ export const DatePickerProperties: PropertiesTableProps = {
     type: 'boolean',
     status: 'optional',
   },
+  enableKeyboardNav: {
+    doc: 'Has no effect. Keyboard navigation in the calendar is always enabled. **Deprecated**: Remove this property.',
+    type: 'boolean',
+    status: 'deprecated',
+  },
   globalStatus: {
     doc: 'The [configuration](/uilib/components/global-status/properties/#configuration-object) used for the target [GlobalStatus](/uilib/components/global-status).',
     type: 'object',
@@ -337,7 +342,7 @@ export const DatePickerEvents: PropertiesTableProps = {
     status: 'optional',
   },
   onDaysRender: {
-    doc: 'Will be called right before every new calendar view gets rendered. See the example above.',
+    doc: 'Will be called before the days of each calendar view are rendered, and again on interactions such as hover and selection. Receives the `days` array and the calendar number (`0` for the first calendar, `1` for the second in range mode). Change the day objects, or return a new array, to customize the days. See [Manipulate the days in the calendar view](/uilib/components/date-picker/#manipulate-the-days-in-the-calendar-view).',
     type: 'function',
     status: 'optional',
   },

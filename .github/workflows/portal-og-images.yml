@@ -1,0 +1,137 @@
+name: Portal social images
+
+on:
+  schedule:
+    - cron: '23 5 * * 1'
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: Refresh changed images or create missing images only
+        type: choice
+        options: [refresh, missing]
+        default: refresh
+      publish:
+        description: Publish images and OG metadata on the deployed Portal
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: portal-og-images
+  cancel-in-progress: false
+
+jobs:
+  generate:
+    if: github.repository == 'dnbexperience/eufemia' && github.ref_name == github.event.repository.default_branch
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    outputs:
+      source-run-id: ${{ steps.snapshot.outputs.source-run-id }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - uses: ./.github/actions/setup
+        with:
+          cache-version: ${{ secrets.CACHE_VERSION }}
+      - name: Restore CDN catalogue
+        run: node packages/dnb-design-system-portal/scripts/og-images/cdn.mts
+        env:
+          GH_TOKEN: ${{ github.token }}
+      - name: Restore the deployed Portal snapshot
+        id: snapshot
+        if: github.event_name == 'schedule' || inputs.publish
+        run: node packages/dnb-design-system-portal/scripts/og-images/artifacts.mts site
+        env:
+          GH_TOKEN: ${{ github.token }}
+      - name: Request the internal S3 publisher and verify the CDN catalogue
+        if: github.event_name == 'schedule' || inputs.publish
+        run: node packages/dnb-design-system-portal/scripts/og-images/request.mts
+        env:
+          GH_ENTERPRISE_TOKEN: ${{ secrets.GHE_DEPLOY_PAT }}
+          GHE_ASSETS_DEPLOY_REPO: ${{ vars.GHE_ASSETS_DEPLOY_REPO }}
+          OG_MODE: ${{ inputs.mode || 'refresh' }}
+      - name: Restore newly published catalogue
+        env:
+          OG_PUBLICATION_ID: ${{ github.run_id }}-${{ github.run_attempt }}
+        if: github.event_name == 'schedule' || inputs.publish
+        run: node packages/dnb-design-system-portal/scripts/og-images/cdn.mts
+      - name: Compare deployed demo inputs
+        if: github.event_name == 'workflow_dispatch' && !inputs.publish
+        id: plan
+        run: node packages/dnb-design-system-portal/scripts/og-images/generate.mts plan
+        env:
+          OG_MODE: ${{ inputs.mode || 'refresh' }}
+      - name: Install Chromium when captures are needed
+        if: steps.plan.outputs.captures != '' && steps.plan.outputs.captures != '0'
+        run: yarn workspace dnb-design-system-portal exec playwright install --with-deps chromium
+      - name: Render changed images
+        if: steps.plan.outputs.changed == 'true'
+        run: node packages/dnb-design-system-portal/scripts/og-images/generate.mts render
+      - name: Prepare images and metadata in the deployed snapshot
+        if: github.event_name == 'schedule' || inputs.publish
+        run: |
+          node packages/dnb-design-system-portal/scripts/og-images/install.mts
+          node packages/dnb-design-system-portal/scripts/og-images/site.mts prepare
+          node packages/dnb-design-system-portal/scripts/og-images/deployment.mts check
+        env:
+          OG_EXPECTED_RUN_ID: ${{ steps.snapshot.outputs.source-run-id }}
+      - name: Save review catalogue artifact
+        if: github.event_name == 'workflow_dispatch' && !inputs.publish
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: portal-social-images-review
+          path: packages/dnb-design-system-portal/.og-catalogue
+          include-hidden-files: true
+          retention-days: 14
+          if-no-files-found: error
+      - name: Preserve updated Portal snapshot
+        if: github.event_name == 'schedule' || inputs.publish
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: portal-og-site
+          path: packages/dnb-design-system-portal/public
+          include-hidden-files: true
+          retention-days: 90
+          if-no-files-found: error
+      - name: Prepare Pages deployment
+        if: github.event_name == 'schedule' || inputs.publish
+        uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
+        with:
+          path: packages/dnb-design-system-portal/public
+
+  publish:
+    needs: generate
+    if: github.event_name == 'schedule' || inputs.publish
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    # Share the queue with normal Pages deployments only while deploying. The
+    # source snapshot check below runs inside the queue.
+    concurrency:
+      group: pages
+      cancel-in-progress: false
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        with:
+          node-version-file: package.json
+          package-manager-cache: false
+      - name: Check that the source Portal is still deployed
+        run: node packages/dnb-design-system-portal/scripts/og-images/deployment.mts check
+        env:
+          OG_EXPECTED_RUN_ID: ${{ needs.generate.outputs.source-run-id }}
+      - name: Deploy updated OG images and metadata
+        id: deployment
+        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1

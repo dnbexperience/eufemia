@@ -2,9 +2,26 @@ import { expect, it, vi } from 'vitest'
 
 const mocks = vi.hoisted(() => ({
   writeFile: vi.fn(async () => {}),
-  goto: vi.fn(async () => ({ ok: () => true })),
+  goto: vi.fn<() => Promise<{ ok(): boolean; status?(): number }>>(
+    async () => ({ ok: () => true })
+  ),
+  waitFor: vi.fn(async () => {}),
+  waitForTimeout: vi.fn(async () => {}),
   addInitScript: vi.fn(async (script) => script()),
 }))
+
+const scanArgs = [
+  'node',
+  'scan-portal-accessibility.mjs',
+  '--base-url',
+  'https://eufemia.dnb.no',
+  '--sitemap',
+  'sitemap.json',
+  '--output',
+  'report.json',
+  '--issue-output',
+  'issue.json',
+]
 
 vi.mock('node:fs/promises', () => ({
   default: {
@@ -28,8 +45,9 @@ vi.mock('@playwright/test', () => ({
         addInitScript: mocks.addInitScript,
         newPage: async () => ({
           goto: mocks.goto,
+          waitForTimeout: mocks.waitForTimeout,
           locator: () => ({
-            waitFor: async () => {},
+            waitFor: mocks.waitFor,
             evaluateAll: async () => [],
           }),
         }),
@@ -55,18 +73,7 @@ it('disables page-view tracking before loading a scanned page', async () => {
     beaconValues.push(navigator.sendBeacon)
     return { ok: () => true }
   })
-  process.argv = [
-    'node',
-    'scan-portal-accessibility.mjs',
-    '--base-url',
-    'https://eufemia.dnb.no',
-    '--sitemap',
-    'sitemap.json',
-    '--output',
-    'report.json',
-    '--issue-output',
-    'issue.json',
-  ]
+  process.argv = scanArgs
   const stdout = vi.spyOn(process.stdout, 'write').mockReturnValue(true)
 
   try {
@@ -87,5 +94,34 @@ it('disables page-view tracking before loading a scanned page', async () => {
     } else {
       Reflect.deleteProperty(Navigator.prototype, 'sendBeacon')
     }
+  }
+})
+
+it('retries a page that fails to load', async () => {
+  const originalArgs = process.argv
+  mocks.writeFile.mockClear()
+  mocks.goto
+    .mockReset()
+    .mockResolvedValueOnce({ ok: () => false, status: () => 503 })
+  mocks.waitFor.mockRejectedValueOnce(
+    new Error('locator.waitFor: Timeout 10000ms exceeded.')
+  )
+  process.argv = scanArgs
+  const stdout = vi.spyOn(process.stdout, 'write').mockReturnValue(true)
+
+  try {
+    vi.resetModules()
+    await import('../../../scripts/scan-portal-accessibility.mjs')
+    await vi.waitFor(() =>
+      expect(mocks.writeFile).toHaveBeenCalledTimes(2)
+    )
+    expect(mocks.goto).toHaveBeenCalledTimes(3)
+    expect(mocks.waitForTimeout).toHaveBeenCalledTimes(2)
+    expect(stdout).toHaveBeenCalledWith(
+      expect.stringContaining('0 axe findings and 0 errors')
+    )
+  } finally {
+    process.argv = originalArgs
+    stdout.mockRestore()
   }
 })

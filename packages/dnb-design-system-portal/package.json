@@ -46,6 +46,7 @@
     "test:e2e:portal:run": "playwright test --config=./playwright.config.e2e.ts",
     "test:e2e:portal:watch": "playwright test --config=./playwright.config.e2e.ts --ui",
     "test:hydration": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --test scripts/__tests__/portal-hydration.test.ts",
+    "test:og-images": "node --test scripts/og-images/*.test.mts",
     "test:screenshots": "yarn workspace @dnb/eufemia test:screenshots",
     "test:screenshots:ci": "start-server-and-test serve http://localhost:8000 'yarn workspace @dnb/eufemia test:screenshots:ci'",
     "test:screenshots:ci:conditional": "start-server-and-test serve http://localhost:8000 'yarn workspace @dnb/eufemia test:screenshots:ci:conditional'",

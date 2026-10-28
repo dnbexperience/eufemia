@@ -33,10 +33,17 @@ env:
   RUN_POST_BUILD: ${{ startsWith(github.ref, 'refs/heads/main') || startsWith(github.ref, 'refs/heads/v') }}
 
 jobs:
+  changes:
+    uses: ./.github/workflows/detect-standalone-tools-only.yml
+
   e2e:
     name: Run e2e tests
+    needs: changes
+    # A skipped job counts as success for the required check; it still runs if detection fails.
+    if: ${{ !cancelled() && needs.changes.outputs.standalone-tools-only != 'true' }}
 
-    runs-on: ubuntu-latest
+    # Pinned until Playwright can install its system dependencies on Ubuntu 26.04
+    runs-on: ubuntu-24.04
 
     timeout-minutes: 40
 
@@ -51,6 +58,19 @@ jobs:
         with:
           cache-version: ${{ secrets.CACHE_VERSION }}
 
+      - name: Prepare apt package cache
+        run: |
+          # Let actions/cache restore into apt's root-owned archive directory
+          sudo chown "$(id -un)" /var/cache/apt/archives
+          # Expressions can't read runner variables like ImageOS
+          echo "IMAGE_OS=$ImageOS" >> "$GITHUB_ENV"
+
+      - name: Use apt package cache
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
+        with:
+          path: /var/cache/apt/archives/*.deb
+          key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-${{ env.IMAGE_OS }}-apt-playwright-${{ hashFiles('node_modules/playwright-core/package.json') }}
+
       - name: Use Playwright cache
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         id: playwright-cache
@@ -59,13 +79,25 @@ jobs:
             ~/Library/Caches/ms-playwright
             ~/.cache/ms-playwright
             %USERPROFILE%\AppData\Local\ms-playwright
-          key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-playwright-firefox-chromium-webkit-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-playwright-firefox-chromium-webkit-${{ hashFiles('node_modules/playwright-core/browsers.json') }}
       - name: Install Playwright browsers
-        run: yarn workspace dnb-design-system-portal playwright install --with-deps firefox chromium webkit
+        run: yarn workspace dnb-design-system-portal playwright install firefox chromium webkit
         if: steps.playwright-cache.outputs.cache-hit != 'true'
       - name: Install Playwright dependencies
-        run: yarn workspace dnb-design-system-portal playwright install-deps firefox chromium webkit
-        if: steps.playwright-cache.outputs.cache-hit == 'true'
+        timeout-minutes: 10
+        run: |
+          if ! timeout 3m yarn workspace dnb-design-system-portal playwright install-deps firefox chromium webkit; then
+            # A slow azure.archive.ubuntu.com node never trips apt's stall timeout (actions/runner-images#14823)
+            # timeout can't reach the apt-get that sudo started, so stop it unless dpkg is already installing
+            pgrep -x dpkg > /dev/null || sudo pkill -x apt-get || true
+            while pgrep -x 'apt-get|dpkg' > /dev/null; do sleep 1; done
+            sudo dpkg --configure -a
+            sudo sed -i '/azure\.archive\.ubuntu\.com/d' /etc/apt/apt-mirrors.txt
+            yarn workspace dnb-design-system-portal playwright install-deps firefox chromium webkit
+          fi
+
+      - name: Run Portal social image regression tests
+        run: yarn workspace dnb-design-system-portal test:og-images
 
       - name: Prebuild Library
         if: env.RUN_POST_BUILD == 'true'

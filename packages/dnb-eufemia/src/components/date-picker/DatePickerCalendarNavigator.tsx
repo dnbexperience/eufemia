@@ -4,6 +4,9 @@ import {
   addMonths,
   addYears,
   differenceInCalendarMonths,
+  differenceInCalendarYears,
+  max,
+  min,
   subMonths,
   subYears,
 } from 'date-fns'
@@ -102,15 +105,32 @@ export function DatePickerCalendarNav({
       )
     : date
 
+  // Calendars that are not linked can not reach the month of the other one
+  const otherViewMonth = isLinkedCalendars
+    ? undefined
+    : views.find((view) => view.nr !== nr)?.month
+  const prevLimit =
+    nr === 1 && otherViewMonth
+      ? max([minDate, addMonths(otherViewMonth, 1)].filter(Boolean))
+      : minDate
+  const nextLimit =
+    nr === 0 && otherViewMonth
+      ? min([maxDate, subMonths(otherViewMonth, 1)].filter(Boolean))
+      : maxDate
+
   const onNav = useCallback(
-    ({ nr, type: navigationType }: DatePickerCalendarNavigationEvent) => {
+    ({
+      nr,
+      type: navigationType,
+      months,
+    }: DatePickerCalendarNavigationEvent) => {
       const handlerType = type === 'year' ? 'year' : 'month'
       const updatedViews = views.map((view) => {
         if (view.nr === nr || isLinkedCalendars) {
-          const month = dateHandlers[handlerType][navigationType](
-            view.month,
-            1
-          )
+          const month =
+            typeof months === 'number'
+              ? addMonths(view.month, months)
+              : dateHandlers[handlerType][navigationType](view.month, 1)
 
           return { ...view, month }
         }
@@ -135,7 +155,7 @@ export function DatePickerCalendarNav({
           nr={nr}
           date={date}
           edgeDate={firstViewMonth}
-          dateLimit={minDate}
+          dateLimit={prevLimit}
           dateType={buttonDateType}
           dateFormat={titleFormat}
           locale={locale}
@@ -143,13 +163,14 @@ export function DatePickerCalendarNav({
         />
       </div>
       <span
-        id={`${id}--title`}
+        id={type === 'year' ? `${id}--year-title` : `${id}--title`}
         className="dnb-date-picker__header__title dnb-no-focus"
         title={title.replace(
           /%s/,
           formatDate(date, { locale, options: titleFormat })
         )}
         tabIndex={-1}
+        aria-live="polite"
       >
         {formatDate(date, { locale, options: titleFormat })}
       </span>
@@ -160,7 +181,7 @@ export function DatePickerCalendarNav({
           nr={nr}
           date={date}
           edgeDate={lastViewMonth}
-          dateLimit={maxDate}
+          dateLimit={nextLimit}
           dateFormat={titleFormat}
           locale={locale}
           onClick={onNav}
@@ -187,9 +208,11 @@ export type CalendarNavButtonProps = {
   onClick: ({
     nr,
     type,
+    months,
   }: {
     nr: number
     type: CalendarNavButtonProps['type']
+    months?: number
   }) => void
   onKeyDown?: (event: KeyboardEvent<HTMLButtonElement>) => void
 }
@@ -224,8 +247,22 @@ function CalendarNavButton({
   const monthsFromLimit = dateLimit
     ? differenceInCalendarMonths(dateHandler(edgeDate, 1), dateLimit)
     : 0
-  const disabled =
+  const passesLimit =
     type === 'next' ? monthsFromLimit > 0 : monthsFromLimit < 0
+
+  // A year step stops at the month of the limit, so it is only disabled
+  // when the limit is in the same year
+  const yearsToLimit = dateLimit
+    ? differenceInCalendarYears(dateLimit, edgeDate)
+    : 0
+  const disabled =
+    dateType === 'year' && dateLimit
+      ? type === 'next'
+        ? yearsToLimit <= 0
+        : yearsToLimit >= 0
+      : passesLimit
+  const step = (dateType === 'year' ? 12 : 1) * (type === 'next' ? 1 : -1)
+  const months = passesLimit ? step - monthsFromLimit : step
 
   const icon = type === 'prev' ? 'chevron_left' : 'chevron_right'
 
@@ -234,8 +271,9 @@ function CalendarNavButton({
       className={clsx(`dnb-date-picker__${type}`, { disabled })}
       icon={icon}
       size="small"
+      aria-disabled={disabled || undefined}
       aria-label={title}
-      onClick={() => onClick && !disabled && onClick({ nr, type })}
+      onClick={() => onClick && !disabled && onClick({ nr, type, months })}
       onKeyDown={onKeyDown}
     />
   )

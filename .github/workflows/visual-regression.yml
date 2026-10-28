@@ -36,8 +36,14 @@ env:
   PLAYWRIGHT_SCREENSHOT_WORKERS: 100%
 
 jobs:
+  changes:
+    uses: ./.github/workflows/detect-standalone-tools-only.yml
+
   visual-regression:
     name: Run visual-regression tests
+    needs: changes
+    # A skipped job counts as success for the required check; it still runs if detection fails.
+    if: ${{ !cancelled() && needs.changes.outputs.standalone-tools-only != 'true' }}
 
     runs-on: macos-26
 
@@ -138,7 +144,7 @@ jobs:
             ~/Library/Caches/ms-playwright
             ~/.cache/ms-playwright
             %USERPROFILE%\AppData\Local\ms-playwright
-          key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-playwright-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-playwright-${{ hashFiles('node_modules/playwright-core/browsers.json') }}
       - name: Install Playwright browsers
         run: yarn workspace @dnb/eufemia playwright install --with-deps firefox
         if: steps.playwright-cache.outputs.cache-hit != 'true'

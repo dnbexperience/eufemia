@@ -103,7 +103,7 @@ Deploy credentials and configuration are provided via repository secrets and var
 
 ### One-time bootstrap (admin, out-of-band)
 
-Because the OIDC deploy role's permissions boundary forbids `iam:CreateRole` (ADR 0004), an admin must pre-create the Lambda execution role `eufemia-<env>-analytics-role` (trust policy for Lambda + `AWSLambdaBasicExecutionRole`) with an attached policy granting: `s3:GetObject`/`PutObject`/`ListBucket` on the data bucket (bucket-wide, so it covers every analytics prefix — `portal-views/`, `mcp-usage/`, `mcp-usage-daily/`, `component-usage/`, `component-usage-daily/`, `snapshots/`, `athena-results/`), `athena:StartQueryExecution`/`GetQueryExecution`/`GetQueryResults` on the workgroup, and `glue:GetTable`/`GetDatabase`/`GetPartitions` on the analytics database and its tables. The GHE deploy repo and its OIDC role/federation entry must also be provisioned, as with the MCP pipeline.
+Because the OIDC deploy role's permissions boundary forbids `iam:CreateRole` (ADR 0004), an admin must pre-create the Lambda execution role `eufemia-<env>-analytics-role` (trust policy for Lambda + `AWSLambdaBasicExecutionRole`) with an inline policy granting: `s3:GetObject`/`PutObject` on the data bucket's objects and `s3:ListBucket`/`GetBucketLocation` on the bucket (bucket-wide, so it covers every analytics prefix — `portal-views/`, `mcp-usage/`, `mcp-usage-daily/`, `component-usage/`, `component-usage-daily/`, `snapshots/`, `athena-results/`), `athena:StartQueryExecution`/`StopQueryExecution`/`GetQueryExecution`/`GetQueryResults`/`GetWorkGroup` on the workgroup, and `glue:GetDatabase`/`GetTable`/`GetPartition`/`GetPartitions` on the Glue catalog, the analytics database and its tables. The GHE deploy repo and its OIDC role/federation entry must also be provisioned, as with the MCP pipeline.
 
 For the same reason, an admin must pre-create the read-only dashboard-read execution role `eufemia-<env>-dashboard-role` (trust policy for Lambda + `AWSLambdaBasicExecutionRole`) with an inline policy granting exactly one permission — `s3:GetObject` on the snapshot prefix `arn:aws:s3:::eufemia-<env>-analytics-<account-id>/snapshots/*` — and nothing else, so the browser-facing read Lambda has no write or Athena access. The snapshot generator Lambda reuses `eufemia-<env>-analytics-role` (it needs the same Athena + S3 access), so it requires no additional role.
 
@@ -114,7 +114,7 @@ For the same reason, an admin must pre-create the read-only dashboard-read execu
 - **S3 bucket** (versioned, SSE-S3, public access blocked) holding portal-view records (`portal-views/`, `portal-views-daily/`), MCP usage (`mcp-usage/`, `mcp-usage-daily/`), component usage (`component-usage/`, `component-usage-daily/`), the dashboard snapshot (`snapshots/dashboard.json`), and Athena output (`athena-results/`, expired after 7 days). The raw event prefixes (`portal-views/`, `mcp-usage/`, `component-usage/`) are expired after 395 days (≈ 13 months) to cover year-over-year reporting; the daily rollups (`*-daily/`) and the regenerated snapshot are not expired, so aggregated history outlives the raw rows.
 - **Glue database + tables** with JSON SerDe and partition projection on `dt` (`portal_views`, `portal_views_daily`, `mcp_usage`, `mcp_usage_daily`, `component_usage`, `component_usage_daily`). The `portal_views_daily` rollup keeps the anonymous view dimensions (`status`, `locale`, `theme`, `color_scheme`, `referrer`, `via_search`) alongside `path`/`env` so their history survives the raw expiry and stays queryable via Athena; only the per-event timestamp is dropped (aggregated to the `dt` day). The `mcp_usage_daily` rollup keeps `transport` (`web` or `local`), so the dashboard can show the web and local MCP servers separately; raw web rows written before the MCP Lambda stamped `transport` are counted as `web`. It also keeps `component_missed` and `likely_component`, so the dashboard can count missed component lookups; rows written before misses were recorded count as no miss.
 
-> **Note:** the snapshot generator refreshes the durable `portal_views_daily` rollup each run for retention, but the dashboard does not read it yet — it still shows the recent raw page-view rows. Surfacing the retained history (and its dimensions) on the dashboard is a follow-up; the rollup exists now so the history is preserved before the raw rows begin to expire.
+> **Note:** the snapshot generator refreshes the durable `portal_views_daily` rollup each run, then reads up to 13 calendar months of it for the dashboard's page-view trends.
 
 Scheduled runs recompute only the recent tail. To capture page-views recorded before this rollup existed, or to add `transport` to older MCP usage rollup days, run the generator once with an explicit start date. The same `sinceDt` applies to both rollups, and writes are idempotent per day:
 
@@ -125,7 +125,7 @@ aws lambda invoke --function-name eufemia-<env>-analytics-snapshot \
 
 The rollup refresh is best-effort, so the invoke returns a normal snapshot result even if the backfill failed — check the run logs or the `PortalViewsRollupFailure` and `McpUsageBuildFailure` metrics, not the invoke exit, and re-run if needed. If the full-history pass is too large for one invocation (90s / 256 MB), run it with progressively earlier `sinceDt` values (each re-scans to today; idempotent per day).
 
-Because nothing reads the rollup back in-app yet, sanity-check that the retained history is queryable with an ad-hoc Athena query against the workgroup, e.g. year-over-year page views by month:
+To inspect a dimension the dashboard doesn't show, run an ad-hoc Athena query against the workgroup, e.g. year-over-year page views by month:
 
 ```sql
 SELECT substr(dt, 1, 7) AS month, sum(count) AS views
@@ -136,7 +136,7 @@ ORDER BY month;
 
 Swap `sum(count)` groupings for any retained dimension (`locale`, `theme`, `color_scheme`, `referrer`, `via_search`, `status`, `path`, `env`) to inspect its history.
 
-> **Note:** the `component_usage*` tables and `component-usage*` prefixes are scaffold for a future Nucleus component-usage producer. There is no producer yet, so the snapshot generator does **not** query them (to avoid running Athena against empty tables) and the section ships empty. Re-wiring is a small change in `buildComponentUsage`'s caller — see the guidance in `src/lambda/snapshot.ts`.
+> **Note:** the `component_usage*` tables and `component-usage*` prefixes are scaffold for a future Nucleus component-usage producer. There is no producer yet, so the snapshot generator does **not** query them (to avoid running Athena against empty tables) and the section ships empty. Once a producer writes data, set `COMPONENT_USAGE_ENABLED = "true"` on the snapshot Lambda in `infra/main.tf`.
 
 - **Athena workgroup** for the retrieve queries.
 - **Lambda function** (`nodejs22.x`) — its execution role is pre-created out-of-band, because the OIDC deploy role's permissions boundary forbids `iam:CreateRole` (ADR 0004); it is only referenced here.

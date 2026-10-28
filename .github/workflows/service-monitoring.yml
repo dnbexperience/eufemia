@@ -8,7 +8,9 @@ on:
       - 'tools/mcp-lambda/src/check-http.ts'
       - 'tools/monitoring/report-incident.ts'
       - '.github/workflows/service-monitoring.yml'
+      - 'package.json'
       - 'yarn.lock'
+      - '.yarnrc.yml'
   push:
     branches: [main]
     paths:
@@ -17,6 +19,9 @@ on:
       - 'tools/mcp-lambda/src/check-http.ts'
       - 'tools/monitoring/report-incident.ts'
       - '.github/workflows/service-monitoring.yml'
+      - 'package.json'
+      - 'yarn.lock'
+      - '.yarnrc.yml'
   workflow_dispatch:
 
 permissions:
@@ -96,7 +101,7 @@ jobs:
 
       - name: Push to internal deployment repository
         env:
-          GHE_PAT: ${{ secrets.GHE_DEPLOY_PAT }}
+          GHE_PAT: ${{ secrets.GHE_MONITORING_DEPLOY_PAT }}
           GHE_REPO: ${{ vars.GHE_MONITORING_DEPLOY_REPO }}
           SOURCE_SHA: ${{ github.sha }}
         run: |
@@ -112,7 +117,17 @@ jobs:
           git config user.name 'github-actions[bot]'
           git config user.email 'github-actions[bot]@users.noreply.github.com'
           git add -A
-          git commit -m "Deploy service monitoring from $SOURCE_SHA"
           AUTH_HEADER=$(printf 'x-access-token:%s' "$GHE_PAT" | base64 | tr -d '\n')
+          REMOTE_HEAD=$(git -c http.extraheader="AUTHORIZATION: basic $AUTH_HEADER" \
+            ls-remote "https://dnb.ghe.com/${GHE_REPO}.git" refs/heads/deploy)
+          if [[ -n "$REMOTE_HEAD" ]]; then
+            git -c http.extraheader="AUTHORIZATION: basic $AUTH_HEADER" \
+              fetch --depth=1 "https://dnb.ghe.com/${GHE_REPO}.git" refs/heads/deploy
+            if git diff --cached --quiet FETCH_HEAD; then
+              echo 'Deployment package unchanged; skipping internal handoff.'
+              exit 0
+            fi
+          fi
+          git commit -m "Deploy service monitoring from $SOURCE_SHA"
           git -c http.extraheader="AUTHORIZATION: basic $AUTH_HEADER" \
             push "https://dnb.ghe.com/${GHE_REPO}.git" HEAD:refs/heads/deploy --force

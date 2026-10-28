@@ -11,7 +11,6 @@ on:
       - 'tools/assets/**'
       - 'tools/monitoring/**'
       - '.github/workflows/assets.yml'
-      - '.github/workflows/cdn-health.yml'
   release:
     types: [published]
   workflow_dispatch:
@@ -135,6 +134,7 @@ jobs:
           cp "$GITHUB_WORKSPACE/tools/assets/README.md" README.md
           mkdir -p .github/workflows
           cp "$GITHUB_WORKSPACE/tools/assets/ghe-deploy-workflow.yml" .github/workflows/deploy.yml
+          cp "$GITHUB_WORKSPACE/tools/assets/ghe-og-workflow.yml" .github/workflows/social-images.yml
 
           git add -A
           git commit -m "Deploy from ${SOURCE_REF} (${SOURCE_SHA:0:7})"

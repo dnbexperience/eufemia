@@ -25,6 +25,9 @@ yarn-debug.log*
 
 # Terraform local provider and module cache
 **/.terraform/
+# Generated Portal social image catalogue
+/packages/dnb-design-system-portal/.og-catalogue/
+/packages/dnb-design-system-portal/static/og/images/
 
 yarn-error.log*
 .yarn/*

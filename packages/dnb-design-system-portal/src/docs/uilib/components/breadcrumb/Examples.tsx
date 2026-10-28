@@ -9,6 +9,7 @@ import Breadcrumb from '@dnb/eufemia/src/components/Breadcrumb'
 export const BreadcrumbSingle = () => (
   <ComponentBox data-visual-test="breadcrumb-single">
     <Breadcrumb
+      navText="Single breadcrumb example"
       onClick={() => {
         console.log('Going back!')
       }}
@@ -39,14 +40,20 @@ export const BreadcrumbDefault = () => (
         },
       ]
 
-      return <Breadcrumb data={pages} spacing />
+      return (
+        <Breadcrumb
+          navText="Data breadcrumb example"
+          data={pages}
+          spacing
+        />
+      )
     }}
   </ComponentBox>
 )
 
 export const BreadcrumbChildren = () => (
   <ComponentBox data-visual-test="breadcrumb-children">
-    <Breadcrumb spacing>
+    <Breadcrumb navText="Child component breadcrumb example" spacing>
       <Breadcrumb.Item
         onClick={() => {
           console.log('go home!')
@@ -88,7 +95,14 @@ export const BreadcrumbCollapse = () => (
         },
       ]
 
-      return <Breadcrumb variant="collapse" data={pages} spacing />
+      return (
+        <Breadcrumb
+          navText="Collapsed breadcrumb example"
+          variant="collapse"
+          data={pages}
+          spacing
+        />
+      )
     }}
   </ComponentBox>
 )
@@ -115,7 +129,14 @@ export const BreadcrumbMultiple = () => (
         },
       ]
 
-      return <Breadcrumb variant="multiple" data={pages} spacing />
+      return (
+        <Breadcrumb
+          navText="Expanded breadcrumb example"
+          variant="multiple"
+          data={pages}
+          spacing
+        />
+      )
     }}
   </ComponentBox>
 )

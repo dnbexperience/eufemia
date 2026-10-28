@@ -83,7 +83,7 @@
     "test:e2e": "playwright test --config=./playwright.config.e2e.ts",
     "test:e2e:ci": "PLAYWRIGHT_BASE_URL=http://localhost:8001 start-server-and-test 'yarn workspace dnb-design-system-portal serve:8001' http://localhost:8001 test:e2e",
     "test:e2e:watch": "playwright test --config=./playwright.config.e2e.ts --ui",
-    "test:postbuild": "vitest run --config vitest.config.postbuild.ts scripts/postbuild/__tests__/postbuild.test.ts scripts/postbuild/__tests__/validatePackageContents.test.ts scripts/postbuild/__tests__/writeReleaseConfig.test.ts scripts/postbuild/__tests__/getNextReleaseVersion.test.ts scripts/postbuild/__tests__/verifyReleaseVersion.test.ts",
+    "test:postbuild": "vitest run --config vitest.config.postbuild.ts scripts/postbuild/__tests__/postbuild.test.ts scripts/postbuild/__tests__/styleSideEffects.test.ts scripts/postbuild/__tests__/validatePackageContents.test.ts scripts/postbuild/__tests__/writeReleaseConfig.test.ts scripts/postbuild/__tests__/getNextReleaseVersion.test.ts scripts/postbuild/__tests__/verifyReleaseVersion.test.ts",
     "test:postbuild:publish": "vitest run --config vitest.config.postbuild.ts scripts/postbuild/__tests__/prepareForRelease.test.ts",
     "test:prepare": "yarn build:style-manifest",
     "test:screenshots": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --experimental-strip-types ./scripts/tools/vitest/runScreenshotVitest.ts",
@@ -105,14 +105,13 @@
   },
   "sideEffects": [
     "*.css",
-    "*.min.css",
     "*.scss",
+    "**/components/**/style.*",
+    "**/elements/**/style.*",
     "**/extensions/**/style.*",
-    "umd/*",
-    "style/**/*",
-    "es/style/**/*",
-    "esm/style/**/*",
-    "src/style/**/*"
+    "**/fragments/**/style.*",
+    "**/style/**/*",
+    "umd/*"
   ],
   "types": "./index.d.ts",
   "dependencies": {
@@ -132,7 +131,7 @@
     "date-fns": "4.4.0",
     "intl-messageformat": "11.2.3",
     "postcss-selector-parser": "7.1.6",
-    "zod": "4.6.5"
+    "zod": "4.6.6"
   },
   "peerDependencies": {
     "@tanstack/react-virtual": "^3.14.10",
@@ -176,8 +175,8 @@
     "@eslint/eslintrc": "3.3.5",
     "@eslint/js": "10.0.1",
     "@modelcontextprotocol/node": "2.1.1",
-    "@modelcontextprotocol/server": "2.3.1",
-    "@modelcontextprotocol/server-legacy": "2.3.1",
+    "@modelcontextprotocol/server": "2.4.0",
+    "@modelcontextprotocol/server-legacy": "2.4.0",
     "@playwright/test": "1.60.0",
     "@semantic-release/changelog": "6.0.3",
     "@semantic-release/commit-analyzer": "13.0.1",

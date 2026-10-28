@@ -1,4 +1,5 @@
 ---
+description: 'Learn how Eufemia changes move through pull requests, CI, package releases, and production Portal deployments.'
 title: 'Deployment'
 order: 4
 icon: 'gettingStarted'
@@ -36,6 +37,14 @@ regular release instead.
 
 The Portal footer keeps the latest published package version for a Portal-only
 deployment. `Portal update` shows when that Portal build was created.
+
+The `github-pages` environment accepts deployments only from `release` and
+`main`. Releases deploy the Portal from `release`. The Portal social images
+workflow (`.github/workflows/portal-og-images.yml`) runs on `main`, weekly or
+when started manually. It does not build the Portal from `main`: it redeploys
+the Portal built from `release` with updated image metadata. Keep both branches
+in the environment's deployment branches (repository Settings → Environments →
+`github-pages`).
 
 ### How to make releases
 

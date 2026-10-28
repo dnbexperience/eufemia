@@ -105,6 +105,12 @@ exports[`Table scss > should match style dependencies css 1`] = `
 .dnb-card--filled .dnb-table__scroll-view {
   clip-path: inset(0 0 0 0 round 0 0 var(--rounded-corner) var(--rounded-corner));
 }
+.dnb-card--no-inner-space > .dnb-flex-container > .dnb-table__scroll-view[tabindex="0"]:last-child, .dnb-card--no-inner-space > .dnb-flex-container > .dnb-space:last-child > .dnb-table__scroll-view[tabindex="0"]:only-child {
+  margin-bottom: max(0rem, var(--rounded-corner) - 0.5rem);
+}
+.dnb-card--filled.dnb-card--no-inner-space > .dnb-flex-container > .dnb-table__scroll-view[tabindex="0"]:last-child, .dnb-card--filled.dnb-card--no-inner-space > .dnb-flex-container > .dnb-space:last-child > .dnb-table__scroll-view[tabindex="0"]:only-child {
+  clip-path: inset(0 round 0 0 min(var(--rounded-corner), 0.5rem) min(var(--rounded-corner), 0.5rem));
+}
 .dnb-spacing .dnb-table p,
 .dnb-spacing .dnb-table ul,
 .dnb-spacing .dnb-table ol,
@@ -954,8 +960,16 @@ html:not([data-whatintent=touch]) .dnb-table__td__button:hover:not([disabled]) .
   min-height: 1rem;
 }
 
+.dnb-table__container > .dnb-table__scroll-view[tabindex="0"] {
+  margin-bottom: max(0rem, (var(--table-outline-radius) - 0.5rem) / 2);
+}
+
 .dnb-table__container .dnb-table__scroll-view {
   clip-path: inset(0 round 0 0 var(--table-outline-radius) var(--table-outline-radius));
+}
+
+.dnb-table__container .dnb-table__scroll-view[tabindex="0"] {
+  clip-path: inset(0 round 0 0 min(var(--table-outline-radius), (var(--table-outline-radius) + 0.5rem) / 2) min(var(--table-outline-radius), (var(--table-outline-radius) + 0.5rem) / 2));
 }
 
 @supports (-webkit-appearance: none) and (not (-moz-appearance: meterbar)) {
@@ -968,6 +982,7 @@ html:not([data-whatintent=touch]) .dnb-table__td__button:hover:not([disabled]) .
 }
 .dnb-modal__content .dnb-table__container .dnb-table__scroll-view {
   overflow: visible;
+  margin-bottom: 0;
 }
 
 .dnb-card .dnb-table__container {

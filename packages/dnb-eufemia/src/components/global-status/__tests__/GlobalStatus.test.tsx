@@ -10,6 +10,7 @@ import {
   loadScss,
   wait,
 } from '../../../core/test-utils/testSetup'
+import { clickLink } from '../../../core/test-utils/clickLink'
 import type { GlobalStatusProps } from '../GlobalStatus'
 import GlobalStatus from '../GlobalStatus'
 import { GlobalStatusInterceptor } from '../GlobalStatusController'
@@ -1366,7 +1367,7 @@ describe('GlobalStatus component', () => {
     )
     expect(link).toHaveAttribute('href', '/uilib/components/global-status')
 
-    expect(fireEvent.click(link)).toBe(true)
+    expect(clickLink(link)).toBe(true)
     expect(fireEvent.keyDown(link, { key: 'Enter' })).toBe(true)
 
     expect(jumpLink).toHaveAttribute('href', '#other-field-id')

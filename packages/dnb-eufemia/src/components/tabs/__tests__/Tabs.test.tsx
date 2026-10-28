@@ -200,6 +200,72 @@ describe('Tabs component', () => {
     expect(underline).toHaveClass('dnb-tabs__selection--animated')
   })
 
+  it('updates the selection underline when fonts finish loading', async () => {
+    let finishLoading: () => void
+    const fonts = new EventTarget()
+    Object.defineProperty(fonts, 'ready', {
+      value: new Promise<void>((resolve) => {
+        finishLoading = resolve
+      }),
+    })
+    const originalFonts = Object.getOwnPropertyDescriptor(
+      document,
+      'fonts'
+    )
+    Object.defineProperty(document, 'fonts', {
+      configurable: true,
+      value: fonts,
+    })
+
+    let width = 40
+    vi.spyOn(
+      HTMLElement.prototype,
+      'getBoundingClientRect'
+    ).mockImplementation(function (this: HTMLElement) {
+      return {
+        left: this.hasAttribute('data-tab-key') ? width : 0,
+        width: this.hasAttribute('data-tab-key') ? width : 0,
+      } as DOMRect
+    })
+
+    try {
+      const { unmount } = render(<Tabs {...props} data={tablistData} />)
+      const underline = document.querySelector<HTMLElement>(
+        '.dnb-tabs__selection'
+      )
+      const getWidth = () =>
+        underline.style.getPropertyValue('--tabs-selection-width')
+
+      expect(getWidth()).toBe('40px')
+
+      width = 50
+      await act(async () => {
+        finishLoading()
+      })
+      expect(getWidth()).toBe('50px')
+      expect(underline.style.getPropertyValue('--tabs-selection-x')).toBe(
+        '50px'
+      )
+
+      width = 60
+      act(() => {
+        fonts.dispatchEvent(new Event('loadingdone'))
+      })
+      expect(getWidth()).toBe('60px')
+
+      unmount()
+      width = 70
+      fonts.dispatchEvent(new Event('loadingdone'))
+      expect(getWidth()).toBe('60px')
+    } finally {
+      if (originalFonts) {
+        Object.defineProperty(document, 'fonts', originalFonts)
+      } else {
+        Reflect.deleteProperty(document, 'fonts')
+      }
+    }
+  })
+
   it('has working "onChange" and "onClick" event handler', () => {
     let preventChange = false
     const onChange = vi.fn((e) => {
@@ -450,6 +516,73 @@ describe('Tabs component', () => {
       'aria-label',
       translations.nextButtonTitle
     )
+  })
+
+  it('reveals the edge tabs when scrolling without changing the selection', () => {
+    vi.spyOn(HTMLElement.prototype, 'scrollWidth', 'get').mockReturnValue(
+      300
+    )
+    vi.spyOn(HTMLElement.prototype, 'clientWidth', 'get').mockReturnValue(
+      100
+    )
+    vi.spyOn(HTMLElement.prototype, 'offsetWidth', 'get').mockReturnValue(
+      100
+    )
+    const onChange = vi.fn()
+
+    render(
+      <Tabs
+        {...props}
+        data={tablistData}
+        selectedKey="second"
+        onChange={onChange}
+      >
+        {contentWrapperData}
+      </Tabs>
+    )
+
+    const tablist = document.querySelector<HTMLElement>(
+      '.dnb-tabs__tabs__tablist'
+    )
+    const [previous, next] = document.querySelectorAll(
+      '.dnb-tabs__scroll-nav-button'
+    )
+    const hiddenClass = 'dnb-tabs__scroll-nav-button--hide'
+
+    expect(previous).toHaveClass(hiddenClass)
+    expect(next).not.toHaveClass(hiddenClass)
+
+    fireEvent.scroll(tablist, { target: { scrollLeft: 50 } })
+    expect(previous).not.toHaveClass(hiddenClass)
+    expect(next).not.toHaveClass(hiddenClass)
+
+    fireEvent.scroll(tablist, { target: { scrollLeft: -10 } })
+    expect(previous).toHaveClass(hiddenClass)
+    expect(next).not.toHaveClass(hiddenClass)
+
+    fireEvent.scroll(tablist, { target: { scrollLeft: 199.5 } })
+    expect(previous).not.toHaveClass(hiddenClass)
+    expect(next).toHaveClass(hiddenClass)
+
+    fireEvent.scroll(tablist, { target: { scrollLeft: 50 } })
+    expect(previous).not.toHaveClass(hiddenClass)
+    expect(next).not.toHaveClass(hiddenClass)
+    expect(
+      document.querySelector('[aria-selected="true"]')
+    ).toHaveAttribute('data-tab-key', 'second')
+    expect(onChange).not.toHaveBeenCalled()
+
+    fireEvent.click(document.querySelector('[data-tab-key="first"]'))
+    fireEvent.scroll(tablist, { target: { scrollLeft: 50 } })
+    expect(previous).toHaveClass(hiddenClass)
+    expect(next).not.toHaveClass(hiddenClass)
+
+    fireEvent.click(document.querySelector('[data-tab-key="third"]'))
+    fireEvent.scroll(tablist, { target: { scrollLeft: 50 } })
+    expect(previous).not.toHaveClass(hiddenClass)
+    expect(next).toHaveClass(hiddenClass)
+
+    vi.restoreAllMocks()
   })
 
   it('translates the scroll navigation button labels', () => {

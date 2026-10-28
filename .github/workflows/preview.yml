@@ -38,9 +38,15 @@ jobs:
         with:
           cache-version: ${{ secrets.CACHE_VERSION }}
 
+      - name: Restore Portal social images
+        run: |
+          node packages/dnb-design-system-portal/scripts/og-images/cdn.mts --optional
+          node packages/dnb-design-system-portal/scripts/og-images/install.mts
+
       - name: Build
         run: yarn workspace dnb-design-system-portal build
         env:
+          PORTAL_PUBLIC_ORIGIN: 'https://pr-${{ github.event.pull_request.number }}.eufemia-e25.pages.dev'
           VITE_EUFEMIA_STACKBLITZ_VERSION: 'https://pkg.pr.new/@dnb/eufemia@${{ github.event.pull_request.head.sha }}'
           VITE_GITHUB_REPOSITORY: ${{ github.event.pull_request.head.repo.full_name }}
           VITE_GITHUB_EDIT_REF: ${{ github.event.pull_request.head.ref }}
@@ -92,9 +98,8 @@ jobs:
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          # Passed via env (not inlined into the script) so an untrusted PR
-          # branch name cannot inject shell commands into the run step.
-          BRANCH: ${{ github.head_ref || github.ref_name }}
+          # A predictable alias lets social metadata reference this preview.
+          BRANCH: pr-${{ github.event.pull_request.number }}
 
       - name: Post or update preview comment
         if: success() && steps.gate.outputs.skip != 'true' && github.event.pull_request

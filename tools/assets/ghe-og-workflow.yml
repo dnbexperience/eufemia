@@ -1,0 +1,153 @@
+name: Publish Portal OG images
+on:
+  repository_dispatch:
+    types: [portal-og-images]
+  workflow_dispatch:
+    inputs:
+      source_ref:
+        description: Reviewed public Eufemia revision containing the OG renderer
+        required: true
+        type: string
+      publication:
+        description: Identifier used by the requesting workflow to verify publication
+        required: true
+        type: string
+      mode:
+        type: choice
+        options: [refresh, missing]
+        default: refresh
+permissions:
+  contents: read
+concurrency:
+  group: portal-og-images
+  cancel-in-progress: false
+env:
+  SOURCE_SHA: ${{ inputs.source_ref || github.event.client_payload.source_ref }}
+  CATALOGUE: packages/dnb-design-system-portal/.og-catalogue
+# Only the restore and publish jobs can use AWS. They run Node built-ins and
+# the AWS CLI. The renderer and its dependencies run in a job without AWS
+# access, and its output is validated before it is published.
+jobs:
+  restore:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Fetch the public renderer revision without deployment credentials
+        run: |
+          [[ "$SOURCE_SHA" =~ ^[a-f0-9]{40}$ ]]
+          git init .
+          git remote add origin https://github.com/dnbexperience/eufemia.git
+          git fetch --depth=1 origin "$SOURCE_SHA"
+          git checkout --detach FETCH_HEAD
+      - name: Require the reviewed current public main revision
+        run: |
+          actual=$(git ls-remote https://github.com/dnbexperience/eufemia.git refs/heads/main | cut -f1)
+          test "$actual" = "$SOURCE_SHA"
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        with:
+          node-version-file: package.json
+          package-manager-cache: false
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd # v6
+        with:
+          role-to-assume: ${{ vars.OG_AWS_ROLE_ARN || vars.AWS_ROLE_ARN }}
+          aws-region: eu-north-1
+      - name: Restore reusable S3 catalogue
+        run: |
+          node packages/dnb-design-system-portal/scripts/og-images/s3.mts restore
+          touch "$CATALOGUE/.restored"
+        env:
+          ASSETS_BUCKET_NAME: ${{ vars.ASSETS_BUCKET_NAME }}
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: og-catalogue-restored
+          path: ${{ env.CATALOGUE }}
+          include-hidden-files: true
+          retention-days: 1
+          if-no-files-found: error
+
+  render:
+    needs: restore
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: read
+    steps:
+      - name: Fetch the public renderer revision without deployment credentials
+        run: |
+          [[ "$SOURCE_SHA" =~ ^[a-f0-9]{40}$ ]]
+          git init .
+          git remote add origin https://github.com/dnbexperience/eufemia.git
+          git fetch --depth=1 origin "$SOURCE_SHA"
+          git checkout --detach FETCH_HEAD
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        with:
+          node-version-file: package.json
+          package-manager-cache: false
+      - name: Install renderer dependencies
+        run: |
+          corepack enable
+          yarn install --immutable
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: og-catalogue-restored
+          path: ${{ env.CATALOGUE }}
+      - name: Plan captures
+        id: plan
+        run: node packages/dnb-design-system-portal/scripts/og-images/generate.mts plan
+        env:
+          OG_MODE: ${{ inputs.mode || github.event.client_payload.mode || 'refresh' }}
+      - name: Install Chromium when needed
+        if: steps.plan.outputs.captures != '0'
+        run: yarn workspace dnb-design-system-portal exec playwright install --with-deps chromium
+      - name: Render changed images
+        if: steps.plan.outputs.changed == 'true'
+        run: node packages/dnb-design-system-portal/scripts/og-images/generate.mts render
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: og-catalogue-rendered
+          path: |
+            ${{ env.CATALOGUE }}/manifest.json
+            ${{ env.CATALOGUE }}/images
+            ${{ env.CATALOGUE }}/crops
+          include-hidden-files: true
+          retention-days: 1
+          if-no-files-found: error
+
+  publish:
+    needs: render
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Fetch the public publisher revision without deployment credentials
+        run: |
+          [[ "$SOURCE_SHA" =~ ^[a-f0-9]{40}$ ]]
+          git init .
+          git remote add origin https://github.com/dnbexperience/eufemia.git
+          git fetch --depth=1 origin "$SOURCE_SHA"
+          git checkout --detach FETCH_HEAD
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        with:
+          node-version-file: package.json
+          package-manager-cache: false
+      - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
+        with:
+          name: og-catalogue-rendered
+          path: ${{ env.CATALOGUE }}
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@e1253824e5c10ff9df46874f81ed3ec929e19cfd # v6
+        with:
+          role-to-assume: ${{ vars.OG_AWS_ROLE_ARN || vars.AWS_ROLE_ARN }}
+          aws-region: eu-north-1
+      - name: Publish immutable images before the catalogue
+        run: node packages/dnb-design-system-portal/scripts/og-images/s3.mts publish
+        env:
+          ASSETS_BUCKET_NAME: ${{ vars.ASSETS_BUCKET_NAME }}
+          ASSETS_DISTRIBUTION_ID: ${{ vars.ASSETS_DISTRIBUTION_ID }}
+          OG_PUBLICATION_ID: ${{ inputs.publication || github.event.client_payload.publication }}
