@@ -1567,6 +1567,7 @@ legend.dnb-form-label {
 .dnb-dropdown--stretch {
   display: flex;
   flex-grow: 1;
+  min-width: 0;
 }
 .dnb-dropdown--stretch .dnb-dropdown__inner {
   flex-grow: 1;
@@ -1881,6 +1882,7 @@ exports[`Dropdown scss > have to match default theme snapshot 1`] = `
 .dnb-dropdown--stretch {
   display: flex;
   flex-grow: 1;
+  min-width: 0;
 }
 .dnb-dropdown--stretch .dnb-dropdown__inner {
   flex-grow: 1;
