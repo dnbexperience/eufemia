@@ -1,3 +1,5 @@
+@use '../../../../../style/core/utilities.scss' as utilities;
+
 .dnb-forms-field-selection {
   &__variant--dropdown {
     --field-block-grid-min-width: 0;
@@ -14,6 +16,19 @@
     .dnb-forms-field-block {
       &--layout-horizontal .dnb-form-label {
         align-self: center;
+      }
+    }
+
+    // A fixed width keeps long text inside its own box,
+    // so the label wraps first, the same as for other fields.
+    &.dnb-forms-field-block--content-width-small,
+    &.dnb-forms-field-block--content-width-medium,
+    &.dnb-forms-field-block--content-width-large,
+    &.dnb-forms-field-block--content-width-custom {
+      @include utilities.allAbove(small) {
+        .dnb-forms-field-block--layout-horizontal {
+          --field-block-grid-min-width: auto;
+        }
       }
     }
   }
