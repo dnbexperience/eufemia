@@ -81,16 +81,12 @@ export type DatePickerEventAttributes = {
 // Takes the return object from DatePickerProvider and extends it with the event
 export type DatePickerEvent<T> = DatePickerReturnObject<T>
 
-type FocusOnClose = { focusOnClose?: boolean | string }
-
 export type DisplayPickerEvent = (
   | MouseEvent<HTMLButtonElement | HTMLAnchorElement | HTMLElement>
   | MouseEvent
   | KeyboardEvent
-  | FocusOnClose
 ) &
-  DatePickerDates &
-  FocusOnClose & {
+  DatePickerDates & {
     event?: MouseEvent<HTMLButtonElement | HTMLAnchorElement>
   }
 
@@ -484,26 +480,6 @@ function DatePicker(externalProps: DatePickerAllProps) {
           onClose?.({
             ...getReturnObject.current(args),
           })
-
-          // Keep focus that moved elsewhere while the calendar was closing, e.g. into the input
-          const activeElement = document.activeElement
-          const hasFocusMovedElsewhere =
-            activeElement instanceof HTMLElement &&
-            activeElement !== document.body &&
-            !calendarContainerRef.current?.contains(activeElement)
-
-          if (args?.['focusOnClose'] && !hasFocusMovedElsewhere) {
-            try {
-              submitButtonRef.current?.focus({
-                preventScroll: true,
-              })
-            } catch (e) {
-              warn(
-                'DatePicker: Failed to focus submit button on close:',
-                e
-              )
-            }
-          }
         },
         noAnimation ? 1 : blurDelay
       ) // wait until animation is over
@@ -540,7 +516,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
       MouseEvent<HTMLSpanElement> | KeyboardEvent<HTMLTableElement>
     >) => {
       if (shouldHidePicker && !showSubmitButton && !showCancelButton) {
-        hidePicker({ focusOnClose: true })
+        hidePicker()
       }
 
       setDates({ startDate: args.startDate, endDate: args.endDate })
