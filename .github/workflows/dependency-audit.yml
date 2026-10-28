@@ -17,7 +17,10 @@ name: Dependency audit
 # audit and generate an SBOM — none need repository secrets (least privilege).
 
 on:
-  push:
+  # Pull requests compare with main, so a rebase alone does not re-run the audit.
+  pull_request:
+    branches:
+      - main
     paths:
       - 'yarn.lock'
       # Both spellings on purpose. GitHub documents `**` as "zero or more of any
@@ -33,6 +36,18 @@ on:
       - '.github/workflows/dependency-audit.yml'
       # The SBOM smoke test below exists to mirror release.yml and pins a
       # generator version that must match it, so changes there must re-run this.
+      - '.github/workflows/release.yml'
+  push:
+    branches:
+      - main
+    # Same paths as for pull requests.
+    paths:
+      - 'yarn.lock'
+      - 'package.json'
+      - '**/package.json'
+      - '.yarnrc.yml'
+      - '.yarn/**'
+      - '.github/workflows/dependency-audit.yml'
       - '.github/workflows/release.yml'
   schedule:
     # Daily, to catch advisories disclosed against an unchanged tree. GitHub
