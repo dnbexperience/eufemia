@@ -92,6 +92,14 @@ test('keeps long dropdown text inside a narrow container', async ({
   )
   await example.evaluate((element) => {
     element.style.maxWidth = '100%'
+
+    // Without width classes, the first field renders like width={false}
+    const field = element.querySelector('.dnb-forms-field-selection')
+    field.classList.remove('dnb-forms-field-block--content-width-large')
+    field
+      .querySelector('.dnb-forms-field-block__contents')
+      .classList.remove('dnb-forms-field-block__contents--width-large')
+
     for (const text of element.querySelectorAll(
       '.dnb-dropdown__text__inner'
     )) {

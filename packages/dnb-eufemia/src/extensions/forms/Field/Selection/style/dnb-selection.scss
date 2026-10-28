@@ -19,8 +19,9 @@
       }
     }
 
-    // A fixed width keeps long text inside its own box,
-    // so the label wraps first, the same as for other fields.
+    // A fixed width keeps long text inside its own box, so the label wraps
+    // first, the same as for other fields. Without a fixed width (stretch or
+    // width={false}), the dropdown keeps the zero minimum.
     &.dnb-forms-field-block--content-width-small,
     &.dnb-forms-field-block--content-width-medium,
     &.dnb-forms-field-block--content-width-large,
