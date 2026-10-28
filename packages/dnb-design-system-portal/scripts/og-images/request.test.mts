@@ -110,5 +110,8 @@ test('waits at least as long as the internal publisher may run', async () => {
   assert.equal(generate.length, 1)
   assert.ok(deadline >= internal, deadline + ' < ' + internal)
   // Leave room for the steps before and after the wait in the same job.
-  assert.ok(generate[0] >= deadline + 10, generate[0] + ' < ' + deadline)
+  assert.ok(
+    generate[0] >= deadline + 10,
+    generate[0] + ' < ' + (deadline + 10)
+  )
 })
