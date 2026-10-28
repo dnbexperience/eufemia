@@ -4205,6 +4205,63 @@ describe('DatePicker component', () => {
     expect(onChange).toHaveBeenCalledTimes(1)
   })
 
+  it('should clear the date when the date props change to an empty string', () => {
+    const { rerender } = render(
+      <>
+        <DatePicker showInput date="2025-04-08" />
+        <DatePicker
+          showInput
+          range
+          startDate="2025-04-08"
+          endDate="2025-04-10"
+        />
+      </>
+    )
+
+    rerender(
+      <>
+        <DatePicker showInput date="" />
+        <DatePicker showInput range startDate="" endDate="" />
+      </>
+    )
+
+    expect(getDatePickerInputs().map(({ value }) => value)).toEqual([
+      ...['dd', 'mm', 'åååå'],
+      ...['dd', 'mm', 'åååå', 'dd', 'mm', 'åååå'],
+    ])
+  })
+
+  it('should keep the date when the date props change to undefined', () => {
+    const { rerender } = render(
+      <>
+        <DatePicker showInput date="2025-04-08" />
+        <DatePicker
+          showInput
+          range
+          startDate="2025-04-08"
+          endDate="2025-04-10"
+        />
+      </>
+    )
+
+    rerender(
+      <>
+        <DatePicker showInput date={undefined} />
+        <DatePicker
+          showInput
+          range
+          startDate={undefined}
+          endDate={undefined}
+        />
+      </>
+    )
+
+    expect(getDatePickerInputs().map(({ value }) => value)).toEqual([
+      ...['08', '04', '2025'],
+      ...['08', '04', '2025', '10', '04', '2025'],
+    ])
+  })
+
   it('has a reacting end date input with valid value', async () => {
     const { rerender } = render(
       <DatePicker

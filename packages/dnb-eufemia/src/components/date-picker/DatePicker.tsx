@@ -96,17 +96,17 @@ export type DisplayPickerEvent = (
 
 export type DatePickerProps = {
   /**
-   * Defines the pre-filled date by either a JavaScript `Date` instance or (ISO 8601) like `date="2019-05-05"`.
+   * Defines the pre-filled date by either a JavaScript `Date` instance or (ISO 8601) like `date="2019-05-05"`. To clear the date, set it to `null` or an empty string. Changing it to `undefined` keeps the current date.
    */
-  date?: DatePickerDateType
+  date?: DatePickerDateType | null
   /**
-   * To set the pre-filled starting date. Is used if `range={true}` is set to `true`. Defaults to `null`, showing the `maskPlaceholder`.
+   * To set the pre-filled starting date. Is used if `range={true}` is set to `true`. Defaults to `null`, showing the `maskPlaceholder`. To clear the date, set it to `null` or an empty string. Changing it to `undefined` keeps the current date.
    */
-  startDate?: DatePickerDateType
+  startDate?: DatePickerDateType | null
   /**
-   * To set the pre-filled ending date. Is used if `range={true}` is set to `true`. Defaults to `null`, showing the `maskPlaceholder`.
+   * To set the pre-filled ending date. Is used if `range={true}` is set to `true`. Defaults to `null`, showing the `maskPlaceholder`. To clear the date, set it to `null` or an empty string. Changing it to `undefined` keeps the current date.
    */
-  endDate?: DatePickerDateType
+  endDate?: DatePickerDateType | null
   /**
    * To display what month should be shown in the first calendar by default. Defaults to the `date` respective `startDate`, or the current month, or the nearest month within `minDate` and `maxDate`. In range mode, the month before is used when the second calendar would otherwise show a month after `maxDate`, unless `minDate` is in the same month.
    */
