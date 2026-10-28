@@ -8,6 +8,11 @@ import { expect, it } from 'vitest'
 it.each([
   ['CDN', '../../assets/check-cdn.ts', 'cdn-health-report.json'],
   ['MCP', '../../mcp-lambda/src/check-http.ts', 'mcp-health-report.json'],
+  [
+    'Analytics',
+    '../../analytics/src/monitor/check-analytics.ts',
+    'analytics-health-report.json',
+  ],
 ])(
   'saves a fresh %s diagnostic report when checking throws',
   async (service, script, file) => {

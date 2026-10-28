@@ -1,6 +1,11 @@
 locals {
-  prefix   = "eufemia-${var.environment}-service-monitoring"
-  services = toset(["CDN", "MCP"])
+  prefix = "eufemia-${var.environment}-service-monitoring"
+  schedules = {
+    CDN       = "cron(7 * * * ? *)"
+    MCP       = "cron(11 * * * ? *)"
+    Analytics = "cron(17 * * * ? *)"
+  }
+  services = toset(keys(local.schedules))
   tags = {
     Environment    = var.environment
     CostAllocation = var.cost_allocation
@@ -66,13 +71,17 @@ resource "aws_lambda_function" "monitor" {
   filename                       = "${path.module}/../dist/lambda.zip"
   source_code_hash               = filebase64sha256("${path.module}/../dist/lambda.zip")
   environment {
-    variables = {
+    variables = merge({
       SERVICE                 = each.key
       STATE_TABLE             = aws_dynamodb_table.state.name
       ALERT_TOPIC_ARN         = aws_sns_topic.alerts.arn
       NOTIFICATIONS_ENABLED   = tostring(var.notifications_enabled)
-      GITHUB_TOKEN_SECRET_ARN = each.key == "MCP" ? var.github_token_secret_arn : ""
-    }
+      GITHUB_TOKEN_SECRET_ARN = each.key == "CDN" ? "" : var.github_token_secret_arn
+      }, each.key == "Analytics" ? {
+      # Read by name: the bootstrap grant matches the name plus Secrets Manager's suffix.
+      GHE_TOKEN_SECRET            = "eufemia/${var.environment}/monitoring/ghe-analytics-token"
+      ANALYTICS_DEPLOY_REPOSITORY = var.analytics_deploy_repository
+    } : {})
   }
   depends_on = [aws_cloudwatch_log_group.monitor]
   tags       = local.tags
@@ -94,7 +103,7 @@ resource "aws_scheduler_schedule" "monitor" {
   for_each                     = local.services
   name                         = lower(each.key)
   group_name                   = aws_scheduler_schedule_group.monitors.name
-  schedule_expression          = each.key == "CDN" ? "cron(7 * * * ? *)" : "cron(11 * * * ? *)"
+  schedule_expression          = local.schedules[each.key]
   schedule_expression_timezone = "UTC"
   flexible_time_window {
     mode = "OFF"

@@ -6,6 +6,7 @@ on:
       - 'tools/service-monitoring/**'
       - 'tools/assets/check-cdn.ts'
       - 'tools/mcp-lambda/src/check-http.ts'
+      - 'tools/analytics/src/monitor/check-analytics.ts'
       - 'tools/monitoring/report-incident.ts'
       - '.github/workflows/service-monitoring.yml'
       - 'package.json'
@@ -17,6 +18,7 @@ on:
       - 'tools/service-monitoring/**'
       - 'tools/assets/check-cdn.ts'
       - 'tools/mcp-lambda/src/check-http.ts'
+      - 'tools/analytics/src/monitor/check-analytics.ts'
       - 'tools/monitoring/report-incident.ts'
       - '.github/workflows/service-monitoring.yml'
       - 'package.json'
@@ -53,6 +55,7 @@ jobs:
           yarn workspace eufemia-service-monitoring test
           yarn workspace eufemia-assets-hosting test
           yarn workspace eufemia-mcp-lambda test src/__tests__/http-health.test.ts
+          yarn workspace eufemia-analytics test __tests__/analytics-health.test.ts
           yarn workspace eufemia-service-monitoring build
 
       - name: Audit production dependencies

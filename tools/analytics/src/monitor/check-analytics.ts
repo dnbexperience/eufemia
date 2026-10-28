@@ -1,4 +1,7 @@
+import { appendFileSync, writeFileSync } from 'node:fs'
+import { pathToFileURL } from 'node:url'
 import type { Check, Report } from '../../../monitoring/report-incident.ts'
+import { summarize } from '../../../monitoring/report-incident.ts'
 
 const healthz = 'https://server.eufemia.dnb.no/analytics/healthz'
 const dashboard = 'https://dashboard.eufemia.dnb.no/'
@@ -20,6 +23,7 @@ type Run = {
   status: string
   conclusion: string | null
   created_at: string
+  run_started_at?: string
   updated_at?: string
   head_sha?: string
   head_repository?: { full_name?: string }
@@ -81,13 +85,17 @@ export async function checkAnalytics(
     return response
   }
 
+  // A re-run keeps created_at, so age the current attempt from its start.
+  function startedAt(run: Run) {
+    return Date.parse(run.run_started_at ?? run.created_at)
+  }
+
   function runInProgress(run: Run, label: string) {
-    const created = Date.parse(run.created_at)
     if (run.status === 'completed' && run.conclusion !== 'success') {
       throw new Error(`Latest ${label} concluded ${run.conclusion}`)
     }
     const inProgress = run.status !== 'completed'
-    if (inProgress && now - created >= graceMs) {
+    if (inProgress && now - startedAt(run) >= graceMs) {
       throw new Error(`Latest ${label} has not completed within one hour`)
     }
     return inProgress
@@ -105,7 +113,7 @@ export async function checkAnalytics(
     if (
       !run ||
       !/^[a-f0-9]{40}$/.test(run.head_sha ?? '') ||
-      !Number.isFinite(Date.parse(run.created_at))
+      !Number.isFinite(startedAt(run))
     ) {
       throw new Error('No valid analytics deployment run found')
     }
@@ -116,7 +124,7 @@ export async function checkAnalytics(
       started:
         !inProgress && Number.isFinite(completed)
           ? completed
-          : Date.parse(run.created_at),
+          : startedAt(run),
       inProgress,
     }
   })
@@ -135,7 +143,7 @@ export async function checkAnalytics(
       )
     ).json()
     const run: Run | undefined = data.workflow_runs?.[0]
-    if (!run || !Number.isFinite(Date.parse(run.created_at))) {
+    if (!run || !Number.isFinite(startedAt(run))) {
       throw new Error('No analytics deploy run found')
     }
     return {
@@ -196,4 +204,41 @@ export async function checkAnalytics(
     latest: published?.sha,
     checks,
   }
+}
+
+if (
+  process.argv[1] &&
+  import.meta.url === pathToFileURL(process.argv[1]).href
+) {
+  let report: Report
+  try {
+    report = await checkAnalytics({
+      githubToken: process.env.GH_TOKEN,
+      gheRepository: process.env.ANALYTICS_DEPLOY_REPOSITORY,
+      gheToken: process.env.GHE_TOKEN,
+    })
+  } catch {
+    report = {
+      status: 'unhealthy',
+      checkedAt: new Date().toISOString(),
+      checks: [
+        {
+          name: 'monitor',
+          ok: false,
+          detail:
+            'The analytics diagnostic could not complete its checks. No exception details were recorded.',
+        },
+      ],
+    }
+  }
+  writeFileSync(
+    'analytics-health-report.json',
+    JSON.stringify(report, null, 2) + '\n'
+  )
+  const summary = summarize(report, 'Analytics')
+  process.stdout.write(summary + '\n')
+  if (process.env.GITHUB_STEP_SUMMARY) {
+    appendFileSync(process.env.GITHUB_STEP_SUMMARY, summary + '\n')
+  }
+  process.exitCode = report.status === 'unhealthy' ? 1 : 0
 }

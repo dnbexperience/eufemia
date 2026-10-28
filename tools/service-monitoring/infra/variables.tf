@@ -33,6 +33,15 @@ variable "github_token_secret_arn" {
   default     = ""
 }
 
+variable "analytics_deploy_repository" {
+  type        = string
+  description = "Internal owner/repo whose deploy-branch runs the analytics check verifies."
+  validation {
+    condition     = can(regex("^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$", var.analytics_deploy_repository))
+    error_message = "Set the analytics deployment repository as owner/repo."
+  }
+}
+
 variable "slack_bot_secret_arn" {
   type        = string
   description = "Secrets Manager ARN containing the Slack bot token and private channel ID as JSON."
