@@ -130,6 +130,8 @@ beforeEach(() => {
   vi.clearAllMocks()
   vi.spyOn(log, 'info').mockImplementation(vi.fn())
   vi.spyOn(log, 'warn').mockImplementation(vi.fn())
+  // On CI, a warning would otherwise add a real annotation to the run
+  vi.stubEnv('GITHUB_ACTIONS', 'false')
 })
 
 afterEach(() => {

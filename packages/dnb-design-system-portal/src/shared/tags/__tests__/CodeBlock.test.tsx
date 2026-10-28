@@ -702,6 +702,8 @@ describe('CodeBlock', () => {
   })
 
   it('should toggle preview padding in focusmode', () => {
+    // Focus mode scrolls to the top, which jsdom does not implement
+    vi.spyOn(window, 'scrollTo').mockImplementation(() => {})
     vi.spyOn(FocusModeCodeContext, 'useFocusModeCode').mockReturnValue({
       focusModeCodeId: 'block-a',
       setFocusModeCodeId: vi.fn(),
