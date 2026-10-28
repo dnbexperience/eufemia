@@ -207,8 +207,8 @@ jobs:
     # publishes, so 30 minutes is generous.
     timeout-minutes: 30
 
-    # Deployments to this environment are limited to the release branches, and
-    # the npm trusted publisher only accepts tokens issued for it.
+    # Only the release branches can deploy to this environment, and the npm
+    # trusted publisher for @dnb/eufemia is bound to it.
     environment: npm-release
 
     permissions:
@@ -298,7 +298,8 @@ jobs:
           # semantic-release publishes to npm via Trusted Publishing (OIDC): it
           # exchanges this workflow's id-token for a short-lived npm token, so no
           # stored publish secret is needed. Requires a Trusted Publisher for
-          # @dnb/eufemia configured on npmjs.com pointing at this workflow.
+          # @dnb/eufemia configured on npmjs.com pointing at this workflow and
+          # the npm-release environment, with "Allow npm publish" selected.
           # GH_* are for the GitHub release and the changelog/tag commit push.
           GH_EMAIL: ${{ secrets.GH_EMAIL }}
           GH_NAME: ${{ secrets.GH_NAME }}

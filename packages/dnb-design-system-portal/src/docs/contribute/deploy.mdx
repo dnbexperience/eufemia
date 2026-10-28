@@ -153,4 +153,4 @@ The one remaining gap: `validate:package` and the smoke tests run on the pre-rel
 
 ### Publishing method
 
-Releases publish to npm using **Trusted Publishing** (OpenID Connect): the release workflow authenticates with a short-lived, GitHub-issued OIDC token instead of a long-lived, stored publish token, and every package is published with provenance. There is no static publish secret to store, rotate or leak.
+Releases publish to npm using **Trusted Publishing** (OpenID Connect): the release workflow authenticates with a short-lived, GitHub-issued OIDC token instead of a long-lived, stored publish token, and every package is published with provenance. There is no static publish secret to store, rotate or leak. The trusted publisher for `@dnb/eufemia` is bound to the `npm-release` environment and allows `npm publish`. Publishing access on npmjs.com is set to "Require two-factor authentication and disallow tokens", so an npm token cannot publish the package.
