@@ -8,7 +8,7 @@ Component, extension and element pages with a visible, compact live demo are eli
 
 Use socialPreview="stack" for a horizontal flex group that should stack only in its screenshot. The capture uses a compact vertical gap, centers the children and removes child margins; the documentation layout is unchanged.
 
-Use socialPreview={false} on one demo when no demo shows the component itself, for example because it renders into a portal. The page then gets a text-only preview.
+Use socialPreview={false} on one demo when no demo shows the component itself, for example because it renders into a portal. The page then uses the default image instead of a component screenshot.
 
 Only one demo per page may be marked, with true or false. Multiple markers are reported as an error. Reordering other examples does not change an explicitly marked preview.
 

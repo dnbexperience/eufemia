@@ -76,7 +76,7 @@ export type CodeSectionProps = {
   hidePreview?: boolean
   /**
    * Use this demo as the social preview; stack its flex group only during capture.
-   * Set to false to give the page a text-only preview instead.
+   * Set to false to use the default image instead of a component screenshot.
    */
   socialPreview?: boolean | 'stack'
   /**
