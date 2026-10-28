@@ -79,6 +79,13 @@ export default class LiveReporter implements Reporter {
             ? ` ${color('dim', `(${Math.round(duration)}ms)`)}`
             : '')
       )
+      if (retryCount > 0) {
+        result.errors?.forEach((error) => {
+          if (error.message) {
+            write(color('yellow', `  Previous attempt: ${error.message}`))
+          }
+        })
+      }
     } else if (result.state === 'failed') {
       const retryCount = testCase.diagnostic()?.retryCount ?? 0
       const retryInfo = retryCount > 0 ? ` (retry #${retryCount})` : ''

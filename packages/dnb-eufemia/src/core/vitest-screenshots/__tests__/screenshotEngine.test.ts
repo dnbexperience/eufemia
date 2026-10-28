@@ -65,10 +65,13 @@ const makeMockPage = (closed = false) => ({
 
 const makeMockBrowser = () => ({
   close: vi.fn(async () => undefined),
+  isConnected: vi.fn(() => true),
+  newContext: vi.fn(async () => makeMockContext()),
 })
 
 const makeMockContext = () => ({
   newPage: vi.fn(async () => makeMockPage()),
+  close: vi.fn(async () => undefined),
 })
 
 // ── tests ────────────────────────────────────────────────────────────
@@ -277,6 +280,79 @@ describe('getBrowserSlot', () => {
     const result = await getBrowserSlot('new-session')
     expect(result).toBe(slot)
     expect(result.currentSessionId).toBe('new-session')
+  })
+
+  it.each([true, false])(
+    'releases the previous context when recycling a slot (session exists: %s)',
+    async (sessionExists) => {
+      const browser = makeMockBrowser()
+      const context = makeMockContext()
+      const slot = {
+        browser,
+        context,
+        currentSessionId: 'old-session',
+        busy: false,
+      }
+      browserSlots.push(slot as never)
+      sessionToSlot.set('old-session', slot as never)
+      if (sessionExists) {
+        sessions.set('old-session', {
+          page: makeMockPage(false),
+          vitestPage: makeMockPage(true),
+        } as never)
+      }
+
+      await getBrowserSlot('new-session')
+
+      expect(context.close).toHaveBeenCalledTimes(1)
+      expect(browser.newContext).toHaveBeenCalledWith({
+        viewport: { width: 1280, height: 2048 },
+        ignoreHTTPSErrors: true,
+      })
+      expect(slot.context).not.toBe(context)
+      expect(sessionToSlot.has('old-session')).toBe(false)
+      expect(slot.busy).toBe(false)
+    }
+  )
+
+  it('does not reassign a slot while its context is being replaced', async () => {
+    const recyclingSlot = {
+      browser: makeMockBrowser(),
+      context: makeMockContext(),
+      currentSessionId: 'old-session',
+      busy: true,
+    }
+    const freeSlot = {
+      browser: makeMockBrowser(),
+      context: makeMockContext(),
+      currentSessionId: null,
+      busy: false,
+    }
+    browserSlots.push(recyclingSlot as never, freeSlot as never)
+
+    expect(await getBrowserSlot('new-session')).toBe(freeSlot)
+    expect(recyclingSlot.context.close).not.toHaveBeenCalled()
+    expect(recyclingSlot.currentSessionId).toBe('old-session')
+  })
+
+  it('does not assign a new session when context replacement fails', async () => {
+    const browser = makeMockBrowser()
+    browser.newContext.mockRejectedValueOnce(new Error('context failed'))
+    const slot = {
+      browser,
+      context: makeMockContext(),
+      currentSessionId: 'old-session',
+      busy: false,
+    }
+    browserSlots.push(slot as never)
+
+    await expect(getBrowserSlot('new-session')).rejects.toThrow(
+      'context failed'
+    )
+
+    expect(slot.busy).toBe(false)
+    expect(sessionToSlot.has('new-session')).toBe(false)
+    expect(slot.currentSessionId).toBe('old-session')
   })
 
   it('reuses a slot with no currentSessionId', async () => {

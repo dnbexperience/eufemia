@@ -176,6 +176,10 @@ const getBrowserSlot = async (sessionId: string): Promise<BrowserSlot> => {
   // Find a free slot by checking if the previous session's vitest
   // page is closed (meaning the worker moved to a new test file).
   for (const slot of browserSlots) {
+    if (slot.busy) {
+      continue
+    }
+
     if (!slot.currentSessionId) {
       slot.busy = true
       slot.currentSessionId = sessionId
@@ -185,32 +189,36 @@ const getBrowserSlot = async (sessionId: string): Promise<BrowserSlot> => {
     }
 
     const prevSession = sessions.get(slot.currentSessionId)
-    if (prevSession && prevSession.vitestPage.isClosed()) {
+    if (!prevSession || prevSession.vitestPage.isClosed()) {
       // Mark slot as busy so the cleanup interval does not tear
       // down the browser while we are recycling it.
       slot.busy = true
 
-      // Previous session ended — clean up and reuse slot
-      if (!prevSession.page.isClosed()) {
-        await prevSession.page.close().catch(() => undefined)
+      try {
+        if (prevSession) {
+          if (!prevSession.page.isClosed()) {
+            await prevSession.page.close().catch(() => undefined)
+          }
+          resetPageBootstrapMemo(prevSession.page)
+        }
+
+        // Release resources retained by the previous test file.
+        await slot.context.close()
+        if (slot.browser.isConnected()) {
+          slot.context = await slot.browser.newContext({
+            viewport: config.pageViewport,
+            ignoreHTTPSErrors: true,
+          })
+        }
+
+        sessions.delete(slot.currentSessionId)
+        sessionToSlot.delete(slot.currentSessionId)
+        slot.currentSessionId = sessionId
+        sessionToSlot.set(sessionId, slot)
+        return slot
+      } finally {
+        slot.busy = false
       }
-      resetPageBootstrapMemo(prevSession.page)
-      sessions.delete(slot.currentSessionId)
-      sessionToSlot.delete(slot.currentSessionId)
-
-      slot.currentSessionId = sessionId
-      sessionToSlot.set(sessionId, slot)
-      slot.busy = false
-      return slot
-    }
-
-    if (!prevSession) {
-      slot.busy = true
-      sessionToSlot.delete(slot.currentSessionId)
-      slot.currentSessionId = sessionId
-      sessionToSlot.set(sessionId, slot)
-      slot.busy = false
-      return slot
     }
   }
 

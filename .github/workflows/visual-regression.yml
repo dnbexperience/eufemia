@@ -33,7 +33,8 @@ env:
   # automatically — no env var needed.
   RUN_POST_BUILD: ${{ startsWith(github.ref, 'refs/heads/main') || startsWith(github.ref, 'refs/heads/v') }}
   RUN_VISUAL_TEST: ${{ !startsWith(github.ref, 'refs/heads/icon') }}
-  PLAYWRIGHT_SCREENSHOT_WORKERS: 100%
+  # Leave capacity for Vitest's Firefox process on the hosted runner.
+  PLAYWRIGHT_SCREENSHOT_WORKERS: '2'
 
 jobs:
   changes:
