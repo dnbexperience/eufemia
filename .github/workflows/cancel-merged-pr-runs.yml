@@ -33,8 +33,6 @@ jobs:
             ref: 'refs/heads/{0}'
           - workflow: CodeQL Analysis
             ref: 'refs/heads/{0}'
-          - workflow: Dependency audit
-            ref: 'refs/heads/{0}'
           - workflow: E2E Tests
             ref: '{1}'
             label: E2E Tests (pull request)
@@ -52,6 +50,8 @@ jobs:
           - workflow: PR Checks
             ref: '{1}'
           - workflow: Consumer smoke tests
+            ref: 'refs/pull/{1}/merge'
+          - workflow: Dependency audit
             ref: 'refs/pull/{1}/merge'
           - workflow: Eufemia Assets
             ref: 'refs/pull/{1}/merge'
