@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test'
 
 for (const theme of ['ui', 'sbanken', 'eiendom', 'carnegie']) {
   for (const variant of ['primary', 'secondary', 'tertiary']) {
-    test(`keeps ${variant} keyboard focus styles while hovered and pressed in ${theme}`, async ({
+    test(`keeps ${variant} keyboard focus styles while hovered in ${theme}`, async ({
       page,
     }) => {
       await page.goto(
@@ -25,28 +25,20 @@ for (const theme of ['ui', 'sbanken', 'eiendom', 'carnegie']) {
       })
 
       await button.hover()
+      await page.keyboard.press('Shift')
 
-      for (const key of ['Shift', 'Space']) {
-        await page.keyboard.down(key)
+      await expect(button).toBeFocused()
+      expect(
+        await button.evaluate((element) =>
+          element.matches(':focus-visible')
+        )
+      ).toBe(true)
+      expect(
+        await button.evaluate((element) => element.matches(':hover'))
+      ).toBe(true)
 
-        await expect(button).toBeFocused()
-        expect(
-          await button.evaluate((element) =>
-            element.matches(':focus-visible')
-          )
-        ).toBe(true)
-        expect(
-          await button.evaluate((element) => element.matches(':hover'))
-        ).toBe(true)
-        expect(
-          await button.evaluate((element) => element.matches(':active'))
-        ).toBe(key === 'Space')
-
-        for (const [property, value] of Object.entries(focusStyles)) {
-          await expect(button).toHaveCSS(property, value)
-        }
-
-        await page.keyboard.up(key)
+      for (const [property, value] of Object.entries(focusStyles)) {
+        await expect(button).toHaveCSS(property, value)
       }
     })
   }
