@@ -30,6 +30,7 @@ import Button from '../../Button'
 import Dropdown from '../../Dropdown'
 import { Provider } from '../../../shared'
 import svSE from '../../../shared/locales/sv-SE'
+import enUS from '../../../shared/locales/en-US'
 import nbNO from '../../../shared/locales/nb-NO'
 import daDK from '../../../shared/locales/da-DK'
 import * as helpers from '../../../shared/helpers'
@@ -2963,6 +2964,247 @@ describe('DatePicker component', () => {
 
     const rightFocused = document.activeElement
     expect(rightFocused.getAttribute('aria-label')).toContain('1.')
+  })
+
+  it('should move focus with PageUp, PageDown, Home and End in the calendar', async () => {
+    render(<DatePicker noAnimation showInput date="2025-04-16" />)
+
+    await userEvent.click(getDatePickerTriggerButton())
+
+    const focusedDate = () =>
+      document.activeElement.closest('td')?.getAttribute('data-date')
+    const title = () =>
+      document.querySelector('.dnb-date-picker__header__title').textContent
+
+    await waitFor(() => expect(focusedDate()).toBe('2025-04-16'))
+
+    await userEvent.keyboard('{PageDown}')
+    expect(focusedDate()).toBe('2025-05-16')
+    expect(title()).toBe('mai 2025')
+
+    await userEvent.keyboard('{PageUp}')
+    expect(focusedDate()).toBe('2025-04-16')
+    expect(title()).toBe('april 2025')
+
+    await userEvent.keyboard('{Shift>}{PageDown}{/Shift}')
+    expect(focusedDate()).toBe('2026-04-16')
+    expect(title()).toBe('april 2026')
+
+    await userEvent.keyboard('{Shift>}{PageUp}{/Shift}')
+    expect(focusedDate()).toBe('2025-04-16')
+
+    await userEvent.keyboard('{Home}')
+    expect(focusedDate()).toBe('2025-04-14')
+
+    await userEvent.keyboard('{End}')
+    expect(focusedDate()).toBe('2025-04-20')
+
+    await userEvent.keyboard('{Enter}')
+    expect(getDatePickerInputs().map(({ value }) => value)).toEqual([
+      '20',
+      '04',
+      '2025',
+    ])
+  })
+
+  it('should not move focus with PageDown past maxDate', async () => {
+    render(
+      <DatePicker noAnimation date="2025-04-16" maxDate="2025-05-10" />
+    )
+
+    await userEvent.click(getDatePickerTriggerButton())
+    await waitFor(() =>
+      expect(document.activeElement.closest('td')).toHaveAttribute(
+        'data-date',
+        '2025-04-16'
+      )
+    )
+
+    await userEvent.keyboard('{PageDown}')
+
+    expect(document.activeElement.closest('td')).toHaveAttribute(
+      'data-date',
+      '2025-04-16'
+    )
+  })
+
+  it.each([
+    { key: '{PageDown}', limit: { maxDate: '2025-05-10' } },
+    { key: '{PageUp}', limit: { minDate: '2025-03-20' } },
+    {
+      key: '{Shift>}{PageDown}{/Shift}',
+      limit: { maxDate: '2026-04-10' },
+    },
+    { key: '{Shift>}{PageUp}{/Shift}', limit: { minDate: '2024-04-20' } },
+  ])(
+    'should keep focus when $key passes a date limit with onDaysRender',
+    async ({ key, limit }) => {
+      const onError = vi.fn((event: ErrorEvent) => event.preventDefault())
+      window.addEventListener('error', onError)
+
+      render(
+        <DatePicker
+          noAnimation
+          date="2025-04-16"
+          onDaysRender={(days) => days}
+          {...limit}
+        />
+      )
+
+      await userEvent.click(getDatePickerTriggerButton())
+      await userEvent.keyboard(key)
+      window.removeEventListener('error', onError)
+
+      expect(onError).not.toHaveBeenCalled()
+      expect(document.activeElement.closest('td')).toHaveAttribute(
+        'data-date',
+        '2025-04-16'
+      )
+    }
+  )
+
+  it.each([
+    ['2025-01-31', '{PageDown}', '2025-02-28'],
+    ['2024-03-31', '{PageUp}', '2024-02-29'],
+    ['2024-02-29', '{Shift>}{PageDown}{/Shift}', '2025-02-28'],
+  ])(
+    'should clamp page navigation from %s with %s to %s',
+    async (date, key, expected) => {
+      render(<DatePicker noAnimation date={date} />)
+      await userEvent.click(getDatePickerTriggerButton())
+      await userEvent.keyboard(key)
+
+      expect(document.activeElement.closest('td')).toHaveAttribute(
+        'data-date',
+        expected
+      )
+    }
+  )
+
+  it.each([
+    ['2025-12-01', '{PageUp}', '2025-11-03'],
+    ['2025-10-31', '{PageDown}', '2025-11-28'],
+    ['2025-01-31', '{Shift>}{PageDown}{/Shift}', '2026-01-30'],
+  ])(
+    'should keep page navigation from %s with %s in the target month when the day cannot be selected',
+    async (date, key, expected) => {
+      render(
+        <DatePicker
+          noAnimation
+          date={date}
+          onDaysRender={(days) =>
+            days.map((day) =>
+              isWeekend(day.date) ? { ...day, isInactive: true } : day
+            )
+          }
+        />
+      )
+      await userEvent.click(getDatePickerTriggerButton())
+      await userEvent.keyboard(key)
+
+      expect(document.activeElement.closest('td')).toHaveAttribute(
+        'data-date',
+        expected
+      )
+    }
+  )
+
+  it('should use the locale week start for Home and End and skip unselectable days', async () => {
+    render(
+      <Provider locale="en-US" translations={enUS}>
+        <DatePicker
+          noAnimation
+          date="2025-04-16"
+          onDaysRender={(days) =>
+            days.map((day) =>
+              [13, 19].includes(day.date.getDate())
+                ? { ...day, isSelectable: false }
+                : day
+            )
+          }
+        />
+      </Provider>
+    )
+
+    await userEvent.click(getDatePickerTriggerButton())
+    await userEvent.keyboard('{Home}')
+    expect(document.activeElement.closest('td')).toHaveAttribute(
+      'data-date',
+      '2025-04-14'
+    )
+
+    await userEvent.keyboard('{End}')
+    expect(document.activeElement.closest('td')).toHaveAttribute(
+      'data-date',
+      '2025-04-18'
+    )
+  })
+
+  it('should not let PageDown move a range calendar without link past the other calendar', async () => {
+    render(
+      <DatePicker
+        noAnimation
+        range
+        startDate="2025-10-15"
+        endDate="2025-11-20"
+      />
+    )
+
+    await userEvent.click(getDatePickerTriggerButton())
+
+    const [leftTable, rightTable] = Array.from(
+      document.querySelectorAll('.dnb-date-picker__calendar table')
+    )
+    const focusedDate = () =>
+      document.activeElement.closest('td')?.getAttribute('data-date')
+
+    leftTable
+      .querySelector<HTMLButtonElement>(
+        'td[data-date="2025-10-15"] button'
+      )
+      .focus()
+
+    await userEvent.keyboard('{Shift>}{PageDown}{/Shift}')
+    expect(focusedDate()).toBe('2025-10-15')
+
+    await userEvent.keyboard('{PageDown}')
+    expect(rightTable.contains(document.activeElement)).toBe(true)
+    expect(focusedDate()).toBe('2025-11-15')
+  })
+
+  it('should move linked calendars together with PageDown and Shift+PageUp', async () => {
+    render(
+      <DatePicker
+        noAnimation
+        range
+        link
+        startDate="2024-10-01"
+        endDate="2024-11-30"
+      />
+    )
+
+    await userEvent.click(getDatePickerTriggerButton())
+
+    const getTitles = () =>
+      Array.from(
+        document.querySelectorAll('.dnb-date-picker__header__title')
+      ).map((element) => element.textContent)
+    const focusedDate = () =>
+      document.activeElement.closest('td')?.getAttribute('data-date')
+
+    document
+      .querySelector<HTMLButtonElement>(
+        'td[data-date="2024-11-15"]:not(.dnb-date-picker__day--outside-month) button'
+      )
+      .focus()
+
+    await userEvent.keyboard('{PageDown}')
+    expect(getTitles()).toEqual(['november 2024', 'desember 2024'])
+    expect(focusedDate()).toBe('2024-12-15')
+
+    await userEvent.keyboard('{Shift>}{PageUp}{/Shift}')
+    expect(getTitles()).toEqual(['november 2023', 'desember 2023'])
+    expect(focusedDate()).toBe('2023-12-15')
   })
 
   it('should jump focus to the other calendar when arrow key crosses into its month', async () => {

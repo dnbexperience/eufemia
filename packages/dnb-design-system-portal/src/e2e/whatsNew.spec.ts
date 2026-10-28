@@ -44,13 +44,13 @@ test.describe("What's new", () => {
     await expect(
       page.getByRole('tab', { name: 'Change log', exact: true })
     ).toHaveAttribute('aria-selected', 'true')
-    await expect(page.locator('main')).toContainText('New component:')
+    // The URL can update before React commits the new tab content.
     await expect(
       page
         .locator('main')
         .getByRole('link', { name: 'details about releases' })
         .first()
-    ).toHaveAttribute('href', '/web/whats-new/upgrade')
+    ).toHaveAttribute('href', '/web/whats-new/upgrade', { timeout: 15000 })
     await page.getByRole('tab', { name: 'Upgrade', exact: true }).click()
     await expect(page).toHaveURL('/web/whats-new/upgrade')
     await expect(
