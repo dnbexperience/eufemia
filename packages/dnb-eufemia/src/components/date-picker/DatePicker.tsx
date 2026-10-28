@@ -484,7 +484,15 @@ function DatePicker(externalProps: DatePickerAllProps) {
           onClose?.({
             ...getReturnObject.current(args),
           })
-          if (args?.['focusOnClose']) {
+
+          // Keep focus that moved elsewhere while the calendar was closing, e.g. into the input
+          const activeElement = document.activeElement
+          const hasFocusMovedElsewhere =
+            activeElement instanceof HTMLElement &&
+            activeElement !== document.body &&
+            !calendarContainerRef.current?.contains(activeElement)
+
+          if (args?.['focusOnClose'] && !hasFocusMovedElsewhere) {
             try {
               submitButtonRef.current?.focus({
                 preventScroll: true,

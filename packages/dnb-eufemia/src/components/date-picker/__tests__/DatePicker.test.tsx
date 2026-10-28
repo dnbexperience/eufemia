@@ -5518,6 +5518,41 @@ describe('DatePicker component', () => {
     })
   })
 
+  it('should move focus to the calendar button when the calendar closes after picking a day', async () => {
+    render(<DatePicker showInput date="2025-04-01" />)
+
+    await userEvent.click(getDatePickerTriggerButton())
+    await userEvent.click(
+      document.querySelector('td[data-date="2025-04-25"] button')
+    )
+
+    await waitFor(() =>
+      expect(
+        document.querySelector('.dnb-date-picker__calendar')
+      ).not.toBeInTheDocument()
+    )
+    expect(getDatePickerTriggerButton()).toHaveFocus()
+  })
+
+  it('should keep focus that moved elsewhere while the calendar closes after picking a day', async () => {
+    render(<DatePicker showInput date="2025-04-01" />)
+
+    await userEvent.click(getDatePickerTriggerButton())
+    await userEvent.click(
+      document.querySelector('td[data-date="2025-04-25"] button')
+    )
+
+    const [day] = getDatePickerInputs()
+    day.focus()
+
+    await waitFor(() =>
+      expect(
+        document.querySelector('.dnb-date-picker__calendar')
+      ).not.toBeInTheDocument()
+    )
+    expect(day).toHaveFocus()
+  })
+
   it('should trigger `onChange` with `invalidDate` when input is fully filled out with an invalid date', async () => {
     const onChange = vi.fn()
     render(<DatePicker onChange={onChange} showInput />)
