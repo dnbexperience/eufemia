@@ -1,0 +1,66 @@
+name: Cancel merged PR runs
+
+# Joins each CI run's concurrency group to cancel a merged pull request's runs at once.
+
+on:
+  pull_request:
+    types: [closed]
+
+permissions: {}
+
+jobs:
+  cancel:
+    name: ${{ matrix.label || matrix.workflow }}
+
+    # Same-repo, short-lived branches only: the release pull request's head is main.
+    if: >-
+      github.event.pull_request.merged &&
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      !contains(fromJSON('["main","release","beta","alpha","next"]'), github.head_ref) &&
+      !endsWith(github.head_ref, '.x')
+
+    strategy:
+      matrix:
+        # Must match each workflow's name and concurrency group ({0}: branch, {1}: PR number).
+        include:
+          - workflow: Verify
+            ref: 'refs/heads/{0}'
+          - workflow: E2E Tests
+            ref: 'refs/heads/{0}'
+          - workflow: Visual Regression Tests
+            ref: 'refs/heads/{0}'
+          - workflow: Dev Preview
+            ref: 'refs/heads/{0}'
+          - workflow: CodeQL Analysis
+            ref: 'refs/heads/{0}'
+          - workflow: Dependency audit
+            ref: 'refs/heads/{0}'
+          - workflow: E2E Tests
+            ref: '{1}'
+            label: E2E Tests (pull request)
+          - workflow: Visual Regression Tests
+            ref: '{1}'
+            label: Visual Regression Tests (pull request)
+          - workflow: Dev Preview
+            ref: '{1}'
+            label: Dev Preview (pull request)
+          - workflow: CodeQL Analysis
+            ref: '{1}'
+            label: CodeQL Analysis (pull request)
+          - workflow: Deploy Preview
+            ref: '{1}'
+          - workflow: PR Checks
+            ref: '{1}'
+          - workflow: Consumer smoke tests
+            ref: 'refs/pull/{1}/merge'
+          - workflow: Eufemia Assets
+            ref: 'refs/pull/{1}/merge'
+          - workflow: Service Monitoring Lambda
+            ref: 'refs/pull/{1}/merge'
+
+    concurrency:
+      group: ${{ matrix.workflow }}-${{ format(matrix.ref, github.head_ref, github.event.pull_request.number) }}
+      cancel-in-progress: true
+
+    # Its only job is skipped, so no runner is needed.
+    uses: ./.github/workflows/noop.yml
