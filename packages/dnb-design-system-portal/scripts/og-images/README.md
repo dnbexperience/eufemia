@@ -8,11 +8,13 @@ Component, extension and element pages with a visible, compact live demo are eli
 
 Use socialPreview="stack" for a horizontal flex group that should stack only in its screenshot. The capture uses a compact vertical gap, centers the children and removes child margins; the documentation layout is unchanged.
 
-Only one demo per page may be marked. Multiple markers are reported as an error. Reordering other examples does not change an explicitly marked preview.
+Use socialPreview={false} on one demo when no demo shows the component itself, for example because it renders into a portal. The page then uses the default image instead of a component screenshot.
+
+Only one demo per page may be marked, with true or false. Multiple markers are reported as an error. Reordering other examples does not change an explicitly marked preview.
 
 Pages provide their title and description through Open Graph and Twitter Card metadata. Pages with a component screenshot use it. Other pages use the shared Eufemia wordmark at /dnb/og-image.png. The 1200 × 630 fallback keeps its 480px-wide wordmark centered for square and landscape crops. The fallback is a static Portal asset, so it changes with normal Portal deployments and does not need weekly generation. No extra label/value fields are emitted.
 
-Demos are captured at 4× resolution. Unused outer space is trimmed. Screenshots are centered on a 1200 × 630 canvas with the light demo grid, with the complete specimen inside a central 534 × 534 area. This retains the specimen in centered crops from 1:1 through 2:1. Receiving apps control the actual crop. Small specimens can grow up to 2× their normal size in a 600px-wide preview; large specimens shrink proportionally. Transparent captures preserve the component over the grid, including its opaque surfaces. PNGs are optimized losslessly.
+Captures start after the page has been quiet for 500 ms (at most 5 s), with fixed page chrome such as the Portal header hidden. A screenshot is kept only if the specimen did not move while it was taken. Demos are captured at 4× resolution. Unused outer space is trimmed. Screenshots are centered on a 1200 × 630 canvas with the light demo grid, with the complete specimen inside a central 534 × 534 area. This retains the specimen in centered crops from 1:1 through 2:1. Receiving apps control the actual crop. Small specimens can grow up to 2× their normal size in a 600px-wide preview; large specimens shrink proportionally. Transparent captures preserve the component over the grid, including its opaque surfaces. PNGs are optimized losslessly.
 
 ## Storage and asset hosting
 

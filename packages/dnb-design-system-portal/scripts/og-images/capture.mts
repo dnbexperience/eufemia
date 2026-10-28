@@ -18,6 +18,35 @@ export async function capturePreview(
     .first()
     .waitFor({ state: 'attached', timeout: 10000 })
   await page.evaluate(() => document.fonts.ready)
+  // Live demos keep rendering and the Portal can scroll after
+  // DOMContentLoaded. Wait until the page has been quiet for a moment.
+  await page.evaluate(
+    () =>
+      new Promise<void>((resolve) => {
+        let quiet: ReturnType<typeof setTimeout>
+        const observer = new MutationObserver(() => restart())
+        const done = () => {
+          observer.disconnect()
+          removeEventListener('scroll', restart)
+          clearTimeout(quiet)
+          clearTimeout(limit)
+          resolve()
+        }
+        const restart = () => {
+          clearTimeout(quiet)
+          quiet = setTimeout(done, 500)
+        }
+        const limit = setTimeout(done, 5000)
+        observer.observe(document.body, {
+          subtree: true,
+          childList: true,
+          attributes: true,
+          characterData: true,
+        })
+        addEventListener('scroll', restart, { passive: true })
+        restart()
+      })
+  )
   await page.addStyleTag({
     content:
       '.example-box::after{display:none!important}*{transition:none!important;caret-color:transparent!important}',
@@ -86,29 +115,92 @@ export async function captureSpecimen(
     }
     return backgrounds
   })
+  // Fixed and sticky page chrome, like the Portal header, would be
+  // painted over a specimen scrolled underneath it.
+  const overlays = await element.evaluate((element) => {
+    const overlays: Array<{ value: string; priority: string }> = []
+    for (const node of document.body.querySelectorAll<HTMLElement>('*')) {
+      if (
+        node.contains(element) ||
+        element.contains(node) ||
+        !['fixed', 'sticky'].includes(getComputedStyle(node).position)
+      ) {
+        continue
+      }
+      node.dataset.ogOverlay = String(overlays.length)
+      overlays.push({
+        value: node.style.getPropertyValue('visibility'),
+        priority: node.style.getPropertyPriority('visibility'),
+      })
+      node.style.setProperty('visibility', 'hidden', 'important')
+    }
+    return overlays
+  })
   let crop: Buffer
   try {
     await element.scrollIntoViewIfNeeded()
-    const clip = await element.evaluate((element) => {
-      const rect = element.getBoundingClientRect()
-      // Include outlines drawn just outside the specimen's layout box.
-      const x = Math.max(0, rect.left + window.scrollX - 2)
-      const y = Math.max(0, rect.top + window.scrollY - 2)
-      return {
-        x,
-        y,
-        width: rect.right + window.scrollX + 2 - x,
-        height: rect.bottom + window.scrollY + 2 - y,
+    // page.screenshot() clips are relative to the viewport, not the
+    // document, so the scroll offset must not be added.
+    const measure = () =>
+      element.evaluate((element) => {
+        // Include outlines drawn just outside the specimen's layout box.
+        const margin = 2
+        let rect = element.getBoundingClientRect()
+        // A specimen scrolled in from across the fold ends flush with the
+        // viewport edge, which would cut that margin off.
+        const overflow =
+          rect.bottom + margin > window.innerHeight
+            ? rect.bottom + margin - window.innerHeight
+            : Math.min(0, rect.top - margin)
+        if (overflow) {
+          window.scrollBy(0, overflow)
+          rect = element.getBoundingClientRect()
+        }
+        const x = Math.max(0, rect.left - margin)
+        const y = Math.max(0, rect.top - margin)
+        return {
+          x,
+          y,
+          width: rect.right + margin - x,
+          height: rect.bottom + margin - y,
+        }
+      })
+    // The Portal can still scroll or shift after load. Only keep a
+    // screenshot taken while the specimen stayed in the measured place.
+    let clip = await measure()
+    for (let attempt = 0; ; attempt++) {
+      const shot = await page.screenshot({
+        clip,
+        type: 'png',
+        omitBackground: true,
+        animations: 'disabled',
+        timeout: 10000,
+      })
+      const after = await measure()
+      if (JSON.stringify(after) === JSON.stringify(clip)) {
+        crop = shot
+        break
       }
-    })
-    crop = await page.screenshot({
-      clip,
-      type: 'png',
-      omitBackground: true,
-      animations: 'disabled',
-      timeout: 10000,
-    })
+      if (attempt === 4) {
+        throw new Error('Specimen moved during capture')
+      }
+      clip = after
+    }
   } finally {
+    await page.evaluate((overlays) => {
+      for (const node of document.querySelectorAll<HTMLElement>(
+        '[data-og-overlay]'
+      )) {
+        const { value, priority } =
+          overlays[Number(node.dataset.ogOverlay)]
+        if (value) {
+          node.style.setProperty('visibility', value, priority)
+        } else {
+          node.style.removeProperty('visibility')
+        }
+        delete node.dataset.ogOverlay
+      }
+    }, overlays)
     await element.evaluate((element, backgrounds) => {
       let index = 0
       for (
@@ -136,15 +228,16 @@ export async function captureSpecimen(
 
 export async function selectPreview(page: Page, width?: number) {
   const previews = page.locator('.dnb-live-preview')
-  const marked = page.locator(
-    '.dnb-live-preview[data-social-preview="true"]'
-  )
+  const marked = page.locator('.dnb-live-preview[data-social-preview]')
   const markedCount = await marked.count()
   if (markedCount > 1) {
     throw new Error('Only one socialPreview demo is allowed per page')
   }
   const preview = markedCount ? marked.first() : previews.first()
-  if (!(await preview.count())) {
+  if (
+    !(await preview.count()) ||
+    (await preview.getAttribute('data-social-preview')) === 'false'
+  ) {
     throw new Error('No compact specimen')
   }
   if (

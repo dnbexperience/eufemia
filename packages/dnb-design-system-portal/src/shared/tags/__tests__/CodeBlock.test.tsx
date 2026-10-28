@@ -387,6 +387,26 @@ describe('CodeBlock', () => {
   )
 
   it.each([false, true])(
+    'marks an opted-out social preview with omitWrapper=%s',
+    (omitWrapper) => {
+      render(
+        <CodeBlock
+          reactLive
+          socialPreview={false}
+          omitWrapper={omitWrapper}
+        >
+          {'<div>Not representative</div>'}
+        </CodeBlock>
+      )
+      expect(
+        document
+          .querySelector('.dnb-live-preview')
+          .getAttribute('data-social-preview')
+      ).toBe('false')
+    }
+  )
+
+  it.each([false, true])(
     'declares a capture-only stacked layout with omitWrapper=%s',
     (omitWrapper) => {
       render(
@@ -415,6 +435,13 @@ describe('CodeBlock', () => {
     )
     expect(html).toContain('data-social-preview="true"')
     expect(html).not.toContain('socialPreview=')
+    expect(
+      renderToString(
+        <CodeBlock reactLive socialPreview={false}>
+          {'<div>Not representative</div>'}
+        </CodeBlock>
+      )
+    ).toContain('data-social-preview="false"')
   })
 
   describe('preview language', () => {

@@ -212,7 +212,7 @@ export const GlobalStatusScrolling = () => (
 )
 
 export const GlobalStatusUpdate = () => (
-  <ComponentBox socialPreview hideCode>
+  <ComponentBox hideCode>
     {() => {
       const Context = createContext(null)
 

@@ -17,6 +17,43 @@ test('preserves native demo layout and captures small controls at 2x resolution'
       )
       return
     }
+    // Specimens below or across the 900px fold are scrolled into view
+    // before capture, so the clip must not depend on the scroll offset.
+    if (request.url === '/outline-below-fold/') {
+      response.end(
+        '<style>.specimen{width:60px;height:40px;background:white;box-shadow:0 0 0 1px #999}</style><div style="height:2000px"></div><div class="dnb-live-preview"><div class="specimen"></div></div><div style="height:2000px"></div>'
+      )
+      return
+    }
+    if (request.url === '/outline-across-fold/') {
+      response.end(
+        '<style>.specimen{width:60px;height:400px;background:white;box-shadow:0 0 0 1px #999}</style><div style="height:700px"></div><div class="dnb-live-preview"><div class="specimen"></div></div><div style="height:2000px"></div>'
+      )
+      return
+    }
+    // Capturing finishes the spacer animation, which moves the specimen
+    // after it was measured.
+    if (request.url === '/outline-shifting/') {
+      response.end(
+        '<style>@keyframes grow{from{height:0}to{height:200px}}.spacer{animation:grow 60s step-end both}.specimen{width:60px;height:40px;background:white;box-shadow:0 0 0 1px #999}</style><div class="spacer"></div><div class="dnb-live-preview"><div class="specimen"></div></div>'
+      )
+      return
+    }
+    // Fixed page chrome must not be painted over the specimen.
+    if (request.url === '/outline-fixed-header/') {
+      response.end(
+        '<style>header{position:fixed;inset:0 0 auto;height:100px;background:red;z-index:1}.specimen{width:60px;height:40px;background:white;box-shadow:0 0 0 1px #999}</style><header></header><div class="dnb-live-preview"><div class="specimen"></div></div>'
+      )
+      return
+    }
+    // The demo keeps rendering after DOMContentLoaded and only reaches
+    // its final size after a while.
+    if (request.url === '/outline-late/') {
+      response.end(
+        '<style>.specimen{width:60px;height:20px;background:white;box-shadow:0 0 0 1px #999}</style><div class="dnb-live-preview"><div class="specimen"></div></div><script>let height=20;const grow=setInterval(()=>{height+=4;document.querySelector(".specimen").style.height=height+"px";if(height===40)clearInterval(grow)},150)</script>'
+      )
+      return
+    }
     if (request.url === '/stack/') {
       response.end(
         '<style>.dnb-flex-container{display:flex;gap:24px}.dnb-flex-container>button{width:120px;height:40px;margin-right:24px}.dnb-flex-container>button:first-child{width:80px}.dnb-flex-container>button:last-child{width:100px}</style><div class="dnb-live-preview" data-social-preview="true" data-social-preview-layout="stack"><div class="dnb-flex-container"><button>Primary</button><button>Secondary</button><button>Tertiary</button></div></div>'
@@ -38,6 +75,18 @@ test('preserves native demo layout and captures small controls at 2x resolution'
     if (request.url === '/duplicate/') {
       response.end(
         '<div class="dnb-live-preview" data-social-preview="true"><button>First</button></div><div class="dnb-live-preview" data-social-preview="true"><button>Second</button></div>'
+      )
+      return
+    }
+    if (request.url === '/opted-out/') {
+      response.end(
+        '<div class="dnb-live-preview" data-social-preview="false"><button>Not representative</button></div><div class="dnb-live-preview"><button>Later</button></div>'
+      )
+      return
+    }
+    if (request.url === '/opted-out-and-marked/') {
+      response.end(
+        '<div class="dnb-live-preview" data-social-preview="false"><button>First</button></div><div class="dnb-live-preview" data-social-preview="true"><button>Second</button></div>'
       )
       return
     }
@@ -122,35 +171,47 @@ test('preserves native demo layout and captures small controls at 2x resolution'
       viewport: { width: 1200, height: 900 },
       deviceScaleFactor: 2,
     })
-    const outlined = await capturePreview(
-      capture,
-      origin + '/outline/',
-      []
-    )
-    const { data: outlinePixels, info: outlineInfo } = await sharp(
-      outlined
-    )
-      .ensureAlpha()
-      .raw()
-      .toBuffer({ resolveWithObject: true })
-    const grayAt = (x: number, y: number) => {
-      const offset = (y * outlineInfo.width + x) * 4
-      return (
-        outlinePixels[offset] === 153 && outlinePixels[offset + 3] === 255
+    for (const [route, width, height] of [
+      ['/outline/', 128, 88],
+      ['/outline-below-fold/', 128, 88],
+      ['/outline-across-fold/', 128, 808],
+      ['/outline-shifting/', 128, 88],
+      ['/outline-fixed-header/', 128, 88],
+      ['/outline-late/', 128, 88],
+    ] as const) {
+      const outlined = await capturePreview(capture, origin + route, [])
+      const { data: outlinePixels, info: outlineInfo } = await sharp(
+        outlined
+      )
+        .ensureAlpha()
+        .raw()
+        .toBuffer({ resolveWithObject: true })
+      // 1px outline + 2px capture margin on each side, at 2x density.
+      assert.deepEqual(
+        [outlineInfo.width, outlineInfo.height],
+        [width, height],
+        route + ' captures the complete specimen'
+      )
+      const grayAt = (x: number, y: number) => {
+        const offset = (y * outlineInfo.width + x) * 4
+        return (
+          outlinePixels[offset] === 153 &&
+          outlinePixels[offset + 3] === 255
+        )
+      }
+      assert.ok(
+        Array.from({ length: outlineInfo.width }, (_, x) =>
+          grayAt(x, Math.floor(outlineInfo.height / 2))
+        ).filter(Boolean).length >= 4,
+        route + ' retains both outside vertical outline edges'
+      )
+      assert.ok(
+        Array.from({ length: outlineInfo.height }, (_, y) =>
+          grayAt(Math.floor(outlineInfo.width / 2), y)
+        ).filter(Boolean).length >= 4,
+        route + ' retains both outside horizontal outline edges'
       )
     }
-    assert.ok(
-      Array.from({ length: outlineInfo.width }, (_, x) =>
-        grayAt(x, Math.floor(outlineInfo.height / 2))
-      ).filter(Boolean).length >= 4,
-      'retains both outside vertical outline edges'
-    )
-    assert.ok(
-      Array.from({ length: outlineInfo.height }, (_, y) =>
-        grayAt(Math.floor(outlineInfo.width / 2), y)
-      ).filter(Boolean).length >= 4,
-      'retains both outside horizontal outline edges'
-    )
     const transparent = await capturePreview(
       capture,
       origin + '/transparent/',
@@ -226,11 +287,16 @@ test('preserves native demo layout and captures small controls at 2x resolution'
       capturePreview(capture, origin + '/duplicate/', []),
       /Only one socialPreview demo/
     )
+    await assert.rejects(
+      capturePreview(capture, origin + '/opted-out-and-marked/', []),
+      /Only one socialPreview demo/
+    )
     for (const route of [
       '/large-first/',
       '/group/',
       '/scrolling/',
       '/marked-unsuitable/',
+      '/opted-out/',
     ]) {
       await assert.rejects(
         capturePreview(capture, origin + route, []),

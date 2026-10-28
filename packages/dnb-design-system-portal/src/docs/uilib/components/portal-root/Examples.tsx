@@ -8,7 +8,7 @@ import { P, PortalRoot, Dropdown } from '@dnb/eufemia/src'
 import { BrowserTranslate } from '@dnb/eufemia/src/shared'
 
 export const PortalRootExample = () => (
-  <ComponentBox>
+  <ComponentBox socialPreview={false}>
     <PortalRoot>
       <div
         style={{
