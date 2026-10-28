@@ -112,7 +112,7 @@ export const createRequest = () => {
 
 export const WithinOtherComponents = () => {
   return (
-    <ComponentBox>
+    <ComponentBox socialPreview>
       <Form.Handler>
         <Flex.Horizontal align="center">
           <Form.SubmitButton showIndicator />

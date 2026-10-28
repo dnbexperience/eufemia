@@ -74,7 +74,10 @@ export type CodeSectionProps = {
   /** Show the preview without code actions or an editor. */
   previewOnly?: boolean
   hidePreview?: boolean
-  /** Use this demo as the social preview; stack its flex group only during capture. */
+  /**
+   * Use this demo as the social preview; stack its flex group only during capture.
+   * Set to false to give the page a text-only preview instead.
+   */
   socialPreview?: boolean | 'stack'
   /**
    * Use surface="dark" to show the button to toggle surface, forcing it to be dark by default.
@@ -413,6 +416,9 @@ function LiveCode(props: LiveCodeProps) {
     </Space>
   )
 
+  const socialPreviewMarker =
+    socialPreview === undefined ? undefined : Boolean(socialPreview)
+
   const previewContent = (
     <PortalRoot.Provider lang={lang}>
       <Theme colorScheme={colorScheme} surface={surface}>
@@ -421,7 +427,7 @@ function LiveCode(props: LiveCodeProps) {
             lang={lang}
             className={clsx('dnb-live-preview')}
             data-visual-test={visualTest}
-            data-social-preview={socialPreview ? true : undefined}
+            data-social-preview={socialPreviewMarker}
             data-social-preview-layout={
               socialPreview === 'stack' ? 'stack' : undefined
             }
@@ -440,7 +446,7 @@ function LiveCode(props: LiveCodeProps) {
               lang={lang}
               className={clsx('dnb-live-preview')}
               data-visual-test={visualTest}
-              data-social-preview={socialPreview ? true : undefined}
+              data-social-preview={socialPreviewMarker}
               data-social-preview-layout={
                 socialPreview === 'stack' ? 'stack' : undefined
               }
