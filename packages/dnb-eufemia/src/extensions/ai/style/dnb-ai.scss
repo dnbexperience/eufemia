@@ -386,13 +386,15 @@
   }
 
   // A new turn is scrolled near the top, with a peek of the reply above
-  & .dnb-ai-message--user {
+  & .dnb-ai-message--user,
+  &__item--user {
     scroll-margin-top: var(--ai-conversation-peek);
   }
 
   // Messages out of view are not rendered by the browser, but can still
   // be found, selected and read by screen readers
-  &__content > .dnb-ai-message {
+  &__content > .dnb-ai-message,
+  &__content > &__item {
     content-visibility: auto;
     contain-intrinsic-block-size: auto 5rem;
   }
