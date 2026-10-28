@@ -4,10 +4,12 @@
   "main": "index.js",
   "sideEffects": [
     "*.css",
-    "*.min.css",
     "*.scss",
+    "components/**/style.*",
+    "elements/**/style.*",
     "extensions/**/style.*",
-    "umd/*",
-    "style/**/*"
+    "fragments/**/style.*",
+    "**/style/**/*",
+    "umd/*"
   ]
 }

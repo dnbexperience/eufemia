@@ -3,7 +3,9 @@
  *
  */
 
-import { runFactory } from '../makeLibStyles'
+import path from 'path'
+import globby from 'globby'
+import { libStylePatterns, runFactory } from '../makeLibStyles'
 
 vi.mock('ora', () => {
   return {
@@ -31,6 +33,21 @@ vi.mock('postcss-preset-env', () => {
 })
 
 vi.setConfig({ testTimeout: 30e3 })
+
+it('includes the stylesheets used by element, fragment, and field entries', async () => {
+  const files = await globby(libStylePatterns, {
+    cwd: path.resolve(__dirname, '../../../..'),
+  })
+
+  expect(files).toEqual(
+    expect.arrayContaining([
+      './src/elements/label/style/dnb-label.scss',
+      './src/fragments/drawer-list/style/dnb-drawer-list.scss',
+      './src/fragments/text-counter/style/dnb-text-counter.scss',
+      './src/extensions/forms/Field/style/field-sizes.scss',
+    ])
+  )
+})
 
 describe('makeLibStyles transform main SCSS to CSS', () => {
   beforeAll(async () => {
