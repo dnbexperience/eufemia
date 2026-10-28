@@ -22,10 +22,7 @@ import type {
   DocEntryMap,
   LlmsResultEntry,
 } from '../src/convertHelpers.ts'
-import {
-  getNextReleaseVersion,
-  getCommitHash,
-} from '../src/getNextReleaseVersion.ts'
+import { getDocsVersion, getCommitHash } from '../src/docsVersion.ts'
 
 const PUBLIC_URL_BASE = ''
 
@@ -71,7 +68,7 @@ export async function generateDocs() {
   const outputRoot = path.join(packageRoot, 'build', 'docs')
   await fs.emptyDir(outputRoot)
 
-  const version = await getNextReleaseVersion()
+  const version = await getDocsVersion()
   const commit = await getCommitHash()
   const generatedAt = new Date().toISOString()
   const robots = await loadRobots(robotsRoot)

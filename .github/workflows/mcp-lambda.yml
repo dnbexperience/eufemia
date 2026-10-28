@@ -73,6 +73,8 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           persist-credentials: false
+          # The docs version is resolved from the commit history and release tags
+          fetch-depth: 0
 
       - name: Setup dependencies
         uses: ./.github/actions/setup

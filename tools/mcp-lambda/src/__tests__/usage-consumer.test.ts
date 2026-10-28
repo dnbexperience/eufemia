@@ -19,6 +19,7 @@ function usageRecord(
     path: '',
     env: 'dev',
     transport: 'web',
+    eufemia_version: '11.16.0',
     timestamp: '2026-09-10T12:00:00.000Z',
     created_at: '2026-09-10T12:00:00.000Z',
     ...overrides,
@@ -105,8 +106,9 @@ describe('usage consumer', () => {
     expect(errorSpy).toHaveBeenCalledTimes(2)
   })
 
-  it('stores a record queued before the miss fields existed', async () => {
+  it('stores a record queued before the version and miss fields existed', async () => {
     const queuedEarlier: Partial<WebMcpUsageRecord> = usageRecord()
+    delete queuedEarlier.eufemia_version
     delete queuedEarlier.component_missed
     delete queuedEarlier.likely_component
 

@@ -6,6 +6,8 @@ import { findRepoRoot } from './convertHelpers.ts'
 const execAsync = promisify(exec)
 const require = createRequire(import.meta.url)
 
+const DEVELOPMENT_VERSION = '0.0.0-development'
+
 export async function getCommitHash() {
   const repoRoot = findRepoRoot()
 
@@ -19,20 +21,25 @@ export async function getCommitHash() {
   }
 }
 
-export async function getNextReleaseVersion() {
+export async function getDocsVersion() {
   const {
-    getNextReleaseVersion: resolveVersion,
+    getNextReleaseVersion,
+    getCheckedOutVersion,
   } = require('@dnb/eufemia/scripts/postbuild/getNextReleaseVersion')
 
   try {
-    return (await resolveVersion()) || '0.0.0-development'
+    return (
+      (await getNextReleaseVersion()) ||
+      getCheckedOutVersion() ||
+      DEVELOPMENT_VERSION
+    )
   } catch (error) {
     console.warn(
-      `Could not determine the next release version:\n${
+      `Could not determine the Eufemia version of the docs:\n${
         error instanceof Error ? error.message : String(error)
       }`
     )
 
-    return '0.0.0-development'
+    return DEVELOPMENT_VERSION
   }
 }

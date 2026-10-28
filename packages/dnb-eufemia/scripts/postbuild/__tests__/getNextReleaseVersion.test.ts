@@ -11,6 +11,7 @@ import { mkdtempSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import path from 'node:path'
 import {
+  getCheckedOutVersion,
   getNextReleaseVersion,
   isReleaseBranch,
 } from '../getNextReleaseVersion'
@@ -215,5 +216,45 @@ describe('getNextReleaseVersion', () => {
     commit('feat: add a component')
 
     expect(await getNextReleaseVersion({ cwd })).toBeNull()
+  })
+})
+
+describe('getCheckedOutVersion', () => {
+  it('returns the latest release on a release branch', () => {
+    const { cwd, commit } = createRepository()
+    commit('docs: update a page')
+
+    expect(getCheckedOutVersion({ cwd })).toBe('1.0.0')
+  })
+
+  it('ignores releases the release branch does not contain', () => {
+    const { cwd, commit, git } = createRepository()
+    git('checkout', '--quiet', '-b', '2.x')
+    commit('feat: add a component')
+    git('tag', 'v2.0.0')
+    git('checkout', '--quiet', 'release')
+
+    expect(getCheckedOutVersion({ cwd })).toBe('1.0.0')
+  })
+
+  it('adds the branch and commit to the latest stable release on any other branch', () => {
+    const { cwd, commit, git } = createRepository({
+      branch: 'feat/some-branch',
+      configuredBranches: ['release'],
+    })
+    commit('feat: add a component')
+    git('tag', 'v2.0.0-beta.1')
+    const sha = git('rev-parse', '--short', 'HEAD').toString().trim()
+
+    expect(getCheckedOutVersion({ cwd })).toBe(
+      `1.0.0+feat-some-branch.${sha}`
+    )
+  })
+
+  it('returns null without release tags', () => {
+    const { cwd, git } = createRepository()
+    git('tag', '--delete', 'v1.0.0')
+
+    expect(getCheckedOutVersion({ cwd })).toBeNull()
   })
 })
