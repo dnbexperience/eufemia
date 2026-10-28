@@ -3,10 +3,6 @@
 :global {
   html {
     scroll-padding-top: 5.5rem;
-
-    @include utilities.allBelow(medium) {
-      scroll-padding-top: 7.5rem;
-    }
   }
 }
 
@@ -109,7 +105,6 @@
 
   @include utilities.allBelow(medium) {
     justify-content: space-between;
-    align-items: flex-start;
     gap: 0.5rem;
     padding: 0.5rem 1rem;
   }
@@ -225,10 +220,4 @@
   flex-wrap: nowrap;
   align-items: center;
   min-width: 0;
-
-  @include utilities.allBelow(medium) {
-    flex-wrap: wrap;
-    justify-content: flex-end;
-    row-gap: 0.5rem;
-  }
 }
