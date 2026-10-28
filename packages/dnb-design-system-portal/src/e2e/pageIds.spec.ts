@@ -47,11 +47,18 @@ test.describe('Page ids', () => {
     // Check if app is mounted
     await waitForApp(page)
 
-    // App should re-render
-    await page.click(
-      '#portal-sidebar-menu ul li a[href="/web/components/button"]'
+    await page
+      .locator('#dnb-app-content')
+      .getByRole('link', { name: 'Button', exact: true })
+      .click()
+    await expect(page).toHaveURL((url) =>
+      url.pathname.startsWith('/web/components/button')
     )
-    await page.waitForSelector('.dnb-tab-bar h1')
+    await expect(
+      page
+        .locator('.dnb-tab-bar')
+        .getByRole('heading', { name: 'Button', exact: true })
+    ).toBeVisible()
 
     expect(await getDuplicateIds(page)).toEqual([])
   })
