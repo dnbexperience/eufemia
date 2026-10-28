@@ -35,6 +35,15 @@ jobs:
             ref: 'refs/heads/{0}'
           - workflow: Dependency audit
             ref: 'refs/heads/{0}'
+          - workflow: E2E Tests
+            ref: '{1}'
+            label: E2E Tests (pull request)
+          - workflow: Visual Regression Tests
+            ref: '{1}'
+            label: Visual Regression Tests (pull request)
+          - workflow: Dev Preview
+            ref: '{1}'
+            label: Dev Preview (pull request)
           - workflow: CodeQL Analysis
             ref: '{1}'
             label: CodeQL Analysis (pull request)
