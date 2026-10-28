@@ -38,7 +38,8 @@ try {
     '--input',
     input,
   ])
-  const deadline = Date.now() + 35 * 60 * 1000
+  // Covers the restore, render and publish jobs of the internal publisher.
+  const deadline = Date.now() + 60 * 60 * 1000
   let complete = false
   while (Date.now() < deadline) {
     const response = await fetch(
