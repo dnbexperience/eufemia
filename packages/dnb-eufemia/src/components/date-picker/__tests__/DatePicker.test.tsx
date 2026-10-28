@@ -7585,6 +7585,41 @@ describe('DatePicker ARIA', () => {
     expect(yearTitle).toHaveTextContent('2025')
   })
 
+  it('should use unique ids in the calendar when `yearNavigation` is set to `true`', () => {
+    render(
+      <DatePicker inline range yearNavigation startDate="2025-04-08" />
+    )
+
+    const ids = Array.from(
+      document.querySelectorAll('.dnb-date-picker__calendar [id]'),
+      (element) => element.id
+    )
+
+    expect(ids.length).toBeGreaterThan(0)
+    expect(new Set(ids).size).toBe(ids.length)
+  })
+
+  it.each([
+    ['by default', {}, 'april 2025'],
+    ['with yearNavigation', { yearNavigation: true }, 'april 2025'],
+    ['with hideNavigation', { hideNavigation: true }, 'april 2025'],
+    ['with onlyMonth', { onlyMonth: true }, 'april'],
+    [
+      'with onlyMonth="without-label"',
+      { onlyMonth: 'without-label' as const },
+      'april',
+    ],
+  ])(
+    'should name the calendar grid after the shown month %s',
+    (_, props, name) => {
+      render(<DatePicker inline date="2025-04-08" {...props} />)
+
+      expect(
+        document.querySelector('table[role="grid"]')
+      ).toHaveAccessibleName(name)
+    }
+  )
+
   it('should announce selected date', async () => {
     render(<DatePicker date="2025-04-01" />)
 
