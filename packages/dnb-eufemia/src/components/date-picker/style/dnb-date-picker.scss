@@ -526,23 +526,9 @@
         box-shadow: none;
       }
     }
-    .dnb-button:hover:not(:active),
-    .dnb-button[aria-disabled='true'] {
+    .dnb-button:hover:not(:active) {
       @include utilities.notFocusVisible() {
         background-color: var(--token-color-background-neutral);
-      }
-    }
-    .dnb-button[aria-disabled='true'] {
-      @media (forced-colors: active) {
-        outline-color: GrayText;
-      }
-
-      .dnb-button__icon {
-        color: var(--button-color-icon--disabled);
-
-        @media (forced-colors: active) {
-          color: GrayText;
-        }
       }
     }
   }
