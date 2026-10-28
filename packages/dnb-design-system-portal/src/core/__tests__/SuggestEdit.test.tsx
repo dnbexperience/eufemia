@@ -19,13 +19,17 @@ vi.mock('@dnb/eufemia/src/shared/helpers', async (importOriginal) => {
 
 afterEach(cleanup)
 
+// Paste instead of typing: each key press re-renders the form, which made
+// these tests slow enough to time out on a busy machine
+async function enterText(text: string) {
+  await userEvent.click(document.querySelector('textarea'))
+  await userEvent.paste(text)
+}
+
 async function submitPrompt() {
   render(<SuggestEdit />)
 
-  await userEvent.type(
-    document.querySelector('textarea'),
-    'Clarify the click event.'
-  )
+  await enterText('Clarify the click event.')
   await userEvent.click(document.querySelector('button[type="submit"]'))
 
   await waitFor(() => {
@@ -60,10 +64,7 @@ describe('SuggestEdit', () => {
       button.querySelector('.dnb-icon').getAttribute('data-testid')
     ).toBe('copy icon')
 
-    await userEvent.type(
-      document.querySelector('textarea'),
-      'Clarify the click event.'
-    )
+    await enterText('Clarify the click event.')
     await userEvent.click(button)
 
     await waitFor(() => {
@@ -129,7 +130,7 @@ describe('SuggestEdit', () => {
       ).toBeTruthy()
     })
 
-    await userEvent.type(document.querySelector('textarea'), ' Again.')
+    await enterText(' Again.')
 
     expect(document.querySelector('.dnb-form-status--error')).toBe(null)
   })
