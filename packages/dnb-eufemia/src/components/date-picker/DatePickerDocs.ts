@@ -4,18 +4,18 @@ const dateType = ['string', 'Date']
 
 export const DatePickerProperties: PropertiesTableProps = {
   date: {
-    doc: 'Defines the pre-filled date by either a JavaScript `Date` instance or (ISO 8601) like `date="2019-05-05"`.',
-    type: dateType,
+    doc: 'Defines the pre-filled date by either a JavaScript `Date` instance or (ISO 8601) like `date="2019-05-05"`. To clear the date, set it to `null` or an empty string. Changing it to `undefined` keeps the current date.',
+    type: [...dateType, 'null'],
     status: 'optional',
   },
   startDate: {
-    doc: 'To set the pre-filled starting date. Is used if `range={true}` is set to `true`. Defaults to `null`, showing the `maskPlaceholder`.',
-    type: dateType,
+    doc: 'To set the pre-filled starting date. Is used if `range={true}` is set to `true`. Defaults to `null`, showing the `maskPlaceholder`. To clear the date, set it to `null` or an empty string. Changing it to `undefined` keeps the current date.',
+    type: [...dateType, 'null'],
     status: 'optional',
   },
   endDate: {
-    doc: 'To set the pre-filled ending date. Is used if `range={true}` is set to `true`. Defaults to `null`, showing the `maskPlaceholder`.',
-    type: dateType,
+    doc: 'To set the pre-filled ending date. Is used if `range={true}` is set to `true`. Defaults to `null`, showing the `maskPlaceholder`. To clear the date, set it to `null` or an empty string. Changing it to `undefined` keeps the current date.',
+    type: [...dateType, 'null'],
     status: 'optional',
   },
   month: {
