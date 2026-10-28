@@ -4,7 +4,6 @@ import { readFile, mkdir, writeFile, readdir } from 'node:fs/promises'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { createHash } from 'node:crypto'
-import sharp from 'sharp'
 import { validateCatalogue } from './cdn.mts'
 const exec = promisify(execFile)
 const portal = path.resolve(
@@ -46,29 +45,28 @@ if (process.argv[2] === 'restore') {
       's3://' + bucket + '/og/manifest.json',
       path.join(root, 'manifest.json'),
     ])
-    validateCatalogue(
+    const catalogue = validateCatalogue(
       JSON.parse(await readFile(path.join(root, 'manifest.json'), 'utf8'))
     )
-    await aws([
-      's3',
-      'sync',
-      's3://' + bucket + '/og/crops/',
-      path.join(root, 'crops'),
-      '--exclude',
-      '*',
-      '--include',
-      '*.png',
-    ])
-    await aws([
-      's3',
-      'sync',
-      's3://' + bucket + '/og/images/',
-      path.join(root, 'images'),
-      '--exclude',
-      '*',
-      '--include',
-      '*.png',
-    ])
+    // Old images and crops stay published; only the current ones are reused.
+    const files = [
+      ...new Set(
+        Object.values(catalogue.entries).flatMap((entry) =>
+          entry.crop ? [entry.file, entry.crop] : [entry.file]
+        )
+      ),
+    ].sort()
+    if (files.length) {
+      await aws([
+        's3',
+        'sync',
+        's3://' + bucket + '/og/',
+        root,
+        '--exclude',
+        '*',
+        ...files.flatMap((file) => ['--include', file]),
+      ])
+    }
   } else {
     console.log('No S3 catalogue yet; generating the initial images.')
   }
@@ -77,6 +75,13 @@ if (process.argv[2] === 'restore') {
     await readFile(path.join(root, 'manifest.json'), 'utf8')
   )
   const validated = validateCatalogue(raw)
+  if (
+    !raw.sources ||
+    typeof raw.sources !== 'object' ||
+    Array.isArray(raw.sources)
+  ) {
+    throw new Error('Invalid catalogue sources')
+  }
   for (const entry of Object.values(validated.entries)) {
     await readFile(path.join(root, entry.file))
   }
@@ -86,19 +91,26 @@ if (process.argv[2] === 'restore') {
       if (!/^[a-f0-9]{64}\.png$/.test(name)) {
         throw new Error('Invalid PNG filename')
       }
-      const bytes = await readFile(path.join(root, directory, name)),
-        metadata = await sharp(bytes).metadata()
+      const bytes = await readFile(path.join(root, directory, name))
+      const png =
+        bytes.length > 24 &&
+        bytes
+          .subarray(0, 8)
+          .equals(Buffer.from([137, 80, 78, 71, 13, 10, 26, 10])) &&
+        bytes.toString('latin1', 12, 16) === 'IHDR'
       if (
-        metadata.format !== 'png' ||
+        !png ||
         (directory === 'images' &&
           (createHash('sha256').update(bytes).digest('hex') !==
             name.slice(0, -4) ||
-            metadata.width !== 1200 ||
-            metadata.height !== 630))
+            bytes.readUInt32BE(16) !== 1200 ||
+            bytes.readUInt32BE(20) !== 630))
       ) {
         throw new Error('Invalid catalogue PNG')
       }
     }
+  }
+  for (const directory of ['images', 'crops']) {
     await aws([
       's3',
       'sync',
@@ -111,7 +123,9 @@ if (process.argv[2] === 'restore') {
     ])
   }
   const catalogue = {
-    ...raw,
+    version: validated.version,
+    entries: validated.entries,
+    sources: raw.sources,
     imageOrigin: 'https://assets.eufemia.dnb.no',
     publication: process.env.OG_PUBLICATION_ID || null,
   }

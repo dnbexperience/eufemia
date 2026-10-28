@@ -45,6 +45,7 @@ type Entry = {
   fingerprint: string
   alt: string
   kind: 'screenshot'
+  crop?: string
   retryCapture?: boolean
 }
 type Catalogue = {
@@ -396,9 +397,10 @@ if (command === 'plan') {
   try {
     for (const task of plan.tasks) {
       let crop: Buffer | null = null
+      let cropFile: string | undefined
       let retryCapture = false
       if (task.cropKey) {
-        const cropFile = 'crops/' + task.cropKey + '.png'
+        cropFile = 'crops/' + task.cropKey + '.png'
         if (task.needsCrop) {
           try {
             const { capturePreview } = await import('./capture.mts')
@@ -465,6 +467,7 @@ if (command === 'plan') {
           digest,
           fingerprint: task.fingerprint,
           alt: task.card.title + '. Component example.',
+          crop: cropFile,
           ...(retryCapture ? { retryCapture: true } : {}),
         }
       } catch (error) {

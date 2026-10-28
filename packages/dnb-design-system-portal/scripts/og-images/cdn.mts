@@ -1,6 +1,7 @@
+import { realpathSync } from 'node:fs'
 import { mkdir, writeFile } from 'node:fs/promises'
 import path from 'node:path'
-import { fileURLToPath } from 'node:url'
+import { fileURLToPath, pathToFileURL } from 'node:url'
 
 export const imageOrigin = 'https://assets.eufemia.dnb.no'
 export function validateCatalogue(value: unknown) {
@@ -8,7 +9,13 @@ export function validateCatalogue(value: unknown) {
     version: number
     entries: Record<
       string,
-      { file: string; digest: string; kind: string; alt?: string }
+      {
+        file: string
+        digest: string
+        kind: string
+        alt?: string
+        crop?: string
+      }
     >
   }
   if (
@@ -30,7 +37,9 @@ export function validateCatalogue(value: unknown) {
       entry.digest !== entry.file.slice(7, -4) ||
       entry.kind !== 'screenshot' ||
       (entry.alt !== undefined &&
-        (typeof entry.alt !== 'string' || entry.alt.length > 500))
+        (typeof entry.alt !== 'string' || entry.alt.length > 500)) ||
+      (entry.crop !== undefined &&
+        !/^crops\/[a-f0-9]{64}\.png$/.test(String(entry.crop)))
     ) {
       throw new Error('Invalid CDN image entry')
     }
@@ -38,7 +47,31 @@ export function validateCatalogue(value: unknown) {
   return catalogue
 }
 
-export async function restoreCatalogue(destination?: string) {
+async function fetchWithRetry(url: string, retryDelay: number) {
+  for (let attempt = 1; ; attempt++) {
+    try {
+      const response = await fetch(url, {
+        signal: AbortSignal.timeout(20000),
+        redirect: 'error',
+      })
+      if (response.status < 500 || attempt === 3) {
+        return response
+      }
+    } catch (error) {
+      if (attempt === 3) {
+        throw error
+      }
+    }
+    await new Promise((resolve) =>
+      setTimeout(resolve, retryDelay * attempt)
+    )
+  }
+}
+
+export async function restoreCatalogue(
+  destination?: string,
+  { optional = false, retryDelay = 2000 } = {}
+) {
   const portal = path.resolve(
     path.dirname(fileURLToPath(import.meta.url)),
     '../..'
@@ -55,18 +88,31 @@ export async function restoreCatalogue(destination?: string) {
   const cataloguePath = publication
     ? '/og/catalogues/' + publication + '.json'
     : '/og/manifest.json'
-  const response = await fetch(imageOrigin + cataloguePath, {
-    signal: AbortSignal.timeout(20000),
-    redirect: 'error',
-  })
-  if (response.status === 404) {
-    console.log('No CDN catalogue published yet.')
+  let catalogue: ReturnType<typeof validateCatalogue>
+  try {
+    const response = await fetchWithRetry(
+      imageOrigin + cataloguePath,
+      retryDelay
+    )
+    // The asset origin answers 403 for a key that does not exist yet.
+    if (!publication && [403, 404].includes(response.status)) {
+      console.log('No CDN catalogue published yet.')
+      return false
+    }
+    if (!response.ok) {
+      throw new Error('Could not restore the CDN catalogue')
+    }
+    catalogue = validateCatalogue(await response.json())
+  } catch (error) {
+    if (!optional || publication) {
+      throw error
+    }
+    console.warn(
+      '::warning::Could not restore the social image catalogue, so pages use text previews: ' +
+        String(error)
+    )
     return false
   }
-  if (!response.ok) {
-    throw new Error('Could not restore the CDN catalogue')
-  }
-  const catalogue = validateCatalogue(await response.json())
   const entries = Object.fromEntries(
     Object.entries(catalogue.entries).map(([route, entry]) => [
       route,
@@ -92,7 +138,9 @@ export async function restoreCatalogue(destination?: string) {
 
 if (
   process.argv[1] &&
-  path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)
+  import.meta.url === pathToFileURL(realpathSync(process.argv[1])).href
 ) {
-  await restoreCatalogue()
+  await restoreCatalogue(undefined, {
+    optional: process.argv.includes('--optional'),
+  })
 }

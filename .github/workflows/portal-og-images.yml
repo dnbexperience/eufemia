@@ -19,9 +19,8 @@ permissions:
   contents: read
   actions: read
 
-# Use the same queue as normal Pages deployments.
 concurrency:
-  group: pages
+  group: portal-og-images
   cancel-in-progress: false
 
 jobs:
@@ -109,6 +108,11 @@ jobs:
     if: github.event_name == 'schedule' || inputs.publish
     runs-on: ubuntu-24.04
     timeout-minutes: 10
+    # Share the queue with normal Pages deployments only while deploying. The
+    # source snapshot check below runs inside the queue.
+    concurrency:
+      group: pages
+      cancel-in-progress: false
     permissions:
       contents: read
       pages: write
