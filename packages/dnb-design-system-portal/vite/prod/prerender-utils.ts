@@ -362,7 +362,7 @@ export function injectHtml(
       `<meta property="og:title" content="${formattedTitle}">`,
       `<meta property="og:description" content="${desc}">`,
       `<meta property="og:url" content="${fullUrl}">`,
-      ...socialImageTags(meta.url, socialImages),
+      ...socialImageTags(meta.url, socialImages, siteUrl),
       ...socialDetailTags(
         meta.title ? meta.title + ' | Eufemia' : 'Eufemia',
         meta.description || defaultDescription

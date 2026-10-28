@@ -20,19 +20,38 @@ test('reuses screenshots for tab routes and strips tracking parameters', () => {
     'https://assets.eufemia.dnb.no/og/' + file
   )
 })
-test('omits image tags without a screenshot and rejects legacy artwork', () => {
-  assert.equal(getSocialImage('/unknown/', manifest), null)
-  assert.equal(
+test('uses the default image when no valid component screenshot exists', () => {
+  const fallback = {
+    url: 'https://eufemia.dnb.no/dnb/og-image.png?v=2',
+    alt: 'Eufemia Design System',
+  }
+  assert.deepEqual(getSocialImage('/unknown/', manifest), fallback)
+  assert.deepEqual(
     getSocialImage('/bad/', {
       '/bad/': { file: '../bad.png', kind: 'screenshot' },
     }),
-    null
+    fallback
+  )
+  assert.deepEqual(
+    getSocialImage('/guide/', { '/guide/': { file, alt: 'Old artwork' } }),
+    fallback
+  )
+  const html = socialImageTags('/unknown/', manifest).join('')
+  assert.ok(
+    html.includes('property="og:image" content="' + fallback.url + '"')
+  )
+  assert.ok(html.includes('summary_large_image'))
+})
+test('serves the fallback from the preview origin while keeping screenshots on the CDN', () => {
+  const origin = 'https://pr-42.eufemia-e25.pages.dev'
+  assert.equal(
+    getSocialImage('/guide/', manifest, origin).url,
+    origin + '/dnb/og-image.png?v=2'
   )
   assert.equal(
-    getSocialImage('/guide/', { '/guide/': { file, alt: 'Old artwork' } }),
-    null
+    getSocialImage('/uilib/components/button/', manifest, origin).url,
+    'https://assets.eufemia.dnb.no/og/' + file
   )
-  assert.deepEqual(socialImageTags('/unknown/', manifest), [])
 })
 test('escapes screenshot alt text and provides image dimensions', () => {
   const html = socialImageTags('/uilib/components/button/', manifest).join(

@@ -691,7 +691,7 @@ describe('prerender-utils', () => {
       expect(result).toContain('Eufemia Design System is the go-to place')
     })
 
-    it('omits images on pages without a screenshot', () => {
+    it('uses the default image on pages without a screenshot', () => {
       const result = injectHtml(
         template,
         '<h1>Guide</h1>',
@@ -703,10 +703,12 @@ describe('prerender-utils', () => {
           description: 'Helpful guidance.',
         }
       )
-      expect(result).not.toContain('property="og:image"')
-      expect(result).not.toContain('name="twitter:image"')
+      expect(result).toContain(
+        'property="og:image" content="https://eufemia.dnb.no/dnb/og-image.png?v=2"'
+      )
+      expect(result).toContain('name="twitter:image"')
       expect(result).not.toContain('twitter:label')
-      expect(result).not.toContain('name="twitter:card"')
+      expect(result).toContain('content="summary_large_image"')
       expect(result).toContain(
         '<meta name="twitter:description" content="Helpful guidance.">'
       )

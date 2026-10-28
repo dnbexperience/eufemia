@@ -1,4 +1,8 @@
-export function getSocialImage(pathname, manifest = {}) {
+export function getSocialImage(
+  pathname,
+  manifest = {},
+  origin = 'https://eufemia.dnb.no'
+) {
   let route =
     String(pathname || '/')
       .split(/[?#]/)[0]
@@ -18,7 +22,10 @@ export function getSocialImage(pathname, manifest = {}) {
       alt: String(entry.alt || 'Eufemia Design System'),
     }
   }
-  return null
+  return {
+    url: new URL('/dnb/og-image.png?v=2', origin).href,
+    alt: 'Eufemia Design System',
+  }
 }
 
 function escape(text) {
@@ -45,11 +52,8 @@ export function socialDetailTags(title, description) {
   )
 }
 
-export function socialImageTags(pathname, manifest) {
-  const image = getSocialImage(pathname, manifest)
-  if (!image) {
-    return []
-  }
+export function socialImageTags(pathname, manifest, origin) {
+  const image = getSocialImage(pathname, manifest, origin)
   return [
     '<meta property="og:image" content="' + escape(image.url) + '">',
     '<meta property="og:image:type" content="image/png">',

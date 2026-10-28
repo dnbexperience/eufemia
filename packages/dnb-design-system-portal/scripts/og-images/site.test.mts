@@ -29,8 +29,10 @@ test('updates only image metadata and preserves body content and script bytes', 
     updated
   )
   const missing = updateImageTags(html, '/guide/', manifest)
-  assert.ok(!missing.includes('property="og:image"'))
-  assert.ok(!missing.split('</head>')[0].includes('name="twitter:card"'))
+  assert.ok(
+    missing.includes('https://eufemia.dnb.no/dnb/og-image.png?v=2')
+  )
+  assert.ok(missing.split('</head>')[0].includes('summary_large_image'))
   assert.equal(updateImageTags(missing, '/guide/', manifest), missing)
 })
 test('prepares an existing snapshot without rebuilding application assets and retains old image URLs', async () => {

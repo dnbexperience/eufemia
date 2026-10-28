@@ -108,7 +108,7 @@ export async function restoreCatalogue(
       throw error
     }
     console.warn(
-      '::warning::Could not restore the social image catalogue, so pages use text previews: ' +
+      '::warning::Could not restore the social image catalogue, so pages use the default image: ' +
         String(error)
     )
     return false

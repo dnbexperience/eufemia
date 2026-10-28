@@ -32,7 +32,7 @@ export function updateImageTags(
     {
       start: end,
       end,
-      text: tags.length ? tags.join('\n') + '\n' : '',
+      text: tags.join('\n') + '\n',
     },
   ]
   for (const node of head.childNodes) {
