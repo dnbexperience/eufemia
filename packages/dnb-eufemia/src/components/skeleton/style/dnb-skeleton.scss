@@ -15,9 +15,9 @@ $stripe-tile-size: $stripe-spacing * math.sqrt(2);
 .dnb-skeleton {
   --skeleton-color: var(--token-color-background-neutral-base);
   --skeleton-color--contrast: var(--token-color-background-neutral);
-  --skeleton-delay: -1.6s;
-  --skeleton-duration: 3.2s;
-  --skeleton-iteration-count: infinite;
+  --skeleton-delay: 2s;
+  --skeleton-duration: 2s;
+  --skeleton-iteration-count: 20;
 
   .eufemia-theme__color-scheme--dark & {
     --skeleton-color--contrast: rgb(255 255 255 / 16%);
@@ -81,7 +81,8 @@ $stripe-tile-size: $stripe-spacing * math.sqrt(2);
   &--font,
   &--font &--show-font,
   &--font .dnb-p {
-    background-image:
+    --skeleton-active-background: initial;
+    --skeleton-background-image:
       linear-gradient(
         62deg,
         var(--skeleton-color) 36%,
@@ -93,8 +94,9 @@ $stripe-tile-size: $stripe-spacing * math.sqrt(2);
       repeating-linear-gradient(
         -45deg,
         var(--skeleton-color--contrast) 0 0.0625rem,
-        var(--skeleton-color) 0.0625rem $stripe-spacing
-      ) !important;
+        var(--skeleton-color) 0.0625rem #{$stripe-spacing}
+      );
+    background-image: var(--skeleton-active-background, none) !important;
     // Tile the fading layer so it keeps covering the stripes between sweeps.
     background-repeat: repeat-x, repeat !important;
     background-size:
@@ -180,10 +182,12 @@ $stripe-tile-size: $stripe-spacing * math.sqrt(2);
 
 @keyframes skeletonSweepAnimation {
   from {
+    --skeleton-active-background: var(--skeleton-background-image);
     background-position-x: 0, 0;
   }
 
   to {
+    --skeleton-active-background: var(--skeleton-background-image);
     // Move by whole tiles so both layers loop seamlessly.
     background-position-x: (-$sweep-width), (-8 * $stripe-tile-size);
   }

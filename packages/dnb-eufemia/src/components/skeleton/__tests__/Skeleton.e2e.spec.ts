@@ -18,13 +18,44 @@ for (const theme of ['ui', 'sbanken']) {
       await page.goto(
         `/uilib/components/skeleton/demos/?eufemia-theme=${theme}`
       )
+      await expect(page.locator(skeletons[0]).first()).toBeVisible()
+
+      await page.evaluate(() => {
+        for (const animation of document.getAnimations()) {
+          animation.pause()
+          animation.currentTime = 1999
+        }
+      })
+      for (const selector of skeletons) {
+        const skeleton = page.locator(selector).first()
+        await expect(skeleton).toBeVisible()
+        const background = await skeleton.evaluate((element) => {
+          const pseudo = element.classList.contains('dnb-skeleton--shape')
+            ? '::after'
+            : null
+          return getComputedStyle(element, pseudo).backgroundImage
+        })
+        expect(background).toBe('none')
+      }
 
       for (const selector of skeletons) {
         const skeleton = page.locator(selector).first()
         await expect(skeleton).toBeVisible()
+        const timing = await skeleton.evaluate((element) => {
+          const pseudo = element.classList.contains('dnb-skeleton--shape')
+            ? '::after'
+            : null
+          const style = getComputedStyle(element, pseudo)
+          return [
+            style.animationDelay,
+            style.animationDuration,
+            style.animationIterationCount,
+          ]
+        })
+        expect(timing).toEqual(['2s', '2s', '20'])
 
         const positions = []
-        for (const time of [65000, 65300]) {
+        for (const time of [3500, 3800]) {
           await page.evaluate((time) => {
             for (const animation of document.getAnimations()) {
               animation.pause()
@@ -46,6 +77,31 @@ for (const theme of ['ui', 'sbanken']) {
         }
 
         expect(positions[1], selector).not.toBe(positions[0])
+        const background = await skeleton.evaluate((element) => {
+          const pseudo = element.classList.contains('dnb-skeleton--shape')
+            ? '::after'
+            : null
+          const style = getComputedStyle(element, pseudo)
+          return style.backgroundImage
+        })
+        expect(background).not.toBe('none')
+      }
+
+      await page.evaluate(() => {
+        for (const animation of document.getAnimations()) {
+          animation.currentTime = 42000
+        }
+      })
+      for (const selector of skeletons) {
+        const skeleton = page.locator(selector).first()
+        const background = await skeleton.evaluate((element) => {
+          const pseudo = element.classList.contains('dnb-skeleton--shape')
+            ? '::after'
+            : null
+          const style = getComputedStyle(element, pseudo)
+          return style.backgroundImage
+        })
+        expect(background).toBe('none')
       }
     })
   }
@@ -69,5 +125,24 @@ test('disables text and shape motion when reduced motion is requested', async ({
         return getComputedStyle(element, pseudo).animationName
       })
     ).toBe('none')
+  }
+})
+
+test('keeps disabled skeletons solid, including wide controls', async ({
+  page,
+}) => {
+  await page.goto(
+    '/uilib/components/skeleton/demos/?data-visual-test=true'
+  )
+  const controls = page.locator(
+    '[data-visual-test="skeleton-all-vertical"] .dnb-skeleton--shape'
+  )
+  await expect(controls.first()).toBeVisible()
+  for (const control of await controls.all()) {
+    const background = await control.evaluate((element) => {
+      const style = getComputedStyle(element, '::after')
+      return style.backgroundImage
+    })
+    expect(background).toBe('none')
   }
 })
