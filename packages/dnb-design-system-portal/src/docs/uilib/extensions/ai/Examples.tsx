@@ -1,14 +1,10 @@
-import { Fragment, useEffect, useState } from 'react'
+import { Fragment, useEffect, useRef, useState } from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import { useChatSimulation } from './useChatSimulation'
 import ReplyAnnouncement from './ReplyAnnouncement'
 import type { DemoMessage, Transaction } from './useChatSimulation'
 import styled from '@emotion/styled'
 import referenceAvatar from './assets/dnb-reference.svg'
-import svSE from '@dnb/eufemia/src/shared/locales/sv-SE'
-import aiSvSE from '@dnb/eufemia/src/extensions/ai/constants/locales/sv-SE'
-import daDK from '@dnb/eufemia/src/shared/locales/da-DK'
-import aiDaDK from '@dnb/eufemia/src/extensions/ai/constants/locales/da-DK'
 import {
   Action,
   Actions,
@@ -702,11 +698,6 @@ const ChatLayout = styled.div`
   }
 `
 
-const chatTranslations = {
-  'sv-SE': { ...svSE['sv-SE'], ...aiSvSE['sv-SE'] },
-  'da-DK': { ...daDK['da-DK'], ...aiDaDK['da-DK'] },
-}
-
 function DemoMessageContent({ message }: { message: DemoMessage }) {
   if (message.role === 'user') {
     return (
@@ -780,7 +771,6 @@ export function AiChatExample() {
         DemoMessageContent,
         chatStyle,
         ChatLayout,
-        chatTranslations,
         getText,
         getTransactions,
         aino,
@@ -819,7 +809,9 @@ export function AiChatExample() {
         )
 
         const BankingAssistant = () => {
-          const [locale, setLocale] = useState('en-GB')
+          const [chatStarted, setChatStarted] = useState(false)
+          const [draft, setDraft] = useState('')
+          const promptRef = useRef<HTMLTextAreaElement>(null)
           const [feedback, setFeedback] = useState({})
 
           const {
@@ -836,7 +828,7 @@ export function AiChatExample() {
           const questions = messages.filter(({ role }) => role === 'user')
 
           return (
-            <Provider locale={locale} translations={chatTranslations}>
+            <Provider locale="en-GB">
               <ChatLayout>
                 <section className="chat" style={chatStyle}>
                   <Flex.Horizontal align="center" justify="space-between">
@@ -848,36 +840,23 @@ export function AiChatExample() {
                       </div>
                     </Flex.Horizontal>
 
-                    <Flex.Horizontal align="center" gap="small">
-                      <ToggleButton.Group
-                        label="Language"
-                        labelSrOnly
-                        size="small"
-                        value={locale}
-                        onChange={({ value }) => setLocale(String(value))}
-                      >
-                        <ToggleButton value="nb-NO" text="NO" />
-                        <ToggleButton value="en-GB" text="EN" />
-                        <ToggleButton value="sv-SE" text="SV" />
-                        <ToggleButton value="da-DK" text="DK" />
-                      </ToggleButton.Group>
-                      <Button
-                        variant="tertiary"
-                        icon={add}
-                        iconPosition="left"
-                        disabled={messages.length === 0}
-                        onClick={() => {
-                          stop()
-                          setMessages([])
-                          setFeedback({})
-                        }}
-                      >
-                        New chat
-                      </Button>
-                    </Flex.Horizontal>
+                    <Button
+                      variant="tertiary"
+                      icon={add}
+                      iconPosition="left"
+                      onClick={() => {
+                        setMessages([])
+                        setFeedback({})
+                        setDraft('')
+                        setChatStarted(true)
+                        promptRef.current?.focus()
+                      }}
+                    >
+                      New chat
+                    </Button>
                   </Flex.Horizontal>
 
-                  {messages.length === 0 ? (
+                  {!chatStarted && messages.length === 0 ? (
                     <Welcome
                       greeting="Hello, Peter"
                       avatar={<Avatar size="small" icon={aino} hasLabel />}
@@ -1060,11 +1039,17 @@ export function AiChatExample() {
                   />
 
                   <PromptInput
+                    value={draft}
+                    textareaProps={{ ref: promptRef }}
+                    onChange={({ value }) => setDraft(value)}
                     isBusy={
                       status === 'submitted' || status === 'streaming'
                     }
                     characterCounter={200}
-                    onSubmit={({ value }) => send(value)}
+                    onSubmit={({ value }) => {
+                      send(value)
+                      setDraft('')
+                    }}
                     onStop={stop}
                     onAttachmentClick={() => null}
                     onMicrophoneClick={() => null}
