@@ -98,7 +98,7 @@ export async function restoreCatalogue(
     if (!publication && [403, 404].includes(response.status)) {
       if (optional) {
         console.warn(
-          '::warning::No social image catalogue is published, so pages use text previews.'
+          '::warning::No social image catalogue is published, so pages use the default image.'
         )
       } else {
         console.log('No CDN catalogue published yet.')
@@ -114,7 +114,7 @@ export async function restoreCatalogue(
       throw error
     }
     console.warn(
-      '::warning::Could not restore the social image catalogue, so pages use text previews: ' +
+      '::warning::Could not restore the social image catalogue, so pages use the default image: ' +
         String(error)
     )
     return false
