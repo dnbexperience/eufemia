@@ -5817,20 +5817,77 @@ describe('DatePicker component', () => {
     })
   })
 
-  it('should move focus to the calendar button when the calendar closes after picking a day', async () => {
+  it.each([
+    [
+      'picking a day',
+      async () => {
+        await userEvent.click(
+          document.querySelector('td[data-date="2025-04-25"] button')
+        )
+      },
+    ],
+    [
+      'pressing Enter on a day',
+      async () => {
+        document
+          .querySelector<HTMLButtonElement>(
+            'td[data-date="2025-04-25"] button'
+          )
+          .focus()
+        await userEvent.keyboard('{Enter}')
+      },
+    ],
+    [
+      'clicking a shortcut',
+      async () => {
+        await userEvent.click(
+          document.querySelector('.dnb-date-picker__addon .dnb-button')
+        )
+      },
+    ],
+  ])(
+    'should move focus to the calendar button when the calendar closes after %s',
+    async (_, closeCalendar) => {
+      render(
+        <DatePicker
+          showInput
+          date="2025-04-01"
+          shortcuts={[
+            { title: 'Set date', closeOnSelect: true, date: '2025-04-25' },
+          ]}
+        />
+      )
+
+      await userEvent.click(getDatePickerTriggerButton())
+      await closeCalendar()
+
+      await waitFor(() =>
+        expect(
+          document.querySelector('.dnb-date-picker__calendar')
+        ).not.toBeInTheDocument()
+      )
+      expect(getDatePickerTriggerButton()).toHaveFocus()
+      expect(getDatePickerInputs()[0]).toHaveValue('25')
+    }
+  )
+
+  it('should leave focus where the user clicks while the calendar closes', async () => {
     render(<DatePicker showInput date="2025-04-01" />)
 
     await userEvent.click(getDatePickerTriggerButton())
     await userEvent.click(
       document.querySelector('td[data-date="2025-04-25"] button')
     )
+    await waitFor(() => expect(getDatePickerTriggerButton()).toHaveFocus())
+
+    await userEvent.click(document.body)
 
     await waitFor(() =>
       expect(
         document.querySelector('.dnb-date-picker__calendar')
       ).not.toBeInTheDocument()
     )
-    expect(getDatePickerTriggerButton()).toHaveFocus()
+    expect(document.body).toHaveFocus()
   })
 
   it('should keep focus that moved elsewhere while the calendar closes after picking a day', async () => {
