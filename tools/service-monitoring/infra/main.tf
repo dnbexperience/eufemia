@@ -35,14 +35,6 @@ resource "aws_dynamodb_table" "state" {
   tags                        = local.tags
 }
 
-# Kept for rollback.
-removed {
-  from = aws_secretsmanager_secret.slack
-  lifecycle {
-    destroy = false
-  }
-}
-
 resource "aws_sqs_queue" "failures" {
   name                      = "${local.prefix}-failures"
   message_retention_seconds = 1209600
