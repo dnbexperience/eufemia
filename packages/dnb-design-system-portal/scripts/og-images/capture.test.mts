@@ -31,6 +31,14 @@ test('preserves native demo layout and captures small controls at 2x resolution'
       )
       return
     }
+    // Nearly as tall as the viewport, so both outline margins cannot
+    // fit at once.
+    if (request.url === '/outline-tall/') {
+      response.end(
+        '<style>.specimen{width:60px;height:897px;background:white;box-shadow:0 0 0 1px #999}</style><div style="height:700px"></div><div class="dnb-live-preview"><div class="specimen"></div></div><div style="height:2000px"></div>'
+      )
+      return
+    }
     // Capturing finishes the spacer animation, which moves the specimen
     // after it was measured.
     if (request.url === '/outline-shifting/') {
@@ -212,6 +220,23 @@ test('preserves native demo layout and captures small controls at 2x resolution'
         route + ' retains both outside horizontal outline edges'
       )
     }
+    const { data: nearlyViewport, info: nearlyViewportInfo } = await sharp(
+      await capturePreview(capture, origin + '/outline-tall/', [])
+    )
+      .ensureAlpha()
+      .raw()
+      .toBuffer({ resolveWithObject: true })
+    // Aligned to the top margin; the viewport cuts off the rest.
+    assert.deepEqual(
+      [nearlyViewportInfo.width, nearlyViewportInfo.height],
+      [128, 1800]
+    )
+    // Row 2 is the 1px outline 1px below the top of the capture margin.
+    assert.equal(
+      nearlyViewport[(2 * nearlyViewportInfo.width + 64) * 4],
+      153,
+      'keeps the top outline margin'
+    )
     const transparent = await capturePreview(
       capture,
       origin + '/transparent/',
