@@ -30,6 +30,7 @@ import Button from '../../Button'
 import Dropdown from '../../Dropdown'
 import { Provider } from '../../../shared'
 import svSE from '../../../shared/locales/sv-SE'
+import enUS from '../../../shared/locales/en-US'
 import nbNO from '../../../shared/locales/nb-NO'
 import daDK from '../../../shared/locales/da-DK'
 import * as helpers from '../../../shared/helpers'
@@ -3024,6 +3025,90 @@ describe('DatePicker component', () => {
     expect(document.activeElement.closest('td')).toHaveAttribute(
       'data-date',
       '2025-04-16'
+    )
+  })
+
+  it.each([
+    { key: '{PageDown}', limit: { maxDate: '2025-05-10' } },
+    { key: '{PageUp}', limit: { minDate: '2025-03-20' } },
+    {
+      key: '{Shift>}{PageDown}{/Shift}',
+      limit: { maxDate: '2026-04-10' },
+    },
+    { key: '{Shift>}{PageUp}{/Shift}', limit: { minDate: '2024-04-20' } },
+  ])(
+    'should keep focus when $key passes a date limit with onDaysRender',
+    async ({ key, limit }) => {
+      const onError = vi.fn((event: ErrorEvent) => event.preventDefault())
+      window.addEventListener('error', onError)
+
+      render(
+        <DatePicker
+          noAnimation
+          date="2025-04-16"
+          onDaysRender={(days) => days}
+          {...limit}
+        />
+      )
+
+      await userEvent.click(getDatePickerTriggerButton())
+      await userEvent.keyboard(key)
+      window.removeEventListener('error', onError)
+
+      expect(onError).not.toHaveBeenCalled()
+      expect(document.activeElement.closest('td')).toHaveAttribute(
+        'data-date',
+        '2025-04-16'
+      )
+    }
+  )
+
+  it.each([
+    ['2025-01-31', '{PageDown}', '2025-02-28'],
+    ['2024-03-31', '{PageUp}', '2024-02-29'],
+    ['2024-02-29', '{Shift>}{PageDown}{/Shift}', '2025-02-28'],
+  ])(
+    'should clamp page navigation from %s with %s to %s',
+    async (date, key, expected) => {
+      render(<DatePicker noAnimation date={date} />)
+      await userEvent.click(getDatePickerTriggerButton())
+      await userEvent.keyboard(key)
+
+      expect(document.activeElement.closest('td')).toHaveAttribute(
+        'data-date',
+        expected
+      )
+    }
+  )
+
+  it('should use the locale week start for Home and End and skip unselectable days', async () => {
+    render(
+      <Provider locale="en-US" translations={enUS}>
+        <DatePicker
+          noAnimation
+          date="2025-04-16"
+          onDaysRender={(days) =>
+            days.map((day) =>
+              [13, 19].includes(day.date.getDate())
+                ? { ...day, isSelectable: false }
+                : day
+            )
+          }
+        />
+      </Provider>
+    )
+
+    await userEvent.click(getDatePickerTriggerButton())
+    await userEvent.keyboard('{Home}')
+    expect(document.activeElement.closest('td')).toHaveAttribute(
+      'data-date',
+      '2025-04-14'
+    )
+
+    await userEvent.keyboard('{End}')
+    expect(document.activeElement.closest('td')).toHaveAttribute(
+      'data-date',
+      '2025-04-18'
     )
   })
 
