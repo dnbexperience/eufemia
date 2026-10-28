@@ -82,7 +82,7 @@ const makeMockContext = () => ({
 // ── tests ────────────────────────────────────────────────────────────
 
 describe('hardResetPage', () => {
-  it('replaces the page to release resources from repeated reloads', async () => {
+  it('periodically replaces pages to release resources from repeated reloads', async () => {
     const context = makeMockContext()
     const previousPage = {
       ...makeMockPage(),
@@ -97,6 +97,16 @@ describe('hardResetPage', () => {
       currentRootClassName: 'previous-test',
     }
 
+    for (let reset = 0; reset < 5; reset++) {
+      await hardResetPage(
+        state as never,
+        { width: 400, height: 600 },
+        { 'User-Agent': 'visual-test' }
+      )
+      expect(state.page).toBe(previousPage)
+    }
+    expect(previousPage.reload).toHaveBeenCalledTimes(5)
+
     await hardResetPage(
       state as never,
       { width: 400, height: 600 },
@@ -105,7 +115,7 @@ describe('hardResetPage', () => {
 
     const page = await context.newPage.mock.results[0]?.value
     expect(previousPage.close).toHaveBeenCalledOnce()
-    expect(previousPage.reload).not.toHaveBeenCalled()
+    expect(previousPage.reload).toHaveBeenCalledTimes(5)
     expect(state.page).toBe(page)
     expect(page.addInitScript).toHaveBeenCalledTimes(2)
     expect(page.goto).toHaveBeenCalledWith(previousPage.url(), {

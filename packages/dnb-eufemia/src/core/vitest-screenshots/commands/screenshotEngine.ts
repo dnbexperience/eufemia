@@ -880,23 +880,36 @@ const navigateToFreshPage = async (
   state.mutationKind = 'none'
 }
 
+const pageReloadCounts = new WeakMap<Page, number>()
+const MAX_PAGE_RELOADS = 5
+
 const hardResetPage = async (
   state: SessionState,
   pageViewport: { width?: number; height?: number } | null | undefined,
   headers: Record<string, string> | null | undefined
 ) => {
   await clearBrowserStorage(state.page)
-  const url = state.page.url()
-  const context = state.page.context()
+  const reloadCount = pageReloadCounts.get(state.page) ?? 0
   resetPageBootstrapMemo(state.page)
-  await state.page.close()
-  // Fresh pages release resources retained by repeated Firefox reloads.
-  state.page = await createScreenshotPage(context)
-  await applyPageSettings(state.page, pageViewport, headers)
-  await state.page.goto(url, {
-    waitUntil: config.waitUntil,
-    timeout: config.timeout,
-  })
+  if (reloadCount >= MAX_PAGE_RELOADS) {
+    const url = state.page.url()
+    const context = state.page.context()
+    await state.page.close()
+    // Bound reload resources without paying for a new page on every test.
+    state.page = await createScreenshotPage(context)
+    await applyPageSettings(state.page, pageViewport, headers)
+    await state.page.goto(url, {
+      waitUntil: config.waitUntil,
+      timeout: config.timeout,
+    })
+  } else {
+    await state.page.reload({
+      waitUntil: config.waitUntil,
+      timeout: config.timeout,
+    })
+    pageReloadCounts.set(state.page, reloadCount + 1)
+    await applyPageSettings(state.page, pageViewport, headers)
+  }
   await applyTestConfiguration(state.page)
   await addTestStylesheet(state.page)
   await waitForVisualStability(state.page)
@@ -1548,7 +1561,7 @@ async function performScreenshot(
   const effectiveWithWrapper = payload.withWrapper ?? true
 
   // Match the original Playwright setup: any simulate, script
-  // execution, or rootClassName triggers a fresh page before the
+  // execution, or rootClassName triggers a page reset before the
   // next test. This avoids fragile cleanup logic and stale state.
   const shouldReloadAfter = Boolean(
     payload.simulate ||
