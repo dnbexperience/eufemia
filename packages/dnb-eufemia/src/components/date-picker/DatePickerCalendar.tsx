@@ -13,7 +13,10 @@ import type {
 } from 'react'
 import { clsx } from 'clsx'
 import useMountEffect from '../../shared/helpers/useMountEffect'
-import { combineDescribedBy } from '../../shared/component-helper'
+import {
+  combineDescribedBy,
+  combineLabelledBy,
+} from '../../shared/component-helper'
 
 // date-fns
 import {
@@ -655,12 +658,15 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
     return cache.current[cacheKey]
   }, [cacheKey, getDays, month])
 
+  const hasNavigation = !hideNavigation && !onlyMonth
+  const hasMonthLabel = onlyMonth && !hideMonthLabel
+
   return (
     <div
       className={clsx('dnb-date-picker__calendar', rtl && 'rtl')}
       lang={locale}
     >
-      {!hideNavigation && !onlyMonth && (
+      {hasNavigation && (
         <div className="dnb-date-picker__header">
           <DatePickerCalendarNav
             type={yearNavigation ? 'month' : 'both'}
@@ -680,7 +686,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
           )}
         </div>
       )}
-      {onlyMonth && !hideMonthLabel && (
+      {hasMonthLabel && (
         <div className="dnb-date-picker__header dnb-date-picker__header--only-month-label">
           <label
             id={`${id}--title`}
@@ -705,8 +711,19 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
         role="grid"
         className="dnb-no-focus"
         tabIndex={0}
-        aria-labelledby={
-          onlyMonth && hideMonthLabel ? undefined : `${id}--title`
+        aria-labelledby={combineLabelledBy(
+          (hasNavigation || hasMonthLabel) && `${id}--title`,
+          hasNavigation && yearNavigation && `${id}--year-title`
+        )}
+        aria-label={
+          hasNavigation || hasMonthLabel
+            ? undefined
+            : formatDate(month, {
+                locale,
+                options: onlyMonth
+                  ? { month: 'long' }
+                  : { month: 'long', year: 'numeric' },
+              })
         }
         onKeyDown={onKeyDownHandler}
         onMouseLeave={onMouseLeaveHandler}

@@ -163,7 +163,7 @@ export function DatePickerCalendarNav({
         />
       </div>
       <span
-        id={`${id}--title`}
+        id={type === 'year' ? `${id}--year-title` : `${id}--title`}
         className="dnb-date-picker__header__title dnb-no-focus"
         title={title.replace(
           /%s/,
