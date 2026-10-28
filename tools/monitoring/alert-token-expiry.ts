@@ -63,6 +63,13 @@ async function main() {
     appendFileSync(process.env.GITHUB_STEP_SUMMARY, summary)
   }
 
+  const webhook = process.env.TOKEN_EXPIRY_WEBHOOK ?? ''
+  if (!/^https:\/\/hooks\.slack\.com\/services\//.test(webhook)) {
+    throw new Error(
+      'TOKEN_EXPIRY_WEBHOOK must be a Slack incoming webhook URL'
+    )
+  }
+
   // Other failures have no expiry date, so they alert every day.
   const alerts = checks.filter(
     (check) =>
@@ -73,12 +80,6 @@ async function main() {
     return
   }
 
-  const webhook = process.env.TOKEN_EXPIRY_WEBHOOK ?? ''
-  if (!/^https:\/\/hooks\.slack\.com\/services\//.test(webhook)) {
-    throw new Error(
-      'TOKEN_EXPIRY_WEBHOOK must be a Slack incoming webhook URL'
-    )
-  }
   // Request errors can contain the secret webhook URL.
   const response = await fetch(webhook, {
     method: 'POST',

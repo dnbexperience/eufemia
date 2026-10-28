@@ -8,7 +8,7 @@ export function daysUntilExpiry(headers: Headers, now = Date.now()) {
   const expiresAt = Date.parse(headers.get(HEADER) ?? '')
   return Number.isNaN(expiresAt)
     ? undefined
-    : Math.floor((expiresAt - now) / DAY)
+    : Math.floor(expiresAt / DAY) - Math.floor(now / DAY)
 }
 
 export function tokenExpiryCheck(

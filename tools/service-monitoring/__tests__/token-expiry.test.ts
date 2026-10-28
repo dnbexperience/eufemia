@@ -68,6 +68,26 @@ it('counts whole days until expiry', () => {
   expect(daysUntilExpiry(new Headers(), now)).toBeUndefined()
 })
 
+it('counts UTC calendar days, so the run time does not change the count', () => {
+  const expiresAt = new Headers({
+    'GitHub-Authentication-Token-Expiration': '2026-10-26 06:30:00 UTC',
+  })
+
+  expect(
+    daysUntilExpiry(expiresAt, Date.parse('2026-10-23T06:25:00Z'))
+  ).toBe(3)
+  expect(
+    daysUntilExpiry(expiresAt, Date.parse('2026-10-23T06:36:00Z'))
+  ).toBe(3)
+  expect(
+    tokenExpiryCheck(
+      'TOKEN',
+      expiresAt,
+      Date.parse('2026-10-25T06:36:00Z')
+    ).detail
+  ).toBe('expires in 1 day (2026-10-26)')
+})
+
 async function runAlert(env: Record<string, string>) {
   const root = await mkdtemp(path.join(os.tmpdir(), 'token-expiry-cli-'))
   try {
@@ -79,7 +99,7 @@ async function runAlert(env: Record<string, string>) {
         const url = new URL(input)
         if (url.hostname === 'hooks.slack.com') {
           process.stdout.write('SLACK ' + JSON.parse(options.body).text + '\\n')
-          return new Response('ok')
+          return new Response(process.env.SLACK_REPLY ?? 'ok')
         }
         if (url.hostname !== 'api.dnb.ghe.com') throw new Error('Unexpected request')
         const auth = new Headers(options.headers).get('Authorization')
@@ -87,7 +107,8 @@ async function runAlert(env: Record<string, string>) {
         if (auth === 'Bearer unavailable') return new Response('{}', { status: 503 })
         if (auth === 'Bearer unreachable') throw new TypeError('fetch failed')
         const days = Number(auth.match(/^Bearer days-(\\d+)$/)?.[1] ?? 30)
-        const expiry = new Date(Date.now() + days * 86400000 + 3600000)
+        const today = Math.floor(Date.now() / 86400000) * 86400000
+        const expiry = new Date(today + days * 86400000 + 12 * 3600000)
         return new Response('{}', { headers: {
           'GitHub-Authentication-Token-Expiration': expiry.toISOString().replace('T', ' ').replace(/\\.\\d+Z$/, ' UTC'),
         } })
@@ -183,10 +204,10 @@ it.each([
   expect(stdout.includes('SLACK')).toBe(posts)
 })
 
-it('fails when a warning is due but no webhook is set', async () => {
+it('fails on every run when no webhook is set', async () => {
   await expect(
     runAlert({
-      GHE_DEPLOY_PAT: 'expired',
+      GHE_DEPLOY_PAT: 'valid',
       GHE_MONITORING_DEPLOY_PAT: 'valid',
     })
   ).rejects.toMatchObject({
@@ -194,5 +215,24 @@ it('fails when a warning is due but no webhook is set', async () => {
     stderr: expect.stringContaining(
       'TOKEN_EXPIRY_WEBHOOK must be a Slack incoming webhook URL'
     ),
+  })
+})
+
+it('fails without the webhook URL when Slack rejects the message', async () => {
+  const run = runAlert({
+    GHE_DEPLOY_PAT: 'expired',
+    GHE_MONITORING_DEPLOY_PAT: 'valid',
+    TOKEN_EXPIRY_WEBHOOK: webhook,
+    SLACK_REPLY: 'invalid_token',
+  })
+
+  await expect(run).rejects.toMatchObject({
+    code: 1,
+    stderr: expect.stringContaining(
+      'Slack notification could not be delivered'
+    ),
+  })
+  await expect(run).rejects.toMatchObject({
+    stderr: expect.not.stringContaining(webhook),
   })
 })
