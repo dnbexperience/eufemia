@@ -24,6 +24,17 @@ describe.each(['ui', 'sbanken'])(`Skeleton for %s`, (themeName) => {
     })
   })
 
+  it('have to match dark skeletons', async () => {
+    await makeScreenshot({
+      colorScheme: 'dark',
+      wrapperStyle: {
+        background: 'var(--token-color-background-page-background)',
+      },
+      style: { width: '20rem', height: '20rem' },
+      selector: '[data-visual-test="skeleton-exclude"]',
+    })
+  })
+
   it('have to match a removed skeleton', async () => {
     await makeScreenshot({
       style: { width: '20rem', height: '20rem' },
