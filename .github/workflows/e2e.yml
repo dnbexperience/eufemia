@@ -79,7 +79,7 @@ jobs:
             ~/Library/Caches/ms-playwright
             ~/.cache/ms-playwright
             %USERPROFILE%\AppData\Local\ms-playwright
-          key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-playwright-firefox-chromium-webkit-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-playwright-firefox-chromium-webkit-${{ hashFiles('node_modules/playwright-core/browsers.json') }}
       - name: Install Playwright browsers
         run: yarn workspace dnb-design-system-portal playwright install firefox chromium webkit
         if: steps.playwright-cache.outputs.cache-hit != 'true'
