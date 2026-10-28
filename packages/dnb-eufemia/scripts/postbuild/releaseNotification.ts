@@ -1,8 +1,11 @@
 import {
   appendFileSync,
-  existsSync,
+  closeSync,
+  constants,
+  ftruncateSync,
+  openSync,
   readFileSync,
-  writeFileSync,
+  writeSync,
 } from 'node:fs'
 import type { SuccessContext } from 'semantic-release'
 
@@ -27,17 +30,38 @@ export function success(
     if (env.GITHUB_OUTPUT) {
       appendFileSync(env.GITHUB_OUTPUT, 'notifications=true\n')
     }
-    const notifications: Array<ReleaseNotification> = existsSync(file)
-      ? JSON.parse(readFileSync(file, 'utf8'))
-      : []
-    const { version, gitTag, channel } = nextRelease
-    notifications.push({
-      version,
-      gitTag,
-      channel,
-      commits: commits.map(({ hash, message }) => ({ hash, message })),
-    })
-    writeFileSync(file, JSON.stringify(notifications))
+    const descriptor = openSync(
+      file,
+      constants.O_RDWR | constants.O_CREAT | constants.O_NOFOLLOW,
+      0o600
+    )
+    try {
+      const content = readFileSync(descriptor, 'utf8')
+      const notifications: Array<ReleaseNotification> = content
+        ? JSON.parse(content)
+        : []
+      const { version, gitTag, channel } = nextRelease
+      notifications.push({
+        version,
+        gitTag,
+        channel,
+        commits: commits.map(({ hash, message }) => ({ hash, message })),
+      })
+      const data = Buffer.from(JSON.stringify(notifications))
+      let written = 0
+      while (written < data.length) {
+        written += writeSync(
+          descriptor,
+          data,
+          written,
+          data.length - written,
+          written
+        )
+      }
+      ftruncateSync(descriptor, written)
+    } finally {
+      closeSync(descriptor)
+    }
   } catch {
     logger.warn('Could not save release notification details')
   }

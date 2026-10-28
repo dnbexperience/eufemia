@@ -4,6 +4,7 @@ import {
   mkdtempSync,
   readFileSync,
   rmSync,
+  symlinkSync,
   writeFileSync,
 } from 'node:fs'
 import { tmpdir } from 'node:os'
@@ -72,6 +73,16 @@ describe('published release details', () => {
       record(path.join(directory, 'missing', 'release.json'), outputFile)
     ).not.toThrow()
     expect(readFileSync(outputFile, 'utf8')).toBe('notifications=true\n')
+  })
+
+  it('refuses a notification path that is a symbolic link', () => {
+    const notificationFile = path.join(directory, 'release.json')
+    const target = path.join(directory, 'target.json')
+    writeFileSync(target, '[]')
+    symlinkSync(target, notificationFile)
+
+    expect(() => record(notificationFile)).not.toThrow()
+    expect(readFileSync(target, 'utf8')).toBe('[]')
   })
 
   it('runs the publish entry point against a local repository and exports the actual release', () => {
