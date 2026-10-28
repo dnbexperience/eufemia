@@ -1,0 +1,198 @@
+/*
+ * TableOfContent extension
+ *
+ */
+
+@use '../../../style/core/utilities.scss' as utilities;
+
+.dnb-table-of-content {
+  --table-of-content-gap: 0.5rem;
+
+  position: relative;
+  min-width: 0;
+
+  [data-toc-entering] &__marker {
+    visibility: hidden;
+  }
+
+  [data-toc-entering] a[aria-current] {
+    box-shadow: inset 0 0 0 0.0625rem
+      var(--token-color-stroke-neutral-subtle);
+  }
+
+  &--sidebar#{&}--sticky {
+    position: sticky;
+    top: var(--table-of-content-sticky-offset, 0);
+    align-self: flex-start;
+    max-height: calc(100dvh - var(--table-of-content-sticky-offset, 0px));
+  }
+
+  &--sidebar {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+
+    width: 12rem;
+    min-height: 0;
+  }
+
+  &__title {
+    display: none;
+    flex-shrink: 0;
+    margin: 0 0 0.25rem;
+
+    color: var(--token-color-text-neutral);
+    font-size: var(--font-size-basis);
+    font-weight: var(--font-weight-regular);
+    line-height: var(--line-height-basis);
+  }
+
+  &--sidebar &__title {
+    display: block;
+  }
+
+  &--sidebar &__toggle.dnb-button {
+    display: none;
+  }
+
+  &__toggle.dnb-button--tertiary {
+    --button-height: var(--line-height-basis);
+    --button-font-size: var(--font-size-basis);
+    --button-icon-size: 1rem;
+    --button-icon-gutter: 0.5rem;
+    --button-color-text--default: var(--token-color-text-neutral);
+    --button-color-text--hover: var(--token-color-text-neutral);
+    --button-color-icon--default: var(--token-color-icon-neutral);
+    --button-color-icon--hover: var(--token-color-icon-neutral);
+
+    margin-bottom: 0.25rem;
+
+    .dnb-button__text {
+      margin-block: 0;
+    }
+  }
+
+  &__scroll {
+    padding: 0.25rem 1rem;
+    scroll-padding-block: 1rem;
+  }
+
+  &--sidebar &__scroll {
+    flex: 1 1 auto;
+    min-height: 0;
+    padding-inline: 0;
+  }
+
+  &__show-all.dnb-button {
+    margin-top: 0.5rem;
+  }
+
+  &__item[hidden],
+  &__sub-list[hidden],
+  &__show-all[hidden] {
+    display: none;
+  }
+
+  &__item[hidden='until-found'],
+  &__sub-list[hidden='until-found'] {
+    position: absolute;
+    display: block;
+    height: 0;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+
+  &__list-wrapper {
+    position: relative;
+
+    &:has(a[aria-current]:hover) .dnb-table-of-content__marker {
+      box-shadow: inset 0 0 0 0.0625rem
+        var(--token-color-stroke-action-alternative);
+    }
+  }
+
+  &__marker {
+    position: absolute;
+    top: 0;
+
+    border-radius: var(--token-radius-xl);
+    box-shadow: inset 0 0 0 0.0625rem
+      var(--token-color-stroke-neutral-subtle);
+
+    pointer-events: none;
+
+    transition-property: translate, left, width, height;
+    transition-duration: 0.2s;
+    transition-timing-function: var(--easing-default);
+
+    @include utilities.reducedMotion() {
+      transition: none;
+    }
+  }
+
+  &__list,
+  &__sub-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--table-of-content-gap);
+
+    margin: 0;
+    padding: 0;
+
+    list-style: none;
+  }
+
+  &__sub-list {
+    margin-top: var(--table-of-content-gap);
+    padding-left: 1rem;
+  }
+
+  &__item {
+    line-height: var(--line-height-basis);
+  }
+
+  &__link.dnb-anchor {
+    overflow-wrap: anywhere;
+
+    &:hover,
+    &:active {
+      text-decoration: underline;
+    }
+  }
+
+  &--sidebar &__link.dnb-anchor {
+    display: block;
+    min-height: 2.25rem;
+    padding: 0.5rem 1rem;
+
+    color: var(--token-color-text-neutral-alternative);
+    font-size: var(--font-size-small);
+    line-height: var(--line-height-small);
+    text-decoration: none;
+
+    border-radius: var(--token-radius-xl);
+
+    &[aria-current],
+    &:hover {
+      color: var(--token-color-text-neutral);
+    }
+
+    &:active {
+      color: var(--token-color-text-neutral-alternative);
+    }
+
+    &[aria-current]:hover,
+    &[aria-current]:active {
+      color: var(--token-color-text-neutral);
+    }
+
+    @include utilities.focusVisible() {
+      @include utilities.focusRing('always', $inset: inset);
+    }
+  }
+
+  &--stretch {
+    width: 100%;
+  }
+}
