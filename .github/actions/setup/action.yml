@@ -37,7 +37,7 @@ runs:
           node_modules
           packages/*/node_modules
           tools/*/node_modules
-        key: ${{ inputs.cache-version }}-${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+        key: ${{ inputs.cache-version }}-${{ runner.os }}-modules-${{ hashFiles('yarn.lock') }}
         restore-keys: ${{ inputs.cache-version }}-${{ runner.os }}-modules-
 
     # Fallback download cache: only needed when node_modules missed and we are
@@ -48,7 +48,7 @@ runs:
       uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
       with:
         path: .yarn/cache
-        key: ${{ inputs.cache-version }}-${{ runner.os }}-yarncache-${{ hashFiles('**/yarn.lock') }}
+        key: ${{ inputs.cache-version }}-${{ runner.os }}-yarncache-${{ hashFiles('yarn.lock') }}
         restore-keys: ${{ inputs.cache-version }}-${{ runner.os }}-yarncache-
 
     - name: Install dependencies
