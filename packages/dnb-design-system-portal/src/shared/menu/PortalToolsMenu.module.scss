@@ -3,6 +3,21 @@
 .buttonStyle {
   flex-shrink: 0;
 
+  @include utilities.allBelow(small) {
+    &:global(.dnb-button) {
+      width: 2.5rem;
+      padding-inline: 0;
+    }
+
+    :global(.dnb-button__text) {
+      @include utilities.srOnly();
+    }
+
+    :global(.dnb-button__icon) {
+      margin: 0;
+    }
+  }
+
   &:global(.hideWhenMediaLarge) {
     @include utilities.allBelow(medium) {
       display: block;

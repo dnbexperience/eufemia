@@ -1,9 +1,47 @@
 import { expect, test } from '@playwright/test'
 import waitForApp from './shared/waitForApp'
 
-for (const width of [320, 390, 430]) {
+for (const width of [320, 390, 640]) {
   test(
-    'keeps hash headings clear of the labeled phone toolbar at ' + width,
+    'shows the logo and cog in a single phone header row at ' + width,
+    async ({ page }) => {
+      await page.setViewportSize({ width, height: 844 })
+      await page.goto('/quickguide-designer')
+      await waitForApp(page)
+      const header = page.locator('header.sticky-menu')
+      const logo = header.getByRole('link', { name: 'Go to Eufemia home' })
+      const tools = header.locator('button#portal-tools')
+      await expect(logo).toBeVisible()
+      await expect(tools).toHaveAccessibleName(/DNB - (Light|Dark)/)
+      await expect(tools.locator('.dnb-button__text')).toHaveCSS(
+        'clip-path',
+        'inset(50%)'
+      )
+      const logoBox = await logo.boundingBox()
+      const searchBox = await header
+        .locator('.portal-search')
+        .boundingBox()
+      const toolsBox = await tools.boundingBox()
+      expect(toolsBox.width).toBeCloseTo(toolsBox.height, 1)
+      expect(toolsBox.y + toolsBox.height / 2).toBeCloseTo(
+        logoBox.y + logoBox.height / 2,
+        1
+      )
+      expect(toolsBox.y).toBeCloseTo(searchBox.y, 1)
+      expect(searchBox.x).toBeGreaterThanOrEqual(logoBox.x + logoBox.width)
+      expect(toolsBox.x).toBeGreaterThanOrEqual(
+        searchBox.x + searchBox.width
+      )
+      expect(toolsBox.x + toolsBox.width).toBeLessThanOrEqual(width)
+      await page.setViewportSize({ width: 641, height: 900 })
+      await expect(tools.locator('.dnb-button__text')).toHaveCSS(
+        'clip-path',
+        'none'
+      )
+    }
+  )
+  test(
+    'keeps hash headings clear of the phone toolbar at ' + width,
     async ({ page }) => {
       await page.setViewportSize({ width, height: 844 })
       await page.goto('/web/components/button/demos/#demos')
@@ -185,6 +223,8 @@ for (const width of [390, 1440]) {
       ).toHaveCount(0)
       const tools = header.locator('button#portal-tools')
       await expect(tools).toHaveText('DNB - Light')
+      await expect(tools).not.toHaveAttribute('title')
+      await expect(tools).toHaveAccessibleName('DNB - Light')
       await expect(tools).not.toHaveAttribute('aria-pressed')
       await expect(tools).toHaveAttribute('aria-expanded', 'false')
       await expect(tools).not.toHaveClass(/dnb-toggle-button__button/)
@@ -195,6 +235,9 @@ for (const width of [390, 1440]) {
         name: 'Open the portal tools',
       })
       await expect(tooltip).toBeVisible()
+      await expect(tools).toHaveAccessibleDescription(
+        'Open the portal tools'
+      )
       await expect(tooltip.locator('.dnb-tooltip__arrow')).toHaveClass(
         /dnb-tooltip__arrow__placement--bottom/
       )
@@ -302,7 +345,7 @@ for (const width of [390, 1440]) {
   )
 }
 
-test('keeps long brand labels clear of the mobile logo', async ({
+test('keeps long brand labels accessible in the phone cog button', async ({
   page,
 }) => {
   await page.setViewportSize({ width: 320, height: 900 })
@@ -317,11 +360,16 @@ test('keeps long brand labels clear of the mobile logo', async ({
   const header = page.locator('header.sticky-menu')
   const tools = header.locator('button#portal-tools')
   await expect(tools).toHaveText('DNB Carnegie - Dark')
+  await expect(tools).toHaveAccessibleName('DNB Carnegie - Dark')
   const logoBox = await header
     .getByRole('link', { name: 'Go to Eufemia home' })
     .boundingBox()
   const toolsBox = await tools.boundingBox()
-  expect(toolsBox.y).toBeGreaterThanOrEqual(logoBox.y + logoBox.height)
+  expect(toolsBox.width).toBeCloseTo(toolsBox.height, 1)
+  expect(toolsBox.y + toolsBox.height / 2).toBeCloseTo(
+    logoBox.y + logoBox.height / 2,
+    1
+  )
   expect(toolsBox.x).toBeGreaterThanOrEqual(16)
   expect(toolsBox.x + toolsBox.width).toBeLessThanOrEqual(304)
 })

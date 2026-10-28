@@ -193,7 +193,6 @@ export default function PortalToolsMenu({
         iconSize="default"
         skeleton={false}
         left="x-small"
-        title="Portal Tools"
         aria-label={`${triggerText}, Portal Tools`}
         aria-haspopup="dialog"
         aria-controls="dnb-modal-portal-tools-modal"
