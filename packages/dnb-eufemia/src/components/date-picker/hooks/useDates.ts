@@ -273,8 +273,8 @@ function deriveDatesFromProps({
           'endDate' in derivedDates ? derivedDates.endDate : dates.endDate,
         startMonth: dateProps.startMonth,
         endMonth: dateProps.endMonth,
-        minDate: dateProps.minDate ?? dates.minDate,
-        maxDate: dateProps.maxDate ?? dates.maxDate,
+        minDate: dateProps.minDate,
+        maxDate: dateProps.maxDate,
       },
       { dateFormat, isRange, rangeSingleCalendar }
     )
@@ -301,19 +301,13 @@ function deriveDatesFromProps({
     })
   }
 
-  // Handle minDate/maxDate
-  if (
-    typeof dateProps.minDate !== 'undefined' &&
-    dateProps.minDate !== previousDateProps.minDate
-  ) {
+  // Handle minDate/maxDate, also when they are removed
+  if (dateProps.minDate !== previousDateProps.minDate) {
     derivedDates.minDate = convertStringToDate(dateProps.minDate, {
       dateFormat,
     })
   }
-  if (
-    typeof dateProps.maxDate !== 'undefined' &&
-    dateProps.maxDate !== previousDateProps.maxDate
-  ) {
+  if (dateProps.maxDate !== previousDateProps.maxDate) {
     derivedDates.maxDate = convertStringToDate(dateProps.maxDate, {
       dateFormat,
     })

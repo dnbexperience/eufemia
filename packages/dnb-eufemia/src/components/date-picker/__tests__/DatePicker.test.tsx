@@ -5418,6 +5418,55 @@ describe('DatePicker component', () => {
     }
   })
 
+  it.each<[string, Partial<DatePickerAllProps>, string]>([
+    ['minDate', { minDate: '2026-10-10' }, '2026-10-05'],
+    ['maxDate', { maxDate: '2026-10-20' }, '2026-10-25'],
+  ])(
+    'should remove %s when it is set to undefined after mount',
+    async (_, limit, dateOutsideLimit) => {
+      const { rerender } = render(
+        <DatePicker noAnimation date="2026-10-15" {...limit} />
+      )
+
+      rerender(<DatePicker noAnimation date="2026-10-15" />)
+      await userEvent.click(getDatePickerTriggerButton())
+
+      expect(
+        document.querySelector(
+          `td[data-date="${dateOutsideLimit}"] button`
+        )
+      ).not.toBeDisabled()
+    }
+  )
+
+  it('should not fit the range months to a removed maxDate', async () => {
+    const { rerender } = render(
+      <DatePicker
+        noAnimation
+        range
+        startDate="2025-01-10"
+        endDate="2025-01-20"
+        maxDate="2025-06-30"
+      />
+    )
+
+    rerender(
+      <DatePicker
+        noAnimation
+        range
+        startDate="2025-06-10"
+        endDate="2025-06-20"
+      />
+    )
+    await userEvent.click(getDatePickerTriggerButton())
+
+    const titles = Array.from(
+      document.querySelectorAll('.dnb-date-picker__header__title')
+    ).map((element) => element.textContent)
+
+    expect(titles).toEqual(['juni 2025', 'juli 2025'])
+  })
+
   it('should tab to next element after closing date picker', async () => {
     render(
       <>
