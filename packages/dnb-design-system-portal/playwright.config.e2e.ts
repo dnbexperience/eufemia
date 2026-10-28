@@ -19,6 +19,8 @@ export default defineConfig({
     // Name of the browser that runs tests. For example `chromium`, `firefox`, `webkit`.
     browserName: 'firefox',
 
+    trace: 'on-first-retry',
+
     // Populates context with given storage state.
     // storageState: 'state.json',
   },

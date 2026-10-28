@@ -120,9 +120,13 @@ jobs:
 
       - name: Store Playwright artifacts
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
-        if: failure()
+        # Also after a passing run, so retried (flaky) tests leave their traces
+        if: ${{ !cancelled() }}
         with:
           name: playwright-develop-artifact
           path: |
             ./packages/dnb-design-system-portal/test-results
             ./packages/dnb-design-system-portal/playwright-report
+            ./packages/dnb-eufemia/test-results
+          if-no-files-found: ignore
+          retention-days: 14

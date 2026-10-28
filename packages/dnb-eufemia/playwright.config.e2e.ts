@@ -4,6 +4,7 @@ import { isCI } from 'repo-utils'
 export default defineConfig({
   timeout: 30000,
   globalTimeout: 600000,
+  retries: isCI ? 2 : 0,
   reporter: 'list',
   testDir: './src/',
   testMatch: '*.e2e.spec.ts',
@@ -13,6 +14,7 @@ export default defineConfig({
     baseURL:
       process.env.PLAYWRIGHT_BASE_URL ||
       (isCI ? 'http://localhost:8001' : 'http://localhost:8000'),
+    trace: 'on-first-retry',
   },
 
   projects: [
