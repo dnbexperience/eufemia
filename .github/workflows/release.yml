@@ -53,8 +53,8 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           persist-credentials: false
-          # The release version stamp and the portal footer's fallback tag need
-          # the commit history and tags, but no old file contents.
+          # Release versions are resolved from the commit history and tags,
+          # which need no old file contents.
           fetch-depth: 0
           filter: blob:none
 
