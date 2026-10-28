@@ -44,7 +44,8 @@
 
     &--variant-filled &__inner {
       --space: 1rem;
-      background-color: var(--token-color-background-neutral-alternative);
+      --block-outline-color: var(--token-color-stroke-neutral-base);
+      background-color: var(--token-color-background-neutral-base);
     }
 
     &--no-animation &__inner {
