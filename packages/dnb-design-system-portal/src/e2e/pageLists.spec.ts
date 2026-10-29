@@ -120,11 +120,11 @@ test.describe('Page Lists', () => {
     })
 
     test('should have correct title', async ({ page }) => {
-      await expect(page).toHaveTitle('HTML Elements | Eufemia')
+      await expect(page).toHaveTitle('HTML elements | Eufemia')
       const headingText = await getHeadingTextWithoutSrDescription(
         page.locator('h1')
       )
-      await expect(headingText).toBe('HTML Elements')
+      await expect(headingText).toBe('HTML elements')
       await expect(page.locator('h1')).toHaveCount(1)
     })
 
