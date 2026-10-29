@@ -76,6 +76,18 @@ describe.each(['ui', 'sbanken'])('SidebarMenu for %s', (themeName) => {
     await makeScreenshot({
       selector: '[data-visual-test="sidebar-menu-declarative"]',
       style: { width: '24rem' },
+      executeBeforeSimulate: async () => {
+        document
+          .querySelector('[data-visual-test="sidebar-menu-declarative"]')
+          .scrollIntoView({ block: 'start', behavior: 'instant' })
+        window.scrollTo({
+          top: Math.floor(window.scrollY),
+          behavior: 'instant',
+        })
+        await new Promise<void>((resolve) =>
+          requestAnimationFrame(() => resolve())
+        )
+      },
       simulate: [
         {
           action: 'click',

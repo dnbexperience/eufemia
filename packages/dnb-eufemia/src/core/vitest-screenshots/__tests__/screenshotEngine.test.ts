@@ -50,6 +50,9 @@ const {
   getBrowserSlot,
   cleanupBrowserPool,
   resetPoolCleanedUp,
+  takeScreenshot,
+  hardResetPage,
+  ensureSession,
 } = _testing
 
 // ── helpers ──────────────────────────────────────────────────────────
@@ -60,17 +63,307 @@ const makeMockPage = (closed = false) => ({
   addInitScript: vi.fn(async () => undefined),
   evaluate: vi.fn(async () => undefined),
   addStyleTag: vi.fn(async () => undefined),
+  goto: vi.fn(async () => undefined),
+  reload: vi.fn(async () => undefined),
+  setViewportSize: vi.fn(async () => undefined),
+  setExtraHTTPHeaders: vi.fn(async () => undefined),
 })
 
 const makeMockBrowser = () => ({
   close: vi.fn(async () => undefined),
+  isConnected: vi.fn(() => true),
+  newContext: vi.fn(async () => makeMockContext()),
 })
 
 const makeMockContext = () => ({
   newPage: vi.fn(async () => makeMockPage()),
+  close: vi.fn(async () => undefined),
 })
 
 // ── tests ────────────────────────────────────────────────────────────
+
+describe('ensureSession', () => {
+  beforeEach(() => {
+    resetPoolCleanedUp()
+  })
+
+  afterEach(() => {
+    browserSlots.length = 0
+    sessionToSlot.clear()
+    sessions.clear()
+  })
+
+  it.each(['newPage', 'addInitScript'] as const)(
+    'does not reassign a starting session during %s',
+    async (phase) => {
+      const context = makeMockContext()
+      const page = makeMockPage()
+      const startingSlot = {
+        browser: makeMockBrowser(),
+        context,
+        currentSessionId: null,
+        busy: false,
+      }
+      const freeSlot = {
+        browser: makeMockBrowser(),
+        context: makeMockContext(),
+        currentSessionId: null,
+        busy: false,
+      }
+      browserSlots.push(startingSlot as never, freeSlot as never)
+      let releaseStartup: () => void
+      let notifyStarting: () => void
+      const startup = new Promise<void>((resolve) => {
+        releaseStartup = resolve
+      })
+      const starting = new Promise<void>((resolve) => {
+        notifyStarting = resolve
+      })
+      context.newPage.mockImplementationOnce(async () => {
+        if (phase === 'newPage') {
+          notifyStarting()
+          await startup
+        }
+        return page
+      })
+      if (phase === 'addInitScript') {
+        page.addInitScript.mockImplementationOnce(async () => {
+          notifyStarting()
+          await startup
+        })
+      }
+
+      const firstSession = ensureSession(
+        'starting-session',
+        makeMockPage() as never
+      )
+      await starting
+      try {
+        await ensureSession('other-session', makeMockPage() as never)
+
+        expect(sessionToSlot.get('starting-session')).toBe(startingSlot)
+        expect(sessionToSlot.get('other-session')).toBe(freeSlot)
+        expect(context.close).not.toHaveBeenCalled()
+      } finally {
+        releaseStartup()
+        await firstSession
+      }
+      expect(sessions.get('starting-session')?.page).toBe(page)
+    }
+  )
+
+  it.each(['newPage', 'addInitScript'] as const)(
+    'releases the startup reservation when %s fails',
+    async (phase) => {
+      const context = makeMockContext()
+      if (phase === 'newPage') {
+        context.newPage.mockRejectedValueOnce(new Error('page failed'))
+      } else {
+        const page = makeMockPage()
+        page.addInitScript.mockRejectedValueOnce(new Error('page failed'))
+        context.newPage.mockResolvedValueOnce(page)
+      }
+      const slot = {
+        browser: makeMockBrowser(),
+        context,
+        currentSessionId: null,
+        busy: false,
+      }
+      browserSlots.push(slot as never)
+
+      await expect(
+        ensureSession('failed-session', makeMockPage() as never)
+      ).rejects.toThrow('page failed')
+      await ensureSession('other-session', makeMockPage() as never)
+
+      expect(sessionToSlot.get('other-session')).toBe(slot)
+      expect(sessionToSlot.has('failed-session')).toBe(false)
+      expect(context.close).toHaveBeenCalledOnce()
+    }
+  )
+})
+
+describe('hardResetPage', () => {
+  afterEach(() => {
+    browserSlots.length = 0
+    sessionToSlot.clear()
+    sessions.clear()
+  })
+
+  it('periodically replaces pages to release resources from repeated reloads', async () => {
+    const context = makeMockContext()
+    const previousPage = {
+      ...makeMockPage(),
+      context: () => context,
+      url: () => 'http://localhost:8000/demos/?eufemia-theme=sbanken',
+    }
+    const state = {
+      page: previousPage,
+      vitestPage: makeMockPage(),
+      navigatedUrl: previousPage.url(),
+      mutationKind: 'structural',
+      currentRootClassName: 'previous-test',
+    }
+
+    for (let reset = 0; reset < 5; reset++) {
+      await hardResetPage(
+        state as never,
+        { width: 400, height: 600 },
+        { 'User-Agent': 'visual-test' }
+      )
+      expect(state.page).toBe(previousPage)
+    }
+    expect(previousPage.reload).toHaveBeenCalledTimes(5)
+
+    await hardResetPage(
+      state as never,
+      { width: 400, height: 600 },
+      { 'User-Agent': 'visual-test' }
+    )
+
+    const page = await context.newPage.mock.results[0]?.value
+    expect(previousPage.close).toHaveBeenCalledOnce()
+    expect(previousPage.reload).toHaveBeenCalledTimes(5)
+    expect(state.page).toBe(page)
+    expect(page.addInitScript).toHaveBeenCalledTimes(2)
+    expect(page.goto).toHaveBeenCalledWith(previousPage.url(), {
+      waitUntil: 'load',
+      timeout: 30000,
+    })
+    expect(page.setViewportSize).toHaveBeenCalledWith({
+      width: 400,
+      height: 600,
+    })
+    expect(page.setExtraHTTPHeaders).toHaveBeenCalledWith({
+      'User-Agent': 'visual-test',
+    })
+    expect(state.currentRootClassName).toBeNull()
+    expect(state.mutationKind).toBe('none')
+  })
+
+  it('keeps the active session reserved while another worker starts a file', async () => {
+    const context = makeMockContext()
+    const previousPage = {
+      ...makeMockPage(),
+      context: () => context,
+      url: () => 'http://localhost:8000/demos/',
+    }
+    let whileClosingPage = async () => undefined
+    previousPage.close.mockImplementation(async () => {
+      previousPage.isClosed.mockReturnValue(true)
+      await whileClosingPage()
+    })
+    const state = {
+      page: previousPage,
+      vitestPage: makeMockPage(),
+      navigatedUrl: previousPage.url(),
+      mutationKind: 'structural',
+      currentRootClassName: null,
+    }
+    const activeSlot = {
+      browser: makeMockBrowser(),
+      context,
+      currentSessionId: 'active-session',
+      busy: false,
+    }
+    const freeSlot = {
+      browser: makeMockBrowser(),
+      context: makeMockContext(),
+      currentSessionId: null,
+      busy: false,
+    }
+    sessions.set('active-session', state as never)
+    browserSlots.push(activeSlot as never, freeSlot as never)
+    sessionToSlot.set('active-session', activeSlot as never)
+
+    for (let reset = 0; reset < 5; reset++) {
+      await hardResetPage(state as never, null, null)
+    }
+
+    const replacementPage = makeMockPage()
+    let finishCreatingPage: (page: typeof replacementPage) => void
+    let markCreatingPage: () => void
+    const creatingPage = new Promise<void>((resolve) => {
+      markCreatingPage = resolve
+    })
+    context.newPage.mockImplementationOnce(() => {
+      markCreatingPage()
+      return new Promise((resolve) => {
+        finishCreatingPage = resolve
+      })
+    })
+    const reset = hardResetPage(state as never, null, null)
+    await creatingPage
+    whileClosingPage = async () => {
+      await ensureSession('third-session', makeMockPage() as never)
+      expect(sessions.get('active-session')).toBe(state)
+      expect(context.close).not.toHaveBeenCalled()
+    }
+    browserSlots.push({
+      browser: makeMockBrowser(),
+      context: makeMockContext(),
+      currentSessionId: null,
+      busy: false,
+    } as never)
+
+    try {
+      await ensureSession('other-session', makeMockPage() as never)
+
+      expect(sessions.get('active-session')).toBe(state)
+      expect(sessionToSlot.get('active-session')).toBe(activeSlot)
+      expect(sessionToSlot.get('other-session')).toBe(freeSlot)
+      expect(context.close).not.toHaveBeenCalled()
+    } finally {
+      finishCreatingPage(replacementPage)
+      await reset
+    }
+
+    expect(state.page).toBe(replacementPage)
+    expect(previousPage.close).toHaveBeenCalledOnce()
+  })
+})
+
+describe('takeScreenshot', () => {
+  afterEach(() => {
+    vi.unstubAllGlobals()
+  })
+
+  it('aligns fractional scroll offsets before capturing inset borders', async () => {
+    const scrollTo = vi.fn()
+    vi.stubGlobal('window', { scrollX: 12.5, scrollY: 12333.5, scrollTo })
+    vi.stubGlobal('requestAnimationFrame', (callback) => callback())
+    const screenshot = vi.fn(async () => {
+      expect(scrollTo).toHaveBeenCalledWith({
+        left: 12,
+        top: 12333,
+        behavior: 'instant',
+      })
+      return Buffer.from('screenshot')
+    })
+    const locator = {
+      scrollIntoViewIfNeeded: vi.fn(async () => undefined),
+      screenshot,
+    }
+    const page = {
+      waitForSelector: vi.fn(async () => undefined),
+      locator: vi.fn(() => ({ first: () => locator })),
+      evaluate: vi.fn(async (callback) => {
+        expect(locator.scrollIntoViewIfNeeded).toHaveBeenCalled()
+        return callback()
+      }),
+    }
+
+    expect(
+      await takeScreenshot(
+        page as never,
+        null,
+        '.wrapper',
+        null,
+        '.target'
+      )
+    ).toEqual(Buffer.from('screenshot'))
+  })
+})
 
 describe('buildUrl', () => {
   it('creates a URL with data-visual-test param', () => {
@@ -234,6 +527,79 @@ describe('getBrowserSlot', () => {
     const result = await getBrowserSlot('new-session')
     expect(result).toBe(slot)
     expect(result.currentSessionId).toBe('new-session')
+  })
+
+  it.each([true, false])(
+    'releases the previous context when recycling a slot (session exists: %s)',
+    async (sessionExists) => {
+      const browser = makeMockBrowser()
+      const context = makeMockContext()
+      const slot = {
+        browser,
+        context,
+        currentSessionId: 'old-session',
+        busy: false,
+      }
+      browserSlots.push(slot as never)
+      sessionToSlot.set('old-session', slot as never)
+      if (sessionExists) {
+        sessions.set('old-session', {
+          page: makeMockPage(false),
+          vitestPage: makeMockPage(true),
+        } as never)
+      }
+
+      await getBrowserSlot('new-session')
+
+      expect(context.close).toHaveBeenCalledTimes(1)
+      expect(browser.newContext).toHaveBeenCalledWith({
+        viewport: { width: 1280, height: 2048 },
+        ignoreHTTPSErrors: true,
+      })
+      expect(slot.context).not.toBe(context)
+      expect(sessionToSlot.has('old-session')).toBe(false)
+      expect(slot.busy).toBe(false)
+    }
+  )
+
+  it('does not reassign a slot while its context is being replaced', async () => {
+    const recyclingSlot = {
+      browser: makeMockBrowser(),
+      context: makeMockContext(),
+      currentSessionId: 'old-session',
+      busy: true,
+    }
+    const freeSlot = {
+      browser: makeMockBrowser(),
+      context: makeMockContext(),
+      currentSessionId: null,
+      busy: false,
+    }
+    browserSlots.push(recyclingSlot as never, freeSlot as never)
+
+    expect(await getBrowserSlot('new-session')).toBe(freeSlot)
+    expect(recyclingSlot.context.close).not.toHaveBeenCalled()
+    expect(recyclingSlot.currentSessionId).toBe('old-session')
+  })
+
+  it('does not assign a new session when context replacement fails', async () => {
+    const browser = makeMockBrowser()
+    browser.newContext.mockRejectedValueOnce(new Error('context failed'))
+    const slot = {
+      browser,
+      context: makeMockContext(),
+      currentSessionId: 'old-session',
+      busy: false,
+    }
+    browserSlots.push(slot as never)
+
+    await expect(getBrowserSlot('new-session')).rejects.toThrow(
+      'context failed'
+    )
+
+    expect(slot.busy).toBe(false)
+    expect(sessionToSlot.has('new-session')).toBe(false)
+    expect(slot.currentSessionId).toBe('old-session')
   })
 
   it('reuses a slot with no currentSessionId', async () => {

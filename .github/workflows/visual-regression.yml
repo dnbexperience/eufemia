@@ -171,7 +171,20 @@ jobs:
 
       - name: Run visual tests
         if: env.RUN_VISUAL_TEST == 'true'
-        run: yarn workspace dnb-design-system-portal test:screenshots:ci:conditional
+        run: |
+          (
+            while sleep 60; do
+              ps -axo rss,comm | awk '
+                /Nightly.app/ { firefox += $1 }
+                /node$/ { node += $1 }
+                END { printf "Memory: Firefox %.0f MiB, Node %.0f MiB\n", firefox / 1024, node / 1024 }
+              '
+              sysctl vm.swapusage
+            done
+          ) &
+          monitor_pid=$!
+          trap 'kill "$monitor_pid" 2>/dev/null || true' EXIT
+          yarn workspace dnb-design-system-portal test:screenshots:ci:conditional
 
       - name: Store visual test artifacts
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
