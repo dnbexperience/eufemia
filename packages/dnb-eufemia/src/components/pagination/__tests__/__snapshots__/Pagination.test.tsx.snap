@@ -1426,6 +1426,11 @@ button.dnb-button::-moz-focus-inner {
   height: var(--progress-indicator-linear-size);
   border-radius: var(--token-radius-full);
 }
+@media (forced-colors: active) {
+  .dnb-progress-indicator__linear {
+    outline: 1px solid CanvasText;
+  }
+}
 .dnb-progress-indicator__linear__bar {
   background-color: var(--progress-indicator-linear-bar-color);
   width: 100%;
@@ -1435,6 +1440,12 @@ button.dnb-button::-moz-focus-inner {
   top: 0;
   transform-origin: left;
   border-radius: inherit;
+}
+@media (forced-colors: active) {
+  .dnb-progress-indicator__linear__bar {
+    forced-color-adjust: none;
+    background-color: Highlight;
+  }
 }
 .dnb-progress-indicator__linear__bar-transition {
   transition: transform 0.2s linear;
@@ -1651,6 +1662,26 @@ html[data-visual-test] .dnb-progress-indicator {
   --button-color-border--hover: var(--token-color-stroke-action-hover);
   --button-color-text--default: var(--token-color-text-action-inverse);
   --button-color-text--hover: var(--token-color-text-action-hover);
+}
+@media (forced-colors: active) {
+  .dnb-pagination__button.dnb-button[aria-current=page] {
+    background-color: Highlight;
+    color: HighlightText;
+    outline-color: Highlight;
+  }
+  .dnb-pagination__button.dnb-button[aria-current=page] .dnb-button__text {
+    forced-color-adjust: none;
+  }
+  .dnb-pagination__button.dnb-button[aria-current=page][disabled] {
+    background-color: GrayText;
+    color: Canvas;
+    outline-color: GrayText;
+  }
+}
+@media (forced-colors: active) {
+  html:not([data-whatinput=touch]) .dnb-pagination__button.dnb-button[aria-current=page]:focus-visible:not([disabled]) {
+    outline-color: CanvasText;
+  }
 }
 .dnb-pagination__button--large-number {
   max-width: unset;
