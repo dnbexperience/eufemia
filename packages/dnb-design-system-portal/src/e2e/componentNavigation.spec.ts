@@ -7,10 +7,10 @@ for (const width of [1440, 390]) {
     async ({ page }) => {
       await page.emulateMedia({ reducedMotion: 'reduce' })
       await page.setViewportSize({ width, height: 900 })
-      await page.goto('/web/components/date-picker')
+      await page.goto('/web/components/avatar')
       await waitForApp(page)
       await expect(
-        page.getByRole('heading', { name: 'Date picker', exact: true })
+        page.getByRole('heading', { name: 'Avatar', exact: true })
       ).toBeVisible()
       if (width < 960) {
         await page.locator('#toggle-sidebar-menu').click()
