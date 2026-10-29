@@ -885,8 +885,10 @@ describe('Anchor scss', () => {
   })
 
   it('uses the Eiendom palette colors only in the light color scheme', () => {
-    const css = loadScss(
-      require.resolve('../style/themes/dnb-anchor-theme-eiendom.scss')
+    const css = String(
+      loadScss(
+        require.resolve('../style/themes/dnb-anchor-theme-eiendom.scss')
+      )
     )
     const paletteRules = css
       .split('}')
