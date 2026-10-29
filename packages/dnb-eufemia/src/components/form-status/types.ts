@@ -55,10 +55,6 @@ export type FormStatusBaseProps = {
 
 export type FormStatusProps = {
   id?: string
-  /**
-   * The `title` attribute in the status.
-   */
-  title?: string
   label?: ReactNode
   /**
    * Provide `false` if you want to animate the visibility. Defaults to `true`.
