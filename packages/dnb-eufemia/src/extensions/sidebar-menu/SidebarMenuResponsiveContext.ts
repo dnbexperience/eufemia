@@ -1,6 +1,11 @@
 import { createContext, useContext } from 'react'
 import type { RefObject } from 'react'
 
+export const sidebarMenuResponsiveStateOptions = {
+  scope: 'sidebar-menu-responsive/v1',
+  getServerSnapshot: () => undefined,
+}
+
 export type SidebarMenuResponsiveContextValue = {
   close: () => void
   drawerScrollElement: HTMLElement | null
@@ -22,6 +27,8 @@ export type SidebarMenuResponsiveContextValue = {
   registerInlineReset: (reset: () => void) => () => void
   inlineId?: string
   registerInlineId: (id: string) => () => void
+  drawerId?: string
+  registerDrawerId: (id: string) => () => void
   scopeId: string
 }
 
@@ -31,6 +38,12 @@ export const SidebarMenuResponsiveContext = createContext<
 
 export const SidebarMenuResponsiveInlineCompactContext =
   createContext(false)
+
+export const SidebarMenuResponsiveAsideContext = createContext(false)
+
+export const SidebarMenuInlineToggleContext = createContext<
+  { open: boolean; controls: string; toggle: () => void } | undefined
+>(undefined)
 
 export function useSidebarMenuResponsiveContext() {
   const context = useContext(SidebarMenuResponsiveContext)

@@ -155,6 +155,49 @@ const assertSafeTargetPath = async (
   }
 }
 
+const realpathOrNull = async (filePath: string) => {
+  try {
+    return await fs.realpath(filePath)
+  } catch {
+    return null
+  }
+}
+
+// process.cwd() returns the real path of the project, but a target from the
+// shell, like "$PWD/.agents/skills", can reach the project through a symlink
+// (for example /tmp or /var on macOS). Put such a target below the project
+// path. Use the shortest part of the target that is the project, so that
+// assertSafeTargetPath still rejects symlinks inside the project.
+const resolveTargetInProject = async (
+  projectRoot: string,
+  targetPath: string
+) => {
+  const relativePath = path.relative(projectRoot, targetPath)
+  if (!relativePath.startsWith('..') && !path.isAbsolute(relativePath)) {
+    return targetPath
+  }
+
+  const realProjectRoot = await realpathOrNull(projectRoot)
+  if (!realProjectRoot) {
+    return targetPath
+  }
+
+  const { root } = path.parse(targetPath)
+  const segments = targetPath
+    .slice(root.length)
+    .split(path.sep)
+    .filter(Boolean)
+
+  for (let index = 1; index <= segments.length; index += 1) {
+    const candidate = path.join(root, ...segments.slice(0, index))
+    if ((await realpathOrNull(candidate)) === realProjectRoot) {
+      return path.join(projectRoot, ...segments.slice(index))
+    }
+  }
+
+  return targetPath
+}
+
 const readFrontmatterValue = (content: string, key: string) => {
   const frontmatter = content.match(/^---\r?\n([\s\S]*?)\r?\n---/)
   if (!frontmatter?.[1]) {
@@ -701,7 +744,11 @@ export async function runAgentSkillsCli({
   output = console.log,
   selectTargets = selectAgentSkillsTargets,
 }: RunAgentSkillsCliOptions) {
-  const { command, targetRoot, force } = parseCliOptions(args, cwd)
+  const options = parseCliOptions(args, cwd)
+  const { command, force } = options
+  const targetRoot =
+    options.targetRoot &&
+    (await resolveTargetInProject(cwd, options.targetRoot))
   const sourceRoot = path.join(packageRoot, 'agent-skills')
   const packageVersion = await readPackageVersion(packageRoot)
 

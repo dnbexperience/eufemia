@@ -124,6 +124,39 @@
     );
   }
 
+  // When the ScrollView is the last element of a Card without inner space,
+  // its scrollbar runs into the rounded bottom corners of the Card:
+  // a filled Card cuts off its ends, and other Cards let them stick out.
+  // Lift the scrollbar above the corners.
+  // Only when the table scrolls (the ScrollView is then focusable),
+  // so it stays flush with the bottom of the Card otherwise.
+  // The Flex.Container of the Card wraps a custom component in a Space.
+  .dnb-card--no-inner-space
+    > .dnb-flex-container
+    > &__scroll-view[tabindex='0']:last-child,
+  .dnb-card--no-inner-space
+    > .dnb-flex-container
+    > .dnb-space:last-child
+    > &__scroll-view[tabindex='0']:only-child {
+    margin-bottom: max(0rem, var(--rounded-corner) - 0.5rem);
+  }
+
+  // A filled Card clips the ScrollView with its full radius (see above).
+  // Use a smaller radius, so the ends of the scrollbar are not cut off.
+  // Other Cards get no clip, because it would hide the focus ring.
+  .dnb-card--filled.dnb-card--no-inner-space
+    > .dnb-flex-container
+    > &__scroll-view[tabindex='0']:last-child,
+  .dnb-card--filled.dnb-card--no-inner-space
+    > .dnb-flex-container
+    > .dnb-space:last-child
+    > &__scroll-view[tabindex='0']:only-child {
+    clip-path: inset(
+      0 round 0 0 min(var(--rounded-corner), 0.5rem)
+        min(var(--rounded-corner), 0.5rem)
+    );
+  }
+
   // Reset Table spacing
   .dnb-spacing & {
     p,

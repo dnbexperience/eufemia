@@ -9,7 +9,6 @@ import Accordion from '../accordion/Accordion'
 import Button from '../button/Button'
 import ScrollView from '../scroll-view/ScrollView'
 import Flex from '../flex/Flex'
-import { close } from '../../icons'
 
 export type FilterActiveFiltersProps = {
   label?: string
@@ -110,7 +109,7 @@ function FilterActiveFilters({
                 />
                 <Button
                   variant="tertiary"
-                  icon={close}
+                  icon={false}
                   onClick={handleClearAll}
                 >
                   {clearAllLabel}
@@ -139,7 +138,7 @@ function FilterActiveFilters({
                 </span>
                 <Button
                   variant="tertiary"
-                  icon={close}
+                  icon={false}
                   onClick={handleClearAll}
                 >
                   {clearAllLabel}

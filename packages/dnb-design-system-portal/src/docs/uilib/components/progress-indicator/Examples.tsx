@@ -66,7 +66,10 @@ export const ProgressIndicatorCircularLabelInsideExample = () => (
 )
 
 export const ProgressIndicatorCircularPrimaryExample = () => (
-  <ComponentBox data-visual-test="progress-indicator-circular--primary">
+  <ComponentBox
+    socialPreview
+    data-visual-test="progress-indicator-circular--primary"
+  >
     <ProgressIndicator
       type="circular"
       progress="50"

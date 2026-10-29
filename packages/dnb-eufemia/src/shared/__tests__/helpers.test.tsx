@@ -3,7 +3,10 @@
  *
  */
 
+import path from 'node:path'
+import vm from 'node:vm'
 import { fireEvent, render } from '@testing-library/react'
+import { build } from 'vite'
 
 import {
   setPageFocusElement,
@@ -381,6 +384,46 @@ describe('"warn" should', () => {
     )
 
     process.env.NODE_ENV = env
+  })
+
+  it('run console.log in browser bundles, where there is no process global', async () => {
+    // Bundlers replace process.env.NODE_ENV, but browsers have no process global
+    const runInBrowserBundle = async (nodeEnv: string) => {
+      const result = await build({
+        configFile: false,
+        logLevel: 'silent',
+        define: { 'process.env.NODE_ENV': JSON.stringify(nodeEnv) },
+        build: {
+          write: false,
+          minify: false,
+          lib: {
+            entry: path.resolve(__dirname, '../helpers.ts'),
+            formats: ['iife'],
+            name: 'helpers',
+          },
+        },
+      })
+      const [output] = Array.isArray(result) ? result : [result]
+      if (!('output' in output)) {
+        throw new Error('Expected a build result, not a watcher')
+      }
+      const log = vi.fn()
+
+      vm.runInNewContext(
+        `${output.output[0].code}\nhelpers.warn('message')`,
+        {
+          console: { log },
+          window: {},
+        }
+      )
+
+      return log
+    }
+
+    expect(await runInBrowserBundle('development')).toHaveBeenCalledTimes(
+      1
+    )
+    expect(await runInBrowserBundle('production')).toHaveBeenCalledTimes(0)
   })
 
   it('run not log if NODE_ENV is production', () => {

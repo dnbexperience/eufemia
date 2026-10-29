@@ -1,8 +1,8 @@
 import type { SQSEvent } from 'aws-lambda'
-import type { McpUsageRecord } from './records/mcp-usage.js'
+import type { WebMcpUsageRecord } from './records/mcp-usage.js'
 import { storeMcpUsage } from './usage-store.js'
 
-function isUsageRecord(value: unknown): value is McpUsageRecord {
+function isUsageRecord(value: unknown): value is WebMcpUsageRecord {
   if (typeof value !== 'object' || value === null) {
     return false
   }
@@ -12,6 +12,10 @@ function isUsageRecord(value: unknown): value is McpUsageRecord {
   return (
     typeof record.tool === 'string' &&
     typeof record.component === 'string' &&
+    (record.component_missed === undefined ||
+      typeof record.component_missed === 'boolean') &&
+    (record.likely_component === undefined ||
+      typeof record.likely_component === 'string') &&
     typeof record.path === 'string' &&
     typeof record.env === 'string' &&
     record.transport === 'web' &&
@@ -20,7 +24,7 @@ function isUsageRecord(value: unknown): value is McpUsageRecord {
   )
 }
 
-function recordsFromMessage(body: string): McpUsageRecord[] | null {
+function recordsFromMessage(body: string): WebMcpUsageRecord[] | null {
   try {
     const parsed: unknown = JSON.parse(body)
 
@@ -38,7 +42,7 @@ export async function handler(event: SQSEvent): Promise<void> {
     throw new Error('DATA_BUCKET environment variable is not set')
   }
 
-  const records: McpUsageRecord[] = []
+  const records: WebMcpUsageRecord[] = []
   for (const message of event.Records) {
     const messageRecords = recordsFromMessage(message.body)
     if (messageRecords) {

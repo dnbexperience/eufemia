@@ -1,5 +1,6 @@
+import { StrictMode } from 'react'
 import { fireEvent, render } from '@testing-library/react'
-import { DataContext, Field, Form } from '../../..'
+import { DataContext, Field, Form, Iterate } from '../../..'
 import userEvent from '@testing-library/user-event'
 import { axeComponent } from '../../../../../core/test-utils/testSetup'
 import {
@@ -145,6 +146,50 @@ describe('Field.Slider', () => {
           type: 'field',
           value: '401,00 €',
         },
+      })
+    })
+
+    it('should provide "displayValue" to "transformData" when inside iterate and StrictMode', async () => {
+      let transformedData = undefined
+      const onSubmit = vi.fn((data, { transformData }) => {
+        transformedData = transformData(data, ({ displayValue }) => {
+          return displayValue
+        })
+      })
+
+      render(
+        <StrictMode>
+          <Form.Handler
+            defaultData={{ myArray: [{ myValue: 400 }, { myValue: 600 }] }}
+            onSubmit={onSubmit}
+          >
+            <Iterate.Array path="/myArray">
+              <Field.Slider
+                itemPath="/myValue"
+                min={100}
+                max={1000}
+                numberFormat={{ currency: 'EUR' }}
+              />
+            </Iterate.Array>
+          </Form.Handler>
+        </StrictMode>
+      )
+
+      fireEvent.submit(document.querySelector('form'))
+
+      expect(onSubmit).toHaveBeenCalledTimes(1)
+      expect(transformedData).toEqual({
+        myArray: [{ myValue: '400,00 €' }, { myValue: '600,00 €' }],
+      })
+
+      await userEvent.keyboard('{Tab>3}')
+      await userEvent.type(document.activeElement, '{ArrowRight}')
+
+      fireEvent.submit(document.querySelector('form'))
+
+      expect(onSubmit).toHaveBeenCalledTimes(2)
+      expect(transformedData).toEqual({
+        myArray: [{ myValue: '401,00 €' }, { myValue: '600,00 €' }],
       })
     })
 

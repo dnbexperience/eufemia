@@ -133,6 +133,10 @@ export const axeComponent = async (
 
   const html = components
     .map((Component: { container?: HTMLElement } | HTMLElement) => {
+      if (Component == null) {
+        throw new Error('axeComponent received no element to check')
+      }
+
       if (Component instanceof HTMLElement) {
         return Component.outerHTML
       }
@@ -147,10 +151,15 @@ export const axeComponent = async (
     .filter(Boolean)
     .join('\n')
 
-  return await axe(
-    `<main>${html}</main>`,
-    typeof components[1] === 'object' ? components[1] : null
+  const options = components.find(
+    (arg) =>
+      arg &&
+      typeof arg === 'object' &&
+      !(arg instanceof HTMLElement) &&
+      !('container' in arg)
   )
+
+  return await axe(`<main>${html}</main>`, options ?? null)
 }
 
 export function spyOnEufemiaWarn() {

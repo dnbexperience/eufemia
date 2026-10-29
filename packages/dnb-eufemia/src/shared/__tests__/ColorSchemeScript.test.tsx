@@ -1,3 +1,4 @@
+/* eslint-disable security/detect-eval-with-expression -- these tests run the generated inline script on purpose */
 import path from 'path'
 import { readFileSync } from 'fs'
 import { renderToStaticMarkup } from 'react-dom/server'
@@ -77,6 +78,22 @@ describe('ColorSchemeScript', () => {
       delete globalThis.__eufemiaColorScheme
       document.documentElement.className = ''
       document.body.className = ''
+    })
+
+    it('head script treats the scope hash as a plain string', () => {
+      const storageMock = vi
+        .spyOn(Storage.prototype, 'getItem')
+        .mockReturnValue(JSON.stringify({ colorScheme: 'dark' }))
+      const scopeHash = "x');globalThis.__scopeHashInjected=1;('"
+
+      eval(getHeadScript(scopeHash))
+
+      expect(globalThis.__scopeHashInjected).toBeUndefined()
+      expect(document.documentElement.classList.contains(scopeHash)).toBe(
+        true
+      )
+
+      storageMock.mockRestore()
     })
 
     it('head script resolves dark from localStorage', () => {
@@ -261,6 +278,15 @@ describe('ColorSchemeScript', () => {
 
       expect(html).not.toContain('alert(1)')
       expect(html).toContain("localStorage.getItem('eufemia-theme')")
+    })
+
+    it('cannot close the script tag through the scope hash', () => {
+      const html = renderToStaticMarkup(
+        <ColorSchemeHeadScript scopeHash="a</script><script>alert(1)</script>" />
+      )
+
+      expect(html.match(/<\/script/g)).toHaveLength(1)
+      expect(html).not.toContain('<script>alert(1)')
     })
   })
 

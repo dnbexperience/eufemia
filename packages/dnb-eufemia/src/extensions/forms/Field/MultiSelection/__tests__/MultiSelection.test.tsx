@@ -1192,6 +1192,25 @@ describe('MultiSelection', () => {
       )
     })
 
+    it('gives the search input an accessible name', async () => {
+      const data = [
+        { value: 'option1', title: 'Option 1' },
+        { value: 'option2', title: 'Option 2' },
+      ]
+
+      render(<Field.MultiSelection data={data} showSearchField />)
+
+      fireEvent.click(document.querySelector('button'))
+
+      await waitFor(() => {
+        const searchInput = document.querySelector(
+          '.dnb-forms-field-multi-selection__search input'
+        )
+
+        expect(searchInput).toHaveAccessibleName('Søk')
+      })
+    })
+
     it('filters on description text', async () => {
       const data = [
         {

@@ -441,6 +441,17 @@ function TabsComponent(ownProps: TabsProps) {
     }
   }
 
+  const updateScrollNavigation = useCallback(() => {
+    const { scrollLeft, scrollWidth, clientWidth } = tablistRef.current
+    const data = dataRef.current
+    const key = selectedKeyRef.current
+    setIsFirst(scrollLeft <= 1 || key === data[0]?.key)
+    setIsLast(
+      scrollLeft + clientWidth >= scrollWidth - 1 ||
+        key === data[data.length - 1]?.key
+    )
+  }, [])
+
   const scrollToTab = useCallback(
     ({
       type,
@@ -510,8 +521,7 @@ function TabsComponent(ownProps: TabsProps) {
               })
             }
 
-            setIsFirst(isFirstItem)
-            setIsLast(isLastItem)
+            updateScrollNavigation()
           }
         } catch (e) {
           warn('Tabs: Failed to scroll to tab:', e)
@@ -526,7 +536,7 @@ function TabsComponent(ownProps: TabsProps) {
         window.requestAnimationFrame(delay)
       }
     },
-    []
+    [updateScrollNavigation]
   )
 
   const handleVerticalScroll = () => {
@@ -564,7 +574,6 @@ function TabsComponent(ownProps: TabsProps) {
 
       if (
         !document.getElementById(`${_id}-content`) &&
-        typeof process !== 'undefined' &&
         process.env.NODE_ENV !== 'test'
       ) {
         warn(
@@ -759,20 +768,12 @@ function TabsComponent(ownProps: TabsProps) {
     hasScrollbarRef.current = scrollbarVisible
 
     if (scrollbarVisible) {
-      // Set button visibility state synchronously from data to avoid
-      // the extra render cycle that rAF-based scrollToTab causes.
-      const data = dataRef.current
-      const key = selectedKeyRef.current
-      if (data.length > 0) {
-        setIsFirst(key === data[0].key)
-        setIsLast(key === data[data.length - 1].key)
-      }
-
+      updateScrollNavigation()
       scrollToTab({ type: 'selected' })
     }
 
     updateSelection()
-  }, [scrollToTab, updateSelection])
+  }, [scrollToTab, updateScrollNavigation, updateSelection])
 
   // Synchronous shared state initialization (must happen during render, not in useEffect).
   // Use silent: true to avoid triggering subscribers during render, which would cause
@@ -807,15 +808,7 @@ function TabsComponent(ownProps: TabsProps) {
         }
 
         if (scrollbarVisible) {
-          // Set button visibility state synchronously from data to avoid
-          // the extra render cycle that rAF-based scrollToTab causes.
-          const data = dataRef.current
-          const key = selectedKeyRef.current
-          if (data.length > 0) {
-            setIsFirst(key === data[0].key)
-            setIsLast(key === data[data.length - 1].key)
-          }
-
+          updateScrollNavigation()
           scrollToTab({
             type: 'selected',
             behavior: hasLP ? 'smooth' : 'auto',
@@ -837,6 +830,13 @@ function TabsComponent(ownProps: TabsProps) {
       window.addEventListener('load', init)
     }
 
+    void document.fonts?.ready.then(() => {
+      if (isMounted) {
+        onResizeHandler()
+      }
+    })
+    document.fonts?.addEventListener('loadingdone', onResizeHandler)
+
     let resizeObserver: ResizeObserver | undefined
     if (tabsRef.current && typeof ResizeObserver !== 'undefined') {
       resizeObserver = new ResizeObserver(onResizeHandler)
@@ -847,6 +847,7 @@ function TabsComponent(ownProps: TabsProps) {
       isMounted = false
       sharedStateRef.current = null
       resizeObserver?.disconnect()
+      document.fonts?.removeEventListener('loadingdone', onResizeHandler)
       if (typeof window !== 'undefined') {
         window.removeEventListener('load', init)
       }
@@ -1311,17 +1312,23 @@ Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outs
               </span>
               <Dummy>{title as ReactNode}</Dummy>
             </TabElement>
-            {tooltip && (
-              <Tooltip
-                id={`${_id}-tab-${key}-tooltip`}
-                targetElement={getTabRef(key)}
-              >
-                {tooltip}
-              </Tooltip>
-            )}
           </div>
         )
       }
+    )
+
+    // Rendered outside the tablist, which may only contain tabs
+    const tooltips = currentData.map(
+      ({ key, tooltip }) =>
+        tooltip && (
+          <Tooltip
+            key={`tooltip-${key}`}
+            id={`${_id}-tab-${key}-tooltip`}
+            targetElement={getTabRef(key)}
+          >
+            {tooltip}
+          </Tooltip>
+        )
     )
 
     const params: Record<string, unknown> = {}
@@ -1335,22 +1342,26 @@ Tip: Check out other solutions like <Tabs.Content id="unique">Your content, outs
       )
     }
     return (
-      <div
-        role="tablist"
-        className="dnb-tabs__tabs__tablist"
-        tabIndex={0}
-        onKeyDown={onTablistKeyDownHandler}
-        onWheelCapture={onTablistWheelHandler}
-        ref={tablistRef}
-        {...params}
-      >
-        {tabs}
-        <span
-          aria-hidden
-          className="dnb-tabs__selection"
-          ref={selectionRef}
-        />
-      </div>
+      <>
+        <div
+          role="tablist"
+          className="dnb-tabs__tabs__tablist"
+          tabIndex={0}
+          onKeyDown={onTablistKeyDownHandler}
+          onWheelCapture={onTablistWheelHandler}
+          onScroll={updateScrollNavigation}
+          ref={tablistRef}
+          {...params}
+        >
+          {tabs}
+          <span
+            aria-hidden
+            className="dnb-tabs__selection"
+            ref={selectionRef}
+          />
+        </div>
+        {tooltips}
+      </>
     )
   }
 

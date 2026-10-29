@@ -6,14 +6,16 @@ vi.mock('../usage-store.js', () => ({ storeMcpUsage }))
 
 import type { SQSEvent, SQSRecord } from 'aws-lambda'
 import { handler } from '../usage-consumer.js'
-import type { McpUsageRecord } from '../records/mcp-usage.js'
+import type { WebMcpUsageRecord } from '../records/mcp-usage.js'
 
 function usageRecord(
-  overrides: Partial<McpUsageRecord> = {}
-): McpUsageRecord {
+  overrides: Partial<WebMcpUsageRecord> = {}
+): WebMcpUsageRecord {
   return {
     tool: 'component_props',
     component: 'Button',
+    component_missed: false,
+    likely_component: '',
     path: '',
     env: 'dev',
     transport: 'web',
@@ -83,7 +85,7 @@ describe('usage consumer', () => {
   })
 
   it('drops a message whose record has no web transport', async () => {
-    const withoutTransport: Partial<McpUsageRecord> = usageRecord()
+    const withoutTransport: Partial<WebMcpUsageRecord> = usageRecord()
     delete withoutTransport.transport
 
     await handler(
@@ -101,6 +103,35 @@ describe('usage consumer', () => {
       usageRecord(),
     ])
     expect(errorSpy).toHaveBeenCalledTimes(2)
+  })
+
+  it('stores a record queued before the miss fields existed', async () => {
+    const queuedEarlier: Partial<WebMcpUsageRecord> = usageRecord()
+    delete queuedEarlier.component_missed
+    delete queuedEarlier.likely_component
+
+    await handler(
+      event(sqsRecord('earlier', JSON.stringify([queuedEarlier])))
+    )
+
+    expect(storeMcpUsage).toHaveBeenCalledWith('my-bucket', [
+      queuedEarlier,
+    ])
+    expect(errorSpy).not.toHaveBeenCalled()
+  })
+
+  it('drops a message whose miss fields have the wrong type', async () => {
+    await handler(
+      event(
+        sqsRecord(
+          'bad',
+          JSON.stringify([{ ...usageRecord(), component_missed: 'yes' }])
+        )
+      )
+    )
+
+    expect(storeMcpUsage).toHaveBeenCalledWith('my-bucket', [])
+    expect(errorSpy).toHaveBeenCalledTimes(1)
   })
 
   it('retries the batch when S3 storage fails', async () => {

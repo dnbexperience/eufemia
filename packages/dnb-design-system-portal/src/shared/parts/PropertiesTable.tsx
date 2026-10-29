@@ -18,16 +18,19 @@ const StyledTable = styled(Table)`
   }
 `
 
+const stringColor =
+  'color-mix(in srgb, var(--token-color-text-error) 60%, var(--token-color-text-neutral))'
+
 const colors = {
   type: {
     default: 'var(--token-color-text-positive)',
     primitive: 'var(--token-color-text-positive)',
-    string: 'var(--token-color-text-error)',
+    string: stringColor,
   },
   value: {
     default: 'var(--token-color-text-positive)',
     undefined: 'var(--token-color-text-neutral)',
-    string: 'var(--token-color-text-error)',
+    string: stringColor,
   },
 }
 

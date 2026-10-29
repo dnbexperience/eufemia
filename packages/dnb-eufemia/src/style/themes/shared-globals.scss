@@ -2,6 +2,17 @@
  *  Shared global rules across all themes.
  */
 
+.eufemia-theme.eufemia-theme__typography--native {
+  --font-size-basis: var(
+    --font-size-basis-native,
+    var(--font-size-basis-web)
+  );
+}
+
+.eufemia-theme.eufemia-theme__typography--web {
+  --font-size-basis: var(--font-size-basis-web);
+}
+
 :root,
 .eufemia-theme {
   // Scrollbar

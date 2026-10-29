@@ -1,11 +1,6 @@
 import type { PropertiesTableProps } from '../../shared/types'
 
 export const CardProperties: PropertiesTableProps = {
-  closeButtonProps: {
-    doc: 'Deprecated: pass properties directly to Card.Info.CloseButton. Preserved for compatibility with onClose.',
-    type: 'ButtonProps',
-    status: 'optional',
-  },
   layoutEngine: {
     doc: 'Select the internal Flex layout engine. Defaults to `legacy` for backwards compatibility. Use `css` to opt in to native CSS gap.',
     type: ['"css"', '"legacy"'],
@@ -211,14 +206,6 @@ export const CardCloseButtonProperties: PropertiesTableProps = {
 export const CardCloseButtonEvents: PropertiesTableProps = {
   onClick: {
     doc: 'Called when the close control is activated. The application controls dismissal and focus after removal.',
-    type: 'function',
-    status: 'optional',
-  },
-}
-
-export const CardEvents: PropertiesTableProps = {
-  onClose: {
-    doc: 'Deprecated: compose Card.Info.CloseButton with onClick instead. Still displays a close control for compatibility. The application controls dismissal and focus.',
     type: 'function',
     status: 'optional',
   },

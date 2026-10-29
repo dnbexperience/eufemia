@@ -35,6 +35,7 @@ describe('cleanupPackage', () => {
     expect(cleanedPackage.sideEffects).toContain(
       '**/extensions/**/style.*'
     )
+    expect(cleanedPackage.sideEffects).toContain('**/style/**/*')
   })
 
   it('includes @babel/runtime-corejs3 as a runtime dependency', async () => {
@@ -160,12 +161,11 @@ describe('package.json', () => {
   it('has sideEffects fields', () => {
     expect(packageJson.sideEffects).toEqual(
       expect.arrayContaining([
+        '*.css',
         '*.scss',
         '**/extensions/**/style.*',
+        '**/style/**/*',
         'umd/*',
-        'style/**/*',
-        'es/style/**/*',
-        'esm/style/**/*',
       ])
     )
   })

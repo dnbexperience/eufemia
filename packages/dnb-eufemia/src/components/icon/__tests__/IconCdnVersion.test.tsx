@@ -26,7 +26,10 @@ beforeEach(() => {
   })
 })
 
-afterEach(() => vi.restoreAllMocks())
+afterEach(() => {
+  vi.restoreAllMocks()
+  vi.unstubAllEnvs()
+})
 
 describe('versioned CDN icons', () => {
   it.each(['11.14.1', '12.0.0-beta.2'])(
@@ -128,6 +131,75 @@ describe('versioned CDN icons', () => {
     expect(getIcon().style.maskImage).toContain(
       '/v11.14.1/icons/dnb/heart.svg'
     )
+  })
+
+  describe('load warning', () => {
+    const getWarnings = (log: ReturnType<typeof vi.spyOn>) =>
+      log.mock.calls
+        .map((args) => String(args.at(-1)))
+        .filter((message) => message.includes('could not be loaded'))
+
+    it('warns once per URL in development when an icon cannot be loaded', () => {
+      vi.stubEnv('NODE_ENV', 'development')
+      vi.mocked(getVersion).mockReturnValue('0.0.0-development')
+      const log = vi.spyOn(console, 'log').mockImplementation(() => null)
+
+      render(
+        <>
+          <Icon icon="missing_one" />
+          <Icon icon="missing_one" />
+        </>
+      )
+      expect(probes).toHaveLength(2)
+      expect(probes[0].src).toBe(`${origin}/icons/dnb/missing_one.svg`)
+
+      probes.forEach((probe) => fireEvent.error(probe))
+
+      const warnings = getWarnings(log)
+      expect(warnings).toHaveLength(1)
+      expect(warnings[0]).toContain(`${origin}/icons/dnb/missing_one.svg`)
+    })
+
+    it('warns about the fallback URL when neither official URL loads', () => {
+      vi.stubEnv('NODE_ENV', 'development')
+      const log = vi.spyOn(console, 'log').mockImplementation(() => null)
+
+      render(<Icon icon="missing_two" />)
+      fireEvent.error(probes[0])
+      expect(getWarnings(log)).toHaveLength(0)
+
+      expect(probes).toHaveLength(2)
+      expect(probes[1].src).toBe(`${origin}/icons/dnb/missing_two.svg`)
+      fireEvent.error(probes[1])
+
+      const warnings = getWarnings(log)
+      expect(warnings).toHaveLength(1)
+      expect(warnings[0]).toContain(`${origin}/icons/dnb/missing_two.svg`)
+    })
+
+    it('checks custom directories in development', () => {
+      vi.stubEnv('NODE_ENV', 'development')
+      const log = vi.spyOn(console, 'log').mockImplementation(() => null)
+
+      render(
+        <Provider iconBaseUrl="/my-icons">
+          <Icon icon="missing_three" />
+        </Provider>
+      )
+      expect(probes).toHaveLength(1)
+      fireEvent.error(probes[0])
+
+      expect(getWarnings(log)[0]).toContain('/my-icons/missing_three.svg')
+    })
+
+    it('does not check icons that cannot fall back in production', () => {
+      vi.stubEnv('NODE_ENV', 'production')
+      vi.mocked(getVersion).mockReturnValue('0.0.0-development')
+
+      render(<Icon icon="missing_four" />)
+
+      expect(probes).toHaveLength(0)
+    })
   })
 
   it('hydrates the versioned URL without replacing the server markup', async () => {

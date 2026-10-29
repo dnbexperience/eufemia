@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach } from 'vitest'
+import { describe, it, expect, beforeEach, vi } from 'vitest'
 import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -16,6 +16,16 @@ import type {
   SSRManifest,
   ClientManifest,
 } from '../../prod/prerender-utils'
+
+vi.mock('../../../static/og/manifest.json', () => ({
+  default: {
+    '/uilib/components/button/': {
+      kind: 'screenshot',
+      file: 'images/' + 'a'.repeat(64) + '.png',
+      alt: 'Button example',
+    },
+  },
+}))
 
 describe('prerender-utils', () => {
   describe('collectUrls', () => {
@@ -473,6 +483,35 @@ describe('prerender-utils', () => {
       expect(result).toContain('<div id="root"><h1>Hello</h1></div>')
     })
 
+    it('restores persisted SidebarMenu state after markup and before hydration', () => {
+      const result = injectHtml(
+        template.replace(
+          '</head>',
+          '<script type="module" src="/entry.js"></script></head>'
+        ),
+        '<nav data-inline-collapsed-storage-key="navigation">Menu</nav>',
+        { js: [], css: [] }
+      )
+      const bootstrap = result.indexOf(
+        'data-sidebar-menu-inline-pre-hydration'
+      )
+      expect(bootstrap).toBeGreaterThan(result.indexOf('</nav></div>'))
+      expect(
+        result.slice(result.lastIndexOf('<script', bootstrap), bootstrap)
+      ).not.toContain('type="module"')
+      expect(result).toContain('data-open-items-storage-key')
+    })
+
+    it('omits the SidebarMenu bootstrap on pages without persisted navigation', () => {
+      const result = injectHtml(template, '<h1>Plain page</h1>', {
+        js: [],
+        css: [],
+      })
+      expect(result).not.toContain(
+        'data-sidebar-menu-inline-pre-hydration'
+      )
+    })
+
     it('includes color-scheme content script after root div', () => {
       const result = injectHtml(template, '<h1>Hello</h1>', {
         js: [],
@@ -613,6 +652,34 @@ describe('prerender-utils', () => {
       )
     })
 
+    it('uses the preview page origin and shared CDN image URLs', () => {
+      vi.stubEnv(
+        'PORTAL_PUBLIC_ORIGIN',
+        'https://pr-42.eufemia-e25.pages.dev'
+      )
+      try {
+        const result = injectHtml(
+          template,
+          '<h1>Button</h1>',
+          { js: [], css: [] },
+          '',
+          {
+            url: '/uilib/components/button/',
+            title: 'Button',
+            description: 'A button',
+          }
+        )
+        expect(result).toContain(
+          'content="https://pr-42.eufemia-e25.pages.dev/uilib/components/button/"'
+        )
+        expect(result).toContain(
+          'content="https://assets.eufemia.dnb.no/og/images/'
+        )
+      } finally {
+        vi.unstubAllEnvs()
+      }
+    })
+
     it('uses default description when meta.description is empty', () => {
       const result = injectHtml(
         template,
@@ -622,6 +689,29 @@ describe('prerender-utils', () => {
         { url: '/', title: 'Home', description: '' }
       )
       expect(result).toContain('Eufemia Design System is the go-to place')
+    })
+
+    it('uses the default image on pages without a screenshot', () => {
+      const result = injectHtml(
+        template,
+        '<h1>Guide</h1>',
+        { js: [], css: [] },
+        '',
+        {
+          url: '/guide/',
+          title: 'Guide',
+          description: 'Helpful guidance.',
+        }
+      )
+      expect(result).toContain(
+        'property="og:image" content="https://eufemia.dnb.no/dnb/og-image.png?v=2"'
+      )
+      expect(result).toContain('name="twitter:image"')
+      expect(result).not.toContain('twitter:label')
+      expect(result).toContain('content="summary_large_image"')
+      expect(result).toContain(
+        '<meta name="twitter:description" content="Helpful guidance.">'
+      )
     })
 
     it('injects llms.txt link only on root page', () => {

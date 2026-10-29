@@ -82,8 +82,9 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
   }
 
   const markHideAnimationStarted = useCallback(() => {
-    isHideAnimationRunning.current = !noAnimation && !globalThis.IS_TEST
-  }, [noAnimation])
+    isHideAnimationRunning.current =
+      (isOpen || isOverlayHovered) && !noAnimation && !globalThis.IS_TEST
+  }, [isOpen, isOverlayHovered, noAnimation])
 
   const resumeHideAnimation = useCallback(() => {
     if (!isHideAnimationRunning.current) {
@@ -177,16 +178,14 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
     [open, hideDelayMs, markHideAnimationStarted, shouldDelayHide]
   )
 
-  const onModalOpen = useCallback(() => {
+  const dismiss = useCallback(() => {
     clearTimers()
     clearOverlayTimers()
+    isHideAnimationRunning.current = false
     setSkipShowAnimation(false)
     setOverlayHovered(false)
     setIsOpen(false)
-    if (isOpen || isOverlayHovered) {
-      markHideAnimationStarted()
-    }
-  }, [isOpen, isOverlayHovered, markHideAnimationStarted])
+  }, [])
 
   const addEvents = useCallback(
     (element: HTMLElement) => {
@@ -197,7 +196,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
         element.addEventListener('mouseleave', onMouseLeave)
         element.addEventListener('touchstart', onMouseEnter)
         element.addEventListener('touchend', onMouseLeave)
-        document.addEventListener(MODAL_OPEN_EVENT, onModalOpen)
+        document.addEventListener(MODAL_OPEN_EVENT, dismiss)
       } catch (e) {
         warn(
           'Tooltip: Failed to add event listeners to target element:',
@@ -205,7 +204,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
         )
       }
     },
-    [onFocus, onMouseLeave, onMouseEnter, onModalOpen]
+    [onFocus, onMouseLeave, onMouseEnter, dismiss]
   )
 
   const removeEvents = useCallback(
@@ -220,7 +219,7 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
         element.removeEventListener('mouseleave', onMouseLeave)
         element.removeEventListener('touchstart', onMouseEnter)
         element.removeEventListener('touchend', onMouseLeave)
-        document.removeEventListener(MODAL_OPEN_EVENT, onModalOpen)
+        document.removeEventListener(MODAL_OPEN_EVENT, dismiss)
       } catch (e) {
         warn(
           'Tooltip: Failed to remove event listeners from target element:',
@@ -228,10 +227,26 @@ function TooltipWithEvents(props: TooltipProps & TooltipWithEventsProps) {
         )
       }
     },
-    [onFocus, onMouseEnter, onMouseLeave, onModalOpen]
+    [onFocus, onMouseEnter, onMouseLeave, dismiss]
   )
 
   const overlayOpen = Boolean(isOpen || isOverlayHovered)
+
+  useEffect(() => {
+    if (!overlayOpen || isControlled) {
+      return undefined // stop here
+    }
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        dismiss()
+      }
+    }
+
+    // Capture on window, so Popover's Escape handler on document can't stop it
+    window.addEventListener('keydown', onKeyDown, true)
+    return () => window.removeEventListener('keydown', onKeyDown, true)
+  }, [overlayOpen, isControlled, dismiss])
 
   const describedById = overlayOpen && !omitDescribedBy ? internalId : null
 

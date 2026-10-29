@@ -13,6 +13,12 @@
  * evolve while there is no producer and no stored data.
  */
 
+import {
+  isIsoTimestamp,
+  isValidEnv,
+  type ValidationResult,
+} from './shared.js'
+
 /** A single anonymous component-usage fact emitted by the bundler plugin. */
 export type ComponentUsageInput = {
   /** The consuming application name, e.g. `sbanken-nettbank`. */
@@ -35,40 +41,14 @@ export type ComponentUsageRecord = {
   created_at: string
 }
 
-type ValidationFailure = { ok: false; errors: string[] }
-
-export type ComponentUsageValidationResult =
-  | { ok: true; value: ComponentUsageInput[] }
-  | ValidationFailure
-
 const MAX_BATCH = 5000
 const MAX_FIELD_LENGTH = 256
-
-/** A short lowercase environment token, e.g. `prod`, `dev`. */
-const ENV_PATTERN = /^[a-z][a-z0-9-]{0,31}$/
 
 function isNonEmptyBoundedString(value: unknown): value is string {
   return (
     typeof value === 'string' &&
     value.trim().length > 0 &&
     value.length <= MAX_FIELD_LENGTH
-  )
-}
-
-function isValidEnv(value: unknown): value is string {
-  return typeof value === 'string' && ENV_PATTERN.test(value)
-}
-
-// A clean ISO-8601 instant, e.g. `2026-09-16T12:00:00.000Z`. Validated with a
-// parse plus a tiny date-time shape check (no unbounded quantifiers) so the
-// stored `timestamp` column stays queryable rather than holding a free-form
-// string, and to reject values Date.parse would loosely accept (e.g. a bare
-// `2026-09-16` or `yesterday`).
-function isValidTimestamp(value: unknown): value is string {
-  return (
-    typeof value === 'string' &&
-    /\dT\d\d:\d\d:\d\d/.test(value) &&
-    !Number.isNaN(Date.parse(value))
   )
 }
 
@@ -90,13 +70,11 @@ export function normalizeComponentName(name: string): string {
  *
  * Unlike the browser-facing portal-view ingest, this has no public endpoint, so
  * the check exists mainly as a shared runtime guard for the producer and its
- * tests. Structural problems (missing app/component/version) reject the row; an
- * unrecognised optional `env` is dropped by {@link buildComponentUsageRecord}
- * rather than failing the batch.
+ * tests.
  */
 export function validateComponentUsage(
   body: unknown
-): ComponentUsageValidationResult {
+): ValidationResult<ComponentUsageInput> {
   if (!Array.isArray(body)) {
     return { ok: false, errors: ['body must be an array of records'] }
   }
@@ -157,9 +135,9 @@ export function validateComponentUsage(
 
 /**
  * Build the stored record from one validated fact. Component names are
- * canonicalised; an unrecognised `env` degrades to `unknown` and a non-ISO
- * `timestamp` degrades to the write time, so a drifted producer value costs one
- * dimension, not the row.
+ * canonicalised; an unrecognised `env` degrades to `unknown` and a `timestamp`
+ * that isn't in canonical ISO form degrades to the write time, so a drifted
+ * producer value costs one dimension, not the row.
  */
 export function buildComponentUsageRecord(
   input: ComponentUsageInput,
@@ -172,7 +150,7 @@ export function buildComponentUsageRecord(
     component: normalizeComponentName(input.component),
     version: input.version.trim(),
     env: isValidEnv(input.env) ? input.env : 'unknown',
-    timestamp: isValidTimestamp(input.timestamp)
+    timestamp: isIsoTimestamp(input.timestamp)
       ? input.timestamp
       : createdAt,
     created_at: createdAt,

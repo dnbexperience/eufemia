@@ -98,11 +98,7 @@ function markText(
     }
 
     if (searchNumbers) {
-      const cleanedWord = word.replace(
-        // @ts-expect-error Unicode property escapes are supported at runtime here
-        /[^\p{L}\p{N}]+/gu,
-        ''
-      )
+      const cleanedWord = word.replace(/[^\p{L}\p{N}]+/gu, '')
 
       if (cleanedWord) {
         const escapedWord = escapeRegexChars(cleanedWord)

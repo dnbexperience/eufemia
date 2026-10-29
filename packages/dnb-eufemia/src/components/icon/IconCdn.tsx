@@ -4,9 +4,11 @@ import type { IconProps } from './Icon'
 import type { ContextProps } from '../../shared/Context'
 import { iconCase } from './IconHelpers'
 import { getVersion } from '../../shared/build-info/BuildInfo'
+import { warn } from '../../shared/component-helper'
 
 const assetBaseUrl = 'https://assets.eufemia.dnb.no'
 const defaultDirectory = `${assetBaseUrl}/icons/dnb`
+const warnedUrls = new Set<string>()
 
 export function renderCdnIcon({
   icon,
@@ -29,6 +31,7 @@ export function renderCdnIcon({
 
   const version = getVersion()
   const isRelease =
+    // eslint-disable-next-line security/detect-unsafe-regex -- the optional group does not repeat
     /^\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?$/.test(version) &&
     version !== '0.0.0-development'
   const directory =
@@ -98,23 +101,34 @@ function CdnIcon({
   style: CSSProperties
 }) {
   const [failed, setFailed] = useState(false)
+  const currentSrc = failed ? fallbackSrc : src
+  const canFallBack = Boolean(fallbackSrc) && !failed
 
   useEffect(() => {
-    if (!fallbackSrc) {
+    if (!canFallBack && process.env.NODE_ENV !== 'development') {
       return undefined
     }
 
     // Versioned assets can become available shortly after the package release.
     const image = new Image()
     image.crossOrigin = 'anonymous'
-    image.onerror = () => setFailed(true)
-    image.src = src
+    image.onerror = () => {
+      if (canFallBack) {
+        setFailed(true)
+      } else if (!warnedUrls.has(currentSrc)) {
+        warnedUrls.add(currentSrc)
+        warn(
+          `Icon could not be loaded from ${currentSrc}. Check the icon name and the img-src rule of your Content Security Policy, or import the icon instead.`
+        )
+      }
+    }
+    image.src = currentSrc
     return () => {
       image.onerror = null
     }
-  }, [src, fallbackSrc])
+  }, [currentSrc, canFallBack])
 
-  const image = `url("${failed ? fallbackSrc : src}")`
+  const image = `url("${currentSrc}")`
   return (
     <span
       className={`dnb-icon__cdn${inheritColor === false ? '' : ' dnb-icon__cdn--mask'}`}

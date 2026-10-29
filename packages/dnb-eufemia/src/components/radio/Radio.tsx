@@ -107,6 +107,9 @@ function RadioComponent({ ref: externalRef, ...ownProps }: RadioProps) {
   }
   skipNextPropSync.current = false
 
+  // The name a single radio has while the browser runs an arrow key
+  const [arrowKeyName, setArrowKeyName] = useState<string>(undefined)
+
   // Helper functions
   const isContextGroupOrSingle = useCallback(
     () => typeof groupContext.value !== 'undefined' && !ownProps.group,
@@ -121,6 +124,15 @@ function RadioComponent({ ref: externalRef, ...ownProps }: RadioProps) {
   const isInNoGroup = useCallback(
     () => typeof groupContext.value === 'undefined' && !ownProps.group,
     [groupContext.value, ownProps.group]
+  )
+
+  // A radio without a group or name can be unchecked again
+  const isSingle = useCallback(
+    () =>
+      !ownPropsRef.current.group &&
+      typeof ownPropsRef.current.name === 'undefined' &&
+      typeof groupContextRef.current.name === 'undefined',
+    []
   )
 
   const callOnChange = useCallback(
@@ -160,7 +172,12 @@ function RadioComponent({ ref: externalRef, ...ownProps }: RadioProps) {
   )
 
   const onChangeHandler = useCallback(
-    (_event: ChangeEvent<HTMLInputElement> | KeyboardEvent) => {
+    (
+      _event:
+        | ChangeEvent<HTMLInputElement>
+        | KeyboardEvent
+        | MouseEvent<HTMLInputElement>
+    ) => {
       const event = _event
       if (ownPropsRef.current.readOnly) {
         return event.preventDefault()
@@ -193,6 +210,10 @@ function RadioComponent({ ref: externalRef, ...ownProps }: RadioProps) {
       if (isInNoGroup()) {
         if (key === 'Enter') {
           onChangeHandler(event)
+        } else if (key === ' ' && checkedState && isSingle()) {
+          // Browsers do not uncheck a checked native radio on Space
+          event.preventDefault()
+          onChangeHandler(event)
         }
       } else if (isContextGroupOrSingle()) {
         if (key === 'Enter' || key === ' ') {
@@ -220,8 +241,41 @@ function RadioComponent({ ref: externalRef, ...ownProps }: RadioProps) {
           event,
         }
       )
+
+      if (
+        key.startsWith('Arrow') &&
+        !event.defaultPrevented &&
+        isInNoGroup() &&
+        isSingle() &&
+        !inputRef.current?.name
+      ) {
+        // Browsers treat all radios without a name as one group, so an
+        // arrow key would move to and check another radio on the page.
+        // We give this radio its own name while the browser runs the key,
+        // so the key does what it did before #9959, e.g. scroll the page.
+        // The browser runs the key after all listeners and microtasks, so
+        // we remove the name in a new task. A permanent name would send
+        // the radio with native form data. React removes a name it did not
+        // render when it renders the input, so we also keep it in state.
+        const input = event.currentTarget as HTMLInputElement
+        input.name = id
+        setArrowKeyName(id)
+        setTimeout(() => {
+          if (input.name === id) {
+            input.removeAttribute('name')
+          }
+          setArrowKeyName(undefined)
+        }, 0)
+      }
     },
-    [isInNoGroup, isContextGroupOrSingle, onChangeHandler]
+    [
+      id,
+      isInNoGroup,
+      checkedState,
+      isSingle,
+      isContextGroupOrSingle,
+      onChangeHandler,
+    ]
   )
 
   const onClickHandler = useCallback(
@@ -229,6 +283,13 @@ function RadioComponent({ ref: externalRef, ...ownProps }: RadioProps) {
       if (ownPropsRef.current.readOnly) {
         return event.preventDefault()
       }
+
+      // A checked native radio does not fire a change event
+      if (isSingle() && checkedState) {
+        onChangeHandler(event)
+        return // stop here
+      }
+
       // only have click support if there are more plain radio
       if (!isPlainGroup()) {
         return // stop here
@@ -237,7 +298,7 @@ function RadioComponent({ ref: externalRef, ...ownProps }: RadioProps) {
       const isChecked = (event.target as HTMLInputElement).checked
       callOnChange({ value, checked: isChecked, event })
     },
-    [isPlainGroup, callOnChange]
+    [isSingle, checkedState, onChangeHandler, isPlainGroup, callOnChange]
   )
 
   const resolvedProps = {
@@ -333,12 +394,6 @@ function RadioComponent({ ref: externalRef, ...ownProps }: RadioProps) {
 
   let inputParams: Record<string, unknown> = {
     role: hasContext || group ? 'radio' : null,
-    type: hasContext || group ? 'radio' : 'checkbox', // overwriting the type
-  }
-
-  if (!group) {
-    inputParams.type = 'checkbox'
-    inputParams.role = 'radio' // breaks axe test
   }
 
   if (showStatus || suffix) {
@@ -353,6 +408,10 @@ function RadioComponent({ ref: externalRef, ...ownProps }: RadioProps) {
   }
 
   inputParams = Object.assign(inputParams, rest)
+
+  if (arrowKeyName && !group) {
+    inputParams.name = arrowKeyName
+  }
 
   skeletonDOMAttributes(inputParams, skeleton, context)
 

@@ -46,7 +46,11 @@ import { Stat } from '@dnb/eufemia'
 
 - Negative values follow [NumberFormat's minus-sign conventions](/uilib/components/number-format/#minus-signs), including normalization to the Unicode minus sign (`U+2212`, −) for visual and screen-reader output.
 
-- All Stat variants keep dedicated accessibility handling. `Currency`, `Percent`, and `Trend` use a dedicated screen-reader value (`.dnb-sr-only`) based on the formatted content. `Rating` uses an accessible label (`role="img"` + `aria-label`) that includes value and max.
+- `Currency` and `Percent` provide screen-reader text based on the formatted value. Percentages include the localized unit name, such as "prosent" in Norwegian.
+
+- `Trend` preserves the accessible content of composed children, including their locale, rounding, units and labels. A Trend `srLabel` is announced before the child content. Use `Stat.Percent` or `NumberFormat.Percent` inside `Stat.Trend` for localized percentages. Set `decimals` to the required precision and `signDisplay="always"` on the child formatter so direction is conveyed by a sign as well as color. Plain text and numeric Trend values are displayed as supplied without percentage formatting.
+
+- `Rating` uses an accessible label (`role="img"` + `aria-label`) that includes value and max.
 
 ## Relevant links
 

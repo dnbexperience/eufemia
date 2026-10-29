@@ -14,17 +14,15 @@ import useCanUseDOM from '@dnb/eufemia/src/shared/helpers/useCanUseDOM'
 import { getGitHubEditUrl } from '../../../core/githubSource'
 import {
   createSuggestEditPrompt,
+  parseSuggestEditQuery,
   type SuggestEditDeployment,
 } from '../../../core/suggestEdit'
 
 export default function SuggestEdit() {
   // The page is prerendered without the query, so it is read after hydration
-  const params = useCanUseDOM()
-    ? new URLSearchParams(window.location.search)
-    : new URLSearchParams()
-  const page = params.get('page') || '/'
-  const sourcePath = params.get('source') || ''
-  const pageUrl = new URL(page, 'https://eufemia.dnb.no').toString()
+  const { page, pageUrl, sourcePath } = parseSuggestEditQuery(
+    useCanUseDOM() ? window.location.search : ''
+  )
 
   const defaultData: SuggestEditData = {
     requestedChange: '',

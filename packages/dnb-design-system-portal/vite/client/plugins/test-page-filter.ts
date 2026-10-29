@@ -331,7 +331,10 @@ function collectForOfStringValues(
           .filter((value): value is string => value !== null)
 
         if (literals.length > 0) {
-          values.set(declaration.name.text, literals)
+          values.set(declaration.name.text, [
+            ...(values.get(declaration.name.text) ?? []),
+            ...literals,
+          ])
         }
       }
     }

@@ -7277,9 +7277,12 @@ describe('useFieldProps', () => {
       expect(revealErrorBoundary).toHaveBeenLastCalledWith('/foo', false)
       expect(showFieldErrorFieldBlock).toHaveBeenCalledTimes(1)
       expect(showFieldErrorFieldBlock).toHaveBeenLastCalledWith(
-        '/foo',
-        false
+        expect.stringMatching(/^id-/),
+        false,
+        expect.objectContaining({ records: [], mounted: true })
       )
+      const [fieldBlockIdentifier, , blockRecordOwner] =
+        showFieldErrorFieldBlock.mock.lastCall
       expect(setFieldErrorWizard).toHaveBeenLastCalledWith(
         1,
         '/foo',
@@ -7299,8 +7302,9 @@ describe('useFieldProps', () => {
       expect(revealErrorBoundary).toHaveBeenLastCalledWith('/foo', true)
       expect(showFieldErrorFieldBlock).toHaveBeenCalledTimes(2)
       expect(showFieldErrorFieldBlock).toHaveBeenLastCalledWith(
-        '/foo',
-        true
+        fieldBlockIdentifier,
+        true,
+        blockRecordOwner
       )
       expect(setFieldErrorWizard).toHaveBeenLastCalledWith(1, '/foo', true)
     })

@@ -416,8 +416,9 @@ export async function copyToClipboard(string: string) {
  * @param  {...any} params Pass in whatever you would
  */
 export const warn = (...params) => {
+  // Do not check "typeof process" here. Bundlers replace
+  // process.env.NODE_ENV, but browsers have no process global.
   if (
-    typeof process !== 'undefined' &&
     process.env.NODE_ENV !== 'production' &&
     typeof console !== 'undefined' &&
     typeof console.log === 'function'

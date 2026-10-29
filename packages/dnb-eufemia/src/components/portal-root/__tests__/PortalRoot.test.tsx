@@ -1122,6 +1122,37 @@ describe('PortalRoot aria', () => {
 })
 
 describe('PortalRoot theme', () => {
+  it('inherits typography through context and updates portals with nested overrides', () => {
+    const content = (typography: 'native' | 'web') => (
+      <Theme.Context typography={typography}>
+        <PortalRoot>
+          <p id="inherited-text">Inherited</p>
+        </PortalRoot>
+        <Theme.Context typography="web">
+          <PortalRoot>
+            <p id="web-text">Web</p>
+          </PortalRoot>
+        </Theme.Context>
+      </Theme.Context>
+    )
+    const { rerender } = render(content('native'))
+
+    expect(
+      document.querySelector('#inherited-text').parentElement
+    ).toHaveClass('eufemia-theme__typography--native')
+    expect(document.querySelector('#web-text').parentElement).toHaveClass(
+      'eufemia-theme__typography--web'
+    )
+
+    rerender(content('web'))
+    expect(
+      document.querySelector('#inherited-text').parentElement
+    ).toHaveClass('eufemia-theme__typography--web')
+    expect(
+      document.querySelector('#inherited-text').parentElement
+    ).not.toHaveClass('eufemia-theme__typography--native')
+  })
+
   beforeEach(() => {
     document.body.innerHTML = ''
   })

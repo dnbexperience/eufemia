@@ -42,7 +42,7 @@ export const ProviderProperties: PropertiesTableProps = {
     status: 'optional',
   },
   sessionStorageId: {
-    doc: 'Key for saving active data to session storage and loading it on mount.',
+    doc: 'Key for saving active data to session storage and loading it on mount. The stored data is removed after a successful submit.',
     type: 'string',
     status: 'optional',
   },

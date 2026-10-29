@@ -1,0 +1,70 @@
+name: Detect standalone-tools-only changes
+
+# Reports whether a feature branch changes, since main, only tools that neither
+# the library nor the portal is built from.
+on:
+  workflow_call:
+    outputs:
+      standalone-tools-only:
+        description: "'true' when only standalone tools changed."
+        value: ${{ jobs.detect.outputs.standalone-tools-only }}
+
+permissions:
+  contents: read
+
+jobs:
+  detect:
+    name: Detect standalone-tools-only changes
+
+    runs-on: ubuntu-latest
+
+    timeout-minutes: 5
+
+    outputs:
+      standalone-tools-only: ${{ steps.detect.outputs.standalone-tools-only }}
+
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+          filter: blob:none
+
+      - name: Detect standalone-tools-only changes
+        id: detect
+        run: |
+          if [[ "$GITHUB_EVENT_NAME" != "push" || "$GITHUB_REF_NAME" == main* || "$GITHUB_REF_NAME" == v* ]]; then
+            echo "standalone-tools-only=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          standalone_tool_paths=(
+            '^tools/analytics/'
+            '^tools/assets/'
+            '^tools/eufemia-raiwork-plugin/'
+            '^tools/mcp-lambda/'
+            '^tools/mcp-legacy-proxy/'
+            '^tools/monitoring/'
+            '^tools/service-monitoring/'
+            '^tools/usage-ingest/'
+            '^\.github/workflows/analytics-health\.yml$'
+            '^\.github/workflows/analytics-lambda\.yml$'
+            '^\.github/workflows/assets\.yml$'
+            '^\.github/workflows/eufemia-marketplace-artifacts\.yml$'
+            '^\.github/workflows/mcp-lambda\.yml$'
+            '^\.github/workflows/mcp-legacy-proxy-deploy\.yml$'
+            '^\.github/workflows/service-monitoring\.yml$'
+          )
+
+          changed=$(git diff --name-only --no-renames origin/main...HEAD)
+
+          grep_status=0
+          grep -q -v -E -f <(printf '%s\n' "${standalone_tool_paths[@]}") <<< "$changed" || grep_status=$?
+
+          # grep exits 0 when a file is outside the list, 1 when all files are in it, 2 on error.
+          if [[ -n "$changed" && "$grep_status" -eq 1 ]]; then
+            echo "standalone-tools-only=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "standalone-tools-only=false" >> "$GITHUB_OUTPUT"
+          fi

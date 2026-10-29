@@ -8,6 +8,7 @@
 
 import fs from 'fs-extra'
 import path from 'path'
+import globby from 'globby'
 import { pathToFileURL } from 'node:url'
 import { getCommittedFiles } from '../../tools/cliTools'
 import { rebaseAssetUrls } from '../copyStyles'
@@ -26,6 +27,74 @@ const getBuildStages = (stages: string[]) => {
   const shouldSkipEs = process.env.BUILD_MINI
   return shouldSkipEs ? stages.filter((s) => s !== '/es') : stages
 }
+
+describe('published style entries', () => {
+  it.each(getBuildStages(['/es', '/esm', '/cjs']))(
+    'preserves style entries and resolves their imports on stage %s',
+    async (stage) => {
+      const buildDir = path.resolve(
+        PKG_ROOT,
+        `build${makeStagePathException(stage)}`
+      )
+      const { sideEffects } = await fs.readJson(
+        path.resolve(
+          PKG_ROOT,
+          stage === '/cjs' ? 'src/cjs/package.json' : 'package.json'
+        )
+      )
+      const entries = await globby(
+        [
+          '{components,elements,extensions,fragments}/**/style.js',
+          '{components,elements,extensions,fragments}/**/style/**/*.js',
+        ],
+        { cwd: buildDir }
+      )
+
+      expect(entries.length).toBeGreaterThan(50)
+
+      const unmarkedEntries: string[] = []
+      const missingImports: string[] = []
+
+      for (const entry of entries) {
+        const packagePath = stage === '/es' ? `es/${entry}` : entry
+
+        if (
+          !sideEffects.some((pattern: string) =>
+            path.matchesGlob(packagePath, pattern)
+          )
+        ) {
+          unmarkedEntries.push(packagePath)
+        }
+
+        const content = await fs.readFile(
+          path.join(buildDir, entry),
+          'utf8'
+        )
+        const imports = content.matchAll(
+          /(?:import\s*|require\(\s*)['"](\.[^'"]+)['"]/g
+        )
+
+        for (const [, imported] of imports) {
+          const target = path.resolve(
+            buildDir,
+            path.dirname(entry),
+            imported
+          )
+          if (
+            ![target, `${target}.js`, path.join(target, 'index.js')].some(
+              (file) => fs.existsSync(file) && fs.statSync(file).isFile()
+            )
+          ) {
+            missingImports.push(`${entry} imports ${imported}`)
+          }
+        }
+      }
+
+      expect(unmarkedEntries).toEqual([])
+      expect(missingImports).toEqual([])
+    }
+  )
+})
 
 describe('SidebarMenu style imports', () => {
   it.each(getBuildStages(['/es', '/esm', '/cjs']))(
@@ -262,6 +331,7 @@ describe('babel build', () => {
       '/token-name-policy.cjs',
       '/no-unused-use.cjs',
       '/no-undefined-custom-property.cjs',
+      '/no-unsafe-focus-visible.cjs',
       '/dnb-ui-lib.min.mjs',
       '/dnb-ui-basis.min.mjs',
       '/dnb-ui-components.min.mjs',
@@ -315,6 +385,34 @@ describe('babel build', () => {
       )
     }
   })
+
+  it.each(buildStages)(
+    'does not polyfill methods that every supported browser has on stage "%s"',
+    (stage) => {
+      stage = makeStagePathException(stage)
+
+      const polyfillsByFile = {
+        'components/accordion/Accordion.js': [
+          'instance/includes',
+          'instance/push',
+        ],
+        'components/input/Input.js': ['json/parse'],
+        'components/input-masked/TextMask.js': ['instance/flags'],
+        'components/table/TableContainer.js': ['instance/unshift'],
+      }
+
+      for (const [file, polyfills] of Object.entries(polyfillsByFile)) {
+        const content = fs.readFileSync(
+          path.resolve(PKG_ROOT, `build${stage}/${file}`),
+          'utf-8'
+        )
+
+        for (const polyfill of polyfills) {
+          expect(content).not.toContain(`core-js-pure/stable/${polyfill}`)
+        }
+      }
+    }
+  )
 
   it.each(buildStages)('has correctly compiled on stage "%s"', (stage) => {
     switch (stage) {
@@ -827,6 +925,7 @@ describe('tsdown build', () => {
               path.resolve(PKG_ROOT, `build${stage}/dnb-ui-lib.min.mjs`),
               'utf-8'
             )
+            // eslint-disable-next-line security/detect-unsafe-regex -- the optional group does not repeat
             expect(content).toMatch(/import\s*(?:\w+,)?\{.*\}from"react";/)
             expect(content).toContain('}from"react-dom";')
             expect(content).toMatch(
@@ -969,10 +1068,10 @@ describe('style build', () => {
         'utf-8'
       )
       expect(content).toMatch(
-        /\.dnb-core-style {([\r\n][^}]*)+font-family: var\(--font-family-default\);/
+        /\.dnb-core-style {[\r\n][^}]*font-family: var\(--font-family-default\);/
       )
       expect(content).toMatch(
-        /html {([\r\n][^}]*)+line-height: var\(--line-height-basis\);/
+        /html {[\r\n][^}]*line-height: var\(--line-height-basis\);/
       )
     }
 
@@ -982,10 +1081,10 @@ describe('style build', () => {
         'utf-8'
       )
       expect(content).toMatch(
-        /\.dnb-core-style {([\r\n][^}]*)+font-family: var\(--font-family-default\);/
+        /\.dnb-core-style {[\r\n][^}]*font-family: var\(--font-family-default\);/
       )
       expect(content).not.toMatch(
-        /html {([\r\n][^}]*)+line-height: var\(--line-height-basis\);/
+        /html {[\r\n][^}]*line-height: var\(--line-height-basis\);/
       )
     }
 

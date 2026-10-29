@@ -13,7 +13,6 @@ import {
   expect,
   expect as vitestExpect,
 } from 'vitest'
-// @ts-expect-error
 import { commands } from 'vitest/browser'
 
 import { onMain, runOnMain, selectThemes } from './themeSelection.client'
@@ -28,7 +27,6 @@ import type { LoadImagePayload } from './commands/loadImage'
 export { expect, beforeAll, beforeEach, afterAll }
 export { onMain, runOnMain, selectThemes }
 
-// @ts-expect-error
 declare module 'vitest/internal/browser' {
   /* eslint-disable @typescript-eslint/consistent-type-definitions */
   interface BrowserCommands {
@@ -131,6 +129,7 @@ export type MakeScreenshotOptions = {
   url?: string
   themeName?: string
   colorScheme?: ScreenshotColorScheme
+  media?: 'screen' | 'print'
   pageViewport?: { width?: number; height?: number }
   headers?: Record<string, string>
   fullscreen?: boolean
@@ -296,6 +295,7 @@ export const makeScreenshot = async (
     url: opts.url ?? describeDefaults.url,
     themeName: opts.themeName ?? describeDefaults.themeName,
     colorScheme: opts.colorScheme ?? describeDefaults.colorScheme,
+    media: opts.media ?? 'screen',
     fullscreen: Boolean(opts.fullscreen || describeDefaults.fullscreen),
     pageViewport:
       opts.pageViewport ?? describeDefaults.pageViewport ?? null,

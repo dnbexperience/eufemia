@@ -1,15 +1,22 @@
 /* eslint-disable vitest/expect-expect */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
-import { StrictMode } from 'react'
+import { StrictMode, useEffect, useState } from 'react'
 import type { RefObject } from 'react'
-import { fireEvent, render, screen, waitFor } from '@testing-library/react'
+import {
+  act,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+} from '@testing-library/react'
+import { flushSync } from 'react-dom'
 import userEvent from '@testing-library/user-event'
 import {
   spyOnEufemiaWarn,
   wait,
 } from '../../../../../core/test-utils/testSetup'
 import type { JSONSchema, JSONSchemaType, OnSubmit } from '../../..'
-import { Form, Field, makeAjvInstance } from '../../..'
+import { Form, Field, Iterate, makeAjvInstance } from '../../..'
 import type { FieldStringProps as StringFieldProps } from '../../../Field/String'
 import type { ContextProps } from '../../../../../shared/Context'
 import nbNO from '../../../constants/locales/nb-NO'
@@ -19,6 +26,11 @@ const nb = nbNO['nb-NO']
 const en = enGB['en-GB']
 
 describe('Form.Handler', () => {
+  afterEach(() => {
+    // A failed test must not leave stored data behind for the next test to load
+    window.sessionStorage.removeItem('test-data')
+  })
+
   it('warns when JSON Schema is provided without ajvInstance', async () => {
     const log = spyOnEufemiaWarn()
 
@@ -487,6 +499,241 @@ describe('Form.Handler', () => {
     window.sessionStorage.removeItem('test-data')
   })
 
+  it('should not store password values in session storage', async () => {
+    render(
+      <Form.Handler sessionStorageId="test-data">
+        <Field.String path="/username" />
+        <Field.Password path="/password" />
+        <Field.Password
+          path="/user/newPassword"
+          autoComplete="new-password"
+        />
+        <Field.String path="/otp" autoComplete="one-time-code" />
+      </Form.Handler>
+    )
+
+    const [username, password, newPassword, otp] = Array.from(
+      document.querySelectorAll('input')
+    )
+    await userEvent.type(username, 'ola')
+    await userEvent.type(password, 'secret')
+    await userEvent.type(newPassword, 'new-secret')
+    await userEvent.type(otp, '123456')
+
+    // Revealing the password changes the input type to "text"
+    fireEvent.click(
+      document.querySelector('.dnb-forms-field-password button')
+    )
+    await userEvent.type(password, '!')
+
+    await waitFor(() => {
+      expect(
+        JSON.parse(window.sessionStorage.getItem('test-data'))
+      ).toEqual({ username: 'ola', user: {} })
+    })
+
+    window.sessionStorage.removeItem('test-data')
+  })
+
+  it('should not store password values inside Iterate.Array or Form.Section', async () => {
+    render(
+      <Form.Handler
+        sessionStorageId="test-data"
+        defaultData={{ users: [{ name: 'ola' }] }}
+      >
+        <Iterate.Array path="/users">
+          <Field.String itemPath="/name" />
+          <Field.Password itemPath="/password" />
+        </Iterate.Array>
+        <Form.Section path="/account">
+          <Field.Password path="/password" />
+        </Form.Section>
+      </Form.Handler>
+    )
+
+    const [, itemPassword, sectionPassword] = Array.from(
+      document.querySelectorAll('input')
+    )
+    await userEvent.type(itemPassword, 'item-secret')
+    await userEvent.type(sectionPassword, 'section-secret')
+
+    await waitFor(() => {
+      expect(
+        JSON.parse(window.sessionStorage.getItem('test-data'))
+      ).toEqual({ users: [{ name: 'ola' }], account: {} })
+    })
+
+    window.sessionStorage.removeItem('test-data')
+  })
+
+  it('should redact every primitive credential without shifting array items', async () => {
+    render(
+      <Form.Handler
+        sessionStorageId="test-data"
+        defaultData={{ passwords: ['first', 'second'], name: 'Ola' }}
+      >
+        <Iterate.Array path="/passwords">
+          <Field.Password itemPath="/" />
+        </Iterate.Array>
+        <Field.String path="/name" />
+      </Form.Handler>
+    )
+
+    await userEvent.type(document.querySelector('input'), '!')
+
+    await waitFor(() => {
+      expect(
+        JSON.parse(window.sessionStorage.getItem('test-data'))
+      ).toEqual({
+        passwords: [null, null],
+        name: 'Ola',
+      })
+    })
+    expect(document.querySelectorAll('input')[1]).toHaveValue('second')
+    window.sessionStorage.removeItem('test-data')
+  })
+
+  it('should not store a revealed password or a password type', async () => {
+    render(
+      <Form.Handler sessionStorageId="test-data">
+        <Field.Password path="/password" autoComplete="off" />
+        <Field.String path="/pin" type="password" />
+        <Field.String path="/name" />
+      </Form.Handler>
+    )
+
+    const [password, pin, name] = Array.from(
+      document.querySelectorAll('input')
+    )
+    await userEvent.type(password, 'secret')
+    await userEvent.type(pin, '1234')
+
+    // Revealing the password changes the input type to "text"
+    fireEvent.click(
+      document.querySelector('.dnb-forms-field-password button')
+    )
+    expect(password).toHaveAttribute('type', 'text')
+    await userEvent.type(name, 'Ola')
+
+    await waitFor(() => {
+      expect(
+        JSON.parse(window.sessionStorage.getItem('test-data'))
+      ).toEqual({ name: 'Ola' })
+    })
+
+    window.sessionStorage.removeItem('test-data')
+  })
+
+  it('should keep password values in the submitted data', async () => {
+    const onSubmit = vi.fn()
+    render(
+      <Form.Handler sessionStorageId="test-data" onSubmit={onSubmit}>
+        <Field.Password path="/password" />
+        <Field.String path="/name" />
+      </Form.Handler>
+    )
+
+    const [password, name] = Array.from(document.querySelectorAll('input'))
+    await userEvent.type(password, 'secret')
+    await userEvent.type(name, 'Ola')
+
+    await waitFor(() => {
+      expect(
+        JSON.parse(window.sessionStorage.getItem('test-data'))
+      ).toEqual({ name: 'Ola' })
+    })
+
+    fireEvent.submit(document.querySelector('form'))
+
+    // Removing the password from the stored copy must not remove it from the form data
+    await waitFor(() => {
+      expect(onSubmit).toHaveBeenCalledTimes(1)
+    })
+    expect(onSubmit.mock.calls[0][0]).toEqual({
+      password: 'secret',
+      name: 'Ola',
+    })
+
+    window.sessionStorage.removeItem('test-data')
+  })
+
+  it('should not store password values committed from Form.Isolation', async () => {
+    render(
+      <Form.Handler id="isolation-passwords" sessionStorageId="test-data">
+        <Field.String path="/name" />
+        <Form.Isolation>
+          <Field.Password path="/password" />
+          <Form.Isolation.CommitButton />
+        </Form.Isolation>
+        <Form.Isolation path="/account">
+          <Field.Password path="/password" />
+          <Form.Isolation.CommitButton />
+        </Form.Isolation>
+      </Form.Handler>
+    )
+
+    const [name, password, accountPassword] = Array.from(
+      document.querySelectorAll('input')
+    )
+    const [commit, accountCommit] = Array.from(
+      document.querySelectorAll('.dnb-forms-isolate__commit-button')
+    )
+    await userEvent.type(password, 'secret')
+    await userEvent.click(commit)
+    await userEvent.type(accountPassword, 'account-secret')
+    await userEvent.click(accountCommit)
+    await userEvent.type(name, 'Ola')
+
+    expect(Form.getData('isolation-passwords').data).toEqual({
+      name: 'Ola',
+      password: 'secret',
+      account: { password: 'account-secret' },
+    })
+    await waitFor(() => {
+      expect(
+        JSON.parse(window.sessionStorage.getItem('test-data'))
+      ).toEqual({ name: 'Ola', account: {} })
+    })
+
+    window.sessionStorage.removeItem('test-data')
+  })
+
+  it('should not store password values pushed from Iterate.PushContainer', async () => {
+    render(
+      <Form.Handler sessionStorageId="test-data">
+        <Iterate.Array path="/users">
+          <Field.String itemPath="/username" />
+        </Iterate.Array>
+        <Iterate.PushContainer path="/users">
+          <Field.String itemPath="/username" />
+          <Field.Password itemPath="/password" />
+        </Iterate.PushContainer>
+      </Form.Handler>
+    )
+
+    const pushUser = async (username: string, password: string) => {
+      // The push container renders after the list items
+      const [usernameInput, passwordInput] = Array.from(
+        document.querySelectorAll('input')
+      ).slice(-2)
+      await userEvent.type(usernameInput, username)
+      await userEvent.type(passwordInput, password)
+      await userEvent.click(
+        document.querySelector('.dnb-forms-iterate__done-button')
+      )
+    }
+    await pushUser('ola', 'first-secret')
+    await pushUser('kari', 'second-secret')
+
+    await waitFor(() => {
+      expect(
+        JSON.parse(window.sessionStorage.getItem('test-data'))
+      ).toEqual({ users: [{ username: 'ola' }, { username: 'kari' }] })
+    })
+
+    window.sessionStorage.removeItem('test-data')
+  })
+
   it('should reset sessionStorage on "resetForm" call', async () => {
     const setItem = vi.spyOn(
       Object.getPrototypeOf(window.sessionStorage),
@@ -618,6 +865,132 @@ describe('Form.Handler', () => {
     })
     afterEach(() => {
       log.mockRestore()
+    })
+
+    it.each([false, true])(
+      'should not submit rejected data after unmounting before the retry (async validator: %s)',
+      async (asyncValidator) => {
+        const onSubmit = vi.fn(async () => undefined)
+        const onSubmitComplete = vi.fn()
+        const error = new Error('Phone number must be 8 digits')
+        const onBlurValidator = vi.fn(
+          asyncValidator ? async () => error : () => error
+        )
+        const onSubmitRequest = vi.fn()
+
+        function Example() {
+          const [editing, setEditing] = useState(true)
+
+          return editing ? (
+            <Form.Handler
+              defaultData={{ phone: '12345', name: 'Updated name' }}
+              onSubmit={onSubmit}
+              onSubmitComplete={onSubmitComplete}
+              onSubmitRequest={({ getErrors }) => {
+                onSubmitRequest(getErrors())
+                requestAnimationFrame(() => {
+                  flushSync(() => setEditing(false))
+                })
+              }}
+            >
+              <Field.String
+                path="/phone"
+                onBlurValidator={onBlurValidator}
+              />
+              <Field.String path="/name" />
+              <Form.SubmitButton />
+            </Form.Handler>
+          ) : null
+        }
+
+        render(
+          <StrictMode>
+            <Example />
+          </StrictMode>
+        )
+
+        expect(onBlurValidator).not.toHaveBeenCalled()
+        fireEvent.submit(document.querySelector('form'))
+
+        await waitFor(() => {
+          expect(onSubmitRequest).toHaveBeenCalledWith([
+            expect.objectContaining({ path: '/phone', error }),
+          ])
+          expect(document.querySelector('form')).toBeNull()
+        })
+
+        await act(async () => {
+          await new Promise(requestAnimationFrame)
+          await new Promise(requestAnimationFrame)
+        })
+
+        expect(onBlurValidator).toHaveBeenCalledTimes(1)
+        expect(onSubmit).not.toHaveBeenCalled()
+        expect(onSubmitComplete).not.toHaveBeenCalled()
+      }
+    )
+
+    it.each([undefined, new Error('Invalid phone number')])(
+      'should not submit after unmounting while validation is running (result: %s)',
+      async (result) => {
+        let resolveValidator: () => void
+        const onSubmit = vi.fn(async () => undefined)
+        const onBlurValidator = vi.fn(async () => {
+          await new Promise<void>((resolve) => {
+            resolveValidator = resolve
+          })
+          return result
+        })
+        const { unmount } = render(
+          <Form.Handler
+            defaultData={{ phone: '12345678' }}
+            onSubmit={onSubmit}
+          >
+            <Field.String
+              path="/phone"
+              onBlurValidator={onBlurValidator}
+            />
+            <Form.SubmitButton />
+          </Form.Handler>
+        )
+
+        fireEvent.submit(document.querySelector('form'))
+
+        await waitFor(() => {
+          expect(onBlurValidator).toHaveBeenCalledTimes(1)
+        })
+        unmount()
+
+        await act(async () => {
+          resolveValidator()
+          await new Promise(requestAnimationFrame)
+        })
+
+        expect(onSubmit).not.toHaveBeenCalled()
+      }
+    )
+
+    it('should allow submitting from a child effect on mount', async () => {
+      const onSubmit = vi.fn()
+
+      function SubmitOnMount() {
+        const { submit } = Form.useSubmit()
+
+        useEffect(() => {
+          submit()
+          // eslint-disable-next-line react-hooks/exhaustive-deps -- Submit only on mount.
+        }, [])
+
+        return null
+      }
+
+      render(
+        <Form.Handler onSubmit={onSubmit}>
+          <SubmitOnMount />
+        </Form.Handler>
+      )
+
+      await waitFor(() => expect(onSubmit).toHaveBeenCalledTimes(1))
     })
 
     it('should disable form elements during submit indicator when formStatus is pending', () => {

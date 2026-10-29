@@ -108,6 +108,7 @@ function DatePickerProvider(props: DatePickerProviderProps) {
     {
       dateFormat,
       isRange: range,
+      rangeSingleCalendar: props.rangeSingleCalendar,
     }
   )
 

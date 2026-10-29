@@ -53,6 +53,7 @@ export type MakeScreenshotPayload = {
   url?: string | null
   themeName?: string | null
   colorScheme?: ScreenshotColorScheme | null
+  media?: 'screen' | 'print'
   fullscreen?: boolean
   pageViewport?: { width?: number; height?: number } | null
   headers?: Record<string, string> | null
@@ -1530,7 +1531,8 @@ async function performScreenshot(
     payload.simulateAfter ||
     payload.executeBeforeSimulateSrc ||
     payload.recalculateHeightAfterSimulate ||
-    payload.rootClassName
+    payload.rootClassName ||
+    payload.media === 'print'
   )
 
   let styleCleanup: (() => Promise<void>) | null = null
@@ -1541,6 +1543,7 @@ async function performScreenshot(
   const { page } = state
 
   try {
+    await page.emulateMedia({ media: payload.media ?? 'screen' })
     await makePageReady(state, payload)
 
     const elementResult = await handleElement(state, payload)

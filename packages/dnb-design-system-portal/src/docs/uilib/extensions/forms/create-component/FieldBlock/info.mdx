@@ -22,6 +22,8 @@ It shows surrounding elements through properties from `FieldProps` like `label` 
 
 It can also be used to group multiple inner FieldBlock components, composing status (error) messages together as one component. Check out the [Field.Composition](/uilib/extensions/forms/base-fields/Composition/) docs for that.
 
+`FieldBlock` renders status messages after its contents in the DOM. This order lets grouped messages include nested fields in server-rendered HTML. The `statusPosition="above"` property changes only the visual position; it does not change the DOM order.
+
 ```tsx
 import { FieldBlock } from '@dnb/eufemia/extensions/forms'
 

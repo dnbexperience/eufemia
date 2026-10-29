@@ -3,6 +3,7 @@ import {
   PutObjectCommand,
   S3Client,
 } from '@aws-sdk/client-s3'
+import { warnOnce } from './log.js'
 
 const s3 = new S3Client({})
 
@@ -14,9 +15,41 @@ export const SNAPSHOT_KEY = 'snapshots/dashboard.json'
 // top-level key (e.g. mcpUsage) without reshaping the envelope or existing charts.
 export type Snapshot = {
   generatedAt: string
-  portalViews: unknown[]
+  portalViewTrends: PortalViewTrendsSection
   mcpUsage: McpUsageSection
   componentUsage: ComponentUsageSection
+}
+
+export type RankedCount = { name: string; count: number }
+
+export type PortalViewDayCount = { dt: string; env: string; count: number }
+
+// An empty env is the ranking across all environments.
+export type PortalViewMonthPathCount = {
+  month: string
+  env: string
+  path: string
+  count: number
+}
+
+export type PortalViewLocaleThemeCount = {
+  env: string
+  locale: string
+  theme: string
+  count: number
+}
+
+// Page-view history read from the durable portal_views_daily rollup.
+export type PortalViewTrendsSection = {
+  perDay: PortalViewDayCount[]
+  topPathsPerMonth: PortalViewMonthPathCount[]
+  perLocaleAndTheme: PortalViewLocaleThemeCount[]
+}
+
+export const EMPTY_PORTAL_VIEW_TRENDS: PortalViewTrendsSection = {
+  perDay: [],
+  topPathsPerMonth: [],
+  perLocaleAndTheme: [],
 }
 
 // A daily portal page-view aggregate row (one per path+env+dimension combo per
@@ -36,27 +69,30 @@ export type PortalViewDaily = {
   count: number
 }
 
-// A daily MCP usage aggregate row (one per transport+tool+component+path per
-// day), read from and written to the durable mcp_usage_daily rollup.
+// A daily MCP usage aggregate row (one per transport+tool+component+path+miss
+// per day), read from and written to the durable mcp_usage_daily rollup.
 export type McpUsageDaily = {
   dt: string
   transport: string
   tool: string
   component: string
   path: string
+  component_missed: boolean
+  likely_component: string
   count: number
 }
 
-export type McpUsageCount = { name: string; count: number }
 export type McpUsageDay = { date: string; count: number }
 
 // MCP usage for one transport: total plus ranked breakdowns and a daily series
 // for trend/year-over-year views.
 export type McpTransportUsage = {
   total: number
-  perTool: McpUsageCount[]
-  perComponent: McpUsageCount[]
-  perPath: McpUsageCount[]
+  perTool: RankedCount[]
+  perComponent: RankedCount[]
+  perPath: RankedCount[]
+  missedLookups: number
+  perLikelyComponent: RankedCount[]
   daily: McpUsageDay[]
 }
 
@@ -65,7 +101,7 @@ export type McpTransportUsage = {
 // Eufemia version, so only `local` has `perVersion`.
 export type McpUsageSection = {
   web: McpTransportUsage
-  local: McpTransportUsage & { perVersion: McpUsageCount[] }
+  local: McpTransportUsage & { perVersion: RankedCount[] }
 }
 
 const EMPTY_MCP_TRANSPORT_USAGE: McpTransportUsage = {
@@ -73,6 +109,8 @@ const EMPTY_MCP_TRANSPORT_USAGE: McpTransportUsage = {
   perTool: [],
   perComponent: [],
   perPath: [],
+  missedLookups: 0,
+  perLikelyComponent: [],
   daily: [],
 }
 
@@ -80,11 +118,6 @@ export const EMPTY_MCP_USAGE: McpUsageSection = {
   web: EMPTY_MCP_TRANSPORT_USAGE,
   local: { ...EMPTY_MCP_TRANSPORT_USAGE, perVersion: [] },
 }
-
-// The component usage dashboard section: overall total plus ranked breakdowns by
-// component, consuming app, and resolved Eufemia version. Populated once the
-// Nucleus bundler plugin (the producer) lands; empty until then.
-export type ComponentUsageCount = { name: string; count: number }
 
 // A component-usage count keyed by app+component+version, summed across days.
 // This is what the durable rollup returns for the dashboard section (Athena does
@@ -100,11 +133,14 @@ export type ComponentUsageAggregate = {
 // written to the durable component_usage_daily rollup and recomputed from raw.
 export type ComponentUsageDaily = ComponentUsageAggregate & { dt: string }
 
+// The component usage dashboard section: overall total plus ranked breakdowns by
+// component, consuming app, and resolved Eufemia version. Populated once the
+// Nucleus bundler plugin (the producer) lands; empty until then.
 export type ComponentUsageSection = {
   total: number
-  perComponent: ComponentUsageCount[]
-  perApp: ComponentUsageCount[]
-  perVersion: ComponentUsageCount[]
+  perComponent: RankedCount[]
+  perApp: RankedCount[]
+  perVersion: RankedCount[]
 }
 
 export const EMPTY_COMPONENT_USAGE: ComponentUsageSection = {
@@ -112,31 +148,6 @@ export const EMPTY_COMPONENT_USAGE: ComponentUsageSection = {
   perComponent: [],
   perApp: [],
   perVersion: [],
-}
-
-export function requireEnv(name: string): string {
-  const value = process.env[name]
-
-  if (!value) {
-    throw new Error(`${name} environment variable is not set`)
-  }
-
-  return value
-}
-
-// Logs a message at most once per process, so a persistent misconfiguration
-// (e.g. a missing s3:GetObject permission) surfaces in CloudWatch without
-// repeating on every request.
-const warned = new Set<string>()
-
-function warnOnce(message: string): void {
-  if (warned.has(message)) {
-    return
-  }
-
-  warned.add(message)
-  // eslint-disable-next-line no-console -- server-side logging to CloudWatch
-  console.error(message)
 }
 
 export async function readSnapshot(
@@ -177,27 +188,22 @@ export async function writeSnapshot(
 }
 
 // The *-daily/ prefixes have no lifecycle rule, so rollups outlive the raw rows'
-// expiry. `projectRow` must emit exactly the Glue table's columns (minus `dt`).
-export async function storeDailyRollup<T extends { dt: string }>(
+// expiry. Rows must hold exactly the Glue table's columns plus `dt` (partition).
+export async function storeDailyRollup(
   bucket: string,
   prefix: `${string}/`,
-  rows: T[],
-  projectRow: (row: T) => Record<string, unknown>
+  rows: { dt: string }[]
 ): Promise<void> {
-  const byDt = new Map<string, T[]>()
-
-  for (const row of rows) {
-    const list = byDt.get(row.dt) ?? []
-    list.push(row)
-    byDt.set(row.dt, list)
-  }
+  const byDt = Map.groupBy(rows, (row) => row.dt)
 
   for (const [dt, dtRows] of byDt) {
     await s3.send(
       new PutObjectCommand({
         Bucket: bucket,
         Key: `${prefix}dt=${dt}/agg.json`,
-        Body: dtRows.map((r) => JSON.stringify(projectRow(r))).join('\n'),
+        Body: dtRows
+          .map(({ dt: _dt, ...row }) => JSON.stringify(row))
+          .join('\n'),
         ContentType: 'application/x-ndjson',
       })
     )

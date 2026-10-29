@@ -183,3 +183,66 @@ tools/mcp-lambda/
 ├── package.json
 └── tsconfig.json
 ```
+
+## Production HTTP monitoring
+
+Hourly checks of https://server.eufemia.dnb.no/mcp/web and Slack notifications
+run in AWS EventBridge Scheduler and Lambda. See [service monitoring](../service-monitoring/README.md)
+for deployment, incident handling and rollback.
+
+GitHub Actions builds and validates the monitoring package, but does not run a
+separate HTTP MCP health workflow. For an on-demand diagnosis, use the read-only
+local command below.
+
+Each run checks:
+
+- Public HTTPS liveness at https://server.eufemia.dnb.no/healthz.
+- MCP 2025 initialization and MCP 2026 discovery, including server identity,
+  supported protocol and tools capability.
+- The required documentation tools in both protocol versions.
+- A real Button documentation read and valid docs metadata through both
+  transports. HTTP 200 containing an error or empty document fails.
+- The served docs commit against the most recent MCP Lambda deployment source.
+  A mismatch is pending for one hour after the public build/push completes;
+  actual availability and protocol failures still fail after retries. Failed
+  deployment workflows and runs stalled for an hour are reported separately.
+
+The hosted docs are rebuilt independently of npm and currently report a
+development version. The source commit is the deployment freshness signal;
+this monitor does not claim npm version equality. The public deployment
+workflow hands artifacts to a separate deploy pipeline, so its success alone
+is insufficient: the monitor also checks the commit returned by production.
+A public workflow that finishes without updating production is detected after
+the rollout window. Metadata uses the generated short commit hash.
+
+Requests have a 20-second deadline, a 1 MiB response limit and two retries.
+JSON and event-stream replies are supported; complete MCP events are consumed
+without waiting for the server to close the stream. These are read-only MCP
+tool calls. They pass through the existing anonymous usage tracking and are
+not unique-user activity. The check does not verify the telemetry consumer,
+all documentation files, every edge location or deployment infrastructure.
+
+AWS keeps shared notification state for MCP and CDN, posts one alert per incident, and replies with recovery in the incident thread. Repeated or changed failures only update the shared overview. Pending delivery is retained for retries. Slack bot configuration is read from Secrets Manager.
+
+For prompt paging and regional coverage, pair the hourly AWS checks with an
+independent multi-region uptime check of the public health endpoint. Verify
+failure and recovery delivery as described in the service-monitoring README
+before changing alert ownership.
+
+Run the production check locally from the repository root:
+
+```sh
+yarn workspace eufemia-mcp-lambda check:http
+```
+
+This reads public production endpoints and writes
+`tools/mcp-lambda/mcp-health-report.json`. Exit code 1 means unhealthy; a
+pending deployment is reported explicitly and exits 0. To run the same
+read-only production checks outside Yarn, use:
+
+```sh
+node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON tools/mcp-lambda/src/check-http.ts
+```
+
+The report is written to the current directory. An optional `GH_TOKEN` is sent
+only to the GitHub API for rate limiting; MCP endpoints receive no credentials.

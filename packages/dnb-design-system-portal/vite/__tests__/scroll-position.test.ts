@@ -1,7 +1,11 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { render } from '@testing-library/react'
+import { createElement } from 'react'
+import { MemoryRouter } from 'react-router'
 import {
   saveScrollPosition,
   restoreScrollPosition,
+  useScrollPosition,
 } from '../client/plugins/scroll-position.runtime'
 
 beforeEach(() => {
@@ -121,5 +125,45 @@ describe('restoreScrollPosition', () => {
     expect(sidebar.scrollTop).toBe(800)
 
     document.body.removeChild(sidebar)
+  })
+})
+
+describe('useScrollPosition', () => {
+  it('owns browser scroll restoration for hash navigation', () => {
+    window.history.scrollRestoration = 'auto'
+    vi.spyOn(window, 'requestAnimationFrame').mockReturnValue(1)
+
+    function Consumer() {
+      useScrollPosition()
+      return null
+    }
+
+    const { unmount } = render(
+      createElement(
+        MemoryRouter,
+        { initialEntries: ['/#details'] },
+        createElement(Consumer)
+      )
+    )
+
+    expect(window.history.scrollRestoration).toBe('manual')
+
+    unmount()
+
+    expect(window.history.scrollRestoration).toBe('auto')
+  })
+
+  it('preserves native scroll restoration without a hash', () => {
+    window.history.scrollRestoration = 'auto'
+    vi.spyOn(window, 'requestAnimationFrame').mockReturnValue(1)
+
+    function Consumer() {
+      useScrollPosition()
+      return null
+    }
+
+    render(createElement(MemoryRouter, null, createElement(Consumer)))
+
+    expect(window.history.scrollRestoration).toBe('auto')
   })
 })

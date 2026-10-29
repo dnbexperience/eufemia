@@ -658,12 +658,14 @@ describe('ArraySelection', () => {
       )
 
       expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(2)
-      const [first, second] = Array.from(
+
+      // The status of the selection is rendered after its contents
+      const [nested, outer] = Array.from(
         document.querySelectorAll('.dnb-form-status')
       )
 
-      expect(first.textContent).toBe(nb.Field.errorRequired)
-      expect(second.textContent).toBe(
+      expect(outer.textContent).toBe(nb.Field.errorRequired)
+      expect(nested.textContent).toBe(
         nb.NumberField.errorExclusiveMinimum.replace(
           '{exclusiveMinimum}',
           '900'

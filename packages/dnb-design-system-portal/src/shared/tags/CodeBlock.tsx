@@ -25,6 +25,7 @@ import {
 } from '@dnb/eufemia/src/components'
 import CopyOnClick from '@dnb/eufemia/src/components/copy-on-click/CopyOnClick'
 import type { CopyOnClickButtonProps } from '@dnb/eufemia/src/components/copy-on-click/CopyOnClick'
+import PortalRoot from '@dnb/eufemia/src/components/PortalRoot'
 import {
   fullscreen as focusModeIcon,
   close as focusModeCloseIcon,
@@ -70,13 +71,22 @@ export type CodeSectionProps = {
   noInline?: boolean
   hideToolbar?: boolean
   hideCode?: boolean
+  /** Show the preview without code actions or an editor. */
+  previewOnly?: boolean
   hidePreview?: boolean
+  /**
+   * Use this demo as the social preview; stack its flex group only during capture.
+   * Set to false to use the default image instead of a component screenshot.
+   */
+  socialPreview?: boolean | 'stack'
   /**
    * Use surface="dark" to show the button to toggle surface, forcing it to be dark by default.
    */
   surface?: ThemeSurface
   reactLive?: boolean
   language?: string
+  /** Language of the preview. Defaults to the selected component locale. */
+  lang?: string
   className?: string
   background?: 'grid' | 'plain'
   omitWrapper?: boolean
@@ -204,7 +214,9 @@ function LiveCode(props: LiveCodeProps) {
   const codeAccordionId = `${baseId}-code`
   const previewAccordionId = `${baseId}-preview`
 
-  const [hideCode, setHideCode] = useState(props.hideCode)
+  const [hideCode, setHideCode] = useState(
+    props.hideCode || props.previewOnly
+  )
   const [hidePreview, setHidePreview] = useState(props.hidePreview)
   const [showFocusModePadding, setShowFocusModePadding] = useState(true)
   const [editedCode, setEditedCode] = useState<string | null>(null)
@@ -227,12 +239,15 @@ function LiveCode(props: LiveCodeProps) {
     noInline,
     noFragments = true,
     language = 'jsx',
+    lang = context.locale,
     background,
     omitWrapper,
     hideToolbar,
 
     code: codeProp,
     hideCode: hideCodeProp,
+    previewOnly,
+    socialPreview,
     hidePreview: hidePreviewProp,
     surface: surfaceProp,
     'data-visual-test': visualTest,
@@ -401,36 +416,52 @@ function LiveCode(props: LiveCodeProps) {
     </Space>
   )
 
+  const socialPreviewMarker =
+    socialPreview === undefined ? undefined : Boolean(socialPreview)
+
   const previewContent = (
-    <Theme colorScheme={colorScheme} surface={surface}>
-      {omitWrapper ? (
-        <LivePreview
-          className={clsx('dnb-live-preview')}
-          data-visual-test={visualTest}
-          data-link-check="ignore"
-        />
-      ) : (
-        <div
-          data-link-check="ignore"
-          className={clsx(
-            'example-box',
-            exampleBoxStyle,
-            showFocusModePadding && showFocusModePaddingStyle
-          )}
-        >
+    <PortalRoot.Provider lang={lang}>
+      <Theme colorScheme={colorScheme} surface={surface}>
+        {omitWrapper ? (
           <LivePreview
+            lang={lang}
             className={clsx('dnb-live-preview')}
             data-visual-test={visualTest}
+            data-social-preview={socialPreviewMarker}
+            data-social-preview-layout={
+              socialPreview === 'stack' ? 'stack' : undefined
+            }
+            data-link-check="ignore"
           />
-        </div>
-      )}
-    </Theme>
+        ) : (
+          <div
+            data-link-check="ignore"
+            className={clsx(
+              'example-box',
+              exampleBoxStyle,
+              showFocusModePadding && showFocusModePaddingStyle
+            )}
+          >
+            <LivePreview
+              lang={lang}
+              className={clsx('dnb-live-preview')}
+              data-visual-test={visualTest}
+              data-social-preview={socialPreviewMarker}
+              data-social-preview-layout={
+                socialPreview === 'stack' ? 'stack' : undefined
+              }
+            />
+          </div>
+        )}
+      </Theme>
+    </PortalRoot.Provider>
   )
 
   // The code editor is collapsible via an Accordion whenever a toggle is
   // rendered in the toolbar (always for omitWrapper, or when hideCode is set).
   // Without a toolbar there is no toggle, so the editor renders directly.
-  const showCodeToggle = !hideToolbar && (omitWrapper || hideCodeProp)
+  const showCodeToggle =
+    !previewOnly && !hideToolbar && (omitWrapper || hideCodeProp)
 
   const codeToggleAccordion = (
     <Accordion
@@ -491,10 +522,10 @@ function LiveCode(props: LiveCodeProps) {
               className={clsx('dnb-live-toolbar', toolbarStyle)}
             >
               {omitWrapper ? (
-                codeToggleAccordion
+                !previewOnly && codeToggleAccordion
               ) : (
                 <>
-                  {hideCodeProp && codeToggleAccordion}
+                  {!previewOnly && hideCodeProp && codeToggleAccordion}
 
                   {isInFocusMode && (
                     <ChangeStyleTheme
@@ -541,9 +572,11 @@ function LiveCode(props: LiveCodeProps) {
                       />
                     )}
 
-                    {!isInFocusMode && copyCodeButton}
+                    {!previewOnly && !isInFocusMode && copyCodeButton}
 
-                    {!isInFocusMode && openInStackBlitzButton}
+                    {!previewOnly &&
+                      !isInFocusMode &&
+                      openInStackBlitzButton}
 
                     {focusModePaddingButton}
 
@@ -554,7 +587,8 @@ function LiveCode(props: LiveCodeProps) {
             </Space>
           )}
 
-          {!global.IS_TEST &&
+          {!previewOnly &&
+            !global.IS_TEST &&
             (showCodeToggle ? (
               <Accordion.Content connectedTo={codeAccordionId}>
                 {codeEditor}
@@ -615,6 +649,7 @@ const cleanTokens = (tokens) => {
 Prism.languages.insertBefore('jsx', 'template-string', {
   'styled-template-string': {
     pattern:
+      // eslint-disable-next-line security/detect-unsafe-regex -- each repetition starts with a literal "." or "(", and the input is our own code examples
       /(styled(\.\w+|\([^)]*\))(\.\w+(\([^)]*\))*)*|css|injectGlobal|keyframes|css={)`(?:\$\{[^}]+\}|\\\\|\\?[^\\])*?`/,
     lookbehind: true,
     greedy: true,

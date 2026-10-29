@@ -11,9 +11,12 @@ const pageSize = 10
 
 const headingLevels = [2, 3, 4, 5, 6] as const
 
+// eslint-disable-next-line security/detect-unsafe-regex -- the repeated group always consumes a newline, so it cannot backtrack exponentially
+const leadingHeading = /^##\s+.*(?:\r?\n)+/
+
 export function prepareReleaseNotes(body: string) {
   return body
-    .replace(/^##\s+.*(?:\r?\n)+/, '')
+    .replace(leadingHeading, '')
     .replace(/^###\s+:[^:\n]+:\s*/gm, '### ')
 }
 

@@ -6,6 +6,8 @@ test.describe('whatInput keyboard detection', () => {
   }) => {
     await page.goto('/uilib/components/autocomplete/demos')
 
+    await expect(page.locator('html')).toHaveAttribute('data-whatinput')
+
     const input = page.locator('.dnb-autocomplete__input').first()
 
     await input.click()

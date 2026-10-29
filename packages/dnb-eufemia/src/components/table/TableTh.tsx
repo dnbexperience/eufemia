@@ -50,7 +50,6 @@ export type TableThProps = {
 
   /**
    * The content of the component.
-   * Default: `undefined`
    */
   children?: TableThChildren | Array<TableThChildren>
 

@@ -17,12 +17,13 @@
   },
   "dependencies": {
     "@aws-sdk/client-athena": "3.1075.0",
-    "@aws-sdk/client-s3": "3.1075.0"
+    "@aws-sdk/client-s3": "3.1075.0",
+    "eufemia-usage-ingest": "workspace:*"
   },
   "devDependencies": {
     "@types/aws-lambda": "8.10.161",
     "esbuild": "0.25.5",
-    "vitest": "4.1.11"
+    "vitest": "4.1.12"
   },
   "volta": {
     "extends": "../../package.json"

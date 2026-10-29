@@ -188,13 +188,13 @@ test.describe('Focus mode', () => {
   test('should restore scroll position after page refresh in focusmode', async ({
     page,
   }) => {
-    // Scroll down
-    await page.evaluate(() => window.scrollTo({ top: 500 }))
-    await page.waitForTimeout(200)
+    const button = page.locator('button[aria-label="Focus mode"]').last()
+    await button.scrollIntoViewIfNeeded()
+    const scrollBefore = await page.evaluate(() => window.scrollY)
+    expect(scrollBefore).toBeGreaterThan(0)
 
     // Enter focusmode
-    const buttons = page.locator('button[aria-label="Focus mode"]')
-    await buttons.first().click()
+    await button.click()
     await expect(page).toHaveURL(/focusmode=/)
 
     // Refresh the page
@@ -214,7 +214,7 @@ test.describe('Focus mode', () => {
     // Scroll should be restored from sessionStorage
     await expect
       .poll(() => page.evaluate(() => window.scrollY))
-      .toBeGreaterThan(0)
+      .toBe(scrollBefore)
   })
 
   test('should restore the previous page and position with Back and Forward', async ({

@@ -205,6 +205,19 @@ describe('Switch component', () => {
     expect(statusText).toHaveClass('dnb-form-status__text')
   })
 
+  it('sets aria-invalid when status is an error', () => {
+    const { rerender } = render(<Switch {...props} status="status" />)
+    expect(document.querySelector('input')).toHaveAttribute(
+      'aria-invalid',
+      'true'
+    )
+
+    rerender(<Switch {...props} status="status" statusState="warning" />)
+    expect(document.querySelector('input')).not.toHaveAttribute(
+      'aria-invalid'
+    )
+  })
+
   it('does not set aria-describedby when no status is given', () => {
     render(<Switch {...props} />)
 
@@ -343,6 +356,22 @@ describe('Switch component', () => {
 })
 
 describe('Switch scss', () => {
+  it('shows the knob in forced colors mode', () => {
+    const css = loadScss(require.resolve('../style/dnb-switch.scss'))
+
+    expect(css).toMatch(
+      /@media \(forced-colors: active\) \{\s*\.dnb-switch__button \{\s*outline: 0\.125rem solid transparent;\s*outline-offset: calc\(0\.125rem \* -1\);/
+    )
+  })
+
+  it('shows disabled switches with the disabled text color in forced colors mode', () => {
+    const css = loadScss(require.resolve('../style/dnb-switch.scss'))
+
+    expect(css).toMatch(
+      /@media \(forced-colors: active\) \{\s*\.dnb-switch:not\(\.dnb-skeleton\) \.dnb-switch__input\[disabled\] ~ \.dnb-switch__background,\s*\.dnb-switch:not\(\.dnb-skeleton\) \.dnb-switch__input\[disabled\]:checked ~ \.dnb-switch__background \{\s*border-color: GrayText;\s*\}\s*\.dnb-switch:not\(\.dnb-skeleton\) \.dnb-switch__input\[disabled\] ~ \.dnb-switch__button,\s*\.dnb-switch:not\(\.dnb-skeleton\) \.dnb-switch__input\[disabled\]:checked ~ \.dnb-switch__button \{\s*color: GrayText;\s*outline-color: GrayText;/
+    )
+  })
+
   it('uses the subtle stroke for disabled switches', () => {
     const css = loadScss(require.resolve('../style/dnb-switch.scss'))
 

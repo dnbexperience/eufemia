@@ -24,8 +24,8 @@ The public workflow `.github/workflows/assets.yml` copies the assets, Terraform
 configuration, and deploy workflow to the `deploy` branch of the private GitHub
 Enterprise repository configured by `GHE_ASSETS_DEPLOY_REPO`. That repository
 deploys through GitHub OIDC without AWS access keys. The public workflow then
-waits for the published version to answer and fails when it never does, so a
-version that does not reach the CDN cannot pass unnoticed.
+waits for a versioned font and SVG to return HTTP 200 with the expected Content
+Security Policy through the public hostname, and fails if either check times out.
 
 The infrastructure uses `environment=dev` because Eufemia currently has one AWS
 account, `DNB-EUFEMIA-Dev`. The production Akamai hostname is independent of
@@ -50,3 +50,63 @@ property like the CloudFront-backed dashboard property, including
 `X-Origin-Verify`; the Lambda-backed server property uses a different header.
 The public DNS record is created by that repository's standard Akamai DNS PR
 module.
+
+## Production monitoring
+
+Hourly production checks and Slack incident/recovery notifications run in AWS
+EventBridge Scheduler and Lambda. See [service monitoring](../service-monitoring/README.md)
+for deployment, alert ownership and rollback.
+
+GitHub Actions builds and validates the monitoring package, but does not run a
+separate CDN health workflow. Release-time asset and CSP verification remains
+in the publishing workflow. For an on-demand diagnosis, use the read-only
+local command below.
+
+The monitor checks:
+
+- npm's `latest` stable version and its publication time.
+- Stable URLs for DNB Regular, DNB Bold, and the DNB logo, even if npm is down.
+- The latest version's deployment manifest and the same immutable assets.
+- HTTP 200, actual binary signatures, MIME types, public CORS headers, and
+  immutable asset SHA-256 hashes against the deployment manifest.
+- Stable aliases against the latest manifest after 25 hours, allowing for the
+  public edge's 24-hour cache plus one hour for deployment.
+
+Each failed request is retried twice, with a 10-second timeout per attempt.
+Missing versioned assets (403 or 404) have a 60-minute grace period after npm
+publication. During this period the previous stable version is also checked.
+Stable outages, invalid content, CORS errors, and timeouts still fail immediately
+after retries. A pending deployment does not close an existing incident.
+Prereleases do not move npm's stable `latest` tag and are outside this monitor's
+scope. This is a representative asset check, not an audit of every asset or
+historical release. Hashes verify consistency with the CDN deployment manifest;
+they do not independently compare the entire npm tarball with the CDN.
+
+### Alerts
+
+AWS owns one new-incident alert and one recovery reply in the incident thread. Its shared overview updates quietly; repeated or changed failures do not create new posts. Pending delivery is retained for retries. Slack bot configuration is read from AWS Secrets Manager; local diagnostic commands do not receive it. Unavailable npm metadata is reported separately from CDN
+availability in each report.
+
+The hourly AWS checks run from one region. For faster paging and regional
+coverage, pair them with an independent multi-region uptime check of a stable
+asset URL. See the [monitoring rollout and rollback instructions](../service-monitoring/README.md#migration-and-tests).
+
+### Local verification
+
+Run from the repository root after `yarn install --immutable`:
+
+```sh
+yarn workspace eufemia-assets-hosting test
+yarn workspace eufemia-assets-hosting test:types
+yarn workspace eufemia-assets-hosting lint
+yarn workspace eufemia-assets-hosting check:cdn
+```
+
+The last command only reads public npm/CDN endpoints. It writes
+`tools/assets/cdn-health-report.json` and exits nonzero on failure. To execute
+the same read-only production checks, run `node tools/assets/check-cdn.ts` from
+the root; its report is written in the current directory.
+
+## Portal social images
+
+The independently published og/ namespace contains content-addressed PNGs, reusable crops, and the current catalogue. The internal social-images.yml workflow publishes it on weekly or manual requests from the public Portal workflow, using AWS OIDC. Set ASSETS_BUCKET_NAME and ASSETS_DISTRIBUTION_ID in the internal assets repository. The workflow uses the OG_AWS_ROLE_ARN role when it is set, otherwise AWS_ROLE_ARN. A dedicated OG role needs only to list, read and write objects under og/ and to create CloudFront invalidations. Only the restore and publish jobs request AWS credentials. The renderer runs in a separate job without them. Immutable images use one-year cache headers; og/manifest.json uses a short cache lifetime. Uploads never delete old images or touch fonts, versioned packages, or logos/.

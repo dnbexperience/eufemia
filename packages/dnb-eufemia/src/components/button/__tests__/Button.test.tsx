@@ -434,6 +434,36 @@ describe('Button component', () => {
     expect(global.console.log).toHaveBeenCalled()
   })
 
+  it('will warn when a tertiary link without an icon opens in the same tab', () => {
+    process.env.NODE_ENV = 'development'
+    global.console.log = vi.fn()
+    render(<Button text="Button" variant="tertiary" href="https://url" />)
+    expect(global.console.log).toHaveBeenCalledWith(
+      expect.anything(),
+      expect.anything(),
+      expect.stringContaining('Icon required')
+    )
+  })
+
+  it('will not warn when a tertiary link opens a new tab, because it gets a launch icon', () => {
+    process.env.NODE_ENV = 'development'
+    global.console.log = vi.fn()
+    render(
+      <Button
+        text="Button"
+        variant="tertiary"
+        href="https://url"
+        target="_blank"
+      />
+    )
+    expect(document.querySelector('.dnb-icon')).toBeInTheDocument()
+    expect(global.console.log).not.toHaveBeenCalledWith(
+      expect.anything(),
+      expect.anything(),
+      expect.stringContaining('Icon required')
+    )
+  })
+
   it('will warn when icon-only button has no title or aria-label', () => {
     process.env.NODE_ENV = 'development'
     global.console.log = vi.fn()
@@ -751,6 +781,90 @@ describe('Button scss', () => {
 
     expect(css).toMatch(
       /@media \(forced-colors: active\) \{[^{]*\.dnb-button--primary:focus-visible:not\(\[disabled\]\)[^{]*\{\s*outline: var\(--focus-ring-width\) solid transparent;/
+    )
+  })
+
+  it('shows the border in forced colors mode', () => {
+    const css = loadScss(require.resolve('../style/deps.scss'))
+
+    // Inside, like the border, so that a neighbor cannot cover it
+    expect(css).toMatch(
+      /@media \(forced-colors: active\) \{\s*\.dnb-button--primary,\s*\.dnb-button--secondary \{\s*outline: var\(--button-border-width, var\(--button-border-width--default\)\) solid transparent;\s*outline-offset: calc\(var\(--button-border-width, var\(--button-border-width--default\)\) \* -1\);/
+    )
+    // The focus ring stays outside
+    expect(css).toMatch(
+      /@media \(forced-colors: active\) \{[^{]*\.dnb-button--primary:focus-visible:not\(\[disabled\]\)[^{]*\{\s*outline-offset: 0;/
+    )
+  })
+
+  it('shows disabled buttons with the disabled text color in forced colors mode', () => {
+    const css = loadScss(require.resolve('../style/deps.scss'))
+
+    expect(css).toMatch(
+      /@media \(forced-colors: active\) \{\s*\.dnb-button--primary\[disabled\],\s*\.dnb-button--secondary\[disabled\],[^{]*\{\s*outline: var\(--button-border-width, var\(--button-border-width--default\)\) solid transparent;\s*outline-offset: calc\(var\(--button-border-width, var\(--button-border-width--default\)\) \* -1\);/
+    )
+    expect(css).toMatch(
+      /@media \(forced-colors: active\) \{\s*\.dnb-button--primary\[disabled\],\s*\.dnb-button--secondary\[disabled\],[^{]*\{\s*outline-color: GrayText;/
+    )
+  })
+
+  it('styles buttons with aria-disabled like disabled buttons', () => {
+    const css = loadScss(require.resolve('../style/deps.scss'))
+    const ariaDisabled = `\\[aria-disabled=["']?true["']?\\]`
+
+    // Disabled colors
+    expect(css).toMatch(
+      new RegExp(
+        `\\.dnb-button--primary\\[disabled\\],\\s*\\.dnb-button--primary${ariaDisabled},[^{]*\\{\\s*--button-color-bg: var\\(--button-color-bg--disabled\\);`
+      )
+    )
+
+    // No hover or active state
+    expect(css).toMatch(
+      new RegExp(
+        `\\.dnb-button--primary:where\\(:not\\(${ariaDisabled}\\)\\):hover:not\\(\\[disabled\\]\\)[^{]*\\{\\s*--button-color-bg: var\\(--button-color-bg--hover\\);`
+      )
+    )
+    expect(css).toMatch(
+      new RegExp(
+        `\\.dnb-button--primary:where\\(:not\\(${ariaDisabled}\\)\\):active:not\\(\\[disabled\\]\\)[^{]*\\{\\s*--button-color-bg: var\\(--button-color-bg--active\\);`
+      )
+    )
+    expect(css).toMatch(
+      new RegExp(
+        `\\.dnb-button--tertiary:where\\(:not\\(${ariaDisabled}\\)\\):hover:not\\(\\[disabled\\]\\) \\.dnb-button__text \\{\\s*text-decoration-color:`
+      )
+    )
+
+    // Keeps the disabled colors with the focus ring
+    expect(css).toMatch(
+      new RegExp(
+        `\\.dnb-button--primary:focus-visible:not\\(\\[disabled\\]\\)${ariaDisabled}[^{]*\\{\\s*--button-color-bg: var\\(--button-color-bg--disabled\\);\\s*--button-color-icon: var\\(--button-color-icon--disabled\\);\\s*--button-color-text: var\\(--button-color-text--disabled\\);\\s*\\}`
+      )
+    )
+
+    // Forced colors mode
+    expect(css).toMatch(
+      new RegExp(
+        `@media \\(forced-colors: active\\) \\{[^{]*\\.dnb-button--primary${ariaDisabled},\\s*\\.dnb-button--secondary${ariaDisabled} \\{\\s*outline-color: GrayText;`
+      )
+    )
+    expect(css).toMatch(
+      new RegExp(
+        `@media \\(forced-colors: active\\) \\{\\s*\\.dnb-button${ariaDisabled},\\s*\\.dnb-button${ariaDisabled} \\.dnb-button__icon \\{\\s*color: GrayText;`
+      )
+    )
+  })
+
+  it('shows selected icon buttons with the selected system colors in forced colors mode', () => {
+    const css = loadScss(require.resolve('../style/deps.scss'))
+
+    expect(css).toMatch(
+      /@media \(forced-colors: active\) \{\s*\.dnb-button--icon-only\.dnb-button--selected \{\s*background-color: Highlight;\s*color: HighlightText;\s*outline-color: Highlight;\s*\}\s*\.dnb-button--icon-only\.dnb-button--selected \.dnb-button__icon \{\s*color: HighlightText;/
+    )
+    // The focus ring would else have the same color as the background
+    expect(css).toMatch(
+      /@media \(forced-colors: active\) \{[^{]*\.dnb-button--icon-only\.dnb-button--selected:focus-visible:not\(\[disabled\]\) \{\s*outline-color: CanvasText;/
     )
   })
 })

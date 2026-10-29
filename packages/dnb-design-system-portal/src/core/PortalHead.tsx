@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import { getSocialDetails } from '../shared/social-image.mjs'
 import { graphql, useStaticQuery } from 'portal-query'
 
 function formatTitle(title) {
@@ -42,6 +43,21 @@ export function usePortalHead({ title, description }) {
           'content',
           description || defaultDescription
         )
+      }
+
+      for (const { name, content } of getSocialDetails(
+        title ? formatTitle(title) : 'Eufemia',
+        description || defaultDescription
+      )) {
+        const meta =
+          document.querySelector<HTMLMetaElement>(
+            'meta[name="' + name + '"]'
+          ) || document.createElement('meta')
+        meta.name = name
+        meta.content = content
+        if (!meta.isConnected) {
+          document.head.appendChild(meta)
+        }
       }
     }
   }, [title, description, defaultDescription])

@@ -10,6 +10,9 @@ import {
   splitIssueBody,
 } from './portal-accessibility-report.mjs'
 
+// Only these rules depend on the color scheme
+const colorRules = ['color-contrast', 'link-in-text-block']
+
 main()
 
 async function main() {
@@ -21,70 +24,70 @@ async function main() {
   const paths = args.limit
     ? sitemap.pages.slice(0, Number(args.limit))
     : sitemap.pages
+  const colorSchemes = args.colorSchemes?.split(',') ?? ['light']
   const browser = await chromium.launch()
   const duplicateIdFindings = []
   const findings = []
   const errors = []
-  let cursor = 0
 
-  await Promise.all(
-    Array.from({ length: Math.min(6, paths.length) }, async () => {
-      const context = await browser.newContext()
-      await context.addInitScript(() => {
-        Reflect.deleteProperty(Navigator.prototype, 'sendBeacon')
-      })
-      const page = await context.newPage()
+  for (const colorScheme of colorSchemes) {
+    const isLight = colorScheme === 'light'
+    let cursor = 0
 
-      while (cursor < paths.length) {
-        const path = paths[cursor++]
+    await Promise.all(
+      Array.from({ length: Math.min(6, paths.length) }, async () => {
+        const context = await browser.newContext({ colorScheme })
+        await context.addInitScript(() => {
+          Reflect.deleteProperty(Navigator.prototype, 'sendBeacon')
+        })
+        const page = await context.newPage()
 
-        try {
-          const response = await page.goto(
-            new URL(path, args.baseUrl).href,
-            {
-              waitUntil: 'load',
-              timeout: 30000,
+        while (cursor < paths.length) {
+          const path = paths[cursor++]
+
+          try {
+            await loadPage(page, new URL(path, args.baseUrl).href)
+            if (isLight) {
+              const ids = await page
+                .locator('[id]')
+                .evaluateAll((elements) => elements.map(({ id }) => id))
+              duplicateIdFindings.push(...findDuplicateIds(ids, path))
             }
-          )
-          if (!response?.ok()) {
-            throw new Error(
-              `Page returned HTTP ${response?.status() ?? 'unknown'}`
-            )
-          }
-          await page
-            .locator('html[data-portal-ready="true"]')
-            .waitFor({ state: 'attached', timeout: 10000 })
-          const ids = await page
-            .locator('[id]')
-            .evaluateAll((elements) => elements.map(({ id }) => id))
-          duplicateIdFindings.push(...findDuplicateIds(ids, path))
-          const result = await new AxeBuilder({ page }).analyze()
+            const axe = new AxeBuilder({ page })
+            const result = await (
+              isLight ? axe : axe.withRules(colorRules)
+            ).analyze()
 
-          for (const violation of result.violations) {
-            findings.push({
-              check: 'axe',
-              page: path,
-              id: violation.id,
-              impact: violation.impact,
-              occurrences: violation.nodes.length,
-              help: violation.help,
-              helpUrl: violation.helpUrl,
-              nodes: violation.nodes
-                .map(({ target, failureSummary }) => ({
-                  target: target.map(String),
-                  failureSummary: normalizeText(failureSummary),
-                }))
-                .sort((a, b) => nodeKey(a).localeCompare(nodeKey(b))),
+            for (const violation of result.violations) {
+              findings.push({
+                check: 'axe',
+                page: path,
+                ...(!isLight && { colorScheme }),
+                id: violation.id,
+                impact: violation.impact,
+                occurrences: violation.nodes.length,
+                help: violation.help,
+                helpUrl: violation.helpUrl,
+                nodes: violation.nodes
+                  .map(({ target, failureSummary }) => ({
+                    target: target.map(String),
+                    failureSummary: normalizeText(failureSummary),
+                  }))
+                  .sort((a, b) => nodeKey(a).localeCompare(nodeKey(b))),
+              })
+            }
+          } catch (error) {
+            errors.push({
+              page: isLight ? path : `${path} (${colorScheme})`,
+              message: error.message,
             })
           }
-        } catch (error) {
-          errors.push({ page: path, message: error.message })
         }
-      }
 
-      await context.close()
-    })
-  )
+        await context.close()
+      })
+    )
+  }
 
   await browser.close()
 
@@ -92,6 +95,7 @@ async function main() {
     duplicateIdFindings,
     axeFindings: findings,
     scannedPages: paths.length,
+    colorSchemes,
   })
   const changes = args.previous
     ? formatPortalAccessibilityChanges(
@@ -130,6 +134,32 @@ async function main() {
 
 async function readJson(location) {
   return JSON.parse(await fs.readFile(location, 'utf8'))
+}
+
+// The host sometimes fails or stalls a request, so retry the page
+async function loadPage(page, url) {
+  for (let attempt = 1; ; attempt++) {
+    try {
+      const response = await page.goto(url, {
+        waitUntil: 'load',
+        timeout: 30000,
+      })
+      if (!response?.ok()) {
+        throw new Error(
+          `Page returned HTTP ${response?.status() ?? 'unknown'}`
+        )
+      }
+      await page
+        .locator('html[data-portal-ready="true"]')
+        .waitFor({ state: 'attached', timeout: 10000 })
+      return
+    } catch (error) {
+      if (attempt === 3) {
+        throw error
+      }
+      await page.waitForTimeout(attempt * 5000)
+    }
+  }
 }
 
 function parseArgs(values) {

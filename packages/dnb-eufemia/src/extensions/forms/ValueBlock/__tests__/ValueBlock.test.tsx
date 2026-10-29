@@ -783,7 +783,7 @@ describe('ValueBlock', () => {
       const element = document.querySelector('.dnb-help-button__content')
       expect(element.tagName).toBe('SPAN')
 
-      await axeComponent(result)
+      expect(await axeComponent(result)).toHaveNoViolations()
     })
 
     it('should open on click', async () => {

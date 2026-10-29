@@ -16,7 +16,10 @@
  */
 
 import { useState, useEffect, useCallback } from 'react'
-import type { ThemeNames } from '@dnb/eufemia/src/shared/Theme'
+import type {
+  ThemeNames,
+  ThemeTypography,
+} from '@dnb/eufemia/src/shared/Theme'
 import useCanUseDOM from '@dnb/eufemia/src/shared/helpers/useCanUseDOM'
 
 declare global {
@@ -51,6 +54,7 @@ export type ThemeState = {
   /** @deprecated Use `brand` instead. Removed in v13. */
   name?: ThemeNames
   colorScheme?: ThemeColorScheme
+  typography?: ThemeTypography
 }
 
 /** Mirror `brand` onto the deprecated `name` so every written payload has both. */

@@ -22,6 +22,16 @@ export default defineConfig({
       use: { browserName: 'firefox' },
     },
     {
+      name: 'chromium-document-styles',
+      testMatch: 'DocumentStyles.e2e.spec.ts',
+      use: { browserName: 'chromium' },
+    },
+    {
+      name: 'chromium-portal-print',
+      testMatch: 'PortalPrint.e2e.spec.ts',
+      use: { browserName: 'chromium' },
+    },
+    {
       name: 'chromium-open-on-find',
       testMatch: 'OpenOnFind.e2e.spec.ts',
       use: { browserName: 'chromium' },

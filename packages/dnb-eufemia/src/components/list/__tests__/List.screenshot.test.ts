@@ -84,6 +84,53 @@ describe.each(['ui', 'sbanken'])(`List for %s`, (themeName) => {
     })
   })
 
+  it('have to match action items with independent footers', async () => {
+    await makeScreenshot({
+      style: { width: '30rem' },
+      selector: '[data-visual-test="list-action-footer"]',
+    })
+  })
+
+  it('have to match action footer focus', async () => {
+    await makeScreenshot({
+      style: { width: '30rem' },
+      selector: '[data-visual-test="list-action-footer"]',
+      simulateSelector:
+        '[data-visual-test="list-action-footer"] .dnb-list__item__action__button',
+      simulate: 'focus',
+    })
+  })
+
+  it('have to match the last action footer focus', async () => {
+    await makeScreenshot({
+      style: { width: '30rem' },
+      selector: '[data-visual-test="list-action-footer"]',
+      simulateSelector:
+        '[data-visual-test="list-action-footer"] .dnb-list__item__action:last-child > a',
+      simulate: 'focus',
+    })
+  })
+
+  it('have to match the independent footer button focus', async () => {
+    await makeScreenshot({
+      style: { width: '30rem' },
+      selector: '[data-visual-test="list-action-footer"]',
+      simulateSelector:
+        '[data-visual-test="list-action-footer"] .dnb-list__item__footer button',
+      simulate: 'focus',
+    })
+  })
+
+  it('have to match the independent footer link focus', async () => {
+    await makeScreenshot({
+      style: { width: '30rem' },
+      selector: '[data-visual-test="list-action-footer"]',
+      simulateSelector:
+        '[data-visual-test="list-action-footer"] .dnb-list__item__footer a',
+      simulate: 'focus',
+    })
+  })
+
   it('have to match list overline', async () => {
     await makeScreenshot({
       style: { width: '30rem' },
@@ -126,6 +173,13 @@ describe.each(['ui'])(`List for %s on small viewport`, (themeName) => {
     await makeScreenshot({
       style: { width: '20rem' },
       selector: '[data-visual-test="list-separated"]',
+    })
+  })
+
+  it('have to match action items with independent footers', async () => {
+    await makeScreenshot({
+      style: { width: '20rem' },
+      selector: '[data-visual-test="list-action-footer"]',
     })
   })
 

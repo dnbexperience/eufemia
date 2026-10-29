@@ -45,6 +45,7 @@ export default function PortalLayout(props: PortalLayoutProps) {
               contentTitle
               description
               fullscreen
+              printLayout
               showTabs
               hideEditLink
               breadcrumb {
@@ -69,6 +70,7 @@ export default function PortalLayout(props: PortalLayoutProps) {
                 title
                 description
                 fullscreen
+                printLayout
                 showTabs
                 hideEditLink
                 breadcrumb {
@@ -166,9 +168,18 @@ export default function PortalLayout(props: PortalLayoutProps) {
   }
 
   return (
-    <Layout key="layout" location={location} fullscreen={fullscreen}>
+    <Layout
+      key="layout"
+      location={location}
+      fullscreen={fullscreen}
+      printLayout={fmData.printLayout}
+    >
       {!codeFocusMode && fmData.breadcrumb && (
-        <Breadcrumb key="breadcrumb" top="large">
+        <Breadcrumb
+          key="breadcrumb"
+          top="large"
+          className="dnb-print-hidden"
+        >
           {fmData.breadcrumb.map((item, i, a) => {
             return (
               <Breadcrumb.Item
@@ -225,6 +236,7 @@ function Content({ sourcePath, pagePath, showEditLink, children }) {
         <Button
           variant="secondary"
           text="Suggest an edit"
+          className="dnb-print-hidden"
           icon="edit"
           iconPosition="left"
           href={getSuggestEditUrl(pagePath, sourcePath)}

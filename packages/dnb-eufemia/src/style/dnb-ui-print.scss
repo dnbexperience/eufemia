@@ -1,0 +1,110 @@
+/**
+ * Optional print pagination and plain paper output. Layout belongs to the app.
+ */
+
+@media screen {
+  .dnb-print-only {
+    display: none !important;
+  }
+}
+
+@media print {
+  .dnb-print {
+    orphans: 3;
+    widows: 3;
+
+    :is(h1, h2, h3, h4, h5, h6, .dnb-h, .dnb-lead) {
+      break-after: avoid;
+    }
+    :is(tr, .dnb-print__keep-together) {
+      break-inside: avoid;
+    }
+    thead {
+      display: table-header-group;
+      position: static;
+    }
+    tfoot {
+      display: table-footer-group;
+    }
+    :is(.dnb-table__container, .dnb-table__scroll-view) {
+      overflow: visible;
+      max-height: none;
+      clip-path: none;
+    }
+    .dnb-table--outline {
+      clip-path: none;
+    }
+    .dnb-print__page-break {
+      break-before: page;
+    }
+  }
+
+  .dnb-print-hidden {
+    display: none !important;
+  }
+
+  .dnb-print.dnb-print--plain {
+    background: #fff !important;
+
+    &,
+    *,
+    &::before,
+    &::after,
+    *::before,
+    *::after {
+      color-scheme: light !important;
+      color: #000 !important;
+      -webkit-text-fill-color: currentcolor !important;
+      border-color: #777 !important;
+      box-shadow: none !important;
+      text-shadow: none !important;
+      transition: none !important;
+      animation: none !important;
+    }
+
+    *,
+    &::before,
+    &::after,
+    *::before,
+    *::after {
+      background: transparent !important;
+    }
+
+    a[href] {
+      text-decoration: underline;
+    }
+
+    .dnb-input__placeholder {
+      display: none !important;
+    }
+
+    .dnb-tabs__button[aria-selected='true'] .dnb-tabs__button__title {
+      text-decoration: underline;
+      text-underline-offset: 0.25em;
+    }
+
+    .dnb-radio__input:checked ~ .dnb-radio__dot,
+    .dnb-radio__input[data-checked='true'] ~ .dnb-radio__dot {
+      border: 0.1875rem solid #000 !important;
+    }
+
+    .dnb-checkbox__input:indeterminate ~ .dnb-checkbox__indeterminate {
+      border-top: 0.1875rem solid #000 !important;
+    }
+
+    .dnb-checkbox__input:indeterminate ~ .dnb-checkbox__gfx {
+      visibility: hidden;
+    }
+
+    .dnb-input__shell,
+    .dnb-checkbox__button,
+    .dnb-radio__button {
+      outline: 0.0625rem solid #777;
+      outline-offset: -0.0625rem;
+    }
+
+    .dnb-switch__button {
+      border: 0.0625rem solid #000 !important;
+    }
+  }
+}

@@ -15,7 +15,7 @@ export type CardInfoProps =
       href?: never
       to?: never
     })
-  | (CardActionProps & { onClose?: never; closeButtonProps?: never })
+  | CardActionProps
 
 const defaults = {
   responsive: false,

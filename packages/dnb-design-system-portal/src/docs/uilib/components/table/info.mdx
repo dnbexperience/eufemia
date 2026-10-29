@@ -74,6 +74,8 @@ render(
 )
 ```
 
+If you place a `Table.ScrollView` at the bottom of your own element with rounded corners and `overflow: hidden` or `overflow: clip`, the rounded corners can cut off the ends of the horizontal scrollbar. Give the `Table.ScrollView` space below it, e.g. `margin-bottom: 1rem`, or use a [Table.Container](/uilib/components/table/demos/#several-tables-in-one-container), which keeps the scrollbar clear of its rounded corners.
+
 ### Sticky header
 
 You have two options (both have their downsides):
@@ -100,7 +102,7 @@ It can be used as a "controller" for your own sorting logic of your data.
 
 By default, it will cycle through three stages `['asc', 'desc', 'off']`. The given `modes` are cycled through in the order you provide them, so `['desc', 'asc', 'off']` will sort descending on the first click.
 
-The returned `active` and `reversed` values describe the current sort state and can be passed directly to `Th`.
+The returned `active` and `reversed` values describe the current sort state and can be passed directly to `Th`. Only the active sortable header sets `aria-sort`; inactive sortable headers omit the attribute so assistive technology does not announce them as sorted.
 
 <Details>
   <Summary>How to use the useHandleSortState React Hook.</Summary>

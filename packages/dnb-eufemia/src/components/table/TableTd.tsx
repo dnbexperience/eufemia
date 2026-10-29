@@ -30,19 +30,16 @@ export type TableTdProps = {
 
   /**
    * Set to `horizontal` for padding on left and right side.
-   * Default: `undefined`
    */
   spacing?: 'horizontal'
 
   /**
    * Vertical alignment of the cell content.
-   * Default: `undefined`
    */
   verticalAlign?: 'top' | 'middle' | 'bottom'
 
   /**
    * When `true`, the cell is styled as selected (highlighted background and selected icon/border). Requires `onClick` to take effect, since the selected styling targets the cell button. When provided (either `true` or `false`), the cell button is announced as a toggle button by screen readers via `aria-pressed`. Use `setSelected` from the `onClick` callback to toggle the state.
-   * Default: `undefined`
    */
   selected?: boolean
 
@@ -54,7 +51,6 @@ export type TableTdProps = {
 
   /**
    * Will emit when user clicks the cell button. The second argument is an object with `trElement` (the parent `HTMLTableRowElement`), `tdElement` (the `HTMLTableCellElement`), `thElement` (the matching `<Th>` from `<thead>`, or `null` if not found), `isSelected` (current selected state), and `setSelected` (function to update the selected state — only effective when the `selected` prop is provided).
-   * Default: `undefined`
    */
   onClick?: (event: SyntheticEvent, info: TableTdClickInfo) => void
 
@@ -66,7 +62,6 @@ export type TableTdProps = {
 
   /**
    * The content of the component.
-   * Default: `undefined`
    */
   children?: ReactNode
 }

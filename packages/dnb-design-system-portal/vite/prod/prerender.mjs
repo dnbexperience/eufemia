@@ -22,6 +22,10 @@ import os from 'node:os'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { Worker } from 'node:worker_threads'
+import {
+  socialImageTags,
+  socialDetailTags,
+} from '../../src/shared/social-image.mjs'
 import { collectMarkdownPaths, getMdPath } from './md-paths.mts'
 import { escapeHtml } from './html-escape.mts'
 import {
@@ -33,6 +37,9 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const viteRoot = path.resolve(__dirname, '..')
 const portalRoot = path.resolve(viteRoot, '..')
 const outDir = path.resolve(portalRoot, 'public')
+const socialImages = JSON.parse(
+  fs.readFileSync(path.join(portalRoot, 'static/og/manifest.json'), 'utf8')
+)
 
 async function prerender() {
   const startTime = Date.now()
@@ -90,9 +97,8 @@ async function prerender() {
   // Load the SSR module for metadata only (routes, allMdxNodes, etc.).
   // Actual rendering is done in worker threads for parallelism.
   const serverEntry = path.resolve(outDir, 'server', 'entry-server.mjs')
-  const { routes, getContentScript, allMdxNodes } = await import(
-    serverEntry
-  )
+  const { routes, getContentScript, getSidebarMenuScript, allMdxNodes } =
+    await import(serverEntry)
 
   // Read the client HTML template
   const templatePath = path.resolve(outDir, 'index.html')
@@ -114,6 +120,7 @@ async function prerender() {
     : null
 
   const contentScript = getContentScript()
+  const sidebarMenuScript = getSidebarMenuScript()
   let urls = collectUrls(routes)
   console.log(`  ${urls.length} pages to prerender`)
 
@@ -182,7 +189,8 @@ async function prerender() {
         contentScript,
         result.emotionCss,
         { url, title: meta.title, description: meta.description, mdPath },
-        themeCssPaths
+        themeCssPaths,
+        sidebarMenuScript
       )
       writeHtml(url, html)
       renderedUrls.push(url)
@@ -202,7 +210,9 @@ async function prerender() {
         { js: [], css: [] },
         contentScript,
         result404.value.emotionCss,
-        { url: '/404/', title: 'Page not found' }
+        { url: '/404/', title: 'Page not found' },
+        undefined,
+        sidebarMenuScript
       )
     )
   }
@@ -445,7 +455,8 @@ function injectHtml(
   contentScript,
   emotionCss,
   meta,
-  themeCssPaths
+  themeCssPaths,
+  sidebarMenuScript = ''
 ) {
   // React 19 injects <link rel="preload"> elements inline during
   // renderToString for resources like images. Strip them from the app
@@ -469,10 +480,17 @@ function injectHtml(
   // Restore sidebar scroll position before first paint.
   const scrollRestoreScript = `(function(){try{var el=document.getElementById('portal-sidebar-menu');if(el){var s=parseFloat(sessionStorage.getItem('scroll-#portal-sidebar-menu')||'0');if(s){el.style.scrollBehavior='auto';el.scrollTop=s;el.style.scrollBehavior=''}}}catch(e){}})()`
 
+  const persistedSidebarScript =
+    /data-(?:inline-collapsed|open-items|scroll-position)-storage-key=/.test(
+      appHtml
+    )
+      ? sidebarMenuScript
+      : ''
+
   let html = template.replace(
     '<div id="root"></div>',
     () =>
-      `<div id="root">${appHtml}</div>\n\t<script>${contentScript};${scrollRestoreScript}</script>`
+      `<div id="root">${appHtml}</div>\n\t<script>${contentScript};${scrollRestoreScript};${persistedSidebarScript}</script>`
   )
 
   // Inject <link> tags for ALL brand theme CSS chunks.
@@ -513,7 +531,8 @@ function injectHtml(
 
   // Inject per-page SEO meta tags (title, description, Open Graph)
   if (meta) {
-    const siteUrl = 'https://eufemia.dnb.no'
+    const siteUrl =
+      process.env.PORTAL_PUBLIC_ORIGIN || 'https://eufemia.dnb.no'
     const defaultDescription =
       'Eufemia Design System is the go-to place for all who has to design, develop and make digital WEB applications for DNB.'
     const formattedTitle = meta.title
@@ -521,7 +540,6 @@ function injectHtml(
       : 'Eufemia'
     const desc = escapeHtml(meta.description || defaultDescription)
     const fullUrl = escapeHtml(`${siteUrl}${meta.url}`)
-    const ogImage = `${siteUrl}/dnb/og-image.png`
 
     // Replace existing title and meta description from the template
     html = html.replace(
@@ -540,10 +558,11 @@ function injectHtml(
       `<meta property="og:title" content="${formattedTitle}">`,
       `<meta property="og:description" content="${desc}">`,
       `<meta property="og:url" content="${fullUrl}">`,
-      `<meta property="og:image" content="${ogImage}">`,
-      `<meta property="og:image:width" content="1200">`,
-      `<meta property="og:image:height" content="630">`,
-      `<meta property="og:image:alt" content="Eufemia Design System">`,
+      ...socialImageTags(meta.url, socialImages, siteUrl),
+      ...socialDetailTags(
+        meta.title ? meta.title + ' | Eufemia' : 'Eufemia',
+        meta.description || defaultDescription
+      ),
     ]
 
     if (meta.url === '/') {

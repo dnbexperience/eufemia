@@ -150,16 +150,12 @@ function HeightAnimation({
       return
     }
 
-    if (
-      canOpenOnFind &&
-      !resolvedOpen &&
-      element.classList.contains('dnb-height-animation--hidden')
-    ) {
+    if (canOpenOnFind && !resolvedOpen && !isVisible && !isAnimating) {
       element.setAttribute('hidden', 'until-found')
     } else if (element.getAttribute('hidden') === 'until-found') {
       element.removeAttribute('hidden')
     }
-  }, [canOpenOnFind, resolvedOpen, targetRef])
+  }, [canOpenOnFind, resolvedOpen, isVisible, isAnimating, targetRef])
 
   useLayoutEffect(() => {
     if (isOpenedByFind && (open || !canOpenOnFind)) {
@@ -235,6 +231,10 @@ function HeightAnimation({
       )}
       style={{ ...firstPaintStyle, ...style }}
       aria-hidden={shouldKeepInDOM ? !resolvedOpen : undefined}
+      // aria-hidden content stays visible while it closes, so prevent focus in it
+      inert={
+        shouldKeepInDOM && !resolvedOpen && isAnimating ? true : undefined
+      }
       {...rest}
     >
       {compensateForGap ? (

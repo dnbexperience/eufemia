@@ -55,4 +55,8 @@ import {
 
 ### ToggleButtons with icons only
 
+Use visible text by default. Only omit it when the choice is immediately clear without a tooltip. Follow the [icon-only button guidance](/uilib/components/button/demos/#icon-button).
+
+Give each icon-only ToggleButton an accessible name using `aria-label` or `title`. Name the choice, such as "Notifications", and keep the name the same when selected or unselected. The component communicates the selected state separately.
+
 <ToggleButtonIconOnly />

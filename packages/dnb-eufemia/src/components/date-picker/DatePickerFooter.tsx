@@ -68,11 +68,22 @@ function DatePickerFooter({
 
   const onCancelHandler = useCallback(
     (args: DatePickerFooterEvent) => {
-      updateDates(submittedDates, (dates) => {
+      const revertDates = { ...submittedDates }
+
+      // Revert a date that was set after opening to undefined, not null,
+      // as the input keeps its text for null (a partly typed date)
+      if (!revertDates.startDate && startDate) {
+        revertDates.startDate = undefined
+      }
+      if (!revertDates.endDate && endDate) {
+        revertDates.endDate = undefined
+      }
+
+      updateDates(revertDates, (dates) => {
         onCancel?.({ ...args, ...dates })
       })
     },
-    [updateDates, onCancel, submittedDates]
+    [updateDates, onCancel, submittedDates, startDate, endDate]
   )
 
   const onResetHandler = useCallback(

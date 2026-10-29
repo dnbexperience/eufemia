@@ -73,12 +73,9 @@ export class Counter {
   }
 
   report(...str) {
-    if (
-      !(
-        typeof process !== 'undefined' &&
-        process.env.NODE_ENV === 'production'
-      )
-    ) {
+    // Do not check "typeof process" here. Bundlers replace
+    // process.env.NODE_ENV, but browsers have no process global.
+    if (process.env.NODE_ENV !== 'production') {
       this.reports.push(str)
     }
   }

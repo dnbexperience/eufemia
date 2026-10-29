@@ -411,7 +411,7 @@ function ArrayComponent(props: IterateArrayProps) {
   })
 
   // - Call the onChange callback when a new element is added without calling "handlePush"
-  useMemo(() => {
+  useEffect(() => {
     const last = arrayItems?.[arrayItems.length - 1]
     if (last?.isNew && !hadPushRef.current) {
       onChange?.(arrayValue)

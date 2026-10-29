@@ -117,7 +117,7 @@
     display: none; // use "none" to remove it from markup by default
     opacity: 0;
     pointer-events: none;
-    transition: opacity 600ms ease-out;
+    transition: opacity 400ms ease-out;
 
     &--visible {
       display: flex; // needs to be "flex" in order to make the transition work
@@ -364,11 +364,7 @@
   &__button__snap {
     display: flex;
 
-    padding: 0 1rem 0 1.5rem;
-
-    @include utilities.allBelow(small) {
-      padding: 0 1rem;
-    }
+    padding: 0 1rem;
 
     &:first-of-type {
       padding-left: 0;

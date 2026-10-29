@@ -1,0 +1,16 @@
+name: No-op
+
+# Lets the calling job hold a concurrency group without using a runner.
+
+on:
+  workflow_call:
+
+permissions: {}
+
+jobs:
+  skip:
+    name: Skip
+    if: false
+    runs-on: ubuntu-latest
+    steps:
+      - run: exit 0

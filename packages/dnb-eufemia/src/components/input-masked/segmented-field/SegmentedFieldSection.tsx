@@ -4,6 +4,7 @@ import type {
   KeyboardEvent as ReactKeyboardEvent,
 } from 'react'
 import { clsx } from 'clsx'
+import useCanUseDOM from '../../../shared/helpers/useCanUseDOM'
 import {
   listAllSections,
   pickSectionDomProps,
@@ -70,6 +71,7 @@ export default function SegmentedFieldSection({
   })
   const hasTypedValue = value.length > 0
   const handledPasteTimestampRef = useRef<number | undefined>(undefined)
+  const canUseDOM = useCanUseDOM()
 
   const setRef = useCallback(
     (element: HTMLSpanElement | null) => {
@@ -508,8 +510,11 @@ export default function SegmentedFieldSection({
          * While the whole group is selected (e.g. Cmd/Ctrl+A), segments are
          * not contentEditable so Safari can paint one selection across all
          * segments instead of separate editing hosts.
+         *
+         * Server-rendered segments are not editable until hydration,
+         * because text typed before that would be lost.
          */
-        contentEditable={!disabled && !wholeGroupSelectionUi}
+        contentEditable={canUseDOM && !disabled && !wholeGroupSelectionUi}
         /**
          * React warns about managed children inside contentEditable.
          * We intentionally render controlled text here because each

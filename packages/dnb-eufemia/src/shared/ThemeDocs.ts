@@ -41,4 +41,9 @@ export const ThemeProperties: PropertiesTableProps = {
     type: ['"dark"', '"light"', '"initial"'],
     status: 'optional',
   },
+  typography: {
+    doc: "Selects the brand's native app or web font size for body text and control labels in this Theme and its Eufemia React portals. Inherits from the parent Theme. Use web to override a native parent. Line heights and control dimensions stay the same.",
+    type: ['"native"', '"web"'],
+    status: 'optional',
+  },
 }

@@ -1,6 +1,12 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { convertStringToDate } from '../DatePickerCalc'
-import { addMonths, isSameDay, isSameMonth } from 'date-fns'
+import {
+  addMonths,
+  differenceInCalendarMonths,
+  isSameDay,
+  isSameMonth,
+  subMonths,
+} from 'date-fns'
 import type { DatePickerDateType } from '../DatePickerContext'
 
 export type DatePickerDateProps = {
@@ -16,6 +22,7 @@ export type DatePickerDateProps = {
 type UseDatesOptions = {
   dateFormat: string
   isRange: boolean
+  rangeSingleCalendar?: boolean
 }
 
 export type DatePickerDates = {
@@ -30,13 +37,18 @@ export type DatePickerDates = {
 
 export default function useDates(
   dateProps: DatePickerDateProps,
-  { dateFormat, isRange = false }: UseDatesOptions
+  {
+    dateFormat,
+    isRange = false,
+    rangeSingleCalendar = false,
+  }: UseDatesOptions
 ) {
   const [previousDateProps, setPreviousDateProps] = useState(dateProps)
   const [dates, setDates] = useState<DatePickerDates>({
     ...mapDates(dateProps, {
       dateFormat,
       isRange,
+      rangeSingleCalendar,
     }),
   })
   const datesRef = useRef(dates)
@@ -47,27 +59,13 @@ export default function useDates(
 
   const hasDatePropChanges = useMemo(
     () =>
-      Object.keys(dateProps).some((date) => {
-        const dateProp = dateProps[date]
-        const previousDate = previousDateProps[date]
-
-        const convertedDateProp = convertStringToDate(dateProp, {
-          dateFormat,
-        })
-        const convertedPreviousDate = convertStringToDate(previousDate, {
-          dateFormat,
-        })
-        // Make sure that same dates does not trigger a change
-        // i.e. 2021-01-01 and new Date('2021-01-01')
-        if (
-          convertedDateProp instanceof Date &&
-          convertedPreviousDate instanceof Date
-        ) {
-          return !isSameDay(convertedDateProp, convertedPreviousDate)
-        }
-
-        return dateProp !== previousDate
-      }),
+      Object.keys(dateProps).some((date) =>
+        hasDatePropChanged(
+          dateProps[date],
+          previousDateProps[date],
+          dateFormat
+        )
+      ),
     [dateProps, previousDateProps, dateFormat]
   )
 
@@ -79,6 +77,7 @@ export default function useDates(
       previousDateProps,
       dateFormat,
       isRange,
+      rangeSingleCalendar,
     })
 
     setDates((currentDates) => ({ ...currentDates, ...derivedDates }))
@@ -96,6 +95,8 @@ export default function useDates(
       const months = updateMonths({
         newDates,
         currentDates,
+        isRange,
+        rangeSingleCalendar,
       })
 
       const nextDates = {
@@ -110,7 +111,7 @@ export default function useDates(
 
       callback?.(nextDates)
     },
-    []
+    [isRange, rangeSingleCalendar]
   )
 
   return {
@@ -122,7 +123,7 @@ export default function useDates(
 
 function mapDates(
   dateProps: DatePickerDateProps,
-  { dateFormat, isRange }: Omit<UseDatesOptions, 'isLinked'>
+  { dateFormat, isRange, rangeSingleCalendar }: UseDatesOptions
 ) {
   const date = dateProps.date
 
@@ -139,29 +140,6 @@ function mapDates(
         dateFormat,
       }) || undefined
 
-  // Ensure that the calendar view displays the correct start and end months, and to prevent date flickering bug
-  const startMonth =
-    convertStringToDate(dateProps.startMonth, {
-      dateFormat,
-    }) ??
-    startDate ??
-    new Date()
-
-  // Check if startMonth was explicitly provided (not just derived from startDate)
-  const hasExplicitStartMonth = typeof dateProps.startMonth !== 'undefined'
-
-  const endMonth =
-    convertStringToDate(dateProps.endMonth, {
-      dateFormat: dateFormat,
-    }) ??
-    (isRange
-      ? hasExplicitStartMonth
-        ? addMonths(startMonth, 1)
-        : endDate && !isSameMonth(endDate, startMonth)
-          ? endDate
-          : addMonths(startMonth, 1)
-      : startMonth)
-
   const minDate = convertStringToDate(dateProps.minDate, {
     dateFormat,
   })
@@ -170,12 +148,48 @@ function mapDates(
     dateFormat,
   })
 
+  // Ensure that the calendar view displays the correct start and end months, and to prevent date flickering bug
+  const startMonth =
+    convertStringToDate(dateProps.startMonth, {
+      dateFormat,
+    }) ??
+    startDate ??
+    getDefaultMonth({ minDate, maxDate })
+
+  // Check if startMonth was explicitly provided (not just derived from startDate)
+  const hasExplicitStartMonth = typeof dateProps.startMonth !== 'undefined'
+
+  const hasExplicitEndMonth = typeof dateProps.endMonth !== 'undefined'
+  const hasEndMonthFromEndDate = Boolean(
+    endDate && !isSameMonth(endDate, startMonth)
+  )
+
+  const endMonth =
+    convertStringToDate(dateProps.endMonth, {
+      dateFormat: dateFormat,
+    }) ??
+    (isRange
+      ? hasExplicitStartMonth
+        ? addMonths(startMonth, 1)
+        : hasEndMonthFromEndDate
+          ? endDate
+          : addMonths(startMonth, 1)
+      : startMonth)
+
+  const months =
+    isRange &&
+    !rangeSingleCalendar &&
+    !hasExplicitStartMonth &&
+    !hasExplicitEndMonth &&
+    !hasEndMonthFromEndDate
+      ? fitMonthsToMaxDate({ startMonth, endMonth, minDate, maxDate })
+      : { startMonth, endMonth }
+
   const dates = {
     date,
     startDate,
     endDate,
-    startMonth,
-    endMonth,
+    ...months,
     minDate,
     maxDate,
   }
@@ -191,16 +205,18 @@ function deriveDatesFromProps({
   previousDateProps,
   dateFormat,
   isRange,
+  rangeSingleCalendar,
 }: {
   dates: DatePickerDates
   dateProps: DatePickerDateProps
   previousDateProps: DatePickerDateProps
   dateFormat: UseDatesOptions['dateFormat']
   isRange: UseDatesOptions['isRange']
+  rangeSingleCalendar: UseDatesOptions['rangeSingleCalendar']
 }) {
   const derivedDates: DatePickerDates = {}
 
-  const startDate = getStartDate(dateProps, previousDateProps)
+  const startDate = getStartDate(dateProps, previousDateProps, dateFormat)
 
   // Handle updates related to date and startDate changes when not in range mode
   if (typeof startDate !== 'undefined' && startDate !== dates.startDate) {
@@ -224,12 +240,47 @@ function deriveDatesFromProps({
   if (
     isRange &&
     typeof dateProps.endDate !== 'undefined' &&
+    hasDatePropChanged(
+      dateProps.endDate,
+      previousDateProps.endDate,
+      dateFormat
+    ) &&
     dateProps.endDate !== dates.endDate
   ) {
     derivedDates.endDate =
       convertStringToDate(dateProps.endDate, {
         dateFormat,
       }) || undefined
+  }
+
+  // In range mode, show the months of dates set from outside, like on mount.
+  // Dates picked in the calendar come back as the same days, and should not
+  // move the calendars while the user is picking.
+  if (
+    isRange &&
+    (('startDate' in derivedDates &&
+      !isSameDate(derivedDates.startDate, dates.startDate)) ||
+      ('endDate' in derivedDates &&
+        !isSameDate(derivedDates.endDate, dates.endDate)))
+  ) {
+    const { startMonth, endMonth } = mapDates(
+      {
+        startDate:
+          'startDate' in derivedDates
+            ? derivedDates.startDate
+            : dates.startDate,
+        endDate:
+          'endDate' in derivedDates ? derivedDates.endDate : dates.endDate,
+        startMonth: dateProps.startMonth,
+        endMonth: dateProps.endMonth,
+        minDate: dateProps.minDate,
+        maxDate: dateProps.maxDate,
+      },
+      { dateFormat, isRange, rangeSingleCalendar }
+    )
+
+    derivedDates.startMonth = startMonth
+    derivedDates.endMonth = endMonth
   }
 
   // Handle startMonth/endMonth
@@ -250,22 +301,47 @@ function deriveDatesFromProps({
     })
   }
 
-  // Handle minDate/maxDate
-  if (
-    typeof dateProps.minDate !== 'undefined' &&
-    dateProps.minDate !== previousDateProps.minDate
-  ) {
+  // Handle minDate/maxDate, also when they are removed
+  if (dateProps.minDate !== previousDateProps.minDate) {
     derivedDates.minDate = convertStringToDate(dateProps.minDate, {
       dateFormat,
     })
   }
-  if (
-    typeof dateProps.maxDate !== 'undefined' &&
-    dateProps.maxDate !== previousDateProps.maxDate
-  ) {
+  if (dateProps.maxDate !== previousDateProps.maxDate) {
     derivedDates.maxDate = convertStringToDate(dateProps.maxDate, {
       dateFormat,
     })
+  }
+
+  // Like on mount, open on the nearest month within minDate and maxDate
+  // when neither a date nor a month is given
+  const hasNewLimit =
+    'minDate' in derivedDates || 'maxDate' in derivedDates
+  const selectedStartDate =
+    'startDate' in derivedDates ? derivedDates.startDate : dates.startDate
+  if (
+    hasNewLimit &&
+    !selectedStartDate &&
+    typeof dateProps.startMonth === 'undefined' &&
+    typeof dateProps.endMonth === 'undefined'
+  ) {
+    const minDate =
+      'minDate' in derivedDates ? derivedDates.minDate : dates.minDate
+    const maxDate =
+      'maxDate' in derivedDates ? derivedDates.maxDate : dates.maxDate
+    const startMonth = getDefaultMonth({ minDate, maxDate })
+    const endMonth = isRange ? addMonths(startMonth, 1) : startMonth
+    const months =
+      isRange && !rangeSingleCalendar
+        ? fitMonthsToMaxDate({ startMonth, endMonth, minDate, maxDate })
+        : { startMonth, endMonth }
+
+    if (
+      !isSameMonth(months.startMonth, dates.startMonth) ||
+      !isSameMonth(months.endMonth, dates.endMonth)
+    ) {
+      Object.assign(derivedDates, months)
+    }
   }
 
   return derivedDates
@@ -274,19 +350,144 @@ function deriveDatesFromProps({
 function updateMonths({
   newDates,
   currentDates,
+  isRange,
+  rangeSingleCalendar,
 }: {
   newDates: DatePickerDates
   currentDates: DatePickerDates
+  isRange: boolean
+  rangeSingleCalendar: boolean
 }) {
+  const firstMonth =
+    ('startDate' in newDates
+      ? newDates.startDate
+      : currentDates.startDate) ?? getDefaultMonth(currentDates)
+  const endDate =
+    'endDate' in newDates ? newDates.endDate : currentDates.endDate
+
+  // When the end date is after maxDate, show both months, as on mount
+  if (
+    isRange &&
+    !rangeSingleCalendar &&
+    !newDates.startMonth &&
+    !newDates.endMonth &&
+    endDate &&
+    currentDates.maxDate &&
+    isSameMonth(firstMonth, currentDates.maxDate) &&
+    differenceInCalendarMonths(endDate, firstMonth) > 0
+  ) {
+    return { startMonth: firstMonth, endMonth: endDate }
+  }
+
   const startMonth =
     newDates.startMonth ?? newDates.startDate ?? currentDates.startMonth
-  const endMonth =
+  let endMonth =
     newDates.endMonth ?? newDates.endDate ?? currentDates.endMonth
+
+  const hasEndMonthFromEndDate = Boolean(
+    !newDates.endMonth &&
+    newDates.endDate &&
+    startMonth &&
+    differenceInCalendarMonths(newDates.endDate, startMonth) > 0
+  )
+
+  // The second calendar must show a later month than the first one.
+  // When it does not, show the month after the first one, the same as on
+  // mount (see mapDates)
+  if (
+    isRange &&
+    startMonth &&
+    endMonth &&
+    differenceInCalendarMonths(endMonth, startMonth) < 1
+  ) {
+    endMonth = addMonths(startMonth, 1)
+  }
+
+  if (
+    isRange &&
+    !rangeSingleCalendar &&
+    !newDates.startMonth &&
+    !newDates.endMonth &&
+    !hasEndMonthFromEndDate &&
+    startMonth &&
+    endMonth
+  ) {
+    return fitMonthsToMaxDate({
+      startMonth,
+      endMonth,
+      minDate: currentDates.minDate,
+      maxDate: currentDates.maxDate,
+    })
+  }
 
   return {
     startMonth,
     endMonth,
   }
+}
+
+/**
+ * Use the current month, or the nearest month within minDate and maxDate,
+ * so the calendar does not open on a month where no day can be selected.
+ */
+function getDefaultMonth({
+  minDate,
+  maxDate,
+}: {
+  minDate?: Date
+  maxDate?: Date
+}) {
+  const today = new Date()
+
+  if (maxDate && differenceInCalendarMonths(today, maxDate) > 0) {
+    return maxDate
+  }
+
+  if (minDate && differenceInCalendarMonths(today, minDate) < 0) {
+    return minDate
+  }
+
+  return today
+}
+
+/**
+ * When the first calendar shows the month of maxDate, the second calendar
+ * shows a month where no day can be selected. Show the month before in the
+ * first calendar instead, unless that month is before minDate.
+ */
+function fitMonthsToMaxDate({
+  startMonth,
+  endMonth,
+  minDate,
+  maxDate,
+}: {
+  startMonth: Date
+  endMonth: Date
+  minDate?: Date
+  maxDate?: Date
+}) {
+  if (
+    maxDate &&
+    isSameMonth(startMonth, maxDate) &&
+    differenceInCalendarMonths(endMonth, maxDate) > 0
+  ) {
+    const previousMonth = subMonths(startMonth, 1)
+
+    if (
+      !minDate ||
+      differenceInCalendarMonths(previousMonth, minDate) >= 0
+    ) {
+      return { startMonth: previousMonth, endMonth: startMonth }
+    }
+  }
+
+  return { startMonth, endMonth }
+}
+
+export function isSameDate(date?: Date, otherDate?: Date) {
+  return date && otherDate
+    ? isSameDay(date, otherDate)
+    : !date && !otherDate
 }
 
 function getDate(date: DatePickerDateType, dateFormat: string) {
@@ -299,22 +500,48 @@ function getDate(date: DatePickerDateType, dateFormat: string) {
 
 function getStartDate(
   dateProps: DatePickerDateProps,
-  previousDateProps: DatePickerDateProps
+  previousDateProps: DatePickerDateProps,
+  dateFormat: UseDatesOptions['dateFormat']
 ) {
   // prioritize startDate over date if provided
   if (
     typeof dateProps.startDate !== 'undefined' &&
-    dateProps.startDate !== previousDateProps.startDate
+    hasDatePropChanged(
+      dateProps.startDate,
+      previousDateProps.startDate,
+      dateFormat
+    )
   ) {
     return dateProps.startDate
   }
 
   if (
     typeof dateProps.date !== 'undefined' &&
-    dateProps.date !== previousDateProps.date
+    hasDatePropChanged(dateProps.date, previousDateProps.date, dateFormat)
   ) {
     return dateProps.date
   }
 
   return undefined
+}
+
+// Same days don't count as a change, e.g. 2021-01-01 and new Date('2021-01-01')
+function hasDatePropChanged(
+  dateProp: DatePickerDateType,
+  previousDate: DatePickerDateType,
+  dateFormat: UseDatesOptions['dateFormat']
+) {
+  const convertedDateProp = convertStringToDate(dateProp, { dateFormat })
+  const convertedPreviousDate = convertStringToDate(previousDate, {
+    dateFormat,
+  })
+
+  if (
+    convertedDateProp instanceof Date &&
+    convertedPreviousDate instanceof Date
+  ) {
+    return !isSameDay(convertedDateProp, convertedPreviousDate)
+  }
+
+  return dateProp !== previousDate
 }

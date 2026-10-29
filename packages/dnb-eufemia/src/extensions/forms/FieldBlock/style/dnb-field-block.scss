@@ -24,7 +24,7 @@ fieldset.dnb-forms-field-block {
 
     // Vertical layout
     grid-template-columns: minmax(
-      min-content,
+      var(--field-block-grid-min-width, min-content),
       var(--block-content-width, auto)
     );
     grid-template-areas:
@@ -136,7 +136,7 @@ fieldset.dnb-forms-field-block {
           var(--dnb-forms-field-block-layout-width-min, min-content),
           var(--dnb-forms-field-block-layout-width-max, max-content)
         )
-        auto;
+        minmax(var(--field-block-grid-min-width, auto), auto);
 
       // When stretching the "help" over two columns,
       // it influences the "label" width when shown,
@@ -273,6 +273,7 @@ fieldset.dnb-forms-field-block {
         &-medium,
         &-large {
           width: var(--field-block-content-width, max-content);
+          max-width: 100%;
         }
       }
     }

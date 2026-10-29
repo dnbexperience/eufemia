@@ -84,6 +84,21 @@ describe('portal shim and Eufemia share the same theme storage contract', () => 
     })
   })
 
+  it('preserves typography when changing brand and color scheme', () => {
+    setPortalTheme({ typography: 'native' })
+    expect(getEufemiaTheme().typography).toBe('native')
+
+    setEufemiaTheme({ brand: 'sbanken', colorScheme: 'dark' })
+    expect(getPortalTheme()).toMatchObject({
+      brand: 'sbanken',
+      colorScheme: 'dark',
+      typography: 'native',
+    })
+
+    setPortalTheme({ typography: 'web' })
+    expect(getEufemiaTheme().typography).toBe('web')
+  })
+
   // Eufemia also mirrors density/size here; the portal doesn't manage it but
   // must carry it through untouched on a brand switch.
   it('the portal preserves the density pair it does not manage', () => {

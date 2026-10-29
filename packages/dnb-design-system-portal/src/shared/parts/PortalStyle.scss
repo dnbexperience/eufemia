@@ -1,6 +1,11 @@
 @use '@dnb/eufemia/src/style/core/utilities.scss' as utilities;
 @use './PortalStyle.mixins.scss' as PortalMixins;
 
+// Native hash navigation runs before the client positions and focuses it.
+[skip-isolation] html:not([data-portal-ready]) {
+  scroll-behavior: auto;
+}
+
 // Ensure body fills the viewport so the background color covers the full screen
 [skip-isolation] body {
   min-height: 100dvh;

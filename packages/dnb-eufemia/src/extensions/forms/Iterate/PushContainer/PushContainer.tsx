@@ -19,6 +19,7 @@ import SectionContext from '../../Form/Section/SectionContext'
 import PushContainerContext from './PushContainerContext'
 import IterateItemContext from '../IterateItemContext'
 import DataContext from '../../DataContext/Context'
+import type { ContextState } from '../../DataContext/Context'
 import VisibilityContext from '../../Form/Visibility/VisibilityContext'
 import useDataValue from '../../hooks/useDataValue'
 import type { IterateEditContainerAllProps as EditContainerProps } from '../EditContainer'
@@ -206,6 +207,7 @@ function PushContainer(props: IteratePushContainerAllProps) {
     return `//${targetPath.slice(1)}` as Path
   }, [targetPath])
   const commitHandleRef = useRef<() => void>(undefined)
+  const innerContextRef = useRef<ContextState>(undefined)
   const switchContainerModeRef =
     useRef<(mode: ContainerMode) => void>(undefined)
   const containerModeRef = useRef<ContainerMode>(undefined)
@@ -353,6 +355,23 @@ function PushContainer(props: IteratePushContainerAllProps) {
           preventCommit()
           setShowStatus(true)
         } else {
+          // Let the outer form know which values of the pushed items are
+          // credentials, so it keeps them out of its session storage.
+          // Use "*" because the item index changes when items are removed.
+          const arrayPath =
+            targetPath && targetPath !== '/' ? targetPath : ''
+          innerContextRef.current?.credentialPathsRef?.current?.forEach(
+            (credentialPath) => {
+              const [, itemPath] =
+                credentialPath.match(/^\/pushContainerItems\/\d+(.*)$/) ||
+                []
+              if (itemPath !== undefined) {
+                outerContext?.credentialPathsRef?.current?.add(
+                  `${arrayPath}/*${itemPath}`
+                )
+              }
+            }
+          )
           setNextContainerMode('view')
           switchContainerModeRef.current?.('view')
           clearData()
@@ -385,6 +404,7 @@ function PushContainer(props: IteratePushContainerAllProps) {
               preventUncommittedChanges={preventUncommittedChanges}
               showResetButton={showResetButton}
               outerContext={outerContext}
+              innerContextRef={innerContextRef}
               required={required}
               {...rest}
             >
@@ -408,6 +428,7 @@ function NewContainer({
   rerenderPushContainer,
   preventUncommittedChanges,
   outerContext,
+  innerContextRef,
   required,
   children,
   ...rest
@@ -440,7 +461,9 @@ function NewContainer({
 
   const { preventUncommittedChangesText } = useTranslation().Isolation
   const { createButton } = useTranslation().IteratePushContainer
-  const { clearData } = useContext(DataContext) || {}
+  const innerContext = useContext(DataContext)
+  innerContextRef.current = innerContext
+  const { clearData } = innerContext || {}
   const restoreOriginalValue = useCallback(() => {
     clearData?.()
   }, [clearData])

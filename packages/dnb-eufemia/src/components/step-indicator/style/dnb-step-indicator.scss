@@ -4,6 +4,7 @@
  */
 
 @use '../../../style/core/utilities.scss' as utilities;
+@use '../../form-status/style/form-status-icon.scss';
 
 .dnb-step-indicator {
   --step-indicator-trigger-background: var(

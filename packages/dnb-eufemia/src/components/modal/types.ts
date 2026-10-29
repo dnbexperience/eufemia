@@ -127,17 +127,17 @@ export type ModalProps = ModalRootProps & {
    * Set a function to call the callback function, once the modal should open: `openModal={(open) => open()}`.
    */
   openModal?: (
-    open?: (e: Event) => void,
-    instance?: ModalCallbackInstance
-  ) => () => void | void
+    open: (e?: Event) => void,
+    instance: ModalCallbackInstance
+  ) => (() => void) | void
 
   /**
    * Set a function to call the callback function, once the modal should close: `closeModal={(close) => close()}`.
    */
   closeModal?: (
-    close?: ModalCloseHandler,
-    instance?: ModalCallbackInstance
-  ) => () => void | void
+    close: ModalCloseHandler,
+    instance: ModalCallbackInstance
+  ) => (() => void) | void
 
   /**
    * Provide a custom trigger component. Like `trigger={<Anchor href="/" />}`. It will set the focus on it when the modal gets closed.

@@ -29,7 +29,7 @@ import { Connectors, Field, Form } from '@dnb/eufemia/extensions/forms'
 const { withConfig } = Connectors.createContext({
   fetchConfig: {
     url: (value, { countryCode }) => {
-      return `[YOUR-API-URL]/.../${countryCode}/.../${value}`
+      return `[YOUR-API-URL]/.../${countryCode}/.../${encodeURIComponent(value)}`
       // Real-world example using Bring's Postal Code API's get postal code endpoint, directly without proxy:
       // return `https://api.bring.com/address/api/{countryCode}/postal-codes/{value}`
     },
@@ -38,6 +38,8 @@ const { withConfig } = Connectors.createContext({
 ```
 
 `[YOUR-API-URL]` is the URL of your own API endpoint that proxies the Bring [Postal Code API](https://developer.bring.com/api/postal-code/) with a token.
+
+The `value` is what the user typed. Encode it with `encodeURIComponent`, so input like `../` or `&` can't reach other routes or parameters on your API.
 
 ### Supported countries \{#postalcode-api-supported-countries\}
 
@@ -131,9 +133,9 @@ import { Connectors, Field, Form } from '@dnb/eufemia/extensions/forms'
 const { withConfig } = Connectors.createContext({
   fetchConfig: {
     url: (value, { countryCode }) => {
-      return `[YOUR-API-URL]/.../${countryCode}/.../${value}`
+      return `[YOUR-API-URL]/.../${countryCode}/.../${encodeURIComponent(value)}`
       // Real-world example using Bring's Address API's get address endpoint, directly without proxy:
-      // return `https://api.bring.com/address/api/{countryCode}/addresses/suggestions?q=${value}`
+      // return `https://api.bring.com/address/api/{countryCode}/addresses/suggestions?q=${encodeURIComponent(value)}`
     },
   },
 })

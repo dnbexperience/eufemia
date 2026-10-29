@@ -146,6 +146,10 @@ function Password({
       disabled={disabled}
       size={size}
       autoComplete="current-password"
+      // Prevents cloud spellcheckers from receiving the revealed password
+      spellCheck={false}
+      autoCorrect="off"
+      autoCapitalize="off"
       errorMessages={errorMessages}
       {...props}
     />

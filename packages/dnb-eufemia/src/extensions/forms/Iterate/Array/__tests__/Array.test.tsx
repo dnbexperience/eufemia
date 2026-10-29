@@ -1,4 +1,11 @@
-import { act, Profiler, StrictMode, useContext, useEffect } from 'react'
+import {
+  act,
+  Profiler,
+  StrictMode,
+  useContext,
+  useEffect,
+  useState,
+} from 'react'
 import { fireEvent, render, waitFor, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import * as Iterate from '../..'
@@ -1514,6 +1521,61 @@ describe('Iterate.Array', () => {
       )
       expect(onChangeIterate).toHaveBeenCalledTimes(1)
       expect(onChangeIterate).toHaveBeenLastCalledWith(['foo'])
+    })
+
+    it('should call onChange once when new item is added in StrictMode', () => {
+      const onChangeIterate = vi.fn()
+
+      render(
+        <StrictMode>
+          <DataContext.Provider>
+            <Iterate.Array path="/myList" onChange={onChangeIterate}>
+              content
+            </Iterate.Array>
+
+            <Iterate.PushButton path="/myList" pushValue="foo" />
+          </DataContext.Provider>
+        </StrictMode>
+      )
+
+      fireEvent.click(document.querySelector('button'))
+
+      expect(onChangeIterate).toHaveBeenCalledTimes(1)
+      expect(onChangeIterate).toHaveBeenLastCalledWith(['foo'])
+    })
+
+    it('should not warn when onChange updates the state of a parent', () => {
+      const consoleErrorSpy = vi
+        .spyOn(console, 'error')
+        .mockImplementation(() => null)
+
+      function App() {
+        const [count, setCount] = useState(0)
+        return (
+          <DataContext.Provider>
+            <output>{count}</output>
+            <Iterate.Array
+              path="/myList"
+              onChange={(value) => {
+                setCount((value as Array<unknown>).length)
+              }}
+            >
+              content
+            </Iterate.Array>
+
+            <Iterate.PushButton path="/myList" pushValue="foo" />
+          </DataContext.Provider>
+        )
+      }
+
+      render(<App />)
+
+      fireEvent.click(document.querySelector('button'))
+
+      expect(document.querySelector('output')).toHaveTextContent('1')
+      expect(consoleErrorSpy).not.toHaveBeenCalled()
+
+      consoleErrorSpy.mockRestore()
     })
 
     describe('defaultValue on Iterate.Array', () => {

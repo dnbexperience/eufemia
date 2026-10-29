@@ -85,6 +85,30 @@ describe('DateFormat', () => {
       )
     })
 
+    it('should show an invalid date for numbers with up to 8 digits that are not a date', () => {
+      const log = vi.spyOn(console, 'log').mockImplementation(() => null)
+
+      const { rerender } = render(<DateFormat value={20251301} />)
+
+      const dateFormat = () => document.querySelector('.dnb-date-format')
+
+      expect(dateFormat()).toHaveTextContent('Ugyldig dato: 20251301')
+
+      rerender(<DateFormat value={99999999} />)
+      expect(dateFormat()).toHaveTextContent('Ugyldig dato: 99999999')
+
+      rerender(<DateFormat value={1} />)
+      expect(dateFormat()).toHaveTextContent('Ugyldig dato: 1')
+
+      expect(log).toHaveBeenCalledWith(
+        expect.anything(),
+        'convertStringToDate got invalid date:',
+        '20251301'
+      )
+
+      log.mockRestore()
+    })
+
     it('should hide year for any dateStyle when hideCurrentYear and date is in current year', () => {
       const now = new Date('2025-06-15T12:00:00.000Z')
       vi.useFakeTimers({ now: now.getTime() })

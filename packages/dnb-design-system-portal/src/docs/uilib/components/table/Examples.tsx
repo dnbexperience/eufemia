@@ -287,7 +287,11 @@ export const VariantComplex = () => (
 )
 
 export const RowScopeOnly = () => (
-  <ComponentBox hideCode data-visual-test="table-row-scope-only">
+  <ComponentBox
+    socialPreview
+    hideCode
+    data-visual-test="table-row-scope-only"
+  >
     <Table.ScrollView>
       <Table outline border>
         <caption>A Table Caption</caption>

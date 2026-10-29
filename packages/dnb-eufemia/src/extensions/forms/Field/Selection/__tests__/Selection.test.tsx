@@ -2394,6 +2394,24 @@ describe('variants', () => {
       expect(dropdownElement.classList).toContain('dnb-dropdown--large')
     })
 
+    it('should label the list with the field label', async () => {
+      render(
+        <Field.Selection label="Label" variant="dropdown">
+          <Field.Option value="foo">Foo</Field.Option>
+          <Field.Option value="bar">Bar</Field.Option>
+        </Field.Selection>
+      )
+
+      await openDropdown()
+
+      expect(
+        document.querySelector('.dnb-drawer-list__options')
+      ).toHaveAttribute(
+        'aria-labelledby',
+        document.querySelector('.dnb-forms-field-block__label').id
+      )
+    })
+
     it('has no selected value by default', async () => {
       render(
         <Field.Selection variant="dropdown">
@@ -3852,12 +3870,14 @@ describe('validation and error handling', () => {
     )
 
     expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(2)
-    const [first, second] = Array.from(
+
+    // The status of the selection is rendered after its contents
+    const [nested, outer] = Array.from(
       document.querySelectorAll('.dnb-form-status')
     )
 
-    expect(first.textContent).toBe(nb.Field.errorRequired)
-    expect(second.textContent).toBe(
+    expect(outer.textContent).toBe(nb.Field.errorRequired)
+    expect(nested.textContent).toBe(
       nb.NumberField.errorExclusiveMinimum.replace(
         '{exclusiveMinimum}',
         '900'

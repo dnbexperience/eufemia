@@ -1083,9 +1083,18 @@ describe('Dialog', () => {
 
 describe('Dialog aria', () => {
   it('should validate with ARIA rules as a dialog', async () => {
-    global.console.log = vi.fn()
-    const Comp = render(<Dialog {...props} open={true} />)
-    expect(await axeComponent(Comp)).toHaveNoViolations()
+    const Comp = render(
+      <Dialog {...props} open title="Dialog title">
+        <p>Content</p>
+      </Dialog>
+    )
+
+    expect(
+      await axeComponent(
+        Comp,
+        document.querySelector('.dnb-modal__content')
+      )
+    ).toHaveNoViolations()
   })
 })
 

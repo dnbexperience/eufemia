@@ -1,16 +1,17 @@
 import type { APIGatewayProxyResultV2 } from 'aws-lambda'
+import { requireEnv } from './env.js'
 import { json } from './http.js'
 import {
   readSnapshot,
-  requireEnv,
   EMPTY_COMPONENT_USAGE,
   EMPTY_MCP_USAGE,
+  EMPTY_PORTAL_VIEW_TRENDS,
   type Snapshot,
 } from './snapshot-store.js'
 
 const EMPTY: Snapshot = {
   generatedAt: '',
-  portalViews: [],
+  portalViewTrends: EMPTY_PORTAL_VIEW_TRENDS,
   mcpUsage: EMPTY_MCP_USAGE,
   componentUsage: EMPTY_COMPONENT_USAGE,
 }

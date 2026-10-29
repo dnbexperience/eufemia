@@ -3,6 +3,25 @@
 import { z, zodErrorsToFormErrors } from '../zod'
 import type * as zType from 'zod'
 
+describe('zod array bounds', () => {
+  it('reports only the array limit when an oversized array has invalid items', () => {
+    const schema = z.object({ items: z.array(z.string()).max(2) })
+    const result = schema.safeParse({ items: [1, 2, 3] })
+
+    expect(result.success).toBe(false)
+    if (result.success) {
+      return // stop here
+    }
+
+    expect(result.error.issues).toHaveLength(1)
+
+    const errors = zodErrorsToFormErrors(result.error.issues)
+
+    expect(errors['/items'].message).toBe('IterateArray.errorMaxItems')
+    expect(errors['/items'].messageValues).toEqual({ maxItems: '2' })
+  })
+})
+
 describe('zod not_multiple_of', () => {
   it('extracts multipleOf value from a real Zod schema error', () => {
     const schema = z.number().multipleOf(0.5)

@@ -103,6 +103,8 @@ export type KnownFrontmatter = {
   defaultTabs?: Array<{ title: string; key: string }>
   breadcrumb?: Array<{ text: string; href: string }>
   fullscreen?: boolean
+  /** Use a page's own print layout, such as a document style preview. */
+  printLayout?: 'default' | 'custom'
   hideEditLink?: boolean
   componentType?: string
   /** A category id, or `false` to exclude the page from category listings. */

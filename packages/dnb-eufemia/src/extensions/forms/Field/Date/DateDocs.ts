@@ -23,7 +23,8 @@ export const DateProperties: PropertiesTableProps = {
     ...DatePickerProperties.range,
     doc:
       'Defines if the Date field should support a value of two dates (starting and ending date). ' +
-      'The `value` needs to be a string containing two dates, separated by a pipe character (`|`) (`01-09-2024|30-09-2024`) when this is set to `true`. ' +
+      'The `value` needs to be a string containing two dates, separated by a pipe character (`|`) (`2024-09-01|2024-09-30`) when this is set to `true`. ' +
+      'A range with only one date is stored as `2024-09-01|` or `|2024-09-30`, and an empty range as `undefined`. ' +
       'Defaults to `false`.',
   },
   rangeSingleCalendar: {

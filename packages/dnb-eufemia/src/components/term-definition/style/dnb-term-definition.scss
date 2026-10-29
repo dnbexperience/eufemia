@@ -2,6 +2,8 @@
  * Styles for TermDefinition
  */
 
+@use '../../../style/core/utilities.scss' as utilities;
+
 .dnb-term-definition {
   --inner-space: 0.5rem;
 
@@ -10,14 +12,14 @@
       color: inherit;
     }
 
-    &:not(:focus-visible):not(:active):not(:hover):not(
-        .dnb-anchor--hover
-      ) {
-      text-decoration: underline;
-      text-decoration-style: dotted;
-      text-decoration-color: var(--anchor-color);
-      text-decoration-thickness: 0.15625rem;
-      text-underline-offset: 0.3125em;
+    &:not(:active):not(:hover):not(.dnb-anchor--hover) {
+      @include utilities.notFocusVisible() {
+        text-decoration: underline;
+        text-decoration-style: dotted;
+        text-decoration-color: var(--anchor-color);
+        text-decoration-thickness: 0.15625rem;
+        text-underline-offset: 0.3125em;
+      }
     }
   }
 

@@ -79,12 +79,37 @@
     }
   }
 
+  // Lift the native scrollbar halfway out of the rounded bottom corners,
+  // so a large radius does not cut off its ends, but they still follow the corner.
+  // Only when the table scrolls (the ScrollView is then focusable),
+  // so a table that fits keeps the same bottom space.
+  // Only the container's own ScrollView: a Table.ScrollView inside
+  // Table.ContainerBody is inside it, so it is lifted with it.
+  & > .dnb-table__scroll-view[tabindex='0'] {
+    margin-bottom: max(0rem, (var(--table-outline-radius) - 0.5rem) / 2);
+  }
+
   .dnb-table__scroll-view {
     // Clip the native Scrollbar as per defined by UX.
     // We can't use "overflow: clip" here, because we want overflow to be auto/scroll.
     clip-path: inset(
       0 round 0 0 var(--table-outline-radius) var(--table-outline-radius)
     );
+
+    // With a scrollbar, use a smaller radius, so less of its ends is cut off
+    &[tabindex='0'] {
+      clip-path: inset(
+        0 round 0 0
+          min(
+            var(--table-outline-radius),
+            (var(--table-outline-radius) + 0.5rem) / 2
+          )
+          min(
+            var(--table-outline-radius),
+            (var(--table-outline-radius) + 0.5rem) / 2
+          )
+      );
+    }
   }
 
   // Ensure our outline on bottom is not overlaying the scrollbar on webkit
@@ -103,6 +128,7 @@
   // When placed inside a Modal/Drawer, let the parent scroll-bar do its job.
   .dnb-modal__content & .dnb-table__scroll-view {
     overflow: visible;
+    margin-bottom: 0;
   }
 
   // When used in a Card

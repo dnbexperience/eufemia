@@ -20,7 +20,7 @@ export const Placeholder = () => {
 
 export const ValueTrue = () => {
   return (
-    <ComponentBox>
+    <ComponentBox socialPreview>
       <Value.Boolean value={true} />
     </ComponentBox>
   )

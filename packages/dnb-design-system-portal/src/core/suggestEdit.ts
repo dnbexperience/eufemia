@@ -3,6 +3,41 @@ import { githubSource } from './githubSource'
 
 export type SuggestEditDeployment = 'regular' | 'portal-only'
 
+const PORTAL_ORIGIN = 'https://eufemia.dnb.no'
+const DOCS_SOURCE_PATH =
+  /^packages\/dnb-design-system-portal\/src\/docs\/[\w/.-]+\.(mdx|tsx)$/
+
+/** Ignores a page outside the portal and a source that is not a portal docs file. */
+export function parseSuggestEditQuery(search: string) {
+  const params = new URLSearchParams(search)
+
+  let page = '/'
+  try {
+    const url = new URL(params.get('page') || '/', PORTAL_ORIGIN)
+    const path = url.pathname + url.hash
+
+    // A path such as "/..//example.org" becomes "//example.org", which a link opens as another site
+    if (
+      url.origin === PORTAL_ORIGIN &&
+      new URL(path, PORTAL_ORIGIN).origin === PORTAL_ORIGIN
+    ) {
+      page = path
+    }
+  } catch {
+    // Keep the default for an invalid URL
+  }
+
+  const source = params.get('source') || ''
+  const isDocsSource =
+    DOCS_SOURCE_PATH.test(source) && !source.split('/').includes('..')
+
+  return {
+    page,
+    pageUrl: new URL(page, PORTAL_ORIGIN).toString(),
+    sourcePath: isDocsSource ? source : '',
+  }
+}
+
 export function getSuggestEditUrl(
   page: string,
   sourcePath: string

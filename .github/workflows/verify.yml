@@ -63,12 +63,22 @@ jobs:
       # ESLint does not see a change to a local rule, or an upgrade of a plugin
       # without version metadata (such as eslint-plugin-react), as a config
       # change, so their hash starts a fresh cache when they change.
+      # ESLint re-lints a file only when that file or the config changes, so
+      # other files that a rule reads must be part of the hash too:
+      # - docs-types/sync-docs-jsdoc checks a component against its sibling
+      #   *Docs files. Without them, a change to only a *Docs file does not
+      #   re-check its component. The patterns mirror the rule
+      #   (`Docs\.[jt]sx?$`), as hashFiles does not support {a,b} braces.
+      # - compat/compat reads the browser targets from .browserslistrc.
+      # - import/named, import/default and import/no-named-as-default read the
+      #   module that a file imports. With no TypeScript resolver, they only
+      #   resolve .js, .mjs and .cjs files, so those files are in the hash.
       - name: Use ESLint cache
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         with:
           path: packages/dnb-eufemia/.eslintcache
-          key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-eslint-eufemia-${{ hashFiles('yarn.lock', 'packages/dnb-eufemia/scripts/eslint/**/*.js') }}-${{ github.sha }}
-          restore-keys: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-eslint-eufemia-${{ hashFiles('yarn.lock', 'packages/dnb-eufemia/scripts/eslint/**/*.js') }}-
+          key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-eslint-eufemia-${{ hashFiles('yarn.lock', 'packages/dnb-eufemia/scripts/**/*.js', 'packages/dnb-eufemia/scripts/**/*.[cm]js', 'packages/dnb-eufemia/src/**/*.js', 'packages/dnb-eufemia/src/**/*.[cm]js', 'packages/dnb-eufemia/src/**/*Docs.[jt]s', 'packages/dnb-eufemia/src/**/*Docs.[jt]sx', 'packages/dnb-eufemia/.browserslistrc') }}-${{ github.sha }}
+          restore-keys: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-eslint-eufemia-${{ hashFiles('yarn.lock', 'packages/dnb-eufemia/scripts/**/*.js', 'packages/dnb-eufemia/scripts/**/*.[cm]js', 'packages/dnb-eufemia/src/**/*.js', 'packages/dnb-eufemia/src/**/*.[cm]js', 'packages/dnb-eufemia/src/**/*Docs.[jt]s', 'packages/dnb-eufemia/src/**/*Docs.[jt]sx', 'packages/dnb-eufemia/.browserslistrc') }}-
 
       - name: Run lint
         # Every workspace with a lint script runs here, except the Portal which
@@ -77,6 +87,7 @@ jobs:
           yarn workspace @dnb/eufemia lint:ci
           yarn workspace @dnb/eufemia-mcp-legacy-proxy lint
           yarn workspace eufemia-mcp-lambda lint
+          yarn workspace eufemia-usage-ingest lint
           yarn workspace eufemia-raiwork-plugin lint
           yarn workspace eufemia-analytics lint
           yarn workspace eufemia-analytics-dashboard lint
@@ -106,12 +117,17 @@ jobs:
         with:
           cache-version: ${{ secrets.CACHE_VERSION }}
 
+      # Same as the library cache above: ESLint does not see an upgrade of a
+      # plugin without version metadata (eslint-plugin-react, -import and
+      # -workspaces here) as a config change. The portal config extends the
+      # library config, so the local rules are in the hash too, even though no
+      # portal file uses them today.
       - name: Use ESLint cache
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
         with:
           path: packages/dnb-design-system-portal/.eslintcache
-          key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-eslint-portal-${{ github.sha }}
-          restore-keys: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-eslint-portal-
+          key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-eslint-portal-${{ hashFiles('yarn.lock', 'packages/dnb-eufemia/scripts/eslint/**/*.js') }}-${{ github.sha }}
+          restore-keys: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-eslint-portal-${{ hashFiles('yarn.lock', 'packages/dnb-eufemia/scripts/eslint/**/*.js') }}-
 
       - name: Run lint
         run: yarn workspace dnb-design-system-portal lint:ci
@@ -162,6 +178,7 @@ jobs:
           yarn workspace eufemia-raiwork-plugin test:types
           yarn workspace @dnb/eufemia-mcp-legacy-proxy typecheck
           yarn workspace eufemia-mcp-lambda typecheck
+          yarn workspace eufemia-usage-ingest typecheck
           yarn workspace eufemia-analytics test:types
           yarn workspace eufemia-analytics-dashboard test:types
 

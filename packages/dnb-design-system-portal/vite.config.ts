@@ -19,6 +19,7 @@ import prefetchOnHoverPlugin from './vite/client/plugins/prefetch-on-hover'
 import catchLinksPlugin from './vite/client/plugins/catch-links'
 import scrollPositionPlugin from './vite/client/plugins/scroll-position'
 import preloadStylesPlugin from './vite/client/plugins/preload-styles'
+import chunkLoadErrorHandlerPlugin from './vite/client/plugins/chunk-load-error-handler'
 import testPageFilterPlugin from './vite/client/plugins/test-page-filter'
 import buildInfoPlugin from './vite/client/plugins/build-info'
 import githubReleasesPlugin from './vite/client/plugins/github-releases'
@@ -89,6 +90,7 @@ export default defineConfig({
 
     // Inject preload styles to prevent layout flicker
     preloadStylesPlugin(),
+    chunkLoadErrorHandlerPlugin(),
 
     // Filter pages for test builds (IS_VISUAL_TEST, IS_E2E)
     withFilter(testPageFilterPlugin(), {

@@ -63,14 +63,11 @@ import type {
   DatePickerContextValue,
   DatePickerDateType,
 } from './DatePickerContext'
+import DatePickerContext from './DatePickerContext'
 import type { DatePickerDates } from './hooks/useDates'
-import { useTranslation } from '../../shared'
+import { isSameDate } from './hooks/useDates'
+import useSelectedDateTitle from './hooks/useSelectedDateTitle'
 import Popover from '../popover/Popover'
-import type { DateFormatOptions } from '../date-format/DateFormatUtils'
-import {
-  formatDate,
-  formatDateRange,
-} from '../date-format/DateFormatUtils'
 import useId from '../../shared/helpers/useId'
 import idSelector from '../../shared/helpers/idSelector'
 
@@ -84,38 +81,34 @@ export type DatePickerEventAttributes = {
 // Takes the return object from DatePickerProvider and extends it with the event
 export type DatePickerEvent<T> = DatePickerReturnObject<T>
 
-type FocusOnClose = { focusOnClose?: boolean | string }
-
 export type DisplayPickerEvent = (
   | MouseEvent<HTMLButtonElement | HTMLAnchorElement | HTMLElement>
   | MouseEvent
   | KeyboardEvent
-  | FocusOnClose
 ) &
-  DatePickerDates &
-  FocusOnClose & {
+  DatePickerDates & {
     event?: MouseEvent<HTMLButtonElement | HTMLAnchorElement>
   }
 
 export type DatePickerProps = {
   /**
-   * Defines the pre-filled date by either a JavaScript `Date` instance or (ISO 8601) like `date="2019-05-05"`.
+   * Defines the pre-filled date by either a JavaScript `Date` instance or (ISO 8601) like `date="2019-05-05"`. To clear the date, set it to `null` or an empty string. Changing it to `undefined` keeps the current date.
    */
-  date?: DatePickerDateType
+  date?: DatePickerDateType | null
   /**
-   * To set the pre-filled starting date. Is used if `range={true}` is set to `true`. Defaults to `null`, showing the `maskPlaceholder`.
+   * To set the pre-filled starting date. Is used if `range={true}` is set to `true`. Defaults to `null`, showing the `maskPlaceholder`. To clear the date, set it to `null` or an empty string. Changing it to `undefined` keeps the current date.
    */
-  startDate?: DatePickerDateType
+  startDate?: DatePickerDateType | null
   /**
-   * To set the pre-filled ending date. Is used if `range={true}` is set to `true`. Defaults to `null`, showing the `maskPlaceholder`.
+   * To set the pre-filled ending date. Is used if `range={true}` is set to `true`. Defaults to `null`, showing the `maskPlaceholder`. To clear the date, set it to `null` or an empty string. Changing it to `undefined` keeps the current date.
    */
-  endDate?: DatePickerDateType
+  endDate?: DatePickerDateType | null
   /**
-   * To display what month should be shown in the first calendar by default. Defaults to the `date` respective `startDate`.
+   * To display what month should be shown in the first calendar by default. Defaults to the `date` respective `startDate`, or the current month, or the nearest month within `minDate` and `maxDate`. In range mode, the month before is used when the second calendar would otherwise show a month after `maxDate`, unless `minDate` is in the same month.
    */
   month?: DatePickerDateType
   /**
-   * To display what month should be shown in the first calendar by default. Defaults to the `date` respective `startDate`.
+   * To display what month should be shown in the first calendar by default. Defaults to the `date` respective `startDate`, or the current month, or the nearest month within `minDate` and `maxDate`. In range mode, the month before is used when the second calendar would otherwise show a month after `maxDate`, unless `minDate` is in the same month.
    */
   startMonth?: DatePickerDateType
   /**
@@ -159,7 +152,7 @@ export type DatePickerProps = {
    */
   hideAdjacentMonthDates?: boolean
   /**
-   * If set to `true`, the calendar only displays days belonging to the currently displayed month, and month navigation via buttons and keyboard is disabled. The displayed month is determined by the `month` or `startMonth` prop, and ultimately defaults to the current month. Use `'without-label'` to also hide the month label. Defaults to `false`.
+   * If set to `true`, the calendar only displays days belonging to the currently displayed month, and month navigation via buttons and keyboard is disabled. The displayed month is determined by the `month` or `startMonth` prop, and ultimately defaults to the current month, or the nearest month within `minDate` and `maxDate`. Use `'without-label'` to also hide the month label. Defaults to `false`.
    */
   onlyMonth?: boolean | 'without-label'
   /**
@@ -170,6 +163,10 @@ export type DatePickerProps = {
    * Once the date picker gets opened, there is a focus handling to ensure good accessibility. This can be disabled with this property. Defaults to `false`.
    */
   disableAutofocus?: boolean
+  /**
+   * Has no effect. Keyboard navigation in the calendar is always enabled. **Deprecated**: Remove this property.
+   * @deprecated Has no effect. Remove this property.
+   */
   enableKeyboardNav?: boolean
   /**
    * If the input fields with the mask should be visible. Defaults to `false`.
@@ -302,12 +299,12 @@ export type DatePickerProps = {
   yearNavigation?: boolean
   className?: string
   /**
-   * Will be called right before every new calendar view gets rendered. See the example above.
+   * Will be called before the days of each calendar view are rendered, and again on interactions such as hover and selection. Receives the `days` array and the calendar number (`0` for the first calendar, `1` for the second in range mode). Change the day objects, or return a new array, to customize the days. See [Manipulate the days in the calendar view](/uilib/components/date-picker/#manipulate-the-days-in-the-calendar-view).
    */
   onDaysRender?: (
     days: Array<DatePickerCalendarDay>,
     nr?: DatePickerCalendarProps['nr']
-  ) => void
+  ) => Array<DatePickerCalendarDay> | void
   /**
    * Will be called on a date change event. Returns an object. See Returned Object below.
    */
@@ -451,12 +448,13 @@ function DatePicker(externalProps: DatePickerAllProps) {
 
   const calendarContainerRef = useRef<HTMLSpanElement>(null)
 
-  const translation = useTranslation().DatePicker
-
   const focusCalendarTable = useCallback(
     () =>
       calendarContainerRef.current?.querySelector<HTMLElement>(
-        'td[aria-selected="true"] button'
+        'td.dnb-date-picker__day--start-date:not(.dnb-date-picker__day--outside-month) button:not([disabled])'
+      ) ||
+      calendarContainerRef.current?.querySelector<HTMLElement>(
+        'td[aria-selected="true"] button:not([disabled])'
       ) ||
       calendarContainerRef.current?.querySelector<HTMLElement>('table'),
     []
@@ -482,18 +480,6 @@ function DatePicker(externalProps: DatePickerAllProps) {
           onClose?.({
             ...getReturnObject.current(args),
           })
-          if (args?.['focusOnClose']) {
-            try {
-              submitButtonRef.current?.focus({
-                preventScroll: true,
-              })
-            } catch (e) {
-              warn(
-                'DatePicker: Failed to focus submit button on close:',
-                e
-              )
-            }
-          }
         },
         noAnimation ? 1 : blurDelay
       ) // wait until animation is over
@@ -530,7 +516,7 @@ function DatePicker(externalProps: DatePickerAllProps) {
       MouseEvent<HTMLSpanElement> | KeyboardEvent<HTMLTableElement>
     >) => {
       if (shouldHidePicker && !showSubmitButton && !showCancelButton) {
-        hidePicker({ focusOnClose: true })
+        hidePicker()
       }
 
       setDates({ startDate: args.startDate, endDate: args.endDate })
@@ -668,29 +654,6 @@ function DatePicker(externalProps: DatePickerAllProps) {
   const { onSubmit: statusOnSubmit, ...remainingStatusProps } =
     statusProps ?? {}
 
-  const selectedDateTitle = useMemo(() => {
-    const { selectedDate, selectedDateRange } = translation
-    const { startDate, endDate } = dates
-
-    if (!startDate) {
-      return ''
-    }
-
-    const options: DateFormatOptions = {
-      locale: context.locale,
-      options: {
-        dateStyle: 'full',
-      },
-    }
-
-    return range && endDate
-      ? selectedDateRange.replace(
-          /%s/,
-          formatDateRange({ startDate, endDate }, options)
-        )
-      : selectedDate.replace(/%s/, formatDate(startDate, options))
-  }, [range, translation, dates, context.locale])
-
   const mainParams = useSpacing(props, {
     className: clsx(
       'dnb-date-picker',
@@ -825,7 +788,6 @@ function DatePicker(externalProps: DatePickerAllProps) {
                   maskPlaceholder={resolvedMaskPlaceholder}
                   isRange={range}
                   showInput={showInput}
-                  selectedDateTitle={selectedDateTitle}
                   inputElement={inputElement}
                   open={open}
                   hidden={hidden}
@@ -929,11 +891,31 @@ function DatePicker(externalProps: DatePickerAllProps) {
           </span>
         </span>
 
-        <p className="dnb-sr-only" aria-live="assertive">
-          {selectedDateTitle}
-        </p>
+        <SelectedDateAnnouncement pickedDates={dates} isRange={range} />
       </span>
     </DatePickerProvider>
+  )
+}
+
+function SelectedDateAnnouncement({
+  pickedDates,
+  isRange,
+}: {
+  pickedDates: Pick<DatePickerDates, 'startDate' | 'endDate'>
+  isRange: boolean
+}) {
+  const { startDate, endDate } = useContext(DatePickerContext)
+  const title = useSelectedDateTitle({ startDate, endDate, isRange })
+
+  // Only announce dates picked in the calendar, and only while they are the value
+  const isPicked =
+    isSameDate(pickedDates.startDate, startDate) &&
+    isSameDate(pickedDates.endDate, endDate)
+
+  return (
+    <p className="dnb-sr-only" aria-live="polite">
+      {isPicked ? title : null}
+    </p>
   )
 }
 
@@ -984,6 +966,8 @@ const NonAttributes = [
   'preventClose',
   'selectedDateRange',
   'yearNavigation',
+  'today',
+  'withinSelectedRange',
 ]
 
 function filterOutNonAttributes(props: DatePickerProps) {

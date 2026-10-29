@@ -257,6 +257,41 @@ html[data-dnb-modal-active] .dnb-tooltip--hide {
  * FormStatus component
  *
  */
+/*
+ * Colors of the FormStatus icons
+ *
+ */
+.dnb-form-status-icon-path--fill {
+  fill: var(--form-status-icon-color);
+}
+.dnb-form-status-icon-path--stroke {
+  stroke: var(--form-status-icon-color);
+}
+.dnb-form-status-icon-path--error {
+  --form-status-icon-color: var(--token-color-background-error);
+}
+.dnb-form-status-icon-path--error-mark {
+  --form-status-icon-color: var(--token-color-icon-neutral-ondark);
+}
+.dnb-form-status-icon-path--warning {
+  --form-status-icon-color: var(--token-color-icon-warning);
+}
+.dnb-form-status-icon-path--warning-mark {
+  --form-status-icon-color: var(--token-color-icon-neutral-static);
+}
+.dnb-form-status-icon-path--information {
+  --form-status-icon-color: var(--token-color-icon-info);
+}
+.dnb-form-status-icon-path--information-mark, .dnb-form-status-icon-path--success-mark {
+  --form-status-icon-color: var(--token-color-icon-neutral-inverse);
+}
+.dnb-form-status-icon-path--success {
+  --form-status-icon-color: var(--token-color-background-positive);
+}
+.dnb-form-status-icon-path--marketing {
+  --form-status-icon-color: var(--token-color-icon-marketing);
+}
+
 .dnb-form-status {
   --form-status-radius: var(--token-radius-xl);
   display: flex;
@@ -290,6 +325,12 @@ html[data-dnb-modal-active] .dnb-tooltip--hide {
   );
   --form-status-color-icon: var(--token-color-icon-info);
 }
+.dnb-form-status--success .dnb-form-status__shell {
+  --form-status-color-background: var(
+    --token-color-background-positive-subtle
+  );
+  --form-status-color-icon: var(--token-color-icon-positive);
+}
 .dnb-form-status--marketing .dnb-form-status__shell {
   --form-status-color-background: var(
     --token-color-background-marketing-subtle
@@ -310,6 +351,9 @@ html[data-dnb-modal-active] .dnb-tooltip--hide {
 }
 .dnb-form-status__variant--outlined.dnb-form-status--information .dnb-form-status__shell {
   --form-status-color-outline: var(--token-color-stroke-info);
+}
+.dnb-form-status__variant--outlined.dnb-form-status--success .dnb-form-status__shell {
+  --form-status-color-outline: var(--token-color-stroke-positive);
 }
 .dnb-form-status__variant--outlined.dnb-form-status--marketing .dnb-form-status__shell {
   --form-status-color-outline: var(--token-color-stroke-marketing);
@@ -420,27 +464,27 @@ html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible[disabled] {
 html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible:not([disabled]) .dnb-button__text {
   text-decoration: none;
 }
-html:not([data-whatintent=touch]) .dnb-button--tertiary:hover[disabled] {
+html:not([data-whatintent=touch]) .dnb-button--tertiary:where(:not([aria-disabled=true])):hover[disabled] {
   cursor: not-allowed;
 }
-html:not([data-whatintent=touch]) .dnb-button--tertiary:hover:not([disabled]) .dnb-button__text {
+html:not([data-whatintent=touch]) .dnb-button--tertiary:where(:not([aria-disabled=true])):hover:not([disabled]) .dnb-button__text {
   text-decoration-color: var(--button-color-underline, var(--button-color-underline--default));
 }
-.dnb-button--tertiary:active[disabled], html:not([data-whatintent=touch]) .dnb-button--tertiary:active[disabled] {
+.dnb-button--tertiary:where(:not([aria-disabled=true])):active[disabled], html:not([data-whatintent=touch]) .dnb-button--tertiary:where(:not([aria-disabled=true])):active[disabled] {
   cursor: not-allowed;
 }
-.dnb-button--tertiary:active:not([disabled]), html:not([data-whatintent=touch]) .dnb-button--tertiary:active:not([disabled]) {
+.dnb-button--tertiary:where(:not([aria-disabled=true])):active:not([disabled]), html:not([data-whatintent=touch]) .dnb-button--tertiary:where(:not([aria-disabled=true])):active:not([disabled]) {
   outline: initial;
 }
-html[data-whatinput=keyboard] .dnb-button--tertiary:active:not([disabled]), html[data-whatinput=keyboard] html:not([data-whatintent=touch]) .dnb-button--tertiary:active:not([disabled]) {
+html[data-whatinput=keyboard] .dnb-button--tertiary:where(:not([aria-disabled=true])):active:not([disabled]), html[data-whatinput=keyboard] html:not([data-whatintent=touch]) .dnb-button--tertiary:where(:not([aria-disabled=true])):active:not([disabled]) {
   box-shadow: none;
 }
-html[data-whatintent=touch] .dnb-button--tertiary:active:not([disabled]) .dnb-button__text, html[data-whatintent=touch] html:not([data-whatintent=touch]) .dnb-button--tertiary:active:not([disabled]) .dnb-button__text {
+html[data-whatintent=touch] .dnb-button--tertiary:where(:not([aria-disabled=true])):active:not([disabled]) .dnb-button__text, html[data-whatintent=touch] html:not([data-whatintent=touch]) .dnb-button--tertiary:where(:not([aria-disabled=true])):active:not([disabled]) .dnb-button__text {
   --button-color-underline: var(--button-color-underline--hover);
   transition: none;
   text-decoration-color: var(--button-color-underline, var(--button-color-underline--default));
 }
-html:not([data-whatintent=touch]) .dnb-button--tertiary:active:not([disabled]) .dnb-button__text, html:not([data-whatintent=touch]) html:not([data-whatintent=touch]) .dnb-button--tertiary:active:not([disabled]) .dnb-button__text {
+html:not([data-whatintent=touch]) .dnb-button--tertiary:where(:not([aria-disabled=true])):active:not([disabled]) .dnb-button__text, html:not([data-whatintent=touch]) html:not([data-whatintent=touch]) .dnb-button--tertiary:where(:not([aria-disabled=true])):active:not([disabled]) .dnb-button__text {
   text-decoration: none;
 }
 .dnb-button--tertiary.dnb-button--has-text {
@@ -561,10 +605,10 @@ html:not([data-whatintent=touch]) .dnb-button--tertiary:active:not([disabled]) .
 .dnb-button--primary .dnb-button__icon, .dnb-button--secondary .dnb-button__icon, .dnb-button--tertiary .dnb-button__icon {
   color: var(--button-color-icon, var(--button-color-icon--default));
 }
-html:not([data-whatintent=touch]) .dnb-button--primary:hover[disabled], html:not([data-whatintent=touch]) .dnb-button--secondary:hover[disabled], html:not([data-whatintent=touch]) .dnb-button--tertiary:hover[disabled] {
+html:not([data-whatintent=touch]) .dnb-button--primary:where(:not([aria-disabled=true])):hover[disabled], html:not([data-whatintent=touch]) .dnb-button--secondary:where(:not([aria-disabled=true])):hover[disabled], html:not([data-whatintent=touch]) .dnb-button--tertiary:where(:not([aria-disabled=true])):hover[disabled] {
   cursor: not-allowed;
 }
-html:not([data-whatintent=touch]) .dnb-button--primary:hover:not([disabled]), html:not([data-whatintent=touch]) .dnb-button--secondary:hover:not([disabled]), html:not([data-whatintent=touch]) .dnb-button--tertiary:hover:not([disabled]) {
+html:not([data-whatintent=touch]) .dnb-button--primary:where(:not([aria-disabled=true])):hover:not([disabled]), html:not([data-whatintent=touch]) .dnb-button--secondary:where(:not([aria-disabled=true])):hover:not([disabled]), html:not([data-whatintent=touch]) .dnb-button--tertiary:where(:not([aria-disabled=true])):hover:not([disabled]) {
   --button-color-bg: var(--button-color-bg--hover);
   --button-color-border: var(--button-color-border--hover);
   --button-color-icon: var(--button-color-icon--hover);
@@ -576,10 +620,10 @@ html:not([data-whatintent=touch]) .dnb-button--primary:hover:not([disabled]), ht
     --button-input-separator-color--hover
   );
 }
-.dnb-button--primary:active[disabled], html:not([data-whatintent=touch]) .dnb-button--primary:active[disabled], .dnb-button--secondary:active[disabled], html:not([data-whatintent=touch]) .dnb-button--secondary:active[disabled], .dnb-button--tertiary:active[disabled], html:not([data-whatintent=touch]) .dnb-button--tertiary:active[disabled] {
+.dnb-button--primary:where(:not([aria-disabled=true])):active[disabled], html:not([data-whatintent=touch]) .dnb-button--primary:where(:not([aria-disabled=true])):active[disabled], .dnb-button--secondary:where(:not([aria-disabled=true])):active[disabled], html:not([data-whatintent=touch]) .dnb-button--secondary:where(:not([aria-disabled=true])):active[disabled], .dnb-button--tertiary:where(:not([aria-disabled=true])):active[disabled], html:not([data-whatintent=touch]) .dnb-button--tertiary:where(:not([aria-disabled=true])):active[disabled] {
   cursor: not-allowed;
 }
-.dnb-button--primary:active:not([disabled]), html:not([data-whatintent=touch]) .dnb-button--primary:active:not([disabled]), .dnb-button--secondary:active:not([disabled]), html:not([data-whatintent=touch]) .dnb-button--secondary:active:not([disabled]), .dnb-button--tertiary:active:not([disabled]), html:not([data-whatintent=touch]) .dnb-button--tertiary:active:not([disabled]) {
+.dnb-button--primary:where(:not([aria-disabled=true])):active:not([disabled]), html:not([data-whatintent=touch]) .dnb-button--primary:where(:not([aria-disabled=true])):active:not([disabled]), .dnb-button--secondary:where(:not([aria-disabled=true])):active:not([disabled]), html:not([data-whatintent=touch]) .dnb-button--secondary:where(:not([aria-disabled=true])):active:not([disabled]), .dnb-button--tertiary:where(:not([aria-disabled=true])):active:not([disabled]), html:not([data-whatintent=touch]) .dnb-button--tertiary:where(:not([aria-disabled=true])):active:not([disabled]) {
   --button-color-bg: var(--button-color-bg--active);
   --button-color-border: var(--button-color-border--active);
   --button-color-icon: var(--button-color-icon--active);
@@ -612,7 +656,17 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disable
     outline: var(--focus-ring-width) solid transparent;
   }
 }
-.dnb-button--primary[disabled], .dnb-button--secondary[disabled], .dnb-button--tertiary[disabled] {
+@media (forced-colors: active) {
+  html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disabled]), html:not([data-whatinput=touch]) .dnb-button--secondary:focus-visible:not([disabled]), html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible:not([disabled]) {
+    outline-offset: 0;
+  }
+}
+html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disabled])[aria-disabled=true], html:not([data-whatinput=touch]) .dnb-button--secondary:focus-visible:not([disabled])[aria-disabled=true], html:not([data-whatinput=touch]) .dnb-button--tertiary:focus-visible:not([disabled])[aria-disabled=true] {
+  --button-color-bg: var(--button-color-bg--disabled);
+  --button-color-icon: var(--button-color-icon--disabled);
+  --button-color-text: var(--button-color-text--disabled);
+}
+.dnb-button--primary[disabled], .dnb-button--primary[aria-disabled=true], .dnb-button--secondary[disabled], .dnb-button--secondary[aria-disabled=true], .dnb-button--tertiary[disabled], .dnb-button--tertiary[aria-disabled=true] {
   --button-color-bg: var(--button-color-bg--disabled);
   --button-color-border: var(--button-color-border--disabled);
   --button-color-icon: var(--button-color-icon--disabled);
@@ -626,6 +680,12 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disable
   --border-width: var(--button-border-width, var(--button-border-width--default));
   box-shadow: var(--button-border-inset, var(--button-border-inset--default)) 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
+}
+@media (forced-colors: active) {
+  .dnb-button--primary, .dnb-button--secondary {
+    outline: var(--button-border-width, var(--button-border-width--default)) solid transparent;
+    outline-offset: calc(var(--button-border-width, var(--button-border-width--default)) * -1);
+  }
 }
 .dnb-button--primary {
   --button-color-bg--default: var(
@@ -933,6 +993,21 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disable
   --button-border-width--default: 0.125rem;
   --button-border-inset--default: ;
 }
+@media (forced-colors: active) {
+  .dnb-button--icon-only.dnb-button--selected {
+    background-color: Highlight;
+    color: HighlightText;
+    outline-color: Highlight;
+  }
+  .dnb-button--icon-only.dnb-button--selected .dnb-button__icon {
+    color: HighlightText;
+  }
+}
+@media (forced-colors: active) {
+  html:not([data-whatinput=touch]) .dnb-button--icon-only.dnb-button--selected:focus-visible:not([disabled]) {
+    outline-color: CanvasText;
+  }
+}
 .dnb-button--icon-only.dnb-button--input-button {
   --button-color-bg--default: transparent;
   --button-color-bg--hover: var(--token-color-background-action);
@@ -1001,10 +1076,10 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disable
   width: var(--input-border-width);
   background-color: var(--button-input-separator-color, var(--button-input-separator-color--default));
 }
-.dnb-button--icon-only.dnb-button--input-button:active[disabled], html:not([data-whatintent=touch]) .dnb-button--icon-only.dnb-button--input-button:active[disabled] {
+.dnb-button--icon-only.dnb-button--input-button:where(:not([aria-disabled=true])):active[disabled], html:not([data-whatintent=touch]) .dnb-button--icon-only.dnb-button--input-button:where(:not([aria-disabled=true])):active[disabled] {
   cursor: not-allowed;
 }
-.dnb-button--icon-only.dnb-button--input-button:active:not([disabled])::after, html:not([data-whatintent=touch]) .dnb-button--icon-only.dnb-button--input-button:active:not([disabled])::after {
+.dnb-button--icon-only.dnb-button--input-button:where(:not([aria-disabled=true])):active:not([disabled])::after, html:not([data-whatintent=touch]) .dnb-button--icon-only.dnb-button--input-button:where(:not([aria-disabled=true])):active:not([disabled])::after {
   top: var(--input-border-width);
   bottom: var(--input-border-width);
 }
@@ -1029,9 +1104,6 @@ html:not([data-whatinput=touch]) .dnb-button--primary:focus-visible:not([disable
   line-height: var(--line-height-basis);
   color: inherit;
   transform: translateY(-0.03125rem);
-}
-.dnb-button__text [data-os=linux] {
-  transform: translateY(-0.035rem);
 }
 .dnb-button__alignment {
   display: inline-block;
@@ -1170,6 +1242,22 @@ html:not([data-whatintent=touch]) .dnb-button--secondary:not(.dnb-button--has-te
 .dnb-button[disabled] {
   cursor: not-allowed;
   outline: none;
+}
+@media (forced-colors: active) {
+  .dnb-button--primary[disabled], .dnb-button--secondary[disabled], .dnb-button--primary[aria-disabled=true], .dnb-button--secondary[aria-disabled=true] {
+    outline: var(--button-border-width, var(--button-border-width--default)) solid transparent;
+    outline-offset: calc(var(--button-border-width, var(--button-border-width--default)) * -1);
+  }
+}
+@media (forced-colors: active) {
+  .dnb-button--primary[disabled], .dnb-button--secondary[disabled], .dnb-button--primary[aria-disabled=true], .dnb-button--secondary[aria-disabled=true] {
+    outline-color: GrayText;
+  }
+}
+@media (forced-colors: active) {
+  .dnb-button[aria-disabled=true], .dnb-button[aria-disabled=true] .dnb-button__icon {
+    color: GrayText;
+  }
 }
 
 /* Firefox includes a hidden border which messes up button dimensions */
@@ -1373,16 +1461,33 @@ legend.dnb-form-label {
   box-shadow: var(--b-inset, var(--input-border-inset, inset)) 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
+@media (forced-colors: active) {
+  .dnb-input__border {
+    outline: var(--b-width, var(--input-border-width, var(--input-border-width--default))) solid transparent;
+    outline-offset: calc(var(--b-width, var(--input-border-width, var(--input-border-width--default))) * -1);
+  }
+}
 .dnb-input--disabled .dnb-input__border {
   --border-color: var(--input-border-color--disabled);
   --border-width: var(--input-border-width--disabled);
   box-shadow: var(--input-border-inset--disabled, inset) 0 0 0 var(--border-width) var(--border-color);
   border-color: transparent;
 }
+@media (forced-colors: active) {
+  .dnb-input--disabled .dnb-input__border {
+    outline-color: GrayText;
+  }
+}
 .dnb-input__border:focus-within {
   --b-color: var(--input-border-color--active);
   --b-width: var(--input-border-width--active);
   --b-inset: var(--input-border-inset--active);
+}
+@media (forced-colors: active) {
+  .dnb-input__border:focus-within {
+    outline: var(--focus-ring-width) solid transparent;
+    outline-offset: calc(var(--focus-ring-width) * -1);
+  }
 }
 .dnb-input__border:hover, .dnb-input__border.hover {
   --b-color: var(--input-border-color--hover);
@@ -1674,6 +1779,9 @@ html:not([data-whatintent=touch]) .dnb-input--clear.dnb-input__submit-element .d
 .dnb-input--icon-position-right.dnb-input--has-icon.dnb-input--has-submit-element .dnb-input__input, .dnb-input--icon-position-right.dnb-input--has-icon.dnb-input--has-submit-element .dnb-input__placeholder {
   padding-right: calc(var(--input-height-current) + 2.5rem);
 }
+.dnb-input--has-submit-element:where(:not(.dnb-input--has-clear-button, .dnb-input--has-inner-element, .dnb-input--password)) input.dnb-input__input {
+  clip-path: inset(0 var(--input-height-current) 0 0);
+}
 html[data-visual-test] .dnb-input__input {
   caret-color: var(--token-color-background-neutral);
 }
@@ -1963,6 +2071,7 @@ html[data-visual-test] .dnb-input__input {
 .dnb-dropdown--stretch {
   display: flex;
   flex-grow: 1;
+  min-width: 0;
 }
 .dnb-dropdown--stretch .dnb-dropdown__inner {
   flex-grow: 1;

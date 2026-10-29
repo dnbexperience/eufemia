@@ -43,7 +43,9 @@ function isReleaseBranch(branchName, { cwd = eufemiaRoot } = {}) {
 }
 
 function getReleaseConfig(cwd) {
-  return require(path.resolve(cwd, 'package.json')).release
+  return JSON.parse(
+    fs.readFileSync(path.resolve(cwd, 'package.json'), 'utf-8')
+  ).release
 }
 
 /**

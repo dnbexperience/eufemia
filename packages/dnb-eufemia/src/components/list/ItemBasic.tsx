@@ -12,8 +12,33 @@ export type ItemBasicProps = {
   title?: ReactNode
 } & Omit<ItemContentProps, 'title'>
 
+function isSetGap(
+  props: Omit<ItemBasicProps, 'icon' | 'title' | 'children'>,
+  key: 'gap' | 'rowGap'
+) {
+  return (
+    Object.prototype.hasOwnProperty.call(props, key) &&
+    props[key] !== false
+  )
+}
+
 function ItemBasic(props: ItemBasicProps) {
-  const { icon, title, children, element, ...rest } = props
+  const { icon, title, children, element, layoutEngine, ...rest } = props
+
+  // The css engine leaves the children unchanged, so cells rendered by your
+  // own components are placed like cells used directly. But it turns these
+  // Flex props into CSS gaps on the row grid, where every empty grid column
+  // adds space. The legacy engine only adds space between the cells, so use
+  // it when one of these props is set. An explicit layoutEngine still wins.
+  // A forwarded `gap={undefined}` or `rowGap={undefined}` counts as set: it
+  // replaces the `false` that ItemContent passes, so Flex uses its default
+  // small gap.
+  const usesLegacySpacing =
+    isSetGap(rest, 'gap') ||
+    isSetGap(rest, 'rowGap') ||
+    Boolean(rest.divider && rest.divider !== 'space')
+  const appliedLayoutEngine =
+    layoutEngine ?? (usesLegacySpacing ? 'legacy' : 'css')
 
   // The auto-rendered icon and title must be valid inside the row element.
   // When the row is a phrasing element (`element="span"`, e.g. for a Dropdown
@@ -23,7 +48,12 @@ function ItemBasic(props: ItemBasicProps) {
   const cellElement = element === 'span' ? 'span' : undefined
 
   return (
-    <ItemContent element={element} {...rest}>
+    <ItemContent
+      element={element}
+      layoutEngine={appliedLayoutEngine}
+      rowGap={appliedLayoutEngine === 'css' ? false : undefined}
+      {...rest}
+    >
       {icon && <ItemIcon element={cellElement}>{icon}</ItemIcon>}
       {title !== undefined && (
         <ItemTitle element={cellElement}>{title}</ItemTitle>

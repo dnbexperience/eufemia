@@ -207,7 +207,10 @@ function InputComponent({ ref, ...restProps }: InputProps) {
 
         if (input.value !== initialInput.value) {
           const event = new Event('change')
-          Object.defineProperty(event, 'target', { value: input })
+          Object.defineProperties(event, {
+            target: { value: input },
+            currentTarget: { value: input },
+          })
           onChangeHandler(
             event as unknown as ChangeEvent<HTMLInputElement>
           )
@@ -500,6 +503,9 @@ function InputComponent({ ref, ...restProps }: InputProps) {
       showStatus ? id + '-status' : null,
       suffix ? id + '-suffix' : null
     )
+  }
+  if (status && statusState === 'error') {
+    inputParams['aria-invalid'] ??= true
   }
   if (readOnly) {
     inputParams['aria-readonly'] = inputParams.readOnly = true

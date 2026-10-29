@@ -9,6 +9,7 @@ import {
   isSameDay,
   startOfMonth,
   lastDayOfMonth,
+  subMonths,
   startOfWeek,
   lastDayOfWeek,
   isWeekend,
@@ -243,11 +244,12 @@ export const DatePickerDateFns = () => (
 
 export const DatePickerDateFnsRange = () => (
   <ComponentBox
-    scope={{ startOfMonth, lastDayOfMonth }}
+    scope={{ startOfMonth, lastDayOfMonth, subMonths }}
     hidePreview
     hideToolbar
   >
     <DatePicker
+      range
       shortcuts={[
         {
           title: 'Set date period',
@@ -259,6 +261,12 @@ export const DatePickerDateFnsRange = () => (
           title: 'This month',
           startDate: startOfMonth(new Date()),
           endDate: lastDayOfMonth(new Date()),
+        },
+        {
+          title: 'Today',
+          startDate: new Date(),
+          endDate: new Date(),
+          startMonth: subMonths(new Date(), 1), // shows last month in the first calendar
         },
       ]}
     />

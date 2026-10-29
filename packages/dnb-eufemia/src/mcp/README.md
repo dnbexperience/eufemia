@@ -124,6 +124,9 @@ docs accordingly. It is **on by default** and **opt-out**.
 - the tool name (from the fixed set of registered tools);
 - for a component tool, the component name (e.g. `Button`, `Field.Address`),
   only when the docs contain it;
+- for a component name the docs do not contain, a miss flag, plus the real
+  component it matches when case and hyphens are ignored (e.g. `date-picker`
+  for `DatePicker`); the name itself is never sent;
 - for `docs_read` / `docs_list`, the leading documentation area (e.g.
   `/uilib/components/`), gated against the areas this server's own docs
   actually contain — a path outside the docs (or a model's guess) is dropped
@@ -158,4 +161,5 @@ credentials; the ingest route is locked down at the edge.
 ```
 
 A one-line notice is printed to `stderr` once per server start. Telemetry is
-disabled when `EUFEMIA_MCP_TELEMETRY` is `0` or `false`.
+disabled when `EUFEMIA_MCP_TELEMETRY` is `0`, `false`, `off` or `no`, when
+`DO_NOT_TRACK` is set (for example `DO_NOT_TRACK=1`), and when `CI` is set.

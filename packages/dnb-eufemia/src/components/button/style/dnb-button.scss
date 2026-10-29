@@ -99,30 +99,34 @@
     }
 
     // Template modifiers
-    @include utilities.hover() {
-      --button-color-bg: var(--button-color-bg--hover);
-      --button-color-border: var(--button-color-border--hover);
-      --button-color-icon: var(--button-color-icon--hover);
-      --button-color-text: var(--button-color-text--hover);
-      --button-color-underline: var(--button-color-underline--hover);
-      --button-border-inset: var(--button-border-inset--hover);
-      --button-border-width: var(--button-border-width--hover);
-      --button-input-separator-color: var(
-        --button-input-separator-color--hover
-      );
-    }
+    // A Button with aria-disabled has no hover or active state, the same
+    // as a disabled Button
+    &:where(:not([aria-disabled='true'])) {
+      @include utilities.hover() {
+        --button-color-bg: var(--button-color-bg--hover);
+        --button-color-border: var(--button-color-border--hover);
+        --button-color-icon: var(--button-color-icon--hover);
+        --button-color-text: var(--button-color-text--hover);
+        --button-color-underline: var(--button-color-underline--hover);
+        --button-border-inset: var(--button-border-inset--hover);
+        --button-border-width: var(--button-border-width--hover);
+        --button-input-separator-color: var(
+          --button-input-separator-color--hover
+        );
+      }
 
-    @include utilities.active() {
-      --button-color-bg: var(--button-color-bg--active);
-      --button-color-border: var(--button-color-border--active);
-      --button-color-icon: var(--button-color-icon--active);
-      --button-color-text: var(--button-color-text--active);
-      --button-color-underline: var(--button-color-underline--default);
-      --button-border-inset: var(--button-border-inset--default);
-      --button-border-width: var(--button-border-width--active);
-      --button-input-separator-color: var(
-        --button-input-separator-color--active
-      );
+      @include utilities.active() {
+        --button-color-bg: var(--button-color-bg--active);
+        --button-color-border: var(--button-color-border--active);
+        --button-color-icon: var(--button-color-icon--active);
+        --button-color-text: var(--button-color-text--active);
+        --button-color-underline: var(--button-color-underline--default);
+        --button-border-inset: var(--button-border-inset--default);
+        --button-border-width: var(--button-border-width--active);
+        --button-input-separator-color: var(
+          --button-input-separator-color--active
+        );
+      }
     }
 
     @include utilities.focusVisible() {
@@ -140,9 +144,23 @@
       outline: none;
 
       @include utilities.forcedColorsOutline();
+
+      // Keep the focus ring outside. The outline for the border is inside.
+      @media (forced-colors: active) {
+        outline-offset: 0;
+      }
+
+      // A Button with aria-disabled can get focus. Show the focus ring, but
+      // keep the disabled colors.
+      &[aria-disabled='true'] {
+        --button-color-bg: var(--button-color-bg--disabled);
+        --button-color-icon: var(--button-color-icon--disabled);
+        --button-color-text: var(--button-color-text--disabled);
+      }
     }
 
-    &[disabled] {
+    &[disabled],
+    &[aria-disabled='true'] {
       --button-color-bg: var(--button-color-bg--disabled);
       --button-color-border: var(--button-color-border--disabled);
       --button-color-icon: var(--button-color-icon--disabled);
@@ -161,6 +179,17 @@
       var(--button-color-border, var(--button-color-border--default)),
       var(--button-border-width, var(--button-border-width--default)),
       var(--button-border-inset, var(--button-border-inset--default))
+    );
+  }
+
+  &--primary,
+  &--secondary {
+    // Forced colors mode removes the box-shadow border, but shows this outline.
+    // Draw it inside, like the border, so that a neighbor, such as the input
+    // next to the step buttons of Field.Number, cannot cover it.
+    @include utilities.forcedColorsOutline(
+      var(--button-border-width, var(--button-border-width--default)),
+      inset
     );
   }
 
@@ -550,6 +579,27 @@
       --button-color-icon--default: var(--token-color-icon-selected);
       --button-border-width--default: 0.125rem;
       --button-border-inset--default: ; // Need empty value to override default `inset`
+
+      // Forced colors mode removes the background color, so use the system
+      // colors for selected items
+      @media (forced-colors: active) {
+        background-color: Highlight;
+        color: HighlightText;
+        outline-color: Highlight;
+
+        .dnb-button__icon {
+          color: HighlightText;
+        }
+      }
+
+      // The focus ring would have the same color as the background
+      @include utilities.whatInputNot('touch') {
+        &:focus-visible:not([disabled]) {
+          @media (forced-colors: active) {
+            outline-color: CanvasText;
+          }
+        }
+      }
     }
 
     // Input-button
@@ -639,10 +689,12 @@
         );
       }
 
-      @include utilities.active() {
-        &::after {
-          top: var(--input-border-width);
-          bottom: var(--input-border-width);
+      &:where(:not([aria-disabled='true'])) {
+        @include utilities.active() {
+          &::after {
+            top: var(--input-border-width);
+            bottom: var(--input-border-width);
+          }
         }
       }
     }
@@ -674,10 +726,6 @@
 
     // vertical alignment
     transform: translateY(-0.03125rem); // 0.5px
-
-    [data-os='linux'] {
-      transform: translateY(-0.035rem); // 0.5px
-    }
   }
 
   &__alignment {
@@ -857,6 +905,29 @@
   &[disabled] {
     cursor: not-allowed;
     outline: none; // when state goes from enabled to disabled and the focus is set, the outline (Safari) will show up, because it already had focus
+  }
+
+  &--primary[disabled],
+  &--secondary[disabled],
+  &--primary[aria-disabled='true'],
+  &--secondary[aria-disabled='true'] {
+    // Show the outline again in forced colors mode, with the disabled color
+    @include utilities.forcedColorsOutline(
+      var(--button-border-width, var(--button-border-width--default)),
+      inset
+    );
+
+    @media (forced-colors: active) {
+      outline-color: GrayText;
+    }
+  }
+
+  // Forced colors mode only shows the disabled color for the disabled attribute
+  &[aria-disabled='true'],
+  &[aria-disabled='true'] &__icon {
+    @media (forced-colors: active) {
+      color: GrayText;
+    }
   }
 }
 

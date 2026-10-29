@@ -127,6 +127,12 @@
     );
 
     border-radius: var(--textarea-border-radius);
+
+    // Forced colors mode removes the box-shadow border, but shows this outline
+    @include utilities.forcedColorsOutline(
+      var(--textarea-border-width, var(--textarea-border-width--default)),
+      inset
+    );
   }
 
   &__row {
@@ -138,6 +144,15 @@
 
   &__suffix.dnb-suffix {
     padding-left: 1rem;
+  }
+
+  // The textarea element also has the "dnb-input__border" class, but the
+  // "__state" element draws its border, so remove the outline of the input
+  @media (forced-colors: active) {
+    &__textarea.dnb-input__border,
+    &__textarea.dnb-input__border:focus-within {
+      outline: none;
+    }
   }
 
   &__textarea {
@@ -254,6 +269,12 @@
     }
   }
 
+  &--disabled &__state {
+    @media (forced-colors: active) {
+      outline-color: GrayText;
+    }
+  }
+
   &__inner > .dnb-form-status {
     order: 2;
     margin-top: 0.5rem;
@@ -346,6 +367,8 @@
   //  focus
   &__textarea:not([disabled]):not(#{&}--disabled):focus ~ &__state {
     --textarea-color-border: var(--token-color-stroke-action-pressed);
+
+    @include utilities.forcedColorsOutline($inset: inset);
   }
 
   //  hover

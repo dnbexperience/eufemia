@@ -4,3 +4,8 @@
  */
 
 @use './typography-properties.scss';
+
+:root,
+.eufemia-theme__ui {
+  --font-size-basis-native: 1.0625rem;
+}

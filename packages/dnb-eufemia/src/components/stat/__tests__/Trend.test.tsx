@@ -5,6 +5,7 @@ import {
 } from '../../../core/test-utils/testSetup'
 import Stat from '../Stat'
 import NumberFormat from '../../number-format/NumberFormat'
+import Provider from '../../../shared/Provider'
 
 describe('Stat.Trend', () => {
   it('renders positive sign and screen reader text', () => {
@@ -68,8 +69,92 @@ describe('Stat.Trend', () => {
     expect(trend.classList).toContain('dnb-stat__trend--positive')
     expect(trendSign).not.toBeInTheDocument()
     expect(numberFormat).toBeInTheDocument()
+    expect(numberFormat.closest('[aria-hidden="true"]')).toBeNull()
+    expect(trend.querySelector(':scope > .dnb-sr-only')).toBeNull()
     expect(sr.getAttribute('data-text')).toContain('+46')
     expect(sr.getAttribute('data-text')).toContain('kroner')
+  })
+
+  it.each([Stat.Percent, NumberFormat.Percent])(
+    'preserves the formatted percentage child accessibility',
+    (Percent) => {
+      const { rerender } = render(
+        <Stat.Trend srLabel="Endring">
+          <Percent
+            value={1.8422381750579178}
+            decimals={2}
+            signDisplay="always"
+            srLabel="I dag"
+          />
+        </Stat.Trend>
+      )
+
+      const trend = document.querySelector('.dnb-stat__trend')
+      const content = trend.querySelector('.dnb-stat__trend-content')
+      const label = trend.querySelector(':scope > .dnb-sr-only')
+      const childSr = content.querySelector('.dnb-sr-only')
+
+      expect(content).not.toHaveAttribute('aria-hidden', 'true')
+      expect(content.textContent).toBe('+1,84 %')
+      expect(label).toHaveAttribute('data-text', 'Endring')
+      expect(trend.firstElementChild).toBe(label)
+      expect(childSr).toHaveAttribute('data-text', 'I dag +1,84 prosent')
+      expect(trend.querySelectorAll('.dnb-sr-only')).toHaveLength(2)
+
+      rerender(
+        <Stat.Trend srLabel="Endring">
+          <Percent value={-1.55} decimals={2} signDisplay="always" />
+        </Stat.Trend>
+      )
+
+      expect(trend).toHaveClass('dnb-stat__trend--negative')
+      expect(content.textContent).toContain('1,55')
+      expect(content.querySelector('.dnb-sr-only')).toHaveAttribute(
+        'data-text',
+        '−1,55 prosent'
+      )
+
+      rerender(
+        <Provider locale="en-GB">
+          <Stat.Trend>
+            <Percent value={-1.55} decimals={2} />
+          </Stat.Trend>
+        </Provider>
+      )
+
+      const updated = document.querySelector('.dnb-stat__trend')
+      expect(updated).toHaveClass('dnb-stat__trend--negative')
+      expect(updated.querySelector(':scope > .dnb-sr-only')).toBeNull()
+      expect(updated.querySelector('[lang]')).toHaveAttribute(
+        'lang',
+        'en-GB'
+      )
+      expect(updated.querySelector('.dnb-sr-only')).toHaveAttribute(
+        'data-text',
+        '−1.55 per cent'
+      )
+    }
+  )
+
+  it('preserves custom child text and its accessible name once', () => {
+    render(
+      <Stat.Trend tone="positive" srLabel="Change">
+        <span aria-label="Up five percent">+5%</span>
+      </Stat.Trend>
+    )
+
+    const trend = document.querySelector('.dnb-stat__trend')
+    const content = trend.querySelector('.dnb-stat__trend-content')
+
+    expect(content).not.toHaveAttribute('aria-hidden', 'true')
+    expect(content.querySelector('span[aria-label]')).toHaveAttribute(
+      'aria-label',
+      'Up five percent'
+    )
+    expect(trend.querySelector(':scope > .dnb-sr-only')).toHaveAttribute(
+      'data-text',
+      'Change'
+    )
   })
 
   it('supports tone prop override', () => {

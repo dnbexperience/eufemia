@@ -20,14 +20,18 @@ const prismTheme = {
     {
       types: ['deleted'],
       style: {
-        color: 'var(--token-color-icon-error)',
+        // No error token has enough contrast on the dark Pre background
+        color:
+          'color-mix(in srgb, var(--token-color-icon-error), var(--token-color-text-neutral-ondark))',
         fontStyle: italic,
       },
     },
     {
       types: ['inserted', 'attr-name'],
       style: {
-        color: 'var(--token-color-text-positive-inverse)',
+        // The inverse token turns dark in dark mode, while the code background stays dark
+        color:
+          'color-mix(in srgb, var(--token-color-text-positive-inverse), var(--token-color-text-neutral-ondark))',
         fontStyle: italic,
       },
     },
@@ -42,7 +46,8 @@ const prismTheme = {
     {
       types: ['string', 'url'],
       style: {
-        color: 'var(--token-color-text-positive-inverse)',
+        color:
+          'color-mix(in srgb, var(--token-color-text-positive-inverse), var(--token-color-text-neutral-ondark))',
       },
     },
     {
@@ -78,7 +83,7 @@ const prismTheme = {
     {
       types: ['selector', 'doctype'],
       style: {
-        color: 'var(--token-color-decorative-first-base-static)',
+        color: 'var(--token-color-decorative-first-subtle-static)',
         fontStyle: italic,
       },
     },
@@ -103,7 +108,7 @@ const prismTheme = {
     {
       types: ['boolean'],
       style: {
-        color: 'var(--token-color-text-positive)',
+        color: 'var(--token-color-decorative-third-subtle-static)',
       },
     },
     {

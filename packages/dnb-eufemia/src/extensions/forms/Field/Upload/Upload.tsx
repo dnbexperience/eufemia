@@ -49,7 +49,6 @@ export type FieldUploadProps = Omit<
   | 'labelSize'
   | 'labelDescriptionInline'
   | 'labelSrOnly'
-  | 'labelSize'
 > &
   SpacingProps &
   Pick<
@@ -277,9 +276,6 @@ function UploadComponent(props: FieldUploadProps) {
       // Filter out existing files
       const existingFileIds =
         filesRef.current?.map((file) => file.id) || []
-      const existingFiles = filesArray.filter((file) =>
-        existingFileIds.includes(file.id)
-      )
       const newFiles = filesArray.filter(
         (file) => !existingFileIds.includes(file.id)
       )
@@ -298,14 +294,21 @@ function UploadComponent(props: FieldUploadProps) {
           enableAsyncMode: true,
         })
 
+        // Keep the ref current, since the fileHandler can settle before the next render
+        const updateFiles = (updatedFiles: UploadValue) => {
+          filesRef.current = updatedFiles as Array<UploadFile>
+          setFiles(updatedFiles)
+        }
+
         try {
           // Set loading
           const newFilesLoading = newFiles.map((file) => ({
             ...file,
             isLoading: !file.errorMessage,
           }))
-          setFiles([...filesRef.current, ...newFilesLoading])
+          updateFiles([...filesRef.current, ...newFilesLoading])
 
+          const newValidFileIds = newValidFiles.map(({ id }) => id)
           let incomingFiles: UploadValue
           try {
             incomingFiles = await fileHandler(newValidFiles)
@@ -325,63 +328,30 @@ function UploadComponent(props: FieldUploadProps) {
             return
           }
 
-          if (!incomingFiles) {
-            setFiles(existingFiles)
-            handleChange(existingFiles)
-          } else {
-            // merge incoming files into existing order of newFiles.
-            const updatedByResponse = new Set<number>()
+          // Results match the handled files by position; a file without a result is removed
+          const results = incomingFiles ?? []
+          const updatedFiles = filesRef.current.flatMap<
+            UploadValue[number]
+          >((file) => {
+            const index = newValidFileIds.indexOf(file.id)
+            if (index < 0) {
+              return [file]
+            }
 
-            incomingFiles.forEach((file) => {
-              const incomingFileObj = {
-                ...file,
-                isLoading: false,
-              }
-              const foundIndex = newFilesLoading.findIndex(
-                (newFile) => newFile.isLoading
-              )
-              if (foundIndex >= 0) {
-                newFilesLoading[foundIndex] = incomingFileObj
-                updatedByResponse.add(foundIndex)
-              } else {
-                // if there's more files incoming than there's files loading (edge case), add them to end of array.
-                newFilesLoading.push(incomingFileObj)
-              }
-            })
+            const incomingFile = results[index]
+            return incomingFile
+              ? [{ ...incomingFile, isLoading: false }]
+              : []
+          })
 
-            // Preserve current isLoading state for files not updated by the upload response.
-            // This prevents overwriting loading states set by concurrent operations (e.g., async delete).
-            newFilesLoading.forEach((file, index) => {
-              if (updatedByResponse.has(index)) {
-                return // stop here
-              }
+          results.slice(newValidFileIds.length).forEach((file) => {
+            if (file) {
+              updatedFiles.push({ ...file, isLoading: false })
+            }
+          })
 
-              const currentFile = filesRef.current?.find((f) =>
-                isSameFile(f, file)
-              )
-
-              if (currentFile?.isLoading) {
-                newFilesLoading[index] = {
-                  ...file,
-                  isLoading: true,
-                }
-              }
-            })
-
-            const indexOfFirstNewFile = filesRef.current.findIndex(
-              ({ id }) => id === newFiles[0].id
-            )
-
-            const updatedFiles = [
-              ...filesRef.current.slice(0, indexOfFirstNewFile),
-              ...(newFilesLoading?.filter((file) => file != null) ?? []),
-              ...filesRef.current.slice(
-                indexOfFirstNewFile + newFilesLoading.length
-              ),
-            ]
-            setFiles(updatedFiles)
-            handleChange(updatedFiles)
-          }
+          updateFiles(updatedFiles)
+          handleChange(updatedFiles.length > 0 ? updatedFiles : undefined)
         } finally {
           completeFileHandlerOperation(operation)
         }

@@ -53,9 +53,15 @@ export type DateFormatOptions = {
 type FormatDateInput = DatePickerDateType | number | string
 
 /**
- * Reads a number as a date first (like 20250801), and as a timestamp otherwise.
+ * Reads a number as a date first (like 20250801), and as a timestamp in milliseconds otherwise.
+ * A number with up to 8 digits is only read as a date, so an invalid one, such as 20251301, stays invalid.
  */
 export function convertNumberToDate(value: number): Date {
+  // Up to 8 digits can only be a date like 20250801 (NaN is handled here too)
+  if (!(Math.abs(value) > 99999999)) {
+    return convertStringToDate(String(value))
+  }
+
   return (
     convertStringToDate(String(value), { strictDateFormat: true }) ??
     new Date(value)

@@ -25,6 +25,7 @@ import { routes, allMdxNodes } from 'virtual:portal-pages'
 import { translations, getLang } from '../../src/core/portalRuntimeUtils'
 import tags from '../../src/shared/tags'
 import PortalLayout from '../../src/core/PortalLayout'
+import BranchBanner from '../../src/shared/menu/BranchBanner'
 
 // Cached resolved routes and static handler — populated by prepareRoutes()
 let resolvedRouteConfig: ReturnType<typeof buildRouteConfig> | null = null
@@ -124,6 +125,8 @@ export async function render(url: string) {
  * Root layout component for SSR.
  * Mirrors the browser RootLayout but without browser-only hooks
  * (scroll persistence, catch-links, skeleton URL detection).
+ * Keep the same sibling elements as the browser RootLayout, so useId
+ * returns the same ids during hydration.
  */
 function RootLayout() {
   return (
@@ -136,6 +139,7 @@ function RootLayout() {
           <MDXProvider components={tags}>
             <SSRPageWrapper />
           </MDXProvider>
+          <BranchBanner />
         </Theme>
       </IsolatedStyleScope>
     </Provider>
@@ -192,3 +196,5 @@ export { routes, allMdxNodes }
  * Re-export FOUC prevention script for the prerender pipeline.
  */
 export { getContentScript } from '@dnb/eufemia/src/shared/ColorSchemeScript'
+
+export { getPreHydrationScript as getSidebarMenuScript } from '@dnb/eufemia/src/extensions/sidebar-menu/SidebarMenuPreHydrationScript'

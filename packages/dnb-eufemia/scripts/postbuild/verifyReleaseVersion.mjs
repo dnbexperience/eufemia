@@ -14,6 +14,7 @@ import { pathToFileURL } from 'node:url'
 export const BUILD_INFO_FILE = 'shared/build-info/BuildInfoData.js'
 export const STYLE_FILE = 'style/dnb-ui-core.min.css'
 
+// eslint-disable-next-line security/detect-unsafe-regex -- the optional group does not repeat
 const RELEASE_VERSION = /^\d+\.\d+\.\d+(-[0-9A-Za-z.-]+)?$/
 const JS_VERSION = /export const version = '([^']*)'/
 const CSS_VERSION = /--eufemia-version:\s*["']?([^"';]+)/

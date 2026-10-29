@@ -146,7 +146,7 @@ exports[`Tabs scss > has to match style dependencies css 1`] = `
   display: none;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 600ms ease-out;
+  transition: opacity 400ms ease-out;
 }
 .dnb-tabs__scroll-nav-button--visible {
   display: flex;
@@ -347,12 +347,7 @@ html[data-whatinput=keyboard] .dnb-tabs__button:not(:hover):focus-visible::befor
 }
 .dnb-tabs__button__snap {
   display: flex;
-  padding: 0 1rem 0 1.5rem;
-}
-@media screen and (max-width: 40em) {
-  .dnb-tabs__button__snap {
-    padding: 0 1rem;
-  }
+  padding: 0 1rem;
 }
 .dnb-tabs__button__snap:first-of-type {
   padding-left: 0;
@@ -634,7 +629,7 @@ exports[`Tabs scss > have to match default theme snapshot 1`] = `
   display: none;
   opacity: 0;
   pointer-events: none;
-  transition: opacity 600ms ease-out;
+  transition: opacity 400ms ease-out;
 }
 .dnb-tabs__scroll-nav-button--visible {
   display: flex;
@@ -835,12 +830,7 @@ html[data-whatinput=keyboard] .dnb-tabs__button:not(:hover):focus-visible::befor
 }
 .dnb-tabs__button__snap {
   display: flex;
-  padding: 0 1rem 0 1.5rem;
-}
-@media screen and (max-width: 40em) {
-  .dnb-tabs__button__snap {
-    padding: 0 1rem;
-  }
+  padding: 0 1rem;
 }
 .dnb-tabs__button__snap:first-of-type {
   padding-left: 0;

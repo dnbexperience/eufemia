@@ -14,6 +14,7 @@ import ToggleGrid from './ToggleGrid'
 import { Context } from '@dnb/eufemia/src/shared'
 import PortalSkeleton from '../../core/PortalSkeleton'
 import ToggleDarkMode from '../../core/ToggleDarkMode'
+import ToggleNativeTypography from '../../core/ToggleNativeTypography'
 import ChangeLocale from '../../core/ChangeLocale'
 import ChangeStyleTheme from '../../core/ChangeStyleTheme'
 import { buttonStyle } from './PortalToolsMenu.module.scss'
@@ -237,13 +238,15 @@ export default function PortalToolsMenu({
             }
           />
 
-          <PortalSkeleton
-            enabled={skeleton}
-            label="Show everything behind skeletons"
-            skeleton={false}
-          />
-
-          <ToggleGrid label="Show grid" />
+          <Flex.Stack gap="small">
+            <ToggleNativeTypography />
+            <PortalSkeleton
+              enabled={skeleton}
+              label="Show everything behind skeletons"
+              skeleton={false}
+            />
+            <ToggleGrid label="Show grid" />
+          </Flex.Stack>
         </Flex.Stack>
       </Drawer.Body>
     </Drawer>

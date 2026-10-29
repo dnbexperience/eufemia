@@ -215,11 +215,14 @@
     --background-color: var(--token-color-background-error-subtle);
   }
 
-  &--information,
-  // No designs for success state in Figma, treat as information until verified by design team
-  &--success {
+  &--information {
     --text-color: var(--token-color-text-neutral);
     --background-color: var(--token-color-background-info-subtle);
+  }
+
+  &--success {
+    --text-color: var(--token-color-text-neutral);
+    --background-color: var(--token-color-background-positive-subtle);
   }
 
   &--warning {

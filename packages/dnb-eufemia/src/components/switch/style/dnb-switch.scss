@@ -125,6 +125,9 @@
       transition-duration: 0.01ms;
     }
 
+    // Forced colors mode removes the background color, but shows this outline
+    @include utilities.forcedColorsOutline(0.125rem, inset);
+
     .dnb-switch--large & {
       width: var(--switch-button-size-off--large);
       height: var(--switch-button-size-off--large);
@@ -395,6 +398,19 @@
   &:not(.dnb-skeleton) &__input[disabled]:checked ~ &__button {
     color: var(--switch-disabled-checked-icon);
     background-color: var(--switch-disabled-checked-button-background);
+  }
+
+  @media (forced-colors: active) {
+    &:not(.dnb-skeleton) &__input[disabled] ~ &__background,
+    &:not(.dnb-skeleton) &__input[disabled]:checked ~ &__background {
+      border-color: GrayText;
+    }
+
+    &:not(.dnb-skeleton) &__input[disabled] ~ &__button,
+    &:not(.dnb-skeleton) &__input[disabled]:checked ~ &__button {
+      color: GrayText;
+      outline-color: GrayText;
+    }
   }
 
   &--surface-dark {

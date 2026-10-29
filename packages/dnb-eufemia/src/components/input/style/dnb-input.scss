@@ -205,6 +205,15 @@
       ),
       var(--b-inset, var(--input-border-inset, inset))
     );
+
+    // Forced colors mode removes the box-shadow border, but shows this outline
+    @include utilities.forcedColorsOutline(
+      var(
+        --b-width,
+        var(--input-border-width, var(--input-border-width--default))
+      ),
+      inset
+    );
   }
   &--disabled &__border {
     // Overwrite the border
@@ -213,11 +222,17 @@
       var(--input-border-width--disabled),
       var(--input-border-inset--disabled, inset)
     );
+
+    @media (forced-colors: active) {
+      outline-color: GrayText;
+    }
   }
   &__border:focus-within {
     --b-color: var(--input-border-color--active);
     --b-width: var(--input-border-width--active);
     --b-inset: var(--input-border-inset--active);
+
+    @include utilities.forcedColorsOutline($inset: inset);
   }
   &__border:hover,
   &__border.hover {
@@ -611,6 +626,20 @@
   &--icon-position-right#{&}--has-icon#{&}--has-submit-element
     &__placeholder {
     padding-right: calc(var(--input-height-current) + 2.5rem);
+  }
+
+  // Browsers paint their autofill background on the whole input box, which
+  // runs under the submit button. Clip the painting where the button
+  // starts. This does not change the layout.
+  // Only real inputs, as segmented fields use this class on their sections.
+  // Not for inputs that set their own box end: with a clear button, an
+  // inner element (e.g. Autocomplete suffixValue), or a password input
+  // (Field.Password has its own rule).
+  &--has-submit-element:where(
+      :not(#{&}--has-clear-button, #{&}--has-inner-element, #{&}--password)
+    )
+    input#{&}__input {
+    clip-path: inset(0 var(--input-height-current) 0 0);
   }
 
   html[data-visual-test] &__input {

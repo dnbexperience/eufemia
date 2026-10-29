@@ -3,6 +3,7 @@
  */
 
 import ComponentBox from '../../../../shared/tags/ComponentBox'
+import { useState } from 'react'
 import {
   Anchor,
   Avatar,
@@ -10,6 +11,7 @@ import {
   Button,
   Code,
   DateFormat,
+  Drawer,
   Flex,
   Grid,
   Heading,
@@ -44,6 +46,52 @@ export const SimpleRows = () => {
           </List.Container>
         )
       }}
+    </ComponentBox>
+  )
+}
+
+export const PlainTextRows = () => {
+  return (
+    <ComponentBox data-visual-test="list-plain-text">
+      <List.Container>
+        <List.Item.Basic>Normal row</List.Item.Basic>
+        <List.Item.Basic>
+          Another normal row with very very very long text
+        </List.Item.Basic>
+        <List.Item.Basic title="Another normal row with very very very long text" />
+        <List.Item.Basic>
+          <List.Cell.Title>
+            Another normal row with very very very long text
+          </List.Cell.Title>
+        </List.Item.Basic>
+      </List.Container>
+    </ComponentBox>
+  )
+}
+
+export const CustomTitleSpacing = () => {
+  return (
+    <ComponentBox
+      data-visual-test="list-title-spacing"
+      scope={{ fish_medium }}
+    >
+      <List.Container>
+        <List.Item.Basic icon={fish_medium} title="Title with an icon" />
+        <List.Item.Basic>
+          <List.Cell.Start>Start</List.Cell.Start>
+          <List.Cell.Title>Title after the leading cell</List.Cell.Title>
+        </List.Item.Basic>
+        <List.Item.Basic>
+          <List.Cell.Title innerSpace={{ left: 'small', right: 'large' }}>
+            Title with custom right padding
+          </List.Cell.Title>
+        </List.Item.Basic>
+        <List.Item.Basic>
+          <List.Cell.Title innerSpace={{ left: 'small', right: false }}>
+            Title without right padding
+          </List.Cell.Title>
+        </List.Item.Basic>
+      </List.Container>
     </ComponentBox>
   )
 }
@@ -143,6 +191,76 @@ export const FooterWithButtons = () => {
     </ComponentBox>
   )
 }
+
+export const ActionWithFooter = () => (
+  <ComponentBox
+    data-visual-test="list-action-footer"
+    scope={{ fish_medium }}
+  >
+    {() => {
+      const Example = () => {
+        const [open, setOpen] = useState(false)
+
+        return (
+          <>
+            <List.Container>
+              <List.Item.Accordion title="Payments" open>
+                <List.Item.Accordion.Content>
+                  <List.Container>
+                    <List.Item.Action
+                      icon={fish_medium}
+                      onClick={() => setOpen(true)}
+                      footer={
+                        <List.Cell.Footer
+                          style={{ justifyContent: 'flex-end' }}
+                        >
+                          <Button
+                            variant="secondary"
+                            text="Save payment"
+                          />
+                        </List.Cell.Footer>
+                      }
+                    >
+                      <List.Cell.Title>
+                        Payment details
+                        <List.Cell.Title.Subline>
+                          Due tomorrow
+                        </List.Cell.Title.Subline>
+                      </List.Cell.Title>
+                      <List.Cell.End>1 234 kr</List.Cell.End>
+                    </List.Item.Action>
+                    <List.Item.Action
+                      title="Payment history"
+                      id="footer-details"
+                      href="#footer-details"
+                      footer={
+                        <List.Cell.Footer>
+                          <Anchor id="footer-help" href="#footer-help">
+                            Payment help
+                          </Anchor>
+                        </List.Cell.Footer>
+                      }
+                    />
+                  </List.Container>
+                </List.Item.Accordion.Content>
+              </List.Item.Accordion>
+            </List.Container>
+            <Drawer
+              title="Payment details"
+              open={open}
+              onClose={() => setOpen(false)}
+              omitTriggerButton
+            >
+              <P>Details about the payment.</P>
+            </Drawer>
+          </>
+        )
+      }
+
+      return <Example />
+    }}
+  </ComponentBox>
+)
 
 export const NavigableItem = () => {
   return (
@@ -1016,3 +1134,63 @@ export const CustomItemComponent = () => {
     </ComponentBox>
   )
 }
+
+const NestedRow = ({
+  overline,
+  subline,
+  twoLineEnd,
+}: {
+  overline?: boolean
+  subline?: boolean
+  twoLineEnd?: boolean
+}) => (
+  <List.Item.Action icon={fish_medium} onClick={() => null}>
+    <List.Cell.Title>
+      {overline && (
+        <List.Cell.Title.Overline>Overline</List.Cell.Title.Overline>
+      )}
+      Title
+      {subline && (
+        <List.Cell.Title.Subline>Subline</List.Cell.Title.Subline>
+      )}
+    </List.Cell.Title>
+    <List.Cell.End>
+      End
+      {twoLineEnd && <span>Second line</span>}
+    </List.Cell.End>
+  </List.Item.Action>
+)
+
+export const NestedAlignment = () => (
+  <>
+    <List.Container data-testid="subline-in-nested-row">
+      <List.Item.Accordion title="Accordion" open>
+        <List.Item.Accordion.Content>
+          <List.Container>
+            <NestedRow />
+            <NestedRow subline />
+            <NestedRow overline />
+            <NestedRow twoLineEnd />
+          </List.Container>
+        </List.Item.Accordion.Content>
+      </List.Item.Accordion>
+    </List.Container>
+
+    <List.Container data-testid="subline-in-accordion-header">
+      <List.Item.Accordion icon={fish_medium} open>
+        <List.Item.Accordion.Header>
+          <List.Cell.Title>
+            Accordion
+            <List.Cell.Title.Subline>Subline</List.Cell.Title.Subline>
+          </List.Cell.Title>
+        </List.Item.Accordion.Header>
+        <List.Item.Accordion.Content>
+          <List.Container>
+            <NestedRow overline />
+            <NestedRow twoLineEnd />
+          </List.Container>
+        </List.Item.Accordion.Content>
+      </List.Item.Accordion>
+    </List.Container>
+  </>
+)

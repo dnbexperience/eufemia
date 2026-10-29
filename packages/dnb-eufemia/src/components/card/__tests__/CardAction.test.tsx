@@ -76,7 +76,8 @@ describe('Card.Action', () => {
     })
 
     it('should call onClick when clicked', async () => {
-      const onClick = vi.fn()
+      // Stops the navigation, which jsdom does not support
+      const onClick = vi.fn((event) => event.preventDefault())
 
       render(
         <Card.Action href="/page" onClick={onClick}>

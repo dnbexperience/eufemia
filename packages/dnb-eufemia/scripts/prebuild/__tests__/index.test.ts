@@ -12,6 +12,7 @@ import convertSvgToJsx from '../tasks/convertSvgToJsx'
 import makeLibStyles from '../tasks/makeLibStyles'
 import makeMainStyle from '../tasks/makeMainStyle'
 import makePropertiesFile from '../tasks/makePropertiesFile'
+import makeSidebarMenuFirstPaintCss from '../tasks/makeSidebarMenuFirstPaintCss'
 import { log } from '../../lib'
 
 vi.mock('../tasks/makeReleaseVersion', () => ({
@@ -26,6 +27,9 @@ vi.mock('../tasks/convertSvgToJsx', () => ({ default: vi.fn() }))
 vi.mock('../tasks/makeLibStyles', () => ({ default: vi.fn() }))
 vi.mock('../tasks/makeMainStyle', () => ({ default: vi.fn() }))
 vi.mock('../tasks/makePropertiesFile', () => ({ default: vi.fn() }))
+vi.mock('../tasks/makeSidebarMenuFirstPaintCss', () => ({
+  default: vi.fn(),
+}))
 
 beforeEach(() => {
   vi.clearAllMocks()
@@ -49,6 +53,10 @@ describe('runPrepublishTasks', () => {
     expect(makeLibStyles).toHaveBeenCalledTimes(1)
     expect(makeMainStyle).toHaveBeenCalledTimes(1)
     expect(makePropertiesFile).toHaveBeenCalledTimes(1)
+    expect(makeSidebarMenuFirstPaintCss).toHaveBeenCalledTimes(1)
+    expect(makeSidebarMenuFirstPaintCss).toHaveBeenCalledBefore(
+      vi.mocked(makeMainStyle)
+    )
     expect(makePropertiesFile).toHaveBeenCalledBefore(
       vi.mocked(runThemeFactory)
     )
@@ -76,5 +84,15 @@ describe('runPrepublishTasks', () => {
     // The tasks after the failing one write what the build reads
     expect(runStyleFactory).not.toHaveBeenCalled()
     expect(prepareTemplates).not.toHaveBeenCalled()
+  })
+
+  it('stops the build if first-paint CSS generation fails', async () => {
+    vi.mocked(makeSidebarMenuFirstPaintCss).mockRejectedValueOnce(
+      new Error('Unable to compile first-paint CSS')
+    )
+    await expect(runPrepublishTasks()).rejects.toThrow(
+      'Unable to compile first-paint CSS'
+    )
+    expect(makeMainStyle).not.toHaveBeenCalled()
   })
 })

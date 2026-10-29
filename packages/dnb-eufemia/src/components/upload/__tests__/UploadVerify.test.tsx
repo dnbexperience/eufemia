@@ -166,6 +166,66 @@ describe('verifyFiles', () => {
     })
   })
 
+  it('returns error message when the file extension only starts with an accepted type', () => {
+    const files = verifyFiles(
+      [
+        {
+          file: createMockFile(
+            'macro.docm',
+            100,
+            'application/vnd.ms-word.document.macroEnabled.12'
+          ),
+        },
+        {
+          file: createMockFile(
+            'macro.xlsm',
+            100,
+            'application/vnd.ms-excel.sheet.macroEnabled.12'
+          ),
+        },
+        {
+          file: createMockFile(
+            'report.docx',
+            100,
+            'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+          ),
+        },
+        { file: createMockFile('image.pngx', 100, '') },
+      ],
+      {
+        acceptedFileTypes: ['doc', 'xls', 'png'],
+        errorUnsupportedFile: 'error unsupported file',
+        errorLargeFile: 'error 2',
+      }
+    )
+
+    expect(files.map(({ errorMessage }) => errorMessage)).toEqual([
+      'error unsupported file',
+      'error unsupported file',
+      'error unsupported file',
+      'error unsupported file',
+    ])
+  })
+
+  it('returns no error message when a file without an extension has an accepted mime type', () => {
+    const files = verifyFiles(
+      [
+        { file: createMockFile('document', 100, 'application/pdf') },
+        { file: createMockFile('image', 100, 'image/svg+xml') },
+      ],
+      {
+        acceptedFileTypes: ['pdf', 'svg'],
+        errorUnsupportedFile: 'error unsupported file',
+        errorLargeFile: 'error 2',
+      }
+    )
+
+    expect(files.map(({ errorMessage }) => errorMessage)).toEqual([
+      undefined,
+      undefined,
+    ])
+  })
+
   describe('when providing max size to file type', () => {
     it('returns file size error', () => {
       const file1 = createMockFile('fileName1.png', 100000000, 'image/png')

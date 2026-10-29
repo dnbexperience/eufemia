@@ -13,10 +13,16 @@ import type {
 } from 'react'
 import { clsx } from 'clsx'
 import useMountEffect from '../../shared/helpers/useMountEffect'
+import {
+  combineDescribedBy,
+  combineLabelledBy,
+} from '../../shared/component-helper'
 
 // date-fns
 import {
   format,
+  startOfWeek,
+  endOfWeek,
   addMonths,
   addWeeks,
   addDays,
@@ -24,6 +30,7 @@ import {
   isSameMonth,
   startOfDay,
   differenceInCalendarDays,
+  differenceInCalendarMonths,
   differenceInMonths,
   setDate,
 } from 'date-fns'
@@ -66,6 +73,7 @@ export type DatePickerCalendarDay = {
 export type DatePickerCalendarNavigationEvent = {
   nr: number
   type?: CalendarNavButtonProps['type']
+  months?: number
 }
 
 export type DatePickerCalendarProps = Omit<
@@ -106,21 +114,6 @@ export type DatePickerCalendarProps = Omit<
   resetDate?: boolean
 }
 
-type DayObject = {
-  date: Date
-  isToday: boolean
-  isLastMonth: boolean
-  isNextMonth: boolean
-  isStartDate: boolean
-  isEndDate: boolean
-  isWithinSelection: boolean
-  isPreview: boolean
-  isDisabled: boolean
-  isSelectable: boolean
-  isInactive: boolean
-  className?: string
-}
-
 const datePickerCalendarDefaultProps: DatePickerCalendarProps = {
   hideNavigation: false,
   hideDays: false,
@@ -133,7 +126,15 @@ const datePickerCalendarDefaultProps: DatePickerCalendarProps = {
 }
 
 const arrowKeys = ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown']
-const keysToHandle = ['Enter', 'Space', ...arrowKeys]
+const keysToHandle = [
+  'Enter',
+  'Space',
+  'PageUp',
+  'PageDown',
+  'Home',
+  'End',
+  ...arrowKeys,
+]
 
 function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
   const props = { ...datePickerCalendarDefaultProps, ...restOfProps }
@@ -154,7 +155,12 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
     setViews,
     props: { link: isLinkedCalendars, onDaysRender, yearNavigation },
     translation: {
-      DatePicker: { firstDay: defaultFirstDayOfWeek, selectedMonth },
+      DatePicker: {
+        firstDay: defaultFirstDayOfWeek,
+        selectedMonth,
+        today: todayText,
+        withinSelectedRange,
+      },
     },
   } = useContext(DatePickerContext)
 
@@ -258,8 +264,8 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
   )
 
   const getDays = useCallback(
-    (month: Date): DayObject[] => {
-      let daysFromCalendar = getCalendar(
+    (month: Date): DatePickerCalendarDay[] => {
+      let daysFromCalendar: Array<DatePickerCalendarDay> = getCalendar(
         month || new Date(),
         dayOffset(firstDayOfWeek),
         {
@@ -303,24 +309,49 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
     ]
   )
 
-  const keyNavCalc = useCallback((date: Date, keyCode: string) => {
-    // Return date if arrow keys are not pressed
-    if (!arrowKeys.includes(keyCode)) {
-      return date
-    }
+  const keyNavCalc = useCallback(
+    (date: Date, keyCode: string, shiftKey = false) => {
+      if (keyCode === 'PageUp' || keyCode === 'PageDown') {
+        const months =
+          (shiftKey ? 12 : 1) * (keyCode === 'PageUp' ? -1 : 1)
+        return addMonths(date, months)
+      }
 
-    const dateHandler = /(ArrowLeft|ArrowRight)/g.test(keyCode)
-      ? addDays
-      : addWeeks
-    const shiftAmount = /(ArrowLeft|ArrowUp)/g.test(keyCode) ? -1 : 1
+      if (keyCode === 'Home' || keyCode === 'End') {
+        const weekStartsOn = dayOffset(firstDayOfWeek)
+        return keyCode === 'Home'
+          ? startOfWeek(date, { weekStartsOn })
+          : startOfDay(endOfWeek(date, { weekStartsOn }))
+      }
 
-    return dateHandler(date, shiftAmount)
-  }, [])
+      // Return date if arrow keys are not pressed
+      if (!arrowKeys.includes(keyCode)) {
+        return date
+      }
+
+      const dateHandler = /(ArrowLeft|ArrowRight)/g.test(keyCode)
+        ? addDays
+        : addWeeks
+      const shiftAmount = /(ArrowLeft|ArrowUp)/g.test(keyCode) ? -1 : 1
+
+      return dateHandler(date, shiftAmount)
+    },
+    [firstDayOfWeek]
+  )
 
   const findValid = useCallback(
-    (date: Date, keyCode: string) => {
-      if (!onDaysRender || !days.current) {
+    (date: Date, keyCode: string, steps = 0): Date | null => {
+      if (
+        !onDaysRender ||
+        !days.current ||
+        isDisabled(date, minDate, maxDate)
+      ) {
         return date
+      }
+
+      // Stop after 366 steps without a selectable day, so the search always ends
+      if (steps > 366) {
+        return null
       }
 
       const month = format(date, 'yyyy-MM')
@@ -342,7 +373,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
             foundDate.isInactive)
         ) {
           const nextDate = keyNavCalc(foundDate.date, keyCode)
-          return findValid(nextDate, keyCode)
+          return findValid(nextDate, keyCode, steps + 1)
         }
 
         if (foundDate?.date) {
@@ -352,11 +383,11 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
 
       return date
     },
-    [onDaysRender, getDays, keyNavCalc]
+    [onDaysRender, getDays, keyNavCalc, minDate, maxDate]
   )
 
   const navigateToAdjacentMonth = useCallback(
-    (day: DayObject) => {
+    (day: DatePickerCalendarDay) => {
       if (!isRange || (!day.isLastMonth && !day.isNextMonth)) {
         return
       }
@@ -503,26 +534,52 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
       const currentFocused =
         focusedDateRef.current || currentDates[`${dateType}Date`]
       const viewMonth = views.find((v) => v.nr === nr)?.month
+      const isArrowKey = arrowKeys.includes(pressedKey)
 
       let newDate = currentFocused
-        ? keyNavCalc(currentFocused, pressedKey)
+        ? keyNavCalc(currentFocused, pressedKey, event.shiftKey)
         : viewMonth ||
           (isRange && nr === 1 ? addMonths(new Date(), 1) : new Date())
 
       if (
         // in case we don't have a focused date, then we use the current view month
         (viewMonth && !currentFocused) ||
-        // if we have a larger gap between the new date and the current view month
+        // if we have a larger gap between the focused date and the current view month
         (viewMonth &&
           currentFocused &&
-          Math.abs(differenceInMonths(newDate, viewMonth)) > 1)
+          Math.abs(
+            differenceInMonths(
+              isArrowKey ? newDate : currentFocused,
+              viewMonth
+            )
+          ) > 1)
       ) {
         newDate = !isRange ? viewMonth : setDate(viewMonth, 1)
       }
 
-      newDate = findValid(newDate, pressedKey)
+      // Skip days that cannot be selected: forward for PageDown and Home, backward for PageUp and End
+      const skipBackward = pressedKey === 'PageUp' || pressedKey === 'End'
+      const targetDate = newDate
+      newDate = findValid(
+        targetDate,
+        isArrowKey ? pressedKey : skipBackward ? 'ArrowLeft' : 'ArrowRight'
+      )
 
-      if (hasReachedEnd(newDate)) {
+      // Stay in the target month when PageUp or PageDown would skip out of it
+      if (
+        (pressedKey === 'PageUp' || pressedKey === 'PageDown') &&
+        (!newDate || !isSameMonth(newDate, targetDate))
+      ) {
+        const fallbackDate = findValid(
+          targetDate,
+          skipBackward ? 'ArrowRight' : 'ArrowLeft'
+        )
+        if (fallbackDate && isSameMonth(fallbackDate, targetDate)) {
+          newDate = fallbackDate
+        }
+      }
+
+      if (!newDate || hasReachedEnd(newDate)) {
         return // stop here
       }
 
@@ -531,6 +588,19 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
         if (viewMonth && !isSameMonth(newDate, viewMonth)) {
           return
         }
+      }
+
+      // Calendars without link cannot pass each other
+      const otherMonth =
+        isRange && !isLinkedCalendars
+          ? views.find((v) => v.nr !== nr)?.month
+          : undefined
+      if (
+        otherMonth &&
+        !isSameMonth(newDate, otherMonth) &&
+        (nr === 0 ? newDate > otherMonth : newDate < otherMonth)
+      ) {
+        return // stop here
       }
 
       focusedDateRef.current = newDate
@@ -564,9 +634,13 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
         // Keep focus on the table during re-render to prevent the Popover from closing
         tableRef.current?.focus({ preventScroll: true })
 
+        const monthOffset = differenceInCalendarMonths(newDate, viewMonth)
         const updatedViews = views.map((view) => {
           if (view.nr === nr) {
             return { ...view, month: newDate }
+          }
+          if (isLinkedCalendars) {
+            return { ...view, month: addMonths(view.month, monthOffset) }
           }
           return view
         })
@@ -593,6 +667,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
       setHasClickedCalendarDay,
       views,
       setViews,
+      isLinkedCalendars,
     ]
   )
 
@@ -648,12 +723,15 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
     return cache.current[cacheKey]
   }, [cacheKey, getDays, month])
 
+  const hasNavigation = !hideNavigation && !onlyMonth
+  const hasMonthLabel = onlyMonth && !hideMonthLabel
+
   return (
     <div
       className={clsx('dnb-date-picker__calendar', rtl && 'rtl')}
       lang={locale}
     >
-      {!hideNavigation && !onlyMonth && (
+      {hasNavigation && (
         <div className="dnb-date-picker__header">
           <DatePickerCalendarNav
             type={yearNavigation ? 'month' : 'both'}
@@ -673,7 +751,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
           )}
         </div>
       )}
-      {onlyMonth && !hideMonthLabel && (
+      {hasMonthLabel && (
         <div className="dnb-date-picker__header dnb-date-picker__header--only-month-label">
           <label
             id={`${id}--title`}
@@ -698,8 +776,19 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
         role="grid"
         className="dnb-no-focus"
         tabIndex={0}
-        aria-labelledby={
-          onlyMonth && hideMonthLabel ? undefined : `${id}--title`
+        aria-labelledby={combineLabelledBy(
+          (hasNavigation || hasMonthLabel) && `${id}--title`,
+          hasNavigation && yearNavigation && `${id}--year-title`
+        )}
+        aria-label={
+          hasNavigation || hasMonthLabel
+            ? undefined
+            : formatDate(month, {
+                locale,
+                options: onlyMonth
+                  ? { month: 'long' }
+                  : { month: 'long', year: 'numeric' },
+              })
         }
         onKeyDown={onKeyDownHandler}
         onMouseLeave={onMouseLeaveHandler}
@@ -736,7 +825,7 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
                 role="row"
                 className="dnb-date-picker__days"
               >
-                {(week as DayObject[]).map((day, i) => {
+                {(week as DatePickerCalendarDay[]).map((day, i) => {
                   const isOutsideMonth = day.isLastMonth || day.isNextMonth
                   const isDuplicateAdjacentMonth =
                     isRange &&
@@ -772,7 +861,11 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
                     : undefined
                   const isSelectedDate =
                     !isHiddenAdjacentMonthDate &&
-                    (nr === 0 ? day.isStartDate : day.isEndDate)
+                    !isDuplicateAdjacentMonth &&
+                    Boolean(
+                      (startDate && isSameDay(day.date, startDate)) ||
+                      (endDate && isSameDay(day.date, endDate))
+                    )
 
                   // cell params
                   const paramsCell = {
@@ -815,6 +908,13 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
                         aria-disabled={handleAsDisabled}
                         aria-hidden={isDuplicateAdjacentMonth || undefined}
                         aria-label={title}
+                        aria-describedby={combineDescribedBy(
+                          day.isToday && `${id}--today`,
+                          day.isWithinSelection &&
+                            !day.isStartDate &&
+                            !day.isEndDate &&
+                            `${id}--within-range`
+                        )}
                         {...paramsButton}
                         onClick={
                           handleAsDisabled
@@ -871,6 +971,12 @@ function DatePickerCalendar(restOfProps: DatePickerCalendarProps) {
           })}
         </tbody>
       </table>
+      <span id={`${id}--today`} hidden>
+        {todayText}
+      </span>
+      <span id={`${id}--within-range`} hidden>
+        {withinSelectedRange}
+      </span>
     </div>
   )
 }
@@ -881,7 +987,7 @@ type SelectRangeEvent = Pick<
   DatePickerContextValue,
   'setHasClickedCalendarDay'
 > & {
-  day: DayObject
+  day: DatePickerCalendarDay
   event?: MouseEvent<HTMLButtonElement>
   startDate?: Date
   endDate?: Date
@@ -963,7 +1069,7 @@ function onHoverDay({
   }
 }
 
-function buildDayClassNames(day: DayObject) {
+function buildDayClassNames(day: DatePickerCalendarDay) {
   return clsx(
     {
       'dnb-date-picker__day--start-date': day.isStartDate,

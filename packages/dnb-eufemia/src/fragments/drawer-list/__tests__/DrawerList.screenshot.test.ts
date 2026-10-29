@@ -57,4 +57,14 @@ describe.each(['ui', 'sbanken'])(`DrawerList for %s`, (themeName) => {
       selector: '[data-visual-test="drawer-list-no-divider"]',
     })
   })
+
+  it('have to separate the suffix value from the option content', async () => {
+    await makeScreenshot({
+      style: {
+        width: '24rem',
+        'padding-top': '3rem',
+      },
+      selector: '[data-visual-test="drawer-list-suffix-value"]',
+    })
+  })
 })

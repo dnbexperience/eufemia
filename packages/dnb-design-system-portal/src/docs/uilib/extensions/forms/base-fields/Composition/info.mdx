@@ -58,7 +58,7 @@ render(
 
 ## Accessibility
 
-When using the `error`, `warning` or `info` property, the displayed [FormStatus](/uilib/components/form-status) components will be placed in the DOM before the content of the form elements itself.
+When using the `error`, `warning` or `info` property, the displayed [FormStatus](/uilib/components/form-status) components are placed after the fields in the DOM, matching the default visual order. Messages given to nested fields are included in the server-rendered HTML.
 
 Furthermore, the status messages are linked to the corresponding form elements using `aria-describedby` when [useFieldProps](/uilib/extensions/forms/create-component/useFieldProps) is used in conjunction.
 

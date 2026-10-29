@@ -7,6 +7,7 @@ import { useState } from 'react'
 import ComponentBox from '../../../../shared/tags/ComponentBox'
 import {
   InfoIcon,
+  SuccessIcon,
   WarnIcon,
   ErrorIcon,
   MarketingIcon,
@@ -163,11 +164,18 @@ export const FormStatusLarge = () => (
 
 export const FormStatusWithIcons = () => (
   <ComponentBox
-    scope={{ InfoIcon, WarnIcon, ErrorIcon, MarketingIcon }}
+    scope={{ InfoIcon, SuccessIcon, WarnIcon, ErrorIcon, MarketingIcon }}
     data-visual-test="form-status-icons"
   >
     <Icon
       icon={<InfoIcon />}
+      size="medium"
+      title="Some title"
+      inheritColor={false}
+      right
+    />
+    <Icon
+      icon={SuccessIcon}
       size="medium"
       title="Some title"
       inheritColor={false}

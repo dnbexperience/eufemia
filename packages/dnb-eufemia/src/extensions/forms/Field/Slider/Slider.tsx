@@ -1,4 +1,4 @@
-import { useCallback, useContext, useMemo, useRef } from 'react'
+import { useCallback, useContext, useEffect, useMemo, useRef } from 'react'
 import type { MouseEvent } from 'react'
 import type { FieldBlockProps, FieldBlockWidth } from '../../FieldBlock'
 import FieldBlock from '../../FieldBlock'
@@ -120,7 +120,7 @@ function SliderComponent(props: FieldSliderProps) {
     ? getValues(props.paths)
     : (value as SliderValue)
 
-  useMemo(() => {
+  useEffect(() => {
     if ((path || itemPath) && numberFormat) {
       const { number } = getFormattedNumber(
         (sliderValue as number) ?? 0,

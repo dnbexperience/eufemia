@@ -1,5 +1,6 @@
 import { timingSafeEqual } from 'node:crypto'
 import type { APIGatewayProxyResultV2 } from 'aws-lambda'
+import { warnOnce } from './log.js'
 
 /** Constant-time compare for equal-length inputs; unequal lengths short-circuit. */
 function safeEqual(a: string, b: string): boolean {
@@ -11,20 +12,6 @@ function safeEqual(a: string, b: string): boolean {
   }
 
   return timingSafeEqual(bufA, bufB)
-}
-
-// Logs a message at most once per process, so a misconfiguration surfaces in
-// CloudWatch without repeating on every request.
-const warned = new Set<string>()
-
-function warnOnce(message: string): void {
-  if (warned.has(message)) {
-    return
-  }
-
-  warned.add(message)
-  // eslint-disable-next-line no-console -- server-side logging to CloudWatch
-  console.error(message)
 }
 
 /** Build a JSON HTTP response for API Gateway (HTTP API / payload v2). */

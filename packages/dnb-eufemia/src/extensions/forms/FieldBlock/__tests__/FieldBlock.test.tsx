@@ -1,6 +1,7 @@
 import { useCallback } from 'react'
 import { wait, axeComponent } from '../../../../core/test-utils/testSetup'
 import { fireEvent, render, waitFor } from '@testing-library/react'
+import { renderToString } from 'react-dom/server'
 import { Input } from '../../../../components'
 import FieldBlock from '../FieldBlock'
 import userEvent from '@testing-library/user-event'
@@ -945,6 +946,25 @@ describe('FieldBlock', () => {
         expect(element).toHaveTextContent(blockInfo)
       })
 
+      it('should not update the FormStatus while typing when the message is unchanged', async () => {
+        render(<Field.String info={blockInfo} />)
+
+        const input = document.querySelector('input')
+        await userEvent.type(input, 'a')
+
+        // FormStatus measures the width of the contents when its children change
+        const offsetWidth = vi.spyOn(
+          HTMLElement.prototype,
+          'offsetWidth',
+          'get'
+        )
+        await userEvent.type(input, 'bc')
+
+        expect(offsetWidth).not.toHaveBeenCalled()
+
+        offsetWidth.mockRestore()
+      })
+
       it('should render the given element', () => {
         render(
           <FieldBlock info={<strong>{blockInfo}</strong>}>
@@ -1119,6 +1139,36 @@ describe('FieldBlock', () => {
         )
       })
 
+      it.each([
+        ['above', true],
+        ['below', false],
+      ] as const)(
+        'should keep the DOM order of the status in line with statusPosition="%s"',
+        (statusPosition, statusFirst) => {
+          render(
+            <Field.String
+              info={blockInfo}
+              statusPosition={statusPosition}
+            />
+          )
+
+          const status = document.querySelector(
+            '.dnb-forms-field-block__status'
+          )
+          const contents = document.querySelector(
+            '.dnb-forms-field-block__contents'
+          )
+
+          expect(status).toHaveTextContent(blockInfo)
+          expect(
+            Boolean(
+              status.compareDocumentPosition(contents) &
+              Node.DOCUMENT_POSITION_FOLLOWING
+            )
+          ).toBe(statusFirst)
+        }
+      )
+
       it('should forward statusPosition in Field.String', () => {
         render(<Field.String info={blockInfo} statusPosition="above" />)
 
@@ -1206,12 +1256,13 @@ describe('FieldBlock', () => {
         expect(document.querySelectorAll('.dnb-form-status')).toHaveLength(
           2
         )
+        // The status is rendered after the contents
         expect(
           document.querySelectorAll('.dnb-form-status')[0].textContent
-        ).toBe('Outer')
+        ).toBe('Nested')
         expect(
           document.querySelectorAll('.dnb-form-status')[1].textContent
-        ).toBe('Nested')
+        ).toBe('Outer')
       })
 
       it('should summarize errors when returned in onChangeValidator', () => {
@@ -1449,6 +1500,59 @@ describe('FieldBlock', () => {
 
       expect(status).toHaveAttribute('id', 'unique-form-status--error')
     })
+
+    // The server does not show an error that the field shows only after
+    // its first validation. The summary can hydrate after the field has
+    // shown it, so it must hydrate without it.
+    it.each([
+      [
+        'required',
+        <Field.String
+          key="required"
+          id="field"
+          required
+          validateInitially
+        />,
+      ],
+      [
+        'pattern',
+        <Field.String
+          key="pattern"
+          id="field"
+          value="x"
+          pattern="^[0-9]+$"
+          validateInitially
+        />,
+      ],
+    ])(
+      'should hydrate without a mismatch when %s is validated initially',
+      async (_, element) => {
+        const container = document.createElement('div')
+        container.innerHTML = renderToString(element)
+        document.body.appendChild(container)
+        expect(container.querySelector('.dnb-form-status')).toBeNull()
+
+        const onRecoverableError = vi.fn()
+        const { unmount } = render(element, {
+          container,
+          hydrate: true,
+          onRecoverableError,
+        })
+        await waitFor(() => {
+          expect(
+            container.querySelector('.dnb-form-status--error')
+          ).toBeInTheDocument()
+        })
+
+        expect(onRecoverableError).not.toHaveBeenCalled()
+        expect(container.querySelector('input')).toHaveAttribute(
+          'aria-describedby',
+          'field-form-status--error'
+        )
+        unmount()
+        container.remove()
+      }
+    )
   })
 
   describe('fieldState', () => {

@@ -928,7 +928,7 @@ For `sv-SE` and `da-DK`, remember to import the locale files and merge them with
 
 ```js
 import { mergeTranslations } from '@dnb/eufemia/shared'
-import { Form } from '@dnb/eufemia/src/extensions/forms'
+import { Form } from '@dnb/eufemia/extensions/forms'
 import svSE_forms from '@dnb/eufemia/extensions/forms/constants/locales/sv-SE'
 import svSE_forms_countries from '@dnb/eufemia/shared/constants/locales/countries/sv-SE'
 import daDK_forms from '@dnb/eufemia/extensions/forms/constants/locales/da-DK'
@@ -1138,7 +1138,7 @@ When building forms, there are some best practices to keep in mind to ensure tha
 You can use the `Tools.Log` component to log data to the console. The whole data context will be logged.
 
 ```tsx
-import { Tools } from '@dnb/eufemia/src/extensions/forms'
+import { Tools } from '@dnb/eufemia/extensions/forms'
 
 function MyForm() {
   return (
@@ -1163,7 +1163,7 @@ In order to debug your forms, you can use the `Tools.Errors` component. It will 
 - `formErrors` will render all form errors initiated by e.g. `schema`.
 
 ```tsx
-import { Tools } from '@dnb/eufemia/src/extensions/forms'
+import { Tools } from '@dnb/eufemia/extensions/forms'
 
 function MyForm() {
   return (

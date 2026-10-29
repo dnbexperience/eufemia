@@ -4,6 +4,7 @@ const { getVersion } = require('../../../shared/build-info/BuildInfo.cjs')
 exports.getFontBasePath = (version) => {
   const releaseVersion = version || getVersion()
 
+  // eslint-disable-next-line security/detect-unsafe-regex -- the optional group does not repeat
   if (/^\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?$/.test(releaseVersion)) {
     return `https://assets.eufemia.dnb.no/v${releaseVersion}/fonts/`
   }

@@ -322,7 +322,7 @@ export function pickIcon(icon, className?: string) {
 }
 
 export const opensNewTab = (target: string, href: string): boolean =>
-  target === '_blank' && !/^(mailto|tel|sms)/.test(href)
+  target === '_blank' && !/^(mailto|tel|sms):/i.test(href)
 
 // Re-exported from the shared helper so importing it does not pull the whole
 // Anchor module (and its dependency chain) into lightweight consumers.

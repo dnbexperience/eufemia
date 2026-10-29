@@ -25,6 +25,9 @@ yarn-debug.log*
 
 # Terraform local provider and module cache
 **/.terraform/
+# Generated Portal social image catalogue
+/packages/dnb-design-system-portal/.og-catalogue/
+/packages/dnb-design-system-portal/static/og/images/
 
 yarn-error.log*
 .yarn/*
@@ -46,3 +49,6 @@ yarn-error.log*
 packages/dnb-eufemia/sbom.cdx.json
 packages/dnb-eufemia/vulnerability-report.json
 packages/dnb-eufemia/dnb-eufemia-*.tgz
+
+# Scratch output of "test:types:definitions"
+packages/dnb-eufemia/.definitions-check/

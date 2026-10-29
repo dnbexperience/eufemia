@@ -340,7 +340,7 @@ describe('behavior="manual"', () => {
 
     const closeButton = document.querySelector('.dnb-filter__panel-close')
 
-    expect(closeButton).toBeInTheDocument()
+    expect(closeButton).not.toBeInTheDocument()
   })
 
   it('commits and closes panel when apply is clicked', () => {
