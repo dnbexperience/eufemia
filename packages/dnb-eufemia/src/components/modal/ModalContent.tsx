@@ -177,14 +177,34 @@ export default function ModalContent(props: ModalContentProps) {
       focusTimeoutRef.current = setTimeout(
         () => {
           try {
+            const dialogContainer = document.getElementById(
+              usedContentId
+            ) as HTMLElement
+
+            // Drawer renders its header and close button outside of contentRef
+            const root = dialogContainer || elem
+
+            // setFocus also runs when the children change, for example on
+            // each key press in a controlled field. Keep focus where it
+            // already is inside the modal, so that typing is not interrupted.
+            const active = document.activeElement
+            if (
+              active &&
+              active !== dialogContainer &&
+              active !== elem &&
+              root.contains(active)
+            ) {
+              return // stop here
+            }
+
             let focusElement = elem as HTMLElement
 
-            const headerElem = elem.querySelector(
+            const headerElem = root.querySelector(
               '.dnb-drawer__header, .dnb-dialog__header'
             )
             const firstHeading = (headerElem?.querySelector(
               'h1, h2, h3'
-            ) || elem.querySelector('h1, h2, h3')) as HTMLElement
+            ) || root.querySelector('h1, h2, h3')) as HTMLElement
 
             if (firstHeading) {
               if (firstHeading.tagName !== 'H1') {
@@ -196,21 +216,22 @@ export default function ModalContent(props: ModalContentProps) {
               // Focus the dialog container instead of the heading to
               // prevent VoiceOver from announcing the title twice —
               // once via aria-labelledby and once as the focused heading.
-              const dialogContainer = document.getElementById(
-                usedContentId
-              ) as HTMLElement
               if (dialogContainer) {
                 focusElement = dialogContainer
               }
             } else {
-              const focusHelper = elem.querySelector(
+              const focusHelper = root.querySelector(
                 '.dnb-modal__close-button, .dnb-modal__focus-helper'
               ) as HTMLElement
               focusElement = focusHelper
             }
 
             if (typeof focusSelector === 'string') {
-              focusElement = elem.querySelector(focusSelector)
+              // Look in the content first, so that a broad selector such as
+              // "button" keeps its target; then in the whole dialog, which
+              // in a Drawer also holds the header and the close button.
+              focusElement = (elem.querySelector(focusSelector) ||
+                root.querySelector(focusSelector)) as HTMLElement
             }
 
             if (focusElement !== document.activeElement) {
