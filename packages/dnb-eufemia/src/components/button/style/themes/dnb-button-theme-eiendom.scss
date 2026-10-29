@@ -3,8 +3,9 @@
 *
 */
 
-// Dark mode keeps the token colors, as the palette colors fail contrast there
-$light-scheme: ':where(:not(.eufemia-theme__color-scheme--dark *))';
+// The palette colors fail contrast in dark mode, so use them only in the
+// light color scheme, also when it is nested in a dark one
+$light-scheme: ':where(:not(.eufemia-theme__color-scheme--dark *), .eufemia-theme__color-scheme--dark .eufemia-theme__color-scheme--light *)';
 
 .dnb-button {
   &--primary#{$light-scheme},

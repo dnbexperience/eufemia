@@ -896,9 +896,9 @@ describe('Anchor scss', () => {
     for (const rule of paletteRules) {
       for (const selector of rule
         .slice(0, rule.lastIndexOf('{'))
-        .split(',')) {
+        .split(/,(?![^(]*\))/)) {
         expect(selector).toContain(
-          ':where(:not(.eufemia-theme__color-scheme--dark *))'
+          ':where(:not(.eufemia-theme__color-scheme--dark *), .eufemia-theme__color-scheme--dark .eufemia-theme__color-scheme--light *)'
         )
       }
     }
