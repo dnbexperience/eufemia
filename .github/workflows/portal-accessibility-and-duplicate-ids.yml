@@ -142,21 +142,11 @@ jobs:
           node vite/prod/generate-accessibility-sitemap.mts \
             ../../portal-deployed-source/packages/dnb-design-system-portal/src/docs
 
-      - name: Use Playwright cache
-        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
-        id: playwright-cache
+      - name: Setup Playwright
+        uses: ./.github/actions/setup-playwright
         with:
-          path: |
-            ~/.cache/ms-playwright
-          key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-playwright-chromium-${{ hashFiles('node_modules/playwright-core/browsers.json') }}
-
-      - name: Install Playwright browser
-        if: steps.playwright-cache.outputs.cache-hit != 'true'
-        run: yarn workspace dnb-design-system-portal playwright install --with-deps chromium
-
-      - name: Install Playwright dependencies
-        if: steps.playwright-cache.outputs.cache-hit == 'true'
-        run: yarn workspace dnb-design-system-portal playwright install-deps chromium
+          browsers: chromium
+          cache-version: ${{ secrets.CACHE_VERSION }}
 
       - name: Download previous report
         id: previous

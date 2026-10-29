@@ -65,9 +65,12 @@ jobs:
         run: node packages/dnb-design-system-portal/scripts/og-images/generate.mts plan
         env:
           OG_MODE: ${{ inputs.mode || 'refresh' }}
-      - name: Install Chromium when captures are needed
+      - name: Setup Playwright when captures are needed
         if: steps.plan.outputs.captures != '' && steps.plan.outputs.captures != '0'
-        run: yarn workspace dnb-design-system-portal exec playwright install --with-deps chromium
+        uses: ./.github/actions/setup-playwright
+        with:
+          browsers: chromium
+          cache-version: ${{ secrets.CACHE_VERSION }}
       - name: Render changed images
         if: steps.plan.outputs.changed == 'true'
         run: node packages/dnb-design-system-portal/scripts/og-images/generate.mts render
