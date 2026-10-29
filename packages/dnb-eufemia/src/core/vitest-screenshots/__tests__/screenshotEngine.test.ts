@@ -82,6 +82,107 @@ const makeMockContext = () => ({
 
 // ── tests ────────────────────────────────────────────────────────────
 
+describe('ensureSession', () => {
+  beforeEach(() => {
+    resetPoolCleanedUp()
+  })
+
+  afterEach(() => {
+    browserSlots.length = 0
+    sessionToSlot.clear()
+    sessions.clear()
+  })
+
+  it.each(['newPage', 'addInitScript'] as const)(
+    'does not reassign a starting session during %s',
+    async (phase) => {
+      const context = makeMockContext()
+      const page = makeMockPage()
+      const startingSlot = {
+        browser: makeMockBrowser(),
+        context,
+        currentSessionId: null,
+        busy: false,
+      }
+      const freeSlot = {
+        browser: makeMockBrowser(),
+        context: makeMockContext(),
+        currentSessionId: null,
+        busy: false,
+      }
+      browserSlots.push(startingSlot as never, freeSlot as never)
+      let releaseStartup: () => void
+      let notifyStarting: () => void
+      const startup = new Promise<void>((resolve) => {
+        releaseStartup = resolve
+      })
+      const starting = new Promise<void>((resolve) => {
+        notifyStarting = resolve
+      })
+      context.newPage.mockImplementationOnce(async () => {
+        if (phase === 'newPage') {
+          notifyStarting()
+          await startup
+        }
+        return page
+      })
+      if (phase === 'addInitScript') {
+        page.addInitScript.mockImplementationOnce(async () => {
+          notifyStarting()
+          await startup
+        })
+      }
+
+      const firstSession = ensureSession(
+        'starting-session',
+        makeMockPage() as never
+      )
+      await starting
+      try {
+        await ensureSession('other-session', makeMockPage() as never)
+
+        expect(sessionToSlot.get('starting-session')).toBe(startingSlot)
+        expect(sessionToSlot.get('other-session')).toBe(freeSlot)
+        expect(context.close).not.toHaveBeenCalled()
+      } finally {
+        releaseStartup()
+        await firstSession
+      }
+      expect(sessions.get('starting-session')?.page).toBe(page)
+    }
+  )
+
+  it.each(['newPage', 'addInitScript'] as const)(
+    'releases the startup reservation when %s fails',
+    async (phase) => {
+      const context = makeMockContext()
+      if (phase === 'newPage') {
+        context.newPage.mockRejectedValueOnce(new Error('page failed'))
+      } else {
+        const page = makeMockPage()
+        page.addInitScript.mockRejectedValueOnce(new Error('page failed'))
+        context.newPage.mockResolvedValueOnce(page)
+      }
+      const slot = {
+        browser: makeMockBrowser(),
+        context,
+        currentSessionId: null,
+        busy: false,
+      }
+      browserSlots.push(slot as never)
+
+      await expect(
+        ensureSession('failed-session', makeMockPage() as never)
+      ).rejects.toThrow('page failed')
+      await ensureSession('other-session', makeMockPage() as never)
+
+      expect(sessionToSlot.get('other-session')).toBe(slot)
+      expect(sessionToSlot.has('failed-session')).toBe(false)
+      expect(context.close).toHaveBeenCalledOnce()
+    }
+  )
+})
+
 describe('hardResetPage', () => {
   afterEach(() => {
     browserSlots.length = 0

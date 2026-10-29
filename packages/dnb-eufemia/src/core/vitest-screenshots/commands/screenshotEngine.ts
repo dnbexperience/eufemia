@@ -156,6 +156,7 @@ type BrowserSlot = {
 
 const browserSlots: BrowserSlot[] = []
 const sessionToSlot = new Map<string, BrowserSlot>()
+const startingSessions = new Set<string>()
 let playwrightModule: { firefox: BrowserType } | null = null
 let poolCleanedUp = false
 
@@ -186,6 +187,10 @@ const getBrowserSlot = async (sessionId: string): Promise<BrowserSlot> => {
       sessionToSlot.set(sessionId, slot)
       slot.busy = false
       return slot
+    }
+
+    if (startingSessions.has(slot.currentSessionId)) {
+      continue
     }
 
     const prevSession = sessions.get(slot.currentSessionId)
@@ -436,31 +441,37 @@ const ensureSession = async (
     sessions.delete(id)
   }
 
-  // Get a dedicated Firefox browser slot for this session
-  const slot = await getBrowserSlot(sessionId)
+  // Reserve the session until its page and initialization scripts are ready.
+  startingSessions.add(sessionId)
+  try {
+    // Get a dedicated Firefox browser slot for this session
+    const slot = await getBrowserSlot(sessionId)
 
-  // Guard: if the browser was closed (e.g. by a late cleanup tick),
-  // replace it with a fresh one so the session can proceed.
-  if (!slot.browser.isConnected()) {
-    const pw = await getPlaywright()
-    slot.browser = await pw.firefox.launch({ headless: true })
-    slot.context = await slot.browser.newContext({
-      viewport: config.pageViewport,
-      ignoreHTTPSErrors: true,
-    })
+    // Guard: if the browser was closed (e.g. by a late cleanup tick),
+    // replace it with a fresh one so the session can proceed.
+    if (!slot.browser.isConnected()) {
+      const pw = await getPlaywright()
+      slot.browser = await pw.firefox.launch({ headless: true })
+      slot.context = await slot.browser.newContext({
+        viewport: config.pageViewport,
+        ignoreHTTPSErrors: true,
+      })
+    }
+
+    const page = await createScreenshotPage(slot.context)
+
+    state = {
+      page,
+      vitestPage,
+      navigatedUrl: null,
+      mutationKind: 'none' as PageMutationKind,
+      currentRootClassName: null,
+    }
+    sessions.set(sessionId, state)
+    return state
+  } finally {
+    startingSessions.delete(sessionId)
   }
-
-  const page = await createScreenshotPage(slot.context)
-
-  state = {
-    page,
-    vitestPage,
-    navigatedUrl: null,
-    mutationKind: 'none' as PageMutationKind,
-    currentRootClassName: null,
-  }
-  sessions.set(sessionId, state)
-  return state
 }
 
 // ── helpers: page bootstrap ──────────────────────────────────────────
