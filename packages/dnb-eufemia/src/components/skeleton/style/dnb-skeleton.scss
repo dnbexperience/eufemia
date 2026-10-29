@@ -5,12 +5,23 @@
  *
  */
 
+@use 'sass:math';
+
+$sweep-width: 24rem;
+$stripe-spacing: 0.375rem;
+// At 45 degrees, a square tile spans sqrt(2) times the stripe spacing.
+$stripe-tile-size: $stripe-spacing * math.sqrt(2);
+
 .dnb-skeleton {
   --skeleton-color: var(--token-color-background-neutral-base);
   --skeleton-color--contrast: var(--token-color-background-neutral);
-  --skeleton-delay: 5s;
-  --skeleton-duration: 1.5s;
+  --skeleton-delay: 2s;
+  --skeleton-duration: 2s;
   --skeleton-iteration-count: 20;
+
+  .eufemia-theme__color-scheme--dark & {
+    --skeleton-color--contrast: rgb(255 255 255 / 16%);
+  }
 
   img,
   video {
@@ -57,7 +68,8 @@
     padding: 0 !important;
 
     border-radius: inherit;
-    background: none !important;
+    background-color: transparent !important;
+    background-image: none !important;
     box-shadow: none !important;
   }
 
@@ -65,17 +77,35 @@
     background-color: var(--skeleton-color) !important; // to take presence
   }
 
-  &--shape#{&}::after {
-    background-image: repeating-linear-gradient(
-      -45deg,
-      var(--skeleton-color--contrast) 1px 2px,
-      transparent 0 6px
-    ) !important;
-    background-repeat: repeat !important;
-    background-size: 100% !important; // to take presence
-
-    clip-path: polygon(100% 0, 100% 0, 100% 100%, 100% 100%);
-    animation: skeletonLinearAnimation var(--skeleton-duration) linear
+  &--shape#{&}::after,
+  &--font,
+  &--font &--show-font,
+  &--font .dnb-p {
+    --skeleton-active-background: initial;
+    --skeleton-background-image:
+      linear-gradient(
+        62deg,
+        var(--skeleton-color) 36%,
+        color-mix(in srgb, var(--skeleton-color) 80%, transparent) 42%,
+        transparent 49% 51%,
+        color-mix(in srgb, var(--skeleton-color) 80%, transparent) 58%,
+        var(--skeleton-color) 64%
+      ),
+      repeating-linear-gradient(
+        -45deg,
+        var(--skeleton-color--contrast) 0 0.0625rem,
+        var(--skeleton-color) 0.0625rem #{$stripe-spacing}
+      );
+    background-image: var(--skeleton-active-background, none) !important;
+    // Tile the fading layer so it keeps covering the stripes between sweeps.
+    background-repeat: repeat-x, repeat !important;
+    background-size:
+      $sweep-width 100%,
+      $stripe-tile-size $stripe-tile-size !important;
+    background-position:
+      0 50%,
+      0 50%;
+    animation: skeletonSweepAnimation var(--skeleton-duration) linear
       var(--skeleton-iteration-count) var(--skeleton-delay);
   }
 
@@ -102,25 +132,11 @@
     font-family: var(--font-family-default) !important;
     font-style: unset !important;
 
-    background-position-y: 50% !important;
-    background-repeat: no-repeat !important;
-    background-size: 30rem 100% !important;
-
     -webkit-text-fill-color: transparent !important;
     background-clip: text !important;
 
-    background-image: repeating-linear-gradient(
-      -45deg,
-      var(--skeleton-color--contrast) 1px 2px,
-      transparent 0 6px
-    ) !important;
-
     --border-color: var(--skeleton-color);
     background-color: var(--skeleton-color) !important;
-
-    background-position-x: 30rem;
-    animation: skeletonFontAnimation 5s linear infinite
-      var(--skeleton-delay);
 
     &::marker {
       color: var(--skeleton-color);
@@ -155,27 +171,25 @@
   }
 }
 
-@keyframes skeletonLinearAnimation {
-  0% {
-    clip-path: polygon(100% 0, 100% 0, 100% 100%, 100% 100%);
-  }
-
-  50% {
-    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
-  }
-
-  100% {
-    clip-path: polygon(0 0, 0% 0, 0% 100%, 0 100%);
+@media (prefers-reduced-motion: reduce) {
+  .dnb-skeleton--font,
+  .dnb-skeleton--font .dnb-skeleton--show-font,
+  .dnb-skeleton--font .dnb-p,
+  .dnb-skeleton--shape::after {
+    animation: none !important;
   }
 }
 
-@keyframes skeletonFontAnimation {
-  0% {
-    background-position-x: 30rem;
+@keyframes skeletonSweepAnimation {
+  from {
+    --skeleton-active-background: var(--skeleton-background-image);
+    background-position-x: 0, 0;
   }
 
-  100% {
-    background-position-x: -30rem;
+  to {
+    --skeleton-active-background: var(--skeleton-background-image);
+    // Move by whole tiles so both layers loop seamlessly.
+    background-position-x: (-$sweep-width), (-8 * $stripe-tile-size);
   }
 }
 
