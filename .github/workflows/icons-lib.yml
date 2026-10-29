@@ -8,6 +8,9 @@ on:
 
 permissions:
   contents: read
+  # The open pull request lookup uses the built-in token; everything that
+  # writes uses the automation bot token
+  pull-requests: read
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
@@ -47,7 +50,7 @@ jobs:
         id: existing-pr
         env:
           BRANCH: ${{ steps.manual-branch.outputs.branch }}
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GH_TOKEN: ${{ github.token }}
         run: |
           url=$(gh pr list \
             --head "$BRANCH" \
@@ -65,7 +68,7 @@ jobs:
         if: steps.existing-pr.outputs.exists == 'true'
         env:
           BRANCH: ${{ steps.manual-branch.outputs.branch }}
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GH_TOKEN: ${{ github.token }}
         run: |
           gh auth setup-git
           git fetch origin "refs/heads/$BRANCH:refs/remotes/origin/$BRANCH"
@@ -123,6 +126,19 @@ jobs:
         if: failure()
         run: echo '\n\n👉 Download the diff files as a ZIP file. \nIt is called "visual-test-artifact" and you find it in the test "Summary" under "Artifacts".\n\n\n'
 
+      # Created this late because the token is valid for one hour. Pushes and
+      # pull requests from the bot start the CI workflows, which pushes with the
+      # built-in token would not.
+      - name: Create automation bot token
+        id: automation-bot
+        if: success() && steps.changes.outputs.changed == 'true'
+        uses: ./.github/actions/automation-token
+        with:
+          client-id: ${{ vars.AUTOMATION_APP_CLIENT_ID }}
+          private-key: ${{ secrets.AUTOMATION_APP_PRIVATE_KEY }}
+          # The manual update rebases its branch onto main
+          workflows: ${{ github.event_name == 'workflow_dispatch' && 'write' || '' }}
+
       - name: Commit icons and updated snapshots
         if: >-
           success() &&
@@ -130,9 +146,9 @@ jobs:
           steps.changes.outputs.changed == 'true'
         run: yarn workspace @dnb/eufemia icons:commit
         env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
-          GH_NAME: ${{ secrets.GH_NAME }}
-          GH_EMAIL: ${{ secrets.GH_EMAIL }}
+          GH_TOKEN: ${{ steps.automation-bot.outputs.token }}
+          GH_NAME: ${{ steps.automation-bot.outputs.git-name }}
+          GH_EMAIL: ${{ steps.automation-bot.outputs.git-email }}
 
       - name: Commit manual icon update
         if: >-
@@ -163,9 +179,9 @@ jobs:
           fi
         env:
           BRANCH: ${{ steps.manual-branch.outputs.branch }}
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
-          GH_NAME: ${{ secrets.GH_NAME }}
-          GH_EMAIL: ${{ secrets.GH_EMAIL }}
+          GH_TOKEN: ${{ steps.automation-bot.outputs.token }}
+          GH_NAME: ${{ steps.automation-bot.outputs.git-name }}
+          GH_EMAIL: ${{ steps.automation-bot.outputs.git-email }}
           EXISTING_PR: ${{ steps.existing-pr.outputs.exists }}
 
       - name: Create draft icon update pull request
@@ -175,7 +191,7 @@ jobs:
           steps.changes.outputs.changed == 'true'
         env:
           BRANCH: ${{ steps.manual-branch.outputs.branch }}
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GH_TOKEN: ${{ steps.automation-bot.outputs.token }}
           EXISTING_PR: ${{ steps.existing-pr.outputs.exists }}
           PR_URL: ${{ steps.existing-pr.outputs.url }}
         run: |

@@ -15,7 +15,9 @@ on:
 
 permissions:
   contents: read
-  pull-requests: write
+  # The open pull request lookup uses the built-in token; everything that
+  # writes uses the automation bot token
+  pull-requests: read
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -164,6 +166,17 @@ jobs:
         if: failure()
         run: echo '\n\n👉 Download the diff files as a ZIP file. \nIt is called "visual-test-artifact" and you find it in the test "Summary" under "Artifacts".\n\n\n'
 
+      # Created this late because the token is valid for one hour. Pushes and
+      # pull requests from the bot start the CI workflows, which pushes with the
+      # built-in token would not.
+      - name: Create automation bot token
+        id: automation-bot
+        if: success() && steps.changes.outputs.changed == 'true'
+        uses: ./.github/actions/automation-token
+        with:
+          client-id: ${{ vars.AUTOMATION_APP_CLIENT_ID }}
+          private-key: ${{ secrets.AUTOMATION_APP_PRIVATE_KEY }}
+
       - name: Commit design tokens and updated snapshots
         id: commit
         if: success() && steps.changes.outputs.changed == 'true'
@@ -231,10 +244,7 @@ jobs:
             echo "- $branch_action: [$BRANCH]($GITHUB_SERVER_URL/$GITHUB_REPOSITORY/tree/$BRANCH) with $commits commit(s)"
           } >> "$GITHUB_STEP_SUMMARY"
         env:
-          # For push we use the personal token instead of the built-in
-          # GITHUB_TOKEN, because the built-in token does not trigger the
-          # push verification workflows
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GH_TOKEN: ${{ steps.automation-bot.outputs.token }}
           # The commits are attributed to whoever started the run
           GH_NAME: ${{ github.actor }}
           GH_EMAIL: ${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com
@@ -243,7 +253,7 @@ jobs:
       - name: Create or comment on the design token pull request
         if: success() && steps.changes.outputs.changed == 'true'
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ steps.automation-bot.outputs.token }}
           EXISTING_PR: ${{ steps.existing-pr.outputs.exists }}
           PR_URL: ${{ steps.existing-pr.outputs.url }}
           BRANCH_CREATED: ${{ steps.commit.outputs.branch_created }}

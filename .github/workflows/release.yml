@@ -228,14 +228,15 @@ jobs:
     # publishes, so 30 minutes is generous.
     timeout-minutes: 30
 
-    # Only the release branches can deploy to this environment, and the npm
-    # trusted publisher for @dnb/eufemia is bound to it.
+    # Only the release branches can deploy to this environment. The npm
+    # trusted publisher for @dnb/eufemia is bound to it, and the release bot's
+    # private key is one of its secrets.
     environment: npm-release
 
+    # GitHub writes (changelog commit, tag, GitHub release and comments) use
+    # the release bot token, so the built-in token only reads.
     permissions:
-      contents: write # Required for semantic-release to push tags and changelog
-      issues: write # Required for semantic-release to comment on issues
-      pull-requests: write # Required for semantic-release to comment on PRs
+      contents: read
       id-token: write # Required for npm Trusted Publishing (OIDC) and provenance
 
     outputs:
@@ -308,6 +309,26 @@ jobs:
       - name: Re-validate restored package contents
         run: yarn workspace @dnb/eufemia validate:package
 
+      # A short-lived token from the release GitHub App, limited to this
+      # repository. Created right before it is used, after every validation.
+      # Its pushes and the GitHub release start the workflows that react to
+      # them, which events from the built-in token would not.
+      - name: Create release bot token
+        id: release-bot
+        if: github.repository == 'dnbexperience/eufemia' &&
+          (github.ref == 'refs/heads/release' ||
+          github.ref == 'refs/heads/beta' ||
+          github.ref == 'refs/heads/alpha' ||
+          github.ref == 'refs/heads/next' ||
+          endsWith(github.ref, '.x'))
+        uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510 # v3.3.0
+        with:
+          client-id: ${{ vars.RELEASE_APP_CLIENT_ID }}
+          private-key: ${{ secrets.RELEASE_APP_PRIVATE_KEY }}
+          permission-contents: write # Changelog commit, tag and GitHub release
+          permission-issues: write # Release comments and the failure issue
+          permission-pull-requests: write # Release comments on pull requests
+
       - name: Release
         if: github.repository == 'dnbexperience/eufemia' &&
           (github.ref == 'refs/heads/release' ||
@@ -323,10 +344,11 @@ jobs:
           # @dnb/eufemia configured on npmjs.com pointing at this workflow and
           # the npm-release environment, with `npm publish` allowed (not only
           # `npm stage publish`).
-          # GH_* are for the GitHub release and the changelog/tag commit push.
-          GH_EMAIL: ${{ secrets.GH_EMAIL }}
-          GH_NAME: ${{ secrets.GH_NAME }}
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          # The release bot token is for the GitHub release, the comments and
+          # the changelog/tag push. It is passed as GITHUB_TOKEN, because
+          # semantic-release only adds the `x-access-token:` user name that a
+          # GitHub App token needs for git to that variable, not to GH_TOKEN.
+          GITHUB_TOKEN: ${{ steps.release-bot.outputs.token }}
           # The prepared build/package.json carries no scripts (prepareForRelease
           # strips them), so this is a no-op in normal operation — but it stops a
           # tampered artifact from running an npm lifecycle hook in this

@@ -40,10 +40,22 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
 
+      # The job's 40-minute timeout keeps the whole run inside the token's
+      # one-hour lifetime. Pushes and pull requests from the bot start the CI
+      # workflows, which pushes with the built-in token would not.
+      - name: Create automation bot token
+        id: automation-bot
+        uses: ./.github/actions/automation-token
+        with:
+          client-id: ${{ vars.AUTOMATION_APP_CLIENT_ID }}
+          private-key: ${{ secrets.AUTOMATION_APP_PRIVATE_KEY }}
+          # An existing update branch is rebased onto main
+          workflows: write
+
       - name: Find an open flag update pull request
         id: existing-pr
         env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GH_TOKEN: ${{ steps.automation-bot.outputs.token }}
         run: |
           url=$(gh pr list \
             --head "$BRANCH" \
@@ -61,8 +73,8 @@ jobs:
         id: branch
         env:
           PR_URL: ${{ steps.existing-pr.outputs.url }}
-          GH_NAME: ${{ secrets.GH_NAME }}
-          GH_EMAIL: ${{ secrets.GH_EMAIL }}
+          GH_NAME: ${{ steps.automation-bot.outputs.git-name }}
+          GH_EMAIL: ${{ steps.automation-bot.outputs.git-email }}
         run: |
           git config user.name "$GH_NAME"
           git config user.email "$GH_EMAIL"
@@ -166,16 +178,16 @@ jobs:
           git push origin "HEAD:refs/heads/$BRANCH" \
             --force-with-lease="refs/heads/$BRANCH:$REMOTE_SHA"
         env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
-          GH_NAME: ${{ secrets.GH_NAME }}
-          GH_EMAIL: ${{ secrets.GH_EMAIL }}
+          GH_TOKEN: ${{ steps.automation-bot.outputs.token }}
+          GH_NAME: ${{ steps.automation-bot.outputs.git-name }}
+          GH_EMAIL: ${{ steps.automation-bot.outputs.git-email }}
           PR_URL: ${{ steps.existing-pr.outputs.url }}
           REMOTE_SHA: ${{ steps.branch.outputs.remote_sha }}
 
       - name: Create or update draft pull request
         if: success() && steps.changes.outputs.changed == 'true'
         env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GH_TOKEN: ${{ steps.automation-bot.outputs.token }}
           PR_URL: ${{ steps.existing-pr.outputs.url }}
           PR_TITLE: ${{ steps.update.outputs.title }}
         run: |
