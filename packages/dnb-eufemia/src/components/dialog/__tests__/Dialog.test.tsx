@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import type { ReactNode, RefObject } from 'react'
 import Dialog from '../Dialog'
 import type { DialogContentProps, DialogProps } from '../types'
@@ -603,6 +603,55 @@ describe('Dialog', () => {
       expect(content).toBeInTheDocument()
       expect(document.activeElement).toBe(content)
     })
+  })
+
+  it('keeps focus in a field while typing updates the content', async () => {
+    const ControlledField = () => {
+      const [value, setValue] = useState('')
+      return (
+        <Dialog noAnimation open title="Title">
+          <Dialog.Body>
+            <input
+              id="field"
+              value={value}
+              onChange={(event) => setValue(event.target.value)}
+            />
+          </Dialog.Body>
+        </Dialog>
+      )
+    }
+    render(<ControlledField />)
+
+    const field = document.getElementById('field') as HTMLInputElement
+    await userEvent.type(field, 'hello world')
+
+    expect(field).toHaveValue('hello world')
+    expect(document.activeElement).toBe(field)
+  })
+
+  it('keeps focus on an element inside that takes focus when it opens', async () => {
+    const FocusOnMount = () => {
+      const ref = useRef<HTMLInputElement>(null)
+      useEffect(() => {
+        ref.current?.focus()
+      }, [])
+      return <input id="focused-on-mount" ref={ref} />
+    }
+    render(
+      <Dialog noAnimation open title="Title">
+        <Dialog.Body>
+          <FocusOnMount />
+        </Dialog.Body>
+      </Dialog>
+    )
+
+    const field = document.getElementById('focused-on-mount')
+    await waitFor(() => {
+      expect(document.activeElement).toBe(field)
+    })
+    // Let the initial focus timer run (0 ms with noAnimation)
+    await new Promise((resolve) => setTimeout(resolve, 50))
+    expect(document.activeElement).toBe(field)
   })
 
   it('respects focusSelector over dialog container and close button', async () => {

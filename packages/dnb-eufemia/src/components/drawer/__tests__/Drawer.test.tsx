@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import type { ReactNode, RefObject } from 'react'
 import type { DrawerAllProps } from '../Drawer'
 import Drawer from '../Drawer'
@@ -7,6 +8,7 @@ import Provider from '../../../shared/Provider'
 
 import { loadScss, axeComponent } from '../../../core/test-utils/testSetup'
 import { render, fireEvent, waitFor } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 
 const props: DrawerAllProps = {
   noAnimation: true,
@@ -379,16 +381,59 @@ describe('Drawer', () => {
     })
   })
 
-  it('moves focus to content by default when opened', async () => {
+  it('moves focus to the dialog when opened', async () => {
     render(<Drawer noAnimation open title="Title" />)
 
     await waitFor(() => {
-      const title = document.querySelector(
-        '.dnb-modal__title'
-      ) as HTMLHeadingElement
-      expect(title).toBeInTheDocument()
-      // Focus remains on body element - this appears to be the expected behavior for Drawer
-      expect(document.activeElement).toBe(document.body)
+      expect(document.activeElement).toHaveAttribute('role', 'dialog')
+    })
+  })
+
+  it('moves focus to the close button when opened without a heading', async () => {
+    render(<Drawer noAnimation open />)
+
+    await waitFor(() => {
+      expect(document.activeElement).toBe(
+        document.querySelector('button.dnb-modal__close-button')
+      )
+    })
+  })
+
+  it('keeps focus in a field while typing updates the content', async () => {
+    const ControlledField = () => {
+      const [value, setValue] = useState('')
+      return (
+        <Drawer noAnimation open title="Title">
+          <Drawer.Body>
+            <input
+              id="field"
+              value={value}
+              onChange={(event) => setValue(event.target.value)}
+            />
+          </Drawer.Body>
+        </Drawer>
+      )
+    }
+    render(<ControlledField />)
+
+    const field = document.getElementById('field') as HTMLInputElement
+    await userEvent.type(field, 'hello world')
+
+    expect(field).toHaveValue('hello world')
+    expect(document.activeElement).toBe(field)
+  })
+
+  it('looks for focusSelector in the body before the header', async () => {
+    render(
+      <Drawer noAnimation open title="Title" focusSelector="button">
+        <Drawer.Body>
+          <button id="body-button">Body button</button>
+        </Drawer.Body>
+      </Drawer>
+    )
+
+    await waitFor(() => {
+      expect(document.activeElement?.id).toBe('body-button')
     })
   })
 
