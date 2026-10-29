@@ -9,6 +9,12 @@
     z-index: 4; // over borders and TDs
 
     transform: translate3d(0, var(--table-offset, 0), 0);
+
+    // The offset is set while scrolling and would move the header over
+    // the body rows on paper
+    @media print {
+      transform: none;
+    }
   }
 
   tr.sticky.css-position {
