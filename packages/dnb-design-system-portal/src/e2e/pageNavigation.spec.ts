@@ -151,7 +151,7 @@ test.describe('Page Navigation', () => {
       await page.goto('/web/components/')
 
       const href = '/web/components/button'
-      const link = page.locator(`a[href="${href}"]`).first()
+      const link = page.locator(`#tab-bar-content a[href="${href}"]`)
       await link.click()
 
       await page.waitForURL('**/web/components/button/')
@@ -286,20 +286,13 @@ test.describe('Page Navigation', () => {
       await page.goto('/web/components/')
       await waitForApp(page)
 
-      await page
-        .locator(
-          '.dnb-sidebar-menu__accordion__toggle[aria-expanded="false"]'
-        )
-        .evaluateAll((buttons: HTMLButtonElement[]) => {
-          buttons.forEach((button) => button.click())
-        })
-
-      const href = '/web/components/button'
-      const buttonLink = page.locator(
-        `#portal-sidebar-menu a[href="${href}"]`
-      )
-      await buttonLink.first().waitFor({ state: 'visible' })
-      await buttonLink.first().click()
+      const menu = page.getByRole('navigation', {
+        name: 'Platform Content Menu',
+      })
+      await menu
+        .getByRole('button', { name: 'Buttons', exact: true })
+        .click()
+      await menu.getByRole('link', { name: 'Button', exact: true }).click()
       await page.waitForURL('**/web/components/button**')
       await waitForApp(page)
 
