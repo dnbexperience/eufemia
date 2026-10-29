@@ -556,8 +556,11 @@ function GlobalStatusComponent(ownProps: GlobalStatusProps) {
       return null // skip this item if no content is given
     }
 
-    const id =
-      item.id || item.itemId ? `${item.itemId}-${i}` : makeUniqueId()
+    const id = item.id
+      ? String(item.id)
+      : item.itemId
+        ? `${item.itemId}-${i}`
+        : makeUniqueId()
 
     let anchorText: ReactNode
 

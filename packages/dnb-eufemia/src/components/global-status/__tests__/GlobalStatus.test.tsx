@@ -1373,6 +1373,44 @@ describe('GlobalStatus component', () => {
     expect(jumpLink).toHaveAttribute('href', '#other-field-id')
     expect(fireEvent.click(jumpLink)).toBe(false)
   })
+
+  it('should use the item id as the id of the item text', () => {
+    const Message = () => <>Other error</>
+
+    render(
+      <GlobalStatus
+        show
+        noAnimation
+        autoScroll={false}
+        items={[
+          {
+            id: 'first-item',
+            text: 'Error',
+            statusAnchorUrl: '/uilib/components/global-status',
+          },
+          {
+            id: 'second-item',
+            text: <Message />,
+            statusAnchorUrl: '/uilib/components/global-status',
+          },
+        ]}
+      />
+    )
+
+    const [first, second] = Array.from(
+      document.querySelectorAll('.dnb-global-status__message li')
+    )
+    expect(first.querySelector('p')).toHaveAttribute('id', 'first-item')
+    expect(first.querySelector('a')).toHaveAttribute(
+      'aria-describedby',
+      'first-item'
+    )
+    expect(second.querySelector('p')).toHaveAttribute('id', 'second-item')
+    expect(second.querySelector('a')).toHaveAttribute(
+      'aria-describedby',
+      'second-item'
+    )
+  })
 })
 
 describe('GlobalStatus scss', () => {
