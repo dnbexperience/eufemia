@@ -188,7 +188,7 @@ test.describe('Sidebar resize', () => {
   test('should wrap mobile menu content without shifting the logo', async ({
     page,
   }) => {
-    await page.setViewportSize({ width: 390, height: 844 })
+    await page.setViewportSize({ width: 320, height: 844 })
     await page.goto('/web/components/button/demos/')
     await waitForApp(page)
 
@@ -301,7 +301,7 @@ test.describe('Sidebar resize', () => {
 
     const itemText = drawer
       .getByRole('link', {
-        name: 'FormStatus (Messageboxes)',
+        name: 'Info card (deprecated)',
         exact: true,
       })
       .locator('.dnb-sidebar-menu__item__text')

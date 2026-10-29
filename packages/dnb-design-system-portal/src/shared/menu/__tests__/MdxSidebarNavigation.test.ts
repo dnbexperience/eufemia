@@ -45,6 +45,119 @@ describe('MDX-defined Portal navigation', () => {
     }
   })
 
+  it('groups components by the proposed navigation without losing pages', () => {
+    const components = tree().sections[0].items.find(
+      ({ path }) => path === 'web/components'
+    )
+    expect(components.subheadings.map(({ title }) => title)).toEqual([
+      'All components A–Z',
+      'Components by category',
+      'General',
+      'Formatting and typography',
+      'Accessibility',
+      'Utilities',
+      'Fragments',
+    ])
+    const general = components.subheadings.find(
+      ({ title }) => title === 'General'
+    )
+    expect(general.isMenuGroup).toBe(true)
+    for (const [title, labels] of [
+      ['Buttons', ['Button', 'Help button', 'Toggle button']],
+      ['Inputs', ['Input', 'Masked input']],
+    ] as const) {
+      const group = general.subheadings.find(
+        (item) => item.title === title
+      )
+      expect(group.isMenuGroup).toBe(false)
+      expect(group.isMenuLink).toBe(false)
+      expect(group.subheadings.map(({ title }) => title)).toEqual(labels)
+    }
+    const links = flatten([components]).filter(
+      ({ isMenuLink }) => isMenuLink
+    )
+    const expectedPaths = pages
+      .filter(
+        ({ fields, frontmatter }) =>
+          fields.slug.startsWith('web/components/') &&
+          frontmatter.navigation &&
+          !frontmatter.navigation.hidden &&
+          frontmatter.route !== false &&
+          !frontmatter.draft
+      )
+      .map(({ fields }) => fields.slug)
+    expect(links.map(({ path }) => path).sort()).toEqual(
+      ['web/components', ...expectedPaths].sort()
+    )
+  })
+
+  it('uses readable component labels and matching page headings', () => {
+    const links = flatten(tree().sections[0].items).filter(
+      ({ isMenuLink }) => isMenuLink
+    )
+    for (const [slug, title] of [
+      ['date-picker', 'Date picker'],
+      ['input-masked', 'Masked input'],
+      ['country-flag', 'Country flags'],
+      ['icon', 'Icons'],
+      ['logo', 'Logos'],
+      ['number-format', 'Number format'],
+      ['skip-content', 'Skip content'],
+    ]) {
+      const path = 'web/components/' + slug
+      expect(links.find((item) => item.path === path)?.title).toBe(title)
+      const page = pages.find(({ fields }) => fields.slug === path)
+      expect(page.frontmatter.contentTitle || page.frontmatter.title).toBe(
+        title
+      )
+    }
+  })
+  it('uses readable element names without losing element pages', () => {
+    const elements = tree().sections[0].items.find(
+      ({ path }) => path === 'web/elements'
+    )
+    expect(elements.subheadings.map(({ title }) => title)).toEqual([
+      'Using HTML elements',
+      'Block quote',
+      'Code',
+      'Headings',
+      'Horizontal rule',
+      'Image',
+      'Introductory paragraph',
+      'Lead paragraph',
+      'Lists',
+      'Paragraph',
+      'Inline text (span)',
+    ])
+    for (const item of elements.subheadings.slice(1)) {
+      const page = pages.find(({ fields }) => fields.slug === item.path)
+      expect(page.frontmatter.contentTitle || page.frontmatter.title).toBe(
+        item.title
+      )
+    }
+    const horizontalRule = pages.find(
+      ({ fields }) => fields.slug === 'web/elements/horizontal-rule'
+    )
+    expect(horizontalRule.frontmatter.legacyFragments).toEqual({
+      horizontalrule: '/web/elements/horizontal-rule/#horizontal-rule',
+    })
+  })
+
+  it('preserves old component heading fragments through legacy routes', () => {
+    const page = pages.find(
+      ({ fields }) => fields.slug === 'web/components/date-picker'
+    )
+    expect(page.frontmatter.legacyFragments).toEqual({
+      datepicker: '/web/components/date-picker/#date-picker',
+    })
+    expect(getPageRedirects(files)).toContainEqual(
+      expect.objectContaining({
+        from: '/uilib/components/date-picker',
+        fragments: page.frontmatter.legacyFragments,
+      })
+    )
+  })
+
   it('rejects published titled pages without an explicit navigation definition', () => {
     const page: MdxNode = {
       fields: {
