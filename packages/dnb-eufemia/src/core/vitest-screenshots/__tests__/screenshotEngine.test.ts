@@ -52,6 +52,7 @@ const {
   resetPoolCleanedUp,
   takeScreenshot,
   hardResetPage,
+  ensureSession,
 } = _testing
 
 // ── helpers ──────────────────────────────────────────────────────────
@@ -82,6 +83,12 @@ const makeMockContext = () => ({
 // ── tests ────────────────────────────────────────────────────────────
 
 describe('hardResetPage', () => {
+  afterEach(() => {
+    browserSlots.length = 0
+    sessionToSlot.clear()
+    sessions.clear()
+  })
+
   it('periodically replaces pages to release resources from repeated reloads', async () => {
     const context = makeMockContext()
     const previousPage = {
@@ -131,6 +138,87 @@ describe('hardResetPage', () => {
     })
     expect(state.currentRootClassName).toBeNull()
     expect(state.mutationKind).toBe('none')
+  })
+
+  it('keeps the active session reserved while another worker starts a file', async () => {
+    const context = makeMockContext()
+    const previousPage = {
+      ...makeMockPage(),
+      context: () => context,
+      url: () => 'http://localhost:8000/demos/',
+    }
+    let whileClosingPage = async () => undefined
+    previousPage.close.mockImplementation(async () => {
+      previousPage.isClosed.mockReturnValue(true)
+      await whileClosingPage()
+    })
+    const state = {
+      page: previousPage,
+      vitestPage: makeMockPage(),
+      navigatedUrl: previousPage.url(),
+      mutationKind: 'structural',
+      currentRootClassName: null,
+    }
+    const activeSlot = {
+      browser: makeMockBrowser(),
+      context,
+      currentSessionId: 'active-session',
+      busy: false,
+    }
+    const freeSlot = {
+      browser: makeMockBrowser(),
+      context: makeMockContext(),
+      currentSessionId: null,
+      busy: false,
+    }
+    sessions.set('active-session', state as never)
+    browserSlots.push(activeSlot as never, freeSlot as never)
+    sessionToSlot.set('active-session', activeSlot as never)
+
+    for (let reset = 0; reset < 5; reset++) {
+      await hardResetPage(state as never, null, null)
+    }
+
+    const replacementPage = makeMockPage()
+    let finishCreatingPage: (page: typeof replacementPage) => void
+    let markCreatingPage: () => void
+    const creatingPage = new Promise<void>((resolve) => {
+      markCreatingPage = resolve
+    })
+    context.newPage.mockImplementationOnce(() => {
+      markCreatingPage()
+      return new Promise((resolve) => {
+        finishCreatingPage = resolve
+      })
+    })
+    const reset = hardResetPage(state as never, null, null)
+    await creatingPage
+    whileClosingPage = async () => {
+      await ensureSession('third-session', makeMockPage() as never)
+      expect(sessions.get('active-session')).toBe(state)
+      expect(context.close).not.toHaveBeenCalled()
+    }
+    browserSlots.push({
+      browser: makeMockBrowser(),
+      context: makeMockContext(),
+      currentSessionId: null,
+      busy: false,
+    } as never)
+
+    try {
+      await ensureSession('other-session', makeMockPage() as never)
+
+      expect(sessions.get('active-session')).toBe(state)
+      expect(sessionToSlot.get('active-session')).toBe(activeSlot)
+      expect(sessionToSlot.get('other-session')).toBe(freeSlot)
+      expect(context.close).not.toHaveBeenCalled()
+    } finally {
+      finishCreatingPage(replacementPage)
+      await reset
+    }
+
+    expect(state.page).toBe(replacementPage)
+    expect(previousPage.close).toHaveBeenCalledOnce()
   })
 })
 

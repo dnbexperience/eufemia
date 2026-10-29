@@ -892,11 +892,12 @@ const hardResetPage = async (
   const reloadCount = pageReloadCounts.get(state.page) ?? 0
   resetPageBootstrapMemo(state.page)
   if (reloadCount >= MAX_PAGE_RELOADS) {
-    const url = state.page.url()
-    const context = state.page.context()
-    await state.page.close()
-    // Bound reload resources without paying for a new page on every test.
-    state.page = await createScreenshotPage(context)
+    const previousPage = state.page
+    const url = previousPage.url()
+    // Keep a live page registered so another worker cannot evict this session.
+    const page = await createScreenshotPage(previousPage.context())
+    state.page = page
+    await previousPage.close()
     await applyPageSettings(state.page, pageViewport, headers)
     await state.page.goto(url, {
       waitUntil: config.waitUntil,
@@ -1912,6 +1913,7 @@ export const _testing = {
   cleanupBrowserPool,
   takeScreenshot,
   hardResetPage,
+  ensureSession,
   resetPoolCleanedUp: () => {
     poolCleanedUp = false
   },
