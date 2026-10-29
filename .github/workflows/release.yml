@@ -53,9 +53,10 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           persist-credentials: false
-          # The portal footer falls back to the latest reachable stable tag
-          # when a portal-only deployment does not produce an npm version.
+          # Release versions are resolved from the commit history and tags,
+          # which need no old file contents.
           fetch-depth: 0
+          filter: blob:none
 
       - name: Setup dependencies
         uses: ./.github/actions/setup
@@ -238,11 +239,12 @@ jobs:
       tarball: ${{ steps.pack.outputs.tarball }}
 
     steps:
+      # A shallow checkout is enough: semantic-release fetches the history and
+      # tags it needs.
       - name: Git checkout
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           persist-credentials: false
-          fetch-depth: 0
 
       - name: Use Node.js
         uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
