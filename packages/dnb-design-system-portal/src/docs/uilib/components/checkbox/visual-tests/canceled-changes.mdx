@@ -1,0 +1,25 @@
+---
+fullscreen: true
+hideInMenu: true
+search: false
+---
+
+import { VisuallyHidden } from '@dnb/eufemia/src'
+import { CheckboxCanceledChange } from 'Docs/uilib/components/checkbox/Examples'
+
+<VisuallyHidden element="h1">Checkbox: Canceled changes</VisuallyHidden>
+
+<CheckboxCanceledChange initialChecked={false} mode="onClick" />
+<CheckboxCanceledChange initialChecked={true} mode="onClick" />
+<CheckboxCanceledChange initialChecked={false} mode="readOnly" />
+<CheckboxCanceledChange initialChecked={true} mode="readOnly" />
+<CheckboxCanceledChange
+  initialChecked={false}
+  mode="onClick"
+  indeterminate
+/>
+<CheckboxCanceledChange
+  initialChecked={false}
+  mode="readOnly"
+  indeterminate
+/>
