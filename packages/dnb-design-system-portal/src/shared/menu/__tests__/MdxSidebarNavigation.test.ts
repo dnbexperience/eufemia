@@ -112,6 +112,27 @@ describe('MDX-defined Portal navigation', () => {
       )
     }
   })
+  it('aligns extension headings and keeps the Vipps button under Extensions', () => {
+    const links = flatten(tree().sections[0].items).filter(
+      ({ isMenuLink }) => isMenuLink
+    )
+    for (const [slug, title] of [
+      ['vipps-wallet-button', 'Vipps wallet button'],
+      ['payment-card', 'Payment card'],
+      ['sidebar-menu', 'Sidebar menu'],
+    ]) {
+      const path = 'web/extensions/' + slug
+      const page = pages.find(({ fields }) => fields.slug === path)
+      expect(page.frontmatter.title).toBe(title)
+      expect(links.filter((item) => item.path === path)).toHaveLength(1)
+      expect(links.find((item) => item.path === path)?.title).toBe(title)
+    }
+    const vipps = pages.find(
+      ({ fields }) => fields.slug === 'web/extensions/vipps-wallet-button'
+    )
+    expect(vipps.frontmatter.navigation.parent).toBe('web/extensions')
+  })
+
   it('uses readable element names without losing element pages', () => {
     const elements = tree().sections[0].items.find(
       ({ path }) => path === 'web/elements'
