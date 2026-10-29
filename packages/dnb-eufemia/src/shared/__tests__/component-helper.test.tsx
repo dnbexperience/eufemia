@@ -4,7 +4,7 @@
  */
 
 import type { RefObject } from 'react'
-import { render } from '@testing-library/react'
+import { fireEvent, render } from '@testing-library/react'
 
 import {
   extendDeep,
@@ -183,6 +183,26 @@ describe('"detectOutsideClick" should', () => {
 
     inside.remove()
     outside.remove()
+  })
+
+  it('detect a mousedown and an included key release on the document and body', () => {
+    const inside = document.createElement('BUTTON')
+    document.body.appendChild(inside)
+
+    const onSuccess = vi.fn()
+    const outsideClick = detectOutsideClick(inside, onSuccess, {
+      includedKeys: ['Tab'],
+    })
+
+    fireEvent.mouseDown(document)
+    fireEvent.keyUp(document, { key: 'Tab' })
+    fireEvent.keyUp(document.body, { key: 'Tab' })
+    fireEvent.keyUp(inside, { key: 'Tab' })
+
+    expect(onSuccess).toHaveBeenCalledTimes(3)
+
+    outsideClick.remove()
+    inside.remove()
   })
 
   it('should support react refs as ignore element', async () => {
