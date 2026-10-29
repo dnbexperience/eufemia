@@ -73,11 +73,9 @@ function latestStableRelease(tags) {
 }
 
 /**
- * The version of the checked-out code, for when `getNextReleaseVersion` returns
- * `null`. A commit with a release tag, or a release branch, is its latest
- * release, as nothing since warrants a new one. Code on any other branch is
- * unreleased, so the branch and commit are added as semver build metadata.
- * `null` when there are no release tags, as in a shallow clone.
+ * The version of the checked-out code when no release is due. A tagged commit or
+ * a release branch reports its latest release; other branches add the branch and
+ * commit as build metadata. `null` without release tags, as in a shallow clone.
  */
 function getCheckedOutVersion({ cwd = eufemiaRoot } = {}) {
   const releaseAtHead = latestStableRelease(
