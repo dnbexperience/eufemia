@@ -15,19 +15,21 @@ describe('Field.Name', () => {
     expect(screen.getByRole('textbox')).toBeInTheDocument()
   })
 
-  it('should have a default label linked to the input', () => {
+  it('should have a visible default label as its accessible name', () => {
     render(<Field.Name />)
 
     const label = document.querySelector('label')
     const input = document.querySelector('input')
     expect(label).toHaveTextContent(nb.Name.label)
-    expect(label).toHaveAttribute('for', input.id)
+    expect(input).toHaveAccessibleName(nb.Name.label)
   })
 
   it('should support a custom label', () => {
     render(<Field.Name label="Fullt navn" />)
 
-    expect(document.querySelector('label')).toHaveTextContent('Fullt navn')
+    expect(document.querySelector('input')).toHaveAccessibleName(
+      'Fullt navn'
+    )
   })
 
   it.each([
@@ -38,7 +40,7 @@ describe('Field.Name', () => {
     (_, Component, label) => {
       render(<Component />)
 
-      expect(document.querySelector('label')).toHaveTextContent(label)
+      expect(document.querySelector('input')).toHaveAccessibleName(label)
     }
   )
 
