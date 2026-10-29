@@ -137,3 +137,27 @@ test('preserves a bookmarked component title anchor after renaming', async ({
     page.getByRole('heading', { name: 'Date picker', exact: true })
   ).toBeVisible()
 })
+
+test('opens the Vipps wallet button from Extensions without changing its URL', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1440, height: 900 })
+  await page.goto('/web/components/button')
+  await waitForApp(page)
+  const menu = page.getByRole('navigation', {
+    name: 'Platform Content Menu',
+  })
+  await menu
+    .getByRole('button', { name: 'Extensions', exact: true })
+    .click()
+  await menu
+    .getByRole('link', { name: 'Vipps wallet button', exact: true })
+    .click()
+  await expect(page).toHaveURL('/web/extensions/vipps-wallet-button')
+  await expect(
+    page.getByRole('heading', { name: 'Vipps wallet button', exact: true })
+  ).toBeVisible()
+  await expect(
+    menu.getByRole('link', { name: 'Vipps wallet button', exact: true })
+  ).toHaveAttribute('aria-current', 'page')
+})
