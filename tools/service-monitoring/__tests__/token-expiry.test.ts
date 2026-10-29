@@ -98,6 +98,7 @@ async function runAlert(env: Record<string, string>) {
       globalThis.fetch = async (input, options) => {
         const url = new URL(input)
         if (url.hostname === 'hooks.slack.com') {
+          if (process.env.SLACK_UNREACHABLE) throw new TypeError('fetch failed: ' + url)
           process.stdout.write('SLACK ' + JSON.parse(options.body).text + '\\n')
           return new Response(process.env.SLACK_REPLY ?? 'ok')
         }
@@ -218,12 +219,15 @@ it('fails on every run when no webhook is set', async () => {
   })
 })
 
-it('fails without the webhook URL when Slack rejects the message', async () => {
+it.each([
+  ['rejects the message', { SLACK_REPLY: 'invalid_token' }],
+  ['cannot be reached', { SLACK_UNREACHABLE: 'true' }],
+])('fails without the webhook URL when Slack %s', async (_, slack) => {
   const run = runAlert({
     GHE_DEPLOY_PAT: 'expired',
     GHE_MONITORING_DEPLOY_PAT: 'valid',
     TOKEN_EXPIRY_WEBHOOK: webhook,
-    SLACK_REPLY: 'invalid_token',
+    ...slack,
   })
 
   await expect(run).rejects.toMatchObject({

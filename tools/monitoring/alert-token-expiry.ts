@@ -7,7 +7,7 @@ const ALERT_DAYS = [14, 7, 3, 1, 0]
 
 async function checkToken(
   name: string
-): Promise<Check & { daysLeft?: number; unreachable?: boolean }> {
+): Promise<Check & { daysLeft?: number; gheUnavailable?: boolean }> {
   const token = process.env[name]
   if (!token) {
     return { name, ok: false, detail: 'secret is not set' }
@@ -31,7 +31,7 @@ async function checkToken(
         name,
         ok: false,
         detail: `HTTP ${response.status} from GHE`,
-        unreachable: true,
+        gheUnavailable: true,
       }
     }
     const now = Date.now()
@@ -44,7 +44,7 @@ async function checkToken(
       name,
       ok: false,
       detail: 'GHE could not be reached',
-      unreachable: true,
+      gheUnavailable: true,
     }
   }
 }
@@ -70,7 +70,7 @@ async function main() {
     )
   }
 
-  // Other failures have no expiry date, so they alert every day.
+  // Failures without an expiry date (expired, missing secret, GHE unavailable) alert every day.
   const alerts = checks.filter(
     (check) =>
       !check.ok &&
@@ -88,7 +88,7 @@ async function main() {
       text: [
         'GHE access tokens need attention:',
         ...alerts.map((check) => `• ${check.name}: ${check.detail}`),
-        ...(alerts.every((check) => check.unreachable)
+        ...(alerts.every((check) => check.gheUnavailable)
           ? []
           : [
               `Update the secrets: ${process.env.GITHUB_SERVER_URL}/${process.env.GITHUB_REPOSITORY}/settings/secrets/actions`,
@@ -99,7 +99,7 @@ async function main() {
     signal: AbortSignal.timeout(15_000),
     redirect: 'error',
   }).catch(() => undefined)
-  if (!response?.ok || (await response.text()) !== 'ok') {
+  if ((await response?.text()) !== 'ok') {
     throw new Error('Slack notification could not be delivered')
   }
 }
