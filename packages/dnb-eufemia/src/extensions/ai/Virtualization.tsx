@@ -83,6 +83,11 @@ function VirtualizedConversation(
     mode?: string
   }>(null)
   const pendingTarget = useRef<string>(null)
+  const [navigation, setNavigation] = useState<{
+    id: string | null
+    behavior: ScrollBehavior
+  }>(null)
+  const [peek, setPeek] = useState(0)
   const frame = useRef(0)
   const focusFrame = useRef(0)
   const isServer = !useCanUseDOM()
@@ -131,12 +136,28 @@ function VirtualizedConversation(
     initialRect: { width: 0, height: 480 },
     overscan,
     rangeExtractor,
+    useAnimationFrameWithResizeObserver: true,
+    scrollPaddingStart:
+      items[metadata.indexes.get(pendingTarget.current)]?.from === 'user'
+        ? peek
+        : 0,
     anchorTo: 'end',
     followOnAppend: false,
     scrollEndThreshold: following.current ? 1 : -Infinity,
   })
   const latest = useRef({ items, metadata, virtualizer })
   latest.current = { items, metadata, virtualizer }
+  const measureRow = useCallback(
+    (element: HTMLDivElement | null) => {
+      // Measurements may flush React updates, so register after the ref commit.
+      queueMicrotask(() => {
+        if (!element || element.isConnected) {
+          virtualizer.measureElement(element)
+        }
+      })
+    },
+    [virtualizer]
+  )
   const api = useMemo<ConversationApi>(
     () => ({
       controls: {
@@ -145,17 +166,17 @@ function VirtualizedConversation(
           following.current = true
           pendingTarget.current = null
           setHasContentBelow(false)
-          const scroll = scrollRef.current
-          scroll?.scrollTo({ top: scroll.scrollHeight, behavior: 'auto' })
+          setNavigation({ id: null, behavior: navigationBehavior() })
         },
         scrollToStart: () => {
           userScrolling.current = false
           following.current = false
           pendingTarget.current = null
+          setNavigation(null)
           scrollRef.current?.scrollTo({ top: 0, behavior: 'auto' })
         },
         scrollToMessage: (messageId) => {
-          const { metadata, virtualizer } = latest.current
+          const { metadata } = latest.current
           const index = metadata.indexes.get(messageId)
           if (index === undefined) {
             return false
@@ -163,10 +184,7 @@ function VirtualizedConversation(
           following.current = false
           userScrolling.current = false
           pendingTarget.current = messageId
-          virtualizer.scrollToIndex(index, {
-            align: 'start',
-            behavior: 'auto',
-          })
+          setNavigation({ id: messageId, behavior: navigationBehavior() })
           return true
         },
       },
@@ -190,10 +208,89 @@ function VirtualizedConversation(
   const rangeStart = virtualizer.range?.startIndex
   const rangeEnd = virtualizer.range?.endIndex
   const scrollOffset = virtualizer.scrollOffset
+  const isScrolling = virtualizer.isScrolling
   const contentOffset =
     scrollBehavior === 'end' ? Math.max(0, viewportHeight - total) : 0
   const turnIndex = metadata.turns[metadata.turns.length - 1]
   const turnId = items[turnIndex]?.id
+  const navigationIndex = navigation?.id
+    ? metadata.indexes.get(navigation.id)
+    : undefined
+
+  useLayoutEffect(() => {
+    const scroll = scrollRef.current
+    const user = scroll?.querySelector<HTMLElement>(
+      '.dnb-ai-conversation__virtual-item--user'
+    )
+    setPeek(
+      user ? parseFloat(getComputedStyle(user).scrollMarginTop) || 0 : 0
+    )
+  }, [items, viewportHeight])
+
+  useLayoutEffect(() => {
+    const before = previous.current
+    const previousLastIndex =
+      before && !before.last ? -1 : metadata.indexes.get(before?.last)
+    if (previousLastIndex === undefined || prefersReducedMotion()) {
+      return
+    }
+    for (
+      let index = previousLastIndex + 1;
+      index < items.length;
+      index++
+    ) {
+      const element = scrollRef.current?.querySelector<HTMLElement>(
+        '[data-ai-message-id="' + CSS.escape(items[index].id) + '"] > *'
+      )
+      element?.animate?.([{ opacity: 0 }, { opacity: 1 }], {
+        duration: 300,
+        easing: 'ease-out',
+      })
+    }
+  }, [items, metadata])
+
+  useLayoutEffect(() => {
+    if (!navigation) {
+      return undefined
+    }
+    // Let measured rows commit before starting navigation.
+    const navigationFrame = requestAnimationFrame(() => {
+      if (navigation.id === null) {
+        virtualizer.scrollToEnd({ behavior: navigation.behavior })
+      } else if (navigationIndex !== undefined) {
+        virtualizer.scrollToIndex(navigationIndex, {
+          align: 'start',
+          behavior: navigation.behavior,
+        })
+      }
+    })
+    return () => cancelAnimationFrame(navigationFrame)
+  }, [navigation, navigationIndex, virtualizer, peek])
+
+  useLayoutEffect(() => {
+    if (!navigation || isScrolling) {
+      return
+    }
+    const scroll = scrollRef.current
+    const target =
+      navigation.id === null
+        ? scroll.scrollHeight - scroll.clientHeight
+        : navigationIndex === undefined
+          ? null
+          : virtualizer.getOffsetForIndex(navigationIndex, 'start')?.[0]
+    if (target == null || Math.abs(target - scroll.scrollTop) <= 1) {
+      setNavigation(null)
+    }
+  }, [
+    navigation,
+    navigationIndex,
+    virtualizer,
+    isScrolling,
+    scrollOffset,
+    total,
+    spacer,
+    peek,
+  ])
 
   const updateState = useCallback(() => {
     const scroll = scrollRef.current
@@ -271,6 +368,7 @@ function VirtualizedConversation(
     if (reset) {
       following.current = scrollBehavior === 'end'
       pendingTarget.current = null
+      setNavigation(null)
     }
     if (
       scrollBehavior === 'turn' &&
@@ -279,9 +377,9 @@ function VirtualizedConversation(
     ) {
       following.current = false
       pendingTarget.current = turnId
-      virtualizer.scrollToIndex(turnIndex, {
-        align: 'start',
-        behavior: 'auto',
+      setNavigation({
+        id: turnId,
+        behavior: before ? navigationBehavior() : 'auto',
       })
     }
     const turnOffset =
@@ -296,6 +394,10 @@ function VirtualizedConversation(
     previous.current = { first, last, turn: turnId, mode: scrollBehavior }
     cancelAnimationFrame(frame.current)
     frame.current = requestAnimationFrame(() => {
+      if (navigation) {
+        updateState()
+        return
+      }
       const target = pendingTarget.current
       if (target && metadata.indexes.has(target)) {
         const element = scroll.querySelector<HTMLElement>(
@@ -332,6 +434,7 @@ function VirtualizedConversation(
     rangeStart,
     rangeEnd,
     scrollOffset,
+    navigation,
   ])
 
   const rootProps = useSpacing(props, {
@@ -347,6 +450,10 @@ function VirtualizedConversation(
     cancelAnimationFrame(frame.current)
     userScrolling.current = true
     pendingTarget.current = null
+    setNavigation(null)
+    if (navigation) {
+      virtualizer.scrollToOffset(scrollRef.current.scrollTop)
+    }
   }
   return (
     <AiConversationContext.Provider value={api}>
@@ -414,7 +521,7 @@ function VirtualizedConversation(
               return (
                 <div
                   key={item.id}
-                  ref={virtualizer.measureElement}
+                  ref={measureRow}
                   data-index={row.index}
                   data-ai-message-id={item.id}
                   id={item.id}
@@ -437,8 +544,24 @@ function VirtualizedConversation(
                         : undefined,
                     transform: `translateY(${row.start + contentOffset}px)`,
                   }}
-                  onFocusCapture={() => {
+                  onFocusCapture={(event) => {
                     cancelAnimationFrame(focusFrame.current)
+                    handleUserScroll()
+                    following.current = false
+                    const scroll = scrollRef.current
+                    const viewport = scroll.getBoundingClientRect()
+                    const focused = (
+                      event.target as HTMLElement
+                    ).getBoundingClientRect()
+                    const adjustment =
+                      focused.top < viewport.top
+                        ? focused.top - viewport.top
+                        : focused.bottom > viewport.bottom
+                          ? focused.bottom - viewport.bottom
+                          : 0
+                    virtualizer.scrollToOffset(
+                      scroll.scrollTop + adjustment
+                    )
                     setFocusedId(item.id)
                   }}
                   onBlurCapture={() => {
@@ -485,3 +608,14 @@ function VirtualizedConversation(
 
 export const virtualizedConversation = createConversationVirtualization()
 export default createConversationVirtualization
+
+function prefersReducedMotion() {
+  return (
+    typeof window !== 'undefined' &&
+    window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
+  )
+}
+
+function navigationBehavior(): ScrollBehavior {
+  return prefersReducedMotion() ? 'auto' : 'smooth'
+}

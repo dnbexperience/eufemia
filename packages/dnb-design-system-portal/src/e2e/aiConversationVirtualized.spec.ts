@@ -6,6 +6,250 @@ test.beforeEach(async ({ page }) => {
   await waitForApp(page)
 })
 
+for (const mode of ['end', 'turn']) {
+  test(
+    'keeps backward keyboard focus visible in ' + mode + ' mode',
+    async ({ page, browserName }) => {
+      const demo = page.locator(
+        '[data-visual-test="ai-virtualized-conversation"]'
+      )
+      const log = demo.getByRole('log')
+      if (mode === 'turn') {
+        await demo
+          .getByRole('button', { name: 'Mode: end', exact: true })
+          .click()
+      }
+      if (mode === 'end') {
+        await demo
+          .getByRole('button', { name: 'Go to latest', exact: true })
+          .click()
+      }
+      const last = demo.getByRole('button', {
+        name: 'Action 999',
+        exact: true,
+      })
+      await last.focus()
+      for (let index = 998; index >= 980; index--) {
+        const action = demo.getByRole('button', {
+          name: 'Action ' + index,
+          exact: true,
+        })
+        if (browserName === 'webkit') {
+          // WebKit's native Tab order follows the macOS keyboard setting.
+          await action.focus()
+        } else {
+          await page.keyboard.press('Shift+Tab')
+        }
+        await expect(action).toBeFocused()
+        await expect
+          .poll(() =>
+            action.evaluate((element) => {
+              const viewport = element
+                .closest('[role="log"]')
+                .getBoundingClientRect()
+              const bounds = element.getBoundingClientRect()
+              return (
+                bounds.top >= viewport.top &&
+                bounds.bottom <= viewport.bottom
+              )
+            })
+          )
+          .toBe(true)
+      }
+      await demo
+        .getByRole('button', { name: 'Extend latest reply', exact: true })
+        .click()
+      await expect
+        .poll(() =>
+          demo
+            .getByRole('button', { name: 'Action 980', exact: true })
+            .evaluate((element) => {
+              const viewport = element
+                .closest('[role="log"]')
+                .getBoundingClientRect()
+              const rect = element.getBoundingClientRect()
+              return (
+                rect.top >= viewport.top && rect.bottom <= viewport.bottom
+              )
+            })
+        )
+        .toBe(true)
+      await expect(log).toHaveAttribute('aria-live', 'off')
+    }
+  )
+}
+
+test('uses smooth navigation unless reduced motion is requested', async ({
+  page,
+}) => {
+  const errors: string[] = []
+  page.on('pageerror', (error) => errors.push(error.message))
+  page.on('console', (message) => {
+    if (message.type() === 'error') {
+      errors.push(message.text())
+    }
+  })
+  const demo = page.locator(
+    '[data-visual-test="ai-virtualized-conversation"]'
+  )
+  const log = demo.getByRole('log')
+  await page.emulateMedia({ reducedMotion: 'no-preference' })
+  const scrolling = await log.evaluateHandle((element) => {
+    const calls: string[] = []
+    const positions: number[] = []
+    const original = element.scrollTo.bind(element)
+    element.scrollTo = (options: ScrollToOptions | number, y?: number) => {
+      if (typeof options === 'number') {
+        original(options, y)
+      } else {
+        calls.push(options.behavior)
+        original(options)
+      }
+    }
+    const record = () => positions.push(element.scrollTop)
+    element.addEventListener('scroll', record)
+    return { calls, positions }
+  })
+  await demo
+    .getByRole('button', { name: 'Go to message 100', exact: true })
+    .click()
+  await expect(demo.locator('#history-100')).toBeInViewport()
+  await expect
+    .poll(() =>
+      scrolling.evaluate(({ positions }) => new Set(positions).size)
+    )
+    .toBeGreaterThan(3)
+  expect(await scrolling.evaluate(({ calls }) => calls)).toContain(
+    'smooth'
+  )
+  await scrolling.evaluate(({ calls, positions }) => {
+    calls.length = 0
+    positions.length = 0
+  })
+  await demo
+    .getByRole('button', { name: 'Go to latest', exact: true })
+    .click()
+  await expect
+    .poll(() =>
+      log.evaluate(
+        (element) =>
+          element.scrollHeight - element.clientHeight - element.scrollTop
+      )
+    )
+    .toBeLessThan(3)
+  expect(await scrolling.evaluate(({ calls }) => calls)).toContain(
+    'smooth'
+  )
+  await demo
+    .getByRole('button', { name: 'Mode: end', exact: true })
+    .click()
+  await scrolling.evaluate(({ calls }) => {
+    calls.length = 0
+  })
+  await demo
+    .getByRole('button', { name: 'Append turn', exact: true })
+    .click()
+  await expect(demo.locator('#history-1000')).toBeInViewport()
+  expect(await scrolling.evaluate(({ calls }) => calls)).toContain(
+    'smooth'
+  )
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+  await scrolling.evaluate(({ calls }) => {
+    calls.length = 0
+  })
+  await demo
+    .getByRole('button', { name: 'Go to message 100', exact: true })
+    .click()
+  await expect(demo.locator('#history-100')).toBeInViewport()
+  expect(await scrolling.evaluate(({ calls }) => calls)).not.toContain(
+    'smooth'
+  )
+  await scrolling.dispose()
+  expect(errors).toEqual([])
+})
+
+test('lets user scrolling interrupt smooth navigation', async ({
+  page,
+}) => {
+  const demo = page.locator(
+    '[data-visual-test="ai-virtualized-conversation"]'
+  )
+  const log = demo.getByRole('log')
+  await demo
+    .getByRole('button', { name: 'Go to message 100', exact: true })
+    .click()
+  await log.hover()
+  await page.mouse.wheel(0, -80)
+  const targetOffset = () =>
+    log.evaluate((element) => {
+      const target = element.querySelector('#history-100')
+      return target
+        ? target.getBoundingClientRect().top -
+            element.getBoundingClientRect().top
+        : null
+    })
+  // Cross the virtualizer's idle interval to catch a restarted destination.
+  await page.waitForTimeout(300)
+  const offset = await targetOffset()
+  expect(offset === null || Math.abs(offset - 48) > 1).toBe(true)
+  const top = await log.evaluate((element) => element.scrollTop)
+  await page.waitForTimeout(300)
+  expect(await log.evaluate((element) => element.scrollTop)).toBeCloseTo(
+    top,
+    0
+  )
+})
+
+test('animates appended messages without animating recycled history', async ({
+  page,
+}) => {
+  const demo = page.locator(
+    '[data-visual-test="ai-virtualized-conversation"]'
+  )
+  await page.emulateMedia({ reducedMotion: 'no-preference' })
+  const animations = await demo.evaluateHandle((element) => {
+    const appended: string[] = []
+    const animate = Element.prototype.animate
+    Element.prototype.animate = function (...args) {
+      const id = this.closest('[data-ai-message-id]')?.id
+      if (id) {
+        appended.push(id)
+      }
+      return animate.apply(this, args)
+    }
+    return {
+      appended,
+      restore: () => {
+        Element.prototype.animate = animate
+      },
+    }
+  })
+  await demo
+    .getByRole('button', { name: 'Append turn', exact: true })
+    .click()
+  expect(await animations.evaluate(({ appended }) => appended)).toEqual([
+    'history-1000',
+    'history-1001',
+  ])
+  await demo
+    .getByRole('button', { name: 'Go to message 100', exact: true })
+    .click()
+  await expect(demo.locator('#history-100')).toBeInViewport()
+  expect(await animations.evaluate(({ appended }) => appended)).toEqual([
+    'history-1000',
+    'history-1001',
+  ])
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+  await demo
+    .getByRole('button', { name: 'Append turn', exact: true })
+    .click()
+  expect(
+    await animations.evaluate(({ appended }) => appended)
+  ).toHaveLength(2)
+  await animations.evaluate(({ restore }) => restore())
+  await animations.dispose()
+})
+
 test('preserves the regular message gap with and without virtualization', async ({
   page,
 }) => {
