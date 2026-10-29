@@ -19,6 +19,8 @@ function isUsageRecord(value: unknown): value is WebMcpUsageRecord {
     typeof record.path === 'string' &&
     typeof record.env === 'string' &&
     record.transport === 'web' &&
+    (record.eufemia_version === undefined ||
+      typeof record.eufemia_version === 'string') &&
     typeof record.timestamp === 'string' &&
     typeof record.created_at === 'string'
   )

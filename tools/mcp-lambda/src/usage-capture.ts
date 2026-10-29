@@ -11,13 +11,16 @@ const ENQUEUE_TIMEOUT_MS = 1_000
 
 /**
  * Queue anonymous MCP usage (which tool, plus a component or doc path that
- * exists in the docs) from the request body. Best-effort and bounded: any
- * failure is logged and swallowed so usage capture cannot consume the Lambda's
- * full timeout.
+ * exists in the docs) from the request body, stamped with the Eufemia version
+ * of the served docs. Best-effort and bounded: any failure is logged and
+ * swallowed so usage capture cannot consume the Lambda's full timeout.
  */
 export async function captureUsage(
   event: APIGatewayProxyEventV2,
-  resolver: UsageResolver
+  {
+    resolver,
+    eufemiaVersion,
+  }: { resolver: UsageResolver; eufemiaVersion: string }
 ): Promise<void> {
   const queueUrl = process.env.USAGE_QUEUE_URL
   if (!queueUrl || event.body == null) {
@@ -38,7 +41,12 @@ export async function captureUsage(
     await sqs.send(
       new SendMessageCommand({
         QueueUrl: queueUrl,
-        MessageBody: JSON.stringify(records),
+        MessageBody: JSON.stringify(
+          records.map((record) => ({
+            ...record,
+            eufemia_version: eufemiaVersion,
+          }))
+        ),
       }),
       { abortSignal: AbortSignal.timeout(ENQUEUE_TIMEOUT_MS) }
     )

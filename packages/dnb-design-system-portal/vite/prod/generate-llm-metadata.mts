@@ -12,7 +12,7 @@
 
 import path from 'path'
 import { fileURLToPath } from 'url'
-import { getNextReleaseVersion } from 'eufemia-llm-metadata/src/getNextReleaseVersion.ts'
+import { getDocsVersion } from 'eufemia-llm-metadata/src/docsVersion.ts'
 import {
   buildMetadata,
   createMarkdownCopies,
@@ -41,7 +41,7 @@ async function main() {
   resetUnhandledStandaloneMdxWarnings()
   console.log('[llm-metadata] Scanning MDX docs for entries')
 
-  const version = await getNextReleaseVersion()
+  const version = await getDocsVersion()
   const robots = await loadRobots(path.join(portalRoot, 'static'))
   const entryFiles = await findEntryMdxFiles(docsRoot)
   const allowedEntryFiles: string[] = []

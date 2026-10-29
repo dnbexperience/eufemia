@@ -63,6 +63,57 @@ async function getNextReleaseVersion({ cwd = eufemiaRoot } = {}) {
   return resolveNextReleaseVersion(cwd)
 }
 
+const STABLE_RELEASE_TAG = /^v(\d+\.\d+\.\d+)$/
+
+function latestStableRelease(tags) {
+  return tags
+    .split('\n')
+    .map((tag) => STABLE_RELEASE_TAG.exec(tag)?.[1])
+    .find(Boolean)
+}
+
+/**
+ * The version of the checked-out code when no release is due. A tagged commit or
+ * a release branch reports its latest release; other branches add the branch and
+ * commit as build metadata. `null` without release tags, as in a shallow clone.
+ */
+function getCheckedOutVersion({ cwd = eufemiaRoot } = {}) {
+  const releaseAtHead = latestStableRelease(
+    git(cwd, ['tag', '--points-at', 'HEAD', '--sort=-v:refname'])
+  )
+
+  if (releaseAtHead) {
+    return releaseAtHead
+  }
+
+  const branchName = git(cwd, ['rev-parse', '--abbrev-ref', 'HEAD'])
+  const onReleaseBranch = isReleaseBranch(branchName, { cwd })
+
+  // A maintenance branch reports its own line, not the newest release
+  const latestRelease = latestStableRelease(
+    git(cwd, [
+      'tag',
+      '--list',
+      'v*',
+      '--sort=-v:refname',
+      ...(onReleaseBranch ? ['--merged', 'HEAD'] : []),
+    ])
+  )
+
+  if (!latestRelease) {
+    return null
+  }
+
+  if (onReleaseBranch) {
+    return latestRelease
+  }
+
+  const buildBranch = branchName.replace(/[^0-9A-Za-z-]/g, '-')
+  const commit = git(cwd, ['rev-parse', '--short', 'HEAD'])
+
+  return `${latestRelease}+${buildBranch}.${commit}`
+}
+
 /**
  * semantic-release derives the version from the commits, but a regular run also
  * verifies the npm and GitHub credentials it would publish with – and the
@@ -251,3 +302,4 @@ function createLogCapture() {
 
 exports.isReleaseBranch = isReleaseBranch
 exports.getNextReleaseVersion = getNextReleaseVersion
+exports.getCheckedOutVersion = getCheckedOutVersion

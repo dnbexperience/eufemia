@@ -14,6 +14,7 @@ import {
   extractTitleFromMdx,
   formatUnhandledStandaloneMdxWarnings,
   findUnhandledStandaloneMdxComponents,
+  findSourceInfo,
   loadTsDocsForDocPath,
   recordUnhandledStandaloneMdxWarning,
   resetUnhandledStandaloneMdxWarnings,
@@ -1341,5 +1342,26 @@ describe('frontmatter metadata', () => {
     expect(await extractDescriptionFromMdx(mdxPath)).toBe(
       'Use Button to start an action.'
     )
+  })
+})
+
+describe('findSourceInfo', () => {
+  it.each([
+    ['11.16.0', 'v11.16.0'],
+    ['11.16.0+main.4c04cde', 'main'],
+    ['0.0.0-development', 'main'],
+  ])('links the source of version %s to %s', async (version, ref) => {
+    const tsDocsDir = fs.mkdtempSync(
+      path.join(os.tmpdir(), 'source-info-')
+    )
+    fs.writeFileSync(path.join(tsDocsDir, 'index.ts'), '')
+
+    const info = await findSourceInfo({
+      tsDocsDir,
+      name: 'Button',
+      version,
+    })
+
+    expect(info?.fileUrl).toContain(`/blob/${ref}/`)
   })
 })

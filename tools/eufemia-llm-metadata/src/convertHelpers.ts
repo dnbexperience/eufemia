@@ -830,10 +830,7 @@ export async function findSourceInfo({
       .relative(repoRoot, fileAbs)
       .replace(/\\/g, '/')
     const dirRepoPath = path.posix.dirname(fileRepoPath)
-    const tag =
-      /^\d+/.test(String(version)) && !version.includes('-')
-        ? `v${version}`
-        : 'main'
+    const tag = /^\d+\.\d+\.\d+$/.test(version) ? `v${version}` : 'main'
     const fileUrl = `${REPO_URL}/blob/${tag}/${fileRepoPath}`
     const dirUrl = `${REPO_URL}/tree/${tag}/${dirRepoPath}`
 
