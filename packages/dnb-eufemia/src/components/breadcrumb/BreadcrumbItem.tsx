@@ -31,8 +31,7 @@ export type BreadcrumbItemProps = {
   text?: ReactNode
 
   /**
-   * Icon displaying on the left side
-   * Default: `HomeIcon / chevron_right`
+   * The icon shown before the item text. Keep the default navigation icons for consistency. Overrides need a use case approved by DNB UX. Non-home items use `chevron_right` by default; `variant="home"` always uses the home icon.
    */
   icon?: IconIcon
 
