@@ -14,7 +14,7 @@ function DateOfBirth(props: ValueDateOfBirthProps) {
 
   const dateValueProps: ValueDateOfBirthProps = {
     ...otherProps,
-    label: props.label ?? translations.label,
+    defaultLabel: props.defaultLabel ?? translations.label,
     dateFormat,
   }
   return <DateComponent {...dateValueProps} />

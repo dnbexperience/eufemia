@@ -568,6 +568,11 @@ interface ValuePropsInterface<
   inheritLabel?: boolean
 
   /**
+   * Label to show when no `label` is given and none is inherited with `inheritLabel`.
+   */
+  defaultLabel?: ReactNode
+
+  /**
    * Use `true` to inherit the visibility from a field with the same path.
    */
   inheritVisibility?: boolean

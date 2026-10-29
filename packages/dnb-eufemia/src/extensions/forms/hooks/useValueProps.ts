@@ -91,11 +91,14 @@ export default function useValueProps<Value = unknown, Props = unknown>(
     ? transformIn(toInput(externalValue))
     : undefined
 
+  const { defaultLabel, ...rest } = props
+
   const label =
     props.label ??
     (inheritLabel
       ? fieldInternalsRef?.current?.[path]?.props?.label
-      : undefined)
+      : undefined) ??
+    defaultLabel
 
-  return { ...props, label, value } as typeof props
+  return { ...rest, label, value } as typeof props
 }

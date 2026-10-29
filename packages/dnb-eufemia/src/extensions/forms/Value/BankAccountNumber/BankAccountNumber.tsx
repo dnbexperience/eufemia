@@ -36,9 +36,9 @@ function BankAccountNumber(props: ValueBankAccountNumberProps) {
     [bankAccountType]
   )
 
-  const label = useMemo(() => {
-    if (restProps.label !== undefined) {
-      return restProps.label
+  const defaultLabel = useMemo(() => {
+    if (restProps.defaultLabel !== undefined) {
+      return restProps.defaultLabel
     }
 
     if (restProps.inline) {
@@ -57,11 +57,16 @@ function BankAccountNumber(props: ValueBankAccountNumberProps) {
       default:
         return translations.label
     }
-  }, [restProps.label, restProps.inline, bankAccountType, translations])
+  }, [
+    restProps.defaultLabel,
+    restProps.inline,
+    bankAccountType,
+    translations,
+  ])
 
   const stringValueProps: ValueBankAccountNumberProps = {
     ...restProps,
-    label,
+    defaultLabel,
     toInput,
   }
   return <StringValue {...stringValueProps} />

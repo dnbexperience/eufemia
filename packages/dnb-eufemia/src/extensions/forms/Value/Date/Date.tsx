@@ -60,7 +60,7 @@ function DateComponent(props: ValueDateProps) {
 
   const stringProps: ValueDateProps = {
     ...props,
-    label: props.label ?? translations.label,
+    defaultLabel: props.defaultLabel ?? translations.label,
     toInput,
   }
   return <StringValue {...stringProps} />
