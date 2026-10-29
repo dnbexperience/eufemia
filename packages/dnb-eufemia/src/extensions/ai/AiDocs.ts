@@ -400,6 +400,16 @@ export const AiConversationProperties: PropertiesTableProps = {
     type: 'React.ReactNode',
     status: 'optional',
   },
+  items: {
+    doc: 'Data-driven messages with stable unique IDs, optional `from` and `keepMounted`, and a `render` callback. Takes precedence over children. The wrapper owns the DOM ID.',
+    type: 'Array<AiConversationItem>',
+    status: 'optional',
+  },
+  renderDriver: {
+    doc: 'Opt-in rendering driver. Import `createConversationVirtualization` separately from `@dnb/eufemia/extensions/ai/Virtualization`. Requires items. The virtualized log leaves announcements to the application.',
+    type: 'AiConversationDriver',
+    status: 'optional',
+  },
   '[Space](/uilib/layout/space/properties)': {
     doc: 'Spacing properties like `top` or `bottom` are supported.',
     type: ['string', 'object'],

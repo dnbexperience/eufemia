@@ -1,5 +1,6 @@
 import type {
   ButtonHTMLAttributes,
+  ComponentType,
   ElementType,
   FormEvent,
   HTMLAttributes,
@@ -270,6 +271,26 @@ export type AiWelcomeProps = {
 } & SpacingProps &
   Omit<HTMLAttributes<HTMLDivElement>, 'title'>
 
+export type AiConversationItem = {
+  /** Stable unique message ID, also used by scrollToMessage. */
+  id: string
+  /** Marks the start of a user turn. */
+  from?: 'user' | 'assistant'
+  /** Renders the message or composed content when mounted. */
+  render: () => ReactNode
+  /** Keeps stateful content mounted even outside the viewport. */
+  keepMounted?: boolean
+}
+
+export type AiConversationDriverProps = Omit<
+  AiConversationProps,
+  'renderDriver'
+>
+
+export type AiConversationDriver = {
+  Renderer: ComponentType<AiConversationDriverProps>
+}
+
 export type AiConversationProps = {
   /** Label of the conversation for screen readers. Defaults to a translated text. */
   label?: string
@@ -280,6 +301,14 @@ export type AiConversationProps = {
   scrollBehavior?: 'turn' | 'end'
   /** Identifier used to scroll the conversation from elsewhere with `Ai.useConversation(id)`. */
   id?: string
+  /**
+   * Data-driven messages with stable unique IDs, optional `from` and `keepMounted`, and a `render` callback. Takes precedence over children. The wrapper owns the DOM ID.
+   */
+  items?: Array<AiConversationItem>
+  /**
+   * Opt-in rendering driver. Import `createConversationVirtualization` separately from `@dnb/eufemia/extensions/ai/Virtualization`. Requires items. The virtualized log leaves announcements to the application.
+   */
+  renderDriver?: AiConversationDriver
   /** The messages of the conversation. */
   children?: ReactNode
 } & SpacingProps &
