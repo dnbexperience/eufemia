@@ -43,7 +43,7 @@ import blazediff from '@blazediff/core'
 import { mkdtemp, readFile, rm, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import { PNG } from 'pngjs'
+import { PNG, type PNGWithMetadata } from 'pngjs'
 import { _testing } from '../commands/screenshotEngine'
 
 const {
@@ -805,12 +805,12 @@ describe('diffAndPersist in update mode', () => {
           width: 100,
           height: 100,
           data: Buffer.alloc(0),
-        } as PNG)
+        } as PNGWithMetadata)
         .mockReturnValueOnce({
           width,
           height,
           data: Buffer.alloc(0),
-        } as PNG)
+        } as PNGWithMetadata)
 
       const result = await diffAndPersist(
         makePayload(snapshotPath, true),
