@@ -1,4 +1,4 @@
-import { readFileSync } from 'node:fs'
+import { existsSync, readFileSync } from 'node:fs'
 import path from 'node:path'
 
 const packageRoot = path.resolve(__dirname, '../../..')
@@ -49,10 +49,13 @@ describe.each([
       expect(hasSideEffects(`${prefix}${file}`)).toBe(true)
     })
 
-    it.each(['shared/component-helper.js', 'shared/helpers/whatInput.js'])(
+    it.each(['shared/component-helper', 'shared/helpers/whatInput'])(
       'preserves the import-time setup in %s',
       (file) => {
-        expect(hasSideEffects(`${prefix}${file}`)).toBe(true)
+        expect(existsSync(path.join(packageRoot, `src/${file}.ts`))).toBe(
+          true
+        )
+        expect(hasSideEffects(`${prefix}${file}.js`)).toBe(true)
       }
     )
 
