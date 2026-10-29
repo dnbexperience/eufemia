@@ -1734,20 +1734,30 @@ async function performScreenshot(
 
 // ── snapshot pipeline ────────────────────────────────────────────────
 
+/**
+ * Writes the screenshot and removes the diff and actual images a previous
+ * mismatch may have left behind.
+ */
+async function updateScreenshot(
+  payload: MakeScreenshotPayload,
+  actualBytes: Buffer,
+  status: 'created' | 'updated'
+): Promise<MakeScreenshotResult> {
+  await writeFile(payload.snapshotPath, actualBytes)
+  await removeIfExists(payload.diffPath)
+  await removeIfExists(payload.actualPath)
+
+  return { status, snapshotPath: payload.snapshotPath }
+}
+
 async function diffAndPersist(
   payload: MakeScreenshotPayload,
   actualBytes: Buffer
 ): Promise<MakeScreenshotResult> {
   const reference = await readFileIfExists(payload.snapshotPath)
 
-  if (!reference || payload.update) {
-    await writeFile(payload.snapshotPath, actualBytes)
-    await removeIfExists(payload.diffPath)
-    await removeIfExists(payload.actualPath)
-    return {
-      status: reference ? 'updated' : 'created',
-      snapshotPath: payload.snapshotPath,
-    }
+  if (!reference) {
+    return updateScreenshot(payload, actualBytes, 'created')
   }
 
   // Decode both PNGs in scoped variables so we can null them out as
@@ -1762,6 +1772,16 @@ async function diffAndPersist(
   const actHeight = actualPng.height
 
   if (refWidth !== actWidth || refHeight !== actHeight) {
+    if (payload.update) {
+      // Help V8 reclaim memory before return
+      // eslint-disable-next-line no-useless-assignment
+      referencePng = null
+      // eslint-disable-next-line no-useless-assignment
+      actualPng = null
+
+      return updateScreenshot(payload, actualBytes, 'updated')
+    }
+
     let diff: PNG | null = createSizeMismatchDiff(referencePng, actualPng)
     await writeFile(payload.actualPath, actualBytes)
     await writeFile(payload.diffPath, PNG.sync.write(diff))
@@ -1807,6 +1827,18 @@ async function diffAndPersist(
   const ratio = totalPixels === 0 ? 0 : diffPixels / totalPixels
 
   if (ratio > payload.allowedMismatchedPixelRatio) {
+    if (payload.update) {
+      // Help V8 reclaim memory before return
+      // eslint-disable-next-line no-useless-assignment
+      referencePng = null
+      // eslint-disable-next-line no-useless-assignment
+      actualPng = null
+      // eslint-disable-next-line no-useless-assignment
+      diff = null
+
+      return updateScreenshot(payload, actualBytes, 'updated')
+    }
+
     await writeFile(payload.actualPath, actualBytes)
     await writeFile(payload.diffPath, PNG.sync.write(diff))
     recordFailure({
@@ -1917,6 +1949,7 @@ export const makeScreenshot = defineBrowserCommand<
 export const _testing = {
   buildUrl,
   applyScreenshotColorScheme,
+  diffAndPersist,
   sessions,
   browserSlots,
   sessionToSlot,
