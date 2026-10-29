@@ -174,7 +174,7 @@
     "@eslint/compat": "2.1.0",
     "@eslint/eslintrc": "3.3.5",
     "@eslint/js": "10.0.1",
-    "@modelcontextprotocol/node": "2.1.1",
+    "@modelcontextprotocol/node": "2.1.2",
     "@modelcontextprotocol/server": "2.4.0",
     "@modelcontextprotocol/server-legacy": "2.4.0",
     "@playwright/test": "1.65.0-alpha-2026-10-24",
