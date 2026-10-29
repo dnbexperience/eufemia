@@ -20,6 +20,7 @@ for (const path of [
   '/uilib/extensions/forms/Wizard/useStep/demos/',
   '/uilib/components/list/visual-tests/action-footer/',
   '/uilib/components/list/visual-tests/text-layout/',
+  '/uilib/components/filter/visual-tests/panel-actions/',
 ]) {
   test(`landmarks have distinguishable names on ${path}`, async ({
     page,
