@@ -43,6 +43,7 @@ import blazediff from '@blazediff/core'
 import { mkdtemp, readFile, rm, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
+import { PNG } from 'pngjs'
 import { _testing } from '../commands/screenshotEngine'
 
 const {
@@ -737,7 +738,11 @@ describe('cleanupBrowserPool', () => {
 })
 
 describe('diffAndPersist in update mode', () => {
-  const makePayload = (snapshotPath: string, update: boolean) =>
+  const makePayload = (
+    snapshotPath: string,
+    update: boolean,
+    allowedMismatchedPixelRatio = 0
+  ) =>
     ({
       snapshotPath,
       diffPath: `${snapshotPath}.diff.png`,
@@ -745,7 +750,7 @@ describe('diffAndPersist in update mode', () => {
       htmlDumpPath: `${snapshotPath}.html`,
       testFilePath: 'Button.screenshot.test.ts',
       fullName: 'Button looks the same',
-      allowedMismatchedPixelRatio: 0.01,
+      allowedMismatchedPixelRatio,
       update,
     }) as never
 
@@ -760,6 +765,63 @@ describe('diffAndPersist in update mode', () => {
     await rm(directory, { recursive: true, force: true })
   })
 
+  it('leaves the snapshot untouched when no pixels differ and the allowance is zero', async () => {
+    const snapshotPath = join(directory, 'button.snap.png')
+    await writeFile(snapshotPath, Buffer.from('reference'))
+
+    const result = await diffAndPersist(
+      makePayload(snapshotPath, true),
+      Buffer.from('actual')
+    )
+
+    expect(result).toEqual({ status: 'match' })
+    expect(await readFile(snapshotPath, 'utf-8')).toBe('reference')
+  })
+
+  it('writes the snapshot when one pixel differs and the allowance is zero', async () => {
+    const snapshotPath = join(directory, 'button.snap.png')
+    await writeFile(snapshotPath, Buffer.from('reference'))
+    vi.mocked(blazediff).mockReturnValue(1)
+
+    const result = await diffAndPersist(
+      makePayload(snapshotPath, true),
+      Buffer.from('actual')
+    )
+
+    expect(result).toEqual({ status: 'updated', snapshotPath })
+    expect(await readFile(snapshotPath, 'utf-8')).toBe('actual')
+  })
+
+  it.each([
+    { width: 101, height: 100 },
+    { width: 100, height: 101 },
+  ])(
+    'writes the snapshot when its dimensions change to $width x $height',
+    async ({ width, height }) => {
+      const snapshotPath = join(directory, 'button.snap.png')
+      await writeFile(snapshotPath, Buffer.from('reference'))
+      vi.mocked(PNG.sync.read)
+        .mockReturnValueOnce({
+          width: 100,
+          height: 100,
+          data: Buffer.alloc(0),
+        } as PNG)
+        .mockReturnValueOnce({
+          width,
+          height,
+          data: Buffer.alloc(0),
+        } as PNG)
+
+      const result = await diffAndPersist(
+        makePayload(snapshotPath, true),
+        Buffer.from('actual')
+      )
+
+      expect(result).toEqual({ status: 'updated', snapshotPath })
+      expect(await readFile(snapshotPath, 'utf-8')).toBe('actual')
+    }
+  )
+
   it('leaves the snapshot untouched when the difference is below the threshold', async () => {
     const snapshotPath = join(directory, 'button.snap.png')
     await writeFile(snapshotPath, Buffer.from('reference'))
@@ -768,7 +830,7 @@ describe('diffAndPersist in update mode', () => {
     vi.mocked(blazediff).mockReturnValue(50)
 
     const result = await diffAndPersist(
-      makePayload(snapshotPath, true),
+      makePayload(snapshotPath, true, 0.01),
       Buffer.from('actual')
     )
 
@@ -784,7 +846,7 @@ describe('diffAndPersist in update mode', () => {
     vi.mocked(blazediff).mockReturnValue(500)
 
     const result = await diffAndPersist(
-      makePayload(snapshotPath, true),
+      makePayload(snapshotPath, true, 0.01),
       Buffer.from('actual')
     )
 
