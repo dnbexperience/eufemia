@@ -86,7 +86,5 @@
 
 .neutral {
   --status-icon-color: var(--token-color-text-neutral);
-  --status-icon-background: var(
-    --token-color-background-neutral-alternative
-  );
+  --status-icon-background: var(--token-color-background-neutral-base);
 }

@@ -33,7 +33,7 @@ Map product-specific states to the closest semantic status. The icon and visible
 | Positive        | `--token-color-background-positive`     | `--token-color-text-neutral-inverse` | Operational, completed     |
 | Warning         | `--token-color-background-warning`      | `--token-color-text-neutral-onlight` | Degraded, delayed          |
 | Negative        | `--token-color-background-error`        | `--token-color-text-neutral-ondark`  | Partial or complete outage |
-| Neutral         | `--token-color-background-neutral-bold` | `--token-color-text-neutral`         | Maintenance, unknown       |
+| Neutral         | `--token-color-background-neutral-base` | `--token-color-text-neutral`         | Maintenance, unknown       |
 
 The semantic tokens adapt to supported dark color schemes. Follow the existing [Dark mode guide](/uilib/usage/customisation/theming/design-tokens/dark-mode) for application setup. This pattern needs no media queries or dark mode overrides.
 
@@ -128,7 +128,7 @@ If the application already configures `Theme` and imports its dark token stylesh
 
 .status__icon--neutral {
   --status-icon-color: var(--token-color-text-neutral);
-  --status-icon-background: var(--token-color-background-neutral-bold);
+  --status-icon-background: var(--token-color-background-neutral-base);
 }
 ```
 
