@@ -11,6 +11,50 @@ vi.mock('prettier', () => ({
 import { createMarkdownCopies } from '../../src/convertHelpers.ts'
 
 describe('createMarkdownCopies', () => {
+  it('marks every generated AI page once, including appended properties and events', async () => {
+    const root = fs.mkdtempSync(path.join(os.tmpdir(), 'llm-ai-notice-'))
+    const docsRoot = path.join(root, 'docs')
+    const outputRoot = path.join(root, 'out')
+    const routes = [
+      'uilib/extensions/ai.mdx',
+      'uilib/extensions/ai/Message.mdx',
+      'uilib/extensions/ai/Message/info.mdx',
+      'uilib/extensions/ai/Message/properties.mdx',
+      'uilib/extensions/ai/Message/events.mdx',
+      'uilib/extensions/ai/Message/demos.mdx',
+      'uilib/extensions/ai/integrations.mdx',
+      'uilib/components/button.mdx',
+    ]
+    for (const route of routes) {
+      const inputPath = path.join(docsRoot, route)
+      fs.mkdirSync(path.dirname(inputPath), { recursive: true })
+      fs.writeFileSync(
+        inputPath,
+        '---\ntitle: Example\n---\n\nPage content.'
+      )
+    }
+    try {
+      await createMarkdownCopies({
+        siteDir: root,
+        docsRoot,
+        outputRoot,
+        slugBase: '',
+        entryFiles: routes.map((route) => path.join(docsRoot, route)),
+      })
+      for (const route of routes) {
+        const output = fs.readFileSync(
+          path.join(outputRoot, route.replace('.mdx', '.md')),
+          'utf-8'
+        )
+        expect(output.match(/\*\*Experimental:\*\*/g) || []).toHaveLength(
+          route.includes('/ai') ? 1 : 0
+        )
+      }
+    } finally {
+      fs.rmSync(root, { recursive: true, force: true })
+    }
+  })
+
   it('appends properties and events markdown to output', async () => {
     const tmpRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'llm-md-'))
     const docsRoot = path.join(tmpRoot, 'docs')
