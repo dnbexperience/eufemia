@@ -1,0 +1,49 @@
+/*
+ * GuidedTour extension
+ *
+ */
+
+.dnb-guided-tour {
+  &__overlay {
+    // Same as the Modal overlay, as there is no overlay token
+    --guided-tour-overlay-bg: rgb(0 0 0 / 32%);
+
+    position: fixed;
+    z-index: var(--z-index-modal);
+    inset: 0;
+
+    .eufemia-theme__color-scheme--dark & {
+      --guided-tour-overlay-bg: rgb(0 0 0 / 48%);
+    }
+  }
+
+  &__spotlight {
+    position: fixed;
+
+    border-radius: var(--token-radius-md);
+    outline: 0.125rem solid var(--token-color-stroke-action);
+    box-shadow: 0 0 0 100vmax var(--guided-tour-overlay-bg);
+
+    // No target: a point the step is placed at, dimming the whole page
+    &--centered {
+      top: 35%;
+      left: 50%;
+
+      outline: none;
+    }
+  }
+
+  &__popover-portal {
+    --popover-z-index: calc(var(--z-index-modal) + 10);
+  }
+
+  // Fill the Popover, so the buttons align to the right also for short content
+  &__popover-content {
+    flex-grow: 1;
+  }
+
+  &__progress {
+    color: var(--token-color-text-neutral-alternative);
+    white-space: nowrap;
+  }
+}
