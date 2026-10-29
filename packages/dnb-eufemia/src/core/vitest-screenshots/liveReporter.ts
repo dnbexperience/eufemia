@@ -27,7 +27,7 @@ import type {
 } from 'vitest/node'
 import { drainNavigations } from './failures'
 
-const require = createRequire(import.meta.url)
+const require = createRequire(__filename)
 
 const COLORS = {
   reset: '\x1b[0m',
