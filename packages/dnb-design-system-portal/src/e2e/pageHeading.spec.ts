@@ -1,5 +1,24 @@
 import { test, expect } from '@playwright/test'
+import { AxeBuilder } from '@axe-core/playwright'
 import waitForApp from './shared/waitForApp'
+
+for (const path of [
+  '/uilib/elements/heading/',
+  '/uilib/elements/heading/demos/',
+]) {
+  test(`heading levels only increase by one on ${path}`, async ({
+    page,
+  }) => {
+    await page.goto(path)
+    await waitForApp(page)
+
+    const result = await new AxeBuilder({ page })
+      .withRules(['heading-order'])
+      .analyze()
+
+    expect(result.violations).toEqual([])
+  })
+}
 
 test.describe('Page Heading', () => {
   test.beforeEach(async ({ page }) => {
