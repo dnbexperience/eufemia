@@ -103,8 +103,11 @@ jobs:
           node vite/prod/generate-accessibility-sitemap.mts \
             ../../portal-deployed-source/packages/dnb-design-system-portal/src/docs
 
-      - name: Install Chromium
-        run: yarn workspace dnb-design-system-portal playwright install --with-deps chromium
+      - name: Setup Playwright
+        uses: ./.github/actions/setup-playwright
+        with:
+          browsers: chromium
+          cache-version: ${{ secrets.CACHE_VERSION }}
 
       - name: Test hydration scanner and reporting
         run: yarn workspace dnb-design-system-portal test:hydration

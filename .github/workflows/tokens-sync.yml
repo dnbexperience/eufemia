@@ -112,21 +112,11 @@ jobs:
         with:
           cache-version: ${{ secrets.CACHE_VERSION }}
 
-      - name: Use Playwright cache
-        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
-        id: playwright-cache
+      - name: Setup Playwright
+        uses: ./.github/actions/setup-playwright
         with:
-          path: |
-            ~/Library/Caches/ms-playwright
-            ~/.cache/ms-playwright
-            %USERPROFILE%\AppData\Local\ms-playwright
-          key: ${{ secrets.CACHE_VERSION }}-${{ runner.os }}-playwright-${{ hashFiles('node_modules/playwright-core/browsers.json') }}
-      - name: Install Playwright browsers
-        run: yarn workspace @dnb/eufemia playwright install --with-deps firefox
-        if: steps.playwright-cache.outputs.cache-hit != 'true'
-      - name: Install Playwright dependencies
-        run: yarn workspace @dnb/eufemia playwright install-deps firefox
-        if: steps.playwright-cache.outputs.cache-hit == 'true'
+          browsers: firefox
+          cache-version: ${{ secrets.CACHE_VERSION }}
 
       - name: Design tokens fetch and generate
         run: yarn workspace @dnb/eufemia prebuild:figma:tokens:ci

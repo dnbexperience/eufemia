@@ -1,0 +1,62 @@
+name: Setup Playwright
+description: >-
+  Restore the Playwright browsers from the cache, install them on a cache miss,
+  and install their system dependencies on Linux. Run it after the setup action,
+  because the cache key uses the installed Playwright version.
+
+inputs:
+  browsers:
+    description: Space-separated browser names, such as "chromium" or "firefox chromium webkit".
+    required: true
+  cache-version:
+    description: Cache key prefix. Pass secrets.CACHE_VERSION.
+    required: false
+    default: ''
+
+runs:
+  using: composite
+  steps:
+    - name: Resolve Playwright cache key
+      id: cache-key
+      shell: bash
+      env:
+        BROWSERS: ${{ inputs.browsers }}
+      run: echo "browsers=${BROWSERS// /-}" >> "$GITHUB_OUTPUT"
+
+    - name: Use Playwright cache
+      uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6
+      id: playwright-cache
+      with:
+        path: |
+          ~/Library/Caches/ms-playwright
+          ~/.cache/ms-playwright
+          %USERPROFILE%\AppData\Local\ms-playwright
+        key: ${{ inputs.cache-version }}-${{ runner.os }}-playwright-${{ steps.cache-key.outputs.browsers }}-${{ hashFiles('node_modules/playwright-core/browsers.json') }}
+
+    - name: Install Playwright browsers
+      if: steps.playwright-cache.outputs.cache-hit != 'true'
+      shell: bash
+      env:
+        BROWSERS: ${{ inputs.browsers }}
+      run: |
+        # shellcheck disable=SC2086 # BROWSERS is a space-separated list
+        yarn workspace @dnb/eufemia playwright install $BROWSERS
+
+    # Only Linux needs system dependencies
+    - name: Install Playwright dependencies
+      if: runner.os == 'Linux'
+      shell: bash
+      env:
+        BROWSERS: ${{ inputs.browsers }}
+      run: |
+        # shellcheck disable=SC2086 # BROWSERS is a space-separated list
+        if ! timeout 3m yarn workspace @dnb/eufemia playwright install-deps $BROWSERS; then
+          # A slow azure.archive.ubuntu.com node never trips apt's stall timeout (actions/runner-images#14823)
+          # timeout can't reach the apt-get that sudo started, so stop it unless dpkg is already installing
+          pgrep -x dpkg > /dev/null || sudo pkill -x apt-get || true
+          while pgrep -x 'apt-get|dpkg' > /dev/null; do sleep 1; done
+          sudo dpkg --configure -a
+          sudo sed -i '/azure\.archive\.ubuntu\.com/d' /etc/apt/apt-mirrors.txt
+          # Composite steps can't set timeout-minutes, so bound the retry here
+          timeout 7m yarn workspace @dnb/eufemia playwright install-deps $BROWSERS
+        fi
