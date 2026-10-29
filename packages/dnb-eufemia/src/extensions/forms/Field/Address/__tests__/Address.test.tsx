@@ -14,6 +14,15 @@ describe('Field.Address', () => {
     expect(screen.getByRole('textbox')).toBeInTheDocument()
   })
 
+  it('should have a visible default label as its accessible name', () => {
+    render(<Field.Address />)
+
+    const label = document.querySelector('label')
+    const input = document.querySelector('input')
+    expect(label).toHaveTextContent(nb.Address.label)
+    expect(input).toHaveAccessibleName(nb.Address.label)
+  })
+
   it('should show errors if field is empty on submit', () => {
     const onSubmit = vi.fn()
 
@@ -172,6 +181,7 @@ describe('Field.Address', () => {
     it('should validate with ARIA rules', async () => {
       const result = render(
         <>
+          <Field.Address required validateInitially />
           <Field.Address.Postal required validateInitially />
           <Field.Address.Street required validateInitially />
         </>
