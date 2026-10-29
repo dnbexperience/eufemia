@@ -465,7 +465,7 @@ describe('useValueProps', () => {
       ['Value.Address.Postal', Value.Address.Postal],
       ['Value.Address.Street', Value.Address.Street],
     ])(
-      'should let an inherited label win over the default label of %s',
+      'should resolve the label of %s from label, an inherited label or defaultLabel',
       (_, Component) => {
         render(
           <Form.Handler>
@@ -474,13 +474,15 @@ describe('useValueProps', () => {
             <Value.SummaryList inheritLabel>
               <Component path="/myPath" showEmpty />
             </Value.SummaryList>
+            <Component defaultLabel="Default label" showEmpty />
+            <Component label={false} showEmpty />
           </Form.Handler>
         )
 
-        expect(
-          document.querySelector('.dnb-forms-value-block__label')
-        ).toHaveTextContent('The label')
-        expect(document.querySelector('dt')).toHaveTextContent('The label')
+        const labels = Array.from(
+          document.querySelectorAll('.dnb-forms-value-block__label')
+        ).map((label) => label.textContent)
+        expect(labels).toEqual(['The label', 'The label', 'Default label'])
       }
     )
   })
