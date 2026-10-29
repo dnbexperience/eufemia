@@ -55,11 +55,6 @@ export function addOutsideClickListener({
       return // stop here
     }
 
-    // A key event on body means the focus got lost during a re-render, not moved outside
-    if (event instanceof KeyboardEvent && target === document.body) {
-      return // stop here
-    }
-
     if (!isInside(target, event)) {
       onOutsideClick(event as OutsideClickEvent)
     }
@@ -98,7 +93,7 @@ export function addOutsideClickListener({
     }
   }
 
-  const root = document.documentElement
+  const root = document
   const touchOptions = { capture, passive: true }
 
   root.addEventListener('mousedown', handleMouseDown, capture)

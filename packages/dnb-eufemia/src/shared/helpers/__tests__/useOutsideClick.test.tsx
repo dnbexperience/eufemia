@@ -89,12 +89,14 @@ describe('useOutsideClick', () => {
     expect(onOutsideClick).toHaveBeenCalledTimes(1)
   })
 
-  it('should ignore a released key on body', () => {
+  it('should count presses and released keys on the document and body', () => {
     const { onOutsideClick } = renderOutsideClick()
 
+    fireEvent.mouseDown(document)
+    fireEvent.keyUp(document, { key: 'Tab' })
     fireEvent.keyUp(document.body, { key: 'Tab' })
 
-    expect(onOutsideClick).toHaveBeenCalledTimes(0)
+    expect(onOutsideClick).toHaveBeenCalledTimes(3)
   })
 
   it('should only count the given keys', () => {

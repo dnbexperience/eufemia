@@ -413,7 +413,14 @@ export default function Popover(props: PopoverProps) {
   useOutsideClick({
     enabled: isOpen,
     subscribe: subscribeToParentEvents,
-    isInside: (target) => {
+    isInside: (target, event) => {
+      // Ignore keyboard events targeting the body element, as this
+      // indicates focus was temporarily lost during a React re-render
+      // rather than a deliberate user interaction outside the popover.
+      if (event instanceof KeyboardEvent && target === document.body) {
+        return true
+      }
+
       const triggerElement = getCurrentTriggerElement()
 
       // Also check horizontalRef when targetElement has both refs,
