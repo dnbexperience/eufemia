@@ -32,6 +32,7 @@ import type {
 import { findUnhandledStandaloneMdxComponents } from './extensions/mdx/detector.ts'
 import { applySpecialMdxComponentRenderers } from './extensions/mdx/registry.ts'
 import { findPackageRoot, toPascalCase } from './shared/workspaceUtils.ts'
+import { getDocumentationNotice } from './shared/documentationNotices.ts'
 
 export { toPascalCase, findUnhandledStandaloneMdxComponents }
 
@@ -1588,7 +1589,15 @@ export async function convertMdxToMd({
   const outputFrontmatter = includeFrontmatter
     ? addDocLinksToFrontmatter(frontmatter, links)
     : ''
-  const output = [outputFrontmatter, titleHeading, outputBody.trim()]
+  const notice = includeFrontmatter
+    ? getDocumentationNotice(inputPath, docsRoot)
+    : ''
+  const output = [
+    outputFrontmatter,
+    titleHeading,
+    notice,
+    outputBody.trim(),
+  ]
     .filter(Boolean)
     .join('\n\n')
 
