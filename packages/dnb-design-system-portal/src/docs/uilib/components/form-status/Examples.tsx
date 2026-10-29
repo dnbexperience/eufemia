@@ -52,7 +52,6 @@ export const FormStatusWithButton = () => (
 export const FormStatusWithInformation = () => (
   <ComponentBox data-visual-test="form-status-information">
     <FormStatus
-      title="Hover title"
       text="Long info nisl tempus hendrerit tortor dapibus nascetur taciti porta risus cursus fusce platea enim curabitur proin nibh ut luctus magnis metus"
       state="information"
     />

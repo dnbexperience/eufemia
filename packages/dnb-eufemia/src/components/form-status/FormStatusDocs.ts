@@ -11,11 +11,6 @@ export const FormStatusProperties: PropertiesTableProps = {
     type: 'React.ReactNode',
     status: 'optional',
   },
-  title: {
-    doc: 'The `title` attribute in the status.',
-    type: 'string',
-    status: 'optional',
-  },
   role: {
     doc: 'The `role` attribute for accessibility, defaults to `alert`.',
     type: 'string',
