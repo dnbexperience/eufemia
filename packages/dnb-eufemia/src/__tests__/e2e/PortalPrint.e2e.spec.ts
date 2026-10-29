@@ -23,7 +23,7 @@ test('prints an empty Input without its placeholder and restores the hint on scr
   await expect(placeholder).toBeVisible()
 })
 
-test('prints an empty Textarea without its placeholder and restores the hint on screen', async ({
+test('prints an empty Textarea with a frame but without its placeholder, and restores the hint on screen', async ({
   page,
 }) => {
   await page.goto('/uilib/components/textarea/demos/')
@@ -37,6 +37,17 @@ test('prints an empty Textarea without its placeholder and restores the hint on 
   await expect(placeholder).toBeVisible()
   await page.emulateMedia({ media: 'print' })
   await expect(placeholder).toBeHidden()
+
+  // Only a box-shadow draws the frame on screen, so without an outline
+  // an empty Textarea would leave nothing on paper but its label
+  const frame = page
+    .locator('.dnb-textarea')
+    .filter({ has: textarea })
+    .locator('.dnb-textarea__state')
+  await expect(frame).toHaveCSS('outline-style', 'solid')
+  await expect(frame).toHaveCSS('outline-width', '1px')
+  await expect(frame).toHaveCSS('outline-color', 'rgb(119, 119, 119)')
+
   await page.emulateMedia({ media: 'screen' })
   await expect(placeholder).toBeVisible()
 })
