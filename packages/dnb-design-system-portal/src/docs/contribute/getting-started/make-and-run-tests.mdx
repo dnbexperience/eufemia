@@ -203,7 +203,9 @@ yarn test:screenshots:update breadcrumb
 
 You can also press the `u` during a watch mode to update outdated snapshots.
 
-To fully renew snapshots (delete all existing PNGs first, then regenerate from scratch), use `test:screenshots:renew`. This is useful when snapshots have drifted or you want a clean baseline:
+Updating screenshots creates missing snapshots and replaces existing ones only when the comparison fails, including dimension changes. Screenshots that pass the existing comparison tolerances stay unchanged.
+
+To refresh every snapshot for the selected components, use `test:screenshots:renew`. This deletes their existing PNGs first, then regenerates them from scratch, including intentional subtle changes within the comparison tolerances:
 
 ```bash
 # Delete and regenerate all snapshots for 'phone' and 'radio'

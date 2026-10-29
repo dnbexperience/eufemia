@@ -39,11 +39,17 @@ vi.mock('../failures', () => ({
   recordNavigation: vi.fn(),
 }))
 
+import blazediff from '@blazediff/core'
+import { mkdtemp, readFile, rm, writeFile } from 'node:fs/promises'
+import { tmpdir } from 'node:os'
+import { join } from 'node:path'
+import { PNG, type PNGWithMetadata } from 'pngjs'
 import { _testing } from '../commands/screenshotEngine'
 
 const {
   buildUrl,
   applyScreenshotColorScheme,
+  diffAndPersist,
   sessions,
   browserSlots,
   sessionToSlot,
@@ -728,5 +734,135 @@ describe('cleanupBrowserPool', () => {
     } as never)
 
     await expect(cleanupBrowserPool()).resolves.toBeUndefined()
+  })
+})
+
+describe('diffAndPersist in update mode', () => {
+  const makePayload = (
+    snapshotPath: string,
+    update: boolean,
+    allowedMismatchedPixelRatio = 0
+  ) =>
+    ({
+      snapshotPath,
+      diffPath: `${snapshotPath}.diff.png`,
+      actualPath: `${snapshotPath}.actual.png`,
+      htmlDumpPath: `${snapshotPath}.html`,
+      testFilePath: 'Button.screenshot.test.ts',
+      fullName: 'Button looks the same',
+      allowedMismatchedPixelRatio,
+      update,
+    }) as never
+
+  let directory: string
+
+  beforeEach(async () => {
+    directory = await mkdtemp(join(tmpdir(), 'screenshot-engine-'))
+    vi.mocked(blazediff).mockReturnValue(0)
+  })
+
+  afterEach(async () => {
+    await rm(directory, { recursive: true, force: true })
+  })
+
+  it('leaves the snapshot untouched when no pixels differ and the allowance is zero', async () => {
+    const snapshotPath = join(directory, 'button.snap.png')
+    await writeFile(snapshotPath, Buffer.from('reference'))
+
+    const result = await diffAndPersist(
+      makePayload(snapshotPath, true),
+      Buffer.from('actual')
+    )
+
+    expect(result).toEqual({ status: 'match' })
+    expect(await readFile(snapshotPath, 'utf-8')).toBe('reference')
+  })
+
+  it('writes the snapshot when one pixel differs and the allowance is zero', async () => {
+    const snapshotPath = join(directory, 'button.snap.png')
+    await writeFile(snapshotPath, Buffer.from('reference'))
+    vi.mocked(blazediff).mockReturnValue(1)
+
+    const result = await diffAndPersist(
+      makePayload(snapshotPath, true),
+      Buffer.from('actual')
+    )
+
+    expect(result).toEqual({ status: 'updated', snapshotPath })
+    expect(await readFile(snapshotPath, 'utf-8')).toBe('actual')
+  })
+
+  it.each([
+    { width: 101, height: 100 },
+    { width: 100, height: 101 },
+  ])(
+    'writes the snapshot when its dimensions change to $width x $height',
+    async ({ width, height }) => {
+      const snapshotPath = join(directory, 'button.snap.png')
+      await writeFile(snapshotPath, Buffer.from('reference'))
+      vi.mocked(PNG.sync.read)
+        .mockReturnValueOnce({
+          width: 100,
+          height: 100,
+          data: Buffer.alloc(0),
+        } as PNGWithMetadata)
+        .mockReturnValueOnce({
+          width,
+          height,
+          data: Buffer.alloc(0),
+        } as PNGWithMetadata)
+
+      const result = await diffAndPersist(
+        makePayload(snapshotPath, true),
+        Buffer.from('actual')
+      )
+
+      expect(result).toEqual({ status: 'updated', snapshotPath })
+      expect(await readFile(snapshotPath, 'utf-8')).toBe('actual')
+    }
+  )
+
+  it('leaves the snapshot untouched when the difference is below the threshold', async () => {
+    const snapshotPath = join(directory, 'button.snap.png')
+    await writeFile(snapshotPath, Buffer.from('reference'))
+
+    // 50 of 10 000 pixels differ, which is 0.5% and below the 1% threshold
+    vi.mocked(blazediff).mockReturnValue(50)
+
+    const result = await diffAndPersist(
+      makePayload(snapshotPath, true, 0.01),
+      Buffer.from('actual')
+    )
+
+    expect(result).toEqual({ status: 'match' })
+    expect(await readFile(snapshotPath, 'utf-8')).toBe('reference')
+  })
+
+  it('writes the snapshot when the difference is above the threshold', async () => {
+    const snapshotPath = join(directory, 'button.snap.png')
+    await writeFile(snapshotPath, Buffer.from('reference'))
+
+    // 500 of 10 000 pixels differ, which is 5% and above the 1% threshold
+    vi.mocked(blazediff).mockReturnValue(500)
+
+    const result = await diffAndPersist(
+      makePayload(snapshotPath, true, 0.01),
+      Buffer.from('actual')
+    )
+
+    expect(result).toEqual({ status: 'updated', snapshotPath })
+    expect(await readFile(snapshotPath, 'utf-8')).toBe('actual')
+  })
+
+  it('creates a snapshot that does not exist yet', async () => {
+    const snapshotPath = join(directory, 'missing.snap.png')
+
+    const result = await diffAndPersist(
+      makePayload(snapshotPath, true),
+      Buffer.from('actual')
+    )
+
+    expect(result).toEqual({ status: 'created', snapshotPath })
+    expect(await readFile(snapshotPath, 'utf-8')).toBe('actual')
   })
 })
