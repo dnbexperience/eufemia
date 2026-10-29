@@ -2,12 +2,12 @@ import type { PropertiesTableProps } from '../../shared/types'
 
 export const FormStatusProperties: PropertiesTableProps = {
   text: {
-    doc: 'The `text` appears as the status message. Besides plain text, you can send in a React component as well.',
+    doc: 'The status message. Prefer plain text that explains the status and how to resolve it. React content supports inline links and grouped messages. Custom content or actions beyond the documented patterns need a use case approved by DNB UX.',
     type: 'React.ReactNode',
     status: 'optional',
   },
   children: {
-    doc: 'The `text` appears as the status message. Besides plain text, you can send in a React component as well.',
+    doc: 'Alternative to `text`, with the same usage guidance. Supports inline links and the grouped messages rendered by FieldBlock. Custom content or actions beyond the documented patterns need a use case approved by DNB UX.',
     type: 'React.ReactNode',
     status: 'optional',
   },
@@ -38,12 +38,12 @@ export const FormStatusProperties: PropertiesTableProps = {
     status: 'optional',
   },
   icon: {
-    doc: 'The `icon` shown before the status text. Defaults to `error`.',
+    doc: 'The icon shown before the status message. The default icon is selected by `state`. Keep this default unless DNB UX has approved a use case for replacing or removing it.',
     type: 'React.ReactNode',
     status: 'optional',
   },
   iconSize: {
-    doc: 'The size of the icon. Defaults to `medium`.',
+    doc: 'The size of the icon. Defaults to `medium`. Keep this default unless DNB UX has approved a use case for a different size.',
     type: 'string',
     status: 'optional',
   },
