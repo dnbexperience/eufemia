@@ -2286,6 +2286,11 @@ label + .dnb-dropdown[class*=__form-status] .dnb-dropdown__shell {
   height: var(--progress-indicator-linear-size);
   border-radius: var(--token-radius-full);
 }
+@media (forced-colors: active) {
+  .dnb-progress-indicator__linear {
+    outline: 1px solid CanvasText;
+  }
+}
 .dnb-progress-indicator__linear__bar {
   background-color: var(--progress-indicator-linear-bar-color);
   width: 100%;
@@ -2295,6 +2300,12 @@ label + .dnb-dropdown[class*=__form-status] .dnb-dropdown__shell {
   top: 0;
   transform-origin: left;
   border-radius: inherit;
+}
+@media (forced-colors: active) {
+  .dnb-progress-indicator__linear__bar {
+    forced-color-adjust: none;
+    background-color: Highlight;
+  }
 }
 .dnb-progress-indicator__linear__bar-transition {
   transition: transform 0.2s linear;
