@@ -1,0 +1,57 @@
+name: Automation bot token
+description: >-
+  Create a short-lived token for the Eufemia automation GitHub App, and the git
+  identity of its bot user. The token is limited to this repository, can push
+  branches and open pull requests, and is valid for one hour, so create it
+  right before the steps that push.
+
+inputs:
+  client-id:
+    description: Client ID of the automation GitHub App. Pass vars.AUTOMATION_APP_CLIENT_ID.
+    required: true
+  private-key:
+    description: Private key of the automation GitHub App. Pass secrets.AUTOMATION_APP_PRIVATE_KEY.
+    required: true
+  workflows:
+    description: >-
+      Set to "write" when the token pushes a branch that was rebased onto main.
+      Such a push can include workflow changes from main, and GitHub only
+      accepts those from a token with the workflows permission.
+    required: false
+    default: ''
+
+outputs:
+  token:
+    description: Installation token for this repository
+    value: ${{ steps.token.outputs.token }}
+  git-name:
+    description: Git user name of the bot user
+    value: ${{ steps.identity.outputs.name }}
+  git-email:
+    description: Git user email of the bot user, so GitHub links its commits to it
+    value: ${{ steps.identity.outputs.email }}
+
+runs:
+  using: composite
+  steps:
+    - name: Create the automation token
+      id: token
+      uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510 # v3.3.0
+      with:
+        client-id: ${{ inputs.client-id }}
+        private-key: ${{ inputs.private-key }}
+        permission-contents: write
+        permission-pull-requests: write
+        # An empty value requests no workflows permission
+        permission-workflows: ${{ inputs.workflows }}
+
+    - name: Resolve the bot identity
+      id: identity
+      shell: bash
+      env:
+        GH_TOKEN: ${{ steps.token.outputs.token }}
+        APP_SLUG: ${{ steps.token.outputs.app-slug }}
+      run: |
+        user_id=$(gh api "users/${APP_SLUG}%5Bbot%5D" --jq .id)
+        echo "name=${APP_SLUG}[bot]" >> "$GITHUB_OUTPUT"
+        echo "email=${user_id}+${APP_SLUG}[bot]@users.noreply.github.com" >> "$GITHUB_OUTPUT"
