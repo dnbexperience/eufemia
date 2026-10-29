@@ -161,3 +161,23 @@ test('opens the Vipps wallet button from Extensions without changing its URL', a
     menu.getByRole('link', { name: 'Vipps wallet button', exact: true })
   ).toHaveAttribute('aria-current', 'page')
 })
+
+for (const url of [
+  '/web/components/date-picker/properties?from=bookmark#datepicker',
+  '/uilib/components/date-picker/properties?from=bookmark#datepicker',
+]) {
+  test(`preserves the selected tab for ${url}`, async ({ page }) => {
+    await page.goto(url)
+    await waitForApp(page)
+    await expect(page).toHaveURL(
+      (url) =>
+        url.pathname === '/web/components/date-picker/properties/' &&
+        url.search === '?from=bookmark' &&
+        url.hash === '#date-picker'
+    )
+    await expect(
+      page.getByRole('tab', { name: 'Properties', exact: true })
+    ).toHaveAttribute('aria-selected', 'true')
+    await expect(page.locator('#date-picker')).toBeVisible()
+  })
+}

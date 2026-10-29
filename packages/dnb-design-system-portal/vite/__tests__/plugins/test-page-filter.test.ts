@@ -19,6 +19,8 @@ describe('test-page-filter plugin', () => {
       '/uilib/usage/first-steps/tools',
       '/web/usage/first-steps/tools',
       '/web/components/button/properties',
+      '/web/components/date-picker/properties',
+      '/uilib/components/date-picker/properties',
     ]) {
       expect(pages.has(path)).toBe(true)
     }

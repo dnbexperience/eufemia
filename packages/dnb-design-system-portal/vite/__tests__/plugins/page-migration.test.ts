@@ -4,6 +4,7 @@ import os from 'node:os'
 import path from 'node:path'
 import {
   scanPageFiles,
+  toMdxNodes,
   toRegularMdxNodes,
 } from '../../client/plugins/portal-pages'
 import portalPagesPlugin from '../../client/plugins/portal-pages'
@@ -13,6 +14,88 @@ import {
 } from '../../client/plugins/portal-pages.shared'
 
 describe('MDX route migration', () => {
+  it('preserves inherited title anchors on tabs without changing the selected tab', () => {
+    const docs = fs.mkdtempSync(path.join(os.tmpdir(), 'tab-fragments-'))
+    const write = (slug: string, frontmatter: string) => {
+      const file = path.join(docs, slug + '.mdx')
+      fs.mkdirSync(path.dirname(file), { recursive: true })
+      fs.writeFileSync(
+        file,
+        `---
+${frontmatter}
+---
+`
+      )
+    }
+    try {
+      write(
+        'web/components/date-picker',
+        `title: Date picker
+showTabs: true
+legacyFragments:
+  datepicker: /web/components/date-picker/#date-picker
+  moved: /guides/other#section`
+      )
+      for (const tab of ['info', 'demos', 'properties', 'events']) {
+        write(
+          'web/components/date-picker/' + tab,
+          `showTabs: true
+redirect_from:
+  - /uilib/components/date-picker/${tab}`
+        )
+      }
+      write(
+        'web/components/date-picker/custom',
+        `showTabs: true
+title: Custom title`
+      )
+      write(
+        'web/components/date-picker/own-heading',
+        `showTabs: true
+contentTitle: Own heading`
+      )
+      write(
+        'web/components/date-picker/explicit',
+        `showTabs: true
+legacyFragments:
+  datepicker: /guides/custom#heading`
+      )
+      const files = scanPageFiles(docs)
+      const pages = toMdxNodes(files)
+      const redirects = getPageRedirects(files)
+      for (const tab of ['demos', 'properties', 'events']) {
+        const slug = 'web/components/date-picker/' + tab
+        const fragments = { datepicker: '/' + slug + '/#date-picker' }
+        expect(
+          pages.find(({ fields }) => fields.slug === slug)?.frontmatter
+            .legacyFragments
+        ).toEqual(fragments)
+        expect(
+          redirects.find(
+            ({ from }) => from === '/uilib/components/date-picker/' + tab
+          )?.fragments
+        ).toEqual(fragments)
+      }
+      expect(
+        redirects.find(
+          ({ from }) => from === '/uilib/components/date-picker/info'
+        )?.fragments
+      ).toEqual({ datepicker: '/web/components/date-picker/#date-picker' })
+      for (const tab of ['custom', 'own-heading']) {
+        expect(
+          pages.find(({ fields }) => fields.slug.endsWith('/' + tab))
+            ?.frontmatter.legacyFragments
+        ).toBeUndefined()
+      }
+      expect(
+        pages.find(({ fields }) => fields.slug.endsWith('/explicit'))
+          ?.frontmatter.legacyFragments
+      ).toEqual({ datepicker: '/guides/custom#heading' })
+    } finally {
+      fs.rmSync(docs, { recursive: true, force: true })
+    }
+  })
+
   it.each([
     'helpers/shared-state',
     'usage/customisation/styling/printable-apps',
