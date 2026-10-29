@@ -40,7 +40,6 @@
     "@babel/core": "7.29.7",
     "@babel/plugin-transform-modules-systemjs": "7.29.7",
     "@babel/runtime": "7.26.10",
-    "@hono/node-server@npm:^1.19.9": "1.19.17",
     "@xmldom/xmldom": "0.8.15",
     "body-parser": "2.4.0",
     "defu": "6.1.7",
