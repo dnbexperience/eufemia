@@ -1,4 +1,7 @@
 import {
+  Children,
+  Fragment,
+  isValidElement,
   useCallback,
   useContext,
   useEffect,
@@ -254,11 +257,21 @@ export function useHandleOddEven({ children }) {
     setRerenderAlias({})
   }, [])
 
+  // Recount only when rows are added, removed or moved,
+  // so a re-render with the same rows stays a single render
+  const rowsKeyRef = useRef<string | null>(null)
+  const isRecountingRef = useRef(false)
   const isMounted = useRef(false)
   useEffect(() => {
-    if (isMounted.current) {
+    const rowsKey = getRowsKey(children)
+    if (
+      isMounted.current &&
+      (rowsKey === null || rowsKey !== rowsKeyRef.current)
+    ) {
+      isRecountingRef.current = true
       forceRerender()
     }
+    rowsKeyRef.current = rowsKey
     isMounted.current = true
   }, [children, forceRerender])
 
@@ -269,10 +282,57 @@ export function useHandleOddEven({ children }) {
   // each re-render mutates trCountRef.current.count and setTotalCount would
   // trigger yet another render.
   useEffect(() => {
+    // The count was just reset, so keep the total until the rows have counted again
+    if (isRecountingRef.current) {
+      isRecountingRef.current = false
+      return // stop here
+    }
+
     setTotalCount(trCountRef.current.count)
   }, [children, rerenderAlias])
 
   return { trCountRef, rerenderAlias, totalCount, setRerenderAlias }
+}
+
+/**
+ * Returns a key that changes when Tr rows are added, removed or moved.
+ * Returns null when another component may render rows, because they can't be seen here.
+ */
+function getRowsKey(children: ReactNode): string | null {
+  let rowsKey = ''
+  let hasHiddenRows = false
+
+  const collect = (nodes: ReactNode) => {
+    Children.forEach(nodes, (node) => {
+      if (hasHiddenRows || !isValidElement(node)) {
+        return
+      }
+
+      const { variant, children: nodeChildren } = node.props as {
+        variant?: TableTrProps['variant']
+        children?: ReactNode
+      }
+
+      if (node.type === Tr) {
+        rowsKey += `${node.key}:${variant}|`
+      } else if (
+        node.type === Fragment ||
+        node.type === 'thead' ||
+        node.type === 'tbody' ||
+        node.type === 'tfoot'
+      ) {
+        rowsKey += `${String(node.type)}:${node.key}(`
+        collect(nodeChildren)
+        rowsKey += ')'
+      } else if (typeof node.type !== 'string') {
+        hasHiddenRows = true
+      }
+    })
+  }
+
+  collect(children)
+
+  return hasHiddenRows ? null : rowsKey
 }
 
 Tr.AccordionContent = TableAccordionContentRow

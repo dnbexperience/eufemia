@@ -1,4 +1,4 @@
-import { StrictMode, useContext, useRef, useState } from 'react'
+import { Profiler, StrictMode, useContext, useRef, useState } from 'react'
 import { fireEvent, render, screen } from '@testing-library/react'
 import Table from '../Table'
 import { TableContext } from '../TableContext'
@@ -444,6 +444,235 @@ describe('TableTr', () => {
       expect(Array.from(elements[2].classList)).toContain(
         'dnb-table__tr--even'
       )
+    })
+  })
+
+  describe('recount', () => {
+    const MockTable = ({
+      values,
+      mode,
+    }: {
+      values: Array<string>
+      mode?: 'accordion'
+    }) => {
+      const [, setRenderCount] = useState(0)
+
+      return (
+        <>
+          <button
+            id="rerender"
+            onClick={() => setRenderCount((count) => count + 1)}
+          >
+            re-render
+          </button>
+          <Table mode={mode}>
+            <tbody>
+              {values.map((value) => (
+                <TableTr key={value}>
+                  <td>{value}</td>
+                  {mode === 'accordion' && (
+                    <TableTr.AccordionContent>
+                      <td>{value} content</td>
+                    </TableTr.AccordionContent>
+                  )}
+                </TableTr>
+              ))}
+            </tbody>
+          </Table>
+        </>
+      )
+    }
+
+    const getRows = () =>
+      Array.from(
+        document.querySelectorAll(
+          'tbody tr:not(.dnb-table__tr__accordion-content)'
+        )
+      )
+
+    const getVariants = () =>
+      getRows().map((row) =>
+        row.classList.contains('dnb-table__tr--odd') ? 'odd' : 'even'
+      )
+
+    const getLast = () =>
+      getRows().map((row) => row.classList.contains('dnb-table__tr--last'))
+
+    const observeRowClassChanges = () => {
+      const observer = new MutationObserver(() => null)
+      observer.observe(document.querySelector('tbody'), {
+        attributes: true,
+        attributeFilter: ['class'],
+        subtree: true,
+      })
+
+      return () => {
+        const rows = getRows()
+        const records = observer.takeRecords()
+        observer.disconnect()
+
+        return records.filter(({ target }) =>
+          rows.includes(target as Element)
+        )
+      }
+    }
+
+    it('should render only once when the parent re-renders with the same rows', () => {
+      const onRender = vi.fn()
+
+      render(
+        <Profiler id="table" onRender={onRender}>
+          <MockTable values={['a', 'b', 'c']} />
+        </Profiler>
+      )
+
+      onRender.mockClear()
+      fireEvent.click(document.querySelector('#rerender'))
+
+      expect(onRender).toHaveBeenCalledTimes(1)
+    })
+
+    it('should keep the row classes when the parent re-renders with the same rows', () => {
+      render(<MockTable values={['a', 'b', 'c']} />)
+
+      const getClassChanges = observeRowClassChanges()
+      fireEvent.click(document.querySelector('#rerender'))
+
+      expect(getClassChanges()).toHaveLength(0)
+      expect(getVariants()).toEqual(['odd', 'even', 'odd'])
+      expect(getLast()).toEqual([false, false, true])
+    })
+
+    it('should keep the row classes in accordion mode when the parent re-renders with the same rows', () => {
+      render(<MockTable mode="accordion" values={['a', 'b', 'c']} />)
+
+      const getClassChanges = observeRowClassChanges()
+      fireEvent.click(document.querySelector('#rerender'))
+
+      expect(getClassChanges()).toHaveLength(0)
+      expect(getVariants()).toEqual(['odd', 'even', 'odd'])
+      expect(getLast()).toEqual([false, false, true])
+    })
+
+    it('should keep the row classes in StrictMode when the parent re-renders with the same rows', () => {
+      render(
+        <StrictMode>
+          <MockTable values={['a', 'b', 'c']} />
+        </StrictMode>
+      )
+
+      const getClassChanges = observeRowClassChanges()
+      fireEvent.click(document.querySelector('#rerender'))
+
+      expect(getClassChanges()).toHaveLength(0)
+      expect(getVariants()).toEqual(['odd', 'even', 'odd'])
+      expect(getLast()).toEqual([false, false, true])
+    })
+
+    it('should recount when a row is added between other rows', () => {
+      const { rerender } = render(<MockTable values={['a', 'c']} />)
+
+      expect(getVariants()).toEqual(['odd', 'even'])
+
+      rerender(<MockTable values={['a', 'b', 'c']} />)
+
+      expect(getVariants()).toEqual(['odd', 'even', 'odd'])
+      expect(getLast()).toEqual([false, false, true])
+    })
+
+    it('should move the last row class when the last row is removed', () => {
+      const { rerender } = render(<MockTable values={['a', 'b', 'c']} />)
+
+      rerender(<MockTable values={['a', 'b']} />)
+
+      expect(getVariants()).toEqual(['odd', 'even'])
+      expect(getLast()).toEqual([false, true])
+    })
+
+    it('should keep the last row class while the rows are recounted', () => {
+      const { rerender } = render(<MockTable values={['a', 'b', 'c']} />)
+
+      const lastRow = getRows()[2]
+      const observer = new MutationObserver(() => null)
+      observer.observe(lastRow, {
+        attributes: true,
+        attributeFilter: ['class'],
+        attributeOldValue: true,
+      })
+
+      rerender(<MockTable values={['b', 'c']} />)
+
+      const classNames = [
+        ...observer.takeRecords().map(({ oldValue }) => oldValue),
+        lastRow.className,
+      ]
+      observer.disconnect()
+
+      expect(
+        classNames.filter(
+          (className) => !className.includes('dnb-table__tr--last')
+        )
+      ).toEqual([])
+      expect(getVariants()).toEqual(['odd', 'even'])
+    })
+
+    it('should recount accordion rows when a row is removed', () => {
+      const { rerender } = render(
+        <MockTable mode="accordion" values={['a', 'b', 'c']} />
+      )
+
+      rerender(<MockTable mode="accordion" values={['b', 'c']} />)
+
+      expect(getVariants()).toEqual(['odd', 'even'])
+      expect(getLast()).toEqual([false, true])
+    })
+
+    it('should recount in StrictMode when a row is removed', () => {
+      const { rerender } = render(
+        <StrictMode>
+          <MockTable values={['a', 'b', 'c']} />
+        </StrictMode>
+      )
+
+      rerender(
+        <StrictMode>
+          <MockTable values={['b', 'c']} />
+        </StrictMode>
+      )
+
+      expect(getVariants()).toEqual(['odd', 'even'])
+      expect(getLast()).toEqual([false, true])
+    })
+
+    it('should recount rows that a custom component renders', () => {
+      const Rows = ({ values }: { values: Array<string> }) => (
+        <>
+          {values.map((value) => (
+            <TableTr key={value}>
+              <td>{value}</td>
+            </TableTr>
+          ))}
+        </>
+      )
+
+      const { rerender } = render(
+        <Table>
+          <tbody>
+            <Rows values={['a', 'c']} />
+          </tbody>
+        </Table>
+      )
+
+      rerender(
+        <Table>
+          <tbody>
+            <Rows values={['a', 'b', 'c']} />
+          </tbody>
+        </Table>
+      )
+
+      expect(getVariants()).toEqual(['odd', 'even', 'odd'])
+      expect(getLast()).toEqual([false, false, true])
     })
   })
 
