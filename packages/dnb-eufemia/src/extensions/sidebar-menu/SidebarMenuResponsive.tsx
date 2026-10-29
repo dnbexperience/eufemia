@@ -32,6 +32,7 @@ import { clsx } from 'clsx'
 import useCombinedRef from '../../shared/helpers/useCombinedRef'
 import useUniqueId from '../../shared/helpers/useId'
 import useIsomorphicLayoutEffect from '../../shared/helpers/useIsomorphicLayoutEffect'
+import useOutsideClick from '../../shared/helpers/useOutsideClick'
 import { useSharedState } from '../../shared/helpers/useSharedState'
 import {
   getWebStorage,
@@ -764,20 +765,13 @@ export function SidebarMenuResponsiveInline({
     return () => scrollView.removeEventListener('scroll', handleScroll)
   }, [isCompact])
 
-  useEffect(() => {
-    if (!compactExpanded) {
-      return undefined
-    }
-
-    const handlePointerDown = (event: PointerEvent) => {
-      if (!isInsideInlineMenu(inlineRef.current, event.target)) {
-        setCompactExpanded(false)
-      }
-    }
-    document.addEventListener('pointerdown', handlePointerDown, true)
-    return () =>
-      document.removeEventListener('pointerdown', handlePointerDown, true)
-  }, [compactExpanded])
+  useOutsideClick({
+    enabled: compactExpanded,
+    capture: true,
+    keys: [],
+    isInside: (target) => isInsideInlineMenu(inlineRef.current, target),
+    onOutsideClick: () => setCompactExpanded(false),
+  })
 
   useEffect(() => {
     if (!isCompact || !compactOpen) {

@@ -1425,8 +1425,35 @@ describe('SidebarMenu responsive parts', () => {
     )
     fireEvent.click(toggle)
     fireEvent.pointerDown(document.body, { pointerType: 'touch' })
+    fireEvent.touchStart(document.body)
+    fireEvent.touchEnd(document.body)
 
     expect(toggle).toHaveAttribute('aria-expanded', 'false')
+  })
+
+  it('keeps a toggled compact menu open when a touch scrolls outside', () => {
+    setMedia({ width: '80em', hover: 'none', pointer: 'coarse' })
+
+    render(
+      <SidebarMenu.ResponsiveProvider
+        compactAt="large"
+        compactOffset="24em"
+      >
+        <SidebarMenu.ResponsiveInline>Menu</SidebarMenu.ResponsiveInline>
+      </SidebarMenu.ResponsiveProvider>
+    )
+
+    const toggle = document.querySelector(
+      '.dnb-sidebar-menu-responsive-inline__toggle'
+    )
+    fireEvent.click(toggle)
+    fireEvent.pointerDown(document.body, { pointerType: 'touch' })
+    fireEvent.touchStart(document.body)
+    fireEvent.touchMove(document.body)
+    fireEvent.pointerCancel(document.body, { pointerType: 'touch' })
+    fireEvent.touchEnd(document.body)
+
+    expect(toggle).toHaveAttribute('aria-expanded', 'true')
   })
 
   it('closes a toggled compact menu with Escape', () => {
@@ -1709,7 +1736,7 @@ describe('SidebarMenu responsive parts', () => {
     expect(inline.contains(option)).toBe(false)
 
     fireEvent.focusOut(sectionTrigger, { relatedTarget: option })
-    fireEvent.pointerDown(option)
+    fireEvent.mouseDown(option)
     fireEvent.click(option)
 
     expect(inline).toHaveAttribute(
