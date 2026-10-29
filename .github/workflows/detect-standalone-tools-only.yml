@@ -52,6 +52,7 @@ jobs:
             '^\.github/workflows/analytics-lambda\.yml$'
             '^\.github/workflows/assets\.yml$'
             '^\.github/workflows/eufemia-marketplace-artifacts\.yml$'
+            '^\.github/workflows/ghe-token-expiry\.yml$'
             '^\.github/workflows/mcp-lambda\.yml$'
             '^\.github/workflows/mcp-legacy-proxy-deploy\.yml$'
             '^\.github/workflows/service-monitoring\.yml$'
