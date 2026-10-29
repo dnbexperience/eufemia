@@ -937,9 +937,14 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
       [stateRef.current.wrapperElement, _refRoot.current, _refUl.current],
       ({ event }) => {
         setHiddenFnRef.current({
-          preventHideFocus:
-            event.type !== 'keydown' ||
-            (event as KeyboardEvent).key !== 'Tab',
+          // Give focus back after Escape. The list handles Escape itself
+          // once it is open, so this runs when Escape comes while the
+          // list still opens. An outside click, or Tab out of the list,
+          // keeps focus where the user moved it.
+          preventHideFocus: !(
+            event.type === 'keydown' &&
+            (event as KeyboardEvent).key === 'Escape'
+          ),
         })
       },
       { includedKeys: ['Tab'] }
