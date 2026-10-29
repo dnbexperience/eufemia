@@ -541,7 +541,9 @@ describe('convertMdxToMd', () => {
 
     expect(output).not.toContain('ListElements')
     expect(output).toContain('- [Paragraph](/web/elements/paragraph/):')
-    expect(output).toContain('- [Span](/web/elements/span/):')
+    expect(output).toContain(
+      '- [Inline text (span)](/web/elements/span/):'
+    )
   })
 
   it('replaces re-exported examples referenced through a namespace import', async () => {
