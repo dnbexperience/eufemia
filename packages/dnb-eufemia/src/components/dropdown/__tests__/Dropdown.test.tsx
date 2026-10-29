@@ -1055,6 +1055,30 @@ describe('Dropdown component', () => {
     )
   })
 
+  it('keeps dialog open when Escape is pressed while the list opens', async () => {
+    // Without noAnimation, the list waits DrawerListProvider.blurDelay before it handles keys itself
+    render(
+      <Dialog noAnimation open title="Dialog">
+        <Dropdown data={mockData} skipPortal />
+      </Dialog>
+    )
+
+    const trigger = document.querySelector(
+      'button.dnb-dropdown__trigger'
+    ) as HTMLButtonElement
+    open()
+    expect(trigger).toHaveAttribute('aria-expanded', 'true')
+
+    fireEvent.keyDown(document.activeElement, { key: 'Escape' })
+
+    await waitFor(() => {
+      expect(trigger).toHaveAttribute('aria-expanded', 'false')
+    })
+    expect(document.documentElement).toHaveAttribute(
+      'data-dnb-modal-active'
+    )
+  })
+
   it('will not set focus on options when key down/up is pressed on first or last item', async () => {
     const { rerender } = render(
       <Dropdown id="key-nav" noAnimation data={mockData} />

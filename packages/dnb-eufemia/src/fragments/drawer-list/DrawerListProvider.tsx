@@ -937,14 +937,9 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
       [stateRef.current.wrapperElement, _refRoot.current, _refUl.current],
       ({ event }) => {
         setHiddenFnRef.current({
-          // Give focus back after Escape. The list handles Escape itself
-          // once it is open, so this runs when Escape comes while the
-          // list still opens. An outside click, or Tab out of the list,
-          // keeps focus where the user moved it.
-          preventHideFocus: !(
-            event.type === 'keydown' &&
-            (event as KeyboardEvent).key === 'Escape'
-          ),
+          preventHideFocus:
+            event.type !== 'keydown' ||
+            (event as KeyboardEvent).key !== 'Tab',
         })
       },
       { includedKeys: ['Tab'] }
@@ -1298,6 +1293,15 @@ function DrawerListProviderComponent(ownProps: DrawerListProviderProps) {
     }
 
     if (!stateRef.current.isOpen) {
+      // The list handles keys only after its opening delay (blurDelay).
+      // Escape still closes it while it opens, the same way as later, so
+      // that focus goes back to the trigger, and so that an Escape handler
+      // around the list (for example a Dialog) does not get the key too.
+      if (key === 'Escape' && stateRef.current.open) {
+        setHidden({ event: e })
+        e.preventDefault()
+        e.stopPropagation()
+      }
       return // stop here
     }
 
